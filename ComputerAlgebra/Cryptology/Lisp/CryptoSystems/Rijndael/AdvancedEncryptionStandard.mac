@@ -27,6 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
 oklib_plain_include(functs);
+oklib_plain_include(eigen);
 
 /* *************
    * Constants *
@@ -69,41 +70,15 @@ egf2t8_matmul(a,b) := egf_matmul(rijndael_byte_field,a,b)$
    ***************
 */
 
-/* Converts an integer to a polynomial representing an element in rijndael's 
-   byte field. This considers the integer as it's base 2 representation and
-   then the left most bit is coefficient for the highest order term. */
-intToGF2t8Poly(e) := intToPoly(e,2)$
-
-/* Converts a polynomial to an integer representing an element in rijndael's 
-   byte field. This considers the integer as it's base 2 representation and
-   then the left most bit is coefficient for the highest order term. */
-GF2t8PolyToInt(e) := polyToInt(e,2,x)$
-
 /* AES finite field addition with integers as input and output */
 aes_gf2t8_add(byteia,byteib) := 
-  GF2t8PolyToInt(egf2t8_add(intToGF2t8Poly(byteia),intToGF2t8Poly(byteib)))$
+  egf_poly2num(rijndael_byte_field,egf2t8_add(
+    egf_num2poly(rijndael_byte_field,byteia),
+    egf_num2poly(rijndael_byte_field,byteib)))$
 
 /* AES finite field addition with integers as input using built-in
    logical operators */
 aes_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
-
-/* 
-   Returns a vector (column matrix) of size n of the coefficients of the given
-   polynomial, with the top value in the vector being the coefficient for the
-   highest order term (with order < n).
-*/ 
-/* OK: a "matrix" is not a "vector". These notions need to be corrected. */
-polynomial2vector(poly, n) := 
-  apply(matrix, reverse(create_list([coeff(poly, x, i)],i,0,n-1)))$
-
-/* Returns a polynomial given the vector v, such that the polynomial is of 
-   order n where n is the size of the vector, and the values of the vector 
-   form the coefficients of the polynomial, with the first value in the 
-   vector becoming the coefficient of the highest order polynomial (order n-1).
-*/
-vector2polynomial(v) := block([n : length(v)],
-  sum(v[i][1] * x^(n - i), i, 1, n))$
-
 
 /* *********
    * S box *
@@ -125,25 +100,29 @@ rijndael_inv_sbox_matrix : apply(matrix,
 /* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
    Rijndael Sbox operation on the value. */
 sbox(bytei) := 
-  block([invbyte,result,byte : intToGF2t8Poly(bytei)],
+  block([invbyte,result,byte : egf_num2poly(rijndael_byte_field,bytei)],
   if byte = 0 then 
-    GF2t8PolyToInt(rijndael_affine_constant)
+    egf_poly2num(rijndael_byte_field,rijndael_affine_constant)
   else block([invbyte,result],
     invbyte : egf2t8_inv(byte),
     result : egf2_matmul(rijndael_sbox_matrix,
-      polynomial2vector(invbyte,8)),
-    return(GF2t8PolyToInt(egf2t8_add(vector2polynomial(result),
-      rijndael_affine_constant)))))$
+      columnvector(egf_coeffs(rijndael_byte_field,invbyte,7))),
+    return(
+      egf_poly2num(rijndael_byte_field,
+        egf2t8_add(
+          lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
+          rijndael_affine_constant)))))$
 
 /* Inverse of sbox */
 inv_sbox(bytei) :=
-  block([final_result, result,byte : intToGF2t8Poly(bytei)],
+  block([final_result, result,byte : egf_num2poly(rijndael_byte_field,bytei)],
     result : egf2_matmul(rijndael_inv_sbox_matrix,
-      polynomial2vector(byte,8)),
-    final_result : egf2t8_add(vector2polynomial(result),
+      columnvector(egf_coeffs(rijndael_byte_field,byte,7))),
+    final_result : egf2t8_add(
+      lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
       rijndael_inv_affine_constant),
     if (final_result = 0) then 0
-    else GF2t8PolyToInt(egf2t8_inv(final_result))
+    else egf_poly2num(rijndael_byte_field,egf2t8_inv(final_result))
 )$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation */
@@ -224,9 +203,11 @@ rijndael_inv_mixcolumns_matrix : block([x], apply(matrix,
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
 mixcolumn(inputblocki) :=
-  map(GF2t8PolyToInt,matrixcolumns(
+  map(lambda([y],egf_poly2num(rijndael_byte_field,y)),matrixcolumns(
     egf2t8_matmul(rijndael_mixcolumns_matrix,
-      columns2matrix([map(intToGF2t8Poly,inputblocki)])))[1])$
+      columns2matrix([
+        map(lambda([y],egf_num2poly(rijndael_byte_field,y)),
+          inputblocki)])))[1])$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block using lookups for

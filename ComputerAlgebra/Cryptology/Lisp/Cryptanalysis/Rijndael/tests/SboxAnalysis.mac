@@ -25,6 +25,7 @@ kill(f)$
 
 
 okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
+  if oklib_test_level = 0 then return(true),
   sboxFullDNF : f(),
   assert(length(sboxFullDNF[2]) = 256),
   assert(length(sboxFullDNF[1]) = 16),

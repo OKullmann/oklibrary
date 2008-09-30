@@ -223,7 +223,7 @@ aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
 aes_round_constant(ivars, n) := block([rc_el,rc_l],
   rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
                create_list(2,i,1,(n -1)),1),
-  rc_l : polynomial2list(intToGF2t8Poly(rc_el),8),
+  rc_l : polynomial2list(egf_num2poly(rijndael_byte_field,rc_el),8),
   setify(map(
     lambda([a,b], if b = 0 then {-a} else {a}),
     ivars, rc_l

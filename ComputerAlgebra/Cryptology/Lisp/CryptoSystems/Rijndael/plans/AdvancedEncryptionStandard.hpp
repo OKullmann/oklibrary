@@ -18,7 +18,7 @@ License, or any later version. */
      <li>  We shouldn't have a section with "useless stuff":
      Auxiliary functions either directly accompany their main user, or are
      not just "helper functions". </li>
-     <li> intToPoly and polyToInt should (besides the bad naming (see below))
+     <li> DONE intToPoly and polyToInt should (besides the bad naming (see below))
      be replaced by the gf-functions poly2num and num2poly. </li>
     </ol>
    </li>
@@ -36,12 +36,12 @@ load("functs")$ Bug Here atm  For logxor
 
   \todo Naming Conventions
   <ul>
-   <li> We don't use "camels", so names like GF2t8PolyToInt needs to be
-   replaced. </li>
    <li> To avoid clashes with other modules and to make clear which functions
    are specific to AES and which aren't, functions in this module should 
    perhaps have the prefix "aes_". </li>
    <li> Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
+   <li> DONE We don't use "camels", so names like GF2t8PolyToInt needs to be
+   replaced. </li>
   </ul>
 
 */

@@ -40,8 +40,6 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
    ***************
 */
 
-okltest_polynomial2vector(polynomial2vector);
-okltest_vector2polynomial(vector2polynomial);
 
 /* *********
    * S box *
