@@ -327,7 +327,13 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
       4 1     0  274647920  274647920 1925137726
      \endverbatim
      </li>
-     <li> n = 33000, density = 20.06012121212121 </li>
+     <li> n = 33000, density = 20.06012121212121; now getting hard:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
+      1 0    24  297678494  300000000 1757893452
+      2 0    21  296939047  300000000 1820921595
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
@@ -435,6 +441,26 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
    (using "virtual" clause-sets). </li>
    <li> We should try to understand why the different local search algorithms
    behave so differently on the various problem classes. </li>
+   <li> "Meta-heuristics":
+    <ol>
+     <li> General meta-heuristics are needed, which can be adapted to the
+     specific problems. </li>
+     <li> A natural first example would be first to identify the best solver
+     from the suite, then trying to optimise out, and then search for solution
+     by starting with, say (just an example) 1000 seeds, running them a bit,
+     filtering out the 100 most promising ones, running them further, filtering
+     out the 10 best, running them, finally filtering out the best one (or more
+     --- depending on the number of processes to be run!). </li>
+     <li> Of course, this all automatic (with good monitoring). </li>
+     <li> One needs to gain quantitative understanding of the local search
+     process, so that progress can be evaluated. </li>
+     <li> Perhaps the whole thing is written in R first, using Ubcsat; see
+     ExperimentSystem/plans/RunUBCSAT.hpp. </li>
+     <li> And (of course) also at the Maxima/Lisp level, this time using
+     Maxima/Lisp local search algorithms; see
+     ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/general.hpp. </li>
+    </ol>
+   </li>
   </ul>
 
 
