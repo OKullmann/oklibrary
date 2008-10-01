@@ -286,6 +286,15 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 80000000 -i GreenTao_2_5_31500.cnf
       3 0     6   74650775   80000000 2140749066
      \endverbatim
      </li>
+     <li> But can be solved:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 160000000 -i GreenTao_2_5_31500.cnf
+      1 0     4  156694733  160000000    3180540
+      2 0     2   90427544  160000000  486451281
+      3 0     5  137171125  160000000 2156452703
+      4 1     0  128497989  128497989  345549340
+     \endverbatim
+     </li>
      <li> n = 32000, density = 19.6105625, looks unsatisfiable:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 50 -cutoff 100000000 -i GreenTao_2_5_32000.cnf
@@ -309,6 +318,16 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 300000000 -i GreenTao_2_5_32000.cnf -s
       1 1     0  106169034  106169034 1236786762
      \endverbatim
      </li>
+     <li> n = 32500, density = 19.83889230769231 still satisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
+      1 0     7  295919077  300000000 1113819587
+      2 0     8  209899032  300000000 3804267295
+      3 0    11  186387649  300000000 2937582742
+      4 1     0  274647920  274647920 1925137726
+     \endverbatim
+     </li>
+     <li> n = 33000, density = 20.06012121212121 </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
