@@ -22,6 +22,10 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/SboxAnalysis.mac")$
 
 okltest_generate_full_aes_sbox_dnf_fcs(generate_full_aes_sbox_dnf_fcs);
+okltest_generate_full_aes_sbox_cnf_fcs(generate_full_aes_sbox_cnf_fcs);
+
+okltest_test_CNF_aes_sbox(test_CNF_aes_sbox);
+okltest_hitting_cnf_aes_sbox(hitting_cnf_aes_sbox);
 
 okltest_generate_full_int_perm_dnf_fcs(generate_full_int_perm_dnf_fcs);
 okltest_generate_full_int_perm_cnf_fcs(generate_full_int_perm_cnf_fcs);
