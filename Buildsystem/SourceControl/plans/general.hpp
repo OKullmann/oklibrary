@@ -347,6 +347,8 @@ Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSourc
 Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
      (again, the receive-pack-address is on the receiving machine). </li>
+    </ol>
+   </li>
   </ul>
 
 

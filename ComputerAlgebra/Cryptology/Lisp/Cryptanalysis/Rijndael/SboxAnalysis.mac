@@ -39,7 +39,8 @@ generate_full_aes_sbox_dnf_fcs() :=
   cs_to_fcs(map(
     lambda([ce],binary_list_to_dnf_c(
       append(polynomial2list(ce,8),polynomial2list(
-        intToGF2t8Poly(lookup_sbox(GF2t8PolyToInt(ce))),8)))),
+        egf_num2poly(rijndael_byte_field,
+          lookup_sbox(egf_poly2num(rijndael_byte_field,ce))),8)))),
     map(lambda([se], xreduce("+",se,0)), 
       powerset(setify(create_list(x^i,i,0,7))))))$
 

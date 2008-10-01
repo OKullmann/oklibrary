@@ -25,6 +25,8 @@ kill(f)$
 
 
 okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
+  if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
   sboxFullDNF : f(),
   assert(length(sboxFullDNF[2]) = 256),
   assert(length(sboxFullDNF[1]) = 16),
@@ -32,6 +34,55 @@ okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
     {{-14,-13,-12,-9,10,11,15,16}}),
   assert(apply_pa(setify(create_list(-i,i,1,8)), sboxFullDNF[2])=
     {{-16,-13,-11,-10,-9,12,14,15}}),
+  true)$
+
+okltest_generate_full_aes_sbox_cnf_fcs(f) := block([sboxFullCNF],
+  if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
+  if oklib_test_level = 2 then return(true),
+  sboxFullCNF : f(),
+  assert(length(sboxFullCNF[2]) = 2^16 - 256),
+  assert(length(sboxFullCNF[1]) = 16),
+  assert(apply_pa(union(setify(create_list(-i,i,1,8)),
+    {-14,-13,-12,-9,10,11,15,16}), sboxFullCNF[2])= {}),
+  assert(apply_pa(union(setify(create_list(-i,i,1,8)),
+    {-14,-13,-12,-9,10,-11,15,16}), sboxFullCNF[2])= {{}}),
+  assert(apply_pa(union(setify(create_list(i,i,1,8)),
+    {-16,-13,-11,-10,-9,12,14,15}), sboxFullCNF[2]) = {}),
+  assert(apply_pa(union(setify(create_list(i,i,1,8)),
+    {-16,-13,-11,-10,-9,12,14,-15}), sboxFullCNF[2]) = {{}}),
+  true)$
+
+okltest_test_CNF_aes_sbox(f) := block(
+  if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
+  if oklib_test_level = 2 then return(true),
+  assert(f([{},{}]) = false),
+  assert(f([{},{{}}]) = false),
+  assert(f([{1},{{}}]) = false),
+  assert(f([{1},{{1}}]) = false),
+  if oklib_test_level = 3 then return(true),
+  assert(f([{1,2},{{1}}]) = false),
+  assert(f([{1,2},{{1,2},{-1,2},{-2,1}}]) = false),
+  assert(f(generate_full_aes_sbox_cnf_fcs())),
+  true)$
+
+okltest_hitting_cnf_aes_sbox(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
+  if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
+  if oklib_test_level = 2 then return(true),
+  sboxCNF : f(dll_heuristics_first_formal),
+  assert(length(sboxCNF) > 1),
+  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNF))),
+  sboxCNFreal : f(dll_heuristics_first_real),
+  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNFreal))),
+  sboxCNFmax : f(dll_heuristics_max_var),
+  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNFmax))),
+  if oklib_test_level = 3 then return(true),
+  if oklib_test_level = 4 then return(true),
+  assert(hittingcsp(sboxCNF)),
+  assert(hittingcsp(sboxCNFreal)),
+  assert(hittingcsp(sboxCNFmax)),
   true)$
 
 okltest_generate_full_int_perm_dnf_fcs(f) := block(
