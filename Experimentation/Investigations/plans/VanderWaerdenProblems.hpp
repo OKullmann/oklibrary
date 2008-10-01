@@ -334,6 +334,7 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
       2 0    21  296939047  300000000 1820921595
      \endverbatim
      </li>
+     <li> n = 33500, density = 20.27976119402985 </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
