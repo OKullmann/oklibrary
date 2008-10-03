@@ -127,7 +127,17 @@ OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
      \verbatim
 OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
      \endverbatim
-     seems to need ~ 6 days (csltok). </li>
+     finished the first branch (~ 32768 nodes at depth 16) after 9 days
+     (cs-wsok) and thus
+     <center> greentao(2,4) = 512. </center> </li>
+     <li> Stopped the computation:
+     \verbatim
+33082:  7497, 780471.5, 765655.7
+
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 initial_number_of_clauses=4492 initial_number_of_literal_occurrences=17968 running_time(s)=780475.6 number_of_nodes=765469925 number_of_single_nodes=58 number_of_quasi_single_nodes=0 number_of_2-reductions=4696146230 number_of_pure_literals=728446 number_of_autarkies=2 number_of_missed_single_nodes=11248 max_tree_depth=61 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=31556781 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_4_512.cnf
+     \endverbatim
+     </li>
      <li> n = 515: rnovelty+ yields constantly 1 falsified clause. </li>
      <li> n = 520: rnovelty+ yields constantly 1 falsified clause. </li>
      <li> n = 530: rnovelty+ yields constantly 1 falsified clause. </li>
