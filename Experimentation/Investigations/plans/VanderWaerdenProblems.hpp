@@ -480,20 +480,33 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -
    <li> For vanderwaerden there is much more structure which could be exploited
    (using "virtual" clause-sets). </li>
    <li> We should try to understand why the different local search algorithms
-   behave so differently on the various problem classes. </li>
+   behave so differently on the various problem classes.
+    <ol>
+     <li> See chapter 6 in [Hoos, Stuetzle, Stochastic Local Search] for
+     background information on the algorithms involved. </li>
+     <li> For the van der Waerden problems and the Green-Tao problems it should
+     be possible to gain quite good quantitative experimental understanding.
+     </li>
+     <li> See chapter 4 in [Hoos, Stuetzle, Stochastic Local Search] for
+     material on statistical evaluation. </li>
+    </ol>
+   </li>
    <li> "Meta-heuristics":
     <ol>
      <li> General meta-heuristics are needed, which can be adapted to the
      specific problems. </li>
      <li> A natural first example would be first to identify the best solver
-     from the suite, then trying to optimise out, and then search for solution
+     from the suite, then trying to optimise it, and then search for solutions
      by starting with, say (just an example) 1000 seeds, running them a bit,
      filtering out the 100 most promising ones, running them further, filtering
      out the 10 best, running them, finally filtering out the best one (or more
      --- depending on the number of processes to be run!). </li>
      <li> Of course, this all automatic (with good monitoring). </li>
      <li> One needs to gain quantitative understanding of the local search
-     process, so that progress can be evaluated. </li>
+     process, so that progress can be evaluated; see above. </li>
+     <li> All algorithms and programs are written in a natural generative
+     style, but specific to the problem set (van der Waerden and Green-Tao
+     problems here --- even them treated individually). </li>
      <li> Perhaps the whole thing is written in R first, using Ubcsat; see
      ExperimentSystem/plans/RunUBCSAT.hpp. </li>
      <li> And (of course) also at the Maxima/Lisp level, this time using
