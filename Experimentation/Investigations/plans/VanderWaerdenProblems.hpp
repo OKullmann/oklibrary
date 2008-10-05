@@ -337,6 +337,19 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
       4 1     0  274647920  274647920 1925137726
      \endverbatim
      </li>
+     <li> n = 32750, density = 19.94418320610687
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32750.cnf
+      1 0     6  298602469  300000000  109588602
+      2 0    11  268672776  300000000 2399089340
+      3 0    10  281462863  300000000 2595364500
+      4 0    10  117371618  300000000 3009654463
+      5 0    15  223873643  300000000  179019469
+      6 0    10  289708347  300000000  481958740
+      7 0    16  172316102  300000000 4009576113
+      8 0     8  274867018  300000000  617951956
+     \endverbatim
+     </li>
      <li> n = 33000, density = 20.06012121212121; now getting hard:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
@@ -344,6 +357,22 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
       2 0    21  296939047  300000000 1820921595
      \endverbatim
      </li>
+     <li>
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 600000000 -i GreenTao_2_5_33000.cnf
+      1 0     3  412863959  600000000 1780844303
+      2 0    15  282783807  600000000 1069196708
+      3 0    14  598198966  600000000  827526861
+      4 0    17  335449491  600000000  360171182
+     \endverbatim
+     and then
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -seed 1780844303
+      1 0     2 2479149232 3000000000 1780844303
+     \endverbatim
+     Hm; one has to run more extensive experiments (for example, running it
+     with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
+     unsatisfiable. </li>
      <li> n = 33500, density = 20.27976119402985 </li>
     </ol>
    </li>
