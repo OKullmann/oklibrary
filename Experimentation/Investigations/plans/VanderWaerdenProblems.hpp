@@ -373,7 +373,26 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -
      Hm; one has to run more extensive experiments (for example, running it
      with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
      unsatisfiable. </li>
-     <li> n = 33500, density = 20.27976119402985 </li>
+     <li> n = 33500, density = 20.27976119402985
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
+Clauses = 679372
+Variables = 33500
+TotalLiterals = 3396860
+FlipsPerSecond = 69292
+BestStep_Mean = 789596735.700000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 20.600000
+BestSolution_Median = 19.000000
+BestSolution_Min = 13.000000
+BestSolution_Max = 32.000000
+     \endverbatim
+     Best seeds: 3438409963, 1267451597
+     </li>
+     <li> This is likely not the optimum, but I would be surprised if these
+     instances would still be satisfiable. </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
