@@ -380,6 +380,8 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -
      Hm; one has to run more extensive experiments (for example, running it
      with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
      unsatisfiable. </li>
+     <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
+     and thus can be at most 4294967295. </li>
      <li> n = 33500, density = 20.27976119402985
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
