@@ -350,6 +350,13 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32750.cnf
       8 0     8  274867018  300000000  617951956
      \endverbatim
      </li>
+     <li> Still satisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_32750.cnf -seed 109588602
+      1 0     3  708126506 1000000000  109588602
+      2 1     0  732967358  732967358 4054695673
+     \endverbatim
+     </li>
      <li> n = 33000, density = 20.06012121212121; now getting hard:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
