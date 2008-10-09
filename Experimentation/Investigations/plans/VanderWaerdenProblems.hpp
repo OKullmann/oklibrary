@@ -72,6 +72,10 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
    <li> This is best "told" the solver, so that it can use this for the
    branching variable at the root. </li>
    <li> No other symmetry breaking seems possible without conditioning. </li>
+   <li> Is there not also, at least, the symmetry about the number line? i.e. 
+   if there is a colouring of the numbers such that there is no arithmetic 
+   progression of size k, then reversing the colouring should also have this 
+   property. </li>  
    <li> For small problems one needs to determine the full automorphism group
    of the clause-sets. </li>
   </ul>
