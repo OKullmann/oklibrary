@@ -357,6 +357,7 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_32750.cnf 
       2 1     0  732967358  732967358 4054695673
      \endverbatim
      </li>
+     <li> n = 32800, density = 19.96231707317073 </li>
      <li> n = 33000, density = 20.06012121212121; now getting hard:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
@@ -399,10 +400,20 @@ BestSolution_Median = 19.000000
 BestSolution_Min = 13.000000
 BestSolution_Max = 32.000000
      \endverbatim
-     Best seeds: 3438409963, 1267451597
-     </li>
+     Best seeds: 3438409963, 1267451597. </li>
      <li> This is likely not the optimum, but I would be surprised if these
      instances would still be satisfiable. </li>
+    </ol>
+   </li>
+   <li> We should find out what the falsified clause for the above nearly
+   satisfying assignment for n=33000 is --- if m is the maximum variable
+   (index) in the clause then we have a satisfying assignment for n = m-1.
+    <ol>
+     <li> This holds in general for such monotone sequences of clause-sets.
+     </li>
+     <li> We should write a little C++ program, which takes the assignment
+     returned by Ubcsat (output by using option "-r best") and the clause-set,
+     and outputs the falsified clauses. </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
