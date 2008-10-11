@@ -28,6 +28,34 @@ License, or any later version. */
    for specific fields). </li>
    <li> So, there are different forms of Sudoku-problems for different types
    of literals used by the partial assignment. </li>
+   <li> Improved output:
+    <ol>
+     <li> We need the possibility to add a list of clauses (in the original
+     variables).
+      <ul>
+       <li> Specifying that field (i,j) carries number k then simply happens by
+       the unit-clause {sdk(i,j,k)}. </li>
+      </ul>
+     </li>
+     <li> The Dimacs-output should contain those clauses at the beginning.
+     </li>
+     <li> In order to facilitate adding clauses to the already standardised
+     Dimacs-file, the index of variables should be well-defined.
+      <ul>
+       <li> Perhaps innermost is the field-value, then the column index, then
+       the row index (thus just following the coordinate-ordering already
+       in place for the sdk-variables). </li>
+       <li> I.e., for p = 3 we had the order sdk(1,1,1), ..., sdk(1,1,9),
+       sdk(1,2,1), ..., sdk(9,9,9). </li>
+      </ul>
+     </li>
+     <li> So some helper functions are needed to compute the standardised
+     indices from the original names. </li>
+     <li> For creating the Sudoku Dimacs-files then we do not need the
+     standardisation anymore, but we could directly use the variable indices.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
