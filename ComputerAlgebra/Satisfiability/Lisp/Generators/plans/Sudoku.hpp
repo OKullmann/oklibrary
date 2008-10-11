@@ -23,8 +23,8 @@ License, or any later version. */
    <li> Likely a "Sudoku problem instance" is just given by a partial
    assignments to the variables. </li>
    <li> However this would be most natural for variables with domain
-   {1,...,N}. Using the boolean variables corresponds to the used of
-   signed literals (where we can enable disable specific values for
+   {1,...,N}. Using the boolean variables corresponds to the use of
+   signed literals (where we can enable/disable specific values for
    for specific fields). </li>
    <li> So, there are different forms of Sudoku-problems for different types
    of literals used by the partial assignment. </li>

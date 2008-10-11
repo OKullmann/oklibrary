@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac
-  \brief Generations of Sudoku-problems (generalised, and as generalised SAT-problems)
+  \brief Generations of Sudoku-problems (also generalised, and also as generalised SAT-problems)
 
 Use by
 
@@ -26,33 +26,33 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
    *******************
 */
 
-/* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k */
+/* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k: */
 kill(sdk)$
 declare(sdk, noun)$
 declare(sdk, posfun)$
 sdk_var(i,j,k) := nounify(sdk)(i,j,k)$
 
-/* The set of variables for Sudoku formulas of box-dimension p */
+/* The set of variables for Sudoku formulas of box-dimension p: */
 var_sdk(p) := block([N : p^2],
  setify(create_list(sdk_var(i,j,k), i,1,N, j,1,N, k,1,N)))$
 
-/* In the following p denotes the box-dimension */
+/* In the following p denotes the box-dimension. */
 
-/* different numbers in each row */
+/* Constraints: different numbers in each row. */
 sdk_different_rows(p) := block([N : p^2],
  setify(create_list({- sdk_var(i,j1,k), - sdk_var(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
 
-/* different numbers in each column */
+/* Constraints: different numbers in each column. */
 sdk_different_columns(p) := block([N : p^2],
  setify(create_list({- sdk_var(i1,j,k), - sdk_var(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
 
 
-/* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields */
+/* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields in the box: */
 sdk_positions_box(i,j,p) := block(
  [row_offset : p * (i-1), column_offset : p * (j-1)],
  create_list([row_offset + r, column_offset + c], r,1,p, c,1,p))$
 
-/* different numbers in each box */
+/* Constraints: different numbers in each box. */
 sdk_different_boxes(p) := block([N : p^2, L : []],
  for i : 1 thru p do
   for j : 1 thru p do block([P : sdk_positions_box(i,j,p)],
@@ -62,16 +62,17 @@ sdk_different_boxes(p) := block([N : p^2, L : []],
       L : cons({- sdk_var(P[p1][1],P[p1][2],k), - sdk_var(P[p2][1],P[p2][2],k)}, L)),
  setify(L))$
 
-/* every field carries a number */
+/* Constraints: every field carries a number. */
 sdk_all_fields(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
 
 
-/* the sudoku problem (weak form) as formal clause-set */
+/* The Sudoku problem (weak form) as formal clause-set: */
 weak_sdk(p) := [var_sdk(p), 
  union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
        sdk_all_fields(p))]$
 
+/* Output an empty Sudoku problem to a file, using the weak encoding: */
 output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
   output_fcs_v(
     sconcat("The Sudoku problem (weak form) with box-dimension ", p, "."), 
@@ -79,30 +80,32 @@ output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
     filename,
     FF[2]))$
 
+/* Additional constraints: */
 
-/* every row contains all numbers */
+/* Constraints: every row contains all numbers. */
 sdk_all_rows(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(i,j,k),j,1,N)), i,1,N, k,1,N)))$
 
-/* every column contains all numbers */
+/* Constraints: every column contains all numbers. */
 sdk_all_columns(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(i,j,k),i,1,N)), j,1,N, k,1,N)))$
 
-/* every box contains all numbers */
+/* Constraints: every box contains all numbers. */
 sdk_all_boxes(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(p[1],p[2],k),p,sdk_positions_box(i,j,p))),
   i,1,p, j,1,p, k,1,N)))$
 
-/* every field carries a different numbers */
+/* Constraints: every field carries a different numbers. */
 sdk_different_fields(p) := block([N : p^2],
   setify(create_list({-sdk_var(i,j,k1), -sdk_var(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
 
 
-/* the sudoku problem (dual weak form) as formal clause-set */
+/* The Sudoku problem (dual weak form) as formal clause-set: */
 dual_weak_sdk(p) := [var_sdk(p), 
  union(sdk_all_rows(p), sdk_all_columns(p), sdk_all_boxes(p),
        sdk_different_fields(p))]$
 
+/* Output an empty Sudoku problem to a file, using the dual weak encoding: */
 output_dual_weak_sdk(p,filename) := block([FF : standardise_fcs(dual_weak_sdk(p))],
   output_fcs_v(
     sconcat("The Sudoku problem (dual weak form) with box-dimension ", p, "."), 
@@ -111,10 +114,11 @@ output_dual_weak_sdk(p,filename) := block([FF : standardise_fcs(dual_weak_sdk(p)
     FF[2]))$
 
 
-/* the strong sudoku problem as formal clause-set */
+/* The Strong sudoku problem as formal clause-set: */
 strong_sdk(p) := [var_sdk(p), 
  union(weak_sdk(p)[2], dual_weak_sdk(p)[2])]$
 
+/* Output an empty Sudoku problem to a file, using the strong encoding: */
 output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
   output_fcs_v(
     sconcat("The Sudoku problem (strong form) with box-dimension ", p, "."), 
@@ -125,20 +129,20 @@ output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
 
 /* Measures for the translated formulas */
 
-/* Number of variables */
+/* Number of variables: */
 nvar_sdk(p) := p^6$
 
-/* List of clause-counts for weak_sdk as with ncl_list_f */
+/* List of clause-counts for weak_sdk as with ncl_list_f: */
 ncl_list_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
  block([N : p^2], return([ [2, 3 * N^2 * binom(N,2) - N^2 * N * (p-1)], [N, N^2] ]))$
-/* List of clause-counts for dual_weak_sdk as with ncl_list_f */
+/* List of clause-counts for dual_weak_sdk as with ncl_list_f: */
 ncl_list_dual_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
  block([N : p^2], return([[2, N^2 * binom(N,2)], [N, 3 * N^2]]))$
-/* List of clause-counts for dual_weak_sdk as with ncl_list_f */
+/* List of clause-counts for dual_weak_sdk as with ncl_list_f: */
 ncl_list_strong_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
  block([N : p^2], return([ [2, 4 * N^2 * binom(N,2) - N^2 * N * (p-1)], [N, 4 * N^2] ]))$
 
-/* Total number of clauses */
+/* Total number of clauses: */
 ncl_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
  return(sum(L[i][2],i,1,length(L))))$
 ncl_dual_weak_sdk(p) := block([L : ncl_list_dual_weak_sdk(p)],
@@ -146,7 +150,7 @@ ncl_dual_weak_sdk(p) := block([L : ncl_list_dual_weak_sdk(p)],
 ncl_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
  return(sum(L[i][2],i,1,length(L))))$
 
-/* Number of literal occurrences */
+/* Number of literal occurrences: */
 nlitocc_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
  return(sum(L[i][1] * L[i][2],i,1,length(L))))$
 nlitocc_dual_weak_sdk(p) := block([L : ncl_list_dual_weak_sdk(p)],
