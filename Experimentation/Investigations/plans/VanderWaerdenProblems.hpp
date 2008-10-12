@@ -388,6 +388,34 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -
      <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
      and thus can be at most 4294967295. </li>
      <li> Down to one falsified clause with seed 1782112367. </li>
+     <li> n = 33000 actually is satisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
+      1 0     3 1797890838 4000000000  776867833
+      2 0     3 2650818254 4000000000  405532870
+      3 0     4 3810517828 4000000000 2381509817
+      4 0     8 2313839935 4000000000 1498125638
+      5 0     1 2905850294 4000000000 3216165566
+      6 1     0 3225491509 3225491509 4198934964
+      7 1     0 3776261282 3776261282 3642546655
+     \endverbatim
+     while 20 runs with 2 * 10^9 steps didn't find a solution:
+     \verbatim
+bcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
+Clauses = 661984
+Variables = 33000
+TotalLiterals = 3309920
+FlipsPerSecond = 85199
+BestStep_Mean = 1418109273.400000
+Steps_Mean = 2000000000.000000
+Steps_Max = 2000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 6.250000
+BestSolution_Median = 6.000000
+BestSolution_Min = 1.000000
+     \endverbatim
+     </li>
+     <li> n = 33100, density = 
      <li> n = 33500, density = 20.27976119402985
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
