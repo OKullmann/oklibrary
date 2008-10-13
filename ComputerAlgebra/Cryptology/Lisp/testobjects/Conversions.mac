@@ -23,9 +23,6 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.ma
 
 okltest_lpad(lpad);
 
-okltest_polynomial2list(polynomial2list);
-okltest_list2polynomial(list2polynomial);
-
 okltest_digitToInt(digitToInt);
 okltest_intToDigit(intToDigit);
 

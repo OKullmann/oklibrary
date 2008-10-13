@@ -35,31 +35,6 @@ okltest_lpad(f) := block(
   assert(f("abc","d",4) = "dabc"),
   true)$
 
-okltest_polynomial2list(f) := block([x],
-  for n : 0 thru 3 do
-    assert(f(n,0) = []),
-  for n : 0 thru 3 do
-    assert(f(0,n) = makelist(0,i,1,n)),
-  for n : 0 thru 3 do
-    assert(f(n,1) = [n]),
-  for n : 0 thru 3 do
-    for m : 0 thru 3 do
-      assert(first(f(m*x^n,n+1)) = m),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
-  true)$
-
-okltest_list2polynomial(f) := block([x],
-  for n : 0 thru 3 do
-    assert(f([]) = 0),
-  for n : -3 thru 4 do
-    assert(f([n]) = n),
-  assert(f([0,0,0,0,0]) = 0),
-  assert(f([1,1,1,1,1]) = x^4+x^3+x^2+x+1),
-  assert(f([5,4,3,-1,0,4]) = 5*x^5+4*x^4+3*x^3-x^2+4),
-  true)$
-
 okltest_digitToInt(f) := block(
   for n : 0 thru 9 do
     assert(f(string(n)) = n),

@@ -35,16 +35,6 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
    length */
 lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 
-/* Convert a given polynomial to a list of coefficients of length n,
-   where the first element of the list is the coefficient of the 
-   highest order of x in the polynomial.*/
-polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
-
-/* Converts a list of coefficients to a polynomial in "x" with the first
-element in the list being the coefficient of the highest order of x */
-list2polynomial(v) := block([n : length(v)],
-    sum(v[i] * x^(n - i), i, 1, n))$
-
 /* Converts a string to a list of characters */
 strToChrList(str) := makelist(charat(str, i),i, 1, slength(str))$
 
@@ -82,8 +72,8 @@ intToBaseN(m,n) :=
 /* MG: Should this handle coeff_base = 0? */
 /* MG: Should this take the variable the polynomial should be in? */
 intToPoly(n,coeff_base) := 
-  list2polynomial( 
-    map(digitToInt,strToChrList(intToBaseN(n,coeff_base))))$ 
+  expand(lreduce(lambda([a,b], a * x + b),
+      map(digitToInt,strToChrList(intToBaseN(n,coeff_base))),0))$ 
 
 /* Converts the given polynomial to an integer, assuming that the polynomial
    in "poly_x" represents an integer in the given base "poly_b". */
