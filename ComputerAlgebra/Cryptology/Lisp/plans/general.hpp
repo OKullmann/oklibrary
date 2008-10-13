@@ -18,7 +18,7 @@ License, or any later version. */
 
 
   \todo Conversion functions
-  <ul
+  <ul>
    <li> Remove "camels". </li>
    <li> Reorganisation:
     <ol>
