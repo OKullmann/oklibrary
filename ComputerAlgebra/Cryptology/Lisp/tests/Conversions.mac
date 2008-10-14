@@ -35,6 +35,14 @@ okltest_lpad(f) := block(
   assert(f("abc","d",4) = "dabc"),
   true)$
 
+okltest_str2chrl(f) := block(
+  assert(f("") = []),
+  assert(f("1") = ["1"]),
+  assert(f("a") = ["a"]),
+  assert(f("10") = ["1","0"]),
+  assert(f("abcd") = ["a","b","c","d"]),
+  true)$
+
 okltest_digit2int(f) := block(
   for n : 0 thru 9 do
     assert(f(string(n)) = n),

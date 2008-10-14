@@ -22,6 +22,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
 
 okltest_lpad(lpad);
+okltest_str2chrl(str2chrl);
 
 okltest_digit2int(digit2int);
 okltest_int2digit(int2digit);
