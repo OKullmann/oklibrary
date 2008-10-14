@@ -12,14 +12,13 @@ License, or any later version. */
 
   \bug Integer conversion functions don't handle negative numbers.
   <ul>
-   <li> Example : "intToPoly(-4,2);" errors. </li>
-   <li> Example : "intToBaseN(-10,3);" errors. </li>
+   <li> Example : "int2poly(-4,2);" errors. </li>
+   <li> Example : "int2base_n(-10,3);" errors. </li>
   </ul>
 
 
   \todo Conversion functions
   <ul>
-   <li> Remove "camels". </li>
    <li> Reorganisation:
     <ol>
      <li> This file must be removed. </li>
@@ -45,6 +44,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> DONE Remove "camels". </li>
   </ul>
 
 

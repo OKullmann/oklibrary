@@ -23,14 +23,14 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.ma
 
 okltest_lpad(lpad);
 
-okltest_digitToInt(digitToInt);
-okltest_intToDigit(intToDigit);
+okltest_digit2int(digit2int);
+okltest_int2digit(int2digit);
 
-okltest_baseNToInt(baseNToInt);
-okltest_intToBaseN(intToBaseN);
+okltest_base_n2int(base_n2int);
+okltest_int2base_n(int2base_n);
 
-okltest_intToPoly(intToPoly);
-okltest_polyToInt(polyToInt);
+okltest_int2poly(int2poly);
+okltest_poly2int(poly2int);
 
 /*!
 \endhtmlonly

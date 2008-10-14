@@ -35,8 +35,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=  
   [setify(create_list(i,i,1,16)),
    map(lambda([ce],binary_list_to_dnf_c(
-    append(egf_coeffs(rijndael_bit_field,intToPoly(ce,2),8),
-      egf_coeffs(rijndael_bit_field,intToPoly(
+    append(egf_coeffs(rijndael_bit_field,int2poly(ce,2),8),
+      egf_coeffs(rijndael_bit_field,int2poly(
         aes_field_mul_data[constant_field_element,ce+1],
         2),8)))),
     setify(create_list(i,i,0,255)))]$

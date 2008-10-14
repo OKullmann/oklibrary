@@ -32,7 +32,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 
 /* Transforms an integer into a big endian binary list representation
    padded with 0s to the left up to length "n" */
-int2binlist(int,n) := egf_coeffs(rijndael_bit_field,intToPoly(int,2),n-1)$
+int2binlist(int,n) := egf_coeffs(rijndael_bit_field,int2poly(int,2),n-1)$
 
 /* Generation of the full DNF clause-set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
