@@ -26,6 +26,11 @@ License, or any later version. */
      or to more general modules. </li>
     </ol>
    </li>
+   <li> Functions such as GF2t8ListToHex should be renamed (although
+   also moved - see above) using whatever proper naming scheme is decided for
+   Rijndael data types - see "Notions and Notations" in 
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp 
+   </li>
    <li> Conversion functions with suitable inverses working on lists
    of the appropriate elements to allow movement between various 
    different representations of data in Cryptology (for AES and others) :
