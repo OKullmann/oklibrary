@@ -9,7 +9,38 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
+  \todo Write tests for all functions
+  <ul>
+   <li> Tests are needed for the following functions
+    <ul>
+     <li> aes_cp </li>
+     <li> aes_round_cp </li>
+     <li> aes_final_round_cp </li>
+     <li> aes_subbytes_cp </li>
+     <li> aes_shiftrows_cp </li>
+     <li> aes_mixcolumns_cp </li>
+     <li> aes_mixcolumn_cp </li>
+     <li> aes_add_cp </li>
+     <li> aes_mul2_cp </li>
+     <li> aes_mul3_cp </li>
+     <li> aes_sbox_cp </li>
+     <li> rewrite_condition </li>
+     <li> rewrite_all </li>
+     <li> aes_cnf_cs </li>
+     <li> aes_cnf_fcs </li>
+    </ul>
+   </li>
+   <li> Most of the above tests will probably need most of the test to be run 
+   at a higher test level, given their long running time. </li>
+  </ul>
+
+  \todo Write Docus
   
+  \todo Replace append_all with uaapply
+  <ul>
+   <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
+  </ul>
+
   \todo Partitioning into active clauses
   <ul>
    <li> This todo has to be updated according to
