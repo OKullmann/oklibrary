@@ -360,7 +360,7 @@ aes_decrypt_l(c,k) :=
   aes_decrypt(c,k,lookup_sbox,lookup_inv_sbox,lookup_inv_mixcolumn,aes_log_gf2t8_add)$
 
 /* AES Decryption using field operations */
-aes_decrypt_l(c,k) := 
+aes_decrypt_f(c,k) := 
   aes_decrypt(c,k,sbox,inv_sbox,inv_mixcolumn,aes_gf2t8_add)$
 
 /*!

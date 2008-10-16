@@ -12,20 +12,24 @@ License, or any later version. */
 
   \bug Integer conversion functions don't handle negative numbers.
   <ul>
-   <li> Example : "intToPoly(-4,2);" errors. </li>
-   <li> Example : "intToBaseN(-10,3);" errors. </li>
+   <li> Example : "int2poly(-4,2);" errors. </li>
+   <li> Example : "int2base_n(-10,3);" errors. </li>
   </ul>
 
 
   \todo Conversion functions
-  <ul
-   <li> Remove "camels". </li>
+  <ul>
    <li> Reorganisation:
     <ol>
      <li> This file must be removed. </li>
      <li> Dissolving its contents either to Rijndael etc.,
      or to more general modules. </li>
     </ol>
+   </li>
+   <li> Functions such as GF2t8ListToHex should be renamed (although
+   also moved - see above) using whatever proper naming scheme is decided for
+   Rijndael data types - see "Notions and Notations" in 
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp 
    </li>
    <li> Conversion functions with suitable inverses working on lists
    of the appropriate elements to allow movement between various 
@@ -45,6 +49,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> DONE Remove "camels". </li>
   </ul>
 
 

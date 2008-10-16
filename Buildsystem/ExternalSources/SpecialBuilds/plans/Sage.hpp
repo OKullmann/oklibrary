@@ -12,11 +12,9 @@ License, or any later version. */
 
   \todo Improving the Sage installation
   <ul>
-   <li> Update to Sage 3.0.2. </li>
-   <li> Correct dangling links. Likely links to the documentation for other
-   systems only work for Maxima, while otherwise these systems have to be
-   build externally. </li>
-   <li> Install at least Axiom (see Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp, "Computer algebra). </li>
+   <li> Update to Sage 3.1.2. </li>
+   <li> Likely we should remove all links to documentation etc. which are
+   not related to Sage itself. </li>
    <li> Update the installation. </li>
   </ul>
 

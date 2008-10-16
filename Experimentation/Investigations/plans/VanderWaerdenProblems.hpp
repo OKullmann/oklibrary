@@ -72,6 +72,10 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
    <li> This is best "told" the solver, so that it can use this for the
    branching variable at the root. </li>
    <li> No other symmetry breaking seems possible without conditioning. </li>
+   <li> Is there not also, at least, the symmetry about the number line? i.e. 
+   if there is a colouring of the numbers such that there is no arithmetic 
+   progression of size k, then reversing the colouring should also have this 
+   property. </li>  
    <li> For small problems one needs to determine the full automorphism group
    of the clause-sets. </li>
   </ul>
@@ -127,7 +131,17 @@ OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
      \verbatim
 OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
      \endverbatim
-     seems to need ~ 6 days (csltok). </li>
+     finished the first branch (~ 32768 nodes at depth 16) after 9 days
+     (cs-wsok) and thus
+     <center> greentao(2,4) = 512. </center> </li>
+     <li> Stopped the computation:
+     \verbatim
+33082:  7497, 780471.5, 765655.7
+
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 initial_number_of_clauses=4492 initial_number_of_literal_occurrences=17968 running_time(s)=780475.6 number_of_nodes=765469925 number_of_single_nodes=58 number_of_quasi_single_nodes=0 number_of_2-reductions=4696146230 number_of_pure_literals=728446 number_of_autarkies=2 number_of_missed_single_nodes=11248 max_tree_depth=61 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=31556781 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_4_512.cnf
+     \endverbatim
+     </li>
      <li> n = 515: rnovelty+ yields constantly 1 falsified clause. </li>
      <li> n = 520: rnovelty+ yields constantly 1 falsified clause. </li>
      <li> n = 530: rnovelty+ yields constantly 1 falsified clause. </li>
@@ -327,6 +341,27 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
       4 1     0  274647920  274647920 1925137726
      \endverbatim
      </li>
+     <li> n = 32750, density = 19.94418320610687
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32750.cnf
+      1 0     6  298602469  300000000  109588602
+      2 0    11  268672776  300000000 2399089340
+      3 0    10  281462863  300000000 2595364500
+      4 0    10  117371618  300000000 3009654463
+      5 0    15  223873643  300000000  179019469
+      6 0    10  289708347  300000000  481958740
+      7 0    16  172316102  300000000 4009576113
+      8 0     8  274867018  300000000  617951956
+     \endverbatim
+     </li>
+     <li> Still satisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_32750.cnf -seed 109588602
+      1 0     3  708126506 1000000000  109588602
+      2 1     0  732967358  732967358 4054695673
+     \endverbatim
+     </li>
+     <li> n = 32800, density = 19.96231707317073 </li>
      <li> n = 33000, density = 20.06012121212121; now getting hard:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
@@ -334,7 +369,83 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
       2 0    21  296939047  300000000 1820921595
      \endverbatim
      </li>
-     <li> n = 33500, density = 20.27976119402985 </li>
+     <li>
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 600000000 -i GreenTao_2_5_33000.cnf
+      1 0     3  412863959  600000000 1780844303
+      2 0    15  282783807  600000000 1069196708
+      3 0    14  598198966  600000000  827526861
+      4 0    17  335449491  600000000  360171182
+     \endverbatim
+     and then
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -seed 1780844303
+      1 0     2 2479149232 3000000000 1780844303
+     \endverbatim
+     Hm; one has to run more extensive experiments (for example, running it
+     with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
+     unsatisfiable. </li>
+     <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
+     and thus can be at most 4294967295. </li>
+     <li> Down to one falsified clause with seed 1782112367. </li>
+     <li> n = 33000 actually is satisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
+      1 0     3 1797890838 4000000000  776867833
+      2 0     3 2650818254 4000000000  405532870
+      3 0     4 3810517828 4000000000 2381509817
+      4 0     8 2313839935 4000000000 1498125638
+      5 0     1 2905850294 4000000000 3216165566
+      6 1     0 3225491509 3225491509 4198934964
+      7 1     0 3776261282 3776261282 3642546655
+     \endverbatim
+     while 20 runs with 2 * 10^9 steps didn't find a solution:
+     \verbatim
+bcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
+Clauses = 661984
+Variables = 33000
+TotalLiterals = 3309920
+FlipsPerSecond = 85199
+BestStep_Mean = 1418109273.400000
+Steps_Mean = 2000000000.000000
+Steps_Max = 2000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 6.250000
+BestSolution_Median = 6.000000
+BestSolution_Min = 1.000000
+     \endverbatim
+     </li>
+     <li> n = 33100, density = 
+     <li> n = 33500, density = 20.27976119402985
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
+Clauses = 679372
+Variables = 33500
+TotalLiterals = 3396860
+FlipsPerSecond = 69292
+BestStep_Mean = 789596735.700000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 20.600000
+BestSolution_Median = 19.000000
+BestSolution_Min = 13.000000
+BestSolution_Max = 32.000000
+     \endverbatim
+     Best seeds: 3438409963, 1267451597. </li>
+     <li> This is likely not the optimum, but I would be surprised if these
+     instances would still be satisfiable. </li>
+    </ol>
+   </li>
+   <li> We should find out what the falsified clause for the above nearly
+   satisfying assignment for n=33000 is --- if m is the maximum variable
+   (index) in the clause then we have a satisfying assignment for n = m-1.
+    <ol>
+     <li> This holds in general for such monotone sequences of clause-sets.
+     </li>
+     <li> We should write a little C++ program, which takes the assignment
+     returned by Ubcsat (output by using option "-r best") and the clause-set,
+     and outputs the falsified clauses. </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
@@ -441,20 +552,33 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
    <li> For vanderwaerden there is much more structure which could be exploited
    (using "virtual" clause-sets). </li>
    <li> We should try to understand why the different local search algorithms
-   behave so differently on the various problem classes. </li>
+   behave so differently on the various problem classes.
+    <ol>
+     <li> See chapter 6 in [Hoos, Stuetzle, Stochastic Local Search] for
+     background information on the algorithms involved. </li>
+     <li> For the van der Waerden problems and the Green-Tao problems it should
+     be possible to gain quite good quantitative experimental understanding.
+     </li>
+     <li> See chapter 4 in [Hoos, Stuetzle, Stochastic Local Search] for
+     material on statistical evaluation. </li>
+    </ol>
+   </li>
    <li> "Meta-heuristics":
     <ol>
      <li> General meta-heuristics are needed, which can be adapted to the
      specific problems. </li>
      <li> A natural first example would be first to identify the best solver
-     from the suite, then trying to optimise out, and then search for solution
+     from the suite, then trying to optimise it, and then search for solutions
      by starting with, say (just an example) 1000 seeds, running them a bit,
      filtering out the 100 most promising ones, running them further, filtering
      out the 10 best, running them, finally filtering out the best one (or more
      --- depending on the number of processes to be run!). </li>
      <li> Of course, this all automatic (with good monitoring). </li>
      <li> One needs to gain quantitative understanding of the local search
-     process, so that progress can be evaluated. </li>
+     process, so that progress can be evaluated; see above. </li>
+     <li> All algorithms and programs are written in a natural generative
+     style, but specific to the problem set (van der Waerden and Green-Tao
+     problems here --- even them treated individually). </li>
      <li> Perhaps the whole thing is written in R first, using Ubcsat; see
      ExperimentSystem/plans/RunUBCSAT.hpp. </li>
      <li> And (of course) also at the Maxima/Lisp level, this time using

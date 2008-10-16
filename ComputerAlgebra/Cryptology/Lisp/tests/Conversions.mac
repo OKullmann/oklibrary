@@ -35,32 +35,15 @@ okltest_lpad(f) := block(
   assert(f("abc","d",4) = "dabc"),
   true)$
 
-okltest_polynomial2list(f) := block([x],
-  for n : 0 thru 3 do
-    assert(f(n,0) = []),
-  for n : 0 thru 3 do
-    assert(f(0,n) = makelist(0,i,1,n)),
-  for n : 0 thru 3 do
-    assert(f(n,1) = [n]),
-  for n : 0 thru 3 do
-    for m : 0 thru 3 do
-      assert(first(f(m*x^n,n+1)) = m),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
+okltest_str2chrl(f) := block(
+  assert(f("") = []),
+  assert(f("1") = ["1"]),
+  assert(f("a") = ["a"]),
+  assert(f("10") = ["1","0"]),
+  assert(f("abcd") = ["a","b","c","d"]),
   true)$
 
-okltest_list2polynomial(f) := block([x],
-  for n : 0 thru 3 do
-    assert(f([]) = 0),
-  for n : -3 thru 4 do
-    assert(f([n]) = n),
-  assert(f([0,0,0,0,0]) = 0),
-  assert(f([1,1,1,1,1]) = x^4+x^3+x^2+x+1),
-  assert(f([5,4,3,-1,0,4]) = 5*x^5+4*x^4+3*x^3-x^2+4),
-  true)$
-
-okltest_digitToInt(f) := block(
+okltest_digit2int(f) := block(
   for n : 0 thru 9 do
     assert(f(string(n)) = n),
   assert(f("A") = 10),
@@ -68,7 +51,7 @@ okltest_digitToInt(f) := block(
   assert(f("Z") = 35),
   true)$
 
-okltest_intToDigit(f) := block(
+okltest_int2digit(f) := block(
   for n : 0 thru 9 do
     assert(f(n) = string(n)),
   assert(f(10) = "A"),
@@ -76,7 +59,7 @@ okltest_intToDigit(f) := block(
   assert(f(35) = "Z"),
   true)$
 
-okltest_baseNToInt(f) := block(
+okltest_base_n2int(f) := block(
   for n : 0 thru 3 do
     assert(f("",n) = 0),
   for n : 0 thru 3 do
@@ -94,7 +77,7 @@ okltest_baseNToInt(f) := block(
   /*assert(f("-MK014LZDF",36) = -63631769456211),*/
   true)$
 
-okltest_intToBaseN(f) := block(
+okltest_int2base_n(f) := block(
   for n : 0 thru 3 do
     assert(f(0,n) = "0"),
   for n : 2 thru 12 do
@@ -107,7 +90,7 @@ okltest_intToBaseN(f) := block(
   /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
   true)$
 
-okltest_intToPoly(f) := block([x],
+okltest_int2poly(f) := block([x],
   for n : 1 thru 3 do
     assert(f(0,n) = 0),
   /*for n : -12 thru 12 do
@@ -118,7 +101,7 @@ okltest_intToPoly(f) := block([x],
   assert(f(423423,15) = 8*x^4+5*x^3+6*x^2+13*x+3),
   true)$
 
-okltest_polyToInt(f) := block([x],
+okltest_poly2int(f) := block([x],
   for n : 1 thru 3 do
     assert(f(0,n,x) = 0),
   for n : -12 thru 12 do

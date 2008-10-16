@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \bug Cutoff value etc. should be 64 bits on a 64-bit machine
+  <ul>
+   <li> Yet "unsigned int" is used for example for the cutoff-value,
+   not allowing big experimentation. </li>
+   <li> Tell the Ubcsat people. </li>
+  </ul>
+
+
   \todo Investigating the weak performance of Ubcsat on OK's 32-bit machine
   <ul>
    <li> See "Bounds on NR([q,q],2)" in
