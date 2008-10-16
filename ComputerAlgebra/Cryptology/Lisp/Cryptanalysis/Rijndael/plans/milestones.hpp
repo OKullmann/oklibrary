@@ -30,6 +30,12 @@ License, or any later version. */
     - Review and tidy todos
     - Create / update milestones
 
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Write tests for all functions
+    - Replace append_all with uaapply
+    - Write Docus
+
   \par Version 0.0.7
   
   \par
