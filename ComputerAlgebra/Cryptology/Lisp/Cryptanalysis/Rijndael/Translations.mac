@@ -234,12 +234,6 @@ aes_round_constant(ivars, n) := block([rc_el,rc_l],
   ))
 )$
 
-/* Concatenates two matrices in the sense, given an m * n matrix and a m * o matrix,
-   the result is an m * (n + o) matrix containing the original elements of the
-   two matrices "side by side". */
-matrix_concat(M1, M2) := map(append, M1,M2)$
-
-
 /* Returns a set of conditions representing the AES keyschedule operation given
    128 key variables and 128 * (aes_num_rounds + 1) output variables
    (consecutive lots of 128 bits representing the individual round keys). */
@@ -252,7 +246,7 @@ aes_key_expansion_cp([bits]) := block(
   fBits : take_elements(128,rkBits),
   /* Split into columns */
   cols : matrixcolumns(
-    lreduce(lambda([a,b],matrix_concat(a,
+    lreduce(lambda([a,b],map(append,a,
       apply(matrix,
         partition_elements(partition_elements(b,8), 
           floor(length(b)/(4*8)) ))
@@ -465,9 +459,10 @@ AESHexToPA(hexStr, variableList) := block(
    *********************************************
 */
 
-/* MG : Should such tests be moved into seperate test files ? */
-
-/* MG : Presumably such tests should take the SAT solver to use as a parameter? */
+/* The tests below test only whether given a particular clause set
+   represents a particular operation. They are not, on their own
+   tests of the functionality above, although can be used to 
+   construct such functions. */
 
 /* Given a CNF clause set, tests whether this clause set is a representation of
    multiplication by 02 or "x" in the Rijndael GF(2^8) field.
