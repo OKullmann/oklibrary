@@ -234,10 +234,10 @@ aes_round_constant(ivars, n) := block([rc_el,rc_l],
   ))
 )$
 
-/* Composes two matrices in the sense, given an m * n matrix and a m * o matrix,
+/* Concatenates two matrices in the sense, given an m * n matrix and a m * o matrix,
    the result is an m * (n + o) matrix containing the original elements of the
    two matrices "side by side". */
-matrix_compose(M1, M2) := map(append, M1,M2)$
+matrix_concat(M1, M2) := map(append, M1,M2)$
 
 
 /* Returns a set of conditions representing the AES keyschedule operation given
@@ -252,7 +252,7 @@ aes_key_expansion_cp([bits]) := block(
   fBits : take_elements(128,rkBits),
   /* Split into columns */
   cols : matrixcolumns(
-    lreduce(lambda([a,b],matrix_compose(a,
+    lreduce(lambda([a,b],matrix_concat(a,
       apply(matrix,
         partition_elements(partition_elements(b,8), 
           floor(length(b)/(4*8)) ))
@@ -455,7 +455,7 @@ AESHexToPA(hexStr, variableList) := block(
     lambda([a,b], if b = 0 then -a else a),
         variableList, 
         apply(append,map(lambda([a], 
-          egf_coeffs(rijndael_bit_field,a,8)),hex2gf2t8l(hexStr)))
+          egf_coeffs(rijndael_bit_field,a,7)),hex2gf2t8l(hexStr)))
   ))
 )$
 
