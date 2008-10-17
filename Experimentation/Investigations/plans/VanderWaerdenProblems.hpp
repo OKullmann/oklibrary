@@ -415,7 +415,9 @@ BestSolution_Median = 6.000000
 BestSolution_Min = 1.000000
      \endverbatim
      </li>
-     <li> n = 33100, density = 
+     <li> n = 33100, density = 20.10416918429003
+     found satisfiable with seed = 734547414. </li>
+     <li> n = 33200, density = </li>
      <li> n = 33500, density = 20.27976119402985
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
