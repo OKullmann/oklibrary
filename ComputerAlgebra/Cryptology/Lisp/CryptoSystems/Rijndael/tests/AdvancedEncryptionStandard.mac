@@ -42,32 +42,6 @@ kill(f)$
    ***************
 */
 
-okltest_polynomial2vector(f) := block(
-  for i : 0 thru 9 do
-    assert(f(x^(i+1),i) = apply(matrix,create_list([0],j,1,i))),
-  for i : 0 thru 5 do
-    for j : 0 thru i-1 do
-      for k : -3 thru 3 do
-        assert(f(k*x^j,i) = apply(matrix,
-          append(create_list([0],l,1,i-j-1),[[k]], create_list([0],l,1,j)) 
-        )),
-  assert(f(x^8+5*x^3+x+1,9) = matrix([1],[0],[0],[0],[0],[5],[0],[1],[1])),
-  assert(f(x^8+5*x^3+x+1,5) = matrix([0],[5],[0],[1],[1])),
-  assert(f(-5*x^4+20*x^2,5) = matrix([-5],[0],[20],[0],[0])),
-  assert(f(-5*x^4+20*x^2,7) = matrix([0],[0],[-5],[0],[20],[0],[0])),
-  true)$
-
-okltest_vector2polynomial(f) := block(
-  for i : 0 thru 5 do
-    for j : 0 thru i-1 do
-      for k : -3 thru 3 do
-        assert(f(apply(matrix,
-          append(create_list([0],l,1,i-j-1),[[k]], create_list([0],l,1,j)) 
-        )) = k*x^j),
-  assert(f(matrix([1],[0],[0],[0],[0],[5],[0],[1],[1])) = x^8+5*x^3+x+1),
-  assert(f(matrix([-5],[0],[20],[0],[0])) = -5*x^4+20*x^2),
-  assert(f(matrix([0],[0],[-5],[0],[20],[0],[0])) = -5*x^4+20*x^2),
-  true)$
 
 
 /* *********

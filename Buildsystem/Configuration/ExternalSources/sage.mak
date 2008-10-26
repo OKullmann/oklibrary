@@ -53,7 +53,7 @@ sage_bzip2_dir ?= $(sage_installation_dir)/spkg/build/bzip2-$(sage_bzip2_version
 
 sage_docu_page ?= $(doc_dir)/doxygen_html/d9/dc3/docus_2Sage_8hpp.html
 
-sage_homepage_url := http://modular.math.washington.edu/sage/
+sage_homepage_url := http://www.sagemath.org/
 sage_documentation_url := http://modular.math.washington.edu/sage/documentation.html
 
 sage_targets_prefix := $(sage_prefix)-

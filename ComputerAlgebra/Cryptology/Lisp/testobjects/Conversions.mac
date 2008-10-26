@@ -22,18 +22,16 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
 
 okltest_lpad(lpad);
+okltest_str2chrl(str2chrl);
 
-okltest_polynomial2list(polynomial2list);
-okltest_list2polynomial(list2polynomial);
+okltest_digit2int(digit2int);
+okltest_int2digit(int2digit);
 
-okltest_digitToInt(digitToInt);
-okltest_intToDigit(intToDigit);
+okltest_base_n2int(base_n2int);
+okltest_int2base_n(int2base_n);
 
-okltest_baseNToInt(baseNToInt);
-okltest_intToBaseN(intToBaseN);
-
-okltest_intToPoly(intToPoly);
-okltest_polyToInt(polyToInt);
+okltest_int2poly(int2poly);
+okltest_poly2int(poly2int);
 
 /*!
 \endhtmlonly

@@ -76,7 +76,10 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
          100,000 nodes in the subtrees, however with node 16 the solver
          falls into a deep hole, and yet 500,000,000 nodes have been processed
          there. </li>
-         <li> We should try to run it at least a month. </li>
+         <li> A still deeper hole waited at node 19, and after 16.35 days and
+         4,095,825,666 nodes (altogether; 3620490 single nodes, 16,220,739,545
+         2-reductions, 22,409,527 pure literals, 0 autarkies; 1,412,661.8
+         seconds) it was aborted. </li>
          <li> Interestingly it seems that cs-wsok here is quite a bit slower
          than csltok:
           <ul>

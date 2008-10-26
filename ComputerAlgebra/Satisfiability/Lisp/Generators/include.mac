@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/include.
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$

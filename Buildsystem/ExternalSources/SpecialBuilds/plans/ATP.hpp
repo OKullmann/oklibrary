@@ -45,5 +45,12 @@ LADR-Dec-2007> bin/prover9 --version
    implementation. </li>
   </ul>
 
+
+  \todo Vampire
+  <ul>
+   <li> http://www.voronkov.com/vampire.cgi </li>
+   <li> One needs to wait until the new version (end of 2008?). </li>
+  </ul>
+
 */
 

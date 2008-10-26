@@ -347,6 +347,8 @@ Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSourc
 Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
      (again, the receive-pack-address is on the receiving machine). </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -369,6 +371,9 @@ git tag -m "FIRST RELEASE" -a Transitional-0.2.0
      we can create a non-lightweight tag which doesn't need a gpg-signature.
      Apparently the last commit is tagged.
      </li>
+     <li> For pulling and pushing the option "--tags" is needed (once), since
+     apparently the tags we have created are somewhat "special" and need to
+     be mentioned explicitly in this way. </li>
     </ol>
    </li>
    <li> Compare with "Special tag" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>

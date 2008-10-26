@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Algebra/Lisp/Groupoids/PermutationGroups/plans/general.hpp
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/PermutationGroups/plans/general.hpp
   \brief General plans for permutation groups
 
 

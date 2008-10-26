@@ -18,6 +18,9 @@ License, or any later version. */
    of algorithms on a specific instance, and computes a data frame. </li>
    <li> For an application-example see
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
+   <li> And see Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
+   for further examples. </li>
+   <li> We have already "ubcsat-okl". </li>
    <li> A single execution of Ubcsat shall only return the data for the
    single runs. </li>
    <li> So for example
@@ -145,6 +148,14 @@ ubcsat -rclean \
    "middle easy" and a "harder" one, and see whether the predictions
    scale, where at least for the evaluation of our method we consider
    all algorithms. </li>
+  </ul>
+
+
+  \todo Meta heuristics
+  <ul>
+   <li> See "Faster local search" in
+   Experimentation/Investigations/plans/VanderWaerdenProblems.hpp for first
+   plans. </li>
   </ul>
 
 */

@@ -22,10 +22,12 @@ git://github.com/OKullmann/oklibrary.git
 url = git@github.com:OKullmann/oklibrary.git
    \endverbatim
    (copied from .git/config). </li>
-   <li> Since everybody can pull from the *public github repository* (to
+   <li> DONE
+   Since everybody can pull from the *public github repository* (to
    introduce a notion here), it seems that the packages should be created
    such that the "pull" automatically pulls from this repository. </li>
-   <li> So likely the current http-accessible repository (on cs-svr1) should
+   <li> DONE
+   So likely the current http-accessible repository (on cs-svr1) should
    be abandoned. </li>
    <li> However, for the core developer group, pushs and pulls should go to
    the local central server (cs-oksvr), and only in emergencies (like
