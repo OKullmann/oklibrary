@@ -83,7 +83,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$*,$(boost_base_directory)) $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	cd $(bjam_source); $(postcondition) \
-	./build.sh; $(postcondition) \
+	CC="gcc" CFLAGS="-fno-strict-aliasing" ./build.sh cc; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
@@ -109,7 +109,7 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
-	./build.sh; if [ $$$$? != 0 ]; then exit 1; fi; \
+	CC="gcc" CFLAGS="-fno-strict-aliasing" ./build.sh cc; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
