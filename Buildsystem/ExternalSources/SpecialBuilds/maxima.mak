@@ -74,7 +74,7 @@ cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallg
 # Tool gnuplot
 ###################################
 
-gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl)
+gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl) $(maxima_base_doc_dir_okl)
 
 .PHONY : gnuplot cleangnuplot cleanallgnuplot
 
@@ -88,7 +88,6 @@ gnuplot : $(gnuplot_directories_okl)
 	make; $(postcondition) \
 	make install; $(postcondition)
 	ln -s --force $(gnuplot_call_okl) $(public_bin_dir_okl)/gnuplot
-	mkdir -p $(maxima_base_doc_dir_okl)
 	cp -f $(gnuplot_pdf_source_okl) $(maxima_base_doc_dir_okl)
 
 
