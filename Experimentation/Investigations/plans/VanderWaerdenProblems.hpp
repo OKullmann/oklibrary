@@ -417,7 +417,11 @@ BestSolution_Min = 1.000000
      </li>
      <li> n = 33100, density = 20.10416918429003
      found satisfiable with seed = 734547414. </li>
-     <li> n = 33200, density = </li>
+     <li> n = 33200, density = 20.15144578313253
+     found satisfiable with seeds 951985690, 2179554572, 871568587 (where the
+     latter used 1,880,208,869 steps; bit it might be more efficient to use
+     4,000,000,000 as cutoff than 2,000,000,000). </li>
+     <li> n = 33300, density = 20.19633633633634 </li>
      <li> n = 33500, density = 20.27976119402985
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
