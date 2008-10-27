@@ -62,9 +62,18 @@ License, or any later version. */
   </ul>
 
 
-  \todo Dpt
+  \todo SMT (SAT modulo theories)
   <ul>
-   <li> http://sourceforge.net/projects/dpt </li>
+   <li> Dpt
+    <ol>
+     <li> http://sourceforge.net/projects/dpt </li>
+    </ol>
+   </li>
+   <li> OpenSMT
+    <ol>
+     <li> http://verify.inf.unisi.ch/tools </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -303,6 +312,17 @@ actual or intended publication of such source code.
 
 
   \todo Posit
+
+
+  \todo Answer set programming
+  <ul>
+   <li> Potassco
+    <ol>
+     <li> See http://potassco.sourceforge.net/. </li>
+     <li> Sources in ExternalSources/sources/SAT/Potassco. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Generators
