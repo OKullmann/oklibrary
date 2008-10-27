@@ -14,6 +14,14 @@ License, or any later version. */
   <ul>
    <li> EO Evolutionary Computation Framework http://eodev.sourceforge.net/
    looks reasonable, and is LGPL. </li>
+   <li> GAlib http://lancet.mit.edu/ga/ </li>
+  </ul>
+
+
+  \todo Applications
+  <ul>
+   <li> http://dudka.cz/fss ("Fast SAT Solver") looks very amateurish,
+   perhaps ignoring all existing SAT solvers. </li>
   </ul>
 
 */
