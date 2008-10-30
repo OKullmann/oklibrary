@@ -262,6 +262,19 @@ PercentSuccess = 100.00
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=24998 initial_number_of_clauses=410070 initial_number_of_literal_occurrences=2050350 running_time(s)=892.7 number_of_nodes=26511 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=555647 number_of_pure_literals=1349 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=602 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=37760 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_25000.cnf
      \endverbatim
      </li>
+     <li> For minisat it looks hopeless:
+     \verbatim
+> minisat GreenTao_2_5_25000.cnf
+*** INTERRUPTED ***
+restarts              : 25
+conflicts             : 4305064        (50 /sec)
+decisions             : 5206820        (61 /sec)
+propagations          : 623516770      (7282 /sec)
+conflict literals     : 1379646880     (12.04 % deleted)
+Memory used           : 1826.34 MB
+CPU time              : 85622.6 s
+     \endverbatim
+     </li>
      <li> Gets harder for n = 30000, but still rather easy:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_30000.cnf
