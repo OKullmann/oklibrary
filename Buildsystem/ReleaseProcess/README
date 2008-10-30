@@ -34,6 +34,9 @@ The following software needs to be installed:
  - gcc
   (check: run "gcc --version")
  - readline (development library).
+ - A Fortran compiler (e.g. F77).
+ - GNU texinfo 
+  (check: run "makeinfo --version")
 
 For creation of documentation we also need:
 
