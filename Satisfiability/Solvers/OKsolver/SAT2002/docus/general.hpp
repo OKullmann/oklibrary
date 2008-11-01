@@ -169,5 +169,29 @@ License, or any later version. */
    when pressing <code>CTRL C</code> on the command line. </li>
   </ul>
 
+
+  <h2> Output </h2>
+
+  <ul>
+   <li> Explanation of the output for the (default) DIMACS output:
+    <ol>
+     <li> The number of variables is always (before and after reduction) the
+     number of variables actually occurring in the clause-set. </li>
+     <li> "reduction" refers to elimination of tautological clauses,
+     repeated literal occurrences and unit-clause-propagation. </li>
+     <li> <code>reduced_maximal_clause_length</code>: how much the maximal
+     clause-length was decreased by the reduction. </li>
+     <li> <code>reduced_number_of_variables</code>: How many variables
+     where eliminated by the reduction. </li>
+     <li> <code>reduced_number_of_clauses</code>: How many clauses
+     where eliminated by the reduction. </li>
+     <li> <code>reduced_number_of_literal_occurrences</code>: How many literal
+     occurrences where eliminated by the reduction. </li>
+     <li> <code>initial_number_of_2-clauses</code>: Number of 2-clauses
+     after reduction. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
