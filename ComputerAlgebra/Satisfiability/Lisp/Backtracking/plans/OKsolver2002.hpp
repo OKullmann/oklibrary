@@ -107,6 +107,20 @@ okcat_php_54 : collapse_inf_branches(okat_php_54, 0);
   </ul>
 
 
+  \todo Improving the implementation
+  <ul>
+   <li> Currently, the Maxima implementation of the OKsolver is basically
+   unusable on just a bit bigger instances, since it's so slow. </li>
+   <li> The main bottleneck should be the generalised_ucp_ple1, together
+   with the look-ahead heuristics. </li>
+   <li> Using clause-lists instead of clause-sets should be the first
+   step. </li>
+   <li> And then likely we need an instance of the general DPLL algorithm
+   using the clause-variable-graph datastructure (so that UCP becomes
+   linear time). </li>
+  </ul>
+
+
   \todo Tree pruning ("intelligent backtracking")
   <ul>
    <li> We need to get the variables used in a refutation. </li>
