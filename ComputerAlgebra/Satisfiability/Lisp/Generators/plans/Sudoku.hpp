@@ -13,6 +13,8 @@ License, or any later version. */
   \todo Relations to other modules
   <ul>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
+   <li> See the investigations in
+   Experimentation/Investigations/plans/Sudoku.hpp. </li>
   </ul>
 
 

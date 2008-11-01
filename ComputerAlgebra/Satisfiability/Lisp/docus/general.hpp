@@ -46,6 +46,8 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/docus/general.hpp
    </li>
    <li> ConstraintProblems : to be completed </li>
+   <li> %Generators :
+   ComputerAlgebra/Satisfiability/Lisp/Generators/docus/general.hpp </li>
    <li> MinimalUnsatisfiability : to be completed </li>
    <li> PropositionalLogic : to be completed </li>
    <li> Resolution : to be completed </li>
