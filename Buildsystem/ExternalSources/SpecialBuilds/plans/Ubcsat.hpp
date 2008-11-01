@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \bug Some build problem
+  <ul>
+   <li> MG reported orally a problem (apparently without entering
+   it into the plans)? </li>
+  </ul>
+
+
   \bug Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
    <li> Yet "unsigned int" is used for example for the cutoff-value,
@@ -67,7 +74,8 @@ License, or any later version. */
   \todo Complete docu-file : DONE
 
 
-  \todo Check the new Ubcsat version. ?? There doesn't seem to exist one??
+  \todo DONE (see above)
+  Check the new Ubcsat version. ?? There doesn't seem to exist one??
 
 */
 

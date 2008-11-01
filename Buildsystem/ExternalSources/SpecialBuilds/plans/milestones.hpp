@@ -90,6 +90,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
+    - Some build problem
+    - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat
     - Update to version 1.1.0
