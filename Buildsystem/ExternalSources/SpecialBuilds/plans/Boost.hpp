@@ -12,6 +12,10 @@ License, or any later version. */
 
   \todo Update Boost installation
   <ul>
+   <li> Many of the following points to be improved relate only to
+   our "generic" installation method, however there are also relations
+   to the (at least in the past) rather strange boost build-system;
+   see "Problems with building Boost" below. </li>
    <li> We only provide installation by local gcc. </li>
    <li> And no combinations, just the "recommended" boost
    installation using the "recommended" local gcc. </li>
@@ -33,12 +37,18 @@ License, or any later version. */
      <li> Installation to OKplatform/bin. </li>
     </ol>
    </li>
+   <li> Installation of bjam should be improved: Having exactly one
+   bjam-installation for each boost-version, and no need to recreate
+   it if it's already there. Or, perhaps better: We just leave it in
+   the distribution directory --- this seems reasonable: We don't use
+   bjam ourselves, and thus by removing the additional steps
+   our systems becomes simpler! </li>
   </ul>
 
 
   \todo Building version 1_35_0
   <ul>
-   <li> We should now skip 1_35_0 and try 1_36_0 : Perhaps this is a
+   <li> We actually skip 1_35_0 and try 1_37_0 : Perhaps this is a
    bit better (though the build-documentation still seems pretty
    weak). </li>
    <li> Building seems unproblematic, but likely this is due to the fact
@@ -119,40 +129,17 @@ bo = static_cast<bool>(a != y);
   </ul>
 
 
-  \todo Improving building Boost
-  <ul>
-   <li> DONE (not needed anymore --- the recommended version is the default)
-   It should be possible to say "gcc-version=recommended". </li>
-   <li> We need a consistent naming-scheme regarding the versions of boost
-   and gcc to be used. And likely the names for building and using them
-   should be the same. </li>
-   <li> DONE
-   The default for OKlibBuilding/Makefile is to use the recommended
-   <strong>local</strong> gcc-installation --- shouldn't this then be also
-   for building %boost the default ? </li>
-   <li> Installation of bjam should be improved: Having exactly one
-   bjam-installation for each boost-version, and no need to recreate
-   it if it's already there. Or, perhaps better: We just leave it in
-   the distribution directory --- this seems reasonable: We don't use
-   bjam ourselves, and thus by removing the additional steps
-   our systems becomes simpler! </li>
-   <li> DONE ("cp -r" copies directories/files which are not already present,
-   and actually replaces them if they are already there (in any case!))
-   What happens with copying the documentation- files and directories
-   if the target- files and/or directories are already there? </li>
-   <li> DONE Building %boost should include copying the documentation to doc
-   (in the subdirectory boost-1_33_1 for example). </li>
-   <li> DONE (It should just be a matter of setting the boost-version-variable
-   to build another boost and/or to use it.)
-   In the long run, it seems that actually supporting different versions
-   of Boost is not feasible (the library will likely always use the newest
-   version), so finally supporting different Boost version should be dropped
-   (but the general machinery is worth keeping)?!? </li>
-  </ul>
-
-
   \todo Problems with building Boost
   <ul>
+   <li> Apparently 1_37 is out soon, so we should wait until then, and
+   see how it works now:
+    <ol>
+     <li> Apparently now a standard Unix/Linux build is partially
+     supported. </li>
+     <li> It would be great if all our needs (local installation, with
+     local gcc-compiler) could be fulfilled in this way. </li>
+    </ol>
+   </li>
    <li> Report to Boost: How to call the libraries is not documented, %e.g.,
    the only library-name mentioned is "Boost.Python", while its real name
    is "python". (Important for "--without-libraries=python".)
@@ -203,6 +190,32 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   <ul>
    <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp. </li>
    <li> Mention that the mcp-tools (mln, mmv) need to be installed (available in all distributions). </li>
+  </ul>
+
+
+  \todo Improving building Boost : DONE (at least we have plans)
+  <ul>
+   <li> DONE (not needed anymore --- the recommended version is the default)
+   It should be possible to say "gcc-version=recommended". </li>
+   <li> We need a consistent naming-scheme regarding the versions of boost
+   and gcc to be used. And likely the names for building and using them
+   should be the same. </li>
+   <li> DONE
+   The default for OKlibBuilding/Makefile is to use the recommended
+   <strong>local</strong> gcc-installation --- shouldn't this then be also
+   for building %boost the default ? </li>
+   <li> DONE ("cp -r" copies directories/files which are not already present,
+   and actually replaces them if they are already there (in any case!))
+   What happens with copying the documentation- files and directories
+   if the target- files and/or directories are already there? </li>
+   <li> DONE Building %boost should include copying the documentation to doc
+   (in the subdirectory boost-1_33_1 for example). </li>
+   <li> DONE (It should just be a matter of setting the boost-version-variable
+   to build another boost and/or to use it.)
+   In the long run, it seems that actually supporting different versions
+   of Boost is not feasible (the library will likely always use the newest
+   version), so finally supporting different Boost version should be dropped
+   (but the general machinery is worth keeping)?!? </li>
   </ul>
 
 */

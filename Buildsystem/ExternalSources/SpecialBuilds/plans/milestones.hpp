@@ -33,6 +33,11 @@ License, or any later version. */
     - Installing Ecl
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Improving building Boost : DONE
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
    topics are handled:
     - Installing GAP : DONE
@@ -163,7 +168,6 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Improving building Boost
     - Problems with building Boost
     - Documentation
 
