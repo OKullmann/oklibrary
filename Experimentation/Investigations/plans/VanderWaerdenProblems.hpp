@@ -275,6 +275,10 @@ Memory used           : 1826.34 MB
 CPU time              : 85622.6 s
      \endverbatim
      </li>
+     <li> Also for march_pl it looks hopeless (after 51 hours
+     no progress visible; 138348 clauses were added by
+     preprocessing). </li>
+     <li> UnitMarch </li>
      <li> Gets harder for n = 30000, but still rather easy:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_30000.cnf
