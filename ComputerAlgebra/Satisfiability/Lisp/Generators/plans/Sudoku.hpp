@@ -142,12 +142,44 @@ License, or any later version. */
   <ul>
    <li> Here the task is to sample (count, enumerate etc.) all Sudoku problems
    which are minimally uniquely satisfiable (they are uniquely satisfiable,
-   and removing any assignments creates further solutions). </li>
+   and removing any assignment creates further solutions). </li>
+   <li> So "minimal" here is related to the partial assignment (and not
+   to the problem instance). </li>
    <li> The natural approach is to create a random solution (see "Sampling of
    all solutions" above), which is trivially uniquely satisfiable and then
    randomly remove assignments (i.e., literals) which can be removed without
    creating further solutions, until we obtain a minimally uniquely satisfiable
-   problem. </li>
+   problem.
+    <ol>
+     <li> DONE (see minUNISAT in
+     Satisfiability/Lisp/Generators/plans/PlantedSolutions.hpp)
+     We should create a general procedure, which starts with some unique
+     solution phi (could be a partial assignment in general), and then picks
+     variables by some heuristics and removes them from phi. </li>
+     <li> Using the boolean literals, in general we get a "fractured Sudoku
+     instance", where fields have forbidden values. </li>
+     <li> But if we use just a positive partial assignment, which only states
+     the occupied fields (not the other forbidden values, which follow by
+     UCP), then actually we get standard Sudoku problems, and don't need
+     to use negatively monosigned literals. </li>
+     <li> For Sudoku it should be most natural to start with some given
+     total solution (represented by a partial assignment containing
+     only positive literals). </li>
+     <li> Interesting questions here are what heuristics to use for removing
+     a variable (if there are several choices), and whether the solution we
+     start with makes a difference. </li>
+     <li> The first objective could be to use the OKsolver-2002, and to first
+     maximise the number of nodes in the tree, second the number of
+     2-reductions. </li>
+     <li> There should be instances which are not completely decided by
+     2-reduction; but we can also try maximise the number of 2-reductions
+     for those instances decided by 2-reduction (where the OKsolver-2002
+     only needs one node). </li>
+     <li> For specification purposes the Maxima functions are fine (of course),
+     but they will be too slow, so that later a little C++ program is needed.
+     </li>
+    </ol>
+   </li>
    <li> Is the discussion and implementation of a Sudoku generator at 
    http://skas-blog.blogspot.com/2007/07/end-of-sudoku-road.html
    relevant for us?
