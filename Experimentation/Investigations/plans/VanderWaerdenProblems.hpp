@@ -134,6 +134,8 @@ OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
      finished the first branch (~ 32768 nodes at depth 16) after 9 days
      (cs-wsok) and thus
      <center> greentao(2,4) = 512. </center> </li>
+     <li>  Density is 8.7734375; here always counting all variables (though
+     2 variables are missing). </li>
      <li> Stopped the computation:
      \verbatim
 33082:  7497, 780471.5, 765655.7
@@ -242,6 +244,18 @@ PercentSuccess = 100.00
      </li>
      <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
      depth 4583, 2061 2-reductions). </li>
+     <li> Investigating the threshold of solvability for the OKsolver:
+      <ol>
+       <li> One main conjecture is that Green-Tao problems behave like
+       random problems. </li>
+       <li> And, similarly to random problems, there seems
+       to be a threshold, where below it OKsolver solvers the problem
+       without backtracking, while as soon as backtracking starts, the
+       problems get very hard. </li>
+       <li> This threshold seems to lie between n=20000 and n = 25000.
+       <li> n = 22500 being investigated on csltok. </li>
+      </ol>
+     </li>
      <li> Still trivial for n=25000:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_25000.cnf
@@ -488,7 +502,7 @@ BestSolution_Max = 32.000000
      <li> The density 3.5 for unsatisfiable k=4 is somewhat
      similar to the random 3-SAT threshold (around 4.25 --- though for
      larger n). </li>
-     <li> The (assumed) density 8.8 for unsatisfiable k=4 is similar to
+     <li> The density 8.8 for unsatisfiable k=4 is similar to
      the random 4-SAT threshold (around 9.8). </li>
      <li> The random 5-SAT threshold is around 20. </li>
      <li> One could guess that the unsatisfiability-density comes closer
