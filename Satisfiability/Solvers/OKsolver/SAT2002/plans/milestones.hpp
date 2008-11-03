@@ -152,27 +152,48 @@ License, or any later version. */
    sure that both levels fully coincide.
 
 
-  \par Version 1.5
+  \par Version 1.4.1
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Extend statistics
+
+
+  \par Version 1.4.2
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Start planning on evaluating and optimising heuristics
+
+
+   \par Version 1.5
+
+   \par
+    Extend statistics, and make evaluation and optimisation of heuristics
+    possible.
+
+
+  \par Version 1.6
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Enable finding all solutions
 
 
-  \par Version 1.5.1
+  \par Version 1.6.1
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Apply time-measurements
 
 
-  \par Version 1.6
+  \par Version 1.7
 
   \par
    We have timing-date available.
 
 
-  \par Version 1.7
+  \par Version 1.8
 
   \par
    Document the extensive database-data.

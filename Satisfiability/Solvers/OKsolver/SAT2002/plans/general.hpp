@@ -274,11 +274,12 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
-  \todo Declare variable as close to their first usage as possible
+  \todo Declare variables as close to their first usage as possible
   <ul>
-   <li> Since C99 also allows to appear declaration everywhere, one
+   <li> Since C99 also allows to use declaration everywhere, one
    should move many variable declarations to their first usage point. </li>
-   <li> And, as with C++, one can now declare loop-variables inside the loop. </li>
+   <li> And, as with C++, one can now declare loop-variables inside the loop.
+   </li>
   </ul>
 
 
@@ -308,6 +309,32 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> Eliminate option and code. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Extend statistics
+  <ul>
+   <li> Information on where in the tree the solver gets stuck:
+    <ol>
+     <li> A useful number should be the (current) minimal depth of a node which
+     has been solved (i.e., its satisfiability-status has been determined).
+     </li>
+     <li> We should actually have two such numbers, one for the left main
+     branch (which becomes 1 when the "first half" of the search space has been
+     completed), and one for the right main branch (which finally becomes
+     zero when the whole problem was solved). </li>
+     <li> While the first branch is still under processing, that second number
+     is not considered. </li>
+     <li> First we should implement this with the Maxima OKsolver-2002. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Start planning on evaluating and optimising heuristics
+  <ul>
+   <li> Based on OK's SAT-handbook article. </li>
+   <li> First done at the Maxima-level. </li>
   </ul>
 
 
