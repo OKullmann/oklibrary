@@ -463,26 +463,13 @@ BestSolution_Min = 1.000000
      found satisfiable with seeds 951985690, 2179554572, 871568587 (where the
      latter used 1,880,208,869 steps; bit it might be more efficient to use
      4,000,000,000 as cutoff than 2,000,000,000). </li>
-     <li> n = 33300, density = 20.19633633633634 </li>
+     <li> n = 33300, density = 20.19633633633634
+     found satisfiable with seed 1621683624 (3079471773 steps). </li>
+     <li> n = 33400, density = 20.23904191616766
+     (being investigated on cs-wsok). </li>
      <li> n = 33500, density = 20.27976119402985
-     \verbatim
-ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_33500.cnf
-Clauses = 679372
-Variables = 33500
-TotalLiterals = 3396860
-FlipsPerSecond = 69292
-BestStep_Mean = 789596735.700000
-Steps_Mean = 1000000000.000000
-Steps_Max = 1000000000.000000
-PercentSuccess = 0.00
-BestSolution_Mean = 20.600000
-BestSolution_Median = 19.000000
-BestSolution_Min = 13.000000
-BestSolution_Max = 32.000000
-     \endverbatim
-     Best seeds: 3438409963, 1267451597. </li>
-     <li> This is likely not the optimum, but I would be surprised if these
-     instances would still be satisfiable. </li>
+     Apparently being investigated by MG. As we see above, likely
+     a cutoff of 4 * 10^9 is needed. </li>
     </ol>
    </li>
    <li> We should find out what the falsified clause for the above nearly
