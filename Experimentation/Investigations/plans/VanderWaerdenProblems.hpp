@@ -253,7 +253,19 @@ PercentSuccess = 100.00
        without backtracking, while as soon as backtracking starts, the
        problems get very hard. </li>
        <li> This threshold seems to lie between n=20000 and n = 25000.
-       <li> n = 22500 being investigated on csltok. </li>
+       <li> n = 22500, density = 15.2064 above the threshold:
+       \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498 initial_number_of_clauses=342144 initial_number_of_literal_occurrences=1710720 running_time(s)=-1872.7 number_of_nodes=28974 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=516260 number_of_pure_literals=2207 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=613 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=63014 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_22500.cnf
+       \endverbatim
+       </li>
+       <li> n = 21250, density = 14.59143529411765 above the threshold:
+       \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=-1002.8 number_of_nodes=21960 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=395635 number_of_pure_literals=8810 number_of_autarkies=1 number_of_missed_single_nodes=1 max_tree_depth=1165 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=722132 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
+       \endverbatim
+       </li>
+       <li> Investigating n = 20650 on csltok. </li>
       </ol>
      </li>
      <li> Still trivial for n=25000:
