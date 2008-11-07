@@ -379,6 +379,13 @@ less sat-grasp_amended.doc
   </ul>
 
 
+  \todo Maxsat
+  <ul>
+   <li> Some solvers are at http://web.udl.es/usuaris/m4372594/software.html.
+   </li>
+  </ul>
+
+
   \todo DONE Chaff
   <ul>
    <li> Not open source, and thus can't be included. </li>
@@ -388,6 +395,8 @@ less sat-grasp_amended.doc
   \todo DONE Rsat
   <ul>
    <li> Not open source, and thus can't be included. </li>
+   <li> Like (unfortunately) all the other software at
+   http://reasoning.cs.ucla.edu/index.php?p=software.php. </li>
   </ul>
 
 
