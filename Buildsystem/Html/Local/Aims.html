@@ -21,8 +21,10 @@
     The OKlibrary is a research platform on generalised satisfiability and related
     fields, providing
     <ul>
-      <li> a generative C++ library </li>
-      <li> and extensions by computer algebra and proof assistants. </li>
+      <li> a computer-algebra based system (using Maxima/Lisp) for specification and prototyping, </li>
+      <li> a generative C++ library (using modern C++), </li>
+      <li> and extensions by external tools, including systems from logic,
+        optimisation, statistics and discrete mathematics. </li>
     </ul>
     The library is open source (under GPLv3), and a strong integrated source control
     system yields full control over the development process.
@@ -34,7 +36,7 @@
       <li> A powerful build system for compiling programs and running tests. </li>
       <li> An extensive documentation system, ranging from extracting program documentation
         to planning support. </li>
-      <li> Installation and usage support for external packages and tools
+      <li> Installation and usage support for external packages, including tools
         used for programming and related activities. </li>
     </ul>
 
@@ -43,8 +45,8 @@
       <li> The relations to neighbour fields, for example constraint satisfaction
         and graph theory, or complexity theory and automated theorem proving,
         are important, and collaboration shall be supported. </li>
-      <li> Usage of existing software is strongly encouraged. A central
-        problem in using other software are the various dependencies which
+      <li> Usage of existing software ("external sources") is strongly encouraged. </li>
+      <li> A central problem in using external sources are the various dependencies which
         arise in this way, and the OKlibrary tries to lighten this burden
         by establishing a common environment for installation and usage. </li>
     </ul>
@@ -70,7 +72,8 @@
         </ol>
       </li>
       <li> Quantified extensions like QBF. </li>
-      <li> Investigations into special structures. </li>
+      <li> Generalising clauses like in PB-solvers and SMT. </li>
+      <li> Investigations into special structures (for example Ramsey-type problems). </li>
       <li> Any applications. </li>
     </ul>
     Important is the research character, and "purely" theoretical algorithms are welcome.
@@ -105,14 +108,14 @@
     <ul>
       <li> To support a wide range of research, the library is an "active library",
         and its full use means development within the framework. </li>
-      <li> Compared with common "IDEs" ("integrated development environments")
-        the OKlibrary can be understood as an "IRE" ("integrated research
+      <li> Compared with common "IDEs" ("integrated development environments"),
+        the OKlibrary can be understood as an <strong>"IRE"</strong> ("integrated research
         environment"). </li>
       <li> It is possible to use the library in the traditional way, as
         "include-and-link-only", but then many parts of the library are
         left out. </li>
       <li> The library provides means to develop within the library, but
-        nevertheless to keep processes separate. </li>
+        nevertheless to keep processes encapsulated. </li>
     </ul>
 
 
@@ -161,13 +164,20 @@
           <li> Strict coding standards and adherence to the design principles
             developed in the OKlibrary make interaction of the many different
             components possible. </li>
-          <li> The development process aims at full generality and genericity.
-            Prototypes in various forms are supported, but this within the
-            framework of abstract ideas developed by the OKlibrary. </li>
+          <li> At the C++ level, the development process aims at full
+            generality and genericity. </li>
+          <li> At the Maxima/Lisp level, the development process aims at
+            elegance and clarity combined with precision, avoiding "premature"
+            abstraction. </li>
+          <li> Prototypes in various forms are supported,
+            but this within the framework of abstract ideas developed by the
+            OKlibrary. </li>
           <li> Unity of the many theoretical and practical aspects of
             SAT is central to the OKlibrary, which concretely means that
-            an outstanding goal is that all components work together through
-            abstraction (by generic and generative programming). </li>
+            all components shall work together in one ("big") world --- through
+            abstraction by generic and generative programming at the C++ level,
+            by systematically developed conversions at the Maxima/Lisp level.
+          </li>
           <li> The control over the core distribution includes strict control over
             version numbers (important for communicating the current standing). </li>
           <li> Plans and milestones at the core level can only be developed
@@ -201,7 +211,7 @@
             </ul>
             While at the core level a strong effort is undertaken to guarantee
             a high level of development, obviously this is not possible for
-            external efforts --- which are then (obviously) free to do what
+            external efforts --- which are then (obviously) free to do whatever
             they want.
           </li>
           <li> Clones of the OKlibrary which go public should make clear their
@@ -225,7 +235,7 @@
                   <li> "unchanged" means that the single submissions are unchanged. </li>
                 </ul>
                 Git was chosen here since it provides cryptographic means for protecting
-                the integrity of the history.
+                the integrity of the history, and it is fast and powerful.
               </li>
               <li> The core development team makes a strong effort to guarantee
                 the completeness of the history, so that every contribution,
@@ -291,7 +301,7 @@
   
     <hr />
       <!-- hhmts start -->
-Last modified: Sat Nov  8 10:30:42 GMT 2008
+Last modified: Sat Nov  8 13:09:38 GMT 2008
 <!-- hhmts end -->
       <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
 

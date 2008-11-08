@@ -17,9 +17,13 @@ License, or any later version. */
    about. </li>
    <li> For the internet page we have already something (the introductory
    text), and we should expand on that, for the local home page. </li>
-   <li> We have already the Aims-page; this page needs to be updated,
-   and perhaps sub-divided into several pages (perhaps at present it is
-   already too long). </li>
+   <li> We have already the Aims-page:
+    <ol>
+     <li> DONE This page needs to be updated. </li>
+     <li> And perhaps sub-divided into several pages (perhaps at present
+     it is already too long). </li>
+    </ol>
+   </li>
    <li> All the information which is on the Internet home page should
    also be available locally.
     <ol>
