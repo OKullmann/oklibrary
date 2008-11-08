@@ -552,7 +552,7 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT                  = m4_SHELL(Transitional)
+INPUT                  = m4_SHELL(Transitional) m4_SHELL(Annotations_dir)
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
