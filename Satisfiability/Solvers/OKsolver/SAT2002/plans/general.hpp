@@ -328,6 +328,36 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> First we should implement this with the Maxima OKsolver-2002. </li>
     </ol>
    </li>
+   <li> More informations on autarkies:
+    <ol>
+     <li> Useful is the average size of an autarky. </li>
+     <li> Together with minimum and maximum size; also standard
+     deviation can't hurt. </li>
+     <li> Perhaps useful is also the relative size of the autarky (w.r.t. the
+     number of variables), that is, the number of variables in the autarky
+     devided by the total number of variables (again, max, min, average, etc.).
+     </li>
+    </ol>
+   </li>
+   <li> More information on the tree:
+    <ol>
+     <li> The levelled height would be interesting. </li>
+     <li> Quasi-single nodes should perhaps be ignored here. </li>
+     <li> On the other hand, they are also taken into account for the
+     (ordinary) height, and so perhaps we should here do the same. </li>
+    </ol>
+   </li>
+   <li> Counting unit-clause propagations:
+    <ol>
+     <li> Shall we do so? A question is what to do with the reduction. </li>
+    </ol>
+   </li>
+   <li> More information on variables and literals:
+    <ol>
+     <li> At least the initial variable and literal degrees (maximal, and
+     average) are of interest. </li>
+    </ol>
+   </li>
   </ul>
 
 
