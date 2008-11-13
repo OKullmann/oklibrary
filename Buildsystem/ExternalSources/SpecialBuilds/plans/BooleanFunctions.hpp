@@ -62,6 +62,14 @@ ExternalSources/Installations/R> oklib --R
      </li>
     </ol>
    </li>
+   <li> Using genetic programming:
+    <ol>
+     <li> There are quite a few papes on finding (digital) circuits via
+     genetic programming, but apparently no software. </li>
+    </ol>
+   </li>
+   <li> Grigory Yaroslavtsev and Alexander Kulikov have written some software
+   to find short circuits (over the full binary base for example). </li>
   </ul>
 
 */

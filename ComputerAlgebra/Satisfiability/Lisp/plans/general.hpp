@@ -159,6 +159,8 @@ License, or any later version. */
    together with conversions to other forms. </li>
    <li> Such "conversions" can involve themselves satisfiability problems in
    various forms. </li>
+   <li> Of interest also finding boolean circuits (w.r.t. different bases).
+   See the work of Alexander S. Kulikov for example. </li>
    <li> Collect the links within part ComputerAlgebra:
     <ol>
      <li> We have something in Cryptology (MG). </li>
