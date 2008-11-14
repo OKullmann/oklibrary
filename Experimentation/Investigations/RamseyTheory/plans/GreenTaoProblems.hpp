@@ -10,93 +10,168 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems
 
 
-  \todo Green-Tao numbers
+  \todo greentao(2,3) = 23
   <ul>
-   <li> greentao(2,3)
-    <ol>
-     <li> greentao(2,3) = 23 (partitioning the first 23 prime numbers into 2
-     parts, one part is guaranteed to contain an arithmetic progression of
-     size 3, while using a smaller initial segment of prime numbers won't do).
-     </li>
-     <li> Trivial (for OKsolver-2002, and likely for any solver). </li>
-    </ol>
+   <li> greentao(2,3) = 23 (partitioning the first 23 prime numbers into 2
+   parts, one part is guaranteed to contain an arithmetic progression of
+   size 3, while using a smaller initial segment of prime numbers won't do).
    </li>
-   <li> greentao(2,4)
-    <ol>
-     <li> greentao(2,4) > 400 (trivial for OKsolver-2002). </li>
-     <li> greentao(2,4) > 420 with 6683 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 430 with 22267 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 440 with 77791 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 450 with 349914 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 460 with 12777 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 470 with 59506 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 471 with 58889 nodes (OKsolver-2002). </li>
-     <li> greentao(2,4) > 472 with 370222 nodes (OKsolver-2002). </li>
-     <li> For this n, rnovelty finds a solution quickly (~ 100000 steps).
-     </li>
-     <li> n = 473: stopped after 884587 nodes (OKsolver). </li>
-     <li> But found satisfiable with rnovelty. </li>
-     <li> And rnovelty+ is even better. </li>
-     <li> n = 480: stopped after 1536394 nodes (OKsolver). </li>
-     <li> n = 500: Running it with
-     \verbatim
+   <li> Trivial (for OKsolver-2002, and likely for any solver). </li>
+  </ul>
+
+
+  \todo greentao(2,4) = 512
+  <ul>
+   <li> greentao(2,4) > 400 (trivial for OKsolver-2002). </li>
+   <li> greentao(2,4) > 420 with 6683 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 430 with 22267 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 440 with 77791 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 450 with 349914 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 460 with 12777 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 470 with 59506 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 471 with 58889 nodes (OKsolver-2002). </li>
+   <li> greentao(2,4) > 472 with 370222 nodes (OKsolver-2002). </li>
+   <li> For this n, rnovelty finds a solution quickly (~ 100000 steps).
+   </li>
+   <li> n = 473: stopped after 884587 nodes (OKsolver). </li>
+   <li> But found satisfiable with rnovelty. </li>
+   <li> And rnovelty+ is even better. </li>
+   <li> n = 480: stopped after 1536394 nodes (OKsolver). </li>
+   <li> n = 500: Running it with
+   \verbatim
 OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
-     \endverbatim
-     found a solution after 11 hours (38,937,288 nodes; roughly 2% of the
-     search space, looking at depth 18). </li>
-     <li> Found satisfiable with rnovelty+. </li>
-     <li> n = 510 found satisfiable with rnovelty+. </li>
-     <li> n = 511 found satisfiable with rnovelty+. </li>
-     <li> n = 512: rnovelty+ yields constantly 1 falsified clause
-     (also with "-runs 500 -cutoff 10000000"). </li>
-     <li>
-     \verbatim
+   \endverbatim
+   found a solution after 11 hours (38,937,288 nodes; roughly 2% of the
+   search space, looking at depth 18). </li>
+   <li> Found satisfiable with rnovelty+. </li>
+   <li> n = 510 found satisfiable with rnovelty+. </li>
+   <li> n = 511 found satisfiable with rnovelty+. </li>
+   <li> n = 512: rnovelty+ yields constantly 1 falsified clause
+   (also with "-runs 500 -cutoff 10000000"). </li>
+   <li>
+   \verbatim
 OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
-     \endverbatim
-     finished the first branch (~ 32768 nodes at depth 16) after 9 days
-     (cs-wsok) and thus
-     <center> greentao(2,4) = 512. </center> </li>
-     <li>  Density is 8.7734375; here always counting all variables (though
-     2 variables are missing). </li>
-     <li> Stopped the computation:
-     \verbatim
+   \endverbatim
+   finished the first branch (~ 32768 nodes at depth 16) after 9 days
+   (cs-wsok) and thus
+   <center> greentao(2,4) = 512. </center> </li>
+   <li>  Density is 8.7734375; here always counting all variables (though
+   2 variables are missing). </li>
+   <li> Stopped the computation:
+   \verbatim
 33082:  7497, 780471.5, 765655.7
 
 s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 initial_number_of_clauses=4492 initial_number_of_literal_occurrences=17968 running_time(s)=780475.6 number_of_nodes=765469925 number_of_single_nodes=58 number_of_quasi_single_nodes=0 number_of_2-reductions=4696146230 number_of_pure_literals=728446 number_of_autarkies=2 number_of_missed_single_nodes=11248 max_tree_depth=61 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=31556781 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_4_512.cnf
-     \endverbatim
-     </li>
-     <li> n = 515: rnovelty+ yields constantly 1 falsified clause. </li>
-     <li> n = 520: rnovelty+ yields constantly 1 falsified clause. </li>
-     <li> n = 530: rnovelty+ yields constantly 1 falsified clause. </li>
-     <li> n = 540: rnovelty+ yields constantly 1 falsified clause. </li>
-     <li> n = 550: rnovelty+ yields constantly 2 falsified clauses. </li>
-     <li> n = 600: rnovelty+ yields constantly 6 falsified clauses. </li>
-     <li> Minisat looks weak on these instances. </li>
-     <li> And Grasp likely doesn't work here neither. </li>
-     <li> But march_pl seems stronger on the satisfiable instances than
-     OKsolver-2002, though n=500 seems also difficult. </li>
-     <li> DONE (the basic algorithm works not too bad now)
-     For n in this magnitude the Maxima computation of the hypergraph is
-     already very slow --- a more intelligent algorithm for finding the
-     arithmetic progression amongst the prime numbers is needed (likely we
-     cannot exploit the speciality of prime numbers, but we do it for arbitrary
-     lists of numbers).
-      <ol>
-       <li> DONE
-       One could use memoisation in the form that for every n we store
-       the additional hyperedges (k-progressions). </li>
-       <li> DONE (doesn't improve a single computation, but several)
-       This would it make rather quick, without imposing big memory
-       burdens. </li>
-      </ol>
-     </li>
+   \endverbatim
+   </li>
+   <li> n = 515: rnovelty+ yields constantly 1 falsified clause. </li>
+   <li> n = 520: rnovelty+ yields constantly 1 falsified clause. </li>
+   <li> n = 530: rnovelty+ yields constantly 1 falsified clause. </li>
+   <li> n = 540: rnovelty+ yields constantly 1 falsified clause. </li>
+   <li> n = 550: rnovelty+ yields constantly 2 falsified clauses. </li>
+   <li> n = 600: rnovelty+ yields constantly 6 falsified clauses. </li>
+   <li> Minisat looks weak on these instances. </li>
+   <li> And Grasp likely doesn't work here neither. </li>
+   <li> But march_pl seems stronger on the satisfiable instances than
+   OKsolver-2002, though n=500 seems also difficult. </li>
+  </ul>
+
+
+  \todo DONE (the basic algorithm works not too bad now)
+  Better creation of problems
+  <ul>
+   <li> For n in this magnitude the Maxima computation of the hypergraph is
+   already very slow --- a more intelligent algorithm for finding the
+   arithmetic progression amongst the prime numbers is needed (likely we
+   cannot exploit the speciality of prime numbers, but we do it for arbitrary
+   lists of numbers).
+   <ol>
+    <li> DONE
+     One could use memoisation in the form that for every n we store
+     the additional hyperedges (k-progressions). </li>
+     <li> DONE (doesn't improve a single computation, but several)
+     This would it make rather quick, without imposing big memory
+     burdens. </li>
     </ol>
    </li>
-   <li> greentao(2,5)
-    <ol>
-     <li> Trivial for n=5000:
-     \verbatim
+  </ul>
+
+
+  \todo greentao(2,5) : threshold behaviour of OKsolver-2002
+  <ul>
+   <li> Investigating the threshold of solvability for the OKsolver.
+   One main conjecture is that Green-Tao problems behave like random problems.
+   </li>
+   <li> And, similarly to random problems, there seems
+   to be a threshold, where below it OKsolver solvers the problem
+   without backtracking, while as soon as backtracking starts, the
+   problems get very hard. </li>
+   <li> This threshold seems to lie between n=20000 and n = 25000.
+   <li> n = 20625, density = 14.29895757575758 below (or about)
+   the threshold:
+   \verbatim
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20623 initial_number_of_clauses=294916 initial_number_of_literal_occurrences=1474580 running_time(s)=1961.7 number_of_nodes=6058 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=31532 number_of_pure_literals=4170 number_of_autarkies=17 number_of_missed_single_nodes=0 max_tree_depth=4548 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=876707 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20625.cnf
+   \endverbatim
+   number_of_nodes=6058, max_tree_depth=4548. </li>
+   <li> n = 20938, density = 14.45181010602732 below (or about)
+   the threshold:
+   \verbatim
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20936 initial_number_of_clauses=302592 initial_number_of_literal_occurrences=1512960 running_time(s)=-134.9 number_of_nodes=13317 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=166810 number_of_pure_literals=10313 number_of_autarkies=10 number_of_missed_single_nodes=1 max_tree_depth=4642 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=915632 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20938.cnf
+   \endverbatim
+   number_of_nodes=13317, max_tree_depth=4642. </li>
+   <li> n = 21094, density = 14.52175974210676 below (or about)
+   the threshold:
+   \verbatim
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21092 initial_number_of_clauses=306322 initial_number_of_literal_occurrences=1531610 running_time(s)=-1124.3 number_of_nodes=11418 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=141272 number_of_pure_literals=6025 number_of_autarkies=10 number_of_missed_single_nodes=0 max_tree_depth=4599 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=901676 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21094.cnf
+   \endverbatim
+   number_of_nodes=11418, max_tree_depth=4599. </li>
+   <li> n = 21133, density = 14.53802110443382 below (or about)
+   the threshold:
+   \verbatim
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21131 initial_number_of_clauses=307232 initial_number_of_literal_occurrences=1536160 running_time(s)=-1440.9 number_of_nodes=42649 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=768325 number_of_pure_literals=37735 number_of_autarkies=29 number_of_missed_single_nodes=0 max_tree_depth=4607 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=1173442 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21133.cnf
+   \endverbatim
+   number_of_nodes=42649, max_tree_depth=4607. </li>
+   <li> n = 21153, density = 14.5477237271309 below (or about)
+   the threshold:
+   \verbatim
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21151 initial_number_of_clauses=307728 initial_number_of_literal_occurrences=1538640 running_time(s)=-1644.1 number_of_nodes=37709 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=692225 number_of_pure_literals=23458 number_of_autarkies=7 number_of_missed_single_nodes=1 max_tree_depth=4601 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=1952904 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21153.cnf
+   \endverbatim
+   number_of_nodes=37709, max_tree_depth=4601, number_of_autarkies=7. </li>
+   <li> n = 21172, density = 14.55403362932175 above the threshold:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170 initial_number_of_clauses=308138 initial_number_of_literal_occurrences=1540690 running_time(s)=1136.8 number_of_nodes=33149 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=627548 number_of_pure_literals=12269 number_of_autarkies=0 number_of_missed_single_nodes=3 max_tree_depth=606 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=327035 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21172.cnf
+   \endverbatim
+   number_of_nodes=33149, max_tree_depth=606 </li>
+   <li> Perhaps a strong indication, that we are really above the
+   threshold, is that there are no autarkies!. </li>
+   <li> n = 21250, density = 14.59143529411765 above the threshold:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=-1002.8 number_of_nodes=21960 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=395635 number_of_pure_literals=8810 number_of_autarkies=1 number_of_missed_single_nodes=1 max_tree_depth=1165 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=722132 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
+   \endverbatim
+   number_of_nodes=21960, max_tree_depth=1165. </li>
+   <li> This time one autarky (altogether a bit more successful). </li>
+   <li> n = 22500, density = 15.2064 above the threshold:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498 initial_number_of_clauses=342144 initial_number_of_literal_occurrences=1710720 running_time(s)=-1872.7 number_of_nodes=28974 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=516260 number_of_pure_literals=2207 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=613 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=63014 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_22500.cnf
+   \endverbatim
+   number_of_nodes=28974, max_tree_depth=613. </li>
+   <li> Again, zero autarkies. </li>
+  </ul>
+
+
+  \todo greentao(2,5) > 33300
+  <ul>
+   <li> Trivial for n=5000:
+   \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_5000.cnf
 Clauses = 26470
 Variables = 5000
@@ -106,13 +181,13 @@ BestStep_Mean = 509.700000
 Steps_Mean = 509.700000
 Steps_Max = 538.000000
 PercentSuccess = 100.00
-     \endverbatim
-     Density = 5.294
-     </li>
-     <li> Also OKsolver-2002 solves it in 2157 nodes. </li>
-     <li> Also very easy for march_pl. </li>
-     <li> Still trivial for n=10000:
-     \verbatim
+   \endverbatim
+   Density = 5.294
+   </li>
+   <li> Also OKsolver-2002 solves it in 2157 nodes. </li>
+   <li> Also very easy for march_pl. </li>
+   <li> Still trivial for n=10000:
+   \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_10000.cnf
 Clauses = 85596
 Variables = 10000
@@ -122,14 +197,14 @@ BestStep_Mean = 1772.700000
 Steps_Mean = 1772.700000
 Steps_Max = 1912.000000
 PercentSuccess = 100.00
-     \endverbatim
-     Density = 8.5596
-     </li>
-     <li> Also OKsolver-2002 solves it in 4089 nodes. </li>
-     <li> march_pl has more problems, but also solves it in
-     about a minute. </li>
-     <li> Still trivial for n=15000:
-     \verbatim
+   \endverbatim
+   Density = 8.5596
+   </li>
+   <li> Also OKsolver-2002 solves it in 4089 nodes. </li>
+   <li> march_pl has more problems, but also solves it in
+   about a minute. </li>
+   <li> Still trivial for n=15000:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_15000.cnf
 Clauses = 170830
 Variables = 15000
@@ -139,19 +214,19 @@ BestStep_Mean = 4521.600000
 Steps_Mean = 4521.600000
 Steps_Max = 4785.000000
 PercentSuccess = 100.00
-     \endverbatim
-     Density = 11.38866666666667
-     </li>
-     <li> For OKsolver-2002 it might be hard (or one has to wait a bit longer,
-     since processing of the nodes now takes quite some time). </li>
-     <li> march_pl is at least quicker, and finds a solution rather fast (9091
-     nodes). Perhaps the difference is just that there are (nearly) no
-     2-reductions possible, where march_pl reacts to this and gets quicker,
-     while OKsolver-2002 always checks all possibilities. </li>
-     <li> And yes, that's the case: OKsolver-2002 solves it with 4634 nodes,
-     without backtracking, and with just 17 2-reductions. </li>
-     <li> Still trivial for n=20000:
-     \verbatim
+   \endverbatim
+   Density = 11.38866666666667
+   </li>
+   <li> For OKsolver-2002 it might be hard (or one has to wait a bit longer,
+   since processing of the nodes now takes quite some time). </li>
+   <li> march_pl is at least quicker, and finds a solution rather fast (9091
+   nodes). Perhaps the difference is just that there are (nearly) no
+   2-reductions possible, where march_pl reacts to this and gets quicker,
+   while OKsolver-2002 always checks all possibilities. </li>
+   <li> And yes, that's the case: OKsolver-2002 solves it with 4634 nodes,
+   without backtracking, and with just 17 2-reductions. </li>
+   <li> Still trivial for n=20000:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_20000.cnf
 Clauses = 279592
 Variables = 20000
@@ -161,81 +236,13 @@ BestStep_Mean = 25775.900000
 Steps_Mean = 25775.900000
 Steps_Max = 80685.000000
 PercentSuccess = 100.00
-     \endverbatim
-     Density = 13.9796
-     </li>
-     <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
-     depth 4583, 2061 2-reductions). </li>
-     <li> Investigating the threshold of solvability for the OKsolver:
-      <ol>
-       <li> One main conjecture is that Green-Tao problems behave like
-       random problems. </li>
-       <li> And, similarly to random problems, there seems
-       to be a threshold, where below it OKsolver solvers the problem
-       without backtracking, while as soon as backtracking starts, the
-       problems get very hard. </li>
-       <li> This threshold seems to lie between n=20000 and n = 25000.
-       <li> n = 20625, density = 14.29895757575758 below (or about)
-       the threshold:
-       \verbatim
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20623 initial_number_of_clauses=294916 initial_number_of_literal_occurrences=1474580 running_time(s)=1961.7 number_of_nodes=6058 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=31532 number_of_pure_literals=4170 number_of_autarkies=17 number_of_missed_single_nodes=0 max_tree_depth=4548 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=876707 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20625.cnf
-       \endverbatim
-       number_of_nodes=6058, max_tree_depth=4548. </li>
-       <li> n = 20938, density = 14.45181010602732 below (or about)
-       the threshold:
-       \verbatim
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20936 initial_number_of_clauses=302592 initial_number_of_literal_occurrences=1512960 running_time(s)=-134.9 number_of_nodes=13317 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=166810 number_of_pure_literals=10313 number_of_autarkies=10 number_of_missed_single_nodes=1 max_tree_depth=4642 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=915632 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20938.cnf
-       \endverbatim
-       number_of_nodes=13317, max_tree_depth=4642. </li>
-       <li> n = 21094, density = 14.52175974210676 below (or about)
-       the threshold:
-       \verbatim
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21092 initial_number_of_clauses=306322 initial_number_of_literal_occurrences=1531610 running_time(s)=-1124.3 number_of_nodes=11418 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=141272 number_of_pure_literals=6025 number_of_autarkies=10 number_of_missed_single_nodes=0 max_tree_depth=4599 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=901676 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21094.cnf
-       \endverbatim
-       number_of_nodes=11418, max_tree_depth=4599. </li>
-       <li> n = 21133, density = 14.53802110443382 below (or about)
-       the threshold:
-       \verbatim
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21131 initial_number_of_clauses=307232 initial_number_of_literal_occurrences=1536160 running_time(s)=-1440.9 number_of_nodes=42649 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=768325 number_of_pure_literals=37735 number_of_autarkies=29 number_of_missed_single_nodes=0 max_tree_depth=4607 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=1173442 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21133.cnf
-       \endverbatim
-       number_of_nodes=42649, max_tree_depth=4607. </li>
-       <li> n = 21153, density = 14.5477237271309 below (or about)
-       the threshold:
-       \verbatim
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21151 initial_number_of_clauses=307728 initial_number_of_literal_occurrences=1538640 running_time(s)=-1644.1 number_of_nodes=37709 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=692225 number_of_pure_literals=23458 number_of_autarkies=7 number_of_missed_single_nodes=1 max_tree_depth=4601 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=1952904 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21153.cnf
-       \endverbatim
-       number_of_nodes=37709, max_tree_depth=4601, number_of_autarkies=7. </li>
-       <li> n = 21172, density = 14.55403362932175 above the threshold:
-       \verbatim
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170 initial_number_of_clauses=308138 initial_number_of_literal_occurrences=1540690 running_time(s)=1136.8 number_of_nodes=33149 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=627548 number_of_pure_literals=12269 number_of_autarkies=0 number_of_missed_single_nodes=3 max_tree_depth=606 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=327035 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21172.cnf
-       \endverbatim
-       number_of_nodes=33149, max_tree_depth=606 </li>
-       <li> Perhaps a strong indication, that we are really above the
-       threshold, is that there are no autarkies!. </li>
-       <li> n = 21250, density = 14.59143529411765 above the threshold:
-       \verbatim
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=-1002.8 number_of_nodes=21960 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=395635 number_of_pure_literals=8810 number_of_autarkies=1 number_of_missed_single_nodes=1 max_tree_depth=1165 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=722132 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
-       \endverbatim
-       number_of_nodes=21960, max_tree_depth=1165. </li>
-       <li> This time one autarky (altogether a bit more successful). </li>
-       <li> n = 22500, density = 15.2064 above the threshold:
-       \verbatim
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498 initial_number_of_clauses=342144 initial_number_of_literal_occurrences=1710720 running_time(s)=-1872.7 number_of_nodes=28974 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=516260 number_of_pure_literals=2207 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=613 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=63014 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_22500.cnf
-       \endverbatim
-       number_of_nodes=28974, max_tree_depth=613. </li>
-       <li> Again, zero autarkies. </li>
-      </ol>
-     </li>
-     <li> Still trivial for n=25000:
-     \verbatim
+   \endverbatim
+   Density = 13.9796
+   </li>
+   <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
+   depth 4583, 2061 2-reductions). </li>
+   <li> Still trivial for n=25000:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_25000.cnf
 Clauses = 410070
 Variables = 25000
@@ -245,12 +252,12 @@ BestStep_Mean = 159174.900000
 Steps_Mean = 159174.900000
 Steps_Max = 330394.000000
 PercentSuccess = 100.00
-     \endverbatim
-     Density = 16.4028 </li>
-     <li> OKsolver-2002 however seems no longer be able to solve it
-     (after 22h no node from depth 30 has been solved, so it got lost in
-     an unsatisfiable (possibly very large) subproblem):
-     \verbatim
+   \endverbatim
+   Density = 16.4028 </li>
+   <li> OKsolver-2002 however seems no longer be able to solve it
+   (after 22h no node from depth 30 has been solved, so it got lost in
+   an unsatisfiable (possibly very large) subproblem):
+   \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2_5_25000.cnf
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=24998
  initial_number_of_clauses=410070 initial_number_of_literal_occurrences=2050350
@@ -263,11 +270,11 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=24998
  number_of_initial_unit-eliminations=0number_of_new_2-clauses=0
  maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0
  file_name=GreenTao_2_5_25000.cnf
-     \endverbatim
-     number_of_nodes=38607, max_tree_depth=602.
-     </li>
-     <li> For minisat it looks hopeless:
-     \verbatim
+   \endverbatim
+   number_of_nodes=38607, max_tree_depth=602.
+   </li>
+   <li> For minisat it looks hopeless:
+   \verbatim
 > minisat GreenTao_2_5_25000.cnf
 *** INTERRUPTED ***
 restarts              : 25
@@ -278,13 +285,13 @@ conflict literals     : 1379646880     (12.04 % deleted)
 Memory used           : 1826.34 MB
 CPU time              : 85622.6 s
      \endverbatim
-     </li>
-     <li> Also for march_pl it looks hopeless (after 51 hours
-     no progress visible; 138348 clauses were added by
-     preprocessing). </li>
-     <li> UnitMarch also looks hopeless (after 10 hours). </li>
-     <li> Gets harder for n = 30000, but still rather easy:
-     \verbatim
+   </li>
+   <li> Also for march_pl it looks hopeless (after 51 hours
+   no progress visible; 138348 clauses were added by
+   preprocessing). </li>
+   <li> UnitMarch also looks hopeless (after 10 hours). </li>
+   <li> Gets harder for n = 30000, but still rather easy:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_30000.cnf
 Clauses = 561550
 Variables = 30000
@@ -298,40 +305,40 @@ BestSolution_Mean = 2.300000
 BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 6.000000
-     \endverbatim
-     Density = 18.71833333333333
-     </li>
-     <li> n = 31000; density = 19.17083870967742
-     Is now somewhat harder, but still not too hard (and satisfiable)
-     \verbatim
+   \endverbatim
+   Density = 18.71833333333333
+   </li>
+   <li> n = 31000; density = 19.17083870967742
+   Is now somewhat harder, but still not too hard (and satisfiable)
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 30000000 -i GreenTao_2_5_31000.cnf
       1 0     1   20181859   30000000   78663179
       2 0     3   29320783   30000000 2403373042
       3 0     2   29566022   30000000 2265090975
       4 0     3   29515868   30000000   75192440
       5 1     0   12954554   12954554  128676484
-     \endverbatim
-     </li>
-     <li> n = 31500; density = 19.3928253968254
-     gets harder now:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> n = 31500; density = 19.3928253968254
+   gets harder now:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 80000000 -i GreenTao_2_5_31500.cnf
       1 0     8   69795401   80000000  536637085
       2 0     3   30444816   80000000 1191026050
       3 0     6   74650775   80000000 2140749066
-     \endverbatim
-     </li>
-     <li> But can be solved:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> But can be solved:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 160000000 -i GreenTao_2_5_31500.cnf
       1 0     4  156694733  160000000    3180540
       2 0     2   90427544  160000000  486451281
       3 0     5  137171125  160000000 2156452703
       4 1     0  128497989  128497989  345549340
-     \endverbatim
-     </li>
-     <li> n = 32000, density = 19.6105625, looks unsatisfiable:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> n = 32000, density = 19.6105625, looks unsatisfiable:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 50 -cutoff 100000000 -i GreenTao_2_5_32000.cnf
 Clauses = 627538
 Variables = 32000
@@ -345,25 +352,25 @@ BestSolution_Mean = 7.580000
 BestSolution_Median = 6.500000
 BestSolution_Min = 1.000000
 BestSolution_Max = 19.000000
-     \endverbatim
-     </li>
-     <li> However re-running the best run yields a satisfying assignment:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> However re-running the best run yields a satisfying assignment:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 300000000 -i GreenTao_2_5_32000.cnf -seed 1236786762
       1 1     0  106169034  106169034 1236786762
-     \endverbatim
-     </li>
-     <li> n = 32500, density = 19.83889230769231 still satisfiable:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> n = 32500, density = 19.83889230769231 still satisfiable:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32500.cnf
       1 0     7  295919077  300000000 1113819587
       2 0     8  209899032  300000000 3804267295
       3 0    11  186387649  300000000 2937582742
       4 1     0  274647920  274647920 1925137726
-     \endverbatim
-     </li>
-     <li> n = 32750, density = 19.94418320610687
-     \verbatim
+   \endverbatim
+   </li>
+   <li> n = 32750, density = 19.94418320610687
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32750.cnf
       1 0     6  298602469  300000000  109588602
       2 0    11  268672776  300000000 2399089340
@@ -373,44 +380,44 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_32750.cnf
       6 0    10  289708347  300000000  481958740
       7 0    16  172316102  300000000 4009576113
       8 0     8  274867018  300000000  617951956
-     \endverbatim
-     </li>
-     <li> Still satisfiable:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Still satisfiable:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_5_32750.cnf -seed 109588602
       1 0     3  708126506 1000000000  109588602
       2 1     0  732967358  732967358 4054695673
-     \endverbatim
-     </li>
-     <li> n = 32800, density = 19.96231707317073 </li>
-     <li> n = 33000, density = 20.06012121212121; now getting hard:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> n = 32800, density = 19.96231707317073 </li>
+   <li> n = 33000, density = 20.06012121212121; now getting hard:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 300000000 -i GreenTao_2_5_33000.cnf
       1 0    24  297678494  300000000 1757893452
       2 0    21  296939047  300000000 1820921595
-     \endverbatim
-     </li>
-     <li>
-     \verbatim
+   \endverbatim
+   </li>
+   <li>
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 600000000 -i GreenTao_2_5_33000.cnf
       1 0     3  412863959  600000000 1780844303
       2 0    15  282783807  600000000 1069196708
       3 0    14  598198966  600000000  827526861
       4 0    17  335449491  600000000  360171182
-     \endverbatim
-     and then
-     \verbatim
+   \endverbatim
+   and then
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -seed 1780844303
       1 0     2 2479149232 3000000000 1780844303
-     \endverbatim
-     Hm; one has to run more extensive experiments (for example, running it
-     with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
-     unsatisfiable. </li>
-     <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
-     and thus can be at most 4294967295. </li>
-     <li> Down to one falsified clause with seed 1782112367. </li>
-     <li> n = 33000 actually is satisfiable:
-     \verbatim
+   \endverbatim
+   Hm; one has to run more extensive experiments (for example, running it
+   with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
+   unsatisfiable. </li>
+   <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
+   and thus can be at most 4294967295. </li>
+   <li> Down to one falsified clause with seed 1782112367. </li>
+   <li> n = 33000 actually is satisfiable:
+   \verbatim
 ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
       1 0     3 1797890838 4000000000  776867833
       2 0     3 2650818254 4000000000  405532870
@@ -419,9 +426,9 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
       5 0     1 2905850294 4000000000 3216165566
       6 1     0 3225491509 3225491509 4198934964
       7 1     0 3776261282 3776261282 3642546655
-     \endverbatim
-     while 20 runs with 2 * 10^9 steps didn't find a solution:
-     \verbatim
+   \endverbatim
+   while 20 runs with 2 * 10^9 steps didn't find a solution:
+   \verbatim
 bcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
 Clauses = 661984
 Variables = 33000
@@ -434,23 +441,28 @@ PercentSuccess = 0.00
 BestSolution_Mean = 6.250000
 BestSolution_Median = 6.000000
 BestSolution_Min = 1.000000
-     \endverbatim
-     </li>
-     <li> n = 33100, density = 20.10416918429003
-     found satisfiable with seed = 734547414. </li>
-     <li> n = 33200, density = 20.15144578313253
-     found satisfiable with seeds 951985690, 2179554572, 871568587 (where the
-     latter used 1,880,208,869 steps; bit it might be more efficient to use
-     4,000,000,000 as cutoff than 2,000,000,000). </li>
-     <li> n = 33300, density = 20.19633633633634
-     found satisfiable with seed 1621683624 (3079471773 steps). </li>
-     <li> n = 33400, density = 20.23904191616766
-     (being investigated on cs-wsok). </li>
-     <li> n = 33500, density = 20.27976119402985
-     Apparently being investigated by MG. As we see above, likely
-     a cutoff of 4 * 10^9 is needed. </li>
-    </ol>
+   \endverbatim
    </li>
+   <li> n = 33100, density = 20.10416918429003
+   found satisfiable with seed = 734547414. </li>
+   <li> n = 33200, density = 20.15144578313253
+   found satisfiable with seeds 951985690, 2179554572, 871568587 (where the
+   latter used 1,880,208,869 steps; bit it might be more efficient to use
+   4,000,000,000 as cutoff than 2,000,000,000). </li>
+   <li> n = 33300, density = 20.19633633633634
+   found satisfiable with seed 1621683624 (3079471773 steps). </li>
+   <li> n = 33400, density = 20.23904191616766
+   (being investigated on cs-wsok). </li>
+   <li> n = 33500, density = 20.27976119402985
+   Apparently being investigated by MG. As we see above, likely
+   a cutoff of 4 * 10^9 is needed. </li>
+   </ol>
+   </li>
+  </ul>
+
+
+  \todo Connecting different n
+  <ul>
    <li> We should find out what the falsified clause for the above nearly
    satisfying assignment for n=33000 is --- if m is the maximum variable
    (index) in the clause then we have a satisfying assignment for n = m-1.
@@ -462,6 +474,11 @@ BestSolution_Min = 1.000000
      and outputs the falsified clauses. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Phase transition
+  <ul>
    <li> One should study the density of the clause-sets (and the "threshold")
    here.
     <ol>
@@ -490,6 +507,10 @@ BestSolution_Min = 1.000000
      if the the structures "spread a bit"). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Non-diagonal Green-Tao numbers
    <li> One can also consider non-diagonal Green-Tao numbers. </li>
    <li> One needs to investigate whether bounds are known. </li>
   </ul>
