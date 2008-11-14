@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/plans/general.hpp
-  \brief General plans regarding investigations on Ramsey theory (Ramsey problems, van der Waerden problems, etc.)
+  \brief General plans regarding investigations on %Ramsey theory (%Ramsey problems, van der Waerden problems, etc.)
   
   
   \todo Create milestones.
