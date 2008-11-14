@@ -7,13 +7,19 @@ License, or any later version. */
 
 /*!
   \file Experimentation/docus/general.hpp
-  Central docus-file for the part on tools for experimentation
+  Central docus-file for the part on tools and plans/results regarding experimentation
 
 
-  <h1> %Tools for experimentation </h1>
+  <h1> %Tools for experimentation, and investigations </h1>
 
   %Tools for creating, running, evaluating and storing experiments, small
   and large-scale.
+
+
+  <h2> Investigations </h2>
+
+  In submodule <code>Experimentation/Investigations</code> concrete
+  investigations are planned, recorded and discussed.
 
 */
 
