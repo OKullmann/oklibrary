@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
+  \file Experimentation/Investigations/RamseyTheory/plans/VanderWaerdenProblems.hpp
   \brief On investigations into van-der-Waerden-like problems
 
 

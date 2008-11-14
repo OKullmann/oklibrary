@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/plans/RamseyProblems.hpp
+  \file Experimentation/Investigations/RamseyTheory/plans/RamseyProblems.hpp
   \brief On investigations into %Ramsey problems
 
 
