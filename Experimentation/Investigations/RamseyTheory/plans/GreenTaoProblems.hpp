@@ -151,6 +151,13 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170
    number_of_nodes=33149, max_tree_depth=606 </li>
    <li> Perhaps a strong indication, that we are really above the
    threshold, is that there are no autarkies!. </li>
+   <li> With a considerably longer computation, several jumps in the depth are
+   experienced, but finally the search gets stalled at depth 2366:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170 initial_number_of_clauses=308138 initial_number_of_literal_occurrences=1540690 running_time(s)=-1760.2 number_of_nodes=410857 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=7531575 number_of_pure_literals=166713 number_of_autarkies=8 number_of_missed_single_nodes=15 max_tree_depth=2366 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=18406255 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21172.cnf
+   \endverbatim
+   number_of_nodes=410857 max_tree_depth=2366 </li>
    <li> n = 21250, density = 14.59143529411765 above the threshold:
    \verbatim
 s UNKNOWN
