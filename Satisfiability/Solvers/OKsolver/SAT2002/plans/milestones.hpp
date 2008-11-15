@@ -200,7 +200,13 @@ License, or any later version. */
    We have timing-date available.
 
 
-  \par Version 1.8
+   \par Version 1.8
+
+  \par
+   The code has been optimised (w.r.t. speed; using also a profiler etc.)
+
+
+  \par Version 1.9
 
   \par
    Document the extensive database-data.
