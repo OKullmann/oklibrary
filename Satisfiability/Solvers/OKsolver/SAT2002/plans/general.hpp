@@ -222,6 +222,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Apply Splint
+  <ul>
+   <li> See "Installation of C/C++ tools" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Improve statistics
   <ul>
    <li> Types of statistics variables:

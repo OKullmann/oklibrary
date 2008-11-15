@@ -97,6 +97,13 @@ License, or any later version. */
     - Incorrect output of monitoring-data to files
 
 
+  \par Version 1.0.7
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Apply Splint
+
+
   \par Version 1.1
 
   \par

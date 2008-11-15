@@ -103,6 +103,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Installation of C/C++ tools
+  <ul>
+   <li> Code analysis tool "Splint" http://www.splint.org </li>
+  </ul>
+
+
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>
