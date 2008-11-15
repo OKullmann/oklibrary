@@ -222,6 +222,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Apply Valgrind
+  <ul>
+   <li> Consider all the possibilities Valgrind offers. </li>
+   <li> This might be an opportunity to add a bit to our own documentation /
+   system. </li>
+   <li> Also it should be run until completition on non-trivial examples. </li>
+  </ul>
+
+
   \todo Apply Splint
   <ul>
    <li> See "Installation of C/C++ tools" in
