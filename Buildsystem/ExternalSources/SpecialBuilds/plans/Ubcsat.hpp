@@ -10,12 +10,32 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
-  \bug Some build problem
+  \bug Ubcsat source files are read-only.
   <ul>
-   <li> MG reported orally a problem (apparently without entering
-   it into the plans)? </li>
+   <li> The permissions of the sources files in "src/" for the Ubcsat source
+   tarball are "444", which causes issues when they are copied during any
+   rebuild (therefore keeping the same permissions) to the 
+   "Installations/SAT/Ubcsat" directory, as the user then doesn't have 
+   permission to overwrite a read-only file. </li> 
+   <li> It seems two solutions here are to either 
+    <ol>
+     <li> Use "cp -f" rather than "cp" to force removal of the files first 
+     rather than simply overwriting them. </li>
+     <li> "chmod" the files during the build to 644. </li>
+    </ol>
+   </li>
   </ul>
 
+  \bug Ubcsat does not flush the output-buffer.
+  <ul>
+   <li> Flushing the output buffer therefore is left to the operating system. 
+   </li>
+   <li> Problems then occur when redirecting output to a file (i.e the output
+   buffer is not flushed at all until the end). </li>
+   <li> Ubcsat seems to have a "-rflush" option, which flushes the output 
+   buffer after each run, but this was introduced in version 1.1.0 (See
+   http://www.satlib.org/ubcsat/revisions.txt ). </li>
+  </ul>
 
   \bug Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
