@@ -90,7 +90,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
-    - Some build problem
+    - Ubcsat source files are read-only
+    - Ubcsat does not flush the output-buffer
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat

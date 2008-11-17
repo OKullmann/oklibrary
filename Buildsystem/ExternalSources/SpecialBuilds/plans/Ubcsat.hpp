@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
-  \bug Ubcsat source files are read-only.
+  \bug Ubcsat source files are read-only
   <ul>
    <li> The permissions of the sources files in "src/" for the Ubcsat source
    tarball are "444", which causes issues when they are copied during any
@@ -26,7 +26,8 @@ License, or any later version. */
    </li>
   </ul>
 
-  \bug Ubcsat does not flush the output-buffer.
+
+  \bug Ubcsat does not flush the output-buffer
   <ul>
    <li> Flushing the output buffer therefore is left to the operating system. 
    </li>
@@ -36,6 +37,7 @@ License, or any later version. */
    buffer after each run, but this was introduced in version 1.1.0 (See
    http://www.satlib.org/ubcsat/revisions.txt ). </li>
   </ul>
+
 
   \bug Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
