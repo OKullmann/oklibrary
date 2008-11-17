@@ -26,7 +26,7 @@ clisp : $(clisp_directories_okl)
 	./configure --prefix=$(clisp_installation_dir_okl) --with-libsigsegv-prefix=$(libsigsegv_installation_dir_okl) --with-libffcall-prefix=$(libffcall_installation_dir_okl) --cbc $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	make install; $(postcondition)
-	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
+	cp -f $(clisp_installation_dir_okl)/share/doc/clisp/doc/* $(clisp_doc_dir_okl)
 
 
 # #################################
