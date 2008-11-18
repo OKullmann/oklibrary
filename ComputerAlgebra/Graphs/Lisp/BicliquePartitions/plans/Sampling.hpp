@@ -28,6 +28,25 @@ License, or any later version. */
   </ul>
 
 
+  \todo Sampling maximal edge-bicliques
+  <ul>
+   <li> The algorithms from [Crama/Hammer et al, Consensus algorithms ...,
+   DAM 2004] yield poly-delay algorithms for enumerating all maximal
+   bicliques. </li>
+   <li> Another algorithm is [Sanderson et al, Molecular Biology and Evolution,
+   20(7)]. </li>
+   <li> A central question for us now is whether, just running them once,
+   randomised, we also obtain (reasonable) sampling of all  maximal
+   bicliques. </li>
+   <li> More precisely, randomising the starting conditions appropriately,
+   can every maximal biclique be created (and this with reasonable fair
+   distribution)? </li>
+   <li> This then could be used in the natural greedy biclique partitioning
+   algorithm (grabbing some maximal bicliue, remove the edges, repeat ...).
+   </li>
+  </ul>
+
+
   \todo Uniformly sampling biclique partitions
   <ul>
    <li> Given the uniform probability distribution on the set of all biclique
