@@ -227,7 +227,7 @@ License, or any later version. */
    <li> Consider all the possibilities Valgrind offers. </li>
    <li> This might be an opportunity to add a bit to our own documentation /
    system. </li>
-   <li> Also it should be run until completition on non-trivial examples. </li>
+   <li> Also it should be run until completion on non-trivial examples. </li>
   </ul>
 
 
@@ -257,7 +257,7 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    </li>
    <li> Timing:
     <ol>
-     <li> On Unix/Linux machine process-timing data is availabe for (much)
+     <li> On Unix/Linux machine process-timing data is available for (much)
      longer periods (of course with lower resolution). </li>
      <li> We already have the macro-option SYSTIME, which when activated (i.e.,
      defined), uses sys/times.h and different definitions. </li>
@@ -351,7 +351,7 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      deviation can't hurt. </li>
      <li> Perhaps useful is also the relative size of the autarky (w.r.t. the
      number of variables), that is, the number of variables in the autarky
-     devided by the total number of variables (again, max, min, average, etc.).
+     divided by the total number of variables (again, max, min, average, etc.).
      </li>
     </ol>
    </li>
@@ -392,6 +392,19 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      there must exist a variable such that removal of that assignment removes
      all falsified clauses (the partial assignments considered by the OKsolver
      should be of this type). </li>
+    </ol>
+   </li>
+   <li> With all this additional data, the output formatting needs to be
+   improved:
+    <ol>
+     <li> For the "DIMACS" format we should have the option of tabular
+     format, spreading the output over several lines, using a sensible
+     grouping and tabular formatting (so that we still have several entries
+     on one line, but this in a readable way, so that several outputs
+     can be quickly compared). </li>
+     <li> One could ask for a "change log", that is, for the
+     changing data we only report the difference to the last output (using
+     "+" and "-" to mark the direction of the change). </li>
     </ol>
    </li>
   </ul>
