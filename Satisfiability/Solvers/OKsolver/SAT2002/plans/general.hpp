@@ -374,6 +374,26 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      average) are of interest. </li>
     </ol>
    </li>
+   <li> MAXSAT information
+    <ol>
+     <li> When arriving at a leaf, the number of satisfied clauses should be
+     easily available. </li>
+     <li> So we should record the maximum number of satisfied clauses so
+     far. </li>
+     <li> Since the branch is not further explored, in general this does
+     not yield good information on the MAXSAT problem, however it should
+     yield some information "how far we got". </li>
+     <li> Also relevant in this direction is the maximum number of variables
+     assigned on the paths to the leaves. </li>
+     <li> Remark: One could study the variation of the MAXSAT problem,
+     perhaps called "MIN-MAXSAT", where we still look at the maximum number
+     of satisfiable clauses, but only admit either only partial assignments
+     which do not falsify any clause, or which can falsify a clause, but
+     there must exist a variable such that removal of that assignment removes
+     all falsified clauses (the partial assignments considered by the OKsolver
+     should be of this type). </li>
+    </ol>
+   </li>
   </ul>
 
 
