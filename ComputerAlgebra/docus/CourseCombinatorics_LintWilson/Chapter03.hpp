@@ -44,12 +44,12 @@ License, or any later version. */
   <ul>
    <li> Some initial discussions on the symmetries of the %Ramsey problems are
    at ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp . </li>
-  </ul> 
+  </ul>
+
+  <h2> Tournaments and transitive tournaments </h2>
+
 
   <h1> The Lovasz local lemma </h1>
-
-  <h1> Tournaments and transitive tournaments </h1>
-  
 
 */
 
