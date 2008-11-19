@@ -16,7 +16,21 @@ License, or any later version. */
    <li> See module "Treewidth" below. </li>
    <li> See module "Matchings" below. </li>
    <li> See module "Drawings" below. </li>
-   <li> Likely we should have modules "Homomorphisms" and "Isomorphisms". </li>
+   <li> Likely we should have modules "Homomorphisms" and "Isomorphisms".
+    <ol>
+     <li> It seems yet we have nothing on graph homo/isomorphisms. </li>
+     <li> Though isomorphisms are special homomorphisms, it seems their
+     treatment is so specialised that we should have two independent
+     modules. </li>
+     <li> There are also categories of graphs: Likely the organisation here
+     should be the same as for hypergraphs and for clause-sets. </li>
+     <li> In ComputerAlgebra/Satisfiability we have "Symmetries" instead of
+     "Isomorphisms", and we have "Categories" which includes "Homomorphisms".
+     </li>
+     <li> So perhaps also here we should have modules "Symmetries" and
+     "Categories". </li>
+    </ol>
+   </li>
    <li> We need a submodule "Colourings". </li>
    <li> A submodule "IndependentSets". </li>
    <li> A submodule "Cliques". </li>
