@@ -165,6 +165,13 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248
    \endverbatim
    number_of_nodes=21960, max_tree_depth=1165. </li>
    <li> This time one autarky (altogether a bit more successful). </li>
+   <li> A longer search produces a few autarkies, but the maximal tree depth
+   is increased only a tiny bit:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=138.1 number_of_nodes=421583 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=8373297 number_of_pure_literals=187646 number_of_autarkies=14 number_of_missed_single_nodes=39 max_tree_depth=1187 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=15088691 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
+   \endverbatim
+   number_of_nodes=421583, max_tree_depth=1187. </li>
    <li> n = 22500, density = 15.2064 above the threshold:
    \verbatim
 s UNKNOWN
