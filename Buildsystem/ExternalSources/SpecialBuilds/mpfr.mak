@@ -11,8 +11,8 @@
 # Directory Structure
 # ################################## 
 
-mpfr_base_build_dir_okl := $(ExternalSources_builds)/mpfr
-mpfr-directories := $(mpfr_base_build_dir_okl)
+mpfr_base_build_dir_okl := $(ExternalSources_builds)/Mpfr
+mpfr_directories := $(mpfr_base_build_dir_okl)
 
 .PHONY : mpfr $(mpfr_targets) create_mpfr_dirs
 
@@ -20,12 +20,12 @@ mpfr-directories := $(mpfr_base_build_dir_okl)
 # Main mpfr targets
 # #################################
 
-$(mpfr-directories) : % : 
+$(mpfr_directories) : % : 
 	mkdir -p $@
 
 mpfr : $(mpfr_recommended)
 
-$(mpfr_targets) : $(mpfr-directories)
+$(mpfr_targets) : $(mpfr_directories)
 	$(call unarchive,$(ExternalSources)/sources/Gmp/$@,$(mpfr_base_build_dir_okl))
 	cd $(mpfr_base_build_dir_okl)/$@; $(postcondition) \
 	./configure; $(postcondition) \
