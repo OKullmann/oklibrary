@@ -33,6 +33,11 @@ License, or any later version. */
     - Installing Ecl
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Installation of Mpfr
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Improving building Boost : DONE
