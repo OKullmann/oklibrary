@@ -602,6 +602,7 @@ git mv file1 file2 dir1 dir2 Annotations
      1.6.0 uses a bit less space?) </li>
      <li> 27.9.2008; 10.3 MB; Transitional total: 28.6 MB </li>
      <li> 1.11.2008; 10.3 MB; Transitional total: 28.7 MB </li>
+     <li> 22.11.2008; 10.4 MB; Transitional total: 28.9 MB </li>
     </ol>
    </li>
   </ul>
