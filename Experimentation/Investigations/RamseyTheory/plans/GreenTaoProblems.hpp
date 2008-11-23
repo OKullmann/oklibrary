@@ -184,7 +184,7 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498
   </ul>
 
 
-  \todo greentao(2,5) > 33300
+  \todo greentao(2,5) > 33400
   <ul>
    <li> Trivial for n=5000:
    \verbatim
@@ -468,7 +468,10 @@ BestSolution_Min = 1.000000
    <li> n = 33300, density = 20.19633633633634
    found satisfiable with seed 1621683624 (3079471773 steps). </li>
    <li> n = 33400, density = 20.23904191616766
-   (being investigated on cs-wsok). </li>
+   found satisfiable with seed 3762888341 (3859835241 steps; 60
+   runs were necessary --- it seems the cutoff of 4*10^9 is becoming
+   too small, since the optimum is always reached in the high 3*10^9!).
+   </li>
    <li> n = 33500, density = 20.27976119402985
    Apparently being investigated by MG. As we see above, likely
    a cutoff of 4 * 10^9 is needed. </li>
