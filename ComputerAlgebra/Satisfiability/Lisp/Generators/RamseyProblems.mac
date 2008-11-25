@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyPr
 \htmlonly
 */
 
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
@@ -56,8 +57,8 @@ output_ramsey2_stdname(q,r,n) :=
 
 
 /* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
-   with n vertices, a hashmap from the variables to their meanings (in the form
-   "1S2", meaning an edge from vertex 1 to 2) and a hashmap from variable 
+   with n vertices, a hashmap from the variables to their meanings (as
+   edges) and a hashmap from variable 
    meanings to their corresponding variables, break symmetries of the clauseset 
    by considering monochromatic p-cliques in the subgraphs of the graph using 
    previous Ramsey numbers. 
