@@ -254,7 +254,24 @@ License, or any later version. */
     </ol>
    </li>
    <li> What is the best way (and place within the library) to implement the
-   above symmetry breaking ideas? Obviously here. </li>
+   above symmetry breaking ideas? Obviously here. 
+    <ul>
+     <li> What is needed is a function which takes certain properties of
+     the Ramsey problem at hand (probably only "n" is needed), and produces
+     a set of clauses which can be added to the problem to map those symmetries
+     immediately obvious to the solver. </li>
+     <li> There is now a function "ramsey2_sym_break_rec" which generates a set
+     of clauses to break the symmetries described in MG's idea above. </li>
+     <li> The need for this function to take mappings from variables to 
+     their "meanings" should be alleviated once there is are "rank" and "unrank"
+     functions for the enumeration of k-subsets 
+     (See "Module Enumeration" in ComputerAlgebra/plans/general.hpp ). It should
+     also only need the "n" for the Ramsey problem then. </li>
+     <li> Should this function also consider the PHP idea mentioned above? </li>
+    </ul>
+   </li>
+   <li> How do the above ideas generalise to Ramsey problems which aren't of the form
+   R([q,q],r) ? </li>
   </ul>
 
 */

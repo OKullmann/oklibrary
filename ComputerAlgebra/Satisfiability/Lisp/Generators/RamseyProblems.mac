@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyPr
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 
 /* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
    a satisfying assignments yields a 2-colouring of the hypergraph with
@@ -53,6 +54,48 @@ output_ramsey2(q,r,n,filename) := block(
 output_ramsey2_stdname(q,r,n) := 
  output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
 
+
+/* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
+   with n vertices, a hashmap from the variables to their meanings (in the form
+   "1S2", meaning an edge from vertex 1 to 2) and a hashmap from variable 
+   meanings to their corresponding variables, break symmetries of the clauseset 
+   by considering monochromatic p-cliques in the subgraphs of the graph using 
+   previous Ramsey numbers. 
+
+   If certain edges should be excluded from the symmetry breaking because they
+   have, in some sense, already been considered from some previous symmetry
+   breaking, then these can be passed as an additional arguments, as a set of
+   variables using "ramsey2_sym_break_rec_r".
+
+   This function returns a set of clauses to add to the clause set.
+*/
+ramsey2_sym_break_rec(V,vhm,vnhm) := ramsey2_sym_break_rec_r(V,vhm,vnhm,{})$
+ramsey2_sym_break_rec_r(V,vhm, vnhm, exc_edges) := block(
+  [vertices : {}, cur_ramsey_num : 2, len_vert, p : 2],
+  if oklib_monitor then print("Excluded Edges = ", exc_edges),
+  vertices : setdifference(
+    /*setify(xreduce(lambda([l,e], append(e,l)), */
+    lunion(map(lambda([v],ev_hm(vnhm,string(v))), V)),
+    /*setify(xreduce(lambda([l,e], append(e,l)),*/
+    lunion(map(lambda([v],ev_hm(vnhm,string(v))), exc_edges))),
+  if oklib_monitor then print("Current Vertices = ", vertices), 
+  len_vert : length(vertices),
+  if len_vert > 1 then block(
+     [edge_vars, edge_var, F_n, sub_hm : sm2hm({}), result_sm],
+    while len_vert >= last(ramsey_number([[p+1,p+1],2])) do p : p + 1,
+    if oklib_monitor then print("p = ", p),
+    edge_vars : map(
+      lambda([e], ev_hm(vhm,e)),
+      complete_g(setify(take_elements(p,listify(vertices))))[2]),
+    if oklib_monitor then print("p-clique chosen (as edges) = ", edge_vars),
+    F_n : ramsey2_sym_break_rec_r(V,vhm, vnhm, union(exc_edges,edge_vars)),
+    if oklib_monitor then print("Edge vars = ", edge_vars),
+    return(union(F_n,
+      map(lambda([a], {a[1], -a[2]}), 
+        subset(cartesian_product(edge_vars,edge_vars),
+          lambda([b],not is(b[1] = b[2])))))))
+  else return({})
+)$
 
 /*!
 \endhtmlonly
