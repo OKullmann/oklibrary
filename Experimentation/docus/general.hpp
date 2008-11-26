@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/docus/general.hpp
-  Central docus-file for the part on tools and plans/results regarding experimentation
+  \brief Central docus-file for the part on tools and plans/results regarding experimentation
 
 
   <h1> %Tools for experimentation, and investigations </h1>
@@ -19,7 +19,13 @@ License, or any later version. */
   <h2> Investigations </h2>
 
   In submodule <code>Experimentation/Investigations</code> concrete
-  investigations are planned, recorded and discussed.
+  investigations are planned, recorded and discussed:
+  <ul>
+   <li> See <code>Investigations/RamseyTheory</code> for the plans on
+   %Ramsey theory. </li>
+   <li> See <code>Investigations/TenChallenges</code for the ten challenges
+   for advancing (core) SAT solving. </li>
+  </ul>
 
 */
 
