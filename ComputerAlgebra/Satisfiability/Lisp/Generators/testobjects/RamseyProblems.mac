@@ -22,6 +22,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Ramse
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 
 okltest_ramsey2_ofcs(ramsey2_ofcs);
+okltest_ramsey2_sym_break_rec(ramsey2_sym_break_rec);
 
 /*!
 \endhtmlonly

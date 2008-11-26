@@ -1,0 +1,34 @@
+/* Matthew Gwynne, 25.11.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac
+  \brief Tests for clause-set-generators
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
+
+kill(f)$
+
+okltest_ramsey_number(f) := block(
+  for i : 0 thru 5 do
+    assert(f([[1,i],2]) = [1,1]),
+  assert(f([[3,3],2]) = [6,6]),
+  assert(f([[4,4],2]) = [18,18]),
+  assert(f([[3,3,3],2]) = [17,17]),
+  assert(f([[-1,-1],2]) = [0,inf]),
+  true)$

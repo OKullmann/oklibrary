@@ -214,7 +214,42 @@ License, or any later version. */
      in the comments. </li>
     </ol>
    </li>
-   <li> We need also reading from Dimacs-files. </li>
+   <li> We need also reading from Dimacs-files.
+    <ul>
+     <li> A simple function for reading from a standard "cnf" DIMACS file might
+     be
+     \verbatim
+oklib_plain_include("stringproc")$
+
+read_fcs_f(n) := block([fh, line, ll, cs : [], l,b,c],
+  fh : openr(n),
+  while stringp(line : readline(fh)) do (
+    ll : tokens(line),
+    if length(ll) >= 1 then
+      if not(first(ll) = "c" or first(ll) = "p") then
+        cs : cons(setify(rest(map(parse_string,ll),-1)), cs)
+  ),
+  cs : setify(cs),
+  return(cs_to_fcs(cs))
+)$
+     \endverbatim
+     </li>
+     <li> Additionally, there is the possibility of reading Extended DIMACS 
+     files, where the variables might be non-integer names. In such a case
+     there seem to be several possibilities
+     <ul>
+      <li> The file is read into a normal formal clause set, and the variables
+      are treated directly as maxima nouns, where they are also declared 
+      "posfun" etc, so that operations such as "abs" and so on work correctly.
+      </li>
+      <li> The file is read into a formal clause set, but the variables are
+      translated to integer variables with the mapping from the variable name
+      to the integer variable being returned in a hash or setmap (so a pair of
+      the fcs and setmap is returned). </li>
+     </ul>
+     </li>
+    </ul>
+   </li>
   </ul>
 
 */

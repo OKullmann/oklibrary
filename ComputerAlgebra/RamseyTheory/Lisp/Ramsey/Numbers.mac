@@ -19,6 +19,27 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+ramsey_hm : sm2hm({})$
+set_hm(ramsey_hm, [[2,2],2], [2,2])$
+set_hm(ramsey_hm, [[3,3],2], [6,6])$
+set_hm(ramsey_hm, [[4,4],2], [18,18])$
+set_hm(ramsey_hm, [[5,5],2], [43,49])$
+set_hm(ramsey_hm, [[3,3,3],2], [17,17])$
+
+/* Returns the current bounds known for the given ramsey parameters, 
+   as a pair of lower bound upper bound. In the case nothing is known,
+   the trivial lower and upper bounds [0,inf] are returned. */
+ramsey_number(par_tuple) := block([kl,r],
+  [kl,r] : par_tuple,
+  if member(1,kl) and r > 1 then return([1,1])
+  else if length(kl) = 2 and member(1,kl) and r = 2 then
+    return([first(delete(1,kl)),first(delete(1,kl))]) 
+  else block([bounds : ev_hm(ramsey_hm, [kl,r])],
+    if bounds = false then return([0,inf]) else bounds))$
+
+
 /*!
 \endhtmlonly
 */
