@@ -28,8 +28,8 @@ set_hm(ramsey_hm, [[4,4],2], [18,18])$
 set_hm(ramsey_hm, [[5,5],2], [43,49])$
 set_hm(ramsey_hm, [[3,3,3],2], [17,17])$
 
-/* Returns the current bounds known for the given ramsey parameters, 
-   as a pair of lower bound upper bound. In the case nothing is known,
+/* Returns the current bounds known for the given Ramsey parameters, 
+   as a pair [lower bound, upper bound]. In the case nothing is known,
    the trivial lower and upper bounds [0,inf] are returned. */
 ramsey_number(par_tuple) := block([kl,r],
   [kl,r] : par_tuple,
