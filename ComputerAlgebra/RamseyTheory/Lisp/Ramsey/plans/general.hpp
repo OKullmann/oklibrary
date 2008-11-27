@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp
-  \brief Plans regarding Ramsey problems
+  \brief Plans regarding %Ramsey problems
 
 
   \todo Relations to other modules
@@ -21,7 +21,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Automorphisms of Ramsey hypergraphs
+  \todo Automorphisms of %Ramsey hypergraphs
   <ul>
    <li> First the natural operation of S_n on ramsey_hg(q,r,n) needs to
    be made available.
@@ -60,10 +60,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Automorphisms of Ramsey clause-sets
+  \todo Automorphisms of %Ramsey clause-sets
   <ul>
-   <li> The obvious automorphisms of diagonal Ramsey clause-sets are
-   given by the inner product of automorphisms for the underlying Ramsey
+   <li> The obvious automorphisms of diagonal %Ramsey clause-sets are
+   given by the inner product of automorphisms for the underlying %Ramsey
    hypergraph and the S_s when using s colours. </li>
    <li> So at least we have S_n x S_s (translated). </li>
    <li> Are there more?
@@ -74,7 +74,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> And what about non-diagonal Ramsey clause-sets? One would guess
+   <li> And what about non-diagonal %Ramsey clause-sets? One would guess
    that in "most" cases there are no other automorphisms than given by
    the underlying S_n ? </li>
   </ul>
