@@ -80,29 +80,5 @@ License, or any later version. */
   </ul>
 
 
-  \todo Ramsey numbers
-  <ul>
-   <li> In RamseyTheory/Lisp/Ramsey/Numbers.mac we need to provide everything
-   known about Ramsey numbers. </li>
-   <li> A "Ramsey parameter tuple" is a tupe [[q_1,...,q_s],r], where s
-   is the number of colours (all q_i and r are natural numbers). </li>
-   <li> The function ramsey_number(par_tuple) computes a pair, consisting of
-   a lower and an upper bound on the Ramsey number for this tuple. </li>
-   <li> This function is now available, but needs 
-    <ul>
-     <li> More bounds added. </li>
-     <li> References for the bounds. </li>
-     <li> Potentially better calculation for unknown bounds based on smaller q 
-     etc. </li>
-     <li> Additionally, we should have some function or method for obtaining the
-     equations that can be used to calculate bounds for the unknown Ramsey 
-     numbers based on smaller values etc. These could then be used within 
-     "ramsey_number" to calculate bounds when they are not explicitly given, 
-     and also allow for other calculations. Such a function could return 
-     a list of equations. </li>
-    </ul>
-   </li>
-  </ul>
-
 */
 
