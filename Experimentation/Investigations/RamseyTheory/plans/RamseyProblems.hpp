@@ -309,6 +309,47 @@ length(all_aut_ofcs(R5));
   </ul>
 
 
+  \todo Representing solutions as graphs
+  <ul>
+   <li> A solution for the parameter-values ([p,q],2; n) (that is,
+   a labelling of the K_n with colours 0,1 such that no clique of size p
+   of colour 0 and no clique of size q of colour 1 exists), corresponds to
+   a graph with n vertices not containing a clique of size p or an independent
+   set of size q. </li>
+   <li> This graph representation brings with it a notion of isomorphic
+   solutions by using graph isomorphisms. </li>
+   <li> If p = q, then as an additional symmetry we have the correspondence
+   between a graph and its complement. </li>
+   <li> The underlying reasoning is as follows:
+    <ol>
+     <li> We consider the general problem of when two solutions of a
+     satisfiability problem are to be considered "similar". </li>
+     <li> The strongest possible (detecting the most similarities) seems
+     to use the automorphism group of the set of all (total) solutions,
+     and then to consider two solutions as similar iff they are in the
+     same orbit under this operation (i.e., there is an automorphism turning
+     the one solution into the other). </li>
+     <li> This considers only the solution space, not the representation. </li>
+     <li> Perhaps most common is to consider the automorphism group of the
+     representation (and its operation), which yields a subgroup of the
+     automorphism group of the solutions. </li>
+     <li> For the Ramsey problems presented as clause-sets we know the
+     automorphisms given by S_n, and S_n x ZZ_2 for symmetric problems. </li>
+     <li> In the graph-case we are considering here this yields exactly
+     to consider two solutions as similar iff their graphs are isomorphic,
+     where for symmetric problems we consider also a graph and its
+     complement as similar. </li>
+    </ol>
+   </li>
+   <li> For the %Ramsey parameter tuple [[3,3],2] and n = 5 we have the
+   solution C^5 (the cycle with 5 edges), which is self-dual. It seems
+   that this is the only solution. </li>
+   <li> We should have an extensive catalogue as possible for the known
+   solution types (if possible, augmented by the information how many
+   solutions in total they represent). </li>
+  </ul>
+
+
   \todo "Visualising" solutions
   <ul>
    <li> Via SAT solvers we can compute certain solutions for problems somewhat
@@ -316,6 +357,12 @@ length(all_aut_ofcs(R5));
    <li> The task is to "look" at these solutions, extract some structure, and
    then to systematically search for "such" solutions. </li>
    <li> Of course, everything theoretically known needs to be explored. </li>
+   <li> From the practical side, there has been work (e.g., Marijn Heule) for
+   van der Waerden problems. </li>
+   <li> See "Representing solutions as graphs" above; perhaps that's the
+   best what we can do for those problems? But if we know more about the
+   symmetries between solutions (i.e., the automorphism group of the solution
+   space, then we might obtain further compression. </li>
   </ul>
 
 
