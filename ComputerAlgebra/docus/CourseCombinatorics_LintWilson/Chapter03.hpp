@@ -36,7 +36,7 @@ License, or any later version. */
 
   <ul>
    <li> Some experimentation has been started in this area at 
-   Experimentation/Investigations/plans/RamseyProblems.hpp . </li>
+   Experimentation/Investigations/RamseyTheory/plans/RamseyProblems.hpp . </li>
   </ul>
 
   <h2> On the automorphism group of %Ramsey clause-sets </h2>
@@ -48,6 +48,12 @@ License, or any later version. */
 
   <h2> Tournaments and transitive tournaments </h2>
 
+  <ul>
+   <li> See [%Ramsey numbers for tournaments] by Y.Mannoussakis and Z.Tuza, and 
+   originally [A problem on tournaments] by P.Erdos and L.Moser, for work on 
+   treating tournaments and transitive subtournaments as a Ramsey-type problem,
+   as well as other Ramsey-type problems of directed graphs. </li>
+  </ul>
 
   <h1> The Lovasz local lemma </h1>
 
