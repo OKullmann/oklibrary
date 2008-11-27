@@ -51,6 +51,13 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
+  \todo Data sheets
+  <ul>
+   <li> All the numbers and all known information should be available
+   on some html-page. </li>
+  </ul>
+
+
   \todo NR([3,3],2)
   <ul>
    <li> Satisfiability for n=5 is trivial for any SAT solver. </li>
