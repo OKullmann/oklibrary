@@ -74,6 +74,12 @@ License, or any later version. */
      <li> References for the bounds. </li>
      <li> Potentially better calculation for unknown bounds based on smaller q 
      etc. </li>
+     <li> Additionally, we should have some function or method for obtaining the
+     equations that can be used to calculate bounds for the unknown Ramsey 
+     numbers based on smaller values etc. These could then be used within 
+     "ramsey_number" to calculate bounds when they are not explicitly given, 
+     and also allow for other calculations. Such a function could return 
+     a list of equations. </li>
     </ul>
    </li>
   </ul>
