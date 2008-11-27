@@ -21,6 +21,17 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
+/* A "Ramsey parameter tuple" is a pair [L,k], where k is the length of the
+   hyperedges considered, the length of L is the number of colours, and each
+   entry of L specifies the size of the complete k-graph as (subgraph) the
+   Ramsey numbers shall guarantee.
+*/
+
+/* Bounds for Ramsey numbers are given as pairs [lower bounds, upper bounds]
+   (which must be correct).
+*/
+
+/* Concrete bounds, which are assumed to be the best known ones: */
 ramsey_hm : sm2hm({})$
 set_hm(ramsey_hm, [[2,2],2], [2,2])$
 set_hm(ramsey_hm, [[3,3],2], [6,6])$
