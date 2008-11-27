@@ -58,5 +58,13 @@ License, or any later version. */
    and every two hyperedges intersect). </li>
   </ul>
 
+
+  \todo Hypergraph automorphisms
+  <ul>
+   <li> See "Automorphisms of Ramsey hypergraphs" in
+   ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp for first
+   applications (and first thoughts). </li>
+  </ul>
+
 */
 

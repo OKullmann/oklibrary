@@ -113,19 +113,19 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20623 initial_number_of_clauses=294916 initial_number_of_literal_occurrences=1474580 running_time(s)=1961.7 number_of_nodes=6058 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=31532 number_of_pure_literals=4170 number_of_autarkies=17 number_of_missed_single_nodes=0 max_tree_depth=4548 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=876707 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20625.cnf
    \endverbatim
-   number_of_nodes=6058, max_tree_depth=4548. </li>
+   number_of_nodes=6058, max_tree_depth=4548, number_of_autarkies=17. </li>
    <li> n = 20938, density = 14.45181010602732 below the threshold:
    \verbatim
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=20936 initial_number_of_clauses=302592 initial_number_of_literal_occurrences=1512960 running_time(s)=-134.9 number_of_nodes=13317 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=166810 number_of_pure_literals=10313 number_of_autarkies=10 number_of_missed_single_nodes=1 max_tree_depth=4642 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=915632 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_20938.cnf
    \endverbatim
-   number_of_nodes=13317, max_tree_depth=4642. </li>
+   number_of_nodes=13317, max_tree_depth=4642, number_of_autarkies=10. </li>
    <li> n = 21094, density = 14.52175974210676 below the threshold:
    \verbatim
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21092 initial_number_of_clauses=306322 initial_number_of_literal_occurrences=1531610 running_time(s)=-1124.3 number_of_nodes=11418 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=141272 number_of_pure_literals=6025 number_of_autarkies=10 number_of_missed_single_nodes=0 max_tree_depth=4599 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=901676 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21094.cnf
    \endverbatim
-   number_of_nodes=11418, max_tree_depth=4599. </li>
+   number_of_nodes=11418, max_tree_depth=4599, number_of_autarkies=10. </li>
    <li> n = 21133, density = 14.53802110443382 below the threshold:
    \verbatim
 s SATISFIABLE
@@ -144,37 +144,29 @@ s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21161 initial_number_of_clauses=307940 initial_number_of_literal_occurrences=1539700 running_time(s)=-1325.5 number_of_nodes=103433 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1964466 number_of_pure_literals=53123 number_of_autarkies=12 number_of_missed_single_nodes=5 max_tree_depth=4593 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=2295888 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21163.cnf
    \endverbatim
    number_of_nodes=103433, max_tree_depth=4593, number_of_autarkies=12. </li>
-   <li> n = 21167 </li>
-   <li> n = 21172, density = 14.55403362932175 above the threshold:
+   <li> n = 21167, density = 14.55246374072849 below (or about) the threshold:
    \verbatim
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170 initial_number_of_clauses=308138 initial_number_of_literal_occurrences=1540690 running_time(s)=1136.8 number_of_nodes=33149 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=627548 number_of_pure_literals=12269 number_of_autarkies=0 number_of_missed_single_nodes=3 max_tree_depth=606 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=327035 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21172.cnf
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21165 initial_number_of_clauses=308032 initial_number_of_literal_occurrences=1540160 running_time(s)=728.8 number_of_nodes=114686 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=2174254 number_of_pure_literals=58330 number_of_autarkies=12 number_of_missed_single_nodes=4 max_tree_depth=4620 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=2659174 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21167.cnf
    \endverbatim
-   number_of_nodes=33149, max_tree_depth=606 </li>
-   <li> Perhaps a strong indication, that we are really above the
-   threshold, is that there are no autarkies!. </li>
-   <li> With a considerably longer computation, several jumps in the depth are
-   experienced, but finally the search gets stalled at depth 2366:
+   number_of_nodes=114686, max_tree_depth=4620, number_of_autarkies=12. </li>
+   <li> n = 21170, density = 14.55370807746812
+
+   </li>
+   <li> n = 21172, density = 14.55403362932175 above the threshold:
    \verbatim
 s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21170 initial_number_of_clauses=308138 initial_number_of_literal_occurrences=1540690 running_time(s)=-1760.2 number_of_nodes=410857 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=7531575 number_of_pure_literals=166713 number_of_autarkies=8 number_of_missed_single_nodes=15 max_tree_depth=2366 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=18406255 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21172.cnf
    \endverbatim
-   number_of_nodes=410857 max_tree_depth=2366 </li>
+   number_of_nodes=410857, max_tree_depth=2366, number_of_autarkies=8 </li>
    <li> n = 21250, density = 14.59143529411765 above the threshold:
-   \verbatim
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=-1002.8 number_of_nodes=21960 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=395635 number_of_pure_literals=8810 number_of_autarkies=1 number_of_missed_single_nodes=1 max_tree_depth=1165 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=722132 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
-   \endverbatim
-   number_of_nodes=21960, max_tree_depth=1165. </li>
-   <li> This time one autarky (altogether a bit more successful). </li>
-   <li> A longer search produces a few autarkies, but the maximal tree depth
-   is increased only a tiny bit:
    \verbatim
 s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21248 initial_number_of_clauses=310068 initial_number_of_literal_occurrences=1550340 running_time(s)=138.1 number_of_nodes=421583 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=8373297 number_of_pure_literals=187646 number_of_autarkies=14 number_of_missed_single_nodes=39 max_tree_depth=1187 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=15088691 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21250.cnf
    \endverbatim
-   number_of_nodes=421583, max_tree_depth=1187. </li>
-   <li> n = 22500, density = 15.2064 above the threshold:
+   number_of_nodes=421583, max_tree_depth=1187, number_of_autarkies=14. </li>
+   <li> This should be repeated, until around 400000 nodes:
+   n = 22500, density = 15.2064 above the threshold:
    \verbatim
 s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498 initial_number_of_clauses=342144 initial_number_of_literal_occurrences=1710720 running_time(s)=-1872.7 number_of_nodes=28974 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=516260 number_of_pure_literals=2207 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=613 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=63014 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_22500.cnf

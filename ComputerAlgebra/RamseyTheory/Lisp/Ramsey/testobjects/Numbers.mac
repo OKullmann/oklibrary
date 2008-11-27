@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/testobjects/Nu
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
-oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac");
+oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
+oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
 
 okltest_ramsey_number(ramsey_number);
 

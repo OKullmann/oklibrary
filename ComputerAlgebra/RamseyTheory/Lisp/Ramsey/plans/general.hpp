@@ -37,6 +37,24 @@ License, or any later version. */
     <ol>
      <li> For small parameters values (including q=3,r=2) we can
      enumerate all automorphisms by brute force. </li>
+     <li> What tools are available for hypergraph automorphisms?
+      <ul>
+       <li> See "Hypergraph automorphisms" in
+       ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp for general plans.
+       </li>
+       <li> It seems that Gap doesn't provide any (direct) help here?
+       At least grape only considers graphs --- are there other packages?
+       </li>
+       <li> What about nauty? See "Graph isomorphism" in
+       Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp; but it
+       seems that hypergraphs are not considered. </li>
+       <li> Reducing the hypergraph isomorphism problem to (di)graph
+       isomorphism can happen similar to the treatmeant of clause-sets (see
+       ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac). </li>
+       <li> Considering just the 2-section of a hypergraph should in general
+       be too rough (though it is attractive). </li>
+      </ul>
+     </li>
     </ol>
    </li>
   </ul>
@@ -47,6 +65,7 @@ License, or any later version. */
    <li> The obvious automorphisms of diagonal Ramsey clause-sets are
    given by the inner product of automorphisms for the underlying Ramsey
    hypergraph and the S_s when using s colours. </li>
+   <li> So at least we have S_n x S_s (translated). </li>
    <li> Are there more?
     <ol>
      <li> It seems that by brute force (enumerating all clause-set
@@ -56,7 +75,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> And what about non-diagonal Ramsey clause-sets? One would guess
-   that in "most" cases there are no automorphisms?? </li>
+   that in "most" cases there are no other automorphisms than given by
+   the underlying S_n ? </li>
   </ul>
 
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,7 +46,8 @@ License, or any later version. */
      <li> The doc-system should be used for documenting the macros. </li>
     </ol>
    </li>
-   <li> What to do with Latex_macros/Basis.tex and Latex_macros/Definitionen.tex ? </li>
+   <li> What to do with Latex_macros/Basis.tex and
+   Latex_macros/Definitionen.tex ? </li>
   </ul>
 
 
@@ -62,17 +63,27 @@ License, or any later version. */
     ?!?
    </li>
    <li> What to do with Latex_bib/EigArt.bib ? </li>
-   <li> Bibtex-entries can easily be centralised, but what about the annotations? </li>
+   <li> Bibtex-entries can easily be centralised, but what about the
+   annotations? </li>
    <li> Is there some real bibtex-database-system ?
     <ol>
-     <li> "bibulus" (XML and Perl) http://www.nongnu.org/bibulus: Project apparently not completed. </li>
-     <li> "MibibTex" (close to XSLT) http://lifc.univ-fcomte.fr/~hufflen/texts/mlbibtex/mlbibtex/mlbibtex.html: There are some publications regarding it, but can't find something usable. </li>
-     <li> "BibTex++" (Java) http://bibtex.enstb.org: Looks quite experimental. </li>
+     <li> Peter Mosses is involved in the development of an integrated
+     system, which could be useful for us. </li>
+     <li> "bibulus" (XML and Perl) http://www.nongnu.org/bibulus: Project
+     apparently not completed. </li>
+     <li> "MibibTex" (close to XSLT)
+     http://lifc.univ-fcomte.fr/~hufflen/texts/mlbibtex/mlbibtex/mlbibtex.html:
+     There are some publications regarding it, but can't find something
+     usable. </li>
+     <li> "BibTex++" (Java) http://bibtex.enstb.org: Looks quite experimental.
+     </li>
     </ol>
    </li>
-   <li> Since bibtex-entries typically don't need updates, the simplest solution is to have
-   only minimal bibtex-information in Transitional/Annotations, the rest in Annotations, and just
-   to update the .bib-files if needed. No sharing with for examples OK's own bibtex-database.
+   <li> Since bibtex-entries typically don't need updates, the simplest
+   solution is to have only minimal bibtex-information in
+   Transitional/Annotations, the rest in Annotations, and just
+   to update the .bib-files if needed. No sharing with for examples OK's own
+   bibtex-database.
    </li>
   </ul>
 

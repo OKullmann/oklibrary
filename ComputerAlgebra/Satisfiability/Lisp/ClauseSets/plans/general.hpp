@@ -217,7 +217,7 @@ License, or any later version. */
    <li> We need also reading from Dimacs-files.
     <ul>
      <li> A simple function for reading from a standard "cnf" DIMACS file might
-     be
+     be:
      \verbatim
 oklib_plain_include("stringproc")$
 
@@ -234,19 +234,44 @@ read_fcs_f(n) := block([fh, line, ll, cs : [], l,b,c],
 )$
      \endverbatim
      </li>
+     <li> The above function should better return a clause-list. </li>
+     <li> Perhaps even more appropriate a formal clause-list, where the
+     set of variables reflects the n-value from the p-line. </li>
+     <li> Maxima likely has no parsing capabilities, but there should be
+     Lisp-libraries for parsing?
+      <ol>
+       <li> It would be interesting to explore them (they should be useful
+       for many occassions). </li>
+      </ol>
+     </li>
+     <li> What to do with syntax checking?
+      <ol>
+       <li> Typically, at the Maxima level we do not check inputs. </li>
+       <li> However we do provide (dedicated) tests. </li>
+       <li> So we should write a syntax checking functions. </li>
+      </ol>
+     </li>
+     <li> How to test this function?
+      <ol>
+       <li> Most appropriate seems to use an application test. </li>
+      </ol>
+     </li>
      <li> Additionally, there is the possibility of reading Extended DIMACS 
      files, where the variables might be non-integer names. In such a case
      there seem to be several possibilities
-     <ul>
-      <li> The file is read into a normal formal clause set, and the variables
-      are treated directly as maxima nouns, where they are also declared 
-      "posfun" etc, so that operations such as "abs" and so on work correctly.
-      </li>
-      <li> The file is read into a formal clause set, but the variables are
-      translated to integer variables with the mapping from the variable name
-      to the integer variable being returned in a hash or setmap (so a pair of
-      the fcs and setmap is returned). </li>
-     </ul>
+      <ul>
+       <li> The file is read into a normal formal clause set, and the variables
+       are treated directly as maxima nouns, where they are also declared 
+       "posfun" etc, so that operations such as "abs" and so on work correctly.
+       </li>
+       <li> The file is read into a formal clause set, but the variables are
+       translated to integer variables with the mapping from the variable name
+       to the integer variable being returned in a hash or setmap (so a pair of
+       the fcs and setmap is returned). </li>
+       <li> Most appropriate seems to me to use the (formal) function "edim"
+       (for "extended Dimacs"), which is used with one string-parameter (
+       the variable-name). </li>
+      </ul>
      </li>
     </ul>
    </li>
