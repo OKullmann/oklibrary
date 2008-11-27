@@ -70,15 +70,15 @@ output_ramsey2_stdname(q,r,n) :=
 
    This function returns a set of clauses to add to the clause set.
 */
-ramsey2_sym_break_rec(V,vhm,vnhm) := ramsey2_sym_break_rec_r(V,vhm,vnhm,{})$
-ramsey2_sym_break_rec_r(V,vhm, vnhm, exc_edges) := block(
+ramsey2_sym_break_rec(V,f_v,f_vn) := ramsey2_sym_break_rec_r(V,f_v,f_vn,{})$
+ramsey2_sym_break_rec_r(V,f_v, f_vn, exc_edges) := block(
   [vertices : {}, cur_ramsey_num : 2, len_vert, p : 2],
   if oklib_monitor then print("Excluded Edges = ", exc_edges),
   vertices : setdifference(
     /*setify(xreduce(lambda([l,e], append(e,l)), */
-    lunion(map(lambda([v],ev_hm(vnhm,string(v))), V)),
+    lunion(map(lambda([v],f_vn(v)), V)),
     /*setify(xreduce(lambda([l,e], append(e,l)),*/
-    lunion(map(lambda([v],ev_hm(vnhm,string(v))), exc_edges))),
+    lunion(map(lambda([v],f_vn(v)), exc_edges))),
   if oklib_monitor then print("Current Vertices = ", vertices), 
   len_vert : length(vertices),
   if len_vert > 1 then block(
@@ -86,10 +86,9 @@ ramsey2_sym_break_rec_r(V,vhm, vnhm, exc_edges) := block(
     while len_vert >= last(ramsey_number([[p+1,p+1],2])) do p : p + 1,
     if oklib_monitor then print("p = ", p),
     edge_vars : map(
-      lambda([e], ev_hm(vhm,e)),
-      complete_g(setify(take_elements(p,listify(vertices))))[2]),
+      f_v, complete_g(setify(take_elements(p,listify(vertices))))[2]),
     if oklib_monitor then print("p-clique chosen (as edges) = ", edge_vars),
-    F_n : ramsey2_sym_break_rec_r(V,vhm, vnhm, union(exc_edges,edge_vars)),
+    F_n : ramsey2_sym_break_rec_r(V,f_v, f_vn, union(exc_edges,edge_vars)),
     if oklib_monitor then print("Edge vars = ", edge_vars),
     return(union(F_n,
       map(lambda([a], {a[1], -a[2]}), 
