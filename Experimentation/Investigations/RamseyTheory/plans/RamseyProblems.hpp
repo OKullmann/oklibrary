@@ -267,10 +267,19 @@ length(R5SAT);
    \endverbatim
    </li>
    <li> Now we need to investigate the operation of the automorphism group
-   of R5 on R5SAT (what are the really different solutions?). </li>
-   <li> For this we need to compute the automorphism group of R5; see
-   "Automorphisms of Ramsey clause-sets" in
-   RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
+   of R5 on R5SAT (what are the really different solutions?).
+    <ol>
+     <li> For this we need to compute the automorphism group of R5; see
+     "Automorphisms of Ramsey clause-sets" in
+     RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
+     <li> One solution (as graph; see "Representing solutions as graphs" below)
+     is the C^5, and we have all hamiltonian cycles of the K_5 as similar
+     solutions under the operation of the S_5: This yields 4! / 2 = 12
+     solutions, so actually all solutions are isomorphic to C^5. </li>
+     <li> We need to divide by 2 here since we are considering "cyclic
+     permutations" (so that [1,2,3,4,5] is the same as [1,5,4,3,2]). </li>
+    </ol>
+   </li>
    <li> Via
    \verbatim
 length(all_aut_ofcs(R5));
@@ -311,7 +320,7 @@ length(all_aut_ofcs(R5));
 
   \todo Representing solutions as graphs
   <ul>
-   <li> A solution for the parameter-values ([p,q],2; n) (that is,
+   <li> A solution for the parameter-values ([[p,q],2]; n) (that is,
    a labelling of the K_n with colours 0,1 such that no clique of size p
    of colour 0 and no clique of size q of colour 1 exists), corresponds to
    a graph with n vertices not containing a clique of size p or an independent
@@ -324,7 +333,7 @@ length(all_aut_ofcs(R5));
     <ol>
      <li> We consider the general problem of when two solutions of a
      satisfiability problem are to be considered "similar". </li>
-     <li> The strongest possible (detecting the most similarities) seems
+     <li> The strongest possibility (detecting the most similarities) seems
      to use the automorphism group of the set of all (total) solutions,
      and then to consider two solutions as similar iff they are in the
      same orbit under this operation (i.e., there is an automorphism turning
@@ -342,11 +351,23 @@ length(all_aut_ofcs(R5));
     </ol>
    </li>
    <li> For the %Ramsey parameter tuple [[3,3],2] and n = 5 we have the
-   solution C^5 (the cycle with 5 edges), which is self-dual. It seems
-   that this is the only solution. </li>
+   solution C^5 (the cycle with 5 edges), which is self-dual (and this
+   is the only solution; see above). </li>
    <li> We should have an extensive catalogue as possible for the known
    solution types (if possible, augmented by the information how many
    solutions in total they represent). </li>
+  </ul>
+
+
+  \todo Self-dual solutions
+  <ul>
+   <li> For the Ramsey parameter tuple [[3,3],2] we have a self-dual
+   solution (a graph isomorphic to its complement). </li>
+   <li> Are there self-dual solutions for all [[p,p],2] ?? </li>
+   <li> We need to check the known cases! </li>
+   <li> For [[5,5],2] and n=42 the number of edges (861) of K_n is odd, so
+   if the conjecture NR([[5,5],2]) = 43 is true, then there would be
+   no self-dual solution here. </li>
   </ul>
 
 
