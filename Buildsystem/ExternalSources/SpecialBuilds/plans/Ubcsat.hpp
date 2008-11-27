@@ -85,9 +85,26 @@ License, or any later version. */
 
   \todo Update to version 1.1.0
   <ul>
-   <li> First we try what happens on 32-bit and 64-bit machines. </li>
+   <li> First we try what happens on 32-bit and 64-bit machines.
+    <ol>
+     <li> On cs-wsok (64bit): The provided executable seems to work, but
+     the compiled executable yields an error:
+     \verbatim
+builds/SAT/Ubcsat> ./ubcsat -alg rnovelty+ -i ~/SAT-Algorithmen/OKplatform/GreenTao_2_5_33500.cnf
+#
+# UBCSAT version 1.1.0 (Sea to Sky Release)
+#
+# http://www.satlib.org/ubcsat
+#
+# ubcsat -h for help
+#
+Error: Invalid Literal [-31473] in clause [0]
+     \endverbatim
+     Likely this is due to incorrect assumptions on integer types. </li>
+    </ol>
+   </li>
    <li> We should download the now available documentation. </li>
-   <li> OK must get in contact with the Ubcsat-group. </li>
+   <li> OK and MG must get in contact with the Ubcsat-group. </li>
    <li> See "Contact the developers of Ubcsat" in
    Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
   </ul>
