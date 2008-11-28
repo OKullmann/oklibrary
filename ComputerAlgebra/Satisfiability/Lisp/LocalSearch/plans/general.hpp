@@ -28,6 +28,34 @@ License, or any later version. */
   </ul>
 
 
+  \todo Examing search landscapes
+  <ul>
+   <li> See "Framework for the analysis of search space structures" in
+   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
+   <li> A good overview is given by chapter 5 ("Search space structure
+   and SLS performance") in [Hoos, Stuetzle; Stochastic Local Search];
+   we should strive to implement all methods there at least in their
+   exact versions.
+    <ol>
+     <li> Perhaps we should first consider ordinary satisfiability (boolean,
+     and in clausal form), while generalisations come later. </li>
+     <li> Generalisations which apply to arbitrary optimisation problems
+     perhaps should not be considered in this module, but for example
+     in a supermodule ComputerAlgebra/LocalSearch. </li>
+     <li> For signed clause-sets we consider the hypercube of total
+     assignments (edges between total assignments which differ in exactly
+     one position), where the vertices are labelled with the number of
+     falsified clauses. </li>
+     <li> One could then consider the directed graph with edges only to
+     positions where the score is improved. </li>
+    </ol>
+   </li>
+   <li> Additionally we should look into the literature on random
+   problems and statistical physics (see also the work of Elitza
+   Maneva et al). </li>
+  </ul>
+
+
   \todo Theoretical random walk algorithms
   <ul>
    <li> The base cases are Papadimitriou's and Schoening's algorithms. </li>

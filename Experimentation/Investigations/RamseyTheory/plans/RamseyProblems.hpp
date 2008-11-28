@@ -425,5 +425,20 @@ length(all_aut_ofcs(R5));
    </li>
   </ul>
 
+
+  \todo Understanding local search algorithms
+  <ul>
+   <li> First one needs to establish which algorithm from the Ubcsat
+   collection performs best (hopefully sooner or later we can use
+   also version 1.1.0); see above. </li>
+   <li> For this best algorithm we should also try to optimise the
+   parameters. </li>
+   <li> Important to study the search landscapes; see "Examing search
+   landscapes" in
+   ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/general.hpp. </li>
+   <li> The goal is at least to understand why the best algorithm is best,
+   and perhaps to further improve this algorithm. </li>
+  </ul>
+
 */
 

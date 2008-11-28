@@ -54,6 +54,20 @@ License, or any later version. */
   \todo Create further milestones (for 0.0.7)
 
 
+  \todo Framework for the analysis of search space structures
+  <ul>
+   <li> The task is to implement various methods for studying search space
+   structures, so that local search algorithms can be adapted to specific
+   instances and/or instance classes. </li>
+   <li> First we develop these methods at the Maxima/Lisp level; see
+   "Examing search landscapes" in
+   ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/general.hpp. </li>
+   <li> At the Maxima/Lisp level we concentrate on exact computations, and
+   for methods based on sampling on clean and basic methods; for more
+   practically oriented methods R should be used. </li>
+  </ul>
+
+
 */
 
 /*!
