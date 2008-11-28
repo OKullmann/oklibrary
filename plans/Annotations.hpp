@@ -67,8 +67,25 @@ License, or any later version. */
    annotations? </li>
    <li> Is there some real bibtex-database-system ?
     <ol>
-     <li> Peter Mosses is involved in the development of an integrated
-     system, which could be useful for us. </li>
+     <li> "Aigaion - A Web based bibliography management system"
+     http://www.aigaion.nl/
+      <ul>
+       <li> Seems unfortunately not the right thing for us, since it is
+       web-centric (while we need just local access). </li>
+       <li> The web-server though could be installed (and accessed) locally.
+       </li>
+       <li> Perhaps more important, it seems centralised, which
+       seems not to fit into our decentralised model? </li>
+       <li> And then there is the whole user administration, which we
+       don't need, and which perhaps creates problems? </li>
+       <li> The display, organisation, import and export of bibliographical
+       data is fine, but we need a system which works locally and decentralised
+       (and where updates of bibliographies just happen via updating the
+       OKlibrary). </li>
+       <li> And the same item might have different annotations in different
+       contexts. </li>
+      </ul>
+     </li>
      <li> "bibulus" (XML and Perl) http://www.nongnu.org/bibulus: Project
      apparently not completed. </li>
      <li> "MibibTex" (close to XSLT)
