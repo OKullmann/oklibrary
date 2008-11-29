@@ -70,6 +70,16 @@ License, or any later version. */
 
   \todo Symmetry breaking by using Ramsey-symmetries of the clause-set
   <ul>
+   <li> The following considerations seem to be too optimistic:
+    <ol>
+     <li> The culprit is what "affected" means. </li>
+     <li> If we for example assert that for given 18 vertices there must
+     be a monochromatic 4-clique, then in order to just choose arbitrary
+     4 vertices, one uses the full symmetry group for those 18 vertices
+     --- thus they are then "used up". </li>
+    </ol>
+    Considerations which appear shady are marked by "BUG" in the following.
+   </li>
    <li> The idea is, instead of looking at the q-subsets
    of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n. </li>
    <li> Again, we are considering some arbitrary given phi. </li>
@@ -97,13 +107,16 @@ License, or any later version. */
      satisfiability), we can then set one of the above mentioned variables
      (collapsed using the PHP) to a particular colour. For instance, setting
      half of the p-cliques (for a given p) to colour 1. </li>
-     <li> For example, consider NR([4,4],2), n=18. We find 5
+     <li> BUG (it seems we can only find 3 monochromatic triangles)
+     For example, consider NR([4,4],2), n=18. We find 5
      monochromatic triangles in the graph. At least 3 of these must be
      coloured 1, or at least 3 of these must be coloured 2, therefore, we
      simply represent the equality of colour. This can be done using either
      additional clauses, or by replacing all occurrences of the variables
      (edges) in 3 of the triangles with a single variable (edge). </li>
-     <li> Another example, considering NR([5,5],2), n=43. Using the
+     <li> BUG (it seems that we can only find 2 monochromatic 4-clique
+     and and monochromatic 3-clique)
+     Another example, considering NR([5,5],2), n=43. Using the
      calculation below, we choose 7 monochromatic 4-cliques and 4
      monochromatic 3-cliques, therefore we may colour 4 of the 4-cliques the
      same colour, and 2 of the 3-cliques. </li>
@@ -113,7 +126,8 @@ License, or any later version. */
      S_n). </li>
     </ol>
    </li>
-   <li> It seems that this process yields more variable reductions than
+   <li> BUG
+   It seems that this process yields more variable reductions than
    the above process (using symmetries of the solution space)?
     <ol> 
      <li> The method used below for calculation assumes that, starting with
@@ -146,7 +160,9 @@ License, or any later version. */
        x). </li>
       </ul>
      </li>
-     <li> Taking NR([5,5],2), n=43 as an example.
+     <li> (BUG: this refers to the first method, and there we seem only to
+     be able to set 2 * 8 = 16 variables)
+     Taking NR([5,5],2), n=43 as an example.
       <ul>
        <li> Each multicolour path of length 2 affects 3 vertices, and
        sets two edges/variables. 5 unaffected variables are needed to apply
@@ -161,7 +177,9 @@ License, or any later version. */
        set. </li>
       </ul>
      </li>
-     <li> Using MG's suggestion for NR([5,5],2), n=43
+     <li> BUG (it appears only (4-1) + (4-1) + 1 + (3-1) = 9 variables
+     can be eliminated by this "Ramsey method")
+     Using MG's suggestion for NR([5,5],2), n=43
       <ul>
        <li> NR([4,4],2) = 18, so x = 18, y = 4, n = l = 43. </li>
        <li> This gives, floor((l - (x - y)) / y) = floor((43 - (18 - 4))/4) =
