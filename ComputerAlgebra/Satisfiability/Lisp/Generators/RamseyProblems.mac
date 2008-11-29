@@ -58,10 +58,9 @@ output_ramsey2_stdname(q,r,n) :=
 
 /* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
    with n vertices, a hashmap from the variables to their meanings (as
-   edges) and a hashmap from variable 
-   meanings to their corresponding variables, break symmetries of the clauseset 
-   by considering monochromatic p-cliques in the subgraphs of the graph using 
-   previous Ramsey numbers. 
+   edges) and a hashmap from variable meanings to their corresponding 
+   variables, break symmetries of the clause-set by considering monochromatic 
+   p-cliques in the subgraphs of the graph using previous Ramsey numbers. 
 
    If certain edges should be excluded from the symmetry breaking because they
    have, in some sense, already been considered from some previous symmetry
