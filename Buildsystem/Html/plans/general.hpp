@@ -165,6 +165,5 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
    doxyygen-template (for the preambel of all created pages). </li>
   </ul>
    
-
 */
 
