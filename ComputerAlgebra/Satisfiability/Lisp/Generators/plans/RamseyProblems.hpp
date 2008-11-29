@@ -48,72 +48,23 @@ License, or any later version. */
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> Consider the K_n, and parameters r=2 and q. </li>
    <li> Partial assignments phi assign the edges of K_n. </li>
-   <li> Given any phi, we have the following possibility for symmetry
-   breaking by fixing values w.r.t. q-cliques:
-    <ol>
-     <li> The basic fact is that any 2-edge-labelling of K_q, which is
-     not monochromatic, must contain two incident edges of different
-     values (for q >= 3). </li>
-     <li> By symmetry these two incident edges can be any pair of incident
-     edges. </li>
-     <li> So, if there is a subset T <= V(K_n) of size q, such that no edge
-     for T is affected (i.e., assigned) by phi, then w.l.o.g. one can fix the
-     values of 2 chosen incident edges to 1 and 2. </li>
-     <li> This process can be repeated until no such T exists anymore. </li>
-     <li> A question is whether there are better and worse choices for T
-     and for the chosen edges? </li>
-     <li> One needs to be careful here about "affected by phi": The above
-     formulation is very "optimistic", while more "pessimistic" is that
-     an edge is affected iff it is incident with an assigned one --- are
-     there counterexample for the "optimistic" interpretation? 
-      <ul>
-       <li> Yes, a counter example is K_5, r=2, q=3:
-        <ol>
-         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2.
-         </li>
-         <li> Consider vertices 2,4,5, colour {2,4} with 1 and {2,5} with 2.
-         </li>
-         <li> Consider vertices 1,4,5, colour {1,4} with 1 and {4,5} with 2.
-         </li>
-         <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
-         allows a colouring without one. </li>
-        </ol>
-       </li>
-       <li> Perhaps rather than setting specific colours, only the fact that
-       the two colours must be different should be coded. Perhaps by reducing
-       2 variables a,b to just variable a, by replacing variable b with
-       literal -a. </li>
-      </ul>
-     </li>
-     <li> More general than above, also for T with one affected edge one
-     could choose another incident edge:
-      <ul>
-       <li> But in general this is wrong. </li>
-       <li> A counter example is K_5, r=2, q=3:
-        <ol>
-         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2.
-         </li>
-         <li> Consider vertices 2,3,4, colour {2,4} with 1. </li>
-         <li> Consider vertices 2,4,5, colour {4,5} with 2. </li>
-         <li> Consider vertices 1,4,5, colour {1,4} with 1. </li>
-         <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
-         allows a colouring without one. </li>
-        </ol>
-       </li>
-      </ul>
-     </li>
-     <li> So we can assign for every q-element subset of V(K_n) at least one
-     and at most two (incident) edges. </li>
-     <li> The number of assignments is 2 * floor(n/q). </li>
-     <li> It shouldn't matter much which q-subsets (and which edges in them)
-     to choose. </li>
-     <li> Searching for an unaffected T is easy: One records which vertices
-     are incident to assigned edges and chooses any q free vertices. </li>
-     <li> The underlying principle is simply that any solution must contain
-     for every q-clique a "multi-coloured" path of length 2. Without case
-     distinctions it seems not possible to strengthen that. </li>
-    </ol>
-   </li>
+   <li> The basic fact is that any 2-edge-labelling of K_q, which is
+   not monochromatic, must contain two incident edges of different
+   values (for q >= 3). </li>
+   <li> So phi must contain for every q-clique a "multi-coloured" path of
+   length 2. Without case distinctions it seems not possible to strengthen
+   that. </li>
+   <li> By symmetry (using the symmetries induced by S_n on the vertices)
+   these two incident edges can be any pair of incident edges (for that
+   we only need to be able to (arbitrarily) permute the vertices of
+   the chosen clique). </li>
+   <li> So, if there is a subset T <= V(K_n) of size q, such that no vertex
+   of T has been considered yet, then w.l.o.g. one can fix the
+   values of 2 chosen incident edges to 1 and 2. </li>
+   <li> This process can be repeated until no such T exists anymore. </li>
+   <li> A question is whether there are better and worse choices for T
+   and for the chosen edges? It shouldn't matter much. </li>
+   <li> The number of assignments is 2 * floor(n/q). </li>
   </ul>
 
 
