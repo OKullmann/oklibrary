@@ -12,15 +12,19 @@ License, or any later version. */
 
   \todo Complete local home page
   <ul>
-   <li> Add a quick tutorial. </li>
-   <li> Start a FAQ. </li>
+   <li> Update tutorial and FAQ at least w.r.t. the current installation
+   of the OKlibrary. </li>
+   <li> DONE Add a quick tutorial. </li>
+   <li> DONE Start a FAQ. </li>
   </ul>
 
 
-  \todo Meta tags
+  \todo Meta tags : DONE
   <ul>
-   <li> See "Search engines" in Buildsystem/Html/plans/general.hpp. </li>
-   <li> All the documentation should be available (finally) on the web; thus
+   <li> DONE (The meta tags for the home page and related pages seem alright)
+   See "Search engines" in Buildsystem/Html/plans/general.hpp. </li>
+   <li> DONE
+   All the documentation should be available (finally) on the web; thus
    the index page will become a publically available web page, and needs all
    the meta tags, and also all the other declarations available, about
    encoding, last change date etc.. </li>
@@ -32,7 +36,7 @@ License, or any later version. */
    <li> I (OK) played a bit around with Gimp, and managed to change the
    background colour to white, to cut out the scriptur, and to make it smaller
    (all quite simple): It seems better to me that the picture is basically
-   just the scriptur, while the old version seemed to dominant to me. </li>
+   just the scriptur, while the old version seemed too dominant to me. </li>
    <li> Unclear how to handle background colours chosen by the user (different
    from our default). It seems one could make the background of the logo
    transparent, but then the colour of the scriptur becomes problematic.

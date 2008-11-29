@@ -16,8 +16,8 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
     - Complete local home page
-    - Meta tags
     - Improved logo
+    - Meta tags : DONE
 
   \par
    In Buildsystem/Html/Local/plans/TenChallenges.hpp the following topics
