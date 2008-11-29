@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.7.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -46,6 +46,12 @@ logo_output ?= $(local_html_dir)/logo.png
 
 developers_template ?= $(OKconfiguration)/Developers.html
 developers_output ?= $(local_html_dir)/Developers.html
+
+tenchallenges_page_template ?= $(OKbuildsystem)/Html/Local/TenChallenges.html
+tenchallenges_page_output ?= $(local_html_dir)/TenChallenges.html
+
+tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_b55738ceb3ad8c72f043b1e52bad8405.html
+
 
 current_date ?= $(shell date '+%a, %d %b %Y, %H:%M:%S %z')
 

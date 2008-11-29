@@ -20,6 +20,11 @@ License, or any later version. */
     - Improved logo
 
   \par
+   In Buildsystem/Html/Local/plans/TenChallenges.hpp the following topics
+   are handled:
+    - Baltimore conference
+
+  \par
    In Buildsystem/Html/Local/plans/ExternalSources.hpp the following topics are
    handled:
     - Links

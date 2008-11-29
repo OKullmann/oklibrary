@@ -26,6 +26,10 @@ rel_history_epsrc_6finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_
 rel_history_epsrc_finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_finalreport_pdf_location) $(history_page_output))
 rel_history_release_history_output := $(shell $(rel_path_tool) $(release_history_output) $(history_page_output))
 
+# From the Ten-Challenges-page:
+rel_tenchallenges_baltimore2008_talk_location := $(shell $(rel_path_tool) $(baltimore2008_talk_location) $(tenchallenges_page_output))
+rel_tenchallenges_tenchallenges_doxygen_directory := $(shell $(rel_path_tool) $(tenchallenges_doxygen_directory) $(tenchallenges_page_output))
+
 # From the external sources page: ("les" for local external sources)
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
 rel_les_mhash_docu_page := $(shell $(rel_path_tool) $(mhash_docu_page) $(externalsources_page_output))
