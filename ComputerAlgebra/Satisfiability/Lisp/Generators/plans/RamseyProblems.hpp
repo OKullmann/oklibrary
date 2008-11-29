@@ -65,6 +65,11 @@ License, or any later version. */
    <li> A question is whether there are better and worse choices for T
    and for the chosen edges? It shouldn't matter much. </li>
    <li> The number of assignments is 2 * floor(n/q). </li>
+   <li> Since we are not using yet the symmetry between the values 0 and 1,
+   we can additionally set one variable to a value we like. </li>
+   <li> So altogether 2*floor(n/q)+1 many variables can be eliminated. </li>
+   <li> For the parameter tuple [[5,5],2] and 40 <= n <= 44 this makes 17
+   eliminated variables; so well, better than nothing. </li>
   </ul>
 
 
