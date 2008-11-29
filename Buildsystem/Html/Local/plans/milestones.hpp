@@ -14,7 +14,8 @@ License, or any later version. */
   \par Version 0.1.2
 
   \par
-   In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
+   In Buildsystem/Html/Local/plans/HomePage.hpp the following topics
+   are handled:
     - Complete local home page
     - Improved logo
     - Meta tags : DONE
