@@ -242,8 +242,12 @@ ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
        clauses (seed 1833218426) </li>
        <li> One round, cutoff = 20 000 000, with previous best seed: didn't
        improve the result. </li>
-       <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
-       3 000 000. </li>
+       <li> So let's try cutoff = 20 000 000, noimprove = 3 000 000.
+       \verbatim
+> ubcsat-okl -alg samd -cutoff 20000000 -noimprove 3000000 -runs 100 -i Ramsey_5_5_2_41.cnf
+       
+       \endverbatim
+       </li>
       </ol>
      </li>
     </ol>
