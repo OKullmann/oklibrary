@@ -39,7 +39,6 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      for NR([q1,q2],r). </li>
     </ol>
    </li>
-   <li> What about constraint solvers? </li>
   </ul>
 
 
@@ -403,6 +402,8 @@ length(all_aut_ofcs(R5));
    <li> These problems seem to be quite structured, so that quite something
    is known (at least more than for Van der Waerden numbers), but SAT solvers
    apparently can't exploit any of it. </li>
+   <li> What about constraint solvers? What do they use, and how succesful
+   are they? </li>
    <li> Active clause-sets should be attractive.
     <ol>
      <li> Incorporating some of the knowledge we have for these problems. </li>
