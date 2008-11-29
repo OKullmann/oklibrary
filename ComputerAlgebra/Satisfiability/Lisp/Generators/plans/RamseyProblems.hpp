@@ -42,7 +42,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Symmetry breaking
+  \todo Symmetry breaking by using symmetries of the solution space
   <ul>
    <li> Compare with "Symmetry breaking" in
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
@@ -114,6 +114,11 @@ License, or any later version. */
      distinctions it seems not possible to strengthen that. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Symmetry breaking by using Ramsey-symmetries of the clause-set
+  <ul>
    <li> The idea of MG was, instead of looking at the q-subsets
    of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n:
     <ol>
@@ -161,7 +166,7 @@ License, or any later version. */
       </ul>
      </li>
      <li> It seems that this process yields more variable reductions than
-     the above process?
+     the above process (using symmetries of the solution space)?
       <ul> 
        <li> The method used below for calculation assumes that, starting with
        l unaffected vertices, if a process/idea needs x unaffected vertices
