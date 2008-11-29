@@ -36,6 +36,7 @@ clean_up :
 
 documentation_index : clean_up $(local_html_dir)
 	$(preprocessing_call) $(local_home_page_template) > $(local_home_page_output)
+	$(preprocessing_call) $(local_home_page_css_template) > $(local_home_page_css_output)
 	$(preprocessing_call) $(aims_page_template) > $(aims_page_output)
 	$(preprocessing_call) $(languages_page_template) > $(languages_page_output)
 	$(preprocessing_call) $(history_page_template) > $(history_page_output)

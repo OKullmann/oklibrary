@@ -16,6 +16,9 @@
 
 local_home_page_template ?= $(OKbuildsystem)/Html/Local/HomePage.html
 local_home_page_output ?= $(local_html_dir)/index.html
+local_home_page_css_template ?= $(OKbuildsystem)/Html/Local/HomePage.css
+local_home_page_css_output ?= $(local_html_dir)/HomePage.css
+
 
 aims_page_template ?= $(OKbuildsystem)/Html/Local/Aims.html
 aims_page_output ?= $(local_html_dir)/Aims.html
