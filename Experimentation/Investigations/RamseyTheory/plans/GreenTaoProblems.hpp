@@ -150,9 +150,14 @@ s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=21165 initial_number_of_clauses=308032 initial_number_of_literal_occurrences=1540160 running_time(s)=728.8 number_of_nodes=114686 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=2174254 number_of_pure_literals=58330 number_of_autarkies=12 number_of_missed_single_nodes=4 max_tree_depth=4620 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=2659174 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21167.cnf
    \endverbatim
    number_of_nodes=114686, max_tree_depth=4620, number_of_autarkies=12. </li>
-   <li> n = 21170, density = 14.55370807746812
-
-   </li>
+   <li> n = 21170, density = 14.55370807746812 above the threshold:
+   \verbatim
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=21168 initial_number_of_clauses=308102 initial_number_of_literal_occurrences=1540510 running_time(s)=522.1 number_of_nodes=498048 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=9099379 number_of_pure_literals=200245 number_of_autarkies=8 number_of_missed_single_nodes=19 max_tree_depth=2378 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=23567938 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_21170.cnf
+   \endverbatim
+   number_of_nodes=498048, max_tree_depth=2378, number_of_autarkies=8. </li>
+   <li> Regarding the 13 missed single nodes: It would be interesting to run
+   the OKsolver-2002 with the order of branches inverted. </li>
    <li> n = 21172, density = 14.55403362932175 above the threshold:
    \verbatim
 s UNKNOWN
