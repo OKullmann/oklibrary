@@ -410,6 +410,16 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo More influence on heuristics
+  <ul>
+   <li> We should have an additional option which reverts the order of
+   branches (this is to study the "missed single nodes"). </li>
+   <li> We should also re-activate the command line for randomisation of
+   the branching heuristics (so that it makes sense to re-run the solver).
+   </li>
+  </ul>
+
+
   \todo Start planning on evaluating and optimising heuristics
   <ul>
    <li> Based on OK's SAT-handbook article. </li>

@@ -171,6 +171,13 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - More influence on heuristics
+
+
+  \par Version 1.4.3
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Start planning on evaluating and optimising heuristics
 
 
@@ -178,7 +185,7 @@ License, or any later version. */
 
    \par
     Extend statistics, and make evaluation and optimisation of heuristics
-    possible.
+    possible; furthermore extend the possibilities to influence heuristics.
 
 
   \par Version 1.6
