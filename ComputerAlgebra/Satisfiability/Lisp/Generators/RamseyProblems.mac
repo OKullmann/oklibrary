@@ -74,9 +74,7 @@ ramsey2_sym_break_rec_r(V,f_v, f_vn, exc_edges) := block(
   [vertices : {}, cur_ramsey_num : 2, len_vert, p : 2],
   if oklib_monitor then print("Excluded Edges = ", exc_edges),
   vertices : setdifference(
-    /*setify(xreduce(lambda([l,e], append(e,l)), */
     lunion(map(lambda([v],f_vn(v)), V)),
-    /*setify(xreduce(lambda([l,e], append(e,l)),*/
     lunion(map(lambda([v],f_vn(v)), exc_edges))),
   if oklib_monitor then print("Current Vertices = ", vertices), 
   len_vert : length(vertices),
