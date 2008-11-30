@@ -263,5 +263,13 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
    the form R([q,q],r) ? </li>
   </ul>
 
+
+  \todo %Generators for all standard %Ramsey problems
+  <ul>
+   <li> For every extended %Ramsey tuple [C,r;n] we need translations
+   into (non-boolean) clause-sets. </li>
+   <li> They shall use a well-defined enumeration of the variables. </li>
+  </ul>
+
 */
 
