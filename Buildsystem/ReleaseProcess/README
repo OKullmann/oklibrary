@@ -34,7 +34,8 @@ The following software needs to be installed:
  - gcc
   (check: run "gcc --version")
  - readline (development library).
- - A Fortran compiler (e.g. F77).
+ - A Fortran compiler (e.g. gfortan or F77;
+   check: run "gfortran --version")
  - GNU texinfo 
   (check: run "makeinfo --version")
 
