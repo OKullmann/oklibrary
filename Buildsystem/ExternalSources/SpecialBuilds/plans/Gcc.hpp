@@ -12,8 +12,13 @@ License, or any later version. */
 
   \todo Update our gcc-installation-system to the new standard
   <ul>
-   <li> As only extension, we install the patch for 4.1.2 as provided
+   <li> OK: was this done? has this to do with "stubs-32.h not found"?
+   As only extension, we install the patch for 4.1.2 as provided
    by MG. </li>
+   <li> Regarding this "stubs-32.h"-nonsense (the internet is full
+   of noise regarding that, but nobody has a clue): perhaps glibc
+   has to be installed (the development library) --- more precisely,
+   for a 64-bit machine also the glibc-32-bit version! </li>
    <li> DONE
    Likely it's best for now only to support local installation. </li>
    <li> DONE
