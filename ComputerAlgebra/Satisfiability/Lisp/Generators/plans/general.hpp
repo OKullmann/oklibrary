@@ -42,6 +42,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Write basic docus
+  <ul>
+   <li> We need basic docus for all generators. </li>
+  </ul>
+
+
   \todo %Variables
   <ul>
    <li> Compare "Global variables" in
