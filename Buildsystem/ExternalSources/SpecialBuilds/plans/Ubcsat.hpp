@@ -10,7 +10,34 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
-  \bug Also "corrected" Ubcsat segfaults with gcc 4.3.1
+  \todo Estimating the problem with version 1.1.0
+  <ul>
+   <li> Most important seems to obtain a clear idea on how much work
+   is needed to
+    <ol>
+     <li> first get Ubcsat compiling and running correctly (independent of
+     the machine type); </li>
+     <li> and second to make the step counter 64 bit. </li>
+    </ol>
+   </li>
+   <li> Depending on this estimation we need then to decide how to
+   proceed. </li>
+   <li> Regarding the first step, we should see what we did with version 1.0.0,
+   and compare it with the new version. </li>
+   <li> We should also run the newest gcc on it, with all warnings turned on.
+   </li>
+   <li> Perhaps also the flint-tool can help. </li>
+   <li> The problematic points should be bit-operations and pointer-operations
+   (and also index-operations). </li>
+   <li> If the first step can be done with reasonable effort then we should
+   do it. </li>
+   <li> Of course, a question is whether just small corrections are sufficient,
+   or whether larger changes are needed, in which case to fork the whole
+   Ubcsat code might be an option. </li>
+  </ul>
+  
+
+  \bug Also "corrected" Ubcsat segfaults (with gcc 4.3.1)
   <ul>
    <li> When building Ubcsat with gcc 4.3.1 we get
    \verbatim

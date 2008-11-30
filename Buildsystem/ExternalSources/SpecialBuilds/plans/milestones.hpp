@@ -95,6 +95,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
+    - Estimating the problem with version 1.1.0
+    - Also "corrected" Ubcsat segfaults (with gcc 4.3.1)
     - Ubcsat source files are read-only
     - Ubcsat does not flush the output-buffer
     - Cutoff value etc. should be 64 bits on a 64-bit machine
