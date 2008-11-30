@@ -9,6 +9,9 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp
   \brief Plans regarding building model checking tools
 
+  For modal logics see
+  Buildsystem/ExternalSources/SpecialBuilds/plans/Logics.hpp.
+
 
   \todo Model checking and variations
   <ul>

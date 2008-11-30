@@ -9,9 +9,12 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Logics.hpp
   \brief Plans regarding building of (general) logic systems
 
-  For systems related to automated theorem proving see
-  Buildsystem/ExternalSources/SpecialBuilds/plans/ATP.hpp, while for Coq see
-  Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp.
+  - For systems related to automated theorem proving see
+    Buildsystem/ExternalSources/SpecialBuilds/plans/ATP.hpp.
+  - While for Coq see
+    Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp.
+  - For model checking see
+    Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp.
   
 
   \todo Proof assistants
@@ -20,7 +23,19 @@ License, or any later version. */
   </ul>
 
 
-  \todo Support for bounded arithmetic
+  \todo Modal logic
+  <ul>
+   <li> DLP http://www-db.research.bell-labs.com/user/pfps or
+   http://www.bell-labs.com/user/pfps/dlp </li>
+   <li> TA http://www.doc.mmu.ac.uk/STAFF/U.Hustadt/mdp </li>
+   <li> KSATC ftp://ftp.mrg.dist.unige.it/, pub/mrg-systems or
+   ftp://ftp.mrg.dist.unige.it/pub/mrg-systems/KR98-sources/KSat-source/KSatC
+   </li>
+   <li> *SAT http://www.mrg.dist.unige.it/~tac/StarSAT.html </li>
+  </ul>
+
+
+  \todo %Support for bounded arithmetic
   <ul>
    <li> We would like to have a system which supported handling of logics
    like the various systems of bounded arithmetic. </li>

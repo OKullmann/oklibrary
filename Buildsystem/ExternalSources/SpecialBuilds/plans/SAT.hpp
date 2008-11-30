@@ -409,7 +409,7 @@ less sat-grasp_amended.doc
 
   \todo DONE OpenSAT
   <ul>
-   <li> Not to be included by request of the authors) </li>
+   <li> Not to be included by request of the authors. </li>
    <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
   </ul>
 
