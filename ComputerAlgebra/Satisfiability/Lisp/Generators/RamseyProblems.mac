@@ -19,11 +19,12 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyPr
 \htmlonly
 */
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
    a satisfying assignments yields a 2-colouring of the hypergraph with
@@ -55,6 +56,28 @@ output_ramsey2(q,r,n,filename) := block(
 output_ramsey2_stdname(q,r,n) := 
  output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
 
+
+/* ***********************************
+   * Symmetry breaking, first method *
+   ***********************************
+*/
+
+/* XXX preliminary */
+/* Yet only r=2 handled; prerequisite q >= 3. */
+ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
+  lunion(create_list(
+      block([j:(i-1)*q+1],{colv_var({j,j+1}),-colv_var({j,j+2})}),
+      i,1,d)))$
+
+/* XXX preliminary */
+/* r=2, q >= 3, n >= 4 */
+ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
+
+
+/* ************************************
+   * Symmetry breaking, second method *
+   ************************************
+*/
 
 /* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
    with n vertices, a hashmap from the variables to their meanings (as

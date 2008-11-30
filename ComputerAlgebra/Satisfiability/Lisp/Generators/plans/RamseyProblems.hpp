@@ -64,12 +64,24 @@ License, or any later version. */
    <li> This process can be repeated until no such T exists anymore. </li>
    <li> A question is whether there are better and worse choices for T
    and for the chosen edges? It shouldn't matter much. </li>
+   <li> So, as done with "ramsey_symbr1_pass", we can use the partial
+   assignment {colv({1,2}),-colv({1,3}), colv({q+1,q+2}), colv({q+1,q+3}),
+   ...}. </li>
    <li> The number of assignments is 2 * floor(n/q). </li>
    <li> Since we are not using yet the symmetry between the values 0 and 1,
    we can additionally set one variable to a value we like. </li>
+   <li> Choosing the partial assignment {colv({1,4})} seems reasonable ---
+   at least it allows to show the unsatisfiability for [[3,3],2;6] via
+   unit-clause propagation:
+   \verbatim
+generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_ofcs(3,2,6)))));
+ {{}}
+   \endverbatim
+   </li>
    <li> So altogether 2*floor(n/q)+1 many variables can be eliminated. </li>
    <li> For the parameter tuple [[5,5],2] and 40 <= n <= 44 this makes 17
    eliminated variables; so well, better than nothing. </li>
+   <li> One needs now to generalise this method to arbitrary r. </li>
   </ul>
 
 
