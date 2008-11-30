@@ -1,0 +1,89 @@
+// Oliver Kullmann, 30.11.2008 (Swansea)
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp
+
+  \module_version Satisfiability/Lisp/Generators 0.0.7 (30.11.2008)
+
+
+  \par Version 0.0.8
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   the following topics are handled:
+    - Extreme cases
+    - More efficient computation
+
+
+  \par Version 0.0.9
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   the following topics are handled:
+    - Relations to other modules
+    - Symmetry breaking by using symmetries of the solution space
+    - Symmetry breaking by using Ramsey-symmetries of the clause-set
+
+
+  \par Version 0.0.10
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Split Generators/Generators.mac
+    - Accompanying statistics
+
+
+  \par Version 0.0.11
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - %Variables
+
+
+  \par Version 0.0.12
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Write basic docus
+
+
+   \par Version 0.1
+   We have rudimentary documentation for all generators, and for %Ramsey
+   problems we have translations available for all (standard) forms,
+   including some initial symmetry-breaking encodings. And the basic
+   methodology for writing generators is in place.
+   
+
+  \par Version 0.1.1
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Colouring problems
+
+
+   \par Version 0.1.2
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   the following topics are handled:
+    - %Generators for all standard %Ramsey problems
+
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   - 0.0.7 : 30.11.2008; initial version, several basic generators available, and plans for strengthening Ramsey-problem-generators.
+
+*/
+
