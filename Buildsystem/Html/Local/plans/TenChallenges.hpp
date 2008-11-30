@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans for the "Ten Challenges" entry page
 
 
+  \bug Reference to 10Challenges-directory does not work
+  <ul>
+   <li> Variable "tenchallenges_doxygen_directory" (in local_html.mak)
+   has the value from csltok, but on cs-wsok the hash-value is different. </li>
+   <li> This looks like a doxygen-bug. E-mail has been sent to
+   doxygen mailing-list. </li>
+  </ul>
+
+
   \todo Baltimore conference
   <ul>
    <li> We should improve the reference to the Baltimore symposium. </li>

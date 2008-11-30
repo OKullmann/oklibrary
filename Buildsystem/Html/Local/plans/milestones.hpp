@@ -23,6 +23,7 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Local/plans/TenChallenges.hpp the following topics
    are handled:
+    - Reference to 10Challenges-directory does not work
     - Baltimore conference
 
   \par
