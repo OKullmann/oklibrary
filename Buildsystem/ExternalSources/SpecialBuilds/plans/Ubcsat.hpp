@@ -10,6 +10,28 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \bug Also "corrected" Ubcsat segfaults with gcc 4.3.1
+  <ul>
+   <li> When building Ubcsat with gcc 4.3.1 we get
+   \verbatim
+OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
+/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 28315 Segmentation fault      ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $*
+   \endverbatim
+   </li>
+   <li> Strange that also after replacing the ubcsat-executable with one
+   built on a 64-bit machine (cs-wsok) and which works we get a similar
+   problem:
+   \verbatim
+> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
+/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 28461 Segmentation fault      ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $*
+   \endverbatim
+   ??? </li>
+   <li> One would guess that this reveals an error which will not show up
+   on every platform? Perhaps on that "cscharon" (the machine above) actually
+   no 32-bit compatibility mode is run, but true 64-bit ?? </li>
+  </ul>
+
+
   \bug Ubcsat source files are read-only
   <ul>
    <li> The permissions of the sources files in "src/" for the Ubcsat source
