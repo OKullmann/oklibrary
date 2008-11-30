@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Update our gcc-installation-system to the new standard
   <ul>
-   <li> As only extension, we install the patch for 4.1.2 as provided
+   <li> OK: was this done? has this to do with "stubs-32.h not found"?
+   As only extension, we install the patch for 4.1.2 as provided
    by MG. </li>
    <li> DONE
    Likely it's best for now only to support local installation. </li>
