@@ -33,11 +33,16 @@ The following software needs to be installed:
   (check: run "make --version")
  - gcc
   (check: run "gcc --version")
- - readline (development library).
- - A Fortran compiler (e.g. gfortan or F77;
-   check: run "gfortran --version")
+ - A Fortran compiler (e.g. gfortan or F77)
+   (check: run "gfortran --version")
  - GNU texinfo 
   (check: run "makeinfo --version")
+ - readline (development library).
+ - glibc (development library).
+
+If the build-machine is a 64-bit machine, then
+additionally also the 32-bit version of glibc
+is needed (in order to build the local gcc).
 
 For creation of documentation we also need:
 
