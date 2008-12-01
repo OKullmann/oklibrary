@@ -39,7 +39,7 @@ License, or any later version. */
 
   \bug Also "corrected" Ubcsat segfaults (with gcc 4.3.1)
   <ul>
-   <li> When building Ubcsat with gcc 4.3.1 we get
+   <li> When building Ubcsat (1.0.0) with gcc 4.3.1 we get
    \verbatim
 OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
 /compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 28315 Segmentation fault      ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $*
@@ -152,6 +152,20 @@ Error: Invalid Literal [-31473] in clause [0]
      Likely this is due to incorrect assumptions on integer types. </li>
     </ol>
    </li>
+   <li> We should be able to instruct the compiler to build for a 32-bit
+   machine?! Perhaps "-m32"? The executable provided with the
+   1.1.0-distribution seems to work on all 32- and 64-bit machines. </li>
+   <li> And apparently the executable compiled on cs-wsok (64-bit, AMD) seems to
+   work on "all" machines. </li>
+   <li> Though "-m32" works on cs-wsok (64-bit, AMD), but we get a compilation
+   error
+   \verbatim
+/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/ld: skipping incompatible /usr/lib64/gcc/x86_64-suse-linux/4.3/libgcc.a when searching for -lgcc
+/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/ld: cannot find -lgcc
+collect2: ld returned 1 exit status
+   \endverbatim
+   on an another 64-bit machine (Intel)? </li>
+   <li> So perhaps for now we just use the provided executable. </li>
    <li> We should download the now available documentation. </li>
    <li> OK and MG must get in contact with the Ubcsat-group. </li>
    <li> See "Contact the developers of Ubcsat" in
