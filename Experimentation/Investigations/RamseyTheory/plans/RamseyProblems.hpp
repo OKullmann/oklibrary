@@ -262,7 +262,12 @@ ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
        <li> On cscharon (64 bit, ubcsat version 1.1.0):
        \verbatim
 > ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_42.cnf
-
+       \endverbatim
+       on 7 runs minimum was 77, maximum 86 falsified clauses.
+       </li>
+       <li> Now
+       \verbatim
+> ubcsat-okl -alg samd -cutoff 40000000 -runs 50 -i Ramsey_5_5_2_42.cnf
        \endverbatim
        </li>
       </ol>
