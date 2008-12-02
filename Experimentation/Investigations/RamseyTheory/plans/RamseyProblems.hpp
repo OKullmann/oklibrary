@@ -246,6 +246,25 @@ ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
        
        \endverbatim
        </li>
+       <li> Removing the noimprove-value, actually a solution was found:
+       \verbatim
+> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
+      1 0    54     387633   20000000  451534902
+      2 0    55    4031001   20000000 2277530380
+      3 1     0   17699250   17699250  147704963
+       \endverbatim
+       Was this pure chance? (By the way, that was using ubcsat-1.1.0,
+       and we should check whether the seed is the same for 1.0.0.) </li>
+      </ol>
+     </li>
+     <li> n=42
+      <ol>
+       <li> On cscharon (64 bit, ubcsat version 1.1.0):
+       \verbatim
+> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_42.cnf
+
+       \endverbatim
+       </li>
       </ol>
      </li>
     </ol>
