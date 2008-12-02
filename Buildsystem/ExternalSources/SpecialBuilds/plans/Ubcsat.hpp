@@ -191,6 +191,8 @@ ubcsat -alg samd -i Ramsey_5_2_40.cnf -runs 10 -cutoff 5000
    constantly ~ 1200 FPS (which should correspond to 1700 MHz). </li>
    <li> On cs-wsok (64 bit) it seems we have around 2900 FPS (needs to be
    verified; and also independence of the various versions). </li>
+   <li> On cscarme (64-bit, 2.8 GHz) we have around 2500 FPS (for 1.1.0-
+   executable). </li>
   </ul>
 
 
