@@ -173,6 +173,27 @@ collect2: ld returned 1 exit status
   </ul>
 
 
+  \todo Speed
+  <ul>
+   <li> We should find out about the speed of the various versions (1.0.0
+   versus 1.1.0, the provided executable versus the one build by our system
+   versus one build with "-m32", 32-bit versus 64-bit). </li>
+   <li> Yet it seems the only difference is between 32 and 64 bits. </li>
+   <li> Let's use
+   \verbatim
+ubcsat -alg samd -i Ramsey_5_2_40.cnf -runs 10 -cutoff 5000 
+   \endverbatim
+   as the benchmark (reading off the "FlipsPerSecond" (FPS)). </li>
+   <li> On csltok (32 bit) we have the problem that, apparently due to heating
+   problems (real or fake), the processor runs with various clock-frequencies,
+   and this not controllable (under Suse 9.2). But it seems that the slowest
+   execution is constantly ~ 270 FPS, while the fastest execution is
+   constantly ~ 1200 FPS (which should correspond to 1700 MHz). </li>
+   <li> On cs-wsok (64 bit) it seems we have around 2900 FPS (needs to be
+   verified; and also independence of the various versions). </li>
+  </ul>
+
+
   \todo Complete docu-file : DONE
 
 
