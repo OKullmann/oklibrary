@@ -189,8 +189,10 @@ ubcsat -alg samd -i Ramsey_5_2_40.cnf -runs 10 -cutoff 5000
    and this not controllable (under Suse 9.2). But it seems that the slowest
    execution is constantly ~ 270 FPS, while the fastest execution is
    constantly ~ 1200 FPS (which should correspond to 1700 MHz). </li>
-   <li> On cs-wsok (64 bit) it seems we have around 2900 FPS (needs to be
-   verified; and also independence of the various versions). </li>
+   <li> On cs-wsok (64 bit) we have between 2400 and 2800 FPS for our
+   executable (1.0.0), between 2100 and 2200 FPS both for 1.1.0 with -m32
+   or as provided with the distribution --- so native compilation yields
+   better results (between 10%-30%)! </li>
    <li> On cscarme (64-bit, 2.8 GHz) we have around 2500 FPS (for 1.1.0-
    executable). </li>
   </ul>
