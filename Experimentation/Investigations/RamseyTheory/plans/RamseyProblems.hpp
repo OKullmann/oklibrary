@@ -265,6 +265,37 @@ ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
        \endverbatim
        on 7 runs minimum was 77, maximum 86 falsified clauses.
        </li>
+       <li> 500 runs with a cutoff 100000 yields between 83 and 107 falsified
+       clauses: Initially it's very easy, but then improvement is very hard,
+       and only very few runs are better --- but then they are much
+       better, while the rest is very close together. We need better data:
+        <ol>
+         <li> cutoff = 1000, 5000 runs:
+         \verbatim
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 1938
+BestStep_Mean = 875.772200
+Steps_Mean = 1000.000000
+Steps_Max = 1000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 130.212200
+BestSolution_Median = 130.000000
+BestSolution_Min = 108.000000
+BestSolution_Max = 160.000000
+         \endverbatim
+         </li> cutoff = 10000, 5000 runs: (cs-wsok)
+
+         </li>
+         <li> cutoff = 100000, 5000 runs: (cs-wsok)
+
+         </li>
+         <li> cutoff = 1000000, 500 runs: (cscarme)
+
+         </li>
+        </ol>
+       </li>
        <li> Now
        \verbatim
 > ubcsat-okl -alg samd -cutoff 40000000 -runs 50 -i Ramsey_5_5_2_42.cnf
