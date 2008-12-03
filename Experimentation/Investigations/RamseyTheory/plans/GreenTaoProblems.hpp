@@ -181,7 +181,7 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498
   </ul>
 
 
-  \todo greentao(2,5) > 33400
+  \todo greentao(2,5) > 33500
   <ul>
    <li> Trivial for n=5000:
    \verbatim
@@ -470,9 +470,14 @@ BestSolution_Min = 1.000000
    too small, since the optimum is always reached in the high 3*10^9!).
    </li>
    <li> n = 33500, density = 20.27976119402985
-   Apparently being investigated by MG. As we see above, likely
-   a cutoff of 4 * 10^9 is needed. </li>
-   </ol>
+   Found satisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_2_5_33500.cnf
+    15 1     0 3847168275 3847168275 2745070232
+   \endverbatim
+   </li>
+   <li> n = 33600 (to be investigated by MG)
+
    </li>
   </ul>
 
