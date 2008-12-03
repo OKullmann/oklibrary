@@ -303,6 +303,12 @@ BestSolution_Max = 160.000000
        </li>
       </ol>
      </li>
+     <li> n=43:
+      <ol>
+       <li> Also if this is unsatisfiable, one would only expect gradual
+       differences compared to n=42 for local-search algorithms. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
