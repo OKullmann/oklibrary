@@ -1,39 +1,13 @@
 // Oliver Kullmann, 25.1.2002 (Swansea)
-/* Copyright 2002 - 2007 Oliver Kullmann
+/* Copyright 2002 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// Name: VLiteralGeneratorAES.cpp
-
-// Copyright Oliver Kullmann, 25.1.2002
-// O.Kullmann@Swansea.ac.uk
-
-/*
-   -------------------------------------------------------------------------
-   Copyright (c) 2002, Dr Oliver Kullmann <O.Kullmann@Swansea.ac.uk>, Swansea, UK.
-   All rights reserved.
-   
-   TERMS
-
-   Redistribution and use in source and binary forms, with or without 
-   modification, are permitted subject to the following conditions:
-
-   1. Redistributions of source code must retain the above copyright 
-      notice, this list of conditions and the following disclaimer. 
-
-   2. Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the 
-      documentation and/or other materials provided with the distribution. 
-
-   3. The copyright holder's name must not be used to endorse or promote 
-      any products derived from this software without his specific prior 
-      written permission. 
-
-   This software is provided 'as is' with no express or implied warranties 
-   of correctness or fitness for purpose.
-   -------------------------------------------------------------------------
+/*!
+  \file Experimentation/RandomGenerator/VLiteralGeneratorAES.cpp
+  \brief Implementations regarding the basic generator for non-boolean literals
 */
 
 
