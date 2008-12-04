@@ -13,10 +13,10 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Update licence
+  \todo Update licence : DONE
 
 
-  \todo Create most basic doxygen documentation
+  \todo Create most basic doxygen documentation : DONE
 
 
   \todo Basic revision
