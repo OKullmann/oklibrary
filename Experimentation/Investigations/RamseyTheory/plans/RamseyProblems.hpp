@@ -286,7 +286,20 @@ BestSolution_Min = 108.000000
 BestSolution_Max = 160.000000
          \endverbatim
          </li> cutoff = 10000, 5000 runs: (cs-wsok)
-
+         \verbatim
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 2276
+BestStep_Mean = 7167.124200
+Steps_Mean = 10000.000000
+Steps_Max = 10000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 106.278800
+BestSolution_Median = 106.000000
+BestSolution_Min = 85.000000
+BestSolution_Max = 126.000000
+         \endverbatim
          </li>
          <li> cutoff = 100000, 5000 runs: (cs-wsok)
 
