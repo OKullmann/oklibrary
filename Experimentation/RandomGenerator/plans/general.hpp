@@ -13,12 +13,6 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Update licence : DONE
-
-
-  \todo Create most basic doxygen documentation : DONE
-
-
   \todo Basic revision
   <ul>
    <li> The first thing is to make the OKgenerator and accompanying tools

@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file RandomGenerator/plans/milestones.hpp
 
-  \module_version Experimentation/RandomGenerator 0.5 (22.8.2007)
-
-
-  \par Version 0.5.1 :
-   In RandomGenerator/plans/general.hpp the following topics are handled:
-    - Update licence
-    - Create most basic doxygen documentation
-
-  \par
-   Further milestones are created.
+  \module_version Experimentation/RandomGenerator 0.5.1 (4.12.2008)
 
 
   \par Version 0.5.2 :
@@ -49,7 +40,8 @@ License, or any later version. */
 
   \par Version history
 
-   -  0.5   : 22.8.2007; initial version number (we have the OKgenerator and accompanying tools, however there are bugs related to the AES-implementation used and the reading of program-options, and the library used for big-integers is sub-standard (with macros like "gcd")).
+   -  0.5  : 22.8.2007; initial version number (we have the OKgenerator and accompanying tools, however there are bugs related to the AES-implementation used and the reading of program-options, and the library used for big-integers is sub-standard (with macros like "gcd")).
+   - 0.5.1 : 4.12.2008; created plans plans for the renewal, update of licence, and most basic doxygen-information provided.
 
 */
 
