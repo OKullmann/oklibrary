@@ -19,6 +19,11 @@ License, or any later version. */
     - Extreme cases
     - More efficient computation
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
+   the following topics are handled:
+    - Specifying the AES random generator
+
 
   \par Version 0.0.9
 
@@ -29,6 +34,11 @@ License, or any later version. */
     - Symmetry breaking by using symmetries of the solution space
     - Symmetry breaking by using Ramsey-symmetries of the clause-set
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
+   the following topics are handled:
+    - Implementing the AES random generator
+
 
   \par Version 0.0.10
 
@@ -38,6 +48,11 @@ License, or any later version. */
     - Split Generators/Generators.mac
     - Accompanying statistics
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
+   the following topics are handled:
+    - Random subsets, sublists etc.
+
 
   \par Version 0.0.11
 
@@ -45,6 +60,11 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - %Variables
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
+   the following topics are handled:
+    - Filtering out
 
 
   \par Version 0.0.12

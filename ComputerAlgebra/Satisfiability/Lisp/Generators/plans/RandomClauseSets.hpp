@@ -22,10 +22,8 @@ License, or any later version. */
   </ul>
   
   
-  \todo AES random generator
+  \todo Specifying the AES random generator
   <ul>
-   <li> Using our maxima-aes-implementation, implement the random generator
-   as in Experimentation/RandomGenerator/plans/general.hpp. </li>
    <li> The specification was given in [Oliver Kullmann, CSR19-2002]. </li>
    <li> For k in NNZ let W(k) := {0, ..., 2^k - 1} and W^*(k) := W(k) - {0}.
    </li>
@@ -64,6 +62,14 @@ License, or any later version. */
       <li> XXX </li>
      </ol>
    </li>
+  </ul>
+
+
+  \todo Implementing the AES random generator
+  <ul>
+   <li> Using our maxima-aes-implementation, implement the random generator
+   as in Experimentation/RandomGenerator/plans/general.hpp. </li>
+   <li> How to name the generalised (non-boolean) versions? </li>
   </ul>
 
 
