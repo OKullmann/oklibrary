@@ -13,6 +13,12 @@ License, or any later version. */
   \todo Update namespaces.
 
 
+  \todo Update licence
+
+
+  \todo Create most basic doxygen documentation
+
+
   \todo Basic revision
   <ul>
    <li> The first thing is to make the OKgenerator and accompanying tools
@@ -23,19 +29,30 @@ License, or any later version. */
    generator" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp.
    </li>
-   <li> Creating the basic concept for BigIntegers
-   (see BigIntegers/concepts/plans/general.hpp), together with the wrapper for
-   GMP (see BigIntegers/plans/GMPWrapper.hpp). </li>
-   <li> Replacing the current big-integer implementation in OKgenerator
-   (files flint*; they are sub-standard, introducing macros like "isxdigit",
-   many(!) others written with small letter and additional "_I", and even
-   "ggT", "xggT", "kgV", "chinrest" and "zweianteil"; perhaps one could have
-   a look, whether there is a web page of Michael Welschenbach with improved
-   code). </li>
-   <li> Creating the concept for AES in the module Cryptology (see
-   Cryptology/plans/general.hpp). </li>
-   <li> Replacing the current AES implementation (Cryptology/aes*)
-   by Cryptology/rijndael*). </li>
+   <li> Handling big integers
+    <ol>
+     <li> Creating the basic concept for BigIntegers
+     (see BigIntegers/concepts/plans/general.hpp), together with the wrapper
+     for GMP (see BigIntegers/plans/GMPWrapper.hpp). </li>
+     <li> Replacing the current big-integer implementation in OKgenerator
+     (files flint*; they are sub-standard, introducing macros like "isxdigit",
+     many(!) others written with small letter and additional "_I", and even
+     "ggT", "xggT", "kgV", "chinrest" and "zweianteil"; perhaps one could have
+     a look, whether there is a web page of Michael Welschenbach with improved
+     code). </li>
+     <li> Alternatively: It seems that only relatively small integers are
+     actually needed, at most 128 bits --- these could be handled by the
+     integral types provided by the new C/C++ standard?! </li>
+    </ol>
+   </li>
+   <li> Handling AES
+    <ol>
+     <li> Creating the concept for AES in the module Cryptology (see
+     Cryptology/plans/general.hpp). </li>
+     <li> Replacing the current AES implementation (Cryptology/aes*)
+     by Cryptology/rijndael*). </li>
+    </ol>
+   </li>
    <li> Correct General/Kommandozeile.hpp (there are input-errors,
    likely undefined behaviour). </li>
    <li> Regarding testing we should link to the Maxima/Lisp implementation

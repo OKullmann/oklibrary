@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,11 +13,27 @@ License, or any later version. */
 
   \par Version 0.5.1 :
    In RandomGenerator/plans/general.hpp the following topics are handled:
-    - Basic revision
-    - Other tools
+    - Update licence
+    - Create most basic doxygen documentation
 
   \par
    Further milestones are created.
+
+
+  \par Version 0.5.2 :
+   In RandomGenerator/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - Basic revision
+
+
+  \par Version 0.5.3 :
+   In RandomGenerator/plans/general.hpp the following topics are handled:
+    - Improvements
+
+
+  \par Version 0.5.4 :
+   In RandomGenerator/plans/general.hpp the following topics are handled:
+    - Other tools
 
 
   \par Version 0.6 :
@@ -25,7 +41,7 @@ License, or any later version. */
 
 
   \par Version 0.7 :
-  All implementations and updated according to the OKlibrary-standard.
+  All implementations updated according to the OKlibrary-standard.
 
   
 
