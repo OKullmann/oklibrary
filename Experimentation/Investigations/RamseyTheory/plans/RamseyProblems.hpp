@@ -301,6 +301,24 @@ BestSolution_Min = 85.000000
 BestSolution_Max = 126.000000
          \endverbatim
          </li>
+         <li> Alternatively with gsat-tabu:
+         \verbatim
+> ubcsat-okl -alg gsat-tabu -i Ramsey_5_5_2_42.cnf -runs 5000 -cutoff 10000
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 1721
+BestStep_Mean = 7232.085000
+Steps_Mean = 10000.000000
+Steps_Max = 10000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 105.163400
+BestSolution_Median = 105.000000
+BestSolution_Min = 85.000000
+BestSolution_Max = 124.000000
+         \endverbatim
+         </li>
+         Might be slightly better, but seems to be quite a bit slower. </li>
          <li> cutoff = 100000, 5000 runs: (cs-wsok)
 
          </li>
