@@ -32,15 +32,15 @@ basic_learning(r,h) := buildq([r,h], lambda([FF],
  block([F0 : FF[2], result : unknown],
    unless result # unknown do block([F : r(F0)],
      if emptyp(F) then result : true
-     elseif has_empty_element(F) then result : false
+     elseif empty_element_p(F) then result : false
      else block([phi : {}],
-       unless result # unknown do block([x : h(cs_to_fcs(F))],
+       unless result # unknown do block([x : h(cs2fcs(F))],
          phi : adjoin(x,phi),
-         F : r(apply_pa({x},F)),
+         F : r(apply_pa_cs({x},F)),
          if emptyp(F) then result : true
-         elseif has_empty_element(F) then result : false
+         elseif empty_element_p(F) then result : false
        ),
-       if result = false then (
+       if result = false then ( /* Learning: */
          F0 : adjoin(comp_sl(phi),F0), result : unknown
      ))),
  return(result))))$
