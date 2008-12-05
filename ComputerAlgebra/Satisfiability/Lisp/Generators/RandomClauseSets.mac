@@ -50,6 +50,10 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
    **********************************
 */
 
+/* Creating random clause-sets in the "random clause-length" model,
+   where a parameter p governs the probability of inclusion of
+   a variable (so with probability 1-p the variable is not included).
+*/
 /* For p=1 every clause is full, for p=0 every clause is empty,
    and for p=2/3 every clause has the same probability. */
 /* The average clause-length is p * n (thus if the average shall be k,
