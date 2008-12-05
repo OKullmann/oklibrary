@@ -43,6 +43,20 @@ okltest_comp_cs(f) := (
    **********************
 */
 
+okltest_or_cs2(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{{}}) = {}),
+  assert(f({{}},{}) = {}),
+  assert(f({{}},{{}}) = {{}}),
+  assert(f({{}},{{1}}) = {{1}}),
+  assert(f({{1}},{{-1}}) = {}),
+  assert(f({{},{1},{-1}},{{},{1},{-1}}) = {{},{1},{-1}}),
+  true)$
+
+okltest_or_cs(f) := (
+  /* XXX */
+  true)$
+
 okltest_dual_cs(f) := (
   assert(f({}) = {{}}),
   assert(f({{}}) = {}),
