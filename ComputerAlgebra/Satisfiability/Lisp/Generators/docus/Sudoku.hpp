@@ -18,7 +18,7 @@ License, or any later version. */
   \verbatim
 (%i1) oklib_load_all();
 (%i2) S3 : strong_sdk(3)$
-(%i3) P100 : map("{",{sdk(1,3,5),sdk(1,7,1),sdk(1,9,8),sdk(2,4,5),sdk(2,8,3),
+(%i3) P100 : map(set,{sdk(1,3,5),sdk(1,7,1),sdk(1,9,8),sdk(2,4,5),sdk(2,8,3),
  sdk(3,5,8),sdk(3,6,9),sdk(3,7,4),sdk(4,3,9),sdk(4,5,1),sdk(4,6,4),sdk(4,9,2),
  sdk(6,1,2),sdk(6,4,3),sdk(6,5,6),sdk(6,7,7),sdk(7,3,7),sdk(7,4,2),sdk(7,5,9),
  sdk(8,2,8),sdk(8,6,5),sdk(9,1,3),sdk(9,3,4),sdk(9,7,6)});
@@ -28,7 +28,7 @@ License, or any later version. */
  sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 100 in [extreme Sudoku, Gould]."),
  sSP100[1],"SP100.cnf",sSP100[2]);
 
-(%i7) P120 : map("{",{sdk(1,1,8),sdk(1,5,5),sdk(1,9,2),sdk(2,3,3),sdk(2,5,4),
+(%i7) P120 : map(set,{sdk(1,1,8),sdk(1,5,5),sdk(1,9,2),sdk(2,3,3),sdk(2,5,4),
  sdk(2,7,8),sdk(3,3,4),sdk(3,4,8),sdk(3,6,7),sdk(3,7,3),sdk(4,1,5),sdk(4,5,9),
  sdk(4,9,8),sdk(5,2,6),sdk(5,8,9),sdk(6,1,1),sdk(6,5,2),sdk(6,9,5),sdk(7,3,1),
  sdk(7,4,6),sdk(7,6,9),sdk(7,7,5),sdk(8,3,5),sdk(8,5,8),sdk(8,7,9),sdk(9,1,3),

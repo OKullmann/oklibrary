@@ -54,7 +54,7 @@ or_cs([L]) := block([l : length(L)],
 
 /* The natural DNF-representation of a clause-set F as CNF */
 dual_cs(F) := apply(or_cs,
- map(lambda([C],map("{",C)), listify(F)))$
+ map(lambda([C],map(set,C)), listify(F)))$
 /* Subsumption elimination applied to the result yields the set of
    all prime implicants (all minimal satisfying partial assignments). */
 

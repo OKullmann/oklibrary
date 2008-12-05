@@ -100,8 +100,9 @@ number,fixnum,rational,boolean,float,list,any
 map("+",[1,2],[3,4]) = [4,6]
       \endverbatim
      </li>
-     <li> The function name for list-formation is "[", and for set-creation it
-     is "{". </li>
+     <li> The function name for list-formation is "[", while for set-creation
+     it is "set" (one could also use "{", but this could invoke some
+     Maxima-bugs, and "set" seems also more readable). </li>
      <li> "outermap" seems obscure, and does strange things with lists of lists.
      </li>
     </ol>
