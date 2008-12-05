@@ -16,20 +16,31 @@ License, or any later version. */
   <h2> Generating problem instances </h2>
 
   \verbatim
-(%i2) P100 : map("{",{sdk(1,3,5),sdk(1,7,1),sdk(1,9,8),sdk(2,4,5),sdk(2,8,3),sdk(3,5,8),sdk(3,6,9),sdk(3,7,4),sdk(4,3,9),sdk(4,5,1),sdk(4,6,4),sdk(4,9,2),sdk(6,1,2),sdk(6,4,3),sdk(6,5,6),sdk(6,7,7),
-  sdk(7,3,7),sdk(7,4,2),sdk(7,5,9),sdk(8,2,8),sdk(8,6,5),sdk(9,1,3),sdk(9,3,4),sdk(9,7,6)});
-(%i3) SP100 : [S3[1],union(S3[2],P100)]$
-(%i4) sSP100 : standardise_fcs(SP100)$
-(%i5) output_fcs_v(sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 100 in [extreme Sudoku, Gould]."),sSP100[1],"SP100.cnf",sSP100[2]);
+(%i1) oklib_load_all();
+(%i2) S3 : strong_sdk(3)$
+(%i3) P100 : map("{",{sdk(1,3,5),sdk(1,7,1),sdk(1,9,8),sdk(2,4,5),sdk(2,8,3),
+ sdk(3,5,8),sdk(3,6,9),sdk(3,7,4),sdk(4,3,9),sdk(4,5,1),sdk(4,6,4),sdk(4,9,2),
+ sdk(6,1,2),sdk(6,4,3),sdk(6,5,6),sdk(6,7,7),sdk(7,3,7),sdk(7,4,2),sdk(7,5,9),
+ sdk(8,2,8),sdk(8,6,5),sdk(9,1,3),sdk(9,3,4),sdk(9,7,6)});
+(%i4) SP100 : [S3[1],union(S3[2],P100)]$
+(%i5) sSP100 : standardise_fcs(SP100)$
+(%i6) output_fcs_v(
+ sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 100 in [extreme Sudoku, Gould]."),
+ sSP100[1],"SP100.cnf",sSP100[2]);
 
-(%i6) P120 : map("{",{sdk(1,1,8),sdk(1,5,5),sdk(1,9,2),sdk(2,3,3),sdk(2,5,4),sdk(2,7,8),sdk(3,3,4),sdk(3,4,8),sdk(3,6,7),sdk(3,7,3),sdk(4,1,5),sdk(4,5,9),sdk(4,9,8),sdk(5,2,6),sdk(5,8,9),sdk(6,1,1),
-  sdk(6,5,2),sdk(6,9,5),sdk(7,3,1),sdk(7,4,6),sdk(7,6,9),sdk(7,7,5),sdk(8,3,5),sdk(8,5,8),sdk(8,7,9),sdk(9,1,3),sdk(9,5,1),sdk(9,9,4)});
-(%i7) SP120 : [S3[1],union(S3[2],P120)]$
-(%i8) fcs_p(SP120);
+(%i7) P120 : map("{",{sdk(1,1,8),sdk(1,5,5),sdk(1,9,2),sdk(2,3,3),sdk(2,5,4),
+ sdk(2,7,8),sdk(3,3,4),sdk(3,4,8),sdk(3,6,7),sdk(3,7,3),sdk(4,1,5),sdk(4,5,9),
+ sdk(4,9,8),sdk(5,2,6),sdk(5,8,9),sdk(6,1,1),sdk(6,5,2),sdk(6,9,5),sdk(7,3,1),
+ sdk(7,4,6),sdk(7,6,9),sdk(7,7,5),sdk(8,3,5),sdk(8,5,8),sdk(8,7,9),sdk(9,1,3),
+sdk(9,5,1),sdk(9,9,4)});
+(%i8) SP120 : [S3[1],union(S3[2],P120)]$
+(%i9) fcs_p(SP120);
 Evaluation took 165.0739 seconds (189.7842 elapsed) using 438.141 MB.
 (%o9) true
 (%i10) sSP120 : standardise_fcs(SP120)$
-(%i11) output_fcs_v(sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 120 in [extreme Sudoku, Gould]."),sSP120[1],"SP120.cnf",sSP120[2]);
+(%i11) output_fcs_v(
+ sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 120 in [extreme Sudoku, Gould]."),
+ sSP120[1],"SP120.cnf",sSP120[2]);
    \endverbatim
 
 
