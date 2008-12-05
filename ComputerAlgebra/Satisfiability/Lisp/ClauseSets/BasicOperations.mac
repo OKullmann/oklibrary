@@ -268,7 +268,8 @@ print_nlb(s) := block([old_linel : linel],
   print(s),
   linel : old_linel)$
 
-/* Print a formal clause-set in Dimacs format: */
+/* Print a formal clause-set in ("extended") Dimacs format (printing terms
+   directly as strings): */
 /* RENAME: print_fcs */
 print_cs_f(comment,FF) := (
   print_nlb(sconcat("c ", comment)),
@@ -277,13 +278,14 @@ print_cs_f(comment,FF) := (
 )$
 print_fcs(comment,FF) := print_cs_f(comment,FF)$
 
-/* Output formal clause-set FF to file n: */
+/* Output formal clause-set FF to file n (using print_fcs): */
 /* RENAME: output_fcs */
 output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF))$
 output_fcs(comment,FF,n) := with_stdout(n, print_fcs(comment,FF))$
 
 /* Print a formal clause-set in Dimacs format, together with a map
-   which explains the variable meaning: */
+   which explains the meaning of variables (this is useful for example
+   if variables have been standardised): */
 /* RENAME: print_fcs_v */
 print_cs_f_v(comment,FF,varlist) := (
   print_nlb(sconcat("c ", comment)),
@@ -301,7 +303,8 @@ print_fcl_v(comment,FF,varlist) := (
   for C in FF[2] do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 
-/* Output formal clause-set FF to file n, using a variable-list: */
+/* Output formal clause-set FF to file n, using a variable-list
+   (based on print_fcs_v): */
 /* RENAME: output_fcs_v */
 output_cs_f_v(comment,FF,n,varlist) := 
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
