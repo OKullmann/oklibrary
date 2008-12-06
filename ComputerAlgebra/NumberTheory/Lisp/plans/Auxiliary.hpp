@@ -65,9 +65,6 @@ Evaluation took 0.0000 seconds (0.0004 elapsed) using 1,016 bytes.
   </ul>
 
 
-
-
-
   \todo ext_integer_partitions
   <ul>
    <li> That Maxima yields "integer_partitions(0) = {}" is a bug:
