@@ -70,10 +70,9 @@ base_n2int(str,b) :=
 int2base_n(m,b) := 
   if m = 0 then "0" 
   else block([result : []],
-    for ei : floorlog(m,b) step -1  thru 0 do block([dn], 
-      dn : floor(m/b^ei), 
-      result : append(result,[int2digit(dn)]), 
-      m : m -dn*b^ei),
+    while m > 0 do block([d : divide(m,b)],
+      result : cons(int2digit(d[2]), result),
+      m : d[1]),
     return(simplode(result)))$
 
 
