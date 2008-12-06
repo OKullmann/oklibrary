@@ -80,6 +80,7 @@ License, or any later version. */
      with negation? </li>
      <li> We could call pairs [n,e] "non-boolean literals" ("nbl"), while
      triples [n,e,s] are "monosigned literals" ("msl") ? </li>
+     <li> Clause-sets would then be "nbcs" resp. "mscs" etc. </li>
     </ol>
    </li>
    <li> And then we have signed literals as sets of pairs [v,E],
