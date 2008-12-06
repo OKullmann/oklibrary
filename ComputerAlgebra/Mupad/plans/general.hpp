@@ -36,7 +36,23 @@ License, or any later version. */
   All modules are to be redesigned and reimplemented in Maxima
   <ul>
    <li> Mupad/Design.mup : Just the incidence matrix of the Fano plane. </li>
-   <li> Mupad/Hilfsfunktionen.mup : Various general functions </li>
+   <li> Mupad/Hilfsfunktionen.mup : Various general functions
+    <ol>
+     <li> lesenHilfsfunktionen </li>
+     <li> NormMod </li>
+     <li> SYSTEM </li>
+     <li> Zahl : DONE (available via reverse(polyadic2int(L,B))) </li>
+     <li> untfak </li>
+     <li> obfak </li>
+     <li> fac </li>
+     <li> vuntfak </li>
+     <li> vbinom </li>
+     <li> ExtHad </li>
+     <li> MatrixRowList </li>
+     <li> RowPermutation </li>
+     <li> ZeroesMatrix </li>
+    </ol>
+   </li>
    <li> Mupad/Orthogonal.mup : others than above
     <ol>
      <li> Singular reductions : DONE
@@ -59,7 +75,8 @@ License, or any later version. */
    generator </li>
    <li> Mupad/VanderWaerden.mup : Computing optimal resolution trees etc.
    for van der Waerden-clause-sets </li>
-   <li> Mupad/tau.mup : See ComputerAlgebra/Satisfiability/TauMachinery/plans/general.hpp. DONE (moved elsewhere) </li>
+   <li> DONE (moved elsewhere)
+   Mupad/tau.mup : See ComputerAlgebra/Satisfiability/TauMachinery/plans/general.hpp. </li>
   </ul>
 
 */

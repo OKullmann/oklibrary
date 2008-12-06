@@ -59,23 +59,50 @@ int2digit(m) :=
     if m < 10 then ascii(cint("0") + m)
     else ascii(cint("A") + (m-10))$
 
-/* Converts a string representing a number in base b to an integer. */
+/* Transforming a list N representing a natural number n to base b (big endian,
+   that is leading coefficients first) into n. */
+/* More generally, N can interpreted as the list of coefficients of a 
+   polynomial in an unknown x, but with leading coefficient first, and
+   this polynomial then is evaluating (via Horner scheme) at argument value b.
+*/
+polyadic2int(N,b) := 
+  lreduce(lambda([x,y], x * b + y), N, 0)$
+/* Converts an non-empty string representing an integer in base b to an
+   integer. */
 /* Prerequisite: b a natural number, 1 <= b <= 36; "digits" might be equal to b
    or even be greater (but must be characters from 0-9 and A-Z). */
-polyadicstr2int(str,b) := 
-  lreduce(lambda([x,y], x * b + digit2int(y)),str2chrl(str),0)$
+polyadicstr2int(str,b) := if charat(str,1) = "-" then 
+  -polyadic2int(map(digit2int,str2chrl(substring(str,2))),b)
+else 
+  polyadic2int(map(digit2int,str2chrl(str)),b)$
+bin2int(str) := polyadicstr2int(str,2)$
+oct2int(str) := polyadicstr2int(str,8)$
+dec2int(str) := polyadicstr2int(str,10)$
+hex2int(str) := polyadicstr2int(str,16)$
 
-/* Converts a given positive integer m to its base b representation as a
-   string, where 2 <= b <= 36 is a natural number. */
-int2polyadicstr(m,b) := 
-  if m = 0 then "0" 
+/* Computing the representation of a number m to base b 
+   (as a list, big endian). */
+/* Prerequisites: m a natural number >= 0, b a natural number >= 2. */
+int2polyadic(m,b) :=
+  if m = 0 then [0]
   else block([result : []],
     while m > 0 do block([d : divide(m,b)],
-      result : cons(int2digit(d[2]), result),
+      result : cons(d[2], result),
       m : d[1]),
-    return(simplode(result)))$
+    return(result))$
+/* Converts a given integer m to its base b representation as a
+   string, where 2 <= b <= 36 is a natural number. */
+int2polyadicstr(m,b) := if m >= 0 then
+  simplode(map(int2digit,int2polyadic(m,b)))
+else
+  sconcat("-", simplode(map(int2digit,int2polyadic(-m,b))))$
+int2bin(m) := int2polyadicstr(m,2)$
+int2boct(m) := int2polyadicstr(m,8)$
+int2dec(m) := int2polyadicstr(m,10)$
+int2hex(m) := int2polyadicstr(m,16)$
 
 
+/* Other functions */
 
 /* Extending integer_partitions from NN to ZZ. */
 ext_integer_partitions(n) :=

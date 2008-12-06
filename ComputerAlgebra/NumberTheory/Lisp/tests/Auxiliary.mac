@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 kill(f)$
 
@@ -79,9 +80,18 @@ okltest_int2digit(f) := block(
   assert(f(35) = "Z"),
   true)$
 
+okltest_polyadic2int(f) := (
+  assert(f([],0) = 0),
+  assert(f([],1) = 0),
+  assert(f([0],0) = 0),
+  assert(f([1],0) = 1),
+  assert(f([0],1) = 0),
+  assert(f([1],1) = 1),
+  assert(f([1,1,1],0) = 1),
+  assert(f([-2,3,-1],2) = -3),
+  true)$
+
 okltest_polyadicstr2int(f) := block(
-  for n : 0 thru 3 do
-    assert(f("",n) = 0),
   for n : 0 thru 3 do
     assert(f("0",n) = 0),
   for n : 0 thru 3 do
@@ -89,13 +99,22 @@ okltest_polyadicstr2int(f) := block(
   for n : 0 thru 3 do
     assert(f("10",n) = n),
   assert(f("1110101",1) = 5),
-  /*for n : -3 thru 3 do
-    assert(f(string(n),abs(n)+1) = n),*/
-  /* assert(f("FGDD",0) = 0), */
+  for n : -3 thru 3 do
+    assert(f(string(n),abs(n)+1) = n),
+  assert(f("FGDD",0) = 13),
   assert(f("EE8C04",16) = 15633412),
-  /*assert(f("-EE8C04",16) = -15633412),*/
+  assert(f("-EE8C04",16) = -15633412),
   assert(f("MK014LZDF",36) = 63631769456211), 
-  /*assert(f("-MK014LZDF",36) = -63631769456211),*/
+  assert(f("-MK014LZDF",36) = -63631769456211),
+  true)$
+
+okltest_int2polyadic(f) := (
+  assert(f(0,0) = [0]),
+  assert(f(0,1) = [0]),
+  assert(f(100,101) = [100]),
+  assert(f(101,101) = [1,0]).
+  assert(f(136792598789324718765670228683992083246,256) = 
+    map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"])),
   true)$
 
 okltest_int2polyadicstr(f) := block(
@@ -103,12 +122,12 @@ okltest_int2polyadicstr(f) := block(
     assert(f(0,n) = "0"),
   for n : 2 thru 12 do
     assert(f(n,n) = "10"),
-  /*for n : -12 thru 12 do
-    assert(f(n,abs(n)+1) = string(n)),*/
+  for n : -9 thru 9 do
+    assert(f(n,10) = string(n)),
   assert(f(15633412,16) = "EE8C04"),
-  /*assert(f(-15633412,16) = "-EE8C04"),*/
+  assert(f(-15633412,16) = "-EE8C04"),
   assert(f(63631769456211,36) = "MK014LZDF"), 
-  /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
+  assert(f(-63631769456211,36) = "-MK014LZDF"),
   true)$
 
 
