@@ -21,8 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/Auxiliary
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
 
+/* **************
+   * Logarithms *
+   **************
+*/
 
 okltest_fld(fld);
+okltest_floorlog(floorlog);
 
 okltest_ext_integer_partitions(ext_integer_partitions);
 

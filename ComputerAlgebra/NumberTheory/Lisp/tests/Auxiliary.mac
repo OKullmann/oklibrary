@@ -23,6 +23,10 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 
+/* **************
+   * Logarithms *
+   **************
+*/
 
 okltest_fld(f) := block(
   assert(f(0) = minf),
@@ -35,6 +39,16 @@ okltest_fld(f) := block(
   assert(f(2^10-1) = 9),
   assert(f(2^10+1) = 10),
   true)$
+
+okltest_floorlog(f) := (
+  assert(okltest_fld(buildq([f],
+    lambda([x], if x=0 then minf else f(x,2))))),
+  for b : 3 thru 7 do
+    for e : 0 thru 5 do
+      assert(f(b^e,b) = e),
+  /* XXX */
+  true)$
+
 
 okltest_ext_integer_partitions(f) := (
   assert(f(-1) = {}),

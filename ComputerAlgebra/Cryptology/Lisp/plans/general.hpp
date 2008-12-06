@@ -24,7 +24,11 @@ License, or any later version. */
     <ol>
      <li> This file must be removed, and the content placed in more
      appropriate modules. </li>
-     <li> Number theoretical functions should go to NumberTheory. </li>
+     <li> Number theoretical functions should go to NumberTheory.
+      <ul>
+       <li> floorlog : DONE </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> OK: has this been done???

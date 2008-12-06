@@ -20,12 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-
-/* Returns the floor of the logarithm of n base b, correcting
-   for issues in precision causing round off. */
-floorlog(n,b) := block([l : floor(float(log(n)/log(b)))], 
-  if b^(l+1) <= n then (l+1) else
-  if b^(l) > n then (l-1) else l)$ /* Handle Issues with precision */
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /* Pads a string s to the left with character c until it is n characters in
    length */
