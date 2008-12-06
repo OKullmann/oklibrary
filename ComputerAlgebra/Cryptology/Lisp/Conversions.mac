@@ -8,6 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Conversions.mac
   \brief Conversion functions for use in Cryptology.
+  \deprecated Functions to be moved elsewhere.
 
 Use by
 
@@ -23,39 +24,9 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /* Pads a string s to the left with character c until it is n characters in
-   length */
+   length: */
 lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 
-/* Converts a string to a list of characters */
-str2chrl(str) := makelist(charat(str, i),i, 1, slength(str))$
-
-/* Converts a digit of the form "1" or "D" etc to an integer. Works up to a
-   digit of base 36. */
-digit2int(d) := 
-  if cgreaterp("A",d) then (cint(d) - cint("0"))
-  else (10 + (cint(d) - cint("A")))$
-
-/* Converts a string representing a number in base N to an integer. */
-/* MG: This currently only supports natural numbers */
-/* MG: Should base_n2int("SOMETHING",0) = 0 ? */
-base_n2int(str,n) := 
-  lreduce(lambda([a,b], a * n + digit2int(b)),str2chrl(str),0)$
-
-/* Converts an integer to a digit char in base N. N is not necessary as
-   a parameter as this is for a single digit and so the integer is
-   assumed to be within the correct range for the given base. */
-int2digit(m) := 
-    if m < 10 then ascii(cint("0") + m)
-    else ascii(cint("A") + (m-10))$
-
-/* Converts a given positive integer "m" to its base "n" representation. */
-/* MG: This should be generalised to include negative numbers */
-int2base_n(m,n) := 
-  if m = 0 then "0" 
-  else block([result : []],
-    for ei : floorlog(m,n) step -1  thru 0 do block([dn], 
-      dn : floor(m/n^ei), result : append(result,[int2digit(dn)]), m : m -dn*n^ei),
-    return(simplode(result)))$
 
 /* Converts an integer to a polynomial with coefficients in the given base by
    converting the integer to a number in that base and taking each digit as a
@@ -71,14 +42,14 @@ int2poly(n,coeff_base) :=
 /* MG : Should this return an error expression if "poly" isn't univariate? */
 poly2int(poly, poly_b, poly_x) := subst(poly_b,poly_x,poly)$
 
-/* Converts a hexidecimal string to a list of GF(2^8) elements */
+/* Converts a hexidecimal string to a list of GF(2^8) elements: */
 /* MG: Further clarification is needed here. */
 hex2gf2t8l(hex) :=
   matrix2list(transpose(apply(matrix,
     partition_elements(map(lambda([a],int2poly(base_n2int(simplode(a),16),2)),
       partition_elements(str2chrl(hex),2)),4))))$
   
-/* Converts a list of GF(2^8) elements to a hexidecimal string */
+/* Converts a list of GF(2^8) elements to a hexidecimal string: */
 /* MG: Further clarification is needed here. */
 gf2t8l2hex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([int2base_n(a,16)]),"0",2)),  

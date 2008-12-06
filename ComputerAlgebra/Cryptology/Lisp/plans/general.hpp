@@ -10,14 +10,6 @@ License, or any later version. */
   \brief Plans for cryptological tools realised in Maxima/Lisp
 
 
-  \bug Integer conversion functions don't handle negative numbers.
-  <ul>
-   <li> Example : "int2poly(-4,2);" errors. </li>
-   <li> Example : "int2base_n(-10,3);" errors. </li>
-   <li> Should they handle negative numbers? </li>
-  </ul>
-
-
   \todo Conversion functions
   <ul>
    <li> Reorganisation:
@@ -26,11 +18,14 @@ License, or any later version. */
      appropriate modules. </li>
      <li> Number theoretical functions should go to NumberTheory.
       <ul>
-       <li> floorlog : DONE </li>
+       <li> floorlog : DONE. </li>
+       <li> Functions for number-representations in positional systems:
+       DONE. </li>
       </ul>
      </li>
     </ol>
    </li>
+   <li> "int2poly(-4,2);" yields an error. </li>
    <li> OK: has this been done???
    Functions such as GF2t8ListToHex should be renamed (although
    also moved - see above) using whatever proper naming scheme is decided for

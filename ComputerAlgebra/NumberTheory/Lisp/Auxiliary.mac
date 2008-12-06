@@ -41,6 +41,41 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
   if b^(l) > n then (l-1) else l)$ /* Handle Issues with precision */
 
 
+/* ******************************
+   * Representations of numbers *
+   ******************************
+*/
+
+/* Converts a string to a list of characters: */
+str2chrl(str) := makelist(charat(str, i),i, 1, slength(str))$
+
+/* Converts a digit of the form "1" or "D" etc to an integer. Works up to a
+   digit of base 36. */
+digit2int(d) := 
+  if cgreaterp("A",d) then (cint(d) - cint("0"))
+  else (10 + (cint(d) - cint("A")))$
+
+/* Converts a string representing a number in base N to an integer: */
+base_n2int(str,n) := 
+  lreduce(lambda([a,b], a * n + digit2int(b)),str2chrl(str),0)$
+
+/* Converts an integer to a digit char in base N. N is not necessary as
+   a parameter as this is for a single digit and so the integer is
+   assumed to be within the correct range for the given base. */
+int2digit(m) := 
+    if m < 10 then ascii(cint("0") + m)
+    else ascii(cint("A") + (m-10))$
+
+/* Converts a given positive integer "m" to its base "n" representation. */
+int2base_n(m,n) := 
+  if m = 0 then "0" 
+  else block([result : []],
+    for ei : floorlog(m,n) step -1  thru 0 do block([dn], 
+      dn : floor(m/n^ei), result : append(result,[int2digit(dn)]), m : m -dn*n^ei),
+    return(simplode(result)))$
+
+
+
 /* Extending integer_partitions from NN to ZZ. */
 ext_integer_partitions(n) :=
  if n < 0 then {}

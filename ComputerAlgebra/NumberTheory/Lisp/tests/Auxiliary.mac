@@ -50,6 +50,67 @@ okltest_floorlog(f) := (
   true)$
 
 
+/* ******************************
+   * Representations of numbers *
+   ******************************
+*/
+
+okltest_str2chrl(f) := block(
+  assert(f("") = []),
+  assert(f("1") = ["1"]),
+  assert(f("a") = ["a"]),
+  assert(f("10") = ["1","0"]),
+  assert(f("abcd") = ["a","b","c","d"]),
+  true)$
+
+okltest_digit2int(f) := block(
+  for n : 0 thru 9 do
+    assert(f(string(n)) = n),
+  assert(f("A") = 10),
+  assert(f("F") = 15),
+  assert(f("Z") = 35),
+  true)$
+
+okltest_base_n2int(f) := block(
+  for n : 0 thru 3 do
+    assert(f("",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("0",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("00000",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("10",n) = n),
+  /*for n : -3 thru 3 do
+    assert(f(string(n),abs(n)+1) = n),*/
+  /* assert(f("FGDD",0) = 0), */
+  assert(f("EE8C04",16) = 15633412),
+  /*assert(f("-EE8C04",16) = -15633412),*/
+  assert(f("MK014LZDF",36) = 63631769456211), 
+  /*assert(f("-MK014LZDF",36) = -63631769456211),*/
+  true)$
+
+okltest_int2digit(f) := block(
+  for n : 0 thru 9 do
+    assert(f(n) = string(n)),
+  assert(f(10) = "A"),
+  assert(f(15) = "F"),
+  assert(f(35) = "Z"),
+  true)$
+
+okltest_int2base_n(f) := block(
+  for n : 0 thru 3 do
+    assert(f(0,n) = "0"),
+  for n : 2 thru 12 do
+    assert(f(n,n) = "10"),
+  /*for n : -12 thru 12 do
+    assert(f(n,abs(n)+1) = string(n)),*/
+  assert(f(15633412,16) = "EE8C04"),
+  /*assert(f(-15633412,16) = "-EE8C04"),*/
+  assert(f(63631769456211,36) = "MK014LZDF"), 
+  /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
+  true)$
+
+
 okltest_ext_integer_partitions(f) := (
   assert(f(-1) = {}),
   assert(f(0) = {[]}),

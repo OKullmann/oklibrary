@@ -24,6 +24,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Positional representations of numbers
+  <ul>
+   <li> Currently, integer conversion functions don't handle negative numbers.
+    <ol>
+     <li> Example : "int2base_n(-10,3);" errors. </li>
+    </ol>
+    Likely this limitation should be removed. </li>
+    <li> Should base_n2int("SOMETHING",0) = 0 ? </li>
+  </ul>
+
+
+
+
+
   \todo ext_integer_partitions
   <ul>
    <li> That Maxima yields "integer_partitions(0) = {}" is a bug:
