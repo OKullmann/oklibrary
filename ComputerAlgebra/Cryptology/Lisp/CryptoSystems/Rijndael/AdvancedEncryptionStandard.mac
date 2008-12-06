@@ -29,6 +29,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_plain_include(functs);
 oklib_plain_include(eigen);
 
+
 /* *************
    * Constants *
    *************
@@ -79,6 +80,7 @@ aes_gf2t8_add(byteia,byteib) :=
 /* AES finite field addition with integers as input using built-in
    logical operators */
 aes_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
+
 
 /* *********
    * S box *

@@ -9,6 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/docus/AdvancedEncryptionStandard.hpp
   \brief The docus for the maxima computer algebra system implementation of the AES block cipher.
   
+
   <h1> Overview </h1>
 
   <ul>
@@ -27,6 +28,7 @@ License, or any later version. */
    </li>
   </ul>  
 
+
   <h1> Data Types </h1>
 
   <ul>
@@ -39,6 +41,7 @@ License, or any later version. */
    the AES, even those the Sbox does implement certain AES functionality at 
    this level. </li>
   </ul>
+
 
   <h1> Examples </h1>
   
@@ -61,4 +64,5 @@ aes_decrypt_l(ciphertext,key);
    \endverbatim
    </li>
   </ul>
+
 */
