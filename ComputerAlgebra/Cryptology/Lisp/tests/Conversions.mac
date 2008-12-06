@@ -22,8 +22,6 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
-/* These are used as variables in some tests: */
-
 
 okltest_lpad(f) := block(
   for n : 0 thru 3 do
