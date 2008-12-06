@@ -69,6 +69,31 @@ random_rcl_fcl(n,p,c) :=
     F : endcons(setdifference(setify(C),{0}),F)),
   return([V,F]))$
 
+
+/* **********************************
+   * The OKgenerator (based on AES) *
+   **********************************
+*/
+
+/* The underlying literal generator: */
+OKlitgenerator_l(s,k,n,p,c) := 0$
+
+OKgenerator_fcl(s,k,n,P,C) := []$
+
+/* Testing the inputs: */
+OKgenerator_fcl_p(s,k,n,P,C) := false$
+
+
+/* The underlying literal generator: */
+OKlitgenerator_nbl(s,k,n,d,p,c) := 0$
+
+OKgenerator_nbfcl(s,k,n,d,P,C) := []$
+
+/* Testing the inputs: */
+OKgenerator_nbfcl_p(s,k,n,d,P,C) := false$
+
+
+
 /*!
 \endhtmlonly
 */

@@ -27,7 +27,7 @@ License, or any later version. */
    <li> The specification was given in [Oliver Kullmann, CSR19-2002]. </li>
    <li> For k in NNZ let W(k) := {0, ..., 2^k - 1} and W^*(k) := W(k) - {0}.
    </li>
-   <li> Input specification: OKgenerator(s,k,n,m,p,c), where
+   <li> Input specification: OKgenerator(s,k,n,p,c), where
     <ol>
      <li> s in W(64) (the seed) </li>
      <li> k in W(64) (the formula number) </li>
@@ -41,8 +41,10 @@ License, or any later version. */
    </li>
    <li> According to our general philosophy, the function OKgenerator does not
    check its input, but we have a special test function for this. </li>
-   <li> The AES-function is considered as aes: W(128) x W(128) -> W(128)
-   (see XXX). </li>
+   <li> The AES-function is considered as aes: W(128) x W(128) -> W(128),
+   given by "aes_int(p,k)" (see
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac).
+   </li>
    <li> The central helper function is the OKlitgenerator(s,k,n,p,c),
    where s,k,n as above, p in W(31), c in W(64), defined as follows:
     <ol>
@@ -50,18 +52,39 @@ License, or any later version. */
      {-n, ..., n} - {0}, given by 0 -> 1, 1 -> 2, ..., n-1 -> n, and
      then n -> -1, n+1 -> -2, ..., 2n-1 -> -n. </li>
      <li> Now OKlitgenerator(s,k,n,p,c) :=
-      alpha_n(aes(s * 2^64 + k, (n * 2^96 + p * 2^64 + i) mod 2n)). </li>
+      alpha_n(aes_int(s * 2^64 + k, (n * 2^96 + p * 2^64 + i) mod 2n)). </li>
      <li> Thus -2^31 < OKlitgenerator(s,k,n,p,c) < 2^31, where the value 0
      is excluded. </li>
     </ol>
    </li>
    <li> Now the OKgenerator for m = 1 is defined as follows:
-    OKgenerator(s,k,n,m,[p],[c]) := [C_1, ..., C_c], where
+    OKgenerator(s,k,n,[p],[c]) := [C_1, ..., C_c], where
+    for 1 <= i <= c we define:
      <ol>
-      <li> C_i := [l_{i,1}, ..., l_{i,p}] </li>
-      <li> XXX </li>
+      <li> C_i := [l_{i,1}, ..., l_{i,p}], where the l_{i,j} are defined
+      as follows. </li>
+      <li> For 1 <= j <= p let x_{i,j} be defined by
+      x_{i,j} := OKlitgenerator(s, k, n-j+1, p, (i-1)*p+j-1). </li>
+      <li> The sign of l_{i,j} is now the sign of x_{i,j}. </li>
+      <li> The variable of l_{i,1} is the variable of x_{i,1}. </li>
+      <li> Regarding the other variables, we can not use the x_{i,j} for
+      j > 1, since we must avoid repetitions. </li>
+      <li> This is now achieved by using first x_{i,2}, then x_{i,3}, and so
+      on, however not as absolute values, but only relative, that is, the
+      variable is l_{i,2} is value number |x_{i,2}| in the variables from
+      {1, ..., n} left after having removed |x_{i,1}|, and so on. </li>
      </ol>
    </li>
+   <li> The general OKgenerator(s,k,n,p,c) for m >= 1 is now defined as the
+   concatenation of the values OKgenerator(s,k,n,[p[i]],[c[i]]) for i from 1
+   to m. </li>
+   <li> For generating non-boolean clause-sets there exists an additional
+   parameter d in W^*(32), d >= 2, specifying the (uniform) domain size. </li>
+   <li> How to call the generalised OKgenerator (and the generalised
+   OKlitgenerator)? Perhaps we use "OKgenerator_cs" and "OKgenerator_nbcs".
+   </li>
+   <li> Finally, where to insert the additional parameter d in the parameter
+   list? In the paper it is inserted after n, which seems reasonable. </li>
   </ul>
 
 
