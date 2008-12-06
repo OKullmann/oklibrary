@@ -24,14 +24,23 @@ License, or any later version. */
   </ul>
 
 
-  \todo Positional representations of numbers
+  \todo Positional (polyadic) representations of numbers
   <ul>
+   <li> The whole current system is a bad hack --- strings are not appropriate
+   mathematical objects, but lists of integers!
+    <ol>
+     <li> Strings should only result from converting lists of integers. </li>
+     <li> So all these functions need to be rewritten. </li>
+     <li> DONE We also need better names than "base_n". </li>
+    </ol>
+   </li>
    <li> Currently, integer conversion functions don't handle negative numbers.
     <ol>
      <li> Example : "int2base_n(-10,3);" errors. </li>
     </ol>
-    Likely this limitation should be removed. </li>
-    <li> Should base_n2int("SOMETHING",0) = 0 ? </li>
+    Likely this limitation should be removed.
+   </li>
+   <li> Should base_n2int("SOMETHING",0) = 0 ? </li>
   </ul>
 
 

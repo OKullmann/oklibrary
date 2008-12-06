@@ -79,7 +79,7 @@ okltest_int2digit(f) := block(
   assert(f(35) = "Z"),
   true)$
 
-okltest_base_n2int(f) := block(
+okltest_polyadicstr2int(f) := block(
   for n : 0 thru 3 do
     assert(f("",n) = 0),
   for n : 0 thru 3 do
@@ -98,7 +98,7 @@ okltest_base_n2int(f) := block(
   /*assert(f("-MK014LZDF",36) = -63631769456211),*/
   true)$
 
-okltest_int2base_n(f) := block(
+okltest_int2polyadicstr(f) := block(
   for n : 0 thru 3 do
     assert(f(0,n) = "0"),
   for n : 2 thru 12 do

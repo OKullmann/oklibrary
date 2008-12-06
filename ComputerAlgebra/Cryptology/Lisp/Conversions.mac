@@ -35,7 +35,7 @@ lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 /* MG: Should this take the variable the polynomial should be in? */
 int2poly(n,coeff_base) := 
   expand(lreduce(lambda([a,b], a * x + b),
-      map(digit2int,str2chrl(int2base_n(n,coeff_base))),0))$ 
+      map(digit2int,str2chrl(int2polyadicstr(n,coeff_base))),0))$ 
 
 /* Converts the given polynomial to an integer, assuming that the polynomial
    in "poly_x" represents an integer in the given base "poly_b". */
@@ -46,13 +46,13 @@ poly2int(poly, poly_b, poly_x) := subst(poly_b,poly_x,poly)$
 /* MG: Further clarification is needed here. */
 hex2gf2t8l(hex) :=
   matrix2list(transpose(apply(matrix,
-    partition_elements(map(lambda([a],int2poly(base_n2int(simplode(a),16),2)),
+    partition_elements(map(lambda([a],int2poly(polyadicstr2int(simplode(a),16),2)),
       partition_elements(str2chrl(hex),2)),4))))$
   
 /* Converts a list of GF(2^8) elements to a hexidecimal string: */
 /* MG: Further clarification is needed here. */
 gf2t8l2hex(lst) :=
-    simplode(flatten(map(lambda([a], lpad(simplode([int2base_n(a,16)]),"0",2)),  
+    simplode(flatten(map(lambda([a], lpad(simplode([int2polyadicstr(a,16)]),"0",2)),  
       subst(2,x,matrix2list(transpose(apply(matrix,
         partition_elements(lst,length(lst)/4))))))))$
 

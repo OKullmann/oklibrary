@@ -38,9 +38,9 @@ okltest_str2chrl(str2chrl);
 
 okltest_digit2int(digit2int);
 
-okltest_base_n2int(base_n2int);
+okltest_polyadicstr2int(polyadicstr2int);
 okltest_int2digit(int2digit);
-okltest_int2base_n(int2base_n);
+okltest_int2polyadicstr(int2polyadicstr);
 
 
 okltest_ext_integer_partitions(ext_integer_partitions);
