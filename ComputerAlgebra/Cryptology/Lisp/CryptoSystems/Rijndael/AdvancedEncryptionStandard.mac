@@ -26,8 +26,8 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
-oklib_plain_include(functs);
-oklib_plain_include(eigen);
+oklib_plain_include(functs)$
+oklib_plain_include(eigen)$
 
 
 /* *************
@@ -344,26 +344,60 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
 )$
 
 
-/* **********************************************
-   * Methods of Encryption/Decryption           *
-   **********************************************
+/* *************************************
+   * Convenience instantiations of AES *
+   *************************************
 */
 
-/* AES Encryption using lookup tables */
+
+/* Different forms of computation */
+
+/* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k) := 
   aes_encrypt(p,k,lookup_sbox,lookup_mixcolumn,aes_log_gf2t8_add)$
 
-/* AES Encryption using field operations */
+/* AES Encryption using field operations: */
 aes_encrypt_f(p,k) := 
   aes_encrypt(p,k,sbox,mixcolumn,aes_gf2t8_add)$
 
-/* AES Decryption using lookup tables */
+/* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k) := 
   aes_decrypt(c,k,lookup_sbox,lookup_inv_sbox,lookup_inv_mixcolumn,aes_log_gf2t8_add)$
 
-/* AES Decryption using field operations */
+/* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 
   aes_decrypt(c,k,sbox,inv_sbox,inv_mixcolumn,aes_gf2t8_add)$
+
+
+/* Various representations of input/output */
+
+/* Input and output as hexadecimal values (the input does not need
+   leading zeros, but the output is always padded to 32 hexadecimal
+   digits): */
+aes_encrypt_hex(p,k) := 
+  lpad(int2hex(polyadic2int(
+    aes_encrypt_l(
+      pad_block_16(pad_block_16(int2polyadic(hex2int(p),256))),
+      pad_block_16(pad_block_16(int2polyadic(hex2int(k),256)))
+    ),
+    256)), "0", 32)$
+aes_decrypt_hex(p,k) := 
+  lpad(int2hex(polyadic2int(
+    aes_decrypt_l(
+      pad_block_16(pad_block_16(int2polyadic(hex2int(p),256))),
+      pad_block_16(pad_block_16(int2polyadic(hex2int(k),256)))
+    ),
+    256)), "0", 32)$
+
+/* The AES-chiffre as number-theoretical function: */
+aes_int(p,k) :=
+  polyadic2int(
+    aes_encrypt_l(
+      pad_block_16(int2polyadic(p,256)), 
+      pad_block_16(int2polyadic(k,256))
+    ),
+    256)$
+
 
 /*!
 \endhtmlonly

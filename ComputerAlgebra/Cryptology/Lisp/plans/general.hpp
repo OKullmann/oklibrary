@@ -21,6 +21,7 @@ License, or any later version. */
        <li> floorlog : DONE. </li>
        <li> Functions for number-representations in positional systems:
        DONE. </li>
+       <li> String-functions should likely go to DataStructures. </li>
       </ul>
      </li>
     </ol>

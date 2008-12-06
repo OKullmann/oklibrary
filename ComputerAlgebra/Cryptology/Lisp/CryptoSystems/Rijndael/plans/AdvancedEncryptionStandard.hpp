@@ -10,7 +10,19 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo Auxiliary functions
+  \bug AES is computed incorrectly
+  <ul>
+   <li> Tests "okltest_aes_int" etc. fail, likely due to incorrect ordering
+   of the list of input bytes into blocks. </li>
+   <li> This needs urgent correction. </li>
+   <li> Also all intermediate functions ("Shift Row" etc.) need to correspond
+   to their definition in the Rijndael book. </li>
+   <li> All tests needs updates, as well as the docu-file. </li>
+  </ul>
+
+
+  \todo OK: This todo needs UPDATE!
+  Auxiliary functions
   <ul>
    <li> See TermSystems/Lisp/Conversions.mac. </li>
    <li> What about the section "Helper Functions" ?
@@ -29,8 +41,8 @@ load("functs")$ Bug Here atm  For logxor
    If there is a Maxima bug, then it needs to submitted to Maxima,
    and we provide a correction. (MG : "logxor" didn't return the correct values
    for some inputs, but this no longer seems to be the case in the most recent
-       version, and may have been a broken installation on my part. The lisp
-       version "?logxor" has now been replaced with the maxima "logxor".) </li>
+   version, and may have been a broken installation on my part. The lisp
+   version "?logxor" has now been replaced with the maxima "logxor".) </li>
   </ul>
 
 

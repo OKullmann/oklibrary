@@ -26,7 +26,10 @@ oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 /* Pads a string s to the left with character c until it is n characters in
    length: */
 lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
-
+/* Pad a list of numbers with leading zeros to reach the
+   full block-length 16:
+*/
+pad_block_16(L) := append(create_list(0,i,1,16-length(L)), L)$
 
 /* Converts an integer to a polynomial with coefficients in the given base by
    converting the integer to a number in that base and taking each digit as a

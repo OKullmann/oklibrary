@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - AES is computed incorrectly
     - Auxiliary functions
     - Naming Conventions
 
