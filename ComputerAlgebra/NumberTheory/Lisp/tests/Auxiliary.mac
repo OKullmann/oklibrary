@@ -71,6 +71,14 @@ okltest_digit2int(f) := block(
   assert(f("Z") = 35),
   true)$
 
+okltest_int2digit(f) := block(
+  for n : 0 thru 9 do
+    assert(f(n) = string(n)),
+  assert(f(10) = "A"),
+  assert(f(15) = "F"),
+  assert(f(35) = "Z"),
+  true)$
+
 okltest_base_n2int(f) := block(
   for n : 0 thru 3 do
     assert(f("",n) = 0),
@@ -80,6 +88,7 @@ okltest_base_n2int(f) := block(
     assert(f("00000",n) = 0),
   for n : 0 thru 3 do
     assert(f("10",n) = n),
+  assert(f("1110101",1) = 5),
   /*for n : -3 thru 3 do
     assert(f(string(n),abs(n)+1) = n),*/
   /* assert(f("FGDD",0) = 0), */
@@ -87,14 +96,6 @@ okltest_base_n2int(f) := block(
   /*assert(f("-EE8C04",16) = -15633412),*/
   assert(f("MK014LZDF",36) = 63631769456211), 
   /*assert(f("-MK014LZDF",36) = -63631769456211),*/
-  true)$
-
-okltest_int2digit(f) := block(
-  for n : 0 thru 9 do
-    assert(f(n) = string(n)),
-  assert(f(10) = "A"),
-  assert(f(15) = "F"),
-  assert(f(35) = "Z"),
   true)$
 
 okltest_int2base_n(f) := block(
