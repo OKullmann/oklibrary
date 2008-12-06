@@ -19,11 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
-
-/* MG : These should be moved elsewhere (such as the List module when setup
-   and are most likely unnecessary and can be replaced by the relevant 
-   maxima functions when found or the functions that use them are reworked */
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Returns the floor of the logarithm of n base b, correcting
    for issues in precision causing round off. */
@@ -96,20 +92,16 @@ gf2t8l2hex(lst) :=
 
 /* Converts a hexidecimal string in the typical notation associated with
    Rijndael to a list of GF(2^8) elements represented by use of integers. 
- 
    The result list is used in the CryptoSystems AES implementation. */
 hex2il(hex) := map(lambda([a],poly2int(a,2,x)),hex2gf2t8l(hex))$
 
 /* Converts a list of GF(2^8) elements represented by use of integers to a 
    hexidecimal string in the typical notation associated with Rijndael . 
- 
    The input list is used in the CryptoSystems AES implementation. */
 il2hex(lst) := gf2t8l2hex(map(lambda([a], int2poly(a,2)),lst))$
 
-/* Generate a DNF clause from a list of values in {0,1} */
+/* Generate a DNF clause from a list of values in {0,1}: */
 /* OK : what is the meaning of this ??? */
-/* MG : This should certainly be moved to somewhere more appropriate 
-   but where? */
 binary_list_to_dnf_c(bv) := 
   setify(map(lambda([b,j],(-1 + b * 2) * j),
     bv,makelist(i,i,1,length(bv))))$

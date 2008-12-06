@@ -14,6 +14,7 @@ License, or any later version. */
   <ul>
    <li> Example : "int2poly(-4,2);" errors. </li>
    <li> Example : "int2base_n(-10,3);" errors. </li>
+   <li> Should they handle negative numbers? </li>
   </ul>
 
 
@@ -21,17 +22,20 @@ License, or any later version. */
   <ul>
    <li> Reorganisation:
     <ol>
-     <li> This file must be removed. </li>
-     <li> Dissolving its contents either to Rijndael etc.,
-     or to more general modules. </li>
+     <li> This file must be removed, and the content placed in more
+     appropriate modules. </li>
+     <li> Number theoretical functions should go to NumberTheory. </li>
     </ol>
    </li>
-   <li> Functions such as GF2t8ListToHex should be renamed (although
+   <li> OK: has this been done???
+   Functions such as GF2t8ListToHex should be renamed (although
    also moved - see above) using whatever proper naming scheme is decided for
    Rijndael data types - see "Notions and Notations" in 
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp 
    </li>
-   <li> Conversion functions with suitable inverses working on lists
+   <li> OK: has this been done??? and shouldn't the naming conventions
+   be different???
+   Conversion functions with suitable inverses working on lists
    of the appropriate elements to allow movement between various 
    different representations of data in Cryptology (for AES and others) :
     <ol>
@@ -45,8 +49,8 @@ License, or any later version. */
      elements in GF(2^4) to elements in GF(2^8).
      </li>
      <li> GF2t8ToPID (with PIDToGF2t8) for a conversion of a list of binary
-     bit values representing GF(2) elements to a list of 4-Byte PID column elements.
-     </li>
+     bit values representing GF(2) elements to a list of 4-Byte PID column
+     elements. </li>
     </ol>
    </li>
    <li> DONE Remove "camels". </li>
