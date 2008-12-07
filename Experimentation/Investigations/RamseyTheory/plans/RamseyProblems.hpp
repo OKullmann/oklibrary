@@ -319,18 +319,58 @@ BestSolution_Max = 124.000000
          \endverbatim
          </li>
          Might be slightly better, but seems to be quite a bit slower. </li>
-         <li> cutoff = 100000, 5000 runs: (cs-wsok)
-
+         <li> cutoff = 100,000, 5000 runs: (cs-wsok)
+         \verbatim
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 2010
+BestStep_Mean = 59262.030800
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 94.735400
+BestSolution_Median = 95.000000
+BestSolution_Min = 82.000000
+BestSolution_Max = 111.000000
+         \endverbatim
+         only a bit progress.
          </li>
-         <li> cutoff = 1000000, 500 runs: (cscarme)
-
+         <li> cutoff = 1,000,000, 500 runs: (cscarme)
+         \verbatim
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 2135
+BestStep_Mean = 477504.9
+Steps_Mean = 1000000
+/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 26989 Segmentation fault
+         \endverbatim
+         where the data was then analysed using R, copying the output to
+         a file "ExpRamsey1000000" starting like
+         \verbatim
+sat min optsteps maxsteps seed
+      1 0    90     153638    1000000 1649159937
+      2 0    92     284850    1000000 1886480441
+      3 0    86     636866    1000000 2139335150
+         \endverbatim
+         and where then analysis is very simple, %e.g.
+         \verbatim
+R1 = read.table("ExpRamsey1000000")
+> min(R1$min)
+[1] 77
+> max(R1$min)
+[1] 106
+> median(R1$min)
+[1] 88
+> mean(R1$min)
+[1] 87.8
+         \endverbatim
+         we see, again very little progress.
          </li>
+         <li> cutoff = 10,000,000, 500 runs (cs-wsok) </li>
+         <li> cutoff = 40,000,000, 50 runs (cscharon) </li>
         </ol>
-       </li>
-       <li> Now
-       \verbatim
-> ubcsat-okl -alg samd -cutoff 40000000 -runs 50 -i Ramsey_5_5_2_42.cnf
-       \endverbatim
        </li>
       </ol>
      </li>
@@ -338,6 +378,29 @@ BestSolution_Max = 124.000000
       <ol>
        <li> Also if this is unsatisfiable, one would only expect gradual
        differences compared to n=42 for local-search algorithms. </li>
+       <li> cutoff = 10,000,000, 50 runs (csoberon)
+       \verbatim
+Clauses = 1925196
+Variables = 903
+TotalLiterals = 19251960
+FlipsPerSecond = 1947
+BestStep_Mean = 4888045.6
+Steps_Mean = 10000000
+/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12:  9651 Segmentation fault
+       \endverbatim
+       and furthermore
+       \verbatim
+> min(R2$min)
+[1] 112
+> max(R2$min)
+[1] 126
+> median(R2$min)
+[1] 117.5
+> mean(R2$min)
+[1] 117.38
+       \endverbatim
+       </li>
+       <li> cutoff = 100,000,000, 50 runs (csoberon) </li>
       </ol>
      </li>
     </ol>
