@@ -336,6 +336,22 @@ BestSolution_Max = 111.000000
          \endverbatim
          only a bit progress.
          </li>
+         <li> Alternatively with gsat-tabu:
+         \verbatim
+Clauses = 1701336
+Variables = 861
+TotalLiterals = 17013360
+FlipsPerSecond = 1646
+BestStep_Mean = 59331.269400
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 93.784200
+BestSolution_Median = 94.000000
+BestSolution_Min = 75.000000
+BestSolution_Max = 143.000000
+         \endverbatim
+         might have a higher variability? </li>
          <li> cutoff = 1,000,000, 500 runs: (cscarme)
          \verbatim
 Clauses = 1701336
