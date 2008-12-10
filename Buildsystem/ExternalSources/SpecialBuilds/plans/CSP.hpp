@@ -36,8 +36,6 @@ License, or any later version. */
      CSP. </li>
     </ol>
    </li>
-   <li> Gnu Prolog http://www.gprolog.org/ </li>
-   <li> Swi Prolog http://www.swi-prolog.org/ </li>
    <li> The MAC-algorithm at http://www.hulubei.net/tudor/csp ? </li>
    <li> Benchmarks? Competitions? </li>
   </ul>
