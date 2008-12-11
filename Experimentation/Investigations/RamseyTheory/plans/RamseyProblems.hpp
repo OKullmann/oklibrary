@@ -162,6 +162,15 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
    </li>
    <li> Investigating samd:
     <ol>
+     <li> n=35 very easy. </li>
+     <li> n=38:
+     \verbatim
+> ubcsat-okl -alg samd -cutoff 20000 -runs 10000 -i Ramsey_5_5_2_38.cnf > Exp_Ramsey_5_5_2_38
+
+     \endverbatim
+     (we need to investigate the distribution of falsified clauses reached,
+     using R).
+     </li>
      <li> n=40:
       <ol>
        <li> cutoff = 10 000 000 and noimprove = 1 000 000: 100 rounds,
@@ -243,8 +252,20 @@ ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
        <li> So let's try cutoff = 20 000 000, noimprove = 3 000 000.
        \verbatim
 > ubcsat-okl -alg samd -cutoff 20000000 -noimprove 3000000 -runs 100 -i Ramsey_5_5_2_41.cnf
-       
+       Clauses = 1498796
+Variables = 820
+TotalLiterals = 14987960
+FlipsPerSecond = 552
+BestStep_Mean = 2271951.410000
+Steps_Mean = 5271952.410000
+Steps_Max = 14351275.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 54.470000
+BestSolution_Median = 56.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 70.000000
        \endverbatim
+       (the best solution was found with the maximum number of steps).
        </li>
        <li> Removing the noimprove-value, actually a solution was found:
        \verbatim
