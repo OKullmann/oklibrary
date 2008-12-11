@@ -329,6 +329,7 @@ actual or intended publication of such source code.
   <ul>
    <li> http://www.dis.uniroma1.it/~massacci/cryptoSAT should contain
    the DES -> SAT translator. </li>
+   <li> http://www.tcs.ifi.lmu.de/~friedman/#paritysat </li>
   </ul>
 
 
