@@ -79,7 +79,7 @@ License, or any later version. */
     - Installation : DONE
 
 
-  \par Version 0.2.3 (updating Boost, Gcc, and the existing SAT solvers)
+  \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
@@ -110,6 +110,11 @@ License, or any later version. */
    topics are handled:
     - bug: GRASP cannot be compiled with gcc version 4.3
     - Grasp : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
+   topics are handled:
+    - Can't output graphics
 
 
   \par Version 0.2.4 (installing e-mail services)
