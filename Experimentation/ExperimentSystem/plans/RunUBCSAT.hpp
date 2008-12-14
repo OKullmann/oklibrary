@@ -121,6 +121,30 @@ ubcsat -rclean \
   \todo Evaluating the data frames
   <ul>
    <li> Functions are needed for standard evaluations. </li>
+   <li> Given a file Data produced by ubcsat-okl (with first line naming
+   the column headers), one could create a nicer formatting by e.g.
+   \verbatim
+awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 0 {printf("%5u %2u %8u %8u %8u %11u\n", $1,$2,$3,$4,$5,$6)}' Data
+   \endverbatim
+   producing e.g.
+   \verbatim
+     sat      min   osteps   msteps        seed
+    1  0       13     8525    20000  1352592974
+    2  0       16     5984    20000  3521402437
+
+ 9999  0       15     4420    20000  4085996178
+10000  0       12     5802    20000  3176480652
+   \endverbatim
+   However this is not needed. </li>
+   <li> Reading into R by
+   \verbatim
+> E = read.table("Data", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
+   \endverbatim
+   and simple evaluation by "summary(E)" or, better,
+   \verbatim
+> summary(E[,c("sat","min","osteps")])
+   \endverbatim
+   </li>
    <li> Sort the data frame by
     <ol>
      <li> first smallest average number of falsified clauses, </li>
