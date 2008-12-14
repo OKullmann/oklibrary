@@ -19,6 +19,8 @@ Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
   X11 Schrift -adobe-helvetica-%s-%s-*-*-%d-*-*-*-*-*-*-*, Typ 2 in Größe 14 konnte nicht geladen werden
    \endverbatim
    on csltok. </li>
+   <li> Perhaps this is language-related, or related to the rather old version
+   (9.2) of Suse-Linux running on csltok (it works on cs-wsok). </li>
   </ul>
 
 
