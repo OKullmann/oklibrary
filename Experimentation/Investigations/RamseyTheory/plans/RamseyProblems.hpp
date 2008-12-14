@@ -166,10 +166,68 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      <li> n=38:
      \verbatim
 > ubcsat-okl -alg samd -cutoff 20000 -runs 10000 -i Ramsey_5_5_2_38.cnf > Exp_Ramsey_5_5_2_38
-
+Clauses = 1003884
+Variables = 703
+TotalLiterals = 10038840
+FlipsPerSecond = 800    
+BestStep_Mean = 11197.468000
+Steps_Mean = 20000.000000
+Steps_Max = 20000.000000
+PercentSuccess = 0.00  
+BestSolution_Mean = 16.367800
+BestSolution_Median = 16.000000
+BestSolution_Min = 7.000000
+BestSolution_Max = 51.000000
      \endverbatim
-     (we need to investigate the distribution of falsified clauses reached,
-     using R).
+     We need to investigate the distribution of falsified clauses reached,
+     using R.
+     </li>
+     <li> Summary:
+     \verbatim
+> E = read.table("Exp_Ramsey_5_5_2_38", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
+> summary(E)
+ sat            min            osteps   
+ 0:10000   Min.   : 7.00   Min.   :  166
+           1st Qu.:14.00   1st Qu.: 6576
+           Median :16.00   Median :11372
+           Mean   :16.37   Mean   :11197
+           3rd Qu.:18.00   3rd Qu.:16167
+           Max.   :51.00   Max.   :20000
+     \endverbatim
+     </li>
+     <li>
+     \verbatim
+> plot(min ~ osteps, data = E)
+     \endverbatim
+     shows that there is a strong correlation between the worst min-values
+     and the smallest osteps-values, but then the correlation gets much
+     weaker (and the largest osteps-value include also some rather bad cases
+     (without much improvement). </li>
+     <li> Frequencies of min-values:
+     \verbatim
+> table(E$min)
+
+   7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22
+   1    4   21   72  181  410  798 1236 1545 1598 1315 1007  621  413  238  130
+
+  23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38
+  94   65   63   43   28   26   14   14   19    2    9    3    4    1    1    6
+
+  39   40   41   42   43   44   45   47   50   51
+   3    2    1    1    2    2    4    1    1    1
+     \endverbatim
+     concentrates around the mean, but with a long tail. </li>
+     <li> Frequencies of osteps-values:
+     \verbatim
+> hist(E$osteps, plot=F)
+$breaks
+ [1]     0  1000  2000  3000  4000  5000  6000  7000  8000  9000 10000 11000
+[13] 12000 13000 14000 15000 16000 17000 18000 19000 20000
+
+$counts
+ [1] 133 277 382 449 476 498 516 518 510 531 512 541 527 534 500 511 581 594 679
+[20] 731
+     \endverbatim
      </li>
      <li> n=40:
       <ol>
@@ -386,7 +444,7 @@ Steps_Mean = 1000000
          where the data was then analysed using R, copying the output to
          a file "ExpRamsey1000000" starting like
          \verbatim
-sat min optsteps maxsteps seed
+sat min osteps msteps seed
       1 0    90     153638    1000000 1649159937
       2 0    92     284850    1000000 1886480441
       3 0    86     636866    1000000 2139335150

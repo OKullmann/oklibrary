@@ -9,4 +9,5 @@
 # Typical use (for example):
 # ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
+echo "       sat  min     osteps     msteps       seed"
 ubcsat m4_SHELL(ubcsat_defaults_okl) $*

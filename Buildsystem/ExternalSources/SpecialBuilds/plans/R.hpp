@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \bug Can't output graphics
+  <ul>
+   <li> For example
+   \verbatim
+> hist(c(1,2,3,2,1))
+Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
+  X11 Schrift -adobe-helvetica-%s-%s-*-*-%d-*-*-*-*-*-*-*, Typ 2 in Größe 14 konnte nicht geladen werden
+   \endverbatim
+   on csltok. </li>
+  </ul>
+
+
   \todo Update to version 2.7
 
 
