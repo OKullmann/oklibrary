@@ -248,7 +248,7 @@ all_cld_uhit_maxminvd_nu(def,n) := subset(all_cld_uhit_maxminvd(def,n),
    number of the conflict graph. */
 hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
  G2 : copy_graph(G),
- while graph_size(G2) > 0 do block([M : max_clique(G2)],
+ while graph_order(G2) > 0 do block([M : max_clique(G2)],
    R : endcons(setify(M), R),
    for v in M do remove_vertex(v, G2)),
  map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
