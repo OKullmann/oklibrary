@@ -229,6 +229,38 @@ $counts
 [20] 731
      \endverbatim
      </li>
+     <li> For cutoff = 80000:
+     \verbatim
+ubcsat-okl -alg samd -cutoff 80000 -runs 10000 -i Ramsey_5_5_2_38.cnf > Exp_Ramsey_5_5_2_38_80000
+Clauses = 1003884
+Variables = 703
+TotalLiterals = 10038840
+FlipsPerSecond = 3404   
+BestStep_Mean = 35709.517200
+Steps_Mean = 80000.000000
+Steps_Max = 80000.000000
+PercentSuccess = 0.00  
+BestSolution_Mean = 13.943300
+BestSolution_Median = 13.000000
+BestSolution_Min = 4.000000
+BestSolution_Max = 56.000000
+     \endverbatim
+     </li>
+     <li> Basically the same picture as for cutoff = 20000; the main question
+     here is which questions to ask?? </li>
+     <li> It seems reasonable to consider log(osteps) instead of osteps;
+     plot(min ~ log(osteps), data = E) shows then a clear negative correlation,
+     but where, due to the "cutoff effect", the minimum is reached already at
+     around osteps = 63000 (not with 80000). </li>
+     <li> It seems that the density of osteps reaches its minimum also around
+     osteps = 63000?! (use hist(E$osteps,breaks=50)) </li>
+     <li> This seems reasonable: The higher osteps the better the result but
+     the harder to get there, except of the "cutoff-effect", which makes
+     very high osteps-values more likely but less fruitful. </li>
+     <li> Using here log(osteps) doesn't seem sensible:
+     plot(density(E$osteps),lab=c(10,5,7)) shows the minimum density somewhat
+     below 60000, while plot(density(log(E$osteps)),lab=c(10,5,7)) has its
+     *maximum* around exp(11) ~ 60000. </li>
      <li> n=40:
       <ol>
        <li> cutoff = 10 000 000 and noimprove = 1 000 000: 100 rounds,
