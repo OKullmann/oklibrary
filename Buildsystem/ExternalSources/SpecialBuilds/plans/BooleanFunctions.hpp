@@ -16,6 +16,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translations to SAT
+  <ul>
+   <li> MNI Proposition Analyzer (MPA)
+   http://homepages.fh-giessen.de/~hg11260/hp_p7_de.html
+   seems to be a smaller program, translating various forms of propositional
+   SAT problems into CNF, and/or solving them directly (based on SAT4J). </li>
+  </ul>
+
+
   \todo Boolean functions
   <ul>
     <li> There is an R-package with Quine/McCluskey etc.
