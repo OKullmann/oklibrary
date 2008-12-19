@@ -229,6 +229,31 @@ $counts
 [20] 731
      \endverbatim
      </li>
+     <li> For cutoff = 40000:
+     \verbatim
+Clauses = 1003884
+Variables = 703
+TotalLiterals = 10038840
+FlipsPerSecond = 1273   
+BestStep_Mean = 20416.061900
+Steps_Mean = 40000.000000
+Steps_Max = 40000.000000
+PercentSuccess = 0.00  
+BestSolution_Mean = 14.926500
+BestSolution_Median = 15.000000
+BestSolution_Min = 4.000000
+BestSolution_Max = 51.000000
+     \endverbatim
+     </li>
+     <li> The density of osteps has a clear minimum at around 20000, while
+     the minimum 4 is reached for osteps = 34213. Linear modelling via
+     L = lm(min ~ poly(log(osteps), k),data=E) makes sense up to k=4 (plotting
+     by
+     \verbatim
+plot(log(E$osteps),E$min)
+points(log(E$osteps),predict(L),col="blue")
+     \endverbatim
+     shows a reasonable fit). </li>
      <li> For cutoff = 80000:
      \verbatim
 ubcsat-okl -alg samd -cutoff 80000 -runs 10000 -i Ramsey_5_5_2_38.cnf > Exp_Ramsey_5_5_2_38_80000
