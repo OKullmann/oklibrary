@@ -155,6 +155,7 @@ okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
 
 /* RENAME: l2ary */
 l2array(L) := okl_fillarray_l(okl_make_array(any,length(L)),L)$
+l2ary(L) := l2array(L)$
 /* If the list contains only integers, and the array shall be
    an array of integers: */
 /* RENAME: il2ary */
