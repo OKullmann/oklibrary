@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSqu
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
 
 /* *************************
    * Latin square problems *
@@ -101,6 +103,67 @@ output_strong_ls(p,filename) := block([FF : standardise_fcs(strong_ls(p))],
     FF[1],
     filename,
     FF[2]))$
+
+
+/* ****************************
+   * Orthogonality conditions *
+   ****************************
+*/
+
+/* Now a partially filled out latin square A is given, and
+   a latin square B is sought, which is orthogonal to B.
+   Matrix A is given as a square Maxima matrix of dimension p,
+   with entries from {1,...,p}, and additionaly 0 for empty
+   squares. For the values k in {1,...,p} the set C(k) for
+   coordinates (i,j) with A[i,j] = k are computed, and then
+   the orthogonality conditions are just that all C(k) must
+   be multicoloured (no two different colours).
+*/
+/* Given A, compute the negative orthogonality conditions as boolean
+   clause-set:
+*/
+orthogonality_cond_ls(A) := block([p : matrix_size(A)[1], a],
+  a : l2ary(create_list([],i,1,p)),
+  for i : 1 thru p do
+    for j : 1 thru p do block([v : A[i,j]],
+      if not(v = 0) then
+        a[v] : cons([i,j], a[v])),
+  return(setify(
+    create_list({-ls_var(P[1][1],P[1][2],k2),-ls_var(P[2][1],P[2][2],k2)},
+         k,1,p, P,listify(map(listify,powerset(setify(a[k]),2))), k2,1,p))))$
+/* The positive orthogonality conditions as formal boolean
+   clause-set:
+*/
+orthogonality_dualcond_ls(A) := block([p : matrix_size(A)[1], a],
+  a : l2ary(create_list([],i,1,p)),
+  for i : 1 thru p do
+    for j : 1 thru p do block([v : A[i,j]],
+      if not(v = 0) then
+        a[v] : cons([i,j], a[v])),
+  return(setify(
+    create_list(setify(create_list(ls_var(x[1],x[2],k), x,a[t])),
+        t,1,p, k,1,p))))$
+
+orthogonality_strongcond_ls(A) := 
+  union(orthogonality_cond_ls(A), orthogonality_dualcond_ls(A))$
+
+row_symmetrybreaking_ls(p) := setify(create_list({ls_var(i,1,i)},i,1,p))$
+
+exluding_solution_ls(A) := block([p : matrix_size(A)[1]],
+  setify(create_list(-ls_var(i,j,A[i,j]), i,1,p, j,1,p)))$
+
+LS_DK : matrix(
+ [1,2,3,4,5,6,7,8,9,10],[2,9,4,3,6,5,8,7,10,1],[3,10,6,7,4,1,9,5,8,2],
+ [4,8,1,10,9,7,2,6,3,5],[5,7,8,6,3,10,1,9,2,4],[6,1,10,5,8,9,4,2,7,3],
+ [7,6,5,8,2,4,3,10,1,9],[8,5,2,9,1,3,10,4,6,7],[9,4,7,1,10,2,6,3,5,8],
+ [10,3,9,2,7,8,5,1,4,6])$
+LS_DK_s : matrix(
+ [1,3,9,6,10,5,8,4,7,2],[2,8,5,10,4,7,6,1,3,9],[3,6,7,5,9,8,1,2,10,4],
+ [4,7,10,1,5,6,9,3,2,8],[5,9,2,8,6,4,7,10,1,3],[6,2,8,9,1,3,10,5,4,7],
+ [7,10,1,3,8,2,4,9,5,6],[8,4,6,2,3,1,5,7,9,10],[9,1,3,4,7,10,2,8,6,5],
+ [10,5,4,7,2,9,3,6,8,1])$
+
+
 
 /*!
 \endhtmlonly
