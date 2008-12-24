@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding r_k-reductions
 
 
+  \todo More efficient implementations
+  <ul>
+   <li> Instead of generalised_ucp(F,1) the more efficient ucp_cs_0
+   (or ucp_cs_1 etc.) should be used where possible. </li>
+   <li> Except of the most basic implementations. </li>
+   <li> Perhaps we should allow alternative implementations of r_1 as
+   additional parameters; or we should use a special variable (which
+   can be dynamically altered). </li>
+  </ul>
+
+
   \todo Strengthen the tests
   <ul>
    <li> We need more systematic coverage (with small clause-sets). </li>

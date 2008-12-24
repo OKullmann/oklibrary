@@ -20,18 +20,46 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobje
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
+
+/* **********************
+   * The r_k reductions *
+   **********************
+*/
 
 okltest_generalised_ucp(generalised_ucp);
 okltest_generalised_ucp_pa(generalised_ucp_pa);
 
+okltest_ucp_cs(generalised_ucp1);
+
+/* *******************************
+   * Reduction by weak autarkies *
+   *******************************
+*/
+
 okltest_weakaut_red(weakaut_red);
 okltest_weakaut_red_pa(weakaut_red_pa);
+
+/* ****************************************************************
+   * Combining generalised unit-clause and weak-autarky-reduction *
+   ****************************************************************
+*/
 
 okltest_generalised_ucp_war(generalised_ucp_war);
 okltest_generalised_ucp_war_pa(generalised_ucp_war_pa);
 
+/* ******************************************************************
+   * Generalised elimination of pure literals by forced assignments *
+   ******************************************************************
+*/
+
 okltest_generalised_ple(generalised_ple);
 okltest_generalised_ple_pa(generalised_ple_pa);
+
+/* *******************************************************
+   * Look-ahead reduction for r_k and enforced autarkies *
+   *******************************************************
+*/
 
 okltest_generalised_ucp_ple(generalised_ucp_ple);
 okltest_generalised_ucp_ple_pa(generalised_ucp_ple_pa);

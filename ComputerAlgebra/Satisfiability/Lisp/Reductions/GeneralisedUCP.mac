@@ -31,6 +31,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 /* "Generalised unit-clause-propagation":
     input a clause-set F and level k, output r_k(F).
     Every forced assignment is found for k large enough. */
+/* RENAME: generalised_ucp_cs */
 generalised_ucp(F,k) := block([mr : min_rank_cs(F)],
  if mr > k then F
  elseif mr = 0 then {{}} else
