@@ -36,6 +36,14 @@ okltest_uaapply(f) := block(
   assert(f(append,create_list([],i,1,100000)) = []),
   true)$
 
+okltest_lappend(f) := block(
+  assert(f([]) = []),
+  assert(f([[]]) = []),
+  assert(f([[1],[],[2],[],[3],[]]) = [1,2,3]),
+  if oklib_test_level = 0 then return(true),
+  assert(f(create_list([],i,1,100000)) = []),
+  true)$
+
 
 /* *******************************
    * Testing properties of lists *

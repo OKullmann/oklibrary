@@ -28,6 +28,8 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac"
 
 okltest_uaapply(uaapply);
 
+okltest_lappend(lappend);
+
 /* *******************************
    * Testing properties of lists *
    *******************************

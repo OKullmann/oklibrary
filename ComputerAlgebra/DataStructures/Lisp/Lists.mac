@@ -48,6 +48,9 @@ uaapply(_op,L) := uapply(_op,L,maximal_argument_length)$
 /* Remark: For "union" and "intersection" use lunion resp. lintersection.
 */
 
+/* The special case of appending the elements of a list: */
+lappend(L) := uaapply(append,L)$
+
 
 /* *******************************
    * Testing properties of lists *
@@ -168,6 +171,7 @@ partition_elements(l,n) := if emptyp(l) then [] else
 
 /* Partition a list into yes- and no- instances */
 partition_list(L,pred) := [sublist(L,pred),sublist(L,lambda([x],not pred(x)))]$
+
 
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
