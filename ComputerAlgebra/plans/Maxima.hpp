@@ -84,6 +84,19 @@ fib_mem(n) := (for i : 0 thru n-1 do _fib_mem[i], _fib_mem[n])$
   </ul>
 
 
+  \todo Problems with errcatch
+  <ul>
+   <li> We get an error message
+   \verbatim
+errcatch(map(0,[]));
+Improper name or value in functional position:
+0
+   \endverbatim
+   which shouldn't be the case. </li>
+   <li> Contact the Maxima mailing list. </li>
+  </ul>
+
+
   \todo What is "equalp" ?
   <ul>
    <li> It seems impossible to evaluate "equalp(0,0)" sensibly?? </li>
