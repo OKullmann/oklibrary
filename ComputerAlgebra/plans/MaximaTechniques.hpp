@@ -150,7 +150,7 @@ xreduce(nounify(union), [a,b,c,d]);
   </ul>
 
 
-  \todo Bugs of Maxima and their corrections:
+  \todo Bugs of Maxima and their corrections
   <ul>
    <li> There are severe restrictions for memoised recursive functions:
     <ol>

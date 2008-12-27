@@ -131,9 +131,11 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Argument-length restriction
     - How to use function-parameters reliably??
-    - Maxima/CLisp bug
-    - Plan the redesign
+    - Problems with errcatch
+    - What is "equalp" ?
+    - Maxima/CLisp bug for larger data-sets
 
   \par
    Replacement of "apply" by the correct version of generalised apply
@@ -185,16 +187,10 @@ License, or any later version. */
    Update the following milestones, towards version 0.2
 
 
-  \par Version 0.2 THEME is "REDESIGN MAXIMA SYSTEM"
+  \par Version 0.2 "First phase completed"
 
   \par
-   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - General design: Lists *here* are more fundamental than sets
-    - Debugging
-    - Documentation
-    - Handling of demos
-    - Monitoring
-    - Contexts
+   Towards milestone 0.3 the theme is is "REDESIGN MAXIMA SYSTEM"
 
 
   \par Version 0.2.1
@@ -203,21 +199,14 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - Recovering of partial results after long (unsuccessful) computations
-    - Lisp integration
-    - Collaboration with the Maxima community
+    - General design: Lists *here* are more fundamental than sets
+    - Plan the redesign
 
   \par
    In ComputerAlgebra/plans/MaximaTechniques.hpp the following topics are
    handled:
     - Local variables
     - Declaring variables
-    - Function application
-    - List operations
-    - Document important programming techniques
-    - Partial compilation
-    - Document simplification of expressions
-    - Timing
 
 
   \par Version 0.2.2
@@ -232,6 +221,21 @@ License, or any later version. */
    In ComputerAlgebra/Mupad/plans/general.hpp the following topics are handled:
     - Rewriting
 
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Recovering of partial results after long (unsuccessful) computations
+    - Debugging
+    - Documentation
+    - Handling of demos
+    - Monitoring
+
+  \par
+   In ComputerAlgebra/plans/MaximaTechniques.hpp the following topics are
+   handled:
+    - Elementary arithmetic
+    - List operations
+    - Set operations
+
 
   \par Version 0.2.3
 
@@ -239,6 +243,22 @@ License, or any later version. */
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
     - Frobenius problem
     - Dynamical systems
+
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Contexts
+    - Lisp integration
+    - Collaboration with the Maxima community
+
+  \par
+   In ComputerAlgebra/plans/MaximaTechniques.hpp the following topics are
+   handled:
+    - Bugs of Maxima and their corrections
+    - Document important programming techniques
+    - Partial compilation
+    - Document simplification of expressions
+    - Timing
+
 
 
   \par Version 0.3
