@@ -192,7 +192,13 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Improved Delta(n)-distance
     - Enable finding all solutions
+
+  \par
+   Likely the above extenssions should not be included in the (original)
+   OKsolver-2002, but they should be moved to the generic form of
+   OKsolver-2002 --- thus planning should be intensified here.
 
 
   \par Version 1.6.1

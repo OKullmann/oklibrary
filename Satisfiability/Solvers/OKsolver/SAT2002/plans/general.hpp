@@ -317,12 +317,16 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
     <ol>
      <li> Extract ideas. </li>
      <li> Eliminate option and code. </li>
+     <li> With the generic version of OKsolver-2002, we can handle this
+     much better. </li>
     </ol>
    </li>
    <li> FASTAUTARKIEN
     <ol>
      <li> Extract ideas. </li>
      <li> Eliminate option and code. </li>
+     <li> Again, with the generic version of OKsolver-2002, we can handle this
+     much better. </li>
     </ol>
    </li>
   </ul>
@@ -427,6 +431,23 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Improved Delta(n)-distance
+  <ul>
+   <li> Given the number a(v) of variables which during the r_2-reduction
+   set v to true, and the number b(v) setting it to false, we can use
+   (a(v)+1, b(v)+1) as a branching tuple. </li>
+   <li> We should have n(vp_1) <= a(v)+1 <= n(vp_2), where vp_1/2 extends
+   v -> 0 by r_1/2-reduction. </li>
+   <li> A problem is that some variables are skipped during r_2-reduction
+   (if they were triggered before, while meanwhile no reduction took place).
+   </li>
+   <li> The whole area is closely related to the problem of local learning,
+   and which binary clauses to learn. </li>
+   <li> So perhaps this should wait wait for the generic form of the
+   OKsolver-2002. </li>
+  </ul>
+
+
   \todo Enable finding all solutions
   <ul>
    <li> Perhaps we should abandon this extension:
@@ -434,6 +455,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> It is more complicated than anticipated. </li>
      <li> And it is not sensibly, because different strategies,
      reductions, heuristics are to be used for finding all solutions. </li>
+     <li> But perhaps with the generic form of the OKsolver-2002 it is more
+     sensible. </li>
     </ol>
    </li>
    <li> See
