@@ -281,11 +281,21 @@ okltest_com2l_r(f) := (
   assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
   assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,11,9,12]),
   true)$
+okltest_com2ll_r(f) := (
+  assert(f(emptycom) = []),
+  assert(f(zerocom({1,2,3},{4,5})) = [[0,0],[0,0],[0,0]]),
+  assert(okltest_com2l_r(buildq([f],lambda([M],lappend(f(M)))))),
+  true)$
 
 okltest_com2l_c(f) := (
   assert(f(emptycom) = []),
   assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
   assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,9,11,12]),
+  true)$
+okltest_com2ll_c(f) := (
+  assert(f(emptycom) = []),
+  assert(f(zerocom({1,2,3},{4,5})) = [[0,0,0],[0,0,0]]),
+  assert(okltest_com2l_c(buildq([f],lambda([M],lappend(f(M)))))),
   true)$
 
 okltest_scom2g(f) := (

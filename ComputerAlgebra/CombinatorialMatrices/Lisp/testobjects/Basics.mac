@@ -100,7 +100,9 @@ okltest_random_spolar_m(random_spolar_m);
 */
 
 okltest_com2l_r(com2l_r);
+okltest_com2ll_r(com2ll_r);
 okltest_com2l_c(com2l_c);
+okltest_com2ll_c(com2ll_c);
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);

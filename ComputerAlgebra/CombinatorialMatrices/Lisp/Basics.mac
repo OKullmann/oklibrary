@@ -195,8 +195,12 @@ random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
 
 /* Transforms a combinatorial matrix into a list, row-wise: */
 com2l_r(M) := map(lambda([p],apply(M[3],p)), cartesian_product_l(map(listify,rest(M,-1))))$
+/* Similarly, but into a list of lists: */
+com2ll_r(M) := create_list(create_list(M[3](i,j), j,listify(M[2])), i,listify(M[1]))$
 /* Transforms a combinatorial matrix into a list, column-wise: */
 com2l_c(M) := com2l_r(trans_com(M))$
+/* Similarly, but into a list of lists: */
+com2ll_c(M) := create_list(create_list(M[3](i,j), i,listify(M[1])), j,listify(M[2]))$
 
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
