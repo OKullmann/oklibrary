@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
    <li> See the investigations in
-   Experimentation/Investigations/plans/Sudoku.hpp. </li>
+   Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp. </li>
   </ul>
 
 

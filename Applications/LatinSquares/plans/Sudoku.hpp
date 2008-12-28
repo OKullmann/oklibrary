@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,17 @@ License, or any later version. */
 /*!
   \file Applications/LatinSquares/plans/Sudoku.hpp
   \brief Plans for the Sudoku components
+
+
+  \todo Relations
+  <ul>
+   <li> See "Relations" in Hypergraphs/Matchings/plans/general.hpp. </li>
+   <li> See "Sudoku" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp.
+   </li>
+   <li> See investigations in
+   Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp. </li>
+  </ul>
 
 
   \todo Input file format:
@@ -81,7 +92,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
+  \todo Complete implementation of
+  OKlib::LatinSquares::Trivial_reduction_Sudoku
   <ul>
    <li> Likely this should be just a generic algorithm, applicable to any
    collection of constraints (active clause-sets)?! </li>
@@ -111,15 +123,6 @@ License, or any later version. */
 
 
   \todo As a prototype, implement Sudoku-solvers.
-
-
-  \todo Relations
-  <ul>
-   <li> See "Relations" in Hypergraphs/Matchings/plans/general.hpp. </li>
-   <li> See "Sudoku" in
-   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp.
-   </li>
-  </ul>
 
 
   \todo Visualisation of the runs of solvers
