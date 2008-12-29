@@ -63,6 +63,14 @@ okltest_scom_p(f) := block([fun],
   assert(f([{1,2},lambda([i,j],i+j)],{2,3,4}) = true),
   true)$
 
+okltest_sqscom_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_osqcom_p(f) := (
+  /* XXX */
+  true)$
+
 
 /* *********************
    * Checking equality *
@@ -131,6 +139,14 @@ okltest_m2scom(f) := block(
   assert(scom_equalp(f(matrix([1])),[{1},lambda([i,j],1)]) = true),
   assert(scom_equalp(f(matrix([1,1],[1,1])),[{1,2},lambda([i,j],1)]) = true),
   assert(scom_equalp(f(matrix([2,3],[3,4])),[{1,2},lambda([i,j],i+j)]) = true),
+  true)$
+
+okltest_com_l(f) := (
+  /* XXX */
+  true)$
+
+okltest_scom_l(f) := (
+  /* XXX */
   true)$
 
 
@@ -286,6 +302,9 @@ okltest_com2ll_r(f) := (
   assert(f(zerocom({1,2,3},{4,5})) = [[0,0],[0,0],[0,0]]),
   assert(okltest_com2l_r(buildq([f],lambda([M],lappend(f(M)))))),
   true)$
+okltest_scom2ll_r(f) := (
+  /* XXX */
+  true)$
 
 okltest_com2l_c(f) := (
   assert(f(emptycom) = []),
@@ -297,6 +316,10 @@ okltest_com2ll_c(f) := (
   assert(f(zerocom({1,2,3},{4,5})) = [[0,0,0],[0,0,0]]),
   assert(okltest_com2l_c(buildq([f],lambda([M],lappend(f(M)))))),
   true)$
+okltest_scom2ll_c(f) := (
+  /* XXX */
+  true)$
+
 
 okltest_scom2g(f) := (
 

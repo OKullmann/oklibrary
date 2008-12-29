@@ -43,6 +43,12 @@ com_p(M,H) := listp(M) and is(length(M) = 3) and setp(M[1]) and setp(M[2]) and
 scom_p(M,H) := listp(M) and is(length(M) = 2) and setp(M[1]) and 
   com_p([M[1],M[1],M[2]],H)$
 
+/* Two types of combinatorial matrices which "look like" square matrices: */
+/* A "square-sized combinatorial matrix": */
+sqscom_p(M,H) := com_p(M,H) and is(length(M[1]) = length(M[2]))$
+/* An "observed square combinatorial matrix": */
+osqcom_p(M,H) := com_p(M,H) and is(M[1] = M[2])$
+
 
 /* *********************
    * Checking equality *
@@ -94,6 +100,12 @@ m2com(M) := block([m,n],
 /* RENAME: m2scom */
 sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
 m2scom(M) := sm2scom(M)$
+
+/* For convenience: Input as the Maxima function "matrix", but returns
+   a com resp. scom:
+*/
+com_l([L]) := m2com(apply(matrix,L))$
+scom_l([L]) := m2scom(apply(matrix,L))$
 
 
 /* ***********************
@@ -197,11 +209,18 @@ random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
 com2l_r(M) := map(lambda([p],apply(M[3],p)), cartesian_product_l(map(listify,rest(M,-1))))$
 /* Similarly, but into a list of lists: */
 com2ll_r(M) := create_list(create_list(M[3](i,j), j,listify(M[2])), i,listify(M[1]))$
+scom2ll_r(M) := com2ll_r(scom2com(M))$
 /* Transforms a combinatorial matrix into a list, column-wise: */
 com2l_c(M) := com2l_r(trans_com(M))$
 /* Similarly, but into a list of lists: */
 com2ll_c(M) := create_list(create_list(M[3](i,j), i,listify(M[1])), j,listify(M[2]))$
+scom2ll_c(M) := com2ll_c(scom2com(M))$
 
+/* Remarks: For a Maxima matrix A, by A[i] we obtain the list of the elements
+   of row i; accordingly, by transpose(A)[i] we obtain column i as list.
+   On the other hand, by row(A,i) resp. column(A,i) we obtain the rows resp.
+   columns as (Maxima) matrices.
+*/
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */

@@ -31,6 +31,9 @@ okltest_binfam_p(binfam_p);
 okltest_com_p(com_p);
 okltest_scom_p(scom_p);
 
+okltest_sqscom_p(sqscom_p);
+okltest_osqcom_p(osqcom_p);
+
 /* *********************
    * Checking equality *
    *********************
@@ -53,6 +56,9 @@ okltest_scom2m(scom2m);
 
 okltest_m2com(m2com);
 okltest_m2scom(m2scom);
+
+okltest_com_l(com_l);
+okltest_scom_l(scom_l);
 
 /* ***********************
    * Basic constructions *
@@ -101,8 +107,10 @@ okltest_random_spolar_m(random_spolar_m);
 
 okltest_com2l_r(com2l_r);
 okltest_com2ll_r(com2ll_r);
+okltest_scom2ll_r(scom2ll_r);
 okltest_com2l_c(com2l_c);
 okltest_com2ll_c(com2ll_c);
+okltest_scom2ll_c(scom2ll_c);
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
