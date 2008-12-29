@@ -53,6 +53,9 @@ License, or any later version. */
      </li>
      <li> So some helper functions are needed to compute the standardised
      indices from the original names. </li>
+     <li> Compare "Extensions" in
+     ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp.
+     </li>
      <li> For creating the Sudoku Dimacs-files then we do not need the
      standardisation anymore, but we could directly use the variable indices.
      </li>
@@ -63,6 +66,8 @@ License, or any later version. */
 
   \todo Improve implementation
   <ul>
+   <li> Compare "Systematisation" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp. </li>
    <li> One should try whether using "create_list" in sdk_different_boxes,
    without storing the intermediate value, really slows down the computation
    (possibly the optimisation is detected?). </li>
@@ -240,11 +245,5 @@ sudoku_minion_format(boxsize, filename)
    </li>
   </ul>
  
-
-  \todo %Generators for Latin square completion problems
-  <ul>
-   <li> Compare Applications/LatinSquares/plans/general.hpp. </li>
-  </ul>
-   
 */
 
