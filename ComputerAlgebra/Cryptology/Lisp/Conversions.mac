@@ -48,7 +48,7 @@ poly2int(poly, poly_b, poly_x) := subst(poly_b,poly_x,poly)$
 /* Converts a hexidecimal string to a list of GF(2^8) elements: */
 /* MG: Further clarification is needed here. */
 hex2gf2t8l(hex) :=
-  matrix2list(transpose(apply(matrix,
+  m2l_r(transpose(apply(matrix,
     partition_elements(map(lambda([a],int2poly(polyadicstr2int(simplode(a),16),2)),
       partition_elements(str2chrl(hex),2)),4))))$
   
@@ -56,7 +56,7 @@ hex2gf2t8l(hex) :=
 /* MG: Further clarification is needed here. */
 gf2t8l2hex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([int2polyadicstr(a,16)]),"0",2)),  
-      subst(2,x,matrix2list(transpose(apply(matrix,
+      subst(2,x,m2l_r(transpose(apply(matrix,
         partition_elements(lst,length(lst)/4))))))))$
 
 /* Converts a hexidecimal string in the typical notation associated with

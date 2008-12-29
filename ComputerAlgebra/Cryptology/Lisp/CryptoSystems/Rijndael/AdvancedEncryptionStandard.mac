@@ -172,7 +172,7 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
    block as a list of GF(2^8) elements.
 */
 shiftrows(inputblock) := block([list_rows : partition_elements(inputblock,4)],
-  matrix2list (
+  m2l_r (
     create_list(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
 
 /*
@@ -228,7 +228,7 @@ lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
    provided as the second argument.
 */
 mixcolumns(inputblock,mixcolumn_f) :=
-  matrix2list(columns2matrix(
+  m2l_r(columns2matrix(
     map(mixcolumn_f,matrixcolumns(
       apply(matrix,partition_elements(inputblock,4))))))$
 
@@ -283,7 +283,7 @@ key_expansion(kl, n_b, sbox_f, aes_add) := block(
     else for i : 1 thru 4 do 
       column[i] : aes_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])),
-  return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
+  return(apply(append,map(lambda([ma],m2l_r(columns2matrix(ma))),
     partition_elements(cols,n_b))))
 )$
 

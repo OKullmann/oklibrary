@@ -90,7 +90,7 @@ okltest_rotate(rotate);
 
 okltest_stable_unique(stable_unique);
 
-okltest_matrix2list(matrix2list);
+okltest_m2l_r(m2l_r);
 okltest_matrixcolumns(matrixcolumns);
 okltest_columns2matrix(columns2matrix);
 
