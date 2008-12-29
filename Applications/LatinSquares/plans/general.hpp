@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.1.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Applications/LatinSquares/plans/general.hpp
-  \brief Plans for the module on latin squares and generalisations
+  \brief Plans for the module on searching latin squares and generalisations
 
 
   \todo Update namespaces.
@@ -22,7 +22,14 @@ License, or any later version. */
   \todo Review: Software and literature review.
 
 
-  \todo Determine the relations to AlgebraicStructures/Groupoids (quasigroups).
+  \todo Connections to other modules
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
+   for generators for SAT-problems at Maxima/Lisp level. </li>
+   <li> Compare topic "Generators for finding incidence structures and
+   designs" in Transformers/Generators/plans/general.hpp. </li>
+  </ul>
 
 
   \todo Basic direct algorithms
@@ -30,6 +37,9 @@ License, or any later version. */
    <li> Write tests, whether one square is a latin square, and whether
    a sequence of squares is mutually orthogonal (these tests are only for
    result-checking). </li>
+   <li> See predicates ls_p, ols_p and mols_p in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac.
+   </li>
   </ul>
 
 
@@ -56,13 +66,13 @@ License, or any later version. */
 
   \todo Completing partial latin squares
   <ul>
-   <li> Every partial latin squares of order n with n-1 entries can be completed
-   (and there exists an efficient algorithm for it): How do the various
-   (generalised) SAT algorithms perform here? </li>
+   <li> Every partial latin squares of order n with n-1 entries can be
+   completed (and there exists an efficient algorithm for it): How do the
+   various (generalised) SAT algorithms perform here? </li>
    <li> Consider a partial latin square of order n with n+k entries. One could
    conjecture that it can be completed iff the alliance of active clause-sets
-   given by the bijectivity-constraints is not found inconsistent by r_k reduction?
-   (The case k = 0 follows by [Andersen, Hilton, 1983].) </li>
+   given by the bijectivity-constraints is not found inconsistent by r_k
+   reduction? (The case k = 0 follows by [Andersen, Hilton, 1983].) </li>
   </ul>
 
 
@@ -91,8 +101,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> The second type of active clause-sets can be captured by active
-   clause-sets MOS((v_ij), (v'_ij)) ("mutually orthogonal squares"; note that this
-   notion makes sense for arbitrary squares). Thus MOLS((v_ijk)) becomes
+   clause-sets MOS((v_ij), (v'_ij)) ("mutually orthogonal squares"; note that
+   this notion makes sense for arbitrary squares). Thus MOLS((v_ijk)) becomes
    the conjunction of LS for all single squares and MOS for all
    pairs of squares. </li>
    <li> The new variables w are only necessary if we want to use INJ directly
@@ -109,24 +119,25 @@ License, or any later version. */
   \todo Sizes
   <ul>
    <li> Thus the sizes for the direct clause representation are (using LS(n)
-   for the clause-set expressing the condition on the existence of a latin square
-   of order n, and MOS(n,k) for the condition on the existence of k squares of
-   order n which are mutually orthogonal):
+   for the clause-set expressing the condition on the existence of a latin
+   square of order n, and MOS(n,k) for the condition on the existence of k
+   squares of order n which are mutually orthogonal):
     <ol>
      <li> LS(n) has 2*n*binom(n,2)*n = n^3 * (n-1) = O(n^4) 2-clauses
      (using n^2 variables, each with domain size n). </li>
      <li> MOS(n, k) has binom(k,2)*n^4*(n^2-1)/2 = k*(k-1)*n^4*(n^2-1)/4 =
-     O(k^2 * n^6) 4-clauses (using k*n^2 variables, each with domain size n). </li>
+     O(k^2 * n^6) 4-clauses (using k*n^2 variables, each with domain size n).
+     </li>
      <li> MOLS(n,k) has k * n^3 * (n-1) = O(k * n^4) 2-clauses and 
      k*(k-1)*n^4*(n^2-1)/4 = O(k^2 * n^6) 4-clauses
      (using k*n^2 variables, each with domain size n). </li>
     </ol>
    </li>
-   <li> For n=10 we get that MOLS(n,k) has k * 9000 2-clauses (9000 for each LS),
-   and k*(k-1) * 247500 4-clauses, and that with k * 100 variables of domain
-   size 10. </li>
-   <li> For k=3 we get 27,000 2-clauses and 1,485,000 4-clauses with 300 variables
-   of domain size 10, which is pretty big. In principle one can
+   <li> For n=10 we get that MOLS(n,k) has k * 9000 2-clauses (9000 for each
+   LS), and k*(k-1) * 247500 4-clauses, and that with k * 100 variables of
+   domain size 10. </li>
+   <li> For k=3 we get 27,000 2-clauses and 1,485,000 4-clauses with 300
+   variables of domain size 10, which is pretty big. In principle one can
    run a SAT solver on it, but likely without active clause-sets we won't have
    a chance. </li>
   </ul>
@@ -138,11 +149,13 @@ License, or any later version. */
     <ol>
      <li> N(1) = 1 </li>
      <li> N(n) <= n - 1 for n >= 2 </li>
-     <li> N(n) = n - 1 if n = p^k for a prime number p and a natural number k >= 1 </li>
+     <li> N(n) = n - 1 if n = p^k for a prime number p and a natural number
+     k >= 1 </li>
      <li> N(6) = 1 </li>
     </ol>
    </li>
-   <li> This determines N(n) for 1 <= n <= 9. The first open case is N(10). </li>
+   <li> This determines N(n) for 1 <= n <= 9. The first open case is N(10).
+   </li>
    <li> It is known
     <ol> 
      <li> n notin {1, 2, 6} -> N(n) >= 2 </li>
@@ -153,6 +166,7 @@ License, or any later version. */
     Thus 2 <= N(10) <= 6 (more recent results?). Can we improve this?! </li>
    <li> The next case is N(12). It is known that 5 <= N(12) <= 11 (more
    recent results?); can we improve this?! </li>
+   <li> Apparently for all n >= 11 it is known N(n) >= 3 ?! </li>
    <li> Two approaches possible: starting from above,
    showing that the problem is unsatisfiable, or starting from below,
    showing that the problem is satisfiable.) </li>
@@ -173,20 +187,24 @@ License, or any later version. */
    result SAT/UNSAT would yield a new bound (most interesting:
    MOLS(10,3) in UNSAT => N(10) = 3, MOLS(10,6) in SAT => N(10) = 6). </li>
    <li> Not a new result, but still interesting (and publishable) would be,
-   if a generalised  SAT solver could show the unsatisfiability of some MOLS(10,k)
-   for 7 <= k <= 9. </li>
+   if a generalised  SAT solver could show the unsatisfiability of some
+   MOLS(10,k) for 7 <= k <= 9. </li>
   </ul>
 
 
-  \todo MOLS(n,2) in SAT for all n notin {1,2,6} yields interesting satisfiable problems.
+  \todo Pairs of orthogonal latin squares
+  <ul>
+   <li> MOLS(n,2) in SAT for all n notin {1,2,6} yields interesting
+   satisfiable problems. </li>
+  </ul>
 
 
-  \todo MOLS(n,n) in UNSAT for all n yields unsatisfiable problems, which could also
-   be interesting (at least for active clause-sets; real clause-sets get very soon very big).
-
-
-  \todo Compare topic "Generators for finding incidence structures and designs" in
-   Generators/plans/Generators.hpp.
+  \todo The upper bounds for N(k)
+  <ul>
+   <li> MOLS(n,n) in UNSAT for all n yields unsatisfiable problems, which
+   could also be interesting (at least for active clause-sets; real clause-sets
+   get very soon very big). </li>
+  </ul>
 
 */
 
