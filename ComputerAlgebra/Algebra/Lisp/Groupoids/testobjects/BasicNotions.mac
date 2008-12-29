@@ -29,8 +29,27 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNo
 okltest_compo_p(compo_p);
 
 okltest_grd_p(grd_p);
+okltest_ugrd_p(ugrd_p);
+okltest_cgrd_p(cgrd_p);
+okltest_cugrd_p(cugrd_p);
 
 okltest_sgr_p(sgr_p);
+okltest_csgr_p(csgr_p);
+okltest_mon_p(mon_p);
+okltest_cmon_p(cmon_p);
+
+okltest_qgrp_p(qgrp_p);
+okltest_cqgrp_p(cqgrp_p);
+okltest_lop_p(lpo_p);
+okltest_clop_p(clop_p);
+
+okltest_grp_p(grp_p);
+okltest_cgrp_p(cgrp_p);
+okltest_grpn_p(grpn_p);
+okltest_cgrpn_p(cgrpn_p);
+okltest_grpni_p(grpni_p);
+okltest_cgrpni_p(cgrpni_p);
+
 
 /* *********************
    * Checking equality *
@@ -38,6 +57,23 @@ okltest_sgr_p(sgr_p);
 */
 
 okltest_grd_equalp(grd_equalp);
+okltest_ugrd_equalp(ugrd_equalp);
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+okltest_ugrd2grd(ugrd2grd);
+
+okltest_grpni2grpn(grpni2grpn);
+okltest_grpni2grp(grpni2grp);
+okltest_grpn2grp(grpn2grp);
+
+/* **************
+   * Promotions *
+   **************
+*/
 
 /*!
 \endhtmlonly

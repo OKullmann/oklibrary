@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotio
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac");
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
 
 kill(f)$
 
@@ -41,6 +42,7 @@ okltest_compo_p(f) := (
   assert(f(lambda([x,y],[1]),{[1]}) = true),
   true)$
 
+
 okltest_grd_p(f) := (
   assert(f(0) = false),
   assert(f({}) = false),
@@ -52,6 +54,19 @@ okltest_grd_p(f) := (
   assert(f(singleton_sgr) = true),
   assert(f(non_assoc_2_grd) = true),
   true)$
+
+okltest_ugrd_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cgrd_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cugrd_p(f) := (
+  /* XXX */
+  true)$
+
 
 okltest_sgr_p(f) := (
   assert(f(0) = false),
@@ -66,6 +81,63 @@ okltest_sgr_p(f) := (
   assert(f(null_sgr({1,2},1)) = true),
   assert(f(leftnull_sgr({1,2,3})) = true),
   assert(f(rightnull_sgr({-1,2,-3})) = true),
+  true)$
+
+okltest_csgr_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_mon_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cmon_p(f) := (
+  /* XXX */
+  true)$
+
+
+/* Remark: The semantics of okltest_qgrp_p is identical with that of
+   okltest_ls_p. Currently all tests are handled by okltest_ls_p.
+*/
+okltest_qgrp_p(f) := (
+  assert(okltest_ls_p(f)),
+  true)$
+
+okltest_cqgrp_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_lop_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_clop_p(f) := (
+  /* XXX */
+  true)$
+
+
+okltest_grp_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cgrp_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_grpn_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cgrpn_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_grpni_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_cgrpni_p(f) := (
+  /* XXX */
   true)$
 
 
@@ -86,6 +158,39 @@ okltest_grd_equalp(f) := (
   assert(f(leftnull_sgr({1}),rightnull_sgr({2})) = false),
   assert(f(leftnull_sgr({1,2}),rightnull_sgr({1,2})) = false),
   true)$
+
+okltest_ugrd_equalp(f) := (
+  /* XXX */
+  true)$
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+okltest_ugrd2grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_grpni2grpn(f) := (
+  /* XXX */
+  true)$
+
+okltest_grpni2grp(f) := (
+  /* XXX */
+  true)$
+
+okltest_grpn2grp(f) := (
+  /* XXX */
+  true)$
+
+
+/* **************
+   * Promotions *
+   **************
+*/
+
 
 /*!
 \endhtmlonly
