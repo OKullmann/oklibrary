@@ -28,6 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudok
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac")$

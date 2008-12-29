@@ -1,0 +1,93 @@
+/* Oliver Kullmann, 25.12.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LatinSquares.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LatinSquares.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+okltest_lso_p(lso_p);
+okltest_ls_p(ls_p);
+okltest_stdls_p(stdls_p);
+okltest_fstdls_p(fstdls_p);
+
+okltest_ols_p(ols_p);
+okltest_mols_p(mols_p);
+
+/* ************
+   * Examples *
+   ************
+*/
+
+okltest_LS_cyc3(LS_cyc3);
+okltest_LS_cyc3_o(LS_cyc3_o);
+okltest_LS_DK(LS_DK);
+okltest_LS_DK_o(LS_DK_o);
+
+
+/* *****************************************
+   * Latin square problems as SAT problems *
+   *****************************************
+*/
+
+okltest_ls_var(ls_var);
+
+okltest_var_ls(var_ls);
+
+okltest_ls_different_rows(ls_different_rows);
+okltest_ls_different_columns(ls_different_columns);
+
+okltest_ls_positions_box(ls_positions_box);
+
+okltest_ls_all_fields(ls_all_fields);
+
+okltest_weak_ls(weak_ls);
+
+okltest_ls_all_rows(ls_all_rows);
+
+okltest_ls_all_columns(ls_all_columns);
+
+okltest_ls_different_fields(ls_different_fields);
+
+okltest_dual_weak_ls(dual_weak_ls);
+
+okltest_strong_ls(strong_ls);
+
+/* ****************************
+   * Orthogonality conditions *
+   ****************************
+*/
+
+okltest_orthogonality_cond_ls(orthogonality_cond_ls);
+
+okltest_orthogonality_dualcond_ls(orthogonality_dualcond_ls);
+
+okltest_orthogonality_strongcond_ls(orthogonality_strongcond_ls);
+
+okltest_row_symmetrybreaking_ls(row_symmetrybreaking_ls);
+
+okltest_exluding_solution_ls(exluding_solution_ls);
+
+/*!
+\endhtmlonly
+*/
