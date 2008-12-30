@@ -15,7 +15,8 @@ License, or any later version. */
    <li> See todo "Quasigroups" in
    Applications/AlgebraicStructures/plans/Groupoids.hpp. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp. </li>
+   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/plans/general.hpp.
+   </li>
   </ul>
 
 */

@@ -21,29 +21,6 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
 
-/* *****************
-   * Basic notions *
-   *****************
-*/
-
-okltest_lso_p(lso_p);
-okltest_ls_p(ls_p);
-okltest_stdls_p(stdls_p);
-okltest_fstdls_p(fstdls_p);
-
-okltest_ols_p(ols_p);
-okltest_mols_p(mols_p);
-
-/* ************
-   * Examples *
-   ************
-*/
-
-okltest_LS_cyc3(LS_cyc3);
-okltest_LS_cyc3_o(LS_cyc3_o);
-okltest_LS_DK(LS_DK);
-okltest_LS_DK_o(LS_DK_o);
-
 
 /* *****************************************
    * Latin square problems as SAT problems *

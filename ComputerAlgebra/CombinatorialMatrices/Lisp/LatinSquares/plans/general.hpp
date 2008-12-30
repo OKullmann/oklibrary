@@ -7,7 +7,23 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/plans/general.hpp
-  \brief General plans regarding latin squares in general
+  \brief Plans regarding latin squares in general
+
+
+  \todo Relations to other modules
+  <ul>
+   <li> See
+   ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/plans/general.hpp. </li>
+   <li> Compare with Applications/LatinSquares/plans/general.hpp. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp.
+   </li>
+   <li> See the investigations in
+   Experimentation/Investigations/LatinSquares/plans/general.hpp. </li>
+   <li> See especially in
+   Experimentation/Investigations/LatinSquares/plans/OrthogonalSquares.hpp.
+   </li>
+  </ul>
 
 */
 

@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac"
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/include.mac")$
+
+
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
 

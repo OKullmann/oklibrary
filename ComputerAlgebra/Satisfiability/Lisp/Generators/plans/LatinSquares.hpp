@@ -12,14 +12,11 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
-   <li> Compare with Applications/LatinSquares/plans/general.hpp. </li>
    <li> See
-   ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/plans/general.hpp. </li>
+   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/plans/general.hpp.
+   </li>
    <li> See the investigations in
    Experimentation/Investigations/LatinSquares/plans/general.hpp. </li>
-   <li> See especially in
-   Experimentation/Investigations/LatinSquares/plans/OrthogonalSquares.hpp.
-   </li>
   </ul>
 
 

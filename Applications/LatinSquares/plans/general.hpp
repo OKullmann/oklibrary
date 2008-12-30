@@ -25,6 +25,9 @@ License, or any later version. */
   \todo Connections to other modules
   <ul>
    <li> See
+   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/plans/general.hpp.
+   </li>
+   <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
    for generators for SAT-problems at Maxima/Lisp level. </li>
    <li> Compare topic "Generators for finding incidence structures and

@@ -22,7 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotio
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac");
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/tests/BasicNotions.mac")$
 
 kill(f)$
 
