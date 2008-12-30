@@ -177,6 +177,11 @@ License, or any later version. */
    following topics are handled:
     - Installing SAT solvers
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
+   topics are handled:
+    - Version 1.5.8
+
 
   \par Version 0.2.7 (cleaning up installations)
 
