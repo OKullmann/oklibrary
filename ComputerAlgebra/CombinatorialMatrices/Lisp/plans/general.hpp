@@ -15,7 +15,7 @@ License, or any later version. */
 
   \todo Memoisation
   <ul>
-   <li> A "completely lazy" function f in a cm [A,B,f] recomputes
+   <li> A "completely lazy" function f in a com [A,B,f] recomputes
    its values every time again. </li>
    <li> For example for conflict matrices for clause-sets this creates
    a big overhead. </li>
