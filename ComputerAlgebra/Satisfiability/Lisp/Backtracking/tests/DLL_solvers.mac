@@ -166,6 +166,10 @@ okltest_locallemma_satapprox(f) := block(
     assert(f(full_fcs(n)[2]) = if n = 0 then minf else  1 / ((2^n - 1) * 2^(-n))),
   true)$
 
+okltest_locallemmasum_satapprox(f) := block(
+  /* XXX */
+  true)$
+
 /*!
 \endhtmlonly
 */

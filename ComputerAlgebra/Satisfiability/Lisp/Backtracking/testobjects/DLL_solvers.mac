@@ -76,6 +76,7 @@ okltest_dll_heuristics_max_lit_tb(dll_heuristics_max_lit_tb);
 */
 
 okltest_locallemma_satapprox(locallemma_satapprox);
+okltest_locallemmasum_satapprox(locallemmasum_satapprox);
 
 /*!
 \endhtmlonly
