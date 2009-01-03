@@ -59,8 +59,8 @@ spellingprogram = /usr/bin/ispell
      <li> This could be achieved by a simple (file-system) "cp" ? </li>
      <li> Though this doesn't help for bare repositories. </li>
      <li> The ignore patterns can be placed in Transitional/.gitignore and will 
-     apply over the entire repository. Such files can then be added and committed
-     to the repository as normal. </li>
+     apply over the entire repository. Such files can then be added and
+     committed to the repository as normal. </li>
      <li> Such ".gitignore" files apply to all subdirectories, with 
      ".gitignore" files in lower level directories overriding those in higher. 
      </li>
@@ -116,12 +116,12 @@ spellingprogram = /usr/bin/ispell
 git show --name-status -r
 git log --name-status -r -10 | cat
       \endverbatim
-      "name-status" here causes the filenames and status for each commit to appear
-      and "-r" ensures it is recursive, which seems necessarily to ensure the full path 
-      is shown. 
+      "name-status" here causes the filenames and status for each commit to
+      appear and "-r" ensures it is recursive, which seems necessarily to ensure
+      the full path is shown. 
 
-      I will look into adding this functionality to the post-receive script in a test repository
-      as well as the other issues.
+      I will look into adding this functionality to the post-receive script in a t
+      est repository as well as the other issues.
       </li>
       <li> DONE (change performed)
       The following change should provide the desired behaviour 
@@ -225,41 +225,48 @@ git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthe
    \endverbatim
    </li>
    <li> DONE (to be put to the documentation)
-   To have the name Transitional appear in the email subject it is necessary to modify the
-   file /work/Repositories/Git/bare/Transitional/description so that it contains the single line 
+   To have the name Transitional appear in the email subject it is necessary to
+   modify the file /work/Repositories/Git/bare/Transitional/description so that
+   it contains the single line 
    \verbatim
 OKlib::Transitional  
    \endverbatim
    </li>
-   <li> DONE (put under version control in Configuration/SourceControl; after an update it has to
-      be copied to .git/hooks of the central shared repositories)
-   Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
-   (MH: My intention was that the script would also be under version control. For example, it could be
-   in Transitional/Buildsystem/post-receive-email and then the Transitional bare repository on cs-oksvr 
-   has a link 
+   <li> DONE (put under version control in Configuration/SourceControl; after an
+   update it has to be copied to .git/hooks of the central shared repositories)
+   Should we use a link instead of replacing the original post-receive script?
+   (OK: a link to what?)
+   (MH: My intention was that the script would also be under version control. For
+   example, it could be in Transitional/Buildsystem/post-receive-email and then
+   the Transitional bare repository on cs-oksvr has a link 
    \verbatim
 /work/Repositories/Git/bare/Transitional/hooks/post-receive-email --> /work/Repositories/Git/Transitional/Buildsystem/post-receive-email
    \endverbatim
-   But this isn't possible because then we always have to update the clone, or? OK: It seems saver to me to have a copy in the shared repositories, but
+   But this isn't possible because then we always have to update the clone, or?
+   OK: It seems saver to me to have a copy in the shared repositories, but
    the script should be under version control (since we have to tweak it;
    if it has already been changed, then we need first the original version
    into version control).
    </li>
    <li> DONE
-   As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
-   both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
+   As an intermediate solution we copy a modified version of the script
+   "contrib/hooks/post-receive-email" toboth
+   /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and
+   /work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
    </li>
    <li> DONE (replaced by the solution via the (much) more advanced Git-script)
    Simple solution: In the shared repository the file
-   "hooks/post-receive" has to be made executable, and then filled with action; temporary
-   solution (for Annotations):
+   "hooks/post-receive" has to be made executable, and then filled with action;
+   temporary solution (for Annotations):
    \verbatim
 mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
    \endverbatim
-   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
-   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
-   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
-   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
+   Apparently to the script "post-receive" per branch a line with reference-data
+   is passed on stdin, while stdin is passed onto mutt which then sends these
+   lines in the body. A more sophisticated solution is given in in the
+   Git-repository under "contrib/hooks/post-receive-email" (see also the text in
+   "hooks/post-receive"), which we should examine (it seems we should also set
+   up
    an OKlibrary-e-mail-list ?!).
    </li>
   </ul>
@@ -269,52 +276,62 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
   <ul>
    <li> How does remote access work:
     <ol>
-     <li> A clone stores the url of the source in the .git/config of the clone and this can be
-     accessed either directly via the config file or via
+     <li> A clone stores the url of the source in the .git/config of the clone
+     and this can be accessed either directly via the config file or via
      \verbatim
 git config remote.origin.url
      \endverbatim</li>
-     <li> Remote repositories can be handled via git-remote (see man page - MG) </li>
-     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
-     It seems there are two options:
+     <li> Remote repositories can be handled via git-remote (see man page - MG)
+     </li>
+     <li> When pushing to or pulling from a remote repository, how does git know
+     how to communicate? It seems there are two options:
       <ul>
-       <li> ssh is used (either an automatic channel is set up, or the password is asked for; at
-       the "plumbing"-level the commands "git-ssh-fetch" and "git-ssh-upload" are responsible for
-       this). For "untrusted users", on the server-side the special git-shell
-       should be used, which needs to be set up as the login-shell for that user (apparently
-       ssh has no control over the login-shell, but it's up to the login-shell on the server-side). </li>
-       <li> No ssh is used, but on the remote repository git-daemon is running (this apparently does not
-       require anything on the pushing/pulling side?). </li>
+       <li> ssh is used (either an automatic channel is set up, or the password
+       is asked for; at the "plumbing"-level the commands "git-ssh-fetch" and
+       "git-ssh-upload" are responsible for this). For "untrusted users", on the
+       server-side the special git-shell should be used, which needs to be set up
+       as the login-shell for that user (apparently ssh has no control over the
+       login-shell, but it's up to the login-shell on the server-side). </li>
+       <li> No ssh is used, but on the remote repository git-daemon is running
+       (this apparently does not require anything on the pushing/pulling side?).
+       </li>
       </ul>
-      ssh is the default protocol, you can explicitly specify which you wish to use by adding the protocol
+      ssh is the default protocol, you can explicitly specify which you wish to
+      use by adding the protocol
       specifier to the url like so - ssh://username@host:/path/to/repository - 
-      (see http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS or man git-push)
+      (see http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS or
+      man git-push)
      </li>
      <li> Copied clones which know how to connect:
      How to create a clone, which can be copied (as a directory),
-     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
-     above methods to the source, given that the service is activated? In this way we can make
-     the clone downloadable from the Internet, anybody can start developing locally, and they can
-     connect to the source-clone if they have the permissions. </li>
-     </li>
-     <li> It seems that shared repositories (that's what we are interested in) behave as follows:
+     and wherever this clone is used, by "git push" and "git pull" it connects
+     by one of the three above methods to the source, given that the service is
+     activated? In this way we can make the clone downloadable from the Internet,
+     anybody can start developing locally, and they can connect to the
+     source-clone if they have the permissions. </li>
+     <li> It seems that shared repositories (that's what we are interested in)
+     behave as follows:
       <ol>
-       <li> When created, the default-group of the user is considered, and every user belonging
-       to this group can push (i.e., write) to this repository (while all can pull, i.e., read). </li>
-       <li> To give an external developer access, one has to create an account, where the developer
-       just belongs to the group of the repository and to nothing else (also no home directory). </li>
-       <li> The login-shell of this user must be "/usr/local/bin/git-shell", which should ensure that
-       from the outside only this very restricted git-shell is used. </li>
-       <li> Such a system-user should not be able to do any harm other than pushing (and pulling) from
-       the repository. </li>
-       <li> For this to work, for every (external) developer-group a (Linux) user-group on cs-oksvr
-       has to be created, with a representative user in it (who has no other allowances). </li>
+       <li> When created, the default-group of the user is considered, and every
+       user belonging to this group can push (i.e., write) to this repository
+       (while all can pull, i.e., read). </li>
+       <li> To give an external developer access, one has to create an account,
+       where the developer just belongs to the group of the repository and to
+       nothing else (also no home directory). </li>
+       <li> The login-shell of this user must be "/usr/local/bin/git-shell",
+       which should ensure that from the outside only this very restricted
+       git-shell is used. </li>
+       <li> Such a system-user should not be able to do any harm other than
+       pushing (and pulling) from the repository. </li>
+       <li> For this to work, for every (external) developer-group a (Linux)
+       user-group on cs-oksvr has to be created, with a representative user in
+       it (who has no other allowances). </li>
        <li> Core developers would have to be members of all such groups. </li>
        <li> Access would be via ssh. </li>
       </ol>
      </li>
-     <li> For "active users" (who pull from the user-clone) anonymous pull is needed, and thus
-     the git-daemon seems to be needed. </li>
+     <li> For "active users" (who pull from the user-clone) anonymous pull is
+     needed, and thus the git-daemon seems to be needed. </li>
     </ol>
    </li>
    <li> Why does the following not work:
@@ -333,8 +350,8 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
 > which git-receive-pack
 /usr/local/bin/git-receive-pack
      \endverbatim
-     A similar thing happened on cs-oksvr when trying to clone there a repository from cs-wsok.
-     </li>
+     A similar thing happened on cs-oksvr when trying to clone there a
+     repository from cs-wsok. </li>
      <li> The solutions for "pull" is
      \verbatim
 Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
@@ -376,7 +393,8 @@ git tag -m "FIRST RELEASE" -a Transitional-0.2.0
      be mentioned explicitly in this way. </li>
     </ol>
    </li>
-   <li> Compare with "Special tag" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
+   <li> Compare with "Special tag" in
+   Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
   </ul>
 
 
@@ -384,7 +402,8 @@ git tag -m "FIRST RELEASE" -a Transitional-0.2.0
   <ul>
    <li> Install qgit:
     <ol>
-     <li> Perhaps it allows to follow renaming (like --follows and --parents)? </li>
+     <li> Perhaps it allows to follow renaming (like --follows and --parents)?
+     </li>
     </ol>
    </li>
    <li> Searching:
@@ -407,31 +426,35 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
     <ol>
      <li> Is it possible to only allows pushs to a repository if the pushing
      repository is identical in content to the receiving repository? </li>
-     <li> By default only fast-forward pushs are possible, that is, the pushing repository
-     is a "subset" (or "predecessor") of the receiving repository --- however with
-     <code>git push --force</code> this check could be overwritten? </li>
+     <li> By default only fast-forward pushs are possible, that is, the pushing
+     repository is a "subset" (or "predecessor") of the receiving repository ---
+     however with <code>git push --force</code> this check could be overwritten?
+     </li>
      <li> So the problem is whether the application of option "--force" to push
      can be disabled. </li>
-     <li> In Git/Documentation/cvs-migration.html under "Advanced Shared Repository Management"
-     there is a script (using an update hook) explained which allows differentiation between users who can use
-     --force and those who can't (and further measures). </li>
+     <li> In Git/Documentation/cvs-migration.html under "Advanced Shared
+     Repository Management" there is a script (using an update hook) explained
+     which allows differentiation between users who can use --force and those who
+     can't (and further measures). </li>
     </ol>
    </li>
    <li> Combining different repositories:
    <ul>
-    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
-    --- and it worked: It merged the complete history of the Annotations-files and -directories
-    into the Transitional-directory. </li>
-    <li> Problematic only that it moved everything to the top-level: How can we achieve that
-    they all are moved to some sub-directory? The git-pull documentation seems not to say something
-    here? </li>
-    <li> The canonical thing to do seems to first create in the repository Annotations
-    a directory "Annotations", move all files with
+    <li> Accidentally, from the Transitional-repository I pulled the
+    Annotations-repository --- and it worked: It merged the complete history of
+    the Annotations-files and -directories into the Transitional-directory.
+    </li>
+    <li> Problematic only that it moved everything to the top-level: How can we
+    achieve that they all are moved to some sub-directory? The git-pull
+    documentation seems not to say something here? </li>
+    <li> The canonical thing to do seems to first create in the repository
+    Annotations a directory "Annotations", move all files with
     \verbatim
 git mv file1 file2 dir1 dir2 Annotations
     \endverbatim
     to this subdirectory (with a subsequent "git commit"), and then with pulling
-    from this directory we get all files into Transitional (with new part "Annotations"). </li>
+    from this directory we get all files into Transitional (with new part
+    "Annotations"). </li>
    </ul>
    </li>
   </ul>
@@ -444,27 +467,35 @@ git mv file1 file2 dir1 dir2 Annotations
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
-   convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
+   convention like "/h/21/GemeinsameBasis", which perhaps one better should
+   avoid?!?
     <ol>
-     <li> Symbolic links are stored exactly as given (in absolute or relative form). </li>
-     <li> So by using relative links we could put the links into the repository. </li>
-     <li> So it seems we should do that (since some directories have such a link, some
-     not; and the relative position of the build directory is also known --- in case of
-     a move something has to be done anyway). </li>
+     <li> Symbolic links are stored exactly as given (in absolute or relative
+     form). </li>
+     <li> So by using relative links we could put the links into the repository.
+     </li>
+     <li> So it seems we should do that (since some directories have such a
+     link, some not; and the relative position of the build directory is also
+     known --- in case of a move something has to be done anyway). </li>
     </ol>
    </li>
-   <li> Once we have ExternalSources under version control, we need the possibility to just have
-   those binaries (the archives) in it, without any history, changes whatsoever (otherwise space
-   would explode over time) --- how to achieve this?
+   <li> Once we have ExternalSources under version control, we need the
+   possibility to just have those binaries (the archives) in it, without any
+   history, changes whatsoever (otherwise space would explode over time) ---
+   how to achieve this?
     <ol>
-     <li> Since every new version has a new name, it seems that we just need the possibility to remove
-     the history of an item? </li>
-     <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
-     <li> Another possibility is that the external sources are not under version control,
-     but we manage information like md5-checksums, and it's up to the user to download
-     the files. See "ExternalSources repository" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
-     <li> For convenience we provide also an archive with all current external sources in it. </li>
-     <li> And/or the clone to download can be populated with the current external sources. </li>
+     <li> Since every new version has a new name, it seems that we just need the
+     possibility to remove the history of an item? </li>
+     <li> And perhaps we can tell git in advance that the new entry is
+     "don't care" ? </li>
+     <li> Another possibility is that the external sources are not under version
+     control, but we manage information like md5-checksums, and it's up to the
+     user to download the files. See "ExternalSources repository" in
+     Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
+     <li> For convenience we provide also an archive with all current external
+     sources in it. </li>
+     <li> And/or the clone to download can be populated with the current
+     external sources. </li>
      <li> In any case, ExternalSources gets a sub-directory "sources". </li>
     </ol>
    </li>
@@ -493,42 +524,47 @@ git mv file1 file2 dir1 dir2 Annotations
      repository (and then one just needs to run "make" in the top-level
      directory). </li>
      <li> So "Release = clone", and the user has the same power as the
-     developer --- the idea of an active library (users extend the library)! </li>
-     <li> For this also ExternalSources needs to be in the version control. </li>
+     developer --- the idea of an active library (users extend the library)!
+     </li>
+     <li> For this also ExternalSources needs to be in the version control.
+     </li>
      <li> Optimally there is just one repository
-     for the whole library (containing the current three repositories Annotations,
-     OKlibrary, Transitional, and the new (sub-)repositories ExternalSources and Overview).
-     Then we need the possibility to restrict access to parts of the repository (so
-     that annotations and Transitional are not public). </li>
+     for the whole library (containing the current three repositories
+     Annotations, OKlibrary, Transitional, and the new (sub-)repositories
+     ExternalSources and Overview). Then we need the possibility to restrict
+     access to parts of the repository (so that annotations and Transitional
+     are not public). </li>
      <li> A problem is, that Annotations currently has public as well as
      non-public parts; likely this needs to be separated. </li>
      <li> A good solution would be, if "selective cloning" would be possible
      (push and pull for such clones then only concern the embedded parts). </li>
      <li> It seems, that at least at a higher level Git currently does not
      offer something in this direction. Send an e-mail to the Git-list! </li>
-     <li> Is "git-submodule" a solution? Unclear what it does?? And not available with
-     1.5.2.1. </li>
-     <li> And "repository surgery" is needed (like merging of repositories). DONE (see
-     "Combining different repositories" in the above todo) </li>
+     <li> Is "git-submodule" a solution? Unclear what it does?? And not
+     available with 1.5.2.1. </li>
+     <li> And "repository surgery" is needed (like merging of repositories).
+     DONE (see "Combining different repositories" in the above todo) </li>
     </ul>
    </li>
    <li> A distributed version control system as integral part of the library:
     <ul>
-     <li> The version control system is built by the library (ExternalSources). </li>
-     <li> One has to reflect on how an (external) user of the library might want to
-     extend the library (under the version control!). </li>
-     <li> Hopefully the distributed version control constitutes also the main part of the
+     <li> The version control system is built by the library (ExternalSources).
+     </li>
+     <li> One has to reflect on how an (external) user of the library might want
+     to extend the library (under the version control!). </li>
+     <li> Hopefully the distributed version control constitutes also the main
+     part of the
      update-solution for an external user (who extended the library)! </li>
     </ul>
    </li>
    <li> The central repository:
-   For a new version control system we have to find out how to establish the role of the repository at
-   cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
-   relying on ssh). </li>
-   <li> Branching: DONE (for some developers, working on special areas and feeling unsure,
-   creating a branch might be quite reasonable, but for others who like OK work on many
-   parts of the library, follow the credo of permanent improvement, it would be a waste of
-   time)
+   For a new version control system we have to find out how to establish the
+   role of the repository at cs-oksvr as *central*, and how to manage access
+   control (as fine-grained as possible; if possible not relying on ssh). </li>
+   <li> Branching: DONE (for some developers, working on special areas and
+   feeling unsure, creating a branch might be quite reasonable, but for others
+   who like OK work on many parts of the library, follow the credo of permanent
+   improvement, it would be a waste of time)
     <ul>
      <li> Yet we never branched; in [{CVU}, vo. 10, no. 2, page 34] it
      is recommended (for Bazaar), that every work on a file (or
