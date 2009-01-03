@@ -447,14 +447,38 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
     <li> Problematic only that it moved everything to the top-level: How can we
     achieve that they all are moved to some sub-directory? The git-pull
     documentation seems not to say something here? </li>
-    <li> The canonical thing to do seems to first create in the repository
+    <li> A simple thing to do is to first create in the repository
     Annotations a directory "Annotations", move all files with
     \verbatim
 git mv file1 file2 dir1 dir2 Annotations
     \endverbatim
     to this subdirectory (with a subsequent "git commit"), and then with pulling
     from this directory we get all files into Transitional (with new part
-    "Annotations"). </li>
+    "Annotations"). The problem here is that the history gets interrupted. </li>
+    <li> The solution (from
+    http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html)
+     <ol>
+      <li> To pull everything (the first time) from repository B, placing it in
+      directory "Directory", use the following:
+      \verbatim
+git remote add -f Bproject /path/to/B
+git merge -s ours --no-commit Bproject/master
+git read-tree --prefix=Directory/ -u Bproject/master
+git commit -m "Merge B project as subdirectory Directory"
+      \endverbatim
+      </li>
+      <li> Then via subsequent
+      \verbatim
+git pull -s subtree Bproject master
+      \endverbatim
+      updates from the other repository (B) can be pulled. </li>
+      <li> If this is (no longer) needed, then use
+      \verbatim
+git remote rm Bproject
+      \endverbatim
+      </li>
+     </ol>
+    </li>
    </ul>
    </li>
   </ul>
