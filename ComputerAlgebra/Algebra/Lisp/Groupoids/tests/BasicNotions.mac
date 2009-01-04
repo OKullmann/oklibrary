@@ -124,19 +124,19 @@ okltest_cgrp_p(f) := (
   /* XXX */
   true)$
 
-okltest_grpn_p(f) := (
+okltest_ugrp_p(f) := (
   /* XXX */
   true)$
 
-okltest_cgrpn_p(f) := (
+okltest_cugrp_p(f) := (
   /* XXX */
   true)$
 
-okltest_grpni_p(f) := (
+okltest_ugrpi_p(f) := (
   /* XXX */
   true)$
 
-okltest_cgrpni_p(f) := (
+okltest_cugrpi_p(f) := (
   /* XXX */
   true)$
 
@@ -173,15 +173,15 @@ okltest_ugrd2grd(f) := (
   /* XXX */
   true)$
 
-okltest_grpni2grpn(f) := (
+okltest_ugrpi2ugrp(f) := (
   /* XXX */
   true)$
 
-okltest_grpni2grp(f) := (
+okltest_ugrpi2grp(f) := (
   /* XXX */
   true)$
 
-okltest_grpn2grp(f) := (
+okltest_ugrp2grp(f) := (
   /* XXX */
   true)$
 

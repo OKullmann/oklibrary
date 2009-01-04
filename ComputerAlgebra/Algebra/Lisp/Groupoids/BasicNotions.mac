@@ -70,10 +70,10 @@ cuqgrp_p(L) := uqgrp_p(L) and commutative_bydef_grd(L)$
 /* Groups: */
 grp_p(G) := qgrp_p(G) and associative_bydef_grd(G) and not emptyp(G[1])$
 cgrp_p(G) := grp_p(G) and commutative_bydef_grd(G)$
-grpn_p(G) := uqgrp_p(G) and associative_bydef_grd(G)$
-cgrpn_p(G) := grpn_p(G) and commutative_bydef_grd(G)$
-grpni_p(G) := ugrd(rest(G,-1)) and inversion_ugrd(G,G[4])$
-cgrpni_p(G) := grpni_p(G) and commutative_bydef_grd(G)$
+ugrp_p(G) := uqgrp_p(G) and associative_bydef_grd(G)$
+cugrp_p(G) := ugrp_p(G) and commutative_bydef_grd(G)$
+ugrpi_p(G) := ugrd(rest(G,-1)) and inversion_ugrd(G,G[4])$
+cugrpi_p(G) := ugrpi_p(G) and commutative_bydef_grd(G)$
 
 
 /* *********************
@@ -92,9 +92,9 @@ ugrd_equalp(V1,V2) := grd_equalp(rest(V1,-1),rest(V2,-1)) and is(V1[3]=V2[3])$
 
 ugrd2grd(V) := rest(V,-1)$
 
-grpni2grpn(G) := rest(G,-1)$
-grpni2grp(G) := rest(G,-2)$
-grpn2grp(G) := rest(G,-1)$
+ugrpi2ugrp(G) := rest(G,-1)$
+ugrpi2grp(G) := rest(G,-2)$
+ugrp2grp(G) := rest(G,-1)$
 
 
 /* **************
@@ -102,7 +102,7 @@ grpn2grp(G) := rest(G,-1)$
    **************
 */
 
-/* grp2grpn(G), grp2grpni(G), grpn2grpni(G) : 
+/* grp2ugrp(G), grp2ugrpi(G), ugrp2ugrpi(G) : 
    here we have the typical three possibilities ... 
 */
 

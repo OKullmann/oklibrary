@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,7 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/Residu
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
 
 
-cyclic_grpn(n) := rngfrm2egrd_add(residues_rng(n))$
+cyclic_ugrp(n) := rngfrm2egrd_add(residues_rng(n))$
 
 
 /*!
