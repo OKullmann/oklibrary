@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -79,17 +79,31 @@ scom_equalp(A,B) := scomequalp(A,B)$
    ***************
 */
 
+/* Conversions between general and square matrices: */
 scom2com(M) := [M[1],M[1],M[2]]$
+oscom2ocom(M) := [M[1],M[1],M[2]]$
 com2scom(M) := [M[1],M[3]]$
-/* com2scom can only be applied sensibly if M[1] = M[2]. */
+ocom2oscom(M) := [M[1],M[3]]$
+/* com2scom, ocom2oscom can only be applied sensibly if M[1] = M[2]. */
 
+/* Conversions between ordered and unordered matrices: */
+ocom2com(M) := [setify(M[1]),setify(M[2]),M[3]]$
+oscom2scom(M) := [setify(M[1]),M[2]]$
+com2ocom(M) := [listify(M[1]),listify(M[2]),M[3]]$
+scom2oscom(M) := [listify(M[1]),M[2]]$
 
-/* Transforms a combinatorial matrix into a Maxima matrix: */
+/* Conversions between combinatorial matrices and Maxima matrices: */
+
+/* Transforms a combinatorial matrix into a Maxima matrix, using the
+   implicit order on rows and columns: */
 com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
   apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
+/* Now using the explicit order on rows and columns: */
 ocom2m(M) := block([rows : M[1], cols : M[2], f : M[3]],
   apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
+/* For square matrices: */
 scom2m(M) := com2m(scom2com(M))$
+oscom2m(M) := ocom2m(oscom2ocom(M))$
 
 /* Transforms a Maxima matrix into a combinatorial matrix
    (attention: this constitutes a reference to the original matrix). */
@@ -97,9 +111,14 @@ m2com(M) := block([m,n],
   [m,n] : matrix_size(M),
   [setn(m), setn(n),
     buildq([M], lambda([i,j], 'M[i,j]))])$
+m2ocom(M) := block([m,n],
+  [m,n] : matrix_size(M),
+  [create_list(i,i,1,m), create_list(i,i,1,n),
+    buildq([M], lambda([i,j], 'M[i,j]))])$
 /* RENAME: m2scom */
 sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
 m2scom(M) := sm2scom(M)$
+m2oscom(M) := [create_list(i,i,1,matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
 
 /* For convenience: Input as the Maxima function "matrix", but returns
    a com resp. scom:

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,14 +48,24 @@ okltest_scom_equalp(scom_equalp);
 */
 
 okltest_scom2com(scom2com);
+okltest_oscom2ocom(oscom2ocom);
 okltest_com2scom(com2scom);
+okltest_ocom2oscom(ocom2oscom);
+
+okltest_ocom2com(ocom2com);
+okltest_oscom2scom(oscom2scom);
+okltest_com2ocom(com2ocom);
+okltest_scom2oscom(scom2oscom);
 
 okltest_com2m(com2m);
 okltest_ocom2m(ocom2m);
 okltest_scom2m(scom2m);
+okltest_oscom2m(oscom2m);
 
 okltest_m2com(m2com);
+okltest_m2ocom(m2ocom);
 okltest_m2scom(m2scom);
+okltest_m2oscom(m2oscom);
 
 okltest_com_l(com_l);
 okltest_scom_l(scom_l);

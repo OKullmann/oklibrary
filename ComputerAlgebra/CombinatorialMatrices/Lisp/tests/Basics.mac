@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -104,9 +104,35 @@ okltest_scom2com(f) := block([I,fun],
   assert(f([I,fun]) = [I,I,fun]),
   true)$
 
+okltest_oscom2ocom(f) := block([I,fun],
+  assert(f([I,fun]) = [I,I,fun]),
+  true)$
+
 okltest_com2scom(f) := block([I,fun],
   assert(f([I,I,fun]) = [I,fun]),
   true)$
+
+okltest_ocom2oscom(f) := block([I,fun],
+  assert(f([I,I,fun]) = [I,fun]),
+  true)$
+
+okltest_ocom2com(f) := block(
+  /* XXX */
+  true)$
+
+okltest_oscom2scom(f) := block(
+  /* XXX */
+  true)$
+
+
+okltest_com2ocom(f) := block(
+  /* XXX */
+  true)$
+
+okltest_scom2oscom(f) := block(
+  /* XXX */
+  true)$
+
 
 okltest_com2m(f) := (
   assert(f([{},{},identity]) = matrix()),
@@ -127,11 +153,24 @@ okltest_scom2m(f) := ([fun],
   assert(f([{1,2},lambda([i,j],i*j)]) = matrix([1,2],[2,4])),
   true)$
 
+okltest_oscom2m(f) := ([fun],
+  assert(f([[],fun]) = matrix()),
+  assert(f([[1,2],lambda([i,j],i*j)]) = matrix([1,2],[2,4])),
+  assert(f([[4,3],lambda([i,j],i*j)]) = matrix([16,12],[12,9])),
+  true)$
+
 okltest_m2com(f) := block([fun],
   assert(com_equalp(f(matrix()), [{},{},fun]) = true),
   assert(com_equalp(f(matrix([])), [{1},{},fun]) = true),
   assert(com_equalp(f(matrix([],[])), [{1,2},{},fun]) = true),
   assert(okltest_m2scom(buildq([f],lambda([M],com2scom(f(M)))))),
+  true)$
+
+okltest_m2ocom(f) := block([fun],
+  assert(com_equalp(f(matrix()), [[],[],fun]) = true),
+  assert(com_equalp(f(matrix([])), [[1],[],fun]) = true),
+  assert(com_equalp(f(matrix([],[])), [[1,2],[],fun]) = true),
+  assert(okltest_m2oscom(buildq([f],lambda([M],ocom2oscom(f(M)))))),
   true)$
 
 okltest_m2scom(f) := block(
@@ -140,6 +179,14 @@ okltest_m2scom(f) := block(
   assert(scom_equalp(f(matrix([1,1],[1,1])),[{1,2},lambda([i,j],1)]) = true),
   assert(scom_equalp(f(matrix([2,3],[3,4])),[{1,2},lambda([i,j],i+j)]) = true),
   true)$
+
+okltest_m2oscom(f) := block(
+  assert(scom_equalp(f(matrix()),[[],identity]) = true),
+  assert(scom_equalp(f(matrix([1])),[[1],lambda([i,j],1)]) = true),
+  assert(scom_equalp(f(matrix([1,1],[1,1])),[[1,2],lambda([i,j],1)]) = true),
+  assert(scom_equalp(f(matrix([2,3],[3,4])),[[1,2],lambda([i,j],i+j)]) = true),
+  true)$
+
 
 okltest_com_l(f) := (
   /* XXX */
