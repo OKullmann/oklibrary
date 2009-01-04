@@ -23,6 +23,9 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
@@ -50,7 +53,7 @@ okltest_ls_p(f) := (
   assert(f(scom_l([2,1],[1,2])) = true),
   assert(f(scom_l([1,2],[2,2])) = false),
   for n : 1 thru 6 do
-    assert(f(ugrp2grp(cyclic_ugrp(n))) = true),
+    assert(f(qgrp2ls(ugrp2grp(cyclic_ugrp(n)))) = true),
   true)$
 
 okltest_stdls_p(f) := (
@@ -67,6 +70,8 @@ okltest_fstdls_p(f) := (
   assert(f(matrix([1,2,3],[3,1,2],[2,3,1])) = false),
   assert(f(matrix([1,2,3],[2,3,1],[3,1,2])) = true),
   assert(f(matrix([1,3,2],[2,1,3],[3,2,1])) = false),
+  for n : 1 thru 6 do
+    assert(f(uqgrp2fstdls(cyclic_ugrp(n))) = true),
   true)$
 
 
@@ -100,6 +105,14 @@ okltest_cyc3_o_stdls_o(f) := (
   assert(ols_p(m2scom(f),m2scom(cyc3_fstdls)) = true),
   true)$
 
+okltest_nassoc_fstdls(f) := block([Q],
+  assert(matrix_size(f) = [5,5]),
+  assert(fstdls_p(f) = true),
+  Q : fstdls2uqgrp(f),
+  assert(uqgrp_p(Q) = true),
+  assert(associative_bydef_grd(ugrd2grd(Q)) = false),
+  true)$
+
 okltest_dk10_fstdls(f) := (
   assert(matrix_size(f) = [10,10]),
   assert(fstdls_p(f) = true),
@@ -110,6 +123,27 @@ okltest_dk10_o_stdls(f) := (
   assert(fstdls_p(f) = false),
   assert(stdls_p(f) = true),
   assert(ols_p(m2scom(f),m2scom(dk10_fstdls)) = true),
+  true)$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_qgrp2ls(f) := (
+  /* XXX */
+  true)$
+
+okltest_uqgrp2fstdls(f) := (
+  assert(f([{77},lambda([x,y],77),77]) = matrix([1])),
+  assert(f(fstdls2uqgrp(nassoc_fstdls)) = nassoc_fstdls),
+  for n : 1 thru 5 do block(
+   [M : f(cyclic_ugrp(n)),
+    L : create_list(i,i,1,n)],
+    assert(M = apply(matrix, create_list(rotate(L,-i),i,0,n-1)))
+  ),
+  /* XXX */
   true)$
 
 

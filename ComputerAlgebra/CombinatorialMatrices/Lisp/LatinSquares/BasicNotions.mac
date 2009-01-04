@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares
 
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *****************
@@ -87,7 +88,7 @@ mols_p(L) := listp(L) and block([n : length(L), is_mols : true],
    ************
 */
 
-/* The cyclic (fully standardised) latin square of order 3: */
+/* The (cyclic, unique) fully standardised latin square of order 3: */
 cyc3_fstdls : matrix(
  [1,2,3],
  [2,3,1],
@@ -98,6 +99,16 @@ cyc3_o_stdls : matrix(
  [1,3,2],
  [2,1,3],
  [3,2,1]
+)$
+
+/* A smallest fully standardised latin square (corresponding to a unital
+   quasigroup) which is not a group: */
+nassoc_fstdls : matrix(
+ [1,2,3,4,5],
+ [2,1,5,3,4],
+ [3,4,1,5,2],
+ [4,5,2,1,3],
+ [5,3,4,2,1]
 )$
 
 /* The (fully standardised) latin square of order 10 from 
@@ -128,6 +139,27 @@ dk10_o_stdls : matrix(
  [10,5,4,7,2,9,3,6,8,1]
 )$
 
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* Relations to quasigroups: */
+
+/* Converting a quasigroup into a latin square: */
+qgrp2ls(Q) := Q$
+/* Remark: More general, so a groupoid is "converted" into a
+   "composition table".
+*/
+/* Converting a unital quasigroup into a fully standardised latin square: */
+uqgrp2fstdls(Q) := block([L : cons(Q[3],listify(disjoin(Q[3],Q[1]))), h],
+  h : osm2hm(map("[", L, create_list(i,i,1,length(L)))),
+  oscom2m([L, lambda([x,y], ev_hm(h,Q[2](x,y)))]))$
+
+/* See ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/Basics.mac
+   for the inverse conversions.
+*/
 
 /*!
 \endhtmlonly

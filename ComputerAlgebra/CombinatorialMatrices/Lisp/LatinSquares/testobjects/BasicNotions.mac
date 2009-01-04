@@ -41,8 +41,17 @@ okltest_mols_p(mols_p);
 
 okltest_cyc3_fstdls(cyc3_fstdls);
 okltest_cyc3_o_stdls(cyc3_o_stdls);
+okltest_nassoc_fstdls(nassoc_fstdls);
 okltest_dk10_fstdls(dk10_fstdls);
 okltest_dk10_o_stdls(dk10_o_stdls);
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_qgrp2ls(qgrp2ls);
+okltest_uqgrp2fstdls(uqgrp2fstdls);
 
 /*!
 \endhtmlonly

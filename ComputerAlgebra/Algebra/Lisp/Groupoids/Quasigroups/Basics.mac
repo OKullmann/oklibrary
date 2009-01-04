@@ -1,0 +1,61 @@
+/* Oliver Kullmann, 4.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/Basics.mac
+  \brief Basic functionality for quasigroups
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$ /* guaranteed to be included */
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac")$
+
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+/* The basic predicates "qgrp_p, cqgrp_p, uqgrp_p, cuqgrp_p" are in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac.
+*/
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* Relations to latin squares: */
+
+/* Converting a latin square into a quasigroup: */
+ls2qgrp(L) := L$
+stdls2qgrp(L) := m2scom(L)$
+/* These conversions also convert general composition tables into
+   groupoids.
+*/
+
+/* Converting a fully standardised latin square into a unital quasigroup: */
+/* Prerequisite for fstdls2uqgrp: L is not empty. */
+fstdls2uqgrp(L) := endcons(1,stdls2qgrp(L))$
+
+/* See ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac
+   for the inverse conversions.
+*/
+
+/*!
+\endhtmlonly
+*/
+
