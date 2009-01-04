@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -57,17 +57,20 @@ mon_p(M) := listp(M) and is(length(M)=3) and sgr_p([M[1],M[2]]) and
   elementp(M[3],M[1]) and neutral_el_grd(M,M[3])$
 cmon_p(M) := mon_p(M) and commutative_bydef_grd(M)$
 
-/* Quasigroups and loops: */
+/* Quasigroups: */
 qgrp_p(Q) := grd_p(Q) and every(lambda([x],permutation_el_grd(Q,x)),Q[1])$
 /* Remark: qgrp_p(Q) = ls_p(Q). */
+/* Commutative quasigroups: */
 cqgrp_p(Q) := qgrp_p(Q) and commutative_bydef_grd(Q)$
-lop_p(L) := ugrd_p(L) and every(lambda([x],invertible_el_ugrd(L,x)),L[1])$
-clop_p(L) := lop_p(L) and commutative_bydef_grd(L)$
+/* Unital quasigroups (also known as "loops"): */
+uqgrp_p(L) := ugrd_p(L) and every(lambda([x],invertible_el_ugrd(L,x)),L[1])$
+/* Commutative unital quasigroups: */
+cuqgrp_p(L) := uqgrp_p(L) and commutative_bydef_grd(L)$
 
 /* Groups: */
 grp_p(G) := qgrp_p(G) and associative_bydef_grd(G) and not emptyp(G[1])$
 cgrp_p(G) := grp_p(G) and commutative_bydef_grd(G)$
-grpn_p(G) := lop_p(G) and associative_bydef_grd(G)$
+grpn_p(G) := uqgrp_p(G) and associative_bydef_grd(G)$
 cgrpn_p(G) := grpn_p(G) and commutative_bydef_grd(G)$
 grpni_p(G) := ugrd(rest(G,-1)) and inversion_ugrd(G,G[4])$
 cgrpni_p(G) := grpni_p(G) and commutative_bydef_grd(G)$

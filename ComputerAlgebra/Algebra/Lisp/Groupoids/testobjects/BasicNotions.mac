@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,8 +40,8 @@ okltest_cmon_p(cmon_p);
 
 okltest_qgrp_p(qgrp_p);
 okltest_cqgrp_p(cqgrp_p);
-okltest_lop_p(lpo_p);
-okltest_clop_p(clop_p);
+okltest_uqgrp_p(uqgrp_p);
+okltest_cuqgrp_p(cuqgrp_p);
 
 okltest_grp_p(grp_p);
 okltest_cgrp_p(cgrp_p);
