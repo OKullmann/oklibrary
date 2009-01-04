@@ -74,7 +74,7 @@ okltest_ols_p(f) := (
   assert(f(scom_l([1]),scom_l([1])) = true),
   assert(f(scom_l([1,2],[2,1]), scom_l([1,2],[2,1])) = false),
   assert(f(scom_l([1,2],[2,1]), scom_l([2,1],[1,2])) = false),
-  assert(f(m2scom(LS_cyc3), m2scom(LS_cyc3_o)) = true),
+  assert(f(m2scom(cyc3_fstdls), m2scom(cyc3_o_stdls)) = true),
   true)$
 
 okltest_mols_p(f) := (
@@ -88,28 +88,28 @@ okltest_mols_p(f) := (
    ************
 */
 
-okltest_LS_cyc3(f) := (
+okltest_cyc3_fstdls(f) := (
   assert(matrix_size(f) = [3,3]),
   assert(fstdls_p(f) = true),
   true)$
 
-okltest_LS_cyc3_o(f) := (
+okltest_cyc3_o_stdls_o(f) := (
   assert(matrix_size(f) = [3,3]),
   assert(fstdls_p(f) = false),
   assert(stdls_p(f) = true),
-  assert(ols_p(m2scom(f),m2scom(LS_cyc3)) = true),
+  assert(ols_p(m2scom(f),m2scom(cyc3_fstdls)) = true),
   true)$
 
-okltest_LS_DK(f) := (
+okltest_dk10_fstdls(f) := (
   assert(matrix_size(f) = [10,10]),
   assert(fstdls_p(f) = true),
   true)$
 
-okltest_LS_DK_o(f) := (
+okltest_dk10_o_stdls(f) := (
   assert(matrix_size(f) = [10,10]),
   assert(fstdls_p(f) = false),
   assert(stdls_p(f) = true),
-  assert(ols_p(m2scom(f),m2scom(LS_DK)) = true),
+  assert(ols_p(m2scom(f),m2scom(dk10_fstdls)) = true),
   true)$
 
 
