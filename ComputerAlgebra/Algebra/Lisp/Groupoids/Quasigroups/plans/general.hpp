@@ -28,5 +28,16 @@ License, or any later version. */
    for this most general level. </li>
   </ul>
 
+
+  \todo Enumeration and classification
+  <ul>
+   <li> For small order (say, n <= 5) it should be possible to enumerate
+   all (isomorphism types) of quasigroups (and also the total count is
+   interesting), and providing a catalogue. </li>
+   <li> Of course, we also need the numbers (total and non-isomorphic) of
+   unital quasigroups, groups, commutative quasigroups, unital commutative
+   quasigroups, and commutative groups. </li>
+  </ul>
+
 */
 

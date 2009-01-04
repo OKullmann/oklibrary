@@ -57,5 +57,23 @@ false
    </li>
   </ul>
 
+
+  \todo Enumeration and classification
+  <ul>
+   <li> Since the isomorphism types given by square matrices are handled in
+   module Quasigroups (see "Enumeration and classification" in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/plans/general.hpp),
+   here we should (only) consider the isomorphism types given by general
+   isomorphism for matrices. </li>
+   <li> Then we need to count (total and non-isomorphic) the number of such
+   basic types of latin squares which (can) yield unital, associative etc.
+   latin squares (see above). </li>
+   <li> Interesting also, how a genereral isomorphism type is sub-divided
+   into the special isomorphism types (for square matrices). </li>
+   <li> Is the general-matrix-isomorphism already handled when we consider
+   only fully standardised matrices? But what would then be the notion of
+   isomorphism between fully standardised squares? </li>
+  </ul>
+
 */
 
