@@ -38,6 +38,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolva
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Closures.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
 
 
 /*!

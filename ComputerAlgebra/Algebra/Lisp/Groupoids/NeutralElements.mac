@@ -19,15 +19,24 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 /* Check whether e is left-neutral for groupoid V: */
-leftneutral_el_grd(V,e) := every(lambda([x],is(V[2](e,x)=x)), V[1])$
+leftneutral_el_grd(V,e) := every_s(lambda([x],is(V[2](e,x)=x)), V[1])$
 /* Check whether e is right-neutral for groupoid V: */
-rightneutral_el_grd(V,e) := every(lambda([x],is(V[2](x,e)=x)), V[1])$
+rightneutral_el_grd(V,e) := every_s(lambda([x],is(V[2](x,e)=x)), V[1])$
 /* Check whether e is neutral for groupoid V: */
 neutral_el_grd(V,e) := leftneutral_el_grd(V,e) and rightneutral_el_grd(V,e)$
 /* Remarks:
  - The above tests do not check whether elementp(e,V[1]) is true.
 */
+
+/* Check whether groupoid V has a left-neutral element: */
+has_leftneutral_el_grd(V) := some_s(lambda([x],leftneutral_el_grd(V,x)), V[1])$
+/* Check whether groupoid V has a right-neutral element: */
+has_rightneutral_el_grd(V) := some_s(lambda([x],rightneutral_el_grd(V,x)), V[1])$
+/* Check whether groupoid V has a neutral element: */
+has_neutral_el_grd(V) := some_s(lambda([x],neutral_el_grd(V,x)), V[1])$
 
 
 /*!

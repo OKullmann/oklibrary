@@ -1,0 +1,54 @@
+/* Oliver Kullmann, 4.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac
+  \brief Tests regarding neutral elements in groupoids
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+okltest_leftneutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_rightneutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_neutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_has_leftneutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_has_rightneutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_has_neutral_el_grd(f) := (
+  /* XXX */
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

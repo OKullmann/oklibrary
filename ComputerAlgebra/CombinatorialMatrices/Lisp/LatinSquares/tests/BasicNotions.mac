@@ -98,11 +98,15 @@ okltest_cyc3_fstdls(f) := (
   assert(fstdls_p(f) = true),
   true)$
 
-okltest_cyc3_o_stdls_o(f) := (
+okltest_cyc3_o_stdls(f) := block([Q],
   assert(matrix_size(f) = [3,3]),
   assert(fstdls_p(f) = false),
   assert(stdls_p(f) = true),
   assert(ols_p(m2scom(f),m2scom(cyc3_fstdls)) = true),
+  Q : stdls2qgrp(f),
+  assert(qgrp_p(Q) = true),
+  assert(has_neutral_el_grd(Q) = false),
+  assert(associative_bydef_grd(Q) = false),
   true)$
 
 okltest_nassoc_fstdls(f) := block([Q],

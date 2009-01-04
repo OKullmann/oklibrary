@@ -100,6 +100,9 @@ cyc3_o_stdls : matrix(
  [2,1,3],
  [3,2,1]
 )$
+/* The quasigroup corresponding to cyc3_o_stdls is also non-unital (and
+   thus non-associativ).
+*/
 
 /* A smallest fully standardised latin square (corresponding to a unital
    quasigroup) which is not a group: */
