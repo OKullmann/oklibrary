@@ -23,6 +23,7 @@ License, or any later version. */
    <li> Implement complete_ohg(n,r) by employing a standardised order on
    the r-subsets of {1,...,n} (see "Module Enumeration" in
    ComputerAlgebra/plans/general.hpp). </li>
+   <li> We should just use the lexicographical ordering. </li>
   </ul>
 
 

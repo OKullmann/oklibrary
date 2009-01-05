@@ -25,9 +25,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Organisation
+  \todo Organisation and connections
   <ul>
-   <li> We should create a sub-module "Subsets" of Combinatorics/Enumeration.
+   <li> See ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp.
+   </li>
    </li>
    <li> Combinatorics.hpp and related files shall move to that new sub-module
    according to General/plans/General.hpp. </li>

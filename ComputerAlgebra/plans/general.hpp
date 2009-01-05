@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,33 +21,6 @@ License, or any later version. */
      Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Module Enumeration
-  <ul>
-   <li> We should have a module ComputerAlgebra/Combinatorics, which is
-   concerned especially about enumerating (standard) combinatorial
-   objects. </li>
-   <li> Compare Combinatorics/Enumeration/plans/general.hpp and the sub-modules
-   Combinatorics/Enumeration/plans/GrayCodes.hpp,
-   Combinatorics/Enumeration/plans/Permutations.hpp and
-   Combinatorics/Enumeration/plans/Subsets.hpp. </li>
-   <li> According to [Stanton, White; Constructive Combinatorics], the
-   basic sub-modules would be:
-    <ol>
-     <li> Permutations; perhaps with submodule Involutions </li>
-     <li> Subsets </li>
-     <li> Set partitions </li>
-     <li> Integer partitions </li>
-     <li> Product spaces </li>
-     <li> Trees (not as data structures; and in Graphs we do not handle
-     the enumerative aspects) </li>
-     <li> Tableaux </li>
-    </ol>
-   </li>
-   <li> The appendix of [Stanton, White; Constructive Combinatorics] contains
-   enumeration algorithms to start with. </li>
   </ul>
 
 
