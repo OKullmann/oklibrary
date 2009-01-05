@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -103,6 +103,29 @@ License, or any later version. */
      <li> Other tests only need to be performed "half". </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Valued matrices and their homo- and isomorphisms
+  <ul>
+   <li> The matrix concept as a triple [I,J,A] can be extended to a
+   quadruple [I,J,A,V], where V is the set of values, and thus A: I x J -> V.
+   </li>
+   <li> Such generalised matrices could be called "valued matrices" (seems
+   easier to use than "matrices with values"). </li>
+   <li> The natural notion of homomorphism f: [I,J,A,V] -> [I',J',A',V']
+   is that of a triple f = [i,j,v], where i: I -> I', j: J -> J' and v: V -> V'
+   such that f(A(x,y)) = A'(i(x),j(y)). </li>
+   <li> These are just called homomorphisms of valued matrices. </li>
+   <li> The corresponding isomorphisms are given when all maps i, j, v are
+   bijections. </li>
+   <li> A valued square matrix is then a triple [I,A,V] with A: I^2 -> V,
+   and a homomorphism f: [I,A,V] -> [I',A',V'] is a pair f = [i,v] with
+   f(A(x,x')) = A'(f(x),f(x')). Isomorphisms are where i, v are bijections.
+   </li>
+   <li> We need predicates (for checking whether something is a valued (square)
+   matrix, or a homomorphism (isomorpism) for valued (square) matrices. </li>
+   <li> And we need again the algorithms for the isomorphism problem. </li>
   </ul>
 
 */
