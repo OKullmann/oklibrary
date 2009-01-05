@@ -33,7 +33,7 @@ License, or any later version. */
    Combinatorics/Enumeration/plans/GrayCodes.hpp,
    Combinatorics/Enumeration/plans/Permutations.hpp and
    Combinatorics/Enumeration/plans/Subsets.hpp. </li>
-   <li> According to [Stanton, While; Constructive Combinatorics], the
+   <li> According to [Stanton, White; Constructive Combinatorics], the
    basic sub-modules would be:
     <ol>
      <li> Permutations; perhaps with submodule Involutions </li>
@@ -46,7 +46,7 @@ License, or any later version. */
      <li> Tableaux </li>
     </ol>
    </li>
-   <li> The appendix of [Stanton, While; Constructive Combinatorics] contains
+   <li> The appendix of [Stanton, White; Constructive Combinatorics] contains
    enumeration algorithms to start with. </li>
   </ul>
 
