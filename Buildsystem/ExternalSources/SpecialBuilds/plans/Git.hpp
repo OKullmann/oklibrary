@@ -62,6 +62,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Git book
+  <ul>
+   <li> Likely we should make the git-book directly available (via a
+   link, not just mentioning the documentation directory at the Git
+   installation page). </li>
+  </ul>
+
+
   \todo Installation process
   <ul>
    <li> There are several build-possibilities (listed in the INSTALL-file

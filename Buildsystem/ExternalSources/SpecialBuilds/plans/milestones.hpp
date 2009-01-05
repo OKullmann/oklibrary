@@ -278,6 +278,7 @@ License, or any later version. */
     - Prerequisites
     - Asciidoc
     - Info- and man-pages
+    - Git book
     - Installation process
 
 

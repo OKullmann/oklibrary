@@ -29,7 +29,14 @@ License, or any later version. */
      <li> the <code>gitk</code> program: simple and useful graphical interface to git-functionality related to browsing the history. </li>
     </ol>
    </li>
-   <li> Documentation </li>
+   <li> Documentation
+    <ol>
+     <li> The main documentation links are available on the ExternalSources
+     index page. </li>
+     <li> See the documentation directory <code>$(git_base_doc_dir_okl)</code>
+     for additional documents (like the "Git book"). </li>
+    </ol>
+   </li>
   </ul>
 
 

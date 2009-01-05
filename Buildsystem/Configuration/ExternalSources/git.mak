@@ -49,6 +49,8 @@ git_doc_dir_okl ?= $(git_base_doc_dir_okl)/$(git_recommended_version_number_okl)
 git_html_documentation_index_location_okl ?= $(git_doc_dir_okl)/Documentation/git.html
 git_docu_page_okl ?= $(doc_dir)/doxygen_html/d7/d77/docus_2Git_8hpp.html
 
-git_homepage_url_okl := http://git.or.cz/
-git_documentation_url_okl := http://git.or.cz/\#documentation
+git_book_okl ?= $(ExternalSources)/sources/Git/book.pdf
+
+git_homepage_url_okl := http://git-scm.com/
+git_documentation_url_okl := http://git-scm.com/documentation
 

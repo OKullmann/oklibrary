@@ -31,6 +31,7 @@ git_base : $(git_directories_okl)
 	make all doc; $(postcondition) \
 	cp -r $(git_build_dir_okl)/Documentation $(git_doc_dir_okl); $(postcondition) \
 	$(git_install_command_okl) install-doc; $(postcondition) \
+	cp $(git_book_okl) $(git_base_doc_dir_okl); $(postcondition)
 
 ifeq ($(git_default_install_okl),local)
 git_links :
