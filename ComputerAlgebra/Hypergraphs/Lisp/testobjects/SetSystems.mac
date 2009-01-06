@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,10 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.ma
 
 okltest_singletonp(singletonp);
 okltest_single_element(single_element);
+
 okltest_choose_element(choose_element);
+okltest_first_element(first_element);
+okltest_last_element(last_element);
 
 /* *********************
    * Set constructions *
