@@ -663,6 +663,7 @@ git remote rm Bproject
      <li> 27.9.2008; 10.3 MB; Transitional total: 28.6 MB </li>
      <li> 1.11.2008; 10.3 MB; Transitional total: 28.7 MB </li>
      <li> 22.11.2008; 10.4 MB; Transitional total: 28.9 MB </li>
+     <li> 6.1.2009; 10.7 MB; Transitional total: 29.7 MB </li>
     </ol>
    </li>
   </ul>
