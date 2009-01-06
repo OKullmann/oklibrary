@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding enumerating subsets (all, or only specific ones)
 
 
-  \todo Enumerating all k-subsets
+  \todo Enumerating all k-subsets lexicographically
   <ul>
    <li> Given natural numbers n, k >= 0, the task is to enumerate the set
    binom({1,...,n},k) of all k-subsets of {1,...,n}. (See "Main concepts"
@@ -33,8 +33,15 @@ listify(powerset(setn(n),k))
      list! (It renders the set-concept useless.) </li>
     </ol>
    </li>
-   <li> And then there are Gray-codes (including the "standard" one,
-   recursively constructed). </li>
+  </ul>
+
+
+  \todo Enumerating all k-subsets in Gray-code manner
+  <ul>
+   <li> The point here is that only one element is changed at a time (when
+   proceeding to the successor). </li>
+   <li> There should be a standard, recursive way of achieving such an
+   order. </li>
   </ul>
 
 */

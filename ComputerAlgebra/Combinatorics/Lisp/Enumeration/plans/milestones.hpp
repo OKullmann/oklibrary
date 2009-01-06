@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
    following topics are handled:
-    - Enumerating all k-subsets
+    - Enumerating all k-subsets lexicographically
 
   \par
    Expand the following milestones.
@@ -32,6 +32,22 @@ License, or any later version. */
   \par
    The basic functions for enumerating (and ranking) k-subsets are
    provided.
+
+
+   \par Version 0.0.6
+
+  \par
+   In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp the
+   following topics are handled:
+    - Basic overview
+
+
+  \par Version 0.0.7
+
+  \par
+   In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
+   following topics are handled:
+    - Enumerating all k-subsets in Gray-code manner
 
 
   \par Version 0.1
