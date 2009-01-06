@@ -31,6 +31,48 @@ listify(powerset(setn(n),k))
      is the order of elements of a set specified, nor can it be
      controlled --- this issue must be raised at the Maxima mailing
      list! (It renders the set-concept useless.) </li>
+     <li> For a given Maxima-set S, and k >= 0, the list of all k-subsets
+     of S in lexicographical order is computed as follows:
+     \verbatim
+lex_subsets_l(S,k) := if k=0 then [{}] elseif emptyp(S) then [] else
+  block([x : first_element(S), R],
+    R : disjoin(x,S),
+    append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
+      \endverbatim
+     </li>
+     <li> And colexicographical order:
+     \verbatim
+colex_subsets_l(S,k) := if k=0 then [{}] elseif emptyp(S) then [] else
+  block([x : last_element(S), R],
+    R : disjoin(x,S),
+    append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
+     \endverbatim
+     </li>
+     <li> Regarding ranking, for colex-order we restrict attention to
+     the base-set {1, ..., n} (that is, S is a subset of {1, ..., n}):
+     \verbatim
+rank_colex_subsets(S,n) := block([L : listify(S)],
+  sum_l(create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
+     \endverbatim
+     </li>
+     <li> This formula comes from considering how many subsets are before
+     S in the order: Let S = {v_1, ..., v_k} (k = length(S)). Now
+     the elements before S are those k-subsets with elements all smaller
+     than v_k, these are binomial(v_k-1,k), plus the k-subsets containing
+     v_k as last element, and without this last element being before
+     {v_1, ..., v_{k-1}}. The formula is obtained then by recursion. </li>
+     <li> Now ranking for lex-order:
+     \verbatim
+rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
+  binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
+     \endverbatim
+     </li>
+     <li> This formula comes from considering how many subsets are after
+     S in the order: Let S = {v_1, ..., v_k}. The elements after S have
+     either every element larger than v_1, these are binomial(n-v_1,k),
+     plus the k-subsets containing v_1 as first element, which without
+     this element are after {v_2, ..., v_k}. Via recursion then the
+     formula is obtained. </li>
     </ol>
    </li>
   </ul>
