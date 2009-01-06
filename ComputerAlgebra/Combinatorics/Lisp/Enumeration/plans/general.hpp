@@ -10,6 +10,59 @@ License, or any later version. */
   \brief General plans regarding enumerating combinatorial objects
 
 
+  \todo Main concepts
+  <ul>
+   <li> Given a parameter p (which in general is a tuple) and a set M(p)
+   of "combinatorial objects", the task is to "enumerate" M(p). </li>
+   <li> "Enumeration" means several things:
+    <ol>
+     <li> Computing (all of) M(p) as a (repetition-free) list L(p). </li>
+     <li> This could be called the task of "completely listing" M(p). </li>
+     <li> Computing for an element x in M(p) its index in L(p), and given
+     an index i in {1, ..., |M(p)|}, computing the element L(p)[i], </li>
+     <li> This is the task of "ranking" and "unranking". Possibly the index
+     range is not a standard interval {1, ..., n}, but some other interval
+     of integers, but in any case the total number n of elements needs to
+     be computed. However, using other start indices than 1 perhaps
+     just introduces unnecessary complications, and we better standardise
+     the index range. </li>
+     <li> Computing the first element of L(p), and given an object x, computing
+     its successor in L(p) or deciding that x is the last element of L(p).
+     </li>
+     <li> This could be called "state-free iteration" through M(p). </li>
+     <li> Finally we have the task of "(general) iteration" through M(p),
+     which is given by a function-object I(p) which can be initialised,
+     queried whether the past-the-end has been reached, and if this is not
+     the case, can return the current object and can be advanced to the
+     next element (possibly "past-the-end"). </li>
+     <li> This is like forward-iterators in C++, only that we are running
+     through a fixed collection (not an arbitrary one). Likely we don't
+     need equality-comparison, but we should provide a method of ranking
+     the current element (faster than by calling the ranking-function for
+     the current element). </li>
+     <li> The point of such an iterator would be that it is more efficient
+     than the state-free iteration. </li>
+     <li> Perhaps such an iterator could be just some object which contains
+     all the necessary state-information (like the current index i, the
+     current element x, and the underlying information on x such that
+     the successor x' can be quickly determined. </li>
+     <li> The iterator-methods would then just inspect this object, or
+     compute a new object from an old one. </li>
+    </ol>
+   </li>
+   <li> For these basic functions we need to establish naming conventions.
+   </li>
+   <li> In module ComputerAlgebra/Combinatorics we only consider "classical"
+   combinatorical objects. An attempt to define this could use the following
+   properties:
+    <ol>
+     <li> The size of M(p) must be relatively easy to compute. </li>
+     <li> Enumeration is not a "hard" task. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> Compare Combinatorics/Enumeration/plans/general.hpp and the sub-modules
@@ -37,12 +90,6 @@ License, or any later version. */
    <li> The appendix of [Stanton, White; Constructive %Combinatorics] contains
    enumeration algorithms to start with. </li>
    <li> Another source is [Knuth, Volume 4, Fascicle 3]. </li>
-   <li> The basic task seems always to construct some bijection (in both
-   directions), more or less efficiently, and study its properties.
-    <ol>
-     <li> As counting structures we consider intervals of integers. </li>
-    </ol>
-   </li>
   </ul>
 
 
