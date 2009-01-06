@@ -21,7 +21,7 @@ License, or any later version. */
 
   \todo Basic overview
   <ul>
-   <li> According to [Stanton, White; Constructive Combinatorics], the
+   <li> According to [Stanton, White; Constructive %Combinatorics], the
    basic sub-modules would be:
     <ol>
      <li> Permutations; perhaps with submodule Involutions </li>
@@ -29,12 +29,12 @@ License, or any later version. */
      <li> Set partitions </li>
      <li> Integer partitions </li>
      <li> Product spaces </li>
-     <li> Trees (not as data structures; and in Graphs we do not handle
+     <li> Trees (not as data structures; and in %Graphs we do not handle
      the enumerative aspects) </li>
      <li> Tableaux </li>
     </ol>
    </li>
-   <li> The appendix of [Stanton, White; Constructive Combinatorics] contains
+   <li> The appendix of [Stanton, White; Constructive %Combinatorics] contains
    enumeration algorithms to start with. </li>
    <li> Another source is [Knuth, Volume 4, Fascicle 3]. </li>
    <li> The basic task seems always to construct some bijection (in both
@@ -52,7 +52,16 @@ License, or any later version. */
    binom({1,...,n},k) of all k-subsets of {1,...,n}. </li>
    <li> That is, in the most basic case we construct bijections between
    binom({1,...,n},k) and {1,...,binom(n,k)}. </li>
-   <li> We have lexicographical and anti-lexicographical ordering. </li>
+   <li> We have lexicographical and colexicographical ordering.
+    <ol>
+     <li> The lexicographical order is realised by
+     \verbatim
+listify(powerset(setn(n),k))
+     \endverbatim
+     (however this is obviously very inefficient, since it needs to
+     enumerate always *all* subsets, and this at once). </li>
+    </ol>
+   </li>
    <li> And then there are Gray-codes (including the "standard" one,
    recursively constructed). </li>
   </ul>
