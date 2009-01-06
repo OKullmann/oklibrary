@@ -27,11 +27,11 @@ License, or any later version. */
 
   \todo Organisation and connections
   <ul>
-   <li> See ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp.
+   <li> See ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp.
    </li>
    </li>
-   <li> Combinatorics.hpp and related files shall move to that new sub-module
-   according to General/plans/General.hpp. </li>
+   <li> General/Combinatorics.hpp and related files shall move to that
+   new sub-module according to General/plans/General.hpp. </li>
   </ul>
 
 

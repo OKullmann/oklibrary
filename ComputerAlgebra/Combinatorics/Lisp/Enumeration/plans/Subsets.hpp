@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans regarding enumerating subsets (all, or only specific ones)
 
 
+  \todo Connections
+  <ul>
+   <li> Compare Combinatorics/Enumeration/plans/Subsets.hpp. </li>
+  </ul>
+
+
   \todo Enumerating all k-subsets lexicographically
   <ul>
    <li> Given natural numbers n, k >= 0, the task is to enumerate the set

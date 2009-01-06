@@ -66,9 +66,8 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> Compare Combinatorics/Enumeration/plans/general.hpp and the sub-modules
-   Combinatorics/Enumeration/plans/GrayCodes.hpp,
-   Combinatorics/Enumeration/plans/Permutations.hpp and
-   Combinatorics/Enumeration/plans/Subsets.hpp. </li>
+   Combinatorics/Enumeration/plans/GrayCodes.hpp and
+   Combinatorics/Enumeration/plans/Permutations.hpp. </li>
   </ul>
 
 
