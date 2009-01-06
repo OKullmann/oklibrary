@@ -52,7 +52,11 @@ okltest_family_sets_union(family_sets_union);
 okltest_set_sum(set_sum);
 
 okltest_cunion(cunion);
+okltest_add_elements(add_elements);
 okltest_add_element(add_element);
+okltest_cunion_l(cunion_l);
+okltest_add_elements_l(add_elements_l);
+okltest_add_element_l(add_element_l);
 
 /* ********************************************
    * Constructions related to complementation *

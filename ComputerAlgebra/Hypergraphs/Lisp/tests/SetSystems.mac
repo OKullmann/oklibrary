@@ -124,10 +124,30 @@ okltest_cunion(f) := (
   assert(f({{1,2},{2,3}},{{3,4},{4,5}}) = {{1,2,3,4},{1,2,4,5},{2,3,4},{2,3,4,5}}),
   true)$
 
+okltest_add_elements(f) := (
+  assert(f({1,2},{{},{3,4},{1,4}}) = {{1,2},{1,2,3,4},{1,2,4}}),
+  /* XXX */
+  true)$
+
 okltest_add_element(f) := (
   assert(f(1,{}) = {}),
   assert(f(1,{{}}) = {{1}}),
   assert(f(1,{{1},{2,3}}) = {{1},{1,2,3}}),
+  true)$
+
+okltest_cunion_l(f) := (
+  okltest_cunion(buildq([f], lambda([A,B], setify(f(listify(A),listify(B)))))),
+  /* XXX */
+  true)$
+
+okltest_add_elements_l(f) := (
+  okltest_add_elements(buildq([f], lambda([x,S], setify(f(x,listify(S)))))),
+  /* XXX */
+  true)$
+
+okltest_add_element_l(f) := (
+  okltest_add_element(buildq([f], lambda([x,S], setify(f(x,listify(S)))))),
+  /* XXX */
   true)$
 
 

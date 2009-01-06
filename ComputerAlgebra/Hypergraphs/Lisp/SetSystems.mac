@@ -82,6 +82,10 @@ cunion(A,B) := setify(map(lambda([P],apply(union,P)),cartesian_product_l([listif
 add_elements(a,B) := cunion({a},B)$
 /* Further specialised to adjoining a single element. */
 add_element(x,B) := add_elements({x},B)$
+/* The same functionality, but for lists of sets: */
+cunion_l(A,B) := map(lambda([P],apply(union,P)),cartesian_product_l([A,B]))$
+add_elements_l(a,B) := map(lambda([S],union(a,S)),B)$
+add_element_l(x,B) := map(lambda([S],adjoin(x,S)),B)$
 
 
 /* *****************************************
