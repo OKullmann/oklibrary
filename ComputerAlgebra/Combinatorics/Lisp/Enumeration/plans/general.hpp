@@ -53,7 +53,7 @@ License, or any later version. */
    <li> For these basic functions we need to establish naming conventions.
    </li>
    <li> In module ComputerAlgebra/Combinatorics we only consider "classical"
-   combinatorical objects. An attempt to define this could use the following
+   combinatorial objects. An attempt to define this could use the following
    properties:
     <ol>
      <li> The size of M(p) must be relatively easy to compute. </li>
