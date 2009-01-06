@@ -1,5 +1,5 @@
 # Oliver Kullmann, 18.12.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,8 +7,8 @@
 
 # Settings for building and using Maxima
 
-maxima_recommended_version_number_okl ?= 5.16.3
-maxima_supported_not_recommended_version_numbers_okl ?= 
+maxima_recommended_version_number_okl ?= 5.17.2
+maxima_supported_not_recommended_version_numbers_okl ?= 5.16.3
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 
 maxima_prefix_okl ?= maxima
@@ -25,7 +25,7 @@ ifeq ($(maxima_lisp_name_okl),clisp)
   maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
   maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
 else
-  maxima_lisp_configuration_okl ?= --with-ecl=$(ecl_call_okl)
+  maxima_lisp_configuration_okl ?= --with-ecl=$(ecl_call_okl) --enable-ecl
   maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/rmaxima
 endif
 
@@ -37,8 +37,13 @@ maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_packag
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
-maxima_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/share
-
+# Temporary hack:
+ifeq ($(maxima_recommended_version_number_okl),5.17.2)
+maxima_base_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/5.17post
+else
+maxima_base_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)
+endif
+maxima_share_dir_okl ?= $(maxima_base_share_dir_okl)/share
 maxima_book_name_okl ?= maximabook-19-Sept-2004.pdf
 maxima_book_source_okl ?= $(ExternalSources_sources)/Maxima/$(maxima_book_name_okl)
 maxima_book_doc_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_book_name_okl)

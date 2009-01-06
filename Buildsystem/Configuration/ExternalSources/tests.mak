@@ -1,5 +1,5 @@
 # Oliver Kullmann, 1.8.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -330,7 +330,7 @@ clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_
 # New variables for the configuration of building maxima (to be designed 
 # and implemented):
 
-maxima_version_number_extraction_okl := awk '/Maxima [0-9]+\.[0-9]+\.[0-9]+/{print $$2}'
+maxima_version_number_extraction_okl := awk '{print $$2}'
 # assumes that the output of "maxima --version" contains a line of the form
 # (for example) "Maxima 5.14.0"
 

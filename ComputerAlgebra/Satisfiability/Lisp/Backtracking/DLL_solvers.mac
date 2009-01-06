@@ -483,7 +483,7 @@ logprobrand(F) := if F = {} then inf else
 locallemma_satapprox(F) := if F = {} then inf else 
   if empty_element_p(F) then minf else 
    block([G : g2mg(cvg_cs(F)), m : 0, c],
-    c : graph_size(G),
+    c : graph_order(G),
     for i : 1 thru c do block([N : neighbors(i, G), s : 0],
       for j in N do
         s : s + 2^(-length(get_vertex_label(j,G))),
@@ -497,7 +497,7 @@ locallemma_satapprox(F) := if F = {} then inf else
 locallemmasum_satapprox(F) := if F = {} then inf else 
   if empty_element_p(F) then minf else 
    block([G : g2mg(cvg_cs(F)), S : 0, c],
-    c : graph_size(G),
+    c : graph_order(G),
     for i : 1 thru c do block([N : neighbors(i, G), s : 0],
       for j in N do
         s : s + 2^(-length(get_vertex_label(j,G))),

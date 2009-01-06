@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.10.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,24 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp
   \brief Plans regarding installation of Maxima
+
+
+  \todo Update to Maxima 5.17.1
+  <ul>
+   <li> Creating a package:
+   \verbatim
+> cvs -z3 -d:pserver:anonymous@maxima.cvs.sourceforge.net:/cvsroot/maxima co -P maxima
+> mv maxima maxima-5.17.2
+> tar -czf maxima-5.17.2.tar.gz maxima-5.17.2
+   \endverbatim
+   </li>
+   <li> To build such a package, first "sh bootstrap" is needed. </li>
+   <li> A nasty little problem is that the directory
+   Installations/Maxima/ecl/5.17.1/share/maxima/5.17.1 is now called
+   Installations/Maxima/ecl/5.17.1/share/maxima/5.17post. </li>
+   <li> But perhaps this is just caused by the special way we created this
+   replacement-package, so let's assume it's just temporary. </li>
+  </ul>
 
 
   \todo Update to Maxima 5.16.x
