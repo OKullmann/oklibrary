@@ -16,6 +16,11 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp the
    following topics are handled:
+    - Main concepts
+
+  \par
+   In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
+   following topics are handled:
     - Enumerating all k-subsets
 
   \par

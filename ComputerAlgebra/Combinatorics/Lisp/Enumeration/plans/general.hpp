@@ -92,26 +92,5 @@ License, or any later version. */
    <li> Another source is [Knuth, Volume 4, Fascicle 3]. </li>
   </ul>
 
-
-  \todo Enumerating all k-subsets
-  <ul>
-   <li> Given natural numbers n, k >= 0, the task is to enumerate the set
-   binom({1,...,n},k) of all k-subsets of {1,...,n}. </li>
-   <li> That is, in the most basic case we construct bijections between
-   binom({1,...,n},k) and {1,...,binom(n,k)}. </li>
-   <li> We have lexicographical and colexicographical ordering.
-    <ol>
-     <li> The lexicographical order is realised by
-     \verbatim
-listify(powerset(setn(n),k))
-     \endverbatim
-     (however this is obviously very inefficient, since it needs to
-     enumerate always *all* subsets, and this at once). </li>
-    </ol>
-   </li>
-   <li> And then there are Gray-codes (including the "standard" one,
-   recursively constructed). </li>
-  </ul>
-
 */
 
