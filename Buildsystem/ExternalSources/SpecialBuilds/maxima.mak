@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.12.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -43,6 +43,22 @@ maxima : $(maxima_directories_okl)
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
 else
+# Temporary for version 5.17.1 (which has been locally amended to "5.17.2")
+ifeq ($(maxima_recommended_version_number_okl),5.17.2)
+maxima : $(maxima_directories_okl)
+	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
+	cd $(maxima_build_dir_okl); $(postcondition) \
+	sh bootstrap; $(postcondition) \
+	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
+	LANG=C make; $(postcondition) \
+	make check; $(postcondition) \
+	make install; $(postcondition) \
+	sed -e "s|--remember maxima|--remember ${maxima_installation_dir_okl}/bin/maxima|" ${maxima_installation_dir_okl}/bin/rmaxima > ${maxima_installation_dir_okl}/bin/temp; mv  ${maxima_installation_dir_okl}/bin/temp  ${maxima_installation_dir_okl}/bin/rmaxima; chmod u+x ${maxima_installation_dir_okl}/bin/rmaxima; $(postcondition) \
+	cp -rf $(maxima_base_share_dir_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
+	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
+	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
+	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
+else
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
@@ -50,10 +66,12 @@ maxima : $(maxima_directories_okl)
 	LANG=C make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition) \
-	cp -rf $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
-	cp -f $(maxima_build_dir_okl)/share/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
+	sed -e "s|--remember maxima|--remember ${maxima_installation_dir_okl}/bin/maxima|" ${maxima_installation_dir_okl}/bin/rmaxima > ${maxima_installation_dir_okl}/bin/temp; mv  ${maxima_installation_dir_okl}/bin/temp  ${maxima_installation_dir_okl}/bin/rmaxima; chmod u+x ${maxima_installation_dir_okl}/bin/rmaxima; $(postcondition) \
+	cp -rf $(maxima_base_share_dir_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
+	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
+endif
 endif
 
 
