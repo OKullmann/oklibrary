@@ -13,17 +13,24 @@ License, or any later version. */
   \todo Enumerating all k-subsets
   <ul>
    <li> Given natural numbers n, k >= 0, the task is to enumerate the set
-   binom({1,...,n},k) of all k-subsets of {1,...,n}. </li>
-   <li> That is, in the most basic case we construct bijections between
-   binom({1,...,n},k) and {1,...,binom(n,k)}. </li>
+   binom({1,...,n},k) of all k-subsets of {1,...,n}. (See "Main concepts"
+   in ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp.) </li>
    <li> We have lexicographical and colexicographical ordering.
     <ol>
+     <li> More precisely, one considers lists of integers, ordered
+     lexicographically, and for the lexicographical ordering of subsets
+     the subset is transformed into a list in ascending order, while
+     for the colexicographical order descending order is used. </li>
      <li> The lexicographical order is realised by
      \verbatim
 listify(powerset(setn(n),k))
      \endverbatim
      (however this is obviously very inefficient, since it needs to
      enumerate always *all* subsets, and this at once). </li>
+     <li> Another, fundamental, problem here is that apparently neither
+     is the order of elements of a set specified, nor can it be
+     controlled --- this issue must be raised at the Maxima mailing
+     list! (It renders the set-concept useless.) </li>
     </ol>
    </li>
    <li> And then there are Gray-codes (including the "standard" one,
