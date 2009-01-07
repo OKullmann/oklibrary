@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.7.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -40,7 +40,7 @@ endif
 doxygen_base_doc_dir_okl ?= $(ExternalSources_doc)/Doxygen
 doxygen_doc_dir_okl ?= $(doxygen_base_doc_dir_okl)/$(doxygen_recommended_version_number_okl)
 doxygen_html_documentation_index_location_okl ?= $(doxygen_doc_dir_okl)/html/index.html
-doxygen_docu_page_okl ?= $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
+doxygen_docu_page_okl ?= $(doc_dir)/doxygen_html/df/d07/docus_2Doxygen_8hpp.html
 
 doxygen_homepage_url_okl := http://www.stack.nl/~dimitri/doxygen/
 doxygen_documentation_url_okl := http://www.stack.nl/~dimitri/doxygen/manual.html

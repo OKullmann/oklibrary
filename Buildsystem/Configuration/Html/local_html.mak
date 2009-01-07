@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.7.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -65,12 +65,12 @@ internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 oklibrary_domain := http://www.ok-sat-library.org
 oklibrary_mailinglists := http://cs-oksvr.swan.ac.uk/mailman/listinfo
 
-main_docu_page ?= $(doc_dir)/doxygen_html/d0/dfd/docus_2general_8hpp.html
-computeralgebra_docu_page_okl ?= $(doc_dir)/doxygen_html/d2/d3c/ComputerAlgebra_2docus_2general_8hpp.html
+main_docu_page ?= $(doc_dir)/doxygen_html/de/d0e/Transitional_2docus_2general_8hpp.html
+computeralgebra_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/de2/Transitional_2ComputerAlgebra_2docus_2general_8hpp.html
 usermaxima_docu_page_okl ?= $(doc_dir)/doxygen_html/d0/d69/ComputerAlgebra_2docus_2Maxima_8hpp.html
 
 
-main_demo_page ?= $(doc_dir)/doxygen_html/dc/d5b/demos_2general_8hpp.html
+main_demo_page ?= $(doc_dir)/doxygen_html/d2/d8b/Transitional_2demos_2general_8hpp.html
 
-licence_docu_page ?= $(doc_dir)/doxygen_html/d3/dae/System_2LegalIssues_2docus_2general_8hpp.html
+licence_docu_page ?= $(doc_dir)/doxygen_html/d9/da9/Transitional_2System_2LegalIssues_2docus_2general_8hpp.html
 
