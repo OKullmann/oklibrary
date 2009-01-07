@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,10 @@ License, or any later version. */
 
 
   \par Version 0.1.2
+
+  \par
+   In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
+    - Checking all links
 
   \par
    In Buildsystem/Html/Local/plans/HomePage.hpp the following topics
