@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.7 (18.7.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.8 (7.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -21,22 +21,22 @@ License, or any later version. */
     - Handling of different versions : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Update to Maxima 5.17.1
-    - Update to Maxima 5.16.x
-    - Enabling use of ECL
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - bug CLisp doesn't use libsigsegv (though specified)
-    - Installing Ecl
+    - Installing Ecl : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Update to Maxima 5.17.1 : DONE
+    - Update to Maxima 5.16.x : DONE
+    - Enabling use of ECL : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following

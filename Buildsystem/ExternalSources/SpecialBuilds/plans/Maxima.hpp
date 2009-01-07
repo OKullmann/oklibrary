@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Update to Maxima 5.17.1
+  \todo Update to Maxima 5.17.1 : DONE
   <ul>
    <li> Creating a package:
    \verbatim
@@ -28,9 +28,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update to Maxima 5.16.x
+  \todo Update to Maxima 5.16.x : DONE
   <ul>
-   <li> With 5.16.3 now there appear no errors anymore. </li>
+   <li> DONE With 5.16.3 now there appear no errors anymore. </li>
    <li> DONE (problem with ifactor solved in gf-code)
    However, now the gf-package is very slow, such that
    "time oklib new_check" on cs-wsok goes up from
@@ -66,31 +66,13 @@ user    6m46.368s
 sys     0m52.634s
    \endverbatim
    </li>
-   <li> Perhaps we should set "GF_IRREDUCIBILITY_CHECK : false".
-    <ol>
-     <li> With 5.15.0 the default value is "false". </li>
-     <li> And actually it seems that whenever it is set to true, and
-     gf-operations are performed, then it is reset to false!. This looks
-     like a bug, which might be corrected in 5.16.3. </li>
-    </ol>
-   </li>
-   <li> Perhaps also "largefield : false" should be used, but then we
-   should not permanently reset the field.
-    <ol>
-     <li> With 5.15.0 the default value is "true". </li>
-     <li> We should ask for the possibility to store and re-store actively
-     the values computed by gf_set. </li>
-     <li> Setting largefield to false results in 5.15.0 in the error
-     "Use `fasttimes' only on CRE polynomials with same varlists" (when
-     adding 0 to a polynomial). </li>
-    </ol>
-   </li>
   </ul>
 
 
-  \todo Enabling use of ECL
+  \todo Enabling use of ECL : DONE
   <ul>
-   <li> Interrupting a computation once with "Ctrl-C" worked, but applying
+   <li> DONE (problems seems to have gone away)
+   Interrupting a computation once with "Ctrl-C" worked, but applying
    the second time the console did not respond anymore (though the computation
    was interrupted)??
     <ol>
@@ -100,7 +82,8 @@ sys     0m52.634s
      </li>
     </ol>
    </li>
-   <li> Plotting discrete data does not work (as in the manual):
+   <li> DONE (solved)
+   Plotting discrete data does not work (as in the manual):
    \verbatim
 (%i1) xx:[10, 20, 30, 40, 50]$
 Evaluation took 0.0010 seconds (0.0010 elapsed)
@@ -110,7 +93,9 @@ Evaluation took 0.0010 seconds (0.0000 elapsed)
 Maxima encountered a Lisp error:
  Unknown keyword :WAIT
    </li>
-   <li> There is a general problem with using recursive memoised functions:
+   <li> DONE (perhaps for the future one must observe this, but currently
+   problems seem to have gone away)
+   There is a general problem with using recursive memoised functions:
    Apparently Maxima/Lisp cannot handle them, and so we must eliminate them!
    </li>
    <li> DONE (see above)

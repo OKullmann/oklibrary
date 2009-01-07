@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,15 +19,13 @@ License, or any later version. */
      <li> Now needs to be tested on cs-oksvr: Same problem again! </li>
     </ol>
    </li>
-   <li> Thus apparently we need to use another Lisp. </li>
+   <li> Thus apparently we need to use another Lisp; let's see whether Ecl
+   installs properly on all our systems. </li>
   </ul>
 
 
-  \todo Installing Ecl
+  \todo Installing Ecl : DONE
   <ul>
-   <li> For tests.mak: How to get the version number from the ecl-binary? </li>
-   <li> Apparently documentation is not included in the package, so we need
-   to download it. </li>
    <li> DONE (providing basic installation)
    Installation process:
     <ol>
@@ -60,6 +58,15 @@ OKplatform/bin> ln -s /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Improving the Ecl installation
+  <ul>
+   <li> For tests.mak: How to get the version number from the ecl-binary?
+   Ask on the Ecl mailing list. </li>
+   <li> Documentation is not included in the package, so we need
+   to download it. </li>
   </ul>
 
 

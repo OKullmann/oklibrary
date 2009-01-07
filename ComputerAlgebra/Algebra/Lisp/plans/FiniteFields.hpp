@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -95,6 +95,25 @@ Use `fasttimes' only on CRE polynomials with same varlists
      \endverbatim
      The same with the example from the documentation, 
      "gf_set(2,4,x^4+x+1);". 
+     </li>
+     <li> Perhaps we should set "GF_IRREDUCIBILITY_CHECK : false".
+      <ol>
+       <li> With 5.15.0 the default value is "false". </li>
+       <li> And actually it seems that whenever it is set to true, and
+       gf-operations are performed, then it is reset to false!. This looks
+       like a bug, which might be corrected in 5.16.3. </li>
+      </ol>
+     </li>
+     <li> Perhaps also "largefield : false" should be used, but then we
+     should not permanently reset the field.
+      <ol>
+       <li> With 5.15.0 the default value is "true". </li>
+       <li> We should ask for the possibility to store and re-store actively
+       the values computed by gf_set. </li>
+       <li> Setting largefield to false results in 5.15.0 in the error
+       "Use `fasttimes' only on CRE polynomials with same varlists" (when
+       adding 0 to a polynomial). </li>
+      </ol>
      </li>
     </ul>
    </li>
