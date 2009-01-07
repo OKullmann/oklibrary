@@ -20,7 +20,7 @@ maxima_html_output_okl ?= $(local_html_dir)/Maxima.html
 maxima_html_documentation_index_location_okl ?= Maxima.html
 
 # Possibilities for the underlying Lisp: clisp, ecl
-maxima_lisp_name_okl ?= clisp
+maxima_lisp_name_okl ?= ecl
 ifeq ($(maxima_lisp_name_okl),clisp)
   maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
   maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
