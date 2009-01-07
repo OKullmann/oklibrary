@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.11.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,8 +14,8 @@ License, or any later version. */
   <ul>
    <li> Variable "tenchallenges_doxygen_directory" (in local_html.mak)
    has the value from csltok, but on cs-wsok the hash-value is different. </li>
-   <li> This looks like a doxygen-bug. E-mail has been sent to
-   doxygen mailing-list. </li>
+   <li> This has been acknowledged as a Doxygen-bug, and shall be submitted
+   to the Doxygen bug-tracking system. </li>
   </ul>
 
 
