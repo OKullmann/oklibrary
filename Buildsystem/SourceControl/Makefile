@@ -1,5 +1,5 @@
 # Oliver Kullmann, 28.4.2008 (Guangzhou)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -31,10 +31,7 @@ export
 .PHONY : push_developers pull_developers pull_public push_ssh pull_ssh
 
 push_developers :
-	git push ssh://${developer_okl}@${central_repository_developers_okl} ${git_arguments_okl}
-
-pull_developers :
-	git pull ssh://${developer_okl}@${central_repository_developers_okl} ${git_arguments_okl}
+	git push $(git_http_push_repository_okl) ${git_arguments_okl}
 
 pull_public :
 	git pull ${git_http_repository} ${git_arguments_okl}

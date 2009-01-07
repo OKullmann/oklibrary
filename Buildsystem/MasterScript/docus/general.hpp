@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.8.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -77,19 +77,19 @@ License, or any later version. */
    <li> <code>--maxima</code> (configures and calls Maxima; see
    ComputerAlgebra/docus/Maxima.hpp) </li>
    <li> <code>--R</code> (calls R, currently in "vanilla"-version
-   (all special configurations disabled; see
+   (all special configurations disabled); see
    Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp). </li>
-   <li> Push and pull for oklib-repositories:
+   <li> Push and pull for oklib-repositories (where the public repository
+   is $(git_http_address_okl)):
     <ol>
-     <li> <code>--push-developer username branchname</code> pushes to the main
-     repository ("branchname" can be left out). </li>
-     <li> <code>--pull-developer username branchname</code> pulls from the
-     main repository (typically "branchname" is "master"). </li>
+     <li> <code>--push-developer username branchname</code> pushes to the
+     public repository ("branchname" can be left out); pushing to the public
+     repository is only possible if write-access has been granted. </li>
      <li> <code>--pull-public branchname</code> pulls from the public
      repository (the default pull for the packages; typically "branchname"
      is "master"). </li>
      <li> <code>--push-ssh remote-machine remote-OKplatform-dir branchname</code>
-     pushs via ssh to an arbitrary OKlibrary-repository ("branchname" can be
+     pushes via ssh to an arbitrary OKlibrary-repository ("branchname" can be
      left out). If "remote-OKplatform-dir" contains for example "~" (for
      the home directory), then it is to be put in quotation marks. The
      "remote-machine" must be of the form "user@machine" if the username
