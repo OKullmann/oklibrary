@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,9 +22,6 @@ Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
    <li> Perhaps this is language-related, or related to the rather old version
    (9.2) of Suse-Linux running on csltok (it works on cs-wsok). </li>
   </ul>
-
-
-  \todo Update to version 2.7
 
 
   \todo Packages
