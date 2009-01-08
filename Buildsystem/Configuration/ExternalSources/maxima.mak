@@ -7,7 +7,7 @@
 
 # Settings for building and using Maxima
 
-maxima_recommended_version_number_okl ?= 5.17.2
+maxima_recommended_version_number_okl ?= 5.17.1.1
 maxima_supported_not_recommended_version_numbers_okl ?= 5.16.3
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 
@@ -37,12 +37,7 @@ maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_packag
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
-# Temporary hack:
-ifeq ($(maxima_recommended_version_number_okl),5.17.2)
-maxima_base_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/5.17post
-else
 maxima_base_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)
-endif
 maxima_share_dir_okl ?= $(maxima_base_share_dir_okl)/share
 maxima_book_name_okl ?= maximabook-19-Sept-2004.pdf
 maxima_book_source_okl ?= $(ExternalSources_sources)/Maxima/$(maxima_book_name_okl)

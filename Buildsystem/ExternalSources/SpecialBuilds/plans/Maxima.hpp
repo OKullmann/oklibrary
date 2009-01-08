@@ -12,11 +12,17 @@ License, or any later version. */
 
   \todo Update to Maxima 5.17.1 : DONE
   <ul>
-   <li> Creating a package:
+   <li> Creating a package, which updates the current version 5.17.1 from
+   CVS (calling it "5.17.1.1"; we should use this scheme from now on (it
+   seems it wouldn't conflict with the "official" Maxima naming schemes)):
    \verbatim
 > cvs -z3 -d:pserver:anonymous@maxima.cvs.sourceforge.net:/cvsroot/maxima co -P maxima
-> mv maxima maxima-5.17.2
-> tar -czf maxima-5.17.2.tar.gz maxima-5.17.2
+
+ change line with "AM_INIT_AUTOMAKE" in maxima/configure.in
+ to "AM_INIT_AUTOMAKE(maxima,5.17.1.1)"
+
+> mv maxima maxima-5.17.1.1
+> tar -czf maxima-5.17.1.1.tar.gz maxima-5.17.1.1
    \endverbatim
    </li>
    <li> To build such a package, first "sh bootstrap" is needed. </li>
