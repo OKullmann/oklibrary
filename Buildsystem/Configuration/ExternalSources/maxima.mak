@@ -62,9 +62,8 @@ maxima_source_okl := $(ExternalSources)/sources/Maxima/$(maxima_recommended_okl)
 
 # Tool : gnuplot
 
-gnuplot_recommended_version_number_okl ?= 4.2.3
-gnuplot_supported_not_recommended_version_numbers_okl ?= 
-gnuplot_supported_version_numbers_okl ?= $(gnuplot_supported_not_recommended_version_numbers_okl) $(gnuplot_recommended_version_number_okl)
+gnuplot_recommended_version_number_okl ?= 4.2.4
+gnuplot_supported_not_recommended_version_numbers_okl ?= 4.2.3
 
 gnuplot_prefix_okl ?= gnuplot
 
