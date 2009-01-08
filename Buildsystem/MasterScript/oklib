@@ -11,7 +11,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.9
+version=0.1.0.10
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -78,17 +78,11 @@ fi
 if [[ $1 == "--push-developer" ]]; then
   shift
   if [[ $# == 0 ]]; then
-    echo -e "ERROR[oklib]: the username of the developer on the server is needed as parameter!\n"
-    exit 1
-  fi
-  developer=$1
-  shift
-  if [[ $# == 0 ]]; then
     git_arguments=""
   else
     git_arguments="$*"
   fi
-  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} developer_okl=${developer} git_arguments_okl=${git_arguments} push_developers"
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} git_arguments_okl=${git_arguments} push_developers"
   echo ${command}
   ${command}
   exit
