@@ -183,6 +183,11 @@ License, or any later version. */
    topics are handled:
     - Version 1.5.8
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
+   following topics are handled:
+    - Update to version 3.4.0
+
 
   \par Version 0.2.7 (cleaning up installations)
 
