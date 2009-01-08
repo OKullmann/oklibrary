@@ -330,7 +330,7 @@ clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_
 # New variables for the configuration of building maxima (to be designed 
 # and implemented):
 
-maxima_version_number_extraction_okl := awk '{print $$2}'
+maxima_version_number_extraction_okl := awk '/Maxima/ {print $$2}'
 # assumes that the output of "maxima --version" contains a line of the form
 # (for example) "Maxima 5.14.0"
 
