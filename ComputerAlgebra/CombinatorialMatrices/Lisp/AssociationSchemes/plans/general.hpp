@@ -20,6 +20,8 @@ License, or any later version. */
   \todo Other tools
   <ul>
    <li> R should have support for association schemes? </li>
+   <li> Hanaki and Miyamoto are classifying association scheme in GAP,
+   so that there should be support in it. </li>
   </ul>
 
 
