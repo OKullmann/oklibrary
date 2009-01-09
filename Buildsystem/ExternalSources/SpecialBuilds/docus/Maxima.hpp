@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,7 @@ License, or any later version. */
 
   <h2> On the purpose of Maxima </h2>
 
-  Maxima is a computer-algebra system written in Lisp. It is our entry-level
+  Maxima is a computer-algebra system, written in Lisp. It is our entry-level
   language, used for procedural specifications and experimental (smaller)
   computations.
 
@@ -53,26 +53,39 @@ License, or any later version. */
   <ul>
    <li> Only local installation currently. </li>
    <li> The Maxima-build process searches
-   for available Lisp-installations; we recommend CLisp (see
-   Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp). </li>
+   for available (Common-) Lisp-installations:
+    <ol>
+     <li> We support CLisp (see
+     Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp)
+     and Ecl (see Buildsystem/ExternalSources/SpecialBuilds/docus/Ecl.hpp).
+     </li>
+     <li> At this time Ecl is considerably faster, while (due to some effort
+     we spent on it, with the help of the Maxima and the Ecl community)
+     no problems are known (anymore). So our default is now Ecl. </li>
+    </ol>
+   </li>
   </ul>
 
 
   <h3> Prerequisites </h3>
 
   <ul>
-   <li> For building and running Maxima we use CLisp. </li>
-   <li> The CLisp-version used for building Maxima is hard-wired into
+   <li> For building and running Maxima the default Lisp is Ecl. </li>
+   <li> Moreover, the default is a locally installed Ecl, which needs
+   to be installed before; see
+   Buildsystem/ExternalSources/SpecialBuilds/docus/Ecl.hpp. </li>
+   <li> The Ecl-version used for building Maxima is hard-wired into
    the Maxima installation:
     <ol>
-     <li> So the specific CLisp-installation in directory 
-     <code>$(clisp_base_installation_dir_okl)</code>
+     <li> So the specific Ecl-installation in directory 
+     <code>$(ecl_base_installation_dir_okl)</code>
      used for installing Maxima may not be removed. </li>
-     <li> With the current settings this CLisp-installation would be
-     <code>$(clisp_installation_dir_okl)</code>. </li>
-     <li> Installing different CLisp-versions later on the other
+     <li> With the current settings this Ecl-installation would be
+     <code>$(ecl_installation_dir_okl)</code>. </li>
+     <li> Installing different Ecl-versions later on the other
      hand does not affect the already built Maxima-installation. </li>
     </ol>
+    Analogous statements hold for CLisp (which may be used alternatively).
    </li>
    <li> The Maxima <code>draw</code> command (as well as
    <code>graph_draw</code>) uses Gnuplot, and version 4.2 or later is required.
@@ -90,8 +103,12 @@ License, or any later version. */
    </tr>
    <tr>
      <td> <code> allmaxima </code> </td>
-     <td> Build first CLisp (locally), then Gnuplot (locally),
+     <td> Build first Ecl (locally), then Gnuplot (locally),
      and then Maxima. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanmaxima </code> </td>
+    <td> Removes the build-directory. </td>
    </tr>
    <tr>
     <td> <code> cleanallmaxima </code> </td>
@@ -99,12 +116,15 @@ License, or any later version. */
    </tr>
    <tr>
     <td> <code> cleanallallmaxima </code> </td>
-    <td> Invokes <code>cleanalllibsigsegv,cleanalllibffcall,cleanallclisp,
-    cleanallgnuplot,cleanallmaxima</code>. </td>
+    <td> Invokes <code>cleanallecl,cleanallgnuplot,cleanallmaxima</code>. </td>
    </tr>
    <tr>
     <td> <code> gnuplot </code> </td>
     <td> Build the recommended version of Gnuplot. </td>
+   </tr>
+   <tr>
+    <td> <code> cleangnuplot </code> </td>
+    <td> Removes the build-directory. </td>
    </tr>
    <tr>
     <td> <code> cleanallgnuplot </code> </td>
@@ -120,6 +140,8 @@ License, or any later version. */
    <code>maxima_recommended_version_number_okl</code> accordingly. </li>
    <li> To install a different version of Gnuplot, set variable
    <code>gnuplot_recommended_version_number_okl</code> accordingly. </li>
+   <li> To install CLisp, set <code>maxima_lisp_name_okl=clisp</code>
+   (while the default value is "ecl"). </li>
   </ul>
 
 */

@@ -14,8 +14,9 @@ License, or any later version. */
   <ul>
    <li> Variable "tenchallenges_doxygen_directory" (in local_html.mak)
    has the value from csltok, but on cs-wsok the hash-value is different. </li>
-   <li> This has been acknowledged as a Doxygen-bug, and shall be submitted
-   to the Doxygen bug-tracking system. </li>
+   <li> See "Doxygen problems regarding stability of links" in
+   Buildsystem/Html/Local/plans/general.hpp, where this problem is handled.
+   </li>
   </ul>
 
 

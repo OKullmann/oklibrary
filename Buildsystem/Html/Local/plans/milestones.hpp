@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
     - Checking all links
+    - Doxygen problems regarding stability of links
 
   \par
    In Buildsystem/Html/Local/plans/HomePage.hpp the following topics

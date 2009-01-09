@@ -21,44 +21,8 @@ $(maxima_directories_okl) : % :
 # #################################
 
 
-allmaxima : libsigsegv libffcall clisp gnuplot maxima
+allmaxima : ecl gnuplot maxima
 
-# Temporary overwrite to repair six bugs in version 5.16.3
-ifeq ($(maxima_recommended_version_number_okl),5.16.3)
-maxima : $(maxima_directories_okl)
-	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
-	$(call unarchive,$(ExternalSources)/sources/Maxima/rand-mt19937.lisp,$(maxima_build_dir_okl)/src)
-	$(call unarchive,$(ExternalSources)/sources/Maxima/nset.lisp,$(maxima_build_dir_okl)/src)
-	$(call unarchive,$(ExternalSources)/sources/Maxima/macsys.lisp,$(maxima_build_dir_okl)/src)
-	$(call unarchive,$(ExternalSources)/sources/Maxima/grind.lisp,$(maxima_build_dir_okl)/src)
-	$(call unarchive,$(ExternalSources)/sources/Maxima/gf.mac,$(maxima_build_dir_okl)/share/contrib/gf)
-	cd $(maxima_build_dir_okl); $(postcondition) \
-	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
-	LANG=C make; $(postcondition) \
-	make check; $(postcondition) \
-	make install; $(postcondition) \
-	sed -e "s|--remember maxima|--remember ${maxima_installation_dir_okl}/bin/maxima|" ${maxima_installation_dir_okl}/bin/rmaxima > ${maxima_installation_dir_okl}/bin/temp; mv  ${maxima_installation_dir_okl}/bin/temp  ${maxima_installation_dir_okl}/bin/rmaxima; chmod u+x ${maxima_installation_dir_okl}/bin/rmaxima; $(postcondition) \
-	cp -rf $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
-	cp -f $(maxima_build_dir_okl)/share/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
-	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
-	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
-else
-# Temporary for version 5.17.1 (which has been locally amended to "5.17.2")
-ifeq ($(maxima_recommended_version_number_okl),5.17.2)
-maxima : $(maxima_directories_okl)
-	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
-	cd $(maxima_build_dir_okl); $(postcondition) \
-	sh bootstrap; $(postcondition) \
-	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
-	LANG=C make; $(postcondition) \
-	make check; $(postcondition) \
-	make install; $(postcondition) \
-	sed -e "s|--remember maxima|--remember ${maxima_installation_dir_okl}/bin/maxima|" ${maxima_installation_dir_okl}/bin/rmaxima > ${maxima_installation_dir_okl}/bin/temp; mv  ${maxima_installation_dir_okl}/bin/temp  ${maxima_installation_dir_okl}/bin/rmaxima; chmod u+x ${maxima_installation_dir_okl}/bin/rmaxima; $(postcondition) \
-	cp -rf $(maxima_base_share_dir_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
-	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
-	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
-	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
-else
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
@@ -71,8 +35,6 @@ maxima : $(maxima_directories_okl)
 	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
-endif
-endif
 
 
 # #################################
@@ -85,7 +47,7 @@ cleanmaxima :
 cleanallmaxima : cleanmaxima
 	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_doc_dir_okl)
 
-cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallgnuplot cleanallmaxima
+cleanallallmaxima : cleanallecl cleanallgnuplot cleanallmaxima
 
 
 # #################################

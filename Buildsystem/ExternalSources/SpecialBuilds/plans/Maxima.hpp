@@ -10,7 +10,19 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Update to Maxima 5.17.1 : DONE
+  \bug Inconsistent installation of Maxima : DONE
+  <ul>
+   <li> The plan was that "boostrap" for 5.17.1.1 is always called for this
+   special installation. </li>
+   <li> However, due to the maxima-build-makefile not being updated, this
+   actually doesn't happen --- but it works apparently?!? </li>
+   <li> Actually, bootstrap was already called for the package we built,
+   and it works, so that's the way how to build maxima-packages. </li>
+  </ul>
+
+
+  \todo Update to Maxima 5.17.1 : DONE (needs to be transferred to the
+  docus)
   <ul>
    <li> Creating a package, which updates the current version 5.17.1 from
    CVS (calling it "5.17.1.1"; we should use this scheme from now on (it
@@ -22,6 +34,7 @@ License, or any later version. */
  to "AM_INIT_AUTOMAKE(maxima,5.17.1.1)"
 
 > mv maxima maxima-5.17.1.1
+> cd maxima-5.17.1.1; sh bootstrap; cd ..
 > tar -czf maxima-5.17.1.1.tar.gz maxima-5.17.1.1
    \endverbatim
    </li>

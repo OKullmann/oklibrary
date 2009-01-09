@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.9 (8.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.10 (9.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -30,6 +30,16 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Querying ecl
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Inconsistent installation of Maxima : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
@@ -167,6 +177,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
     - Improving the Sage installation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Documentation
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
