@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,6 +17,7 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following
    topics are handled:
+    - bug Missing Annotations/definitions.mak
     - bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
     - Providing update mechanisms for the package-clone

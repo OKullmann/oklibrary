@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
+  \bug Missing Annotations/definitions.mak
+  <ul>
+   <li> It seems that "touch Annotations/definitions.mak" to create the
+   empty definitions.mak in OKsystem/Annotations is missing? </li>
+  </ul>
+
+
   \bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
   <ul>
