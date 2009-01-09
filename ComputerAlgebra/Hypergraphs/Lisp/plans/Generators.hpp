@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,10 +20,10 @@ License, or any later version. */
 
   \todo Create complete r-graphs
   <ul>
-   <li> Implement complete_ohg(n,r) by employing a standardised order on
-   the r-subsets of {1,...,n} (see "Module Enumeration" in
-   ComputerAlgebra/plans/general.hpp). </li>
-   <li> We should just use the lexicographical ordering. </li>
+   <li> Implement "complete_hg(V,r), complete_stdhg(n,r), complete_ohg(V,r),
+   complete_stdohg(n,r)", where the order is given by lexicographical order
+   (see "Enumerating all k-subsets lexicographically" in
+   ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
   </ul>
 
 
@@ -47,12 +47,49 @@ License, or any later version. */
      <li> To handle large hypergraphs, we need to provide a version with
      standardised vertex names, using a standard enumeration of r-subsets
      (compare "Create complete r-graphs" above). </li>
+     <li> We only need to consider lexicographical ordering of the
+     vertex names. </li>
      <li> This standardised hypergraph has then a canonical order-preserving
-     isomorphism to ramsey_ohg(q,r,n). </li>
+     isomorphism (for vertices and hyperedges!) to ramsey_ohg(q,r,n).
+      <ol>
+       <li> This assumes that at least simple sets are lexicographically
+       ordered (implicitly) by Maxima; see "Enumerating all k-subsets
+       lexicographically" in
+       ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp.
+       </li>
+       <li> "Simple sets" are sets of integers, sets of sets of integers,
+       sets of lists of integers and so on. </li>
+      </ol>
+     </li>
      <li> The same numbering should also be used in the C++ generator
      (see Ramsey.cpp). </li>
      <li> So that we can easily create additional clauses with Maxima,
      added then to the C++-generated files. </li>
+     <li> The new generators should be named "std_ramsey_hg" and
+     "std_ramsey_ohg". </li>
+    </ol>
+   </li>
+   <li> The hypergraphs ramsey_hg use sets directly as vertex names,
+   not naming schemes like "rv(1,3)" (instead of "{1,3}").
+    <ol>
+     <li> On the one hand, this is natural in this situation. </li>
+     <li> But it makes the approach less flexible: Using unevaluated
+     functions like "rv", renaming should be possible by just stipulating
+     an interpretation of "rv"!. </li>
+     <li> The task is to figure out, how (locally, in a block) we can
+     evaluate expressions containing terms like "rv(i,j)" using
+     some (locally) specified function f(i,j). </li>
+     <li> One also needs to consider that functions like rv are usually
+     n-ary. </li>
+     <li> A general question is who is responsible for (controlled!)
+     renaming: The generating facilities or the renaming facilities
+     (where "controlled" here could be translated as "efficient"). </li>
+     <li> An alternative to evaluating rv-terms ("later") would be to
+     replace ("early") the function which creates the rv-terms by that
+     translation function f (as above). </li>
+     <li> Regarding "late" translation, a question is also whether a
+     term like "{1,2,3}", which should stand for "set(1,2,3)", can
+     also be locally evaluated by evaluating set(1,2,3) as f(1,2,3). </li>
     </ol>
    </li>
    <li> Accompanying statistics are needed.
@@ -64,7 +101,12 @@ License, or any later version. */
      RamseyTheory/Lisp/Ramsey. </li>
     </ol>
    </li>
-   <li> We can define Ramsey graphs for arbitrary hypergraphs G
+  </ul>
+
+
+  \todo Generalised Ramsey hypergraphs
+  <ul>
+   <li> We can define Ramsey hypergraphs for arbitrary hypergraphs G
    (ramsey_hg uses the complete r-graph).
     <ol>
      <li> The vertices are the hyperedges of G. </li>
