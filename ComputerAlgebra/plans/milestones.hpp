@@ -22,6 +22,9 @@ License, or any later version. */
 
   \par ComputerAlgebra/Combinatorics version 0.0.4
   (see ComputerAlgebra/Combinatorics/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Hypergraphs version 0.0.8
+  (see ComputerAlgebra/Hypergraphs/Lisp/plans/milestones.hpp)
   
   \par
    In ComputerAlgebra/TestSystem/Lisp/plans/general.hpp the following topics
