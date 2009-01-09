@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \todo Querying ecl
+  \todo Querying ecl : DONE
   <ul>
    <li> Apparently the ecl-binary cannot be queried about its version
    number. </li>
