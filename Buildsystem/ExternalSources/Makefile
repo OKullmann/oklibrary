@@ -1,5 +1,5 @@
 # Oliver Kullmann, 13.6.2005 (Swansea)
-# Copyright 2005-2008 Oliver Kullmann
+# Copyright 2005-2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -33,7 +33,7 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : sat math buildsystem compilers libraries
+all : buildsystem compilers sat libraries math
 	echo "PRELIMINARY!"
 sat : $(sat_targets_extsrc_okl)
 math : $(math_targets_extsrc_okl)

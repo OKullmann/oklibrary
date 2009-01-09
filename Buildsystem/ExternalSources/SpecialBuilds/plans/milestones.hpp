@@ -129,6 +129,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
+    - Local installation of gfortran
     - Can't output graphics
 
 

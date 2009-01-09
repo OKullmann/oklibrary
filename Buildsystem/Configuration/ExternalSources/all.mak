@@ -1,5 +1,5 @@
 # Matthew Henderson, 30.10.2006 (Swansea)
-# Copyright 2006-2007, 2008 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,10 +10,10 @@
 global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
 
 sat_targets_extsrc_okl ?= ubcsat # grasp
-math_targets_extsrc_okl ?= allmaxima gap R sage gmp
+math_targets_extsrc_okl ?= allmaxima gap R sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
-library_targets_extsrc_okl ?= boost mhash
+library_targets_extsrc_okl ?= boost mhash gmp
 
 
 ExternalSources_sources ?= $(ExternalSources)/sources

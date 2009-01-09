@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for building external sources in general
+
+
+  \todo Building "all"
+  <ul>
+   <li> Dependencies have to be taken care of for target "all". </li>
+   <li> gcc is needed often, and so is gmp; also fortran might be needed. </li>
+   <li> Later we should have make-dependencies in place which handle these
+   dependencies automatically; yet perhaps we should declare them in
+   Configuration/ExternalSources/all.mak (in comments). </li>
+  </ul>
 
 
   \todo Downloading sources
