@@ -17,6 +17,7 @@ License, or any later version. */
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
+    - Install the mmv package
     - Documentation
     - Handling of different versions : DONE
 

@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans regarding building of concrete external sources
 
 
+  \todo Install the mmv package
+  <ul>
+   <li> For installing boost we need mln. Compare "Update Boost installation"
+   in  Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp. </li>
+   <li> I found "mmv_1.01b.orig.tar.gz  part01.Z  part02.Z". </li>
+   <li> Apparently they only contain the mmv-program (a C program), not
+   mln, mcp etc. </li>
+   <li> Perhaps it's not worth the trouble --- all our uses of that package
+   should be easily replaceable by little bash-applications. </li>
+  </ul>
+
+
   \todo Documentation
   <ul>
    <li> Under SpecialBuilds/docus we need docus-files for every

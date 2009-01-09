@@ -35,6 +35,8 @@ License, or any later version. */
      We install it in any case! </li>
      <li> But we use then "allboost", similar to "allmaxima" etc. </li>
      <li> Installation to OKplatform/bin. </li>
+     <li> See "Install the mmv package" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
     </ol>
    </li>
    <li> Installation of bjam should be improved: Having exactly one
