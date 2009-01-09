@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.11 (9.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.12 (9.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -21,15 +21,14 @@ License, or any later version. */
     - Handling of different versions : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
-   topics are handled:
-    - bug CLisp doesn't use libsigsegv (though specified)
-    - Installing Ecl : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - Installing Ecl : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
@@ -182,6 +181,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
     - Documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - bug CLisp doesn't use libsigsegv (though specified)
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)

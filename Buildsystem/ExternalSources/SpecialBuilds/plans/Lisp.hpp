@@ -22,7 +22,7 @@ License, or any later version. */
      "bi-arch" and "mono-arch"? </li>
      <li> The above faq-link contains more information. </li>
      <li> The new libsigsegv-version is 2.6 --- perhaps this solves the problem
-     already? </li>
+     already? No, still the same problem. </li>
     </ol>
    </li>
    <li> Isn't there a similar problem with libffcall ? </li>
