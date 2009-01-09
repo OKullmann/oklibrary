@@ -8,16 +8,11 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.9 (8.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.10 (9.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
   and some updates)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Inconsistent installation of Maxima
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -40,6 +35,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
     - Querying ecl
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Inconsistent installation of Maxima : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
