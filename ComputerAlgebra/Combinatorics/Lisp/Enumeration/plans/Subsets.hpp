@@ -73,6 +73,28 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
      \endverbatim
      </li>
+     <li> Regarding unranking, for lex-order, we may greedily choose the values
+     which produce the largest possible binomial coefficients, and then move 
+     down to the next value : 
+     \verbatim
+unrank_lex_subsets(m,n,k) := block([t_ip : 0, rs : []],
+  for i : 1 thru k do block([j : t_ip + 1, bc, t_i : t_ip + 1],
+    bc : binomial(n - j, k - i),
+    while (m > bc) and (bc > 0) do (
+      m : m - bc,
+      j : j + 1,
+      t_i : t_i + 1,
+      bc : binomial(n - j, k - i)
+    ),
+    t_ip : t_i,
+    rs : cons(t_i, rs)
+  ),
+  return(setify(rs))
+)$
+     \endverbatim
+     (MG: A proof and more intuitive understanding of the workings need to be 
+     provided).
+     </li>
      <li> This formula comes from considering how many subsets are after
      S in the order: Let S = {v_1, ..., v_k}. The elements after S have
      either every element larger than v_1, these are binomial(n-v_1,k),
