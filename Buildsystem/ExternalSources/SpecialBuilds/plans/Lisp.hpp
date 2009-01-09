@@ -12,14 +12,29 @@ License, or any later version. */
 
   \bug CLisp doesn't use libsigsegv (though specified)
   <ul>
-   <li> We should try Clisp 2.46
+   <li> According to http://www.clisp.org/impnotes/faq.html#faq-with-prefix
+   the build of libsigsegv has to be adopted on 64-bit machines by adding
+   "--libdir=='${exec_prefix}/lib64'" as configure-parameter:
+    <ol>
+     <li> For that we need a way to figure out whether the platform is 32-bit
+     or 64-bit. </li>
+     <li> Perhaps for 64-bit platforms we also need to distinguish between
+     "bi-arch" and "mono-arch"? </li>
+     <li> The above faq-link contains more information. </li>
+     <li> The new libsigsegv-version is 2.6 --- perhaps this solves the problem
+     already? </li>
+    </ol>
+   </li>
+   <li> Isn't there a similar problem with libffcall ? </li>
+   <li> We should try Clisp 2.46 : DONE (also with 2.47 the same problem)
     <ol>
      <li> Seems alright on cs-wsok (warnings about non-portable linking between
      static and shared libraries, but uses the local libraries). </li>
      <li> Now needs to be tested on cs-oksvr: Same problem again! </li>
     </ol>
    </li>
-   <li> Thus apparently we need to use another Lisp; let's see whether Ecl
+   <li> DONE (Ecl is now the default)
+   Thus apparently we need to use another Lisp; let's see whether Ecl
    installs properly on all our systems. </li>
   </ul>
 
