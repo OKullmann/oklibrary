@@ -30,7 +30,7 @@ License, or any later version. */
 
   \todo More efficient computation
   <ul>
-   <li> For larger Ramsey problems, we need the ability to compute directly
+   <li> For larger %Ramsey problems, we need the ability to compute directly
    the standardised clause-set (which just consists of the hypergraph edges
    in two versions, positive (as they are) and negative), without further
    renaming. </li>
@@ -62,7 +62,7 @@ License, or any later version. */
    we only need to be able to (arbitrarily) permute the vertices of
    the chosen clique). </li>
    <li> So, if there is a subset T <= V(K_n) of size q, such that no vertex
-   of T has been considered yet, then w.l.o.g. one can fix the
+   of T has been considered yet, then %w.l.o.g. one can fix the
    values of 2 chosen incident edges to 1 and 2. </li>
    <li> This process can be repeated until no such T exists anymore. </li>
    <li> A question is whether there are better and worse choices for T
@@ -101,7 +101,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
     Considerations which appear shady are marked by "BUG" in the following.
    </li>
    <li> The idea is, instead of looking at the q-subsets
-   of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n. </li>
+   of V(K_n), to consider %Ramsey numbers m := NR([p,p],2) < n. </li>
    <li> Again, we are considering some arbitrary given phi. </li>
    <li> If we have an unaffected T <= V(K_n), then we can choose any
    p different a_1, ..., a_p in T, and set them equal (thus replace them
@@ -237,7 +237,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
    while this process just relies on a symmetry of the K_n (since
    every(!) total assignment of a K_m will have a monochromatic
    p-clique); on the other hand the above process is trivial, while here
-   we rely on (non-trivial) knowledge about Ramsey numbers. </li>
+   we rely on (non-trivial) knowledge about %Ramsey numbers. </li>
    <li> Again the question whether the different choices matter? </li>
    <li> In principle a combination with the above process is possible:
    However case distinctions for the relative positions of the path
@@ -262,7 +262,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
      </li>
     </ul>
    </li>
-   <li> How do the above ideas generalise to Ramsey problems which aren't of
+   <li> How do the above ideas generalise to %Ramsey problems which aren't of
    the form R([q,q],r) ? </li>
   </ul>
 

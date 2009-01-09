@@ -37,7 +37,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Ramsey hypergraphs
+  \todo %Ramsey hypergraphs
   <ul>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
    in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
@@ -104,7 +104,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Generalised Ramsey hypergraphs
+  \todo Generalised %Ramsey hypergraphs
   <ul>
    <li> We can define Ramsey hypergraphs for arbitrary hypergraphs G
    (ramsey_hg uses the complete r-graph).
