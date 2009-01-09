@@ -15,6 +15,11 @@ License, or any later version. */
   and some updates)
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Inconsistent installation of Maxima
+
+  \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Documentation
@@ -30,6 +35,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Querying ecl
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
@@ -167,6 +177,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
     - Improving the Sage installation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Documentation
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
