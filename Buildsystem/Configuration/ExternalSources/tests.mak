@@ -326,6 +326,54 @@ endif
 clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_okl)">$(clisp_html_output_okl)</a>
 
 
+# New variables for the configuration of building ecl (to be designed 
+# and implemented):
+
+ecl_version_number_extraction_okl := awk '/ ECL [0-9]+\.[0-9]+(\.[0-9])?/{print $$2}'
+# assumes that the output of "ecl -version" contains a line of the form
+# (for example) "ECL 2.43"
+# where the version number can also be of the form "2.44.1".
+
+location_ecl_call_okl ?= $(shell (type -P $(ecl_call_okl)))
+ifeq ($(location_ecl_call_okl),)
+  ecl_call_ready_okl ?= NO
+else
+  version_ecl_call_okl ?= $(shell $(ecl_call_okl) --version | $(ecl_version_number_extraction_okl))
+  ifeq ($(version_ecl_call_okl),$(ecl_recommended_version_number_okl))
+    ecl_call_ready_okl ?= YES
+  else
+    ecl_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+ecl_html_documentation_index_location_tag_okl ?= <a href="$(ecl_html_output_okl)">$(ecl_html_output_okl)</a>
+
+
+# New variables for the configuration of building rlwrap (to be designed 
+# and implemented):
+
+rlwrap_version_number_extraction_okl := awk '/rlwrap [0-9]+\.[0-9]+(\.[0-9])?/{print $$2}'
+# assumes that the output of "rlwrap -version" contains a line of the form
+# (for example) "rlwrap 0.30"
+# where the version number can also be of the form "2.44.1".
+
+location_rlwrap_call_okl ?= $(shell (type -P $(rlwrap_call_okl)))
+ifeq ($(location_rlwrap_call_okl),)
+  rlwrap_call_ready_okl ?= NO
+else
+  version_rlwrap_call_okl ?= $(shell $(rlwrap_call_okl) --version | $(rlwrap_version_number_extraction_okl))
+  ifeq ($(version_rlwrap_call_okl),$(rlwrap_recommended_version_number_okl))
+    rlwrap_call_ready_okl ?= YES
+  else
+    rlwrap_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+rlwrap_html_documentation_index_location_tag_okl ?= <a href="$(rlwrap_html_output_okl)">$(rlwrap_html_output_okl)</a>
+
+
 
 # New variables for the configuration of building maxima (to be designed 
 # and implemented):

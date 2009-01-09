@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp
-  \brief Plans regarding installation of Lisp compiler/interpreters
+  \brief Plans regarding installation of Lisp compiler/interpreters othen then Ecl (the current default)
 
 
   \bug CLisp doesn't use libsigsegv (though specified)
@@ -61,7 +61,8 @@ OKplatform/bin> ln -s /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/
   </ul>
 
 
-  \todo Improving the Ecl installation
+  \todo Improving the Ecl installation : DONE (moved to
+  Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp)
   <ul>
    <li> For tests.mak: How to get the version number from the ecl-binary?
    Ask on the Ecl mailing list. </li>

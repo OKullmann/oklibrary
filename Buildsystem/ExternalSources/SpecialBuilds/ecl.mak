@@ -1,5 +1,5 @@
 # Oliver Kullmann, 30.8.2008 (Swansea)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -47,7 +47,7 @@ cleanallecl : cleanecl
 
 rlwrap_directories_okl := $(rlwrap_base_build_dir_okl) $(rlwrap_base_installation_dir_okl)
 
-.PHONY : rlwrap
+.PHONY : rlwrap cleanallrlwrap
 
 $(rlwrap_directories_okl) : % : 
 	mkdir -p $@
