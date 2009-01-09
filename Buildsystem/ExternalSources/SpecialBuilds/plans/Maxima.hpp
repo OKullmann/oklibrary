@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \bug Inconsistent installation of Maxima
+  <ul>
+   <li> The plan was that "boostrap" for 5.17.1.1 is always called for this
+   special installation. </li>
+   <li> However, due to the maxima-build-makefile not being updated, this
+   actually doesn't happen --- but it works apparently?!? </li>
+  </ul>
+
+
   \todo Update to Maxima 5.17.1 : DONE
   <ul>
    <li> Creating a package, which updates the current version 5.17.1 from
