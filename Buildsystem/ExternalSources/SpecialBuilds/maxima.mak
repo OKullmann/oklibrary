@@ -21,7 +21,7 @@ $(maxima_directories_okl) : % :
 # #################################
 
 
-allmaxima : libsigsegv libffcall clisp gnuplot maxima
+allmaxima : ecl gnuplot maxima
 
 # Temporary overwrite to repair six bugs in version 5.16.3
 ifeq ($(maxima_recommended_version_number_okl),5.16.3)
@@ -85,7 +85,7 @@ cleanmaxima :
 cleanallmaxima : cleanmaxima
 	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_doc_dir_okl)
 
-cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallgnuplot cleanallmaxima
+cleanallallmaxima : cleanallecl cleanallgnuplot cleanallmaxima
 
 
 # #################################
