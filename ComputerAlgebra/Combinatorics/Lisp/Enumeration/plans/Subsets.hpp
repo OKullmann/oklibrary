@@ -62,26 +62,33 @@ rank_colex_subsets(S,n) := block([L : listify(S)],
      \endverbatim
      </li>
      <li> This formula comes from considering how many subsets are before
-     S in the order: Let S = {v_1, ..., v_k} (k = length(S)). Now
-     the elements before S are those k-subsets with elements all smaller
-     than v_k, these are binomial(v_k-1,k), plus the k-subsets containing
-     v_k as last element, and without this last element being before
-     {v_1, ..., v_{k-1}}. The formula is obtained then by recursion. </li>
+     S in the order: Let S = {v_1, ..., v_k} (k = length(S)) be sorted
+     in ascending order. Now the elements before S are those k-subsets with
+     elements all smaller than v_k, these are binomial(v_k-1,k), plus the
+     k-subsets containing v_k as last element, and without this last element
+     being before {v_1, ..., v_{k-1}}. The formula is obtained then by
+     recursion. </li>
      <li> Now ranking for lex-order:
      \verbatim
 rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
      \endverbatim
      </li>
-     <li> Regarding unranking, for lex-order, we may greedily choose the values
-     which produce the largest possible binomial coefficients, and then move 
-     down to the next value : 
+     <li> This formula comes from considering how many subsets are *after*
+     S in the order: Let S = {v_1, ..., v_k} (as above). The elements after S
+     have either every element larger than v_1, these are binomial(n-v_1,k),
+     plus the k-subsets containing v_1 as first element, which without
+     this element are after {v_2, ..., v_k}. Via recursion then the
+     formula is obtained. </li>
+     <li> Conjecture: Regarding unranking for lex-order, we greedily
+     choose the values which produce the largest possible binomial
+     coefficients, and then move down to the next value: 
      \verbatim
-unrank_lex_subsets(m,n,k) := block([t_ip : 0, rs : []],
+unrank_lex_subsets(x,n,k) := block([t_ip : 0, rs : []],
   for i : 1 thru k do block([j : t_ip + 1, bc, t_i : t_ip + 1],
     bc : binomial(n - j, k - i),
-    while (m > bc) and (bc > 0) do (
-      m : m - bc,
+    while (x > bc) and (bc > 0) do (
+      x : x - bc,
       j : j + 1,
       t_i : t_i + 1,
       bc : binomial(n - j, k - i)
@@ -92,15 +99,7 @@ unrank_lex_subsets(m,n,k) := block([t_ip : 0, rs : []],
   return(setify(rs))
 )$
      \endverbatim
-     (MG: A proof and more intuitive understanding of the workings need to be 
-     provided).
      </li>
-     <li> This formula comes from considering how many subsets are after
-     S in the order: Let S = {v_1, ..., v_k}. The elements after S have
-     either every element larger than v_1, these are binomial(n-v_1,k),
-     plus the k-subsets containing v_1 as first element, which without
-     this element are after {v_2, ..., v_k}. Via recursion then the
-     formula is obtained. </li>
     </ol>
    </li>
   </ul>
