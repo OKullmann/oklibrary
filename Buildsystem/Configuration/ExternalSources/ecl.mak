@@ -1,5 +1,5 @@
 # Oliver Kullmann, 30.8.2008 (Swansea)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -33,7 +33,7 @@ ecl_impnotes_html_okl ?= $(ecl_doc_dir_okl)/impnotes.html
 
 ecl_call_okl ?= $(ecl_installation_dir_okl)/bin/ecl
 
-ecl_docu_page_okl ?= $(doc_dir)/doxygen_html/d0/db7/Ecl_8hpp.html
+ecl_docu_page_okl ?= $(doc_dir)/doxygen_html/d1/d31/docus_2Ecl_8hpp.html
 
 ecl_homepage_url_okl := http://ecls.sourceforge.net/
 ecl_documentation_url_okl := http://ecl.sourceforge.net/resources.html
