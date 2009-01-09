@@ -329,16 +329,17 @@ clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_
 # New variables for the configuration of building ecl (to be designed 
 # and implemented):
 
-ecl_version_number_extraction_okl := awk '/ ECL [0-9]+\.[0-9]+(\.[0-9])?/{print $$2}'
+ecl_version_number_extraction_okl := awk '/ ECL [0-9]+\.[0-9]+\.[0-9]+/{print $$2}'
 # assumes that the output of "ecl -version" contains a line of the form
-# (for example) "ECL 2.43"
-# where the version number can also be of the form "2.44.1".
+# (for example) "ECL 8.12.0".
+# Currently, no version number can be extracted, since it is not known how
+# to get ecl to print it out; so below instead of "--version" we use "--help", to at least get some "sign of life" out of it.
 
 location_ecl_call_okl ?= $(shell (type -P $(ecl_call_okl)))
 ifeq ($(location_ecl_call_okl),)
   ecl_call_ready_okl ?= NO
 else
-  version_ecl_call_okl ?= $(shell $(ecl_call_okl) --version | $(ecl_version_number_extraction_okl))
+  version_ecl_call_okl ?= $(shell $(ecl_call_okl) --help | $(ecl_version_number_extraction_okl))
   ifeq ($(version_ecl_call_okl),$(ecl_recommended_version_number_okl))
     ecl_call_ready_okl ?= YES
   else
