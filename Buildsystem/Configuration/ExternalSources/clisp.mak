@@ -46,8 +46,8 @@ clisp_source_okl := $(ExternalSources)/sources/CLisp/$(clisp_recommended_okl)
 
 # Tool: libsigsegv
 
-libsigsegv_recommended_version_number_okl ?= 2.5
-libsigsegv_supported_not_recommended_version_numbers_okl ?= 
+libsigsegv_recommended_version_number_okl ?= 2.6
+libsigsegv_supported_not_recommended_version_numbers_okl ?= 2.5
 
 libsigsegv_prefix_okl ?= libsigsegv
 
