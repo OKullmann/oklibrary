@@ -80,27 +80,7 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
      plus the k-subsets containing v_1 as first element, which without
      this element are after {v_2, ..., v_k}. Via recursion then the
      formula is obtained. </li>
-     <li> Conjecture: Regarding unranking for lex-order, we greedily
-     choose the values which produce the largest possible binomial
-     coefficients, and then move down to the next value: 
-     \verbatim
-unrank_lex_subsets(x,n,k) := block([t_ip : 0, S : []],
-  for i : 1 thru k do block([j : t_ip + 1, bc, t_i : t_ip + 1],
-    bc : binomial(n - j, k - i),
-    while (x > bc) and (bc > 0) do (
-      x : x - bc,
-      j : j + 1,
-      t_i : t_i + 1,
-      bc : binomial(n - j, k - i)
-    ),
-    t_ip : t_i,
-    S : cons(t_i, S)
-  ),
-  return(setify(S))
-)$
-     \endverbatim
-     </li>
-     <li> A clear inverse of rank_lex_subsets is the following function:
+     <li> The inverse of rank_lex_subsets is the following function:
      \verbatim
 unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   x : binomial(n,k) - x,
