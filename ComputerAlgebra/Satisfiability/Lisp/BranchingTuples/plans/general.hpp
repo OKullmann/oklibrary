@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,14 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp
   \brief Plans regarding the tau function (see SAT-handbook article of OK)
-  
+
+
+  \todo Connections to other modules
+  <ul>
+   <li> See
+   Experimentation/Investigations/TenChallenges/01_QuantitativeHeuristics/plans/general.hpp.
+   </li>
+  </ul>
   
   \todo Handling of demos
   <ul>
@@ -81,7 +88,7 @@ License, or any later version. */
 
   \todo Optimisation
   <ul>
-   <li> Support typical applications to worst-case upper bounds:
+   <li> %Support typical applications to worst-case upper bounds:
     <ol>
      <li> Given a parameter alpha and branching tuples depending
      on alpha, find the minimal tau-value depending on alpha, for
