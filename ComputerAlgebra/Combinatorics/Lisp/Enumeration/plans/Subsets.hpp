@@ -106,6 +106,25 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
    rank_lex_subsets(unrank_lex_subsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k).
    </li>
+   <li> State-free iteration for lexicographical order is given as follows:
+   \verbatim
+first_lex_subsets(n,k) := setn(k)$
+next_lex_subsets(S,n) := block(
+ [L : listify(S), l : length(S), i, prev : n+1],
+  i : l-1,
+  for x in reverse(L) do
+    if x+1 < prev then 
+      return(if i = -1 then done else
+             setify(append(take_elements(i,L), create_list(x+k,k,1,l-i))))
+    else (i : i-1, prev : x))$
+   \endverbatim
+   </li>
+   <li> Usage example:
+   \verbatim
+block([x : first_lex_subsets(6,3)], 
+  while x#done do (print(x), x : next_lex_subsets(x,6)));
+   \endverbatim
+   </li>
   </ul>
 
 
