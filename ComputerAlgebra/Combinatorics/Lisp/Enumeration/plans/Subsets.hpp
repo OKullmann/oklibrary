@@ -84,7 +84,7 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
      choose the values which produce the largest possible binomial
      coefficients, and then move down to the next value: 
      \verbatim
-unrank_lex_subsets(x,n,k) := block([t_ip : 0, rs : []],
+unrank_lex_subsets(x,n,k) := block([t_ip : 0, S : []],
   for i : 1 thru k do block([j : t_ip + 1, bc, t_i : t_ip + 1],
     bc : binomial(n - j, k - i),
     while (x > bc) and (bc > 0) do (
@@ -94,12 +94,25 @@ unrank_lex_subsets(x,n,k) := block([t_ip : 0, rs : []],
       bc : binomial(n - j, k - i)
     ),
     t_ip : t_i,
-    rs : cons(t_i, rs)
+    S : cons(t_i, S)
   ),
-  return(setify(rs))
+  return(setify(S))
 )$
      \endverbatim
      </li>
+     <li> A clear inverse of rank_lex_subsets is the following function:
+     \verbatim
+unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
+  x : binomial(n,k) - x,
+  for i : 1 thru k do block([j : k-i+1],
+    while binomial(n-L, j) > x do L : L + 1,
+    S : endcons(L,S), x : x - binomial(n-L, j)
+  ),
+  return(setify(S)))$
+     \endverbatim
+     Here it follows immediately from the definition that
+     rank_lex_subsets(unrank_lex_subsets(x,n,k),n) = x
+     for 1 <= x <= binomial(n,k). </li>
     </ol>
    </li>
   </ul>
