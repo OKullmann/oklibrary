@@ -36,20 +36,20 @@ listify(powerset(setn(n),k))
    is the order of elements of a set specified, nor can it be
    controlled --- this issue must be raised at the Maxima mailing
    list! (It renders the set-concept useless.) </li>
-   <li> For a given Maxima-set S, and k >= 0, the list of all k-subsets
-   of S in lexicographical order is computed as follows:
+   <li> For a given Maxima-set M, and k >= 0, the list of all k-subsets
+   of M in lexicographical order is computed as follows:
    \verbatim
-lex_subsets_l(S,k) := if k=0 then [{}] elseif emptyp(S) then [] else
-  block([x : first_element(S), R],
-    R : disjoin(x,S),
+lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+  block([x : first_element(M), R],
+    R : disjoin(x,M),
     append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
    \endverbatim
    </li>
    <li> And colexicographical order:
    \verbatim
-colex_subsets_l(S,k) := if k=0 then [{}] elseif emptyp(S) then [] else
-  block([x : last_element(S), R],
-    R : disjoin(x,S),
+colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+  block([x : last_element(M), R],
+    R : disjoin(x,M),
     append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
    \endverbatim
    </li>
@@ -118,12 +118,33 @@ next_lex_subsets(S,n) := block(
              setify(append(take_elements(i,L), create_list(x+k,k,1,l-i))))
     else (i : i-1, prev : x))$
    \endverbatim
-   </li>
+   This algorithm is essentially the same as algorithm L in [Knuth, Vol. 4,
+   Fascicle 3, Section 7.2.1.3]. </li>
    <li> Usage example:
    \verbatim
 block([x : first_lex_subsets(6,3)], 
   while x#done do (print(x), x : next_lex_subsets(x,6)));
    \endverbatim
+   </li>
+   <li> Colexicographical order: XXX </li>
+   <li> (General) Iteration for lexicographical order XXX
+    <ol>
+     <li> "itgen_lex_subsets(M,k) yields an iterator "it" "pointing" to
+     the first element. </li>
+     <li> "iteval_lex_subsets(it)" yields the element. </li>
+     <li> "itend_lex_subsets(it) = it[1]" returns true iff it points "past the
+     end". </li>
+     <li> "itadv_lex_subsets(it)" advances a valid iterator (pointing to an
+     element) one step, based on a shallow copy of it. </li>
+     <li> Algorithm T in [Knuth, Vol. 4, Fascicle 3, Section 7.2.1.3]
+     should yield an appropriate algorithm. </li>
+     <li> An application example:
+     \verbatim
+block([it : itgen_lex_subsets(M,k)], while not itend_lex_subsets(it) do
+  print(iteval_lex_subsets(it)), itadv_lex_subsets(it));
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
