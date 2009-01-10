@@ -19,7 +19,7 @@ License, or any later version. */
      <li> Computing (all of) M(p) as a (repetition-free) list L(p).
       <ol>
        <li> This could be called the task of "completely listing" M(p). </li>
-       <li> The general naming should follow e.g. "lex_subsets_l",
+       <li> The general naming should follow %e.g. "lex_subsets_l",
        "colex_subsets_l", "lex_permutations_l" etc. </li>
       </ol>
      </li>
@@ -32,7 +32,7 @@ License, or any later version. */
        n of elements needs to be computed. However, using other start indices
        than 1 perhaps just introduces unnecessary complications, and we better
        standardise the index range. </li>
-       <li> Naming e.g. "rank_lex_subsets", "rank_colex_subsets",
+       <li> Naming %e.g. "rank_lex_subsets", "rank_colex_subsets",
        "rank_lex_permutations" etc. </li>
       </ol>
      </li>
@@ -67,12 +67,17 @@ License, or any later version. */
        <li> The iterator-methods would then just inspect this object, or
        compute a new object from an old one. </li>
        <li> However, according to the "concrete" character of the Maxima/Lisp
-       level we should avoid hiding information, and so perhaps the general
-       concept of an "iterator" is that of a triple [true/false,i,state],
-       where the first boolean entry specifies whether we are past-the-end;
-       if not, then the natural number i is the current rank, and "state"
-       finally contains all the information to make it easy to easily compute
-       M(p)[i] and to go to the successor i+1. </li>
+       level we should avoid hiding information. </li>
+       <li> So perhaps the general concept of an "iterator" is that of a triple
+       I(p) = [true/false,i,state], where the first (boolean) entry specifies
+       whether we are past-the-end; if not, then the natural number i is the
+       current rank, and "state" finally contains all the information to make
+       it easy to compute M(p)[i] and to go to the successor i+1. </li>
+       <li> Or perhaps the first (indicator) entry is "done/true", and
+       the while-condition then is "while it[1] # done" ? </li>
+       <li> Or perhaps we have a pair [i,state], where i is either "done"
+       or the rank? This would also fit better with the state-free approach.
+       </li>
       </ol>
      </li>
     </ol>
