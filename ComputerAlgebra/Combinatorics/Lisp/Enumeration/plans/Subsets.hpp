@@ -80,6 +80,19 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
      plus the k-subsets containing v_1 as first element, which without
      this element are after {v_2, ..., v_k}. Via recursion then the
      formula is obtained. </li>
+     <li> The inverse of rank_colex_subsets is the following function:
+     \verbatim
+unrank_colex_subsets(x,n,k) := block([S : [], L : n],
+  x : x - 1,
+  for i : k thru 1 step -1 do (
+    while binomial(L-1,i) > x do L : L - 1,
+    S : cons(L,S), x : x - binomial(L-1, i)
+  ),
+  return(setify(S)))$
+     \endverbatim
+     By definition we have
+     rank_colex_subsets(unrank_colex_subsets(x,n,k),n) = x
+     for 1 <= x <= binomial(n,k). </li>
      <li> The inverse of rank_lex_subsets is the following function:
      \verbatim
 unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
@@ -90,7 +103,7 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   ),
   return(setify(S)))$
      \endverbatim
-     Here it follows immediately from the definition that
+     By definition we have
      rank_lex_subsets(unrank_lex_subsets(x,n,k),n) = x
      for 1 <= x <= binomial(n,k). </li>
     </ol>
