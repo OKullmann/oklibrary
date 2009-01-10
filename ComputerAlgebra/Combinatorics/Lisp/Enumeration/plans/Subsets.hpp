@@ -56,9 +56,10 @@ colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
    <li> Regarding ranking, for colex-order we restrict attention to
    the base-set {1, ..., n} (that is, S is a subset of {1, ..., n}):
    \verbatim
-rank_colex_subsets(S,n) := block([L : listify(S)],
+rank_colex_subsets(S) := block([L : listify(S)],
   sum_l(create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
    \endverbatim
+   (note that the rank w.r.t. colex-order does not depend on n).
    </li>
    <li> This formula comes from considering how many subsets are before
    S in the order: Let S = {v_1, ..., v_k} (k = length(S)) be sorted
@@ -92,6 +93,14 @@ unrank_colex_subsets(x,n,k) := block([S : [], L : n],
    By definition we have
    rank_colex_subsets(unrank_colex_subsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k). </li>
+   <li> unrank_colex_subsets(x,n,k) does not really depend on n, it is only
+   a large enough start value needed for L.
+    <ol>
+     <li> It would be better if from x and k we could compute a good value n
+     (and thus it wouldn't be needed as input). </li>
+     <li> The smallest n is given by the condition x <= binomial(n,k). </li>
+    </ol>
+   </li>
    <li> The inverse of rank_lex_subsets is the following function:
    \verbatim
 unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
