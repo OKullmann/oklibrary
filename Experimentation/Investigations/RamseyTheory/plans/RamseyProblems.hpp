@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -124,10 +124,23 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
       </ul>
      </li>
      <li> Grasp aborts by default (10000s exceeded). </li>
-     <li> minisat seems hopeless (after one hour). </li>
-     <li> march_pl seems hopeless (after one hour). </li>
+     <li> minisat seems hopeless (after one hour).
+      <ol>
+       <li> Since the problem is hard, we should let minisat reach, say,
+       10^9 conflicts; this is currently running on csltok. </li>
+      </ol>
+     </li>
+     <li> march_pl seems hopeless (after one hour).
+      <ol>
+       <li> Again, since the problem is hard, we should run march_pl for, say,
+       2 weeks. </li>
+      </ol>
+     </li>
     </ol>
    </li>
+   <li> There must be literature out there with CSP/SAT solver experiments
+   on this problem. </li>
+   <li> What happens if we use our various symmetry-breaking methods? </li>
   </ul>
 
 
