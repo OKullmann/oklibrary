@@ -191,6 +191,19 @@ okltest_ugrp2grp(f) := (
    **************
 */
 
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_scom2grd(f) := (
+  /* XXX */
+  true)$
+
+okltest_grd2scom(f) := (
+  /* XXX */
+  true)$
+
 
 /*!
 \endhtmlonly

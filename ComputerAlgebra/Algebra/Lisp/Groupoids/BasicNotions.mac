@@ -106,6 +106,16 @@ ugrp2grp(G) := rest(G,-1)$
    here we have the typical three possibilities ... 
 */
 
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* Between combinatorial square matrices and groupoids: */
+scom2grd(M) := M$
+grd2scom(V) := V$
+
 /*!
 \endhtmlonly
 */

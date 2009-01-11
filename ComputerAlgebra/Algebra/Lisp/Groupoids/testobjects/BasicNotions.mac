@@ -45,10 +45,10 @@ okltest_cuqgrp_p(cuqgrp_p);
 
 okltest_grp_p(grp_p);
 okltest_cgrp_p(cgrp_p);
-okltest_grpn_p(grpn_p);
-okltest_cgrpn_p(cgrpn_p);
-okltest_grpni_p(grpni_p);
-okltest_cgrpni_p(cgrpni_p);
+okltest_ugrp_p(ugrp_p);
+okltest_cugrp_p(cugrp_p);
+okltest_ugrpi_p(ugrpi_p);
+okltest_cugrpi_p(cugrpi_p);
 
 
 /* *********************
@@ -66,14 +66,22 @@ okltest_ugrd_equalp(ugrd_equalp);
 
 okltest_ugrd2grd(ugrd2grd);
 
-okltest_grpni2grpn(grpni2grpn);
-okltest_grpni2grp(grpni2grp);
-okltest_grpn2grp(grpn2grp);
+okltest_ugrpi2ugrp(ugrpi2ugrp);
+okltest_ugrpi2grp(ugrpi2grp);
+okltest_ugrp2grp(ugrp2grp);
 
 /* **************
    * Promotions *
    **************
 */
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_scom2grd(scom2grd);
+okltest_grd2scom(grd2scom);
 
 /*!
 \endhtmlonly
