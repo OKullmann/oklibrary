@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/CombinatorialMatrices/Lisp/plans/Basics.hpp
   \brief General plans regarding basic notions and functions for (combinatorial) matrices
+
+
+  \todo Complete the tests
 
 
   \todo Organisation
@@ -51,6 +54,9 @@ License, or any later version. */
 
   \todo Conversions
   <ul>
+   <li> Reflect on the naming of "lmcom2m, lmscom2m" (compare with
+   "Improving the okl-arrays" in
+   ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp). </li>
    <li> DONE (it seems using "matrix" is preferable)
    A matrix [R,C,f] can be converted to a Maxima matrix
    <code> genmatrix(lambda([i,j],f(listify(R)[i],listify(C)[j])),

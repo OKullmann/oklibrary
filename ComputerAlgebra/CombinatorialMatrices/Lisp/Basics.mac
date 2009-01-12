@@ -104,6 +104,7 @@ ocom2m(M) := block([rows : M[1], cols : M[2], f : M[3]],
 /* For square matrices: */
 scom2m(M) := com2m(scom2com(M))$
 oscom2m(M) := ocom2m(oscom2ocom(M))$
+/* For special situations, see lmcom2m, lmscom2m below (w.r.t efficiency). */
 
 /* Transforms a Maxima matrix into a combinatorial matrix
    (attention: this constitutes a reference to the original matrix). */
@@ -119,6 +120,11 @@ m2ocom(M) := block([m,n],
 sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
 m2scom(M) := sm2scom(M)$
 m2oscom(M) := [create_list(i,i,1,matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
+/* For combinatorial matrices created in this way, re-extract the
+   original Maxima matrix:
+*/
+lmcom2m(M) := ev(part(M[3],2,0),eval);
+lmscom2m(M) := ev(part(M[2],2,0),eval);
 
 /* For convenience: Input as the Maxima function "matrix", but returns
    a com resp. scom:

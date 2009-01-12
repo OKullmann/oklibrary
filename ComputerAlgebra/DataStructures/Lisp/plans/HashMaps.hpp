@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.5.2008 (Guangzhou)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -109,6 +109,8 @@ License, or any later version. */
    <li> "p2" seems to be "part 2" (for the extraction). </li>
    <li> But also "pa2" seems to mean "part 2", so we should decide which
    form to choose. </li>
+   <li> Compare "Conversions" in
+   ComputerAlgebra/CombinatorialMatrices/Lisp/plans/Basics.hpp. </li>
   </ul>
 
 */
