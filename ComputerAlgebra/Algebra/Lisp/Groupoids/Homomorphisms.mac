@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,6 +19,14 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.ma
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
+
 /* Test whether f is a groupoid homomorphism with domain V, where
    the target-composition is compo: */
 homomorphism_bydef_grd(f,V,compo) := block([counterexample : false],
@@ -35,6 +43,109 @@ homomorphism_bydef_ugrd(f,V,compo,e) := is(f(V[3]) = e) and
    homomorphism f: */
 induced_congruence_grd(V,f) := buildq([f], lambda([x,y], is(f(x) = f(y))))$
 
+
+/* ***********************
+   * Isomorphism testing *
+   ***********************
+*/
+
+/* Testing whether two groupoids are isomorphic by running through all
+   bijections:
+*/
+is_isomorphic_bydef_grd(V1,V2) := if length(V1[1]) # length(V2[1]) then false
+ else block(
+ [L1 : listify(V1[1]), L2 : listify(V2[1]), found : false],
+  for p in permutations(L2) unless found do
+    found : homomorphism_bydef_grd(lambda_hm(osm2hm(map("[", L1,p))),V1,V2[2]),
+  return(found))$
+
+/* Given a groupoid V and an injective map f, transport the structure V
+   via f (obtaining a groupoid V' such that f is an isomorphism from
+   V to V'):
+*/
+transport_grd(V,f) := block(
+ [h : osm2hm(map(lambda([P], [map(f,P), f(apply(V[2],P))]), 
+        cartesian_product(V[1],V[1])))],
+  [map(f,V[1]), buildq([h], lambda([x,y], ev_hm(h,[x,y])))])$
+/* Now transporting via an "isotopy"; the three maps f,g,h must all be
+   bijections from V to the same set.
+*/
+transport3_grd(V,f,g,h) := block(
+ [h : osm2hm(map(lambda([P], [[f(P[1]),g(P[2])], h(apply(V[2],P))]), 
+        cartesian_product(V[1],V[1])))],
+  [map(f,V[1]), buildq([h], lambda([x,y], ev_hm(h,[x,y])))])$
+
+
+/* *************************
+   * Enumerating groupoids *
+   *************************
+*/
+
+/* The isomorphism classes of the set of all standardised groupoids of order n
+   (with base set {1,...,n}); the results are directly represented as
+   Maxima matrices. (Given such a matrix M, the corresponding groupoid
+   is obtained by scom2grd(m2scom(M)).)
+*/
+/* First the direct computation: */
+all_isomorphisms_classes_bydef_grd(n) := 
+ map(lambda([C], map(lambda([G], lmscom2m(grd2scom(G))), C)),
+  equiv_classes(
+    setify(map(scom2grd,map(m2scom,all_m(n,n,create_list(i,i,1,n))))),
+    is_isomorphic_bydef_grd))$
+/* Now the more efficient computation by actively computing the
+   equivalence classes.
+*/
+/* First an auxiliary function, which for a given set S of groupoids
+   represented as Maxima matrices computes the complete isomorphism
+   classes of these matrices (w.r.t. all groupoids of order n).
+   Inherits: the set all_perm of permutations of N
+   (as functions).
+*/
+all_isomorphisms_classes_actively_sm_grd(S) := block(
+ [result : []],
+  while not emptyp(S) do block(
+   [M : scom2grd(m2scom(choose_element(S))), C],
+    /* C is the isomorphism class of M */
+    C : setify(map(lambda([f], scom2m(grd2scom(transport_grd(M,f)))), all_perm)),
+    S : setdifference(S, C),
+    result : cons(C,result)
+  ),
+  setify(result))$
+/* Now the full function (running through all groupoids of order n):
+*/
+all_isomorphisms_classes_actively_grd(n) := block(
+ [N : create_list(i,i,1,n), all_perm],
+  all_perm : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(N))), /* all permutations */
+  all_isomorphisms_classes_actively_sm_grd(setify(all_m(n,n,N))))$
+
+/* Now all isotopy classes (a rougher equivalence relation than isomorphism):
+*/
+/* Perhaps should be better also organised as above. XXX */
+all_isotopism_classes_actively_grd(n) := block(
+ [N : create_list(i,i,1,n), G, LP, LP3, result : []],
+  G : setify(all_m(n,n,N)), /* all groupoids */
+  LP : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(N))), /* all permutations */
+  LP3 : cartesian_product_l([LP,LP,LP]),
+  while not emptyp(G) do block(
+   [M : scom2grd(m2scom(choose_element(G))), C],
+    /* C is the isomorphism class of M */
+    C : setify(map(lambda([F], 
+                 scom2m(grd2scom(transport3_grd(M,F[1],F[2],F[3])))), LP3)),
+    G : setdifference(G, C),
+    result : cons(C,result)
+  ),
+  setify(result))$
+
+/* Creating all isotopy classes, which are further subdivided into
+   isomorphism classes:
+*/
+all_isotopismisomorphism_classes_actively_grd(n) := block(
+ [all_perm : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(create_list(i,i,1,n))))],
+  map(all_isomorphisms_classes_actively_sm_grd,
+      all_isotopism_classes_actively_grd(n)))$
 /*!
 \endhtmlonly
 */

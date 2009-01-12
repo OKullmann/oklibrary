@@ -10,6 +10,55 @@ License, or any later version. */
   \brief Plans on groupoid homomorphisms
 
 
+  \todo Complete the implementation
+  <ul>
+   <li> Write simple tests. </li>
+   <li> Complete the implementation according to "XXX". </li>
+   <li> Write little helper functions for working with
+   all_isotopismisomorphism_classes_actively_grd. </li>
+  </ul>
+
+
+  \todo Organisation
+  <ul>
+   <li> Perhaps we should subdivide the topic into four sub-topics:
+   (Ordinary) homomorphisms, isomorphisms, homotopisms, isotopisms. </li>
+  </ul>
+
+
+  \todo Isomorphisms
+  <ul>
+   <li> In is_isomorphic_bydef_grd we constructed the bijections directly;
+   we should gather all similar constructions in ComputerAlgebra, and
+   we should provide general facilities for that (see also
+   all_isomorphisms_classes_actively_grd). </li>
+   <li> Reducing groupoid-isomorphism to graph isomorphism works via the
+   Cayley graphs? </li>
+   <li> Again we need backtracking algorithms, which should fit into a
+   general framework. </li>
+  </ul>
+
+
+  \todo All isomorphism types of small groupoids
+  <ul>
+   <li> We need representatives: Perhaps best the lexicographically smallest
+   elements (using row-wise order). </li>
+   <li> For the basic properties (associativity, unitality, commutativity,
+   unique solvability, non-trivial automorphism group; together with all
+   combinations) we need counts and representatives. </li>
+   <li> We need also to build up catalogues. </li>
+  </ul>
+
+
+  \todo Transport via homotopies
+  <ul>
+   <li> Given a groupoid [V,compo] and three bijections f,g,h: V -> V',
+   we obtain a composition on V' we transporting compo(x,y) = z to
+   compo(f(x),g(y)) = h(z). </li>
+   <li> Once we have that, we can also compute all isotopism classes
+   ("actively"). </li>
+  </ul>
+
   \todo Homotopisms
   <ul>
    <li> The main notion of a homomorphism f: (G,*) -> (G',*') is the
