@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,19 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp
   \brief Plans regarding installation of the Boost library
+
+
+  \todo Remove application of mln
+  <ul>
+   <li> We need to replace
+   \verbatim
+mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$*/lib/#1gcc#4"
+   \endverbatim
+   </li>
+   <li> Perhaps it's best first to use ls, and then sed. </li>
+   <li> To avoid trouble with the paths, one could also first cd into
+   the directory. </li>
+  </ul>
 
 
   \todo Update Boost installation
@@ -25,20 +38,6 @@ License, or any later version. */
    <li> And we also drop the timestamp-file. </li>
    <li> And we also drop the dependency on the gcc-installation. </li>
    <li> This should simplify drastically the build-makefile. </li>
-   <li> Since Boost seems to be the only user of the mmv-package,
-   perhaps with the Boost installation also a local installation
-   of mmv is provided.
-    <ol>
-     <li> Perhaps here we could check via "which mln" the existence,
-     and only install if not existing. </li>
-     <li> But better not (this introduces another unknown):
-     We install it in any case! </li>
-     <li> But we use then "allboost", similar to "allmaxima" etc. </li>
-     <li> Installation to OKplatform/bin. </li>
-     <li> See "Install the mmv package" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
-    </ol>
-   </li>
    <li> Installation of bjam should be improved: Having exactly one
    bjam-installation for each boost-version, and no need to recreate
    it if it's already there. Or, perhaps better: We just leave it in

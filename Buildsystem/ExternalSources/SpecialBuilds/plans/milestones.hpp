@@ -17,7 +17,7 @@ License, or any later version. */
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
-    - Install the mmv package
+    - Install the mmv package : DONE
     - Documentation
     - Handling of different versions : DONE
 
@@ -25,6 +25,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Remove application of mln
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following

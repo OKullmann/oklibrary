@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding building of concrete external sources
 
 
-  \todo Install the mmv package
+  \todo Install the mmv package : DONE
   <ul>
    <li> For installing boost we need mln. Compare "Update Boost installation"
    in  Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp. </li>
@@ -19,6 +19,10 @@ License, or any later version. */
    mln, mcp etc. </li>
    <li> Perhaps it's not worth the trouble --- all our uses of that package
    should be easily replaceable by little bash-applications. </li>
+   <li> First attempts at installing some versions of mmv failed, and we
+   have only one application, namely the "mln" application in
+   Buildsystem/ExternalSources/SpecialBuilds/boost.mak, and this shall
+   be done directly (via bash). </li>
   </ul>
 
 
