@@ -101,4 +101,14 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Improving the okl-arrays
+  <ul>
+   <li> If "lambda" becomes abbreviated by "lm", why do we have the names
+   "ary2lmp2", "lmpa2ary" and "lmpa2l" ? </li>
+   <li> "p2" seems to be "part 2" (for the extraction). </li>
+   <li> But also "pa2" seems to mean "part 2", so we should decide which
+   form to choose. </li>
+  </ul>
+
 */

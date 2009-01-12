@@ -160,6 +160,7 @@ l2ary(L) := l2array(L)$
    an array of integers: */
 /* RENAME: il2ary */
 il2array(L) := okl_fillarray_l(okl_make_array(fixnum,length(L)),L)$
+il2ary(L) := il2array(L)$
 /* If the list contains only floating-point numbers, and the array shall be
    an array of floating-point numbers: */
 /* RENAME: fl2ary */
