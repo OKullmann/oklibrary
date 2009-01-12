@@ -258,6 +258,9 @@ BestSolution_Min = 4.000000
 BestSolution_Max = 51.000000
      \endverbatim
      </li>
+     <li> There is now more data available ("Exp_Ramsey_5_5_2_38-samd_40000_2")
+     which needs to be merged with the old data (and then the evaluation
+     needs to be repeated). </li>
      <li> The density of osteps has a clear minimum at around 20000, while
      the minimum 4 is reached for osteps = 34213. Linear modelling via
      L = lm(min ~ poly(log(osteps), k),data=E) makes sense up to k=4 (plotting
