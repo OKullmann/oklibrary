@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.4.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,7 +20,8 @@ License, or any later version. */
 
   \todo General systems
   <ul>
-   <li> 
+   <li> Mathemagix http://www.mathemagix.org/www/main/index.en.html
+   could be interesting due to its strong connections with C++. </li>
    <li> What about Octave? http://www.gnu.org/software/octave/
    It has (only) numerical capabilities, and we should evaluate
    which could be useful for us (sparse matrices and optimisation). </li>

@@ -173,6 +173,8 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Axiom.hpp the following
    topics are handled:
     - Install Axiom
+    - Install OpenAxiom
+    - FriCAS
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
