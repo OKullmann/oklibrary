@@ -28,15 +28,20 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 */
 
 /* Test whether f is a groupoid homomorphism with domain V, where
-   the target-composition is compo: */
+   the target-composition is compo. */
+/* Prerequisite: For all x, y in V it is compo(f(x),f(y)) defined.
+*/
 homomorphism_bydef_grd(f,V,compo) := block([counterexample : false],
  for x in V[1] unless counterexample do
   for y in V[1] unless counterexample do
     if f(V[2](x,y)) # compo(f(x),f(y)) then counterexample : true,
  return(not counterexample))$
-
+homomorphism_bydef2_grd(f,V1,V2) := homomorphism_bydef_grd(f,V1,V2[2])$
+/* Testing whether we have a unital groupoid homomorphism. */
+/* Again compo(f(x),f(y)) must be always defined. */
 homomorphism_bydef_ugrd(f,V,compo,e) := is(f(V[3]) = e) and 
   homomorphism_bydef_grd(f,V,compo)$
+homomorphism_bydef2_ugrd(f,V1,V2) := homomorphism_bydef_ugrd(f,V1,V2[2],V2[3])$
 
 
 /* The canonical congruence relation on a groupoid V given by a
