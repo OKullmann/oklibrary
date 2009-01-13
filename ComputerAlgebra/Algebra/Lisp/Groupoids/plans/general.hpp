@@ -58,5 +58,23 @@ License, or any later version. */
    previous words, while the final word represents the element. </li>
   </ul>
 
+
+  \todo Congruence relations
+  <ul>
+   <li> A new submodule "Quotients.mac" is needed for the handling of
+   congruence relations in groupoids. </li>
+   <li> See also "Induced congruence relation" in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Homomorphisms.hpp. </li>
+   <li> Providing congruence_grd_p, and for a given congruence relation,
+   the quotient groupoid. </li>
+   <li> Likely we should provide two representations of the quotient groupoid:
+    <ol>
+     <li> The direct one, with equivalence classes as elements. </li>
+     <li> Since Maxima-sets have an underlying order, it seems sensible to
+     use the first element of an equivalence class as a representative. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 

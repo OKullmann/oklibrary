@@ -26,6 +26,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Naming conventions
+  <ul>
+   <li> Perhaps "homomorphism_bydef_grd" should better be called
+   "homomorphism_grd_p". </li>
+   <li> Similarly for the other functions. </li>
+  </ul>
+
+
   \todo Isomorphisms
   <ul>
    <li> In is_isomorphic_bydef_grd we constructed the bijections directly;
@@ -59,6 +67,7 @@ License, or any later version. */
    ("actively"). </li>
   </ul>
 
+
   \todo Homotopisms
   <ul>
    <li> The main notion of a homomorphism f: (G,*) -> (G',*') is the
@@ -80,6 +89,18 @@ License, or any later version. */
    lead to "square homotopies" H: (G,*) -> (G',*') as pairs H = (f,g) with
    f,g : G -> G' s.t. f(x * y) = g(x) *' g(y)", and square principal homotopies
    given by x * y = g(x) *' g(y). </li>
+  </ul>
+
+
+  \todo Induced congruence relation
+  <ul>
+   <li> Compare "Congruence relations" in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/plans/general.hpp. </li>
+   <li> What induced_congruence_grd computes, is just the equivalence
+   relation induced by a map. </li>
+   <li> We should develop more general notions, likely at the level of
+   (pure) sets. </li>
+   <li> Perhaps this should all be located in "Quotients.mac". </li>
   </ul>
 
 */
