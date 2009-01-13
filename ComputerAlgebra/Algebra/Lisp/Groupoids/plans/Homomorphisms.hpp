@@ -30,7 +30,8 @@ License, or any later version. */
   <ul>
    <li> Perhaps "homomorphism_bydef_grd" should better be called
    "homomorphism_grd_p". </li>
-   <li> Similarly for the other functions. </li>
+   <li> Similarly for the other functions; compare "Naming conventions"
+   in ComputerAlgebra/Algebra/Lisp/Groupoids/plans/general.hpp. </li>
   </ul>
 
 

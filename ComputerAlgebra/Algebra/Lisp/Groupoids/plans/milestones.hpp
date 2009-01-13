@@ -33,6 +33,7 @@ License, or any later version. */
    In ComputerAlgebra/Algebra/Lisp/Groupoids/plans/general.hpp the
    following topics are handled:
     - Write tests
+    - Naming conventions
 
 
   \par Version 0.3

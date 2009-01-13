@@ -13,6 +13,15 @@ License, or any later version. */
   \todo Write tests
 
 
+  \todo Naming conventions
+  <ul>
+   <li> See "Naming conventions" in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Homomorphisms.hpp. </li>
+   <li> Names like "associative_bydef_grd" perhaps should be renamed to
+   "associative_grd_p" ? </li>
+  </ul>
+
+
   \todo Forms of "constructive" groupoids
   <ul>
    <li> For implicit representations
