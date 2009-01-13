@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Complete the implementation
   <ul>
-   <li> Write simple tests. </li>
+   <li> Write simple tests. DONE </li>
    <li> Complete the implementation according to "XXX". </li>
    <li> Write little helper functions for working with
    all_isotopismisomorphism_classes_actively_grd. </li>
