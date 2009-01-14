@@ -21,15 +21,20 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Enum
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Enumeration.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac")$
 
-/* *************************
-   * Enumerating groupoids *
-   *************************
+/* ***********************************
+   * Enumerating isomorphism classes *
+   ***********************************
 */
 
 okltest_all_isomorphisms_classes_grd(all_isomorphisms_classes_bydef_grd);
 okltest_all_isomorphisms_classes_grd(all_isomorphisms_classes_actively_grd);
 
 okltest_all_isomorphisms_classes_actively_sm_grd(all_isomorphisms_classes_actively_sm_grd);
+
+/* *********************************
+   * Enumerating isotopism classes *
+   *********************************
+*/
 
 okltest_all_isotopism_classes_grd(all_isotopism_classes_actively_grd);
 

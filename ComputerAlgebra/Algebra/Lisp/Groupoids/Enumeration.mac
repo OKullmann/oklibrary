@@ -27,9 +27,10 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
-/* *************************
-   * Enumerating groupoids *
-   *************************
+
+/* ***********************************
+   * Enumerating isomorphism classes *
+   ***********************************
 */
 
 /* The isomorphism classes of the set of all standardised groupoids of order n
@@ -69,6 +70,12 @@ all_isomorphisms_classes_actively_grd(n) := block(
   all_perm : map(lambda([p], lambda_array(l2ary(p))),
            listify(permutations(N))), /* all permutations */
   all_isomorphisms_classes_actively_sm_grd(setify(all_m(n,n,N))))$
+
+
+/* *********************************
+   * Enumerating isotopism classes *
+   *********************************
+*/
 
 /* Now all isotopy classes (a rougher equivalence relation than isomorphism):
 */

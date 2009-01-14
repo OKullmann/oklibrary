@@ -24,9 +24,9 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 
-/* *************************
-   * Enumerating groupoids *
-   *************************
+/* ***********************************
+   * Enumerating isomorphism classes *
+   ***********************************
 */
 
 /* Generic test function whether f(n) computes all isomorphism classes of
@@ -51,6 +51,12 @@ okltest_all_isomorphisms_classes_grd(f) := (
 okltest_all_isomorphisms_classes_actively_sm_grd(f) := (
   /* XXX */
   true)$
+
+
+/* *********************************
+   * Enumerating isotopism classes *
+   *********************************
+*/
 
 /* Generic test function whether f(n) computes all isotopism classes of
    groupoids (represented as matrices) of order n:
