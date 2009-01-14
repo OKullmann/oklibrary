@@ -47,6 +47,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Idempot
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
 
 /*!
 \endhtmlonly
