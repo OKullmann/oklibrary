@@ -27,6 +27,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Correct implementation of some_s and every_s
+  <ul>
+   <li> We can get erroneous results if for example "_x" is used in
+   the application context. </li>
+   <li> Can this be avoided? </li>
+  </ul>
+
+
   \todo In-place modification
   <ul>
    <li> It seems that for example handling of loops would often be
@@ -72,7 +80,7 @@ License, or any later version. */
      programs. </li>
      <li> The removal of an element from a set should be doable, and
      should also increase readability. </li>
-     <li> Perhaps all the basic operations are offerend in "accumulator-mode",
+     <li> Perhaps all the basic operations are offered in "accumulator-mode",
      which provides in-place modification of the main operand. </li>
     </ol>
    </li>
