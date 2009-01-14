@@ -44,6 +44,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constru
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Idempotency.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac")$
 
