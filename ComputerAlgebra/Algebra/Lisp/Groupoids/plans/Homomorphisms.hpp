@@ -10,15 +10,6 @@ License, or any later version. */
   \brief Plans on groupoid homomorphisms
 
 
-  \todo Complete the implementation
-  <ul>
-   <li> Write simple tests. DONE </li>
-   <li> Complete the implementation according to "XXX". </li>
-   <li> Write little helper functions for working with
-   all_isotopismisomorphism_classes_actively_grd. </li>
-  </ul>
-
-
   \todo Organisation
   <ul>
    <li> Perhaps we should subdivide the topic into four sub-topics:
@@ -45,17 +36,6 @@ License, or any later version. */
    Cayley graphs? </li>
    <li> Again we need backtracking algorithms, which should fit into a
    general framework. </li>
-  </ul>
-
-
-  \todo All isomorphism types of small groupoids
-  <ul>
-   <li> We need representatives: Perhaps best the lexicographically smallest
-   elements (using row-wise order). </li>
-   <li> For the basic properties (associativity, unitality, commutativity,
-   unique solvability, non-trivial automorphism group; together with all
-   combinations) we need counts and representatives. </li>
-   <li> We need also to build up catalogues. </li>
   </ul>
 
 

@@ -75,67 +75,6 @@ okltest_transport3_grd(f) := block([h1,h2,h3],
   true)$
 
 
-/* *************************
-   * Enumerating groupoids *
-   *************************
-*/
-
-/* Generic test function whether f(n) computes all isomorphism classes of
-   groupoids (represented as matrices) of order n:
-*/
-okltest_all_isomorphisms_classes_grd(f) := (
-  assert(f(0) = {{matrix()}}),
-  assert(f(1) = {{matrix([1])}}),
-  assert(f(2) = {
- {matrix([1,1],[1,1]),matrix([2,2],[2,2])},
- {matrix([1,1],[1,2]),matrix([1,2],[2,2])},
- {matrix([1,1],[2,1]),matrix([2,1],[2,2])},
- {matrix([1,1],[2,2])},
- {matrix([1,2],[1,1]),matrix([2,2],[1,2])},
- {matrix([1,2],[1,2])},
- {matrix([1,2],[2,1]),matrix([2,1],[1,2])},
- {matrix([2,1],[1,1]),matrix([2,2],[2,1])},
- {matrix([2,1],[2,1])},
- {matrix([2,2],[1,1])}}),
-  true)$
-
-okltest_all_isomorphisms_classes_actively_sm_grd(f) := (
-  /* XXX */
-  true)$
-
-/* Generic test function whether f(n) computes all isotopism classes of
-   groupoids (represented as matrices) of order n:
-*/
-okltest_all_isotopism_classes_grd(f) := (
-  assert(f(0) = {{matrix()}}),
-  assert(f(1) = {{matrix([1])}}),
-  assert(f(2) = {
- {matrix([1,1],[1,1]),matrix([2,2],[2,2])},
- {matrix([1,1],[1,2]),matrix([1,1],[2,1]),matrix([1,2],[1,1]),
-    matrix([1,2],[2,2]),matrix([2,1],[1,1]),matrix([2,1],[2,2]),
-    matrix([2,2],[1,2]),matrix([2,2],[2,1])},
- {matrix([1,1],[2,2]),matrix([2,2],[1,1])},
- {matrix([1,2],[1,2]),matrix([2,1],[2,1])},
- {matrix([1,2],[2,1]),matrix([2,1],[1,2])}}),
-  true)$
-
-okltest_all_isotopismisomorphism_classes_grd(f) := (
-  assert(f(0) = {{{matrix()}}}),
-  assert(f(1) = {{{matrix([1])}}}),
-  assert(f(2) = {
- { {matrix([1,1],[1,1]),matrix([2,2],[2,2])} },
- { {matrix([1,1],[1,2]),matrix([1,2],[2,2])},
-   {matrix([1,1],[2,1]),matrix([2,1],[2,2])},
-   {matrix([1,2],[1,1]),matrix([2,2],[1,2])},
-   {matrix([2,1],[1,1]),matrix([2,2],[2,1])}},
- { {matrix([1,1],[2,2])},
-   {matrix([2,2],[1,1])} },
- { {matrix([1,2],[1,2])},
-   {matrix([2,1],[2,1])} },
- { {matrix([1,2],[2,1]),matrix([2,1],[1,2])} }}),
-  true)$
-
-
 /*!
 \endhtmlonly
 */

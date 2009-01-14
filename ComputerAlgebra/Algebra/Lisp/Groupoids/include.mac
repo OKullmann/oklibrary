@@ -29,6 +29,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Enumeration.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
@@ -40,6 +41,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolva
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Closures.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Idempotency.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$

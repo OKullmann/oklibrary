@@ -1,0 +1,90 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac
+  \brief Tests regarding enumeration of groupoids
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* *************************
+   * Enumerating groupoids *
+   *************************
+*/
+
+/* Generic test function whether f(n) computes all isomorphism classes of
+   groupoids (represented as matrices) of order n:
+*/
+okltest_all_isomorphisms_classes_grd(f) := (
+  assert(f(0) = {{matrix()}}),
+  assert(f(1) = {{matrix([1])}}),
+  assert(f(2) = {
+ {matrix([1,1],[1,1]),matrix([2,2],[2,2])},
+ {matrix([1,1],[1,2]),matrix([1,2],[2,2])},
+ {matrix([1,1],[2,1]),matrix([2,1],[2,2])},
+ {matrix([1,1],[2,2])},
+ {matrix([1,2],[1,1]),matrix([2,2],[1,2])},
+ {matrix([1,2],[1,2])},
+ {matrix([1,2],[2,1]),matrix([2,1],[1,2])},
+ {matrix([2,1],[1,1]),matrix([2,2],[2,1])},
+ {matrix([2,1],[2,1])},
+ {matrix([2,2],[1,1])}}),
+  true)$
+
+okltest_all_isomorphisms_classes_actively_sm_grd(f) := (
+  /* XXX */
+  true)$
+
+/* Generic test function whether f(n) computes all isotopism classes of
+   groupoids (represented as matrices) of order n:
+*/
+okltest_all_isotopism_classes_grd(f) := (
+  assert(f(0) = {{matrix()}}),
+  assert(f(1) = {{matrix([1])}}),
+  assert(f(2) = {
+ {matrix([1,1],[1,1]),matrix([2,2],[2,2])},
+ {matrix([1,1],[1,2]),matrix([1,1],[2,1]),matrix([1,2],[1,1]),
+    matrix([1,2],[2,2]),matrix([2,1],[1,1]),matrix([2,1],[2,2]),
+    matrix([2,2],[1,2]),matrix([2,2],[2,1])},
+ {matrix([1,1],[2,2]),matrix([2,2],[1,1])},
+ {matrix([1,2],[1,2]),matrix([2,1],[2,1])},
+ {matrix([1,2],[2,1]),matrix([2,1],[1,2])}}),
+  true)$
+
+okltest_all_isotopismisomorphism_classes_grd(f) := (
+  assert(f(0) = {{{matrix()}}}),
+  assert(f(1) = {{{matrix([1])}}}),
+  assert(f(2) = {
+ { {matrix([1,1],[1,1]),matrix([2,2],[2,2])} },
+ { {matrix([1,1],[1,2]),matrix([1,2],[2,2])},
+   {matrix([1,1],[2,1]),matrix([2,1],[2,2])},
+   {matrix([1,2],[1,1]),matrix([2,2],[1,2])},
+   {matrix([2,1],[1,1]),matrix([2,2],[2,1])}},
+ { {matrix([1,1],[2,2])},
+   {matrix([2,2],[1,1])} },
+ { {matrix([1,2],[1,2])},
+   {matrix([2,1],[2,1])} },
+ { {matrix([1,2],[2,1]),matrix([2,1],[1,2])} }}),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

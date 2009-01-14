@@ -41,20 +41,6 @@ okltest_is_isomorphic_bydef_grd(is_isomorphic_bydef_grd);
 okltest_transport_grd(transport_grd);
 okltest_transport3_grd(transport3_grd);
 
-/* *************************
-   * Enumerating groupoids *
-   *************************
-*/
-
-okltest_all_isomorphisms_classes_grd(all_isomorphisms_classes_bydef_grd);
-okltest_all_isomorphisms_classes_grd(all_isomorphisms_classes_actively_grd);
-
-okltest_all_isomorphisms_classes_actively_sm_grd(all_isomorphisms_classes_actively_sm_grd);
-
-okltest_all_isotopism_classes_grd(all_isotopism_classes_actively_grd);
-
-okltest_all_isotopismisomorphism_classes_grd(all_isotopismisomorphism_classes_actively_grd);
-
 /*!
 \endhtmlonly
 */

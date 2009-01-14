@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.2.1
 
   \par
-   In ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Homomorphisms.hpp the
+   In ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Enumeration.hpp the
    following topics are handled:
     - Complete the implementation
 
