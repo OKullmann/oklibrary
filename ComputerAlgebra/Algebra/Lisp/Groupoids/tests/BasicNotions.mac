@@ -21,8 +21,9 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotio
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac");
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/tests/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+
 
 kill(f)$
 
@@ -108,6 +109,8 @@ okltest_cqgrp_p(f) := (
   true)$
 
 okltest_uqgrp_p(f) := (
+  assert(f(endcons(1,m2grd(matrix([1,2,3],[2,3,1],[3,1,2])))) = true),
+  assert(f(endcons(1,m2grd(matrix([1,2,3],[2,1,2],[3,2,1])))) = false),
   /* XXX */
   true)$
 
