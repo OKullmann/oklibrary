@@ -37,17 +37,17 @@ commutative_bydef_grd(V) := block([counterexample : false],
    ********************
 */
 
-/* Tests whether a is element of the centralisator of X w.r.t. composition
+/* Tests whether a is element of the centraliser of X w.r.t. composition
    compo: */
 central_grd_p(a,X,compo) := every(lambda([x],is(compo(a,x)=compo(x,a))),X)$
 
-/* Centralisator and bicentralisator: */
-centralisator_grd(X,V) := subset(V[1], lambda([a], central_grd_p(a,X,V[2])))$
-bicentralistor_grd(X,V) := centralisator_grd(centralisator_grd(X,V),V)$
+/* Centraliser and bicentraliser: */
+centraliser_grd(X,V) := subset(V[1], lambda([a], central_grd_p(a,X,V[2])))$
+bicentraliser_grd(X,V) := centraliser_grd(centraliser_grd(X,V),V)$
 
-/* The centrum of a groupoid: */
-centrum_grd(V) := centralisator_grd(V[1],V)$
-/* We have commutative_bydef_grd(V) = is(centrum_grd(V)=V[1]). */
+/* The centre of a groupoid: */
+centre_grd(V) := centraliser_grd(V[1],V)$
+/* We have commutative_bydef_grd(V) = is(centre_grd(V)=V[1]). */
 
 /*!
 \endhtmlonly

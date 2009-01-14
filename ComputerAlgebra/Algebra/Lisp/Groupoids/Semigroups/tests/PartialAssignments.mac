@@ -38,7 +38,7 @@ okltest_pass_mon(f) := (
    block([V : f(setn(n))],
     assert(mon_p(V) = true),
     assert(length(V[1]) = pow(3,n)),
-    assert(centrum_grd(V) = {{}})
+    assert(centre_grd(V) = {{}})
   ),
   true)$
 
@@ -47,7 +47,7 @@ okltest_pass_sgr(f) := block(
    block([V : f(setn(n))],
     assert(sgr_p(V) = true),
     assert(length(V[1]) = pow(3,n)-1),
-    assert(centrum_grd(V) = {})
+    assert(centre_grd(V) = {})
   ),
   if oklib_test_level=0 then return(true),
   okltest_pass_mon(buildq([f],lambda([V],
