@@ -1,0 +1,44 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/NullElements.mac
+  \brief Tests and search-functions regarding null elements
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NullElements.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* Check whether n is left-null for groupoid V: */
+leftnull_el_grd(V,n) := every_s(lambda([x],is(V[2](n,x)=n)), V[1])$
+/* Check whether n is right-null for groupoid V: */
+rightnull_el_grd(V,n) := every_s(lambda([x],is(V[2](x,n)=n)), V[1])$
+/* Check whether e is null for groupoid V: */
+null_el_grd(V,e) := leftnull_el_grd(V,e) and rightnull_el_grd(V,e)$
+/* Remarks:
+ - The above tests do not check whether elementp(n,V[1]) is true.
+*/
+
+/* Check whether groupoid V has a left-null element: */
+has_leftnull_el_grd(V) := some_s(lambda([x],leftnull_el_grd(V,x)), V[1])$
+/* Check whether groupoid V has a right-null element: */
+has_rightnull_el_grd(V) := some_s(lambda([x],rightnull_el_grd(V,x)), V[1])$
+/* Check whether groupoid V has a null element: */
+has_null_el_grd(V) := some_s(lambda([x],null_el_grd(V,x)), V[1])$
+
+
+/*!
+\endhtmlonly
+*/

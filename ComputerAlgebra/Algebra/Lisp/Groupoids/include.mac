@@ -32,6 +32,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NullElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
 
@@ -40,7 +41,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Closure
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac")$
 
 /*!
 \endhtmlonly

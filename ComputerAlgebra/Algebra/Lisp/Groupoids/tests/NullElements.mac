@@ -1,0 +1,79 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac
+  \brief Tests regarding null elements in groupoids
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac")$
+
+kill(f)$
+
+
+okltest_leftnull_el_grd(f) := (
+  assert(f(singleton_sgr,1) = true),
+  for x in {1,2,3} do block([V : leftnull_sgr({1,2,3})],
+    assert(f(V,x) = true)),
+  for x in {1,2,3} do block([V : rightnull_sgr({1,2,3})],
+    assert(f(V,x) = false)),
+  true)$
+
+okltest_rightnull_el_grd(f) := (
+  assert(f(singleton_sgr,1) = true),
+  for x in {1,2,3} do block([V : leftnull_sgr({1,2,3})],
+    assert(f(V,x) = false)),
+  for x in {1,2,3} do block([V : rightnull_sgr({1,2,3})],
+    assert(f(V,x) = true)),
+  true)$
+
+okltest_null_el_grd(f) := (
+  assert(f(singleton_sgr,1) = true),
+  for x in {1,2,3} do block([V : leftnull_sgr({1,2,3})],
+    assert(f(V,x) = false)),
+  for x in {1,2,3} do block([V : rightnull_sgr({1,2,3})],
+    assert(f(V,x) = false)),
+  for x in {1,2,3} do block([V : null_sgr({1,2,3},1)],
+    assert(f(V,x) = is(x = 1))),
+  true)$
+
+okltest_has_leftnull_el_grd(f) := (
+  assert(f(empty_sgr) = false),
+  assert(f(singleton_sgr) = true),
+  assert(f(leftnull_sgr({1,2,3})) = true),
+  assert(f(rightnull_sgr({1,2,3})) = false),
+  true)$
+
+okltest_has_rightnull_el_grd(f) := (
+  assert(f(empty_sgr) = false),
+  assert(f(singleton_sgr) = true),
+  assert(f(leftnull_sgr({1,2,3})) = false),
+  assert(f(rightnull_sgr({1,2,3})) = true),
+  true)$
+
+okltest_has_null_el_grd(f) := (
+  assert(f(empty_sgr) = false),
+  assert(f(singleton_sgr) = true),
+  assert(f(leftnull_sgr({1,2,3})) = false),
+  assert(f(rightnull_sgr({1,2,3})) = false),
+  assert(f(null_sgr({1,2,3},1)) = true),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
