@@ -23,6 +23,9 @@ License, or any later version. */
    have only one application, namely the "mln" application in
    Buildsystem/ExternalSources/SpecialBuilds/boost.mak, and this shall
    be done directly (via bash). </li>
+   <li> At http://packages.debian.org/source/etch/mmv there is a renewed
+   version? How to get a standard package out of these three files there?
+   OK e-mailed the maintainer there. </li>
   </ul>
 
 

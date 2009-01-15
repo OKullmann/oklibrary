@@ -87,7 +87,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
-	mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$*/lib/#1gcc#4"; $(postcondition) \
+	cd $(boost_base_directory)/$*/lib/; for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]//'); done; cd -; $(postcondition) \
 	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$*; $(postcondition) \
 	touch $@; $(postcondition)
 

@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
-  \todo Remove application of mln
+  \todo Remove application of mln : DONE
   <ul>
    <li> We need to replace
    \verbatim
@@ -20,6 +20,13 @@ mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)
    <li> Perhaps it's best first to use ls, and then sed. </li>
    <li> To avoid trouble with the paths, one could also first cd into
    the directory. </li>
+   <li>
+   Replacement of mln works like that:
+   \verbatim
+for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
+  ln - ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]//'); done
+   \endverbatim
+   </li>
   </ul>
 
 

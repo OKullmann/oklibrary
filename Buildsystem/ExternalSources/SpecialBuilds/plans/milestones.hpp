@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.12 (9.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.13 (15.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -29,7 +29,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Remove application of mln
+    - Remove application of mln : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
