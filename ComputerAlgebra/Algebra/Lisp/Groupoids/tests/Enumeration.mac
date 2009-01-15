@@ -24,6 +24,45 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 
+/* *********************
+   * Basic enumeration *
+   *********************
+*/
+
+okltest_all_grd2m(f) := block(
+  assert(f(0) = [matrix()]),
+  assert(f(1) = [matrix([1])]),
+  assert(f(2) = [
+ matrix([1,1],[1,1]),matrix([1,1],[1,2]),matrix([1,1],[2,1]),
+ matrix([1,1],[2,2]),matrix([1,2],[1,1]),matrix([1,2],[1,2]),
+ matrix([1,2],[2,1]),matrix([1,2],[2,2]),matrix([2,1],[1,1]),
+ matrix([2,1],[1,2]),matrix([2,1],[2,1]),matrix([2,1],[2,2]),
+ matrix([2,2],[1,1]),matrix([2,2],[1,2]),matrix([2,2],[2,1]),
+ matrix([2,2],[2,2])]),
+  if oklib_test_level = 0 then return(true),
+  assert(length(f(3)) = 19683),
+  true)$
+
+okltest_all_grd(f) := block(
+  okltest_all_grd2m(buildq([f], lambda([n], map(lmscom2m,f(n))))),
+  true)$
+
+
+/* ************
+   * Counting *
+   ************
+*/
+
+okltest_counting_groupoids(F) := block(
+ [N : if oklib_test_level = 0 then 2 else 3],
+  for n : 0 thru N do block([L : all_grd(n)],
+    for P in F do (
+      assert(P[1](n) = length(sublist(L,
+        lambda([G], every_s(lambda([p],p(G)), P[2])))))
+  )),
+  true)$
+
+
 /* ***********************************
    * Enumerating isomorphism classes *
    ***********************************
@@ -32,7 +71,7 @@ kill(f)$
 /* Generic test function whether f(n) computes all isomorphism classes of
    groupoids (represented as matrices) of order n:
 */
-okltest_all_isomorphisms_classes_grd(f) := (
+okltest_all_isomorphism_classes_grd(f) := (
   assert(f(0) = {{matrix()}}),
   assert(f(1) = {{matrix([1])}}),
   assert(f(2) = {
@@ -48,7 +87,7 @@ okltest_all_isomorphisms_classes_grd(f) := (
  {matrix([2,2],[1,1])}}),
   true)$
 
-okltest_all_isomorphisms_classes_actively_sm_grd(f) := (
+okltest_all_isomorphism_classes_actively_sm_grd(f) := (
   /* XXX */
   true)$
 
