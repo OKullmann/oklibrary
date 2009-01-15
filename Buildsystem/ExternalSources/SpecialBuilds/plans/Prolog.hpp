@@ -13,11 +13,22 @@ License, or any later version. */
   \todo Swi Prolog
   <ul>
    <li> http://www.swi-prolog.org/ </li>
-   <li> It seems we should install the latest stable version 5.6.63 ? </li>
-   <li> On their web page I can't find any information on how to install
+   <li> It seems we should install the latest stable version 5.6.63. </li>
+   <li> DONE (see INSTALL file in package)
+   On their web page I can't find any information on how to install
    the package? </li>
    <li> For example it uses Gmp, and we want to use our locally installed
    Gmp. </li>
+   <li> Manual installation:
+   \verbatim
+builds/Prolog> tar -xzf ../../sources/Prolog/Swi/pl-5.6.63.tar.gz
+builds/Prolog/pl-5.6.63/src> ./configure --prefix=Path-to-ExternalSources/builds/Prolog/
+builds/Prolog/pl-5.6.63/src> make
+builds/Prolog/pl-5.6.63/src> make check
+builds/Prolog/pl-5.6.63/src> make install
+   \endverbatim
+   works.
+   </li>
   </ul>
 
 
