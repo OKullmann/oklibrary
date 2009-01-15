@@ -287,6 +287,23 @@ BestSolution_Min = 4.000000
 BestSolution_Max = 56.000000
      \endverbatim
      </li>
+     <li> Also experimental results for a 10x larger experiments are available
+     (the above smaller experiment should be merged into the larger one).
+     \verbatim
+Clauses = 1003884
+Variables = 703
+TotalLiterals = 10038840
+FlipsPerSecond = 3470   
+BestStep_Mean = 35903.717040
+Steps_Mean = 80000.000000
+Steps_Max = 80000.000000
+PercentSuccess = 0.00  
+BestSolution_Mean = 13.908400
+BestSolution_Median = 13.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 67.000000
+     \endverbatim
+     </li>
      <li> Basically the same picture as for cutoff = 20000; the main question
      here is which questions to ask?? </li>
      <li> It seems reasonable to consider log(osteps) instead of osteps;
