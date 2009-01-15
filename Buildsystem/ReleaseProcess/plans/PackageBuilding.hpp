@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
-  \bug Missing Annotations/definitions.mak
+  \bug Missing Annotations/definitions.mak : DONE
   <ul>
    <li> It seems that "touch Annotations/definitions.mak" to create the
    empty definitions.mak in OKsystem/Annotations is missing? </li>
