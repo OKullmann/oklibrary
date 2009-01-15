@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -57,27 +57,8 @@ transposed_compo(compo) := buildq([compo], lambda([x,y],
   compo(y,x)))$
 
 transposed_grd(V) := [V[1], transposed_compo(V[2])]$
+transposed_ugrd(V) := [V[1], transposed_compo(V[2]), V[3]]$
 
-
-/* *****************************
-   * Conversions with matrices *
-   *****************************
-*/
-
-/* For a given square combinatorial matrix M, whose values are
-   indices, the corresponding groupoid: */
-scom2grd(M) := M$
-/* Conversely, a groupoid as a square combinatorial matrix: */
-grd2scom(V) := V$
-
-
-/* ******************
-   * Basic examples *
-   ******************
-*/
-
-/* A smallest non-associated groupoid: */
-non_assoc_2_grd : scom2grd(sm2scom(matrix([2,2],[1,2])))$
 
 /*!
 \endhtmlonly

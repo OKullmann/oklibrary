@@ -8,15 +8,18 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Algebra/Lisp/Groupoids/plans/milestones.hpp
 
-  \module_version Algebra/Lisp/Groupoids 0.2 (12.1.2009)
+  \module_version Algebra/Lisp/Groupoids 0.2,0,1 (14.1.2009)
 
 
   \par Version 0.2.1
 
   \par
-   In ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Homomorphisms.hpp the
+   In ComputerAlgebra/Algebra/Lisp/Groupoids/plans/Enumeration.hpp the
    following topics are handled:
     - Complete the implementation
+
+  \par
+   Add basic functionality regarding null and idempotent elements : DONE
 
 
   \par Version 0.2.2

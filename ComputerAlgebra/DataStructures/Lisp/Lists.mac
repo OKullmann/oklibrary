@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,14 +59,14 @@ lappend(L) := uaapply(append,L)$
 
 /* The versions of "every" and "some" with short-circuit evaluation: */
 
-every_s(_prede,L) := block([nocountex : true],
-  for x in L while nocountex do
-    nocountex : _prede(x),
-  return(nocountex))$
-some_s(_preds,L) := block([countex : false],
-  for x in L unless countex do
-    countex : _preds(x),
-  return(countex))$
+every_s(_prede,_L) := block([_nocountex : true],
+  for _x in _L while _nocountex do
+    _nocountex : _prede(_x),
+  return(_nocountex))$
+some_s(_preds,_L) := block([_countex : false],
+  for _x in _L unless _countex do
+    _countex : _preds(_x),
+  return(_countex))$
 
 /* Checks whether L is a list without repetitions: */
 listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$

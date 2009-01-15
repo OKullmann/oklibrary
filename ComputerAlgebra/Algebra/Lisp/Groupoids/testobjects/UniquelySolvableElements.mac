@@ -1,0 +1,32 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/UniquelySolvableElements.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/UniquelySolvableElements.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/UniquelySolvableElements.mac")$
+
+okltest_leftpermutation_el_grd(leftpermutation_el_grd);
+okltest_rightpermutation_el_grd(rightpermutation_el_grd);
+okltest_permutation_el_grd(permutation_el_grd);
+
+okltest_uniquelysolvable_bydef_grd(uniquelysolvable_bydef_grd);
+
+/*!
+\endhtmlonly
+*/

@@ -1,0 +1,39 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac
+  \brief Tests and search-functions regarding itempotent elements
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* Check whether x is idempotent for groupoid V: */
+idempotent_el_grd(V,x) := is(V[2](x,x) = x)$
+
+/* Check whether groupoid V has an idempotent element: */
+has_idempotent_el_grd(V) := some_s(lambda([x],idempotent_el_grd(V,x)), V[1])$
+/* Check whether groupoid V is idempotent (i.e., every element is 
+   idempotent): */
+idempotent_bydef_grd(V) := every_s(lambda([x],idempotent_el_grd(V,x)), V[1])$
+
+/* The set of idempotent elements of a groupoid: */
+idempotents_grd(V) := subset(V[1], lambda([x],idempotent_el_grd(V,x)))$
+
+
+/*!
+\endhtmlonly
+*/

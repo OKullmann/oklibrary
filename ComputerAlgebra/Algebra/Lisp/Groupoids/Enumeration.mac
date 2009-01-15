@@ -1,0 +1,213 @@
+/* Oliver Kullmann, 14.1.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Enumeration.mac
+  \brief Enumerating groupoids
+
+  Counting, enumerating, classifying, w.r.t. isomorphism classes, isotopy
+  classes, or "raw" objects.
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Enumeration.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* *********************
+   * Basic enumeration *
+   *********************
+*/
+
+/* All groupoids of order n, as Maxima matrices: */
+all_grd2m(n) := all_m(n,n,create_list(i,i,1,n))$
+all_grd(n) := map(m2grd,all_grd2m(n))$
+
+
+/* ************
+   * Counting *
+   ************
+*/
+
+number_grd(n) := pow(n, n^2)$
+number_iso_grd(n) := if n<=1 then 1 elseif n=2 then 10 elseif n=3 then 3330
+  else unknown$
+number_isot_grd(n) := if n<=1 then 1 elseif n=2 then 5 elseif n=3 then 139
+  else unknown$
+
+/* Commutativity: */
+number_cgrd(n) := pow(n, n*(n+1)/2)$
+number_iso_cgrd(n) := if n<=1 then 1 elseif n=2 then 4 elseif n=3 then 129
+  else unknown$
+
+/* Unit element: */
+number_ugrd(n) := n * n^((n-1)^2)$
+number_iso_ugrd(n) := if n<=1 then n elseif n=2 then 2 elseif n=3 then 45
+  else unknown$
+
+number_cugrd(n) := n * pow(n, n*(n-1)/2)$
+number_iso_cugrd(n) := if n<=1 then 1 elseif n=2 then 2 elseif n=3 then 15
+  else unknown$
+
+/* Idempotent: */
+number_igrd(n) := pow(n, n^2-n)$
+number_iso_igrd(n) := if n<=1 then 1 elseif n=2 then 3 elseif n=3 then 138
+  else unknown$
+
+number_iugrd(n) := n * n^((n-1)^2 - (n-1))$
+number_iso_iugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 6
+  else unknown$
+
+number_cigrd(n) := pow(n, n*(n-1)/2)$
+number_iso_cigrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 7
+  else unknown$
+
+number_ciugrd(n) := pow(n, n*(n+1)/2-2*n+2)$
+number_iso_ciugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 2
+  else unknown$
+
+/* Null element: */
+number_ngrd(n) := n * n^((n-1)^2)$
+number_iso_ngrd(n) := if n<=1 then 1 elseif n=2 then 2 elseif n=3 then 45
+  else unknown$
+
+number_cngrd(n) := n * pow(n,n*(n-1)/2)$
+number_iso_cngrd(n) := if n<=1 then 1 elseif n=2 then 2 elseif n=3 then 15
+  else unknown$
+
+number_ingrd(n) := n * n^((n-1)*(n-2))$
+number_iso_ingrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 6
+  else unknown$
+
+number_nugrd(n) := if n <= 1 then n else n*(n-1)*n^((n-2)^2)$
+number_iso_nugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 3
+  else unknown$
+
+number_cingrd(n) := n^(n*(n+1)/2-2*n+2)$
+number_iso_cingrd(n) := if n<=1 then 1 elseif n=2 then 2 elseif n=3 then 2
+  else unknown$
+
+number_cnugrd(n) := if n<=1 then n else n*(n-1)*n^((n-1)*(n-2)/2)$
+number_iso_cnugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 3
+  else unknown$
+
+number_inugrd(n) := if n <= 1 then n else n*(n-1)*n^((n-2)*(n-3))$
+number_iso_inugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 1
+  else unknown$
+
+number_cinugrd(n) := if n<=1 then n else n*(n-1)*n^((n-2)*(n-3)/2)$
+number_iso_cinugrd(n) := if n<=1 then 1 elseif n=2 then 1 elseif n=3 then 1
+  else unknown$
+
+
+/* ***********************************
+   * Enumerating isomorphism classes *
+   ***********************************
+*/
+
+/* The isomorphism classes of the set of all standardised groupoids of order n
+   (with base set {1,...,n}); the results are directly represented as
+   Maxima matrices. (Given such a matrix M, the corresponding groupoid
+   is obtained by scom2grd(m2scom(M)).)
+*/
+/* First the direct computation: */
+all_isomorphism_classes_bydef_grd(n) := 
+ map(lambda([C], map(lambda([G], lmscom2m(grd2scom(G))), C)),
+  equiv_classes(
+    setify(all_grd(n)),
+    is_isomorphic_bydef_grd))$
+/* Now the more efficient computation by actively computing the
+   equivalence classes.
+*/
+/* First an auxiliary function, which for a given set S of groupoids
+   represented as Maxima matrices computes the complete isomorphism
+   classes of these matrices (w.r.t. all groupoids of order n).
+   Inherits: the set all_perm of permutations of N
+   (as functions).
+*/
+all_isomorphism_classes_actively_sm_grd(S) := block(
+ [result : []],
+  while not emptyp(S) do block(
+   [M : m2grd(choose_element(S)), C],
+    /* C is the isomorphism class of M */
+    C : setify(map(lambda([f], grd2m(transport_grd(M,f))), all_perm)),
+    S : setdifference(S, C),
+    result : cons(C,result)
+  ),
+  setify(result))$
+/* Now the full function (running through all groupoids of order n):
+*/
+all_isomorphism_classes_actively_grd(n) := block(
+ [N : create_list(i,i,1,n), all_perm],
+  all_perm : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(N))), /* all permutations */
+  all_isomorphism_classes_actively_sm_grd(setify(all_m(n,n,N))))$
+
+
+/* *********************************
+   * Enumerating isotopism classes *
+   *********************************
+*/
+
+/* Now all isotopy classes (a rougher equivalence relation than isomorphism):
+*/
+/* Perhaps should be better also organised as above. XXX */
+all_isotopism_classes_actively_grd(n) := block(
+ [N : create_list(i,i,1,n), G, LP, LP3, result : []],
+  G : setify(all_m(n,n,N)), /* all groupoids */
+  LP : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(N))), /* all permutations */
+  LP3 : cartesian_product_l([LP,LP,LP]),
+  while not emptyp(G) do block(
+   [M : m2grd(choose_element(G)), C],
+    /* C is the isomorphism class of M */
+    C : setify(map(lambda([F], 
+                 grd2m(transport3_grd(M,F[1],F[2],F[3]))), LP3)),
+    G : setdifference(G, C),
+    result : cons(C,result)
+  ),
+  setify(result))$
+
+/* Creating all isotopy classes, which are further subdivided into
+   isomorphism classes:
+*/
+all_isotopismisomorphism_classes_actively_grd(n) := block(
+ [all_perm : map(lambda([p], lambda_array(l2ary(p))),
+           listify(permutations(create_list(i,i,1,n))))],
+  map(all_isomorphism_classes_actively_sm_grd,
+      all_isotopism_classes_actively_grd(n)))$
+
+
+/* ********************
+   * Evaluation tools *
+   ********************
+*/
+
+/* Given a set S of isomorphism classes of Maxima-matrices representing
+   groupoids, select those classes fulfilling all the properties of the
+   list P:
+*/
+selectclasses_m2grd(S,P) := subset(S, lambda([C], 
+  block([M : m2grd(first_element(C))],
+    every_s(lambda([p], p(M)), P))))$
+
+/*!
+\endhtmlonly
+*/
+

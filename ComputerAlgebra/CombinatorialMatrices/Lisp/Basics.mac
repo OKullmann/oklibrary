@@ -170,7 +170,7 @@ idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
 cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
 
 /* Creating all Maxima matrices of size m*n with elements from
-   list L:. */
+   list L (in lexicographical order): */
 /* Prerequisite: if m=0 then n=0. */
 all_m(m,n,L) := if n=0 then [apply(matrix,create_list([],i,1,m))] else
 map(

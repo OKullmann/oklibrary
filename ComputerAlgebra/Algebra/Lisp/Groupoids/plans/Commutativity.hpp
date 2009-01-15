@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.9.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,10 +12,8 @@ License, or any later version. */
 
   \todo Complexity of finding centralising elements
   <ul>
-   <li> We have already centralisator_grd, bicentralistor_grd and
-   centrum. </li>
-   <li> Likely these functions should be renamed "centraliser_grd",
-   "bicentraliser_grd" and "centre". </li>
+   <li> We have already centraliser_grd, bicentraliser_grd and
+   centre. </li>
    <li> Given an implicit representation of a groupoid together with
    the guarantee that "short" representations always exists (a "black-box"
    groupoid), the problem of finding a centraliser of a subset is in NP. </li>
@@ -29,6 +27,8 @@ License, or any later version. */
    for finding centralising elements (one/all) other running through all
    elements? </li>
    <li> Also the task of sampling needs consideration. </li>
+   <li> DONE Likely these functions should be renamed "centraliser_grd",
+   "bicentraliser_grd" and "centre". </li>
   </ul>
 
 

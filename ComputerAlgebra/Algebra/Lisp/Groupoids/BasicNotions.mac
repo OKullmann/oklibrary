@@ -58,14 +58,14 @@ mon_p(M) := listp(M) and is(length(M)=3) and sgr_p([M[1],M[2]]) and
 cmon_p(M) := mon_p(M) and commutative_bydef_grd(M)$
 
 /* Quasigroups: */
-qgrp_p(Q) := grd_p(Q) and every(lambda([x],permutation_el_grd(Q,x)),Q[1])$
+qgrp_p(Q) := grd_p(Q) and uniquelysolvable_bydef_grd(Q)$
 /* Remark: qgrp_p(Q) = ls_p(Q). */
 /* Commutative quasigroups: */
 cqgrp_p(Q) := qgrp_p(Q) and commutative_bydef_grd(Q)$
 /* Unital quasigroups (also known as "loops"): */
-uqgrp_p(L) := ugrd_p(L) and every(lambda([x],invertible_el_ugrd(L,x)),L[1])$
+uqgrp_p(L) := ugrd_p(L) and uniquelysolvable_bydef_grd(ugrd2grd(L))$
 /* Commutative unital quasigroups: */
-cuqgrp_p(L) := uqgrp_p(L) and commutative_bydef_grd(L)$
+cuqgrp_p(L) := uqgrp_p(L) and commutative_bydef_grd(ugrd2grd(L))$
 
 /* Groups: */
 grp_p(G) := qgrp_p(G) and associative_bydef_grd(G) and not emptyp(G[1])$
@@ -115,6 +115,20 @@ ugrp2grp(G) := rest(G,-1)$
 /* Between combinatorial square matrices and groupoids: */
 scom2grd(M) := M$
 grd2scom(V) := V$
+m2grd(M) := scom2grd(m2scom(M))$
+grd2m(V) := scom2m(grd2scom(V))$
+/* Prerequisite: all values of M must be indices.
+*/
+
+
+/* ******************
+   * Basic examples *
+   ******************
+*/
+
+/* A smallest non-associated groupoid: */
+non_assoc_2_grd : m2grd(matrix([2,2],[1,2]))$
+
 
 /*!
 \endhtmlonly
