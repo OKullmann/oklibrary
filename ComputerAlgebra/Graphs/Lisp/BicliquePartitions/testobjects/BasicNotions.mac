@@ -1,16 +1,16 @@
 /* Oliver Kullmann, 11.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobjects/Bicliques.mac
+  \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobjects/BasicNotions.mac
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobjects/Bicliques.mac");
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobjects/BasicNotions.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Bicliques.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/Bicliques.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/BasicNotions.mac")$
 
 /* ************************************
    * Fundamental notions of bicliques *
