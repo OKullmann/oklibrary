@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,7 +55,9 @@ oklib --maxima --batch=FILE
     </ol>
    </li>
    <li> The redefinition-warnings shown when starting Maxima in this way
-   are about changing the behaviour when parsing files:
+   (and using CLisp instead of Ecl) are about a change in behaviour when
+   parsing files. Likely this doesn't affect usage, but here are the
+   details:
     <ol>
      <li> By default, "oklib_load" and "oklib_include" (see below)
      do not provide debugging information for the parsed functions. </li>
@@ -65,6 +67,18 @@ oklib --maxima --batch=FILE
      activated by setting "oklib_load_annotation" to true. </li>
      <li> The standard functions (like "load") are not affected (they
      always provide annotations). </li>
+     <li> See the discussion of "oklib_load_annotation" below for further
+     information. </li>
+    </ol>
+   </li>
+   <li> If you have in your home directory a directory ".maxima", containing
+   a file "maxima-init.mac", then this file will be used <em>instead</em>
+   of the OKlibrary initialisation file:
+    <ol>
+     <li> So in order to work with the OKlibrary, normally you should not
+     have a file "~/.maxima/maxima-init.mac". </li>
+     <li> However, if you have special needs then using
+     "~/.maxima/maxima-init.mac" might be what you want. </li>
     </ol>
    </li>
   </ul>
