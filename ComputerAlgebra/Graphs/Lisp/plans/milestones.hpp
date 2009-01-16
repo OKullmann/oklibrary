@@ -13,6 +13,9 @@ License, or any later version. */
 
   \par Version 0.1.1
 
+  \par Graphs/Lisp/Bicliques version 0.0.5 : DONE
+  (see ComputerAlgebra/Graphs/Lisp/Bicliques/plans/milestones.hpp)
+
   \par Graphs/Lisp/BicliquePartitions version 0.0.6 : DONE
   (see ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/milestones.hpp)
 
@@ -23,6 +26,9 @@ License, or any later version. */
 
 
   \par Version 0.1.2
+
+  \par Graphs/Lisp/Bicliques version 0.0.7
+  (see ComputerAlgebra/Graphs/Lisp/Bicliques/plans/milestones.hpp)
 
   \par Graphs/Lisp/BicliquePartitions version 0.0.7
   (see ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/milestones.hpp)
