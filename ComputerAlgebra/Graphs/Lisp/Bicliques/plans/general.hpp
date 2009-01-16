@@ -83,6 +83,8 @@ License, or any later version. */
   <ul>
    <li> We need tests for checking whether a biclique is maximal (cannot
    be extended). </li>
+   <li> For an algorithm finding all maximal bicliques see
+   ComputerAlgebra/Graphs/Lisp/Bicliques/plans/Consensus.hpp. </li>
   </ul>
 
 

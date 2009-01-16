@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/Consensus.hpp
+  \file ComputerAlgebra/Graphs/Lisp/Bicliques/plans/Consensus.hpp
   \brief Plans regarding implementing the "consensus algorithm" from [XXX] for computing all maximal bicliques
   
   
