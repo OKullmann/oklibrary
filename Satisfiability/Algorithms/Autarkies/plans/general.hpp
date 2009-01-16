@@ -10,12 +10,6 @@ License, or any later version. */
   \brief General plans on autarkies.
 
 
-  \todo Update namespaces : DONE
-
-
-  \todo Move Transitional/AutarkySearch here. DONE
-
-
   \todo Connections to other modules
   <ul>
    <li> We need to connect this module to all other autarky-related

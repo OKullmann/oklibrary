@@ -8,25 +8,7 @@ License, or any later version. */
 /*!
   \file Algorithms/Autarkies/plans/milestones.hpp
 
-  \module_version Algorithms/Autarkies 0.0.4.3 (21.3.2008)
-
-
-  \par Version 0.0.5
-
-  \par MatchingAutarkies version 0.0.2 : DONE
-  (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
-
-  \par Search version 0.0.7 : DONE
-  (see Autarkies/Search/plans/milestones.hpp)
-
-  \par
-   In Satisfiability/Algorithms/Autarkies/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Move Transitional/AutarkySearch here : DONE
-
-  \par
-   Further milestones are created.
+  \module_version Algorithms/Autarkies 0.0.5 (16.1.2009)
 
 
   \par Version 0.0.6
@@ -52,5 +34,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 24.9.2007; initial version number (several plans, and some unfinished implementations).
+   - 0.0.5 : 16.1.2009; re-organisation and extension of plans (currently the main focus is on the Maxima/Lisp level).
 
 */
