@@ -205,7 +205,7 @@ License, or any later version. */
      finding a constant-1 submatrix of maximum size (number of entries)
      in a given {0,1}-matrix. </li>
      <li> See "Maximum bicliques" in
-     Graphs/Lisp/BicliquePartitions/plans/Bicliques.hpp. </li>
+     ComputerAlgebra/Graphs/Lisp/Bicliques/plans/general.hpp. </li>
      <li> The context of this problem in [Bioinformatics] is that of
      clustering data. </li>
      <li> This problem is NP-complete, and definitely of interest to us. </li>
