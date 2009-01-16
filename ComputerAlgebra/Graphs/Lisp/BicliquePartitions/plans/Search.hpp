@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,21 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/Search.hpp
   \brief Plans regarding searching for (special) biclique partitions
+
+
+  \todo The role of maximal bicliques
+  <ul>
+   <li> One process for finding a biclique partition is to choose
+   a maximal biclique, remove it, and iterate this process. </li>
+   <li> The basic question is, whether in this way we can always find
+   an optimal biclique partition (w.r.t. minimal number of parts, and
+   assuming the right choices). </li>
+   <li> This statement is equivalent to the assertion that there always
+   exists an optimal biqlique partition containing at least one maximal
+   biclique. </li>
+   <li> Also for graphs I (OK) don't see a direct way of proving this
+   property, so I guess it is wrong. </li>
+  </ul>
 
 
   \todo Finding interesting biclique partitions
