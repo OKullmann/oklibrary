@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,8 @@ License, or any later version. */
   \par MatchingAutarkies version 0.0.2 : DONE
   (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
 
-  \par AutarkySearch 0.0.7 : DONE
-  (see AutarkySearch/plans/milestones.hpp)
+  \par Search version 0.0.7 : DONE
+  (see Autarkies/Search/plans/milestones.hpp)
 
   \par
    In Satisfiability/Algorithms/Autarkies/plans/general.hpp the following
@@ -34,6 +34,16 @@ License, or any later version. */
   \par MatchingAutarkies version 0.0.3
   (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
 
+  \par Search version 0.0.9
+  (see Autarkies/Search/plans/milestones.hpp)
+
+  \par
+   In Satisfiability/Algorithms/Autarkies/plans/general.hpp the following
+   topics are handled:
+    - Lean kernel
+
+  \par
+   Further milestones are created.
 
 
 
