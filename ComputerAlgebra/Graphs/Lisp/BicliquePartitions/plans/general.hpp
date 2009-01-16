@@ -10,14 +10,6 @@ License, or any later version. */
   \brief Plans regarding biclique partitions of (general) graphs
 
 
-  \todo Creating a dedicated submodule for bicliques (only)
-  <ul>
-   <li> Defining the different notions of bicliques, searching for
-   them, enumerating, sampling and maximising them seems to be worth
-   its own module. </li>
-  </ul>
-
-
   \todo Translations to clause-sets
   <ul>
    <li> See "Conflict graph" in

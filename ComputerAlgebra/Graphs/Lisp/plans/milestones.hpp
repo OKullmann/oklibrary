@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Graphs/Lisp 0.1 (2.7.2008)
+  \module_version ComputerAlgebra/Graphs/Lisp 0.1.1 (16.1.2009)
 
 
   \par Version 0.1.1
 
-  \par Graphs/Lisp/BicliquePartitions version 0.0.6
+  \par Graphs/Lisp/BicliquePartitions version 0.0.6 : DONE
   (see ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/milestones.hpp)
 
   \par
@@ -23,6 +23,9 @@ License, or any later version. */
 
 
   \par Version 0.1.2
+
+  \par Graphs/Lisp/BicliquePartitions version 0.0.7
+  (see ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/milestones.hpp)
 
   \par
    Milestones have been created for all modules, and integrated into

@@ -8,19 +8,19 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/milestones.hpp
 
-  \module_version Graphs/Lisp/BicliquePartitions 0.0.5 (16.1.2009)
+  \module_version Graphs/Lisp/BicliquePartitions 0.0.6 (16.1.2009)
 
 
-  \par Version 0.0.6
+  \par Version 0.0.7
 
   \par
-   In ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/general.hpp the
+   In ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/BasicNotions.hpp the
    following topics are handled:
-    - Creating a dedicated submodule for bicliques (only)
+    - The notion of a biclique partition
+    - Combinatorial matrices
+    - Directed graphs
+    - Abbreviations
 
-  \par
-   Further milestones are created.
-  
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
@@ -28,6 +28,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.5 : 16.1.2009; basic concepts of bicliques and biclique partitions established, and quite a few plans.
+   - 0.0.6 : 16.1.2009; moved biclique-only related functions to new module Bicliques.
 
 */
 
