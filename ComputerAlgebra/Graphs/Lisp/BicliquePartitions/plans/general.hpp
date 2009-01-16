@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.5.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding biclique partitions of (general) graphs
 
 
-  \todo Creating a dedicated submodules for bicliques (only)
+  \todo Creating a dedicated submodule for bicliques (only)
   <ul>
    <li> Defining the different notions of bicliques, searching for
    them, enumerating, sampling and maximising them seems to be worth
