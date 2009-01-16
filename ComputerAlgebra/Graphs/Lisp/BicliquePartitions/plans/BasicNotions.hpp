@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/BasicNotions.hpp
-  \brief Plans regarding bicliques in (general) graphs
+  \brief Plans regarding notions of biclique partitions in (general) graphs
 
 
   \todo Connections
