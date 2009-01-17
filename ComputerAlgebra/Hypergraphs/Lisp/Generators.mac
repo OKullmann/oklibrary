@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -119,11 +119,11 @@ arithprog_primes_finish[k,n] := if n = 0 then []
  elseif k = 0 then []
  else block([p : first(primes_rev_init_seg), res : []],
    if k = 1 then return([[p]]),
-   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, prog],
-     if p2 - (k-2) * d < 2 then return(),
-     prog : create_list(p2 - i * d, i, 1, k - 2),
+   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, p_last, prog],
+     if (p_last : p2 - (k-2) * d) < 2 then return(),
+     prog : create_list(p_last + i * d, i, 0, k - 3),
      if every_s(lambda([n], mprimep[n]), prog)
-     then res : cons(append(reverse(prog), [p2,p]), res)
+     then res : cons(append(prog, [p2,p]), res)
    ),
    return(res))$
 
