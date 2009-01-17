@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.9.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,11 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    data, i.e., as list the difference list of the above list). </li>
    <li> And one can consider the densities
    ln_arithprog_primes_c(k,n) / create_list(i,i,1,n). </li>
+   <li> Hard to believe that there is nothing in the literature / on the
+   Internet: We should enter for example ln_arithprog_primes_c(3,30) =
+   [0,0,0,1,2,2,3,5,7,9,11,11,13,16,17,20,23,24,26,30,32,36,40,44,46,49,53,56,59,64]
+   into that database of integer sequences and see whether there is information
+   in it. </li>
   </ul>
 
 */
