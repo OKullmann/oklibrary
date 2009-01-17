@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans on the module on computing van der Waerden numbers
 
 
+  \todo Connections
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   </li>
+  </ul>
+
+
   \todo Reactivate test system.
 
 

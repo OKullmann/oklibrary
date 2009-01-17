@@ -17,6 +17,18 @@ License, or any later version. */
   \todo Update namespaces
 
 
+  \todo Connections
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   for generators at Maxima/Lisp level for Ramsey problems. </li>
+   <li> And see
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   for generators at Maxima/Lisp level for van der Waerden problems (and
+   related generalisations). </li>
+  </ul>
+
+
   \todo %Ramsey theory
   <ul>
    <li> We need generators for all types of Ramsey-problems;
