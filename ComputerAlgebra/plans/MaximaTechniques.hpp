@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,6 +80,12 @@ number,fixnum,rational,boolean,float,list,any
 
   \todo List operations
   <ul>
+   <li> cons and endcons:
+    <ol>
+     <li> cons is considerably faster than endcons. </li>
+     <li> So, if needed, it is much faster building up a list using
+     cons and reverse at the end than by using endcons. </li>
+   </li>
    <li> Adding an element:
     <ol>
      <li> A frequent operation is to add an element x to a list L *in-place*.
@@ -87,7 +93,8 @@ number,fixnum,rational,boolean,float,list,any
      <li> Apparently the most efficient operations seems to be
      <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
      where both operations seem to take place not in-place, but involve
-     copying and re-assignment, making it very inefficient?? </li>
+     copying and re-assignment, making it very inefficient. </li>
+     <li> Though cons is rather harmless. </li>
      <li> In general we want to avoid any efficiency-considerations, however
      having in-place modifications of lists would also increase ease of
      use. </li>
