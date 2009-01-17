@@ -32,6 +32,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo greentao(2;3,4) = 79
+  <ul>
+   <li> Easy for OKsolver:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_78.cnf
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=77 initial_number_of_clauses=450 initial_number_of_literal_occurrences=1439 running_time(s)=0.0 number_of_nodes=25 number_of_single_nodes=0 number_of_quasi_single_nodes=1 number_of_2-reductions=56 number_of_pure_literals=7 number_of_autarkies=3 number_of_missed_single_nodes=0 max_tree_depth=10 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=25 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_78.cnf
+   \endverbatim
+   and
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_79.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 initial_number_of_clauses=460 initial_number_of_literal_occurrences=1472 running_time(s)=0.0 number_of_nodes=41 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=133 number_of_pure_literals=3 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=6 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=37 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_79.cnf
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo greentao(2,4) = 512
   <ul>
    <li> greentao(2,4) > 400 (trivial for OKsolver-2002). </li>
@@ -110,13 +128,19 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
+  \todo greentao(2;4,5) > 2000
+  <ul>
+   <li> n=2000 rivial for ubcsat- rnovelty+. </li>
+  </ul>
+
+
   \todo greentao(2,5) : threshold behaviour of OKsolver-2002
   <ul>
    <li> Investigating the threshold of solvability for the OKsolver.
    One main conjecture is that Green-Tao problems behave like random problems.
    </li>
    <li> And, similarly to random problems, there seems
-   to be a threshold, where below it OKsolver solvers the problem
+   to be a threshold, where below it OKsolver solves the problem
    without backtracking, while as soon as backtracking starts, the
    problems get very hard. </li>
    <li> This threshold seems to lie between n=20000 and n = 25000.
@@ -454,7 +478,7 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
    \endverbatim
    while 20 runs with 2 * 10^9 steps didn't find a solution:
    \verbatim
-bcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
 Clauses = 661984
 Variables = 33000
 TotalLiterals = 3309920
@@ -540,13 +564,6 @@ BestSolution_Min = 1.000000
      if the the structures "spread a bit"). </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Non-diagonal Green-Tao numbers
-  <ul>
-   <li> One can also consider non-diagonal Green-Tao numbers. </li>
-   <li> One needs to investigate whether bounds are known. </li>
   </ul>
 
 
