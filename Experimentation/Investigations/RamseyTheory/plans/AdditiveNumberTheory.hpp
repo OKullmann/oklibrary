@@ -34,7 +34,32 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    Internet: We should enter for example ln_arithprog_primes_c(3,30) =
    [0,0,0,1,2,2,3,5,7,9,11,11,13,16,17,20,23,24,26,30,32,36,40,44,46,49,53,56,59,64]
    into that database of integer sequences and see whether there is information
-   in it. </li>
+   in it.
+    <ol>
+     <li> Yes, this sequence is A125505 in
+     http://www.research.att.com/~njas/sequences/Seis.html. </li>
+     <li> There it is only listed for n=64; this we can easily extend, and
+     perhaps we should do so. </li>
+     <li> And apparently for k >= 4 there is nothing entered there --- we
+     should change this. </li>
+     <li> Of interest is also
+     http://www.research.att.com/~njas/sequences/Sindx_Pri.html#primes_AP
+     which gives an overview. It contains for given k the smallest starting
+     term, smallest difference and smallest end term for arithmetical
+     progressions of primes of length k. However I do not understand
+     these sequences (strange explanations). </li>
+     <li> What seems very natural to me is k -> how many first primes are
+     needed to get an progression of length k. This yields the sequence
+     (starting with k=1) 1,2,4,9,10,37,155,263,289. This is apparently not
+     available (at least not directly). </li>
+     <li> The related sequence A120302 is 2,3,7,23,29,157,907,8471621 which is
+     obtained from the previous sequence by unranking, e.g.,
+     last(primes_first(37)) = 157. However the last entry "8471621"
+     seems nonsense?? It should be 1669. </li>
+     <li> Ah, this seems to be A005115: 2, 3, 7, 23, 29, 157, 907, 1669, 1879,
+     2089, 249037, 262897, 725663, 36850999 (available up to k=21). </li>
+    </ol>
+   </li>
   </ul>
 
 */
