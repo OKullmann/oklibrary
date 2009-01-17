@@ -108,6 +108,12 @@ okltest_arithprog_list_ohg(f) := (
 
   true)$
 
+
+/* ***********************
+   * Green-Tao's theorem *
+   ***********************
+*/
+
 okltest_arithprog_primes_finish(f) := block([primes_rev_init_seg : []],
   assert(f[0,0] = []),
   assert(f[1,0] = []),

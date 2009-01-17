@@ -101,7 +101,12 @@ arithmetic_progressions(L,k) :=
    list L of different integers: */
 arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
 
-/* The theorem of Green-Tao: */
+
+/* ***********************
+   * Green-Tao's theorem *
+   ***********************
+*/
+
 /* The hypergraph of all arithmetic progressions of size k in the first
    n prime numbers. */
 /* Prerequisite: k, n integers, k, n >= 0. */
