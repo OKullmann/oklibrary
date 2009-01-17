@@ -110,21 +110,23 @@ arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
   
 /* The arithmetic progressions of length k amongst the first n
-   prime numbers which finish in n. */
+   prime numbers which finish with the n-th prime number. */
 /* Inherits the list primes_rev_init_seg containing the first n
    prime numbers in reverse order. */
 /* So n is the length of primes_rev_init_seg, but it is mentioned
-   in the input for memoisation. */
+   nevertheless in the input for memoisation. */
 arithprog_primes_finish[k,n] := if n = 0 then [] 
  elseif k = 0 then []
  else block([p : first(primes_rev_init_seg), res : []],
    if k = 1 then return([[p]]),
    for p2 in rest(primes_rev_init_seg) do block([d : p - p2, prog],
+     if p2 - (k-2) * d < 2 then return(),
      prog : create_list(p2 - i * d, i, 1, k - 2),
-     if every_s(lambda([n],is (n > 1) and mprimep[n]), prog)
+     if every_s(lambda([n], mprimep[n]), prog)
      then res : cons(append(reverse(prog), [p2,p]), res)
    ),
    return(res))$
+
 /* All arithmetic progressions of length k amongst the first n
    prime numbers: */
 arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
@@ -135,7 +137,7 @@ arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
      res : append(res,arithprog_primes_finish[k,i])
    ),
    res)$
-   
+  
 
 /* ********************
    * Ramsey's theorem *
