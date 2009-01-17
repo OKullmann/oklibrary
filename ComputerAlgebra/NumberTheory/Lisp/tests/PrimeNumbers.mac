@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,9 +20,14 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/PrimeNumbers.ma
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 
 kill(f)$
 
+/* **********************************
+   * Finding and enumerating primes *
+   **********************************
+*/
 
 okltest_primes_interval(f) := (
   assert(f(0,0) = []),
@@ -44,6 +49,42 @@ okltest_primes_first(f) := (
   assert(length(f(66)) = 66),
   true)$
 
+okltest_unrank_primes(f) := (
+  assert(f(1) = 2),
+  assert(create_list(f(i),i,1,20) = primes_first(20)),
+  true)$
+
+okltest_rank_primes(f) := (
+  assert(f(2) = 1),
+  for n : 1 thru 20 do
+    assert(f(unrank_primes(n)) = n),
+  true)$
+
+
+/* **************************
+   * Additive number theory *
+   **************************
+*/
+
+okltest_n_arithprog_primes_nc(f) := (
+  /* XXX */
+  true)$
+
+okltest_ln_arithprog_primes_c(f) := (
+  for p : 0 thru 2 do
+    for n : 0 thru 10 do
+      assert(f(p,n) = create_list(binomial(i,p),i,1,n)),
+  assert(f(3,20) = [0,0,0,1,2,2,3,5,7,9,11,11,13,16,17,20,23,24,26,30]),
+  true)$
+
+okltest_first_arithprog_primes(f) := (
+  assert(f(0) = 0),
+  assert(f(1) = 1),
+  assert(f(2) = 2),
+  assert(f(3) = 4),
+  assert(f(4) = 9),
+  assert(f(5) = 10),
+  true)$
 
 /*!
 \endhtmlonly
