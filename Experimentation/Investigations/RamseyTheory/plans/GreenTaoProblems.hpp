@@ -10,6 +10,18 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems
 
 
+  \todo Trivial Green-Tao numbers
+  <ul>
+   <li> greentao(p,k) for natural numbers p,k >= 0 is the smallest natural
+   number n >= 0 such that partitioning the first n prime numbers into p
+   parts is guaranteed to contain an arithmetic progression of size k. </li>
+   <li> The most natural sequences are likely those for fixed p. </li>
+   <li> greentao(2,0) = 0 </li>
+   <li> greentao(2,1) = 1 </li>
+   <li> greentao(2,2) = 3 </li>
+  </ul>
+
+
   \todo greentao(2,3) = 23
   <ul>
    <li> greentao(2,3) = 23 (partitioning the first 23 prime numbers into 2
@@ -532,6 +544,7 @@ BestSolution_Min = 1.000000
 
 
   \todo Non-diagonal Green-Tao numbers
+  <ul>
    <li> One can also consider non-diagonal Green-Tao numbers. </li>
    <li> One needs to investigate whether bounds are known. </li>
   </ul>
@@ -649,6 +662,16 @@ BestSolution_Min = 1.000000
   <ul>
    <li> If the Green-Tao problems are similar to random problems, then
    perhaps survey propagation is also successful on them ?! </li>
+  </ul>
+
+
+  \todo Literature
+  <ul>
+   <li> To search for literature, we can search on the Internet for the
+   sequence (1,3,23,512) (greentao(2,i) for i=1,2,3,4). </li>
+   <li> Likely this sequence is not in that Internet database, and
+   we should submit it (once our article has appeared; or perhaps
+   the report is enough). </li>
   </ul>
 
 */
