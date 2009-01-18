@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -224,7 +224,8 @@ License, or any later version. */
 
   \todo Apply Valgrind
   <ul>
-   <li> Consider all the possibilities Valgrind offers. </li>
+   <li> Consider all the possibilities Valgrind offers (regarding correctness
+   checking; for optimisation see below). </li>
    <li> This might be an opportunity to add a bit to our own documentation /
    system. </li>
    <li> Also it should be run until completion on non-trivial examples. </li>
@@ -566,6 +567,12 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   \todo Apply time-measurements
   <ul>
    <li> Apply the time-measurement-system (assuming it is available by now). </li>
+  </ul>
+
+
+  \todo Optimising the code
+  <ul>
+   <li> Valgrind offers the tools Cachegrind, Callgrind, Massif. </li>
   </ul>
 
 */
