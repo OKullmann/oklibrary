@@ -83,6 +83,12 @@ okltest_ugrp2grp(ugrp2grp);
 okltest_scom2grd(scom2grd);
 okltest_grd2scom(grd2scom);
 
+okltest_m2grd(m2grd);
+okltest_grd2m(grd2m);
+
+okltest_grd2stdgrd(grd2stdgrd);
+okltest_grd2m_std(grd2m_std);
+
 /*!
 \endhtmlonly
 */

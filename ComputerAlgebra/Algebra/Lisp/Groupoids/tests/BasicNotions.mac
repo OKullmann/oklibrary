@@ -199,12 +199,38 @@ okltest_ugrp2grp(f) := (
    ***************
 */
 
-okltest_scom2grd(f) := (
-  /* XXX */
+okltest_scom2grd(f) := block([M],
+  assert(f(M) = M),
   true)$
 
-okltest_grd2scom(f) := (
-  /* XXX */
+okltest_grd2scom(f) := block([V],
+  assert(f(V) = V),
+  true)$
+
+okltest_m2grd(f) := (
+  assert(grd_equalp(f(matrix()), empty_sgr) = true),
+  assert(grd_equalp(f(matrix([1])), singleton_sgr) = true),
+  assert(grd_equalp(f(matrix([1,1],[2,2])), leftnull_sgr({1,2})) = true),
+  assert(grd_equalp(f(matrix([1,2],[1,2])), rightnull_sgr({1,2})) = true),
+  true)$
+
+okltest_grd2m(f) := (
+  assert(f(empty_sgr) = matrix()),
+  assert(f(singleton_sgr) = matrix([1])),
+  assert(f(null_sgr({[],{}},{})) = matrix([{},{}],[{},{}])),
+  true)$
+
+okltest_grd2stdgrd(f) := (
+  assert(grd_equalp(f(empty_sgr), empty_sgr) = true),
+  assert(grd_equalp(f(singleton_sgr), singleton_sgr) = true),
+  assert(grd_equalp(f(leftnull_sgr({2,3,4})), leftnull_sgr({1,2,3})) = true),
+  assert(grd_equalp(f(rightnull_sgr({[],[1],[2]})), rightnull_sgr({1,2,3})) = true),
+  true)$
+
+okltest_grd2m_std(f) := (
+  assert(f(empty_sgr) = matrix()),
+  assert(f(singleton_sgr) = matrix([1])),
+  assert(f(leftnull_sgr({[],[1],[2]})) = matrix([1,1,1],[2,2,2],[3,3,3])),
   true)$
 
 
