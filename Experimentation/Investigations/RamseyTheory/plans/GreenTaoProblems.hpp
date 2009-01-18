@@ -573,22 +573,9 @@ BestSolution_Min = 1.000000
    </li>
    <li> Via local search we might even investigate greentao(2,6), but here
    n might go into the millions, and we need a much faster generator. </li>
-   <li> In Transitional/Structures/NumberTheory a C++ program should be
-   written with the functionality of arithprog_primes.
-    <ol>
-     <li> Perhaps we only output this hypergraph as a positive clause-set,
-     in DIMACS format, into a file. </li>
-     <li> Some components should go to Transitional/Combinatorics/Hypergraphs.
-     </li>
-     <li> Another program then standardises the variable names and adds the
-     complemented clauses (producing then the same output as yet
-     output_greentao2_stdname(k,n)). </li>
-     <li> Such functionality shall likely go to
-     Transitional/Satisfiability/Transformers. </li>
-     <li> Best we provide this functionality as Unix tools as well as at
-     library level. </li>
-    </ol>
-   </li>
+   <li> In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a C++ program
+   should be written (that is, planned) with the functionality of
+   arithprog_primes_hg. </li>
    <li> And also the sequences length(arithprog_primes_finish[k,n]) for fixed k
    and length(arithprog_primes(k,n)) for fixed k should be of interest.
     <ol>
@@ -601,15 +588,6 @@ BestSolution_Min = 1.000000
      <li> But also Maxima should have no problems reading these files. </li>
      <li> These files need to be provided in a data section of the OKlibrary.
      </li>
-    </ol>
-   </li>
-   <li> Enumerating the primes:
-    <ol>
-     <li> Gmp has a "next_prime" function, by which we first create the complete
-     list of primes and the corresponding boolean array (for the primality
-     predicate). </li>
-     <li> Optionally, if one of the randomised tests is not secure, then the
-     whole computation is checked via a simple sieve of Erathostenes. </li>
     </ol>
    </li>
   </ul>
