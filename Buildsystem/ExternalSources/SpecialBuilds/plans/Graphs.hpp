@@ -85,5 +85,18 @@ nauty22> make checks
    implementations. </li>
   </ul>
 
+
+  \todo Cliques
+  <ul>
+   <li> "Cliquer"
+    <ol>
+     <li> Manual: [Niskanen, Oestergard: Cliquer user's guide, version 1.0;
+     Technical Report T48, Communications Laboratory, Helsinki University
+     of Technology, 2003]. </li>
+     <li> Open source? </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
