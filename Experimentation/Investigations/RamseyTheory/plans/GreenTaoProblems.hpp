@@ -128,9 +128,81 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 2000
+  \todo greentao(2;4,5) > 4000
   <ul>
-   <li> n=2000 rivial for ubcsat- rnovelty+. </li>
+   <li> n=2000 trivial for ubcsat-rnovelty+. </li>
+   <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
+   msteps=8376482 and seed=2773039201. </li>
+   <li> n=4250
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0    10    5899907   10000000 1673200738
+      2 0     5    6814994   10000000 1380530593
+      3 0    10    7817348   10000000 1800085398
+      4 0    12    9804471   10000000   81344402
+      5 0    12    3880176   10000000  432120567
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0     6   94885885  100000000  282232988
+      2 0     4   88868758  100000000 3253876323
+      3 0     6   66409455  100000000  366509890
+      4 0     7   43725056  100000000 2558278115
+      5 0     5   42205257  100000000  564216858
+      6 0     7   75727900  100000000  382452377
+      7 0     8   15438757  100000000 2144637212
+      8 0     6   56511298  100000000 2375147134
+      9 0     5   76323464  100000000  847932947
+     10 0     6   69876640  100000000 2763622722
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0     3  957789520 1000000000 1347268192
+      2 0     4   51871287 1000000000 2848316142
+      3 0     2  998189178 1000000000 1876955045
+      4 0     4  365650041 1000000000 1659925539
+      5 0     4  153451341 1000000000 2857726654
+      6 0     3  434671408 1000000000  159827785
+      7 0     2  775236975 1000000000 1138200854
+      8 0     3  429842430 1000000000 3112078298
+   \endverbatim
+   </li>
+   <li> n=4500 perhaps is unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4500.cnf
+       sat  min     osteps     msteps       seed
+      1 0    63    9763671   10000000 1769275251
+      2 0    64    7217982   10000000 1761999770
+      3 0    50    7495970   10000000    2286273
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_4500.cnf
+       sat  min     osteps     msteps       seed
+      1 0    32   52302516  100000000  404695228
+      2 0    34   92977284  100000000 2884982016
+   \endverbatim
+   </li>
+   <li> n=5000 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_5000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   198    7643948   10000000  220666133
+      2 0   202    2445858   10000000 2677059783
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_5000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   171   25452928  100000000  576886492
+      2 0   170   61069864  100000000 1322237633
+   \endverbatim
+   (remarkable the controllability of rnovelty+ on these instances!)
+   </li>
+   <li> n=6000 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_6000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   572    8204482   10000000  987022785
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_6000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   548   71357965  100000000 1291665640
+      2 0   544   98261120  100000000 2085465932
+   \endverbatim
+   </li>
   </ul>
 
 
