@@ -128,11 +128,17 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4000
+  \todo greentao(2;4,5) > 4150
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
    msteps=8376482 and seed=2773039201. </li>
+   <li> n=4100 found satisfiable by ubcsat-rnovelty+ with
+   msteps=7230012 and seed=3310338573. </li>
+   <li> n=4150 found satisfiable by ubcsat-rnovelty+ with
+   msteps=17897909 and seed=1856779838.</li>
+   <li> n=4175 </li>
+   <li> n=4200 looks unsatisfiable. </li>
    <li> n=4250
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
