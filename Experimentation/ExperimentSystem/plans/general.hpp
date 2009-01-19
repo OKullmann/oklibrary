@@ -63,6 +63,26 @@ License, or any later version. */
    then, via some command perhaps using a syntax like chmod for
    "prepare yes/no, process yes/no, transfer yes/no", say, +-+, an
    experiment can be started. </li>
+   <li> When multiple sub-experiments are being run (see RunningUBCSAT.hpp)
+   it could be useful to be able to monitor the progress of such
+   sub-experiments, and to see some partial results. </li>
+   <li> Some possibilities for the monitoring of partial results are
+    <ul>
+     <li> Copying (scp or cp) results output from the system to a public_html 
+     directory, and running a small script to add a line to a table in
+     a html document (and/or rss feed) that can then be monitored manually. 
+     </li>
+     <li> Creating a script which logs into each machine (a list of such
+     machines could be stored in a plain text file) being used, checks 
+     things such as "ps" to ensure the R and/or UBCSAT processes are running, 
+     and looks at the files produced by UBCSAT to provide an overview of the 
+     results. </li> 
+    </ul>
+   </li>
+   <li> The possibility of creating a small shell script which is run upon
+   the completion of subsets of experiments seems sensible, as this could
+   start off any number of events, such as emails, backups etc, as part of
+   the monitoring process. It should also be relatively simple to write </li>
    <li> Perhaps we use simple single tools for the different actions
    (querying the status, launching an experiment), and use simple
    copy-and-paste to transfer data from one step to another. </li>
