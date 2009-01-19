@@ -267,6 +267,16 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   </ul>
 
 
+  \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
+  clause-set".
+  <ul>
+   <li> Alter the second Ramsey symmetry implementation so it makes
+   use of the subset enumeration functions (See Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
+   <li> This would mean "ramsey2_sym_break_rec" would only depend on n (and 
+   optionally k) . </li>
+  </ul>
+
+
   \todo %Generators for all standard %Ramsey problems
   <ul>
    <li> For every extended %Ramsey tuple [C,r;n] we need translations
