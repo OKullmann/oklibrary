@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,15 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 
 
+/* **********************************
+   * Finding and enumerating primes *
+   **********************************
+*/
+
+/* Maxima has: next_prime, prev_prime, primep (controlled by
+   primep_number_of_tests )
+*/
+
 /* The memoised version of primep: */
 mprimep[n] := primep(n)$
 
@@ -29,26 +38,48 @@ mprimep[n] := primep(n)$
 primes_interval(a,b) := block([L : [], p : if a <= 1 then 1 else a-1],
   p : next_prime(p),
   while p <= b do (
-    L : endcons(p,L),
+    L : cons(p,L),
     p : next_prime(p)
   ),
-  L)$
+  reverse(L))$
 
-/* The list of the first n prime numbers: */
+/* The list of the first n prime numbers n an integer): */
 primes_first(n) := if n <= 0 then [] else
   block([p : 2, L : [2]],
     n : n - 1,
     while n > 0 do (
       p : next_prime(p),
-      L : endcons(p,L),
+      L : cons(p,L),
       n : n - 1
     ),
-    L)$
+    reverse(L))$
+
+/* Computing the i-th prime number (i a natural number >= 1): */
+unrank_primes(i) := block([p : 2],
+  while i > 1 do (
+    p : next_prime(p),
+    i : i - 1
+  ),
+  p)$
+
+/* For natural number p >= 1 compute the smallest index i >= 1
+   such that unrank_primes(i) >= p:
+*/
+rank_primes(p) := block([i : 1],
+  while p > 2 do (
+    p : prev_prime(p),
+    i : i + 1
+  ),
+  i)$
 
 
 /* **************************
    * Additive number theory *
    **************************
+*/
+
+/* In ComputerAlgebra/Hypergraphs/Lisp/Generators.mac we have
+   arithprog_primes_finish[k,n].
 */
 
 /* The number of arithmetic progressions of length k in the set of
@@ -61,7 +92,7 @@ n_arithprog_primes_nc[k,n] := block(
   length(arithprog_primes_finish[k,n]))$
 
 /* The list of the numbers of arithmetic progressions of length k in 
-   the set of the first i prime numbers ("c" for "cumulative") for
+   the set of the first n prime numbers ("c" for "cumulative") for
    i from 1 to n:
 */
 ln_arithprog_primes_c(k,n) := 
@@ -74,6 +105,18 @@ ln_arithprog_primes_c(k,n) :=
      sum : sum + count, res : endcons(sum,res)
    ),
    res)$
+
+/* The smallest natural number n >= 0 such that amongst the first n
+   prime numbers there exists an arithmetic progression of size k:
+*/
+first_arithprog_primes(k) := if k=0 then 0 else
+  block([primes_rev_init_seg : [], n : 0, p : 1, found : false],
+   while not found do (
+     p : next_prime(p), n : n + 1,
+     primes_rev_init_seg : cons(p, primes_rev_init_seg),
+     found : not emptyp(arithprog_primes_finish[k,n])
+   ),
+   n)$
 
 /*!
 \endhtmlonly

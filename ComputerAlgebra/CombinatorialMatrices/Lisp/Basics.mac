@@ -95,7 +95,7 @@ scom2oscom(M) := [listify(M[1]),M[2]]$
 /* Conversions between combinatorial matrices and Maxima matrices: */
 
 /* Transforms a combinatorial matrix into a Maxima matrix, using the
-   implicit order on rows and columns: */
+   implicit order on rows and columns (note that the values are kept): */
 com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
   apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
 /* Now using the explicit order on rows and columns: */

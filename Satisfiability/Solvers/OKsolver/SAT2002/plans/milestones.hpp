@@ -214,7 +214,14 @@ License, or any later version. */
    We have timing-date available.
 
 
-   \par Version 1.8
+  \par Version 1.7.1
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Optimising the code
+
+
+  \par Version 1.8
 
   \par
    The code has been optimised (w.r.t. speed; using also a profiler etc.)

@@ -25,6 +25,8 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleEle
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* ***********************
@@ -115,10 +117,32 @@ ugrp2grp(G) := rest(G,-1)$
 /* Between combinatorial square matrices and groupoids: */
 scom2grd(M) := M$
 grd2scom(V) := V$
+
+/* Transforming a Maxima matrix into a groupoid. */
+/* Prerequisite: all values of M must be indices. */
 m2grd(M) := scom2grd(m2scom(M))$
-grd2m(V) := scom2m(grd2scom(V))$
-/* Prerequisite: all values of M must be indices.
+/* Transforming a groupoid into a Maxima matrix.
+   Note that this keeps the values of the composition intact and
+   does not rename them.
 */
+grd2m(V) := scom2m(grd2scom(V))$
+
+/* Standardising a groupoid: */
+grd2stdgrd(V) := block([L : listify(V[1]), S, a, compo : V[2], h],
+  S : setn(length(L)),
+  a : l2array(L),
+  h : osm2hm(map("[", L, create_list(i,i,1,length(L)))), 
+  ev(buildq([L,S,a,compo,h], [S, lambda([x,y], ev_hm(h,compo(a[x],a[y])))])))$
+/* We have for W := grd2stdgrd(V) :
+ - W[1] = {1, ..., length(V[1])}
+ - W is isomorphic to V via i -> V[1][i].
+*/
+
+/* Now transforming a groupoid into a Maxima matrix with corresponding 
+   renaming of the values:
+*/
+grd2m_std(V) := grd2m(grd2stdgrd(V))$
+/* Note that m2grd(grd2m_std(V)) is isomorphic to V. */
 
 
 /* ******************

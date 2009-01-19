@@ -31,5 +31,17 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Random generation of quasigroups and unital quasigroups
+  <ul>
+   <li> Producing random quasigroups and random unital quasigroups of
+   bigger order must have been studied in the literature. </li>
+   <li> One could run a (generalised) SAT solver, for sampling the
+   solutions of the condition "(unital) quasigroup". </li>
+   <li> Given a quasigroup, one can consider random isotopic images (choosing
+   three random permutations); in this way one can sample the isotopy class.
+   </li>
+  </ul>
+
 */
 

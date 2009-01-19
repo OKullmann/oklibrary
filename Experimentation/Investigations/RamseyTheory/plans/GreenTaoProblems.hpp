@@ -10,6 +10,18 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems
 
 
+  \todo Trivial Green-Tao numbers
+  <ul>
+   <li> greentao(p,k) for natural numbers p,k >= 0 is the smallest natural
+   number n >= 0 such that partitioning the first n prime numbers into p
+   parts is guaranteed to contain an arithmetic progression of size k. </li>
+   <li> The most natural sequences are likely those for fixed p. </li>
+   <li> greentao(2,0) = 0 </li>
+   <li> greentao(2,1) = 1 </li>
+   <li> greentao(2,2) = 3 </li>
+  </ul>
+
+
   \todo greentao(2,3) = 23
   <ul>
    <li> greentao(2,3) = 23 (partitioning the first 23 prime numbers into 2
@@ -17,6 +29,24 @@ License, or any later version. */
    size 3, while using a smaller initial segment of prime numbers won't do).
    </li>
    <li> Trivial (for OKsolver-2002, and likely for any solver). </li>
+  </ul>
+
+
+  \todo greentao(2;3,4) = 79
+  <ul>
+   <li> Easy for OKsolver:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_78.cnf
+s SATISFIABLE
+c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=77 initial_number_of_clauses=450 initial_number_of_literal_occurrences=1439 running_time(s)=0.0 number_of_nodes=25 number_of_single_nodes=0 number_of_quasi_single_nodes=1 number_of_2-reductions=56 number_of_pure_literals=7 number_of_autarkies=3 number_of_missed_single_nodes=0 max_tree_depth=10 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=25 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_78.cnf
+   \endverbatim
+   and
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_79.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 initial_number_of_clauses=460 initial_number_of_literal_occurrences=1472 running_time(s)=0.0 number_of_nodes=41 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=133 number_of_pure_literals=3 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=6 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=37 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_79.cnf
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -98,13 +128,91 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
+  \todo greentao(2;4,5) > 4000
+  <ul>
+   <li> n=2000 trivial for ubcsat-rnovelty+. </li>
+   <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
+   msteps=8376482 and seed=2773039201. </li>
+   <li> n=4250
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0    10    5899907   10000000 1673200738
+      2 0     5    6814994   10000000 1380530593
+      3 0    10    7817348   10000000 1800085398
+      4 0    12    9804471   10000000   81344402
+      5 0    12    3880176   10000000  432120567
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0     6   94885885  100000000  282232988
+      2 0     4   88868758  100000000 3253876323
+      3 0     6   66409455  100000000  366509890
+      4 0     7   43725056  100000000 2558278115
+      5 0     5   42205257  100000000  564216858
+      6 0     7   75727900  100000000  382452377
+      7 0     8   15438757  100000000 2144637212
+      8 0     6   56511298  100000000 2375147134
+      9 0     5   76323464  100000000  847932947
+     10 0     6   69876640  100000000 2763622722
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 1000000000 -i GreenTao_2_4_5_4250.cnf
+       sat  min     osteps     msteps       seed
+      1 0     3  957789520 1000000000 1347268192
+      2 0     4   51871287 1000000000 2848316142
+      3 0     2  998189178 1000000000 1876955045
+      4 0     4  365650041 1000000000 1659925539
+      5 0     4  153451341 1000000000 2857726654
+      6 0     3  434671408 1000000000  159827785
+      7 0     2  775236975 1000000000 1138200854
+      8 0     3  429842430 1000000000 3112078298
+   \endverbatim
+   </li>
+   <li> n=4500 perhaps is unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4500.cnf
+       sat  min     osteps     msteps       seed
+      1 0    63    9763671   10000000 1769275251
+      2 0    64    7217982   10000000 1761999770
+      3 0    50    7495970   10000000    2286273
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_4500.cnf
+       sat  min     osteps     msteps       seed
+      1 0    32   52302516  100000000  404695228
+      2 0    34   92977284  100000000 2884982016
+   \endverbatim
+   </li>
+   <li> n=5000 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_5000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   198    7643948   10000000  220666133
+      2 0   202    2445858   10000000 2677059783
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_5000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   171   25452928  100000000  576886492
+      2 0   170   61069864  100000000 1322237633
+   \endverbatim
+   (remarkable the controllability of rnovelty+ on these instances!)
+   </li>
+   <li> n=6000 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_6000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   572    8204482   10000000  987022785
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 100000000 -i GreenTao_2_4_5_6000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   548   71357965  100000000 1291665640
+      2 0   544   98261120  100000000 2085465932
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo greentao(2,5) : threshold behaviour of OKsolver-2002
   <ul>
    <li> Investigating the threshold of solvability for the OKsolver.
    One main conjecture is that Green-Tao problems behave like random problems.
    </li>
    <li> And, similarly to random problems, there seems
-   to be a threshold, where below it OKsolver solvers the problem
+   to be a threshold, where below it OKsolver solves the problem
    without backtracking, while as soon as backtracking starts, the
    problems get very hard. </li>
    <li> This threshold seems to lie between n=20000 and n = 25000.
@@ -442,7 +550,7 @@ ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 4000000000 -i GreenTao_2_5_33000.cnf
    \endverbatim
    while 20 runs with 2 * 10^9 steps didn't find a solution:
    \verbatim
-bcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 2000000000 -i GreenTao_2_5_33000.cnf
 Clauses = 661984
 Variables = 33000
 TotalLiterals = 3309920
@@ -531,34 +639,15 @@ BestSolution_Min = 1.000000
   </ul>
 
 
-  \todo Non-diagonal Green-Tao numbers
-   <li> One can also consider non-diagonal Green-Tao numbers. </li>
-   <li> One needs to investigate whether bounds are known. </li>
-  </ul>
-
-
   \todo Faster generation of arithmetic progression of primes
   <ul>
    <li> A major bottleneck is the time needed to create Green-Tao problems.
    </li>
    <li> Via local search we might even investigate greentao(2,6), but here
    n might go into the millions, and we need a much faster generator. </li>
-   <li> In Transitional/Structures/NumberTheory a C++ program should be
-   written with the functionality of arithprog_primes.
-    <ol>
-     <li> Perhaps we only output this hypergraph as a positive clause-set,
-     in DIMACS format, into a file. </li>
-     <li> Some components should go to Transitional/Combinatorics/Hypergraphs.
-     </li>
-     <li> Another program then standardises the variable names and adds the
-     complemented clauses (producing then the same output as yet
-     output_greentao2_stdname(k,n)). </li>
-     <li> Such functionality shall likely go to
-     Transitional/Satisfiability/Transformers. </li>
-     <li> Best we provide this functionality as Unix tools as well as at
-     library level. </li>
-    </ol>
-   </li>
+   <li> In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a C++ program
+   should be written (that is, planned) with the functionality of
+   arithprog_primes_hg. </li>
    <li> And also the sequences length(arithprog_primes_finish[k,n]) for fixed k
    and length(arithprog_primes(k,n)) for fixed k should be of interest.
     <ol>
@@ -571,15 +660,6 @@ BestSolution_Min = 1.000000
      <li> But also Maxima should have no problems reading these files. </li>
      <li> These files need to be provided in a data section of the OKlibrary.
      </li>
-    </ol>
-   </li>
-   <li> Enumerating the primes:
-    <ol>
-     <li> Gmp has a "next_prime" function, by which we first create the complete
-     list of primes and the corresponding boolean array (for the primality
-     predicate). </li>
-     <li> Optionally, if one of the randomised tests is not secure, then the
-     whole computation is checked via a simple sieve of Erathostenes. </li>
     </ol>
    </li>
   </ul>
@@ -649,6 +729,16 @@ BestSolution_Min = 1.000000
   <ul>
    <li> If the Green-Tao problems are similar to random problems, then
    perhaps survey propagation is also successful on them ?! </li>
+  </ul>
+
+
+  \todo Literature
+  <ul>
+   <li> To search for literature, we can search on the Internet for the
+   sequence (1,3,23,512) (greentao(2,i) for i=1,2,3,4). </li>
+   <li> Likely this sequence is not in that Internet database, and
+   we should submit it (once our article has appeared; or perhaps
+   the report is enough). </li>
   </ul>
 
 */

@@ -52,18 +52,42 @@ output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
 
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    the set of the first n prime numbers into two parts such that none of them 
-   contains an arithmetic progression of size k. */
+   contains an arithmetic progression of size k.
+   The variables are the first n prime numbers.
+*/
 greentao2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_primes_hg(k,n))$
 
+/* More generally, create boolean formal clause-sets encoding the 
+   partitionings of the first n prime numbers into two parts such that the
+   first part (value 0) does not contain an arithmetic progression of size k1,
+   whiel the second part (value 1) does not contain an arithmetic progression
+   of size k2 ("nd" for "non-diagonal"):
+*/
+greentao2nd_fcs(k1,k2,n) := block(
+ [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
+  [G1[1], union(G1[2], comp_cs(G2[2]))])$
+
+/* Output in Dimacs format:
+*/
 output_greentao2(k,n,filename) := block(
  [FFGT : standardise_fcs(greentao2_fcs(k,n))],
   output_fcs_v(
-    sconcat("Green-Tao problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " prime numbers."), 
+    sconcat("Green-Tao problem (diagonal): 2 parts, arithmetic progressions of size ", k, ", ", n, " prime numbers."), 
     FFGT[1],
     filename,
     FFGT[2]))$
 output_greentao2_stdname(k,n) := output_greentao2(k,n,
   sconcat("GreenTao_2_",k,"_",n,".cnf"))$
+
+output_greentao2nd(k1,k2,n,filename) := block(
+ [FFGT : standardise_fcs(greentao2nd_fcs(k1,k2,n))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (non-diagonal): 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers."), 
+    FFGT[1],
+    filename,
+    FFGT[2]))$
+output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
+  sconcat("GreenTao_2_",k1,"_",k2,"_",n,".cnf"))$
 
 
 /*!
