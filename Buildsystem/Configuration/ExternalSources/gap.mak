@@ -1,5 +1,5 @@
 # Oliver Kullmann, 12.7.2008 (Swansea)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,15 +7,15 @@
 
 # Settings for building and using Gap
 
-gap_recommended_version_number_okl ?= 4r4p10
-gap_supported_not_recommended_version_numbers_okl ?=
+gap_recommended_version_number_okl ?= 4r4p12
+gap_supported_not_recommended_version_numbers_okl ?= 4r4p10
 gap_recommended_major_version_number_okl ?= $(shell echo $(gap_recommended_version_number_okl) | sed 's/p.*//')
 # e.g., 4r4p10 -> 4r4
 gap_extracted_version_number_okl := $(shell echo $(gap_recommended_version_number_okl) | tr "rp" ".")
 # e.g., 4r4p10 -> 4.4.10
 
-gap_packages_recommended_version_number_okl ?= 2008_06_23-19_20_UTC
-gap_packages_supported_not_recommended_version_numbers_okl ?=
+gap_packages_recommended_version_number_okl ?= 2008_12_18-12_55_UTC
+gap_packages_supported_not_recommended_version_numbers_okl ?= 2008_06_23-19_20_UTC
 
 gap_prefix_okl ?= gap
 gap_packages_prefix_okl ?= packages
@@ -44,7 +44,7 @@ gap_tutorial_pdf_okl ?= $(gap_doc_dir_okl)/tut/manual.pdf
 gap_manual_pdf_okl ?= $(gap_doc_dir_okl)/ref/manual.pdf
 gap_programming_pdf_okl ?= $(gap_doc_dir_okl)/prg/manual.pdf
 
-gap_monoid_installdocdir_okl ?= $(gap_installation_dir_okl)/pkg/MONOID/doc
+gap_monoid_installdocdir_okl ?= $(gap_installation_dir_okl)/pkg/monoid/doc
 gap_monoid_docdir_okl ?= $(gap_doc_dir_okl)/monoid
 gap_monoid_pdf_okl ?= $(gap_monoid_docdir_okl)/manual.pdf
 gap_monoid_html_okl ?= $(gap_monoid_docdir_okl)/chap0.html

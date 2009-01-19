@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -70,7 +70,10 @@ gap> Size( AutGroupGraph( JohnsonGraph(5,2) ) );
   <ul>
    <li> We need the list of all packages. </li>
    <li> Can we have a separate installation directory (as usual for us)? </li>
-   <li> What about this "xtom1r1p2.tar.bz2" ? </li>
+   <li> We should better include also the minor version number into the
+   installation/build directory names (so that, as usual, we can have several
+   versions in parallel). </li>
+   <li> What about this "xtom1r1p4.tar.bz2" ? We should just install it. </li>
    <li> Is it possible to automate tests? </li>
    <li> Monoids:
     <ol>
