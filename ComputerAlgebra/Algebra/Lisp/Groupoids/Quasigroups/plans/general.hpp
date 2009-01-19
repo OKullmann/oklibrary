@@ -62,25 +62,50 @@ License, or any later version. */
      the inverse of R_p. </li>
      <li> So we have to check for C := R_q * R_i * R_j whether we
      have C = id. </li>
-     <li> We have precomputed the supports (changed places) S_i for
-     all rows R_i. Now if |S_q| + |S_i| + |S_j| >= n, then we run
-     simple through x = 1, ..., n, and check whether the composition C
-     gives x back (it's hard to see how to do better here). </li>
-     <li> Otherwise, using an array a[t], t in {1,...,n} of natural
-     numbers >= 0, initialised to 0, we first run through x in S_j,
-     set a[x] to the current round r (one round for each pair (i,j)),
-     and check whether the composition C applied to x yields x. </li>
-     <li> If yes, we run through y from S_i, if a[y] = r, then ignore y,
-     otherwise set a[y] to r, and plug in y to the composition
-     S_q * S_i, checking whether y is the result. </li>
-     <li> If yes, then finally we check whether for all z in S_q we have
-     a[z] = r (otherwise we return false). </li>
+     <li> One idea is as follows:
+      <ol>
+       <li> We have precomputed the supports (changed places) S_i for
+       all rows R_i. Now if |S_q| + |S_i| + |S_j| >= n, then we run
+       simple through x = 1, ..., n, and check whether the composition C
+       gives x back (it's hard to see how to do better here). </li>
+       <li> Otherwise, using an array a[t], t in {1,...,n} of natural
+       numbers >= 0, initialised to 0, we first run through x in S_j,
+       set a[x] to the current round r (one round for each pair (i,j)),
+       and check whether the composition C applied to x yields x. </li>
+       <li> If yes, we run through y from S_i, if a[y] = r, then ignore y,
+       otherwise set a[y] to r, and plug in y to the composition
+       S_q * S_i, checking whether y is the result. </li>
+       <li> If yes, then finally we check whether for all z in S_q we have
+       a[z] = r (otherwise we return false). </li>
+      </ol>
+      Unfortunately, this is always worse than the trivial method, since
+      no left- or right-translation of an unital quasigroup except of the
+      identity has any fixpoint, and thus the support is always the whole
+      set!
+     </li>
+     <li> So the problem is, how to check for fixpoint-free permutations
+     P1, P2, P3 (as elements of the symmetric group of order n) in less
+     than n steps whether P1 * P2 * P3 = id (or not), where for each possible
+     Pi we can spent less than quadratic preparation efforts (but only
+     considered on its own). </li>
+     <li> Hard to see that anything could be done. </li>
     </ol>
    </li>
-   <li> The whole thing should be implemened and tested (for run time (using,
-   say, random matrices, and comparing it with the trivial test).
+   <li> If we have an interesting algorithm, it should be implemented and
+   tested for run time, using, say, random latin squares, and comparing it with
+   the trivial test.
     <ol>
-     <li> Though creating random quasigroups might be a bit tricky? </li>
+     <li> First groups should be tested. </li>
+     <li> When checking a quasigroup then we only check unital quasigroups
+     (otherwise they are immediately rejected). </li>
+     <li> It doesn't make sense to consider a random isotopic image of
+     a group, since if such an image is unital then it's itself a group
+     (and it shouldn't make a difference how the rows and columns are
+     ordered, since groups are the worst-case anyway). </li>
+     <li> Thus left is the task of creating random unital quasigroups. </li>
+     <li> 
+     <li> See "Random generation of quasigroups and unital quasigroups" in
+     Lisp/Groupoids/Quasigroups/plans/Enumeration.hpp. </li>
     </ol>
    </li>
    <li> We obtain in this way also a test for checking whether a groupoid V
