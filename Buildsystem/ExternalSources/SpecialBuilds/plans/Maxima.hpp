@@ -38,6 +38,9 @@ License, or any later version. */
 > tar -czf maxima-5.17.1.1.tar.gz maxima-5.17.1.1
    \endverbatim
    </li>
+   <li> The above change to "configure.in" introduces an additional dependency
+   of the library on "automake". Without this, the change seems to have no 
+   effect. </li>
    <li> To build such a package, first "sh bootstrap" is needed. </li>
    <li> A nasty little problem is that the directory
    Installations/Maxima/ecl/5.17.1/share/maxima/5.17.1 is now called
