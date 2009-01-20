@@ -31,6 +31,8 @@ License, or any later version. */
   <ul>
    <li> Create non-boolean clause-sets for the van der Waerden problems with
    more than two parts. </li>
+   <li> Compare "Generalised colouring problems" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
   </ul>
 
 

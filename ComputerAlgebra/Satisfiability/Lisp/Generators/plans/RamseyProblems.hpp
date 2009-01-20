@@ -285,6 +285,8 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   <ul>
    <li> For every extended %Ramsey tuple [C,r;n] we need translations
    into (non-boolean) clause-sets. </li>
+   <li> Compare "Generalised colouring problems" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
    <li> They shall use a well-defined enumeration of the variables. </li>
   </ul>
 

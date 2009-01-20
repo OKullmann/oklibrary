@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.12.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -89,6 +89,27 @@ License, or any later version. */
      yielding standardised clause-sets. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Generalised colouring problems
+  <ul>
+   <li> For non-diagonal Ramsey-problems and van-der-Waerden-type problems,
+   we do not need to go directly to non-boolean clause-sets, but we can
+   use an intermediate form, with "mixed clauses", as discussed in the
+   following. </li>
+   <li> The problem would be given as a triple [V,C,L], where V is a set
+   (the vertices), C is a set (the colours), and each L is a pair [H,c],
+   where H is a set of hyperedges on V (i.e., [V,H] is a hypergraph), while
+   c is an element of C. </li>
+   <li> The problem is to find a map f: V -> C such that for every [H,c]
+   and every E in H there exists v in E with f(v) <> c. </li>
+   <li> A standard hypergraph colouring problem with colour set C for
+   hypergraph [V,E] is translated in [V,C,L], where L consists of the
+   pairs [E,c] for c in C. </li>
+   <li> Compared with non-boolean clause-sets (clause-sets, where the
+   clauses contain literals [v,c]), in this way we express the information
+   that the clause-set is organised in layers. </li>
   </ul>
 
 
