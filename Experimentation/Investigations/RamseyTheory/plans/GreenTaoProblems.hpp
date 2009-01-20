@@ -128,7 +128,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo Conjecture: greentao(2;4,5) = 4168
+  \todo greentao(2;4,5) > 4188
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -143,11 +143,47 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
    msteps=83573644 and seed=871144102. </li>
    <li> n=4167 found satisfiable by ubcsat-rnovelty+ with
    msteps=891150901 and seed=1913694368. </li>
-   <li> n=4168 seems unsatisfiable: 58 runs with rnovelty+ and cutoff
-   100000000 yielded often min=1, but no satisfying assignment
+   <li> n=4168 seems unsatisfiable (but isn't): 58 runs with rnovelty+ and
+   cutoff 100000000 yielded often min=1, but no satisfying assignment
    was found. </li>
-   <li> n=4175 </li>
-   <li> n=4200 looks unsatisfiable. </li>
+   <li> n=4175 found satisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_2_4_5_4175.cnf
+Clauses = 98055
+Variables = 4175
+TotalLiterals = 401986
+FlipsPerSecond = 304718
+BestStep_Mean = 52672891.020000
+Steps_Mean = 99224814.270000
+Steps_Max = 100000000.000000
+PercentSuccess = 3.00
+BestSolution_Mean = 2.210000
+BestSolution_Median = 2.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 6.000000
+   \endverbatim
+   (quickest solution: msteps=40542872, seed=2849343332).
+   </li>
+   <li> n=4188 found satisfiable by ubcsat-rnovelty+ with
+   msteps=89754713 and seed=1408284365. </li>
+   <li> n=4194 </li>
+   <li> n=4200 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_2_4_5_4200.cnf
+Clauses = 99125
+Variables = 4200
+TotalLiterals = 406380
+FlipsPerSecond = 294132
+BestStep_Mean = 55051674.390000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 3.210000
+BestSolution_Median = 3.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 6.000000
+   \endverbatim
+   </li>
    <li> n=4250
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
