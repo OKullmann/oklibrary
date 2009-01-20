@@ -270,21 +270,24 @@ License, or any later version. */
   \par Version 0.2.8 (new external sources for computer algebra and graphs)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Graph drawing
-    - Graph algorithms libraries and programs
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the
    following topics are handled:
     - Systems
-
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Additional packages
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp the following
+   topics are handled:
+    - Graph isomorphism
+    - Graph drawing
+    - Treewidth
+    - Travelling salesman
+    - Graph colouring
+    - Cliques
 
 
   \par Version 0.2.9

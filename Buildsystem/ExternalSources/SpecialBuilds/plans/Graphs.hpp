@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.3.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,10 +90,11 @@ nauty22> make checks
   <ul>
    <li> "Cliquer"
     <ol>
+     <li> http://users.tkk.fi/~pat/cliquer.html </li>
      <li> Manual: [Niskanen, Oestergard: Cliquer user's guide, version 1.0;
      Technical Report T48, Communications Laboratory, Helsinki University
-     of Technology, 2003]. </li>
-     <li> Open source? </li>
+     of Technology, 2003]. Included in our sources. </li>
+     <li> Is open source, and ready to be installed. </li>
     </ol>
    </li>
   </ul>
