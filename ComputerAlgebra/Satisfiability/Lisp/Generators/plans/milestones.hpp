@@ -18,13 +18,16 @@ License, or any later version. */
    the following topics are handled:
     - Extreme cases
     - More efficient computation
-    - Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
-      clause-set"
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
    the following topics are handled:
     - Specifying the AES random generator
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   the following topics are handled:
+    - Arithmetic progressions for prime numbers
 
 
   \par Version 0.0.9
@@ -34,7 +37,8 @@ License, or any later version. */
    the following topics are handled:
     - Relations to other modules
     - Symmetry breaking by using symmetries of the solution space
-    - Symmetry breaking by using Ramsey-symmetries of the clause-set
+    - Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
+      clause-set"
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
@@ -90,6 +94,7 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - Colouring problems
+    - Generalised colouring problems
 
 
    \par Version 0.1.2
