@@ -128,7 +128,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4150
+  \todo Conjecture: greentao(2;4,5) = 4168
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -136,7 +136,16 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
    <li> n=4100 found satisfiable by ubcsat-rnovelty+ with
    msteps=7230012 and seed=3310338573. </li>
    <li> n=4150 found satisfiable by ubcsat-rnovelty+ with
-   msteps=17897909 and seed=1856779838.</li>
+   msteps=17897909 and seed=1856779838. </li>
+   <li> n=4164 found satisfiable by ubcsat-rnovelty+ with
+   msteps=39295024 and seed=1480959763. </li>
+   <li> n=4166 found satisfiable by ubcsat-rnovelty+ with
+   msteps=83573644 and seed=871144102. </li>
+   <li> n=4167 found satisfiable by ubcsat-rnovelty+ with
+   msteps=891150901 and seed=1913694368. </li>
+   <li> n=4168 seems unsatisfiable: 58 runs with rnovelty+ and cutoff
+   100000000 yielded often min=1, but no satisfying assignment
+   was found. </li>
    <li> n=4175 </li>
    <li> n=4200 looks unsatisfiable. </li>
    <li> n=4250
@@ -170,6 +179,12 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
       6 0     3  434671408 1000000000  159827785
       7 0     2  775236975 1000000000 1138200854
       8 0     3  429842430 1000000000 3112078298
+      9 0     4  729284027 1000000000  737916580
+     10 0     2  636479752 1000000000 3888433655
+     11 0     3  458473821 1000000000 2600521927
+     12 0     4  473667998 1000000000 1903692056
+     13 0     6   15416778 1000000000 2974956240
+     14 0     3  523470787 1000000000 2717980127
    \endverbatim
    </li>
    <li> n=4500 perhaps is unsatisfiable:
