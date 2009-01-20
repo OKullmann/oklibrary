@@ -257,7 +257,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
      <li> The need for this function to take mappings from variables to 
      their "meanings" should be alleviated once there is are "rank" and
      "unrank" functions for the enumeration of k-subsets 
-     (See "Module Enumeration" in ComputerAlgebra/plans/general.hpp ). It
+     (see "Module Enumeration" in ComputerAlgebra/plans/general.hpp ). It
      should also only need the "n" for the Ramsey problem then. </li>
      <li> Should this function also consider the PHP idea mentioned above?
      </li>
@@ -269,10 +269,13 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
 
 
   \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
-  clause-set".
+  clause-set"
   <ul>
+   <li> First the above today needs to be completely updated, and merged with
+   this todo. </li>
    <li> Alter the second Ramsey symmetry implementation so it makes
-   use of the subset enumeration functions (See Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
+   use of the subset enumeration functions (see
+   Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
    <li> This would mean "ramsey2_sym_break_rec" would only depend on n (and 
    optionally k) . </li>
   </ul>
