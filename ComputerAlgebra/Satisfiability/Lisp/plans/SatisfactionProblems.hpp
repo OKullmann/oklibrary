@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,8 +19,8 @@ License, or any later version. */
   
   \todo Value set
   <ul>
-   <li> The set of all possible values for the variable in Var (in some context)
-   is Val. </li>
+   <li> The set of all possible values for the variable in Var (in some
+   context) is Val. </li>
    <li> Again, likely this is best only used implicitely. </li>
   </ul>
 
@@ -65,7 +65,8 @@ License, or any later version. */
    "Representation" of sets of total assignments can mean different things:
     <ol>
      <li> Measure the set, either with its natural probability in the product
-     probability space TASS, or just classifying it as empty or non-empty. </li>
+     probability space TASS, or just classifying it as empty or non-empty.
+     </li>
      <li> Give a power-clause-set representation, i.e., a signed
      CNF-representation of P^{-1}(false) resp. a signed DNF-representation of
      P^{-1}(true), where we have several refinements:
@@ -97,7 +98,8 @@ License, or any later version. */
        <li> approximations </li>
       </ol>
      </li>
-     <li> For power-clause-set representations, we can have sub-clause-sets. </li>
+     <li> For power-clause-set representations, we can have sub-clause-sets.
+     </li>
      <li> BDD representations are harder to make partial, since it represents
      satisfying and falsifying assignments at the same time. </li>
     </ol>
@@ -139,9 +141,9 @@ License, or any later version. */
        literal. </li>
        <li> The clause does not represent a constant condition. </li>
       </ol>
-     It must hold for normalised clauses, that a CNF-clause C implies a CNF-clause D
-     iff for all x in C there is a literal y in D such that x implies y. This
-     restricts the notion of literals. </li>
+     It must hold for normalised clauses, that a CNF-clause C implies a
+     CNF-clause D iff for all x in C there is a literal y in D such that x
+     implies y. This restricts the notion of literals. </li>
      <li> "Parallel" to clauses one has partial assignments, which semantically
      correspond to DNF-clauses for satisfiability testing, and to CNF-clauses
      for falsifiability testing, but which have a different meaning: Partial
@@ -196,8 +198,8 @@ License, or any later version. */
 
   \todo Functions for conditions
   <ul>
-   <li> var(P) yields a set of variables, such that P does not depend on variables
-   not in var(P). </li>
+   <li> var(P) yields a set of variables, such that P does not depend on
+   variables not in var(P). </li>
   </ul>
 
 
@@ -217,7 +219,8 @@ License, or any later version. */
      n+?+k or ?+n+k variables, the remaining variables are uniquely determined
      and can be efficiently computed by the encryption resp. decryption
      algorithm. </li>
-     <li> So we have two backdoors for computing a full DNF representation. </li>
+     <li> So we have two backdoors for computing a full DNF representation.
+     </li>
     </ol>
    </li>
   </ul>
