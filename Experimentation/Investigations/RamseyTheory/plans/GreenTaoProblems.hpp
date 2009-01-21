@@ -128,7 +128,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4194
+  \todo greentao(2;4,5) > 4200
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -216,6 +216,10 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 6.000000
    \endverbatim
    </li>
+   <li> However it is satisfiable: 20 runs with cutoff 10^9 neither did
+   found a solution, however from 111 runs with cutoff 200*10^6 one found
+   a solution: msteps=95907147 and seed=4212480219. </li>
+   <li> n=4225 </li>
    <li> n=4250
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
