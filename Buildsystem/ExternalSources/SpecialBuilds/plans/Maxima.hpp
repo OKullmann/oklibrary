@@ -10,6 +10,26 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Building of Maxima-packages
+  <ul>
+   <li> Creating a package, for example, 5.17.1.1, happens as follows:
+   \verbatim
+> cvs -z3 -d:pserver:anonymous@maxima.cvs.sourceforge.net:/cvsroot/maxima co -P maxima
+
+ change line with "AM_INIT_AUTOMAKE" in maxima/configure.in
+ to "AM_INIT_AUTOMAKE(maxima,5.17.1.1)"
+
+> mv maxima maxima-5.17.1.1
+> cd maxima-5.17.1.1; sh bootstrap; cd ..
+> tar -czf maxima-5.17.1.1.tar.gz maxima-5.17.1.1
+   \endverbatim
+   </li>
+   <li> However, this seems not to be complete, since apparently
+   then for building this package automake is needed. </li>
+   <li> So perhaps we need to run automake when building the package? </li>
+  </ul>
+
+
   \bug Inconsistent installation of Maxima : DONE
   <ul>
    <li> The plan was that "boostrap" for 5.17.1.1 is always called for this
@@ -22,7 +42,7 @@ License, or any later version. */
 
 
   \todo Update to Maxima 5.17.1 : DONE (needs to be transferred to the
-  docus)
+  docus; see also "Building of Maxima-packages" above)
   <ul>
    <li> Creating a package, which updates the current version 5.17.1 from
    CVS (calling it "5.17.1.1"; we should use this scheme from now on (it
@@ -38,17 +58,6 @@ License, or any later version. */
 > tar -czf maxima-5.17.1.1.tar.gz maxima-5.17.1.1
    \endverbatim
    </li>
-   <li> The above change to "configure.in" introduces an additional dependency
-   of the library on "automake". Without this, the change seems to have no 
-   effect. OK: what is meant by "Without this (what is "this"?), the change
-   seems to have no effect" --- this is about the package delivered from
-   the OKlibrary site. So I don't know what this sentence could mean
-   (because there is is *no* change, regarding that package). MG: If GNU 
-   automake is not installed then the change to "AM_INIT_AUTOMAKE" is not 
-   picked up by the build process, and during "oklib maxima" the errors where
-   the directories are named "5.17post" occur. Maxima warns during the build 
-   that "automake" (and associated tools such as ac.local etc) are necessary 
-   if "configure.in" has been changed. </li>
    <li> To build such a package, first "sh bootstrap" is needed. </li>
    <li> A nasty little problem is that the directory
    Installations/Maxima/ecl/5.17.1/share/maxima/5.17.1 is now called

@@ -27,6 +27,11 @@ License, or any later version. */
     - Installation of Mpfr
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Building of Maxima-packages
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Remove application of mln : DONE

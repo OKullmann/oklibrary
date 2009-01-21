@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -19,6 +19,8 @@ rel_lindex_main_demo_page := $(shell $(rel_path_tool) $(main_demo_page) $(local_
 
 # From the Aims-page:
 rel_aims_accu2006_talk_location := $(shell $(rel_path_tool) $(accu2006_talk_location) $(aims_page_output))
+rel_aims_oklibrary_report2009_location := $(shell $(rel_path_tool) $(oklibrary_report2009_location) $(aims_page_output))
+
 
 # From the History-page:
 rel_history_epsrc_faststream_pdf_location := $(shell $(rel_path_tool) $(epsrc_faststream_pdf_location) $(history_page_output))

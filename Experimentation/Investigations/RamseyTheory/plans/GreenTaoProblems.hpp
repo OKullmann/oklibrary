@@ -128,7 +128,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4194
+  \todo greentao(2;4,5) > 4200
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -145,7 +145,21 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
    msteps=891150901 and seed=1913694368. </li>
    <li> n=4168 seems unsatisfiable (but isn't): 58 runs with rnovelty+ and
    cutoff 100000000 yielded often min=1, but no satisfying assignment
-   was found. </li>
+   was found. But
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 1000000000 -i GreenTao_2_4_5_4168.cnf
+       sat  min     osteps     msteps       seed
+      1 0     1  738268145 1000000000  373431756
+      2 0     1  160332016 1000000000 1761599948
+      3 1     0  936705634  936705634  313191661
+      4 0     1  325465137 1000000000 1569292939
+      5 0     1  671883843 1000000000 3451537904
+      6 1     0  193351757  193351757  679157717
+      7 0     2  146929304 1000000000 1406719143
+      8 0     1   94854828 1000000000 1206648114
+      9 1     0  399415279  399415279 3266707576
+   \endverbatim
+   So a cutoff of 10^9 is needed to progress further. </li>
    <li> n=4175 found satisfiable:
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_2_4_5_4175.cnf
@@ -168,6 +182,23 @@ BestSolution_Max = 6.000000
    msteps=89754713 and seed=1408284365. </li>
    <li> n=4194 found satisfiable by ubcsat-rnovelty+ with
    msteps=922634517 and seed=1864969928. </li>
+   <li> n=4197 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 1000000000 -i GreenTao_2_4_5_4197.cnf
+       sat  min     osteps     msteps       seed
+      1 0     1  340323691 1000000000  744588579
+      2 0     2   14686272 1000000000 3518539282
+      3 0     1  408985275 1000000000  945832409
+      4 0     1  110211777 1000000000  573383613
+      5 0     1  267528773 1000000000 1177614520
+      6 0     2   74866438 1000000000 2491079329
+      7 0     3   21999403 1000000000 1319388202
+      8 0     2  120329369 1000000000 1210367914
+      9 0     1  806760625 1000000000 1611973161
+     10 0     1  135781486 1000000000 2074714037
+     11 0     1  536129169 1000000000 2952378764
+   \endverbatim
+   </li>
    <li> n=4200 looks unsatisfiable:
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_2_4_5_4200.cnf
@@ -185,6 +216,10 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 6.000000
    \endverbatim
    </li>
+   <li> However it is satisfiable: 20 runs with cutoff 10^9 neither did
+   found a solution, however from 111 runs with cutoff 200*10^6 one found
+   a solution: msteps=95907147 and seed=4212480219. </li>
+   <li> n=4225 </li>
    <li> n=4250
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf

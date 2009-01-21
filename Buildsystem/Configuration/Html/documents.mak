@@ -1,5 +1,5 @@
 # Oliver Kullmann, 11.9.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -18,4 +18,6 @@ epsrc_6finalreport_pdf_location ?= $(documents_html_dir)/EPSRC_6FinalReport.pdf
 epsrc_finalreport_pdf_location ?= $(documents_html_dir)/EPSRCFinalReport.pdf
 
 baltimore2008_talk_location ?= $(documents_html_dir)/200803Baltimore.pdf
+
+oklibrary_report2009_location ?= $(documents_html_dir)/CSR1-2009.pdf
 
