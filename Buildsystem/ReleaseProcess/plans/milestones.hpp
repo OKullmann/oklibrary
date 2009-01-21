@@ -72,6 +72,7 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/general.hpp the following topics are handled:
     - Packages history
+    - "Prerequisites" for further development
 
   \par
    In Buildsystem/ReleaseProcess/plans/Release.hpp the following topics are handled:

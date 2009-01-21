@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -69,6 +69,18 @@ License, or any later version. */
   <ul>
    <li> Should we make a distinction between "special releases" and
    "continuous releases" ? </li>
+  </ul>
+
+
+  \todo "Prerequisites" for further development
+  <ul>
+   <li> The README-file contains only tools which are needed for building
+   and for the basic tasks. </li>
+   <li> But there is a lot of other software, which users/developers of the
+   OKlibrary will encounter at some point (for example "automake"). </li>
+   <li> Somewhere these tools need also to be discussed. </li>
+   <li> Perhaps located somewhere in the docus-system. </li>
+   <li> Or perhaps in the FAQ-page. </li>
   </ul>
 
 
