@@ -26,6 +26,8 @@ License, or any later version. */
    <li> A project-page (for example, Heribert Vollmer might have a student
    project about implementing the NP-completeness of SAT (encoding of
    Turing machines)) --- but this perhaps should go to the local system? </li>
+   <li> DONE
+   Creating a link to the download area for ExternalSources etc. </li>
   </ul>
 
 
