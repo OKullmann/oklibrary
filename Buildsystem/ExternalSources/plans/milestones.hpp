@@ -35,6 +35,7 @@ License, or any later version. */
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Elaborated directory structure
     - Building documentation
+    - Documenting changes of files outside of the OKplatform directory
     - General
     - Make-variables for external libraries
 

@@ -146,6 +146,20 @@ SAGE_ROOT="....."
    <li> We should extract only the documentation from the archives (and
    remove everything else which is not needed). </li>
   </ul>
+
+
+  \todo Documenting changes of files outside of the OKplatform directory
+  <ul>
+   <li> We need to collect and document all such actions outside the realm
+   of the OKlibrary. </li>
+   <li> Sage creates an ".ipythonrc" directory is created in the HOME
+   directory if it doesn't exist (and this should be it). </li>
+   <li> Maxima
+    <ol>
+     <li> Gnuplot creates some files in the HOME directory. </li>
+    </ol>
+   </li>
+  </ul>
    
 
   \todo General
