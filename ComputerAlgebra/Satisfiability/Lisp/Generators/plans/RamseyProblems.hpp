@@ -209,7 +209,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
        <li> So therefore we can find 7 vertex-disjoint monochromatic 
        4-cliques. Each clique has 6 edges, representing 6 variables, which
        can be reduced to a single variable, so 7 * 6 = 42 edges, which can
-       be represented using only 6 edges, so 42 - 6 = 36 variables removed.
+       be represented using only 7 edges, so 42 - 7 = 35 variables removed.
        </li>
        <li> 7 4-cliques affect 7 * 4 = 28 vertices, leaving 43 - 28 = 15
        unaffected vertices. </li>
@@ -222,14 +222,14 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
        reduction, 12 - 4 = 8 removed. %I.e, since 4 variables are being used
        to instead of 12, we have removed/collapsed 8 variables. </li>
        <li> So without taking into account the PHP statement above, we see a
-       reduction/loss of 36 + 8 = 44 variables. OK : Likely for the second
+       reduction/loss of 35 + 8 = 43 variables. OK : Likely for the second
        step the above process can be used?! MG : Yes, this is possible,
        and should result in more variables removed/set for n=45. </li>
        <li> Including the PHP statement above, we can set 4 of the 7
        4-cliques to a colour c, and we can replace 2 of the variables
        representing the 4 3-cliques with 1 variable. Therefore we lose an
        additional 5 variables, 4 set to a specific colour and 2 reduced to
-       1 (a loss of 1), so 44 + 5 = 49 variables lost. ??? </li>
+       1 (a loss of 1), so 43 + 5 = 48 variables lost. ??? </li>
       </ul>
      </li>
     </ol>
@@ -271,12 +271,22 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
   clause-set"
   <ul>
-   <li> First the above today needs to be completely updated, and merged with
+   <li> First the above todo needs to be completely updated, and merged with
    this todo. </li>
-   <li> Alter the second Ramsey symmetry implementation so it makes
+   <li> Function added called "ramsey_symbr2_cs" which takes only "n" and 
+   has 
+   \verbatim
+load("obsubst");
+is(opsubst(lambda([x], rank_lex_subsets(x,n)), colv, ramsey_symbr2_cs(n)) = 
+   ramsey2_sym_break_rec(setn(n), lambda([x], rank_lex_subsets(x,n)), lambda([x], unrank_lex_subsets(x,n,2))));
+
+true
+   \endverbatim
+   for a given "n". </li>
+   <li> DONE Alter the second Ramsey symmetry implementation so it makes
    use of the subset enumeration functions (see
    Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
-   <li> This would mean "ramsey2_sym_break_rec" would only depend on n (and 
+   <li> DONE This would mean "ramsey2_sym_break_rec" would only depend on n (and 
    optionally k) . </li>
   </ul>
 
