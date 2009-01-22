@@ -271,12 +271,22 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
   clause-set"
   <ul>
-   <li> First the above today needs to be completely updated, and merged with
+   <li> First the above todo needs to be completely updated, and merged with
    this todo. </li>
-   <li> Alter the second Ramsey symmetry implementation so it makes
+   <li> Function added called "ramsey_symbr2_cs" which takes only "n" and 
+   has 
+   \verbatim
+load("obsubst");
+is(opsubst(lambda([x], rank_lex_subsets(x,n)), colv, ramsey_symbr2_cs(n)) = 
+   ramsey2_sym_break_rec(setn(n), lambda([x], rank_lex_subsets(x,n)), lambda([x], unrank_lex_subsets(x,n,2))));
+
+true
+   \endverbatim
+   for a given "n". </li>
+   <li> DONE Alter the second Ramsey symmetry implementation so it makes
    use of the subset enumeration functions (see
    Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
-   <li> This would mean "ramsey2_sym_break_rec" would only depend on n (and 
+   <li> DONE This would mean "ramsey2_sym_break_rec" would only depend on n (and 
    optionally k) . </li>
   </ul>
 

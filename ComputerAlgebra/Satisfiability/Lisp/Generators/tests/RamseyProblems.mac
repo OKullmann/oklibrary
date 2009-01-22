@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.9.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,13 @@ okltest_ramsey2_ofcs(f) := (
   assert(f(1,0,1) = [[colv({})], [{colv({})},{-colv({})}]]),
   assert(f(0,1,1) = [[colv({1})], []]),
   assert(f(1,1,1) = [[colv({1})], [{colv({1})},{-colv({1})}]]),
+  true)$
+
+okltest_ramsey_symbr2_cs(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i) = {}),
+  for i : 0 thru 17 do 
+    assert(length(f(i)) = 6 * floor(max((i - 3),0) / 3)),
   true)$
 
 okltest_ramsey2_sym_break_rec(f) := block(
