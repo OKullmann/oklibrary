@@ -280,8 +280,12 @@ actual or intended publication of such source code.
 
   \todo Kcnfs
   <ul>
-   <li> Likely not under active development anymore. </li>
-   <li> Get the code from the SAT competition. </li>
+   <li> http://www.laria.u-picardie.fr/~dequen/sat/ </li>
+   <li> One obtains there kcnfs-2006; but the link to kcnfs-smp is
+   broken. </li>
+   <li> On this site one finds als qgs, a "quasigroup existence problem
+   solver", which is also interesting for us. However this solver is
+   not open-source. </li>
   </ul>
 
 
@@ -296,6 +300,14 @@ actual or intended publication of such source code.
    </li>
    <li> There should be other implementations out there (belief propagation
    etc.). </li>
+  </ul>
+
+
+  \todo tts
+  <ul>
+   <li> http://www.cs.qub.ac.uk/~i.spence/tts/ </li>
+   <li> However some form is to be filled out; we should contact the author.
+   </li>
   </ul>
 
 
