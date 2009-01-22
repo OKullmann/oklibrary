@@ -219,7 +219,14 @@ BestSolution_Max = 6.000000
    <li> However it is satisfiable: 20 runs with cutoff 10^9 neither did
    found a solution, however from 111 runs with cutoff 200*10^6 one found
    a solution: msteps=95907147 and seed=4212480219. </li>
-   <li> n=4225 </li>
+   <li> n=4225
+    <ol>
+     <li> -cutoff 200000000 produces in 87 runs no min=1, while with 10^9
+     roughly 25% of the runs reach min=1, so let's increase the cutoff to
+     300 * 10^6. And for the experiment with high cutoff 10^9, since
+     18 runs didn't find a solution, let's increase it to 2*10^9. </li>
+    </ol>
+   </li>
    <li> n=4250
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
