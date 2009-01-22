@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.13 (15.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.14 (22.1.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -30,6 +30,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Building of Maxima-packages
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
+   topics are handled:
+    - Update the Sage installation : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -189,7 +194,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
-    - Improving the Sage installation
+    - Update to Sage 3.2.3
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
