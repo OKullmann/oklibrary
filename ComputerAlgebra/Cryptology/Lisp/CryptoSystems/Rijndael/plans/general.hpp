@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -91,7 +91,7 @@ License, or any later version. */
      <li>  This seems to be done with an expanded key which is a large
      array/list of round keys in Design of Rijndael. </li>
      <li> Current implementation simply implements the key schedule as 
-     described in [Design of Rijndael] taking a list of GF(2^8) elements
+     described in [Design of Rijndael], taking a list of GF(2^8) elements
      and returning a longer list of GF(2^8) elements that can be partitioned
      into round keys. </li>
      <li> A simpler, more elegant key schedule description should be possible?
@@ -102,10 +102,19 @@ License, or any later version. */
      repeatedly in an iterative or recursive manner to produce the expanded key,
      for which the algorithm is relatively simple and described in Design of
      Rijndael and in various other places, returning an expanded key (list
-     of GF(2) elements) of size of r+1 times the block size, which the individual
-     round keys can then be extracted from using a helper function. </li>
+     of GF(2) elements) of size of r+1 times the block size, which the
+     individual round keys can then be extracted from using a helper function.
+     </li>
     </ol>
    </li> 
+  </ul>
+
+
+  \todo The Rijndael cipher as an iterated condition system
+  <ul>
+   <li> See "AES as an ics" in
+   ComputerAlgebra/Satisfiability/Lisp/plans/IteratedConditionSystems.hpp
+   for the task of representing Rijndael in a certain boolean framework. </li>
   </ul>
 
 
@@ -239,8 +248,8 @@ License, or any later version. */
      rather than the Rijndael byte elements in GF(2^8). Such a unit is then 
      considered to be a "word" within the AES system. </li>
     </ul>
-   This then allows for the generalisations from [Algebraic Aspects of the AES],
-   as well as others such as the replacement of the sbox with a random 
+   This then allows for the generalisations from [Algebraic Aspects of the
+   AES], as well as others such as the replacement of the sbox with a random 
    permutation, which have been discussed (below and in 
    Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp ).
    </li>
@@ -252,9 +261,9 @@ License, or any later version. */
    in the QR/PID of size n_R (columns), the result of MixColumns is just a
    mapping over n_C of these elements and so the n_C parameter seems irrelevant
    here. </li>
-   <li> Generalising over e, seems to tie in closely with generalising over n_R,
-   as the polynomial the elements in columns of the block form, are over elements
-   of size e. </li>
+   <li> Generalising over e, seems to tie in closely with generalising over
+   n_R, as the polynomial the elements in columns of the block form, are over
+   elements of size e. </li>
   </ul>
   
   

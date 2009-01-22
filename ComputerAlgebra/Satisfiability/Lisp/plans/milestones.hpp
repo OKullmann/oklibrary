@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,8 @@ License, or any later version. */
   \par Version 0.0.7
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
+   topics are handled:
     - Redesign
 
   \par
@@ -48,7 +49,8 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the
+   following topics are handled:
     - %Variables
     - Value set
     - Total assignments
@@ -62,11 +64,24 @@ License, or any later version. */
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the
+   following topics are handled:
     - Partial assignments
     - %Evaluation of partial assignments
     - Functions for conditions
     - Backdoors
+
+
+  \par Version 0.0.11
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/plans/IteratedConditionSystems.hpp
+   the following topics are handled:
+    - Basic notions
+    - Finding literature
+    - The trivial algorithm
+    - AES as an ics
+    - Applications from railway safety
 
 
 
