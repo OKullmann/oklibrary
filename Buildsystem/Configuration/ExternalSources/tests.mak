@@ -145,30 +145,30 @@ coq_html_documentation_index_location_tag ?= <a href="$(coq_html_output)">$(coq_
 # New variables for the configuration of building sage (to be designed 
 # and implemented):
 
-sage_call ?= $(sage_installation_dir)/sage
+sage_call_okl ?= $(sage_installation_dir)/sage
 
-sage_version_number_extraction := > /dev/null; echo $$?
+sage_version_number_extraction_okl := > /dev/null; echo $$?
 # sage doesn't allow to ask for the version number
 
-location_sage_call ?= $(shell (type -P $(sage_call)))
-ifeq ($(location_sage_call),)
-  sage_call_ready ?= NO
+location_sage_call_okl ?= $(shell (type -P $(sage_call_okl)))
+ifeq ($(location_sage_call_okl),)
+  sage_call_ready_okl ?= NO
 else
-  output_sage_call ?=  $(shell $(sage_call) -h $(sage_version_number_extraction))
-  ifeq ($(output_sage_call),1)
-    version_sage_call ?= $(sage_recommended_version_number)
+  output_sage_call_okl ?=  $(shell $(sage_call_okl) -h $(sage_version_number_extraction_okl))
+  ifeq ($(output_sage_call_okl),1)
+    version_sage_call_okl ?= $(sage_recommended_version_number_okl)
   else
-    version_sage_call ?= UNKNOWN
+    version_sage_call_okl ?= UNKNOWN
   endif
-  ifeq ($(version_sage_call),$(sage_recommended_version_number))
-    sage_call_ready ?= YES
+  ifeq ($(version_sage_call_okl),$(sage_recommended_version_number_okl))
+    sage_call_ready_okl ?= YES
   else
-    sage_call_ready ?= MAYBE
+    sage_call_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sage_html_output)</a>
+sage_html_documentation_index_location_tag_okl ?= <a href="$(sage_html_output_okl)">$(sage_html_output_okl)</a>
 
 
 # New variables for the configuration of building git (to be designed 

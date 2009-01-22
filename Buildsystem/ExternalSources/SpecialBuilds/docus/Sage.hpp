@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,34 +16,49 @@ License, or any later version. */
   <h2> On the purpose of Sage </h2>
 
   Sage is a computer-algebra platform for uniform access to several platform.
-  If necessary, we use it besides Maxima and Axiom/Aldor.
+  <ul>
+   <li> If necessary, we use it besides Maxima and Axiom/Aldor. </li>
+   <li> Though we have some troubles with it (at various levels). </li>
+   <li> Currently, we actually do not use it, and perhaps we drop support
+   for it in the future. </li>
+  </ul>
 
 
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> The main sage-executable (an interactive console) </li>
-   <li> Documentation </li>
+   <li> The main sage-executable (an interactive console), available in
+   <code>$(public_bin_dir_okl)</code>. So by entering <code>sage</code> on
+   the command-line this system is entered. </li>
+   <li> Documentation. </li>
   </ul>
+
 
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> sage-program call = <code>$(sage_call)</code> </li>
-   <li> ready: $(sage_call_ready)
+   <li> Recommended version =
+   <code>$(sage_recommended_version_number_okl)</code> </li>
+   <li> Sage-program call = <code>$(sage_call_okl)</code> </li>
+   <li> Ready: $(sage_call_ready_okl)
     <ul>
-     <li> location = $(location_sage_call) </li>
-     <li> version = <code>$(version_sage_call)</code>
+     <li> location = $(location_sage_call_okl) </li>
+     <li> version = <code>$(version_sage_call_okl)</code>
      </li>
     </ul>
    </li>
-   <li> documentation: $(sage_html_documentation_index_location_tag) </li>
+   <li> Documentation: $(sage_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
   <h2> How to install </h2>
 
-  Only local installation currently.
+  <ul>
+   <li> Only local installation currently. </li>
+   <li> There is no build-directory (which could be removed),
+   but all is put into the installation-directory. </li>
+  </ul>
+
 
   <h3> Make targets </h3>
   
@@ -53,11 +68,19 @@ License, or any later version. */
     <td> Build the recommended version of sage. </td>
    </tr>
    <tr>
-    <td> <code> sage-x.y.z </code> </td>
-    <td> Build the version x.y.z of sage (for example
-    <code>sage-2.7.2</code>). </td>
+    <td> <code> cleanallsage </code> </td>
+    <td> Removes the installation- and documentation-directories. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To install a different version of Sage, set variable
+   <code>sage_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
+
 
 */
 

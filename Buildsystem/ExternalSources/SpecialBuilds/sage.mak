@@ -1,35 +1,32 @@
 # Matthew Henderson, 21.7.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
-
-# NEEDS UPDATE
 
 # ##################################
 # Directory Structure
 # ################################## 
 
 
-sage_directories := $(sage_base_directory)
+sage_directories_okl := $(sage_base_installation_dir_okl) $(sage_base_doc_dir_okl) $(sage_doc_dir_okl)
 
-.PHONY : sage $(sage_targets)
+.PHONY : sage cleanallsage
+
+$(sage_directories_okl) : % : 
+	mkdir -p $@
 
 # #################################
 # Main sage targets
 # #################################
 
-$(sage_directories) : % : 
-	mkdir -p $@
-
-sage : $(sage_recommended)
-
-$(sage_targets) : $(sage_directories)
-	$(call unarchive_uncompressed,$(ExternalSources)/sources/Sage/$@,$(sage_base_directory))
-	cd $(sage_base_directory)/$@; $(postcondition) \
+sage : $(sage_directories_okl)
+	$(call unarchive_uncompressed,$(sage_source_okl),$(sage_base_installation_dir_okl))
+	cd $(sage_installation_dir_okl); ls; $(postcondition) \
 	make; $(postcondition) \
-	make test; $(postcondition) \
+	make test; $(postcondition)
+	cd $(ExternalSources)/sources/Sage; cp tut.dvi inst.dvi ref.dvi prog.dvi const.dvi $(sage_doc_dir_okl); $(postcondition)
 	ln -s --force $(sage_call_okl) $(public_bin_dir_okl)/sage
 
 # #################################
@@ -37,4 +34,4 @@ $(sage_targets) : $(sage_directories)
 # #################################
 
 cleanallsage : 
-	-rm -rf $(sage-base-directory)
+	-rm -rf $(sage_base_installation_dir_okl)
