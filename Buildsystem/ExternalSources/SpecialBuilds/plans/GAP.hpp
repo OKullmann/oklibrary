@@ -68,7 +68,11 @@ gap> Size( AutGroupGraph( JohnsonGraph(5,2) ) );
 
   \todo Improve installation
   <ul>
-   <li> We need the list of all packages. </li>
+   <li> We need the list of all packages.
+    <ol>
+     <li> Also the Guava-package seems of interest. </li>
+    </ol>
+   </li>
    <li> Can we have a separate installation directory (as usual for us)? </li>
    <li> We should better include also the minor version number into the
    installation/build directory names (so that, as usual, we can have several
