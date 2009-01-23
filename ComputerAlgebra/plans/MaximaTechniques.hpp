@@ -154,6 +154,9 @@ xreduce(nounify(union), [a,b,c,d]);
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp. </li>
    <li> The Maxima function "makeset" creates only trouble, since it cannot
    handle "subscripts", and thus we do not use it. </li>
+   <li> Is it guaranteed that the underlying order of at least "simple
+   sets" is lexicographical ordering? "Simple sets" are sets of integers,
+   sets of sets of integers, sets of lists of integers and so on. </li>
   </ul>
 
 
