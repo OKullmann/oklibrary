@@ -24,6 +24,11 @@ License, or any later version. */
    complete_stdohg(n,r)", where the order is given by lexicographical order
    (see "Enumerating all k-subsets lexicographically" in
    ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
+   <li> However, see "%Ramsey hypergraphs" below --- to be used as the
+   vertex set of a %Ramsey hypergraph, we needed to use colexicographical
+   ordering. </li>
+   <li> This would also yield that the hyperedge list of complete_stdohg(n,r)
+   extends that of complete_stdohg(n',r) for n' <= n. </li>
   </ul>
 
 
@@ -48,29 +53,28 @@ License, or any later version. */
      standardised vertex names, using a standard enumeration of r-subsets
      (compare "Create complete r-graphs" above). </li>
      <li> We only need to consider lexicographical ordering of the
-     vertex names. </li>
+     vertex names. Actually, in order to preserve monotonicity, we better
+     use colexicographical ordering. </li>
      <li> This standardised hypergraph has then a canonical order-preserving
-     isomorphism (for vertices and hyperedges!) to ramsey_ohg(q,r,n).
+     isomorphism to ramsey_ohg(q,r,n).
       <ol>
-       <li> This assumes that at least simple sets are lexicographically
-       ordered (implicitly) by Maxima; see "Enumerating all k-subsets
-       lexicographically" in
-       ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp.
-       </li>
-       <li> "Simple sets" are sets of integers, sets of sets of integers,
-       sets of lists of integers and so on. </li>
+       <li> For this to hold (for the vertices) we needed ramsey_ohg
+       to use colexicographical ordering. </li>
+       <li> Perhaps this is a sensible thing to do; however it seems
+       we don't need to do something on the hyperedges (i.e., we continue
+       to use lexicographical order there). </li>
       </ol>
      </li>
      <li> The same numbering should also be used in the C++ generator
      (see Ramsey.cpp). </li>
      <li> So that we can easily create additional clauses with Maxima,
      added then to the C++-generated files. </li>
-     <li> The new generators should be named "std_ramsey_hg" and
-     "std_ramsey_ohg". </li>
+     <li> The new generators should be named "ramsey_stdhg" and
+     "std_ramsey_stdohg". </li>
     </ol>
    </li>
-   <li> The hypergraphs ramsey_hg use sets directly as vertex names,
-   not naming schemes like "rv(1,3)" (instead of "{1,3}").
+   <li> The hypergraphs ramsey_hg use sets directly as vertex names
+   (like "{1,3}"), not naming schemes like "rv(1,3)".
     <ol>
      <li> On the one hand, this is natural in this situation. </li>
      <li> But it makes the approach less flexible: Using unevaluated
