@@ -26,7 +26,7 @@ sage : $(sage_directories_okl)
 	cd $(sage_installation_dir_okl); ls; $(postcondition) \
 	make; $(postcondition) \
 	make test; $(postcondition) \
-	sed --in-place --expression='s|^SAGE_ROOT="....."|SAGE_ROOT="$(sage_installation_dir_okl)"|' ./sage; $(postcondition)
+	cat ./sage | awk '$$1 ~ /SAGE_ROOT=/ {print "SAGE_ROOT=\"$(sage_installation_dir_okl)\""}; $$1 !~ /SAGE_ROOT=/ {print}' > ./sage; $(postcondition)
 	ln -s --force $(sage_call_okl) $(public_bin_dir_okl)/sage
 
 # #################################

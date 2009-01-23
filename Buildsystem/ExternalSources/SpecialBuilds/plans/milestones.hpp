@@ -34,8 +34,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
-    - We need to update the created sage-script
-    - Update the Sage installation
+    - We need to update the created sage-script : DONE
+    - Update the Sage installation : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following

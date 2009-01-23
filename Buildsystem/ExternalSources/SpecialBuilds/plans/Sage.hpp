@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Sage
 
 
-  \bug We need to update the created sage-script
+  \bug DONE
+  We need to update the created sage-script
   <ul>
    <li> DONE Set SAGE_ROOT. </li>
    <li> What if "|" occurs in the path? </li>
