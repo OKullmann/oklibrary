@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans regarding installation of Sage
 
 
+  \bug We need to update the created sage-script
+  <ul>
+   <li> DONE Set SAGE_ROOT. </li>
+   <li> What if "|" occurs in the path? </li>
+   <li> Likely sed is used in other places, so we need to add it to the
+   list of build-requirements. </li>
+   <li> Perhaps we better use awk here, then we don't have problems:
+   Replace every line starting with "SAGE_ROOT=" by our substitution. </li>
+  </ul>
+
+
   \todo Update the Sage installation : DONE
   <ul>
    <li> DONE
