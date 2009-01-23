@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,21 +12,54 @@ License, or any later version. */
 
   \todo "OKlib" instead of "Transitional"
   <ul>
-   <li> Rename "Transitional" to "OKlib", and remove the (empty)
-   repository "OKlibrary".
+   <li> Rename "Transitional" to "OKlib"
     <ol>
+     <li> DONE Remove the (empty) repository "OKlibrary". </li>
      <li> So the directory "Transitional" is renamed to "OKlib". </li>
-     <li> Hopefully this doesn't inflate the git-repository. </li>
-     <li> And then all references to "Transitional" need to be
-     replaced. </li>
-     <li> The best would be a program which goes through all
-     files containing "Transitional", shows the line plus its
-     environment, and asks whether the occurrence should be replaced by
-     "OKlib --- if not, then the filename is stored for later
-     consideration. </li>
-     <li> Though the string "Transitional" is likely not used in any
-     other sense, so we could just do replacement without checking. </li>
-     <li> Of course, thorough checking afterwards. </li>
+     <li> DONE (only by ~ 100kb)
+     Hopefully this doesn't inflate the git-repository. </li>
+     <li> The process of replacement:
+      <ol>
+       <li> DONE (not needed_
+       The best would be a program which goes through all
+       files containing "Transitional", shows the line plus its
+       environment, and asks whether the occurrence should be replaced by
+       "OKlib --- if not, then the filename is stored for later
+       consideration. </li>
+       <li> Though the string "Transitional" is likely not used in any
+       other sense, so we could just do replacement without checking.
+       <li>
+       \verbatim
+for F in $(find Transitional -path Transitional/.git -prune -or -type f -not -name "*~" -not -name ".directory" -print); do \
+  sed --in-place 's/Transitional/OKlib/g' ${F}; done
+       \endverbatim
+       does the job. </li>
+      </ol>
+     </li>
+     <li> Rename then Buildsystem/Transitional.mak -> OKlib.mak. </li>
+     <li> We store certain paths to the doxygen-created documentation, but
+     some paths change now, since the part "Transitional" in them is replaced
+     by "OKlib". So we have to go through all the links. </li>
+     <li> Of course, thorough checking afterwards.
+      <ol>
+       <li> As in CreatePackage, we create an alternative OKplatform
+       installation, reusing the old ExternalSources by setting
+       \verbatim
+ExternalSources := path-to-old-external-sources
+       \endverbatim
+       in New_OKplatformr/.oklib/override.mak.
+       <li>
+       <li> We need also to create a new package, and check whether it works.
+       </li>
+       <li> And the links on the Internet page need to be checked. </li>
+       <li> Accordingly to a test performed on csltok, it seems to go through
+       without problems! </li>
+      </ol>
+     </li>
+     <li> Perhaps we should create a tag for the point just before
+     the replacement. </li>
+     <li> And perhaps best we freeze all changes for the time of transition.
+     </li>
     </ol>
    </li>
    <li> We need clear indications what modules are usable already:
