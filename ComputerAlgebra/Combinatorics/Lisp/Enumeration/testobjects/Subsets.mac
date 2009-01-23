@@ -21,9 +21,19 @@ oklib_load("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/testobje
 oklib_include("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subsets.mac")$
 
+/* ***************************
+   * Lexiographical ordering *
+   ***************************
+*/
+
 okltest_lex_subsets_l(lex_subsets_l);
 okltest_rank_lex_subsets(rank_lex_subsets);
 okltest_unrank_lex_subsets(unrank_lex_subsets);
+
+/* *****************************
+   * Colexiographical ordering *
+   *****************************
+*/
 
 okltest_colex_subsets_l(colex_subsets_l);
 okltest_rank_colex_subsets(rank_colex_subsets);

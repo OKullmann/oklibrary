@@ -16,26 +16,30 @@ oklib_load("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* ***************************
    * Lexiographical ordering *
    ***************************
 */
 
-/* Produces a list of all k subsets of M in lexiographical order */
+/* Produces a list of all k subsets of M in lexiographical order: */
 lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : first_element(M), R],
     R : disjoin(x,M),
     append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
-   lexiographical enumeration. Note, for lex ordering, this *does*
-   depend on n (as for instance {2,3,4} comes after {1,2,6}). */
+   lexiographical enumeration: */
 rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
+/*  Note, for lex ordering, this does depend on n (as for instance {2,3,4}
+    comes after {1,2,6}).
+*/
 
-/* Returns the 'x'th subset in the lexiographical enumeration of all
-   k-subsets of {1,...,n}. */ 
+/* Returns the 'x'th subset in the lexicographical enumeration of all
+   k-subsets of {1,...,n}: */ 
 unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   x : binomial(n,k) - x,
   for i : 1 thru k do block([j : k-i+1],
@@ -50,17 +54,17 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
    *****************************
 */
 
-/* Produces a list of all k subsets of M in colexiographical order */
+/* Produces a list of all k subsets of M in colexiographical order: */
 colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : last_element(M), R],
     R : disjoin(x,M),
     append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
-   colexiographical enumeration. Note, for colex ordering, this does not
-   depend on n. */
+   colexicographical enumeration: */
 rank_colex_subsets(S) := block([L : listify(S)],
   sum_l(create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
+/*  Note, for colex ordering, this does not depend on n. */
 
 /* Returns the 'x'th subset in the colexiographical enumeration of all
    k-subsets of {1,...,n}. */ 
