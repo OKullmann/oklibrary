@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.9.2007 (Durham)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,8 +41,8 @@ License, or any later version. */
    </li>
    <li> This has connections with many modules (counting, finding all
    solutions, etc.), but perhaps is best handled in its own module. </li>
-   <li> Perhaps we have a dedicated super-module Satisfiability/BooleanFunctions,
-   with a sub-module BigBooleans? </li>
+   <li> Perhaps we have a dedicated super-module
+   Satisfiability/BooleanFunctions, with a sub-module BigBooleans? </li>
    <li> See the article of [Heule, van Maaren; 2007] on the use of "big
    booleans". </li>
   </ul>
