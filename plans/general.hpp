@@ -298,24 +298,26 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Research sub-modules
+  \todo Research sub-modules : DONE
   <ul>
    <li> Annotations simply stays a different repository. </li>
-   <li> At least for version transitions, is it possible to store clones somewhere
+   <li> DONE (GitHub shall suffice (for now))
+   At least for version transitions, is it possible to store clones somewhere
    at an "official place" ?
     <ol>
      <li> What about that "SourceForge" ? </li>
-     <li> Perhaps "SourceForge" is more for active participation in the "classical way"? </li>
-     <li> Perhaps there are public scientific repositories? Or cultural repositories? </li>
+     <li> Perhaps "SourceForge" is more for active participation in the
+     "classical way"? </li>
+     <li> Perhaps there are public scientific repositories? Or cultural
+     repositories? </li>
      <li> At least we should keep a history of main releases (backed-up). </li>
-     <li> Perhaps once we really go public (not yet with that "proto-release") we
-     have a "mirror" somewhere. </li>
-     <li> Perhaps actually the SAT community could provide a repository for SAT-related
-     software?! </li>
+     <li> Perhaps once we really go public (not yet with that "proto-release")
+     we have a "mirror" somewhere. </li>
+     <li> Perhaps actually the SAT community could provide a repository for
+     SAT-related software?! </li>
      <li> DONE (external sources are not under version control (only their hash
-     values))
-     But all this implies at least, that the external sources are not part
-     of the release --- otherwise it gets too big. </li>
+     values)) But all this implies at least, that the external sources are
+     not part of the release --- otherwise it gets too big. </li>
     </ol>
    </li>
    <li> DONE (all what we have currently is to be released; if in the future

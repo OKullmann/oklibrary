@@ -41,8 +41,8 @@ License, or any later version. */
     - "OKlib" instead of "Transitional"
     - Super-modules
     - Handling of version-numbers
-    - Research sub-modules
     - Organisation of plans-directories
+    - Research sub-modules : DONE
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:
     - Improve the general design discussions
