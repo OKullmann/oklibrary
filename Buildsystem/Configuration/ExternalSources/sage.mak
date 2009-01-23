@@ -13,15 +13,9 @@ sage_supported_version_numbers_okl ?= $(sage_supported_not_recommended_version_n
 
 sage_prefix_okl ?= sage
 
-sage_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Sage.html
-sage_html_output_okl ?= $(local_html_dir)/Sage.html
-sage_html_documentation_index_location_okl ?= Sage.html
-
 sage_base_installation_dir_okl ?= $(ExternalSources_installations)/Sage
 sage_recommended_package_name_okl ?= $(sage_prefix_okl)-$(sage_recommended_version_number_okl)
 sage_installation_dir_okl ?= $(sage_base_installation_dir_okl)/$(sage_recommended_package_name_okl)
-sage_base_doc_dir_okl ?= $(ExternalSources_doc)/Sage
-sage_doc_dir_okl ?= $(sage_base_doc_dir_okl)/$(sage_recommended_version_number_okl)
 
 sage_call_okl ?= $(sage_installation_dir_okl)/sage
 

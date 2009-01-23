@@ -27,7 +27,6 @@ sage : $(sage_directories_okl)
 	make; $(postcondition) \
 	make test; $(postcondition) \
 	sed --in-place --expression='s|^SAGE_ROOT="....."|SAGE_ROOT="$(sage_installation_dir_okl)"|' ./sage; $(postcondition)
-	cd $(ExternalSources)/sources/Sage; cp tut.dvi inst.dvi ref.dvi prog.dvi const.dvi $(sage_doc_dir_okl); $(postcondition)
 	ln -s --force $(sage_call_okl) $(public_bin_dir_okl)/sage
 
 # #################################

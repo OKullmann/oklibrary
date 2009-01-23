@@ -168,7 +168,7 @@ else
 endif
 
 # the following construction needs to be generalised by some function
-sage_html_documentation_index_location_tag_okl ?= <a href="$(sage_html_output_okl)">$(sage_html_output_okl)</a>
+sage_html_documentation_index_location_tag_okl ?= <a href="$(sage_main_index_okl)">$(sage_main_index_okl)</a>
 
 
 # New variables for the configuration of building git (to be designed 
