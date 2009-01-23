@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Su
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 kill(f)$

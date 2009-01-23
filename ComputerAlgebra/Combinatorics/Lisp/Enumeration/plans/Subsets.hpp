@@ -16,7 +16,14 @@ License, or any later version. */
   </ul>
 
 
-  \todo Enumerating all k-subsets lexicographically
+  \todo Write a basic docus
+  <ul>
+   <li> The explanations from "Enumerating all k-subsets lexicographically"
+   need to be transferred to the docus. </li>
+  </ul>
+
+
+  \todo Enumerating all k-subsets lexicographically : DONE
   <ul>
    <li> Given natural numbers n, k >= 0, the task is to enumerate the set
    binom({1,...,n},k) of all k-subsets of {1,...,n}. (See "Main concepts"
@@ -93,14 +100,6 @@ unrank_colex_subsets(x,n,k) := block([S : [], L : n],
    By definition we have
    rank_colex_subsets(unrank_colex_subsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k). </li>
-   <li> unrank_colex_subsets(x,n,k) does not really depend on n, it is only
-   a large enough start value needed for L.
-    <ol>
-     <li> It would be better if from x and k we could compute a good value n
-     (and thus it wouldn't be needed as input). </li>
-     <li> The smallest n is given by the condition x <= binomial(n,k). </li>
-    </ol>
-   </li>
    <li> The inverse of rank_lex_subsets is the following function:
    \verbatim
 unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
@@ -115,6 +114,11 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
    rank_lex_subsets(unrank_lex_subsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k).
    </li>
+  </ul>
+
+
+  \todo Iteration through lexicographical order
+  <ul>
    <li> State-free iteration for lexicographical order is given as follows:
    \verbatim
 first_lex_subsets(n,k) := setn(k)$
@@ -155,6 +159,16 @@ block([it : itgen_lex_subsets(M,k)], while not itend_lex_subsets(it) do
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Improving colexicographical unranking
+  <ul>
+   <li> unrank_colex_subsets(x,n,k) does not really depend on n, it is only
+   a large enough start value needed for L. </li>
+   <li> It would be better if from x and k we could compute a good value n
+   (and thus it wouldn't be needed as input). </li>
+   <li> The smallest n is given by the condition x <= binomial(n,k). </li>
   </ul>
 
 
