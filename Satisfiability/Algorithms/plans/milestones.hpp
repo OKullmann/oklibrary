@@ -28,8 +28,8 @@ License, or any later version. */
   \par
    In Satisfiability/Algorithms/plans/general.hpp the following
    topics are handled:
-    - Create module for SAT problems with bounded maximal deficiency
     - Create module for solving small SAT problems
+    - Create module for SAT problems with bounded maximal deficiency : DONE
     - Update namespaces : DONE
     - Create milestones : DONE
 

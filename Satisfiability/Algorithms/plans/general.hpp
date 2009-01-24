@@ -13,7 +13,8 @@ License, or any later version. */
   SAT solving.
   
 
-  \todo Create module for SAT problems with bounded maximal deficiency.
+  \todo DONE (created ComputerAlgebra/Satisfiability/Lisp/BoundedDeficiency/plans/general.hpp)
+  Create module for SAT problems with bounded maximal deficiency.
 
 
   \todo Create module for solving small SAT problems
