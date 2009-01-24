@@ -63,6 +63,7 @@ sage: An error occurred while installing libfplll-2.1.6-20071129.p5
      <li> Perhaps this is best: 2.7.2 is installing fine (apparently),
      and from time to time we can try to see whether the installation
      problems disappear or not with some newer version. </li>
+     <li> Same error with 3.0. </li>
      <li> But no attempts to communicate with Sage developers, except,
      of course, there is a reasonable (e-mail, not mindless chatting)
      possibility on a publically available mailing list. </li>
