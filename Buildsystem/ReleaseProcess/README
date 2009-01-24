@@ -31,6 +31,10 @@ The following software needs to be installed:
    (check: run "bash --version")
  - GNU make, version 3.80 or higher
   (check: run "make --version")
+ - GNU sed
+  (check: run "sed --version")
+ - GNU awk
+  (check: run "awk --version")
  - gcc
   (check: run "gcc --version")
  - A Fortran compiler (e.g. gfortan or F77)
