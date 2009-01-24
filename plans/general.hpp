@@ -14,10 +14,6 @@ License, or any later version. */
   <ul>
    <li> Rename "Transitional" to "OKlib"
     <ol>
-     <li> DONE Remove the (empty) repository "OKlibrary". </li>
-     <li> So the directory "Transitional" is renamed to "OKlib". </li>
-     <li> DONE (only by ~ 100kb)
-     Hopefully this doesn't inflate the git-repository. </li>
      <li> The process of replacement:
       <ol>
        <li> DONE (not needed_
@@ -37,6 +33,7 @@ for F in $(find Transitional -path Transitional/.git -prune -or -type f -not -na
       </ol>
      </li>
      <li> Rename then Buildsystem/Transitional.mak -> OKlib.mak. </li>
+     <li> Rename the directory "Transitional" to "OKlib". </li>
      <li> We store certain paths to the doxygen-created documentation, but
      some paths change now, since the part "Transitional" in them is replaced
      by "OKlib". So we have to go through all the links. </li>
@@ -69,6 +66,9 @@ ExternalSources := path-to-old-external-sources
      Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
     </ol>
    </li>
+   <li> DONE Remove the (empty) repository "OKlibrary". </li>
+   <li> DONE (only by ~ 100kb)
+   Hopefully this doesn't inflate the git-repository. </li>
   </ul>
 
 
