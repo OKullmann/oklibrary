@@ -59,13 +59,6 @@ ExternalSources := path-to-old-external-sources
      </li>
     </ol>
    </li>
-   <li> We need clear indications what modules are usable already:
-    <ol>
-     <li> This should be achieved by their version numbers. </li>
-     <li> See "Doxygen menu and main page review" in
-     Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
-    </ol>
-   </li>
    <li> DONE Remove the (empty) repository "OKlibrary". </li>
    <li> DONE (only by ~ 100kb)
    Hopefully this doesn't inflate the git-repository. </li>
@@ -357,7 +350,16 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Demos:
+  \todo Access to version numbers
+  <ul>
+   <li> We need clear indications what modules are usable already:
+   <li> This should be achieved by their version numbers. </li>
+   <li> See "Doxygen menu and main page review" in
+   Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Demos
   <ul>
    <li> In sub-directories "Module/demos" all demonstration programs will be put. </li>
    <li> The files in Module/demos should have full doxygen-documentation. </li>
