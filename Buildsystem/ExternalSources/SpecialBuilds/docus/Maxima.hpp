@@ -25,6 +25,18 @@ License, or any later version. */
   <ul>
    <li> The main maxima-executable (an interactive console). </li>
    <li> Documentation. </li>
+   <li> Access to the the "Encyclopedia of Integer Sequences" as provided by
+   Alexey Beshenov (http://beshenov.ru/maxima/eis/):
+    <ol>
+     <li> See the demo-file in the installation directory
+     <code>$(maxima_eis_installation_dir_okl)</code> for the search
+     interface. </li>
+     <li> However note that no load is necessary (since automatically
+     performed by <code>oklib</code>). </li>
+     <li> The database is directory
+     <code>$(maxima_eis_base_installation_dir_okl)/A</code> </li>
+    </ol>
+   </li>
   </ul>
   Normally, the user doesn't need to interact with Maxima directly, but can
   use <code>oklib --maxima</code> (see

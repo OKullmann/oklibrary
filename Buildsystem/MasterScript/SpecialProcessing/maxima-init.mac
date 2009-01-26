@@ -28,6 +28,11 @@ define_variable(
     else unknown,
   any); /* may take value inf or unknown */
 
+define_variable(
+  eis_directory_okl,
+  "m4_SHELL(maxima_eis_installation_dir_okl)",
+  any);
+
 showtime : true;
 linel : 100;
 stringdisp : true;
@@ -78,6 +83,7 @@ define_variable(
 */
 
 loadfile(sconcat(OKsystem,"/Transitional/ComputerAlgebra/MaximaInternals/optload.lisp"));
+loadfile(sconcat(eis_directory_okl,"/eis.lisp"));
 
 oklib_load(name) := oklib_plain_load(sconcat(OKsystem,"/",name));
 oklib_plain_load(name) := (

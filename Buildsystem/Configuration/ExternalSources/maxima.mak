@@ -58,7 +58,19 @@ maxima_documentation_url_okl := http://maxima.sourceforge.net/docs.shtml
 
 maxima_targets_prefix_okl := $(maxima_prefix_okl)-
 maxima_recommended_okl := $(maxima_targets_prefix_okl)$(maxima_recommended_version_number_okl)
-maxima_source_okl := $(ExternalSources)/sources/Maxima/$(maxima_recommended_okl)
+maxima_source_dir_okl := $(ExternalSources)/sources/Maxima
+maxima_source_okl := $(maxima_source_dir_okl)/$(maxima_recommended_okl)
+
+# Integer sequences
+
+maxima_eis_package_name_okl ?= eis-maxima
+maxima_eis_data_base_name_okl ?= eis-maxima-data-
+maxima_eis_data_extension_name_okl ?= 2009-01-25
+maxima_eis_data_name_okl ?= $(maxima_eis_data_base_name_okl)$(maxima_eis_data_extension_name_okl)
+maxima_eis_base_installation_dir_okl ?= $(maxima_base_installation_dir_okl)/Eis
+maxima_eis_installation_dir_okl ?= $(maxima_eis_base_installation_dir_okl)/$(maxima_eis_package_name_okl)
+maxima_eis_url_okl := http://beshenov.ru/maxima/eis/
+
 
 # Tool : gnuplot
 

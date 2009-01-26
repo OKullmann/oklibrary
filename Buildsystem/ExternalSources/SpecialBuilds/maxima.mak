@@ -9,9 +9,9 @@
 # Directory Structure
 # ################################## 
 
-maxima_directories_okl := $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl) $(maxima_doc_dir_okl)
+maxima_directories_okl := $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl) $(maxima_doc_dir_okl) $(maxima_eis_base_installation_dir_okl)
 
-.PHONY : maxima allmaxima cleanmaxima cleanallmaxima cleanallallmaxima
+.PHONY : maxima maxima_core maxima_eis allmaxima cleanmaxima cleanallmaxima cleanallallmaxima
 
 $(maxima_directories_okl) : % : 
 	mkdir -p $@
@@ -23,7 +23,9 @@ $(maxima_directories_okl) : % :
 
 allmaxima : ecl gnuplot maxima
 
-maxima : $(maxima_directories_okl)
+maxima : maxima_core maxima_eis
+
+maxima_core : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
 	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
@@ -35,6 +37,12 @@ maxima : $(maxima_directories_okl)
 	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
+
+
+maxima_eis : $(maxima_eis_base_installation_dir_okl)
+	$(call unarchive,$(maxima_source_dir_okl)/$(maxima_eis_package_name_okl),$(maxima_eis_base_installation_dir_okl))
+	$(call unarchive,$(maxima_source_dir_okl)/$(maxima_eis_data_name_okl),$(maxima_eis_base_installation_dir_okl))
+	cd $(maxima_eis_installation_dir_okl); cat eis.lisp | awk '{if ($$1 == "(defparameter" && $$2 == "*path-base*") print "(defparameter *path-base* \"$(maxima_eis_base_installation_dir_okl)\")"; else print}' > eistemp; mv eistemp eis.lisp; $(postcondition)
 
 
 # #################################
