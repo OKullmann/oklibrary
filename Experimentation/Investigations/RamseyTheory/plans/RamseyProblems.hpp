@@ -57,6 +57,23 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
+  \todo Experiments to be run
+  <ul>
+   <li> The following experiments need to be discussed and moved to other todos,
+   as well as linked in with plans for the experiment system :
+    <ul>
+     <li> Iterating through UBCSAT algorithms to see which algorithms are best
+     for small to medium size Ramsey problems. See "Selecting the best 
+     algorithm" in ExperimentSystem/plans/RunUBCSAT.hpp . </li>
+     <li> Iterating through parameters for the best UBCSAT algorithm(s) testing
+     to see whether tuned parameters are better for Ramsey problems.
+     See "Selecting the best parameters" in 
+     ExperimentSystem/plans/RunUBCSAT.hpp . </li> 
+    </ul>
+   </li>
+  </ul>
+
+
   \todo NR([3,3],2)
   <ul>
    <li> Satisfiability for n=5 is trivial for any SAT solver. </li>

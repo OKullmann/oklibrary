@@ -175,6 +175,22 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
   </ul>
 
 
+  \todo Selecting the best parameters
+  <ul>
+   <li> Given the a small set of algorithms, tuning of the UBCSAT parameters
+   such as "cutoff", "runs" etc might yield better results for certain
+   problem classes. </li>
+   <li> As in "Selecting the best algorithm", testing parameters by hand first
+   is best and then trying to automatise the process. </li>
+   <li> Later on, with further automatisation, a slightly more dynamic 
+   experiment system would be useful, where conditions may be used which
+   dictate where more experiments are run (i.e certain algorithms and
+   parameter changes are weeded out as they do not perform well, and 
+   others are given more experiment time to provide finer grained 
+   differentiation). </li>
+  </ul>
+
+
   \todo Meta heuristics
   <ul>
    <li> See "Faster local search" in
