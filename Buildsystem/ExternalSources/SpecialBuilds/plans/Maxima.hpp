@@ -380,6 +380,15 @@ you can't go above 64.
   </ul>
 
 
+  \todo Database of integer sequences
+  <ul>
+   <li> We have to see whether the sequences are becoming (publically)
+   available. </li>
+   <li> If this is not the case, then likely we shouldn't contribute to
+   that database. </li>
+  </ul>
+
+
   \todo Additional packages
   <ul>
    <li> Real algebraic geometry

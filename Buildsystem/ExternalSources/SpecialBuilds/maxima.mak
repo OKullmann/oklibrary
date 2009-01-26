@@ -23,7 +23,7 @@ $(maxima_directories_okl) : % :
 
 allmaxima : ecl gnuplot maxima
 
-maxima : maxima_core maxima_eis
+maxima : maxima_core # maxima_eis
 
 maxima_core : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
@@ -38,7 +38,7 @@ maxima_core : $(maxima_directories_okl)
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
 
-
+# For access to the "encyclopedia of integer sequences":
 maxima_eis : $(maxima_eis_base_installation_dir_okl)
 	$(call unarchive,$(maxima_source_dir_okl)/$(maxima_eis_package_name_okl),$(maxima_eis_base_installation_dir_okl))
 	$(call unarchive,$(maxima_source_dir_okl)/$(maxima_eis_data_name_okl),$(maxima_eis_base_installation_dir_okl))

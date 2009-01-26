@@ -263,6 +263,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
+    - Database of integer sequences
     - System-wide installation
     - Handling of redefined load-function
 

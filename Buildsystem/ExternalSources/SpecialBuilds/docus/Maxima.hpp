@@ -25,7 +25,8 @@ License, or any later version. */
   <ul>
    <li> The main maxima-executable (an interactive console). </li>
    <li> Documentation. </li>
-   <li> Access to the the "Encyclopedia of Integer Sequences" as provided by
+   <li> DISABLED
+   Access to the the "Encyclopedia of Integer Sequences" as provided by
    Alexey Beshenov (http://beshenov.ru/maxima/eis/):
     <ol>
      <li> See the demo-file in the installation directory
