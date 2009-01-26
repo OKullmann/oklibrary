@@ -22,31 +22,48 @@ License, or any later version. */
   </ul>
 
 
+  \todo General plans
+  <ul>
+   <li> An important motivation is the task of, given a finite function,
+   find a representation of it by generalised CNF/DNF, propositional logic,
+   CSPs, alliances of active clause-sets etc. </li>
+   <li> So from this point of view, finite functions are as building blocks
+   in representations of (generalised) satisfiability problem instances,
+   and the task is to transform the whole representation into an alliance of
+   active clause-sets. </li>
+   <li> But finite functions are also interesting in their own right.
+   Constructing smallest circuits or smallest branching programs for
+   example are interesting tasks (involving themselves satisfiability
+   problems). </li>
+   <li> So various forms of general computational representations need to be
+   supported, together with conversions to other forms. </li>
+   <li> Such "conversions" might involve satisfiability problems in
+   various forms. </li>
+   <li> However, automata are not considered here, since we are studying
+   here "combinatorial" (non-uniform) computations. </li>
+   <li> Perhaps we have a module ComputerAlgebra/Automata, where various
+   forms of automata are provided, and there then, for a given input size,
+   various forms of representations of this finite function (e.g., as a
+   circuit), are also provided. See "Module ComputerAlgebra/Automata" in
+   ComputerAlgebra/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Notions of "finite functions"
   <ul>
-   <li> The main point is the construction of representations of finite
-   functions via generalised CNF/DNF, propositional logic, CSPs, alliances
-   of active clause-sets etc. </li>
-   <li> And also general computational representations need to be supported,
-   together with conversions to other forms. </li>
-   <li> Such "conversions" can involve themselves satisfiability problems in
-   various forms. </li>
-   <li> The notion of a "finite function":
-    <ol>
-     <li> A triple [n,m,f], where n is the number of inputs, m the number
-     of outputs, and f the function, which accepts lists of length n,
-     and returns lists of length m. </li>
-     <li> Let's speak of a "n x m" finite function. </li>
-     <li> The default is boolean values; shall this be "false, true", or
-     "0, 1", or perhaps "-1, +1" ? </li>
-     <li> If a quadruple [n,m,f,D] is used, then for input and output
-     the set of values is D. </li>
-     <li> And if a quintuple [n,m,f,D,C] is used, then the values for the
-     inputs are taken from D, while the values for the output are taken
-     from C. </li>
-     <li> Abbreviations: "bf" for "boolean function", "ff" for "finite
-     function" (in general). </li>
-    </ol>
+   <li> A triple [n,m,f], where n is the number of inputs, m the number
+   of outputs, and f the function, which accepts lists of length n,
+   and returns lists of length m. </li>
+   <li> Let's speak of a "n x m" finite function. </li>
+   <li> The default is boolean values; shall this be "false, true", or
+   "0, 1", or perhaps "-1, +1" ? </li>
+   <li> If a quadruple [n,m,f,D] is used, then for input and output
+   the set of values is D. </li>
+   <li> And if a quintuple [n,m,f,D,C] is used, then the values for the
+   inputs are taken from D, while the values for the output are taken
+   from C. </li>
+   <li> Abbreviations: "bf" for "boolean function", "ff" for "finite
+   function" (in general). </li>
    </li>
    <li> Input and output conventions:
     <ol>
@@ -95,6 +112,9 @@ License, or any later version. */
   <ul>
    <li> Of interest is finding boolean circuits (%w.r.t. different bases) for
    given boolean functions. </li>
+   <li> Boolean circuits are likely best modelled as boolean straight-line
+   programs, where now best the gates come from a given set (for example
+   the set B_2 of all binary boolean functions). </li>
    <li> See the work of Alexander S. Kulikov for example. </li>
    <li> Section 7.1.2 in [Knuth, The Art of Computer Programming: Introduction
    to Combinatorial Algorithms and Boolean Functions, 2008] contains a nice
