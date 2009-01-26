@@ -54,5 +54,23 @@ License, or any later version. */
    on the strength of reduction and look-ahead. </li>
   </ul>
 
+
+  \todo Add section on AES experiments to be run
+  <ul>
+   <li> Experiments need to be run on AES instances with different types
+   of SAT algorithm (local search, dpll etc) to see how things stand
+   with the AES translation (See 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp).
+   </li>
+   <li> Also experiments with the following need to be run :
+    <ul>
+     <li> Reduced round variants </li>
+     <li> AES variants with different Sboxes. </li>
+     <li> Analysis of good heuristics for AES (See "Experimental 
+     investigations on heuristics") . </li>
+    </ul>
+   </li>
+  </ul>
+
 */
 
