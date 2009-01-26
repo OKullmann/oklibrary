@@ -128,7 +128,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4206
+  \todo greentao(2;4,5) > 4209
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -221,8 +221,10 @@ BestSolution_Max = 6.000000
    solution: msteps=95907147 and seed=4212480219. </li>
    <li> n=4206 found satisfiable by ubcsat-rnovelty+ with
    msteps=452878347 and seed=1359137308 (12th run with cutoff=10^9). </li>
-   <li> n=4209 </li>
+   <li> n=4209 found satisfiable by ubcsat-rnovelty+ with
+   msteps=198794445 and seed=1704826917 (10th run with cutoff=10^9). </li>
    <li> n=4210 </li>
+   <li> n=4211 </li>
    <li> n=4213
     <ol>
      <li> 26 runs with cutoff=10^9 yield 1 run with min=3, 14 runs with min=2,
