@@ -16,6 +16,8 @@ License, or any later version. */
    of "combinatorial objects", the task is to "enumerate" M(p). </li>
    <li> "Enumeration" means several things:
     <ol>
+     <li> Simplest: determining the size of M(p); naming %e.g. count_subsets.
+     </li>
      <li> Computing (all of) M(p) as a (repetition-free) list L(p).
       <ol>
        <li> This could be called the task of "completely listing" M(p). </li>

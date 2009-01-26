@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac
-  \brief Subset enumeration functions.
+  \brief Subset enumeration functions
 
 Use by
 
@@ -22,6 +22,12 @@ oklib_load("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
+/* The number of subsets of size k of set M: */
+count_ksubsets_s(M,k) := binomial(length(M),k)$
+/* The number of k-subsets of {1,...,n}: */
+count_ksubsets(n,k) := binomial(n,k)$
+/* Prerequisites in both cases: k is an integer. */
 
 /* ***************************
    * Lexicographical ordering *

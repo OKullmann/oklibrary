@@ -16,8 +16,12 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write a basic docus
+  \todo Completing the basic functionality
   <ul>
+   <li> Also the counting-functions need testing. </li>
+   <li> Should it be "ksubsets", or just "subsets"? (Later we will
+   actually enumerate all subsets, so perhaps "ksubsets" is better.) </li>
+   <li> Write a basic docus. </li>
    <li> The explanations from "Enumerating all k-subsets lexicographically"
    need to be transferred to the docus. </li>
   </ul>
