@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
    following topics are handled:
-    - Write a basic docus
+    - Completing the basic functionality
     - Enumerating all k-subsets lexicographically : DONE
 
   \par

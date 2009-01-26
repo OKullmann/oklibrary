@@ -35,7 +35,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update to Sage 3.2.3
+  \todo Update to Sage later than 3.2.3
   <ul>
    <li> On cs-wsok we get a build-error:
    \verbatim
@@ -53,6 +53,7 @@ sys     0m5.712s
 sage: An error occurred while installing libfplll-2.1.6-20071129.p5
    \endverbatim
    </li>
+   <li> Let's wait whether over time the situation improves. </li>
    <li> Now it is impossible to contact Sage without becoming
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
@@ -63,10 +64,7 @@ sage: An error occurred while installing libfplll-2.1.6-20071129.p5
      <li> Perhaps this is best: 2.7.2 is installing fine (apparently),
      and from time to time we can try to see whether the installation
      problems disappear or not with some newer version. </li>
-     <li> Same error with 3.0. </li>
-     <li> But no attempts to communicate with Sage developers, except,
-     of course, there is a reasonable (e-mail, not mindless chatting)
-     possibility on a publically available mailing list. </li>
+     <li> Same error with 3.0, 2.11. </li>
     </ol>
    </li>
    <li> If we would continue with Sage, then we need to update the

@@ -220,5 +220,14 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Module ComputerAlgebra/Automata
+  <ul>
+   <li> As mentioned in "General plans" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp,
+   we should have a module on automata. </li>
+   <li> Including finite automata and Turing machines. </li>
+  </ul>
+
 */
 

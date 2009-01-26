@@ -16,6 +16,8 @@ License, or any later version. */
    of "combinatorial objects", the task is to "enumerate" M(p). </li>
    <li> "Enumeration" means several things:
     <ol>
+     <li> Simplest: determining the size of M(p); naming %e.g. count_subsets.
+     </li>
      <li> Computing (all of) M(p) as a (repetition-free) list L(p).
       <ol>
        <li> This could be called the task of "completely listing" M(p). </li>
@@ -122,6 +124,26 @@ License, or any later version. */
    <li> The appendix of [Stanton, White; Constructive %Combinatorics] contains
    enumeration algorithms to start with. </li>
    <li> Another source is [Knuth, Volume 4, Fascicle 3]. </li>
+   <li> Apparently not handled by the above sources are for given n,k,s
+   the multisubsets of {1,...,n} with k elements, where every element has
+   multiplicity at most s.
+    <ol>
+     <li> Generalising the recursive formulas for binomial coefficients we
+     have
+     \verbatim
+count_multisubsets_1[n,k,s] := if n=0 then (if k=0 then 1 else 0) else 
+  sum(count_multisubsets_1[n-1,k-i,s],i,0,min(k,s));
+     \endverbatim
+     </li>
+     <li> This recurses in n; alternatively we can recurse in s:
+     \verbatim
+count_multisubsets_1[n,k,s] := if s=0 then (if k=0 then 1 else 0) else 
+  sum(binomial(n,i)*count_multisubsets_2[n-i,k-i*s,s-1],i,0,min(n,floor(k/s)));
+     \endverbatim
+     </li>
+     <li> The latter seems slower? </li>
+    </ol>
+   </li>
   </ul>
 
 */

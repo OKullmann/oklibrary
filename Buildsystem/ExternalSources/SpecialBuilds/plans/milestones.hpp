@@ -195,7 +195,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
-    - Update to Sage 3.2.3
+    - Update to Sage later than 3.2.3
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
