@@ -57,6 +57,10 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> It would also be interesting here to try apply some of the symmetry 
+   breaking ideas discussed in 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp and
+   then consider the number and character of the remaining symmetries. </li>  
   </ul>
 
 
