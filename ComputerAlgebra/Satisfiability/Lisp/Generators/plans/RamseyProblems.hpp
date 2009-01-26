@@ -267,6 +267,53 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
    the form R([q,q],r) ? </li>
   </ul>
 
+  \todo Symmetry breaking by recursive application of PHP
+  <ul>
+   <li> Another conjectured symmetry breaking technique, making use of the
+    Pigeon Hole principle is as follows : 
+    <ul>
+     <li> Fix a vertex "v", and then consider edges from "v" to all other 
+     vertices. Half (rounded up) of such edges will be of one colour, and so we
+     add binary clauses to show the equivalence of the colouring of these edges,
+     chosen arbitrarily.</li>
+     <li> Apply the same technique recursively to the half of the vertices which 
+     had an edge to them "coloured" by the first step. </li>
+     <li> Apply the same technique recursively to the half of the vertices which
+     didn't have an edge to them "coloured the first step. </li>
+    </ul>
+   </li>
+   <li> A basic implementation seems to be : 
+   \verbatim
+ramsey_symbr3_cs(n) := ramsey_symbr3_cs_m(1,n)$
+ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
+    mid_p : ceiling(((n-1) - (m+1)) / 2) + (m + 1),
+    edge_equivs : lunion(map(
+        lambda([x], {{-colv(first(x)), colv(second(x))},
+          {colv(first(x)), -colv(second(x))}}),
+        powerset(map(lambda([i],{m,i}),setmn(m+1,mid_p)),2))),
+    if oklib_monitor then
+      print("Length = ", mid_p - m, "Edges = ", m, " to ", setmn(m+1,mid_p)),
+    rs : union(edge_equivs, 
+      if (mid_p - (m+1)) > 2 then ramsey_symbr3_cs_m(m+1, mid_p) else {}, 
+      if (n - (mid_p+1)) > 2 then ramsey_symbr3_cs_m(mid_p+1, n) else {}),
+    return(rs))$
+   \endverbatim
+   </li>
+   <li> The basic idea here is that once you apply the PHP initially, you then
+   have two sets of vertices (1) ones that have been touched (2) ones that 
+   haven't been touched. Within each set ((1) or (2)) the vertices are 
+   essentially the same and so one can simply consider the induced subgraphs
+   and apply the same PHP again. </li>
+   <li> Some rough workings suggest that this method should result in 60 
+   variable reductions for n=43 (using the same idea as in the other symmetry 
+   breaking methods). </li>
+   <li> Assuming the correctness of this method, it should result in both more
+   conditions (or "variable reductions") and should be easily generalised to
+   arbitrary numbers of colours (due to the generality of PHP). </li>
+   <li> Add further rigour to above argument. </li>
+   <li> Expand example with workings. </li>
+  </ul>
+
 
   \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
   clause-set"
