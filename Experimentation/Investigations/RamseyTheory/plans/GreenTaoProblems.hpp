@@ -133,11 +133,15 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
    <li> From the ubcsat-suite rnovelty+ seems best. </li>
    <li> See what's in ubcsat-1.1.0. </li>
    <li> And then we should try walksat from Kautz, which has several
-   options (amongst them rnovelty+). </li>
+   options (amongst them rnovelty+).
+    <ol>
+     <li> Again, rnovelty+ seems far best. </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo greentao(2;4,5) > 4210
+  \todo Conjecture: greentao(2;4,5) = 4211
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -236,7 +240,15 @@ BestSolution_Max = 6.000000
    msteps=427443936 and seed=1253862184 (7th run with cutoff=2*10^9; also the
    42th run with cutoff=10^9 founda solution: msteps=866468275,seed=
    4038795093). </li>
-   <li> n=4211 </li>
+   <li> n=4211
+    <ol>
+     <li> Additionally with Walksat:
+     \verbatim
+> cat GreenTao_2_4_5_4211.cnf | walksat -cutoff 100000000 -rnovelty+ -tries 100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=4213
     <ol>
      <li> 26 runs with cutoff=10^9 yield 1 run with min=3, 14 runs with min=2,
