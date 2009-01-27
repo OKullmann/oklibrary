@@ -62,14 +62,14 @@ cleanallallmaxima : cleanallecl cleanallgnuplot cleanallmaxima
 # Tool gnuplot
 ###################################
 
-gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl) $(maxima_base_doc_dir_okl)
+gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl)
 
 .PHONY : gnuplot cleangnuplot cleanallgnuplot
 
 $(gnuplot_directories_okl) : % : 
 	mkdir -p $@
 
-gnuplot : $(gnuplot_directories_okl)
+gnuplot : $(gnuplot_directories_okl) $(maxima_base_doc_dir_okl)
 	$(call unarchive,$(gnuplot_source_okl),$(gnuplot_base_build_dir_okl))
 	cd $(gnuplot_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(gnuplot_installation_dir_okl); $(postcondition) \
