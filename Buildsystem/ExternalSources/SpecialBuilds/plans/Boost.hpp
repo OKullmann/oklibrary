@@ -24,7 +24,7 @@ mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)
    Replacement of mln works like that:
    \verbatim
 for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
-  ln - ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]//'); done
+  ln - ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]/gcc/'); done
    \endverbatim
    </li>
   </ul>

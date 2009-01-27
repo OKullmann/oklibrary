@@ -87,7 +87,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
-	cd $(boost_base_directory)/$*/lib/; for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]//'); done; cd -; $(postcondition) \
+	cd $(boost_base_directory)/$*/lib/; for F in $$(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s $${F} $$(echo $${F} | sed 's/gcc[0-9][0-9]/gcc/'); done; cd -; $(postcondition) \
 	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$*; $(postcondition) \
 	touch $@; $(postcondition)
 
@@ -113,7 +113,7 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
-	cd $(boost_base_directory)/$(1)+$(2)/lib/; for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]//'); done; cd -; if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(boost_base_directory)/$(1)+$(2)/lib/; for F in $$$$(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s $$$${F} $$$$(echo $$$${F} | sed 's/gcc[0-9][0-9]/gcc/'); done; cd -; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	touch $(boost_base_directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
 endef
