@@ -22,9 +22,9 @@
 abbr_boost_targets := $(patsubst boost-%, %, $(boost_targets))
 # creates e.g. 1_32_0 1_33_1
 
-# These two lines are necessary - but also belong to makefile_gcc.mak
+# Simulating the old (obsolete) system:
+gcc_targets := $(addprefix $(gcc_targets_prefix_okl), $(gcc_supported_version_numbers_okl))
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
-gcc-base-directory := $(ExternalSources)/Gcc
 
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_boost_targets)))
 # creates e.g. 1_32_0+3.4.3 1_32_0+3.4.4 1_33_1+3.4.3 1_33_1+3.4.4
@@ -101,7 +101,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 # ###############################
 
 define install-boost_gcc
-	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --toolset-root=$(gcc-base-directory)/$(2) --prefix=$(boost_base_directory)/$(1)+$(2) --build-dir=$(boost_base_directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" install --without-python
+	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --toolset-root=$(gcc_base_installation_dir_okl)/$(2) --prefix=$(boost_base_directory)/$(1)+$(2) --build-dir=$(boost_base_directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc_base_installation_dir_okl)/$(2)" install --without-python
 endef
 
 define boost_gcc_rule
