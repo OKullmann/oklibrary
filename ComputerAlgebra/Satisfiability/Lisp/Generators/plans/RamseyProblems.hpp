@@ -126,7 +126,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
      <li> Given the symmetry of the two colours (i.e the fact that
      flipping the colours in a given total assignment doesn't affect
      satisfiability), we can then set one of the above mentioned variables
-     (collapsed using the PHP) to a particular colour. For instance, setting
+     (collapsed using the php) to a particular colour. For instance, setting
      half of the p-cliques (for a given p) to colour 1. </li>
      <li> BUG (it seems we can only find 3 monochromatic triangles)
      For example, consider NR([4,4],2), n=18. We find 5
@@ -268,7 +268,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   </ul>
 
 
-  \todo Symmetry breaking by recursive application of PHP
+  \todo Symmetry breaking by recursive application of pigeonhole principle
   <ul>
    <li> Another conjectured symmetry breaking technique, making use of the
     pigeonhole principle, is as follows : 
@@ -301,18 +301,30 @@ ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
     return(rs))$
    \endverbatim
    </li>
-   <li> The basic idea here is that once you apply the PHP initially, you then
+   <li> Making the symmetry breaking conceptually clearer:
+    <ol>
+     <li> Those binary clauses just express a condition (namely that all
+     variables in a given set have to have equal values). </li>
+     <li> So we should employ a two-step process, where first a kind of
+     "constraint" is created, expressing the general meaning, and then
+     a second process expresses this via those binary clauses. </li>
+     <li> Compare
+     ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
+    </ol>
+   </li>
+   <li> The basic idea here is that once you apply the php initially, you then
    have two sets of vertices (1) ones that have been touched (2) ones that 
    haven't been touched. Within each set ((1) or (2)) the vertices are 
    essentially the same, and so one can simply consider the induced subgraphs
-   and apply the same PHP again. </li>
+   and apply the same php again. </li>
    <li> Some rough workings suggest that this method should result in 60 
    variable reductions for n=43 (using the same idea as in the other symmetry 
    breaking methods). </li>
    <li> Assuming the correctness of this method, it should result in both more
    conditions (or "variable reductions") and should be easily generalised to
-   arbitrary numbers of colours (due to the generality of PHP). </li>
-   <li> Add further rigour to above argument. </li>
+   arbitrary numbers of colours (due to the generality of php). </li>
+   <li> Add further rigour to above argument (the main point is the iterated
+   application). </li>
    <li> Expand example with workings. </li>
   </ul>
 
