@@ -427,7 +427,7 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Upgrade to gcc-4.2.2
+  \todo Upgrade to gcc-4.2.4
   <ul>
    <li> Correct the template-errors:
     <ol>

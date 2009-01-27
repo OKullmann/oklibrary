@@ -1,5 +1,5 @@
 # Oliver Kullmann, 26.7.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,7 +10,7 @@
 # Settings for building and using gcc
 
 gcc_recommended_version_number_okl ?= 4.1.2
-gcc_supported_not_recommended_version_numbers_okl ?= 4.2.4 4.3.1
+gcc_supported_not_recommended_version_numbers_okl ?= 4.2.4 4.3.3
 gcc_supported_version_numbers_okl ?= $(gcc_supported_not_recommended_version_numbers_okl) $(gcc_recommended_version_number_okl)
 
 gcc_prefix_okl ?= gcc
