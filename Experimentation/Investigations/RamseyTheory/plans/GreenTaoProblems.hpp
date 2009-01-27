@@ -128,6 +128,15 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
+  \todo Best local search solver
+  <ul>
+   <li> From the ubcsat-suite rnovelty+ seems best. </li>
+   <li> See what's in ubcsat-1.1.0. </li>
+   <li> And then we should try walksat from Kautz, which has several
+   options (amongst them rnovelty+). </li>
+  </ul>
+
+
   \todo greentao(2;4,5) > 4210
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>

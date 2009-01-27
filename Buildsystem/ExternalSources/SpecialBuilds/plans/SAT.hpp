@@ -215,6 +215,23 @@ Satz> gcc -O3 -o satz215 satz215.2.c
   </ul>
 
 
+  \todo Walksat
+  <ul>
+   <li> http://www.cs.rochester.edu/u/kautz/walksat/ </li>
+   <li> We should install Walksat, Gsat and MaxWalksat.
+   \verbatim
+builds/SAT/Walksat> tar -xzf ../../../sources/SAT/Walksat/walksat-dist.tgz
+builds/SAT/Walksat> cd Walksat_v46
+SAT/Walksat/Walksat_v46> make
+   \endverbatim
+   seems to work, and creates executables "makewff" (random formula generator),
+   "makequeens", and "walksat"."walksat --help" also works. </li>
+   <li> 
+   <li> Sources under sources/SAT/Walksat. </li>
+   <li> There is also "Clone" http://reasoning.cs.ucla.edu/clone/. </li>
+  </ul>
+
+
   \todo BASolver
   <ul>
    <li> http://logic.pdmi.ras.ru/~basolver/index.html </li>
