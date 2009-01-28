@@ -141,7 +141,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo Conjecture: greentao(2;4,5) = 4211
+  \todo greentao(2;4,5) > 4211
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -242,6 +242,9 @@ BestSolution_Max = 6.000000
    4038795093). </li>
    <li> n=4211
     <ol>
+     <li> Found satisfiable by ubcsat-rnovelty+ with
+     msteps=917466182 and seed=287655397 (29th run with cutoff=2*10^9). </li>
+     <li> Over 100 runs with cutoff=10^9 didn't find a solution. </li>
      <li> Additionally with Walksat:
      \verbatim
 > cat GreenTao_2_4_5_4211.cnf | walksat -cutoff 100000000 -rnovelty+ -tries 100
@@ -257,7 +260,7 @@ average length successful tries = 0
     <ol>
      <li> 26 runs with cutoff=10^9 yield 1 run with min=3, 14 runs with min=2,
      and 11 runs with min=3. </li>
-     <li> So let's assume (for now) it's unsatisfiable. </li>
+     <li> Further efforts are needed. </li>
     </ol>
    </li>
    <li> n=4225
