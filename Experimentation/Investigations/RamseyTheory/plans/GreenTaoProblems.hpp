@@ -245,8 +245,12 @@ BestSolution_Max = 6.000000
      <li> Additionally with Walksat:
      \verbatim
 > cat GreenTao_2_4_5_4211.cnf | walksat -cutoff 100000000 -rnovelty+ -tries 100
+average flips per second = 137669
+average length successful tries = 0
      \endverbatim
-     </li>
+     It yields a lot of data, but completely unclear what it means, or whether
+     it's important (as usual, the optimum value reached is not mentioned!).
+     It seems slower by a factor 2 (at least) compared to ubcsat. </li>
     </ol>
    </li>
    <li> n=4213
