@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
-    - Checking all links
+    - Checking all links : DONE
     - Extended content of the Internet-page : DONE
 
 

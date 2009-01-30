@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,14 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/plans/general.hpp
   \brief General plans regarding the html-services
+
+
+  \todo Link checking
+  <ul>
+   <li> A tool is needed which can follow all links and checks, for the
+   local home page and for the Internet home page, whether they all
+   work (returning the list of dysfunctional links). </li>
+  </ul>
 
 
   \todo General rules for html-pages
@@ -36,18 +44,18 @@ License, or any later version. */
    <li> Files created by the preprocessor should have a final line stating this
    and the creation date; then also (for easy of modification) the original
    template file should be specified (in a comment, or on the page).
-   The local home page has already a first solution, which should be systematised, that
-   is, a make-variable should be provided. Perhaps we just add "from ...", and
-   state the original template file also on the page; the new make-variable then
-   just contains the text with date etc.:
+   The local home page has already a first solution, which should be
+   systematised, that is, a make-variable should be provided. Perhaps we just
+   add "from ...", and state the original template file also on the page; the
+   new make-variable then just contains the text with date etc.:
    \verbatim
 automatic_masthead = Automatically created by the OKbuildsystem on $(current_date) from \
   template file "
    \endverbatim
-   where then the template file has to be added (by hand).
-   One problem here is that the current date should be the time when the specific page
-   was created, not when the whole process started --- is this achieved by recursive
-   make variables??
+   where then the template file has to be added (by hand). One problem here is
+   that the current date should be the time when the specific page was
+   created, not when the whole process started --- is this achieved by
+   recursive make variables??
    </li>
    <li> DONE (introduced makevariable extsrc_relative, which if non-empty
    activates relative paths to external-sources-documentation)

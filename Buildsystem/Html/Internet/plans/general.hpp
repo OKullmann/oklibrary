@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans for the internet services (web page, etc.)
 
 
-  \todo Checking all links
+  \todo DONE (yet, links directly on the Internet page can be checked by hand)
+  Checking all links
   <ul>
    <li> We need to run from time to time a tool for checking
    the links on the internet html pages. </li>

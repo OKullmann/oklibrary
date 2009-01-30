@@ -34,6 +34,11 @@ License, or any later version. */
   \par Buildsystem/Html/Internet version 0.0.6
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
+
+  \par
+   In Buildsystem/Html/plans/general.hpp the following topics are handled:
+    - Link checking
+
   \par
    Create further milestones.
 
