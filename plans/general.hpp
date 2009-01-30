@@ -59,6 +59,12 @@ ExternalSources := path-to-old-external-sources
      </li>
     </ol>
    </li>
+   <li> Handling of version numbers:
+    <ol>
+     <li> Perhaps we should abandon the current "transitional_version",
+     and let "oklib_version" take over this number. </li>
+    </ol>
+   </li>
    <li> DONE Remove the (empty) repository "OKlibrary". </li>
    <li> DONE (only by ~ 100kb)
    Hopefully this doesn't inflate the git-repository. </li>
