@@ -294,6 +294,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp the following
    topics are handled:
+    - General C++ graph libraries
     - Graph isomorphism
     - Graph drawing
     - Treewidth

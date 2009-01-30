@@ -10,6 +10,35 @@ License, or any later version. */
   \brief Plans regarding installation of tools related to graph theory
 
 
+  \todo General C++ graph libraries
+  <ul>
+   <li> Not so much happens with the Boost graph library, so we need to look
+   out for additional or alternative libraries. </li>
+   <li> Goblin http://www.math.uni-augsburg.de/~fremuth/goblin.html
+    <ol>
+     <li> Seems to be more or less a completed project (last update
+     of webpages is from November 2007). Problematic that they only speak
+     about "gcc compatibility" with versions 3.4.x --- on the other hand,
+     it's seems to be rather basic C/C++ code, so perhaps there aren't
+     big issues. </li>
+     <li> Includes also graph layout. </li>
+     <li> Focus on "network programming problems", in the context of
+     optimisaton problems. Though very strong on matching problems etc. </li>
+   </li>
+   <li> Lemon http://lemon.cs.elte.hu/trac/lemon
+    <ol>
+     <li> Perhaps this has a wider scope. Though the list of algorithms is
+     smaller than that of Goblin. It seems to aim at a broader scope, using
+     more general methods, but currently only basics are provided. </li>
+     <li> Most recent version from January 2009. </li>
+     <li> Seems to be based on the notion of a "concept", closer to generic
+     programming, while Goblin is object-oriented (even situated between
+     C and C++). </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Graph isomorphism
   <ul>
    <li> nauty http://cs.anu.edu.au/~bdm/nauty
