@@ -230,7 +230,7 @@ void extract_triangles(const AdjacencyGraph& g, Hypergraph& hg, EdgeContained& m
         if (e1.second and e2.second and e3.second) {
           typedef typename boost::graph_traits<AdjacencyGraph>::vertex_descriptor vertex_descriptor;
           typedef std::tr1::array<vertex_descriptor, 3> Hyperedge;
-          Hyperedge H = {*i, *j, *k};
+          Hyperedge H = {{*i, *j, *k}};
           typedef typename Hypergraph::value_type value_type;
           hg.push_back(value_type(H.begin(), H.end()));
           put(map, e1.first, true); put(map, e2.first, true); put(map, e3.first, true);
