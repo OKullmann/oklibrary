@@ -38,6 +38,8 @@ License, or any later version. */
 
   \todo Install configuration system
   <ul>
+   <li> We need documentation on this system for handling paths in
+   html-documents. </li>
    <li> Update all usages of absolute paths to our own html-pages or
    to doxygen-pages. </li>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
@@ -75,7 +77,7 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
    </li>
    <li> DONE
    Local url's should be relative (so that the html-documentation is
-   moveable): The preprocessing approach needs to be generalised:
+   movable): The preprocessing approach needs to be generalised:
     <ol>
      <li> DONE (we simply precompute all relative paths; otherwise
      the algorithm is implemented as described)
@@ -93,7 +95,7 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
        (there appears to be no existing tool for that purpose). </li>
        <li> Since all path names are constructed by us, we take their
        representation (as strings) literal, that is, do not use
-       the equivalence of paths, but their equality (in therms of
+       the equivalence of paths, but their equality (in terms of
        the Boost filesystem library, part of the standard in the future). </li>
        <li> A generic algorithm determines the longest prefix of
        two sequences (given by input iterators). </li>
@@ -170,7 +172,23 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
 <meta name="robot" content="none" />
    \endverbatim
    <li> For the doxygen-created pages we need to find an appropriate
-   doxyygen-template (for the preambel of all created pages). </li>
+   doxyygen-template (for the preamble of all created pages). </li>
+  </ul>
+
+
+  \todo Handling of paths
+  <ul>
+   <li> The current system is rather complex. </li>
+   <li> We should seek to simplify it. </li>
+  </ul>
+
+
+  \todo Creating styles
+  <ul>
+   <li> Carefully, basic style-sheets are introduced. </li>
+   <li> The information at the bottom (last change date, and page-author)
+   should perhaps be one line, left-aligned the date, right-aligned the
+   author. </li>
   </ul>
    
 */

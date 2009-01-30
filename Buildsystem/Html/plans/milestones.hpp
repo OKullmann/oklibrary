@@ -38,6 +38,8 @@ License, or any later version. */
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
     - Link checking
+    - Handling of paths
+    - Creating styles
 
   \par
    Create further milestones.

@@ -10,7 +10,7 @@ License, or any later version. */
   \brief The general principles of the OKlibrary
 
 
-  \todo Improve the general design discussions
+  \todo Improve the general design discussions : DONE
   <ul>
    <li> DONE (on the aims-page now is enough material)
    This should perhaps mainly concern the general ideas of the
@@ -19,10 +19,13 @@ License, or any later version. */
    <li> DONE
    For the internet page we have already something (the introductory
    text), and we should expand on that, for the local home page. </li>
-   <li> We have already the Aims-page:
+   <li> DONE
+   We have already the Aims-page:
     <ol>
      <li> DONE This page needs to be updated. </li>
-     <li> And perhaps sub-divided into several pages (perhaps at present
+     <li> DONE (just sub-divided; currently more pages mean more effort
+     due to handling of paths)
+     And perhaps sub-divided into several pages (perhaps at present
      it is already too long). </li>
     </ol>
    </li>

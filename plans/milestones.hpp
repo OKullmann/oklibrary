@@ -45,7 +45,7 @@ License, or any later version. */
     - Research sub-modules : DONE
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Improve the general design discussions
+    - Improve the general design discussions : DONE
   \par Update
   Update the subsequent milestones.
 

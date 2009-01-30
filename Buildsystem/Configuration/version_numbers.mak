@@ -1,5 +1,5 @@
 # Oliver Kullmann, 11.7.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,8 +8,8 @@
 # Version numbers regarding the OKlibrary, and related information
 
 # Current version of Transitional:
-transitional_version := 0.2.1
-transitional_version_full := 0.2.1 (27.9.2008)
+transitional_version := 0.2.1.1
+transitional_version_full := 0.2.1.1 (30.1.2009)
 
 # Current version of OKlib:
 oklib_version := 0.0.1
