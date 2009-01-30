@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,27 +13,30 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Graphics library:
-  The fundamental problem is to determine a suitable graphics library.
+  \todo Graphics library
   <ul>
+   <li> The fundamental problem is to determine a suitable graphics library.
+   </li>
    <li> Possibilities:
     <ol>
      <li> Qt : very intrusive, and thus perhaps not the right choice </li>
      <li> OpenGL in the form of the Mesa library: Perhaps this is suitable.
      </li>
+     <li> Perhaps easiest is FLTK http://www.fltk.org/ . </li>
     </ol>
    </li>
    <li> This graphics library must offer the following functionality:
     <ol>
-     <li> a window with graphical elements can be created </li>
+     <li> a window with graphical elements can be created; </li>
      <li> graphical elements can be handled as objects, and placed on the
-     canvas using coordinates </li>
+     canvas using coordinates; </li>
      <li> graphical elements include at least pixels, points (in various sizes)
-     and lines; it should be possible to vary their appearance (including giving
-     them colours), and possibly these elements can be moved. </li>
+     and lines; it should be possible to vary their appearance (including
+     giving them colours), and possibly these elements can be moved; </li>
+     <li> regarding drawing big trees, we need to zoom in and out easily. </li>
     </ol>
-    One should play around with Mesa to see what it can, and to estimate
-    the quality of the library.
+    One should play around with Mesa and FLTK to see what they can, and to
+    estimate the quality of these libraries.
    </li>
   </ul>
 
@@ -41,7 +44,7 @@ License, or any later version. */
   \todo Graph visualisation library
   <ul>
    <li> http://www.ogdf.net/doku.php looks like a
-   reasonable choice. </li>
+   reasonable choice; but apparently not much newer developments. </li>
    <li> Then perhaps we don't need the graphics library? </li>
    <li> See "Graph drawing" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
@@ -103,7 +106,8 @@ License, or any later version. */
        of the tree; see OK's SAT-handbook article on heuristics) </li>
        <li> The estimated probability for satisfiability (for choosing the
        first branch; see
-       Heuristics/StatisticalAnalysis/plans/SatisfiabilityPrediction.hpp). </li>
+       Heuristics/StatisticalAnalysis/plans/SatisfiabilityPrediction.hpp).
+       </li>
       </ul>
       As a non-numerical labelling we have the branching literal.
      </li>
@@ -113,12 +117,12 @@ License, or any later version. */
    <li> The various (multi)graphs associated with CNFs should be visualised
    (static snapshots, and also dynamic simulations). </li>
    <li> For CS-232 a visualisation of the graph_traversal algorithm is needed,
-   starting with a drawing of some graph, where first all vertices and edges are
-   black, and then stepwise vertices get marked red, and edges are blinking if
-   they are just examined, yellow if they are in the buffer, green if the are
-   tree edges, blue if they are back edges (perhaps dashed as long as they are
-   still in the buffer). At the end every edge made the transition from black
-   through yellow to either green or blue. </li>
+   starting with a drawing of some graph, where first all vertices and edges
+   are black, and then stepwise vertices get marked red, and edges are
+   blinking if they are just examined, yellow if they are in the buffer,
+   green if the are tree edges, blue if they are back edges (perhaps dashed as
+   long as they are still in the buffer). At the end every edge made the
+   transition from black through yellow to either green or blue. </li>
    <li> For CS-342 a backtracking tree labeled with clause-sets would be useful
    (possible output in Latex-format). </li>
   </ul>
