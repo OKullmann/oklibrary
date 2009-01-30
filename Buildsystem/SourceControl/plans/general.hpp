@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -664,6 +664,8 @@ git remote rm Bproject
      <li> 1.11.2008; 10.3 MB; Transitional total: 28.7 MB </li>
      <li> 22.11.2008; 10.4 MB; Transitional total: 28.9 MB </li>
      <li> 6.1.2009; 10.7 MB; Transitional total: 29.7 MB </li>
+     <li> 30.1.2009; 11.2 MB; Transitional total: 30.5 MB (perhaps the
+     removal of some branches actually increased the size?) </li>
     </ol>
    </li>
   </ul>
