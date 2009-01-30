@@ -17,17 +17,24 @@ License, or any later version. */
   </ul>
 
 
-  \todo Extended content of the Internet-page:
+  \todo Extended content of the Internet-page : DONE
   <ul>
-   <li> A link with explanations to the public repository at github. </li>
-   <li> Updates of the explanations on the release process (emphasise on
+   <li> DONE
+   A link with explanations to the public repository at github. </li>
+   <li> DONE
+   Updates of the explanations on the release process (emphasise on
    github as the public interface, through which participation happens). </li>
+   <li> DONE
+   Creating a link to the download area for ExternalSources etc. </li>
+  </ul>
+
+
+  \todo Further links on the Internet-page
+  <ul>
    <li> Access to mailing-lists (with instructions). </li>
    <li> A project-page (for example, Heribert Vollmer might have a student
    project about implementing the NP-completeness of SAT (encoding of
    Turing machines)) --- but this perhaps should go to the local system? </li>
-   <li> DONE
-   Creating a link to the download area for ExternalSources etc. </li>
   </ul>
 
 

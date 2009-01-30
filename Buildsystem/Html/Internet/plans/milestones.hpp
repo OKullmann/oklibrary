@@ -16,13 +16,14 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
     - Checking all links
-    - Extended content of the Internet-page
+    - Extended content of the Internet-page : DONE
 
 
   \par Version 0.0.6
 
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
+    - Further links on the Internet-page
     - Domain name
 
 
