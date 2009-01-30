@@ -18,51 +18,66 @@
 
     <h1> The main aims and design principles of the OKlibrary </h1>
 
-    The report <a href="m4_SHELL(rel_aims_oklibrary_report2009_location)"> The
-      OKlibrary: Introducing a "holistic" research platform for (generalised)
-      SAT solving </a> gives a general overview on the OKlibrary and its
-    basic ideas as of December 2008.
+    <p>
+      The report <a href="m4_SHELL(rel_aims_oklibrary_report2009_location)">
+        The OKlibrary: Introducing a "holistic" research platform for
+        (generalised) SAT solving </a> gives a general overview on the
+      OKlibrary and its basic ideas as of December 2008.
+    </p>
 
 
     <h2> Outline </h2>
-    
-    The OKlibrary is a research platform on generalised satisfiability and related
-    fields, providing
+
+    <p>
+      The OKlibrary is a research platform on generalised satisfiability and
+      related fields, providing
+    </p>
     <ul>
-      <li> a computer-algebra based system (using Maxima/Lisp) for specification and prototyping, </li>
+      <li> a computer-algebra based system (using Maxima/Lisp) for
+        specification and prototyping, </li>
       <li> a generative C++ library (using modern C++), </li>
       <li> and extensions by external tools, including systems from logic,
         optimisation, statistics and discrete mathematics. </li>
     </ul>
-    The library is open source (under GPLv3), and a strong integrated source control
-    system yields full control over the development process.
+    <p>
+      The library is open source (under GPLv3), and a strong integrated source
+      control system yields full control over the development process.
+    </p>
 
-    <p></p>
-
-    Special services provided include:
+    <p>
+      Special services provided include:
+    </p>
     <ul>
       <li> A powerful build system for compiling programs and running tests. </li>
-      <li> An extensive documentation system, ranging from extracting program documentation
-        to planning support. </li>
-      <li> Installation and usage support for external packages, including tools
-        used for programming and related activities. </li>
+      <li> An extensive documentation system, ranging from extracting program
+        documentation to planning support. </li>
+      <li> Installation and usage support for external packages, including
+        tools used for programming and related activities. </li>
     </ul>
 
-    Much emphasise is put on placing the development process in a wider context:
+    <p>
+      Much emphasise is put on placing the development process in a wider
+      context:
+    </p>
     <ul>
-      <li> The relations to neighbour fields, for example constraint satisfaction
-        and graph theory, or complexity theory and automated theorem proving,
-        are important, and collaboration shall be supported. </li>
-      <li> Usage of existing software ("external sources") is strongly encouraged. </li>
-      <li> A central problem in using external sources are the various dependencies which
-        arise in this way, and the OKlibrary tries to lighten this burden
-        by establishing a common environment for installation and usage. </li>
+      <li> The relations to neighbour fields, for example constraint
+        satisfaction and graph theory, or complexity theory and automated
+        theorem proving, are important, and collaboration shall be supported.
+      </li>
+      <li> Usage of existing software ("external sources") is strongly
+        encouraged. </li>
+      <li> A central problem in using external sources are the various
+        dependencies which arise in this way, and the OKlibrary tries to
+        lighten this burden by establishing a common environment for
+        installation and usage. </li>
     </ul>
 
 
     <h2> The subject </h2>
 
-    "Generalised satisfiability" includes the following fields:
+    <p>
+      "Generalised satisfiability" includes the following fields:
+    </p>
     <ul>
       <li> Constraint satisfaction from the point of view of SAT, that is,
         with emphasise
@@ -81,14 +96,19 @@
       </li>
       <li> Quantified extensions like QBF. </li>
       <li> Generalising clauses like in PB-solvers and SMT. </li>
-      <li> Investigations into special structures (for example Ramsey-type problems). </li>
+      <li> Investigations into special structures (for example Ramsey-type
+        problems). </li>
       <li> Any applications. </li>
     </ul>
-    Important is the research character, and "purely" theoretical algorithms are welcome.
+    <p>
+      Important is the research character, and "purely" theoretical algorithms
+      are welcome.
+    </p>
 
-    <p></p>
-    Though not "core business", many other areas are important for SAT, and thus
-    are also integrated into the library:
+    <p>
+      Though not "core business", many other areas are important for SAT, and
+      thus are also integrated into the library:
+    </p>
     <ul>
       <li> Logic </li>
       <li> Complexity theory </li>
@@ -96,29 +116,36 @@
       <li> Combinatorics in general </li>
       <li> Algebra. </li>
     </ul>
-    To avoid re-inventing many wheels, much emphasise is put on the use of
-    external sources.
+    <p>
+      To avoid re-inventing many wheels, much emphasise is put on the use of
+      external sources.
+    </p>
 
-    For supporting areas like statistics and numerical computation, powerful
-    external systems are employed.
+    <p>
+      For supporting areas like statistics and numerical computation, powerful
+      external systems are employed.
+    </p>
 
-    <p></p>
-
-    Modern C++, and generative and active libraries are of importance to overcome
-    the split between efficiency and generality, and the library also undertakes
-    practical research in these areas.
+    <p>
+      Modern C++, and generative and active libraries are of importance to
+      overcome the split between efficiency and generality, and the library
+      also undertakes practical research in these areas.
+    </p>
 
 
     <h2> An integrated research environment </h2>
 
-    An open source library which supports research on such a variety of
-    fields needs special means for collaboration:
+    <p>
+      An open source library which supports research on such a variety of
+      fields needs special means for collaboration:
+    </p>
     <ul>
-      <li> To support a wide range of research, the library is an "active library",
-        and its full use means development within the framework. </li>
+      <li> To support a wide range of research, the library is an "active
+        library", and its full use means development within the framework.
+      </li>
       <li> Compared with common "IDEs" ("integrated development environments"),
-        the OKlibrary can be understood as an <strong>"IRE"</strong> ("integrated research
-        environment"). </li>
+        the OKlibrary can be understood as an <strong>"IRE"</strong>
+        ("integrated research environment"). </li>
       <li> It is possible to use the library in the traditional way, as
         "include-and-link-only", but then many parts of the library are
         left out. </li>
@@ -129,12 +156,14 @@
 
     <h2> A holistic library </h2>
 
-    The OKlibrary is a generative and active
-    library, integrating services and activities traditionally not part of the
-    delivered package and thus not easily usable:
+    <p>
+      The OKlibrary is a generative and active
+      library, integrating services and activities traditionally not part of
+      the delivered package and thus not easily usable:
+    </p>
     <ul>
-      <li> In this <a href="m4_SHELL(rel_aims_accu2006_talk_location)"> talk </a>
-        the general ideas of "holistic libraries", with emphasise on the
+      <li> In this <a href="m4_SHELL(rel_aims_accu2006_talk_location)"> talk
+        </a> the general ideas of "holistic libraries", with emphasise on the
         higher order unit test system (see below), are outlined.
       </li>
       <li> A more complete account is found in this <a
@@ -146,31 +175,41 @@
         amenable to automation). </li>
       <li> We go beyond this level by including also planning and discussion
         (which are not amenable to automation). </li>
-      <li> At the general level, only C++ is supported as a programming language,
-        however for special purposes specialised languages have been selected.
+      <li> At the general level, only C++ is supported as a programming
+        language, however for special purposes specialised languages have been
+        selected.
         <ol>
-          <li> The <a href="ProgrammingLanguages.html">discussion</a> gives an overview
-            on the design choices for the (formal) languages used in the OKlibrary. </li>
-          <li> The integration with other programming languages (like Java) shall
-            happen via the mechanism of external sources, which make available
-            the source code and the compiled products, while the strength of
-            C++ is exploited to be able to link with many other languages. </li>
-          <li> Interfaces to other SAT libraries are important for the OKlibrary. </li>
+          <li> The <a href="ProgrammingLanguages.html">discussion</a> gives an
+            overview on the design choices for the (formal) languages used in
+            the OKlibrary. </li>
+          <li> The integration with other programming languages (like Java)
+            shall happen via the mechanism of external sources, which make
+            available the source code and the compiled products, while the
+            strength of C++ is exploited to be able to link with many other
+            languages. </li>
+          <li> Interfaces to other SAT libraries are important for the
+            OKlibrary. </li>
         </ol>
       </li>
     </ul>
-    A remark on terminology: "generative" and "active" are used in the field
-    of generative programming, while "holistic" is my (OK) own extended version of it.
-    These notions are, in general and for our library, under active development.
+
+    <p>
+      A remark on terminology: "generative" and "active" are used in the field
+      of generative programming, while "holistic" is my (OK) own extended
+      version of it. These notions are, in general and for our library, under
+      active development.
+    </p>
     
 
     <h2> The organisation of participation </h2>
 
-    The basic organisation principles for development are as follows:
+    <p>
+      The basic organisation principles for development are as follows:
+    </p>
     <ul>
       <li> On the one hand we have the core distribution, over which the core
-        development team has control, with me ("OK", that is, Oliver Kullmann) as the
-        main developer and copyright holder.
+        development team has control, with me ("OK", that is, Oliver Kullmann)
+        as the main developer and copyright holder.
         <ol>
           <li> Strict coding standards and adherence to the design principles
             developed in the OKlibrary make interaction of the many different
@@ -189,34 +228,38 @@
             abstraction by generic and generative programming at the C++ level,
             by systematically developed conversions at the Maxima/Lisp level.
           </li>
-          <li> The control over the core distribution includes strict control over
-            version numbers (important for communicating the current standing). </li>
+          <li> The control over the core distribution includes strict control
+            over version numbers (important for communicating the current
+            standing). </li>
           <li> Plans and milestones at the core level can only be developed
             in close collaboration with the core development team. </li>
         </ol>
         Thus development at the core level is under control,
         <ol>
-          <li> restricted by necessary adherence to general principles and ideas, </li>
-          <li> which shall guarantee that the components admitted play together now and in
-            the future. </li>
+          <li> restricted by necessary adherence to general principles and
+            ideas, </li>
+          <li> which shall guarantee that the components admitted play
+            together now and in the future. </li>
         </ol>
       </li>
-      <li> On the other hand we have the open space of the "virtual library" as a
-        network of distributed clones:
+      <li> On the other hand we have the open space of the "virtual library"
+        as a network of distributed clones:
         <ol>
-          <li> The anticipated development model for "normal" users is not the centralised
-            submission to the core, but a decentralised model. </li>
+          <li> The anticipated development model for "normal" users is not the
+            centralised submission to the core, but a decentralised model.
+          </li>
           <li> Every external developer can take his clone of the OKlibrary
             as the centre of its own universe, where he and his team can
             play the same role as OK and his team for the core library. </li>
           <li> Essential is the idea of the OKlibrary as a "holistic library",
             which is open source taken to the maximum: Every user shall get the
             same possibilities as the core developers. </li>
-          <li> If at some point the integration with the core library is wished,
-            two basic models are considered:
+          <li> If at some point the integration with the core library is
+            wished, two basic models are considered:
             <ul>
               <li> Either by a concentrated joined effort the full integration
-                into the core (which might make larger rewrites necessary). </li>
+                into the core (which might make larger rewrites necessary).
+              </li>
               <li> Or the loose integration as an external source, with various
                 forms of external testing applied. </li>
             </ul>
@@ -238,15 +281,18 @@
                 or changed history, we will make strong efforts to make
                 this publically known. If possible, also legal means
                 might be used. </li>
-              <li> Here "history" essentially refers to the history as presented
-                by the source-code-management-system (Git in our case):
+              <li> Here "history" essentially refers to the history as
+                presented by the source-code-management-system (Git in our
+                case):
                 <ul>
                   <li> "completeness" means that the sequence of submissions is
                     not interrupted; </li>
-                  <li> "unchanged" means that the single submissions are unchanged. </li>
+                  <li> "unchanged" means that the single submissions are
+                    unchanged. </li>
                 </ul>
-                Git was chosen here since it provides cryptographic means for protecting
-                the integrity of the history, and it is fast and powerful.
+                Git was chosen here since it provides cryptographic means for
+                protecting the integrity of the history, and it is fast and
+                powerful.
               </li>
               <li> The core development team makes a strong effort to guarantee
                 the completeness of the history, so that every contribution,
@@ -256,44 +302,52 @@
         </ol>
       </li>      
     </ul>
-    We should emphasise, that yet we do not have much experience with the
-    "fractal nature" of the "network of clones" (with the OKlibrary as
-    its original source), so a lot needs to be learned.
+    <p>
+      We should emphasise, that yet we do not have much experience with the
+      "fractal nature" of the "network of clones" (with the OKlibrary as
+      its original source), so a lot needs to be learned.
+    </p>
 
 
     <h2> The planning process </h2>
 
-    Central is the planning process:
+    <p>
+      Central is the planning process:
+    </p>
     <ol>
-      <li> Every action is announced by plans (in the corresponding plans-file), so that
-        others know what's going on and can participate. Also only in this way the typical
-        loss due to interruptions is avoided. </li>
-      <li> These plans are continuously evolved, so that before programming starts,
-        a good "loose specification" is available. </li>
+      <li> Every action is announced by plans (in the corresponding
+        plans-file), so that others know what's going on and can participate.
+        Also only in this way the typical loss due to interruptions is
+        avoided. </li>
+      <li> These plans are continuously evolved, so that before programming
+        starts, a good "loose specification" is available. </li>
       <li> Plans must be kept up-to-date, and also the corresponding
         milestone-entries. </li>
-      <li> So much of the planning process happens *within* the OKlibrary (not, as usual,
-        somewhere else). </li>
-      <li> The history of the OKlibray thus contains also all ("formalised") planning
-        activities. </li>
-      <li> Mailinglists are for more informal discussions (finding out about interests,
-        "chatting" about the plans (which is to be avoided in the plans-files)).
-        So mailinglists are for "pre-discussion", and, potentially, "meta-discussions";
-        but as soon things concretise, they should move to the plans-files (only there
-        they fully connect to the system). </li>
+      <li> So much of the planning process happens *within* the OKlibrary
+        (not, as usual, somewhere else). </li>
+      <li> The history of the OKlibray thus contains also all ("formalised")
+        planning activities. </li>
+      <li> Mailinglists are for more informal discussions (finding out about
+        interests, "chatting" about the plans (which is to be avoided in the
+        plans-files)). So mailinglists are for "pre-discussion", and,
+        potentially, "meta-discussions"; but as soon things concretise, they
+        should move to the plans-files (only there they fully connect to the
+        system). </li>
       <li> To summarise, the planning process
         <ol>
-          <li> is somewhat similar to "patchwork", which  comes in small pieces, </li>
+          <li> is somewhat similar to "patchwork", which  comes in small
+            pieces, </li>
           <li> is always in a somewhat well-defined state, </li>
           <li> and can be interrupted and continued as needed. </li>
         </ol>
         This might be especially true for core
-        developers, while external developers might prefer a more traditional model,
-        where only at the end the distilled work (using the "cherry-picking" method
-        preferred for example by the Git developers) is submitted. However,
-        after some initial period of getting used to the continuous process of the
-        OKlibrary, also external developers are encouraged to use the
-        "continuous model" (and not the "batch model"). </li>
+        developers, while external developers might prefer a more traditional
+        model, where only at the end the distilled work (using the
+        "cherry-picking" method preferred for example by the Git developers)
+        is submitted. However, after some initial period of getting used to
+        the continuous process of the OKlibrary, also external developers are
+        encouraged to use the "continuous model" (and not the "batch model").
+      </li>
     </ol>
     
 
@@ -304,17 +358,19 @@
       <li> Since most components are generic, "appropriate tests" means
         that actually test <em>functions</em> are to be provided, and this
         as part of the library. </li>
-      <li> In this <a href="m4_SHELL(rel_aims_accu2006_talk_location)"> talk </a>
-        more general information about the "higher order unit test system"
+      <li> In this <a href="m4_SHELL(rel_aims_accu2006_talk_location)"> talk
+        </a> more general information about the "higher order unit test system"
         provided by the OKlibrary can be found. </li>
     </ul>
 
   
     <hr />
-      <!-- hhmts start -->
-Last modified: Wed Jan 21 18:17:38 GMT 2009
+      <p>
+        <!-- hhmts start -->
+Last modified: Fri Jan 30 21:19:47 GMT 2009
 <!-- hhmts end -->
-      <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
+        <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
+      </p>
 
   </body>
   
