@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.7.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/plans/milestones.hpp
   
-  \module_version Buildsystem/Html 0.0.6 (23.9.2007)
+  \module_version Buildsystem/Html 0.0.6.1 (30.1.2009)
 
 
   \par Version 0.0.7
@@ -16,7 +16,7 @@ License, or any later version. */
   \par Buildsystem/Html/Local version 0.1.2
   (see Buildsystem/Html/Local/plans/milestones.hpp)
 
-  \par Buildsystem/Html/Internet version 0.0.5
+  \par Buildsystem/Html/Internet version 0.0.5 : DONE
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
   \par

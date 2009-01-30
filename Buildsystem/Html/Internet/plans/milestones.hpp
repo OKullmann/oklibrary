@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/Internet/plans/milestones.hpp
   
-  \module_version Buildsystem/Html/Internet 0.0.4 (23.9.2007)
-
-
-  \par Version 0.0.5
-
-  \par
-   In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
-    - Checking all links : DONE
-    - Extended content of the Internet-page : DONE
+  \module_version Buildsystem/Html/Internet 0.0.5 (30.1.2009)
 
 
   \par Version 0.0.6
@@ -35,6 +27,7 @@ License, or any later version. */
    - 0.0.2 : 15.7.2006; initial version number (plans regarding the Internet page).
    - 0.0.3 : 23.9.2007; the basic content and its handling for the Internet page are established; page now functional with some general information, access to local documentation and download of packages.
    - 0.0.4 : 23.9.2007; building the Internet-page has been automatised (two basic commands, for creating the packages, and for moving all Internet-sides to their "global" place).
+   - 0.0.5 : 30.1.2009; updated and completed the content.
 
 */
 
