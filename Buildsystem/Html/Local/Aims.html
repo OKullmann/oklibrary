@@ -71,6 +71,17 @@
         lighten this burden by establishing a common environment for
         installation and usage. </li>
     </ul>
+    <p>
+      To summarise:
+    </p>
+    <ol>
+      <li> The OKlibrary is an environment for attacking (allegedly)
+        "intractable problems", with SAT in generalised form at its centre.
+      </li>
+      <li> It aims at making accessible all related worlds from mathematics,
+        informatics and software engineering.
+      </li>
+    </ol>
 
 
     <h2> The subject </h2>
@@ -309,6 +320,53 @@
     </p>
 
 
+    <h3> The public source-code repository </h3>
+
+    <p>
+      Technically, participation is organised as follows:
+    </p>
+    <ul>
+      <li> At the <a href="m4_SHELL(git_http_address_okl)"> public git
+          repository </a> the repository can be inspected. </li>
+      <li> The git-address to clone from is
+        "m4_SHELL(git_http_repository)". </li>
+      <li> This is also the default when pulling from a repository built
+        from a package. </li>
+      <li> Collaboration happens with the help of
+        <a href="http://github.com">Github</a> as follows:
+        <ol>
+          <li> A "fork" of the OKlibrary is created there. </li>
+          <li> This fork is cloned at the local workspace of the developer,
+            edited there, and pushed back to the fork at Github. </li>
+          <li> Then the team at the original source is notified, and invited
+            to pull the changes from the fork. </li>
+        </ol>
+      </li>
+      <li> See module "Buildsystem/SourceControl" for further information on
+        the usage of Git. </li>
+    </ul>
+
+
+    <h3> On the release process </h3>
+
+    <ul>
+      <li> To ease the start, packages containing everything related to
+        the library are provided at the OKlibrary Internet page. </li>
+      <li> On the average they appear once a weak, and are identified by
+        a five-digit running number. </li>
+      <li> These packages might also be used to update an existing
+        installation, though in most cases
+        <ol>
+          <li> pulling the changes from the main repository (just by using
+            "git pull"), </li>
+          <li> and updating the external sources by (selectively) downloading
+            them from the OKlibrary Internet site, </li>
+          </ol>
+        suffices.
+      </li>
+    </ul>
+
+
     <h2> The planning process </h2>
 
     <p>
@@ -325,7 +383,7 @@
         milestone-entries. </li>
       <li> So much of the planning process happens *within* the OKlibrary
         (not, as usual, somewhere else). </li>
-      <li> The history of the OKlibray thus contains also all ("formalised")
+      <li> The history of the OKlibrary thus contains also all ("formalised")
         planning activities. </li>
       <li> Mailinglists are for more informal discussions (finding out about
         interests, "chatting" about the plans (which is to be avoided in the
@@ -367,10 +425,10 @@
     <hr />
       <p>
         <!-- hhmts start -->
-Last modified: Fri Jan 30 21:19:47 GMT 2009
+Last modified: Fri Jan 30 21:59:16 GMT 2009
 <!-- hhmts end -->
-        <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
       </p>
+        <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
 
   </body>
   
