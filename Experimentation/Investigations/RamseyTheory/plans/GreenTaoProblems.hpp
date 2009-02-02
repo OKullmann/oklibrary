@@ -141,7 +141,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4211
+  \todo greentao(2;4,5) > 4213
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -260,9 +260,17 @@ average length successful tries = 0
     <ol>
      <li> 26 runs with cutoff=10^9 yield 1 run with min=3, 14 runs with min=2,
      and 11 runs with min=3. </li>
-     <li> Further efforts are needed. </li>
+     <li> The 113th run with cutoff=10^9 found a solution: msteps=182964555
+     and seed=1134622576, and the 51th run with cutoff=2*10^9 found a
+     solution: msteps=1659276857 and seed=1773541139. </li>
+     <li> But
+     \verbatim
+> cat GreenTao_2_4_5_4213.cnf | walksat -super -cutoff 10000000 -rnovelty+ -tries 1000
+     \endverbatim
+     didn't find a solution. </li>
     </ol>
    </li>
+   <li> n=4215 </li>
    <li> n=4225
     <ol>
      <li> cutoff 200*10^6 produces in 87 runs no min=1, while with cutoff=10^9
