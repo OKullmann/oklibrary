@@ -13,6 +13,12 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp. </li>
+   <li> See
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
+   </li>
+   <li> See
+    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
+    </li>
   </ul>
 
 

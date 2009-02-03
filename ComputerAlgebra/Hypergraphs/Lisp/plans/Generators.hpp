@@ -24,7 +24,7 @@ License, or any later version. */
    complete_stdohg(n,r)", where the order is given by lexicographical order
    (see "Enumerating all k-subsets lexicographically" in
    ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
-   <li> However, see "%Ramsey hypergraphs" below --- to be used as the
+   <li> However, see "Ramsey hypergraphs" below --- to be used as the
    vertex set of a %Ramsey hypergraph, we needed to use colexicographical
    ordering. </li>
    <li> This would also yield that the hyperedge list of complete_stdohg(n,r)
@@ -110,7 +110,7 @@ License, or any later version. */
 
   \todo Generalised %Ramsey hypergraphs
   <ul>
-   <li> We can define Ramsey hypergraphs for arbitrary hypergraphs G
+   <li> We can define %Ramsey hypergraphs for arbitrary hypergraphs G
    (ramsey_hg uses the complete r-graph).
     <ol>
      <li> The vertices are the hyperedges of G. </li>
@@ -128,7 +128,9 @@ License, or any later version. */
   \todo Arithmetic progressions in prime numbers
   <ul>
    <li> It seems that statistics on the number of hyperedges in
-   arithprog_primes_ohg are of interest (and non-trivial). </li>
+   arithprog_primes_ohg are of interest (and non-trivial); see
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
+   . </li>
    <li> DONE (now reasonable fast, and for faster computations more
    complex algorithms are needed)
    The function arithprog_primes_ohg is very slow.

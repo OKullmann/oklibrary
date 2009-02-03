@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/plans/GreenTaoProblems.hpp
+  \file Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
   \brief On investigations into Green-Tao problems
 
 

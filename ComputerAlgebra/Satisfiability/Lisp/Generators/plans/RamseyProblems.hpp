@@ -15,8 +15,8 @@ License, or any later version. */
    <li> Compare "Ramsey graphs" in
    ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
    <li> See Ramsey.cpp. </li>
-   <li> See Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
-   <li> See RamseyTheory/plans/general.hpp. </li>
+   <li> See Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp. </li>
+   <li> See ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
   </ul>
 
 
@@ -249,7 +249,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
    ideas? Obviously here. 
     <ul>
      <li> What is needed is a function which takes certain properties of
-     the Ramsey problem at hand (probably only "n" is needed), and produces
+     the %Ramsey problem at hand (probably only "n" is needed), and produces
      a set of clauses which can be added to the problem to map those symmetries
      immediately obvious to the solver. </li>
      <li> There is now a function "ramsey2_sym_break_rec" which generates a set
@@ -258,7 +258,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
      their "meanings" should be alleviated once there is are "rank" and
      "unrank" functions for the enumeration of k-subsets 
      (see "Module Enumeration" in ComputerAlgebra/plans/general.hpp ). It
-     should also only need the "n" for the Ramsey problem then. </li>
+     should also only need the "n" for the %Ramsey problem then. </li>
      <li> Should this function also consider the PHP idea mentioned above?
      </li>
     </ul>
@@ -344,7 +344,7 @@ is(opsubst(lambda([x], rank_lex_subsets(x,n)), colv, ramsey_symbr2_cs(n)) =
 true
    \endverbatim
    for a given "n". </li>
-   <li> DONE Alter the second Ramsey symmetry implementation so it makes
+   <li> DONE Alter the second %Ramsey symmetry implementation so it makes
    use of the subset enumeration functions (see
    Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
    <li> DONE This would mean "ramsey2_sym_break_rec" would only depend on n (and 

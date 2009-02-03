@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,8 @@ License, or any later version. */
    the function ramsey_hg(q,r,n) and its variations. </li>
    <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
    for the SAT translation. </li>
-   <li> See Experimentation/Investigations/plans/RamseyProblems.hpp for
+   <li> See
+   Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp for
    investigations. </li>
   </ul>
 
