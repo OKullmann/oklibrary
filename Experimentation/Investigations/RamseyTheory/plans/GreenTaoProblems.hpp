@@ -256,6 +256,8 @@ average length successful tries = 0
      It seems slower by a factor 2 (at least) compared to ubcsat. </li>
     </ol>
    </li>
+   <li> n=4212 found satisfiable by ubcsat-rnovelty+ in 43the run with
+   msteps=100302888 and seed=3413331300. </li>
    <li> n=4213
     <ol>
      <li> 26 runs with cutoff=10^9 yield 1 run with min=3, 14 runs with min=2,
@@ -271,6 +273,7 @@ average length successful tries = 0
     </ol>
    </li>
    <li> n=4215 </li>
+   <li> n=4217 </li>
    <li> n=4225
     <ol>
      <li> cutoff 200*10^6 produces in 87 runs no min=1, while with cutoff=10^9
