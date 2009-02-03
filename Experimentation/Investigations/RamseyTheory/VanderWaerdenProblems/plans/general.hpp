@@ -29,9 +29,9 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
    boolean problems can be generated quickly. </li>
    <li> In Maxima we have "output_vanderwaerden2_stdname(k,n)" (in
    ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac. </li>
-   <li> vanderwaerden(2,3) = 9 (density = 3.6) </li>
-   <li> vanderwaerden(2,4) = 35 (density = 10.7) </li>
-   <li> vanderwaerden(2,5) = 178 (density = 43.5)
+   <li> vanderwaerden_2(3) = 9 (density = 3.6) </li>
+   <li> vanderwaerden_2(4) = 35 (density = 10.7) </li>
+   <li> vanderwaerden_2(5) = 178 (density = 43.5)
     <ol>
      <li> Relatively easy for OKsolver-2002 (710s, 109703 nodes). </li>
      <li> march_pl needs only 51529 nodes and 238 seconds, so the "double
@@ -40,7 +40,7 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
      here. </li>
     </ol>
    </li>
-   <li> vanderwaerden(2,6) = 1132 (density = 225.6) </li>
+   <li> vanderwaerden_2(6) = 1132 (density = 225.6) </li>
     <ol>
      <li> n = 1000
       <ul>

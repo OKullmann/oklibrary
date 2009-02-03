@@ -10,21 +10,37 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems
 
 
-  \todo Trivial Green-Tao numbers
+  \todo Standardisation on notation
   <ul>
-   <li> greentao(p,k) for natural numbers p,k >= 0 is the smallest natural
-   number n >= 0 such that partitioning the first n prime numbers into p
-   parts is guaranteed to contain an arithmetic progression of size k. </li>
-   <li> The most natural sequences are likely those for fixed p. </li>
-   <li> greentao(2,0) = 0 </li>
-   <li> greentao(2,1) = 1 </li>
-   <li> greentao(2,2) = 3 </li>
+   <li> For Green-Tao and for Van-der-Waerden numbers we use the following
+   notation from now on. </li>
+   <li> The number of parts is the index of the function name ("greentao"
+   or "vanderwaerden"). </li>
+   <li> We always write out this index. </li>
+   <li> For diagonal problems, we have then exactly one argument, the length
+   of the arithmetic progression in each part. </li>
+   <li> While for non-diagonal problems we have as many arguments as the
+   index, each the length of the arithmetic progression in the corresponding
+   part. </li>
   </ul>
 
 
-  \todo greentao(2,3) = 23
+  \todo Trivial Green-Tao numbers
   <ul>
-   <li> greentao(2,3) = 23 (partitioning the first 23 prime numbers into 2
+   <li> greentao_p(k) for natural numbers p,k >= 0 is the smallest natural
+   number n >= 0 such that partitioning the first n prime numbers into p
+   parts is guaranteed to contain an arithmetic progression of size k
+   in some part. </li>
+   <li> The most natural sequences are likely those for fixed p. </li>
+   <li> greentao_2(0) = 0 </li>
+   <li> greentao_2(1) = 1 </li>
+   <li> greentao_2(2) = 3 </li>
+  </ul>
+
+
+  \todo greentao_2(3) = 23
+  <ul>
+   <li> greentao_2(3) = 23 (partitioning the first 23 prime numbers into 2
    parts, one part is guaranteed to contain an arithmetic progression of
    size 3, while using a smaller initial segment of prime numbers won't do).
    </li>
@@ -32,7 +48,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao(2;3,4) = 79
+  \todo greentao_2(3,4) = 79
   <ul>
    <li> Easy for OKsolver:
    \verbatim
@@ -50,17 +66,17 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
   </ul>
 
 
-  \todo greentao(2,4) = 512
+  \todo greentao_2(4) = 512
   <ul>
-   <li> greentao(2,4) > 400 (trivial for OKsolver-2002). </li>
-   <li> greentao(2,4) > 420 with 6683 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 430 with 22267 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 440 with 77791 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 450 with 349914 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 460 with 12777 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 470 with 59506 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 471 with 58889 nodes (OKsolver-2002). </li>
-   <li> greentao(2,4) > 472 with 370222 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 400 (trivial for OKsolver-2002). </li>
+   <li> greentao_2(4) > 420 with 6683 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 430 with 22267 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 440 with 77791 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 450 with 349914 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 460 with 12777 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 470 with 59506 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 471 with 58889 nodes (OKsolver-2002). </li>
+   <li> greentao_2(4) > 472 with 370222 nodes (OKsolver-2002). </li>
    <li> For this n, rnovelty finds a solution quickly (~ 100000 steps).
    </li>
    <li> n = 473: stopped after 884587 nodes (OKsolver). </li>
@@ -84,7 +100,7 @@ OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
    \endverbatim
    finished the first branch (~ 32768 nodes at depth 16) after 9 days
    (cs-wsok) and thus
-   <center> greentao(2,4) = 512. </center> </li>
+   <center> greentao_2(4) = 512. </center> </li>
    <li>  Density is 8.7734375; here always counting all variables (though
    2 variables are missing). </li>
    <li> Stopped the computation:
@@ -141,7 +157,7 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=510 i
   </ul>
 
 
-  \todo greentao(2;4,5) > 4213
+  \todo greentao_2(4,5) > 4213
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -363,7 +379,7 @@ average length successful tries = 0
   </ul>
 
 
-  \todo greentao(2,5) : threshold behaviour of OKsolver-2002
+  \todo greentao_2(5) : threshold behaviour of OKsolver-2002
   <ul>
    <li> Investigating the threshold of solvability for the OKsolver.
    One main conjecture is that Green-Tao problems behave like random problems.
@@ -446,7 +462,7 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=22498
   </ul>
 
 
-  \todo greentao(2,5) > 33500
+  \todo greentao_2(5) > 33500
   <ul>
    <li> Trivial for n=5000:
    \verbatim
@@ -800,7 +816,7 @@ BestSolution_Min = 1.000000
   <ul>
    <li> A major bottleneck is the time needed to create Green-Tao problems.
    </li>
-   <li> Via local search we might even investigate greentao(2,6), but here
+   <li> Via local search we might even investigate greentao_2(6), but here
    n might go into the millions, and we need a much faster generator. </li>
    <li> In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a C++ program
    should be written (that is, planned) with the functionality of
@@ -892,7 +908,7 @@ BestSolution_Min = 1.000000
   \todo Literature
   <ul>
    <li> To search for literature, we can search on the Internet for the
-   sequence (1,3,23,512) (greentao(2,i) for i=1,2,3,4). </li>
+   sequence (1,3,23,512) (greentao_2(i) for i=1,2,3,4). </li>
    <li> Likely this sequence is not in that Internet database, and
    we should submit it (once our article has appeared; or perhaps
    the report is enough). </li>
