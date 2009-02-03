@@ -54,23 +54,33 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    term, smallest difference and smallest end term for arithmetical
    progressions of primes of length k. However I do not understand
    these sequences (strange explanations). </li>
+  </ul>
+
+
+  \todo Finding the first arithmetic progression
+  <ul>
    <li> What seems very natural to me is k -> how many first primes are
-   needed to get an progression of length k. </li>
+   needed to get an progression of length k; this is greentao_2(1,k). </li>
    <li> This yields the sequence (starting with k=1)
    1,2,4,9,10,37,155,263,289,316,21966,23060,58464,2253121. </li>
    <li> Until k=10 this is easily computed by first_arithprog_primes. </li>
-   <li> This is apparently not available at that Internet database; we should
-   submit it. </li>
-   <li> The related sequence A120302 is 2,3,7,23,29,157,907,8471621 which is
-   obtained from the previous sequence by unranking, %e.g.,
-   unrank_primes(37) = 157. However the last entry "8471621"
-   seems nonsense?? It should be 1669. So this must be another seuence? </li>
-   <li> Ah, this seems to be A005115: 2, 3, 7, 23, 29, 157, 907, 1669, 1879,
+   <li> This is A005115: 2, 3, 7, 23, 29, 157, 907, 1669, 1879,
    2089, 249037, 262897, 725663, 36850999 (available up to k=21). </li>
    <li> From this sequence S via map(rank_primes,S) we obtain the above
    sequence (created by first_arithprog_primes). </li>
    <li> There were considerations on the Maxima mailing list to make
    this collection available: We should encourage them. </li>
+  </ul>
+
+
+  \todo The first arithmetic progression allowing a missing number
+  <ul>
+   <li> greentao_2(2,k) has still a "mostly number theoretical touch". </li>
+   <li> greentao_2(2,0) = 0, greentao_2(2,1) = 2, greentao(2,2) = 3. </li>
+   <li> greentao_2(2,3) = 7. </li>
+   <li> greentao_2(2,4) = 14. </li>
+   <li> greentao_2(2,5) = 31. </li>
+   <li> This sequence is apparently not in that "online encyclopedia". </li>
   </ul>
 
 */

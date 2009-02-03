@@ -30,11 +30,57 @@ License, or any later version. */
    <li> greentao_p(k) for natural numbers p,k >= 0 is the smallest natural
    number n >= 0 such that partitioning the first n prime numbers into p
    parts is guaranteed to contain an arithmetic progression of size k
-   in some part. </li>
-   <li> The most natural sequences are likely those for fixed p. </li>
-   <li> greentao_2(0) = 0 </li>
-   <li> greentao_2(1) = 1 </li>
-   <li> greentao_2(2) = 3 </li>
+   in some part.
+    <ol>
+     <li> greentao_2(0) = 0 </li>
+     <li> greentao_2(1) = 1 </li>
+     <li> greentao_2(2) = 3 </li>
+    </ol>
+   </li>
+   <li> greentao_2(k1,k2) for k1,k2 >= 0 is the smallest natural number
+   n >= 0 such that partitioning the first n prime numbers into 2 parts is
+   guaranteed to contain either an an arithmetic progression of size k1
+   in the first part or an an arithmetic progression of size k2 in the
+   second part.
+    <ol>
+     <li> greentao_2(0,k) = 0 </li>
+     <li> greentao_2(1,k) is the smallest n such that the first n prime numbers
+     contain an arithmetic progression of size k: see "Finding the first
+     arithmetic progression" in
+     Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
+     . </li>
+     <li> greentao_2(2,k) is the smallest n such that after removing any
+     prime from the first n prime numbers we always have an arithmetic
+     progression of size k. See "The first arithmetic progression allowing a
+     missing number" in
+     Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
+     . </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Investigate greentao_2(3,k)
+  <ul>
+   <li> Here we get into combinatorial area ("Ramsey-like"). </li>
+   <li> greentao_2(3,0)=0, greentao_2(3,1)=4, greentao(3,2)=7,
+   greentao(3,3)=23. </li>
+   <li> greentao_2(3,4) = 79 (see below). </li>
+   <li> greentao_2(3,5)
+    <ol>
+     <li> greentao_2(3,5) > 450 (easy for OKsolver-2002) </li>
+     <li> greentao_2(3,5) > 527 (trivial for ubcsat-rnovelty+). </li>
+     <li> n=528 looks unsatisfiable by ubcsat-rnovelty+. </li>
+     <li> Let's OKsolver-2002 try it.
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D10 GreenTao_2_3_5_528.cnf
+     \endverbatim
+     looks alright.
+     </li>
+    </ol>
+   </li>
+   <li> Also this sequence (starting with 4,7,23,79) is apparently not
+   in that "online encyclopedia". </li>
   </ul>
 
 
