@@ -248,6 +248,21 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
    <li> Likely this sequence is not in that Internet database, and
    we should submit it (once our article has appeared; or perhaps
    the report is enough). </li>
+   <li> Actually there is sequence A134050: 1, 1, 3, 23, 512, 34939 ?!? </li>
+   <li> For index 0 this sequence has value 1, while we have value 0; it
+   seems unbelievable that this rather easily calculated sequence should
+   coincide with greentao_2(i). </li>
+   <li> We can also investigate greentao_2(i,i+1) fuer i >= 1; the values
+   we know are
+    <ol>
+     <li> greentao_2(1,2) = 2 </li>
+     <li> greentao_2(2,3) = 7 </li>
+     <li> greentao_2(3,4) = 79 </li>
+    </ol>
+    There is A128293 with first five values 1, 2, 7, 79, 4235 ?!? </li>
+    <li> Again, for i=0 the first value for us would be 0; and again it seems
+    unbelievable that this sequence should have something to do with ours.
+    </li>
   </ul>
 
 */
