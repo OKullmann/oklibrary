@@ -16,11 +16,16 @@ License, or any later version. */
   <h2> Generating additional clauses for symmetry breaking </h2>
 
   <ul>
-   <li> One can generate additional clauses for symmetry breaking of a given
+   <li> One may generate a symmetry breaking partial assignment for a given
    Ramsey problem of the form R(q,q;2) > n in the following way : 
    \verbatim
-n : 6$
-RSB : ramsey2_sym_break_rec(map(colv,powerset(setn(n),2)), lambda([a], colv(a)),lambda([a], args(a)[1]));   
+RSP_pass : ramsey_symbr1_pass(q,n);
+   \endverbatim
+   </li>
+   <li> One can also generate additional clauses for symmetry breaking of a 
+   given Ramsey problem of the form R(q,q;2) > n in the following way :
+   \verbatim
+RSB : ramsey_symbr2_cs(n);
    \endverbatim
    </li>
    <li> The above assumes that variables are given in the form "colv({a,b})" 
@@ -35,6 +40,26 @@ RSB : ramsey2_sym_break_rec(map(colv,powerset(setn(n),2)), lambda([a], colv(a)),
    extended Dimacs format. This can be done like so :
    \verbatim
 RSB_e : map(lambda([a], map(lambda([b], sconcat(if sign(b) = neg then "-" else "",listify(args(abs(b))[1])[1],"S",listify(args(abs(b))[1])[2])),a)), RSB);
+   \endverbatim
+   </li>
+   <li> For a generated clauseset, the following code may be used to output the
+   clauseset to Extended Dimacs format : 
+   \verbatim
+colv2str(x) := block([vals_abs],
+  vals_abs : listify(args(abs(x))[1]),
+  return(sconcat(if sign(x) = neg then "-" else "",
+      vals_abs[1], "S", vals_abs[2])))$
+
+output_cs_ef(n,F,f) := 
+  with_stdout(n, block(
+    print(sconcat("p ", length(var_cs(F)), " ",length(F))),
+    for C in F do block([C_str],
+      C_str : uaapply(sconcat, listify(
+          map(lambda([a], sconcat(f(a)," ")), C))),
+      C_str : sconcat(C_str, " 0"),
+      print(C_str))))$
+
+output_cs_ef(filename, clauseset, colv2str)$
    \endverbatim
    </li>  
   </ul>
