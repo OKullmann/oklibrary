@@ -29,6 +29,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improve docus
+  <ul>
+   <li> The discussion of how the variables are given needs improvement. </li>
+   <li> The "reason" for using the variables "colv" is that they come from
+   the hypergraph colouring problem! </li>
+   <li> And the main translation should not use the "extended" Dimacs format,
+   which is not used outside the OKlibrary, but should use the Dimacs format.
+   </li>
+   <li> The extension can be discussed, but as an extension. </li>
+  </ul>
+
+
   \todo More efficient computation
   <ul>
    <li> For larger %Ramsey problems, we need the ability to compute directly

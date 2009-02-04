@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
    the following topics are handled:
+    - Improve docus
     - Extreme cases
     - More efficient computation
 
