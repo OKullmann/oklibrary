@@ -30,10 +30,9 @@ RSB : ramsey_symbr2_cs(n);
    </li>
    <li> The above assumes that variables are given in the form "colv({a,b})" 
    for edges connecting vertices "a" and "b". This need not be the case, and
-   the variables may be of any form (assuming they can be negated, and "abs"
-   works on their negation), and then the second and third argument to the
-   function are functions mapping from the undirected edges (%e.g., {a,b}) to
-   their corresponding undirected edges, and vice versa. </li>
+   then the second and third argument to the function are functions mapping
+   from the undirected edges (%e.g., {a,b}) to their corresponding undirected
+   edges, and vice versa. </li>
    <li> The reason for the above notation ("colv({a,b})") etc. in the example 
    above is that the result of this can easily be converted to the format "aSb"
    sometimes used when generating clause-sets for the %Ramsey problems in the 
