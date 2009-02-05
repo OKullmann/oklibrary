@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations on greentao_2(4,5)
 
 
-  \todo greentao_2(4,5) > 4213
+  \todo greentao_2(4,5) > 4215
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -141,7 +141,16 @@ average length successful tries = 0
      didn't find a solution. </li>
     </ol>
    </li>
-   <li> n=4215 </li>
+   <li> n=4215 found satisfiable by ubcsat-rnovelty+ with msteps=909712453
+   and seed=43139898:
+    <ol>
+     <li> 122 runs with cutoff=10^9 and 40 runs with cutoff=2*10^9 didn't
+     find a solution. </li>
+     <li> Neither did walksat with "-super -cutoff 20000000 -rnovelty+". </li>
+     <li> But then the first run with cutoff=4*10^9 found the above
+     solution. </li>
+    </ol>
+   </li>
    <li> n=4217 </li>
    <li> n=4225
     <ol>
