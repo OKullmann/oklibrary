@@ -33,6 +33,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Systematics output and output-functions
+  <ul>
+   <li> Likely, the outputs for van-der-Waerden and for Green-Tao problems
+   should be very similar. </li>
+  </ul>
+
+
   \todo More than two parts
   <ul>
    <li> Create non-boolean clause-sets for the van der Waerden problems and

@@ -46,6 +46,12 @@ License, or any later version. */
    the following topics are handled:
     - Implementing the AES random generator
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   the following topics are handled:
+    - Statistics
+    - Systematics output and output-functions
+
 
   \par Version 0.0.10
 

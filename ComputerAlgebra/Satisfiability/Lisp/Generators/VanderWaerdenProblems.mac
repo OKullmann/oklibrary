@@ -68,12 +68,17 @@ greentao2nd_fcs(k1,k2,n) := block(
  [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
   [G1[1], union(G1[2], comp_cs(G2[2]))])$
 
-/* Output in Dimacs format:
+/* Output in Dimacs format (together with statistics and variable meanings):
 */
+
 output_greentao2(k,n,filename) := block(
  [FFGT : standardise_fcs(greentao2_fcs(k,n))],
   output_fcs_v(
-    sconcat("Green-Tao problem (diagonal): 2 parts, arithmetic progressions of size ", k, ", and ", n, " prime numbers."), 
+    sconcat("Green-Tao problem (diagonal form), 
+c created by the OKlibrary at ", timedate(),":
+c 2 parts, arithmetic progressions of size ", k, ", and ", n, " prime numbers.
+", standard_statistics_fcs(FFGT[1]), "
+c Variables and associated prime numbers:"), 
     FFGT[1],
     filename,
     FFGT[2]))$
@@ -84,7 +89,11 @@ output_greentao2_stdname(k,n) := output_greentao2(k,n,
 output_greentao2nd(k1,k2,n,filename) := block(
  [FFGT : standardise_fcs(greentao2nd_fcs(k1,k2,n))],
   output_fcs_v(
-    sconcat("Green-Tao problem (non-diagonal): 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers."), 
+    sconcat("Green-Tao problem (non-diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers.
+", standard_statistics_fcs(FFGT[1]), "
+c Variables and associated prime numbers:"), 
     FFGT[1],
     filename,
     FFGT[2]))$
