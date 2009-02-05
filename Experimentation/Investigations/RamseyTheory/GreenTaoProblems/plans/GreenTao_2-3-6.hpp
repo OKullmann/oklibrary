@@ -66,8 +66,113 @@ BestSolution_Max = 411.000000
 
   \todo greentao_2(3,6) > 2000
   <ul>
-   <li> n = 3000 </li>
-  </li>
+   <li> n = 2250 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 22267
+BestStep_Mean = 51646.200000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 24.600000
+BestSolution_Median = 24.000000
+BestSolution_Min = 21.000000
+BestSolution_Max = 28.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 1000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 43269
+BestStep_Mean = 495302.000000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 18.200000
+BestSolution_Median = 19.500000
+BestSolution_Min = 11.000000
+BestSolution_Max = 23.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 42383
+BestStep_Mean = 4779885.400000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 11.500000
+BestSolution_Median = 12.000000
+BestSolution_Min = 10.000000
+BestSolution_Max = 13.000000
+   \endverbatim
+   </li>
+   <li> n = 2500 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000 -i GreenTao_2_3_6_2500.cnf
+Clauses = 226059
+Variables = 2500
+TotalLiterals = 680712
+FlipsPerSecond = 13038
+BestStep_Mean = 68629.200000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 61.900000
+BestSolution_Median = 62.500000
+BestSolution_Min = 57.000000
+BestSolution_Max = 64.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 1000000 -i GreenTao_2_3_6_2500.cnf
+Clauses = 226059
+Variables = 2500
+TotalLiterals = 680712
+FlipsPerSecond = 13062
+BestStep_Mean = 495738.100000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 54.000000
+BestSolution_Median = 55.000000
+BestSolution_Min = 47.000000
+BestSolution_Max = 57.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_3_6_2500.cnf
+Clauses = 226059
+Variables = 2500
+TotalLiterals = 680712
+FlipsPerSecond = 12799
+BestStep_Mean = 4374264.300000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 50.300000
+BestSolution_Median = 50.500000
+BestSolution_Min = 46.000000
+BestSolution_Max = 53.000000
+   \endverbatim
+   <li> n = 3000 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000 -i GreenTao_2_3_6_3000.cnf
+Clauses = 318899
+Variables = 3000
+TotalLiterals = 960054
+FlipsPerSecond = 7081
+BestStep_Mean = 52997.600000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 137.300000
+BestSolution_Median = 137.500000
+BestSolution_Min = 126.000000
+BestSolution_Max = 146.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 1000000 -i GreenTao_2_3_6_3000.cnf
+       sat  min     osteps     msteps       seed
+      1 0   132     899782    1000000  257061986
+      2 0   133     533282    1000000 3225188000
+   \endverbatim
+   </li>
+  </ul>
 
 */
 
