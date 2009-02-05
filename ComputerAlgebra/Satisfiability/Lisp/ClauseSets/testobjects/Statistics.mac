@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.4.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,21 +33,51 @@ okltest_nvar_fcs(nvar_fcs);
 okltest_nvar_fcl(nvar_fcl);
 okltest_nvar_ofcs(nvar_ofcs);
 
-okltest_ncl_list_f(ncl_list_f);
+okltest_ncl_fcs(ncl_fcs);
+okltest_ncl_cs(ncl_cs);
+
+okltest_ncl_list_fcs(ncl_list_fcs);
+
+okltest_max_rank_cs(max_rank_cs);
+okltest_max_rank_fcs(max_rank_fcs);
+okltest_min_rank_cs(min_rank_cs);
+okltest_min_rank_fcs(min_rank_fcs);
+
+okltest_statistics_cs(statistics_cs);
+okltest_statistics_fcs(statistics_fcs);
 
 /* *******************
    * Literal degrees *
    *******************
 */
 
+okltest_literal_degree_cs(literal_degree_cs);
 okltest_literal_degrees_cs(literal_degrees_cs);
+
 okltest_all_literal_degrees_fcs(all_literal_degrees_fcs);
+
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
+
 okltest_min_literal_degree_cs(min_literal_degree_cs);
+okltest_min_literal_degree_fcs(min_literal_degree_fcs);
 okltest_max_literal_degree_cs(max_literal_degree_cs);
+okltest_max_literal_degree_fcs(max_literal_degree_cs);
+
 okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
 okltest_max_literal_degree_l_cs(max_literal_degree_l_cs);
+
+okltest_literalregularcsp(literalregularcsp);
+
+okltest_mean_literal_degree_fcs(mean_literal_degree_fcs);
+
+okltest_min_literal_frequency_cs(min_literal_frequency_cs);
+okltest_max_literal_frequency_cs(max_literal_frequency_cs);
+okltest_max_literal_frequency_cs(max_literal_frequency_cs);
+
 okltest_literal_degrees_list_fcs(literal_degrees_list_fcs);
+
+okltest_max_literal_degree_tb(max_literal_degree_tb);
+okltest_max_literal_degree_tb_l_cs(max_literal_degree_tb_l_cs);
 
 /* ********************
    * Variable degrees *
@@ -56,9 +86,23 @@ okltest_literal_degrees_list_fcs(literal_degrees_list_fcs);
 
 okltest_variable_degree_cs(variable_degree_cs);
 okltest_variable_degrees_cs(variable_degrees_cs);
+
 okltest_min_variable_degree_cs(min_variable_degree_cs);
+okltest_min_variable_degree_fcs(min_variable_degree_fcs);
+okltest_max_min_var_deg_cs(max_min_var_deg_cs);
+okltest_max_variable_degree_fcs(max_variable_degree_fcs);
 okltest_max_variable_degree_cs(max_variable_degree_cs);
 okltest_max_variable_degree_v_cs(max_variable_degree_v_cs);
+okltest_min_max_var_deg_cs(min_max_var_deg_cs);
+
+okltest_variableregularcsp(variableregularcsp);
+
+okltest_mean_variable_degree_cs(mean_variable_degree_cs);
+
+okltest_min_variable_frequency_cs(min_variable_frequency_cs);
+okltest_max_variable_frequency_cs(max_variable_frequency_cs);
+okltest_mean_variable_frequency_cs(mean_variable_frequency_cs);
+
 okltest_variable_degrees_list_cs(variable_degrees_list_cs);
 
 /* *******************************
@@ -67,6 +111,7 @@ okltest_variable_degrees_list_cs(variable_degrees_list_cs);
 */
 
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
+okltest_weighted_ncl_2n_fcs(weighted_ncl_2n_fcs);
 
 /*!
 \endhtmlonly
