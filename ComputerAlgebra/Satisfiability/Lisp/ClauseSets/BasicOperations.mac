@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -256,13 +256,13 @@ restrict_V_cl(F,V) := block([L : literals_v(V)],
    *****************************************
 */
 
-/* output a literal */
+/* Output a literal: */
 dimacs_l_string(x) := sconcat(x," ")$
 
-/* output a clause */
+/* Output a clause: */
 dimacs_c_string(C) := xreduce(sconcat, map(dimacs_l_string, C))$
 
-/* print a string without line-breaks */
+/* Print a string without line-breaks: */
 print_nlb(s) := block([old_linel : linel],
   linel : slength(s) + 1,
   print(s),
@@ -312,6 +312,21 @@ output_fcs_v(comment,FF,n,varlist) :=
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
 output_fcl_v(comment,FF,n,varlist) := 
   with_stdout(n, print_fcl_v(comment,FF,varlist))$
+
+/* Standard statistics of a formal clause-set as a string:
+*/
+standard_statistics_fcs(FF) := sconcat(
+"c Number of variables: ", nvar_fcs(FF), "
+c Number of clauses: ", ncl_fcs(FF), " 
+c Number of literal occurrences: ", nlitocc_fcs(FF), "
+c Minimal clause length: ", min_rank_fcs(FF), "
+c Maximal clause length: ", max_rank_fcs(FF), "
+c List of pairs [clause-length m, #clauses of length m]:
+c ", ncl_list_fcs(FF), "
+c Minimal literal degree: ", min_literal_degree_fcs(FF), "
+c Maximal literal degree: ", max_literal_degree_fcs(FF), "
+c Minimal variable degree: ", min_variable_degree_fcs(FF), "
+c Maximal variable degree: ", max_variable_degree_fcs(FF))$
 
 
 /*!
