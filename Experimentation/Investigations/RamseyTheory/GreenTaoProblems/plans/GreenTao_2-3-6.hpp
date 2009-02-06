@@ -64,9 +64,96 @@ BestSolution_Max = 411.000000
   </ul>
 
 
-  \todo greentao_2(3,6) > 2000
+  \todo Finding the best algorithm from ubcsat
   <ul>
-   <li> n = 2250 looks unsatisfiable:
+   <li> adaptnovelty+ seems best:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 18008
+BestStep_Mean = 88748.500000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 20.200000
+BestSolution_Median = 20.000000
+BestSolution_Min = 18.000000
+BestSolution_Max = 22.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 33208
+BestStep_Mean = 695169.500000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 9.700000
+BestSolution_Median = 9.500000
+BestSolution_Min = 7.000000
+BestSolution_Max = 12.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 42551
+BestStep_Mean = 3400237.000000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 7.700000
+BestSolution_Median = 7.500000
+BestSolution_Min = 7.000000
+BestSolution_Max = 9.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 49276
+BestStep_Mean = 25508521.900000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 6.100000
+BestSolution_Median = 6.000000
+BestSolution_Min = 5.000000
+BestSolution_Max = 7.000000
+   \endverbatim
+   </li>
+   <li> Also "walksat-tabu -v nonull" seems better than rnovelty+ (but not as
+   good as adaptnovelty+):
+   \verbatim
+> ubcsat-okl -alg  walksat-tabu -v nonull -runs 10 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 24728
+BestStep_Mean = 66136.100000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 21.300000
+BestSolution_Median = 22.000000
+BestSolution_Min = 13.000000
+BestSolution_Max = 25.000000
+> ubcsat-okl -alg  walksat-tabu -v nonull -runs 10 -cutoff 1000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 32283
+BestStep_Mean = 642215.000000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 14.500000
+BestSolution_Median = 14.500000
+BestSolution_Min = 11.000000
+BestSolution_Max = 16.000000
+   \endverbatim
+   </li>
+   <li> rnovelty+ seems third from the ubcsat-range (version 1.0.0):
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000 -i GreenTao_2-3-6_2250.cnf
 Clauses = 185490
@@ -107,8 +194,27 @@ BestSolution_Mean = 11.500000
 BestSolution_Median = 12.000000
 BestSolution_Min = 10.000000
 BestSolution_Max = 13.000000
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2250.cnf
+Clauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 39750
+BestStep_Mean = 51162593.300000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 7.300000
+BestSolution_Median = 7.000000
+BestSolution_Min = 6.000000
+BestSolution_Max = 9.000000
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo greentao_2(3,6) > 2000 (finding lower bounds)
+  <ul>
+   <li> n = 2250 looks unsatisfiable: see above. </li>
    <li> n = 2500 looks unsatisfiable:
    \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 100000 -i GreenTao_2_3_6_2500.cnf
@@ -172,6 +278,18 @@ BestSolution_Max = 146.000000
       2 0   133     533282    1000000 3225188000
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Upper bounds
+  <ul>
+   <li> It appears that OKsolver would need, say, 50 years for n=5000 on the
+   laptop. </li>
+   <li> With a cluster, this would be feasible; and perhaps optimising the
+   heuristics yields something. </li>
+   <li> We need to investigate march_pl and minisat (problematic that progress
+   is hard to judge). </li>
+   <li> Also higher n could be tried. </li>
   </ul>
 
 */
