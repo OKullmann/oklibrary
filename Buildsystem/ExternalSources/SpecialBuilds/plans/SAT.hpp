@@ -364,6 +364,13 @@ actual or intended publication of such source code.
 
   \todo Symmetries
   <ul>
+   <li> Saucy http://vlsicad.eecs.umich.edu/BK/SAUCY/
+    <ol>
+     <li> There shouldn't be a problem with distributing this package
+     with the OKlibrary. </li>
+     <li> OK contacted the authors. </li>
+    </ol>
+   </li>
    <li> ZAP ? </li>
    <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
    open source. </li>
