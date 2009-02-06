@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,10 +45,20 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
   \todo Investigating existing tools for parsing and refactoring code
   <ul>
    <li> There was an announcement recently (September 2007) on the boost
-   e-mail list about a C/C++ parser etc. library (supported by Apple). </li>
-   <li> See what they have on refactoring. </li>
+   e-mail list about a C/C++ parser etc. library (supported by Apple).
+    <ol>
+     <li> Likely http://www.llvm.org/ was meant. </li>
+     <li> Perhaps http://clang.llvm.org/ for us as "end users" is more
+     appropriate; unfortunately yet only C (C++ will take until 2010). </li>
+    </ol>
+   </li>
    <li> There should be C tools for refactoring --- those should be also
-   useful. </li>
+   useful.
+    <ol>
+     <li> See "Installation of C/C++ tools" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp . </li>
+    </ol>
+   </li>
    <li> C++ and Maxima/Lisp are most relevant (at this time). </li>
   </ul>
 

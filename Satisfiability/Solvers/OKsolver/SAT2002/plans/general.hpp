@@ -232,7 +232,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Apply Splint
+  \todo Apply code analysis tools (like Splint)
   <ul>
    <li> See "Installation of C/C++ tools" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>

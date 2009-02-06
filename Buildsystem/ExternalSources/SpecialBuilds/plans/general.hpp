@@ -126,6 +126,8 @@ License, or any later version. */
   \todo Installation of C/C++ tools
   <ul>
    <li> Code analysis tool "Splint" http://www.splint.org </li>
+   <li> Also "Clang" http://clang.llvm.org/ yields a C analysis tool
+   (and hopefully in some time also a C++ analysis tool). </li>
   </ul>
 
 
