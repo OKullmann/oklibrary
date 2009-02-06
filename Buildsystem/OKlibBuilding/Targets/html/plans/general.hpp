@@ -30,6 +30,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo The role of documents_dir
+  <ul>
+   <li> The last action for target "documentation_index" is to copy
+   the directory $(documents_dir) to $(doc_dir). </li>
+   <li> This fills directory $(doc_dir)/documents. </li>
+   <li> Why do we need $(doc_dir)/documents ? </li>
+   <li> Currently the local home page gets the documents from this directory,
+   which is "documents_html_dir". </li>
+   <li> However, why don't we just use "documents_dir" ? </li>
+  </ul>
+
+
   \todo Doxygen error messages:
   <ul>
    <li> Perhaps the output of doxygen could be configured (only error
