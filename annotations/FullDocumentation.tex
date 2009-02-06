@@ -1736,6 +1736,12 @@ XXX Release mode (with -g) and final release mode (without -g) because of the de
 \chapter{How to use Git}
 \label{cha:HowGit}
 
+In this chapter we discuss general usage guidelines (related to the \OKlibrary) and general principles (the underlying principles of Git). For specific documentation we have three sources in the \OKlibrary:
+\begin{itemize}
+\item Docus and plans in the module \texttt{Buildsystem/SourceControl}.
+\item The Git documentation accessible from the ExternalSources page.
+\item The git command documentation (via ``git command --help'' or ``git help command'').
+\end{itemize}
 
 \section{Creating and initialising repositories}
 \label{sec:GitInit}
@@ -1743,12 +1749,20 @@ XXX Release mode (with -g) and final release mode (without -g) because of the de
 \subsection{Initialisation}
 \label{sec:GitInitialisation}
 
-In order that commits have the full name (``Oliver Kullmann'' instead of user-name ``csoliver'') and e-mail-address (``O.Kullmann@Swansea.ac.uk'' instead of the local address ``csoliver@cs-wsok.swan.ac.uk''), easiest is to tell Git for all repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
+In order that commits have the full name (e.g., ``Oliver Kullmann'' instead of user-name ``csoliver'') and correct e-mail-address, easiest is to tell Git for all repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
 \begin{verbatim}
 > git config --global user.name "Oliver Kullmann"
 > git config --global user.email O.Kullmann@Swansea.ac.uk
 \end{verbatim}
-Without the option \texttt{--global} only the repository from where this command was run is affected (has stored these details).
+Without the option \texttt{--global} only the repository from where this command was run is affected (has stored these details). To  view the configuration data, use
+\begin{verbatim}
+> git config --global --list
+\end{verbatim}
+for the global configuration settings, and
+\begin{verbatim}
+> git config --list
+\end{verbatim}
+for the local configuration settings (for this, as usual, the calling directory must be part of the working tree of the respective repository).
 
 
 
