@@ -2054,61 +2054,6 @@ The single node 1U Linux server (cs-oksvr.swan.ac.uk) is supplied by Fujitsu Sie
 
 
 
-\chapter{CVS}
-\label{cha:cvs}
-
-\section{Repository Setup} 
-\label{sec:cvsrepositorysetup}
- 
-\texttt{OKplatform} make uses of two CVS repositories on the central server where we use ssh as the Client/Server access method.
-
-The repository \OKsystem{} contains the module \OKlibrary which is always in a clean state and ready to be released. The other repository \texttt{OKdevelopment} contains the modules \texttt{Annotations} and \texttt{Transitional}. \texttt{Annotations} holds the internal documentation regarding the entire \texttt{OKplatform}. \texttt{Transitional} holds all library components that are currently still under development. When these components are ready, they will be transferred to \OKlibrary.
-
-The repositories are located in \verb@cs-oksvr:/work/Repositories/@
-
-\section{Environment Variables}
-\label{sec:environmentvariables}
-
-{CVS\_RSH} must be set to specify Client/Server access method. This variable should be set to ``ssh''.
-
-{CVSUMASK} is set to govern the permissions of files and directories storied in the repository. When accessing the repository using ssh, CVS make use of the interactive shell resource file, hence this variable should be set in .bashrc (interactive shell) not in .profile (login shell). On SuSE linux system, the login shell also sources .bashrc so all setting to environment should be written in .bashrc (with the exception of languages which should go in the login shell). Setting this variable to 0007 to give full access to the owner and members of the group.
-
-\section{Repository Access}
-\label{sec:cvsrepositiryaccess}
-
-CVS doesn't have any specific control over the file permissions on the repository. Instead, it relies on the operating system to take care all the related issues.
-
-The repositories are created with a special system user and a special group. The details are as follows: 
-
-\begin{itemize}
-\item CVS User Name : csoksc (3909)
-\item CVS User Group : ok-scgrp (4001)
-\end{itemize} 
-
-This special user has neither home directory nor login permission. Only members of this special group are granted access to the repositories. The group sticky bit is set on both repositories so that all files stored in them automatically belong to this group. 
-
-Since the repository is located on a remote server and ssh is used to be the access method, one should use the following command to specify the location of the repository. 
-
-\begin{verbatim}
-cvs -d :ext:[User Name]@cs-oksvr:/work/Repositories/[Repository Name]
-\end{verbatim} 
-
-\section{E-mail notification}
-\label{sec:cvstipsandtricks}
-
-OKplatfrom uses an e-mail notification system for the repositories. When a user commits files to the repository, the system will send out e-mails containing the details of the commitment to all users on the predefined mailing list.
-
-With in each repository, inside the directory ``CVSROOT'' is a file called ``loginfo''. The following two lines are appended to the end of this file to setup the e-mail notification system:
-\begin{verbatim}
-# CVS notifications to all users on commit
-ALL (echo ""; echo %{sVv}; date; cat) | mutt -s "OKlibrary CVS Commit 
--- $USER" O.Kullmann@Swansea.ac.uk T.H.Bao@Swansea.ac.uk
-\end{verbatim} 
-
-The first line starting with `\#' is a comment line. The next line is divided into two parts. The first part is the regular expression that matches the modules residing in the repository. Use `ALL' to match everything in the repository. The second part is the command to execute when a commitment occurs. In our system, an e-mail containing the details of the commitment will be send out to the listed e-mail addresses.
-
-
-
 
 %------------------------------------------------------------------------
 
