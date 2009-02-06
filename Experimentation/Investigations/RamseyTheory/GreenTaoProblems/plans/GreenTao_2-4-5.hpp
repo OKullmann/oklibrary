@@ -10,6 +10,65 @@ License, or any later version. */
   \brief Investigations on greentao_2(4,5)
 
 
+  \todo Finding the best local search solver
+  <ul>
+   <li> It seems that for the more constraint problems greentao_2(3,6)
+   adaptnovelty+ is best, while here, as for for the diagonal problems,
+   rnovelty+ still is best. </li>
+   <li> It seems just looking at the average behaviour for cutoff = 100*10^3
+   is enough. </li>
+   <li> Best is rnovelty+:
+   \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -i GreenTao_2_4_5_4225.cnf
+Clauses = 100155
+Variables = 4225
+TotalLiterals = 410604
+FlipsPerSecond = 149813
+BestStep_Mean = 83155.970000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 81.050000
+BestSolution_Median = 82.000000
+BestSolution_Min = 47.000000
+BestSolution_Max = 110.000000
+   \endverbatim
+   </li>
+   <li> Second is adaptnovelty+
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -i GreenTao_2_4_5_4225.cnf
+Clauses = 100155
+Variables = 4225
+TotalLiterals = 410604
+FlipsPerSecond = 156715
+BestStep_Mean = 88499.750000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 88.860000
+BestSolution_Median = 89.000000
+BestSolution_Min = 67.000000
+BestSolution_Max = 105.000000
+   \endverbatim
+   </li>
+   <li> Then walksat-tabu with nonull-flips:
+   \verbatim
+> ubcsat-okl -alg walksat-tabu -v nonull -runs 100 -i GreenTao_2_4_5_4225.cnf
+Clauses = 100155
+FlipsPerSecond = 233046
+BestStep_Mean = 88304.290000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 93.780000
+BestSolution_Median = 95.000000
+BestSolution_Min = 75.000000
+BestSolution_Max = 122.000000
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo greentao_2(4,5) > 4215
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
