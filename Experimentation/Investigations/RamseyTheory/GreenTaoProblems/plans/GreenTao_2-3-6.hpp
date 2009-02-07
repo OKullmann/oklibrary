@@ -212,9 +212,11 @@ BestSolution_Max = 9.000000
   </ul>
 
 
-  \todo greentao_2(3,6) > 2000 (finding lower bounds)
+  \todo greentao_2(3,6) > 2062 (finding lower bounds)
   <ul>
-   <li> n = 2062 </li>
+   <li> n = 2062 found satisfiable by ubcsat-adaptnovelty+ with
+   msteps = 24408280 and seed = 1309685658 (cutoff = 100*10^6). </li>
+   <li> n = 2094 </li>
    <li> n = 2125 might be unsatisfiable:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 10000000 -i GreenTao_2_3_6_2125.cnf
