@@ -310,5 +310,16 @@ BestSolution_Min = 1.000000
    </li>
   </ul>
 
+
+  \todo Survey propagation
+  <ul>
+   <li> Running it on GreenTao_2_5_33500.cnf:
+   \verbatim
+builds/SAT/SurveyPropagation/sp-1.4> ./sp -l GreenTao_2_5_33500.cnf
+
+   \endverbatim
+   </li
+  </ul>
+
 */
 

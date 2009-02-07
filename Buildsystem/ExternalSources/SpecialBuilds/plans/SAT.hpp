@@ -313,6 +313,40 @@ actual or intended publication of such source code.
      <li> OK should contact Riccardo Zecchina to tell them about the OKlibrary,
      and discuss whether they are interested in contributing (first at the
      Maxima/Lisp level). </li>
+     <li> Installing sp-1.4b for k-SAT
+     \verbatim
+builds/SAT/SurveyPropagation> tar -xzf ../../../sources/SAT/SurveyPropagation/sp-1.4b.tgz
+builds/SAT/SurveyPropagation> cd sp-1.4
+builds/SAT/SurveyPropagation/sp-1.4> make
+builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
+./sp [options]
+  formula
+        -n <numvars>
+        -m <numclauses>
+        -a <alpha>
+        -R <rho>         modified dynamics (0=sp, 1=bp)
+                         (real values inbetween may make sense)
+        -l <filename>    reads formula from file
+  solving
+        -d <danger>      fix this much PAP spins (experimental)
+        -f <fixes>       per step
+        -% <fixes>       per step (%)
+        -e <error>       criterion for convergence
+        -z               use lazy convergence instead of sequential
+        -i <iter>        maximum number of iterations until convergence
+  stats
+        -p <filename>    output a magneticity plot
+        -r <filename>    replay file
+        -c               computes complexity
+        -F               print fields
+        -v               increase verbosity
+  misc
+        -s <seed>        (0=use time, default=1)
+        -/               stop after first convergence
+        -h               this help
+     \endverbatim
+     successful.
+     </li>
     </ol>
    </li>
    <li> There should be other implementations out there (belief propagation

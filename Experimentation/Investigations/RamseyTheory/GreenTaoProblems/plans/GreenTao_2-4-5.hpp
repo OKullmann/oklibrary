@@ -299,5 +299,21 @@ average length successful tries = 0
    </li>
   </ul>
 
+
+  \todo Survey propagation
+  <ul>
+   <li> Doesn't seem to be successful:
+   \verbatim
+builds/SAT/SurveyPropagation/sp-1.4> ./sp -l GreenTao_2_4_5_4100.cnf
+...
+<bias>:nan
+contradiction
+   \endverbatim
+   </li>
+   <li> One could try the parameter "-R rho", where apparently the default
+   is rho=0, and 0 <= rho <= 1 is possible (for rho=1 we apparently get
+   ordinary belief progagation). </li>
+  </ul>
+
 */
 
