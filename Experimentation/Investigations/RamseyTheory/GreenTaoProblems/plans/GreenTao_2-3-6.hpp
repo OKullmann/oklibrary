@@ -214,6 +214,37 @@ BestSolution_Max = 9.000000
 
   \todo greentao_2(3,6) > 2000 (finding lower bounds)
   <ul>
+   <li> n = 2062 </li>
+   <li> n = 2125 might be unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 10000000 -i GreenTao_2_3_6_2125.cnf
+Clauses = 166757
+Variables = 2125
+TotalLiterals = 502284
+FlipsPerSecond = 84973
+BestStep_Mean = 4796045.770000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.740000
+BestSolution_Median = 3.000000
+BestSolution_Min = 2.000000
+BestSolution_Max = 4.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2_3_6_2125.cnf
+Clauses = 166757
+Variables = 2125
+TotalLiterals = 502284
+FlipsPerSecond = 89403
+BestStep_Mean = 13475345.800000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.000000
+BestSolution_Median = 2.000000
+BestSolution_Min = 2.000000
+BestSolution_Max = 2.000000
+   \endverbatim
+   </li>
    <li> n = 2250 looks unsatisfiable: see above. </li>
    <li> n = 2500 looks unsatisfiable:
    \verbatim
