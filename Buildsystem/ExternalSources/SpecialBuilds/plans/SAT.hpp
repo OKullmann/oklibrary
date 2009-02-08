@@ -91,7 +91,35 @@ Installations/SAT> cd MiniSat_v1.14
    </li>
    <li> Minisat+ ? Let's ignore it at this time. </li>
    <li> What is minisat2-070721.zip ? The new version, apparently
-   their new best piece. </li>
+   their new best piece.
+   \verbatim
+Installations/SAT/Minisat> unzip ../../../sources/SAT/MiniSat/minisat2-070721.zip
+Installations/SAT/Minisat> cd minisat
+/SAT/Minisat/minisat> cd simp
+minisat/simp> make rs
+OKplatform/bin> ln -s OKPLATFORM/xternalSources/Installations/SAT/Minisat/minisat/simp/minisat_static minisat2
+OKplatform> minisat2 -h
+This is MiniSat 2.0 beta
+WARNING: for repeatability, setting FPU to use double precision
+USAGE: minisat2 [options] <input-file> <result-output-file>
+  where input may be either in plain or gzipped DIMACS.
+OPTIONS:
+  -pre           = {none,once}
+  -asymm
+  -rcheck
+  -grow          = <num> [ >0 ]
+  -polarity-mode = {true,false,rnd}
+  -decay         = <num> [ 0 - 1 ]
+  -rnd-freq      = <num> [ 0 - 1 ]
+  -dimacs        = <output-file>
+  -verbosity     = {0,1,2}
+   \endverbatim
+   where "pre" is apparently for preprocessing, and the default is "once".
+   </li>
+   <li> Apparently specifying "dimacs=OUTPUTFILE" just runs the preprocessor
+   (keeping the old variable names, and thus producing gaps in the numbering;
+   likely only equivalence reductions are used(?)).
+   </li>
    <li> SatElite: According to the Minisat page, this is subsumed by
    Minisat2 (see above). </li>
   </ul>
