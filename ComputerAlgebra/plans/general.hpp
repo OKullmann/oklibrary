@@ -21,6 +21,35 @@ License, or any later version. */
      Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
     </ol>
    </li>
+   <li> Relations:
+    <ol>
+     <li> An n-ary relation on a set M is a set of lists of length n, where
+     the elements are all from M. </li>
+     <li> Abbreviation: "nary_rel" in general, and "2ary_rel", "3ary_rel" etc.
+     for instances. </li>
+     <li> Test:
+     \verbatim
+nary_rel_p(R,M,n) := every_s(lambda([t],listp(t) and is(length(t)=n) and subsetp(setify(t),M)), listify(R))$
+     \endverbatim
+     </li>
+     <li> Perhaps for binary relations we just use "rel". </li>
+     <li> In generalisation of quasigroups we define a "n-jective relation"
+     R on a set M as an n-ary relation R on M such that whenever n-1 values
+     are arbitrary fixed, the remaining value is uniquely determined. </li>
+     <li> Test:
+     \verbatim
+njective_rel_p(R,M,n) := nary_rel_p(R,M,n) and 
+ block([T : cartesian_product_l(create_list(listify(M),k,1,n-1))],
+  every_s(lambda([i], 
+    every_s(
+      lambda([t], block([a : take_elements(i-1,t), b : rest(t,i-1)],
+        is(length(intersection(R, setify(create_list(append(a,[x],b), x,listify(M))))) = 1))), 
+      T)),
+    create_list(i,i,1,n)))$
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
