@@ -115,6 +115,75 @@ ubcsat -rclean \
      clauses etc.), and the "instance data". </li>
     </ol>
    </li>
+   <li> Something like the following seems reasonable : 
+   \verbatim
+target_file <- "Ramsey_5_2_30.cnf"
+ubcsat_command <- "ubcsat -rclean \\
+ -r out '$OUTPUT' $OUTPUT_PARAMS \\
+  -r stats '$STATS_OUTPUT'  numclauses,numvars,numlits,fps,totaltime,time \\
+   $STD_PARAMS -alg $ALG -i $TARGET"
+
+ubcsat_output_params = list("run","found","best","beststep","steps","seed",
+  "nullflips","percentnull","rand","candidates","agemean")
+ubcsat_cnf_algs = list("gsat", "gsat -v simple", "gwsat", "gsat-tabu", "hsat", 
+  "hwsat","walksat", "walksat-tabu", "novelty", "novelty+", "adaptnovelty+",
+  "rnovelty", "rnovelty+", "saps", "rsaps", "sapsnr", "rots",
+  "irots", "samd", "walksat-tabu -v nonull")
+ubcsat_std_params = list(runs=3,cutoff=1000)
+
+add_constant_column <- function(df,const_var, name) {
+  temp_df <- data.frame(do.call(c,lapply(df[[1]],function(a){const_var})))
+  colnames(temp_df) <- c(name)
+  data.frame(df, temp_df)
+}
+
+eval_ubcsat <- 
+function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
+  algs=ubcsat_cnf_algs, output_params=ubcsat_output_params, 
+  params = ubcsat_std_params,stats_output="$TARGET-$ALG.stats.result",
+  monitor=FALSE) {
+
+  ubcsat_command <- gsub("\\$TARGET", input, command)
+  ubcsat_command <- gsub("\\$OUTPUT_PARAMS", 
+    do.call(paste,c(output_params,list(sep=","))), ubcsat_command)
+  std_params <- ""
+  for (param_name in names(params)) {
+    std_params <- paste(std_params," -",param_name, " ",
+      params[[param_name]],sep="")
+  }
+  ubcsat_command <- gsub("\\$STD_PARAMS", std_params, ubcsat_command)
+  output_file <- gsub("\\$TARGET", input, output)
+  stats_output_file <- gsub("\\$TARGET", input, stats_output)
+  for (alg in algs) {
+    output_file_t <- gsub("\\$ALG", gsub(" ","",alg), output_file)
+    stats_output_file_t <- gsub("\\$ALG", gsub(" ","",alg), stats_output_file)
+    ubcsat_command_t <- gsub("\\$ALG", alg, ubcsat_command)
+    ubcsat_command_t <- gsub("\\$OUTPUT", output_file_t, ubcsat_command_t)
+    ubcsat_command_t <- 
+      gsub("\\$STATS_OUTPUT", stats_output_file_t, ubcsat_command_t)
+    if (monitor) print(ubcsat_command_t)
+    system(ubcsat_command_t)
+    result_df <- read.table(output_file_t,col.names=as.vector(output_params))
+    result_df <- add_constant_column(result_df,alg, "alg")
+    stats_df <- read.table(stats_output_file_t,
+      colClasses=c("character","character","real"))
+    for (i in 1:length(stats_df[[1]])) {
+      result_df <- add_constant_column(result_df, 
+        stats_df[[3]][[i]], stats_df[[1]][[i]])
+    }
+    if (exists("eval_ubcsat_df")) { 
+      eval_ubcsat_df <- rbind(eval_ubcsat_df, result_df) 
+    } else {
+      eval_ubcsat_df <- result_df
+    }
+  }
+  eval_ubcsat_df
+}
+   \endverbatim
+   </li>
+   <li> The above "eval_ubcsat" function runs each of the listed algorithms, 
+   with the given parameters etc on a single cnf returning a combined dataframe
+   with each of the relevant fields. </li> 
   </ul>
 
 
