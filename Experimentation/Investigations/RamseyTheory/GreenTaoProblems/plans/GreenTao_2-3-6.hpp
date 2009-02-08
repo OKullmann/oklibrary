@@ -120,7 +120,20 @@ BestSolution_Mean = 6.100000
 BestSolution_Median = 6.000000
 BestSolution_Min = 5.000000
 BestSolution_Max = 7.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000000 -i GreenTao_2-3-6_2250.cnfClauses = 185490
+Variables = 2250
+TotalLiterals = 558633
+FlipsPerSecond = 72631
+BestStep_Mean = 172037848.800000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 5.000000
+BestSolution_Median = 5.000000
+BestSolution_Min = 5.000000
+BestSolution_Max = 5.000000
    \endverbatim
+   (Seems that 5 falsified clauses is the minimum.)
    </li>
    <li> Also "walksat-tabu -v nonull" seems better than rnovelty+ (but not as
    good as adaptnovelty+):
@@ -209,13 +222,159 @@ BestSolution_Min = 6.000000
 BestSolution_Max = 9.000000
    \endverbatim
    </li>
+   <li> Preprocessing:
+    <ol>
+     <li> Due to the highly constraint character of these problems, the
+     minisat2 preprocessor achieves a considerable reduction in the number
+     of variables. </li>
+     <li> While for example for greentao_2(4,5) no variable was eliminated.
+     </li>
+     <li> However, actually these "simplified" problems seem to be harder (at
+     least for adaptnovelty+):
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2071_pre.cnf
+Clauses = 88303
+Variables = 2071
+TotalLiterals = 465266
+FlipsPerSecond = 89232
+BestStep_Mean = 4078732.700000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.100000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2071_pre.cnf
+Clauses = 88303
+Variables = 2071
+TotalLiterals = 465266
+FlipsPerSecond = 83669
+BestStep_Mean = 9849960.900000
+Steps_Mean = 94840863.900000
+Steps_Max = 100000000.000000
+PercentSuccess = 10.00
+BestSolution_Mean = 0.900000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 1.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2071.cnf
+Clauses = 158884
+Variables = 2071
+TotalLiterals = 478584
+FlipsPerSecond = 78718
+BestStep_Mean = 4601845.300000
+Steps_Mean = 9364095.600000
+Steps_Max = 10000000.000000
+PercentSuccess = 30.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 2.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2071.cnf
+Clauses = 158884
+Variables = 2071
+TotalLiterals = 478584
+FlipsPerSecond = 101111
+BestStep_Mean = 42545701.800000
+Steps_Mean = 52277744.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 90.00
+BestSolution_Mean = 0.100000
+BestSolution_Median = 0.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 1.000000
+     \endverbatim
+     (Perhaps there is a problem with the gaps regarding the variable indices?
+     The preprocessed file kept the old variable names. Hopefully not.) </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo greentao_2(3,6) > 2062 (finding lower bounds)
+  \todo greentao_2(3,6) >= 2072
   <ul>
+   <li> Conjecture: greentao_2(3,6) = 2072.
+    <ol>
+     <li> While with a cutoff of 100*10^6 n=2071 is easily
+     handled, no success with n=2072, </li>
+     <li> See "Upper bounds" below. </li>
+    </ol>
+   </li>
    <li> n = 2062 found satisfiable by ubcsat-adaptnovelty+ with
    msteps = 24408280 and seed = 1309685658 (cutoff = 100*10^6). </li>
+   <li> n = 2070 found satisfiable by ubcsat-adaptnovelty+ with
+   msteps = 17943201 and seed = 2009708202 (cutoff = 100*10^6). </li>
+   <li> n = 2071 found satisfiable by ubcsat-adaptnovelty+ with
+   msteps = 11332054 and seed = 1169059362 (cutoff = 100*10^6). </li>
+   <li> n = 2072 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2072.cnf
+Clauses = 159039
+Variables = 2072
+TotalLiterals = 479052
+FlipsPerSecond = 119377
+BestStep_Mean = 15846549.300000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   And also after preprocessing with Minisat2 (see below) no satisfying
+   assignment is found:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2072_pre.cnf
+Clauses = 88791
+Variables = 2072
+TotalLiterals = 467889
+FlipsPerSecond = 78648
+BestStep_Mean = 2783465.900000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.600000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+   \endverbatim
+   </li>
+   <li> n = 2074 looks unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2074.cnf
+Clauses = 159321
+Variables = 2074
+TotalLiterals = 479898
+FlipsPerSecond = 117038
+BestStep_Mean = 11611872.900000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   </li>
+   <li> n = 2078 seems unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-6_2078.cnf
+Clauses = 159895
+Variables = 2078
+TotalLiterals = 481629
+FlipsPerSecond = 110868
+BestStep_Mean = 19625287.200000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   </li>
    <li> n = 2094 </li>
    <li> n = 2125 might be unsatisfiable:
    \verbatim
@@ -323,6 +482,32 @@ BestSolution_Max = 146.000000
    <li> We need to investigate march_pl and minisat (problematic that progress
    is hard to judge). </li>
    <li> Also higher n could be tried. </li>
+   <li> n=2072
+    <ol>
+     <li> OKsolver-2002
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2-3-6_2072.cnf
+ GreenTao_2-3-6_2072.cnf, 1073741824
+  8:    28,   15.1, 2024003323.2
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=-653.2 number_of_nodes=16842 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=338046 number_of_pure_literals=11941 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=92 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=3398799 number_of_initial_unit-eliminations=0number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-3-6_2072.cnf
+     \endverbatim
+     looks hopeless
+     </li>
+     <li> minisat2 seems to achieve quite some good initial reduction; using
+     just the preprocessed file:
+     \verbatim
+> minisat2 -dimacs=GreenTao_2-3-6_2072_pre.cnf GreenTao_2-3-6_2072.cnf
+> OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2-3-6_2072_pre.cnf
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=-1489.3 number_of_nodes=6440 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=113298 number_of_pure_literals=1639 number_of_autarkies=0 number_of_missed_single_nodes=0max_tree_depth=101 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=28917 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-3-6_2072_pre.cnf
+     \endverbatim
+     Actually, nearly no reduction in formula size, but quite some variables
+     where eliminated (at the expense of longer clauses). Doesn't seem to
+     make the problem (observable) easier (and for local search algorithms
+     it makes it even harder --- see above). </li>
+    </ol>
+   </li>
   </ul>
 
 */
