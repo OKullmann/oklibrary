@@ -74,6 +74,98 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
+  \todo Finding best UBCSAT algorithm for Ramsey problems
+  <ul>
+   <li> Using cspcmg :
+    <ul>
+     <li> Some initial testing using the "eval_ubcsat" given at 
+     "Collecting data" in
+     Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
+     given N_R(5,5,2) < n for 30 <= n <= 33  :
+     \verbatim
+source("UBCSAT.R")
+ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
+for (ramsey_cnf in ramsey_cnfs) {
+  result_df <- eval_ubcsat(ramsey_cnf)
+  result_df <- add_constant_column(result_df, ramsey_cnf, "input")
+  if (exists("ramsey_df")) {
+    ramsey_df <- rbind(ramsey_df, result_df)
+  } else {
+    ramsey_df <- result_df
+  }
+  write.table(ramsey_df, paste("After_", ramsey_cnf,"_Result", sep=""))
+}
+     \endverbatim
+     and then some very basic statistics : 
+     \verbatim
+> ramsey_mean_df <- aggregate(list(beststep=ramsey_df$beststep,cputime_mean=ramsey_df$CPUTime_Mean), list(alg=ramsey_df$alg), mean)
+> ramsey_mean_df[order(ramsey_mean_df$cputime_mean),]
+                      alg  beststep cputime_mean
+16                 sapsnr 100.41667   0.03583325
+18                  irots 185.08333   0.03583325
+4               gsat-tabu 175.00000   0.03666650
+5                    hsat 219.50000   0.03750000
+2          gsat -v simple 255.25000   0.04333350
+14                   saps  96.33333   0.04333350
+17                   rots 230.91667   0.04416650
+19                   samd 226.75000   0.04416650
+15                  rsaps 104.91667   0.04416675
+1                    gsat 233.75000   0.04583325
+6                   hwsat 236.75000   0.04750000
+20 walksat-tabu -v nonull 141.41667   0.05166650
+8            walksat-tabu 140.00000   0.05416675
+12               rnovelty 102.08333   0.06500000
+10               novelty+ 107.08333   0.06916650
+9                 novelty 113.58333   0.07416675
+3                   gwsat 408.16667   0.07666700
+13              rnovelty+  94.58333   0.09416650
+7                 walksat 326.75000   0.14000000
+11          adaptnovelty+ 124.66667   0.15583325
+     \endverbatim
+     </li>
+     <li> Based solely on a simple average of the cputimes, "sapsnr" and 
+     "irots" seem to do well, although it seems that such a simple metric is
+     unreasonable due to the possible mechanics of CPU scheduling etc. </li>
+     <li> Looking at the number of falsfied clauses and number of steps 
+     involved : 
+     \verbatim
+> ramsey_mean_df <- aggregate(list(falsified_clauses=ramsey_df$best, steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
+> ramsey_mean_df[order(ramsey_mean_df$falsified_clauses, ramsey_mean_df$steps),]
+                      alg falsified_clauses    steps
+13              rnovelty+        0.00000000 101.0833
+14                   saps        0.00000000 101.5833
+9                 novelty        0.00000000 107.5833
+10               novelty+        0.00000000 109.3333
+16                 sapsnr        0.00000000 113.0000
+15                  rsaps        0.00000000 114.4167
+20 walksat-tabu -v nonull        0.00000000 132.7500
+12               rnovelty        0.00000000 141.6667
+8            walksat-tabu        0.00000000 158.9167
+17                   rots        0.00000000 171.4167
+18                  irots        0.00000000 189.8333
+19                   samd        0.00000000 205.5000
+2          gsat -v simple        0.00000000 221.1667
+6                   hwsat        0.00000000 225.7500
+4               gsat-tabu        0.00000000 227.7500
+1                    gsat        0.00000000 254.8333
+5                    hsat        0.00000000 285.2500
+11          adaptnovelty+        0.08333333 208.6667
+3                   gwsat        0.58333333 448.1667
+7                 walksat        1.75000000 362.9167
+     \endverbatim
+     seems to suggest "rnovelty+" and "saps" as good algorithms for Ramsey
+     problems. 
+     </li>
+    </ul>
+   </li>
+   <li> Using csoberon :
+    <ul> 
+     <li> Pending. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo NR([3,3],2)
   <ul>
    <li> Satisfiability for n=5 is trivial for any SAT solver. </li>
