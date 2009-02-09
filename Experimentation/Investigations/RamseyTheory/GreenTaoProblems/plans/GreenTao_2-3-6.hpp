@@ -375,7 +375,23 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
    \endverbatim
    </li>
-   <li> n = 2094 </li>
+   <li> n = 2094 seems unsatisfiable
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_2_3_6_2094.cnf
+Clauses = 162248
+Variables = 2094
+TotalLiterals = 488703
+FlipsPerSecond = 93403
+BestStep_Mean = 10185143.160000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.890000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+   \endverbatim
+   </li>
    <li> n = 2125 might be unsatisfiable:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 10000000 -i GreenTao_2_3_6_2125.cnf
