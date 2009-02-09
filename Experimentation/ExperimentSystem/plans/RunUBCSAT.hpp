@@ -20,14 +20,23 @@ License, or any later version. */
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> And see Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
    for further examples. </li>
-   <li> We have already "ubcsat-okl". </li>
-   <li> A single execution of Ubcsat shall only return the data for the
-   single runs. </li>
-   <li> So for example
-   \verbatim
+   <li> We have already "ubcsat-okl".
+    <ol>
+     <li> See "ubcsat-okl" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
+     <li> A single execution of Ubcsat shall return the data for the
+     single runs, in a form which can directly be read by R (supplying
+     directly all data). </li>
+     <li> So for example
+     \verbatim
 ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3 -cutoff 1000 -alg rsaps -i Ramsey_5_2_30.cnf
-   \endverbatim
-   is the right form (we then know how to interprete the five columns). </li>
+     \endverbatim
+     is the right form (we then know how to interprete the five columns). </li>
+     <li> See the current ubcsat-okl (which needs to be extended). </li>
+     <li> And see "Evaluating the data frames" for some functionality which
+     might be integrated into ubcsat-okl. </li>
+    </ol>
+   </li>
    <li> One parameter of eval_ubcsat is the list of algorithms, which are
    strings using the Ubcsat abbreviations.
     <ol>
@@ -50,7 +59,7 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
     </ol>
    </li>
    <li> Another parameter is "runs"; default 100. </li>
-   <li> And default value for parameter "cutoff" is 1000. </li>
+   <li> And default value for parameter "cutoff" is 10000. </li>
    <li> Parameter "filename" must be given. </li>
    <li> Optionally the results of ubcsat are appended to a file. </li>
    <li> There are some other parameters (like "-tabu 10"), which one
@@ -115,7 +124,10 @@ ubcsat -rclean \
      clauses etc.), and the "instance data". </li>
     </ol>
    </li>
-   <li> Something like the following seems reasonable : 
+   <li> Something like the following seems reasonable:
+   (as discussed, one needs to specify what this should achieve, and
+   furthermore, all text-formatting etc. should be handled by the wrapper
+   ubcsat-okl):
    \verbatim
 target_file <- "Ramsey_5_2_30.cnf"
 ubcsat_command <- "ubcsat -rclean \\
@@ -129,7 +141,7 @@ ubcsat_cnf_algs = list("gsat", "gsat -v simple", "gwsat", "gsat-tabu", "hsat",
   "hwsat","walksat", "walksat-tabu", "novelty", "novelty+", "adaptnovelty+",
   "rnovelty", "rnovelty+", "saps", "rsaps", "sapsnr", "rots",
   "irots", "samd", "walksat-tabu -v nonull")
-ubcsat_std_params = list(runs=100,cutoff=100000)
+ubcsat_std_params = list(runs=100,cutoff=10000)
 
 add_constant_column <- function(df,const_var, name) {
   temp_df <- data.frame(do.call(c,lapply(df[[1]],function(a){const_var})))
@@ -189,7 +201,16 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
 
   \todo Evaluating the data frames
   <ul>
-   <li> Functions are needed for standard evaluations. </li>
+   <li> Functions are needed for standard evaluations.
+    <ol>
+     <li> At the R-level, we go for convenience, and overloading functions
+     like "summary" or "plot" seems be the right way. </li>
+     <li> One needs to find out how to do this, how to recognise our
+     specific data frames. </li>
+     <li> "summary" should show data, while "plot" might run through a
+     serious of plots, showing the data from different angles. </li>
+    </ol>
+   </li>
    <li> Given a file Data produced by ubcsat-okl (with first line naming
    the column headers), one could create a nicer formatting by e.g.
    \verbatim
@@ -204,7 +225,7 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
  9999  0       15     4420    20000  4085996178
 10000  0       12     5802    20000  3176480652
    \endverbatim
-   However this is not needed. </li>
+   However this should be part of the extended ubcsat-okl (see above). </li>
    <li> Reading into R by
    \verbatim
 > E = read.table("Data", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))

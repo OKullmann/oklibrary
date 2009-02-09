@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,21 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp
   \brief Plans regarding installation of the Ubcsat package
+
+
+  \todo ubcsat-okl
+  <ul>
+   <li> See ExperimentSystem/plans/RunUBCSAT.hpp for plans on extending
+   the functionality. </li>
+   <li> The idea is that ubcsat-okl creates some form of complete output,
+   which is directly readable by R (into a dataframe, without further
+   processing). </li>
+   <li> By appropriate formatting one also might make it better readable
+   for the human reader. </li>
+   <li> Since we reformat the output, the wrapper should likely reformat
+   every single output line individually (as it comes, so that one can
+   read into R also partial results (from the intermediate file)). </li>
+  </ul>
 
 
   \todo Estimating the problem with version 1.1.0
