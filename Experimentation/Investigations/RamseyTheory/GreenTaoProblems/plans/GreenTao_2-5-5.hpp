@@ -316,9 +316,30 @@ BestSolution_Min = 1.000000
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
 builds/SAT/SurveyPropagation/sp-1.4> ./sp -l GreenTao_2_5_33500.cnf
-
+.................................:-)
+<bias>:0.000000
+paramagnetic state
+sub-formula has:
+        10479 2-clauses
+        34136 3-clauses
+        51732 4-clauses
+        49904 5-clauses
+        18548 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...33500 variables found
+679372 clauses sat, 0 unsat (out of 679372 read)
    \endverbatim
-   </li
+   </li>
+   <li> So here, different from GreenTao_2_4_5_4100.cnf (see
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_2-4-5.hpp
+   ), SP achieves something. </li>
+   <li> Could be that the diagonal problems are closer to random (uniform)
+   CNF (or perhaps the size --- it's big enough?). </li>
+   <li> Now running it on GreenTao_2-5-5_33600. </li>
   </ul>
 
 */
