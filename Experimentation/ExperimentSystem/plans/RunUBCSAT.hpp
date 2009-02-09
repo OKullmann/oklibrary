@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -129,7 +129,7 @@ ubcsat_cnf_algs = list("gsat", "gsat -v simple", "gwsat", "gsat-tabu", "hsat",
   "hwsat","walksat", "walksat-tabu", "novelty", "novelty+", "adaptnovelty+",
   "rnovelty", "rnovelty+", "saps", "rsaps", "sapsnr", "rots",
   "irots", "samd", "walksat-tabu -v nonull")
-ubcsat_std_params = list(runs=3,cutoff=1000)
+ubcsat_std_params = list(runs=100,cutoff=100000)
 
 add_constant_column <- function(df,const_var, name) {
   temp_df <- data.frame(do.call(c,lapply(df[[1]],function(a){const_var})))

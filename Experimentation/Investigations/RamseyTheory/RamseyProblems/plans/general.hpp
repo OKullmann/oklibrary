@@ -74,9 +74,9 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
-  \todo Finding best UBCSAT algorithm for Ramsey problems
+  \todo Finding best UBCSAT algorithm for %Ramsey problems
   <ul>
-   <li> Using cspcmg :
+   <li> Using cspcmg:
     <ul>
      <li> Some initial testing using the "eval_ubcsat" given at 
      "Collecting data" in
@@ -153,7 +153,7 @@ for (ramsey_cnf in ramsey_cnfs) {
 3                   gwsat        0.58333333 448.1667
 7                 walksat        1.75000000 362.9167
      \endverbatim
-     seems to suggest "rnovelty+" and "saps" as good algorithms for Ramsey
+     seems to suggest "rnovelty+" and "saps" as good algorithms for %Ramsey
      problems. 
      </li>
     </ul>
