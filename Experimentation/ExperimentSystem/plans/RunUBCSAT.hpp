@@ -129,7 +129,6 @@ ubcsat -rclean \
    furthermore, all text-formatting etc. should be handled by the wrapper
    ubcsat-okl):
    \verbatim
-target_file <- "Ramsey_5_2_30.cnf"
 ubcsat_command <- "ubcsat -rclean \\
  -r out '$OUTPUT' $OUTPUT_PARAMS \\
   -r stats '$STATS_OUTPUT'  numclauses,numvars,numlits,fps,totaltime,time \\
