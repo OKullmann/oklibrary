@@ -122,6 +122,54 @@ OPTIONS:
    </li>
    <li> SatElite: According to the Minisat page, this is subsumed by
    Minisat2 (see above). </li>
+   <li> So it seems that Minisat2 subsumes the old version 1.14 and the
+   preprocessor, and we need only to install this version (for a SAT
+   solver; there are extensions of SAT like pseudo-boolean). </li>
+   <li> We should give additional documentation:
+    <ol>
+     <li> See above for the options. </li>
+     <li> Output of a new line happens when total number of conflicts =
+     1.5 * old number of conflicts. </li>
+     <li> Apparently the new limit for learnt clauses is 1.1 * old limit. </li>
+     <li> The meaning of "Progress":
+      <ol>
+       <li> The code for progress estimation is
+       \verbatim
+double Solver::progressEstimate() const {
+    double  progress = 0;
+    double  F = 1.0 / nVars();
+    for (int i = 0; i <= decisionLevel(); i++){
+        int beg = i == 0 ? 0 : trail_lim[i - 1];
+        int end = i == decisionLevel() ? trail.size() : trail_lim[i];
+        progress += pow(F, i) * (end - beg);
+    }
+    return progress / nVars();
+}
+       \endverbatim
+       where
+       \verbatim
+    vec<Lit>            trail;            // Assignment stack; stores all assigments made in the order they were made.
+    vec<int>            trail_lim;        // Separator indices for different decision levels in 'trail'.
+       \endverbatim
+       </li>
+       <li> So over the decision levels i from 0 to the current level i, it
+       sums up a(i) * n^(-i-1), where a(i) is the number of assignments made
+       (exactly) at level i. </li>
+       <li> It seems the idea is, that if at level 0 all variables are
+       assigned, then we get 100% progress (and solvers like minisat only
+       consider total assignments), and in general the progress here counts
+       just the percentage of assigned variables, while further levels
+       contribute in the same way, only that their weight is diminished by a
+       factor of n for each level. </li>
+       <li> Thus for instances with at least 1000 variables only levels 0,1 are
+       taken into account (since only three decimal places are printed), and
+       level 1 can yield at most 0.1%. </li>
+      </ol>
+     </li>
+    </ol>
+    Once we've finished the documentation, we should ask the authors whether
+    it's all correct.
+   </li>
   </ul>
 
 
