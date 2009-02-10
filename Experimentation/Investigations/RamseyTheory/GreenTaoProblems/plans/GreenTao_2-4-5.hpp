@@ -210,7 +210,12 @@ average length successful tries = 0
      solution. </li>
     </ol>
    </li>
-   <li> n=4217 </li>
+   <li> n=4217
+    <ol>
+     <li> 39 runs with  cutoff=10^9 didn't find a solution (min between 1
+     and 6). </li>
+    </ol>
+   </li>
    <li> n=4225
     <ol>
      <li> cutoff 200*10^6 produces in 87 runs no min=1, while with cutoff=10^9
