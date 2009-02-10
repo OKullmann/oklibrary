@@ -22,6 +22,24 @@ License, or any later version. */
    <li> Since we reformat the output, the wrapper should likely reformat
    every single output line individually (as it comes, so that one can
    read into R also partial results (from the intermediate file)). </li>
+   <li> The following seems reasonable as a "ubcsat-okl" script:
+   \verbatim
+# Work out algorithm argument
+ALG_ARG_P=1; for arg_p in `seq 1 $#`; do 
+  if [[ ${!arg_p} == "-alg" ]] ; then ALG_ARG_P=`expr $arg_p + 1`; fi;
+done
+ALG=`printf '%34s' ${!ALG_ARG_P}`
+echo "       sat  min     osteps     msteps       seed                                alg"
+ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
+   \endverbatim
+   This appends the algorithm as a column to the data, line by line (this 
+   works with ubcsat-1-1-0, not ubcsat-1-0-0). </li>
+   <li> A problem appending columns line by line to ubcsat output is that 
+   ubcsat version 1.0.0 doesn't appear to flush data regularly and so one
+   will have to wait until ubcsat has finished before viewing results. See
+   "Ubcsat does not flush the output-buffer". </li>
+   <li> Another point is how to handle statistics as they are only printed
+   at the end. </li>
   </ul>
 
 
