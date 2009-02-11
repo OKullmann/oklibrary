@@ -129,29 +129,29 @@ for (ramsey_cnf in ramsey_cnfs) {
      <li> Looking at the number of falsfied clauses and number of steps 
      involved : 
      \verbatim
-> ramsey_mean_df <- aggregate(list(falsified_clauses=ramsey_df$best, steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
-> ramsey_mean_df[order(ramsey_mean_df$falsified_clauses, ramsey_mean_df$steps),]
-                      alg falsified_clauses    steps
-13              rnovelty+        0.00000000 101.0833
-14                   saps        0.00000000 101.5833
-9                 novelty        0.00000000 107.5833
-10               novelty+        0.00000000 109.3333
-16                 sapsnr        0.00000000 113.0000
-15                  rsaps        0.00000000 114.4167
-20 walksat-tabu -v nonull        0.00000000 132.7500
-12               rnovelty        0.00000000 141.6667
-8            walksat-tabu        0.00000000 158.9167
-17                   rots        0.00000000 171.4167
-18                  irots        0.00000000 189.8333
-19                   samd        0.00000000 205.5000
-2          gsat -v simple        0.00000000 221.1667
-6                   hwsat        0.00000000 225.7500
-4               gsat-tabu        0.00000000 227.7500
-1                    gsat        0.00000000 254.8333
-5                    hsat        0.00000000 285.2500
-11          adaptnovelty+        0.08333333 208.6667
-3                   gwsat        0.58333333 448.1667
-7                 walksat        1.75000000 362.9167
+> ramsey_mean_df <- aggregate(list(avg_falsified_clauses=ramsey_df$best, avg_best_steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
+> ramsey_mean_df[order(ramsey_mean_df$avg_falsified_clauses, ramsey_mean_df$avg_best_steps),]
+                      alg avg_falsified_clauses    avg_best_steps
+13              rnovelty+        0.00000000              101.0833
+14                   saps        0.00000000              101.5833
+9                 novelty        0.00000000    		 107.5833
+10               novelty+        0.00000000    		 109.3333
+16                 sapsnr        0.00000000    		 113.0000
+15                  rsaps        0.00000000    		 114.4167
+20 walksat-tabu -v nonull        0.00000000    		 132.7500
+12               rnovelty        0.00000000    		 141.6667
+8            walksat-tabu        0.00000000    		 158.9167
+17                   rots        0.00000000    		 171.4167
+18                  irots        0.00000000    		 189.8333
+19                   samd        0.00000000    		 205.5000
+2          gsat -v simple        0.00000000    		 221.1667
+6                   hwsat        0.00000000    		 225.7500
+4               gsat-tabu        0.00000000    		 227.7500
+1                    gsat        0.00000000    		 254.8333
+5                    hsat        0.00000000    		 285.2500
+11          adaptnovelty+        0.08333333    		 208.6667
+3                   gwsat        0.58333333    		 448.1667
+7                 walksat        1.75000000    		 362.9167
      \endverbatim
      seems to suggest "rnovelty+" and "saps" as good algorithms for %Ramsey
      problems. 

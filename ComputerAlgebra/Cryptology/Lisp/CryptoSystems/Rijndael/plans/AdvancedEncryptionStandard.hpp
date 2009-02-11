@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,17 +8,6 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
   \brief Plans on the AES implementation
-
-
-  \bug AES is computed incorrectly
-  <ul>
-   <li> Tests "okltest_aes_int" etc. fail, likely due to incorrect ordering
-   of the list of input bytes into blocks. </li>
-   <li> This needs urgent correction. </li>
-   <li> Also all intermediate functions ("Shift Row" etc.) need to correspond
-   to their definition in the Rijndael book. </li>
-   <li> All tests needs updates, as well as the docu-file. </li>
-  </ul>
 
 
   \todo OK: This todo needs UPDATE!
@@ -54,6 +43,17 @@ load("functs")$ Bug Here atm  For logxor
    <li> Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
    <li> DONE We don't use "camels", so names like GF2t8PolyToInt needs to be
    replaced. </li>
+  </ul>
+  
+
+  \bug AES is computed incorrectly DONE
+  <ul>
+   <li> Tests "okltest_aes_int" etc. fail, likely due to incorrect ordering
+   of the list of input bytes into blocks. </li>
+   <li> This needs urgent correction. </li>
+   <li> Also all intermediate functions ("Shift Row" etc.) need to correspond
+   to their definition in the Rijndael book. </li>
+   <li> All tests needs updates, as well as the docu-file. </li>
   </ul>
 
 */
