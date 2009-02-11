@@ -1468,13 +1468,20 @@ Every programming action is ``announced'' and discussed, at least one day prior 
 
 Everybody must read the change-log for all plans-files.
 
+
+\subsection{Milestones}
+\label{sec:Milestones}
+
 The \texttt{milestones.hpp}-files serve as the ``keys'' to the development of the library: At the highest level we are led to the lower-level milestones, and there we are led to the more detailed plans-files.
 
-When creating a new milestones, we typically increase the second digit in the version, so for example when the current version is ``0.1'' then the next sub-major milestone is ``0.2''. Once this is envisaged, we try to create a development plan by creating minor milestones ``0.1.1, 0.1.2, ...'' (the more the better; if necessary, this top-down-approach is also applied for the minor mile-stones, subdividing them like ``0.1.1.1, 0.1.1.2, ...'').
+When creating a new milestones (that is, making plans), we typically increase the second digit in the version, so for example when the current version is ``0.1'' then the next sub-major milestone is ``0.2''. Once this is envisaged, we try to create a development plan by creating minor milestones ``0.1.1, 0.1.2, ...'' (the more the better). There are no plans for sub-minor milestones (like ``0.1.1.1''), but these are automatically advanced once a sub-target is reached (this helps to give a sense of achievement).
 
-Each milestone typically consists of several topics. When a topic is handled the comment ``(DONE)'' is added, immediately after the explanation of the topic. Handled topics are only deleted when the milestone which contains them is deleted.
+Each milestone typically consists of several topics (i.e., sub-targets). When a topic is handled the comment ``(DONE)'' is added, immediately after the explanation of the topic. Handled topics are only deleted when the milestone which contains them is deleted.
 
 Once a milestone is reached, the current version is updated, the reached milestone is entered into the history (with a brief explanation), and its specifications are otherwise deleted.
+
+A version number not consisting of all four numbers is equivalent to the one obtained by padding with zeros, i.e., ``0.4'' is equivalent to ``0.4.0.0''. We always start with 0, except of the case where we give an already existing module a version number (in this case we use common judgement, ``0.1'' meaning something to work with has already been established).
+
 
 
 
