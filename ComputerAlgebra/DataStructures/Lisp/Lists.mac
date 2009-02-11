@@ -179,6 +179,12 @@ rotate(l,n) :=
   else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
 
+/* Converts a list "l" to a matrix with rows of length "len_row", 
+   finds the tranpose matrix, and returns the flattening of 
+   this matrix. len_row must be a multiple of the length 
+   of l. */
+transpose_l(l,len_row) :=
+  m2l_r(transpose(apply(matrix,partition_elements(l,len_row))))$
 
 /* Removes duplicated elements in the order they appear (i.e., the second
    occurrence and later ones are removed). */

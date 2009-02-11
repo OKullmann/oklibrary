@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 6.9.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -171,9 +171,11 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
    performs the shiftrows operation, returning the resulting
    block as a list of GF(2^8) elements.
 */
-shiftrows(inputblock) := block([list_rows : partition_elements(inputblock,4)],
-  m2l_r (
-    create_list(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
+shiftrows(inputblock) := block(
+[list_rows : partition_elements(transpose_l(inputblock,4),4)],
+  transpose_l(m2l_r (
+      create_list(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)
+  ),length(inputblock)/4))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -205,11 +207,12 @@ rijndael_inv_mixcolumns_matrix : block([x], apply(matrix,
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
 mixcolumn(inputblocki) :=
-  map(lambda([y],egf_poly2num(rijndael_byte_field,y)),matrixcolumns(
-    egf2t8_matmul(rijndael_mixcolumns_matrix,
-      columns2matrix([
-        map(lambda([y],egf_num2poly(rijndael_byte_field,y)),
-          inputblocki)])))[1])$
+  transpose_l(
+    map(lambda([y],egf_poly2num(rijndael_byte_field,y)),matrixcolumns(
+      egf2t8_matmul(rijndael_mixcolumns_matrix,
+        columns2matrix([
+          map(lambda([y],egf_num2poly(rijndael_byte_field,y)),
+            transpose_l(inputblocki,4))])))[1]),4)$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block using lookups for
@@ -228,9 +231,9 @@ lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
    provided as the second argument.
 */
 mixcolumns(inputblock,mixcolumn_f) :=
-  m2l_r(columns2matrix(
+  transpose_l(m2l_r(columns2matrix(
     map(mixcolumn_f,matrixcolumns(
-      apply(matrix,partition_elements(inputblock,4))))))$
+      apply(matrix,partition_elements(transpose_l(inputblock,4),4)))))),4)$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
@@ -270,7 +273,7 @@ inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
 */
 key_expansion(kl, n_b, sbox_f, aes_add) := block(
   [n_k : length(kl) / 4, 
-  cols : matrixcolumns(apply(matrix,partition_elements(kl, 4))) ],
+  cols : partition_elements(kl,4)],
   for j : n_k thru (n_b*(aes_num_rounds +1)) - 1 do block([column : [0,0,0,0]],
     if mod(j, n_k) = 0 then block (
       column[1] : aes_add(cols[j-n_k+1][1], 
@@ -283,8 +286,7 @@ key_expansion(kl, n_b, sbox_f, aes_add) := block(
     else for i : 1 thru 4 do 
       column[i] : aes_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])),
-  return(apply(append,map(lambda([ma],m2l_r(columns2matrix(ma))),
-    partition_elements(cols,n_b))))
+  return(m2l_r(cols))
 )$
 
 
