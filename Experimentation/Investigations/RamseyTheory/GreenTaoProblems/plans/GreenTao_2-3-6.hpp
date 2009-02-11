@@ -323,7 +323,9 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
    \endverbatim
-   And also after preprocessing with Minisat2 (see below) no satisfying
+   </li>
+   <li> Further 57 runs yield all min=1. </li>
+   <li> And also after preprocessing with Minisat2 (see below) no satisfying
    assignment is found:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2072_pre.cnf

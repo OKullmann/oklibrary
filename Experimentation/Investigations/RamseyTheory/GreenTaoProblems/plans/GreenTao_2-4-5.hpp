@@ -218,12 +218,26 @@ average length successful tries = 0
    </li>
    <li> n=4225
     <ol>
-     <li> cutoff 200*10^6 produces in 87 runs no min=1, while with cutoff=10^9
-     roughly 25% of the runs reach min=1, so let's increase the cutoff to
-     300 * 10^6. And for the experiment with high cutoff 10^9, since
-     18 runs didn't find a solution, let's increase it to 2*10^9. </li>
-     <li> cutoff=2*10^9 produced in 26 runs no solutions, and neither did
-     cutoff=4*10^9 in 6 runs. So let's assume it's unsatisfiable. </li>
+     <li> cutoff=10^9 produced in 133 runs (from 1000) no solutions, while
+     another 100 runs (completed) yield:
+     \verbatim
+Clauses = 100155
+Variables = 4225
+TotalLiterals = 410604
+FlipsPerSecond = 192648
+BestStep_Mean = 417159575.360000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.280000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 5.000000
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^9 produced in 97 runs no solutions, and neither did
+     cutoff=4*10^9 in 27 runs. </li>
+     <li> So let's assume it's unsatisfiable. </li>
     </ol>
    </li>
    <li> n=4250
