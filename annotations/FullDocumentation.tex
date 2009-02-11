@@ -1313,59 +1313,6 @@ For block scope we use
 
 
 
-\section{Documentation of plans}
-\label{sec:DoxygenPlans}
-
-The naming of the plans-files (in subdirectory \texttt{plans} of the module-directory):
-\begin{itemize}
-\item one file \filename{plans/general.hpp} for the general plans of the module;
-\item one file \filename{plans/wishlist.hpp};
-\item one file \filename{plans/milestones.hpp};
-\item for each submodule a file \filename{plans/S.hpp}, where ``S'' is the \emph{stem} of the submodule-file (for example, if we have \filename{M/X.hpp} and \filename{M/X.cpp}, then we have one file \filename{plans/X.hpp}; so the original suffix(es) are suppressed in the plans-file --- the submodule-identity is given by the submodule-name(!)).
-\end{itemize}
-The \filename{.hpp}-suffix recognises the C++ syntax of the plans file (related to \name{doxygen}), which is also important for the text editor.
-
-
-
-\subsection{The lifecycle of ideas through the plans-files}
-\label{sec:DoxygenPlansflow}
-
-Ideally the following ``waterfall'':
-\begin{enumerate}
-\item An idea about some new component or a variation of an existing component pops up, and is put as a new \texttt{$\backslash$todo} into \filename{wishlist.hpp}.
-\item This todo gets expanded (using lists).
-\item After some time it is decided, that this todo should be realised, so that it is moved to \filename{general.hpp}.
-\item There it gets further expanded.
-\item Then the todo gets scheduled in \filename{milestones.hpp}.
-\item The todo gets too big, and is moved into its own (new) module plans-file \filename{plans/Module.hpp}.
-\item There it is further expanded, implementation starts, and the milestones are appropriately adapted.
-\item Finally, it is finished, the completion gets a short entry into the milestones-history (at the occasion of the version-transition), and the todo is deleted.
-\end{enumerate}
-
-
-\subsection{Elements of plans-files}
-\label{sec:DoxygenPlansElements}
-
-The main elements in a plans-files are the \texttt{$\backslash$todo}-elements, and the \texttt{$\backslash$bug}-elements. Every todo has a short heading, and then a list of items.
-
-Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-element for the current version.
-
-
-\subsection{Formatting}
-\label{sec:DoxygenPlansFormatting}
-
-
-\begin{itemize}
-\item No lines of width more than 80 (except for verbatim copies).
-\item Do not use a sequence of paragraphs --- use lists instead!
-\item Do not use long paragraphs --- break it into a list!
-\item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}. These tags are indented (one space), with the exception of the outermost list-creation-tags for a \texttt{$\backslash$todo}, where are at the same level (this indentation is superfluous).
-\item There is one space after the \texttt{<li>}-item and one space before the \texttt{</li>}-item.
-\item Strict xhtml-syntax is used (where possible).
-\item Line breaks shall have no meaning for the html-output. The only case where a paragraph-break is needed is the case of a heading for a short item, and here use \texttt{<p></p>}.
-\end{itemize}
- 
-
 
 
 
@@ -1528,6 +1475,62 @@ When creating a new milestones, we typically increase the second digit in the ve
 Each milestone typically consists of several topics. When a topic is handled the comment ``(DONE)'' is added, immediately after the explanation of the topic. Handled topics are only deleted when the milestone which contains them is deleted.
 
 Once a milestone is reached, the current version is updated, the reached milestone is entered into the history (with a brief explanation), and its specifications are otherwise deleted.
+
+
+
+\subsection{Filename conventions}
+\label{sec:DoxygenPlans}
+
+The naming of the plans-files (in subdirectory \texttt{plans} of the module-directory):
+\begin{itemize}
+\item one file \filename{plans/general.hpp} for the general plans of the module;
+\item one file \filename{plans/wishlist.hpp};
+\item one file \filename{plans/milestones.hpp};
+\item for each submodule a file \filename{plans/S.hpp}, where ``S'' is the \emph{stem} of the submodule-file (for example, if we have \filename{M/X.hpp} and \filename{M/X.cpp}, then we have one file \filename{plans/X.hpp}; so the original suffix(es) are suppressed in the plans-file --- the submodule-identity is given by the submodule-name(!)).
+\end{itemize}
+The \filename{.hpp}-suffix recognises the C++ syntax of the plans file (related to \name{doxygen}), which is also important for the text editor.
+
+
+
+\subsection{The lifecycle of ideas through the plans-files}
+\label{sec:DoxygenPlansflow}
+
+Ideally the following ``waterfall'':
+\begin{enumerate}
+\item An idea about some new component or a variation of an existing component pops up, and is put as a new \texttt{$\backslash$todo} into \filename{wishlist.hpp}.
+\item This todo gets expanded (using lists).
+\item After some time it is decided, that this todo should be realised, so that it is moved to \filename{general.hpp}.
+\item There it gets further expanded.
+\item Then the todo gets scheduled in \filename{milestones.hpp}.
+\item The todo gets too big, and is moved into its own (new) module plans-file \filename{plans/Module.hpp}.
+\item There it is further expanded, implementation starts, and the milestones are appropriately adapted.
+\item Finally, it is finished, the completion gets a short entry into the milestones-history (at the occasion of the version-transition), and the todo is deleted.
+\end{enumerate}
+
+
+\subsection{Elements of plans-files}
+\label{sec:DoxygenPlansElements}
+
+The main elements in a plans-files are the \texttt{$\backslash$todo}-elements, and the \texttt{$\backslash$bug}-elements. Every todo has a short heading, and then a list of items.
+
+Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-element for the current version.
+
+
+\subsection{Formatting}
+\label{sec:DoxygenPlansFormatting}
+
+
+\begin{itemize}
+\item No lines of width more than 80 (except for verbatim copies).
+\item Do not use a sequence of paragraphs --- use lists instead!
+\item Do not use long paragraphs --- break it into a list!
+\item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}. These tags are indented (one space), with the exception of the outermost list-creation-tags for a \texttt{$\backslash$todo}, where are at the same level (this indentation is superfluous).
+\item There is one space after the \texttt{<li>}-item and one space before the \texttt{</li>}-item.
+\item Strict xhtml-syntax is used (where possible).
+\item Line breaks shall have no meaning for the html-output. The only case where a paragraph-break is needed is the case of a heading for a short item, and here use \texttt{<p></p>}.
+\end{itemize}
+ 
+
 
 
 
