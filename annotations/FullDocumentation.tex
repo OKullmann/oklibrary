@@ -1318,7 +1318,7 @@ For block scope we use
 
 The naming of the plans-files (in subdirectory \texttt{plans} of the module-directory):
 \begin{itemize}
-\item one file \filename{plans/M.hpp}, where ``M'' is the module-name (17.6.2007: this is being replaced by \filename{plans/general.hpp});
+\item one file \filename{plans/general.hpp} for the general plans of the module;
 \item one file \filename{plans/wishlist.hpp};
 \item one file \filename{plans/milestones.hpp};
 \item for each submodule a file \filename{plans/S.hpp}, where ``S'' is the \emph{stem} of the submodule-file (for example, if we have \filename{M/X.hpp} and \filename{M/X.cpp}, then we have one file \filename{plans/X.hpp}; so the original suffix(es) are suppressed in the plans-file --- the submodule-identity is given by the submodule-name(!)).
@@ -1356,7 +1356,7 @@ Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-el
 
 
 \begin{itemize}
-\item Avoid lines of width more than 80.
+\item No lines of width more than 80 (except for verbatim copies).
 \item Do not use a sequence of paragraphs --- use lists instead!
 \item Do not use long paragraphs --- break it into a list!
 \item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}. These tags are indented (one space), with the exception of the outermost list-creation-tags for a \texttt{$\backslash$todo}, where are at the same level (this indentation is superfluous).
