@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 4.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -103,10 +103,12 @@ okltest_aes_decrypt(aes_decrypt);
 */
 
 okltest_aes_encrypt_generic(aes_encrypt_l);
-if oklib_test_level >= 1 then okltest_aes_encrypt_generic(aes_encrypt_f);
+if oklib_test_level >= 1 then okltest_aes_encrypt_generic(aes_encrypt_f)
+else true;
 
 okltest_aes_decrypt_generic(aes_decrypt_l);
-if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt_f);
+if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt_f)
+else true;
 
 okltest_aes_encrypt_hex(aes_encrypt_hex);
 okltest_aes_decrypt_hex(aes_decrypt_hex);
