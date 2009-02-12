@@ -339,7 +339,26 @@ verifying solution solution.tmp.lst...33500 variables found
    ), SP achieves something. </li>
    <li> Could be that the diagonal problems are closer to random (uniform)
    CNF (or perhaps the size --- it's big enough?). </li>
-   <li> Now running it on GreenTao_2-5-5_33600. </li>
+   <li> GreenTao_2-5-5_33600: Again successful!
+   \verbatim
+<bias>:0.000000
+paramagnetic state
+sub-formula has:
+        10639 2-clauses
+        34383 3-clauses
+        51428 4-clauses
+        47824 5-clauses
+        18528 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...33600 variables found
+682872 clauses sat, 0 unsat (out of 682872 read)
+   \endverbatim
+   </li>
+   <li> Investigating n=33800. </li>
   </ul>
 
 */
