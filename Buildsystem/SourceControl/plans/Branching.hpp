@@ -10,6 +10,44 @@ License, or any later version. */
   \brief Todos and plans regarding branching
 
 
+  \todo Purely local branches
+  <ul>
+   <li> For a local branch (not to be exported) the standard model is as
+   follows:
+    <ol>
+     <li> Create branch B by "git branch B" (while current branch being
+     master). </li>
+     <li> Once master has been updated, update B by "git merge master" (being
+     on branch B). </li>
+     <li> Finally, for abandoning B, use "git merge B" (being on branch
+     master). </li>
+     <li> Removal of B then by "git branch -d B" (deleting B). </li>
+    </ol>
+   </li>
+   <li> If the branch really is never exported, then the following
+   model provides an alternative, where the history of the branch is
+   linearised:
+    <ol>
+     <li> Everything as above. </li>
+     <li> Except that when master has been updated, B is updated now by
+     "git rebase master" (being on branch B). </li>
+     <li> In this way the history of B is rewritten, but this might not
+     be relevant. </li>
+     <li> When finally abonding B, it must still be merged as above. </li>
+    </ol>
+   </li>
+   <li> However, outside of this situation I don't see a use of "rebase":
+    <ol>
+     <li> The change of history doesn't seem to be a fundamental problem, since
+     in case of conflict with some external repository, git automatically
+     creates an appropriate merge. </li>
+     <li> But it seems to me that then the standard merge is to be preferred.
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Problems with branch rijndael:
   <ul>
    <li> We don't have branch rijndael anymore, but the problems are
