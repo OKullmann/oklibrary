@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# Copyright 2006-2007, 2008 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -101,7 +101,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 # ###############################
 
 define install-boost_gcc
-	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --toolset-root=$(gcc_base_installation_dir_okl)/$(2) --prefix=$(boost_base_directory)/$(1)+$(2) --build-dir=$(boost_base_directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc_base_installation_dir_okl)/$(2)" install --without-python
+	$(bjam_directory_path)/bjam  --prefix=$(boost_base_directory)/$(1)+$(2) --build-dir=$(boost_base_directory)/$(1)+$(2)_Build --without-python --layout=system -d+2 --debug-configuration --debug-building threading=single install
 endef
 
 define boost_gcc_rule
@@ -112,8 +112,8 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 	CC="gcc" CFLAGS="-fno-strict-aliasing" ./build.sh cc; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+	echo -e "using gcc : : \"$(gpp_call_okl)\" ;" > tools/build/v2/user-config.jam; if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
-	cd $(boost_base_directory)/$(1)+$(2)/lib/; for F in $$$$(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s $$$${F} $$$$(echo $$$${F} | sed 's/gcc[0-9][0-9]/gcc/'); done; cd -; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	touch $(boost_base_directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
 endef

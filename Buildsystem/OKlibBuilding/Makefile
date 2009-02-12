@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-# Copyright 2002-2007, 2008 Oliver Kullmann
+# Copyright 2002-2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -623,7 +623,7 @@ CC = $(gcc_call_okl)
 
 alternative_library_path:= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl) -L$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib
 
-Boost = -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/include/boost-$(boost_recommended_version_number)
+Boost = -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/include
 
 
 # ----------------------------------------------------------
