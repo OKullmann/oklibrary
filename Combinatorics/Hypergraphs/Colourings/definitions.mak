@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := GreedyColouring
+programs := # GreedyColouring
 
 source_libraries =  $(Boost)
 

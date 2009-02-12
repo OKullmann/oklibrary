@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := SimpleBacktracking
+programs := # SimpleBacktracking
 
 source_libraries = $(Boost)
 

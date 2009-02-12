@@ -30,6 +30,16 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
   </ul>
 
 
+  \todo
+  <ul>
+   <li> Linking to lboost-graph yields a segmentation fault of the linker.
+   </li>
+   <li> So for the moment compilation of the affected 3 programs is disabled.
+   </li>
+   <li> Contact the Boost mailing list. </li>
+  </ul>
+
+
   \todo Update Boost installation
   <ul>
    <li> Many of the following points to be improved relate only to
