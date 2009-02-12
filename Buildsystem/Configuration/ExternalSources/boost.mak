@@ -1,5 +1,5 @@
 # Oliver Kullmann, 21.8.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,8 +9,8 @@
 
 # Settings for building and using the Boost library
 
-boost_recommended_version_number ?= 1_34_1
-boost_supported_not_recommended_version_numbers ?= 1_35_0
+boost_recommended_version_number ?= 1_38_0
+boost_supported_not_recommended_version_numbers ?= 1_34_1
 boost_supported_version_numbers ?= $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
 boost_prefix ?= boost
