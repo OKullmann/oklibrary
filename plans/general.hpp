@@ -109,7 +109,7 @@ namespace SatAlg = Satisfiability::Algorithms;
      </li>
     </ol>
    </li>
-   <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbrevations
+   <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbreviations
    shall not be all-caps (reserved for macros)):
       <ol>
        <li> "Satisfiability" ("Sat")
@@ -276,11 +276,13 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Handling of version-numbers
+  \todo Handling of version-numbers : DONE
   <ul>
-   <li> The discussions below must be expanded into the general
+   <li> DONE
+   The discussions below must be expanded into the general
    documentation-document. </li>
-   <li> We should always use all four digits, starting with 0.2 ---
+   <li> DONE (actually, in general this looks ugly)
+   We should always use all four digits, starting with 0.2 ---
    which then would be "0.2.0.0". </li>
    <li> DONE (now being practised)
    One could introduce a fourth digit, which is not
@@ -289,7 +291,7 @@ namespace SatAlg = Satisfiability::Algorithms;
    fulfilled. Perhaps only for the "important version-numbers";
    could help to give a stronger sense of achievement. </li>
    <li> DONE Important, that such a refinement does not lead to
-   unnecessary bureaucrazy --- it should be only a
+   unnecessary bureau-crazy --- it should be only a
    "progress meter", and advances "at random". </li>
    <li> DONE Perhaps an "important version-number" is defined as
    one where progress means that sub-version-numbers are
@@ -322,7 +324,7 @@ namespace SatAlg = Satisfiability::Algorithms;
    <li> DONE (all what we have currently is to be released; if in the future
    there are "private" developments, then one has to create a branch or
    a new repository)
-   To solve the privace-issues, it seems that (yet) only plans-directories
+   To solve the privacy-issues, it seems that (yet) only plans-directories
    are an issue, and one could move sensitive files to sub-directories
    "research" (moving also the whole history(!) --- see "Moving" in
    Buildsystem/plans/VersionControl.hpp). </li>
@@ -384,7 +386,7 @@ namespace SatAlg = Satisfiability::Algorithms;
      enough)
      Most important the main (git) repository (on cs-oksvr):
       <ul>
-       <li> This is backuped nightly (on the departmental server);
+       <li> This is backed-up nightly (on the departmental server);
        one should check whether extraction actually works. </li>
        <li> And every clone contains also essentially the same
        information (so that the risk of loss should be low). </li>

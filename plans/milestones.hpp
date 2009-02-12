@@ -40,8 +40,8 @@ License, or any later version. */
    In Transitional/plans/general.hpp the following topics are handled:
     - "OKlib" instead of "Transitional"
     - Super-modules
-    - Handling of version-numbers
     - Organisation of plans-directories
+    - Handling of version-numbers : DONE
     - Research sub-modules : DONE
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:

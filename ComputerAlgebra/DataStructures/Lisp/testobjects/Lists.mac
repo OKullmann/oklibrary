@@ -36,9 +36,14 @@ okltest_lappend(lappend);
 */
 
 okltest_every_s(every_s);
+okltest_everynary_s(everynary_s);
 okltest_some_s(some_s);
+okltest_somenary_s(somenary_s);
 
 okltest_listnorep_p(listnorep_p);
+
+okltest_strictascending_p(strictascending_p);
+okltest_strictdescending_p(strictdescending_p);
 
 /* *******************************************
    * Summations and products over lists/sets *

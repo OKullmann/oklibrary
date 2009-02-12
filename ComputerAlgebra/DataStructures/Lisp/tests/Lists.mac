@@ -64,6 +64,16 @@ okltest_every_s(f) := block([c],
   assert(c = 2),
   true)$
 
+okltest_everynary_s(f) := block([c2],
+  assert(okltest_every_s(f) = true),
+  assert(f("<",[],[]) = true),
+  assert(f("<",[1,2],[2,3]) = true),
+  assert(f("<",[1,2],[2,2]) = false),
+  c : 0,
+  assert(f(lambda([x,y],(c:c+1,is(x<y))),[1,2,3],[2,2,4]) = false),
+  assert(c = 2),
+  true)$
+
 okltest_some_s(f) := (
   assert(f(identity,[]) = false),
   assert(f(identity,[false]) = false),
@@ -87,6 +97,17 @@ okltest_some_s(f) := (
   ),
   true)$
 
+okltest_somenary_s(f) := block([c2],
+  assert(okltest_some_s(f) = true),
+  assert(f("<",[],[]) = false),
+  assert(f("<",[1,2],[2,3]) = true),
+  assert(f("<",[1,2],[2,2]) = true),
+  assert(f("<",[3,2],[2,2]) = false),
+  c : 0,
+  assert(f(lambda([x,y],(c:c+1,is(x<y))),[1,2,3],[2,2,4]) = true),
+  assert(c = 1),
+  true)$
+
 okltest_listnorep_p(f) := (
   assert(f(0) = false),
   assert(f({}) = false),
@@ -94,6 +115,21 @@ okltest_listnorep_p(f) := (
   assert(f([1]) = true),
   assert(f([1,2]) = true),
   assert(f([1,1]) = false),
+  true)$
+
+okltest_strictascending_p(f) := (
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,2]) = true),
+  assert(f([2,1]) = false),
+  true)$
+
+okltest_strictdescending_p(f) := (
+  assert(okltest_strictascending_p(buildq([f],lambda([L],f(reverse(L))))) = true),
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,2]) = false),
+  assert(f([2,1]) = true),
   true)$
 
 

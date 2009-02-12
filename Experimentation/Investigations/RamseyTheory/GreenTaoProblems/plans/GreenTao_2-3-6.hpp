@@ -323,7 +323,9 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
    \endverbatim
-   And also after preprocessing with Minisat2 (see below) no satisfying
+   </li>
+   <li> Further 57 runs yield all min=1. </li>
+   <li> And also after preprocessing with Minisat2 (see below) no satisfying
    assignment is found:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-6_2072_pre.cnf
@@ -522,6 +524,31 @@ c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316
      where eliminated (at the expense of longer clauses). Doesn't seem to
      make the problem (observable) easier (and for local search algorithms
      it makes it even harder --- see above). </li>
+     <li> minisat2 seems also not achieving something:
+     \verbatim
+> minisat2 GreenTao_2-3-6_2072.cnf
+...
+|  57525118 |    1316    88791   467889 |   568094   272657     40 |  0.000 % |
+
+*** INTERRUPTED ***
+restarts              : 32
+conflicts             : 57658225       (229 /sec)
+decisions             : 63767800       (1.80 % random) (253 /sec)
+propagations          : 4376843220     (17368 /sec)
+conflict literals     : 2291143690     (40.74 % deleted)
+Memory used           : 203.70 MB
+CPU time              : 252005 s
+     \endverbatim
+     </li>
+     <li> march_pl
+      <ol>
+       <li> It seems in phase 1 of the preprocessing 68553 clauses and 397
+       variables are removed, while in phase 2 65386 clauses are added. </li>
+       <li> Apparently the maximal clause-length has not been increased in
+       this process (so perhaps march_pl is less aggressive than minisat2).
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
