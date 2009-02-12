@@ -238,6 +238,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
+    - Building version 1_38_0
     - Problems with building Boost
     - Documentation
 

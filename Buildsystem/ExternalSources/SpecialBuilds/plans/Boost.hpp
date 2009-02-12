@@ -54,26 +54,40 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
   </ul>
 
 
-  \todo Building version 1_35_0
+  \todo Building version 1_38_0
   <ul>
-   <li> We actually skip 1_35_0 and try 1_37_0 : Perhaps this is a
-   bit better (though the build-documentation still seems pretty
-   weak). </li>
-   <li> Building seems unproblematic, but likely this is due to the fact
+   <li> DONE (they are all built now)
+   Building seems unproblematic, but likely this is due to the fact
    that none of the link-libraries is built. </li>
-   <li> However the usual problem with their inconsistent names. </li>
-   <li> We use (with "oklib all")
+   <li> DONE
+   However the usual problem with their inconsistent names. </li>
+   <li> DONE (got rid off this directory at all)
+   We use (with "oklib all")
    \verbatim
-   -I/${OKPLATFORM}/ExternalSources/Boost/1_35_0+4.1.2/include/boost-1_35_0
+   -I/${OKPLATFORM}/ExternalSources/Boost/1_38_0+4.1.2/include/boost-1_38_0
    \endverbatim
-   but it needs to be "boost-1_35". </li>
+   but it needs to be "boost-1_38". </li>
    <li> Also our system for handling Boost is a mess. Where does "Boost"
    get its value? </li>
-   <li> The problem of the wrong path "boost-1_35" can be temporarily fixed
-   by renaming "include/boost-1_35" to "include/boost-1_35_0" by hand.
+   <li> DONE (see above)
+   The problem of the wrong path "boost-1_38" can be temporarily fixed
+   by renaming "include/boost-1_38" to "include/boost-1_38_0" by hand.
    This should then be simply done in the build-script (renaming whatever
    it finds inside "include"). </li>
-   <li> We get a compilation error with QuantumPhysics/OrthogonalTriples.cpp,
+   <li> We now get a compiler error in Competition/TestSATCompetition.cpp
+   (apparently boost/range/size.hpp related). </li>
+   <li> Another compiler error in
+   Satisfiability/Interfaces/InputOutput/ExtendedDimacsStatistics. </li>
+   <li> And ExperimentalThreads.hpp apparently uses now unsupported
+   functions; so we need to disable it. </li>
+   <li> And Programming/Refactoring/IncludeHandling_Tests.hpp doesn't compile.
+   </li>
+   <li> For PathDifference.compiler_options "-m32" doesn't work. </li>
+   <li> DONE (we only compile single-threaded)
+   Apparently now all libraries end with "mt" for multi-threading. Do we
+   really want this? </li>
+   <li> DONE (works with 1_38_0)
+   We get a compilation error with QuantumPhysics/OrthogonalTriples.cpp,
    which seems unjustified:
     <ol>
      <li> The problems are in function template orthogonality_relation. </li>
