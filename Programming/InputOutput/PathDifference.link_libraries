@@ -1,1 +1,1 @@
-echo -static
+echo -lboost_system -static

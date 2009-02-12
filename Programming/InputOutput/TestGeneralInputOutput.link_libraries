@@ -1,1 +1,1 @@
-echo -lboost_filesystem-gcc-mt
+echo -lboost_filesystem

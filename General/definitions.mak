@@ -27,6 +27,6 @@ programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentia
 
 source_libraries = $(OKTestSystem) $(Xerces_h) $(Loki) $(Boost) 
 
-link_libraries := -lboost_date_time-gcc $(Xerces_so)
+link_libraries := -lboost_date_time $(Xerces_so)
 
 

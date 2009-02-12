@@ -1,1 +1,1 @@
-echo -lboost_filesystem-gcc
+echo -lboost_filesystem-gcc -lboost_system-gcc
