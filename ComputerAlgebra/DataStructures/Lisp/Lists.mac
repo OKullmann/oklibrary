@@ -59,17 +59,46 @@ lappend(L) := uaapply(append,L)$
 
 /* The versions of "every" and "some" with short-circuit evaluation: */
 
+/* For unary predicates: */
 every_s(_prede,_L) := block([_nocountex : true],
   for _x in _L while _nocountex do
     _nocountex : _prede(_x),
   return(_nocountex))$
+/* For arbitrary predicates (with at least one argument): */
+everynary_s([_L]) := block(
+ [_nocountex : true, _pred : first(_L), _R : rest(_L)],
+  for _x in apply(map, cons("[",_R)) while _nocountex do
+    _nocountex : ev(apply(_pred, _x),pred),
+  return(_nocountex))$
+/* Remarks:
+ - every is faster than every_s if all elements are to be evaluated;
+   every_s is faster than everynary_s if the predicate is unary.
+*/
+
+/* For unary predicates: */
 some_s(_preds,_L) := block([_countex : false],
   for _x in _L unless _countex do
     _countex : _preds(_x),
   return(_countex))$
+/* For arbitrary predicates (with at least one argument): */
+somenary_s([_L]) := block(
+ [_countex : false, _pred : first(_L), _R : rest(_L)],
+  for _x in apply(map, cons("[",_R)) unless _countex do
+    _countex : ev(apply(_pred, _x),pred),
+  return(_countex))$
+/* Remarks:
+ - some is faster than some_s if all elements are to be evaluated;
+   some_s is faster than somenary_s if the predicate is unary.
+*/
 
 /* Checks whether L is a list without repetitions: */
 listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
+
+/* Checks whether L is strictly ascending: */
+strictascending_p(L) := if length(L) <= 1 then true
+ else everynary_s("<",rest(L,-1),rest(L))$
+strictdescending_p(L) := if length(L) <= 1 then true
+ else everynary_s(">",rest(L,-1),rest(L))$
 
 
 /* *******************************************
