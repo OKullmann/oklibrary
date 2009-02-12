@@ -76,13 +76,11 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
 
   \todo Finding best UBCSAT algorithm for %Ramsey problems
   <ul>
-   <li> Using cspcmg:
-    <ul>
-     <li> Some initial testing using the "eval_ubcsat" given at 
-     "Collecting data" in
-     Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
-     given N_R(5,5,2) < n for 30 <= n <= 33  :
-     \verbatim
+   <li> Some initial testing using the "eval_ubcsat" given at 
+   "Collecting data" in
+   Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
+   given N_R(5,5,2) < n for 30 <= n <= 33  :
+   \verbatim
 source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
 for (ramsey_cnf in ramsey_cnfs) {
@@ -95,9 +93,9 @@ for (ramsey_cnf in ramsey_cnfs) {
   }
   write.table(ramsey_df, paste("After_", ramsey_cnf,"_Result", sep=""))
 }
-     \endverbatim
-     and then some very basic statistics : 
-     \verbatim
+   \endverbatim
+   and then some very basic statistics : 
+   \verbatim
 > ramsey_mean_df <- aggregate(list(beststep=ramsey_df$beststep,cputime_mean=ramsey_df$CPUTime_Mean), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$cputime_mean),]
                       alg  beststep cputime_mean
@@ -121,14 +119,14 @@ for (ramsey_cnf in ramsey_cnfs) {
 13              rnovelty+  94.58333   0.09416650
 7                 walksat 326.75000   0.14000000
 11          adaptnovelty+ 124.66667   0.15583325
-     \endverbatim
-     </li>
-     <li> Based solely on a simple average of the cputimes, "sapsnr" and 
-     "irots" seem to do well, although it seems that such a simple metric is
-     unreasonable due to the possible mechanics of CPU scheduling etc. </li>
-     <li> Looking at the number of falsfied clauses and number of steps 
-     involved : 
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Based solely on a simple average of the cputimes, "sapsnr" and 
+   "irots" seem to do well, although it seems that such a simple metric is
+   unreasonable due to the possible mechanics of CPU scheduling etc. </li>
+   <li> Looking at the number of falsfied clauses and number of steps 
+   involved : 
+   \verbatim
 > ramsey_mean_df <- aggregate(list(avg_falsified_clauses=ramsey_df$best, avg_best_steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$avg_falsified_clauses, ramsey_mean_df$avg_best_steps),]
                       alg avg_falsified_clauses    avg_best_steps
@@ -152,16 +150,9 @@ for (ramsey_cnf in ramsey_cnfs) {
 11          adaptnovelty+        0.08333333    		 208.6667
 3                   gwsat        0.58333333    		 448.1667
 7                 walksat        1.75000000    		 362.9167
-     \endverbatim
-     seems to suggest "rnovelty+" and "saps" as good algorithms for %Ramsey
-     problems. 
-     </li>
-    </ul>
-   </li>
-   <li> Using csoberon :
-    <ul> 
-     <li> Pending. </li>
-    </ul>
+   \endverbatim
+   seems to suggest "rnovelty+" and "saps" as good algorithms for %Ramsey
+   problems. 
    </li>
   </ul>
 
