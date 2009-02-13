@@ -24,6 +24,7 @@ License, or any later version. */
      <li> Includes also graph layout. </li>
      <li> Focus on "network programming problems", in the context of
      optimisaton problems. Though very strong on matching problems etc. </li>
+    </ol>
    </li>
    <li> Lemon http://lemon.cs.elte.hu/trac/lemon
     <ol>

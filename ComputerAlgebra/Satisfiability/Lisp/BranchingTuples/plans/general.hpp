@@ -16,6 +16,7 @@ License, or any later version. */
    Experimentation/Investigations/TenChallenges/01_QuantitativeHeuristics/plans/general.hpp.
    </li>
   </ul>
+
   
   \todo Handling of demos
   <ul>
