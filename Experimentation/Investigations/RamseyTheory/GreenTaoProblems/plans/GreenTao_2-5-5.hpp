@@ -305,13 +305,10 @@ BestSolution_Min = 1.000000
     15 1     0 3847168275 3847168275 2745070232
    \endverbatim
    </li>
-   <li> n = 33600 (to be investigated by MG)
-
-   </li>
   </ul>
 
 
-  \todo Survey propagation
+  \todo Survey propagation: greentao_2(5) > 33800
   <ul>
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
@@ -358,7 +355,25 @@ verifying solution solution.tmp.lst...33600 variables found
 682872 clauses sat, 0 unsat (out of 682872 read)
    \endverbatim
    </li>
-   <li> Investigating n=33800. </li>
+   <li> GreenTao_2-5-5_33800 found satisfiable:
+   \verbatim
+<bias>:0.000000
+paramagnetic state
+sub-formula has:
+        11504 2-clauses
+        31414 3-clauses
+        44208 4-clauses
+        38888 5-clauses
+        17237 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...33800 variables found
+690062 clauses sat, 0 unsat (out of 690062 read)
+   \endverbatim
+   </li>
   </ul>
 
 */
