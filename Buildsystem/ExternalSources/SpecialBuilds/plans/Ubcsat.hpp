@@ -32,12 +32,11 @@ ALG=`printf '%34s' ${!ALG_ARG_P}`
 echo "       sat  min     osteps     msteps       seed                                alg"
 ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
    \endverbatim
-   This appends the algorithm as a column to the data, line by line (this 
-   works with ubcsat-1-1-0, not ubcsat-1-0-0). </li>
+   This appends the algorithm as a column to the data, line by line. </li>
    <li> A problem appending columns line by line to ubcsat output is that 
-   ubcsat version 1.0.0 doesn't appear to flush data regularly and so one
-   will have to wait until ubcsat has finished before viewing results. See
-   "Ubcsat does not flush the output-buffer". </li>
+   ubcsat version 1.0.0 doesn't flush data, and so one would have to wait until
+   ubcsat has finished before viewing results. See "Ubcsat does not flush the
+   output-buffer" below for how to repair this. </li>
    <li> Another point is how to handle statistics as they are only printed
    at the end. </li>
   </ul>
@@ -118,6 +117,8 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
    <li> Ubcsat seems to have a "-rflush" option, which flushes the output 
    buffer after each run, but this was introduced in version 1.1.0 (See
    http://www.satlib.org/ubcsat/revisions.txt ). </li>
+   <li> The solution is simply to find the place in the Ubcsat source code
+   where the result line is output, and adding a buffer-flush. </li>
   </ul>
 
 
