@@ -16,9 +16,19 @@ License, or any later version. */
    "Collecting data" in
    Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
    given N_R(5,5,2) < n for 30 <= n <= 33:
+
+? what does this mean? what exactly is the data? obviously one cannot
+lump together different n (is this meant?)
+
+very important the number of runs and the cutoff, but no information here??
+
    \verbatim
 source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
+
+??? when reporting on experiments, then the experiment must be fully
+specified
+
 for (ramsey_cnf in ramsey_cnfs) {
   result_df <- eval_ubcsat(ramsey_cnf)
   result_df <- add_constant_column(result_df, ramsey_cnf, "input")
@@ -56,6 +66,12 @@ for (ramsey_cnf in ramsey_cnfs) {
 7                 walksat 326.75000   0.14000000
 11          adaptnovelty+ 124.66667   0.15583325
    \endverbatim
+
+what is the meaning of this table? obviously cputime is pointless
+when the solution quality differs
+
+what is the first entry of each row?
+
    </li>
    <li> Based solely on a simple average of the cputimes, "sapsnr" and 
    "irots" seem to do well, although it seems that such a simple metric is
@@ -101,6 +117,9 @@ find_best_ubcsat_alg <- function(df) {
    </li>
    <li> Using "N_R(5,5,2) <= n" for values of n = 30..40 with runs=100,
    cutoff=10000: 
+
+? again, what does n = ... mean? lumped together ?
+
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
                       alg avg_falsified_clauses avg_best_steps
