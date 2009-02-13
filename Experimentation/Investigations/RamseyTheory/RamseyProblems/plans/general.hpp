@@ -79,7 +79,7 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
    <li> Some initial testing using the "eval_ubcsat" given at 
    "Collecting data" in
    Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
-   given N_R(5,5,2) < n for 30 <= n <= 33  :
+   given N_R(5,5,2) < n for 30 <= n <= 33:
    \verbatim
 source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
@@ -94,7 +94,7 @@ for (ramsey_cnf in ramsey_cnfs) {
   write.table(ramsey_df, paste("After_", ramsey_cnf,"_Result", sep=""))
 }
    \endverbatim
-   and then some very basic statistics : 
+   and then some very basic statistics: 
    \verbatim
 > ramsey_mean_df <- aggregate(list(beststep=ramsey_df$beststep,cputime_mean=ramsey_df$CPUTime_Mean), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$cputime_mean),]
@@ -125,7 +125,7 @@ for (ramsey_cnf in ramsey_cnfs) {
    "irots" seem to do well, although it seems that such a simple metric is
    unreasonable due to the possible mechanics of CPU scheduling etc. </li>
    <li> Looking at the number of falsfied clauses and number of steps 
-   involved : 
+   involved: 
    \verbatim
 > ramsey_mean_df <- aggregate(list(avg_falsified_clauses=ramsey_df$best, avg_best_steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$avg_falsified_clauses, ramsey_mean_df$avg_best_steps),]
@@ -190,7 +190,7 @@ find_best_ubcsat_alg <- function(df) {
 18                walksat              80.75909      3517.2764
    \endverbatim
    seems to suggest that "gsat-tabu" and "samd" perform well and looking
-   across the individual instances for each n = 30,35,40, we get : 
+   across the individual instances for each n = 30,35,40, we get: 
    \verbatim
 > find_best_ubcsat_alg(subset(ramsey_df, ramsey_df$input=="Ramsey_5_2_30.cnf"))
                       alg avg_falsified_clauses avg_best_steps
@@ -423,7 +423,7 @@ Memory used           : 43.93 MB
      n=30; n = 35 needs 300 - 30000 steps. Using "-cutoff 2000" seems
      reasonable. </li>
      <li> gwsat: trivial for n=30; n = 35 ? </li>
-     <li> hsat : n = 35 needs ~ 3000 steps; n = 40 ? </li>
+     <li> hsat: n = 35 needs ~ 3000 steps; n = 40 ? </li>
      <li> adaptnovelty+: n = 35 ? </li>
      <li> saps: n = 35 in 600 steps. Using "-cutoff 2000" seems reasonable;
      looks strong. n = 40 ? </li>
