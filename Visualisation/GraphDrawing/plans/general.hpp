@@ -47,7 +47,7 @@ License, or any later version. */
    reasonable choice; but apparently not much newer developments. </li>
    <li> Then perhaps we don't need the graphics library? </li>
    <li> See "Graph drawing" in
-   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp. </li>
   </ul>
 
 
@@ -68,6 +68,7 @@ License, or any later version. */
    graph-file-formats, both for "abstract" and for "drawn" graphs.
     <ol>
      <li> See "Input/Output" in Graphs/BoostSupport/plans/general.hpp. </li>
+    </ol>
    </li>
   </ul>
 
