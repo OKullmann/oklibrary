@@ -87,13 +87,38 @@ License, or any later version. */
   \todo Input and output of partial assignments.
 
 
-  \todo General propositional formulas and circuits
+  \todo Input and output of propositional formulas
   <ul>
    <li> Formats:
     <ol>
      <li> Edimacs format: http://www.satcompetition.org/2005/edimacs.pdf </li>
      <li> ISCAS ??? </li>
      <li> AIGER http://fmv.jku.at/aiger/ ? </li>
+     <li> Maxima terms
+      <ol>
+       <li> See
+       ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/Formulas.hpp
+       for the representation of propositional logic at Maxima/Lisp level.
+       </li>
+       <li> Writing these terms to files such that Maxima can directly read
+       them yields a system for representing propositional formulas. </li>
+      </ol>
+     </li>
+     <li> Strictly bracketed "~,&,|,<->,->"-formulas
+      <ul>
+       <li> Identifiers use letters a-z,A_Z, digits 0-9 and
+       underscores. </li>
+       <li> Binary operators "&,|,<->,->" have at least one space
+       left and right, and terms are enclosed in brackets: "(a op b)". </li>
+       <li> Negation terms don't need brackets, i.e., they have the form
+       "~Term" (possibly with space symbols after "~"), where Term is either
+       "Identifier" or "(a op b)". </li>
+       <li> Constants are "true" and "false". </li>
+       <li> Except of these rules, space symbols can be used arbitrarily. </li>
+       <li> And also additional brackets (well-formed) can be used arbitrarily.
+       </li>
+      </ul>
+     </li>
      <li> See "BDD's and boolean functions" in
      Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
     </ol>
@@ -103,7 +128,16 @@ License, or any later version. */
      <li> SAT 2005 ? </li>
      <li> In [Jain, Bartzis, Clarke; SAT 2006] some benchmarks are mentioned. </li>
     </ol>
-   </li>
+   </li>   
+  </ul>
+
+
+  \todo Circuits
+  <ul>
+   <li> What systems exist to represent boolean circuits (and more general
+   forms)? </li>
+   <li> Likely they are similar to "Straight-line programs" as discussed in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp. </li>
   </ul>
 
 */

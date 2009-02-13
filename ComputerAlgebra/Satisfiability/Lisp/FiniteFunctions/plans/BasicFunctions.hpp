@@ -32,6 +32,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Shouldn't these names coincide with those in
+   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/Formulas.hpp ?
+   </li>
   </ul>
 
 */
