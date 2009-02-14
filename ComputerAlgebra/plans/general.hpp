@@ -38,7 +38,8 @@ nary_rel_p(R,M,n) := every_s(lambda([t],listp(t) and is(length(t)=n) and subsetp
      are arbitrary fixed, the remaining value is uniquely determined. </li>
      <li> Test:
      \verbatim
-njective_rel_p(R,M,n) := nary_rel_p(R,M,n) and 
+njective_rel_p(R,M,n) := nary_rel_p(R,M,n) and njectiverelp(R,M,n)$
+njectiverelp(R,M,n) :=
  block([T : cartesian_product_l(create_list(listify(M),k,1,n-1))],
   every_s(lambda([i], 
     every_s(
@@ -48,6 +49,23 @@ njective_rel_p(R,M,n) := nary_rel_p(R,M,n) and
     create_list(i,i,1,n)))$
      \endverbatim
      </li>
+     <li> Enumeration of all n-jective relations on set M:
+     \verbatim
+allnjective_rel(M,n) :=
+ if n = 0 then {{}, {[]}}
+ elseif n = 1 then setify(create_list({[x]},x,listify(M)))
+ elseif n = 2 then allperm_sm(M)
+ else
+   subset(
+     map(
+       lambda([f], lunion(create_list(
+         map(lambda([x],endcons(p[1],x)),p[2]),
+         p, listify(f)))),
+       allinj_sm(M,allnjective_rel(M,n-1))),
+     lambda([R],njectiverelp(R,M,n)))$
+     </li>
+     <li> See "Counting the number of n-jective relations" in
+     Experimentation/Investigations/LatinSquares/plans/general.hpp. </li>
     </ol>
    </li>
   </ul>
