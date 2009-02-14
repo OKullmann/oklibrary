@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac
-  \brief Tests for transversal-functions
+  \brief Tests regarding set-system functions
 
 Use by
 
@@ -211,6 +211,21 @@ okltest_all_transformations_l_l(f) := (
   assert(f([]) = [[]]),
   assert(f([2,1]) = [[2,2],[2,1],[1,2],[1,1]]),
   assert(okltest_all_transformations_l(buildq([f],lambda([X],setify(f(listify(X))))))),
+  true)$
+
+
+/* ************************************
+   * Constructions related to subsets *
+   ************************************
+*/
+
+okltest_kpermutations(f) := (
+  for n : 0 thru 5 do block([N : setn(n)],
+    assert(f(N,0) = [[]]),
+    assert(f(N,1) = create_list([i],i,1,n))
+  ),
+  assert(f({1,3,5},2) = [[1,3],[3,1],[1,5],[5,1],[3,5],[5,3]]),
+  assert(length(f({1,4,8,9},3)) = 4*3*2),
   true)$
 
 

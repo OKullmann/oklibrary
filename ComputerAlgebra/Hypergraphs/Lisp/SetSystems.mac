@@ -49,7 +49,7 @@ setn(n) := setify(create_list(i,i,1,n))$
 /* The set {m, ..., n} */
 setmn(m,n) := setify(create_list(i,i,m,n))$
 
-/* A set of singletons from a set */
+/* A set of singletons from a set: */
 singletons(M) := makeset({x},[x],cartesian_product(M))$
 /* All unordered pairs (possible degenerated) from two sets */
 upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
@@ -132,6 +132,20 @@ all_transformations_l(X) := uaapply(corr_cartesian_product,
 /* Now input and output are lists (the output is ordered): */
 all_transformations_l_l(X) := cartesian_product_l(
   create_list(X,i,1,length(X)))$
+
+
+/* ************************************
+   * Constructions related to subsets *
+   ************************************
+*/
+
+/* The list of all k-permutations of a set S.
+   The order is first by range (lexicographically),
+   then lexicographically.
+*/
+kpermutations(S,k) := 
+ lappend(create_list(listify(permutations(s)),s,listify(powerset(S,k))))$
+/* Remark: permutations(S) = setify(kpermutations(S,length(S))). */
 
 
 /* *******************************

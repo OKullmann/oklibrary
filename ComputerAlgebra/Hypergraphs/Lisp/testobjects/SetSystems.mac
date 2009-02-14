@@ -77,6 +77,13 @@ okltest_cartesian_product_l(cartesian_product_l);
 okltest_all_transformations_l(all_transformations_l);
 okltest_all_transformations_l_l(all_transformations_l_l);
 
+/* ************************************
+   * Constructions related to subsets *
+   ************************************
+*/
+
+okltest_kpermutations(kpermutations);
+
 /* *******************************
    * Tests related to partitions *
    *******************************
