@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Install the mmv package : DONE
   <ul>
-   <li> For installing boost we need mln. Compare "Update Boost installation"
+   <li> For installing %boost we need mln. Compare "Update Boost installation"
    in  Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp. </li>
    <li> I found "mmv_1.01b.orig.tar.gz  part01.Z  part02.Z". </li>
    <li> Apparently they only contain the mmv-program (a C program), not
@@ -134,6 +134,12 @@ License, or any later version. */
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>
+  </ul>
+
+
+  \todo Cryptology
+  <ul>
+   <li> What about Crypto++ http://www.cryptopp.com/ ? </li>
   </ul>
 
 

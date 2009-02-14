@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,12 +14,13 @@ License, or any later version. */
   <ul>
    <li> Create a concept for AES-usage (see client
    Experimentation/RandomGenerator/BlockChiffAES.hpp). </li>
-   <li> Replace the C-header in rijndael.hpp by the corresponding C++ headers. </li>
+   <li> Replace the C-header in rijndael.hpp by the corresponding C++ headers.
+   </li>
    <li> Create doxygen-documentation for rijndael.hpp/.cpp. </li>
    <li> Implement the AES-concept by rijndael. </li>
    <li> Create a generic test function for AES (see the tests in
    Experimentation/RandomGenerator) </li>
-   <li> Test the AES-wrapper of rijndael. </li>
+   <li> %Test the AES-wrapper of rijndael. </li>
    <li> We also should have application tests, which can be used for the
    computer-algebra programs as well (see
    ComputerAlgebra/Cryptology/plans/Rijndael.hpp). </li>
@@ -35,10 +36,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Crypto++
+  <ul>
+   <li> See "Cryptology" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
+   <li> Looks reasonable; but US-specific? </li>
+   <li> For AES we have an implementation, but perhaps for other uses. </li>
+  </ul>
+
+
   \todo OKgenerator
   <ul>
-   <li> Either transfer or remove the file with link-library-information for the
-   OKgenerator. </li>
+   <li> Either transfer or remove the file with link-library-information for
+   the OKgenerator. </li>
   </ul>
 
 */

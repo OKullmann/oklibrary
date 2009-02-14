@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.9.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,8 +41,8 @@ License, or any later version. */
    </li>
    <li> Handling AES
     <ol>
-     <li> Creating the concept for AES in the module Cryptology (see
-     Cryptology/plans/general.hpp). </li>
+     <li> Creating the concept for AES in the module Structures/Cryptology (see
+     Structures/Cryptology/plans/general.hpp). </li>
      <li> Replacing the current AES implementation (Cryptology/aes*)
      by Cryptology/rijndael*). </li>
     </ol>
