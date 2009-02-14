@@ -76,6 +76,19 @@ License, or any later version. */
      which also contains the set-maps. </li>
     </ol>
    </li>
+   <li> The alternative recursive implementation of allinj_sm
+   \verbatim
+allinj_sm(A,B) := if length(A) > length(B) then {} 
+ elseif emptyp(A) then {{}}
+ else
+  block([a : first_element(A), RA],
+   RA : disjoin(a,A),
+   lappend(
+    create_list(
+      map(lambda([f],adjoin([a,b],f)), allinj_sm(RA,disjoin(b,B))),
+      b, listify(B))))$
+   \endverbatim
+   should be mentioned in the documentation. </li>
   </ul>
 
 

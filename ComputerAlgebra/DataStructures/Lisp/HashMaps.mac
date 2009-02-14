@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
 /* ************************
    * Set-theoretical maps *
    ************************
@@ -61,6 +64,26 @@ evaluate_set_map(M,x) := for p in M do if p[1] = x then return(p[2])$
 evaluate_set_map_d(M,x,y) := block([found : false, val],
  for p in M unless found do if p[1] = x then (found : true, val : p[2]),
  if found then val else y)$
+
+/* Transforming a list of values into a set-map (taking the indices
+   of the list as arguments):
+*/
+l2sm(L) := setify(map("[",create_list(i,i,1,length(L)),L))$
+/* More generally, using list LA as list of arguments: */
+ll2sm(LA,L) := setify(map("[",LA,L))$
+
+/* The set of all bijections from set A to set B as set-maps: */
+allbij_sm(A,B) := if length(A) # length(B) then {} else
+ block([LA : listify(A)],
+  map(lambda([p],setify(map("[",LA,p))),permutations(B)))$
+allperm_sm(A) := allbij_sm(A,A);
+/* The list of all injections from set A to set B as set-maps
+   (with the same order as given by kpermutations): */
+allinj_sm(A,B) := block(
+ [LA : listify(A)],
+  map(
+    lambda([L], ll2sm(LA,L)),
+    kpermutations(B,length(A))))$
 
 
 /* ***********************************************
