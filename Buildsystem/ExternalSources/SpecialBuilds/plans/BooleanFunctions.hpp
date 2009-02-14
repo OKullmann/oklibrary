@@ -16,6 +16,7 @@ License, or any later version. */
   \todo BDD's
   <ul>
     <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
+    <li> Buddy http://sourceforge.net/projects/buddy </li>
   </ul>
 
 
