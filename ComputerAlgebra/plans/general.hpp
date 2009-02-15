@@ -52,16 +52,16 @@ njectiverelp(R,M,n) :=
      <li> Enumeration of all n-jective relations on set M:
      \verbatim
 allnjective_rel(M,n) :=
- if n = 0 then {{}, {[]}}
- elseif n = 1 then setify(create_list({[x]},x,listify(M)))
- elseif n = 2 then allperm_sm(M)
+ if n = 0 then [{}, {[]}]
+ elseif n = 1 then create_list({[x]},x,listify(M))
+ elseif n = 2 then listify(allperm_sm(M))
  else
-   subset(
+   sublist(
      map(
-       lambda([f], lunion(create_list(
+       lambda([injf], lunion(create_list(
          map(lambda([x],endcons(p[1],x)),p[2]),
-         p, listify(f)))),
-       allinj_sm(M,allnjective_rel(M,n-1))),
+         p, listify(injf)))),
+       allinj_sm(M,setify(allnjective_rel(M,n-1)))),
      lambda([R],njectiverelp(R,M,n)))$
      </li>
      <li> See "Counting the number of n-jective relations" in
