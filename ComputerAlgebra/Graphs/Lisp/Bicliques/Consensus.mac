@@ -44,7 +44,6 @@ con_adj_gl_p(B1,B2,C) := con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1
 /* Belongs to somewhere else. */
 maximal_bc_gl(B,G) := if emptyp(G[2]) then B else
 block(
- [rem_v : listify(setdifference(G[1],union(B[1],B[2])))],
   if B = [{},{}] then 
     B : [{first_element(first_element(G[2]))},
             {second_element(first_element(G[2]))}]
@@ -59,11 +58,11 @@ block(
       if subsetp(map(setify,cartesian_product(B[2],{restv2[i]})),G[2]) then 
         B[1] : {restv2[i]}),
   /* Now established: B[1] and B[2] are not empty. */
-  for i : 1 thru length(rem_v) do block(
-    if vbc_gl_p([union(B[1],{rem_v[i]}),B[2]],G) then 
-      B : [union(B[1],{rem_v[i]}),B[2]] 
-    else if vbc_gl_p([B[1],union(B[2],{rem_v[i]})],G) then 
-      B : [B[1],union(B[2],{rem_v[i]})]),
+  for v in setdifference(G[1],union(B[1],B[2])) do block(
+    if vbc_gl_p([union(B[1],{v}),B[2]],G) then 
+      B : [union(B[1],{v}),B[2]] 
+    else if vbc_gl_p([B[1],union(B[2],{v})],G) then 
+      B : [B[1],union(B[2],{v})]),
   return(B))$
 
 
