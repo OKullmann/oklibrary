@@ -20,10 +20,20 @@ License, or any later version. */
   \todo The basic "consensus" operation
   <ul>
    <li> Discuss the basic forms. </li>
+   <li> Provide all basic definitions in
+   ComputerAlgebra/Graphs/Lisp/Bicliques/Consensus.mac (avoiding "similar").
+   </li>
   </ul>
 
 
-  \todo Computing the maximal elements in a list of bicliques
+  \todo Maximisation functions
+  <ul>
+   <li> It appears that the various maximisation functions should better
+   be placed somewhere else. </li>
+   <li> maximal_bc_gl belongs to general biclique functionality. </li>
+   <li> For aux_con_alg1_abs compare
+   max_elements in ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac. </li>
+  </ul>
 
 
   \todo The consensus iteration

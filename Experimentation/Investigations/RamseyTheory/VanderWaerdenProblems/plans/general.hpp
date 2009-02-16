@@ -26,9 +26,10 @@ License, or any later version. */
    \verbatim
 VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
    \endverbatim
-   boolean problems can be generated quickly. </li>
+   diagonal boolean problems can be generated quickly. </li>
    <li> In Maxima we have "output_vanderwaerden2_stdname(k,n)" (in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac. </li>
+   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   </li>
    <li> vanderwaerden_2(3) = 9 (density = 3.6) </li>
    <li> vanderwaerden_2(4) = 35 (density = 10.7) </li>
    <li> vanderwaerden_2(5) = 178 (density = 43.5)
@@ -40,27 +41,8 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
      here. </li>
     </ol>
    </li>
-   <li> vanderwaerden_2(6) = 1132 (density = 225.6) </li>
-    <ol>
-     <li> n = 1000
-      <ul>
-       <li> ubcsat-irots seems best. </li>
-       <li> But finding a solution seems hopeless; less than 1400 falsified
-       clauses seems to require billions of steps --- the difference between
-       100,000 and 10,000,000 steps is very small. </li>
-       <li> We need to look into the Heule-et-al article. </li>
-      </ul>
-     </li>
-     <li> n = 1132
-      <ol>
-       <li> OKsolver-2002
-       \verbatim
-> OKsolver_2002-O3-DNDEBUG -M -D30 VanderWaerden_2_6_1132.cnf
-       \endverbatim
-       looks hopeless (no node of depth 30 solved in one hour). </li>
-      </ol>
-     </li>
-    </ol>
+   <li> For vanderwaerden_2(6) see
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-6-6.hpp.
    </li>
   </ul>
 
