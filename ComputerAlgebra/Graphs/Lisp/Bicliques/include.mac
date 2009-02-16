@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 16.1.2009 (Swansea) */
 /* Copyright 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -21,6 +22,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/include.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/Consensus.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/Consensus.mac")$
 
 /*!
 \endhtmlonly
