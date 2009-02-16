@@ -25,19 +25,19 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* Checking whether B2 is a sub-biclique of B1: */
 /* G is not needed, since we must assume that B1,B2 are vertex bicliques. */
-bc_absorbs_bc_gl_p(B1,B2) := (subsetp(B2[1],B1[1]) and subsetp(B2[2],B1[2])) or (subsetp(B2[1],B1[2]) and subsetp(B2[2],B1[1])) $
+bc_absorbs_bc_gl_p(B1,B2) := (subsetp(B2[1],B1[1]) and subsetp(B2[2],B1[2])) or (subsetp(B2[1],B1[2]) and subsetp(B2[2],B1[1]))$
 
 /* Checking whether one of the four consensus-adjunction possibilities can be 
    performed: */
-con_adj_gl_b1_1_b2_1_p(B1,B2,C) := (not disjointp(B1[1],B2[1])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[1],B2[1]),union(B1[2],B2[2])])),C) $
-con_adj_gl_b1_1_b2_2_p(B1,B2,C) := (not disjointp(B1[1],B2[2])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[1],B2[2]),union(B1[2],B2[1])])),C) $
-con_adj_gl_b1_2_b2_1_p(B1,B2,C) := (not disjointp(B1[2],B2[1])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[1]),union(B1[1],B2[2])])),C) $
-con_adj_gl_b1_2_b2_2_p(B1,B2,C) := (not disjointp(B1[2],B2[2])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[2]),union(B1[1],B2[1])])),C) $
+con_adj_gl_b1_1_b2_1_p(B1,B2,C) := (not disjointp(B1[1],B2[1])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[1],B2[1]),union(B1[2],B2[2])])),C)$
+con_adj_gl_b1_1_b2_2_p(B1,B2,C) := (not disjointp(B1[1],B2[2])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[1],B2[2]),union(B1[2],B2[1])])),C)$
+con_adj_gl_b1_2_b2_1_p(B1,B2,C) := (not disjointp(B1[2],B2[1])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[1]),union(B1[1],B2[2])])),C)$
+con_adj_gl_b1_2_b2_2_p(B1,B2,C) := (not disjointp(B1[2],B2[2])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[2]),union(B1[1],B2[1])])),C)$
 
 /* Checking whether the consensus on vertex bicliques B1, B2 can be performed and whether the
    obtained new biclique is not contained in one from S:
 */
-con_adj_gl_p(B1,B2,C) := con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) $
+con_adj_gl_p(B1,B2,C) := con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C)$
 
 /* Given a vertex biclique B in G, extend it (somehow) to a maximal biclique:
 */
@@ -58,10 +58,10 @@ maximal_bc_gl(B,G) := block([rest : listify(setdifference(G[1],union(B[1],B[2]))
 
 
 /* Performing the four variations of consensus-adjunction: */
-con_adj_gl_b1_1_b2_1(B1,B2) := [intersect(B1[1],B2[1]),union(B1[2],B2[2])] $
-con_adj_gl_b1_1_b2_2(B1,B2) := [intersect(B1[1],B2[2]),union(B1[2],B2[1])] $
-con_adj_gl_b1_2_b2_1(B1,B2) := [intersect(B1[2],B2[1]),union(B1[1],B2[2])] $
-con_adj_gl_b1_2_b2_2(B1,B2) := [intersect(B1[2],B2[2]),union(B1[1],B2[1])] $
+con_adj_gl_b1_1_b2_1(B1,B2) := [intersect(B1[1],B2[1]),union(B1[2],B2[2])]$
+con_adj_gl_b1_1_b2_2(B1,B2) := [intersect(B1[1],B2[2]),union(B1[2],B2[1])]$
+con_adj_gl_b1_2_b2_1(B1,B2) := [intersect(B1[2],B2[1]),union(B1[1],B2[2])]$
+con_adj_gl_b1_2_b2_2(B1,B2) := [intersect(B1[2],B2[2]),union(B1[1],B2[1])]$
 
 /* "consensus adjunction ?" */
 /* Add 0-4 consensus adjunctions of bicliques B1,B2 to the list C of maximal bicliques: */
@@ -73,11 +73,15 @@ con_adj_gl_bc(B1,B2,C) := block([C2 : C],
   if con_adj_gl_b1_2_b2_1_p(B1,B2,C) = true then C2 : cons(con_adj_gl_b1_2_b2_1(B1,B2),C2),
   if C2 # C then return(C2),
   if con_adj_gl_b1_2_b2_2_p(B1,B2,C) = true then C2 : cons(con_adj_gl_b1_2_b2_2(B1,B2),C2),
-  return(C2)) $
+  return(C2))$
 
 
-/* Similar to con_adj_gl_bc, but maximise the consensus adjunctions before adding it
-   to the list:
+/* Prerequisites: B1, B2 are bicliques of G, C is a list of maximal bicliques
+   of G, G is a graph with loops.
+   Output is C extended by the first consensus adjunction of B1, B2 possible,
+   maximised w.r.t. G.
+   Similar to con_adj_gl_bc, but maximises the consensus adjunctions before 
+   adding it to the list.
 */
 con_ext_gl_bc(B1,B2,C,G) :=  block([C2 : C],
   if con_adj_gl_b1_1_b2_1_p(B1,B2,C) then block([b11 : con_adj_gl_b1_1_b2_1(B1,B2)], C2 : cons(maximal_bc_gl(b11,G),C2)),
@@ -87,7 +91,7 @@ con_ext_gl_bc(B1,B2,C,G) :=  block([C2 : C],
   if con_adj_gl_b1_2_b2_1_p(B1,B2,C) then block([b21 : con_adj_gl_b1_2_b2_1(B1,B2)], C2 : cons(maximal_bc_gl(b21,G),C2)),
   if C2 # C then return(C2),
   if con_adj_gl_b1_2_b2_2_p(B1,B2,C) then block([b22 : con_adj_gl_b1_2_b2_2(B1,B2)], C2 : cons(maximal_bc_gl(b22,G),C2)),
-  return(C2)) $
+  return(C2))$
 
 /* G is a graph with loops, C a list of vertex bicliques, 
    removes vertex bicliques which are contained in others:
@@ -102,7 +106,7 @@ aux_con_alg1_abs(C) := block([anyabs : false, absi],
       if bc_absorbs_bc_gl_p(C[i],C[j]) then block(anyabs : true, absn : j), 
       if anyabs then return),
     if anyabs then return(delete(C[absn],C,1)),
-  return(C)) $
+  return(C))$
 
 
 /* G is a graph with loops, C a list of vertex bicliques,
@@ -113,7 +117,7 @@ aux_con_alg1_con(C) := block([C2 : C, C2eqC : false],
     for j : 1 while (j <= i-1 and C2eqC = false) do block(
       C2 : con_adj_gl_bc(C[i],C[j],C),
       C2eqC : is(C2 # C)),
-  return(C2)) $
+  return(C2))$
 
 /* Variation of aux_con_alg1_con XXX */
 aux_con_alg2_ext(C,G) := block([C2 : C, C2eqC : false],
@@ -121,7 +125,7 @@ aux_con_alg2_ext(C,G) := block([C2 : C, C2eqC : false],
     for j : 1 while (j <= i-1 and C2eqC = false) do block(
       C2 : con_ext_gl_bc(C[i],C[j],C,G),
       C2eqC : is(C2 # C)),
-  return(C2)) $
+  return(C2))$
 
 /* G is a graph with loops, C a list of vertex bicliques covering all edges
    returning the list of all maximal vertex bicliques:
@@ -135,7 +139,7 @@ con_alg1(C,G) := block([C1 : C, C2 : C, reiterate : true],
       C2 : aux_con_alg1_con(C1),
       if C2 # C1 then reiterate : true)
   ), 
-  return(C2)) $
+  return(C2))$
 
 /* Similar, but now using algorithm 2:
 */
@@ -146,7 +150,7 @@ con_alg2(C,G) := block([C1 : C, C2 : C, reiterate : true],
     C2 : aux_con_alg2_ext(C1,G),
     if C2 # C1 then reiterate : true
   ), 
-  return(C2)) $	
+  return(C2))$	
 
 /*!
 \endhtmlonly
