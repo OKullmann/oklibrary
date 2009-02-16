@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/Consensus.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
