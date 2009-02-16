@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 2.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,11 +23,15 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The tranversal hypergraph via the independence hypergraph: */
+/* RENAME: transversal_hg_ind */
 transversal_hyp_ind(G, Ind) := ecomp_hyp(Ind(G))$
+transversal_hg_ind(G, Ind) := transversal_hyp_ind(G, Ind)$
 
 /* The transversal hypergraph of a hypergraph G, via recursive splitting: */
+/* RENAME: transversal_hg_rs */
 transversal_hyp_rs(G) := [G[1],transversal_ses_rs(min_elements(G[2]))]$
-/* The transversal hypergraph of a set-system S */
+transversal_hg_rs(G) := transversal_hyp_rs(G)$
+/* The transversal hypergraph of a set-system S: */
 transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
  l : length(M),
  if l = 0 then return({{}})
