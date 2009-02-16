@@ -73,7 +73,6 @@ con_adj_gl_b1_1_b2_2(B1,B2) := [intersect(B1[1],B2[2]),union(B1[2],B2[1])]$
 con_adj_gl_b1_2_b2_1(B1,B2) := [intersect(B1[2],B2[1]),union(B1[1],B2[2])]$
 con_adj_gl_b1_2_b2_2(B1,B2) := [intersect(B1[2],B2[2]),union(B1[1],B2[1])]$
 
-/* "consensus adjunction ?" */
 /* Add 0-4 consensus adjunctions of bicliques B1,B2 to the list C of maximal bicliques: */
 con_adj_gl_bc(B1,B2,C) := block([C2 : C],
   if con_adj_gl_b1_1_b2_1_p(B1,B2,C) = true then C2 : cons(con_adj_gl_b1_1_b2_1(B1,B2),C2),
@@ -107,7 +106,6 @@ con_ext_gl_bc(B1,B2,C,G) :=  block([C2 : C],
    removes vertex bicliques which are contained in others:
 */
 /* Belongs to somewhere else */
-/* Compare max_elements in ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac. */
 aux_con_alg1_abs(C) := block([anyabs : false, absi],
   for i : 1 thru length(C) do
     for j : 1 thru i-1 do block(

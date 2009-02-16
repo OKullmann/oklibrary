@@ -27,20 +27,28 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/Consensu
 */
 
 okltest_bc_absorbs_bc_gl_p(bc_absorbs_bc_gl_p);
+
 okltest_con_adj_gl_b1_1_b2_1_p(con_adj_gl_b1_1_b2_1_p);
 okltest_con_adj_gl_b1_1_b2_2_p(con_adj_gl_b1_1_b2_2_p);
 okltest_con_adj_gl_b1_2_b2_1_p(con_adj_gl_b1_2_b2_1_p);
 okltest_con_adj_gl_b1_2_b2_2_p(con_adj_gl_b1_2_b2_2_p);
+
 okltest_maximal_bc_gl(maximal_bc_gl); 
+
 okltest_con_adj_gl_b1_1_b2_1(con_adj_gl_b1_1_b2_1);
 okltest_con_adj_gl_b1_1_b2_2(con_adj_gl_b1_1_b2_2);
 okltest_con_adj_gl_b1_2_b2_1(con_adj_gl_b1_2_b2_1);
 okltest_con_adj_gl_b1_2_b2_2(con_adj_gl_b1_2_b2_2);
+
 okltest_con_adj_gl_bc(con_adj_gl_bc);
 okltest_con_ext_gl_bc(con_ext_gl_bc);
+
 okltest_aux_con_alg1_abs(aux_con_alg1_abs);
+
 okltest_aux_con_alg1_con(aux_con_alg1_con);
+
 okltest_aux_con_alg2_ext(aux_con_alg2_ext);
+
 okltest_con_alg1(con_alg1);
 okltest_con_alg2(con_alg2);
 
