@@ -23,16 +23,12 @@ License, or any later version. */
    comparisons across different "n" to see how each algorithm scales and to 
    make quick plots to analyse this. </li>
    <li> Some initial testing using the "eval_ubcsat" given at 
-   "Collecting data" in
-   Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
-   given N_R(5,5,2) < n for 30 <= n <= 33, with runs=3, cutoff=1000:
+   "Collecting data" in Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp
+   in "UBCSAT.R", investigating parameter tuple [5,5;2] for 30 <= n <= 33,
+   with runs=3, cutoff=1000:
    \verbatim
 source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
-
-??? when reporting on experiments, then the experiment must be fully
-specified
-
 for (ramsey_cnf in ramsey_cnfs) {
   result_df <- eval_ubcsat(ramsey_cnf)
   result_df <- add_constant_column(result_df, ramsey_cnf, "input")
@@ -77,7 +73,8 @@ for (ramsey_cnf in ramsey_cnfs) {
    has been sorted, these original numbers have been reordered as well. </li>
    <li> Based solely on a simple average of the cputimes, "sapsnr" and 
    "irots" seem to do well, although it seems that such a simple metric is
-   unreasonable due to the possible mechanics of CPU scheduling etc. </li>
+   unreasonable due to the possible mechanics of CPU scheduling etc.;
+   moreover, 3 runs mean nothing. </li>
    <li> Therefore this is just a simple example of how one can aggregate data 
    etc in R and present certain results nicely. </li>
    <li> Looking at the number of falsfied clauses and number of steps involved
