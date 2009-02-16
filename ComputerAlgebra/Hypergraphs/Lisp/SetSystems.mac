@@ -35,6 +35,7 @@ single_element(S) := listify(S)[1]$
 choose_element(S) := listify(S)[1]$
 /* Obtain the first element (in the underlying order): */
 first_element(S) := first(S)$
+second_element(S) := second(S)$
 /* Obtain the last element: */
 last_element(S) := last(S)$
 
