@@ -69,7 +69,7 @@ BestSolution_Max = 122.000000
   </ul>
 
 
-  \todo greentao_2(4,5) > 4215
+  \todo greentao_2(4,5) > 4216
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -210,7 +210,14 @@ average length successful tries = 0
      solution. </li>
     </ol>
    </li>
-   <li> n=4216 </li>
+   <li> n=4216
+    <ol>
+     <li> 103 runs with cutoff=500*10^6 and 66 runs with cutoff=10^9
+     didn't find a solution. </li>
+     <li> But run 14 with cutoff=4*10^9 found a solution (ubcsat-rnovelty+)
+     with msteps=3170843774 and seed=2851139542. </li>
+    </ol>
+   </li>
    <li> n=4217
     <ol>
      <li> 39 runs with  cutoff=10^9 didn't find a solution (min between 1

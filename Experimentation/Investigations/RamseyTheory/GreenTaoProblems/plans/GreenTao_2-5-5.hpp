@@ -393,6 +393,7 @@ verifying solution solution.tmp.lst...34000 variables found
 697154 clauses sat, 0 unsat (out of 697154 read)
    \endverbatim
    </li>
+   <li> GreenTao_2-5-5_35000 yields a "contradiction". </li>
   </ul>
 
 */
