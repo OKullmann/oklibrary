@@ -42,27 +42,29 @@ con_adj_gl_p(B1,B2,C) := con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1
 /* Given a vertex biclique B in G, extend it (somehow) to a maximal biclique:
 */
 /* Belongs to somewhere else. */
-maximal_bc_gl(B,G) := block(
- [rem_v : listify(setdifference(G[1],union(B[1],B[2]))), newB : B],
-  if B = [{},{}] then if not emptyp(G[2]) then 
-    newB : [{first_element(first_element(G[2]))},
-            {second_element(first_element(G[2]))}],
-  if (not emptyp(B[1]) and emptyp(B[2])) then block(
+maximal_bc_gl(B,G) := if emptyp(G[2]) then B else
+block(
+ [rem_v : listify(setdifference(G[1],union(B[1],B[2])))],
+  if B = [{},{}] then 
+    B : [{first_element(first_element(G[2]))},
+            {second_element(first_element(G[2]))}]
+  elseif (not emptyp(B[1]) and emptyp(B[2])) then block(
    [restv : listify(setdifference(G[1],B[1]))],
     for i : 1 thru length(restv) do
       if subsetp(map(setify,cartesian_product(B[1],{restv[i]})),G[2]) then 
-        newB[2] : {restv[i]}),
-  if(emptyp(B[1]) and not emptyp(B[2])) then block(
+        B[2] : {restv[i]})
+  elseif(emptyp(B[1]) and not emptyp(B[2])) then block(
    [restv2 : listify(setdifference(G[1],B[2]))],
     for i : 1 thru length(restv2) do
       if subsetp(map(setify,cartesian_product(B[2],{restv2[i]})),G[2]) then 
-        newB[1] : {restv2[i]}),
+        B[1] : {restv2[i]}),
+  /* Now established: B[1] and B[2] are not empty. */
   for i : 1 thru length(rem_v) do block(
-    if vbc_gl_p([union(newB[1],{rem_v[i]}),newB[2]],G) then 
-      newB : [union(newB[1],{rem_v[i]}),newB[2]] 
-    else if vbc_gl_p([newB[1],union(newB[2],{rem_v[i]})],G) then 
-      newB : [newB[1],union(newB[2],{rem_v[i]})]),
-  return(newB))$
+    if vbc_gl_p([union(B[1],{rem_v[i]}),B[2]],G) then 
+      B : [union(B[1],{rem_v[i]}),B[2]] 
+    else if vbc_gl_p([B[1],union(B[2],{rem_v[i]})],G) then 
+      B : [B[1],union(B[2],{rem_v[i]})]),
+  return(B))$
 
 
 
