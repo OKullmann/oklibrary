@@ -18,10 +18,11 @@ License, or any later version. */
    <li> See the MSc thesis of Warren Bailey (supervisor OK). </li>
    <li> Investigate colouring schemes (see discussion of OK with Mark Jones).
    </li>
-   <li> The nodes are labelled with numerical vectors, and also the edges. </li>
+   <li> The nodes are labelled with numerical vectors, and also the edges.
+   </li>
    <li> Additionally we have also strings as labels, like branching variables
    (for the nodes) and branching literals (for the edges). </li>
-   <li> First we implement the algorithm at Maxima/Lisp level
+   <li> First we implement the algorithm at Maxima/Lisp level.
     <ol>
      <li> See "Tree drawing" in ComputerAlgebra/Trees/Lisp/plans/general.hpp.
      </li>

@@ -15,7 +15,9 @@ License, or any later version. */
 
   \todo Graphics library
   <ul>
-   <li> The fundamental problem is to determine a suitable graphics library.
+   <li> The fundamental problem is to determine a suitable graphics library
+   (or just relying on a graph-library with drawing-capabilities, or on a
+   special graphs-visualisation library).
    </li>
    <li> Possibilities:
     <ol>
@@ -38,6 +40,8 @@ License, or any later version. */
     One should play around with Mesa and FLTK to see what they can, and to
     estimate the quality of these libraries.
    </li>
+   <li> At least at the Maxima/Lisp level, Gnuplot should also be investigated.
+   </li>
   </ul>
 
 
@@ -48,6 +52,9 @@ License, or any later version. */
    <li> Then perhaps we don't need the graphics library? </li>
    <li> See "Graph drawing" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp. </li>
+   <li> Also some of the general graph libraries (see "General C++ graph
+   libraries" in Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp)
+   have graphics-capabilities. </li>
   </ul>
 
 
