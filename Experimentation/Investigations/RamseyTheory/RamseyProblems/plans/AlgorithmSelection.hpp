@@ -12,16 +12,20 @@ License, or any later version. */
 
   \todo Finding best UBCSAT algorithm for %Ramsey problems
   <ul>
+   <li> In the following where the notation "n for x <= n <= y" is used, the
+   notation means that the experiment is run for values of n in that range
+   and these results are tabulated together. </li>
+   <li> However, the data frame created keeps track of the input file used 
+   in a field called "input" and so after an initial, very naive glance, at 
+   "lumped together" statistics across different "n", one can filter the data 
+   frame and examine results for specific "n".
+   <li> This "lumped together" approach also makes it easy to make quick 
+   comparisons across different "n" to see how each algorithm scales and to 
+   make quick plots to analyse this. </li>
    <li> Some initial testing using the "eval_ubcsat" given at 
    "Collecting data" in
    Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp in "UBCSAT.R",
-   given N_R(5,5,2) < n for 30 <= n <= 33:
-
-? what does this mean? what exactly is the data? obviously one cannot
-lump together different n (is this meant?)
-
-very important the number of runs and the cutoff, but no information here??
-
+   given N_R(5,5,2) < n for 30 <= n <= 33, with runs=3, cutoff=1000:
    \verbatim
 source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
@@ -42,42 +46,42 @@ for (ramsey_cnf in ramsey_cnfs) {
    \endverbatim
    and then some very basic statistics: 
    \verbatim
-> ramsey_mean_df <- aggregate(list(beststep=ramsey_df$beststep,cputime_mean=ramsey_df$CPUTime_Mean), list(alg=ramsey_df$alg), mean)
+> ramsey_mean_df <- aggregate(list(avg_beststep=ramsey_df$beststep,avg_cputime_mean=ramsey_df$CPUTime_Mean), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$cputime_mean),]
-                      alg  beststep cputime_mean
-16                 sapsnr 100.41667   0.03583325
-18                  irots 185.08333   0.03583325
-4               gsat-tabu 175.00000   0.03666650
-5                    hsat 219.50000   0.03750000
-2          gsat -v simple 255.25000   0.04333350
-14                   saps  96.33333   0.04333350
-17                   rots 230.91667   0.04416650
-19                   samd 226.75000   0.04416650
-15                  rsaps 104.91667   0.04416675
-1                    gsat 233.75000   0.04583325
-6                   hwsat 236.75000   0.04750000
-20 walksat-tabu -v nonull 141.41667   0.05166650
-8            walksat-tabu 140.00000   0.05416675
-12               rnovelty 102.08333   0.06500000
-10               novelty+ 107.08333   0.06916650
-9                 novelty 113.58333   0.07416675
-3                   gwsat 408.16667   0.07666700
-13              rnovelty+  94.58333   0.09416650
-7                 walksat 326.75000   0.14000000
-11          adaptnovelty+ 124.66667   0.15583325
+                      alg  avg_beststep avg_cputime_mean
+16                 sapsnr     100.41667       0.03583325
+18                  irots     185.08333       0.03583325
+4               gsat-tabu     175.00000       0.03666650
+5                    hsat     219.50000       0.03750000
+2          gsat -v simple     255.25000       0.04333350
+14                   saps      96.33333       0.04333350
+17                   rots     230.91667       0.04416650
+19                   samd     226.75000       0.04416650
+15                  rsaps     104.91667       0.04416675
+1                    gsat     233.75000       0.04583325
+6                   hwsat     236.75000       0.04750000
+20 walksat-tabu -v nonull     141.41667       0.05166650
+8            walksat-tabu     140.00000       0.05416675
+12               rnovelty     102.08333       0.06500000
+10               novelty+     107.08333       0.06916650
+9                 novelty     113.58333       0.07416675
+3                   gwsat     408.16667       0.07666700
+13              rnovelty+      94.58333       0.09416650
+7                 walksat     326.75000       0.14000000
+11          adaptnovelty+     124.66667       0.15583325
    \endverbatim
-
-what is the meaning of this table? obviously cputime is pointless
-when the solution quality differs
-
-what is the first entry of each row?
-
    </li>
+   <li> The first column in the result above is simply an artifact of the data
+   frame along with the fact that it has been reordered/sorted. Ordinarily a 
+   data.frame will list the "number" of each row at the side. As the data frame
+   has been sorted, these original numbers have been reordered as well. </li>
    <li> Based solely on a simple average of the cputimes, "sapsnr" and 
    "irots" seem to do well, although it seems that such a simple metric is
    unreasonable due to the possible mechanics of CPU scheduling etc. </li>
-   <li> Looking at the number of falsfied clauses and number of steps 
-   involved: 
+   <li> Therefore this is just a simple example of how one can aggregate data 
+   etc in R and present certain results nicely. </li>
+   <li> Looking at the number of falsfied clauses and number of steps involved
+   (using the data from above): 
    \verbatim
 > ramsey_mean_df <- aggregate(list(avg_falsified_clauses=ramsey_df$best, avg_best_steps=ramsey_df$beststep), list(alg=ramsey_df$alg), mean)
 > ramsey_mean_df[order(ramsey_mean_df$avg_falsified_clauses, ramsey_mean_df$avg_best_steps),]
@@ -115,11 +119,8 @@ find_best_ubcsat_alg <- function(df) {
 }
    \endverbatim
    </li>
-   <li> Using "N_R(5,5,2) <= n" for values of n = 30..40 with runs=100,
+   <li> Using "N_R(5,5,2) <= n" with n for  30 <=  n <= 40 with runs=100,
    cutoff=10000: 
-
-? again, what does n = ... mean? lumped together ?
-
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
                       alg avg_falsified_clauses avg_best_steps
@@ -216,7 +217,7 @@ find_best_ubcsat_alg <- function(df) {
    \endverbatim
    which seems to suggest gsat-tabu improves in performance as we increase
    the complexity of the problem, while others such as saps perform 
-   better for lower "n". </li>
+   better for lower "n" but don't perform as well later on. </li>
    <li> Perhaps some linear regression based on "n" vs some combination of
    "avg_falsified_clauses" and "avg_best_steps" would give more indication
    on how each algorithm scales with regard to this problem? </li>

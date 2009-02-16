@@ -374,7 +374,7 @@ verifying solution solution.tmp.lst...33800 variables found
 690062 clauses sat, 0 unsat (out of 690062 read)
    \endverbatim
    </li>
-   li> GreenTao_2-5-5_34000 found satisfiable:
+   <li> GreenTao_2-5-5_34000 found satisfiable:
    \verbatim
 <bias>:0.000000
 paramagnetic state
