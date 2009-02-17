@@ -547,6 +547,8 @@ CPU time              : 252005 s
        <li> Apparently the maximal clause-length has not been increased in
        this process (so perhaps march_pl is less aggressive than minisat2).
        </li>
+       <li> Like the other solvers, it seems hopeless (and the feedback-quality
+       of march_pl is rather poor). </li>
       </ol>
      </li>
     </ol>
