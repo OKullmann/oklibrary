@@ -218,8 +218,36 @@ find_best_ubcsat_alg <- function(df) {
    <li> Perhaps some linear regression based on "n" vs some combination of
    "avg_falsified_clauses" and "avg_best_steps" would give more indication
    on how each algorithm scales with regard to this problem? </li>
-   <li> Currently running an experiment with runs=200, cutoff=10000 and 
-   n=40 to see how the algorithms perform with better cutoffs. </li>
+   <li> Using "N_R(5,5,2) <= n" with n for n = 40 with runs=200,
+   cutoff=100000:
+   \verbatim
+> find_best_ubcsat_alg(ramsey_df)
+                      alg avg_falsified_clauses avg_best_steps
+4               gsat-tabu                 50.34        6826.04
+19                   samd                 50.56        6784.06
+17                   rots                 51.71        5957.93
+14                   saps                 64.40        5058.40
+16                 sapsnr                 64.73        5078.79
+15                  rsaps                 65.28        4136.76
+11          adaptnovelty+                 70.91        6063.12
+18                  irots                 71.76        3844.65
+3                   gwsat                 77.53        6567.07
+6                   hwsat                 81.45        5947.01
+13              rnovelty+                 85.67        4845.05
+12               rnovelty                 88.06        5429.28
+2          gsat -v simple                 98.82         333.62
+5                    hsat                 99.54         301.37
+1                    gsat                101.52         354.20
+9                 novelty                112.54        5319.51
+10               novelty+                113.57        4817.34
+8            walksat-tabu                134.99        5123.96
+20 walksat-tabu -v nonull                135.07        5679.43
+7                 walksat                276.30        5191.63
+   \endverbatim
+   seems to provide further confirmation of the success of "gsat-tabu" and 
+   "samd" on larger Ramsey problems. </li> 
+   <li> Currently running an experiment with runs=200, cutoff=100000 and
+   n = 41. </li>
   </ul>
 
 
