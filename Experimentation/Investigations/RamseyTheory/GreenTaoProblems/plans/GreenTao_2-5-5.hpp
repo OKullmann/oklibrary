@@ -393,7 +393,17 @@ verifying solution solution.tmp.lst...34000 variables found
 697154 clauses sat, 0 unsat (out of 697154 read)
    \endverbatim
    </li>
-   <li> GreenTao_2-5-5_35000 yields a "contradiction". </li>
+   <li> It seems that GreenTao_2-5-5_34500.cnf falls into a "grey area",
+   perhaps without convergence(?):
+   \verbatim
+formula read: 715102 cl, 34500 vars, 3575510 literals, maxconn=260, maxliteral=5 c/v=20.727594
+
+.........[0.357245]:-(
+   \endverbatim
+   </li>
+   <li> GreenTao_2-5-5_35000 yields a "contradiction" (apparently this means
+   that after setting the biased variables we obtain a conflict via
+   unit-clause propagation(?)). </li>
   </ul>
 
 */
