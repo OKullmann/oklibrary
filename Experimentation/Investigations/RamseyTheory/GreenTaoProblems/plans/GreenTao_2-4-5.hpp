@@ -222,7 +222,8 @@ average length successful tries = 0
     <ol>
      <li> 39 runs with  cutoff=10^9 didn't find a solution (min between 1
      and 6). </li>
-     <li> 6 runs with  cutoff=4*10^9 didn't find a solution (min between 1
+     <li> 10 runs with  cutoff=2*10^9 didn't find a solution. </li>
+     <li> 12 runs with  cutoff=4*10^9 didn't find a solution (min between 1
      and 3). </li>
     </ol>
    </li>
