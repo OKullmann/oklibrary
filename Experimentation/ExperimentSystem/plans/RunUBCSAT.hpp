@@ -160,7 +160,7 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
   std_params <- ""
   for (param_name in names(params)) {
     std_params <- paste(std_params," -",param_name, " ",
-      params[[param_name]],sep="")
+      format(params[[param_name]],scientific=5000),sep="")
   }
   ubcsat_command <- gsub("\\$STD_PARAMS", std_params, ubcsat_command)
   output_file <- gsub("\\$TARGET", input, output)
@@ -194,7 +194,15 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    </li>
    <li> The above "eval_ubcsat" function runs each of the listed algorithms, 
    with the given parameters etc on a single cnf returning a combined dataframe
-   with each of the relevant fields. </li> 
+   with each of the relevant fields. </li>
+   <li> The "format" function above with parameter "scientific" is used to 
+   ensure any integer parameters are printed in decimal, not scientific 
+   notation. For instance 100000 is usually printed 1e+05 as this is 5 
+   characters which is shorter than 100000 (6 characters). The "scientific"
+   parameters to "format" adds a bias so 5 + 5000 > 6. </li>
+   <li> For the "scientific" parameter, perhaps ".Machine$integer.max/2" is a 
+   better option? Just ".Machine$integer.max" obviously results in overflow
+   and so doesn't work. </li>
   </ul>
 
 
