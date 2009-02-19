@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests
 
 okltest_ramsey2_ofcs(ramsey2_ofcs);
 okltest_ramsey_symbr2_cs(ramsey_symbr2_cs);
+okltest_ramsey_symbr2_eqs(ramsey_symbr2_eqs);
 okltest_ramsey2_sym_break_rec(ramsey2_sym_break_rec);
 
 /*!

@@ -108,20 +108,6 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
   </ul>
 
 
-  \bug Ubcsat does not flush the output-buffer
-  <ul>
-   <li> Flushing the output buffer therefore is left to the operating system. 
-   </li>
-   <li> Problems then occur when redirecting output to a file (i.e the output
-   buffer is not flushed at all until the end). </li>
-   <li> Ubcsat seems to have a "-rflush" option, which flushes the output 
-   buffer after each run, but this was introduced in version 1.1.0 (See
-   http://www.satlib.org/ubcsat/revisions.txt ). </li>
-   <li> The solution is simply to find the place in the Ubcsat source code
-   where the result line is output, and adding a buffer-flush. </li>
-  </ul>
-
-
   \bug Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
    <li> Yet "unsigned int" is used for example for the cutoff-value,
@@ -241,6 +227,20 @@ ubcsat -alg samd -i Ramsey_5_2_40.cnf -runs 10 -cutoff 5000
 
   \todo DONE (see above)
   Check the new Ubcsat version. ?? There doesn't seem to exist one??
+
+
+  \bug Ubcsat does not flush the output-buffer DONE
+  <ul>
+   <li> Flushing the output buffer therefore is left to the operating system. 
+   </li>
+   <li> Problems then occur when redirecting output to a file (i.e the output
+   buffer is not flushed at all until the end). </li>
+   <li> Ubcsat seems to have a "-rflush" option, which flushes the output 
+   buffer after each run, but this was introduced in version 1.1.0 (See
+   http://www.satlib.org/ubcsat/revisions.txt ). </li>
+   <li> DONE The solution is simply to find the place in the Ubcsat source code
+   where the result line is output, and adding a buffer-flush. </li>
+  </ul>
 
 */
 

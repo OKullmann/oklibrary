@@ -82,7 +82,21 @@ ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
 
 /* XXX preliminary */
 /* Yet only r=2 handled */
-ramsey_symbr2_cs(n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
+ramsey_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey_symbr2_eqs(n), 
+  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
+    edge_pairs : powerset(eq_edges,2),
+    for edge in edge_pairs do block(
+      el : map(lambda([e], colv_var(e)),listify(edge)),
+      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
+    )
+  ),
+  return(lunion(rl)))$
+
+/* Given a natural number n, gives a set of sets of edges in the graph
+   with n vertices which can be given equivalent labels in any N_R(p,p;2) < m
+   problem for n <= m. */
+ramsey_symbr2_eqs(n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
   while n >= last(ramsey_number([[p+1,p+1],2])) do p : p + 1,
   while m >= last(ramsey_number([[3,3],2])) do 
     if last(ramsey_number([[p,p],2])) <= m then block(
@@ -90,15 +104,7 @@ ramsey_symbr2_cs(n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
       m : m - p
     ) else p : p - 1,
   if oklib_monitor then print("Cliques chosen : ", clique_l),
-  for cliq in clique_l do block ([edges, edge, el, edge_pairs],
-    edges : powerset(cliq,2),
-    edge_pairs : powerset(edges,2),
-    for edge in edge_pairs do block(
-      el : map(lambda([e], colv_var(e)),listify(edge)),
-      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
-    )
-  ),
-  return(lunion(rl)))$
+  return(map(lambda([a],powerset(a,2)),setify(clique_l))))$
 
 /* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
    with n vertices, a hashmap from the variables to their meanings (as

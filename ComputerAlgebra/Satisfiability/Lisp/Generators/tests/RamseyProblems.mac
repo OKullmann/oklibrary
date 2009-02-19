@@ -39,6 +39,13 @@ okltest_ramsey_symbr2_cs(f) := block(
     assert(length(f(i)) = 6 * floor(max((i - 3),0) / 3)),
   true)$
 
+okltest_ramsey_symbr2_eqs(f) := block(
+  for i : 0 thru 5 do 
+    assert(f(i) = {}),
+  for i : 0 thru 17 do
+    assert(length(f(i)) = floor(max((i - 3),0) / 3)),
+  true)$
+
 okltest_ramsey2_sym_break_rec(f) := block(
   [vhm : sm2hm({}), vnhm : sm2hm({}), result],
   assert(f({}, lambda([a], false), lambda([a],false)) = {}),

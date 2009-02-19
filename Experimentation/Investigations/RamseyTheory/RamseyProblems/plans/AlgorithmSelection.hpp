@@ -71,6 +71,11 @@ for (ramsey_cnf in ramsey_cnfs) {
    frame along with the fact that it has been reordered/sorted. Ordinarily a 
    data.frame will list the "number" of each row at the side. As the data frame
    has been sorted, these original numbers have been reordered as well. </li>
+   <li> It seems that the first "column" is printed by print.data.frame, and 
+   is not an actual column in the data frame. This has now been fixed by making
+   "find_best_ubcsat_alg" pass "row.names=FALSE" to the print command to force
+   it to print the data frame without these row names instead of simply 
+   returning a data frame. </li>
    <li> Based solely on a simple average of the cputimes, "sapsnr" and 
    "irots" seem to do well, although it seems that such a simple metric is
    unreasonable due to the possible mechanics of CPU scheduling etc.;
@@ -113,6 +118,7 @@ for (ramsey_cnf in ramsey_cnfs) {
 find_best_ubcsat_alg <- function(df) {
  mean_df <- aggregate(list(avg_falsified_clauses=df$best, avg_best_steps=df$beststep), list(alg=df$alg), mean)
  mean_df[order(mean_df$avg_falsified_clauses,mean_df$avg_best_steps),]
+ print(mean_df,row.names = FALSE)
 }
    \endverbatim
    </li>
@@ -120,97 +126,97 @@ find_best_ubcsat_alg <- function(df) {
    cutoff=10000: 
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
-                      alg avg_falsified_clauses avg_best_steps
-3               gsat-tabu              10.13909      2886.4927
-15                   samd              10.19909      2956.7991
-13                   rots              10.33000      2796.9582
-1           adaptnovelty+              12.69364      3638.5318
-17                 sapsnr              13.04455      2337.0755
-16                   saps              13.09455      2282.8964
-14                  rsaps              13.18727      2091.9591
-11               rnovelty              15.35727      2806.9618
-12              rnovelty+              15.44091      2868.1300
-8                   irots              16.00455      1989.1127
-7                   hwsat              17.53364      2912.4755
-5                   gwsat              18.18727      3960.1482
-4          gsat -v simple              22.36273       937.9009
-2                    gsat              22.52273       929.2727
-6                    hsat              22.54545       786.2127
-9                 novelty              23.45455      2421.1018
-10               novelty+              24.01455      2518.1327
-20 walksat-tabu -v nonull              29.75182      3010.9000
-19           walksat-tabu              29.86545      2859.1036
-18                walksat              80.75909      3517.2764
+                    alg avg_falsified_clauses avg_best_steps
+              gsat-tabu              10.13909      2886.4927
+                   samd              10.19909      2956.7991
+                   rots              10.33000      2796.9582
+          adaptnovelty+              12.69364      3638.5318
+                 sapsnr              13.04455      2337.0755
+                   saps              13.09455      2282.8964
+                  rsaps              13.18727      2091.9591
+               rnovelty              15.35727      2806.9618
+              rnovelty+              15.44091      2868.1300
+                  irots              16.00455      1989.1127
+                  hwsat              17.53364      2912.4755
+                  gwsat              18.18727      3960.1482
+         gsat -v simple              22.36273       937.9009
+                   gsat              22.52273       929.2727
+                   hsat              22.54545       786.2127
+                novelty              23.45455      2421.1018
+               novelty+              24.01455      2518.1327
+ walksat-tabu -v nonull              29.75182      3010.9000
+           walksat-tabu              29.86545      2859.1036
+                walksat              80.75909      3517.2764
    \endverbatim
    seems to suggest that "gsat-tabu" and "samd" perform well and looking
    across the individual instances for each n = 30,35,40, we get: 
    \verbatim
 > find_best_ubcsat_alg(subset(ramsey_df, ramsey_df$input=="Ramsey_5_2_30.cnf"))
-                      alg avg_falsified_clauses avg_best_steps
-16                   saps                     0          61.55
-17                 sapsnr                     0          61.57
-9                 novelty                     0          63.10
-11               rnovelty                     0          63.43
-14                  rsaps                     0          63.90
-10               novelty+                     0          65.34
-12              rnovelty+                     0          71.79
-19           walksat-tabu                     0          79.73
-20 walksat-tabu -v nonull                     0          80.57
-18                walksat                     0         102.85
-8                   irots                     0         103.28
-3               gsat-tabu                     0         109.58
-1           adaptnovelty+                     0         111.73
-7                   hwsat                     0         113.96
-13                   rots                     0         114.32
-15                   samd                     0         114.89
-4          gsat -v simple                     0         119.09
-2                    gsat                     0         124.18
-6                    hsat                     0         128.74
-5                   gwsat                     0         185.98
+                    alg avg_falsified_clauses avg_best_steps
+                   saps                     0          61.55
+                 sapsnr                     0          61.57
+                novelty                     0          63.10
+               rnovelty                     0          63.43
+                  rsaps                     0          63.90
+               novelty+                     0          65.34
+              rnovelty+                     0          71.79
+           walksat-tabu                     0          79.73
+ walksat-tabu -v nonull                     0          80.57
+                walksat                     0         102.85
+                  irots                     0         103.28
+              gsat-tabu                     0         109.58
+          adaptnovelty+                     0         111.73
+                  hwsat                     0         113.96
+                   rots                     0         114.32
+                   samd                     0         114.89
+         gsat -v simple                     0         119.09
+                   gsat                     0         124.18
+                   hsat                     0         128.74
+                  gwsat                     0         185.98
 > find_best_ubcsat_alg(subset(ramsey_df, ramsey_df$input=="Ramsey_5_2_35.cnf"))
-                      alg avg_falsified_clauses avg_best_steps
-17                 sapsnr                  0.00         855.11
-16                   saps                  0.00         899.63
-14                  rsaps                  0.00         958.51
-9                 novelty                  0.00        1120.64
-10               novelty+                  0.00        1315.88
-3               gsat-tabu                  0.00        1690.29
-15                   samd                  0.00        1709.61
-13                   rots                  0.00        1938.08
-7                   hwsat                  0.04        3192.42
-6                    hsat                  0.33        2844.31
-12              rnovelty+                  0.34        2591.36
-4          gsat -v simple                  0.45        3494.01
-11               rnovelty                  0.47        2285.03
-2                    gsat                  0.49        3424.83
-20 walksat-tabu -v nonull                  0.84        4698.46
-19           walksat-tabu                  1.02        4414.14
-8                   irots                  1.11        3596.73
-1           adaptnovelty+                  2.33        3248.09
-5                   gwsat                  3.43        5529.64
-18                walksat                 37.48        4872.00
+                    alg avg_falsified_clauses avg_best_steps
+                 sapsnr                  0.00         855.11
+                   saps                  0.00         899.63
+                  rsaps                  0.00         958.51
+                novelty                  0.00        1120.64
+               novelty+                  0.00        1315.88
+              gsat-tabu                  0.00        1690.29
+                   samd                  0.00        1709.61
+                   rots                  0.00        1938.08
+                  hwsat                  0.04        3192.42
+                   hsat                  0.33        2844.31
+              rnovelty+                  0.34        2591.36
+         gsat -v simple                  0.45        3494.01
+               rnovelty                  0.47        2285.03
+                   gsat                  0.49        3424.83
+ walksat-tabu -v nonull                  0.84        4698.46
+           walksat-tabu                  1.02        4414.14
+                  irots                  1.11        3596.73
+          adaptnovelty+                  2.33        3248.09
+                  gwsat                  3.43        5529.64
+                walksat                 37.48        4872.00
 > find_best_ubcsat_alg(subset(ramsey_df, ramsey_df$input=="Ramsey_5_2_40.cnf"))
-                      alg avg_falsified_clauses avg_best_steps
-3               gsat-tabu                 50.50        6752.04
-13                   rots                 50.69        5765.56
-15                   samd                 50.72        7015.10
-16                   saps                 64.90        4927.95
-17                 sapsnr                 65.09        4909.03
-14                  rsaps                 65.33        4135.28
-1           adaptnovelty+                 70.54        6298.52
-8                   irots                 71.92        3058.22
-5                   gwsat                 77.25        6582.99
-7                   hwsat                 81.76        5797.83
-11               rnovelty                 85.34        5284.96
-12              rnovelty+                 86.74        5475.05
-2                    gsat                 98.69         364.64
-4          gsat -v simple                 98.97         333.75
-6                    hsat                100.49         295.62
-9                 novelty                112.99        4814.45
-10               novelty+                114.47        4581.74
-20 walksat-tabu -v nonull                135.82        5517.99
-19           walksat-tabu                136.84        5148.30
-18                walksat                279.78        4776.30
+                    alg avg_falsified_clauses avg_best_steps
+              gsat-tabu                 50.50        6752.04
+                   rots                 50.69        5765.56
+                   samd                 50.72        7015.10
+                   saps                 64.90        4927.95
+                 sapsnr                 65.09        4909.03
+                  rsaps                 65.33        4135.28
+          adaptnovelty+                 70.54        6298.52
+                  irots                 71.92        3058.22
+                  gwsat                 77.25        6582.99
+                  hwsat                 81.76        5797.83
+               rnovelty                 85.34        5284.96
+              rnovelty+                 86.74        5475.05
+                   gsat                 98.69         364.64
+         gsat -v simple                 98.97         333.75
+                   hsat                100.49         295.62
+                novelty                112.99        4814.45
+               novelty+                114.47        4581.74
+ walksat-tabu -v nonull                135.82        5517.99
+           walksat-tabu                136.84        5148.30
+                walksat                279.78        4776.30
    \endverbatim
    which seems to suggest gsat-tabu improves in performance as we increase
    the complexity of the problem, while others such as saps perform 
@@ -223,26 +229,26 @@ find_best_ubcsat_alg <- function(df) {
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
                       alg avg_falsified_clauses avg_best_steps
-4               gsat-tabu                 50.34        6826.04
-19                   samd                 50.56        6784.06
-17                   rots                 51.71        5957.93
-14                   saps                 64.40        5058.40
-16                 sapsnr                 64.73        5078.79
-15                  rsaps                 65.28        4136.76
-11          adaptnovelty+                 70.91        6063.12
-18                  irots                 71.76        3844.65
-3                   gwsat                 77.53        6567.07
-6                   hwsat                 81.45        5947.01
-13              rnovelty+                 85.67        4845.05
-12               rnovelty                 88.06        5429.28
-2          gsat -v simple                 98.82         333.62
-5                    hsat                 99.54         301.37
-1                    gsat                101.52         354.20
-9                 novelty                112.54        5319.51
-10               novelty+                113.57        4817.34
-8            walksat-tabu                134.99        5123.96
-20 walksat-tabu -v nonull                135.07        5679.43
-7                 walksat                276.30        5191.63
+              gsat-tabu                 50.34        6826.04
+                   samd                 50.56        6784.06
+                   rots                 51.71        5957.93
+                   saps                 64.40        5058.40
+                 sapsnr                 64.73        5078.79
+                  rsaps                 65.28        4136.76
+          adaptnovelty+                 70.91        6063.12
+                  irots                 71.76        3844.65
+                  gwsat                 77.53        6567.07
+                  hwsat                 81.45        5947.01
+              rnovelty+                 85.67        4845.05
+               rnovelty                 88.06        5429.28
+         gsat -v simple                 98.82         333.62
+                   hsat                 99.54         301.37
+                   gsat                101.52         354.20
+                novelty                112.54        5319.51
+               novelty+                113.57        4817.34
+           walksat-tabu                134.99        5123.96
+ walksat-tabu -v nonull                135.07        5679.43
+                walksat                276.30        5191.63
    \endverbatim
    seems to provide further confirmation of the success of "gsat-tabu" and 
    "samd" on larger Ramsey problems. </li> 
