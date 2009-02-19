@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following topics are handled:
-   - Update namespaces
+   - Update namespaces : DONE
    - Update plans
 
 

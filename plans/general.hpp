@@ -109,44 +109,45 @@ namespace SatAlg = Satisfiability::Algorithms;
      </li>
     </ol>
    </li>
-   <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbreviations
-   shall not be all-caps (reserved for macros)):
+   <li> Perhaps the following "parts" of the OKlibrary (containing the
+   super-modules; abbreviations shall not be all-caps (reserved for macros)):
       <ol>
-       <li> "Satisfiability" ("Sat")
+       <li> (DONE) "Satisfiability" ("Sat")
         <ol>
-         <li> Alg ("Algorithms"; (generic) algorithms for SAT solving and variations) </li>
+         <li> DONE Alg ("Algorithms"; (generic) algorithms for SAT solving and
+         variations) </li>
           <ol>
-           <li> LSe ("LocalSearch") </li>
+           <li> DONE LSe ("LocalSearch") </li>
           </ol>
          </li>
-         <li> Asg ("Assignments")
+         <li> DONE Asg ("Assignments")
           <ol>
-           <li> Aut ("Autarkies") </li>
-           <li> PAs ("PartialAssignments") </li>
+           <li> DONE Aut ("Autarkies") </li>
+           <li> DONE PAs ("PartialAssignments") </li>
           </ol>
          </li>
-         <li> Heu ("Heuristics") </li>
-         <li> Ifs ("Interfaces"; input, output etc.) </li>
-         <li> PrI ("ProblemInstances")
+         <li> DONE Heu ("Heuristics") </li>
+         <li> DONE Ifs ("Interfaces"; input, output etc.) </li>
+         <li> (DONE) PrI ("ProblemInstances")
           <ol>
-           <li> Var ("Variables") </li>
-           <li> Lit ("Literals") </li>
-           <li> Cla ("Clauses") </li>
-           <li> Cls ("ClauseSets") </li>
+           <li> DONE Var ("Variables") </li>
+           <li> DONE Lit ("Literals") </li>
+           <li> DONE Cla ("Clauses") </li>
+           <li> DONE Cls ("ClauseSets") </li>
            <li> ALi ("ActiveLiterals") </li>
            <li> ACl ("ActiveClauses") </li>
            <li> ACs ("ActiveClauseSets") </li>
            <li> AaC ("AlliancesActiveClauseSets") </li>           
           </ol>
          </li>
-         <li> PSy ("ProofSystems") </li>
-         <li> Qua ("Quantification") </li>
-         <li> Red ("Reductions") </li>
-         <li> Sol ("Solvers"; contains "OKsolver") </li>
-         <li> SpS ("SpecialStructures") </li>
-         <li> Tra ("Transformers")
+         <li> DONE PSy ("ProofSystems") </li>
+         <li> DONE Qua ("Quantification") </li>
+         <li> DONE Red ("Reductions") </li>
+         <li> DONE Sol ("Solvers"; contains "OKsolver") </li>
+         <li> DONE SpS ("SpecialStructures") </li>
+         <li> DONE Tra ("Transformers")
           <ol>
-           <li> Gen ("Generators") </li>
+           <li> DONE Gen ("Generators") </li>
           </ol>
          </li>
         </ol>

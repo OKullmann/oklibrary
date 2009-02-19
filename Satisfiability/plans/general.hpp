@@ -29,6 +29,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo New supermodule on autarkies
+  <ul>
+   <li> The old plan was to have autarkies inside supermodule Assignments.
+   </li>
+   <li> But due to the basic scape, it seems better to have a supermodule
+   Autarkies (namespace-alias "Aut"). </li>
+  </ul>
+
+
   \todo New supermodule on CSP
   <ul>
    <li> This module would consider mostly the traditional CSP
