@@ -130,11 +130,11 @@ License, or any later version. */
     - Estimating the problem with version 1.1.0
     - Also "corrected" Ubcsat segfaults (with gcc 4.3.1)
     - Ubcsat source files are read-only
-    - Ubcsat does not flush the output-buffer
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat
     - Update to version 1.1.0
+    - Ubcsat does not flush the output-buffer DONE
     - Complete docu-file : DONE
 
   \par

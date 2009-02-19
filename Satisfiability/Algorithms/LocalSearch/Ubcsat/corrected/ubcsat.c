@@ -107,6 +107,8 @@ int ubcsatmain(int argc, char *argv[]) {
         bTerminateAllRuns = TRUE;
       }
     }
+
+    fflush(stdout);
   }
 
   StopClock();
