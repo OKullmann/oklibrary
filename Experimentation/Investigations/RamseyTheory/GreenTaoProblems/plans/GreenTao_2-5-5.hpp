@@ -308,7 +308,7 @@ BestSolution_Min = 1.000000
   </ul>
 
 
-  \todo Survey propagation: greentao_2(5) > 34000
+  \todo Survey propagation: greentao_2(5) > 34250
   <ul>
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
@@ -391,6 +391,26 @@ WSAT did find the solution of the sub-formula
 merging spsol.tmp.lst over wsatsol.tmp.lst
 verifying solution solution.tmp.lst...34000 variables found
 697154 clauses sat, 0 unsat (out of 697154 read)
+   \endverbatim
+   </li>
+   <li> GreenTao_2-5-5_34250.cnf found satisfiable:
+   \verbatim
+p-1.4> ./sp -l GreenTao_2-5-5_34250.cnf
+<bias>:0.000000
+paramagnetic state
+sub-formula has:
+        12613 2-clauses
+        28565 3-clauses
+        34583 4-clauses
+        26410 5-clauses
+        15701 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...34250 variables found
+706134 clauses sat, 0 unsat (out of 706134 read)
    \endverbatim
    </li>
    <li> It seems that GreenTao_2-5-5_34500.cnf falls into a "grey area",
