@@ -1,3 +1,8 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat.c
+  \brief Flushing now always the output.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
