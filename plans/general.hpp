@@ -7,35 +7,36 @@ License, or any later version. */
 
 /*!
   \file OKlib/plans/general.hpp
-  \brief Plans for the OKlib-library which do not belong to a single module
+  \brief Plans for the library which do not belong to a single module
 
 
-  \todo "OKlib" instead of "OKlib"
+  \todo "OKlib" instead of "Transitional"
   <ul>
-   <li> Rename "OKlib" to "OKlib"
+   <li> Rename "Transitional" to "OKlib"
     <ol>
      <li> The process of replacement:
       <ol>
-       <li> DONE (not needed_
+       <li> DONE (not needed)
        The best would be a program which goes through all
-       files containing "OKlib", shows the line plus its
+       files containing "Transitional", shows the line plus its
        environment, and asks whether the occurrence should be replaced by
        "OKlib --- if not, then the filename is stored for later
        consideration. </li>
-       <li> Though the string "OKlib" is likely not used in any
+       <li> Though the string "Transitional" is likely not used in any
        other sense, so we could just do replacement without checking.
        <li>
+       In directory OKsystem:
        \verbatim
-for F in $(find OKlib -path OKlib/.git -prune -or -type f -not -name "*~" -not -name ".directory" -print); do \
-  sed --in-place 's/OKlib/OKlib/g' ${F}; done
+for F in $(find Transitional -path Transitional/.git -prune -or -type f -not -name "*~" -not -name ".directory" -print); do \
+  sed --in-place 's/Transitional/OKlib/g' ${F}; done
        \endverbatim
        does the job. </li>
       </ol>
      </li>
-     <li> Rename then Buildsystem/OKlib.mak -> OKlib.mak. </li>
-     <li> Rename the directory "OKlib" to "OKlib". </li>
+     <li> Rename then Buildsystem/Transitional.mak -> OKlib.mak. </li>
+     <li> Rename the directory "Transitional" to "OKlib". </li>
      <li> We store certain paths to the doxygen-created documentation, but
-     some paths change now, since the part "OKlib" in them is replaced
+     some paths change now, since the part "Transitional" in them is replaced
      by "OKlib". So we have to go through all the links. </li>
      <li> Of course, thorough checking afterwards.
       <ol>
@@ -44,7 +45,7 @@ for F in $(find OKlib -path OKlib/.git -prune -or -type f -not -name "*~" -not -
        \verbatim
 ExternalSources := path-to-old-external-sources
        \endverbatim
-       in New_OKplatformr/.oklib/override.mak.
+       in New_OKplatform/.oklib/override.mak.
        </li>
        <li> We need also to create a new package, and check whether it works.
        </li>
@@ -54,7 +55,7 @@ ExternalSources := path-to-old-external-sources
       </ol>
      </li>
      <li> Perhaps we should create a tag for the point just before
-     the replacement, calling it "OKlib_to_OKlib_rename_tag". </li>
+     the replacement, calling it "Transitional_to_OKlib_rename_tag". </li>
      <li> And perhaps best we freeze all changes for the time of transition.
      </li>
     </ol>
