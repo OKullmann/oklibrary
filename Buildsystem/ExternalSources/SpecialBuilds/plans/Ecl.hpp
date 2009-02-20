@@ -22,6 +22,7 @@ License, or any later version. */
   <ul>
    <li> Documentation is not included in the package, so we need
    to download it. </li>
+   <li> Creating then a wrapper Ecl.html (as CLisp.html). </li>
   </ul>
 
 */
