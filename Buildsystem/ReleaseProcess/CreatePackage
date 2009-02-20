@@ -16,7 +16,7 @@ else
   counter=00001
 fi
 
-package_name="OKlibrary-${transitional_version}_${counter}"
+package_name="OKlibrary-${oklib_version}_${counter}"
 package_directory=${packages_dir}/${package_name}
 package_OKplatform=${package_directory}/OKplatform
 
@@ -54,7 +54,7 @@ tar -cjf ${min_tar_package_name} ${package_name}
 
 cur_date=$(echo ${current_date} | tr --delete [:space:])
 cur_SHA=$(cd ${OKlib}; git log HEAD | head -1 | cut --fields=2 --delimiter=" ")
-record_begin="${counter} ${transitional_version} ${cur_SHA} ${cur_date}"
+record_begin="${counter} ${oklib_version} ${cur_SHA} ${cur_date}"
 
 printf "%s %s %s %s %s %s" ${record_begin} $(md5sum ${min_tar_package_name}) >> ${release_history_template}
 

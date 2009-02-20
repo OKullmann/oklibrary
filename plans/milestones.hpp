@@ -13,7 +13,6 @@ License, or any later version. */
 /*!
   \page CurrentVersions Current versions
 
-  - OKlib $(transitional_version_full)
   - OKlibrary $(oklib_version_full)
 */
 
@@ -250,13 +249,5 @@ License, or any later version. */
    - general cleaning-up of the whole library
    - many plans.
 
-*/
-
-/*!
-  \page VersionHistoryOKlibrary Version history OKlibrary
-
-  \par 0.0.1 3/3/2006
-
-  Initial version number (library basically empty).
 */
 
