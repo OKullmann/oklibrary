@@ -20,10 +20,10 @@ License, or any later version. */
 
 #include <boost/assign/list_of.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
     
 namespace OKlib {
   namespace SetAlgorithms {

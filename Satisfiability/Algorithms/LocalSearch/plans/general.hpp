@@ -37,7 +37,7 @@ License, or any later version. */
    </li>
    <li> Get rid off the temporary build-directory by adding
    \code
--I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
+-I- -I$(OKsystem)/OKlib/LocalSearch/Ubcsat/corrected
    \endcode
    to the build-compilation. (?) </li>
   </ol>

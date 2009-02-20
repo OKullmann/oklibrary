@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Generators.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Generators.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Generator
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/tests/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/tests/Generators.mac")$
 
 /* ****************
    * Random trees *

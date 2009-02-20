@@ -13,8 +13,8 @@ License, or any later version. */
 #ifndef INPUTOUTPUTTESTS_jGfD45
 #define INPUTOUTPUTTESTS_jGfD45
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
 

@@ -30,7 +30,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo See Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp
+  \todo See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
 
   \todo Write docus.

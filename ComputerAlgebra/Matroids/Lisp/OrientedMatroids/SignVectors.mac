@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVectors.mac");
+oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVectors.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVect
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* A "sign vector" is a list with entries in {-1,0,+1}.

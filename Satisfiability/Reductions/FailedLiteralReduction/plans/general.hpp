@@ -38,7 +38,7 @@ License, or any later version. */
   \todo Timestamp
   <ul>
    <li> The (old) OKsolver used a timestamp
-   (see Transitional/Programming/Utilities/TimeStamps/plans/general.hpp),
+   (see OKlib/Programming/Utilities/TimeStamps/plans/general.hpp),
    incremented with each new literal processed
    (attempting to find a failed literal), which was used in two ways:
    <ol>

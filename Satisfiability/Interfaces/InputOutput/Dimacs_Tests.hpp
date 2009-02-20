@@ -25,11 +25,11 @@ License, or any later version. */
 #include <boost/tuple/tuple.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
-#include <Transitional/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 namespace OKlib {
   namespace InputOutput {

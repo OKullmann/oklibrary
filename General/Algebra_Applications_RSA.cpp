@@ -20,10 +20,10 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
-#include <Transitional/General/Algebra_Models.hpp>
-#include <Transitional/General/Algorithms.hpp>
+#include <OKlib/General/Algebra_Models.hpp>
+#include <OKlib/General/Algorithms.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

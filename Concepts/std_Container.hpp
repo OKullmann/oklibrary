@@ -25,11 +25,11 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 #include <boost/static_assert.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Concepts/std_Basics.hpp>
-#include <Transitional/Concepts/std_Iterators.hpp>
-#include <Transitional/Concepts/Basics.hpp>
-#include <Transitional/traits/TypeTraits.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/std_Basics.hpp>
+#include <OKlib/Concepts/std_Iterators.hpp>
+#include <OKlib/Concepts/Basics.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
 
 namespace OKlib {
   namespace Concepts {

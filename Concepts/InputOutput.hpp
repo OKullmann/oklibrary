@@ -16,7 +16,7 @@ License, or any later version. */
 #include <ostream>
 //#include <istream>
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
 namespace OKlib {
   namespace Concepts {

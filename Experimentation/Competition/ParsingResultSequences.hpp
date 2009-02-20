@@ -17,10 +17,10 @@ License, or any later version. */
 #include <boost/filesystem/path.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Programming/Parsing/ParserBase.hpp>
+#include <OKlib/Programming/Parsing/ParserBase.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

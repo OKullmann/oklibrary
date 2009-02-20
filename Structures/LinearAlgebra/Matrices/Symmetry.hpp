@@ -20,7 +20,7 @@ License, or any later version. */
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 
-#include <Transitional/Combinatorics/traits/range_type.hpp>
+#include <OKlib/Combinatorics/traits/range_type.hpp>
 
 
 namespace OKlib {

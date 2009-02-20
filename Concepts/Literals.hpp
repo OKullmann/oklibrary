@@ -13,16 +13,16 @@ License, or any later version. */
 #ifndef LITERALS_JJhala7t4
 #define LITERALS_JJhala7t4
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Concepts/AtomicConditions.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Concepts/AtomicConditions.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/var.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/cond.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/set_cond.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/var.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/cond.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/set_cond.hpp>
 
 namespace OKlib {
   namespace Concepts {

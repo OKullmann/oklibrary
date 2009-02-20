@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 /* Computing the independence number of a graph via the Maxima function */
 independence_number_gr_m(G) := length(max_independent_set(g2mg(G)))$

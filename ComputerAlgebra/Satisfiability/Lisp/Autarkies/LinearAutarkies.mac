@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAutarkies.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAutarkies.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAut
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
 
 /* ********************
    * Basic operations *

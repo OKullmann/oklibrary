@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Structures/docus/general.hpp
+  \file OKlib/Structures/docus/general.hpp
   \brief Central docus-file for the part providing tools for statistical analysis (in general)
 
 

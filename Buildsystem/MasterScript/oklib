@@ -173,7 +173,7 @@ until [[ ${defining_dir} == ${top_dir} ]]; do
     echo ${command}
     ${command} 2>&1 | tee ${oklib_building_log}
     exit
-  elif [[ ${defining_base} == Transitional ]]; then
+  elif [[ ${defining_base} == OKlib ]]; then
     command="make OKplatform=${top_dir} $@"
     echo ${command}
     ${command} 2>&1 | tee ${oklib_building_log}

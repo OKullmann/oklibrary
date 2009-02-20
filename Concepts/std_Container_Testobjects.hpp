@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef STDCONTAINERTESTOBJECTS_6654ama
 #define STDCONTAINERTESTOBJECTS_6654ama
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/std_Container.hpp>
-#include <Transitional/Concepts/std_Container_Tests.hpp>
+#include <OKlib/Concepts/std_Container.hpp>
+#include <OKlib/Concepts/std_Container_Tests.hpp>
 
 namespace OKlib {
   namespace Concepts {

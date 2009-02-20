@@ -39,7 +39,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Move the content of Transitional/SATAlgorithms here : DONE
+  \todo Move the content of OKlib/SATAlgorithms here : DONE
 
 
   \todo Update namespaces : DONE

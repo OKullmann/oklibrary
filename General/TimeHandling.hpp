@@ -21,7 +21,7 @@ License, or any later version. */
 #include <sstream>
 #include <locale>
 
-#include <Transitional/General/StringHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
 
 namespace TimeHandling {
 

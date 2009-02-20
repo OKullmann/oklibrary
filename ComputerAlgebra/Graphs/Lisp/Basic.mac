@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
 
 /* ***********************

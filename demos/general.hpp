@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/demos/general.hpp
+  \file OKlib/demos/general.hpp
   \brief Entry page into the demos-system
 
 

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/OKsolver/plans/general.hpp
+  \file OKlib/OKsolver/plans/general.hpp
   \brief Plans for the deprecated module containing old experimental code
   \deprecated To be dissolved soon.
 
@@ -76,7 +76,7 @@ License, or any later version. */
        <li> Use the concept of a clause-set adaptor from
        Interfaces/InputOutput/ClauseSetAdaptors.hpp, instead of the concept
        of "F" as in function symmetric_conflict_number_to_SAT. </li>
-       <li> DONE Update the includes from Transitional/General. </li>
+       <li> DONE Update the includes from OKlib/General. </li>
        <li> DONE Remove the non-standard reference to macro "DEBUG". </li>
        <li> DONE Augment the include guard by a random string. </li>
       </ul>

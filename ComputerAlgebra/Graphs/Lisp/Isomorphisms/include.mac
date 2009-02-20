@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Isomorphisms/include.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac")$
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/tests/Homomorphisms.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Isomorphisms/tests/Homomorphisms.mac");
 
 /*!
 \endhtmlonly

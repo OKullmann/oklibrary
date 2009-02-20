@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Combinatorics/docus/general.hpp
+  \file OKlib/Combinatorics/docus/general.hpp
   \brief Main docus-file for the combinatorics part
 
 

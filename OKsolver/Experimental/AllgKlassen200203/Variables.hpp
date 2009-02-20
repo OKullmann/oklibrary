@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file OKsolver/Experimental/AllgKlassen200203/Variables.hpp
   \brief First approaches for models of concept Variables in the framework of the library
-  \deprecated To be moved (if appropriate) to Transitional.
+  \deprecated To be moved (if appropriate) to OKlib.
 */
 
 
@@ -29,17 +29,17 @@ License, or any later version. */
 #include <boost/shared_ptr.hpp>
 #include <boost/static_assert.hpp>
 
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/FunctionHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Concepts_Variables.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Concepts_Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
 
 // Only temporary, to still compile the old implementations:
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
 
 
 namespace Variables {

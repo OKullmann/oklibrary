@@ -7,9 +7,9 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/Programming/Iterators/ImplicitConversionsBoost_Testobjects.hpp>
+#include <OKlib/Programming/Iterators/ImplicitConversionsBoost_Testobjects.hpp>
 
 int main() {
 

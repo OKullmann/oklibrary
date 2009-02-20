@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef INCLUDEHANDLINGTESTOBJECTS_plmJJk
 #define INCLUDEHANDLINGTESTOBJECTS_plmJJk
 
-#include <Transitional/Programming/Refactoring/IncludeHandling.hpp>
-#include <Transitional/Programming/Refactoring/IncludeHandling_Tests.hpp>
+#include <OKlib/Programming/Refactoring/IncludeHandling.hpp>
+#include <OKlib/Programming/Refactoring/IncludeHandling_Tests.hpp>
 
 namespace OKlib {
   namespace Refactoring {

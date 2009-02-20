@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 /* Computing the chromatic number of a graph via the Maxima function: */
 /* RENAME: chromaticnumber_m_g */

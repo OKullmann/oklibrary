@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac");
 
 */
 
@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolv
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 
 weightingscheme_OKsolver2002(k) :=
   if k = 2 then 1

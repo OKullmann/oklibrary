@@ -14,7 +14,7 @@ License, or any later version. */
   \todo DONE Update namespaces.
 
 
-  \todo Move the related concepts and plans from Transitional/Concepts
+  \todo Move the related concepts and plans from OKlib/Concepts
   here.
 
 

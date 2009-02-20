@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reduc
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 /* *************************

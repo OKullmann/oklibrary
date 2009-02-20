@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Re
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
 
 kill(f)$
 

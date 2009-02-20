@@ -16,7 +16,7 @@ License, or any later version. */
    <li> In principle one can always generalise everything to hypergraphs,
    but in this module we consider the cases where graphs behave "special".
    </li>
-   <li> Yet, in Transitional/Combinatorics we have put also graph colouring
+   <li> Yet, in OKlib/Combinatorics we have put also graph colouring
    to the hypergraph module there; perhaps we should change this. </li>
   </ul>
 

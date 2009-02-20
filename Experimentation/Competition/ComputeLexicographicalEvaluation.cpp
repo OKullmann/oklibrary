@@ -20,8 +20,8 @@ License, or any later version. */
 #include <algorithm>
 #include <iostream>
 
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/LexicographicalEvaluation.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/LexicographicalEvaluation.hpp>
 
 namespace {
 

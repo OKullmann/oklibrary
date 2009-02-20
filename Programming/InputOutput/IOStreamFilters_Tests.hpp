@@ -26,8 +26,8 @@ License, or any later version. */
 #include <boost/assign/std/vector.hpp>
 #include <boost/assign/list_of.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

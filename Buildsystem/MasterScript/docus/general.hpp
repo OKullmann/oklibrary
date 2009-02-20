@@ -27,7 +27,7 @@ License, or any later version. */
      <li> If D contains a file "definitions.mak" then the generic
      makefile for compiling the components of the library is invoked
      (see Buildsystem/OKlibBuilding/docus/general.hpp). </li>
-     <li> If D is "Transitional" then a recursive makefile is invoked,
+     <li> If D is "OKlib" then a recursive makefile is invoked,
      calling the generic makefiles at lower levels. </li>
      <li> If D is "OKsystem" then another recursive makefile is invoked,
      this time designed to call different types of makefiles for

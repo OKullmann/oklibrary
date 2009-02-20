@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
 
 */
 
@@ -19,13 +19,13 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetri
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
 
 /* ****************************************
    * Isomorphism testing via backtracking *

@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 #define PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

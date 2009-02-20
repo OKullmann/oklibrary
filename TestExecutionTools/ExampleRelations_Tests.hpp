@@ -17,8 +17,8 @@ License, or any later version. */
 
 #include <boost/iterator/counting_iterator.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
 

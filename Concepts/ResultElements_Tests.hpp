@@ -17,13 +17,13 @@ License, or any later version. */
 #ifndef RESULTELEMENTTESTS_40098Ujk
 #define RESULTELEMENTTESTS_40098Ujk
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Concepts/Basics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/Basics_Tests.hpp>
 
-#include <Transitional/Concepts/ResultElements.hpp>
+#include <OKlib/Concepts/ResultElements.hpp>
 
 namespace OKlib {
   namespace Concepts {

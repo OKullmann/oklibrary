@@ -9,8 +9,8 @@ License, or any later version. */
 
 #define ALGORITHMS_TESTOBJECTS_agBBv310Olk
 
-#include <Transitional/General/Algorithms.hpp>
-#include <Transitional/General/Algorithms_Tests.hpp>
+#include <OKlib/General/Algorithms.hpp>
+#include <OKlib/General/Algorithms_Tests.hpp>
 
 namespace Algorithms_Testobjects {
 

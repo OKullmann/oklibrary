@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/testobjects/PartialAssignments.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/testobjects/PartialAssignments.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/testo
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/PartialAssignments.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/PartialAssignments.mac")$
 
 /* *******************************
    * Boolean partial assignments *

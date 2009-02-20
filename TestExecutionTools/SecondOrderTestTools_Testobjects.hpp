@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef SECONDORDERTESTTOOLSTESTOBJECTS_ooPLl9
 #define SECONDORDERTESTTOOLSTESTOBJECTS_ooPLl9
 
-#include <Transitional/TestExecutionTools/SecondOrderTestTools.hpp>
-#include <Transitional/TestExecutionTools/SecondOrderTestTools_Tests.hpp>
+#include <OKlib/TestExecutionTools/SecondOrderTestTools.hpp>
+#include <OKlib/TestExecutionTools/SecondOrderTestTools_Tests.hpp>
 
 namespace OKlib {
 

@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjects/LeanKernel.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjects/LeanKernel.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjec
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LeanKernel.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LeanKernel.mac")$
 
 okltest_lean_kernel_autfind_fcs(lean_kernel_autfind_fcs);
 

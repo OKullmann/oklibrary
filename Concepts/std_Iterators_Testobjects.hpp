@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef STDITERATORSTESTOBECTS_638usuDq
 #define STDITERATORSTESTOBECTS_638usuDq
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/std_Iterators.hpp>
-#include <Transitional/Concepts/std_Iterators_Tests.hpp>
+#include <OKlib/Concepts/std_Iterators.hpp>
+#include <OKlib/Concepts/std_Iterators_Tests.hpp>
 
 namespace OKlib {
 

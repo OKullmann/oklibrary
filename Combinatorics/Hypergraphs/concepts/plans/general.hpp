@@ -92,7 +92,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Move the related files from Transitional/Concepts here : DONE
+  \todo Move the related files from OKlib/Concepts here : DONE
 
 */
 

@@ -111,7 +111,7 @@ Options FollowSymLinks
    won't require making changes to Apache's configuration again. </li>
    <li> It appears the above step was previously documented as :
    \verbatim
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/Buildsystem/ReleaseProcess/httpd.conf /usr/local/apache2/conf/httpd.conf
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/OKlib/Buildsystem/ReleaseProcess/httpd.conf /usr/local/apache2/conf/httpd.conf
    \endverbatim
 
    Should "http.conf" be included in the repository (it isn't currently)?

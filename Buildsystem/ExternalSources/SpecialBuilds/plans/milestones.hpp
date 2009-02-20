@@ -15,7 +15,7 @@ License, or any later version. */
   and some updates)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Install the mmv package : DONE
     - Documentation
@@ -211,14 +211,14 @@ License, or any later version. */
   \par Version 0.2.6 (completion of general services, and installing SAT)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Complete documentation
     - Enable local/global installation for all packages
     - Organisation of links
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the
    following topics are handled:
     - Installing SAT solvers
 
@@ -307,7 +307,7 @@ License, or any later version. */
   \par Version 0.2.9
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Optimisation
 

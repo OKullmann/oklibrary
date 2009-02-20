@@ -25,8 +25,8 @@ License, or any later version. */
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
 
-#include <Transitional/traits/TypeTraitsContainer.hpp>
-#include <Transitional/Programming/MetaProgramming/TaggingPolymorphism.hpp>
+#include <OKlib/traits/TypeTraitsContainer.hpp>
+#include <OKlib/Programming/MetaProgramming/TaggingPolymorphism.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {

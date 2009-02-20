@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef VANDERWAERDENHYPERGRAPHTESTOBJECTSS_1U8VvT56
 #define VANDERWAERDENHYPERGRAPHTESTOBJECTSS_1U8VvT56
 
-#include <Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
-#include <Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph_Tests.hpp>
+#include <OKlib/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
+#include <OKlib/Applications/RamseyTheory/Van_der_Waerden_hypergraph_Tests.hpp>
 
 namespace OKlib {
   namespace Van_der_Waerden_hypergraph {

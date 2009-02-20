@@ -18,7 +18,7 @@
 set -o errexit -o nounset # -o xtrace
 shopt -s extglob
 
-licence_text_file=${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/Header.h
+licence_text_file=${OKPLATFORM}/OKsystem/OKlib/System/LegalIssues/Header.h
 
 if [ $# != 1 ]; then
   echo "ERROR[AddLicence1]: Exactly one input parameter is expected, the name of the file where the licence is to be inserted!"

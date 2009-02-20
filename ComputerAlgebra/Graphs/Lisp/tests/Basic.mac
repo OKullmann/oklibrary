@@ -12,7 +12,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac");
 
 */
 
@@ -20,11 +20,11 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 
 kill(f)$
 

@@ -52,7 +52,7 @@ ExternalSources/Installations/Postfix/postfix-2.4.5> sudo groupadd postfix
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo useradd postfix -s /bin/false -g postfix
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo groupadd postdrop
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo mkdir /etc/postfix
-ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cp ../../../../OKsystem/Transitional/BuildSystem/Configuration/ReleaseProcess/main.cf /etc/postfix/main.cf
+ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cp ../../../../OKsystem/OKlib/BuildSystem/Configuration/ReleaseProcess/main.cf /etc/postfix/main.cf
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo make upgrade
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo touch /etc/aliases
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo newaliases
@@ -62,7 +62,7 @@ ExternalSources/Installations/Postfix/postfix-2.4.5> sudo newaliases
    How to solve this?
    </li>
    \verbatim
-ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cat ../../../../OKsystem/Transitional/Buildsystem/Configuration/ReleaseProcess/syslog-ng.conf >>  /etc/syslog-ng/syslog-ng.conf
+ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cat ../../../../OKsystem/OKlib/Buildsystem/Configuration/ReleaseProcess/syslog-ng.conf >>  /etc/syslog-ng/syslog-ng.conf
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo syslog-ng restart
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo postfix start
    \endverbatim

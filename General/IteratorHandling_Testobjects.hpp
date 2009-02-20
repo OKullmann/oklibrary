@@ -9,8 +9,8 @@ License, or any later version. */
 
 #define ITERATORHANDLING_TESTOBJECTS_Lgabz319K
 
-#include <Transitional/General/IteratorHandling.hpp>
-#include <Transitional/General/IteratorHandling_Tests.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling_Tests.hpp>
 
 namespace IteratorHandling_Tests {
 

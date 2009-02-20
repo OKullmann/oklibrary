@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/plans/milestones.hpp
+  \file OKlib/Satisfiability/ProofSystems/plans/milestones.hpp
 
   \module_version Satisfiability/ProofSystems 0.0.3 (28.1.2008)
 
@@ -23,7 +23,7 @@ License, or any later version. */
     - Update namespaces : DONE
 
   \par
-   In Transitional/Satisfiability/ProofSystems/DPv/plans/general.hpp the
+   In OKlib/Satisfiability/ProofSystems/DPv/plans/general.hpp the
    following topics are handled:
     - Further development
   

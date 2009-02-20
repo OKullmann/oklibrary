@@ -20,8 +20,8 @@ License, or any later version. */
 #include <boost/concept_check.hpp>
 #include <boost/concept_archetype.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Concepts/std_Iterators.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
   namespace Concepts {

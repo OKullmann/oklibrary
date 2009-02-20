@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac");
+oklib_load("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 kill(f)$
 

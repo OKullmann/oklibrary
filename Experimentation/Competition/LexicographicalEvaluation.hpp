@@ -31,13 +31,13 @@ License, or any later version. */
 
 #include <boost/functional.hpp>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
-#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools.hpp>
 
-#include <Transitional/Experimentation/Competition/LexicographicalEvaluationPolicies.hpp>
+#include <OKlib/Experimentation/Competition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

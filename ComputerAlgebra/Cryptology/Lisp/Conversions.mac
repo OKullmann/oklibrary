@@ -12,7 +12,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 
 */
 
@@ -20,8 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /* Pads a string s to the left with character c until it is n characters in
    length: */

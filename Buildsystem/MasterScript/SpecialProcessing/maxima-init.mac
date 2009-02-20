@@ -82,7 +82,7 @@ define_variable(
    then are governed by oklib_load_annotation).
 */
 
-loadfile(sconcat(OKsystem,"/Transitional/ComputerAlgebra/MaximaInternals/optload.lisp"));
+loadfile(sconcat(OKsystem,"/OKlib/ComputerAlgebra/MaximaInternals/optload.lisp"));
 loadfile(sconcat(eis_directory_okl,"/eis.lisp"));
 
 oklib_load(name) := oklib_plain_load(sconcat(OKsystem,"/",name));
@@ -98,7 +98,7 @@ oklib_plain_include(name) := (
   load(name, oklib_load_annotation))
 );
 
-oklib_load_all() := oklib_load("Transitional/ComputerAlgebra/include.mac");
+oklib_load_all() := oklib_load("OKlib/ComputerAlgebra/include.mac");
 
 oklib_batch(name) := oklib_plain_batch(sconcat(OKsystem,"/",name));
 oklib_plain_batch(name) := (

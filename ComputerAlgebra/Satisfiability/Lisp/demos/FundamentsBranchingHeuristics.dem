@@ -11,11 +11,11 @@ License, or any later version. */
 
 Use by
 
-oklib_demo("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+oklib_demo("OKlib/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
 or
-oklib_batch("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+oklib_batch("OKlib/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
 or
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
 
 */
 
@@ -26,21 +26,21 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBra
 if oklib_test_demos then
  if oklib_test_demos_level < 3 then return()$
 
-oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 
 /* **************************************

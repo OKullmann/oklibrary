@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
   \brief Models of partial assignments
-  \deprecated To be moved (if appropriate) to Transitional.
+  \deprecated To be moved (if appropriate) to OKlib.
 */
 
 #ifndef PARTIALASSIGNMENTSWAECHTER
@@ -17,7 +17,7 @@ License, or any later version. */
 #include <map>
 #include <utility>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
 
 namespace PartialAssignments {
 

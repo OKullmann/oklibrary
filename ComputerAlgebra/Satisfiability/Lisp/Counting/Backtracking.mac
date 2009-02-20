@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracki
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 
 
 /* For a SAT solver S returning a splitting tree, return a function from

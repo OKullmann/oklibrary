@@ -27,7 +27,7 @@ License, or any later version. */
   \todo Edge-centered SAT encoding
   <ul>
    <li> See TransformationsBiclique.hpp and
-   Transitional/OKsolver/plans/general.hpp. </li>
+   OKlib/OKsolver/plans/general.hpp. </li>
   </ul>
 
 

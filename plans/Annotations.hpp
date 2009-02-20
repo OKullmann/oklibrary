@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/plans/Annotations.hpp
+  \file OKlib/plans/Annotations.hpp
   \brief Plans for the Annotations-part of the OKlibrary, where
   latex-documents are handled
 
@@ -16,16 +16,16 @@ License, or any later version. */
 
   \todo Partially moving repository Annotations:
   <ul>
-   <li> Some parts should move to Transitional, namely
+   <li> Some parts should move to OKlib, namely
     <ol>
      <li> "FullDocumentation" : DONE </li>
      <li> the latex-support (needs clean-up) </li>
     </ol>
-    Transitional/annotations shall be the basis for writing documents and even
+    OKlib/annotations shall be the basis for writing documents and even
     joint papers on the library.
    </li>
    <li> "History_OKsystem" seems obsolete, and should be removed. </li>
-   <li> "Release-1_0" perhaps should move (in some form) to Transitional/plans. </li>
+   <li> "Release-1_0" perhaps should move (in some form) to OKlib/plans. </li>
    <li> Research articles stay in the separate repository "Annotations" (only for internal
    use). </li>
   </ul>
@@ -35,7 +35,7 @@ License, or any later version. */
   <ul>
    <li> Latex macros need to be shared between several places:
     <ol>
-     <li> Transitional/Annotations </li>
+     <li> OKlib/Annotations </li>
      <li> The independent Annotations repository </li>
      <li> OK's own macros </li>
      <li> Other developers macros. </li>
@@ -55,7 +55,7 @@ License, or any later version. */
   <ul>
    <li> Bibtex-entries need to be shared between several places:
     <ol>
-     <li> Transitional/Annotations </li>
+     <li> OKlib/Annotations </li>
      <li> The independent Annotations repository </li>
      <li> OK's own bibtex-database </li>
      <li> Other developers bibtex-database. </li>
@@ -98,7 +98,7 @@ License, or any later version. */
    </li>
    <li> Since bibtex-entries typically don't need updates, the simplest
    solution is to have only minimal bibtex-information in
-   Transitional/Annotations, the rest in Annotations, and just
+   OKlib/Annotations, the rest in Annotations, and just
    to update the .bib-files if needed. No sharing with for examples OK's own
    bibtex-database.
    </li>

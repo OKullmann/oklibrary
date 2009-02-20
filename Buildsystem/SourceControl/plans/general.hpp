@@ -58,7 +58,7 @@ spellingprogram = /usr/bin/ispell
      <li> But there should be some "git full-clone" ? </li>
      <li> This could be achieved by a simple (file-system) "cp" ? </li>
      <li> Though this doesn't help for bare repositories. </li>
-     <li> The ignore patterns can be placed in Transitional/.gitignore and will 
+     <li> The ignore patterns can be placed in OKlib/.gitignore and will 
      apply over the entire repository. Such files can then be added and
      committed to the repository as normal. </li>
      <li> Such ".gitignore" files apply to all subdirectories, with 
@@ -97,8 +97,8 @@ spellingprogram = /usr/bin/ispell
   <ul>
    <li> Improvements of the automatic e-mail:
      <ol>
-      <li> The subject header "Transitional branch, master, updated." is
-      misleading: There is no branch "Transitional". </li>
+      <li> The subject header "OKlib branch, master, updated." is
+      misleading: There is no branch "OKlib". </li>
       <li> Further in the subject header:
       "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
       tag? </li>
@@ -141,7 +141,7 @@ index 5a6bfd2..2878d30 100644
                 # anything, so that we can issue a "no new revisions added by this 
       \endverbatim
       I have tested it using a simple test repository (having cloned 
-      Transitional from OKlib) and it seems to work as expected, producing a 
+      OKlib from OKlib) and it seems to work as expected, producing a 
       list of files at the end of each commit and their status (modified/added 
       etc) but not the number of lines changed. For example
       \verbatim
@@ -171,13 +171,13 @@ UNNAMED PROJECT
       Is this the desired behaviour or would it be better having the individual
       summary of changes for each commit, like so
       \verbatim
-Transitional $ git log --stat -r HEAD^^..HEAD | cat              
+OKlib $ git log --stat -r HEAD^^..HEAD | cat              
 commit a3f2b3278f915ded654deae8f93e12679ba392f4
 Merge: 7197813... 13d1f7f...
 Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
 Date:   Sat Sep 29 19:20:30 2007 +0100
 
-    Merge branch 'master' of /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/Transitional/
+    Merge branch 'master' of /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/OKlib/
 
 commit 71978130099627902c7e8146783ddfa6c61e6be1
 Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
@@ -213,9 +213,9 @@ Date:   Fri Sep 28 19:08:42 2007 +0100
  3 files changed, 2 insertions(+), 2 deletions(-)
 
       \endverbatim
-      This has been added to the Transitional and Annotations repositories. 
+      This has been added to the OKlib and Annotations repositories. 
       </li>
-      <li> Replace "[SCM]" by "[OKlibrary::Transitional]". DONE </li>
+      <li> Replace "[SCM]" by "[OKlibrary::OKlib]". DONE </li>
      </ol>
    </li>
    <li> DONE (to be put to the documentation)
@@ -225,11 +225,11 @@ git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthe
    \endverbatim
    </li>
    <li> DONE (to be put to the documentation)
-   To have the name Transitional appear in the email subject it is necessary to
-   modify the file /work/Repositories/Git/bare/Transitional/description so that
+   To have the name OKlib appear in the email subject it is necessary to
+   modify the file /work/Repositories/Git/bare/OKlib/description so that
    it contains the single line 
    \verbatim
-OKlib::Transitional  
+OKlib::OKlib  
    \endverbatim
    </li>
    <li> DONE (put under version control in Configuration/SourceControl; after an
@@ -237,10 +237,10 @@ OKlib::Transitional
    Should we use a link instead of replacing the original post-receive script?
    (OK: a link to what?)
    (MH: My intention was that the script would also be under version control. For
-   example, it could be in Transitional/Buildsystem/post-receive-email and then
-   the Transitional bare repository on cs-oksvr has a link 
+   example, it could be in OKlib/Buildsystem/post-receive-email and then
+   the OKlib bare repository on cs-oksvr has a link 
    \verbatim
-/work/Repositories/Git/bare/Transitional/hooks/post-receive-email --> /work/Repositories/Git/Transitional/Buildsystem/post-receive-email
+/work/Repositories/Git/bare/OKlib/hooks/post-receive-email --> /work/Repositories/Git/OKlib/Buildsystem/post-receive-email
    \endverbatim
    But this isn't possible because then we always have to update the clone, or?
    OK: It seems saver to me to have a copy in the shared repositories, but
@@ -252,7 +252,7 @@ OKlib::Transitional
    As an intermediate solution we copy a modified version of the script
    "contrib/hooks/post-receive-email" toboth
    /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and
-   /work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
+   /work/Repositories/Git/bare/OKlib/hooks/post-receive-email.
    </li>
    <li> DONE (replaced by the solution via the (much) more advanced Git-script)
    Simple solution: In the shared repository the file
@@ -339,11 +339,11 @@ git config remote.origin.url
      <li> On csltok I have a copy of a clone of a repository on cs-wsok;
      now when trying to push to it remotely, the following happens:
      \verbatim
-> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
+> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/OKlib
 Password:
 bash: git-receive-pack: command not found
 fatal: The remote end hung up unexpectedly
-error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
+error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/OKlib'
      \endverbatim
      What's wrong here?? The command is there:
      \verbatim
@@ -354,14 +354,14 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      repository from cs-wsok. </li>
      <li> The solutions for "pull" is
      \verbatim
-Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
+OKlib> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-OKlib master
      \endverbatim
      Here the upload-pack-address is on the machine from which we pull.
      </li>
      <li> This might also to be used for "git clone". </li>
      <li> For "push" the following works:
      \verbatim
-Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
+OKlib> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-OKlib master
      \endverbatim
      (again, the receive-pack-address is on the receiving machine). </li>
     </ol>
@@ -371,19 +371,19 @@ Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSour
 
   \todo Tagging
   <ul>
-   <li> When advancing the version of Transitional, we should create a tag:
+   <li> When advancing the version of OKlib, we should create a tag:
     <ol>
      <li> "git tag": A tag is just a mark for a commit;
      so when committing the central milestones-file with the new version number,
-     thereafter a tag "Transitional_?.?.?" should be created. </li>
+     thereafter a tag "OKlib_?.?.?" should be created. </li>
      <li> This tag is only a light-weight tag: For releases a "full tag" with
      GPG-signature should be used. </li>
      <li> Or perhaps we should use such a "full tag" for every new version
-     of Transitional --- in this way we also make sure that the tag always
+     of OKlib --- in this way we also make sure that the tag always
      gets transmitted (via push or pull)! Better in this way. </li>
      <li> With
      \verbatim
-git tag -m "FIRST RELEASE" -a Transitional-0.2.0
+git tag -m "FIRST RELEASE" -a OKlib-0.2.0
      \endverbatim
      we can create a non-lightweight tag which doesn't need a gpg-signature.
      Apparently the last commit is tagged.
@@ -440,9 +440,9 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
    </li>
    <li> Combining different repositories:
    <ul>
-    <li> Accidentally, from the Transitional-repository I pulled the
+    <li> Accidentally, from the OKlib-repository I pulled the
     Annotations-repository --- and it worked: It merged the complete history of
-    the Annotations-files and -directories into the Transitional-directory.
+    the Annotations-files and -directories into the OKlib-directory.
     </li>
     <li> Problematic only that it moved everything to the top-level: How can we
     achieve that they all are moved to some sub-directory? The git-pull
@@ -453,7 +453,7 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
 git mv file1 file2 dir1 dir2 Annotations
     \endverbatim
     to this subdirectory (with a subsequent "git commit"), and then with pulling
-    from this directory we get all files into Transitional (with new part
+    from this directory we get all files into OKlib (with new part
     "Annotations"). The problem here is that the history gets interrupted. </li>
     <li> The solution (from
     http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html)
@@ -554,9 +554,9 @@ git remote rm Bproject
      </li>
      <li> Optimally there is just one repository
      for the whole library (containing the current three repositories
-     Annotations, OKlibrary, Transitional, and the new (sub-)repositories
+     Annotations, OKlibrary, OKlib, and the new (sub-)repositories
      ExternalSources and Overview). Then we need the possibility to restrict
-     access to parts of the repository (so that annotations and Transitional
+     access to parts of the repository (so that annotations and OKlib
      are not public). </li>
      <li> A problem is, that Annotations currently has public as well as
      non-public parts; likely this needs to be separated. </li>
@@ -613,60 +613,60 @@ git remote rm Bproject
      <li> 14.6.2007: 4.2 MB </li>
      <li> 17.6.2007: 4.2 MB </li>
      <li> 21.6.2007: 4.2 MB </li>
-     <li> 23.6.2007; 4.3 MB; Transitional total: 15.3 MB </li>
-     <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
-     <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
-     <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
-     <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
-     <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
-     <li> 3.7.2007: 4.6 MB; Transitional total: 15.9 MB </li>
-     <li> 8.7.2007: 4.6 MB; Transitional total: 15.9 MB </li>
-     <li> 11.7.2007: 4.7 MB; Transitional total: 16.1 MB </li>
-     <li> 14.7.2007: 4.8 MB; Transitional total: 16.2 MB </li>
-     <li> 19.7.2007: 4.9 MB; Transitional total: 16.3 MB </li>
-     <li> 26.7.2007: 5.0 MB; Transitional total: 16.5 MB </li>
-     <li> 29.7.2007: 5.0 MB; Transitional total: 16.5 MB </li>
-     <li> 1.8.2007: 5.0 MB; Transitional total: 16.6 MB </li>
-     <li> 10.8.2007: 5.1 MB; Transitional total: 16.7 MB </li>
-     <li> 18.8.2007: 5.2 MB; Transitional total: 17.0 MB </li>
-     <li> 22.8.2007: 5.3 MB; Transitional total: 16.9 MB </li>
-     <li> 22.8.2007: 5.3 MB; Transitional total: 16.9 MB </li>
-     <li> 25.8.2007: 5.4 MB; Transitional total: 17.3 MB </li>
-     <li> 4.9.2007: 5.4 MB; Transitional total: 17.5 MB;
-     after "git gc --aggressive": 5.3 MB; Transitional total: 17.3 MB </li>
-     <li> 11.9.2007: 5.4 MB; Transitional total: 17.5 MB;
+     <li> 23.6.2007; 4.3 MB; OKlib total: 15.3 MB </li>
+     <li> 24.6.2007; 4.3 MB; OKlib total: 15.4 MB </li>
+     <li> 26.6.2007: 4.3 MB; OKlib total: 15.4 MB </li>
+     <li> 27.6.2007: 4.4 MB; OKlib total: 15.4 MB </li>
+     <li> 29.6.2007: 4.4 MB; OKlib total: 15.6 MB </li>
+     <li> 1.7.2007: 4.5 MB; OKlib total: 15.7 MB </li>
+     <li> 3.7.2007: 4.6 MB; OKlib total: 15.9 MB </li>
+     <li> 8.7.2007: 4.6 MB; OKlib total: 15.9 MB </li>
+     <li> 11.7.2007: 4.7 MB; OKlib total: 16.1 MB </li>
+     <li> 14.7.2007: 4.8 MB; OKlib total: 16.2 MB </li>
+     <li> 19.7.2007: 4.9 MB; OKlib total: 16.3 MB </li>
+     <li> 26.7.2007: 5.0 MB; OKlib total: 16.5 MB </li>
+     <li> 29.7.2007: 5.0 MB; OKlib total: 16.5 MB </li>
+     <li> 1.8.2007: 5.0 MB; OKlib total: 16.6 MB </li>
+     <li> 10.8.2007: 5.1 MB; OKlib total: 16.7 MB </li>
+     <li> 18.8.2007: 5.2 MB; OKlib total: 17.0 MB </li>
+     <li> 22.8.2007: 5.3 MB; OKlib total: 16.9 MB </li>
+     <li> 22.8.2007: 5.3 MB; OKlib total: 16.9 MB </li>
+     <li> 25.8.2007: 5.4 MB; OKlib total: 17.3 MB </li>
+     <li> 4.9.2007: 5.4 MB; OKlib total: 17.5 MB;
+     after "git gc --aggressive": 5.3 MB; OKlib total: 17.3 MB </li>
+     <li> 11.9.2007: 5.4 MB; OKlib total: 17.5 MB;
      (from now on always "git gc --aggressive" performed
      before measurement) </li>
-     <li> 16.9.2007; 5.8 MB; Transitional total: 18.6 MB </li>
-     <li> 23.9.2007; 6.0 MB; Transitional total: 19.2 MB </li>
-     <li> 26.9.2007; 6.1 MB; Transitional total: 19.5 MB </li>
-     <li> 7.10.2007; 6.2 MB; Transitional total: 19.7 MB </li>
-     <li> 13.10.2007; 6.3 MB; Transitional total: 19.9 MB </li>
-     <li> 11.11.2007; 6.3 MB; Transitional total: 20.1 MB </li>
-     <li> 26.11.2007; 6.5 MB; Transitional total: 20.4 MB </li>
-     <li> 15.12.2007; 6.7 MB; Transitional total: 20.9 MB </li>
-     <li> 19.12.2007; 6.8 MB; Transitional total: 21.2 MB </li>
-     <li> 4.1.2008; 7.0 MB; Transitional total: 21.6 MB </li>
-     <li> 24.1.2008; 7.2 MB; Transitional total: 22.1 MB </li>
-     <li> 13.2.2008; 7.8 MB; Transitional total: 23.1 MB
+     <li> 16.9.2007; 5.8 MB; OKlib total: 18.6 MB </li>
+     <li> 23.9.2007; 6.0 MB; OKlib total: 19.2 MB </li>
+     <li> 26.9.2007; 6.1 MB; OKlib total: 19.5 MB </li>
+     <li> 7.10.2007; 6.2 MB; OKlib total: 19.7 MB </li>
+     <li> 13.10.2007; 6.3 MB; OKlib total: 19.9 MB </li>
+     <li> 11.11.2007; 6.3 MB; OKlib total: 20.1 MB </li>
+     <li> 26.11.2007; 6.5 MB; OKlib total: 20.4 MB </li>
+     <li> 15.12.2007; 6.7 MB; OKlib total: 20.9 MB </li>
+     <li> 19.12.2007; 6.8 MB; OKlib total: 21.2 MB </li>
+     <li> 4.1.2008; 7.0 MB; OKlib total: 21.6 MB </li>
+     <li> 24.1.2008; 7.2 MB; OKlib total: 22.1 MB </li>
+     <li> 13.2.2008; 7.8 MB; OKlib total: 23.1 MB
      (quite a jump?) </li>
-     <li> 28.2.2008; 8.0 MB; Transitional total: 23.3 MB </li>
-     <li> 29.3.2008; 8.3 MB; Transitional total: 23.9 MB </li>
-     <li> 7.5.2008; 8.7 MB; Transitional total: 24.8 MB </li>
-     <li> 24.5.2008; 8.9 MB; Transitional total: 25.4 MB </li>
-     <li> 8.6.2008; 9.1 MB; Transitional total: 25.9 MB </li>
-     <li> 27.6.2008; 9.5 MB; Transitional total: 26.6 MB </li>
-     <li> 13.7.2008; 9.8 MB; Transitional total: 27.2 MB </li>
-     <li> 5.8.2008; 10.1 MB; Transitional total: 28.0 MB </li>
-     <li> 26.8.2008; 10.0 MB; Transitional total: 28.0 MB (perhaps git version
+     <li> 28.2.2008; 8.0 MB; OKlib total: 23.3 MB </li>
+     <li> 29.3.2008; 8.3 MB; OKlib total: 23.9 MB </li>
+     <li> 7.5.2008; 8.7 MB; OKlib total: 24.8 MB </li>
+     <li> 24.5.2008; 8.9 MB; OKlib total: 25.4 MB </li>
+     <li> 8.6.2008; 9.1 MB; OKlib total: 25.9 MB </li>
+     <li> 27.6.2008; 9.5 MB; OKlib total: 26.6 MB </li>
+     <li> 13.7.2008; 9.8 MB; OKlib total: 27.2 MB </li>
+     <li> 5.8.2008; 10.1 MB; OKlib total: 28.0 MB </li>
+     <li> 26.8.2008; 10.0 MB; OKlib total: 28.0 MB (perhaps git version
      1.6.0 uses a bit less space?) </li>
-     <li> 27.9.2008; 10.3 MB; Transitional total: 28.6 MB </li>
-     <li> 1.11.2008; 10.3 MB; Transitional total: 28.7 MB </li>
-     <li> 22.11.2008; 10.4 MB; Transitional total: 28.9 MB </li>
-     <li> 6.1.2009; 10.7 MB; Transitional total: 29.7 MB </li>
-     <li> 30.1.2009; 11.2 MB; Transitional total: 30.5 MB (perhaps the
+     <li> 27.9.2008; 10.3 MB; OKlib total: 28.6 MB </li>
+     <li> 1.11.2008; 10.3 MB; OKlib total: 28.7 MB </li>
+     <li> 22.11.2008; 10.4 MB; OKlib total: 28.9 MB </li>
+     <li> 6.1.2009; 10.7 MB; OKlib total: 29.7 MB </li>
+     <li> 30.1.2009; 11.2 MB; OKlib total: 30.5 MB (perhaps the
      removal of some branches actually increased the size?) </li>
-     <li> 20.2.2009; 11.5 MB; Transitional total: 30.9 MB </li>
+     <li> 20.2.2009; 11.5 MB; OKlib total: 30.9 MB </li>
     </ol>
    </li>
   </ul>

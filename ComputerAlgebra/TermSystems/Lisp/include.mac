@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/TermSystems/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/TermSystems/Lisp/include.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/TermSystems/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TermSystems/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/TermSystems/Lisp/Conversions.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/TermSystems/Lisp/tests/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/TermSystems/Lisp/tests/Conversions.mac")$
 
 /*!
 \endhtmlonly

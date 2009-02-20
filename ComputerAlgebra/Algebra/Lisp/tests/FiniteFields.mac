@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 
 kill(f)$
 

@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/RamseyProblems.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/RamseyProblems.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 
 okltest_ramsey2_ofcs(ramsey2_ofcs);
 okltest_ramsey_symbr2_cs(ramsey_symbr2_cs);

@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/testobjects/Numbers.mac");
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/testobjects/Numbers.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/testobjects/Nu
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
-oklib_include("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
 
 okltest_ramsey_number(ramsey_number);
 

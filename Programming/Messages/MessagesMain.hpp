@@ -33,7 +33,7 @@ License, or any later version. */
 #include <boost/preprocessor/seq/to_tuple.hpp>
 #include <boost/preprocessor/tuple/to_list.hpp>
 
-#include <Transitional/Programming/Messages/MessagesBase.hpp>
+#include <OKlib/Programming/Messages/MessagesBase.hpp>
 // this is guaranteed to be included
 
 namespace OKlib {

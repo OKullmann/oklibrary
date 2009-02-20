@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/include.mac");
 
 */
 
@@ -19,12 +19,12 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/include.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
 
 /*!
 \endhtmlonly

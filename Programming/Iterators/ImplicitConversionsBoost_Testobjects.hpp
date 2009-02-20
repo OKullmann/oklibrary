@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef IMPLICITCONVERSIONSBOOSTTESTOBJECTS_99855rT
 #define IMPLICITCONVERSIONSBOOSTTESTOBJECTS_99855rT
 
-#include <Transitional/Programming/Iterators/ImplicitConversionsBoost.hpp>
-#include <Transitional/Programming/Iterators/ImplicitConversionsBoost_Tests.hpp>
+#include <OKlib/Programming/Iterators/ImplicitConversionsBoost.hpp>
+#include <OKlib/Programming/Iterators/ImplicitConversionsBoost_Tests.hpp>
 
 namespace OKlib {
   namespace Iterators {

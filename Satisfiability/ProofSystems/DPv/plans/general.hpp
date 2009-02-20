@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/plans/general.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/plans/general.hpp
   \brief Old module for components around the DP-procedure
   \deprecated
 

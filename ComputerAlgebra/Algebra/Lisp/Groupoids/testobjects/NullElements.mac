@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/NullElements.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/NullElements.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Null
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NullElements.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/NullElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NullElements.mac")$
 
 okltest_leftnull_el_grd(leftnull_el_grd);
 okltest_rightnull_el_grd(rightnull_el_grd);

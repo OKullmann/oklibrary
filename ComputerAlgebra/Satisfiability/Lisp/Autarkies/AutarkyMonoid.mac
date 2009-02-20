@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/AutarkyMonoid.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/AutarkyMonoid.mac");
 
 */
 
@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/AutarkyMo
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 
 
 /* The autarky monoid is computed by M = autmon_cs(F), while the set of 

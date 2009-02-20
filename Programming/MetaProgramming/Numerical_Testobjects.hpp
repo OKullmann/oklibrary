@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef NUMERICALTESTOBJECTS_uHnBfqpq
 #define NUMERICALTESTOBJECTS_uHnBfqpq
 
-#include <Transitional/Programming/MetaProgramming/Numerical.hpp>
-#include <Transitional/Programming/MetaProgramming/Numerical_Tests.hpp>
+#include <OKlib/Programming/MetaProgramming/Numerical.hpp>
+#include <OKlib/Programming/MetaProgramming/Numerical_Tests.hpp>
 
 namespace OKlib {
   namespace MetaProgramming {

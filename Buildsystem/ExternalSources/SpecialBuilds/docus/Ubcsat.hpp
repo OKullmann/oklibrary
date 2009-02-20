@@ -121,7 +121,7 @@ $(ubcsat_include_option_okl)
    if not already overwritten by a localised version, the corrected files (while
    the other files are taken from the original sources). </li>
    <li> And the main header file for the Ubcsat-library is
-   Transitional/LocalSearch/Ubcsat/local/ubcsat.h. </li>
+   OKlib/LocalSearch/Ubcsat/local/ubcsat.h. </li>
   </ul>
 
 

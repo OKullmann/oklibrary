@@ -20,12 +20,12 @@ License, or any later version. */
 
 #include <boost/timer.hpp>
 
-#include <Transitional/General/TimeHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
 
-#include <Transitional/TestSystem/messages/TestExceptions.hpp>
+#include <OKlib/TestSystem/messages/TestExceptions.hpp>
 
-#include <Transitional/TestSystem/RunTest_Declarations.hpp>
-#include <Transitional/TestSystem/messages/RunTest.hpp>
+#include <OKlib/TestSystem/RunTest_Declarations.hpp>
+#include <OKlib/TestSystem/messages/RunTest.hpp>
 
 namespace OKlib {
 

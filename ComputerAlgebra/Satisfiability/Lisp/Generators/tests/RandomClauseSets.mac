@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Ra
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 kill(f)$
 

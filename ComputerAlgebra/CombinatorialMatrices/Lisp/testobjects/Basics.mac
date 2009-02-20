@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/Basics.mac");
+oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/Basics.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
 
 /* *****************
    * Basic notions *

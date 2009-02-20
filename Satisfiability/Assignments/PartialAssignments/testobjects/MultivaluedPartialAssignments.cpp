@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#include <Transitional/Satisfiability/Assignments/PartialAssignments/tests/MultivaluedPartialAssignments.hpp>
+#include <OKlib/Satisfiability/Assignments/PartialAssignments/tests/MultivaluedPartialAssignments.hpp>
 
 namespace {
 

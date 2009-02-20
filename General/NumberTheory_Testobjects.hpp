@@ -9,8 +9,8 @@ License, or any later version. */
 
 #define NUMBERTHEORYTESTOBJECTS_dkknNnR43
 
-#include <Transitional/General/NumberTheory_Concept_test.hpp>
-#include <Transitional/General/NumberTheory_Models.hpp>
+#include <OKlib/General/NumberTheory_Concept_test.hpp>
+#include <OKlib/General/NumberTheory_Models.hpp>
 
 namespace NumberTheory_Testobjects {
 

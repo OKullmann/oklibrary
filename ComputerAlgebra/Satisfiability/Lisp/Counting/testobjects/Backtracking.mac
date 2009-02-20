@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Backtracking.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Backtracking.mac");
 
 */
 
@@ -18,9 +18,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobject
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 okltest_satprob(lambda([F],satprob_dll_simplest_trivial1(cs_to_fcs(F))));
 

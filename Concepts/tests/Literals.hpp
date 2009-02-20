@@ -13,10 +13,10 @@ License, or any later version. */
 #ifndef LITERALSTESTS_jjgdgtet4TyTr
 #define LITERALSTESTS_jjgdgtet4TyTr
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Concepts/Literals.hpp>
+#include <OKlib/Concepts/Literals.hpp>
 
 namespace OKlib {
   namespace Concepts {

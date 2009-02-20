@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/OKsolver/Experimental/AllgKlassen200203/Test.cpp
+  \file OKlib/OKsolver/Experimental/AllgKlassen200203/Test.cpp
   \brief Test old experimental classes
   \deprecated Old code
 */
@@ -25,30 +25,30 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 #include <boost/static_assert.hpp>
 
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
-#include <Transitional/General/Matrices.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/FunctionHandling.hpp>
-#include <Transitional/General/Algorithms.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
+#include <OKlib/General/Matrices.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
+#include <OKlib/General/Algorithms.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Literals.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/LitSets.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Clauses.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ClauseSets.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/OutputCls.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/InputCls.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Domains.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/SetsOfVariables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Literals.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/LitSets.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Clauses.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ClauseSets.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/OutputCls.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/InputCls.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Domains.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/SetsOfVariables.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Tests_General.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Tests_Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Tests_General.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Tests_Variables.hpp>
 
 using namespace std;
 

@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef TRIVIALVARIABLESTESTOBJECTS_90845TgH
 #define TRIVIALVARIABLESTESTOBJECTS_90845TgH
 
-#include <Transitional/Concepts/Variables_Tests.hpp>
+#include <OKlib/Concepts/Variables_Tests.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables_Tests.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/TrivialVariables_Tests.hpp>
 
 namespace OKlib {
   namespace Variables {

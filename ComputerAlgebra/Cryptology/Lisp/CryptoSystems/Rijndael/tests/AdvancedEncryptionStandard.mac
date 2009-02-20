@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 

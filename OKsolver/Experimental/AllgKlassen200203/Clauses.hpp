@@ -10,7 +10,7 @@ License, or any later version. */
 
 #include <set>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
 
 namespace Clauses {
 

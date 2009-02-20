@@ -9,11 +9,11 @@ License, or any later version. */
   \file AtomicConditions/testobjects/TrivialAtomicConditions.cpp
 */
 
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
 
-#include <Transitional/Concepts/tests/AtomicConditions.hpp>
+#include <OKlib/Concepts/tests/AtomicConditions.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
 namespace {
 

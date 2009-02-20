@@ -17,7 +17,7 @@ test_program :=
 
 programs := HashMD5
 
-source_libraries = -I$(OKsystem)/Transitional/Structures/Cryptology/Mhash/corrected $(Mhash_include)
+source_libraries = -I$(OKsystem)/OKlib/Structures/Cryptology/Mhash/corrected $(Mhash_include)
 
 link_libraries := -L$(Mhash)/lib -lmhash -Wl,-rpath,$(Mhash)/lib 
 

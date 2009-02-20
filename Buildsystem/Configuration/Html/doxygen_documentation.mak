@@ -7,7 +7,7 @@
 
 # Specific settings for the doxygen system
 
-doxygen_project_name ?= "OKlibrary:Transitional"
+doxygen_project_name ?= "OKlibrary:OKlib"
 doxygen_project_number_okl ?= $(transitional_version)
 
 doxy_file_template ?= $(OKconfiguration)/Html/Doxyfile

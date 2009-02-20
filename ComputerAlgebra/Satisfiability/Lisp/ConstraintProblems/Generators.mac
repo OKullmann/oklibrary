@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Generators.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Generators.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac");
 
 /* ************
    * n Queens *

@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for atomic conditions
 
 
-  \todo Move concepts from Transitional/Concepts here.
+  \todo Move concepts from OKlib/Concepts here.
 
 
   \todo Update code w.r.t. new namespaces.

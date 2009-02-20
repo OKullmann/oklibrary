@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef PARSERBASETESTOBJECTS_74719nHap
 #define PARSERBASETESTOBJECTS_74719nHap
 
-#include <Transitional/Programming/Parsing/ParserBase.hpp>
-#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
+#include <OKlib/Programming/Parsing/ParserBase.hpp>
+#include <OKlib/Programming/Parsing/ParserBase_Tests.hpp>
 
 namespace OKlib {
   namespace Parser {

@@ -27,7 +27,7 @@ License, or any later version. */
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/property_map.hpp>
 
-#include <Transitional/General/Combinatorics.hpp>
+#include <OKlib/General/Combinatorics.hpp>
 
 namespace OKlib {
   namespace HypergraphColouring {

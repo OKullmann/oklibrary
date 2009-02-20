@@ -18,7 +18,7 @@ License, or any later version. */
     - Update the module according to OK's SAT-Handbook article
     - What are the relations to module "Projections"
     - Update namespaces : DONE
-    - Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp to here : DONE
+    - Move OKlib/Statistics/plans/TimeSeriesAnalysis.hpp to here : DONE
 
   \par
    Further milestones are created.

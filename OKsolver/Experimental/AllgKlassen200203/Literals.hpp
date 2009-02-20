@@ -17,8 +17,8 @@ License, or any later version. */
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
 
 namespace Literals {
 

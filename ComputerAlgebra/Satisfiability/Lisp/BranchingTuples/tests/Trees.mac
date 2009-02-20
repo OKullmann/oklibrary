@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tes
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
 
 kill(f)$
 

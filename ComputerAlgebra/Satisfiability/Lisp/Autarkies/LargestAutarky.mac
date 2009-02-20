@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAutarky.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAutarky.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAu
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 /* Given a partial assignment phi and clause-set F, compute the largest
    autarky for F which is contained in phi. */

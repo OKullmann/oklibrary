@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac");
 
 */
 
@@ -19,14 +19,14 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac"
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/include.mac")$
 
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Isomorphisms.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Isomorphisms.mac")$
 
 
 /*!

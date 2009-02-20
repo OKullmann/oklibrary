@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 #define LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 
-#include <Transitional/Experimentation/Competition/LexicographicalEvaluation.hpp>
-#include <Transitional/Experimentation/Competition/LexicographicalEvaluation_Tests.hpp>
+#include <OKlib/Experimentation/Competition/LexicographicalEvaluation.hpp>
+#include <OKlib/Experimentation/Competition/LexicographicalEvaluation_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef TEST_GENERICBACKTRACKING_kkabzcre
 #define TEST_GENERICBACKTRACKING_kkabzcre
 
-#include <Transitional/Satisfiability/Algorithms/Backtracking/GenericBacktracking.hpp>
+#include <OKlib/Satisfiability/Algorithms/Backtracking/GenericBacktracking.hpp>
 
 namespace OKlib {
   namespace SATAlgorithms {

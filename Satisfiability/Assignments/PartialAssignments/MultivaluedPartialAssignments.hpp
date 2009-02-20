@@ -23,7 +23,7 @@ License, or any later version. */
 
 #include <boost/static_assert.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
+#include <OKlib/Concepts/Variables.hpp>
 
 namespace OKlib {
   namespace PartialAssignments {

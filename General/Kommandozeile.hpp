@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file General/Kommandozeile.hpp
   \brief Header file for the old program-options-scaffolding.
-  \deprecated To be dissolved in module Transitional/ProgramOptions.
+  \deprecated To be dissolved in module OKlib/ProgramOptions.
 */
 
 // Name: Kommandozeile.hpp

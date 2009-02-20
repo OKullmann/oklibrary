@@ -15,7 +15,7 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/Programming/Messages/MessagesBase.hpp>
+#include <OKlib/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {

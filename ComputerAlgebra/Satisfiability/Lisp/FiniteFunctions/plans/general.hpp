@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections to other modules
   <ul>
    <li> See
-   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
    <li> Links within part ComputerAlgebra:
     <ol>
      <li> We have something in Cryptology (MG). </li>

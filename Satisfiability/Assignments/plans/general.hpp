@@ -11,7 +11,7 @@ License, or any later version. */
   implementations.
 
 
-  \todo Move the Transitional/Concepts/plans/Assignments.hpp here.
+  \todo Move the OKlib/Concepts/plans/Assignments.hpp here.
 
 */
 

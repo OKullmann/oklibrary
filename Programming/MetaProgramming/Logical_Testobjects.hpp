@@ -14,8 +14,8 @@ License, or any later version. */
 #ifndef LOGICALTESTOBJECTS_847ncVb
 #define LOGICALTESTOBJECTS_847ncVb
 
-#include <Transitional/Programming/MetaProgramming/Logical.hpp>
-#include <Transitional/Programming/MetaProgramming/Logical_Tests.hpp>
+#include <OKlib/Programming/MetaProgramming/Logical.hpp>
+#include <OKlib/Programming/MetaProgramming/Logical_Tests.hpp>
 
 namespace OKlib {
   namespace MetaProgramming {

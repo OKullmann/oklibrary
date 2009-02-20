@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef ANALYSISTOOLSTESTOBJECTS_010uJn
 #define ANALYSISTOOLSTESTOBJECTS_010uJn
 
-#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools_Tests.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

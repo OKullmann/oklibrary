@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/docus/general.hpp
+  \file OKlib/docus/general.hpp
   \brief The central docus-file for the library
 
 
@@ -27,7 +27,7 @@ License, or any later version. */
   <ul>
    <li> Applications of (generalised) SAT : Applications/docus/general.hpp </li>
    <li> The build system : Buildsystem/docus/general.hpp </li>
-   <li> Combinatorial problems: Transitional/Combinatorics/docus/general.hpp </li>
+   <li> Combinatorial problems: OKlib/Combinatorics/docus/general.hpp </li>
    <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
    <li> Data structures : DataStructures/docus/general.hpp </li>
    <li> Experimentation : Experimentation/docus/general.hpp </li>
@@ -37,9 +37,9 @@ License, or any later version. */
    <li> Programming : Programming/docus/general.hpp </li>
    <li> Satisfiability : Satisfiability/docus/general.hpp </li>
    <li> Statistics : Statistics/docus/general.hpp </li>
-   <li> Mathematical structures : Transitional/Structures/docus/general.hpp </li>
+   <li> Mathematical structures : OKlib/Structures/docus/general.hpp </li>
    <li> Systemic aspects (build system, test system, complexity system,
-   legal issues): Transitional/System/docus/general.hpp </li>
+   legal issues): OKlib/System/docus/general.hpp </li>
    <li> The test system : TestSystem/docus/general.hpp </li>
    <li> Visualisation : Visualisation/docus/general.hpp </li>
   </ul>

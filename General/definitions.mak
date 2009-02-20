@@ -16,7 +16,7 @@ else
   Xerces_so :=
 endif
 
-OKTestSystem := -I$(OKSystem)/Transitional/TestSystem
+OKTestSystem := -I$(OKSystem)/OKlib/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG

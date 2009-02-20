@@ -12,8 +12,8 @@ License, or any later version. */
 #include <cassert>
 #include <vector>
 
-#include <Transitional/General/IteratorHandling.hpp>
-#include <Transitional/General/Algebra_Models.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
+#include <OKlib/General/Algebra_Models.hpp>
 
 namespace Algorithms_Tests {
 
@@ -72,7 +72,7 @@ namespace Algorithms_Tests {
 
 }
 
-#include <Transitional/General/Numerics.hpp>
+#include <OKlib/General/Numerics.hpp>
 
 namespace Algorithms_Tests {
 

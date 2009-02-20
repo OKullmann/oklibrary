@@ -15,7 +15,7 @@ License, or any later version. */
    <li> The basic algorithm is to create all resolvents round
    for round, removing all subsumptions found as early as possible. </li>
    <li> Compare "Prime implicants and implicates" in
-   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
    <li> See ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac. </li>
    <li> The first implementation should be completely straightforward,
    very similar to the Maxima/Lisp implementation, only that instead of

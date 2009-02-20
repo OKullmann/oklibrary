@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef SEQUENCEOPERATIONSTESTOBJECTS_1029563
 #define SEQUENCEOPERATIONSTESTOBJECTS_1029563
 
-#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations_Tests.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/SequenceOperations_Tests.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {

@@ -17,18 +17,18 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
-#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

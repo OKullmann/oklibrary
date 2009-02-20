@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* A "homomorphisms" between graphs (with loops) is a map between the vertex
    sets which preserves the edges.

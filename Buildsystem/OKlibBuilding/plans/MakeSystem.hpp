@@ -73,7 +73,7 @@ License, or any later version. */
    "tests", "testobjects", "demos", "apps", "messages", "plans", "docus", and from these
    functional directories the source-code files are to be extracted, and name-surgery is
    applied to compute the corresponding directories under system_directories ?!? </li>
-   <li> Can cmake handle the uniformity of our system, where for Transitional we only have
+   <li> Can cmake handle the uniformity of our system, where for OKlib we only have
    2 makefiles (OKlibBuilding/Makefile and Recursive.mak), and every directory contains (if wished) only
    a symbolic link to one of those (utilising then the definitions.mak files) ?!? We do not
    want to clutter the source directory with code for the build system, but at any point we want

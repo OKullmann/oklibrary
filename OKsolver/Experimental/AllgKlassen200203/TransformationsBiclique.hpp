@@ -26,10 +26,10 @@ License, or any later version. */
 #include <map>
 #include <string>
 
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/TimeHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
 
 namespace TransformationsBiclique {
 

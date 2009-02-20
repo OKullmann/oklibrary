@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Degrees.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Degrees.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobject
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac")$
 
 
 okltest_locallemma_sattest_clausedeg(locallemma_sattest_clausedeg);

@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac");
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac")
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 

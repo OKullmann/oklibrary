@@ -21,7 +21,7 @@
 set -o errexit -o nounset # -o xtrace
 shopt -s extglob
 
-licence_text_file=${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/Header.s
+licence_text_file=${OKPLATFORM}/OKsystem/OKlib/System/LegalIssues/Header.s
 
 if [ $# != 2 ]; then
   echo "ERROR[AddLicence1]: Two input parameter are expected, the name of the file where the licence is to be inserted, and a string (\"override\" for overriding the file)!"

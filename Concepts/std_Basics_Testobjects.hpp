@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef STDBASICSTESTOBJECTS_kcXzw235
 #define STDBASICSTESTOBJECTS_kcXzw235
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/std_Basics.hpp>
-#include <Transitional/Concepts/std_Basics_Tests.hpp>
+#include <OKlib/Concepts/std_Basics.hpp>
+#include <OKlib/Concepts/std_Basics_Tests.hpp>
 
 namespace OKlib {
 

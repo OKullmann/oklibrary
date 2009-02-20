@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Constructions.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Constructions.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Cons
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
 
 /* ***********************
    * Complex composition *

@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Numerical/Lisp/include.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
 
 /*!
 \endhtmlonly

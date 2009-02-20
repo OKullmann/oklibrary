@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/SetSystems.mac");
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/SetSystems.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/SetSystems
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 
 /* **************
    * Singletons *

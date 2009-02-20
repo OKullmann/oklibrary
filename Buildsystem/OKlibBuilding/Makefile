@@ -49,7 +49,7 @@
 # This variable pair specifies the top level directory of the OKsystem
 # source tree. The build system assumes that the directory specified by the value
 # of this variable is the directory containing the subdiretories "Annotations",
-# "Transitional" and "OKlibrary".
+# "OKlib" and "OKlibrary".
 #
 # SYSTEMDIRECTORIES/SystemDirectories
 #
@@ -124,7 +124,7 @@ module-name := $(notdir $(srcdir))
 
 
 # Every module which needs to be built contains a symbolic link, called "makefile"
-# to the generic makefile Transitional/Buildsystem/OKlibBuilding/Makefile.
+# to the generic makefile OKlib/Buildsystem/OKlibBuilding/Makefile.
 
 # The oklib-masterscript defines OKplatform.
 ifndef OKplatform

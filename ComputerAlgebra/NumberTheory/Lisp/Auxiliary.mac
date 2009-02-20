@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac");
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac");
 
 */
 

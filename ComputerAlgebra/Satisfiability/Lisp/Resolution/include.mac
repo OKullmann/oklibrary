@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac");
 
 */
 
@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac")$
 
 
 /*!

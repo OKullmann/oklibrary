@@ -28,15 +28,15 @@ License, or any later version. */
 
 #include <boost/iostreams/filtering_stream.hpp>
 
-#include <Transitional/Programming/InputOutput/IOStreamFilters.hpp>
-#include <Transitional/Programming/Messages/MessagesBase.hpp>
-#include <Transitional/Programming/Messages/Utilities/TrivialMessage.hpp>
-#include <Transitional/Programming/Messages/Utilities/FileIdentification.hpp> // guaranteed to be included
+#include <OKlib/Programming/InputOutput/IOStreamFilters.hpp>
+#include <OKlib/Programming/Messages/MessagesBase.hpp>
+#include <OKlib/Programming/Messages/Utilities/TrivialMessage.hpp>
+#include <OKlib/Programming/Messages/Utilities/FileIdentification.hpp> // guaranteed to be included
 
-#include <Transitional/TestSystem/BasicDeclarations.hpp>
-#include <Transitional/TestSystem/TestFondement.hpp>
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
-#include <Transitional/TestSystem/messages/TestBaseClass.hpp>
+#include <OKlib/TestSystem/BasicDeclarations.hpp>
+#include <OKlib/TestSystem/TestFondement.hpp>
+#include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <OKlib/TestSystem/messages/TestBaseClass.hpp>
 
 namespace OKlib {
   namespace TestSystem {

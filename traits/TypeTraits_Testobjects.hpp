@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef TYPETRAITSTESTOBJECTS_78UiJh0
 #define TYPETRAITSTESTOBJECTS_78UiJh0
 
-#include <Transitional/traits/TypeTraits.hpp>
-#include <Transitional/traits/TypeTraits_Tests.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
+#include <OKlib/traits/TypeTraits_Tests.hpp>
 
 namespace OKlib {
 

@@ -8,7 +8,7 @@ License, or any later version. */
 #ifndef CONCEPTSMETAFUNCTIONSTESTS_719GbWq
 #define CONCEPTSMETAFUNCTIONSTESTS_719GbWq
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
 
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>

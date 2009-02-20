@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef ASSOCIATIVECONTAINERSTESTOBJECTS_klju76
 #define ASSOCIATIVECONTAINERSTESTOBJECTS_klju76
 
-#include <Transitional/DataStructures/Search/AssociativeContainers.hpp>
-#include <Transitional/DataStructures/Search/AssociativeContainers_Tests.hpp>
+#include <OKlib/DataStructures/Search/AssociativeContainers.hpp>
+#include <OKlib/DataStructures/Search/AssociativeContainers_Tests.hpp>
 
 namespace OKlib {
   namespace SearchDataStructures {

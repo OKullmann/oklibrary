@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef SUBSUMPTIONTESTOBJECTS_8887yh
 #define SUBSUMPTIONTESTOBJECTS_8887yh
 
-#include <Transitional/Structures/Sets/SetAlgorithms/Subsumption.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/Subsumption_Tests.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/Subsumption.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/Subsumption_Tests.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {

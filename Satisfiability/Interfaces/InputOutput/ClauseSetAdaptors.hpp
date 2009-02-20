@@ -60,9 +60,9 @@ template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
 #include <boost/range/end.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 
-#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
   namespace InputOutput {

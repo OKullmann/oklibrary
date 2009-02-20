@@ -16,7 +16,7 @@ License, or any later version. */
 
 #define TRAITS_99466TTrfKl
 
-#include <Transitional/traits/TypeTraits.hpp>
-#include <Transitional/traits/TypeTraitsContainer.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
+#include <OKlib/traits/TypeTraitsContainer.hpp>
 
 #endif

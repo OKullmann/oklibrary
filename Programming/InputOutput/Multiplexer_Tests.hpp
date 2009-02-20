@@ -24,8 +24,8 @@ License, or any later version. */
 #include <boost/filesystem/operations.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

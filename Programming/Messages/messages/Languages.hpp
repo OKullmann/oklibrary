@@ -15,7 +15,7 @@ License, or any later version. */
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
 #define LANGUAGESEXPLANATIONS_8Uh26266
 
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
 
 namespace OKlib {
   namespace Messages {

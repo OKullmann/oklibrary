@@ -24,7 +24,7 @@ License, or any later version. */
 
 #include <boost/timer.hpp>
 
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
 

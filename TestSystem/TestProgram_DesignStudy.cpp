@@ -25,11 +25,11 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Programming/InputOutput/Multiplexer.hpp>
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
-#include <Transitional/Programming/Messages/LanguageNames.hpp>
+#include <OKlib/Programming/InputOutput/Multiplexer.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/LanguageNames.hpp>
 
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
 
 struct is_separator : std::unary_function<char, bool> {
   const char sep;

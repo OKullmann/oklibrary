@@ -21,10 +21,10 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 #include <boost/mpl/has_xxx.hpp>
 
-#include <Transitional/Programming/MetaProgramming/Logical.hpp>
+#include <OKlib/Programming/MetaProgramming/Logical.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Concepts/traits/concept_tag.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/traits/concept_tag.hpp>
 
 namespace OKlib {
   namespace Concepts {

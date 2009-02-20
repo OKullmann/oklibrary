@@ -9,8 +9,8 @@ License, or any later version. */
 
 #define ALGEBRAESTOBJECTSWAECHTER_77ggdgs3
 
-#include <Transitional/General/Algebra_Concepts_tests.hpp>
-#include <Transitional/General/Algebra_Models.hpp>
+#include <OKlib/General/Algebra_Concepts_tests.hpp>
+#include <OKlib/General/Algebra_Models.hpp>
 
 namespace Algebra_Concepts_tests {
 

@@ -29,11 +29,11 @@ License, or any later version. */
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>
  
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Concepts/std_Iterators.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

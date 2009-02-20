@@ -16,10 +16,10 @@ License, or any later version. */
 #include <iostream>
 #include <memory>
 
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
 
-#include <Transitional/Programming/Messages/messages/Languages.hpp>
-#include <Transitional/Programming/Messages/messages/Levels.hpp>
+#include <OKlib/Programming/Messages/messages/Languages.hpp>
+#include <OKlib/Programming/Messages/messages/Levels.hpp>
 
 namespace Implementation {
 

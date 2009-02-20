@@ -28,11 +28,11 @@ License, or any later version. */
 
 #include <boost/test/floating_point_comparison.hpp>
 
-#include <Transitional/General/DatabaseHandler01.hpp>
-#include <Transitional/General/TimeHandling.hpp>
-#include <Transitional/General/Kommandozeile.hpp>
-#include <Transitional/General/Algorithms.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/DatabaseHandler01.hpp>
+#include <OKlib/General/TimeHandling.hpp>
+#include <OKlib/General/Kommandozeile.hpp>
+#include <OKlib/General/Algorithms.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 using namespace DatabaseHandler01;
 using namespace StringHandling;

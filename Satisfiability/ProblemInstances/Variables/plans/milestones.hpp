@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In ProblemInstances/Variables/plans/general.hpp the following items are handled:
-    - Move the related concepts and plans from Transitional/Concepts here
+    - Move the related concepts and plans from OKlib/Concepts here
     - Update namespace-usage
     - Prototypes
     - Update

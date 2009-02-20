@@ -19,7 +19,7 @@ License, or any later version. */
 #include <utility>
 #include <stdexcept>
 
-#include <Transitional/Programming/Messages/Languages.hpp>
+#include <OKlib/Programming/Messages/Languages.hpp>
 
 namespace OKlib {
   namespace Messages {
@@ -37,7 +37,7 @@ namespace OKlib {
       The available names are exactly the names of the enumerated constants in the enumeration type
       OKlib::Messages::Languages (so LanguageName(name) is just the value of name as C++ constant),
       which in turn are exactly the strings given by the macro OKLIB_LANGUAGES
-      (in Transitional/Programming/Messages/Languages.hpp).
+      (in OKlib/Programming/Messages/Languages.hpp).
       Since the language names are made available by the array ::OKlib::Messages::Locales,
       class LanguageName is nothing than a find-wrapper for this array (enabling faster
       access than by just linearly searching through this array).

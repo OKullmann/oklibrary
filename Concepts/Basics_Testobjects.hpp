@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef BASICSTESTOBJECTS_pFgR554e
 #define BASICSTESTOBJECTS_pFgR554e
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/Basics.hpp>
-#include <Transitional/Concepts/Basics_Tests.hpp>
+#include <OKlib/Concepts/Basics.hpp>
+#include <OKlib/Concepts/Basics_Tests.hpp>
 
 namespace OKlib {
 

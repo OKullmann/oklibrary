@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.mac");
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.m
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
 /* ***********************
    * Apply-functionality *

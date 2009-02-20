@@ -6,79 +6,79 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/plans/milestones.hpp
-  \brief Milestones for Transitional
+  \file OKlib/plans/milestones.hpp
+  \brief Milestones for OKlib
 */
 
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional $(transitional_version_full)
+  - OKlib $(transitional_version_full)
   - OKlibrary $(oklib_version_full)
 */
 
 /*!
-  \page PageTargetsTransitional Targets for Transitional
+  \page PageTargetsOKlib Targets for OKlib
 
   \section StartingVersion Future milestones
 
 
-  \subsection VersionTransitional022 0.2.2 : ALPHA RELEASE
+  \subsection VersionOKlib022 0.2.2 : ALPHA RELEASE
   TO BE REACHED $(deadline_022)
   \par Buildsystem version 0.2.1 (OK, MG)
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK)
   (see LegalIssues/plans/milestones.hpp)
-  \par Transitional/Satisfiability version 0.1.1 (OK)
-  (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par OKlib/Satisfiability version 0.1.1 (OK)
+  (see OKlib/Satisfiability/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
-  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Plans
   All parts have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par
-   In Transitional/plans/general.hpp the following topics are handled:
-    - "OKlib" instead of "Transitional"
+   In OKlib/plans/general.hpp the following topics are handled:
+    - "OKlib" instead of "OKlib"
     - Super-modules
     - Organisation of plans-directories
     - Handling of version-numbers : DONE
     - Research sub-modules : DONE
   \par
-   In Transitional/plans/Foundations.hpp the following topics are handled:
+   In OKlib/plans/Foundations.hpp the following topics are handled:
     - Improve the general design discussions : DONE
   \par Update
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional023 0.2.3 : BASIC FUNCTIONALITY MAXIMA
+  \subsection VersionOKlib023 0.2.3 : BASIC FUNCTIONALITY MAXIMA
   TO BE REACHED $(deadline_023)
   \par ComputerAlgebra version 0.2 (OK, MH, MG)
-  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Buildsystem version 0.2.2 (OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Transitional/Satisfiability version 0.1.2 (OK)
-  (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par OKlib/Satisfiability version 0.1.2 (OK)
+  (see OKlib/Satisfiability/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
   \par
-   In Transitional/plans/general.hpp the following topics are handled:
+   In OKlib/plans/general.hpp the following topics are handled:
     - Access to version numbers
     - Demos
   \par
-   In Transitional/plans/Annotations.hpp the following topics are handled:
+   In OKlib/plans/Annotations.hpp the following topics are handled:
     - Partially moving repository Annotations
     - Latex macros
     - Bibtex-database
   \par
-   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
+   In OKlib/OKsolver/plans/general.hpp the following topics are handled:
     - Submodule "Experimental 200203"
   \par Update
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional024 0.2.4 BETA RELEASE
+  \subsection VersionOKlib024 0.2.4 BETA RELEASE
   TO BE REACHED $(deadline_024)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
@@ -107,7 +107,7 @@ License, or any later version. */
   \par TestSystem version 0.1.4 
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
-  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Structures version 0.0.6
   (see Structures/plans/milestones.hpp)
   \par Experimentation version 0.4.1
@@ -119,14 +119,14 @@ License, or any later version. */
   \par General version 0.6
   (see General/plans/milestones.hpp)
   \par
-   In Transitional/plans/general.hpp the following topics are handled:
+   In OKlib/plans/general.hpp the following topics are handled:
     - Upgrade to gcc-4.2.2
     - Backups and archives
   \par Update
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional025 0.2.5
+  \subsection VersionOKlib025 0.2.5
   TO BE REACHED $(deadline_025)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
@@ -144,7 +144,7 @@ License, or any later version. */
 
 
 
-  \section VersionTransitional030 0.3 RELEASE
+  \section VersionOKlib030 0.3 RELEASE
   TO BE REACHED $(deadline_030)
   \par
    Build and test system basically finished, and basic
@@ -156,24 +156,24 @@ License, or any later version. */
    - Except of warnings coming from Boost, no compiler warnings from our library.
 
 
-  \section VersionTransitional040 0.4.0 Complexity system ready
+  \section VersionOKlib040 0.4.0 Complexity system ready
   Complexity system completed and (partially) used
 
-  \section VersionTransitional050 0.5.0 Concepts ready
+  \section VersionOKlib050 0.5.0 Concepts ready
   Basic concepts all written (C++ and library-infrastructure-related),
   and the generic test system framework established and in use.
 
-  \section VersionTransitional060 0.6.0 Documentation ready
+  \section VersionOKlib060 0.6.0 Documentation ready
   Documentation completed (regarding the basics)
 
-  \section VersionTransitional100 1.0.0 Foundations completed
+  \section VersionOKlib100 1.0.0 Foundations completed
   A solid foundation is provided, now we can start.
 
 */
 
 
 /*!
-   \page VersionHistoryTransitional Version history Transitional
+   \page VersionHistoryOKlib Version history OKlib
 
    \par 0.1.0 3/3/2006
 

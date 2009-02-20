@@ -31,9 +31,9 @@ License, or any later version. */
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Concepts/std_Basics.hpp>
-#include <Transitional/Concepts/Basics.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/std_Basics.hpp>
+#include <OKlib/Concepts/Basics.hpp>
 
 namespace OKlib {
   namespace Concepts {

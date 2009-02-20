@@ -33,10 +33,10 @@ License, or any later version. */
 
 #include <cassert>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Concepts/std_Basics_Tests.hpp>
+#include <OKlib/Concepts/std_Basics_Tests.hpp>
 
 namespace OKlib {
 

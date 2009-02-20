@@ -10,9 +10,9 @@ License, or any later version. */
   \brief Checking whether concept and archetype definitions are consistent
 */
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/AtomicConditions.hpp>
+#include <OKlib/Concepts/AtomicConditions.hpp>
 
 namespace OKlib {
   namespace Concepts {

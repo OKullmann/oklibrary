@@ -15,10 +15,10 @@ License, or any later version. */
 #ifndef VARIABLESTESTOBJECTS_olKmNb56
 #define VARIABLESTESTOBJECTS_olKmNb56
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Concepts/Variables_Tests.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Concepts/Variables_Tests.hpp>
 
 namespace OKlib {
   namespace Concepts {

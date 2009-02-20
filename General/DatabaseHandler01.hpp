@@ -27,9 +27,9 @@ License, or any later version. */
 // in this order!
 */
 
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/FunctionHandling.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 #ifndef DATABASEHANDLER01WAECHTER
 

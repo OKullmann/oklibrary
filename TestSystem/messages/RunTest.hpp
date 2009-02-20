@@ -15,14 +15,14 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/General/TimeHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
 
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
-#include <Transitional/Programming/Messages/Utilities/TimeAndDate.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/Utilities/TimeAndDate.hpp>
 
-#include <Transitional/TestSystem/messages/TestLevel.hpp>
-#include <Transitional/TestSystem/TestFondement.hpp>
-#include <Transitional/TestSystem/RunTest_Declarations.hpp>
+#include <OKlib/TestSystem/messages/TestLevel.hpp>
+#include <OKlib/TestSystem/TestFondement.hpp>
+#include <OKlib/TestSystem/RunTest_Declarations.hpp>
 
 namespace OKlib {
 

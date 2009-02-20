@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
 
 
 /* Given a composition and a set S of elements (of the underlying

@@ -16,7 +16,7 @@ License, or any later version. */
 #include <boost/preprocessor/seq/enum.hpp>
 #include <boost/preprocessor/seq/size.hpp>
 
-#include <Transitional/Programming/Messages/Languages.hpp>
+#include <OKlib/Programming/Messages/Languages.hpp>
 
 namespace OKlib {
   namespace Messages {

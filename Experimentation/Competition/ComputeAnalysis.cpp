@@ -21,12 +21,12 @@ License, or any later version. */
 #include <ios>
 #include <ostream>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/Scoring.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/Scoring.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools.hpp>
 
 namespace {
 

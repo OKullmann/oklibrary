@@ -223,7 +223,7 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    \endverbatim
    takes too long, then we need a C++ implementation; see
-   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp,
    "Prime implicants and implicates". A simple implementation should
    suffice here. </li>
    <li> Brute-force approaches:

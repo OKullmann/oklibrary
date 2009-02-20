@@ -21,7 +21,7 @@ License, or any later version. */
      <li> More bounds added: for this see the running report of [Radziszowski,
      Small %Ramsey Numbers]. </li>
      <li> References for the bounds; compare "Bibtex-database" in
-     Transitional/plans/Annotations.hpp. </li>
+     OKlib/plans/Annotations.hpp. </li>
      <li> The known general upper and lower bounds need to be integrated:
       <ol>
        <li> The system must be extensible. </li>

@@ -13,7 +13,7 @@ License, or any later version. */
   \bug Program is faulty:
   <code>
     > OKplatform/system_directories/bin/AnalyseTotalAssignment example.cnf
-    AnalyseTotalAssignment: /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/AutarkySearch/AnalyseTotalAssignment.cpp:92: void<unnamed>::AnalyseTotalAssignment(): Assertion `iCurrVar <= iNumVars' failed.
+    AnalyseTotalAssignment: /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/OKlib/AutarkySearch/AnalyseTotalAssignment.cpp:92: void<unnamed>::AnalyseTotalAssignment(): Assertion `iCurrVar <= iNumVars' failed.
   </code>
   This was to be expected, given the low coding standard. So first the program
   has to be transferred into adequate C++, using proper modularisation and testing;
@@ -38,7 +38,7 @@ License, or any later version. */
 #include <cassert>
 #include <cstdlib>
 
-#include <Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local/ubcsat.h>
+#include <OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/local/ubcsat.h>
 
 namespace {
 

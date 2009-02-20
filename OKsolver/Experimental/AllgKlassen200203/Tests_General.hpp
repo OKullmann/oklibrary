@@ -11,9 +11,9 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Concepts_General.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Concepts_General.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
 
 
 namespace Tests_General {

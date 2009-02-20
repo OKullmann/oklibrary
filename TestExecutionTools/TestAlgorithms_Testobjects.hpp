@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef TESTALGORITHMSTESTOBJECTS_jbbCCx4
 #define TESTALGORITHMSTESTOBJECTS_jbbCCx4
 
-#include <Transitional/TestExecutionTools/TestAlgorithms.hpp>
-#include <Transitional/TestExecutionTools/TestAlgorithms_Tests.hpp>
+#include <OKlib/TestExecutionTools/TestAlgorithms.hpp>
+#include <OKlib/TestExecutionTools/TestAlgorithms_Tests.hpp>
 
 namespace OKlib {
 

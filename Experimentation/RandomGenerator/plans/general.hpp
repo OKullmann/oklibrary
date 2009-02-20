@@ -57,7 +57,7 @@ License, or any later version. */
   \todo Improvements
   <ul>
    <li> Replacing General/Kommandozeile (see General/Kommandozeile.hpp)
-   by module Transitional/ProgramOptions. </li>
+   by module OKlib/ProgramOptions. </li>
   </ul>
 
 

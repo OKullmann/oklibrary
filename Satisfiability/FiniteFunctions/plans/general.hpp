@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/FiniteFunctions/plans/general.hpp
+  \file OKlib/Satisfiability/FiniteFunctions/plans/general.hpp
   \brief Super-module for finite functions (especially boolean functions)
 
   Considered are functions f: D_1 x ... X D_n -> {0,1}, where D_i

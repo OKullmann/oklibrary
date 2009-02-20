@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/Quantification/plans/milestones.hpp
+  \file OKlib/Satisfiability/Quantification/plans/milestones.hpp
 
   \module_version Satisfiability/Quantification 0.0.3 (29.1.2008)
 

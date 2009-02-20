@@ -11,7 +11,7 @@ License, or any later version. */
 
 #include <cassert>
 
-#include <Transitional/General/NumberTheory_Models.hpp>
+#include <OKlib/General/NumberTheory_Models.hpp>
 
 namespace Algebra_Concepts_tests {
 

@@ -6,15 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/Input_output_Testobjects.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/Input_output_Testobjects.hpp
   \deprecated
 */
 
 #ifndef INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 #define INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/Input_output_Tests.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/Input_output_Tests.hpp>
 
 namespace OKlib {
   namespace DPv {

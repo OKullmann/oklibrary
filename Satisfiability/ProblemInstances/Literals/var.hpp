@@ -16,7 +16,7 @@ License, or any later version. */
 #ifndef VAR_jJJn1010156
 #define VAR_jJJn1010156
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
 
 namespace OKlib {
   namespace Literals {

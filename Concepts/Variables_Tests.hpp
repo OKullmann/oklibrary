@@ -20,16 +20,16 @@ License, or any later version. */
 #ifndef VARIABLESTESTS_kkgFre3
 #define VARIABLESTESTS_kkgFre3
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Concepts/Basics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/Basics_Tests.hpp>
 
-#include <Transitional/traits/TypeTraits.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
 
 namespace OKlib {
   namespace Concepts {

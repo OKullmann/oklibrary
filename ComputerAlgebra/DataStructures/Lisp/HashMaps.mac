@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ************************
@@ -97,7 +97,7 @@ allinj_sm(A,B) := block(
    strings.)
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp")$
 
 /* Given a map as a set-map, create a hash-map. */
 /* The assignments are entered into the hash-map according to their

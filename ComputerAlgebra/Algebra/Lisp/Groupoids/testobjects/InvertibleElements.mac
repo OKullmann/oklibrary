@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/InvertibleElements.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/InvertibleElements.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Inve
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac")$
 
 okltest_leftinvertible_el_ugrd(leftinvertible_el_ugrd);
 okltest_rightinvertible_el_ugrd(rightinvertible_el_ugrd);

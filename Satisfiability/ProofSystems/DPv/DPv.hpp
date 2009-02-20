@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/DPv.hpp
   \brief Deprecated. Contains functions DP-reductions.
   \deprecated
   \todo Improved implementations (as models of general concepts) in a new module
@@ -22,7 +22,7 @@ License, or any later version. */
 #include <string>
 #include <vector>
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
   namespace DPv {

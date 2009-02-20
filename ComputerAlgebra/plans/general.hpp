@@ -261,7 +261,7 @@ allnjective_rel(M,n) :=
      we have applications of it. </li>
      <li> This could be the general pattern: In module Bioinformatics we
      consider the "application aspect", while for the problems we try to
-     find their "true environment" (similar to Transitional/Applications).
+     find their "true environment" (similar to OKlib/Applications).
      </li>
     </ol>
    </li>

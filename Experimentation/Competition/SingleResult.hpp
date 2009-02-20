@@ -32,9 +32,9 @@ License, or any later version. */
 
 #include <boost/tuple/tuple.hpp>
 
-#include <Transitional/Concepts/ResultElements.hpp>
+#include <OKlib/Concepts/ResultElements.hpp>
 
-#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

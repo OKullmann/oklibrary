@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef SETCOND_2772ahhaBnm
 #define SETCOND_2772ahhaBnm
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
 
 namespace OKlib {
   namespace Literals {

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/DPv.cpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/DPv.cpp
   \deprecated
 */
 
@@ -14,10 +14,10 @@ License, or any later version. */
 #include <cstdlib>
 #include <string>
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/Statistics.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/DPv.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/Statistics.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 int main(const int argc, const char* const argv[]){
   

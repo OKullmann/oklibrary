@@ -19,7 +19,7 @@ License, or any later version. */
 
   \par Version 0.6
 
-  All modules have been moved, and Transitional/General is eliminated.
+  All modules have been moved, and OKlib/General is eliminated.
 
 
 

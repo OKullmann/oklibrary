@@ -9,7 +9,7 @@ License, or any later version. */
 #include <list>
 #include <string>
 
-#include <Transitional/General/EndlAuto.hpp>
+#include <OKlib/General/EndlAuto.hpp>
 
 namespace {
 

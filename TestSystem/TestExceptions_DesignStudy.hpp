@@ -27,9 +27,9 @@ License, or any later version. */
 
 #include <boost/range/functions.hpp>
 
-#include <Transitional/TestSystem/BasicDeclarations.hpp>
+#include <OKlib/TestSystem/BasicDeclarations.hpp>
 
-#include <Transitional/TestSystem/messages/TestExceptions.hpp>
+#include <OKlib/TestSystem/messages/TestExceptions.hpp>
 
 namespace OKlib {
   namespace TestSystem {

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/Statistics.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/Statistics.hpp
   \brief Deprecated. Some functions for basic statistics about clause-sets.
   \deprecated
   \todo These things (and more) should be part of the general hypergraph
@@ -16,7 +16,7 @@ License, or any later version. */
 #ifndef STATISTICS_Jhh9YT324J
 #define STATISTICS_Jhh9YT324J
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
   namespace DPv {

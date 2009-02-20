@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef RESULTELEMENTTESTOBJECTS_957yBhF
 #define RESULTELEMENTTESTOBJECTS_957yBhF
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/ResultElements.hpp>
-#include <Transitional/Concepts/ResultElements_Tests.hpp>
+#include <OKlib/Concepts/ResultElements.hpp>
+#include <OKlib/Concepts/ResultElements_Tests.hpp>
 
 namespace OKlib {
 

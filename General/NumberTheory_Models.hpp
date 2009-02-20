@@ -20,7 +20,7 @@ License, or any later version. */
 #include <string>
 #include <cassert>
 
-#include <Transitional/General/Algebra_Traits.hpp>
+#include <OKlib/General/Algebra_Traits.hpp>
 
 namespace NumberTheory {
 

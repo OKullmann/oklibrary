@@ -27,7 +27,7 @@ ifeq ($(MAKELEVEL), 0)
 endif
 	$(run_all_makes)
 
-selected_module := $(OKsystem)/Transitional/Satisfiability/ProblemInstances/Variables
+selected_module := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Variables
 # arbitrary choice (this hack will become superfluous with the new master-script)
 $(html_goals) :
 	make -f$(selected_module)/makefile $@

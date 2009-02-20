@@ -21,9 +21,9 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/Combinatorics.hpp>
-#include <Transitional/General/IteratorHandling.hpp>
-#include <Transitional/General/Numerics.hpp>
+#include <OKlib/General/Combinatorics.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
+#include <OKlib/General/Numerics.hpp>
 
 
 namespace Ramsey {

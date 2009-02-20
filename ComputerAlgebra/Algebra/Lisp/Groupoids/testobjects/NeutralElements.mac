@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/NeutralElements.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/NeutralElements.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Neut
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/NeutralElements.mac")$
 
 okltest_leftneutral_el_grd(leftneutral_el_grd);
 okltest_rightneutral_el_grd(rightneutral_el_grd);

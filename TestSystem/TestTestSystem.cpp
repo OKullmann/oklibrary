@@ -15,8 +15,8 @@ License, or any later version. */
 #include <sstream>
 #include <cstdlib>
 
-#include <Transitional/TestSystem/TestExceptions.hpp>
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
 
 class Test1 : public OKlib::TestSystem::TestBase {
   typedef Test1 test_type;

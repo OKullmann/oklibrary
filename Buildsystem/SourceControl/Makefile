@@ -37,8 +37,8 @@ pull_public :
 	git pull ${git_http_repository} ${git_arguments_okl}
 
 push_ssh :
-	git push --receive-pack "${remote_repository_okl}/bin/git-receive-pack" ssh://${remote_machine_okl}/${remote_repository_okl}/OKsystem/Transitional ${git_arguments_okl}
+	git push --receive-pack "${remote_repository_okl}/bin/git-receive-pack" ssh://${remote_machine_okl}/${remote_repository_okl}/OKsystem/OKlib ${git_arguments_okl}
 
 pull_ssh :
-	git pull --upload-pack "${remote_repository_okl}/bin/git-upload-pack" ssh://${remote_machine_okl}/${remote_repository_okl}/OKsystem/Transitional ${git_arguments_okl}
+	git pull --upload-pack "${remote_repository_okl}/bin/git-upload-pack" ssh://${remote_machine_okl}/${remote_repository_okl}/OKsystem/OKlib ${git_arguments_okl}
 

@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef REFACTORINGINCLUDEHANDLINGTESTOBJECTS_jjccXxs0377
 #define REFACTORINGINCLUDEHANDLINGTESTOBJECTS_jjccXxs0377
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/RefactoringIncludeHandling.hpp>
-#include <Transitional/Concepts/RefactoringIncludeHandling_Tests.hpp>
+#include <OKlib/Concepts/RefactoringIncludeHandling.hpp>
+#include <OKlib/Concepts/RefactoringIncludeHandling_Tests.hpp>
 
 namespace OKlib {
 

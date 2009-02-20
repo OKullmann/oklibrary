@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
 
 /* The hypergraph of maximal independent sets of a hypergraph G, via
    hypergraph-transversals */

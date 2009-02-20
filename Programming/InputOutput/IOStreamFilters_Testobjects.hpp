@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 #define IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 
-#include <Transitional/Programming/InputOutput/IOStreamFilters.hpp>
-#include <Transitional/Programming/InputOutput/IOStreamFilters_Tests.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamFilters.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamFilters_Tests.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

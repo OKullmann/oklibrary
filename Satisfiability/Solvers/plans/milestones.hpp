@@ -44,7 +44,7 @@ License, or any later version. */
 
    - 0.2   : 18.8.2007; initial version number (the OKsolver family has been set up).
    - 0.2.1 : 16.9.2007; settled the very basics for the old OKsolver.
-   - 0.2.2 : 23.9.2007; imported the trivial DLL-solver Backtracking/DLL-Implementations.cpp from Transitional/OKsolver/Experimental.
+   - 0.2.2 : 23.9.2007; imported the trivial DLL-solver Backtracking/DLL-Implementations.cpp from OKlib/OKsolver/Experimental.
 
 */
 

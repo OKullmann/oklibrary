@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/PlantedSolutions.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/PlantedSolutions.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/PlantedSolutions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/PlantedSolutions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
 
 /* *******************************************
    * Minimally uniquely satisfiable problems *

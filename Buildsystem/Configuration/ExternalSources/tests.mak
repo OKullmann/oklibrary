@@ -445,7 +445,7 @@ gap_html_documentation_index_location_tag_okl ?= <a href="$(gap_html_output_okl)
 # and implemented):
 
 grasp_version_number_extraction_okl := awk '/UNSATISFIABLE INSTANCE/{print $(grasp_recommended_version_number_okl)}'
-grasp_example_program_okl := $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
+grasp_example_program_okl := $(OKsystem)/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
 
 location_grasp_call_okl ?= $(shell (type -P $(grasp_call_okl)))
 ifeq ($(location_grasp_call_okl),)

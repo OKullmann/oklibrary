@@ -13,11 +13,11 @@ License, or any later version. */
 #ifndef TRIVIALVARIABLES_916TyVbx
 #define TRIVIALVARIABLES_916TyVbx
 
-#include <Transitional/Concepts/traits/concept_tag.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
+#include <OKlib/Concepts/traits/concept_tag.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Concepts/JoinedConceptTags.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Concepts/JoinedConceptTags.hpp>
 
 namespace OKlib {
   namespace Variables {

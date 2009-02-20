@@ -11,15 +11,15 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/include.mac");
 */
 
 /*!
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
-oklib_include("Transitional/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subsets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subsets.mac")$
 
 
 /*!

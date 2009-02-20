@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
 
 
 /*!

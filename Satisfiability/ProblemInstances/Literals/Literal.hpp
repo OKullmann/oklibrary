@@ -14,7 +14,7 @@ License, or any later version. */
 #ifndef WAECHTERLITERAL_jYtre34
 #define WAECHTERLITERAL_jYtre34
 
-#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
 
 
 namespace Literals {

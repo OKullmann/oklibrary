@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac");
 
 */
 

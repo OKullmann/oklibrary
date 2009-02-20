@@ -6,9 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/plans/milestones.hpp
+  \file OKlib/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.15 (6.2.2008)
+  \module_version OKlib/Satisfiability 0.1.0.15 (6.2.2008)
 
 
   \par Version 0.1.1
@@ -29,10 +29,10 @@ License, or any later version. */
   (see Satisfiability/Reductions/plans/milestones.hpp)
 
   \par Satisfiability/Quantification version 0.0.3 : DONE
-  (see Transitional/Satisfiability/Quantification/plans/milestones.hpp)
+  (see OKlib/Satisfiability/Quantification/plans/milestones.hpp)
 
   \par Satisfiability/ProofSystems version 0.0.3 : DONE
-  (see Transitional/Satisfiability/ProofSystems/plans/milestones.hpp)
+  (see OKlib/Satisfiability/ProofSystems/plans/milestones.hpp)
 
   \par Satisfiability/Optimisation version 0.0.2 : DONE
   (see Satisfiability/Optimisation/plans/milestones.hpp)
@@ -56,7 +56,7 @@ License, or any later version. */
   (see Satisfiability/ProblemInstances/plans/milestones.hpp)
 
   \par
-   In Transitional/Satisfiability/plans/general.hpp the following
+   In OKlib/Satisfiability/plans/general.hpp the following
    topics are handled:
     - Strengthening the module structure : DONE
     - Move older modules here : DONE
@@ -85,10 +85,10 @@ License, or any later version. */
   (see Satisfiability/Optimisation/plans/milestones.hpp)
 
   \par Satisfiability/ProofSystems version 0.0.4
-  (see Transitional/Satisfiability/ProofSystems/plans/milestones.hpp)
+  (see OKlib/Satisfiability/ProofSystems/plans/milestones.hpp)
 
   \par Satisfiability/Quantification 0.0.4
-  (see Transitional/Satisfiability/Quantification/plans/milestones.hpp)
+  (see OKlib/Satisfiability/Quantification/plans/milestones.hpp)
 
   \par Satisfiability/Reductions version 0.0.5
   (see Satisfiability/Reductions/plans/milestones.hpp)
@@ -103,7 +103,7 @@ License, or any later version. */
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
   \par
-   In Transitional/Satisfiability/plans/general.hpp the following
+   In OKlib/Satisfiability/plans/general.hpp the following
    topics are handled:
     - New supermodule on autarkies
     - New supermodule on CSP

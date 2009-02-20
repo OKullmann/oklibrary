@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Representations.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Representations.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Represent
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/tests/Representations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/tests/Representations.mac")$
 
 /* *****************
    * Pruefer Codes *

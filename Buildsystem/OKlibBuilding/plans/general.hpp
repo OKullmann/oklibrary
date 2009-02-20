@@ -195,7 +195,7 @@ License, or any later version. */
 
 
   \todo Nightly build
-   - Full check-out of the library (yet Transitional and 
+   - Full check-out of the library (yet OKlib and 
      OKlibrary) and full compilation and testing (i.e., create the package,
      un-archive it, build it with "make" and then run "make check" in it).
      Testing should invoke valgrind (with Test_tool="valgrind --quit").

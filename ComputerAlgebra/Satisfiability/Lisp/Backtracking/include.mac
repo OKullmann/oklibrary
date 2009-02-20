@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac");
 
 */
 
@@ -19,15 +19,15 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/includ
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Learning.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Learning.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_solvers.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/Learning.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_solvers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/Learning.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac")$
 
 /*!
 \endhtmlonly

@@ -30,14 +30,14 @@ License, or any later version. */
 #include <cgicc/CgiDefs.h>
 #include <cgicc/FormFile.h>
 
-#include <Transitional/General/emailHandling.hpp>
-#include <Transitional/General/TimeHandling.hpp>
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
-#include <Transitional/General/AutomatedCompilation.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/emailHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
+#include <OKlib/General/AutomatedCompilation.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
-#include <Transitional/Kryptologie/HashMD5lib.hpp>
+#include <OKlib/Kryptologie/HashMD5lib.hpp>
 
 namespace CgiHandling {
 

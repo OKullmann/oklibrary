@@ -20,7 +20,7 @@ License, or any later version. */
 #include <cassert>
 #include <cstdlib>
 
-#include <Transitional/Programming/SystemSpecifics/demangle.h>
+#include <OKlib/Programming/SystemSpecifics/demangle.h>
 // this was /usr/include/demangle.h
 
 namespace OKlib {

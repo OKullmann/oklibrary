@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/include.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/include.
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/BasicNotions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/BasicNotions.mac")$
 
 /*!
 \endhtmlonly

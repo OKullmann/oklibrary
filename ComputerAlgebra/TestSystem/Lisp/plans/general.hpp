@@ -220,7 +220,7 @@ License, or any later version. */
     <ol>
      <li>
      \verbatim
-OKplatform> (for F in $(find OKsystem/Transitional/ComputerAlgebra -path "*/testobjects/*.mac"); do oklib --maxima --batch=${F} --very-quiet; if [[ $? != 0 ]]; then exit 1; fi; done)
+OKplatform> (for F in $(find OKsystem/OKlib/ComputerAlgebra -path "*/testobjects/*.mac"); do oklib --maxima --batch=${F} --very-quiet; if [[ $? != 0 ]]; then exit 1; fi; done)
      \endverbatim
      would work except that maxima returns 0 apparently in any case???
      It seems not possible to get a reaction on the error??? </li>

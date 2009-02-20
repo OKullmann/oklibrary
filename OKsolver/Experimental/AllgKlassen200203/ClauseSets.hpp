@@ -12,7 +12,7 @@ License, or any later version. */
 #include <set>
 #include <functional>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
 
 namespace ClauseSets {
 

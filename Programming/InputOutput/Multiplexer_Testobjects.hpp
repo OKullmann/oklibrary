@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef MULTIPLEXERTESTOBJECTS_5RReeW
 #define MULTIPLEXERTESTOBJECTS_5RReeW
 
-#include <Transitional/Programming/InputOutput/Multiplexer.hpp>
-#include <Transitional/Programming/InputOutput/Multiplexer_Tests.hpp>
+#include <OKlib/Programming/InputOutput/Multiplexer.hpp>
+#include <OKlib/Programming/InputOutput/Multiplexer_Tests.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

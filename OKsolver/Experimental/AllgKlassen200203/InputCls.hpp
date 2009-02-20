@@ -16,10 +16,10 @@ License, or any later version. */
 #include <functional>
 #include <istream>
 
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/StringHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Values.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Values.hpp>
 
 namespace InputCls {
 

@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file General/Combinatorics.hpp
   \brief Tools for elementary counting and enumeration
-  \todo Should be overhauled and transferred to Transitional/Combinatorics.
+  \todo Should be overhauled and transferred to OKlib/Combinatorics.
 */
 
 #ifndef COMBINATORICSWAECHTER
@@ -23,8 +23,8 @@ License, or any later version. */
 #include <iostream>
 #include <iterator>
 
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/FunctionHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
 
 namespace Combinatorics {
 

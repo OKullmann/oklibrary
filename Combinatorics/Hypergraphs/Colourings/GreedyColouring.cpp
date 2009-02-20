@@ -29,7 +29,7 @@ License, or any later version. */
 #include <boost/dynamic_property_map.hpp>
 
 
-#include <Transitional/Combinatorics/Hypergraphs/Colourings/GreedyColouring.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Colourings/GreedyColouring.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

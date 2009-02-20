@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/testobjects/LinearProgramming.mac");
+oklib_load("OKlib/ComputerAlgebra/Numerical/Lisp/testobjects/LinearProgramming.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/testobjects/LinearProgra
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
-oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
 
 /* ******************************************
    * Solving systems of linear inequalities *

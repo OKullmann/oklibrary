@@ -43,7 +43,7 @@
 
 #define _RIJNDAEL_CPP_
 
-#include <Transitional/Structures/Cryptology/rijndael.hpp>
+#include <OKlib/Structures/Cryptology/rijndael.hpp>
 
 #include <cstring>
 

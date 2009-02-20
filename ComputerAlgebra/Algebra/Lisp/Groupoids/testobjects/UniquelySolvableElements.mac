@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/UniquelySolvableElements.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/UniquelySolvableElements.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/Uniq
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/UniquelySolvableElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/UniquelySolvableElements.mac")$
 
 okltest_leftpermutation_el_grd(leftpermutation_el_grd);
 okltest_rightpermutation_el_grd(rightpermutation_el_grd);

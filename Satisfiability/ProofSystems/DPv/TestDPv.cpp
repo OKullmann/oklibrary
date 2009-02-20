@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/TestDPv.cpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/TestDPv.cpp
   \deprecated
 */
 
 #include <iostream>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/Input_output_Testobjects.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/Input_output_Testobjects.hpp>
 
 int main(const int argc, const char* const argv[]) {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

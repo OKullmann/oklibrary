@@ -190,7 +190,7 @@ OKplatform/system_directories/aux> doxygen -u Doxyfile
    \endverbatim
    and after studying these changes, update the template
    \verbatim
-Transitional/Buildsystem/Configuration> doxygen -u Doxyfile
+OKlib/Buildsystem/Configuration> doxygen -u Doxyfile
    \endverbatim
    </li>
    <li> DONE (doxygen_parameters deleted, since not needed --- parameters can

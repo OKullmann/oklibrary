@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testobjects/SplittingTrees.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testobjects/SplittingTrees.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testob
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac")$
 
 okltest_negate_st(negate_st);
 okltest_condense_st(condense_st);

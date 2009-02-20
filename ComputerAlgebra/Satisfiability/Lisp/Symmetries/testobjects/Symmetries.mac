@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/testobjects/Symmetries.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/testobjects/Symmetries.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
 
 /* ****************************************
    * Isomorphism testing via backtracking *

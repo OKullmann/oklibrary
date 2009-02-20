@@ -11,7 +11,7 @@
 
 ;; Use by
 
-;; oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp");
+;; oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp");
 
 
 ;;;;;;;

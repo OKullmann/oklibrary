@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Combinatorics/plans/general.hpp
+  \file OKlib/Combinatorics/plans/general.hpp
   \brief Plans for the combinatorics module
 
   In this part, direct algorithms for combinatorial

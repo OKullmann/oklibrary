@@ -13,18 +13,18 @@ License, or any later version. */
 #ifndef REFACTORINGINCLUDEHANDLING_jjHHbgt6
 #define REFACTORINGINCLUDEHANDLING_jjHHbgt6
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/traits/TypeTraits.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
 
-#include <Transitional/Programming/Refactoring/traits/string_type.hpp>
-#include <Transitional/Programming/Refactoring/traits/size_type.hpp>
+#include <OKlib/Programming/Refactoring/traits/string_type.hpp>
+#include <OKlib/Programming/Refactoring/traits/size_type.hpp>
 
-#include <Transitional/Concepts/InputOutput.hpp>
+#include <OKlib/Concepts/InputOutput.hpp>
 
-#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
+#include <OKlib/Programming/Refactoring/BoostPathCorrected.hpp>
 
-#include <Transitional/Programming/Refactoring/IncludeHandling.hpp>
+#include <OKlib/Programming/Refactoring/IncludeHandling.hpp>
 
 namespace OKlib {
   namespace Concepts {

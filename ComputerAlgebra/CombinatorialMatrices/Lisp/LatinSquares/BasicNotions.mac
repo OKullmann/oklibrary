@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac");
+oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *****************

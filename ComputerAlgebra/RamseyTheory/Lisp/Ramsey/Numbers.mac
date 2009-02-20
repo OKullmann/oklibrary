@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* A "Ramsey parameter tuple" is a pair [L,k], where k is the length of the
    hyperedges considered, the length of L is the number of colours, and each

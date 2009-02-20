@@ -149,7 +149,7 @@ Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
 Distributed under the GNU Public License. See the file COPYING.
 Dedicated to the memory of William Schelter.
 The function bug_report() provides bug reporting information.
-(%i1) load("/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac");
+(%i1) load("/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac");
 Maxima encountered a Lisp error:
 
  Segmentation violation.
@@ -162,7 +162,7 @@ Maxima 5.16.3 http://maxima.sourceforge.net
 Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
 (%i1) oklib_load_all();
 Evaluation took 5.4600 seconds (5.5430 elapsed)
-(%o1) "/home/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/include.mac"
+(%o1) "/home/csoliver/SAT-Algorithmen/OKplatform/OKsystem/OKlib/ComputerAlgebra/include.mac"
 (%i2) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
 Evaluation took 0.0040 seconds (0.0030 elapsed)
 (%o2) true
@@ -210,7 +210,7 @@ for x in [1,2,3] do print(x);
      mailing list. </li>
      <li> DONE (Maxima-error corrected)
      Then with 
-     "oklib_batch("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
+     "oklib_batch("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
      we get an error-message
      \verbatim
 Maxima encountered a Lisp error:
@@ -240,7 +240,7 @@ To reenable the Lisp debugger set *debugger-hook* to nil.
      The function "fun" is also not loaded; this disappears when using
      "load("Unless.mac"); </li>
      <li> Though also when loading
-     Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/uhit_def.mac
+     OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/uhit_def.mac
      by oklib_load instead of oklib_batch we also get an error
      (with ecl): The frontend gets into an infinite loops and 
      doesn't react anymore. </li>

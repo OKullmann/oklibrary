@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.m
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/DiederGroups.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/DiederGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
 
 /*!
 \endhtmlonly

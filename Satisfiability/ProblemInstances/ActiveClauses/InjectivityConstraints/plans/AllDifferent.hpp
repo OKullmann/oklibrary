@@ -66,9 +66,9 @@ namespace OKlib {
 #include <exception>
 #include <list>
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
-#include <Transitional/InjectivityConstraints/AllDifferent.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <OKlib/InjectivityConstraints/AllDifferent.hpp>
 
 #include <boost/assign/std/vector.hpp> 
 #include <boost/assign/std/list.hpp> 

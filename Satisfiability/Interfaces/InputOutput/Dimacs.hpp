@@ -31,9 +31,9 @@ License, or any later version. */
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Programming/InputOutput/IOStreamFilters.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamFilters.hpp>
 
-#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
   namespace InputOutput {

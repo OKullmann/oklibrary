@@ -13,9 +13,9 @@ License, or any later version. */
 #ifndef SYMMETRYTESTS_8UUhhBt5r
 #define SYMMETRYTESTS_8UUhhBt5r
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
 
 namespace OKlib {
   namespace Matrices {

@@ -13,7 +13,7 @@ License, or any later version. */
 #include <sstream>
 #include <cassert>
 
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
 
 namespace OKlib {
   namespace Messages {

@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef RELATIONTESTSTESTOBJECTS_99iu5
 #define RELATIONTESTSTESTOBJECTS_99iu5
 
-#include <Transitional/TestExecutionTools/RelationTests.hpp>
-#include <Transitional/TestExecutionTools/RelationTests_Tests.hpp>
+#include <OKlib/TestExecutionTools/RelationTests.hpp>
+#include <OKlib/TestExecutionTools/RelationTests_Tests.hpp>
 
 namespace OKlib {
 

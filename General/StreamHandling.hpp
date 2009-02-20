@@ -31,7 +31,7 @@ License, or any later version. */
 #include <sys/stat.h> // for mode macros
 #include <sys/types.h>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 namespace StreamHandling {
 

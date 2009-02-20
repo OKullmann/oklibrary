@@ -18,7 +18,7 @@ License, or any later version. */
    topics are handled:
     - Update namespaces
     - Collect possible requirements on a hypergraph concept
-    - Move the related files from Transitional/Concepts here : DONE
+    - Move the related files from OKlib/Concepts here : DONE
 
 
   \par Version 0.0.5 :

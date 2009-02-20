@@ -23,12 +23,12 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

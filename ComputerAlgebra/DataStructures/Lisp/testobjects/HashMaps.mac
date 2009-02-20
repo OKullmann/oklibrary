@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/HashMaps.mac");
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/testobjects/HashMaps.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/HashMap
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
 
 /* ************************
    * Set-theoretical maps *

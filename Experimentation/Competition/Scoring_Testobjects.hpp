@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef SCORINGTESTOBJECTS_poIU71k
 #define SCORINGTESTOBJECTS_poIU71k
 
-#include <Transitional/Experimentation/Competition/Scoring.hpp>
-#include <Transitional/Experimentation/Competition/Scoring_Tests.hpp>
+#include <OKlib/Experimentation/Competition/Scoring.hpp>
+#include <OKlib/Experimentation/Competition/Scoring_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/IncidenceStructures/Lisp/include.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac")$
-oklib_include("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/ProjectivePlanes.mac")$
+oklib_include("OKlib/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/IncidenceStructures/Lisp/ProjectivePlanes.mac")$
 
 /*!
 \endhtmlonly

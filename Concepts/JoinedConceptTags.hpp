@@ -28,8 +28,8 @@ License, or any later version. */
 #ifndef JOINEDCONCEPTTAGS_74TTba14kfbr
 #define JOINEDCONCEPTTAGS_74TTba14kfbr
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Concepts/Literals.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Concepts/Literals.hpp>
 
 namespace OKlib {
   namespace Concepts {

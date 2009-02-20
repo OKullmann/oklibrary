@@ -10,8 +10,8 @@ License, or any later version. */
 
 #include <boost/graph/adjacency_list.hpp>
 
-#include <Transitional/Combinatorics/Graphs/TreeDecompositions/EliminationSequences.hpp>
-#include <Transitional/Combinatorics/Graphs/TreeDecompositions/EliminationSequences_Tests.hpp>
+#include <OKlib/Combinatorics/Graphs/TreeDecompositions/EliminationSequences.hpp>
+#include <OKlib/Combinatorics/Graphs/TreeDecompositions/EliminationSequences_Tests.hpp>
 
 namespace OKlib {
   namespace GraphDecomposition {

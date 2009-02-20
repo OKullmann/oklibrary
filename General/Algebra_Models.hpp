@@ -23,8 +23,8 @@ License, or any later version. */
 #include <cassert>
 #include <ostream>
 
-#include <Transitional/General/NumberTheory_Models.hpp>
-#include <Transitional/General/Algorithms.hpp>
+#include <OKlib/General/NumberTheory_Models.hpp>
+#include <OKlib/General/Algorithms.hpp>
 
 namespace Algebra {
 

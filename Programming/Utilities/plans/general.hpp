@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Programming/Utilities/plans/general.hpp
+  \file OKlib/Programming/Utilities/plans/general.hpp
   \brief General plans for the utilities module
 
   Components for various purposes, which do not find a "systematic" place.

@@ -5,9 +5,9 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
 
-#include <Transitional/TestSystem/tests/TestBaseClass.hpp>
+#include <OKlib/TestSystem/tests/TestBaseClass.hpp>
 
 namespace {
 

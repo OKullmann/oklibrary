@@ -11,7 +11,7 @@ License, or any later version. */
 #include <vector>
 #include <string>
 
-#include <Transitional/General/Kommandozeile.hpp>
+#include <OKlib/General/Kommandozeile.hpp>
 
 namespace EndlicherAutomat {
 

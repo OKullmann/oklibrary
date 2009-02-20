@@ -17,9 +17,9 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
-#include <Transitional/General/NumberTheory_Models.hpp>
+#include <OKlib/General/NumberTheory_Models.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

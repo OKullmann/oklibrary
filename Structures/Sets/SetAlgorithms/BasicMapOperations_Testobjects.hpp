@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef BASICMAPOPERATIONSTESTOBJECTS_alakah66
 #define BASICMAPOPERATIONSTESTOBJECTS_alakah66
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations_Tests.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations_Tests.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {

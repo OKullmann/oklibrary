@@ -20,7 +20,7 @@ License, or any later version. */
 
 #include <boost/ptr_container/ptr_list.hpp>
 
-#include <Transitional/TestSystem/TestFondement.hpp>
+#include <OKlib/TestSystem/TestFondement.hpp>
 
 namespace OKlib {
 

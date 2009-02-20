@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac");
 
 */
 
@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Invertible
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
 
 kill(f)$
 

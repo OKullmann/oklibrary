@@ -64,8 +64,8 @@ License, or any later version. */
 #include <boost/random/variate_generator.hpp>
 #include <boost/random/linear_congruential.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
-#include <Transitional/General/Algebra_Traits.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
+#include <OKlib/General/Algebra_Traits.hpp>
 
 
 namespace Algorithms {

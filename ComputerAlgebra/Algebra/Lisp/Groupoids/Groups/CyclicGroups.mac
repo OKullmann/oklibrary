@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac");
 
 */
 
@@ -23,8 +23,8 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGro
    ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac.
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
 
 
 cyclic_ugrp(n) := rngfrm2egrd_add(residues_rng(n))$

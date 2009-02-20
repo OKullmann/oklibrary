@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.0.4
 
   \par
-   In Transitional/Satisfiability/FiniteFunctions/plans/general.hpp the
+   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
    following topics are handled:
     - Links and plans
 

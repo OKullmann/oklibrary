@@ -13,10 +13,10 @@ License, or any later version. */
 #ifndef ATOMICCONDITIONSTESTS_jajazbY6
 #define ATOMICCONDITIONSTESTS_jajazbY6
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Concepts/AtomicConditions.hpp>
+#include <OKlib/Concepts/AtomicConditions.hpp>
 
 namespace OKlib {
   namespace Concepts {

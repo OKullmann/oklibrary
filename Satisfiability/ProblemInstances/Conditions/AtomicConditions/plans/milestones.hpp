@@ -15,7 +15,7 @@ License, or any later version. */
   
   \par
    In AtomicConditions/plans/general.hpp the following topics are handled:
-    - Move concepts from Transitional/Concepts here
+    - Move concepts from OKlib/Concepts here
     - Update code w.r.t. new namespaces
   
 

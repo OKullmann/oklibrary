@@ -16,11 +16,11 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
-#include <Transitional/Satisfiability/Assignments/PartAssign.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/Literal.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
+#include <OKlib/Satisfiability/Assignments/PartAssign.hpp>
 
 namespace DLL_Algorithms {
 

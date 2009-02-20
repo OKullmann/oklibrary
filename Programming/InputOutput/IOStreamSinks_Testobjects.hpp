@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 #define IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 
-#include <Transitional/Programming/InputOutput/IOStreamSinks.hpp>
-#include <Transitional/Programming/InputOutput/IOStreamSinks_Tests.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamSinks.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamSinks_Tests.hpp>
 
 
 namespace OKlib {

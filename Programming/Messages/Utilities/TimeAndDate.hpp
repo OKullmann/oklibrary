@@ -13,9 +13,9 @@ License, or any later version. */
 #ifndef TIMEANDDATE_jHgFrT45
 #define TIMEANDDATE_jHgFrT45
 
-#include <Transitional/General/TimeHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
 
-#include <Transitional/Programming/Messages/MessagesBase.hpp>
+#include <OKlib/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {

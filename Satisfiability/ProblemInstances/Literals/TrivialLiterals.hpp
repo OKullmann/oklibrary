@@ -15,19 +15,19 @@ License, or any later version. */
 
 #include <cstdlib>
 
-#include <Transitional/Concepts/traits/concept_tag.hpp>
+#include <OKlib/Concepts/traits/concept_tag.hpp>
 
-#include <Transitional/Concepts/Variables.hpp>
-#include <Transitional/Concepts/Literals.hpp>
-#include <Transitional/Concepts/JoinedConceptTags.hpp>
+#include <OKlib/Concepts/Variables.hpp>
+#include <OKlib/Concepts/Literals.hpp>
+#include <OKlib/Concepts/JoinedConceptTags.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/var.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Literals/cond.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/var.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/cond.hpp>
 
 
 namespace OKlib {

@@ -16,7 +16,7 @@ License, or any later version. */
 #include <iterator>
 #include <algorithm>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 namespace XMLHandling {
 

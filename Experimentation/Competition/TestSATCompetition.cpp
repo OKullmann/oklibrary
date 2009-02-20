@@ -7,15 +7,15 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/ResultProcessing_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/Scoring_Testobjects.hpp>
-#include <Transitional/Experimentation/Competition/LexicographicalEvaluation_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/Scoring_Testobjects.hpp>
+#include <OKlib/Experimentation/Competition/LexicographicalEvaluation_Testobjects.hpp>
 
 /*!
   \file Experimentation/Competition/TestSATCompetition.cpp

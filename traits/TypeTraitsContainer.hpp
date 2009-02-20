@@ -19,8 +19,8 @@ License, or any later version. */
 #include <deque>
 #include <set>
 
-#include <Transitional/Concepts/std_Container.hpp>
-#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
+#include <OKlib/Concepts/std_Container.hpp>
+#include <OKlib/Concepts/ConceptsMetafunctions.hpp>
 
 namespace OKlib {
 

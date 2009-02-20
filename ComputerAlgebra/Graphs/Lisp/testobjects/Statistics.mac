@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Statistics.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/testobjects/Statistics.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Statistics.mac"
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$
 
 /* ******************
    * Vertex degrees *

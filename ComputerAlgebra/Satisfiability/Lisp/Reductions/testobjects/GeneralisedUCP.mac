@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobjects/GeneralisedUCP.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobjects/GeneralisedUCP.mac");
 
 */
 
@@ -18,9 +18,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
 
 /* **********************
    * The r_k reductions *

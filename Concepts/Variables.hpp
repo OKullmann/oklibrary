@@ -13,10 +13,10 @@ License, or any later version. */
 #ifndef VARIABLES_095tYb
 #define VARIABLES_095tYb
 
-#include <Transitional/traits/TypeTraits.hpp>
+#include <OKlib/traits/TypeTraits.hpp>
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
 
 namespace OKlib {
   namespace Concepts {

@@ -29,7 +29,7 @@ License, or any later version. */
    subpage of Local/History.html. See "Package history" in
    Buildsystem/Html/Local/plans/History.hpp. </li>
    <li> DONE
-   Compare "Backups and archives" in Transitional/plans/general.hpp
+   Compare "Backups and archives" in OKlib/plans/general.hpp
    for the "official history". </li>
    <li> DONE (exactly the packages which represent an advance at least in
    the third digit of the overall version are kept, and this in the
@@ -52,7 +52,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> DONE (the "official history" is handled by "Backups and archives"
-   in Transitional/plans/general.hpp)
+   in OKlib/plans/general.hpp)
    Can we make the OKlibrary "officially" available? Or "more
    official"?? Perhaps we need a Sourceforge-account??? The Git-history should
    be well-secured. </li>

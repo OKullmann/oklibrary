@@ -19,7 +19,7 @@ ubcsat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Ubcsat
 ubcsat_build_dir_okl ?= $(ubcsat_base_build_dir_okl)/$(ubcsat_recommended_version_number_okl)
 
 ubcsat_installsrc_okl ?= $(ubcsat_installation_dir_okl)/src
-ubcsat_include_option_okl ?= -I- -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected -I$(ubcsat_installsrc_okl)
+ubcsat_include_option_okl ?= -I- -I$(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected -I$(ubcsat_installsrc_okl)
 ubcsat_link_okl ?= $(ubcsat_installation_dir_okl)/lib
 ubcsat_link_option_okl ?= -L$(ubcsat_link_okl) -lubcsat
 
@@ -30,7 +30,7 @@ ubcsat_docu_page_okl ?= $(doc_dir)/doxygen_html/d6/d0c/docus_2Ubcsat_8hpp.html
 ubcsat_homepage_url_okl := http://www.satlib.org/ubcsat/
 ubcsat_documentation_url_okl := http://www.satlib.org/ubcsat/\#documentation
 
-ubcsat_corrected_dir_okl := $(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected
+ubcsat_corrected_dir_okl := $(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected
 ubcsat_corrected_files_okl := $(wildcard $(ubcsat_corrected_dir_okl)/*.h $(ubcsat_corrected_dir_okl)/*.c)
 
 ubcsat_targets_prefix_okl := $(ubcsat_prefix_okl)-

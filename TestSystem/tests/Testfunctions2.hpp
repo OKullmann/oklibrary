@@ -14,10 +14,10 @@ License, or any later version. */
 #ifndef TESTFUNCTIONS2_kHFcD3
 #define TESTFUNCTIONS2_kHFcD3
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
 
-#include <Transitional/TestSystem/tests/Testfunctions.hpp>
+#include <OKlib/TestSystem/tests/Testfunctions.hpp>
 
 namespace OKlib {
   namespace TestSystem {

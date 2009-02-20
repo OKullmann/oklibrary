@@ -17,7 +17,7 @@ License, or any later version. */
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Building "all"
     - Downloading sources
 
@@ -25,14 +25,14 @@ License, or any later version. */
   \par Version 0.1.3
 
   \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Interfaces via OKplatform/bin
 
 
   \par Version 0.1.4
 
   \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Elaborated directory structure
     - Building documentation
     - Documenting changes of files outside of the OKplatform directory
@@ -52,7 +52,7 @@ License, or any later version. */
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Finish docus for special builds
     - Complete Buildsystem/ExternalSources/docus/Internals.hpp
 

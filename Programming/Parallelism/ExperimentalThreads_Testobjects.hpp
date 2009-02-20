@@ -16,8 +16,8 @@ License, or any later version. */
 #ifndef EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 #define EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 
-#include <Transitional/Programming/Parallelism/ExperimentalThreads.hpp>
-#include <Transitional/Programming/Parallelism/ExperimentalThreads_Tests.hpp>
+#include <OKlib/Programming/Parallelism/ExperimentalThreads.hpp>
+#include <OKlib/Programming/Parallelism/ExperimentalThreads_Tests.hpp>
 
 namespace OKlib {
   namespace Parallelism {

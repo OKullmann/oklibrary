@@ -58,7 +58,7 @@ License, or any later version. */
   <ul>
    <li> Applying the licence-insertion for C/C++ like files with
    \verbatim
-Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" -or -name "*.c")
+OKlib> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" -or -name "*.c")
   do 
     System/LegalIssues/AddLicence1 ${F}
   done > Exceptions
@@ -69,20 +69,20 @@ Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" 
    2 arguments, and only if the second argument is "override" then replacement
    takes place, as in
    \verbatim
-Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
+OKlib> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
     -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
   do
-    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "override";
+    ${OKPLATFORM}/OKsystem/OKlib/System/LegalIssues/AddLicence2 ${F} "override";
   done > Exceptions
    \endverbatim
    which inserts the licence text into script-files. </li>
    <li> Just the list of files which do fit in principle, but where the creation-info-line
    doesn't look right, is extracted with any other second argument, for example
    \verbatim
-Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
+OKlib> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
     -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
   do
-    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "noop";
+    ${OKPLATFORM}/OKsystem/OKlib/System/LegalIssues/AddLicence2 ${F} "noop";
   done
    \endverbatim
    </li>

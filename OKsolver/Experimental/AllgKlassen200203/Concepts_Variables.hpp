@@ -13,8 +13,8 @@ License, or any later version. */
 
 #include <boost/concept_check.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Concepts_General.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Concepts_General.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
 
 namespace Concepts_Variables {
 

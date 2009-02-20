@@ -18,11 +18,11 @@ License, or any later version. */
 #ifndef RESULTELEMENT_6Tg5Yh
 #define RESULTELEMENT_6Tg5Yh
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Experimentation/Competition/traits/string_type.hpp>
-#include <Transitional/Experimentation/Competition/traits/floating_point_type.hpp>
-#include <Transitional/Experimentation/Competition/traits/natural_number_type.hpp>
+#include <OKlib/Experimentation/Competition/traits/string_type.hpp>
+#include <OKlib/Experimentation/Competition/traits/floating_point_type.hpp>
+#include <OKlib/Experimentation/Competition/traits/natural_number_type.hpp>
 
 namespace OKlib {
 

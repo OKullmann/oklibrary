@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
   \brief Deprecated. Input and output of cnf formulas in DIMACS format.
   \deprecated
   \todo The new implementations (see below) could be the starting point
@@ -29,10 +29,10 @@ License, or any later version. */
 #include <boost/lexical_cast.hpp>
 #include <boost/spirit/core.hpp>
 
-#include <Transitional/Programming/Parsing/ParserBase.hpp>
+#include <OKlib/Programming/Parsing/ParserBase.hpp>
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp>
-#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/DPv.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
   namespace DPv {

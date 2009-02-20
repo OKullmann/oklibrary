@@ -18,8 +18,8 @@ License, or any later version. */
 
 #include <boost/static_assert.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
 
 namespace Domains {
 

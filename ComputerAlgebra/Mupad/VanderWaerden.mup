@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* read_vdw :=hold(read("/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/Transitional/Mupad/VanderWaerden.mup")):
+/* read_vdw :=hold(read("/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/OKlib/Mupad/VanderWaerden.mup")):
 */
 
 /* Copy this into mupad (with the past replaced accordingly). */

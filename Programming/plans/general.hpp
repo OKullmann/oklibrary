@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Programming/plans/general.hpp
+  \file OKlib/Programming/plans/general.hpp
   \brief General plans regarding the programming part
 
 

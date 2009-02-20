@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Hypergraphs.mac");
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Hypergraphs.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Hypergraphs.ma
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 
 /* Ramsey hypergraphs are computed by ramsey_(o)hg(q,r,n) (from
    Hypergraphs/Lisp/Generators.mac).

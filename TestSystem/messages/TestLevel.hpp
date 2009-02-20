@@ -13,10 +13,10 @@ License, or any later version. */
 #ifndef TESTLEVELEXPLANATIONS_uYYtr5
 #define TESTLEVELEXPLANATIONS_uYYtr5
 
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
-#include <Transitional/Programming/Messages/LineHandling.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/LineHandling.hpp>
 
-#include <Transitional/TestSystem/TestFondement.hpp>
+#include <OKlib/TestSystem/TestFondement.hpp>
 
 namespace OKlib {
 

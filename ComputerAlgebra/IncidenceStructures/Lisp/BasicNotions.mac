@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac");
+oklib_load("OKlib/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.m
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 /* *****************
    * Basic notions *

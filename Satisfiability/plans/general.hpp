@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/plans/general.hpp
+  \file OKlib/Satisfiability/plans/general.hpp
   \brief Contains all super-modules regarding (generalised) satisfiability
   issues
 
@@ -71,7 +71,7 @@ License, or any later version. */
    One wants to say directly that Solvers or Heuristics should advance,
    without introducing artificial combination-milestones. </li>
    <li> However, like namespace administration, there are todos also at
-   this level? Perhaps for now they go directly to Transitional/plans? </li>
+   this level? Perhaps for now they go directly to OKlib/plans? </li>
    <li> The tree structure of the planning system (setting milestones must
    follow the hierarchies: the "manager" cannot directly give orders
    to the "workers") is a bit of a hindrance here, but in general it

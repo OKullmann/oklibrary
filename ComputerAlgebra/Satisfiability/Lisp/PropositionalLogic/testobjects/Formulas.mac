@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/testobjects/Formulas.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/testobjects/Formulas.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
 
 okltest_var_prpl(var_prpl);
 okltest_var_ft(var_ft);

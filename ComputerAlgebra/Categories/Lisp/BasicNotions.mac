@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Categories/Lisp/BasicNotions.mac");
+oklib_load("OKlib/ComputerAlgebra/Categories/Lisp/BasicNotions.mac");
 
 */
 

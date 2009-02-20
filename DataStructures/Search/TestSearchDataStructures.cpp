@@ -7,9 +7,9 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/DataStructures/Search/AssociativeContainers_Testobjects.hpp>
+#include <OKlib/DataStructures/Search/AssociativeContainers_Testobjects.hpp>
 
 int main() {
 

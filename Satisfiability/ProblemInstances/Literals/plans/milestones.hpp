@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.5 :
    In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
-    - Move the related concepts and plans from Transitional/Concepts here
+    - Move the related concepts and plans from OKlib/Concepts here
     - Prototypes
 
   \par

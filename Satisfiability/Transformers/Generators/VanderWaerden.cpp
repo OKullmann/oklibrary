@@ -7,9 +7,9 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
-#include <Transitional/Satisfiability/Transformers/Generators/VanderWaerden.hpp>
+#include <OKlib/Satisfiability/Transformers/Generators/VanderWaerden.hpp>
 
 int main(const int argc, const char* const argv[]) {
     if (argc <= 2) {

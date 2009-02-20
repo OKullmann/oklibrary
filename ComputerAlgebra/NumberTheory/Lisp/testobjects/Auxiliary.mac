@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/Auxiliary.mac");
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/Auxiliary.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/Auxiliary
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
 
 /* **************
    * Logarithms *

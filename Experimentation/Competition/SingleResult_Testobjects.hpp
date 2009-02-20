@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef SINGLERESULTTESTOBJECTS_BVcr678
 #define SINGLERESULTTESTOBJECTS_BVcr678
 
-#include <Transitional/Concepts/ResultElements_Tests.hpp>
+#include <OKlib/Concepts/ResultElements_Tests.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/SingleResult_Tests.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActions.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActions.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActio
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
 
 
 /* Given a groupoid (V,compo), the left- resp. right-action of set V on set V

@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef TEST_SUDOKU_jjNNcdeRQR
 #define TEST_SUDOKU_jjNNcdeRQR
 
-#include <Transitional/Applications/LatinSquares/Sudoku.hpp>
+#include <OKlib/Applications/LatinSquares/Sudoku.hpp>
 
 namespace OKlib {
   namespace LatinSquares {

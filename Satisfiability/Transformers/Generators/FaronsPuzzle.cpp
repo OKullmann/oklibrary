@@ -18,9 +18,9 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
-#include <Transitional/Satisfiability/Transformers/Generators/FaronsPuzzle.hpp>
+#include <OKlib/Satisfiability/Transformers/Generators/FaronsPuzzle.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

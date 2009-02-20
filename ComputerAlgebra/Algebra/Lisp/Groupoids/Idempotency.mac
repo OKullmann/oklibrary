@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Idempotency.mac"
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Check whether x is idempotent for groupoid V: */
 idempotent_el_grd(V,x) := is(V[2](x,x) = x)$

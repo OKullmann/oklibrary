@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
 
 */
 
@@ -19,15 +19,15 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
 
 /*!
 \endhtmlonly

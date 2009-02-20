@@ -9,7 +9,7 @@ License, or any later version. */
   \file General/Combinatorics_Tests.hpp
   \brief Tests for the elementary counting and enumeration tools.
 
-  \todo When transferring to Transitional:
+  \todo When transferring to OKlib:
    - Use the new test system.
    - Complete the tests.
 

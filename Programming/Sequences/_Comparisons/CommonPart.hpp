@@ -71,7 +71,7 @@ License, or any later version. */
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 
-#include <Transitional/Programming/Sequences/declarations.hpp>
+#include <OKlib/Programming/Sequences/declarations.hpp>
 
 namespace OKlib {
   namespace Programming {

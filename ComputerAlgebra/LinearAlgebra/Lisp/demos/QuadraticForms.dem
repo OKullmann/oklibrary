@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_demo("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac");
+oklib_demo("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac");
 
 */
 
@@ -22,8 +22,8 @@ oklib_demo("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms
 if oklib_test_demos then
  if oklib_test_demos_level < 1 then return()$
 
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 "Squares matrices M_n of order n with zeros on the diagonal and 1 elsewhere:"$
 

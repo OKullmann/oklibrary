@@ -36,14 +36,14 @@ touch OKplatform/OKsystem/Annotations/definitions.mak
 
 cd ${package_directory}/OKplatform/OKsystem
 git clone ${git_http_repository}
-mv oklibrary Transitional
+mv oklibrary OKlib
 
 cp -r ${documents_dir} .
 
 cd .. # in OKplatform now
 
-env -i PATH=${PATH} make -f OKsystem/Transitional/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
-ln -s OKsystem/Transitional/Buildsystem/MasterScript/oklib
+env -i PATH=${PATH} make -f OKsystem/OKlib/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
+ln -s OKsystem/OKlib/Buildsystem/MasterScript/oklib
 env -i PATH=${PATH} ./oklib --prebuild make_directories
 cp ${readme_file} .
 
@@ -53,7 +53,7 @@ cd ../.. # package-directory now
 tar -cjf ${min_tar_package_name} ${package_name}
 
 cur_date=$(echo ${current_date} | tr --delete [:space:])
-cur_SHA=$(cd ${Transitional}; git log HEAD | head -1 | cut --fields=2 --delimiter=" ")
+cur_SHA=$(cd ${OKlib}; git log HEAD | head -1 | cut --fields=2 --delimiter=" ")
 record_begin="${counter} ${transitional_version} ${cur_SHA} ${cur_date}"
 
 printf "%s %s %s %s %s %s" ${record_begin} $(md5sum ${min_tar_package_name}) >> ${release_history_template}

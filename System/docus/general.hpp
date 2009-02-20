@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/System/docus/general.hpp
+  \file OKlib/System/docus/general.hpp
   \brief Central docus-file for the part containing "systemic" supermodules
 
 

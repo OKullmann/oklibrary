@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/Consenus.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/Consenus.mac");
 
 */
 
@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/tests/Consenus.ma
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Bicliques/Consensus.mac")$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/Consensus.mac")$
 
 kill(f)$
 

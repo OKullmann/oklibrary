@@ -14,9 +14,9 @@ License, or any later version. */
 
 // #include <iostream> // DEBUG
 
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
-#include <Transitional/General/SystemHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
+#include <OKlib/General/SystemHandling.hpp>
 
 
 namespace AutomatedCompilation {

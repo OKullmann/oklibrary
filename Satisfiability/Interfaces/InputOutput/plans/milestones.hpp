@@ -18,7 +18,7 @@ License, or any later version. */
    are handled:
     - Rewrite code for the new namespaces.
     - Update
-    - See Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp
+    - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:

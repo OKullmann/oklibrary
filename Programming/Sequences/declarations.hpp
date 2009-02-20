@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef SEQUENCESDECLARATIONS_MMa34erTtatqg
 #define SEQUENCESDECLARATIONS_MMa34erTtatqg
 
-#include <Transitional/Programming/declarations.hpp>
+#include <OKlib/Programming/declarations.hpp>
 
 namespace OKlib {
   namespace Programming {

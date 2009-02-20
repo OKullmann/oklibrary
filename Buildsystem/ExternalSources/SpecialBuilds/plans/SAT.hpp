@@ -202,7 +202,7 @@ make: *** [march.o] Error 1
 ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/march_ks.zip
 ExternalSources/Installations/SAT> cd march_ks/
 ExternalSources/Installations/SAT/march_ks> make
-ExternalSources/Installations/SAT/march_ks> ./march_ks $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
+ExternalSources/Installations/SAT/march_ks> ./march_ks $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
    \endverbatim
    seems to work now. </li>
    <li> Installing march_pl:
@@ -210,7 +210,7 @@ ExternalSources/Installations/SAT/march_ks> ./march_ks $OKPLATFORM/OKsystem/Tran
 ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/march_pl.zip
 ExternalSources/Installations/SAT> cd march_pl/
 ExternalSources/Installations/SAT/march_pl> make
-ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
+ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
    \endverbatim
    seems to work.
    </li>
@@ -219,7 +219,7 @@ ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/Tran
 ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/UnitMarch.zip
 ExternalSources/Installations/SAT> cd UnitMarch64/
 ExternalSources/Installations/SAT/UnitMarch64> make
-ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
+ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
    \endverbatim
    ??? Only a 32-bits version?
    </li>
@@ -497,7 +497,7 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
 builds/SAT/Grasp/tar -xjf ../../../sources/SAT/GRASP/grasp-release-20080622.tar.bz2
 cd grasp-release-20080622
 make
-./sat-grasp ../../../../../OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
+./sat-grasp ../../../../../OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
    \endverbatim
    </li>
    <li> Code needs update (warnings). </li>

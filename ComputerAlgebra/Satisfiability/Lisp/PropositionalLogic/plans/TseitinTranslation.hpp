@@ -22,7 +22,7 @@ License, or any later version. */
   \todo Reorganisation
   <ul>
    <li> Move respective code in
-   Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac
+   OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac
    (see also the tests) to PropositionalLogic/TseitinTranslation.mac.
   </ul>
 

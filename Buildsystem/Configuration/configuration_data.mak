@@ -18,7 +18,7 @@ OKlog ?= $(OKanchor)/log
 include $(OKoverrideconfig)
 
 ifndef OKconfiguration
-  $(error The make-variable OKconfiguration must be defined as the directory path for the configuration directory (default is a symbolic link to Transitional/Buildsystem/Configuration in OKplatform/.oklib)!)
+  $(error The make-variable OKconfiguration must be defined as the directory path for the configuration directory (default is a symbolic link to OKlib/Buildsystem/Configuration in OKplatform/.oklib)!)
 endif
 
 include $(OKconfiguration)/main_directories.mak

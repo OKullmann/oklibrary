@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef TRIVIALMESSAGE_jdjNNaml74re34
 #define TRIVIALMESSAGE_jdjNNaml74re34
 
-#include <Transitional/Programming/Messages/MessagesBase.hpp>
+#include <OKlib/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {

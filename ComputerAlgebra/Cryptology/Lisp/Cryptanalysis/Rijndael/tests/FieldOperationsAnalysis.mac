@@ -11,7 +11,7 @@ License, or any later version. */
 
   Use by
 
-oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
 
   \bug What is the meaning of the part commented out?
   <ul>
@@ -53,7 +53,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 kill(f)$
 

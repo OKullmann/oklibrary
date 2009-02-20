@@ -52,13 +52,13 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/value_type.hpp>
 
-#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
+#include <OKlib/Programming/Refactoring/BoostPathCorrected.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/Programming/InputOutput/RecursiveDirectoryIteration.hpp>
-#include <Transitional/DataStructures/Search/AssociativeContainers.hpp>
-#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
+#include <OKlib/Programming/InputOutput/RecursiveDirectoryIteration.hpp>
+#include <OKlib/DataStructures/Search/AssociativeContainers.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
 
 // ##########################################################################

@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef TEST_MULTIVALUEDPARTIALASSIGNMENTS_jsbvVtr
 #define TEST_MULTIVALUEDPARTIALASSIGNMENTS_jsbvVtr
 
-#include <Transitional/Satisfiability/Assignments/PartialAssignments/MultivaluedPartialAssignments.hpp>
+#include <OKlib/Satisfiability/Assignments/PartialAssignments/MultivaluedPartialAssignments.hpp>
 
 namespace OKlib {
   namespace PartialAssignments {

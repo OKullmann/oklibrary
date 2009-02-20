@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/testobjects/QuadraticForms.mac");
+oklib_load("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/testobjects/QuadraticForms.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/testobjects/Quadrati
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac")$
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac")$
 
 /* ***********************************************
    * Indices of positivity, negativity, nullity *

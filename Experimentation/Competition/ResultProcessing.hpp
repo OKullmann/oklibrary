@@ -29,13 +29,13 @@ License, or any later version. */
 #include <ostream>
 #include <cassert>
 
-#include <Transitional/General/FunctionHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

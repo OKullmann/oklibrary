@@ -25,7 +25,7 @@ License, or any later version. */
 #include <limits>
 #include <cassert>
 
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 namespace StringHandling {
 

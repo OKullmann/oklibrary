@@ -14,7 +14,7 @@ License, or any later version. */
 #ifndef TEST_ALLDIFFERENT_9fw8PFh89
 #define TEST_ALLDIFFERENT_9fw8PFh89
 
-#include <Transitional/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints/AllDifferent.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints/AllDifferent.hpp>
 
 namespace OKlib {
   namespace Sat {

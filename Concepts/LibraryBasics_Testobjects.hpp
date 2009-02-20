@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef LIBRARYBASICSTESTOBJECTS_nnttrqr367
 #define LIBRARYBASICSTESTOBJECTS_nnttrqr367
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
 namespace OKlib {
 

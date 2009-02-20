@@ -42,7 +42,7 @@ License, or any later version. */
      the full local path to the oklib-repository accessible from the
      Internet. </li>
      <li> The current value is
-     "/home/csoliver/cs-svr1/csoliver/public_html/ok-sat-library/git/Transitional"
+     "/home/csoliver/cs-svr1/csoliver/public_html/ok-sat-library/git/OKlib"
      </li>
      <li> The code
      \verbatim
@@ -56,7 +56,7 @@ git --bare update-server-info
      URL for the main (shared) repository. </li>
      <li> git_http_repository (again, typically in override.mak) finally is the
      http-address for git_public_repository; current value is
-     "http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/Transitional/". </li>
+     "http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/OKlib/". </li>
      <li> Via
      \verbatim
 if [ ${git_upstream:+1} ]; then

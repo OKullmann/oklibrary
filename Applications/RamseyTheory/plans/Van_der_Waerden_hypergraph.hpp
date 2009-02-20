@@ -30,14 +30,14 @@ License, or any later version. */
    <li> Best we provide this functionality as Unix tools as well as at
    library level. </li>
    <li> Perhaps this hypergraph creation happens in
-   Transitional/Combinatorics/Hypergraphs, while here we plug these
+   OKlib/Combinatorics/Hypergraphs, while here we plug these
    hypergraphs together to get a clause-set. </li>
    <li> The hypergraph can be output as a positive clause-set,
    in DIMACS format, into a file. </li>
-   <li> From Transitional/Satisfiability/Transformers we get the tools
+   <li> From OKlib/Satisfiability/Transformers we get the tools
    for standardising the names. </li>
    <li> Perhaps the number-theoretical tools should go to
-   Transitional/Structures/NumberTheory.
+   OKlib/Structures/NumberTheory.
     <ol>
      <li> Enumerating the primes:
       <ol>

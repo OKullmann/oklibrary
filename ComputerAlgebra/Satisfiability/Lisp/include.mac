@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/include.mac");
 
 */
 
@@ -19,19 +19,19 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/include.mac")$
 
 /*!
 \endhtmlonly

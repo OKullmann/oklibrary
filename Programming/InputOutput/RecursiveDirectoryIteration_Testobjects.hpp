@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef RECURSIVEDIRECTORYITERATIONTESTOBJECTS_w34iwa
 #define RECURSIVEDIRECTORYITERATIONTESTOBJECTS_w34iwa
 
-#include <Transitional/Programming/InputOutput/RecursiveDirectoryIteration.hpp>
-#include <Transitional/Programming/InputOutput/RecursiveDirectoryIteration_Tests.hpp>
+#include <OKlib/Programming/InputOutput/RecursiveDirectoryIteration.hpp>
+#include <OKlib/Programming/InputOutput/RecursiveDirectoryIteration_Tests.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

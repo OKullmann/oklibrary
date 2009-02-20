@@ -29,10 +29,10 @@ License, or any later version. */
      module is loaded:
       <ul>
        <li> "filename" here is, as with the C++ system, a relative path
-       starting with "Transitional". </li>
+       starting with "OKlib". </li>
        <li> At each level files "include.mac" are provided to include
        whole (super-)modules. </li>
-       <li> So "oklib_load_all()" just is <code>oklib_load("Transitional/ComputerAlgebra/include.mac")</code>. </li>
+       <li> So "oklib_load_all()" just is <code>oklib_load("OKlib/ComputerAlgebra/include.mac")</code>. </li>
        <li> But also specific Maxima-files can be loaded. </li>
       </ul>
      </li>
@@ -94,7 +94,7 @@ oklib --maxima --batch=FILE
     <ol>
     <li> Inside a Maxima-file (in the context of the OKlibrary), inclusion of
     other Maxima-files happens via <code>oklib_include(filename)</code>,
-    where filename is the relative path starting with "Transitional".
+    where filename is the relative path starting with "OKlib".
      <li> In this way multiple inclusions are avoided. </li>
      <li> To avoid multiple inclusions for Maxima modules, use
      <code>oklib_plain_include(modulename)</code> (which does not augment the

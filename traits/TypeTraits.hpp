@@ -17,7 +17,7 @@ License, or any later version. */
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits.hpp>
 
-#include <Transitional/Programming/MetaProgramming/Logical.hpp>
+#include <OKlib/Programming/MetaProgramming/Logical.hpp>
 
 namespace OKlib {
   namespace traits {

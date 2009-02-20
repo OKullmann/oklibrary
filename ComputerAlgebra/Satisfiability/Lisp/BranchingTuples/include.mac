@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac");
 
 */
 
@@ -19,10 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/inc
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac")$
 
 /*!
 \endhtmlonly

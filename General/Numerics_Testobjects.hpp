@@ -9,8 +9,8 @@ License, or any later version. */
 
 #define NUMERICS_TESTOBJECTS_bbzqQal9461
 
-#include <Transitional/General/Numerics.hpp>
-#include <Transitional/General/Numerics_Tests.hpp>
+#include <OKlib/General/Numerics.hpp>
+#include <OKlib/General/Numerics_Tests.hpp>
 
 namespace Numerics_Testobjects {
 

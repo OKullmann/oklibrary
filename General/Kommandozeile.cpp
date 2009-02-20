@@ -42,7 +42,7 @@ License, or any later version. */
 #include <cstdlib>
 #include <cerrno>
 
-#include <Transitional/General/Kommandozeile.hpp>
+#include <OKlib/General/Kommandozeile.hpp>
 
 using namespace std;
 

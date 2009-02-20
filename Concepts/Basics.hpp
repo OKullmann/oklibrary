@@ -33,8 +33,8 @@ License, or any later version. */
 
 #include <boost/concept_check.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Concepts/std_Basics.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/std_Basics.hpp>
 
 namespace OKlib {
   namespace Concepts {

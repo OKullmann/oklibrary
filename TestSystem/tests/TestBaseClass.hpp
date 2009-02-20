@@ -19,12 +19,12 @@ License, or any later version. */
 
 #include <sstream>
 
-#include <Transitional/Programming/Messages/Utilities/TrivialMessage.hpp>
-#include <Transitional/Programming/Messages/messages/Levels.hpp>
+#include <OKlib/Programming/Messages/Utilities/TrivialMessage.hpp>
+#include <OKlib/Programming/Messages/messages/Levels.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
 
 namespace OKlib {
   namespace TestSystem {

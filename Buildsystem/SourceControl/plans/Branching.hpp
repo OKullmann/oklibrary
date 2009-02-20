@@ -284,7 +284,7 @@ git config --add branch.br.merge "refs/heads/master"
      in .git/remotes for example the file "Laptop" has been created with
      the content
      \verbatim
-URL: ~LaptopArchiv/OKsystem/Transitional/
+URL: ~LaptopArchiv/OKsystem/OKlib/
 Push: master:master
 Push: rijndael:rijndael
 Pull: master:master

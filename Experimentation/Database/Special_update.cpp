@@ -7,8 +7,8 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/General/DatabaseHandler01.hpp>
-#include <Transitional/General/StringHandling.hpp>
+#include <OKlib/General/DatabaseHandler01.hpp>
+#include <OKlib/General/StringHandling.hpp>
 
 using namespace std;
 

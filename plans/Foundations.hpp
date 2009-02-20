@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/plans/Foundations.hpp
+  \file OKlib/plans/Foundations.hpp
   \brief The general principles of the OKlibrary
 
 

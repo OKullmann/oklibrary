@@ -114,7 +114,7 @@ License, or any later version. */
    <li> Sorting of file/directory lists should distinguish between capital and
    small first letters (as it is possible with Unix/Linux), so that "plans"
    etc. comes at the end. </li>
-   <li> Is the file list still needed (with version 0.1.4 of Transitional it
+   <li> Is the file list still needed (with version 0.1.4 of OKlib it
      was kind of useful to see for example how many files are documented)?
      Otherwise dropping it could make the system more user-friendly, by
      restricting the attention to the most appropriate choice? </li>

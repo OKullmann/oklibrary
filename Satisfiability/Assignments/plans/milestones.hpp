@@ -19,7 +19,7 @@ License, or any later version. */
   \par
    In Satisfiability/Assignments/plans/general.hpp the following
    topics are handled:
-    - Move the Transitional/Concepts/plans/Assignments.hpp here
+    - Move the OKlib/Concepts/plans/Assignments.hpp here
 
   \par
    Create further milestones.

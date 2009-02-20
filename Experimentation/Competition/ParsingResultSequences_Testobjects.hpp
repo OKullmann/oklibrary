@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 #define PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 
-#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

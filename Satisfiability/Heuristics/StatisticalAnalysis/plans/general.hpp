@@ -27,7 +27,7 @@ License, or any later version. */
   \todo Update namespaces : DONE
 
 
-  \todo Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp
+  \todo Move OKlib/Statistics/plans/TimeSeriesAnalysis.hpp
   to here : DONE
 
 */

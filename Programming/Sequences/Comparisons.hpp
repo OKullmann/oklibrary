@@ -12,7 +12,7 @@ License, or any later version. */
   %Algorithms provided:
   <ul>
    <li> The common prefix of two sequences is computed in
-   Transitional/Programming/Sequences/_Comparisons/CommonPart.hpp. </li>
+   OKlib/Programming/Sequences/_Comparisons/CommonPart.hpp. </li>
   </ul>
 
 */
@@ -20,6 +20,6 @@ License, or any later version. */
 #ifndef COMPARISONS_HffDEr46n
 #define COMPARISONS_HffDEr46n
 
-#include <Transitional/Programming/Sequences/_Comparisons/CommonPart.hpp>
+#include <OKlib/Programming/Sequences/_Comparisons/CommonPart.hpp>
 
 #endif

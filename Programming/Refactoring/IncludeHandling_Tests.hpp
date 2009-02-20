@@ -28,14 +28,14 @@ License, or any later version. */
 #include <boost/tuple/tuple.hpp>
 #include <boost/assign/list_of.hpp>
 
-#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
+#include <OKlib/Programming/Refactoring/BoostPathCorrected.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
+#include <OKlib/Programming/Parsing/ParserBase_Tests.hpp>
 
 
 namespace OKlib {

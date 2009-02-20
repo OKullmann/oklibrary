@@ -31,7 +31,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> So it seems, that this module should be removed. </li>
-   <li> DONE (see "Backups and archives" in Transitional/plans/general.hpp)
+   <li> DONE (see "Backups and archives" in OKlib/plans/general.hpp)
    Due to the character of a "holistic library" however, there
    should exist at least some discussion of backing up. </li>
   </ul>

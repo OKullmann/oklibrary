@@ -21,8 +21,8 @@ License, or any later version. */
 #include <iterator>
 #include <algorithm>
 
-#include <Transitional/General/TimeHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
+#include <OKlib/General/TimeHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
 
 
 namespace emailHandling {

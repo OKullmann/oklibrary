@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/include.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac")$
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac")$
 
 
 /*!

@@ -13,7 +13,7 @@ License, or any later version. */
 #ifndef COND_hahsVVbq715
 #define COND_hahsVVbq715
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
 
 namespace OKlib {
   namespace Literals {

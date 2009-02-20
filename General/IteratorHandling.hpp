@@ -23,9 +23,9 @@ License, or any later version. */
 #include <boost/range/metafunctions.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
-#include <Transitional/General/FunctionHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
 
 namespace IteratorHandling {
 

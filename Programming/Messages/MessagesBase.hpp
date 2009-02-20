@@ -20,8 +20,8 @@ License, or any later version. */
 #include <iosfwd>
 #include <locale>
 
-#include <Transitional/Programming/Messages/Languages.hpp>
-#include <Transitional/Programming/Messages/Levels.hpp>
+#include <OKlib/Programming/Messages/Languages.hpp>
+#include <OKlib/Programming/Messages/Levels.hpp>
 
 namespace OKlib {
   namespace Messages {

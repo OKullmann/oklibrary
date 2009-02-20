@@ -1593,7 +1593,7 @@ Inside directory \filename{corrected}, the corrected files are placed, with appr
 
 Now to the source-library list (variable \name{source\_libraries} in \filename{definitions.mak}) at the front 
 \begin{verbatim}
--I$(OKsystem)/Transitional/Module/ExternalLibrarySubModule/corrected
+-I$(OKsystem)/OKlib/Module/ExternalLibrarySubModule/corrected
 \end{verbatim} is added (\name{gcc} scans the list of source-libraries from left to right, and if several choices for the inclusion of a header file are possible, the first is taken).
 
 There are some twists:
@@ -1639,9 +1639,9 @@ In \OKsystem{} currently (19.4.2005) we have the modules
 \begin{itemize}
 \item \texttt{Annotations}
 \item \OKlibrary
-\item \texttt{Transitional}
+\item \texttt{OKlib}
 \end{itemize}
-Also to create a package from \OKsystem{} must be possible just by copying a copy of \OKsystem, or by checking out the modules above, and running make in the subdirectory \texttt{Transitional/Buildsystem} to create the makefile at \OKsystem-level (since \OKsystem{} itself is not in a repository, only its components (which are independent of each other), and all non-produced files must be under version control, it follows that a special process must create the makefile at \OKsystem-level; for a package this makefile can be placed ``by hand'').
+Also to create a package from \OKsystem{} must be possible just by copying a copy of \OKsystem, or by checking out the modules above, and running make in the subdirectory \texttt{OKlib/Buildsystem} to create the makefile at \OKsystem-level (since \OKsystem{} itself is not in a repository, only its components (which are independent of each other), and all non-produced files must be under version control, it follows that a special process must create the makefile at \OKsystem-level; for a package this makefile can be placed ``by hand'').
 
 
 \subsection{Directory names}
@@ -1882,7 +1882,7 @@ A nice tool is \name{gitk}, either called without arguments (via \texttt{gitk \&
 
 \name{gitk} can be called also from \texttt{git-gui} (menu-point ``Repository'', one of the visualisation-entries there); from \texttt{git-gui} under ``Repository:Browse Master'' also the functionality of \texttt{git-blame} is made available with clickable content (\texttt{git blame file} annotates every line of the file with its last change-commit).
 
-If you want to see the history since version 0.1.5 of Transitional, use \texttt{gitk Transitional\_0.1.5}. 
+If you want to see the history since version 0.1.5 of OKlib, use \texttt{gitk OKlib\_0.1.5}. 
 
 
 
@@ -1928,13 +1928,13 @@ where ``Module'' is the name of the module (or of the part). In case the milesto
 \subsubsection{New version number for the library}
 \label{sec:GitSpecialeventsNewversionlibrary}
 
-When setting the new version number in the \filename{Transitional/plans/milestones.hpp}-file, then use the standardised log-message
+When setting the new version number in the \filename{OKlib/plans/milestones.hpp}-file, then use the standardised log-message
 \begin{verbatim}
-*** New version Transitional (MILESTONE HEADING) ***
+*** New version OKlib (MILESTONE HEADING) ***
 \end{verbatim}
 where ``MILESTONE HEADING'' is to be replaced by the theme of the milestone. And set a tag
 \begin{verbatim}
-git tag -m ``MILESTONE HEADING" -a Transitional-?.?.?
+git tag -m ``MILESTONE HEADING" -a OKlib-?.?.?
 \end{verbatim}
 showing the new version number (immediately after the above commit of the new version number, since the tag belongs to the last commit). This form of tag (not ``lightweight'') is by default transmitted with push's and pull's.
 

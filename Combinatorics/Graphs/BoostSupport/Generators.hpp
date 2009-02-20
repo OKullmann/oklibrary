@@ -22,7 +22,7 @@ License, or any later version. */
 
 #include <boost/concept_check.hpp>
 
-#include <Transitional/Combinatorics/Graphs/BoostSupport/Concepts_Graphs.hpp>
+#include <OKlib/Combinatorics/Graphs/BoostSupport/Concepts_Graphs.hpp>
 
 namespace Generators {
 

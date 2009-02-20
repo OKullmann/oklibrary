@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/include.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/include.m
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
 
 /*!
 \endhtmlonly

@@ -20,7 +20,7 @@ License, or any later version. */
   \todo Migrate the mupad-code.
   <ul>
    <li> What is to be achieved here? A movement of the relevant AES code from
-   Transitional/ComputerAlgebra/Mupad/TestenFormelGenAES.mup to a seperate mupad
+   OKlib/ComputerAlgebra/Mupad/TestenFormelGenAES.mup to a seperate mupad
    AES implementation in ComputerAlgebra/Cryptology/ with docus and demos attached?</li>
   </ul>
 

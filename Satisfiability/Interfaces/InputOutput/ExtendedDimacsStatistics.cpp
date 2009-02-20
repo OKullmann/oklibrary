@@ -23,8 +23,8 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
-#include <Transitional/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
+#include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 int main() {
   typedef OKlib::InputOutput::CLSAdaptorStatistics<> CLSAdaptor;

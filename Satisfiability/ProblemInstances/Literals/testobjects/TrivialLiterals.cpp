@@ -9,11 +9,11 @@ License, or any later version. */
   \file ProblemInstances/Literals/testobjects/TrivialLiterals.cpp
 */
 
-#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
+#include <OKlib/TestSystem/RunTest_DesignStudy.hpp>
 
-#include <Transitional/Concepts/tests/Literals.hpp>
+#include <OKlib/Concepts/tests/Literals.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 
 namespace {
 

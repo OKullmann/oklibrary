@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef TAGGINGPOLYMORPHISMTESTOBJECTS_66TRT
 #define TAGGINGPOLYMORPHISMTESTOBJECTS_66TRT
 
-#include <Transitional/Programming/MetaProgramming/TaggingPolymorphism.hpp>
-#include <Transitional/Programming/MetaProgramming/TaggingPolymorphism_Tests.hpp>
+#include <OKlib/Programming/MetaProgramming/TaggingPolymorphism.hpp>
+#include <OKlib/Programming/MetaProgramming/TaggingPolymorphism_Tests.hpp>
 
 namespace OKlib {
   namespace MetaProgramming {

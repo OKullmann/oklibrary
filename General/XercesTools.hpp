@@ -49,8 +49,8 @@ License, or any later version. */
 
 #include <Singleton.h>
 
-#include <Transitional/General/FunctionHandling.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
 
 namespace XercesTools {
 

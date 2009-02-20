@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef CONCEPTSMETAFUNCTIONSTESTOBJECTS_hnBBx36
 #define CONCEPTSMETAFUNCTIONSTESTOBJECTS_hnBBx36
 
-#include <Transitional/Concepts/traits/concept_tag.hpp>
+#include <OKlib/Concepts/traits/concept_tag.hpp>
 
-#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
-#include <Transitional/Concepts/ConceptsMetafunctions_Tests.hpp>
+#include <OKlib/Concepts/ConceptsMetafunctions.hpp>
+#include <OKlib/Concepts/ConceptsMetafunctions_Tests.hpp>
 
 namespace OKlib {
 

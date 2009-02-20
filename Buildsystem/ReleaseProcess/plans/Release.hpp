@@ -37,7 +37,7 @@ License, or any later version. */
    <li> In Annotations/Release-1_0 we have a release plan for version 1.0
    --- what to do with this plan?
     <ol>
-     <li> Move all plans there to the appropriate plans in Transitional. </li>
+     <li> Move all plans there to the appropriate plans in OKlib. </li>
      <li> Part I on components delived should be integrated into the
      respective milestones. </li>
      <li> Some with Part VII. </li>

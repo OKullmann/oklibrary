@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef EXAMPLERELATIONSTESTOBJECTS_7735010
 #define EXAMPLERELATIONSTESTSOBJECTS_7735010
 
-#include <Transitional/TestExecutionTools/ExampleRelations.hpp>
-#include <Transitional/TestExecutionTools/ExampleRelations_Tests.hpp>
+#include <OKlib/TestExecutionTools/ExampleRelations.hpp>
+#include <OKlib/TestExecutionTools/ExampleRelations_Tests.hpp>
 
 namespace OKlib {
 

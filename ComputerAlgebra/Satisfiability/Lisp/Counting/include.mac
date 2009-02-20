@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac");
 
 */
 
@@ -19,14 +19,14 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.ma
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/RandomClauseSets.mac")$
 
 /*!
 \endhtmlonly

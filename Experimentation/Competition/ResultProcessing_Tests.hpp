@@ -20,16 +20,16 @@ License, or any later version. */
 #include <boost/lexical_cast.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 
-#include <Transitional/General/FunctionHandling.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/General/FunctionHandling.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

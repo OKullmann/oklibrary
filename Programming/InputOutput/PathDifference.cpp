@@ -51,8 +51,8 @@ License, or any later version. */
 
 #include <boost/filesystem/path.hpp>
 
-#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
-#include <Transitional/Programming/Sequences/Comparisons.hpp>
+#include <OKlib/Programming/Refactoring/BoostPathCorrected.hpp>
+#include <OKlib/Programming/Sequences/Comparisons.hpp>
 
 int main(const int argc, const char* const argv[]) {
   if (argc != 3) {

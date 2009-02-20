@@ -17,13 +17,13 @@ License, or any later version. */
 #include <string>
 #include <cassert>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

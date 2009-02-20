@@ -31,8 +31,8 @@ License, or any later version. */
 #include <cstring>
 #include <cassert>
 
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/Scoring.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/Scoring.hpp>
 
 namespace {
 

@@ -19,15 +19,15 @@ License, or any later version. */
 #include <stdexcept>
 #include <vector>
 
-#include <Transitional/Programming/SystemSpecifics/Demangling.hpp>
-#include <Transitional/Programming/Messages/MessagesMain.hpp>
-#include <Transitional/Programming/Messages/LineHandling.hpp>
-#include <Transitional/Programming/Messages/Utilities/FileIdentification.hpp>
-#include <Transitional/Programming/Messages/Utilities/LineIdentification.hpp>
+#include <OKlib/Programming/SystemSpecifics/Demangling.hpp>
+#include <OKlib/Programming/Messages/MessagesMain.hpp>
+#include <OKlib/Programming/Messages/LineHandling.hpp>
+#include <OKlib/Programming/Messages/Utilities/FileIdentification.hpp>
+#include <OKlib/Programming/Messages/Utilities/LineIdentification.hpp>
 
-#include <Transitional/TestSystem/BasicDeclarations.hpp>
-#include <Transitional/TestSystem/messages/TestLevel.hpp>
-#include <Transitional/TestSystem/messages/TestBaseClass.hpp>
+#include <OKlib/TestSystem/BasicDeclarations.hpp>
+#include <OKlib/TestSystem/messages/TestLevel.hpp>
+#include <OKlib/TestSystem/messages/TestBaseClass.hpp>
 
 namespace OKlib {
   namespace TestSystem {

@@ -13,13 +13,13 @@ system_directories ?= $(OKplatform)/system_directories
 
 OKsystem ?= $(OKplatform)/OKsystem
 
-Transitional ?= $(OKsystem)/Transitional
+OKlib ?= $(OKsystem)/OKlib
 
-OKbuildsystem ?= $(Transitional)/Buildsystem
+OKbuildsystem ?= $(OKlib)/Buildsystem
 
 Annotations_dir ?= $(OKsystem)/Annotations
 
-annotations_dir ?= $(Transitional)/annotations
+annotations_dir ?= $(OKlib)/annotations
 
 oklib_call ?= $(OKbuildsystem)/MasterScript/oklib
 

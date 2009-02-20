@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/testobjects/Conflicts.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/testobjects/Conflicts.mac");
 
 */
 
@@ -18,9 +18,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/Conflicts.mac")$
-oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/Conflicts.mac")$
+oklib_include("OKlib/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
 
 okltest_cm_cs(cm_cs);
 okltest_cg_cs(cg_cs);

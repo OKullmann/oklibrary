@@ -14,7 +14,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac");
 
 */
 
@@ -22,18 +22,18 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency3.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency3.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 kill(uhit_def)$
@@ -113,7 +113,7 @@ uhit_def[4,3] : [
  nearly_full_hitting_fcs(3)[2]
 ]$
 /* Remark: This is also minvdegdef4(2) (flipping variable 2). */
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def4.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def4.mac")$
 uhit_def[4,11] : [
   max_var_hitting_def(4)[2]
 ]$
@@ -125,7 +125,7 @@ uhit_def[5,"info"] : [false,3,inf,[[3,true],[4,true],[5,false],[15,unknown]]]$
 uhit_def[5,3] : [
  full_fcs(3)[2]
 ]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def5.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def5.mac")$
 uhit_def[5,15] : [
   max_var_hitting_def(5)[2]
 ]$
@@ -134,7 +134,7 @@ uhit_def[5,15] : [
 /* Deficiency 6 */
 
 uhit_def[6,"info"] : [false,4,inf,[[4,true],[19,unknown]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def6.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def6.mac")$
 uhit_def[6,19] : [
  max_var_hitting_def(6)[2]
 ]$
@@ -143,7 +143,7 @@ uhit_def[6,19] : [
 /* Deficiency 7 */
 
 uhit_def[7,"info"] : [false,4,inf,[[4,true],[23,unknown]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def7.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def7.mac")$
 uhit_def[7,23] : [
  max_var_hitting_def(7)[2]
 ]$
@@ -152,7 +152,7 @@ uhit_def[7,23] : [
 /* Deficiency 8 */
 
 uhit_def[8,"info"] : [false,4,inf,[[4,true],[27,unknown]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def8.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def8.mac")$
 uhit_def[8,27] : [
  max_var_hitting_def(8)[2]
 ]$
@@ -161,7 +161,7 @@ uhit_def[8,27] : [
 /* Deficiency 9 */
 
 uhit_def[9,"info"] : [false,4,inf,[[4,true],[31,unknown]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def9.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def9.mac")$
 uhit_def[9,31] : [
  max_var_hitting_def(9)[2]
 ]$
@@ -209,7 +209,7 @@ uhit_def[11,39] : [
 
 uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown],[7,false]]]$
 uhit_def[12,4] : [full_fcs(4)[2]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def12.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def12.mac")$
 uhit_def[12,7] : [
   rbrouwer1999[2]
 ]$
@@ -223,7 +223,7 @@ uhit_def[12,43] : [
 /* Deficiency 13 */
 
 uhit_def[13,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def13.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def13.mac")$
 /*
 uhit_def[13,47] : [
  max_var_hitting_def(13)[2]
@@ -234,7 +234,7 @@ uhit_def[13,47] : [
 /* Deficiency 14 */
 
 uhit_def[14,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def14.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def14.mac")$
 /*
 uhit_def[14,51] : [
  max_var_hitting_def(14)[2]
@@ -245,7 +245,7 @@ uhit_def[14,51] : [
 /* Deficiency 15 */
 
 uhit_def[15,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def15.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def15.mac")$
 /*
 uhit_def[15,55] : [
  max_var_hitting_def(15)[2]
@@ -256,7 +256,7 @@ uhit_def[15,55] : [
 /* Deficiency 16 */
 
 uhit_def[16,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def16.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def16.mac")$
 /*
 uhit_def[16,59] : [
  max_var_hitting_def(16)[2]
@@ -267,7 +267,7 @@ uhit_def[16,59] : [
 /* Deficiency 17 */
 
 uhit_def[17,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def17.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def17.mac")$
 /*
 uhit_def[17,63] : [
  max_var_hitting_def(17)[2]
@@ -278,7 +278,7 @@ uhit_def[17,63] : [
 /* Deficiency 18 */
 
 uhit_def[18,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def18.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def18.mac")$
 /*
 uhit_def[18,67] : [
  max_var_hitting_def(18)[2]
@@ -289,7 +289,7 @@ uhit_def[18,67] : [
 /* Deficiency 19 */
 
 uhit_def[19,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def19.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def19.mac")$
 /*
 uhit_def[19,71] : [
  max_var_hitting_def(19)[2]
@@ -300,7 +300,7 @@ uhit_def[19,71] : [
 /* Deficiency 20 */
 
 uhit_def[20,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def20.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def20.mac")$
 /*
 uhit_def[20,75] : [
  max_var_hitting_def(20)[2]
@@ -311,7 +311,7 @@ uhit_def[20,75] : [
 /* Deficiency 21 */
 
 uhit_def[21,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def21.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def21.mac")$
 /*
 uhit_def[21,79] : [
  max_var_hitting_def(21)[2]
@@ -322,7 +322,7 @@ uhit_def[21,79] : [
 /* Deficiency 22 */
 
 uhit_def[22,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def22.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def22.mac")$
 /*
 uhit_def[22,83] : [
  max_var_hitting_def(22)[2]
@@ -333,7 +333,7 @@ uhit_def[22,83] : [
 /* Deficiency 23 */
 
 uhit_def[23,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def23.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def23.mac")$
 /*
 uhit_def[23,87] : [
  max_var_hitting_def(23)[2]
@@ -344,7 +344,7 @@ uhit_def[23,87] : [
 /* Deficiency 24 */
 
 uhit_def[24,"info"] : [false,5,inf,[[5,false],[8,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def24.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def24.mac")$
 uhit_def[24,8] : [
   brouwer1999[2]
 ]$
@@ -358,7 +358,7 @@ uhit_def[24,91] : [
 /* Deficiency 25 */
 
 uhit_def[25,"info"] : [false,5,inf,[[5,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def25.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def25.mac")$
 /*
 uhit_def[25,95] : [
  max_var_hitting_def(25)[2]
@@ -391,7 +391,7 @@ uhit_def[27,103] : [
 /* Deficiency 43 */
 
 uhit_def[43,"info"] : [false,6,inf,[[6,false]]]$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def43.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def43.mac")$
 /*
 uhit_def[43,127] : [
  max_var_hitting_def(43)[2]

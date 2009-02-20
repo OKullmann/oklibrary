@@ -8,10 +8,10 @@ License, or any later version. */
 #ifndef INPUTOUTPUTTESTOBJECTS_9Y6Tr4
 #define INPUTOUTPUTTESTOBJECTS_9Y6Tr4
 
-#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
+#include <OKlib/Concepts/LibraryBasics_Tests.hpp>
 
-#include <Transitional/Concepts/InputOutput.hpp>
-#include <Transitional/Concepts/InputOutput_Tests.hpp>
+#include <OKlib/Concepts/InputOutput.hpp>
+#include <OKlib/Concepts/InputOutput_Tests.hpp>
 
 namespace OKlib {
 

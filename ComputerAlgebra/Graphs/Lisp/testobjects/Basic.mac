@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 
 /* ************************************
    * Checking the defining properties *

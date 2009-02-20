@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp
+  \file OKlib/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp
   \brief %Tools for generating van der Waerden-hypergraphs.
 */
 
@@ -16,7 +16,7 @@ License, or any later version. */
 #include <iterator>
 #include <cassert>
 
-#include <Transitional/Concepts/Iterators.hpp>
+#include <OKlib/Concepts/Iterators.hpp>
 
 namespace OKlib {
   namespace Van_der_Waerden_hypergraph {

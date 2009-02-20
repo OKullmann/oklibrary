@@ -10,9 +10,9 @@ License, or any later version. */
   \brief Testobjects for Matrices/tests/Symmetry.hpp
 */
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
 
-#include <Transitional/Structures/LinearAlgebra/Matrices/tests/Symmetry.hpp>
+#include <OKlib/Structures/LinearAlgebra/Matrices/tests/Symmetry.hpp>
 
 namespace {
 

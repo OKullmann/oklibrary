@@ -9,7 +9,7 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
   \brief Plans regarding building packages related to boolean functions
 
-  See Transitional/Satisfiability/FiniteFunctions/plans/general.hpp for
+  See OKlib/Satisfiability/FiniteFunctions/plans/general.hpp for
   the central module regarding boolean functions (and generalisations).
 
 

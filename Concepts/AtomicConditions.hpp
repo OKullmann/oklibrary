@@ -13,11 +13,11 @@ License, or any later version. */
 #ifndef ATOMICCONDITIONS_303045439jhg
 #define ATOMICCONDITIONS_303045439jhg
 
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/traits/value_type.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/eval.hpp>
-#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/complement.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions/traits/value_type.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions/eval.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions/complement.hpp>
 
 namespace OKlib {
   namespace Concepts {

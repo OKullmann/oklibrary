@@ -35,7 +35,7 @@ License, or any later version. */
 #include <boost/utility.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Programming/InputOutput/IOStreamSinks.hpp>
+#include <OKlib/Programming/InputOutput/IOStreamSinks.hpp>
 
 namespace OKlib {
   namespace GeneralInputOutput {

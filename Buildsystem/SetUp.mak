@@ -50,7 +50,7 @@ $(OKanchor) :
 	mkdir $(OKanchor)
 
 $(OKconfiguration) :
-	cd $(OKanchor) && ln -s ../OKsystem/Transitional/Buildsystem/Configuration
+	cd $(OKanchor) && ln -s ../OKsystem/OKlib/Buildsystem/Configuration
 
 $(OKoverrideconfig) :
 	touch $(OKoverrideconfig)

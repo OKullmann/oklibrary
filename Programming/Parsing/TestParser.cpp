@@ -7,9 +7,9 @@ License, or any later version. */
 
 #include <iostream>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/Programming/Parsing/ParserBase_Testobjects.hpp>
+#include <OKlib/Programming/Parsing/ParserBase_Testobjects.hpp>
 
 int main(const int argc, const char* const argv[]) {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac");
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac");
 
 */
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac")
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 kill(f)$
 

@@ -22,16 +22,16 @@ License, or any later version. */
 
 #include <boost/format.hpp>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
-#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
-#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
-#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing.hpp>
+#include <OKlib/Experimentation/Competition/AnalysisTools.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

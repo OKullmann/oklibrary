@@ -13,13 +13,13 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
  
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Concepts/Iterators.hpp>
-#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <OKlib/Concepts/Iterators.hpp>
+#include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
+#include <OKlib/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
 
 namespace OKlib {
   namespace Van_der_Waerden_hypergraph {

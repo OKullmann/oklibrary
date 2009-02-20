@@ -26,7 +26,7 @@ License, or any later version. */
 
 #include <boost/concept_check.hpp>
 
-#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <OKlib/Concepts/ConceptsBase.hpp>
 
 namespace OKlib {
   namespace Concepts {

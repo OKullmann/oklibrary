@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 #define BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
-#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations_Tests.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations_Tests.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/Input_output_Tests.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/Input_output_Tests.hpp
   \deprecated
 */
 
@@ -18,11 +18,11 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
-#include <Transitional/TestSystem/TestExceptions.hpp>
-#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
+#include <OKlib/TestSystem/TestBaseClass.hpp>
+#include <OKlib/TestSystem/TestExceptions.hpp>
+#include <OKlib/Programming/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
+#include <OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
   namespace DPv {

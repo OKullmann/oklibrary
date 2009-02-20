@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/PrimeNumbers.mac");
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/PrimeNumbers.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/PrimeNumb
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/PrimeNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/PrimeNumbers.mac")$
 
 /* **********************************
    * Finding and enumerating primes *

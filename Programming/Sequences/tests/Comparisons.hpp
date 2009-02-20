@@ -20,7 +20,7 @@ License, or any later version. */
 #include <vector>
 #include <tr1/tuple>
 
-#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
 
 namespace OKlib {
   namespace Programming {

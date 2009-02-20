@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac");
 
 */
 

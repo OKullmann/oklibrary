@@ -18,10 +18,10 @@ License, or any later version. */
 
 #include <functional>
 
-#include <Transitional/General/IteratorHandling.hpp>
+#include <OKlib/General/IteratorHandling.hpp>
 
-#include <Transitional/Experimentation/Competition/SingleResult.hpp>
-#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <OKlib/Experimentation/Competition/SingleResult.hpp>
+#include <OKlib/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
   namespace SATCompetition {

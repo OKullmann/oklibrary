@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/General/SystemHandling.hpp
+  \file OKlib/General/SystemHandling.hpp
   \brief System calls
 */
 
@@ -37,10 +37,10 @@ License, or any later version. */
 #include <signal.h> // for signal macros
 #include <sys/stat.h> // for file mode bits
 
-#include <Transitional/General/StringHandling.hpp>
-#include <Transitional/General/StreamHandling.hpp>
-#include <Transitional/General/ErrorHandling.hpp>
-#include <Transitional/General/MessageHandling.hpp>
+#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/StreamHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+#include <OKlib/General/MessageHandling.hpp>
 
 
 namespace SystemHandling {
@@ -141,7 +141,7 @@ namespace SystemHandling {
 
 // Use as follows:
 
-// #include <Transitional/General/SystemHandling.hpp>
+// #include <OKlib/General/SystemHandling.hpp>
 // SystemHandling::System_sh S;
 // SystemHandling::SystemOutput out = S("the command");
 

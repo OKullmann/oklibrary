@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp
   \brief First approaches for concepts in the framework of the library
-  \deprecated To be moved (if appropriate) to Transitional.
+  \deprecated To be moved (if appropriate) to OKlib.
 */
 
 
@@ -21,7 +21,7 @@ License, or any later version. */
 #include <boost/concept_check.hpp>
 #include <boost/concept_archetype.hpp>
 
-#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
 
 // DEPRICATED (to be eliminated)
 

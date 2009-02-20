@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp
+  \file OKlib/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp
   \brief Deprecated. Contains simple classes for variables, literals, clauses, clause-sets and literal- and variables-sets.
   \deprecated
   \todo Classes like this should be simple models of the general concepts.

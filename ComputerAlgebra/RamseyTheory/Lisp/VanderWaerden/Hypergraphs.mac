@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac");
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac");
 
 */
 
@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergr
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 
 /* Van der Waerden hypergraphs are computed by arithprog_(o)hg(k,n) (from
    Hypergraphs/Lisp/Generators.mac).

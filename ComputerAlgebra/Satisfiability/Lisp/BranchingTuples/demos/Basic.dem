@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_demo("/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac")$
+oklib_demo("/OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac")$
 
 */
 
@@ -22,7 +22,7 @@ oklib_demo("/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/de
 if oklib_test_demos then
  if oklib_test_demos_level < 2 then return()$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 
 "The chi-function for branching tuple [1,2]:"$
 chi([1,2],x);

@@ -10,7 +10,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/testobjects/Backtracking.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/testobjects/Backtracking.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Backtracking.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Backtracking.mac")$
 
 okltest_satisfiability_ft(sat_backtracking_trivh_bft);
 okltest_satisfiability_ft(sat_backtracking_firstlh_bft);
