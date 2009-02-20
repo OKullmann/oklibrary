@@ -39,13 +39,13 @@ for F in $(find Transitional -path Transitional/.git -prune -or -type f -not -na
      by "OKlib". So we have to go through all the links. </li>
      <li> Of course, thorough checking afterwards.
       <ol>
-       <li> As in CreatePackage, we create an alternative OKplatform
+       <li> As in CreatePackage, we could create an alternative OKplatform
        installation, reusing the old ExternalSources by setting
        \verbatim
 ExternalSources := path-to-old-external-sources
        \endverbatim
        in New_OKplatformr/.oklib/override.mak.
-       <li>
+       </li>
        <li> We need also to create a new package, and check whether it works.
        </li>
        <li> And the links on the Internet page need to be checked. </li>
@@ -54,7 +54,7 @@ ExternalSources := path-to-old-external-sources
       </ol>
      </li>
      <li> Perhaps we should create a tag for the point just before
-     the replacement. </li>
+     the replacement, calling it "Transitional_to_OKlib_rename_tag". </li>
      <li> And perhaps best we freeze all changes for the time of transition.
      </li>
     </ol>
