@@ -667,6 +667,8 @@ git remote rm Bproject
      <li> 30.1.2009; 11.2 MB; OKlib total: 30.5 MB (perhaps the
      removal of some branches actually increased the size?) </li>
      <li> 20.2.2009; 11.5 MB; OKlib total: 30.9 MB </li>
+     <li> 20.2.2009, after renaming Transitional -> OKlib;
+     11.6 MB; OKlib total: 31.1 MG </li>
     </ol>
    </li>
   </ul>
