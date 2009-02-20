@@ -65,12 +65,12 @@ internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 oklibrary_domain := http://www.ok-sat-library.org
 oklibrary_mailinglists := http://cs-oksvr.swan.ac.uk/mailman/listinfo
 
-main_docu_page ?= $(doc_dir)/doxygen_html/de/d0e/OKlib_2docus_2general_8hpp.html
+main_docu_page ?= $(doc_dir)/doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html
 computeralgebra_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/de2/OKlib_2ComputerAlgebra_2docus_2general_8hpp.html
 usermaxima_docu_page_okl ?= $(doc_dir)/doxygen_html/d0/d69/ComputerAlgebra_2docus_2Maxima_8hpp.html
 
 
-main_demo_page ?= $(doc_dir)/doxygen_html/d2/d8b/OKlib_2demos_2general_8hpp.html
+main_demo_page ?= $(doc_dir)/doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html
 
 licence_docu_page ?= $(doc_dir)/doxygen_html/d9/da9/OKlib_2System_2LegalIssues_2docus_2general_8hpp.html
 
