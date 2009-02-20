@@ -413,6 +413,13 @@ verifying solution solution.tmp.lst...34250 variables found
 706134 clauses sat, 0 unsat (out of 706134 read)
    \endverbatim
    </li>
+   <li> Apparently no convergence on GreenTao_2-5-5_34375.cnf
+   \verbatim
+formula read: 710542 cl, 34375 vars, 3552710 literals, maxconn=260, maxliteral=5 c/v=20.670313
+
+.....[0.933245]:-(
+   \endverbatim
+   </li>
    <li> It seems that GreenTao_2-5-5_34500.cnf falls into a "grey area",
    perhaps without convergence(?):
    \verbatim
