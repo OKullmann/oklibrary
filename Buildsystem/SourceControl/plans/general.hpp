@@ -666,6 +666,7 @@ git remote rm Bproject
      <li> 6.1.2009; 10.7 MB; Transitional total: 29.7 MB </li>
      <li> 30.1.2009; 11.2 MB; Transitional total: 30.5 MB (perhaps the
      removal of some branches actually increased the size?) </li>
+     <li> 20.2.2009; 11.5 MB; Transitional total: 30.9 MB </li>
     </ol>
    </li>
   </ul>
