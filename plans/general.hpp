@@ -12,9 +12,14 @@ License, or any later version. */
 
   \todo "OKlib" instead of "Transitional"
   <ul>
-   <li> Rename "Transitional" to "OKlib"
+   <li> We need to create a new package, and check whether it works.
+   </li>
+   <li> And the links on the Internet page need to be checked. </li>
+   <li> DONE
+   Rename "Transitional" to "OKlib"
     <ol>
-     <li> The process of replacement:
+     <li> DONE
+     The process of replacement:
       <ol>
        <li> DONE (not needed)
        The best would be a program which goes through all
@@ -33,34 +38,48 @@ for F in $(find Transitional -path Transitional/.git -prune -or -type f -not -na
        does the job. </li>
       </ol>
      </li>
-     <li> Rename then Buildsystem/Transitional.mak -> OKlib.mak. </li>
-     <li> Rename the directory "Transitional" to "OKlib". </li>
-     <li> We store certain paths to the doxygen-created documentation, but
+     <li> DONE
+     Rename then Buildsystem/Transitional.mak -> OKlib.mak. </li>
+     <li> DONE
+     Rename the directory "Transitional" to "OKlib". </li>
+     <li> DONE
+     The link to Buildsystem/Configuration in OKplatform/.oklib needs
+     to be updated. </li>
+     <li> DONE
+     Running "make -f path-to-Buildsystem/Makefile prebuild" for
+     recreating the link in OKplatform/bin to oklib. </li>
+     <li> DONE
+     Then via "oklib --prebuild clean_links", followed by
+     "oklib --prebuild" the links are recreated. </li>
+     <li> DONE
+     We store certain paths to the doxygen-created documentation, but
      some paths change now, since the part "Transitional" in them is replaced
      by "OKlib". So we have to go through all the links. </li>
      <li> Of course, thorough checking afterwards.
       <ol>
-       <li> As in CreatePackage, we could create an alternative OKplatform
+       <li> DONE (not needed)
+       As in CreatePackage, we could create an alternative OKplatform
        installation, reusing the old ExternalSources by setting
        \verbatim
 ExternalSources := path-to-old-external-sources
        \endverbatim
        in New_OKplatform/.oklib/override.mak.
        </li>
-       <li> We need also to create a new package, and check whether it works.
-       </li>
-       <li> And the links on the Internet page need to be checked. </li>
-       <li> Accordingly to a test performed on csltok, it seems to go through
+       <li> DONE
+       Accordingly to a test performed on csltok, it seems to go through
        without problems! </li>
       </ol>
      </li>
-     <li> Perhaps we should create a tag for the point just before
+     <li> DONE
+     Perhaps we should create a tag for the point just before
      the replacement, calling it "Transitional_to_OKlib_rename_tag". </li>
-     <li> And perhaps best we freeze all changes for the time of transition.
+     <li> DONE (shouldn't be necessary)
+     And perhaps best we freeze all changes for the time of transition.
      </li>
     </ol>
    </li>
-   <li> Handling of version numbers:
+   <li> DONE
+   Handling of version numbers:
     <ol>
      <li> Perhaps we should abandon the current "transitional_version",
      and let "oklib_version" take over this number. </li>
