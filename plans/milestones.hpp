@@ -37,9 +37,9 @@ License, or any later version. */
   are integrated into the overall milestones (here).
   \par
    In OKlib/plans/general.hpp the following topics are handled:
-    - "OKlib" instead of "OKlib"
     - Super-modules
     - Organisation of plans-directories
+    - "OKlib" instead of "Transitional" : DONE
     - Handling of version-numbers : DONE
     - Research sub-modules : DONE
   \par

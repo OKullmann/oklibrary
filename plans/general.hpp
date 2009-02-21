@@ -10,11 +10,13 @@ License, or any later version. */
   \brief Plans for the library which do not belong to a single module
 
 
-  \todo "OKlib" instead of "Transitional"
+  \todo "OKlib" instead of "Transitional" : DONE
   <ul>
-   <li> We need to create a new package, and check whether it works.
+   <li> DONE (seems to work)
+   We need to create a new package, and check whether it works.
    </li>
-   <li> And the links on the Internet page need to be checked. </li>
+   <li> DONE (seems alright)
+   And the links on the Internet page need to be checked. </li>
    <li> DONE
    Rename "Transitional" to "OKlib"
     <ol>
