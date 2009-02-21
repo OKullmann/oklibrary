@@ -45,6 +45,13 @@ License, or any later version. */
    <li> vanderwaerden_{k+1}([2]_k, m) is the smallest n such that
    however k numbers are picked, an arithmetic progression of size m
    must be contained. </li>
+   <li> In other words, vanderwaerden_{k+1}([2]_k, m) is the smallest n such
+   that tau_arithprog_hg(m,n) > k. </li>
+   <li> It seems that for computing vanderwaerden_{k+1}([2]_k, m), we best search
+   for the smallest n with tau_arithprog_hg(m,n) >= k+1 --- in this way we have
+   only to decide whether or not a transversal of size at most k exists. This
+   amounts to the same as computing the numbers tau_arithprog_hg(m,n) in succession,
+   just using that these numbers are non-decreasing and each step is at most 1. </li>
    <li> A related sequence is A065825, which for given k is the smallest
    n such that alpha_arithprog_hg(3,n) = k. </li>
    <li> The known values are
@@ -58,7 +65,41 @@ License, or any later version. */
      <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
      tau_arithprog_hg(m,n) by running through k=0,1,..., and observing
      when first the value is strictly greater than n --- for this k we
-     have tau_arithprog_hg(m,n) = k.
+     have tau_arithprog_hg(m,n) = k. </li>
+     <li> The associated transformation function, where L is a stricly increasing
+     sequence of natural numbers (the indices here start with 0):
+     \verbatim
+transform_threshold_l(L) := 
+if emptyp(L) then [] else block(
+ [n : 0, k : 0, R : []],
+  for x in endcons(last(L)+1,L) do (
+    if x > n then (
+      R : append(R,create_list(k,i,1,x-n)), 
+      n : x
+    ),
+    k : k+1
+  ),
+  return(R))$
+     \endverbatim
+     </li>
+     <li> Given the sequence tau_arithprog_hg(m,n), one obtains
+     vanderwaerden_{k+1}([2]_k, m) by running through n=0,1,..., and observing
+     when first the value is strictly greater than k --- for this n we have
+     vanderwaerden_{k+1}([2]_k, m) = n. </li>
+     <li> In other words, the values of tau_arithprog_hg(m,n) are exactly the
+     step-indices, where the value of tau_arithprog_hg(m,n) increases by one. </li>
+     <li> The transformer (where L is a non-decreasing sequence of natural
+     numbers, and the indices here start with 0):
+     \verbatim
+transform_steps_l(L) := if length(L) <= 1 then [] else
+ block([a : first(L), i : 1, R : []],
+  for b in rest(L) do (
+    if b > a then (R : endcons(i,R), a : b),
+    i : i + 1
+  ),
+  return(R))$
+     \endverbatim
+     </li>
      <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
      A065825 XXX </li>
     </ol>
@@ -101,11 +142,23 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
    </li>
    <li> So the sequence tau_arithprog_hg(3,n) (starting with n=0) begins with
    0,0,0,1,1,1,2,3,4,4,5,5,6,6,6,7,8,9,10,11,11. </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 3) (starting
+   with k=0) begins with
+   3,6,7,8,10,12,15,16,17,18,19. </li>
    <li> The sequence n - tau_arithprog_hg(3,n) = r_3(n):
    0,1,2,2,3,4,4,4,4,5,5,6,6,7,8,8,8,8,8,8,9. </li>
    <li> Excluding the first term, this is sequence A003002;
    see [S. S. Wagstaff, Jr., On k-free sequences of integers, Math. Comp., 26
-   (1972), 767-771]. </li>
+   (1972), 767-771]:
+   \verbatim
+1, 2, 2, 3, 4, 4, 4, 4, 5, 5, 
+6, 6, 7, 8, 8, 8, 8, 8, 8, 9, 
+9, 9, 9, 10, 10, 11, 11, 11, 11, 12,
+12, 13, 13, 13, 13, 14, 14, 14, 14, 15,
+16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+17, 17, 17
+   \endverbatim
+   (covering the range 1 <= n <= 53). </li>
    <li> Another sequence of interest is the number of hyperedges:
    1,1,1,3,3,3,4,10,25,38,48,58,73,86,109,146,210,285,411,614,957. </li>
    <li> Doesn't seem to be in the eis-database (also after excluding the first
@@ -119,19 +172,261 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
 
   \todo Elementary statistics for k=4
   <ul>
-   <li> The sequence r_4(n) (starting with n=1) is A003003. </li>
+   <li> The sequence r_4(n) (starting with n=1) is A003003:
+   \verbatim
+1, 2, 3, 3, 4, 5, 5, 6, 7, 8,
+8, 8, 9, 9, 10, 10, 11, 11, 12, 12,
+13, 13, 14, 14, 15, 15, 16, 17, 17, 18,
+18, 18, 19, 20, 20, 20, 21, 21, 21, 22,
+22, 22, 23, 23, 24, 24, 24, 25, 25, 26,
+26
+   \endverbatim
+   (covering the range 1 <= n <= 51). </li>
+   <li> Just using clause-set statistics-functions:
+   \verbatim
+L_0_20_4 : create_list(transversal_hg_rs(arithprog_hg(4,n)),n,0,20)$
+for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(4,i)), statistics_fcs(L_0_20_4[i+1]), ncl_list_fcs(L_0_20_4[i+1])));
+0 [0,0,0,-1,inf] [0,1,0,0,0] [[0,1]]
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+2 [2,0,0,-1,inf] [2,1,0,0,0] [[0,1]]
+3 [3,0,0,-1,inf] [3,1,0,0,0] [[0,1]]
+4 [4,1,4,4,4] [4,4,4,1,1] [[1,4]]
+5 [5,2,8,4,4] [5,4,5,2,1] [[1,3],[2,1]]
+6 [6,3,12,4,4] [6,5,8,2,1] [[1,2],[2,3]]
+7 [7,5,20,4,4] [7,11,24,3,2] [[2,9],[3,2]]
+8 [8,7,28,4,4] [8,14,38,3,2] [[2,4],[3,10]]
+9 [9,9,36,4,4] [9,19,58,4,2] [[2,2],[3,14],[4,3]]
+10 [10,12,48,4,4] [10,26,94,4,2] [[2,1],[3,8],[4,17]]
+11 [11,15,60,4,4] [11,40,164,5,3] [[3,6],[4,24],[5,10]]
+12 [12,18,72,4,4] [12,58,258,5,4] [[4,32],[5,26]]
+13 [13,22,88,4,4] [13,130,672,6,4] [[4,3],[5,102],[6,25]]
+14 [14,26,104,4,4] [14,277,1646,7,5] [[5,30],[6,233],[7,14]]
+15 [15,30,120,4,4] [15,404,2621,8,5] [[5,2],[6,209],[7,187],[8,6]]
+16 [16,35,140,4,4] [16,661,4742,9,6] [[6,45],[7,458],[8,156],[9,2]]
+17 [17,40,160,4,4] [17,961,7478,9,6] [[6,10],[7,260],[8,621],[9,70]]
+18 [18,45,180,4,4] [18,1324,11028,10,7] [[7,100],[8,714],[9,484],[10,26]]
+19 [19,51,204,4,4] [19,1920,17189,11,7] [[7,24],[8,380],[9,1189],[10,317],[11,10]]
+20 [20,57,228,4,4] [20,2904,27602,12,8] [[8,104],[9,1388],[10,1257],[11,152],[12,3]]
+   \endverbatim
+   </li>
+   <li> So the sequence tau_arithprog_hg(4,n) (starting with n=0) begins with
+   0,0,0,0,1,1,1,2,2,2,2,3,4,4,5,5,6,6,7,7,8. </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 4) (starting
+   with k=0) begins with
+   4,7,11,12,14,16,18,20. </li>
+   <li> The sequence n - tau_arithprog_hg(4,n) = r_4(n):
+   0,1,2,3,3,4,5,5,6,7,8,8,8,9,9,10,10,11,11,12,12. </li>
+   <li> Another sequence of interest is the number of hyperedges:
+   1,1,1,1,4,4,5,11,14,19,26,40,58,130,277,404,661,961,1324,1920,2904. </li>
+   <li> Doesn't seem to be in the eis-database (also after excluding the first
+   terms). </li>
+   <li> Perhaps also the maximum size of a hyperedge is of interest:
+   0,0,0,0,1,2,2,3,3,4,4,5,5,6,7,8,9,9,10,11,12. </li>
   </ul>
 
 
   \todo Elementary statistics for k=5
   <ul>
-   <li> The sequence r_5(n) (starting with n=1) is A003004. </li>
+   <li> The sequence r_5(n) (starting with n=1) is A003004:
+   \verbatim
+1, 2, 3, 4, 4, 5, 6, 7, 8, 8,
+9, 10, 11, 12, 12, 13, 14, 15, 16, 16,
+16, 16, 16, 17, 18, 18, 19, 20, 21, 21,
+22, 22, 23, 24, 24, 25, 26, 27, 28, 28,
+29, 30, 31, 32, 32, 32, 32, 32, 33, 33
+   \endverbatim
+   (covering the range 1 <= n <= 50). </li>
+   <li> Some functions to organise the experiment:
+   \verbatim
+statistics_hg(G) := statistics_fcs(G)$
+compute_transversals_hg(k,N) :=
+ block([L : []], 
+  for n : 0 thru N do block(
+   [A : arithprog_hg(k,n), G],
+    G : transversal_hg_rs(A), 
+    L : endcons(G,L), 
+    print(n,statistics_hg(A),statistics_hg(G),ncl_list_fcs(G))),
+  return(L))$
+   \endverbatim 
+   </li>
+   <li>
+   \verbatim
+L_0_20_5 : compute_transversals_hg(5,20);
+0 [0,0,0,-1,inf] [0,1,0,0,0] [[0,1]]
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+2 [2,0,0,-1,inf] [2,1,0,0,0] [[0,1]]
+3 [3,0,0,-1,inf] [3,1,0,0,0] [[0,1]]
+4 [4,0,0,-1,inf] [4,1,0,0,0] [[0,1]]
+5 [5,1,5,5,5] [5,5,5,1,1] [[1,5]]
+6 [6,2,10,5,5] [6,5,6,2,1] [[1,4],[2,1]]
+7 [7,3,15,5,5] [7,6,9,2,1] [[1,3],[2,3]]
+8 [8,4,20,5,5] [8,8,14,2,1] [[1,2],[2,6]]
+9 [9,6,30,5,5] [9,10,21,3,1] [[1,1],[2,7],[3,2]]
+10 [10,8,40,5,5] [10,13,30,3,2] [[2,9],[3,4]]
+11 [11,10,50,5,5] [11,20,55,4,2] [[2,6],[3,13],[4,1]]
+12 [12,12,60,5,5] [12,28,88,4,2] [[2,4],[3,16],[4,8]]
+13 [13,15,75,5,5] [13,57,217,5,2] [[2,2],[3,10],[4,42],[5,3]]
+14 [14,18,90,5,5] [14,85,358,5,2] [[2,1],[3,6],[4,52],[5,26]]
+15 [15,21,105,5,5] [15,124,563,6,3] [[3,5],[4,49],[5,68],[6,2]]
+16 [16,24,120,5,5] [16,180,886,6,3] [[3,4],[4,27],[5,128],[6,21]]
+17 [17,28,140,5,5] [17,306,1697,7,3] [[3,3],[4,12],[5,110],[6,177],[7,4]]
+18 [18,32,160,5,5] [18,483,2920,8,3] [[3,2],[4,4],[5,84],[6,274],[7,118],[8,1]]
+19 [19,36,180,5,5] [19,761,4934,8,3] [[3,1],[4,4],[5,33],[6,359],[7,316],[8,48]]
+20 [20,40,200,5,5] [20,1199,8346,9,4] [[4,5],[5,24],[6,208],[7,740],[8,220],[9,2]]
+   \endverbatim
+   </li>
+   <li> So the sequence tau_arithprog_hg(5,n) (starting with n=0) begins with
+   0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4. </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 5) (starting
+   with k=0) begins with
+   5,10,15,20. </li>
+   <li> The sequence n - tau_arithprog_hg(5,n) = r_5(n):
+   0,1,2,3,4,4,5,6,7,8,8,9,10,11,12,12,13,14,15,16,16. </li>
+   <li> The sequence length(arithprog_hg(5,n)[2]) begins with
+   1,1,1,1,1,5,5,6,8,10,13,20,28,57,85,124,180,306,483,761,1199. </li>
+   <li> And the max-rank sequence begins with
+   0,0,0,0,0,1,2,2,2,3,3,4,4,5,5,6,6,7,8,8,9. </li>
   </ul>
 
 
   \todo Elementary statistics for k=6
   <ul>
-   <li> The sequence r_6(n) (starting with n=1) is A003005. </li>
+   <li> The sequence r_6(n) (starting with n=1) is A003005:
+   \verbatim
+1, 2, 3, 4, 5, 5, 6, 7, 8, 9,
+9, 10, 11, 12, 13, 13, 14, 15, 16, 17,
+17, 18, 19, 20, 21, 22, 22, 22, 23, 23,
+23, 24, 25, 25, 26, 27, 28, 28, 29, 30,
+31, 31, 31, 32, 33, 34, 34, 35, 36, 37
+   \endverbatim
+   (covering the range 1 <= n <= 50). </li>
+   <li>
+   \verbatim
+L_0_20_6 : compute_transversals_hg(6,20)$
+0 [0,0,0,-1,inf] [0,1,0,0,0] [[0,1]]
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+2 [2,0,0,-1,inf] [2,1,0,0,0] [[0,1]]
+3 [3,0,0,-1,inf] [3,1,0,0,0] [[0,1]]
+4 [4,0,0,-1,inf] [4,1,0,0,0] [[0,1]]
+5 [5,0,0,-1,inf] [5,1,0,0,0] [[0,1]]
+6 [6,1,6,6,6] [6,6,6,1,1] [[1,6]]
+7 [7,2,12,6,6] [7,6,7,2,1] [[1,5],[2,1]]
+8 [8,3,18,6,6] [8,7,10,2,1] [[1,4],[2,3]]
+9 [9,4,24,6,6] [9,9,15,2,1] [[1,3],[2,6]]
+10 [10,5,30,6,6] [10,12,22,2,1] [[1,2],[2,10]]
+11 [11,7,42,6,6] [11,26,60,3,2] [[2,18],[3,8]]
+12 [12,9,54,6,6] [12,37,102,3,2] [[2,9],[3,28]]
+13 [13,11,66,6,6] [13,49,147,4,2] [[2,6],[3,37],[4,6]]
+14 [14,13,78,6,6] [14,62,202,4,2] [[2,4],[3,38],[4,20]]
+15 [15,15,90,6,6] [15,80,277,5,2] [[2,2],[3,40],[4,37],[5,1]]
+16 [16,18,108,6,6] [16,177,720,5,3] [[3,26],[4,113],[5,38]]
+17 [17,21,126,6,6] [17,346,1601,6,3] [[3,9],[4,120],[5,208],[6,9]]
+18 [18,24,144,6,6] [18,543,2746,6,3] [[3,4],[4,74],[5,352],[6,113]]
+19 [19,27,162,6,6] [19,697,3733,7,3] [[3,3],[4,44],[5,389],[6,224],[7,37]]
+20 [20,30,180,6,6] [20,933,5314,8,3] [[3,2],[4,30],[5,354],[6,421],[7,116],[8,10]]
+   \endverbatim
+   </li>
+   <li> So the sequence tau_arithprog_hg(6,n) (starting with n=0) begins with
+   0,0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3. </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 6) (starting
+   with k=0) begins with
+   6,11,16. </li>
+   <li> The sequence n - tau_arithprog_hg(6n) = r_6(n):
+   0,1,2,3,4,5,5,6,7,8,9,9,10,11,12,13,13,14,15,16,17. </li>
+   <li> The sequence length(arithprog_hg(6,n)[2]) begins with
+   1,1,1,1,1,1,6,6,7,9,12,26,37,49,62,80,177,346,543,697,933. </li>
+   <li> And the max-rank sequence begins with
+   0,0,0,0,0,0,1,2,2,2,2,3,3,4,4,5,5,6,6,7,8. </li>
+  </ul>
+
+
+  \todo Elementary statistics for k=7
+  <ul>
+   <li>
+   \verbatim
+L_0_22_7 : compute_transversals_hg(7,22)$
+0 [0,0,0,-1,inf] [0,1,0,0,0] [[0,1]]
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+2 [2,0,0,-1,inf] [2,1,0,0,0] [[0,1]]
+3 [3,0,0,-1,inf] [3,1,0,0,0] [[0,1]]
+4 [4,0,0,-1,inf] [4,1,0,0,0] [[0,1]]
+5 [5,0,0,-1,inf] [5,1,0,0,0] [[0,1]]
+6 [6,0,0,-1,inf] [6,1,0,0,0] [[0,1]]
+7 [7,1,7,7,7] [7,7,7,1,1] [[1,7]]
+8 [8,2,14,7,7] [8,7,8,2,1] [[1,6],[2,1]]
+9 [9,3,21,7,7] [9,8,11,2,1] [[1,5],[2,3]]
+10 [10,4,28,7,7] [10,10,16,2,1] [[1,4],[2,6]]
+11 [11,5,35,7,7] [11,13,23,2,1] [[1,3],[2,10]]
+12 [12,6,42,7,7] [12,17,32,2,1] [[1,2],[2,15]]
+13 [13,8,56,7,7] [13,24,55,3,1] [[1,1],[2,15],[3,8]]
+14 [14,10,70,7,7] [14,32,80,3,2] [[2,16],[3,16]]
+15 [15,12,84,7,7] [15,47,132,4,2] [[2,12],[3,32],[4,3]]
+16 [16,14,98,7,7] [16,63,194,4,2] [[2,9],[3,40],[4,14]]
+17 [17,16,112,7,7] [17,80,260,5,2] [[2,6],[3,49],[4,24],[5,1]]
+18 [18,18,126,7,7] [18,115,406,5,2] [[2,4],[3,48],[4,61],[5,2]]
+19 [19,21,147,7,7] [19,213,868,5,2] [[2,2],[3,35],[4,121],[5,55]]
+20 [20,24,168,7,7] [20,387,1730,6,2] [[2,1],[3,16],[4,199],[5,142],[6,29]]
+21 [21,27,189,7,7] [21,624,3022,7,3] [[3,12],[4,159],[5,369],[6,83],[7,1]]
+22 [22,30,210,7,7] [22,848,4436,7,3] [[3,8],[4,141],[5,386],[6,273],[7,40]]
+   \endverbatim
+   </li>
+   <li> So the sequence tau_arithprog_hg(7,n) (starting with n=0) begins with
+   0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3. </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 7) (starting
+   with k=0) begins with
+   7,14,21. </li>
+   <li> The sequence n - tau_arithprog_hg(7n) = r_7(n):
+   0,1,2,3,4,5,6,6,7,8,9,10,11,12,12,13,14,15,16,17,18,18,19. </li>
+   <li> The sequence length(arithprog_hg(7,n)[2]) begins with
+   1,1,1,1,1,1,1,7,7,8,10,13,17,24,32,47,63,80,115,213,387,624,848. </li>
+   <li> And the max-rank sequence begins with
+   0,0,0,0,0,0,0,1,2,2,2,2,2,3,3,4,4,5,5,5,6,7,7. </li>
+  </ul>
+
+
+  \todo Elementary statistics for k=8
+  <ul>
+   <li>
+   \verbatim
+L_0_24_8 : compute_transversals_hg(8,24)$
+0 [0,0,0,-1,inf] [0,1,0,0,0] [[0,1]]
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+2 [2,0,0,-1,inf] [2,1,0,0,0] [[0,1]]
+3 [3,0,0,-1,inf] [3,1,0,0,0] [[0,1]]
+4 [4,0,0,-1,inf] [4,1,0,0,0] [[0,1]]
+5 [5,0,0,-1,inf] [5,1,0,0,0] [[0,1]]
+6 [6,0,0,-1,inf] [6,1,0,0,0] [[0,1]]
+7 [7,0,0,-1,inf] [7,1,0,0,0] [[0,1]]
+8 [8,1,8,8,8] [8,8,8,1,1] [[1,8]]
+9 [9,2,16,8,8] [9,8,9,2,1] [[1,7],[2,1]]
+10 [10,3,24,8,8] [10,9,12,2,1] [[1,6],[2,3]]
+11 [11,4,32,8,8] [11,11,17,2,1] [[1,5],[2,6]]
+12 [12,5,40,8,8] [12,14,24,2,1] [[1,4],[2,10]]
+13 [13,6,48,8,8] [13,18,33,2,1] [[1,3],[2,15]]
+14 [14,7,56,8,8] [14,23,44,2,1] [[1,2],[2,21]]
+15 [15,9,72,8,8] [15,50,120,3,2] [[2,30],[3,20]]
+16 [16,11,88,8,8] [16,76,212,3,2] [[2,16],[3,60]]
+17 [17,13,104,8,8] [17,98,292,4,2] [[2,12],[3,76],[4,10]]
+18 [18,15,120,8,8] [18,121,384,4,2] [[2,9],[3,82],[4,30]]
+19 [19,17,136,8,8] [19,152,508,5,2] [[2,6],[3,89],[4,56],[5,1]]
+20 [20,19,152,8,8] [20,203,722,5,2] [[2,4],[3,84],[4,113],[5,2]]
+21 [21,21,168,8,8] [21,263,976,5,2] [[2,2],[3,81],[4,171],[5,9]]
+22 [22,24,192,8,8] [22,474,2002,5,3] [[3,64],[4,240],[5,170]]
+23 [23,27,216,8,8] [23,737,3347,6,3] [[3,30],[4,310],[5,365],[6,32]]
+
+   \endverbatim
+   </li>
+   <li> So the sequence tau_arithprog_hg(8,n) (starting with n=0) begins with
+   0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3, . </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 8) (starting
+   with k=0) begins with
+   . </li>
+   <li> The sequence n - tau_arithprog_hg(8n) = r_8(n):
+   . </li>
+   <li> The sequence length(arithprog_hg(8,n)[2]) begins with
+   . </li>
+   <li> And the max-rank sequence begins with
+   0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,3,3,4,4,5,5,5,5,6, . </li>
   </ul>
 
 */
