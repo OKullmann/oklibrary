@@ -35,6 +35,11 @@ License, or any later version. */
   <ul>
    <li> Similar to ClauseSets/Statistics.mac we should have
    Hypergraphs/Statistics.mac. </li>
+   <li> Simplest:
+   \verbatim
+statistics_hg(G) := statistics_fcs(G)$
+   \endverbatim
+   </li>
   </ul>
 
 
