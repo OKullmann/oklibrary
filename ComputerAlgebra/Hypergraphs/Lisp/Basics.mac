@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.12.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
@@ -96,7 +96,9 @@ ghg2hg(G) := [G[1], map(G[3],G[2])]$
 */
 
 /* Promotes a set system to a hypergraph: */
+/* RENAME: ses2hg(S) */
 setsystem2hg(S) := [lunion(S), S]$
+ses2hg(S) := setsystem2hg(S)$
 
 /* Converts a list of sets to a hypergraph: */
 listsets2hg(L) := setsystem2hg(setify(L))$
@@ -104,18 +106,18 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 /* Converts a list of sets to an ordered general hypergraph: */
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
 
-/* The combinatorial (hyper)edge-vertex matrix of a hypergraph */
+/* The combinatorial (hyper)edge-vertex matrix of a hypergraph: */
 edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 
   if elementp(v, H) then 1 else 0)]$
 
 /* The (hyper)edge intersection matrix (as a square combinatorial matrix)
-   of a hypergraph */
+   of a hypergraph: */
 edge_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(M, trans(M)))))$
 
 /* The vertex intersection matrix (as a square combinatorial matrix)
    of a hypergraph (for each pair of vertices the number of common
-   occurrences) */
+   occurrences): */
 vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(trans(M), M))))$
 
@@ -126,16 +128,16 @@ vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
    *****************
 */
 
-/* The k-section of a hypergraph */
+/* The k-section of a hypergraph: */
 section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
 
-/* The edge-wise complement of a hypergraph */
+/* The edge-wise complement of a hypergraph: */
 ecomp_hyp(G) := [G[1], ecomp(G[2],G[1])]$
 
-/* The closure under subset-formation of a hypergraph */
+/* The closure under subset-formation of a hypergraph: */
 subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
 
-/* The dual of a general hypergraph */
+/* The dual of a general hypergraph: */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 
@@ -149,7 +151,7 @@ dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
 components_hypergraph(G) := unify_nondisjoint_elements(G[2])$
 components_general_hypergraph(G) := components_hypergraph(ghg2hg(G))$
 
-/* whether a hypergraph is connected */
+/* Whether a hypergraph is connected: */
 is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1)$
 
 
