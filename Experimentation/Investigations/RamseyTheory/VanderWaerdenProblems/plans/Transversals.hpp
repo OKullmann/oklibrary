@@ -16,7 +16,7 @@ License, or any later version. */
    <li> It seems more natural to study the transversal number of
    arithprog_hg(k,n), that is, the minimal length of a hyperedge of T(n,k).
    </li>
-   <li> The literature seems to concentrate asymptotic results on r_k(n).
+   <li> The literature seems to concentrate on asymptotic results for r_k(n).
    </li>
    <li> This we want to complement by detailed studies on T(n,k). </li>
    <li> Considering the independence number instead of the transversal number,
@@ -107,6 +107,30 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
   </ul>
 
 
+  \todo Efficient computation of the transversal number
+  <ul>
+   <li> Yet the fastest algorithm is minimum_transversals_mongen, based on
+   the simple algorithm transversals_bes. </li>
+   <li> A C++ implementation should be able to go quite beyond the known
+   numbers:
+    <ol>
+     <li> See Hypergraphs/Transversals/plans/SizeParameter.hpp. </li>
+    </ol>
+   </li>
+   <li> Alternatively SAT solvers with the ability to formulate cardinality
+   constraints can be used. </li>
+   <li> We have already implemented (as a deprecated C++ program) the
+   translation of linear inequalities into CNF, and so we can also
+   use (ordinary) SAT solvers.
+    <ol>
+     <li> See Transformers/Generators/LinInequal.hpp, and topic "Update" in
+     Transformers/Generators/plans/general.hpp. </li>
+    </ol>
+   </li>
+   <li> Also CSP solvers are interesting here. </li>
+  </ul>
+
+
   \todo Elementary statistics for k=3
   <ul>
    <li> Just using clause-set statistics-functions:
@@ -159,6 +183,27 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
 17, 17, 17
    \endverbatim
    (covering the range 1 <= n <= 53). </li>
+   <li> So the sequence tau_arithprog_hg(3,n) (starting with n=0) begins with
+   \verbatim
+0,
+0,0,1,1,1,2,3,4,4,5,
+5,6,6,6,7,8,9,10,11,11,
+12,13,14,14,15,15,16,17,18,18,
+19,19,20,21,22,22,23,24,25,25,
+25,26,27,28,29,30,31,32,33,34,
+34,35,36
+   \endverbatim
+   </li>
+   <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 3) (starting
+   with k=0) begins with
+   \verbatim
+3,
+6,7,8,10,12,15,16,17,18,19,
+21,22,23,25,27,28,29,31,33,34,
+35,37,38,39,42,43,44,45,46,47,
+48,49,50,52,53
+   \endverbatim
+   (covering the range 0 <= k <= 35. </li>
    <li> Another sequence of interest is the number of hyperedges:
    1,1,1,3,3,3,4,10,25,38,48,58,73,86,109,146,210,285,411,614,957. </li>
    <li> Doesn't seem to be in the eis-database (also after excluding the first
@@ -167,6 +212,60 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
    0,0,0,1,2,2,2,3,4,5,6,7,8,9,10,11,12,12,12,13,14. </li>
    <li> Doesn't seem to be in the eis-database (also after excluding the first
    terms). </li>
+   <li> Most natural (and relatively easiest to compute) amongst additional
+   data on the transversal hypergraph seems to be the number of minimum
+   hyperedges:
+   \verbatim
+A3(n):=arithprog_hg(3,n)$
+L60 : minimum_transversals_mongen(60,A3,[{}])$
+1 1 0
+2 1 0
+3 3 1
+4 2 1
+5 1 1
+6 4 2
+7 10 3
+8 25 4
+9 4 4
+10 24 5
+11 7 5
+12 25 6
+13 6 6
+14 1 6
+15 4 7
+16 14 8
+17 43 9
+18 97 10
+19 220 11
+20 2 11
+21 18 12
+22 62 13
+23 232 14
+24 2 14
+25 33 15
+26 2 15
+27 12 16
+28 36 17
+29 106 18
+30 1 18
+31 11 19
+32 2 19
+33 4 20
+34 14 21
+35 40 22
+36 2 22
+37 4 23
+38 86 24
+39 307 25
+40 20 25
+41 1 25
+42 4 26
+43 14 27
+   \endverbatim
+   </li>
+   <li> With a C++ implementation this should be extendible to values beyond
+   the known numbers (see above "Efficient computation of the transversal
+   number"). </li>
   </ul>
 
 

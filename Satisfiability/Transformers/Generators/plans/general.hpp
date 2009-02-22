@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,31 +14,36 @@ License, or any later version. */
   <ul>
    <li>
     <ol> 
-     <li> Filter.cpp : what is the purpose of this?? Likely to be removed. </li>
-     <li> LinInequal.hpp : </li>
+     <li> Filter.cpp: what is the purpose of this?? Likely to be removed.
+     </li>
+     <li> LinInequal.hpp: The application was contained (as commented code)
+     in the old Transformers/Generators/Test.cpp, which was removed in
+     commit 7ad4d9916dea861abab631f2904e49841a86892f (10.11.2007). </li>
      <li> Ramsey.cpp
       <ul>
        <li> Has now a public link (needs to be updated when moved). </li>
       </ul>
      </li>
      <li> Ramsey.hpp </li>
-     <li> Generators/Test.cpp (the main procedure for Faron's Puzzle) : </li>
-     <li> Tests_Ramsey : </li>
-     <li> Test_Transformations.cpp : </li>
-     <li> VanderWaerden.cpp : </li>
-     <li> VanderWaerden.hpp : </li>
-     <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp : </li>
+     <li> Generators/FaronsPuzzle.cpp: </li>
+     <li> Tests_Ramsey: </li>
+     <li> Test_Transformations.cpp: </li>
+     <li> VanderWaerden.cpp: </li>
+     <li> VanderWaerden.hpp: </li>
+     <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp:
+     </li>
      <li> makefile: This old makefile should be replaced by the standard
      system : DONE </li>
-     <li> FaronsPuzzle.hpp : DONE </li>
-     <li> Test.cpp : DONE </li>
+     <li> FaronsPuzzle.hpp: DONE </li>
+     <li> Test.cpp: DONE </li>
     </ol>
    </li>
-   <li> Transfer OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique to here. </li>
+   <li> Transfer
+   OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique to here.
+   </li>
    <li> The main generators should produce generalised clause-sets.
    If output and/or boolean formulas is needed, then further
-   transformers are to be used.
-   The variables are tuples of values.
+   transformers are to be used. The variables are tuples of values.
    </li>
   </ul>
 

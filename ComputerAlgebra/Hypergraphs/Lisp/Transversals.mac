@@ -95,9 +95,9 @@ transversals_bes_(L,B) := if emptyp(L) then [{}]
 
 /* Application: Given a monoton hypergraph generator mongen(n) (monoton w.r.t.
    the hyperedge sets), such that MT0 is a non-empty list of (all) the minimum
-   transversals of mongen(0), and where mongen(n+1) has one node more than
-   mongen(n), compute the list of lists of (all) minimum transversals for
-   n = 0, ..., N.
+   transversals of mongen(0), and where mongen(n+1) has (exactly) one node
+   more than mongen(n), and this node occurs in all new edges, compute the
+   list of lists of (all) minimum transversals for n = 0, ..., N.
 */
 minimum_transversals_mongen(N,mongen_,MT0) := 
  block([L : [MT0], t : length(first(MT0)), G0 : mongen_(0)],

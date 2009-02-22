@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,13 +33,14 @@ License, or any later version. */
    <li> Hypergraph traversal is a special case of "clause-set
    traversal", where for a clause-set the set of minimal satisfying
    partial assignments has to be computed. </li>
-   <li> Via the embedding of hypergraphs into clause-sets as positive clause-sets,
-   hypergraph transversal (see Hypergraphs/Transversals/plans/general.hpp)
-   can be obtained as special case. </li>
+   <li> Via the embedding of hypergraphs into clause-sets as positive
+   clause-sets, hypergraph transversal (see
+   Hypergraphs/Transversals/plans/general.hpp) can be obtained as special
+   case. </li>
   </ul>
 
 
-  \todo The basic algorithm:
+  \todo The basic algorithm
   <ul>
    <li> Compare with
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Constructions.hpp.
@@ -75,15 +76,15 @@ License, or any later version. */
        <li> One thing is how easy it is to compute Tr(F_1) and Tr(F_2). </li>
        <li> Second, in the optimal case no combinations for * are inconsistent
        (so that no effort in computing Tr(F_1), Tr(F_2) was wasted). </li>
-       <li> By the same reasoning, in the optimal case no subsumption elimination
-       takes place . </li>
+       <li> By the same reasoning, in the optimal case no subsumption
+       elimination takes place . </li>
       </ul>
      </li>
-     <li> It seems hard to predict when inconsistency elimination or subsumption
-     elimination will take place (but see below), and so the simplest first
-     approach is a greedy heuristics, where a set of easy special cases for
-     computing Tr(F) is given, and greedily such a special F_1 is computed.
-     So the formula is then
+     <li> It seems hard to predict when inconsistency elimination or
+     subsumption elimination will take place (but see below), and so the
+     simplest first approach is a greedy heuristics, where a set of easy
+     special cases for computing Tr(F) is given, and greedily such a special
+     F_1 is computed. So the formula is then
      <center>
        Tr(F_1 union F_2) = min(Tr_sp(F_1) * Tr(F_2))
      </center>
@@ -153,7 +154,8 @@ License, or any later version. */
    that now a variable v with domain size d leads to a branching of size
    d+1 (hypergraphs: d=1). </li>
    <li> Here now the backtracking approach seems more natural. </li>
-   <li> For the optimisation version see Satisfiability/Optimisation/plans/general.hpp. </li>
+   <li> For the optimisation version see
+   Satisfiability/Optimisation/plans/general.hpp. </li>
   </ul>
 
 
@@ -166,8 +168,9 @@ License, or any later version. */
    (here it would make sense to keep it always subsumption-free, which is not
    too costly, since new assignments cannot strictly subsume old assignments,
    since they are already minimal), then this tree-pruning could be realised by
-   finding out that the current partial assignment phi is subsumed by one of the
-   assignments already stored, i.e., phi falsifies the negation of the stored DNF. </li>
+   finding out that the current partial assignment phi is subsumed by one of
+   the assignments already stored, i.e., phi falsifies the negation of the
+   stored DNF. </li>
    <li> Here one could use more powerful methods to find an inconsistency?!
    This should further cut the tree, and establish a kind of true dual
    method here. </li>
