@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 3.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,10 +18,28 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Transversals.mac"
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac")$
+
+
+okltest_transversal_p(transversal_p);
+
+/* ************************************
+   * Finding all minimal transversals *
+   ************************************
+*/
 
 okltest_transversal_hyp(transversal_hyp_rs);
+
+/* *****************************
+   * Finding some transversals *
+   *****************************
+*/
+
+okltest_transversals_be(transversals_be);
+okltest_transversals_be(transversals_bes);
+
+okltest_minimum_transversals_mongen(minimum_transversals_mongen);
 
 /*!
 \endhtmlonly

@@ -21,6 +21,20 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* Checking whether T is a transversal for set system S (S may be also
+   a list of sets).
+   Note that T doesn't need to be minimal.
+*/
+transversal_p(T,S) := every_s(lambda([H], not disjointp(H,T)), S)$
+
+
+/* ************************************
+   * Finding all minimal transversals *
+   ************************************
+*/
 
 /* The tranversal hypergraph via the independence hypergraph: */
 /* RENAME: transversal_hg_ind */
@@ -43,6 +57,60 @@ transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
  S1 : rest(M,-h),
  S2 : rest(M,l-h),
  return(min_elements(cunion(transversal_ses_rs(S1),transversal_ses_rs(S2)))))$
+
+
+/* *****************************
+   * Finding some transversals *
+   *****************************
+*/
+
+/* Computing a list of some transversals of length at most B of a list L of
+   sets, via branching on some element. If such a transversal exists, then
+   at least one is found. If B is the transversal number of L, then exactly 
+   all minimal transversals of minimum length are found.
+*/
+/* Prerequisite: B is a natural number >= 0. */
+transversals_be(L,B) := if emptyp(L) then [{}]
+ elseif empty_element_p(L) then []
+ elseif B=0 then [] else
+ block([a : first_element(first(L))],
+   return(append(
+    add_element_l(a,transversals_be(remove_with_element_l(L,a),B-1)),
+    transversals_be(setdifference2e(L,a),B))))$
+
+/* The variation where L is kept sorted in ascending order by length (so that
+   the empty clause and unit-clauses are easily detected):
+*/
+transversals_bes(L,B) := transversals_bes_(sort_length(L),B)$
+transversals_bes_(L,B) := if emptyp(L) then [{}]
+ else block([H : first(L)],
+  if emptyp(H) or B=0 then return([]),
+  block([a : first_element(H)],
+   if length(H) = 1 then
+     return(add_element_l(a,transversals_bes_(remove_with_element_l(L,a),B-1)))
+   else
+     return(append(
+      add_element_l(a,transversals_bes_(remove_with_element_l(L,a),B-1)),
+      transversals_bes_(sort_length(setdifference2e(L,a)),B)))))$
+
+/* Application: Given a monoton hypergraph generator mongen(n) (w.r.t.
+   the hyperedge sets), such that MT is a non-empty list of minimum
+   transversals of mongen(0), and where mongen(n+1) has one node more than
+   mongen(n), compute the list of lists of (all) minimum transversals for
+   n = 0, ..., N.
+*/
+minimum_transversals_mongen(N,mongen_,MT) := 
+ block([L : [MT], t : length(first(MT))],
+  for n : 1 thru N do block(
+  [G : mongen_(n)],
+   MT : sublist(MT, lambda([T],transversal_p(T, G[2]))),
+   if emptyp(MT) then (t : t + 1, MT : transversals_bes(listify(G[2]),t)),
+   if oklib_monitor then print(n,length(MT),t),
+   L : cons(MT,L)
+  ),
+  return(reverse(L)))$
+
+
 
 /*!
 \endhtmlonly
