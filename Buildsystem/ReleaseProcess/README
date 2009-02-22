@@ -84,15 +84,13 @@ And Latex should include the srcltx-package.
 
 System requirements:
 
->= 512 MB main memory
-
-(but 1 GB is better).
+>= 1 GB main memory.
 
 Disc space:
 
-For the full OKplatform, with some versions of gcc and Boost installed:
-5 GB are fully sufficient (however with only 1 GB it can get tight,
-and for installing everything it is too tight).
+For the full OKplatform 10 GB are sufficient, while with only 5 GB
+it can get tight, and cleaning of installed external sources is needed
+directly after installing them.
 
 ----------------------------------------------
 
