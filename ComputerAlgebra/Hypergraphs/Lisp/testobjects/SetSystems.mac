@@ -65,6 +65,7 @@ okltest_add_element_l(add_element_l);
 
 okltest_ecomp(ecomp);
 okltest_setdifference2(setdifference2);
+okltest_setdifference2e(setdifference2e);
 
 /* **************************************************
    * Constructions related to the cartesian product *
@@ -102,6 +103,17 @@ okltest_partitionp(partitionp);
 */
 
 okltest_antichain_p(antichain_p);
+
+/* *****************************************
+   * Constructions related to disjointness *
+   *****************************************
+*/
+
+okltest_remove_with_element(remove_with_element);
+okltest_remove_with_element_l(remove_with_element_l);
+okltest_remove_non_disjoint(remove_non_disjoint);
+okltest_unify_nondisjoint_elements(unify_nondisjoint_elements);
+
 
 /* *****************************************
    * Constructions related to subsumption *

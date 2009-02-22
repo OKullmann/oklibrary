@@ -109,6 +109,8 @@ ecomp(S,U) := setify(create_list(setdifference(U,s),s,listify(S)))$
 /* setdifference2(S,b) returns the set system where the elements of b have been
    removed from every element of S; S can also be a list. */
 setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
+/* The special case where b is a single element (to be removed): */
+setdifference2e(S,b) := map(lambda([s], disjoin(b,s)), S)$
 
 
 /* **************************************************
@@ -154,7 +156,8 @@ kpermutations(S,k) :=
    *******************************
 */
 
-/* has_empty_element(S) is true iff set system S contains the empty set: */
+/* has_empty_element(S) is true iff set system S (can also be a list)
+   contains the empty set: */
 /* RENAME: empty_element_p */
 has_empty_element(S) := some_s(emptyp, S)$
 empty_element_p(S) := some_s(emptyp, S)$
@@ -198,14 +201,17 @@ antichain_p(S) := is_antichain(S)$
    *****************************************
 */
 
-/* remove_with_element(S,a) is the subset of S of all sets not containing element a */
+/* remove_with_element(S,a) is the subset of S of all sets not containing 
+   element a: */
 remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)))$
+/* The same, but for a list L of sets: */
+remove_with_element_l(L,a) := sublist(L, lambda([s], not elementp(a,s)))$
 
-/* more generally, remove_non_disjoint(S,b) is the subset of S of all sets
-disjoint to b */
+/* More generally, remove_non_disjoint(S,b) is the subset of S of all sets
+disjoint to b: */
 remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)))$
 
-/* Replaces two elements by their union until the set system is disjoint */
+/* Replaces two elements by their union until the set system is disjoint: */
 unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
   while not (p : non_disjoint_pair(L), emptyp(p)) do (
     A : L[p[1]], B : L[p[2]],
@@ -222,9 +228,9 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
 subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 
 
-/* Sorts the elements of a list according to their length (ascending) */
+/* Sorts the elements of a list according to their length (ascending): */
 sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)))$
-/* Sorts the elements of a list according to their length (descending) */
+/* Sorts the elements of a list according to their length (descending): */
 sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
 
 
