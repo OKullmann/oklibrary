@@ -23,7 +23,7 @@ $(maxima_directories_okl) : % :
 
 allmaxima : ecl gnuplot maxima
 
-maxima : maxima_core # maxima_eis
+maxima : maxima_core maxima_eis
 
 maxima_core : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
