@@ -25,6 +25,8 @@ License, or any later version. */
    <li> What about Octave? http://www.gnu.org/software/octave/
    It has (only) numerical capabilities, and we should evaluate
    which could be useful for us (sparse matrices and optimisation). </li>
+   <li> Also Giac http://www-fourier.ujf-grenoble.fr/~parisse/giac.html
+   provides a C++ library, which we should investigate. </li>
   </ul>
 
 
