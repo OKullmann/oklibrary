@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/plans/general.hpp
-  \brief General plans regarding Ramsey theory (in computer algebra)
+  \brief General plans regarding %Ramsey theory (in computer algebra)
 
 
-  \todo Systematic notations for the numbers in Ramsey theory
+  \todo Systematic notations for the numbers in %Ramsey theory
   <ul>
-   <li> Currently we have Ramsey, van-der-Waerden and Green-Tao
+   <li> Currently we have %Ramsey, van-der-Waerden and Green-Tao
    numbers. </li>
    <li> Those numbers appear in plans, (soon) as functions (computing
    them), and in Latex-documents. </li>
@@ -34,12 +34,14 @@ License, or any later version. */
     <ol>
      <li> The order of parameters should be as above. </li>
      <li> Keeping, as we have it now, a "2" in the name for the
-     case of k=2 (where then this parameter is not longer used). </li>
+     case of k=2 (where then this parameter is no longer used). </li>
      <li> n is always appended to the end of the parameter list. </li>
     </ol>
    </li>
    <li> For Latex we introduce macros \ramz[3], \waez[2] and \gtz[2], where
    for the output "ram_k^r", "vdw_k" and "grt_k" is used. </li>
+   <li> See the plans on the machinery for providing Ramsey-numbers in
+   ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/Numbers.hpp. </li>
   </ul>
 
 */
