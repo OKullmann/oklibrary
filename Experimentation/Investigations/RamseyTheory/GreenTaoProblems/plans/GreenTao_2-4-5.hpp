@@ -229,7 +229,8 @@ average length successful tries = 0
      msteps=2494905734 and seed=3060585695. </li>
     </ol>
    </li>
-   <li> n=4218 </li>
+   <li> n=4218 being investigated: yet 61 runs with cutoff=4*10^9 found no
+   solution. </li>
    <li> n=4225
     <ol>
      <li> cutoff=10^9 produced in 133 runs (from 1000) no solutions, while
