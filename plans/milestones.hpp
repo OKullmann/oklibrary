@@ -65,6 +65,7 @@ License, or any later version. */
    In OKlib/plans/general.hpp the following topics are handled:
     - Access to version numbers
     - Demos
+    - Promoting the OKlibrary
   \par
    In OKlib/plans/Annotations.hpp the following topics are handled:
     - Partially moving repository Annotations

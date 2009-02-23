@@ -469,6 +469,18 @@ namespace SatAlg = Satisfiability::Algorithms;
    </li>
   </ul>
 
+
+  \todo Promoting the OKlibrary
+  <ul>
+   <li> Around September 2009 we should visit
+   http://www.trophees-du-libre.org/component/option,com_frontpage/Itemid,1/lang,en/:
+    <ol>
+     <li> This is a competition for open-source projects, and perhaps we should
+     participate. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
 /*!
