@@ -218,54 +218,80 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
    \verbatim
 A3(n):=arithprog_hg(3,n)$
 L60 : minimum_transversals_mongen(60,A3,[{}])$
-1 1 0
-2 1 0
-3 3 1
-4 2 1
+1 0 1
+2 0 1
+3 1 3
+4 1 2
 5 1 1
-6 4 2
-7 10 3
-8 25 4
+6 2 4
+7 3 10
+8 4 25
 9 4 4
-10 24 5
-11 7 5
-12 25 6
+10 5 24
+11 5 7
+12 6 25
 13 6 6
-14 1 6
-15 4 7
-16 14 8
-17 43 9
-18 97 10
-19 220 11
-20 2 11
-21 18 12
-22 62 13
-23 232 14
-24 2 14
-25 33 15
-26 2 15
-27 12 16
-28 36 17
-29 106 18
-30 1 18
-31 11 19
-32 2 19
-33 4 20
-34 14 21
-35 40 22
-36 2 22
-37 4 23
-38 86 24
-39 307 25
-40 20 25
-41 1 25
-42 4 26
-43 14 27
+14 6 1
+15 7 4
+16 8 14
+17 9 43
+18 10 97
+19 11 220
+20 11 2
+21 12 18
+22 13 62
+23 14 232
+24 14 2
+25 15 33
+26 15 2
+27 16 12
+28 17 36
+29 18 106
+30 18 1
+31 19 11
+32 19 2
+33 20 4
+34 21 14
+35 22 40
+36 22 2
+37 23 4
+38 24 86
+39 25 307
+40 25 20
+41 25 1
+42 26 4
+43 27 14
+44 28 41
+45 29 99
+46 30 266
+47 31 674
+48 32 1505
    \endverbatim
    </li>
    <li> With a C++ implementation this should be extendible to values beyond
    the known numbers (see above "Efficient computation of the transversal
    number"). </li>
+   <li> General properties:
+    <ol>
+     <li> If the transversal-number t(n) increases (by one, i.e., it becomes
+     t(n+1) = t(n) + 1), then for the set MTr(n) of minimum transversals we
+     have |MTr(n+1)| >= |MTr(n)|, since for T in MTr(n) we have T + {n+1}
+     in MTr(n+1). </li>
+     <li> The other elements T in MTr(n+1) (in this case) are exactly the
+     transversals T of G(n) of length t(n)+1 (using only vertices 1,...,n)
+     which are also transversals of G(n+1), that is, they are (exactly) the
+     minimum transversals of G(n) where those arithmetic progressions P of
+     length 3-1=2 are added which yield an arithmetic progressions P + {n+1}
+     of length 3. </li>
+     <li> It seems possible that there are no such other elements T, i.e.,
+     |MTr(n+1)| = |MTr(n)| seems possible? </li>
+     <li> If on the other hand t(n) = t(n+1), then MTr(n+1) is exactly the
+     (non-empty) set of T in MTr(n) which happen to be also transversals
+     of MTr(n+1). </li>
+     <li> So here we have |MTr(n+1)| <= |MTr(n)|. Equality seems possible?
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
