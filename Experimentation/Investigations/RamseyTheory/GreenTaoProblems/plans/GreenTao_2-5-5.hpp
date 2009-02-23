@@ -308,7 +308,7 @@ BestSolution_Min = 1.000000
   </ul>
 
 
-  \todo Survey propagation: greentao_2(5) > 34250
+  \todo Survey propagation: greentao_2(5) > 34296
   <ul>
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
@@ -395,7 +395,7 @@ verifying solution solution.tmp.lst...34000 variables found
    </li>
    <li> GreenTao_2-5-5_34250.cnf found satisfiable:
    \verbatim
-p-1.4> ./sp -l GreenTao_2-5-5_34250.cnf
+sp-1.4> ./sp -l GreenTao_2-5-5_34250.cnf
 <bias>:0.000000
 paramagnetic state
 sub-formula has:
@@ -411,6 +411,44 @@ WSAT did find the solution of the sub-formula
 merging spsol.tmp.lst over wsatsol.tmp.lst
 verifying solution solution.tmp.lst...34250 variables found
 706134 clauses sat, 0 unsat (out of 706134 read)
+   \endverbatim
+   </li>
+   <li> GreenTao_2-5-5_34281.cnf found satisfiable:
+   \verbatim
+sp-1.4> ./sp -l /home/csoliver/SAT-Algorithmen/OKplatform/GreenTao_2-5-5_34281.cnf
+<bias>:0.000000
+paramagnetic state
+sub-formula has:
+        12180 2-clauses
+        27916 3-clauses
+        34797 4-clauses
+        29274 5-clauses
+        15523 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...34281 variables found
+707228 clauses sat, 0 unsat (out of 707228 read)
+   \endverbatim
+   </li>
+   <li> GreenTao_2-5-5_34296.cnf found satisfiable:
+   \verbatim
+paramagnetic state
+sub-formula has:
+        10666 2-clauses
+        25293 3-clauses
+        31311 4-clauses
+        24646 5-clauses
+        14120 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...34296 variables found
+707784 clauses sat, 0 unsat (out of 707784 read)
    \endverbatim
    </li>
    <li> Apparently no convergence on GreenTao_2-5-5_34312.cnf
