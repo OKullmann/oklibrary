@@ -266,6 +266,9 @@ L60 : minimum_transversals_mongen(60,A3,[{}])$
 46 30 266
 47 31 674
 48 32 1505
+49 33 3510
+50 34 7726
+51 34 14
    \endverbatim
    </li>
    <li> With a C++ implementation this should be extendible to values beyond
