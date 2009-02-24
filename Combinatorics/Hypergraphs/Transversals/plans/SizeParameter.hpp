@@ -63,26 +63,58 @@ License, or any later version. */
      the assignment). </li>
     </ol>
    </li>
+   <li> It would be nice to directly implement the algorithms transversals_be,
+   transversals_bes in C++:
+    <ol>
+     <li> As a first prototype for the concept of hypergraphs as (just)
+     containers of hyperedges; here perhaps using std::vector for the
+     list, and std::set for the hyperedges. </li>
+     <li> A simple generic strategy provides the possibility to use
+     different heuristics for the choice of the branching vertex. </li>
+     <li> For vertices we just have integers in mind (but this is not
+     hardcoded). </li>
+    </ol>
+    This would extend the already existing "non-abstract" hypergraph concepts;
+    programming at this level quite similar to the Maxima/Lisp level.
+   </li>
   </ul>
 
 
   \todo Enumerating all transversals T with |T| <= k
   <ul>
    <li> The above trivial algorithm also enumerates all transversals
-   T with |T| <= k, when just continuing the process until the end. </li>
+   T with |T| <= k, when just continuing the process until the end.
+    <ol>
+     <li> However, to really obtain all such transversals, one needs to
+     use the set of formal vertices, not just those left over. </li>
+     <li> One should construct a little example. </li>
+     <li> Of course, we are not interesting in computing all transversals
+     (from the minimal transversals we trivially could obtain them by
+     padding), but the point is that considering only the existing vertices
+     already achieves some simple form of "tree pruning" (see below). </li>
+    </ol>
+   </li>
    <li> However now we really only want to find minimal transversals (w.r.t.
-   inclusion). This can be achieved by computing all and then applying
-   subsumption elimination, but we need also more efficient solutions. </li>
-   <li> It seems natural, as above for a transversal T found just to minimise
-   it (trivially), and then to prune parts of the tree which cannot contribute
-   a minimal transversal anymore. This process is similar to tree pruning
-   ("intelligent backtracking") for SAT. </li>
-   <li> Of course, if k is at most the transversal number, then no further
-   steps are needed; this situation arises naturally when either searching for
-   a minimum transversal from below, or when computing transversal numbers
-   for monotonically increasing sequences of hypergraphs (at one new vertex
-   at each step); see
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+   inclusion).
+    <ol>
+     <li> This can be achieved by computing all and then applying
+     subsumption elimination, but we need also more efficient solutions. </li>
+     <li> It seems natural, as above for a transversal T found just to minimise
+     it (trivially), and then to prune parts of the tree which cannot
+     contribute a minimal transversal anymore. This process is similar to
+     tree pruning ("intelligent backtracking") for SAT. </li>
+     <li> Of course, if k is at most the transversal number, then no further
+     steps are needed; this situation arises naturally when either searching
+     for a minimum transversal from below, or when computing transversal
+     numbers for monotonically increasing sequences of hypergraphs (at one
+     new vertex at each step); see
+     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+     </li>
+     <li> Perhaps actually such pruning cannot be done efficiently? It should
+     be the case that when branching on a still occurring vertex, then the
+     subtree contains at least one minimal transversal (if not already some
+     superfluous vertex has been included)? </li>
+    </ol>
    </li>
   </ul>
 

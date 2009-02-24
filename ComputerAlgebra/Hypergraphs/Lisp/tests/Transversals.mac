@@ -63,9 +63,9 @@ okltest_transversal_hyp(f) := block([G],
 true)$
 
 
-/* *****************************
-   * Finding some transversals *
-   *****************************
+/* *************************************
+   * Finding size-bounded transversals *
+   *************************************
 */
 
 okltest_transversals_be(f) := (

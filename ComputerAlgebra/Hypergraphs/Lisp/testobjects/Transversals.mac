@@ -31,9 +31,9 @@ okltest_transversal_p(transversal_p);
 
 okltest_transversal_hyp(transversal_hyp_rs);
 
-/* *****************************
-   * Finding some transversals *
-   *****************************
+/* *************************************
+   * Finding size-bounded transversals *
+   *************************************
 */
 
 okltest_transversals_be(transversals_be);

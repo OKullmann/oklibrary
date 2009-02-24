@@ -59,17 +59,24 @@ transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
  return(min_elements(cunion(transversal_ses_rs(S1),transversal_ses_rs(S2)))))$
 
 
-/* *****************************
-   * Finding some transversals *
-   *****************************
+/* *************************************
+   * Finding size-bounded transversals *
+   *************************************
 */
 
-/* Computing a list of some transversals of length at most B of a list L of
-   sets, via branching on some element. If such a transversal exists, then
-   at least one is found. If B is the transversal number of L, then exactly 
-   all minimal transversals of minimum length are found.
+/* Computing a list of transversals of length at most B of a list L of sets,
+   via branching on vertices (note that transversals don't need to be
+   minimal). All inclusion-minimal transversals are listed; a non-minimal
+   transversal is left out iff on its associated branch in
+   the search tree it happens that one occurring vertex completely disappears
+   as a result of removing all hyperedges containing some (other) vertex.
+   If B is the transversal number of L, then (thus) exactly all transversals
+   of minimum length are found.
 */
 /* Prerequisite: B is a natural number >= 0. */
+/* RENAME: transversals_bv (for branching on "vertices", not just on
+   "elements"); perhaps also "set system" should be in the name (as "ses").
+*/
 transversals_be(L,B) := if emptyp(L) then [{}]
  elseif empty_element_p(L) then []
  elseif B=0 then [] else
