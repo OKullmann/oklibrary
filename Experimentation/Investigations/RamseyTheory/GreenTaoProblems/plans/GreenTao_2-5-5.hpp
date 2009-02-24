@@ -308,7 +308,7 @@ BestSolution_Min = 1.000000
   </ul>
 
 
-  \todo Survey propagation: greentao_2(5) > 34296
+  \todo Survey propagation: greentao_2(5) > 34304
   <ul>
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
@@ -449,6 +449,24 @@ WSAT did find the solution of the sub-formula
 merging spsol.tmp.lst over wsatsol.tmp.lst
 verifying solution solution.tmp.lst...34296 variables found
 707784 clauses sat, 0 unsat (out of 707784 read)
+   \endverbatim
+   </li>
+   <li> GreenTao_2-5-5_34304.cnf found satisfiable:
+   \verbatim
+paramagnetic state
+sub-formula has:
+        12307 2-clauses
+        28046 3-clauses
+        33691 4-clauses
+        26634 5-clauses
+        15437 variables
+calling walksat on the sub-formula (see output in wsat.tmp.out)
+allocating memory...
+ASSIGNMENT FOUND
+WSAT did find the solution of the sub-formula
+merging spsol.tmp.lst over wsatsol.tmp.lst
+verifying solution solution.tmp.lst...34304 variables found
+708032 clauses sat, 0 unsat (out of 708032 read)
    \endverbatim
    </li>
    <li> Apparently no convergence on GreenTao_2-5-5_34312.cnf
