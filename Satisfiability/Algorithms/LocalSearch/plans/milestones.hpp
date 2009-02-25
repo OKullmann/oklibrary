@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.4.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,22 +14,34 @@ License, or any later version. */
   \par Version 0.0.5 :
 
   \par
-   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following topics are handled:
-   - Update namespaces : DONE
-   - Update plans
+   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces : DONE
+    - Update plans : DONE
 
 
   \par Version 0.0.6 :
 
   \par
-   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following topics are handled:
-   - Installation of UBCSAT completed
-   - Contact the developers of Ubcsat
-   - Create further milestones
+   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following
+   topics are handled:
+    - Installation of UBCSAT completed
+    - Contact the developers of Ubcsat
+    - Create further milestones
 
   \par
-   In LocalSearch/plans/SupportTotalAssignments.hpp the following topics are handled:
-   - Concepts
+   In LocalSearch/plans/SupportTotalAssignments.hpp the following topics
+   are handled:
+    - Concepts
+
+
+  \par Version 0.0.7 :
+
+  \par
+   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following
+   topics are handled:
+    - Using Ubcsat as a library
+    - Framework for the analysis of search space structures
 
 
 

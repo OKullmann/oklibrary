@@ -13,7 +13,15 @@ License, or any later version. */
   \todo Update namespaces. DONE
 
 
-  \todo Update plans.
+  \todo Update plans. DONE
+
+
+  \todo Using Ubcsat as a library
+  <ul>
+   <li> Once the successor of version 1.1.0 is out (and we successfully
+   installed it), we need to re-evaluate the possibility of using Ubcsat as
+   an ordinary library. </li>
+  </ul>
 
 
   \todo Relations to other modules
@@ -27,7 +35,8 @@ License, or any later version. */
   <ol>
    <li> See "Building Ubcsat" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
-   <li> Some documentation is needed (goes to Buildsystem/docus/ExternalSources.hpp):
+   <li> Some documentation is needed (goes to
+   Buildsystem/docus/ExternalSources.hpp):
     <ul>
      <li> how to use the binary </li>
      <li> how to use the library files </li>
