@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.14 (22.1.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.15 (25.2.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -30,6 +30,16 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Building of Maxima-packages
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
+   topics are handled:
+    - Estimating the problem with version 1.1.0 : DONE
+    - Also "corrected" Ubcsat segfaults (with gcc 4.3.1) : DONE
+    - Ubcsat source files are read-only : DONE
+    - Update to version 1.1.0 : DONE
+    - Ubcsat does not flush the output-buffer : DONE
+    - Complete docu-file : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
@@ -127,15 +137,9 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
-    - Estimating the problem with version 1.1.0
-    - Also "corrected" Ubcsat segfaults (with gcc 4.3.1)
-    - Ubcsat source files are read-only
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat
-    - Update to version 1.1.0
-    - Ubcsat does not flush the output-buffer DONE
-    - Complete docu-file : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following

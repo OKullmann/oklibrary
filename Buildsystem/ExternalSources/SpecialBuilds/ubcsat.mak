@@ -1,5 +1,5 @@
 # Matthew Lewsey, 9.11.2006 (Swansea)
-# Copyright 2006-2007, 2008 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -28,7 +28,7 @@ $(ubcsat-directories) : % :
 
 ubcsat : $(ubcsat-directories) ubcsat-okl
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_build_dir_okl),src)
-	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
+	chmod u+w $(ubcsat-src-directory)/*; dos2unix $(ubcsat-src-directory)/*
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
 	cp -f $(ubcsat_corrected_files_okl) $(ubcsat-tmp-src-directory)
 	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat -DNDEBUG $(ubcsat-tmp-src-directory)/*.c -lm
@@ -49,5 +49,8 @@ ubcsat-okl :
 # Cleaning
 # #################################
 
-cleanallubcsat :
-	-rm -rf $(ubcsat_base_build_dir_okl) $(ubcsat_base_installation_dir_okl)
+cleanubcsat :
+	-rm -rf $(ubcsat_base_build_dir_okl)
+
+cleanallubcsat : cleanubcsat
+	-rm -rf $(ubcsat_base_installation_dir_okl)

@@ -138,12 +138,14 @@ $(ubcsat_include_option_okl)
      using the system-gcc. </td>
    </tr>
    <tr>
+    <td> <code> cleanubcsat </code> </td>
+    <td> Removes the build-directory. </td>
+   </tr>
+   <tr>
     <td> <code> cleanallubcsat </code> </td>
     <td> Removes build- and installation-directories. </td>
    </tr>
   </table>
-  If you install a second time, then you should apply
-  <code> cleanallubcsat </code> before.
 
 */
 

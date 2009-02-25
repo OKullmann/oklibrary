@@ -33,7 +33,8 @@ echo "       sat  min     osteps     msteps       seed                          
 ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
    \endverbatim
    This appends the algorithm as a column to the data, line by line. </li>
-   <li> A problem appending columns line by line to ubcsat output is that 
+   <li> DONE
+   A problem appending columns line by line to ubcsat output is that 
    ubcsat version 1.0.0 doesn't flush data, and so one would have to wait until
    ubcsat has finished before viewing results. See "Ubcsat does not flush the
    output-buffer" below for how to repair this. </li>
@@ -42,7 +43,8 @@ ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout 
   </ul>
 
 
-  \todo Estimating the problem with version 1.1.0
+  \todo DONE (we wait for the successor of 1.1.0)
+  Estimating the problem with version 1.1.0
   <ul>
    <li> Most important seems to obtain a clear idea on how much work
    is needed to
@@ -69,7 +71,9 @@ ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout 
   </ul>
   
 
-  \bug Also "corrected" Ubcsat-executable segfaults (with gcc 4.3.1)
+  \bug DONE (perhaps this had to do with not having "biarch"-gcc versions;
+  in any way we wait for 1.2.0)
+  Also "corrected" Ubcsat-executable segfaults (with gcc 4.3.1)
   <ul>
    <li> After building Ubcsat (1.0.0) with gcc 4.3.1 we get
    \verbatim
@@ -91,13 +95,21 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
   </ul>
 
 
-  \bug Ubcsat source files are read-only
+  \bug DONE (changing the permissions after unpacking)
+  Ubcsat source files are read-only
   <ul>
    <li> The permissions of the sources files in "src/" for the Ubcsat source
-   tarball are "444", which causes issues when they are copied during any
-   rebuild (therefore keeping the same permissions) to the 
-   "Installations/SAT/Ubcsat" directory, as the user then doesn't have 
-   permission to overwrite a read-only file. </li> 
+   tarball are "444":
+    <ol>
+     <li> this causes issues when they are copied during any
+     rebuild (therefore keeping the same permissions) to the 
+     "Installations/SAT/Ubcsat" directory, as the user then doesn't have 
+     permission to overwrite a read-only file. </li>
+     <li> More precisely, the issue at hand is the behaviour of "dos2unix",
+     which apparently on some machines creates writeable files, on some
+     others keeps the original permissions. </li>
+    </ol>
+   </li>
    <li> It seems two solutions here are to either 
     <ol>
      <li> Use "cp -f" rather than "cp" to force removal of the files first 
@@ -130,7 +142,11 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
   \todo Building Ubcsat (OK, ML)
   <ul>
    <li> The Ubcsat installation seems pretty up-to-date, but we should
-   check the details (only concerning 1.0.0). </li>
+   check the details (only concerning 1.0.0).
+    <ol>
+     <li> Make-variables should be renamed, replacing "-" by "_". </li>
+    </ol>
+   </li>
    <li> See "Installation of UBCSAT completed" in
    Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
    <li> DONE (updated to the new system, where only the "recommended"
@@ -152,7 +168,8 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
   </ul>
 
 
-  \todo Update to version 1.1.0
+  \todo DONE (waiting for 1.2.0)
+  Update to version 1.1.0
   <ul>
    <li> First we try what happens on 32-bit and 64-bit machines.
     <ol>
@@ -176,8 +193,8 @@ Error: Invalid Literal [-31473] in clause [0]
    machine?! Perhaps "-m32"? The executable provided with the
    1.1.0-distribution seems to work mostly (see below) on all 32- and
    64-bit machines. </li>
-   <li> And apparently the executable compiled on cs-wsok (64-bit, AMD) seems to
-   work on "all" machines. </li>
+   <li> And apparently the executable compiled on cs-wsok (64-bit, AMD) seems
+   to work on "all" machines. </li>
    <li> Though "-m32" works on cs-wsok (64-bit, AMD), but we get a compilation
    error
    \verbatim
