@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.3.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Buildsystem 0.2.0.1 (4.9.2008)
 
 
-  \par Version 0.2.1 : THEME is "ALPHA RELEASE"
+  \par Version 0.2.1 : THEME is "PRE-ALPHA RELEASE"
 
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
@@ -26,7 +26,7 @@ License, or any later version. */
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
 
-  \par Version 0.2.2 : THEME is "CONSOLIDATION"
+  \par Version 0.2.2 : THEME is "ALPHA RELEASE (CONSOLIDATION)"
 
   \par Buildsystem/Configuration version 0.0.6
   (see Buildsystem/Configuration/plans/milestones.hpp)
