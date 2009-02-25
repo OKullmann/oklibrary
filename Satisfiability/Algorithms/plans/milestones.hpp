@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms 0.0.5.3 (16.1.2009)
+  \module_version Satisfiability/Algorithms 0.0.5.4 (25.2.2009)
 
 
   \par Version 0.0.6
 
-  \par Satisfiability/Algorithms/LocalSearch 0.0.5
+  \par Satisfiability/Algorithms/LocalSearch 0.0.5 : DONE
   (see Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp)
 
   \par Satisfiability/Algorithms/Autarkies 0.0.5 : DONE

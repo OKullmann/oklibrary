@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms/LocalSearch 0.0.4 (23.6.2007)
-
-
-  \par Version 0.0.5 :
-
-  \par
-   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Update plans : DONE
+  \module_version Satisfiability/Algorithms/LocalSearch 0.0.5 (25.2.2009)
 
 
   \par Version 0.0.6 :
@@ -53,6 +44,7 @@ License, or any later version. */
    - 0.0.4 : 23.6.2007; corrected Ubcsat-source-code (incompatible types, which led
    to errors on 64-bit machines), and put the changed Ubcsat-files under version
    control.
+   - 0.0.5 : 25.2.2009; some structural updates (most work happened outside of this module, regarding installation of Ubcsat and plans on local-search algorithms).
 
 */
 

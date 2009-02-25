@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the general module on local search
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Update plans. DONE
-
-
   \todo Using Ubcsat as a library
   <ul>
    <li> Once the successor of version 1.1.0 is out (and we successfully
