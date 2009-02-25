@@ -66,8 +66,8 @@ License, or any later version. */
      tau_arithprog_hg(m,n) by running through k=0,1,..., and observing
      when first the value is strictly greater than n --- for this k we
      have tau_arithprog_hg(m,n) = k. </li>
-     <li> The associated transformation function, where L is a stricly increasing
-     sequence of natural numbers (the indices here start with 0):
+     <li> The associated transformation function, where L is a strictly
+     increasing sequence of natural numbers (the indices here start with 0):
      \verbatim
 transform_threshold_l(L) := 
 if emptyp(L) then [] else block(
@@ -269,11 +269,12 @@ L60 : minimum_transversals_mongen(60,A3,[{}])$
 49 33 3510
 50 34 7726
 51 34 14
+52 35 50
    \endverbatim
    </li>
-   <li> With a C++ implementation this should be extendible to values beyond
-   the known numbers (see above "Efficient computation of the transversal
-   number"). </li>
+   <li> With a C++ implementation this should be extendible to values quite
+   a bit beyond the known numbers (see above "Efficient computation of the
+   transversal number"). </li>
    <li> General properties:
     <ol>
      <li> If the transversal-number t(n) increases (by one, i.e., it becomes
