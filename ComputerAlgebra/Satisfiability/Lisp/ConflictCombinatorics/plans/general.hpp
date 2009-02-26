@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,13 +39,22 @@ License, or any later version. */
    <li> An important topic is how to "realise" (directed/undirected) conflict
    graphs; perhaps for special methods we have "Realisations.mac" ?
     <ol>
+     <li> "Realising" here means to find a clause-set with the given graph
+     as conflict graph. </li>
+     <li> In general this is done by finding a biclique partition (in the
+     boolean case) of the (general) graph, and interpreting the bicliques
+     as variables and the vertices as clauses. </li>
+     <li> Thus here we have a mapping with two arguments, the (general) graph
+     and the bipartitioning; a general question is whether there are reasonable
+     methods which just need the (general) graph (and thus automatically
+     provide the biclique partitioning), and which even yield functors? </li>
      <li> Most elementary is the trivial biclique partition of a general
-     digraph, which is also functoriell; this yields clause-sets (with clashing
-     "clauses" iff loops are present) where ever variable has (1,1)-occurrence.
-     </li>
+     digraph, which is also functorial; this yields clause-sets (with clashing
+     "clauses" iff loops are present) where every variable has
+     (1,1)-occurrence. </li>
      <li> More generally we can use maximal out-stars; this yields Horn
      clause-sets where every variable is singular; can this process be made
-     functoriell?? </li>
+     functorial?? </li>
     </ol>
    </li>
   </ul>
