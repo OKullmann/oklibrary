@@ -487,6 +487,12 @@ verifying solution solution.tmp.lst...34308 variables found
 708168 clauses sat, 0 unsat (out of 708168 read)
    \endverbatim
    </li>
+   <li> Apparently no convergence on GreenTao_2-5-5_34310.cnf
+   \verbatim
+formula read: 708244 cl, 34310 vars, 3541220 literals, maxconn=260, maxliteral=5 c/v=20.642495
+.....[0.652894]:-(
+   \endverbatim
+   </li>
    <li> Apparently no convergence on GreenTao_2-5-5_34312.cnf
    \verbatim
 formula read: 708306 cl, 34312 vars, 3541530 literals, maxconn=260, maxliteral=5 c/v=20.643099
