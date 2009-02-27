@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,7 +14,15 @@ License, or any later version. */
 
   \todo Further licence installations
   <ul>
-   <li> Also html and tex files need the licence. </li>
+   <li> Also html files need the licence.
+    <ol>
+     <li> Likely the licence should be placed as early as possible. </li>
+     <li> But likely the first possible place is after the preamble (specifying
+     the encoding etc.). </li>
+     <li> See LegalIssues/Header.html for the template. </li>
+    </ol>
+   </li>
+   <li> Also tex files need the licence. </li>
    <li> DONE (added a simple copyright and license statement as standard
    page footer)
    Is it necessary that the licence is also visible on
