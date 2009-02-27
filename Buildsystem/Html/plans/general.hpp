@@ -22,6 +22,25 @@ License, or any later version. */
   <ol>
    <li> We concentrate first solely on the content, presented in a simple
    and clear way. </li>
+   <li> Indentation style:
+    <ol>
+     <li> The standard xemacs indentation style doesn't work well;
+     perhaps it doesn't understand xhtml? </li>
+     <li> Setting the indentation step to 1 (instead of 2, the default)
+     helps to reduce the amount of indentation. </li>
+     <li> However, how to configure xemacs so that this is the default?? </li>
+     <li> When in html-mode, xemacs has a menu-entry HTML -> File Options ->
+     Indent Step, which by default is 2, and which should be set to 1. </li>
+     <li> One can demand to store the settings into a file, however,
+     this stores in the html-file --- which is unacceptable. </li>
+     <li> The variable settings seem to be
+     \verbatim
+(setq sgml-indent-data t)
+(setq sgml-indent-step 1)
+     \endverbatim
+     however putting this into custom.el doesn't make any difference? </li>
+    </ol>
+   </li>
    <li> Presentation issues are only considered after the pages have
    been used for a while, and the system stabilised. </li>
    <li> These two basic rules are reflected by the technical requirements,
