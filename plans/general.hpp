@@ -364,8 +364,22 @@ namespace SatAlg = Satisfiability::Algorithms;
 
   \todo Organisation of plans-directories
   <ul>
-   <li> A problem with "general.hpp" is, that under xemacs all such files look alike --- but perhaps
-   xemacs can be configured to show also the comprising directory? </li>
+   <li> A problem with "general.hpp" is, that under xemacs all such files look
+   alike --- but perhaps xemacs can be configured to show also the comprising
+   directory?
+    <ol>
+     <li> Under Options -> Menubars we find "Verbose Buffer Menu Entries",
+     But this shows the full path name *from the left*, which makes the
+     output rather hard to read, and shows also some unneccesary classification
+     information. </li>
+     <li> Under Advanced Configuration one finds "Buffers Menu Format Buffer
+     Line Function", where we now only need to find out how to express that
+     we want to see exactly two directory-levels above. </li>
+     <li> http://www.balestra.org/~bradym/emacs-lisp/buffermenu.el comes
+     close what we need, but again it shows the full pathname; OK contacted
+     the authors, asking for a generalisation of these functions. </li>
+    </ol>
+   </li>
    <li> Perhaps we should have files "strategy.hpp": The milestones
    only contain the results of the planning process (and a bit of
    indication of direction through the milestone-labels), while
