@@ -487,7 +487,13 @@ verifying solution solution.tmp.lst...34308 variables found
 708168 clauses sat, 0 unsat (out of 708168 read)
    \endverbatim
    </li>
-   <li> Apparently no convergence on GreenTao_2-5-5_34310.cnf
+   <li> Apparently no convergence on GreenTao_2-5-5_34309.cnf:
+   \verbatim
+formula read: 708206 cl, 34309 vars, 3541030 literals, maxconn=260, maxliteral=5 c/v=20.641989
+........[0.632469]:-(
+   \endverbatim
+   </li>
+   <li> Apparently no convergence on GreenTao_2-5-5_34310.cnf:
    \verbatim
 formula read: 708244 cl, 34310 vars, 3541220 literals, maxconn=260, maxliteral=5 c/v=20.642495
 .....[0.652894]:-(
@@ -517,6 +523,26 @@ formula read: 715102 cl, 34500 vars, 3575510 literals, maxconn=260, maxliteral=5
    <li> GreenTao_2-5-5_35000 yields a "contradiction" (apparently this means
    that after setting the biased variables we obtain a conflict via
    unit-clause propagation(?)). </li>
+  </ul>
+
+
+  \todo Conjecture: greentao_2(5) = 34309
+  <ul>
+   <li> It seems we have a very clear-cut behaviour of sp: below 34309
+   it always finds a solution, starting with 34309 it apparently never
+   finds a solution. </li>
+   <li> Lets see what rnovelty+ does here.
+    <ol>
+     <li> It would be interesting to extract the satisfying assignment for
+     n=34308, and use it as a start assignment. </li>
+    </ol>
+   </li>
+   <li> It seems completely hopeless to run any current complete solver
+    <ol>
+     <li> The only chance I see yet is the optimise the heuristics of the
+     OKsolver. </li>
+    </ol>
+   </li>
   </ul>
 
 */
