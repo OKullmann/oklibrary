@@ -1,3 +1,3 @@
-/* Centralise the logo: */
+/* Centralise the logo with text: */
 #Logo { text-align: center }
-
+#LogoImage { vertical-align: middle }
