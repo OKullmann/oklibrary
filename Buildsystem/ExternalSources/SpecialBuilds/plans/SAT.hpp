@@ -541,9 +541,13 @@ less sat-grasp_amended.doc
 
   \todo DONE Rsat
   <ul>
-   <li> Not open source, and thus can't be included. </li>
+   <li> http://reasoning.cs.ucla.edu/rsat/ </li>
+   <li> Not open source, and thus can't be included (more precisely,
+   the authors don't want redistribution). </li>
    <li> Like (unfortunately) all the other software at
    http://reasoning.cs.ucla.edu/index.php?p=software.php. </li>
+   <li> Somewhere we should have a link-page, and there we'll put this
+   link. </li>
   </ul>
 
 
