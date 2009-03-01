@@ -14,7 +14,9 @@ License, or any later version. */
 
   \todo Further licence installations
   <ul>
-   <li> Also html files need the licence.
+   <li> Also tex files need the licence. </li>
+   <li> DONE
+   Also html files need the licence.
     <ol>
      <li> Likely the licence should be placed as early as possible. </li>
      <li> But likely the first possible place is after the preamble (specifying
@@ -22,7 +24,6 @@ License, or any later version. */
      <li> See LegalIssues/Header.html for the template. </li>
     </ol>
    </li>
-   <li> Also tex files need the licence. </li>
    <li> DONE (added a simple copyright and license statement as standard
    page footer)
    Is it necessary that the licence is also visible on
