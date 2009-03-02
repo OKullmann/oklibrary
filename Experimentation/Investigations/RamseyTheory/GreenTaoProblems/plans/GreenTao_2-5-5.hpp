@@ -533,12 +533,27 @@ formula read: 715102 cl, 34500 vars, 3575510 literals, maxconn=260, maxliteral=5
    finds a solution. </li>
    <li> Lets see what rnovelty+ does here.
     <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_2-5-5_34309.cnf
+       sat  min     osteps     msteps       seed
+      1 0    23 3411723098 4000000000  934386224
+      2 0    55 1487453303 4000000000 1254928291
+     \endverbatim
+     </li>
      <li> It would be interesting to extract the satisfying assignment for
      n=34308, and use it as a start assignment. </li>
     </ol>
    </li>
    <li> It seems completely hopeless to run any current complete solver
     <ol>
+     <li>
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2-5-5_34309.cnf
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=34307 initial_number_of_clauses=708206 initial_number_of_literal_occurrences=3541030 running_time(s)=152832.0 number_of_nodes=92240 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1777127 number_of_pure_literals=6 number_of_autarkies=0 number_of_missed_single_nodes=9 max_tree_depth=705 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=142 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-5-5_34309.cnf
+     \endverbatim
+     </li>
      <li> The only chance I see yet is the optimise the heuristics of the
      OKsolver. </li>
     </ol>
