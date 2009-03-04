@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.9.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,6 +41,84 @@ License, or any later version. */
   <ul>
    <li> In RamseyTheory/Lisp/VanderWaerden/Numbers.mac we need to provide
    everything known about Van-der-Waerden numbers. </li>
+   <li> See "Systematic notations for the numbers in %Ramsey theory" in
+   ComputerAlgebra/RamseyTheory/plans/general.hpp. </li>
+   <li> And see
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+   </li>
+   <li> Transversal and independence numbers
+    <ol>
+     <li> tau_arithprog_hg(k,n) is the transversal number of arithprog_hg(k,n),
+     while alpha_arithprog_hg(k,n) is the independence number of
+     arithprog_hg(k,n). </li>
+     <li> For fixed k, we want to easily extract the sequences
+     tau_arithprog_hg(k,-) and alpha_arithprog_hg(k,-), and likely it's also
+     best to specify the values by providing the known initial sequences
+     (and potentially sporadic values). </li>
+     <li> Perhaps we provide the initial sequences as values of
+     tau_arithprog_seq[k] and alpha_arithprog_seq[k] (perhaps best
+     starting with index 1):
+     \verbatim
+tau_arithprog_seq[3] : [
+0,0,1,1,1,2,3,4,4,5,
+5,6,6,6,7,8,9,10,11,11,
+12,13,14,14,15,15,16,17,18,18,
+19,19,20,21,22,22,23,24,25,25,
+25,26,27,28,29,30,31,32,33,34,
+34,35,36,36,37,38,39,39
+]
+     \endverbatim
+     </li>
+     <li> Perhaps these lists are then transferred into a hash-map, which
+     additionally contains the other "sporadic" values. </li>
+     <li> Methods for lower bounds on tau_arithprog_hg(k,n):
+      <ul>
+       <li> For natural numbers 0 <= p, q with p+q=n we have
+       tau_arithprog_hg(k,n) >= tau_arithprog_hg(k,p) + tau_arithprog_hg(k,q).
+       </li>
+       <li> This method yields for the above sequence tau_arithprog_seq[3]:
+       \verbatim
+L : tau_arithprog_seq[3]$
+lb(n):= block([m:0],
+ for k thru n-1 do block([v:L[k]+L[n-k]],if v > m then m:v),m)$
+map(lb,create_list(i,i,1,58)) - L;
+[
+0,0,-1,0,0,0,-1,-1,0,-1,
+0,-1,0,0,0,0,-1,-1,-1,0,
+-1,-1,-1,0,-1,0,-1,-1,-1,0,
+-1,0,-1,-1,-1,0,-1,-1,-1,0,
+0,0,-1,-1,-1,-1,-1,-1,-1,-1,
+0,-1,-1,0,-1,-1,-1,0
+]
+       \endverbatim
+       </li>
+       <li> At exactly the indices 15,42 do we get a non-trivial lower bound
+       (at these places we actually have exactly one minimum-transversal 
+       before, thus the transversal number should(?) increase by one). </li>
+       <li> Namely, L[15] = 7 = L[12] + L[3] = L[8] + L[7], and
+       L[42] = 26 = L[39] + L[3]. </li>
+       <li> Otherwise the bound is trivial. </li>
+       <li> For k=3 and prime numbers n there is a special construction. </li>
+      </ul>
+     </li>
+     <li> Methods fur upper bounds on tau_arithprog_hg(k,n):
+      <ul>
+       <li> tau_arithprog_hg(k,n) <= n. </li>
+       <li> More generally, for 0 <= p <= n we have tau_arithprog_hg(k,n) <=
+       tau_arithprog_hg(k,p) + (n - p). </li>
+       <li> Alternatively, for p >= 0 we have tau_arithprog_hg(k,n) <=
+       tau_arithprog_hg(k,n+p) - tau_arithprog_hg(k,p)
+       (from this by tau_arithprog_hg(k,n+p) <= tau_arithprog_hg(k,p)+n
+       we obtain the upper bound n). </li>
+       <li> It seems that the last bound is hardly useful; so all what we have
+       is the trivial bound that advancing one steps costs at most one. </li>
+      </ul>
+     </li>
+     <li> For our stored values, we should always have that they are best
+     relatively to the current knowledge (so that no further calculations
+     are needed for them). </li>
+    </ol>
+   </li>
   </ul>
 
 */

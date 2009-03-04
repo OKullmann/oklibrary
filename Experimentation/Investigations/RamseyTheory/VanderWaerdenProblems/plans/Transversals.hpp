@@ -47,11 +47,12 @@ License, or any later version. */
    must be contained. </li>
    <li> In other words, vanderwaerden_{k+1}([2]_k, m) is the smallest n such
    that tau_arithprog_hg(m,n) > k. </li>
-   <li> It seems that for computing vanderwaerden_{k+1}([2]_k, m), we best search
-   for the smallest n with tau_arithprog_hg(m,n) >= k+1 --- in this way we have
-   only to decide whether or not a transversal of size at most k exists. This
-   amounts to the same as computing the numbers tau_arithprog_hg(m,n) in succession,
-   just using that these numbers are non-decreasing and each step is at most 1. </li>
+   <li> It seems that for computing vanderwaerden_{k+1}([2]_k, m), we best
+   search for the smallest n with tau_arithprog_hg(m,n) >= k+1 --- in this way
+   we have only to decide whether or not a transversal of size at most k
+   exists. This amounts to the same as computing the numbers
+   tau_arithprog_hg(m,n) in succession, just using that these numbers are
+   non-decreasing and each step is at most 1. </li>
    <li> A related sequence is A065825, which for given k is the smallest
    n such that alpha_arithprog_hg(3,n) = k. </li>
    <li> The known values are
@@ -270,6 +271,12 @@ L60 : minimum_transversals_mongen(60,A3,[{}])$
 50 34 7726
 51 34 14
 52 35 50
+53 36 156
+54 36 2
+55 37 8
+56 38 26
+57 39 56
+58 39 2
    \endverbatim
    </li>
    <li> With a C++ implementation this should be extendible to values quite
