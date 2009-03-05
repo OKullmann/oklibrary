@@ -65,7 +65,7 @@ tau_arithprog_seq[3] : [
 12,13,14,14,15,15,16,17,18,18,
 19,19,20,21,22,22,23,24,25,25,
 25,26,27,28,29,30,31,32,33,34,
-34,35,36,36,37,38,39,39
+34,35,36,36,37,38,39,39,40
 ]
      \endverbatim
      </li>
@@ -78,17 +78,20 @@ tau_arithprog_seq[3] : [
        </li>
        <li> This method yields for the above sequence tau_arithprog_seq[3]:
        \verbatim
-L : tau_arithprog_seq[3]$
-lb(n):= block([m:0],
- for k thru n-1 do block([v:L[k]+L[n-k]],if v > m then m:v),m)$
-map(lb,create_list(i,i,1,58)) - L;
+lb(n) := block([L : tau_arithprog_seq[3], l, m:0],
+ l : length(L),
+ for k : max(1,n-l) thru min(n-1,l) do block(
+  [v : L[k] + L[n-k]],
+   if v > m then m:v),
+ m)$
+map(lb,create_list(i,i,1,59)) - tau_arithprog_seq[3];
 [
 0,0,-1,0,0,0,-1,-1,0,-1,
 0,-1,0,0,0,0,-1,-1,-1,0,
 -1,-1,-1,0,-1,0,-1,-1,-1,0,
 -1,0,-1,-1,-1,0,-1,-1,-1,0,
 0,0,-1,-1,-1,-1,-1,-1,-1,-1,
-0,-1,-1,0,-1,-1,-1,0
+0,-1,-1,0,-1,-1,-1,0,-1
 ]
        \endverbatim
        </li>
@@ -98,7 +101,6 @@ map(lb,create_list(i,i,1,58)) - L;
        <li> Namely, L[15] = 7 = L[12] + L[3] = L[8] + L[7], and
        L[42] = 26 = L[39] + L[3]. </li>
        <li> Otherwise the bound is trivial. </li>
-       <li> For k=3 and prime numbers n there is a special construction. </li>
       </ul>
      </li>
      <li> Methods fur upper bounds on tau_arithprog_hg(k,n):
@@ -110,8 +112,23 @@ map(lb,create_list(i,i,1,58)) - L;
        tau_arithprog_hg(k,n+p) - tau_arithprog_hg(k,p)
        (from this by tau_arithprog_hg(k,n+p) <= tau_arithprog_hg(k,p)+n
        we obtain the upper bound n). </li>
-       <li> It seems that the last bound is hardly useful; so all what we have
+       <li> It seems that the last bound is hardly useful; so all what we get
        is the trivial bound that advancing one steps costs at most one. </li>
+       <li> For prime numbers k and natural numbers a we have
+       tau_arithprog_hg(k,((k-2)*k^a+1)/(k-1)) <=
+       ((k-2)*k^a+1)/(k-1) - (k-1)^a. </li>
+       <li> For k=3 this yields  tau_arithprog_hg(3,(3^a+1)/2) <= 
+       (3^a+1)/2 - 2^a.
+       \verbatim
+ub(a) := block([b : (3^a + 1)/2], [b, b-2^a])$
+map(ub,create_list(i,i,1,6));
+ [[2,0],[5,1],[14,6],[41,25],[122,90],[365,301]]
+       \endverbatim
+       (one sees that for a <= 4 the upper bound is sharp, and coincides with
+       the lower bound). </li>
+       <li> It should be possible to at least compute tau_arithprog_hg(3,122),
+       so that we can determine whether this bound is still sharp (in general
+       it is not). </li>
       </ul>
      </li>
      <li> For our stored values, we should always have that they are best
