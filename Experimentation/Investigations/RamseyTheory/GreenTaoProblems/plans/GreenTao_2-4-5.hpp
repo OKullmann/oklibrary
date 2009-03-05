@@ -69,7 +69,7 @@ BestSolution_Max = 122.000000
   </ul>
 
 
-  \todo greentao_2(4,5) > 4219
+  \todo greentao_2(4,5) > 4220
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -235,9 +235,12 @@ average length successful tries = 0
    (msteps=1581933173, seed=1531363230). </li>
    <li> n=4220 being investigated:
    \verbatim
-nohup oklib --maxima --batch-string="\"oklib_load_all(); output_greentao2nd_stdname(4,5,4220);\"" &
+> nohup oklib --maxima --batch-string="\"oklib_load_all(); output_greentao2nd_stdname(4,5,4220);\"" &
+
+> nohup ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_2-4-5_4220.cnf &
    \endverbatim
-   </li>
+   93 runs yield a solution with msteps=296177134 and seed=4034244157. </li>
+   <li> n=4221 being investigated </li>
    <li> n=4225
     <ol>
      <li> cutoff=10^9 produced in 133 runs (from 1000) no solutions, while
