@@ -277,6 +277,7 @@ L60 : minimum_transversals_mongen(60,A3,[{}])$
 56 38 26
 57 39 56
 58 39 2
+59 40 4
    \endverbatim
    </li>
    <li> With a C++ implementation this should be extendible to values quite
@@ -301,6 +302,11 @@ L60 : minimum_transversals_mongen(60,A3,[{}])$
      of MTr(n+1). </li>
      <li> So here we have |MTr(n+1)| <= |MTr(n)|. Equality seems possible?
      </li>
+     <li> One can ask whether the count 1 of minimum transversals occurs
+     infinitely often? Or more generally, whether every number occurs as
+     count, and this infinitely often? </li>
+     <li> One should have a look at the cases where we have a unique
+     transversal. Perhaps these sets, as sequences, are known? </li>
     </ol>
    </li>
   </ul>
