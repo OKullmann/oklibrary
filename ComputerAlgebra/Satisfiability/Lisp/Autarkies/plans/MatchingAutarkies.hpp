@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.3.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Finding matching autarkies
+  \todo Matching satisfiability
+  <ul>
+   <li> Deciding matching satisfiability of F likely happens most efficiently
+   by the criterion delta^*(F) = 0. </li>
+   <li> A matching satisfying assignment can then be simple read off a maximum
+   matching in the clause-variable graph. </li>
+  </ul>
 
 
   \todo Deciding matching leanness
@@ -28,11 +34,33 @@ License, or any later version. */
   </ul>
 
 
+  \todo Finding matching autarkies
+  <ul>
+   <li> DONE Simple enumeration. </li>
+  </ul>
+
+
   \todo Computing the matching-lean kernel
   <ul>
    <li> DONE
    Implement brute-force search. </li>
-   <li> Do we have special properties regarding generation? </li>
+   <li> Apply the general procedure (see "Lean kernel via oracle for
+   leanness-decision" in
+   ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/LeanKernel.hpp),
+   based on deciding matching leanness. </li>
+   <li> Can the characterisation of the matching-lean kernel as the smallest
+   tight sub-clause-set be exploited (using matching techniques)? </li>
+  </ul>
+
+
+  \todo Computing a quasi-maximal matching autarky
+  <ul>
+   <li> This is a matching autarky yielding the matching-lean kernel. </li>
+   <li> It can be obtained by iteratively computing some non-trivial matching
+   autarky until none exists anymore, and then taking the composition. </li>
+   <li> Alternatively one first computes the matching-lean kernel, crosses
+   the variables in it out and removes the arising empty clause, and computes
+   a matching-satisfying assignment for the resulting clause-set. </li>
   </ul>
 
 
