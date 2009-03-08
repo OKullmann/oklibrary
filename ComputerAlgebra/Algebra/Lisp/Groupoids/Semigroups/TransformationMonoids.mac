@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,9 +9,9 @@ License, or any later version. */
   \file ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/TransformationMonoids.mac
   \brief Implementing transformation semigroups
         
-  Given a set U, here we deliver different representations of the transformation
-  monoid T(U), consisting of all maps f: U -> U (with the identity as neutral
-  element).
+  Given a set U, here we deliver different representations of the
+  transformation monoid T(U), consisting of all maps f: U -> U (with the
+  identity as neutral element).
 
 Use by
 
@@ -40,6 +40,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* Prerequisite: length(x) = length(y). */
 /* RENAME: trf_l_compo */
 transformation_l_compo(x,y) := create_list(x[i], i,y)$
+trf_l_compo(x,y) := transformation_l_compo(x,y)$
 
 /* The full transformation monoid with n elements: */
 /* RENAME: trf_l_mon */
@@ -47,7 +48,7 @@ transformations_l_mon(n) :=
   [all_transformations_l(setn(n)), 
    transformation_l_compo, 
    create_list(i,i,1,n)]$
-
+trf_l_mon(n) := transformations_l_mon(n)$
 
 /*!
 \endhtmlonly
