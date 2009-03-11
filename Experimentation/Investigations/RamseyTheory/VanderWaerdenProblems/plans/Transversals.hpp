@@ -111,7 +111,40 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
   \todo Efficient computation of the transversal number
   <ul>
    <li> Yet the fastest algorithm is minimum_transversals_mongen, based on
-   the simple algorithm transversals_bes. </li>
+   the simple algorithm transversals_bes.
+    <ol>
+     <li> It could be improved by incorporating the upper bounds coming
+     from tau_arithprog_hg(k,x+y) <=  sum_i i in {x,y} tau_arithprog_hg(k,i).
+     </li>
+     <li> This should be done by first pre-computing for i in
+     {1,...,floor(n/2)} the transversal number for the hypergraphs restricted
+     to {1,...,i} and {i+1,...,n}, with i and n-i vertices, that is
+     tau_arithprog_hg(k,i) and tau_arithprog_hg(k,n-i); lets call these
+     numbers a_i and b_i. </li>
+     <li> For the current partial transversal T these numbers are updated
+     as new-a_i = max(old-a_i, T intersect {1,...,i}) and
+     new-b_i = max(old-b_i, T intersect {i+1,...,n}). </li>
+     <li> We must always have a_i + b_i <= B (where B is the current upper
+     bound, which in our case is actually the (precise) transversal number).
+     </li>
+     <li> So each time a new element is added to the T, the numbers a_i, b_i
+     are updated, and the branch is aborted when a_i + b_i > B. </li>
+     <li> Of course, one could use look-ahead. What we have is just an
+     additional active clause, controlling the "local sizes" of T (including
+     the total size). </li>
+     <li> More generally, applicable for arbitrary hypergraphs, we have given
+     an upper bound B on the size of transversal T for hypergraph G, and
+     for certain partitions A, B of the vertex set we have given lower bounds
+     a, b on the transversal number of G_A, G_B, obtained by considering only
+     hyperedges completely contained in A resp. B. Then we must have
+     max(|T intersect A|,a) + max(|T intersect B|,b) <= B. </li>
+     <li> As constraints, using boolean variables v in V(G), we get
+     sum V(G) = B, sum A >= a, sum B >= b. </li>
+     <li> This can be used in SAT solvers supporting cardinality constraints,
+     or in constraint solvers. It seems, though, that only the above
+     implications can be drawn (w.r.t. partial assignments!). </li>
+    </ol>
+   </li>
    <li> A C++ implementation should be able to go quite beyond the known
    numbers:
     <ol>
@@ -183,7 +216,8 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
 17, 17, 17
    \endverbatim
-   (covering the range 1 <= n <= 53). </li>
+   (covering the range 1 <= n <= 53, see below for extended data for n <= 59).
+   </li>
    <li> So the sequence tau_arithprog_hg(3,n) (starting with n=0) begins with
    \verbatim
 0,
@@ -364,6 +398,52 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(4,i)), statistics_fcs
    terms). </li>
    <li> Perhaps also the maximum size of a hyperedge is of interest:
    0,0,0,0,1,2,2,3,3,4,4,5,5,6,7,8,9,9,10,11,12. </li>
+   <li> Computing the number of minimum transversals:
+   \verbatim
+A4(n):=arithprog_hg(4,n)$
+L60 : minimum_transversals_mongen(60,A4,[{}])$
+1 0 1
+2 0 1
+3 0 1
+4 1 4
+5 1 3
+6 1 2
+7 2 9
+8 2 4
+9 2 2
+10 2 1
+11 3 6
+12 4 32
+13 4 3
+14 5 30
+15 5 2
+16 6 45
+17 6 10
+18 7 100
+19 7 24
+20 8 104
+21 8 10
+22 9 210
+23 9 12
+24 10 115
+25 10 2
+26 11 80
+27 11 8
+28 11 4
+29 12 12
+30 12 2
+31 13 17
+32 14 121
+33 14 6
+34 14 2
+35 15 10
+36 16 62
+37 16 6
+38 17 64
+39 18 359
+40 18 14
+   \endverbatim
+   </li>
   </ul>
 
 
