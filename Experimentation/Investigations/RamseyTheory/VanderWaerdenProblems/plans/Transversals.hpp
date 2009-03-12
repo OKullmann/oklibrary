@@ -143,6 +143,16 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      <li> This can be used in SAT solvers supporting cardinality constraints,
      or in constraint solvers. It seems, though, that only the above
      implications can be drawn (w.r.t. partial assignments!). </li>
+     <li> No, actually also the lower bounds themselves can be used, either
+     when too many vertices are crossed out, so that the lower bound can not
+     be reached, or, just before that, when all remaining vertices have
+     to be used to reach the lower bound. </li>
+     <li> Regarding the lower bounds, we can consider arbitrary intervals
+     {i, ..., j} <= {1,...,n}, where we must have
+     |T intersect {i,...,j}| >= tau_transversal_hg(k,j-i+1). </li>
+     <li> As above, using B we obtain also an upper bound on
+     |T intersect {i,...,j}|, where this time in general the complement is
+     the (disjoint) union of two intervals {1,...,i-1} and {j+1,...,n}. </li>
     </ol>
    </li>
    <li> A C++ implementation should be able to go quite beyond the known
