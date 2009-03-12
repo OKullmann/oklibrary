@@ -117,7 +117,7 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      from tau_arithprog_hg(k,x+y) <=  sum_i i in {x,y} tau_arithprog_hg(k,i).
      </li>
      <li> This should be done by first pre-computing for i in
-     {1,...,floor(n/2)} the transversal number for the hypergraphs restricted
+     {1,...,n-1} the transversal number for the hypergraphs restricted
      to {1,...,i} and {i+1,...,n}, with i and n-i vertices, that is
      tau_arithprog_hg(k,i) and tau_arithprog_hg(k,n-i); lets call these
      numbers a_i and b_i. </li>
@@ -252,7 +252,7 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
    hyperedges:
    \verbatim
 A3(n):=arithprog_hg(3,n)$
-L60 : minimum_transversals_mongen(60,A3,[{}])$
+L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 1 0 1
 2 0 1
 3 1 3
@@ -401,7 +401,7 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(4,i)), statistics_fcs
    <li> Computing the number of minimum transversals:
    \verbatim
 A4(n):=arithprog_hg(4,n)$
-L60 : minimum_transversals_mongen(60,A4,[{}])$
+L60_4 : minimum_transversals_mongen(60,A4,[{}])$
 1 0 1
 2 0 1
 3 0 1
@@ -508,6 +508,57 @@ L_0_20_5 : compute_transversals_hg(5,20);
    1,1,1,1,1,5,5,6,8,10,13,20,28,57,85,124,180,306,483,761,1199. </li>
    <li> And the max-rank sequence begins with
    0,0,0,0,0,1,2,2,2,3,3,4,4,5,5,6,6,7,8,8,9. </li>
+   <li> Computing the number of minimum transversals:
+   \verbatim
+A5(n):=arithprog_hg(5,n)$
+L40_5 : minimum_transversals_mongen(40,A5,[{}])$
+1 0 1
+2 0 1
+3 0 1
+4 0 1
+5 1 5
+6 1 4
+7 1 3
+8 1 2
+9 1 1
+10 2 9
+11 2 6
+12 2 4
+13 2 2
+14 2 1
+15 3 5
+16 3 4
+17 3 3
+18 3 2
+19 3 1
+20 4 5
+21 5 24
+22 6 112
+23 7 619
+24 7 40
+25 7 2
+26 8 270
+27 8 70
+28 8 12
+29 8 2
+30 9 26
+31 9 5
+32 10 745
+33 10 266
+34 10 81
+35 11 534
+36 11 236
+37 11 115
+38 11 48
+39 11 16
+40 12 80
+41 12 32
+42 12 12
+43 12 4
+44 12 1
+45 13 5
+   \endverbatim
+   </li>
   </ul>
 
 
