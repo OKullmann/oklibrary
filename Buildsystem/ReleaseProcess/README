@@ -63,9 +63,15 @@ For creation of documentation we also need:
  - Bison
    (check: "bison --version").
 
-And for pulling from a git repository via the http protocol we need
+And for installing and using Git we need the following:
 
- - the curl development libraries.
+ - zlib
+ - openssl
+ - wish
+ - ssh
+ - perl
+ - for pulling/pushing from/to a git repository via the http protocol 
+   we need the curl and the expat development library.
 
 Any recent Linux distribution supplies these prerequisites.
 (asciidoc can be installed through the OKlibrary by calling "oklib asciidoc"
