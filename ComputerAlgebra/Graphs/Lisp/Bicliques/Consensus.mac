@@ -35,8 +35,8 @@ con_adj_gl_b1_1_b2_2_p(B1,B2,C) := (not disjointp(B1[1],B2[2])) and every_s(lamb
 con_adj_gl_b1_2_b2_1_p(B1,B2,C) := (not disjointp(B1[2],B2[1])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[1]),union(B1[1],B2[2])])),C)$
 con_adj_gl_b1_2_b2_2_p(B1,B2,C) := (not disjointp(B1[2],B2[2])) and every_s(lambda([c],not bc_absorbs_bc_gl_p(c,[intersect(B1[2],B2[2]),union(B1[1],B2[1])])),C)$
 
-/* Checking whether the consensus on vertex bicliques B1, B2 can be performed and whether the
-   obtained new biclique is not contained in one from S:
+/* Checking whether the consensus on vertex bicliques B1, B2 can be performed
+   and whether the obtained new biclique is not contained in one from S:
 */
 con_adj_gl_p(B1,B2,C) := con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C) or con_adj_gl_b1_1_b2_1_p(B1,B2,C)$
 
@@ -74,7 +74,8 @@ con_adj_gl_b1_1_b2_2(B1,B2) := [intersect(B1[1],B2[2]),union(B1[2],B2[1])]$
 con_adj_gl_b1_2_b2_1(B1,B2) := [intersect(B1[2],B2[1]),union(B1[1],B2[2])]$
 con_adj_gl_b1_2_b2_2(B1,B2) := [intersect(B1[2],B2[2]),union(B1[1],B2[1])]$
 
-/* Add 0-4 consensus adjunctions of bicliques B1,B2 to the list C of maximal bicliques: */
+/* Add 0-4 consensus adjunctions of bicliques B1,B2 to the list C of
+   maximal bicliques: */
 con_adj_gl_bc(B1,B2,C) := block([C2 : C],
   if con_adj_gl_b1_1_b2_1_p(B1,B2,C) = true then C2 : cons(con_adj_gl_b1_1_b2_1(B1,B2),C2),
   if C2 # C then return(C2),
@@ -136,8 +137,9 @@ aux_con_alg2_ext(C,G) := block([C2 : C, C2eqC : false],
       C2eqC : is(C2 # C)),
   return(C2))$
 
-/* G is a graph with loops, C a list of vertex bicliques covering all edges
-   returning the list of all maximal vertex bicliques:
+/* G is a graph with loops, C a list of vertex bicliques covering all edges;
+   returning the list of all maximal vertex bicliques, using "algorithm 1"
+   from the underlying paper:
 */
 con_alg1(C,G) := block([C1 : C, C2 : C, reiterate : true],
   for i : 1 while (reiterate = true) do block(
@@ -150,7 +152,9 @@ con_alg1(C,G) := block([C1 : C, C2 : C, reiterate : true],
   ), 
   return(C2))$
 
-/* Similar, but now using algorithm 2:
+/* G is a graph with loops, C a list of maximal vertex bicliques covering all
+   edges; returning the list of all maximal vertex bicliques, using
+   "algorithm 2" from the underlying paper:
 */
 con_alg2(C,G) := block([C1 : C, C2 : C, reiterate : true],
   for i : 1 while (reiterate = true) do block(

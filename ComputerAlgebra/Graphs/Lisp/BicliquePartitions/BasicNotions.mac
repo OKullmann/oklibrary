@@ -30,6 +30,10 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
 
 ebcp_gg_p(B,G) := setp(B) and partitionp(B,G[2]) and every(lambda([b],ebc_gg_p(b,G)),B)$
 
+/* To be completed:
+vbcp_gg_p := 
+*/
+
 
 /*!
 \endhtmlonly
