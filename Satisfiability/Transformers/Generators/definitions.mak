@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := Test_Transformations
 
-programs := FaronsPuzzle VanderWaerden Ramsey
+programs := FaronsPuzzle VanderWaerden Ramsey LinInequal
 
 source_libraries = $(Boost)
 

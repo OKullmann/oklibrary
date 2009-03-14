@@ -52,7 +52,15 @@ namespace LinInequal {
   }
   
   
-  inline void AddBin(const std::string& A, const unsigned int length_A, const std::string& B, const unsigned int length_B, const std::string out, const std::string aux, std::ostream& os) {
+  inline void AddBin(
+                     const std::string& A,
+                     const unsigned int length_A,
+                     const std::string& B,
+                     const unsigned int length_B,
+                     const std::string out,
+                     const std::string aux,
+                     std::ostream& os)
+  {
     // A, B correspond to natural numbers in binary representation;
     // length_A, length_B >= 1
     os << P(out,1) << N(A,1) << P(B,1) << E();
@@ -114,7 +122,13 @@ namespace LinInequal {
   
   
   template <typename It> // random access iterator to strings
-  inline void AddVar(const It V_b, const It V_e, const std::string& out, const std::string aux, std::ostream& os) {
+  inline void AddVar(
+                     const It V_b,
+                     const It V_e,
+                     const std::string& out,
+                     const std::string aux,
+                     std::ostream& os)
+  {
     unsigned int m = V_e - V_b;
     
     switch (m) {
@@ -164,7 +178,12 @@ namespace LinInequal {
   
   
   template <typename It>
-  inline void CompVar(const It V_b, const It V_e, unsigned int bound, std::ostream& os) {
+  inline void CompVar(
+                      const It V_b,
+                      const It V_e,
+                      unsigned int bound,
+                      std::ostream& os)
+  {
     // It random access iterator, *It must be a string;
     std::vector<bool> bits;
     const unsigned int bl = bin_length(bound);
@@ -198,7 +217,13 @@ namespace LinInequal {
 
 
   template <typename It>
-  void count_bound(const It V_b, const It V_e, unsigned int bound, std::ostream& os, const std::string& prefix) {
+  void count_bound(
+                   const It V_b,
+                   const It V_e,
+                   unsigned int bound,
+                   std::ostream& os,
+                   const std::string& prefix)
+  {
     AddVar(V_b, V_e, prefix + "S", prefix + "H", os);
     const unsigned int bl = bin_length(V_e - V_b);
     std::vector<std::string> S;
@@ -215,7 +240,12 @@ namespace LinInequal {
     return "ident" + ident + "choice" + StringHandling::toString(choice);
   }
 
-  void Assignment(const ui_vec& C, std::istream& in, const unsigned int level, std::ostream& out) {
+  void Assignment(
+                  const ui_vec& C,
+                  std::istream& in,
+                  const unsigned int level,
+                  std::ostream& out)
+  {
     using namespace std;
 
     const unsigned int number_choices = C.size();
@@ -247,7 +277,8 @@ namespace LinInequal {
     }
 
     for (unsigned int i = 0; i < number_choices; ++i)
-      count_bound(Chosen[i].begin(), Chosen[i].end(), C[i], out, "R" + StringHandling::toString(i+1));
+      count_bound(Chosen[i].begin(), Chosen[i].end(), C[i], out,
+                  "R" + StringHandling::toString(i+1));
   }
 }
 
