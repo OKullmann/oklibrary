@@ -16,9 +16,6 @@ License, or any later version. */
     <ol> 
      <li> Filter.cpp: what is the purpose of this?? Likely to be removed.
      </li>
-     <li> LinInequal.hpp: The application was contained (as commented code)
-     in the old Transformers/Generators/Test.cpp, which was removed in
-     commit 7ad4d9916dea861abab631f2904e49841a86892f (10.11.2007). </li>
      <li> Ramsey.cpp
       <ul>
        <li> Has now a public link (needs to be updated when moved). </li>
@@ -34,6 +31,7 @@ License, or any later version. */
      </li>
      <li> makefile: This old makefile should be replaced by the standard
      system : DONE </li>
+     <li> LinInequal.hpp: DONE </li>
      <li> FaronsPuzzle.hpp: DONE </li>
      <li> Test.cpp: DONE </li>
     </ol>
