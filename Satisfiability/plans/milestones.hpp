@@ -112,6 +112,12 @@ License, or any later version. */
    Create further milestones.
 
 
+  \par Version 0.1.3
+
+  \par Satisfiability/Transformers version 0.0.6
+  (see Satisfiability/Transformers/plans/milestones.hpp)
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

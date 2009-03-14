@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.10.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.5
 
-  \par Transformers/Generators version 0.0.8
+  \par Transformers/Generators version 0.0.7
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
 
   \par Transformers/SATModuloTheories version 0.0.3
@@ -24,6 +24,12 @@ License, or any later version. */
 
   \par Transformers/LadderLogic version 0.0.4
   (see Transformers/LadderLogic/plans/milestones.hpp)
+
+
+  \par Version 0.0.6
+
+  \par Transformers/Generators version 0.0.9
+  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
 
 
 

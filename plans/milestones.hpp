@@ -80,8 +80,8 @@ License, or any later version. */
 
   \subsection VersionOKlib024 0.2.4 BETA RELEASE
   TO BE REACHED $(deadline_024)
-  \par Satisfiability/Solvers 0.2.1
-  (see Satisfiability/Solvers/plans/milestones.hpp)
+  (see Buildsystem/plans/milestones.hpp)
+  \par OKlib/Satisfiability version 0.1.3 (OK)
   \par Literals version 0.0.4 (OK (MH))
   (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH))

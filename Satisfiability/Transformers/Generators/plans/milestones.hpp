@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,10 +14,8 @@ License, or any later version. */
   \par Version 0.0.7
 
   \par
-   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
-   topics are handled:
-    - bug : When using symmetry breaking
-    - Comments in output
+   In Transformers/Generators/LinInequal.hpp the following topics are handled:
+    - Create application
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -29,6 +27,23 @@ License, or any later version. */
 
 
   \par Version 0.0.8
+
+  \par
+   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
+   topics are handled:
+    - bug : When using symmetry breaking
+    - Comments in output
+
+
+  \par Version 0.0.9
+
+  \par
+   In Transformers/Generators/LinInequal.hpp the following topics are handled:
+    - Create Doxygen documentation
+    - Write docus
+
+
+  \par Version 0.0.10
 
   \par
    In Transformers/Generators/plans/general.hpp the following
