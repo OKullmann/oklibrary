@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file OKlib/plans/milestones.hpp
-  \brief Milestones for OKlib
+  \brief Milestones for the OKlibrary
 */
 
 /*!
@@ -17,7 +17,7 @@ License, or any later version. */
 */
 
 /*!
-  \page PageTargetsOKlib Targets for OKlib
+  \page PageTargetsOKlib Targets for the OKlibrary
 
   \section StartingVersion Future milestones
 
@@ -49,8 +49,8 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionOKlib023 0.2.3 : ALPHA RELEASE (BASIC FUNCTIONALITY MAXIMA
-  TO BE REACHED) $(deadline_023)
+  \subsection VersionOKlib023 0.2.3 : ALPHA RELEASE (BASIC FUNCTIONALITY MAXIMA)
+  TO BE REACHED $(deadline_023)
   \par ComputerAlgebra version 0.2 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Buildsystem version 0.2.2 (OK)
