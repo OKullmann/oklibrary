@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.9.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -137,19 +137,35 @@ License, or any later version. */
       OFF). </li>
       <li> <code>-M</code> for monitoring the level d of the backtracking tree
       (default is OFF), where d=6 by default (watching 2^6 = 64 nodes).
-
-      <p> d can be set using<code>-Dd</code>, for example
-      <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
-      Range 0 <= d <= 30. </p>
-
-      <p> Once a node at level d is completed, its number is printed out,
-      followed by the number of leaves below it, the total running-time
-      until now, and the anticipated running time for the remaining nodes at
-      this level, using the current average running time for the monitored
-      nodes (always in seconds). </p>
-
-      <p> If file-output is activated, then the monitoring output is echoed
-      to file "FullInputFileName.mo". </p>
+       <ul>
+        <li> d can be set using<code>-Dd</code>, for example
+        <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
+        Range 0 <= d <= 30. </li>
+        <li> Once a node at level d is completed, its number is printed out,
+        followed by the number of leaves below it, the total running-time
+        until now, and the anticipated running time for the remaining nodes at
+        this level, using the current average running time for the monitored
+        nodes (always in seconds). </li>
+        <li> If file-output is activated, then the monitoring output is echoed
+        to file "FullInputFileName.mo". </li>
+       </ul>
+      </li>
+      <li> <code>-P</code> for only performing preprocessing (cleaning of input
+      and unit-clause-propagation). Some applications:
+       <ul>
+        <li> By
+        \verbatim
+> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($4,29)}'
+        \endverbatim
+        the (precise) number of (occurring) variables is computed (after
+        preprocessing). </li>
+        <li> And by
+        \verbatim
+> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($5,27)}'
+        \endverbatim
+        the (precise) number of clauses is computed (after preprocessing).
+        </li>
+       </ul>
       </li>
      </ul>
     </li>
