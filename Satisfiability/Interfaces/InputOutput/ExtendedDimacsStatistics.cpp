@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,8 @@ License, or any later version. */
   \todo Better output
   <ul>
    <li> The output description should be more descriptive. </li>
-   <li> Also the maximal index and the real number of variables is needed. </li>
+   <li> Also the maximal index and the real number of variables is needed.
+   </li>
   </ul>
 
 */
