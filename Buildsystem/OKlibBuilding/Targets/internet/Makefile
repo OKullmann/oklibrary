@@ -1,5 +1,5 @@
 # Oliver Kullmann, 22.8.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -13,7 +13,7 @@ export
 internet : internet_local internet_global internet_packages
 
 internet_local : $(internet_html_dir) 
-	env --ignore-environment PATH=$$PATH oklib doc_dir=$(internet_html_dir)/doc ExternalSources_doc=$(internet_html_dir)/doc/doc internet_home_page_output_dir=$(internet_html_dir) extsrc_relative=on html internet_home_page
+	env --ignore-environment HOME=$$HOME PATH=$$PATH TERM=$$TERM LANG=$$LANG oklib doc_dir=$(internet_html_dir)/doc ExternalSources_doc=$(internet_html_dir)/doc/doc internet_home_page_output_dir=$(internet_html_dir) extsrc_relative=on html internet_home_page
 	cp -r $(ExternalSources_doc) $(internet_html_dir)/doc/
 
 internet_home_page : $(internet_home_page_output_dir)
