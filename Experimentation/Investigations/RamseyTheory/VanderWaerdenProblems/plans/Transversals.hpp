@@ -161,14 +161,32 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      <li> See Hypergraphs/Transversals/plans/SizeParameter.hpp. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Translations to SAT
+  <ul>
    <li> Alternatively SAT solvers with the ability to formulate cardinality
    constraints can be used. </li>
-   <li> We have already implemented (as a deprecated C++ program) the
-   translation of linear inequalities into CNF, and so we can also
-   use (ordinary) SAT solvers.
+   <li> We have already implemented (as an old C++ program) the translation
+   of linear inequalities into CNF, and so we can also use (ordinary) SAT
+   solvers.
     <ol>
-     <li> See Transformers/Generators/LinInequal.hpp, and topic "Update" in
-     Transformers/Generators/plans/general.hpp. </li>
+     <li> By "VdWTransversals 3 54 35" we create a Dimacs file, containing the
+     hypergraph clauses for n=53 plus the upper bound (here b=35) on the
+     transversal size (so that in this case the clause-set is unsatisfiable,
+     while for b=36 it is satisfiable). </li>
+     <li> And via "VdWTransversalsInc 3 1 0 OutputFile" we compute all the
+     transversal number for k=3, starting with n=1. </li>
+     <li> It seems that OKsolver_2002 and march_pl need a long time, however
+     minisat solves the problems (unsatisfiable as well as satisfiable)
+     relatively easily (though with n=80 around 15 minutes are needed). </li>
+     <li> The satisfiable instances seem rather hard for local search solvers;
+     one should try unit-march. </li>
+     <li> VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
+     upper bound on the transversal size: It should be more efficient to
+     use an (exact) equality; see "Complete LinInequal.cpp" in
+     Transformers/Generators/plans/LinInequal.hpp. </li>
     </ol>
    </li>
    <li> Also CSP solvers are interesting here. </li>
@@ -352,6 +370,32 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
      <li> One should have a look at the cases where we have a unique
      transversal. Perhaps these sets, as sequences, are known? </li>
     </ol>
+   </li>
+   <li> Just computing the transversal numbers, using minisat and the
+   direct translation (as provided by "VdWTransversalsInc 3 1 0 OutputFile";
+   see above):
+   \verbatim
+60 41
+61 42
+62 43
+63 43
+64 44
+65 45
+66 46
+67 47
+68 48
+69 49
+70 50
+71 50
+72 51
+73 52
+74 52
+75 53
+76 54
+77 55
+78 56
+79 57
+   \endverbatim
    </li>
   </ul>
 
@@ -620,6 +664,59 @@ L_0_20_6 : compute_transversals_hg(6,20)$
    1,1,1,1,1,1,6,6,7,9,12,26,37,49,62,80,177,346,543,697,933. </li>
    <li> And the max-rank sequence begins with
    0,0,0,0,0,0,1,2,2,2,2,3,3,4,4,5,5,6,6,7,8. </li>
+   <li> Computing the number of minimum transversals:
+   \verbatim
+oklib_monitor : true;
+A6(n):=arithprog_hg(6,n)$
+L60_6 : minimum_transversals_mongen(60,A6,[{}])$
+1 0 1
+2 0 1
+3 0 1
+4 0 1
+5 0 1
+6 1 6
+7 1 5
+8 1 4
+9 1 3
+10 1 2
+11 2 18
+12 2 9
+13 2 6
+14 2 4
+15 2 2
+16 3 26
+17 3 9
+18 3 4
+19 3 3
+20 3 2
+21 4 29
+22 4 12
+23 4 5
+24 4 3
+25 4 2
+26 4 1
+27 5 4
+28 6 27
+29 6 2
+30 7 34
+31 8 889
+32 8 140
+33 8 19
+34 9 1214
+35 9 325
+36 9 48
+37 9 8
+38 10 325
+39 10 38
+40 10 6
+41 10 2
+42 11 28
+43 12 2810
+44 12 725
+45 12 262
+46 12 53
+   \endverbatim
+   </li>
   </ul>
 
 
