@@ -27,7 +27,7 @@ License, or any later version. */
    <li> An important motivation is the task of, given a finite function,
    find a representation of it by generalised CNF/DNF, propositional logic,
    CSPs, alliances of active clause-sets etc. </li>
-   <li> So from this point of view, finite functions are as building blocks
+   <li> So from this point of view, finite functions are building blocks
    in representations of (generalised) satisfiability problem instances,
    and the task is to transform the whole representation into an alliance of
    active clause-sets. </li>
@@ -78,6 +78,32 @@ License, or any later version. */
      use variables appropriately. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Representing boolean functions by their truth tables
+  <ul>
+   <li> The truth table is just a sequence of bits. So once the order
+   is standardised (in such a way that it adding variables doesn't
+   change the order), truth tables can be jused represented by natural
+   numbers (including zero), plus the information how many variables are
+   there. </li>
+   <li> Most natural seems here to use binary counting, with leading
+   digit last (compare
+   ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp). </li>
+   <li> Given such an encoding, the composition of boolean functions can
+   be achieved by bitwise operations:
+    <ol>
+     <li> By package functs we have logor, lorand and logxor. </li>
+     <li> We should also provide the other 13 basic functions (see
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp).
+     </li>
+     <li> For negation one needs to know the number of bits. </li>
+    </ol>
+   </li>
+   <li> See "Using different algorithms for different parameter values"
+   in Satisfiability/Heuristics/plans/general.hpp for some application of
+   such algorithms (in general SAT solving). </li>
   </ul>
 
 
