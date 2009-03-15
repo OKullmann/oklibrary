@@ -8,33 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms 0.0.5.4 (25.2.2009)
-
-
-  \par Version 0.0.6
-
-  \par Satisfiability/Algorithms/LocalSearch 0.0.5 : DONE
-  (see Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp)
-
-  \par Satisfiability/Algorithms/Autarkies 0.0.5 : DONE
-  (see Satisfiability/Algorithms/Autarkies/plans/milestones.hpp)
-
-  \par Satisfiability/Algorithms/Learning 0.0.4 : DONE
-  (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
-
-  \par Satisfiability/Algorithms/Backtracking version 0.0.5 : DONE
-  (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
-
-  \par
-   In Satisfiability/Algorithms/plans/general.hpp the following
-   topics are handled:
-    - Create module for solving small SAT problems : DONE
-    - Create module for SAT problems with bounded maximal deficiency : DONE
-    - Update namespaces : DONE
-    - Create milestones : DONE
-
-  \par
-   Create further milestones.
+  \module_version Satisfiability/Algorithms 0.0.6 (15.3.2009)
 
 
   \par Version 0.0.7
@@ -48,6 +22,18 @@ License, or any later version. */
   \par Satisfiability/Algorithms/LocalSearch 0.0.6
   (see Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp)
 
+  \par Satisfiability/Algorithms/Autarkies 0.0.6
+  (see Satisfiability/Algorithms/Autarkies/plans/milestones.hpp)
+
+  \par Satisfiability/Algorithms/AllSolutions 0.0.4
+  (see Satisfiability/Algorithms/AllSolutions/plans/milestones.hpp)
+
+  \par Satisfiability/Algorithms/Backdoors 0.0.4
+  (see Satisfiability/Algorithms/Backdoors/plans/milestones.hpp)
+
+  \par Satisfiability/Algorithms/SumProduct 0.0.4
+  (see Satisfiability/Algorithms/SumProduct/plans/milestones.hpp)
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
@@ -55,6 +41,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.5 : 1.10.2007; initial version number (many plans).
+   - 0.0.6 : 15.3.2009; many editorial and structural updates, more plans on special algorithms as well as on basic ideas.
 
 */
 

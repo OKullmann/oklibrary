@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.1.1
 
-  \par Satisfiability/Algorithms version 0.0.6
+  \par Satisfiability/Algorithms version 0.0.6 : DONE
   (see Satisfiability/Algorithms/plans/milestones.hpp)
 
   \par Satisfiability/Interfaces version 0.0.6 : DONE

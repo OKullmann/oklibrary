@@ -12,20 +12,6 @@ License, or any later version. */
   General algorithms, complete and incomplete ones, for (generalised)
   SAT solving.
   
-
-  \todo DONE (created ComputerAlgebra/Satisfiability/Lisp/BoundedDeficiency/plans/general.hpp)
-  Create module for SAT problems with bounded maximal deficiency.
-
-
-  \todo Create module for solving small SAT problems : DONE
-  (moved to Satisfiability/Heuristics/plans/general.hpp)
-
-
-  \todo Update namespaces : DONE
-
-
-  \todo Create milestones : DONE
-
 */
 
 /*!
