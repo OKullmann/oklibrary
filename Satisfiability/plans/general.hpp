@@ -11,24 +11,6 @@ License, or any later version. */
   issues
 
 
-  \todo Strengthening the module structure
-  <ul>
-   <li> Missing milestones:
-    <ol>
-     <li> Enumeration : DONE </li>
-     <li> FiniteFunctions : DONE </li>
-     <li> Heuristics : DONE </li>
-     <li> Optimisation : DONE </li>
-     <li> ProofSystems : DONE </li>
-     <li> Quantification : DONE </li>
-     <li> Reductions : DONE </li>
-     <li> SpecialStructures : DONE </li>
-     <li> Variations : DONE </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo New supermodule on autarkies
   <ul>
    <li> The old plan was to have autarkies inside supermodule Assignments.
@@ -46,40 +28,6 @@ License, or any later version. */
    </li>
    <li> How to name it: "ConstraintSatisfaction" ? Alias "CoS" ? </li>
   </ul>
-
-
-  \todo Move older modules here: DONE
-  <ol>
-   <li> Variables to ProblemInstances/Variables (a merge). DONE </li>
-   <li> Literals to ProblemInstances/Literals (a merge). DONE </li>
-   <li> SATAlgorithms to Algorithms (a merge). DONE </li>
-   <li> Utilities to Algorithms or to ProblemInstances. DONE
-   (actually moved to Programming; one shall not forget it there) </li>
-   <li> AtomicConditions to ProblemInstances/Conditions. DONE </li>
-   <li> PartialAssignments to Assignments. DONE </li>
-   <li> LocalSearch to Algorithms. DONE </li>
-  </ol>
-
-
-  \todo Milestones : DONE
-  (we have enough structure in this part, so also here milestones are introduced,
-  establishing a proper hierarchy)
-  <ul>
-   <li> It seems that at least for now, there are no milestones at the level
-   of super-module Satisfiability. </li>
-   <li> Having milestones also at this level seems artificial (for now).
-   One wants to say directly that Solvers or Heuristics should advance,
-   without introducing artificial combination-milestones. </li>
-   <li> However, like namespace administration, there are todos also at
-   this level? Perhaps for now they go directly to OKlib/plans? </li>
-   <li> The tree structure of the planning system (setting milestones must
-   follow the hierarchies: the "manager" cannot directly give orders
-   to the "workers") is a bit of a hindrance here, but in general it
-   seems appropriate. </li>
-  </ul>
-
-
-  \todo Update namespaces : DONE
 
 */
 

@@ -8,60 +8,7 @@ License, or any later version. */
 /*!
   \file OKlib/Satisfiability/plans/milestones.hpp
 
-  \module_version OKlib/Satisfiability 0.1.0.15 (6.2.2008)
-
-
-  \par Version 0.1.1
-
-  \par Satisfiability/Algorithms version 0.0.6 : DONE
-  (see Satisfiability/Algorithms/plans/milestones.hpp)
-
-  \par Satisfiability/Interfaces version 0.0.6 : DONE
-  (see Satisfiability/Interfaces/plans/milestones.hpp)
-
-  \par Satisfiability/Variations version 0.0.2 : DONE
-  (see Satisfiability/Variations/plans/general.hpp)
-
-  \par Satisfiability/SpecialStructures version 0.0.3 : DONE
-  (see Satisfiability/SpecialStructures/plans/milestones.hpp)
-
-  \par Satisfiability/Reductions version 0.0.4 : DONE
-  (see Satisfiability/Reductions/plans/milestones.hpp)
-
-  \par Satisfiability/Quantification version 0.0.3 : DONE
-  (see OKlib/Satisfiability/Quantification/plans/milestones.hpp)
-
-  \par Satisfiability/ProofSystems version 0.0.3 : DONE
-  (see OKlib/Satisfiability/ProofSystems/plans/milestones.hpp)
-
-  \par Satisfiability/Optimisation version 0.0.2 : DONE
-  (see Satisfiability/Optimisation/plans/milestones.hpp)
-
-  \par Satisfiability/Heuristics version 0.0.2 : DONE
-  (see Satisfiability/Heuristics/plans/milestones.hpp)
-
-  \par Satisfiability/FiniteFunctions 0.0.3 : DONE
-  (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
-
-  \par Satisfiability/Enumeration 0.0.3 : DONE
-  (see Satisfiability/Enumeration/plans/milestones.hpp)
-
-  \par Satisfiability/Transformers 0.0.4 : DONE
-  (see Satisfiability/Transformers/plans/milestones.hpp)
-
-  \par Satisfiability/Assignments 0.0.5 (OK) : DONE
-  (see Satisfiability/Assignments/plans/milestones.hpp)
-
-  \par Satisfiability/ProblemInstances 0.0.3 : DONE
-  (see Satisfiability/ProblemInstances/plans/milestones.hpp)
-
-  \par
-   In OKlib/Satisfiability/plans/general.hpp the following
-   topics are handled:
-    - Strengthening the module structure : DONE
-    - Move older modules here : DONE
-    - Milestones : DONE
-    - Update namespaces : DONE
+  \module_version OKlib/Satisfiability 0.1.1 (15.3.2009)
 
 
   \par Version 0.1.2
@@ -102,6 +49,12 @@ License, or any later version. */
   \par Satisfiability/Interfaces version 0.0.7
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
+  \par Satisfiability/FiniteFunctions 0.0.4
+  (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
+
+  \par Satisfiability/Enumeration 0.0.4
+  (see Satisfiability/Enumeration/plans/milestones.hpp)
+
   \par
    In OKlib/Satisfiability/plans/general.hpp the following
    topics are handled:
@@ -124,6 +77,7 @@ License, or any later version. */
   \par Version history
 
    - 0.1   : 25.9.2007; initial version number (many plans, and various components at different stages of development).
+   - 0.1.1 : 15.3.2009; many editorial and structural updates, more plans on algorithms and frameworks, improved input and output facilities; much work happened at Maxima/Lisp level.
 
 */
 

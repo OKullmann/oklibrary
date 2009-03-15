@@ -28,10 +28,10 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK)
   (see LegalIssues/plans/milestones.hpp)
-  \par OKlib/Satisfiability version 0.1.1 (OK)
-  (see OKlib/Satisfiability/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
+  \par OKlib/Satisfiability version 0.1.1 (OK) : DONE
+  (see OKlib/Satisfiability/plans/milestones.hpp)
   \par Plans
   All parts have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
