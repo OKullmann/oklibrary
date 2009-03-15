@@ -108,6 +108,33 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
   </ul>
 
 
+  \todo Studying the transversal hypergraph
+  <ul>
+   <li> If the transversal-number t(n) increases (by one, i.e., it becomes
+   t(n+1) = t(n) + 1), then for the set MTr(n) of minimum transversals we
+   have |MTr(n+1)| >= |MTr(n)|, since for T in MTr(n) we have T + {n+1}
+   in MTr(n+1). </li>
+   <li> The other elements T in MTr(n+1) (in this case) are exactly the
+   transversals T of G(n) of length t(n)+1 (using only vertices 1,...,n)
+   which are also transversals of G(n+1), that is, they are (exactly) the
+   minimum transversals of G(n) where those arithmetic progressions P of
+   length 3-1=2 are added which yield an arithmetic progressions P + {n+1}
+   of length 3. </li>
+   <li> It seems possible that there are no such other elements T, i.e.,
+   |MTr(n+1)| = |MTr(n)| seems possible? </li>
+   <li> If on the other hand t(n) = t(n+1), then MTr(n+1) is exactly the
+   (non-empty) set of T in MTr(n) which happen to be also transversals
+   of MTr(n+1). </li>
+   <li> So here we have |MTr(n+1)| <= |MTr(n)|. Equality seems possible?
+   </li>
+   <li> One can ask whether the count 1 of minimum transversals occurs
+   infinitely often? Or more generally, whether every number occurs as
+   count, and this infinitely often? </li>
+   <li> One should have a look at the cases where we have a unique
+   transversal. Perhaps these sets, as sequences, are known? </li>
+  </ul>
+
+
   \todo Efficient computation of the transversal number
   <ul>
    <li> Yet the fastest algorithm is minimum_transversals_mongen, based on
@@ -345,32 +372,6 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
    <li> With a C++ implementation this should be extendible to values quite
    a bit beyond the known numbers (see above "Efficient computation of the
    transversal number"). </li>
-   <li> General properties:
-    <ol>
-     <li> If the transversal-number t(n) increases (by one, i.e., it becomes
-     t(n+1) = t(n) + 1), then for the set MTr(n) of minimum transversals we
-     have |MTr(n+1)| >= |MTr(n)|, since for T in MTr(n) we have T + {n+1}
-     in MTr(n+1). </li>
-     <li> The other elements T in MTr(n+1) (in this case) are exactly the
-     transversals T of G(n) of length t(n)+1 (using only vertices 1,...,n)
-     which are also transversals of G(n+1), that is, they are (exactly) the
-     minimum transversals of G(n) where those arithmetic progressions P of
-     length 3-1=2 are added which yield an arithmetic progressions P + {n+1}
-     of length 3. </li>
-     <li> It seems possible that there are no such other elements T, i.e.,
-     |MTr(n+1)| = |MTr(n)| seems possible? </li>
-     <li> If on the other hand t(n) = t(n+1), then MTr(n+1) is exactly the
-     (non-empty) set of T in MTr(n) which happen to be also transversals
-     of MTr(n+1). </li>
-     <li> So here we have |MTr(n+1)| <= |MTr(n)|. Equality seems possible?
-     </li>
-     <li> One can ask whether the count 1 of minimum transversals occurs
-     infinitely often? Or more generally, whether every number occurs as
-     count, and this infinitely often? </li>
-     <li> One should have a look at the cases where we have a unique
-     transversal. Perhaps these sets, as sequences, are known? </li>
-    </ol>
-   </li>
    <li> Just computing the transversal numbers, using minisat and the
    direct translation (as provided by "VdWTransversalsInc 3 1 0 OutputFile";
    see above):
