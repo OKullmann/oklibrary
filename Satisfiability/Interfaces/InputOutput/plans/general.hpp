@@ -48,7 +48,14 @@ License, or any later version. */
   \todo Improve application InputOutput/ExtendedToStrictDimacs.cpp
   <ul>
    <li> The new parameter-values should be the correct (i.e., precise) ones,
-   not the original ones. </li>
+   not the original ones.
+    <ol>
+     <li> It as an option whether the original parameter values should be
+     checked for errors, or just completely ignored. </li>
+     <li> Perhaps the current behaviour, just taking over the original
+     values, could also be an option. </li>
+    </ol>
+   </li>
    <li> We should add a comment-line (optionally) for the original
    file-name, for the original parameter values, and if some cleaning
    happened (tautological clauses or repeated literals), then these

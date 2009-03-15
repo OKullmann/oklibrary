@@ -33,12 +33,41 @@ License, or any later version. */
   </ul>
 
 
-  \todo Complete description of the LinInequal.cpp
+  \todo Update function names
+  <ul>
+   <li> Generators/LinInequal.hpp yet uses class-like names for functions;
+   this should be changed. </li>
+  </ul>
+
+
+  \todo Complete LinInequal.cpp
   <ul>
    <li> It remains to describe what happens if two or more parameters are
-   given. </li>
-   <li> The main point is to find out what LinInequal::Assignment is doing.
+   given.
+    <ol>
+     <li> The main point is to find out what LinInequal::Assignment is doing.
+     </li>
+     <li> Likely, this should then be moved into its own application. </li>
+    </ol>
    </li>
+   <li> Once we removed this case, the current reading from standard input
+   likely should be abolished, and command line parameters used. </li>
+   <li> We should have the alternative to demand not just the upper bound,
+   but also the lower bound or the strict equality.
+    <ol>
+     <li> See 'Also handle ">=" and "=" (besides "<=")' below. </li>
+     <li> This then can be controlled by an additional command-line parameter.
+     </li>
+   </li>
+  </ul>
+
+
+  \todo Also handle ">=" and "=" (besides "<=")
+  <ul>
+   <li> This is possible by two further variations on function
+   LinInequal::CompVar. </li>
+   <li> Likely the name "CompVar" then should be changed, say, "compvar_ge",
+   "compvar_le" and "compvar_eq". </li>
   </ul>
 
 
@@ -48,6 +77,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improve VdWTransversals and VdWTransversalsInc
+  <ul>
+   <li> Once available as application, the translation of extended into strict
+   Dimacs format together with correcting the parameter-line should be used
+   (instead of yet using the OKsolver together with awk). See "Improve
+   application InputOutput/ExtendedToStrictDimacs.cpp" in
+   Interfaces/InputOutput/plans/general.hpp. </li>
+   <li> The generalisation of these scripts to a transformer "hypergraph
+   transversal -> SAT" and to a sequence generator for transversal numbers
+   of monotonically increasing hypergraph sequences should be made
+   available. </li>
+  </ul>
+
+
   \todo Write docus
+  <ul>
+   <li> Also the applications VdWTransversals and VdWTransversalsInc need
+   documentation. </li>
+  </ul>
 
 */

@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Transformers/Generators 0.0.6.1 (15.3.2009)
+  \module_version Transformers/Generators 0.0.6.2 (15.3.2009)
 
 
   \par Version 0.0.7
@@ -23,20 +23,16 @@ License, or any later version. */
     - Create application : DONE
 
   \par
-   Update milestones.
+   Update milestones : DONE
 
 
   \par Version 0.0.8
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
-    - Complete description of the LinInequal.cpp
-
-  \par
-   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
-   topics are handled:
-    - bug : When using symmetry breaking
-    - Comments in output
+    - Update function names
+    - Complete LinInequal.cpp
+    - Also handle ">=" and "=" (besides "<=")
 
 
   \par Version 0.0.9
@@ -44,10 +40,23 @@ License, or any later version. */
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
     - Create Doxygen documentation
+    - Improve VdWTransversals and VdWTransversalsInc
     - Write docus
 
 
   \par Version 0.0.10
+
+  \par
+   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
+   topics are handled:
+    - bug : When using symmetry breaking
+    - Comments in output
+
+  \par
+   Create new milestones.
+
+
+  \par Version 0.0.11
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -62,8 +71,6 @@ License, or any later version. */
     - Test.cpp
     - Write docus
 
-  \par
-   Create new milestones.
 
 
 
