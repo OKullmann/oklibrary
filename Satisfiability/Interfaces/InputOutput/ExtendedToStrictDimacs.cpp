@@ -13,8 +13,7 @@ License, or any later version. */
    <li> Reads from standard input, and writes to standard output (and standard
    error). </li>
    <li> Extended Dimacs format allows identifiers as variable names. </li>
-   <li> Currently the old parameter line is just copied (and otherwise
-   completely ignored). </li>
+   <li> Currently the old parameter line is just copied (and checked). </li>
    <li> The new variable numbers are gapless (so if the true number of
    (occurring) variables is n, then the new variable numbers are exactly the
    numbers from 1 to n). </li>
