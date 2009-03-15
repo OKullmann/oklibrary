@@ -1,0 +1,52 @@
+#!/bin/bash
+# Oliver Kullmann, 15.3.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "VdWTransversals k n b" computes the clause-set expressing the existence of
+# a transversal of size at most b of the hypergraph of arithmetic progressions
+# of size k for the vertex set {1, ..., n}.
+# The clauses are the hyperedges (positively) plus clauses expression the
+# cardinality constraint v_1 + ... + v_n <= b.
+
+script_name="VdWTransversals"
+
+if [[ $# != 3 ]]; then
+  echo "ERROR[${script_name}]: Exactly three parameters k, n, b are needed:
+  The progression-length k, the number n of vertices, and the upper bound b
+  on the transversal size."
+  exit 1
+fi
+
+K=$1
+N=$2
+B=$3
+
+maxima_call="oklib --maxima"
+lin_equal_progr="LinInequal-O3-DNDEBUG"
+oksolver="OKsolver_2002-O3-DNDEBUG"
+dimacs_translation="ExtendedToStrictDimacs-O3-DNDEBUG"
+
+auxfile1="vdw_$$"
+auxfile2="vdw_b_$$"
+resultfile="vdw_trans_${K}_${N}_${B}.cnf"
+
+# Creating the Dimacs-file representing the hypergraph as positive clause-set:
+${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions, k=${K}, n=${N}, bound=${B}\\\",arithprog_hg(${K},${N}),\\\"${auxfile1}\\\");\""
+
+# Adding the linear inequalities:
+echo "${N} ${B}" | ${lin_equal_progr} "" >> ${auxfile1}
+
+# Updating the Dimacs parameter line to the real values:
+param="$(${oksolver} -P ${auxfile1} | awk '$1 == "c" {print "p cnf " substr($4,29), substr($5,27)}')"
+cat ${auxfile1} | awk '$1 == "p" {print '"\"${param}\""'}; $1 != "p" {print}' > ${auxfile2}
+# Creating a strict Dimacs-file (with only natural numbers as variable-names):
+cat ${auxfile2} | ${dimacs_translation} > ${resultfile}
+
+# Removing the auxiliary files:
+rm ${auxfile1} ${auxfile2}
+
+exit 0

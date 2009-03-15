@@ -1,0 +1,42 @@
+#!/bin/bash
+# Oliver Kullmann, 15.3.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "VdWTransversalsInc k n t file" starts computing the transversal number
+# of the hypergraph of arithmetic progressions of size k over {1,...n}, where
+# t is the transversal number over {1,...,n-1} (thus the transversal number 
+# for n is either t or t+1), and continues with n+1 and so on.
+# The method is by adding the inequality "transversal size <= t" to
+# the clauses representing the hyperedges, thus obtaining a SAT problem,
+# solved then by Minisat (which seems to be strongest on these problems).
+
+if [[ $# != 4 ]]; then
+  echo "ERROR[${script_name}]: 
+  Exactly four parameters k, n, t, file are needed:
+  The progression-length k, the starting number n of vertices, the 
+  transversal number t for n-1 vertices, and the output file-name."
+  exit 1
+fi
+
+K=$1
+T=$3
+output=$4
+
+solver="minisat"
+generator="VdWTransversals"
+
+for ((N=${2}; 1; ++N)); do
+  ${generator} ${K} ${N} ${T}
+  file="vdw_trans_${K}_${N}_${T}.cnf"
+  ${solver} ${file}
+  res=$(echo $?)
+  if [[ ${res} == 20 ]]; then T=$(expr ${T} + 1); fi
+  echo "k=${K}, n=${N}: tau = ${T}" >> ${output}
+  rm ${file}
+done
+
+exit 0
