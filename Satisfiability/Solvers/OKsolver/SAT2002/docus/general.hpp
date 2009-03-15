@@ -157,13 +157,13 @@ License, or any later version. */
         \verbatim
 > OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($4,29)}'
         \endverbatim
-        the (precise) number of (occurring) variables is computed (after
-        preprocessing). </li>
+        the (precise) number of (occurring) variables is computed (without
+        any reduction). </li>
         <li> And by
         \verbatim
 > OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($5,27)}'
         \endverbatim
-        the (precise) number of clauses is computed (after preprocessing).
+        the (precise) number of clauses is computed (without any reduction).
         </li>
        </ul>
       </li>
@@ -193,8 +193,15 @@ License, or any later version. */
     <ol>
      <li> The number of variables is always (before and after reduction) the
      number of variables actually occurring in the clause-set. </li>
+     <li> And also the number of clauses is the precise count (before and
+     after reduction). </li>
      <li> "reduction" refers to elimination of tautological clauses,
      repeated literal occurrences and unit-clause-propagation. </li>
+     <li> So <code>initial_number_of_variables</code> is the precise number
+     of variables in the input (taking also tautological clauses into
+     account), while <code>initial_number_of_clauses</code> is the precise
+     number of clauses in the input (again, taking also tautological clauses
+     into account). </li>
      <li> <code>reduced_maximal_clause_length</code>: how much the maximal
      clause-length was decreased by the reduction. </li>
      <li> <code>reduced_number_of_variables</code>: How many variables
