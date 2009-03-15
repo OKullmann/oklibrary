@@ -28,30 +28,43 @@ License, or any later version. */
 
 namespace LinInequal {
 
-  inline unsigned int bin_length(unsigned int x) {
+  //! Length of binary representation
+  inline unsigned int bin_length(const unsigned int x) {
     if (x == 0)
       return 1;
     else
       return (unsigned int) (floor(log(x) / log(2)) + 1);
   }
-  
-  inline std::string P(const std::string& v, unsigned int i) {
+
+  //! Creating a positive literal (as string) "vi "
+  inline std::string P(const std::string& v, const unsigned int i) {
     return v + StringHandling::toString(i) + " ";
   }
-  inline std::string N(const std::string& v, unsigned int i) {
+  //! Creating a negative literal (as string) "vi "
+  inline std::string N(const std::string& v, const unsigned int i) {
     return "-" + v + StringHandling::toString(i) + " ";
   }
+  //! Creating a positive literal (as string) "v "
   inline std::string P(const std::string& v){
     return v + " ";
   }
+  //! Creating a negative literal (as string) "v "
   inline std::string N(const std::string& v) {
     return "-" + v + " ";
   }
+  //! The end-of-clause marker (Dimacs format)
   inline std::string E() {
     return "0\n";
   }
   
-  
+  /*!
+    \brief Given boolean variables Ai, Bi, the binary representations of
+    natural numbers, output clauses to os which represent via variables
+    "out i" the result of (binary) addition
+
+    Variables "aux i" represent auxiliary results. Position 1 is
+    least-significant.
+  */
   inline void AddBin(
                      const std::string& A,
                      const unsigned int length_A,
@@ -120,7 +133,12 @@ namespace LinInequal {
     // out(max+1) is true iff aux(max) is true
   }
   
-  
+  /*!
+    \brief Given a range of boolean variables, output clauses to os
+    representing their addition via variables "out i"
+
+    The auxiliary variables use prefix aux.
+  */
   template <typename It> // random access iterator to strings
   inline void AddVar(
                      const It V_b,
@@ -176,7 +194,11 @@ namespace LinInequal {
     AddBin(PartA, bin_length(mA), PartB, bin_length(mB), out, aux + "U", os);
   }
   
-  
+  /*!
+    \brief Output the clauses to os which express that a range of boolean
+    variables expressing a binary number (least-significant first) is at
+    most bound
+  */
   template <typename It>
   inline void CompVar(
                       const It V_b,
@@ -185,7 +207,7 @@ namespace LinInequal {
                       std::ostream& os)
   {
     // It random access iterator, *It must be a string;
-    std::vector<bool> bits;
+    std::vector<bool> bits; // the binary representation of bound
     const unsigned int bl = bin_length(bound);
     bits.reserve(bl);
     do {
@@ -215,7 +237,13 @@ namespace LinInequal {
     }
   }
 
+  /*!
+    \brief Output clauses to os for expressing that the sum of a range of
+    boolean variables is at most bound, using "S"-variables for the
+    sum and "H"-variables for the auxiliary results.
 
+    String prefix is prepended to all variable names.
+  */
   template <typename It>
   void count_bound(
                    const It V_b,
@@ -233,43 +261,47 @@ namespace LinInequal {
     CompVar(S.begin(), S.end(), bound, os);
   }
   
-  
+  //! Type of vectors of unsigned integers
   typedef std::vector<unsigned int> ui_vec;
 
+  //! Construction of identifiers of the form: "ident" string "choice" int
   inline std::string AV(const std::string& ident, const unsigned int choice) {
     return "ident" + ident + "choice" + StringHandling::toString(choice);
   }
 
+  /*!
+    \brief ???
+  */
   void Assignment(
                   const ui_vec& C,
                   std::istream& in,
                   const unsigned int level,
                   std::ostream& out)
   {
-    using namespace std;
-
     const unsigned int number_choices = C.size();
-    vector< vector<string> > Chosen(number_choices);
+    std::vector< std::vector<std::string> > Chosen(number_choices);
     
-    set<string> Ident;
-    map<pair<string, unsigned int>, unsigned int> Pref;
+    std::set<std::string> Ident;
+    std::map<std::pair<std::string, unsigned int>, unsigned int> Pref;
     {
-      string ident;
+      std::string ident;
       while (in >> ident) {
 	Ident.insert(ident);
 	unsigned int choice; unsigned int preference;
 	in >> choice >> preference;
-	Pref.insert(make_pair(make_pair(ident, choice), preference));
+	Pref.insert(std::make_pair(std::make_pair(ident, choice), preference));
       }
     }
 
-    for (set<string>::const_iterator i = Ident.begin(); i != Ident.end(); ++i) {
-      const string& ident = *i;
+    for (std::set<std::string>::const_iterator i = Ident.begin();
+         i != Ident.end(); ++i) {
+      const std::string& ident = *i;
       for (unsigned int choice = 1; choice <= number_choices; ++choice) {
-	const unsigned int pref = Pref.find(make_pair(ident, choice)) -> second;
+	const unsigned int pref =
+          Pref.find(std::make_pair(ident, choice)) -> second;
 	if (pref > level)
 	  continue;
-	const string V = AV(ident, choice);
+	const std::string V = AV(ident, choice);
 	out << P(V);
 	Chosen[choice - 1].push_back(V);
       }

@@ -8,14 +8,10 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Transformers/Generators 0.0.6 (10.11.2007)
+  \module_version Transformers/Generators 0.0.6.1 (15.3.2009)
 
 
   \par Version 0.0.7
-
-  \par
-   In Transformers/Generators/LinInequal.hpp the following topics are handled:
-    - Create application
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -23,10 +19,18 @@ License, or any later version. */
     - Update
 
   \par
+   In Transformers/Generators/LinInequal.hpp the following topics are handled:
+    - Create application : DONE
+
+  \par
    Update milestones.
 
 
   \par Version 0.0.8
+
+  \par
+   In Transformers/Generators/LinInequal.hpp the following topics are handled:
+    - Complete description of the LinInequal.cpp
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following
