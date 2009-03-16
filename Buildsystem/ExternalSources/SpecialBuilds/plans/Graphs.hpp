@@ -110,7 +110,18 @@ nauty22> make checks
   <ul>
    <li> http://www.adaptivebox.net/CILib/code/gcpcodes_link.html (several
    solvers) </li>
-   <li> http://www.cs.ualberta.ca/joe/Coloring (solver and generator) </li>
+   <li> http://www.cs.ualberta.ca/joe/Coloring (solver and generator)
+    <ol>
+     <li> There is "Graph Coloring Source"
+     http://www.cs.ualberta.ca/~joe/Coloring/Colorsrc/index.html </li>
+     <li> "Smallk" http://www.cs.ualberta.ca/~joe/Coloring/Colorsrc/smallk.html
+     </li>
+     <li> Trick's version of "DSATUR" http://mat.gsia.cmu.edu/COLOR/color.html
+    </ol>
+   </li>
+   <li> graphcol http://code.google.com/p/graphcol/ </li>
+   <li> There is Allen Van Gelder's SAT encoder
+   ftp://ftp.cse.ucsc.edu/pub/avg/Encoder/ </li>
    <li> What about hypergraph colouring? Apparently there are no
    implementations. </li>
   </ul>
