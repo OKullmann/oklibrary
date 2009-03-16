@@ -13,7 +13,29 @@ License, or any later version. */
   \todo Create milestones.
 
 
-  \todo Rheingold-Tilford algorithm outline
+  \todo Investigate existing software
+  <ul>
+   <li> See "Graph drawing" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp. </li>
+   <li> http://gridweb.rrc.uic.edu/twiki/bin/view/TreeVisualization/
+    <ol>
+     <li> Contains links to many existing implementations. </li>
+     <li> See especially
+     http://gridweb.rrc.uic.edu/twiki/bin/view/TreeVisualization/LargeTrees
+     </li>
+     <li> However, it seems that trees are always used as a kind of
+     hierarchical organisation of information, while for search trees, as we
+     study them, the focus is on the geometrical shape of the "whole tree"
+     (which for the visualisation of hierarchical structures likely is
+     completely irrelevant --- and thus you get the various space-saving
+     drawings, which likely are irrelevant for us since they do not show,
+     e.g., the sizes of the subtrees (for us very important). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Reingold-Tilford algorithm outline
   <ul>
    <li> See the MSc thesis of Warren Bailey (supervisor OK). </li>
    <li> Investigate colouring schemes (see discussion of OK with Mark Jones).
