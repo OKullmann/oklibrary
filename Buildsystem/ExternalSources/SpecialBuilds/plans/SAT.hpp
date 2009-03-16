@@ -116,7 +116,7 @@ OPTIONS:
    \endverbatim
    where "pre" is apparently for preprocessing, and the default is "once".
    </li>
-   <li> Apparently specifying "dimacs=OUTPUTFILE" just runs the preprocessor
+   <li> Apparently specifying "-dimacs=OUTPUTFILE" just runs the preprocessor
    (keeping the old variable names, and thus producing gaps in the numbering;
    likely only equivalence reductions are used(?)).
    </li>
@@ -124,7 +124,9 @@ OPTIONS:
    Minisat2 (see above). </li>
    <li> So it seems that Minisat2 subsumes the old version 1.14 and the
    preprocessor, and we need only to install this version (for a SAT
-   solver; there are extensions of SAT like pseudo-boolean). </li>
+   solver; there are extensions of SAT like pseudo-boolean). Though on
+   some instances Minisat is better than Minisat2, so we better keep
+   both. </li>
    <li> We should give additional documentation:
     <ol>
      <li> See above for the options. </li>
