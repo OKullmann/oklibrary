@@ -25,8 +25,14 @@ License, or any later version. */
    \endverbatim
    </li>
    <li> However, this seems not to be complete, since apparently
-   then for building this package automake is needed. </li>
-   <li> So perhaps we need to run automake when building the package? </li>
+   then for building this package automake is needed.
+    <ol>
+     <li> So perhaps we need to run automake when building the package? </li>
+     <li> But the bootstrap script does this already, and it seems to
+     do the normal job. </li>
+     <li> A request was sent to the Maxima mailing list. </li>
+    </ol>
+   </li>
   </ul>
 
 
