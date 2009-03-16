@@ -535,6 +535,19 @@ less sat-grasp_amended.doc
   </ul>
 
 
+  \todo Counting
+  <ul>
+   <li> SampleCount and xor-addition:
+   http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+
+
+  \todo QBF
+  <ul>
+   <li> Duaffle http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+
+
   \todo DONE Chaff
   <ul>
    <li> Not open source, and thus can't be included. </li>
