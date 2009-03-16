@@ -440,6 +440,18 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   </ul>
 
 
+  \todo 2cl
+  <ul>
+   <li> ftp://ftp.cse.ucsc.edu/pub/avg/2cl_simpDir/ </li>
+  </ul>
+
+
+  \todo Modoc
+  <ul>
+   <li> ftp://ftp.cse.ucsc.edu/pub/avg/Modoc/ </li>
+  </ul>
+
+
   \todo Boehm solver
   <ul>
    <li> Still on the Internet? </li>
