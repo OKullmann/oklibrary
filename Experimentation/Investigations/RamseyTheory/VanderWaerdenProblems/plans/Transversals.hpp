@@ -451,7 +451,7 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 1.000000
      \endverbatim
-     Finding a minimum=1 is very easy (a few hundred steps), but finding
+     Finding a local-minimum=1 is very easy (a few hundred steps), but finding
      a solution takes around 400000 steps. Similar for bigger instances:
      \verbatim
 > ubcsat-okl -alg rsaps -runs 100 -i vdw_trans_3_71_50.cnf
@@ -494,9 +494,21 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
 > ubcsat-okl -alg rsaps -runs 100 -cutoff 100000000 -i vdw_trans_3_71_50.cnf
-
+Clauses = 2593
+Variables = 342
+TotalLiterals = 8172
+FlipsPerSecond = 916484
+BestStep_Mean = 4043.990000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
      \endverbatim
-     </li>
+     One sees that the (very few) solutions are very hard to find for a local
+     search algorithm. </li>
      <li> UnitMarch seems not to perform:
      \verbatim
 > UnitMarch_32_bits vdw_trans_3_40_25.cnf
@@ -508,6 +520,13 @@ BestSolution_Max = 1.000000
      upper bound on the transversal size: It should be more efficient to
      use an (exact) equality; see "Complete LinInequal.cpp" in
      Transformers/Generators/plans/LinInequal.hpp. </li>
+    </ol>
+   </li>
+   <li> Translation to pseudo-boolean problems:
+    <ol>
+     <li> The first impression, using "VdWTransversalsIncPB 3 1 0 Output"
+     instead of "VdWTransversalsInc 3 1 0 Output", is that it is actually
+     slower! </li>
     </ol>
    </li>
    <li> Also CSP solvers are interesting here. </li>
@@ -698,6 +717,11 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 85 61
 86 62
 87 63
+88 64
+89 65
+90 66
+91 67
+92 67
    \endverbatim
    </li>
   </ul>
