@@ -11,6 +11,19 @@ License, or any later version. */
   of size at most k
 
 
+  \todo Connections to other modules
+  <ul>
+   <li> In ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac we have some
+   algorithms. </li>
+   <li> Satisfiability/Transformers/Generators/BoundOnes translates the
+   problem into a pseudo-boolean problem (using bound "<= k"; alternatively
+   also "= k" is possible). </li>
+   <li> Via Satisfiability/Transformers/Generators/LinInequal.cpp one
+   can add the clauses expressing the bound "<= k" (or "= k"), obtaining
+   an ordinary SAT problem. </li>
+  </ul>
+
+
   \todo Trivial algorithm for input G, k
   <ul>
    <li> The task is to find a transversal T with |T| <= k. </li>
