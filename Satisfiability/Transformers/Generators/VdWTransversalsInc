@@ -14,6 +14,8 @@
 # the clauses representing the hyperedges, thus obtaining a SAT problem,
 # solved then by Minisat (which seems to be strongest on these problems).
 
+script_name="VdWTransversalsInc"
+
 if [[ $# != 4 ]]; then
   echo "ERROR[${script_name}]: 
   Exactly four parameters k, n, t, file are needed:
