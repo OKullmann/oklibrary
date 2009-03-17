@@ -89,7 +89,31 @@ Installations/SAT> cd MiniSat_v1.14
    creates the executable "minisat". It should be "make rs" for the
    "statically linked release version".
    </li>
-   <li> Minisat+ ? Let's ignore it at this time. </li>
+   <li> Minisat+
+    <ol>
+     <li>
+     \verbatim
+Installations/SAT/Minisat> unzip ../../../sources/SAT/MiniSat/minisat+_2007-Jan-05.zip
+Minisat> cd minisat+
+minisat+> make rx
+OKplatform/bin> ln -s $OKPLATFORM/ExternalSources/Installations/SAT/Minisat/minisat+/minisat+_64-bit_static
+     \endverbatim
+     </li>
+     <li> What is now the input format?
+      <ul>
+       <li> It seems only lines of the form
+       \verbatim
++1*v1 +2*v4 -3*v11 >= 4;
+       \endverbatim
+       are allowed (no spaces after the semicolon!). </li>
+       <li> Relations are "<=, >=, =". </li>
+       <li> Variable names are identifiers, and start with a letter. </li>
+       <li> The "+"-symbols are not needed. </li>
+       <li> Comment lines start with "*". </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
    <li> What is minisat2-070721.zip ? The new version, apparently
    their new best piece.
    \verbatim
