@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp
+  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp
   \brief Investigating the transversal hypergraph of van-der-Waerden hypergraphs
 
   The transversal hypergraph T(n,k) of arithprog_hg(k,n) for fixed k and

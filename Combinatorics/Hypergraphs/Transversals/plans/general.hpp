@@ -17,7 +17,7 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Transversals.hpp. </li>
    <li> See
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp
    for experiments. </li>
   </ul>
 

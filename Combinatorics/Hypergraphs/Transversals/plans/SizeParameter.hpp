@@ -121,7 +121,7 @@ License, or any later version. */
      for a minimum transversal from below, or when computing transversal
      numbers for monotonically increasing sequences of hypergraphs (at one
      new vertex at each step); see
-     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
      </li>
      <li> Perhaps actually such pruning cannot be done efficiently? It should
      be the case that when branching on a still occurring vertex, then the

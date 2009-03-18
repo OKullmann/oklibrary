@@ -44,7 +44,7 @@ License, or any later version. */
    <li> See "Systematic notations for the numbers in %Ramsey theory" in
    ComputerAlgebra/RamseyTheory/plans/general.hpp. </li>
    <li> And see
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
    </li>
    <li> Transversal and independence numbers
     <ol>
