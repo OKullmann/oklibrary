@@ -722,6 +722,9 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 90 66
 91 67
 92 67
+93 68
+94 69
+95 69
    \endverbatim
    </li>
   </ul>
