@@ -15,6 +15,22 @@ License, or any later version. */
     Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp.
   - For model checking see
     Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp.
+
+
+  \todo Hets
+  <ul>
+   <li>
+   http://www.informatik.uni-bremen.de/agbkb/forschung/formal_methods/CoFI/hets/index_e.htm
+   looks like a reasonable system for handling translations from one problem
+   description language into another. </li>
+   <li> PJ will help with the installation. </li>
+   <li> To avoid problems with Haskell, perhaps we assume GHC is installed
+   (or how difficult is it to install GHC?). </li>
+   <li> A problem is that the graph drawing tool uDraw
+   http://www.informatik.uni-bremen.de/uDrawGraph/en/index.html is not open
+   source? One should send them an e-mail (after 2005 apparently nothing
+   happened anymore). </li>
+  </ul>
   
 
   \todo Proof assistants
