@@ -10,10 +10,8 @@ License, or any later version. */
   \brief Investigating the transversal hypergraph of van-der-Waerden hypergraphs via SAT methods
 
 
-  \todo Translations to SAT
+  \todo Translation via addition
   <ul>
-   <li> Alternatively SAT solvers with the ability to formulate cardinality
-   constraints can be used. </li>
    <li> We have already implemented (as an old C++ program) the translation
    of linear inequalities into CNF, and so we can also use (ordinary) SAT
    solvers.
@@ -24,8 +22,19 @@ License, or any later version. */
      while for b=36 it is satisfiable). </li>
      <li> And via "VdWTransversalsInc 3 1 0 OutputFile" we compute all the
      transversal number for k=3, starting with n=1. </li>
-     <li> It seems that OKsolver_2002 and march_pl need a long time.
-     \verbatim
+    </ol>
+   </li>
+   <li> VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
+   upper bound on the transversal size: It should be more efficient to
+   use an (exact) equality; see "Complete LinInequal.cpp" in
+   Transformers/Generators/plans/LinInequal.hpp. </li>
+  </ul>
+
+
+  \todo Look-ahead solvers with translation via addition
+  <ul>
+   <li> It seems that OKsolver_2002 and march_pl need a long time.
+   \verbatim
 > VdWTransversals 3 40 24
 > OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24.cnf
 s UNSATISFIABLE
@@ -42,24 +51,6 @@ c main():: doublelook: #: 201867, succes #: 120077
 c main():: doublelook: overall 3.646 of all possible doublelooks executed
 c main():: doublelook: succesrate: 59.483, average DL_trigger: 85.056
 s UNSATISFIABLE
-> minisat vdw_trans_3_40_24.cnf
-restarts              : 11
-conflicts             : 11766          (41436 /sec)
-decisions             : 14215          (50061 /sec)
-propagations          : 407118         (1433736 /sec)
-conflict literals     : 100155         (30.29 % deleted)
-Memory used           : 3.54 MB
-CPU time              : 0.283956 s
-UNSATISFIABLE
-> minisat vdw_trans_3_40_24.cnf
-restarts              : 10
-conflicts             : 8745           (49414 /sec)
-decisions             : 10541          (1.53 % random) (59563 /sec)
-propagations          : 281265         (1589310 /sec)
-conflict literals     : 71249          (32.64 % deleted)
-Memory used           : 1.82 MB
-CPU time              : 0.176973 s
-UNSATISFIABLE
 > OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_25.cnf
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=169 initial_number_of_clauses=1066 initial_number_of_literal_occurrences=3456 running_time(s)=13.5 number_of_nodes=149781 number_of_single_nodes=1054 number_of_quasi_single_nodes=155 number_of_2-reductions=372636 number_of_pure_literals=0 number_of_autarkies=1084 number_of_missed_single_nodes=1602 max_tree_depth=40 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=2 reduced_number_of_clauses=6 reduced_number_of_literal_occurrences=17 number_of_1-autarkies=17208 number_of_initial_unit-eliminations=2number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=77 file_name=vdw_trans_3_40_25.cnf
@@ -75,29 +66,11 @@ c main():: doublelook: overall 3.371 of all possible doublelooks executed
 c main():: doublelook: succesrate: 58.829, average DL_trigger: 83.574
 c main():: SOLUTION VERIFIED :-)
 s SATISFIABLE
-> minisat vdw_trans_3_40_25.cnf
-restarts              : 3
-conflicts             : 431            (43109 /sec)
-decisions             : 797            (79716 /sec)
-propagations          : 9278           (927986 /sec)
-conflict literals     : 3207           (8.94 % deleted)
-Memory used           : 3.42 MB
-CPU time              : 0.009998 s
-SATISFIABLE
-> minisat2 vdw_trans_3_40_25.cnf
-restarts              : 5
-conflicts             : 838            (46563 /sec)
-decisions             : 1287           (1.48 % random) (71512 /sec)
-propagations          : 20505          (1139357 /sec)
-conflict literals     : 8038           (15.58 % deleted)
-Memory used           : 1.69 MB
-CPU time              : 0.017997 s
-SATISFIABLE
-     \endverbatim
-     </li>
-     <li> One should investigate whether the minisat-preprocessor makes
-     things easier.
-     \verbatim
+   \endverbatim
+   </li>
+   <li> One should investigate whether the minisat-preprocessor makes
+   things easier.
+   \verbatim
 > minisat2 -dimacs=vdw_trans_3_40_24_m2pp.cnf vdw_trans_3_40_24.cnf
 > OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24_m2pp.cnf
 s UNSATISFIABLE
@@ -131,15 +104,20 @@ c main():: doublelook: overall 6.250 of all possible doublelooks executed
 c main():: doublelook: succesrate: 30.977, average DL_trigger: 78.028
 c main():: SOLUTION VERIFIED :-)
 s SATISFIABLE
-     \endverbatim
-     It seems to help OKsolver_2002 (quite a bit, but likely still much worse
-     than minisat), while march_pl seems to perform quite a bit worse on
-     the preprocessed problems. </li>
-     <li> minisat solves the problems (unsatisfiable as well as
-     satisfiable) relatively easily (though with n=80 around 15 minutes are
-     needed). </li>
-     <li> Is minisat2 better than minisat?
-     \verbatim
+   \endverbatim
+   It seems to help OKsolver_2002 (quite a bit, but likely still much worse
+   than minisat), while march_pl seems to perform quite a bit worse on
+   the preprocessed problems. </li>
+  </ul>
+
+
+  \todo Conflict-driven solvers with translation via addition
+  <ul>
+   <li> minisat solves the problems (unsatisfiable as well as
+   satisfiable) relatively easily (though with n=80 around 15 minutes are
+   needed). </li>
+   <li> Is minisat2 better than minisat?
+   \verbatim
 minisat2 vdw_trans_3_64_43.cnf
 restarts              : 22
 conflicts             : 1261598        (21895 /sec)
@@ -194,11 +172,16 @@ conflict literals     : 86355473       (42.23 % deleted)
 Memory used           : 4.94 MB
 CPU time              : 333.767 s
 SATISFIABLE
-     \endverbatim
-     It seems that actually minisat might be better on these instances
-     than minisat2 (using more space, but less conflicts and less time). </li>
-     <li> The satisfiable instances seem rather hard for local search solvers:
-     \verbatim
+   \endverbatim
+   It seems that actually minisat might be better on these instances
+   than minisat2 (using more space, but less conflicts and less time). </li>
+  </ul>
+
+
+  \todo Local search solvers with translation via addition
+  <ul>
+   <li> The satisfiable instances seem rather hard for local search solvers:
+   \verbatim
 > ubcsat-okl -alg samd -runs 100 -i vdw_trans_3_40_25.cnf
 Clauses = 1066
 Variables = 169
@@ -251,11 +234,11 @@ BestSolution_Mean = 1.000000
 BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
-     \endverbatim
-     So perhaps rsaps is best here.
-     </li>
-     <li> Higher cutoffs:
-     \verbatim
+   \endverbatim
+   So perhaps rsaps is best here.
+   </li>
+   <li> Higher cutoffs:
+   \verbatim
 > ubcsat-okl -alg rsaps -runs 100 -cutoff 1000000 -i vdw_trans_3_40_25.cnf
 Clauses = 1066
 Variables = 169
@@ -269,10 +252,10 @@ BestSolution_Mean = 0.930000
 BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 1.000000
-     \endverbatim
-     Finding a local-minimum=1 is very easy (a few hundred steps), but finding
-     a solution takes around 400000 steps. Similar for bigger instances:
-     \verbatim
+   \endverbatim
+   Finding a local-minimum=1 is very easy (a few hundred steps), but finding
+   a solution takes around 400000 steps. Similar for bigger instances:
+   \verbatim
 > ubcsat-okl -alg rsaps -runs 100 -i vdw_trans_3_71_50.cnf
 Clauses = 2593
 Variables = 342
@@ -325,30 +308,27 @@ BestSolution_Mean = 1.000000
 BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
-     \endverbatim
-     One sees that the (very few) solutions are very hard to find for a local
-     search algorithm. </li>
-     <li> UnitMarch seems not to perform:
-     \verbatim
+   \endverbatim
+   One sees that the (very few) solutions are very hard to find for a local
+   search algorithm. </li>
+   <li> UnitMarch seems not to perform:
+   \verbatim
 > UnitMarch_32_bits vdw_trans_3_40_25.cnf
-     \endverbatim
-     seems unsuccesful (unfortunately, there are no statistics available, and
-     also the seed can't be changed).
-     </li>
-     <li> VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
-     upper bound on the transversal size: It should be more efficient to
-     use an (exact) equality; see "Complete LinInequal.cpp" in
-     Transformers/Generators/plans/LinInequal.hpp. </li>
-    </ol>
+   \endverbatim
+   seems unsuccesful (unfortunately, there are no statistics available, and
+   also the seed can't be changed).
    </li>
-   <li> Translation to pseudo-boolean problems:
-    <ol>
-     <li> The first impression, using "VdWTransversalsIncPB 3 1 0 Output"
-     instead of "VdWTransversalsInc 3 1 0 Output", is that it is actually
-     slower! </li>
-    </ol>
-   </li>
-   <li> Also CSP solvers are interesting here. </li>
   </ul>
+
+
+  \todo Translation to pseudo-boolean problems
+  <ul>
+   <li> The first impression, using "VdWTransversalsIncPB 3 1 0 Output"
+   instead of "VdWTransversalsInc 3 1 0 Output", is that it is actually
+   slower! </li>
+  </ul>
+
+
+  \todo Using CSP solvers
 
 */
