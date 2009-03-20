@@ -201,7 +201,7 @@ double Solver::progressEstimate() const {
 
   \todo Picosat
   <ul>
-   <li> http://picosat.com/ </li>
+   <li> http://fmv.jku.at/picosat/ </li>
   </ul>
 
 
@@ -340,6 +340,14 @@ Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo EBDDRES
+  <ul>
+   <li> http://fmv.jku.at/ebddres/ </li>
+   <li> Also interesting BooleForce (includes TraceCheck)
+   http://fmv.jku.at/booleforce/index.html . </li>
   </ul>
 
 
