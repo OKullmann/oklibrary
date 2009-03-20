@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac")$
 
 
 okltest_transversal_p(transversal_p);
+okltest_etransversal_p(etransversal_p);
 
 /* ************************************
    * Finding all minimal transversals *

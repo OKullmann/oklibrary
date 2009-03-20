@@ -29,7 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    Note that T doesn't need to be minimal.
 */
 transversal_p(T,S) := every_s(lambda([H], not disjointp(H,T)), S)$
-
+/* Checking for an exact transversal: */
+etransversal_p(T,S) := every_s(lambda([H], is(length(intersection(H,T))=1)), S)$
 
 /* ************************************
    * Finding all minimal transversals *
