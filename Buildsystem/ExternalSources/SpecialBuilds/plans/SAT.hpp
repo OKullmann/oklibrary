@@ -252,6 +252,32 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
   </ul>
 
 
+  \todo Argo
+  <ul>
+   <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
+   to offer. </li>
+   <li> Installation of ArgoSat:
+   \verbatim
+builds/SAT/Argo> tar -xzf ../../../sources/SAT/Argo/argosat-1.0.tar.gz
+builds/SAT/Argo> cd argosat-1.0
+argosat-1.0> ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/SAT/Argo
+argosat-1.0> make
+argosat-1.0> make install
+
+Installations/SAT/Argo/bin> ./argosat
+ArgoSat v. 1.0
+Build date: Fri Mar 20 18:15:46 UTC 2009
+Usage: argosat problem [options]
+    problem:
+          pigeons num - pigeonhole problem
+          queens  num - n queens problem
+          filename    - file that contains uncompressed DIMACS format input
+    options:
+   \endverbatim
+   looks alright (though output is somewhat uggly). </li>
+  </ul>
+
+
   \todo Satz
   <ul>
    <li> ParaSatz
