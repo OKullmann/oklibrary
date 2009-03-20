@@ -192,6 +192,8 @@ s SATISFIABLE
 94 200530660 35
 96 159284031 34
 97 189564517 34
+98 262181870 35
+99 270869866 35
    \endverbatim
    </li>
    <li> And here for satisfiable instances:
