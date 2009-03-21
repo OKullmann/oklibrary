@@ -224,8 +224,12 @@ s SATISFIABLE
 84 44490254 31
 92 46027971 31
 95 6012583 26
+100 263163048 35
    \endverbatim
    </li>
+   <li> The sequence of satisfiable n's is A065825 (see "Relations to
+   vanderwaerden_k(n_1, ..., n_k)" in
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp). </li>
    <li> Is minisat2 better than minisat?
    \verbatim
 minisat2 vdw_trans_3_64_43.cnf

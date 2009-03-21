@@ -54,11 +54,30 @@ License, or any later version. */
    tau_arithprog_hg(m,n) in succession, just using that these numbers are
    non-decreasing and each step is at most 1. </li>
    <li> A related sequence is A065825, which for given k is the smallest
-   n such that alpha_arithprog_hg(3,n) = k. </li>
-   <li> The known values are
-   1, 2, 4, 5, 9, 11, 13, 14, 20, 24, 26, 30, 32, 36, 40, 41, 51, 54, 58, 63,
-   71, 74, 82, 84, 92, 95, 100, 104, 111, 114, 121, 122, 137, 145, 150, 157,
-   starting with k=1. </li>
+   n such that alpha_arithprog_hg(3,n) = k.
+    <ol>
+     <li> The known values are
+     1, 2, 4, 5, 9, 11, 13, 14, 20, 24, 26, 30, 32, 36, 40, 41, 51, 54, 58, 63,
+     71, 74, 82, 84, 92, 95, 100, 104, 111, 114, 121, 122, 137, 145, 150, 157,
+     starting with k=1. </li>
+     <li> This sequence is the same as obtained by computing the sequence of
+     transversal numbers via VdWTransversalsInc and listing those n for which
+     we obtained a satisfiable instance. </li>
+     <li> Why is this? The independence number always increases by one at
+     the satisfiable instances, while for the unsatisfiable instances the
+     transversal numbe increases, i.e., the independence number stays the
+     same. </li>
+     <li> The satisfying assignments yield the complements of the minimum
+     independent sets here. </li>
+     <li> From this sequence we obtain values for alpha_arithprog_hg(3,n) for
+     n <= 157, quite a bit more what A003002 contains. </li>
+     <li> We need to have a look at
+     http://www.math.uni.wroc.pl/~jwr/non-ave.htm , where perhaps we obtain
+     more information on how these numbers where obtained. </li>
+     <li> Also of interest here are unique solutions, which yet we have for
+     n in {1,2,5,14,30,41}. </li>
+    </ol>
+   </li>
    <li> For given m, the sequences vanderwaerden_{k+1}([2]_k, m),
    tau_arithprog_hg(m,n), alpha_arithprog_hg(3,n), A065825 are related as
    follows:

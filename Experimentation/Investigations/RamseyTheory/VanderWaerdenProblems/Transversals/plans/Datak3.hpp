@@ -48,7 +48,8 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
    <li> It follows that the sequence vanderwaerden_{k+1}([2]_k, 3) (starting
    with k=0) begins with
    3,6,7,8,10,12,15,16,17,18,19. </li>
-   <li> The sequence n - tau_arithprog_hg(3,n) = r_3(n):
+   <li> The sequence n - tau_arithprog_hg(3,n) = alpha_arithprog_hg(3,n) =
+   r_3(n):
    0,1,2,2,3,4,4,4,4,5,5,6,6,7,8,8,8,8,8,8,9. </li>
    <li> Excluding the first term, this is sequence A003002;
    see [S. S. Wagstaff, Jr., On k-free sequences of integers, Math. Comp., 26
@@ -61,7 +62,7 @@ for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_hg(3,i)),
 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
 17, 17, 17
    \endverbatim
-   (covering the range 1 <= n <= 53, see below for extended data for n <= 59).
+   (covering the range 1 <= n <= 53, see below for extended data).
    </li>
    <li> So the sequence tau_arithprog_hg(3,n) (starting with n=0) begins with
    \verbatim
@@ -206,8 +207,12 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 97 71
 98 72
 99 73
+100 73
    \endverbatim
    </li>
+   <li> Actually, the values of tau_arithprog_hg(3,n) are known for n <= 157,
+   so there must be some more specialised (and more efficient) computations
+   possible. </li>
   </ul>
 
 */
