@@ -80,7 +80,8 @@ transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
 */
 transversals_be(L,B) := if emptyp(L) then [{}]
  elseif empty_element_p(L) then []
- elseif B=0 then [] else
+ elseif B=0 then [] 
+ elseif B=1 then create_list({x},x,listify(lintersection(L))) else
  block([a : first_element(first(L))],
    return(append(
     add_element_l(a,transversals_be(remove_with_element_l(L,a),B-1)),
@@ -93,6 +94,7 @@ transversals_bes(L,B) := transversals_bes_(sort_length(L),B)$
 transversals_bes_(L,B) := if emptyp(L) then [{}]
  else block([H : first(L)],
   if emptyp(H) or B=0 then return([]),
+  if B=1 then return(create_list({x},x,listify(lintersection(L)))),
   block([a : first_element(H)],
    if length(H) = 1 then
      return(add_element_l(a,transversals_bes_(remove_with_element_l(L,a),B-1)))
