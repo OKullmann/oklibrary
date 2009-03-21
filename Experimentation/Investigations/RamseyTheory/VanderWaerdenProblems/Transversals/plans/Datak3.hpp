@@ -210,9 +210,28 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 100 73
    \endverbatim
    </li>
-   <li> Actually, the values of tau_arithprog_hg(3,n) are known for n <= 157,
+   <li> Actually, the values of tau_arithprog_hg(3,n) are known for n <= 194,
    so there must be some more specialised (and more efficient) computations
-   possible. </li>
+   possible.
+    <ol>
+     <li> This is given by sequence A065825, as explained in "Relations to
+     vanderwaerden_k(n_1, ..., n_k)" in
+     RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp. </li>
+     <li> There only the first 36 terms are mentioned, while at
+     http://www.math.uni.wroc.pl/~jwr/non-ave.htm one finds 5 more terms;
+     the complete list, containing for n > 41 apparently only upper bounds,
+     is in Bestk3.txt. </li>
+     <li> One should be careful here, since the various computations
+     for n <= 41 seem to be "ad-hoc" computations; but the upper bounds
+     should be all correct. </li>
+     <li> In Methodsk3.html various methods for establishing bounds are
+     given (from http://www.math.uni.wroc.pl/~jwr/non-ave.htm), using
+     bounds for the similar problem considering arithmetic progressions of
+     size 3 in the cyclic groups of order n (the size of the vertex set). </li>
+     <li> The main conjecture at http://www.math.uni.wroc.pl/~jwr/non-ave.htm
+     is that for a(n) (that sequence A065825) we have a(n) <= n^{3/2}. </li>
+    </ol>
+   </li>
   </ul>
 
 */
