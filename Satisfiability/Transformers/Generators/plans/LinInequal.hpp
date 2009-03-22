@@ -70,6 +70,15 @@ License, or any later version. */
    <li> DONE
    The name "CompVar" then should be changed, say, "compvar_le". </li>
    <li> The new functions are called "compvar_ge" and "compvar_eq". </li>
+   <li> compvar_eq : DONE
+    <ol>
+     <li> The only problem is what to do if the clause-set to be generated is
+     unsatisfiable (Dimacs doesn't allow empty clauses). </li>
+     <li> Simplest is to throw an exception. </li>
+     <li> Easiest from a standard exception class (since this code needs to
+     be refactored anyway). </li>
+    </ol>
+   </li>
   </ul>
 
 

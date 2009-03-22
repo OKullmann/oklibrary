@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/LinInequal.hpp
   \brief Tools for encoding linear inequalities as CNF
+
+  This (old) code does not (currently) fulfill our coding standards,
+  but it is functional.
 */
 
 #ifndef LINinEQUALWAECHTER
@@ -23,6 +26,7 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <set>
+#include <exception>
 
 #include <OKlib/General/StringHandling.hpp>
 
@@ -233,6 +237,44 @@ namespace LinInequal {
       for (unsigned int j = i+1; j < bl; ++j, ++v2)
 	if (! bits[j]) continue;
 	else os << N(*v2);
+      os << E();
+    }
+  }
+
+  /*!
+    \brief Output the clauses to os which express that a range of boolean
+    variables expressing a binary number is equal to "bound";
+    if this is impossible (the clause-set is unsatisfiable, throw an exception
+    of type std::
+  */
+  template <typename It>
+  // type It must fulfill the random access iterator concept
+  // *It must be a string
+  inline void compvar_eq(
+                      const It V_b,
+                      const It V_e,
+                      unsigned int bound,
+                      std::ostream& os)
+  {
+    std::vector<bool> bits; // the binary representation of bound
+    const unsigned int bl = bin_length(bound);
+    bits.reserve(bl);
+    do { bits.push_back(bound % 2); bound /= 2; }
+    while (bound != 0);
+    
+    const typename std::iterator_traits<It>::difference_type m = V_e - V_b;
+    if (m < bl) throw std::runtime_error("UNSATISFIABLE: not enough variables!");
+    else if (m > bl)
+      for (It i = V_b + bl; i != V_e; ++i)
+	os << N(*i) << E();
+    // Now we need to consider (only) the first bl elements of the
+    // range [V_b,V_e) (and these elements exist):
+    It v = V_b;
+    for (unsigned int i = 0; i < bl; ++i, ++v) {
+      if (bits[i])
+        os << P(*v);
+      else
+        os << N(*v);
       os << E();
     }
   }
