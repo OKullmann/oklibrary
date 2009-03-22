@@ -51,14 +51,23 @@ License, or any later version. */
      <li> Likely, this should then be moved into its own application. </li>
     </ol>
    </li>
-   <li> Once we removed this case, the current reading from standard input
+   <li> DONE
+   Once we removed this case, the current reading from standard input
    likely should be abolished, and command line parameters used. </li>
    <li> We should have the alternative to demand not just the upper bound,
    but also the lower bound or the strict equality.
     <ol>
      <li> See 'Also handle ">=" and "=" (besides "<=")' below. </li>
-     <li> This then can be controlled by an additional command-line parameter.
+     <li> Only ">=" is missing now. </li>
+     <li> DONE
+     This then can be controlled by an additional command-line parameter.
      </li>
+     <li> DONE
+     So we have three required parameters: n, bound, comp, where comp
+     is currently one of the strings "==", "<=". </li>
+     <li> DONE
+     A fourth optional parameter is the variable-prefix. </li>
+    </ol>
    </li>
   </ul>
 

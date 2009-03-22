@@ -38,7 +38,7 @@ resultfile="vdw_trans_${K}_${N}_${B}.cnf"
 ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions, k=${K}, n=${N}, bound=${B}\\\",arithprog_hg(${K},${N}),\\\"${auxfile1}\\\");\""
 
 # Adding the linear inequalities:
-echo "${N} ${B}" | ${lin_equal_progr} "" >> ${auxfile1}
+${lin_equal_progr} "${N}" "${B}" "<=" "" >> ${auxfile1}
 
 # Updating the Dimacs parameter line to the real values:
 param="$(${oksolver} -P ${auxfile1} | awk '$1 == "c" {print "p cnf " substr($4,29), substr($5,27)}')"
