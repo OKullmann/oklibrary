@@ -263,8 +263,9 @@ namespace LinInequal {
     while (bound != 0);
     
     const typename std::iterator_traits<It>::difference_type m = V_e - V_b;
+    if (m == 0 and bound == 0) return;
     if (m < bl) throw std::runtime_error("UNSATISFIABLE: not enough variables!");
-    else if (m > bl)
+    if (m > bl)
       for (It i = V_b + bl; i != V_e; ++i)
 	os << N(*i) << E();
     // Now we need to consider (only) the first bl elements of the
