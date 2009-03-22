@@ -202,7 +202,7 @@ namespace LinInequal {
   template <typename It>
   // type It must fulfill the random access iterator concept
   // *It must be a string
-  inline void CompVar(
+  inline void compvar_le(
                       const It V_b,
                       const It V_e,
                       unsigned int bound,
@@ -258,7 +258,7 @@ namespace LinInequal {
     S.reserve(bl);
     for (unsigned int i = 1; i <= bl; ++i)
       S.push_back(P(prefix + "S", i));
-    CompVar(S.begin(), S.end(), bound, os);
+    compvar_le(S.begin(), S.end(), bound, os);
   }
   
   //! Type of vectors of unsigned integers

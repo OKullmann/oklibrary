@@ -66,8 +66,9 @@ License, or any later version. */
   <ul>
    <li> This is possible by two further variations on function
    LinInequal::CompVar. </li>
-   <li> Likely the name "CompVar" then should be changed, say, "compvar_ge",
-   "compvar_le" and "compvar_eq". </li>
+   <li> DONE
+   The name "CompVar" then should be changed, say, "compvar_le". </li>
+   <li> The new functions are called "compvar_ge" and "compvar_eq". </li>
   </ul>
 
 

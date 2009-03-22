@@ -57,7 +57,7 @@ int main(const int argc, const char* const argv[]) {
         st_vec S; S.reserve(blL);
         for (unsigned int i = 1; i <= blL; ++i)
           S.push_back(LinInequal::P(output_prefix, i));
-        LinInequal::CompVar(S.begin(), S.end(), bound, std::cout);
+        LinInequal::compvar_le(S.begin(), S.end(), bound, std::cout);
       }
     }
   }
