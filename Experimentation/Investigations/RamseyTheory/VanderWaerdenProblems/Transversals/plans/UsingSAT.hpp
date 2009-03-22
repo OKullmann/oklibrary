@@ -24,7 +24,8 @@ License, or any later version. */
      transversal number for k=3, starting with n=1. </li>
     </ol>
    </li>
-   <li> VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
+   <li> DONE
+   VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
    upper bound on the transversal size: It should be more efficient to
    use an (exact) equality; see "Complete LinInequal.cpp" in
    Transformers/Generators/plans/LinInequal.hpp. </li>
@@ -194,6 +195,7 @@ s SATISFIABLE
 97 189564517 34
 98 262181870 35
 99 270869866 35
+101 273927337 35
    \endverbatim
    </li>
    <li> And here for satisfiable instances:
