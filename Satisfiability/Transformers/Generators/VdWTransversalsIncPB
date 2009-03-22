@@ -36,6 +36,11 @@ for ((N=${2}; 1; ++N)); do
   file="vdw_trans_${K}_${N}_${T}.opb"
   ${solver} ${file}
   res=$(echo $?)
+  if [[ ${res} != 10 && ${res} != 20 ]]; then
+    echo "ERROR[${script_name}]:
+    Unexpected return value ${res} from the SAT solver."
+    exit 1
+  fi
   if [[ ${res} == 20 ]]; then T=$(expr ${T} + 1); fi
   echo "k=${K}, n=${N}: tau = ${T}" >> ${output}
   rm ${file}
