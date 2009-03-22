@@ -42,7 +42,8 @@ License, or any later version. */
 
   \todo Complete LinInequal.cpp
   <ul>
-   <li> It remains to describe what happens if two or more parameters are
+   <li> DONE (see 'Restore old "assignment-application"' below)
+   It remains to describe what happens if two or more parameters are
    given.
     <ol>
      <li> The main point is to find out what LinInequal::Assignment is doing.
@@ -77,6 +78,24 @@ License, or any later version. */
    <li> It remains to document LinInequal::Assignment. </li>
   </ul>
 
+
+  \todo Restore old "assignment-application"
+  <ul>
+   <li> The (now removed) code handling the special "assignment"-case is
+   \code
+if (argc > 2) {
+  LinInequal::ui_vec Cap;
+  Cap.reserve(argc-2);
+  for (unsigned int i = 1; i < argc-1; ++i)
+    Cap.push_back(StringHandling::fromString<unsigned int>(argv[i]));
+  const unsigned int level =
+   StringHandling::fromString<unsigned int>(argv[argc-1]);
+  LinInequal::Assignment(Cap, std::cin, level, std::cout);
+}
+   \endcode
+   </li>
+   <li> First it has to be established what this is doing. </li>
+  </ul>
 
   \todo Improve VdWTransversals and VdWTransversalsInc
   <ul>

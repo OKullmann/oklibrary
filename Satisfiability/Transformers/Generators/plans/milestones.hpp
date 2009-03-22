@@ -53,6 +53,10 @@ License, or any later version. */
     - Comments in output
 
   \par
+   In Transformers/Generators/LinInequal.hpp the following topics are handled:
+    - Restore old "assignment-application"
+
+  \par
    Create new milestones.
 
 

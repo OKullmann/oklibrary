@@ -9,7 +9,7 @@ License, or any later version. */
   \file Satisfiability/Transformers/Generators/LinInequal.cpp
   \brief Application for encoding linear inequalities as CNF
 
-  If zero or one input parameter is used:
+  Zero or one input parameter are to be used:
    - Two further parameters n, bound (unsigned integers) are read from
      standard input.
    - The clause-set expressing that the sum of n variables is at most
@@ -18,10 +18,7 @@ License, or any later version. */
      otherwise V is replaced by this parameter (a string).
    - So in order to obtain variable-names 1,...,n, use '""' as parameter.
 
-  If two or more parameters are used, then a special mode for creating
-  assignment problems is entered.
-
-  \todo Complete the above description.
+  Further input parameters are ignored.
 
 */
 
@@ -37,39 +34,27 @@ License, or any later version. */
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc <= 2) {
-    const std::string input_prefix = "V";
-    const std::string output_prefix = "S";
-    const std::string auxiliary_prefix = "H";
-    const std::string var = (argc == 2) ? argv[1] : input_prefix;
-    unsigned int n, bound;
-    std::cin >> n >> bound;
+  const std::string input_prefix = "V";
+  const std::string output_prefix = "S";
+  const std::string auxiliary_prefix = "H";
+  const std::string var = (argc == 2) ? argv[1] : input_prefix;
+  unsigned int n, bound;
+  std::cin >> n >> bound;
+  {
+    typedef std::vector<std::string> st_vec;
     {
-      typedef std::vector<std::string> st_vec;
-      {
-        st_vec X; X.reserve(n);
-        for (unsigned int i = 1; i <= n; ++i)
-          X.push_back(LinInequal::P(var,i));
-        LinInequal::AddVar(X.begin(), X.end(), output_prefix, auxiliary_prefix, std::cout);
-      }
-      {
-        const unsigned int blL = LinInequal::bin_length(n);
-        st_vec S; S.reserve(blL);
-        for (unsigned int i = 1; i <= blL; ++i)
-          S.push_back(LinInequal::P(output_prefix, i));
-        LinInequal::compvar_le(S.begin(), S.end(), bound, std::cout);
-      }
+      st_vec X; X.reserve(n);
+      for (unsigned int i = 1; i <= n; ++i)
+        X.push_back(LinInequal::P(var,i));
+      LinInequal::AddVar(X.begin(), X.end(), output_prefix, auxiliary_prefix, std::cout);
+    }
+    {
+      const unsigned int blL = LinInequal::bin_length(n);
+      st_vec S; S.reserve(blL);
+      for (unsigned int i = 1; i <= blL; ++i)
+        S.push_back(LinInequal::P(output_prefix, i));
+      LinInequal::compvar_le(S.begin(), S.end(), bound, std::cout);
     }
   }
-  else {
-    LinInequal::ui_vec Cap;
-    Cap.reserve(argc-2);
-    for (unsigned int i = 1; i < argc-1; ++i)
-      Cap.push_back(StringHandling::fromString<unsigned int>(argv[i]));
-    const unsigned int level =
-      StringHandling::fromString<unsigned int>(argv[argc-1]);
-    LinInequal::Assignment(Cap, std::cin, level, std::cout);
-  }
-
 }
 
