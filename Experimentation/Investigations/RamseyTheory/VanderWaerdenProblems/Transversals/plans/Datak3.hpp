@@ -209,6 +209,7 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 99 73
 100 73
 101 74
+102 75
    \endverbatim
    </li>
    <li> Actually, the values of tau_arithprog_hg(3,n) are known for n <= 194,
