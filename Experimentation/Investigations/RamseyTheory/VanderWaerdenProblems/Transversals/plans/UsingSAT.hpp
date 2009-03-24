@@ -238,7 +238,7 @@ s SATISFIABLE
      \endverbatim
      </li>
      <li> Here is data for unsatisfiable instances (n, conflicts,
-     restarts; for "VdWTransversalsInc 3 1 0 Outputfile"):
+     restarts; for "VdWTransversalsInc 3 1 0 Out Out_solver"):
      \verbatim
 3 4 1
 6 11 1
@@ -670,8 +670,9 @@ BestSolution_Max = 1.000000
 
   \todo Translation to pseudo-boolean problems
   <ul>
-   <li> The first impression, using "VdWTransversalsIncPB 3 1 0 Output"
-   instead of "VdWTransversalsInc 3 1 0 Output", is that it is actually
+   <li> The first impression, using 
+   "VdWTransversalsIncPB 3 1 0 Out Out_solver" instead of 
+   "VdWTransversalsInc 3 1 0 Out Out_solver", is that it is actually
    slower! </li>
   </ul>
 
