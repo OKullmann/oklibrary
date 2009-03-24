@@ -227,6 +227,16 @@ s SATISFIABLE
    of difficulty. </li>
    <li> Using "<=" for the bound:
     <ol>
+     <li> Extracting the following data from the VdWTransversalsInc-output
+     happens via
+     \verbatim
+> awk -f ExtractUNSATMinisat.awk Outputfile > ExtractedOutput
+     \endverbatim
+     respectively
+     \verbatim
+> awk -f ExtractSATMinisat.awk Outputfile > ExtractedOutput
+     \endverbatim
+     </li>
      <li> Here is data for unsatisfiable instances (n, conflicts,
      restarts; for "VdWTransversalsInc 3 1 0 Outputfile"):
      \verbatim
@@ -346,10 +356,102 @@ s SATISFIABLE
    <li> Now the same using "==" for the bound:
     <ol>
      <li> Unsatisfiable instances
-
+     \verbatim
+3 4 1
+6 11 1
+7 22 1
+8 31 1
+10 58 1
+12 76 1
+15 111 2
+16 202 2
+17 268 3
+18 470 3
+19 876 5
+21 988 5
+22 1143 5
+23 1659 6
+25 1607 6
+27 2156 7
+28 3237 8
+29 4040 8
+31 3163 7
+33 4316 8
+34 5998 9
+35 8444 10
+37 9220 10
+38 12725 11
+39 12062 11
+42 11024 10
+43 24603 12
+44 22589 12
+45 32092 13
+46 39311 14
+47 79098 15
+48 85369 15
+49 76239 15
+50 146929 17
+52 186607 17
+53 283582 18
+55 179814 17
+56 294938 18
+57 312389 19
+59 299569 19
+60 508953 20
+61 720857 21
+62 809134 21
+64 933486 21
+65 1700010 23
+66 2358123 24
+67 2841162 24
+68 3467254 25
+69 4416351 25
+70 7291075 26
+72 5383543 26
+73 9170506 27
+75 6773645 26
+76 8172029 27
+77 14650318 28
+78 15018182 28
+79 23301728 29
+80 36629003 30
+81 38282115 30
+83 39718269 31
+85 25522920 29
+86 38044615 30
+87 53885461 31
+88 80804713 32
+89 100756897 33
+90 145686053 34
+     \endverbatim
      </li>
      <li> Satisfiable instances
-
+     \verbatim
+1 0 1
+2 0 1
+4 0 1
+5 4 1
+9 2 1
+11 23 1
+13 22 1
+14 80 1
+20 146 2
+24 369 3
+26 452 3
+30 2045 6
+32 331 3
+36 7683 10
+40 8671 10
+41 4261 8
+51 48492 14
+54 80191 15
+58 96254 16
+63 40079 14
+71 4309528 25
+74 5822376 26
+82 5732060 26
+84 11797126 28
+     \endverbatim
      </li>
      <li> It seems that on unsatisfiable instances the performance gets worse,
      while on satisfiable instances it gets better --- that should indicate
