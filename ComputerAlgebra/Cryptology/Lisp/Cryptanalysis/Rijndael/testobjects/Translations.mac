@@ -25,6 +25,15 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 okltest_aes_make_vars_int(aes_make_vars_int);
 okltest_aes_make_vars_named(aes_make_vars_named);
 okltest_aes_round_constant(aes_round_constant);
+okltest_aes_mul2_cp(aes_mul2_cp);
+okltest_aes_mul3_cp(aes_mul3_cp);
+okltest_aes_add_cp(aes_add_cp);
+okltest_aes_mixcolumn_cp(aes_mixcolumn_cp);
+/*okltest_aes_mixcolumns_cp(aes_mixcolumns_cp);*/
+okltest_aes_shiftrows_cp(aes_shiftrows_cp);
+okltest_aes_subbytes_cp(aes_subbytes_cp);
+/*okltest_aes_round_cp(aes_round_cp);*/
+/*okltest_aes_key_expansion_cp(aes_key_expansion_cp);*/
 
 /*!
 \endhtmlonly
