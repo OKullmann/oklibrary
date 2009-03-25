@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,6 +36,15 @@ okltest_random_fcl(random_fcl);
 */
 
 okltest_random_rcl_fcl(random_rcl_fcl);
+
+/* **********************************
+   * The OKgenerator (based on AES) *
+   **********************************
+*/
+
+okltest_OKlitgenerator_l(OKlitgenerator_l);
+okltest_OKlitgenerator_l_p(OKlitgenerator_l_p);
+okltest_OKgenerator_fcl(OKgenerator_fcl);
 
 /*!
 \endhtmlonly

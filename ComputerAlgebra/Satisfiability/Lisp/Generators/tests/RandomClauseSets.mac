@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -86,7 +86,41 @@ okltest_random_rcl_fcl(f) := block(
   assert(f(4,2/3,3) = [[1,2,3,4],[{-3,1},{-2},{-3,-2}]]),
   true)$
 
+
+/* **********************************
+   * The OKgenerator (based on AES) *
+   **********************************
+*/
+
+okltest_OKlitgenerator_l(f) := (
+  assert(f(0,0,100,3,0) = 30),
+  assert(f(0,0,99,3,1) = -70),
+  assert(f(0,0,98,3,2) = -73),
+  assert(f(0,0,100,3,3) = 18),
+  assert(f(0,0,99,3,4) = -9),
+  assert(f(0,0,98,3,5) = -98),
+  true)$
+
+okltest_OKlitgenerator_l_p(f) := (
+  assert(f(0,0,1,0,0) = true),
+  assert(f(2^64-1,2^64-1,2^31-1,2^31-1,2^64-1) = true),
+  assert(f(2^64,2^64-1,2^31-1,2^31-1,2^64-1) = false),
+  assert(f(2^64-1,2^64,2^31-1,2^31-1,2^64-1) = false),
+  assert(f(2^64-1,2^64-1,2^31,2^31-1,2^64-1) = false),
+  assert(f(2^64-1,2^64-1,2^31-1,2^31,2^64-1) = false),
+  assert(f(2^64-1,2^64-1,2^31-1,2^31-1,2^64) = false),
+  assert(f(0,0,100,3,0) = true),
+  assert(f(0,0,99,3,1) = true),
+  assert(f(0,0,98,3,2) = true),
+  assert(f(0,0,100,3,3) = true),
+  assert(f(0,0,99,3,4) = true),
+  assert(f(0,0,98,3,5) = true),
+  true)$
     
+okltest_OKgenerator_fcl(f) := (
+  /* XXX */
+  true)$
+
 /*!
 \endhtmlonly
 */

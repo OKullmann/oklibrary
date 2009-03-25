@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,7 +52,7 @@ License, or any later version. */
      {-n, ..., n} - {0}, given by 0 -> 1, 1 -> 2, ..., n-1 -> n, and
      then n -> -1, n+1 -> -2, ..., 2n-1 -> -n. </li>
      <li> Now OKlitgenerator(s,k,n,p,c) :=
-      alpha_n(aes_int(s * 2^64 + k, (n * 2^96 + p * 2^64 + i) mod 2n)). </li>
+      alpha_n(aes_int(n * 2^96 + p * 2^64 + c, s * 2^64 + k) mod 2n)). </li>
      <li> Thus -2^31 < OKlitgenerator(s,k,n,p,c) < 2^31, where the value 0
      is excluded. </li>
     </ol>

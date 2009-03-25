@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSet
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 
 
 /* *********************************
@@ -79,7 +80,18 @@ random_rcl_fcl(n,p,c) :=
 */
 
 /* The underlying literal generator for boolean literals: */
-OKlitgenerator_l(s,k,n,p,c) := 0$
+OKlitgenerator_l(s,k,n,p,c) := block(
+ [x : mod(aes_int(n * 2^96 + p * 2^64 + c, s * 2^64 + k), 2*n)],
+  if x < n then x+1 else n-1-x)$
+/* The possible inputs are those where OKlitgenerator_l_p(s,k,n,p,c)
+   is true:
+*/
+OKlitgenerator_l_p(s,k,n,p,c) :=
+ integerp(s) and is(0 <= s and s < 2^64) and
+ integerp(k) and is(0 <= k and k < 2^64) and
+ integerp(n) and is(1 <= n and n < 2^31) and
+ integerp(p) and is(0 <= p and p < 2^31) and
+ integerp(c) and is(0 <= c and c < 2^64)$
 
 /* Creating (pseudo-)random boolean formal clause-lists with
  - seed s
