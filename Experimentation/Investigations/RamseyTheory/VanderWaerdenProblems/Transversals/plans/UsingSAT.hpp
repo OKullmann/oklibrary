@@ -423,6 +423,10 @@ s SATISFIABLE
 88 80804713 32
 89 100756897 33
 90 145686053 34
+91 164020742 34
+93 137096599 34
+94 147255027 34
+96 185614681 34
      \endverbatim
      </li>
      <li> Satisfiable instances
@@ -451,11 +455,13 @@ s SATISFIABLE
 74 5822376 26
 82 5732060 26
 84 11797126 28
+92 3716660 25
+95 2902643 24
      \endverbatim
      </li>
-     <li> It seems that on unsatisfiable instances the performance gets worse,
-     while on satisfiable instances it gets better --- that should indicate
-     that minisat is somehow mislead. </li>
+     <li> On unsatisfiable instances the performance gets somewhat worse,
+     while on satisfiable instances it gets much better --- that should
+     indicate that minisat is somehow mislead. </li>
     </ol>
    </li>
    <li> Is minisat2 better than minisat?
@@ -517,8 +523,16 @@ SATISFIABLE
    \endverbatim
    It seems that actually minisat might be better on these instances
    than minisat2 (using more space, but less conflicts and less time). </li>
-   <li> But one needs to consider the influence of the preprocessor, and
-   also now using the "=="-translation. </li>
+   <li> But one needs to consider the details:
+    <ol>
+     <li> Running it until around n=100, now using the "=="-translation. </li>
+     <li> Then the influence of the preprocessor has to be determined, that is,
+     minisat2 with "-pre=none", and minisat with the minisat2-preprocessor.
+     </li>
+     <li> Then there are other parameters one should try out; we need a little
+     script for running through these possibilities. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -674,6 +688,14 @@ BestSolution_Max = 1.000000
    "VdWTransversalsIncPB 3 1 0 Out Out_solver" instead of 
    "VdWTransversalsInc 3 1 0 Out Out_solver", is that it is actually
    slower! </li>
+   <li> Unsatisfiable instances:
+   \verbatim
+   \endverbatim
+   </li>
+   <li> Satisfiable instances:
+   \verbatim
+   \endverbatim
+   </li>
   </ul>
 
 
