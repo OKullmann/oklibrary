@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Building of Maxima-packages
+  \todo DONE (transfer to documentation)
+  Building of Maxima-packages
   <ul>
    <li> Creating a package, for example, 5.17.1.1, happens as follows:
    \verbatim
@@ -30,7 +31,13 @@ License, or any later version. */
      <li> So perhaps we need to run automake when building the package? </li>
      <li> But the bootstrap script does this already, and it seems to
      do the normal job. </li>
-     <li> A request was sent to the Maxima mailing list. </li>
+     <li> The recommended way of creating a package then is actually
+     to call "./configure" after changing that line, and then to
+     call "make dist", which creates the package. </li>
+     <li> Seems to work for 5.17.1.1, but for later versions the program
+     xgettext needs to be installed. </li>
+     <li> Suse 10.2 doesn't include it; apparently it is part of the Gnu
+     gettext package http://www.gnu.org/software/gettext/ . </li>
     </ol>
    </li>
   </ul>

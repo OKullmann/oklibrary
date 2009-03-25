@@ -11,6 +11,19 @@ License, or any later version. */
   of size at most k
 
 
+  \todo Connections to other modules
+  <ul>
+   <li> In ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac we have some
+   algorithms. </li>
+   <li> Satisfiability/Transformers/Generators/BoundOnes translates the
+   problem into a pseudo-boolean problem (using bound "<= k"; alternatively
+   also "= k" is possible). </li>
+   <li> Via Satisfiability/Transformers/Generators/LinInequal.cpp one
+   can add the clauses expressing the bound "<= k" (or "= k"), obtaining
+   an ordinary SAT problem. </li>
+  </ul>
+
+
   \todo Trivial algorithm for input G, k
   <ul>
    <li> The task is to find a transversal T with |T| <= k. </li>
@@ -108,7 +121,7 @@ License, or any later version. */
      for a minimum transversal from below, or when computing transversal
      numbers for monotonically increasing sequences of hypergraphs (at one
      new vertex at each step); see
-     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/Transversals.hpp.
+     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
      </li>
      <li> Perhaps actually such pruning cannot be done efficiently? It should
      be the case that when branching on a still occurring vertex, then the

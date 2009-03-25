@@ -42,7 +42,8 @@ License, or any later version. */
 
   \todo Complete LinInequal.cpp
   <ul>
-   <li> It remains to describe what happens if two or more parameters are
+   <li> DONE (see 'Restore old "assignment-application"' below)
+   It remains to describe what happens if two or more parameters are
    given.
     <ol>
      <li> The main point is to find out what LinInequal::Assignment is doing.
@@ -50,14 +51,23 @@ License, or any later version. */
      <li> Likely, this should then be moved into its own application. </li>
     </ol>
    </li>
-   <li> Once we removed this case, the current reading from standard input
+   <li> DONE
+   Once we removed this case, the current reading from standard input
    likely should be abolished, and command line parameters used. </li>
    <li> We should have the alternative to demand not just the upper bound,
    but also the lower bound or the strict equality.
     <ol>
      <li> See 'Also handle ">=" and "=" (besides "<=")' below. </li>
-     <li> This then can be controlled by an additional command-line parameter.
+     <li> Only ">=" is missing now. </li>
+     <li> DONE
+     This then can be controlled by an additional command-line parameter.
      </li>
+     <li> DONE
+     So we have three required parameters: n, bound, comp, where comp
+     is currently one of the strings "==", "<=". </li>
+     <li> DONE
+     A fourth optional parameter is the variable-prefix. </li>
+    </ol>
    </li>
   </ul>
 
@@ -66,8 +76,18 @@ License, or any later version. */
   <ul>
    <li> This is possible by two further variations on function
    LinInequal::CompVar. </li>
-   <li> Likely the name "CompVar" then should be changed, say, "compvar_ge",
-   "compvar_le" and "compvar_eq". </li>
+   <li> DONE
+   The name "CompVar" then should be changed, say, "compvar_le". </li>
+   <li> The new functions are called "compvar_ge" and "compvar_eq". </li>
+   <li> compvar_eq : DONE
+    <ol>
+     <li> The only problem is what to do if the clause-set to be generated is
+     unsatisfiable (Dimacs doesn't allow empty clauses). </li>
+     <li> Simplest is to throw an exception. </li>
+     <li> Easiest from a standard exception class (since this code needs to
+     be refactored anyway). </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -76,6 +96,24 @@ License, or any later version. */
    <li> It remains to document LinInequal::Assignment. </li>
   </ul>
 
+
+  \todo Restore old "assignment-application"
+  <ul>
+   <li> The (now removed) code handling the special "assignment"-case is
+   \code
+if (argc > 2) {
+  LinInequal::ui_vec Cap;
+  Cap.reserve(argc-2);
+  for (unsigned int i = 1; i < argc-1; ++i)
+    Cap.push_back(StringHandling::fromString<unsigned int>(argv[i]));
+  const unsigned int level =
+   StringHandling::fromString<unsigned int>(argv[argc-1]);
+  LinInequal::Assignment(Cap, std::cin, level, std::cout);
+}
+   \endcode
+   </li>
+   <li> First it has to be established what this is doing. </li>
+  </ul>
 
   \todo Improve VdWTransversals and VdWTransversalsInc
   <ul>

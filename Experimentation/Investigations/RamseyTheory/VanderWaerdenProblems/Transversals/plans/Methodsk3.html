@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+   <TITLE>Nonaveraging sets methods and theorems</TITLE>
+   <META NAME="Author" CONTENT="Jarek Wroblewski">
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#DDDDDD">
+
+<H1>
+Nonaveraging sets methods and theorems
+</H1>
+
+<BR>
+
+<H2>
+Split x+y
+</H2>
+
+<B>a(x+y)<=2a(x)+a(y)-1</B> if x>=y.
+
+<H2>
+Product x*y
+</H2>
+
+<B>m(x*y)<=m(x)*m(y)</B>.
+
+<H2>
+Wrap
+</H2>
+
+<B>m(x)<=2a(x)-1</B>.
+<H2>
+Drop
+</H2>
+
+<B>m(x)<=m(x+1)</B>.
+<H2>
+Theorem N
+</H2>
+
+Let k<SUB>1</SUB>,k<SUB>2</SUB>,k<SUB>3</SUB>,...,k<SUB>N</SUB>
+be a nonaveraging modular solution mod P,
+an increasing sequence of <B>positive</B> integers.
+Then for r=1,2,3,...,N
+<BR>
+<B>a(N*(q-1)+r)<=P*(a(q)-1)+k<SUB>r</SUB></B>.
+<BR>
+Note 1. If we have one modular solution, we can produce all
+its linear transformations, as there may be different particular solutions suitable for various r.
+<BR>
+Note 2. Modular solutions are not turned automatically into theorems
+at the moment.
+<BR>
+Note 3. It is unlikely but possible that a modular solution that is
+not improving known bound on m(n) (and therefore not saved by
+verification program) can still be useful. I will develope a way to check
+it. If you know it is useful send it to my <A HREF="mailto:jwr@math.uni.wroc.pl">
+"human"</A> address.
+
+<H2>
+Search
+</H2>
+
+Direct search if everything above has failed.
+Sometimes this is like guesswork, as in case of m(216)<=3889, where
+I took 216-th roots of unity (or 18th nonzero powers) mod 3889.
+
+</BODY>
+</HTML>

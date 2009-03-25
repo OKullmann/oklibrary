@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/LinInequal.hpp
   \brief Tools for encoding linear inequalities as CNF
+
+  This (old) code does not (currently) fulfill our coding standards,
+  but it is functional.
 */
 
 #ifndef LINinEQUALWAECHTER
@@ -23,6 +26,7 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <set>
+#include <exception>
 
 #include <OKlib/General/StringHandling.hpp>
 
@@ -197,16 +201,17 @@ namespace LinInequal {
   /*!
     \brief Output the clauses to os which express that a range of boolean
     variables expressing a binary number (least-significant first) is at
-    most bound
+    most "bound"
   */
   template <typename It>
-  inline void CompVar(
+  // type It must fulfill the random access iterator concept
+  // *It must be a string
+  inline void compvar_le(
                       const It V_b,
                       const It V_e,
                       unsigned int bound,
                       std::ostream& os)
   {
-    // It random access iterator, *It must be a string;
     std::vector<bool> bits; // the binary representation of bound
     const unsigned int bl = bin_length(bound);
     bits.reserve(bl);
@@ -216,29 +221,67 @@ namespace LinInequal {
     } while (bound != 0);
     
     const typename std::iterator_traits<It>::difference_type m = V_e - V_b;
-    if (m < bl)
-      return;
+    if (m < bl) return;
     else if (m > bl)
       for (It i = V_b + bl; i != V_e; ++i)
 	os << N(*i) << E();
-    // now m = bl
+    // Now we need to consider (only) the first bl elements of the
+    // range [V_b,V_e) (and these elements exist):
     It v = V_b;
     for (unsigned int i = 0; i < bl; ++i, ++v) {
-      if (bits[i])
-	continue;
+      // If the target bit bits[i] is 0, then the corresponding *v
+      // or a later (more significant) *v, where bits is 1, must be 0:
+      if (bits[i]) continue;
       os << N(*v);
       It v2 = v+1;
       for (unsigned int j = i+1; j < bl; ++j, ++v2)
-	if (! bits[j])
-	  continue;
-	else
-	  os << N(*v2);
+	if (! bits[j]) continue;
+	else os << N(*v2);
       os << E();
     }
   }
 
   /*!
-    \brief Output clauses to os for expressing that the sum of a range of
+    \brief Output the clauses to os which express that a range of boolean
+    variables expressing a binary number is equal to "bound";
+    if this is impossible (the clause-set is unsatisfiable, throw an exception
+    of type std::
+  */
+  template <typename It>
+  // type It must fulfill the random access iterator concept
+  // *It must be a string
+  inline void compvar_eq(
+                      const It V_b,
+                      const It V_e,
+                      unsigned int bound,
+                      std::ostream& os)
+  {
+    std::vector<bool> bits; // the binary representation of bound
+    const unsigned int bl = bin_length(bound);
+    bits.reserve(bl);
+    do { bits.push_back(bound % 2); bound /= 2; }
+    while (bound != 0);
+    
+    const typename std::iterator_traits<It>::difference_type m = V_e - V_b;
+    if (m == 0 and bound == 0) return;
+    if (m < bl) throw std::runtime_error("UNSATISFIABLE: not enough variables!");
+    if (m > bl)
+      for (It i = V_b + bl; i != V_e; ++i)
+	os << N(*i) << E();
+    // Now we need to consider (only) the first bl elements of the
+    // range [V_b,V_e) (and these elements exist):
+    It v = V_b;
+    for (unsigned int i = 0; i < bl; ++i, ++v) {
+      if (bits[i])
+        os << P(*v);
+      else
+        os << N(*v);
+      os << E();
+    }
+  }
+
+  /*!
+    \brief Output clauses to os expressing that the sum of a range of
     boolean variables is at most bound, using "S"-variables for the
     sum and "H"-variables for the auxiliary results.
 
@@ -258,7 +301,7 @@ namespace LinInequal {
     S.reserve(bl);
     for (unsigned int i = 1; i <= bl; ++i)
       S.push_back(P(prefix + "S", i));
-    CompVar(S.begin(), S.end(), bound, os);
+    compvar_le(S.begin(), S.end(), bound, os);
   }
   
   //! Type of vectors of unsigned integers

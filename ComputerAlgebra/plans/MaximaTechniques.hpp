@@ -162,7 +162,9 @@ xreduce(nounify(union), [a,b,c,d]);
 
   \todo Bugs of Maxima and their corrections
   <ul>
-   <li> There are severe restrictions for memoised recursive functions:
+   <li> set_partitions(n,k) produces sets which can not be used further.
+   The temporary fix is to use apply "resimplify(expr):=expand(expr,1,1)$"
+   to the result. </li>
     <ol>
      <li> Consider
      \verbatim

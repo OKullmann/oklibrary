@@ -89,7 +89,31 @@ Installations/SAT> cd MiniSat_v1.14
    creates the executable "minisat". It should be "make rs" for the
    "statically linked release version".
    </li>
-   <li> Minisat+ ? Let's ignore it at this time. </li>
+   <li> Minisat+
+    <ol>
+     <li>
+     \verbatim
+Installations/SAT/Minisat> unzip ../../../sources/SAT/MiniSat/minisat+_2007-Jan-05.zip
+Minisat> cd minisat+
+minisat+> make rx
+OKplatform/bin> ln -s $OKPLATFORM/ExternalSources/Installations/SAT/Minisat/minisat+/minisat+_64-bit_static
+     \endverbatim
+     </li>
+     <li> What is now the input format?
+      <ul>
+       <li> It seems only lines of the form
+       \verbatim
++1*v1 +2*v4 -3*v11 >= 4;
+       \endverbatim
+       are allowed (no spaces after the semicolon!). </li>
+       <li> Relations are "<=, >=, =". </li>
+       <li> Variable names are identifiers, and start with a letter. </li>
+       <li> The "+"-symbols are not needed. </li>
+       <li> Comment lines start with "*". </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
    <li> What is minisat2-070721.zip ? The new version, apparently
    their new best piece.
    \verbatim
@@ -177,7 +201,7 @@ double Solver::progressEstimate() const {
 
   \todo Picosat
   <ul>
-   <li> http://picosat.com/ </li>
+   <li> http://fmv.jku.at/picosat/ </li>
   </ul>
 
 
@@ -225,6 +249,32 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
    \endverbatim
    ??? Only a 32-bits version?
    </li>
+  </ul>
+
+
+  \todo Argo
+  <ul>
+   <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
+   to offer. </li>
+   <li> Installation of ArgoSat:
+   \verbatim
+builds/SAT/Argo> tar -xzf ../../../sources/SAT/Argo/argosat-1.0.tar.gz
+builds/SAT/Argo> cd argosat-1.0
+argosat-1.0> ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/SAT/Argo
+argosat-1.0> make
+argosat-1.0> make install
+
+Installations/SAT/Argo/bin> ./argosat
+ArgoSat v. 1.0
+Build date: Fri Mar 20 18:15:46 UTC 2009
+Usage: argosat problem [options]
+    problem:
+          pigeons num - pigeonhole problem
+          queens  num - n queens problem
+          filename    - file that contains uncompressed DIMACS format input
+    options:
+   \endverbatim
+   looks alright (though output is somewhat uggly). </li>
   </ul>
 
 
@@ -290,6 +340,14 @@ Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo EBDDRES
+  <ul>
+   <li> http://fmv.jku.at/ebddres/ </li>
+   <li> Also interesting BooleForce (includes TraceCheck)
+   http://fmv.jku.at/booleforce/index.html . </li>
   </ul>
 
 

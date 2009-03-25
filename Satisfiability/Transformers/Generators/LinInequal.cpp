@@ -9,19 +9,18 @@ License, or any later version. */
   \file Satisfiability/Transformers/Generators/LinInequal.cpp
   \brief Application for encoding linear inequalities as CNF
 
-  If zero or one input parameter is used:
-   - Two further parameters n, bound (unsigned integers) are read from
-     standard input.
-   - The clause-set expressing that the sum of n variables is at most
-     bound is output (in Dimacs-format, but only the clauses).
-   - The variable names are V1, ...., Vn, if no parameter is given, while
-     otherwise V is replaced by this parameter (a string).
-   - So in order to obtain variable-names 1,...,n, use '""' as parameter.
+  Three or four input parameter are to be used:
+   - Two first two parameters are n, bound (unsigned integers).
+   - Then we have the comparison operator comp, one of "<=", "==".
+   - The clause-set expressing that the sum of n variables compares
+     to the bound according to comp is output (in Dimacs-format, but only the
+     clauses).
+   - The variable names are V1, ...., Vn, if no additional parameter is given,
+     while otherwise V is replaced by this parameter (a string).
+   - So in order to obtain variable-names 1,...,n, use '""' as additional
+     parameter.
 
-  If two or more parameters are used, then a special mode for creating
-  assignment problems is entered.
-
-  \todo Complete the above description.
+  Further input parameters are ignored.
 
 */
 
@@ -31,19 +30,39 @@ License, or any later version. */
 #include <iterator>
 #include <string>
 
-#include <OKlib/Satisfiability/Transformers/Generators/LinInequal.hpp>
+#include <boost/lexical_cast.hpp>
 
-#include <OKlib/General/StringHandling.hpp>
+#include <OKlib/General/ErrorHandling.hpp>
+
+#include <OKlib/Satisfiability/Transformers/Generators/LinInequal.hpp>
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc <= 2) {
+  if (argc <= 3) {
+    std::cerr << "Three arguments are needed: The number of variables, "
+      "the bound, and the comparison operator\n"
+      "(one of \"<=\", \"==\").\n";
+    return 1;
+  }
+  const std::string comps = argv[3];
+  if (comps != "<=" and comps != "==") {
+    std::cerr << "The third argument must be either the string "
+      "\"<=\" or the string \"==\".\n";
+    return 1;
+  }
+
+  try {
+    const unsigned int n = boost::lexical_cast<unsigned int>(argv[1]);
+    const unsigned int bound = boost::lexical_cast<unsigned int>(argv[2]);
+    enum comparisons {le, eq};
+    comparisons comp;
+    if (comps == "<=") comp = le;
+    else comp = eq;
     const std::string input_prefix = "V";
     const std::string output_prefix = "S";
     const std::string auxiliary_prefix = "H";
-    const std::string var = (argc == 2) ? argv[1] : input_prefix;
-    unsigned int n, bound;
-    std::cin >> n >> bound;
+    const std::string var = (argc >= 5 ) ? argv[4] : input_prefix;
+    
     {
       typedef std::vector<std::string> st_vec;
       {
@@ -57,19 +76,19 @@ int main(const int argc, const char* const argv[]) {
         st_vec S; S.reserve(blL);
         for (unsigned int i = 1; i <= blL; ++i)
           S.push_back(LinInequal::P(output_prefix, i));
-        LinInequal::CompVar(S.begin(), S.end(), bound, std::cout);
+        switch (comp) {
+        case le :
+          LinInequal::compvar_le(S.begin(), S.end(), bound, std::cout);
+          break;
+        case eq :
+          LinInequal::compvar_eq(S.begin(), S.end(), bound, std::cout);
+          break;
+        }
       }
     }
   }
-  else {
-    LinInequal::ui_vec Cap;
-    Cap.reserve(argc-2);
-    for (unsigned int i = 1; i < argc-1; ++i)
-      Cap.push_back(StringHandling::fromString<unsigned int>(argv[i]));
-    const unsigned int level =
-      StringHandling::fromString<unsigned int>(argv[argc-1]);
-    LinInequal::Assignment(Cap, std::cin, level, std::cout);
+  catch (const std::exception& e) {
+    std::cerr << ErrorHandling::Error2string(e);
   }
-
 }
 
