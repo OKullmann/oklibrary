@@ -31,7 +31,7 @@ T=$3
 output=$4
 output_solver=$5
 
-solver="minisat"
+solver="minisat1"
 generator="VdWTransversals"
 
 echo "k n tau" >> ${output}

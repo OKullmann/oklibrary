@@ -89,6 +89,9 @@ Installations/SAT> cd MiniSat_v1.14
    creates the executable "minisat". It should be "make rs" for the
    "statically linked release version".
    </li>
+   <li> However, the statically linked version is 2.5 MG large, the normal
+   one ("minisat_release", created by "make r") only 38 KB ?! But it seems
+   the statically linked version might be slightly faster. </li>
    <li> Minisat+
     <ol>
      <li>

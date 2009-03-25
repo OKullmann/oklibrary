@@ -101,6 +101,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ecl.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gap.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/grasp.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/minisat.mak
 
 # #################################
 # Cleaning
