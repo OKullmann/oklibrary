@@ -427,6 +427,7 @@ s SATISFIABLE
 93 137096599 34
 94 147255027 34
 96 185614681 34
+97 185526254 34
      \endverbatim
      </li>
      <li> Satisfiable instances
@@ -461,7 +462,9 @@ s SATISFIABLE
      </li>
      <li> On unsatisfiable instances the performance gets somewhat worse,
      while on satisfiable instances it gets much better --- that should
-     indicate that minisat is somehow mislead. </li>
+     indicate that minisat is somehow mislead. Though perhaps with higher
+     n the advantages of the ==-translation also show for unsatisfiable
+     instances. </li>
     </ol>
    </li>
    <li> Is minisat2 better than minisat?
