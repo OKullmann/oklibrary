@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSet
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* *********************************
@@ -101,7 +102,21 @@ OKlitgenerator_l_p(s,k,n,p,c) :=
  - clause-number list C (according to P).
 For the precise input-prerequisites see OKgenerator_fcl_p.
 */
-OKgenerator_fcl(s,k,n,P,C) := []$
+OKgenerator_fcl(s,k,n,P,C) := block([m : length(P)],
+ if m > 1 then
+   return([create_list(i,i,1,n), 
+           lappend(map(lambda([p,c], 
+                       OKgenerator_fcl(s,k,n,[p],[c])[2]), P, C))]),
+ block([F : [], N : setn(n), p : P[1], c : C[1]],
+   for i : 1 thru c do block([C : [], V : N],
+     for j : 1 thru p do block(
+      [x : OKlitgenerator_l(s, k, n-j+1, p, (i-1)*p+j-1)],
+       C : cons(signum(x) * listify(V)[abs(x)], C),
+       V : disjoin(abs(x), V)
+     ),
+   F : cons(setify(C),F)
+  ),
+ return([create_list(i,i,1,n), reverse(F)])))$
 
 /* Testing the inputs: */
 OKgenerator_fcl_p(s,k,n,P,C) := 

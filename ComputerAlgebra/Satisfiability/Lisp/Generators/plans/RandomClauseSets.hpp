@@ -71,8 +71,8 @@ License, or any later version. */
       j > 1, since we must avoid repetitions. </li>
       <li> This is now achieved by using first x_{i,2}, then x_{i,3}, and so
       on, however not as absolute values, but only relative, that is, the
-      variable is l_{i,2} is value number |x_{i,2}| in the variables from
-      {1, ..., n} left after having removed |x_{i,1}|, and so on. </li>
+      variable l_{i,2} is value number |x_{i,2}| in the variables left from
+      {1, ..., n} after having removed |x_{i,1}|, and so on. </li>
      </ol>
    </li>
    <li> The general OKgenerator(s,k,n,p,c) for m >= 1 is now defined as the
@@ -90,7 +90,8 @@ License, or any later version. */
 
   \todo Implementing the AES random generator
   <ul>
-   <li> Using our maxima-aes-implementation, implement the random generator
+   <li> DONE
+   Using our maxima-aes-implementation, implement the random generator
    as in Experimentation/RandomGenerator/plans/general.hpp. </li>
    <li> How to name the generalised (non-boolean) versions? </li>
   </ul>
