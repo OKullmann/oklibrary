@@ -17,6 +17,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Provide tests for all functions
     - Move functions which do not belong to this module DONE
+    - Replace append_all with uaapply DONE
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
@@ -33,7 +34,6 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Write tests for all functions
-    - Replace append_all with uaapply
     - Write Docus
 
   \par Version 0.0.7

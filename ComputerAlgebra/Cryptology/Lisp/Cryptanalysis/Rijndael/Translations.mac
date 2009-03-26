@@ -360,7 +360,7 @@ oklib_plain_include("opsubst")$
    rewrite with and then produces a new set of conditions */
 rewrite_condition(con_set, con_name, con_rewrite_f) := block(
   [num_con : 0, total : length(con_set)], 
-  setify(apply(append_all,map(
+  setify(uaapply(append,map(
     lambda([b], block(
       if (oklib_monitoring and (mod(num_con,100) = 0)) then block(
         print(con_name, " = ", num_con,"/",total)),
@@ -409,30 +409,6 @@ aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
 aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
   aes_cs : aes_cnf_cs(),
   [create_list(i,i,1,aes_cnf_var_number), aes_cs])$
-
-/* Given many lists as arguments, returns the result of appending all the 
-   lists.
-
-   Maxima append is too slow iteratively (ie using xreduce etc) and can't 
-   handle enough variables in a single call so this gives us the best of 
-   both worlds and is much faster. This is particularly useful as using list
-   operations, map and then converting to a set at the end of the function seems
-   to be much faster (if such an operation is feasible) than using many
-   unions. */
-/* MG : Such an operation should be moved somewhere more general, although
-   consideration should be made of whether this considers efficiency too much */
-/* MG : 3000 here is an arbitrary limit through simple trial and error to find
-   what seemed like an upper limit on the number of arguments append takes.
-   Perhaps this should be set using a variable that can be overriden? */
-append_all([ivalues]) := block([vallen : length(ivalues)],
-  if (vallen < 3000) then apply(append,ivalues)
-  else block([halflen : floor(vallen / 2)],
-    append(
-      apply(append_all, take_elements(halflen, ivalues)),
-      apply(append_all, rest(ivalues, halflen))
-    )
-  )
-)$
 
 /* Takes a hexidecimal string in the notation typically used for Rijndael blocks
    (discussed in [Design of Rijndael] and in CryptoSystems plans) and given the
