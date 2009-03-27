@@ -35,9 +35,17 @@ ${OKsolver} -P ${filename}
 
 ${preprocessor} -dimacs=${filename_pp} ${filename}
 
-${OKsolver} ${other_arguments} ${filename_pp}
+# The minisat-preprocessor might produce an empty clause:
+if [[ $(grep "^0$" ${filename_pp}) ]]; then
+  echo "s UNSATISFIABLE"
+  echo "c minisat2 preprocessor created empty clause"
+  return_value=20
+else
+  ${OKsolver} ${other_arguments} ${filename_pp}
+  return_value=$?
+fi
 
 rm ${filename_pp}
 
-exit 0
+exit ${return_value}
 
