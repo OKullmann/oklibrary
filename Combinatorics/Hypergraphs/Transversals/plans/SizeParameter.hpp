@@ -37,7 +37,7 @@ License, or any later version. */
      v in H try recursively T + {v}. </li>
     </ol>
    </li>
-   <li> If a minimal transversal T is needed (w.r.t. set-inclusion),
+   <li> If a minimal transversal T is needed (%w.r.t. set-inclusion),
    then by some heuristics unnecessary vertices in T are removed
    (iteratively). </li>
    <li> For the choice of H the simplest heuristics is to choose a
@@ -63,20 +63,20 @@ License, or any later version. */
   </ul>
 
 
-  \todo An "eager, binary" variation of the trivial algorithm
+  \todo An "eager, binary" variation of the (above) trivial algorithm
   <ul>
    <li> The algorithms transversals_be, transversals_bes in
    ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac implement the
    above algorithm, but with the following two differences:
     <ol>
      <li> Above we use "clause branching", while these algorithms use
-     binary branching. </li>
+     binary branching; this should be better. </li>
      <li> Above the handling of the hypergraph is "lazy" (not performing
      the assignment), while these algorithms are "eager" (actually performing
      the assignment). </li>
     </ol>
    </li>
-   <li> It would be nice to directly implement the algorithms transversals_be,
+   <li> We should directly implement the algorithms transversals_be,
    transversals_bes in C++:
     <ol>
      <li> As a first prototype for the concept of hypergraphs as (just)
@@ -87,9 +87,11 @@ License, or any later version. */
      <li> For vertices we just have integers in mind (but this is not
      hardcoded). </li>
     </ol>
-    This would extend the already existing "non-abstract" hypergraph concepts;
-    programming at this level quite similar to the Maxima/Lisp level.
    </li>
+   <li> This would extend the already existing "non-abstract" hypergraph
+   concepts; programming at this level quite similar to the Maxima/Lisp level.
+   </li>
+   <li> Compare also the point below about enumerating all transversals. </li>
   </ul>
 
 
@@ -104,10 +106,12 @@ License, or any later version. */
      <li> Of course, we are not interesting in computing all transversals
      (from the minimal transversals we trivially could obtain them by
      padding), but the point is that considering only the existing vertices
-     already achieves some simple form of "tree pruning" (see below). </li>
+     already achieves some simple form of "tree pruning". </li>
+     <li> See the specification of transversals_be in
+     ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac. </li>
     </ol>
    </li>
-   <li> However now we really only want to find minimal transversals (w.r.t.
+   <li> However now we really only want to find minimal transversals (%w.r.t.
    inclusion).
     <ol>
      <li> This can be achieved by computing all and then applying
@@ -128,6 +132,15 @@ License, or any later version. */
      subtree contains at least one minimal transversal (if not already some
      superfluous vertex has been included)? </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo As generalised-SAT algorithms
+  <ul>
+   <li> The above algorithms can be viewed as very simple backtracking
+   generalised-SAT solvers, where the condition on the number of 1-settings
+   in the partial assignment is integrated into the backtracking mechanism.
    </li>
   </ul>
 
