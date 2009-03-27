@@ -786,6 +786,8 @@ BestSolution_Max = 1.000000
    <li> So performance of minisat+ is rather weak; one should try whether
    tuning the parameters helps, but the first impression is that it doesn't
    help. </li>
+   <li> But the feature to write the CNF to a file, and then to use
+   some other solvers, needs to be explored! </li>
   </ul>
 
 
