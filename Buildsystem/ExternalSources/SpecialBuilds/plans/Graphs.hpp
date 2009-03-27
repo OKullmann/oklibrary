@@ -140,5 +140,12 @@ nauty22> make checks
    </li>
   </ul>
 
+
+  \todo Hamiltonian cycles and paths
+  <ul>
+   <li> There are SAT-translations. </li>
+   <li> http://web.cs.ualberta.ca/~joe/Theses/HCarchive/main.html </li>
+  </ul>
+
 */
 
