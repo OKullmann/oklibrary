@@ -669,6 +669,7 @@ git remote rm Bproject
      <li> 20.2.2009; 11.5 MB; OKlib total: 30.9 MB </li>
      <li> 20.2.2009, after renaming Transitional -> OKlib;
      11.6 MB; OKlib total: 31.1 MG </li>
+     <li> 27.3.2009; 12.0 MB; OKlib total: 31.7 </li>
     </ol>
    </li>
   </ul>
