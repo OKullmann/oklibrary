@@ -17,10 +17,10 @@ License, or any later version. */
   as a kind of standard implementation of
   <ul>
    <li> a look-ahead solver </li>
-   <li> who employes full failed-literal-reduction ("r_2") </li>
+   <li> who employs full failed-literal-reduction ("r_2") </li>
    <li> and full unit-clause-propagation ("r_1") look-ahead. </li>
   </ul>
-  The heuristics is given by (weigthed) counting of new clauses,
+  The heuristics is given by (weighted) counting of new clauses,
   and here naturally basic autarky reduction (generalising
   pure-literal-elimination) is utilised.
 
@@ -52,10 +52,10 @@ License, or any later version. */
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
    node with some statistics. </li>
-   <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all satisfying
-   assignments are found. Currently combination with <code>BAUMRES</code> or
-   <code>ASSIGNMENT</code> is not possible (and thus yet we just
-   count all satisfying assignments.
+   <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all
+   satisfying assignments are found. Currently combination with
+   <code>BAUMRES</code> or <code>ASSIGNMENT</code> is not possible (and thus
+   yet we just count all satisfying assignments.
     <ul>
      <li> <code>NSAT_BITS</code> specifies the number of bits for the unsigned
      int value of the number of satisfying assignments. </li>
@@ -75,8 +75,9 @@ License, or any later version. */
   in the name. The following programs are created (in both versions,
   unoptimised and optimised), as usual in <code>$(bin_dir)</code>:
   <ol>
-   <li> <code>OKsolver_2002</code> (the default version; a link is also provided
-   in the public bin-directory <code>$(public_bin_dir_okl)</code>)</li>
+   <li> <code>OKsolver_2002</code> (the default version; a link is also
+   provided in the public bin-directory <code>$(public_bin_dir_okl)</code>)
+   </li>
    <li> <code>OKsolver_2002_NTP</code> (no tree pruning) </li>
    <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is
    faster) </li>
@@ -89,13 +90,13 @@ License, or any later version. */
   <h2> Basic usage </h2>
 
   <ul>
-   <li> Call the OKsolver with one parameter, the filename containing the CNF in
-   DIMACS format. </li>
+   <li> Call the OKsolver with one parameter, the filename containing the CNF
+   in DIMACS format. </li>
    <li> The OKsolver accepts also arbitrary non-empty sequences of digits and
    letters for variable-names, with the exception that in DIMACS format a first
    character must not be "0", "p" or "c". </li>
-   <li> By default satisfying assignments are not output, but this can be turned on,
-   and also all output can be printed into a file. </li>
+   <li> By default satisfying assignments are not output, but this can be
+   turned on, and also all output can be printed into a file. </li>
    <li> A monitoring level of the search tree can be established, such that
    finished nodes at this level are reported, and predicated running times are
    computed. </li>
@@ -107,16 +108,16 @@ License, or any later version. */
   The solver reads the arguments in order, processes each and exits.
 
   <ul>
-   <li> Without any argument just a short instruction is printed. </li>
+   <li> Without any argument given, just a short instruction is printed. </li>
    <li> Option <code>--help</code> creates a short help message. </li>
    <li> <code>--version</code> prints version information. </li>
    <li> <code>--author</code> prints information about the author. </li>
    <li> <code>--info</code> shows how to interpret the (standard) output. </li>
    <li> <code>--specification</code> prints a solver specification in XML. </li>
-   <li> <code>--language=x</code> switches the output-language; supported values
-   are x=0 for German and x=1 for English (the default). </li>
-   <li> <code>--timeout=n</code> for a time-out in n seconds (wall-clock), where
-   n=0 means no time-out. </li>
+   <li> <code>--language=x</code> switches the output-language; supported
+   values are x=0 for German and x=1 for English (the default). </li>
+   <li> <code>--timeout=n</code> for a time-out in n seconds (wall-clock),
+   where n=0 means no time-out. </li>
    <li> <code>--standard=x</code> switches the input-format; supported values
    are
     <ol>
@@ -126,7 +127,8 @@ License, or any later version. */
      clause, ")" for closing a clause, and literals are separated by a comma.
      </li>
      <li> x=3 as x=2 but (arbitrary) space symbols separate literals. </li>
-     <li> x=4 as x=3, but no clause-begin, and line-end finishes a clause. </li>
+     <li> x=4 as x=3, but no clause-begin, and line-end finishes a clause.
+     </li>
     </ol>
     The restrictions for variable-names (not beginning with "0,c,p") only hold
     for DIMACS (x=1). DIMACS does not accept an empty clause, while the other
@@ -212,6 +214,23 @@ License, or any later version. */
      occurrences where eliminated by the reduction. </li>
      <li> <code>initial_number_of_2-clauses</code>: Number of 2-clauses
      after reduction. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  <h2> Combination with pre-processors </h2>
+
+  <ul>
+   <li> Combination with the Minisat2 pre-processor:
+    <ol>
+     <li> This combination seems often quite successful, and is provided by the
+     wrapper script <code>OKsolver_2002-m2pp</code>. </li>
+     <li> Same parameters as the OKsolver, while creating a temporary file
+     containing the preprocessed file. </li>
+     <li> Two additional outputs are provided before calling the OKsolver:
+     Statistics on the original input, and the output of the Minisat2
+     preprocessor. </li>
     </ol>
    </li>
   </ul>

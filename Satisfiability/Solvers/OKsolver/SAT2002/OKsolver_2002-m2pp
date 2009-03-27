@@ -1,0 +1,43 @@
+#!/bin/bash
+# Oliver Kullmann, 26.3.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Wrapper for OKsolver_2002, applying first the minisat2-preprocessor.
+# All parameters are transferred to the OKsolver (where the last parameter,
+# the filename, is replaced by the preprocessed file).
+# The preprocessed file has the same name as the original file plus "_m2pp_$$";
+# it is deleted after execution of the OKsolver is finished.
+# There are two additional outputs (besides those of the final OKsolver-call):
+# statistics for the original file (by the OKsolver), and the minisat2-output.
+
+script_name="OKsolver_2002-m2pp"
+
+if [[ $# == 0 ]]; then
+  echo -e "ERROR[${script_name}]: At least one parameter is needed, the filename."
+  exit 1
+fi
+
+preprocessor=minisat2
+OKsolver=OKsolver_2002-O3-DNDEBUG
+
+filename=$(eval echo "$""{""$#""}") # last parameter
+filename_pp=${filename}_m2pp_$$
+
+# the parameters except of the last:
+other_arguments=
+for (( i = 1; i < $#; ++i )); do other_arguments="${other_arguments} $(eval echo "$""{""$i""}")"; done
+
+${OKsolver} -P ${filename}
+
+${preprocessor} -dimacs=${filename_pp} ${filename}
+
+${OKsolver} ${other_arguments} ${filename_pp}
+
+rm ${filename_pp}
+
+exit 0
+
