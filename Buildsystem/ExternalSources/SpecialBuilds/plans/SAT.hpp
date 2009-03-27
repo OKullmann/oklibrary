@@ -553,12 +553,13 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
     <ol>
      <li> There shouldn't be a problem with distributing this package
      with the OKlibrary. </li>
-     <li> OK contacted the authors. </li>
+     <li> OK contacted the authors: we can redistribute it, but we should
+     show their licence on the documentation pape. </li>
+     <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
+     open source, but is now included with Saucy. </li>
     </ol>
    </li>
    <li> ZAP ? </li>
-   <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
-   open source. </li>
   </ul>
 
 
