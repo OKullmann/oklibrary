@@ -43,7 +43,7 @@ for ((N=${2}; 1; ++N)); do
   ${generator} ${K} ${N} ${T}
   file="vdw_trans_${K}_${N}_${T}.cnf"
   echo ${file} >> ${output_solver}
-  ${solver} ${file} >> ${output_solver}
+  ${solver} ${file} >> ${output_solver} 2>&1
   res=$(echo $?)
   if [[ ${res} != 10 && ${res} != 20 ]]; then
     echo "ERROR[${script_name}]:
