@@ -428,6 +428,8 @@ s SATISFIABLE
 94 147255027 34
 96 185614681 34
 97 185526254 34
+98 280870577 35
+99 353806066 36
      \endverbatim
      </li>
      <li> Satisfiable instances
@@ -462,9 +464,10 @@ s SATISFIABLE
      </li>
      <li> On unsatisfiable instances the performance gets somewhat worse,
      while on satisfiable instances it gets much better --- that should
-     indicate that minisat is somehow mislead. Though perhaps with higher
-     n the advantages of the ==-translation also show for unsatisfiable
-     instances. </li>
+     indicate that minisat is somehow mislead. </li>
+     <li> Though perhaps with higher n the advantages of the ==-translation
+     also shows for unsatisfiable instances. But at n=100 a further explosion
+     happens. </li>
     </ol>
    </li>
    <li> Is minisat2 better than minisat?
@@ -528,7 +531,18 @@ SATISFIABLE
    than minisat2 (using more space, but less conflicts and less time). </li>
    <li> But one needs to consider the details:
     <ol>
-     <li> Running it until around n=100, now using the "=="-translation. </li>
+     <li> Running it until around n=100, now using the "=="-translation.
+      <ol>
+       <li> Unsatisfiable instances
+       \verbatim
+
+       \endverbatim
+       <li> Satisfiable instances
+       \verbatim
+
+       \endverbatim
+      </ol>
+     </li>
      <li> Then the influence of the preprocessor has to be determined, that is,
      minisat2 with "-pre=none", and minisat with the minisat2-preprocessor.
      </li>

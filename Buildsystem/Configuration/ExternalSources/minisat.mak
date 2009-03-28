@@ -24,8 +24,6 @@ minisat1_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
 minisat1_source_okl := $(ExternalSources)/sources/SAT/MiniSat/$(minisat1_extracted_archive_okl).2006-Aug-29
 
-
-
 # The "new" Minisat
 
 minisat2_recommended_version_number_okl ?= 070721
@@ -50,3 +48,14 @@ minisatp_recommended_version_number_okl ?= 2007-Jan-05
 minisatp_supported_but_not_recommended_version_numbers_okl ?= 
 minisatp_supported_version_numbers_okl ?= $(minisatp_recommended_version_number_okl) $(minisatp_supported_but_not_recommended_version_numbers_okl)
 
+minisatp_extracted_archive_okl ?= minisat+
+
+minisatp_build_dir_okl ?= $(minisat_base_build_dir_okl)/$(minisatp_extracted_archive_okl)
+minisatp_installation_dir_okl ?= $(minisat_base_installation_dir_okl)/$(minisatp_recommended_version_number_okl)
+
+minisatp_call_okl ?= $(minisatp_installation_dir_okl)/minisat+_64-bit_static
+minisatpb_call_okl ?= $(minisatp_installation_dir_okl)/minisat+_bignum_static
+
+minisatp_docu_page_okl ?= $(doc_dir)/doxygen_html/
+
+minisatp_source_okl := $(ExternalSources)/sources/SAT/MiniSat/$(minisatp_extracted_archive_okl)_$(minisatp_recommended_version_number_okl)
