@@ -14,20 +14,20 @@ License, or any later version. */
    <li> Tests are needed for the following functions
     <ul>
      <li> aes_cp </li>
-     <li> aes_round_cp </li>
      <li> aes_final_round_cp </li>
-     <li> aes_subbytes_cp </li>
-     <li> aes_shiftrows_cp </li>
-     <li> aes_mixcolumns_cp </li>
-     <li> aes_mixcolumn_cp </li>
-     <li> aes_add_cp </li>
-     <li> aes_mul2_cp </li>
-     <li> aes_mul3_cp </li>
-     <li> aes_sbox_cp </li>
      <li> rewrite_condition </li>
      <li> rewrite_all </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
+     <li> DONE aes_round_cp </li>
+     <li> DONE aes_subbytes_cp </li>
+     <li> DONE aes_shiftrows_cp </li>
+     <li> DONE aes_mixcolumns_cp </li>
+     <li> DONE aes_mixcolumn_cp </li>
+     <li> DONE aes_add_cp </li>
+     <li> DONE aes_mul2_cp </li>
+     <li> DONE aes_mul3_cp </li>
+     <li> DONE aes_sbox_cp </li>
     </ul>
    </li>
    <li> Most of the above tests will probably need most of the test to be run 
@@ -36,10 +36,6 @@ License, or any later version. */
 
   \todo Write Docus
   
-  \todo Replace append_all with uaapply
-  <ul>
-   <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
-  </ul>
 
   \todo Partitioning into active clauses
   <ul>
@@ -316,6 +312,11 @@ License, or any later version. */
      time. However for n=8 perhaps we can perform heavy preprocessing? </li>
     </ol>
    </li>
+  </ul>
+  
+  \todo DONE Replace append_all with uaapply
+  <ul>
+   <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
   </ul>
 
 */
