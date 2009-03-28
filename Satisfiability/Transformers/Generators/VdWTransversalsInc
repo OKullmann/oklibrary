@@ -17,12 +17,13 @@
 
 script_name="VdWTransversalsInc"
 
-if [[ $# != 5 ]]; then
+if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: 
-  Exactly five parameters k, n, t, file1, file2 are needed:
+  Five parameters k, n, t, file1, file2 are needed:
   The progression-length k, the starting number n of vertices, the 
   transversal number t for n-1 vertices, the output filename for the
-  transversal numbers, and the filename for output of the SAT solver."
+  transversal numbers, and the filename for output of the SAT solver.
+  The solver-executable is an optional sixth parameter."
   exit 1
 fi
 
@@ -30,8 +31,11 @@ K=$1
 T=$3
 output=$4
 output_solver=$5
-
-solver="minisat1"
+if [[ $# == 6 ]]; then
+  solver=$6
+else
+  solver="minisat1"
+fi
 generator="VdWTransversals"
 
 echo "k n tau" >> ${output}

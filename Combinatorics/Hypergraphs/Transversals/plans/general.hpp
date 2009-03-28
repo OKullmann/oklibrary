@@ -22,6 +22,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Organisation of the module
+  <ul>
+   <li> Perhaps we should have submodules "Bounded", "Minimum", "All",
+   "Exact". </li>
+   <li> "Exact" could again have submodules "Bounded", "Minimum", "All". </li>
+  </ul>
+
+
   \todo Literature exploration:
   <ul>
    <li> What is known meanwhile about the existence of polynomial

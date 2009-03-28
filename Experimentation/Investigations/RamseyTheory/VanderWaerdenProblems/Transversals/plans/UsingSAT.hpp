@@ -428,6 +428,8 @@ s SATISFIABLE
 94 147255027 34
 96 185614681 34
 97 185526254 34
+98 280870577 35
+99 353806066 36
      \endverbatim
      </li>
      <li> Satisfiable instances
@@ -462,9 +464,10 @@ s SATISFIABLE
      </li>
      <li> On unsatisfiable instances the performance gets somewhat worse,
      while on satisfiable instances it gets much better --- that should
-     indicate that minisat is somehow mislead. Though perhaps with higher
-     n the advantages of the ==-translation also show for unsatisfiable
-     instances. </li>
+     indicate that minisat is somehow mislead. </li>
+     <li> Though perhaps with higher n the advantages of the ==-translation
+     also shows for unsatisfiable instances. But at n=100 a further explosion
+     happens. </li>
     </ol>
    </li>
    <li> Is minisat2 better than minisat?
@@ -528,7 +531,18 @@ SATISFIABLE
    than minisat2 (using more space, but less conflicts and less time). </li>
    <li> But one needs to consider the details:
     <ol>
-     <li> Running it until around n=100, now using the "=="-translation. </li>
+     <li> Running it until around n=100, now using the "=="-translation.
+      <ol>
+       <li> Unsatisfiable instances
+       \verbatim
+
+       \endverbatim
+       <li> Satisfiable instances
+       \verbatim
+
+       \endverbatim
+      </ol>
+     </li>
      <li> Then the influence of the preprocessor has to be determined, that is,
      minisat2 with "-pre=none", and minisat with the minisat2-preprocessor.
      </li>
@@ -693,12 +707,101 @@ BestSolution_Max = 1.000000
    slower! </li>
    <li> Unsatisfiable instances:
    \verbatim
+3 0 0
+6 4 1
+7 8 1
+8 17 1
+10 22 1
+12 37 1
+15 38 1
+16 90 1
+17 139 2
+18 172 2
+19 275 3
+21 308 3
+22 672 4
+23 822 5
+25 1201 5
+27 1290 5
+28 1605 6
+29 2470 7
+31 2875 7
+33 4042 8
+34 4484 8
+35 6704 9
+37 6381 9
+38 10136 10
+39 11659 11
+42 11736 11
+43 16557 11
+44 19945 12
+45 39287 14
+46 46872 14
+47 57433 14
+48 92158 16
+49 116998 16
+50 158151 17
+52 170787 17
+53 226039 18
+55 252913 18
+56 265573 18
+57 382610 19
+59 427166 19
+60 527362 20
+61 678889 21
+62 920175 21
+64 863104 21
+65 11794773 28
+66 13054348 28
+67 19986008 29
+68 34636039 30
+69 36363070 30
+70 56168407 31
+72 41009941 31
+73 85001878 32
+75 97860025 33
+76 149272628 34
+77 162966593 34
+78 184709931 34
+79 225132400 35
+80 304577630 36
+81 423280421 36
+83 539904152 37
    \endverbatim
    </li>
    <li> Satisfiable instances:
    \verbatim
+1 0 1
+2 0 1
+4 0 1
+5 0 1
+9 0 1
+11 0 1
+13 16 1
+14 20 1
+20 46 1
+24 81 1
+26 77 1
+30 2981 7
+32 2194 7
+36 260 3
+40 1665 6
+41 13023 11
+51 35230 13
+54 4777 8
+58 296209 19
+63 1049682 22
+71 33816965 30
+74 107863942 33
+82 150743227 34
+84 132096556 34
    \endverbatim
    </li>
+   <li> So performance of minisat+ is rather weak; one should try whether
+   tuning the parameters helps, but the first impression is that it doesn't
+   help. </li>
+   <li> But the feature to write the CNF to a file, and then to use
+   some other solvers, needs to be explored! </li>
   </ul>
 
 

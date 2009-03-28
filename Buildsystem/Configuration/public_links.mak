@@ -18,8 +18,10 @@ vdwtransversalspb_okl ?= $(OKlib)/Satisfiability/Transformers/Generators/VdWTran
 vdwtransversalsinc_okl ?= $(OKlib)/Satisfiability/Transformers/Generators/VdWTransversalsInc
 vdwtransversalsincpb_okl ?= $(OKlib)/Satisfiability/Transformers/Generators/VdWTransversalsIncPB
 
+oksolver_2002_m2pp_okl ?= $(OKlib)/Satisfiability/Solvers/OKsolver/SAT2002/OKsolver_2002-m2pp
+
 extdimacs2dimacs_okl ?= $(bin_dir)/ExtendedToStrictDimacs-O3-DNDEBUG
 
 
-public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(extdimacs2dimacs_okl) $(oklib_call)
+public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(oksolver_2002_m2pp_okl) $(extdimacs2dimacs_okl) $(oklib_call)
 

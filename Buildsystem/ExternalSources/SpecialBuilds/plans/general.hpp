@@ -137,6 +137,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo SAT-applications in evolutionary biology
+  <ul>
+   <li> Tree measures ("rSPR") at
+   http://www.lsi.upc.es/~bonet/software.html </li>
+  </ul>
+
+
   \todo Cryptology
   <ul>
    <li> What about Crypto++ http://www.cryptopp.com/ ? </li>
