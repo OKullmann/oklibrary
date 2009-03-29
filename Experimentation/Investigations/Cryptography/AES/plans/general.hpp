@@ -9,6 +9,31 @@ License, or any later version. */
   \file Experimentation/Investigations/Cryptography/AES/plans/general.hpp
   \brief On investigations into the Advanced Encryption Standard
 
+
+  \todo Improve formulations : MG (as soon as possible)
+  <ul>
+   <li> No "is useful". </li>
+   <li> No "may be used". </li>
+   <li> Clean-up minisat output (of course, no intermediate results). </li>
+   <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
+   <li> Explanations needed! </li>
+   <li> And discussions! </li>
+  </ul>
+
+
+  \todo More experiments : MG (as soon as possible)
+  <ul>
+   <li> For the trivial instances (message and key set) more solvers need to
+   be considered. In its own file. </li>
+   <li> Also ciphertext and key set are to be investigated. </li>
+   <li> What is the meaning of
+   "Experiments on AES with the first 32 key bits not set" ? And what does
+   the "summary" show? Apparently only trivial results, which are likely of
+   no interest. </li>
+   <li> Plan for more experiments! </li>
+  </ul>
+
+
   \todo Generate problem instances
   <ul>
    <li> To generate instances of AES as a SAT problem where the primary
@@ -86,7 +111,6 @@ cat $2 | grep -v "^p"
 ./mergeSameVarCNFs.sh AES_r2.cnf AES_UC_r2_pn0_kn32_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf > AES_r2_kn_32_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf   
    \endverbatim
    </li>
-   </li>
    <li> For experimentation, the following is then an example for 
    running a particular SAT solver (minisat in the example below) on the given
    problem instance :
@@ -105,7 +129,7 @@ done
 
   \todo Computing AES ciphertext given plaintext and key
   <ul>
-   <li>Using minisat2 :
+   <li> Using minisat2 :
    <ul>
     <li> Assignments have been generated and verified but are not included for
     brevity. </li>
@@ -170,6 +194,7 @@ CPU time              : 0.336021 s
     \endverbatim
     </li>
     <li> r=6 with zeroed plaintext and zeroed key:
+    \verbatim
 SATISFIABLE
 Sat 2.0 beta
 WARNING: for repeatability, setting FPU to use double precision
@@ -206,6 +231,7 @@ CPU time              : 1.78411 s
     \endverbatim
     </li>
     <li> r=8 with zeroed plaintext and zeroed key:
+    \verbatim
 SATISFIABLE
 Sat 2.0 beta
 WARNING: for repeatability, setting FPU to use double precision
@@ -294,7 +320,7 @@ CPU time              : 88.3975 s
   </ul>
 
 
-  \todo Experiments on AES with the first 32 key bits not set.
+  \todo Experiments on AES with the first 32 key bits not set
   <ul>
    <li> Using minisat2 :
    <ul>
