@@ -460,73 +460,18 @@ s SATISFIABLE
 84 11797126 28
 92 3716660 25
 95 2902643 24
+100 338749424 36
      \endverbatim
      </li>
      <li> On unsatisfiable instances the performance gets somewhat worse,
      while on satisfiable instances it gets much better --- that should
      indicate that minisat is somehow mislead. </li>
      <li> Though perhaps with higher n the advantages of the ==-translation
-     also shows for unsatisfiable instances. But at n=100 a further explosion
-     happens. </li>
+     also shows for unsatisfiable instances. </li>
+     <li> But at n=100 some explosion happens --- random noise?. </li>
     </ol>
    </li>
    <li> Is minisat2 better than minisat?
-   \verbatim
-minisat2 vdw_trans_3_64_43.cnf
-restarts              : 22
-conflicts             : 1261598        (21895 /sec)
-decisions             : 1423468        (1.35 % random) (24704 /sec)
-propagations          : 68517361       (1189120 /sec)
-conflict literals     : 17080977       (44.36 % deleted)
-Memory used           : 3.25 MB
-CPU time              : 57.6202 s
-UNSATISFIABLE
-> minisat vdw_trans_3_64_43.cnf
-restarts              : 21
-conflicts             : 932740         (19276 /sec)
-decisions             : 1048977        (21679 /sec)
-propagations          : 53595491       (1107628 /sec)
-conflict literals     : 12450770       (45.50 % deleted)
-Memory used           : 4.73 MB
-CPU time              : 48.3876 s
-UNSATISFIABLE
-> minisat2 vdw_trans_3_65_44.cnf
-restarts              : 22
-conflicts             : 1324767        (21908 /sec)
-decisions             : 1484394        (1.39 % random) (24547 /sec)
-propagations          : 71723828       (1186090 /sec)
-conflict literals     : 17963070       (42.79 % deleted)
-Memory used           : 3.39 MB
-CPU time              : 60.4708 s
-UNSATISFIABLE
-> minisat vdw_trans_3_64_43.cnf
-restarts              : 22
-conflicts             : 1331275        (18706 /sec)
-decisions             : 1490338        (20941 /sec)
-propagations          : 76617377       (1076568 /sec)
-conflict literals     : 17680839       (44.17 % deleted)
-Memory used           : 4.97 MB
-CPU time              : 71.1682 s
-UNSATISFIABLE
-> minisat vdw_trans_3_71_50.cnf
-restarts              : 25
-conflicts             : 4375702        (15250 /sec)
-decisions             : 4893653        (17055 /sec)
-propagations          : 265492436      (925292 /sec)
-conflict literals     : 65592198       (43.40 % deleted)
-Memory used           : 6.57 MB
-CPU time              : 286.928 s
-SATISFIABLE
-> minisat2 vdw_trans_3_71_50.cnf
-restarts              : 26
-conflicts             : 5730961        (17171 /sec)
-decisions             : 6427303        (1.39 % random) (19257 /sec)
-propagations          : 320252313      (959508 /sec)
-conflict literals     : 86355473       (42.23 % deleted)
-Memory used           : 4.94 MB
-CPU time              : 333.767 s
-SATISFIABLE
-   \endverbatim
    It seems that actually minisat might be better on these instances
    than minisat2 (using more space, but less conflicts and less time). </li>
    <li> But one needs to consider the details:
@@ -535,11 +480,97 @@ SATISFIABLE
       <ol>
        <li> Unsatisfiable instances
        \verbatim
-
+3 0 0
+6 0 0
+7 11 1
+8 22 1
+10 49 1
+12 59 1
+15 111 2
+16 166 2
+17 313 3
+18 417 3
+19 661 4
+21 779 4
+22 968 5
+23 1258 5
+25 1418 6
+27 1553 6
+28 2397 7
+29 4036 8
+31 6440 9
+33 4615 8
+34 7860 10
+35 10573 10
+37 8603 10
+38 11288 10
+39 15200 11
+42 10638 10
+43 14437 11
+44 23362 12
+45 25874 13
+46 38588 13
+47 43570 14
+48 73681 15
+49 96170 16
+50 113364 16
+52 118687 16
+53 220007 18
+55 146065 17
+56 236707 18
+57 349943 19
+59 403677 19
+60 586168 20
+61 664491 20
+62 830131 21
+64 882967 21
+65 960923 21
+66 2904850 24
+67 2563297 24
+68 4148332 25
+69 3968840 25
+70 7464135 26
+72 6005056 26
+73 9404277 27
+75 6478533 26
+76 9867033 27
+77 8677632 27
+78 20829112 29
+79 15687689 28
+80 28991192 30
+81 45051479 31
+83 41223492 31
+85 22436493 29
+86 34905948 30
+87 59246155 32
+88 79807052 32
        \endverbatim
        <li> Satisfiable instances
        \verbatim
-
+1 0 1
+2 0 1
+4 0 1
+5 0 1
+9 7 1
+11 10 1
+13 6 1
+14 74 1
+20 715 4
+24 512 4
+26 404 3
+30 3329 8
+32 1071 5
+36 5158 9
+40 7446 9
+41 9710 10
+51 4965 9
+54 155961 17
+58 128937 16
+63 303739 19
+71 1358304 22
+74 1629926 23
+82 2819762 24
+84 43183378 31
        \endverbatim
       </ol>
      </li>
