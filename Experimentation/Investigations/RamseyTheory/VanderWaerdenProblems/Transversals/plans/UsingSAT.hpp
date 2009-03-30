@@ -544,6 +544,10 @@ s SATISFIABLE
 86 34905948 30
 87 59246155 32
 88 79807052 32
+89 73091913 32
+90 139033008 34
+91 140973507 34
+93 87490458 33
        \endverbatim
        <li> Satisfiable instances
        \verbatim
@@ -571,6 +575,7 @@ s SATISFIABLE
 74 1629926 23
 82 2819762 24
 84 43183378 31
+92 43962158 31
        \endverbatim
       </ol>
      </li>
