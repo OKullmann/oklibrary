@@ -69,7 +69,7 @@ BestSolution_Max = 122.000000
   </ul>
 
 
-  \todo greentao_2(4,5) > 4223
+  \todo greentao_2(4,5) > 4225
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -246,7 +246,7 @@ average length successful tries = 0
    (msteps=3752127489, seed=4120523047). </li>
    <li> n=4223 found satisfiable (one in 68 runs) with cutoff=4*10^9
    (msteps=2729325365, seed=482037240). </li>
-   <li> n=4225
+   <li> n=4225 found satisfiable:
     <ol>
      <li> cutoff=10^9 produced in 133 runs (from 1000) no solutions, while
      another 100 runs (completed) yield:
@@ -267,11 +267,14 @@ BestSolution_Max = 5.000000
      </li>
      <li> cutoff=2*10^9 produced in 97 runs no solutions, and neither did
      cutoff=4*10^9 in 27 runs. </li>
-     <li> Let's investigate it more thoroughly with cutoff=4*10^9. </li>
+     <li> cutoff=4*10^9 found in 250 runs one solution: msteps=2839031656,
+     seed=1533808313. </li>
     </ol>
    </li>
    <li> n=4250
-   \verbatim
+    <ol>
+     <li> First attempt:
+     \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 10000000 -i GreenTao_2_4_5_4250.cnf
        sat  min     osteps     msteps       seed
       1 0    10    5899907   10000000 1673200738
@@ -307,7 +310,10 @@ BestSolution_Max = 5.000000
      12 0     4  473667998 1000000000 1903692056
      13 0     6   15416778 1000000000 2974956240
      14 0     3  523470787 1000000000 2717980127
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Let's investigate it anew. </li>
+    </ol>
    </li>
    <li> n=4500 perhaps is unsatisfiable:
    \verbatim
