@@ -45,6 +45,80 @@ License, or any later version. */
   </ul>
 
 
+  \todo Investigating Sbox given 8 bit input
+  <ul>
+   <li> Given 8 bits input to the Sbox, the output should be immediately 
+   determined without any decisions needed. Is this actually the case? </li>
+   <li> This question is motivated by the fact that the full AES translation
+   seems to make some decisions when given all the input bits it needs, and
+   this should not be the case. </li>
+   <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
+   for experiments with minisat. </li>
+   <li> Looking at this in maxima, with all input bits set to 0 :
+   \verbatim
+(%i7) apply_pa({-1,-2,-3,-4,-5,-6,-7,-8}, Sbox44ICCNF[2]);
+Evaluation took 0.0200 seconds (0.0200 elapsed)
+(%o7) {{-16,-15,-14,-13,11,12},{-16,-14,-12,11,13},{-16,-14,-11,15},{-16,-13,11},{-16,-12,15},
+       {-16,-11,-9},{-16,-10,11,14},{-16,9,10},{-16,13,15},{-15,-14,-13,11,16},{-15,-14,11,13},
+       {-15,-13,-12,11,16},{-15,-13,9,16},{-15,-13,10,16},{-15,-12,-10,11,13},{-15,-12,-9,11,14},
+       {-15,-12,11,13,16},{-15,-11,10},{-15,-10,12,13,14,16},{-15,-9,10,11,12},{-15,9,10,14},
+       {-15,9,11,14},{-15,10,12,16},{-14,-13,9,11},{-14,-12,-11,10},{-14,-12,-9,13,15},
+       {-14,-12,9,10},{-14,-12,9,11,15},{-14,-12,9,11,16},{-14,-12,11},{-14,-11,-9,12,16},
+       {-14,-9,10,11,16},{-14,9},{-14,9,10},{-14,9,15},{-14,10,16},{-14,11,16},{-14,12,16},
+       {-14,13,16},{-13,-12,-11,14,16},{-13,-12,-9,14},{-13,-12,9},{-13,9,10,12,15},{-13,9,11,14},
+       {-13,9,14},{-13,10,16},{-13,12,15,16},{-12,-11,10,13,14,16},{-12,9,10,11,15},{-12,9,11,15},
+       {-12,9,13,14},{-11,-9,10,16},{-11,-9,14,15,16},{-11,9,10,14,15},{-11,10,14,15},{-11,14,16},
+       {-10,-9,11,14},{-10,9,14,16},{-10,16},{-9,10,11},{-9,10,12,13},{-9,11,12,15},{-9,14,15},
+       {-9,14,15,16},{-9,15,16},{9,10,12,13,16},{9,10,12,14},{9,11,12,13,14,15},{9,11,12,15,16},
+       {9,11,13},{9,12,14,16},{9,12,16},{9,13,14,16},{10,11,12,14},{10,11,13,14,15,16},{10,12,15},
+       {10,13,16},{10,14},{11,12,16},{11,13,14},{11,15,16}}
+(%i8) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8}, Sbox44ICCNF[2]));
+Evaluation took 0.0280 seconds (0.0270 elapsed)
+(%o8) [8,81,320,6,2]
+   \endverbatim
+   </li>
+   <li> With several different assignments in maxima : 
+   \verbatim
+(%i5) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0270 elapsed)
+(%o5) [8,81,320,6,2]
+(%i6) statistics_cs(apply_pa({1,-2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0280 seconds (0.0260 elapsed)
+(%o6) [8,81,320,6,2]
+(%i7) statistics_cs(apply_pa({-1,2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0280 seconds (0.0250 elapsed)
+(%o7) [8,69,272,6,2]
+(%i8) statistics_cs(apply_pa({-1,-2,3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0250 elapsed)
+(%o8) [8,76,288,6,1]
+(%i9) statistics_cs(apply_pa({-1,-2,-3,4,-5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0260 elapsed)
+(%o9) [8,74,298,6,2]
+(%i10) statistics_cs(apply_pa({-1,-2,-3,-4,5,-6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0240 elapsed)
+(%o10) [8,68,264,6,2]
+(%i11) statistics_cs(apply_pa({-1,-2,-3,-4,-5,6,-7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0260 elapsed)
+(%o11) [8,81,319,6,1]
+(%i12) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,7,-8},Sbox44ICCNF[2]));
+Evaluation took 0.0280 seconds (0.0270 elapsed)
+(%o12) [8,84,324,6,1]
+(%i13) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,8},Sbox44ICCNF[2]));
+Evaluation took 0.0240 seconds (0.0250 elapsed)
+(%o13) [8,73,287,6,2]
+   \endverbatim
+   </li>
+   <li> Whether or not unit clauses occur immediately after setting all Sbox
+   input bits (using the current sbox cnf) depends on the assignment. </li>
+   <li> A better Sbox cnf representation seems to be needed. </li>
+   <li> However, the primary goal is for problems where the key is not known,
+   not simple encryption and decryption, so further insight into where the
+   Sbox is used and exactly what bits being set, we wish to allow easier
+   deductions with, needs to be known (although many representations can be
+   tried). </li>
+  </ul>
+
+
   \todo Generate problem instances
   <ul>
    <li> To generate instances of AES as a SAT problem where the primary

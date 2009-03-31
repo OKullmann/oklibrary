@@ -10,6 +10,68 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard using minisat2
 
 
+  \todo Investigating Sbox given 8 bit input
+  <ul>
+   <li> Setting all 8 input bits to 0 for XXX : 
+   \verbatim
+[12:53:58 - aeternus] data$ ./minisat/minisat/core/minisat test.cnf 
+This is MiniSat 2.0 beta
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+|  Number of variables:  16                                                   |
+|  Number of clauses:    559                                                  |
+|  Parsing time:         0.00         s                                       |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|         0 |       8       81      551 |       27        0    nan |  0.000 % |
+===============================================================================
+Verified 81 original clauses.
+restarts              : 1
+conflicts             : 0              (nan /sec)
+decisions             : 2              (0.00 % random) (inf /sec)
+propagations          : 16             (inf /sec)
+conflict literals     : 0              ( nan % deleted)
+Memory used           : 3.85 MB
+CPU time              : 0 s
+
+SATISFIABLE
+   \endverbatim
+   As can be seen two decisions are made (but no conflicts).
+   </li>
+   <li> Setting all inputs bits to 1 for XXX :
+   \verbatim
+[12:55:45 - aeternus] data$ ./minisat/minisat/core/minisat test.cnf 
+This is MiniSat 2.0 beta
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+|  Number of variables:  16                                                   |
+|  Number of clauses:    559                                                  |
+|  Parsing time:         0.00         s                                       |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|         0 |       8       55      374 |       18        0    nan |  0.000 % |
+===============================================================================
+Verified 55 original clauses.
+restarts              : 1
+conflicts             : 3              (750 /sec)
+decisions             : 7              (0.00 % random) (1750 /sec)
+propagations          : 26             (6500 /sec)
+conflict literals     : 10             (9.09 % deleted)
+Memory used           : 3.85 MB
+CPU time              : 0.004 s
+
+SATISFIABLE
+   \endverbatim
+   As can be seen, in this case, 3 conflicts ocur and 7 decisions are made.
+   </li>
+  </ul>
+
   \todo Computing AES ciphertext given full 128-bit key and plaintext
   <ul>
    <li> Assignments have been generated and verified but are not included for
