@@ -10,12 +10,41 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
+  \todo General organisation : MG (as soon as possible)
+  <ul>
+   <li> All the experiments must be fully reproducible. Thus *only* tools
+   as provided by the OKlibrary are to be used, *NO* private code or private
+   schemes in any form. </li>
+   <li> Besides reproducibility, the point is to strengthen the OKlibrary,
+   by continuous improvement, not to weaken it by hiding. </li>
+   <li> Directory structure:
+    <ol>
+     <li> The main topic here is not investigation of certain solvers, but to
+     investigate the interaction of cryptography and (generalised) SAT
+     solving. </li>
+     <li> Thus solver-names as file-names should only occur, if at all, in
+     subdirectories associated with specific investigations. </li>
+     <li> The general standards for naming in the OKlibrary have to be
+     observed:
+      <ul>
+       <li> Non-generic filenames start always with a capital letter. </li>
+       <li> No file- (or directory-)name consists only of capital letters.
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Improve formulations : MG (as soon as possible)
   <ul>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
-   <li> Explanations needed! </li>
-   <li> And discussions! </li>
+   <li> Explanations needed! Experiments need full specifications (to be
+   reproducible). </li>
+   <li> And discussions! What are the underlying problems to be investigated?
+   </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
   </ul>
@@ -32,15 +61,15 @@ License, or any later version. */
    no interest. </li>
    <li> Plan for more experiments! </li>
    <li> Solvers to be used : 
-   <ul>
-    <li> OKsolver </li>
-    <li> minisat2 </li>
-    <li> ubcsat-1-1-0 </li>
-    <li> picosat </li>
-    <li> RSat </li>
-    <li> Satz </li>
-    <li> march </li>
-   </ul>
+    <ul>
+     <li> OKsolver-2002 </li>
+     <li> minisat2 </li>
+     <li> ubcsat (1-0-0) </li>
+     <li> picosat </li>
+     <li> RSat </li>
+     <li> Satz </li>
+     <li> march_pl </li>
+    </ul>
    </li>
   </ul>
 
@@ -158,8 +187,8 @@ done
    <li> This is motivated by the idea to compare such results to brute force. 
    </li>
    <li> 16 bits are used at first to allow a range of results to be generated
-   in a reasonable time. The idea is to then move onto larger numbers of unknown
-   key bits. </li>
+   in a reasonable time. The idea is to then move onto larger numbers of
+   unknown key bits. </li>
    <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
    for results using minisat2. </li>
    <li> See Experimentation/Investigations/Cryptography/AES/plans/OKsolver.hpp
