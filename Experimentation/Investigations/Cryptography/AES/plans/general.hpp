@@ -10,12 +10,41 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
+  \todo General organisation : MG (as soon as possible)
+  <ul>
+   <li> All the experiments must be fully reproducible. Thus *only* tools
+   as provided by the OKlibrary are to be used, *NO* private code or private
+   schemes in any form. </li>
+   <li> Besides reproducibility, the point is to strengthen the OKlibrary,
+   by continuous improvement, not to weaken it by hiding. </li>
+   <li> Directory structure:
+    <ol>
+     <li> The main topic here is not investigation of certain solvers, but to
+     investigate the interaction of cryptography and (generalised) SAT
+     solving. </li>
+     <li> Thus solver-names as file-names should only occur, if at all, in
+     subdirectories associated with specific investigations. </li>
+     <li> The general standards for naming in the OKlibrary have to be
+     observed:
+      <ul>
+       <li> Non-generic filenames start always with a capital letter. </li>
+       <li> No file- (or directory-)name consists only of capital letters.
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Improve formulations : MG (as soon as possible)
   <ul>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
-   <li> Explanations needed! </li>
-   <li> And discussions! </li>
+   <li> Explanations needed! Experiments need full specifications (to be
+   reproducible). </li>
+   <li> And discussions! What are the underlying problems to be investigated?
+   </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
   </ul>
@@ -32,15 +61,64 @@ License, or any later version. */
    no interest. </li>
    <li> Plan for more experiments! </li>
    <li> Solvers to be used : 
-   <ul>
-    <li> OKsolver </li>
-    <li> minisat2 </li>
-    <li> ubcsat-1-1-0 </li>
-    <li> picosat </li>
-    <li> RSat </li>
-    <li> Satz </li>
-    <li> march </li>
-   </ul>
+    <ul>
+     <li> OKsolver-2002 </li>
+     <li> minisat2 </li>
+     <li> ubcsat (1-0-0) </li>
+     <li> picosat </li>
+     <li> RSat </li>
+     <li> Satz </li>
+     <li> march_pl </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Investigating conditions and their representations
+  <ul>
+   <li> A first central research question is how to choose appropriate
+   representations of the conditions which altogether specify AES. </li>
+   <li> More specifically, clause-sets representing the S-box and the
+   various multiplications (with constants) are to be investigated upon
+   their influence on SAT solving. </li>
+   <li> Defining an "r-based representation":
+    <ol>
+     <li> Consider a boolean condition C on variables V (that is, C(f)
+     is a boolean value for total assignments f, and C depends only on V).
+     </li>
+     <li> A "positive representation" R is an active clause-set on variables
+     V' >= V such that if R(f) is true then also C(f) is true, and for f
+     such that C(F) is true there is a unique f' which differs from f only
+     on V' - V such that C'(f) is true. </li>
+     <li> Let r be a reduction. </li>
+     <li> R now is "r-based" if for a partial assignment phi with var(phi) <= V
+     such that phi * C is unsatisfiable we have that r-reduction applied to
+     R yields a contradiction. </li>
+     <li> Natural examples are r = r_k (k a natural number >= 0). </li>
+     <li> The weaker r the stronger is the representation (w.r.t. inference
+     power). </li>
+     <li> If R is a CNF-clause-set, then being r_0-based is equivalent to R
+     containing all prime implicates of C. </li>
+     <li> Note that we do not consider how the effect of assignments to
+     variables in V' - V. It seems sensible to me (OK) to consider this
+     as the basis, but for further refinements considerations of V' - V
+     might be needed. </li>
+    </ol>
+   </li>
+   <li> Studying the representations of the Sbox
+    <ol>
+     <li> See
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
+     </li>
+     <li> That module is not properly maintained: Actions for MG. </li>
+     <li> A 0-based CNF-representation without additional variables is likely
+     infeasible to use. </li>
+     <li> What about the Tseitin-translation of the Sbox-DNF? Could it be
+     0-based? Since the DNF-representation is hitting, it is 0-based. </li>
+     <li> Perhaps actually the hitting-CNFs representing the Sbox might have
+     values, since we have special algorithms. So other reductions than just
+     the r_k-reductions are useful to consider in general. </li>
+    </ol>
    </li>
   </ul>
 
@@ -158,8 +236,8 @@ done
    <li> This is motivated by the idea to compare such results to brute force. 
    </li>
    <li> 16 bits are used at first to allow a range of results to be generated
-   in a reasonable time. The idea is to then move onto larger numbers of unknown
-   key bits. </li>
+   in a reasonable time. The idea is to then move onto larger numbers of
+   unknown key bits. </li>
    <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
    for results using minisat2. </li>
    <li> See Experimentation/Investigations/Cryptography/AES/plans/OKsolver.hpp
