@@ -74,6 +74,55 @@ License, or any later version. */
   </ul>
 
 
+  \todo Investigating conditions and their representations
+  <ul>
+   <li> A first central research question is how to choose appropriate
+   representations of the conditions which altogether specify AES. </li>
+   <li> More specifically, clause-sets representing the S-box and the
+   various multiplications (with constants) are to be investigated upon
+   their influence on SAT solving. </li>
+   <li> Defining an "r-based representation":
+    <ol>
+     <li> Consider a boolean condition C on variables V (that is, C(f)
+     is a boolean value for total assignments f, and C depends only on V).
+     </li>
+     <li> A "positive representation" R is an active clause-set on variables
+     V' >= V such that if R(f) is true then also C(f) is true, and for f
+     such that C(F) is true there is a unique f' which differs from f only
+     on V' - V such that C'(f) is true. </li>
+     <li> Let r be a reduction. </li>
+     <li> R now is "r-based" if for a partial assignment phi with var(phi) <= V
+     such that phi * C is unsatisfiable we have that r-reduction applied to
+     R yields a contradiction. </li>
+     <li> Natural examples are r = r_k (k a natural number >= 0). </li>
+     <li> The weaker r the stronger is the representation (w.r.t. inference
+     power). </li>
+     <li> If R is a CNF-clause-set, then being r_0-based is equivalent to R
+     containing all prime implicates of C. </li>
+     <li> Note that we do not consider how the effect of assignments to
+     variables in V' - V. It seems sensible to me (OK) to consider this
+     as the basis, but for further refinements considerations of V' - V
+     might be needed. </li>
+    </ol>
+   </li>
+   <li> Studying the representations of the Sbox
+    <ol>
+     <li> See
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
+     </li>
+     <li> That module is not properly maintained: Actions for MG. </li>
+     <li> A 0-based CNF-representation without additional variables is likely
+     infeasible to use. </li>
+     <li> What about the Tseitin-translation of the Sbox-DNF? Could it be
+     0-based? Since the DNF-representation is hitting, it is 0-based. </li>
+     <li> Perhaps actually the hitting-CNFs representing the Sbox might have
+     values, since we have special algorithms. So other reductions than just
+     the r_k-reductions are useful to consider in general. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Generate problem instances
   <ul>
    <li> To generate instances of AES as a SAT problem where the primary
