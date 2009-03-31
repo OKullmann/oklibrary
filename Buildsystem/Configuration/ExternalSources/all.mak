@@ -42,6 +42,7 @@ include $(OKconfiguration)/ExternalSources/asciidoc.mak
 include $(OKconfiguration)/ExternalSources/gap.mak
 include $(OKconfiguration)/ExternalSources/grasp.mak
 include $(OKconfiguration)/ExternalSources/minisat.mak
+include $(OKconfiguration)/ExternalSources/march.mak
 
 # Currently, these installations need the list of gcc-targets:
 include $(OKconfiguration)/ExternalSources/boost.mak
