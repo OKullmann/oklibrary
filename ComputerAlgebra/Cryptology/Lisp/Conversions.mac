@@ -62,12 +62,13 @@ gf2t8l2hex(lst) :=
 /* Converts a hexidecimal string in the typical notation associated with
    Rijndael to a list of GF(2^8) elements represented by use of integers. 
    The result list is used in the CryptoSystems AES implementation. */
-hex2il(hex) := map(lambda([a],poly2int(a,2,x)),hex2gf2t8l(hex))$
+hex2il(h) := 
+  map(lambda([b], hex2int(simplode(b))), partition_elements(charlist(h),2))$
 
 /* Converts a list of GF(2^8) elements represented by use of integers to a 
    hexidecimal string in the typical notation associated with Rijndael . 
    The input list is used in the CryptoSystems AES implementation. */
-il2hex(lst) := gf2t8l2hex(map(lambda([a], int2poly(a,2)),lst))$
+il2hex(lst) := uaapply(sconcat, map(lambda([s],lpad(int2hex(s),"0",2)),lst))$
 
 /* Generate a DNF clause from a list of values in {0,1}: */
 /* OK : what is the meaning of this ??? */
