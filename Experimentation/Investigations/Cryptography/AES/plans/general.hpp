@@ -71,6 +71,18 @@ License, or any later version. */
      <li> march_pl </li>
     </ul>
    </li>
+   <li> Important is that we systematically study variations of AES:
+    <ol>
+     <li> the different sizes as belonging to Rijndael </li>
+     <li> small-scale variations </li>
+     <li> replacing the Sbox by other permutations (random ones, or
+     very simple ones) </li>
+     <li> replacing the multiplications with certain constants by other
+     permutations </li>
+     <li> replacing the row- and column-permutations by other permutations.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
