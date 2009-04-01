@@ -421,7 +421,7 @@ aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
    along with variables in the hopes that this produces a correct assignment. */
 /* MG : The AES implementation should probably be reworked to follow the same 
    column by column rather than row by row representation. */
-AESHexToPA(hexStr, variableList) := block(
+aes_hex2pa(hexStr, variableList) := block(
   setify(map(
     lambda([a,b], if b = 0 then -a else a),
         variableList, 
