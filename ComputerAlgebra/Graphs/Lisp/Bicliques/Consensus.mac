@@ -157,11 +157,10 @@ con_alg1(C,G) := block([C1 : C, C2 : C, reiterate : true],
    "algorithm 2" from the underlying paper:
 */
 con_alg2(C,G) := block([C1 : C, C2 : C, reiterate : true],
-  for i : 1 while (reiterate = true) do block(
-    reiterate : false,
+  for i : 1 while reiterate do block(
     C1 : C2, 
     C2 : aux_con_alg2_ext(C1,G),
-    if C2 # C1 then reiterate : true
+    reiterate : is(C1 # C2)
   ), 
   return(C2))$	
 

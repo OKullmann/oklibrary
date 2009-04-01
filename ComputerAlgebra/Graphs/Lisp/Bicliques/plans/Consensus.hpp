@@ -8,6 +8,21 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Graphs/Lisp/Bicliques/plans/Consensus.hpp
   \brief Plans regarding implementing the "consensus algorithm" from [XXX] for computing all maximal bicliques
+
+
+  \bug Failing test okltest_con_alg2(con_alg2)
+  <ul>
+   <li> The assert
+   \verbatim
+  assert(f([[{1,2},{3,4}],[{2,5},{3,6}],[{2,7},{4,8}]],[{1,2,3,4,5,6,7,8},{{1,3},{1,4},{2,3},{2,4},{5,3},{5,6},{2,6},{7,4},{7,8},{2,8}}]) = [[{4},{1,2,7}],[{2},{3,4,6,8}],[{3},{1,2,5}],[{1,2},{3,4}],[{2,5},{3,6}],[{2,7},{4,8}]])
+   \endverbatim
+   fails, since the order of the return list is different. </li>
+   <li> The specification of con_alg1/2 is incomplete: In which order
+   are the maximal bicliques output? </li>
+   <li> Either this order can be defined, or, if left unspecified as an
+   implementation detail, then the tests for con_alg1, con_alg2 must be
+   changed to reflect this. </li>
+  </ul>
   
   
   \todo Notions and notations
