@@ -551,6 +551,8 @@ s SATISFIABLE
 94 171567132 34
 96 135155444 34
 97 158075013 34
+98 231135131 35
+99 287801453 35
        \endverbatim
        <li> Satisfiable instances
        \verbatim
@@ -580,11 +582,106 @@ s SATISFIABLE
 84 43183378 31
 92 43962158 31
 95 97919296 33
+100 193857162 34
        \endverbatim
       </ol>
      </li>
      <li> Then the influence of the preprocessor has to be determined, that is,
-     minisat2 with "-pre=none", and minisat with the minisat2-preprocessor.
+     minisat2 with "-pre=none", and minisat1 with the minisat2-preprocessor.
+      <ol>
+       <li> minisat2 without preprocessor (using
+       \verbatim
+VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
+       \endverbatim
+       on unsatisfiable instances yields
+       \verbatim
+3 4 1
+6 11 1
+7 22 1
+8 31 1
+10 58 1
+12 77 1
+15 123 2
+16 180 2
+17 314 3
+18 492 4
+19 701 4
+21 753 4
+22 1160 5
+23 1838 6
+25 1571 6
+27 1637 6
+28 2725 7
+29 3182 7
+31 4617 8
+33 4599 8
+34 6966 9
+35 7722 10
+37 6967 9
+38 13386 11
+39 16244 11
+42 17183 12
+43 22332 12
+44 18786 12
+45 36011 13
+46 46071 14
+47 66219 15
+48 82063 15
+49 92510 16
+50 129594 16
+52 155439 17
+53 243689 18
+55 311815 19
+56 314003 19
+57 402141 19
+59 411697 19
+60 579606 20
+61 891435 21
+62 1201876 22
+64 1053969 22
+65 1238232 22
+66 2074040 23
+67 2718106 24
+68 4682121 25
+69 3832260 25
+70 6859097 26
+72 4851310 25
+73 10448639 27
+75 6128915 26
+76 9857998 27
+77 11057088 27
+78 20644504 29
+79 22957641 29
+
+       \endverbatim
+       while on satisfiable instances we get
+       \verbatim
+1 0 1
+2 0 1
+4 0 1
+5 4 1
+9 2 1
+11 23 1
+13 22 1
+14 80 1
+20 983 5
+24 369 3
+26 1192 5
+30 1857 6
+32 2555 7
+36 2780 7
+40 9710 10
+41 20508 12
+51 69553 15
+54 164892 17
+58 78855 15
+63 702744 21
+71 822313 21
+74 7521194 26
+
+       \endverbatim
+       </li>
+      </ol>
      </li>
      <li> Then there are other parameters one should try out; we need a little
      script for running through these possibilities. </li>
