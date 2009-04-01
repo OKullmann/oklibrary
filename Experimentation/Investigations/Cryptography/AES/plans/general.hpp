@@ -45,6 +45,13 @@ License, or any later version. */
    reproducible). </li>
    <li> And discussions! What are the underlying problems to be investigated?
    </li>
+   <li> The general naming conventions must be followed:
+    <ol>
+     li> No camel-cases here (like "removeTopNVars", "AESHexToPA", "NewCL",
+     "mergeSameVarCNFs". </li>
+     <li> Grammatical case indicates verb or noun! </li>
+    </ol>
+   </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
   </ul>
