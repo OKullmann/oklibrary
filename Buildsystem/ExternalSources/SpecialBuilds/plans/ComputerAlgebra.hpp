@@ -27,6 +27,14 @@ License, or any later version. */
    which could be useful for us (sparse matrices and optimisation). </li>
    <li> Also Giac http://www-fourier.ujf-grenoble.fr/~parisse/giac.html
    provides a C++ library, which we should investigate. </li>
+   <li> Reduce http://reduce-algebra.sourceforge.net/
+    <ol>
+     <li> What does it have to offer, compared to Maxima? </li>
+     <li> There doesn't seem to exist a source-code package? </li>
+     <li> There is REDLOG http://redlog.dolzmann.de/ which is definitely
+     of interest! First-order logic, and QBF. </li>
+    </ol>
+   </li>
   </ul>
 
 
