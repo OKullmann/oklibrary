@@ -652,7 +652,18 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 77 11057088 27
 78 20644504 29
 79 22957641 29
-
+80 31666348 30
+81 37091572 30
+83 45906305 31
+85 31694228 30
+86 49034139 31
+87 57898597 32
+88 71480396 32
+89 94294163 33
+90 118363177 33
+91 158391424 34
+93 141312459 34
+94 185615113 34
        \endverbatim
        while on satisfiable instances we get
        \verbatim
@@ -678,7 +689,9 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 63 702744 21
 71 822313 21
 74 7521194 26
-
+82 1243316 22
+84 6380425 26
+92 5617159 26
        \endverbatim
        </li>
       </ol>
