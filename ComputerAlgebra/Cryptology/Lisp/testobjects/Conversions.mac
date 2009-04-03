@@ -25,6 +25,8 @@ okltest_lpad(lpad);
 
 okltest_int2poly(int2poly);
 okltest_poly2int(poly2int);
+okltest_hex2il(hex2il);
+okltest_il2hex(il2hex);
 
 /*!
 \endhtmlonly
