@@ -46,6 +46,8 @@ License, or any later version. */
    <li> And see
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
    </li>
+   <li> We have several, redundant sources for vdW-numbers: it seems best to
+   actually use them, since they provide additional certificates. </li>
   </ul>
 
 

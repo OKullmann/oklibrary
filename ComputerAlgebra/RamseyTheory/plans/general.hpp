@@ -26,9 +26,19 @@ License, or any later version. */
      <li> r is the hyperedge-length. </li>
     </ol>
    </li>
-   <li> For the Maxima function I propose ramsey(k,r,[...]),
-   vanderwaerden(k,[...]) and greentao(k,[...]), where in case of diagonal
-   problems "[...]" actually is a single number. </li>
+   <li> Maxima functions:
+    <ol>
+     <li> For the Maxima function I propose ramsey(k,r,[...]),
+     vanderwaerden(k,[...]) and greentao(k,[...]), where in case of diagonal
+     problems "[...]" actually is a single number. </li>
+     <li> Shall we keep the k? It is redundant except of the diagonal cases.
+     </li>
+     <li> We could always write out the diagonal cases? Perhaps this is
+     best. </li>
+     <li> If only bounds are known, then the return value is a pair consisting
+     of lower and upper bound. </li>
+    </ol>
+   </li>
    <li> The various generators for hypergraphs and clause-sets should be
    adapted to these new notions:
     <ol>

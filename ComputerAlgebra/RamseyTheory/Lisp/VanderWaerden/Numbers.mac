@@ -1,0 +1,159 @@
+/* Oliver Kullmann, 3.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac
+  \brief Handling of van der Waerden numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ***************************
+   * Van der Waerden numbers *
+   ***************************
+*/
+
+/* The main function, which handles all parameter-values. */
+/* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
+vanderwaerden(L) := if emptyp(L) then 1
+ elseif first(L) = 1 then vanderwaerden(rest(L))
+ elseif lconstant_p(L) then vanderwaerdend(length(L),first(L))
+ elseif L[length(L)-1]=2 then vanderwaerdent(length(L)-1,last(L))
+ else unknown$
+
+/* The "diagonal case", i.e., m parts, arithmetic progressions of length k: */
+vanderwaerdend(m,k) := if m=0 then 1 
+ elseif m=1 then k
+ elseif k=1 then 1
+ elseif k=2 then m+1
+ else unknown$
+/* vanderwaerdend(m,k) = vanderwaerden(create_list(k,i,1,m)) */
+/* The corresponding predicate, checking whether a parameter tuple applies: */
+vanderwaerdend_p(L) := if emptyp(L) then [0,unknown] 
+ elseif not lconstant_p(L) then [] else [length(L),first(L)]$
+
+/* The "transversal case", i.e., m parts with arithmetic progressions of 
+   length 2, one part with length k: */
+vanderwaerdent(m,k) := if m=0 then k
+ elseif m=1 then if evenp(k) then 2*k-1 else 2*k
+ elseif k=2 then m+2
+ else unknown$
+/* vanderwaerdent(m,k) = vanderwaerden(endcons(k,create_list(2,i,1,m))) */
+/* The corresponding predicate, checking whether a parameter tuple applies: */
+vanderwaerdent_p(L) := if emptyp(L) then [] else 
+ block([x : last(L)], if every_s(lambda([y],is(y=x)),rest(L,-1)) then [length(L)-1,x] else [])$
+
+
+/* ******************************************************************
+   * Transversal numbers of hypergraphs of arithmetic progresssions *
+   ******************************************************************
+*/
+
+/* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
+define_variable(
+  exactk_tau_arithprog,
+  6,
+  fixnum)$
+
+/* The following data has been computed by
+   "VdWTransversalsInc 3 1 0 OutputFile" (i.e.,
+   using SAT solvers):
+*/
+tau_arithprog_seq[3] : [
+0,0,1,1,1,2,3,4,4,5,
+5,6,6,6,7,8,9,10,11,11,
+12,13,14,14,15,15,16,17,18,18,
+19,19,20,21,22,22,23,24,25,25,
+25,26,27,28,29,30,31,32,33,34,
+34,35,36,36,37,38,39,39,40,41,
+42,43,43,44,45,46,47,48,49,50,
+50,51,52,52,53,54,55,56,57,58,
+59,59,60,60,61,62,63,64,65,66,
+67,67,68,69,69,70,71,72,73,73,
+74,75
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 4 1 0 OutputFile":
+*/
+tau_arithprog_seq[4] : [
+0,0,0,1,1,1,2,2,2,2,
+3,4,4,5,5,6,6,7,7,8,
+8,9,9,10,10,11,11,11,12,12,
+13,14,14,14,15,16,16,17,18,18
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 5 1 0 OutputFile":
+*/
+tau_arithprog_seq[5] : [
+0,0,0,0,1,1,1,1,1,2,
+2,2,2,2,3,3,3,3,3,4,
+5,6,7,7,7,8,8,8,8,9,
+9,10,10,10,11,11,11,11,11,12,
+12,12,12,12,13
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 6 1 0 OutputFile":
+*/
+tau_arithprog_seq[6] : [
+0,0,0,0,0,1,1,1,1,1,
+2,2,2,2,2,3,3,3,3,3,
+4,4,4,4,4,4,5,6,6,7,
+8,8,8,9,9,9,9,10,10,10,
+10,11,12,12,12,12,13,13,13,13,
+13,14
+]$
+
+/* For n <= exactv_tau_arithprog(k) we have stored exact values
+   in tau_arithprog_seq[k]: */
+exactv_tau_arithprog(k) := 
+ if k<=2 or k > exactk_tau_arithprog then 0
+ else length(tau_arithprog_seq[k])$
+
+
+/* Exact formulas (returns unknown if no exact formula applies): */
+exactf_tau_arithprog(k,n) :=
+ if n < k then 0
+ elseif k=1 then n
+ elseif k=2 then n-1
+ elseif n <= 2*k-1 and evenp(k) then
+   if n = 2*k-1 then 2 else 1
+ elseif n <= 2*k and oddp(k) then
+   if n = 2*k then 2 else 1
+ else unknown$
+
+/* The nearest n-value downward and its transversal-value where we have
+   exact values stored.
+   Prerequisite: The exact formulas don't apply.
+*/
+nearest_tau_arithprog(k,n) := block([maxn : exactv_tau_arithprog(k)],
+  if n <= maxn then return([n, tau_arithprog_seq[k][n]])
+  elseif maxn > 0 then return([maxn, tau_arithprog_seq[k][maxn]])
+  elseif evenp(k) then return([2*k-1,2])
+  else return([2*k,2]))$
+
+/* The best known values: */
+/* Prerequisites: k, n natural numbers >= 1 */
+tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
+ if e#unknown then return(e),
+ block([nn,v],
+   [nn,v] : nearest_tau_arithprog(k,n),
+   if nn=n then return(v)
+   else return([v, (n - nn) + v])))$
+
+/*!
+\endhtmlonly
+*/

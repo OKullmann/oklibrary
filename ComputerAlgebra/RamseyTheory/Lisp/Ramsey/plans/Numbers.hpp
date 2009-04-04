@@ -62,8 +62,8 @@ License, or any later version. */
         Then ramsey_number recursively invokes all registered bound functions,
         and uses minimum resp. maximum.
        </li>
-       <li> Potentially lower and upper bounds are mixed, so we always compute
-       intervals. </li>
+       <li> Either we provide pairs [lower bound, upper bound], or precise
+       values (just integers). </li>
        <li> The system needs to general enough, so that also the values given
        by ramsey_hm can be checked (possibly improved).
         <ol>
