@@ -41,6 +41,7 @@ okltest_some_s(some_s);
 okltest_somenary_s(somenary_s);
 
 okltest_listnorep_p(listnorep_p);
+okltest_lconstant_p(lconstant_p);
 
 okltest_strictascending_p(strictascending_p);
 okltest_strictdescending_p(strictdescending_p);

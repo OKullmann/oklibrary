@@ -117,6 +117,15 @@ okltest_listnorep_p(f) := (
   assert(f([1,1]) = false),
   true)$
 
+okltest_lconstant_p(f) := (
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([[]]) = true),
+  assert(f([1,1]) = true),
+  assert(f([1,2]) = false),
+  assert(f([1,[]]) = false),
+  true)$
+
 okltest_strictascending_p(f) := (
   assert(f([]) = true),
   assert(f([1]) = true),

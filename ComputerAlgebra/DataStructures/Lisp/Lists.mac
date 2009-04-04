@@ -93,6 +93,9 @@ somenary_s([_L]) := block(
 
 /* Checks whether L is a list without repetitions: */
 listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
+/* Checks whether L is a constant list: */
+lconstant_p(L) := if emptyp(L) then true else
+  block([x : first(L)], every_s(lambda([y],is(x=y)), rest(L)))$
 
 /* Checks whether L is strictly ascending: */
 strictascending_p(L) := if length(L) <= 1 then true
