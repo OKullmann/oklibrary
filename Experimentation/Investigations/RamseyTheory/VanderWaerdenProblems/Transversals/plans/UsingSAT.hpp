@@ -205,8 +205,8 @@ c main():: SOLUTION VERIFIED :-)
 s SATISFIABLE
    \endverbatim
    </li>
-   <li> Again the same picture: The OKsolver is helped by the translation, the
-   march-solver harmed. </li>
+   <li> Again the same picture: The OKsolver is helped by the preprocessing,
+   the march-solver harmed. </li>
    <li> So the solver-combinations to be further investigated are:
     <ol>
      <li> The new generator (using "=="). </li>
@@ -215,6 +215,11 @@ s SATISFIABLE
      <li> The march-solver as it is. </li>
     </ol>
    </li>
+   <li> march_pl (without additional preprocessing) appears somewhat faster
+   (say 50%) than the OKsolver (with additional preprocessing). The OKsolver
+   finds a lot of autarkies, single nodes and quasi-single nodes (while never
+   a pure literal!), but it doesn't seem to help. march_pl needs for n=67
+   around 17 hours (255422670 nodes). </li>
   </ul>
 
 
