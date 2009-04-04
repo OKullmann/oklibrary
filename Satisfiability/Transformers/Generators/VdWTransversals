@@ -7,10 +7,10 @@
 # License, or any later version.
 
 # "VdWTransversals k n b" computes the clause-set expressing the existence of
-# a transversal of size at most b of the hypergraph of arithmetic progressions
+# a transversal of size exactly b of the hypergraph of arithmetic progressions
 # of size k for the vertex set {1, ..., n}.
 # The clauses are the hyperedges (positively) plus clauses expression the
-# cardinality constraint v_1 + ... + v_n <= b.
+# cardinality constraint v_1 + ... + v_n = b.
 
 script_name="VdWTransversals"
 

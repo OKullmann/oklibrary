@@ -11,9 +11,10 @@
 # {1,...n}, where t is the transversal number over {1,...,n-1} (thus the 
 # transversal number for n is either t or t+1), and continues with n+1 and so
 # on.
-# The method is by adding the inequality "transversal size <= t" to
+# The method is by adding the equality "transversal size = t" to
 # the clauses representing the hyperedges, thus obtaining a SAT problem,
-# solved then by Minisat (which seems to be strongest on these problems).
+# solved then by Minisat (the current default; seems to be strongest on these 
+# problems).
 
 script_name="VdWTransversalsInc"
 
@@ -34,7 +35,7 @@ output_solver=$5
 if [[ $# == 6 ]]; then
   solver=$6
 else
-  solver="minisat1"
+  solver="minisat2"
 fi
 generator="VdWTransversals"
 
