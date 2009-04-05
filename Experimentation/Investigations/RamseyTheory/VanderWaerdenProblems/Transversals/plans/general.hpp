@@ -31,8 +31,8 @@ License, or any later version. */
    algorithms for computing transversal hypergraphs, according to which is
    best. </li>
    <li> For a hypergraph G, tau(G) is the transversal number. How to call
-   the transversal number of arithprog_hg(k,n)? tau_arithprog_hg(k,n). </li>
-   <li> While the independence number shall be called alpha_arithprog_hg(k,n).
+   the transversal number of arithprog_hg(k,n)? tau_arithprog(k,n). </li>
+   <li> While the independence number shall be called alpha_arithprog(k,n).
    </li>
   </ul>
 
@@ -41,20 +41,20 @@ License, or any later version. */
   <ul>
    <li> Let [2]_k denotes the list of k 2's. </li>
    <li> Then we have vanderwaerden_{k+1}([2]_k, m) > n iff
-   tau_arithprog_hg(m,n) <= k. </li>
+   tau_arithprog(m,n) <= k. </li>
    <li> vanderwaerden_{k+1}([2]_k, m) is the smallest n such that
    however k numbers are picked, an arithmetic progression of size m
    must be contained. </li>
    <li> In other words, vanderwaerden_{k+1}([2]_k, m) is the smallest n such
-   that tau_arithprog_hg(m,n) > k. </li>
+   that tau_arithprog(m,n) > k. </li>
    <li> It seems that for computing vanderwaerden_{k+1}([2]_k, m), we best
-   search for the smallest n with tau_arithprog_hg(m,n) >= k+1 --- in this way
+   search for the smallest n with tau_arithprog(m,n) >= k+1 --- in this way
    we have only to decide whether or not a transversal of size at most k
    exists. This amounts to the same as computing the numbers
-   tau_arithprog_hg(m,n) in succession, just using that these numbers are
+   tau_arithprog(m,n) in succession, just using that these numbers are
    non-decreasing and each step is at most 1. </li>
    <li> A related sequence is A065825, which for given k is the smallest
-   n such that alpha_arithprog_hg(3,n) = k.
+   n such that alpha_arithprog(3,n) = k.
     <ol>
      <li> The known values are
      1, 2, 4, 5, 9, 11, 13, 14, 20, 24, 26, 30, 32, 36, 40, 41, 51, 54, 58, 63,
@@ -69,7 +69,7 @@ License, or any later version. */
      same. </li>
      <li> The satisfying assignments yield the complements of the minimum
      independent sets here. </li>
-     <li> From this sequence we obtain values for alpha_arithprog_hg(3,n) for
+     <li> From this sequence we obtain values for alpha_arithprog(3,n) for
      n <= 157, quite a bit more what A003002 contains. </li>
      <li> We need to have a look at
      http://www.math.uni.wroc.pl/~jwr/non-ave.htm , where perhaps we obtain
@@ -79,13 +79,13 @@ License, or any later version. */
     </ol>
    </li>
    <li> For given m, the sequences vanderwaerden_{k+1}([2]_k, m),
-   tau_arithprog_hg(m,n), alpha_arithprog_hg(3,n), A065825 are related as
+   tau_arithprog(m,n), alpha_arithprog(3,n), A065825 are related as
    follows:
     <ol>
      <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
-     tau_arithprog_hg(m,n) by running through k=0,1,..., and observing
+     tau_arithprog(m,n) by running through k=0,1,..., and observing
      when first the value is strictly greater than n --- for this k we
-     have tau_arithprog_hg(m,n) = k. </li>
+     have tau_arithprog(m,n) = k. </li>
      <li> The associated transformation function, where L is a strictly
      increasing sequence of natural numbers (the indices here start with 0):
      \verbatim
@@ -102,12 +102,12 @@ if emptyp(L) then [] else block(
   return(R))$
      \endverbatim
      </li>
-     <li> Given the sequence tau_arithprog_hg(m,n), one obtains
+     <li> Given the sequence tau_arithprog(m,n), one obtains
      vanderwaerden_{k+1}([2]_k, m) by running through n=0,1,..., and observing
      when first the value is strictly greater than k --- for this n we have
      vanderwaerden_{k+1}([2]_k, m) = n. </li>
-     <li> In other words, the values of tau_arithprog_hg(m,n) are exactly the
-     step-indices, where the value of tau_arithprog_hg(m,n) increases by one. </li>
+     <li> In other words, the values of tau_arithprog(m,n) are exactly the
+     step-indices, where the value of tau_arithprog(m,n) increases by one. </li>
      <li> The transformer (where L is a non-decreasing sequence of natural
      numbers, and the indices here start with 0):
      \verbatim
@@ -160,12 +160,12 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    the simple algorithm transversals_bes.
     <ol>
      <li> It could be improved by incorporating the upper bounds coming
-     from tau_arithprog_hg(k,x+y) <=  sum_i i in {x,y} tau_arithprog_hg(k,i).
+     from tau_arithprog(k,x+y) <=  sum_i i in {x,y} tau_arithprog(k,i).
      </li>
      <li> This should be done by first pre-computing for i in
      {1,...,n-1} the transversal number for the hypergraphs restricted
      to {1,...,i} and {i+1,...,n}, with i and n-i vertices, that is
-     tau_arithprog_hg(k,i) and tau_arithprog_hg(k,n-i); lets call these
+     tau_arithprog(k,i) and tau_arithprog(k,n-i); lets call these
      numbers a_i and b_i. </li>
      <li> For the current partial transversal T these numbers are updated
      as new-a_i = max(old-a_i, T intersect {1,...,i}) and
