@@ -56,6 +56,10 @@ Lp60_3 : minimum_transversals_mongen(60,A3p,[{}])$
 36 16 23
 37 16 2
 38 17 20
+39 18 40
+40 19 189
+41 19 55
+42 20 687
    \endverbatim
    </li>
   </ul>
@@ -147,6 +151,7 @@ k n tau
 3 78 42
 3 79 42
 3 80 43
+3 81 44
    \endverbatim
    </li>
   </ul>
