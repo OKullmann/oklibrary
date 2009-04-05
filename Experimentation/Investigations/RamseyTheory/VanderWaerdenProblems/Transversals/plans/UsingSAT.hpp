@@ -672,6 +672,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 96 108643168 33
 97 157111594 34
 98 181210179 34
+99 289218887 35
        \endverbatim
        while on satisfiable instances we get
        \verbatim
