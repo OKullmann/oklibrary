@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigating the transversal hypergraph of van-der-Waerden hypergraphs for k = 3 (length of arithmetic progressions)
 
 
-  \todo Elementary statistics for k=3
+  \todo Elementary statistics
   <ul>
    <li> Just using clause-set statistics-functions:
    \verbatim
@@ -163,6 +163,11 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
    <li> With a C++ implementation this should be extendible to values quite
    a bit beyond the known numbers (see above "Efficient computation of the
    transversal number"). </li>
+  </ul>
+
+
+  \todo Only computing the transversal numbers
+  <ul>
    <li> Just computing the transversal numbers, using minisat and the
    direct translation (as provided by "VdWTransversalsInc 3 1 0 OutputFile";
    see above):
