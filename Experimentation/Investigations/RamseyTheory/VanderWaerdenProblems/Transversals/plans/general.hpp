@@ -137,14 +137,34 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    transversals T of G(n) of length t(n)+1 (using only vertices 1,...,n)
    which are also transversals of G(n+1), that is, they are (exactly) the
    minimum transversals of G(n) where those arithmetic progressions P of
-   length 3-1=2 are added which yield an arithmetic progressions P + {n+1}
-   of length 3. </li>
+   length k-1 are added which yield an arithmetic progressions P + {n+1}
+   of length k. </li>
    <li> It seems possible that there are no such other elements T, i.e.,
-   |MTr(n+1)| = |MTr(n)| seems possible? </li>
+   |MTr(n+1)| = |MTr(n)| seems possible?
+    <ol>
+     <li> At least when considering only prime numbers (see
+     Investigations/RamseyTheory/GreenTaoProblems/Transversals/plans/Datak3.hpp)
+     this happenes for k=3, namely for n=28 we have tau=11 and 19 minimum
+     transversals, and for n=29 we have tau=12 and 19 minimum transversals.
+     </li>
+    </ol>
+   </li>
    <li> If on the other hand t(n) = t(n+1), then MTr(n+1) is exactly the
    (non-empty) set of T in MTr(n) which happen to be also transversals
    of MTr(n+1). </li>
    <li> So here we have |MTr(n+1)| <= |MTr(n)|. Equality seems possible?
+    <ol>
+     <li> At least when considering only prime numbers (see
+     Investigations/RamseyTheory/GreenTaoProblems/Transversals/plans/Datak3.hpp)
+     this happenes:
+     \verbatim
+5 1 2
+6 1 2
+11 3 2
+12 3 2
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> One can ask whether the count 1 of minimum transversals occurs
    infinitely often? Or more generally, whether every number occurs as
