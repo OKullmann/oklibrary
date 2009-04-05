@@ -34,192 +34,234 @@ License, or any later version. */
 
   \todo Look-ahead solvers with translation via addition
   <ul>
-   <li> It seems that OKsolver_2002 and march_pl need a long time.
-   \verbatim
-> VdWTransversals 3 40 24
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24.cnf
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=169 initial_number_of_clauses=1067 initial_number_of_literal_occurrences=3459 running_time(s)=84.4 number_of_nodes=870214 number_of_single_nodes=3257 number_of_quasi_single_nodes=483 number_of_2-reductions=2279568 number_of_pure_literals=0 number_of_autarkies=4500 number_of_missed_single_nodes=6084 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=2 reduced_number_of_clauses=6 reduced_number_of_literal_occurrences=17 number_of_1-autarkies=74022 number_of_initial_unit-eliminations=2 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=77 file_name=vdw_trans_3_40_24.cnf
-
-> march_pl vdw_trans_3_40_24.cnf
- main():: nodeCount: 98655
-c main():: dead ends in main: 6199
-c main():: lookAheadCount: 5794240
-c main():: unitResolveCount: 1044234
-c main():: time=28.300000
-c main():: necessary_assignments: 54362
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 201867, succes #: 120077
-c main():: doublelook: overall 3.646 of all possible doublelooks executed
-c main():: doublelook: succesrate: 59.483, average DL_trigger: 85.056
-s UNSATISFIABLE
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_25.cnf
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=169 initial_number_of_clauses=1066 initial_number_of_literal_occurrences=3456 running_time(s)=13.5 number_of_nodes=149781 number_of_single_nodes=1054 number_of_quasi_single_nodes=155 number_of_2-reductions=372636 number_of_pure_literals=0 number_of_autarkies=1084 number_of_missed_single_nodes=1602 max_tree_depth=40 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=2 reduced_number_of_clauses=6 reduced_number_of_literal_occurrences=17 number_of_1-autarkies=17208 number_of_initial_unit-eliminations=2number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=77 file_name=vdw_trans_3_40_25.cnf
-
-> march_pl vdw_trans_3_40_25.cnf
-c main():: nodeCount: 32051
-c main():: dead ends in main: 1503
-c main():: lookAheadCount: 1972878
-c main():: unitResolveCount: 369319
-c main():: time=8.890000
-c main():: necessary_assignments: 21652
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 63523, succes #: 37370
-c main():: doublelook: overall 3.371 of all possible doublelooks executed
-c main():: doublelook: succesrate: 58.829, average DL_trigger: 83.574
-c main():: SOLUTION VERIFIED :-)
-s SATISFIABLE
-   \endverbatim
-   </li>
-   <li> These used the "<="-translation, while using the "=="-translation
-   makes the problem somewhat easier:
-   \verbatim
-> VdWTransversals 3 40 24
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24.cnf
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=169 initial_number_of_clauses=1069 initial_number_of_literal_occurrences=3455 running_time(s)=58.7 number_of_nodes=630223 number_of_single_nodes=3054 number_of_quasi_single_nodes=939 number_of_2-reductions=1611149 number_of_pure_literals=0 number_of_autarkies=2893 number_of_missed_single_nodes=5124 max_tree_depth=38 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=7 reduced_number_of_clauses=29 reduced_number_of_literal_occurrences=110 number_of_1-autarkies=15018 number_of_initial_unit-eliminations=7 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=79 file_name=vdw_trans_3_40_24.cnf
-
-> march_pl vdw_trans_3_40_24.cnf
-c main():: nodeCount: 62984
-c main():: dead ends in main: 2917
-c main():: lookAheadCount: 3604760
-c main():: unitResolveCount: 701244
-c main():: time=17.710000
-c main():: necessary_assignments: 37281
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 128284, succes #: 76098
-c main():: doublelook: overall 3.731 of all possible doublelooks executed
-c main():: doublelook: succesrate: 59.320, average DL_trigger: 88.877
-s UNSATISFIABLE
-
-> VdWTransversals 3 40 25
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_25.cnf
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=169 initial_number_of_clauses=1069 initial_number_of_literal_occurrences=3455 running_time(s)=7.7 number_of_nodes=90824 number_of_single_nodes=727 number_of_quasi_single_nodes=275 number_of_2-reductions=224556 number_of_pure_literals=0 number_of_autarkies=579 number_of_missed_single_nodes=1044 max_tree_depth=40 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=7 reduced_number_of_clauses=29 reduced_number_of_literal_occurrences=110 number_of_1-autarkies=3763 number_of_initial_unit-eliminations=7 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=79 file_name=vdw_trans_3_40_25.cnf
-
-> march_pl vdw_trans_3_40_25.cnf
-c main():: nodeCount: 19596
-c main():: dead ends in main: 1051
-c main():: lookAheadCount: 1139792
-c main():: unitResolveCount: 182775
-c main():: time=6.290000
-c main():: necessary_assignments: 9716
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 42820, succes #: 26742
-c main():: doublelook: overall 3.941 of all possible doublelooks executed
-c main():: doublelook: succesrate: 62.452, average DL_trigger: 106.485
-c main():: SOLUTION VERIFIED :-)
-s SATISFIABLE
-   \endverbatim
-   </li>
-   <li> One should investigate whether the minisat-preprocessor makes
-   things easier:
-   \verbatim
-> minisat2 -dimacs=vdw_trans_3_40_24_m2pp.cnf vdw_trans_3_40_24.cnf
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24_m2pp.cnf
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=5 initial_number_of_variables=150 initial_number_of_clauses=992 initial_number_of_literal_occurrences=3159 running_time(s)=28.4 number_of_nodes=278736 number_of_single_nodes=39 number_of_quasi_single_nodes=307 number_of_2-reductions=846245 number_of_pure_literals=0 number_of_autarkies=3786 number_of_missed_single_nodes=208 max_tree_depth=34 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=85839 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=52 file_name=vdw_trans_3_40_24_m2pp.cnf
-
-> march_pl vdw_trans_3_40_24_m2pp.cnf
-c main():: nodeCount: 581980
-c main():: dead ends in main: 101283
-c main():: lookAheadCount: 8918023
-c main():: unitResolveCount: 8120863
-c main():: time=64.440000
-c main():: necessary_assignments: 364624
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 504762, succes #: 147097
-c main():: doublelook: overall 6.214 of all possible doublelooks executed
-c main():: doublelook: succesrate: 29.142, average DL_trigger: 80.024
-s UNSATISFIABLE
-
-> minisat2 -dimacs=vdw_trans_3_40_25_m2pp.cnf vdw_trans_3_40_25.cnf
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_25_m2pp.cnf
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=149 initial_number_of_clauses=997 initial_number_of_literal_occurrences=3184 running_time(s)=1.9 number_of_nodes=19311 number_of_single_nodes=19 number_of_quasi_single_nodes=18 number_of_2-reductions=64340 number_of_pure_literals=0 number_of_autarkies=239 number_of_missed_single_nodes=43 max_tree_depth=33 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=13171 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=47 file_name=vdw_trans_3_40_25_m2pp.cnf
-
-> march_pl vdw_trans_3_40_25_m2pp.cnf
-c main():: nodeCount: 360128
-c main():: dead ends in main: 47865
-c main():: lookAheadCount: 5723996
-c main():: unitResolveCount: 4829333
-c main():: time=39.310000
-c main():: necessary_assignments: 205107
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 323254, succes #: 100136
-c main():: doublelook: overall 6.250 of all possible doublelooks executed
-c main():: doublelook: succesrate: 30.977, average DL_trigger: 78.028
-c main():: SOLUTION VERIFIED :-)
-s SATISFIABLE
-   \endverbatim
-   </li>
-   <li> It seems to help OKsolver_2002 (quite a bit, but likely still much
-   worse than minisat), while march_pl seems to perform quite a bit worse on
-   the preprocessed problems. </li>
-   <li> The same now with the "=="-translation:
-   \verbatim
-> minisat2 -dimacs=vdw_trans_3_40_24_m2pp.cnf vdw_trans_3_40_24.cnf
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_24_m2pp.cnf
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=146 initial_number_of_clauses=984 initial_number_of_literal_occurrences=3116 running_time(s)=17.3 number_of_nodes=168264 number_of_single_nodes=105 number_of_quasi_single_nodes=300 number_of_2-reductions=546095 number_of_pure_literals=0 number_of_autarkies=855 number_of_missed_single_nodes=238 max_tree_depth=32 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=62300 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=47 file_name=vdw_trans_3_40_24_m2pp.cnf
-
-> march_pl vdw_trans_3_40_24_m2pp.cnf
-c main():: nodeCount: 360770
-c main():: dead ends in main: 57575
-c main():: lookAheadCount: 5808457
-c main():: unitResolveCount: 5197568
-c main():: time=45.580000
-c main():: necessary_assignments: 239519
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 320914, succes #: 102595
-c main():: doublelook: overall 6.106 of all possible doublelooks executed
-c main():: doublelook: succesrate: 31.970, average DL_trigger: 86.064
-s UNSATISFIABLE
-
-> minisat2 -dimacs=vdw_trans_3_40_25_m2pp.cnf vdw_trans_3_40_25.cnf
-
-> OKsolver_2002-O3-DNDEBUG vdw_trans_3_40_25_m2pp.cnf
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=144 initial_number_of_clauses=975 initial_number_of_literal_occurrences=3094 running_time(s)=1.2 number_of_nodes=12782 number_of_single_nodes=17 number_of_quasi_single_nodes=25 number_of_2-reductions=43489 number_of_pure_literals=0 number_of_autarkies=79 number_of_missed_single_nodes=27 max_tree_depth=33 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8110 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=50 file_name=vdw_trans_3_40_25_m2pp.cnf
-
-> march_pl vdw_trans_3_40_25_m2pp.cnf
-c main():: nodeCount: 109063
-c main():: dead ends in main: 21515
-c main():: lookAheadCount: 1793098
-c main():: unitResolveCount: 1494749
-c main():: time=13.520000
-c main():: necessary_assignments: 59067
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 103076, succes #: 33210
-c main():: doublelook: overall 6.341 of all possible doublelooks executed
-c main():: doublelook: succesrate: 32.219, average DL_trigger: 82.792
-c main():: SOLUTION VERIFIED :-)
-s SATISFIABLE
-   \endverbatim
-   </li>
-   <li> Again the same picture: The OKsolver is helped by the preprocessing,
-   the march-solver harmed. </li>
-   <li> So the solver-combinations to be further investigated are:
+   <li> probing yields: The OKsolver_2002 is helped by the
+   minisat2-preprocessing, the march-solver harmed. </li>
+   <li> So the solver-combinations to be investigated are:
     <ol>
-     <li> The new generator (using "=="). </li>
-     <li> OKsolver together with minisat2-preprocessor (perhaps creating
-     a little wrapper script). </li>
+     <li> OKsolver together with minisat2-preprocessor. </li>
      <li> The march-solver as it is. </li>
     </ol>
    </li>
+   <li> OKsolver_2002 for k=3 on unsatisfiable instances:
+   \verbatim
+3 3
+6 3
+7 11
+8 15
+10 49
+12 81
+15 139
+16 175
+17 320
+18 544
+19 1225
+21 1691
+22 2908
+23 4169
+25 8132
+27 9436
+28 16129
+29 23172
+31 35036
+33 60402
+34 99084
+35 145802
+37 245581
+38 360436
+39 582174
+42 725546
+43 1098690
+44 1253117
+45 1827674
+46 2176200
+47 3392596
+48 3247859
+49 8061833
+50 10156664
+52 15104339
+53 20972250
+55 30743229
+56 47396434
+57 86667284
+59 128855204
+60 197693026
+61 319053796
+   \endverbatim
+   and on satisfiable instances:
+   \verbatim
+1 0
+2 1
+4 3
+5 2
+9 10
+11 13
+13 28
+14 82
+20 849
+24 3876
+26 4089
+30 7203
+32 7829
+36 56486
+40 90824
+41 47327
+51 3103080
+54 6534116
+58 3311242
+   \endverbatim
+   while for OKsolver_2002-m2pp on unsatisfiable instances we get
+   \verbatim
+3 0
+6 0
+7 3
+8 13
+10 23
+12 21
+15 95
+16 149
+17 269
+18 327
+19 506
+21 531
+22 827
+23 579
+25 1422
+27 1660
+28 5231
+29 11733
+31 28568
+33 50346
+34 75476
+35 89096
+37 104528
+38 127364
+39 176162
+42 147190
+43 184838
+44 160778
+45 192573
+46 147211
+47 275624
+48 270784
+49 857768
+50 1127490
+52 2235868
+53 2957250
+55 6242319
+56 8715038
+57 23809039
+59 38278372
+60 84699156
+61 200164136
+62 328352918
+64 548424851
+   \endverbatim
+   and on satisfiable instances
+   \verbatim
+1 0
+2 0
+4 0
+5 0
+9 4
+11 12
+13 10
+14 46
+20 34
+24 902
+26 723
+30 4565
+32 6806
+36 30967
+40 12782
+41 17091
+51 157123
+54 704622
+58 343357
+63 48357413
+   \endverbatim
+   </li>
+   <li> march_pl on unsatisfiable instances yields
+   \verbatim
+3 1
+6 1
+7 1
+8 7
+10 8
+12 14
+15 42
+16 79
+17 104
+18 145
+19 229
+21 337
+22 394
+23 595
+25 808
+27 1830
+28 2426
+29 4902
+31 8445
+33 15912
+34 19967
+35 23350
+37 36512
+38 36060
+39 67798
+42 47424
+43 93595
+44 99402
+45 143242
+46 208265
+47 199826
+48 361802
+49 537954
+50 714290
+52 1432507
+53 1395913
+55 5005466
+56 2577348
+57 13189902
+59 6424070
+60 40764011
+61 36684789
+62 127479802
+64 135786906
+65 151604456
+66 147906156
+67 255422670
+   \endverbatim
+   and on satisfiable instances
+   \verbatim
+1 1
+2 1
+4 3
+5 2
+9 7
+11 5
+13 12
+14 13
+20 280
+24 152
+26 266
+30 2492
+32 9269
+36 17568
+40 19596
+41 23352
+51 600247
+54 2009327
+58 1253491
+63 14444240
+   \endverbatim
+   </li>
    <li> march_pl (without additional preprocessing) appears somewhat faster
-   (say 50%) than the OKsolver (with additional preprocessing). The OKsolver
+   (say 50%) than the OKsolver (with additional preprocessing; on satisfiable
+   instances the OKsolver is faster, except of the last one). The OKsolver
    finds a lot of autarkies, single nodes and quasi-single nodes (while never
    a pure literal!), but it doesn't seem to help. march_pl needs for n=67
    around 17 hours (255422670 nodes). </li>
+   <li> Both solvers perform much worse than Minisat (1/2), also w.r.t. to
+   node count. </li>
   </ul>
 
 
@@ -756,6 +798,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 73 142420019 34
 75 185575511 34
 76 283528710 35
+78 311740142 36
+80 430323469 36
      \endverbatim
      SAT:
      \verbatim
@@ -795,6 +839,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 70 18792317 29
 74 2204633 23
 77 3025860 24
+79 167509159 34
      \endverbatim
      </li>
     </ol>
