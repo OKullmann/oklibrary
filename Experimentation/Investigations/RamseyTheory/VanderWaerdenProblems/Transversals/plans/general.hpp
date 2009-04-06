@@ -147,6 +147,12 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      this happenes for k=3, namely for n=28 we have tau=11 and 19 minimum
      transversals, and for n=29 we have tau=12 and 19 minimum transversals.
      </li>
+     <li> And three arithmetic progressions were added in this case; for
+     higher k we get more and more cases where no arithmetic progressions
+     are added, but still there are cases with additions but all old
+     transversals are still valid. </li>
+     <li> Of course, the question is whether this can happen when we consider
+     the full intervals. </li>
     </ol>
    </li>
    <li> If on the other hand t(n) = t(n+1), then MTr(n+1) is exactly the

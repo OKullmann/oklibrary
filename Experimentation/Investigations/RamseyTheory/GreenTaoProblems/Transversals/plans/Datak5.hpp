@@ -124,7 +124,30 @@ Lp80_5 : minimum_transversals_mongen(80,A5p,[{}])$
 104 10 400
 105 10 400
 106 10 400
+107 11 12000
+108 11 12000
+109 11 12000
+110 11 12000
+111 11 2400
+112 12 14400
+113 12 480
+114 12 480
+115 12 480
+116 12 480
+117 12 480
+118 12 480
+119 12 480
+120 12 480
+121 13 
    \endverbatim
+   </li>
+   <li> Very peculiar, these numbers.
+    <ol>
+     <li> The segments of constant numbers are mostly explained by the fact
+     that no new arithmetic progression gets added, except of the transitions
+     76 -> 77 and 89 -> 90, where in both cases one new arithmetic progression
+     is added, but it has no effect (at least at this time). </li>
+    </ol>
    </li>
   </ul>
 
