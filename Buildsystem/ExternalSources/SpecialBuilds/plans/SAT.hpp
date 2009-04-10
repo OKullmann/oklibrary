@@ -335,13 +335,19 @@ Satz> cp ../../../sources/SAT/Satz/my_compact.c .
 Satz> gcc -O3 -o compact my_compact.c
    \endverbatim
    </li>
-   <li>
-   \verbatim
+   <li> Satz 214 and 215
+    <ol>
+     <li> Installation:
+     \verbatim
 Satz> cp ../../../sources/SAT/Satz/satz214.2.c .
 Satz> gcc -O3 -o satz214 satz214.2.c
 Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Yet the return value is always 1 --- we need to change this to
+     10 (sat) resp. 20 (unsat). </li>
+    </ol>
    </li>
   </ul>
 

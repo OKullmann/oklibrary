@@ -103,6 +103,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gap.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/grasp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/minisat.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/march.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/satz.mak
 
 # #################################
 # Cleaning

@@ -9,7 +9,7 @@
 
 global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
 
-sat_targets_extsrc_okl ?= ubcsat minisat march # grasp
+sat_targets_extsrc_okl ?= ubcsat minisat march satz # grasp
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
@@ -43,6 +43,7 @@ include $(OKconfiguration)/ExternalSources/gap.mak
 include $(OKconfiguration)/ExternalSources/grasp.mak
 include $(OKconfiguration)/ExternalSources/minisat.mak
 include $(OKconfiguration)/ExternalSources/march.mak
+include $(OKconfiguration)/ExternalSources/satz.mak
 
 # Currently, these installations need the list of gcc-targets:
 include $(OKconfiguration)/ExternalSources/boost.mak
