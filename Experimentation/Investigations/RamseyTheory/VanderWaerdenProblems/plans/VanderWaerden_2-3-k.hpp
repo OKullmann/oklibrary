@@ -28,14 +28,23 @@ k vdw_2(3,k)
 
   \todo Performance of OKsolver-2002
   <ul>
-   <li> k=16, n=238: </li>
+   <li> k=16, n=238: Running it with monitoring level 20 appears hopeless.
+   And using the m2pp-variant doesn't make a difference, since the
+   preprocessor has no effect. </li>
   </ul>
 
 
   \todo Performance of march_pl
 
 
+  \todo Performance of satz215
+
+
   \todo Performance of minisat2
+  <ul>
+   <li> k=16, n=238: Apparently after 30 restarts and 36906145 conflicts
+   no progress was made. </li>
+  </ul>
 
 
   \todo Local search for the satisfiable instances

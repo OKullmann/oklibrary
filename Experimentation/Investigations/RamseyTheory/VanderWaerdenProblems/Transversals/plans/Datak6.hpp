@@ -117,6 +117,12 @@ L60_6 : minimum_transversals_mongen(60,A6,[{}])$
 52 14
    \endverbatim
    </li>
+   <li> Using "VdWTransversalsInc 6 1 0 OutputFile" we obtain (on csltok)
+   \verbatim
+k n tau
+
+   \endverbatim
+   </li>
   </ul>
 
 */

@@ -122,7 +122,7 @@ L40_5 : minimum_transversals_mongen(40,A5,[{}])$
 45 13 5
    \endverbatim
    </li>
-   <li> Using "VdWTransversalsInc 4 1 0 OutputFile" we obtain
+   <li> Using "VdWTransversalsInc 5 1 0 OutputFile" we obtain
    \verbatim
 k n tau
 5 1 0

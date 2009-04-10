@@ -38,8 +38,9 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
      <li> Relatively easy for OKsolver-2002 (710s, 109703 nodes). </li>
      <li> march_pl needs only 51529 nodes and 238 seconds, so the "double
      look-ahead" seems to be successful here. </li>
-     <li> minisat needs 213 seconds, so also clause-learning seems applicable
-     here. </li>
+     <li> minisat1 needs 213 seconds, so also clause-learning seems applicable
+     here; minisat2 is even faster (21 restarts, 829170 conflicts, 90s). </li>
+     <li> satz215 doesn't solve it in 30 minutes. </li>
     </ol>
    </li>
    <li> For vanderwaerden_2(6) see
