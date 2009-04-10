@@ -166,6 +166,11 @@ tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
    if nn=n then return(v)
    else return([v, (n - nn) + v])))$
 
+alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
+ if listp(t) then return(reverse(n-t)) else return(n-t))$
+rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
+ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
+
 /*!
 \endhtmlonly
 */
