@@ -169,6 +169,8 @@ License, or any later version. */
         </li>
        </ul>
       </li>
+      <li> <code>-R</code> for the special DIMACS return values (default is ON
+      in case of DIMACS output, and OFF otherwise). </li>
      </ul>
     </li>
     <li> To be completed. </li>
@@ -216,6 +218,16 @@ License, or any later version. */
      after reduction. </li>
     </ol>
    </li>
+   </li> The return values for the DIMACS output:
+    <ol>
+     <li> <code>10</code> for "SAT" </li>
+     <li> <code>20</code> for "UNSAT" </li>
+     <li> <code>0</code> for "unknown". </li>
+    </ol>
+    For non-DIMACS output the return value is <code>0</code> for all cases of
+    proper exit. </li>
+   </li>
+   <li> 
   </ul>
 
 
@@ -232,7 +244,6 @@ License, or any later version. */
      Statistics on the original input, and the output of the Minisat2
      preprocessor. </li>
     </ol>
-   </li>
   </ul>
 
 */
