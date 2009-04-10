@@ -122,22 +122,28 @@ vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(trans(M), M))))$
 
 
-
 /* *****************
    * Constructions *
    *****************
 */
 
+/* The union of a list L of hypergraphs: */
+union_hg([L]) := [lunion(map(first,L)), lunion(map(second,L))]$
+
 /* The k-section of a hypergraph: */
+/* RENAME: section_hg */
 section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
 
 /* The edge-wise complement of a hypergraph: */
+/* RENAME: ecomp_hg */
 ecomp_hyp(G) := [G[1], ecomp(G[2],G[1])]$
 
 /* The closure under subset-formation of a hypergraph: */
+/* RENAME: subset_closure_hg */
 subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
 
 /* The dual of a general hypergraph: */
+/* RENAME: dual_ghg */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -49,6 +49,13 @@ okltest_edge_vertex_com_hyp(edge_vertex_com_hyp);
 
 okltest_edge_int_com_hyp(edge_int_com_hyp);
 okltest_vertex_int_com_hyp(vertex_int_com_hyp);
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+okltest_union_hg(union_hg);
 
 /*!
 \endhtmlonly
