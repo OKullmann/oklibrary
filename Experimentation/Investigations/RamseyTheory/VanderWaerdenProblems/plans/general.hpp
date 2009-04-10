@@ -20,15 +20,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Van der Waerden numbers
+  \todo Boolean van der Waerden numbers
   <ul>
    <li> Via
    \verbatim
-VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
+VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    \endverbatim
    diagonal boolean problems can be generated quickly. </li>
    <li> In Maxima we have "output_vanderwaerden2_stdname(k,n)" (in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac)
+   as well as "output_vanderwaerden2nd_stdname(k1,k2,n)"
    </li>
    <li> vanderwaerden_2(3) = 9 (density = 3.6) </li>
    <li> vanderwaerden_2(4) = 35 (density = 10.7) </li>
@@ -43,6 +44,26 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2_k_n.cnf
    </li>
    <li> For vanderwaerden_2(6) see
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-6-6.hpp.
+   </li>
+  </ul>
+
+
+  \todo Script for searching for a vdW-number
+  <ul>
+   <li> Input is the vdW-parameter-tuple, and the start value for n. </li>
+   <li> Then the script runs through n, n+1, ..., until the instance
+   is unsatisfiable. </li>
+   <li> For problems with two parts only the SAT solver is needed as
+   parameter, while for more parts also the translation method is needed. </li>
+   <li> A complication arises when using incomplete algorithms for finding a
+   satisfying assignment.
+    <ol>
+     <li> The main problem then is the number of runs and the cutoff. </li>
+     <li> And at a certain point one has to try a complete solver. </li>
+     <li> Perhaps all this needs a second script; so we have one script for
+     running one complete solver, and one script for running one incomplete
+     solver. </li>
+    </ol>
    </li>
   </ul>
 
