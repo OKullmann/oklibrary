@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Construct
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 kill(f)$
 
@@ -37,6 +38,12 @@ okltest_comp_cs(f) := (
   assert(f({{1}}) = {{-1}}),
   assert(f({{1,2},{-2,-3}}) = {{-1,-2},{2,3}}),
   true)$
+
+okltest_comp_fcs(f) := block(
+  okltest_comp_cs(buildq([f],lambda([F], fcs2cs(f(cs2fcs(F)))))),
+  assert(f([{1,2,3},{{1,2},{-1,2}}]) = [{1,2,3},{{-1,-2},{1,-2}}]),
+  true)$
+
 
 /* **********************
    * Logical operations *

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,6 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* Complementation (literal-wise) of a clause-set or clause-list: */
 comp_cs(F) := map(comp_sl, F)$
+comp_fcs(FF) := [FF[1], comp_cs(FF[2])]$
 
 
 /* **********************
