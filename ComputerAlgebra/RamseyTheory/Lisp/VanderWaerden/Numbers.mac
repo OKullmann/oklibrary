@@ -41,22 +41,40 @@ vanderwaerdend(m,k) := if m=0 then 1
  elseif k=1 then 1
  elseif k=2 then m+1
  elseif m=2 then vanderwaerdend2(k)
+ elseif m=3 then vanderwaerdend3(k)
+ elseif k=3 then vanderwaerdendap3(m)
  else unknown$
 /* vanderwaerdend(m,k) = vanderwaerden(create_list(k,i,1,m)) */
 /* The corresponding predicate, checking whether a parameter tuple applies,
    and returning [m,k] in the positive case: */
 vanderwaerdend_p(L) := if emptyp(L) then [0,unknown] 
  elseif not lconstant_p(L) then [] else [length(L),first(L)]$
-/* The diagonal case with two parts: */
+/* The diagonal cases with two parts: */
 vanderwaerdend2(k) :=
  if k <= 6 then [1,3,9,35,178,1132][k]
  else unknown$
 /* Remark: These numbers have been verified/computed by SAT solving
    methods.
 */
-vanderwaerdend2_p(L) := 
- if length(L)=2 and lconstant_p(L) then first(L)
+vanderwaerdend2_p(L) := if length(L)=2 and lconstant_p(L) then first(L)
  else []$
+/* The diagonal cases with three parts: */
+vanderwaerdend3(k) :=
+ if k <= 3 then [1,4,27][k]
+ else unknown$
+/* Remark: These numbers have been verified/computed by SAT solving
+   methods.
+*/
+vanderwaerdend3_p(L) := if length(L)=3 and lconstant_p(L) then first(L)
+ else []$
+/* The diagonal cases with ap's of size 3: */
+vanderwaerdendap3(m) := 
+ if m=0 then 1
+ elseif m <= 4 then [3,9,27,76][m]
+ else unknown$
+vanderwaerdendap3_p(L) := if every_s(lambda([x],is(x=3)),L) then length(L) 
+ else []$
+
 
 /* The "transversal case", i.e., m parts with arithmetic progressions of 
    length 2, one part with length k: */
