@@ -12,8 +12,8 @@ satz_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Satz
 
 # Satz 215
 
-satz215_build_dir_okl ?= $(minisat_base_build_dir_okl)/satz215
-satz215_installation_dir_okl ?= $(minisat_base_installation_dir_okl)/satz215
+satz215_build_dir_okl ?= $(satz_base_build_dir_okl)/satz215
+satz215_installation_dir_okl ?= $(satz_base_installation_dir_okl)/satz215
 
 satz215_call_okl ?= $(satz215_installation_dir_okl)/satz215
 
