@@ -35,7 +35,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update to Sage later than 3.2.3
+  \todo Update to Sage 3.4
   <ul>
    <li> On cs-wsok we get a build-error:
    \verbatim
