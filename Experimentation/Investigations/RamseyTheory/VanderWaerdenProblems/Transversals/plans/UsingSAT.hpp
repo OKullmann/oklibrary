@@ -976,6 +976,9 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 91 1109771 22
 92 4529562 25
 93 13131153 28
+94 28635930 30
+96 64237673 32
+97 317546088 36
      \endverbatim
      SAT:
      \verbatim
@@ -1051,6 +1054,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 88 413901 19
 89 1122951 22
 90 1157756 22
+95 4845109 25
+98 31186822 30
      \endverbatim
      </li>
     </ol>
