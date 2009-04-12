@@ -92,7 +92,10 @@ vanderwaerdendap3_p(L) := if every_s(lambda([x],is(x=3)),L) then length(L)
 vanderwaerdent(m,k) := if m=0 then k
  elseif m=1 then if evenp(k) then 2*k-1 else 2*k
  elseif k=2 then m+2
- else vanderwaerdenttau(m,k)$
+ else block([res : vanderwaerdenttau(m,k)],
+  if res#unknown then return(res)
+  else if k >= m+2 then return(vanderwaerdent_lrc(m,k))
+  else return(unknown))$
 /* vanderwaerdent(m,k) = vanderwaerden(endcons(k,create_list(2,i,1,m))) */
 /* The corresponding predicate, checking whether a parameter tuple applies: */
 vanderwaerdent_p(L) := if emptyp(L) then [] else 
