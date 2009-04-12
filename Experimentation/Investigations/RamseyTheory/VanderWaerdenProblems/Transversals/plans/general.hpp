@@ -106,8 +106,9 @@ if emptyp(L) then [] else block(
      vanderwaerden_{k+1}([2]_k, m) by running through n=0,1,..., and observing
      when first the value is strictly greater than k --- for this n we have
      vanderwaerden_{k+1}([2]_k, m) = n. </li>
-     <li> In other words, the values of tau_arithprog(m,n) are exactly the
-     step-indices, where the value of tau_arithprog(m,n) increases by one. </li>
+     <li> In other words, the values of vanderwaerden_{k+1}([2]_k, m) are
+     exactly the step-indices, where the value of tau_arithprog(m,n)
+     increases by one. </li>
      <li> The transformer (where L is a non-decreasing sequence of natural
      numbers, and the indices here start with 0):
      \verbatim

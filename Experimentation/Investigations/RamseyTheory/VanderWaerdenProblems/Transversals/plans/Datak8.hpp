@@ -54,6 +54,70 @@ L_0_24_8 : compute_transversals_hg(8,24)$
    </li>
    <li> And the max-rank sequence begins with
    0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,3,3,4,4,5,5,5,5,6,6. </li>
+<li> Computing the number of minimum transversals:
+   \verbatim
+oklib_monitor : true;
+A8(n):=arithprog_hg(8,n)$
+L60_8 : minimum_transversals_mongen(80,A8,[{}])$
+1 0 1
+2 0 1
+3 0 1
+4 0 1
+5 0 1
+6 0 1
+7 0 1
+8 1 8
+9 1 7
+10 1 6
+11 1 5
+12 1 4
+13 1 3
+14 1 2
+15 2 30
+16 2 16
+17 2 12
+18 2 9
+19 2 6
+20 2 4
+21 2 2
+22 3 64
+23 3 30
+24 3 8
+25 3 6
+26 3 4
+27 3 3
+28 3 2
+29 4 48
+30 4 17
+31 4 8
+32 4 5
+33 4 4
+34 4 3
+35 4 2
+36 5 36
+37 5 15
+38 5 6
+39 5 5
+40 5 4
+41 5 3
+42 5 2
+43 6 32
+44 6 13
+45 6 6
+46 6 5
+47 6 4
+48 6 3
+49 6 2
+50 6 1
+51 7 4
+   \endverbatim
+   </li>
+   <li> Using "VdWTransversalsInc 8 1 0 OutputFile" we obtain (on csltok)
+   \verbatim
+k n tau
+
+   \endverbatim
+   </li>
   </ul>
 
 */

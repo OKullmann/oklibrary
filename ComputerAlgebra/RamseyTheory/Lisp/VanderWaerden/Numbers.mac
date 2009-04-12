@@ -87,6 +87,14 @@ vanderwaerdent(m,k) := if m=0 then k
 vanderwaerdent_p(L) := if emptyp(L) then [] else 
  block([x : last(L)], if every_s(lambda([y],is(y=x)),rest(L,-1)) then [length(L)-1,x] else [])$
 
+/* Using the list of transversal numbers: */
+vanderwaerdenttau(m,k) := block([n : 1, t],
+  t : tau_arithprog(k,n),
+  while not listp(t) and t <= m do (
+    n : n+1, t : tau_arithprog(k,n)
+  ),
+  if listp(t) then return(unknown) else return(n))$
+
 
 /* ******************************************************************
    * Transversal numbers of hypergraphs of arithmetic progresssions *
@@ -96,7 +104,7 @@ vanderwaerdent_p(L) := if emptyp(L) then [] else
 /* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog,
-  6,
+  8,
   fixnum)$
 
 /* The following data has been computed by
@@ -154,8 +162,38 @@ tau_arithprog_seq[6] : [
 4,4,4,4,4,4,5,6,6,7,
 8,8,8,9,9,9,9,10,10,10,
 10,11,12,12,12,12,13,13,13,13,
-13,14
+13,14,15,15,16,16,17,17,17,18,
+18,18,19,19,19,19,20,20,21,21,
+21,22,22,22,22,22,23,24,25,25,
+26,26,26,27,27,27
 ]$
+/* The following data has been computed by
+   "VdWTransversalsInc 7 1 0 OutputFile":
+*/
+tau_arithprog_seq[7] : [
+0,0,0,0,0,0,1,1,1,1,
+1,1,1,2,2,2,2,2,2,2,
+3,3,3,3,3,3,3,4,4,4,
+4,4,4,4,5,5,5,5,5,5,
+5,6,7,8,9,9,10,10,11,11,
+11,11,11,12,12,12,12,13,13,13,
+13,14,14,14,14,15,15,15,15,16,
+16,16,16,16,16,16,17,17,17,17,
+17,17,17,18,18,18,18,18,18,18,
+19,20,21,22,22,23,24,24
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 8 1 0 OutputFile":
+*/
+tau_arithprog_seq[8] : [
+0,0,0,0,0,0,0,1,1,1,
+1,1,1,1,2,2,2,2,2,2,
+2,3,3,3,3,3,3,3,4,4,
+4,4,4,4,4,5,5,5,5,5,
+5,5,6,6,6,6,6,6,6,6,
+7
+]$
+
 
 /* For n <= exactv_tau_arithprog(k) we have stored exact values
    in tau_arithprog_seq[k]: */
