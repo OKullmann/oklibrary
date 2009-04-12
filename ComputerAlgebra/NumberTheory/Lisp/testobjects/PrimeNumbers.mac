@@ -32,6 +32,9 @@ okltest_primes_first(primes_first);
 
 okltest_unrank_primes(unrank_primes);
 okltest_rank_primes(rank_primes);
+okltest_count_primes(count_primes);
+
+okltest_product_primes(product_primes);
 
 /* **************************
    * Additive number theory *

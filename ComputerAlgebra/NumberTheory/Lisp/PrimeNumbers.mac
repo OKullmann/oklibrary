@@ -43,7 +43,7 @@ primes_interval(a,b) := block([L : [], p : if a <= 1 then 1 else a-1],
   ),
   reverse(L))$
 
-/* The list of the first n prime numbers n an integer): */
+/* The list of the first n prime numbers (n an integer): */
 primes_first(n) := if n <= 0 then [] else
   block([p : 2, L : [2]],
     n : n - 1,
@@ -62,7 +62,7 @@ unrank_primes(i) := block([p : 2],
   ),
   p)$
 
-/* For natural number p >= 1 compute the smallest index i >= 1
+/* For a natural number p >= 1 compute the smallest index i >= 1
    such that unrank_primes(i) >= p:
 */
 rank_primes(p) := block([i : 1],
@@ -71,6 +71,18 @@ rank_primes(p) := block([i : 1],
     i : i + 1
   ),
   i)$
+/* For a natural number n >= 0 compute the numbers of primes p
+   with p <= n:
+*/
+count_primes(n) := if n <= 1 then 0
+ elseif primep(n) then rank_primes(n)
+ else rank_primes(prev_prime(n))$
+
+
+/* The product of the prime numbers less than or equal to n >= 0: */
+product_primes(n) := block([pr : 1, p : 2],
+ while p <= n do (pr : pr * p, p : next_prime(p)),
+ return(pr))$
 
 
 /* **************************
