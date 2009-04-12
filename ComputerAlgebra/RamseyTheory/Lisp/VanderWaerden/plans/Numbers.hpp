@@ -31,7 +31,8 @@ License, or any later version. */
 
   \todo The LRC-formula
   <ul>
-   <li> Using
+   <li> DONE (the "m" from the paper was not correctly used)
+   Using
    \verbatim
 testf(M,K) := 
  for m : 1 thru M do
@@ -49,7 +50,8 @@ testf(10,30);
 6 8 26 51
    \endverbatim
    </li>
-   <li> So for r in {3,5,7} and for the minimal allowed k the formula
+   <li> DONE (see above)
+   So for r in {3,5,7} and for the minimal allowed k the formula
    is not correct. Contact the authors. </li>
   </ul>
 

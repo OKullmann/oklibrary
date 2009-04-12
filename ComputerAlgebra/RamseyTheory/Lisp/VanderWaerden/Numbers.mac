@@ -120,14 +120,17 @@ vanderwaerdenttau(m,k) := block([n : 1, t],
 lrc_j(r,k) := block([j : 0, pr : product_primes(r)],
   while gcd(k-j, pr) # 1 do j : j+1,
   return(j))$
-/* The tests which are expressed in the paper by the (superfluous)
+/* The tests which are expressed in the paper by the
    function "l_{k,r}"; r, k >= 1 natural numbers.
 */
 lrc_l0p(r,k) := is(gcd(k, product_primes(r)) = r)$
 lrc_l1p(r,k) := is(gcd(k-1, product_primes(r)) = r)$
+/* The minimum with j: */
+lrc_lmin(r,k,j) := block([l : 0, pr : product_primes(r)],
+  while l < j and gcd(k-l, pr) # r do l : l+1,
+  return(l))$
 
 /* The formula according to the paper. */
-/* ATTENTION: not correct for certain arguments! */
 /* m >= 1, k >= m+2 */
 vanderwaerdent_lrc(m,k) := block([r : m+1, j],
  j : lrc_j(r,k),
@@ -135,7 +138,8 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
  if j=1 then return(r*k-r+1),
  if primep(r) then
    if lrc_l0p(r,k) then return(r*k-r+1) else
-   block([res : r*k-m*(r-2)],
+   block([m : lrc_lmin(r,k,j), res],
+    res : r*k-m*(r-2),
     if lrc_l1p(r,k) 
       or (m=2 and k>=2*r-3) 
       or (m>=3 and k >= count_primes(r)^3*(r-2))
