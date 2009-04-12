@@ -110,9 +110,12 @@ L60_8 : minimum_transversals_mongen(80,A8,[{}])$
 49 6 2
 50 6 1
 51 7 4
+52 8 13
+53 9 112
+54 9 2
    \endverbatim
    </li>
-   <li> Using "VdWTransversalsInc 8 1 0 OutputFile" we obtain (on csltok)
+   <li> Using "VdWTransversalsInc 8 1 0 OutputFile" we obtain
    \verbatim
 k n tau
 
