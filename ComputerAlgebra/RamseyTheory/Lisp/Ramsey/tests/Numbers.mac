@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 25.11.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac
-  \brief Tests for clause-set-generators
+  \brief Tests for functions computing Ramsey-numbers
 
 Use by
 
@@ -20,7 +20,6 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 
 kill(f)$
 
@@ -32,3 +31,7 @@ okltest_ramsey_number(f) := block(
   assert(f([[3,3,3],2]) = [17,17]),
   assert(f([[-1,-1],2]) = [0,inf]),
   true)$
+
+/*!
+\endhtmlonly
+*/
