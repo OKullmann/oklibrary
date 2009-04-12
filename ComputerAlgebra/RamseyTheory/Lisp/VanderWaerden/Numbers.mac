@@ -35,6 +35,11 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif L[length(L)-1]=2 then vanderwaerdent(length(L)-1,last(L))
  else unknown$
 
+/* *********************
+   * The diagonal case *
+   *********************
+*/
+
 /* The "diagonal case", i.e., m parts, arithmetic progressions of length k: */
 vanderwaerdend(m,k) := if m=0 then 1 
  elseif m=1 then k
@@ -76,12 +81,17 @@ vanderwaerdendap3_p(L) := if every_s(lambda([x],is(x=3)),L) then length(L)
  else []$
 
 
+/* ************************
+   * The transversal case *
+   ************************
+*/
+
 /* The "transversal case", i.e., m parts with arithmetic progressions of 
    length 2, one part with length k: */
 vanderwaerdent(m,k) := if m=0 then k
  elseif m=1 then if evenp(k) then 2*k-1 else 2*k
  elseif k=2 then m+2
- else unknown$
+ else vanderwaerdenttau(m,k)$
 /* vanderwaerdent(m,k) = vanderwaerden(endcons(k,create_list(2,i,1,m))) */
 /* The corresponding predicate, checking whether a parameter tuple applies: */
 vanderwaerdent_p(L) := if emptyp(L) then [] else 
@@ -94,6 +104,49 @@ vanderwaerdenttau(m,k) := block([n : 1, t],
     n : n+1, t : tau_arithprog(k,n)
   ),
   if listp(t) then return(unknown) else return(n))$
+
+
+/* *******************************************************
+   * The formula from [Landman, Robertson, Culver, 2005] *
+   *******************************************************
+*/
+
+/* The minimal natural number j>=0 which needs to be subtracted from k
+   to yield a number coprime to the product of the primes at most r.
+   k,r natural numbers, r, k >= 1; the meaning of r: r = m+1 (where
+   m is the number of 2's as above).
+*/
+lrc_j(r,k) := block([j : 0, pr : product_primes(r)],
+  while gcd(k-j, pr) # 1 do j : j+1,
+  return(j))$
+/* The tests which are expressed in the paper by the (superfluous)
+   function "l_{k,r}"; r, k >= 1 natural numbers.
+*/
+lrc_l0p(r,k) := is(gcd(k, product_primes(r)) = r)$
+lrc_l1p(r,k) := is(gcd(k-1, product_primes(r)) = r)$
+
+/* The formula according to the paper. */
+/* ATTENTION: not correct for certain arguments! */
+/* m >= 1, k >= m+2 */
+vanderwaerdent_lrc(m,k) := block([r : m+1, j],
+ j : lrc_j(r,k),
+ if j=0 then return(r*k),
+ if j=1 then return(r*k-r+1),
+ if primep(r) then
+   if lrc_l0p(r,k) then return(r*k-r+1) else
+   block([res : r*k-m*(r-2)],
+    if lrc_l1p(r,k) 
+      or (m=2 and k>=2*r-3) 
+      or (m>=3 and k >= count_primes(r)^3*(r-2))
+    then return(res)
+    else return([res,inf]))
+ else
+   block([res : r*k-j*(r-2)],
+    if (j=2 and k>=2*r-3) 
+      or (j>=3 and k>= count_primes(r)^3*(r-2))
+    then return(res)
+    else return([res,inf]))
+ )$
 
 
 /* ******************************************************************
@@ -236,6 +289,7 @@ alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
 ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
+
 
 /*!
 \endhtmlonly

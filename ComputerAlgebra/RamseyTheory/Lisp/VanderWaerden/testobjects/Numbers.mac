@@ -1,0 +1,42 @@
+/* Oliver Kullmann, 12.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/Numbers.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/Numbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Numbers.mac")$
+
+/* ***************************
+   * Van der Waerden numbers *
+   ***************************
+*/
+
+okltest_vanderwaerden(vanderwaerden);
+
+/* *******************************************************
+   * The formula from [Landman, Robertson, Culver, 2005] *
+   *******************************************************
+*/
+
+okltest_lrc_j(lrc_j);
+okltest_lrc_l0p(lrc_l0p);
+okltest_lrc_l1p(lrc_l1p);
+
+/*!
+\endhtmlonly
+*/
