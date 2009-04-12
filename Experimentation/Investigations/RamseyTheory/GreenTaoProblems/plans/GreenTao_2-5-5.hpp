@@ -531,20 +531,8 @@ formula read: 715102 cl, 34500 vars, 3575510 literals, maxconn=260, maxliteral=5
    <li> It seems we have a very clear-cut behaviour of sp: below 34309
    it always finds a solution, starting with 34309 it apparently never
    finds a solution. </li>
-   <li> Lets see what rnovelty+ does here.
-    <ol>
-     <li>
-     \verbatim
-> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_2-5-5_34309.cnf
-       sat  min     osteps     msteps       seed
-      1 0    23 3411723098 4000000000  934386224
-      2 0    55 1487453303 4000000000 1254928291
-     \endverbatim
-     </li>
-     <li> It would be interesting to extract the satisfying assignment for
-     n=34308, and use it as a start assignment. </li>
-    </ol>
-   </li>
+   <li> ubcsat::rnovelty+ with 57 runs and cutoff=4*10^9 achieves
+   a minimum of 18 falsified clauses. </li>
    <li> It seems completely hopeless to run any current complete solver
     <ol>
      <li>
