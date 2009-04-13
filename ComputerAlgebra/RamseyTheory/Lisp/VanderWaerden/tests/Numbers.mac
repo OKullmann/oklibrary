@@ -31,7 +31,17 @@ kill(f)$
 
 okltest_vanderwaerden(f) := (
   assert(f([]) = 1),
+  for k : 1 thru 5 do
+    assert(f([k]) = k),
+  for k : 1 thru 5 do
+    assert(f([1,k]) = k),
+  assert(f([2,2]) = 3),
+  assert(f([3,3]) = 9),
+  assert(f([4,4]) = 35),
+  assert(f([5,5]) = 178),
   assert(f([6,6]) = 1132),
+  for k : 1 thru 6 do
+    assert(f(sort([2,k])) = if oddp(k) then 2*k else 2*k-1),
   true)$
 
 
