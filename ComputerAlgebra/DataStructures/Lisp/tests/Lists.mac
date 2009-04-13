@@ -141,6 +141,23 @@ okltest_strictdescending_p(f) := (
   assert(f([2,1]) = true),
   true)$
 
+okltest_ascending_p(f) := (
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,2]) = true),
+  assert(f([2,1]) = false),
+  assert(f([1,1]) = true),
+  true)$
+
+okltest_descending_p(f) := (
+  assert(okltest_ascending_p(buildq([f],lambda([L],f(reverse(L))))) = true),
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,2]) = false),
+  assert(f([2,1]) = true),
+  assert(f([2,2]) = true),
+  true)$
+
 
 /* *******************************************
    * Summations and products over lists/sets *

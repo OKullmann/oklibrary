@@ -102,6 +102,11 @@ strictascending_p(L) := if length(L) <= 1 then true
  else everynary_s("<",rest(L,-1),rest(L))$
 strictdescending_p(L) := if length(L) <= 1 then true
  else everynary_s(">",rest(L,-1),rest(L))$
+/* Checks whether L is ascending: */
+ascending_p(L) := if length(L) <= 1 then true
+ else everynary_s("<=",rest(L,-1),rest(L))$
+descending_p(L) := if length(L) <= 1 then true
+ else everynary_s(">=",rest(L,-1),rest(L))$
 
 
 /* *******************************************

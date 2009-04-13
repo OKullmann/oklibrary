@@ -45,6 +45,8 @@ okltest_lconstant_p(lconstant_p);
 
 okltest_strictascending_p(strictascending_p);
 okltest_strictdescending_p(strictdescending_p);
+okltest_ascending_p(ascending_p);
+okltest_descending_p(descending_p);
 
 /* *******************************************
    * Summations and products over lists/sets *
