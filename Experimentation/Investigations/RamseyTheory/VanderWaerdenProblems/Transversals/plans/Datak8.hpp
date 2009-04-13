@@ -113,6 +113,8 @@ L60_8 : minimum_transversals_mongen(80,A8,[{}])$
 52 8 13
 53 9 112
 54 9 2
+55 10 126
+56 10 1
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 8 1 0 OutputFile" we obtain
