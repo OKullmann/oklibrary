@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Numbe
 */
 
 okltest_vanderwaerden(vanderwaerden);
+okltest_vanderwaerden_p(vanderwaerden_p);
 
 /* *******************************************************
    * The formula from [Landman, Robertson, Culver, 2005] *

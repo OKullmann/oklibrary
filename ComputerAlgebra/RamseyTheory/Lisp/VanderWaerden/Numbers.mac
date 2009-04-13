@@ -36,6 +36,10 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif L[length(L)-1]=2 then vanderwaerdent(length(L)-1,last(L))
  else unknown$
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
+/* Checking whether L is a valid input: */
+vanderwaerden_p(L) := listp(L) and 
+ every_s(integerp,L) and every_s(lambda([x],is(x >= 1)),L) and
+ ascending_p(L)$
 
 
 /* *********************
@@ -54,10 +58,17 @@ vanderwaerdend(m,k) := if m=0 then 1
  elseif k=4 then vanderwaerdendap4(m)
  else unknown$
 /* vanderwaerdend(m,k) = vanderwaerden(create_list(k,i,1,m)) */
-/* The corresponding predicate, checking whether a parameter tuple applies,
-   and returning [m,k] in the positive case: */
-vanderwaerdend_p(L) := if emptyp(L) then [0,unknown] 
+
+/* The corresponding argument check for a vdW parameter-list L, 
+   checking whether a parameter tuple applies, returning [m,k] 
+   in the positive case and [] otherwise: */
+vanderwaerdend_a(L) := if emptyp(L) then [0,unknown] 
  elseif not lconstant_p(L) then [] else [length(L),first(L)]$
+/* Remark: So a vdW-tuple L falls into the range of vanderwaerdend iff
+   vanderwaerdend_a(L) # [], and in the positive case we have
+   vanderwaerden(L) = apply(vanderwaerdend,vanderwaerdend_a(L)).
+   This principle is also applied for all other such special cases.
+*/
 
 /* The diagonal cases with two parts: */
 vanderwaerdend2(k) :=
@@ -66,7 +77,7 @@ vanderwaerdend2(k) :=
 /* Remark: These numbers have been verified/computed by SAT solving
    methods.
 */
-vanderwaerdend2_p(L) := if length(L)=2 and lconstant_p(L) then first(L)
+vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
  else []$
 
 /* The diagonal cases with three parts: */
@@ -76,7 +87,7 @@ vanderwaerdend3(k) :=
 /* Remark: These numbers have been verified/computed by SAT solving
    methods.
 */
-vanderwaerdend3_p(L) := if length(L)=3 and lconstant_p(L) then first(L)
+vanderwaerdend3_a(L) := if length(L)=3 and lconstant_p(L) then first(L)
  else []$
 
 /* The diagonal cases with ap's of size 3: */
@@ -84,7 +95,7 @@ vanderwaerdendap3(m) :=
  if m=0 then 1
  elseif m <= 4 then [3,9,27,76][m]
  else unknown$
-vanderwaerdendap3_p(L) := if every_s(lambda([x],is(x=3)),L) then length(L) 
+vanderwaerdendap3_a(L) := if every_s(lambda([x],is(x=3)),L) then length(L) 
  else []$
 
 /* The diagonal cases with ap's of size 4: */
@@ -92,7 +103,7 @@ vanderwaerdendap4(m) :=
  if m=0 then 1
  elseif m <= 2 then [35][m]
  else unknown$
-vanderwaerdendap4_p(L) := if every_s(lambda([x],is(x=4)),L) then length(L) 
+vanderwaerdendap4_a(L) := if every_s(lambda([x],is(x=4)),L) then length(L) 
  else []$
 
 
@@ -111,8 +122,9 @@ vanderwaerdent(m,k) := if m=0 then k
   else if k >= m+2 then return(vanderwaerdent_lrc(m,k))
   else return(unknown))$
 /* vanderwaerdent(m,k) = vanderwaerden(endcons(k,create_list(2,i,1,m))) */
-/* The corresponding predicate, checking whether a parameter tuple applies: */
-vanderwaerdent_p(L) := if emptyp(L) then [] else 
+/* The corresponding applicability check (and conversion into an argument
+   list): */
+vanderwaerdent_a(L) := if emptyp(L) then [] else 
  block([x : last(L)], if every_s(lambda([y],is(y=x)),rest(L,-1)) then [length(L)-1,x] else [])$
 /* Remark: Note that for vanderwaerdent(m,k) we have altogether m+1 parts. */
 
