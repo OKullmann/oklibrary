@@ -32,14 +32,42 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 /* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
 vanderwaerden(L) := if emptyp(L) then 1
  elseif first(L) = 1 then vanderwaerden(rest(L))
- elseif lconstant_p(L) then vanderwaerdend(length(L),first(L))
- elseif L[length(L)-1]=2 then vanderwaerdent(length(L)-1,last(L))
+ elseif vanderwaerdend_a(L)#[] then apply(vanderwaerdend,vanderwaerdend_a(L))
+ elseif vanderwaerdent_a(L)#[] then apply(vanderwaerdent,vanderwaerdent_a(L))
+ elseif vanderwaerden3k_a(L)#[] then apply(vanderwaerden3k,vanderwaerden3k_a(L))
+ elseif vanderwaerden4k_a(L)#[] then apply(vanderwaerden4k,vanderwaerden4k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 /* Checking whether L is a valid input: */
 vanderwaerden_p(L) := listp(L) and 
  every_s(integerp,L) and every_s(lambda([x],is(x >= 1)),L) and
  ascending_p(L)$
+
+
+/* ****************
+   * Binary cases *
+   ****************
+*/
+
+vanderwaerden3k(k) := 
+ if k <= 16 then
+   [1,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238][k]
+ else unknown$
+vanderwaerden3k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(3,S) then
+    if length(S)=1 then [3] else [first(listify(disjoin(3,S)))]
+  else [])$
+
+vanderwaerden4k(k) := 
+ if k <= 7 then
+   [1,7,18,35,55,73,109][k]
+ else unknown$
+vanderwaerden4k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(4,S) then
+    if length(S)=1 then [4] else [first(listify(disjoin(4,S)))]
+  else [])$
 
 
 /* *********************
@@ -125,7 +153,7 @@ vanderwaerdent(m,k) := if m=0 then k
 /* The corresponding applicability check (and conversion into an argument
    list): */
 vanderwaerdent_a(L) := if emptyp(L) then [] else 
- block([x : last(L)], if every_s(lambda([y],is(y=x)),rest(L,-1)) then [length(L)-1,x] else [])$
+ block([x : last(L)], if every_s(lambda([y],is(y=2)),rest(L,-1)) then [length(L)-1,x] else [])$
 /* Remark: Note that for vanderwaerdent(m,k) we have altogether m+1 parts. */
 
 /* Using the list of transversal numbers: */

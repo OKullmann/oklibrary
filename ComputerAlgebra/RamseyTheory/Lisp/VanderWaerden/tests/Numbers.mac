@@ -42,6 +42,9 @@ okltest_vanderwaerden(f) := (
   assert(f([6,6]) = 1132),
   for k : 1 thru 6 do
     assert(f(sort([2,k])) = if oddp(k) then 2*k else 2*k-1),
+  assert(f([2,2,3]) = 7),
+  assert(f([3,7]) = 46),
+  assert(f([4,7]) = 109),
   true)$
 
 okltest_vanderwaerden_p(f) := (
