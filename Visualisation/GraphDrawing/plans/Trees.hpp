@@ -57,6 +57,16 @@ License, or any later version. */
    </li>
   </ul>
 
+    Four Aesthetics of Reingold-Tilford algorithm
+	
+   1.Nodes at the same level of the tree should lie along a straight line, 
+  and the straight lines defining the levels should be parallel.
+   2.Left children should be positioned on the left of its parent, 
+  right children should be positioned on the right of its parent.
+   3.Parent should be positioned in the centre over its children.
+   4.The drawings of a tree and its mirror image should be reflected to each other. 
+  Furthermore, the shape of any sub-tree with same structure 
+  should be exactly same regardless its position in the tree.
 
   \todo %Environment
   <ul>
