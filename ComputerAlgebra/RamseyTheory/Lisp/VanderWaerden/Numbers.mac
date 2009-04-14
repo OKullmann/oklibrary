@@ -141,8 +141,10 @@ vanderwaerdendap4_a(L) := if every_s(lambda([x],is(x=4)),L) then length(L)
 */
 
 /* The "transversal case", i.e., m parts with arithmetic progressions of 
-   length 2, one part with length k: */
+   length 2, one part with length k.
+   Prerequisites: m >= 0, k >= 1: */
 vanderwaerdent(m,k) := if m=0 then k
+ elseif k=1 then m+1
  elseif m=1 then if evenp(k) then 2*k-1 else 2*k
  elseif k=2 then m+2
  else block([res : vanderwaerdenttau(m,k)],
@@ -152,8 +154,13 @@ vanderwaerdent(m,k) := if m=0 then k
 /* vanderwaerdent(m,k) = vanderwaerden(endcons(k,create_list(2,i,1,m))) */
 /* The corresponding applicability check (and conversion into an argument
    list): */
-vanderwaerdent_a(L) := if emptyp(L) then [] else 
- block([x : last(L)], if every_s(lambda([y],is(y=2)),rest(L,-1)) then [length(L)-1,x] else [])$
+vanderwaerdent_a(L) := block([l : length(L)],
+ if l=0 then [] 
+ elseif l=1 then [0,first(L)]
+ elseif first(L)=1 then
+   if second(L)#2 or last(L)#2 then [] else [l-1,1]
+ elseif first(L)#2 or L[l-1]#2 then []
+ else [l-1,last(L)])$
 /* Remark: Note that for vanderwaerdent(m,k) we have altogether m+1 parts. */
 
 /* Using the list of transversal numbers: */
