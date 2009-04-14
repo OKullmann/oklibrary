@@ -29,6 +29,13 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Numbe
 okltest_vanderwaerden(vanderwaerden);
 okltest_vanderwaerden_p(vanderwaerden_p);
 
+/* ************************
+   * The transversal case *
+   ************************
+*/
+
+okltest_vanderwaerdent_a(vanderwaerdent_a);
+
 /* *******************************************************
    * The formula from [Landman, Robertson, Culver, 2005] *
    *******************************************************
@@ -37,6 +44,13 @@ okltest_vanderwaerden_p(vanderwaerden_p);
 okltest_lrc_j(lrc_j);
 okltest_lrc_l0p(lrc_l0p);
 okltest_lrc_l1p(lrc_l1p);
+
+/* ********************************
+   * Generalised transversal case *
+   ********************************
+*/
+
+okltest_vanderwaerdents_a(vanderwaerdents_a);
 
 /*!
 \endhtmlonly
