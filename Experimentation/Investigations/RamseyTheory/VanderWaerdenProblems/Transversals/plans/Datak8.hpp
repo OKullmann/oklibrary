@@ -54,11 +54,11 @@ L_0_24_8 : compute_transversals_hg(8,24)$
    </li>
    <li> And the max-rank sequence begins with
    0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,3,3,4,4,5,5,5,5,6,6. </li>
-<li> Computing the number of minimum transversals:
+   <li> Computing the number of minimum transversals:
    \verbatim
 oklib_monitor : true;
 A8(n):=arithprog_hg(8,n)$
-L60_8 : minimum_transversals_mongen(80,A8,[{}])$
+L60_8 : minimum_transversals_mongen(60,A8,[{}])$
 1 0 1
 2 0 1
 3 0 1
@@ -222,6 +222,8 @@ k n tau
 8 100 20
 8 101 21
 8 102 22
+8 103 23
+8 104 23
    \endverbatim
    </li>
   </ul>
