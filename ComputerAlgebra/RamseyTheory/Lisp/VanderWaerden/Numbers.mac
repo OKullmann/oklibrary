@@ -36,6 +36,7 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerdent_a(L)#[] then apply(vanderwaerdent,vanderwaerdent_a(L))
  elseif vanderwaerden3k_a(L)#[] then apply(vanderwaerden3k,vanderwaerden3k_a(L))
  elseif vanderwaerden4k_a(L)#[] then apply(vanderwaerden4k,vanderwaerden4k_a(L))
+ elseif vanderwaerdents_a(L)#[] then apply(vanderwaerdents,vanderwaerdents_a(L))
  else unknown$
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 /* Checking whether L is a valid input: */
@@ -217,6 +218,48 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
     then return(res)
     else return([res,inf]))
  )$
+
+
+/* ********************************
+   * Generalised transversal case *
+   ********************************
+*/
+
+/* The generalised transversal case with suffix S, that is
+   (m,S,k) -> L = append(create_list(2,i,1,m),S,[k]).
+   Non-degeneracy conditions:
+    S non-empty vdW-tuple, m >= 1, min(S) >= 3, max(S) <= k.
+*/
+vanderwaerdents(m,S,k) :=
+ if S=[3] and k=3 then
+   if m <= 3 then [14,17,20][m] else unknown
+ elseif S=[3] and k=4 then
+   if m <= 2 then [21,25][m] else unknown
+ elseif S=[3] and k=5 then
+   if m <= 2 then [32,43][m] else unknown
+ elseif S=[3] and k=6 then
+   if m <= 2 then [40,48][m] else unknown
+ elseif S=[3] and k=7 then
+   if m <= 2 then [55,65][m] else unknown
+  elseif S=[4] and k=4 then
+   if m <= 2 then [40,53][m] else unknown
+  elseif S=[4] and k=5 then
+   if m <= 1 then [71][m] else unknown
+  elseif S=[4] and k=6 then
+   if m <= 1 then [83][m] else unknown
+  elseif S=[3,3] and k=3 then
+   if m <= 2 then [40,41][m] else unknown
+  elseif S=[3,3] and k=4 then
+   if m <= 1 then [60][m] else unknown
+ else unknown$
+vanderwaerdents_a(L) := 
+ if length(L) <= 2 or first(L)#2 or last(L)=2 then [] else
+ block([m : 1],
+  while L[m]=2 do m:m+1,
+  m : m-1,
+  S : rest(L,m), if length(S)=1 then return([]),
+  S : rest(S,-1),
+  return([m,S,last(L)]))$
 
 
 /* ******************************************************************

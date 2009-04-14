@@ -45,6 +45,13 @@ okltest_lrc_j(lrc_j);
 okltest_lrc_l0p(lrc_l0p);
 okltest_lrc_l1p(lrc_l1p);
 
+/* ********************************
+   * Generalised transversal case *
+   ********************************
+*/
+
+okltest_vanderwaerdents_a(vanderwaerdents_a);
+
 /*!
 \endhtmlonly
 */
