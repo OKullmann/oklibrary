@@ -34,6 +34,28 @@ License, or any later version. */
    at a higher test level, given their long running time. </li>
   </ul>
 
+  
+  \todo Provide additional translation into CSP-solver format
+  <ul>
+   <li> A translation of the AES into a format usable by popular CSP solvers
+   should be undertaken. This should allow comparison to the SAT translation.
+   </li>
+   <li> Is there a generic input format (like DIMACS) for CSP problems? </li>
+   <li> Translating to something Minion can read seems reasonably simple, using
+   constraints such as: 
+   <ul>
+    <li> difference (for xor) </li>
+    <li> table or negativetable (for sbox, GF multiplication etc) </li>
+   </ul>
+   one should be able to generate a simple AES CSP problem.
+   </li>
+   <li> The specification of the sbox and multiplication operations are then
+   separate from their instances within the constraint set. This should allow
+   for a variety of different translations (including using large prime 
+   implicate representations). </li>
+  </ul>
+
+
   \todo Write Docus
   
 
