@@ -23,6 +23,19 @@ License, or any later version. */
     <ol>
      <li> This is a single solver, apparently with a powerful input
      language. </li>
+     <li> Installation:
+     \verbatim
+builds/CSP> tar -xzf ../../sources/CSP/Minion/minion-0.8.1-src.tar.gz
+builds/CSP> cd minion-0.8.1
+minion-0.8.1> mkdir bin
+minion-0.8.1> cd bin
+minion-0.8.1/bin> cmake ..
+CMake Error: Boost not found -- do you have the iostreams component?
+     \endverbatim
+     So we need CMake and Boost --- how to tell Minion about the location
+     of Boost sources and link-libraries?
+     </li>
+     <li> We should build CMake, and put it into OKlibrary/bin. </li>
     </ol>
    </li>
    <li> Mozart http://www.mozart-oz.org/
