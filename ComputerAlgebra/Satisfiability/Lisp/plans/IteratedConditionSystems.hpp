@@ -74,6 +74,10 @@ License, or any later version. */
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac
    for our implementation of AES. </li>
    <li> The only obstacle should be the key schedule. </li>
+   <li> The only obstacle with the key schedule should be the round dependent 
+   "round constants", however these are simply (02)^(r-1) in GF(2^8) and so
+   adding 8 bits to the domain for the round constant and multiplying these
+   bits by 02 within the transition function would handle this. </li>
    <li> The process of attacking AES (see
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    for the general plans) should yield a first framework for solving ics
