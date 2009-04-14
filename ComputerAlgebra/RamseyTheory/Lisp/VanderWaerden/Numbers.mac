@@ -36,6 +36,7 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerdent_a(L)#[] then apply(vanderwaerdent,vanderwaerdent_a(L))
  elseif vanderwaerden3k_a(L)#[] then apply(vanderwaerden3k,vanderwaerden3k_a(L))
  elseif vanderwaerden4k_a(L)#[] then apply(vanderwaerden4k,vanderwaerden4k_a(L))
+ elseif vanderwaerden5k_a(L)#[] then apply(vanderwaerden5k,vanderwaerden5k_a(L))
  elseif vanderwaerdents_a(L)#[] then apply(vanderwaerdents,vanderwaerdents_a(L))
  elseif vanderwaerden33k_a(L)#[] then apply(vanderwaerden33k,vanderwaerden33k_a(L))
  elseif vanderwaerden34k_a(L)#[] then apply(vanderwaerden34k,vanderwaerden34k_a(L))
@@ -55,7 +56,7 @@ vanderwaerden_p(L) := listp(L) and
 
 vanderwaerden3k(k) := 
  if k <= 16 then
-   [1,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238][k]
+   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
@@ -64,13 +65,23 @@ vanderwaerden3k_a(L) := if length(L)#2 then [] else
   else [])$
 
 vanderwaerden4k(k) := 
- if k <= 7 then
-   [1,7,18,35,55,73,109][k]
+ if k <= 8 then
+   [4,7,18,35,55,73,109,146][k]
  else unknown$
 vanderwaerden4k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
   if elementp(4,S) then
     if length(S)=1 then [4] else [first(listify(disjoin(4,S)))]
+  else [])$
+
+vanderwaerden5k(k) := 
+ if k <= 6 then
+   [5,10,22,55,178,206][k]
+ else unknown$
+vanderwaerden5k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(5,S) then
+    if length(S)=1 then [5] else [first(listify(disjoin(5,S)))]
   else [])$
 
 
@@ -262,25 +273,43 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
 */
 vanderwaerdents(m,S,k) :=
  if S=[3] and k=3 then
-   if m <= 3 then [14,17,20][m] else unknown
+   if m <= 7 then [14,17,20,21,24,25,28][m] else unknown
  elseif S=[3] and k=4 then
-   if m <= 2 then [21,25][m] else unknown
+   if m <= 5 then [21,25,29,33,36][m] else unknown
  elseif S=[3] and k=5 then
-   if m <= 2 then [32,43][m] else unknown
+   if m <= 4 then [32,43,44,50][m] else unknown
  elseif S=[3] and k=6 then
-   if m <= 2 then [40,48][m] else unknown
+   if m <= 4 then [40,48,56,60][m] else unknown
  elseif S=[3] and k=7 then
-   if m <= 2 then [55,65][m] else unknown
+   if m <= 3 then [55,65,72][m] else unknown
+ elseif S=[3] and k=8 then
+   if m <= 3 then [72,83,88][m] else unknown
+ elseif S=[3] and k=9 then
+   if m <= 2 then [90,99][m] else unknown
+ elseif S=[3] and k=10 then
+   if m <= 2 then [108,119][m] else unknown
+ elseif S=[3] and k=11 then
+   if m <= 1 then [129][m] else unknown
+ elseif S=[3] and k=12 then
+   if m <= 1 then [150][m] else unknown
+ elseif S=[3] and k=13 then
+   if m <= 1 then [171][m] else unknown
   elseif S=[4] and k=4 then
-   if m <= 2 then [40,53][m] else unknown
+   if m <= 4 then [40,53,54,56][m] else unknown
   elseif S=[4] and k=5 then
-   if m <= 1 then [71][m] else unknown
+   if m <= 3 then [71,75,79][m] else unknown
   elseif S=[4] and k=6 then
-   if m <= 1 then [83][m] else unknown
+   if m <= 2 then [83,93][m] else unknown
+  elseif S=[4] and k=7 then
+   if m <= 1 then [119][m] else unknown
+  elseif S=[5] and k=5 then
+   if m <= 1 then [180][m] else unknown
   elseif S=[3,3] and k=3 then
-   if m <= 2 then [40,41][m] else unknown
+   if m <= 3 then [40,41,42][m] else unknown
   elseif S=[3,3] and k=4 then
-   if m <= 1 then [60][m] else unknown
+   if m <= 2 then [60,63][m] else unknown
+  elseif S=[3,3] and k=5 then
+   if m <= 1 then [86][m] else unknown
  else unknown$
 vanderwaerdents_a(L) := 
  if length(L) <= 2 or first(L)#2 or last(L)=2 then [] else
