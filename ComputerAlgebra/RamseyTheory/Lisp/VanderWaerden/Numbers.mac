@@ -329,7 +329,7 @@ vanderwaerdents_a(L) :=
 /* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog,
-  9,
+  10,
   fixnum)$
 
 /* The following data has been computed by
@@ -434,6 +434,18 @@ tau_arithprog_seq[9] : [
 3,4,4,4,4,4,4,4,5,5,
 5,5,5,5,5,6,6,6,6,6,
 6,6,7,7,7,7,7,8
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 10 1 0 OutputFile":
+*/
+tau_arithprog_seq[10] : [
+0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,2,2,
+2,2,2,2,2,2,2,2,3,3,
+3,3,3,4,4,4,4,4,4,4,
+5,5,5,5,5,5,5,6,6,6,
+6,6,6,6,7,7,7,7,7,7,
+7
 ]$
 
 
