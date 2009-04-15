@@ -12,16 +12,17 @@
 # number for n is either t or t+1), and continues with n+1 and so on.
 # The method is by adding the inequality "transversal size = t" to
 # the clauses representing the hyperedges, obtaining a pseudo-boolean problem,
-# solved then by Minisat+ (yet the only pseudo-boolean solver we have).
+# solved then by Minisat+ (the default).
 
 script_name="VdWTransversalsIncPB"
 
-if [[ $# != 5 ]]; then
+if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: 
-  Exactly five parameters k, n, t, file1, file2 are needed:
+  Five parameters k, n, t, file1, file2 are needed:
   The progression-length k, the starting number n of vertices, the 
   transversal number t for n-1 vertices, the output filename for the
-  transversal numbers, and the filename for output of the PB solver."
+  transversal numbers, and the filename for output of the PB solver.
+  The solver-executable is an optional sixth parameter."
   exit 1
 fi
 
@@ -30,7 +31,11 @@ T=$3
 output=$4
 output_solver=$5
 
-solver="minisat+_64-bit_static"
+if [[ $# == 6 ]]; then
+  solver=$6
+else
+  solver="minisat+"
+fi
 generator="VdWTransversalsPB"
 
 echo "k n tau" >> ${output}
@@ -46,7 +51,7 @@ for ((N=${2}; 1; ++N)); do
     exit 1
   fi
   if [[ ${res} == 20 ]]; then T=$(expr ${T} + 1); fi
-  echo "k=${K}, n=${N}: tau = ${T}" >> ${output}
+  echo "${K} ${N} ${T}" >> ${output}
   echo -e "${K} ${N} ${T}\n" >> ${output_solver}
   rm ${file}
 done
