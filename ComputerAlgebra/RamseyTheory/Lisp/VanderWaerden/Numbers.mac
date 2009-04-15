@@ -329,7 +329,7 @@ vanderwaerdents_a(L) :=
 /* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog,
-  9,
+  10,
   fixnum)$
 
 /* The following data has been computed by
@@ -440,6 +440,18 @@ tau_arithprog_seq[9] : [
 17,17,17,17,17,17,18,18,18,18,
 18,19,19,19,19,20,20,20,20
 ]$
+/* The following data has been computed by
+   "VdWTransversalsInc 10 1 0 OutputFile":
+*/
+tau_arithprog_seq[10] : [
+0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,2,2,
+2,2,2,2,2,2,2,2,3,3,
+3,3,3,4,4,4,4,4,4,4,
+5,5,5,5,5,5,5,6,6,6,
+6,6,6,6,7,7,7,7,7,7,
+7
+]$
 
 
 /* For n <= exactv_tau_arithprog(k) we have stored exact values
@@ -483,6 +495,40 @@ alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
 ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
+/* The list of all known values (from n=1 not allowing gaps) for k >= 3: */
+ralphal_arithprog(k) := if k > exactk_tau_arithprog then []
+ else block([L : tau_arithprog_seq[k], N],
+  N : create_list(i,i,1,length(L)),
+  return((N - L) / N))$
+
+/* Analysing the list of ratios of alpha-values */
+
+/* Plotting the alpha-ratios (k >= 3): */
+plot_ralpha_arithprog(k) := block([L : ralphal_arithprog(k)],
+  if not emptyp(L) then
+    plot2d([discrete, create_list(i,i,1,length(L)), L]))$
+
+/* "Approximating" the index n such that for all n' >= n we have
+   alpha(arithprog_hg(k,n))/n < 1/q by considering ralphal_arithprog.
+   Prerequisites: k, q natural numbers, k, q >= 1.
+   "cr" stands for "convergence ratio".
+*/
+approx_cralpha_arithprog(k,q) := 
+ if k=1 then 1
+ elseif k=2 then q+1 else block([L, i],
+  L : ralphal_arithprog(k),
+  i : find_last_l(lambda([x],is(x >= 1/q)), L),
+  if i=minf then return(inf) else (
+    i : i+1,
+    if i>length(L) then return(inf) else return(i)))$
+
+/* The "approximated" upper bound on vanderwaerdend(m,k) given by
+   approx_cralpha_arithprog (if this value is exact, then the upper
+   bounds holds true).
+   Prerequisites: m, k natural numbers >= 1.
+*/
+upper_vanderwaerdend_approxcralpha(m,k) :=
+ approx_cralpha_arithprog(k,m)$
 
 
 /*!

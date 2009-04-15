@@ -244,6 +244,26 @@ okltest_first_largest_f_l(f) := (
   assert(f(lambda([x],x*x),[2,-2,3]) = [9,3]),
   true)$
 
+okltest_find_first_l(f) := ([pred],
+  assert(f(pred,[]) = inf),
+  assert(f(evenp,[1]) = inf),
+  assert(f(evenp,[2]) = 1),
+  assert(f(evenp,[1,3,5,1]) = inf),
+  assert(f(evenp,[2,4,6,2]) = 1),
+  assert(f(evenp,[1,3,5,2,4,6,2]) = 4),
+  assert(f(evenp,[1,3,4]) = 3),
+  true)$
+
+okltest_find_last_l(f) := ([pred],
+  assert(f(pred,[]) = minf),
+  assert(f(evenp,[1]) = minf),
+  assert(f(evenp,[2]) = 1),
+  assert(f(evenp,[1,3,5,1]) = minf),
+  assert(f(evenp,[2,4,6,2]) = 4),
+  assert(f(evenp,[1,3,5,2,4,6,2]) = 7),
+  assert(f(evenp,[2,1,3,5]) = 1),
+  true)$
+
 
 /* **************************
    * Sublist constructions *

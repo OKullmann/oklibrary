@@ -163,6 +163,24 @@ first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
     if v > max_v then (opt_x : x, max_v : v)),
   [max_v, opt_x])$
 
+/* The index of the first element x in list L with property _pred(x);
+   if there is no such x then return inf. */
+find_first_l(_pred,L) := if emptyp(L) then inf else
+ block([found : false, i : 1],
+  for x in L unless found do
+    if _pred(x)=true then found : true
+    else i : i + 1,
+  if found then return(i) else return(inf))$
+
+/* The index of the last element x in list L with property _pred(x);
+   if there is no such x then return minf. */
+find_last_l(_pred,L) := if emptyp(L) then minf else
+ block([found : false, i : length(L)],
+  for x in reverse(L) unless found do
+    if _pred(x)=true then found : true
+    else i : i - 1,
+  if found then return(i) else return(minf))$
+
 
 /* **************************
    * Sublist constructions *
