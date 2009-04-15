@@ -14,8 +14,8 @@ script_name="VdWTransversalsPB"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Exactly three parameters k, n, b are needed:
-  The progression-length k, the number n of vertices, and the upper bound b
-  on the transversal size."
+  The progression-length k, the number n of vertices, and the precise length b
+  of the envisaged transversal."
   exit 1
 fi
 
