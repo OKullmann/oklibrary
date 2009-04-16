@@ -29,12 +29,12 @@ builds/CSP> tar -xzf ../../sources/CSP/Minion/minion-0.8.1-src.tar.gz
 builds/CSP> cd minion-0.8.1
 minion-0.8.1> mkdir bin
 minion-0.8.1> cd bin
-minion-0.8.1/bin> cmake ..
+minion-0.8.1/bin> BOOST_INCLUDEDIR=$OKPLATFORM/ExternalSources/Boost/1_34_1+4.1.2/include/boost-1_34_1 BOOST_LIBRARYDIR=$OKPLATFORM/ExternalSources/Boost/1_34_1+4.1.2/lib/ cmake ..
 CMake Error: Boost not found -- do you have the iostreams component?
      \endverbatim
      So we need CMake and Boost --- how to tell Minion about the location
-     of Boost sources and link-libraries?
-     </li>
+     of Boost sources and link-libraries? The above should work, but
+     doesn't. </li>
      <li> We should build CMake, and put it into OKlibrary/bin. </li>
     </ol>
    </li>
