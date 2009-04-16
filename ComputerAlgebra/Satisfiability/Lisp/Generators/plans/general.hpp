@@ -75,6 +75,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translating non-boolean clause-sets into boolean clause-sets
+  <ul>
+   <li> Write nbfcsfd2fcs_alo(FF) and nbfcsfd2fcs_aloamo(FF), translating
+   non-boolean clause-sets into boolean clause-sets by using new boolean
+   variables nbv(v,e) for old variables v and values e, adding in the first
+   case only at-least-one-clauses for each v, and in the second case also
+   adding the at-most-one-clauses. </li>
+   <li> This can be applied to "Colouring problems" and "Generalised colouring
+   problems" below. </li>
+  </ul>
+
+
   \todo Colouring problems
   <ul>
    <li> Translate graph colouring problems into SAT. </li>
