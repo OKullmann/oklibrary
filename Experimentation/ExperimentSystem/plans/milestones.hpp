@@ -15,17 +15,25 @@ License, or any later version. */
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
-    - Transfer
+    - Simple script for monitoring remote processes
 
 
   \par Version 0.1.3 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
-    - Working again
+    - Update namespaces
+    - Transfer
 
 
   \par Version 0.1.4 :
+
+  \par
+   In ExperimentSystem/plans/general.hpp the following topics are handled:
+    - Working again
+
+
+  \par Version 0.1.5 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:

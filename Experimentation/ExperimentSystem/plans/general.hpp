@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,37 @@ License, or any later version. */
   \brief Launching and monitoring experiments on remote machines.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces
+
+
+  \todo Simple script for monitoring remote processes
+  <ul>
+   <li> See "Translation via addition" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/UsingSAT.hpp
+   for first plans. </li>
+   <li> Such a script perhaps visits every hour each process, restarts it if
+   necessary, and performs also some output-action, stored to some file
+   dedicated to the experiment. </li>
+   <li> So that in most cases one just needs to inspect local files, and, more
+   important, is sure that the experiment runs continuously. </li>
+   <li> In case the process can't be restarted an e-mail is sent to the
+   administrator. </li>
+   <li> It seems easiest just to write the various outputs into files;
+   one could also think of adding a line to a table in a html document or
+   an rss feed, but I (OK) definitely prefer simple files. </li>
+   <li> The experiments are stored via a simple format in a file, which
+   can be arbitrary changed (but one should make sure that the hourly
+   action is not happening just then, so only working with a copy of the
+   configuration file, and overwriting the old only at the end). </li>
+   <li> A configuration line could contain the command to login, the
+   command to check whether the process is running, the command to
+   re-start the process, and the command for producing output. </li>
+   <li> How can we just find out whether *new* output happened, and only
+   show this? </li>
+   <li> Using "ps" for checking the status of a process seems appropriate;
+   but one should not just check the pid (another process could have attained
+   the same pid). </li>
+  </ul>
 
 
   \todo Transfer
@@ -63,29 +93,11 @@ License, or any later version. */
    then, via some command perhaps using a syntax like chmod for
    "prepare yes/no, process yes/no, transfer yes/no", say, +-+, an
    experiment can be started. </li>
-   <li> When multiple sub-experiments are being run (see RunningUBCSAT.hpp)
-   it could be useful to be able to monitor the progress of such
-   sub-experiments, and to see some partial results. </li>
-   <li> Some possibilities for the monitoring of partial results are
-    <ul>
-     <li> Copying (scp or cp) results output from the system to a public_html 
-     directory, and running a small script to add a line to a table in
-     a html document (and/or rss feed) that can then be monitored manually. 
-     </li>
-     <li> Creating a script which logs into each machine (a list of such
-     machines could be stored in a plain text file) being used, checks 
-     things such as "ps" to ensure the R and/or UBCSAT processes are running, 
-     and looks at the files produced by UBCSAT to provide an overview of the 
-     results. </li> 
-    </ul>
-   </li>
-   <li> The possibility of creating a small shell script which is run upon
-   the completion of subsets of experiments seems sensible, as this could
-   start off any number of events, such as emails, backups etc, as part of
-   the monitoring process. It should also be relatively simple to write </li>
    <li> Perhaps we use simple single tools for the different actions
    (querying the status, launching an experiment), and use simple
    copy-and-paste to transfer data from one step to another. </li>
+   <li> See "Simply script for monitoring remote processes" above for
+   a simple but flexible tool which just monitors (arbitrary) processes. </li>
   </ul>
 
 

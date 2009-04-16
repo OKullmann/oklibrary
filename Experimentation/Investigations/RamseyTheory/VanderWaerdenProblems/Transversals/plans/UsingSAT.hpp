@@ -36,6 +36,17 @@ License, or any later version. */
      solver? </li>
      <li> For each of the translations we also need to re-examine other
      types of solvers. </li>
+     <li> We should perform a systematic investigation.
+      <ol>
+       <li> Running all translation for a selection of solvers, in each
+       case for a few days. </li>
+       <li> Best to put these experiments on different machines. </li>
+       <li> For automatisation perhaps for now it suffices just to have
+       a script which each hour checks whether a certain process on a
+       certain machine still runs, and if not restarts it (just using
+       a given command). </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> DONE

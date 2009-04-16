@@ -61,6 +61,8 @@ License, or any later version. */
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par Experimentation version 0.4.1
+  (see Experimentation/plans/milestones.hpp)
   \par
    In OKlib/plans/general.hpp the following topics are handled:
     - Access to version numbers
@@ -110,8 +112,6 @@ License, or any later version. */
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Structures version 0.0.6
   (see Structures/plans/milestones.hpp)
-  \par Experimentation version 0.4.1
-  (see Experimentation/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
   \par %Combinatorics version 0.0.4
