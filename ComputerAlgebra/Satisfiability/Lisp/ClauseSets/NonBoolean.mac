@@ -1,0 +1,149 @@
+/* Oliver Kullmann, 16.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac
+  \brief Functions for basic operations with clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* **************************
+   * Variables and literals *
+   **************************
+*/
+
+/*
+ Any value can be a "variable" or a "value" of a variable.
+*/
+
+
+/* 
+ A "non-boolean literals" ("nbl") is a pair [v,e], where v
+ is a variable and e a value.
+*/
+nbl_p(x) := listp(x) and is(length(x)=2)$
+
+var_nbl(x) := first(x)$
+val_nbl(x) := second(x)$
+
+
+/*
+ A "signed non-boolean literal" ("snbl") is a triple [v,e,s] such
+ that [v,e] is a non-boolean literal and s in {-1,+1}.
+*/
+snbl_p(x) := 
+ listp(x) and is(length(x)=3) and nbl_p(rest(x)) and elementp(x[3],{-1,+1})$
+
+var_snbl(x) := first(x)$
+val_snbl(x) := second(x)$
+sgn_snbl(x) := third(x)$
+
+
+/*
+ A "power literal" ("pl") is a pair [v,V], where v is a variable and V is
+ a set of values.
+*/
+
+pl_p(x) := listp(x) and is(length(x)=2) and setp(second(V))$
+
+var_pl(x) := first(x)$
+val_pl(x) := second(x)$
+
+
+/* 
+ A "signed power literal" ("spl") is a triple [v,V,s] such
+ that [v,V] is a power literal and s in {-1,+1}.
+*/
+spl_p(x) := 
+ listp(x) and is(length(x)=3) and pl_p(rest(x)) and elementp(x[3],{-1,+1})$
+
+var_spl(x) := first(x)$
+val_spl(x) := second(x)$
+sgn_spl(x) := third(x)$
+
+
+/* ***********
+   * Clauses *
+   ***********
+*/
+
+/*
+ A "non-boolean clause" ("nbc") is a set of non-boolean literals
+ such that different literals have different values.
+*/
+nbc_p(C) := 
+ setp(C) and every_s(nbl_p,C) and is(length(map(var_nbl,C))=length(C))$
+
+var_nbc(C) := map(var_nbl,C)$
+
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
+
+/*
+ A "non-boolean clause-set" ("nbcs") is a set of non-boolean clauses.
+*/
+nbcs_p(F) := setp(F) and every_s(nbc_p,F)$
+
+var_nbcs(F) := apply(union,map(var_nbc,listify(F)))$
+val_nbcs(F) := apply(union,map(val_nbc,listify(F)))$
+
+lit_nbcs(F) := apply(union,listify(F))$
+
+/*
+ A "non-boolean formal clause-set" ("nbfcs") is a pair [V,F] such that
+ V is a set of variables and F is a non-boolean clause-set with 
+ var(F) <= V.
+*/
+nbfcs_p(FF) := 
+ listp(FF) and is(length(FF)=2) and setp(FF[1]) and nbcs_p(FF[2]) and 
+  subsetp(var_nbcs(FF[2]),FF[1])$
+
+nbfcs2nbcs(FF) := second(FF)$
+
+var_nbfcs(FF) := var_nbcs(nbfcs2nbcs(FF))$
+val_nbfcs(FF) := val_nbcs(nbfcs2nbcs(FF))$
+
+/*
+ A "non-boolean formal clause-set with uniform domain" ("nbfcsud") is
+ a triple [V,F,D] such that [V,F] is a non-boolean formal clause-set with
+ val(FF) <= D.
+*/
+nbfcsud_p(FF) := 
+ listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
+  subsetp(var_nbcs(FF[2]),FF[3])$
+
+/*
+ A "non-boolean formal clause-set with function domain" ("nbfcsfd") is
+ a triple [V,F,D] such that [V,F] is a non-boolean formal clause-set and
+ D is a map defined for all v in V such that D(v) is a set of values and
+ for all literals x in F with var(x)=v we have val(x) in D(v).
+*/
+nbfcsfd_p(FF) := 
+ listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
+ every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbcs(FF[2]))$
+
+nbfcsud2nbfcsfd(FF) := endcons(buildq([FF], lambda([v], FF[3])), rest(FF,-1))$
+
+
+/*!
+\endhtmlonly
+*/

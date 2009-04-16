@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -130,13 +130,13 @@ License, or any later version. */
      "problems" given for example to SAT-solvers. </li>
      <li> So a signed clause-set etc. would always need to be accompanied
      by either a uniform domain, or by a domain function. </li>
-     <li> But perhaps we should codify such pairs [FF, D], where D is a set,
+     <li> But perhaps we should use pairs [FF, D], where D is a set,
      list or map. Perhaps the default for all types of clause-sets is
      a uniform domain. </li>
      <li> But since we can also use sensibly non-boolean clause-sets without
-     the domain information (for example it is not need to apply a partial
-     assignment), we should use the (additional) suffix "ud" for uniform
-     domain and "fd" for function domain. </li>
+     the domain information (for example it is not needed in order to apply
+     a partial assignment), we should use the (additional) suffix "ud" for
+     uniform domain and "fd" for function domain. </li>
      <li> There is also the idea that a "domain association" is basically
      a partial assignment; actually it should be a "total partial assignment".
      </li>
