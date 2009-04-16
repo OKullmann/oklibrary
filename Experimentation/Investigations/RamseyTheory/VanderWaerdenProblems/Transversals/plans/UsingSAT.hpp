@@ -24,6 +24,20 @@ License, or any later version. */
      transversal number for k=3, starting with n=1. </li>
     </ol>
    </li>
+   <li> We need to explore the different algorithms in minisat+ for
+   translation from pseudo-boolean to CNF problems.
+    <ol>
+     <li> 4 basic translations are offered there ("-adders", "-sorters",
+     "-bdds" and "-mixed"). </li>
+     <li> Apparently in each case we have the possibility "-weak-off" to
+     "Clausify with equivalences instead of implications" ? </li>
+     <li> One question to be explored is why minisat+ performs badly:
+     Something wrong with the translation or with the underlying SAT
+     solver? </li>
+     <li> For each of the translations we also need to re-examine other
+     types of solvers. </li>
+    </ol>
+   </li>
    <li> DONE
    VdWTransversals uses LinInequal-O3-DNDEBUG, which uses only an
    upper bound on the transversal size: It should be more efficient to
@@ -1535,112 +1549,6 @@ BestSolution_Max = 1.000000
    <li> However, all the above is for "<="-translation, and furthermore there
    are unit-clauses in the input --- we need to apply such simple preprocessing
    first! </li>
-  </ul>
-
-
-  \todo Translation to pseudo-boolean problems
-  <ul>
-   <li> The first impression, using 
-   "VdWTransversalsIncPB 3 1 0 Out Out_solver" instead of 
-   "VdWTransversalsInc 3 1 0 Out Out_solver", is that it is actually
-   slower! </li>
-   <li> Unsatisfiable instances:
-   \verbatim
-3 0 0
-6 4 1
-7 8 1
-8 17 1
-10 22 1
-12 37 1
-15 38 1
-16 90 1
-17 139 2
-18 172 2
-19 275 3
-21 308 3
-22 672 4
-23 822 5
-25 1201 5
-27 1290 5
-28 1605 6
-29 2470 7
-31 2875 7
-33 4042 8
-34 4484 8
-35 6704 9
-37 6381 9
-38 10136 10
-39 11659 11
-42 11736 11
-43 16557 11
-44 19945 12
-45 39287 14
-46 46872 14
-47 57433 14
-48 92158 16
-49 116998 16
-50 158151 17
-52 170787 17
-53 226039 18
-55 252913 18
-56 265573 18
-57 382610 19
-59 427166 19
-60 527362 20
-61 678889 21
-62 920175 21
-64 863104 21
-65 11794773 28
-66 13054348 28
-67 19986008 29
-68 34636039 30
-69 36363070 30
-70 56168407 31
-72 41009941 31
-73 85001878 32
-75 97860025 33
-76 149272628 34
-77 162966593 34
-78 184709931 34
-79 225132400 35
-80 304577630 36
-81 423280421 36
-83 539904152 37
-   \endverbatim
-   </li>
-   <li> Satisfiable instances:
-   \verbatim
-1 0 1
-2 0 1
-4 0 1
-5 0 1
-9 0 1
-11 0 1
-13 16 1
-14 20 1
-20 46 1
-24 81 1
-26 77 1
-30 2981 7
-32 2194 7
-36 260 3
-40 1665 6
-41 13023 11
-51 35230 13
-54 4777 8
-58 296209 19
-63 1049682 22
-71 33816965 30
-74 107863942 33
-82 150743227 34
-84 132096556 34
-   \endverbatim
-   </li>
-   <li> So performance of minisat+ is rather weak; one should try whether
-   tuning the parameters helps, but the first impression is that it doesn't
-   help. </li>
-   <li> But the feature to write the CNF to a file, and then to use
-   some other solvers, needs to be explored! </li>
   </ul>
 
 
