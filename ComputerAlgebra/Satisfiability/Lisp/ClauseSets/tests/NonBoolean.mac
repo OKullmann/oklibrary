@@ -1,0 +1,179 @@
+/* Oliver Kullmann, 17.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/NonBoolean.mac
+  \brief Tests for the basic operations with clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/NonBoolean.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+
+kill(f)$
+
+
+/* **************************
+   * Variables and literals *
+   **************************
+*/
+
+okltest_nbl_p(f) := block([v,e],
+  assert(f(1) = false),
+  assert(f([1]) = false),
+  assert(f([1,2]) = true),
+  assert(f([v,e]) = true),
+  assert(f([1,2,3]) = false),
+  true)$
+
+okltest_var_nbl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_nbl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_snbl_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_snbl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_snbl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_sgn_snbl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_pl_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_pl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_pl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_spl_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_spl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_spl(f) := block(
+  /* XXX */
+  true)$
+
+okltest_sgn_spl(f) := block(
+  /* XXX */
+  true)$
+
+
+/* ***********
+   * Clauses *
+   ***********
+*/
+
+okltest_nbc_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_nbc(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_nbc(f) := block(
+  /* XXX */
+  true)$
+
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
+
+okltest_nbcs_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_nbcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_nbcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_lit_nbcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_nbfcs_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_var_nbfcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_val_nbfcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_lit_nbfcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_nbfcsud_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd_p(f) := block(
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd_equalp(f) := block(
+  /* XXX */
+  true)$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_nbfcs2nbcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_nbfcsud2nbfcsfd(f) := block([D],
+  assert(nbfcsfd_equalp(f([{},{},{}]), [{},{},D]) = true),
+  assert(nbfcsfd_equalp(f([{},{{}},{}]), [{},{{}},D])),
+  /* XXX */
+  true)$
+
+/*!
+\endhtmlonly
+*/
