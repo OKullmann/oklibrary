@@ -12,18 +12,5 @@ License, or any later version. */
   
   \todo Create milestones.
 
-
-  \todo Schur numbers
-  <ul>
-   <li> For a natural number r >= 1 the Schur-number schur(r) is the smallest
-   n such that for every partition {1,...,n} at least one part contains a
-   triple (x,y,z) with x+y=z. </li>
-   <li> Apparently only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
-   are known. </li>
-   <li> While schur(5)=160 is conjectured (research problem 8.1 in
-   [Landman, Robertson, 2003]). This might be feasible, since the clause-set
-   consists only of binary and ternary clauses. </li>
-  </ul>
-
 */
 
