@@ -77,7 +77,8 @@ License, or any later version. */
 
   \todo Translating non-boolean clause-sets into boolean clause-sets
   <ul>
-   <li> Write nbfcsfd2fcs_alo(FF) and nbfcsfd2fcs_aloamo(FF), translating
+   <li> DONE
+   Write nbfcsfd2fcs_alo(FF) and nbfcsfd2fcs_aloamo(FF), translating
    non-boolean clause-sets into boolean clause-sets by using new boolean
    variables nbv(v,e) for old variables v and values e, adding in the first
    case only at-least-one-clauses for each v, and in the second case also

@@ -51,6 +51,59 @@ L_0_22_7 : compute_transversals_hg(7,22)$
    1,1,1,1,1,1,1,7,7,8,10,13,17,24,32,47,63,80,115,213,387,624,848. </li>
    <li> And the max-rank sequence begins with
    0,0,0,0,0,0,0,1,2,2,2,2,2,3,3,4,4,5,5,5,6,7,7. </li>
+   <li> Computing the number of minimum transversals:
+   \verbatim
+oklib_monitor : true;
+A7(n):=arithprog_hg(7,n)$
+L60_7 : minimum_transversals_mongen(60,A7,[{}])$
+1 0 1
+2 0 1
+3 0 1
+4 0 1
+5 0 1
+6 0 1
+7 1 7
+8 1 6
+9 1 5
+10 1 4
+11 1 3
+12 1 2
+13 1 1
+14 2 16
+15 2 12
+16 2 9
+17 2 6
+18 2 4
+19 2 2
+20 2 1
+21 3 12
+22 3 8
+23 3 6
+24 3 4
+25 3 3
+26 3 2
+27 3 1
+28 4 8
+29 4 6
+30 4 5
+31 4 4
+32 4 3
+33 4 2
+34 4 1
+35 5 7
+36 5 6
+37 5 5
+38 5 4
+39 5 3
+40 5 2
+41 5 1
+42 6 7
+43 7 43
+44 8 267
+45 9 1724
+46 9 18
+   \endverbatim
+   </li>
    <li> Using "VdWTransversalsInc 7 1 0 OutputFile" we obtain
    \verbatim
 k n tau
