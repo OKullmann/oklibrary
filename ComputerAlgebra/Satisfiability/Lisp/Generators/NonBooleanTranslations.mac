@@ -1,0 +1,66 @@
+/* Oliver Kullmann, 16.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac
+  \brief Translations from non-boolean clause-sets to boolean clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* ******************************
+   * The "standard" translation *
+   ******************************
+*/
+
+/* Variables are "nbv(v,e)", meaning that variable v has value number e: */
+kill(nbv)$
+declare(nbv, noun)$
+declare(nbv, posfun)$
+nbv_var(v,e) := nounify(nbv)(v,e)$
+
+/* Just translating the clauses: */
+nbfcsfd2fcs_core(FF) := 
+ [map(lambda([x], apply(nbv_var,x)),
+      lunion(map(lambda([v],cartesian_product({v}, FF[3](v))), 
+                 listify(FF[1])))),
+  map(lambda([C],map(lambda([x],-apply(nbv_var,x)),C)),FF[2])]$
+
+/* The "weak" translation, allowing that a variable gets multiple values: */
+nbfcsfd2fcs_alo(FF) := block([GG : nbfcsfd2fcs_core(FF)],
+ [GG[1], 
+  union(GG[2], 
+    setify(create_list(map(lambda([x],apply(nbv_var,x)),
+                           cartesian_product({v}, FF[3](v))), 
+                       v,listify(FF[1]))))
+ ])$
+
+/* The "strong" translation, establishing a 1-1 correspondence between the
+   sets of satisfying assignments before and after translation:
+*/
+nbfcsfd2fcs_aloamo(FF) := block([GG : nbfcsfd2fcs_alo(FF)],
+ [GG[1],
+  union(GG[2],
+    lunion(create_list(
+              map(lambda([p], map(lambda([e], -nbv_var(v,e)), p)),
+              powerset(FF[3](v),2)),
+           v, listify(FF[1]))))
+ ])$
+
+/*!
+\endhtmlonly
+*/
