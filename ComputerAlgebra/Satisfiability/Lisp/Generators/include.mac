@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTr
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac")$
 

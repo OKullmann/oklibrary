@@ -142,7 +142,23 @@ arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
      res : append(res,arithprog_primes_finish[k,i])
    ),
    res)$
-  
+
+
+/* ******************************
+   * Schur's and Rado's theorem *
+   ******************************
+*/
+
+schurtriples_ohg(n) := 
+ [create_list(i,i,1,n), create_list({x,y,x+y}, x,1,floor(n/2), y,x,n-x)]$
+schurtriples_hg(n) := ohg2hg(schurtriples_ohg(n))$
+
+/* k >= 3 */
+/* To be completed. */
+linequations_ohg(k,n) := block([V : setn(n)],
+  0)$
+/* Remark: linequations_ohg(3,n) = schurtriples_ohg(3). */
+
 
 /* ********************
    * Ramsey's theorem *

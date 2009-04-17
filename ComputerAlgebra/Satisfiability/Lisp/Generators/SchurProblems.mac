@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 17.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac
+  \brief Generators for clause-sets related to Schur problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+
+schur_nbfcsud(r,n) := [
+ setn(n),
+ lunion(create_list(map(lambda([H], cartesian_product(H,{i})),
+                    schurtriples_hg(n)[2]) ,
+        i,1,r)),
+ setn(r)]$
+
+
+output_schur(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_r_n.cnf": */
+output_schur_stdname(r,n) := output_schur(r,n,
+  sconcat("Schur_",r,"_",n,".cnf"))$
+
+
+/*!
+\endhtmlonly
+*/
