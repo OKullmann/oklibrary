@@ -21,6 +21,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.m
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 
+/* The non-boolean formal clause-set expressing the Schur problem with
+   r parts and n vertices.
+   Prerequisites: r, n natural numbers, n, r >= 0.
+*/
 schur_nbfcsud(r,n) := [
  setn(n),
  lunion(create_list(map(lambda([H], cartesian_product(H,{i})),
@@ -28,7 +32,13 @@ schur_nbfcsud(r,n) := [
         i,1,r)),
  setn(r)]$
 
+/* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
+   vertex 1 to be in part 1); now we must have n >= 1: */
+schur_sb_nbfcsud(r,n) := block([S : schur_nbfcsud(r,n)],
+ [S[1], union(setify(create_list({[1,i]},i,1,r-1)), S[2]), S[3]])$
 
+
+/* Output the boolean clause-set (standard translation) to a file: */
 output_schur(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_nbfcsud(r,n))))],
   output_fcs_v(
@@ -40,6 +50,16 @@ output_schur(r,n,filename) := block(
 output_schur_stdname(r,n) := output_schur(r,n,
   sconcat("Schur_",r,"_",n,".cnf"))$
 
+output_schur_sb(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_sb_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_r_n.cnf": */
+output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
+  sconcat("Schur_sb_",r,"_",n,".cnf"))$
 
 /*!
 \endhtmlonly
