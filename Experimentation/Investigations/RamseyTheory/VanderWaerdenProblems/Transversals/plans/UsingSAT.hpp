@@ -1441,6 +1441,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 92 5126566 26
 96 13711561 28
 101 31377020 30
+106 67732138 32
+110 239197206 35
      \endverbatim
      SAT:
      \verbatim
@@ -1532,6 +1534,14 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 103 7443364 26
 104 3066680 24
 105 4696223 25
+107 172523 17
+108 3625093 25
+109 28150540 30
+111 15095115 28
+112 56959012 31
+113 69328523 32
+114 6396562 26
+115 150097470 34
      \endverbatim
      </li>
      <li> k=11: UNSAT
@@ -1552,6 +1562,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 114 400117 19
 116 4371365 25
 118 19258114 29
+119 143004281 34
      \endverbatim
      SAT:
      \verbatim
@@ -1657,6 +1668,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 109 1754 6
 115 293488 18
 117 2498959 24
+120 14128419 28
      \endverbatim
      </li>
     </ol>
