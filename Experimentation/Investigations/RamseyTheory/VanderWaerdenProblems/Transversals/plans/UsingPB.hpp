@@ -174,6 +174,9 @@ awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenP
 72 42447685 31
 73 77436334 32
 75 89104785 33
+76 146644651 34
+77 176216089 34
+78 165246342 34
    \endverbatim
    while for SAT we get
    \verbatim
@@ -200,7 +203,8 @@ awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenP
 71 35836409 30
 74 69072626 32
    \endverbatim
-   It seems that this is a bit better (than the "weak form"). </li>
+   It seems that this is a bit better (than the "weak form"); but this
+   might be just random noise. </li>
   </ul>
 
 */
