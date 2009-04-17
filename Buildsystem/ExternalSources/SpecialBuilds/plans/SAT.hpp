@@ -10,6 +10,333 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug March build fails using "oklib march"
+  <ul>
+   <li> Building march using "oklib all" or "oklib march" fails in the 
+   following way :
+   \verbatim
+> oklib cleanmarch
+make --makefile=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/.oklib/Configuration/../ExternalSources/Makefile --directory=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources OKplatform=/home/aeternus/Work/OKlibrary/OKlib/OKplatform cleanmarch
+oklib: /home/aeternus/Work/OKlibrary/OKlib/OKplatform/.oklib/log/ExternalSources contains all output of the build.
+
+make: Entering directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources'
+rm -rf /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March
+make: Leaving directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources'
+> oklib march
+make --makefile=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/.oklib/Configuration/../ExternalSources/Makefile --directory=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources OKplatform=/home/aeternus/Work/OKlibrary/OKlib/OKplatform march
+oklib: /home/aeternus/Work/OKlibrary/OKlib/OKplatform/.oklib/log/ExternalSources contains all output of the build.
+
+make: Entering directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources'
+mkdir -p /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March
+if [ -f /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tar.gz ]; then tar --extract --directory=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March --file=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tar.gz --ungzip; elif [ -f /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tgz ]; then tar --extract --directory=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March --file=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tgz --ungzip; elif [ -f /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tar.bz2 ]; then tar --extract --directory=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March --file=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/sources/SAT/March/march_pl.tar.bz2 --bzip2; else exit 1; fi; if [ $? != 0 ]; then exit 1; fi; \
+    cd /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/builds/SAT/March/march_pl; if [ $? != 0 ]; then exit 1; fi; \
+    make; if [ $? != 0 ]; then exit 1; fi; \
+    cp march_pl /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/SAT/March/pl; if [ $? != 0 ]; then exit 1; fi; \
+    ln -s --force /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/SAT/March/pl/march_pl /home/aeternus/Work/OKlibrary/OKlib/OKplatform/bin/march_pl; if [ $? != 0 ]; then exit 1; fi;
+make[1]: Entering directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/builds/SAT/March/march_pl'
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o march.o march.c 
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+rootlook.h:40: warning: inline function ‘root_reduce_ternary_clauses’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+rootlook.h:40: warning: inline function ‘root_reduce_ternary_clauses’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o bitslook.o bitslook.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o blocked.o blocked.c 
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:15: warning: inline function ‘DL_fix_kSAT_clauses’ declared but never defined
+doublelook.h:14: warning: inline function ‘DL_fix_3SAT_clauses’ declared but never defined
+doublelook.h:13: warning: inline function ‘DL_fix_equivalences’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:15: warning: inline function ‘DL_fix_kSAT_clauses’ declared but never defined
+doublelook.h:14: warning: inline function ‘DL_fix_3SAT_clauses’ declared but never defined
+doublelook.h:13: warning: inline function ‘DL_fix_equivalences’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o diameter.o diameter.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o distribution.o distribution.c 
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o doublelook.o doublelook.c 
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o equivalence.o equivalence.c 
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o memory.o memory.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o localbranch.o localbranch.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o lookahead.o lookahead.c 
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:15: warning: inline function ‘DL_fix_kSAT_clauses’ declared but never defined
+doublelook.h:14: warning: inline function ‘DL_fix_3SAT_clauses’ declared but never defined
+doublelook.h:13: warning: inline function ‘DL_fix_equivalences’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+doublelook.h:17: warning: inline function ‘DL_restore_big_clauses’ declared but never defined
+doublelook.h:15: warning: inline function ‘DL_fix_kSAT_clauses’ declared but never defined
+doublelook.h:14: warning: inline function ‘DL_fix_3SAT_clauses’ declared but never defined
+doublelook.h:13: warning: inline function ‘DL_fix_equivalences’ declared but never defined
+doublelook.h:7: warning: inline function ‘DL_fix_binary_implications’ declared but never defined
+doublelook.h:6: warning: inline function ‘DL_fix_implications’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o modelfilter.o modelfilter.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o parser.o parser.c 
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o preselect.o preselect.c 
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o progressBar.o progressBar.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o resolvent.o resolvent.c 
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o rootlook.o rootlook.c 
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+solver.h:51: warning: inline function ‘DPLL_update_datastructures’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o solver.o solver.c 
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+rootlook.h:40: warning: inline function ‘root_reduce_ternary_clauses’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+solver.h:53: warning: inline function ‘DPLL_fix_ternary_implications’ declared but never defined
+rootlook.h:40: warning: inline function ‘root_reduce_ternary_clauses’ declared but never defined
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o translator.o translator.c 
+gcc -c -std=c99 -O3 -static -fno-strict-aliasing -Wall  -o tree.o tree.c 
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+lookahead.h:62: warning: inline function ‘ternarylook_fix_ternary_implications’ declared but never defined
+lookahead.h:61: warning: inline function ‘ternarylook_fix_direct_implications’ declared but never defined
+lookahead.h:44: warning: inline function ‘look_backtrack’ declared but never defined
+lookahead.h:41: warning: inline function ‘restore_big_clauses’ declared but never defined
+lookahead.h:39: warning: inline function ‘add_resolvents’ declared but never defined
+lookahead.h:38: warning: inline function ‘add_constraint_resolvent’ declared but never defined
+lookahead.h:37: warning: inline function ‘look_fix_ternary_implications’ declared but never defined
+lookahead.h:36: warning: inline function ‘look_fix_equivalences’ declared but never defined
+lookahead.h:35: warning: inline function ‘look_fix_binary_implications’ declared but never defined
+lookahead.h:34: warning: inline function ‘look_fix_big_clauses’ declared but never defined
+equivalence.h:31: warning: inline function ‘fixEq’ declared but never defined
+gcc -std=c99 -O3 -static -fno-strict-aliasing -Wall  *.o -lm -o march_pl
+doublelook.o: In function `DL_IFIUP':
+doublelook.c:(.text+0x113): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x149): undefined reference to `look_backtrack'
+doublelook.o: In function `DL_IUP_wo_eq_kSAT':
+doublelook.c:(.text+0x21c): undefined reference to `look_fix_binary_implications'
+doublelook.o: In function `DL_IUP_wo_eq_3SAT':
+doublelook.c:(.text+0x2d9): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x2f4): undefined reference to `look_fix_binary_implications'
+doublelook.o: In function `DL_IUP_w_eq_kSAT':
+doublelook.c:(.text+0x3ed): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x51c): undefined reference to `look_fix_binary_implications'
+doublelook.o:doublelook.c:(.text+0x5c6): more undefined references to `look_fix_binary_implications' follow
+doublelook.o: In function `DL_fix_forced_literal':
+doublelook.c:(.text+0x7f1): undefined reference to `look_backtrack'
+doublelook.o: In function `perform_doublelook':
+doublelook.c:(.text+0x900): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x956): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x9b8): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0x9f1): undefined reference to `look_backtrack'
+doublelook.c:(.text+0xa56): undefined reference to `add_resolvents'
+doublelook.c:(.text+0xae1): undefined reference to `look_backtrack'
+doublelook.c:(.text+0xaf1): undefined reference to `look_backtrack'
+doublelook.o: In function `doublelook':
+doublelook.c:(.text+0xb49): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0xb95): undefined reference to `restore_big_clauses'
+doublelook.c:(.text+0xbb9): undefined reference to `look_backtrack'
+doublelook.o: In function `DL_treelook':
+doublelook.c:(.text+0xc48): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0xc98): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0xcef): undefined reference to `look_fix_binary_implications'
+doublelook.c:(.text+0xd31): undefined reference to `look_backtrack'
+doublelook.c:(.text+0xd49): undefined reference to `look_backtrack'
+doublelook.c:(.text+0xdd9): undefined reference to `look_backtrack'
+lookahead.o: In function `look_IUP_wo_eq_kSAT':
+lookahead.c:(.text+0x14a1): undefined reference to `add_resolvents'
+lookahead.o: In function `look_IUP_wo_eq_3SAT':
+lookahead.c:(.text+0x1645): undefined reference to `add_resolvents'
+lookahead.o: In function `look_IUP_with_eq':
+lookahead.c:(.text+0x1e2c): undefined reference to `add_resolvents'
+lookahead.o: In function `look_IUP_w_eq_kSAT':
+lookahead.c:(.text+0x2244): undefined reference to `add_resolvents'
+lookahead.o: In function `look_IUP_w_eq_3SAT':
+lookahead.c:(.text+0x273c): undefined reference to `add_resolvents'
+lookahead.o:lookahead.c:(.text+0x1ea): more undefined references to `add_resolvents' follow
+parser.o: In function `propagate_unary_clauses':
+parser.c:(.text+0x855): undefined reference to `fixEq'
+parser.c:(.text+0x8b7): undefined reference to `fixEq'
+resolvent.o: In function `strengthen_big_clause':
+resolvent.c:(.text+0x30e): undefined reference to `restore_big_clauses'
+resolvent.c:(.text+0x41f): undefined reference to `restore_big_clauses'
+rootlook.o: In function `root_fix_forced_literal':
+rootlook.c:(.text+0xb1f): undefined reference to `fixEq'
+rootlook.c:(.text+0xb7f): undefined reference to `fixEq'
+solver.o: In function `DPLL_add_binary_implications':
+solver.c:(.text+0x133f): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x1720): undefined reference to `look_fix_binary_implications'
+solver.o: In function `DPLL_propagate_binary_equivalence':
+solver.c:(.text+0x190e): undefined reference to `fixEq'
+solver.c:(.text+0x1953): undefined reference to `fixEq'
+solver.c:(.text+0x1a64): undefined reference to `look_fix_binary_implications'
+solver.o: In function `IFIUP':
+solver.c:(.text+0x1b66): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x1e56): undefined reference to `fixEq'
+solver.c:(.text+0x1eb8): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x1f35): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x1f67): undefined reference to `fixEq'
+solver.c:(.text+0x24d9): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x25d4): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x266b): undefined reference to `look_fix_binary_implications'
+solver.o: In function `DPLL_add_binary_implications':
+solver.c:(.text+0x129b): undefined reference to `look_fix_binary_implications'
+solver.c:(.text+0x12ae): undefined reference to `look_fix_binary_implications'
+collect2: ld returned 1 exit status
+make[1]: *** [march_pl] Error 1
+make[1]: Leaving directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/builds/SAT/March/march_pl'
+make: *** [marchpl] Error 1
+make: Leaving directory `/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources'
+   \endverbatim
+   using gcc version 4.3.2.
+   </li>
+  </ul>
+
+
   \bug GRASP cannot be compiled with gcc version 4.3
   <ul>
    <li> The problem is the reference to non-standard headers like
