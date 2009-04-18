@@ -63,13 +63,26 @@ okltest_var_nbcs(var_nbcs);
 okltest_val_nbcs(val_nbcs);
 okltest_lit_nbcs(lit_nbcs);
 
+okltest_nbcl_p(nbcl_p);
+okltest_var_nbcl(var_nbcl);
+okltest_val_nbcl(val_nbcl);
+okltest_lit_nbcl(lit_nbcl);
+
 okltest_nbfcs_p(nbfcs_p);
 okltest_var_nbfcs(var_nbfcs);
 okltest_val_nbfcs(val_nbfcs);
-okltest_lit_nbfcs(lit_nbcs);
+okltest_lit_nbfcs(lit_nbfcs);
+
+okltest_nbfcl_p(nbfcl_p);
+okltest_var_nbfcl(var_nbfcl);
+okltest_val_nbfcl(val_nbfcl);
+okltest_lit_nbfcl(lit_nbfcl);
 
 okltest_nbfcsud_p(nbfcsud_p);
+okltest_nbfclud_p(nbfclud_p);
 okltest_nbfcsfd_p(nbfcsfd_p);
+okltest_nbfclfd_p(nbfclfd_p);
+
 okltest_nbfcsfd_equalp(nbfcsfd_equalp);
 
 /* ***************
@@ -77,9 +90,23 @@ okltest_nbfcsfd_equalp(nbfcsfd_equalp);
    ***************
 */
 
-okltest_nbfcs2nbcs(nbfcs2nbcs);
+okltest_nbcs2nbcl(nbcs2nbcl);
+okltest_nbcl2nbcs(nbcl2nbcs);
+
+okltest_nbfcs2nbfcl(nbfcs2nbfcl);
+okltest_nbfcl2nbfcs(nbfcl2nbfcs);
 
 okltest_nbfcs2nbcs(nbfcs2nbcs);
+okltest_nbfcl2nbcl(nbfcl2nbcl);
+
+okltest_nbfcsud2nbfclud(nbfcsud2nbfclud);
+okltest_nbfclud2nbfcsud(nbfclud2nbfcsud);
+
+okltest_nbfcsfd2nbfclfd(nbfcsfd2nbfclfd);
+okltest_nbfclfd2nbfcsfd(nbfclfd2nbfcsfd);
+
+okltest_nbcs2nbfcs(nbcs2nbfcs);
+okltest_nbcl2nbfcl(nbcl2nbfcl);
 
 okltest_nbfcsud2nbfcsfd(nbfcsud2nbfcsfd);
 

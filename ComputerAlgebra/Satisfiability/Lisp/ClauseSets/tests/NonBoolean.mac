@@ -114,45 +114,197 @@ okltest_val_nbc(f) := block(
    ***************
 */
 
-okltest_nbcs_p(f) := block(
+okltest_nbcs_p(f) := block([x,y],
+  assert(f(0) = false),
+  assert(f({0}) = false),
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{[x,y]}}) = true),
+  assert(f({{[x,y,x]}}) = false),
   /* XXX */
   true)$
 
 okltest_var_nbcs(f) := block(
-  /* XXX */
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{[1,5]}}) = {1}),
+  assert(f({{[1,5],[2,6]},{[1,7],[3,8]}}) = {1,2,3}),
   true)$
 
 okltest_val_nbcs(f) := block(
-  /* XXX */
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{[1,5]}}) = {5}),
+  assert(f({{[1,5],[2,6]},{[1,6],[3,7]}}) = {5,6,7}),
   true)$
 
 okltest_lit_nbcs(f) := block(
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{[1,5]}}) = {[1,5]}),
+  assert(f({{[1,5],[2,6]},{[1,7],[3,8]}}) = {[1,5],[2,6],[1,7],[3,8]}),
+  true)$
+
+okltest_nbcl_p(f) := block([x,y],
+  assert(f(0) = false),
+  assert(f([0]) = false),
+  assert(f([]) = true),
+  assert(f([{}]) = true),
+  assert(f([{[x,y]}]) = true),
+  assert(f([{[x,y,x]}]) = false),
   /* XXX */
   true)$
 
+okltest_var_nbcl(f) := block(
+  assert(f([]) = {}),
+  assert(f([{}]) = {}),
+  assert(f([{[1,5]}]) = {1}),
+  assert(f([{[1,5],[2,6]},{[1,7],[3,8]}]) = {1,2,3}),
+  true)$
+
+okltest_val_nbcl(f) := block(
+  assert(f([]) = {}),
+  assert(f([{}]) = {}),
+  assert(f([{[1,5]}]) = {5}),
+  assert(f([{[1,5],[2,6]},{[1,6],[3,7]}]) = {5,6,7}),
+  true)$
+
+okltest_lit_nbcl(f) := block(
+  assert(f([]) = {}),
+  assert(f([{}]) = {}),
+  assert(f([{[1,5]}]) = {[1,5]}),
+  assert(f([{[1,5],[2,6]},{[1,7],[3,8]}]) = {[1,5],[2,6],[1,7],[3,8]}),
+  true)$
+
 okltest_nbfcs_p(f) := block(
+  assert(f(0) = false).
+  assert(f([0]) = false),
+  assert(f([0,0]) = false),
+  assert(f([{},{}]) = true),
+  assert(f([{},{{}}]) = true),
+  assert(f([{1},{{[1,5]}}]) = true),
+  assert(f([{1},{{[2,1]}}]) = false),
   /* XXX */
   true)$
 
 okltest_var_nbfcs(f) := block(
-  /* XXX */
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {}),
+  assert(f([{1},{}]) = {1}),
+  assert(f([{1},{{}}]) = {1}),
+  assert(f([{1,2},{{[1,5]}}]) = {1,2}),
   true)$
 
 okltest_val_nbfcs(f) := block(
-  /* XXX */
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {}),
+  assert(f([{1},{}]) = {}),
+  assert(f([{1},{{}}]) = {}),
+  assert(f([{1,2},{{[1,5]}}]) = {5}),
+  assert(f([{1,3,5},{{[1,11],[3,22]},{[5,11],[3,33]}}]) = {11,22,33}),
   true)$
 
 okltest_lit_nbfcs(f) := block(
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {}),
+  assert(okltest_lit_nbcs(buildq([f], lambda([F], f(nbcs2nbfcs(F))))) = true),
+  true)$
+
+okltest_nbfcl_p(f) := block(
+  assert(f(0) = false).
+  assert(f([0]) = false),
+  assert(f([0,0]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([[],[]]) = true),
+  assert(f([[],[{}]]) = true),
+  assert(f([[1],[{[1,5]}]]) = true),
+  assert(f([[1],[{[2,1]}]]) = false),
+  assert(f([[1,2],[{[1,10],[2,11]}]]) = true),
+  assert(f([[1,2,2],[{[1,10],[2,11]}]]) = false),
   /* XXX */
+  true)$
+
+okltest_var_nbfcl(f) := block(
+  assert(f([[],[]]) = {}),
+  assert(f([[],[{}]]) = {}),
+  assert(f([[1],[]]) = {1}),
+  assert(f([[1],[{}]]) = {1}),
+  assert(f([[1,2],[{[1,5]}]]) = {1,2}),
+  assert(okltest_var_nbfcs(buildq([f],lambda([FF],f(nbfcs2nbfcl(FF))))) = true),
+  true)$
+
+okltest_val_nbfcl(f) := block(
+  assert(f([[],[]]) = {}),
+  assert(f([[],[{}]]) = {}),
+  assert(f([[1],[]]) = {}),
+  assert(f([[1],[{}]]) = {}),
+  assert(f([[1,2],[{[1,5]}]]) = {5}),
+  assert(f([[1,3,5],[{[1,11],[3,22]},{[5,11],[3,33]}]]) = {11,22,33}),
+  assert(okltest_val_nbfcs(buildq([f],lambda([FF],f(nbfcs2nbfcl(FF))))) = true),
+  true)$
+
+okltest_lit_nbfcl(f) := block(
+  assert(f([[],[]]) = {}),
+  assert(f([[],[{}]]) = {}),
+  assert(okltest_lit_nbcl(buildq([f], lambda([F], f(nbcl2nbfcl(F))))) = true),
   true)$
 
 okltest_nbfcsud_p(f) := block(
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([0,0,0]) = false),
+  assert(f([{},{},{}]) = true),
+  assert(f([{1},{},{10}]) = true),
+  assert(f([{1},{{}},{10}]) = true),
+  assert(f([{1},{{[2,10]}},{10}]) = false),
+  assert(f([{1},{{[1,11]}},{10}]) = false),
+  assert(f([{1},{{[1,10]}},{10}]) = true),
   /* XXX */
   true)$
 
-okltest_nbfcsfd_p(f) := block(
+okltest_nbfclud_p(f) := block(
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([0,0,0]) = false),
+  assert(f([[],[],[]]) = true),
+  assert(f([[1],[],[10]]) = true),
+  assert(f([[1],[{}],[10]]) = true),
+  assert(f([[1],[{[2,10]}],[10]]) = false),
+  assert(f([[1],[{[1,11]}],[10]]) = false),
+  assert(f([[1],[{[1,10]}],[10]]) = true),
+  assert(f([[1,2],[{[1,10]}],[10,11]]) = true),
+  assert(f([[1,2,1],[{[1,10]}],[10,11]]) = false),
+  assert(f([[1,2],[{[1,10]}],[10,11,11]]) = false),
   /* XXX */
   true)$
+
+okltest_nbfcsfd_p(f) := block([D],
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([0,0,0]) = false),
+  assert(f([{},{},{}]) = true),
+  assert(f([{1},{},D]) = true),
+  assert(f([{1},{{[1,10]}},D]) = false),
+  assert(f([{1},{{[1,10]}},lambda([x],11)]) = false),
+  assert(f([{1},{{[1,10]}},lambda([x],10)]) = false),
+  assert(f([{1},{{[1,10]}},lambda([x],{10})]) = true),
+  /* XXX */
+  true)$
+
+okltest_nbfclfd_p(f) := block([D],
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([0,0,0]) = false),
+  assert(f([[],[],[]]) = true),
+  assert(f([[1],[],D]) = true),
+  assert(f([[1],[{[1,10]}],D]) = false),
+  assert(f([[1],[{[1,10]}],lambda([x],11)]) = false),
+  assert(f([[1],[{[1,10]}],lambda([x],10)]) = false),
+  assert(f([[1],[{[1,10]}],lambda([x],{10})]) = true),
+  /* XXX */
+  true)$
+
 
 okltest_nbfcsfd_equalp(f) := block(
   /* XXX */
@@ -164,7 +316,76 @@ okltest_nbfcsfd_equalp(f) := block(
    ***************
 */
 
-okltest_nbfcs2nbcs(f) := block(
+okltest_nbcs2nbcl(f) := (
+  assert(f({}) = []),
+  assert(f({{}}) = [{}]),
+  /* XXX */
+  true)$
+
+okltest_nbcl2nbcs(f) := (
+  assert(f([]) = {}),
+  assert(f([{}]) = {{}}),
+  /* XXX */
+  true)$
+
+okltest_nbfcs2nbfcl(f) := (
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{},{{}}]) = [[],[{}]]),
+  /* XXX */
+  true)$
+
+okltest_nbfcl2nbfcs(f) := (
+  assert(f([[],[]]) = [{},{}]),
+  assert(f([[],[{}]]) = [{},{{}}]),
+  /* XXX */
+  true)$
+
+okltest_nbfcs2nbcs(f) := block([A,B],
+  assert(f([A,B]) = B),
+  /* XXX */
+  true)$
+
+okltest_nbfcl2nbcl(f) := block([A,B],
+  assert(f([A,B]) = B),
+  /* XXX */
+  true)$
+
+okltest_nbfcsud2nbfclud(f) := (
+  assert(f([{},{},{}]) = [[],[],[]]),
+  assert(f([{1,2,3},{{}},{10,11,12}]) = [[1,2,3],[{}],[10,11,12]]),
+  /* XXX */
+  true)$
+
+okltest_nbfclud2nbfcsud(f) := (
+  assert(f([[],[],[]]) = [{},{},{}]),
+  assert(f([[1,2,3],[{}],[10,11,12]]) = [{1,2,3},{{}},{10,11,12}]),
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd2nbfclfd(f) := block([D],
+  assert(f([{},{},D]) = [[],[],D]),
+  assert(f([{1,2,3},{{}},D]) = [[1,2,3],[{}],D]),
+  /* XXX */
+  true)$
+
+okltest_nbfclfd2nbfcsfd(f) := block([D],
+  assert(f([[],[],D]) = [{},{},D]),
+  assert(f([[1,2,3],[{}],D]) = [{1,2,3},{{}},D]),
+  /* XXX */
+  true)$
+
+okltest_nbcs2nbfcs(f) := (
+  assert(f({}) = [{},{}]),
+  assert(f({{}}) = [{},{{}}]),
+  assert(f({{[1,10]}}) = [{1},{{[1,10]}}]),
+  /* XXX */
+  true)$
+
+okltest_nbcl2nbfcl(f) := (
+  assert(f([]) = [[],[]]),
+  assert(f([{}]) = [[],[{}]]),
+  assert(f([{[1,10]}]) = [[1],[{[1,10]}]]),
+  assert(f([{[2,10],[3,11]},{[1,20]}]) = [[1,2,3],[{[2,10],[3,11]},{[1,20]}]]),
   /* XXX */
   true)$
 

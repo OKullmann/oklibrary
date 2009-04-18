@@ -110,6 +110,17 @@ val_nbcs(F) := apply(union,map(val_nbc,listify(F)))$
 lit_nbcs(F) := apply(union,listify(F))$
 
 /*
+ A "non-boolean clause-list" ("nbcl") is a list of non-boolean clauses.
+*/
+nbcl_p(F) := listp(F) and every_s(nbc_p,F)$
+
+var_nbcl(F) := apply(union,map(var_nbc,F))$
+val_nbcl(F) := apply(union,map(val_nbc,F))$
+
+lit_nbcl(F) := apply(union,F)$
+
+
+/*
  A "non-boolean formal clause-set" ("nbfcs") is a pair [V,F] such that
  V is a set of variables and F is a non-boolean clause-set with 
  var(F) <= V.
@@ -118,19 +129,44 @@ nbfcs_p(FF) :=
  listp(FF) and is(length(FF)=2) and setp(FF[1]) and nbcs_p(FF[2]) and 
   subsetp(var_nbcs(FF[2]),FF[1])$
 
-var_nbfcs(FF) := var_nbcs(nbfcs2nbcs(FF))$
+var_nbfcs(FF) := FF[1]$
 val_nbfcs(FF) := val_nbcs(nbfcs2nbcs(FF))$
 
 lit_nbfcs(FF) := lit_nbcs(nbfcs2nbcs(FF))$
 
 /*
+ A "non-boolean formal clause-list" ("nbfcl") is a pair [V,F] such that
+ V is a repetition-free list of variables and F is a non-boolean clause-list
+ with var(F) <= V.
+*/
+nbfcl_p(FF) := 
+ listp(FF) and is(length(FF)=2) and listnorep_p(FF[1]) and nbcl_p(FF[2]) and 
+  subsetp(var_nbcl(FF[2]),setify(FF[1]))$
+
+var_nbfcl(FF) := setify(FF[1])$
+val_nbfcl(FF) := val_nbcl(nbfcl2nbcl(FF))$
+
+lit_nbfcl(FF) := lit_nbcl(nbfcl2nbcl(FF))$
+
+
+/*
  A "non-boolean formal clause-set with uniform domain" ("nbfcsud") is
- a triple [V,F,D] such that [V,F] is a non-boolean formal clause-set with
- val(FF) <= D.
+ a triple [V,F,D] such that [V,F] is a non-boolean formal clause-set and
+ D is a set with val(FF) <= D.
 */
 nbfcsud_p(FF) := 
  listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
-  subsetp(var_nbcs(FF[2]),FF[3])$
+  subsetp(val_nbcs(FF[2]),FF[3])$
+
+/*
+ A "non-boolean formal clause-list with uniform domain" ("nbfclud") is
+ a triple [V,F,D] such that [V,F] is a non-boolean formal clause-list and
+ D is a repetition-free list with val(FF) <= D.
+*/
+nbfclud_p(FF) := 
+ listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and 
+  listnorep_p(FF[3]) and subsetp(val_nbcl(FF[2]),setify(FF[3]))$
+
 
 /*
  A "non-boolean formal clause-set with function domain" ("nbfcsfd") is
@@ -138,9 +174,24 @@ nbfcsud_p(FF) :=
  D is a map defined for all v in V such that D(v) is a set of values and
  for all literals x in F with var(x)=v we have val(x) in D(v).
 */
-nbfcsfd_p(FF) := 
- listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
- every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbcs(FF[2]))$
+nbfcsfd_p(FF) := block(
+ [e : errcatch(
+   listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
+   every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbfcs(FF)))],
+  not emptyp(e) and e[1])$
+
+/*
+ A "non-boolean formal clause-list with function domain" ("nbfclfd") is
+ a triple [V,F,D] such that [V,F] is a non-boolean formal clause-list and
+ D is a map defined for all v in V such that D(v) is a set of values and
+ for all literals x in F with var(x)=v we have val(x) in D(v).
+*/
+nbfclfd_p(FF) := block(
+ [e : errcatch(
+   listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and
+   every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbfcl(FF)))],
+  not emptyp(e) and e[1])$
+
 
 /* Checking equality */
 
@@ -154,10 +205,29 @@ nbfcsfd_equalp(FF1,FF2) :=
    ***************
 */
 
+nbcs2nbcl(F) := listify(F)$
+nbcl2nbcs(F) := setify(F)$
+
+nbfcs2nbfcl(FF) := map(listify,FF)$
+nbfcl2nbfcs(FF) := map(setify,FF)$
+
 nbfcs2nbcs(FF) := second(FF)$
+nbfcl2nbcl(FF) := second(FF)$
+
+nbfcsud2nbfclud(FF) := map(listify,FF)$
+nbfclud2nbfcsud(FF) := map(setify,FF)$
+
+nbfcsfd2nbfclfd(FF) := endcons(FF[3],map(listify,rest(FF,-1)))$
+nbfclfd2nbfcsfd(FF) := endcons(FF[3],map(setify,rest(FF,-1)))$
+
+nbcs2nbfcs(F) := [var_nbcs(F),F]$
+nbcl2nbfcl(F) := [listify(var_nbcs(F)),F]$
+
+nbfcs2nbfcsud(FF) := endcons(val_nbfcs(FF), FF)$
+nbfcl2nbfclud(FF) := endcons(val_nbfcl(FF), FF)$
 
 nbfcsud2nbfcsfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
-
+nbfclud2nbfclfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
 
 /*!
 \endhtmlonly
