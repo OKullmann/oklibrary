@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,10 +22,12 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac");
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
-/* ***********************
-   * Translations to SAT *
-   ***********************
+
+/* *******************************
+   * Translations to boolean SAT *
+   *******************************
 */
 
 /* Colouring variables: terms colv(v), where v is a vertex: */
@@ -52,17 +54,50 @@ tcol2sat_ohg2fcl(G) := [map(colv_var,G[1]),
     append(Fpos, comp_cs(Fpos)))]$
 tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cs(G[2]))]$
 
+
+/* ***********************************
+   * Translations to non-boolean SAT *
+   ***********************************
+*/
+
 /* Translating an S-colouring problem (S a set/list of colours) for 
    hypergraph G into the SAT problem for a formal nb-clause-set (using 
    non-boolean variables; with uniform domain).
 */
 
-col2sat_ohg2nbfclud(G,S) := [[map(colv_var,G[1]),
-  block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
-    apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S)))], S]$
-col2sat_stdohg2stdnbfclud(G,S) := [[G[1],
-    apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S))], S]$
+/* For an (arbitrary) ohg G and a list S of colours, using variables colv(v)
+   for vertices v of G:
+*/
+col2sat_ohg2nbfclud(G,S) := [
+ map(colv_var,G[1]),
+ block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
+    lappend(create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S))), 
+ S]$
+/* Now just using the vertices as variables: */
+col2sat_stdohg2stdnbfclud(G,S) := [
+ G[1],
+ lappend(create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S)), 
+ S]$
 
+/* Generalised colouring, where for hypergraph GG[i] every hyperedge must
+   contain a vertex not coloured by colour S[i].
+   Prerequisite: length(GG) = length(S). */
+gcol2sat_ohg2nbfclud(GG,S) := [
+ map(colv_var, stable_unique(lappend(map(first,GG)))),
+ lappend(create_list(
+          map(lambda([H], cartesian_product(map(colv_var,H),{S[i]})), GG[i][2]),
+          i,1,length(S))),
+ S]$
+gcol2sat_stdohg2stdnbfclud(GG,S) := [
+ stable_unique(lappend(map(first,GG))),
+ lappend(create_list(
+          map(lambda([H], cartesian_product(H,{S[i]})), GG[i][2]),
+          i,1,length(S))),
+ S]$
+/* Checking the validity of the arguments (applies for both forms): */
+gcol2sat_ohg2nbfclud_p(GG,S) :=
+  listp(GG) and listp(S) and is(length(GG)=length(S))
+  and every_s(ohg_p,GG)$
 
 /*!
 \endhtmlonly
