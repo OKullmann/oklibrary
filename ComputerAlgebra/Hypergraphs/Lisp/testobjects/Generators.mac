@@ -51,6 +51,14 @@ okltest_arithprog_primes_finish(arithprog_primes_finish);
 okltest_arithprog_primes(arithprog_primes);
 okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 
+/* ******************************
+   * Schur's and Rado's theorem *
+   ******************************
+*/
+
+okltest_schurtriples_ohg(schurtriples_ohg);
+okltest_schurtriples_hg(schurtriples_hg);
+
 /* ********************
    * Ramsey's theorem *
    ********************
