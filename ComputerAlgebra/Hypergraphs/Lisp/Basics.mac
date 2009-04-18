@@ -166,7 +166,7 @@ components_general_hypergraph(G) := components_hypergraph(ghg2hg(G))$
 components_ghg(G) := components_general_hypergraph(G)$
 
 /* Whether a hypergraph is connected: */
-/* RENAME: connected_hg_p(G)
+/* RENAME: connected_hg_p(G) */
 is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1)$
 connected_hg_p(G) := is_connected_hypergraph(G)$
 
