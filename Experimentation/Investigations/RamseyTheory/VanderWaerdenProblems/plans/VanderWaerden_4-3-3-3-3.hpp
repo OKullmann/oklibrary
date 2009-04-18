@@ -103,8 +103,16 @@ c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=228 i
    <li> 
    \verbatim
 > minisat2 VanDerWaerden_4-3-3-3-3_76.cnf
+*** INTERRUPTED ***
+restarts              : 34
+conflicts             : 172883204      (2914 /sec)
+decisions             : 199996431      (1.62 % random) (3371 /sec)
+propagations          : 5944428744     (100200 /sec)
+conflict literals     : 5049993151     (21.33 % deleted)
+Memory used           : 25.60 MB
+CPU time              : 59325.5 s
    \endverbatim
-   </li>
+   seems hopeless. </li>
   </ul>
 
 */
