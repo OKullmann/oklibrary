@@ -147,6 +147,13 @@ License, or any later version. */
     - Elimination of compile-time options
 
 
+   \par Version 1.2.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Output of clause-sets
+
+
   \par Version 1.3
 
   \par

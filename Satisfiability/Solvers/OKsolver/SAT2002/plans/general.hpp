@@ -333,6 +333,24 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Output of clause-sets
+  <ul>
+   <li> We need the ability to output the following intermediate clause-sets:
+    <ol>
+     <li> The original clause-sets, but "cleaned-up". </li>
+     <li> The original clause-set after preprocessing. </li>
+     <li> The current residual clause-set. </li>
+    </ol>
+   </li>
+   <li> As a simple means to achieve parallelisation, for a given depth
+   the clause-sets at that level should be output (to files, with
+   suitable names indicating the decisions leading to that clause-set). </li>
+   <li> Then a simple script would allocate these problem-instances to
+   the available machines, monitor their execution, record the results,
+   and schedule new jobs if possible (and needed). </li>
+  </ul>
+
+
   \todo Extend statistics
   <ul>
    <li> Information on where in the tree the solver gets stuck:
