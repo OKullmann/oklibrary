@@ -111,44 +111,14 @@ License, or any later version. */
      solving, so we should keep it. </li>
     </ol>
    </li>
-   <li> Generalised literals:
-    <ol>
-     <li> Then we have the "non-boolean" versions, where literals are pairs
-     [v,e], with e a value. </li>
-     <li> And there a "power" versions, where then e is a set of values. </li>
-     <li> The "monosigned literals" resp. "signed literals" are corresponding
-     triples, with the third component in {-1,+1}. </li>
-    </ol>
-   </li>
-   <li> A problem with non-boolean variables is, where to put the information
-   about the domain of the variables:
-    <ol>
-     <li> See the discussions in
-     ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp.
-     </li>
-     <li> Perhaps it's not part of clause-sets etc., but only part of
-     "problems" given for example to SAT-solvers. </li>
-     <li> So a signed clause-set etc. would always need to be accompanied
-     by either a uniform domain, or by a domain function. </li>
-     <li> But perhaps we should use pairs [FF, D], where D is a set,
-     list or map. Perhaps the default for all types of clause-sets is
-     a uniform domain. </li>
-     <li> But since we can also use sensibly non-boolean clause-sets without
-     the domain information (for example it is not needed in order to apply
-     a partial assignment), we should use the (additional) suffix "ud" for
-     uniform domain and "fd" for function domain. </li>
-     <li> There is also the idea that a "domain association" is basically
-     a partial assignment; actually it should be a "total partial assignment".
-     </li>
-     <li> One could allow then suffixes like "tpa_mp". </li>
-    </ol>
-   </li>
    <li> Conversions:
     <ol>
      <li> "cs2cl": from clause-sets to clause-lists </li>
      <li> Likely "cs_to_fcs" should become "cs2fcs". </li>
     </ol>
    </li>
+   <li> For non-boolean literals see "Notions for generalised literals" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/NonBoolean.hpp. </li>
   </ul>
 
 
