@@ -20,17 +20,16 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.m
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 
 /* The non-boolean formal clause-set expressing the Schur problem with
    r parts and n vertices.
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
-schur_nbfcsud(r,n) := [
- setn(n),
- lunion(create_list(map(lambda([H], cartesian_product(H,{i})),
-                    schurtriples_hg(n)[2]) ,
-        i,1,r)),
- setn(r)]$
+schur_nbfcsud(r,n) := 
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r)))$
+
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
    vertex 1 to be in part 1); now we must have n >= 1: */

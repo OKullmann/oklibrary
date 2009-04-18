@@ -34,6 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinS
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/SchurProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/VanderWaerdenProblems.mac")$
 
 /*!
