@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac
-  \brief Generators for clause-sets related to Van der Waerden problems
+  \brief %Generators for clause-sets related to Van der Waerden problems
 
 Use by
 

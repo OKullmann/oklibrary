@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac
-  \brief Generators for clause-sets related to Schur problems
+  \brief %Generators for clause-sets related to Schur problems
 
 Use by
 
