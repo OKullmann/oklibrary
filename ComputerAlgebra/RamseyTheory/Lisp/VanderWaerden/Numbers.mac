@@ -331,6 +331,7 @@ define_variable(
   exactk_tau_arithprog,
   11,
   fixnum)$
+/* Note that these sequences start with n=1. */
 
 /* The following data has been computed by
    "VdWTransversalsInc 3 1 0 OutputFile" (i.e.,
@@ -515,6 +516,12 @@ tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
    if nn=n then return(v)
    else return([v, (n - nn) + v])))$
 
+
+/* *********************************
+   * Analysing transversal numbers *
+   *********************************
+*/
+
 alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
@@ -554,6 +561,55 @@ approx_cralpha_arithprog(k,q) :=
 upper_vanderwaerdend_approxcralpha(m,k) :=
  approx_cralpha_arithprog(k,m)$
 
+
+/* Transformations between the various forms of (gapless, initial)
+   sequences of numbers
+*/
+
+/* The initial sequence of transversal vdW-numbers (as far as it is
+   stored).
+   If no sequence is stored, then m <= k-1 is considered.
+   k natural number >= 0.
+*/
+initial_sequence_vdWt(k) :=
+  create_list(vanderwaerdent(m,k),m,0,last(tau_arithprog_seq[k])-1);
+
+/* 
+  From a list T of transversal numbers of vdW-hypergraphs
+  to transversal vdw-numbers.
+  If T contains non-integer values, then the list is cutoff at
+  the first such occurrence.
+  The list of transversal vdw-numbers starts with n=0.
+
+  Given the sequence T for fixed k (where m=0, ...), one obtains
+  tau_arithprog(k,n) for n=0, ... by running through m=0,1,..., and observing
+  when first the value x=T[m+1] is strictly greater than n --- for this m we
+  have tau_arithprog(k,n) = m.
+
+  So transform_threshold_l(T) is the list [t_0,t_1, ..., t_p]
+  of non-decreasing natural numbers t_i >= 0 where t_i is the smallest
+  0 <= m <= length(T) such that T'[m+1] > i, where T' is obtained from
+  T by adding an element to the end which is bigger by one than the last
+  element of T (this yields one more correct value in the result list, since
+  the numbers of T are strictly increasing).
+  So p = -1 if T is empty, while otherwise p = last(T).
+  And we have t_i <= t_{i+1} <= t_i + 1.
+  Prerequisite: L is a sequence of strictly increasing natural numbers >= 0,
+  with a possible suffix of non-integers.
+*/
+transform_threshold_l(T) :=  block(
+ block([noti : find_first_l(lambda([x], not integerp(x)), T)],
+  if noti#inf then T : take_l(noti-1,T)),
+ if emptyp(T) then return([]),
+ block([n : 0, m : 0, R : []],
+  for x in endcons(last(T)+1,T) do (
+    if x > n then (
+      R : append(R,create_list(m,i,1,x-n)), 
+      n : x
+    ),
+    m : m+1
+  ),
+  return(R)))$
 
 /*!
 \endhtmlonly
