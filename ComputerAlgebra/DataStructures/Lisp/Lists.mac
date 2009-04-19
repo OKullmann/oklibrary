@@ -191,7 +191,9 @@ find_last_l(_pred,L) := if emptyp(L) then minf else
    length(L) <= n <= 2 length(L) we use n' := 2 length(L) - n and
    return the last n' elements. Error if n < 0 or n > 2 length(L). */
 /* Returns a shallow copy of L. */
+/* RENAME: take_l */
 take_elements(n,L) := rest(L, - (length(L) - n))$
+take_l(n,L) := take_elements(n,L)$
 
 /* Finds the list of indices of elements equal to x. */
 sublist_indices_el(L,x) := sublist_indices(L,lambda([e],is(e=x)))$
