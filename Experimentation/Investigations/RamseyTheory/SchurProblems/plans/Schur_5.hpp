@@ -42,9 +42,18 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 i
    <li> And with initial symmetry breaking (using
    output_schur_sb_stdname(5,160)) a factor of nearly 5 should be achievable:
    \verbatim
-
+> OKsolver_2002-O3-DNDEBUG -M -D20 Schur_sb_5_160.cnf
+232: 55174, 149176.8, 674088581.0
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 initial_number_of_clauses=33764 initial_number_of_literal_occurrences=99604 running_time(s)=150682.3 number_of_nodes=5582755 number_of_single_nodes=261 number_of_quasi_single_nodes=0 number_of_2-reductions=91981749 number_of_pure_literals=0 number_of_autarkies=2 number_of_missed_single_nodes=6184 max_tree_depth=73 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=6 reduced_number_of_clauses=814 reduced_number_of_literal_occurrences=2574 number_of_1-autarkies=1562724854 number_of_initial_unit-eliminations=6 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=2137 file_name=Schur_sb_5_160.cnf
+233: 67478, 151039.1, 679574131.9
    \endverbatim
    </li>
+   <li> So it seems that on a rather modest machine with 1 processor around
+   8000 days are needed. Splitting the problem into 2^13 = 8192 jobs
+   this would need a day per job (see "Simple parallelisation" in
+   Solvers/OKsolver/SAT2002/plans/general.hpp), and given 100 processor,
+   in altogether 3 months it should be done. </li>
   </ul>
 
 
