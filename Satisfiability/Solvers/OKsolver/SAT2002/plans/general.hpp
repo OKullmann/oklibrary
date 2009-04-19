@@ -366,24 +366,44 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    when using a depth D=13, then by specifying a number from 1 to 8192
    one should get the corresponding clause-set; this actually then
    didn't need to be output, but could just be processed. </li>
-   <li> So all what is needed would be just a flag to indicate that
-   only one specific node is to be processed, plus the index of
-   the node. Getting to that node should still be negligible compared
-   to the processing time of that node. </li>
+   <li> However it is less intrusive to just use the above output facilities
+   to output the clause-set obtained and then to stop (for solving the
+   instance then the OKsolver (or any other solver) is called again). </li>
    <li> A script would then just manage the distribution of the jobs
    to the available machines. </li>
    <li> The index (in the above case 1 <= i <= 8192) would be represented
    in binary, and the bits would specify the decisions; if a decision would
    be achieved on the way, then nothing needed to be done. </li>
+   <li> Simplest is just to choose the branches according to the path
+   given by i; if a decision is obtained earlier then there is no need
+   to go further. </li>
+   <li> So the simplest mode is just to follow a path given by a binary word,
+   and either output SAT, UNSAT or the (reduced) clause-set finally reached.
+    <ol>
+     <li> Say the parameter would be "-P=word" (--path=word), where "word"
+     is a string of 1's and 2's (first branch or second branch). </li>
+     <li> Branchings with just one successor are ignored here. </li>
+     <li> If an output flag is set, then the final clause-set is output
+     to a file (if no decision was reached). </li>
+     <li> The program is exit then (using the standard exit, thus printing
+     the statistics line). </li>
+    </ol>
+   </li>
    <li> In order to see what really needs to be done, for a given depth
-   one actually wants just the list of indices of nodes which still need to be
+   one actually wants also the list of indices of nodes which still need to be
    processed; if a satisfying assignment was found then the whole process
    can stop (likely we don't do counting in this framework). </li>
-   <li> Technically we just perform a forced backtrack when a certain
-   depth is reached. </li>
-   <li> No intelligent backtracking is to be considered here; perhaps
-   this is easiest realised by assuming the derived clause contains
-   all (available) variables in case of forced backtrack. </li>
+   <li> So this task is to compute a complete splitting tree according to
+   ExperimentSystem/plans/DistributedSolving.hpp.
+    <ol>
+     <li> Here one could detect that branches don't need to be processed due
+     to resolution tree pruning or autarky reduction. </li>
+     <li> This could be achieved by forced backtracking when the given depth D
+     is reached, assuming for the intelligent backtracking that all variables
+     (respectively available) are used. Here then there are no "missed single
+     nodes", but tree resolution pruning is always to be performed. </li>
+    </ol>
+   </li>
   </ul>
 
 
