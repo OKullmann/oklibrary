@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.m
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 
