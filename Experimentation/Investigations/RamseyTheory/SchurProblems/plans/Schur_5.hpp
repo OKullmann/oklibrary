@@ -47,5 +47,54 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 i
    </li>
   </ul>
 
+
+  \todo Local search
+  <ul>
+   <li> Considering Schur_5_159.cnf. </li>
+   <li> From the ubcsat-1.0.0 suite saps seems clearly perform best, and
+   a local minimum of one falsified clause is easily reached already with
+   cutoff = 10000. </li>
+   <li> But finding a solution is difficult: 10 runs with cutoff=10*10^6
+   all just yield a minimum=1. </li>
+   <li> The worst-performing algorithm (w.r.t. mean minimum) seemed to be
+   hsat, which now with cutoff=10*10^6 still doesn't get close to 1. </li>
+   <li> Using symmetry-breaking and then the minisat2-preprocessor seems
+   to make the problem more difficult. </li>
+   <li> Finally by
+   \verbatim
+ubcsat-okl -alg saps -runs 10000 -cutoff 100000 -i Schur_5_159.cnf
+Clauses = 33349
+Variables = 795
+TotalLiterals = 98380
+FlipsPerSecond = 116174
+BestStep_Mean = 16171.864100
+Steps_Mean = 99993.137900
+Steps_Max = 100000.000000
+PercentSuccess = 0.01
+BestSolution_Mean = 1.445400
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 3.000000
+   \endverbatim
+   we found one solution (seed=830151296, msteps=31379). </li>
+   <li> On the other hand we get
+   \verbatim
+ubcsat-okl -alg saps -runs 40000 -cutoff 200000 -i Schur_5_160.cnf | tee Schur_5_160.out
+Clauses = 33760
+Variables = 800
+TotalLiterals = 99600
+FlipsPerSecond = 117567
+BestStep_Mean = 23914.642400
+Steps_Mean = 200000.000000
+Steps_Max = 200000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.351275
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 3.000000
+   \endverbatim
+   so the conjecture shur(5)=160 seems justified. </li>
+  </ul>
+
 */
 
