@@ -287,6 +287,11 @@ License, or any later version. */
    around 17 hours (255422670 nodes). </li>
    <li> Both solvers perform much worse than Minisat (1/2), also w.r.t. to
    node count. </li>
+   <li> Satz ("VdWTransversalsInc 3 1 0 Out3 Out3_satz satz215"):
+    <ol>
+     <li> The solver needs to be amended, to output the DIMACS codes. </li>
+    </ol>
+   </li>
   </ul>
 
 
