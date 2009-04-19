@@ -14,6 +14,7 @@ satz_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Satz
 
 satz215_build_dir_okl ?= $(satz_base_build_dir_okl)/satz215
 satz215_installation_dir_okl ?= $(satz_base_installation_dir_okl)/satz215
+satz215_corrected_src_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Satz/satz215.2.c
 
 satz215_call_okl ?= $(satz215_installation_dir_okl)/satz215
 

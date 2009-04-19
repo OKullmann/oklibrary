@@ -1,3 +1,8 @@
+/*!
+  \file Satisfiability/Solvers/Satz/satz215.2.c
+  \brief Updated version w.r.t. output conventions
+*/
+
 /****************************************************************************/
 /* Satz214 + Detection of implied literals suggested by Daniel Le Berre     */
 /*                                                                          */
@@ -33,6 +38,12 @@ typedef unsigned int my_unsigned_type;
 
 #define WEIGTH 5
 #define T 10
+
+#define EXITCODE_PARAMETER_FAILURE 100
+#define EXITCODE_INPUT_ERROR 101
+#define EXITCODE_VERIFICATION_FAILED 102
+#define EXITCODE_SAT 10
+#define EXITCODE_UNSAT 20
 
 /* the tables of variables and clauses are statically allocated. Modify the 
    parameters tab_variable_size and tab_clause_size before compilation if 
@@ -1761,18 +1772,19 @@ main(int argc, char *argv[]) {
    long begintime, endtime;
    struct tms *a_tms;
    FILE *fp_time;
+   int exit_value;
 
    if ((argc!=2) && (argc !=3)) {
-      printf("Using format: satz input_instance [-s]\n");
-      return FALSE;
+      printf("Usage format: \"satz input_instance [-s]\"\n");
+      return EXITCODE_PARAMETER_FAILURE;
    }
-   for (i=0; i<WORD_LENGTH; i++) saved_input_file[i]=argv[1][i];
+   for (i=0; i<WORD_LENGTH; ++i) saved_input_file[i]=argv[1][i];
 
    a_tms = ( struct tms *) malloc( sizeof (struct tms));
    times(a_tms); begintime = a_tms->tms_utime;
 
    switch (build(argc, argv)) {
-      case FALSE: printf("Input file error\n"); return FALSE;
+      case FALSE: printf("Input file error.\n"); return EXITCODE_INPUT_ERROR;
       case TRUE:
 	VARIABLE_STACK_fill_pointer=0;
 	CLAUSE_STACK_fill_pointer = 0;
@@ -1781,21 +1793,27 @@ main(int argc, char *argv[]) {
 	H_SEUIL=3*T/2;
 	dpl();
 	break;
-      case NONE: printf("An empty resolvant is found!\n"); break;
+      case NONE:
+        printf("An empty resolvent was found.\n");
+        exit_value = EXITCODE_UNSAT;
+        break;
    }
    times(a_tms); endtime = a_tms->tms_utime;
 
    if (satisfiable()) {
-     printf ("****the instance is satisfiable *****\n");
+     exit_value = EXITCODE_SAT;
+     printf ("**** The instance is satisfiable. *****\n");
      if (verify_solution()) {
-        printf ("****verification of solution is OK****\n");
-        print_values(NB_VAR);
+       print_values(NB_VAR);
      }
-     else
-        printf ("****I'm sorry, your program is wrong****\n");
+     else {
+       exit_value = EXITCODE_VERIFICATION_FAILED;
+       printf ("**** Solution verification failed (for unknown reasons)! ****\n");
+     }
    }
   else {
-     printf ("****the instance is unsatisfiable *****\n");
+    exit_value = EXITCODE_UNSAT;
+    printf ("**** The instance is unsatisfiable. *****\n");
   }
   printf("NB_MONO= %ld, NB_UNIT= %ld, NB_BRANCHE= %ld, NB_BACK= %ld \n", 
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
@@ -1803,7 +1821,7 @@ main(int argc, char *argv[]) {
   printf ("Program terminated in %5.3f seconds.\n",
           ((double)(endtime-begintime)/CLK_TCK));
 
-  fp_time = fopen("timetable", "a");
+  fp_time = fopen("satz215_timetable", "a");
   fprintf(fp_time, "satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
           saved_input_file, ((double)(endtime-begintime)/CLK_TCK), 
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
@@ -1815,5 +1833,5 @@ main(int argc, char *argv[]) {
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   fclose(fp_time);
-  return TRUE;
+  return exit_value;
 }

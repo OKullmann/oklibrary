@@ -367,10 +367,10 @@ Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
      \endverbatim
      </li>
-     <li> Yet the return value is always 1 --- we need to change this to
+     <li> DONE (see "Updating the exit codes for Satz215" in
+     Satisfiability/Solvers/Satz/plans/general.hpp)
+     Yet the return value is always 1 --- we need to change this to
      10 (sat) resp. 20 (unsat). </li>
-     <li> This should be rather easy, just modifying the return statements
-     in the main-function. </li>
     </ol>
    </li>
   </ul>

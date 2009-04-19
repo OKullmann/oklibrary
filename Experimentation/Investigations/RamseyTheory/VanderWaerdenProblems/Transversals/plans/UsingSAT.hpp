@@ -289,7 +289,8 @@ License, or any later version. */
    node count. </li>
    <li> Satz ("VdWTransversalsInc 3 1 0 Out3 Out3_satz satz215"):
     <ol>
-     <li> The solver needs to be amended, to output the DIMACS codes. </li>
+     <li> DONE
+     The solver needs to be amended, to output the DIMACS codes. </li>
     </ol>
    </li>
   </ul>

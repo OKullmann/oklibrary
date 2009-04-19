@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans for maintaining solvers from the Satz family
 
 
-  \todo Updating the exit codes for Satz215
+  \todo DONE
+  Updating the exit codes for Satz215
   <ul>
    <li> According to Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
    the exit codes need to be updated to the DIMACS standard. </li>
