@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,9 +27,9 @@ License, or any later version. */
    <li> Improving "branch and bound" for the version which only seeks to find
    a best tree (not more exhaustive statistics):
     <ol>
-     <li> Perhaps a heuristic can be used which tries to choose the best variable
-     first and the worst branch (this to get the bounds tigther for the second
-     branch). </li>
+     <li> Perhaps a heuristic can be used which tries to choose the best
+     variable first and the worst branch (this to get the bounds tigther for
+     the second branch). </li>
      <li> The problem seems to be that for the first branch currently we have
      only a very weak bound. But for that case the second branch had a very
      tight bound. So for that one could actually first consider the second

@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ExperimentSystem/plans/general.hpp
-  \brief Launching and monitoring experiments on remote machines.
+  \brief Launching and monitoring experiments on remote machines
 
 
   \todo Update namespaces
