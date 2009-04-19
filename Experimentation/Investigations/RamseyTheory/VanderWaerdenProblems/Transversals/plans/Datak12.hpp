@@ -83,6 +83,28 @@ L110_12 : minimum_transversals_mongen(110,A12,[{}])$
 64 5 4
 65 5 3
 66 5 2
+67 6 54
+68 6 23
+69 6 14
+70 6 11
+71 6 8
+72 6 7
+73 6 6
+74 6 5
+75 6 4
+76 6 3
+77 6 2
+78 7 54
+79 7 23
+80 7 12
+81 7 9
+82 7 8
+83 7 7
+84 7 6
+85 7 5
+86 7 4
+87 7 3
+88 7 2
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 12 1 0 OutputFile" we obtain
