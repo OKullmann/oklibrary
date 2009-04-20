@@ -367,6 +367,9 @@ Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
      \endverbatim
      </li>
+     <li> "NB_BRANCHE" should mean the number of branches, that is,
+     the number of nodes - 1; but what then is NB_BACK? It is always
+     a bit more than half of NB_BRANCHE. </li>
      <li> DONE (see "Updating the exit codes for Satz215" in
      Satisfiability/Solvers/Satz/plans/general.hpp)
      Yet the return value is always 1 --- we need to change this to

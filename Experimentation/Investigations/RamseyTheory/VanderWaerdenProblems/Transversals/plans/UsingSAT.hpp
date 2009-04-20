@@ -291,6 +291,80 @@ License, or any later version. */
     <ol>
      <li> DONE
      The solver needs to be amended, to output the DIMACS codes. </li>
+     <li> Via "awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/ExtractUNSATSatz.awk Out3_satz" we get
+     \verbatim
+3 0
+6 1
+7 3
+8 5
+10 17
+12 16
+15 36
+16 94
+17 150
+18 223
+19 375
+21 603
+22 1041
+23 1060
+25 2795
+27 3930
+28 7166
+29 11734
+31 26085
+33 31574
+34 51626
+35 55211
+37 85335
+38 114760
+39 195397
+42 249879
+43 506654
+44 854599
+45 1249165
+46 1488270
+47 2992965
+48 3064452
+49 6629104
+50 8653188
+52 16065388
+53 22654785
+55 38949905
+56 53433051
+57 81789087
+59 97695334
+     \endverbatim
+     while for satisfiable instances we get
+     \verbatim
+1 1
+2 1
+4 1
+5 1
+9 4
+11 6
+13 11
+14 16
+20 94
+24 157
+26 1783
+30 5849
+32 5385
+36 38394
+40 44109
+41 59179
+51 8537660
+54 19571669
+58 42853175
+     \endverbatim
+     </li>
+     <li> satz215 seems definitely worse than OKsolver_2002 or march_pl
+     on satisfiable instances, while on unsatisfiable instances it also
+     needs more nodes, but one needs to see it "asymptotically"; and
+     also one needs to calibrate it, since likely satz has the "cheapest"
+     nodes, then comes march_pl, while OKsolver_2002 should have the
+     "most expensive" nodes. </li>
+     <li> One also needs to use it in combination with the minisat2
+     preprocessor. </li>
     </ol>
    </li>
   </ul>
