@@ -75,56 +75,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Translating non-boolean clause-sets into boolean clause-sets
-  <ul>
-   <li> Write nbfcsfd2fcs_alo(FF) and nbfcsfd2fcs_aloamo(FF), translating
-   non-boolean clause-sets into boolean clause-sets by using new boolean
-   variables nbv(v,e) for old variables v and values e, adding in the first
-   case only at-least-one-clauses for each v, and in the second case also
-   adding the at-most-one-clauses. </li>
-   <li> This can be applied to "Colouring problems" and "Generalised colouring
-   problems" below. </li>
-  </ul>
-
-
-  \todo Colouring problems
-  <ul>
-   <li> Translate graph colouring problems into SAT. </li>
-   <li> Translate hypergraph colouring problems (strong and weak) into
-   SAT.
-    <ol>
-     <li> Strong colouring problems are already handled in
-     ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac. </li>
-     <li> DONE (see tcol2sat_stdohg2stdofcs in
-     ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac)
-     We also need the ability to handle standardised hypergraphs,
-     yielding standardised clause-sets. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Generalised colouring problems
-  <ul>
-   <li> For non-diagonal Ramsey-problems and van-der-Waerden-type problems,
-   we do not need to go directly to non-boolean clause-sets, but we can
-   use an intermediate form, with "mixed clauses", as discussed in the
-   following. </li>
-   <li> The problem would be given as a triple [V,C,L], where V is a set
-   (the vertices), C is a set (the colours), and each L is a pair [H,c],
-   where H is a set of hyperedges on V (i.e., [V,H] is a hypergraph), while
-   c is an element of C. </li>
-   <li> The problem is to find a map f: V -> C such that for every [H,c]
-   and every E in H there exists v in E with f(v) <> c. </li>
-   <li> A standard hypergraph colouring problem with colour set C for
-   hypergraph [V,E] is translated in [V,C,L], where L consists of the
-   pairs [E,c] for c in C. </li>
-   <li> Compared with non-boolean clause-sets (clause-sets, where the
-   clauses contain literals [v,c]), in this way we express the information
-   that the clause-set is organised in layers. </li>
-  </ul>
-
-
   \todo SMUSAT(1) and tree hitting clause-sets
   <ul>
    <li> We need to establish links in the docus to the generators mentioned

@@ -101,6 +101,8 @@ if emptyp(L) then [] else block(
   ),
   return(R))$
      \endverbatim
+     See transform_threshold_l(T) in
+     ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac.
      </li>
      <li> Given the sequence tau_arithprog(m,n), one obtains
      vanderwaerden_{k+1}([2]_k, m) by running through n=0,1,..., and observing

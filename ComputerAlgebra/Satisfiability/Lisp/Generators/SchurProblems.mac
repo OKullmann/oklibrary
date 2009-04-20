@@ -1,0 +1,66 @@
+/* Oliver Kullmann, 17.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac
+  \brief %Generators for clause-sets related to Schur problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/SchurProblems.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+
+/* The non-boolean formal clause-set expressing the Schur problem with
+   r parts and n vertices.
+   Prerequisites: r, n natural numbers, n, r >= 0.
+*/
+schur_nbfcsud(r,n) := 
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r)))$
+
+
+/* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
+   vertex 1 to be in part 1); now we must have n >= 1: */
+schur_sb_nbfcsud(r,n) := block([S : schur_nbfcsud(r,n)],
+ [S[1], union(setify(create_list({[1,i]},i,1,r-1)), S[2]), S[3]])$
+
+
+/* Output the boolean clause-set (standard translation) to a file: */
+output_schur(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_r_n.cnf": */
+output_schur_stdname(r,n) := output_schur(r,n,
+  sconcat("Schur_",r,"_",n,".cnf"))$
+
+output_schur_sb(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_sb_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_r_n.cnf": */
+output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
+  sconcat("Schur_sb_",r,"_",n,".cnf"))$
+
+/*!
+\endhtmlonly
+*/

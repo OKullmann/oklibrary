@@ -23,6 +23,41 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translations to SAT problems
+  <ul>
+   <li> The name-components "std" (as in gcol2sat_stdohg2stdnbfclud) are
+   not very appropriate (they cover only a special case, namely that
+   standardised hypergraphs yield standardised clause-sets). </li>
+   <li> Strong colouring (in every hyperedge all colours are different)
+   can be handled by first applying section_hg(G,2) and then tcol2sat_hg2fcs;
+   should we provide a convenience function combining them? </li>
+  </ul>
+
+
+  \todo Generalised colouring problems
+  <ul>
+   <li> For non-diagonal Ramsey-problems and van-der-Waerden-type problems,
+   we do not need to go directly to non-boolean clause-sets, but we can
+   use an intermediate form, with "layers of hyperedges", as discussed in the
+   following. </li>
+   <li> The problem would be given as a triple [V,C,L], where V is a set
+   (the vertices), C is a set (the colours), and each L is a pair [H,c],
+   where H is a set of hyperedges on V (i.e., [V,H] is a hypergraph), while
+   c is an element of C. </li>
+   <li> The problem is to find a map f: V -> C such that for every [H,c]
+   and every E in H there exists v in E with f(v) <> c. </li>
+   <li> A standard hypergraph colouring problem with colour set C for
+   hypergraph [V,E] is translated in [V,C,L], where L consists of the
+   pairs [E,c] for c in C. </li>
+   <li> Compared with non-boolean clause-sets (clause-sets, where the
+   clauses contain literals [v,c]), in this way we express the information
+   that the clause-set is organised in layers. </li>
+   <li> This is now handled by gcol2sat_ohg2nbfclud (and
+   gcol2sat_stdohg2stdnbfclud), but in the somewhat different form of a pair
+   [GG,C], where GG is a list of hypergraphs and C is a list of colours. </li>
+  </ul>
+
+
   \todo Greedy colouring
   <ul>
    <li> Compare Hypergraphs/Colourings/plans/GreedyColouring.hpp. </li>

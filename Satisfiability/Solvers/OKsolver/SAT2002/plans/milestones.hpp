@@ -153,42 +153,62 @@ License, or any later version. */
    The fully cleaned-up and documented original OKsolver.
 
 
+  \par Version 1.3.1
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Output of clause-sets
+
+
+  \par Version 1.3.2
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Simple parallelisation
+
+
   \par Version 1.4
+
+  \par
+   Improved usability.
+
+
+  \par Version 1.5
 
   \par
    Make nearly everything also available at the Maxima-level, and make
    sure that both levels fully coincide.
 
 
-  \par Version 1.4.1
+  \par Version 1.5.1
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Extend statistics
 
 
-  \par Version 1.4.2
+  \par Version 1.5.2
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - More influence on heuristics
 
 
-  \par Version 1.4.3
+  \par Version 1.5.3
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Start planning on evaluating and optimising heuristics
 
 
-   \par Version 1.5
+   \par Version 1.6
 
    \par
     Extend statistics, and make evaluation and optimisation of heuristics
     possible; furthermore extend the possibilities to influence heuristics.
 
 
-  \par Version 1.6
+  \par Version 1.7
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
@@ -201,33 +221,33 @@ License, or any later version. */
    OKsolver-2002 --- thus planning should be intensified here.
 
 
-  \par Version 1.6.1
+  \par Version 1.7.1
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Apply time-measurements
 
 
-  \par Version 1.7
+  \par Version 1.8
 
   \par
    We have timing-date available.
 
 
-  \par Version 1.7.1
+  \par Version 1.8.1
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Optimising the code
 
 
-  \par Version 1.8
+  \par Version 1.9
 
   \par
    The code has been optimised (w.r.t. speed; using also a profiler etc.)
 
 
-  \par Version 1.9
+  \par Version 1.10
 
   \par
    Document the extensive database-data.

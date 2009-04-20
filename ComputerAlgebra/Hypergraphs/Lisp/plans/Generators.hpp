@@ -34,7 +34,7 @@ License, or any later version. */
 
   \todo Sudoku
   <ul>
-   <li> Create Sudoku-hypergraphs (such that the Sudoko-problems can be
+   <li> Create Sudoku-hypergraphs (such that the Sudoku-problems can be
    expressed as strong colouring problems). </li>
    <li> For box dimension p the vertex set should be {1,...,p}^2. </li>
    <li> The 3N hyperedges (N=p^2) just correspond to the rows, columns
@@ -82,16 +82,40 @@ License, or any later version. */
      an interpretation of "rv"!. </li>
      <li> The task is to figure out, how (locally, in a block) we can
      evaluate expressions containing terms like "rv(i,j)" using
-     some (locally) specified function f(i,j). </li>
-     <li> One also needs to consider that functions like rv are usually
-     n-ary. </li>
-     <li> A general question is who is responsible for (controlled!)
+     some (locally) specified function f(i,j).
+      <ol>
+       <li> This works like follows:
+       \verbatim
+ev([rv(1,3),rv(2,3,5)],rv([L]):=rank_colex_subsets(setify(L)),nouns);
+ [2,7]
+       \endverbatim
+       </li>
+       <li> "nouns" is needed to evaluate the "nouns" rv. </li>
+       <li> Shown is also how to handle n-ary functions. </li>
+      </ol>
+     </li>
+     <li> It remains whether we should use, %e.g., rv(1,2,3) or rv({1,2,3}).
+      <ol>
+       <li> The form rv(1,2,3) is a bit shorter. </li>
+       <li> But the vertices rv(1,2,3) and rv(2,1,3) are different, though
+       they represent the same set {1,2,3}. </li>
+       <li> One could enforce associativity and commutativity, but perhaps
+       this would introduce unnecessary complexities here. </li>
+       <li> Or one disallows rv(2,1,3). </li>
+      </ol>
+     </li>
+     <li> DONE (it seems that it is most natural that the generators
+     do not care about possible renamings)
+     A general question is who is responsible for (controlled!)
      renaming: The generating facilities or the renaming facilities
      (where "controlled" here could be translated as "efficient"). </li>
-     <li> An alternative to evaluating rv-terms ("later") would be to
+     <li> DONE (it seems that later evaluating the variable terms is
+     most natural)
+     An alternative to evaluating rv-terms ("later") would be to
      replace ("early") the function which creates the rv-terms by that
      translation function f (as above). </li>
-     <li> Regarding "late" translation, a question is also whether a
+     <li> DONE (it is possible)
+     Regarding "late" translation, a question is also whether a
      term like "{1,2,3}", which should stand for "set(1,2,3)", can
      also be locally evaluated by evaluating set(1,2,3) as f(1,2,3). </li>
     </ol>
@@ -146,7 +170,7 @@ License, or any later version. */
      Then arithprog_primes_ohg is computed by a simple append. </li>
      <li> DONE
      So results are re-used; a certain inefficiency is still caused
-     by the permanent recomputation of the set of the first primes, however
+     by the permanent re-computation of the set of the first primes, however
      this should be a rather small amount.
       <ul>
        <li> arithprog_primes should set variable primes_init_seg,

@@ -25,7 +25,7 @@ $(satz_directories_okl) : % :
 satz : satz215
 
 satz215 : $(satz215_directories_okl)
-	cp $(satz215_source_okl) $(satz215_build_dir_okl)
+	cp $(satz215_corrected_src_okl) $(satz215_build_dir_okl)
 	cd $(satz215_build_dir_okl); $(postcondition) \
 	gcc -O3 -o satz215 satz215.2.c; $(postcondition) \
 	cp satz215 $(satz215_installation_dir_okl); $(postcondition) \

@@ -1,0 +1,116 @@
+/* Oliver Kullmann, 17.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/NonBoolean.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/NonBoolean.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/NonBoolean.mac")$
+
+/* **************************
+   * Variables and literals *
+   **************************
+*/
+
+okltest_nbl_p(nbl_p);
+okltest_var_nbl(var_nbl);
+okltest_val_nbl(val_nbl);
+
+okltest_snbl_p(snbl_p);
+okltest_var_snbl(var_snbl);
+okltest_val_snbl(val_snbl);
+okltest_sgn_snbl(sgn_snbl);
+
+okltest_pl_p(pl_p);
+okltest_var_pl(var_pl);
+okltest_val_pl(val_pl);
+
+okltest_spl_p(spl_p);
+okltest_var_spl(var_spl);
+okltest_val_spl(val_spl);
+okltest_sgn_spl(sgn_snbl);
+
+/* ***********
+   * Clauses *
+   ***********
+*/
+
+okltest_nbc_p(nbc_p);
+okltest_var_nbc(var_nbc);
+okltest_val_nbc(val_nbc);
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
+
+okltest_nbcs_p(nbcs_p);
+okltest_var_nbcs(var_nbcs);
+okltest_val_nbcs(val_nbcs);
+okltest_lit_nbcs(lit_nbcs);
+
+okltest_nbcl_p(nbcl_p);
+okltest_var_nbcl(var_nbcl);
+okltest_val_nbcl(val_nbcl);
+okltest_lit_nbcl(lit_nbcl);
+
+okltest_nbfcs_p(nbfcs_p);
+okltest_var_nbfcs(var_nbfcs);
+okltest_val_nbfcs(val_nbfcs);
+okltest_lit_nbfcs(lit_nbfcs);
+
+okltest_nbfcl_p(nbfcl_p);
+okltest_var_nbfcl(var_nbfcl);
+okltest_val_nbfcl(val_nbfcl);
+okltest_lit_nbfcl(lit_nbfcl);
+
+okltest_nbfcsud_p(nbfcsud_p);
+okltest_nbfclud_p(nbfclud_p);
+okltest_nbfcsfd_p(nbfcsfd_p);
+okltest_nbfclfd_p(nbfclfd_p);
+
+okltest_nbfcsfd_equalp(nbfcsfd_equalp);
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_nbcs2nbcl(nbcs2nbcl);
+okltest_nbcl2nbcs(nbcl2nbcs);
+
+okltest_nbfcs2nbfcl(nbfcs2nbfcl);
+okltest_nbfcl2nbfcs(nbfcl2nbfcs);
+
+okltest_nbfcs2nbcs(nbfcs2nbcs);
+okltest_nbfcl2nbcl(nbfcl2nbcl);
+
+okltest_nbfcsud2nbfclud(nbfcsud2nbfclud);
+okltest_nbfclud2nbfcsud(nbfclud2nbfcsud);
+
+okltest_nbfcsfd2nbfclfd(nbfcsfd2nbfclfd);
+okltest_nbfclfd2nbfcsfd(nbfclfd2nbfcsfd);
+
+okltest_nbcs2nbfcs(nbcs2nbfcs);
+okltest_nbcl2nbfcl(nbcl2nbfcl);
+
+okltest_nbfcsud2nbfcsfd(nbfcsud2nbfcsfd);
+
+
+/*!
+\endhtmlonly
+*/

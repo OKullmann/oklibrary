@@ -57,27 +57,30 @@ License, or any later version. */
   <ul>
    <li> The old OKsolver is a C99 program. </li>
    <li> Use standard include-guards. </li>
-   <li> Why are there these comments that string.h is included because of C++? Seems we should
-   remove them. </li>
-   <li> For the xml-output we should then state that C is the programming language. </li>
+   <li> Why are there these comments that string.h is included because of C++?
+   Seems we should remove them. </li>
+   <li> For the xml-output we should then state that C is the programming
+   language. </li>
    <li> Where we touch the code, we change the style to the standard
    (otherwise we leave it). </li>
-   <li> All includes need to be changed to the library-style. Or? Perhaps, due to the
-   exceptional "historical" character, we don't do this here? Emphasising, that there
-   are no reusable components here?! </li>
+   <li> All includes need to be changed to the library-style. Or? Perhaps, due
+   to the exceptional "historical" character, we don't do this here?
+   Emphasising, that there are no reusable components here?! </li>
    <li> Since the function specifier "inline" is available with C99, we should
    remove the little apparatus with "KEININLINE" and "__inline__" (and replace
    "__inline__" everywhere with "inline"). </li>
    <li> Deeper changes like const-introduction only later. </li>
-   <li> DONE (stick to C) Perhaps move everything to C++ (but no real changes to any data structures, etc.,
-   only using C++ header files etc.). Or?? </li>
-   <li> DONE (GesamtOKs.cpp removed) Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
-   Would be more honest! On the other hand, we are more knowledgeable with C++.)
-   The purpose of GesamtOKs.cpp likely was to enable the use of C++ inlining --- but
-   also C99 has the inline keyword. </li>
-   <li>  DONE (stick to C) The program uses typical C-methods to simulate abstract data types (a functional
-   interface is build, hiding all pointer access, which happens in the implementation files).
-   So it appears that we better stick to C. </li>
+   <li> DONE (stick to C) Perhaps move everything to C++ (but no real changes
+   to any data structures, etc., only using C++ header files etc.). Or?? </li>
+   <li> DONE (GesamtOKs.cpp removed) Why does GesamtOKs.cpp want to be a C++
+   program --- maybe we just stick to C? Would be more honest! On the other
+   hand, we are more knowledgeable with C++.) The purpose of GesamtOKs.cpp
+   likely was to enable the use of C++ inlining --- but also C99 has the
+   inline keyword. </li>
+   <li>  DONE (stick to C) The program uses typical C-methods to simulate
+   abstract data types (a functional interface is build, hiding all pointer
+   access, which happens in the implementation files). So it appears that we
+   better stick to C. </li>
   </ul>
 
 
@@ -178,10 +181,13 @@ License, or any later version. */
 
   \todo Create systematic application tests
   <ul>
-   <li> Differentiate between solver runs which are expected to succeed and runs which
-   are expected to fail (so that in the latter case the output to stderr can be suppressed). </li>
-   <li> All possible syntactic errors diagnosed by the OKsolver need be checked. </li>
-   <li> Tautological clauses and repeated literals in clauses need to be checked. </li>
+   <li> Differentiate between solver runs which are expected to succeed and
+   runs which are expected to fail (so that in the latter case the output to
+   stderr can be suppressed). </li>
+   <li> All possible syntactic errors diagnosed by the OKsolver need be
+   checked. </li>
+   <li> Tautological clauses and repeated literals in clauses need to be
+   checked. </li>
    <li> Output of satisfying assignments needs to be checked. </li>
    <li> We need also to check the other output formats. </li>
    <li> Finally, a general system for testing SAT solvers, with a general
@@ -203,8 +209,9 @@ License, or any later version. */
   <ul>
    <li> Counting for example test_cases/TwoUnit.cnf is not correct. </li>
    <li> See whether this can be easily rectified. </li>
-   <li> Possibly this is not the case; then we need a precise specification what
-   actually is counted, so that then the output can be declared as correct. </li>
+   <li> Possibly this is not the case; then we need a precise specification
+   what actually is counted, so that then the output can be declared as
+   correct. </li>
   </ul>
 
 
@@ -308,7 +315,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
   \todo Use restrict-qualification
   <ul>
-   <li> We should investigate at which places this pointer-qualification can be used. </li>
+   <li> We should investigate at which places this pointer-qualification can
+   be used. </li>
   </ul>
 
 
@@ -328,6 +336,72 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> Eliminate option and code. </li>
      <li> Again, with the generic version of OKsolver-2002, we can handle this
      much better. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Output of clause-sets
+  <ul>
+   <li> We need the ability to output the following intermediate clause-sets:
+    <ol>
+     <li> The original clause-sets, but "cleaned-up". </li>
+     <li> The original clause-set after preprocessing. </li>
+     <li> The current residual clause-set. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Simple parallelisation
+  </ul>
+   <li> As a simple means to achieve parallelisation, for a given depth
+   the clause-sets at that level should be output (to files, with
+   suitable names indicating the decisions leading to that clause-set). </li>
+   <li> Then a simple script would allocate these problem-instances to
+   the available machines, monitor their execution, record the results,
+   and schedule new jobs if possible (and needed). </li>
+   <li> To handle a large number of jobs, it must also be possible to
+   just output a certain clause-set from the long list; for example
+   when using a depth D=13, then by specifying a number from 1 to 8192
+   one should get the corresponding clause-set; this actually then
+   didn't need to be output, but could just be processed. </li>
+   <li> However it is less intrusive to just use the above output facilities
+   to output the clause-set obtained and then to stop (for solving the
+   instance then the OKsolver (or any other solver) is called again). </li>
+   <li> A script would then just manage the distribution of the jobs
+   to the available machines. </li>
+   <li> The index (in the above case 1 <= i <= 8192) would be represented
+   in binary, and the bits would specify the decisions; if a decision would
+   be achieved on the way, then nothing needed to be done. </li>
+   <li> Simplest is just to choose the branches according to the path
+   given by i; if a decision is obtained earlier then there is no need
+   to go further. </li>
+   <li> So the simplest mode is just to follow a path given by a binary word,
+   and either output SAT, UNSAT or the (reduced) clause-set finally reached.
+    <ol>
+     <li> Say the parameter would be "-P=word" (--path=word), where "word"
+     is a string of 1's and 2's (first branch or second branch). </li>
+     <li> Branchings with just one successor are ignored here. </li>
+     <li> If an output flag is set, then the final clause-set is output
+     to a file (if no decision was reached). </li>
+     <li> The program is exit then (using the standard exit, thus printing
+     the statistics line). </li>
+    </ol>
+   </li>
+   <li> In order to see what really needs to be done, for a given depth
+   one actually wants also the list of indices of nodes which still need to be
+   processed; if a satisfying assignment was found then the whole process
+   can stop (likely we don't do counting in this framework). </li>
+   <li> So this task is to compute a complete splitting tree according to
+   ExperimentSystem/plans/DistributedSolving.hpp.
+    <ol>
+     <li> Here one could detect that branches don't need to be processed due
+     to resolution tree pruning or autarky reduction. </li>
+     <li> This could be achieved by forced backtracking when the given depth D
+     is reached, assuming for the intelligent backtracking that all variables
+     (respectively available) are used. Here then there are no "missed single
+     nodes", but tree resolution pruning is always to be performed. </li>
     </ol>
    </li>
   </ul>
@@ -490,12 +564,12 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    <li> All places need to be identified where a solution
    can be found:
     <ol>
-     <li> Reduktion1 can find a satisfying assignment; these are forced assignments
-     (via failed literals). The solutions found are added, and backtracking is
-     performed (in the same way as if a contradiction would have been found).
-     (One has to see whether Reduktion1 did everything properly --- it could
-     be that since everything stopped anywhere no care has been taken to maintain
-     proper invariants. But it looks alright.) </li>
+     <li> Reduktion1 can find a satisfying assignment; these are forced
+     assignments (via failed literals). The solutions found are added, and
+     backtracking is performed (in the same way as if a contradiction would
+     have been found). (One has to see whether Reduktion1 did everything
+     properly --- it could be that since everything stopped anywhere no care
+     has been taken to maintain proper invariants. But it looks alright.) </li>
      <li> Reduktion2 can find a satisfying; that is a satisfying assignment via
      a pure autarky. Since Reduction2 won't be applied anymore, this is not
      a problem. </li>
@@ -566,7 +640,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
   \todo Apply time-measurements
   <ul>
-   <li> Apply the time-measurement-system (assuming it is available by now). </li>
+   <li> Apply the time-measurement-system (assuming it is available by now).
+   </li>
   </ul>
 
 

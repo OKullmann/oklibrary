@@ -287,6 +287,86 @@ License, or any later version. */
    around 17 hours (255422670 nodes). </li>
    <li> Both solvers perform much worse than Minisat (1/2), also w.r.t. to
    node count. </li>
+   <li> Satz ("VdWTransversalsInc 3 1 0 Out3 Out3_satz satz215"):
+    <ol>
+     <li> DONE
+     The solver needs to be amended, to output the DIMACS codes. </li>
+     <li> Via "awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/ExtractUNSATSatz.awk Out3_satz" we get
+     \verbatim
+3 0
+6 1
+7 3
+8 5
+10 17
+12 16
+15 36
+16 94
+17 150
+18 223
+19 375
+21 603
+22 1041
+23 1060
+25 2795
+27 3930
+28 7166
+29 11734
+31 26085
+33 31574
+34 51626
+35 55211
+37 85335
+38 114760
+39 195397
+42 249879
+43 506654
+44 854599
+45 1249165
+46 1488270
+47 2992965
+48 3064452
+49 6629104
+50 8653188
+52 16065388
+53 22654785
+55 38949905
+56 53433051
+57 81789087
+59 97695334
+     \endverbatim
+     while for satisfiable instances we get
+     \verbatim
+1 1
+2 1
+4 1
+5 1
+9 4
+11 6
+13 11
+14 16
+20 94
+24 157
+26 1783
+30 5849
+32 5385
+36 38394
+40 44109
+41 59179
+51 8537660
+54 19571669
+58 42853175
+     \endverbatim
+     </li>
+     <li> satz215 seems definitely worse than OKsolver_2002 or march_pl
+     on satisfiable instances, while on unsatisfiable instances it also
+     needs more nodes, but one needs to see it "asymptotically"; and
+     also one needs to calibrate it, since likely satz has the "cheapest"
+     nodes, then comes march_pl, while OKsolver_2002 should have the
+     "most expensive" nodes. </li>
+     <li> One also needs to use it in combination with the minisat2
+     preprocessor. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -1441,6 +1521,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 92 5126566 26
 96 13711561 28
 101 31377020 30
+106 67732138 32
+110 239197206 35
      \endverbatim
      SAT:
      \verbatim
@@ -1532,6 +1614,14 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 103 7443364 26
 104 3066680 24
 105 4696223 25
+107 172523 17
+108 3625093 25
+109 28150540 30
+111 15095115 28
+112 56959012 31
+113 69328523 32
+114 6396562 26
+115 150097470 34
      \endverbatim
      </li>
      <li> k=11: UNSAT
@@ -1552,6 +1642,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 114 400117 19
 116 4371365 25
 118 19258114 29
+119 143004281 34
+121 608944908 37
      \endverbatim
      SAT:
      \verbatim
@@ -1657,6 +1749,14 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 109 1754 6
 115 293488 18
 117 2498959 24
+120 14128419 28
+122 4688813 25
+123 1928805 23
+124 4834600 25
+125 31639990 30
+126 3407763 25
+127 22271062 29
+128 21308919 29
      \endverbatim
      </li>
     </ol>

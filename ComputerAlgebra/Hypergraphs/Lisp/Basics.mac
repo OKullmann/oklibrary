@@ -133,19 +133,23 @@ union_hg([L]) := [lunion(map(first,L)), lunion(map(second,L))]$
 /* The k-section of a hypergraph: */
 /* RENAME: section_hg */
 section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
+section_hg(G,k) := section_hyp(G,k)$
 
 /* The edge-wise complement of a hypergraph: */
 /* RENAME: ecomp_hg */
 ecomp_hyp(G) := [G[1], ecomp(G[2],G[1])]$
+ecomp_hg(G) := ecomp_hyp(G)$
 
 /* The closure under subset-formation of a hypergraph: */
 /* RENAME: subset_closure_hg */
 subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
+subset_closure_hg(G) := subset_closure_hyp(G)$
 
 /* The dual of a general hypergraph: */
 /* RENAME: dual_ghg */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
+dual_ghg(G) := dual_general_hypergraph(G)$
 
 
 /* *****************
@@ -154,12 +158,17 @@ dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
 */
 
 /* Computes the set system of vertex sets of connnected components: */
+/* RENAME: components_hg(G) */
 components_hypergraph(G) := unify_nondisjoint_elements(G[2])$
+components_hg(G) := components_hypergraph(G)$
+/* RENAME: components_ghg(G) */
 components_general_hypergraph(G) := components_hypergraph(ghg2hg(G))$
+components_ghg(G) := components_general_hypergraph(G)$
 
 /* Whether a hypergraph is connected: */
+/* RENAME: connected_hg_p(G) */
 is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1)$
-
+connected_hg_p(G) := is_connected_hypergraph(G)$
 
 /*!
 \endhtmlonly

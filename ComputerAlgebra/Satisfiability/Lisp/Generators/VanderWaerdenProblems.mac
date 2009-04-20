@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac
-  \brief Generators for clause-sets related to Van der Waerden problems
+  \brief %Generators for clause-sets related to Van der Waerden problems
 
 Use by
 
@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 
 
 /* **************************************************
@@ -39,6 +41,13 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_hg(k,n))$
 /* The general non-diagonal form (the above case has k=k1=k2): */
 vanderwaerden2nd_fcs(k1,k2,n) := union_hg(comp_fcs(arithprog_hg(k1,n)),arithprog_hg(k2,n))$
+/* Now the general form, where L is a vdW-parameter-tuple: */
+vanderwaerden_nbfcsud(L,n) := 
+ if emptyp(L) then [setn(n),{},{}] else
+  nbfclud2nbfcsud(gcol2sat_stdohg2stdnbfclud(
+   map(lambda([k], arithprog_ohg(k,n)), L),
+   create_list(i,i,1,length(L))
+  ))$
 
 output_vanderwaerden2(k,n,filename) := 
   output_fcs(
@@ -58,6 +67,15 @@ output_vanderwaerden2nd(k1,k2,n,filename) :=
 output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
   sconcat("VanDerWaerden_2-",k1,"-",k2,"_",n,".cnf"))$
 
+output_vanderwaerden(L,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(vanderwaerden_nbfcsud(L,n))))],
+  output_fcs_v(
+    sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements."), 
+    FF[1],
+    filename,
+    FF[2]))$
+output_vanderwaerden_stdname(L,n) := output_vanderwaerden(L,n,
+  sconcat("VanDerWaerden_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
 /* *****************************************
