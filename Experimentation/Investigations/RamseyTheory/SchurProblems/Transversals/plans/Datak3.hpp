@@ -112,10 +112,19 @@ SL60_3 : minimum_transversals_mongen(60,S3,[{}])$
 60 30 3
    \endverbatim
    </li>
-   <li> This looks like the following law: for n >= 0 the transversal number is
-   floor(n/2), while for n >= 10 and even n we have 3 minimum transversals,
-   and for odd n we have 2 (one dropped); actually for odd n this seems
-   to hold for n >= 3. Shouldn't be so difficult to prove. </li>
+   <li> This looks like the following law (which shouldn't be so difficult
+   to prove):
+    <ol>
+     <li> For n >= 0 the transversal number is floor(n/2). </li>
+     <li> For n >= 10 and even n we have 3 minimum transversals, and for odd n
+     we have 2 (one dropped). </li>
+     <li> Actually for odd n this seems to hold for n >= 3. </li>
+     <li> For even n the minimum transversals seem to be
+     {2 i : 1 <= i <= n/2}, {1,2, ..., n/2}, {1, ..., n/2-1, n}. </li>
+     <li> And for odd n the first two transversal still work, but
+     not the last one. </li>
+    </ol>
+   </li>
   </ul>
 
 */
