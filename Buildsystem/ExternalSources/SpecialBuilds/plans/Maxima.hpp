@@ -12,6 +12,12 @@ License, or any later version. */
 
   \bug Maxima loading of contrib packages fails on Maxima versions >= 5.18.0.0
   <ul>
+   <li> OK: the following refers to Maxima version 5.18.1, while the official
+   version used at this time was 5.18.0, and it is not clear at all whether
+   MG took care of handling this properly (likely not, since no comments
+   are made). Meanwhile we updated to 5.18.1.
+   By the way, it is not appropriate to refer to "Maxima versions" since the
+   OKlibrary supports only one version at a time. </li>
    <li> Trying to run "oklib_load_all" fails : 
    \verbatim
 [11:45:36 - aeternus] ExternalSources$ oklib --maxima
@@ -46,6 +52,7 @@ Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
    <li> With Maxima 5.17.1.1, this problem does not occur. </li>
    <li> An e-mail should be sent to the maxima mailing list (by MG). </li>
   </ul>
+
 
   \todo DONE (transfer to documentation)
   Building of Maxima-packages
