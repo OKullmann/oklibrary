@@ -47,6 +47,11 @@ c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 i
 s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 initial_number_of_clauses=33764 initial_number_of_literal_occurrences=99604 running_time(s)=150682.3 number_of_nodes=5582755 number_of_single_nodes=261 number_of_quasi_single_nodes=0 number_of_2-reductions=91981749 number_of_pure_literals=0 number_of_autarkies=2 number_of_missed_single_nodes=6184 max_tree_depth=73 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=6 reduced_number_of_clauses=814 reduced_number_of_literal_occurrences=2574 number_of_1-autarkies=1562724854 number_of_initial_unit-eliminations=6 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=2137 file_name=Schur_sb_5_160.cnf
 233: 67478, 151039.1, 679574131.9
+
+292: 43443, 215949.6, 775262129.9
+293: 31644, 216809.7, 775692533.3
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=800 initial_number_of_clauses=33764 initial_number_of_literal_occurrences=99604 running_time(s)=216907.2 number_of_nodes=8093092 number_of_single_nodes=529 number_of_quasi_single_nodes=0 number_of_2-reductions=132323230 number_of_pure_literals=0 number_of_autarkies=14 number_of_missed_single_nodes=11142 max_tree_depth=74 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=6 reduced_number_of_clauses=814 reduced_number_of_literal_occurrences=2574 number_of_1-autarkies=2264984266 number_of_initial_unit-eliminations=6 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=2137 file_name=Schur_sb_5_160.cnf
    \endverbatim
    </li>
    <li> So it seems that on a rather modest machine with 1 processor around
