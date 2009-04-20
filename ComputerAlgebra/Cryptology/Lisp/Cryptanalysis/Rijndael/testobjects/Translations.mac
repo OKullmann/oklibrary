@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobj
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac")$
 
+okltest_rewrite_condition(rewrite_condition);
 okltest_aes_make_vars_int(aes_make_vars_int);
 okltest_aes_make_vars_named(aes_make_vars_named);
 okltest_aes_round_constant(aes_round_constant);

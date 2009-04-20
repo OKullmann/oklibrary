@@ -23,6 +23,16 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 kill(f)$
 
+okltest_rewrite_condition(f) := block(
+  assert(f({},"",lambda([a],{a})) = {}),
+  assert(f({test(5)}, test, 
+    lambda([a],{cheese(a)})) = {cheese(5)}),
+  assert(f({test(5),test(7)}, test, 
+    lambda([a],{cheese(a)})) = {cheese(5),cheese(7)}),
+  assert(f({test(5),test(7), test2(3)}, test, 
+    lambda([a],{cheese(a)})) = {cheese(5),cheese(7), test2(3)}),
+  true)$
+
 okltest_aes_make_vars_int(f) := block(
   aes_reset_vars(),
   assert(f("p",1,128) = create_list(i,i,1,128)),

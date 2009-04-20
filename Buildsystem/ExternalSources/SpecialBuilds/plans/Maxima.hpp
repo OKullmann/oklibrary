@@ -10,6 +10,43 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \bug Maxima loading of contrib packages fails on Maxima versions >= 5.18.0.0
+  <ul>
+   <li> Trying to run "oklib_load_all" fails : 
+   \verbatim
+[11:45:36 - aeternus] ExternalSources$ oklib --maxima
+m4 --prefix-builtins /home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/Buildsystem/Html/m4_shell_macro /home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/Buildsystem/MasterScript/SpecialProcessing/maxima-init.mac > /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/maxima-init.mac
+/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/bin/rmaxima 
+;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/defsystem.fas"
+;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/cmp.fas"
+;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/sysfun.lsp"
+Maxima 5.18.1 http://maxima.sourceforge.net
+Using Lisp ECL 8.12.0 (CVS 2008-07-12 18:54)
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+(%i1) oklib_load_all()$
+Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
+#0: oklib_plain_include(name=descriptive)(maxima-init.mac line 98)
+#1: oklib_plain_include(name=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/ComputerAlgebra/DataStructures/Lisp/Ha...)
+#2: oklib_include(name=OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac)(maxima-init.mac line 94)
+ -- an error.  To debug this try debugmode(true);
+   \endverbatim
+   </li>
+   <li> Something appears to be going wrong with the file_search_maxima paths
+   as there are entries such as:
+   \verbatim
+"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/affine,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/charsets,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/solver,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/calculus,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew/lisp,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/combinatorics
+   \endverbatim
+   (and more) where the entry should be of the form:
+   \verbatim
+"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{share,affine,algebra,algebra/charsets,algebra/solver,calculus,colnew,colnew/lisp,combinatorics,
+   \endverbatim
+   <li>
+   <li> With Maxima 5.17.1.1, this problem does not occur. </li>
+   <li> An e-mail should be sent to the maxima mailing list (by MG). </li>
+  </ul>
+
   \todo DONE (transfer to documentation)
   Building of Maxima-packages
   <ul>
