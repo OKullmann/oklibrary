@@ -333,6 +333,9 @@ License, or any later version. */
 56 53433051
 57 81789087
 59 97695334
+60 172297801
+61 380445103
+62 659246327
      \endverbatim
      while for satisfiable instances we get
      \verbatim
@@ -359,10 +362,10 @@ License, or any later version. */
      </li>
      <li> satz215 seems definitely worse than OKsolver_2002 or march_pl
      on satisfiable instances, while on unsatisfiable instances it also
-     needs more nodes, but one needs to see it "asymptotically"; and
-     also one needs to calibrate it, since likely satz has the "cheapest"
-     nodes, then comes march_pl, while OKsolver_2002 should have the
-     "most expensive" nodes. </li>
+     needs more nodes, but actually perhaps "asymptotically" it is
+     better(?!). And also one needs to calibrate it, since likely satz has the
+     "cheapest" nodes, then comes march_pl, while OKsolver_2002 should have
+     the "most expensive" nodes. </li>
      <li> One also needs to use it in combination with the minisat2
      preprocessor. </li>
     </ol>
