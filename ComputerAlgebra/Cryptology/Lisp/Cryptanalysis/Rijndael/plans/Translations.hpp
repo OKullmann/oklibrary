@@ -15,10 +15,10 @@ License, or any later version. */
     <ul>
      <li> aes_cp </li>
      <li> aes_final_round_cp </li>
-     <li> rewrite_condition </li>
      <li> rewrite_all </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
+     <li> DONE rewrite_condition </li>
      <li> DONE aes_round_cp </li>
      <li> DONE aes_subbytes_cp </li>
      <li> DONE aes_shiftrows_cp </li>
