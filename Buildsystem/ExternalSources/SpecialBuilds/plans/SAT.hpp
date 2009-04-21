@@ -519,6 +519,8 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
      \endverbatim
      successful.
      </li>
+     <li> For our installation, perhaps we should write a wrapper script
+     which handles the created auxiliary files. </li>
     </ol>
    </li>
    <li> There should be other implementations out there (belief propagation

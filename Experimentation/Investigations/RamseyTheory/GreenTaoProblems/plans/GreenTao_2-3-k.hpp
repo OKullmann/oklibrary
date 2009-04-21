@@ -88,6 +88,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
   \todo greentao_2(3,7)
   <ul>
    <li> We could try survey propagation. </li>
+   <li> Let's start with n=10000. </li>
   </ul>
 
 */

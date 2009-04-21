@@ -242,6 +242,13 @@ License, or any later version. */
   <ul>
    <li> If the Green-Tao problems are similar to random problems, then
    perhaps survey propagation is also successful on them ?! </li>
+   <li> Survey propagation is successful for greentao_2(5,5) (see
+   Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_2-5-5.hpp)
+   but yet we found no other problems. </li>
+   <li> Could it be a question of size (the bigger the better for SP)?
+   see greentao_2(3,7) (in
+   Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-k.hpp).
+   </li>
   </ul>
 
 
