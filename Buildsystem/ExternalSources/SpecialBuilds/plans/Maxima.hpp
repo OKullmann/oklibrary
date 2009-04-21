@@ -12,6 +12,9 @@ License, or any later version. */
 
   \bug Maxima loading of contrib packages fails on Maxima versions >= 5.18.0.0
   <ul>
+   <li> MG: the bug occurred in both versions. 5.18.1 was installed, by setting
+   "maxima_recommended_version_number_okl", in that instance, as a test to see if 
+   the bug had gone away in later versions. </li>
    <li> OK: the following refers to Maxima version 5.18.1, while the official
    version used at this time was 5.18.0, and it is not clear at all whether
    MG took care of handling this properly (likely not, since no comments
