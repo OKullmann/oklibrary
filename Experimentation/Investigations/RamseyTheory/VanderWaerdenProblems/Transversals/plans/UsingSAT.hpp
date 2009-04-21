@@ -367,7 +367,67 @@ License, or any later version. */
      "cheapest" nodes, then comes march_pl, while OKsolver_2002 should have
      the "most expensive" nodes. </li>
      <li> One also needs to use it in combination with the minisat2
-     preprocessor. </li>
+     preprocessor. Via
+     \verbatim
+VdWTransversalsInc 3 1 0 Out3 Out3_satzm2pp satz215-m2pp
+
+awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/ExtractUNSATSatz.awk Out3_satzm2pp
+awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/ExtractSATSatz.awk Out3_satzm2pp
+     \endverbatim
+     we get for unsatisfiable instances
+     \verbatim
+7 1
+8 3
+10 17
+12 17
+15 38
+16 65
+17 152
+18 260
+19 449
+21 638
+22 942
+23 967
+25 2394
+27 2423
+28 4585
+29 10373
+31 24825
+33 43450
+34 63570
+35 81899
+37 117042
+38 150220
+39 247509
+42 272771
+43 548477
+44 528531
+45 1017541
+46 905109
+47 1907973
+48 1349065
+     \endverbatim
+     and for satisfiable instances
+     \verbatim
+1 1
+2 1
+4 1
+5 1
+9 4
+11 13
+13 14
+14 11
+20 181
+24 175
+26 976
+30 6343
+32 6710
+36 93047
+40 33605
+41 33146
+     \endverbatim
+     It seems to help.
+     </li>
     </ol>
    </li>
   </ul>
