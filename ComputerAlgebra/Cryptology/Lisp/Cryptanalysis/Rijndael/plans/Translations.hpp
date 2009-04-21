@@ -14,10 +14,10 @@ License, or any later version. */
    <li> Tests are needed for the following functions
     <ul>
      <li> aes_cp </li>
-     <li> aes_final_round_cp </li>
-     <li> rewrite_all </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
+     <li> DONE aes_final_round_cp </li>
+     <li> DONE rewrite_all </li>
      <li> DONE rewrite_condition </li>
      <li> DONE aes_round_cp </li>
      <li> DONE aes_subbytes_cp </li>
