@@ -92,6 +92,19 @@ ev([rv(1,3),rv(2,3,5)],rv([L]):=rank_colex_subsets(setify(L)),nouns);
        </li>
        <li> "nouns" is needed to evaluate the "nouns" rv. </li>
        <li> Shown is also how to handle n-ary functions. </li>
+       <li> Strange Maxima error:
+       \verbatim
+kill(rv)$
+declare(rv,noun)$
+rcs(S) := block([L : listify(S)],
+  apply("+",create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
+ev(rv(1,4),rv([L]):=rcs(setify(L)),nouns);
+ 4
+ev(rv(1,5),rv([L]):=rcs(setify(L)),nouns);
+ 7.0
+rcs({1,5});
+       \endverbatim
+       Notify the Maxima list. </li>
       </ol>
      </li>
      <li> It remains whether we should use, %e.g., rv(1,2,3) or rv({1,2,3}).
@@ -104,16 +117,38 @@ ev([rv(1,3),rv(2,3,5)],rv([L]):=rank_colex_subsets(setify(L)),nouns);
        <li> Or one disallows rv(2,1,3). </li>
       </ol>
      </li>
-     <li> DONE (it seems that it is most natural that the generators
-     do not care about possible renamings)
-     A general question is who is responsible for (controlled!)
-     renaming: The generating facilities or the renaming facilities
-     (where "controlled" here could be translated as "efficient"). </li>
-     <li> DONE (it seems that later evaluating the variable terms is
-     most natural)
-     An alternative to evaluating rv-terms ("later") would be to
-     replace ("early") the function which creates the rv-terms by that
-     translation function f (as above). </li>
+     <li> Several possibilities for creating ramsey-hypergraphs:
+      <ol>
+       <li> As it is now, with sets as vertices, and then apply a
+       translation function:
+       \verbatim
+kill(rv)$
+declare(rv,noun)$
+rv_var(v) := nounify(rv)(v)$
+
+trans_rv(G) :=
+ [map(lambda([s],uaapply(rv_var,listify(s))),G[1]), 
+  map(lambda([S], map(lambda([s],uaapply(rv_var,listify(s))),S)), G[2])]$
+       \endverbatim
+       </li>
+       <li> Then using
+       \verbatim
+ev_rv(t) :=
+ ev(t, rv([L]):=rank_colex_subsets(setify(L)), nouns)$
+       \endverbatim
+       one can get rid off the rv-terms by using ev_rv(G). </li>
+       <li> We can also directly translate the subsets via
+       \verbatim
+trans_colex(G) :=
+ [map(lambda([s],rank_colex_subsets(s)),G[1]), 
+  map(lambda([S], map(lambda([s],rank_colex_subsets(s)),S)), G[2])]$
+       \endverbatim
+       </li>
+       <li> And we can directly generate the hypergraphs using the
+       colexicographical ranks of subsets; or we directly create them
+       with the rv-terms, and evaluate them at this point. </li>
+      </ol>
+     </li>
      <li> DONE (it is possible)
      Regarding "late" translation, a question is also whether a
      term like "{1,2,3}", which should stand for "set(1,2,3)", can
