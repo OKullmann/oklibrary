@@ -100,6 +100,15 @@ greentao2nd_fcs(k1,k2,n) := block(
  [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
   [G1[1], union(G1[2], comp_cs(G2[2]))])$
 
+/* Now the general form, where L is a vdW-parameter-tuple: */
+greentao_nbfcsud(L,n) := 
+ if emptyp(L) then [setify(primes_first(n)),{},{}] else
+  nbfclud2nbfcsud(gcol2sat_stdohg2stdnbfclud(
+   map(lambda([k], arithprog_primes_ohg(k,n)), L),
+   create_list(i,i,1,length(L))
+  ))$
+
+
 /* Output in Dimacs format (together with statistics and variable meanings):
 */
 
@@ -132,6 +141,21 @@ c Variables and associated prime numbers:"),
 /* Providing a standard name: "GreenTao_2-k1-k2_n.cnf": */
 output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
   sconcat("GreenTao_2-",k1,"-",k2,"_",n,".cnf"))$
+
+output_greentao(L,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (general form),
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_stdname(L,n) := output_greentao(L,n,
+  sconcat("GreenTao_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
 /*!
