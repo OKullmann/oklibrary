@@ -16,12 +16,8 @@ License, or any later version. */
    a conjecture that it's polynomially bounded? </li>
    <li> The known values:
    \verbatim
-k vdw_2(4,k)
-1 4
-2 7
-3 ?
-4 35
-5 ?
+create_list(vanderwaerden4k(k),k,1,9);
+ [4,7,18,35,55,73,109,146,unknown]
    \endverbatim
    </li>
   </ul>
@@ -42,6 +38,12 @@ k vdw_2(4,k)
   \todo Local search for the satisfiable instances
   <ul>
    <li> </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(4,9)
+  <ul>
+   <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
   </ul>
 
 */
