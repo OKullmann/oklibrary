@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
+  \file Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
   \brief Plans on the module on computing van der Waerden numbers
 
 
@@ -41,7 +41,7 @@ License, or any later version. */
     <ol>
      <li> Enumerating the primes:
       <ol>
-       <li> Gmp has a "next_prime" function, by which we first create the
+       <li> Gmp has a "mpz_nextprime" function, by which we first create the
        complete list of primes and the corresponding boolean array (for the
        primality predicate). </li>
        <li> Optionally, if one of the randomised tests is not secure, then the
@@ -50,7 +50,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> Also important to be able to compute the various numbers on
+   <li> Also important to be able to compute the various statistics on
    arithmetical progressions of primes (without creating hypergraphs or
    clause-sets). </li>
   </ul>
