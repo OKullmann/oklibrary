@@ -139,7 +139,7 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo Conjecture: greentao_3(3,3,3,3) = 361
+  \todo greentao_3(3,3,3,3) > 363
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -190,17 +190,36 @@ BestSolution_Max = 2.000000
    <li> n=358 found satisfiable with cutoff=10*10^6 and seed=1641133745. </li>
    <li> n=359 found satisfiable with cutoff=10*10^6 and seed=2108885839. </li>
    <li> n=360 found satisfiable with cutoff=10*10^6 and seed=1802549929. </li>
-   <li> n=361
-   \verbatim
-> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_361.cnf
+   <li> n=361 found satisfiable with cutoff=10*10^6 and seed=1427782088
+   (140 runs needed). </li>
+   <li> n=362 found satisfiable with cutoff=10*10^6 and seed=2256326590. </li>
+   <li> n=363 found satisfiable with cutoff=10*10^6 and seed=342405381. </li>
+   <li> n=364 </li>
+   <li> n=365
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_365.cnf
 
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=375: adaptnovelty+ reaches only a minimum about 5. </li>
    <li> n=450: adaptnovelty+ reaches only a minimum about 18. </li>
    <li> n=600
     <ol>
-     <li> The instance-generation by Maxima takes far too long. </li>
+     <li> The instance-generation by Maxima takes far too long.
+      <ul>
+       <li> nbfcsfd2fcs_aloamo is rather slow, but a worse bottleneck
+       is standardise_fcs. </li>
+       <li> And worst is standard_statistics_fcs! </li>
+       <li> Where actually these statistics are not so informative anymore,
+       since they mix three different types of clauses. So we better
+       should have separate statistics on the hypergraphs, on the alo-
+       and alo-clauses, and for everything together. </li>
+      </ul>
+     </li>
      <li> adaptnovelty+ reaches only values in the sixties. </li>
     </ol>
    </li>
