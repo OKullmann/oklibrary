@@ -70,6 +70,143 @@ License, or any later version. */
   </ul>
 
 
+  \todo greentao_3(3,3,3) = 137
+  <ul>
+   <li> Symmetry breaking:
+    <ol>
+     <li> The only available symmetry since the symmetry between the
+     partitions, i.e., one vertex can be put into the first partition. </li>
+     <li> For vdW-problems it seems that the middle vertices are best used
+     here (they have also the highest degrees); but here we should consider
+     the vertex degrees. </li>
+     <li> The variable of maximal degree is prime number 3. </li>
+     <li> So perhaps we should always use this for symmetry breaking. </li>
+    </ol>
+   </li>
+   <li> n=100 easily satisfiable by OKsolver_2002. </li>
+   <li> n=125 easily found satisfiable by adaptnovelty+. </li>
+   <li> n=132 easily found satisfiable by adaptnovelty+. </li>
+   <li> n=135 easily found satisfiable by adaptnovelty+. </li>
+   <li> n=136 easily found satisfiable by adaptnovelty+. </li>
+   <li> n=137
+    <ol>
+     <ol> adaptnovelty+ with runs=1000 and cutoff=10^6 yields
+     \verbatim
+Clauses = 3614
+Variables = 411
+TotalLiterals = 10431
+FlipsPerSecond = 1189726
+BestStep_Mean = 162376.034000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+     \endverbatim
+     </li>
+     <li> OKsolver_2002 seems doable, in, say 1-2 days; one should also
+     try it with the minisat2-preprocessor: seems quite a bit improved
+     (also finding single nodes and autarkies). Still perhaps a few hours;
+     perhaps by using symmetry breaking one gets it really down.
+     </li>
+     <li> march_pl unclear. </li>
+     <li> minisat2 determines unsatisfiability with 2257091 conflicts in less
+     than 2 minutes. </li>
+    </ol>
+   </li>
+   <li> n=138
+    <ol>
+     <li> adaptnovelty+ yields (nearly) constantly minimum=1 with
+     cutoff=10^6. </li>
+    </ol>
+   </li>
+   <li> n=150
+    <ol>
+     <li> minisat2 seems not to make progress. </li>
+     <li> OKsolver_2002: perhaps doable, but likely not easy. </li>
+     <li> From the ubcsat-1.0.0-suite seems adaptnovelty+ to be best. </li>
+     <li> cutoff=10*10^6 yields minimum=1; with 10 runs and with 100 runs.
+     </li>
+    </ol>
+   </li>
+   <li> n=200
+    <ol>
+     <li> adaptnovely+ doesn't seem to achieve better than a minimum=10. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Conjecture: greentao_3(3,3,3,3) = 361
+  <ul>
+   <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
+   <li> n=300 very easily satisfiable. </li>
+   <li> n=338 easily satisfiable. </li>
+   <li> n=348 found satisfiable (cutoff=10^6, seed=1463613527). </li>
+   <li> n=352 found satisfiable (cutoff=10^6, seed=3476207011). </li>
+   <li> n=355 found satisfiable (cutoff=10^6, seed=3865650519). </li>
+   <li> n=356 found satisfiable (cutoff=10^6, seed=1266825813). </li>
+   <li> n=357
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 1000000 -i GreenTao_4-3-3-3-3_357.cnf
+clauses = 26471
+Variables = 1428
+TotalLiterals = 77628
+FlipsPerSecond = 659761
+BestStep_Mean = 447147.770000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.330000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 4.000000
+     \endverbatim
+     seems unsatisfiable.
+     </li>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_357.cnf
+Clauses = 26471
+Variables = 1428
+TotalLiterals = 77628
+FlipsPerSecond = 628361
+BestStep_Mean = 3492205.863000
+Steps_Mean = 9675267.971000
+Steps_Max = 10000000.000000
+PercentSuccess = 5.90
+BestSolution_Mean = 1.236000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 2.000000
+     \endverbatim
+     A solution was found e.g. with seed=876327096. </li>
+    </ol>
+   </li>
+   <li> n=358 found satisfiable with cutoff=10*10^6 and seed=1641133745. </li>
+   <li> n=359 found satisfiable with cutoff=10*10^6 and seed=2108885839. </li>
+   <li> n=360 found satisfiable with cutoff=10*10^6 and seed=1802549929. </li>
+   <li> n=361
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_361.cnf
+
+   \endverbatim
+   </li>
+   <li> n=375: adaptnovelty+ reaches only a minimum about 5. </li>
+   <li> n=450: adaptnovelty+ reaches only a minimum about 18. </li>
+   <li> n=600
+    <ol>
+     <li> The instance-generation by Maxima takes far too long. </li>
+     <li> adaptnovelty+ reaches only values in the sixties. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo DONE (the basic algorithm works not too bad now)
   Better creation of problems
   <ul>
@@ -158,9 +295,9 @@ License, or any later version. */
    </li>
    <li> Via local search we might even investigate greentao_2(6), but here
    n might go into the millions, and we need a much faster generator. </li>
-   <li> In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a C++ program
-   should be written (that is, planned) with the functionality of
-   arithprog_primes_hg. </li>
+   <li> In Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a
+   C++ program should be written (that is, planned) with the functionality of
+   arithprog_primes_hg; see "Generator for Green-Tao problems" there. </li>
    <li> And also the sequences length(arithprog_primes_finish[k,n]) for fixed k
    and length(arithprog_primes(k,n)) for fixed k should be of interest.
     <ol>
