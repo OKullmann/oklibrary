@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations on greentao_4(3,3,3,3)
 
 
-  \todo Lower bounds: greentao_3(3,3,3,3) > 363
+  \todo Lower bounds: greentao_3(3,3,3,3) > 365
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -65,17 +65,43 @@ BestSolution_Max = 2.000000
    (140 runs needed). </li>
    <li> n=362 found satisfiable with cutoff=10*10^6 and seed=2256326590. </li>
    <li> n=363 found satisfiable with cutoff=10*10^6 and seed=342405381. </li>
-   <li> n=364 </li>
-   <li> n=365
-    <ol>
-     <li>
-     \verbatim
+   <li> n=364 found satisfiable (seed=373433483)
+   \verbatim
+Clauses = 27420
+Variables = 1456
+TotalLiterals = 80440
+FlipsPerSecond = 602655
+BestStep_Mean = 3488853.231000
+Steps_Mean = 9993570.374000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.10
+BestSolution_Mean = 2.195000
+BestSolution_Median = 2.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 4.000000
+   \endverbatim
+   </li>
+   <li> n=365 found satisfiable (seed=2430690635)
+   \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_365.cnf
-
-     \endverbatim
+Clauses = 27543
+Variables = 1460
+TotalLiterals = 80804
+FlipsPerSecond = 598431
+BestStep_Mean = 3608383.766000
+Steps_Mean = 9990625.610000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.10
+BestSolution_Mean = 2.248000
+BestSolution_Median = 2.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 4.000000
+   \endverbatim
      </li>
     </ol>
    </li>
+   <li> n=366 </li>
+   <li> n=367 </li>
    <li> n=375: adaptnovelty+ reaches only a minimum about 5. </li>
    <li> n=450: adaptnovelty+ reaches only a minimum about 18. </li>
    <li> n=600
@@ -94,6 +120,15 @@ BestSolution_Max = 2.000000
      <li> adaptnovelty+ reaches only values in the sixties. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Upper bounds
+  <ul>
+   <li> From the experience with "greentao_3(3,3,3) = 137" (see
+   Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp)
+   it seems that minisat2 performs best here. </li>
+   <li> One one should employ symmetry breaking here. </li>
   </ul>
 
 */
