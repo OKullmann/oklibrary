@@ -56,7 +56,16 @@ c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 
 
   \todo Performance of march_pl
   <ul>
-   <li> 
+   <li> k=13, n=160:
+   \verbatim
+c main():: nodeCount: 279674
+c main():: dead ends in main: 531
+c main():: lookAheadCount: 71792373
+c main():: unitResolveCount: 1830566
+c main():: time=5111.450195
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo Performance of satz215
@@ -64,7 +73,7 @@ c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 
 
   \todo Performance of minisat2
   <ul>
-   <li> k=13, n=160 </li>
+   <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
    <li> k=16, n=238: Apparently after 30 restarts and 36906145 conflicts
    no progress was made. </li>
   </ul>
