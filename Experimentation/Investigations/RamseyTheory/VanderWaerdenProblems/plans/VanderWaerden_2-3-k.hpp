@@ -69,6 +69,19 @@ c main():: time=5111.450195
 
 
   \todo Performance of satz215
+  <ul>
+   <li> k=13, n=160:
+   \verbatim
+> satz215 VanDerWaerden_2-3-13_160.cnf
+****the instance is unsatisfiable *****
+NB_MONO= 316, NB_UNIT= 38903958, NB_BRANCHE= 1699870, NB_BACK= 864253
+Program terminated in 1308.930 seconds.
+satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0 160 7308 0 3878431 1563013
+   \endverbatim
+   So satz215 seems best-performing here.
+   </li>
+   <li> k=14, n=186 </li>
+  </ul>
 
 
   \todo Performance of minisat2
