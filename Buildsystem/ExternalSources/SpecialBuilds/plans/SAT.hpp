@@ -370,6 +370,8 @@ Satz> gcc -O3 -o satz215 satz215.2.c
      <li> "NB_BRANCHE" should mean the number of branches, that is,
      the number of nodes - 1; but what then is NB_BACK? It is always
      a bit more than half of NB_BRANCHE. </li>
+     <li> satz215 creates the file "timetable": Perhaps we should give
+     it a better name. </li>
      <li> DONE (see "Updating the exit codes for Satz215" in
      Satisfiability/Solvers/Satz/plans/general.hpp)
      Yet the return value is always 1 --- we need to change this to
@@ -485,7 +487,8 @@ actual or intended publication of such source code.
      <li> OK should contact Riccardo Zecchina to tell them about the OKlibrary,
      and discuss whether they are interested in contributing (first at the
      Maxima/Lisp level). </li>
-     <li> Installing sp-1.4b for k-SAT
+     <li> DONE
+     Installing sp-1.4b for k-SAT
      \verbatim
 builds/SAT/SurveyPropagation> tar -xzf ../../../sources/SAT/SurveyPropagation/sp-1.4b.tgz
 builds/SAT/SurveyPropagation> cd sp-1.4
@@ -520,7 +523,9 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
      successful.
      </li>
      <li> For our installation, perhaps we should write a wrapper script
-     which handles the created auxiliary files. </li>
+     which handles the created auxiliary files (at least "formula.tmp.cnf").
+     </li>
+     <li> Then there is spy-1.2.tar.gz. </li>
     </ol>
    </li>
    <li> There should be other implementations out there (belief propagation
