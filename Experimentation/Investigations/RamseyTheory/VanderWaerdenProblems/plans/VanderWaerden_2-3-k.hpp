@@ -80,7 +80,15 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
    \endverbatim
    So satz215 seems best-performing here.
    </li>
-   <li> k=14, n=186 </li>
+   <li> k=14, n=186:
+   \verbatim
+****the instance is unsatisfiable *****
+NB_MONO= 1011, NB_UNIT= 275097539, NB_BRANCHE= 10842443, NB_BACK= 5511751
+Program terminated in 11507.900 seconds.
+satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
+   \endverbatim
+   </li>
+   <li> k=15, n=218: </li>
   </ul>
 
 
