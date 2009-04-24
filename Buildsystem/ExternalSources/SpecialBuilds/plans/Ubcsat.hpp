@@ -12,8 +12,30 @@ License, or any later version. */
 
   \todo ubcsat-okl
   <ul>
-   <li> See ExperimentSystem/plans/RunUBCSAT.hpp for plans on extending
-   the functionality. </li>
+   <li> More readable large numbers:
+    <ol>
+     <li> Especially for the cutoff value it would be good if number
+     representations like "100*10^6" (or "55*11^7") could be used. </li>
+     <li> It's awkward to count the zeros. </li>
+     <li> So ubcsat-okl needs to parse the parameters, and translates numbers
+     like that into their decimal representation. </li>
+     <li> In order to avoid misinterpretations, perhaps we only consider
+     a "-cutoff" parameter. </li>
+     <li> A little awk-script could do the job:
+      <ol>
+       <li> Its input is the whole parameter line. </li>
+       <li> Running through the parameters one searches for "-cutoff". </li>
+       <li> The parameter after "-cutoff" is first devided by "*" into (a,x),
+       and if x is present, x is divided into (b,c) by "^", and then
+       a * b^c (where a, b, c are natural numbers) is computed. </li>
+       <li> Returned is the whole parameter line, with the cutoff-value
+       replaced. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> See ExperimentSystem/plans/RunUBCSAT.hpp for plans on extending resp.
+   usingthe output-functionality. </li>
    <li> The idea is that ubcsat-okl creates some form of complete output,
    which is directly readable by R (into a dataframe, without further
    processing). </li>
