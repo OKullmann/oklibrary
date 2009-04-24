@@ -121,7 +121,36 @@ BestSolution_Max = 4.000000
    </li>
    <li> n=375:
     <ol>
-     <li> adaptnovelty+ reaches only a minimum about 5. </li>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 3000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_375.cnf
+Clauses = 28901
+Variables = 1500
+TotalLiterals = 84828
+FlipsPerSecond = 587133
+BestStep_Mean = 3945694.062333
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 3.491667
+BestSolution_Median = 4.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 5.000000
+ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 20000000 -i GreenTao_4-3-3-3-3_375.cnf
+Clauses = 28901
+Variables = 1500
+TotalLiterals = 84828
+FlipsPerSecond = 577930
+BestStep_Mean = 7458479.743000
+Steps_Mean = 20000000.000000
+Steps_Max = 20000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 3.156000
+BestSolution_Median = 3.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 5.000000
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=450: adaptnovelty+ reaches only a minimum about 18. </li>
