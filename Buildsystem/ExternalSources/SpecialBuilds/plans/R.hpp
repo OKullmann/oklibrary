@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \todo Installing 2.9.0
+  <ul>
+   <li> We get the error
+   \verbatim
+begin installing recommended package VR
+Error in library(pspline) : there is no package called 'pspline'
+Execution halted
+   \endverbatim
+   </li>
+   <li> Notify the R mailing list. </li>
+  </ul>
+
+
   \todo Local installation of gfortran
   <ul>
    <li> Often gfortran is not installed. </li>
