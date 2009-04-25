@@ -9,7 +9,7 @@
 
 global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
 
-sat_targets_extsrc_okl ?= ubcsat minisat march satz # grasp
+sat_targets_extsrc_okl ?= ubcsat minisat march satz sp # grasp
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
