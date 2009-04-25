@@ -160,6 +160,78 @@ xreduce(nounify(union), [a,b,c,d]);
   </ul>
 
 
+  \todo Creating function-terms via lambda
+  <ul>
+   <li> How to simplify the function term?
+    <ol>
+     <li> Consider the following example:
+     \verbatim
+snbl2cdn(x) := [
+ {var_snbl(x)}, 
+  buildq([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x)], lambda([ta], 
+   if s=+1 then is(ta(v)=e) else is(ta(v)#e)))
+]$
+
+snbl2cdn([1,3,+1]);
+ [{1},lambda([ta],if 1 = +1 then is(ta(1) = 3) else is(ta(1) # 3))]
+     \endverbatim
+     (from
+     ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Conditions.mac)
+     </li>
+     <li> But actually we want the result
+     \verbatim
+[{1},lambda([ta],is(ta(1) = 3))]
+     \endverbatim
+     </li>
+     <li> Using "optimize" makes things actually worse:
+     \verbatim
+snbl2cdn(x) := [
+ {var_snbl(x)}, 
+  optimize(buildq([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x)], lambda([ta], 
+   if s=+1 then is(ta(v)=e) else is(ta(v)#e))))
+]$
+
+snbl2cdn([1,3,+1]);
+optimize: encountered a special form; answer may be wrong.
+ [{1},block([%1],%1:ta(1),lambda([ta],if 1 = +1 then is(%1 = 3) else is(%1 # 3)))]
+     \endverbatim
+     </li>
+     <li> "ev" should be helpful here, but either it does nothing or it leads
+     to errors:
+     \verbatim
+snbl2cdn(x) := [
+ {var_snbl(x)}, 
+  ev(buildq([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x)], lambda([ta],
+  if s=+1 then is(ta(v)=e) else is(ta(v)#e))), simp,eval,eval)
+]$
+snbl2cdn([1,3,+1]);
+ [{1},lambda([ta],if 1 = +1 then is(ta(1) = 3) else is(ta(1) # 3))]
+snbl2cdn(x) := [
+ {var_snbl(x)}, 
+  ev(buildq([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x)], lambda([ta],
+  if s=+1 then is(ta(v)=e) else is(ta(v)#e))), simp,eval,eval,pred)
+]$
+snbl2cdn([1,3,+1]);
+Maxima encountered a Lisp error:
+ Not a valid property list ($TA)
+     \endverbatim
+     </li>
+     <li> And if attempting to use eval with "pred" to the obtained
+     expression, then Maxima runs into an infinite loop! </li>
+     <li> A solution is achieved by
+     \verbatim
+snbl2cdn(x) := block([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x), t, ta],
+ t : if s=+1 then buildq([v,e],is(ta(v)=e)) 
+  elseif s=-1 then buildq([v,e],is(ta(v)#e)) else
+  buildq([s,v,e],if s=+1 then is(ta(v)=e) else is(ta(v)#e)),
+ return([{v}, buildq([t], lambda([ta],t))]))$
+     \endverbatim
+     Is this complexity needed? </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Bugs of Maxima and their corrections
   <ul>
    <li> set_partitions(n,k) produces sets which can not be used further.
