@@ -18,7 +18,7 @@ License, or any later version. */
 
   \todo Survey propagation
   <ul>
-   <li> For n=5000, 7500, 10000 survey propagation apparently thinks the
+   <li> For n=5000, 7500, 10000, 12500 survey propagation apparently thinks the
    problem is unsatisfiable, i.e., we always get
    \verbatim
 > survey_propagation -l GreenTao_2-3-7_XX000.cnf
