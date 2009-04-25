@@ -42,7 +42,7 @@ contradiction
   </ul>
 
 
-  \todo greentao_2(3,7) > 10000
+  \todo greentao_2(3,7) > 12500
   <ul>
    <li> n=5000: ubcsat::adaptnovelty+ finds it satisfiable with just a
    cutoff=10000. </li>
@@ -52,7 +52,30 @@ contradiction
    </li>
    <li> n=10000: ubcsat::adaptnovelty+ finds it satisfiable with just a
    cutoff=1000000 (seed=3610283050). </li>
-   <li> n=12500 </li>
+   <li> n=12500
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000 -i GreenTao_2-3-7_12500.cnf
+Clauses = 4722593
+Variables = 12500
+TotalLiterals = 14173471
+FlipsPerSecond = 6550
+BestStep_Mean = 779318.300000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 14.200000
+BestSolution_Median = 14.000000
+BestSolution_Min = 8.000000
+BestSolution_Max = 19.000000
+     \endverbatim
+     </li>
+     <li> Found satisfiable (first run) with cutoff=10*10^6 (seed=348690330).
+     </li>
+    </ol>
+   </li>
+   <li> n=15000 </li>
   </ul>
 
 */
