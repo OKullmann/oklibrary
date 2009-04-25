@@ -522,8 +522,16 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
      \endverbatim
      successful.
      </li>
-     <li> For our installation, perhaps we should write a wrapper script
-     which handles the created auxiliary files (at least "formula.tmp.cnf").
+     <li> Improving sp:
+      <ol>
+       <li> For our installation, perhaps we should write a wrapper script
+       which handles the created auxiliary files (at least "formula.tmp.cnf").
+       </li>
+       <li> And we should improve the output: hopefully in the source code
+       we find some comments on what ":-)" means, and perhaps there is also
+       a counter available so that we see how many variables have been
+       eliminated. </li>
+      </ol>
      </li>
      <li> Then there is spy-1.2.tar.gz. </li>
     </ol>
