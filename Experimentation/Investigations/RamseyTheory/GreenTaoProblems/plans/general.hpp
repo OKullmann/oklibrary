@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
-  \brief On investigations into Green-Tao problems
+  \brief On investigations into Green-Tao problems (including Green-Tao numbers)
 
 
   \todo Standardisation on notation
