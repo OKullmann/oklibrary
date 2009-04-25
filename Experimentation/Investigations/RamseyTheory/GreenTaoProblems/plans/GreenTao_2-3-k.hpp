@@ -84,49 +84,4 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
    </li>
   </ul>
 
-
-  \todo greentao_2(3,7) > 10000
-  <ul>
-   <li> We could try survey propagation. </li>
-   <li> n=5000. Survey propagation apparently thinks it is
-   unsatisfiable:
-   \verbatim
-> survey_propagation -l GreenTao_2-3-7_5000.cnf
-<bias>:nan
-fixed 1 biased var (+0 ucp)
-.:-)
-<bias>:nan
-contradiction
-   \endverbatim
-   however ubcsat::adaptnovelty+ finds it satisfiable with just a
-   cutoff=10000. </li>
-   </li>
-   <li> n=7500. Survey propagation apparently thinks it is
-   unsatisfiable:
-   \verbatim
-> survey_propagation -l GreenTao_2-3-7_7500.cnf
-<bias>:nan
-fixed 1 biased var (+0 ucp)
-.:-)
-<bias>:nan
-contradiction
-   \endverbatim
-   however ubcsat::adaptnovelty+ finds it satisfiable with just a
-   cutoff=100000. </li>
-   </li>
-   <li> n=10000. Survey propagation apparently thinks it is
-   unsatisfiable:
-   \verbatim
-> survey_propagation -l GreenTao_2-3-7_10000.cnf
-<bias>:nan
-fixed 1 biased var (+0 ucp)
-.:-)
-<bias>:nan
-contradiction
-   \endverbatim
-   however ubcsat::adaptnovelty+ finds it satisfiable with just a
-   cutoff=1000000 (seed=3610283050). </li>
-   <li> n=12500 </li>
-  </ul>
-
 */
