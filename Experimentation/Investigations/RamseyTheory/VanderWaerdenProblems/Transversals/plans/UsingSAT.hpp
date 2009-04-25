@@ -1722,6 +1722,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 118 19258114 29
 119 143004281 34
 121 608944908 37
+129 1557172657 40
      \endverbatim
      SAT:
      \verbatim
@@ -1835,6 +1836,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 126 3407763 25
 127 22271062 29
 128 21308919 29
+130 1627583 23
+131 5167974 26
      \endverbatim
      </li>
     </ol>
