@@ -10,19 +10,9 @@ License, or any later version. */
   \brief Investigations on greentao_2(3,7)
 
 
-  \todo Establishing the target
-  <ul>
-   <li> Analysing the sequence 4,7,23,79,528,2072 by linear regressions seems
-   to suggest it is linear in the log-log, and a linear model then is
-   exp(exp(-0.05899 + i * 0.38269)), which would yield 11691 as the
-   next term. </li>
-   <li> I would guess that this is too big (more like 6000). </li>
-  </ul>
-
-
   \todo Finding the best algorithm from ubcsat
   <ul>
-   <li> adaptnovelty+ seems best:
+   <li> Is adaptnovelty+ still best? </li>
   </ul>
 
 
