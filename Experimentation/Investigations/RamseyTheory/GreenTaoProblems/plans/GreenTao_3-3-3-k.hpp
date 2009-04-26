@@ -78,5 +78,18 @@ BestSolution_Max = 1.000000
    </li>
   </ul>
 
+
+  \todo greentao_3(3,3,4) > 400
+  <ul>
+   <li> n=150 trivially satisfiable by adaptnovelty+. </li>
+   <li> n=200 trivially satisfiable by adaptnovelty+. </li>
+   <li> n=300 trivially satisfiable by adaptnovelty+. </li>
+   <li> n=400 easily satisfiable by adaptnovelty+ (cutoff=100*10^3). </li>
+   <li> n=450 </li>
+   <li> n=500 looks unsatisfiable: cutoff=100*10^3 and 10 runs yields a
+   minimum=14, cutoff=10^6 yields minimum=8, cutoff=10*10^6 yields
+   minimum=7. </li>
+  </ul>
+
 */
 
