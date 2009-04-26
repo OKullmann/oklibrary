@@ -19,7 +19,16 @@ Error in library(pspline) : there is no package called 'pspline'
 Execution halted
    \endverbatim
    </li>
-   <li> Notify the R mailing list. </li>
+   <li> Apparently the problem was caused by old settings in HOME/.RProfil.
+    <ol>
+     <li> We need to install R in such a way that it does not interact at all
+     with any user configuration files. </li>
+     <li> Is "rhome" the appropriate variable here? Unclear what "home" means
+     here; it seems not to refer to the users home, and thus perhaps it is
+     not appropriate here. </li>
+    </ol>
+   </li>
+   <li> 
   </ul>
 
 
