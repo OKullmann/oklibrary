@@ -109,7 +109,15 @@ Program terminated in 11507.900 seconds.
 satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
    \endverbatim
    </li>
-   <li> k=15, n=218: </li>
+   <li> k=15, n=218:
+   \verbatim
+****the instance is unsatisfiable *****
+NB_MONO= 2544, NB_UNIT= 1879235364, NB_BRANCHE= 66642611, NB_BACK= 33796681
+Program terminated in 99407.850 seconds.
+satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373672422 0 218 13362 0 305553394 82352337
+   \endverbatim
+   </li>
+   <li> k=16, n=238: </li>
   </ul>
 
 
