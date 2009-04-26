@@ -119,6 +119,24 @@ BestSolution_Min = 0.000000
 BestSolution_Max = 4.000000
    \endverbatim
    </li>
+   <li> n=368 </li>
+   <li> n=370
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_370.cnf
+Clauses = 28202
+Variables = 1480
+TotalLiterals = 82756
+FlipsPerSecond = 612643
+BestStep_Mean = 3801288.200000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.821000
+BestSolution_Median = 3.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 4.000000
+   \endverbatim
+   </li>
    <li> n=375:
     <ol>
      <li>
@@ -149,6 +167,19 @@ BestSolution_Mean = 3.156000
 BestSolution_Median = 3.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 5.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 100000000 -i GreenTao_4-3-3-3-3_375.cnf
+Clauses = 28901
+Variables = 1500
+TotalLiterals = 84828
+FlipsPerSecond = 601664
+BestStep_Mean = 31289071.326000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.463000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 4.000000
      \endverbatim
      </li>
     </ol>
