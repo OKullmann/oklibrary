@@ -264,7 +264,7 @@ create_list(vanderwaerdent(m,3),m,0,74);
    <li> So let's consider the relative independency numbers, obtained by
    float(ralphal_arithprog(3)):
    \verbatim
-d = ...
+d = c( ... float(ralphal_arithprog(3)) ... )
 x = log((1:length(d))[-(1:10)])
 y = log(1/d[-(1:10)])
 L = lm(y ~ x)
@@ -273,6 +273,7 @@ Coefficients:
              Estimate Std. Error t value Pr(>|t|)
 (Intercept) -0.204198   0.024323  -8.395 6.21e-13 ***
 x            0.333381   0.006184  53.913  < 2e-16 ***
+Adjusted R-squared: 0.9696
 plot(x,y)
 lines(x,predict(L))
 C = coefficients(L)
@@ -281,6 +282,41 @@ plot(d)
 lines(f(1:length(d)))
    \endverbatim
    So f(n) ~ 1.226541 * n^(-0.3333806). </li>
+   <li> By [Rankin, 1961] it is known that
+   ralpha_arithprog(3,n) > c^(-log(n)^(1/2))
+   for some suitable c > 1 (this goes back to [Behrend, 1946]). </li>
+   <li>
+   \verbatim
+x = log(log((1:length(d))[-(1:10)]))
+y = log(-log(d[-(1:10)]))
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.56640    0.03554  -44.07   <2e-16 ***
+x            1.21567    0.02622   46.37   <2e-16 ***
+Adjusted R-squared: 0.9594
+plot(x,y)
+lines(x,predict(L))
+C = coefficients(L)
+f = function(n){exp(- exp(C[1]) * log(n)^C[2])}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   so f(n) ~ exp(-0.2087957 * log(n)^1.215668) is a more suitable model (at
+   least "theoretically", while regarding this data it is not
+   distinguishable from the above model for n >= 20). </li>
+   <li> The inverse fi of f is given by
+   \verbatim
+fi = function(v){exp( exp(C[1])^(-1/C[2]) * (-log(v))^(1/C[2]))}
+ft = function(m){exp( exp(C[1])^(-1/C[2]) * log(m)^(1/C[2]))}
+   \endverbatim
+   (where f(m) = fi(1/m)). </li>
+   <li> But the regression is still "too optimisic", namely
+   C[2] > 1, while it really needs to be < 1 (see "The behaviour of m -> 
+   vanderwaerdend(m,3)" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_4-3-3-3-3.hpp).
+   </li>
   </ul>
 
 */
