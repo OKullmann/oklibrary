@@ -12,6 +12,10 @@ License, or any later version. */
 
   \bug Maxima loading of contrib packages fails on Maxima versions >= 5.18.0.0
   <ul>
+   <li> MG has sent an email to the maxima mailing list detailing this bug. 
+   </li>
+   <li> This bug does not occur when using "clisp". This might explain why this
+   bug has not been reported yet on the maxima mailing list. </li>
    <li> MG: the bug occurred in both versions. 5.18.1 was installed, by setting
    "maxima_recommended_version_number_okl", in that instance, as a test to see if 
    the bug had gone away in later versions. </li>
