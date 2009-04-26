@@ -35,6 +35,26 @@ CMake Error: Boost not found -- do you have the iostreams component?
      So we need CMake and Boost --- how to tell Minion about the location
      of Boost sources and link-libraries? The above should work, but
      doesn't. </li>
+     <li> The above doesn't work for several reasons : 
+     <ul>
+      <li> The cmake files present in minion seem to use "HINTS" rather than
+      "PATHS" for "FIND_PATH" and "FIND_LIBRARY" which is only available in 
+      versions of cmake >= 2.6.1. </li>
+      <li> One must make sure the "iostreams" library in Boost is built which
+      requires the "bzip2" headers to be installed for it to be built during
+      the Boost installation. </li>
+      <li> As the Boost library files include the gcc compiler version in 
+      their names, one must ensure that the gcc version being used by cmake
+      is the local version by setting CC and CXX environment variables. Either
+      that or ensure there are symlinks such as "libboost_iostreams.so" etc,
+      as the "FindBoost.cmake" cmake module detects either. </li>
+     </ul>
+     Ensuring all of the above and using the following command seems to generate
+     the minion Makefile : 
+     \verbatim
+CC="../../../Gcc/4.1.2/bin/gcc" CXX="../../../Gcc/4.1.2/bin/g++" BOOST_INCLUDEDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/include/boost-1_34_1/ BOOST_LIBRARYDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/ cmake ..
+     \endverbatim
+     </li>
      <li> We should build CMake, and put it into OKlibrary/bin. </li>
     </ol>
    </li>
