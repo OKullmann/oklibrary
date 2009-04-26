@@ -1,3 +1,5 @@
+#include <assert.h>
+#include "common.h"
 
 int equivalence_reasoning();
 
@@ -28,7 +30,31 @@ int check_non_tautological_equivalences();
 
 int dependantsExists();
 
-inline void fixEq( int nr, int pos, int value );
+inline void fixEq( int varnr, int pos, int value )
+{
+	int i, last = --Veq[ varnr ][ 0 ];
+	int ceqidx = Veq   [ varnr ][ pos ];
+        int ceqloc = VeqLUT[ varnr ][ pos ];
+        int lit = Ceq[ ceqidx ][ --CeqSizes[ ceqidx ] ];
+
+	assert( lit <= nrofvars );
+	assert( lit > 0 );
+
+        for( i = 1; Veq[ lit ][ i ] != ceqidx; i++ );
+        VeqLUT[ lit ][ i ] = ceqloc;
+
+        Ceq[ ceqidx ][ ceqloc ] = lit;
+        Ceq[ ceqidx ][ CeqSizes[ ceqidx ] ] = varnr;
+
+        CeqValues[ ceqidx ] *= value;
+
+	Veq[ varnr ][ pos  ] = Veq[ varnr ][ last ];
+	Veq[ varnr ][ last ] = ceqidx;
+
+	VeqLUT[ varnr ][ pos  ] = VeqLUT[ varnr ][ last ];
+	VeqLUT[ varnr ][ last ] = CeqSizes[ ceqidx ]; 
+}
+
 
 void add_binary_equivalence();
 

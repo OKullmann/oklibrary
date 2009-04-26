@@ -26,6 +26,7 @@ march : marchpl
 
 marchpl : $(marchpl_directories_okl)
 	$(call unarchive,$(marchpl_source_okl),$(march_base_build_dir_okl)) $(postcondition) \
+ 	cp $(marchpl_corrected_src_okl)/*.{c,h} $(marchpl_build_dir_okl) 
 	cd $(marchpl_build_dir_okl); $(postcondition) \
 	make; $(postcondition) \
 	cp march_pl $(marchpl_installation_dir_okl); $(postcondition) \

@@ -17,6 +17,7 @@ marchpl_extracted_archive_okl ?= march_$(marchpl_recommended_version_number_okl)
 
 marchpl_build_dir_okl ?= $(march_base_build_dir_okl)/$(marchpl_extracted_archive_okl)
 marchpl_installation_dir_okl ?= $(march_base_installation_dir_okl)/$(marchpl_recommended_version_number_okl)
+marchpl_corrected_src_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/March/
 
 marchpl_call_okl ?= $(marchpl_installation_dir_okl)/march_pl
 

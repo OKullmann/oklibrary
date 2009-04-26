@@ -32,16 +32,87 @@ int lookahead();
        int look_fix_forced_literal	( const int nrval );
 
 inline int look_fix_big_clauses         ( const int nrval );
-inline int look_fix_binary_implications	( const int nrval );
+inline int look_fix_binary_implications( const int nrval )
+{
+        int i, lit, *bImp, *local_fixstackp = end_fixstackp;
+
+        if( IS_FIXED(nrval) ) 
+	    return( FIXED_ON_COMPLEMENT(nrval) == UNSAT );
+
+        FIX( nrval, currentTimeStamp );
+        *( end_fixstackp++ ) = nrval;
+
+        while( local_fixstackp < end_fixstackp )
+	{
+	    bImp = BIMP_START( *(local_fixstackp++) );
+            for( i = BIMP_ELEMENTS; --i; )
+            {
+            	lit = *(bImp++);
+
+	    	if( IS_FIXED(lit) )
+	    	{    if( FIXED_ON_COMPLEMENT(lit) ) return UNSAT; }
+	    	else
+	    	{    FIX( lit, currentTimeStamp );
+        	    *( end_fixstackp++ ) = lit; 		  }
+	    }
+	}
+	return SAT;
+}
 inline int look_fix_equivalences	( const int nrval );
 inline int look_fix_ternary_implications( const int nrval );
 inline int add_constraint_resolvent	( const int nrval );
-inline void add_resolvents		(		  );
+inline void add_resolvents( const int nrval )
+{
+	int lit, stackSize;
 
-inline void restore_big_clauses ( int *head_stackp, int *tail_stackp );
+        stackSize = (int) (look_resstackp - look_resstack);
+#ifdef ADD_BOTH_IMPLICATIONS
+        CHECK_NODE_STAMP(nrval);
+        CHECK_BIMP_UPPERBOUND( nrval, stackSize );
+#endif
+        while( look_resstackp > look_resstack )
+        {
+            lit = *(--look_resstackp);
+
+            CHECK_BIMP_BOUND  ( -lit );
+	    CHECK_NODE_STAMP( -lit );
+#ifdef ADD_BOTH_IMPLICATIONS
+	    ADD_BINARY_IMPLICATION( -nrval, lit );
+#endif
+	    ADD_BINARY_IMPLICATION( lit, -nrval );
+        }
+}
+
+inline void restore_big_clauses( int *head_stackp, int *tail_stackp )
+{
+        int *clauseSet;
+
+	while( --head_stackp >= tail_stackp )
+	{
+	    clauseSet = clause_set[ -*(head_stackp) ];
+            while( *clauseSet != LAST_CLAUSE )
+        	clause_length[ *(clauseSet++) ]++;
+	}
+	end_fixstackp = tail_stackp;
+}
+
        void evaluate_big_clauses( int *head_stackp, int *tail_stackp );
 
-inline void look_backtrack();
+inline void look_backtrack( )
+{
+	int *tail_stackp = end_fixstackp;
+
+	do
+	{
+	   if( tail_stackp == rstackp )         break;
+	   if( IS_FIXED( *(tail_stackp - 1) ) ) break;
+	   tail_stackp--;
+	}
+	while( 1 );
+
+	restore_big_clauses( end_fixstackp, tail_stackp );
+}
+
 
 void lookahead_subsume( const int nrval );
 
