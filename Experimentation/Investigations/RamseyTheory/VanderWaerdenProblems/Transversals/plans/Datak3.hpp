@@ -241,4 +241,46 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
    </li>
   </ul>
 
+
+  \todo Predictions
+  <ul>
+   <li> The transversal vdW-numbers seem most suitable for predictions:
+   \verbatim
+create_list(vanderwaerdent(m,3),m,0,74);
+[
+ 3,6,7,8,10,12,15,16,17,18,
+ 19,21,22,23,25,27,28,29,31,33,
+ 34,35,37,38,39,42,43,44,45,46,
+ 47,48,49,50,52,53,55,56,57,59,
+ 60,61,62,64,65,66,67,68,69,70,
+ 72,73,75,76,77,78,79,80,81,83,
+ 85,86,87,88,89,90,91,93,94,96,
+ 97,98,99,101,102
+]
+   \endverbatim
+   </li>
+   <li> Plotting this data in R looks "number-theoretical" and
+   not "fittable". </li>
+   <li> So let's consider the relative independency numbers, obtained by
+   float(ralphal_arithprog(3)):
+   \verbatim
+d = ...
+x = log((1:length(d))[-(1:10)])
+y = log(1/d[-(1:10)])
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.204198   0.024323  -8.395 6.21e-13 ***
+x            0.333381   0.006184  53.913  < 2e-16 ***
+plot(x,y)
+lines(x,predict(L))
+C = coefficients(L)
+f = function(n){1/exp(C[1]) * n^(-C[2])}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   So f(n) ~ 1.226541 * n^(-0.3333806). </li>
+  </ul>
+
 */
