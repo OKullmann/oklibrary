@@ -37,6 +37,7 @@ okltest_vanderwaerden_nbfcsud(vanderwaerden_nbfcsud);
 
 okltest_greentao2_fcs(greentao2_fcs);
 okltest_greentao2nd_fcs(greentao2nd_fcs);
+okltest_greentao_nbfcsud(greentao_nbfcsud);
 
 /*!
 \endhtmlonly

@@ -1,0 +1,94 @@
+/* Oliver Kullmann, 24.4.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Conditions.mac
+  \brief The basic notions for "conditions"
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Conditions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+
+
+/* ***********
+   * Notions *
+   ***********
+*/
+
+/*
+ A "condition" is a pair [V,e], where V is a set of "variables", and
+ e is a function such that for every function f(x) with f(v) in {0,1}
+ for all v in V we have e(f) in {0,1}.
+ Abbrv: "cdn"
+ Question: Should this be "false, true" instead of "0, 1" ?!
+*/
+
+/*
+ A "positive boolean constraint" is a pair [V,G], such that [V,G] is a full
+ formal clause-set, with the meaning of presenting the underlying
+ conditions as a DNF.
+ A "negative boolean constraint" is a pair [V,F], such that [V,F] is a full
+ formal clause-set, with the meaning of representing the underlying
+ condition as a CNF.
+ Abbrv: "pbcst, nbcst"
+*/
+
+/*
+ A "positive constraint" is a pair [V,G], such that [V,G] is a full
+ formal non-boolean clause-set over V, with the meaning of presenting the 
+ underlying condition as a DNF.
+ A "negative constraint" is a pair [V,F], such that [V,F] is a full 
+ formal non-boolean clause-set over V, with the meaning of presenting the 
+ underlying condition as a CNF.
+ Abbrv: "pcst", "ncst"
+*/
+
+/*
+ A "positive boolean DNF-constraint" resp. a "negative boolean CNF-constraint"
+ allows more generally arbitrary clause-sets (not just full clause-sets).
+ Abbrv: "pbdnfcst", "nbcnfcst"
+*/
+
+/*
+ And a "positive DNF-constraint" resp. a "negative CNF-constraint" allows
+ arbitrary non-boolean clause-sets.
+ Abbrv: "pdnfcst", "ncnfcst"
+*/
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* false -> 0, true -> 1: */
+mb2b(x) := if x then 1 else 0;
+
+
+/* ****************
+   * Translations *
+   ****************
+*/
+
+snbl2cdn(x) := block([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x), t, ta],
+ t : if s=+1 then buildq([v,e],mb2b(is(ta(v)=e))) 
+  elseif s=-1 then buildq([v,e],mb2b(is(ta(v)#e))) else
+  buildq([s,v,e],mb2b(
+    if s=+1 then is(ta(v)=e) elseif s=-1 then is(ta(v)#e) else unknown)),
+ return([{v}, buildq([t], lambda([ta],t))]))$
+
+/*!
+\endhtmlonly
+*/

@@ -406,6 +406,15 @@ awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenP
 46 905109
 47 1907973
 48 1349065
+49 5374740
+50 3643376
+52 6347608
+53 8677472
+55 13042785
+56 17220536
+57 35031247
+59 57243648
+60 112143984
      \endverbatim
      and for satisfiable instances
      \verbatim
@@ -425,8 +434,14 @@ awk -f OKsystem/OKlib/Experimentation/Investigations/RamseyTheory/VanderWaerdenP
 36 93047
 40 33605
 41 33146
+51 1319128
+54 5174993
+58 13127223
      \endverbatim
      It seems to help.
+     </li>
+     <li> Which of the 3 solves OKsolver_2002-m2pp, satz215-m2pp or march_pl
+     is best needs to be determined, but roughly they show similar abilities.
      </li>
     </ol>
    </li>
@@ -1707,6 +1722,7 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 118 19258114 29
 119 143004281 34
 121 608944908 37
+129 1557172657 40
      \endverbatim
      SAT:
      \verbatim
@@ -1820,6 +1836,8 @@ VdWTransversalsInc 3 1 0 Minisat2_none "minisat2 -pre=none"
 126 3407763 25
 127 22271062 29
 128 21308919 29
+130 1627583 23
+131 5167974 26
      \endverbatim
      </li>
     </ol>

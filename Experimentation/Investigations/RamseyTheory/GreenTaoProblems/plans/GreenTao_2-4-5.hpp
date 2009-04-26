@@ -271,7 +271,8 @@ BestSolution_Max = 5.000000
      seed=1533808313. </li>
     </ol>
    </li>
-   <li> n=4237: 164 runs with cutoff=4*10^9 produced many minimum=1, but
+   <li> n=4231 </li>
+   <li> n=4237: 193 runs with cutoff=4*10^9 produced many minimum=1, but
    no solution. </li>
    <li> n=4250: 181 runs with cutoff=4*10^9 yielded a minimum of 2 falsified
    clauses, so either it's unsatisfiable, or with our current methods it's very

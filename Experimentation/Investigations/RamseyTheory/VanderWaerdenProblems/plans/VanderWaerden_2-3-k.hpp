@@ -44,7 +44,9 @@ create_list(vanderwaerden3k(k),k,1,17);
    \verbatim
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=13 initial_number_of_variables=159 initial_number_of_clauses=7216 initial_number_of_literal_occurrences=31398 running_time(s)=4187.7 number_of_nodes=1590137 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=13477703 number_of_pure_literals=455 number_of_autarkies=0 number_of_missed_single_nodes=1 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=12836 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_159.cnf
-
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 initial_number_of_clauses=7308 initial_number_of_literal_occurrences=31804 running_time(s)=7514.8 number_of_nodes=2970721 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=25434723 number_of_pure_literals=706 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=24074 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_160.cnf
+   \endverbatim
    </li>
    <li> k=16, n=238: Running it with monitoring level 20 appears hopeless.
    And using the m2pp-variant doesn't make a difference, since the
@@ -54,14 +56,45 @@ c sat_status=1 initial_maximal_clause_length=13 initial_number_of_variables=159 
 
   \todo Performance of march_pl
   <ul>
-   <li> 
+   <li> k=13, n=160:
+   \verbatim
+c main():: nodeCount: 279674
+c main():: dead ends in main: 531
+c main():: lookAheadCount: 71792373
+c main():: unitResolveCount: 1830566
+c main():: time=5111.450195
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo Performance of satz215
+  <ul>
+   <li> k=13, n=160:
+   \verbatim
+> satz215 VanDerWaerden_2-3-13_160.cnf
+****the instance is unsatisfiable *****
+NB_MONO= 316, NB_UNIT= 38903958, NB_BRANCHE= 1699870, NB_BACK= 864253
+Program terminated in 1308.930 seconds.
+satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0 160 7308 0 3878431 1563013
+   \endverbatim
+   So satz215 seems best-performing here.
+   </li>
+   <li> k=14, n=186:
+   \verbatim
+****the instance is unsatisfiable *****
+NB_MONO= 1011, NB_UNIT= 275097539, NB_BRANCHE= 10842443, NB_BACK= 5511751
+Program terminated in 11507.900 seconds.
+satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
+   \endverbatim
+   </li>
+   <li> k=15, n=218: </li>
+  </ul>
 
 
   \todo Performance of minisat2
   <ul>
+   <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
    <li> k=16, n=238: Apparently after 30 restarts and 36906145 conflicts
    no progress was made. </li>
   </ul>

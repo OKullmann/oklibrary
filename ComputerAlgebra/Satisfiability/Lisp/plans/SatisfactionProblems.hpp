@@ -53,6 +53,9 @@ License, or any later version. */
 
   \todo The notion of "condition"
   <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp
+   for the realisation of these concepts. </li>
    <li> A condition is a map from TASS to {false,true}. </li>
    <li> A solution is a total assignment evaluating to true; perhaps better,
    a "satisfying assignment", since as interesting (in general) are the

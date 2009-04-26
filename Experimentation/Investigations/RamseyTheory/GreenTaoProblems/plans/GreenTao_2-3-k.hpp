@@ -85,10 +85,45 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
   </ul>
 
 
-  \todo greentao_2(3,7)
+  \todo Predicting greentao_2(3,k)
   <ul>
-   <li> We could try survey propagation. </li>
-   <li> Let's start with n=10000. </li>
+   <li> Analysing the sequence 4,7,23,79,528,2072 (in R):
+   \verbatim
+d = c(4,7,23,79,528,2072)
+plot(log(log(d)))
+   \endverbatim
+   it looks linear in the log-log, but the sixth value is definitely below
+   that (one might see some oscillation). </li>
+   <li> Perhaps k -> exp(k^c) for some constant c, since
+   \verbatim
+plot(log(c(1,2,3,4,5,6)[-1]),log(log(d)[-1]))
+   \endverbatim
+   looks linear:
+   \verbatim
+x = log(c(1,2,3,4,5,6)[-1])
+y = log(log(d)[-1])
+plot(x,y)
+L = lm(y ~ x)
+summary(L)
+ Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.22623    0.05648  -4.005   0.0279 *
+x            1.25893    0.04117  30.578 7.68e-05 ***
+lines(x,predict(L))
+C = coefficients(L)
+-0.2262296   1.2589339
+   \endverbatim
+   </li>
+   <li> So y = -0.22623 + 1.25893 * x, that is,
+   f(k) = exp(exp(C[1]) * k^C[2]) = exp(0.797535 * k^1.2589339):
+   \verbatim
+f = function(k){exp(exp(C[1]) * k^C[2])}
+f(c(2,3,4,5,6,7,8))
+ 6.743988 24.044422 96.328312 423.826146 2018.493830 10301.119863 55910.95
+   \endverbatim
+   </li>
+   <li> We see that the value for f(7) underestimates the correct
+   value --- perhaps that oscillation. </li>
   </ul>
 
 */

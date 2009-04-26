@@ -36,6 +36,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* 
  A "non-boolean literals" ("nbl") is a pair [v,e], where v
  is a variable and e a value.
+ In a CNF the meaning is "v # e", while in a DNF the meaning is "v = e".
 */
 nbl_p(x) := listp(x) and is(length(x)=2)$
 
@@ -46,6 +47,8 @@ val_nbl(x) := second(x)$
 /*
  A "signed non-boolean literal" ("snbl") is a triple [v,e,s] such
  that [v,e] is a non-boolean literal and s in {-1,+1}.
+ The meaning is that if s = +1, then we have the DNF context, while
+ if s = -1, then we have the CNF context.
 */
 snbl_p(x) := 
  listp(x) and is(length(x)=3) and nbl_p(rest(x)) and elementp(x[3],{-1,+1})$

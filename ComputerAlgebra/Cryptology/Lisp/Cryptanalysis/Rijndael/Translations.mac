@@ -47,6 +47,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
 
+
 /* ***************************************
    * Sets of Conditions                  *
    ***************************************
@@ -56,7 +57,7 @@ oklib_plain_include(graphs)$
 
 aes_var_ordering : hash_table()$
 
-/* Resets variable numbering back to default */
+/* Resets variable numbering back to default: */
 aes_reset_vars() := block(
   aes_var_ordering : hash_table(),
   aes_cnf_var_number : 0 
@@ -66,9 +67,9 @@ aes_cnf_var_number : 0$
 
 /* Generates a list of integer variables where the values n and m are used to
    determine the range of variables to return (using an offset to ensure new
-   variables are returned for each call to this function), and name is used to
-   ensure certain special variable cases (such as plaintext variables etc) are
-   given identifiable variables */
+   variables are returned for each call to this function), where "name" is used
+   to ensure certain special variable cases (such as plaintext variables etc)
+   are given identifiable variables: */
 aes_make_vars_int(name,n,m) :=
   if name = "p" then create_list(i,i,n,m)
   else if name = "k" then create_list(i,i,128 + n,128 + m)
@@ -396,7 +397,7 @@ rewrite_all(rs) := block(
   return(rs)
 )$
 
-/* Produces a CNF clause set representing 128-bit AES */
+/* Produces a CNF clause set representing 128-bit AES: */
 aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
   aes_reset_vars(),
   rs : apply(aes_cp, 

@@ -476,7 +476,8 @@ tau_arithprog_seq[11] : [
 8,8,8,8,8,8,8,8,9,9,
 9,9,9,9,9,9,9,9,9,10,
 11,12,13,14,14,15,15,16,17,17,
-18,18,18,18,18,18,18,18
+18,18,18,18,18,18,18,18,19,19,
+19
 ]$
 /* The following data has been computed by
    "VdWTransversalsInc 12 1 0 OutputFile":
