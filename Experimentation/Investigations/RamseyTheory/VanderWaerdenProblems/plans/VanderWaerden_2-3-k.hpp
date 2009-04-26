@@ -20,6 +20,27 @@ create_list(vanderwaerden3k(k),k,1,17);
  [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,unknown]
    \endverbatim
    </li>
+   <li> Via R we get the prediction f(k) ~ 0.8132032 * k^2.0602760 when
+   excluding the first 4 points:
+   \verbatim
+d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
+plot(d)
+x = log((1:length(d))[-(1:4)])
+y : log(d[-(1:4)])
+plot(x,y)
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.20677    0.04173  -4.955 0.000574 ***
+x            2.06028    0.01799 114.495  < 2e-16 ***
+lines(x,predict(L))
+C = coefficients(L)
+f = function(k){exp(C[1]) * k^C[2]}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   </li>
   </ul>
 
 

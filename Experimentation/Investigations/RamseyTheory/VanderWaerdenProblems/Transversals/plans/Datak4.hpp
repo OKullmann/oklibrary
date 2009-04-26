@@ -195,4 +195,43 @@ k n tau
    </li>
   </ul>
 
+
+  \todo Predictions
+  <ul>
+   <li> The transversal vdW-numbers seem most suitable for predictions:
+   \verbatim
+create_list(vanderwaerdent(m,4),m,0,42);
+[
+ 4,7,11,12,14,16,18,20,22,24,
+ 26,29,31,32,35,36,38,39,41,42,
+ 44,46,47,49,51,52,55,56,57,59,
+ 61,62,63,65,67,69,71,72,73,75,
+ 76,78,80
+]
+   \endverbatim
+   </li>
+   <li> Plotting this data in R looks "number-theoretical" and
+   not "fittable". </li>
+   <li> So let's consider the relative independency numbers, obtained by
+   float(ralphal_arithprog(4)):
+   \verbatim
+d = ...
+x = log((1:length(d))[-(1:3)])
+y = log(1/d[-(1:3)])
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.12979    0.01785  -7.272 2.86e-10 ***
+x            0.20312    0.00495  41.033  < 2e-16 ***
+plot(x,y)
+lines(x,predict(L))
+C = coefficients(L)
+f = function(n){1/exp(C[1]) * n^(-C[2])}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   So f(n) ~  1.138593 * n^(-0.2031174). </li>
+  </ul>
+
 */
