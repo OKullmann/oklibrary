@@ -20,6 +20,27 @@ create_list(vanderwaerden3k(k),k,1,17);
  [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,unknown]
    \endverbatim
    </li>
+   <li> Via R we get the prediction f(k) ~ 0.8132032 * k^2.0602760 when
+   excluding the first 4 points:
+   \verbatim
+d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
+plot(d)
+x = log((1:length(d))[-(1:4)])
+y : log(d[-(1:4)])
+plot(x,y)
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.20677    0.04173  -4.955 0.000574 ***
+x            2.06028    0.01799 114.495  < 2e-16 ***
+lines(x,predict(L))
+C = coefficients(L)
+f = function(k){exp(C[1]) * k^C[2]}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -88,7 +109,15 @@ Program terminated in 11507.900 seconds.
 satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
    \endverbatim
    </li>
-   <li> k=15, n=218: </li>
+   <li> k=15, n=218:
+   \verbatim
+****the instance is unsatisfiable *****
+NB_MONO= 2544, NB_UNIT= 1879235364, NB_BRANCHE= 66642611, NB_BACK= 33796681
+Program terminated in 99407.850 seconds.
+satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373672422 0 218 13362 0 305553394 82352337
+   \endverbatim
+   </li>
+   <li> k=16, n=238: </li>
   </ul>
 
 

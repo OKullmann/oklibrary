@@ -18,7 +18,7 @@ License, or any later version. */
 
   \todo Survey propagation
   <ul>
-   <li> For n=5000, 7500, 10000 survey propagation apparently thinks the
+   <li> For n=5000, 7500, 10000, 12500 survey propagation apparently thinks the
    problem is unsatisfiable, i.e., we always get
    \verbatim
 > survey_propagation -l GreenTao_2-3-7_XX000.cnf
@@ -65,7 +65,22 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
-   <li> n=15000 </li>
+   <li> n=15000
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2-3-7_15000.cnf
+       sat  min     osteps     msteps       seed
+      1 0    36    9340701   10000000 1782442807
+      2 0    39    5704494   10000000  470832140
+      3 0    37    8891559   10000000 3612813694
+      4 0    33    9055929   10000000 1719584600
+      5 0    41    9854280   10000000  433897223
+     \endverbatim
+     </li>
+     <li> cutoff multiplied with 10: </li>
+    </ol>
+   </li>
   </ul>
 
 */

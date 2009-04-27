@@ -98,6 +98,12 @@ c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=228 i
   </ul>
 
 
+  \todo march_pl
+
+
+  \todo satz215
+
+
   \todo Minisat
   <ul>
    <li> 
@@ -113,6 +119,63 @@ Memory used           : 25.60 MB
 CPU time              : 59325.5 s
    \endverbatim
    seems hopeless. </li>
+  </ul>
+
+
+  \todo The behaviour of m -> vanderwaerdend(m,3)
+  <ul>
+   <li> The known values are
+   \verbatim
+create_list(vanderwaerdend(m,3),m,0,4);
+ [1,3,9,27,76]
+   \endverbatim
+   </li>
+   <li> Given that ralpha_arithprog(3,n) <= f(n) for almost all n,
+   where f(x) is continuous and strictly decreasing, we have
+   vanderwaerdend(m,3) <= f^-1(1/m) + 1. </li>
+   <li> Now by [Brown, Landman, Robertson, 2008] we know that there
+   exists a constant c with
+   vanderwaerdend(m,3) > m^(c * log(m)). </li>
+   <li> Thus the approximation f(n) ~ 1.226541 * n^(-0.3333806)
+   is too optimistic (1/f(n) grows too fast). </li>
+   <li> By f(n) ~ exp(-0.2087957 * log(n)^1.215668)
+   (see "Predictions" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/Datak3.hpp)
+   we get
+   f^(-1)(1/m) ~ exp(3.627373 * log(m)^0.822593), yielding the following
+   predictions (for the upper bound!) (using ft(m) = f^(-1)(1/m))
+   \verbatim
+round(ft(1:10),1)
+ 1.0 14.6 50.4 115.1 213.9 350.9 529.7 753.1 1023.8 1344.2
+   \endverbatim
+   (compared to 3 9 27 76). </li>
+   <li> To summarise, a model for vanderwaerdend(m,3) is
+   exp(3.627373 * log(m)^0.822593), or, more generally, exp(a * log(m)^b).
+   </li>
+   <li> For the given data and the regression model we obtain b <= 1, which
+   yields only polynomial growth, while we know that the growth is
+   super-polynomial, and thus b > 1 must be the case. </li>
+   <li> Using this model directly on the four data points (1 <= m <= 4)
+   (of course, this is not much data):
+   \verbatim
+d = c(3,9,27,76)
+x = log(log(1:4)[-1])
+y = log(log(d[-1]))
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  1.13110    0.02106   53.70   0.0119 *
+x            0.96507    0.07298   13.22   0.0481 *
+plot(x,y)
+lines(x,predict(L))
+C = coefficients(L)
+f = function(m){exp(exp(C[1]) * log(m)^C[2])}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   so we get f(m) ~ exp(3.099079 * log(m)^0.96507. </li>
+   <li> So the exponent b "improved", but it is still < 1. </li>
   </ul>
 
 */

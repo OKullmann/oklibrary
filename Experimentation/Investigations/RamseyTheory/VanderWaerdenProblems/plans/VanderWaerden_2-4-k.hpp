@@ -20,6 +20,27 @@ create_list(vanderwaerden4k(k),k,1,9);
  [4,7,18,35,55,73,109,146,unknown]
    \endverbatim
    </li>
+   <li> Via R we get the prediction f(k) ~ 1.846715 * k^2.09233 when
+   excluding the first 2 points:
+   \verbatim
+d = c(4,7,18,35,55,73,109,146)
+plot(d)
+x = log((1:length(d))[-(1:2)])
+y : log(d[-(1:2)])
+plot(x,y)
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.61341    0.09491   6.463  0.00295 **
+x            2.09233    0.05632  37.153 3.13e-06 ***
+lines(x,predict(L))
+C = coefficients(L)
+f = function(k){exp(C[1]) * k^C[2]}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   </li>
   </ul>
 
 

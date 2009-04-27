@@ -233,4 +233,40 @@ k n tau
    </li>
   </ul>
 
+
+  \todo Predictions
+  <ul>
+   <li> The transversal vdW-numbers:
+   \verbatim
+create_list(vanderwaerdent(m,5),m,0,38);
+[
+ 5,10,15,20,21,22,23,26,30,32,
+ 35,40,45,46,47,48,50,53,55,60,
+ 65,70,71,72,73,74,75,80,85,90,
+ 95,96,97,98,99,100,101,102,103
+]
+   \endverbatim
+   </li>
+   <li> Considering the relative independency numbers, obtained by
+   float(ralphal_arithprog(5)):
+   \verbatim
+d = ...
+x = log((1:length(d))[-(1:4)])
+y = log(1/d[-(1:3)])
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.038725   0.018833  -2.056   0.0424 *
+x            0.104165   0.004889  21.305   <2e-16 ***
+plot(x,y)
+lines(x,predict(L))
+C = coefficients(L)
+f = function(n){1/exp(C[1]) * n^(-C[2])}
+plot(d)
+lines(f(1:length(d)))
+   \endverbatim
+   So f(n) ~  1.039485 * n^(-0.1041649). </li>
+  </ul>
+
 */
