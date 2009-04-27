@@ -57,38 +57,44 @@ License, or any later version. */
    </li>
   </ul>
 
-  \todo Four aesthetics of Reingold-Tilford algorithm
+
+  \todo Four aesthetic criterions for Reingold-Tilford algorithm
   <ul>
-   <li> A good drawing of a tree is often a powerful intuitive guide
-   to a modelled problem. Thus, tree drawing should consider the aesthetics, 
-   which means pleasing looking. For example, planarity, display of symmetries, 
-   no edges cross. Also, to avoid wasting space on a page or a computer screen, 
-   it is important to keep the area of the drawing small. </li>
-   <li> Four Aesthetics of tree drawing apply in Cartesian coordinate system.
-   Root at (0, 0), growing downward.
+   <li> The Reingold-Tilford algorithm realises four basic criterions for
+   tree drawing. We need to discuss these criterions, and whether they are
+   appropriate for our application. </li>
+   <li> These four aesthetics for tree drawing, using a cartesian coordinate
+   system, with root at (0, 0), growing downward, are as follows:
     <ol>
-     <li> Aesthetics 1: Nodes at the same depth (length of path from root to node) 
-     of a tree should have same y-coordinate. If nodes at depth d should be 
-     positioned with y-coordinate –d. </li>
-     <li> Aesthetics 2: A left child of its parent should be positioned with the 
-     x-coordinate that is strictly less than the x-coordinate of its parent; 
-     similarly, a right child should be positioned with the x-coordinate that is 
-     strictly more than the x-coordinate of its parent. </li> 
+     <li> Aesthetics 1: Nodes at the same depth (length of path from root to
+     node) of a tree should have same y-coordinate. Thus nodes at depth d
+     should be positioned with y-coordinate -d. </li>
+     <li> Aesthetics 2: A left child should be positioned with the
+     x-coordinate that is strictly less than the x-coordinate of its
+     parent; similarly, a right child should be positioned with the
+     x-coordinate that is strictly more than the x-coordinate of its parent.
+     </li> 
      <li> Aesthetics 3: A parent should be positioned with the x-coordinate 
-     (L+R)/2 over its left child and right child, whose x-coordinates are L and R
-     respectively. </li>
+     (L+R)/2 over its left child and right child, whose x-coordinates are L
+     and R respectively. </li>
      <li> Aesthetics 4: The drawing of a tree and its mirror image should be 
-     reflected to each other. The mirror image is a tree in which the left subtree 
-     is the mirror image of the right subtree of the original tree and the right 
-     subtree is the mirror image of the left subtree of the original tree. The mirror
-     image of an empty tree is also an empty tree. Furthermore, the drawing of any 
-     equal subtree should be exactly same regardless its position in the tree, suppose 
-     that there is one translation vector (given by the positions of the roots of the 
-     subtrees) such that translating the coordinates of the drawing of one subtree 
-     yields the coordinates of the other. </li>
-    <ol>
-   <li>
+     reflected to each other.
+      <ol>
+       <li> The mirror image is a tree in which the left subtree is the mirror
+       image of the right subtree of the original tree and the right subtree
+       is the mirror image of the left subtree of the original tree. </li>
+       <li> The mirror image of a trivial tree is also a trivial tree. </li>
+       <li> Furthermore, the drawing of equal subtrees should be the same
+       regardless of the position in the tree (i.e., there is one translation
+       vector (given by the positions of the roots of the subtrees)
+       such that translating the coordinates of the drawing of one subtree 
+       yields the coordinates of the other). </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
   </ul>
+
 
   \todo %Environment
   <ul>
