@@ -29,7 +29,7 @@ License, or any later version. */
      (which for the visualisation of hierarchical structures likely is
      completely irrelevant --- and thus you get the various space-saving
      drawings, which likely are irrelevant for us since they do not show,
-     e.g., the sizes of the subtrees (for us very important). </li>
+     %e.g., the sizes of the subtrees (for us very important). </li>
     </ol>
    </li>
   </ul>
@@ -67,7 +67,7 @@ License, or any later version. */
    system, with root at (0, 0), growing downward, are as follows:
     <ol>
      <li> Aesthetics 1: Nodes at the same depth (length of path from root to
-     node) of a tree should have same y-coordinate. Thus nodes at depth d
+     %node) of a tree should have same y-coordinate. Thus nodes at depth d
      should be positioned with y-coordinate -d. </li>
      <li> Aesthetics 2: A left child should be positioned with the
      x-coordinate that is strictly less than the x-coordinate of its
