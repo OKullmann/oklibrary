@@ -1984,39 +1984,43 @@ Texts to be removed (after appropriate processing).
 \chapter{Tony's Final Report}
 \label{cha:finalreport}
 
-\section{SSH Trusted Hosts Setup}
+\section{SSH trusted hosts setup}
 \label{sec:finalreportssh}
 
-The following method make use of public key/private key system to establish a trusted connection between two computers via ssh. Once the trust is build, you are no longer needed to type in a password everytime you execuate a ssh or scp command between these two computers.  
+The following method makes use of the public key/private key system to establish a trusted connection between two computers via ssh. Once the trust is build, one doesn't need to type in the password anymore to execute ssh or scp commands between these two computers, that is when connecting from the ``local machine'' to the ``remote machine''.
 
-On the local machine run the following command:
+First on the local machine private and public keys are needed. If they don't already exist, then on the local machine run the following command:
 
-\verb!User@LocalMachine:>ssh-keygen -t rsa!
+\verb!User@LocalMachine:> ssh-keygen -t rsa!
 
-You will be propmted for a location to store the generated key, accept the default. When asked for a passphrase, leave it empty. The phrase `rsa' in the command is the encryption method which can be replace by `dsa' (Both supported by SSH)
+You will be prompted for a location to store the generated key, and just accepting the default seems common. When asked for a passphrase, just leave it empty. The phrase `rsa' in the command is the encryption method which can be replace by `dsa' (both supported by SSH).
 
-The program generates two files
-
+The program generates two files:
 \begin{enumerate}
-\item \verb@~/.ssh/id_rsa@ is the private key which should NEVER be disclosed to anyone. Leave it in the default place is fine.
-\item \verb@~/.ssh/id_rsa.pub@ is the public key which is need on remote computers you wish to build the trust.
+\item \verb@~/.ssh/id_rsa@ is the private key which should NEVER be disclosed to anyone (though leaving it in the default place is required).
+\item \verb@~/.ssh/id_rsa.pub@ is the public key which is needed on remote computers one wishes to build the trust.
 \end{enumerate}
 
-On the remote machine, in the directory \verb@~/.ssh/@, there need to exist a file named `authorized\_keys' which contains all  
-public keys from trusted computers. The public key we just generated must then be appended to this file. The simplest way to do this is execuate the following commands on the local machine.
+On the remote machine, in the directory \verb@~/.ssh/@, there needs to exist a file named `authorized\_keys' which contains all  
+public keys from trusted computers. The public key we just generated must then be appended to this file. A possibility to do this is to execute the following commands on the local machine:
 
 \begin{verbatim}
-User@LocalMachine:>scp ~/.ssh/id_rsa.pub User@RemoteMachine:.ssh/temp
-User@LocalMachine:>ssh User@RemoteMachine 'touch ~/.ssh/authorized_keys'
-User@LocalMachine:>ssh User@RemoteMachine 'cat ~/.ssh/temp >> ~/.ssh/authorized_keys'
-User@LocalMachine:>ssh User@RemoteMachine 'rm -f ~/.ssh/temp'
+User@LocalMachine:> scp ~/.ssh/id_rsa.pub User@RemoteMachine:.ssh/temp
+User@LocalMachine:> ssh User@RemoteMachine 'touch ~/.ssh/authorized_keys'
+User@LocalMachine:> ssh User@RemoteMachine 'cat ~/.ssh/temp >> ~/.ssh/authorized_keys'
+User@LocalMachine:> ssh User@RemoteMachine 'rm -f ~/.ssh/temp'
 \end{verbatim}
 
-You will still need to type in password for the first three command. If we are successful, the last command will be execuated without the need of a password.
+You will still need to type in password for the first three commands. If we were successful, then the last command will be executed without the need of a password.
 
-Once finished, you can use `ssh' to run command on remote machine or use `scp' to copy files from local machine to the remote one without providing a password. This is especially useful when scripting between the two machines or using `ssh' as CVS access method while the repository is located on the remote machine.
+Once finished, you can use `ssh' to run commands on remote machine or use `scp' to copy files from local machine to the remote one without providing a password. This is especially useful when scripting between the two machines or using `ssh' as CVS access method while the repository is located on the remote machine.
 
-The pair of keys only need to be generated once. To setup more trusted remote machines, just repeat the above four commands. This trust is one way. The remote machine trusts the local one to run commands via ssh on it but not vice versa. Hence if one wants a two way trust, the same process must be repeated on the remote machine which one now consider as local.       
+The pair of keys only needs to be generated once. To set up more trusted remote machines, just repeat the above process. This trust is one way. The remote machine trusts the local one to run commands via ssh on it but not vice versa. Hence if one wants a two-way trust, the same process must be repeated on the remote machine which one now considers as local.       
+
+A final remark regarding access rights for the \texttt{.ssh}-directory: Only user access is needed, both locally and remotely, and for ``group'' and ``others'' all rights can be removed.
+
+
+
 
 \section{Time Prediction Formulas}
 \label{sec:finalreportprediction}
