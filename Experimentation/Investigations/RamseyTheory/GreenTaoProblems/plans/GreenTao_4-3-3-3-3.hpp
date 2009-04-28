@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations on greentao_4(3,3,3,3)
 
 
-  \todo Lower bounds: greentao_4(3,3,3,3) >= 370
+  \todo Lower bounds: greentao_4(3,3,3,3) > 370
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -140,8 +140,6 @@ BestSolution_Max = 4.000000
    cutoff=10000000=10*10^6, for example seed=191448713). </li>
    <li> n=370
     <ol>
-     <li> The conjecture is greentao_4(3)=370, so we need to spend some
-     effort here. </li>
      <li>
      \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_370.cnf
@@ -160,11 +158,8 @@ BestSolution_Max = 4.000000
      \endverbatim
      </li>
      <li>
-     \verbatim
-> ubcsat-okl -alg adaptnovelty+ -runs 4000 -cutoff 20000000 -i GreenTao_4-3-3-3-3_370.cnf
-
-     \endverbatim
-     If no solution is found here, then we stop. </li>
+     \verbatim With cutoff=20000000 in 1295 runs one solution was found
+     (seed=406385002). </li>
     </ol>
    </li>
    <li> n=375:
