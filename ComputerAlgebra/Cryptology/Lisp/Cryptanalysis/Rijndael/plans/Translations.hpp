@@ -56,6 +56,37 @@ License, or any later version. */
   </ul>
 
 
+  \todo Fix translation system
+  <ul>
+   <li> Variable names should not be grabbed from "thin air" using global
+   variables. </li>
+   <li> Rather, the primary object dealt with by the translation system should
+   be a set of "constraint templates", of the form
+   "aes_cp([p_1,...,p_n],[namespace,...])" where the first argument to the
+   template is a list of variables and the second is a list of additional
+   information about the constraint, such as the namespace. </li>
+   <li> Such a system is more general, as this additional information can just
+   be ignored to gain a system equivalent to the current system. </li>
+   <li> Such a system also allows such "constraint templates" to be rewritten to
+   either new templates, or to simply be instantiated to actual constraints. See
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp .
+   </li>
+   <li> Such a "constraint template" can simply be represented in the maxima
+   system as an unevaluated positive function, and can be rewritten in a 
+   similar manner as is now done. </li>
+   <li> A "namespace" within the "constraint template" can then be used by 
+   constraint rewrite rules to create additional variables and such namespaces
+   can be nested when creating new templates to avoid variable name clashes. 
+   </li>
+   <li> It seems easiest for such namespaces to simply be functions, which 
+   can be composed together at each rewrite level, and can simply be applied
+   to local auxillary variables within a constraint rewrite rule to gain 
+   new variables in the global constraint system, which will not clash with any
+   others. </li>
+   <li> A more precise definition is needed before proceeding. </li>
+  </ul>
+
+
   \todo Write Docus
   
 
