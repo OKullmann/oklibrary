@@ -340,6 +340,28 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
   </ul>
+  
+  
+  \bug DONE aes_make_vars_int never uses variable 385
+  <ul>
+   <li> Given that aes_make_vars_int() was also used to generate the unit clauses, this
+   shouldn't have affected any testing. </li>
+   <li>
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[386]
+   \endverbatim
+   should be 
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[385]
+   \endverbatim
+   </li>
+   <li> This shouldn't have caused any issues, it simply results in the variable 385
+   never being used. </li>
+  </ul>
 
 */
 
