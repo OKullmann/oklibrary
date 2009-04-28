@@ -196,6 +196,11 @@ License, or any later version. */
      <li> The more colours are to be used, the bigger the savings. </li>
      <li> And one would assume the various heuristics are influenced by
      the restriction to hypergraph colouring. </li>
+     <li> First we should only implement adaptnovelty+ and rnovelty+, and
+     this first at the Maxima/Lisp level, followed directly by a  C++
+     implementation; see
+     ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/HypergraphColouring.hpp.
+     </li>
     </ol>
    </li>
    <li> For vanderwaerden there is much more structure which could be exploited

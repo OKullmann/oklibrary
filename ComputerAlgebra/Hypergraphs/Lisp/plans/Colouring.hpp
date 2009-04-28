@@ -13,7 +13,11 @@ License, or any later version. */
   \todo Relations to other modules
   <ul>
    <li> See ComputerAlgebra/Graphs/Lisp/plans/Colouring.hpp. </li>
-   <li> See Hypergraphs/Colourings/plans/general.hpp. </li>
+   <li> See Combinatorics/Hypergraphs/Colourings/plans/general.hpp. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/HypergraphColouring.hpp
+   for local search algorithms. </li>
+   </li>
   </ul>
 
 
