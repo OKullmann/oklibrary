@@ -16,7 +16,9 @@ License, or any later version. */
    overview. </li>
    <li> Gecode http://www.gecode.org/
     <ol>
-     <li> Since this is a library, this is perhaps most interesting. </li>
+     <li> Since this is a library, this is very interesting. </li>
+     <li> The current version (28.4.2009) is 3.0.2, and now they also have
+     a reasonable introductory text.
     </ol>
    </li>
    <li> Minion http://minion.sourceforge.net/
