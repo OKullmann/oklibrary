@@ -29,6 +29,8 @@ fixed 1 biased var (+0 ucp)
 contradiction
    \endverbatim
    However these problems are all satisfiable. </li>
+   <li> the same behaviour for n=15000 (but here we don't know whether
+   it's satisfiable). </li>
   </ul>
 
 
@@ -65,6 +67,7 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
+   <li> n=13750 </li>
    <li> n=15000
     <ol>
      <li>
@@ -78,7 +81,15 @@ BestSolution_Max = 19.000000
       5 0    41    9854280   10000000  433897223
      \endverbatim
      </li>
-     <li> cutoff multiplied with 10: </li>
+     <li> cutoff multiplied with 10:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_2-3-7_15000.cnf
+       sat  min     osteps     msteps       seed
+      1 0    17   43895806  100000000 1613156495
+      2 0    23   98468694  100000000 3089531980
+      3 0    25   57245388  100000000  293693136
+     \endverbatim
+     If this should be satisfiable then it's tough. </li>
     </ol>
    </li>
   </ul>

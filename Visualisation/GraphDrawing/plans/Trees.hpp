@@ -29,7 +29,7 @@ License, or any later version. */
      (which for the visualisation of hierarchical structures likely is
      completely irrelevant --- and thus you get the various space-saving
      drawings, which likely are irrelevant for us since they do not show,
-     e.g., the sizes of the subtrees (for us very important). </li>
+     %e.g., the sizes of the subtrees (for us very important). </li>
     </ol>
    </li>
   </ul>
@@ -53,6 +53,44 @@ License, or any later version. */
      <li> We have the basic form of the algorithm, just implementing directly
      the definitions (so very clear, but also very slow). </li>
      <li> And then we have the linear-time algorithm. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Four aesthetic criterions for Reingold-Tilford algorithm
+  <ul>
+   <li> The Reingold-Tilford algorithm realises four basic criterions for
+   tree drawing. We need to discuss these criterions, and whether they are
+   appropriate for our application. </li>
+   <li> These four aesthetics for tree drawing, using a cartesian coordinate
+   system, with root at (0, 0), growing downward, are as follows:
+    <ol>
+     <li> Aesthetics 1: Nodes at the same depth (length of path from root to
+     %node) of a tree should have same y-coordinate. Thus nodes at depth d
+     should be positioned with y-coordinate -d. </li>
+     <li> Aesthetics 2: A left child should be positioned with the
+     x-coordinate that is strictly less than the x-coordinate of its
+     parent; similarly, a right child should be positioned with the
+     x-coordinate that is strictly more than the x-coordinate of its parent.
+     </li> 
+     <li> Aesthetics 3: A parent should be positioned with the x-coordinate 
+     (L+R)/2 over its left child and right child, whose x-coordinates are L
+     and R respectively. </li>
+     <li> Aesthetics 4: The drawing of a tree and its mirror image should be 
+     reflected to each other.
+      <ol>
+       <li> The mirror image is a tree in which the left subtree is the mirror
+       image of the right subtree of the original tree and the right subtree
+       is the mirror image of the left subtree of the original tree. </li>
+       <li> The mirror image of a trivial tree is also a trivial tree. </li>
+       <li> Furthermore, the drawing of equal subtrees should be the same
+       regardless of the position in the tree (i.e., there is one translation
+       vector (given by the positions of the roots of the subtrees)
+       such that translating the coordinates of the drawing of one subtree 
+       yields the coordinates of the other). </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>

@@ -30,19 +30,20 @@ The following software needs to be installed:
  - Bash, version 3.00 or higher
    (check: run "bash --version")
  - GNU make, version 3.80 or higher
-  (check: run "make --version")
+   (check: run "make --version")
  - GNU sed
-  (check: run "sed --version")
+   (check: run "sed --version")
  - GNU awk
-  (check: run "awk --version")
+   (check: run "awk --version")
  - gcc
-  (check: run "gcc --version")
+   (check: run "gcc --version")
  - A Fortran compiler (e.g. gfortan or F77)
    (check: run "gfortran --version")
  - GNU texinfo 
-  (check: run "makeinfo --version")
+   (check: run "makeinfo --version")
  - readline (development library).
  - glibc (development library).
+ - X libraries (development libraries; needed by gnuplot).
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -70,8 +71,8 @@ And for installing and using Git we need the following:
  - wish
  - ssh
  - perl
- - for pulling/pushing from/to a git repository via the http protocol 
-   we need the curl and the expat development library.
+ - curl, and expat development library (for pulling/pushing from/to 
+   a git repository via the http protocol).
 
 Any recent Linux distribution supplies these prerequisites.
 (asciidoc can be installed through the OKlibrary by calling "oklib asciidoc"

@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations on greentao_4(3,3,3,3)
 
 
-  \todo Lower bounds: greentao_3(3,3,3,3) > 367
+  \todo Lower bounds: greentao_4(3,3,3,3) >= 370
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -119,9 +119,31 @@ BestSolution_Min = 0.000000
 BestSolution_Max = 4.000000
    \endverbatim
    </li>
-   <li> n=368 </li>
-   <li> n=370
+   <li> n=368 found satisfiable:
    \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_368.cnf
+Clauses = 27936
+Variables = 1472
+TotalLiterals = 81968
+FlipsPerSecond = 601632
+BestStep_Mean = 3627492.165000
+Steps_Mean = 9984052.649000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.30
+BestSolution_Mean = 2.580000
+BestSolution_Median = 3.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 4.000000
+   \endverbatim
+   for example seed=1454356055. </li>
+   <li> n=369 found satisfiable (2 solutions in 807 runs with
+   cutoff=10000000=10*10^6, for example seed=191448713). </li>
+   <li> n=370
+    <ol>
+     <li> The conjecture is greentao_4(3)=370, so we need to spend some
+     effort here. </li>
+     <li>
+     \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i GreenTao_4-3-3-3-3_370.cnf
 Clauses = 28202
 Variables = 1480
@@ -135,7 +157,15 @@ BestSolution_Mean = 2.821000
 BestSolution_Median = 3.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 4.000000
-   \endverbatim
+     \endverbatim
+     </li>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 4000 -cutoff 20000000 -i GreenTao_4-3-3-3-3_370.cnf
+
+     \endverbatim
+     If no solution is found here, then we stop. </li>
+    </ol>
    </li>
    <li> n=375:
     <ol>

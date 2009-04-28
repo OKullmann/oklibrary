@@ -79,13 +79,77 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo greentao_3(3,3,4) > 400
+  \todo greentao_3(3,3,4) > 425
   <ul>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
    <li> n=300 trivially satisfiable by adaptnovelty+. </li>
    <li> n=400 easily satisfiable by adaptnovelty+ (cutoff=100*10^3). </li>
-   <li> n=450 </li>
+   <li> n=412 found satisfiable by adaptnovelty+ with cutoff=10*10^6
+   (e.g., seed=573073979). </li>
+   <li> n=419 found satisfiable by adaptnovelty+ with cutoff=10*10^6
+   (seed=1429074341). </li>
+   <li> n=425 found satisfiable by adaptnovelty+ with cutoff=10*10^6 (40 runs
+   needed; seed=610774669). </li>
+   <li> n=431 </li>
+   <li> n=437
+    <ol>
+     <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
+     <li> cutoff=100*10^6 with 10 runs achieved 6 times min=1 and 4 times
+     min=2. More runs are needed. </li>
+    </ol>
+   </li>
+   <li> n=450
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_3-3-3-4_450.cnf
+Clauses = 22012
+Variables = 1350
+TotalLiterals = 66488
+FlipsPerSecond = 799233
+BestStep_Mean = 4388254.200000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 3.300000
+BestSolution_Median = 3.000000
+BestSolution_Min = 3.000000
+BestSolution_Max = 4.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 100000000 -i GreenTao_3-3-3-4_450.cnf
+Clauses = 22012
+Variables = 1350
+TotalLiterals = 66488
+FlipsPerSecond = 761899
+BestStep_Mean = 23395422.200000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.100000
+BestSolution_Median = 2.000000
+BestSolution_Min = 2.000000
+BestSolution_Max = 3.000000
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000000 -i GreenTao_3-3-3-4_450.cnf
+Clauses = 22012
+Variables = 1350
+TotalLiterals = 66488
+FlipsPerSecond = 718685
+BestStep_Mean = 436206673.400000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.500000
+BestSolution_Median = 1.500000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+     \endverbatim
+     </li>
+     <li> This needs to be investigated further, but first we look at smaller
+     n. </li>
+     <li> Since osteps for cutoff=10^9 comes close to the cutoff value, let's
+     try 10 runs with cutoff=4*10^9. </li>
+    </ol>
+   </li>
    <li> n=500 looks unsatisfiable: cutoff=100*10^3 and 10 runs yields a
    minimum=14, cutoff=10^6 yields minimum=8, cutoff=10*10^6 yields
    minimum=7. </li>
