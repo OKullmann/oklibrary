@@ -28,6 +28,11 @@ License, or any later version. */
     - Installation of Mpfr
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Bugs in Boost 1_34_1
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
    the following topics are handled:
     - March build fails using "oklib march" : DONE

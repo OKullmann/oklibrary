@@ -10,6 +10,48 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \todo Bugs in Boost 1_34_1
+  <ul>
+   <li> As mentioned in https://svn.boost.org/trac/boost/ticket/1570,
+   there are missing includes, which now become apparent. </li>
+   <li> At that page it is related to gcc version 4.3, but the compilation
+   errors also show with gcc version 4.1.2 when using it with Suse 11.0 ---
+   so perhaps before the includes happened through glibc, and the newer
+   versions of glibc don't spoil the namesspaces anymore (at least not
+   that much). </li>
+   <li> These defective files are listed at
+   https://svn.boost.org/trac/boost/attachment/ticket/1570/boost-1.34.1-gcc-4.3.patch
+   </li>
+   <li> DONE
+   Since sooner or later we'll switch to new versions of Boost, and also
+   update then the build system, I (OK) have just changed the three files
+   involved
+    <ol>
+     <li> boost_1_34_1/boost/spirit/phoenix/operators.hpp </li>
+     <li> boost_1_34_1/boost/test/test_tools.hpp </li>
+     <li> boost_1_34_1/boost/wave/util/flex_string.hpp </li>
+    </ol>
+    and created a new package boost_1_34_1.tar.bz2. </li>
+   <li> There are more defective files:
+    <ol>
+     <li> boost/regex/v4/cpp_regex_traits.hpp:365 : CHAR_BIT: DONE </li>
+     <li> boost/archive/polymorphic_iarchive.hpp:85 : overloading error;
+     but it seems we are not using this. </li>
+    </ol>
+   </li>
+   <li> On cs-oksvr (Suse 11.0) we get with "oklib all" errors like
+   \verbatim
+/home/csoliver/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/libboost_filesystem-gcc.so: undefined reference to `std::terminate()@GLIBCXX_3.4'
+   \endverbatim
+   which seems to be another problem?
+    <ol>
+     <li> ACTUALLY, after removing the available gcc's, one sees that the
+     boost-installation does not use the local gcc! </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Remove application of mln : DONE
   <ul>
    <li> We need to replace
