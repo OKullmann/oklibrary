@@ -1,3 +1,7 @@
+/*!
+  \file Satisfiability/Solvers/March/lookahead.c
+  \brief Updated version to move inline functions to headers.
+*/
 /* MARCH Satisfiability Solver
 
    Copyright (C) 2001-2005 M. Dufour, M. Heule, J. van Zwieten

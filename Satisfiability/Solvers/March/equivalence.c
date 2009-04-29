@@ -1,3 +1,7 @@
+/*!
+  \file Satisfiability/Solvers/March/equivalence.c
+  \brief Updated version to move inline functions to headers.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>

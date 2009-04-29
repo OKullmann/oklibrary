@@ -1,3 +1,7 @@
+/*!
+  \file Satisfiability/Solvers/March/equivalence.h
+  \brief Updated version to move inline functions to headers.
+*/
 #include <assert.h>
 #include "common.h"
 
