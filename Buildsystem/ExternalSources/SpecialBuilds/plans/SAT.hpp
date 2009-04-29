@@ -28,6 +28,8 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
    <li> Since we are building Gmp locally, we should build it first
    (w.r.t. "all"), and then generalise the minisat+ build process so
    that Gmp include- and link-libararies can be specified. </li>
+   <li> See "Use the local Gmp" in
+   Satisfiability/Solvers/Minisat/Minisat+/plans/general.hpp. </li>
   </ul>
 
 
