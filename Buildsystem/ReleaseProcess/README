@@ -41,9 +41,12 @@ The following software needs to be installed:
    (check: run "gfortran --version")
  - GNU texinfo 
    (check: run "makeinfo --version")
+
  - readline (development library).
  - glibc (development library).
  - X libraries (development libraries; needed by gnuplot).
+ - bzip2 (development library; delivers "bzlib.h"; also, e.g., 
+   "libbzip2" or "libbz2-devel").
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -68,7 +71,7 @@ And for installing and using Git we need the following:
 
  - zlib
  - openssl
- - wish
+ - wish (as part of the Tcl/Tk system)
  - ssh
  - perl
  - curl, and expat development library (for pulling/pushing from/to 
