@@ -14,11 +14,11 @@ License, or any later version. */
    <li> Tests are needed for the following functions
     <ul>
      <li> aes_cp </li>
-     <li> aes_final_round_cp </li>
-     <li> rewrite_condition </li>
-     <li> rewrite_all </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
+     <li> DONE aes_final_round_cp </li>
+     <li> DONE rewrite_all </li>
+     <li> DONE rewrite_condition </li>
      <li> DONE aes_round_cp </li>
      <li> DONE aes_subbytes_cp </li>
      <li> DONE aes_shiftrows_cp </li>
@@ -53,6 +53,118 @@ License, or any later version. */
    separate from their instances within the constraint set. This should allow
    for a variety of different translations (including using large prime 
    implicate representations). </li>
+  </ul>
+
+  \todo Fix translation system
+  <ul>
+   <li> The current translation system works in the following way: 
+   <ul>
+    <li> The common datatype is a set of "constraint templates" of the form
+    "aes_c(p_1,p_2,p_3,...p_128,k_1,...)" where: 
+    <ul>
+     <li> "aes_cp" is an unevaluated function. </li>
+     <li> "p_1" etc represent variables within the constraint system. </li>
+     <li> %Variables are associated with the underlying variables inherent in the
+     constraint by their position in the function arguments. </li>
+    </ul>
+    </li>
+    <li> The process starts off with the set with just the "aes_c" constraint
+    template with the plaintext, key and ciphertext input variables as 
+    arguments. </li>
+    <li> For each constraint template, there are rewrite rules, for instance
+    "aes_cp" which take as arguments the variables given to the constraint
+    template and produce a set of new constraint templates to replace it. </li>
+    <li> When a rewrite rule needs to introduce auxillary variables, to ensure
+    no clashing of variables occurs over multiple uses of the rule, a function
+    "aes_make_vars" is used to generate unique variables (either named or
+    integer depending on how aes_make_vars is assigned). </li>
+    <li> Such rewrite rules are applied across the set of constraint templates
+    using "rewrite_condition". This is done by simply giving the rewrite rule
+    the arguments for the template, and then replacing it in the set of
+    constraint templates with the new set of templates returned by the rule. 
+    </li> 
+    <li> Some rewrite rules, such as "aes_sbox_cp" produce sets of clauses, 
+    instead of sets of constraint templates. </li>
+    <li> Rewrite rules are applied in a set order using "rewrite_all" to produce
+    a final clause set. </li>
+   </ul>
+   </li>
+   <li> This translation works and has the following advantages: 
+   <ul>
+    <li> It is a simple rewrite procedure. </li>
+    <li> Rewrite rules are easy to replace. </li>
+   </ul>
+   however, it also has several disadvantages: 
+   <ul>
+    <li> %Clauses are injected directly into the set of constraint templates,
+    requiring explicit detection of "sets" within the rewrite system, as they
+    are not constraint templates to be rewritten and therefore must be treated
+    differently. </li>
+    <li> As there is no context for various constraints, only variable
+    arguments, rewrite rules such as "aes_round" etc can't use this additional
+    information, and:
+    <ul>
+     <li> Must resort to using "aes_make_vars" which resorts to
+     use of global variables in the process. </li>
+     <li> Trying to instantiate the system of constraint templates into a system
+     of true constraints may result in some information lost which could have
+     been used. </li>
+    </ul>
+    </li>
+    <li> Operations such as "shiftrows" must be represented using equivalence
+    constraints, which are rewritten to binary clauses which most SAT solvers
+    don't handle well. </li>
+   </ul>
+   </li>
+   <li> To improve the system, the following changes are suggested: 
+    <ul>
+     <li> Split the overall clause set generation process into two steps:
+     <ol>
+      <li> A pure constraint template rewrite system. </li>
+      <li> Translation of the constraint template system into a clause set.
+      </li>
+     </ol>
+     In this way:
+     <ul>
+      <li> There is no need for explicit detection of "sets" within the
+      rewrite system and everything is much cleaner. </li>
+      <li> The second step can be used to remove equivalence constraints using
+      variable replacement. </li>
+      <li> The second step can be replaced with other translations into
+      constraint languages, or replacement of constraint templates with "true
+      constraints". See
+      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp . 
+      </li>
+     </ul>
+     </li>
+     <li> Alter the constraint template format to the form 
+     "aes_cp([p_1,...,p_n],[namespace,...])":
+     <ul>
+      <li> The first argument to the template is a list of variables. </li>
+      <li> The second is a list of additional information about the constraint, 
+      such as a namespace for auxillary variables, although other information
+      could be added based on the type of constraint template. </li>
+      <li> This allows one to provide all information associated with the
+      constraint template. </li>
+      <li> Also, given a namespace for auxillary variables, variables may be
+      generated in the rewrite rules without the need for any global function
+      like "aes_make_vars". </li>
+      <li> The form of the namespace seems simplest to be a positive function,
+      as then namespaces can be composed, and when auxillary variables are
+      needed within a rewrite rule, the namespace can simply be "applied" to
+      a localised variable name. </li>
+     </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Further questions are:
+    <ul>
+     <li> What is the best way to control the rewrite process? 
+     <li>The current system works but a more precise, systematic way of 
+     controlling how many rounds, or which rewrite rules are used etc is 
+     needed. </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -339,6 +451,28 @@ License, or any later version. */
   \todo DONE Replace append_all with uaapply
   <ul>
    <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
+  </ul>
+  
+  
+  \bug DONE aes_make_vars_int never uses variable 385
+  <ul>
+   <li> Given that aes_make_vars_int() was also used to generate the unit clauses, this
+   shouldn't have affected any testing. </li>
+   <li>
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[386]
+   \endverbatim
+   should be 
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[385]
+   \endverbatim
+   </li>
+   <li> This shouldn't have caused any issues, it simply results in the variable 385
+   never being used. </li>
   </ul>
 
 */

@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Provide tests for all functions
+    - BUG : aes_make_vars_int never uses variable 385 DONE 
     - Move functions which do not belong to this module DONE
     - Replace append_all with uaapply DONE
 

@@ -34,28 +34,6 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
   </ul>
 
 
-  \bug March build fails using "oklib march"
-  <ul>
-   <li> Building march fails in the following way :
-   \verbatim
-> oklib march
-
-solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
-   \endverbatim
-   using gcc version 4.3.2.
-   </li>
-   <li> The reason is that the inline-functions are not defined where they
-   are declared (this is an error in the march-code). Two possible solutions:
-    <ol>
-     <li> Move the respective function-definitions from their implementation
-     files to the header files. </li>
-     <li> Or use gcc-4.1.2 instead. </li>
-    </ol>
-    MG could try correcting the code.
-   </li>
-  </ul>
-
-
   \bug GRASP cannot be compiled with gcc version 4.3
   <ul>
    <li> The problem is the reference to non-standard headers like
@@ -691,6 +669,28 @@ less sat-grasp_amended.doc
   \todo QBF
   <ul>
    <li> Duaffle http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+  
+  
+  \bug DONE March build fails using "oklib march"
+  <ul>
+   <li> Building march fails in the following way :
+   \verbatim
+> oklib march
+
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+   \endverbatim
+   using gcc version 4.3.2.
+   </li>
+   <li> DONE The reason is that the inline-functions are not defined where they
+   are declared (this is an error in the march-code). Two possible solutions:
+    <ol>
+     <li> DONE Move the respective function-definitions from their implementation
+     files to the header files. </li>
+     <li> Or use gcc-4.1.2 instead. </li>
+    </ol>
+    MG could try correcting the code.
+   </li>
   </ul>
 
 

@@ -704,6 +704,15 @@ length(all_aut_ofcs(R5));
   </ul>
 
 
+  \todo Exploring the parameter space
+  <ul>
+   <li> A systematic exploration of different parameter tuples is needed. </li>
+   <li> For instance, if one has parameters k and q, and then considers the 
+   Ramsey tuple NR([2,...k times...,2,q],2) for instance, how do such Ramsey 
+   numbers grow? </li>
+  </ul>
+
+
   \todo Autarkies
   <ul>
    <li> We should investigate autarkies of Ramsey-clause-sets. </li>

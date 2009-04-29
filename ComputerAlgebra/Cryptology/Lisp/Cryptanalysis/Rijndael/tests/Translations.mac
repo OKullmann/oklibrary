@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 19.8.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,40 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/T
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 kill(f)$
+
+okltest_aes_final_round_cp(f) := block(
+  if (oklib_test_level < 3) then return(true),
+  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(3*128))))),
+  iVars : take_elements(128,listify(var_cs(F))),
+  kVars : take_elements(128,rest(listify(var_cs(F)),128)),
+  oVars : take_elements(128,rest(listify(var_cs(F)),256)),
+  /* Satisfying total assignments */
+  pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
+    aes_hex2pa("00000000000000000000000000000000",kVars),
+    aes_hex2pa("63636363636363636363636363636363",oVars)),
+  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  if (oklib_monitoring) then print("Done first"),
+  pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
+    aes_hex2pa("63636363636363636363636363636363",kVars),
+    aes_hex2pa("00000000000000000000000000000000",oVars)),
+  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  if (oklib_monitoring) then print("Done second"),
+  pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
+    aes_hex2pa("92BF680BE89E8B47BD9F1549D7786752",kVars),
+    aes_hex2pa("00217D590001EC4C00E77D0E00C7EC1B",oVars)),
+  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  if (oklib_monitoring) then print("Done third"),
+  true)$
+
+okltest_rewrite_all(f) := block(
+  assert(f({}) = {}),
+  assert(f({aes_eq_c(1,2)}) = {{-1,2},{1,-2}}),
+  assert(f({aes_eq_c(1,2),aes_eq_c(2,3)}) = {{-1,2},{1,-2},{-2,3},{2,-3}}),
+  assert(f({aes_eq_c(1,2),test(2,3,4,5)}) = {{-1,2},{1,-2},test(2,3,4,5)}),
+  assert(f({aes_eq_c(1,2),{1,-2}}) = {{-1,2},{1,-2}}),
+  assert(f({aes_eq_c(1,2),aes_add_c(1,2,3)}) =
+    {{-1,2},{1,-2},{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}}),
+  true)$
 
 okltest_rewrite_condition(f) := block(
   assert(f({},"",lambda([a],{a})) = {}),
