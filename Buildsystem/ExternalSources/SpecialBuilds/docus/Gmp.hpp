@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.8.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,8 +39,8 @@ License, or any later version. */
    \code
 #include <gmp.h>
    \endcode
-   together with "${gmp_include_option_okl}". </li>
-   <li> To link with gmp, use "${gmp_link_option_okl}". </li>
+   together with "${gmp_include_option_okl}" as option for gcc. </li>
+   <li> To link with gmp, use "${gmp_link_option_okl}" as option for gcc. </li>
   </ul>
 
 
