@@ -19,7 +19,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
    the following topics are handled:
     - March build fails using "oklib march"
-    - Minisat+ build fails
+    - Minisat+ build fails : DONE
     - Satz215 build fails : DONE
 
 

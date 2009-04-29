@@ -23,7 +23,8 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
   </ul>
 
 
-  \bug Minisat+ build fails
+  \bug DONE
+  Minisat+ build fails
   <ul>
    <li> Since we are building Gmp locally, we should build it first
    (w.r.t. "all"), and then generalise the minisat+ build process so

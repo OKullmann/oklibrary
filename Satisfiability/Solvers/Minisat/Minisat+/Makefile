@@ -2,6 +2,11 @@
 ##  Makefile for Standard, Profile, Debug, and Release version of MiniSat
 ##
 
+# Two new make-variables introduced by OK in order to be able to use
+# local installations of GMP:
+GMP_INCLUDE_OPTION =
+GMP_LINK_OPTION = -lgmp
+
 CSRCS     = $(wildcard *.C)
 CHDRS     = $(wildcard *.h)
 COBJS     = $(addsuffix .o, $(basename $(CSRCS))) ADTs/Global.o ADTs/FEnv.o ADTs/File.o
@@ -53,28 +58,28 @@ clean:
 ## Build rule
 %.o %.op %.od %.or %.ox: %.C
 	@echo Compiling: $<
-	@$(CXX) $(CFLAGS) -c -o $@ $<
+	@$(CXX) $(CFLAGS) $(GMP_INCLUDE_OPTION) -c -o $@ $<
 
 ## Linking rules (standard/profile/debug/release)
 $(EXEC): $(COBJS)
 	@echo Linking $(EXEC)
-	@$(CXX) $(COBJS) -lz -lgmp -ggdb -Wall -o $@ 
+	@$(CXX) $(COBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@ 
 
 $(EXEC)_profile: $(PCOBJS)
 	@echo Linking $@
-	@$(CXX) $(PCOBJS) -lz -lgmp -ggdb -Wall -pg -o $@
+	@$(CXX) $(PCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -pg -o $@
 
 $(EXEC)_debug:	$(DCOBJS)
 	@echo Linking $@
-	@$(CXX) $(DCOBJS) -lz -lgmp -ggdb -Wall -o $@
+	@$(CXX) $(DCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@
 
 $(EXEC)_release: $(RCOBJS)
 	@echo Linking $@
-	@$(CXX) $(RCOBJS) -lz -lgmp -Wall -o $@
+	@$(CXX) $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
 
 $(EXEC)_bignum_static: $(RCOBJS)
 	@echo Linking $@
-	@$(CXX) --static $(RCOBJS) -lz -lgmp -Wall -o $@
+	@$(CXX) --static $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
 
 $(EXEC)_64-bit_static: $(R64COBJS)
 	@echo Linking $@
