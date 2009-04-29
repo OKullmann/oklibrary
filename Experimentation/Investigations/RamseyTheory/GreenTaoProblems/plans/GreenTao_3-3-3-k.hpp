@@ -96,7 +96,42 @@ BestSolution_Max = 1.000000
     <ol>
      <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
      <li> cutoff=100*10^6 with 10 runs achieved 6 times min=1 and 4 times
-     min=2. More runs are needed. </li>
+     min=2. More runs:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_3-3-3-4_437.cnf
+Clauses = 20918
+Variables = 1311
+TotalLiterals = 63157
+FlipsPerSecond = 748371
+BestStep_Mean = 29088565.360000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.330000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+     \endverbatim
+     </li>
+     <li> cutoff=10^9 doesn't seem effective:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000000 -i GreenTao_3-3-3-4_437.cnf
+Clauses = 20918
+Variables = 1311
+TotalLiterals = 63157
+FlipsPerSecond = 724933
+BestStep_Mean = 91967835.900000
+Steps_Mean = 1000000000.000000
+Steps_Max = 1000000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+     \endverbatim
+     where the maximum of osteps is 170234040. </li>
+     <li> So if this n is to be considered further, then with 1000 runs and
+     a cutoff of 200*10^6. </li>
     </ol>
    </li>
    <li> n=450

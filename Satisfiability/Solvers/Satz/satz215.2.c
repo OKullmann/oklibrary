@@ -1,6 +1,7 @@
 /*!
   \file Satisfiability/Solvers/Satz/satz215.2.c
   \brief Updated version w.r.t. output conventions
+  and C usage
 */
 
 /****************************************************************************/
@@ -1819,16 +1820,16 @@ main(int argc, char *argv[]) {
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
 	        
   printf ("Program terminated in %5.3f seconds.\n",
-          ((double)(endtime-begintime)/CLK_TCK));
+          ((double)(endtime-begintime)/CLOCKS_PER_SEC));
 
   fp_time = fopen("satz215_timetable", "a");
   fprintf(fp_time, "satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
-          saved_input_file, ((double)(endtime-begintime)/CLK_TCK), 
+          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC), 
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   printf("satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
-          saved_input_file, ((double)(endtime-begintime)/CLK_TCK), 
+          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC), 
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);

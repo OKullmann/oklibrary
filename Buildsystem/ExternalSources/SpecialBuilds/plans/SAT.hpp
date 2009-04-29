@@ -10,6 +10,26 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug Satz215 build fails
+  <ul>
+   <li> We get the error
+   \verbatim
+satz215.2.c: In function ‘main’:
+satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
+   \endverbatim
+   </li>
+   <li> So the appropriate standard header files needs to be included. </li>
+  </ul>
+
+
+  \bug Minisat+ build fails
+  <ul>
+   <li> Since we are building Gmp locally, we should build it first
+   (w.r.t. "all"), and then generalise the minisat+ build process so
+   that Gmp include- and link-libararies can be specified. </li>
+  </ul>
+
+
   \bug GRASP cannot be compiled with gcc version 4.3
   <ul>
    <li> The problem is the reference to non-standard headers like
