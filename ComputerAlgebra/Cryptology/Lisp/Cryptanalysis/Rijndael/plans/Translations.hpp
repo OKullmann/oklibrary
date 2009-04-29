@@ -55,35 +55,116 @@ License, or any later version. */
    implicate representations). </li>
   </ul>
 
-
   \todo Fix translation system
   <ul>
-   <li> Variable names should not be grabbed from "thin air" using global
-   variables. </li>
-   <li> Rather, the primary object dealt with by the translation system should
-   be a set of "constraint templates", of the form
-   "aes_cp([p_1,...,p_n],[namespace,...])" where the first argument to the
-   template is a list of variables and the second is a list of additional
-   information about the constraint, such as the namespace. </li>
-   <li> Such a system is more general, as this additional information can just
-   be ignored to gain a system equivalent to the current system. </li>
-   <li> Such a system also allows such "constraint templates" to be rewritten to
-   either new templates, or to simply be instantiated to actual constraints. See
-   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp .
+   <li> The current translation system works in the following way: 
+   <ul>
+    <li> The common datatype is a set of "constraint templates" of the form
+    "aes_c(p_1,p_2,p_3,...p_128,k_1,...)" where: 
+    <ul>
+     <li> "aes_cp" is an unevaluated function. </li>
+     <li> "p_1" etc represent variables within the constraint system. </li>
+     <li> %Variables are associated with the underlying variables inherent in the
+     constraint by their position in the function arguments. </li>
+    </ul>
+    </li>
+    <li> The process starts off with the set with just the "aes_c" constraint
+    template with the plaintext, key and ciphertext input variables as 
+    arguments. </li>
+    <li> For each constraint template, there are rewrite rules, for instance
+    "aes_cp" which take as arguments the variables given to the constraint
+    template and produce a set of new constraint templates to replace it. </li>
+    <li> When a rewrite rule needs to introduce auxillary variables, to ensure
+    no clashing of variables occurs over multiple uses of the rule, a function
+    "aes_make_vars" is used to generate unique variables (either named or
+    integer depending on how aes_make_vars is assigned). </li>
+    <li> Such rewrite rules are applied across the set of constraint templates
+    using "rewrite_condition". This is done by simply giving the rewrite rule
+    the arguments for the template, and then replacing it in the set of
+    constraint templates with the new set of templates returned by the rule. 
+    </li> 
+    <li> Some rewrite rules, such as "aes_sbox_cp" produce sets of clauses, 
+    instead of sets of constraint templates. </li>
+    <li> Rewrite rules are applied in a set order using "rewrite_all" to produce
+    a final clause set. </li>
+   </ul>
    </li>
-   <li> Such a "constraint template" can simply be represented in the maxima
-   system as an unevaluated positive function, and can be rewritten in a 
-   similar manner as is now done. </li>
-   <li> A "namespace" within the "constraint template" can then be used by 
-   constraint rewrite rules to create additional variables and such namespaces
-   can be nested when creating new templates to avoid variable name clashes. 
+   <li> This translation works and has the following advantages: 
+   <ul>
+    <li> It is a simple rewrite procedure. </li>
+    <li> Rewrite rules are easy to replace. </li>
+   </ul>
+   however, it also has several disadvantages: 
+   <ul>
+    <li> %Clauses are injected directly into the set of constraint templates,
+    requiring explicit detection of "sets" within the rewrite system, as they
+    are not constraint templates to be rewritten and therefore must be treated
+    differently. </li>
+    <li> As there is no context for various constraints, only variable
+    arguments, rewrite rules such as "aes_round" etc can't use this additional
+    information, and:
+    <ul>
+     <li> Must resort to using "aes_make_vars" which resorts to
+     use of global variables in the process. </li>
+     <li> Trying to instantiate the system of constraint templates into a system
+     of true constraints may result in some information lost which could have
+     been used. </li>
+    </ul>
+    </li>
+    <li> Operations such as "shiftrows" must be represented using equivalence
+    constraints, which are rewritten to binary clauses which most SAT solvers
+    don't handle well. </li>
+   </ul>
    </li>
-   <li> It seems easiest for such namespaces to simply be functions, which 
-   can be composed together at each rewrite level, and can simply be applied
-   to local auxillary variables within a constraint rewrite rule to gain 
-   new variables in the global constraint system, which will not clash with any
-   others. </li>
-   <li> A more precise definition is needed before proceeding. </li>
+   <li> To improve the system, the following changes are suggested: 
+    <ul>
+     <li> Split the overall clause set generation process into two steps:
+     <ol>
+      <li> A pure constraint template rewrite system. </li>
+      <li> Translation of the constraint template system into a clause set.
+      </li>
+     </ol>
+     In this way:
+     <ul>
+      <li> There is no need for explicit detection of "sets" within the
+      rewrite system and everything is much cleaner. </li>
+      <li> The second step can be used to remove equivalence constraints using
+      variable replacement. </li>
+      <li> The second step can be replaced with other translations into
+      constraint languages, or replacement of constraint templates with "true
+      constraints". See
+      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp . 
+      </li>
+     </ul>
+     </li>
+     <li> Alter the constraint template format to the form 
+     "aes_cp([p_1,...,p_n],[namespace,...])":
+     <ul>
+      <li> The first argument to the template is a list of variables. </li>
+      <li> The second is a list of additional information about the constraint, 
+      such as a namespace for auxillary variables, although other information
+      could be added based on the type of constraint template. </li>
+      <li> This allows one to provide all information associated with the
+      constraint template. </li>
+      <li> Also, given a namespace for auxillary variables, variables may be
+      generated in the rewrite rules without the need for any global function
+      like "aes_make_vars". </li>
+      <li> The form of the namespace seems simplest to be a positive function,
+      as then namespaces can be composed, and when auxillary variables are
+      needed within a rewrite rule, the namespace can simply be "applied" to
+      a localised variable name. </li>
+     </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Further questions are:
+    <ul>
+     <li> What is the best way to control the rewrite process? 
+     <li>The current system works but a more precise, systematic way of 
+     controlling how many rounds, or which rewrite rules are used etc is 
+     needed. </li>
+    </ul>
+   </li>
   </ul>
 
 
