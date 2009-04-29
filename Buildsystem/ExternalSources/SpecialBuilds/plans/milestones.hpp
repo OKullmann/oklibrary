@@ -14,6 +14,15 @@ License, or any later version. */
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
   and some updates)
 
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
+   the following topics are handled:
+    - March build fails using "oklib march"
+    - Minisat+ build fails
+    - Satz215 build fails : DONE
+
+
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:

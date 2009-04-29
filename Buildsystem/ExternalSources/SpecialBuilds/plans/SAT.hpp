@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
-  \bug Satz215 build fails
+  \bug DONE
+  Satz215 build fails
   <ul>
    <li> We get the error
    \verbatim
