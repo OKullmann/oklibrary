@@ -16,6 +16,18 @@ License, or any later version. */
 
 
   \par
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Install the mmv package : DONE
+    - Documentation
+    - Handling of different versions : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Installation of Mpfr
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
    the following topics are handled:
     - March build fails using "oklib march" : DONE
@@ -28,19 +40,6 @@ License, or any later version. */
    topics are handled:
     - GRASP cannot be compiled with gcc version 4.3 : DONE
     - Grasp : DONE
-
-
-  \par
-   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Install the mmv package : DONE
-    - Documentation
-    - Handling of different versions : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Installation of Mpfr
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -252,6 +251,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
+    - Linker segmentation fault
     - Building version 1_38_0
     - Problems with building Boost
     - Documentation

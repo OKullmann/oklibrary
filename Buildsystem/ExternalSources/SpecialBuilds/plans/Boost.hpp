@@ -30,7 +30,7 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
   </ul>
 
 
-  \todo
+  \todo Linker segmentation fault
   <ul>
    <li> Linking to lboost-graph yields a segmentation fault of the linker.
    </li>
@@ -163,7 +163,7 @@ bo = static_cast<bool>(a != y);
 
   \todo Problems with building Boost
   <ul>
-   <li> Apparently 1_37 is out soon, so we should wait until then, and
+   <li> Apparently 1_39 is out soon, so we should wait until then, and
    see how it works now:
     <ol>
      <li> Apparently now a standard Unix/Linux build is partially
