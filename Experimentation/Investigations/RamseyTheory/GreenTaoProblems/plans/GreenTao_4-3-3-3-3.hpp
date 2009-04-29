@@ -211,7 +211,9 @@ BestSolution_Max = 4.000000
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=450: using cutoff=10^9. </li>
+   <li> n=400, cutoff=10^9 </li>
+   <li> n=450: using cutoff=10^9, one run reaches a minimum of 14, which
+   seems hopeless. </li>
    <li> n=600
     <ol>
      <li> The instance-generation by Maxima takes far too long.
