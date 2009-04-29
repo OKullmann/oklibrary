@@ -10,6 +10,32 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug DONE (we build it locally, with 4.1.2; once we are using newer
+  gcc-version, then we use the corrected versions provided in
+  OKlib/Satisfiability/Solvers/March/ (this can't be used now due to
+  a deficiency of 4.1.2))
+  March build fails using "oklib march"
+  <ul>
+   <li> Building march fails in the following way :
+   \verbatim
+> oklib march
+
+solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
+   \endverbatim
+   using gcc version 4.3.2.
+   </li>
+   <li> DONE The reason is that the inline-functions are not defined where they
+   are declared (this is an error in the march-code). Two possible solutions:
+    <ol>
+     <li> DONE Move the respective function-definitions from their implementation
+     files to the header files. </li>
+     <li> Or use gcc-4.1.2 instead. </li>
+    </ol>
+    MG could try correcting the code.
+   </li>
+  </ul>
+
+
   \bug DONE
   Satz215 build fails
   <ul>
@@ -23,7 +49,7 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
   </ul>
 
 
-  \bug DONE
+  \bug DONE (using now the locally installed Gmp)
   Minisat+ build fails
   <ul>
    <li> Since we are building Gmp locally, we should build it first
@@ -34,7 +60,9 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
   </ul>
 
 
-  \bug GRASP cannot be compiled with gcc version 4.3
+  \bug DONE (we are now compiling it with version 4.1.2; once we are using
+  a newer version of gcc we need to look at this problem again)
+  GRASP cannot be compiled with gcc version 4.3
   <ul>
    <li> The problem is the reference to non-standard headers like
    "iostream.h". </li>
@@ -672,28 +700,6 @@ less sat-grasp_amended.doc
   </ul>
   
   
-  \bug DONE March build fails using "oklib march"
-  <ul>
-   <li> Building march fails in the following way :
-   \verbatim
-> oklib march
-
-solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
-   \endverbatim
-   using gcc version 4.3.2.
-   </li>
-   <li> DONE The reason is that the inline-functions are not defined where they
-   are declared (this is an error in the march-code). Two possible solutions:
-    <ol>
-     <li> DONE Move the respective function-definitions from their implementation
-     files to the header files. </li>
-     <li> Or use gcc-4.1.2 instead. </li>
-    </ol>
-    MG could try correcting the code.
-   </li>
-  </ul>
-
-
   \todo DONE Chaff
   <ul>
    <li> Not open source, and thus can't be included. </li>

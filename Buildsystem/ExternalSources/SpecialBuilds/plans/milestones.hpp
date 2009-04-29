@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.16 (20.3.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.18 (29.4.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -18,9 +18,16 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
    the following topics are handled:
-    - March build fails using "oklib march"
+    - March build fails using "oklib march" : DONE
     - Minisat+ build fails : DONE
     - Satz215 build fails : DONE
+
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - GRASP cannot be compiled with gcc version 4.3 : DONE
+    - Grasp : DONE
 
 
   \par
@@ -149,13 +156,6 @@ License, or any later version. */
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
-    - bug: GRASP cannot be compiled with gcc version 4.3
-    - bug: March build fails using "oklib march" : DONE
-    - Grasp : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
