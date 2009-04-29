@@ -10,21 +10,14 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \bug Maxima loading of contrib packages fails on Maxima versions >= 5.18.0.0
+  \bug Maxima loading of contrib packages fails
   <ul>
    <li> MG has sent an email to the maxima mailing list detailing this bug. 
    </li>
+   <li> As the bug occurs only with MG, the next action is for MG to build
+   Maxima outside of the OKlibrary and see if the problem persists. </li>
    <li> This bug does not occur when using "clisp". This might explain why this
    bug has not been reported yet on the maxima mailing list. </li>
-   <li> MG: the bug occurred in both versions. 5.18.1 was installed, by setting
-   "maxima_recommended_version_number_okl", in that instance, as a test to see if 
-   the bug had gone away in later versions. </li>
-   <li> OK: the following refers to Maxima version 5.18.1, while the official
-   version used at this time was 5.18.0, and it is not clear at all whether
-   MG took care of handling this properly (likely not, since no comments
-   are made). Meanwhile we updated to 5.18.1.
-   By the way, it is not appropriate to refer to "Maxima versions" since the
-   OKlibrary supports only one version at a time. </li>
    <li> Trying to run "oklib_load_all" fails : 
    \verbatim
 [11:45:36 - aeternus] ExternalSources$ oklib --maxima
