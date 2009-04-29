@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations on greentao_4(3,3,3,3)
 
 
-  \todo Lower bounds: greentao_4(3,3,3,3) > 370
+  \todo Lower bounds: greentao_4(3,3,3,3) > 375
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -207,9 +207,13 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 4.000000
      \endverbatim
      </li>
+     <li> Finally using cutoff=10^9 in run 31 a solution (seed=1958151049,
+     osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=450: adaptnovelty+ reaches only a minimum about 18. </li>
+   <li> n=400, cutoff=10^9 </li>
+   <li> n=450: using cutoff=10^9, one run reaches a minimum of 14, which
+   seems hopeless. </li>
    <li> n=600
     <ol>
      <li> The instance-generation by Maxima takes far too long.
