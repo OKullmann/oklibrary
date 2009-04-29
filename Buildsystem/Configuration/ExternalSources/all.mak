@@ -7,7 +7,7 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
+global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat
 
 sat_targets_extsrc_okl ?= ubcsat minisat march satz sp # grasp
 math_targets_extsrc_okl ?= allmaxima gap R # sage
