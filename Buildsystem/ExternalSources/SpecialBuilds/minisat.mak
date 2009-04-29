@@ -42,9 +42,10 @@ minisat2 : $(minisat2_directories_okl)
 
 minisatp : $(minisatp_directories_okl)
 	$(call unarchive,$(minisatp_source_okl),$(minisat_base_build_dir_okl)) $(postcondition) \
+	cp $(minisatp_extended_makefile_okl) $(minisatp_build_dir_okl); $(postcondition) \
 	cd $(minisatp_build_dir_okl); $(postcondition) \
-	make rx; $(postcondition) \
-	make rs; $(postcondition) \
+	make GMP_INCLUDE_OPTION="${gmp_include_option_okl}" GMP_LINK_OPTION="${gmp_link_option_okl}" rx; $(postcondition) \
+	make GMP_INCLUDE_OPTION="${gmp_include_option_okl}" GMP_LINK_OPTION="${gmp_link_option_okl}" rs; $(postcondition) \
 	cp minisat+_64-bit_static minisat+_bignum_static $(minisatp_installation_dir_okl); $(postcondition) \
 	ln -s --force $(minisatp_call_okl) $(public_bin_dir_okl)/minisat+; $(postcondition) \
 	ln -s --force $(minisatpb_call_okl) $(public_bin_dir_okl)/minisat+b; $(postcondition)
