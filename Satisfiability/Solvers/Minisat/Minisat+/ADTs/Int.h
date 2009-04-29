@@ -1,3 +1,8 @@
+/*!
+  \file Satisfiability/Solvers/Minisat/Minisat+/ADTs/Int.h
+  \brief Corrected bad inclusion of library-header "gmp.h"
+*/
+
 #ifndef Int_h
 #define Int_h
 
@@ -79,7 +84,7 @@ public:
 // Real bignums using "GNU Multiple Precision Arithmetic Library"
 //=================================================================================================
 
-#include "gmp.h"
+#include <gmp.h>
 
 //=================================================================================================
 

@@ -53,6 +53,7 @@ minisatp_extracted_archive_okl ?= minisat+
 minisatp_build_dir_okl ?= $(minisat_base_build_dir_okl)/$(minisatp_extracted_archive_okl)
 minisatp_installation_dir_okl ?= $(minisat_base_installation_dir_okl)/$(minisatp_recommended_version_number_okl)
 minisatp_extended_makefile_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Minisat/Minisat+/Makefile
+minisatp_corrected_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Minisat/Minisat+/ADTs/Int.h
 
 minisatp_call_okl ?= $(minisatp_installation_dir_okl)/minisat+_64-bit_static
 minisatpb_call_okl ?= $(minisatp_installation_dir_okl)/minisat+_bignum_static
