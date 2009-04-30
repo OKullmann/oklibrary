@@ -67,7 +67,13 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
-   <li> n=13750 </li>
+   <li> n=13750
+    <ol>
+     <li> A cutoff=100*10^6 yields in 10 runs a minimum of 2 and a maximum
+     of 4. </li>
+     <li> cutoff=10^9 </li>
+    </ol>
+   </li>
    <li> n=15000
     <ol>
      <li>
