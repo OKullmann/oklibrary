@@ -8,19 +8,11 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.16 (20.3.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.18 (29.4.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
   and some updates)
-
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
-   the following topics are handled:
-    - March build fails using "oklib march"
-    - Minisat+ build fails : DONE
-    - Satz215 build fails : DONE
 
 
   \par
@@ -34,6 +26,25 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Bugs in Boost 1_34_1
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
+   the following topics are handled:
+    - March build fails using "oklib march" : DONE
+    - Minisat+ build fails : DONE
+    - Satz215 build fails : DONE
+
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - GRASP cannot be compiled with gcc version 4.3 : DONE
+    - Grasp : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -151,13 +162,6 @@ License, or any later version. */
     - Building Ubcsat
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
-    - bug: GRASP cannot be compiled with gcc version 4.3
-    - bug: March build fails using "oklib march" : DONE
-    - Grasp : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
     - Local installation of gfortran
@@ -252,6 +256,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
+    - Linker segmentation fault
     - Building version 1_38_0
     - Problems with building Boost
     - Documentation

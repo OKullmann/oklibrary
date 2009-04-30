@@ -10,6 +10,15 @@ License, or any later version. */
   \brief On investigations into %Ramsey problems
 
 
+  \bug Fix obsolete notations
+  <ul>
+   <li> See "Systematic notations for the numbers in %Ramsey theory" in
+   ComputerAlgebra/RamseyTheory/plans/general.hpp for the standardised
+   notations. </li>
+   <li> All old "N_R" or whatever need to be updated. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>

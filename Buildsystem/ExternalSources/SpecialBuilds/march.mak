@@ -26,12 +26,14 @@ march : marchpl
 
 marchpl : $(marchpl_directories_okl)
 	$(call unarchive,$(marchpl_source_okl),$(march_base_build_dir_okl)) $(postcondition) \
- 	cp $(marchpl_corrected_src_okl)/*.{c,h} $(marchpl_build_dir_okl) 
 	cd $(marchpl_build_dir_okl); $(postcondition) \
-	make; $(postcondition) \
+	make CC=$(gcc_call_okl); $(postcondition) \
 	cp march_pl $(marchpl_installation_dir_okl); $(postcondition) \
 	ln -s --force $(marchpl_call_okl) $(public_bin_dir_okl)/march_pl; $(postcondition)
 
+# Remark: Once using a new gcc (than 4.1.2), 
+# cp $(marchpl_corrected_src_okl)/*.{c,h} $(marchpl_build_dir_okl) 
+# needs to be used.
 
 # #################################
 # Cleaning

@@ -109,7 +109,7 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
-	CC="gcc" CFLAGS="-fno-strict-aliasing" ./build.sh cc; if [ $$$$? != 0 ]; then exit 1; fi; \
+	CC="$(gcc_call_okl)" CFLAGS="-fno-strict-aliasing" ./build.sh cc; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \

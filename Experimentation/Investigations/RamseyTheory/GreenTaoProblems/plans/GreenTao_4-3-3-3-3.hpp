@@ -10,6 +10,64 @@ License, or any later version. */
   \brief Investigations on greentao_4(3,3,3,3)
 
 
+  \todo Best local search algorithm
+  <ul>
+   <li> ubcsat-okl -runs 10 -cutoff 10000 -i GreenTao_4-3-3-3-3_400.cnf yields
+   the following means for the different algorithms:
+   \verbatim
+gsat 36
+gsat -v simple 37.2
+gwsat 31.1
+gsat-tabu 21.7
+hsat 36.1
+hwsat 35.4
+walksat 84.3
+walksat-tabu 48.6
+walksat-tabu -v nonull 49.7
+novelty 51
+novelty+ 50.7
+adaptnovelty+ 22.2
+rnovelty 53.6
+rnovelty+ 49.7
+saps 41.6
+rsaps 37.8
+sapsnr 42.3
+rots 21.2
+irots 38.6
+samd 20.9
+   \endverbatim
+   The best algorithms here are samd, rots, gsat-tabu and adaptnovelty+
+   (in this order). </li>
+   <li> With runs=100:
+   \verbatim
+samd 20.950000 FlipsPerSecond = 100301
+gsat-tabu 21.1 FlipsPerSecond = 68634
+rots 21.17 FlipsPerSecond = 77399
+adaptnovelty+ 22.66 FlipsPerSecond = 473934
+   \endverbatim
+   So adaptnovelty+ is the weakest w.r.t. what is reached, but it is
+   fastest by far. </li>
+   <li> Now with cutoff=100*10^3:
+   \verbatim
+adaptnovelty+ 13.24 min = 8 FlipsPerSecond = 457666
+samd 13.67 min = 10 FlipsPerSecond = 95157
+gsat-tabu 13.75 min = 10 FlipsPerSecond = 94661
+rots 18.34 min = 15 FlipsPerSecond = 79853
+   \endverbatim
+   So actually adaptnovelty+ seems best by far! </li>
+   <li> With cutoff=10^6:
+   \verbatim
+adaptnovelty+ 9.41 min = 7
+samd min = 11.37 min = 7
+gsat-tabu 11.35 min = 8
+rots min = 17.97 min = 15
+   \endverbatim
+   So adaptnovelty+ should be clearly the best. </li>
+   <li> One needs to investigate preprocessing (together with symmetry
+   breaking), whether this changes the picture. </li>
+  </ul>
+
+
   \todo Lower bounds: greentao_4(3,3,3,3) > 375
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
@@ -211,7 +269,9 @@ BestSolution_Max = 4.000000
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=400, cutoff=10^9 </li>
+   <li> n=387 </li>
+   <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
+   once, so this looks very tough. </li>
    <li> n=450: using cutoff=10^9, one run reaches a minimum of 14, which
    seems hopeless. </li>
    <li> n=600
