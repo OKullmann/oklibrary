@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.3.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
+
 
   \todo Write tests for all functions
   <ul>
@@ -55,6 +56,7 @@ License, or any later version. */
    implicate representations). </li>
   </ul>
 
+
   \todo Fix translation system
   <ul>
    <li> The current translation system works in the following way: 
@@ -64,8 +66,8 @@ License, or any later version. */
     <ul>
      <li> "aes_cp" is an unevaluated function. </li>
      <li> "p_1" etc represent variables within the constraint system. </li>
-     <li> %Variables are associated with the underlying variables inherent in the
-     constraint by their position in the function arguments. </li>
+     <li> %Variables are associated with the underlying variables inherent in
+     the constraint by their position in the function arguments. </li>
     </ul>
     </li>
     <li> The process starts off with the set with just the "aes_c" constraint
@@ -85,8 +87,8 @@ License, or any later version. */
     </li> 
     <li> Some rewrite rules, such as "aes_sbox_cp" produce sets of clauses, 
     instead of sets of constraint templates. </li>
-    <li> Rewrite rules are applied in a set order using "rewrite_all" to produce
-    a final clause set. </li>
+    <li> Rewrite rules are applied in a set order using "rewrite_all" to
+    produce a final clause set. </li>
    </ul>
    </li>
    <li> This translation works and has the following advantages: 
@@ -106,9 +108,9 @@ License, or any later version. */
     <ul>
      <li> Must resort to using "aes_make_vars" which resorts to
      use of global variables in the process. </li>
-     <li> Trying to instantiate the system of constraint templates into a system
-     of true constraints may result in some information lost which could have
-     been used. </li>
+     <li> Trying to instantiate the system of constraint templates into a
+     system of true constraints may result in some information lost which
+     could have been used. </li>
     </ul>
     </li>
     <li> Operations such as "shiftrows" must be represented using equivalence
@@ -133,7 +135,7 @@ License, or any later version. */
       <li> The second step can be replaced with other translations into
       constraint languages, or replacement of constraint templates with "true
       constraints". See
-      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp . 
+      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. 
       </li>
      </ul>
      </li>
@@ -141,8 +143,9 @@ License, or any later version. */
      "aes_cp([p_1,...,p_n],[namespace,...])":
      <ul>
       <li> The first argument to the template is a list of variables. </li>
-      <li> The second is a list of additional information about the constraint, 
-      such as a namespace for auxillary variables, although other information
+      <li> The second is a list of additional information about the
+      constraint, such as a namespace for auxillary variables, although other
+      information
       could be added based on the type of constraint template. </li>
       <li> This allows one to provide all information associated with the
       constraint template. </li>
@@ -181,8 +184,8 @@ License, or any later version. */
    shouldn't not be considered as an active clause). </li>
    <li> At the finest level we have represented the whole of AES as a boolean
    CNF. </li>
-   <li> Inbetween there are many possibilities to handle the round-computations.
-   </li>
+   <li> Inbetween there are many possibilities to handle the
+   round-computations. </li>
   </ul>
 
   \todo Constraint Rewrite System
@@ -190,18 +193,18 @@ License, or any later version. */
    <li> In translating AES to a CNF, one can define a rewrite system based
    around sets of constraints.
     <ol>
-     <li> A "constraint" is simply a 3-tuple with a name, a set of variables and
-     a function for evaluation given a partial assignment to the variables.
+     <li> A "constraint" is simply a 3-tuple with a name, a set of variables
+     and a function for evaluation given a partial assignment to the variables.
      OK: The notion of "constraint" is not really appropriate. And in general
      the partial assignment must be *total* w.r.t. the scope.
      MG: What would be better terminology? Active unit? Condition also doesn't
      appear to fit for similar reasons (?).
      </li>
      <li> A rewrite function "f" is defined to take a constraint, and if it is
-     applicable (i.e., if "f" is a rewrite rule for that constraint), it returns a
-     set of new constraints, otherwise it returns false (in some way). This may
-     be handled by a unit list and empty list rather than use of "false".
-     </li>
+     applicable (i.e., if "f" is a rewrite rule for that constraint), it
+     returns a set of new constraints, otherwise it returns false (in some
+     way). This may be handled by a unit list and empty list rather than use
+     of "false". </li>
      <li> An application function is necessary to apply a given rewrite rule
      to a set of constraints. When a particular rewrite rule applies, the 
      constraints it returns must be joined to the current set of constraints
@@ -233,10 +236,10 @@ License, or any later version. */
       constraint rewrite. </li>
       <li> When applying a rewrite rule "f" to a constraint "c", given that 
       a particular rewrite rule has no knowledge of the wider set of
-      constraints "S_t" (only the constraint given to it), how to rename or reindex
-      the variables in the set of constraints "S_o" that "f" outputs, so that 
-      internal variables (i.e., variables not present in the variable set "S_c" 
-      for "c") do not clash with others in "S_t"? </li>
+      constraints "S_t" (only the constraint given to it), how to rename or
+      reindex the variables in the set of constraints "S_o" that "f" outputs,
+      so that internal variables (i.e., variables not present in the variable
+      set "S_c" for "c") do not clash with others in "S_t"? </li>
       <li> Simply take some kind of maximum index "m" derived from indices 
       used in variables in "S_t", and then rewrite any variables in "S_o"
       by taking the indices "u" used there and adding to them "m"? </li>
@@ -266,8 +269,8 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
-   levels" for the "active clauses" used; see "Partitioning into active clauses"
-   above. </li>
+   levels" for the "active clauses" used; see "Partitioning into active
+   clauses" above. </li>
    <li> First the formulas F_AES(p, k, c) encoding
    the encryption via AES, and F'_AES(p, k, c) encoding
    the decryption via AES have to be created, as
@@ -311,17 +314,17 @@ License, or any later version. */
      and field element multiplications (within reason) and then additional
      must be made of these operations. </li>
      <li> An issue that arises is the naming/production of new variables. 
-     Given that these will be needed at various levels to "join" various result 
-     bits to input bits of different conditions, but if such a scheme uses
-     function evaluations, how to produce such variables without sharing some
-     kind of global state? </li>
+     Given that these will be needed at various levels to "join" various
+     result bits to input bits of different conditions, but if such a scheme
+     uses function evaluations, how to produce such variables without sharing
+     some kind of global state? </li>
      <li> Passing an initial variable pool (list of variables) into the 
-     conditions could work, but this doesn't seem to fit well with the conditions
-     being simple conditions given a set of input bits. Perhaps a method which 
-     evaluates a given set of conditions and condition producing functions and
-     then defines this variable pool, which is then in the scope of the 
-     condition producing functions when they are substituted and evaluated? 
-     </li>
+     conditions could work, but this doesn't seem to fit well with the
+     conditions being simple conditions given a set of input bits. Perhaps a
+     method which evaluates a given set of conditions and condition producing
+     functions and then defines this variable pool, which is then in the scope
+     of the condition producing functions when they are substituted and
+     evaluated? </li>
      <li> Also, if each of these functions produces a set of conditions, then
      simple substitution would yield a set of sets, and then a set of set of
      sets etc. A simple solution here seems to be, to return the union of 
@@ -374,18 +377,20 @@ License, or any later version. */
     </ol>
    </li>
    <li> These allow efficient handling of all basic tasks for active clauses
-   (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp). </li>
+   (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp).
+   </li>
    <li> Of course, special algorithms should be investigated. </li>
    <li> It seems, that actually the DNF representation we have, which actually
    is a full DNF, and just having 256 clauses, yields an unbeatable active
    clause:
     <ol>
-     <li> Given any DNF representation D of a boolean function F, satisfiability
-     of phi * F is just checked by testing whether phi * D is not the empty
-     clause-set. </li>
-     <li> In general, for a clause-set F, considered as CNF or DNF, the opposite
-     representation is just obtained by the transversal hypergraph, from which
-     non-clauses are eliminated, and which then is complemented. </li>
+     <li> Given any DNF representation D of a boolean function F,
+     satisfiability of phi * F is just checked by testing whether phi * D is
+     not the empty clause-set. </li>
+     <li> In general, for a clause-set F, considered as CNF or DNF, the
+     opposite representation is just obtained by the transversal hypergraph,
+     from which non-clauses are eliminated, and which then is complemented.
+     </li>
      <li> So forced literals for phi * D are literals which occur in every
      clause. This can be checked by just checking the literal degrees. </li>
      <li> And the number of satisfying assignments for a hitting D can be
@@ -412,7 +417,8 @@ License, or any later version. */
      dividing it further. </li>
      <li> Perhaps in combination with the various permutations we can combine
      several "micro-steps" into one. Perhaps the ShiftRows step doesn't need
-     to be made explicit at all. And also MixColumns operates on the bytes. </li>
+     to be made explicit at all. And also MixColumns operates on the bytes.
+     </li>
      <li> Perhaps we create "generic active clauses" for these cases, and
      instantiate them appropriately (so that many variations of the same basic
      active clause appear). </li>
@@ -428,12 +434,12 @@ License, or any later version. */
    <li> The main underlying theoretical question is whether the conditions
    "x * y = 1" and "a * x = y" are active clauses (for arbitrary GF(2^n).
     <ol>
-     <li> This depends on the choice of literals (i.e., which partial assignments
-     are allowed). </li>
+     <li> This depends on the choice of literals (i.e., which partial
+     assignments are allowed). </li>
      <li> A coarse choice is to use byte-valued variables (x, y here are just
-     elements of the byte-field) and standard literals: Here we have active clauses,
-     since the field operations as well as inversions can be performed in polynomial
-     time. </li>
+     elements of the byte-field) and standard literals: Here we have active
+     clauses, since the field operations as well as inversions can be
+     performed in polynomial time. </li>
      <li> The next level (perhaps our preferred level) is the boolean level
      (now the bits of x and y can be queried). Using the natural representation
      of elements of GF(2^n) as vectors in the canonical base, we obtain
@@ -456,8 +462,8 @@ License, or any later version. */
   
   \bug DONE aes_make_vars_int never uses variable 385
   <ul>
-   <li> Given that aes_make_vars_int() was also used to generate the unit clauses, this
-   shouldn't have affected any testing. </li>
+   <li> Given that aes_make_vars_int() was also used to generate the unit
+   clauses, this shouldn't have affected any testing. </li>
    <li>
    \verbatim
 aes_reset_vars()$
@@ -471,8 +477,8 @@ aes_make_vars_int("x",1,1);
 [385]
    \endverbatim
    </li>
-   <li> This shouldn't have caused any issues, it simply results in the variable 385
-   never being used. </li>
+   <li> This shouldn't have caused any issues, it simply results in the
+   variable 385 never being used. </li>
   </ul>
 
 */
