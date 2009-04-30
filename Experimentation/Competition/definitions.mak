@@ -7,6 +7,6 @@ test_program := TestSATCompetition
 
 programs := Analyse ComputeScores ComputeLexicographicalEvaluation ComputeAnalysis
 
-source_libraries =  $(Boost)
+source_libraries =  $(boost_include_option_okl)
 
 link_libraries := 

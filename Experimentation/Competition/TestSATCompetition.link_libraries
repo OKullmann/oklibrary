@@ -1,1 +1,1 @@
-echo -lboost_filesystem-gcc
+echo ${boost_link_option_okl} -lboost_filesystem-gcc

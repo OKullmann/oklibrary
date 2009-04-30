@@ -25,8 +25,8 @@ test_program := TestBibliothek
 
 programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList Algebra_Applications_RSA
 
-source_libraries = $(OKTestSystem) $(Xerces_h) $(Loki) $(Boost) 
+source_libraries = $(OKTestSystem) $(Xerces_h) $(Loki) $(boost_include_option_okl) 
 
-link_libraries := -lboost_date_time-gcc $(Xerces_so)
+link_libraries := $(boost_link_option_okl) -lboost_date_time-gcc $(Xerces_so)
 
 

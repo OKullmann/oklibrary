@@ -7,7 +7,7 @@ test_program := TestParallelism
 
 programs := demo_Example_12_1
 
-source_libraries =  $(Boost)
+source_libraries =  $(boost_include_option_okl)
 
 link_libraries := 
 
