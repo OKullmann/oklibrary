@@ -92,31 +92,32 @@ License, or any later version. */
    </ul>
    </li>
    <li> This translation works and has the following advantages: 
-   <ul>
-    <li> It is a simple rewrite procedure. </li>
-    <li> Rewrite rules are easy to replace. </li>
-   </ul>
-   however, it also has several disadvantages: 
-   <ul>
-    <li> %Clauses are injected directly into the set of constraint templates,
-    requiring explicit detection of "sets" within the rewrite system, as they
-    are not constraint templates to be rewritten and therefore must be treated
-    differently. </li>
-    <li> As there is no context for various constraints, only variable
-    arguments, rewrite rules such as "aes_round" etc can't use this additional
-    information, and:
     <ul>
-     <li> Must resort to using "aes_make_vars" which resorts to
-     use of global variables in the process. </li>
-     <li> Trying to instantiate the system of constraint templates into a
-     system of true constraints may result in some information lost which
-     could have been used. </li>
+     <li> It is a simple rewrite procedure. </li>
+     <li> Rewrite rules are easy to replace. </li>
     </ul>
-    </li>
-    <li> Operations such as "shiftrows" must be represented using equivalence
-    constraints, which are rewritten to binary clauses which most SAT solvers
-    don't handle well. </li>
-   </ul>
+    however, it also has several disadvantages: 
+    <ul>
+     <li> %Clauses are injected directly into the set of constraint templates,
+     requiring explicit detection of "sets" within the rewrite system, as they
+     are not constraint templates to be rewritten and therefore must be treated
+     differently. </li>
+     <li> As there is no context for various constraints, only variable
+     arguments, rewrite rules such as "aes_round" etc can't use this additional
+     information, and:
+      <ul>
+       <li> Must resort to using "aes_make_vars" which resorts to
+       use of global variables in the process. </li>
+       <li> Trying to instantiate the system of constraint templates into a
+       system of true constraints may result in some information lost which
+       could have been used. </li>
+      </ul>
+     </li>
+     <li> Operations such as "shiftrows" must be represented using equality
+     constraints, which is a waste. </li>
+    </ul>
+    The main systematic disadvantage of using some "random" variables
+    is that we are losing the meaning of variables.
    </li>
    <li> To improve the system, the following changes are suggested: 
     <ul>
@@ -130,7 +131,7 @@ License, or any later version. */
      <ul>
       <li> There is no need for explicit detection of "sets" within the
       rewrite system and everything is much cleaner. </li>
-      <li> The second step can be used to remove equivalence constraints using
+      <li> The second step can be used to remove equality constraints using
       variable replacement. </li>
       <li> The second step can be replaced with other translations into
       constraint languages, or replacement of constraint templates with "true
