@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-# Copyright 2002-2007, 2008 Oliver Kullmann
+# Copyright 2002-2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -28,7 +28,6 @@
 # (OKPLATFORM,OKplatform)
 # (OKSYSTEM,OKsystem)
 # (SYSTEMDIRECTORIES,SystemDirectories)
-# (BOOST,Boost)
 # (EXTERNALSOURCES,ExternalSources)
 #
 # In each case the default behaviour is for the build system to use the 
@@ -56,13 +55,7 @@
 # This variable pair specifies the location of the top level directory of 
 # the OKlibrary build tree. The build system creates the subdirectories "aux", "bin", 
 # "doc" and "lib" in the directory specified by the value of this variable.
-#
-# BOOST/Boost
-#
-# This variable pair specifies the location of the installation directory 
-# of the Boost distribution to be used by the build system for compiling the 
-# library.
-#
+##
 # EXTERNALSOURCES/ExternalSources
 #
 # This variable pair specifies the location of the directory used by the 
@@ -597,7 +590,7 @@ testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # ######################################################################
 
 # ################################################################
-# VARIABLES FOR GCC AND BOOST VERSIONS, INCLUDES AND LINKING
+# VARIABLES FOR GCC VERSIONS, INCLUDES AND LINKING
 # ################################################################
 
 CXX = $(gpp_call_okl)
@@ -608,22 +601,14 @@ CC = $(gcc_call_okl)
 # alternative_library_path
 #
 #  Specifies the full options necessary to pass the full path
-#  of the Gcc and Boost link-libraries to the compiler and
+#  of the Gcc libraries to the compiler and
 #  linker. With "-Wl,-rpath,Path" we tell the compiler to 
 #  pass the option "-rpath Path" to the linker, which will 
 #  add Path to the places searched for this program for 
 #  run-time-libraries.
 #
-# Boost
-#
-#  Include-option to be passed to the compiler, specifying
-#  the location of the Boost include-directory. 
-#
-# ----------------------------------------------------------
 
-alternative_library_path:= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl) -L$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib
-
-Boost = -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/include/boost-$(boost_recommended_version_number)
+alternative_library_path:= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl)
 
 
 # ----------------------------------------------------------

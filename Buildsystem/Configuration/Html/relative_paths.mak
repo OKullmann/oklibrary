@@ -33,7 +33,7 @@ rel_tenchallenges_baltimore2008_talk_location := $(shell $(rel_path_tool) $(balt
 rel_tenchallenges_tenchallenges_doxygen_directory := $(shell $(rel_path_tool) $(tenchallenges_doxygen_directory) $(tenchallenges_page_output))
 
 # From the external sources page: ("les" for local external sources)
-rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
+rel_les_boost_docu_page_okl := $(shell $(rel_path_tool) $(boost_docu_page_okl) $(externalsources_page_output))
 rel_les_mhash_docu_page := $(shell $(rel_path_tool) $(mhash_docu_page) $(externalsources_page_output))
 rel_les_gcc_docu_page_okl := $(shell $(rel_path_tool) $(gcc_docu_page_okl) $(externalsources_page_output))
 rel_les_ocaml_docu_page := $(shell $(rel_path_tool) $(ocaml_docu_page) $(externalsources_page_output))
@@ -54,7 +54,7 @@ rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(ext
 rel_les_grasp_docu_page_okl := $(shell $(rel_path_tool) $(grasp_docu_page_okl) $(externalsources_page_output))
 
 ifeq ($(extsrc_relative),)
-  rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
+  rel_les_boost_html_documentation_index_location_okl := $(boost_html_documentation_index_location_okl)
   rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)
   rel_les_valgrind_html_documentation_index_location_okl := $(valgrind_html_documentation_index_location_okl)
   rel_les_git_html_documentation_index_location_okl := $(git_html_documentation_index_location_okl)
@@ -69,7 +69,7 @@ ifeq ($(extsrc_relative),)
 
 else
 
-  rel_les_boost_html_documentation_index_location := $(shell $(rel_path_tool) $(boost_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_boost_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(boost_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_mhash_html_documentation_index_location := $(shell $(rel_path_tool) $(mhash_html_documentation_index_location) $(externalsources_page_output))
   rel_les_valgrind_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(valgrind_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_git_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(git_html_documentation_index_location_okl) $(externalsources_page_output))
