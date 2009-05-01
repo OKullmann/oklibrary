@@ -7,7 +7,7 @@ test_program :=
 
 programs := Special_update Delete_rows CreateStatistic
 
-source_libraries =  $(Boost) -I/usr/include/pgsql
+source_libraries =  $(boost_include_option_okl) -I/usr/include/pgsql
 
 link_libraries := -lpq
 

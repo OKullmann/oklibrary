@@ -30,7 +30,9 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Bugs in Boost 1_34_1
+    - Linker segmentation fault
+    - Update Boost installation
+    - Bugs in Boost 1_34_1 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
@@ -148,11 +150,6 @@ License, or any later version. */
    topics are handled:
     - Update our gcc-installation-system to the new standard
     - Providing gcc 4.1.2
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Update Boost installation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following

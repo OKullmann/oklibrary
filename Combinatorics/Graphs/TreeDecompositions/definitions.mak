@@ -7,6 +7,6 @@ test_program := TestTreeDecompositions
 
 programs :=
 
-source_libraries =  $(Boost)
+source_libraries =  $(boost_include_option_okl)
 
 link_libraries := 

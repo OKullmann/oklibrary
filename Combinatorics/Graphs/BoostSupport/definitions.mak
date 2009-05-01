@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 programs := Test # demo_read_graph
 
-source_libraries = $(Boost)
+source_libraries = $(boost_include_option_okl)
 
 link_libraries := 
 

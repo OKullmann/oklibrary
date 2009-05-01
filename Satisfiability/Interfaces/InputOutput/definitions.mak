@@ -7,7 +7,7 @@ test_program := TestInputOutput
 
 programs := ExtendedToStrictDimacs ExtendedDimacsStatistics
 
-source_libraries = $(Boost)
+source_libraries = $(boost_include_option_okl)
 
 link_libraries := 
 

@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
-  \todo Bugs in Boost 1_34_1
+  \todo DONE (corrected Boost building, and also corrected some errors
+  in 1_34_1)
+  Bugs in Boost 1_34_1
   <ul>
    <li> As mentioned in https://svn.boost.org/trac/boost/ticket/1570,
    there are missing includes, which now become apparent. </li>
@@ -39,7 +41,8 @@ License, or any later version. */
      but it seems we are not using this. </li>
     </ol>
    </li>
-   <li> On cs-oksvr (Suse 11.0) we get with "oklib all" errors like
+   <li> DONE (now really using the local gcc)
+   On cs-oksvr (Suse 11.0) we get with "oklib all" errors like
    \verbatim
 /home/csoliver/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/libboost_filesystem-gcc.so: undefined reference to `std::terminate()@GLIBCXX_3.4'
    \endverbatim
@@ -88,13 +91,17 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
    our "generic" installation method, however there are also relations
    to the (at least in the past) rather strange boost build-system;
    see "Problems with building Boost" below. </li>
-   <li> We only provide installation by local gcc. </li>
-   <li> And no combinations, just the "recommended" boost
+   <li> Done
+   We only provide installation by local gcc. </li>
+   <li> DONE
+   And no combinations, just the "recommended" boost
    installation using the "recommended" local gcc. </li>
-   <li> The main point is to clean-up the partial mess. </li>
+   <li> DONE
+   The main point is to clean-up the partial mess. </li>
    <li> Later we can re-introduce these features, if needed
    (this would then likely be the job of oklib). </li>
-   <li> And we also drop the timestamp-file. </li>
+   <li> DONE
+   And we also drop the timestamp-file. </li>
    <li> And we also drop the dependency on the gcc-installation. </li>
    <li> This should simplify drastically the build-makefile. </li>
    <li> Installation of bjam should be improved: Having exactly one
@@ -221,7 +228,8 @@ bo = static_cast<bool>(a != y);
    <li> How to inform bjam about an alternative compiler? What about
    <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ??
    </li>
-   <li> When building gcc with local versions, we should make sure that
+   <li> DONE (this should be solved now by the corrected boost-building)
+  When building gcc with local versions, we should make sure that
    the system-gcc doesn't interfere (especially important regarding linking).
     <ol>
      <li> On cs-wsok it seems that the system-gcc (4.0.2) interferes;

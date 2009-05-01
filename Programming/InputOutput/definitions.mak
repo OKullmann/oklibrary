@@ -7,7 +7,7 @@ test_program := TestGeneralInputOutput
 
 programs := MatchFiles PathDifference
 
-source_libraries = $(Boost)
+source_libraries = $(boost_include_option_okl)
 
 link_libraries := 
 

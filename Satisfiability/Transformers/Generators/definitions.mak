@@ -7,7 +7,7 @@ test_program := Test_Transformations
 
 programs := FaronsPuzzle VanderWaerden Ramsey LinInequal
 
-source_libraries = $(Boost)
+source_libraries = $(boost_include_option_okl)
 
 link_libraries := -lm
 
