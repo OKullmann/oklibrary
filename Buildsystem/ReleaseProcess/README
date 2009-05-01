@@ -47,6 +47,7 @@ The following software needs to be installed:
  - X libraries (development libraries; needed by gnuplot).
  - bzip2 (development library; delivers "bzlib.h"; also, e.g., 
    "libbzip2" or "libbz2-devel").
+ - postgresql development library ("postgresql-devel").
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
