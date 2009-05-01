@@ -235,9 +235,11 @@ local gcc).
 
 6) The Gmp library is installed locally.
 
-6) And further computer algebra systems installed are Gap, R and Sage.
+6) And further computer algebra systems installed are Gap and R.
 
-7) Yet the only SAT solver installed by default is Ubcsat.
+7) Yet the SAT solver installed by default are Ubcsat, minisat1, minisat2,
+minisat+, march_pl, satz215, survey_propagation and sat-grasp.
+(The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 
 After having installed these tools, via
