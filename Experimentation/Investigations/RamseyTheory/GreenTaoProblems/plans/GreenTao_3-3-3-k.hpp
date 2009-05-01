@@ -91,7 +91,7 @@ BestSolution_Max = 1.000000
    (seed=1429074341). </li>
    <li> n=425 found satisfiable by adaptnovelty+ with cutoff=10*10^6 (40 runs
    needed; seed=610774669). </li>
-   <li> n=431 </li>
+   <li> n=431 cutoff=200*10^6 </li>
    <li> n=437
     <ol>
      <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
@@ -131,7 +131,8 @@ BestSolution_Max = 1.000000
      \endverbatim
      where the maximum of osteps is 170234040. </li>
      <li> So if this n is to be considered further, then with 1000 runs and
-     a cutoff of 200*10^6. </li>
+     a cutoff of 200*10^6: Aborted after 440 runs, with most of them yielding
+     min=1 and some min=2. </li>
     </ol>
    </li>
    <li> n=450

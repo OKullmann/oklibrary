@@ -269,7 +269,9 @@ BestSolution_Max = 4.000000
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=387 </li>
+   <li> n=381 cutoff=2*10^9</li>
+   <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
+   re-examined, then cutoff=4*10^9 should be used. </li>
    <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
    once, so this looks very tough. </li>
    <li> n=450: using cutoff=10^9, one run reaches a minimum of 14, which
