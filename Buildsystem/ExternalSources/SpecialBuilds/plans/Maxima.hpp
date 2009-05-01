@@ -50,6 +50,8 @@ Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
    \endverbatim
    <li>
    <li> With Maxima 5.17.1.1, this problem does not occur. </li>
+   <li> The problem seems to be caused by the symbolic link 
+   OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! </li>
    <li> An e-mail should be sent to the maxima mailing list (by MG). </li>
   </ul>
 
