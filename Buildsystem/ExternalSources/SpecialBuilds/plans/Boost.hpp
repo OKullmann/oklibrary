@@ -75,13 +75,15 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
   </ul>
 
 
-  \todo Linker segmentation fault
+  \todo DONE
+  Linker segmentation fault
   <ul>
    <li> Linking to lboost-graph yields a segmentation fault of the linker.
    </li>
    <li> So for the moment compilation of the affected 3 programs is disabled.
    </li>
-   <li> Contact the Boost mailing list. </li>
+   <li> Installing binutils-2.19.1 solved the problem (just standard
+   installation). </li>
   </ul>
 
 

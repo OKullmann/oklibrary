@@ -30,8 +30,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Linker segmentation fault
     - Update Boost installation
+    - Linker segmentation fault : DONE
     - Bugs in Boost 1_34_1 : DONE
 
   \par
