@@ -48,6 +48,7 @@ The following software needs to be installed:
  - bzip2 (development library; delivers "bzlib.h"; also, e.g., 
    "libbzip2" or "libbz2-devel").
  - postgresql development library ("postgresql-devel").
+ - binutils development library ("binutils-devel").
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
