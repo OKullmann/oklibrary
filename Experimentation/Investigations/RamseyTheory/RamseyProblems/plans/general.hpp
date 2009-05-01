@@ -10,15 +10,6 @@ License, or any later version. */
   \brief On investigations into %Ramsey problems
 
 
-  \bug Fix obsolete notations
-  <ul>
-   <li> See "Systematic notations for the numbers in %Ramsey theory" in
-   ComputerAlgebra/RamseyTheory/plans/general.hpp for the standardised
-   notations. </li>
-   <li> All old "N_R" or whatever need to be updated. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
@@ -35,7 +26,7 @@ License, or any later version. */
    <li> Generation of CNF representations:
     <ol>
      <li> By the Maxima system, via "output_ramsey2_stdname(q,r,n)" we
-     create "Ramsey_q_r_n.cnf", for NR([q,q],r). </li>
+     create "Ramsey_q_r_n.cnf", for ramsey_2^r(q). </li>
      <li> However, output_ramsey2_stdname(5,2,40) yields a segmentation
      fault on a 32-bit machine (not enough memory, when introducing
      the colouring symbols); so we need to use the following (C++)
@@ -45,7 +36,7 @@ License, or any later version. */
      \verbatim
 Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r_n.cnf
      \endverbatim
-     for NR([q1,q2],r). </li>
+     for ramsey_2^r(q1,q2). </li>
     </ol>
    </li>
   </ul>
@@ -83,14 +74,14 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
-  \todo NR([3,3],2)
+  \todo ramsey_2^2(3)
   <ul>
    <li> Satisfiability for n=5 is trivial for any SAT solver. </li>
    <li> So is unsatisfiability for n=6. </li>
   </ul>
 
 
-  \todo NR([4,4],2)
+  \todo ramsey_2^2(4)
   <ul>
    <li> Satisfiability for n=17:
     <ol>
@@ -219,9 +210,9 @@ Memory used           : 43.93 MB
   </ul>
 
 
-  \todo NR([5,5],2)
+  \todo ramsey_2^2(5)
   <ul>
-   <li> Known is 43 <= NR([5,5],2) <= 49. </li>
+   <li> Known is 43 <= ramsey_2^2(5) <= 49. </li>
    <li> So we get 1-2 million clauses; we can try with a local search
    solver. </li>
    <li> OKsolver can handle n=33 in ~ 3 minutes, but has problems with
@@ -668,9 +659,9 @@ Steps_Mean = 10000000
   </ul>
 
 
-  \todo NR([6,6],2)
+  \todo ramsey_2^2(6)
   <ul>
-   <li> Known is 102 <= NR([6,6],2) <= 165. </li>
+   <li> Known is 102 <= ramsey_2^2(6) <= 165. </li>
    <li> These clause-sets are too big (for direct representation). </li>
   </ul>
 
@@ -717,7 +708,7 @@ length(all_aut_ofcs(R5));
   <ul>
    <li> A systematic exploration of different parameter tuples is needed. </li>
    <li> For instance, if one has parameters k and q, and then considers the 
-   Ramsey tuple NR([2,...k times...,2,q],2) for instance, how do such Ramsey 
+   Ramsey tuple ramsey_(k+1)^2(2,...k times...,2,q) for instance, how do such Ramsey 
    numbers grow? </li>
   </ul>
 
@@ -799,7 +790,7 @@ length(all_aut_ofcs(R5));
    <li> Are there self-dual solutions for all [[p,p],2] ?? </li>
    <li> We need to check the known cases! </li>
    <li> For [[5,5],2] and n=42 the number of edges (861) of K_n is odd, so
-   if the conjecture NR([[5,5],2]) = 43 is true, then there would be
+   if the conjecture ramsey_2^2(5,5) = 43 is true, then there would be
    no self-dual solution here. </li>
   </ul>
 
@@ -851,6 +842,15 @@ length(all_aut_ofcs(R5));
      </li>
     </ol>
    </li>
+  </ul>
+  
+  
+  \bug Fix obsolete notations DONE
+  <ul>
+   <li> See "Systematic notations for the numbers in %Ramsey theory" in
+   ComputerAlgebra/RamseyTheory/plans/general.hpp for the standardised
+   notations. </li>
+   <li> All old "N_R" or whatever need to be updated. </li>
   </ul>
 
 */

@@ -122,7 +122,7 @@ find_best_ubcsat_alg <- function(df) {
 }
    \endverbatim
    </li>
-   <li> Using "N_R(5,5,2) <= n" with n for  30 <=  n <= 40 with runs=100,
+   <li> Using "ramsey_2^2(5) <= n" with n for  30 <=  n <= 40 with runs=100,
    cutoff=10000: 
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
@@ -224,7 +224,7 @@ find_best_ubcsat_alg <- function(df) {
    <li> Perhaps some linear regression based on "n" vs some combination of
    "avg_falsified_clauses" and "avg_best_steps" would give more indication
    on how each algorithm scales with regard to this problem? </li>
-   <li> Using "N_R(5,5,2) <= n" with n for n = 40 with runs=200,
+   <li> Using "ramsey_2^2(5) <= n" with n for n = 40 with runs=200,
    cutoff=100000:
    \verbatim
 > find_best_ubcsat_alg(ramsey_df)
