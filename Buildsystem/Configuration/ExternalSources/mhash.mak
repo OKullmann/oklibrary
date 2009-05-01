@@ -15,7 +15,7 @@ mhash_supported_version_numbers ?= $(mhash_supported_not_recommended_version_num
 
 mhash_prefix ?= mhash
 
-mhash_base_directory ?= $(ExternalSources)/Installations/Mhash
+mhash_base_directory ?= $(ExternalSources_installations)/Mhash
 
 mhash_docu_page ?= $(doc_dir)/doxygen_html/d4/da3/docus_2Mhash_8hpp.html
 
@@ -29,5 +29,5 @@ mhash_recommended := $(mhash_targets_prefix)$(mhash_recommended_version_number)
 # for example "mhash-0.9.9"
 
 
-Mhash = $(mhash_base_directory)/$(mhash_recommended_version_number)
+Mhash = $(mhash_base_directory)/$(mhash_recommended_version_number)+$(gcc_recommended_version_number_okl)
 # TODO: We must update and systematise the use of such variables!
