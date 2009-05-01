@@ -65,6 +65,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Update MHash-building
+  <ul>
+   <li> This should be similar to Boost and Gmp. </li>
+  </ul>
+
+
   \todo DONE (the new scheme is as discussed below)
   Handling of different versions
   <ul>

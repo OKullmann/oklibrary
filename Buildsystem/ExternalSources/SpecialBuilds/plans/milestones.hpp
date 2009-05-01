@@ -164,6 +164,11 @@ License, or any later version. */
     - Local installation of gfortran
     - Can't output graphics
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Update MHash-building
+
 
   \par Version 0.2.4 (installing e-mail services)
 
