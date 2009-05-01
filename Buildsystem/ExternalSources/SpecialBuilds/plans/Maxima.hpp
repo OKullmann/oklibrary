@@ -12,12 +12,6 @@ License, or any later version. */
 
   \bug Maxima loading of contrib packages fails
   <ul>
-   <li> MG has sent an email to the maxima mailing list detailing this bug. 
-   </li>
-   <li> As the bug occurs only with MG, the next action is for MG to build
-   Maxima outside of the OKlibrary and see if the problem persists. </li>
-   <li> This bug does not occur when using "clisp". This might explain why this
-   bug has not been reported yet on the maxima mailing list. </li>
    <li> Trying to run "oklib_load_all" fails : 
    \verbatim
 [11:45:36 - aeternus] ExternalSources$ oklib --maxima
@@ -52,7 +46,10 @@ Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
    <li> With Maxima 5.17.1.1, this problem does not occur. </li>
    <li> The problem seems to be caused by the symbolic link 
    OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! </li>
-   <li> An e-mail should be sent to the maxima mailing list (by MG). </li>
+   <li> This doesn't go away with Ecl version 9.4.1; MG should try to create
+   this behaviour by a plain Maxima installation (using ECL) in the presence
+   of such a symbolic link (at build-time), and this also on machines where 
+   Maxima/Ecl used to work. </li>
   </ul>
 
 
