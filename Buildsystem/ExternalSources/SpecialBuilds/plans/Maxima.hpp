@@ -10,29 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \bug Maxima loading of contrib packages fails
+  \bug Failure with Ecl when links are on the path
   <ul>
-   <li> Trying to run "oklib_load_all" fails : 
-   \verbatim
-[11:45:36 - aeternus] ExternalSources$ oklib --maxima
-m4 --prefix-builtins /home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/Buildsystem/Html/m4_shell_macro /home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/Buildsystem/MasterScript/SpecialProcessing/maxima-init.mac > /home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/maxima-init.mac
-/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/bin/rmaxima 
-;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/defsystem.fas"
-;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/cmp.fas"
-;;; Loading #P"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Ecl/8.12.0/lib/ecl-8.12.0/sysfun.lsp"
-Maxima 5.18.1 http://maxima.sourceforge.net
-Using Lisp ECL 8.12.0 (CVS 2008-07-12 18:54)
-Distributed under the GNU Public License. See the file COPYING.
-Dedicated to the memory of William Schelter.
-The function bug_report() provides bug reporting information.
-(%i1) oklib_load_all()$
-Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
-#0: oklib_plain_include(name=descriptive)(maxima-init.mac line 98)
-#1: oklib_plain_include(name=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/OKsystem/OKlib/ComputerAlgebra/DataStructures/Lisp/Ha...)
-#2: oklib_include(name=OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac)(maxima-init.mac line 94)
- -- an error.  To debug this try debugmode(true);
-   \endverbatim
-   </li>
+   <li> All load-command fails (e.g., "load(descriptive)"). </li>
    <li> Something appears to be going wrong with the file_search_maxima paths
    as there are entries such as:
    \verbatim
@@ -43,13 +23,17 @@ Could not find `descriptive' using paths in file_search_maxima,file_search_lisp.
 "/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{share,affine,algebra,algebra/charsets,algebra/solver,calculus,colnew,colnew/lisp,combinatorics,
    \endverbatim
    <li>
-   <li> With Maxima 5.17.1.1, this problem does not occur. </li>
-   <li> The problem seems to be caused by the symbolic link 
-   OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! </li>
-   <li> This doesn't go away with Ecl version 9.4.1; MG should try to create
-   this behaviour by a plain Maxima installation (using ECL) in the presence
-   of such a symbolic link (at build-time), and this also on machines where 
-   Maxima/Ecl used to work. </li>
+   <li> The problem is caused by the symbolic link 
+   OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! (That is, having
+   such a link at compile time, we get the problem, while without we don't).
+   </li>
+   <li> This doesn't go away with Ecl version 9.4.1. </li>
+   <li> MG should continue to communicate with the Maxima mailing list, 
+   specifying exactly how the problem can be reproduced (the symbolic
+   link must be present at compile time; the build-instructions must be
+   precisely specified (independent of the OKlibrary)). </li>
+   <li> A temporary workaround is just not to use links like the above
+   shortcut to the OKplatform directory. </li>
   </ul>
 
 

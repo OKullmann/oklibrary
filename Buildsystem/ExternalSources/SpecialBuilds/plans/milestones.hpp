@@ -16,6 +16,11 @@ License, or any later version. */
 
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Failure with Ecl when links are on the path
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Install the mmv package : DONE
