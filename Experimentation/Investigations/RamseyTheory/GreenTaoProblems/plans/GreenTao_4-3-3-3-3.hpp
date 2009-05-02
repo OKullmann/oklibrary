@@ -265,11 +265,13 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 4.000000
      \endverbatim
      </li>
-     <li> Finally using cutoff=10^9 in run 31 a solution (seed=1958151049,
+     <li> Finally using cutoff=10^9 in 31 runs a solution (seed=1958151049,
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=381 cutoff=2*10^9</li>
+   <li> n=378, cutoff=10^9 </li>
+   <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
+   osteps ~ 500*10^6, so it looks unsatisfiable. </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
    <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
