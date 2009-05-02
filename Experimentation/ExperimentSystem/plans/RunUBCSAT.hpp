@@ -14,8 +14,17 @@ License, or any later version. */
 
   \todo Collecting data
   <ul>
-   <li> A function "eval_ubcsat" is to be written which runs Ubcsat for a list
-   of algorithms on a specific instance, and computes a data frame. </li>
+   <li> Steps to be taken:
+    <ol>
+     <li> A function "eval_ubcsat" is to be written which runs Ubcsat for a
+     list of algorithms on a specific instance, and computes a data frame.
+     </li>
+     <li> This has now been basically achieved, and the functions written
+     have to be made available. </li>
+     <li> After that, the whole todo needs to be completely updated, so that
+     only future plans remains. </li>
+    </ol>
+   </li>
    <li> For an application-example see
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> And see Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
