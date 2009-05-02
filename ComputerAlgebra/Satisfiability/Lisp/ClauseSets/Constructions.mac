@@ -40,7 +40,7 @@ comp_fcs(FF) := [FF[1], comp_cs(FF[2])]$
 */
 
 /* The natural representation of the "and" of two clause-sets as cnf's
-   (as n-ary operation) */
+   (as n-ary operation): */
 and_cs([L]) := apply(union,L)$
 
 /* All non-clashing unions of the clauses of two given clause-sets, which
@@ -48,18 +48,18 @@ and_cs([L]) := apply(union,L)$
 or_cs2(F1,F2) := 
  map(lunion,
   subset(cartesian_product(F1,F2), lambda([P],not clashp(P[1],P[2]))))$
-/* As n-ary operation */
+/* As n-ary operation: */
 or_cs([L]) := block([l : length(L)],
  if l = 0 then {{}} elseif l = 1 then L[1] 
  else apply(or_cs, cons(or_cs2(L[1],L[2]), rest(L,2))))$
 
-/* The natural DNF-representation of a clause-set F as CNF */
+/* The natural DNF-representation of a clause-set F as CNF: */
 dual_cs(F) := apply(or_cs,
  map(lambda([C],map(set,C)), listify(F)))$
 /* Subsumption elimination applied to the result yields the set of
    all prime implicants (all minimal satisfying partial assignments). */
 
-/* The natural negation of a clause-set */
+/* The natural negation of a clause-set: */
 neg_cs(F) := dual_cs(comp_cs(F))$
 
 
