@@ -281,6 +281,75 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
   </ul>
 
 
+  \todo Finding the n where a problem series changes from SAT to UNSAT
+  <ul>
+   <li> For problems coming from Ramsey theory we have given a CNF-generator
+   G(n), where n is a natural number and where for some (unknown) n_0 it is
+   known that G(n') is unsatisfiable iff n' >= n_0. </li>
+   <li> Now via local search an "educated guess" for n_0 is sought. </li>
+   <li> A reasonable strategy seems to be as follows:
+    <ol>
+     <li> Start with a given n for which n <= n_0 is known. </li>
+     <li> The procedure will increase n in steps of 1: Given that unsatisfiable
+     problems in this area are very hard, and via local search we don't have
+     a reasonable grasp on that, this seems best (avoiding to jump into
+     unknown areas). </li>
+     <li> The algorithm alg from the ubcsat-suite is given (has been selected
+     before). </li>
+     <li> First an appropriate cutoff is computed:
+      <ol>
+       <li> The start cutoff is cutoff_start = 10000. </li>
+       <li> t runs of ubcsat::alg are performed:
+        <ul>
+         <li> If a solution was found, then we go to the next n. </li>
+         <li> If the frequency of runs with min=1 is less then p, then cutoff
+         is multiplied by cfactor, and again t runs are performed. </li>
+         <li> Otherwise the current cutoff is considered appropriate. </li>
+        </ul>
+       </li>
+       <li> For t a value t=10 seems reasonable. </li>
+       <li> For p a value p=0.2 (i.e., 20%) seems alright. </li>
+       <li> For cfactor currently I (OK) use cfactor=10; cfactor=2 seems
+       ineffective, but perhaps cfactor=5 is a good compromise. </li>
+       <li> If cutoff becomes larger than cbound, the whole process is
+       stopped (and the current n is taken as a guess for n_0). </li>
+       <li> Requiring that min=1 must occur, and this with a certain
+       frequency, is based on the experiences with adaptnovelty+, which
+       has a quite small volatility; we could generalise this to ask
+       for runs with min <= min_required, where for more volatily algorithms
+       one could use up to min_required = 5. </li>
+      </ol>
+     </li>
+     <li> Now the main search is performed:
+      <ol>
+       <li> M "meta"-runs of ubcsat with M' runs each are performed. </li>
+       <li> If a solution was found then n is increased. </li>
+       <li> Otherwise cutoff is multiplied with cfactor, and we repeat. </li>
+      </ol>
+     </li>
+     <li> The devision of the M*M' ubcsat-runs into M packages is there so that
+     for data evaluation one doesn't need to wait until the end of the
+     ubcsat-run; but M shouldn't be too small, since reading the formula
+     takes time. </li>
+     <li> But in order to make this happen, actually the ubcsat-runs have to
+     happen in the background, only informing R about completion of one
+     package --- is this possible? </li>
+     <li> M=10 and M'=100 seems reasonable. </li>
+     <li> Instead of increasing the cutoff, one could also increase M:
+     perhaps if the average of osteps for the runs achieving the minimum is
+     less then q*cutoff, then multiplying M by rfactor is sensible, where
+     q = 0.4, and rfactor = 2. </li>
+     <li> The upper bound for M should perhaps be 80: If this is reached,
+     then M is reset to the start value, cutoff is multiplied by cfactor,
+     and the main search is continued. </li>
+    </ol>
+   </li>
+   <li> It seems that the procedure should always stop as soon as a solution
+   was found. </li>
+   <li> Everything is logged to files. </li>
+  </ul>
+
+
   \todo Selecting the best parameters
   <ul>
    <li> Given the a small set of algorithms, tuning of the UBCSAT parameters
