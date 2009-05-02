@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo greentao_3(3,3,3) = 137
   <ul>
-   <li> Symmetry breaking:
+   <li> DONE (available now)
+   Symmetry breaking:
     <ol>
      <li> The only available symmetry since the symmetry between the
      partitions, i.e., one vertex can be put into the first partition. </li>
@@ -54,6 +55,8 @@ BestSolution_Max = 1.000000
      <li> march_pl unclear. </li>
      <li> minisat2 determines unsatisfiability with 2257091 conflicts in less
      than 2 minutes. </li>
+     <li> Using symmetry breaking, actually 2686891 conflicts are needed;
+     let's assume that this is a random effect. </li>
     </ol>
    </li>
    <li> n=138
