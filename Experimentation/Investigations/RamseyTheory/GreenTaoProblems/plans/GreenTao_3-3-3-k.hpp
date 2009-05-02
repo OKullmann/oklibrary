@@ -79,7 +79,7 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo greentao_3(3,3,4) > 428
+  \todo greentao_3(3,3,4) > 430
   <ul>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
@@ -93,7 +93,10 @@ BestSolution_Max = 1.000000
    needed; seed=610774669). </li>
    <li> n=428: cutoff=50*10^6 found a solution after 17 runs (seed=621103542).
    </li>
-   <li> n=429: cutoff=50*10^6 </li>
+   <li> n=429: cutoff=50*10^6 yields 13 solutions in 358 runs (e.g.,
+   seed=2019144865). </li>
+   <li> n=430: cutoff=50*10^6 yields 1 solution in 276 runs (seed=3076580871).
+   </li>
    <li> n=431: cutoff=200*10^6 yields in 4 runs constantly min=1, and so
    does cutoff=50*10^6 in 10 runs; so let's postpone this. </li>
    <li> n=437
