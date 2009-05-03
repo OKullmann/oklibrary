@@ -15,8 +15,13 @@ License, or any later version. */
    <li> Compare with
    Satisfiability/Transformers/Generators/plans/TseitinTransformation.hpp.
    </li>
-   <li> See "Boolean circuits" in
-   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp. </li>
+   <li> See "Translation of boolean circuits into boolean CNF-clause-sets" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/StraightLinePrograms.hpp.
+   </li>
+   <li> Likely most developments should take place in module
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions, while in this module
+   only special considerations regarding formulas (not general circuits)
+   and applications of the general methods take place. </li>
   </ul>
 
 
@@ -38,6 +43,9 @@ License, or any later version. */
   \todo Optimisation
   <ul>
    <li> Implement optimisation by sharing of subexpressions. </li>
+   <li> But likely this has its proper home in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/StraightLinePrograms.hpp?
+   </li>
   </ul>
 
 */
