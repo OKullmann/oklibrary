@@ -115,7 +115,7 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
   </ul>
 
 
-  \todo Building version 1_38_0
+  \todo Building version 1_38_0 / 1_39_0
   <ul>
    <li> DONE (they are all built now)
    Building seems unproblematic, but likely this is due to the fact
@@ -128,7 +128,8 @@ for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
    -I/${OKPLATFORM}/ExternalSources/Boost/1_38_0+4.1.2/include/boost-1_38_0
    \endverbatim
    but it needs to be "boost-1_38". </li>
-   <li> Also our system for handling Boost is a mess. Where does "Boost"
+   <li> DONE ("Boost" etc. has been removed)
+   Also our system for handling Boost is a mess. Where does "Boost"
    get its value? </li>
    <li> DONE (see above)
    The problem of the wrong path "boost-1_38" can be temporarily fixed
@@ -214,12 +215,13 @@ bo = static_cast<bool>(a != y);
 
   \todo Problems with building Boost
   <ul>
-   <li> Apparently 1_39 is out soon, so we should wait until then, and
-   see how it works now:
+   <li> 1_39 is out, and we need to investigate the changes:
     <ol>
-     <li> Apparently now a standard Unix/Linux build is partially
+     <li> DONE (we seems to have now a working system)
+     Apparently now a standard Unix/Linux build is partially
      supported. </li>
-     <li> It would be great if all our needs (local installation, with
+     <li> DONE (it seems we got bjam working)
+     It would be great if all our needs (local installation, with
      local gcc-compiler) could be fulfilled in this way. </li>
     </ol>
    </li>
@@ -227,11 +229,12 @@ bo = static_cast<bool>(a != y);
    the only library-name mentioned is "Boost.Python", while its real name
    is "python". (Important for "--without-libraries=python".)
    </li>
-   <li> How to inform bjam about an alternative compiler? What about
+   <li> DONE (this is handled by a bjam-configuration-file)
+   How to inform bjam about an alternative compiler? What about
    <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ??
    </li>
    <li> DONE (this should be solved now by the corrected boost-building)
-  When building gcc with local versions, we should make sure that
+   When building gcc with local versions, we should make sure that
    the system-gcc doesn't interfere (especially important regarding linking).
     <ol>
      <li> On cs-wsok it seems that the system-gcc (4.0.2) interferes;
@@ -249,7 +252,10 @@ bo = static_cast<bool>(a != y);
    \endverbatim
    Does this indicate something we should worry about ?
    </li>
-   <li> DONE (to be ignored for now) On cs-wsok (64 bit) we get
+   <li> DONE (this seems to be solved now --- one needs to avoid having
+   multiple gcc's at system level, and for a new system-installation one needs
+   to disable the old version by renaming it)
+   On cs-wsok (64 bit) we get
    \verbatim
 ExternalSources> make boost-1_34_0
 
@@ -272,8 +278,11 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
   \todo Documentation
   <ul>
-   <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp. </li>
-   <li> Mention that the mcp-tools (mln, mmv) need to be installed (available in all distributions). </li>
+   <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp.
+   </li>
+   <li> DONE (we don't use them anymore)
+   Mention that the mcp-tools (mln, mmv) need to be installed (available 
+   in all distributions). </li>
   </ul>
 
 
