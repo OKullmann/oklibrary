@@ -137,7 +137,8 @@ statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simples
   </ul>
 
 
-  \todo Extracting prime implicate representations from the hitting-cls-representations
+  \todo Extracting prime implicate representations from the
+  hitting-cls-representations
   <ul>
    <li> As explained in "Hitting clause-sets" in
    ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
@@ -391,8 +392,20 @@ ncl_list_f(random_ip3);
 
   \todo Representations of the Sbox using additional variables
   <ul>
+   <li> Compare with "Investigating conditions and their representations"
+   in Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
+   <li> When using (only) CNF, likely the use of additional variables is
+   crucial. </li>
    <li> Most natural is to consider the Tseitin translation of the
-   DNF-representation. </li>
+   DNF-representation.
+    <ol>
+     <li> See
+    ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+     </li>
+     <li> Most natural should be to use dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
+    </ol>
+   </li>
    <li> One should also consider the various arithmetical representations
    of the Sbox. </li>
   </ul>
