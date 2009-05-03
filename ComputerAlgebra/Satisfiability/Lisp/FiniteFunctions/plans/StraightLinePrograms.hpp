@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding straight-line programs ("circuits")
 
 
-  \todo Straight-line programs
+  \todo The notion of a "straight-line program"
   <ul>
    <li> An important construction of a finite function is from a
    "gate list", which is a list L consisting of pairs [I,f], where
@@ -37,7 +37,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Boolean circuits
+  \todo The notion of a "boolean circuit"
   <ul>
    <li> Of interest is finding boolean circuits (%w.r.t. different bases) for
    given boolean functions. </li>
@@ -54,29 +54,30 @@ License, or any later version. */
    "Simplifications" in
    ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/general.hpp,
    is simplification of boolean circuits. </li>
-   <li> Translation into boolean CNF-clause-sets:
-    <ol>
-     <li> It seems there is basically only one translation known, the "Tseitin
-     translation". And for every other form of representations of
-     finite functions the CNF-translation seems always to work via
-     first constructing a circuit, and then representing this circuit
-     as CNF. </li>
-     <li> See
-     Satisfiability/Transformers/Generators/plans/TseitinTransformation.hpp
-     for the general considerations. </li>
-     <li> See
-     ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
-     for the special case of propositional formulas. </li>
-     <li> For each gate g in a circuit C, one represents the inputs i
-     by variables v_i, the output by variable o, and then represents
-     the equivalence o <-> g( ... v_i ...) by a CNF. </li>
-     <li> The conjunction of all these CNFs yields the whole CNF, where
-     once the values for all inputs are given, all other variables have
-     a unique value so that the whole CNF becomes true. </li>
-     <li> This also works for non-boolean circuits and various generalised
-     forms of non-boolean CNF-clause-sets. </li>
-    </ol>
-   </li>
+  </ul>
+
+
+  \todo Translation of boolean circuits into boolean CNF-clause-sets
+  <ul>
+   <li> It seems there is basically only one translation known, the "Tseitin
+   translation". And for every other form of representations of
+   finite functions the CNF-translation seems always to work via
+   first constructing a circuit, and then representing this circuit
+   as CNF. </li>
+   <li> See
+   Satisfiability/Transformers/Generators/plans/TseitinTransformation.hpp
+   for the general considerations. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+   for the special case of propositional formulas. </li>
+   <li> For each gate g in a circuit C, one represents the inputs i
+   by variables v_i, the output by variable o, and then represents
+   the equivalence o <-> g( ... v_i ...) by a CNF. </li>
+   <li> The conjunction of all these CNFs yields the whole CNF, where
+   once the values for all inputs are given, all other variables have
+   a unique value so that the whole CNF becomes true. </li>
+   <li> This also works for non-boolean circuits and various generalised
+   forms of non-boolean CNF-clause-sets. </li>
   </ul>
 
 */
