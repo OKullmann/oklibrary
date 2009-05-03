@@ -100,6 +100,10 @@ License, or any later version. */
    <li> More specifically, clause-sets representing the S-box and the
    various multiplications (with constants) are to be investigated upon
    their influence on SAT solving. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp
+   for the general perspective, where one starts from a CNF and derives
+   DNFs from it by partitioning, while we have already given the DNFs (but
+   not some original CNF). </li>
    <li> Defining an "r-based representation":
     <ol>
      <li> Consider a boolean condition C on variables V (that is, C(f)
