@@ -414,7 +414,9 @@ BestSolution_Max = 4.000000
    <li> From the experience with "greentao_3(3,3,3) = 137" (see
    Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp)
    it seems that minisat2 performs best here. </li>
-   <li> One one should employ symmetry breaking here. </li>
+   <li> One should employ symmetry breaking here. </li>
+   <li> Running minisat2 on GreenTao_sb_4-3_376.cnf for a day (32 restarts)
+   doesn't seem to make progress. </li>
   </ul>
 
 */

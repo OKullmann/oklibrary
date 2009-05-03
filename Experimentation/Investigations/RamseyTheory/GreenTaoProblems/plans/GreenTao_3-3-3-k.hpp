@@ -203,5 +203,12 @@ BestSolution_Max = 2.000000
    minimum=7. </li>
   </ul>
 
+
+  \todo Upper bounds
+  <ul>
+   <li> Running minisat2 on GreenTao_3-3-3-4_431.cnf for a day (33 restarts)
+   doesn't seem to make progress. </li>
+  </ul>
+
 */
 
