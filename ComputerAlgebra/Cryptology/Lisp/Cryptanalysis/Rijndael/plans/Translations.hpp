@@ -189,6 +189,7 @@ License, or any later version. */
    round-computations. </li>
   </ul>
 
+
   \todo Constraint Rewrite System
   <ul>
    <li> In translating AES to a CNF, one can define a rewrite system based
@@ -455,6 +456,7 @@ License, or any later version. */
    </li>
   </ul>
   
+
   \todo DONE Replace append_all with uaapply
   <ul>
    <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
