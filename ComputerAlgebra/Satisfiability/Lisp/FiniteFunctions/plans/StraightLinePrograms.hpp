@@ -83,11 +83,31 @@ License, or any later version. */
 
   \todo Other translations
   <ul>
-   <li> Likely we should have a module Transformers/Propositional, for the
-   various translations from propositional logic into CNF's etc. </li>
-   <li> See [Manolios, Vroon; SAT 2007] for a recent new translation. </li>
-   <li> in [Een, Mishchenko, Soerensson; SAT 2007] several translations from
-   different types of circuits to SAT are presented. </li>
+   <li> See [Manolios, Vroon; SAT 2007].
+    <ol>
+     <li> As types of circuits "Reduced Boolean Circuits" (RBCs),
+     "And-Inverter Graphs" (AIGs) and "NICE dags" are mentioned. </li>
+     <li> The basis for a nice-dag is given by negation, ite (if-then-else),
+     conjunction (n-ary?) and equivalence (n-ary?). And then there are
+     several restrictions similar to RBCs, to maximise "sharing". </li>
+     <li> A quadratic-time algorithm to translate such nice-dags into
+     CNF is presented, and implemented in their system "BAT" (see "BAT" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp). </li>
+     <li> The "Jackson-Sheridan" algorithm is mentioned, translating an RBC
+     into CNF. </li>
+     <li> And they also mention the "Brummayer-Biere" algorithm, from AIGs
+     to CNF. </li>
+    </ol>
+   </li>
+   <li> See [Een, Mishchenko, Soerensson; SAT 2007]
+    <ol>
+     <li> AIGs are considered: gates are binary conjunction, negation
+     and the constant true, where negation is handled by "signing" edges. </li>
+     <li> First rewrite-rules on AIGs are systematically investigated. </li>
+     <li> And then the CNF-translation happens via "technology mapping",
+     some form of optimisation process. </li>
+    </ol>
+   </li>
   </ul>
 
 */
