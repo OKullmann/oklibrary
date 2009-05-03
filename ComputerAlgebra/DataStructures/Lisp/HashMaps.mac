@@ -86,9 +86,9 @@ allinj_sm(A,B) := block(
     kpermutations(B,length(A))))$
 
 
-/* ***********************************************
-   * Hash maps as provided by the graphs-package *
-   ***********************************************
+/* *********************************
+   * Hash maps as provided by Lisp *
+   *********************************
 */
 
 /* ATTENTION: The following two functions are only for

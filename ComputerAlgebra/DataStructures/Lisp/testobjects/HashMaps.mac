@@ -41,9 +41,9 @@ okltest_allbij_sm(allbij_sm);
 okltest_allperm_sm(allperm_sm);
 okltest_allinj_sm(allinj_sm);
 
-/* ***********************************************
-   * Hash maps as provided by the graphs-package *
-   ***********************************************
+/* *********************************
+   * Hash maps as provided by Lisp *
+   *********************************
 */
 
 okltest_eq_ohmsm_p(eq_ohmsm_p);

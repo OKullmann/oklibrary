@@ -113,9 +113,9 @@ okltest_allinj_sm(f) := (
   true)$
 
 
-/* ***********************************************
-   * Hash maps as provided by the graphs-package *
-   ***********************************************
+/* *********************************
+   * Hash maps as provided by Lisp *
+   *********************************
 */
 
 /* A tool for checking whether an original hash-map and a set-map are identical
