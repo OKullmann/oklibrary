@@ -43,11 +43,14 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_7(2,...,2,3,3) >= 53
+  \todo greentao_7(2,...,2,3,3) = 53
   <ul>
    <li> n=52 trivially satisfiable by adaptnovelty+. </li>
    <li> n=53 poses some difficulties for minisat2 (learning
-   very long clauses). </li>
+   very long clauses), but in ~ 70m and 11222376 conflicts (27 restarts)
+   unsatisfiability was confirmed. </li>
+   <li> Using symmetry breaking
+   ("output_greentao_sb_stdname([2,2,2,2,2,3,3],53)"): </li>
   </ul>
 
 
