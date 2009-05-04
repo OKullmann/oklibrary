@@ -50,5 +50,45 @@ License, or any later version. */
    very long clauses). </li>
   </ul>
 
+
+  \todo greentao_8(2,...,2,3,3) >= 55
+  <ul>
+   <li> n=53 trivially satisfiable with cutoff=10000. </li>
+   <li> For n=54 however a cutoff=10^6 is needed (still easy). </li>
+   <li> n=55 yields constantly min=1 in 10 runs with cutoff=10^6 and
+   with cutoff=10*10^6. </li>
+  </ul>
+
+
+  \todo greentao_9(2,...,2,3,3) >= 60
+  <ul>
+   <li> n=55, cutoff=10^6: trivially satisfiable. </li>
+   <li> n=56, cutoff=10^6: trivially satisfiable. </li>
+   <li> n=57, cutoff=10^6: still 100% success (always with 10 runs). </li>
+   <li> n=58, cutoff=10^6: now 30% success. </li>
+   <li> n=59, cutoff=10^6: 70% success. </li>
+   <li> n=60, cutoff=10^6: 0% success, also with cutoff=10*10^6. </li>
+  </ul>
+
+
+  \todo greentao_10(2,...,2,3,3) >= 62
+  <ul>
+   <li> n=60, cutoff=10^6: 100% success. </li>
+   <li> n=61, cutoff=10^6: 100% success. </li>
+   <li> n=62, cutoff=10^6: 0% success, also with cutoff=10*10^6. </li>
+  </ul>
+
+
+  \todo greentao_11(2,...,2,3,3) >= 67
+  <ul>
+   <li> n=62, cutoff=10^6: 100% success. </li>
+   <li> n=63, cutoff=10^6: 100% success. </li>
+   <li> n=64, cutoff=10^6: 100% success. </li>
+   <li> n=65, cutoff=10^6: 80% success. </li>
+   <li> n=66, cutoff=10^6: 0% success, but 80% success with cutoff=10*10^6.
+   </li>
+   <li> n=67, cutoff=10*10^6: 0% success, also with cutoff=100*10^6. </li>
+  </ul>
+
 */
 
