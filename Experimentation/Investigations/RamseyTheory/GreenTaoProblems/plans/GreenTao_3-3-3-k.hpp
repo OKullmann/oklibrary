@@ -82,7 +82,7 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo greentao_3(3,3,4) > 432
+  \todo greentao_3(3,3,4) > 433
   <ul>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
@@ -120,7 +120,9 @@ BestSolution_Min = 0.000000
 BestSolution_Max = 2.000000
    \endverbatim
    </li>
-   <li> n=433: cutoff=60*10^6 </li>
+   <li> n=433: cutoff=60*10^6 found in 175 runs one solution
+   (seed=3663211116). </li>
+   <li> n=434: cutoff=60*10^6 </li>
    <li> n=437
     <ol>
      <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
