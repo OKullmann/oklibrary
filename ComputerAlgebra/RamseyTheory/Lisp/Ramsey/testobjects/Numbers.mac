@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 25.11.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,18 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
 
 okltest_ramsey(ramsey);
+okltest_ramseytrivle_a(ramseytrivle_a);
+okltest_ramseytrivle(ramseytrivle);
+okltest_ramseytriveq_a(ramseytriveq_a);
+okltest_ramseytriveq(ramseytriveq);
+okltest_ramseytrivk_a(ramseytrivk_a);
+okltest_ramseytrivk(ramseytrivk);
+okltest_ramseyg2_3_a(ramseyg2_3_a);
+okltest_ramseyg2_3(ramseyg2_3);
+okltest_ramseyg2_4_a(ramseyg2_4_a);
+okltest_ramseyg2_4(ramseyg2_4);
+okltest_ramseyg3_3_3_a(ramseyg3_3_3_a);
+okltest_ramseyg3_3_3(ramseyg3_3_3);
 okltest_ramsey_ub(ramsey_ub);
 okltest_ramsey_lb(ramsey_lb);
 
