@@ -93,5 +93,14 @@ License, or any later version. */
    <li> n=67, cutoff=10*10^6: 0% success, also with cutoff=100*10^6. </li>
   </ul>
 
+
+  \todo greentao_12(2,...,2,3,3) > 69
+  <ul>
+   <li> n=67, cutoff=10*10^6: 100% success. </li>
+   <li> n=68, cutoff=10*10^6: 100% success. </li>
+   <li> n=69, cutoff=10*10^6: 100% success. </li>
+   <li> n=70, cutoff=10*10^6: % success. </li>
+  </ul>
+
 */
 
