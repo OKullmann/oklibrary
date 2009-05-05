@@ -363,7 +363,13 @@ BestSolution_Max = 4.000000
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=376 to be processed on cs-oksvr with cutoff=10^9. </li>
+   <li> n=376
+    <ol>
+     <li> cutoff=10^9: In 200 runs no solution was found (average-min=1.81)
+     </li>
+     <li> cutoff=2*10^9 </li>
+    </ol>
+   </li>
    <li> n=378
     <ol>
      <li> cutoff=10^9 yields in 15 runs 14 times min=2 and once min=1. </li>

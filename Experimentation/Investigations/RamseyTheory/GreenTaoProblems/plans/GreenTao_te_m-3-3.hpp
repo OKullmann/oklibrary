@@ -50,7 +50,10 @@ License, or any later version. */
    very long clauses), but in ~ 70m and 11222376 conflicts (27 restarts)
    unsatisfiability was confirmed. </li>
    <li> Using symmetry breaking
-   ("output_greentao_sb_stdname([2,2,2,2,2,3,3],53)"): </li>
+   ("output_greentao_sb_stdname([2,2,2,2,2,3,3],53)"): It's actually harder
+   for minisat2, 15589496 conflicts and 28 restarts. It is understandable
+   that minisat2 is hard to steer, and thus can't exploit the additional
+   symmetry breaking rule, but again it gets a bit harder? </li>
   </ul>
 
 
