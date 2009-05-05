@@ -12,13 +12,17 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp. </li>
+   <li> See Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
+   for general plans at C++ level. </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
-   </li>
+   for experiments with vdW-problems. </li>
    <li> See
-    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
-    </li>
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
+   for experiments with GT-problems. </li>
+   <li> See Satisfiability/Transformers/Generators/ and
+   Satisfiability/Transformers/Generators/plans/general.hpp for several
+   generators for vdW- and GT-problems. </li>
   </ul>
 
 
