@@ -34,6 +34,8 @@ License, or any later version. */
    possible). </li>
    <li> First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
+   <li> Care needs to be taken that these measurements are not too
+   inefficient (currently they are!). </li>
   </ul>
 
 
@@ -41,15 +43,26 @@ License, or any later version. */
   <ul>
    <li> Likely, the outputs for van-der-Waerden and for Green-Tao problems
    should be very similar. </li>
+   <li> Regarding the naming of files, for the general (non-boolean, non-
+   diagonal) form we should provide another form which translates for
+   example [2,2,2,2,3,3,4] in "_7_2:4_3:2_4". </li>
   </ul>
 
 
-  \todo More than two parts
+  \todo DONE
+  More than two parts
   <ul>
    <li> Create non-boolean clause-sets for the van der Waerden problems and
    the Green-Tao problems with more than two parts. </li>
    <li> Compare "Generalised colouring problems" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Symmetry breaking for vdW-problems
+  <ul>
+   <li> The symmetry-breaking should happen as with the Green-tao problems,
+   only that the distinguished vertex is a central one. </li>
   </ul>
 
 
