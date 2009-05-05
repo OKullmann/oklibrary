@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans regarding %Ramsey numbers
 
 
+  \todo Write docus
+
+  
+  \todo Add known %Ramsey bounds
+  <ul>
+   <li> Some bounds are in the current system but all bounds known should be
+   represented in the system. </li>
+   <li> How to handle annotation with references for bounds? </li>
+   <li> See the running report of [Radziszowski, Small %Ramsey Numbers]. </li>
+   <li> Also in the eis-database we should find Ramsey-numbers. </li>
+   <li> References for the bounds; compare "Bibtex-database" in
+   OKlib/plans/Annotations.hpp. </li>
+  </ul>
+
+
   \todo %Ramsey numbers
   <ul>
    <li> The following needs to be updated according to the general naming
@@ -40,15 +55,6 @@ License, or any later version. */
    a lower and an upper bound on the %Ramsey number for this tuple. </li>
    <li> This function is now available, but needs 
     <ul>
-     <li> More bounds added:
-      <ol>
-       <li> See the running report of [Radziszowski, Small %Ramsey Numbers].
-       </li>
-       <li> Also in the eis-database we should find Ramsey-numbers. </li>
-      </ol>
-     </li>
-     <li> References for the bounds; compare "Bibtex-database" in
-     OKlib/plans/Annotations.hpp. </li>
      <li> The known general upper and lower bounds need to be integrated:
       <ol>
        <li> The system must be extensible. </li>
