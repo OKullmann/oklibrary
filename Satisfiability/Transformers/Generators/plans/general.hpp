@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transformers/Generators/plans/general.hpp
+  \file Satisfiability/Transformers/Generators/plans/general.hpp
   \brief Plans for the module for creating SAT problems from parameters
 
 
@@ -43,6 +43,12 @@ License, or any later version. */
    If output and/or boolean formulas is needed, then further
    transformers are to be used. The variables are tuples of values.
    </li>
+   <li> Also in Applications/RamseyTheory/ (see
+   Applications/RamseyTheory/plans/general.hpp) we have components related
+   to Ramsey theory --- what is the general organisation here? It seems that
+   the idea is to have the special generators in Applications/RamseyTheory/,
+   while in this module we have more "generic" generators, or generators for
+   which we don't have yet a better place. </li>
   </ul>
 
 

@@ -52,7 +52,7 @@ License, or any later version. */
      <li> S_t(x_1,...,x_n) in [Knuth, Volume 4, Fascicle 0]: "basic
      symmetric functions". </li>
     </ol>
-    It seems there is generally accepted name for them. How do we
+    It seems there is no generally accepted name for them. How do we
     call them? </li>
    <li> From these basic symmetric functions every symmetric boolean
    function can be computed.
@@ -82,6 +82,26 @@ License, or any later version. */
      program with n+1 output nodes (for the possible count-values), using a
      staircase-grid-structure. </li>
      </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo At-most-one as a CNF
+  <ul>
+   <li> Of special interest are the representations of amo_bf(n), that is,
+   that at most one of x+1, ..., x_n is 1. </li>
+   <li> The standard CNF-representation uses binom(n,2) clauses {-x_i,-x_j}.
+   This is also the set of prime implicates (all are essential). </li>
+   <li> There are n+1 prime implicants, namely those full clauses having
+   at most one positive literal, and all these are (again) essential. </li>
+   <li> Using new variables s_1, ..., s_{n-1}, an alternative
+   CNF-representation is given by the clauses
+    <ol>
+     <li> x_i -> s_i for 1 <= i <= n-1 </li>
+     <li> x_n -> -s_{n-1} </li>
+     <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
+     <li> s_i -> -x_{i+1} for 1 <= i <= n-1 </li>
     </ol>
    </li>
   </ul>

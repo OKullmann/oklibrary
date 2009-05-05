@@ -12,13 +12,17 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp. </li>
+   <li> See Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
+   for general plans at C++ level. </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
-   </li>
+   for experiments with vdW-problems. </li>
    <li> See
-    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
-    </li>
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
+   for experiments with GT-problems. </li>
+   <li> See Satisfiability/Transformers/Generators/ and
+   Satisfiability/Transformers/Generators/plans/general.hpp for several
+   generators for vdW- and GT-problems. </li>
   </ul>
 
 
@@ -30,6 +34,8 @@ License, or any later version. */
    possible). </li>
    <li> First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
+   <li> Care needs to be taken that these measurements are not too
+   inefficient (currently they are!). </li>
   </ul>
 
 
@@ -37,15 +43,41 @@ License, or any later version. */
   <ul>
    <li> Likely, the outputs for van-der-Waerden and for Green-Tao problems
    should be very similar. </li>
+   <li> Regarding the naming of files, for the general (non-boolean, non-
+   diagonal) form we should provide another form which translates for
+   example [2,2,2,2,3,3,4] in "_7_2:4_3:2_4". </li>
   </ul>
 
 
-  \todo More than two parts
+  \todo Alternative handling of parameter-values 2
+  <ul>
+   <li> A parameter value 2 means that the corresponding part can contain
+   at most one element. </li>
+   <li> Currently this gets (automatically) translated using the standard
+   representation of AMO for the vertices, using binom(n,2) binary clauses
+   (since two different vertices make always a progression of length 2). </li>
+   <li> An alternative is presented in "At-most-one as a CNF" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Thresholds.hpp,
+   and one should try this. </li>
+   <li> We should also provide standard generators for these two
+   AMO-representations. </li>
+  </ul>
+
+
+  \todo DONE
+  More than two parts
   <ul>
    <li> Create non-boolean clause-sets for the van der Waerden problems and
    the Green-Tao problems with more than two parts. </li>
    <li> Compare "Generalised colouring problems" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Symmetry breaking for vdW-problems
+  <ul>
+   <li> The symmetry-breaking should happen as with the Green-tao problems,
+   only that the distinguished vertex is a central one. </li>
   </ul>
 
 

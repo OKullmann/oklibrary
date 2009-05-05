@@ -50,7 +50,10 @@ License, or any later version. */
    very long clauses), but in ~ 70m and 11222376 conflicts (27 restarts)
    unsatisfiability was confirmed. </li>
    <li> Using symmetry breaking
-   ("output_greentao_sb_stdname([2,2,2,2,2,3,3],53)"): </li>
+   ("output_greentao_sb_stdname([2,2,2,2,2,3,3],53)"): It's actually harder
+   for minisat2, 15589496 conflicts and 28 restarts. It is understandable
+   that minisat2 is hard to steer, and thus can't exploit the additional
+   symmetry breaking rule, but again it gets a bit harder? </li>
   </ul>
 
 
@@ -91,6 +94,15 @@ License, or any later version. */
    <li> n=66, cutoff=10^6: 0% success, but 80% success with cutoff=10*10^6.
    </li>
    <li> n=67, cutoff=10*10^6: 0% success, also with cutoff=100*10^6. </li>
+  </ul>
+
+
+  \todo greentao_12(2,...,2,3,3) > 69
+  <ul>
+   <li> n=67, cutoff=10*10^6: 100% success. </li>
+   <li> n=68, cutoff=10*10^6: 100% success. </li>
+   <li> n=69, cutoff=10*10^6: 100% success. </li>
+   <li> n=70, cutoff=10*10^6: % success. </li>
   </ul>
 
 */

@@ -34,7 +34,7 @@ contradiction
   </ul>
 
 
-  \todo greentao_2(3,7) > 12500
+  \todo greentao_2(3,7) > 13750
   <ul>
    <li> n=5000: ubcsat::adaptnovelty+ finds it satisfiable with just a
    cutoff=10000. </li>
@@ -71,7 +71,15 @@ BestSolution_Max = 19.000000
     <ol>
      <li> A cutoff=100*10^6 yields in 10 runs a minimum of 2 and a maximum
      of 4. </li>
-     <li> cutoff=10^9 </li>
+     <li> cutoff=10^9:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000000 -i GreenTao_2-3-7_13750.cnf
+       sat  min     osteps     msteps       seed
+      1 0     2  162139042 1000000000 1446773825
+      2 0     1  481815784 1000000000 3328367368
+      3 1     0  569156743  569156743 1397463094
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=15000
@@ -96,6 +104,7 @@ BestSolution_Max = 19.000000
       3 0    25   57245388  100000000  293693136
      \endverbatim
      If this should be satisfiable then it's tough. </li>
+     <li> cutoff=10^9 </li>
     </ol>
    </li>
   </ul>

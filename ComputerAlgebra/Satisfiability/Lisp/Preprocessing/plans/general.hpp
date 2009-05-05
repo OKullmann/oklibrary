@@ -114,5 +114,47 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Finding and exploiting functional dependencies
+  <ul>
+   <li> Given a boolean function B in variables x_1, ..., x_n, variable
+   x_i is dependent on S <= {x_1,...,x_n} - {x_i} if for every partial
+   assignment phi with var(phi) = S the value of x_i in phi*B is forced
+   (has at most one possibility to make phi*B true). </li>
+   <li> If we find x_i dependent on {}, then we can just add the corresponding
+   unit-clause to the representation of F. </li>
+   <li> If x_i depends on {x_j}, and this is minimal, then either x_i = x_j
+   or x_i = -x_j, and this substitution should be performed in F, while
+   by adding the corresponding equivalence we maintain equivalence. </li>
+   <li> These simplifications are likely "always" beneficial. </li>
+   <li> What about a dependency on two variables?
+    <ol>
+     <li> One could always add a representation of the dependency, making
+     it explicit. </li>
+     <li> This is beneficial if some implications are now "easily" available;
+     one could check this. </li>
+     <li> But in general it seems not appropriate to perform some kind
+     of substitution. </li>
+     <li> But if we are producing a DNF-representation of B, then we could
+     project that to {x_1,...,x_n} - {x_i}, and add then the representation
+     of x_i = f(S). </li>
+     <li> This could also be done for BDD-representations. </li>
+    </ol>
+   </li>
+   <li> How to find functional dependencies efficiently?
+    <ol>
+     <li> Which representation of B is best here? </li>
+     <li> We can always systematically run through all the corresponding
+     partial assignments, and solve a SAT problem. </li>
+     <li> A possibility here is to use the r_k-reductions, which may yield
+     several forced assignments at once. </li>
+     <li> If B can be represented by a Horn-CNF (likely we should check
+     this?!), then at least the determining a specific dependency is
+     easy; see [Ibaraki, Kogan, Makino; 1999 + 2001; Artificial Intelligence]
+     for further considerations. </li>
+    </ol>
+   </ul>
+  </ul>
+
 */
 

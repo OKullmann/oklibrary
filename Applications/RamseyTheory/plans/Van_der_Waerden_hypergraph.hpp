@@ -14,6 +14,13 @@ License, or any later version. */
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   and
+   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   </li>
+   <li> See
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
+   and
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp.
    </li>
   </ul>
 
@@ -23,7 +30,9 @@ License, or any later version. */
    <li> Perhaps these plans should go into their own file (while this file
    is more for "legacy code". </li>
    <li> We need to write a program with functionality like arithprog_primes_hg
-   from the Maxima/Lisp level. </li>
+   from the Maxima/Lisp level (and all the other functions there in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac).
+   </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/plans/GreenTaoProblems.hpp
    for experiments. </li>

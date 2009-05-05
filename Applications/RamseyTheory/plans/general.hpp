@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file RamseyTheory/plans/general.hpp
+  \file Applications/RamseyTheory/plans/general.hpp
   \brief Plans for the module on %Ramsey theory (especially
   van der Waerden's problem)
 
@@ -33,6 +33,9 @@ License, or any later version. */
   <ul>
    <li> We need generators for all types of Ramsey-problems;
    for van der Waerden's problem we already started. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   for plans at the Maxima/Lisp level. </li>
    <li> Such translators should only produce a hypergraph-colouring problem
    (to be handled then by the general translations in module
    Hypergraphs/Colourings). </li>
