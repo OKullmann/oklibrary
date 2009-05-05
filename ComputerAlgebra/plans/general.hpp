@@ -276,5 +276,22 @@ allnjective_rel(M,n) :=
    <li> Including finite automata and Turing machines. </li>
   </ul>
 
+
+  \todo Finite model theory
+  <ul>
+   <li> See Logic/FiniteModelTheory/plans/general.hpp. </li>
+   <li> A natural starting point is Fagin's theorem and its context:
+   Translating problems in NP into existential second-order logic, and
+   translating such formulas into SAT-problems. </li>
+   <li> Also of interest here is the use of functions in existential
+   second-order logic: See [Grandjean, Buening, 1997], where problems
+   which can be recognised in linear time by nondeterministic machines
+   are translated to SAT using only linear many variables. As with Fagin's
+   theorem, the intermediate step is to translate the machine into a
+   logical formula. </li>
+   <li> See "NP-completeness" and "NP-completeness 2" in
+   Logic/ComplexityTheory/plans/general.hpp. </li>
+  </ul>
+
 */
 

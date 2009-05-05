@@ -89,6 +89,10 @@ output_vanderwaerden_stdname(L,n) := output_vanderwaerden(L,n,
    The variables are the first n prime numbers.
 */
 greentao2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_primes_hg(k,n))$
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first block: */
+greentao2_sb_fcs(k,n) := block([G : greentao2_fcs(k,n)],
+ [G[1], adjoin({-3}, G[2])])$
+
 
 /* More generally, create boolean formal clause-sets encoding the 
    partitionings of the first n prime numbers into two parts such that the
@@ -103,10 +107,39 @@ greentao2nd_fcs(k1,k2,n) := block(
 /* Now the general form, where L is a vdW-parameter-tuple: */
 greentao_nbfcsud(L,n) := 
  if emptyp(L) then [setify(primes_first(n)),{},{}] else
-  nbfclud2nbfcsud(gcol2sat_stdohg2stdnbfclud(
-   map(lambda([k], arithprog_primes_ohg(k,n)), L),
-   create_list(i,i,1,length(L))
-  ))$
+ block([LG : [], old_k : 0, old_hg : []],
+  for i : 1 thru length(L) do block([k : L[i]],
+    if k > old_k then (
+      old_hg : arithprog_primes_ohg(k,n),
+      old_k : k
+    ),
+    LG : endcons(old_hg,LG)
+  ),
+  return(nbfclud2nbfcsud(
+    gcol2sat_stdohg2stdnbfclud(LG,create_list(i,i,1,length(L))))))$
+
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first blocks
+   of sections of equal progression lengths: */
+greentao_sb_fcs(L,n) := block(
+ [FF : nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))), 
+  sbC : {}, old_k : 0],
+  for i : 1 thru length(L) do block([k : L[i]],
+    if k > old_k then (
+      sbC : adjoin(nbv_var(3,i), sbC),
+      old_k : k
+  )),
+  return([FF[1], adjoin(sbC,FF[2])]))$
+
+
+/* The diagonal case (m parts, arithmetic progressions of size k): */
+greentaod_nbfcsud(m,k,n) := 
+ if m=0 then [setify(primes_first(n)),{},{}] else
+ block([ G : arithprog_primes_ohg(k,n)],
+  nbfclud2nbfcsud(
+    gcol2sat_stdohg2stdnbfclud(create_list(G,i,1,m),create_list(i,i,1,m))))$
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first block: */
+greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
+ [G[1], union(setify(create_list({[3,i]},i,2,m)), G[2]), G[3]])$
 
 
 /* Output in Dimacs format (together with statistics and variable meanings):
@@ -156,6 +189,54 @@ c Variables and associated prime numbers and \"colours\":"),
     FF[2]))$
 output_greentao_stdname(L,n) := output_greentao(L,n,
   sconcat("GreenTao_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+output_greentao_sb(L,n,filename) := block(
+ [FF : standardise_fcs(greentao_sb_fcs(L,n))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (general form),
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+c Symmetry breaking by putting prime 3 into the first parts
+c   of constant segments of progression lengths.
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_sb_stdname(L,n) := output_greentao_sb(L,n,
+  sconcat("GreenTao_sb_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+
+/* The diagonal case: */
+output_greentaod(m,k,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_nbfcsud(m,k,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c ", m, " parts with arithmetic progressions of sizes ", k, "
+c and ", n, " prime numbers.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentaod_stdname(m,k,n) := output_greentaod(m,k,n,
+  sconcat("GreenTao_",m,"-",k,"_",n,".cnf"))$
+
+output_greentaod_sb(m,k,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_sb_nbfcsud(m,k,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c ", m, " parts with arithmetic progressions of sizes ", k, "
+c and ", n, " prime numbers. Symmetry breaking by putting prime 3 into part 1.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentaod_sb_stdname(m,k,n) := output_greentaod_sb(m,k,n,
+  sconcat("GreenTao_sb_",m,"-",k,"_",n,".cnf"))$
 
 
 /*!

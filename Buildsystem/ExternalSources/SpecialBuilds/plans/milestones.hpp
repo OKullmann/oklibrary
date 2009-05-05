@@ -16,6 +16,11 @@ License, or any later version. */
 
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Failure with Ecl when links are on the path
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Install the mmv package : DONE
@@ -30,8 +35,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Linker segmentation fault
     - Update Boost installation
+    - Linker segmentation fault : DONE
     - Bugs in Boost 1_34_1 : DONE
 
   \par
@@ -163,6 +168,11 @@ License, or any later version. */
    topics are handled:
     - Local installation of gfortran
     - Can't output graphics
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Update MHash-building
 
 
   \par Version 0.2.4 (installing e-mail services)

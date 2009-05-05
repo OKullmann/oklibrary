@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo greentao_3(3,3,3) = 137
   <ul>
-   <li> Symmetry breaking:
+   <li> DONE (available now)
+   Symmetry breaking:
     <ol>
      <li> The only available symmetry since the symmetry between the
      partitions, i.e., one vertex can be put into the first partition. </li>
@@ -54,6 +55,8 @@ BestSolution_Max = 1.000000
      <li> march_pl unclear. </li>
      <li> minisat2 determines unsatisfiability with 2257091 conflicts in less
      than 2 minutes. </li>
+     <li> Using symmetry breaking, actually 2686891 conflicts are needed;
+     let's assume that this is a random effect. </li>
     </ol>
    </li>
    <li> n=138
@@ -79,7 +82,7 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo greentao_3(3,3,4) > 428
+  \todo greentao_3(3,3,4) > 433
   <ul>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
@@ -93,9 +96,33 @@ BestSolution_Max = 1.000000
    needed; seed=610774669). </li>
    <li> n=428: cutoff=50*10^6 found a solution after 17 runs (seed=621103542).
    </li>
-   <li> n=429: cutoff=50*10^6 </li>
+   <li> n=429: cutoff=50*10^6 yields 13 solutions in 358 runs (e.g.,
+   seed=2019144865). </li>
+   <li> n=430: cutoff=50*10^6 yields 1 solution in 276 runs (seed=3076580871).
+   </li>
    <li> n=431: cutoff=200*10^6 yields in 4 runs constantly min=1, and so
-   does cutoff=50*10^6 in 10 runs; so let's postpone this. </li>
+   does cutoff=50*10^6 in 10 runs, but using 730 runs (cutoff=50*10^6)
+   one solution was found (seed=731527187). </li>
+   <li> n=432: found satisfiable by adaptnovelty+ with cutoff=50*10^6
+   (seed=769951307, osteps=40681058); 1 solution in 1000 runs:
+   \verbatim
+Clauses = 20506
+Variables = 1296
+TotalLiterals = 61906
+FlipsPerSecond = 753471
+BestStep_Mean = 15526608.088000
+Steps_Mean = 49990681.058000
+Steps_Max = 50000000.000000
+PercentSuccess = 0.10
+BestSolution_Mean = 1.320000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 2.000000
+   \endverbatim
+   </li>
+   <li> n=433: cutoff=60*10^6 found in 175 runs one solution
+   (seed=3663211116). </li>
+   <li> n=434: cutoff=60*10^6 </li>
    <li> n=437
     <ol>
      <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
@@ -193,6 +220,13 @@ BestSolution_Max = 2.000000
    <li> n=500 looks unsatisfiable: cutoff=100*10^3 and 10 runs yields a
    minimum=14, cutoff=10^6 yields minimum=8, cutoff=10*10^6 yields
    minimum=7. </li>
+  </ul>
+
+
+  \todo Upper bounds
+  <ul>
+   <li> Running minisat2 on GreenTao_3-3-3-4_431.cnf for a day (33 restarts)
+   doesn't seem to make progress. </li>
   </ul>
 
 */

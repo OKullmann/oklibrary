@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := Test # demo_read_graph
+programs := Test demo_read_graph
 
 source_libraries = $(boost_include_option_okl)
 

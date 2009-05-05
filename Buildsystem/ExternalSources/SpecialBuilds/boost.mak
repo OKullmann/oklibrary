@@ -28,7 +28,7 @@ boost : $(boost_directories_okl)
 	cp bin.*/bjam $(boost_base_build_dir_okl); $(postcondition) \
 	cd ../../..; $(postcondition) \
 	echo "using gcc : $(gcc_recommended_version_number_okl) : $(gcc_call_okl) : ;" > $(boost_base_build_dir_okl)/bjam_config; $(postcondition) \
-	$(boost_base_build_dir_okl)/bjam --user-config=$(boost_base_build_dir_okl)/bjam_config --prefix=$(boost_installation_dir_okl) --build-dir=$(boost_build_dir_okl) install --without-python --without-wave --without-graph; $(postcondition) \
+	$(boost_base_build_dir_okl)/bjam --user-config=$(boost_base_build_dir_okl)/bjam_config --prefix=$(boost_installation_dir_okl) --build-dir=$(boost_build_dir_okl) install --without-python --without-wave; $(postcondition) \
 	cd $(boost_link_library_okl); for F in $$(ls | awk '/.*gcc[0-9][0-9].*/'); do ln -s $${F} $$(echo $${F} | sed 's/gcc[0-9][0-9]/gcc/'); done; cd -; $(postcondition) \
 	cp -r boost.png boost.css index.htm more libs doc tools $(boost_doc_dir_okl); $(postcondition)
 

@@ -58,13 +58,107 @@ rots 18.34 min = 15 FlipsPerSecond = 79853
    <li> With cutoff=10^6:
    \verbatim
 adaptnovelty+ 9.41 min = 7
-samd min = 11.37 min = 7
+samd 11.37 min = 7
 gsat-tabu 11.35 min = 8
-rots min = 17.97 min = 15
+rots 17.97 min = 15
    \endverbatim
    So adaptnovelty+ should be clearly the best. </li>
    <li> One needs to investigate preprocessing (together with symmetry
-   breaking), whether this changes the picture. </li>
+   breaking), whether this changes the picture. Using n=400 as above.
+    <ol>
+     <li> Just the minisat2-preprocessing alone makes things far worse:
+     \verbatim
+> ubcsat-okl -runs 10 -cutoff 1000000 -alg adaptnovelty+ -i GreenTao_4-3-3-3-3_400-m2pp.cnf
+Clauses = 30761
+Variables = 1600
+TotalLiterals = 135432
+FlipsPerSecond = 256674
+BestStep_Mean = 368355.300000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 15.200000
+BestSolution_Median = 14.500000
+BestSolution_Min = 14.000000
+BestSolution_Max = 18.000000
+> ubcsat-okl -runs 10 -cutoff 1000000 -alg adaptnovelty+ -i GreenTao_4-3-3-3-3_400.cnf
+Clauses = 32364
+Variables = 1600
+TotalLiterals = 95092
+FlipsPerSecond = 542299
+BestStep_Mean = 481813.900000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 9.800000
+BestSolution_Median = 10.000000
+BestSolution_Min = 6.000000
+BestSolution_Max = 11.000000
+
+adaptnovelty+ 15.2 min = 14
+samd 80.4 min = 74
+gsat-tabu 80.5 min = 71
+rots 76.0 min = 72
+
+walksat 116.5 min = 110
+     \endverbatim
+     Once we have the tools available, we need actually to reconsider all
+     algorithms.
+     </li>
+     <li> Just symmetry-breaking alone:
+     \verbatim
+> ubcsat-okl -runs 10 -cutoff 1000000 -alg adaptnovelty+ -i GreenTao_sb_4-3_400.cnf
+Clauses = 32367
+Variables = 1600
+TotalLiterals = 95095
+FlipsPerSecond = 477555
+BestStep_Mean = 525055.500000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 9.700000
+BestSolution_Median = 10.000000
+BestSolution_Min = 9.000000
+BestSolution_Max = 11.000000
+
+adaptnovelty+ 9.7 min = 9
+samd 11.5 min = 9
+gsat-tabu 11.1 min = 9
+rots 17.8 min = 16
+     \endverbatim
+     So it doesn't seem to help (and perhaps it actually harms). Though one
+     should definitely apply unit-clause propagation, and see whether this
+     improves something. And again all algorithms need to be reexamined. </li>
+     <li> Both together:
+     \verbatim
+> ubcsat-okl -runs 10 -cutoff 1000000 -alg adaptnovelty+ -i GreenTao_sb_4-3_400-m2pp.cnf
+Clauses = 30488
+Variables = 1600
+TotalLiterals = 133986
+FlipsPerSecond = 281532
+BestStep_Mean = 463622.700000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 15.300000
+BestSolution_Median = 15.500000
+BestSolution_Min = 12.000000
+BestSolution_Max = 17.000000
+
+adaptnovelty+ 15.3 min = 12
+samd 83.9  min = 73
+gsat-tabu  min = 
+rots 79.2 min = 64
+     \endverbatim
+     </li>
+     <li> The first impression is that nothing can be achieved in this way.
+     Perhaps there is a fundamental difference between DPLL-like SAT solvers
+     and local-search SAT solvers: The former are strongest when some
+     "structure" exists (in the form of "attackable points"), while the latter
+     are strongest when the problems have a kind of "random" or "uniform"
+     "(non-)structure". </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -265,11 +359,31 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 4.000000
      \endverbatim
      </li>
-     <li> Finally using cutoff=10^9 in run 31 a solution (seed=1958151049,
+     <li> Finally using cutoff=10^9 in 31 runs a solution (seed=1958151049,
      osteps=765212681) was found. </li>
     </ol>
    </li>
-   <li> n=381 cutoff=2*10^9</li>
+   <li> n=376 to be processed on cs-oksvr with cutoff=10^9. </li>
+   <li> n=378
+    <ol>
+     <li> cutoff=10^9 yields in 15 runs 14 times min=2 and once min=1. </li>
+     <li> cutoff=4*10^9:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_4-3-3-3-3_378.cnf
+       sat  min     osteps     msteps       seed
+      1 0     1 3247511031 4000000000  969465860
+      2 0     2   26424461 4000000000 3292184256
+      3 0     2   41342213 4000000000 2086282835
+      4 0     1 2670401695 4000000000 3600327435
+     \endverbatim
+     Possibly this is satisfiable, but according to the general strategy
+     outlined in "Finding the n where a problem series changes from SAT to
+     UNSAT" in ExperimentSystem/plans/RunUBCSAT.hpp we first investigate
+     n=376. </li>
+    </ol>
+   </li>
+   <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
+   osteps ~ 500*10^6, so it looks unsatisfiable. </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
    <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
@@ -300,7 +414,9 @@ BestSolution_Max = 4.000000
    <li> From the experience with "greentao_3(3,3,3) = 137" (see
    Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp)
    it seems that minisat2 performs best here. </li>
-   <li> One one should employ symmetry breaking here. </li>
+   <li> One should employ symmetry breaking here. </li>
+   <li> Running minisat2 on GreenTao_sb_4-3_376.cnf for a day (32 restarts)
+   doesn't seem to make progress. </li>
   </ul>
 
 */

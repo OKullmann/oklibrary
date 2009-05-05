@@ -47,6 +47,8 @@ The following software needs to be installed:
  - X libraries (development libraries; needed by gnuplot).
  - bzip2 (development library; delivers "bzlib.h"; also, e.g., 
    "libbzip2" or "libbz2-devel").
+ - postgresql development library ("postgresql-devel").
+ - binutils development library ("binutils-devel").
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -233,9 +235,11 @@ local gcc).
 
 6) The Gmp library is installed locally.
 
-6) And further computer algebra systems installed are Gap, R and Sage.
+6) And further computer algebra systems installed are Gap and R.
 
-7) Yet the only SAT solver installed by default is Ubcsat.
+7) Yet the SAT solver installed by default are Ubcsat, minisat1, minisat2,
+minisat+, march_pl, satz215, survey_propagation and sat-grasp.
+(The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 
 After having installed these tools, via

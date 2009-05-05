@@ -26,6 +26,10 @@ License, or any later version. */
    http://homepages.fh-giessen.de/~hg11260/hp_p7_de.html
    seems to be a smaller program, translating various forms of propositional
    SAT problems into CNF, and/or solving them directly (based on SAT4J). </li>
+   <li> See "BAT" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp. </li>
+   <li> AIGER http://fmv.jku.at/aiger contains tools for handling AIGs
+   (special boolean circuits). </li>
   </ul>
 
 

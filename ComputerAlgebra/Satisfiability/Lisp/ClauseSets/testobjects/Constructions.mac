@@ -38,6 +38,7 @@ okltest_or_cs2(or_cs2);
 okltest_or_cs(or_cs);
 
 okltest_dual_cs(dual_cs);
+okltest_dualts_fcl(dualts_fcl);
 
 /* ****************************
    * Combinatorial operations *

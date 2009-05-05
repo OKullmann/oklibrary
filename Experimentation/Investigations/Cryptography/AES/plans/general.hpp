@@ -100,6 +100,10 @@ License, or any later version. */
    <li> More specifically, clause-sets representing the S-box and the
    various multiplications (with constants) are to be investigated upon
    their influence on SAT solving. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp
+   for the general perspective, where one starts from a CNF and derives
+   DNFs from it by partitioning, while we have already given the DNFs (but
+   not some original CNF). </li>
    <li> Defining an "r-based representation":
     <ol>
      <li> Consider a boolean condition C on variables V (that is, C(f)
@@ -132,8 +136,14 @@ License, or any later version. */
      <li> That module is not properly maintained: Actions for MG. </li>
      <li> A 0-based CNF-representation without additional variables is likely
      infeasible to use. </li>
-     <li> What about the Tseitin-translation of the Sbox-DNF? Could it be
-     0-based? Since the DNF-representation is hitting, it is 0-based. </li>
+     <li> What about the Tseitin-translation of the Sbox-DNF? 
+      <ol>
+       <li> Could it be 0-based? Since the DNF-representation is hitting, it
+       is 0-based. </li>
+       <li> Most natural should be to use dualts_fcl in
+       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
+      </ol>
+     </li>
      <li> Perhaps actually the hitting-CNFs representing the Sbox might have
      values, since we have special algorithms. So other reductions than just
      the r_k-reductions are useful to consider in general. </li>
