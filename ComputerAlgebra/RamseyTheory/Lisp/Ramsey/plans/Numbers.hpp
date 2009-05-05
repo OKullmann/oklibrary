@@ -36,7 +36,7 @@ License, or any later version. */
    </li>
    <li> A "Ramsey parameter tuple" is a tuple [[q_1,...,q_s],r], where s
    is the number of colours (all q_i and r are natural numbers). </li>
-   <li> The function ramsey_number(par_tuple) computes a pair, consisting of
+   <li> The function ramsey(r, par_tuple) computes a pair, consisting of
    a lower and an upper bound on the %Ramsey number for this tuple. </li>
    <li> This function is now available, but needs 
     <ul>
@@ -59,7 +59,7 @@ License, or any later version. */
          <li> and the function which from these other bounds computes
          the bounds. </li>
         </ul>
-        Then ramsey_number recursively invokes all registered bound functions,
+        Then ramsey recursively invokes all registered bound functions,
         and uses minimum resp. maximum.
        </li>
        <li> Either we provide pairs [lower bound, upper bound], or precise

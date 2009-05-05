@@ -51,6 +51,12 @@ ramsey(r,col_tuple) := block([col_tuple_sort : sort(col_tuple)],
     if bounds = false then return([0,inf]) else bounds))$
 
 
+/* Returns the upper bound given the result of a call to "ramsey" */
+ramsey_ub(n) := if listp(n) then last(n) else n$
+
+/* Returns the lower bound given the result of a call to "ramsey" */
+ramsey_lb(n) := if listp(n) then first(n) else n$
+
 /*!
 \endhtmlonly
 */

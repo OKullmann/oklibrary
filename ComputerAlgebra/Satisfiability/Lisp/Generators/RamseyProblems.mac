@@ -97,9 +97,9 @@ ramsey_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
    with n vertices which can be given equivalent labels in any N_R(p,p;2) < m
    problem for n <= m. */
 ramsey_symbr2_eqs(n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
-  while n >= last(ramsey_number([[p+1,p+1],2])) do p : p + 1,
-  while m >= last(ramsey_number([[3,3],2])) do 
-    if last(ramsey_number([[p,p],2])) <= m then block(
+  while n >= ramsey_ub(ramsey(2,[p+1,p+1])) do p : p + 1,
+  while m >= ramsey_ub(ramsey(2,[3,3])) do 
+    if ramsey_ub(ramsey(2,[p,p])) <= m then block(
       clique_l : cons(setmn((n-m) + 1, (n-m) + p), clique_l),
       m : m - p
     ) else p : p - 1,
@@ -130,7 +130,7 @@ ramsey2_sym_break_rec_r(V,f_v, f_vn, exc_edges) := block(
   len_vert : length(vertices),
   if len_vert > 1 then block(
      [edge_vars, edge_var, F_n, sub_hm : sm2hm({}), result_sm],
-    while len_vert >= last(ramsey_number([[p+1,p+1],2])) do p : p + 1,
+    while len_vert >= ramsey_ub(ramsey(2,[p+1,p+1])) do p : p + 1,
     if oklib_monitor then print("p = ", p),
     edge_vars : map(
       f_v, complete_g(setify(take_elements(p,listify(vertices))))[2]),
