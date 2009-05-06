@@ -20,6 +20,8 @@ License, or any later version. */
    <li> See
    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp.
    </li>
+   <li> See the various generators in Satisfiability/Transformers/Generators/
+   (they should all be moved to here). </li>
   </ul>
 
 
