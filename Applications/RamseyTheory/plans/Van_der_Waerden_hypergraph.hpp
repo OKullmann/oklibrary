@@ -25,46 +25,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Generator for Green-Tao problems
-  <ul>
-   <li> Perhaps these plans should go into their own file (while this file
-   is more for "legacy code". </li>
-   <li> We need to write a program with functionality like arithprog_primes_hg
-   from the Maxima/Lisp level (and all the other functions there in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac).
-   </li>
-   <li> See
-   Experimentation/Investigations/RamseyTheory/plans/GreenTaoProblems.hpp
-   for experiments. </li>
-   <li> Best we provide this functionality as Unix tools as well as at
-   library level. </li>
-   <li> Perhaps this hypergraph creation happens in
-   OKlib/Combinatorics/Hypergraphs, while here we plug these
-   hypergraphs together to get a clause-set. </li>
-   <li> The hypergraph can be output as a positive clause-set,
-   in DIMACS format, into a file. </li>
-   <li> From OKlib/Satisfiability/Transformers we get the tools
-   for standardising the names. </li>
-   <li> Perhaps the number-theoretical tools should go to
-   OKlib/Structures/NumberTheory.
-    <ol>
-     <li> Enumerating the primes:
-      <ol>
-       <li> Gmp has a "mpz_nextprime" function, by which we first create the
-       complete list of primes and the corresponding boolean array (for the
-       primality predicate). </li>
-       <li> Optionally, if one of the randomised tests is not secure, then the
-       whole computation is checked via a simple sieve of Erathostenes. </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
-   <li> Also important to be able to compute the various statistics on
-   arithmetical progressions of primes (without creating hypergraphs or
-   clause-sets). </li>
-  </ul>
-
-
   \todo Reactivate test system.
 
 
