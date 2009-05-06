@@ -26,6 +26,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Organisation
+  <ul>
+   <li> Likely we should create a submodule "Lisp/Generators/RamseyTheory".
+   </li>
+   <li> There then the Green-Tao functions should go into a separate file.
+   </li>
+   <li> Perhaps we should split the module, as we have it now with
+   Investigations/RamseyTheory; a question whether we should use
+   "Problems" as part of the module names or not (as in
+   ComputerAlgebra/RamseyTheory). </li>
+  </ul>
+
+
   \todo Statistics
   <ul>
    <li> As discussed in "Accompanying statistics" in
@@ -34,12 +47,30 @@ License, or any later version. */
    possible). </li>
    <li> First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
-   <li> Care needs to be taken that these measurements are not too
-   inefficient (currently they are!). </li>
   </ul>
 
 
-  \todo Systematics output and output-functions
+  \todo Statistics output for Green-Tao problems in the Dimacs-file
+  <ul>
+   <li> Care needs to be taken that these measurements are not too
+   inefficient --- currently they are. </li>
+   <li> If different progression-lengths are involved, then for each
+   involved hypergraph we should have data like standard_statistics_fcs. </li>
+   <li> This should happen in the hypergraph module. </li>
+   <li> The data for the whole clause-set could then be obtained by just
+   adding up the numbers. </li>
+   <li> The computation of standard_statistics_fcs should be made much
+   more efficient. </li>
+   <li> As discussed above in todo "Statistics", there should be specialised
+   functions (with standardised names) for computing the "standard" statistics.
+   </li>
+   <li> For Green-Tao data this doesn't help much, since there is no
+   faster computation than just "measuring", but we should establish
+   (and follow) a general scheme. </li>
+  </ul>
+
+
+  \todo Systematic output and output-functions
   <ul>
    <li> Likely, the outputs for van-der-Waerden and for Green-Tao problems
    should be very similar. </li>
