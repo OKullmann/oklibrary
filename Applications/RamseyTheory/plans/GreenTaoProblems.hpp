@@ -42,7 +42,21 @@ License, or any later version. */
    <li> The hypergraph can be output as a positive clause-set,
    in DIMACS format, into a file. </li>
    <li> From OKlib/Satisfiability/Transformers we get the tools
-   for standardising the names. </li>
+   for standardising the names.
+    <ol>
+     <li> On the other hand, there should be a standard mapping from
+     the original variables to natural numbers, so no general tools
+     should be used here. </li>
+     <li> This problem needs to be fixed at Maxima/Lisp level, and here
+     supported. </li>
+     <li> For boolean problems there aren't any choices (except of the
+     symmetry-breaking unit-clause). </li>
+     <li> But for the non-boolean problems we might consider different
+     translations from non-boolean to boolean problems. </li>
+     <li> And the special case of progression-length 2 could be handled
+     differently. </li>
+    </ol>
+   </li>
    <li> Perhaps the number-theoretical tools should go to
    OKlib/Structures/NumberTheory.
     <ol>
@@ -53,6 +67,8 @@ License, or any later version. */
        primality predicate). </li>
        <li> Optionally, if one of the randomised tests is not secure, then the
        whole computation is checked via a simple sieve of Erathostenes. </li>
+       <li> But we should ask the Gmp-people(?), up to which prime number
+       the results are known to be correct --- likely this is big enough! </li>
       </ol>
      </li>
     </ol>
