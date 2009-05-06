@@ -312,11 +312,94 @@ fi = function(v){exp( exp(C[1])^(-1/C[2]) * (-log(v))^(1/C[2]))}
 ft = function(m){exp( exp(C[1])^(-1/C[2]) * log(m)^(1/C[2]))}
    \endverbatim
    (where f(m) = fi(1/m)). </li>
-   <li> But the regression is still "too optimisic", namely
+   <li> But the regression is still "too optimistic", namely
    C[2] > 1, while it really needs to be < 1 (see "The behaviour of m -> 
    vanderwaerdend(m,3)" in
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_4-3-3-3-3.hpp).
    </li>
   </ul>
 
+
+  \todo Local search
+  <ul>
+   <li> sapsnr seems to find fastest the near-solutions (min=1). </li>
+   <li> However finding a solution is hard (tau_arithprog(3,100)=73):
+   \verbatim
+ubcsat-okl -alg sapsnr -runs 1000 -cutoff 10000 -i vdw_trans_3_100_73.cnf
+Clauses = 4158
+Variables = 407
+TotalLiterals = 13232
+FlipsPerSecond = 683527
+BestStep_Mean = 3524.913000
+Steps_Mean = 10000.000000
+Steps_Max = 10000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.325000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+
+> ubcsat-okl -alg sapsnr -runs 1000 -cutoff 100000 -i vdw_trans_3_100_73.cnf | tee Aus_3_100
+Clauses = 4158
+Variables = 407
+TotalLiterals = 13232
+FlipsPerSecond = 715359
+BestStep_Mean = 8514.983000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+
+> ubcsat-okl -alg sapsnr -runs 1000 -cutoff 1000000 -i vdw_trans_3_100_73.cnf | tee Aus_3_100
+Clauses = 4158
+Variables = 407
+TotalLiterals = 13232
+FlipsPerSecond = 708441
+BestStep_Mean = 8657.000000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   The problem should be the very low number of solutions. </li>
+   <li> The minisat2-preprocessor helps a bit here, but not much:
+   \verbatim
+> ubcsat-okl -alg sapsnr -runs 1000 -cutoff 10000 -i vdw_trans_3_100_73-m2pp.cnf | tee Aus_3_100 
+Clauses = 3935
+Variables = 407
+TotalLiterals = 12294
+FlipsPerSecond = 545852
+BestStep_Mean = 3360.347000
+Steps_Mean = 10000.000000
+Steps_Max = 10000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.291000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+
+> ubcsat-okl -alg sapsnr -runs 1000 -cutoff 100000 -i vdw_trans_3_100_73-m2pp.cnf | tee Aus_3_100
+Clauses = 3935
+Variables = 407
+TotalLiterals = 12294
+FlipsPerSecond = 663482
+BestStep_Mean = 8509.346000
+Steps_Mean = 100000.000000
+Steps_Max = 100000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   </li>
+   <li> So it least for this problem-formulation local search doesn't seem to
+   be successful. </li>
+  </ul>
 */
