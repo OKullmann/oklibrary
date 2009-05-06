@@ -63,6 +63,13 @@ License, or any later version. */
    <li> For n=54 however a cutoff=10^6 is needed (still easy). </li>
    <li> n=55 yields constantly min=1 in 10 runs with cutoff=10^6 and
    with cutoff=10*10^6. </li>
+   <li> The jump in minisat2's run time experienced above (from m=4 to
+   m=5) seems to indicate a factor of 100; so roughly 5 days. We should
+   give minisat2 10 days. </li>
+   <li> We should also try the alternative encoding as discussed in
+   "Alternative handling of parameter-values 2" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   </li>
   </ul>
 
 
@@ -97,12 +104,29 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_12(2,...,2,3,3) > 69
+  \todo greentao_12(2,...,2,3,3) >= 71
   <ul>
    <li> n=67, cutoff=10*10^6: 100% success. </li>
    <li> n=68, cutoff=10*10^6: 100% success. </li>
    <li> n=69, cutoff=10*10^6: 100% success. </li>
-   <li> n=70, cutoff=10*10^6: % success. </li>
+   <li> n=70, cutoff=10*10^6: 90% success. </li>
+   <li> n=71, cutoff=10*10^6: 0% success; 100 runs, cutoff=50*10^6:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 50000000 -i GreenTao_12-2-2-2-2-2-2-2-2-2-2-3-3_71.cnf
+Clauses = 30221
+Variables = 852
+TotalLiterals = 61766
+FlipsPerSecond = 347739
+BestStep_Mean = 387364.340000
+Steps_Mean = 50000000.000000
+Steps_Max = 50000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.000000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 1.000000
+   \endverbatim
+   </li>
   </ul>
 
 */
