@@ -82,7 +82,7 @@ BestSolution_Max = 1.000000
   </ul>
 
 
-  \todo greentao_3(3,3,4) > 433
+  \todo greentao_3(3,3,4) >= 434
   <ul>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
@@ -122,7 +122,28 @@ BestSolution_Max = 2.000000
    </li>
    <li> n=433: cutoff=60*10^6 found in 175 runs one solution
    (seed=3663211116). </li>
-   <li> n=434: cutoff=60*10^6 </li>
+   <li> n=434:
+    <ol>
+     <li> cutoff=60*10^6:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 60000000 -i GreenTao_3-3-3-4_434.cnf
+Clauses = 20673
+Variables = 1302
+TotalLiterals = 62410
+FlipsPerSecond = 754097
+BestStep_Mean = 15831901.495000
+Steps_Mean = 60000000.000000
+Steps_Max = 60000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.467000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+     \endverbatim
+     </li>
+     <li> cutoff=200*10^6 </li>
+    </ol>
+   </li>
    <li> n=437
     <ol>
      <li> cutoff=10*10^6 with 65 runs only achieved 5 times min=1. </li>
@@ -227,6 +248,14 @@ BestSolution_Max = 2.000000
   <ul>
    <li> Running minisat2 on GreenTao_3-3-3-4_431.cnf for a day (33 restarts)
    doesn't seem to make progress. </li>
+   <li> We now need to investigate GreenTao_3-3-3-4_434.cnf further. </li>
+   <li> Apparently the symmetry-breaking clause doesn't make things easier
+   for minisat2. </li>
+   <li> Running OKsolver_2002-O3-DNDEBUG / -m2pp with "-M -D20" for a while
+   doesn't show any progress (max_tree_depth=104 resp. 68 reached, and the bit
+   symmetry-breaking shouldn't make a big difference; the only positive thing
+   here is that some autarkies are found (in the non-preprocessed case; but
+   we can't see how efficient they are). </li>
   </ul>
 
 */
