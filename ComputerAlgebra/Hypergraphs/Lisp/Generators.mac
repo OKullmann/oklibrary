@@ -114,7 +114,7 @@ arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
 arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
   
-/* The arithmetic progressions of length k amongst the first n
+/* The list of arithmetic progressions of length k amongst the first n
    prime numbers which finish with the n-th prime number. */
 /* Inherits the list primes_rev_init_seg containing the first n
    prime numbers in reverse order. */
@@ -131,6 +131,20 @@ arithprog_primes_finish[k,n] := if n = 0 then []
      then res : cons(append(prog, [p2,p]), res)
    ),
    return(res))$
+/* Without memoisation: */
+arithprog_primes_finish_nm(k) := block([n : length(primes_rev_init_seg)],
+ if n = 0 then [] 
+ elseif k = 0 then []
+ else block([p : first(primes_rev_init_seg), res : []],
+   if k = 1 then return([[p]]),
+   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, p_last, prog],
+     if (p_last : p2 - (k-2) * d) < 2 then return(),
+     prog : create_list(p_last + i * d, i, 0, k - 3),
+     if every_s(lambda([n], primep(n)), prog)
+     then res : cons(append(prog, [p2,p]), res)
+   ),
+   return(res)))$
+
 
 /* All arithmetic progressions of length k amongst the first n
    prime numbers: */

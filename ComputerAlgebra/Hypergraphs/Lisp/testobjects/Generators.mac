@@ -48,6 +48,7 @@ okltest_arithprog_list_ohg(arithprog_list_ohg);
 */
 
 okltest_arithprog_primes_finish(arithprog_primes_finish);
+okltest_arithprog_primes_finish_nm(arithprog_primes_finish_nm);
 okltest_arithprog_primes(arithprog_primes);
 okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 
