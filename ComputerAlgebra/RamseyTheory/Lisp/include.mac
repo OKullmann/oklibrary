@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/Lisp/include.mac
-  \brief Inclusion file for Maxima Ramsey Theory functions
+  \brief Inclusion file for Maxima Ramsey theory functions
 
 Use by
 
@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/include.mac")$
 
