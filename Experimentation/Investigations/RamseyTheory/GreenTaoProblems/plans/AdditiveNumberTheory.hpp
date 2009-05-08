@@ -65,9 +65,11 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    current information around this subject; the related sequence is (now
    showing p_i instead of i):
    \verbatim
+L : [
 2, 3, 7, 23, 29, 157, 907, 1669, 1879, 2089, 
 249037, 262897, 725663, 36850999, 173471351, 198793279, 4827507229, 17010526363, 83547839407, 572945039351,
 6269243827111
+];
    \endverbatim
    </li>
    <li> This is available as A005115. </li>
@@ -75,7 +77,7 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    \verbatim
 for p in L do print(rank_primes(p));
 1,2,4,9,10,37,155,263,289,316,
-21966,23060,58464,2253121
+21966,23060,58464,2253121,9686320
    \endverbatim
    The problem here is to compute the rank of rather big prime numbers.
    With a C++ implementation we might get until the end. </li>
