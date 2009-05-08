@@ -98,7 +98,7 @@ greentaod(m,k) := if m=0 then 1
 greentaod_a(L) := vanderwaerdend_a(L)$
 
 greentaod1(k) :=
- if k <= 10 then [1,2,4,9,10,37,155,263,289,316][k]
+ if k <= 11 then [1,2,4,9,10,37,155,263,289,316,21966][k]
  else unknown$
 greentaod1_a(L) := if length(L)=1 then L else []$
 /* greentaod1(k) is the smallest n such that
@@ -112,6 +112,9 @@ compute_greentaod1(k) := block(
     primes_rev_init_seg : cons(p,primes_rev_init_seg)
   ),
   return(length(primes_rev_init_seg)))$
+/*
+  With memoisation this is computed by first_arithprog_primes(k).
+*/
 
 greentaod2(k) :=
   if k <= 5 then [1,3,23,79,528][k]
