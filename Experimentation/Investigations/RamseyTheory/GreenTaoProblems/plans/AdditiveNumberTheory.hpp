@@ -60,16 +60,25 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
   \todo Finding the first arithmetic progression
   <ul>
    <li> What seems very natural to me is k -> how many first primes are
-   needed to get an progression of length k; this is greentao_2(1,k). </li>
-   <li> This yields the sequence (starting with k=1)
-   1,2,4,9,10,37,155,263,289,316,21966,23060,58464,2253121. </li>
-   <li> Until k=10 this is easily computed by first_arithprog_primes. </li>
-   <li> This is A005115: 2, 3, 7, 23, 29, 157, 907, 1669, 1879,
-   2089, 249037, 262897, 725663, 36850999 (available up to k=21). </li>
-   <li> From this sequence S via map(rank_primes,S) we obtain the above
-   sequence (created by first_arithprog_primes). </li>
-   <li> There were considerations on the Maxima mailing list to make
-   this collection available: We should encourage them. </li>
+   needed to get an progression of length k; this is greentao_1(k). </li>
+   <li> See http://users.cybercity.dk/~dsl522332/math/aprecords.htm for
+   current information around this subject; the related sequence is (now
+   showing p_i instead of i):
+   \verbatim
+2, 3, 7, 23, 29, 157, 907, 1669, 1879, 2089, 
+249037, 262897, 725663, 36850999, 173471351, 198793279, 4827507229, 17010526363, 83547839407, 572945039351,
+6269243827111
+   \endverbatim
+   </li>
+   <li> This is available as A005115. </li>
+   <li> From this sequence S via map(rank_primes,S) we obtain the sequence:
+   \verbatim
+for p in L do print(rank_primes(p));
+1,2,4,9,10,37,155,263,289,316,
+21966,23060,58464,2253121
+   \endverbatim
+   The problem here is to compute the rank of rather big prime numbers.
+   With a C++ implementation we might get until the end. </li>
   </ul>
 
 

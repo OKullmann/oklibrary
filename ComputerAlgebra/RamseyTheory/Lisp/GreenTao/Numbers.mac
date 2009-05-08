@@ -98,9 +98,10 @@ greentaod(m,k) := if m=0 then 1
 greentaod_a(L) := vanderwaerdend_a(L)$
 
 greentaod1(k) :=
- if k <= 11 then [1,2,4,9,10,37,155,263,289,316,21966][k]
+ if k <= 14 then [1,2,4,9,10,37,155,263,289,316,21966,23060,58464,2253121][k]
  else unknown$
 greentaod1_a(L) := if length(L)=1 then L else []$
+/* For k >= 12 these numbers are obtained by ranking from A005115. */
 /* greentaod1(k) is the smallest n such that
    arithprog_primes_ohg(k,n)[2] is not empty, i.e., such that
    {p_1, ..., p_n} contains an arithmetic progression of length k:
