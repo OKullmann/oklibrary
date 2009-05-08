@@ -117,7 +117,15 @@ Program terminated in 99407.850 seconds.
 satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373672422 0 218 13362 0 305553394 82352337
    \endverbatim
    </li>
-   <li> k=16, n=238: </li>
+   <li> k=16, n=238:
+   \verbatim
+****the instance is unsatisfiable *****
+NB_MONO= 62751, NB_UNIT= 17632939133, NB_BRANCHE= 600383827, NB_BACK= 304409259
+Program terminated in 990144.910 seconds.
+satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 3501709276 0 238 15812 0 3305729737 824297599
+   \endverbatim
+   Stably a factor of 10. So with some parallelisation k=17 should be feasible
+   (the unsatisfiable case; around 3 months on a single processor). </li>
   </ul>
 
 
