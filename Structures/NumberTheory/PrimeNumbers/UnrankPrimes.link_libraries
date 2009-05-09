@@ -1,1 +1,0 @@
-echo ${gmp_link_option_okl} -lgmpxx
