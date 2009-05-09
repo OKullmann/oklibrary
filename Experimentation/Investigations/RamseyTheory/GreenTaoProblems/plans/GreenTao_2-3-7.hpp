@@ -82,6 +82,7 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
+   <li> n=14375 </li>
    <li> n=15000
     <ol>
      <li>
@@ -104,7 +105,14 @@ BestSolution_Max = 19.000000
       3 0    25   57245388  100000000  293693136
      \endverbatim
      If this should be satisfiable then it's tough. </li>
-     <li> cutoff=10^9 </li>
+     <li> cutoff=10^9 yields
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 1000000000 -i GreenTao_2-3-7_15000.cnf
+       sat  min     osteps     msteps       seed
+      1 0    19  760636579 1000000000 1303145336
+      2 0    19  960310544 1000000000 1126725316
+     \endverbatim
+     One would need cutoff=4*10^9, but perhaps it's unsatisfiable. </li>
     </ol>
    </li>
   </ul>
