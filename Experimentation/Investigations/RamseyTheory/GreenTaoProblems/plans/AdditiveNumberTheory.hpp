@@ -77,10 +77,10 @@ L : [
    \verbatim
 for p in L do print(rank_primes(p));
 1,2,4,9,10,37,155,263,289,316,
-21966,23060,58464,2253121,9686320,11015837,227225515
+21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,
+220525414079
    \endverbatim
-   The problem here is to compute the rank of rather big prime numbers.
-   With the C++ implementation "RankPrimes" we might get until the end. </li>
+   where starting with k=12 actually "RankPrimes" was used. </li>
   </ul>
 
 

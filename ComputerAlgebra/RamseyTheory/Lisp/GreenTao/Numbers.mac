@@ -98,9 +98,10 @@ greentaod(m,k) := if m=0 then 1
 greentaod_a(L) := vanderwaerdend_a(L)$
 
 greentaod1(k) :=
- if k <= 17 then [
+ if k <= 21 then [
   1,2,4,9,10,37,155,263,289,316,
-  21966,23060,58464,2253121,9686320,11015837,227225515
+  21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,
+  220525414079
  ][k]
  else unknown$
 greentaod1_a(L) := if length(L)=1 then L else []$
