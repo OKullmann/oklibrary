@@ -61,6 +61,8 @@ namespace {
   typedef std::map<mpz_class, mpz_class> table_type;
   typedef table_type::const_iterator iterator_type;
 
+  const int rounds_compositeness_test = 100;
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -106,7 +108,7 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << err_pre << "Prime numbers are natural numbers >= 2, but found " << prime << ".\n";
       return(errcode_prime1);
     }
-    if (mpz_probab_prime_p(prime.get_mpz_t(), 10) == 0) {
+    if (mpz_probab_prime_p(prime.get_mpz_t(), rounds_compositeness_test) == 0) {
       std::cerr << err_pre << "Number " << prime << " is not a prime number.\n";
       return(errcode_prime2);
     }
