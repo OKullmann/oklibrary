@@ -9,8 +9,8 @@
 
 # Needs a partial update.
 
-gmp_recommended_version_number_okl ?= 4.2.4
-gmp_supported_not_recommended_version_numbers_okl ?= 4.2.3
+gmp_recommended_version_number_okl ?= 4.3.0
+gmp_supported_not_recommended_version_numbers_okl ?= 4.2.4
 
 gmp_prefix_okl ?= gmp
 
