@@ -162,7 +162,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,3) > 375
+  \todo Lower bounds: greentao_4(3,3,3,3) > 376
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -367,7 +367,14 @@ BestSolution_Max = 4.000000
     <ol>
      <li> cutoff=10^9: In 200 runs no solution was found (average-min=1.81)
      </li>
-     <li> cutoff=2*10^9 </li>
+     <li> cutoff=2*10^9: In 200 runs 1 solution found (seed=3617483568;
+     average-min=1.725). Perhaps still cutoff=10^9 is sufficient, but more
+     runs are needed. </li>
+    </ol>
+   </li>
+   <li> n=377
+    <ol>
+     <li> cutoff=10^9 </li>
     </ol>
    </li>
    <li> n=378
