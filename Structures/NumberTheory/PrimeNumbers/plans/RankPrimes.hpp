@@ -15,7 +15,8 @@ License, or any later version. */
 
   \todo Enhance the table
   <ul>
-   <li> There should be Internet resources. </li>
+   <li> For ranks from 10^6 to 50*10^6
+   http://primes.utm.edu/lists/small/millions/ was used. </li>
   </ul>
 
 
