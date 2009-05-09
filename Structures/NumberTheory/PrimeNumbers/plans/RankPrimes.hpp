@@ -17,6 +17,8 @@ License, or any later version. */
   <ul>
    <li> For ranks from 10^6 to 50*10^6
    http://primes.utm.edu/lists/small/millions/ was used. </li>
+   <li> All the primes ranks up to 10^12 are available at
+   http://primes.utm.edu/nthprime/index.php . </li>
   </ul>
 
 
