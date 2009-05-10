@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.18 (29.4.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.20 (10.5.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -28,17 +28,15 @@ License, or any later version. */
     - Handling of different versions : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Installation of Mpfr
-    - C++ : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Update Boost installation
     - Linker segmentation fault : DONE
     - Bugs in Boost 1_34_1 : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - C++ : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
@@ -150,6 +148,17 @@ License, or any later version. */
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Update Boost installation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Application RankPrimes is slower with version 4.3.0
+    - Installation of Mpfr
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
