@@ -29,14 +29,14 @@ License, or any later version. */
   </ul>
 
 
-  \todo Documentation
+  \todo Documentation : DONE
   <ul>
    <li> Under SpecialBuilds/docus we need docus-files for every
    external source:
     <ol>
-     <li> cmake </li>
-     <li> mhash (remark about corrected files; content of package) </li>
-     <li> mpfr </li>
+     <li> cmake : DONE (postponed until we update installation) </li>
+     <li> mhash : DONE </li>
+     <li> mpfr : DONE (postponed until we update installation) </li>
      <li> asciidoc : DONE </li>
      <li> %boost : DONE </li>
      <li> clisp : DONE </li>
@@ -54,20 +54,35 @@ License, or any later version. */
      <li> valgrind : DONE </li>
     </ol>
    </li>
-   <li> For each of these docus-files there is a link from
+   <li> DONE
+   For each of these docus-files there is a link from
    ExternalSources/docus/general.hpp. </li>
   </ul>
 
 
   \todo Complete documentation
   <ul>
-   <li> Most of the current docus are not complete. </li>
+   <li> For the following external sources, docus are missing:
+    <ol>
+     <li> CMake </li>
+     <li> Coq </li>
+     <li> March </li>
+     <li> Minisat </li>
+     <li> Mpfr </li>
+     <li> Satz </li>
+     <li> SP </li>
+    </ol>
+   </li>
+   <li> Most of the current docus are not complete (or are not up-to-date).
+   </li>
   </ul>
 
 
   \todo Update MHash-building
   <ul>
    <li> This should be similar to Boost and Gmp. </li>
+   <li> In the docus, we should make a remark about corrected files and
+   about the content of the package. </li>
   </ul>
 
 
