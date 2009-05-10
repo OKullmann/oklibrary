@@ -54,6 +54,12 @@ License, or any later version. */
    for minisat2, 15589496 conflicts and 28 restarts. It is understandable
    that minisat2 is hard to steer, and thus can't exploit the additional
    symmetry breaking rule, but again it gets a bit harder? </li>
+   <li> OKsolver_2002 can solve it in 3.8 days:
+   \verbatim
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=7 initial_number_of_variables=371 initial_number_of_clauses=8415 initial_number_of_literal_occurrences=17453 running_time(s)=331416.7 number_of_nodes=176784736 number_of_single_nodes=1480233 number_of_quasi_single_nodes=0 number_of_2-reductions=2961445595 number_of_pure_literals=0 number_of_autarkies=1108523 number_of_missed_single_nodes=3399131 max_tree_depth=63 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=15885525871 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=8004 file_name=GreenTao_sb_7-2-2-2-2-2-3-3_53.cnf
+   \endverbatim
+   Interesting to understand the autarkies and the single nodes. </li>
   </ul>
 
 
