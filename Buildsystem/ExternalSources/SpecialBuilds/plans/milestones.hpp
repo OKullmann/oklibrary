@@ -31,6 +31,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Installation of Mpfr
+    - C++ : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -341,11 +342,6 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
    topics are handled:
     - CMake-documentation building
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - C++
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following
