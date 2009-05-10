@@ -105,10 +105,30 @@ License, or any later version. */
   </ul>
 
 
+  \todo Symmetry breaking for GT-problems
+  <ul>
+   <li> For a progression-length k (relevant for all parts i with k_i=k)
+   we want to use the vertex occurring most often. </li>
+   <li> Then the current implementations, which just chose prime 3, are
+   defective, since only for k=3 this is the right choice. </li>
+   <li> For k=2 we just have a complete graph, and so all vertices are
+   equal. </li>
+   <li> For prime k >= 3 it seems that k itself occurs most often.
+   This should be due to the exceptional status of k as basis of
+   progressions of length k (their slopes doesn't need to be a multiple
+   of product_primes(k), as it is otherwise the case). </li>
+   <li> For non-prime k >= 3 the first impression is, that the vertex
+   with index roughly 0.42*n for k=4 and roughly 0.3*n for k=6 occurs most
+   often; this needs to investigated. </li>
+  </ul>
+
+
   \todo Symmetry breaking for vdW-problems
   <ul>
    <li> The symmetry-breaking should happen as with the Green-tao problems,
    only that the distinguished vertex is a central one. </li>
+   <li> This needs to be investigated; it seems that floor(n/2)-1 is
+   always a vertex with maximal degree. </li>
   </ul>
 
 
