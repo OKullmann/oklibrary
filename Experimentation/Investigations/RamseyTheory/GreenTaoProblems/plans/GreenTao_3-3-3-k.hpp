@@ -141,7 +141,29 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 2.000000
      \endverbatim
      </li>
-     <li> cutoff=200*10^6 </li>
+     <li> cutoff=200*10^6:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 200000000 -i GreenTao/GreenTao_3-3-3-4_434.cnf
+Clauses = 20673
+Variables = 1302
+TotalLiterals = 62410
+FlipsPerSecond = 758972
+BestStep_Mean = 58144942.258000
+Steps_Mean = 200000000.000000
+Steps_Max = 200000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.070000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+     \endverbatim
+     </li>
+     <li> Let's finally consider a higher number of runs, 20000, but with just
+     cutoff=50*10^6:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 20000 -cutoff 50000000 -i GreenTao/GreenTao_3-3-3-4_434.cnf -solve | tee GreenTao_4-3.out
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=437
