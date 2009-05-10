@@ -32,6 +32,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Hypergraphs of arithmetic progressions
+  <ul>
+   <li> The current implementation of arithprog_ohg/arithprog_hg can only
+   handle small values of n --- otherwise we get a stack-size error!
+   \verbatim
+C-STACK overflow at size 139456. Stack can probably be resized.
+   \endverbatim
+   (this on a 32-bit machine with 2GB memory). </li>
+   <li> Perhaps this is due to Ecl --- can we grow the stack size?! </li>
+   <li> On the other hand, a non-recursive solution is also very easy to
+   produce. </li>
+   <li> However, such little problems shouldn't pose a problem! </li>
+  </ul>
+
+
   \todo Sudoku
   <ul>
    <li> Create Sudoku-hypergraphs (such that the Sudoku-problems can be
