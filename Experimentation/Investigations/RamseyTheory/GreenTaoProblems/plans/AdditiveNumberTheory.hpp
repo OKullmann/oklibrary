@@ -81,6 +81,42 @@ for p in L do print(rank_primes(p));
 220525414079
    \endverbatim
    where starting with k=12 actually "RankPrimes" was used. </li>
+   <li> Plot the data (using R) suggests that (log,log(log))-transformation
+   for (x,y) might be appropriate (that is, a model y = exp(a * x^b)):
+   \verbatim
+y = c(4,9,10,37,155,263,289,316,21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,220525414079)
+x = 3:21
+plot(log(x),log(log(y)))
+
+m0 = lm(log(log(y)) ~ log(x))
+summary(m0)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.48793    0.11902  -12.50 5.37e-10 ***
+log(x)       1.54569    0.04925   31.38  < 2e-16 ***
+Residual standard error: 0.1191 on 17 degrees of freedom
+Multiple R-squared: 0.983,      Adjusted R-squared: 0.982
+F-statistic: 984.9 on 1 and 17 DF,  p-value: < 2.2e-16
+
+exp(coefficients(m0)[1])
+0.2258395
+coefficients(m0)[2]
+1.545693
+s = c(a = 0.2258395, b = 1.545693)
+m = nls(y ~ exp(a * x^b), start = s)
+
+summary(m)
+  Estimate Std. Error t value Pr(>|t|)
+a 0.084184   0.002663   31.61   <2e-16 ***
+b 1.884508   0.010393  181.32   <2e-16 ***
+Residual standard error: 273300000 on 17 degrees of freedom
+Number of iterations to convergence: 18
+Achieved convergence tolerance: 7.111e-06
+
+plot(x,log(y))
+lines(x,log(predict(m)))
+lines(x,exp(predict(m0)))
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -91,7 +127,8 @@ for p in L do print(rank_primes(p));
    <li> greentao_2(2,3) = 7. </li>
    <li> greentao_2(2,4) = 14. </li>
    <li> greentao_2(2,5) = 31. </li>
-   <li> This sequence is apparently not in that "online encyclopedia". </li>
+   <li> This sequence is apparently not in that "online encyclopedia" (also
+   not after applying unrank_primes to it, obtaining [3,5,17,43,127]). </li>
   </ul>
 
 */
