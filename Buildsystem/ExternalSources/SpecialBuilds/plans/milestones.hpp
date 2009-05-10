@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.20 (10.5.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.21 (10.5.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
@@ -24,7 +24,7 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Install the mmv package : DONE
-    - Documentation
+    - Documentation : DONE
     - Handling of different versions : DONE
 
   \par
@@ -150,6 +150,11 @@ License, or any later version. */
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
 
   \par
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Complete documentation
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Update Boost installation
@@ -248,7 +253,6 @@ License, or any later version. */
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
-    - Complete documentation
     - Enable local/global installation for all packages
     - Organisation of links
 
