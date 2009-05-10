@@ -16,6 +16,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Application RankPrimes is slower with version 4.3.0
+  <ul>
+   <li> The Gmp webpage says that mpz_nextprime is now "much faster". </li>
+   <li> However, running RankPrimes-O3-DNDEBUG with parameter "unrank"
+   and with input 999999, version 4.2.4 needs stably ~25 seconds (on
+   csltok), while it needs ~37 seconds with 4.3.0. </li>
+   <li> Notify the Gmp mailing list! </li>
+   <li> At this occassion one could also ask that they provide
+   functions for ranking and unranking (applying sieves for larger
+   intervals seems to be much faster than running it again and
+   again). </li>
+  </ul>
+
+
   \todo Installation of Mpfr
   <ul>
    <li> Since apparently mpfr belongs to gmp, could it be automatically
