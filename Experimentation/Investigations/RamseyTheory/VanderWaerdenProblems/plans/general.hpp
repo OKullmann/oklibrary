@@ -17,6 +17,12 @@ License, or any later version. */
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
    <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
    </li>
+   <li> External pages:
+    <ol>
+     <li> http://www.st.ewi.tudelft.nl/sat/waerden.php contains lower bounds
+     and methods how to get them. </li>
+    </ol>
+   </li>
   </ul>
 
 
