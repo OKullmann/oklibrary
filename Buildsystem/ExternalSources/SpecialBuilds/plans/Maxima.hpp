@@ -28,12 +28,51 @@ License, or any later version. */
    such a link at compile time, we get the problem, while without we don't).
    </li>
    <li> This doesn't go away with Ecl version 9.4.1. </li>
-   <li> MG should continue to communicate with the Maxima mailing list, 
+   <li> MG has sent a further e-mail detailing the problem with the following
+   steps to reproduce:
+   <ol>
+    <li>Setup Directory and Symlink
+    \verbatim
+> mkdir Test
+> ln -s `pwd`/Test TestSym
+> cd TestSym
+    \endverbatim
+    </li>
+    <li> Install Ecl
+    \verbatim
+> tar zxvf ecl-9.4.1.tar.gz
+> cd ecl-9.4.1
+> mkdir install
+> LDFLAGS=-Wl,-rpath=`pwd`/install/lib ./configure --prefix=`pwd`/install/
+> make
+> make install
+> cd ..
+    \endverbatim
+    </li>
+    <li> Install Maxima
+    \verbatim
+> tar zxvf maxima-5.18.1.tar.gz
+> cd maxima-5.18.1
+> mkdir install
+> LANG=C ./configure --prefix=`pwd`/install
+--with-ecl=`pwd`/../ecl-9.4.1/install/bin/ecl --enable-ecl && LANG=C make &&
+make check && make install
+    \endverbatim
+    </li>
+    <li> Run Maxima and try to load something
+    \verbatim
+> ./install/bin/maxima
+> load(descriptive);
+   \endverbatim
+    </li>
+   </ol>
+   </li>
+   <li> A temporary workaround is just not to use links like the above
+   shortcut to the OKplatform directory. </li>
+   <li> DONE MG should continue to communicate with the Maxima mailing list, 
    specifying exactly how the problem can be reproduced (the symbolic
    link must be present at compile time; the build-instructions must be
    precisely specified (independent of the OKlibrary)). </li>
-   <li> A temporary workaround is just not to use links like the above
-   shortcut to the OKplatform directory. </li>
   </ul>
 
 
