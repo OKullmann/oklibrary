@@ -374,7 +374,8 @@ BestSolution_Max = 4.000000
    </li>
    <li> n=377
     <ol>
-     <li> cutoff=10^9 </li>
+     <li> cutoff=10^9: 200 runs with cutoff=10^9 yield no solution (and
+     an average-min=1.98). </li>
     </ol>
    </li>
    <li> n=378
