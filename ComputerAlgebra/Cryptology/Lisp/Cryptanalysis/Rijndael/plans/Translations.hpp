@@ -10,6 +10,16 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Add canonical translations for Sbox and Field multiplications
+  <ul>
+   <li> See dual_fcl in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac . </li>
+   <li> See Representations of the Sbox using additional variables in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   </li>
+  </ul>
+
+
   \todo Write tests for all functions
   <ul>
    <li> Tests are needed for the following functions
