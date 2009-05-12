@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.3.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -197,29 +197,41 @@ License, or any later version. */
   </table>
 
 
-  <h1> Customisation of gcc and Boost </h1>
+  <h1> Customisation of gcc and libraries </h1>
 
-  Regarding the usage of the main compiler "gcc" and main external library
-  "Boost", currently we have:
+  Compilation happens via the default version of the local gcc (i.e.,
+  the gcc provided by the OKlibrary), using the default versions of
+  the appropriate local libraries (also provided by the OKlibrary):
   <ul>
-   <li> The current default is to use the locally installed gcc as well as the
-   locally installed %boost (under $(ExternalSources)), each in the
-   recommended version. </li>
-   <li> Locally installed %boost versions are compiled with some locally
-   installed gcc. </li>
-  </ul>
-  The versions of gcc and %boost can be changed as follows:
-  <ul>
-   <li> Either change the local version of %boost (typically only useful in
-   transition periods), while the build system chooses the recommended
-   local gcc. </li>
-   <li> Or change the local version of gcc, while the build system
-   chooses the appropriate local variant of the recommended %boost version. </li>
-   <li> Or change both; in case the appropriate versions of gcc and Boost
-   (the latter compiled with that gcc-version) need to available. </li>
+   <li> Examples for libraries provided by the OKlibrary are
+    <ol>
+     <li> Boost (see Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp)
+     </li>
+     <li> Gmp (see Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp)
+     </li>
+     <li> Mhash (see Buildsystem/ExternalSources/SpecialBuilds/docus/Mhash.hpp)
+     </li>
+    </ol>
+   </li>
+   <li> Versions of gcc and the (external) libraries can be changed,
+   however then the user must make sure that gcc and these libraries
+   have been built before (by the OKlibrary, and just using the
+   same version-number settings; see below). </li>
   </ul>
 
-  The make-variables to be set on the command-line are as follows:
+  The versions of gcc and for example %boost can be changed as follows:
+  <ul>
+   <li> Either change the (local) version of %boost (typically only useful in
+   transition periods), while the build system chooses the default
+   (local) gcc. </li>
+   <li> Or change the (local) version of gcc, while the build system
+   chooses the default variant of the recommended (local) %boost version,
+   compiled with the chosen gcc-version. </li>
+   <li> Or change both. </li>
+  </ul>
+
+  The make-variables to be set on the command-line are as follows (again
+  considering %boost as an example):
   <table>
    <tr>
     <td> <code> gcc_recommended_version_number_okl=V </code> </td>
@@ -228,10 +240,10 @@ License, or any later version. */
     is the recommended version. </td>
    </tr>
    <tr>
-    <td> <code> %boost_version_number=V </code> </td>
+    <td> <code> %boost_recommended_version_number_okl=V </code> </td>
     <td> Use the locally installed %boost with version V (for example
-    <code>boost_version_number=1_34_0</code>); default value is the
-    recommended version. </td>
+    <code>boost_recommended_version_number_okl=1_34_0</code>); default value
+    is the recommended version. </td>
    </tr>
   </table>
 
@@ -239,11 +251,11 @@ License, or any later version. */
   <ul>
    <li>
     \verbatim
-oklib all check new_check app_tests html boost_version_number=1_34_1 test_level=full
+oklib all check new_check app_tests html boost_recommended_version_number_okl=1_34_1 test_level=full
     \endverbatim
-    is for using the locally installed Boost-library, where we first compile
-    everything, then run all tests, and finally create the documentation,
-    and this all with test-level "full". </li>
+    is for using the specified version of the Boost-library, where we first
+    compile everything, then run all tests, and finally create the
+    documentation, and this all with test-level "full". </li>
   </ul>
 
 

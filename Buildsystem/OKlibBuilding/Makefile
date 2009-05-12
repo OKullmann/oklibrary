@@ -22,6 +22,8 @@
 # Enviroment/Make build system variables
 # ===============================================================================
 #
+# THE FOLLOWING NEEDS UPDATE!
+#
 # The most important build system parameters come as environment/Make variable
 # pairs. 
 # 

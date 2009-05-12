@@ -203,5 +203,41 @@ License, or any later version. */
    propagation. </li>
   </ul>
 
+
+  \todo Converting CNFs to DNFs
+  <ul>
+   <li> This should be the special domain of look-ahead solvers. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/SplittingTrees.hpp.
+   </li>
+   <li> See Satisfiability/Algorithms/AllSolutions/plans/general.hpp for
+   plans at the C++-level. </li>
+   <li> An important application is discussed in
+   ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp. </li>
+   <li> In a certain sense the task is a special case of the problems discussed
+   in ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp,
+   however it seems to have a different focus. </li>
+   <li> The task of computing the transversal hypergraph is related, but
+   different, namely this is computing (for a CNF) the set of *all*
+   prime implicantes (minimal satisfying assignments), while here we typically
+   want to minimise the number of clauses. Of course, knowing all prime
+   implicants can help, but this restricts the problem to only small cases
+   (i.e., "finite functions"). </li>
+   <li> MG put at some time some heuristics into
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac, but this
+   is clearly not an appropriate place. </li>
+   <li> The whole tau-methodology should be applicable here (especially
+   since we are computing the whole tree; however now we are looking
+   at satisfiable cases). </li>
+   <li> ComputerAlgebra/Satisfiability/Lisp/Counting/plans/general.hpp is
+   related, but likely we should have an independent module. </li>
+   <li> There are plans in Solvers/OKsolver/SAT2002/plans/general.hpp
+   (see "Enable finding all solutions" there), but due to the use of
+   autarkies it is not clear whether the OKsolver is the right tool here.
+   </li>
+   <li> What is the appropriate name for the new module? "Cnf2Dnf"? Or perhaps
+   better "Dualisation"? </li>
+  </ul>
+
 */
 
