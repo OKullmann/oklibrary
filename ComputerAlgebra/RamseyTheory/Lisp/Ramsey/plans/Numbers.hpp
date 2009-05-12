@@ -17,13 +17,27 @@ License, or any later version. */
   <ul>
    <li> Some bounds are in the current system but all bounds known should be
    represented in the system. </li>
-   <li> How to handle annotation with references for bounds? </li>
    <li> See the running report of [Radziszowski, Small %Ramsey Numbers]. </li>
    <li> Also in the eis-database we should find Ramsey-numbers. </li>
    <li> References for the bounds; compare "Bibtex-database" in
    OKlib/plans/Annotations.hpp. </li>
   </ul>
 
+
+  \todo Proofs of numbers
+  <ul>
+   <li> The question here is how to provide a method of extracting a proof
+   of the given bounds, as there are various different methods:
+   <ul>
+    <li> Trivial bounds based on reasoning regarding small parameter values
+    </li>
+    <li> Proven bounds with references. </li>
+    <li> Bounds (not implemented). </li>
+   </ul>
+   </li>
+   <li> How to handle annotation with references for bounds? </li>
+  </ul>
+  
 
   \todo %Ramsey numbers
   <ul>
