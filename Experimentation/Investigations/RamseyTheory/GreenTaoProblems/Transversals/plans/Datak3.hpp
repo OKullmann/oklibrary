@@ -184,5 +184,19 @@ k n tau
    </li>
   </ul>
 
+
+  \todo Local search
+  <ul>
+   <li> saps seems to find fastest the near-solutions (min=1). </li>
+   <li> However it seems we have the same behaviour as with vdW-problems (see
+   "Local search" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/Datak3.hpp),
+   namely that finding a solution seems very hard (while min=1 is very easily
+   reached). For tau_arithprog_primes(3,81)=44 we have not been successful.
+   </li>
+   <li> Likely the translation via addition is not appropriate here, and some
+   true optimisation approach should be taken. </li>
+  </ul>
+
 */
 
