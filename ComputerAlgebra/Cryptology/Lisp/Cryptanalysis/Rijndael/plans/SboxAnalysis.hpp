@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of the Rijndael Sbox in Maxima/Lisp
 
 
+  \bug generate_full_aes_sbox_dnf_fcs uses 18 variables instead of 16
+  <ul>
+   <li> This didn't occur when first created and so must be a regression. </li>
+   <li> This doesn't seem to have been picked up because the tests are at a
+   higher level which are rarely run. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See Experimentation/Investigations/Cryptography/AES/plans/general.hpp
