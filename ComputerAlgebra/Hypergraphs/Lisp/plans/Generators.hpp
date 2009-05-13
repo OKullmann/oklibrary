@@ -40,7 +40,12 @@ License, or any later version. */
 C-STACK overflow at size 139456. Stack can probably be resized.
    \endverbatim
    (this on a 32-bit machine with 2GB memory). </li>
-   <li> Perhaps this is due to Ecl --- can we grow the stack size?! </li>
+   <li> Perhaps this is due to Ecl --- can we grow the stack size?!
+    <ol>
+     <li> ulimit reports that there are no restrictions from the bash-side.
+     </li>
+    </ol>
+   </li>
    <li> On the other hand, a non-recursive solution is also very easy to
    produce. </li>
    <li> However, such little problems shouldn't pose a problem! </li>
@@ -118,6 +123,7 @@ ev(rv(1,4),rv([L]):=rcs(setify(L)),nouns);
 ev(rv(1,5),rv([L]):=rcs(setify(L)),nouns);
  7.0
 rcs({1,5});
+ 7
        \endverbatim
        Notify the Maxima list. </li>
       </ol>
