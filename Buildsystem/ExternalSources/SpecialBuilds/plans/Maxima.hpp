@@ -67,6 +67,16 @@ make check && make install
     </li>
    </ol>
    </li>
+   <li> The "file_search_maxima" variable may be "fixed" at runtime by using an
+   old "hard-coded" version of a particular lisp function for listing the
+   directories (Thanks to Robert Dodier):
+   \verbatim
+:lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
+:lisp (set-pathnames)
+   \endverbatim
+   and then load functionality works fine. Although if such broken behaviour
+   occurs in the load system, where else might it occur?
+   </li>
    <li> A temporary workaround is just not to use links like the above
    shortcut to the OKplatform directory. </li>
    <li> DONE MG should continue to communicate with the Maxima mailing list, 
