@@ -6,12 +6,15 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+set -o errexit
+set -o nounset
+
 if [[ $# == 0 ]]; then
   echo "oklib: no arguments given."
   exit 0
 fi
 
-version=0.1.0.10
+version=0.1.0.11
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
