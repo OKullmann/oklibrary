@@ -17,12 +17,12 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following
    topics are handled:
-    - bug Package-building fails on csltok
     - Package directory structure
-    - bug Missing Annotations/definitions.mak : DONE
     - bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
     - Providing update mechanisms for the package-clone
+    - bug Package-building fails on csltok : DONE
+    - bug Missing Annotations/definitions.mak : DONE
 
   \par
    In Buildsystem/ReleaseProcess/plans/MailingLists.hpp the following topics

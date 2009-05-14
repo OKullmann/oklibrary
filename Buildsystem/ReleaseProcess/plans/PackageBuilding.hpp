@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
-  \bug Package-building fails on csltok
+  \bug DONE (hopefully this is due to old software)
+  Package-building fails on csltok
   <ul>
    <li> Target html cannot be processed:
    \verbatim
@@ -20,6 +21,16 @@ make[1]: Leaving directory `/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/s
 make: *** [html] Error 2
    \endverbatim
    Apparently the error occurs when creating temporary.mak. </li>
+   <li> Since no long arguments should be involved, it could be due to
+   a too large environment (according to Internet-information this is included
+   in the above warning. </li>
+   <li> And this could be due to old Linux-software on csltok (Suse 9.2). </li>
+   <li> The env-content is actually non-negligible. The error occurs when
+   actually the target is considered a second time? Yes, then via
+   Configuration/Html/include.mak further make-variables are included. </li>
+   <li> So it seems that we can't do much. But still, the same happens also
+   when just creating the html-documentation?? Perhaps it's the nesting of
+   makefiles and bash's, which just happens to be a bit too much. </li>
   </ul>
 
 
