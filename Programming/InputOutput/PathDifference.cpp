@@ -61,7 +61,13 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 3) {
     std::cerr << "ERROR[PathDifference]: Two input parameters are required, the target path "
       "and the source path (both as absolute paths).\n"
-      "However the number of actual arguments was " << argc-1 << ".\n";
+      "However the number of actual arguments was " << argc-1 << ".";
+    if (argc > 1) {
+      std::cerr << " The arguments were:\n";
+      for (int i = 1; i < argc; ++i)
+        std::cerr << i << ": " << argv[i] << "\n";
+    }
+    std::cerr << "\n";
     return EXIT_FAILURE;
   }
 
