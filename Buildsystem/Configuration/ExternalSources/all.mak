@@ -65,6 +65,8 @@ cmake_supported_version_numbers ?= $(cmake_recommended_version_number)
 
 cmake_prefix ?= cmake
 
+cmake_docu_page_okl ?= $(doc_dir)/doxygen_html/UNDER_CONSTRUCTION
+
 cmake_homepage_url := http://www.cmake.org/HTML/Index.html
 cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
 
