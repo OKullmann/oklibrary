@@ -14,7 +14,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.11
+version=0.1.0.12
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -68,7 +68,7 @@ fi
 if [[ $1 == "--maxima" ]]; then
   shift
   make --makefile=${buildsystem_dir}/MasterScript/SpecialProcessing/call_maxima.mak OKplatform=${top_dir} argument_okl="$*"
-  exit $?
+  exit
 fi
 
 if [[ $1 == "--R" ]]; then
@@ -155,6 +155,7 @@ fi
 
 oklib_building_log=${anchor_dir}/log/OKlibBuilding
 external_sources_log=${anchor_dir}/log/ExternalSources
+return_value=${anchor_dir}/log/ReturnValue
 
 defining_dir=${current_dir}
 until [[ ${defining_dir} == ${top_dir} ]]; do
@@ -164,28 +165,43 @@ until [[ ${defining_dir} == ${top_dir} ]]; do
     command="make --makefile=${buildsystem_dir}/ExternalSources/Makefile --directory=${top_dir}/ExternalSources OKplatform=${top_dir} $@"
     echo ${command}
     echo -e "oklib: ${external_sources_log} contains all output of the build.\n"
-    ${command} 2>&1 | tee ${external_sources_log}
-    return_value_build=$?
-    if [[ ${return_value_build} != 0 ]]; then
-      echo -e "ERROR[oklib]: The build process returned a value different from zero: ${return_value_build}\n"
-      exit 1
-    fi
+    { (${command} 2>&1); echo $? > ${return_value}; } | tee ${external_sources_log}
+    RV=$(cat ${return_value})
+    if [[ ${RV} != 0 ]]; then
+      echo -e "ERROR[oklib]: The external sources build-process returned a value different from zero: ${RV}\n"
+       exit ${RV}
+    fi 
     exit 0
   elif [[ -f ${defining_dir}/definitions.mak ]]; then
     command="make --makefile=${buildsystem_dir}/OKlibBuilding/Makefile --directory=${current_dir} srcdir=${current_dir} OKplatform=${top_dir} $@"
     echo ${command}
-    ${command} 2>&1 | tee ${oklib_building_log}
-    exit
+    { (${command} 2>&1); echo $? > ${return_value}; } | tee ${oklib_building_log}
+    RV=$(cat ${return_value})
+    if [[ ${RV} != 0 ]]; then
+      echo -e "ERROR[oklib]: The oklib build-process returned a value different from zero: ${RV}\n"
+       exit ${RV}
+    fi 
+    exit 0
   elif [[ ${defining_base} == OKlib ]]; then
     command="make OKplatform=${top_dir} $@"
     echo ${command}
-    ${command} 2>&1 | tee ${oklib_building_log}
-    exit
+    { (${command} 2>&1); echo $? > ${return_value}; } | tee ${oklib_building_log}
+    RV=$(cat ${return_value})
+    if [[ ${RV} != 0 ]]; then
+      echo -e "ERROR[oklib]: The oklib build-process returned a value different from zero: ${RV}\n"
+       exit ${RV}
+    fi 
+    exit 0
   elif [[ ${defining_base} == OKsystem ]]; then
     command="make OKplatform=${top_dir} $@"
     echo ${command}
-    ${command} 2>&1 | tee ${oklib_building_log}
-    exit
+    { (${command} 2>&1); echo $? > ${return_value}; } | tee ${oklib_building_log}
+    RV=$(cat ${return_value})
+    if [[ ${RV} != 0 ]]; then
+      echo -e "ERROR[oklib]: The oklib build-process returned a value different from zero: ${RV}\n"
+       exit ${RV}
+    fi 
+    exit 0
   else
     defining_dir=$(dirname ${defining_dir})
     continue
