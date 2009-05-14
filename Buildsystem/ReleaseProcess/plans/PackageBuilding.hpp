@@ -30,6 +30,15 @@ make: *** [html] Error 2
   </ul>
 
 
+  \todo Package directory structure
+  <ul>
+   <li> It seems better that a package just creates directory "OKplatform".
+   </li>
+   <li> Then there is no need to create links to OKplatform (which might
+   cause problems). </li>
+  </ul>
+
+
   \bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
   <ul>

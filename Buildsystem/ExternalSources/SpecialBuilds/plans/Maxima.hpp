@@ -13,16 +13,6 @@ License, or any later version. */
   \bug Failure with Ecl when links are on the path
   <ul>
    <li> All load-command fails (e.g., "load(descriptive)"). </li>
-   <li> Something appears to be going wrong with the file_search_maxima paths
-   as there are entries such as:
-   \verbatim
-"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/affine,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/charsets,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/solver,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/calculus,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew/lisp,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/combinatorics
-   \endverbatim
-   (and more) where the entry should be of the form:
-   \verbatim
-"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{share,affine,algebra,algebra/charsets,algebra/solver,calculus,colnew,colnew/lisp,combinatorics,
-   \endverbatim
-   <li>
    <li> The problem is caused by the symbolic link 
    OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! (That is, having
    such a link at compile time, we get the problem, while without we don't).
@@ -75,8 +65,8 @@ make check && make install
 :lisp (set-pathnames)
    \endverbatim
    and then load functionality works fine. Although if such broken behaviour
-   occurs in the load system, where else might it occur?
-   </li>
+   occurs in the load system, where else might it occur? OK: What is meant
+   with this remark? And what follows?? </li>
    <li> A temporary workaround is just not to use links like the above
    shortcut to the OKplatform directory. </li>
    <li> DONE MG should continue to communicate with the Maxima mailing list, 

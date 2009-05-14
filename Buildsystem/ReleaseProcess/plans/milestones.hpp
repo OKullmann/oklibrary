@@ -18,6 +18,7 @@ License, or any later version. */
    In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following
    topics are handled:
     - bug Package-building fails on csltok
+    - Package directory structure
     - bug Missing Annotations/definitions.mak : DONE
     - bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
