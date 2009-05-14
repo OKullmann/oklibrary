@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,15 +9,15 @@ License, or any later version. */
   \file Programming/InputOutput/PathDifference.cpp
   \brief Application for computing the relative path from one location to another
 
-  Two input parameters are required, two absolute path A and B,
-  and the output R is the relative path leading from B to A
+  Two input parameters are required, two absolute paths A and B,
+  while the output R is the relative path leading from B to A
   (so in a sense R = A - B, since R + B = A).
 
   Further details:
   <ul>
    <li> For B only the directory part is of relevance, so that for example
    B = /a/f.txt and B = /a/ are equivalent. </li>
-   <li> One the other side, for A the reached leaf is determinative, and
+   <li> On the other side, for A the reached leaf is determinative, and
    so A = /x/ and A = /x are equivalent. </li>
   </ul>
 
@@ -34,10 +34,13 @@ License, or any later version. */
    only from strings?? </li>
   </ul>
 
+
   \todo The functionality of this applications should go into its own
   component (so that this application just becomes a wrapper).
 
+
   \todo Document it precisely.
+
 
   \todo Write extensive tests.
 
