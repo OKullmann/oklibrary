@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
+  \bug Package-building fails on csltok
+  <ul>
+   <li> Target html cannot be processed:
+   \verbatim
+make[1]: execvp: /bin/bash: Argument list too long
+make[1]: *** [/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/system_directories/packages/OKlibrary-0.2.1.2_00107/OKplatform/system_directories/aux/temporary.mak] Error 127
+make[1]: Leaving directory `/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/system_directories/packages/OKlibrary-0.2.1.2_00107/OKplatform/OKsystem'
+make: *** [html] Error 2
+   \endverbatim
+   Apparently the error occurs when creating temporary.mak. </li>
+  </ul>
+
+
   \bug Missing Annotations/definitions.mak : DONE
   <ul>
    <li> It seems that "touch Annotations/definitions.mak" to create the
