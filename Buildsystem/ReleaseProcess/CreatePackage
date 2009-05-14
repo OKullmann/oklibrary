@@ -35,8 +35,7 @@ mkdir OKplatform/OKsystem/Annotations
 touch OKplatform/OKsystem/Annotations/definitions.mak
 
 cd ${package_directory}/OKplatform/OKsystem
-git clone ${git_http_repository}
-mv oklibrary OKlib
+git clone ${git_http_repository} OKlib
 
 cp -r ${documents_dir} .
 
