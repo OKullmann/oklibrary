@@ -60,7 +60,9 @@ printf "%s %s %s %s %s %s" ${record_begin} $(md5sum ${min_tar_package_name}) >> 
 cd ${package_directory}/OKplatform
 env -i PATH=${PATH} ./oklib --prebuild create_links
 
-(cd OKsystem; env -i PATH=${PATH} ../oklib rel_path_tool_origin="${rel_path_tool_origin}" doxygen_call_okl="${doxygen_call_okl}" html)
+cd OKsystem
+env -i PATH=${PATH} ../oklib rel_path_tool_origin="${rel_path_tool_origin}" doxygen_call_okl="${doxygen_call_okl}" html
+cd -
 
 tar_package_name=${package_name}.tar.bz2
 echo "Creating standard package ..."
