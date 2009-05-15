@@ -329,15 +329,11 @@ clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_
 # New variables for the configuration of building ecl (to be designed 
 # and implemented):
 
-ecl_version_number_extraction_okl := awk '/[0-9]+\.[0-9]+\.[0-9]+ \(CVS/{print $$1}'
-# assumes that the output of the evocation below contains a line of the form
-# (for example) "8.12.0 (CVS 2008-07-12 18:54)".
-
 location_ecl_call_okl ?= $(shell (type -P $(ecl_call_okl)))
 ifeq ($(location_ecl_call_okl),)
   ecl_call_ready_okl ?= NO
 else
-  version_ecl_call_okl ?= $(shell $(ecl_call_okl) -eval "(progn (princ (lisp-implementation-version)) (terpri) (quit))"  | $(ecl_version_number_extraction_okl))
+  version_ecl_call_okl ?= $(shell $(ecl_call_okl) -eval "(progn (princ (lisp-implementation-version)) (terpri) (quit))")
   ifeq ($(version_ecl_call_okl),$(ecl_recommended_version_number_okl))
     ecl_call_ready_okl ?= YES
   else
