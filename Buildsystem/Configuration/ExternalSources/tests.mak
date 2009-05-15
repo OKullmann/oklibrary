@@ -457,3 +457,25 @@ endif
 
 # the following construction needs to be generalised by some function
 grasp_html_documentation_index_location_tag_okl ?= <a href="$(grasp_man_okl)">$(grasp_man_okl)</a>
+
+# New variables for the configuration of building cmake (to be designed 
+# and implemented):
+
+cmake_version_number_extraction_okl := awk '{print $$3 $$4}' | sed 's/-patch/\./'
+# assumes that the output of "cmake -version" contains a line of the form
+# (for example) "cmake version 2.6-patch 4"
+
+location_cmake_call_okl ?= $(shell (type -P $(cmake_call_okl)))
+ifeq ($(location_cmake_call_okl),)
+  cmake_call_ready_okl ?= NO
+else
+  version_cmake_call_okl ?= $(shell $(cmake_call_okl) --version | $(cmake_version_number_extraction_okl))
+  ifeq ($(version_cmake_call_okl),$(cmake_recommended_version_number_okl))
+    cmake_call_ready_okl ?= YES
+  else
+    cmake_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+cmake_html_documentation_index_location_tag_okl ?= <a href="$(cmake_html_documentation_index_location_okl)">$(cmake_html_documentation_index_location_okl)</a>
