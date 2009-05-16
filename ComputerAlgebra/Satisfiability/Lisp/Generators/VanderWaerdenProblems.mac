@@ -67,13 +67,18 @@ output_vanderwaerden2nd(k1,k2,n,filename) :=
 output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
   sconcat("VanDerWaerden_2-",k1,"-",k2,"_",n,".cnf"))$
 
-output_vanderwaerden(L,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(vanderwaerden_nbfcsud(L,n))))],
+/* Standardising the variables according to lexicographical order 
+   nbv(1,1),...,nbv(1,m),nbv(2,1), ..., nbv(n,m):
+*/
+output_vanderwaerden(L,n,filename) := block([FF, m : length(L), N], 
+  FF : ev(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(vanderwaerden_nbfcsud(L,n))),
+          nbv(v,i):=(v-1)*m+i, nbv),
+  N : create_list(block([d:divide(i-1,m)+1], nbv_var(d[1], d[2])), i,1,n*m),
   output_fcs_v(
     sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements."), 
-    FF[1],
+    FF,
     filename,
-    FF[2]))$
+    N))$
 output_vanderwaerden_stdname(L,n) := output_vanderwaerden(L,n,
   sconcat("VanDerWaerden_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 

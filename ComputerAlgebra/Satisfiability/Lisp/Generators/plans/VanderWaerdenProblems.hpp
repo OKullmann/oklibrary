@@ -39,6 +39,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Standardisation
+  <ul>
+   <li> As we have it now in output_vanderwaerden, standardisation for
+   all non-standardised clause-sets should be done explicitly. </li>
+  </ul>
+
+
   \todo Statistics
   <ul>
    <li> As discussed in "Accompanying statistics" in

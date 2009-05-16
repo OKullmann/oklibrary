@@ -68,6 +68,10 @@ okltest_schurtriples_hg(schurtriples_hg);
 okltest_ramsey_hg(ramsey_hg);
 okltest_ramsey_ohg(ramsey_ohg);
 
+okltest_rv_var(rv_var);
+okltest_set_rv(set_rv);
+okltest_ramseyrv_ohg(ramseyrv_ohg);
+
 /*!
 \endhtmlonly
 */
