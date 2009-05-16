@@ -549,20 +549,77 @@ plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
    with "oklib".
     <ol>
      <li> There are warnings about undefined global variables, but since they
-     involve even for example "inf" it seems we can ignore these warnings? </li>
+     involve even for example "inf" it seems we can ignore these warnings?
+     </li>
      <li> And there are error messages? </li>
      <li> And once we used compile(all), we get messages 
      "Illegal `remvalue' attempt" ?? </li>
      <li> "define_variable" can be used to get rid off some warnings, but since
      the return types are so restricted, it only applies for a few cases. </li>
-     <li> Furthermore there is "translate(all)" ??? What's the difference? </li>
-     <li> The output looks rather similar, though there are no error messages. </li>
+     <li> Furthermore there is "translate(all)" ??? What's the difference? 
+     </li>
+     <li> The output looks rather similar, though there are no error messages.
+     </li>
      <li> For example "all_def34n : all_unsinghitting(3,4,'all_def34);"
      stops working after "compile(all)" or "translate(all)", so perhaps
      we can forget all that here? </li>
+     <li> With Maxima 5.18.1 and Ecl 9.4.1 compile(all) runs quite a while,
+     and seems to succeed (after having first used oklib_load_all()), but
+     then we get for example
+     \verbatim
+gt34_200 : greentao_nbfcsud([3,4],200)$
+Maxima encountered a Lisp error:
+ The function $ARITHPROG_PRIMES_OHG is undefined.
+arithprog_primes_ohg(3,10);
+Evaluation took 0.0210 seconds (0.0220 elapsed)
+(%o54) [[2,3,5,7,11,13,17,19,23,29],
+        [{3,5,7},{3,7,11},{5,11,17},{3,11,19},{7,13,19},{3,13,23},{11,17,23},{5,17,29},{17,23,29}]]
+     \endverbatim
+     </li>
+     <li> And apparently all kill-commands are ignored. </li>
+     <li> And the gains seem to be tiny in most cases, e.g.
+     \verbatim
+(%i1) oklib_load_all();
+(%i2) G : arithprog_primes_ohg(3,300)$
+Evaluation took 17.0910 seconds (34.4490 elapsed)
+(%i3) length(G[2]);
+Evaluation took 0.0000 seconds (0.0000 elapsed)
+(%o3) 4377
+     \endverbatim
+     versus
+     \verbatim
+(%i1) oklib_load_all();
+(%i2) compile(arithprog_primes_ohg);
+(%i3) G : arithprog_primes_ohg(3,300)$
+Evaluation took 16.9090 seconds (33.8590 elapsed)
+(%i4) length(G[2]);
+Evaluation took 0.0000 seconds (0.0010 elapsed)
+(%o4) 4377
+     \endverbatim
+     Perhaps stronger gains are realised when more functions are compiled,
+     but then we get the above errors. </li>
+     <li> For example, arithprog_primes_finish can't be compiled since it uses
+     the variable primes_rev_init_seg, while compiling first arithprog_primes
+     and then arithprog_primes_ohg seems to result just in a tiny speed-up. 
+     </li>
      <li> DONE (apparently with Maxima 5.15.0 it works again)
      Now it stopped working at all, and so we need to investigate the
      failures. </li>
+    </ol>
+   </li>
+   <li> How to store the result of compile for further sessions?
+    <ol>
+     <li> It seems that "compile(all)" has only an effect for the current
+     session. </li>
+     <li> And since it takes a long time to complete, this is not a viable
+     action in most cases. </li>
+     <li> It should be possible to store the results? </li>
+     <li> Of course then we have the problem of managing changes? </li>
+     <li> Perhaps we should use compile_file? </li>
+     <li> Apparently translate and translate_file is a part of compile resp.
+     compile_all ? </li>
+     <li> However, "? translate" lists many bugs, while "? compile" doesn't?
+     </li>
     </ol>
    </li>
   </ul>
