@@ -16,7 +16,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Application RankPrimes is slower with version 4.3.0
+  \todo Application RankPrimes is slower with version 4.3.0/4.3.1
   <ul>
    <li> The Gmp webpage says that mpz_nextprime is now "much faster". </li>
    <li> However, running RankPrimes-O3-DNDEBUG with parameter "unrank"
@@ -27,6 +27,40 @@ License, or any later version. */
    functions for ranking and unranking (applying sieves for larger
    intervals seems to be much faster than running it again and
    again). </li>
+   <li> On csltok (32-bit), first with current Gmp-default (4.3.1):
+   \verbatim
+kullmann-0:PrimeNumbers> oklib cleanall 
+kullmann-0:PrimeNumbers> all
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m26.539s
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m26.615s
+kullmann-0:PrimeNumbers> oklib cleanall 
+kullmann-0:PrimeNumbers> oklib all gmp_recommended_version_number_okl=4.2.4
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m17.143s
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m17.071s
+kullmann-0:PrimeNumbers> oklib cleanall 
+kullmann-0:PrimeNumbers> oklib all gmp_recommended_version_number_okl=4.3.0
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m26.592s
+kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+10000000
+664580
+user    0m26.546s
+   \endverbatim
+   So 4.2.4 needs only about %65 of the time needed by 4.3.0 or 4.3.1. </li>
   </ul>
 
 
