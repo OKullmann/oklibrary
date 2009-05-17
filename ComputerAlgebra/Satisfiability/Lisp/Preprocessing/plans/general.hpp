@@ -112,6 +112,48 @@ License, or any later version. */
      yield tautologies), but in general "sharing" should be important. </li>
     </ol>
    </li>
+   <li> One also needs to consider the choice F_i' = set of all prime
+   implicates of F_i:
+    <ol>
+     <li> Without using new variables, this is the unique minimal choice
+     when demanding that for all partial assignments phi with unsatisfiable
+     phi * F_i the clause-set phi * F_i' contains the empty clause. </li>
+     <li> This F_i' has two basic computations, by computing the resolution
+     closure (plus subsumption eliminination; see min_resolution_closure_cs),
+     or by computing some DNF representation and then the combinatorial dual
+     (plus subsumption elimination; see dual_cs). </li>
+     <li> In the (special) case that F_i' is small, this should be definitely
+     the best choice. </li>
+    </ol>
+   </li>
+   <li> Finding a good cover/partition (F_i)
+    <ol>
+     <li> Easiest to start with considering a constant N and letting the F_i
+     only contain N variables (and all clauses using only these k variables).
+     </li>
+     <li> Given a set V of variables, let F(V) be the set of clauses C in F
+     with var(C) <= V. </li>
+     <li> The partitioning then is F_1, ..., F_{n/N}, R, where F_i = F(V_i),
+     and where R contains the clauses of F not contained in any of the F_i.
+     </li>
+     <li> R is left as it is if it contains too many variables. </li>
+     <li> Some optimisation problem has to be solved --- which?! I.e., when
+     is F(V) "good"? </li>
+     <li> One could just optimise c(F(V)) (the number of clauses). </li>
+     <li> However what about short versus long clauses? Short clauses
+     should be more valuable. </li>
+     <li> Simplest to give binary clauses weight 1, and using a factor
+     alpha < 1 and weights W(C) := alpha^(k-2) for clauses of length k. </li>
+     <li> A "classical" factor is alpha = 1/5 (used for the OKsolver_2002),
+     but perhaps here alpha = 1/2 is more appropriate (in the boolean case)?
+     </li>
+     <li> The task is now to partition the variable set V into
+     V_1, ..., V_{n/N}, such that the sum of the w(F(V_i)) is maximised,
+     where w(F) = sum_{C in F} w(C). </li>
+     <li> Note that summing up the w(F(V_i)) makes sense despite additivity of
+     w, since we are considering a covering, not a partitioning. </li>
+    </ol>
+   </li>
   </ul>
 
 
