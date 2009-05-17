@@ -50,7 +50,7 @@ License, or any later version. */
   <ul>
    <li> As discussed in "Accompanying statistics" in
    Satisfiability/Lisp/Generators/plans/general.hpp in general, we need
-   statistics for all main messurements (and also for all others, if
+   statistics for all main measurements (and also for all others, if
    possible). </li>
    <li> First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
@@ -119,6 +119,14 @@ License, or any later version. */
      <li> Such generalised transversal problems (for arbitrary F) can be
      handled as above, by introducing the additional value to indicate
      variables not to be used. </li>
+     <li> However, just having negative monosigned literals is not enough,
+     but we need to consider monosigned literals. And actually, since for
+     q >= 3 negative monosigned literals must be used w.r.t. t, we have a
+     problem w.r.t. handling the value "undefined"! Perhaps an extension
+     of monosigned literals is needed, allowing to express "v<>val but
+     v is defined" ?! For q=2 the t-part can be expressed using positive
+     monosigned literals, and so monosigned literals are altogether
+     enough here. <li>
      <li> See "Parameterisation" in
      Algorithms/AllSolutions/plans/MinimalAssignments.hpp for general plans
      at the C++ level. </li>
