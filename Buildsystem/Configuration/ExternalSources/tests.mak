@@ -479,3 +479,22 @@ endif
 
 # the following construction needs to be generalised by some function
 cmake_html_documentation_index_location_tag_okl ?= <a href="$(cmake_html_documentation_index_location_okl)">$(cmake_html_documentation_index_location_okl)</a>
+
+# New variables for the configuration of building mhash (to be designed 
+# and implemented):
+
+check_mhash_header_okl ?= $(shell [[ -f $(mhash_source_library_okl)/mhash.h ]]; echo $$?)
+ifneq ($(check_mhash_header_okl),0)
+  mhash_ready_okl ?= NO
+else
+  version_mhash_okl ?= $(shell basename $$(dirname $(mhash_source_library_okl)))
+  ifeq ($(version_mhash_okl),$(mhash_recommended_version_number_okl))
+    mhash_ready_okl ?= YES
+  else
+    mhash_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+mhash_html_documentation_index_location_tag_okl ?= <a href="$(mhash_html_documentation_index_location_okl)">$(mhash_html_documentation_index_location_okl)</a>
+

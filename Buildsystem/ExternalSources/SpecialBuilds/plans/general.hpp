@@ -78,7 +78,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update MHash-building
+  \todo Update MHash-building : DONE
   <ul>
    <li> This should be similar to Boost and Gmp. </li>
    <li> In the docus, we should make a remark about corrected files and
