@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.12.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,7 +90,7 @@ License, or any later version. */
   \todo At-most-one as a CNF
   <ul>
    <li> Of special interest are the representations of amo_bf(n), that is,
-   that at most one of x+1, ..., x_n is 1. </li>
+   that at most one of x_1, ..., x_n is 1. </li>
    <li> The standard CNF-representation uses binom(n,2) clauses {-x_i,-x_j}.
    This is also the set of prime implicates (all are essential). </li>
    <li> There are n+1 prime implicants, namely those full clauses having
