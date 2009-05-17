@@ -10,9 +10,10 @@ License, or any later version. */
   \brief Plans regarding installation of gmp
 
 
-  \todo Update
+  \todo Update : DONE
   <ul>
    <li> Update make-variable names to the "new standard". </li>
+   <li> Use the local gcc/g++ for building. </li>
   </ul>
 
 

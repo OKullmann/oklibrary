@@ -28,7 +28,7 @@ License, or any later version. */
    documentation). </li>
    <li> The package default is to install under <code>/usr/local</code>
    (in sub-directories <code>include</code>, <code>lib</code> and
-   <code>info</code>). Our default is local installation. </li>
+   <code>info</code>). But our default is local installation. </li>
   </ul>
 
 
@@ -70,7 +70,7 @@ License, or any later version. */
   <table>
    <tr>
     <td> <code> gmp </code> </td>
-    <td> Build the recommended version of gmp, using the system-gcc. </td>
+    <td> Build the recommended version of gmp, using the local gcc. </td>
    </tr>
    <tr>
     <td> <code> cleanallgmp </code> </td>
@@ -91,6 +91,8 @@ License, or any later version. */
    </li>
    <li> To install a different version, set variable
    <code>gmp_recommended_version_number_okl</code> accordingly. </li>
+   <li> And to use a different version of gcc set variable
+   <code>gcc_recommended_version_number_okl</code> accordingly. </li>
   </ul>
 
 */

@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-gmp_directories_okl := $(gmp_base_installation_dir_okl) $(gmp_base_build_dir_okl) $(gmp_base_doc_dir_okl) $(gmp_doc_dir_okl)
+gmp_directories_okl := $(gmp_base_installation_dir_okl) $(gmp_base_build_dir_okl) $(gmp_gccbuild_dir_okl) $(gmp_base_doc_dir_okl) $(gmp_doc_dir_okl)
 
 $(gmp_directories_okl) : % : 
 	mkdir -p $@
@@ -21,9 +21,9 @@ $(gmp_directories_okl) : % :
 .PHONY : gmp cleangmp cleanallgmp
 
 gmp : $(gmp_directories_okl)
-	$(call unarchive,$(gmp_source_dir_okl),$(gmp_base_build_dir_okl)) $(postcondition) \
+	$(call unarchive,$(gmp_source_dir_okl),$(gmp_gccbuild_dir_okl)) $(postcondition) \
 	cd $(gmp_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(gmp_install_directory_okl) --enable-cxx; $(postcondition) \
+	./configure --prefix=$(gmp_install_directory_okl) --enable-cxx CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make html; $(postcondition) \

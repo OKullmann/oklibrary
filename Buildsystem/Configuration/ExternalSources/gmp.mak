@@ -7,8 +7,6 @@
 
 # Settings for building and using the Gmp library
 
-# Needs a partial update.
-
 gmp_recommended_version_number_okl ?= 4.3.1
 gmp_supported_not_recommended_version_numbers_okl ?= 4.2.4
 
@@ -19,13 +17,14 @@ gmp_recommended_okl := $(gmp_targets_prefix_okl)$(gmp_recommended_version_number
 gmp_source_dir_okl := $(ExternalSources)/sources/Gmp/$(gmp_recommended_okl)
 
 gmp_base_build_dir_okl ?= $(ExternalSources_builds)/Gmp
-gmp_build_dir_okl ?= $(gmp_base_build_dir_okl)/$(gmp_recommended_okl)
+gmp_gccbuild_dir_okl ?= $(gmp_base_build_dir_okl)/$(gcc_recommended_version_number_okl)
+gmp_build_dir_okl ?= $(gmp_gccbuild_dir_okl)/$(gmp_recommended_okl)
 
 gmp_default_install_okl ?= local
 # other possibility: system
 
 gmp_base_installation_dir_okl ?= $(ExternalSources_installations)/Gmp
-gmp_installation_dir_okl ?= $(gmp_base_installation_dir_okl)/$(gmp_recommended_version_number_okl)
+gmp_installation_dir_okl ?= $(gmp_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)/$(gmp_recommended_version_number_okl)
 gmp_system_install_directory_okl ?= /usr/local
 ifeq ($(gmp_default_install_okl),local)
   gmp_install_directory_okl ?= $(gmp_installation_dir_okl)
