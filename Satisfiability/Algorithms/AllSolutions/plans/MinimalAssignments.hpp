@@ -156,6 +156,13 @@ License, or any later version. */
    <li> Here now the backtracking approach seems more natural. </li>
    <li> For the optimisation version see
    Satisfiability/Optimisation/plans/general.hpp. </li>
+   <li> See "Alternative handling of parameter-values 2" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   for an example where the translation into a non-boolean SAT problem arises
+   naturally (adding a further value to all variables with the constraint that
+   this value must be used exactly B times, in this way demanding
+   tau(F) <= n-B for input clause-set F; of course one can also allow that the
+   values is used at least B times). </li>
   </ul>
 
 
