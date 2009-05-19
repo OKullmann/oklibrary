@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
-  \bug DONE (hopefully this is due to old software)
+  \bug DONE (it seems that sooner or later the space for the environment needs to be enlarged; perhaps bash version 3.2 or version 4 does that?)
   Package-building fails on csltok
   <ul>
    <li> Target html cannot be processed:
