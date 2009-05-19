@@ -63,15 +63,20 @@ c sat_status=0 initial_maximal_clause_length=7 initial_number_of_variables=371 i
   </ul>
 
 
-  \todo greentao_8(2,...,2,3,3) >= 55
+  \todo greentao_8(2,...,2,3,3) = 55
   <ul>
    <li> n=53 trivially satisfiable with cutoff=10000. </li>
    <li> For n=54 however a cutoff=10^6 is needed (still easy). </li>
    <li> n=55 yields constantly min=1 in 10 runs with cutoff=10^6 and
    with cutoff=10*10^6. </li>
    <li> The jump in minisat2's run time experienced above (from m=4 to
-   m=5) seems to indicate a factor of 100; so roughly 5 days. We should
-   give minisat2 10 days. </li>
+   m=5) seems to indicate a factor of 100; so roughly 5 days.
+    <ol>
+     <li> We should give minisat2 10 days. </li>
+     <li> Determined unsatisfiability with 37 restarts, 645336350 conflicts,
+     and 817059 s (~ 9.5 days). </li>
+    </ol>
+   </li>
    <li> We should also try the alternative encoding as discussed in
    "Alternative handling of parameter-values 2" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
