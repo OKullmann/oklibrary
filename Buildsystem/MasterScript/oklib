@@ -14,7 +14,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.12
+version=0.1.0.13
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -59,7 +59,7 @@ fi
 
 if [[ $1 == "--create-package" ]]; then
   shift
-  command="make --makefile=${buildsystem_dir}/ReleaseProcess/Makefile OKplatform=${top_dir} $*"
+  command="env -i PATH=${PATH} TERM=${TERM} make --makefile=${buildsystem_dir}/ReleaseProcess/Makefile OKplatform=${top_dir} $*"
   echo ${command}
   ${command}
   exit
