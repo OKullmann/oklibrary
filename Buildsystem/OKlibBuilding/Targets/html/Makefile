@@ -58,5 +58,7 @@ documentation_index : clean_up $(local_html_dir)
 
 
 doxygen_documentation : clean_up $(doxygen_html_dir) $(log_dir)
-	echo "Doxygen version: $$($(doxygen_call_okl) --version)" && $(preprocessing_call) $(doxy_file_template) > $(doxy_file) && $(doxygen_call_okl) $(doxy_file) $(Doxygen_modifier) 
+	echo "Doxygen version: $$($(doxygen_call_okl) --version)"
+	$(preprocessing_call) $(doxy_file_template) > $(doxy_file)
+	$(doxygen_call_okl) $(doxy_file) $(Doxygen_modifier) 
 
