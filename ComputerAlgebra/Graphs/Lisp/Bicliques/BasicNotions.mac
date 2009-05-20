@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 
 /* ***********************
@@ -81,10 +82,13 @@ ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
    *********************
 */
 
-/* Given a vertex biclique B in G, extend it (somehow) to a maximal biclique:
+/* Given a vertex biclique B in G, extend it to a maximal biclique
+   by extending it with the first possible edges as long as possible:
 */
-maximal_bc_gl(B,G) := if emptyp(G[2]) then B else
-block(
+maximal_bc_gl(B,G) := if emptyp(G[2]) then
+  if not emptyp(B[2]) then [{},G[1]]
+  else [G[1],{}]
+else block(
   if B = [{},{}] then 
     B : [{first_element(first_element(G[2]))},
          {second_element(first_element(G[2]))}]
