@@ -43,7 +43,7 @@ lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    lexicographical enumeration: */
 rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
-  binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
+  binomial(n,k) - sum_l(map(binomial,n-L,create_list(k-i+1, i,1,k))))$
 /*  Note, for lex ordering, this does depend on n (as for instance {2,3,4}
     comes after {1,2,6}).
 */
@@ -73,7 +73,7 @@ colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    colexicographical enumeration: */
 rank_colex_subsets(S) := block([L : listify(S)],
-  sum_l(create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
+  sum_l(map(binomial,L-1,create_list(i,i,1,length(L)))) + 1)$
 /*  Note, for colex ordering, this does not depend on n. */
 
 /* Returns the 'x'th subset in the colexicographical enumeration of all

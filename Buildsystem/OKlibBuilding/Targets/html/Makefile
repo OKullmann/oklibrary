@@ -19,13 +19,13 @@ include $(temporary_makefile)
 
 $(temporary_makefile) : $(tool_dir)
 	cp $(OKconfiguration)/Html/include.mak $(temporary_makefile)
-	(if [[ ! -f $(rel_path_tool) ]]; then \
+	if [[ ! -f $(rel_path_tool) ]]; then \
 	  cp $(rel_path_tool_origin) $(rel_path_tool); $(postcondition) \
 	  strip --strip-unneeded $(rel_path_tool); $(postcondition) \
 	elif [[ -e $(rel_path_tool_origin) &&  $(rel_path_tool_origin) -nt $(rel_path_tool) ]]; then \
 	  cp -f $(rel_path_tool_origin) $(rel_path_tool); $(postcondition) \
 	  strip --strip-unneeded $(rel_path_tool); $(postcondition) \
-	fi); if [ $$? != 0 ]; then rm $(temporary_makefile); exit 1; fi
+	fi; if [ $$? != 0 ]; then rm $(temporary_makefile); exit 1; fi
 
 export
 
@@ -58,5 +58,7 @@ documentation_index : clean_up $(local_html_dir)
 
 
 doxygen_documentation : clean_up $(doxygen_html_dir) $(log_dir)
-	echo "Doxygen version: $$($(doxygen_call_okl) --version)" && $(preprocessing_call) $(doxy_file_template) > $(doxy_file) && $(doxygen_call_okl) $(doxy_file) $(Doxygen_modifier) 
+	echo "Doxygen version: $$($(doxygen_call_okl) --version)"
+	$(preprocessing_call) $(doxy_file_template) > $(doxy_file)
+	$(doxygen_call_okl) $(doxy_file) $(Doxygen_modifier) 
 

@@ -40,7 +40,12 @@ License, or any later version. */
 C-STACK overflow at size 139456. Stack can probably be resized.
    \endverbatim
    (this on a 32-bit machine with 2GB memory). </li>
-   <li> Perhaps this is due to Ecl --- can we grow the stack size?! </li>
+   <li> Perhaps this is due to Ecl --- can we grow the stack size?!
+    <ol>
+     <li> ulimit reports that there are no restrictions from the bash-side.
+     </li>
+    </ol>
+   </li>
    <li> On the other hand, a non-recursive solution is also very easy to
    produce. </li>
    <li> However, such little problems shouldn't pose a problem! </li>
@@ -64,10 +69,12 @@ C-STACK overflow at size 139456. Stack can probably be resized.
    </li>
    <li> Providing a standardised vertex set:
     <ol>
-     <li> To handle large hypergraphs, we need to provide a version with
+     <li> DONE
+     To handle large hypergraphs, we need to provide a version with
      standardised vertex names, using a standard enumeration of r-subsets
      (compare "Create complete r-graphs" above). </li>
-     <li> We only need to consider lexicographical ordering of the
+     <li> DONE
+     We only need to consider lexicographical ordering of the
      vertex names. Actually, in order to preserve monotonicity, we better
      use colexicographical ordering. </li>
      <li> This standardised hypergraph has then a canonical order-preserving
@@ -78,28 +85,38 @@ C-STACK overflow at size 139456. Stack can probably be resized.
        <li> Perhaps this is a sensible thing to do; however it seems
        we don't need to do something on the hyperedges (i.e., we continue
        to use lexicographical order there). </li>
+       <li> Currently we use the lexicographical order of ramsey_ohg on
+       vertex set and hyperedge set, but using colexicographical ranking. </li>
+       <li> This has the advantage that ramsey_ohg is easy to compute and
+       isomorphic to ramsey_stdohg. </li>
+       <li> But for n' >= n we don't have that ramsey_stdohg(q,r,n') is
+       an extension of ramsey_stdohg(q,r,n) --- we only have that
+       ramsey_stdhg(q,r,n) is a subhypergraph of ramsey_stdhg(q,r,n'). </li>
       </ol>
      </li>
      <li> The same numbering should also be used in the C++ generator
      (see Ramsey.cpp). </li>
      <li> So that we can easily create additional clauses with Maxima,
      added then to the C++-generated files. </li>
-     <li> The new generators should be named "ramsey_stdhg" and
+     <li> DONE
+     The new generators should be named "ramsey_stdhg" and
      "std_ramsey_stdohg". </li>
     </ol>
    </li>
-   <li> The hypergraphs ramsey_hg use sets directly as vertex names
+   <li> DONE (we provide two versions, with vertices like {1,3} and with
+   vertices like rv(1,3))
+   The hypergraphs ramsey_hg use sets directly as vertex names
    (like "{1,3}"), not naming schemes like "rv(1,3)".
     <ol>
      <li> On the one hand, this is natural in this situation. </li>
      <li> But it makes the approach less flexible: Using unevaluated
      functions like "rv", renaming should be possible by just stipulating
-     an interpretation of "rv"!. </li>
+     an interpretation of "rv"! </li>
      <li> The task is to figure out, how (locally, in a block) we can
      evaluate expressions containing terms like "rv(i,j)" using
      some (locally) specified function f(i,j).
       <ol>
-       <li> This works like follows:
+       <li> This works as follows:
        \verbatim
 ev([rv(1,3),rv(2,3,5)],rv([L]):=rank_colex_subsets(setify(L)),nouns);
  [2,7]
@@ -118,11 +135,26 @@ ev(rv(1,4),rv([L]):=rcs(setify(L)),nouns);
 ev(rv(1,5),rv([L]):=rcs(setify(L)),nouns);
  7.0
 rcs({1,5});
+ 7
        \endverbatim
-       Notify the Maxima list. </li>
-      </ol>
+       </li>
+       <li> According to Stavros (Maxima mailing list) this is due to
+       an old (buggy?) interpretation of verbification as computing
+       floating point values. </li>
+       <li> The solution is not to use the global flag "nouns", but
+       just to list the function which shall be treated as "verbs":
+       \verbatim
+ev(rv(1,5),rv([L]):=rcs(setify(L)),rv);
+ 7
+       \endverbatim
+       </li>
+       <li> This seems to be of reasonable speed (and faster than
+       standardise_fcl). </ol>
      </li>
-     <li> It remains whether we should use, %e.g., rv(1,2,3) or rv({1,2,3}).
+     <li> DONE (we use rv(1,2,3), and if the user uses e.g. rv(2,1,3)
+     then this is his responsibility; the standardisation of rv(1,2,3)
+     and rv(2,1,3) is the same)
+     It remains whether we should use, %e.g., rv(1,2,3) or rv({1,2,3}).
       <ol>
        <li> The form rv(1,2,3) is a bit shorter. </li>
        <li> But the vertices rv(1,2,3) and rv(2,1,3) are different, though
@@ -134,7 +166,9 @@ rcs({1,5});
      </li>
      <li> Several possibilities for creating ramsey-hypergraphs:
       <ol>
-       <li> As it is now, with sets as vertices, and then apply a
+       <li> DONE (we now have ramseyrv_ohg, which directly computes
+       trans_rv(ramsey_ohg(q,r,n)))
+       As it is now, with sets as vertices, and then apply a
        translation function:
        \verbatim
 kill(rv)$
@@ -146,10 +180,11 @@ trans_rv(G) :=
   map(lambda([S], map(lambda([s],uaapply(rv_var,listify(s))),S)), G[2])]$
        \endverbatim
        </li>
-       <li> Then using
+       <li> DONE (ramsey_stdohg does this)
+       Then using
        \verbatim
 ev_rv(t) :=
- ev(t, rv([L]):=rank_colex_subsets(setify(L)), nouns)$
+ ev(t, rv([L]):=rank_colex_subsets(setify(L)), rv)$
        \endverbatim
        one can get rid off the rv-terms by using ev_rv(G). </li>
        <li> We can also directly translate the subsets via
@@ -164,7 +199,7 @@ trans_colex(G) :=
        with the rv-terms, and evaluate them at this point. </li>
       </ol>
      </li>
-     <li> DONE (it is possible)
+     <li> DONE (it is not possible(?))
      Regarding "late" translation, a question is also whether a
      term like "{1,2,3}", which should stand for "set(1,2,3)", can
      also be locally evaluated by evaluating set(1,2,3) as f(1,2,3). </li>

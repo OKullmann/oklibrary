@@ -8,17 +8,36 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.21 (10.5.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.25 (17.5.2009)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
   and some updates)
 
-
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Failure with Ecl when links are on the path
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Update : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
+   topics are handled:
+    - Mhash : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Update MHash-building : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
+   topics are handled:
+    - CMake-documentation building : DONE
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -185,9 +204,9 @@ License, or any later version. */
     - Can't output graphics
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Update MHash-building
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
+   topics are handled:
+    - Complete MHash documentation
 
 
   \par Version 0.2.4 (installing e-mail services)
@@ -308,12 +327,6 @@ License, or any later version. */
     - System-wide installation
     - Handling of redefined load-function
 
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Update
-
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
    topics are handled:
@@ -350,11 +363,6 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Optimisation
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
-   topics are handled:
-    - CMake-documentation building
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following

@@ -27,9 +27,7 @@ License, or any later version. */
 :lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
 :lisp (set-pathnames)
    \endverbatim
-   and then load functionality works fine. Although how does one know there are
-   not other problems related to file paths in the rest of the maxima system?
-   </li>
+   and then load functionality works fine. </li>
   </ul>
 
 

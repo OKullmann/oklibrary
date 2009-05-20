@@ -33,8 +33,6 @@ okltest_con_adj_gl_b1_1_b2_2_p(con_adj_gl_b1_1_b2_2_p);
 okltest_con_adj_gl_b1_2_b2_1_p(con_adj_gl_b1_2_b2_1_p);
 okltest_con_adj_gl_b1_2_b2_2_p(con_adj_gl_b1_2_b2_2_p);
 
-okltest_maximal_bc_gl(maximal_bc_gl); 
-
 okltest_con_adj_gl_b1_1_b2_1(con_adj_gl_b1_1_b2_1);
 okltest_con_adj_gl_b1_1_b2_2(con_adj_gl_b1_1_b2_2);
 okltest_con_adj_gl_b1_2_b2_1(con_adj_gl_b1_2_b2_1);

@@ -45,6 +45,7 @@ include $(OKconfiguration)/ExternalSources/minisat.mak
 include $(OKconfiguration)/ExternalSources/march.mak
 include $(OKconfiguration)/ExternalSources/satz.mak
 include $(OKconfiguration)/ExternalSources/sp.mak
+include $(OKconfiguration)/ExternalSources/cmake.mak
 
 # Currently, these installations need the list of gcc-targets:
 include $(OKconfiguration)/ExternalSources/boost.mak
@@ -53,24 +54,6 @@ gcc_targets := $(addprefix $(gcc_targets_prefix_okl), $(gcc_supported_version_nu
 # Making local installation of gcc the default:
 gcc_version_okl ?= $(gcc_recommended_version_number_okl)
 
-
-# ################################
-# Cmake
-# ###############################
-
-# NEEDS UPDATE
-
-cmake_recommended_version_number ?= 2.4.7
-cmake_supported_version_numbers ?= $(cmake_recommended_version_number)
-
-cmake_prefix ?= cmake
-
-cmake_homepage_url := http://www.cmake.org/HTML/Index.html
-cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
-
-cmake_targets_prefix := $(cmake_prefix)-
-cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
-cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
 
 # ################################
 # mpfr

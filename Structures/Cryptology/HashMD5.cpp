@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// Name: HashMD5
+// Name: HashMD5.cpp
 // Autor: Oliver Kullmann (O.Kullmann@Swansea.ac.uk)
 // Version: 0.9
 // Datum: 21.1.2001 

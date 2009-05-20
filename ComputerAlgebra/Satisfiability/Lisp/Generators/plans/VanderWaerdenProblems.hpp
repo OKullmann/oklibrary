@@ -39,11 +39,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Standardisation
+  <ul>
+   <li> As we have it now in output_vanderwaerden, standardisation for
+   all non-standardised clause-sets should be done explicitly. </li>
+  </ul>
+
+
   \todo Statistics
   <ul>
    <li> As discussed in "Accompanying statistics" in
    Satisfiability/Lisp/Generators/plans/general.hpp in general, we need
-   statistics for all main messurements (and also for all others, if
+   statistics for all main measurements (and also for all others, if
    possible). </li>
    <li> First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
@@ -92,6 +99,39 @@ License, or any later version. */
    and one should try this. </li>
    <li> We should also provide standard generators for these two
    AMO-representations. </li>
+   <li> Another alternative generalises the treatment of the transversal
+   case (all parameters except of one equal 2):
+    <ol>
+     <li> Let the parameter tuple be [2,..,2,t], where t contains no 2, and
+     where we have p 2's. And let the length of t be q (so that the length
+     of the whole tuple is p + q). </li>
+     <li> One could use non-boolean variables with q+1 values, where
+     we have on the first q values the ordinary constraints coming from t,
+     while using some additional parameter B for the first value we
+     add the condition that the number of variables with that value is
+     equal to B. </li>
+     <li> B is here the number of variables *not* available to satisfy the
+     t-requirements. </li>
+     <li> The task is to maximise B; using as generalised transversal number
+     tau(F) of an arbitrary satisfiable clause-set F the minimum of n(phi)
+     for satisfying partial assignments phi, this corresponds to compute
+     tau(F) = n - B. </li>
+     <li> Such generalised transversal problems (for arbitrary F) can be
+     handled as above, by introducing the additional value to indicate
+     variables not to be used. </li>
+     <li> However, just having negative monosigned literals is not enough,
+     but we need to consider monosigned literals. And actually, since for
+     q >= 3 negative monosigned literals must be used w.r.t. t, we have a
+     problem w.r.t. handling the value "undefined"! Perhaps an extension
+     of monosigned literals is needed, allowing to express "v<>val but
+     v is defined" ?! For q=2 the t-part can be expressed using positive
+     monosigned literals, and so monosigned literals are altogether
+     enough here. <li>
+     <li> See "Parameterisation" in
+     Algorithms/AllSolutions/plans/MinimalAssignments.hpp for general plans
+     at the C++ level. </li>
+    </ol>
+   </li>
   </ul>
 
 

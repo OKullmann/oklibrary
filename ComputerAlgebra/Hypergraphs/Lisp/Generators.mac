@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
 
 /* ************************
@@ -206,6 +207,28 @@ ramsey_ohg(q,r,n) := block([V0 : setn(n), V],
  elseif r>q then [V,[]]
  else
   [V, map(lambda([T],powerset(T,r)), listify(powerset(V0,q)))])$
+
+/* The same, but using vertices e.g. "rv(1,2,3)" instead of "{1,2,3}" */
+
+kill(rv)$
+declare(rv,noun)$
+rv_var([L]) := apply(nounify(rv),L)$
+set_rv(s) := apply(rv_var,listify(s))$
+
+ramseyrv_ohg(q,r,n) := block([V0 : setn(n), V],
+ V : map(set_rv,listify(powerset(V0,r))),
+ if q>n then [V,[]]
+ elseif r=0 then [V,[{{}}]]
+ elseif r>q then [V,[]]
+ else
+  [V, map(lambda([T],map(set_rv,powerset(T,r))), listify(powerset(V0,q)))])$
+
+/* Standardised Ramsey hypergraphs, using colexicographical ordering of
+   the vertices (as r-subsets of {1,...,n}) to convert them into natural
+   numbers (while keeping the lexicographical order of ramsey_stdohg):
+*/
+ramsey_stdohg(q,r,n) :=
+ ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_subsets(setify(L)), rv)$
 
 /*!
 \endhtmlonly

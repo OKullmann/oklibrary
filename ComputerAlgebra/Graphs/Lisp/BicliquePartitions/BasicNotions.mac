@@ -34,7 +34,6 @@ ebcp_gg_p(B,G) := setp(B) and partitionp(B,G[2]) and every(lambda([b],ebc_gg_p(b
 vbcp_gg_p := 
 */
 
-
 /*!
 \endhtmlonly
 */

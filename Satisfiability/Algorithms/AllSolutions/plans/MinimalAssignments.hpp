@@ -94,7 +94,7 @@ License, or any later version. */
    <li> If F is disconnected (regarding the variable interactions), then we
    can split the computation of Tr(F) into the computation of the components,
    and need then only to take all combinations --- no subsumptions or
-   inconsistencies are possible here. (It might be easy advisible here not to
+   inconsistencies are possible here. (It might be easy advisable here not to
    perform taking all combinations, but to compute a suitable expression).
    The formula here is
    <center>
@@ -108,9 +108,9 @@ License, or any later version. */
     </ol>
    </li>
    <li> What is the known complexity of computing Tr(F) (in |E(Tr(F))|) ?
-   It seems the only two question here is how good inconsistency-eliminatiion
+   It seems the only two question here is how good inconsistency-elimination
    and subsumption-elimination can be avoided, since churning out possibly
-   inconsistent ransversals is not a problem. </li>
+   inconsistent transversals is not a problem. </li>
    <li> A variation of the problem is to output one minimal transversal at a
    time, and to minimise the delays between outputs. The main problem then
    is to output *minimal* transversals. </li>
@@ -156,6 +156,17 @@ License, or any later version. */
    <li> Here now the backtracking approach seems more natural. </li>
    <li> For the optimisation version see
    Satisfiability/Optimisation/plans/general.hpp. </li>
+   <li> See "Alternative handling of parameter-values 2" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   for an example where the translation into a non-boolean SAT problem arises
+   naturally (adding a further value to all variables with the constraint that
+   this value must be used exactly B times, in this way demanding
+   tau(F) <= n-B for input clause-set F; of course one can also allow that the
+   values is used at least B times). </li>
+   <li> For this formulation one needs to be able to say "v=val" for a variable
+   v and a value val (not just "v<>val"); so monosigned literals seem to
+   be the right choice here, where actually for F only positive monosigned
+   literals can be handled directly. </li>
   </ul>
 
 

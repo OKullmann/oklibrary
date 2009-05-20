@@ -10,10 +10,43 @@ License, or any later version. */
   \brief Plans regarding package building
 
 
+  \bug DONE (it seems that sooner or later the space for the environment needs to be enlarged; perhaps bash version 3.2 or version 4 does that?)
+  Package-building fails on csltok
+  <ul>
+   <li> Target html cannot be processed:
+   \verbatim
+make[1]: execvp: /bin/bash: Argument list too long
+make[1]: *** [/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/system_directories/packages/OKlibrary-0.2.1.2_00107/OKplatform/system_directories/aux/temporary.mak] Error 127
+make[1]: Leaving directory `/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/system_directories/packages/OKlibrary-0.2.1.2_00107/OKplatform/OKsystem'
+make: *** [html] Error 2
+   \endverbatim
+   Apparently the error occurs when creating temporary.mak. </li>
+   <li> Since no long arguments should be involved, it could be due to
+   a too large environment (according to Internet-information this is included
+   in the above warning. </li>
+   <li> And this could be due to old Linux-software on csltok (Suse 9.2). </li>
+   <li> The env-content is actually non-negligible. The error occurs when
+   actually the target is considered a second time? Yes, then via
+   Configuration/Html/include.mak further make-variables are included. </li>
+   <li> So it seems that we can't do much. But still, the same happens also
+   when just creating the html-documentation?? Perhaps it's the nesting of
+   makefiles and bash's, which just happens to be a bit too much. </li>
+  </ul>
+
+
   \bug Missing Annotations/definitions.mak : DONE
   <ul>
    <li> It seems that "touch Annotations/definitions.mak" to create the
    empty definitions.mak in OKsystem/Annotations is missing? </li>
+  </ul>
+
+
+  \todo Package directory structure
+  <ul>
+   <li> It seems better that a package just creates directory "OKplatform".
+   </li>
+   <li> Then there is no need to create links to OKplatform (which might
+   cause problems). </li>
   </ul>
 
 

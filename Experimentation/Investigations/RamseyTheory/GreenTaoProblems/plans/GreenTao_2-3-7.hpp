@@ -113,6 +113,13 @@ BestSolution_Max = 19.000000
       2 0    19  960310544 1000000000 1126725316
      \endverbatim
      One would need cutoff=4*10^9, but perhaps it's unsatisfiable. </li>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 10 -cutoff 4000000000 -i GreenTao_2-3-7_15000.cnf
+       sat  min     osteps     msteps       seed
+      1 0    15 3386525961 4000000000 1699695039
+     \endverbatim
+     So if it's still satisfiable, then it's a rather hard problem. </li>
     </ol>
    </li>
   </ul>

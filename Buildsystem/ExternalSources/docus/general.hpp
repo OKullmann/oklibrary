@@ -99,6 +99,7 @@ oklib gcc gcc_recommended_version_number_okl=4.2.4
    </li>
    <li> Boost (Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp) </li>
    <li> CLisp (Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp) </li>
+   <li> CMake (Buildsystem/ExternalSources/SpecialBuilds/docus/CMake.hpp) </li>
    <li> Coq (Buildsystem/ExternalSources/SpecialBuilds/docus/Coq.hpp) </li>
    <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp)
    </li>

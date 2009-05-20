@@ -329,15 +329,11 @@ clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_
 # New variables for the configuration of building ecl (to be designed 
 # and implemented):
 
-ecl_version_number_extraction_okl := awk '/[0-9]+\.[0-9]+\.[0-9]+ \(CVS/{print $$1}'
-# assumes that the output of the evocation below contains a line of the form
-# (for example) "8.12.0 (CVS 2008-07-12 18:54)".
-
 location_ecl_call_okl ?= $(shell (type -P $(ecl_call_okl)))
 ifeq ($(location_ecl_call_okl),)
   ecl_call_ready_okl ?= NO
 else
-  version_ecl_call_okl ?= $(shell $(ecl_call_okl) -eval "(progn (princ (lisp-implementation-version)) (terpri) (quit))"  | $(ecl_version_number_extraction_okl))
+  version_ecl_call_okl ?= $(shell $(ecl_call_okl) -eval "(progn (princ (lisp-implementation-version)) (terpri) (quit))")
   ifeq ($(version_ecl_call_okl),$(ecl_recommended_version_number_okl))
     ecl_call_ready_okl ?= YES
   else
@@ -461,3 +457,44 @@ endif
 
 # the following construction needs to be generalised by some function
 grasp_html_documentation_index_location_tag_okl ?= <a href="$(grasp_man_okl)">$(grasp_man_okl)</a>
+
+# New variables for the configuration of building cmake (to be designed 
+# and implemented):
+
+cmake_version_number_extraction_okl := awk '{print $$3 $$4}' | sed 's/-patch/\./'
+# assumes that the output of "cmake -version" contains a line of the form
+# (for example) "cmake version 2.6-patch 4"
+
+location_cmake_call_okl ?= $(shell (type -P $(cmake_call_okl)))
+ifeq ($(location_cmake_call_okl),)
+  cmake_call_ready_okl ?= NO
+else
+  version_cmake_call_okl ?= $(shell $(cmake_call_okl) --version | $(cmake_version_number_extraction_okl))
+  ifeq ($(version_cmake_call_okl),$(cmake_recommended_version_number_okl))
+    cmake_call_ready_okl ?= YES
+  else
+    cmake_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+cmake_html_documentation_index_location_tag_okl ?= <a href="$(cmake_html_documentation_index_location_okl)">$(cmake_html_documentation_index_location_okl)</a>
+
+# New variables for the configuration of building mhash (to be designed 
+# and implemented):
+
+check_mhash_header_okl ?= $(shell [[ -f $(mhash_source_library_okl)/mhash.h ]]; echo $$?)
+ifneq ($(check_mhash_header_okl),0)
+  mhash_ready_okl ?= NO
+else
+  version_mhash_okl ?= $(shell basename $$(dirname $(mhash_source_library_okl)))
+  ifeq ($(version_mhash_okl),$(mhash_recommended_version_number_okl))
+    mhash_ready_okl ?= YES
+  else
+    mhash_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+mhash_html_documentation_index_location_tag_okl ?= <a href="$(mhash_html_documentation_index_location_okl)">$(mhash_html_documentation_index_location_okl)</a>
+
