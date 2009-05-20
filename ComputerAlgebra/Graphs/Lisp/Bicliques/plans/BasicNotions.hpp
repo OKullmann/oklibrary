@@ -69,6 +69,14 @@ License, or any later version. */
   <ul>
    <li> We need tests for checking whether a biclique is maximal (cannot
    be extended). </li>
+   <li> We need maximal_bc_ogl. </li>
+   <li> We need a version of maximal_bc_ogl allowing randomisation.
+    <ol>
+     <li> One control parameter is the given order of the vertices. </li>
+     <li> And then we have 0 <= p <= 1, which controls the probability
+     that the left or right side is considered first. </li>
+    </ol>
+   </li>
    <li> For an algorithm finding all maximal bicliques see
    ComputerAlgebra/Graphs/Lisp/Bicliques/plans/Consensus.hpp. </li>
    <li> And regarding *maximum* bicliques see "Maximum bicliques" in
