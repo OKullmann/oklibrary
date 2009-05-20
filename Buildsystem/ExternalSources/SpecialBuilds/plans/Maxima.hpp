@@ -9,80 +9,27 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp
   \brief Plans regarding installation of Maxima
 
-
-  \bug Failure with Ecl when links are on the path
+  
+  \todo Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
   <ul>
-   <li> All load-command fails (e.g., "load(descriptive)"). </li>
-   <li> Something appears to be going wrong with the file_search_maxima paths
-   as there are entries such as:
-   \verbatim
-"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/affine,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/charsets,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/algebra/solver,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/calculus,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/colnew/lisp,/home/aeternus/Work/OKlibrary/OKlibrary-0.2.1.2_00104/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/combinatorics
-   \endverbatim
-   (and more) where the entry should be of the form:
-   \verbatim
-"/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Installations/Maxima/ecl/5.18.1/share/maxima/5.18.1/share/{share,affine,algebra,algebra/charsets,algebra/solver,calculus,colnew,colnew/lisp,combinatorics,
-   \endverbatim
-   <li>
-   <li> The problem is caused by the symbolic link 
-   OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! (That is, having
-   such a link at compile time, we get the problem, while without we don't).
-   </li>
-   <li> This doesn't go away with Ecl version 9.4.1. </li>
-   <li> MG has sent a further e-mail detailing the problem with the following
-   steps to reproduce:
-   <ol>
-    <li>Setup Directory and Symlink
-    \verbatim
-> mkdir Test
-> ln -s `pwd`/Test TestSym
-> cd TestSym
-    \endverbatim
-    </li>
-    <li> Install Ecl
-    \verbatim
-> tar zxvf ecl-9.4.1.tar.gz
-> cd ecl-9.4.1
-> mkdir install
-> LDFLAGS=-Wl,-rpath=`pwd`/install/lib ./configure --prefix=`pwd`/install/
-> make
-> make install
-> cd ..
-    \endverbatim
-    </li>
-    <li> Install Maxima
-    \verbatim
-> tar zxvf maxima-5.18.1.tar.gz
-> cd maxima-5.18.1
-> mkdir install
-> LANG=C ./configure --prefix=`pwd`/install
---with-ecl=`pwd`/../ecl-9.4.1/install/bin/ecl --enable-ecl && LANG=C make &&
-make check && make install
-    \endverbatim
-    </li>
-    <li> Run Maxima and try to load something
-    \verbatim
-> ./install/bin/maxima
-> load(descriptive);
-   \endverbatim
-    </li>
-   </ol>
-   </li>
-   <li> The "file_search_maxima" variable may be "fixed" at runtime by using an
+   <li> The issue is that load-command fails (%e.g., "load(descriptive)"). </li>
+   <li> The problem occurs if one has a symbolic link on the path during the
+   building of maxima and ecl. </li>
+   <li> MG is communicating with the Maxima mailing list on the issue and
+   hopefully this will be resolved in the next Maxima. </li>
+   <li> For now, the symlink to OKplatform can simply be removed, as it is
+   only a convenience. </li>
+   <li> Additionally, if one wishes to use a symlink on the build path,
+   the "file_search_maxima" variable may be "fixed" at runtime by using an
    old "hard-coded" version of a particular lisp function for listing the
    directories (Thanks to Robert Dodier):
    \verbatim
 :lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
 :lisp (set-pathnames)
    \endverbatim
-   and then load functionality works fine. Although if such broken behaviour
-   occurs in the load system, where else might it occur?
+   and then load functionality works fine. Although how does one know there are
+   not other problems related to file paths in the rest of the maxima system?
    </li>
-   <li> A temporary workaround is just not to use links like the above
-   shortcut to the OKplatform directory. </li>
-   <li> DONE MG should continue to communicate with the Maxima mailing list, 
-   specifying exactly how the problem can be reproduced (the symbolic
-   link must be present at compile time; the build-instructions must be
-   precisely specified (independent of the OKlibrary)). </li>
   </ul>
 
 
@@ -518,6 +465,70 @@ you can't go above 64.
      The Maxima system doesn't know about these changes. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \bug DONE Failure with Ecl when links are on the path
+  <ul>
+   <li> All load-command fails (e.g., "load(descriptive)"). </li>
+   <li> The problem is caused by the symbolic link 
+   OKplatform -> OKlibrary-0.2.1.2_00104/OKplatform ! (That is, having
+   such a link at compile time, we get the problem, while without we don't).
+   </li>
+   <li> This doesn't go away with Ecl version 9.4.1. </li>
+   <li> MG has sent a further e-mail detailing the problem with the following
+   steps to reproduce:
+   <ol>
+    <li> Setup Directory and Symlink
+    \verbatim
+> mkdir Test
+> ln -s `pwd`/Test TestSym
+> cd TestSym
+    \endverbatim
+    </li>
+    <li> Install Ecl
+    \verbatim
+> tar zxvf ecl-9.4.1.tar.gz
+> cd ecl-9.4.1
+> mkdir install
+> LDFLAGS=-Wl,-rpath=`pwd`/install/lib ./configure --prefix=`pwd`/install/
+> make
+> make install
+> cd ..
+    \endverbatim
+    </li>
+    <li> Install Maxima
+    \verbatim
+> tar zxvf maxima-5.18.1.tar.gz
+> cd maxima-5.18.1
+> mkdir install
+> LANG=C ./configure --prefix=`pwd`/install --with-ecl=`pwd`/../ecl-9.4.1/install/bin/ecl --enable-ecl && LANG=C make && make check && make install
+    \endverbatim
+    </li>
+    <li> Run Maxima and try to load something
+    \verbatim
+> ./install/bin/maxima
+> load(descriptive);
+   \endverbatim
+    </li>
+   </ol>
+   </li>
+   <li> The "file_search_maxima" variable may be "fixed" at runtime by using an
+   old "hard-coded" version of a particular lisp function for listing the
+   directories (Thanks to Robert Dodier):
+   \verbatim
+:lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
+:lisp (set-pathnames)
+   \endverbatim
+   and then load functionality works fine. Although how does one know there are
+   not other problems related to file paths in the rest of the maxima system?
+   </li>
+   <li> A temporary workaround is just not to use links like the above
+   shortcut to the OKplatform directory. </li>
+   <li> DONE MG should continue to communicate with the Maxima mailing list, 
+   specifying exactly how the problem can be reproduced (the symbolic
+   link must be present at compile time; the build-instructions must be
+   precisely specified (independent of the OKlibrary)). </li>
   </ul>
 
 
