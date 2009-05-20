@@ -97,14 +97,14 @@ maximal_bc_gl(B,G) :=
   if B = [{},{}] then 
     B : [{first_element(first_element(G[2]))},
          {second_element(first_element(G[2]))}]
-  elseif not emptyp(B[1]) and emptyp(B[2]) then
-    for v in setdifference(G[1],B[1]) do
-      if subsetp(map(setify,cartesian_product(B[1],{v})),G[2]) then 
-        B[2] : {v}
-  elseif emptyp(B[1]) and not emptyp(B[2]) then
-    for v in setdifference(G[1],B[2]) do
-      if subsetp(map(setify,cartesian_product(B[2],{v})),G[2]) then 
-        B[1] : {v},
+  elseif not emptyp(B[1]) and emptyp(B[2]) then block([found : false],
+    for v in setdifference(G[1],B[1]) unless found do
+      if subsetp(map(setify,cartesian_product(B[1],{v})),G[2]) then (
+        B[2] : {v}, found : true))
+  elseif emptyp(B[1]) and not emptyp(B[2]) then block([found : false],
+    for v in setdifference(G[1],B[2]) unless found do
+      if subsetp(map(setify,cartesian_product(B[2],{v})),G[2]) then  (
+        B[1] : {v}, found : true)),
   /* Now established: B[1] and B[2] are not empty. */
   for v in setdifference(G[1],union(B[1],B[2])) do 
     if vbc_gl_p([adjoin(v,B[1]),B[2]],G) then
