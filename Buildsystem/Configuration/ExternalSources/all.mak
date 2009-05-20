@@ -13,7 +13,7 @@ sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
-library_targets_extsrc_okl ?= boost mhash gmp
+library_targets_extsrc_okl ?= bzip2 boost mhash gmp
 
 
 ExternalSources_sources ?= $(ExternalSources)/sources
@@ -46,6 +46,8 @@ include $(OKconfiguration)/ExternalSources/march.mak
 include $(OKconfiguration)/ExternalSources/satz.mak
 include $(OKconfiguration)/ExternalSources/sp.mak
 include $(OKconfiguration)/ExternalSources/cmake.mak
+include $(OKconfiguration)/ExternalSources/bzip2.mak
+
 
 # Currently, these installations need the list of gcc-targets:
 include $(OKconfiguration)/ExternalSources/boost.mak

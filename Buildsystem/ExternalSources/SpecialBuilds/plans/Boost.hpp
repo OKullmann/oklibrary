@@ -10,6 +10,27 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \todo DONE
+  Providing bzip2
+  <ul>
+   <li> We should provide the bzip2-library locally. </li>
+   <li> Building bzip2:
+   \verbatim
+builds/Boost> tar -xzf ../../sources/Boost/bzip2-1.0.5.tar.gz
+builds/Boost> cd bzip2-1.0.5
+bzip2-1.0.5> make
+bzip2-1.0.5> make install PREFIX=~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Boost/Bzip2
+bzip2-1.0.5> mkdir ../../../doc/Bzip2
+bzip2-1.0.5> cp manual.html manual.pdf ../../../doc/Bzip2
+   \endverbatim
+   </li>
+   <li> Building Boost with this showed a defective build due to missing
+   -fPIC options. Accordingly this flag was added to the compilation of
+   blocksort.o, huffman.o, crctable.o, randtable.o, compress.o, decompress.o
+   and decompress.o, which solved the problem. </li>
+  </ul>
+
+
   \todo DONE (corrected Boost building, and also corrected some errors
   in 1_34_1)
   Bugs in Boost 1_34_1
