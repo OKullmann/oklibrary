@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 20.5.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Heuristics.mac
+  \brief Finding biclique partitions by heuristical algorithms
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Heuristics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
+
+
+/* *********************
+   * Greedy approaches *
+   *********************
+*/
+
+/* G is a graph with loops, and returned is a biclique partition composed 
+   purely of maximal bicliques:
+*/
+greedy_bcp_gl(G) := block([B, newMB, listB : [], restE : G[2], restG : G],
+  while not(emptyp(restE)) do block(
+    B : [{first_element(first_element(restG[2]))},{second_element(first_element(restG[2]))}],
+    newMB : maximal_bc_gl(B,restG),
+    listB : endcons(newMB,listB),
+    restE : setdifference(restE,map(setify,cartesian_product(newMB[1],newMB[2]))),
+    restG : [flatten(restE),restE]
+  ),
+  return(listB))$
+
+/*!
+\endhtmlonly
+*/
