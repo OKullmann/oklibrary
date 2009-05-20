@@ -28,6 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/BasicN
 
 okltest_ebcp_gg_p(ebcp_gg_p);
 
+okltest_greedy_bcp_gl(greedy_bcp_gl);
+
 /*!
 \endhtmlonly
 */
