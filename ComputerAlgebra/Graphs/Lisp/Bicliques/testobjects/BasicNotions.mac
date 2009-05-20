@@ -34,7 +34,18 @@ okltest_vbc_dgl_p(vbc_dgl_p);
 
 okltest_ebc_gg_p(ebc_gg_p);
 
+
+/* *********************
+   * Maximal bicliques *
+   *********************
+*/
+
 okltest_maximal_bc_gl(maximal_bc_gl);
+
+/* *******************
+   * Biclique covers *
+   *******************
+*/
 
 okltest_max_bc_cover_gl(max_bc_cover_gl);
 

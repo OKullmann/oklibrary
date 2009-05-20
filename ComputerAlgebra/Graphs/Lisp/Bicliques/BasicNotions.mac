@@ -76,6 +76,11 @@ ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
   not parallel_edges_gg_p(S) and completebipartite_gg_p(S))$
 
 
+/* *********************
+   * Maximal bicliques *
+   *********************
+*/
+
 /* Given a vertex biclique B in G, extend it (somehow) to a maximal biclique:
 */
 maximal_bc_gl(B,G) := if emptyp(G[2]) then B else
@@ -101,11 +106,17 @@ block(
       B[2] : adjoin(v,B[2]),
   return(B))$
 
-/* max_bc_cover_gl takes a graph with loops G and
-   returns a biclique partition of maximal bicliques of G.
-   It is not too hard to show that this sometimes of a size less than
-   the minimum biclique parition number of the graph G */
 
+/* *******************
+   * Biclique covers *
+   *******************
+*/
+
+/* max_bc_cover_gl takes a graph with loops G and
+   returns a biclique cover by maximal bicliques of G,
+   obtained by repeatedly extending non-covered edges
+   to maximal bicliques.
+*/
 max_bc_cover_gl(G) := block([GNL : G, i, LB, rest, fedge, reiterate, induMB],
   LB : [],
   EP : {},
