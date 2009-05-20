@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Heuristics.mac"
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* *********************
@@ -31,15 +32,15 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
 /* G is a graph with loops, and returned is a biclique partition composed 
    purely of maximal bicliques:
 */
-greedy_bcp_gl(G) := block([B, newMB, listB : [], restE : G[2], restG : G],
+greedy_bcp_gl(G) := block([listB : [], restE : G[2], restG : G],
   while not(emptyp(restE)) do block(
-    B : [{first_element(first_element(restG[2]))},{second_element(first_element(restG[2]))}],
+   [B : [{first_element(first_element(restG[2]))},{second_element(first_element(restG[2]))}], newMB],
     newMB : maximal_bc_gl(B,restG),
-    listB : endcons(newMB,listB),
+    listB : cons(newMB,listB),
     restE : setdifference(restE,map(setify,cartesian_product(newMB[1],newMB[2]))),
-    restG : [flatten(restE),restE]
+    restG : [lunion(restE),restE]
   ),
-  return(listB))$
+  return(reverse(listB)))$
 
 /*!
 \endhtmlonly
