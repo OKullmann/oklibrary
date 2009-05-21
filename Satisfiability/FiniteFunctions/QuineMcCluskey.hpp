@@ -4,6 +4,12 @@
 #include<algorithm>
 #include<cmath>
 
+#ifdef NUMBER_VARIABLES
+const int nVars = NUMBER_VARIABLES;
+#else
+const int nVars = 16;
+#endif
+
 signed int numVars (std::vector < std::vector < signed int > >&cs)
 {
   std::set<unsigned int> variables;
@@ -111,9 +117,7 @@ unsigned int hashToClause (long hash, signed int clause[], signed int nVars)
 std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vector <
                            signed int > >inputCS)
 {
-  signed int nVars = numVars (inputCS);
-
-  signed int clause[1]; // ERROR; was signed int clause[nVars];
+  signed int clause[nVars];
 
   long nPartialAssignments = ipow (3, nVars);
 

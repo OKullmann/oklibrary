@@ -206,7 +206,8 @@ License, or any later version. */
     <ol>
      <li> This code needs to be completely written, and should be
      a learning opportunity for MG. </li>
-     <li> First task is to create a valid C++ program, by eliminating
+     <li> DONE (used a constant here, which was the easiest fix)
+     First task is to create a valid C++ program, by eliminating
      the error using a non-constant array-dimension; a std::vector
      is to be used here. </li>
     </ol>
