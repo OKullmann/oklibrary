@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Transla
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul2CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
@@ -290,44 +291,86 @@ aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
   xreduce(union, map(lambda([a,b], {{-a,b},{a,-b}}), 
     take_elements(nb,bits), rest(bits,nb))))$
 
+/* Function which generates (and stores) the canonical translation for
+   the mul2 translation. */
+aes_mul2_ts_CNF : false;
+aes_mul2_ts_gen() := 
+  if aes_mul2_ts_CNF = false then block([plus16 : lambda([x],x+16)],
+      [mul2_dnf : generate_full_aes_field_mul_dnf_fcs(2)],
+    aes_mul2_ts_CNF : dualts_fcl(
+      [listify(mul2_dnf[1]),
+       sort(
+         listify(mul2_dnf[2]),
+         lambda([a,b], is(
+           rank_lex_subsets(map(plus16,a),32) < 
+             rank_lex_subsets(map(plus16,b),32)))
+        )]
+     ),
+     return(aes_mul2_ts_CNF)
+  ) else aes_mul2_ts_CNF$
 /* Returns a set of conditions representing multiplication by 02 or "x" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
-aes_mul2_cp([bits]) := block([rs : FieldMul2CNF[2]],
-  [rs : FieldMul2CNF[2], 
-  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
-  for i : 1 thru length(bits) do
-    rs : subst(tVar[i], i, rs),
-  for i : 1 thru length(bits) do
-    rs : subst(bits[i], tVar[i], rs),
-  return(rs)
-)$
+aes_mul2_cp : aes_mul2_pi_cp$
+aes_mul2_ts_CNF : false;
+aes_mul2_pi_cp([bits]) := rename_fcs(FieldMul2CNF,bits)[2]$
+aes_mul2_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul2_ts_gen(),append(bits,aes_make_vars("mul2",1,256)))[2])$
 
+/* Function which generates (and stores) the canonical translation for
+   the mul3 translation. */
+aes_mul3_ts_CNF : false;
+aes_mul3_ts_gen() := 
+  if aes_mul3_ts_CNF = false then block([plus16 : lambda([x],x+16)],
+      [mul3_dnf : generate_full_aes_field_mul_dnf_fcs(3)],
+    aes_mul3_ts_CNF : dualts_fcl(
+      [listify(mul3_dnf[1]),
+       sort(
+         listify(mul3_dnf[2]),
+         lambda([a,b], is(
+           rank_lex_subsets(map(plus16,a),32) < 
+             rank_lex_subsets(map(plus16,b),32)))
+        )]
+     ),
+     return(aes_mul3_ts_CNF)
+  ) else aes_mul3_ts_CNF$
 /* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
-aes_mul3_cp([bits]) := block(
-  [rs : FieldMul3CNF[2], 
-  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
-  for i : 1 thru length(bits) do
-    rs : subst(tVar[i], i, rs),
-  for i : 1 thru length(bits) do
-    rs : subst(bits[i], tVar[i], rs),
-  return(rs)
-)$
+aes_mul3_cp : aes_mul3_pi_cp$
+aes_mul3_ts_CNF : false;
+aes_mul3_pi_cp([bits]) := rename_fcs(FieldMul3CNF,bits)[2]$
+aes_mul3_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul3_ts_gen(),append(bits,aes_make_vars("mul3",1,256)))[2])$
 
+/* Function which generates (and stores) the canonical translation for
+   the sbox translation. */
+aes_sbox_ts_CNF : false;
+aes_sbox_ts_gen() := 
+  if aes_sbox_ts_CNF = false then block([plus16 : lambda([x],x+16)],
+      [sbox_dnf : generate_full_aes_sbox_dnf_fcs()],
+    aes_sbox_ts_CNF : dualts_fcl(
+      [listify(sbox_dnf[1]),
+       sort(
+         listify(sbox_dnf[2]),
+         lambda([a,b], is(
+           rank_lex_subsets(map(plus16,a),32) < 
+             rank_lex_subsets(map(plus16,b),32)))
+        )]
+     ), 
+     return(aes_sbox_ts_CNF)
+  ) else aes_sbox_ts_CNF$
+/* Default the translation to use the old Sbox translation. */
+aes_sbox_cp : aes_sbox_pi_cp$
 /* Returns a set of conditions representing the AES Sbox given the 8 input bits
    and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
-aes_sbox_cp([bits]) := block(
-  [rs : Sbox44ICCNF[2], 
-  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
-  for i : 1 thru length(bits) do
-    rs : subst(tVar[i], i, rs),
-  for i : 1 thru length(bits) do
-    rs : subst(bits[i], tVar[i], rs),
-  return(rs)
-)$
+aes_sbox_pi_cp([bits]) := rename_fcs(Sbox44ICCNF,bits)[2]$
+aes_sbox_ts_cp([bits]) :=
+  setify(
+    rename_fcl(aes_sbox_ts_gen(),append(bits,aes_make_vars("sbox",1,256)))[2])$
 
 /* ***************************************
    * Rewrite functions                  *
