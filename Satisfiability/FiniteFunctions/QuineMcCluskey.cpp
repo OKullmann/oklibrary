@@ -1,5 +1,5 @@
-#include "SATParser.hpp"
-#include "QuineMcCluskey.hpp"
+#include <OKlib/Satisfiability/FiniteFunctions/SATParser.hpp>
+#include <OKlib/Satisfiability/FiniteFunctions/QuineMcCluskey.hpp>
 #include<fstream>
 #include<iostream>
 #include<set>
