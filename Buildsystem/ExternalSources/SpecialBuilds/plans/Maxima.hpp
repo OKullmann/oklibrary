@@ -12,7 +12,8 @@ License, or any later version. */
   
   \todo Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
   <ul>
-   <li> The issue is that load-command fails (%e.g., "load(descriptive)"). </li>
+   <li> The issue is that load-command fails (%e.g., "load(descriptive)").
+   </li>
    <li> The problem occurs if one has a symbolic link on the path during the
    building of maxima and ecl. </li>
    <li> MG is communicating with the Maxima mailing list on the issue and
