@@ -36,6 +36,24 @@ License, or any later version. */
   <h2> Some general Bash-techniques </h2>
 
   <ul>
+   <li> When encountering something like
+   "make[1]: execvp: /bin/bash: Argument list too long":
+    <ol>
+     <li> If there is a really big argument list involved, then
+     this should be avoided. </li>
+     <li> But likely you need to update your Linux version, since the
+     OKlibrary build systems needs a fairly big environment store. </li>
+     <li> Use
+     \verbatim
+> getconf ARG_MAX
+     \endverbatim
+     to see the space for the (arguments + environment)-store. </li>
+     <li> The old standard value was 131072, which is not sufficient
+     to perform everything with the OKlibrary. </li>
+     <li> Newer Linux versions have 2097152, which is enough (also for
+     further expansions). </li>
+    </ol>
+   </li>
    <li> File-renaming functionality:
     <ol>
      <li> The mmv-package was useful, but is apparently not available for
