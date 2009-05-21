@@ -208,9 +208,9 @@ License, or any later version. */
      <li> Testing? </li>
     </ul>
    </li>
-   <li> An initial (poor) implementation by MG :
+   <li> An initial (poor) implementation by MG:
    <ul> 
-    <li> QuineMcCluskey.cpp : 
+    <li> QuineMcCluskey.cpp: 
     \verbatim
 #include "SATParser.hpp"
 #include "QuineMcCluskey.hpp"
@@ -229,7 +229,7 @@ int main(int argc, const char* argv[]) {
 }
     \endverbatim
     </li>
-    <li> QuineMcCluskey.hpp :
+    <li> QuineMcCluskey.hpp:
     \verbatim
 #include<set>
 #include<vector>
@@ -423,7 +423,7 @@ std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vec
 };
     \endverbatim
     </li>
-    <li> SATParser.hpp :
+    <li> SATParser.hpp:
     \verbatim
 #include<iostream>
 #include<fstream>
