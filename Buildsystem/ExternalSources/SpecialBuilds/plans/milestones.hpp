@@ -8,167 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.27 (21.5.2009)
-
-
-  \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
-  and some updates)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Failure with Ecl when links are on the path : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Providing bzip2 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Update : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
-   topics are handled:
-    - Mhash : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Update MHash-building : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
-   topics are handled:
-    - CMake-documentation building : DONE
-
-  \par
-   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Install the mmv package : DONE
-    - Documentation : DONE
-    - Handling of different versions : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Linker segmentation fault : DONE
-    - Bugs in Boost 1_34_1 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - C++ : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
-   the following topics are handled:
-    - March build fails using "oklib march" : DONE
-    - Minisat+ build fails : DONE
-    - Satz215 build fails : DONE
-
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
-    - GRASP cannot be compiled with gcc version 4.3 : DONE
-    - Grasp : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Building of Maxima-packages : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
-   topics are handled:
-    - Estimating the problem with version 1.1.0 : DONE
-    - Also "corrected" Ubcsat segfaults (with gcc 4.3.1) : DONE
-    - Ubcsat source files are read-only : DONE
-    - Update to version 1.1.0 : DONE
-    - Ubcsat does not flush the output-buffer : DONE
-    - Complete docu-file : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
-   topics are handled:
-    - We need to update the created sage-script : DONE
-    - Update the Sage installation : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Remove application of mln : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
-   topics are handled:
-    - Installing Ecl : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
-   topics are handled:
-    - Querying ecl : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Inconsistent installation of Maxima : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
-   topics are handled:
-    - Update to version 2.8.1 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Update to Maxima 5.17.1 : DONE
-    - Update to Maxima 5.16.x : DONE
-    - Enabling use of ECL : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Improving building Boost : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
-   topics are handled:
-    - Installing GAP : DONE
-    - Monoids : DONE
-    - GRAPE : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
-   topics are handled:
-    - Update the installation process : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
-   topics are handled:
-    - R-documentation : DONE
-    - Documentation-page : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Installing libsigsegv and CLisp 2.45 locally : DONE
-    - Install CLisp : DONE
-    - Install Maxima : DONE
-    - Install Maxima 5.13 on csltok : DONE
-    - Install Maxima 5.13 on cs-wsok : DONE
-    - Install clisp (version 2.43) on csltok : DONE
-    - Install clisp (version 2.43) on cs-wsok (system-wide) : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Write docus page : DONE
-    - Local and system-wide : DONE
-    - Installation : DONE
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2 (21.5.2009)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -182,6 +22,9 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Update Boost installation
+    - Building version 1_38_0 / 1_39_0
+    - Problems with building Boost
+    - Documentation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
@@ -198,9 +41,12 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
+    - Update to newer version
+    - ubcsat-okl
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Building Ubcsat
+    - Speed
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
@@ -212,6 +58,22 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
    topics are handled:
     - Complete MHash documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - Write docus for March
+    - Write docus for Satz
+    - Write docus for Minisat
+    - Update of GRASP
+    - Installation in general
+    - SAT4J
+    - Minisat
+    - Picosat
+    - March solvers
+    - Argo
+    - Satz
+    - Belief and Survey propagation
 
 
   \par Version 0.2.4 (installing e-mail services)
@@ -259,7 +121,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
    topics are handled:
-    - Update to Sage later than 3.2.3
+    - Update to new Sage
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
@@ -270,6 +132,16 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - bug CLisp doesn't use libsigsegv (though specified)
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Install xgettext
+    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
+    - Database of integer sequences
+    - Additional packages
+    - System-wide installation
+    - Handling of redefined load-function
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
@@ -299,14 +171,6 @@ License, or any later version. */
   \par Version 0.2.7 (cleaning up installations)
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Linker segmentation fault
-    - Building version 1_38_0
-    - Problems with building Boost
-    - Documentation
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Install GCC 4.2.4
@@ -326,13 +190,6 @@ License, or any later version. */
     - Building dvi,pdf,info-documentation
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Database of integer sequences
-    - System-wide installation
-    - Handling of redefined load-function
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
    topics are handled:
     - Improve installation
@@ -344,11 +201,6 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the
    following topics are handled:
     - Systems
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Additional packages
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp the following
@@ -392,5 +244,6 @@ License, or any later version. */
 
    - 0.2   : 16.7.2007; initial version, several special systems can be build (the special builds are the stronger parts of module ExternalSources, while the general structure is lagging behind).
    - 0.2.1 : 10.8.2007; built Sage and Coq (and Boost 1_34_1), and extended substantially the documentation system (docus pages, functionality checks, and linking).
+   - 0.2.2 : 21.5.2009; complete updates for many packages (Gmp, R, CMake, MHash), especially much work on installing Maxima and related software (CLisp, Ecl, gnuplot, etc.), making Boost 1_34_1 installing and working on all platforms, some smaller updates (continously Git; attempts with Sage), working out the new general style of build-makefiles (just providing one version "at at time") and update of documentation; several SAT-solvers installed and updated/patched (Ubcsat, Grasp, Satz215, Minsat+, March, SP).
 
 */

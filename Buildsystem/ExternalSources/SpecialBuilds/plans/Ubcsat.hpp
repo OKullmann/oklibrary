@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \todo Update to newer version
+  <ul>
+   <li> The post-1.1.0-version should support 64bit machines, so we wait
+   for that. </li>
+   <li> We should download the available documentation. </li>
+   <li> OK and MG must get in contact with the Ubcsat-group. </li>
+   <li> See "Contact the developers of Ubcsat" in
+   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
+   <li> If really needed, one could use the executable provided with 1.1.0:
+   We get a segfault when finally analysing the data (and computing the maximum
+   number of steps), but this is not such a big problem (the data analysis
+   then is done using R). </li>
+  </ul>
+
+
   \todo ubcsat-okl
   <ul>
    <li> More readable large numbers:
@@ -65,83 +80,6 @@ ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout 
   </ul>
 
 
-  \todo DONE (we wait for the successor of 1.1.0)
-  Estimating the problem with version 1.1.0
-  <ul>
-   <li> Most important seems to obtain a clear idea on how much work
-   is needed to
-    <ol>
-     <li> first get Ubcsat compiling and running correctly (independent of
-     the machine type); </li>
-     <li> and second to make the step counter 64 bit. </li>
-    </ol>
-   </li>
-   <li> Depending on this estimation we need then to decide how to
-   proceed. </li>
-   <li> Regarding the first step, we should see what we did with version 1.0.0,
-   and compare it with the new version. </li>
-   <li> We should also run the newest gcc on it, with all warnings turned on.
-   </li>
-   <li> Perhaps also the flint-tool can help. </li>
-   <li> The problematic points should be bit-operations and pointer-operations
-   (and also index-operations). </li>
-   <li> If the first step can be done with reasonable effort then we should
-   do it. </li>
-   <li> Of course, a question is whether just small corrections are sufficient,
-   or whether larger changes are needed, in which case to fork the whole
-   Ubcsat code might be an option. </li>
-  </ul>
-  
-
-  \bug DONE (perhaps this had to do with not having "biarch"-gcc versions;
-  in any way we wait for 1.2.0)
-  Also "corrected" Ubcsat-executable segfaults (with gcc 4.3.1)
-  <ul>
-   <li> After building Ubcsat (1.0.0) with gcc 4.3.1 we get
-   \verbatim
-OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
-/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 28315 Segmentation fault      ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $*
-   \endverbatim
-   </li>
-   <li> Strange that also after replacing the ubcsat-executable with one
-   built on a 64-bit machine (cs-wsok) and which works, we get a similar
-   problem:
-   \verbatim
-> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.cnf
-/compsci/saturn/staff/csoliver/OKplatform/bin/ubcsat-okl: line 12: 28461 Segmentation fault      ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $*
-   \endverbatim
-   ??? </li>
-   <li> One would guess that this reveals an error which will not show up
-   on every platform? Perhaps on that "cscharon" (the machine above) actually
-   no 32-bit compatibility mode is run, but true 64-bit ?? </li>
-  </ul>
-
-
-  \bug DONE (changing the permissions after unpacking)
-  Ubcsat source files are read-only
-  <ul>
-   <li> The permissions of the sources files in "src/" for the Ubcsat source
-   tarball are "444":
-    <ol>
-     <li> this causes issues when they are copied during any
-     rebuild (therefore keeping the same permissions) to the 
-     "Installations/SAT/Ubcsat" directory, as the user then doesn't have 
-     permission to overwrite a read-only file. </li>
-     <li> More precisely, the issue at hand is the behaviour of "dos2unix",
-     which apparently on some machines creates writeable files, on some
-     others keeps the original permissions. </li>
-    </ol>
-   </li>
-   <li> It seems two solutions here are to either 
-    <ol>
-     <li> Use "cp -f" rather than "cp" to force removal of the files first 
-     rather than simply overwriting them. </li>
-     <li> "chmod" the files during the build to 644. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \bug Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
    <li> Yet "unsigned int" is used for example for the cutoff-value,
@@ -190,52 +128,6 @@ OKplatform> ubcsat-okl -alg samd -cutoff 20000000 -runs 100 -i Ramsey_5_5_2_41.c
   </ul>
 
 
-  \todo DONE (waiting for 1.2.0)
-  Update to version 1.1.0
-  <ul>
-   <li> First we try what happens on 32-bit and 64-bit machines.
-    <ol>
-     <li> On cs-wsok (64bit): The provided executable seems to work, but
-     the compiled executable yields an error:
-     \verbatim
-builds/SAT/Ubcsat> ./ubcsat -alg rnovelty+ -i ~/SAT-Algorithmen/OKplatform/GreenTao_2_5_33500.cnf
-#
-# UBCSAT version 1.1.0 (Sea to Sky Release)
-#
-# http://www.satlib.org/ubcsat
-#
-# ubcsat -h for help
-#
-Error: Invalid Literal [-31473] in clause [0]
-     \endverbatim
-     Likely this is due to incorrect assumptions on integer types. </li>
-    </ol>
-   </li>
-   <li> We should be able to instruct the compiler to build for a 32-bit
-   machine?! Perhaps "-m32"? The executable provided with the
-   1.1.0-distribution seems to work mostly (see below) on all 32- and
-   64-bit machines. </li>
-   <li> And apparently the executable compiled on cs-wsok (64-bit, AMD) seems
-   to work on "all" machines. </li>
-   <li> Though "-m32" works on cs-wsok (64-bit, AMD), but we get a compilation
-   error
-   \verbatim
-/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/ld: skipping incompatible /usr/lib64/gcc/x86_64-suse-linux/4.3/libgcc.a when searching for -lgcc
-/usr/lib64/gcc/x86_64-suse-linux/4.3/../../../../x86_64-suse-linux/bin/ld: cannot find -lgcc
-collect2: ld returned 1 exit status
-   \endverbatim
-   on an another 64-bit machine (Intel)? </li>
-   <li> So perhaps for now we just use the provided executable: We get a
-   segfault when finally analysing the data (and computing the maximum
-   number of steps), but this is not such a big problem (the data analysis
-   then is done using R). </li>
-   <li> We should download the now available documentation. </li>
-   <li> OK and MG must get in contact with the Ubcsat-group. </li>
-   <li> See "Contact the developers of Ubcsat" in
-   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
-  </ul>
-
-
   \todo Speed
   <ul>
    <li> We should find out about the speed of the various versions (1.0.0
@@ -258,27 +150,6 @@ ubcsat -alg samd -i Ramsey_5_2_40.cnf -runs 10 -cutoff 5000
    better results (between 10%-30%)! </li>
    <li> On cscarme (64-bit, 2.8 GHz) we have around 2500 FPS (for 1.1.0-
    executable). </li>
-  </ul>
-
-
-  \todo Complete docu-file : DONE
-
-
-  \todo DONE (see above)
-  Check the new Ubcsat version. ?? There doesn't seem to exist one??
-
-
-  \bug Ubcsat does not flush the output-buffer DONE
-  <ul>
-   <li> Flushing the output buffer therefore is left to the operating system. 
-   </li>
-   <li> Problems then occur when redirecting output to a file (i.e the output
-   buffer is not flushed at all until the end). </li>
-   <li> Ubcsat seems to have a "-rflush" option, which flushes the output 
-   buffer after each run, but this was introduced in version 1.1.0 (See
-   http://www.satlib.org/ubcsat/revisions.txt ). </li>
-   <li> DONE The solution is simply to find the place in the Ubcsat source code
-   where the result line is output, and adding a buffer-flush. </li>
   </ul>
 
 */

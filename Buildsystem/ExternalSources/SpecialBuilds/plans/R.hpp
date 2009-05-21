@@ -103,21 +103,5 @@ Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
    <li> How do we get documentation on the packages? </li>
   </ul>
 
-
-  \todo R-documentation : DONE
-  <ul>
-   <li> Does the R-build create documentation-pages to which we can link?
-   DONE : ExternalSources/R/R-2.5.0/doc/html/index.html. </li>
-   <li> DONE : So the build shall also move the doc/subdirectory. </li>
-   <li> Target "cleanR" then can just remove the build-directory. </li>
-  </ul>
-
-
-  \todo Documentation-page : DONE
-  <ul>
-   <li> Create a docus-documentation. DONE </li>
-   <li> State there the prerequisites. </li> 
-  </ul>
-
 */
 

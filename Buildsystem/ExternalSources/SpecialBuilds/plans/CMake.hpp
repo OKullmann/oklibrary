@@ -9,11 +9,5 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp
   \brief Plans regarding installation of the CMake package
 
-
-  \todo CMake-documentation building : DONE
-  <ul>
-   <li> Make also the documentation available. </li>
-  </ul>
-
 */
 
