@@ -10,74 +10,40 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
-  \bug DONE (we build it locally, with 4.1.2; once we are using newer
-  gcc-version, then we use the corrected versions provided in
-  OKlib/Satisfiability/Solvers/March/ (this can't be used now due to
-  a deficiency of 4.1.2))
-  March build fails using "oklib march"
+  \todo Write docus for March
   <ul>
-   <li> Building march fails in the following way :
-   \verbatim
-> oklib march
-
-solver.h:56: warning: inline function ‘swap_ternary_implications’ declared but never defined
-   \endverbatim
-   using gcc version 4.3.2.
-   </li>
-   <li> DONE The reason is that the inline-functions are not defined where they
-   are declared (this is an error in the march-code). Two possible solutions:
-    <ol>
-     <li> DONE Move the respective function-definitions from their implementation
-     files to the header files. </li>
-     <li> Or use gcc-4.1.2 instead. </li>
-    </ol>
-    MG could try correcting the code.
-   </li>
+   <li> Currently we build march_pl with the (local) gcc version 4.1.2. </li>
+   <li> Once we are using a newer gcc-version, then we shall use the corrected
+   versions provided in OKlib/Satisfiability/Solvers/March/ (this can't be
+   used now due to a deficiency of 4.1.2). </li>
+   <li> See "March solvers" below. </li>
   </ul>
 
 
-  \bug DONE
-  Satz215 build fails
+  \todo Write docus for Satz
   <ul>
-   <li> We get the error
-   \verbatim
-satz215.2.c: In function ‘main’:
-satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
-   \endverbatim
-   </li>
-   <li> So the appropriate standard header files needs to be included. </li>
+   <li> Mention the patch. </li>
+   <li> See "Satz" below.
   </ul>
 
 
-  \bug DONE (using now the locally installed Gmp)
-  Minisat+ build fails
+  \todo Write docus for Minisat
   <ul>
-   <li> Since we are building Gmp locally, we should build it first
-   (w.r.t. "all"), and then generalise the minisat+ build process so
-   that Gmp include- and link-libararies can be specified. </li>
-   <li> See "Use the local Gmp" in
-   Satisfiability/Solvers/Minisat/Minisat+/plans/general.hpp. </li>
+   <li> Mention the patched makefile regarding minisat+, and the usage of the
+   locally provided GMP. </li>
+   <li> See "Minisat" below
   </ul>
 
 
-  \bug DONE (we are now compiling it with version 4.1.2; once we are using
-  a newer version of gcc we need to look at this problem again)
-  GRASP cannot be compiled with gcc version 4.3
+  \todo Update of GRASP
   <ul>
-   <li> The problem is the reference to non-standard headers like
-   "iostream.h". </li>
-   <li> Perhaps we always provide gcc version 4.1.2 (besides the newest
-   version), and build grasp with this version.
-    <ol>
-     <li> Then we need special buildsystem-variables for this "last old
-     version". </li>
-     <li> See "Providing gcc 4.1.2" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
-    </ol>
-   </li>
-   <li> But we should also contact Joao Marques-Silva about a possible
+   <li> When switching to a newer gcc-version, then either we need to
+   fix 4.1.2, or we need to update the code. </li>
+   <li> See "Providing gcc 4.1.2" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
+   <li> We should also contact Joao Marques-Silva about a possible
    update of his code. </li>
-  </ul>
+ </ul>
 
 
   \todo Installation in general
@@ -99,6 +65,18 @@ satz215.2.c:1822: error: ‘CLK_TCK’ undeclared (first use in this function)
    (solvers are not "SpecialBuilds"). </li>
    <li> Compare "Organisation of links" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
+   <li> Perhaps we mention that we do not provide
+    <ol>
+     <li> http://www.cs.toronto.edu/~fbacchus/sat.html </li>
+     <li> http://reasoning.cs.ucla.edu/rsat/ and
+     http://reasoning.cs.ucla.edu/index.php?p=software.php </li>
+     <li> Chaff </li>
+    </ol>
+    can't be included since theq are not open-source; but we provide these
+    links. </li>
+    <li> On this link-page perhaps also
+    http://sat.inesc-id.pt/OpenSAT/index.php is mentioned, but that this
+    is not included on request of the authors. </li>
   </ul>
 
   
@@ -641,45 +619,6 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   </ul>
 
 
-  \todo DONE (problems solved by new package from Joao Marques-Silva, and
-  complete installation)
-  Grasp
-  <ul>
-   <li> Web site to cite: http://users.ecs.soton.ac.uk/jpms/soft/ </li>
-   <li> Manual build:
-   \verbatim
-builds/SAT/Grasp/tar -xjf ../../../sources/SAT/GRASP/grasp-release-20080622.tar.bz2
-cd grasp-release-20080622
-make
-./sat-grasp ../../../../../OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
-   \endverbatim
-   </li>
-   <li> Code needs update (warnings). </li>
-   <li> How to read "sat-grasp.doc" ?
-    <ol>
-     <li> We provide an amended version. </li>
-     <li> Then running
-     \verbatim
-asciidoc --doctype manpage --backend xhtml11 --unsafe --out-file=sat-grasp_amended.html sat-grasp_amended.doc
-     \endverbatim
-     creates a reasonable html-page, while by
-     \verbatim
-less sat-grasp_amended.doc
-     \endverbatim
-     the man-page can be viewed. </li>
-     <li> Using "--doctype article" produces a slight variation instead. </li>
-     <li> What is the meaning of "--unsafe"?? Without this option, some
-     style-sheets are not used. </li>
-    </ol>
-   </li>
-   <li> Using "sat-grasp -V file", the only output is "-V", and the return
-   value is 1. This seems to be a bug (this happens for all kinds of DIMACS-
-   files). </li>
-   <li> Using "+V", which seems to be the default (different from what
-   sat-graps.doc says), it works. </li>
-  </ul>
-
-
   \todo Maxsat
   <ul>
    <li> Some solvers are at http://web.udl.es/usuaris/m4372594/software.html.
@@ -699,37 +638,5 @@ less sat-grasp_amended.doc
    <li> Duaffle http://www.cs.cornell.edu/~sabhar/#software </li>
   </ul>
   
-  
-  \todo DONE Chaff
-  <ul>
-   <li> Not open source, and thus can't be included. </li>
-  </ul>
-
-
-  \todo DONE Rsat
-  <ul>
-   <li> http://reasoning.cs.ucla.edu/rsat/ </li>
-   <li> Not open source, and thus can't be included (more precisely,
-   the authors don't want redistribution). </li>
-   <li> Like (unfortunately) all the other software at
-   http://reasoning.cs.ucla.edu/index.php?p=software.php. </li>
-   <li> Somewhere we should have a link-page, and there we'll put this
-   link. </li>
-  </ul>
-
-
-  \todo DONE Fahiem Bacchus' solvers
-  <ul>
-   <li> http://www.cs.toronto.edu/~fbacchus/sat.html </li>
-   <li> Not available under a free licence. </li>
-  </ul>
-
-
-  \todo DONE OpenSAT
-  <ul>
-   <li> Not to be included by request of the authors. </li>
-   <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
-  </ul>
-
 */
 

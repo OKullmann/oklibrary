@@ -10,56 +10,6 @@ License, or any later version. */
   \brief Plans regarding building of concrete external sources
 
 
-  \todo Install the mmv package : DONE
-  <ul>
-   <li> For installing %boost we need mln. Compare "Update Boost installation"
-   in  Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp. </li>
-   <li> I found "mmv_1.01b.orig.tar.gz  part01.Z  part02.Z". </li>
-   <li> Apparently they only contain the mmv-program (a C program), not
-   mln, mcp etc. </li>
-   <li> Perhaps it's not worth the trouble --- all our uses of that package
-   should be easily replaceable by little bash-applications. </li>
-   <li> First attempts at installing some versions of mmv failed, and we
-   have only one application, namely the "mln" application in
-   Buildsystem/ExternalSources/SpecialBuilds/boost.mak, and this shall
-   be done directly (via bash). </li>
-   <li> At http://packages.debian.org/source/etch/mmv there is a renewed
-   version? How to get a standard package out of these three files there?
-   OK e-mailed the maintainer there. </li>
-  </ul>
-
-
-  \todo Documentation : DONE
-  <ul>
-   <li> Under SpecialBuilds/docus we need docus-files for every
-   external source:
-    <ol>
-     <li> cmake : DONE (postponed until we update installation) </li>
-     <li> mhash : DONE </li>
-     <li> mpfr : DONE (postponed until we update installation) </li>
-     <li> asciidoc : DONE </li>
-     <li> %boost : DONE </li>
-     <li> clisp : DONE </li>
-     <li> coq : DONE </li>
-     <li> doxygen : DONE </li>
-     <li> gcc : DONE </li>
-     <li> git : DONE </li>
-     <li> gmp : DONE </li>
-     <li> maxima : DONE </li>
-     <li> ocaml : DONE </li>
-     <li> postgresql : DONE </li>
-     <li> r : DONE </li>
-     <li> sage : DONE </li>
-     <li> ubcsat (remark about corrected files; content of package) : DONE </li>
-     <li> valgrind : DONE </li>
-    </ol>
-   </li>
-   <li> DONE
-   For each of these docus-files there is a link from
-   ExternalSources/docus/general.hpp. </li>
-  </ul>
-
-
   \todo Complete documentation
   <ul>
    <li> For the following external sources, docus are missing:
@@ -75,28 +25,6 @@ License, or any later version. */
    </li>
    <li> Most of the current docus are not complete (or are not up-to-date).
    </li>
-  </ul>
-
-
-  \todo Update MHash-building : DONE
-  <ul>
-   <li> This should be similar to Boost and Gmp. </li>
-   <li> In the docus, we should make a remark about corrected files and
-   about the content of the package. </li>
-  </ul>
-
-
-  \todo DONE (the new scheme is as discussed below)
-  Handling of different versions
-  <ul>
-   <li> Perhaps it is easier to handle installation of different versions
-   by just setting the variable "XXX_recommended_version_number_okl" ? </li>
-   <li> This would save us the effort of creating different targets etc. </li>
-   <li> Only one has to take care of the clashes with
-   "XXX_supported_not_recommended_version_numbers_okl". </li>
-   <li> But once we do not need the other targets anymore, this problem
-   will vanish! </li>
-   <li> First tried out this scheme with Valgrind. </li>
   </ul>
 
 

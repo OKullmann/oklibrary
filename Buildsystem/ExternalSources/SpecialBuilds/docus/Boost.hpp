@@ -24,6 +24,21 @@ License, or any later version. */
   <ul>
    <li> The %boost header files and the corresponding link libraries XXX </li>
    <li> Documentation XXX </li>
+   <li> Corrections:
+    <ol>
+     <li> At this time (May 2009) we are stuck with version 1_34_1 due to
+     changes in the Boost behaviour causing build-failures for our programs.
+     </li>
+     <li> The package provided, "boost_1_34_1.tar.bz2", is actually patched
+     w.r.t. known defective files. </li>
+     <li> There are known errors with the serialisation library, but yet
+     we don't use this library. </li>
+    </ol>
+   </li>
+   <li> The bzip2-library is needed to build Boost; we provide a (patched)
+   local installation by using <code>oklib bzip2</code>. This isinstalled by
+   default when installing the full package, while otherwise it needs to
+   be installed before installing Boost. </li>
   </ul>
 
 
@@ -61,10 +76,17 @@ License, or any later version. */
 
   Some general remarks:
   <ul>
-   <li> Currently only local installation is provided. </li>
+   <li> Currently only local installation is provided, using the
+   local gcc. </li>
+  </ul>
+
+  Prerequisites:
+  <ul>
    <li> If the required local installation of gcc is not available, then it
-   needs to be built first (currently this is not handled by the build
-   system). </li>
+   needs to be built first (by <code>oklib gcc</code>); currently this is not
+   handled by the build system). </li>
+   <li> Another prerequisite is the locally installed bzip2-library (install
+   by <code>oklib bzip2</code>). </li>
   </ul>
 
 

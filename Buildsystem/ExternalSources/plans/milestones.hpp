@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources 0.1.1 (6.9.2007)
+  \module_version Buildsystem/ExternalSources 0.1.1.1 (21.5.2009)
 
 
   \par Version 0.1.2
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.2 : DONE
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
@@ -23,6 +23,9 @@ License, or any later version. */
 
 
   \par Version 0.1.3
+
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
+  (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:

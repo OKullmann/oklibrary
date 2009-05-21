@@ -10,33 +10,11 @@ License, or any later version. */
   \brief Plans regarding installation of Sage
 
 
-  \bug DONE
-  We need to update the created sage-script
+  \todo Update to new Sage
   <ul>
-   <li> DONE Set SAGE_ROOT. </li>
-   <li> What if "|" occurs in the path? </li>
-   <li> Likely sed is used in other places, so we need to add it to the
-   list of build-requirements. </li>
-   <li> Perhaps we better use awk here, then we don't have problems:
-   Replace every line starting with "SAGE_ROOT=" by our substitution. </li>
-  </ul>
-
-
-  \todo Update the Sage installation : DONE
-  <ul>
-   <li> DONE
-   Update the makefile to the current standard. </li>
-   <li> DONE
-   Also Buildsystem/ExternalSources/SpecialBuilds/docus/Sage.hpp
-   needed update of the texts. </li>
-   <li> DONE
-   Likely we should remove all links to documentation etc. which are
-   not related to Sage itself. </li>
-  </ul>
-
-
-  \todo Update to Sage 3.4
-  <ul>
+   <li> Perhaps the failures below indicate missing "-fPIC"-options to gcc
+   in the respective sub-builds; and perhaps this is corrected with
+   version 4 of Sage. </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
 usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format

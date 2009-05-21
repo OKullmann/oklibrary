@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for maintaining Minisat+
 
 
-  \todo Use the local Gmp
+  \todo Use the local Gmp : DONE
   <ul>
    <li> We should use the local Gmp, as explained in
    Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp. </li>

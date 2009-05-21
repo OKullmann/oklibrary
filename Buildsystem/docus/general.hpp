@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/docus/general.hpp
   \brief The central docus-file for the buildsystem
+
 
   <h1> Overview on the buildsystem </h1>
 
@@ -26,6 +27,10 @@ License, or any later version. */
   </ol>
   If the path to <code>oklib</code> has not been set yet, then use
   <code>$(oklib_call)</code>.
+
+
+  For operating problems arising at the level of the operating system
+  and its tools, see Buildsystem/docus/Linux.hpp.
 
 */
 

@@ -212,5 +212,36 @@ oklib --maxima --batch=FILE
    </li>
   </ul>
 
+
+  <h2> Building a new Maxima package </h2>
+
+  <ol>
+   <li> Assume for example that the current version is 5.17.1, and that
+   want to create an update (from CVS), which we name 5.17.1.1. (Further
+   updates would be called 5.17.1.2 etc.) </li>
+   <li> Now the creation of a package "maxima-5.17.1.1.tar.gz" happens
+   as follows. </li>
+   <li> Download the appropriate sources; the newest sources by
+   \verbatim
+> cvs -z3 -d:pserver:anonymous@maxima.cvs.sourceforge.net:/cvsroot/maxima co -P maxima
+   \endverbatim
+   </li>
+   <li> Create an advance in the version number in the fourth digit, by
+   changing the line with "AM_INIT_AUTOMAKE" in maxima/configure.in. In our
+   example, where the current version is 5.17.1, the new entry is
+   \verbatim
+AM_INIT_AUTOMAKE(maxima,5.17.1.1)
+   \endverbatim
+   </li>
+   <li> Update information, and create the package: </li>
+   \verbatim
+cd maxima
+./configure
+make dist
+   \endverbatim
+   The package then needs to moved to its proper place </li>
+   <li> The program xgettext is needed for that. </li>
+  </ol>
+
 */
 

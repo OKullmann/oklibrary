@@ -16,7 +16,7 @@ License, or any later version. */
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.4
+  \par Buildsystem/ExternalSources version 0.1.2
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.7
@@ -40,7 +40,7 @@ License, or any later version. */
   \par Buildsystem/SourceControl 0.2.3
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.5
+  \par Buildsystem/ExternalSources version 0.1.4
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.8

@@ -10,62 +10,6 @@ License, or any later version. */
   \brief Plans regarding building of the GAP system
 
   
-  \todo DONE (GAP completely installed)
-  Installing GAP
-  <ul>
-   <li> Basic installation (in ExternalSources/builds)
-   \verbatim
-builds/GAP> tar -xjf ../../sources/Gap/gap4r4p10.tar.bz2
-builds/GAP> cd gap4r4/pkg
-builds/GAP/gap4r4/pkg> tar -xjf ../../../../sources/Gap/packages-2008_06_23-19_20_UTC.tar.bz2
-builds/GAP/gap4r4/pkg> cd ..
-builds/GAP/gap4r4> ./configure
-builds/GAP/gap4r4> make 
-builds/GAP/gap4r4> cp bin/gap.sh ../../../../bin/gap
-builds/GAP/gap4r4> cd pkg
-builds/GAP/gap4r4/pkg> cp ../../../../sources/Gap/InstPackages.sh .
-builds/GAP/gap4r4/pkg> chmod u+x InstPackages.sh
-builds/GAP/gap4r4/pkg> ./InstPackages.sh
-   \endverbatim
-   This worked smoothly.
-   </li>
-   <li> Running the tests (manually) also works (and likely we don't need to do
-   something about it). </li>
-  </ul>
-
-
-  \todo DONE (completely installed)
-  Monoids
-  <ul>
-   <li> DONE (included in GAP)
-   What about "Monoid" http://schmidt.nuigalway.ie/monoid/ ? </li>
-   <li> Is this contained in GAP ?
-   \verbatim
-gap> LoadPackage("monoid");
-dirs := DirectoriesPackageLibrary( "monoid", "tst" );;
-Read(Filename( dirs, "installtest.g" ) );
-   \endverbatim
-   works fine. </li>
-  </ul>
-
-
-  \todo DONE (completely installed)
-  GRAPE
-  <ul>
-   <li> http://www.maths.qmul.ac.uk/~leonard/grape/ </li>
-   <li> Using
-   \verbatim
-gap> LoadPackage( "grape" );
-gap> IsIsomorphicGraph( JohnsonGraph(7,3), JohnsonGraph(7,4) );
-  true
-gap> Size( AutGroupGraph( JohnsonGraph(5,2) ) );
-  120
-   \endverbatim
-   works fine!
-   </li>
-  </ul>
-
-
   \todo Improve installation
   <ul>
    <li> We need the list of all packages.

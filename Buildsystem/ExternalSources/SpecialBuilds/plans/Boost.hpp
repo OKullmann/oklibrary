@@ -10,104 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
-  \todo DONE
-  Providing bzip2
-  <ul>
-   <li> We should provide the bzip2-library locally. </li>
-   <li> Building bzip2:
-   \verbatim
-builds/Boost> tar -xzf ../../sources/Boost/bzip2-1.0.5.tar.gz
-builds/Boost> cd bzip2-1.0.5
-bzip2-1.0.5> make
-bzip2-1.0.5> make install PREFIX=~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Boost/Bzip2
-bzip2-1.0.5> mkdir ../../../doc/Bzip2
-bzip2-1.0.5> cp manual.html manual.pdf ../../../doc/Bzip2
-   \endverbatim
-   </li>
-   <li> Building Boost with this showed a defective build due to missing
-   -fPIC options. Accordingly this flag was added to the compilation of
-   blocksort.o, huffman.o, crctable.o, randtable.o, compress.o, decompress.o
-   and decompress.o, which solved the problem. </li>
-  </ul>
-
-
-  \todo DONE (corrected Boost building, and also corrected some errors
-  in 1_34_1)
-  Bugs in Boost 1_34_1
-  <ul>
-   <li> As mentioned in https://svn.boost.org/trac/boost/ticket/1570,
-   there are missing includes, which now become apparent. </li>
-   <li> At that page it is related to gcc version 4.3, but the compilation
-   errors also show with gcc version 4.1.2 when using it with Suse 11.0 ---
-   so perhaps before the includes happened through glibc, and the newer
-   versions of glibc don't spoil the namesspaces anymore (at least not
-   that much). </li>
-   <li> These defective files are listed at
-   https://svn.boost.org/trac/boost/attachment/ticket/1570/boost-1.34.1-gcc-4.3.patch
-   </li>
-   <li> DONE
-   Since sooner or later we'll switch to new versions of Boost, and also
-   update then the build system, I (OK) have just changed the three files
-   involved
-    <ol>
-     <li> boost_1_34_1/boost/spirit/phoenix/operators.hpp </li>
-     <li> boost_1_34_1/boost/test/test_tools.hpp </li>
-     <li> boost_1_34_1/boost/wave/util/flex_string.hpp </li>
-    </ol>
-    and created a new package boost_1_34_1.tar.bz2. </li>
-   <li> There are more defective files:
-    <ol>
-     <li> boost/regex/v4/cpp_regex_traits.hpp:365 : CHAR_BIT: DONE </li>
-     <li> boost/archive/polymorphic_iarchive.hpp:85 : overloading error;
-     but it seems we are not using this. </li>
-    </ol>
-   </li>
-   <li> DONE (now really using the local gcc)
-   On cs-oksvr (Suse 11.0) we get with "oklib all" errors like
-   \verbatim
-/home/csoliver/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/libboost_filesystem-gcc.so: undefined reference to `std::terminate()@GLIBCXX_3.4'
-   \endverbatim
-   which seems to be another problem?
-    <ol>
-     <li> ACTUALLY, after removing the available gcc's, one sees that the
-     boost-installation does not use the local gcc! </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Remove application of mln : DONE
-  <ul>
-   <li> We need to replace
-   \verbatim
-mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$*/lib/#1gcc#4"
-   \endverbatim
-   </li>
-   <li> Perhaps it's best first to use ls, and then sed. </li>
-   <li> To avoid trouble with the paths, one could also first cd into
-   the directory. </li>
-   <li>
-   Replacement of mln works like that:
-   \verbatim
-for F in $(ls | awk '/.*gcc[0-9][0-9].*/'); do
-  ln - ${F} $(echo ${F} | sed 's/gcc[0-9][0-9]/gcc/'); done
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \todo DONE
-  Linker segmentation fault
-  <ul>
-   <li> Linking to lboost-graph yields a segmentation fault of the linker.
-   </li>
-   <li> So for the moment compilation of the affected 3 programs is disabled.
-   </li>
-   <li> Installing binutils-2.19.1 solved the problem (just standard
-   installation). </li>
-  </ul>
-
-
   \todo Update Boost installation
   <ul>
    <li> Many of the following points to be improved relate only to
@@ -306,31 +208,6 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    in all distributions). </li>
   </ul>
 
-
-  \todo Improving building Boost : DONE (at least we have plans)
-  <ul>
-   <li> DONE (not needed anymore --- the recommended version is the default)
-   It should be possible to say "gcc-version=recommended". </li>
-   <li> We need a consistent naming-scheme regarding the versions of boost
-   and gcc to be used. And likely the names for building and using them
-   should be the same. </li>
-   <li> DONE
-   The default for OKlibBuilding/Makefile is to use the recommended
-   <strong>local</strong> gcc-installation --- shouldn't this then be also
-   for building %boost the default ? </li>
-   <li> DONE ("cp -r" copies directories/files which are not already present,
-   and actually replaces them if they are already there (in any case!))
-   What happens with copying the documentation- files and directories
-   if the target- files and/or directories are already there? </li>
-   <li> DONE Building %boost should include copying the documentation to doc
-   (in the subdirectory boost-1_33_1 for example). </li>
-   <li> DONE (It should just be a matter of setting the boost-version-variable
-   to build another boost and/or to use it.)
-   In the long run, it seems that actually supporting different versions
-   of Boost is not feasible (the library will likely always use the newest
-   version), so finally supporting different Boost version should be dropped
-   (but the general machinery is worth keeping)?!? </li>
-  </ul>
 
 */
 

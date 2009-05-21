@@ -15,12 +15,17 @@ License, or any later version. */
 
   <h2> On the purpose of Ubcsat </h2>
 
-  Ubcsat is a collection of procedures for configuring local search SAT solvers.
+  Ubcsat is a collection of procedures for configuring local search SAT
+  solvers.
   <ul>
    <li> We have tweaked it somewhat to get it closer to a library. </li>
    <li> We corrected the source code so that it runs also on 64 bit machines.
    </li>
    <li> And we made it now flushing it's output. </li>
+   <li> Yet we are using 1.0.0, since we got it working on 64-bit machines.
+   The successor of 1.1.0 should finally work on 64-bit machines, and then
+   we'll update. </li>
+   <li> We also provide a convenience wrapper. </li>
   </ul>
 
 
@@ -35,9 +40,9 @@ License, or any later version. */
    to this program is planted in the public bin-directory
    (which is <code>$(public_bin_dir_okl)</code>). </li>
    <li> <code>lib</code> contains the link-libraries which are linked together
-   in the above <code>ubcsat</code> executable, and which are here made available
-   for linking. Compiled with the macro ALTERNATEMAIN, so that no main
-   function is created. </li>
+   in the above <code>ubcsat</code> executable, and which are here made
+   available for linking. Compiled with the macro ALTERNATEMAIN, so that no
+   main function is created. </li>
    <li> The above executable program as well as the link-libraries are compiled
    using the corrected sources from <code>$(ubcsat_corrected_dir_okl)</code>.
    </li>
