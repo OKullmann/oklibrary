@@ -113,7 +113,7 @@ std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vec
 {
   signed int nVars = numVars (inputCS);
 
-  signed int clause[nVars];
+  signed int clause[1]; // ERROR; was signed int clause[nVars];
 
   long nPartialAssignments = ipow (3, nVars);
 
@@ -187,4 +187,4 @@ std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vec
     }
   }
   return resultCS;
-};
+}
