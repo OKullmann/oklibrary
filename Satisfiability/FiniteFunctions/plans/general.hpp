@@ -39,7 +39,8 @@ License, or any later version. */
    CNF's or DNF (thus prime implicates or prime implicants) ? </li>
    <li> We consider the whole range of generalised clause-sets, from boolean
    clause-sets to signed clause-sets. </li>
-   <li> Implicates for F are generalised clauses C which follows from F. </li>
+   <li> Implicates for F are generalised clauses which follows from F,
+   while implicants are generalised clauses which imply F. </li>
    <li> Between generalised clauses we have the partial order "implies",
    which is quickly decidable. </li>
    <li> Prime implicates are implicates which are minimal %w.r.t. to the
@@ -48,6 +49,8 @@ License, or any later version. */
    <li> The algorithms which works always is to create all resolvents and
    keep the minimal ones (the "resolution algorithm").
     <ol>
+     <li> For given F as CNF, this computes the prime implicates/implicants.
+     </li>
      <li> See ProofSystems/Resolution/plans/ResolutionClosure.hpp. </li>
      <li> So in this module we only connect the resolution algorithm
      (which likely shouldn't care about "DNF" or "CNF") to the
@@ -56,13 +59,30 @@ License, or any later version. */
    </li>
    <li> The other main alternative is to start with a CNF or DNF (generalised)
    given, and then compute the minimal satisfying partial assignments (using
-   the given literal type), which yields the prime implicates resp.
-   the prime implicants (call it the "dualisation algorithm").
+   the given literal type), which yields the prime implicants resp.
+   the prime implicates (call it the "dualisation algorithm").
     <ol>
      <li> See AllSolutions/plans/MinimalAssignments.hpp. </li>
      <li> So again, likely the general algorithm is not implemented in
      this module. </li>
     </ol>
+   </li>
+   <li> Given clause-sets F, G (as CNF), deciding whether G is the
+   set of prime implicates of F:
+    <ol>
+     <li> G must be subsumption-free. </li>
+     <li> For every clause C in F there must be D in G with D <= C. </li>
+     <li> Given two resolvable clauses D, D' in G, their resolvent must
+     be subsumed by some element from G. </li>
+     <li> These conditions are all easily checkable; in general the last
+     condition, that all C in G follow from F, however is hard to establish.
+     </li>
+     <li> If for F and partial assignments phi one can decide satisfiability
+     of phi*F in polynomial time, then also this check is easy. </li>
+     <li> Examples are given by hitting F, Horn F or F in 2-CNF. </li>
+    </ol>
+    One should establish a test algorithm for these basic cases, so that
+    for example we can verify the results of QuineMcCluskey.cpp.
    </li>
   </ul>
 
