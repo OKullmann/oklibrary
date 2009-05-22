@@ -31,10 +31,10 @@ namespace OKlib {
       
       int numVars(const std::vector<std::vector<int> >& cs) {
         std::set<unsigned int> variables;
-        std::vector<std::vector<int> >::const_iterator cIter;
-        for (cIter = cs.begin(); cIter != cs.end(); ++cIter) {
-          std::vector<int>::const_iterator lIter;
-          for (lIter = (*cIter).begin(); lIter != (*cIter).end(); ++lIter) {
+        for (std::vector<std::vector<int> >::const_iterator cIter = cs.begin();
+             cIter != cs.end(); ++cIter) {
+          for (std::vector<int>::const_iterator lIter = cIter -> begin();
+               lIter != cIter -> end(); ++lIter) {
             variables.insert(abs(*lIter));
           }
         }
@@ -42,8 +42,8 @@ namespace OKlib {
       }
       
       void printClause(const std::vector<int>& clause) {
-        std::vector<int>::const_iterator iter;
-        for (iter = clause.begin(); iter != clause.end(); ++iter) {
+        for (std::vector<int>::const_iterator iter = clause.begin();
+             iter != clause.end(); ++iter) {
           std::cout << (int) *iter;
           std::cout << " ";
         }
@@ -51,8 +51,8 @@ namespace OKlib {
       }
       
       void printClauseSet(const std::vector<std::vector<int> >& clauseSet) {
-        std::vector<std::vector<int> >::const_iterator iter;
-        for (iter = clauseSet.begin(); iter != clauseSet.end(); ++iter) {
+        for (std::vector<std::vector<int> >::const_iterator iter = clauseSet.begin();
+             iter != clauseSet.end(); ++iter) {
           printClause(*iter);
         }
       }
@@ -69,8 +69,8 @@ namespace OKlib {
       // negated in clause, 2 = variable occurs positively in clause 
       long hashClause(const std::vector<int>& clause) {
         long returnValue = 0;
-        std::vector<int>::const_iterator iter;
-        for (iter = clause.begin(); iter != clause.end(); ++iter) {
+        for (std::vector<int>::const_iterator iter = clause.begin();
+             iter != clause.end(); ++iter) {
           if (*iter < 0) {
             returnValue += ipow(3, abs(*iter) - 1);
           } else if (*iter > 0) {
@@ -134,8 +134,8 @@ namespace OKlib {
         unsigned long partnerHash = 0;
         unsigned long newHash = 0;
         // First Mark Clauses 
-        std::vector<std::vector<int> >::const_iterator cIter;
-        for (cIter = inputCS.begin(); cIter != inputCS.end(); ++cIter) {
+        for (std::vector<std::vector<int> >::const_iterator cIter = inputCS.begin();
+             cIter != inputCS.end(); ++cIter) {
           hash = hashClause(*cIter);
           marked[hash] = true;
           markedIn[hash] = true;
