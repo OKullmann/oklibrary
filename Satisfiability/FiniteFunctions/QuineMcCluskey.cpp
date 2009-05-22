@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Application for computing all minimal resolvents from a given full clause-set
 
   One parameter is needed, the file containing the clause-set in DIMACS format.
-  The result is printed to standard output, also a clause-set in DIMACS format.
+  The result is printed to standard output (again a clause-set in DIMACS format).
 */
 
 #include <fstream>
@@ -54,4 +54,5 @@ int main(const int argc, const char* const argv[]) {
   for (std::vector<std::vector<int> >::const_iterator iter = result_set.begin(); iter != result_set.end(); ++iter) {
     printClause(*iter); 
   }
+
 }
