@@ -129,10 +129,8 @@ namespace OKlib {
         //  result set 
         std::vector<bool> markedIn(nPartialAssignments, 0);
         unsigned int clauseSize = 0;
-        int numClausesIn = 0;
         unsigned long hash = 0;
         unsigned long partnerHash = 0;
-        unsigned long newHash = 0;
         // First Mark Clauses 
         for (std::vector<std::vector<int> >::const_iterator cIter = inputCS.begin();
              cIter != inputCS.end(); ++cIter) {
