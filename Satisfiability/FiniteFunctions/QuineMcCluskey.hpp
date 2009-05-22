@@ -5,6 +5,11 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Satisfiability/FiniteFunctions/QuineMcCluskey.hpp
+  \brief Definitions for computing all minimal resolvents from a given full clause-set
+*/
+
 #include<set>
 #include<vector>
 #include<set>

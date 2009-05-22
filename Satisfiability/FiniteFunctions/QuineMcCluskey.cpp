@@ -5,6 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Satisfiability/FiniteFunctions/QuineMcCluskey.cpp
+  \brief Application for computing all minimal resolvents from a given full clause-set
+
+  One parameter is needed, the file containing the clause-set in DIMACS format.
+  The result is printed to standard output, also a clause-set in DIMACS format.
+*/
+
 #include <OKlib/Satisfiability/FiniteFunctions/SATParser.hpp>
 #include <OKlib/Satisfiability/FiniteFunctions/QuineMcCluskey.hpp>
 #include<fstream>
