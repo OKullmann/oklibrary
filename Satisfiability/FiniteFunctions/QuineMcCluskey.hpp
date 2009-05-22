@@ -25,11 +25,11 @@ const int nVars = NUMBER_VARIABLES;
 const int nVars = 4;
 #endif
 
-signed int numVars(std::vector<std::vector<signed int> >& cs) {
+int numVars(std::vector<std::vector<int> >& cs) {
   std::set<unsigned int> variables;
-  std::vector<std::vector<signed int> >::iterator cIter;
+  std::vector<std::vector<int> >::iterator cIter;
   for (cIter = cs.begin(); cIter != cs.end(); ++cIter) {
-    std::vector<signed int>::iterator lIter;
+    std::vector<int>::iterator lIter;
     for (lIter = (*cIter).begin(); lIter != (*cIter).end(); ++lIter) {
       variables.insert(abs(*lIter));
     }
@@ -37,8 +37,8 @@ signed int numVars(std::vector<std::vector<signed int> >& cs) {
   return variables.size();
 }
 
-void printClause(const std::vector<signed int>& clause) {
-  std::vector<signed int>::const_iterator iter;
+void printClause(const std::vector<int>& clause) {
+  std::vector<int>::const_iterator iter;
   for (iter = clause.begin(); iter != clause.end(); ++iter) {
     std::cout << (int) *iter;
     std::cout << " ";
@@ -46,15 +46,15 @@ void printClause(const std::vector<signed int>& clause) {
   std::cout << "0" << std::endl;
 }
 
-void printClauseSet(std::vector<std::vector<signed int> >& clauseSet) {
-  std::vector<std::vector<signed int> >::iterator iter;
+void printClauseSet(std::vector<std::vector<int> >& clauseSet) {
+  std::vector<std::vector<int> >::iterator iter;
 
   for (iter = clauseSet.begin(); iter != clauseSet.end(); ++iter) {
     printClause(*iter);
   }
 }
 
-long ipow(signed int b, signed int e) {
+long ipow(int b, int e) {
   long result = 1;
   
   while (e-- > 0) {
@@ -65,10 +65,10 @@ long ipow(signed int b, signed int e) {
 
 // Hash considers 0 = variable not in clause, 1 = variable occurs negated in 
 // clause, 2 = variable occurs positively in clause 
-long hashClause(std::vector<signed int>& clause) {
+long hashClause(std::vector<int>& clause) {
   long returnValue = 0;
   
-  std::vector<signed int>::iterator iter;
+  std::vector<int>::iterator iter;
   
   for (iter = clause.begin(); iter != clause.end(); ++iter) {
     if (*iter < 0) {
@@ -83,7 +83,7 @@ long hashClause(std::vector<signed int>& clause) {
 // Given a hash for a clause and a literal (within the clause represented by the 
 // hash), return a new hash representing a clause where the literal has the 
 // opposite sign 
-long flipLiteralSignInHash(long hash, signed int literal) {
+long flipLiteralSignInHash(long hash, int literal) {
   if (literal < 0) {
     hash += ipow(3, abs(literal) - 1);
   } else if (literal > 0) {
@@ -92,7 +92,7 @@ long flipLiteralSignInHash(long hash, signed int literal) {
   return hash;
 }
 
-long removeLiteralInHash(long hash, signed int literal) {
+long removeLiteralInHash(long hash, int literal) {
   if (literal < 0) {
     hash -= ipow(3, abs(literal) - 1);
   } else if (literal > 0) {
@@ -101,12 +101,12 @@ long removeLiteralInHash(long hash, signed int literal) {
   return hash;
 }
 
-unsigned int hashToClause(long hash, signed int clause[], signed int nVars) {
+unsigned int hashToClause(long hash, int clause[], int nVars) {
   long iValue = 1;
   
-  signed int numLit = 0;
+  int numLit = 0;
   
-  for (signed int lit = nVars; lit > 0; lit--) {
+  for (int lit = nVars; lit > 0; lit--) {
     iValue = ipow(3, abs(lit) - 1);
     // Work out whether the literal is in the hash
     if ((hash - (2 * iValue)) >= 0) {
@@ -120,9 +120,9 @@ unsigned int hashToClause(long hash, signed int clause[], signed int nVars) {
   return numLit;
 }
 
-std::vector<std::vector<signed int> >
-quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
-  signed int clause[nVars];
+std::vector<std::vector<int> >
+quineMcCluskey(std::vector<std::vector<int> > inputCS) {
+  int clause[nVars];
 
   long nPartialAssignments = ipow(3, nVars);
   
@@ -143,7 +143,7 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   unsigned long newHash = 0;
   
   // First Mark Clauses 
-  std::vector<std::vector<signed int> >::iterator cIter;
+  std::vector<std::vector<int> >::iterator cIter;
   for (cIter = inputCS.begin(); cIter != inputCS.end(); ++cIter) {
     hash = hashClause(*cIter);
     marked[hash] = true;
@@ -151,7 +151,7 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   }
   
   // Perform Algorithm
-  for (signed int level = nVars; level > 0; level--) {
+  for (int level = nVars; level > 0; level--) {
     // Output 
     std::cerr << "Level " << (int) level << std::endl;
     // Run through all clauses 
