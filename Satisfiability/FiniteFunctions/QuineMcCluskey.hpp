@@ -10,11 +10,11 @@ License, or any later version. */
   \brief Definitions for computing all minimal resolvents from a given full clause-set
 */
 
-#include<set>
-#include<vector>
-#include<set>
-#include<algorithm>
-#include<cmath>
+#include <set>
+#include <vector>
+#include <set>
+#include <algorithm>
+#include <cmath>
 
 #ifdef NUMBER_VARIABLES
 const int nVars = NUMBER_VARIABLES;
@@ -22,62 +22,57 @@ const int nVars = NUMBER_VARIABLES;
 const int nVars = 4;
 #endif
 
-signed int numVars (std::vector < std::vector < signed int > >&cs)
-{
+signed int numVars(std::vector<std::vector<signed int> >& cs) {
   std::set<unsigned int> variables;
   std::vector<std::vector<signed int> >::iterator cIter;
   for (cIter = cs.begin(); cIter != cs.end(); cIter++) {
     std::vector<signed int>::iterator lIter;
     for (lIter = (*cIter).begin(); lIter != (*cIter).end();lIter++) {
-        variables.insert(abs(*lIter));
+      variables.insert(abs(*lIter));
     }
   }
   return variables.size();
 }
 
-void printClause (std::vector < signed int >&clause)
-{
-  std::vector < signed int >::iterator iter;
-
-  for (iter = clause.begin (); iter != clause.end (); iter++) {
+void printClause(std::vector<signed int>& clause) {
+  std::vector<signed int>::iterator iter;
+  
+  for (iter = clause.begin(); iter != clause.end(); iter++) {
     std::cout << (int) *iter;
     std::cout << " ";
   }
   std::cout << "0" << std::endl;
 }
 
-void printClauseSet (std::vector < std::vector < signed int > >&clauseSet)
-{
-  std::vector < std::vector < signed int > >::iterator iter;
+void printClauseSet(std::vector<std::vector<signed int> >& clauseSet) {
+  std::vector<std::vector<signed int> >::iterator iter;
 
-  for (iter = clauseSet.begin (); iter != clauseSet.end (); iter++) {
-      printClause (*iter);
+  for (iter = clauseSet.begin(); iter != clauseSet.end(); iter++) {
+    printClause(*iter);
   }
 }
 
-long ipow (signed int b, signed int e)
-{
+long ipow(signed int b, signed int e) {
   long result = 1;
-
+  
   while (e-- > 0) {
-      result *= b;
+    result *= b;
   }
   return result;
 }
 
 // Hash considers 0 = variable not in clause, 1 = variable occurs negated in 
 // clause, 2 = variable occurs positively in clause 
-long hashClause (std::vector < signed int >&clause)
-{
+long hashClause(std::vector<signed int>& clause) {
   long returnValue = 0;
-
-  std::vector < signed int >::iterator iter;
-
-  for (iter = clause.begin (); iter != clause.end (); iter++) {
+  
+  std::vector<signed int>::iterator iter;
+  
+  for (iter = clause.begin(); iter != clause.end(); iter++) {
     if (*iter < 0) {
-      returnValue += ipow (3, abs (*iter) - 1);
+      returnValue += ipow(3, abs(*iter) - 1);
     } else if (*iter > 0) {
-      returnValue += 2 * ipow (3, abs (*iter) - 1);
+      returnValue += 2 * ipow(3, abs(*iter) - 1);
     }
   }
   return returnValue;
@@ -86,34 +81,31 @@ long hashClause (std::vector < signed int >&clause)
 // Given a hash for a clause and a literal (within the clause represented by the 
 // hash), return a new hash representing a clause where the literal has the 
 // opposite sign 
-long flipLiteralSignInHash (long hash, signed int literal)
-{
+long flipLiteralSignInHash(long hash, signed int literal) {
   if (literal < 0) {
-      hash += ipow (3, abs (literal) - 1);
+    hash += ipow(3, abs(literal) - 1);
   } else if (literal > 0) {
-      hash -= ipow (3, abs (literal) - 1);
+    hash -= ipow(3, abs(literal) - 1);
   }
   return hash;
 }
 
-long removeLiteralInHash (long hash, signed int literal)
-{
+long removeLiteralInHash(long hash, signed int literal) {
   if (literal < 0) {
-      hash -= ipow (3, abs (literal) - 1);
+    hash -= ipow(3, abs(literal) - 1);
   } else if (literal > 0) {
-      hash -= 2 * ipow (3, abs (literal) - 1);
+    hash -= 2 * ipow(3, abs(literal) - 1);
   }
   return hash;
 }
 
-unsigned int hashToClause (long hash, signed int clause[], signed int nVars)
-{
+unsigned int hashToClause(long hash, signed int clause[], signed int nVars) {
   long iValue = 1;
-
+  
   signed int numLit = 0;
-
+  
   for (signed int lit = nVars; lit > 0; lit--) {
-    iValue = ipow (3, abs (lit) - 1);
+    iValue = ipow(3, abs(lit) - 1);
     // Work out whether the literal is in the hash
     if ((hash - (2 * iValue)) >= 0) {
       clause[numLit++] = lit;
@@ -126,33 +118,32 @@ unsigned int hashToClause (long hash, signed int clause[], signed int nVars)
   return numLit;
 }
 
-std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vector <
-                           signed int > >inputCS)
-{
+std::vector<std::vector<signed int> >
+quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   signed int clause[nVars];
 
-  long nPartialAssignments = ipow (3, nVars);
-
+  long nPartialAssignments = ipow(3, nVars);
+  
   std::cerr << "Number of Partial Assignments " << nPartialAssignments << std::endl;
   // Marked is used to keep track of all found clauses 
-  std::vector < bool > marked (nPartialAssignments, 0);
+  std::vector<bool> marked(nPartialAssignments, 0);
   // Marked in is used to keep track of all clauses that are still in the 
   //  result set 
-  std::vector < bool > markedIn (nPartialAssignments, 0);
+  std::vector<bool> markedIn(nPartialAssignments, 0);
   unsigned int clauseSize = 0;
-
+  
   int numClausesIn = 0;
-
+  
   unsigned long hash = 0;
-
+  
   unsigned long partnerHash = 0;
-
+  
   unsigned long newHash = 0;
-
+  
   // First Mark Clauses 
-  std::vector < std::vector < signed int > >::iterator cIter;
-  for (cIter = inputCS.begin (); cIter != inputCS.end (); cIter++) {
-    hash = hashClause (*cIter);
+  std::vector<std::vector<signed int> >::iterator cIter;
+  for (cIter = inputCS.begin(); cIter != inputCS.end(); cIter++) {
+    hash = hashClause(*cIter);
     marked[hash] = true;
     markedIn[hash] = true;
   }
@@ -165,14 +156,14 @@ std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vec
     for (int cIter = 0; cIter < nPartialAssignments; cIter++) {
       // Go through literals in clause
       if (marked[cIter]) {
-        clauseSize = hashToClause (cIter, clause, nVars);
+        clauseSize = hashToClause(cIter, clause, nVars);
         if (clauseSize == level) {
           for (int lIter = 0; lIter < clauseSize; lIter++) {
             // If it's partner clause exists 
             partnerHash =
-              flipLiteralSignInHash (cIter, clause[lIter]);
+              flipLiteralSignInHash(cIter, clause[lIter]);
             if (marked[partnerHash]) {
-              long newHash = removeLiteralInHash (cIter, clause[lIter]);
+              long newHash = removeLiteralInHash(cIter, clause[lIter]);
               // Work out it's partner exists and add the clause to the next 
               // level if we don't already have it 
               marked[newHash] = true;
@@ -190,16 +181,16 @@ std::vector < std::vector < signed int > >quineMcCluskey (std::vector < std::vec
       marked[cIter] = markedIn[cIter];
     }
   }
-
-
+  
+  
   // Add clauses to CS 
-  std::vector < std::vector < int > >resultCS;
+  std::vector<std::vector<int> > resultCS;
   for (int cIter = 0; cIter < nPartialAssignments; cIter++) {
     if (markedIn[cIter]) {
-      clauseSize = hashToClause (cIter, clause, nVars);
-      std::vector < int >sClause (clause, clause + clauseSize);
+      clauseSize = hashToClause(cIter, clause, nVars);
+      std::vector<int> sClause(clause, clause + clauseSize);
 
-      resultCS.push_back (sClause);
+      resultCS.push_back(sClause);
     }
   }
   return resultCS;
