@@ -204,7 +204,7 @@ License, or any later version. */
    <li> A first attempt by MG is given by FiniteFunctions/QuineMcCluskey.hpp,
    FiniteFunctions/QuineMcCluskey.cpp, FiniteFunctions/SATParser.hpp.
     <ol>
-     <li> This code needs to be completely written, and should be
+     <li> This code needs to be completely refactored, and should be
      a learning opportunity for MG. </li>
      <li> DONE (used a constant here, which was the easiest fix)
      First task is to create a valid C++ program, by eliminating
@@ -213,6 +213,11 @@ License, or any later version. */
      <li> First all names have to be changed: typenames are like
      "ClauseSet", functions are like "compute_something" (or just
      "something"); so non-type-names have no upper-case-letters in them. </li>
+     <li> All introduced functions and types need doxygen-documentation. </li>
+     <li> The program should be able to cope for example with incorrect
+     inputs. </li>
+     <li> Use asserts for example to check for assumptions on function
+     arguments. </li>
      <li> std::vector<bool>::size_type is a central integral type here,
      determining the limits of the computation; starting from this a
      (small) resource management (at compile-time!) has to be created. </li>
