@@ -28,8 +28,10 @@ okltest_rewrite_condition(rewrite_condition);
 okltest_aes_make_vars_int(aes_make_vars_int);
 okltest_aes_make_vars_named(aes_make_vars_named);
 okltest_aes_round_constant(aes_round_constant);
-okltest_aes_mul2_cp(aes_mul2_cp);
-okltest_aes_mul3_cp(aes_mul3_cp);
+okltest_aes_mul2_cp(aes_mul2_pi_cp);
+okltest_aes_mul3_cp(aes_mul3_pi_cp);
+okltest_aes_mul2_cp(aes_mul2_ts_cp);
+okltest_aes_mul3_cp(aes_mul3_ts_cp);
 okltest_aes_add_cp(aes_add_cp);
 okltest_aes_mixcolumn_cp(aes_mixcolumn_cp);
 /*okltest_aes_mixcolumns_cp(aes_mixcolumns_cp);*/

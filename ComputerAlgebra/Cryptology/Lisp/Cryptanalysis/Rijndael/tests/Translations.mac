@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/T
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac");
 
 kill(f)$
 
@@ -33,17 +34,17 @@ okltest_aes_final_round_cp(f) := block(
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
     aes_hex2pa("00000000000000000000000000000000",kVars),
     aes_hex2pa("63636363636363636363636363636363",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   if (oklib_monitoring) then print("Done first"),
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
     aes_hex2pa("63636363636363636363636363636363",kVars),
     aes_hex2pa("00000000000000000000000000000000",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   if (oklib_monitoring) then print("Done second"),
   pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
     aes_hex2pa("92BF680BE89E8B47BD9F1549D7786752",kVars),
     aes_hex2pa("00217D590001EC4C00E77D0E00C7EC1B",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   if (oklib_monitoring) then print("Done third"),
   true)$
 
@@ -95,26 +96,28 @@ okltest_aes_round_constant(f) := block(
       setify(create_list(if i = 24 + j then {i} else {-i},i, 25, 32))),
   true)$
 
-okltest_aes_mul2_cp(f) := block([pa,F],
+okltest_aes_mul2_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
   F : apply(f,listify(setn(16))),
   /* Satisfying total assignments */
   pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("0204",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("1020",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   true)$
 
-okltest_aes_mul3_cp(f) := block([pa,F],
+okltest_aes_mul3_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
   F : apply(f,listify(setn(16))),
   /* Satisfying total assignments */
   pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("0305",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("050F",take_elements(16,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   true)$
 
 okltest_aes_add_cp(f) := block([pa,F],
@@ -122,13 +125,13 @@ okltest_aes_add_cp(f) := block([pa,F],
   F : apply(f, listify(setn(24))),
   /* Satisfying total assignments */
   pa :aes_hex2pa("000000",take_elements(24,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("FFFF00",take_elements(24,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("00FFFF",take_elements(24,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : aes_hex2pa("100111",take_elements(24,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   true)$
 
 okltest_aes_mixcolumn_cp(f) := block([pa, iVars, oVars,F],
@@ -138,11 +141,11 @@ okltest_aes_mixcolumn_cp(f) := block([pa, iVars, oVars,F],
   oVars : take_elements(32,rest(listify(var_cs(F)),32)),
   /* Satisfying total assignments */
   pa : union(aes_hex2pa("00000000",iVars), aes_hex2pa("00000000",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("FFFFFFFF",iVars),aes_hex2pa("FFFFFFFF",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("00112233",iVars),aes_hex2pa("22770055",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 
@@ -155,13 +158,13 @@ okltest_aes_mixcolumns_cp(f) := block([pa,iVars,oVars,F],
   pa : aes_hex2pa(
     "0000000000000000000000000000000000000000000000000000000000000000",
     take_elements(256,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("B5A1FF0213199055469AF40000CC0042",iVars),
     aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
     aes_hex2pa("861BCCB82932AA7EB8C40A5E00C2004C",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 
@@ -174,16 +177,16 @@ okltest_aes_shiftrows_cp(f) := block([pa,iVars,oVarsi,F],
   pa : aes_hex2pa(
     "0000000000000000000000000000000000000000000000000000000000000000",
     take_elements(256,listify(var_cs(F)))),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",iVars),
     aes_hex2pa("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("B5A1FF0213199055469AF40000CC0042",iVars),
     aes_hex2pa("B519F442139A000246CCFF5500A19000",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
     aes_hex2pa("74DF2F48C86E0A9ECDC1F7160DF4CEA4",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 
@@ -195,16 +198,16 @@ okltest_aes_subbytes_cp(f) := block([pa,iVars,oVars,F],
   /* Satisfying total assignments */
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
     aes_hex2pa("63636363636363636363636363636363",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",iVars),
     aes_hex2pa("16161616161616161616161616161616",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("B5A1FF0213199055469AF40000CC0042",iVars),
     aes_hex2pa("D53216777DD460FC5AB8BF63634B632C",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
     aes_hex2pa("92BF680BE89E8B47BD9F1549D7786752",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 
@@ -217,15 +220,15 @@ okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F],
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
     aes_hex2pa("00000000000000000000000000000000",kVars),
     aes_hex2pa("63636363636363636363636363636363",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
     aes_hex2pa("63636363636363636363636363636363",kVars),
     aes_hex2pa("00000000000000000000000000000000",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
     aes_hex2pa("92BF680BE89E8B47BD9F1549D7786752",kVars),
     aes_hex2pa("5367B889F5F12F8A7B2DC90B7A05D996",oVars)),
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 
@@ -246,7 +249,7 @@ okltest_aes_key_expansion_cp(F) := block([pa,iVars,oVars,iVars,F],
           aes_hex2pa("0EF903333BA9613897060A04511DFA9F",oVars[9]),
           aes_hex2pa("B1D4D8E28A7DB9DA1D7BB3DE4C664941",oVars[10]),
           aes_hex2pa("B4EF5BCB3E92E21123E951CF6F8F188E",oVars[11])), 
-  assert(dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal)),
+  assert(ucp_cs_0(apply_pa(pa,F)) = {}),
   /* UNSAT total assignments */
   true)$
 /*!
