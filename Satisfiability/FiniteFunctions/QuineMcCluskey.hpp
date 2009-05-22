@@ -119,7 +119,7 @@ namespace OKlib {
       }
       
       std::vector<std::vector<int> >
-      quineMcCluskey(const std::vector<std::vector<int> > inputCS) {
+      quineMcCluskey(const std::vector<std::vector<int> >& inputCS) {
         int clause[nVars];
         long nPartialAssignments = ipow(3, nVars);
         std::cerr << "Number of Partial Assignments " << nPartialAssignments << std::endl;
