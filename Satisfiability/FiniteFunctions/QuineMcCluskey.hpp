@@ -37,9 +37,8 @@ signed int numVars(std::vector<std::vector<signed int> >& cs) {
   return variables.size();
 }
 
-void printClause(std::vector<signed int>& clause) {
-  std::vector<signed int>::iterator iter;
-  
+void printClause(const std::vector<signed int>& clause) {
+  std::vector<signed int>::const_iterator iter;
   for (iter = clause.begin(); iter != clause.end(); iter++) {
     std::cout << (int) *iter;
     std::cout << " ";
