@@ -22,34 +22,34 @@ namespace OKlib {
   namespace Satisfiability {
     namespace FiniteFunctions {
       
-      std::vector<std::vector<int> > readDIMACSFormat(std::ifstream* inputFile) {
+      std::vector<std::vector<int> > readDIMACSFormat(std::ifstream& inputFile) {
         int c = 0; // Character reading
         int rawLiteral = -1;
         std::vector<std::vector<int> > clauseSet;
-        while ( (c = inputFile->peek()) != EOF ) {
+        while ( (c = inputFile.peek()) != EOF ) {
           switch(c) {
           case 'c' :
-            inputFile->get();
+            inputFile.get();
             // Skip
-            while((c = inputFile->get()) != '\n');
+            while((c = inputFile.get()) != '\n');
             break;
           case 'p' :
-            inputFile->get();
+            inputFile.get();
             // Skip
-            while((c = inputFile->get()) != '\n');
+            while((c = inputFile.get()) != '\n');
             break;
           default :
             std::vector<int> clause;
-            *inputFile >> rawLiteral;
+            inputFile >> rawLiteral;
             while (rawLiteral) {
               clause.push_back(rawLiteral);
-              *inputFile >> rawLiteral;
+              inputFile >> rawLiteral;
             }
             clauseSet.push_back(clause);
             // Jump to newline
-            c = inputFile->get();
+            c = inputFile.get();
             while((c != '\n') && (c != EOF)) {
-              c = inputFile->get();
+              c = inputFile.get();
             }
             break;
           }
