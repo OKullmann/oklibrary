@@ -15,15 +15,42 @@ License, or any later version. */
 
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include <OKlib/Satisfiability/FiniteFunctions/SATParser.hpp>
 #include <OKlib/Satisfiability/FiniteFunctions/QuineMcCluskey.hpp>
 
-int main(int argc, const char* argv[]) {
-  std::ifstream inputFile (argv[1]);
-  std::vector<std::vector<int> > clauseSet = readDIMACSFormat(&inputFile); 
+namespace {
+
+  const int error_parameters = 1;
+  const int error_openfile = 2;
+  const int error_readfile = 3;
+
+}
+
+int main(const int argc, const char* const argv[]) {
+
+  if (argc != 2) {
+    std::cerr << "ERROR[QuineMcCluskey]: Exactly one input is required, the "
+      "name of the file\n with the clause-set in DIMACS-format.\n"
+      "However, the actual number of input parameters was " << argc-1 << ".\n";
+    return error_parameters;
+  }
+
+  const std::string filename = argv[1];
+  std::ifstream inputFile(filename.c_str());
+  if (not inputFile) {
+    std::cerr << "ERROR[QuineMcCluskey]: Failure opening file " << filename << ".\n";
+    return error_openfile;
+  }
+
+  std::vector<std::vector<int> > clauseSet = readDIMACSFormat(&inputFile);
+  if (not inputFile) {
+    std::cerr << "ERROR[QuineMcCluskey]: Failure reading file " << filename << ".\n";
+    return error_readfile;
+  }
+
   std::vector<std::vector<int> > resultSet = quineMcCluskey(clauseSet);
-  // List Clauses
   for (std::vector<std::vector<int> >::iterator iter = resultSet.begin(); iter != resultSet.end(); iter++) {
     printClause(*iter); 
   }
