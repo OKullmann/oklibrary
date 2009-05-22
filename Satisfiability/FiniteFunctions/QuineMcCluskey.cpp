@@ -44,15 +44,17 @@ int main(const int argc, const char* const argv[]) {
     return error_openfile;
   }
 
-  const std::vector<std::vector<int> > clause_set = readDIMACSFormat(&inputfile);
+  using namespace OKlib::Satisfiability;
+
+  const std::vector<std::vector<int> > clause_set = FiniteFunctions::readDIMACSFormat(&inputfile);
   if (not inputfile) {
     std::cerr << "ERROR[QuineMcCluskey]: Failure reading file " << filename << ".\n";
     return error_readfile;
   }
-
-  const std::vector<std::vector<int> > result_set = quineMcCluskey(clause_set);
+    
+  const std::vector<std::vector<int> > result_set = FiniteFunctions::quineMcCluskey(clause_set);
   for (std::vector<std::vector<int> >::const_iterator iter = result_set.begin(); iter != result_set.end(); ++iter) {
-    printClause(*iter); 
+    FiniteFunctions::printClause(*iter); 
   }
 
 }
