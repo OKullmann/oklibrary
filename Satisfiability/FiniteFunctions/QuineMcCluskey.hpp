@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Definitions for computing all minimal resolvents from a given full clause-set
 */
 
+#ifndef QUINEMCCLUSKEY_jdbVce4
+#define QUINEMCCLUSKEY_jdbVce4
+
 #include <set>
 #include <vector>
 #include <set>
@@ -195,3 +198,5 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   }
   return resultCS;
 }
+
+#endif

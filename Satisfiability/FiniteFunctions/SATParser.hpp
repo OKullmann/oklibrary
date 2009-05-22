@@ -11,6 +11,9 @@ License, or any later version. */
   \deprecated
 */
 
+#ifndef SATPARSER_dBBx34E
+#define SATPARSER_dBBx34E
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -49,3 +52,5 @@ std::vector< std::vector<int> > readDIMACSFormat(std::ifstream * inputFile) {
   }
   return clauseSet;
 }
+
+#endif
