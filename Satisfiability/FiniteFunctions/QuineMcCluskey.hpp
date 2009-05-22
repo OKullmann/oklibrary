@@ -139,7 +139,7 @@ namespace OKlib {
           markedIn[hash] = true;
         }
         // Perform Algorithm
-        for (int level = nVars; level > 0; --level) {
+        for (unsigned int level = nVars; level > 0; --level) {
           // Output 
           std::cerr << "Level " << (int) level << std::endl;
           // Run through all clauses 
@@ -148,7 +148,7 @@ namespace OKlib {
             if (marked[cIter]) {
               clauseSize = hashToClause(cIter, clause, nVars);
               if (clauseSize == level) {
-                for (int lIter = 0; lIter < clauseSize; ++lIter) {
+                for (unsigned int lIter = 0; lIter < clauseSize; ++lIter) {
                   // If it's partner clause exists 
                   partnerHash =
                     flipLiteralSignInHash(cIter, clause[lIter]);
