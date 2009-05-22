@@ -53,8 +53,6 @@ int main(const int argc, const char* const argv[]) {
   }
     
   const std::vector<std::vector<int> > result_set = FiniteFunctions::quineMcCluskey(clause_set);
-  for (std::vector<std::vector<int> >::const_iterator iter = result_set.begin(); iter != result_set.end(); ++iter) {
-    FiniteFunctions::printClause(*iter); 
-  }
+  FiniteFunctions::printClauseSet(result_set);
 
 }
