@@ -51,7 +51,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::vector<std::vector<int> > result_set = quineMcCluskey(clause_set);
-  for (std::vector<std::vector<int> >::const_iterator iter = result_set.begin(); iter != result_set.end(); iter++) {
+  for (std::vector<std::vector<int> >::const_iterator iter = result_set.begin(); iter != result_set.end(); ++iter) {
     printClause(*iter); 
   }
 }

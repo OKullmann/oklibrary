@@ -28,9 +28,9 @@ const int nVars = 4;
 signed int numVars(std::vector<std::vector<signed int> >& cs) {
   std::set<unsigned int> variables;
   std::vector<std::vector<signed int> >::iterator cIter;
-  for (cIter = cs.begin(); cIter != cs.end(); cIter++) {
+  for (cIter = cs.begin(); cIter != cs.end(); ++cIter) {
     std::vector<signed int>::iterator lIter;
-    for (lIter = (*cIter).begin(); lIter != (*cIter).end();lIter++) {
+    for (lIter = (*cIter).begin(); lIter != (*cIter).end(); ++lIter) {
       variables.insert(abs(*lIter));
     }
   }
@@ -39,7 +39,7 @@ signed int numVars(std::vector<std::vector<signed int> >& cs) {
 
 void printClause(const std::vector<signed int>& clause) {
   std::vector<signed int>::const_iterator iter;
-  for (iter = clause.begin(); iter != clause.end(); iter++) {
+  for (iter = clause.begin(); iter != clause.end(); ++iter) {
     std::cout << (int) *iter;
     std::cout << " ";
   }
@@ -49,7 +49,7 @@ void printClause(const std::vector<signed int>& clause) {
 void printClauseSet(std::vector<std::vector<signed int> >& clauseSet) {
   std::vector<std::vector<signed int> >::iterator iter;
 
-  for (iter = clauseSet.begin(); iter != clauseSet.end(); iter++) {
+  for (iter = clauseSet.begin(); iter != clauseSet.end(); ++iter) {
     printClause(*iter);
   }
 }
@@ -70,7 +70,7 @@ long hashClause(std::vector<signed int>& clause) {
   
   std::vector<signed int>::iterator iter;
   
-  for (iter = clause.begin(); iter != clause.end(); iter++) {
+  for (iter = clause.begin(); iter != clause.end(); ++iter) {
     if (*iter < 0) {
       returnValue += ipow(3, abs(*iter) - 1);
     } else if (*iter > 0) {
@@ -144,7 +144,7 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   
   // First Mark Clauses 
   std::vector<std::vector<signed int> >::iterator cIter;
-  for (cIter = inputCS.begin(); cIter != inputCS.end(); cIter++) {
+  for (cIter = inputCS.begin(); cIter != inputCS.end(); ++cIter) {
     hash = hashClause(*cIter);
     marked[hash] = true;
     markedIn[hash] = true;
@@ -155,12 +155,12 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
     // Output 
     std::cerr << "Level " << (int) level << std::endl;
     // Run through all clauses 
-    for (int cIter = 0; cIter < nPartialAssignments; cIter++) {
+    for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
       // Go through literals in clause
       if (marked[cIter]) {
         clauseSize = hashToClause(cIter, clause, nVars);
         if (clauseSize == level) {
-          for (int lIter = 0; lIter < clauseSize; lIter++) {
+          for (int lIter = 0; lIter < clauseSize; ++lIter) {
             // If it's partner clause exists 
             partnerHash =
               flipLiteralSignInHash(cIter, clause[lIter]);
@@ -179,7 +179,7 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
     }
     // At the end of each level, we only need those clauses that are in 
     // markedIn 
-    for (int cIter = 0; cIter < nPartialAssignments; cIter++) {
+    for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
       marked[cIter] = markedIn[cIter];
     }
   }
@@ -187,7 +187,7 @@ quineMcCluskey(std::vector<std::vector<signed int> > inputCS) {
   
   // Add clauses to CS 
   std::vector<std::vector<int> > resultCS;
-  for (int cIter = 0; cIter < nPartialAssignments; cIter++) {
+  for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
     if (markedIn[cIter]) {
       clauseSize = hashToClause(cIter, clause, nVars);
       std::vector<int> sClause(clause, clause + clauseSize);
