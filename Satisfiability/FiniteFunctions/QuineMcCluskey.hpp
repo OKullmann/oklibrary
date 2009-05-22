@@ -14,7 +14,7 @@ License, or any later version. */
 #ifdef NUMBER_VARIABLES
 const int nVars = NUMBER_VARIABLES;
 #else
-const int nVars = 16;
+const int nVars = 4;
 #endif
 
 signed int numVars (std::vector < std::vector < signed int > >&cs)
