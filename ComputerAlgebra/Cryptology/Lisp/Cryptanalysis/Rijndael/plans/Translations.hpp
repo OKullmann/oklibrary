@@ -27,6 +27,9 @@ License, or any later version. */
      <li> aes_cp </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
+     <li> aes_sbox_ts_gen </li>
+     <li> aes_mul2_ts_gen </li>
+     <li> aes_mul3_ts_gen </li>
      <li> DONE aes_final_round_cp </li>
      <li> DONE rewrite_all </li>
      <li> DONE rewrite_condition </li>

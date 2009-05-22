@@ -291,8 +291,12 @@ aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
   xreduce(union, map(lambda([a,b], {{-a,b},{a,-b}}), 
     take_elements(nb,bits), rest(bits,nb))))$
 
-/* Function which generates (and stores) the canonical translation for
-   the mul2 translation. */
+/* Generates (and caches) the canonical CNF representation as a formal clause
+ * set of AES Field muliplication by 2 with new variables. New variables are 
+ * introduced for each clause in the canonical DNF representation, where the 
+ * variables are of the form dts(i) and i is the rank in the lexiographical 
+ * ordering of the clauses.
+ */
 aes_mul2_ts_CNF : false;
 aes_mul2_ts_gen() := 
   if aes_mul2_ts_CNF = false then block([plus16 : lambda([x],x+16)],
@@ -310,16 +314,21 @@ aes_mul2_ts_gen() :=
   ) else aes_mul2_ts_CNF$
 /* Returns a set of conditions representing multiplication by 02 or "x" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
-/* MG : This should ideally take the CNF to be used */
 aes_mul2_cp : aes_mul2_pi_cp$
 aes_mul2_ts_CNF : false;
+/* Representation using small subsets of prime implicates and no new variables */
 aes_mul2_pi_cp([bits]) := rename_fcs(FieldMul2CNF,bits)[2]$
+/* Canonical representation using new variables */
 aes_mul2_ts_cp([bits]) :=   
   setify(
     rename_fcl(aes_mul2_ts_gen(),append(bits,aes_make_vars("mul2",1,256)))[2])$
 
-/* Function which generates (and stores) the canonical translation for
-   the mul3 translation. */
+/* Generates (and caches) the canonical CNF representation as a formal clause
+ * set of AES Field muliplication by 3 with new variables. New variables are 
+ * introduced for each clause in the canonical DNF representation, where the 
+ * variables are of the form dts(i) and i is the rank in the lexiographical 
+ * ordering of the clauses.
+ */
 aes_mul3_ts_CNF : false;
 aes_mul3_ts_gen() := 
   if aes_mul3_ts_CNF = false then block([plus16 : lambda([x],x+16)],
@@ -340,13 +349,19 @@ aes_mul3_ts_gen() :=
 /* MG : This should ideally take the CNF to be used */
 aes_mul3_cp : aes_mul3_pi_cp$
 aes_mul3_ts_CNF : false;
+/* Representation using small subsets of prime implicates and no new variables */
 aes_mul3_pi_cp([bits]) := rename_fcs(FieldMul3CNF,bits)[2]$
+/* Canonical representation using new variables */
 aes_mul3_ts_cp([bits]) :=   
   setify(
     rename_fcl(aes_mul3_ts_gen(),append(bits,aes_make_vars("mul3",1,256)))[2])$
 
-/* Function which generates (and stores) the canonical translation for
-   the sbox translation. */
+/* Generates (and caches) the canonical CNF representation as a formal clause
+ * set of AES Sbox operator with new variables. New variables are 
+ * introduced for each clause in the canonical DNF representation, where the 
+ * variables are of the form dts(i) and i is the rank in the lexiographical 
+ * ordering of the clauses.
+ */
 aes_sbox_ts_CNF : false;
 aes_sbox_ts_gen() := 
   if aes_sbox_ts_CNF = false then block([plus16 : lambda([x],x+16)],
@@ -367,7 +382,9 @@ aes_sbox_cp : aes_sbox_pi_cp$
 /* Returns a set of conditions representing the AES Sbox given the 8 input bits
    and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
+/* Representation using small subsets of prime implicates and no new variables */
 aes_sbox_pi_cp([bits]) := rename_fcs(Sbox44ICCNF,bits)[2]$
+/* Canonical representation using new variables */
 aes_sbox_ts_cp([bits]) :=
   setify(
     rename_fcl(aes_sbox_ts_gen(),append(bits,aes_make_vars("sbox",1,256)))[2])$
