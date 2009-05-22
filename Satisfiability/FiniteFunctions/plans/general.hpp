@@ -210,6 +210,14 @@ License, or any later version. */
      First task is to create a valid C++ program, by eliminating
      the error using a non-constant array-dimension; a std::vector
      is to be used here. </li>
+     <li> First all names have to be changed: typenames are like
+     "ClauseSet", functions are like "compute_something" (or just
+     "something"); so non-type-names have no upper-case-letters in them. </li>
+     <li> std::vector<bool>::size_type is a central integral type here,
+     determining the limits of the computation; starting from this a
+     (small) resource management (at compile-time!) has to be created. </li>
+     <li> Of course, at least typedefs for the basic types of variables,
+     literals, clauses and clause-sets need to be provided. </li>
     </ol>
    </li>
   </ul> 
