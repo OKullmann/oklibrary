@@ -52,7 +52,6 @@ int main(const int argc, const char* const argv[]) {
     return error_readfile;
   }
     
-  const std::vector<std::vector<int> > result_set = FiniteFunctions::quineMcCluskey(clause_set);
-  FiniteFunctions::printClauseSet(result_set);
+  FiniteFunctions::printClauseSet(FiniteFunctions::quineMcCluskey(clause_set));
 
 }
