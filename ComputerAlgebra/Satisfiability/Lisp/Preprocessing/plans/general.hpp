@@ -198,5 +198,52 @@ License, or any later version. */
    </ul>
   </ul>
 
+
+  \todo Examples
+  <ul>
+   <li> Certain hardcoded preprocessing using a similar idea as above
+   (find a cover and then CNF->DNF->CNF) should be applied to examples of 
+   small and/or well known problems to test the idea and attempt to offer
+   insight into the development. </li>
+   <li> Pigeon Hole Formulas :
+    <ul>
+     <li> As an example, if one takes the weak PHP formulas with m pigeons and n
+     holes, one can represent each pigeon m_i occupying a single hole (and no 
+     other pigeon being in this hole) by n DNF clauses, each encoding that pigeon
+     m_i occurs a particular hole (for every hole). </li>
+     <li> The weak PHP problem can then be represented by considering for each
+     pigeon the subset of the CNF clauseset that represents that this pigeon
+     sits in any hole and no other pigeon sits in the same hole, taking the
+     above conversation to DNF for each of these sub-clausesets, and then taking
+     the union of all such DNFs translated to CNF via the canonical translation.
+     </li>
+     <li> This can be done using the following code:
+     \verbatim
+rename_var(m_i, m, n, FF) := block([FF2 : FF, num_dts_vars : length(FF[1])],
+  print(num_dts_vars),
+  for i : 1 thru n do
+    for i : num_dts_vars - (n*m) thru 1 step -1 do
+      FF2 : subst(dts_var((m_i-1) * (num_dts_vars - (n*m)) + i),dts_var(i),  FF2),
+  return(FF2))$   
+
+weak_php_ts(m,n) := 
+  cs_to_fcs(lunion(create_list(
+    setify(rename_var(i,m,n,dualts_fcl(fcs2fcl(cs_to_fcs(pigeon_in_hole_dnf(i,m,n)))))[2]),
+    i, 1, m)))$
+
+pigeon_in_hole_dnf(m_i,m,n) :=
+  setify(create_list(setify(create_list(if j = m_i then php_var(j,i) else -php_var(j,i), j, 1, m)), i, 1, n))$ 
+    
+output_weak_php_ts(m,n,f) :=
+  output_cs_f(
+    sconcat("PHP with ", m, " pigeons and ", n, " holes."), 
+    standardise_fcs(weak_php_ts(m,n))[1], 
+    f)$
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+  </ul>
+
 */
 
