@@ -38,20 +38,20 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string filename = argv[1];
-  std::ifstream inputFile(filename.c_str());
-  if (not inputFile) {
+  std::ifstream inputfile(filename.c_str());
+  if (not inputfile) {
     std::cerr << "ERROR[QuineMcCluskey]: Failure opening file " << filename << ".\n";
     return error_openfile;
   }
 
-  std::vector<std::vector<int> > clauseSet = readDIMACSFormat(&inputFile);
-  if (not inputFile) {
+  std::vector<std::vector<int> > clause_set = readDIMACSFormat(&inputfile);
+  if (not inputfile) {
     std::cerr << "ERROR[QuineMcCluskey]: Failure reading file " << filename << ".\n";
     return error_readfile;
   }
 
-  std::vector<std::vector<int> > resultSet = quineMcCluskey(clauseSet);
-  for (std::vector<std::vector<int> >::iterator iter = resultSet.begin(); iter != resultSet.end(); iter++) {
+  std::vector<std::vector<int> > result_set = quineMcCluskey(clause_set);
+  for (std::vector<std::vector<int> >::iterator iter = result_set.begin(); iter != result_set.end(); iter++) {
     printClause(*iter); 
   }
 }
