@@ -62,11 +62,11 @@ License, or any later version. */
        <li> The underlying observation is, that a clause of length k
        has exactly k possible partners for 2-subsumption resolution. </li>
        <li> So at level k (where all clauses have length k) each clause has
-       an associated vector of boolean of length k, showing whether on
+       an associated vector of booleans of length k, showing whether on
        the associated variable of the clause a 2-subsumption resolution
        has been done. </li>
        <li> Now processing of level k happens by running through the list
-       of clauses, for each clauses finding the available 2-subsumption
+       of clauses, for each clause finding the available 2-subsumption
        resolution partners, performing the resolutions and entering this
        information into the vectors. </li>
        <li> The main (potential) saving lies in actively searching for
@@ -125,7 +125,7 @@ License, or any later version. */
    <li> Is there a way of using both the satisfying and the falsifying
    total assignments? Likely the way to do this is to combine the resolution
    algorithm with the dualisation algorithm. </li>
-   <li> Can the Quine/Mccluskey-algorithm be generalised from boolean
+   <li> Can the Quine/McCluskey-algorithm be generalised from boolean
    clause-sets to more general forms of clause-sets?
     <ol>
      <li> For clause-sets with non-boolean variables it should be similar
