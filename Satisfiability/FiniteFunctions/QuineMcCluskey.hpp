@@ -29,11 +29,11 @@ namespace OKlib {
       const int nVars = 4;
 #endif
       
-      int numVars(std::vector<std::vector<int> >& cs) {
+      int numVars(const std::vector<std::vector<int> >& cs) {
         std::set<unsigned int> variables;
-        std::vector<std::vector<int> >::iterator cIter;
+        std::vector<std::vector<int> >::const_iterator cIter;
         for (cIter = cs.begin(); cIter != cs.end(); ++cIter) {
-          std::vector<int>::iterator lIter;
+          std::vector<int>::const_iterator lIter;
           for (lIter = (*cIter).begin(); lIter != (*cIter).end(); ++lIter) {
             variables.insert(abs(*lIter));
           }
@@ -50,30 +50,26 @@ namespace OKlib {
         std::cout << "0" << std::endl;
       }
       
-      void printClauseSet(std::vector<std::vector<int> >& clauseSet) {
-        std::vector<std::vector<int> >::iterator iter;
-        
+      void printClauseSet(const std::vector<std::vector<int> >& clauseSet) {
+        std::vector<std::vector<int> >::const_iterator iter;
         for (iter = clauseSet.begin(); iter != clauseSet.end(); ++iter) {
           printClause(*iter);
         }
       }
       
-      long ipow(int b, int e) {
+      long ipow(const int b, int e) {
         long result = 1;
-        
         while (e-- > 0) {
           result *= b;
         }
         return result;
       }
       
-      // Hash considers 0 = variable not in clause, 1 = variable occurs negated in 
-      // clause, 2 = variable occurs positively in clause 
-      long hashClause(std::vector<int>& clause) {
+      // Hash considers 0 = variable not in clause, 1 = variable occurs
+      // negated in clause, 2 = variable occurs positively in clause 
+      long hashClause(const std::vector<int>& clause) {
         long returnValue = 0;
-        
-        std::vector<int>::iterator iter;
-        
+        std::vector<int>::const_iterator iter;
         for (iter = clause.begin(); iter != clause.end(); ++iter) {
           if (*iter < 0) {
             returnValue += ipow(3, abs(*iter) - 1);
@@ -84,10 +80,10 @@ namespace OKlib {
         return returnValue;
       }
       
-      // Given a hash for a clause and a literal (within the clause represented by the 
-      // hash), return a new hash representing a clause where the literal has the 
-      // opposite sign 
-      long flipLiteralSignInHash(long hash, int literal) {
+      // Given a hash for a clause and a literal (within the clause
+      // represented by the hash), return a new hash representing a clause
+      // where the literal has the opposite sign 
+      long flipLiteralSignInHash(long hash, const int literal) {
         if (literal < 0) {
           hash += ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -96,7 +92,7 @@ namespace OKlib {
         return hash;
       }
       
-      long removeLiteralInHash(long hash, int literal) {
+      long removeLiteralInHash(long hash, const int literal) {
         if (literal < 0) {
           hash -= ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -105,11 +101,9 @@ namespace OKlib {
         return hash;
       }
       
-      unsigned int hashToClause(long hash, int clause[], int nVars) {
+      unsigned int hashToClause(long hash, int clause[], const int nVars) {
         long iValue = 1;
-        
         int numLit = 0;
-        
         for (int lit = nVars; lit > 0; lit--) {
           iValue = ipow(3, abs(lit) - 1);
           // Work out whether the literal is in the hash
@@ -125,11 +119,9 @@ namespace OKlib {
       }
       
       std::vector<std::vector<int> >
-      quineMcCluskey(std::vector<std::vector<int> > inputCS) {
+      quineMcCluskey(const std::vector<std::vector<int> > inputCS) {
         int clause[nVars];
-        
         long nPartialAssignments = ipow(3, nVars);
-        
         std::cerr << "Number of Partial Assignments " << nPartialAssignments << std::endl;
         // Marked is used to keep track of all found clauses 
         std::vector<bool> marked(nPartialAssignments, 0);
@@ -137,23 +129,17 @@ namespace OKlib {
         //  result set 
         std::vector<bool> markedIn(nPartialAssignments, 0);
         unsigned int clauseSize = 0;
-        
         int numClausesIn = 0;
-        
         unsigned long hash = 0;
-        
         unsigned long partnerHash = 0;
-        
         unsigned long newHash = 0;
-        
         // First Mark Clauses 
-        std::vector<std::vector<int> >::iterator cIter;
+        std::vector<std::vector<int> >::const_iterator cIter;
         for (cIter = inputCS.begin(); cIter != inputCS.end(); ++cIter) {
           hash = hashClause(*cIter);
           marked[hash] = true;
           markedIn[hash] = true;
         }
-        
         // Perform Algorithm
         for (int level = nVars; level > 0; level--) {
           // Output 
@@ -187,8 +173,6 @@ namespace OKlib {
             marked[cIter] = markedIn[cIter];
           }
         }
-        
-        
         // Add clauses to CS 
         std::vector<std::vector<int> > resultCS;
         for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
