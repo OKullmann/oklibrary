@@ -205,18 +205,18 @@ License, or any later version. */
    (find a cover and then CNF->DNF->CNF) should be applied to examples of 
    small and/or well known problems to test the idea and attempt to offer
    insight into the development. </li>
-   <li> Pigeon Hole Formulas :
+   <li> Pigeonhole Formulas:
     <ul>
-     <li> As an example, if one takes the weak PHP formulas with m pigeons and n
-     holes, one can represent each pigeon m_i occupying a single hole (and no 
-     other pigeon being in this hole) by n DNF clauses, each encoding that pigeon
-     m_i occurs a particular hole (for every hole). </li>
+     <li> As an example, if one takes the weak PHP formulas with m pigeons and
+     n holes, one can represent each pigeon m_i occupying a single hole (and
+     no other pigeon being in this hole) by n DNF clauses, each encoding that
+     pigeon m_i occurs a particular hole (for every hole). </li>
      <li> The weak PHP problem can then be represented by considering for each
-     pigeon the subset of the CNF clauseset that represents that this pigeon
+     pigeon the subset of the CNF clause-set that represents that this pigeon
      sits in any hole and no other pigeon sits in the same hole, taking the
-     above conversation to DNF for each of these sub-clausesets, and then taking
-     the union of all such DNFs translated to CNF via the canonical translation.
-     </li>
+     above conversation to DNF for each of these sub-clause-sets, and then
+     taking the union of all such DNFs translated to CNF via the canonical
+     translation. </li>
      <li> This can be done using the following code:
      \verbatim
 rename_var(m_i, m, n, FF) := block([FF2 : FF, num_dts_vars : length(FF[1])],
