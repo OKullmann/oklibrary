@@ -104,7 +104,7 @@ namespace OKlib {
       unsigned int hashToClause(long hash, int clause[], const int nVars) {
         long iValue = 1;
         int numLit = 0;
-        for (int lit = nVars; lit > 0; lit--) {
+        for (int lit = nVars; lit > 0; --lit) {
           iValue = ipow(3, abs(lit) - 1);
           // Work out whether the literal is in the hash
           if ((hash - (2 * iValue)) >= 0) {
@@ -141,7 +141,7 @@ namespace OKlib {
           markedIn[hash] = true;
         }
         // Perform Algorithm
-        for (int level = nVars; level > 0; level--) {
+        for (int level = nVars; level > 0; --level) {
           // Output 
           std::cerr << "Level " << (int) level << std::endl;
           // Run through all clauses 
