@@ -18,10 +18,10 @@ License, or any later version. */
 #include <fstream>
 #include <vector>
 
-std::vector< std::vector<int> > readDIMACSFormat(std::ifstream * inputFile) {
+std::vector<std::vector<int> > readDIMACSFormat(std::ifstream* inputFile) {
   int c = 0; // Character reading
   int rawLiteral = -1;
-  std::vector< std::vector<int> > clauseSet;
+  std::vector<std::vector<int> > clauseSet;
   while ( (c = inputFile->peek()) != EOF ) {
     switch(c) {
     case 'c' :
