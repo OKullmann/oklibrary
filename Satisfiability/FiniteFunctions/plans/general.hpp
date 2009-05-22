@@ -195,36 +195,23 @@ License, or any later version. */
   </ul>
 
 
-  \todo C++ implementation of Quine-McCluskey
+  \todo Improving QuineMcCluskey
   <ul>
-   <li> A C++ implementation is needed for finding prime implicates as the 
-   current maxima implementation simply takes far too long. </li>
    <li> What parts of Satisfiability/ in the library would be useful (classes 
    for clause-sets, clauses etc)? </li>
-   <li> A first attempt by MG is given by FiniteFunctions/QuineMcCluskey.hpp,
-   FiniteFunctions/QuineMcCluskey.cpp, FiniteFunctions/SATParser.hpp.
-    <ol>
-     <li> This code needs to be completely refactored, and should be
-     a learning opportunity for MG. </li>
-     <li> DONE (used a constant here, which was the easiest fix)
-     First task is to create a valid C++ program, by eliminating
-     the error using a non-constant array-dimension; a std::vector
-     is to be used here. </li>
-     <li> First all names have to be changed: typenames are like
-     "ClauseSet", functions are like "compute_something" (or just
-     "something"); so non-type-names have no upper-case-letters in them. </li>
-     <li> All introduced functions and types need doxygen-documentation. </li>
-     <li> The program should be able to cope for example with incorrect
-     inputs. </li>
-     <li> Use asserts for example to check for assumptions on function
-     arguments. </li>
-     <li> std::vector<bool>::size_type is a central integral type here,
-     determining the limits of the computation; starting from this a
-     (small) resource management (at compile-time!) has to be created. </li>
-     <li> Of course, at least typedefs for the basic types of variables,
-     literals, clauses and clause-sets need to be provided. </li>
-    </ol>
-   </li>
+   <li> First all names have to be changed: typenames are like
+   "ClauseSet", functions are like "compute_something" (or just
+   "something"); so non-type-names have no upper-case-letters in them. </li>
+   <li> All introduced functions and types need doxygen-documentation. </li>
+   <li> The program should be able to cope for example with incorrect
+   inputs. </li>
+   <li> Use asserts for example to check for assumptions on function
+   arguments. </li>
+   <li> std::vector<bool>::size_type is a central integral type here,
+   determining the limits of the computation; starting from this a
+   (small) resource management (at compile-time!) has to be created. </li>
+   <li> Of course, at least typedefs for the basic types of variables,
+   literals, clauses and clause-sets need to be provided. </li>
   </ul> 
 
 
