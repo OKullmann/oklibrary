@@ -70,6 +70,12 @@ License, or any later version. */
   \par Satisfiability/Transformers version 0.0.6
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
+  \par Satisfiability/FiniteFunctions 0.0.7
+  (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
+
+
+  \par Version 0.1.4
+
   \par Satisfiability/FiniteFunctions 0.1
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
 

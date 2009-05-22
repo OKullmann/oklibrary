@@ -14,9 +14,41 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Links and plans
+    - Names and documentation
+
+
+  \par Version 0.0.6
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Application tests
+
+
+  \par Version 0.0.7
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Precise definitions, and basic types
+
+
+  \par Version 0.0.8
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Input and output
+
+
+  \par Version 0.0.9
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Unit tests
 
 
   \par Version 0.1
@@ -25,6 +57,19 @@ License, or any later version. */
    Version 1.0 of QuineMcCluskey, fully specified, fully functional, fully
    tested.
 
+
+  \par Version 0.1.1
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
+   following topics are handled:
+    - Links and plans
+    - Prime implicants and implicates
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Quine/McCluskey in general
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

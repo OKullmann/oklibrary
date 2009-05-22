@@ -82,7 +82,6 @@ License, or any later version. */
 
   \subsection VersionOKlib024 0.2.4 BETA RELEASE
   TO BE REACHED $(deadline_024)
-  (see Buildsystem/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.3 (OK)
   \par Literals version 0.0.4 (OK (MH))
   (see Literals/plans/milestones.hpp)
@@ -140,6 +139,8 @@ License, or any later version. */
   (see Cryptanalysis/plans/milestones.hpp)
   \par Structures version 0.0.7
   (see Structures/plans/milestones.hpp)
+  \par OKlib/Satisfiability version 0.1.4 (OK)
+  \par Literals version 0.0.4 (OK (MH))
   \par Update the subsequent milestones (on the way to 0.3).
 
 
