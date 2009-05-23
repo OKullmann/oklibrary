@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,15 +19,15 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/include.mac")$
+
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac")$

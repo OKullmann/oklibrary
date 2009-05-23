@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
 
 kill(f)$

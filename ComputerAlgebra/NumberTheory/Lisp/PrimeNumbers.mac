@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 
 
 /* **********************************
@@ -90,7 +90,7 @@ product_primes(n) := block([pr : 1, p : 2],
    **************************
 */
 
-/* In ComputerAlgebra/Hypergraphs/Lisp/Generators.mac we have
+/* In ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac we have
    arithprog_primes_finish[k,n].
 */
 

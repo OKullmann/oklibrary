@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Hypergraphs.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 
 /* Ramsey hypergraphs are computed by ramsey_(o)hg(q,r,n) (from
    Hypergraphs/Lisp/Generators.mac).

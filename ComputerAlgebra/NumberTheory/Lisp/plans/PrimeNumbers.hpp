@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> See Experimentation/Investigations/plans/AdditiveNumberTheory.hpp.
    </li>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators.mac. </li>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac. </li>
   </ul>
 
 

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
   \brief Plans regarding generators for hypergraphs
   
   
