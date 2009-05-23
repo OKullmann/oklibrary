@@ -8,6 +8,21 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
   \brief Plans regarding generators for hypergraphs
+
+
+  \todo Organisation
+  <ul>
+   <li> The current Generators/Generators.mac needs to be split into several
+   files:
+    <ol>
+     <li> Basics.mac </li>
+     <li> VanderWaerden.mac </li>
+     <li> GreenTao.mac </li>
+     <li> SchurRado.mac </li>
+     <li> Ramsey.mac </li>
+    </ol>
+   </li>
+  </ul>
   
   
   \todo Statistics
