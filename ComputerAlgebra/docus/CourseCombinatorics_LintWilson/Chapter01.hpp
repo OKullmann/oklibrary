@@ -27,14 +27,14 @@ License, or any later version. */
   <ul>
    <li> The Petersen graph is available as follows:
    \verbatim
-knesergraph_g(5,2);
+kneser_g(5,2);
   [{{1,2},{1,3},{1,4},{1,5},{2,3},{2,4},{2,5},{3,4},{3,5},{4,5}},
          {{{1,2},{3,4}},{{1,2},{3,5}},{{1,2},{4,5}},{{1,3},{2,4}},{{1,3},{2,5}},{{1,3},{4,5}},
           {{1,4},{2,3}},{{1,4},{2,5}},{{1,4},{3,5}},{{1,5},{2,3}},{{1,5},{2,4}},{{1,5},{3,4}},
           {{2,3},{4,5}},{{2,4},{3,5}},{{2,5},{3,4}}}]
 petersen_graph();
   ?GRAPH
-is_isomorphic(petersen_graph(), g2mg(knesergraph_g(5,2)));
+is_isomorphic(petersen_graph(), g2mg(kneser_g(5,2)));
   true
    \endverbatim
    </li>
@@ -51,7 +51,7 @@ gap> Factorial(40);
 815915283247897734345611269596115894272000000000
    \endverbatim
    </li>
-   <li> Thus one expects the automorphism group of knesergraph_g(n,2) to
+   <li> Thus one expects the automorphism group of kneser_g(n,2) to
    be (naturally) isomorphic to the S_n ?! </li>
    <li> Investigating closer the automorphism group of the Petersen graph:
    \verbatim

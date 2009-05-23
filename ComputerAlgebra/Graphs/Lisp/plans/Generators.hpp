@@ -45,7 +45,7 @@ License, or any later version. */
      <li> Explicit enumeration. </li>
      <li> A fundamental question here is whether, like for the Petersen
      graph, always the full permutation group of {1,...,n} induces
-     all automorphisms of knesergraph_g(n,m).
+     all automorphisms of kneser_g(n,m).
       <ul>
        <li> This is not the case for example for n=5, m=3, where there are
        no edges (and thus every permutation of powerset(setn(5),3) is

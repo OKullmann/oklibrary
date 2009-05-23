@@ -61,7 +61,7 @@ License, or any later version. */
    Kneser graphs - graphs where vertices are the m-element subets of {1,..,n} and 
    edges join disjoint vertices. For example the Peterson-graph:
    \verbatim
-(%i10) k:g2mg(knesergraph_g(5,2))$
+(%i10) k:g2mg(kneser_g(5,2))$
 (%i11) print_graph(k)$
 
 Graph on 10 vertices with 15 edges.
