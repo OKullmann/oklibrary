@@ -117,6 +117,94 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    <li> The minimal satisfiable assignments of FvdW_m(k,n_0) can be obtained
    from Tr(ap(3,n_0)) (the transversal hypergraph) by considering m
    transversals with empty common intersection. </li>
+   <li> Simple statistics for boolean problems:
+    <ol>
+     <li> k=3:
+     \verbatim
+for n : 3 do print(n,length(arithprog_hg(3,n)[2]),min_resolution_closure_cs(vanderwaerden2_fcs(3,n)[2])[2]);
+3 1 [2,2]
+4 2 [4,4]
+5 4 [8,12,12]
+6 6 [12,22,26,26]
+7 9 [18,54,88,38,38]
+8 12 [24,94,226,150,116,72,72]
+9 16 [32,164,508,402,182,34,1,1]
+     \endverbatim
+     </li>
+     <li> k=4:
+     \verbatim
+for n : 4 do print(n,length(arithprog_hg(4,n)[2]),min_resolution_closure_cs(vanderwaerden2_fcs(4,n)[2])[2]);
+4 1 [2,2]
+5 2 [4,4]
+6 3 [6,6]
+7 5 [10,12,12]
+8 7 [14,18,18]
+9 9 [18,28,32,32]
+10 12 [24,56,80,80]
+11 15 [30,92,206,208,202,202]
+12 18 [36,136,456,488,460,460]
+     \endverbatim
+     </li>
+     <li> k=5:
+     \verbatim
+for n : 5 do print(n,length(arithprog_hg(5,n)[2]),min_resolution_closure_cs(vanderwaerden2_fcs(5,n)[2])[2]);
+5 1 [2,2]
+6 2 [4,4]
+7 3 [6,6]
+8 4 [8,8]
+9 6 [12,14,14]
+10 8 [16,20,20]
+11 10 [20,26,26]
+12 12 [24,36,36]
+13 15 [30,60,88,88,88]
+14 18 [36,88,186,194,194]
+15 21 [42,120,358,422,422]
+16 24 [48,160,602,742,742,742]
+     \endverbatim
+     </li>
+     <li> k=6:
+     \verbatim
+for n : 6 do print(n,length(arithprog_hg(6,n)[2]),min_resolution_closure_cs(vanderwaerden2_fcs(6,n)[2])[2]);
+6 1 [2,2]
+7 2 [4,4]
+8 3 [6,6]
+9 4 [8,8]
+10 5 [10,10]
+11 7 [14,16,16]
+12 9 [18,22,22]
+13 11 [22,28,28]
+14 13 [26,34,34]
+15 15 [30,44,48,48]
+16 18 [36,60,70,70]
+17 21 [42,76,92,92]
+18 24 [48,92,114,114]
+19 27 [54,116,178,186,186]
+20 30 [60,144,282,314,314]
+21 34 [68,204,666,870,876,876]
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> One should write a generator, first only for the boolean problems,
+   which creates a clause-set equivalent to vanderwaerden2_fcs(k,n) by
+   removing for given n0 all clauses covered by one of FvdW_2(k, S), for
+   arithmetic progressions S in {1,...,n} of length n0, and adding instead
+   the prime implicates of FvdW_2(k, S). </li>
+   <li> Hard to imagine that the increase in size is compensated by the
+   added reasoning power; but who knows (and the different solver types
+   might react differently). </li>
+   <li> Perhaps considering all S is too much overlap? </li>
+   <li> More interesting perhaps is the computation of smallest (w.r.t. the
+   number of clauses) DNF representations of FvdW_2(k,n).
+    <ol>
+     <li> The straight-forward way is to first compute all satisfying
+     total assignments (we can just use brutest-force), and then to
+     apply first Quine/McCluskey, and then minimisation. </li>
+     <li> See "Minimisation" in
+     OKlib/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
+     <li> 
+    </ol>
+   </li>
   </ul>
 
 */
