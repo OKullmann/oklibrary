@@ -29,18 +29,6 @@ namespace OKlib {
       const int nVars = 4;
 #endif
       
-      int numVars(const std::vector<std::vector<int> >& cs) {
-        std::set<unsigned int> variables;
-        for (std::vector<std::vector<int> >::const_iterator cIter = cs.begin();
-             cIter != cs.end(); ++cIter) {
-          for (std::vector<int>::const_iterator lIter = cIter -> begin();
-               lIter != cIter -> end(); ++lIter) {
-            variables.insert(abs(*lIter));
-          }
-        }
-        return variables.size();
-      }
-      
       void printClause(const std::vector<int>& clause) {
         for (std::vector<int>::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
