@@ -146,6 +146,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Docus
+  <ul>
+   <li> A docus-file is needed. </li>
+   <li> Specifying input and output, with various explained examples. </li>
+   <li> Explaining the algorithm. </li>
+   <li> Explaining also the various connections to the rest of the
+   library. </li>
+  </ul>
+
+
   \todo Application tests
   <ul>
    <li> The application tests have to be extended (using test cases where the
@@ -154,6 +164,13 @@ License, or any later version. */
    </li>
    <li> The program needs to be able to cope with incorrect inputs. </li>
    <li> And all these error cases need to be tested. </li>
+  </ul>
+
+
+  \todo Maxima level
+  <ul>
+   <li> The algorithm needs to be implemented also at Maxima level. </li>
+   <li> There then perhaps also using lists for the clauses? </li>
   </ul>
 
 
@@ -176,12 +193,57 @@ License, or any later version. */
    used. </li>
    <li> Also options like "--version" or "--help" should be available. </li>
    <li> See Programming/ProgramOptions/plans/general.hpp. </li>
+   <li> At a higher verbosity-level the program should forecast its
+   anticipated memory and time usage.
+    <ol>
+     <li> Memory usage likely can be rather precisely calculated. </li>
+     <li> While for time complexity we likely need a model and certain
+     experiments, which for a specific computer determine the coefficients
+     of the model. </li>
+     <li> This determination should be done by a specific script, and
+     the values stored in a file read by the program. </li>
+    </ol>
+   </li>
+   <li> Perhaps the used value of NUMBER_VARIABLES should be part of
+   the name of the executable? Or at least it should be possible to
+   obtain this number from the program. </li>
   </ul>
 
 
   \todo Unit tests
   <ul>
    <li> Use the (new) higher-order unit test framework. </li>
+  </ul>
+
+
+  \todo Improvements of the implementation
+  <ul>
+   <li> ipow should be replaced by an array computed at compile-time. </li>
+   <li> Likely we should have a dedicated clause-type here, based on
+   an array of length 16 and a size-member. </li>
+   <li> One needs to connect to the general concepts of variables, literals,
+   clauses and clause-sets, such that all these types here become special
+   instances of general concepts. </li>
+  </ul>
+
+
+  \todo Performance and code analysis analysis
+  <ul>
+   <li> We need tools in the OKlibrary to analyse the performance of
+   C/C++ programs. </li>
+   <li> One central system, for making measurements, is described in
+   ComplexitySystem/plans/general.hpp. </li>
+   <li> Compare "Apply Valgrind", "Apply code analysis tools (like Splint)"
+   and "Optimising the code" in Solvers/OKsolver/SAT2002/plans/general.hpp.
+   </li>
+  </ul>
+
+
+  \todo Parallelisation
+  <ul>
+   <li> Usage of Mpi (now supported by gcc) or of threads (according to
+   C++09) is to be studied. </li>
+   <li> So that tackling really big tasks becomes possible. </li>
   </ul>
 
 */

@@ -24,7 +24,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Application tests
+    - Docus
 
 
   \par Version 0.0.7
@@ -32,7 +32,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Precise definitions, and basic types
+    - Application tests
 
 
   \par Version 0.0.8
@@ -40,10 +40,26 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Input and output
+    - Maxima level
 
 
   \par Version 0.0.9
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Precise definitions, and basic types
+
+
+  \par Version 0.0.10
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Input and output
+
+
+  \par Version 0.0.11
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -70,6 +86,38 @@ License, or any later version. */
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Quine/McCluskey in general
+
+
+  \par Version 0.1.2
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Improvements of the implementation
+
+
+  \par Version 0.1.3
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Performance analysis
+
+
+  \par Version 0.2
+
+  \par
+   Version 2.0 of QuineMcCluskey.cpp is reached, establishing an optimised
+   and highly efficient tool.
+
+
+  \par Version 0.2.1
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Parallelisation
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
