@@ -202,7 +202,10 @@ for n : 6 do print(n,length(arithprog_hg(6,n)[2]),min_resolution_closure_cs(vand
      apply first Quine/McCluskey, and then minimisation. </li>
      <li> See "Minimisation" in
      OKlib/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
-     <li> 
+     <li> One obtains the prime-implicants directly via
+     kneser_g_hyp(transversal_hg_rs(arithprog_hg(k,n))) (interpreting 2-sets
+     of transversals as partial assignments: assigned are the variables in
+     the union, one transversal is interpreted as 0, the other as 1). </li>
     </ol>
    </li>
   </ul>
