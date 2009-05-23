@@ -24,6 +24,21 @@ License, or any later version. */
    we are considering. </li>
    <li> In the e-mail we should give a link to the web page with
    ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac. </li>
+   <li> Compare Structures/NumberTheory/PrimeNumbers/plans/RankPrimes.hpp.
+   </li>
+  </ul>
+
+
+  \todo count_primes
+  <ul>
+   <li> There is an enormous literature with estimations of count_primes. </li>
+   <li> We should implement such estimations. </li>
+  </ul>
+
+
+  \todo product_primes
+  <ul>
+   <li> What is known about this function? </li>
   </ul>
 
 */
