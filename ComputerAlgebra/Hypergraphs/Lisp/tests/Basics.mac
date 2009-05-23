@@ -22,7 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac");
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 
 kill(f)$
 

@@ -169,7 +169,7 @@ anti_edge_k_hyp(G,k) :=
  elseif k=1 then [G[2], singletons(intersection({{}},G[2]))] else
  [G[2], subset(powerset(G[2],k), lambda([H], emptyp(lintersection(H))))]$
 /* The Kneser-graph of a hypergraph: */
-kneser_g_hyp(G) := anti_edge_hyp(G,2)$
+kneser_g_hyp(G) := anti_edge_k_hyp(G,2)$
 
 
 /* *****************
