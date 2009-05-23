@@ -17,7 +17,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Generalisations of the Kneser graphs:
+  \todo Generalisations of the Kneser graphs
   <ul>
    <li> The Johnson graphs J(n,k,i), consisting like the Kneser
    graphs of all k-subsets of n, while we have an edge joining
@@ -27,7 +27,7 @@ License, or any later version. */
    <li> The Kneser graph K(G) of a hypergraph G, with vertices
    the hyperedges, joined by an edge if disjoint. </li>
    <li> DONE (the graphs there are not the Kneser-graphs; see
-   )
+   "Maxima package graphs" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp)
    In the Maxima-graphs-documentation, the Knesergraph K(n,m)
    is called "Petersen graph(N,m)", which is not right --- tell the
    mailing list. </li>
