@@ -163,7 +163,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> And exit-values should reflect the last return-value. </li>
-   <li> As we have it now, passing all arguments to Maxima, we cannot pass for
+   <li> DONE (just use "maxima_lisp_name_okl=ecl maxima_recommended_version_number_okl=5.16.3 oklib --maxima further_arguments")
+   As we have it now, passing all arguments to Maxima, we cannot pass for
    example different targets to the makefile --- we somehow need a (convenient)
    possibility to have both possibilities.
     <ul>

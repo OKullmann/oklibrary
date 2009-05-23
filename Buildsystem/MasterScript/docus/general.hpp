@@ -124,5 +124,9 @@ License, or any later version. */
    <li> Otherwise all output is copied to <code>log/OKlibBuilding</code>. </li>
   </ul>
 
+  If configuration is needed, for example using Maxima with a different
+  Lisp), then specify the corresponding make-variables <em>before</em>
+  the <code>oklib</code> call.
+
 */
 
