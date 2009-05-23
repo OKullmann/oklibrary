@@ -82,13 +82,18 @@ bouquet_gg(n) := ogg2gg(bouquet_ogg(n))$
 */
 
 /* Kneser-graphs: Vertices are the m-element subsets of {1,..,n}, joined by an
-   edge if disjoint. Prerequisites: n >= m >= 1 */
+   edge if disjoint. 
+   Prerequisites: n >= m >= 1.
+*/
 kneser_g(n,m) := block([sn : setn(n)],
  [powerset(sn, m), 
     map(setify, 
       lunion( 
         create_list(cartesian_product({A}, powerset(setdifference(sn, A), m)), 
                  A, listify(powerset(sn, m)))))])$
+/* A generalisation is kneser_g_hyp(G), namely
+   kneser_g(n,m) = kneser_g_hyp(complete_stdhg(n,m)).
+*/
 
 /*!
 \endhtmlonly

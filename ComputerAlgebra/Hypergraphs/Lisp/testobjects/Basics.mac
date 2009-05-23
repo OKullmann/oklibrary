@@ -57,6 +57,17 @@ okltest_vertex_int_com_hyp(vertex_int_com_hyp);
 
 okltest_union_hg(union_hg);
 
+okltest_edge_k_hyp(edge_k_hyp);
+okltest_edge_g_hyp(edge_g_hyp);
+okltest_anti_edge_k_hyp(anti_edge_k_hyp);
+okltest_kneser_g_hyp(kneser_g_hyp);
+
+/* *****************
+   * Connectedness *
+   *****************
+*/
+
+
 /*!
 \endhtmlonly
 */

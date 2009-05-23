@@ -151,6 +151,26 @@ dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 dual_ghg(G) := dual_general_hypergraph(G)$
 
+/* The k-edge-graph, a k-graph, that is, a k-uniform hypergraph, having as 
+    vertices the hyperedges of G and as hyperedges k-sets of hyperedges of G
+    with non-empty intersection:
+*/
+edge_k_hyp(G,k) := 
+ if k=0 then if emptyp(G[1]) then [G[2],{}] else [G[2],{{}}]
+ elseif k=1 then [G[2], singletons(disjoin({},G[2]))] else
+ [G[2], subset(powerset(G[2],k), lambda([H], not emptyp(lintersection(H))))]$
+/* The edge-graph of a hypergraph: */
+edge_g_hyp(G) := edge_k_hyp(G,2)$
+/* The anti-k-edge-graph, a k-graph with vertices the hyperedges of G and as
+   hyperedges k-sets of hyperedges of G with empty intersection:
+*/
+anti_edge_k_hyp(G,k) := 
+ if k=0 then if emptyp(G[1]) then [G[2],{{}}] else [G[2],{}]
+ elseif k=1 then [G[2], singletons(intersection({{}},G[2]))] else
+ [G[2], subset(powerset(G[2],k), lambda([H], emptyp(lintersection(H))))]$
+/* The Kneser-graph of a hypergraph: */
+kneser_g_hyp(G) := anti_edge_hyp(G,2)$
+
 
 /* *****************
    * Connectedness *

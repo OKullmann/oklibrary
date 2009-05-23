@@ -24,7 +24,8 @@ License, or any later version. */
    two vertices if the intersection has exactly size i. </li>
    <li> The generalised Kneser graph K(n,k,t), the union
    of J(n,k,i) for 0 <= i < t. </li>
-   <li> The Kneser graph K(G) of a hypergraph G, with vertices
+   <li> DONE (provided by kneser_g_hyp)
+   The Kneser graph K(G) of a hypergraph G, with vertices
    the hyperedges, joined by an edge if disjoint. </li>
    <li> DONE (the graphs there are not the Kneser-graphs; see
    "Maxima package graphs" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp)
