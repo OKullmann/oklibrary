@@ -133,7 +133,8 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
-   <li> Problems with the graph without vertices:
+   <li> DONE (solved with version 5.18.1)
+   Problems with the graph without vertices:
     <ol>
      <li>
      \verbatim
@@ -165,6 +166,8 @@ Argument 1 to complete_graph is not a positive integer
      the non-graph cases needs investigation. </li>
     </ol>
    </li>
+   <li> In general we need to write docus for all the undocumented notions
+   w.r.t. the Maxima graphs-module. </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> We can use the vertex-labels (assuming they are present). </li>

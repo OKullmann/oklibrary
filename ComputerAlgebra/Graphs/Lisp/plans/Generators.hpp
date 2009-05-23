@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,7 +26,9 @@ License, or any later version. */
    of J(n,k,i) for 0 <= i < t. </li>
    <li> The Kneser graph K(G) of a hypergraph G, with vertices
    the hyperedges, joined by an edge if disjoint. </li>
-   <li> In the Maxima-graphs-documentation, the Knesergraph K(n,m)
+   <li> DONE (the graphs there are not the Kneser-graphs; see
+   )
+   In the Maxima-graphs-documentation, the Knesergraph K(n,m)
    is called "Petersen graph(N,m)", which is not right --- tell the
    mailing list. </li>
   </ul>
