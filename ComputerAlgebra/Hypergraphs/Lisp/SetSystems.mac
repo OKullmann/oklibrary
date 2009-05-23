@@ -51,7 +51,8 @@ setn(n) := setify(create_list(i,i,1,n))$
 setmn(m,n) := setify(create_list(i,i,m,n))$
 
 /* A set of singletons from a set: */
-singletons(M) := makeset({x},[x],cartesian_product(M))$
+singletons(M) := powerset(M,1)$
+
 /* All unordered pairs (possible degenerated) from two sets */
 upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
 

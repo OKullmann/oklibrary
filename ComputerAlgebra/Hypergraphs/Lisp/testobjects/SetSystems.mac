@@ -41,6 +41,10 @@ okltest_last_element(last_element);
 okltest_setn(setn);
 okltest_setmn(setmn);
 
+okltest_singletons(singletons);
+
+okltest_upairs(upairs);
+
 /* **********************************
    * Constructions related to union *
    **********************************
