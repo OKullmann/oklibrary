@@ -59,6 +59,15 @@ License, or any later version. */
      computation on the OBDD-level (namely the instantiation). </li>
     </ol>
    </li>
+   <li> List of possible applications:
+    <ol>
+     <li> See "Examples" below. </li>
+     <li> Ramsey-type problems should be interesting candidates due to their
+     high level of "internal repetition". </li>
+     <li> See "Preprocessing" in
+     Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -205,7 +214,7 @@ License, or any later version. */
    (find a cover and then CNF->DNF->CNF) should be applied to examples of 
    small and/or well known problems to test the idea and attempt to offer
    insight into the development. </li>
-   <li> Pigeonhole Formulas:
+   <li> Pigeonhole formulas:
     <ul>
      <li> As an example, if one takes the weak PHP formulas with m pigeons and
      n holes, one can represent each pigeon m_i occupying a single hole (and

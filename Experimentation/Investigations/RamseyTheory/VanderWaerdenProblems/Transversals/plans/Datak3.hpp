@@ -402,4 +402,14 @@ BestSolution_Max = 1.000000
    <li> So it least for this problem-formulation local search doesn't seem to
    be successful. </li>
   </ul>
+
+
+  \todo Detailed investigations of Tr(ap(3,n_0)) for small n_0
+  <ul>
+   <li> One important aspect here is that if for some fixed n_0 we know
+   Tr(ap(3,n_0)) very well, then we know also the CNF FvdW_m(k,n_0) well,
+   which can be used for preprocessing (see "Preprocessing" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp). </li>
+  </ul>
+
 */

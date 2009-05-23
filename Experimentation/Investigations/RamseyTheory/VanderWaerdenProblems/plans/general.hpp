@@ -97,5 +97,27 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    Waerden problems. </li>
   </ul>
 
+
+  \todo Preprocessing
+  <ul>
+   <li> See "A general perspective" and "Preprocess a CNF via computing DNFs
+   for parts" in
+   ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp. </li>
+   <li> Let FvdW_m(k, S) for a set S of natural numbers denote the natural
+   generalisation of the diagonal vdW-clause-set FvdW_m(k,n), using S instead
+   of {1,...,n}. </li>
+   <li> Now for an arithmetic progression S of length n_0 the clause-set
+   FvdW_m(k,S) is isomorphic (without flips) to FvdW_m(k,n_0). </li>
+   <li> Then for arbitrary n one can consider all arithmetic progressions S
+   of length n_0 in {1,...,n}, and their sub-clause-sets FvdW_m(k, S) of
+   FvdW_m(k,n), which together cover much of FvdW_m(k,n) for n >= n_0.
+   Or all? No, consider for example n=5 and n_0=4: {1,3,5} is not covered.
+   </li>
+   <li> Easiest not to do anything with those uncovered clauses. </li>
+   <li> The minimal satisfiable assignments of FvdW_m(k,n_0) can be obtained
+   from Tr(ap(3,n_0)) (the transversal hypergraph) by considering m
+   transversals with empty common intersection. </li>
+  </ul>
+
 */
 
