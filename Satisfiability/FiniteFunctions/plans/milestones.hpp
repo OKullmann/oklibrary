@@ -119,6 +119,22 @@ License, or any later version. */
     - Parallelisation
 
 
+  \par Version 0.2.2
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
+   following topics are handled:
+    - Minimisation
+
+
+  \par Version 0.3
+
+  \par
+   Tools for finding minimum CNF/DNF representations have been established,
+   for the situation where the full truth table is given. And computing
+   all prime clauses in this situation can be parallelised.
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

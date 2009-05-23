@@ -105,6 +105,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> An alternative for small numbers of variables is discussed in
+   "Minimisation" in OKlib/Satisfiability/FiniteFunctions/plans/general.hpp.
+   </li>
    <li> A natural candidate for the translation G_i -> F_i' is dualts_fcl:
     <ol>
      <li> For partial assignments phi on the primary variables via

@@ -88,6 +88,39 @@ License, or any later version. */
 
 
   \todo Minimisation
+  <ul>
+   <li> The fundamental task is, given the function table, compute CNF
+   resp. DNF representations of minimum "size", where the most fundamental
+   notion of size here is the number of clauses. </li>
+   <li> Minimising this size is equivalent to finding a smallest (w.r.t.
+   number of clauses) irredundant core of the set of prime implicates resp.
+   implicants. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac.
+   </li>
+   <li> In the given situation, where we have all implied full clauses, it
+   is easier to check whether a clause is necessary or implied by the
+   others, by using the set of full clauses it subsumes. </li>
+   <li> So first Quine/McCluskey is used, followed by minimisation. </li>
+   <li> Minimisation is discussed in the literature in the context of
+   "Karnaugh-maps"; though they are trivial, and one needs to look for the
+   literature for more interesting algorithms. </li>
+   <li> See package "QCA" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp. </li>
+   <li> The easiest first thing to do is to compute the set of all necessary
+   prime clauses (as refinement of Quine/McCluskey).
+    <ol>
+     <li> One needs to consider each prime clause C and the set F(C) of full
+     clauses subsumed by C: C is necessary iff F(C) is not covered by the
+     other F(C'). </li>
+     <li> One needs some intelligent algorithm for that. </li>
+    </ol>
+   </li>
+   <li> Regarding "approximations", one can also use a greedy algorithm, which
+   first computes all necessary prime implicates, and if this doesn't suffice
+   chooses a clause which covers a maximum number of not yet covered implied
+   full clauses, and repeats this process. </li>
+  </ul>
 
 
   \todo BDDs
