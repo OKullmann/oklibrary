@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
@@ -49,6 +51,28 @@ okltest_comp_fcs(f) := block(
    * Logical operations *
    **********************
 */
+
+okltest_c2cl_expand(f) := (
+  assert(f({},[]) = [{}]),
+  assert(f({},[1]) = [{-1},{1}]),
+  assert(f({1},[]) = [{1}]),
+  assert(f({1},[2]) = [{1,-2},{1,2}]),
+  assert(f({1,2},[3,4]) = [{1,2,-3,-4},{1,2,-3,4},{1,2,3,-4},{1,2,3,4}]),
+  true)$
+
+okltest_c2cs_expand(f) := (
+  assert(f({},{}) = {{}}),
+  assert(f({},{1}) = {{-1},{1}}),
+  assert(f({1},{}) = {{1}}),
+  assert(f({1},{2}) = {{1,-2},{1,2}}),
+  assert(f({1,2},{3,4}) = {{1,2,-3,-4},{1,2,-3,4},{1,2,3,-4},{1,2,3,4}}),
+  true)$
+
+okltest_expand_fcs(f) := (
+  assert(okltest_full_fcs_v(buildq([f], lambda([V], f([if listp(V) then setify(V) else V,{{}}])))) = true),
+  for n : 0 thru 5 do block([V : setn(n), FF : full_fcs(n)],
+    assert(f([V, create_list({i},i,1,n)]) = [V, disjoin(comp_sl(V),FF[2])])),
+  true)$
 
 okltest_or_cs2(f) := (
   assert(f({},{}) = {}),

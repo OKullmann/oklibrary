@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 
 
 /* **************************
@@ -40,9 +41,22 @@ comp_fcs(FF) := [FF[1], comp_cs(FF[2])]$
    **********************
 */
 
+/* The expansion of a single clause into an equivalent full fcl w.r.t.
+   a given list of variables.
+   Prerequisite: var(C) and V are disjoint.
+*/
+c2cl_expand(C,V) := add_elements_l(C,all_tass_l(V))$
+/* The same, but where V is a set of variables, and a set is returned: */
+c2cs_expand(C,V) := setify(add_elements_l(C,all_tass_l(listify(V))))$
+/* Expanding a clause-set F into an equivalent full clause-set: */
+expand_fcs(FF) := block([V : FF[1]],
+[FF[1], lunion(create_list(c2cs_expand(C,setdifference(V,var_c(C))),C,listify(FF[2])))])$
+
+
 /* The natural representation of the "and" of two clause-sets as cnf's
    (as n-ary operation): */
 and_cs([L]) := apply(union,L)$
+
 
 /* All non-clashing unions of the clauses of two given clause-sets, which
    represents the "or" of the clause-sets as cnf's. */
@@ -54,14 +68,17 @@ or_cs([L]) := block([l : length(L)],
  if l = 0 then {{}} elseif l = 1 then L[1] 
  else apply(or_cs, cons(or_cs2(L[1],L[2]), rest(L,2))))$
 
+
 /* The natural DNF-representation of a clause-set F as CNF: */
 dual_cs(F) := apply(or_cs,
  map(lambda([C],map(set,C)), listify(F)))$
 /* Subsumption elimination applied to the result yields the set of
    all prime implicants (all minimal satisfying partial assignments). */
 
+
 /* The natural negation of a clause-set: */
 neg_cs(F) := dual_cs(comp_cs(F))$
+
 
 /* The natural DNF-representation of clause-set F via new
    variables.

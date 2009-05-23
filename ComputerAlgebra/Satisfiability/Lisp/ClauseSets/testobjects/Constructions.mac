@@ -34,6 +34,10 @@ okltest_comp_fcs(comp_fcs);
    **********************
 */
 
+okltest_c2cl_expand(c2cl_expand);
+okltest_c2cs_expand(c2cs_expand);
+okltest_expand_fcs(expand_fcs);
+
 okltest_or_cs2(or_cs2);
 okltest_or_cs(or_cs);
 
