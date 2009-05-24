@@ -139,7 +139,7 @@ greentao_sb_fcs(L,n) := block(
 /* The diagonal case (m parts, arithmetic progressions of size k): */
 greentaod_nbfcsud(m,k,n) := 
  if m=0 then [setify(primes_first(n)),{},{}] else
- block([ G : arithprog_primes_ohg(k,n)],
+ block([G : arithprog_primes_ohg(k,n)],
   nbfclud2nbfcsud(
     gcol2sat_stdohg2stdnbfclud(create_list(G,i,1,m),create_list(i,i,1,m))))$
 /* Symmetry breaking for n >= 2, forcing prime 3 into the first block: */
