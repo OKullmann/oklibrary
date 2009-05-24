@@ -98,35 +98,38 @@ product_primes(n) := block([pr : 1, p : 2],
    prime numbers with the n-th prime number as last element ("nc"
    for "non-cumulative").
 */
-/* Prerequisite: n, k natural numbers >= 0. */
-n_arithprog_primes_nc[k,n] := block(
- [primes_rev_init_seg : reverse(primes_first(n))],
-  length(arithprog_primes_finish[k,n]))$
+/* Prerequisite: n, k natural numbers, n >= 1, k >= 0. */
+n_arithprog_primes_nc[k,n] := 
+ if k=0 then 0 elseif k=1 then 1 elseif k=2 then n-1
+ elseif n <= k then 0 else
+ block([prp : product_primes(k), prk : primep(k)],
+  length(arithprog_primes_finish[k,unrank_primes(n)]))$
 
 /* The list of the numbers of arithmetic progressions of length k in 
    the set of the first n prime numbers ("c" for "cumulative") for
    i from 1 to n:
 */
-ln_arithprog_primes_c(k,n) := 
- if k=0 then create_list(1,i,1,n) else
- block([primes_rev_init_seg : [], p : 1, res : [], sum : 0, count],
-   for i : 1 thru n do (
+ln_arithprog_primes_c(k,n) :=
+ if k <= 2 then create_list(binomial(i,k),i,1,n) else
+ block([prp : product_primes(k), prk : primep(k), p : 1, res : [], sum : 0, count],
+   thru n do (
      p : next_prime(p),
-     primes_rev_init_seg : cons(p, primes_rev_init_seg),
-     count : length(arithprog_primes_finish[k,i]),
-     sum : sum + count, res : endcons(sum,res)
+     count : if p <= k then 0 else length(arithprog_primes_finish[k,p]),
+     sum : sum + count, res : cons(sum,res)
    ),
-   res)$
+   reverse(res))$
 
 /* The smallest natural number n >= 0 such that amongst the first n
    prime numbers there exists an arithmetic progression of size k:
 */
-first_arithprog_primes(k) := if k=0 then 0 else
-  block([primes_rev_init_seg : [], n : 0, p : 1, found : false],
+first_arithprog_primes(k) :=
+ if k <= 2 then k else
+  block([prp : product_primes(k), prk : primep(k), 
+   n : rank_primes(k), p : if primep(k) then k else next_prime(k), 
+   found : false],
    while not found do (
      p : next_prime(p), n : n + 1,
-     primes_rev_init_seg : cons(p, primes_rev_init_seg),
-     found : not emptyp(arithprog_primes_finish[k,n])
+     found : not emptyp(arithprog_primes_finish[k,p])
    ),
    n)$
 
