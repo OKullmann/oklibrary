@@ -29,6 +29,13 @@ License, or any later version. */
    <li> n=1550 looks (at first sight) unsatisfiable, 10 runs with
    cutoff=100*10^6 yield min=3 (twice; so cutoff=10^9 would be needed). </li>
   </ul>
+
+
+  \todo greentao_3(3,4,5) > 1000
+  <ul>
+   <li> n=1000 trivial for adaptnovely+. </li>
+   <li> n=2000 </li>
+  </ul>
   
 */
 
