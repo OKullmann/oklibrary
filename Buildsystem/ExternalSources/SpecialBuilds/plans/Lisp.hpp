@@ -28,6 +28,9 @@ x86_64
        \endverbatim
        Apparently we have just to extract the number after the underscore.
        </li>
+       <li> Hm, on csltok (32 bit) I get "i386". This is the "hardware
+       platform"? Perhaps "uname -m" (the machine type) is better, which
+       on csltok yields "i686"? </li>
       </ul>
      </li>
      <li> Perhaps for 64-bit platforms we also need to distinguish between
