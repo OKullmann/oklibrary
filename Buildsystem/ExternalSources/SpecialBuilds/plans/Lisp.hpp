@@ -16,16 +16,34 @@ License, or any later version. */
    the build of libsigsegv has to be adopted on 64-bit machines by adding
    "--libdir=='${exec_prefix}/lib64'" as configure-parameter:
     <ol>
+     <li> It also works just to rename the directory "lib" to "lib64". </li>
      <li> For that we need a way to figure out whether the platform is 32-bit
-     or 64-bit. </li>
+     or 64-bit.
+      <ul>
+       <li> Perhaps we just use a make-variable? </li>
+       <li> But via "uname -i" we can get the information:
+       \verbatim
+> uname -i
+x86_64
+       \endverbatim
+       Apparently we have just to extract the number after the underscore.
+       </li>
+      </ul>
+     </li>
      <li> Perhaps for 64-bit platforms we also need to distinguish between
-     "bi-arch" and "mono-arch"? </li>
+     "bi-arch" and "mono-arch"? No, it should be just the case that
+     the build of libsigsegv figures out that this is not a "pure"
+     64-bit platform, and thus just uses "lib", while the build of clisp
+     by some reasons insists to use "lib64". So if we are on 64-bit, then
+     we just rename the libs for libsigsegv and libffcall to "lib64". </li>
      <li> The above faq-link contains more information. </li>
-     <li> The new libsigsegv-version is 2.6 --- perhaps this solves the problem
+     <li> DONE (doesn't solve it; perhaps the problem is on the clisp-side)
+     The new libsigsegv-version is 2.6 --- perhaps this solves the problem
      already? No, still the same problem. </li>
     </ol>
    </li>
-   <li> Isn't there a similar problem with libffcall ? </li>
+   <li> DONE (Yes, also there the lib-directory has to be renamed to "lib64".)
+   Isn't there a similar problem with libffcall ?  </li>
    <li> We should try Clisp 2.46 : DONE (also with 2.47 the same problem)
     <ol>
      <li> Seems alright on cs-wsok (warnings about non-portable linking between
