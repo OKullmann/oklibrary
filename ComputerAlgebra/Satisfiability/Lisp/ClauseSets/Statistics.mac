@@ -261,11 +261,21 @@ weighted_ncl_2n_fcs(FF) := weighted_ncl_2n_cs(FF[2])$
 */
 
 /* Gathers main statistics for a clause-set: */
-statistics_cs(F) := 
-  [nvar_cs(F),ncl_cs(F),nlitocc_cs(F),max_rank_cs(F),min_rank_cs(F)]$
+statistics_cs(F) := block([nl : 0, maxr : -1, minr : inf],
+ for C in F do block([l : length(C)],
+  nl : nl + l, if l > maxr then maxr : l, if l < minr then minr : l),
+ return([nvar_cs(F), ncl_cs(F), nl, maxr, minr]))$
+/* We have statistics_cs(F) =
+  [nvar_cs(F),ncl_cs(F),nlitocc_cs(F),max_rank_cs(F),min_rank_cs(F)]
+*/
 /* Gathers main statistics for a formal clause-set: */
-statistics_fcs(FF) := 
-  [nvar_fcs(FF),ncl_fcs(FF),nlitocc_fcs(FF),max_rank_fcs(FF),min_rank_fcs(FF)]$
+statistics_fcs(FF) := block([nl : 0, maxr : -1, minr : inf],
+ for C in FF[2] do block([l : length(C)],
+  nl : nl + l, if l > maxr then maxr : l, if l < minr then minr : l),
+ return([nvar_fcs(FF), ncl_fcs(FF), nl, maxr, minr]))$
+/* We have statistics_fcs(F) =
+  [nvar_fcs(FF),ncl_fcs(FF),nlitocc_fcs(FF),max_rank_fcs(FF),min_rank_fcs(FF)]
+*/
 
 /*!
 \endhtmlonly
