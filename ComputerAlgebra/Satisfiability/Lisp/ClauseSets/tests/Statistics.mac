@@ -77,6 +77,18 @@ okltest_ncl_cs(f) := (
   /* XXX */
   true)$
 
+okltest_nlitocc_cs(f) := (
+  assert(f({}) = 0),
+  assert(f({{}}) = 0),
+  assert(f({{1},{-1}}) = 2),
+  assert(f({{1},{},{1,2},{-2,3}}) = 5),
+  true)$
+
+okltest_nlitocc_fcs(f) := block([x,y,z],
+  assert(okltest_nlitocc_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  assert(okltest_nlitocc_cs(buildq([f],lambda([F],f([union(var_cs(F),{x,y,z}),F])))) = true),
+  true)$
+
 okltest_ncl_list_fcs(f) := (
   assert(f([{},{}]) = []),
   assert(f([{},{{}}]) = [[0,1]]),
@@ -88,26 +100,32 @@ okltest_ncl_list_fcs(f) := (
   true)$
 
 okltest_max_rank_cs(f) := (
-  /* XXX */
+  assert(f({}) = -1),
+  assert(f({{}}) = 0),
+  assert(f({{1,2}}) = 2),
+  assert(f({{1,2},{}}) = 2),
+  assert(f({{1,2},{1},{-1,-2,-3}}) = 3),
   true)$
 
-okltest_max_rank_fcs(f) := (
-  /* XXX */
+okltest_max_rank_fcs(f) := block([x,y,z],
+  assert(okltest_max_rank_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  assert(okltest_max_rank_cs(buildq([f],lambda([F],f([union(var_cs(F),{x,y,z}),F])))) = true),
   true)$
 
 okltest_min_rank_cs(f) := (
-  /* XXX */
+  assert(f({}) = inf),
+  assert(f({{}}) = 0),
+  assert(f({{1,2}}) = 2),
+  assert(f({{1,2},{}}) = 0),
+  assert(f({{1,2},{1},{-1,-2,-3}}) = 1),
   true)$
 
 okltest_min_rank_fcs(f) := (
-  /* XXX */
+  assert(okltest_min_rank_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  assert(okltest_min_rank_cs(buildq([f],lambda([F],f([union(var_cs(F),{x,y,z}),F])))) = true),
   true)$
 
-okltest_statistics_cs(f)  := (
-  /* XXX */
-  true)$
-
-okltest_statistics_fcs(f)  := (
+okltest_uniformcsp(f) := (
   /* XXX */
   true)$
 
@@ -370,6 +388,34 @@ okltest_weighted_ncl_2n_cs(f) := (
 
 okltest_weighted_ncl_2n_fcs(f) := (
   /* XXX */
+  true)$
+
+
+/* **************************
+   * Summarising statistics *
+   **************************
+*/
+
+okltest_statistics_cs(f)  := (
+  assert(f({}) = [0,0,0,-1,inf]),
+  assert(f({{}}) = [0,1,0,0,0]),
+  assert(f({{1},{1,2},{-1,4},{2,-4,-1}}) = [3,4,8,3,1]),
+  assert(okltest_nvar_cs(buildq([f],lambda([F],f(F)[1]))) = true),
+  assert(okltest_ncl_cs(buildq([f],lambda([F],f(F)[2]))) = true),
+  assert(okltest_nlitocc_cs(buildq([f],lambda([F],f(F)[3]))) = true),
+  assert(okltest_max_rank_cs(buildq([f],lambda([F],f(F)[4]))) = true),
+  assert(okltest_min_rank_cs(buildq([f],lambda([F],f(F)[5]))) = true),
+  true)$
+
+okltest_statistics_fcs(f)  := (
+  assert(okltest_statistics_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  assert(f([{1},{}]) = [1,0,0,-1,inf]),
+  assert(f([{2},{{}}]) = [1,1,0,0,0]),
+  assert(okltest_nvar_fcs(buildq([f],lambda([F],f(F)[1]))) = true),
+  assert(okltest_ncl_fcs(buildq([f],lambda([F],f(F)[2]))) = true),
+  assert(okltest_nlitocc_fcs(buildq([f],lambda([F],f(F)[3]))) = true),
+  assert(okltest_max_rank_fcs(buildq([f],lambda([F],f(F)[4]))) = true),
+  assert(okltest_min_rank_fcs(buildq([f],lambda([F],f(F)[5]))) = true),
   true)$
 
 

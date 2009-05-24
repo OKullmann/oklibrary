@@ -36,6 +36,9 @@ okltest_nvar_ofcs(nvar_ofcs);
 okltest_ncl_fcs(ncl_fcs);
 okltest_ncl_cs(ncl_cs);
 
+okltest_nlitocc_cs(nlitocc_cs);
+okltest_nlitocc_fcs(nlitocc_fcs);
+
 okltest_ncl_list_fcs(ncl_list_fcs);
 
 okltest_max_rank_cs(max_rank_cs);
@@ -43,8 +46,7 @@ okltest_max_rank_fcs(max_rank_fcs);
 okltest_min_rank_cs(min_rank_cs);
 okltest_min_rank_fcs(min_rank_fcs);
 
-okltest_statistics_cs(statistics_cs);
-okltest_statistics_fcs(statistics_fcs);
+okltest_uniformcsp(uniformcsp);
 
 /* *******************
    * Literal degrees *
@@ -112,6 +114,15 @@ okltest_variable_degrees_list_cs(variable_degrees_list_cs);
 
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
 okltest_weighted_ncl_2n_fcs(weighted_ncl_2n_fcs);
+
+/* **************************
+   * Summarising statistics *
+   **************************
+*/
+
+okltest_statistics_cs(statistics_cs);
+okltest_statistics_fcs(statistics_fcs);
+
 
 /*!
 \endhtmlonly
