@@ -418,6 +418,19 @@ okltest_statistics_fcs(f)  := (
   assert(okltest_min_rank_fcs(buildq([f],lambda([F],f(F)[5]))) = true),
   true)$
 
+okltest_extended_statistics_fcs(f) := (
+  assert(f([{},{}]) = [0,0,0,inf,-1,[],inf,minf,inf,minf]),
+  assert(okltest_nvar_fcs(buildq([f],lambda([F],f(F)[1]))) = true),
+  assert(okltest_ncl_fcs(buildq([f],lambda([F],f(F)[2]))) = true),
+  assert(okltest_nlitocc_fcs(buildq([f],lambda([F],f(F)[3]))) = true),
+  assert(okltest_min_rank_fcs(buildq([f],lambda([F],f(F)[4]))) = true),
+  assert(okltest_max_rank_fcs(buildq([f],lambda([F],f(F)[5]))) = true),
+  assert(okltest_ncl_list_fcs(buildq([f],lambda([F],f(F)[6]))) = true),
+  assert(okltest_min_literal_degree_fcs(buildq([f],lambda([F],f(F)[7]))) = true),
+  assert(okltest_max_literal_degree_fcs(buildq([f],lambda([F],f(F)[8]))) = true),
+  assert(okltest_min_variable_degree_fcs(buildq([f],lambda([F],f(F)[9]))) = true),
+  assert(okltest_max_variable_degree_fcs(buildq([f],lambda([F],f(F)[10]))) = true),
+  true)$
 
 /*!
 \endhtmlonly

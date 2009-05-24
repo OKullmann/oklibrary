@@ -144,8 +144,8 @@ fcl_p(FF) := listp(FF) and is(length(FF) = 2) and listnorep_p(FF[1])
 
 /* Extracting the set of variables: */
 
-var_cs(F) := var_sl(apply(union,listify(F)))$
-var_cl(F) := var_sl(apply(union,F))$
+var_cs(F) := var_sl(lunion(F))$
+var_cl(F) := var_sl(lunion(F))$
 var_ocs(F) := var_cl(F)$
 /* RENAME: var_fcs */
 var_cs_f(FF) := FF[1]$
@@ -315,18 +315,19 @@ output_fcl_v(comment,FF,n,varlist) :=
 
 /* Standard statistics of a formal clause-set as a string:
 */
-standard_statistics_fcs(FF) := sconcat(
-"c Number of variables: ", nvar_fcs(FF), "
-c Number of clauses: ", ncl_fcs(FF), " 
-c Number of literal occurrences: ", nlitocc_fcs(FF), "
-c Minimal clause length: ", min_rank_fcs(FF), "
-c Maximal clause length: ", max_rank_fcs(FF), "
+standard_statistics_fcs(FF) := block([S : extended_statistics_fcs(FF)],
+sconcat(
+"c Number of variables: ", S[1], "
+c Number of clauses: ", S[2], " 
+c Number of literal occurrences: ", S[3], "
+c Minimal clause length: ", S[4], "
+c Maximal clause length: ", S[5], "
 c List of pairs [clause-length m, #clauses of length m]:
-c ", ncl_list_fcs(FF), "
-c Minimal literal degree: ", min_literal_degree_fcs(FF), "
-c Maximal literal degree: ", max_literal_degree_fcs(FF), "
-c Minimal variable degree: ", min_variable_degree_fcs(FF), "
-c Maximal variable degree: ", max_variable_degree_fcs(FF))$
+c ", S[6], "
+c Minimal literal degree: ", S[7], "
+c Maximal literal degree: ", S[8], "
+c Minimal variable degree: ", S[9], "
+c Maximal variable degree: ", S[10]))$
 
 
 /*!

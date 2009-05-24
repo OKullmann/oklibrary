@@ -60,20 +60,29 @@ License, or any later version. */
   \todo Statistics output for Green-Tao problems in the Dimacs-file
   <ul>
    <li> Care needs to be taken that these measurements are not too
-   inefficient --- currently they are. </li>
+   inefficient --- currently they are.
+    <ol>
+     <li> One bottleneck is standardisation, which could be done here
+     more efficient by using arrays (instead of hash-tables). </li>
+     <li> And also the statistics regarding variable and literal degrees
+     could be computed more efficiently by using arrays, since here we
+     have standardised clause-sets. </li>
+    </ol>
+   </li>
    <li> If different progression-lengths are involved, then for each
    involved hypergraph we should have data like standard_statistics_fcs. </li>
    <li> This should happen in the hypergraph module. </li>
    <li> The data for the whole clause-set could then be obtained by just
    adding up the numbers. </li>
-   <li> The computation of standard_statistics_fcs should be made much
-   more efficient. </li>
    <li> As discussed above in todo "Statistics", there should be specialised
    functions (with standardised names) for computing the "standard" statistics.
    </li>
    <li> For Green-Tao data this doesn't help much, since there is no
    faster computation than just "measuring", but we should establish
    (and follow) a general scheme. </li>
+   <li> DONE (the general computation now likely can't be improved much further)
+   The computation of standard_statistics_fcs should be made much
+   more efficient. </li>
   </ul>
 
 

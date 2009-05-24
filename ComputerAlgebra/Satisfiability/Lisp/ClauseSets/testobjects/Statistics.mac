@@ -122,6 +122,7 @@ okltest_weighted_ncl_2n_fcs(weighted_ncl_2n_fcs);
 
 okltest_statistics_cs(statistics_cs);
 okltest_statistics_fcs(statistics_fcs);
+okltest_extended_statistics_fcs(extended_statistics_fcs);
 
 
 /*!
