@@ -33,6 +33,8 @@ okltest_complete_stdhg(complete_stdhg);
    *****************************
 */
 
+okltest_arpr(arpr);
+
 okltest_arithprog_hg(arithprog_hg);
 okltest_arithprog_ohg(arithprog_ohg);
 

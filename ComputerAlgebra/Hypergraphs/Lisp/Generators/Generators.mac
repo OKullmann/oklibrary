@@ -41,6 +41,10 @@ complete_stdhg(n,r) := block([N : setn(n)],
    *****************************
 */
 
+/* The arithmetic progression of length k and slope d, starting with a: */
+arpr(k,a,d) := create_list(a + i*d, i,0,k-1)$
+/* If d = 0, then the progression is degenerated. */
+
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
 /* Prerequisites: n,k are integers. */
 /* RENAME: arithprog_hg */
@@ -108,55 +112,44 @@ arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
    ***********************
 */
 
+/* The list of arithmetic progressions of length k amongst the first
+   prime numbers up to prime number p, and finishing with p. */
+/* Prerequisite k >= 3, p > k. */
+/* Inherits prp = product_primes(k) and prk = primep(k). */
+arithprog_primes_finish[k,p] := arithprog_primes_finish_nm(k,p)$
+/* Without memoisation: */
+arithprog_primes_finish_nm(k,p) := block([res : []],
+  if prk then block([d : divide(p-k,k-1)],
+    if d[2] = 0 then block([prog : arpr(k-1,k+d[1],d[1])],
+      if every_s('primep, prog) then res : cons(cons(k,prog),res)
+  )),
+  for d : prp step prp thru (p-k)/(k-1) do block([prog : arpr(k,p,-d)],
+    if every_s('primep, prog) then res : cons(reverse(prog),res)
+  ),
+  return(res))$
+
+/* The list of all arithmetic progressions of length k amongst the first n
+   prime numbers (memo=true means memoisation of arithmetic progressions):
+*/
+arithprog_primes(k,n,memo) := 
+ if k=0 then [[]] elseif n = 0 then []
+ elseif k=1 then create_list([p], p,primes_first(n))
+ elseif k=2 then map(listify,listify(powerset(setify(primes_first(n)),2)))
+ else block([p : 1, res : [], prp : product_primes(k), prk : primep(k)],
+   thru n do (
+     p : next_prime(p),
+     if p > k then 
+       if memo then res : append(res,arithprog_primes_finish[k,p])
+       else res : append(res,arithprog_primes_finish_nm(k,p))
+   ),
+   res)$
+
 /* The hypergraph of all arithmetic progressions of size k in the first
    n prime numbers. */
 /* Prerequisite: k, n integers, k, n >= 0. */
-
-arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))]$
+arithprog_primes_ohg(k,n) := 
+ [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
-  
-/* The list of arithmetic progressions of length k amongst the first n
-   prime numbers which finish with the n-th prime number. */
-/* Inherits the list primes_rev_init_seg containing the first n
-   prime numbers in reverse order. */
-/* So n is the length of primes_rev_init_seg, but it is mentioned
-   nevertheless in the input for memoisation. */
-arithprog_primes_finish[k,n] := if n = 0 then [] 
- elseif k = 0 then []
- else block([p : first(primes_rev_init_seg), res : []],
-   if k = 1 then return([[p]]),
-   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, p_last, prog],
-     if (p_last : p2 - (k-2) * d) < 2 then return(),
-     prog : create_list(p_last + i * d, i, 0, k - 3),
-     if every_s(lambda([n], mprimep[n]), prog)
-     then res : cons(append(prog, [p2,p]), res)
-   ),
-   return(res))$
-/* Without memoisation: */
-arithprog_primes_finish_nm(k) := block([n : length(primes_rev_init_seg)],
- if n = 0 then [] 
- elseif k = 0 then []
- else block([p : first(primes_rev_init_seg), res : []],
-   if k = 1 then return([[p]]),
-   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, p_last, prog],
-     if (p_last : p2 - (k-2) * d) < 2 then return(),
-     prog : create_list(p_last + i * d, i, 0, k - 3),
-     if every_s(lambda([n], primep(n)), prog)
-     then res : cons(append(prog, [p2,p]), res)
-   ),
-   return(res)))$
-
-
-/* All arithmetic progressions of length k amongst the first n
-   prime numbers: */
-arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
- block([primes_rev_init_seg : [], p : 1, res : []],
-   for i : 1 thru n do (
-     p : next_prime(p),
-     primes_rev_init_seg : cons(p, primes_rev_init_seg),
-     res : append(res,arithprog_primes_finish[k,i])
-   ),
-   res)$
 
 
 /* ******************************
