@@ -266,6 +266,31 @@ BestSolution_Max = 2.000000
   </ul>
 
 
+  \todo greentao_3(3,3,5) > 1850
+  <ul>
+   <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
+   <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
+   <li> n=1400 easy for adaptnovelty+ with cutoff=10^6. </li>
+   <li> n=1600 easy for adaptnovelty+ with cutoff=10^6. </li>
+   <li> n=1800
+    <ul>
+     <li> cutoff=10^6 yields in 10 runs min=3. </li>
+     <li> cutoff=5*10^6 found in 10 runs one solution (seed=992240675). </li>
+    </ul>
+   </li>
+   <li> n=1850
+    <ol>
+     <li> cutoff=5*10^6 yields in 10 runs min=2. </li>
+     <li> cutoff=25*10^6 found in 10 runs one solution (seed=2209127524).
+     </li>
+    </ol>
+   </li>
+   <li> n=1900
+
+   </li>
+  </ul>
+
+
   \todo Upper bounds
   <ul>
    <li> Running minisat2 on GreenTao_3-3-3-4_431.cnf for a day (33 restarts)
