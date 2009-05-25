@@ -10,7 +10,27 @@ License, or any later version. */
   \brief Plans regarding installation of Lisp compiler/interpreters othen then Ecl (the current default)
 
 
-  \bug CLisp doesn't use libsigsegv (though specified)
+  \todo Installing other Lisp's
+  <ul>
+   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. </li>
+   <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
+    <ol>
+     <li> However, it needs another Lisp to be compiled! </li>
+     <li> So let's try the other's first. </li>
+    </ol>
+   </li>
+   <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
+   we should try.
+    <ol>
+     <li> However, if the argument-length is really only 64, then it's
+     not usable. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \bug DONE
+  CLisp doesn't use libsigsegv (though specified)
   <ul>
    <li> According to http://www.clisp.org/impnotes/faq.html#faq-with-prefix
    the build of libsigsegv has to be adopted on 64-bit machines by adding
@@ -57,25 +77,6 @@ x86_64
    <li> DONE (Ecl is now the default)
    Thus apparently we need to use another Lisp; let's see whether Ecl
    installs properly on all our systems. </li>
-  </ul>
-
-
-  \todo Installing other Lisp's
-  <ul>
-   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. </li>
-   <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
-    <ol>
-     <li> However, it needs another Lisp to be compiled! </li>
-     <li> So let's try the other's first. </li>
-    </ol>
-   </li>
-   <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
-   we should try.
-    <ol>
-     <li> However, if the argument-length is really only 64, then it's
-     not usable. </li>
-    </ol>
-   </li>
   </ul>
 
 */

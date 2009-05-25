@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,7 +18,7 @@ License, or any later version. */
   The computer algebra system Maxima is implemented in "Common Lisp", and
   CLisp is an implementation of this form of Lisp.
 
-  Yet we do not use CLisp directly, only indirectly through Maxima.
+  We do not use CLisp directly, only indirectly through Maxima.
 
 
   <h2> What the installation yields </h2>
@@ -49,10 +49,6 @@ License, or any later version. */
    </li>
    <li> Documentation: $(clisp_html_documentation_index_location_tag_okl) </li>
   </ul>
-  As usual, if a different version of CLisp is installed than "officially"
-  recommended, then by overwriting "clisp_recommended_version_number_okl"
-  (for example in <code>.oklib/override.mak</code>) this can be
-  corrected.
 
 
   <h2> How to install </h2>
@@ -70,21 +66,16 @@ License, or any later version. */
   <ul>
    <li> "libsigsegv" is needed (the clisp installation process will
    tell you about it); it can be installed as shown below. </li>
-   <li> At least on 64-bit machines also "libffcall" is need;
+   <li> At least on 64-bit machines also "libffcall" is needed;
    it can be installed as shown below. </li>
-   <li> However, if problems arise (that is, the build aborts with a
-   segmentation fault --- don't worry otherwise), then the likely cause is
-   that due to deficiencies of the CLisp build process the local installations
-   are not recognised by the clisp installation, and then both "libsigsegv"
-   and "libffcall" need to be installed system-wide (currently this needs to
-   be done manually --- please ask if in trouble!). </li>
+   <li> Using target <code>clispall</code> below is the easiest
+   way to build CLisp (this takes care of all prerequisites). </li>
   </ul>
 
 
   <h3> Make targets </h3>
 
-  Only local installation currently; and currently "libsigsegv" and
-  "libffcall" need to be installed.
+  Only local installation currently.
   <table>
    <tr>
     <td> <code> clisp </code> </td>
@@ -103,6 +94,10 @@ License, or any later version. */
     <td> Build the recommended version of libsigsegv. </td>
    </tr>
    <tr>
+    <td> <code> cleanlibsigsegv </code> </td>
+    <td> Removes the libsigsegv build directory. </td>
+   </tr>
+   <tr>
     <td> <code> cleanalllibsigsegv </code> </td>
     <td> Removes all libsigsegv build/installation/documentation directories. </td>
    </tr>
@@ -111,8 +106,24 @@ License, or any later version. */
     <td> Build the recommended version of libffcall. </td>
    </tr>
    <tr>
+    <td> <code> cleanlibffcall </code> </td>
+    <td> Removes the libffcall build directory. </td>
+   </tr>
+   <tr>
     <td> <code> cleanalllibffcall </code> </td>
     <td> Removes all libffcall build/installation/documentation directories. </td>
+   </tr>
+   <tr>
+    <td> <code> clispall </code> </td>
+    <td> Calls libsigsegv, libffcall and clisp. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanclispall </code> </td>
+    <td> Calls cleanlibsigsegv, cleanlibffcall and cleanclisp. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanallclispall </code> </td>
+    <td> Calls cleanalllibsigsegv, cleanalllibffcall and cleanallclisp. </td>
    </tr>
   </table>
 

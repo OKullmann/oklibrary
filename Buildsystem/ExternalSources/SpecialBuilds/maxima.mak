@@ -22,7 +22,7 @@ $(maxima_directories_okl) : % :
 
 
 ifeq ($(maxima_lisp_name_okl),clisp)
-allmaxima : clisp gnuplot maxima
+allmaxima : clispall gnuplot maxima
 else
 allmaxima : ecl gnuplot maxima
 endif

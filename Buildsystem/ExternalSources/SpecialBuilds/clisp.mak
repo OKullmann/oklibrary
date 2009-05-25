@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.12.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -18,7 +18,7 @@ $(clisp_directories_okl) : % :
 # Main clisp targets
 # #################################
 
-.PHONY : clisp cleanclisp cleanallclisp
+.PHONY : clisp clispall cleanclisp cleanallclisp cleanclispall cleanallclispall
 
 clisp : $(clisp_directories_okl)
 	$(call unarchive,$(clisp_source_okl),$(clisp_base_build_dir_okl))
@@ -28,17 +28,21 @@ clisp : $(clisp_directories_okl)
 	make install; $(postcondition)
 	cp -f $(clisp_installation_dir_okl)/share/doc/clisp/doc/* $(clisp_doc_dir_okl)
 
+clispall : libsigsegv64 libffcall64 clisp
 
 # #################################
 # Cleaning
 # #################################
 
-cleanclisp : 
+cleanclisp :
 	-rm -rf $(clisp_base_build_dir_okl)
 
 cleanallclisp : cleanclisp
 	-rm -rf $(clisp_base_installation_dir_okl) $(clisp_base_doc_dir_okl)
 
+cleanclispall : cleanclisp cleanlibsigsegv cleanlibffcall
+
+cleanallclispall : cleanallclisp cleanalllibsigsegv cleanalllibffcall
 
 # #################################
 # Tool libsigsegv
@@ -46,7 +50,7 @@ cleanallclisp : cleanclisp
 
 libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl)
 
-.PHONY : libsigsegv
+.PHONY : libsigsegv libsigsegv64 cleanlibsigsegv cleanalllibsigsegv
 
 $(libsigsegv_directories_okl) : % : 
 	mkdir -p $@
@@ -59,8 +63,16 @@ libsigsegv : $(libsigsegv_directories_okl)
 	make check; $(postcondition) \
 	make install; $(postcondition)
 
-cleanalllibsigsegv : 
-	-rm -rf $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl) 
+libsigsegv64 : libsigsegv
+#ifeq ($(machine_bits_okl),64)
+	cp -r $(libsigsegv_installation_dir_okl)/lib $(libsigsegv_installation_dir_okl)/lib64
+#endif
+
+cleanlibsigsegv :
+	-rm -rf $(libsigsegv_base_build_dir_okl)
+
+cleanalllibsigsegv : cleanlibsigsegv
+	-rm -rf $(libsigsegv_base_installation_dir_okl) 
 
 
 # #################################
@@ -69,7 +81,7 @@ cleanalllibsigsegv :
 
 libffcall_directories_okl := $(libffcall_base_build_dir_okl) $(libffcall_base_installation_dir_okl)
 
-.PHONY : libffcall
+.PHONY : libffcall libffcall64 cleanlibffcall cleanalllibffcall
 
 $(libffcall_directories_okl) : % : 
 	mkdir -p $@
@@ -82,5 +94,13 @@ libffcall : $(libffcall_directories_okl)
 	make check; $(postcondition) \
 	make install; $(postcondition)
 
-cleanalllibffcall : 
-	-rm -rf $(libffcall_base_build_dir_okl) $(libffcall_base_installation_dir_okl) 
+libffcall64 : libffcall
+#ifeq ($(machine_bits_okl),64)
+	cp -r $(libffcall_installation_dir_okl)/lib $(libffcall_installation_dir_okl)/lib64
+#endif
+
+cleanlibffcall :
+	-rm -rf $(libffcall_base_build_dir_okl)
+
+cleanalllibffcall : cleanlibffcall
+	-rm -rf $(libffcall_base_installation_dir_okl) 
