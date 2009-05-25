@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into Green-Tao numbers greentao_3(3,4,k)
   
 
-  \todo greentao_3(3,4,4) > 1500
+  \todo greentao_3(3,4,4) > 1518
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -24,8 +24,21 @@ License, or any later version. */
    <li> n=1400: one solution in 10 runs with cutoff=10^6. </li>
    <li> n=1500: only min=3 for 10 runs with cutoff=10*10^6; cutoff=100*10^6
    found a solution in the third run (osteps=39412430, seed=1928236138). </li>
-   <li> n=1512 </li>
-   <li> n=1525: 10 runs with cutoff=100*10^6 yield only min=2. </li>
+   <li> n=1512: one run in 10 with cutoff=100*10^6 found a solution
+   (osteps=37551993, seed=4046775428). </li>
+   <li> n=1518
+    <ol>
+     <li> 9 runs with cutoff=100*10^6 yield only a minimum of 2. </li>
+     <li> cutoff=500*10^6: run 18 found a solution (osteps=309459026,
+     seed=3122222825). </li>
+    </ol>
+   </li>
+   <li> n=1525
+    <ol>
+     <li> 10 runs with cutoff=100*10^6 yield only min=2. </li>
+     <li> cutoff=500*10^6: </li>
+    </ol>
+   </li>
    <li> n=1550 looks (at first sight) unsatisfiable, 10 runs with
    cutoff=100*10^6 yield min=3 (twice; so cutoff=10^9 would be needed). </li>
   </ul>
@@ -33,7 +46,7 @@ License, or any later version. */
 
   \todo greentao_3(3,4,5) > 1000
   <ul>
-   <li> n=1000 trivial for adaptnovely+. </li>
+   <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 </li>
   </ul>
   
