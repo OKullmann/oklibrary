@@ -106,6 +106,9 @@ okltest_partitionp(partitionp);
    ********************************
 */
 
+okltest_sort_length(sort_length);
+okltest_sort_length_desc(sort_length_desc);
+
 okltest_antichain_p(antichain_p);
 
 /* *****************************************
