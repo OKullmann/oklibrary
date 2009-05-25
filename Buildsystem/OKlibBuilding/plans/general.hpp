@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -60,7 +60,9 @@ License, or any later version. */
    be reviewed. </li>
    <li> For example, the name "alternative_library_path" is no longer
    appropriate. </li>
-   <li> The build system should find out whether the platform is 32- or
+   <li> DONE (machine_bits_okl provides either value 32 or 64; using "uname"
+   instead of the environment variables below)
+   The build system should find out whether the platform is 32- or
    64-bit, and select then only the needed links (environment variables
    HOSTTYPE and CPU). </li>
   </ul>

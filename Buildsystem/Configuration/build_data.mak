@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2009 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -22,3 +22,9 @@ build_identification_okl ?= $(shell echo $$(date "+%Y-%j-%s" | tr -d " "))
 # The list of all external sources:
 all_extsrc_okl ?= 
 
+# The number of bits of the machine architecture
+ifneq ($(shell uname -m | awk '/64/'),)
+  machine_bits_okl ?= 64
+else
+  machine_bits_okl ?= 32
+endif
