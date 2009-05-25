@@ -25,7 +25,8 @@ License, or any later version. */
    <li> n=1500: only min=3 for 10 runs with cutoff=10*10^6; cutoff=100*10^6
    found a solution in the third run (osteps=39412430, seed=1928236138). </li>
    <li> n=1512: one run in 10 with cutoff=100*10^6 found a solution
-   (osteps=37551993, seed=4046775428). </li>
+   (osteps=37551993, seed=4046775428). While another 100 runs with this
+   cutoff actually found no solution. </li>
    <li> n=1518
     <ol>
      <li> 9 runs with cutoff=100*10^6 yield only a minimum of 2. </li>
@@ -44,10 +45,12 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 1000
+  \todo greentao_3(3,4,5) > 2200
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
-   <li> n=2000 </li>
+   <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
+   <li> n=2200 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
+   <li> n=3000 </li>
   </ul>
   
 */
