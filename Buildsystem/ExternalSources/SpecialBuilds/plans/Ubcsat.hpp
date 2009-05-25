@@ -50,7 +50,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> See ExperimentSystem/plans/RunUBCSAT.hpp for plans on extending resp.
-   usingthe output-functionality. </li>
+   using the output-functionality. </li>
    <li> The idea is that ubcsat-okl creates some form of complete output,
    which is directly readable by R (into a dataframe, without further
    processing). </li>
@@ -70,6 +70,8 @@ echo "       sat  min     osteps     msteps       seed                          
 ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
    \endverbatim
    This appends the algorithm as a column to the data, line by line. </li>
+   <li> We also need the DIMACS output codes (10 for satisfying assignment
+   found, 0 for unknown).
    <li> DONE
    A problem appending columns line by line to ubcsat output is that 
    ubcsat version 1.0.0 doesn't flush data, and so one would have to wait until
