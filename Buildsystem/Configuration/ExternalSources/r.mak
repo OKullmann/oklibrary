@@ -14,7 +14,8 @@ R_prefix_okl ?= R
 
 R_targets_prefix_okl := $(R_prefix_okl)-
 R_recommended_okl := $(R_targets_prefix_okl)$(R_recommended_version_number_okl)
-R_source_dir_okl := $(ExternalSources)/sources/R/$(R_recommended_okl)
+R_source_dir_okl := $(ExternalSources)/sources/R
+R_source_package_okl := $(R_source_dir_okl)/$(R_recommended_okl)
 
 R_base_build_dir_okl ?= $(ExternalSources_builds)/R
 R_build_dir_okl ?= $(R_base_build_dir_okl)/$(R_recommended_okl)
@@ -45,3 +46,4 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
+R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.5-3.tar.gz Rcmdr_1.4-10.tar.gz

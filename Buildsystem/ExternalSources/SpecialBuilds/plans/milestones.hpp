@@ -53,6 +53,7 @@ License, or any later version. */
    topics are handled:
     - Local installation of gfortran
     - Can't output graphics
+    - Installing 2.9.0 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following

@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
-  \todo Installing 2.9.0
+  \todo DONE (problem solved by redefining HOME)
+  Installing 2.9.0
   <ul>
    <li> We get the error
    \verbatim
@@ -61,13 +62,26 @@ Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
   \todo Packages
   <ul>
    <li> We should supply additional packages. </li>
-   <li> And also install them automatically (with documentation). </li>
+   <li> DONE (target R_packages)
+   And also install them automatically (with documentation). </li>
    <li> Apparently with "library(Rcmdr)" we can open a (useful) graphical user
-   interface, and apparently for this package "Rcmdr" is needed. </li>
+   interface, and apparently for this package "Rcmdr" is needed.
+    <ol>
+     <li> On cs-wsok we get the error
+     \verbatim
+> library(Rcmdr)
+Loading required package: tcltk
+Error in firstlib(which.lib.loc, package) :
+  Tcl/Tk support is not available on this system
+Error: package 'tcltk' could not be loaded
+     \endverbatim
+     though apparently everything is installed? </li>
+    </ol>
+   </li>
    <li> Of potential interest:
     <ol>
      <li> "SparseM" </li>
-     <li> "QCA" (Quine-McCluskey;
+     <li> DONE "QCA" (Quine-McCluskey;
      http://cran.r-project.org/src/contrib/Descriptions/QCA.html) </li>
      <li> "boolean" </li>
      <li> "combinat" </li>
