@@ -62,6 +62,8 @@ Fehler in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...) :
   <ul>
    <li> We should supply additional packages. </li>
    <li> And also install them automatically (with documentation). </li>
+   <li> Apparently with "library(Rcmdr)" we can open a (useful) graphical user
+   interface, and apparently for this package "Rcmdr" is needed. </li>
    <li> Of potential interest:
     <ol>
      <li> "SparseM" </li>
