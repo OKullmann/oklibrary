@@ -18,6 +18,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add translations for non-boolean clause-lists with uniform domain
+  <ul>
+   <li> See ComputerAlgebra/RamseyTheory/Lisp/RamseyProblems.mac and
+   ramsey_nbfclud for possible use. </li>
+  </ul>
+
+
   \todo Translating non-boolean clause-sets into boolean clause-sets
   <ul>
    <li> DONE

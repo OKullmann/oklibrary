@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
    the following topics are handled:
+    - Add translations for non-boolean clause-lists with uniform domain 
     - Improve docus
     - Extreme cases
     - More efficient computation
