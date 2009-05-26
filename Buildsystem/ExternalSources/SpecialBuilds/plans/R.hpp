@@ -76,6 +76,9 @@ Error in firstlib(which.lib.loc, package) :
 Error: package 'tcltk' could not be loaded
      \endverbatim
      though apparently everything is installed? </li>
+     <li> On csltok we get messages on startup of Rcmdr that further
+     packages (rgl, relimp, multcomp, lmtest, effects, car, aplpack, abind)
+     should be installed; we should do this. </li>
     </ol>
    </li>
    <li> Of potential interest:
