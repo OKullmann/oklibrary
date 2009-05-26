@@ -57,6 +57,36 @@ output_ramsey2(q,r,n,filename) := block(
 output_ramsey2_stdname(q,r,n) := 
  output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
 
+/* The non-boolean formal clause-list of uniform domain [V,F,D] expressing that 
+   ramsey_k^r(q_1,...,q_s) < n; where q_i come from q a satisfying assignment 
+   yields an s-colouring of the hypergraph with vertices all r-subsets of 
+   {1,...,n}, while the hyperedges are all obtained from the q_i-subsets of 
+   {1,...,n} by taking the set of all r-subsets. Colourings are restricted
+   to those which are colourable such that only vertices which are connected
+   with hyperedges of size q_i are prevented being "monochromatic" (i.e
+   all vertices involved have the same colour) in colour i.
+
+   In other words, the clause-set is satisfiable iff one can from values in 
+   D to the r-element subsets (the "vertices") of {1,...,n} such that for 
+   every q_i-element subset of {1,...,n} there are two vertices which are
+   subsets and which have different values assigned.
+   For r=2 we have the interpretation, that the clause-set is satisfiable
+   iff there exists an edge-labelling of the K_n with "colours" in D  such
+   that no q_i-clique is monochromatic (w.r.t. the edges involved).
+   For arbitrary r, instead of K_n^r one considers the K_n^r, the r-graph
+   consisting of all r-element subsets of {1,...,n}; satisfying assignments
+   are those labellings of the r-element subsets with "colours" in D such
+   that every q_i-element subset of {1,...,n} contains one r-element subset
+   for each colour.
+*/
+ramsey_nbfclud(r,q,n) := block(
+  [dis_q : map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), q)],
+  return([listify(powerset(setn(n),r)),
+   lappend(create_list(
+     col2sat_stdohg2stdnbfclud(ramsey_ohg(q_i[1],r,n),q_i[2])[2], q_i, dis_q)),
+   create_list(i,i,1,length(q))
+   ]))$
+
 
 /* ***********************************
    * Symmetry breaking, first method *
