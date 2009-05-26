@@ -184,7 +184,7 @@ okltest_ramseyg2_8_a(f) := block(
   assert(f(2,[3]) = []),
   assert(f(2,[3,4]) = []),
   assert(f(2,[4,5]) = []),
-  assert(f(2,[8,9]) = [8]),
+  assert(f(2,[8,9]) = [9]),
   true)$
 
 
