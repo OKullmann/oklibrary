@@ -74,11 +74,24 @@ License, or any later version. */
      <li> The target "clean_links" removes all makefile-links. </li>
     </ol>
    </li>
-   <li> <code>--maxima</code> (configures and calls Maxima; see
-   ComputerAlgebra/docus/Maxima.hpp) </li>
-   <li> <code>--R</code> (calls R, currently in "vanilla"-version
-   (all special configurations disabled); see
-   Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp). </li>
+   <li> <code>--maxima</code>
+    <ul>
+     <li> Configures and calls Maxima; see ComputerAlgebra/docus/Maxima.hpp.
+     </li>
+     <li> Further arguments are passed to Maxima. </li>
+    </ul>
+   </li>
+   <li> <code>--R</code>
+    <ul>
+     <li> Calls R; see
+     Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp. </li>
+     <li> The standard parameters are <code>$(R_call_parameters)</code>. </li>
+     <li> This stores the command-history in file ".Rhistory" in the
+     calling directory. </li>
+     <li> If however further parameters are given as part of the oklib-call,
+     then R is called with just these parameters. </li>
+    </ul>
+   </li>
    <li> Push and pull for oklib-repositories (where the public repository
    is $(git_http_address_okl)):
     <ol>
