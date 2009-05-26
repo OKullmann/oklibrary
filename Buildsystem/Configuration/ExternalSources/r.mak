@@ -35,7 +35,7 @@ else
   R_install_command_okl ?= sudo make install
   R_call_okl ?= R
 endif
-R_call_parameters ?= --no-environ --no-restore-data --save
+R_call_parameters ?= --no-environ --no-site-file --no-restore-data --save
 
 R_base_doc_dir_okl ?= $(ExternalSources_doc)/R
 R_doc_dir_okl ?= $(R_base_doc_dir_okl)/$(R_recommended_version_number_okl)

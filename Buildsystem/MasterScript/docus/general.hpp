@@ -79,6 +79,16 @@ License, or any later version. */
      <li> Configures and calls Maxima; see ComputerAlgebra/docus/Maxima.hpp.
      </li>
      <li> Further arguments are passed to Maxima. </li>
+     <li> The initialisation file is
+     <code>$(maxima_share_dir_okl)/maxima-init.mac</code> (managed by
+     the OKlibrary). </li>
+     <li> The environment variable HOME is set to
+     <code>$(maxima_installation_dir_okl)</code>. </li>
+     <li> In this directory in file ".maxima_history" the command-line
+     history is stored when using Ecl (for CLisp no command-line history
+     is available). </li>
+     <li> While for all Lisps in sub-directory ".maxima" created binaries
+     are stored. </li>
     </ul>
    </li>
    <li> <code>--R</code>
@@ -86,10 +96,15 @@ License, or any later version. */
      <li> Calls R; see
      Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp. </li>
      <li> The standard parameters are <code>$(R_call_parameters)</code>. </li>
+     <li> And the environment variable HOME is set to
+     <code>$(R_installation_dir_okl)</code>. </li>
      <li> This stores the command-history in file ".Rhistory" in the
      calling directory. </li>
+     <li> While the file <code>$(R_installation_dir_okl)/.Rprofile</code>
+     is used for initialisation. </li>
      <li> If however further parameters are given as part of the oklib-call,
-     then R is called with just these parameters. </li>
+     then R is called with just these parameters (but still setting HOME as
+     above). </li>
     </ul>
    </li>
    <li> Push and pull for oklib-repositories (where the public repository
