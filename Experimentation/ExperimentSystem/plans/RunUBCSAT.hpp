@@ -286,19 +286,46 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    <li> For problems coming from Ramsey theory we have given a CNF-generator
    G(n), where n is a natural number and where for some (unknown) n_0 it is
    known that G(n') is unsatisfiable iff n' >= n_0. </li>
-   <li> Now via local search an "educated guess" for n_0 is sought. </li>
-   <li> A reasonable strategy seems to be as follows:
+   <li> We assume computation of G(n) is fast (a few seconds, say); so
+   typically a C++ program is needed. </li>
+   <li> Now via local search an "educated guess" for n_0 is sought (that
+   is a lower bound n_0' <= n_0 (where the problem is known to be satisfiable),
+   where n_0'+1 seems unsatisfiable. </li>
+   <li> The algorithm alg from the ubcsat-suite is given (has been selected
+   before). </li>
+   <li> We always use option "-solve" to stop once a solution was found. </li>
+   <li> A reasonable strategy seems to be the following ("big steps,
+   followed by scanning with small steps, followed by systematic
+   exploration (minimum steps)"):
     <ol>
-     <li> Start with a given n for which n <= n_0 is known. </li>
-     <li> The procedure will increase n in steps of 1: Given that unsatisfiable
-     problems in this area are very hard, and via local search we don't have
-     a reasonable grasp on that, this seems best (avoiding to jump into
-     unknown areas). </li>
-     <li> The algorithm alg from the ubcsat-suite is given (has been selected
-     before). </li>
+     <li> Start with some n for which n <= n_0 is known.
+      <ol>
+       <li> For establishing n the algorithm starts with a, b, where
+       a is a known lower bound, while b is assumed to be an upper bound. </li>
+       <li> Then via bisection we find n, where not too much effort is
+       spent for upper bounds. </li>
+       <li> Alternatively we compute s = (b-a) / G ("G" like "groups"),
+       and consider a+s, a+2s, ... . Perhaps this is better, since so
+       we don't have to deal with possibly hard unsatisfiable problems. </li>
+       <li> One starts with cutoff=10^4, and uses runs=10, increasing cutoff
+       using a factor of 2 if necessary, until an upper bound for cutoff
+       is reached, say, 10^7 (of course, all these numbers are parameters
+       to the algorithm, with these default values). </li>
+       <li> Perhaps G=100 is a reasonable default value. </li>
+       <li> For the upper bound b one assumes that 10 runs with cutoff=10^8
+       only reaches a minimum of, say, 10. </li>
+       <li> Also for establishing b we should use some algorithm, which uses
+       bigger steps, say here s=1000, and a fixed cutoff=10^8. </li>
+      </ol>
+     </li>
+     <li> The procedure will now increase n in steps of 1: Given that
+     unsatisfiable problems in this area are very hard, and via local search
+     we don't have a reasonable grasp on that, this seems best (avoiding to
+     jump into unknown areas). </li>
      <li> First an appropriate cutoff is computed:
       <ol>
-       <li> The start cutoff is cutoff_start = 10000. </li>
+       <li> The start cutoff is cutoff_start as given by the above
+       computation. </li>
        <li> t runs of ubcsat::alg are performed:
         <ul>
          <li> If a solution was found, then we go to the next n. </li>
@@ -344,9 +371,26 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
      and the main search is continued. </li>
     </ol>
    </li>
-   <li> It seems that the procedure should always stop as soon as a solution
-   was found. </li>
    <li> Everything is logged to files. </li>
+   <li> What is a suitable programming language here?
+    <ol>
+     <li> Since here a lot of variation and further development is needed,
+     perhaps we already start with a C++ program in object-oriented style
+     (mainly). </li>
+     <li> But all external calls are handled by wrapper scripts, which
+     make handling of the various inputs and outputs very easy for the
+     C++ program. </li>
+     <li> On the other hand, perhaps R would be easier? </li>
+     <li> Maxima is also possible; but we have only "system" available,
+     without getting at the return value, and we also have (big) problems
+     with the initialisation, while with R we can set HOME appropriately,
+     so either R or C++. </li>
+     <li> Perhaps R is most suitable here; also for later developments
+     we might use more sophisticated statistical evaluations. </li>
+     <li> Though C++ feels better, and at this time there are no complicated
+     statistics envolved. </li>
+    </ol>
+   </li>
   </ul>
 
 
