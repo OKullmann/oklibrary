@@ -101,9 +101,9 @@ License, or any later version. */
     Analogous statements hold for CLisp (which may be used alternatively).
    </li>
    <li> The Maxima <code>draw</code> command (as well as
-   <code>graph_draw</code>) uses Gnuplot, and version 4.2 or later is required.
-   It can be installed locally as below (creating a link to the binary in the
-   OKplatform/bin directory). </li>
+   <code>graph_draw</code>) uses Gnuplot ($(gnuplot_homepage_url_okl)),
+   and version 4.2 or later is required. It can be installed locally as below
+   (creating a link to the binary in the OKplatform/bin directory). </li>
   </ul>
 
 
