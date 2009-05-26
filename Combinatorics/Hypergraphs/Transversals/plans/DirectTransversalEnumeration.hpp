@@ -26,13 +26,14 @@ License, or any later version. */
    be generic enough to obtain the hypergraph case as a special case. </li>
    <li> Worth having a dedicated hypergraph-implementation? </li>
    <li> For prototypes see transversal_hg_rs in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac. </li>
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac. </li>
   </ul>
 
 
   \todo Connections
   <ul>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Transversals.hpp. </li>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/Transversals/plans/general.hpp.
+   </li>
   </ul>
 
 */

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,7 +34,7 @@ License, or any later version. */
    <li> Negation
     <ol>
      <li> "dual_cs" is the clause-set obtained by full distribution. </li>
-     <li> Compare with ComputerAlgebra/Hypergraphs/Lisp/plans/Transversals.hpp.
+     <li> Compare with ComputerAlgebra/Hypergraphs/Lisp/Transversals/plans/general.hpp.
      </li>
      <li> Compare with Algorithms/AllSolutions/plans/MinimalAssignments.hpp.
      </li>

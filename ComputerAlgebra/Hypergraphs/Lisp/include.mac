@@ -20,18 +20,16 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/include.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/include.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac")$
-
 
 /*!
 \endhtmlonly

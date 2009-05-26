@@ -15,7 +15,8 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Transversals.hpp. </li>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/Transversals/plans/general.hpp.
+   </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp
    for experiments. </li>

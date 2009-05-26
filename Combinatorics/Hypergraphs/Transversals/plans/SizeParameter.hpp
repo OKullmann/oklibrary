@@ -13,8 +13,8 @@ License, or any later version. */
 
   \todo Connections to other modules
   <ul>
-   <li> In ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac we have some
-   algorithms. </li>
+   <li> In ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac
+   we have some algorithms. </li>
    <li> Satisfiability/Transformers/Generators/BoundOnes translates the
    problem into a pseudo-boolean problem (using bound "<= k"; alternatively
    also "= k" is possible). </li>
@@ -66,7 +66,7 @@ License, or any later version. */
   \todo An "eager, binary" variation of the (above) trivial algorithm
   <ul>
    <li> The algorithms transversals_be, transversals_bes in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac implement the
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac implement the
    above algorithm, but with the following two differences:
     <ol>
      <li> Above we use "clause branching", while these algorithms use
@@ -108,7 +108,7 @@ License, or any later version. */
      padding), but the point is that considering only the existing vertices
      already achieves some simple form of "tree pruning". </li>
      <li> See the specification of transversals_be in
-     ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac. </li>
+     ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac. </li>
     </ol>
    </li>
    <li> However now we really only want to find minimal transversals (%w.r.t.
