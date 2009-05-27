@@ -34,27 +34,36 @@ okltest_ramsey2_ofcs(f) := (
 
 okltest_ramsey_nbfclud(f) := (
   for i : 1 thru 5 do
-    assert(f(i,[],0) = [[],[],[]]),
-  assert(f(2,[2],2) = [[{1,2}],[{[{1,2},1]}],[1]]),
-  assert(f(2,[3,4],4) = [[{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}],
+    assert(f([],i,0) = [[],[],[]]),
+  assert(f([2],2,2) = [[{1,2}],[{[{1,2},1]}],[1]]),
+  assert(f([3,4],2,4) = [[{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}],
           [{[{1,2},1],[{1,3},1],[{2,3},1]},{[{1,2},1],[{1,4},1],[{2,4},1]},
            {[{1,3},1],[{1,4},1],[{3,4},1]},{[{2,3},1],[{2,4},1],[{3,4},1]},
            {[{1,2},2],[{1,3},2],[{1,4},2],[{2,3},2],[{2,4},2],[{3,4},2]}],
           [1,2]]),
   true)$
 
-okltest_ramsey_symbr2_cs(f) := block(
+okltest_ramsey2_symbr2_cs(f) := block(
   for i : 0 thru 5 do
     assert(f(i) = {}),
   for i : 0 thru 17 do 
     assert(length(f(i)) = 6 * floor(max((i - 3),0) / 3)),
   true)$
 
+okltest_ramsey_symbr2_nbfclud(f) := block(
+  assert(f(2,2,0) = [[],[],[1,2]]),
+  assert(f(2,2,6) =
+    [[{1,2},{1,3},{1,4},{1,5},{1,6},{2,3},{2,4},{2,5},{2,6},{3,4},{3,5},{3,6},
+      {4,5},{4,6},{5,6}],[{nbv({1,3},1),nbv({2,3},2)},{nbv({1,3},2),
+      nbv({2,3},1)},{nbv({1,2},1),nbv({2,3},2)},{nbv({1,2},2),nbv({2,3},1)},
+      {nbv({1,2},1),nbv({1,3},2)},{nbv({1,2},2),nbv({1,3},1)}],[1,2]]),
+  true)$
+
 okltest_ramsey_symbr2_eqs(f) := block(
   for i : 0 thru 5 do 
-    assert(f(i) = {}),
+    assert(f(2,2,i) = {}),
   for i : 0 thru 17 do
-    assert(length(f(i)) = floor(max((i - 3),0) / 3)),
+    assert(length(f(2,2,i)) = floor(max((i - 3),0) / 3)),
   true)$
 
 okltest_ramsey2_sym_break_rec(f) := block(

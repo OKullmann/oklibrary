@@ -19,7 +19,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.
 \htmlonly
 */
 
-oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_plain_include("stringproc");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
@@ -79,7 +80,7 @@ output_ramsey2_stdname(q,r,n) :=
    that every q_i-element subset of {1,...,n} contains one r-element subset
    for each colour.
 */
-ramsey_nbfclud(r,q,n) := block(
+ramsey_nbfclud(q,r,n) := block(
   [dis_q : map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), q)],
   return([listify(powerset(setn(n),r)),
    lappend(create_list(
@@ -87,6 +88,20 @@ ramsey_nbfclud(r,q,n) := block(
    create_list(i,i,1,length(q))
    ]))$
 
+ramsey_ofcs(q,r,n) := nbfclud2fcl_alo(ramsey_nbfclud(q,r,n))$
+
+output_ramsey(q,r,n,filename) := block(
+ [FFR : standardise_fcl(ramsey_ofcs(q,r,n))],
+  output_fcl_v(
+    sconcat("Ramsey problem: ",length(q),
+      " colours, hypergraph edges of size ", r, 
+      ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
+    FFR[1],
+    filename,
+    FFR[2]))$
+output_ramsey_stdname(q,r,n) := 
+  output_ramsey(q,r,n,sconcat("Ramsey_",simplode(q,"_"),"_",r,"_",n,".cnf"))$
+  
 
 /* ***********************************
    * Symmetry breaking, first method *
@@ -111,9 +126,9 @@ ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
 */
 
 /* XXX preliminary */
-/* Yet only r=2 handled */
-ramsey_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
-  clique_l : ramsey_symbr2_eqs(n), 
+/* Yet only s=2 handled */
+ramsey2_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey_symbr2_eqs(2,2,n), 
   for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
     edge_pairs : powerset(eq_edges,2),
     for edge in edge_pairs do block(
@@ -123,18 +138,35 @@ ramsey_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
   ),
   return(lunion(rl)))$
 
-/* Given a natural number n, gives a set of sets of edges in the graph
-   with n vertices which can be given equivalent labels in any N_R(p,p;2) < m
-   problem for n <= m. */
-ramsey_symbr2_eqs(n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
-  while n >= ramsey_ub(ramsey(2,[p+1,p+1])) do p : p + 1,
-  while m >= ramsey_ub(ramsey(2,[3,3])) do 
-    if ramsey_ub(ramsey(2,[p,p])) <= m then block(
+/* Arbitrary r */
+ramsey_symbr2_nbfclud(s,r,n) := block(
+ [eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey_symbr2_eqs(s,r,n),
+  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
+    edge_pairs : powerset(eq_edges,2),
+    for edge in edge_pairs do 
+      for c in powerset(setn(s),2) do block([cl : listify(c)],
+        el : listify(edge),
+        rl : cons([
+          {nbv_var(el[1],cl[1]),nbv_var(el[2],cl[2])},
+          {nbv_var(el[1],cl[2]),nbv_var(el[2],cl[1])}], rl)
+      )
+  ),
+  return([listify(powerset(setn(n),2)),lappend(rl),create_list(i,i,1,s)]))$
+
+
+/* Given a natural number n, gives a set of sets of edges in the r-complete hypergraph
+   with n vertices which can be given equivalent labels (from the label set
+   {1,..,s} in any ram_s^r(p) < m problem for n <= m. */
+ramsey_symbr2_eqs(s,r,n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
+  while n >= ramsey_ub(ramsey(r,create_list(p+1,i,1,s))) do p : p + 1,
+  while m >= ramsey_ub(ramsey(r,create_list(3,i,1,s))) do 
+    if ramsey_ub(ramsey(r,create_list(p,i,1,s))) <= m then block(
       clique_l : cons(setmn((n-m) + 1, (n-m) + p), clique_l),
       m : m - p
     ) else p : p - 1,
   if oklib_monitor then print("Cliques chosen : ", clique_l),
-  return(map(lambda([a],powerset(a,2)),setify(clique_l))))$
+  return(map(lambda([a],powerset(a,r)),setify(clique_l))))$
 
 /* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
    with n vertices, a hashmap from the variables to their meanings (as
