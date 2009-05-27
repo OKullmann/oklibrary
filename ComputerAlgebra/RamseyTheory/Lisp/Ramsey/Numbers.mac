@@ -221,10 +221,22 @@ ramseyhg3_2_4(q) :=
 
 /* Returns the upper bound given the result of a call to "ramsey" */
 ramsey_ub(n) := if listp(n) then last(n) else n$
+/* Returns the upper bound given the result of a call to "ramsey" safely,
+   i.e if the value is unknown, then infinity is returned (so this can be
+   used without checking the return value) */
+ramsey_ub_s(n) := block([ret],
+  ret : if listp(n) then last(n) else n,
+  return(if ret = unknown then inf else ret))$
 
 
 /* Returns the lower bound given the result of a call to "ramsey" */
 ramsey_lb(n) := if listp(n) then first(n) else n$
+/* Returns the lower bound given the result of a call to "ramsey" safely,
+   i.e if the value is unknown, then 0 is returned (so this can be
+   used without checking the return value) */
+ramsey_lb_s(n) := block([ret],
+  ret : if listp(n) then first(n) else n,
+  return(if ret = unknown then 0 else ret))$
 
 /*!
 \endhtmlonly

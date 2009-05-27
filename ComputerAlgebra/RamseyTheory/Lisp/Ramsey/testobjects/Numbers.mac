@@ -48,6 +48,8 @@ okltest_ramseyg3_3_3_a(ramseyg3_3_3_a);
 okltest_ramseyg3_3_3(ramseyg3_3_3);
 okltest_ramsey_ub(ramsey_ub);
 okltest_ramsey_lb(ramsey_lb);
+okltest_ramsey_ub_s(ramsey_ub_s);
+okltest_ramsey_lb_s(ramsey_lb_s);
 
 /*!
 \endhtmlonly

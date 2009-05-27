@@ -287,6 +287,18 @@ okltest_ramsey_ub(f) := block(
   assert(f([100,200]) = 200),
   true)$
 
+okltest_ramsey_ub_s(f) := block(
+  for i : 1 thru 5 do 
+    assert(f(i) = i),
+  for i : 1 thru 5 do
+    assert(f([1,i]) = i),
+  assert(f(200) = 200),
+  assert(f([100,200]) = 200),
+  assert(f(unknown) = inf),
+  assert(f([unknown,10]) = 10),
+  assert(f([1,unknown]) = inf),
+  true)$
+
 
 okltest_ramsey_lb(f) := block(
   for i : 1 thru 5 do 
@@ -295,6 +307,18 @@ okltest_ramsey_lb(f) := block(
     assert(f([i,i+10]) = i),
   assert(f(200) = 200),
   assert(f([100,200]) = 100),
+  true)$
+
+okltest_ramsey_lb_s(f) := block(
+  for i : 1 thru 5 do 
+    assert(f(i) = i),
+  for i : 1 thru 5 do
+    assert(f([i,i+10]) = i),
+  assert(f(200) = 200),
+  assert(f([100,200]) = 100),
+  assert(f(unknown) = 0),
+  assert(f([unknown,10]) = 0),
+  assert(f([1,unknown]) = 1),
   true)$
 
 /*!
