@@ -286,11 +286,13 @@ BestSolution_Max = 2.000000
     </ol>
    </li>
    <li> n=1875: cutoff=10^8 found in run 6 a solution (seed=195078017). </li>
+   <li> n=1887 </li>
    <li> n=1900
     <ol>
      <li> cutoff=25*10^6 yields in 10 runs only min=2. </li>
      <li> cutoff=10^8 yields in 10 runs min=1 twice; so could be
      investigated using more runs. </li>
+     <li> cutoff=2*10^8: 100 runs min=1, max=3, mean=1.77. </li>
     </ol>
    </li>
   </ul>
