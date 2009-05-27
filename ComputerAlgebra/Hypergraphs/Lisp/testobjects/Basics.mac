@@ -45,10 +45,10 @@ okltest_setsystem2hg(setsystem2hg);
 okltest_listsets2hg(listsets2hg);
 okltest_listsets2oghg(listsets2oghg);
 
-okltest_edge_vertex_com_hyp(edge_vertex_com_hyp);
+okltest_edge_vertex_com_hg(edge_vertex_com_hg);
 
-okltest_edge_int_com_hyp(edge_int_com_hyp);
-okltest_vertex_int_com_hyp(vertex_int_com_hyp);
+okltest_edge_int_com_hg(edge_int_com_hg);
+okltest_vertex_int_com_hg(vertex_int_com_hg);
 
 /* *****************
    * Constructions *
@@ -57,10 +57,10 @@ okltest_vertex_int_com_hyp(vertex_int_com_hyp);
 
 okltest_union_hg(union_hg);
 
-okltest_edge_k_hyp(edge_k_hyp);
-okltest_edge_g_hyp(edge_g_hyp);
-okltest_anti_edge_k_hyp(anti_edge_k_hyp);
-okltest_kneser_g_hyp(kneser_g_hyp);
+okltest_edge_k_hg(edge_k_hg);
+okltest_edge_g_hg(edge_g_hg);
+okltest_anti_edge_k_hg(anti_edge_k_hg);
+okltest_kneser_g_hg(kneser_g_hg);
 
 /* *****************
    * Connectedness *

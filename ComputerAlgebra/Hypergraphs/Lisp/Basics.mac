@@ -107,19 +107,25 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
 
 /* The combinatorial (hyper)edge-vertex matrix of a hypergraph: */
+/* RENAME: edge_vertex_com_hg */
 edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 
   if elementp(v, H) then 1 else 0)]$
+edge_vertex_com_hg(G) := edge_vertex_com_hyp(G)$
 
 /* The (hyper)edge intersection matrix (as a square combinatorial matrix)
    of a hypergraph: */
+/* RENAME: edge_int_com_hg */
 edge_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(M, trans(M)))))$
+edge_int_com_hg(G) := edge_int_com_hyp(G)$
 
 /* The vertex intersection matrix (as a square combinatorial matrix)
    of a hypergraph (for each pair of vertices the number of common
    occurrences): */
+/* RENAME: vertex_int_com_hg */
 vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(trans(M), M))))$
+vertex_int_com_hg(G) := vertex_int_com_hyp(G)$
 
 
 /* *****************
@@ -155,21 +161,29 @@ dual_ghg(G) := dual_general_hypergraph(G)$
     vertices the hyperedges of G and as hyperedges k-sets of hyperedges of G
     with non-empty intersection:
 */
+/* RENAME: edge_k_hg */
 edge_k_hyp(G,k) := 
  if k=0 then if emptyp(G[1]) then [G[2],{}] else [G[2],{{}}]
  elseif k=1 then [G[2], singletons(disjoin({},G[2]))] else
  [G[2], subset(powerset(G[2],k), lambda([H], not emptyp(lintersection(H))))]$
+edge_k_hg(G,k) := edge_k_hyp(G,k)$
 /* The edge-graph of a hypergraph: */
+/* RENAME: edge_g_hg */
 edge_g_hyp(G) := edge_k_hyp(G,2)$
+edge_g_hg(G) := edge_g_hyp(G)$
 /* The anti-k-edge-graph, a k-graph with vertices the hyperedges of G and as
    hyperedges k-sets of hyperedges of G with empty intersection:
 */
+/* RENAME: anti_edge_k_hg */
 anti_edge_k_hyp(G,k) := 
  if k=0 then if emptyp(G[1]) then [G[2],{{}}] else [G[2],{}]
  elseif k=1 then [G[2], singletons(intersection({{}},G[2]))] else
  [G[2], subset(powerset(G[2],k), lambda([H], emptyp(lintersection(H))))]$
+anti_edge_k_hg(G,k) := anti_edge_k_hyp(G,k)$
 /* The Kneser-graph of a hypergraph: */
+/* RENAME: kneser_g_hg */
 kneser_g_hyp(G) := anti_edge_k_hyp(G,2)$
+kneser_g_hg(G) := kneser_g_hyp(G)$
 
 
 /* *****************

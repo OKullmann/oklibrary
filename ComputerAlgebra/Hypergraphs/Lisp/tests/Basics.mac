@@ -79,7 +79,7 @@ okltest_listsets2oghg(f) := (
   assert(f([{1,2},{-3,1},{3,2}]) = [[-3,1,2,3],[{1,2},{-3,1},{2,3}],identity]),
   true)$
 
-okltest_edge_vertex_com_hyp(f) := (
+okltest_edge_vertex_com_hg(f) := (
   assert(comequalp(f([{},{}]), emptycom) = true),
   assert(comequalp(f([{},{{}}]), zerocom({{}},{})) = true),
   assert(comequalp(f([{1},{}]), zerocom({},{1})) = true),
@@ -88,7 +88,7 @@ okltest_edge_vertex_com_hyp(f) := (
   assert(comequalp(f([{1,2},{{1}}]), [{{1}},{1,2},lambda([H,v],if v=1 then 1 else 0)]) = true),
 true)$
 
-okltest_edge_int_com_hyp(f) := (
+okltest_edge_int_com_hg(f) := (
   assert(scomequalp(f([{},{}]), emptyscom) = true),
   assert(scomequalp(f([{},{{}}]), zeroscom({{}})) = true),
   assert(scomequalp(f([{1,2},{{}}]), zeroscom({{}})) = true),
@@ -98,7 +98,7 @@ okltest_edge_int_com_hyp(f) := (
   assert(scomequalp(f([{1,2},{{1},{1,2}}]), [{{1},{1,2}},lambda([H1,H2], if H1 = {1} or H2 = {1} then 1 else 2)]) = true),
   true)$
 
-okltest_vertex_int_com_hyp(f) := (
+okltest_vertex_int_com_hg(f) := (
   assert(scomequalp(f([{},{}]), emptyscom) = true),
   assert(scomequalp(f([{},{{}}]), emptyscom) = true),
   assert(scomequalp(f([{1,2},{{}}]), zeroscom({1,2})) = true),
@@ -121,7 +121,7 @@ okltest_union_hg(f) := (
   assert(f([{1,2,3},{{1,2},{2,3}}],[{2,3,4},{{2,4},{3}}]) = [{1,2,3,4},{{1,2},{2,3},{2,4},{3}}]),
   true)$
 
-okltest_edge_k_hyp(f) := (
+okltest_edge_k_hg(f) := (
   for n : 0 thru 2 do
     assert(f([{},{}],n) = [{},{}]),
   for n : 0 thru 2 do
@@ -133,18 +133,18 @@ okltest_edge_k_hyp(f) := (
   /* XXX */
   true)$
 
-okltest_edge_g_hyp(f) := (
+okltest_edge_g_hg(f) := (
   /* XXX */
   assert(f([{1,2,3,4},{{1},{2},{1,2},{2,3}}]) = [{{1},{2},{1,2},{2,3}}, {{{1},{1,2}},{{2},{1,2}},{{2},{2,3}},{{1,2},{2,3}}}]),
   true)$
 
-okltest_anti_edge_k_hyp(f) := (
-  assert(okltest_edge_k_hyp(buildq([f], lambda([G,k], block([E:f(G,k)], [E[1], setdifference(powerset(G[2],k),E[2])])))) = true),
+okltest_anti_edge_k_hg(f) := (
+  assert(okltest_edge_k_hg(buildq([f], lambda([G,k], block([E:f(G,k)], [E[1], setdifference(powerset(G[2],k),E[2])])))) = true),
   true)$
 
-okltest_kneser_g_hyp(f) := (
+okltest_kneser_g_hg(f) := (
   /* XXX */
-  assert(okltest_kneser_g(buildq([f], lambda([n,m], kneser_g_hyp(complete_stdhg(n,m))))) = true),
+  assert(okltest_kneser_g(buildq([f], lambda([n,m], kneser_g_hg(complete_stdhg(n,m))))) = true),
   true)$
 
 
