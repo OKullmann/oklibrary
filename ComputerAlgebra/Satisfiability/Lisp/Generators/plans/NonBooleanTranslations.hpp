@@ -18,13 +18,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add translations for non-boolean clause-lists with uniform domain
-  <ul>
-   <li> See ComputerAlgebra/RamseyTheory/Lisp/RamseyProblems.mac and
-   ramsey_nbfclud for possible use. </li>
-  </ul>
-
-
   \todo Translating non-boolean clause-sets into boolean clause-sets
   <ul>
    <li> DONE
@@ -33,6 +26,13 @@ License, or any later version. */
    variables nbv(v,e) for old variables v and values e, adding in the first
    case only at-least-one-clauses for each v, and in the second case also
    adding the at-most-one-clauses. </li>
+  </ul>
+
+
+  \todo DONE Add translations for non-boolean clause-lists with uniform domain
+  <ul>
+   <li> See ComputerAlgebra/RamseyTheory/Lisp/RamseyProblems.mac and
+   ramsey_nbfclud for possible use. </li>
   </ul>
 
 */
