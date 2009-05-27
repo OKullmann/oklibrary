@@ -67,13 +67,14 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 4000
+  \todo greentao_3(3,4,5) > 5000
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
    <li> n=2200 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
    <li> n=3000 trivial for adaptnovelty+ (90% success with cutoff=10^5). </li>
    <li> n=4000 simple for adaptnovelty+ (100% success with cutoff=10^6). </li>
+   <li> n=5000 simple for adaptnovelty+ (40% success with cutoff=10^6). </li>
   </ul>
   
 */
