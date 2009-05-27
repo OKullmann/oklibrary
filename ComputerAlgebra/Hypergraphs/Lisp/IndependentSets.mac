@@ -19,13 +19,31 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* Checking whether I is an independent set for set system S (S may be also
+   a list of sets).
+   Note that I doesn't need to be maximal.
+*/
+independentset_p(I,S) := every_s(lambda([H], not subsetp(H,I)), S)$ 
+
+
+/* *************************************************
+   * The independency hypergraph (of a hypergraph) *
+   *************************************************
+*/
 
 /* The hypergraph of maximal independent sets of a hypergraph G, via
-   hypergraph-transversals */
+   hypergraph-transversals: */
+/* RENAME: independence_hg_tr */
 independence_hyp_tr(G, Tr) := ecomp_hyp(Tr(G))$
+independence_hg_tr(G, Tr) := independence_hyp_tr(G, Tr)$
+/* RENAME: independence_hg_trrs */
 independence_hyp_trrs(G) := independence_hyp_tr(G, transversal_hyp_rs)$
+independence_hg_trrs() := independence_hyp_trrs(G)$
 
 /*!
 \endhtmlonly

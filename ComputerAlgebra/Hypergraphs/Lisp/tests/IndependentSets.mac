@@ -25,6 +25,21 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 kill(f)$
 
+
+okltest_independentset_p(f) := (
+  assert(f({},{}) = true),
+  assert(f({},{{}}) = false),
+  assert(f({},{{1}}) = true),
+  assert(f({1},{{2},{1,2}}) = true),
+  assert(f({1},{{2},{1,2},{1}}) = false),
+  true)$
+
+
+/* *************************************************
+   * The independency hypergraph (of a hypergraph) *
+   *************************************************
+*/
+
 /* Testing whether f computes the independence hypergraph */
 okltest_independence_hyp(f) := block(
   assert(f([{},{}]) = [{},{{}}]),
