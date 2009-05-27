@@ -185,6 +185,13 @@ anti_edge_k_hg(G,k) := anti_edge_k_hyp(G,k)$
 kneser_g_hyp(G) := anti_edge_k_hyp(G,2)$
 kneser_g_hg(G) := kneser_g_hyp(G)$
 
+/* For set-systems S1, S2 the "general subsumption hypergraph", with vertices
+   the elements of S1, hyperedge-labels the elements of S2, and for H in S2
+   the vertex set is given by the elements of S1 contained in H.
+*/
+subsumption_ghg(S1,S2) :=
+ [S1, S2, buildq([S1,S2], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
+
 
 /* *****************
    * Connectedness *

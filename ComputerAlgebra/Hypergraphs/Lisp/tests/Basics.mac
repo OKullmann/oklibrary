@@ -147,6 +147,14 @@ okltest_kneser_g_hg(f) := (
   assert(okltest_kneser_g(buildq([f], lambda([n,m], kneser_g_hg(complete_stdhg(n,m))))) = true),
   true)$
 
+okltest_subsumption_ghg(f) := block([E],
+  assert(ghg_equalp(f({},{}), [{},{},E]) = true),
+  assert(ghg_equalp(f({},{{}}), [{},{{}}, lambda([H],{})]) = true),
+  assert(ghg_equalp(f({{}},{}), [{{}},{}, E]) = true),
+  assert(ghg_equalp(f({{}},{{}}), [{{}},{{}}, lambda([H],{{}})]) = true),
+  /* XXX */
+  true)$
+
 
 /* *****************
    * Connectedness *
