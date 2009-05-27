@@ -28,5 +28,12 @@ License, or any later version. */
    adding the at-most-one-clauses. </li>
   </ul>
 
+
+  \todo DONE Add translations for non-boolean clause-lists with uniform domain
+  <ul>
+   <li> See ComputerAlgebra/RamseyTheory/Lisp/RamseyProblems.mac and
+   ramsey_nbfclud for possible use. </li>
+  </ul>
+
 */
 

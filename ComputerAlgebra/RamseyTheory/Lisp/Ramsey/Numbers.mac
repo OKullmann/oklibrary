@@ -49,6 +49,18 @@ ramsey(r,col_tuple) :=
     apply(ramseyg2_3,ramseyg2_3_a(r,col_tuple))
   elseif ramseyg2_4_a(r,col_tuple)#[] then 
     apply(ramseyg2_4,ramseyg2_4_a(r,col_tuple))
+  elseif ramseyg2_5_a(r,col_tuple)#[] then 
+    apply(ramseyg2_5,ramseyg2_5_a(r,col_tuple))
+  elseif ramseyg2_6_a(r,col_tuple)#[] then 
+    apply(ramseyg2_6,ramseyg2_6_a(r,col_tuple))
+  elseif ramseyg2_7_a(r,col_tuple)#[] then 
+    apply(ramseyg2_7,ramseyg2_7_a(r,col_tuple))
+  elseif ramseyg2_8_a(r,col_tuple)#[] then 
+    apply(ramseyg2_8,ramseyg2_8_a(r,col_tuple))
+  elseif ramseyg2_9_a(r,col_tuple)#[] then 
+    apply(ramseyg2_9,ramseyg2_9_a(r,col_tuple))
+  elseif ramseyg2_10_a(r,col_tuple)#[] then 
+    apply(ramseyg2_10,ramseyg2_10_a(r,col_tuple))
   elseif ramseyg3_3_3_a(r,col_tuple)#[] then 
     apply(ramseyg3_3_3,ramseyg3_3_3_a(r,col_tuple))
   elseif ramseyhg3_2_4_a(r,col_tuple)#[] then 
@@ -117,6 +129,70 @@ ramseyg2_4(q) :=
   else unknown$
 
 
+ramseyg2_5_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 5 then [last(L)] else []$
+ramseyg2_5(q) := 
+  if q <= 15 then
+    [1,5,14,25,[43,49],
+     [58,87],[80,143],[101,216],[125,316],[143,442],[159,inf],[185,848],[209,inf],
+     [235,1461],[265,inf]][q]
+  else unknown$
+
+ramseyg2_6_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 6 then [last(L)] else []$
+ramseyg2_6(q) := 
+  if q <= 15 then
+    [1,6,18,[35,41],[58,87],
+     [102,165],[113,298],[127,495],[169,780],[179,1171],[253,inf],[262,2566],[317,inf],
+     [0,5033],[401,inf]][q]
+  else unknown$
+
+ramseyg2_7_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 7 then [last(L)] else []$
+ramseyg2_7(q) := 
+  if q <= 15 then
+    [1,7,23,[49,61],[80,143],
+     [113,298],[205,540],[216,1031],[233,1713],[289,2826],[405,4553],[416,6954],[511,10581],
+     [0,15263],[0,22116]][q]
+  else unknown$
+
+
+ramseyg2_8_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 8 then [last(L)] else []$
+ramseyg2_8(q) := 
+  if q <= 15 then
+    [1,8,28,[56,84],[101,216],
+     [127,495],[216,1031],[282,1870],[317,3583],[0,6090],[0,10630],[0,16944],[817,27490],
+     [0,41525],[861,63620]][q]
+  else unknown$
+
+
+ramseyg2_9_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 9 then [last(L)] else []$
+ramseyg2_9(q) := 
+  if q <= 14 then
+    [1,9,36,[73,115],[125,316],
+     [169,780],[233,1713],[317,3583],[565,6588],[580,12677],[0,22325],[0,39025],[0,64871],
+     [0,89203]][q]
+  else unknown$
+
+
+ramseyg2_10_a(r,L) := 
+  if L = [] then []
+  elseif r = 2 and length(L) = 2 and first(L) = 10 then [last(L)] else []$
+ramseyg2_10(q) := 
+  if q <= 15 then
+    [1,10,[40,43],[92,149],[143,442],
+     [179,1171],[289,2826],[0,6090],[580,12677],[798,23556],unknown,[0,81200],unknown,
+     unknown,[1265,inf]][q]
+  else unknown$
+
+
 ramseyg3_3_3_a(r,L) := 
   if L = [] then []
   elseif r = 2 and length(L) = 3 and first(L) = 3 and second(L) = 3 then 
@@ -145,10 +221,22 @@ ramseyhg3_2_4(q) :=
 
 /* Returns the upper bound given the result of a call to "ramsey" */
 ramsey_ub(n) := if listp(n) then last(n) else n$
+/* Returns the upper bound given the result of a call to "ramsey" safely,
+   i.e. if the value is unknown, then infinity is returned (so this can be
+   used without checking the return value) */
+ramsey_ub_s(n) := block([ret],
+  ret : if listp(n) then last(n) else n,
+  return(if ret = unknown then inf else ret))$
 
 
 /* Returns the lower bound given the result of a call to "ramsey" */
 ramsey_lb(n) := if listp(n) then first(n) else n$
+/* Returns the lower bound given the result of a call to "ramsey" safely,
+   i.e. if the value is unknown, then 0 is returned (so this can be
+   used without checking the return value) */
+ramsey_lb_s(n) := block([ret],
+  ret : if listp(n) then first(n) else n,
+  return(if ret = unknown then 0 else ret))$
 
 /*!
 \endhtmlonly

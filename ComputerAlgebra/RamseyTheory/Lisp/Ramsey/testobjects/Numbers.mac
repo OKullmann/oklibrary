@@ -32,10 +32,24 @@ okltest_ramseyg2_3_a(ramseyg2_3_a);
 okltest_ramseyg2_3(ramseyg2_3);
 okltest_ramseyg2_4_a(ramseyg2_4_a);
 okltest_ramseyg2_4(ramseyg2_4);
+okltest_ramseyg2_5_a(ramseyg2_5_a);
+okltest_ramseyg2_5(ramseyg2_5);
+okltest_ramseyg2_6_a(ramseyg2_6_a);
+okltest_ramseyg2_6(ramseyg2_6);
+okltest_ramseyg2_7_a(ramseyg2_7_a);
+okltest_ramseyg2_7(ramseyg2_7);
+okltest_ramseyg2_8_a(ramseyg2_8_a);
+okltest_ramseyg2_8(ramseyg2_8);
+okltest_ramseyg2_9_a(ramseyg2_9_a);
+okltest_ramseyg2_9(ramseyg2_9);
+okltest_ramseyg2_10_a(ramseyg2_10_a);
+okltest_ramseyg2_10(ramseyg2_10);
 okltest_ramseyg3_3_3_a(ramseyg3_3_3_a);
 okltest_ramseyg3_3_3(ramseyg3_3_3);
 okltest_ramsey_ub(ramsey_ub);
 okltest_ramsey_lb(ramsey_lb);
+okltest_ramsey_ub_s(ramsey_ub_s);
+okltest_ramsey_lb_s(ramsey_lb_s);
 
 /*!
 \endhtmlonly

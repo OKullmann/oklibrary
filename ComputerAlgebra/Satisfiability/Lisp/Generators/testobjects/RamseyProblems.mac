@@ -22,7 +22,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProble
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 
 okltest_ramsey2_ofcs(ramsey2_ofcs);
-okltest_ramsey_symbr2_cs(ramsey_symbr2_cs);
+okltest_ramsey_nbfclud(ramsey_nbfclud);
+okltest_ramsey2_symbr2_cs(ramsey2_symbr2_cs);
+okltest_ramsey_symbr2_nbfclud(ramsey_symbr2_nbfclud);
+okltest_ramsey_symbr2_fcl(ramsey_symbr2_fcl);
 okltest_ramsey_symbr2_eqs(ramsey_symbr2_eqs);
 okltest_ramsey2_sym_break_rec(ramsey2_sym_break_rec);
 

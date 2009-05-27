@@ -19,6 +19,11 @@ License, or any later version. */
     - Improve docus
     - Extreme cases
     - More efficient computation
+  
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/NonBooleanTranslations.hpp
+   the following topics are handled:
+    - Add translations for non-boolean clause-lists with uniform domain DONE 
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp

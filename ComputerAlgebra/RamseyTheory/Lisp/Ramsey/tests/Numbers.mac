@@ -120,6 +120,118 @@ okltest_ramseyg2_4(f) := block(
   assert(f(4) = 18),
   true)$
 
+okltest_ramseyg2_5_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[5,6]) = [6]),
+  true)$
+
+
+okltest_ramseyg2_5(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 5),
+  assert(f(4) = 25),
+  assert(f(5) # unknown),
+  true)$
+
+
+okltest_ramseyg2_6_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[6,7]) = [7]),
+  true)$
+
+
+okltest_ramseyg2_6(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 6),
+  assert(f(3) = 18),
+  assert(f(4) # unknown),
+  true)$
+
+
+okltest_ramseyg2_7_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[7,8]) = [8]),
+  true)$
+
+
+okltest_ramseyg2_7(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 7),
+  assert(f(3) = 23),
+  assert(f(4) # unknown),
+  true)$
+
+
+okltest_ramseyg2_8_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[8,9]) = [9]),
+  true)$
+
+
+okltest_ramseyg2_8(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 8),
+  assert(f(3) = 28),
+  assert(f(4) # unknown),
+  true)$
+
+
+okltest_ramseyg2_9(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 9),
+  assert(f(3) = 36),
+  assert(f(4) # unknown),
+  true)$
+
+
+okltest_ramseyg2_9_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[9,10]) = [10]),
+  true)$
+
+
+okltest_ramseyg2_10(f) := block(
+  assert(f(1) = 1),
+  assert(f(2) = 10),
+  assert(f(3) # unknown),
+  true)$
+
+
+okltest_ramseyg2_10_a(f) := block(
+  for i : 3 thru 5 do
+    assert(f(i,[3,4]) = []),
+  assert(f(2,[]) = []),
+  assert(f(2,[3]) = []),
+  assert(f(2,[3,4]) = []),
+  assert(f(2,[4,5]) = []),
+  assert(f(2,[10,11]) = [11]),
+  true)$
+
 
 okltest_ramseyg3_3_3_a(f) := block(
   for i : 3 thru 5 do
@@ -175,6 +287,18 @@ okltest_ramsey_ub(f) := block(
   assert(f([100,200]) = 200),
   true)$
 
+okltest_ramsey_ub_s(f) := block(
+  for i : 1 thru 5 do 
+    assert(f(i) = i),
+  for i : 1 thru 5 do
+    assert(f([1,i]) = i),
+  assert(f(200) = 200),
+  assert(f([100,200]) = 200),
+  assert(f(unknown) = inf),
+  assert(f([unknown,10]) = 10),
+  assert(f([1,unknown]) = inf),
+  true)$
+
 
 okltest_ramsey_lb(f) := block(
   for i : 1 thru 5 do 
@@ -183,6 +307,18 @@ okltest_ramsey_lb(f) := block(
     assert(f([i,i+10]) = i),
   assert(f(200) = 200),
   assert(f([100,200]) = 100),
+  true)$
+
+okltest_ramsey_lb_s(f) := block(
+  for i : 1 thru 5 do 
+    assert(f(i) = i),
+  for i : 1 thru 5 do
+    assert(f([i,i+10]) = i),
+  assert(f(200) = 200),
+  assert(f([100,200]) = 100),
+  assert(f(unknown) = 0),
+  assert(f([unknown,10]) = 0),
+  assert(f([1,unknown]) = 1),
   true)$
 
 /*!
