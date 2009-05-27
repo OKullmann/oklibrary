@@ -43,6 +43,11 @@ min_2resolution_closure_cs(F) := block(
     prime_implicates : union(prime_implicates,new_implicates)),
   return(prime_implicates))$
 
+/* Remark:
+   Given a full clause-set F, the equivalent clause-sets with a minimal
+   numbers of clauses are exactly the minimum transversals of the hypergraph
+   subsumption_ghg(min_2resolution_closure_cs(F), F).
+*/
 
 /* *****************************************************
    * Finding contained prime-implicates by SAT solvers *

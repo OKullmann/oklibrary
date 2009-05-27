@@ -106,7 +106,12 @@ License, or any later version. */
    "Karnaugh-maps"; though they are trivial, and one needs to look for the
    literature for more interesting algorithms. </li>
    <li> See package "QCA" in
-   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp. </li>
+   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp.
+    <ol>
+     <li> Likely this just performs computation of minimum transversals (see
+     below) in the trivial way via integer linear programming. </li>
+    </ol>
+   </li>
    <li> The easiest first thing to do is to compute the set of all necessary
    prime clauses (as refinement of Quine/McCluskey).
     <ol>
@@ -114,12 +119,20 @@ License, or any later version. */
      clauses subsumed by C: C is necessary iff F(C) is not covered by the
      other F(C'). </li>
      <li> One needs some intelligent algorithm for that. </li>
+     <li> In the transversal hypergraph context (see below) this is just
+     the computation of the set of unit hyperedges. </li>
     </ol>
    </li>
    <li> Regarding "approximations", one can also use a greedy algorithm, which
-   first computes all necessary prime implicates, and if this doesn't suffice
+   first computes all necessary prime implicates, and if this doesn't suffice,
    chooses a clause which covers a maximum number of not yet covered implied
-   full clauses, and repeats this process. </li>
+   full clauses, and repeats this process. This is just a special case of
+   the greedy computation of "small" transversals (see below). </li>
+   <li> All the above is covered by the observation, that, using
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac,
+   the miminum sets of prime-implicates representing the underlying boolean
+   functions are exactly the minimum transversals of the subsumption hypergraph
+   subsumption_ghg(min_2resolution_closure_cs(F), F). </li>
   </ul>
 
 
