@@ -149,11 +149,15 @@ ramsey_symbr2_nbfclud(s,r,n) := block(
       for c in powerset(setn(s),2) do block([cl : listify(c)],
         el : listify(edge),
         rl : cons([
-          {nbv_var(el[1],cl[1]),nbv_var(el[2],cl[2])},
-          {nbv_var(el[1],cl[2]),nbv_var(el[2],cl[1])}], rl)
+          {[el[1],cl[1]],[el[2],cl[2]]},
+          {[el[1],cl[2]],[el[2],cl[1]]}], rl)
       )
   ),
   return([listify(powerset(setn(n),2)),lappend(rl),create_list(i,i,1,s)]))$
+
+
+ramsey_symbr2_fcl(s,r,n) :=
+  nbfclud2fcl_alo(ramsey_symbr2_nbfclud(s,r,n))$
 
 
 /* Given a natural number n, gives a set of sets of edges in the r-complete hypergraph
