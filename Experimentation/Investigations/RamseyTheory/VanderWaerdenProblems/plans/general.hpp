@@ -60,6 +60,9 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    <li> Input is the vdW-parameter-tuple, and the start value for n. </li>
    <li> Then the script runs through n, n+1, ..., until the instance
    is unsatisfiable. </li>
+   <li> See
+   ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp.
+   </li>
    <li> For problems with two parts only the SAT solver is needed as
    parameter, while for more parts also the translation method is needed. </li>
    <li> A complication arises when using incomplete algorithms for finding a

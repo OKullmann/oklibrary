@@ -393,9 +393,9 @@ BestSolution_Max = 4.000000
       4 0     1 2670401695 4000000000 3600327435
      \endverbatim
      Possibly this is satisfiable, but according to the general strategy
-     outlined in "Finding the n where a problem series changes from SAT to
-     UNSAT" in ExperimentSystem/plans/RunUBCSAT.hpp we first investigate
-     n=376. </li>
+     outlined in
+     ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp
+     we first investigate n=376. </li>
     </ol>
    </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal

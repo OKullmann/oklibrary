@@ -46,7 +46,8 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   <ul>
    <li> How to store the data? </li>
    <li> For the ubcsat-algorithms we need some script to run through all
-   of them; see ExperimentSystem/plans/RunUBCSAT.hpp. </li>
+   of them; see
+   ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp. </li>
   </ul>
 
 
@@ -63,12 +64,9 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
    todos, as well as linked in with plans for the experiment system:
     <ul>
      <li> Iterating through UBCSAT algorithms to see which algorithms are best
-     for small to medium size %Ramsey problems. See "Selecting the best 
-     algorithm" in ExperimentSystem/plans/RunUBCSAT.hpp. </li>
-     <li> Iterating through parameters for the best UBCSAT algorithm(s) testing
-     to see whether tuned parameters are better for %Ramsey problems. See
-     "Selecting the best parameters" in ExperimentSystem/plans/RunUBCSAT.hpp.
-     </li> 
+     for small to medium size %Ramsey problems. See
+     ExperimentSystem/ControllingLocalSearch/plans/AlgorithmSelection.hpp.
+     </li>
     </ul>
    </li>
   </ul>

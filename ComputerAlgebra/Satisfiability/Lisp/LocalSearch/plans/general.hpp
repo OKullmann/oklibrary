@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Relations to other modules
   <ul>
    <li> See Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
-   <li> See ExperimentSystem/plans/RunUBCSAT.hpp. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/general.hpp. </li>
   </ul>
 
 

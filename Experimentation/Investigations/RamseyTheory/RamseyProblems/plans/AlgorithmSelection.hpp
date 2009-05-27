@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Finding best UBCSAT algorithm for %Ramsey problems
   <ul>
+   <li> See
+   ExperimentSystem/ControllingLocalSearch/plans/AlgorithmSelection.hpp for
+   general approaches. </li>
    <li> In the following where the notation "n for x <= n <= y" is used, the
    notation means that the experiment is run for values of n in that range
    and these results are tabulated together. </li>
@@ -23,8 +26,9 @@ License, or any later version. */
    comparisons across different "n" to see how each algorithm scales and to 
    make quick plots to analyse this. </li>
    <li> Some initial testing using the "eval_ubcsat" given at 
-   "Collecting data" in Experimentation/ExperimentSystem/plans/RunUBCSAT.hpp
-   in "UBCSAT.R", investigating parameter tuple [5,5;2] for 30 <= n <= 33,
+   "Collecting data" in
+   ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp in
+   "UBCSAT.R", investigating parameter tuple [5,5;2] for 30 <= n <= 33,
    with runs=3, cutoff=1000:
    \verbatim
 source("UBCSAT.R")

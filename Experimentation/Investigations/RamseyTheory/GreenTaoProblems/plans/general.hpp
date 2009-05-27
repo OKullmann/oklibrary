@@ -234,7 +234,7 @@ License, or any later version. */
      style, but specific to the problem set (van der Waerden and Green-Tao
      problems here --- even them treated individually). </li>
      <li> Perhaps the whole thing is written in R first, using Ubcsat; see
-     ExperimentSystem/plans/RunUBCSAT.hpp. </li>
+     ExperimentSystem/ControllingLocalSearch/plans/general.hpp. </li>
      <li> And (of course) also at the Maxima/Lisp level, this time using
      Maxima/Lisp local search algorithms; see
      ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/general.hpp. </li>

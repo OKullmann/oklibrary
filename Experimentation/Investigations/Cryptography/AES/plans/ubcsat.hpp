@@ -9,11 +9,12 @@ License, or any later version. */
   \file Experimentation/Investigations/Cryptography/AES/plans/ubcsat.hpp
   \brief On investigations into the Advanced Encryption Standard using ubcsat
 
+
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question : what is a good algorithm to use, considering the algorithms
    tested in the "eval_ubcsat" code provided in
-   ExperimentSystem/plans/RunUBCSAT.hpp ? </li>
+   ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp ? </li>
    <li> Example code being used to run an experiment into this : 
    \verbatim
 source("UBCSAT.R")
@@ -43,6 +44,5 @@ for (aes_cnf in aes_cnfs) {
    </ul>
    </li>
   </ul>
-
 
 */

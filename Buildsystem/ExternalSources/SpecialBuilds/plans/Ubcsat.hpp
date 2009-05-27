@@ -49,8 +49,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> See ExperimentSystem/plans/RunUBCSAT.hpp for plans on extending resp.
-   using the output-functionality. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
+   for plans on extending resp. using the output-functionality. </li>
    <li> The idea is that ubcsat-okl creates some form of complete output,
    which is directly readable by R (into a dataframe, without further
    processing). </li>
