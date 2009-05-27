@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,11 +22,17 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicates
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
+
+/* ****************************
+   * The Quine/McCluskey case *
+   ****************************
+*/
 
 /* The special case of min_resolution_closure_cs where the input clauses
-   are all full (contain all variables). */
+   are all full (contain all variables):
+*/
 min_2resolution_closure_cs(F) := block(
  [prime_implicates : {}, new_implicates, n : nvar_cs(F)],
   for i : 0 thru n do (
@@ -38,9 +44,15 @@ min_2resolution_closure_cs(F) := block(
   return(prime_implicates))$
 
 
+/* *****************************************************
+   * Finding contained prime-implicates by SAT solvers *
+   *****************************************************
+*/
+
 /* Given a clause-set F and a clause C which follows from F, find a prime
    implicate C' <= S with the help of SAT solver S (which must be applicable
-   to the closure of {F} under applications of partial assignments). */
+   to the closure of {F} under applications of partial assignments):
+*/
 contained_prime_implicate(F,C,S) := block([reduced : true],
  while reduced do (
    reduced : false,
