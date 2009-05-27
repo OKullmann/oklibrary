@@ -61,6 +61,35 @@ nbfcsfd2fcs_aloamo(FF) := block([GG : nbfcsfd2fcs_alo(FF)],
            v, listify(FF[1]))))
  ])$
 
+/* Just translating the clauses: */
+/* Variables are returned in lexicographical order when considering first the
+   original variables and then the elements in an ordered pair. */
+nbfclud2fcl_core(FF) := 
+ [map(lambda([x], apply(nbv_var,x)),
+      lappend(map(lambda([v],map(lambda([p],[v,p]), FF[3])), FF[1]))),
+  map(lambda([C],map(lambda([x],-apply(nbv_var,x)),C)),FF[2])]$
+
+/* The "weak" translation, allowing that a variable gets multiple values: */
+nbfclud2fcl_alo(FF) := block([GG : nbfclud2fcl_core(FF)],
+ [GG[1], 
+  append(GG[2], 
+    create_list(setify(map(lambda([x],apply(nbv_var,x)),
+                           map(lambda([p],[v,p]), FF[3]))), 
+                       v,FF[1]))
+ ])$
+
+/* The "strong" translation, establishing a 1-1 correspondence between the
+   sets of satisfying assignments before and after translation:
+*/
+nbfclud2fcl_aloamo(FF) := block([GG : nbfclud2fcl_alo(FF)],
+ [GG[1],
+  append(GG[2],
+    lappend(create_list(
+              map(lambda([p], map(lambda([e], -nbv_var(v,e)), p)),
+              listify(powerset(setify(FF[3]),2))),
+           v, FF[1])))
+ ])$
+
 /*!
 \endhtmlonly
 */
