@@ -8,7 +8,18 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/plans/general.hpp
   \brief General plans regarding investigations into Cryptographic systems.
-  
+
+
+  \bug Weak state of the whole module
+  <ul>
+   <li> See "General organisation" in
+   Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
+   <li> Starting with the inappropriate file- and directory-names. </li>
+   <li> See "Improve formulations" in
+   Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
+   <li> And all connections to other modules have to be updated. </li>
+  </ul>
+
   
   \todo Create milestones.
 
