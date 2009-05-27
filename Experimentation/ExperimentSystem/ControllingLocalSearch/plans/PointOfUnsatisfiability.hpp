@@ -20,7 +20,7 @@ License, or any later version. */
 
   \todo Finding the n where a problem series changes from SAT to UNSAT
   <ul>
-   <li> For problems coming from Ramsey theory we have given a CNF-generator
+   <li> For problems coming from %Ramsey theory we have given a CNF-generator
    G(n), where n is a natural number and where for some (unknown) n_0 it is
    known that G(n') is unsatisfiable iff n' >= n_0. </li>
    <li> We assume computation of G(n) is fast (a few seconds, say); so
