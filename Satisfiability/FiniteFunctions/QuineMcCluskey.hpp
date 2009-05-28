@@ -28,9 +28,20 @@ namespace OKlib {
 #else
       const int nVars = 4;
 #endif
+
+      typedef int Variable;
+      typedef int Literal;
+      typedef std::vector<Literal> Clause;
+      typedef std::vector<Clause> ClauseSet;
+      typedef std::vector<bool> ClauseHashTable;
+      typedef ClauseHashTable::size_type ClauseHash;
+
+
+      /* XXX : Asserts that size types are sufficient are needed here */
+
       
-      void printClause(const std::vector<int>& clause) {
-        for (std::vector<int>::const_iterator iter = clause.begin();
+      void printClause(const Clause& clause) {
+        for (Clause::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
           std::cout << (int) *iter;
           std::cout << " ";
@@ -38,8 +49,8 @@ namespace OKlib {
         std::cout << "0" << std::endl;
       }
       
-      void printClauseSet(const std::vector<std::vector<int> >& clauseSet) {
-        for (std::vector<std::vector<int> >::const_iterator iter = clauseSet.begin();
+      void printClauseSet(const ClauseSet& clauseSet) {
+        for (ClauseSet::const_iterator iter = clauseSet.begin();
              iter != clauseSet.end(); ++iter) {
           printClause(*iter);
         }
@@ -55,9 +66,9 @@ namespace OKlib {
       
       // Hash considers 0 = variable not in clause, 1 = variable occurs
       // negated in clause, 2 = variable occurs positively in clause 
-      long hashClause(const std::vector<int>& clause) {
+      ClauseHash hashClause(const Clause& clause) {
         long returnValue = 0;
-        for (std::vector<int>::const_iterator iter = clause.begin();
+        for (Clause::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
           if (*iter < 0) {
             returnValue += ipow(3, abs(*iter) - 1);
@@ -71,7 +82,7 @@ namespace OKlib {
       // Given a hash for a clause and a literal (within the clause
       // represented by the hash), return a new hash representing a clause
       // where the literal has the opposite sign 
-      long flipLiteralSignInHash(long hash, const int literal) {
+      ClauseHash flipLiteralSignInHash(ClauseHash hash, const Literal literal) {
         if (literal < 0) {
           hash += ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -80,7 +91,7 @@ namespace OKlib {
         return hash;
       }
       
-      long removeLiteralInHash(long hash, const int literal) {
+      ClauseHash removeLiteralInHash(ClauseHash hash, const Literal literal) {
         if (literal < 0) {
           hash -= ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -89,16 +100,16 @@ namespace OKlib {
         return hash;
       }
       
-      unsigned int hashToClause(long hash, int clause[], const int nVars) {
+      unsigned int hashToClause(ClauseHash hash, int clause[], const int nVars) {
         long iValue = 1;
-        int numLit = 0;
+        Literal numLit = 0;
         for (int lit = nVars; lit > 0; --lit) {
           iValue = ipow(3, abs(lit) - 1);
           // Work out whether the literal is in the hash
-          if ((hash - (2 * iValue)) >= 0) {
+          if (hash >= (2 * iValue)) {
             clause[numLit++] = lit;
             hash -= (2 * iValue);
-          } else if ((hash - iValue) >= 0) {
+          } else if (hash >= iValue) {
             clause[numLit++] = -lit;
             hash -= iValue;
           }
@@ -106,37 +117,37 @@ namespace OKlib {
         return numLit;
       }
       
-      std::vector<std::vector<int> >
-      quineMcCluskey(const std::vector<std::vector<int> >& inputCS) {
+      ClauseSet
+      quineMcCluskey(const ClauseSet& inputCS) {
         int clause[nVars];
-        long nPartialAssignments = ipow(3, nVars);
+        ClauseHash nPartialAssignments = ipow(3, nVars);
         std::cerr << "Number of Partial Assignments " << nPartialAssignments << std::endl;
         // Marked is used to keep track of all found clauses 
-        std::vector<bool> marked(nPartialAssignments, 0);
+        ClauseHashTable marked(nPartialAssignments, 0);
         // Marked in is used to keep track of all clauses that are still in the 
         //  result set 
-        std::vector<bool> markedIn(nPartialAssignments, 0);
-        unsigned int clauseSize = 0;
-        unsigned long hash = 0;
-        unsigned long partnerHash = 0;
+        ClauseHashTable markedIn(nPartialAssignments, 0);
+        Variable clauseSize = 0;
+        ClauseHash hash = 0;
+        ClauseHash partnerHash = 0;
         // First Mark Clauses 
-        for (std::vector<std::vector<int> >::const_iterator cIter = inputCS.begin();
+        for (ClauseSet::const_iterator cIter = inputCS.begin();
              cIter != inputCS.end(); ++cIter) {
           hash = hashClause(*cIter);
           marked[hash] = true;
           markedIn[hash] = true;
         }
         // Perform Algorithm
-        for (unsigned int level = nVars; level > 0; --level) {
+        for (Variable level = nVars; level > 0; --level) {
           // Output 
           std::cerr << "Level " << (int) level << std::endl;
           // Run through all clauses 
-          for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
+          for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
             // Go through literals in clause
             if (marked[cIter]) {
               clauseSize = hashToClause(cIter, clause, nVars);
               if (clauseSize == level) {
-                for (unsigned int lIter = 0; lIter < clauseSize; ++lIter) {
+                for (Variable lIter = 0; lIter < clauseSize; ++lIter) {
                   // If it's partner clause exists 
                   partnerHash =
                     flipLiteralSignInHash(cIter, clause[lIter]);
@@ -155,16 +166,16 @@ namespace OKlib {
           }
           // At the end of each level, we only need those clauses that are in 
           // markedIn 
-          for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
+          for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
             marked[cIter] = markedIn[cIter];
           }
         }
         // Add clauses to CS 
-        std::vector<std::vector<int> > resultCS;
-        for (int cIter = 0; cIter < nPartialAssignments; ++cIter) {
+        ClauseSet resultCS;
+        for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
           if (markedIn[cIter]) {
             clauseSize = hashToClause(cIter, clause, nVars);
-            std::vector<int> sClause(clause, clause + clauseSize);
+            Clause sClause(clause, clause + clauseSize);
             
             resultCS.push_back(sClause);
           }
