@@ -35,8 +35,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
-    - Update our gcc-installation-system to the new standard
     - Providing gcc 4.1.2
+    - Update our gcc-installation-system to the new standard : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following

@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \todo Update our gcc-installation-system to the new standard
+  \todo DONE
+  Update our gcc-installation-system to the new standard
   <ul>
    <li> OK: was this done? has this to do with "stubs-32.h not found"?
    As only extension, we install the patch for 4.1.2 as provided
@@ -88,8 +89,8 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
      <li> Linking to the gcc-documentation (main info-page) should be checked
      for completeness. </li>
      <li> We could offer also to show the man-page (just open it into a
-     browser); however then it should be said that likely the html-documentation
-     is more complete. </li>
+     browser); however then it should be said that likely the
+     html-documentation is more complete. </li>
      <li> We should also move the info-pages to the doc-directory. How to view
      them? The least is just to open them into a browser. </li>
     </ol>
@@ -106,7 +107,8 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    <li> Installation of R requires a Fortran compiler. Therefore the 
     system-installation of Gcc should allow for enabling of Fortran
     language support. </li>
-   <li> Enabling Fortran language support in Gcc requires that the MPFR
+   <li> DONE (yes, GMP and MPFR are installed locally)
+   Enabling Fortran language support in Gcc requires that the MPFR
     and GMP libraries are installed. Should we install these also locally?
     <ol>
      <li> GMP is also of interest to us regarding big-number-types, so we need
@@ -114,17 +116,18 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
      (ignoring the system installation). UPDATE NEEDED </li>
     </ol>
    </li>
-   <li> Shouldn't file external_sources_versions.mak be placed in
-   subdirectory Buildsystem/ExternalSources ? DONE (placed in
-   Buildsystem/Configuration) </li>
-   <li> If the filestamp does already exist, then we want nothing to happen ---
+   <li> DONE (placed in Buildsystem/Configuration)
+   Shouldn't file external_sources_versions.mak be placed in subdirectory
+   Buildsystem/ExternalSources ? </li>
+   <li> DONE (it seems reasonable
+   to remove the build-directory from the prerequisite-list and to build it
+   "manually")
+   If the filestamp does already exist, then we want nothing to happen ---
    however yet the build-directory will be rebuilt if not existent, since
    it is a prerequisite of the rule for the "tag-paths". So it seems
    necessary to remove the build-directory from the prerequisite-list,
    however then it seems impossible to create the build-directory, if actually
-   gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
-   to remove the build-directory from the prerequisite-list and to build it
-   "manually") </li>
+   gcc *is* to be build, via the target-mechanism. </li>
    <li> DONE (now just "oklib gcc", and potentially setting 
   gcc_recommended_version_number_okl)
    Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
