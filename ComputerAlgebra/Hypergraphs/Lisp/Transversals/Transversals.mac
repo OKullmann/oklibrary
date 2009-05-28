@@ -146,6 +146,22 @@ minimum_transversals_lbbvs_hg(G,lb) := block(
 minimum_transversals_bvs_hg(G) := minimum_transversals_lbbvs_hg(G,0)$
 
 
+/* ************************
+   * Greedy approximation *
+   ************************
+*/
+
+/* Finding a "small" transversal by the obvious greedy approach;
+   outputs false iff there is no transversal.
+*/
+greedy_transversal_ohg(G) :=
+ if empty_element_p(G[2]) then false else greedy_transversal_(G[2])$
+/* For a list S of sets not containing the empty set: */
+greedy_transversal_(S) := if emptyp(S) then {} else
+ block([x : max_literal_degree_l_cl(S)[2]],
+  adjoin(x, greedy_transversal_(remove_with_element_l(S,x))))$
+
+
 /*!
 \endhtmlonly
 */

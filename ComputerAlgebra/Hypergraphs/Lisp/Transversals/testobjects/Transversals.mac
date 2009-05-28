@@ -45,6 +45,14 @@ okltest_minimum_transversals_mongen(minimum_transversals_mongen);
 okltest_minimum_transversals_lbbvs_hg(minimum_transversals_lbbvs_hg);
 okltest_minimum_transversals_bvs_hg(minimum_transversals_bvs_hg);
 
+/* ************************
+   * Greedy approximation *
+   ************************
+*/
+
+okltest_greedy_transversal_ohg(greedy_transversal_ohg);
+okltest_greedy_transversal_(greedy_transversal_);
+
 /*!
 \endhtmlonly
 */
