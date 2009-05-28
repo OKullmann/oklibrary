@@ -177,7 +177,7 @@ License, or any later version. */
    <li> Further questions are:
     <ul>
      <li> What is the best way to control the rewrite process? 
-     <li>The current system works but a more precise, systematic way of 
+     <li> The current system works but a more precise, systematic way of 
      controlling how many rounds, or which rewrite rules are used etc is 
      needed. </li>
     </ul>
@@ -203,7 +203,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Constraint Rewrite System
+  \todo Constraint rewrite system
   <ul>
    <li> In translating AES to a CNF, one can define a rewrite system based
    around sets of constraints.
