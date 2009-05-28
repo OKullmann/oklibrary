@@ -142,7 +142,17 @@ for n : 3 do block([M : all_minequiv_bvs_cs(expand_fcs(vanderwaerden2_fcs(3,n))[
 5 2 6
 6 2 8
 7 4 11
-for n : 3 do block([T : all_sat_fcs(vanderwaerden2_fcs(3,n)), M], M : all_minequiv_bvs_cs(T), print(n,length(T),length(M),length(first(M))));
+for n : 3 do block([FF:vanderwaerden2_fcs(3,n),T,M],T:all_sat_fcs(FF),M:all_minequiv_bvs_cs(T), print(n,length(FF[2]),length(T),length(M),length(first(M))));
+3 2 6 2 3
+4 4 10 4 4
+5 8 14 1 4
+6 12 20 1 8
+7 18 16 1 8
+8 24 6 1 6
+9 32 0 1 0
+10 40 0 1 0
+11 50 0 1 0
+12 60 0 1 0
      \endverbatim
      </li>
      <li> k=4:
@@ -157,8 +167,19 @@ for n : 4 do print(n,length(arithprog_hg(4,n)[2]),min_resolution_closure_cs(vand
 10 12 [24,56,80,80]
 11 15 [30,92,206,208,202,202]
 12 18 [36,136,456,488,460,460]
-for n : 4 do block([M : all_minequiv_cs(expand_fcs(vanderwaerden2_fcs(4,n))[2])], print(n,length(M),length(first(M))));
-
+for n : 4 do block([FF:vanderwaerden2_fcs(4,n),M],M:all_minequiv_bvs_cs(expand_fcs(FF)[2]), print(n,length(FF[2]),length(M),length(first(M))));
+4 2 1 2
+5 4 1 4
+6 6 1 6
+7 10 1 10
+8 14 1 14
+9 18 1 18
+for n : 4 do block([FF:vanderwaerden2_fcs(4,n),T,M],T:all_sat_fcs(FF),M:all_minequiv_bvs_cs(T), print(n,length(FF[2]),length(T),length(M),length(first(M))));
+4 2 14 6 4
+5 4 26 18 5
+6 6 48 64 8
+7 10 78 50 15
+8 14 132 16 26
      \endverbatim
      </li>
      <li> k=5:
