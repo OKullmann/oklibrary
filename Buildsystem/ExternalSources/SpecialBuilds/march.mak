@@ -31,7 +31,7 @@ marchpl : $(marchpl_directories_okl)
 	cp march_pl $(marchpl_installation_dir_okl); $(postcondition) \
 	ln -s --force $(marchpl_call_okl) $(public_bin_dir_okl)/march_pl; $(postcondition)
 
-# Remark: Once using a new gcc (than 4.1.2), 
+# Remark: Once using a newer gcc (than 4.1.2), then
 # cp $(marchpl_corrected_src_okl)/*.{c,h} $(marchpl_build_dir_okl) 
 # needs to be used.
 
