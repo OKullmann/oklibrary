@@ -159,6 +159,13 @@ okltest_literal_degrees_cs(f) := block(
   assert(eq_hmsm_p(f({{1},{-1},{},{2,1}}),{[1,2],[-1,1],[2,1]}) = true),
   true)$
 
+okltest_literal_degrees_cl(f) := block(
+  assert(hm2sm(f([])) = {}),
+  assert(hm2sm(f([{}])) = {}),
+  assert(hm2sm(f([{1},{1}])) = {[1,2]}),
+  assert(okltest_literal_degrees_cs(buildq([f],lambda([F],f(cs2cl(F))))) = true),
+  true)$
+
 okltest_all_literal_degrees_fcs(f) := block(
   assert(eq_hmsm_p(f([{},{}]),{}) = true),
   assert(eq_hmsm_p(f([{1},{}]),{[1,0],[-1,0]}) = true),
@@ -220,6 +227,13 @@ okltest_max_literal_degree_l_cs(f) := block(
   assert(f({{1}}) = [1,1]),
   assert(elementp(f({{1},{-1}}), {[1,1],[1,-1]}) = true),
   assert(f({{},{1},{1,2}}) = [2,1]),
+  true)$
+
+okltest_max_literal_degree_l_cl(f) := (
+  assert(f([]) = [minf,0]),
+  assert(f([{}]) = [minf,0]),
+  assert(f([{-1},{-1},{2}]) = [2,-1]),
+  assert(okltest_max_literal_degree_l_cs(buildq([f],lambda([F],f(cs2cl(F))))) = true),
   true)$
 
 okltest_literalregularcsp(f) := (

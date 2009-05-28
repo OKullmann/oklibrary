@@ -94,8 +94,10 @@ literal_degree_cs(F,l) := length(scls_l(F,l))$
 /* The literal-degrees of a clause-set, as hash-map, considering
    only occurring literals. */
 literal_degrees_cs(F) := block([h : sm2hm({})],
- for C in F do
-  for x in C do enter_new_occurrence(h,x),
+ for C in F do for x in C do enter_new_occurrence(h,x),
+ return(h))$
+literal_degrees_cl(F) := block([h : sm2hm({})],
+ for C in F do for x in C do enter_new_occurrence(h,x),
  return(h))$
 /* The literal-degrees of a formal clause-set, as hash-map, considering
    all occurring literals. */
@@ -133,6 +135,13 @@ min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
    in case of ties, the return value is implementation-defined. */
 max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   [D : hm2sm(literal_degrees_cs(F)),  
+   optl : 0, maxd : minf],
+  for m in D do block([d : m[2]],
+    if d > maxd then (maxd : d, optl : m[1])),
+  return([maxd, optl]))$
+max_literal_degree_l_cl(F) := 
+ if emptyp(F) or F = [{}] then [minf,0] else block(
+  [D : hm2sm(literal_degrees_cl(F)),  
    optl : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optl : m[1])),

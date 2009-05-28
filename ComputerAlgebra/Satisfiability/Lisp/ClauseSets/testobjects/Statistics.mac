@@ -54,7 +54,9 @@ okltest_uniformcsp(uniformcsp);
 */
 
 okltest_literal_degree_cs(literal_degree_cs);
+
 okltest_literal_degrees_cs(literal_degrees_cs);
+okltest_literal_degrees_cl(literal_degrees_cl);
 
 okltest_all_literal_degrees_fcs(all_literal_degrees_fcs);
 
@@ -67,6 +69,7 @@ okltest_max_literal_degree_fcs(max_literal_degree_cs);
 
 okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
 okltest_max_literal_degree_l_cs(max_literal_degree_l_cs);
+okltest_max_literal_degree_l_cl(max_literal_degree_l_cl);
 
 okltest_literalregularcsp(literalregularcsp);
 
