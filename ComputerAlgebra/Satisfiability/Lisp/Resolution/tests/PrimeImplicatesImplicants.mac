@@ -44,6 +44,23 @@ okltest_min_2resolution_closure_cs(f) := (
     assert(f(full_fcs(n)[2]) = {{}}),
   true)$
 
+/* Testing whether f computes the set of all minimal CNF-representations
+   (w.r.t. first the number of clauses, and then the number of literals)
+   of a full CNF clause-set F.
+*/
+okltest_minequiv_cs(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {{{}}}),
+  assert(f({{1}}) = {{{1}}}),
+  assert(f({{1},{-1}}) = {{{}}}),
+  for n : 0 thru 5 do block([N : setn(n)],
+    assert(f(singletons(N)) = {singletons(N)})),
+  assert(f({{1,2},{-1,-2}}) = {{{1,2},{-1,-2}}}),
+  assert(f({{1,2},{-2,1}}) = {{{1}}}),
+  assert(f({{1,2},{-2,3}}) = {{{1,2},{-2,3}}}),
+  /* XXX */
+  true)$
+
 
 /* *****************************************************
    * Finding contained prime-implicates by SAT solvers *
