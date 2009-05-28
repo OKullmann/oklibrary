@@ -27,6 +27,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo Organisation
+  <ul>
+   <li> Split Transversals/Transversals.mac into several files. </li>
+   <li> Perhaps Transversals/Basics.mac, Transversals/All.mac,
+   Transversals/Bounded.mac, and Transversals/Greedy.mac. </li>
+  </ul>
+
+
+  \todo Using ILP
+  <ul>
+   <li> Finding a minimum transversal is trivially translated into an
+   integer linear programming problem. </li>
+   <li> Is there some ILP functionality for Maxima? </li>
+   <li> See "Linear and integer programming" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Optimisation.hpp. </li>
+  </ul>
+
+
   \todo Transfer
   <ul>
    <li> See "Rewrite hypergraph transversal functions in Maxima" in
