@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 /* Checking whether T is a transversal for set system S (S may be also
@@ -117,7 +118,7 @@ minimum_transversals_mongen(N,mongen_,MT0) :=
    MT1 : sublist(MT0, lambda([T],transversal_p(T, E))),
    if emptyp(MT1) then block(
     [a : single_element(setdifference(G1[1],G0[1]))],
-     t : t + 1, 
+     t : t + 1,
      MT1 : append(
        add_element_l(a,MT0),
        transversals_bes(sort_length(listify(setdifference2e(G1[2],a))),t))),
@@ -127,6 +128,22 @@ minimum_transversals_mongen(N,mongen_,MT0) :=
   ),
   return(reverse(L)))$
 
+/* Application: Given a hypergraph G without empty hyperedge and a (known) 
+   lower bound lb on the size of a minimum transversal, compute the list of
+   minimum transversals by using B = lb, B+1, ...
+*/
+minimum_transversals_lbbvs_hg(G,lb) := block(
+ [L : sort_length(listify(G[2])), M],
+  if oklib_monitor then 
+    print("minimum_transversals_lbbvs_hg: ", length(lunion(L)), length(L), lb),
+  M : transversals_bes(L,lb),
+  while emptyp(M) do (
+    if oklib_monitor then printf(true,"~d ",lb),
+    lb : lb + 1, M : transversals_bes(L,lb)
+  ),
+  if oklib_monitor then printf(true,"~%"),
+  return(M))$
+minimum_transversals_bvs_hg(G) := minimum_transversals_lbbvs_hg(G,0)$
 
 
 /*!

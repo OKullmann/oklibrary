@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/tests/Transversa
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
@@ -101,6 +102,18 @@ okltest_minimum_transversals_mongen(f) := block(
  [A3_ : lambda([n], arithprog_hg(3,n))],
   assert(map(length,f(10,A3_,[{}])) = [1,1,1,3,2,1,4,10,25,4,24]),
   true)$
+
+okltest_minimum_transversals_lbbvs_hg(f) := (
+  /* XXX */
+  true)$
+
+okltest_minimum_transversals_bvs_hg(f) := (
+  assert(f([{},{}]) = [{}]),
+  for n : 0 thru 5 do block([N : setn(n)],
+    assert(f([N, singletons(N)]) = [N])),
+  /* XXX */
+  true)$
+
 
 /*!
 \endhtmlonly

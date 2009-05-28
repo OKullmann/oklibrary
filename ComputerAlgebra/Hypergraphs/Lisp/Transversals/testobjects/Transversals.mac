@@ -42,6 +42,9 @@ okltest_transversals_be(transversals_bes);
 
 okltest_minimum_transversals_mongen(minimum_transversals_mongen);
 
+okltest_minimum_transversals_lbbvs_hg(minimum_transversals_lbbvs_hg);
+okltest_minimum_transversals_bvs_hg(minimum_transversals_bvs_hg);
+
 /*!
 \endhtmlonly
 */
