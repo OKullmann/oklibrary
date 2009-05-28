@@ -14,6 +14,11 @@ math_targets_extsrc_okl ?= allmaxima gap R # sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
 library_targets_extsrc_okl ?= bzip2 boost mhash gmp
+# Dependencies between these external sources:
+# minisat needs gmp
+# march, grasp need gcc-4.1.2
+# boost needs bzip2
+# bzip2, boost, mhash, gmp need gcc
 
 
 ExternalSources_sources ?= $(ExternalSources)/sources

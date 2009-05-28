@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans for building external sources in general
 
 
-  \todo Building "all"
+  \todo DONE
+  Building "all"
   <ul>
    <li> Dependencies have to be taken care of for target "all". </li>
    <li> gcc is needed often, and so is gmp; also fortran might be needed. </li>
@@ -24,10 +25,10 @@ License, or any later version. */
   <ul>
    <li> Via "make update" the system should download all the packages from
    the source-directory as provided on the OKlibrary web site. </li>
-   <li> For this, additionally to e.g. "git_source_okl" a variable
+   <li> For this, additionally to %e.g. "git_source_okl" a variable
    "git_source_ext_okl" is needed, which for this purpose specifies
    the extension of git_source_okl (like ".tar.bz2"). </li>
-   <li> And every configuration file shall also contain e.g.
+   <li> And every configuration file shall also contain %e.g.
    "all_extsrc_okl += git" to update the list of all external sources. </li>
    <li> Due to the (apparent) impossibility of translating a target
    into some other target computed from it, we cannot use the source-archives

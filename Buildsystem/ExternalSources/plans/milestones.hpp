@@ -18,8 +18,8 @@ License, or any later version. */
 
   \par
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Building "all"
     - Downloading sources
+    - Building "all" : DONE
 
 
   \par Version 0.1.3
