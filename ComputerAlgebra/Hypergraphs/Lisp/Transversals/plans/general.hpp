@@ -36,7 +36,7 @@ License, or any later version. */
 
   \todo Testing
   <ul>
-   <li> okltest_transversal_hyp should be a generic test for computing
+   <li> okltest_transversal_hg should be a generic test for computing
    the transversal hypergraph (used for all different methods).
    Further test-cases:
     <ol>
@@ -51,7 +51,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo transversal_hyp
+  \todo transversal_hg
   <ul>
    <li> Performance on complete graphs:
     <ol>
@@ -76,15 +76,15 @@ License, or any later version. */
   </ul>
 
 
-  \todo ind_hyp(G)
+  \todo ind_hg(G)
   <ul>
    <li> See Combinatorics/Hypergraphs/IndependentSets/plans/general.hpp. </li>
-   <li> The test-function okltest_ind_hyp should be a generic test-function,
+   <li> The test-function okltest_ind_hg should be a generic test-function,
    applicable to any function for computing the hypergraph of (maximal)
    independent subsets (the "independence hypergraph"). </li>
    <li> So, as with transversals, we must distinguish between the (many)
-   possible algorithms for ind_hyp. </li>
-   <li> An alternative method for computing ind_hyp is by direct
+   possible algorithms for ind_hg. </li>
+   <li> An alternative method for computing ind_hg is by direct
    construction:
     <ol>
      <li> Bottom-up: Start with all independent subsets of size 0.
