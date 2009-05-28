@@ -120,7 +120,11 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    <li> The minimal satisfiable assignments of FvdW_m(k,n_0) can be obtained
    from Tr(ap(3,n_0)) (the transversal hypergraph) by considering m
    transversals with empty common intersection. </li>
-   <li> Simple statistics for boolean problems:
+   <li> Statistics for boolean problems, first considering only
+   the (total) number of prime implicates, then the number of minimum
+   CNF representations and their size, and finally the number of total
+   satisfying assignments and the number of minimum DNF representations and
+   their size ("size" here is number of clauses):
     <ol>
      <li> k=3:
      \verbatim
@@ -132,6 +136,13 @@ for n : 3 do print(n,length(arithprog_hg(3,n)[2]),min_resolution_closure_cs(vand
 7 9 [18,54,88,38,38]
 8 12 [24,94,226,150,116,72,72]
 9 16 [32,164,508,402,182,34,1,1]
+for n : 3 do block([M : all_minequiv_bvs_cs(expand_fcs(vanderwaerden2_fcs(3,n))[2])], print(n,length(M),length(first(M))));
+3 1 2
+4 1 4
+5 2 6
+6 2 8
+7 4 11
+for n : 3 do block([T : all_sat_fcs(vanderwaerden2_fcs(3,n)), M], M : all_minequiv_bvs_cs(T), print(n,length(T),length(M),length(first(M))));
      \endverbatim
      </li>
      <li> k=4:
@@ -146,6 +157,8 @@ for n : 4 do print(n,length(arithprog_hg(4,n)[2]),min_resolution_closure_cs(vand
 10 12 [24,56,80,80]
 11 15 [30,92,206,208,202,202]
 12 18 [36,136,456,488,460,460]
+for n : 4 do block([M : all_minequiv_cs(expand_fcs(vanderwaerden2_fcs(4,n))[2])], print(n,length(M),length(first(M))));
+
      \endverbatim
      </li>
      <li> k=5:
@@ -202,11 +215,12 @@ for n : 6 do print(n,length(arithprog_hg(6,n)[2]),min_resolution_closure_cs(vand
     <ol>
      <li> The straight-forward way is to first compute all satisfying
      total assignments (we can just use brutest-force), and then to
-     apply first Quine/McCluskey, and then minimisation. </li>
+     apply first Quine/McCluskey, and then minimisation; this is done
+     above. </li>
      <li> See "Minimisation" in
      OKlib/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
      <li> One obtains the prime-implicants directly via
-     kneser_g_hyp(transversal_hg_rs(arithprog_hg(k,n))) (interpreting 2-sets
+     kneser_g_hg(transversal_hg_rs(arithprog_hg(k,n))) (interpreting 2-sets
      of transversals as partial assignments: assigned are the variables in
      the union, one transversal is interpreted as 0, the other as 1). </li>
     </ol>
