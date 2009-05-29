@@ -20,6 +20,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Aiger
+  <ul>
+   <li> AIGER http://fmv.jku.at/aiger contains tools for handling AIGs
+   (special boolean circuits). </li>
+  </ul>
+
+
+  \todo ABC
+  <ul>
+   <li> http://www.eecs.berkeley.edu/~alanmi/abc/ </li>
+   <li> Seems to be rather comprehensive. </li>
+  </ul>
+
+
   \todo Translations to SAT
   <ul>
    <li> MNI Proposition Analyzer (MPA)
@@ -28,14 +42,13 @@ License, or any later version. */
    SAT problems into CNF, and/or solving them directly (based on SAT4J). </li>
    <li> See "BAT" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/ModelChecking.hpp. </li>
-   <li> AIGER http://fmv.jku.at/aiger contains tools for handling AIGs
-   (special boolean circuits). </li>
   </ul>
 
 
   \todo Boolean functions
   <ul>
-    <li> There is an R-package with Quine/McCluskey etc.
+    <li> DONE (now automatically installed)
+    There is an R-package with Quine/McCluskey etc.
      <ol>
       <li> Installation (from CRAN)
       \verbatim
@@ -57,15 +70,10 @@ ExternalSources/Installations/R> oklib --R
       </li>
      </ol>
     </li>
-    <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
-    Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
-    as a start for the area of optimisation of boolean functions. </li>
-    <li> [Ron Rymon, 1994, An SE-tree-based Prime Implicant Generation
-    Algorithm] contains algorithms for computing prime implicants (via
-    transversals). </li>
     <li> http://www.dei.isep.ipp.pt/~ACC/bfunc/ seems not to be open source.
     </li>
-    <li> http://www.tcs.hut.fi/~tjunttil/circuits/index.html has translators and
+    <li> http://www.tcs.hut.fi/~tjunttil/circuits/index.html has translators
+    and
     generators for boolean circuits. </li>
   </ul>
 

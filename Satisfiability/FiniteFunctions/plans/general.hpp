@@ -33,6 +33,13 @@ License, or any later version. */
 
   \todo Prime implicants and implicates
   <ul>
+   <li> Literature:
+    <ol>
+     <li> [Ron Rymon, 1994, An SE-tree-based Prime Implicant Generation
+     Algorithm] contains algorithms for computing prime implicants (via
+     transversals). </li>
+    </ol>
+   </li>
    <li> This whole topic seems to deserve its own module (and plans-file).
    </li>
    <li> What terminology to use for *clause-sets*, where we could have
@@ -89,6 +96,13 @@ License, or any later version. */
 
   \todo Minimisation
   <ul>
+   <li> Literature:
+    <ol>
+     <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
+     Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
+     as a start for the area of optimisation of boolean functions. </li>
+    </ol>
+   </li>
    <li> The fundamental task is, given the function table, compute CNF
    resp. DNF representations of minimum "size", where the most fundamental
    notion of size here is the number of clauses. </li>
