@@ -266,7 +266,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1887
+  \todo greentao_3(3,3,5) > 1900
   <ul>
    <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
@@ -294,9 +294,11 @@ BestSolution_Max = 2.000000
      <li> cutoff=10^8 yields in 10 runs min=1 twice; so could be
      investigated using more runs. </li>
      <li> cutoff=2*10^8: 100 runs min=1, max=3, mean=1.77. </li>
-     <li> cutoff=4*10^8 </li>
+     <li> cutoff=4*10^8 found in 54 runs one solution (seed=1090357734,
+     osteps=5547490). </li>
     </ol>
    </li>
+   <li> n=1910 </li>
   </ul>
 
 
