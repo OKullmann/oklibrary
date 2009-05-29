@@ -17,10 +17,10 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following
    topics are handled:
-    - Package directory structure
     - bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
     - Providing update mechanisms for the package-clone
+    - Package directory structure : DONE
     - bug Package-building fails on csltok : DONE
     - bug Missing Annotations/definitions.mak : DONE
 

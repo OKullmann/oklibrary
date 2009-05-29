@@ -41,7 +41,8 @@ make: *** [html] Error 2
   </ul>
 
 
-  \todo Package directory structure
+  \todo DONE
+  Package directory structure
   <ul>
    <li> It seems better that a package just creates directory "OKplatform".
    </li>
@@ -65,7 +66,8 @@ make: *** [html] Error 2
   \todo Providing update mechanisms for the package-clone
   <ul>
    <li> Some meta-data (like ignore-patterns) need to
-   be added; see "Cloning" in Buildsystem/SourceControl/plans/general.hpp. </li>
+   be added; see "Cloning" in Buildsystem/SourceControl/plans/general.hpp.
+   </li>
    <li> DONE (there is no need anymore for the old shared repository at
    cs-oksvr, but everything is done via the Github repository; we also don't
    need to document that system)
