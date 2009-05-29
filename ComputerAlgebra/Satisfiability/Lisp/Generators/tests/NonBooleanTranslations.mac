@@ -22,8 +22,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBoolea
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
-okltest_nbfcsfd2fcs_core(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
+/* ******************************
+   * The "standard" translation *
+   ******************************
+*/
+
+okltest_nbfcsfd2fcs_core(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
   assert(dll_simplest(
     standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
     dll_heuristics_first_formal)),
@@ -33,8 +38,8 @@ okltest_nbfcsfd2fcs_core(f) := block([FF],
     dll_heuristics_first_formal)),
   true)$
 
-okltest_nbfcsfd2fcs_alo(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
+okltest_nbfcsfd2fcs_alo(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
   assert(not(dll_simplest(
     standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
     dll_heuristics_first_formal))),
@@ -45,8 +50,8 @@ okltest_nbfcsfd2fcs_alo(f) := block([FF],
   true)$
 
 
-okltest_nbfcsfd2fcs_aloamo(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
+okltest_nbfcsfd2fcs_aloamo(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
   assert(not(dll_simplest(
     standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
     dll_heuristics_first_formal))),
