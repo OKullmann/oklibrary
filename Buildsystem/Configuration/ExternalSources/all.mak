@@ -52,7 +52,8 @@ include $(OKconfiguration)/ExternalSources/satz.mak
 include $(OKconfiguration)/ExternalSources/sp.mak
 include $(OKconfiguration)/ExternalSources/cmake.mak
 include $(OKconfiguration)/ExternalSources/bzip2.mak
-
+include $(OKconfiguration)/ExternalSources/boost.mak
+include $(OKconfiguration)/ExternalSources/mhash.mak
 
 
 # ################################
