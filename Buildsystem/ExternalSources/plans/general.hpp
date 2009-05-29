@@ -23,20 +23,82 @@ License, or any later version. */
 
   \todo Downloading sources
   <ul>
+   <li> Via
+   "wget $(extsrc_download_OKplatform_okl)/ExternalSources/sources/package"
+   we can download all packages needed.
+    <ol>
+     <li> Variable extsrc_download_OKplatform_okl is apparently yet not
+     provided (in some form), and likely should be placed in
+     Configuration/ExternalSources/all.mak. </li>
+     <li> Currently we have variable oklibrary_domain in
+     Configuration/Html/local_html.mak. But the download directory is not
+     "local"? </li>
+    </ol>
+   </li>
    <li> Via "make update" the system should download all the packages from
-   the source-directory as provided on the OKlibrary web site. </li>
-   <li> For this, additionally to %e.g. "git_source_okl" a variable
-   "git_source_ext_okl" is needed, which for this purpose specifies
-   the extension of git_source_okl (like ".tar.bz2"). </li>
-   <li> And every configuration file shall also contain %e.g.
+   the source-directory as provided on the OKlibrary web site.
+    <ol>
+     <li> The name suggests that actually all sources, which are not
+     installed yet, are not only downloaded but installed. </li>
+     <li> But this is potentially troublesome, and we don't have the
+     infrastructure yet to really support this. </li>
+     <li> So perhaps the target is called "download". </li>
+    </ol>
+   </li>
+   <li> How to know which files to download?
+    <ol>
+     <li> For this, additionally to %e.g. "git_source_okl" a variable
+     "git_source_ext_okl" could be used, which for this purpose specifies
+     the extension of git_source_okl (like ".tar.bz2"). </li>
+     <li> In principle it should be possible to first read the
+     directory, and so to determine the missing suffix. </li>
+     <li> This is definitely the case if we would use ftp instead of
+     html, but then something special needed to be done at the server
+     side, I guess? </li>
+     <li> The make-variables in use are (e.g.) bzip2_source_dir_okl for
+     the directory and bzip2_source_package_okl for the package (without
+     extension). </li>
+     <li> Actually, we have all information locally available in
+     Buildsystem/ExternalSources/sources! </li>
+     <li> So there is no need for storing all this information, but the
+     process just runs through this directory, and downloads all those files
+     which are not present currently. </li>
+     <li> This could be done very simply by just calling wget with
+     the complete list of files and using option "-nc". </li>
+     <li> Perhaps we should compute first the list of missing files
+     via a simple loop, and write this into a file (under
+     system_directories/log), so that it can be inspected later. </li>
+     <li> Then we just call wget with this input-file, and expect to
+     obtain them all. </li>
+    </ol>
+   </li>
+   <li> DONE (not needed anymore)
+   And every configuration file shall also contain %e.g.
    "all_extsrc_okl += git" to update the list of all external sources. </li>
-   <li> Due to the (apparent) impossibility of translating a target
+   <li> DONE (we only provide a "complete download", plus instructions how
+   to get single files)
+   Due to the (apparent) impossibility of translating a target
    into some other target computed from it, we cannot use the source-archives
    as prerequisites of the rules, but we have to check it manually. </li>
-   <li> When the source-archive is existing, then we should nevertheless
-   check the md5sum. </li>
-   <li> The full-source-path is translated into the url, and then obtained
-   via wget. </li>
+   <li> Even when the source-archive is existing, we should check the md5sum.
+    <ol>
+     <li> Should we use the system md5sum, or our own? </li>
+     <li> Perhaps, in order to promote building the full OKlibrary,
+     we make our own md5sum the default. </li>
+     <li> Overwriting the corresponding make-variables allows to use
+     the system make. </li>
+     <li> This is already achieved by ext_src_checksum (in
+     Configuration/ExternalSources/all.mak), but which should
+     be renamed to "ext_src_checksum_okl", and whose default value should be
+     the local md5sum. </li>
+     <li> There should be a sub-target "check_md5sum" for checking. </li>
+     <li> This runs through all the files in
+     Buildsystem/ExternalSources/sources/*, checks whether the corresponding
+     file exists, and if so then checks the md5sum. </li>
+     <li> So target "download" has sub-targets "check_md5sum", "list_missing"
+     and "download_missing" (in this order). </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -84,7 +146,7 @@ License, or any later version. */
        Installations/Maxima/5.15.0/share/maxima/5.15.0/share/maxima-init.mac.
        </li>
        <li> HOWEVER, at present we should not encourage users do run maxima
-       by themselfes, since we do not have any control over maxima-init.mac:
+       by themselves, since we do not have any control over maxima-init.mac:
         <ul>
          <li> If one is placed in ~/.maxima, then this will be ALWAYS used,
          destroying the oklib-maxima-usage! </li>
@@ -203,7 +265,7 @@ SAGE_ROOT="....."
    </li>
    <li> DONE (transferred to
    Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
-   It would ge good, if after doing a local installation, easily the
+   It would be good, if after doing a local installation, easily the
    installation could also be made global. See Gmp.mak and
    Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme.
    </li>
@@ -215,7 +277,8 @@ SAGE_ROOT="....."
   </ul>
 
 
-  \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new
+  \todo DONE (more or less obsolete now)
+  Make-variables for external libraries : UPDATE needed (%w.r.t. the new
   view of the configuration centre)
   <ul>
    <li> Variable "prefix" in ExternalSources/Makefile should be replaced by
@@ -251,7 +314,7 @@ SAGE_ROOT="....."
      the OKlibrary (necessary for requests to mailing lists associated
      with the special packages). It should be possible to run
      the make-file in protocol mode, so that the sequence of build
-     instrations can be extracted. </li>
+     instructions can be extracted. </li>
   </ul>
 
 

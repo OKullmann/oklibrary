@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources 0.1.1.1 (21.5.2009)
+  \module_version Buildsystem/ExternalSources 0.1.1.2 (29.5.2009)
 
 
   \par Version 0.1.2
@@ -20,6 +20,10 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Downloading sources
     - Building "all" : DONE
+
+  \par
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Make-variables for external libraries : DONE
 
 
   \par Version 0.1.3
@@ -40,7 +44,6 @@ License, or any later version. */
     - Building documentation
     - Documenting changes of files outside of the OKplatform directory
     - General
-    - Make-variables for external libraries
 
 
   \par Version 0.1.5
