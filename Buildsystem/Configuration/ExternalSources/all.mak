@@ -54,13 +54,6 @@ include $(OKconfiguration)/ExternalSources/cmake.mak
 include $(OKconfiguration)/ExternalSources/bzip2.mak
 
 
-# Currently, these installations need the list of gcc-targets:
-include $(OKconfiguration)/ExternalSources/boost.mak
-include $(OKconfiguration)/ExternalSources/mhash.mak
-gcc_targets := $(addprefix $(gcc_targets_prefix_okl), $(gcc_supported_version_numbers_okl))
-# Making local installation of gcc the default:
-gcc_version_okl ?= $(gcc_recommended_version_number_okl)
-
 
 # ################################
 # mpfr

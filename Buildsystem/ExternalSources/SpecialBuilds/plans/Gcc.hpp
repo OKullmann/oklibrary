@@ -95,7 +95,8 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
      them? The least is just to open them into a browser. </li>
     </ol>
    </li>
-   <li> If variable "gcc_version_okl" is set, then it should have one of the
+   <li> DONE (not used anymore)
+   If variable "gcc_version_okl" is set, then it should have one of the
    allowed values (while otherwise we get an error). </li>
    <li> We must understand, how gcc interacts with 32- and 64-bit
    environments, and how to take control of this. </li>
