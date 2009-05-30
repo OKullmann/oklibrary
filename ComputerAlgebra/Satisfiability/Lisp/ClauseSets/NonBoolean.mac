@@ -220,8 +220,8 @@ nbfcl2nbcl(FF) := second(FF)$
 nbfcsud2nbfclud(FF) := map(listify,FF)$
 nbfclud2nbfcsud(FF) := map(setify,FF)$
 
-nbfcsfd2nbfclfd(FF) := endcons(FF[3],map(listify,rest(FF,-1)))$
-nbfclfd2nbfcsfd(FF) := endcons(FF[3],map(setify,rest(FF,-1)))$
+nbfcsfd2nbfclfd(FF) := [listify(FF[1]),listify(FF[2]),buildq([D:FF[3]],lambda([v],listify(D(v))))]$
+nbfclfd2nbfcsfd(FF) := [setify(FF[1]),setify(FF[2]),buildq([D:FF[3]],lambda([v],setify(D(v))))]$
 
 nbcs2nbfcs(F) := [var_nbcs(F),F]$
 nbcl2nbfcl(F) := [listify(var_nbcs(F)),F]$
