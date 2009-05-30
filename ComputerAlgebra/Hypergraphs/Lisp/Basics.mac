@@ -39,14 +39,33 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
  f is a function such that f(e) for e in E is a subset of V.
 */
 
+/* The "ordered versions" use repetition-free lists instead of sets. */
+/* The abbreviations are hg, ohg, ghg, oghg. */
+
+
 /* ************************************
    * Checking the defining properties *
    ************************************
 */
 
+hg_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and
+  every_s(lambda([H],subsetp(H,G[1])),G[2])$
+
 ohg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and
   listnorep_p(G[2]) and 
-  block([V : setify(G[1])], every(lambda([H],subsetp(H,V)),G[2]))$
+  block([V : setify(G[1])], every_s(lambda([H],subsetp(H,V)),G[2]))$
+
+/* Checking whether func_ is a hyperedge function; V is a set, E is a
+   list or a set: */
+hypfunc_p(func_,V,E) := block(
+ [e : errcatch(every_s(lambda([H],subsetp(func_(H),V)), E))],
+  not emptyp(e) and e[1])$
+
+ghg_p(G) :=  listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
+  hypfunc_p(G[3], G[1], G[2])$
+
+oghg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and
+  listnorep_p(G[2]) and hypfunc_p(G[3], setify(G[1]), G[2])$
 
 
 /* *********************

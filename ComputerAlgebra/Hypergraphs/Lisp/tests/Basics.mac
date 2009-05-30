@@ -26,6 +26,46 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 
 kill(f)$
 
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+okltest_hg_p(f) := (
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},{}]) = true),
+  /* XXX */
+  true)$
+
+okltest_ohg_p(f) := (
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([[]]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([[],[]]) = true),
+  /* XXX */
+  true)$
+
+okltest_ghg_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_oghg_p(f) := (
+  /* XXX */
+  true)$
+
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+
 /* **************
    * Promotions *
    **************
