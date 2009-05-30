@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Vander
 
 okltest_vanderwaerden2_fcs(vanderwaerden2_fcs);
 okltest_vanderwaerden2nd_fcs(vanderwaerden2nd_fcs);
+okltest_vanderwaerden_nbfclud(vanderwaerden_nbfclud);
 okltest_vanderwaerden_nbfcsud(vanderwaerden_nbfcsud);
 
 /* *****************************************

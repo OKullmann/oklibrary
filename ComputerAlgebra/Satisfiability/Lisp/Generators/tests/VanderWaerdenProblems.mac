@@ -50,6 +50,10 @@ okltest_vanderwaerden2nd_fcs(f) := block(
   assert(f(3,4,4) = [{1,2,3,4},{{-1,-2,-3},{-2,-3,-4},{1,2,3,4}}]),
   true)$
 
+okltest_vanderwaerden_nbfclud(f) := (
+  /* XXX */
+  true)$
+
 okltest_vanderwaerden_nbfcsud(f) := block(
   assert(f([],0) = [{},{},{}]),
   assert(f([],1) = [{1},{},{}]),

@@ -41,13 +41,17 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
 vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_hg(k,n))$
 /* The general non-diagonal form (the above case has k=k1=k2): */
 vanderwaerden2nd_fcs(k1,k2,n) := union_hg(comp_fcs(arithprog_hg(k1,n)),arithprog_hg(k2,n))$
+
 /* Now the general form, where L is a vdW-parameter-tuple: */
-vanderwaerden_nbfcsud(L,n) := 
- if emptyp(L) then [setn(n),{},{}] else
-  nbfclud2nbfcsud(gcol2sat_stdohg2stdnbfclud(
+vanderwaerden_nbfclud(L,n) :=
+ if emptyp(L) then [create_list(i,i,1,n),[],[]] else
+  gcol2sat_stdohg2stdnbfclud(
    map(lambda([k], arithprog_ohg(k,n)), L),
-   create_list(i,i,1,length(L))
-  ))$
+   create_list(i,i,1,length(L)))$
+vanderwaerden_nbfcsud(L,n) := nbfclud2nbfcsud(vanderwaerden_nbfclud(L,n))$
+
+
+/* Output functions */
 
 output_vanderwaerden2(k,n,filename) := 
   output_fcs(
