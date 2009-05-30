@@ -28,6 +28,12 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 okltest_nbfclud2fcl_core(f) := block([FF],
   assert(f([[],[],[]]) = [[],[]]),
+  assert(f([[1],[],[]]) = [[],[]]),
+  assert(f([[1],[],[2]]) = [[nbv(1,2)],[]]),
+  assert(f([[3,1],[],[4,2]]) = [[nbv(3,4),nbv(3,2),nbv(1,4),nbv(1,2)],[]]),
+  assert(f([[],[{}],[]]) = [[],[{}]]),
+  assert(f([[],[{},{}],[]]) = [[],[{},{}]]),
+  assert(f([[1],[{},{[1,1]},{[1,1]}],[1]]) = [[nbv(1,1)], [{},{-nbv(1,1)},{-nbv(1,1)}]]),
   /* XXX */
   true)$
 
