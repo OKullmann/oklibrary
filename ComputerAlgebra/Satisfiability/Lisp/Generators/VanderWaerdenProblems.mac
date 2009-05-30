@@ -58,11 +58,14 @@ vanderwaerden_aloamo_fcs(L,n) := fcl2fcs(vanderwaerden_aloamo_fcl(L,n))$
 
 /* Standardising these boolean clause-sets: */
 vanderwaerden_aloamo_stdfcl(L,n) := block([m : length(L)],
-  ev(vanderwaerden_aloamo_fcl(L,n), nbv(v,i):=(v-1)*m+i, nbv))$
+  [ev(vanderwaerden_aloamo_fcl(L,n), nbv(v,i):=(v-1)*m+i, nbv),
+   create_list(block([d:divide(i-1,m)+1], nbv_var(d[1], d[2])), i,1,n*m)])$
 /* We have vanderwaerden_aloamo_stdfcl(L,n) =
-   standardise_fcl(vanderwaerden_aloamo_fcl(L,n))[1].
+   standardise_fcl(vanderwaerden_aloamo_fcl(L,n)).
 */
-vanderwaerden_aloamo_stdfcs(L,n) := fcl2fcs(vanderwaerden_aloamo_stdfcl(L,n))$
+vanderwaerden_aloamo_stdfcs(L,n) := block(
+ [FF : vanderwaerden_aloamo_stdfcl(L,n)],
+  [fcl2fcs(FF[1]), FF[2]])$
 
 /* Computing translation functions for standardising resp. de-standardising
    individual variables:
@@ -97,15 +100,13 @@ output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
 /* Standardising the variables according to lexicographical order 
    nbv(1,1),...,nbv(1,m),nbv(2,1), ..., nbv(n,m):
 */
-output_vanderwaerden(L,n,filename) := block([FF, m : length(L), N], 
-  FF : ev(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(vanderwaerden_nbfcsud(L,n))),
-          nbv(v,i):=(v-1)*m+i, nbv),
-  N : create_list(block([d:divide(i-1,m)+1], nbv_var(d[1], d[2])), i,1,n*m),
-  output_fcs_v(
+output_vanderwaerden(L,n,filename) := block(
+ [FF : vanderwaerden_aloamo_stdfcl(L,n)],
+  output_fcl_v(
     sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements."), 
-    FF,
+    FF[1],
     filename,
-    N))$
+    FF[2]))$
 output_vanderwaerden_stdname(L,n) := output_vanderwaerden(L,n,
   sconcat("VanDerWaerden_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 

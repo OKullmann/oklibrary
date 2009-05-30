@@ -102,7 +102,7 @@ okltest_vanderwaerden_aloamo_fcl(f) := (
     assert(f([],n) = [[], create_list({},i,1,n)]),
   assert(f([3,3],3) = [[nbv(1,1),nbv(1,2),nbv(2,1),nbv(2,2),nbv(3,1),nbv(3,2)], [{-nbv(1,1),-nbv(2,1),-nbv(3,1)},{-nbv(1,2),-nbv(2,2),-nbv(3,2)},{nbv(1,1),nbv(1,2)},{nbv(2,1),nbv(2,2)},{nbv(3,1),nbv(3,2)},{-nbv(1,1),-nbv(1,2)},{-nbv(2,1),-nbv(2,2)},{-nbv(3,1),-nbv(3,2)}]]),
   assert(okltest_vanderwaerden_aloamo_fcs(buildq([f],lambda([L,n],fcl2fcs(f(L,n))))) = true),
-  assert(okltest_vanderwaerden_aloamo_stdfcl(buildq([f],lambda([L,n],standardise_fcl(f(L,n))[1])))),
+  assert(okltest_vanderwaerden_aloamo_stdfcl(buildq([f],lambda([L,n],standardise_fcl(f(L,n)))))),
   /* XXX */
   true)$
 
@@ -117,21 +117,21 @@ okltest_vanderwaerden_aloamo_fcs(f) := (
   true)$
 
 okltest_vanderwaerden_aloamo_stdfcl(f) := (
-    assert(f([],0) = [[],[]]),
+  assert(f([],0) = [[[],[]],[]]),
   for k : 0 thru 5 do
-    assert(f([k],0) = [[], if k=0 then [{}] else []]),
+    assert(f([k],0) = [[[], if k=0 then [{}] else []], []]),
   for n : 0 thru 5 do
-    assert(f([],n) = [[], create_list({},i,1,n)]),
-  assert(okltest_vanderwaerden_aloamo_stdfcs(buildq([f],lambda([L,n],fcl2fcs(f(L,n))))) = true),
+    assert(f([],n) = [[[], create_list({},i,1,n)],[]]),
+  assert(okltest_vanderwaerden_aloamo_stdfcs(buildq([f],lambda([L,n],block([FF:f(L,n)], [fcl2fcs(FF[1]),FF[2]])))) = true),
   /* XXX */
   true)$
 
 okltest_vanderwaerden_aloamo_stdfcs(f) := (
-  assert(f([],0) = [{},{}]),
+  assert(f([],0) = [[{},{}],[]]),
   for k : 0 thru 5 do
-    assert(f([k],0) = [{}, if k=0 then {{}} else {}]),
+    assert(f([k],0) = [[{}, if k=0 then {{}} else {}], []]),
   for n : 0 thru 5 do
-    assert(f([],n) = [{}, if n=0 then {} else {{}}]),
+    assert(f([],n) = [[{}, if n=0 then {} else {{}}], []]),
   /* XXX */
   true)$
 
