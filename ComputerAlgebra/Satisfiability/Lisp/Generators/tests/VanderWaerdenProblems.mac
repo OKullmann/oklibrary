@@ -51,6 +51,8 @@ okltest_vanderwaerden2nd_fcs(f) := block(
   true)$
 
 okltest_vanderwaerden_nbfclud(f) := (
+  assert(f([],0) = [[],[],[]]),
+  assert(okltest_vanderwaerden_nbfcsud(buildq([f],lambda([L,n],fcl2fcs(f(L,n))))) = true),
   /* XXX */
   true)$
 
