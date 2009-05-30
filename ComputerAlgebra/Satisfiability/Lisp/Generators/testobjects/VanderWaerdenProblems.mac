@@ -28,8 +28,18 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Vander
 
 okltest_vanderwaerden2_fcs(vanderwaerden2_fcs);
 okltest_vanderwaerden2nd_fcs(vanderwaerden2nd_fcs);
+
 okltest_vanderwaerden_nbfclud(vanderwaerden_nbfclud);
 okltest_vanderwaerden_nbfcsud(vanderwaerden_nbfcsud);
+
+okltest_vanderwaerden_aloamo_fcl(vanderwaerden_aloamo_fcl);
+okltest_vanderwaerden_aloamo_fcs(vanderwaerden_aloamo_fcs);
+
+okltest_vanderwaerden_aloamo_stdfcl(vanderwaerden_aloamo_stdfcl);
+okltest_vanderwaerden_aloamo_stdfcs(vanderwaerden_aloamo_stdfcs);
+
+okltest_standardise_vanderwaerden_aloamo(standardise_vanderwaerden_aloamo);
+okltest_invstandardise_vanderwaerden_aloamo(invstandardise_vanderwaerden_aloamo);
 
 /* *****************************************
    * Arithmetic progressions in the primes *
