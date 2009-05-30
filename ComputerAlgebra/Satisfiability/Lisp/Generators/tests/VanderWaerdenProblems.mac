@@ -149,7 +149,11 @@ okltest_standardise_vanderwaerden_aloamo(f) := block([s],
     for i : 1 thru n do
       assert(s(nbv(i,1)) = i)
   ),
-  /* XXX */
+  for m : 0 thru 3 do
+    for n : 0 thru 5 do (
+      s : f(create_list(1,i,1,m),n),
+      assert(s(create_list(nbv(i,j), i,1,n, j,1,m)) = create_list(i,i,1,m*n))
+  ),
   true)$
 
 okltest_invstandardise_vanderwaerden_aloamo(f) := block([invs],
