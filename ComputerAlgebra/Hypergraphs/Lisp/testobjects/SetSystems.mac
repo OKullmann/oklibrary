@@ -89,6 +89,9 @@ okltest_all_transformations_l_l(all_transformations_l_l);
 
 okltest_kpermutations(kpermutations);
 
+okltest_powerset_l(powerset_l);
+okltest_powerlist2(powerlist2);
+
 /* *******************************
    * Tests related to partitions *
    *******************************

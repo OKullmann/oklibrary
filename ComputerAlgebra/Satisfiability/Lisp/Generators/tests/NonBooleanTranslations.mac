@@ -20,73 +20,46 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBoolea
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 
-okltest_nbfcsfd2fcs_core(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
-  assert(dll_simplest(
-    standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
-    dll_heuristics_first_formal)),
-  FF : standardise_fcs(f([{1,2},{},lambda([x],{1,2})]))[1],
-  assert(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal)),
-  true)$
-
-okltest_nbfcsfd2fcs_alo(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
-  assert(not(dll_simplest(
-    standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
-    dll_heuristics_first_formal))),
-  FF : standardise_fcs(f([{1,2},{},lambda([x],{1,2})]))[1],
-  assert(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal)),
-  true)$
-
-
-okltest_nbfcsfd2fcs_aloamo(f) := block([FF],
-  assert(f([{},{},lambda([x],x)]) = [{},{}]),
-  assert(not(dll_simplest(
-    standardise_fcs(f([{1,2},{{[1,1]},{[1,2]}},lambda([x],{1,2})]))[1],
-    dll_heuristics_first_formal))),
-  FF : standardise_fcs(f([{1,2},{},lambda([x],{1,2})]))[1],
-  assert(not(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal))),
-  true)$
+/* ******************************
+   * The "standard" translation *
+   ******************************
+*/
 
 okltest_nbfclud2fcl_core(f) := block([FF],
   assert(f([[],[],[]]) = [[],[]]),
-  assert(dll_simplest(
-    standardise_fcs(fcl2fcs(f([[1,2],[{[1,1]},{[1,2]}],[1,2]])))[1],
-    dll_heuristics_first_formal)),
-  FF : standardise_fcs(fcl2fcs(f([[1,2],[],[1,2]])))[1],
-  assert(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal)),
+  assert(f([[1],[],[]]) = [[],[]]),
+  assert(f([[1],[],[2]]) = [[nbv(1,2)],[]]),
+  assert(f([[3,1],[],[4,2]]) = [[nbv(3,4),nbv(3,2),nbv(1,4),nbv(1,2)],[]]),
+  assert(f([[],[{}],[]]) = [[],[{}]]),
+  assert(f([[],[{},{}],[]]) = [[],[{},{}]]),
+  assert(f([[1],[{},{[1,1]},{[1,1]}],[1]]) = [[nbv(1,1)], [{},{-nbv(1,1)},{-nbv(1,1)}]]),
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd2fcs_core(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
+  /* XXX */
   true)$
 
 okltest_nbfclud2fcl_alo(f) := block(
   assert(f([[],[],[]]) = [[],[]]),
-  assert(not(dll_simplest(
-    standardise_fcs(fcl2fcs(f([[1,2],[{[1,1]},{[1,2]}],[1,2]])))[1],
-    dll_heuristics_first_formal))),
-  FF : standardise_fcs(fcl2fcs(f([[1,2],[],[1,2]])))[1],
-  assert(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal)),
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd2fcs_alo(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
+  /* XXX */
   true)$
 
 okltest_nbfclud2fcl_aloamo(f) := block(
   assert(f([[],[],[]]) = [[],[]]),
-  assert(not(dll_simplest(
-    standardise_fcs(fcl2fcs(f([[1,2],[{[1,1]},{[1,2]}],[1,2]])))[1],
-    dll_heuristics_first_formal))),
-  FF : standardise_fcs(fcl2fcs(f([[1,2],[],[1,2]])))[1],
-  assert(not(dll_simplest(
-    apply_pa_fcs(FF[1],FF),
-    dll_heuristics_first_formal))),
+  /* XXX */
+  true)$
+
+okltest_nbfcsfd2fcs_aloamo(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
+  /* XXX */
   true)$
 
 /*!

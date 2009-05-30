@@ -151,6 +151,22 @@ kpermutations(S,k) :=
  lappend(create_list(listify(permutations(s)),s,listify(powerset(S,k))))$
 /* Remark: permutations(S) = setify(kpermutations(S,length(S))). */
 
+/* For a list L, the set of k-subsets of the underlying set of
+   objects, lexicographically sorted, as list of lists:
+*/
+powerset_l(L,k) := map(listify,listify(powerset(setify(L),k)))$
+/* The special case k=2, but now allowing arbitrary lists L (thus
+   the indices are considered now):
+*/
+powerlist2(L) := if emptyp(L) then []
+elseif length(L) <= 200 then block([R : rest(L), res : []],
+ for x in L unless emptyp(R) do (
+   res : append(res,create_list([x,y],y,R)), R : rest(R)),
+ res)
+else block([A : l2ary(L)], 
+  create_list([A[first(p)],A[second(p)]], 
+              p,listify(powerset(setn(length(L)),2))))$
+
 
 /* *******************************
    * Tests related to partitions *

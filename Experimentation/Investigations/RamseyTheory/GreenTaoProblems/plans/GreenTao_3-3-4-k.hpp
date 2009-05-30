@@ -55,7 +55,12 @@ License, or any later version. */
      <li> cutoff=10^9 yields in run 6 a solution (seed=1913394293). </li>
     </ol>
    </li>
-   <li> n=1535 </li>
+   <li> n=1535
+    <ol>
+     <li> cutoff=10^9 yields in 9 runs only min=2. </li>
+     <li> cutoff=2*10^9 </li>
+    </ol>
+   </li>
    <li> n=1537
     <ol>
      <li> 16 runs with cutoff=5*10^8 only yield min=1 twice. </li>

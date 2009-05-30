@@ -142,6 +142,8 @@ for n : 3 do block([M : all_minequiv_bvs_cs(expand_fcs(vanderwaerden2_fcs(3,n))[
 5 2 6
 6 2 8
 7 4 11
+8 16 12
+9 1 1
 for n : 3 do block([FF:vanderwaerden2_fcs(3,n),T,M],T:all_sat_fcs(FF),M:all_minequiv_bvs_cs(T), print(n,length(FF[2]),length(T),length(M),length(first(M))));
 3 2 6 2 3
 4 4 10 4 4
@@ -244,6 +246,8 @@ for n : 6 do block([FF:vanderwaerden2_fcs(6,n),T,M],T:all_sat_fcs(FF),M:all_mine
      \endverbatim
      </li>
     </ol>
+    Bigger n need to be considered (using C++ programs). While for these
+    small n we should have a closer look what's going on.
    </li>
    <li> One should write a generator, first only for the boolean problems,
    which creates a clause-set equivalent to vanderwaerden2_fcs(k,n) by

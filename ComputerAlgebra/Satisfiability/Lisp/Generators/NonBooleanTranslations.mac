@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTrans
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 
 
 /* ******************************
@@ -34,61 +36,31 @@ declare(nbv, posfun)$
 nbv_var(v,e) := nounify(nbv)(v,e)$
 
 /* Just translating the clauses: */
-nbfcsfd2fcs_core(FF) := 
- [map(lambda([x], apply(nbv_var,x)),
-      lunion(map(lambda([v],cartesian_product({v}, FF[3](v))), 
-                 listify(FF[1])))),
-  map(lambda([C],map(lambda([x],-apply(nbv_var,x)),C)),FF[2])]$
-
-/* The "weak" translation, allowing that a variable gets multiple values: */
-nbfcsfd2fcs_alo(FF) := block([GG : nbfcsfd2fcs_core(FF)],
- [GG[1], 
-  union(GG[2], 
-    setify(create_list(map(lambda([x],apply(nbv_var,x)),
-                           cartesian_product({v}, FF[3](v))), 
-                       v,listify(FF[1]))))
- ])$
-
-/* The "strong" translation, establishing a 1-1 correspondence between the
-   sets of satisfying assignments before and after translation:
-*/
-nbfcsfd2fcs_aloamo(FF) := block([GG : nbfcsfd2fcs_alo(FF)],
- [GG[1],
-  union(GG[2],
-    lunion(create_list(
-              map(lambda([p], map(lambda([e], -nbv_var(v,e)), p)),
-              powerset(FF[3](v),2)),
-           v, listify(FF[1]))))
- ])$
-
-/* Just translating the clauses: */
 /* Variables are returned in lexicographical order when considering first the
    original variables and then the elements in an ordered pair. */
-nbfclud2fcl_core(FF) := 
- [map(lambda([x], apply(nbv_var,x)),
-      lappend(map(lambda([v],map(lambda([p],[v,p]), FF[3])), FF[1]))),
+nbfclfd2fcl_core(FF) := 
+ [create_list(nbv_var(v,x), v,FF[1], x,FF[3](v)),
   map(lambda([C],map(lambda([x],-apply(nbv_var,x)),C)),FF[2])]$
+nbfclud2fcl_core(FF) := nbfclfd2fcl_core(nbfclud2nbfclfd(FF))$
+nbfcsfd2fcs_core(FF) := fcl2fcs(nbfclfd2fcl_core(nbfcsfd2nbfclfd(FF)))$
 
 /* The "weak" translation, allowing that a variable gets multiple values: */
-nbfclud2fcl_alo(FF) := block([GG : nbfclud2fcl_core(FF)],
- [GG[1], 
-  append(GG[2], 
-    create_list(setify(map(lambda([x],apply(nbv_var,x)),
-                           map(lambda([p],[v,p]), FF[3]))), 
-                       v,FF[1]))
- ])$
+nbfclfd2fcl_alo(FF) := block([GG : nbfclfd2fcl_core(FF)],
+ [GG[1], append(GG[2], 
+    create_list(setify(create_list(nbv_var(v,p), p,FF[3](v))), v,FF[1]))])$
+nbfclud2fcl_alo(FF) := nbfclfd2fcl_alo(nbfclud2nbfclfd(FF))$
+nbfcsfd2fcs_alo(FF) := fcl2fcs(nbfclfd2fcl_alo(nbfcsfd2nbfclfd(FF)))$
 
 /* The "strong" translation, establishing a 1-1 correspondence between the
    sets of satisfying assignments before and after translation:
 */
-nbfclud2fcl_aloamo(FF) := block([GG : nbfclud2fcl_alo(FF)],
- [GG[1],
-  append(GG[2],
-    lappend(create_list(
-              map(lambda([p], map(lambda([e], -nbv_var(v,e)), p)),
-              listify(powerset(setify(FF[3]),2))),
-           v, FF[1])))
- ])$
+nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
+ [GG[1], append(GG[2],
+    create_list({-nbv_var(v,first(p)), -nbv_var(v,second(p))},
+                v,FF[1], p,powerset_l(FF[3](v),2)))])$
+nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
+nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
+
 
 /*!
 \endhtmlonly

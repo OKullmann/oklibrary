@@ -363,14 +363,14 @@ okltest_nbfclud2nbfcsud(f) := (
   true)$
 
 okltest_nbfcsfd2nbfclfd(f) := block([D],
-  assert(f([{},{},D]) = [[],[],D]),
-  assert(f([{1,2,3},{{}},D]) = [[1,2,3],[{}],D]),
+  assert(nbfcsfd_equalp(f([{},{},D]), [[],[],D]) = true),
+  assert(nbfcsfd_equalp(f([{1,2,3},{{}},D]), [[1,2,3],[{}],D]) = true),
   /* XXX */
   true)$
 
 okltest_nbfclfd2nbfcsfd(f) := block([D],
-  assert(f([[],[],D]) = [{},{},D]),
-  assert(f([[1,2,3],[{}],D]) = [{1,2,3},{{}},D]),
+  assert(nbfcsfd_equalp(f([[],[],D]), [{},{},D])),
+  assert(nbfcsfd_equalp(f([[1,2,3],[{}],lambda([x],[x])]), [{1,2,3},{{}},lambda([x],{x})])),
   /* XXX */
   true)$
 

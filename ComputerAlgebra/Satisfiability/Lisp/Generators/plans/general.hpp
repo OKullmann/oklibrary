@@ -39,6 +39,8 @@ License, or any later version. */
   <ul>
    <li> We need to establish the scheme how to supply measurements for
    generators (i.e., computing measures without creating the problems). </li>
+   <li> The scheme in ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac
+   is to use the respective statistics-function-names as prefixes. </li>
   </ul>
 
 

@@ -250,6 +250,50 @@ okltest_kpermutations(f) := (
   assert(length(f({1,4,8,9},3)) = 4*3*2),
   true)$
 
+okltest_powerset_l(f) := (
+  assert(f([],0) = [[]]),
+  assert(f([],1) = []),
+  assert(f([1],0) = [[]]),
+  assert(f([1],1) = [[1]]),
+  assert(f([1],2) = []),
+  assert(f([1,1],0) = [[]]),
+  assert(f([1,1],1) = [[1]]),
+  assert(f([1,1],2) = []),
+  assert(f([1,2],0) = [[]]),
+  assert(f([1,2],1) = [[1],[2]]),
+  assert(f([1,2],2) = [[1,2]]),
+  assert(f([1,2],3) = []),
+  assert(f([2,1],0) = [[]]),
+  assert(f([2,1],1) = [[1],[2]]),
+  assert(f([2,1],2) = [[1,2]]),
+  assert(f([2,1],3) = []),
+  assert(f([2,1,2,2,1,1],0) = [[]]),
+  assert(f([2,1,2,2,1,1],1) = [[1],[2]]),
+  assert(f([2,1,2,2,1,1],2) = [[1,2]]),
+  assert(f([2,1,2,2,1,1],3) = []),
+  assert(f([1,2,3],0) = [[]]),
+  assert(f([1,2,3],1) = [[1],[2],[3]]),
+  assert(f([1,2,3],2) = [[1,2],[1,3],[2,3]]),
+  assert(f([1,2,3],3) = [[1,2,3]]),
+  assert(f([1,2,3],4) = []),
+  true)$
+
+okltest_powerlist2(f) := block(
+  assert(f([]) = []),
+  assert(f([1]) = []),
+  for n : 0 thru 5 do 
+    assert(f(create_list(1,i,1,n)) = create_list([1,1],i,1,binomial(n,2))),
+  assert(f([1,2]) = [[1,2]]),
+  assert(f([1,2,3]) = [[1,2],[1,3],[2,3]]),
+  assert(f([1,2,1]) = [[1,2],[1,1],[2,1]]),
+  if oklib_test_level = 0 then return(true),
+  assert(f(create_list(1,i,1,300)) = create_list([1,1],i,1,binomial(300,2))),
+  block([R : f(create_list(i,i,1,300))],
+    assert(length(R) = binomial(300,2)),
+    assert(setify(R) = map(listify,powerset(setn(300),2)))
+  ),
+  true)$
+
 
 /* *******************************
    * Tests related to partitions *
