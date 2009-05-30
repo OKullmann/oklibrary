@@ -28,11 +28,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBoo
 
 okltest_nbfclud2fcl_core(nbfclud2fcl_core);
 okltest_nbfcsfd2fcs_core(nbfcsfd2fcs_core);
+
 okltest_nbfclud2fcl_alo(nbfclud2fcl_alo);
 okltest_nbfcsfd2fcs_alo(nbfcsfd2fcs_alo);
+
 okltest_nbfclud2fcl_aloamo(nbfclud2fcl_aloamo);
 okltest_nbfcsfd2fcs_aloamo(nbfcsfd2fcs_aloamo);
-
 
 /*!
 \endhtmlonly
