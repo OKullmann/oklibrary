@@ -207,6 +207,8 @@ for n : 5 do block([FF:vanderwaerden2_fcs(5,n),M],M:all_minequiv_bvs_cs(expand_f
 8 8 1 8
 9 12 1 12
 10 16 1 16
+11 20 1 20
+12 24 1 24
 for n : 5 do block([FF:vanderwaerden2_fcs(5,n),T,M],T:all_sat_fcs(FF),M:all_minequiv_bvs_cs(T), print(n,length(FF[2]),length(T),length(M),length(first(M))));
 5 2 30 24 5
 6 4 58 96 6
@@ -237,6 +239,8 @@ for n : 6 do print(n,length(arithprog_hg(6,n)[2]),min_resolution_closure_cs(vand
 for n : 6 do block([FF:vanderwaerden2_fcs(6,n),T,M],T:all_sat_fcs(FF),M:all_minequiv_bvs_cs(T), print(n,length(FF[2]),length(T),length(M),length(first(M))));
 6 2 62 120 6
 7 4 122 600 7
+8 6 240 24576 10
+9 8 472 26244 13
      \endverbatim
      </li>
     </ol>
