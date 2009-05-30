@@ -175,7 +175,12 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
    should move to their own file "InputOutput.mac". </li>
    <li> The usage of "print" likely should be replaced by "printf" from
-   package "stringproc". </li>
+   package "stringproc".
+    <ol>
+     <li> Then the trailing space on every printed line should be removed.
+     </li>
+    </ol>
+   </li>
    <li> We should have options for output:
     <ol>
      <li> Instead of for example "php(3,2)" print out "php_3_2". </li>
