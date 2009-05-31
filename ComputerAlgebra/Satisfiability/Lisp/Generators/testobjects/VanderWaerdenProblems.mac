@@ -41,6 +41,18 @@ okltest_vanderwaerden_aloamo_stdfcs(vanderwaerden_aloamo_stdfcs);
 okltest_standardise_vanderwaerden_aloamo(standardise_vanderwaerden_aloamo);
 okltest_invstandardise_vanderwaerden_aloamo(invstandardise_vanderwaerden_aloamo);
 
+okltest_nvar_vanderwaerden2(nvar_vanderwaerden2);
+okltest_nvar_vanderwaerden2nd(nvar_vanderwaerden2nd);
+okltest_nvar_vanderwaerden(nvar_vanderwaerden);
+okltest_nvar_vanderwaerden_aloamo(nvar_vanderwaerden_aloamo);
+
+okltest_nhyp_vanderwaerden2_cs(nhyp_vanderwaerden2_cs);
+okltest_nhyp_vanderwaerden2nd_cs(nhyp_vanderwaerden2nd_cs);
+okltest_nhyp_vanderwaerden_cl(nhyp_vanderwaerden_cl);
+okltest_nhyp_vanderwaerden_cs(nhyp_vanderwaerden_cs);
+okltest_nhyp_vanderwaerden_aloamo_cl(nhyp_vanderwaerden_aloamo_cl);
+okltest_nhyp_vanderwaerden_aloamo_cs(nhyp_vanderwaerden_aloamo_cs);
+
 /* *****************************************
    * Arithmetic progressions in the primes *
    *****************************************

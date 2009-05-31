@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* **************************************************
@@ -38,11 +39,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
    progression of size k. */
 /* (We are using "trivially generalised partitionings here, where the
     parts can be empty.) */
+/* Prerequisites: k, n natural numbers >= 0. */
 vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_hg(k,n))$
-/* The general non-diagonal form (the above case has k=k1=k2): */
+/* The general non-diagonal form (the above case has k=k1=k2). */
+/* Prerequisites: k1, k2, n natural numbers >= 0. */
 vanderwaerden2nd_fcs(k1,k2,n) := union_hg(comp_fcs(arithprog_hg(k1,n)),arithprog_hg(k2,n))$
 
-/* Now the general form, where L is a vdW-parameter-tuple: */
+/* Now the general form, where L is a vdW-parameter-tuple. */
+/* Prerequisite: vanderwaerden_p(L) is true, n natural number >= 0. */
 vanderwaerden_nbfclud(L,n) :=
  if emptyp(L) then [create_list(i,i,1,n),[],[]] else
   gcol2sat_stdohg2stdnbfclud(
@@ -78,6 +82,28 @@ invstandardise_vanderwaerden_aloamo(L,n) := block([m : length(L)],
   buildq([m], lambda([i], block([d : divide(i-1,m)+1],
     nbv_var(d[1], d[2])))))$
 
+
+/* Statistics functions */
+
+nvar_vanderwaerden2(k,n) := n$
+nvar_vanderwaerden2nd(k1,k2,n) := n$
+nvar_vanderwaerden(L,n) := n$
+nvar_vanderwaerden_aloamo(L,n) := length(L)*n$
+/* nvar_vanderwaerden_aloamo is also valid for the standardised forms. */
+
+nhyp_vanderwaerden2_cs(k,n) := if k=0 then nhyp_arithprog_hg(0,n) 
+ else 2 * nhyp_arithprog_hg(k,n)$
+nhyp_vanderwaerden2nd_cs(k1,k2,n) := 
+ if k1=0 and k2=0 then nhyp_arithprog_hg(0,n)
+ else nhyp_arithprog_hg(k1,n) + nhyp_arithprog_hg(k2,n)$
+nhyp_vanderwaerden_cl(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
+nhyp_vanderwaerden_cs(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
+nhyp_vanderwaerden_aloamo_cl(L,n) :=
+  nhyp_vanderwaerden_cl(L,n) + n + n*binomial(length(L),2)$
+nhyp_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
+  if l=0 then if n=0 then 0 else 1 else
+  nhyp_vanderwaerden_cl(L,n) + n + n*binomial(l,2))$
+/* These two functions are also valid for the standardised forms. */
 
 /* Output functions */
 
