@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac")$
 
 kill(f)$
 
@@ -99,6 +100,22 @@ okltest_transversals_mongen(f) := (
       assert(setify(L[i]) = res),
       assert(length(L[i]) = length(res))
   )),
+  true)$
+
+/* Testing the more general function, which requires to specify a start
+   value n0 and a (complete) list of transversals (w.r.t. n0):
+*/
+okltest_transversals_mongen_init(f) := (
+  block([N0 : 3, N : 5],
+   for r : 0 thru 3 do block([G : lambda([n], complete_stdhg(n,r)), L],
+    L : f(N,G,N0,listify(transversal_ses_rs(G(N0)[2]))),
+    for i : 1 thru N+1-N0 do block([n : N0+i-1],
+      if n < r then
+        assert(L[i] = [{}])
+      else block([res : powerset(setn(n),n-r+1)],
+        assert(length(L[i]) = length(res)),
+        assert(setify(L[i]) = res)
+  )))),
   true)$
 
 

@@ -68,7 +68,7 @@ transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
 */
 transversals_mongen_rs_init(N,mongen_,n0,T0) := 
  block([G0 : mongen_(n0), res : [T0]],
-  for n : 1 thru N do block(
+  for n : n0+1 thru N do block(
   [G1 : mongen_(n), E, T1a : [], T1b, T1c : [], Td : [], T1, newv],
    E : setdifference(G1[2], G0[2]),
    [T1a, Td] : partition_list_epo(T0, lambda([H], transversal_p(H,E))),
