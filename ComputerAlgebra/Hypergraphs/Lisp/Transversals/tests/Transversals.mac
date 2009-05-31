@@ -74,6 +74,33 @@ okltest_transversal_hyp(f) := block([G],
   ),
 true)$
 
+/* Testing whether f(N,mongen_) computes the list of all transversals
+   for n = 0,...,N for monoton hypergraph generator mongen_ (adding
+   exactly one new vertex at a time, and all new hyperedges contain this
+   vertex).
+*/
+okltest_transversals_mongen(f) := (
+  block([N : 5],
+   for r : 0 thru 3 do block([G : lambda([n], complete_stdhg(n,r)), L],
+    L : f(N,G),
+    for i : 1 thru N+1 do block([n : i-1],
+      if n < r then
+        assert(L[i] = [{}])
+      else block([res : powerset(setn(n),n-r+1)],
+        assert(length(L[i]) = length(res)),
+        assert(setify(L[i]) = res)
+  )))),
+  block(
+   [N : if oklib_test_level=0 then 8 else 12, 
+    G : lambda([n],arithprog_hg(3,n)), L],
+    L : f(N,G),
+    for i : 1 thru N+1 do block([n : i-1, res],
+      res : transversal_hg_rs(G(n))[2],
+      assert(setify(L[i]) = res),
+      assert(length(L[i]) = length(res))
+  )),
+  true)$
+
 
 /* *************************************
    * Finding size-bounded transversals *
