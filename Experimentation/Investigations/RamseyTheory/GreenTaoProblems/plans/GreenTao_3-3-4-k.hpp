@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into Green-Tao numbers greentao_3(3,4,k)
   
 
-  \todo greentao_3(3,4,4) > 1534
+  \todo greentao_3(3,4,4) > 1535
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -58,7 +58,8 @@ License, or any later version. */
    <li> n=1535
     <ol>
      <li> cutoff=10^9 yields in 9 runs only min=2. </li>
-     <li> cutoff=2*10^9 </li>
+     <li> cutoff=2*10^9 yields in run 18 a solution (seed=238771004,
+     osteps=47373687). </li>
     </ol>
    </li>
    <li> n=1537
@@ -66,6 +67,7 @@ License, or any later version. */
      <li> 16 runs with cutoff=5*10^8 only yield min=1 twice. </li>
      <li> cutoff=10^9 yields in 12 runs min=1 twice, so a cutoff of
      2*10^9 would be needed. </li>
+     <li> cutoff=10^8, 1000 runs: </li>
     </ol>
    </li>
    <li> n=1550
