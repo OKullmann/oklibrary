@@ -68,6 +68,19 @@ arithprog_ohg(k,n) := block([V : create_list(i,i,1,n), VS],
              create_list(n-d*i,i,0,k-1)), 
                d,1,floor((n-1)/(k-1))))]))$
 
+/* Statistics functions: */
+
+nver_arithprog_hg(k,n) := n$
+nver_arithprog_ohg(k,n) := n$
+
+nhyp_arithprog_hg(k,n) := 
+ if k=0 then 1
+ elseif k=1 then n
+ elseif n < k then 0
+ else block([q : floor((n-1)/(k-1))], q * (n - 1/2*(k-1)*(q+1)))$
+nhyp_arithprog_ohg(k,n) := nhyp_arithprog_hg(k,n)$
+
+
 /* Testing whether the list L represents an arithmetic progression: */
 arithmetic_progression_p(L) := if length(L) <= 1 then true
   else arithmetic_progression_d_p(rest(L),L[2] - L[1])$
