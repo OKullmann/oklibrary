@@ -330,9 +330,9 @@ okltest_sublist_indicator(f) := (
   true)$
 
 
-/* **********************
-   * List constructions *
-   **********************
+/* *********************
+   * List partitioning *
+   *********************
 */
 
 okltest_partition_elements(f) := (
@@ -350,12 +350,28 @@ okltest_partition_elements(f) := (
    assert(L1 = [1,2,3])),
   true)$
 
-okltest_partition_list(f) := (
-  assert(f([],evenp) = [[],[]]),
+okltest_partition_list(f) := block([P],
+  assert(f([],P) = [[],[]]),
   assert(f([1,1],evenp) = [[],[1,1]]),
   assert(f([1,3,4,6],evenp) = [[4,6],[1,3]]),
   assert(f([1,2,3,4,5],oddp) = [[1,3,5],[2,4]]),
+  for n : 0 thru 6 do block([L : create_list(1,i,1,n), res],
+    res : f(L,evenp),
+    assert(res = [[],L]),
+    assert(f(L,oddp) = reverse(res))
+  ),
+  for n : 0 thru 6 do block([L : create_list(i,i,1,n), res],
+    res : f(L,evenp),
+    assert(res = [create_list(2*i,i,1,floor(n/2)), create_list(2*i+1,i,0,if evenp(n) then n/2-1 else (n-1)/2)]),
+    assert(f(L,oddp) = reverse(res))
+  ),
   true)$
+
+
+/* **********************
+   * List constructions *
+   **********************
+*/
 
 okltest_rotate(f) := (
   assert(f([1,2,3],1) = [3,1,2]),

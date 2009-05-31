@@ -89,13 +89,19 @@ okltest_remove_element(remove_element);
 
 okltest_sublist_indicator(sublist_indicator);
 
-/* **********************
-   * List constructions *
-   **********************
+/* *********************
+   * List partitioning *
+   *********************
 */
 
 okltest_partition_elements(partition_elements);
 okltest_partition_list(partition_list);
+okltest_partition_list(partition_list_epo);
+
+/* **********************
+   * List constructions *
+   **********************
+*/
 
 okltest_rotate(rotate);
 
