@@ -139,10 +139,10 @@ License, or any later version. */
 
   \todo Names and documentation
   <ul>
-   <li> All names have to be changed: typenames are like
+   <li> All introduced functions and types need doxygen-documentation. </li>
+   <li> DONE All names have to be changed: typenames are like
    "ClauseSet", functions are like "compute_something" (or just
    "something"); so non-type-names have no upper-case-letters in them. </li>
-   <li> All introduced functions and types need doxygen-documentation. </li>
   </ul>
 
 

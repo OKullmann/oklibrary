@@ -54,6 +54,6 @@ int main(const int argc, const char* const argv[]) {
     return error_readfile;
   }
     
-  FiniteFunctions::printClauseSet(FiniteFunctions::quineMcCluskey(clause_set));
+  FiniteFunctions::print_clauseset(FiniteFunctions::quine_mccluskey(clause_set));
 
 }
