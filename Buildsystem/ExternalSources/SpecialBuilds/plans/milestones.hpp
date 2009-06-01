@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Gnuplot not working anymore
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Complete documentation
