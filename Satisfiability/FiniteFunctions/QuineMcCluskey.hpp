@@ -29,19 +29,19 @@ namespace OKlib {
       const int nVars = 4;
 #endif
 
-      typedef int Variable;
-      typedef int Literal;
-      typedef std::vector<Literal> Clause;
-      typedef std::vector<Clause> ClauseSet;
-      typedef std::vector<bool> ClauseHashTable;
-      typedef ClauseHashTable::size_type ClauseHash;
+      typedef int Variables;
+      typedef int Literals;
+      typedef std::vector<Literals> Clauses;
+      typedef std::vector<Clauses> ClauseSets;
+      typedef std::vector<bool> HashTable;
+      typedef HashTable::size_type hash_index;
 
 
       /* XXX : Asserts that size types are sufficient are needed here */
 
       
-      void printClause(const Clause& clause) {
-        for (Clause::const_iterator iter = clause.begin();
+      void printClause(const Clauses& clause) {
+        for (Clauses::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
           std::cout << (int) *iter;
           std::cout << " ";
@@ -49,14 +49,14 @@ namespace OKlib {
         std::cout << "0" << std::endl;
       }
       
-      void printClauseSet(const ClauseSet& clauseSet) {
-        for (ClauseSet::const_iterator iter = clauseSet.begin();
+      void printClauseSet(const ClauseSets& clauseSet) {
+        for (ClauseSets::const_iterator iter = clauseSet.begin();
              iter != clauseSet.end(); ++iter) {
           printClause(*iter);
         }
       }
       
-      long ipow(const int b, int e) {
+      hash_index ipow(const int b, int e) {
         long result = 1;
         while (e-- > 0) {
           result *= b;
@@ -66,9 +66,9 @@ namespace OKlib {
       
       // Hash considers 0 = variable not in clause, 1 = variable occurs
       // negated in clause, 2 = variable occurs positively in clause 
-      ClauseHash hashClause(const Clause& clause) {
+      hash_index hashClause(const Clauses& clause) {
         long returnValue = 0;
-        for (Clause::const_iterator iter = clause.begin();
+        for (Clauses::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
           if (*iter < 0) {
             returnValue += ipow(3, abs(*iter) - 1);
@@ -82,7 +82,7 @@ namespace OKlib {
       // Given a hash for a clause and a literal (within the clause
       // represented by the hash), return a new hash representing a clause
       // where the literal has the opposite sign 
-      ClauseHash flipLiteralSignInHash(ClauseHash hash, const Literal literal) {
+      hash_index flipLiteralSignInHash(hash_index hash, const Literals literal) {
         if (literal < 0) {
           hash += ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -91,7 +91,7 @@ namespace OKlib {
         return hash;
       }
       
-      ClauseHash removeLiteralInHash(ClauseHash hash, const Literal literal) {
+      hash_index removeLiteralInHash(hash_index  hash, const Literals literal) {
         if (literal < 0) {
           hash -= ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -100,9 +100,9 @@ namespace OKlib {
         return hash;
       }
       
-      unsigned int hashToClause(ClauseHash hash, int clause[], const int nVars) {
-        long iValue = 1;
-        Literal numLit = 0;
+      unsigned int hashToClause(hash_index hash, int clause[], const int nVars) {
+        hash_index iValue = 1;
+        Literals numLit = 0;
         for (int lit = nVars; lit > 0; --lit) {
           iValue = ipow(3, abs(lit) - 1);
           // Work out whether the literal is in the hash
@@ -117,37 +117,37 @@ namespace OKlib {
         return numLit;
       }
       
-      ClauseSet
-      quineMcCluskey(const ClauseSet& inputCS) {
+      ClauseSets
+      quineMcCluskey(const ClauseSets& inputCS) {
         int clause[nVars];
-        ClauseHash nPartialAssignments = ipow(3, nVars);
+        hash_index nPartialAssignments = ipow(3, nVars);
         std::cerr << "Number of Partial Assignments " << nPartialAssignments << std::endl;
         // Marked is used to keep track of all found clauses 
-        ClauseHashTable marked(nPartialAssignments, 0);
+        HashTable marked(nPartialAssignments, 0);
         // Marked in is used to keep track of all clauses that are still in the 
         //  result set 
-        ClauseHashTable markedIn(nPartialAssignments, 0);
-        Variable clauseSize = 0;
-        ClauseHash hash = 0;
-        ClauseHash partnerHash = 0;
+        HashTable markedIn(nPartialAssignments, 0);
+        Variables clauseSize = 0;
+        hash_index hash = 0;
+        hash_index partnerHash = 0;
         // First Mark Clauses 
-        for (ClauseSet::const_iterator cIter = inputCS.begin();
+        for (ClauseSets::const_iterator cIter = inputCS.begin();
              cIter != inputCS.end(); ++cIter) {
           hash = hashClause(*cIter);
           marked[hash] = true;
           markedIn[hash] = true;
         }
         // Perform Algorithm
-        for (Variable level = nVars; level > 0; --level) {
+        for (Variables level = nVars; level > 0; --level) {
           // Output 
           std::cerr << "Level " << (int) level << std::endl;
           // Run through all clauses 
-          for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
+          for (hash_index cIter = 0; cIter < nPartialAssignments; ++cIter) {
             // Go through literals in clause
             if (marked[cIter]) {
               clauseSize = hashToClause(cIter, clause, nVars);
               if (clauseSize == level) {
-                for (Variable lIter = 0; lIter < clauseSize; ++lIter) {
+                for (Variables lIter = 0; lIter < clauseSize; ++lIter) {
                   // If it's partner clause exists 
                   partnerHash =
                     flipLiteralSignInHash(cIter, clause[lIter]);
@@ -166,16 +166,16 @@ namespace OKlib {
           }
           // At the end of each level, we only need those clauses that are in 
           // markedIn 
-          for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
+          for (hash_index cIter = 0; cIter < nPartialAssignments; ++cIter) {
             marked[cIter] = markedIn[cIter];
           }
         }
         // Add clauses to CS 
-        ClauseSet resultCS;
-        for (ClauseHash cIter = 0; cIter < nPartialAssignments; ++cIter) {
+        ClauseSets resultCS;
+        for (hash_index cIter = 0; cIter < nPartialAssignments; ++cIter) {
           if (markedIn[cIter]) {
             clauseSize = hashToClause(cIter, clause, nVars);
-            Clause sClause(clause, clause + clauseSize);
+            Clauses sClause(clause, clause + clauseSize);
             
             resultCS.push_back(sClause);
           }
