@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/FiniteFunctions/plans/milestones.hpp
 
-  \module_version Satisfiability/FiniteFunctions 0.0.4 (22.5.2009)
-
-
-  \par Version 0.0.5
-
-  \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
-   following topics are handled:
-    - Names and documentation : DONE
+  \module_version Satisfiability/FiniteFunctions 0.0.5 (1.6.2009)
 
 
   \par Version 0.0.6
@@ -142,6 +134,7 @@ License, or any later version. */
 
    - 0.0.3 : 19.1.2008; initial version (several plans).
    - 0.0.4 : 22.5.2009; established working version of QuineMcCluskey algorithm, and some further plans.
+   - 0.0.5 : 1.6.2009; tidied code further and added doxygen documentation.
 
 */
 

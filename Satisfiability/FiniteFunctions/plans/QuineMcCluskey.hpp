@@ -258,14 +258,5 @@ struct ipow3_s<0,c> {
    <li> So that tackling really big tasks becomes possible. </li>
   </ul>
 
-
-  \todo DONE Names and documentation
-  <ul>
-   <li> DONE All introduced functions and types need doxygen-documentation. </li>
-   <li> DONE All names have to be changed: typenames are like
-   "ClauseSet", functions are like "compute_something" (or just
-   "something"); so non-type-names have no upper-case-letters in them. </li>
-  </ul>
-
 */
 
