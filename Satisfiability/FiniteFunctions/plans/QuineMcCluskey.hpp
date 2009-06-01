@@ -146,6 +146,36 @@ License, or any later version. */
   </ul>
 
 
+  \todo Various versions for different values of NUMBER_VARIABLES
+  <ul>
+   <li> Yet to use a number of variables different than 4 (the current
+   default) one has to use e.g.
+   \verbatim
+FiniteFunctions> oklib cleanall
+FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
+   \endverbatim
+   </li>
+   <li> This is of course rather cumbersome; perhaps we introduce
+   a configuration variable for that purpose, say "qmc_number_variables_okl",
+   such that one can simply use "oklib all qmc_number_variables_okl=16". </li>
+   <li> Still the problem of how to use different n-values. </li>
+   <li> Perhaps for version 2.0 we improve the algorithm such that without
+   time or space overhead an actual n smaller than the maximal value can
+   be used. </li>
+   <li> And until then perhaps we just provide two default variants,
+   for n=4 and n=16. </li>
+   <li> The n-value likely needs then be part of the name. But with the
+   build system we can't automatically incorporate this into the name. </li>
+   <li> One could simply compile all versions for n=1, ..., 20 in
+   advance. However, currently we needed then for each version two
+   different files, which is too much (for this case). </li>
+   <li> So for version 2.0 a todo needs to be created, making sure that
+   for smaller n there is no space and time overhead, while for now
+   we only provide two versions (which are then tested --- basic tests for
+   all versions, full tests only for the 16-bit version). </li>
+  </ul>
+
+
   \todo Docus
   <ul>
    <li> A docus-file is needed. </li>
