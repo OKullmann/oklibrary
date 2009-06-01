@@ -33,7 +33,7 @@ R_configuration :
 
 run_R:
 ifeq ($(argument_okl),)
-	HOME=$(R_installation_dir_okl) $(R_call_okl) $(R_call_parameters)
+	HOME=$(R_homedir_okl) $(R_call_okl) $(R_call_parameters)
 else
-	HOME=$(R_installation_dir_okl) $(R_call_okl) $(argument_okl)
+	HOME=$(R_homedir_okl) $(R_call_okl) $(argument_okl)
 endif
