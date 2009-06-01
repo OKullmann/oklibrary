@@ -219,6 +219,27 @@ License, or any later version. */
   \todo Improvements of the implementation
   <ul>
    <li> ipow should be replaced by an array computed at compile-time. </li>
+   <li> How to dynamically initialise an array at compile time? Something
+   like:
+   \verbatim
+ClauseHash powers[nVars+1];
+
+template<int p, int c>
+struct ipow3_s {
+  static inline void ipow3_c() {
+    powers[nVars-p] = c;
+    ipow3_s<p-1,c*3>::ipow3_c();
+  }
+};
+
+template<int c>
+struct ipow3_s<0,c> {
+  static inline void ipow3_c() {
+    powers[nVars] = c;
+  }
+};
+   \endverbatim
+   although then, the question is where to call ipow3_s::ipow3_c()? </li>
    <li> Likely we should have a dedicated clause-type here, based on
    an array of length 16 and a size-member. </li>
    <li> One needs to connect to the general concepts of variables, literals,
