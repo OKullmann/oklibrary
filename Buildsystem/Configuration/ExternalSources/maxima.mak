@@ -37,6 +37,8 @@ maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_packag
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
+maxima_homedir_okl ?= $(maxima_installation_dir_okl)
+
 maxima_base_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)
 maxima_share_dir_okl ?= $(maxima_base_share_dir_okl)/share
 maxima_book_name_okl ?= maximabook-19-Sept-2004.pdf

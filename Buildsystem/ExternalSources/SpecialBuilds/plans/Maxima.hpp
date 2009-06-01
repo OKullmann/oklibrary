@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \bug Gnuplot not working anymore
+  \bug DONE
+  Gnuplot not working anymore
   <ul>
    <li>
    \verbatim

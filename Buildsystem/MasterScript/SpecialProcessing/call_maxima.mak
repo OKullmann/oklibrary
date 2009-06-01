@@ -33,4 +33,4 @@ maxima_configuration :
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac > $(maxima_share_dir_okl)/maxima-init.mac
 
 run_maxima :
-	HOME=$(maxima_installation_dir_okl) $(maxima_call_okl) $(argument_okl)
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) $(argument_okl)

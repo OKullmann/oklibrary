@@ -8,15 +8,10 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.1 (25.5.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.2 (1.6.2009)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Gnuplot not working anymore
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -80,6 +75,11 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Gnuplot not working anymore : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
