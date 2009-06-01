@@ -35,6 +35,11 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
 complete_stdhg(n,r) := block([N : setn(n)],
   [N, powerset(N,r)])$
 
+/* Statistics functions: */
+
+nver_complete_hg(n,r) := n$
+nhyp_complete_hg(n,r) := binomial(n,r)$
+
 
 /* *****************************
    * Van der Waerden's theorem *

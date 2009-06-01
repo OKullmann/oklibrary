@@ -44,6 +44,18 @@ okltest_complete_stdhg(f) := (
   assert(okltest_complete_stdg(buildq([f],lambda([n],f(n,2))))),
   true)$
 
+okltest_nver_complete_hg(f) := (
+  for n : 0 thru 4 do
+    for r : 0 thru 4 do
+      assert(f(n,r) = length(complete_stdhg(n,r)[1])),
+  true)$
+
+okltest_nhyp_complete_hg(f) := (
+  for n : 0 thru 4 do
+    for r : 0 thru 4 do
+      assert(f(n,r) = length(complete_stdhg(n,r)[2])),
+  true)$
+
 
 /* *****************************
    * Van der Waerden's theorem *

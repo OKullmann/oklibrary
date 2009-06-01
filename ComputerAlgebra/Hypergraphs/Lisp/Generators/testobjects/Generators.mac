@@ -28,6 +28,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Generator
 
 okltest_complete_stdhg(complete_stdhg);
 
+okltest_nver_complete_hg(nver_complete_hg);
+okltest_nhyp_complete_hg(nhyp_complete_hg);
+
 /* *****************************
    * Van der Waerden's theorem *
    *****************************
