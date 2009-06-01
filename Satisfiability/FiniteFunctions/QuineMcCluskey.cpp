@@ -48,12 +48,12 @@ int main(const int argc, const char* const argv[]) {
 
   using namespace OKlib::Satisfiability;
 
-  const FiniteFunctions::ClauseSet clause_set = FiniteFunctions::readDIMACSFormat(inputfile);
+  const FiniteFunctions::ClauseSets clause_set = FiniteFunctions::readDIMACSFormat(inputfile);
   if (not inputfile) {
     std::cerr << "ERROR[QuineMcCluskey]: Failure reading file " << filename << ".\n";
     return error_readfile;
   }
     
-  FiniteFunctions::printClauseSet(FiniteFunctions::quineMcCluskey(clause_set));
+  FiniteFunctions::print_clauseset(FiniteFunctions::quine_mccluskey(clause_set));
 
 }
