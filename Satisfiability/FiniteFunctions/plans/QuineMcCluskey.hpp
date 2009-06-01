@@ -137,15 +137,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Names and documentation
-  <ul>
-   <li> All introduced functions and types need doxygen-documentation. </li>
-   <li> DONE All names have to be changed: typenames are like
-   "ClauseSet", functions are like "compute_something" (or just
-   "something"); so non-type-names have no upper-case-letters in them. </li>
-  </ul>
-
-
   \todo Docus
   <ul>
    <li> A docus-file is needed. </li>
@@ -265,6 +256,15 @@ struct ipow3_s<0,c> {
    <li> Usage of Mpi (now supported by gcc) or of threads (according to
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
+  </ul>
+
+
+  \todo DONE Names and documentation
+  <ul>
+   <li> DONE All introduced functions and types need doxygen-documentation. </li>
+   <li> DONE All names have to be changed: typenames are like
+   "ClauseSet", functions are like "compute_something" (or just
+   "something"); so non-type-names have no upper-case-letters in them. </li>
   </ul>
 
 */

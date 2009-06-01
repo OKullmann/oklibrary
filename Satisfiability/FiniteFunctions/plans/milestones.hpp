@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Names and documentation
+    - Names and documentation : DONE
 
 
   \par Version 0.0.6

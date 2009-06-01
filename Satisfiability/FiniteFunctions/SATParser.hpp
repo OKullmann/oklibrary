@@ -22,6 +22,11 @@ namespace OKlib {
   namespace Satisfiability {
     namespace FiniteFunctions {
       
+      /*!
+	\fn std::vector<std::vector<int> > readDIMACSFormat(std::ifstream& inputFile)
+	\brief Reads a clause set given in Dimacs format on the given input stream and
+	returns it as output.
+       */
       std::vector<std::vector<int> > readDIMACSFormat(std::ifstream& inputFile) {
         int c = 0; // Character reading
         int rawLiteral = -1;
