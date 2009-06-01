@@ -25,6 +25,7 @@ License, or any later version. */
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Application tests
+    - Different numbers of variables
 
 
   \par Version 0.0.8

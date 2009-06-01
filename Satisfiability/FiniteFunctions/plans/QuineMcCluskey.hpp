@@ -151,10 +151,25 @@ License, or any later version. */
   <ul>
    <li> The application tests have to be extended (using test cases where the
    output is known). </li>
+   <li> Given the need for more extensive tests on larger number of variables,
+   it will be necessary to offer a binary (by default) for the tests which
+   handles larger numbers of variables. See "Different numbers of variables".
+   </li>
    <li> Also the full and perhaps the extensive level needs to be present.
    </li>
    <li> The program needs to be able to cope with incorrect inputs. </li>
    <li> And all these error cases need to be tested. </li>
+  </ul>
+
+  
+  \todo Different numbers of variables
+  <ul>
+   <li> As the runtime and space requirements of the algorithm depend on the
+   number of variables, which is currently defined at compile time, then it 
+   is likely necessary that several versions are provided, for different numbers
+   of variables. </li>
+   <li> At first, two binaries seems reasonable, the standard QuineMcCluskey and 
+   a QuineMcCluskey-Large which supports 16 variables. </li>
   </ul>
 
 
