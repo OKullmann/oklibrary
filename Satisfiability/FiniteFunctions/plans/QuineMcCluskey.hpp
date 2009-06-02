@@ -184,11 +184,11 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
 
   \todo Docus
   <ul>
-   <li> A docus-file is needed. </li>
-   <li> Specifying input and output, with various explained examples. </li>
    <li> Explaining the algorithm. </li>
    <li> Explaining also the various connections to the rest of the
    library. </li>
+   <li> DONE A docus-file is needed. </li>
+   <li> DONE Specifying input and output, with various explained examples. </li>
   </ul>
 
 
