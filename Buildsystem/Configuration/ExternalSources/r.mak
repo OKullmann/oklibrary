@@ -37,7 +37,7 @@ else
   R_call_okl ?= R
   R_homedir_okl ?= $(HOME)
 endif
-R_call_parameters ?= --no-environ --no-site-file --no-restore-data --save
+R_call_parameters ?= --no-site-file --no-restore-data --save
 
 R_base_doc_dir_okl ?= $(ExternalSources_doc)/R
 R_doc_dir_okl ?= $(R_base_doc_dir_okl)/$(R_recommended_version_number_okl)
