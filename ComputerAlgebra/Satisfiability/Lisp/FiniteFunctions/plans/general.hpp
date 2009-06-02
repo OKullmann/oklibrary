@@ -106,5 +106,29 @@ License, or any later version. */
    such algorithms (in general SAT solving). </li>
   </ul>
 
+
+  \todo File formats
+  <ul>
+   <li> Lexicographical listing of all values:
+    <ol>
+     <li> The file format should be very close to the Dimacs-format, but
+     there is no need for line-end-symbols. </li>
+     <li> So we have an initial comment block (every line started with "c").
+     </li>
+     <li> Then the parameter line, for boolean functions "p bft n" ("boolean
+     function table"), while for general finite functions with n inputs,
+     1 output, and value set D = {1, ..., p} we use "p fft n p". </li>
+     <li> After this parameter-line we have (exactly) 2^n resp. p^n many
+     entries separated by (at least one) space-symbol, each representing a
+     value for inputs in lexicographical order (from left to right, using
+     the natural order on integers). </li>
+     <li> For boolean functions the values are 0,1, while the default for
+     finite functions is 1, ..., p. </li>
+     <li> Perhaps by "fftz" instead of "fft" we use zero-based values, i.e.,
+     D = {0, ..., p-1}. So fftz for p=2 is exactly the case bft. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
