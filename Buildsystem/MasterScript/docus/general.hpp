@@ -80,13 +80,12 @@ License, or any later version. */
      </li>
      <li> Further arguments are passed to Maxima. </li>
      <li> The initialisation file is
-     <code>$(maxima_share_dir_okl)/maxima-init.mac</code> (managed by
-     the OKlibrary). </li>
+     <code>$(maxima_init_okl)</code> (managed by the OKlibrary). </li>
      <li> The environment variable HOME is set to
-     <code>$(maxima_installation_dir_okl)</code>. </li>
+     <code>$(maxima_homedir_okl)</code>. </li>
      <li> In this directory in file ".maxima_history" the command-line
-     history is stored when using Ecl (for CLisp no command-line history
-     is available). </li>
+     history is stored when using Ecl (while yet for CLisp we do not
+     use "rlwrap", and thus no command-line history is available). </li>
      <li> While for all Lisps in sub-directory ".maxima" created binaries
      are stored. </li>
     </ul>
