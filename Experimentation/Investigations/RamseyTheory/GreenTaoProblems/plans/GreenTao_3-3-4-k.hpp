@@ -77,7 +77,27 @@ License, or any later version. */
      cutoff=100*10^6 yield min=3 (twice; so cutoff=10^9 would be needed). </li>
      <li> cutoff=500*10^6: 13 runs only yield min=2, so a cutoff of 2.5*10^9
      would be needed. </li>
-     <li> cutoff=10^8, 1000 runs: </li>
+     <li> cutoff=10^8, 1000 runs:
+      <ul>
+       <li> Evaluation of the first 86 runs:
+       \verbatim
+E = read.table("GreenTao_3-3-4-4_1550.cnf_OUT", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
+table(E$min)
+ 2  3  4  5  6  7  8  9
+ 1 10 11 17 21 19 17  1
+length(E$min)
+[1] 97
+       \endverbatim
+       From that perspective one would think that cutoff needed to be enlarged.
+       </li>
+       <li> But let's actually evaluate the whole experiment. </li>
+       <li> By the way (MG please note), this basic R-functionality of reading
+       tables produced by ubcsat-okl and tabulating the values, should be
+       available to us by a simple mechanism; see "Evaluating the data frames"
+       in ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp.
+       </li>
+      </ul>
+     </li>
     </ol>
    </li>
   </ul>

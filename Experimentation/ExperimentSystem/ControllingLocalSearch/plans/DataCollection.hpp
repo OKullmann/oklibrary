@@ -250,7 +250,12 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    \verbatim
 > summary(E[,c("sat","min","osteps")])
    \endverbatim
-   </li>
+   Also the simple
+   \verbatim
+> table(E$min)
+   \endverbatim
+   is interesting (perhaps actually most interesting(!); may be plotted by
+   "plot(table(E$min))"). </li>
    <li> Sort the data frame by
     <ol>
      <li> first smallest average number of falsified clauses, </li>
