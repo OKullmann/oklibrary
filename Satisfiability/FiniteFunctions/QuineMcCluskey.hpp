@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/FiniteFunctions/QuineMcCluskey.hpp
-  \brief Definitions for computing all minimal resolvents from a given full clause-set2
+  \brief Definitions for computing all minimal resolvents from a given full clause-set
 */
 
 #ifndef QUINEMCCLUSKEY_jdbVce4
