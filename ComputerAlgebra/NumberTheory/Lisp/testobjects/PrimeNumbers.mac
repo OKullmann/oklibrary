@@ -42,6 +42,7 @@ okltest_product_primes(product_primes);
 */
 
 okltest_n_arithprog_primes_nc(n_arithprog_primes_nc);
+okltest_n_arithprog_primes_c(n_arithprog_primes_c);
 okltest_ln_arithprog_primes_c(ln_arithprog_primes_c);
 
 okltest_first_arithprog_primes(first_arithprog_primes);

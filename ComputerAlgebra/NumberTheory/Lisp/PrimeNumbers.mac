@@ -100,21 +100,43 @@ product_primes(n) := block([pr : 1, p : 2],
 */
 /* Prerequisite: n, k natural numbers, n >= 1, k >= 0. */
 n_arithprog_primes_nc[k,n] := 
+ block([prp : product_primes(k), prk : primep(k), p : unrank_primes(n)],
+  n_arithprog_primes_nc_[k,n])$
+
+/* Implementation functions (better not to be called directly, since wrong
+   usage can introduce false results).
+*/
+/* Inheriting prp, prk and p: */
+n_arithprog_primes_nc_[k,n] := n_arithprog_primes_nc_nm(k,n)$
+/* Inheriting again prp, prk and p: */
+n_arithprog_primes_nc_nm(k,n) :=
  if k=0 then 0 elseif k=1 then 1 elseif k=2 then n-1
  elseif n <= k then 0 else
- block([prp : product_primes(k), prk : primep(k)],
-  length(arithprog_primes_finish[k,unrank_primes(n)]))$
+  length(arithprog_primes_finish_nm(k,p))$
+
+/* The number of arithmetic progressions of length k in the set of
+   prime numbers ("c" for "cumulative"):
+*/
+n_arithprog_primes_c(k,n) :=
+ if k <= 2 then binomial(n,k) else
+ block([prp : product_primes(k), prk : primep(k), p : 1, sum : 0, count],
+   for i : 1 thru n do (
+     p : next_prime(p),
+     count : if p <= k then 0 else n_arithprog_primes_nc_[k,i],
+     sum : sum + count
+   ),
+   sum)$
 
 /* The list of the numbers of arithmetic progressions of length k in 
-   the set of the first n prime numbers ("c" for "cumulative") for
-   i from 1 to n:
+   the set of the first i prime numbers for i from 1 to n ("c" for
+   "cumulative"):
 */
 ln_arithprog_primes_c(k,n) :=
  if k <= 2 then create_list(binomial(i,k),i,1,n) else
  block([prp : product_primes(k), prk : primep(k), p : 1, res : [], sum : 0, count],
-   thru n do (
+   for i : 1 thru n do (
      p : next_prime(p),
-     count : if p <= k then 0 else length(arithprog_primes_finish[k,p]),
+     count : if p <= k then 0 else n_arithprog_primes_nc_[k,i],
      sum : sum + count, res : cons(sum,res)
    ),
    reverse(res))$
