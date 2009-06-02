@@ -29,31 +29,31 @@ namespace OKlib {
       const int nVars = 4;
 #endif
 
-      //! Variables of the clause-sets.
+      //! Boolean variables as integers
       typedef int Variables;
-      //! Literals of the clause-sets.
+      //! Boolean literals as integers
       typedef int Literals;
-      //! Clauses of the clause-sets.
+      //! Boolean clauses as vectors of literals
       typedef std::vector<Literals> Clauses;
-      //! ClauseSets used in the problem.
+      //! Boolean clause-sets as vectors of clauses
       typedef std::vector<Clauses> ClauseSets;
       /*!
-	\brief HashTable structure used to store and lookup clauses in a
+	\brief Hash-table structure used to store and lookup clauses in a
         clause-set.
 
 	Such a structure provides constant time elementship tests and inserts
-        for clauses in a clause-set, although has exponential space
+        for clauses in a clause-set, although it has exponential space
         requirements in the number of variables.
       */
       typedef std::vector<bool> HashTable;
-      //! Hashes used as index for HashTables used within this module.
+      //! Hashes used as index for HashTables
       typedef HashTable::size_type hash_index;
 
 
       /* XXX : Asserts that size types are sufficient are needed here */
 
       /*!
-        \brief Taking a Clause and printing the clause in Dimacs format to stdout.
+        \brief Taking a clause and printing the clause in Dimacs format to stdout.
        */
       void print_clause(const Clauses& clause) {
         for (Clauses::const_iterator iter = clause.begin();
@@ -65,7 +65,7 @@ namespace OKlib {
       }
       
       /*!
-	\brief Taking a ClauseSet and printing the clause-set in Dimacs format
+	\brief Taking a clause-set and printing the clause-set in Dimacs format
         to stdout.
       */
       void print_clauseset(const ClauseSets& clauseSet) {
@@ -91,10 +91,10 @@ namespace OKlib {
       }
       
       /*!
-	\brief Computes the hash value for a given Clause.
+	\brief Computes the hash value for a given clause
 
 	The clause hash is simply the sum of c * 3^i for all variables
-	i (where variables are integers in the range 1-nVars), where c
+	i (where variables are integers in the range 1,  ..., nVars), where c
 	is:
 	<ul>
 	 <li> 0 if variable i does not occur in the given clause </li>
@@ -117,7 +117,7 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a hash value for a Clause, computes the new hash value 
+	\brief Given a hash value for a clause, computes the new hash value 
 	where the given literal is negated.
 	
 	The key point here is that the given literal occurs in the Clause 
@@ -134,7 +134,7 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a hash value for a Clause, computes a new hash for the 
+	\brief Given a hash value for a clause, computes a new hash for the 
 	clause where the given literal has been removed.
 
 	The key point here is that the given literal is assumed to occur within
