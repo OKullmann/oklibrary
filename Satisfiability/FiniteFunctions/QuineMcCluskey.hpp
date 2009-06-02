@@ -123,7 +123,7 @@ namespace OKlib {
 	</ul>
 
        */
-      hash_clause(const Clauses& clause) {
+      hash_index hash_clause(const Clauses& clause) {
         long returnValue = 0;
         for (Clauses::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
