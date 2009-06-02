@@ -169,6 +169,16 @@ arithprog_primes_ohg(k,n) :=
  [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
 
+/* Statistics functions: */
+
+nver_arithprog_primes_ohg(k,n) := n$
+nver_arithprog_primes_hg(k,n) := n$
+
+nhyp_arithprog_primes_ohg(k,n) := 
+ if n=0 then if k=0 then 1 else 0 else
+  n_arithprog_primes_c(k,n)$
+nhyp_arithprog_primes_hg(k,n) := nhyp_arithprog_primes_ohg(k,n)$
+
 
 /* ******************************
    * Schur's and Rado's theorem *

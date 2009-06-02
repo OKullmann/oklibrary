@@ -211,6 +211,30 @@ okltest_arithprog_primes_ohg(f) := (
   assert(f(3,6) = [[2,3,5,7,11,13],[{3,5,7},{3,7,11}]]),
   true)$
 
+okltest_nver_arithprog_primes_ohg(f) := (
+  for k : 0 thru 4 do
+    for n : 0 thru 5 do
+      assert(f(k,n) = length(arithprog_primes_ohg(k,n)[1])),
+  true)$
+
+okltest_nver_arithprog_primes_hg(f) := (
+  for k : 0 thru 4 do
+    for n : 0 thru 5 do
+      assert(f(k,n) = length(arithprog_primes_hg(k,n)[1])),
+  true)$
+
+okltest_nhyp_arithprog_primes_ohg(f) := (
+  for k : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for n : 0 thru if oklib_test_level=0 then 6 else 40 do
+      assert(f(k,n) = length(arithprog_primes_ohg(k,n)[2])),
+  true)$
+
+okltest_nhyp_arithprog_primes_hg(f) := (
+  for k : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for n : 0 thru if oklib_test_level=0 then 6 else 40 do
+      assert(f(k,n) = length(arithprog_primes_hg(k,n)[2])),
+  true)$
+
 
 /* ******************************
    * Schur's and Rado's theorem *
