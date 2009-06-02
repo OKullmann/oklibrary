@@ -69,8 +69,7 @@ namespace OKlib {
 
       /* XXX : Asserts that size types are sufficient are needed here */
 
-      /*! 
-	\fn void print_clause(const Clauses& clause)
+      /*!
         \brief Taking a Clause and printing the clause in Dimacs format to stdout.
        */
       void print_clause(const Clauses& clause) {
@@ -83,7 +82,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn void print_clauseset(const ClauseSets& clauseSet)
 	\brief Taking a ClauseSet and printing the clause set in Dimacs format to stdout.
       */
       void print_clauseset(const ClauseSets& clauseSet) {
@@ -94,7 +92,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn hash_index ipow(const int b, int e)
 	\brief Given the base b and power e, computes b raised to the power of e.
 	
 	The key feature of this function is it provides integer computation whereas
@@ -110,7 +107,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn hash_clause(const Clauses& clause)
 	\brief Computes the hash value for a given Clause.
 
 	The clause hash is simply the sum of c * 3^i for all variables
@@ -137,7 +133,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn hash_index flip_literal_sign_in_hash(hash_index hash, const Literals literal)
 	\brief Given a hash value for a Clause, computes the new hash value 
 	where the given literal is negated.
 	
@@ -154,8 +149,7 @@ namespace OKlib {
         return hash;
       }
       
-      /*! 
-	\fn hash_index remove_literal_in_hash(hash_index  hash, const Literals literal)
+      /*!
 	\brief Given a hash value for a Clause, computes a new hash for the 
 	clause where the given literal has been removed.
 
@@ -173,7 +167,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn unsigned int hash_to_clause(hash_index hash, int clause[], const int nVars)
 	\brief Computes the clause represented by a given hash.
        */
       unsigned int 
@@ -195,7 +188,6 @@ namespace OKlib {
       }
       
       /*!
-	\fn ClauseSets quine_mccluskey(const ClauseSets& inputCS)
 	\brief Given a clause set with only variables of size m where m < nVars,
 	all prime implicates of the given clause set are returned.
 
