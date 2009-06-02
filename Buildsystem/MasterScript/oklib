@@ -14,7 +14,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.14
+version=0.1.0.15
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -73,9 +73,14 @@ fi
 
 if [[ $1 == "--R" ]]; then
   shift
-  make --makefile=${buildsystem_dir}/MasterScript/SpecialProcessing/call_R.mak OKplatform=${top_dir} argument_okl="$*"
+  make --makefile=${buildsystem_dir}/MasterScript/SpecialProcessing/call_R.mak OKplatform=${top_dir} argument_okl="$*" run_R
   exit
 fi
+if [[ $1 == "--Rr" ]]; then
+  make --makefile=${buildsystem_dir}/MasterScript/SpecialProcessing/call_R.mak OKplatform=${top_dir} run_R_restore
+  exit
+fi
+
 
 if [[ $1 == "--push-developer" ]]; then
   shift
