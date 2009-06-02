@@ -137,12 +137,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Names and documentation
+  \todo Ensure no space/time requirement for smaller number of variables
   <ul>
-   <li> All introduced functions and types need doxygen-documentation. </li>
-   <li> DONE All names have to be changed: typenames are like
-   "ClauseSet", functions are like "compute_something" (or just
-   "something"); so non-type-names have no upper-case-letters in them. </li>
+   <li> Currently, the number of variables in the input clause set is ignored
+   and the number of variables, and the size of the hash table used by the 
+   application are determined at compile time. </li>
+   <li> This is not ideal, as for instance running tests using the 16 variable
+   version of the application will take a several minutes, even for very small
+   basic tests. </li>
+   <li> Could the compile time allocation not simply be replaced with an 
+   malloced/"new"ed array? Are there disadvantages to this? </li>
   </ul>
 
 
@@ -158,31 +162,33 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    <li> This is of course rather cumbersome; perhaps we introduce
    a configuration variable for that purpose, say "qmc_number_variables_okl",
    such that one can simply use "oklib all qmc_number_variables_okl=16". </li>
+   <li> Where to put this configuration variable? In BuildSystem/Configuration
+   somewhere, and then set CXX_FLAGS based on this in the definitions.mak? </li>
    <li> Still the problem of how to use different n-values. </li>
    <li> Perhaps for version 2.0 we improve the algorithm such that without
    time or space overhead an actual n smaller than the maximal value can
    be used. </li>
-   <li> And until then perhaps we just provide two default variants,
-   for n=4 and n=16. </li>
    <li> The n-value likely needs then be part of the name. But with the
    build system we can't automatically incorporate this into the name. </li>
    <li> One could simply compile all versions for n=1, ..., 20 in
    advance. However, currently we needed then for each version two
    different files, which is too much (for this case). </li>
-   <li> So for version 2.0 a todo needs to be created, making sure that
+   <li> DONE So for version 2.0 a todo needs to be created, making sure that
    for smaller n there is no space and time overhead, while for now
    we only provide two versions (which are then tested --- basic tests for
    all versions, full tests only for the 16-bit version). </li>
+   <li> DONE And until then perhaps we just provide two default variants,
+   for n=4 and n=16. </li>
   </ul>
 
 
   \todo Docus
   <ul>
-   <li> A docus-file is needed. </li>
-   <li> Specifying input and output, with various explained examples. </li>
    <li> Explaining the algorithm. </li>
    <li> Explaining also the various connections to the rest of the
    library. </li>
+   <li> DONE A docus-file is needed. </li>
+   <li> DONE Specifying input and output, with various explained examples. </li>
   </ul>
 
 
@@ -190,10 +196,17 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
   <ul>
    <li> The application tests have to be extended (using test cases where the
    output is known). </li>
+   <li> Given the need for more extensive tests on larger number of variables,
+   it will be necessary to offer a binary (by default) for the tests which
+   handles larger numbers of variables. See "Different numbers of variables".
+   </li>
    <li> Also the full and perhaps the extensive level needs to be present.
    </li>
    <li> The program needs to be able to cope with incorrect inputs. </li>
    <li> And all these error cases need to be tested. </li>
+   <li> How to include larger tests such as the Sbox, where the input clause set
+   itself is very large? Should generators be called? Where to store the result? 
+   </li>
   </ul>
 
 
