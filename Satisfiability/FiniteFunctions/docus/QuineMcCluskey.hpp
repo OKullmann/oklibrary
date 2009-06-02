@@ -1,5 +1,5 @@
 // Matthew Gwynne, 2.6.2009 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,25 +16,27 @@ License, or any later version. */
   clauses which follow from the original clause set but for which no 
   smaller clause follows) of a given clause set.
 
+
   <h1> Input and Output </h1>
 
   The only argument to any of the QuineMcCluskey versions is the filepath
   to the input clauseset. Output is given on STDOUT.
 
   <ul>
-   <li> <em> Input:</em> A CNF or DNF clauseset of fixed variable size in Dimacs
-   format. </li>
+   <li> <em> Input:</em> A CNF or DNF clauseset of fixed variable size in
+   Dimacs format. </li>
    <li> <em> Output:</em> All prime implicates of the input clause set, in
    Pseudo-Dimacs format (i.e excluding any "p" and "c" lines). </li>
   </ul>
 
+
   <h1> Versions </h1>
   
-  There are four versions of the QuineMcCluskey application built by default by 
-  the build system.
+  There are four versions of the QuineMcCluskey application built by default
+  by the build system.
 
   <ul>
-   <li> QuineMcCluskey-n4 is the default, allowing a maximum of 4 variables. 
+   <li> QuineMcCluskey-n4 allows a maximum of 4 variables. 
    </li>
    <li> QuineMcCluskey-n4-O3-DNDEBUG is the optimised version of 
    QuineMcCluskey-n4 . </li>
@@ -43,13 +45,14 @@ License, or any later version. */
    QuineMcCluskey-n16. </li>
   </ul>
 
-  One may build other versions of QuineMcCluskey allowing larger numbers of 
+  One can build other versions of QuineMcCluskey allowing larger numbers of 
   variables by setting up a preprocessor variable when building like so:
   
   \verbatim
 > oklib clean
 > oklib all CXXFLAGS="-DNUMBER_VARIABLES=20"
   \endverbatim
+
 
   <h1> Example </h1>
 
@@ -63,6 +66,7 @@ Level 2
 Level 1
 2 1 0
   \endverbatim
+
 
   <h1> Algorithm </h1>
 
