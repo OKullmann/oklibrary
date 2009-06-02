@@ -23,8 +23,8 @@ namespace OKlib {
     namespace FiniteFunctions {
       
       /*!
-	\brief Reads a clause set given in Dimacs format on the given input stream and
-	returns it as output.
+	\brief Reads a clause-set given in Dimacs format on the given input
+        stream and returns it as output.
        */
       std::vector<std::vector<int> > readDIMACSFormat(std::ifstream& inputFile) {
         int c = 0; // Character reading

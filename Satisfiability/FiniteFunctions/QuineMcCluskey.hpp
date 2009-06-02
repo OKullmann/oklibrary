@@ -29,41 +29,24 @@ namespace OKlib {
       const int nVars = 4;
 #endif
 
-      /*!
-	\typedef typedef int Variables
-	\brief Type defined for the variables of the clause sets.
-      */
+      //! Variables of the clause-sets.
       typedef int Variables;
-      /*!
-	\typedef typedef int Literals
-	\brief Type defined for the literals of the clause sets.
-      */
+      //! Literals of the clause-sets.
       typedef int Literals;
-      /*!
-	\typedef typedef std::vector<Literals> Clauses
-	\brief Type defined for the Clauses of the clause sets.
-      */
+      //! Clauses of the clause-sets.
       typedef std::vector<Literals> Clauses;
-      /*!
-	\typedef typedef std::vector<Clauses> ClauseSets
-	\brief Type defined for the ClauseSets used in the problem.
-      */
+      //! ClauseSets used in the problem.
       typedef std::vector<Clauses> ClauseSets;
       /*!
-	\typedef typedef std::vector<bool> HashTable
-	\brief Type defined for the HashTable structure used to store and lookup
-	clauses in a clause set.
+	\brief HashTable structure used to store and lookup clauses in a
+        clause-set.
 
-	Such a structure provides constant time elementship tests and inserts for
-	clauses in a clause set, although has exponential space requirements
-	in the number of variables.
+	Such a structure provides constant time elementship tests and inserts
+        for clauses in a clause-set, although has exponential space
+        requirements in the number of variables.
       */
       typedef std::vector<bool> HashTable;
-      /*!
-	\typedef typedef HashTable::size_type hash_index
-	\brief Type defined for hashes used as index for HashTables used within
-	this module.
-      */
+      //! Hashes used as index for HashTables used within this module.
       typedef HashTable::size_type hash_index;
 
 
@@ -82,7 +65,8 @@ namespace OKlib {
       }
       
       /*!
-	\brief Taking a ClauseSet and printing the clause set in Dimacs format to stdout.
+	\brief Taking a ClauseSet and printing the clause-set in Dimacs format
+        to stdout.
       */
       void print_clauseset(const ClauseSets& clauseSet) {
         for (ClauseSets::const_iterator iter = clauseSet.begin();
@@ -188,8 +172,8 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a clause set with only variables of size m where m < nVars,
-	all prime implicates of the given clause set are returned.
+	\brief Given a clause-set with only variables of size m where m < n,
+	all prime implicates of the given clause-set are returned.
 
 	Running time and space requirements are exponential (powers of 3) in 
 	the number of variables.
