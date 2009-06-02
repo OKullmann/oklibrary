@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := QuineMcCluskey
+programs := QuineMcCluskey-n4 QuineMcCluskey-n16
 
 source_libraries = 
 

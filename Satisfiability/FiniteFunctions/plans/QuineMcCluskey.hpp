@@ -153,8 +153,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    <li> Perhaps for version 2.0 we improve the algorithm such that without
    time or space overhead an actual n smaller than the maximal value can
    be used. </li>
-   <li> And until then perhaps we just provide two default variants,
-   for n=4 and n=16. </li>
    <li> The n-value likely needs then be part of the name. But with the
    build system we can't automatically incorporate this into the name. </li>
    <li> One could simply compile all versions for n=1, ..., 20 in
@@ -164,6 +162,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    for smaller n there is no space and time overhead, while for now
    we only provide two versions (which are then tested --- basic tests for
    all versions, full tests only for the 16-bit version). </li>
+   <li> DONE And until then perhaps we just provide two default variants,
+   for n=4 and n=16. </li>
   </ul>
 
 
