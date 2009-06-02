@@ -162,6 +162,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    <li> This is of course rather cumbersome; perhaps we introduce
    a configuration variable for that purpose, say "qmc_number_variables_okl",
    such that one can simply use "oklib all qmc_number_variables_okl=16". </li>
+   <li> Where to put this configuration variable? In BuildSystem/Configuration
+   somewhere, and then set CXX_FLAGS based on this in the definitions.mak? </li>
    <li> Still the problem of how to use different n-values. </li>
    <li> Perhaps for version 2.0 we improve the algorithm such that without
    time or space overhead an actual n smaller than the maximal value can
