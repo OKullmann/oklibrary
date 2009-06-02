@@ -117,7 +117,7 @@ License, or any later version. */
     <ol>
      <li> For example, the above algorithm given 
      {{- 3, - 1, 2}, {- 3, 1, 2}, {- 2, - 1, 3}, {- 1, 2, 3}} returns
-     {{- 3, 2}, {- 1, 2}, {- 1, 3}}, however the input clause set is
+     {{- 3, 2}, {- 1, 2}, {- 1, 3}}, however the input clause-set is
      equivalent to {{-3,2},{-1,3}} and the R implementation mentioned in 
      Buildsystem/ExternalSources/SpecialBuilds/plans gives {{-3,2},{-1,3}
      as well. </li>
@@ -140,19 +140,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Ensure no space/time requirement for smaller number of variables
-  <ul>
-   <li> Currently, the number of variables in the input clause set is ignored
-   and the number of variables, and the size of the hash table used by the 
-   application are determined at compile time. </li>
-   <li> This is not ideal, as for instance running tests using the 16 variable
-   version of the application will take a several minutes, even for very small
-   basic tests. </li>
-   <li> Could the compile time allocation not simply be replaced with an 
-   malloced/"new"ed array? Are there disadvantages to this? </li>
-  </ul>
-
-
   \todo Various versions for different values of NUMBER_VARIABLES
   <ul>
    <li> Yet to use a number of variables different than 4 (the current
@@ -166,7 +153,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    a configuration variable for that purpose, say "qmc_number_variables_okl",
    such that one can simply use "oklib all qmc_number_variables_okl=16". </li>
    <li> Where to put this configuration variable? In BuildSystem/Configuration
-   somewhere, and then set CXX_FLAGS based on this in the definitions.mak? </li>
+   somewhere, and then set CXX_FLAGS based on this in the definitions.mak?
+   </li>
    <li> Still the problem of how to use different n-values. </li>
    <li> Perhaps for version 2.0 we improve the algorithm such that without
    time or space overhead an actual n smaller than the maximal value can
@@ -191,7 +179,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    <li> Explaining also the various connections to the rest of the
    library. </li>
    <li> DONE A docus-file is needed. </li>
-   <li> DONE Specifying input and output, with various explained examples. </li>
+   <li> DONE Specifying input and output, with various explained examples.
+   </li>
   </ul>
 
 
@@ -207,9 +196,9 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
    </li>
    <li> The program needs to be able to cope with incorrect inputs. </li>
    <li> And all these error cases need to be tested. </li>
-   <li> How to include larger tests such as the Sbox, where the input clause set
-   itself is very large? Should generators be called? Where to store the result? 
-   </li>
+   <li> How to include larger tests such as the Sbox, where the input
+   clause-set itself is very large? Should generators be called? Where to
+   store the result? </li>
   </ul>
 
 
@@ -259,6 +248,19 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
   \todo Unit tests
   <ul>
    <li> Use the (new) higher-order unit test framework. </li>
+  </ul>
+
+
+  \todo Ensure space/time efficiency for smaller number of variables
+  <ul>
+   <li> Currently, the number of variables in the input clause-set is ignored
+   and the number of variables, and the size of the hash table used by the 
+   application are determined at compile time. </li>
+   <li> This is not ideal, as for instance running tests using the 16 variable
+   version of the application will take a several minutes, even for very small
+   basic tests. </li>
+   <li> Could the compile time allocation not simply be replaced with an 
+   malloced/"new"ed array? Are there disadvantages to this? </li>
   </ul>
 
 
