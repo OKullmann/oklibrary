@@ -40,7 +40,10 @@ maxima_core : $(maxima_directories_okl)
 	cp -rf $(maxima_base_share_dir_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
 	cp -f $(maxima_share_dir_okl)/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
-	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
+	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl); $(postcondition)
+	cd $(maxima_homedir_okl); $(postcondition) \
+	ln -s ~/.Xauthority; $(postcondition)
+
 
 # For access to the "encyclopedia of integer sequences":
 maxima_eis : $(maxima_eis_base_installation_dir_okl)

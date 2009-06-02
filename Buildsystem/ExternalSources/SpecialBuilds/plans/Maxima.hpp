@@ -10,6 +10,32 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \bug DONE
+  Gnuplot not working anymore
+  <ul>
+   <li>
+   \verbatim
+(%i1) plot2d(sin(x),[x,-5,5])$
+Xlib: connection to ":0.0" refused by server
+Xlib: No protocol specified
+gnuplot: unable to open display ':0.0'
+gnuplot: X11 aborted.
+   \endverbatim
+   </li>
+   <li> If the (currently introduced) redefinition of HOME (when calling
+   Maxima) to the Maxima-installation-directory is removed, then it works
+   again. </li>
+   <li> Those two files apparently establishing that "gnuplot-pipe" are
+   stored in the installation directory --- perhaps gnuplot can't find
+   them? </li>
+   <li> Setting plot_format to "gnuplot" (not "gnuplot_pipes", as it is
+   the default) doesn't help (apparently with that no files are used?). </li>
+   <li> And also "openmath" doesn't work anymore. </li>
+   <li> Without HOME-resetting both alternative formats work (though with
+   gnuplot the window doesn't stay open, but this seems to be "normal"). </li>
+  </ul>
+
+
   \todo Install xgettext
   <ul>
    <li> To create new Maxima packages, xgettext, available at

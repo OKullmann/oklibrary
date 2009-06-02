@@ -243,6 +243,7 @@ for n : 6 do block([FF:vanderwaerden2_fcs(6,n),T,M],T:all_sat_fcs(FF),M:all_mine
 7 4 122 600 7
 8 6 240 24576 10
 9 8 472 26244 13
+10 10 928 8192 17
      \endverbatim
      </li>
     </ol>

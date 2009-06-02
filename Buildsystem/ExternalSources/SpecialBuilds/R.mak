@@ -37,7 +37,9 @@ R_base : $(R_directories_okl)
 R_packages :
 	cd $(R_source_dir_okl)/packages; $(postcondition) \
 	env -i PATH=${PATH} HOME=$(R_install_directory_okl) $(R_call_okl) CMD INSTALL $(R_packages_okl); $(postcondition) \
-	cp *.pdf $(R_doc_dir_okl)
+	cp *.pdf $(R_doc_dir_okl); $(postcondition)
+	cd $(R_homedir_okl); $(postcondition) \
+	ln -s ~/.Xauthority; $(postcondition)
 
 
 # #################################
