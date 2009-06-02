@@ -109,6 +109,7 @@ License, or any later version. */
   \par
    Version 2.0 of QuineMcCluskey.cpp is reached, establishing an optimised
    and highly efficient tool.
+    - Ensure no space/time requirement for smaller number of variables
 
 
   \par Version 0.2.1
