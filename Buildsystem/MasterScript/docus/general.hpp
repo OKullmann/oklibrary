@@ -94,16 +94,27 @@ License, or any later version. */
     <ul>
      <li> Calls R; see
      Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp. </li>
-     <li> The standard parameters are <code>$(R_call_parameters)</code>. </li>
-     <li> And the environment variable HOME is set to
-     <code>$(R_installation_dir_okl)</code>. </li>
-     <li> This stores the command-history in file ".Rhistory" in the
-     calling directory. </li>
-     <li> While the file <code>$(R_installation_dir_okl)/.Rprofile</code>
-     is used for initialisation. </li>
+     <li> The details of the invokation are as follows:
+      <ul>
+       <li> The standard parameters are <code>$(R_call_parameters)</code>.
+       </li>
+       <li> And the environment variable HOME is set to
+       <code>$(R_homedir_okl)</code>. </li>
+       <li> So the command-history is stored in file ".Rhistory" in the
+       calling directory. </li>
+       <li> And in file ".RData" in the calling directory the workspace
+       of the last session is stored, though it is not restored for new
+       sessions. </li>
+       <li> While the file <code>$(R_homedir_okl)/.Rprofile</code>
+       is used for initialisation. </li>
+      </ul>
+     </li>
      <li> If however further parameters are given as part of the oklib-call,
-     then R is called with just these parameters (but still setting HOME as
+     then R is called with just these parameters (while still setting HOME as
      above). </li>
+     <li> Finally, via <code>--Rr</code> (which ignores further parameters)
+     the workspace of the last session is restored (while the user is asked
+     whether on exit the workspace shall be saved). </li>
     </ul>
    </li>
    <li> Push and pull for oklib-repositories (where the public repository
