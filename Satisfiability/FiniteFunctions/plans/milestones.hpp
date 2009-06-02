@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
+    - bug The code is still full of mixed cases!
     - Various versions for different values of NUMBER_VARIABLES
 
 

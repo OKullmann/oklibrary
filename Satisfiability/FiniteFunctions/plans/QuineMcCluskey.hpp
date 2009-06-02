@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
+  \bug The code is still full of mixed cases!
+
+
   \todo Quine/McCluskey in general
   <ul>
    <li> A special situation for the computation of prime implicates/implicants
