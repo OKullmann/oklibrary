@@ -39,6 +39,9 @@ lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : first_element(M), R],
     R : disjoin(x,M),
     append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
+/* We have lex_subsets_l(M,k) =
+   map(setify,sort(map(listify,listify(powerset(M,k))), lex_lessp_l)).
+*/
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    lexicographical enumeration of all |S|-subsets: */
@@ -69,6 +72,9 @@ colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : last_element(M), R],
     R : disjoin(x,M),
     append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
+/* We have colex_subsets_l(M,k) =
+   map(setify,sort(map(listify,listify(powerset(M,k))), colex_lessp_l)).
+*/
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    colexicographical enumeration of all |S|-subsets: */
