@@ -18,7 +18,10 @@ oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Order.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Order.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subsets.mac")$
 
 

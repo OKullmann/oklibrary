@@ -1,0 +1,58 @@
+/* Oliver Kullmann, 2.6.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Order.mac
+  \brief Tests regarding ordering of combinatorical objects
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Order.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+okltest_lex_lessp_l(f) := (
+  assert(f([],[]) = false),
+  assert(f([1],[1]) = false),
+  assert(f([1],[2]) = true),
+  assert(f([2],[1]) = false),
+  assert(f([1,1],[1,1]) = false),
+  assert(f([1,1],[1,2]) = true),
+  assert(f([1,1],[2,1]) = true),
+  assert(f([1,2],[1,1]) = false),
+  assert(f([1,2],[1,2]) = false),
+  assert(f([1,2],[2,2]) = true),
+  assert(f([1,2],[2,1]) = true),
+  true)$
+
+okltest_colex_lessp_l(f) := (
+  assert(f([],[]) = false),
+  assert(f([1],[1]) = false),
+  assert(f([1],[2]) = true),
+  assert(f([2],[1]) = false),
+  assert(f([1,1],[1,1]) = false),
+  assert(f([1,1],[1,2]) = true),
+  assert(f([1,1],[2,1]) = true),
+  assert(f([1,2],[1,1]) = false),
+  assert(f([1,2],[1,2]) = false),
+  assert(f([1,2],[2,2]) = true),
+  assert(f([1,2],[2,1]) = false),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
