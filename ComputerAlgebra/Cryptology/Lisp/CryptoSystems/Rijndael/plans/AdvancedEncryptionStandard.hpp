@@ -10,13 +10,25 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo OK: This todo needs UPDATE!
-  Auxiliary functions
+  \todo Naming Conventions
+  <ul>
+   <li> To avoid clashes with other modules and to make clear which functions
+   are specific to AES and which aren't, functions in this module should 
+   perhaps have the prefix "aes_". </li>
+   <li> "aes_" is reasonable as yet only AES is implemented, not general 
+   Rijndael. </li>
+   <li> DONE Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
+   <li> DONE We don't use "camels", so names like GF2t8PolyToInt needs to be
+   replaced. </li>
+  </ul>
+
+
+  \todo %Auxiliary functions DONE
   <ul>
    <li> See TermSystems/Lisp/Conversions.mac. </li>
-   <li> What about the section "Helper Functions" ?
+   <li> DONE What about the section "Helper Functions" ?
     <ol>
-     <li>  We shouldn't have a section with "useless stuff":
+     <li> DONE We shouldn't have a section with "useless stuff":
      Auxiliary functions either directly accompany their main user, or are
      not just "helper functions". </li>
      <li> DONE intToPoly and polyToInt should (besides the bad naming (see below))
@@ -32,17 +44,6 @@ load("functs")$ Bug Here atm  For logxor
    for some inputs, but this no longer seems to be the case in the most recent
    version, and may have been a broken installation on my part. The lisp
    version "?logxor" has now been replaced with the maxima "logxor".) </li>
-  </ul>
-
-
-  \todo Naming Conventions
-  <ul>
-   <li> To avoid clashes with other modules and to make clear which functions
-   are specific to AES and which aren't, functions in this module should 
-   perhaps have the prefix "aes_". </li>
-   <li> Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
-   <li> DONE We don't use "camels", so names like GF2t8PolyToInt needs to be
-   replaced. </li>
   </ul>
   
 
