@@ -26,7 +26,7 @@ namespace {
   const int error_openfile = 2;
   const int error_readfile = 3;
 
-  const std::string version = "0.1.0";
+  const std::string version = "0.1.7";
 
 }
 
