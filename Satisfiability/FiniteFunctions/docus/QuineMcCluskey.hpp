@@ -26,7 +26,7 @@ License, or any later version. */
    <li> <em> Input:</em> A CNF or DNF clause-set of fixed variable size in
    Dimacs format. </li>
    <li> <em> Output:</em> All prime implicates of the input clause-set, in
-   Pseudo-Dimacs format (i.e excluding any "p" and "c" lines). </li>
+   Pseudo-Dimacs format (i.e., excluding any "p" and "c" lines). </li>
   </ul>
 
 
@@ -57,14 +57,14 @@ License, or any later version. */
   <h1> Example </h1>
 
   \verbatim
-> echo -en "1 2 3 0\n1 2 -3 0\n" > test.cnf
+> echo -en "1 2 3 4 0\n1 2 3 -4 0\n" > test.cnf
 > QuineMcCluskey-n4 test.cnf 
 Number of Partial Assignments 81
 Level 4
 Level 3
 Level 2
 Level 1
-2 1 0
+3 2 1 0
   \endverbatim
 
 
@@ -73,7 +73,7 @@ Level 1
   High level algorithm :
 
   <ol>
-   <li> Input is a clause-set F (either CNF or DNF). </li>
+   <li> Input is a clause-set F (can be considered as either CNF or DNF). </li>
    <li> In general a "subsumption-resolution" is one resolution step where
    the resolvent subsumes at least one parent clause. A
    "2-subsumption-resolution" is where both parent clauses are subsumed
