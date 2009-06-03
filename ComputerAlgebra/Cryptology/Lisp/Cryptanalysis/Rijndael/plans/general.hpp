@@ -10,16 +10,6 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
   
-  \todo Review and tidy todos
-
-
-  \todo Create / update milestones
-  <ul>
-   <li> The first goal is with milestone 0.1, where we have a working
-   translation. </li>
-  </ul>
-
-
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic
   Aspects of the AES]
   <ul>
@@ -70,6 +60,18 @@ License, or any later version. */
    explored in previous research than simple reduced round variants of the
    cipher. </li>
   </ul>
+
+
+  \todo Review and tidy todos DONE
+
+
+  \todo Create / update milestones DONE
+  <ul>
+   <li> The first goal is with milestone 0.1, where we have a working
+   translation. </li>
+  </ul>
+
+
 
 */
 

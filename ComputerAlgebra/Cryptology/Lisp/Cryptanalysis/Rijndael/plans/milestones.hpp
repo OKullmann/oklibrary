@@ -15,8 +15,8 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Review and tidy todos
-    - Create / update milestones
+    - Create / update milestones DONE
+    - Review and tidy todos DONE
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
@@ -26,17 +26,38 @@ License, or any later version. */
   \par Version 0.0.7
   
   \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Representations of the Sbox using additional variables
+    - Organisation
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
+    - Provide tests for all functions
+
+    
+  \par Version 0.0.8
+
+  \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Generate good CNF hitting clause-sets for the AES Sbox
     - Extracting prime implicate representations from the hitting-cls-representations
+    - Compute *all* prime implicates (for the purpose of analysis)
+  
+
+  \par Version 0.0.9
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
+    - Compute *all* prime implicates (for the purpose of analysis)
 
 
   \par Version 0.1
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Constraint Rewrite System
-    - Encoding AES (top down)
+    - Constraint Rewrite System : DONE
+    - Encoding AES (top down) : DONE
+    - Fix translation system
 
   \par
    The aim is to have a first translation, so that amongst others SAT-solvers
@@ -51,6 +72,15 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Discussion on Generalisation/Parameterisation
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Find the symmetries of the AES Sbox DNF
+    - Related 8-bit bijections
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
+    - Find the symmetries of the AES Field Operations
 
 
   \par Version 0.1.2
