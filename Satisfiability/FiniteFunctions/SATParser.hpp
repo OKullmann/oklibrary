@@ -26,10 +26,10 @@ namespace OKlib {
       
       /*!
 	\brief Reads a clause-set given in Dimacs format on the given input
-        stream and returns it as output.
+        filestream and returns it as output.
       */
       ClauseSets read_dimacs_format(std::ifstream& input_file) {
-        int c = 0; // Character reading
+        char c = 0; // Character reading
         Literals raw_literal = -1;
         ClauseSets clause_set;
         while (input_file and (c = input_file.peek()) != EOF) {
