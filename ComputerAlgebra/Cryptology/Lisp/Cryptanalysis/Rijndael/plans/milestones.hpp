@@ -8,21 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/Rijndael 0.0.4 (7.3.2008)
-
-
-  \par Version 0.0.5
-  
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Provide tests for all functions DONE
-    - BUG : aes_make_vars_int never uses variable 385 DONE 
-    - Move functions which do not belong to this module DONE
-    - Replace append_all with uaapply DONE
-
-  \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Sbox CNF and DNF generation functions DONE
+  \module_version Lisp/Cryptanalysis/Rijndael 0.0.5 (3.6.2009)
 
 
   \par Version 0.0.6
@@ -84,5 +70,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.4 : 7.3.2008; initial version number (quite a few plans for translations to SAT).
+   - 0.0.5 : 3.6.2009; added tests for all most Sbox analysis functions and tidied the implementation.
 
 */

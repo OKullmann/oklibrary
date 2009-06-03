@@ -399,44 +399,5 @@ ncl_list_f(random_ip3);
    of the Sbox. </li>
   </ul>
 
-
-  \todo Provide tests for all functions DONE
-  <ul>
-   <li> DONE hitting_cnf_aes_sbox </li>
-   <li> DONE test_CNF_aes_sbox </li>
-   <li> DONE generate_full_aes_sbox_cnf_fcs </li>
-   <li> DONE generate_full_aes_sbox_dnf_fcs </li>
-   <li> DONE polynomial2list </li>
-   <li> MOVED binary_list_to_dnf_c </li>
-  </ul>
-
-
-  \todo DONE Move functions which do not belong to this module.
-
-
-  \todo DONE Sbox CNF and DNF generation functions
-  <ul>
-   <li> DONE Two small functions are needed which generate the CNF and DNF 
-   clause sets for the AES Sbox. </li>
-  </ul>
-
-
-  \bug DONE generate_full_aes_sbox_dnf_fcs uses 18 variables instead of 16
-  <ul>
-   <li> The intended use was that generate_full_aes_sbox_dnf_fcs uses only
-   16 variables (one for each input and output bit). </li>
-   <li> However, at the point at which auxillary functions were replaced by
-   egf_coeffs, a bug was introduced where 18 variables were being used instead
-   of the expected 16. </li>
-   <li> This was caused by misuse/typo when using egf_coeffs (gets the 
-   coefficients of a gf polynomial as a list). </li>
-   <li> In particular egf_coeffs takes the degree of the last term, not the
-   number of terms and so for GF(2^8) with 8 coefficients the second argument
-   should be 7, not 8. </li>
-   <li> This didn't occur when first created and so must be a regression. </li>
-   <li> This doesn't seem to have been picked up because the tests are at a
-   higher level which are rarely run. </li>
-  </ul>
-
 */
 
