@@ -13,19 +13,19 @@ License, or any later version. */
   <h1> Overview </h1>
   
   QuineMcCluskey provides a tool for generating all prime implicates (all 
-  clauses which follow from the original clause set but for which no 
-  smaller clause follows) of a given clause set.
+  clauses which follow from the original clause-set but for which no 
+  smaller clause follows) of a given clause-set.
 
 
   <h1> Input and Output </h1>
 
   The only argument to any of the QuineMcCluskey versions is the filepath
-  to the input clauseset. Output is given on STDOUT.
+  to the input clause-set. Output is given on STDOUT.
 
   <ul>
-   <li> <em> Input:</em> A CNF or DNF clauseset of fixed variable size in
+   <li> <em> Input:</em> A CNF or DNF clause-set of fixed variable size in
    Dimacs format. </li>
-   <li> <em> Output:</em> All prime implicates of the input clause set, in
+   <li> <em> Output:</em> All prime implicates of the input clause-set, in
    Pseudo-Dimacs format (i.e excluding any "p" and "c" lines). </li>
   </ul>
 
