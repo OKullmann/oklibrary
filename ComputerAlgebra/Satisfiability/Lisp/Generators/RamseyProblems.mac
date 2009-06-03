@@ -49,13 +49,18 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
 
+/* Ramsey translation using colexiographic ordering for the edges -> variable
+   translation. */
+ramsey2_stdofcs(q,r,n) := tcol2sat_stdohg2stdfcl(ramsey_stdohg(q,r,n))$
+
 output_ramsey2(q,r,n,filename) := block(
- [FFR : standardise_fcl(ramsey2_ofcs(q,r,n))],
+ [FFR : ramsey2_stdofcs(q,r,n)],
   output_fcl_v(
     sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
     FFR[1],
     filename,
     FFR[2]))$
+
 output_ramsey2_stdname(q,r,n) := 
  output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
 
@@ -89,10 +94,24 @@ ramsey_nbfclud(q,r,n) := block(
    create_list(i,i,1,length(q))
    ]))$
 
+/* Standardised version of the non-boolean Ramsey generator, using
+   colexiographical ordering for the hyperedges.
+ */
+ramsey_stdnbfclud(q,r,n) := block(
+  [dis_q : listify(
+    map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), setify(q)))],
+  return([create_list(i,i,1,binom(n,r)),
+   lappend(create_list(
+     col2sat_stdohg2stdnbfclud(ramsey_stdohg(q_i[1],r,n),q_i[2])[2], q_i, dis_q)),
+   create_list(i,i,1,length(q))
+   ]))$
+
 ramsey_ofcs(q,r,n) := nbfclud2fcl_alo(ramsey_nbfclud(q,r,n))$
+ramsey_stdofcs(q,r,n) := 
+  standardise_fcl(nbfclud2fcl_alo(ramsey_stdnbfclud(q,r,n)))[1]$
 
 output_ramsey(q,r,n,filename) := block(
- [FFR : standardise_fcl(ramsey_ofcs(q,r,n))],
+ [FFR : ramsey_stdofcs(q,r,n)],
   output_fcl_v(
     sconcat("Ramsey problem: ",length(q),
       " colours, hypergraph edges of size ", r, 
@@ -115,10 +134,14 @@ ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
   lunion(create_list(
       block([j:(i-1)*q+1],{colv_var({j,j+1}),-colv_var({j,j+2})}),
       i,1,d)))$
+ramsey_symbr1_stdpass(q,n) :=
+  ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
 
 /* XXX preliminary */
 /* r=2, q >= 3, n >= 4 */
 ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
+ramsey_symbr1e_stdpass(q,n) :=
+  ev(ramsey_symbr1e_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
 
 
 /* ************************************
@@ -139,6 +162,9 @@ ramsey2_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
   ),
   return(lunion(rl)))$
 
+ramsey2_symbr2_stdcs(n) := 
+  ev(ramsey2_symbr2_cs(n), colv(L) := rank_colex_subsets(L), colv)$
+
 /* Arbitrary r */
 ramsey_symbr2_nbfclud(s,r,n) := block(
  [eq_edges : [], clique_l : [], rl : [], cliq],
@@ -155,9 +181,31 @@ ramsey_symbr2_nbfclud(s,r,n) := block(
   ),
   return([listify(powerset(setn(n),2)),lappend(rl),create_list(i,i,1,s)]))$
 
+/* Arbitrary r */
+ramsey_symbr2_stdnbfclud(s,r,n) := block(
+ [eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey_symbr2_eqs(s,r,n),
+  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
+    edge_pairs : powerset(map(rank_colex_subsets,eq_edges),2),
+    for edge in edge_pairs do 
+      for c in powerset(setn(s),2) do block([cl : listify(c)],
+        el : listify(edge),
+        rl : cons([
+          {[el[1],cl[1]],[el[2],cl[2]]},
+          {[el[1],cl[2]],[el[2],cl[1]]}], rl)
+      )
+  ),
+  return([
+    map(rank_colex_subsets,listify(powerset(setn(n),2))),
+    lappend(rl),create_list(i,i,1,s)]))$
+
 
 ramsey_symbr2_fcl(s,r,n) :=
   nbfclud2fcl_alo(ramsey_symbr2_nbfclud(s,r,n))$
+
+ramsey_symbr2_stdfcl(s,r,n) := block([NFF],
+  NFF : ramsey_symbr2_stdnbfclud(s,r,n),
+  return(standardise_fcl(nbfclud2fcl_alo([sort(NFF[1]), NFF[2],NFF[3]]))[1]))$
 
 
 /* Given a natural number n, gives a set of sets of edges in the r-complete hypergraph

@@ -23,6 +23,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/NonBooleanTranslations.hpp
    the following topics are handled:
+    - Add standardised translations
     - Add translations for non-boolean clause-lists with uniform domain DONE 
 
   \par

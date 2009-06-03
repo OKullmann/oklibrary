@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding generators for hypergraphs
 
 
+  \bug ramseyrv_ohg handles r=0 incorrectly
+  <ul>
+   <li> ramseyrv_ohg(0,0,0) should return [[rv()],[{rv()}]], not 
+   [[rv()],[{{}}]]. </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> The current Generators/Generators.mac needs to be split into several
