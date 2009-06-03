@@ -18,6 +18,8 @@ License, or any later version. */
 #include <fstream>
 #include <vector>
 
+#include <OKlib/Satisfiability/FiniteFunctions/QuineMcCluskey.hpp>
+
 namespace OKlib {
   namespace Satisfiability {
     namespace FiniteFunctions {
@@ -25,11 +27,11 @@ namespace OKlib {
       /*!
 	\brief Reads a clause-set given in Dimacs format on the given input
         stream and returns it as output.
-       */
-      std::vector<std::vector<int> > read_dimacs_format(std::ifstream& input_file) {
+      */
+      ClauseSets read_dimacs_format(std::ifstream& input_file) {
         int c = 0; // Character reading
-        int raw_literal = -1;
-        std::vector<std::vector<int> > clause_set;
+        Literals raw_literal = -1;
+        ClauseSets clause_set;
         while (input_file and (c = input_file.peek()) != EOF) {
           switch(c) {
           case 'c' :
@@ -43,7 +45,7 @@ namespace OKlib {
             while(input_file and (c = input_file.get()) != '\n');
             break;
           default :
-            std::vector<int> clause;
+            Clauses clause;
             input_file >> raw_literal;
             while (input_file and raw_literal) {
               clause.push_back(raw_literal);
