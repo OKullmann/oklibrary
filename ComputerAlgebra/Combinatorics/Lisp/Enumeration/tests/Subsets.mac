@@ -61,7 +61,7 @@ okltest_unrank_lex_subsets(f) := block(
 
 
 /* *****************************
-   * Colexiographical ordering *
+   * Colexicographical ordering *
    *****************************
 */
 

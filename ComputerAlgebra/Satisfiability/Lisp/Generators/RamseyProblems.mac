@@ -49,7 +49,7 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
 
-/* Ramsey translation using colexiographic ordering for the edges -> variable
+/* Ramsey translation using colexicographic ordering for the edges -> variable
    translation. */
 ramsey2_stdofcs(q,r,n) := tcol2sat_stdohg2stdfcl(ramsey_stdohg(q,r,n))$
 
@@ -95,7 +95,7 @@ ramsey_nbfclud(q,r,n) := block(
    ]))$
 
 /* Standardised version of the non-boolean Ramsey generator, using
-   colexiographical ordering for the hyperedges.
+   colexicographical ordering for the hyperedges.
  */
 ramsey_stdnbfclud(q,r,n) := block(
   [dis_q : listify(

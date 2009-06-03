@@ -31,7 +31,7 @@ okltest_rank_lex_subsets(rank_lex_subsets);
 okltest_unrank_lex_subsets(unrank_lex_subsets);
 
 /* *****************************
-   * Colexiographical ordering *
+   * Colexicographical ordering *
    *****************************
 */
 
