@@ -48,7 +48,7 @@ int main(const int argc, const char* const argv[]) {
 
   using namespace OKlib::Satisfiability;
 
-  const FiniteFunctions::ClauseSets clause_set = FiniteFunctions::readDIMACSFormat(inputfile);
+  const FiniteFunctions::ClauseSets clause_set = FiniteFunctions::read_dimacs_format(inputfile);
   if (not inputfile) {
     std::cerr << "ERROR[QuineMcCluskey]: Failure reading file " << filename << ".\n";
     return error_readfile;
