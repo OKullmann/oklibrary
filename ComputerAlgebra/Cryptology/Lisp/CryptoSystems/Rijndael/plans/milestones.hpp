@@ -8,17 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/CryptoSystems/Rijndael 0.0.8 (16.6.2008)
-
-
-  \par Version 0.0.9
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
-   the following topics are handled:
-    - Naming Conventions DONE
-    - %Auxiliary functions DONE
-    - AES is computed incorrectly DONE
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.9 (3.6.2009)
 
 
   \par Version 0.0.10
@@ -73,6 +63,7 @@ License, or any later version. */
   \par Version history
    - 0.0.6 : 7.3.2008; initial version number (basic implementation of AES completed with tests, and settling of module structure).
    - 0.0.7 : 15.3.2008; some bugs in tests fixed, as well as sbox lookup data added and integrated with AES implementation.
-   - 0.0.8 : 16.6.2008; restructuring and redesign.
+   - 0.0.8 : 16.6.2008; restructuring and redesign.#
+   - 0.0.9 : 3.6.2009; tidied implementation by using good naming conventions and removing unnecessary functions.
 
 */
