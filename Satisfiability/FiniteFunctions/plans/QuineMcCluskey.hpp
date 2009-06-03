@@ -10,8 +10,6 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
-  \bug The code is still full of mixed cases!
-
 
   \todo Quine/McCluskey in general
   <ul>
@@ -314,6 +312,9 @@ struct ipow3_s<0,c> {
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
   </ul>
+
+
+  \bug The code is still full of mixed cases! DONE
 
 */
 
