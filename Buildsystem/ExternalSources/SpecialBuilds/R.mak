@@ -26,20 +26,19 @@ R : R_base R_packages
 R_base : $(R_directories_okl)
 	$(call unarchive,$(R_source_package_okl),$(R_base_build_dir_okl)) $(postcondition) \
 	cd $(R_build_dir_okl); $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) ./configure --prefix=$(R_install_directory_okl); $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) make; $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) make check; $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) make info; $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) $(R_install_command_okl) install-info; $(postcondition)
+	echo > $(R_site_profile_okl); $(postcondition) \
+	./configure --prefix=$(R_install_directory_okl); $(postcondition) \
+	R_PROFILE=$(R_site_profile_okl) make; $(postcondition) \
+	R_PROFILE=$(R_site_profile_okl) make check; $(postcondition) \
+	make info; $(postcondition) \
+	$(R_install_command_okl) install-info; $(postcondition)
 	cp -r $(R_build_dir_okl)/doc $(R_doc_dir_okl); $(postcondition)
 	cp -r $(R_build_dir_okl)/library $(R_doc_dir_okl)
 
 R_packages :
 	cd $(R_source_dir_okl)/packages; $(postcondition) \
-	env -i PATH=${PATH} HOME=$(R_install_directory_okl) $(R_call_okl) CMD INSTALL $(R_packages_okl); $(postcondition) \
+	R_PROFILE=$(R_site_profile_okl) $(R_call_okl) CMD INSTALL $(R_packages_okl); $(postcondition) \
 	cp *.pdf $(R_doc_dir_okl); $(postcondition)
-	cd $(R_homedir_okl); $(postcondition) \
-	ln -s ~/.Xauthority; $(postcondition)
 
 
 # #################################

@@ -30,15 +30,16 @@ ifeq ($(R_default_install_okl),local)
   R_install_directory_okl ?= $(R_installation_dir_okl)
   R_install_command_okl ?= make install
   R_call_okl ?= $(R_installation_dir_okl)/bin/R
-  R_homedir_okl ?= $(R_installation_dir_okl)
+  R_homedir_okl ?= $(R_base_installation_dir_okl)
 else
   R_install_directory_okl ?= $(R_system_install_directory)
   R_install_command_okl ?= sudo make install
   R_call_okl ?= R
   R_homedir_okl ?= $(HOME)
 endif
-R_call_parameters ?= --no-site-file --save --no-restore-data
-Rrestore_call_parameters_okl ?= --no-site-file
+R_site_profile_okl ?= $(R_homedir_okl)/Rprofile_okl
+R_call_parameters ?= --save --no-restore-data
+Rrestore_call_parameters_okl ?= 
 
 R_base_doc_dir_okl ?= $(ExternalSources_doc)/R
 R_doc_dir_okl ?= $(R_base_doc_dir_okl)/$(R_recommended_version_number_okl)

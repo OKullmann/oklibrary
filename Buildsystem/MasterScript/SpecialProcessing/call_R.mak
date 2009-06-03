@@ -34,10 +34,10 @@ R_configuration :
 
 run_R_core :
 ifeq ($(argument_okl),)
-	HOME=$(R_homedir_okl) $(R_call_okl) $(R_call_parameters)
+	R_PROFILE=$(R_site_profile_okl) $(R_call_okl) $(R_call_parameters)
 else
-	HOME=$(R_homedir_okl) $(R_call_okl) $(argument_okl)
+	R_PROFILE=$(R_site_profile_okl) $(R_call_okl) $(argument_okl)
 endif
 
 run_R_restore_core :
-	HOME=$(R_homedir_okl) $(R_call_okl) $(Rrestore_call_parameters_okl)
+	R_PROFILE=$(R_site_profile_okl) $(R_call_okl) $(Rrestore_call_parameters_okl)
