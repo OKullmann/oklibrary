@@ -16,17 +16,6 @@ License, or any later version. */
    for experimental investigations. </li>
   </ul>
 
-
-  \todo Provide tests for all functions
-  <ul>
-   <li> binary_list_to_dnf_c </li>
-   <li> DONE hitting_cnf_aes_sbox </li>
-   <li> DONE test_CNF_aes_sbox </li>
-   <li> DONE generate_full_aes_sbox_cnf_fcs </li>
-   <li> DONE generate_full_aes_sbox_dnf_fcs </li>
-   <li> DONE polynomial2list </li>
-  </ul>
-
   
   \todo Generate good CNF hitting clause-sets for the AES Sbox
   <ul> 
@@ -408,6 +397,17 @@ ncl_list_f(random_ip3);
    </li>
    <li> One should also consider the various arithmetical representations
    of the Sbox. </li>
+  </ul>
+
+
+  \todo Provide tests for all functions DONE
+  <ul>
+   <li> DONE hitting_cnf_aes_sbox </li>
+   <li> DONE test_CNF_aes_sbox </li>
+   <li> DONE generate_full_aes_sbox_cnf_fcs </li>
+   <li> DONE generate_full_aes_sbox_dnf_fcs </li>
+   <li> DONE polynomial2list </li>
+   <li> MOVED binary_list_to_dnf_c </li>
   </ul>
 
 
