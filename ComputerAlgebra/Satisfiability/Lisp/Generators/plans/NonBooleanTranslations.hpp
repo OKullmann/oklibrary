@@ -18,6 +18,25 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add standardised translations
+  <ul>
+   <li> Standardised translations from non-boolean to boolean clause-sets/lists
+   should be implemented. </li>
+   <li> For translations from non-boolean formal clause-lists, it seems natural
+   to take the ordering given by the variable list, and the ordering given by
+   the domain and then define the new ordering on the domain lexicographically
+   based first on the variable ordering and then on the domain. </li>
+   <li> Such a (variable,domain) lexicographical ordering would allow additional
+   variables to be added to the problem at the end of the variable ordering 
+   without requiring renumbering. </li>
+   <li> Perhaps two versions could be supplied, with one ordering first by 
+   variable then domain, and then vice versa (then allowing the domain to be
+   easily extended? </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac 
+   for an example of use. </li>
+  </ul>
+
+
   \todo Translating non-boolean clause-sets into boolean clause-sets
   <ul>
    <li> DONE
