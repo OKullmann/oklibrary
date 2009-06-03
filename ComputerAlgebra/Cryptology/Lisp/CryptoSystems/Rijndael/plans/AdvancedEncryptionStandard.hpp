@@ -10,13 +10,18 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo Naming Conventions
+  \todo Naming Conventions DONE
   <ul>
    <li> To avoid clashes with other modules and to make clear which functions
    are specific to AES and which aren't, functions in this module should 
    perhaps have the prefix "aes_". </li>
    <li> "aes_" is reasonable as yet only AES is implemented, not general 
    Rijndael. </li>
+   <li> DONE Far better, would be to name functions/variables which are specific
+   to the current 128 bit AES implementation using "aes_", and name those which 
+   are general to rijndael with "rijn_". This should make clear what needs to be
+   extended or generalised to implement full Rijndael rather than simply AES. 
+   </li>
    <li> DONE Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
    <li> DONE We don't use "camels", so names like GF2t8PolyToInt needs to be
    replaced. </li>

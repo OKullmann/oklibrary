@@ -46,10 +46,10 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
    *********
 */
 
-okltest_sbox(sbox);
-okltest_sbox(lookup_sbox);
-okltest_inv_sbox(inv_sbox);
-okltest_inv_sbox(lookup_inv_sbox);
+okltest_rijn_sbox(rijn_sbox);
+okltest_rijn_sbox(rijn_lookup_sbox);
+okltest_rijn_inv_sbox(rijn_inv_sbox);
+okltest_rijn_inv_sbox(rijn_lookup_inv_sbox);
 
 /* *************
    * Sub-bytes *
@@ -63,18 +63,18 @@ okltest_inv_sbox(lookup_inv_sbox);
    **************
 */
 
-okltest_shiftrows(shiftrows);
-okltest_inv_shiftrows(inv_shiftrows);
+okltest_aes_shiftrows(aes_shiftrows);
+okltest_aes_inv_shiftrows(aes_inv_shiftrows);
 
 /* ***************
    * Mix columns *
    ***************
 */
 
-okltest_mixcolumn(lookup_mixcolumn);
-okltest_inv_mixcolumn(lookup_inv_mixcolumn);
-okltest_mixcolumn(mixcolumn);
-okltest_inv_mixcolumn(inv_mixcolumn);
+okltest_rijn_mixcolumn(rijn_lookup_mixcolumn);
+okltest_rijn_inv_mixcolumn(rijn_lookup_inv_mixcolumn);
+okltest_rijn_mixcolumn(rijn_mixcolumn);
+okltest_rijn_inv_mixcolumn(rijn_inv_mixcolumn);
 
 okltest_mixcolumns(mixcolumns);
 okltest_inv_mixcolumns(inv_mixcolumns);
@@ -84,7 +84,7 @@ okltest_inv_mixcolumns(inv_mixcolumns);
    *****************
 */
 
-okltest_key_expansion(key_expansion); 
+okltest_aes_key_expansion(aes_key_expansion); 
 
 /* *********************************
    * AES encryption and decryption *
