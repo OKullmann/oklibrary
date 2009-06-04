@@ -200,7 +200,7 @@ source_libraries += $(OKsystem_include)
 # for the new one).
 # ----------------------------------------------------------
 ifneq ($(programs),)
-  programs := $(addprefix $(bin_dir)/, $(programs))
+  override programs := $(addprefix $(bin_dir)/, $(programs))
 endif
 # ----------------------------------------------------------
 
