@@ -17,6 +17,13 @@ License, or any later version. */
   <h2> Green-Tao problems </h2>
 
   <ul>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-4-5.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-7.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-3-k.hpp
+    <ol>
+     <li> greentao_3(3,3,5) </li>
+    </ol>
+   </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-4-k.hpp
     <ol>
      <li> greentao_3(3,4,4) </li>
