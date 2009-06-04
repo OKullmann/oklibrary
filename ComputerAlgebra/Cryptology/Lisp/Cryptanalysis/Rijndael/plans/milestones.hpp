@@ -20,14 +20,14 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Write tests for all functions
-    - Write Docus
+    - Write tests for all functions DONE
     - Add canonical translations for Sbox and Field multiplications: DONE
 
   \par Version 0.0.7
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Fix translation system
     - Representations of the Sbox using additional variables
     - Organisation
 
@@ -56,9 +56,10 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Rewrite tests based on rewritten translation system
+    - Write Docus
     - Constraint Rewrite System : DONE
     - Encoding AES (top down) : DONE
-    - Fix translation system
 
   \par
    The aim is to have a first translation, so that amongst others SAT-solvers

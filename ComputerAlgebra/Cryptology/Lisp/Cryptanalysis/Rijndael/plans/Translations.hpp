@@ -10,32 +10,17 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
-  \todo Write tests for all functions
+  \todo Rewrite tests based on rewritten translation system
   <ul>
-   <li> Tests are needed for the following functions
+   <li> After the translation system is rewritten (see "Fix translation system")
+   the tests must be rewritten to take account of this. </li>
+   <li> Also additionally tests for the following functions are necessary:
     <ul>
      <li> aes_cp </li>
      <li> aes_cnf_cs </li>
      <li> aes_cnf_fcs </li>
-     <li> DONE aes_sbox_ts_gen </li>
-     <li> DONE aes_mul2_ts_gen </li>
-     <li> DONE aes_mul3_ts_gen </li>
-     <li> DONE aes_final_round_cp </li>
-     <li> DONE rewrite_all </li>
-     <li> DONE rewrite_condition </li>
-     <li> DONE aes_round_cp </li>
-     <li> DONE aes_subbytes_cp </li>
-     <li> DONE aes_shiftrows_cp </li>
-     <li> DONE aes_mixcolumns_cp </li>
-     <li> DONE aes_mixcolumn_cp </li>
-     <li> DONE aes_add_cp </li>
-     <li> DONE aes_mul2_cp </li>
-     <li> DONE aes_mul3_cp </li>
-     <li> DONE aes_sbox_cp </li>
     </ul>
    </li>
-   <li> Most of the above tests will probably need most of the test to be run 
-   at a higher test level, given their long running time. </li>
   </ul>
 
   
@@ -289,6 +274,39 @@ License, or any later version. */
      time. However for n=8 perhaps we can perform heavy preprocessing? </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo DONE Write tests for all functions
+  <ul>
+   <li> The writing of some tests have been postponed until
+   after the translation system has been fixed (see "Fix translation system),
+   which should allow tests to be written properly (non-standard variables
+   currently makes this difficult). </li>
+   <li> DONE Tests are needed for the following functions
+    <ul>
+     <li> (DONE postponed) aes_cp </li>
+     <li> (DONE postponed) aes_cnf_cs </li>
+     <li> (DONE postponed) aes_cnf_fcs </li>
+     <li> DONE aes_sbox_ts_gen </li>
+     <li> DONE aes_mul2_ts_gen </li>
+     <li> DONE aes_mul3_ts_gen </li>
+     <li> DONE aes_final_round_cp </li>
+     <li> DONE rewrite_all </li>
+     <li> DONE rewrite_condition </li>
+     <li> DONE aes_round_cp </li>
+     <li> DONE aes_subbytes_cp </li>
+     <li> DONE aes_shiftrows_cp </li>
+     <li> DONE aes_mixcolumns_cp </li>
+     <li> DONE aes_mixcolumn_cp </li>
+     <li> DONE aes_add_cp </li>
+     <li> DONE aes_mul2_cp </li>
+     <li> DONE aes_mul3_cp </li>
+     <li> DONE aes_sbox_cp </li>
+    </ul>
+   </li>
+   <li> Most of the above tests will probably need most of the test to be run 
+   at a higher test level, given their long running time. </li>
   </ul>
 
 
