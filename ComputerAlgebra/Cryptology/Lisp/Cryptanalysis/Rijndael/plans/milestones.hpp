@@ -22,6 +22,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Write tests for all functions
     - Write Docus
+    - Add canonical translations for Sbox and Field multiplications: DONE
 
   \par Version 0.0.7
   
