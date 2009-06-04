@@ -21,7 +21,7 @@ License, or any later version. */
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
-    - Provide tests for all functions
+    - Provide tests for all functions: DONE
 
     
   \par Version 0.0.8

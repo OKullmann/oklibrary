@@ -8,9 +8,6 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
-
-  
-  \todo Provide tests for all functions
   
   
   \todo Generate good CNF hitting clause-sets for the AES Field Operations
@@ -221,5 +218,8 @@ true
   
  
   \todo Find the symmetries of the AES Field Operations
+
+  
+  \todo DONE Provide tests for all functions
 
 */
