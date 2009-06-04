@@ -31,6 +31,7 @@ run_R : R_configuration run_R_core
 run_R_restore : R_configuration run_R_restore_core
 
 R_configuration :
+	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/R-init.R > $(R_site_profile_okl)
 
 run_R_core :
 ifeq ($(argument_okl),)
