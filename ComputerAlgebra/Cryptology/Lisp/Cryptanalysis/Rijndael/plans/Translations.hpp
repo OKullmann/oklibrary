@@ -277,50 +277,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE Write tests for all functions
-  <ul>
-   <li> The writing of some tests have been postponed until
-   after the translation system has been fixed (see "Fix translation system),
-   which should allow tests to be written properly (non-standard variables
-   currently makes this difficult). </li>
-   <li> DONE Tests are needed for the following functions
-    <ul>
-     <li> (DONE postponed) aes_cp </li>
-     <li> (DONE postponed) aes_cnf_cs </li>
-     <li> (DONE postponed) aes_cnf_fcs </li>
-     <li> DONE aes_sbox_ts_gen </li>
-     <li> DONE aes_mul2_ts_gen </li>
-     <li> DONE aes_mul3_ts_gen </li>
-     <li> DONE aes_final_round_cp </li>
-     <li> DONE rewrite_all </li>
-     <li> DONE rewrite_condition </li>
-     <li> DONE aes_round_cp </li>
-     <li> DONE aes_subbytes_cp </li>
-     <li> DONE aes_shiftrows_cp </li>
-     <li> DONE aes_mixcolumns_cp </li>
-     <li> DONE aes_mixcolumn_cp </li>
-     <li> DONE aes_add_cp </li>
-     <li> DONE aes_mul2_cp </li>
-     <li> DONE aes_mul3_cp </li>
-     <li> DONE aes_sbox_cp </li>
-    </ul>
-   </li>
-   <li> Most of the above tests will probably need most of the test to be run 
-   at a higher test level, given their long running time. </li>
-  </ul>
-
-
-  \todo DONE Add canonical translations for Sbox and Field multiplications
-  <ul>
-   <li> See aes_sbox_ts_cp etc. </li>
-   <li> See dual_fcl in
-   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac . </li>
-   <li> See Representations of the Sbox using additional variables in 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   </li>
-  </ul>
-
-
   \todo Constraint rewrite system (DONE Covered in "Fix translation system")
   <ul>
    <li> In translating AES to a CNF, one can define a rewrite system based
@@ -486,34 +442,6 @@ License, or any later version. */
      the unevaluated expression if not, but instead returns an error. </li>
     </ol>
    </li>
-  </ul>
-  
-
-  \todo DONE Replace append_all with uaapply
-  <ul>
-   <li> See ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp . </li>
-  </ul>
-  
-  
-  \bug DONE aes_make_vars_int never uses variable 385
-  <ul>
-   <li> Given that aes_make_vars_int() was also used to generate the unit
-   clauses, this shouldn't have affected any testing. </li>
-   <li>
-   \verbatim
-aes_reset_vars()$
-aes_make_vars_int("x",1,1);
-[386]
-   \endverbatim
-   should be 
-   \verbatim
-aes_reset_vars()$
-aes_make_vars_int("x",1,1);
-[385]
-   \endverbatim
-   </li>
-   <li> This shouldn't have caused any issues, it simply results in the
-   variable 385 never being used. </li>
   </ul>
 
 */

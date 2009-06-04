@@ -8,20 +8,8 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/Rijndael 0.0.5 (3.6.2009)
+  \module_version Lisp/Cryptanalysis/Rijndael 0.0.6 (4.6.2009)
 
-
-  \par Version 0.0.6
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Create / update milestones DONE
-    - Review and tidy todos DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Write tests for all functions DONE
-    - Add canonical translations for Sbox and Field multiplications: DONE
 
   \par Version 0.0.7
   
@@ -103,5 +91,6 @@ License, or any later version. */
   \par Version history
    - 0.0.4 : 7.3.2008; initial version number (quite a few plans for translations to SAT).
    - 0.0.5 : 3.6.2009; added tests for all most Sbox analysis functions and tidied the implementation.
+   - 0.0.6 : 4.6.2009; Added tests and finalised the initial translation system ready for rewriting using new notions.
 
 */
