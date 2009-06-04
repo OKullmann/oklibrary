@@ -242,7 +242,8 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
 10000  0       12     5802    20000  3176480652
    \endverbatim
    However this should be part of the extended ubcsat-okl (see above). </li>
-   <li> Reading into R by
+   <li> DONE (function read_ubcsat does this)
+   Reading into R by
    \verbatim
 > E = read.table("Data", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
    \endverbatim

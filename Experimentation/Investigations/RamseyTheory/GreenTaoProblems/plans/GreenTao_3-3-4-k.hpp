@@ -79,19 +79,18 @@ License, or any later version. */
      would be needed. </li>
      <li> cutoff=10^8, 1000 runs:
       <ul>
-       <li> Evaluation of the first 86 runs:
+       <li> Evaluation of the first 448 runs:
        \verbatim
-E = read.table("GreenTao_3-3-4-4_1550.cnf_OUT", colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
-table(E$min)
- 2  3  4  5  6  7  8  9
- 1 10 11 17 21 19 17  1
-length(E$min)
-[1] 97
+> E = read_ubcsat("GreenTao_3-3-4-4_1550.cnf_OUT")
+  2   3   4   5   6   7   8   9
+  7  34  55  72 114  94  65   7
+448
        \endverbatim
        From that perspective one would think that cutoff needed to be enlarged.
        </li>
        <li> But let's actually evaluate the whole experiment. </li>
-       <li> By the way (MG please note), this basic R-functionality of reading
+       <li> DONE
+       By the way (MG please note), this basic R-functionality of reading
        tables produced by ubcsat-okl and tabulating the values, should be
        available to us by a simple mechanism; see "Evaluating the data frames"
        in ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp.
