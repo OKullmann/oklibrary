@@ -23,6 +23,9 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 
 
 okltest_generate_full_aes_field_mul_dnf_fcs(generate_full_aes_field_mul_dnf_fcs);
+okltest_generate_full_aes_field_mul_cnf_fcs(generate_full_aes_field_mul_cnf_fcs);
+okltest_test_CNF_aes_field_mul(test_CNF_aes_field_mul);
+okltest_hitting_cnf_aes_field_mul(hitting_cnf_aes_field_mul);
 
 /*!
 \endhtmlonly

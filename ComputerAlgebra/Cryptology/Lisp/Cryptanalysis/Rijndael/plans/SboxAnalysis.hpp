@@ -385,7 +385,9 @@ ncl_list_f(random_ip3);
    in Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
    <li> When using (only) CNF, likely the use of additional variables is
    crucial. </li>
-   <li> Most natural is to consider the Tseitin translation of the
+   <li> One should also consider the various arithmetical representations
+   of the Sbox. </li>
+   <li> DONE Most natural is to consider the Tseitin translation of the
    DNF-representation.
     <ol>
      <li> See
@@ -395,8 +397,6 @@ ncl_list_f(random_ip3);
      ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
     </ol>
    </li>
-   <li> One should also consider the various arithmetical representations
-   of the Sbox. </li>
   </ul>
 
 */
