@@ -10,6 +10,39 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \bug Inappropriate command-extension on certain machines
+  <ul>
+   <li> Using the tab-key on csltok (32-bit, Suse 9.2), command-line extension
+   happens using the existing Maxima- symbols. </li>
+   <li> But including our own symbols does not happen after they have been
+   included, but oklib_load_all(). </li>
+   <li> On the other hand, once we used oklib_batch with a testobjects-file,
+   then the included symbols are used! </li>
+   <li> Is this related to "load" versus "batch"?
+    <ol>
+     <li> Considering for example "ohg". The extension "ohg_p" should be found.
+     </li>
+     <li> After oklib_load_all() this is not the case. </li>
+     <li> Neither after
+     oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac"). </li>
+     <li> But after
+     oklib_batch("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Basics.mac")
+     it works! </li>
+     <li> And considering "sgn" ("sgnv2c" and "sgnvs2cs" should be found),
+     still after
+     oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVectors.mac")
+     it is not available, though when using oklib_batch instead of oklib_load
+     it works! </li>
+     <li> So there appears to be something works when using the Maxima
+     function "batch", but not with "load". </li>
+    </ol>
+   </li>
+   <li> The above is with Ecl. With CLisp we get the behaviour, that only
+   Lisp-symbols are considered, no Maxima-symbols, and no user-defined
+   ones. So here something more fundamental seems to go wrong. </li>
+  </ul>
+
+
   \bug DONE
   Gnuplot not working anymore
   <ul>
