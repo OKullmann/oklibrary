@@ -10,65 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \bug Inappropriate command-extension on certain machines
-  <ul>
-   <li> Using the tab-key on csltok (32-bit, Suse 9.2), command-line extension
-   happens using the existing Maxima- symbols. </li>
-   <li> But including our own symbols does not happen after they have been
-   included, but oklib_load_all(). </li>
-   <li> On the other hand, once we used oklib_batch with a testobjects-file,
-   then the included symbols are used! </li>
-   <li> Is this related to "load" versus "batch"?
-    <ol>
-     <li> Considering for example "ohg". The extension "ohg_p" should be found.
-     </li>
-     <li> After oklib_load_all() this is not the case. </li>
-     <li> Neither after
-     oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac"). </li>
-     <li> But after
-     oklib_batch("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Basics.mac")
-     it works! </li>
-     <li> And considering "sgn" ("sgnv2c" and "sgnvs2cs" should be found),
-     still after
-     oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVectors.mac")
-     it is not available, though when using oklib_batch instead of oklib_load
-     it works! </li>
-     <li> So there appears to be something works when using the Maxima
-     function "batch", but not with "load". </li>
-    </ol>
-   </li>
-   <li> The above is with Ecl. With CLisp we get the behaviour, that only
-   Lisp-symbols are considered, no Maxima-symbols, and no user-defined
-   ones. So here something more fundamental seems to go wrong. </li>
-  </ul>
-
-
-  \bug DONE
-  Gnuplot not working anymore
-  <ul>
-   <li>
-   \verbatim
-(%i1) plot2d(sin(x),[x,-5,5])$
-Xlib: connection to ":0.0" refused by server
-Xlib: No protocol specified
-gnuplot: unable to open display ':0.0'
-gnuplot: X11 aborted.
-   \endverbatim
-   </li>
-   <li> If the (currently introduced) redefinition of HOME (when calling
-   Maxima) to the Maxima-installation-directory is removed, then it works
-   again. </li>
-   <li> Those two files apparently establishing that "gnuplot-pipe" are
-   stored in the installation directory --- perhaps gnuplot can't find
-   them? </li>
-   <li> Setting plot_format to "gnuplot" (not "gnuplot_pipes", as it is
-   the default) doesn't help (apparently with that no files are used?). </li>
-   <li> And also "openmath" doesn't work anymore. </li>
-   <li> Without HOME-resetting both alternative formats work (though with
-   gnuplot the window doesn't stay open, but this seems to be "normal"). </li>
-  </ul>
-
-
   \todo Install xgettext
   <ul>
    <li> To create new Maxima packages, xgettext, available at
@@ -147,6 +88,81 @@ gnuplot: X11 aborted.
      The Maxima system doesn't know about these changes. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \bug DONE (got it working with CLisp by using rmaxima, while that symbols
+  must have been seen seems unavoidable)
+  Inappropriate command-extension
+  <ul>
+   <li> Using the tab-key on csltok (32-bit, Suse 9.2), command-line extension
+   happens using the existing Maxima- symbols. </li>
+   <li> But including our own symbols does not happen after they have been
+   included, but oklib_load_all(). </li>
+   <li> On the other hand, once we used oklib_batch with a testobjects-file,
+   then the included symbols are used! </li>
+   <li> Is this related to "load" versus "batch"?
+    <ol>
+     <li> Considering for example "ohg". The extension "ohg_p" should be found.
+     </li>
+     <li> After oklib_load_all() this is not the case. </li>
+     <li> Neither after
+     oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac"). </li>
+     <li> But after
+     oklib_batch("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Basics.mac")
+     it works! </li>
+     <li> And considering "sgn" ("sgnv2c" and "sgnvs2cs" should be found),
+     still after
+     oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/SignVectors.mac")
+     it is not available, though when using oklib_batch instead of oklib_load
+     it works! </li>
+     <li> So there appears to be something works when using the Maxima
+     function "batch", but not with "load". </li>
+     <li> Ah, the point is that once the symbol has been seen on the
+     command line, then it's available (not before). So if we use somehow
+     a symbol, from then on it's available not before. </li>
+     <li> So perhaps here not much can be done? </li>
+    </ol>
+   </li>
+   <li> The above is with Ecl.
+    <ol>
+     <li> With CLisp we get the behaviour, that only
+     Lisp-symbols are considered, no Maxima-symbols, and no user-defined
+     ones. So here something fundamental seems to go wrong (it never
+     gets to incorporate Maxima- or user-defined functions). </li>
+     <li> There is a command-line history, but this works only for the
+     session, does not use the history from previous sessions (as we get
+     it with Ecl). </li>
+     <li> This is likely due to the fact that we use rmaxima with Ecl,
+     but maxima with clisp. </li>
+     <li> Ah, we should also use rmaxima here --- then it works!. </li>
+   </li>
+  </ul>
+
+
+  \bug DONE
+  Gnuplot not working anymore
+  <ul>
+   <li>
+   \verbatim
+(%i1) plot2d(sin(x),[x,-5,5])$
+Xlib: connection to ":0.0" refused by server
+Xlib: No protocol specified
+gnuplot: unable to open display ':0.0'
+gnuplot: X11 aborted.
+   \endverbatim
+   </li>
+   <li> If the (currently introduced) redefinition of HOME (when calling
+   Maxima) to the Maxima-installation-directory is removed, then it works
+   again. </li>
+   <li> Those two files apparently establishing that "gnuplot-pipe" are
+   stored in the installation directory --- perhaps gnuplot can't find
+   them? </li>
+   <li> Setting plot_format to "gnuplot" (not "gnuplot_pipes", as it is
+   the default) doesn't help (apparently with that no files are used?). </li>
+   <li> And also "openmath" doesn't work anymore. </li>
+   <li> Without HOME-resetting both alternative formats work (though with
+   gnuplot the window doesn't stay open, but this seems to be "normal"). </li>
   </ul>
 
 */

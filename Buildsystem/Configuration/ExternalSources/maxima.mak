@@ -23,7 +23,7 @@ maxima_html_documentation_index_location_okl ?= Maxima.html
 maxima_lisp_name_okl ?= ecl
 ifeq ($(maxima_lisp_name_okl),clisp)
   maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
-  maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
+  maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/rmaxima
 else
   maxima_lisp_configuration_okl ?= --with-ecl=$(ecl_call_okl) --enable-ecl
   maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/rmaxima
