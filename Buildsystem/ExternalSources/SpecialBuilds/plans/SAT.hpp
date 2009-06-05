@@ -636,6 +636,7 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   \todo QBF
   <ul>
    <li> Duaffle http://www.cs.cornell.edu/~sabhar/#software </li>
+   <li> http://miniqbf.spaces.live.com/default.aspx </li>
   </ul>
   
 */
