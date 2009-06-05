@@ -87,6 +87,11 @@ okltest_rv_var(rv_var);
 okltest_set_rv(set_rv);
 okltest_ramseyrv_ohg(ramseyrv_ohg);
 
+okltest_nver_ramsey_hg(nver_ramsey_hg);
+okltest_nver_ramsey_ohg(nver_ramsey_ohg);
+okltest_nhyp_ramsey_hg(nhyp_ramsey_hg);
+okltest_nhyp_ramsey_ohg(nhyp_ramsey_ohg);
+
 /*!
 \endhtmlonly
 */
