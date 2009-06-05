@@ -33,9 +33,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 /* Transforms an integer into a big endian binary list representation
    padded with 0s to the left up to length "n" */
 int2binlist(int,n) := block([result_list : []],
-  while int > 2^n do int : int - 2^n,
+  while int >= 2^n do int : int - 2^n,
   for i : n-1 thru 0 step -1 do block(
-    if int > 2^i then block(
+    if int >= 2^i then block(
       result_list : endcons(1,result_list),
       int : int- 2^i
     ) else result_list : endcons(0,result_list)),
