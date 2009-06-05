@@ -251,6 +251,25 @@ ramseyrv_ohg(q,r,n) := block([V0 : setn(n), V],
 ramsey_stdohg(q,r,n) :=
  ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_subsets(setify(L)), rv)$
 
+/* Statistics functions: */
+
+nver_ramsey_hg(q,r,n) := binom(n,r)$
+nver_ramsey_ohg(q,r,n) := binom(n,r)$
+nver_ramsey_stdohg(q,r,n) := binom(n,r)$
+
+nhyp_ramsey_hg(q,r,n) := 
+  if q > n then 0
+  elseif r > n then 0
+  else if r > q then 0
+  elseif r = 0 then 1
+  else binom(n,q)$ 
+nhyp_ramsey_ohg(q,r,n) := 
+  if q > n then 0
+  elseif r > n then 0
+  else if r > q then 0
+  elseif r = 0 then 1
+  else binom(n,q)$ 
+
 /*!
 \endhtmlonly
 */

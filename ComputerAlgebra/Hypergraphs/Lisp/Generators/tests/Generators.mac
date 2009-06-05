@@ -311,6 +311,34 @@ okltest_ramsey_stdohg(f) := (
   /* XXX */
   true)$
 
+okltest_nver_ramsey_ohg(f) := (
+  for q : 0 thru 4 do
+    for r : 0 thru 5 do
+      for n : 0 thru 5 do
+        assert(f(q,r,n) = length(ramsey_ohg(q,r,n)[1])),
+  true)$
+
+okltest_nver_ramsey_hg(f) := (
+  for q : 0 thru 4 do
+    for r : 0 thru 5 do
+      for n : 0 thru 5 do
+        assert(f(q,r,n) = length(ramsey_hg(q,r,n)[1])),
+  true)$
+
+okltest_nhyp_ramsey_ohg(f) := (
+  for q : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for r : 0 thru if oklib_test_level=0 then 6 else 10 do
+      for n : 0 thru if oklib_test_level=0 then 6 else 15 do
+        assert(f(q,r,n) = length(ramsey_ohg(q,r,n)[2])),
+  true)$
+
+okltest_nhyp_ramsey_hg(f) := (
+  for q : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for r : 0 thru if oklib_test_level=0 then 6 else 10 do
+      for n : 0 thru if oklib_test_level=0 then 6 else 15 do 
+        assert(f(q,r,n) = length(ramsey_hg(q,r,n)[2])),
+  true)$
+
 /*!
 \endhtmlonly
 */
