@@ -40,6 +40,7 @@ template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
 #include <cstdlib>
 #include <cassert>
 #include <vector>
+#include <set>
 
 #include <boost/range/size.hpp>
 #include <boost/range/value_type.hpp>
@@ -246,10 +247,15 @@ namespace OKlib {
       ignored (have no effect). Multiple literal occurrences
       are not contracted, but show up in the clauses.
 
+      More generally, any container for clauses can be used
+      which supports "push_back", and any container for literals
+      can be used which supports "assign".
+
     */
 
     template <
       typename Lit = OKlib::Literals::Literals_int,
+      class ClauseContainer = std::vector<std::vector<Lit> >,
       typename Int = typename OKlib::Variables::traits::index_type<
         typename OKlib::Literals::traits::var_type<Lit>::type>::type,
       class String = std::string
@@ -258,11 +264,11 @@ namespace OKlib {
 
     public :
 
+      typedef Lit literal_type;
+      typedef ClauseContainer clause_set_type;
+      typedef typename clause_set_type::value_type clause_type;
       typedef Int int_type;
       typedef String string_type;
-      typedef Lit literal_type;
-      typedef std::vector<literal_type> clause_type;
-      typedef std::vector<clause_type> clause_set_type;
 
       clause_set_type clause_set;
 
@@ -277,6 +283,59 @@ namespace OKlib {
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type) {
         clause_set.push_back(clause_type().assign(boost::begin(r), boost::end(r)));
+      }
+
+    };
+
+
+    /*!
+      \class RawDimacsCLSAdaptorSets
+      \brief Adaptor which turns Dimacs input into a
+      <code> std::set<std::set<int> > </code>.
+
+      Comments, the two parameters and tautological clauses are
+      ignored (have no effect). Multiple literal occurrences
+      are (obviously) contracted, and so are multiple clauses.
+
+      More generally, any container for clauses can be used
+      which supports "insert", and any container for literals
+      can be used which supports "assign". Here the container
+      for literals should contract multiple literal occurrences
+      (if not then the above specification about contraction has
+      to be cancelled), and also the container for clauses should
+      contract multiple clauses.
+
+    */
+
+    template <
+      typename Lit = OKlib::Literals::Literals_int,
+      class ClauseContainer = std::set<std::set<Lit> >,
+      typename Int = typename OKlib::Variables::traits::index_type<
+        typename OKlib::Literals::traits::var_type<Lit>::type>::type,
+      class String = std::string
+      >
+    class RawDimacsCLSAdaptorSets {
+
+    public :
+
+      typedef Lit literal_type;
+      typedef ClauseContainer clause_set_type;
+      typedef typename clause_set_type::value_type clause_type;
+      typedef Int int_type;
+      typedef String string_type;
+
+      clause_set_type clause_set;
+
+      RawDimacsCLSAdaptorSets() {}
+      void comment(const string_type&) {}
+      void n(const int_type) {} 
+      void c(const int_type) {}
+      void finish() {}
+      void tautological_clause(const int_type) {}
+
+      template <class ForwardRange>
+      void clause(const ForwardRange& r, const int_type) {
+        clause_set.insert(clause_type().assign(boost::begin(r), boost::end(r)));
       }
 
     };

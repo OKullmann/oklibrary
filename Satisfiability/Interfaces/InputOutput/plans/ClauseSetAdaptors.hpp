@@ -46,6 +46,8 @@ License, or any later version. */
 
   \todo Create "base class" for "raw adaptors"
   <ul>
+   <li> Yet we have InputOutput::RawDimacsCLSAdaptor and
+   InputOutput::RawDimacsCLSAdaptorSets, which are very similar. </li>
    <li> Creating std::vector<std::vector<int>> or std::set<std::set<int>>
    only differs in the one line where a clause is transferred ("insert"
    instead of "push_back"). </li>
