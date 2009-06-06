@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.10.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,18 +29,6 @@ template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
       occurrences have been removed already, together with the total number of
       original literal occurrences). </li>
   </ul>
-
-
-  \todo Perhaps the adaptor should perform cleaning-up the input (regarding
-  tautological clauses and multiple literal occurrences) ? But perhaps this
-  is better done by some other component, while the adaptor is only responsible
-  for the data transfer.
-
-
-  \todo Write concepts for Statistics class.
-
-
-  \todo Write tests!
 
 */
 
@@ -254,16 +242,10 @@ namespace OKlib {
       \brief Adaptor which turns Dimacs input into a
       <code> std::vector<std::vector<int> > </code>.
 
-      Comments, the two parameters, tautological clauses and
-      multiple literal occurrences are just ignored.
+      Comments, the two parameters and tautological clauses are
+      ignored (have no effect). Multiple literal occurrences
+      are not contracted, but show up in the clauses.
 
-      \todo What are the precise assumptions on template parameter Lit?
-
-      \todo Handling of the additional information: Perhaps we have
-      (optionally?) an embedded object of type CLSAdaptorStatistics ?!
-
-      \todo Should there be policies for checking n and c (or should this
-      go into a more complex adaptor?).
     */
 
     template <
@@ -278,7 +260,6 @@ namespace OKlib {
 
       typedef Int int_type;
       typedef String string_type;
-
       typedef Lit literal_type;
       typedef std::vector<literal_type> clause_type;
       typedef std::vector<clause_type> clause_set_type;
@@ -286,7 +267,6 @@ namespace OKlib {
       clause_set_type clause_set;
 
       RawDimacsCLSAdaptor() {}
-
       void comment(const string_type&) {}
       void n(const int_type) {} 
       void c(const int_type) {}
