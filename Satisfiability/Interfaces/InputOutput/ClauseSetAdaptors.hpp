@@ -249,8 +249,7 @@ namespace OKlib {
       are not contracted, but show up in the clauses.
 
       More generally, any container for clauses can be used
-      which supports "push_back", and any container for literals
-      can be used which supports "assign".
+      which supports "push_back".
 
     */
 
@@ -283,7 +282,7 @@ namespace OKlib {
       //! all literal occurrences are copied as is
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type) {
-        clause_set.push_back(clause_type().assign(boost::begin(r), boost::end(r)));
+        clause_set.push_back(clause_type(boost::begin(r), boost::end(r)));
       }
 
     };
@@ -299,12 +298,10 @@ namespace OKlib {
       are (obviously) contracted, and so are multiple clauses.
 
       More generally, any container for clauses can be used
-      which supports "insert", and any container for literals
-      can be used which supports "assign". Here the container
-      for literals should contract multiple literal occurrences
-      (if not then the above specification about contraction has
-      to be cancelled), and also the container for clauses should
-      contract multiple clauses.
+      which supports "insert". Here the container for literals should
+      contract multiple literal occurrences (if not then the above
+      specification about contraction has to be cancelled), and also
+      the container for clauses should contract multiple clauses.
 
     */
 
@@ -336,7 +333,7 @@ namespace OKlib {
 
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type) {
-        clause_set.insert(clause_type().assign(boost::begin(r), boost::end(r)));
+        clause_set.insert(clause_type(boost::begin(r), boost::end(r)));
       }
 
     };
