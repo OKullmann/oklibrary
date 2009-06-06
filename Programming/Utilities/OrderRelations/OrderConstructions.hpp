@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,15 @@ License, or any later version. */
 namespace OKlib {
   namespace OrderRelations {
 
+    /*!
+      \class SizeLessThan
+      \brief Predicate-functor, which turns a container-comparator into one
+      which compares first the sizes.
+
+      If < is the comparison for containers A, B, then we have A <' B,
+      where <' is the obtained comparison, iff either A.size() < B.size()
+      or A.size() = B.size() and A < B.
+    */
     template <class LessThanRelation>
     struct SizeLessThan : std::binary_function<
       typename boost::binary_traits<LessThanRelation>::first_argument_type,
