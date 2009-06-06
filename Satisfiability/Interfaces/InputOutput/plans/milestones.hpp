@@ -95,6 +95,13 @@ License, or any later version. */
     - Error handling
 
 
+   \par Version 0.1.4 :
+
+  \par
+   In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
+    - ListTransfer
+
+
   \par Version 0.2 :
 
   \par

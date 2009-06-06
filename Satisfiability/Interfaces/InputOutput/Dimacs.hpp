@@ -9,6 +9,9 @@ License, or any later version. */
   \file Interfaces/InputOutput/Dimacs.hpp
   \brief %Tools for the input and output of cnf's in DIMACS format.
 
+  InputOutput::StandardDIMACSInput transfers a clause-set on a stream into
+  a CLS-adaptor, while InputOutput::ListTransfer transfers a clause-set
+  in a rudimentary data-structure into a CLS-adaptor.
 */
 
 
@@ -33,6 +36,7 @@ License, or any later version. */
 
 #include <OKlib/Programming/InputOutput/IOStreamFilters.hpp>
 
+#include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
@@ -329,6 +333,48 @@ namespace OKlib {
             }
           }
         }
+      }
+    };
+
+    // Transferring clause-sets as sequences of sequences, assuming DIMACS literals
+
+    /*!
+      \class ListTransfer
+      \brief Transfers a sequence of sequences of literals to a CLSAdaptor
+
+      It is assumed that the clauses do not contain clashing or repeated
+      literals. The literals are assumed to be integral, and are transferred
+      unchanged.
+    */
+
+    template <class CLSAdaptor>
+    class ListTransfer {
+
+    public :
+      typedef CLSAdaptor cls_adaptor_type;
+      typedef typename cls_adaptor_type::int_type int_type;
+      typedef typename cls_adaptor_type::string_type string_type;
+
+      template <class Cls>
+      ListTransfer(const Cls& F, cls_adaptor_type& out, const string_type& comment = "") {
+        if (not comment.empty()) out.comment(comment);
+        typedef typename Cls::const_iterator clause_iterator;
+        typedef typename Cls::value_type clause_type;
+        typedef typename clause_type::const_iterator literal_iterator;
+        {
+          int_type n = 0, c = 0;
+          for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci, ++c) {
+            const clause_type& C(*Ci);
+            for (literal_iterator li = C.begin(); li != C.end(); ++li) {
+              const int_type v(OKlib::Literals::var(*li));
+              if (v > n) n = v;
+            }
+          }
+          out.n(n); out.c(c);
+        }
+        for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci)
+          out.clause(*Ci, Ci -> size());
+        out.finish();
       }
     };
 
