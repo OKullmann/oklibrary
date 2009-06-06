@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for the module on hypergraph transversals
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
   \todo Connections
@@ -94,12 +94,19 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::HypergraphTransversals
+  \namespace OKlib::Combinatorics::Hypergraphs::Transversals
   \brief Components for handling hypergraph transversals
+
+  Alias "Trv".
 */
 
 namespace OKlib {
-  namespace HypergraphTransversals {
+  namespace Combinatorics {
+    namespace Hypergraphs {
+      namespace Transversals {
+      }
+      namespace Trv = Transversals;
+    }
   }
 }
 
