@@ -12,16 +12,7 @@ License, or any later version. */
   Reads from standard input, and writes to standard output (and standard
   error). Extended Dimacs format allows identifiers as variable names.
 
-
-  \todo Better output
-  <ul>
-   <li> The output description should be more descriptive. </li>
-   <li> Also the maximal index and the real number of variables is needed.
-   </li>
-  </ul>
-
 */
-
 
 #include <iostream>
 
