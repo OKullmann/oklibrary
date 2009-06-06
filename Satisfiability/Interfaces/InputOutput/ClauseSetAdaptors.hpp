@@ -14,20 +14,24 @@ License, or any later version. */
   <ul>
    <li> <code> CLSAdaptor::int_type </code> (default = int) </li>
    <li> <code> CLSAdaptor::string_type </code> (default = std::string) </li>
-   <li> <code> adaptor.comment(string_type) </code> (input of comment-lines) </li>
+   <li> <code> adaptor.comment(string_type) </code> (input of comment-lines)
+   </li>
    <li> <code> adaptor.n(int_type) </code> (input of parameter n) </li>
    <li> <code> adaptor.c(int_type) </code> (input of parameter c) </li>
-   <li> <code> adaptor.finish() </code> (signal that input of clause-set is finished) </li>
-   <li> <code> adaptor.tautological_clause(int_type number_literal_occurrences) </code>
-   (state that a tautological clauses with that-many literal occurrences (without
-   contractions) has been found) </li>
-   <li> \code 
+   <li> <code> adaptor.finish() </code> (signal that input of clause-set is
+   finished) </li>
+   <li> <code> adaptor.tautological_clause(int_type number_literal_occurrences)
+   </code>
+   (state that a tautological clauses with that-many literal occurrences
+   (without contractions) has been found) </li>
+   <li>
+   \code 
 template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
                    int_type total_original_number_literal_occurrences) 
-        \endcode
-      (input a non-tautological clause as a range over the literals, where multiple
-      occurrences have been removed already, together with the total number of
-      original literal occurrences). </li>
+   \endcode
+   (input a non-tautological clause as a range over the literals, where
+   multiple occurrences have been removed already, together with the total
+   number of original literal occurrences). </li>
   </ul>
 
 */

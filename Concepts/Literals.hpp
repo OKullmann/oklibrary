@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,8 +33,9 @@ namespace OKlib {
       \class Literals
       \brief Basic literals concept
 
-      Literals are (conceptually) just pairs of variables and atomic conditions, where the atomic
-      condition is never always true and never always false.
+      Literals are (conceptually) just pairs of variables and atomic
+      conditions, where the atomic condition is never always true and never
+      always false.
 
       So we have associated type traits
       <ul>
@@ -43,14 +44,17 @@ namespace OKlib {
       </ul>
       and via
      <ul>
-      <li> function <code> OKlib::Literals::var </code> the variable is extracted, </li>
-      <li> while by <code>OKlib::Literals::cond </code> the (atomic) condition is extracted. </li>
+      <li> function <code> OKlib::Literals::var </code> the variable is
+      extracted, </li>
+      <li> while by <code>OKlib::Literals::cond </code> the (atomic) condition
+      is extracted. </li>
      </ul>
-     By <code> Literals::set_cond(x, condition) </code> we can set the condition
-      in literal x, while from a variable a literal can be constructed.
+     By <code> Literals::set_cond(x, condition) </code> we can set the
+     condition in literal x, while from a variable a literal can be
+     constructed.
 
-      Since built-in types can model literals, for literals in general the initialisation
-      behaviour of built-in types must be assumed.
+      Since built-in types can model literals, for literals in general the
+      initialisation behaviour of built-in types must be assumed.
     */
 
     template <typename Lit>
