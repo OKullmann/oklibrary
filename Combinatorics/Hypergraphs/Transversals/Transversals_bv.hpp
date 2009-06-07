@@ -27,6 +27,22 @@ namespace OKlib {
     namespace Hypergraphs {
       namespace Transversals {
 
+        /*!
+          \class Bounded_transversals_bv
+          \brief Functor, which for a given set system G and a bound B
+          computes (essentially) all transversals of G of size at most B.
+
+          Recursive splitting on the first vertex in the first hyperedge,
+          first including that vertex in the transversal, then excluding it.
+          <ul>
+           <li> This is algorithm transversals_bv from
+           ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac.
+           </li>
+           <li> By using sets which are length-sorted one also obtains
+           algorithm transversals_bvs. </li>
+          </ul>
+        */
+
         template <class SetSystem>
         struct Bounded_transversals_bv {
 
