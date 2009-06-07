@@ -302,6 +302,7 @@ BestSolution_Max = 2.000000
    osteps=187616262). </li>
    <li> n=1920: cutoff=4*10^8 found in 49 runs one solution (seed=1165735423,
    232394841). </li>
+   <li> n=1925 </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
@@ -311,7 +312,15 @@ BestSolution_Max = 2.000000
  2 40 57  1
      \endverbatim
      </li>
-     <li> cutoff=10^9 </li>
+     <li> cutoff=10^9 yields
+     \verbatim
+E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT2")
+ 1  2  3
+ 4 69 27
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^9 </li>
     </ol>
    </li>
   </ul>
