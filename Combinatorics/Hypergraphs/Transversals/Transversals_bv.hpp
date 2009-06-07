@@ -55,10 +55,24 @@ namespace OKlib {
           typedef std::list<hyperedge_type> transversal_list_type;
           typedef typename transversal_list_type::iterator result_iterator;
 
-          transversal_list_type operator() (
-                                            set_system_type G,
-                                            const size_type B
-                                            ) const {
+          const set_system_type& G_orig;
+          size_type bound;
+
+          Bounded_transversals_bv(const set_system_type& G, const size_type B)
+            : G_orig(G), bound(B) {}
+
+          transversal_list_type operator() () const {
+            return operator()(G_orig, bound);
+          }
+          transversal_list_type iterated() {
+            transversal_list_type result(operator()(G_orig, bound));
+            while (result.empty())
+              result = operator()(G_orig, ++bound);
+            return result;
+          }
+
+          transversal_list_type operator()
+            (set_system_type G, const size_type B) const {
             transversal_list_type result;
 
             if (G.empty()) { result.push_back(hyperedge_type()); return result; }

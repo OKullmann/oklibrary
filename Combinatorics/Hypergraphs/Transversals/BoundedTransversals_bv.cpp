@@ -9,8 +9,16 @@ License, or any later version. */
   \file Combinatorics/Hypergraphs/Transversals/BoundedTransversals_bv.cpp
   \brief Application for computing all size-bounded transversals of a hypergraph
 
-  The role model is transversals_bvs in
-  ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac
+  <ul>
+   <li> The role model is transversals_bvs in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac. </li>
+   <li> With an optional second argument minimum_transversals_lbbvs_hg in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac is
+   realised, i.e., incremental search. </li>
+   <li> The algorithm does not terminate exactly iff incremental search
+   is required, while the input contains the empty hyperedge. </li>
+  </ul>
+
 */
 
 #include <string>
@@ -29,16 +37,18 @@ namespace {
 
   const int error_parameters = 1;
 
-  const std::string version = "0.0.3";
+  const std::string version = "0.0.4";
 
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc != 2) {
-    std::cerr << "ERROR[BoundedTransversals_bv]: Exactly one input is required, the "
-      "upper bound on the transversal size.\n"
-      "However, the actual number of input parameters was " << argc-1 << ".\n";
+  if (argc != 2 and argc != 3) {
+    std::cerr << "ERROR[BoundedTransversals_bv]:\n"
+      " Exactly one input is required, the upper bound on the transversal size.\n"
+      " A second parameter (whose value is ignored) indicates that this bound\n"
+      " is to be increased until a transversal is found.\n"
+      " However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
 
@@ -49,6 +59,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef hyperedge_type::size_type size_type;
   const size_type B = boost::lexical_cast<size_type>(argv[1]);
+  const bool iterated = (argc == 3);
   
   typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
   typedef std::set<hyperedge_type, hyperedge_ordering_type> set_system_type;
@@ -62,12 +73,13 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded_transversals_bv<set_system_type> transversal_enumerator_type;
   typedef transversal_enumerator_type::transversal_list_type transversal_list_type;
   
-  const transversal_list_type transversals(transversal_enumerator_type()(in.clause_set, B));
+  transversal_enumerator_type t_e(in.clause_set, B);
+  const transversal_list_type transversals(iterated ? t_e.iterated() : t_e());
   
   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> dimacs_adaptor2_type;
   typedef OKlib::InputOutput::ListTransfer<dimacs_adaptor2_type> dimacs_output_type;
   dimacs_adaptor2_type out(std::cout);
-  dimacs_output_type(transversals, out, "Bounded transversals of size " + boost::lexical_cast<std::string>(B));
+  dimacs_output_type(transversals, out, "Bounded transversals of size " + boost::lexical_cast<std::string>(t_e.bound));
 
 }
 
