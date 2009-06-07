@@ -76,17 +76,27 @@ namespace OKlib {
               return result;
             }
             else {
-              set_system_type G_with_a;
-              for (iterator i = G.begin(); i != G.end(); ) {
-                hyperedge_type K(*i);
-                const iterator j(i); ++i;
-                if (K.erase(a) != 0) { G_with_a.insert(K); G.erase(j); }
+              set_system_type G_a;
+              { iterator old_insert(G_a.begin());
+                for (iterator i = G.begin(); i != G.end(); ) {
+                  hyperedge_type K(*i);
+                  const iterator j(i); ++i;
+                  if (K.erase(a) != 0) {
+                    old_insert = G_a.insert(old_insert,K);
+                    G.erase(j);
+                  }
+                }
               }
               result = operator()(G,B-1);
               const result_iterator& end(result.end());
               for (result_iterator i = result.begin(); i != end; ++i)
                 i -> insert(a);
-              G.insert(G_with_a.begin(), G_with_a.end());
+              {
+                iterator old_insert(G.begin());
+                const iterator& end(G_a.end());
+                for (iterator i = G_a.begin(); i != end; ++i)
+                  old_insert = G.insert(old_insert, *i);
+              }
               transversal_list_type temp_res(operator()(G, B));
               result.splice(result.end(), temp_res);
               return result;
