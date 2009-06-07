@@ -18,6 +18,9 @@ License, or any later version. */
    <li> See
    Combinatorics/Hypergraphs/Transversals/plans/SizeParameter.hpp
    for the use of a parameter bounding the size of the transversals. </li>
+   <li> See especially Transversals/BoundedTransversals_bv.cpp and
+   Transversals/Transversals_bv.hpp for implementations of transversals_bv(s).
+   </li>
    <li> And, more generally, see
    Combinatorics/Hypergraphs/Transversals/plans/general.hpp. </li>
    <li> See "dual_cs" in

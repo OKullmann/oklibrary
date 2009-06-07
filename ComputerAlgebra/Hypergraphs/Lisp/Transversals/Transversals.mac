@@ -119,6 +119,7 @@ transversals_be(L,B) := if emptyp(L) then [{}]
 /* The variation where L is kept sorted in ascending order by length (so that
    the empty clause and unit-clauses are easily detected):
 */
+/* RENAME: transversals_bvs (possibly transversals_bvs_ses) */
 transversals_bes(L,B) := transversals_bes_(sort_length(L),B)$
 transversals_bes_(L,B) := if emptyp(L) then [{}]
  else block([H : first(L)],
