@@ -16,6 +16,7 @@ License, or any later version. */
    the compilation of the OKlibrary. </li>
    <li> Then re-enable compilation of Database/CreateStatistics.cpp (and
    the other programs there). </li>
+   <li> And re-enable testing of General/DatabaseHandler01.hpp. </li>
   </ul>
 
 
