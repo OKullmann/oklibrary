@@ -29,7 +29,7 @@ namespace {
 
   const int error_parameters = 1;
 
-  const std::string version = "0.0.2";
+  const std::string version = "0.0.3";
 
 }
 

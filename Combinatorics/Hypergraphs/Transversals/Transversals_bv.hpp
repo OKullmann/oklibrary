@@ -47,11 +47,13 @@ namespace OKlib {
         struct Bounded_transversals_bv {
 
           typedef SetSystem set_system_type;
+          typedef typename set_system_type::const_iterator iterator;
           typedef typename set_system_type::value_type hyperedge_type;
           typedef typename hyperedge_type::value_type vertex_type;
           typedef typename hyperedge_type::size_type size_type;
 
           typedef std::list<hyperedge_type> transversal_list_type;
+          typedef typename transversal_list_type::iterator result_iterator;
 
           transversal_list_type operator() (
                                             set_system_type G,
@@ -77,8 +79,6 @@ namespace OKlib {
             }
 
             const vertex_type a(*H.begin());
-            typedef typename set_system_type::const_iterator iterator;
-            typedef typename transversal_list_type::iterator result_iterator ;
             if (H.size() == 1) {
               for (iterator i = G.begin(); i != G.end(); ) {
                 const hyperedge_type& K(*i);
