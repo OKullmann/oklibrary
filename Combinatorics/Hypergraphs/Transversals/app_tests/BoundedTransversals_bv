@@ -1,0 +1,49 @@
+#!/bin/bash
+# Oliver Kullmann, 6.6.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Run through all forms of executables and
+# through all available test formulas and check the output
+
+list_programs=${bin_dir}/BoundedTransversals_bv*
+
+echo -e "PROGRAMS FOUND:\n" ${list_programs}
+
+case ${test_level} in
+basic) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf')"
+    ;;
+extensive) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf') $(find app_tests/test_cases/extensive -name '*.cnf')"
+    ;;
+esac
+
+echo -e "TEST FORMULAS FOUND:\n" ${list_test_cases}
+
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+
+for S in ${list_programs}; do
+  echo;
+  for P in ${list_test_cases}; do
+    Pbase=$(basename ${P} .cnf)
+    for B in $(cat $(dirname ${P})/${Pbase}); do
+      echo ${S} ${P} ${B}
+      output="$(cat ${P} | ${S} ${B})"
+      template=$(dirname ${P})/dimacs_output/${Pbase}_${B}
+      echo "${output}" | ${match_tool} ${template}
+      result=$?
+      if [[ ${result} != 0 ]]; then
+        echo -e "ERROR: OUTPUT of program is\n${output}\n, while TEMPLATE is"
+        cat ${template}; echo; exit 1
+      fi
+    done
+  done
+done
+
+exit 0
