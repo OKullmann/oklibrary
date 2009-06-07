@@ -74,29 +74,18 @@ License, or any later version. */
    <li> n=1550
     <ol>
      <li> Looks (at first sight) unsatisfiable: 10 runs with
-     cutoff=100*10^6 yield min=3 (twice; so cutoff=10^9 would be needed). </li>
-     <li> cutoff=500*10^6: 13 runs only yield min=2, so a cutoff of 2.5*10^9
+     cutoff=10^8 yield min=3 (twice; so cutoff=10^9 would be needed). </li>
+     <li> cutoff=5*10^8: 13 runs only yield min=2, so a cutoff of 2.5*10^9
      would be needed. </li>
-     <li> cutoff=10^8, 1000 runs:
-      <ul>
-       <li> Evaluation of the first 448 runs:
-       \verbatim
+     <li> cutoff=10^8, 1000 runs yields
+     \verbatim
 > E = read_ubcsat("GreenTao_3-3-4-4_1550.cnf_OUT")
-  2   3   4   5   6   7   8   9
-  7  34  55  72 114  94  65   7
-448
-       \endverbatim
-       From that perspective one would think that cutoff needed to be enlarged.
-       </li>
-       <li> But let's actually evaluate the whole experiment. </li>
-       <li> DONE
-       By the way (MG please note), this basic R-functionality of reading
-       tables produced by ubcsat-okl and tabulating the values, should be
-       available to us by a simple mechanism; see "Evaluating the data frames"
-       in ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp.
-       </li>
-      </ul>
-     </li>
+  1   2   3   4   5   6   7   8   9
+  1  17  75 123 166 241 232 133  12
+1000
+     \endverbatim
+     so perhaps 100 * 1000 runs would be needed to find a solution. </li>
+     <li> cutoff = 10^9 </li>
     </ol>
    </li>
   </ul>
