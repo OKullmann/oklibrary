@@ -221,7 +221,7 @@ endif
 # ----------------------------------------------------------
 ifneq ($(test_program),) # old test-system needed
   test_program := $(addprefix $(bin_dir)/, $(test_program))
-  programs += $(test_program)
+  override programs += $(test_program)
 endif
 # ----------------------------------------------------------
 
