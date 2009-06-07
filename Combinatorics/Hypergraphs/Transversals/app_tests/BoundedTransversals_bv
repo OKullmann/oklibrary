@@ -34,13 +34,32 @@ for S in ${list_programs}; do
     Pbase=$(basename ${P} .cnf)
     for B in $(cat $(dirname ${P})/${Pbase}); do
       echo ${S} ${P} ${B}
-      output="$(cat ${P} | ${S} ${B})"
+
+      output="$(cat ${P} | ${S} =${B})"
       template=$(dirname ${P})/dimacs_output/${Pbase}_${B}
       echo "${output}" | ${match_tool} ${template}
       result=$?
       if [[ ${result} != 0 ]]; then
-        echo -e "ERROR: OUTPUT of program is\n${output}\n, while TEMPLATE is"
-        cat ${template}; echo; exit 1
+        echo -e "ERROR: OUTPUT of program (given bound) is\n${output}\n, while TEMPLATE is"
+          cat ${template}; echo; exit 1
+      fi
+
+      template=$(dirname ${P})/dimacs_output/${Pbase}
+      if [[ -f ${template} ]]; then
+        output="$(cat ${P} | ${S})"
+        echo "${output}" | ${match_tool} ${template}
+        result=$?
+        if [[ ${result} != 0 ]]; then
+          echo -e "ERROR: OUTPUT of program (iterated search) is\n${output}\n, while TEMPLATE is"
+            cat ${template}; echo; exit 1
+        fi
+      else
+        cat ${P} | ${S}
+        result=$?
+        if [[ ${result} == 0 ]]; then
+          echo -e "ERROR: Error was not caught."
+          exit 1
+        fi
       fi
     done
   done

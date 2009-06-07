@@ -12,11 +12,12 @@ License, or any later version. */
   <ul>
    <li> The role model is transversals_bvs in
    ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac. </li>
-   <li> With an optional second argument minimum_transversals_lbbvs_hg in
+   <li> To perform this computation requires (exactly) one parameter, of the
+   form "=B". </li>
+   <li> With no parameter, or with an argument of the form ">=B"
+   minimum_transversals_lbbvs_hg in
    ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac is
    realised, i.e., incremental search. </li>
-   <li> The algorithm does not terminate exactly iff incremental search
-   is required, while the input contains the empty hyperedge. </li>
   </ul>
 
 */
@@ -35,35 +36,65 @@ License, or any later version. */
 
 namespace {
 
-  const int error_parameters = 1;
+  enum {
+    error_parameters = 1,
+    error_empty = 2,
+    error_symbol1 = 3,
+    error_symbol2 = 4,
+    error_empty_hyperedge = 5
+  };
 
-  const std::string version = "0.0.4";
+  const std::string version = "0.0.5";
 
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc != 2 and argc != 3) {
+  if (argc > 2) {
     std::cerr << "ERROR[BoundedTransversals_bv]:\n"
-      " Exactly one input is required, the upper bound on the transversal size.\n"
-      " A second parameter (whose value is ignored) indicates that this bound\n"
-      " is to be increased until a transversal is found.\n"
+      " Either zero or one parameter is required, which is of the form\n"
+      " \"=n\" or \">=n\" for some natural number n >= 0.\n"
       " However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
 
-  typedef unsigned int vertex_type;
+  typedef unsigned int vertex_type; // currently ignored
   typedef int literal_type; // necessary since (currently) we are using clause-set input- and output-facilities
-
   typedef std::set<literal_type> hyperedge_type;
-
   typedef hyperedge_type::size_type size_type;
-  const size_type B = boost::lexical_cast<size_type>(argv[1]);
-  const bool iterated = (argc == 3);
-  
+
+  bool iterated_; size_type B_;
+  if (argc == 1) { iterated_ = true; B_ = 0; }
+  else {
+    const std::string par(argv[1]);
+    if (par.empty()) {
+      std::cerr << "ERROR[BoundedTransversals_bv]:\n"
+        "The parameter is the empty string.\n";
+      return error_empty;
+    }
+    if (par[0] == '=') {
+      iterated_ = false;
+      B_ = boost::lexical_cast<size_type>(par.substr(1));
+    }
+    else {
+      if (par[0] != '>') {
+        std::cerr << "ERROR[BoundedTransversals_bv]:\n"
+          "Unrecognised leading symbol " << par[0] << ".\n";
+        return error_symbol1;
+      }
+      if (par.size() == 1 or par[1] != '=') {
+        std::cerr << "ERROR[BoundedTransversals_bv]:\n"
+          "After \">\" the symbol \"=\" is expected.\n";
+        return error_symbol2;
+      }
+      iterated_ = true;
+      B_ = boost::lexical_cast<size_type>(par.substr(2));
+    }
+  }
+  const bool iterated(iterated_); const size_type B(B_);
+
   typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
   typedef std::set<hyperedge_type, hyperedge_ordering_type> set_system_type;
-
   typedef OKlib::InputOutput::RawDimacsCLSAdaptorSets<literal_type, set_system_type> dimacs_adaptor_type;
   typedef OKlib::InputOutput::StandardDIMACSInput<dimacs_adaptor_type> dimacs_input_type;
   
@@ -74,6 +105,11 @@ int main(const int argc, const char* const argv[]) {
   typedef transversal_enumerator_type::transversal_list_type transversal_list_type;
   
   transversal_enumerator_type t_e(in.clause_set, B);
+  if (iterated and not t_e.G_orig.empty() and t_e.G_orig.begin() -> empty()) {
+    std::cerr << "ERROR[BoundedTransversals_bv]:\n"
+      "The iteration would not terminate due to the presence of the empty hyperedge.\n";
+    return error_empty_hyperedge;
+  }
   const transversal_list_type transversals(iterated ? t_e.iterated() : t_e());
   
   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> dimacs_adaptor2_type;
