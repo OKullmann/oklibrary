@@ -76,7 +76,9 @@ License, or any later version. */
      the assignment). </li>
     </ol>
    </li>
-   <li> We should directly implement the algorithms transversals_be,
+   <li> DONE (implemented transversals_bvs, but without any further
+   embellishments)
+   We should directly implement the algorithms transversals_be,
    transversals_bes in C++:
     <ol>
      <li> As a first prototype for the concept of hypergraphs as (just)
@@ -133,6 +135,22 @@ License, or any later version. */
      superfluous vertex has been included)? </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Application BoundedTransversals_bv
+  <ul>
+   <li> Perhaps we should provide some variations.
+    <ol>
+     <li> Instead of using sets sorted by size one could just use sets
+     (this should be slower). </li>
+     <li> Instead of using std::set, one could use std::vector, and sort
+     it when needed. </li>
+    </ol>
+   </li>
+   <li> The various set-operation used in Transversals::Bounded_transversals_bv
+   should be provided independently, so that the code becomes clearer. </li>
+   <li> And G_with_a could be a vector. </li>
   </ul>
 
 

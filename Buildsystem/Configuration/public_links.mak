@@ -26,9 +26,11 @@ satz215_m2pp_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215-m2pp
 extdimacs2dimacs_okl ?= $(bin_dir)/ExtendedToStrictDimacs-O3-DNDEBUG
 extdimacsstatistics_okl ?= $(bin_dir)/ExtendedDimacsStatistics-O3-DNDEBUG
 
+boundedtransversalsbv_okl ?= $(bin_dir)/BoundedTransversals_bv-O3-DNDEBUG
+
 rankprimes_okl ?= $(bin_dir)/RankPrimes-O3-DNDEBUG
 
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
 
-public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(rankprimes_okl) $(quinemccluskey_okl) $(oklib_call)
+public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(quinemccluskey_okl) $(oklib_call)
 
