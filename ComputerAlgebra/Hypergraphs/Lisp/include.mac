@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$

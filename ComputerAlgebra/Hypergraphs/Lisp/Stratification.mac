@@ -1,0 +1,87 @@
+/* Oliver Kullmann, 7.6.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac
+  \brief Basic Maxima functions for hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* For a set-system S and an ordering L of the vertices, compute an okl-array
+   "a" of the same length as L, such that a[i] is the set of all hyperedges
+   containing vertex L[i] and being contained in {L[1], ..., L[i]}.
+   S can be a set or a list, while L is a list. */
+/* Prerequisite: L must cover all vertices occurring in S, and must not have
+   a vertex occurring several times. */
+strata_ses(S,L) := block(
+ [h : osm2hm(map("[",L,create_list(i,i,1,length(L)))),
+  a : l2ary(create_list([],i,1,length(L)))],
+   for H in S do block([max : 0],
+     for x in H do block([v : ev_hm(h,x)],
+       if v > max then max : v
+     ),
+     if max >= 1 then a[max] : cons(H,a[max])
+   ),
+  return(a))$
+strata_hg(G,L) := strata_ses(G[2],L)$
+/* Here using the given order: */
+strata_ohg(G) := strata_hg(G,G[1])$
+
+/* Creating a monotone hypergraph generator for G by stratification according
+   to L:
+*/
+hg2hgmongen(G,L) := block([a : strata_hg(G,L)],
+  buildq([a,L], lambda([n], [setify(take_l(n,L)), lunion(create_list(setify(a[i]),i,1,n))])))$
+/* Here using the given order: */
+ohg2hgmongen(G) := block([a : strata_ohg(G), L : G[1]],
+  buildq([a,L], lambda([n], [setify(take_l(n,L)), lunion(create_list(setify(a[i]),i,1,n))])))$
+ohg2ohgmongen(G) := block([a : strata_ohg(G), L : G[1]],
+  buildq([a,L], lambda([n], [take_l(n,L), lappend(create_list(a[i],i,1,n))])))$
+
+
+/* **************
+   * Heuristics *
+   **************
+*/
+
+/* Stratification by vertex degrees (highest first): */
+strata_vertexdeg_hg(G) := block([L : map(first,sorted_vertex_degrees_hg(G))],
+ [strata_hg(G,L), L])$
+strata_vertexdeg_ohg(G) := block([L : map(first,sorted_vertex_degrees_ohg(G))],
+ [strata_ohg([L,G[2]]), L])$
+
+/* Stratification via monotone generators, by vertex degrees (highest first):
+*/
+vertexdeg_hgmongen_hg(G) := block([S : strata_vertexdeg_hg(G), a, L],
+  a : S[1], L : S[2],
+  buildq([a,L], lambda([n], [setify(take_l(n,L)), lunion(create_list(setify(a[i]),i,1,n))])))$
+vertexdeg_hgmongen_ohg(G) := block([S : strata_vertexdeg_ohg(G), a, L],
+  a : S[1], L : S[2],
+  buildq([a,L], lambda([n], [setify(take_l(n,L)), lunion(create_list(setify(a[i]),i,1,n))])))$
+vertexdeg_ohgmongen_ohg(G) := block([S : strata_vertexdeg_ohg(G), a, L],
+  a : S[1], L : S[2],
+  buildq([a,L], lambda([n], [take_l(n,L), lappend(create_list(a[i],i,1,n))])))$
+
+
+
+/*!
+\endhtmlonly
+*/
