@@ -157,6 +157,37 @@ minimum_transversals_mongen(N,mongen_,MT0) :=
   ),
   return(reverse(L)))$
 
+/* The special case where the set of minimum transversals of a hypergraph
+   G is computed through stratification via the list L of vertices.
+   Note that an empty hyperedge in G is ignored.
+*/
+minimum_transversals_stratabvs_hg(G,L) :=
+ block([mongen : hg2hgmongen(G,L), MT0 : [{}], G0 : [{},{}], t : 0],
+  for n : 1 thru length(L) do block(
+  [G1 : mongen(n), E, MT1],
+   E : setdifference(G1[2], G0[2]),
+   MT1 : sublist(MT0, lambda([T],transversal_p(T, E))),
+   if emptyp(MT1) then block(
+    [a : single_element(setdifference(G1[1],G0[1]))],
+     t : t + 1,
+     MT1 : append(
+       add_element_l(a,MT0),
+       transversals_bes(sort_length(listify(setdifference2e(G1[2],a))),t))
+   ),
+   MT0 : MT1, G0 : G1
+  ),
+  MT0)$
+/* Using the given order of vertices: */
+minimum_transversals_stratabvs_ohg(G) :=
+ minimum_transversals_stratabvs_hg(ohg2hg(G),G[1])$
+
+/* Heuristics: Using vertex degrees (highest first). */
+minimum_transversals_stratavdegbvs_hg(G) :=
+ minimum_transversals_stratabvs_hg(G, map(first,sorted_vertex_degrees_hg(G)))$
+minimum_transversals_stratavdegbvs_ohg(G) :=
+ minimum_transversals_stratabvs_hg(G, map(first,sorted_vertex_degrees_ohg(G)))$
+
+
 /* Application: Given a hypergraph G without empty hyperedge and a (known) 
    lower bound lb on the size of a minimum transversal, compute the list of
    minimum transversals by using B = lb, B+1, ...
