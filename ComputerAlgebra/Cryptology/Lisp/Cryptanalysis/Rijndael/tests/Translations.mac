@@ -50,7 +50,7 @@ okltest_aes_sbox_ts_gen(f) := block([FF],
   assert(length(FF[1]) = 16+256),
   assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
   assert(elementp({-11,-dts_var(90)}, setify(FF[2]))),
-  assert(elementp({-12,-7,-3,-2,-1,4,5,6,8,9,10,11,13,14,15,16,dts_var(10)},
+  assert(elementp({-12,-9,-7,-6,-4,-1,2,3,5,8,10,11,13,14,15,16,dts_var(10)},
     setify(FF[2]))),
   true)$
 
