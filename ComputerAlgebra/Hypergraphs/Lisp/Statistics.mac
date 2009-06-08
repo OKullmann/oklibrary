@@ -39,6 +39,31 @@ nhyp_ghg(G) := length(G[2])$
 nhyp_oghg(G) := length(G[2])$
 
 
+/* ******************
+   * Vertex degrees *
+   ******************
+*/
+
+/* The vertex-degrees of a hypergraph, as hash-map. */
+vertex_degrees_hg(G) := block([h : sm2hm({})],
+ for H in G[2] do
+  for v in H do enter_new_occurrence(h,v),
+ for v in G[1] do
+   if ev_hm(h,v)=false then set_hm(h,v,0),
+ return(h))$
+vertex_degrees_ohg(G) := vertex_degrees_hg(G)$
+/* The same list, but sorted according to the vertex degrees: */
+sorted_vertex_degrees_hg(G) := sort(hm2osm(vertex_degrees_hg(G)), 
+ lambda([p1,p2],is(second(p1) > second(p2))))$
+/* For ordered hypergraphs the sorting is stable w.r.t. the given
+   order of vertices:
+*/
+sorted_vertex_degrees_ohg(G) := block(
+ [h : osm2hm(map("[",G[1],create_list(i,i,1,length(G[1]))))],
+  sort(hm2osm(vertex_degrees_ohg(G)),
+   lambda([p1,p2],is(second(p1) > second(p2) or (second(p1) = second(p2) and ev_hm(h,first(p1)) < ev_hm(h,first(p2)))))))$
+
+
 /*!
 \endhtmlonly
 */
