@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ****************************
@@ -35,13 +36,13 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
    "[", "]" and commas.
 */
 
-rt_p(T) := listp(T) and every(rt_p,T)$
+rt_p(T) := listp(T) and every_s(rt_p,T)$
 
 /* The number of nodes in an unlabelled tree: */
-nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
+nnds(T) := 1+sum_l(map(nnds,T))$
 
 /* The number of leaves in an unlabelled rooted tree: */
-nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
+nlvs(T) := if T = [] then 1 else sum_l(map(nlvs,T))$
 
 /* A "node representation" for an unlabelled rooted tree is a list
    of natural numbers (>= 1) representing the path from the root
@@ -49,13 +50,13 @@ nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
 
 /* The set of "leaves" of an unlabelled tree: */
 lvs(T) := if emptyp(T) then {[]} else
-  apply(union, 
+  lunion(
     map(lambda([S,i],map(lambda([p],cons(i,p)),S)), 
       map(lvs,T), 
       create_list(i,i,1,length(T))))$
 
 /* The set of "nodes" of an unlabelled tree: */
-nds(T) := adjoin([], apply(union,
+nds(T) := adjoin([], lunion(
   map(lambda([S,i],map(lambda([p],cons(i,p)),S)), 
     map(nds,T), 
     create_list(i,i,1,length(T)))))$
@@ -105,10 +106,10 @@ levelled_height(T) := if T = [] then 0 else block(
 l2ult(T) := map(l2ult,rest(T))$
 
 /* Number of nodes in a labelled rooted tree: */
-nnds_l(T) := if length(T) = 1 then 1 else 1+sum(nnds_l(T[i]),i,2,length(T))$
+nnds_l(T) := 1+sum_l(map(nnds_l,rest(T)))$
 
 /* The number of leaves in a labelled rooted tree: */
-nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
+nlvs_l(T) := if length(T) = 1 then 1 else sum_l(map(nlvs_l,rest(T)))$
 
 
 /* ****************
@@ -118,7 +119,7 @@ nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
 
 /* Transforms a graph G, which is a tree, into a labelled rooted tree 
    (using root r, and the natural order on the vertices of G): */
-/* UPDAE: rename to g2lrt. */
+/* UPDAtE: rename to g2lrt. */
 graph2tree(G,r) := block([N : listify(neighbours(r,G))],
  return(cons(r, create_list(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
 
