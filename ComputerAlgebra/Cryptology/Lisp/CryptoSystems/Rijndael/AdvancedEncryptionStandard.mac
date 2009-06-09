@@ -368,7 +368,7 @@ aes_decrypt_l(c,k) :=
 
 /* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 
-  aes_decrypt(c,k,rijn_sbox,inv_sbox,inv_mixcolumn,rijn_gf2t8_add)$
+  aes_decrypt(c,k,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn,rijn_gf2t8_add)$
 
 
 /* Various representations of input/output */
