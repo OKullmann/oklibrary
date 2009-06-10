@@ -140,28 +140,55 @@ License, or any later version. */
 
   \todo Various versions for different values of NUMBER_VARIABLES
   <ul>
-   <li> Yet to use a number of variables different than 4 (the current
-   default) one has to use e.g.
+   <li> Yet to use a number of variables different than 4, 16 (the current
+   defaults) one has to use e.g.
    \verbatim
-FiniteFunctions> oklib cleanall
-FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=16"
+FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcCluskey
    \endverbatim
+   which produces OKplatform/system_directories/bin/QuineMcCluskey(-O3-DNDEBUG)
+   with n=15 built-in. </li>
+   <li> This is of course rather cumbersome.
+    <ol>
+     <li> Perhaps we introduce a configuration variable for that purpose, say
+     "qmc_number_variables_okl", such that one can simply use
+     "oklib all qmc_number_variables_okl=16". </li>
+     <li> Depending on this variable, "programs" and "CXXFLAGS" is defined.
+     </li>
+     <li> Where to put this configuration variable? </li>
+     <li> In BuildSystem/Configuration somewhere, and then set CXX_FLAGS
+     based on this in the definitions.mak? </li>
+     <li> No: the obvious place is the definitions.mak here! </li>
+     <li> With a small change of the generic buildsystem one could also
+     obtain the executable named correctly (with n in the name); see
+     "Target all" in Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp.
+     </li>
+    </ol>
    </li>
-   <li> This is of course rather cumbersome; perhaps we introduce
-   a configuration variable for that purpose, say "qmc_number_variables_okl",
-   such that one can simply use "oklib all qmc_number_variables_okl=16". </li>
-   <li> Where to put this configuration variable? In BuildSystem/Configuration
-   somewhere, and then set CXX_FLAGS based on this in the definitions.mak?
+   <li> Still the problem of how make different n-values available
+   (automatically):
+    <ol>
+     <li> Perhaps for version 2.0 we improve the algorithm such that without
+     time or space overhead an actual n smaller than the maximal value can
+     be used. </li>
+     <li> Until then we use different versions. </li>
+     <li> The n-value likely needs to be part of the name. But with the
+     build system yet we can't automatically incorporate this into the name.
+     </li>
+     <li> One could simply compile all versions for n=1, ..., 20 in
+     advance. However, currently we needed then for each version two
+     different files, which is too much (for this case). </li>
+     <li> So a wrapper-script "QuineMcCluskey" has to be written, which
+     "on demand" creates the version needed if not already provided.
+      <ol>
+       <li> This wrapper script performs the above oklib-call in case
+       the required version is not provided. </li>
+       <li> The executable produced by the buildsystem is renamed (putting
+       the n-value into the name), if the above mentioned extension of
+       the buildsystem is not already available. </li>
+      </ol>
+     </li>
+    </ol>
    </li>
-   <li> Still the problem of how to use different n-values. </li>
-   <li> Perhaps for version 2.0 we improve the algorithm such that without
-   time or space overhead an actual n smaller than the maximal value can
-   be used. </li>
-   <li> The n-value likely needs then be part of the name. But with the
-   build system we can't automatically incorporate this into the name. </li>
-   <li> One could simply compile all versions for n=1, ..., 20 in
-   advance. However, currently we needed then for each version two
-   different files, which is too much (for this case). </li>
    <li> DONE So for version 2.0 a todo needs to be created, making sure that
    for smaller n there is no space and time overhead, while for now
    we only provide two versions (which are then tested --- basic tests for
