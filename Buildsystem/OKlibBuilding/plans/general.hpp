@@ -84,15 +84,23 @@ License, or any later version. */
   </ul>
 
 
-  \todo Dependency files: UPDATE once we know cmake better (it should solve such problems)
-    - If when creating the .d-files an error occurs (for example
-     due to an inaccessible header file), then for some reason subsequent "make check" erroneously succeeds.
-    - Using the gcc option "-MP" ?
-    - We have the following problem:
-      If one is using different paths due to symbolic links, then the dependency files contain
-      unusable information (and must be deleted with "make cleandep").
-      This problem seems hard to solve (one had to find out that different paths lead to the same file).
-      So it must be documented well.
+  \todo Dependency files
+  <ul>
+   <li> If when creating the .d-files an error occurs (for example
+   due to an inaccessible header file), then for some reason subsequent
+   "make check" erroneously succeeds. </li>
+   <li> Using the gcc option "-MP" ? </li>
+   <li> We have the following problem:
+    <ol>
+     <li> If one is using different paths due to symbolic links, then the
+     dependency files contain unusable information (and must be deleted with
+     "make cleandep"). </li>
+     <li> This problem seems hard to solve (one had to find out that different
+     paths lead to the same file). </li>
+     <li> So it must be documented well. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Verbosity
@@ -109,55 +117,65 @@ License, or any later version. */
   </ul>
 
 
-  \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
+  \todo Role of srcdir
   <ul>
-   <li>
-     What is the role of variable srcdir ? Isn't the definition in Recursive.mak
-     superfluous now?
-     It is used in makefile_generic (so that we can call makefiles from other places,
-     without a change in behaviour; we should also document this), but why the
-     definition in Recursive.mak ? Can't makefile_generic define it on its own
-     (respectively, shouldn't the definition in makefile_generic  suffice) ?
-
-     Within recursive makefile-invocations we can use the option "--directory=DIR",
-     while from the command line, when calling a makefile from another directory,
-     the option "-C DIR" can be used. This seems to make srcdir superfluous?
-     If so, then is it worth to keep it for convenience?
-   </li>
-   <li>
-     Those settings of srcdir which remain should (if at all) receive some inline comments
-     (these settings are quite arcane).
-   </li>
+   <li> An update of the following discussion is needed; compare
+   Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp. </li>
+   <li> What is the role of variable srcdir ? Isn't the definition in
+   Recursive.mak superfluous now? </li>
+   <li> It is used in makefile_generic (so that we can call makefiles from
+   other places, without a change in behaviour; we should also document this),
+   but why the definition in Recursive.mak ? </li>
+   <li> Can't makefile_generic define it on its own
+   (respectively, shouldn't the definition in makefile_generic suffice) ? </li>
+   <li> Within recursive makefile-invocations we can use the option
+   "--directory=DIR", while from the command line, when calling a makefile
+   from another directory, the option "-C DIR" can be used. </li>
+   <li> This seems to make srcdir superfluous? </li>
+   <li> If so, then is it worth to keep it for convenience? </li>
+   <li> Those settings of srcdir which remain should (if at all) receive some
+   inline comments (these settings are quite arcane). </li>
   </ul> 
 
 
-  \todo Cleaning:
-    - We need cleaning tools which clean up directories (not single files).
-    - We need specialised cleaning for applications and link-libraries.
-    - We need specialised cleaning regarding the test system :
-    - Cleaning of special or all versions of the test-timestamps.
-    - Cleaning of test-objectfiles and test-programs.
-    - Cleaning of test-depencies.
+  \todo Cleaning
+  <ul>
+   <li> We need cleaning tools which clean up directories (not single files).
+   </li>
+   <li> We need specialised cleaning for applications and link-libraries. </li>
+   <li> We need specialised cleaning regarding the test system:
+    <ol>
+     <li> Cleaning of special or all versions of the test-timestamps. </li>
+     <li> Cleaning of test-objectfiles and test-programs. </li>
+     <li> Cleaning of test-depencies. </li>
+    </ol>
+   </li>
+  </li>
 
 
-  \todo %Test cleaning:
-    We need specialised cleaning regarding the test system :
-    - Cleaning of special or all versions of the test-timestamps.
-    - Cleaning of test-objectfiles and test-programs.
-    - Cleaning of test-depencies.
+  \todo %Test cleaning
+  <ul>
+   <li> We need specialised cleaning regarding the test system. </li>
+   <li> Cleaning of special or all versions of the test-timestamps. </li>
+   <li> Cleaning of test-objectfiles and test-programs. </li>
+   <li> Cleaning of test-depencies. </li>
+  </ul>
 
 
-  \todo Error messages of gcc should be processed:
-    - We should support using a tool like TextFilt or STLFilt.
+  \todo Error messages of gcc should be processed
+  <ul>
+   <li> We should support using a tool like TextFilt or STLFilt. </li>
+  </ul>
 
 
   \todo Linking and options:
   <ul>
-   <li> We need global control over dynamic/static linking. Is it the case that dynamic
-   linking only happens with .so files? Can investigate with strace tool..  </li>
-   <li> Is it possible to specify the path exactly to a link-library at runtime?</li>
-   <li>
-   Which compiler options are effective when linking? "Our" options are 
+   <li> We need global control over dynamic/static linking. Is it the case
+   that dynamic linking only happens with .so files? </li>
+   <li> Can investigate with strace tool.  </li>
+   <li> Is it possible to specify the path exactly to a link-library at
+   runtime? </li>
+   <li> Which compiler options are effective when linking? "Our" options are 
    <ul>
     <li> -ansi (cc1plus) </li>
     <li> -pedantic (cc1plus)</li>
@@ -172,42 +190,51 @@ License, or any later version. */
    file documents the option. It seems, at first glance, that all of "our"
    options are only effective for the compiler.
    </li>
-   <li>
-   CXXFLAGS is not used when linking the compilation units together --- is this
-   how it should be, and how to set options for the linking stage?!
+   <li> CXXFLAGS is not used when linking the compilation units together ---
+   is this how it should be, and how to set options for the linking stage?!
    </li>
-   <li>
-   What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
-   At least we should have the option.
+   <li> What is the meaning of the strip-binutil-tool? Shall we use it?
+   (Always? Sometimes?) At least we should have the option. </li>
+  </ul>
+
+
+  \todo Force make
+  <ul>
+   <li> Calling make with the option "-B" (or "--always-make") does not
+   work (it leads to an infinite loop) --- why is this so? </li>
+   <li> What can be done about it --- it would be nice to be able to force a
+   rebuild, without having to delete some directories (this might be
+   dangerous). </li>
+  </ul>
+
+
+  \todo Compilation information
+  <ul>
+   <li> We need a standardised way of how to make information about the
+   compilation process available to a program (and also the name of the
+   program, etc.), so that for example via --version we get as much
+   information as possible. </li>
+  </ul>
+
+
+  \todo Nightly build
+  <ul>
+   <li> Full check-out of the library and full compilation and testing
+   (i.e., create the package, un-archive it, build it with "make" and then
+   run "make check" in it). </li>
+   <li> Testing should invoke valgrind (with Test_tool="valgrind --quit").
    </li>
   </ul>
 
 
-  \todo Force make:
-  Calling make with the option "-B" (or "--always-make") does not
-  work (it leads to an infinite loop) --- why is this so? What can be done
-  about it --- it would be nice to be able to force a rebuild, without having to delete
-  some directories (this might be dangerous).
-
-
-  \todo Compilation information: 
-   - We need a standardised way of how to make information about the compilation
-     process available to a program (and also the name of the program, etc.), so that
-     for example via --version we get as much information as possible.
-
-
-  \todo Nightly build
-   - Full check-out of the library (yet OKlib and 
-     OKlibrary) and full compilation and testing (i.e., create the package,
-     un-archive it, build it with "make" and then run "make check" in it).
-     Testing should invoke valgrind (with Test_tool="valgrind --quit").
-
-
-  \todo Complexity system: 
-   - "make measurements" will create an xml-file
-     (via the boost serialisation library) with information about all
-     operations which have been registered. A little viewing-program
-     allows to monitor these measurements (as they evolve over time).
+  \todo Complexity system
+  <ul>
+   <li> "make measurements" will create an xml-file
+   (via the boost serialisation library) with information about all
+   operations which have been registered. </li>
+   <li> A little viewing-program allows to monitor these measurements (as they
+   evolve over time). </li>
+  </ul>
 
 
   \todo Measurements

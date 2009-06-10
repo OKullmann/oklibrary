@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,8 +27,10 @@ License, or any later version. */
 
   \todo New target for main action
   <ul>
-   <li> Yet very often "make all check new_check html" is called. </li>
-   <li> The should be a super-target for that; how to call it? "update" ?? </li>
+   <li> Yet very often "make all check new_check app_tests html" is called.
+   </li>
+   <li> The should be a super-target for that; how to call it? "update" ??
+   </li>
   </ul>
 
 
@@ -64,6 +66,16 @@ License, or any later version. */
      changed in the locale definitions-makefile): If file .source_libraries
      exists, then it overrides "$(source_libraries)". </li>
      <li Every .cpp-file has a .source_libraries file (if needed). </li>
+     <li> We need to customise naming of generated executables, by a new
+     make-variable which allows to override the current (automatic) setting
+     of the -o-option. </li>
+     <li> More precisely, when compiling "programs" then there need
+     to be two versions of the action, one with "-o $@" as now,
+     one using "-o $(program_name_okl)" resp.
+     "-o $(program_name_optimised_okl)". </li>
+     <li> Or can this be done by simply using "-o" a second time, re-defining
+     the name? The question here is whether the first or the second usage
+     of "-o" is decisive. </li>
      <li> DONE : Every .cpp-file has a .link_libraries and
      .link_libraries_optimised file (if needed), and a .compiler_options
      and a .compiler_options_optimised file (if needed). </li>
@@ -73,7 +85,8 @@ License, or any later version. */
     <ol>
      <li> The names of the created .o-files and executables should reflect
      "all" compiler options. </li>
-     <li> There are generic links to the unoptimised and the optimised version. </li>
+     <li> There are generic links to the unoptimised and the optimised
+     version. </li>
     </ol>
    </li>
    <li> What to do if we create link-libraries in the OKlibrary? Perhaps
@@ -109,15 +122,16 @@ License, or any later version. */
    <li> For just running the tests there are subtargets "test_run" and
    "testop_run" (combined "check_run"). For cleaning the tags here we have
    "clean_test_run" and "clean_testop_run" (combined "clean_check_run"). </li>
-   <li> It seems we should create a special target "valgrind-check" where the files are
-   especially compiled for Valgrind --- this seems to be needed to do automatic
-   checks.
+   <li> It seems we should create a special target "valgrind-check" where the
+   files are especially compiled for Valgrind --- this seems to be needed to
+   do automatic checks.
     <ol>
      <li> valgrind has a (new) flag "--error-exitcode=", by which we should
      be able to get an error making the build-process stop in case valgrind
      finds an error. So perhaps special compilation is not needed? </li>
-     <li> We should use "gcov" from time to time (supported by the build system)
-     to check whether at least all lines of code are covered by the tests. </li>
+     <li> We should use "gcov" from time to time (supported by the build
+     system) to check whether at least all lines of code are covered by the
+     tests. </li>
     </ol>
    </li>
   </ul>
@@ -130,6 +144,7 @@ License, or any later version. */
    running at all. Needed when installing the system. </li>
   </ul>
 
+
   \todo Target "html"
   <ul>
    <li> See "Definitions for doxygen" in Buildsystem/plans/Configuration.hpp
@@ -137,18 +152,20 @@ License, or any later version. */
   </ul>
 
 
-  \todo Target "reset"
+  \todo DONE (likely not needed, since at least for now we don't use cmake)
+  Target "reset"
   <ul>
-   <li> This target is handled by the master-script, and it reruns cmake (while all
-   other targets are passed to the created make-files --- this assumes, that
-   cmake was run at least once, so perhaps reset is also part of "prebuild" ??). </li>
+   <li> This target is handled by the master-script, and it reruns cmake
+   (while all other targets are passed to the created make-files --- this
+   assumes, that cmake was run at least once, so perhaps reset is also part of
+   "prebuild" ??). </li>
   </ul>
 
 
   \todo Target "new-module"
   <ul>
-   <li> Creates a new module (with the appropriate sub-directories, links, etc.), and
-   runs "reset". </li>
+   <li> Creates a new module (with the appropriate sub-directories, links,
+   etc.), and runs "reset". </li>
   </ul>
 
 */
