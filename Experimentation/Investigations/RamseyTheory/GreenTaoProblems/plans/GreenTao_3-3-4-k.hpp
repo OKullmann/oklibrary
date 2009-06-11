@@ -71,6 +71,7 @@ License, or any later version. */
      (seed=2884500780, osteps=42486702). </li> </li>
     </ol>
    </li>
+   <li> n=1538 </li>
    <li> n=1550
     <ol>
      <li> Looks (at first sight) unsatisfiable: 10 runs with
@@ -85,7 +86,13 @@ License, or any later version. */
 1000
      \endverbatim
      so perhaps 100 * 1000 runs would be needed to find a solution. </li>
-     <li> cutoff = 10^9 </li>
+     <li> cutoff = 10^9 yields
+     \verbatim
+ 1  2  3  4  5  6
+ 5 46 35  6  6  2
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
