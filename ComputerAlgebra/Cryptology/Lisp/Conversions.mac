@@ -70,11 +70,19 @@ hex2il(h) :=
    The input list is used in the CryptoSystems AES implementation. */
 il2hex(lst) := uaapply(sconcat, map(lambda([s],lpad(int2hex(s),"0",2)),lst))$
 
-/* Generate a DNF clause from a list of values in {0,1}: */
-/* OK : what is the meaning of this ??? */
-binary_list_to_dnf_c(bv) := 
-  setify(map(lambda([b,j],(-1 + b * 2) * j),
-    bv,makelist(i,i,1,length(bv))))$
+/* Generate a DNF clause from a list of values in {0,1}, using variables in the
+   range 1-length(bv), where the satisfying assignment represented by the DNF
+   clause is  i = bv[i] for all i in 1 - length(bv).
+*/
+binl2dnf_l_std(bv) := 
+  binl2dnf_l(bv,makelist(i,i,1,length(bv)))$
+
+/* Generate a DNF clause from a list of values in {0,1}, using variables in the
+   from the list vl where the satisfying assignment represented by the DNF
+   clause is  vl[i] = bv[i] for all i in 1 - length(bv).
+*/
+binl2dnf_l(bv,vl) := 
+  map(lambda([b,j],(-1 + b * 2) * j),bv,vl)$
 
 /*!
 \endhtmlonly
