@@ -158,9 +158,8 @@ License, or any later version. */
    </li>
    <li> Via local search we might even investigate greentao_2(6), but here
    n might go into the millions, and we need a much faster generator. </li>
-   <li> In Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp a
-   C++ program should be written (that is, planned) with the functionality of
-   arithprog_primes_hg; see "Generator for Green-Tao problems" there. </li>
+   <li> In Satisfiability/Transformers/Generators/plans/GreenTao.hpp a
+   C++ generator is being created. </li>
    <li> And also the sequences length(arithprog_primes_finish[k,n]) for fixed k
    and length(arithprog_primes(k,n)) for fixed k should be of interest.
     <ol>

@@ -17,6 +17,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Connections
+  <ul>
+   <li> Finally all the generators provided here are also to be provided at
+   C++ level in module Combinatorics/Hypergraphs/Generators; see
+   Combinatorics/Hypergraphs/Generators/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> The current Generators/Generators.mac needs to be split into several

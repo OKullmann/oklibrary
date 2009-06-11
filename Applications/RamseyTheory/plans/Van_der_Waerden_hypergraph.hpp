@@ -17,13 +17,15 @@ License, or any later version. */
    and
    ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
    </li>
+   <li> See Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp.
+   </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
    and
    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp.
    </li>
-   <li> See the various generators in Satisfiability/Transformers/Generators/
-   (they should all be moved to here). </li>
+   <li> See the various generators in Satisfiability/Transformers/Generators/.
+   </li>
   </ul>
 
 
@@ -35,7 +37,7 @@ License, or any later version. */
 
   \todo New test system
   <ul>
-   <li> Transform the tests to the new testsystem.
+   <li> Transform the tests to the new testsystem. </li>
   </ul>
 
 
@@ -46,23 +48,14 @@ License, or any later version. */
    updating them). </li>
    <li> Likely this file should be renamed to VanderWaerdenHypergraphs.hpp.
    </li>
-   <li> The generation of hypergraphs should actually be part of
-   Combinatorics/Hypergraphs. </li>
-   <li> So this file then, after moving the (pure) hypergraph aspects,
-   should become VanderWaerdenProblems.hpp. </li>
+   <li> The generation of hypergraphs should be part of
+   Combinatorics/Hypergraphs/Generators. </li>
+   <li> So the content of this file should be moved to
+   Combinatorics/Hypergraphs/Generators/plans/VanderWaerdenProblems.hpp. </li>
    <li> All the functionality like arithprog_primes_hg from the Maxima/Lisp
    level (and all the other functions there in
    ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac)
-   should be available here. </li>
-   <li> Then likely all related generators in
-   Satisfiability/Transformers/Generators/ should find its new home here. </li>
-  </ul>
-
-
-  \todo Generator
-  <ul>
-   <li> Write a class template for generating van der Waerden-hypergraphs
-   (as model of a general hypergraph concept). </li>
+   should be available there. </li>
   </ul>
 
 */

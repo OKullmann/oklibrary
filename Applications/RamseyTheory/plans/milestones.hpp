@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file RamseyTheory/plans/milestones.hpp
+  \file Applications/RamseyTheory/plans/milestones.hpp
 
   \module_version Applications/RamseyTheory 0.1 (1.11.2006)
 
@@ -14,34 +14,21 @@ License, or any later version. */
   \par Version 0.1.1 :
 
   \par
-   In RamseyTheory/plans/general.hpp the following topics are handled:
-    - Update namespaces
-    - %Ramsey theory
-    - Transfer
+   In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp the following
+   topics are handled:
+    - Update
+
+  \par
+   Update the subsequent milestones, and embed them into higher milestones.
 
 
   \par Version 0.1.2 :
 
   \par
-   In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp the following
-   topics are handled:
-    - New test system
-
-
-  \par Version 0.1.3 :
-
-  \par
-   In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp the following
-   topics are handled:
-    - Update
-
-
-  \par Version 0.2 :
-
-  \par
-   In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp the following
-   topics are handled:
-    - Generator
+   In RamseyTheory/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - %Ramsey theory
+    - Transfer
 
 
 
