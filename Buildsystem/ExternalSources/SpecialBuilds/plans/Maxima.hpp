@@ -58,6 +58,15 @@ Cannot find out entry point for binary file binary-ecl/maxima-package.o.
   </ul>
 
 
+  \todo Using other Lisps
+  <ul>
+   <li> CLisp is very slow, while Ecl has certain unprofessional aspects
+   (inconsistent buildsystem, not reacting to e-mails). </li>
+   <li> See "Installing other Lisp's" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp. </li>
+  </ul>
+
+
   \todo Database of integer sequences
   <ul>
    <li> We have to see whether the sequences are becoming (publically)

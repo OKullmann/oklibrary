@@ -12,10 +12,12 @@ License, or any later version. */
 
   \todo Installing other Lisp's
   <ul>
-   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. </li>
+   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. But apparently
+   there are Maxima-problems with it? </li>
    <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
     <ol>
-     <li> However, it needs another Lisp to be compiled! </li>
+     <li> However, it needs another Lisp to be compiled! And none of the
+     Lisps we provide is supported. </li>
      <li> So let's try the other's first. </li>
     </ol>
    </li>
