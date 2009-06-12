@@ -10,6 +10,25 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Install Maxima with Ecl version 9.6.1
+  <ul>
+   <li> We get the build-error
+   \verbatim
+;;; Invoking external command:
+;;;   /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gcc/4.1.2/bin/gcc  -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -g -O2 -fPIC -I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.1.2/4.3.1/include -Dlinux -O "-I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/9.6.1/include/" -w -c "/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.18.1/src/binary-ecl/maxima-package.c" -o "/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.18.1/src/binary-ecl/maxima-package.fas"
+;;; Finished compiling /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.18.1/src/maxima-package.lisp.
+An error occurred during initialization:
+Cannot find out entry point for binary file binary-ecl/maxima-package.o.
+   \endverbatim
+   </li>
+   <li> With version 9.6.1 one has parameters
+   \verbatim
+--heap-size, --lisp-stack, --frame-stack, --c-stack
+   \endverbatim
+   How to use them? </li?
+  </ul>
+
+
   \todo Install xgettext
   <ul>
    <li> To create new Maxima packages, xgettext, available at
