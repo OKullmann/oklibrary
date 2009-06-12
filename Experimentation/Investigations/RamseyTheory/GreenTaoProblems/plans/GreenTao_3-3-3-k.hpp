@@ -161,8 +161,13 @@ BestSolution_Max = 2.000000
      <li> Let's finally consider a higher number of runs, 20000, but with just
      cutoff=50*10^6:
      \verbatim
-> ubcsat-okl -alg adaptnovelty+ -runs 20000 -cutoff 50000000 -i GreenTao/GreenTao_3-3-3-4_434.cnf -solve | tee GreenTao_4-3.out
+> ubcsat-okl -alg adaptnovelty+ -runs 20000 -cutoff 50000000 -i GreenTao/GreenTao_3-3-3-4_434.cnf -solve | tee GreenTao_3-3-3-4.out
+> E2 = read_ubcsat("GreenTao_3-3-3-4.out")
+    1     2
+ 9253 10747
+20000
      \endverbatim
+     So let's consider this case as "unsatisfiable".
      </li>
     </ol>
    </li>
