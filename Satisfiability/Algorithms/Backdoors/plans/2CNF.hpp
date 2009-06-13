@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.9.2007 (Durham)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -65,48 +65,56 @@ License, or any later version. */
    variables and undoing this operation. Though the operation of retrieving
    a clause of maximal size is rather unusual. Perhaps such considerations
    are better postponed, until some experience has been gained. </li>
-   <li> The algorithm works with any type of one-variable-literals (it considers
-   only the variable structure), and should be able to run on such
+   <li> The algorithm works with any type of one-variable-literals (it
+   considers only the variable structure), and should be able to run on such
    generalised clause-sets (a poly-time backdoor is only given in general
-   for boolean variables, but that doesn't matter for the algorithm (the problem
-   just being whether a variable set V with |V| <= k exists, such that V * F
-   contains only clauses of size at most 2 --- this just operates on the
+   for boolean variables, but that doesn't matter for the algorithm (the
+   problem just being whether a variable set V with |V| <= k exists, such that
+   V * F contains only clauses of size at most 2 --- this just operates on the
    underlying variable hypergraph)). </li>
-   <li> So perhaps it would make sense to ask just for a hypergraph as input? </li>
+   <li> So perhaps it would make sense to ask just for a hypergraph as input?
+   </li>
    <li> And it wouldn't make a difference to the algorithm if instead of trying
-   to make a graph out of the given hypergraph, more generally one tries to create an
-   s-graph (the graph case is s=2). </li>
-   <li> This complete algorithm likely works out only for small k. Are there interesting
-   incomplete versions (which could handle larger k)?
+   to make a graph out of the given hypergraph, more generally one tries to
+   create an s-graph (the graph case is s=2). </li>
+   <li> This complete algorithm likely works out only for small k. Are there
+   interesting incomplete versions (which could handle larger k)?
     <ol>
-     <li> One can try a greedy approach (which always returns some V, disregarding k). </li>
+     <li> One can try a greedy approach (which always returns some V,
+     disregarding k). </li>
      <li> This could be randomised, and tried a couple of times. </li>
      <li> The above complete algorithm could be used with random restarts (this
-     would make more sense if stronger heuristics would be used, and randomisation is
-     needed). </li>
+     would make more sense if stronger heuristics would be used, and
+     randomisation is needed). </li>
     </ol>
    </li>
-   <li> One can translate the problem into a SAT problem (input a hypergraph, every vertex
-   becomes a boolean variable ("crossed out or not")).
+   <li> One can translate the problem into a SAT problem (input a hypergraph,
+   every vertex becomes a boolean variable ("crossed out or not")).
     <ol>
-     <li> For every hyperedge one can express that at most s vertices are not crossed out. </li>
-     <li> Or for every hypedge of length k on can express that k-2 vertices are crossed out. </li>
+     <li> For every hyperedge one can express that at most s vertices are not
+     crossed out. </li>
+     <li> Or for every hypedge of length k on can express that k-2 vertices
+     are crossed out. </li>
     </ol>
    </li>
-   <li> However, the easiest reduction (which also shows the fpt-property) is to the hypergraph
-   transversal problem:
+   <li> However, the easiest reduction (which also shows the fpt-property) is
+   to the hypergraph transversal problem:
     <ol>
-     <li> For input hypergraph G compute the (s+1)-section G' (containing all (s+1)-subsets of
-     hyperedges). The solutions to the original problem on G (all vertex sets V such that V * G
-     has degree at most s) are exactly the transversals of G'. </li>
-     <li> Since the problem of finding k-transversals in hypergraphs of bounded degree is
-     fpt, we get an fpt-algorithm as required; and the trivial algorithm as in
-     Hypergraphs/Transversals/plans/SizeParameter.hpp then yields exactly the above
-     algorithm. </li>
-     <li> So best is not to implement the algorithm above, but just instantiate the generic algorithms
-     from Hypergraphs/Transversals/plans/SizeParameter.hpp. </li>
-     <li> The derived hypergraph G' can be computed directly, or an "active hypergraph" for construction
-     of sections is offered (which does not store the hyperedges, but just simulates them). </li>
+     <li> For input hypergraph G compute the (s+1)-section G' (containing all
+     (s+1)-subsets of hyperedges). The solutions to the original problem on G
+     (all vertex sets V such that V * G has degree at most s) are exactly the
+     transversals of G'. </li>
+     <li> Since the problem of finding k-transversals in hypergraphs of
+     bounded degree is fpt, we get an fpt-algorithm as required; and the
+     trivial algorithm as in
+     Hypergraphs/Transversals/Bounded/plans/general.hpp then yields exactly
+     the above algorithm. </li>
+     <li> So best is not to implement the algorithm above, but just
+     instantiate the generic algorithms from
+     Hypergraphs/Transversals/Bounded/plans/general.hpp. </li>
+     <li> The derived hypergraph G' can be computed directly, or an "active
+     hypergraph" for construction of sections is offered (which does not store
+     the hyperedges, but just simulates them). </li>
     </ol>
    </li>
   </ul>

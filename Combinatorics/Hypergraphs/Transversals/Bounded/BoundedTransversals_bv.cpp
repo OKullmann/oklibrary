@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Combinatorics/Hypergraphs/Transversals/BoundedTransversals_bv.cpp
+  \file Combinatorics/Hypergraphs/Transversals/Bounded/BoundedTransversals_bv.cpp
   \brief Application for computing all size-bounded transversals of a hypergraph
 
   <ul>
@@ -32,7 +32,7 @@ License, or any later version. */
 #include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
-#include <OKlib/Combinatorics/Hypergraphs/Transversals/Transversals_bv.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/Transversals_bv.hpp>
 
 namespace {
 
@@ -101,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
   dimacs_adaptor_type in;
   dimacs_input_type(std::cin, in);
   
-  typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded_transversals_bv<set_system_type> transversal_enumerator_type;
+  typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::Bounded_transversals_bv<set_system_type> transversal_enumerator_type;
   typedef transversal_enumerator_type::transversal_list_type transversal_list_type;
   
   transversal_enumerator_type t_e(in.clause_set, B);

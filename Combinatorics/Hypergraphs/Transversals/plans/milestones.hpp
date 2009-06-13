@@ -33,7 +33,7 @@ License, or any later version. */
   \par Version 0.0.7 :
 
   \par
-   In Hypergraphs/Transversals/plans/SizeParameter.hpp the
+   In Hypergraphs/Transversals/Bounded/plans/general.hpp the
    following topics are handled:
     - Trivial algorithm for input G, k
 

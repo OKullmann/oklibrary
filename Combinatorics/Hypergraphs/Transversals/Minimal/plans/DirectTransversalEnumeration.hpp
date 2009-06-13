@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Combinatorics/Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp
+  \file Combinatorics/Hypergraphs/Transversals/Minimal/plans/DirectTransversalEnumeration.hpp
   \brief Implementations of enumerations of hypergraph
   transversals based on the direct method.
 

@@ -25,13 +25,14 @@ License, or any later version. */
 
   \todo Organisation of the module
   <ul>
-   <li> Perhaps we should have submodules "Bounded", "Minimum", "All",
-   "Exact". </li>
-   <li> "Exact" could again have submodules "Bounded", "Minimum", "All". </li>
+   <li> DONE (we have "Bounded" and "Minimal")
+   Perhaps we should have submodules "Bounded", "Minimum". </li>
+   <li> Another submodule could be "Exact", which could again have submodules
+   "Bounded" and "Minimal". </li>
   </ul>
 
 
-  \todo Literature exploration:
+  \todo Literature exploration
   <ul>
    <li> What is known meanwhile about the existence of polynomial
    delay enumeration of Tr(G) for hypergraphs G? </li>

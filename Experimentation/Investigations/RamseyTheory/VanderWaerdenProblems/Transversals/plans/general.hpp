@@ -233,7 +233,7 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    <li> A C++ implementation should be able to go quite beyond the known
    numbers:
     <ol>
-     <li> See Hypergraphs/Transversals/plans/SizeParameter.hpp. </li>
+     <li> See Hypergraphs/Transversals/Bounded/plans/general.hpp. </li>
     </ol>
    </li>
   </ul>

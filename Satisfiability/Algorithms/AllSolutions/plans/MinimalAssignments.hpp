@@ -148,7 +148,7 @@ License, or any later version. */
   \todo Parameterisation
   <ul>
    <li> As for the hypergraph case
-   (see Hypergraphs/Transversals/plans/SizeParameter.hpp),
+   (see Hypergraphs/Transversals/Bounded/plans/general.hpp),
    the natural parameter is the size of the partial assignment. </li>
    <li> The hypergraph algorithms can be immediately generalised, only
    that now a variable v with domain size d leads to a branching of size

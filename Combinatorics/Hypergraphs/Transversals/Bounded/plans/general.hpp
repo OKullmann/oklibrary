@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Combinatorics/Hypergraphs/Transversals/plans/SizeParameter.hpp
+  \file Combinatorics/Hypergraphs/Transversals/Bounded/plans/general.hpp
   \brief Plans for the module on computing hypergraph transversals
   of size at most k
 
@@ -166,4 +166,23 @@ License, or any later version. */
   \todo Overview on more sophisticated algorithms
 
 */
+
+/*!
+  \namespace OKlib::Combinatorics::Hypergraphs::Transversals::Bounded
+  \brief Components for handling hypergraph transversals of bounded size
+
+  Alias "Bnd".
+*/
+
+namespace OKlib {
+  namespace Combinatorics {
+    namespace Hypergraphs {
+      namespace Transversals {
+        namespace Bounded {
+        }
+        namespace Bnd = Bounded;
+      }
+    }
+  }
+}
 

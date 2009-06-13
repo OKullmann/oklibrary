@@ -13,14 +13,14 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   Combinatorics/Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp
+   Combinatorics/Hypergraphs/Transversals/Minimal/plans/DirectTransversalEnumeration.hpp
    for computing the transversal hypergraph via recursive splitting. </li>
    <li> See
-   Combinatorics/Hypergraphs/Transversals/plans/SizeParameter.hpp
+   Combinatorics/Hypergraphs/Transversals/Minimum/plans/general.hpp
    for the use of a parameter bounding the size of the transversals. </li>
-   <li> See especially Transversals/BoundedTransversals_bv.cpp and
-   Transversals/Transversals_bv.hpp for implementations of transversals_bv(s).
-   </li>
+   <li> See especially Transversals/Bounded/BoundedTransversals_bv.cpp and
+   Transversals/Bounded/Transversals_bv.hpp for implementations of
+   transversals_bv(s). </li>
    <li> And, more generally, see
    Combinatorics/Hypergraphs/Transversals/plans/general.hpp. </li>
    <li> See "dual_cs" in
@@ -33,7 +33,7 @@ License, or any later version. */
   \todo Organisation
   <ul>
    <li> Split Transversals/Transversals.mac into several files. </li>
-   <li> Perhaps Transversals/Basics.mac, Transversals/All.mac,
+   <li> Perhaps Transversals/Basics.mac, Transversals/Minimal.mac,
    Transversals/Bounded.mac, and Transversals/Greedy.mac. </li>
   </ul>
 
