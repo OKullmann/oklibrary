@@ -26,8 +26,38 @@ License, or any later version. */
 #include <boost/range/functions.hpp>
 #include <boost/range/metafunctions.hpp>
 
+#include <OKlib/General/IteratorHandling.hpp>
+
 namespace OKlib {
   namespace SetAlgorithms {
+
+    /*!
+      \class Disjoint
+      \brief Unary predicate checking whether a set B is disjoint
+      to the given set A
+    */
+
+    template <class Set>
+    struct Disjoint : std::unary_function<const Set&, bool> {
+      typedef Set set_type;
+      typedef typename set_type::size_type size_type;
+      typedef typename set_type::const_iterator iterator;
+      const set_type& A;
+      const size_type a;
+      const iterator begin;
+      const iterator end;
+      Disjoint(const set_type& A) :
+        A(A), a(A.size()), begin(A.begin()), end(A.end()) {}
+      bool operator() (const set_type& B) const {
+        if (a == 0) return true;
+        if (B.size() == 0) return true;
+        if (*--iterator(end) < *B.begin() or *--(B.end()) < *begin)
+          return true;
+        IteratorHandling::Advance_Count<typename set_type::value_type> ci;
+        std::set_intersection(begin,end, B.begin(),B.end(), ci);
+        return (ci.count() == 0);
+      }
+    };
 
     /*!
       \class Union
