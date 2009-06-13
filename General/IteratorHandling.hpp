@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2002 (Swansea)
-/* Copyright 2002 - 2007, 2008 Oliver Kullmann
+/* Copyright 2002 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file General/IteratorHandling.hpp
-  \brief Deprecated (shall be moved to Programming/Iterators). Tools for handling of iterators
+  \deprecated Shall be moved to Programming/Iterators
+  \brief Tools for handling of iterators
 */
 
-#ifndef ITERATORHANDLINGWAECHTER
-
-#define ITERATORHANDLINGWAECHTER
+#ifndef ITERATORHANDLINGWAECHTER_gdgsh4e3
+#define ITERATORHANDLINGWAECHTER_gdgsh4e3
 
 #include <algorithm>
 #include <iterator>
@@ -39,11 +39,12 @@ namespace IteratorHandling {
   public :
     Advance_Count() : c(0) {}
     Advance_Count(const Advance_Count& ac) : c(ac.c) {}
-    Advance_Count& operator = (const Advance_Count& ac) { c = ac.c; return *this; }
-    Advance_Count& operator = (const T&) { return *this; }
-    Advance_Count& operator * () { return *this; }
-    Advance_Count& operator ++ () { ++c; return *this; }
-    Advance_Count operator ++ (int) {
+    Advance_Count& operator =(const Advance_Count& ac) {
+      c = ac.c; return *this; }
+    const Advance_Count& operator =(const T&) const { return *this; }
+    const Advance_Count& operator *() const { return *this; }
+    Advance_Count& operator ++() { ++c; return *this; }
+    Advance_Count operator ++(int) {
       Advance_Count ac(*this);
       ++c;
       return ac;
