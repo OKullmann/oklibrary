@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for the module on hypergraph transversals
 
 
-  \todo Update namespaces : DONE
-
-
   \todo Connections
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/Transversals/plans/general.hpp.
