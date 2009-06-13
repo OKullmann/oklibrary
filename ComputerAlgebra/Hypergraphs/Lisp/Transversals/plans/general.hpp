@@ -19,7 +19,7 @@ License, or any later version. */
    Combinatorics/Hypergraphs/Transversals/Minimum/plans/general.hpp
    for the use of a parameter bounding the size of the transversals. </li>
    <li> See especially Transversals/Bounded/BoundedTransversals_bv.cpp and
-   Transversals/Bounded/Transversals_bv.hpp for implementations of
+   Transversals/Bounded/VertexBranching.hpp for implementations of
    transversals_bv(s). </li>
    <li> And, more generally, see
    Combinatorics/Hypergraphs/Transversals/plans/general.hpp. </li>

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Combinatorics/Hypergraphs/Transversals/Bounded/Transversals_bv.hpp
+  \file Combinatorics/Hypergraphs/Transversals/Bounded/VertexBranching.hpp
   \brief Computing (basically) all transversals of size up to B, by branching on vertices
 
   The role model is transversals_bv (and transversals_bvs) in

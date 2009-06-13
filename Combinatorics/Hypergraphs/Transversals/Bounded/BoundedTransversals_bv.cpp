@@ -32,7 +32,7 @@ License, or any later version. */
 #include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
-#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/Transversals_bv.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/VertexBranching.hpp>
 
 namespace {
 
