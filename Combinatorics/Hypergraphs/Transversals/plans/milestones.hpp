@@ -13,32 +13,28 @@ License, or any later version. */
 
   \par Version 0.0.5 :
 
+  \par Hypergraphs/Transversals/Bounded 0.0.4 : DONE
+  (see Hypergraphs/Transversals/Bounded/plans/milestones.hpp)
+
+  \par Hypergraphs/Transversals/Minimal 0.0.2 : DONE
+  (see Hypergraphs/Transversals/Minimal/plans/milestones.hpp)
+
   \par
    In Hypergraphs/Transversals/plans/general.hpp the following
    topics are handled:
-    - Literature exploration
-    - Compare with the SAT-generalisation
     - Update namespaces : DONE
 
 
   \par Version 0.0.6 :
 
   \par
-   In Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp the
-   following topics are handled:
-    - Concepts
-    - %Implementation
+   In Hypergraphs/Transversals/plans/general.hpp the following
+   topics are handled:
+    - Literature exploration
+    - Compare with the SAT-generalisation
 
 
   \par Version 0.0.7 :
-
-  \par
-   In Hypergraphs/Transversals/Bounded/plans/general.hpp the
-   following topics are handled:
-    - Trivial algorithm for input G, k
-
-
-  \par Version 0.0.8 :
 
   \par
    In Hypergraphs/Transversals/plans/ExactTransversals.hpp the
@@ -46,7 +42,7 @@ License, or any later version. */
     - The basic algorithm
 
 
-  \par Version 0.0.9 :
+  \par Version 0.0.8 :
 
   \par
    In Hypergraphs/Transversals/plans/general.hpp the following
