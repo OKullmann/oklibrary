@@ -21,34 +21,13 @@ License, or any later version. */
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
-   for generators at Maxima/Lisp level for Ramsey problems. </li>
+   for SAT-generators at Maxima/Lisp level for Ramsey problems. </li>
+   <li> And see
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   </li>
    <li> See
    Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp for hypergraph
    generators at C++ level. </li>
-  </ul>
-
-
-  \todo DONE %Ramsey theory
-  <ul>
-   <li> We need generators for all types of Ramsey-problems;
-   for van der Waerden's problem we already started. </li>
-   <li> Such translators should only produce a hypergraph-colouring problem
-   (to be handled then by the general translations in module
-   Hypergraphs/Colourings). </li>
-   <li> However, for the "non-diagonal" forms we need to create non-boolean
-   clause-sets. </li>
-  </ul>
-
-
-  \todo DONE Transfer:
-  <ul>
-   <li> Transferring (and updating) generators for
-    <ol>
-     <li> OKsolver/Experimental/Transformationen/Ramsey </li>
-     <li> OKsolver/Experimental/Transformationen/VanderWaerden </li>
-    </ol>
-   </li>
-   <li> Especially  providing active clause-sets is very interesting. </li>
   </ul>
 
 */

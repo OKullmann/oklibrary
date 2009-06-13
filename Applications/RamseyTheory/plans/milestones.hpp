@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Applications/RamseyTheory/plans/milestones.hpp
 
-  \module_version Applications/RamseyTheory 0.1 (1.11.2006)
-
-
-  \par Version 0.1.1 :
-
-  \par
-   In RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp the following
-   topics are handled:
-    - Update
-
-  \par
-   In RamseyTheory/plans/general.hpp the following topics are handled:
-    - %Ramsey theory : DONE
-    - Transfer : DONE
+  \module_version Applications/RamseyTheory 0.1.1 (14.6.2009)
 
 
   \par Version 0.1.2 :
@@ -40,6 +27,7 @@ License, or any later version. */
   \par Version history
 
    - 0.1   : 31.10.2006; initial version number (first generator implementations, and some plans).
+   - 0.1.1 : 14.6.2009; reorganisation, moved modules to Combinatorics/Hypergraphs/Generators.
 
 */
 
