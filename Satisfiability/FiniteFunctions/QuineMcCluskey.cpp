@@ -22,11 +22,13 @@ License, or any later version. */
 
 namespace {
 
-  const int error_parameters = 1;
-  const int error_openfile = 2;
-  const int error_readfile = 3;
+  enum {
+    error_parameters = 1,
+    error_openfile = 2,
+    error_readfile = 3
+  };
 
-  const std::string version = "0.1.7";
+  const std::string version = "0.1.8";
 
 }
 
