@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
+  \file Applications/RamseyTheory/plans/VanderWaerden.hpp
   \brief Plans on the module on computing van der Waerden numbers
 
 
@@ -17,6 +17,7 @@ License, or any later version. */
    and
    ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
    </li>
+   <li> See Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp. </li>
    <li> See Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp.
    </li>
    <li> See

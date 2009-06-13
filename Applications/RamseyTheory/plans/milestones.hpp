@@ -19,7 +19,9 @@ License, or any later version. */
     - Update
 
   \par
-   Update the subsequent milestones, and embed them into higher milestones.
+   In RamseyTheory/plans/general.hpp the following topics are handled:
+    - %Ramsey theory : DONE
+    - Transfer : DONE
 
 
   \par Version 0.1.2 :
@@ -27,8 +29,9 @@ License, or any later version. */
   \par
    In RamseyTheory/plans/general.hpp the following topics are handled:
     - Update namespaces
-    - %Ramsey theory
-    - Transfer
+
+  \par
+   Update milestones, and embed them into higher milestones.
 
 
 
@@ -36,8 +39,7 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.1   : 31.10.2006; initial version number (first generator implementations,
-      and some plans).
+   - 0.1   : 31.10.2006; initial version number (first generator implementations, and some plans).
 
 */
 
