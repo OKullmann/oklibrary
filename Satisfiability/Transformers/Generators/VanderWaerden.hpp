@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.5.2004 (Swansea)
-/* Copyright 2004 - 2007 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,7 +24,7 @@ namespace VanderWaerden {
 
   template <typename Int>
   class Arithmetical_progressions {
-    // ToDo: Integration with classes in Hypergraphs/Colourings/Van_der_Waerden_hypergraph.hpp and General/IteratorHandling.hpp
+    // ToDo: Integration with classes in Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and General/IteratorHandling.hpp
   public :
     typedef Int Index;
     const Index n;

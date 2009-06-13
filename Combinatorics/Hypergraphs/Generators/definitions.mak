@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-test_program := TestRamseyTheory
+test_program := TestHypergraphGenerators
 
 programs :=
 

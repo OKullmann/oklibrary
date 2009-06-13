@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans on generators for vdW-hypergraphs
 
 
-  \todo Transfer Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
+  \todo DONE
+  Transfer Applications/RamseyTheory/plans/Van_der_Waerden_hypergraph.hpp
   to here
 
 
@@ -23,28 +24,30 @@ License, or any later version. */
   </ul>
 
 
-  \todo Reactivate test system.
-
-
-  \todo Update namespace.
+  \todo Update namespace usage
 
 
   \todo New test system
   <ul>
-   <li> Transform the tests to the new testsystem. </li>
+   <li> Transfer the tests to the new testsystem. </li>
   </ul>
 
 
   \todo Update
   <ul>
    <li> Transfer the todo's from
-   Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp to here (thereby
-   updating them). </li>
-   <li> Likely this file should be renamed to VanderWaerdenHypergraphs.hpp.
+   ypergraphs/Generators/plans/VanderWaerden.hpp to here (thereby updating
+   them). </li>
+   <li> See class IteratorHandling::Arithmetical_progression in
+   General/IteratorHandling.hpp. </li>
+   <li> DONE
+   Likely this file should be renamed to VanderWaerdenHypergraphs.hpp.
    </li>
-   <li> The generation of hypergraphs should be part of
+   <li> DONE
+   The generation of hypergraphs should be part of
    Combinatorics/Hypergraphs/Generators. </li>
-   <li> So the content of this file should be moved to
+   <li> DONE
+   So the content of this file should be moved to
    Combinatorics/Hypergraphs/Generators/plans/VanderWaerdenProblems.hpp. </li>
    <li> All the functionality like arithprog_primes_hg from the Maxima/Lisp
    level (and all the other functions there in
