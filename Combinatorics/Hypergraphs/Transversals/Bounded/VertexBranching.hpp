@@ -19,6 +19,11 @@ License, or any later version. */
 #include <list>
 #include <vector>
 #include <iterator>
+#include <cassert>
+#include <algorithm>
+#include <functional>
+#include <ostream>
+#include <iomanip>
 
 #include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
 
@@ -48,12 +53,14 @@ namespace OKlib {
       struct Bounded_transversals_bv {
         
         typedef SetSystem set_system_type;
-        typedef typename set_system_type::const_iterator iterator;
+        typedef typename set_system_type::const_iterator const_iterator;
+        typedef typename set_system_type::iterator iterator;
         typedef typename set_system_type::value_type hyperedge_type;
         typedef typename hyperedge_type::value_type vertex_type;
         typedef typename hyperedge_type::size_type size_type;
         
         typedef std::list<hyperedge_type> transversal_list_type;
+        typedef typename transversal_list_type::const_iterator const_result_iterator;
         typedef typename transversal_list_type::iterator result_iterator;
         
         const set_system_type& G_orig;
@@ -95,9 +102,9 @@ namespace OKlib {
           
           const vertex_type a(*H.begin());
           if (H.size() == 1) {
-            for (iterator i = G.begin(); i != G.end(); ) {
+            for (const_iterator i = G.begin(); i != G.end(); ) {
               const hyperedge_type& K(*i);
-              const iterator j(i); ++i;
+              const const_iterator j(i); ++i;
               if (K.find(a) != K.end()) G.erase(j);
             }
             result = operator()(G,B-1);
@@ -108,10 +115,10 @@ namespace OKlib {
           }
           else {
             set_system_type G_a;
-            { iterator old_insert(G_a.begin());
+            { const_iterator old_insert(G_a.begin());
               for (iterator i = G.begin(); i != G.end(); ) {
                 hyperedge_type K(*i);
-                const iterator j(i); ++i;
+                const const_iterator j(i); ++i;
                 if (K.erase(a) != 0) {
                   old_insert = G_a.insert(old_insert,K);
                   G.erase(j);
@@ -123,9 +130,9 @@ namespace OKlib {
             for (result_iterator i = result.begin(); i != end; ++i)
               i -> insert(a);
             {
-              iterator old_insert(G.begin());
-              const iterator& end(G_a.end());
-              for (iterator i = G_a.begin(); i != end; ++i)
+              const_iterator old_insert(G.begin());
+              const const_iterator& end(G_a.end());
+              for (const_iterator i = G_a.begin(); i != end; ++i)
                 old_insert = G.insert(old_insert, *i);
             }
             transversal_list_type temp_res(operator()(G, B));
@@ -135,7 +142,125 @@ namespace OKlib {
         }
         
       };
+
+
+      /*!
+        \class TransversalPredicate
+        \brief Unary predicate for checking whether a set of vertices is a transversal of a given hypergraph
+      */
+
+      template <class SetSystem>
+      struct TransversalPredicate : std::unary_function<const typename SetSystem::value_type&, bool> {
+        typedef SetSystem set_system_type;
+        typedef typename set_system_type::value_type hyperedge_type;
+        typedef typename set_system_type::const_iterator iterator;
+        const set_system_type& G;
+        const iterator begin;
+        const iterator end;
+        TransversalPredicate(const set_system_type& G)
+          : G(G), begin(G.begin()), end(G.end()) {}
+        bool operator() (const hyperedge_type& T) const {
+          return std::find_if(begin, end, OKlib::SetAlgorithms::Disjoint<hyperedge_type>(T)) == end;
+        }
+      };
+
+
+      /*!
+        \class Minimum_transversals_mongen
+        \brief Computing all minimum transversals for hypergraphs gen(N0+1), ..., gen(Nmax).
+        
+        As minimum_transversals_mongen in
+        ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac.
+        <ul>
+         <li> gen(n) is the list of new hyperedges for vertex n. </li>
+        </ul>
+      */
       
+      template <class SetSystem,
+                template <class SetSystem> class Generator,
+                template <class SetSystem> class Output>
+      struct Minimum_transversals_mongen {
+                  
+        typedef SetSystem set_system_type;
+        
+        typedef Bounded_transversals_bv<set_system_type> transversals_bv_type;
+        typedef typename transversals_bv_type::const_iterator const_iterator;
+        typedef typename transversals_bv_type::iterator iterator;
+        typedef typename transversals_bv_type::hyperedge_type hyperedge_type;
+        typedef typename transversals_bv_type::vertex_type vertex_type;
+        typedef typename transversals_bv_type::size_type size_type;
+        typedef typename transversals_bv_type::transversal_list_type transversal_list_type;
+        typedef typename transversals_bv_type::const_result_iterator const_result_iterator;
+        typedef typename transversals_bv_type::result_iterator result_iterator;
+        
+        typedef Generator<set_system_type> generator_type;
+        typedef Output<set_system_type> output_type;
+
+        typedef typename generator_type::hyperedge_list_type hyperedge_list_type;
+
+        void operator() (
+                         const size_type N0,
+                         const size_type Nmax,
+                         set_system_type G,
+                         transversal_list_type MT0,
+                         generator_type gen,
+                         output_type out) const {
+          if (N0 > Nmax) return;
+          assert(not MT0.empty());
+          size_type t = MT0.begin() -> size();
+          for (size_type n = N0+1; n <= Nmax; ++n) {
+            const hyperedge_list_type E(gen(n));
+            G.insert(E.begin(), E.end());
+            const vertex_type a = n;
+            hyperedge_list_type Er(E);
+            { // removing vertex a from Er
+              typedef typename hyperedge_list_type::iterator i_t;
+              const i_t& end(Er.end());
+              for (i_t i = Er.begin(); i != end; ++i)
+                i -> erase(a);
+            }
+            transversal_list_type MT1;
+            { // MT1 = elements of MT0 which are transversals of E (or Er):
+              TransversalPredicate<hyperedge_list_type> t_p(Er);
+              const const_result_iterator end(MT0.end());
+              for (const_result_iterator i = MT0.begin(); i != end; ++i)
+                if (t_p(*i)) MT1.push_back(*i);
+            }
+            if (MT1.empty()) {
+              ++t;
+              const result_iterator end(MT0.end());
+              for (result_iterator i = MT0.begin(); i != end; ++i)
+                i -> insert(a);
+              MT1.splice(MT1.end(), MT0);
+              transversal_list_type temp_res(transversals_bv_type(G,t)());
+              MT1.splice(MT1.end(), temp_res);
+            }
+            out(n,t,MT1);
+            MT0 = MT1;
+          }
+        }
+
+        void operator() (
+                         const size_type Nmax,
+                         generator_type gen,
+                         output_type out) const {
+          operator()(0, Nmax, set_system_type(), transversal_list_type(1), gen, out);
+        }
+
+      };
+
+      template <class SetSystem> struct TrivialOutput {
+        typedef SetSystem set_system_type;
+        typedef Bounded_transversals_bv<set_system_type> transversals_bv_type;
+        typedef typename transversals_bv_type::size_type size_type;
+        typedef typename transversals_bv_type::transversal_list_type transversal_list_type;
+        std::ostream& out;
+        TrivialOutput(std::ostream& out) : out(out) {}
+        void operator() (const size_type n, const size_type t, const transversal_list_type& MT) {
+          out << n << " " << t << " " << MT.size() << std::endl;
+        }
+      };
+
     }
    }
   }
