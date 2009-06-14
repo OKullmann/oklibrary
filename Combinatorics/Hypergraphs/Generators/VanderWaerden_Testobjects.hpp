@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef VANDERWAERDENHYPERGRAPHTESTOBJECTSS_1U8VvT56
 #define VANDERWAERDENHYPERGRAPHTESTOBJECTSS_1U8VvT56
 
-#include <OKlib/Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp>
-#include <OKlib/Combinatorics/Hypergraphs/Generators/plans/VanderWaerden_Tests.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden_Tests.hpp>
 
 namespace OKlib {
   namespace Van_der_Waerden_hypergraph {

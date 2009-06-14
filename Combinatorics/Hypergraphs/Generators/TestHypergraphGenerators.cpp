@@ -9,7 +9,7 @@ License, or any later version. */
 
 #include <OKlib/TestSystem/TestBaseClass.hpp>
 
-#include <OKlib/Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cout);

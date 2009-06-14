@@ -19,7 +19,7 @@ License, or any later version. */
 #include <OKlib/Concepts/Iterators.hpp>
 #include <OKlib/Concepts/LibraryBasics.hpp>
 
-#include <OKlib/Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp>
+#include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp>
 
 namespace OKlib {
   namespace Van_der_Waerden_hypergraph {
