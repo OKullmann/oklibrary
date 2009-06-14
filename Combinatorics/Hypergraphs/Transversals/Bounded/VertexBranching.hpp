@@ -210,7 +210,6 @@ namespace OKlib {
           size_type t = MT0.begin() -> size();
           for (size_type n = N0+1; n <= Nmax; ++n) {
             const hyperedge_list_type E(gen(n));
-            G.insert(E.begin(), E.end());
             const vertex_type a = n;
             hyperedge_list_type Er(E);
             { // removing vertex a from Er
@@ -232,11 +231,14 @@ namespace OKlib {
               for (result_iterator i = MT0.begin(); i != end; ++i)
                 i -> insert(a);
               MT1.splice(MT1.end(), MT0);
-              transversal_list_type temp_res(transversals_bv_type(G,t)());
+              set_system_type Gr(G);
+              Gr.insert(Er.begin(), Er.end());
+              transversal_list_type temp_res(transversals_bv_type(Gr,t)());
               MT1.splice(MT1.end(), temp_res);
             }
             out(n,t,MT1);
-            MT0 = MT1;
+            G.insert(E.begin(), E.end());
+            MT0.swap(MT1);
           }
         }
 
