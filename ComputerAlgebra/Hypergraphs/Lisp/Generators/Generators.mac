@@ -52,16 +52,14 @@ arpr(k,a,d) := create_list(a + i*d, i,0,k-1)$
 
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
 /* Prerequisites: n,k are integers. */
-/* RENAME: arithprog_hg */
-ArithmeticProgressions(k,n) := block([V : setn(n)],
+arithprog_hg(k,n) := block([V : setn(n)],
   if elementp(k,{0,1,2}) then return([V,powerset(V,k)]) 
   elseif n < k or k < 0 then return([V,{}]) 
   elseif k = n then return([V,{V}]) else
   return([V, 
-    union(ArithmeticProgressions(k,n-1)[2], 
+    union(arithprog_hg(k,n-1)[2], 
     setify(create_list(setify(
       create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))))]))$
-arithprog_hg(k,n) := ArithmeticProgressions(k,n)$
 arithprog_ohg(k,n) := block([V : create_list(i,i,1,n), VS],
   VS : setify(V),
   if elementp(k,{0,1,2}) then return([V,listify(powerset(VS,k))]) 
