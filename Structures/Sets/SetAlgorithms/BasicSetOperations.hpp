@@ -50,11 +50,11 @@ namespace OKlib {
         A(A), a(A.size()), begin(A.begin()), end(A.end()) {}
       bool operator() (const set_type& B) const {
         if (a == 0) return true;
-        if (B.size() == 0) return true;
+        if (B.empty()) return true;
         if (*--iterator(end) < *B.begin() or *--(B.end()) < *begin)
           return true;
         IteratorHandling::Advance_Count<typename set_type::value_type> ci;
-        std::set_intersection(begin,end, B.begin(),B.end(), ci);
+        ci = std::set_intersection(begin,end, B.begin(),B.end(), ci);
         return (ci.count() == 0);
       }
     };
