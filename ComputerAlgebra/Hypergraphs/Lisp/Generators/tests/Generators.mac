@@ -71,6 +71,41 @@ okltest_arpr(f) := block([a,d],
   assert(f(2,a,-1) = [a,a-1]),
   true)$
 
+okltest_arithprog_finish(f) := (
+  assert(f(1,1) = [{1}]),
+  assert(f(1,2) = [{2}]),
+  assert(f(2,1) = []),
+  assert(f(2,2) = [{1,2}]),
+  assert(f(2,3) = [{2,3},{1,3}]).
+  assert(f(3,1) = []),
+  assert(f(3,2) = []),
+  assert(f(3,3) = [{1,2,3}]),
+  assert(f(3,4) = [{2,3,4}]),
+  assert(f(3,5) = [{3,4,5},{1,3,5}]),
+  true)$
+
+okltest_arithprog_ohg(f) := (
+  assert(f(0,0) = [[],[{}]]),
+  assert(f(0,1) = [[1],[{}]]),
+  assert(f(1,0) = [[],[]]),
+  assert(f(1,1) = [[1],[{1}]]),
+  assert(f(1,2) = [[1,2],[{1},{2}]]),
+  assert(f(2,0) = [[],[]]),
+  assert(f(2,1) = [[1],[]]),
+  assert(f(2,2) = [[1,2],[{1,2}]]),
+  assert(f(2,3) = [[1,2,3],[{1,2},{2,3},{1,3}]]),
+  assert(f(3,0) = [[],[]]),
+  assert(f(3,1) = [[1],[]]),
+  assert(f(3,2) = [[1,2],[]]),
+  assert(f(3,3) = [[1,2,3],[{1,2,3}]]),
+  assert(f(3,4) = [[1,2,3,4],[{1,2,3},{2,3,4}]]),
+  assert(f(3,5) = [[1,2,3,4,5],[{1,2,3},{2,3,4},{3,4,5},{1,3,5}]]),
+  for k : 0 thru 4 do
+    for n : 0 thru 4 do
+      assert(ohg_p(f(k,n))),
+  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg(f(k,n)))))),
+  true)$
+
 okltest_arithprog_hg(f) := (
   assert(f(0,-1) = [{},{{}}]),
   assert(f(1,-1) = [{},{}]),
@@ -85,13 +120,6 @@ okltest_arithprog_hg(f) := (
       assert(f(k,n) = [N,powerset(N,k)])
   ),
   assert(f(3,4) = [{1,2,3,4},{{1,2,3},{2,3,4}}]),
-  true)$
-
-okltest_arithprog_ohg(f) := (
-  for k : 0 thru 4 do
-    for n : 0 thru 4 do
-      assert(ohg_p(f(k,n))),
-  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg(f(k,n)))))),
   true)$
 
 okltest_nver_arithprog_hg(f) := (
@@ -147,7 +175,7 @@ okltest_arithmetic_progressions(f) := (
   assert(f([1,3,4,6],3) = []),
   assert(f([1,3,4,5,6],3) = [[1,3,5],[3,4,5],[4,5,6]]),
   assert(f([1,3,5,6,8,9,10,12],3) = [[1,3,5],[1,5,9],[3,6,9],[6,8,10],[6,9,12],[8,9,10],[8,10,12]]),
-  assert(okltest_arithprog_ohg(buildq([f],lambda([k,n],[create_list(i,i,1,n),map(setify,f(create_list(i,i,1,n),k))])))),
+  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg([create_list(i,i,1,n),map(setify,f(create_list(i,i,1,n),k))]))))),
   true)$
 
 okltest_arithprog_list_ohg(f) := (
