@@ -329,9 +329,10 @@ okltest_set_rv(f) := (
   assert(f({1,3,5}) = rv(1,3,5)),
   true)$
 
-okltest_ramseyrv_ohg(f) := (
-  assert(okltest_ramsey_ohg(buildq([f], lambda([q,r,n], ev(f(q,r,n), rv([L]):=setify(L), rv)))) = true),
+okltest_ramseyrv_ohg(f) := block(
   /* XXX */
+  if oklib_test_level = 0 then return(true),
+  assert(okltest_ramsey_ohg(buildq([f], lambda([q,r,n], ev(f(q,r,n), rv([L]):=setify(L), rv)))) = true),
   true)$
 
 okltest_ramsey_stdohg(f) := (
