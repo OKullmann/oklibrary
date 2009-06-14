@@ -9,8 +9,14 @@ License, or any later version. */
   \file Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.cpp
   \brief Application for computing all minimum transversals of a monotone series of hypergraphs
 
-  Function Transversals::Bounded::generator needs to be provided in another
-  compilation unit.
+  <ul>
+   <li> Command line parameters are the maximal number of vertices and
+   further parameters to be passed to the initialisation of the generator.
+   </li>
+   <li> Functions Transversals::Bounded::generator::initialise and
+   Transversals::Bounded::generator needs to be provided in another
+   compilation unit. </li>
+  </ul>
 */
 
 #include <iostream>
@@ -28,6 +34,8 @@ namespace {
   typedef std::set<vertex_type> hyperedge_type;
   typedef std::vector<hyperedge_type> hyperedge_list_type;
   typedef hyperedge_list_type::size_type size_type;
+
+  typedef std::vector<size_type> parameter_type;
 }
 
 namespace OKlib {
@@ -35,6 +43,7 @@ namespace OKlib {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
+      extern void initialise(const parameter_type& P);
       extern hyperedge_list_type generator(const size_type n);
     }
    }
@@ -56,20 +65,25 @@ namespace {
     error_parameters = 1
   };
 
-  const std::string version = "0.0.1";
+  const std::string version = "0.0.2";
 
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc != 2) {
+  if (argc == 1) {
     std::cerr << "ERROR[MinimumTransversalsMongen]:\n"
-      " Exactly one parameter is required, the maximal number of vertices.\n"
-      " However, the actual number of input parameters was " << argc-1 << ".\n";
+      " At least one parameter is required, the maximal number of vertices.\n";
     return error_parameters;
   }
 
   const size_type N = boost::lexical_cast<size_type>(argv[1]);
+  {
+    parameter_type P; P.reserve(argc-2);
+    for (int i = 2; i < argc; ++i)
+      P.push_back(boost::lexical_cast<size_type>(argv[i]));
+    ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::initialise(P);
+  }
 
   typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
   typedef std::set<hyperedge_type, hyperedge_ordering_type> set_system_type;
