@@ -21,6 +21,8 @@ License, or any later version. */
    (as model of a general hypergraph concept). </li>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac for
    the basic function specifications. </li>
+   <li> DONE Write a generator for the levels (used in the incremental
+   approach). </li>
   </ul>
 
 
@@ -30,6 +32,7 @@ License, or any later version. */
   \todo New test system
   <ul>
    <li> Transfer the tests to the new testsystem. </li>
+   <li> Write tests for all components. </li>
   </ul>
 
 

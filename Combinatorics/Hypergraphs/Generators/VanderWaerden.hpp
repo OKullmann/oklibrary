@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OKlib/Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp
+  \file OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp
   \brief %Tools for generating van der Waerden hypergraphs.
 */
 
@@ -15,6 +15,8 @@ License, or any later version. */
 
 #include <iterator>
 #include <cassert>
+#include <cstdlib>
+#include <vector>
 
 #include <OKlib/Concepts/Iterators.hpp>
 
@@ -91,6 +93,62 @@ namespace OKlib {
   
   // -----------------------------------------------------------------------------------------------------------------------------
 
+  /*!
+    \class Arithprog_finish
+    \brief Functor which produces the list of arithmetic progressions of
+    given length k in {1, ..., n} finishing in n.
+
+    Specified by function arithprog_finish(k,n) in
+    ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac.
+  */
+
+  template <class Hyperedges, class SetSystem, typename Int = unsigned int>
+  struct Arithprog_finish {
+
+    typedef Int int_type;
+    typedef Arithmetic_progression<int_type> progression_type;
+    typedef Hyperedges hyperedge_type;
+    typedef SetSystem set_system_type;
+    typedef typename hyperedge_type::value_type vertex_type;
+
+    int_type k; // length of arithmetic progression
+
+    Arithprog_finish() : k(0) {}
+    Arithprog_finish(const int_type k) : k(k) {
+      assert(k >= 1);
+    }
+    void set(const int_type k_new) {
+      assert(k_new >= 1);
+      k = k_new;
+    }
+
+    set_system_type operator()(const int_type n) const {
+      assert(n >= 1);
+      typedef std::vector<vertex_type> vector_t;
+      vector_t H;
+      H.reserve(k);
+      typedef std::vector<hyperedge_type> vector2_t;
+      vector2_t S;
+      if (k == 1) {
+        H.push_back(n);
+        S.push_back(hyperedge_type(H.begin(), H.end()));
+        return set_system_type(S.begin(),S.end());
+      }
+      typedef long int lib_int_type;
+      const int_type q = std::ldiv(lib_int_type(n-1), lib_int_type(k-1)).quot;
+      S.reserve(q);
+      for (int_type d = 1; d <= q; ++d) {
+        const progression_type P(n - (k-1) * d, k, d);
+        H.assign(P.begin(), P.end());
+        assert(P.size() == k);
+        S.push_back(hyperedge_type(H.begin(), H.end()));
+      }
+      assert(S.size() == q);
+      return set_system_type(S.begin(),S.end());
+    }
+
+  };
+  
 }
 
 
