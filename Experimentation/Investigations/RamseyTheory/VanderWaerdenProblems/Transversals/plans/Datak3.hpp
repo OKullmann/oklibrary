@@ -161,9 +161,16 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 59 40 4
    \endverbatim
    </li>
-   <li> With a C++ implementation this should be extendible to values quite
-   a bit beyond the known numbers (see above "Efficient computation of the
-   transversal number"). </li>
+   <li> With the simple C++ implementation this can be extended further:
+   \verbatim
+> MinimumTransversals_VanderWaerden-O3-DNDEBUG 100 3
+...
+60 41 6
+61 42 14
+62 43 48
+63 43 2
+   \endverbatim
+   (though an exponential explosions happens here). </li>
   </ul>
 
 
