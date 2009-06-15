@@ -1,0 +1,1 @@
+echo "${lib_dir}/MinimumTransversalsMongen${name_addition}.o"

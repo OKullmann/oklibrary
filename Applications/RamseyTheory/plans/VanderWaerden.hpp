@@ -29,5 +29,15 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Create tests
+  <ul>
+   <li> Application tests are needed for
+   Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp. </li>
+   <li> The problem is that currently we cannot compile this application
+   automatically, due to the build dependencies not expressible, and thus
+   yet we cannot create application tests. </li>
+  </ul>
+
 */
 
