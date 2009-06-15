@@ -14,7 +14,7 @@ License, or any later version. */
   solving Ramsey-type problems.
 
 
-  \todo Update namespaces
+  \todo Update namespaces and their usage
 
 
   \todo Connections

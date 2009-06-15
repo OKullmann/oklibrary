@@ -15,6 +15,17 @@ License, or any later version. */
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
    for the fundamental (basic) specifications. </li>
+   <li> See OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp
+   for hypergraph generators. </li>
+  </ul>
+
+
+  \todo Update
+  <ul>
+   <li> Rewrite Satisfiability/Transformers/Generators/VanderWaerden.hpp
+   using OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp. </li>
+   <li> Then also Satisfiability/Transformers/Generators/VanderWaerden.hpp
+   should be enhanced to produce the full ranges of instances. </li>
   </ul>
 
 */

@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In RamseyTheory/plans/general.hpp the following topics are handled:
-    - Update namespaces
+    - Update namespaces and their usage
 
   \par
    Update milestones, and embed them into higher milestones.

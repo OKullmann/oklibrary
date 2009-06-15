@@ -29,13 +29,21 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
+   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
+   following topics are handled:
+    - Update
+
+
+  \par Version 0.0.9
+
+  \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
     - Update function names
     - Complete LinInequal.cpp
     - Also handle ">=" and "=" (besides "<=")
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -44,7 +52,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following

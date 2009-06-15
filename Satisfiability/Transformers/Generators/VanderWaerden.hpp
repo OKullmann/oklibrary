@@ -5,8 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#ifndef VANDERWAERDENWAECHTER_3199GeQa
+/*!
+  \file Satisfiability/Transformers/Generators/VanderWaerden.hpp
+  \brief Components for creating SAT instances expressing van-der-Waerden problems
 
+  \todo Update according to new hypergraph generator
+*/
+
+#ifndef VANDERWAERDENWAECHTER_3199GeQa
 #define VANDERWAERDENWAECHTER_3199GeQa
 
 #include <stdexcept>

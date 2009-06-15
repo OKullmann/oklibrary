@@ -233,7 +233,9 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    <li> A C++ implementation should be able to go quite beyond the known
    numbers:
     <ol>
-     <li> See Hypergraphs/Transversals/Bounded/plans/general.hpp. </li>
+     <li> In
+     Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp
+     we have a first simple implementation (just STL-based). </li>
     </ol>
    </li>
   </ul>
