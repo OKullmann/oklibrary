@@ -108,6 +108,25 @@ L40_5 : minimum_transversals_mongen(40,A5,[{}])$
 45 13 5
    \endverbatim
    </li>
+   <li> Extended:
+   \verbatim
+> MinimumTransversals_VanderWaerden-O3-DNDEBUG 100 5
+46 14 38
+47 15 278
+48 16 1835
+49 16 2
+50 17 74
+51 17 18
+52 17 2
+53 18 4000
+54 18 1300
+55 19 6668
+56 19 3508
+57 19 1736
+58 19 768
+59 19 256
+   \endverbatim
+   </li>
    <li> Using "VdWTransversalsInc 5 1 0 OutputFile" we obtain
    \verbatim
 k n tau

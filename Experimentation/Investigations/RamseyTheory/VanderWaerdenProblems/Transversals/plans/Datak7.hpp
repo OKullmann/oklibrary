@@ -107,6 +107,12 @@ L60_7 : minimum_transversals_mongen(60,A7,[{}])$
 46 9 18
    \endverbatim
    </li>
+   <li> Extended:
+   \verbatim
+> MinimumTransversals_VanderWaerden-O3-DNDEBUG 100 7
+
+   \endverbatim
+   </li>
    <li> Using "VdWTransversalsInc 7 1 0 OutputFile" we obtain
    \verbatim
 k n tau
