@@ -183,61 +183,74 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
   </ul>
 
 
-  \todo Efficient computation of the transversal number
+  \todo Exploiting "self-similarity"
   <ul>
    <li> Yet the fastest algorithm is minimum_transversals_mongen, based on
-   the simple algorithm transversals_bes.
+   the simple algorithm transversals_bvs. </li>
+   <li> This is a generic algorithm not using any special knowledge. </li>
+   <li> We know that the arithmetic progressions of length k in any
+   subset S of {1, ..., n} are contained in arithprog_hg(k,n). </li>
+   <li> If S is itself an arithmetic progression of length K, then
+   the hypergraph of arithmetic progressions of size k within S, computed
+   by arithprog_list_hg, is isomorphic to arithprog_hg(k, |S|). </li>
+   <li> Thus we can consider any arithmetic progression S in {1,...,n}
+   (arbitrary length s = length(S) < n): a transversal T of arithprog_hg(k,n)
+   is also a transversal of arithprog_hg(k, s) (according to transversal_p,
+   which ignores irrelevant vertices) under the order-preserving bijection
+   S -> {1,...,s}, and so we can exploit knowledge we have on
+   arithprog_hg(k, s). </li>
+   <li> Yet the only knowledge we have on the transversals of arithprog_hg(k,s)
+   is the transversal number tau_arithprog_hg(k,s), which means a lower
+   bound on their size: length(T cap S) >= tau_arithprog_hg(k,s). </li>
+   <li> How can such a lower bound be exploited? </li>
+   <li> Translating the hypergraph transversal problem into SAT or PB,
+   we can just add the inequality |T cap S| >= tau_arithprog_hg(k,s)
+   for selected S. </li>
+   <li> In the context of the algorithm transversals_bvs perhaps it's best
+   to consider the resulting upper bound |T - S| <= B - tau_arithprog_hg(k,s),
+   where B is the bound considered, which might contradict the requirements
+   for traversing {1,...,n} - S. </li>
+   <li> If {1,...,n} - S is itself an arithmetic progression, then we can
+   use |T - S| >= tau_arithprog_hg(k, n-s). </li>
+   <li> This yields
+   tau_arithprog_hg(k, n-s) <= |T - S| <= B - tau_arithprog_hg(k,s). </li>
+   <li> If T is not yet a transversal, but only an attempted one (during the
+   course of the algorithm), then we can use
+   |T - S| <= B - tau_arithprog_hg(k,s). </li>
+   <li> So for partitions (S_0,S_1) of {1,...,n}, where both parts are
+   arithmetic progressions, we must always have
+   |T cap S_i| <= B - tau_arithprog_hg(k,|S_{1-i}|). </li>
+   <li> What are arithmetic progressions S_0 (arbitrary length) in {1,..,n}
+   such that the complement S_1 is again an arithmetic progression (arbitrary
+   length)?
     <ol>
-     <li> It could be improved by incorporating the upper bounds coming
-     from tau_arithprog(k,x+y) <=  sum_i i in {x,y} tau_arithprog(k,i).
-     </li>
-     <li> This should be done by first pre-computing for i in
-     {1,...,n-1} the transversal number for the hypergraphs restricted
-     to {1,...,i} and {i+1,...,n}, with i and n-i vertices, that is
-     tau_arithprog(k,i) and tau_arithprog(k,n-i); lets call these
-     numbers a_i and b_i. </li>
-     <li> For the current partial transversal T these numbers are updated
-     as new-a_i = max(old-a_i, T intersect {1,...,i}) and
-     new-b_i = max(old-b_i, T intersect {i+1,...,n}). </li>
-     <li> We must always have a_i + b_i <= B (where B is the current upper
-     bound, which in our case is actually the (precise) transversal number).
-     </li>
-     <li> So each time a new element is added to the T, the numbers a_i, b_i
-     are updated, and the branch is aborted when a_i + b_i > B. </li>
-     <li> Of course, one could use look-ahead. What we have is just an
-     additional active clause, controlling the "local sizes" of T (including
-     the total size). </li>
-     <li> More generally, applicable for arbitrary hypergraphs, we have given
-     an upper bound B on the size of transversal T for hypergraph G, and
-     for certain partitions A, B of the vertex set we have given lower bounds
-     a, b on the transversal number of G_A, G_B, obtained by considering only
-     hyperedges completely contained in A resp. B. Then we must have
-     max(|T intersect A|,a) + max(|T intersect B|,b) <= B. </li>
-     <li> As constraints, using boolean variables v in V(G), we get
-     sum V(G) = B, sum A >= a, sum B >= b. </li>
-     <li> This can be used in SAT solvers supporting cardinality constraints,
-     or in constraint solvers. It seems, though, that only the above
-     implications can be drawn (w.r.t. partial assignments!). </li>
-     <li> No, actually also the lower bounds themselves can be used, either
-     when too many vertices are crossed out, so that the lower bound can not
-     be reached, or, just before that, when all remaining vertices have
-     to be used to reach the lower bound. </li>
-     <li> Regarding the lower bounds, we can consider arbitrary intervals
-     {i, ..., j} <= {1,...,n}, where we must have
-     |T intersect {i,...,j}| >= tau_transversal_hg(k,j-i+1). </li>
-     <li> As above, using B we obtain also an upper bound on
-     |T intersect {i,...,j}|, where this time in general the complement is
-     the (disjoint) union of two intervals {1,...,i-1} and {j+1,...,n}. </li>
+     <li> S_0 = {1, ..., j}, S_1 = {j+1, ..., n} </li>
+     <li> S_0 = even numbers, S_1 = odd numbers </li>
+     <li> That seems to be it? </li>
     </ol>
    </li>
-   <li> A C++ implementation should be able to go quite beyond the known
-   numbers:
-    <ol>
-     <li> In
-     Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp
-     we have a first simple implementation (just STL-based). </li>
-    </ol>
-   </li>
+   <li> So if a vertex v is added to the current T, then for each considered
+   pair (S_0,S_1) exactly one of two sets T cap S_0, T cap C_1 is enlarged, and
+   whether the upper bound still is obeyed needs to be checked. </li>
+   <li> We only needed to check such constraints which are "active", that is,
+   where the upper bound had been reached already. </li>
+   <li> Of course, it can be that just
+   tau_arithprog_hg(k, n-s) <= B - tau_arithprog_hg(k,s) does not hold,
+   in which case B is to be rejected from the beginning. </li>
+   <li> However, in our given application, B is always exact, so this
+   situation won't arise. </li>
+   <li> Of course, one could use look-ahead. What we have are just additional
+   active clauses, controlling the "local sizes" of T. </li>
+   <li> More generally, applicable for arbitrary hypergraphs, we have given
+   an upper bound B on the size of transversal T for hypergraph G, and
+   for certain partitions S_0,S_1 of the vertex set we have given lower bounds
+   t_0, t_1 on the transversal numbers of G_{S_0}, G_{S_1}, obtained by
+   considering only hyperedges completely contained in S_0 resp. S_1. Then we
+   must have max(|T cap S_0|,s_0) + max(|T cap S_1|,s_1) <= B. </li>
+   <li> As constraints, using boolean variables v in V(G), we get
+   sum V(G) = B, sum A >= a, sum B >= b. </li>
+   <li> This can be used in SAT solvers supporting cardinality constraints,
+   or in constraint solvers. </li>
   </ul>
 
 */
