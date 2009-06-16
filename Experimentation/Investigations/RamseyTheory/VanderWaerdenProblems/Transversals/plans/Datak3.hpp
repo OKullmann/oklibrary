@@ -169,8 +169,14 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 61 42 14
 62 43 48
 63 43 2
+64 44 4
+65 45 8
+66 46 16
+67 47 28
+68 48 108
    \endverbatim
-   (though an exponential explosions happens here). </li>
+   (though an exponential running-time explosions happens here, so we don't
+   get that much further). </li>
   </ul>
 
 
