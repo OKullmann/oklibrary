@@ -202,24 +202,35 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    <li> Yet the only knowledge we have on the transversals of arithprog_hg(k,s)
    is the transversal number tau_arithprog_hg(k,s), which means a lower
    bound on their size: length(T cap S) >= tau_arithprog_hg(k,s). </li>
-   <li> How can such a lower bound be exploited? </li>
-   <li> Translating the hypergraph transversal problem into SAT or PB,
-   we can just add the inequality |T cap S| >= tau_arithprog_hg(k,s)
-   for selected S. </li>
-   <li> In the context of the algorithm transversals_bvs perhaps it's best
-   to consider the resulting upper bound |T - S| <= B - tau_arithprog_hg(k,s),
-   where B is the bound considered, which might contradict the requirements
-   for traversing {1,...,n} - S. </li>
-   <li> If {1,...,n} - S is itself an arithmetic progression, then we can
-   use |T - S| >= tau_arithprog_hg(k, n-s). </li>
-   <li> This yields
-   tau_arithprog_hg(k, n-s) <= |T - S| <= B - tau_arithprog_hg(k,s). </li>
-   <li> If T is not yet a transversal, but only an attempted one (during the
-   course of the algorithm), then we can use
-   |T - S| <= B - tau_arithprog_hg(k,s). </li>
-   <li> So for partitions (S_0,S_1) of {1,...,n}, where both parts are
-   arithmetic progressions, we must always have
-   |T cap S_i| <= B - tau_arithprog_hg(k,|S_{1-i}|). </li>
+   <li> How can such a lower bound be exploited?
+    <ol>
+     <li> In the context of the algorithm transversals_bvs perhaps it's best
+     to consider the resulting upper bound
+     |T - S| <= B - tau_arithprog_hg(k,s), where B is the bound considered,
+     which might contradict the requirements for traversing {1,...,n} - S.
+     </li>
+     <li> If {1,...,n} - S is itself an arithmetic progression, then we can
+     use |T - S| >= tau_arithprog_hg(k, n-s). </li>
+     <li> This yields
+     tau_arithprog_hg(k, n-s) <= |T - S| <= B - tau_arithprog_hg(k,s). </li>
+     <li> If T is not yet a transversal, but only an attempted one (during the
+     course of the algorithm), then we can use
+     |T - S| <= B - tau_arithprog_hg(k,s). </li>
+     <li> So for partitions (S_0,S_1) of {1,...,n}, where both parts are
+     arithmetic progressions, we must always have
+     |T cap S_i| <= B - tau_arithprog_hg(k,|S_{1-i}|). </li>
+     <li> So if a vertex v is added to the current T, then for each considered
+     pair (S_0,S_1) exactly one of two sets T cap S_0, T cap C_1 is enlarged,
+     and whether the upper bound still is obeyed needs to be checked. </li>
+     <li> We only needed to check such constraints which are "active", that is,
+     where the upper bound had been reached already. </li>
+     <li> Of course, it can be that just
+     tau_arithprog_hg(k, n-s) <= B - tau_arithprog_hg(k,s) does not hold,
+     in which case B is to be rejected from the beginning. </li>
+     <li> However, in our given application, B is always exact, so this
+     situation won't arise. </li>
+    </ol>
+   </li>
    <li> What are arithmetic progressions S_0 (arbitrary length) in {1,..,n}
    such that the complement S_1 is again an arithmetic progression (arbitrary
    length)?
@@ -229,16 +240,6 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      <li> That seems to be it? </li>
     </ol>
    </li>
-   <li> So if a vertex v is added to the current T, then for each considered
-   pair (S_0,S_1) exactly one of two sets T cap S_0, T cap C_1 is enlarged, and
-   whether the upper bound still is obeyed needs to be checked. </li>
-   <li> We only needed to check such constraints which are "active", that is,
-   where the upper bound had been reached already. </li>
-   <li> Of course, it can be that just
-   tau_arithprog_hg(k, n-s) <= B - tau_arithprog_hg(k,s) does not hold,
-   in which case B is to be rejected from the beginning. </li>
-   <li> However, in our given application, B is always exact, so this
-   situation won't arise. </li>
    <li> Of course, one could use look-ahead. What we have are just additional
    active clauses, controlling the "local sizes" of T. </li>
    <li> More generally, applicable for arbitrary hypergraphs, we have given
@@ -246,9 +247,10 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
    for certain partitions S_0,S_1 of the vertex set we have given lower bounds
    t_0, t_1 on the transversal numbers of G_{S_0}, G_{S_1}, obtained by
    considering only hyperedges completely contained in S_0 resp. S_1. Then we
-   must have max(|T cap S_0|,s_0) + max(|T cap S_1|,s_1) <= B. </li>
+   must have max(|T cap S_0|,t_0) + max(|T cap S_1|,t_1) <= B for arbitrary
+   partial transversals T. </li>
    <li> As constraints, using boolean variables v in V(G), we get
-   sum V(G) = B, sum A >= a, sum B >= b. </li>
+   sum V(G) = B, sum S_1 >= t_0, sum S_1 >= t_1. </li>
    <li> This can be used in SAT solvers supporting cardinality constraints,
    or in constraint solvers. </li>
   </ul>
