@@ -118,6 +118,7 @@ arithmetic_progressions(L,k) :=
 /* The hypergraph of all arithmetic progressions of size k in the
    list L of different integers: */
 arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
+arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
 
 
 /* ***********************
