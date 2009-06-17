@@ -174,6 +174,9 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
 66 46 16
 67 47 28
 68 48 108
+69 49 319
+70 50 1046
+71 50 4
    \endverbatim
    (though an exponential running-time explosions happens here, so we don't
    get that much further). </li>
