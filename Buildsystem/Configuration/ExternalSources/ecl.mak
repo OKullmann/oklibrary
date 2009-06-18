@@ -36,7 +36,7 @@ ecl_call_okl ?= $(ecl_installation_dir_okl)/bin/ecl
 ecl_docu_page_okl ?= $(doc_dir)/doxygen_html/d1/d31/docus_2Ecl_8hpp.html
 
 ecl_homepage_url_okl := http://ecls.sourceforge.net/
-ecl_documentation_url_okl := http://ecl.sourceforge.net/resources.html
+ecl_documentation_url_okl := http://ecls.sourceforge.net/resources.html
 
 ecl_targets_prefix_okl := $(ecl_prefix_okl)-
 ecl_recommended_okl := $(ecl_targets_prefix_okl)$(ecl_recommended_version_number_okl)
