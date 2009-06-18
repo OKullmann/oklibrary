@@ -74,6 +74,16 @@ C-STACK overflow at size 139456. Stack can probably be resized.
     <ol>
      <li> ulimit reports that there are no restrictions from the bash-side.
      </li>
+     <li> There are various Ecl memory limits which are discussed in the
+     manual -
+     http://ecls.sourceforge.net/new-manual/re34.html#table.memory.limits . 
+     </li>
+     <li> In this case the C-STACK is overflowing with a current limit of 
+     128KB. This can be adjusted to say 1MB in the following way:
+     \verbatim
+:lisp (ext:set-limit 'ext:c-stack 1048576)
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> On the other hand, a non-recursive solution is also very easy to
