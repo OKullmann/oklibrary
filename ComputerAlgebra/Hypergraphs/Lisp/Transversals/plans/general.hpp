@@ -16,7 +16,7 @@ License, or any later version. */
    Combinatorics/Hypergraphs/Transversals/Minimal/plans/DirectTransversalEnumeration.hpp
    for computing the transversal hypergraph via recursive splitting. </li>
    <li> See
-   Combinatorics/Hypergraphs/Transversals/Minimum/plans/general.hpp
+   Combinatorics/Hypergraphs/Transversals/Bounded/plans/general.hpp
    for the use of a parameter bounding the size of the transversals. </li>
    <li> See especially Transversals/Bounded/BoundedTransversals_bv.cpp and
    Transversals/Bounded/VertexBranching.hpp for implementations of
