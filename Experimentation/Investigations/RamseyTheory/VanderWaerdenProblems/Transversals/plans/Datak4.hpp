@@ -125,6 +125,11 @@ L60_4 : minimum_transversals_mongen(60,A4,[{}])$
 53 26 12
 54 26 1
 55 27 2
+56 28 34
+57 29 479
+58 29 6
+59 30 170
+60 30 1
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 4 1 0 OutputFile" we obtain

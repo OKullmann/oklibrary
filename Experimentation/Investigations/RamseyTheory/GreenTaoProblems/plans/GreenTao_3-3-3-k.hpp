@@ -306,8 +306,18 @@ BestSolution_Max = 2.000000
    <li> n=1910: cutoff=4*10^8 found in 59 runs one solution (seed=3723062408,
    osteps=187616262). </li>
    <li> n=1920: cutoff=4*10^8 found in 49 runs one solution (seed=1165735423,
-   232394841). </li>
-   <li> n=1921 </li>
+   osteps=232394841). </li>
+   <li> n=1921:
+    <ol>
+     <li> cutoff=10^9:
+     \verbatim
+     > E2 = read_ubcsat("GreenTao_3-3-3-5_1921.cnf_OUT")
+ 1  2  3
+19 78  3
+100
+     \endverbatim
+    </ol>
+   </li>
    <li> n=1925
     <ol>
      <li> cutoff=10^9 yields
@@ -347,6 +357,10 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
 1 2 3
 3 5 1
 9
+> E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT4")
+ 1  2  3
+10 84  6
+100
      \endverbatim
      </li>
     </ol>

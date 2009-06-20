@@ -117,7 +117,17 @@ L60_6 : minimum_transversals_mongen(60,A6,[{}])$
    <li> Extended:
    \verbatim
 > MinimumTransversals_VanderWaerden-O3-DNDEBUG 100 6
-
+52 14 78
+53 15 526
+54 15 18
+55 16 352
+56 16 27
+57 17 4667
+58 17 294
+59 17 5
+60 18 1133
+61 18 72
+62 18 4
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 6 1 0 OutputFile" we obtain (on csltok)

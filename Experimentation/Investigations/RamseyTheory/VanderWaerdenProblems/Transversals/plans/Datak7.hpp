@@ -110,7 +110,29 @@ L60_7 : minimum_transversals_mongen(60,A7,[{}])$
    <li> Extended:
    \verbatim
 > MinimumTransversals_VanderWaerden-O3-DNDEBUG 100 7
-
+47 10 472
+48 10 9
+49 11 1257
+50 11 392
+51 11 76
+52 11 22
+53 11 2
+54 12 1564
+55 12 242
+56 12 8
+57 12 4
+58 13 634
+59 13 218
+60 13 54
+61 13 10
+62 14 17251
+63 14 32
+64 14 14
+65 14 2
+66 15 33934
+67 15 19807
+68 15 10294
+69 15 4103
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 7 1 0 OutputFile" we obtain
