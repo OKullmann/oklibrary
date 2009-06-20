@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/Transversals/include.mac
-  \brief Inclusion file for Maxima hypergraph functions
+  \brief Inclusion file for hypergraph transversal functions
 
 Use by
 
@@ -19,9 +19,12 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/include.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/include.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/include.mac");
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/tests/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Basics.mac")$
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/tests/Basics.mac")$
 
 
 /*!

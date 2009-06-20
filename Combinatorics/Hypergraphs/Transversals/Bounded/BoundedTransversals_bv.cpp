@@ -11,12 +11,12 @@ License, or any later version. */
 
   <ul>
    <li> The role model is transversals_bvs in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac. </li>
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac. </li>
    <li> To perform this computation requires (exactly) one parameter, of the
    form "=B". </li>
    <li> With no parameter, or with an argument of the form ">=B"
    minimum_transversals_lbbvs_hg in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac is
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac is
    realised, i.e., incremental search. </li>
   </ul>
 

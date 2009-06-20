@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/tests/Transversals.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/tests/RecursiveSplitting.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 kill(f)$

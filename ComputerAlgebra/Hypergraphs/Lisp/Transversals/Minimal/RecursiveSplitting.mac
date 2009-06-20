@@ -1,0 +1,86 @@
+/* Oliver Kullmann, 20.6.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac
+  \brief Functions for finding hypergraph transversals by Berge's algorithm
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Basics.mac")$
+
+
+/* ************************************
+   * Finding all minimal transversals *
+   ************************************
+*/
+
+/* The transversal hypergraph via the independence hypergraph: */
+/* RENAME: transversal_hg_ind */
+transversal_hyp_ind(G, Ind) := ecomp_hyp(Ind(G))$
+transversal_hg_ind(G, Ind) := transversal_hyp_ind(G, Ind)$
+
+/* The transversal hypergraph of a hypergraph G, via recursive splitting: */
+/* RENAME: transversal_hg_rs */
+transversal_hyp_rs(G) := [G[1],transversal_ses_rs(min_elements(G[2]))]$
+transversal_hg_rs(G) := transversal_hyp_rs(G)$
+/* The transversal hypergraph of a set-system S: */
+transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
+ l : length(M),
+ if l = 0 then return({{}})
+ elseif l = 1 then return(singletons(M[1]))
+ elseif l = 2 then return(block([I : intersection(M[1],M[2])],
+  union(singletons(I), 
+        upairs(setdifference(M[1],I), setdifference(M[2],I))))),
+ h : floor(l/2),
+ S1 : rest(M,-h),
+ S2 : rest(M,l-h),
+ return(min_elements(cunion(transversal_ses_rs(S1),transversal_ses_rs(S2)))))$
+
+/* Given a monoton hypergraph generator mongen(n) (monoton w.r.t. the
+   hyperedge sets), where mongen(n+1) has (exactly) one node more than
+   mongen(n), and this node occurs in all new edges, compute the
+   list of (repetition-free, complete) transversal lists for n = n_0, ..., N.
+   Prerequisite: T0 is a list of all transversals of mongen(n_0).
+*/
+transversals_mongen_rs_init(N,mongen_,n0,T0) := 
+ block([G0 : mongen_(n0), res : [T0]],
+  for n : n0+1 thru N do block(
+  [G1 : mongen_(n), E, T1a : [], T1b, T1c : [], Td : [], T1, newv],
+   E : setdifference(G1[2], G0[2]),
+   [T1a, Td] : partition_list_epo(T0, lambda([H], transversal_p(H,E))),
+   newv : single_element(setdifference(G1[1],G0[1])),
+   T1b : add_element_l(newv, Td),
+   E : setdifference2e(E, newv),
+   for H in Td do block([Ed : subset(E, lambda([e],disjointp(e,H))), Tr],
+     Tr : listify(transversal_ses_rs(setdifference2(Ed,H))),
+     T1c : append(T1c, add_elements_l(H,Tr))
+   ),
+   T1 : append(T1b,listify(min_elements(append(T1a,T1c)))),
+   if oklib_monitor then print(n,length(T1)),
+   res : cons(T1,res),
+   T0 : T1, G0 : G1
+  ),
+  return(reverse(res)))$
+transversals_mongen_rs(N,mongen_) := 
+  transversals_mongen_rs_init(N,mongen_,0,listify(transversal_ses_rs(mongen_(0)[2])))$
+
+
+/*!
+\endhtmlonly
+*/

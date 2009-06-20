@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Computing (basically) all transversals of size up to B, by branching on vertices
 
   The role model is transversals_bv (and transversals_bvs) in
-  ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac
+  ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac
 */
 
 #ifndef TRANSVERSALSBV_jsBgf4wY
@@ -42,7 +42,7 @@ namespace OKlib {
         first including that vertex in the transversal, then excluding it.
         <ul>
          <li> This is algorithm transversals_bv from
-         ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac.
+         ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac.
          </li>
          <li> By using sets which are length-sorted one also obtains
          algorithm transversals_bvs. </li>
@@ -170,7 +170,7 @@ namespace OKlib {
         \brief Computing all minimum transversals for hypergraphs gen(N0+1), ..., gen(Nmax).
         
         As minimum_transversals_mongen in
-        ComputerAlgebra/Hypergraphs/Lisp/Transversals/Transversals.mac.
+        ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac.
         <ul>
          <li> gen(n) is the list of new hyperedges for vertex n. </li>
         </ul>
