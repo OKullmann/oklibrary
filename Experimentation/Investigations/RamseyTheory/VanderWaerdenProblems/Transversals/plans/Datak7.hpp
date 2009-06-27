@@ -133,6 +133,13 @@ L60_7 : minimum_transversals_mongen(60,A7,[{}])$
 67 15 19807
 68 15 10294
 69 15 4103
+70 16 29049
+71 16 18522
+72 16 11541
+73 16 6914
+74 16 3888
+75 16 1944
+76 16 729
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 7 1 0 OutputFile" we obtain

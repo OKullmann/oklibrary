@@ -135,6 +135,7 @@ L40_5 : minimum_transversals_mongen(40,A5,[{}])$
 67 21 12
 68 21 4
 69 21 1
+70 22 5
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 5 1 0 OutputFile" we obtain
