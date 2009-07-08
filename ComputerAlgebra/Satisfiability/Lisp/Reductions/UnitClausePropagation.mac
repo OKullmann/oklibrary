@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.12.2008 (Schwalbach) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,13 +26,38 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* The most basic algorithm for unit-clause propagation, input a clause-set,
    output the reduced clause-set.
 */
-ucp_cs_0(F) := block([U],
+ucp_0_cs(F) := block([U],
   do (
     if empty_element_p(F) then return({{}}),
     if emptyp(U : lunion(scs_k(F,1))) then return(F),
     if clashp(U,U) then return({{}}),
     F : apply_pa_cs(U,F)
   ))$
+
+/* Now returning a pair [F,phi], where phi is a list of
+   partial assignments, corresponding to the blocks of
+   unit-clauses found.
+   Only forced assignments (by unit-clauses) are considered
+   here, and so if {} in F, then the process stops, and the
+   remaining clauses stay in F.
+   If in some stage contradictory unit-clauses {x},{-x} are found,
+   then the positive assignment is applied, while all other eliminations
+   are ignored.
+*/
+ucp_lpa_0_cs(F) := block([phi : [], U],
+  do (
+    if empty_element_p(F) then return(),
+    if emptyp(U : lunion(scs_k(F,1))) then return(),
+    if clashp(U,U) then (block(
+     [x : var_l(first_element(intersection(U,comp_sl(U))))],
+      F : apply_pa_cs({x},F),
+      phi : cons({x},phi)),
+     return()),
+    F : apply_pa_cs(U,F),
+    phi : cons(U,phi)
+  ),
+  return([F,reverse(phi)]))$
+
 
 /*!
 \endhtmlonly
