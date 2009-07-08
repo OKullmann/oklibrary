@@ -33,6 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
 
 /* Complementation (literal-wise) of a clause-set or clause-list: */
 comp_cs(F) := map(comp_sl, F)$
+comp_cl(F) := map(comp_sl, F)$
 comp_fcs(FF) := [FF[1], comp_cs(FF[2])]$
 
 
