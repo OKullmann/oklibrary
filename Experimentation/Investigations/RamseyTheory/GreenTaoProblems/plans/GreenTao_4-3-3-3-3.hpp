@@ -162,7 +162,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,3) > 376
+  \todo Lower bounds: greentao_4(3,3,3,3) >= 377
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -375,8 +375,14 @@ BestSolution_Max = 4.000000
    <li> n=377
     <ol>
      <li> cutoff=10^9: 200 runs yield no solution (and an average-min=1.98).
+     Another 900 runs yield an average-min=1.951111:
+     \verbatim
+> E = read_ubcsat("GreenTao_4-3_377.OUT2")
+  1   2   3
+ 84 776  40
+900
+     \endverbatim
      </li>
-     <li> cutoff=10^9 with 1000 runs: </li>
      <li> cutoff=4*10^9: 100 runs yield no solution (and an average-min=1.73).
      </li>
     </ol>
@@ -434,6 +440,12 @@ BestSolution_Max = 4.000000
    <li> One should employ symmetry breaking here. </li>
    <li> Running minisat2 on GreenTao_sb_4-3_376.cnf for a day (32 restarts)
    doesn't seem to make progress. </li>
+   <li> Without symmetry breaking, for the conjectured precise value 377:
+    <ol>
+     <li> OKsolver_2002 seems hopeless. </li>
+     <li> minisat2 </li>
+    </ol>
+   </li>
   </ul>
 
 */
