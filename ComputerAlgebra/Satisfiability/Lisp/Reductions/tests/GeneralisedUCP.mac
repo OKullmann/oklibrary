@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Generalis
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
 kill(f)$
 
@@ -85,6 +86,27 @@ okltest_generalised_ucp_pa(f) := block(
 
   true
 )$
+
+okltest_generalised_ucp_opa(f) := block([F],
+  assert(okltest_generalised_ucp_pa(buildq([f],lambda([F,k], block([R:f(F,k)], [R[1],setify(R[2])])))) = true),
+  for n : 1 thru 5 do (
+    F : setify(rest(listify(smusat_horn(n)))),
+    for k : 0 thru 3 do
+      if k = 0 then assert(f(F,k) = [F,[]])
+      else assert(f(F,k) = [{},create_list(trv_var(create_list(2,j,1,i-1)),i,1,n)])
+  ),
+  F : {{1,2},{-1,2},{1,-2}},
+  for k : 0 thru 4 do 
+    if k <= 1 then assert(f(F,k) = [F,[]])
+    else assert(f(F,k) = [{},[1,2]]),
+  for n : 0 thru 3 do (
+    F : full_fcs(n)[2],
+    for k : 0 thru 4 do
+      assert(f(F,k) = if k < n then [F,[]]
+      else [{{}},create_list(i,i,1,n)])
+  ),
+  /* XXX */
+  true)$
 
 
 /* *******************************

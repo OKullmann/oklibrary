@@ -46,20 +46,28 @@ generalised_ucp(F,k) := block([mr : min_rank_cs(F)],
    If {} in F, then the result is always {{}}.
 */
 
-/* input a clause-set F and level k, output r_k(F) together with a forced
+/* Input a clause-set F and level k, output r_k(F) together with a forced
    partial assignment phi s.t. phi * F = r_k(F) */
-generalised_ucp_pa(F,k) := block([V : var_cs(F), mr : min_rank_cs(F)],
- if mr > k then [F,{}]
- elseif mr = 0 then [{{}},V] else
-  block([break : false, phi],
+/* RENAME: generalised_ucp_pa_cs */
+generalised_ucp_pa(F,k) := block([R : generalised_ucp_opa(F,k)],
+ [R[1], setify(R[2])])$
+/* The variation which returns an ordered partial assignment (in the
+   order the forced assignments were found; variables are tested
+   in the natural order, trying "true" first):
+*/
+/* RENAME: generalised_ucp_opa_cs */
+generalised_ucp_opa(F,k) := block([V : var_cs(F), mr : min_rank_cs(F)],
+ if mr > k then [F,[]]
+ elseif mr = 0 then [{{}},listify(V)] else
+  block([break : false, x],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then (
-      phi : {-eps * v},
-      F : apply_pa(phi, F),
+      x : -eps * v,
+      F : apply_pa({x}, F),
       break : true),
-  if break then block([R : generalised_ucp_pa(F,k)],
-    return([R[1], union(phi, R[2])]))
-  else return([F,{}])))$
+  if break then block([R : generalised_ucp_opa(F,k)],
+    return([R[1], cons(x, R[2])]))
+  else return([F,[]])))$
 
 
 /* Instances */
