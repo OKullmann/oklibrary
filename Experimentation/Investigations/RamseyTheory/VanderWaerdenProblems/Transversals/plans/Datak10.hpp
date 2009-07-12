@@ -95,6 +95,21 @@ L70_10 : minimum_transversals_mongen(70,A10,[{}])$
 71 10 17
 72 10 6
 73 10 2
+74 11 2500
+75 11 764
+76 11 162
+77 11 15
+78 11 2
+79 12 1275
+80 12 188
+81 12 76
+82 12 31
+83 12 6
+84 12 2
+85 13 968
+86 13 244
+87 13 30
+88 13 8
    \endverbatim
    </li>
    <li> Using "VdWTransversalsInc 10 1 0 OutputFile" we obtain
