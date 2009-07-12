@@ -24,6 +24,11 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 
+/* *****************
+   * Schur triples *
+   *****************
+*/
+
 /* The non-boolean formal clause-set expressing the Schur problem with
    r parts and n vertices.
    Prerequisites: r, n natural numbers, n, r >= 0.
@@ -60,6 +65,7 @@ output_schur_sb(r,n,filename) := block(
 /* Providing a standard name: "Schur_r_n.cnf": */
 output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
   sconcat("Schur_sb_",r,"_",n,".cnf"))$
+
 
 /*!
 \endhtmlonly

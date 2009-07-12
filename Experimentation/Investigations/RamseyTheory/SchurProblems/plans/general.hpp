@@ -9,12 +9,23 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/SchurProblems/plans/general.hpp
   \brief General plans regarding investigations on Schur problems (and generalisations)
 
+  The hyperedges of "generalised Schur problems" are of the form 
+  {x_1, ..., x_{k-1}, x_k}, where x_k is the sum of x_1, ..., x_{k-1}.
+  The (original) Schur problems have k=3. For the (standard) versions
+  the x_1, ..., x_{k-1} don't need to be distinct, while this is required
+  for the "injective" versions.
+
+  The numbers are called genschur_m(k_1, ..., k_m) resp.
+  genschuri_m(k_1, ..., k_m).
+
 
   \todo What is known
   <ul>
    <li> For a natural number r >= 1 the Schur-number schur(r) is the smallest
-   n such that for every partition {1,...,n} at least one part contains a
-   triple (x,y,z) with x+y=z. </li>
+   n such that for every partition {1,...,n} into r parts at least one part
+   contains a triple (x,y,z) in {1,...,n}^3 with x+y=z. </li>
+   <li> So schur(r) = genschur_r(3, ..., 3). </li>
+   <li> And schuri(r) = genschuri_r(3, ..., 3). </li>
    <li> Apparently only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
    are known. </li>
    <li> While schur(5)=160 is conjectured (research problem 8.1 in
@@ -26,6 +37,12 @@ License, or any later version. */
    <li> There is also a little talk
    http://www.rumathphysics.org/brandt/schur.pdf ; we could contact the
    author (once we can enumerate all solutions). </li>
+   <li> Also the strict versions, where x,y are required to be different,
+   are true. Let's call the numbers schuri(r) ("i" for "injective"). </li>
+   <li> The generalised Schur-numbers genschur_m(k_1, ..., k_m) for m >= 0
+   and k_i >= 2 asks for the existence of 1 <= i <= m such that part i
+   contains a tuple (x_1, ..., x_{k_i}) with x_{k_i} = x_1 + ... + x_{k_i-1}.
+   </li>
   </ul>
 
 

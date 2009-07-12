@@ -176,9 +176,9 @@ nhyp_arithprog_primes_ohg(k,n) :=
 nhyp_arithprog_primes_hg(k,n) := nhyp_arithprog_primes_ohg(k,n)$
 
 
-/* ******************************
-   * Schur's and Rado's theorem *
-   ******************************
+/* *******************
+   * Schur's theorem *
+   *******************
 */
 
 /* The hypergraph with vertex set {1, ..., n} and hyperedges {x,y,z}
