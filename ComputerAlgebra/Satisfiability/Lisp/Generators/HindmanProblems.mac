@@ -1,0 +1,100 @@
+/* Oliver Kullmann, 12.7.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac
+  \brief %Generators for clause-sets related to Hindman problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
+
+
+/* ********************
+   * Hindman problems *
+   ********************
+*/
+
+/* The non-boolean formal clause-set expressing the Hindman problem for k=2
+   with r parts and n vertices.
+   Prerequisites: r, n natural numbers, n, r >= 0.
+*/
+hindman2_nbfcsud(r,n) := 
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_ohg(n), create_list(i,i,1,r)))$
+
+hindman2d_nbfcsud(r,n) := 
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_degenerated_ohg(n), create_list(i,i,1,r)))$
+
+hindman2gen_fcs(a,n) :=
+ tcol2sat_stdohg2stdofcs(hindmanquadsgen_ohg(a,n))$
+
+/* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
+   vertex 1 to be in part 1); now we must have n >= 1: */
+hindman2_sb_nbfcsud(r,n) := block([S : hindman2_nbfcsud(r,n)],
+ [S[1], union(setify(create_list({[1,i]},i,2,r)), S[2]), S[3]])$
+
+
+/* Output the boolean clause-set (standard translation) to a file: */
+output_hindman2(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Hindman2_r_n.cnf": */
+output_hindman2_stdname(r,n) := output_hindman2(r,n,
+  sconcat("Hindman_",r,"_",n,".cnf"))$
+
+/* Allowing x=y: */
+output_hindman2d(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2d_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements, allowing degeneration."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Hindman2d_r_n.cnf": */
+output_hindman2d_stdname(r,n) := output_hindman2d(r,n,
+  sconcat("Hindmand_",r,"_",n,".cnf"))$
+
+output_hindman2_sb(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_sb_nbfcsud(r,n))))],
+  output_fcs_v(
+    sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Hindman2_r_n.cnf": */
+output_hindman2_sb_stdname(r,n) := output_hindman2_sb(r,n,
+  sconcat("Hindman2_sb_",r,"_",n,".cnf"))$
+
+/* Output the boolean clause-set (standard translation) to a file: */
+output_hindman2gen(a,n,filename) := block(
+ [FF : hindman2gen_fcs(a,n)],
+  output_fcs(
+    sconcat("Hindman problem for k=2 with 2 parts and ", n, " elements, starting with ", a, "."), 
+    FF,
+    filename))$
+/* Providing a standard name: "Hindman2gen_a_n.cnf": */
+output_hindman2gen_stdname(a,n) := output_hindman2gen(a,n,
+  sconcat("Hindman2gen_",a,"_",n,".cnf"))$
+
+/*!
+\endhtmlonly
+*/
