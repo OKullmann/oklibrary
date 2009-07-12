@@ -33,7 +33,10 @@ License, or any later version. */
      <li> Basics.mac </li>
      <li> VanderWaerden.mac </li>
      <li> GreenTao.mac </li>
-     <li> SchurRado.mac </li>
+     <li> Schur.mac </li>
+     <li> Rado.mac DONE </li>
+     <li> Folkman.mac </li>
+     <li> Hindman.mac DONE </li>
      <li> Ramsey.mac </li>
     </ol>
    </li>
