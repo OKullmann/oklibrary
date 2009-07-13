@@ -87,6 +87,17 @@ C-STACK overflow at size 139456. Stack can probably be resized.
 :lisp (ext:set-limit 'ext:c-stack 1048576)
      \endverbatim
      </li>
+     <li> MG: Please make the documentation of Ecl
+     available (locally), document all the memory option (apparently
+     there are five: "frame-stack, binding-stack, c-stack, heap-size,
+     lisp-stack"; they can also be set on the command line), together
+     with appropriate values, and move this important documentation into its 
+     right (general) place. Likely the OKlibrary should provide meta-commands,
+     which work for all Lisps supported; perhaps just asking for
+     one argument, the amount of memory available for Maxima,
+     and then calculating the approriate values.
+     One also needs to find out how to pass command-line arguments to
+     ecl (for example "--frame-stack 4096"). </li>
     </ol>
    </li>
    <li> On the other hand, a non-recursive solution is also very easy to
