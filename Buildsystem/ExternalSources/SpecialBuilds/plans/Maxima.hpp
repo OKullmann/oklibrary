@@ -10,8 +10,10 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Install Maxima with Ecl version 9.6.1
+  \todo Install Maxima with Ecl version 9.7.1
   <ul>
+   <li> Installing Maxima using 9.7.1 fails in the same way as when using
+   9.6.1; let's wait for Maxima 5.19. </li>
    <li> We get the build-error
    \verbatim
 ;;; Invoking external command:

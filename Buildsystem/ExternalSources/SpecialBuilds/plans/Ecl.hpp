@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
+  \todo Update to newest version
+  <ul>
+   <li> The newest version is 9.7.1. </li>
+   <li> But Maxima 5.18.1 won't build with it; let's see how the new
+   version 5.19 of Maxima behaves. </li>
+  </ul>
+
+
   \todo Documentation
   <ul>
    <li> Documentation is not included in the package, so we need
