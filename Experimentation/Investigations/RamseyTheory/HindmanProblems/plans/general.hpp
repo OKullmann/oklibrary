@@ -61,7 +61,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 in
   </ul>
 
 
-  \todo hindman_3(2) > 40000
+  \todo hindman_3(2) > 80000
   <ul>
    <li> Local search seems ineffective:
    \verbatim
@@ -113,8 +113,9 @@ Memory used           : 153.79 MB
 CPU time              : 266.641 s
 SATISFIABLE
    \endverbatim
-   Next n=80000 should be tested.
    </li>
+   <li> n=80000 still found easily satisfiable (4 restarts) by minisat2. </li>
+   <li> For larger problems we need a C++ program. </li>
    <li> Neil Hindman remarked that for the infinite versions
    (partitioning the set of natural numbers, and asking for arbitrarily long
    sequences), which are implied by the finite versions, the degenerated
