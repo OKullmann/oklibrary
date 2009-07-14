@@ -16,5 +16,10 @@ read_ubcsat = function(filename, ...) {
  E
 }
 # The data format is
-# run-counter 0/1 min-falsified optimal-steps maxima-steps seed
+# line-counter 0/1 min-falsified optimal-steps maxima-steps seed
 # where 0/1 indicates unsat/sat.
+# A first line
+#     sat  min     osteps     msteps       seed
+# is assumed.
+# If the (given) line-counters are to be ignored, use the additional argument
+# "row.names=NULL".
