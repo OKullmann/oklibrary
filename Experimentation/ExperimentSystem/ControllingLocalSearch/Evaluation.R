@@ -9,7 +9,7 @@
 # returning the dataframe:
 read_ubcsat = function(filename, ...) {
   E = read.table(file = filename, 
-        colClasses = c("character", "factor", "integer", "double", "double", "character"), 
+        colClasses = c("character", "factor", "integer", "numeric", "numeric", "character"), 
         ...)
  print(table(E$min))
  cat(length(E$min),"\n")
