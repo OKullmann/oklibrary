@@ -23,8 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Tran
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac")$
 
 okltest_aes_sbox_ts_gen(aes_sbox_ts_gen);
-okltest_aes_mul2_ts_gen(aes_mul2_ts_gen);
-okltest_aes_mul3_ts_gen(aes_mul3_ts_gen);
+okltest_aes_mul_ts_gen(aes_mul_ts_gen);
 okltest_aes_final_round_cp(aes_final_round_cp);
 okltest_rewrite_all(rewrite_all);
 okltest_rewrite_condition(rewrite_condition);
@@ -33,14 +32,22 @@ okltest_aes_make_vars_named(aes_make_vars_named);
 okltest_aes_round_constant(aes_round_constant);
 okltest_aes_mul2_cp(aes_mul2_pi_cp);
 okltest_aes_mul3_cp(aes_mul3_pi_cp);
+okltest_aes_mul11_cp(aes_mul11_pi_cp);
+okltest_aes_mul13_cp(aes_mul3_pi_cp);
+okltest_aes_mul14_cp(aes_mul14_pi_cp);
+okltest_aes_mul9_cp(aes_mul9_pi_cp);
 okltest_aes_mul2_cp(aes_mul2_ts_cp);
 okltest_aes_mul3_cp(aes_mul3_ts_cp);
+okltest_aes_mul11_cp(aes_mul11_ts_cp);
+okltest_aes_mul13_cp(aes_mul13_ts_cp);
+okltest_aes_mul14_cp(aes_mul14_ts_cp);
+okltest_aes_mul9_cp(aes_mul9_ts_cp);
 okltest_aes_add_cp(aes_add_cp);
 okltest_aes_mixcolumn_cp(aes_mixcolumn_cp);
-/*okltest_aes_mixcolumns_cp(aes_mixcolumns_cp);*/
+okltest_aes_mixcolumns_cp(aes_mixcolumns_cp);
 okltest_aes_shiftrows_cp(aes_shiftrows_cp);
 okltest_aes_subbytes_cp(aes_subbytes_cp);
-/*okltest_aes_round_cp(aes_round_cp);*/
+okltest_aes_round_cp(aes_round_cp);
 /*okltest_aes_key_expansion_cp(aes_key_expansion_cp);*/
 
 /*!

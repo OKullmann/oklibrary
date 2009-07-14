@@ -24,25 +24,47 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePr
 
 kill(f)$
 
-okltest_aes_mul2_ts_gen(f) := block([FF],
+okltest_aes_mul_ts_gen(f) := block([FF],
   if oklib_test_level = 0 then return(true),
-  FF : f(),
+  FF : f(2),
   assert(length(FF[1]) = 16+256),
   assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
   assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
   assert(elementp({-12,-9,-5,-2,1,3,4,6,7,8,10,11,13,14,15,16,dts_var(10)},
     setify(FF[2]))),
-  true)$
-
-okltest_aes_mul3_ts_gen(f) := block([FF],
-  if oklib_test_level = 0 then return(true),
-  FF : f(),
+  FF : f(3),
   assert(length(FF[1]) = 16+256),
   assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
   assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
   assert(elementp({-12,-9,-4,-3,-2,1,5,6,7,8,10,11,13,14,15,16,dts_var(10)},
     setify(FF[2]))),
+/*  if oklib_test_level = 1 then return(true),
+  FF : f(11),
+  assert(length(FF[1]) = 16+256),
+  assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
+  assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
+  assert(elementp({-12,-9,-4,-3,-2,1,5,6,7,8,10,11,13,14,15,16,dts_var(10)},
+    setify(FF[2]))),
+  FF : f(13),
+  assert(length(FF[1]) = 16+256),
+  assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
+  assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
+  assert(elementp({-12,-9,-4,-3,-2,1,5,6,7,8,10,11,13,14,15,16,dts_var(10)},
+    setify(FF[2]))),
+  FF : f(14),
+  assert(length(FF[1]) = 16+256),
+  assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
+  assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
+  assert(elementp({-12,-9,-4,-3,-2,1,5,6,7,8,10,11,13,14,15,16,dts_var(10)},
+    setify(FF[2]))),
+  FF : f(9),
+  assert(length(FF[1]) = 16+256),
+  assert(elementp(setify(create_list(dts_var(i),i,1,256)),setify(FF[2]))),
+  assert(elementp({11,-dts_var(256)}, setify(FF[2]))),
+  assert(elementp({-12,-9,-4,-3,-2,1,5,6,7,8,10,11,13,14,15,16,dts_var(10)},
+    setify(FF[2]))),*/
   true)$
+
 
 okltest_aes_sbox_ts_gen(f) := block([FF],
   if oklib_test_level = 0 then return(true),
@@ -150,6 +172,38 @@ okltest_aes_mul3_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
   assert(ucp_0_cs(apply_pa(pa,F)) = {}),
   true)$
 
+okltest_aes_mul11_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
+  F : apply(f,listify(setn(16))),
+  /* Satisfying total assignments */
+  pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
+  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
+  true)$
+
+okltest_aes_mul13_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
+  F : apply(f,listify(setn(16))),
+  /* Satisfying total assignments */
+  pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
+  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
+  true)$
+
+okltest_aes_mul14_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
+  F : apply(f,listify(setn(16))),
+  /* Satisfying total assignments */
+  pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
+  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
+  true)$
+
+okltest_aes_mul9_cp(f) := block([pa,F,aes_make_vars : aes_make_vars_int],
+  if oklib_test_level = 0 then return(true),
+  F : apply(f,listify(setn(16))),
+  /* Satisfying total assignments */
+  pa : aes_hex2pa("0000",take_elements(16,listify(var_cs(F)))),
+  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
+  true)$
+
 okltest_aes_add_cp(f) := block([pa,F],
   if oklib_test_level = 0 then return(true),
   F : apply(f, listify(setn(24))),
@@ -166,7 +220,12 @@ okltest_aes_add_cp(f) := block([pa,F],
 
 okltest_aes_mixcolumn_cp(f) := block([pa, iVars, oVars,F],
   if oklib_test_level = 0 then return(true),
-  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(64))))),
+  if oklib_test_level = 1 then return(true),
+  F : block([aes_make_vars : aes_make_vars_int, 
+    aes_mul2_cp : aes_mul2_ts_cp, aes_mul3_cp : aes_mul3_ts_cp,
+    aes_mul9_cp : aes_mul9_ts_cp, aes_mul11_cp : aes_mul11_ts_cp,
+    aes_mul14_cp : aes_mul14_ts_cp, aes_mul13_cp : aes_mul13_ts_cp], 
+    rewrite_all(apply(f, listify(setn(64))))),
   iVars : take_elements(32,listify(var_cs(F))),
   oVars : take_elements(32,rest(listify(var_cs(F)),32)),
   /* Satisfying total assignments */
@@ -181,7 +240,12 @@ okltest_aes_mixcolumn_cp(f) := block([pa, iVars, oVars,F],
 
 okltest_aes_mixcolumns_cp(f) := block([pa,iVars,oVars,F],
   if oklib_test_level = 0 then return(true),
-  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(256))))),
+  if oklib_test_level = 1 then return(true),
+  F : block([aes_make_vars : aes_make_vars_int, 
+    aes_mul2_cp : aes_mul2_ts_cp, aes_mul3_cp : aes_mul3_ts_cp,
+    aes_mul9_cp : aes_mul9_ts_cp, aes_mul11_cp : aes_mul11_ts_cp,
+    aes_mul14_cp : aes_mul14_ts_cp, aes_mul13_cp : aes_mul13_ts_cp], 
+    rewrite_all(apply(f, listify(setn(256))))),
   iVars : take_elements(128,listify(var_cs(F))),
   oVars : take_elements(128,rest(listify(var_cs(F)),128)),
   /* Satisfying total assignments */
@@ -241,25 +305,23 @@ okltest_aes_subbytes_cp(f) := block([pa,iVars,oVars,F],
   /* UNSAT total assignments */
   true)$
 
-okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F],
-  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(3*128))))),
-  iVars : take_elements(128,listify(var_cs(F))),
-  kVars : take_elements(128,rest(listify(var_cs(F)),128)),
-  oVars : take_elements(128,rest(listify(var_cs(F)),256)),
-  /* Satisfying total assignments */
-  pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
-    aes_hex2pa("00000000000000000000000000000000",kVars),
-    aes_hex2pa("63636363636363636363636363636363",oVars)),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
-    aes_hex2pa("63636363636363636363636363636363",kVars),
-    aes_hex2pa("00000000000000000000000000000000",oVars)),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
-    aes_hex2pa("92BF680BE89E8B47BD9F1549D7786752",kVars),
-    aes_hex2pa("5367B889F5F12F8A7B2DC90B7A05D996",oVars)),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  /* UNSAT total assignments */
+okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F,
+  aes_cnf_var_number : 0, aes_var_ordering : hash_table()],
+  if oklib_test_level = 0 then return(true),
+  F : block([aes_make_vars : aes_make_vars_int, 
+    aes_mul2_cp : nounify(aes_mul2_ts_cp_test), 
+    aes_mul3_cp : nounify(aes_mul3_ts_cp_test),
+    aes_mul9_cp : nounify(aes_mul9_ts_cp_test), 
+    aes_mul11_cp : nounify(aes_mul11_ts_cp_test),
+    aes_mul14_cp : nounify(aes_mul14_ts_cp_test), 
+    aes_mul13_cp : nounify(aes_mul13_ts_cp_test)], 
+    rewrite_all(apply(f, listify(setn(3*128))))),
+  assert(member({-2048,-2032,-2024}, F)),
+  assert(member({-1535,759,1527},F)),
+  assert(member(nounify(aes_mul2_ts_cp_test)(513,514,515,516,517,518,
+    519,520,769,770,771,772,773,774,775,776),F)),
+  assert(member(nounify(aes_mul9_ts_cp_test)(713,714,715,716,717,718,
+    719,720,1385,1386,1387,1388,1389,1390,1391,1392),F)),
   true)$
 
 okltest_aes_key_expansion_cp(F) := block([pa,iVars,oVars,iVars,F],

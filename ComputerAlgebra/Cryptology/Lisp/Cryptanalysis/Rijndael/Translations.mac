@@ -25,6 +25,10 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Sbox
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul2CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul11CNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul13CNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul14CNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul9CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
 
 
@@ -201,6 +205,23 @@ aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
       append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars)), rs),
     rs : adjoin(apply(aes_add_c, append(addAVars,addBVars, oBits[i+1])), rs)
   ),
+  for i : 0 thru 3 do block([mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
+    mulAVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul14_c, append(oBits[mod(0 + i,4) + 1],mulAVars)), rs),
+    mulBVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul11_c, append(oBits[mod(1 + i,4) + 1],mulBVars)), rs),
+    mulCVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul13_c, append(oBits[mod(2 + i,4) + 1],mulCVars)), rs),
+    stringout("vars.mac", mulCVars),
+    mulDVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul9_c, append(oBits[mod(3 + i,4) + 1],mulDVars)), rs),
+    addAVars : aes_make_vars("mc",1,8),
+    rs : adjoin(apply(aes_add_c, append(mulAVars,mulBVars, addAVars)), rs),
+    addBVars : aes_make_vars("mc",1,8),
+    rs : adjoin(apply(aes_add_c, 
+      append(mulCVars,mulDVars, addBVars)), rs),
+    rs : adjoin(apply(aes_add_c, append(addAVars,addBVars, iBits[i+1])), rs)
+  ),
   return(rs)
 )$
 
@@ -298,64 +319,85 @@ aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
  * variables are of the form dts(i) and i is the rank in the lexiographical 
  * ordering of the clauses.
  */
-aes_mul2_ts_CNF : false;
-aes_mul2_ts_gen() := 
-  if aes_mul2_ts_CNF = false then block([plus16 : lambda([x],x+16)],
-      [mul2_dnf : generate_full_aes_field_mul_dnf_fcs(2)],
-    aes_mul2_ts_CNF : dualts_fcl(
-      [listify(mul2_dnf[1]),
+aes_mul_ts_CNF : create_list(false,i,1,256)$
+aes_mul_ts_gen(p) := 
+  if aes_mul_ts_CNF[p+1] = false then block([plus16 : lambda([x],x+16)],
+      [mul_dnf : generate_full_aes_field_mul_dnf_fcs(p)],
+    aes_mul_ts_CNF[p+1] : dualts_fcl(
+      [listify(mul_dnf[1]),
        sort(
-         listify(mul2_dnf[2]),
+         listify(mul_dnf[2]),
          lambda([a,b], is(
            rank_lex_subsets(map(plus16,a),32) < 
              rank_lex_subsets(map(plus16,b),32)))
         )]
      ),
-     return(aes_mul2_ts_CNF)
-  ) else aes_mul2_ts_CNF$
+     return(aes_mul_ts_CNF[p+1])
+  ) else aes_mul_ts_CNF[p+1]$
 /* Returns a set of conditions representing multiplication by 02 or "x" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 aes_mul2_cp : aes_mul2_pi_cp$
-aes_mul2_ts_CNF : false;
 /* Representation using small subsets of prime implicates and no new variables */
 aes_mul2_pi_cp([bits]) := rename_fcs(FieldMul2CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul2_ts_cp([bits]) :=   
   setify(
-    rename_fcl(aes_mul2_ts_gen(),append(bits,aes_make_vars("mul2",1,256)))[2])$
+    rename_fcl(aes_mul_ts_gen(2),append(bits,aes_make_vars("mul2",1,256)))[2])$
 
-/* Generates (and caches) the canonical CNF representation as a formal clause
- * set of AES Field muliplication by 3 with new variables. New variables are 
- * introduced for each clause in the canonical DNF representation, where the 
- * variables are of the form dts(i) and i is the rank in the lexiographical 
- * ordering of the clauses.
- */
-aes_mul3_ts_CNF : false;
-aes_mul3_ts_gen() := 
-  if aes_mul3_ts_CNF = false then block([plus16 : lambda([x],x+16)],
-      [mul3_dnf : generate_full_aes_field_mul_dnf_fcs(3)],
-    aes_mul3_ts_CNF : dualts_fcl(
-      [listify(mul3_dnf[1]),
-       sort(
-         listify(mul3_dnf[2]),
-         lambda([a,b], is(
-           rank_lex_subsets(map(plus16,a),32) < 
-             rank_lex_subsets(map(plus16,b),32)))
-        )]
-     ),
-     return(aes_mul3_ts_CNF)
-  ) else aes_mul3_ts_CNF$
 /* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul3_cp : aes_mul3_pi_cp$
-aes_mul3_ts_CNF : false;
 /* Representation using small subsets of prime implicates and no new variables */
 aes_mul3_pi_cp([bits]) := rename_fcs(FieldMul3CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul3_ts_cp([bits]) :=   
   setify(
-    rename_fcl(aes_mul3_ts_gen(),append(bits,aes_make_vars("mul3",1,256)))[2])$
+    rename_fcl(aes_mul_ts_gen(3),append(bits,aes_make_vars("mul3",1,256)))[2])$
+
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul14_cp : aes_mul14_pi_cp$
+/* Representation using small subsets of prime implicates and no new variables */
+aes_mul14_pi_cp([bits]) := rename_fcs(FieldMul14CNF,bits)[2]$
+/* Canonical representation using new variables */
+aes_mul14_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul_ts_gen(14),append(bits,aes_make_vars("mul14",1,256)))[2])$
+
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul11_cp : aes_mul11_pi_cp$
+/* Representation using small subsets of prime implicates and no new variables */
+aes_mul11_pi_cp([bits]) := rename_fcs(FieldMul11CNF,bits)[2]$
+/* Canonical representation using new variables */
+aes_mul11_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul_ts_gen(11),append(bits,aes_make_vars("mul11",1,256)))[2])$
+
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul13_cp : aes_mul13_pi_cp$
+/* Representation using small subsets of prime implicates and no new variables */
+aes_mul13_pi_cp([bits]) := rename_fcs(FieldMul13CNF,bits)[2]$
+/* Canonical representation using new variables */
+aes_mul13_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul_ts_gen(13),append(bits,aes_make_vars("mul13",1,256)))[2])$
+
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul9_cp : aes_mul9_pi_cp$
+/* Representation using small subsets of prime implicates and no new variables */
+aes_mul9_pi_cp([bits]) := rename_fcs(FieldMul9CNF,bits)[2]$
+/* Canonical representation using new variables */
+aes_mul9_ts_cp([bits]) :=   
+  setify(
+    rename_fcl(aes_mul_ts_gen(9),append(bits,aes_make_vars("mul9",1,256)))[2])$
 
 /* Generates (and caches) the canonical CNF representation as a formal clause
  * set of AES Sbox operator with new variables. New variables are 
@@ -431,6 +473,10 @@ rewrite_all(rs) := block(
   rs : rewrite_condition(rs, aes_subbytes_c, aes_subbytes_cp),
   rs : rewrite_condition(rs, aes_mul2_c, aes_mul2_cp),
   rs : rewrite_condition(rs, aes_mul3_c, aes_mul3_cp),
+  rs : rewrite_condition(rs, aes_mul14_c, aes_mul14_cp),
+  rs : rewrite_condition(rs, aes_mul11_c, aes_mul11_cp),
+  rs : rewrite_condition(rs, aes_mul13_c, aes_mul13_cp),
+  rs : rewrite_condition(rs, aes_mul9_c, aes_mul9_cp),
   rs : rewrite_condition(rs, aes_add_c, aes_add_cp),
   rs : rewrite_condition(rs, aes_eq_c, aes_eq_cp),
   rs : rewrite_condition(rs, aes_sbox_c, aes_sbox_cp),

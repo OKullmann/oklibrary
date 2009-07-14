@@ -18,6 +18,7 @@ License, or any later version. */
     - Fix translation system
     - Representations of the Sbox using additional variables
     - Organisation
+    - Parameterise inclusion of inverse operation in Mixcolumn translation 
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
