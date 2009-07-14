@@ -324,10 +324,11 @@ okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F,
     719,720,1385,1386,1387,1388,1389,1390,1391,1392),F)),
   true)$
 
-okltest_aes_key_expansion_cp(F) := block([pa,iVars,oVars,iVars,F],
-  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(12*128))))),
-  iVars : take_elements(128,listify(var_cs(F))),
-  oVars : partition_elements(take_elements(128*11,rest(listify(var_cs(F)),128)),128),
+okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
+  aes_make_vars : aes_make_vars_int],
+  iVars : aes_make_vars("K",1,128),
+  oVars : partition_elements(aes_make_vars("KO",1, 11*128),128),
+  F : rewrite_all(apply(f, append(iVars,apply(append,oVars)))),
   /* Satisfying total assignments */
   pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
           aes_hex2pa("00000000000000000000000000000000",oVars[1]), 
