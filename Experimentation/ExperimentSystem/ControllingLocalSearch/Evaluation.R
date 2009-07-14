@@ -7,9 +7,10 @@
 
 # Reading files created by ubcsat-okl, printing most basic statistics, and
 # returning the dataframe:
-read_ubcsat = function(filename) {
+read_ubcsat = function(filename, ...) {
   E = read.table(file = filename, 
-        colClasses = c("character", "factor", "integer", "integer", "integer", "character"))
+        colClasses = c("character", "factor", "integer", "integer", "integer", "character"), 
+        ...)
  print(table(E$min))
  cat(length(E$min),"\n")
  E
