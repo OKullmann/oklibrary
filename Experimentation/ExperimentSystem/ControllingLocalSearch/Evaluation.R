@@ -9,9 +9,12 @@
 # returning the dataframe:
 read_ubcsat = function(filename, ...) {
   E = read.table(file = filename, 
-        colClasses = c("character", "factor", "integer", "integer", "integer", "character"), 
+        colClasses = c("character", "factor", "integer", "double", "double", "character"), 
         ...)
  print(table(E$min))
  cat(length(E$min),"\n")
  E
 }
+# The data format is
+# run-counter 0/1 min-falsified optimal-steps maxima-steps seed
+# where 0/1 indicates unsat/sat.
