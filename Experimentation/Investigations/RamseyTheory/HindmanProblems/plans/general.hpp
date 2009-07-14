@@ -242,8 +242,15 @@ UNSATISFIABLE
    </li>
    <li> OKsolver_2002-m2pp
    \verbatim
+> OKsolver_2002-m2pp -D10 -M Hindman2gen_5_14364.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=12 initial_number_of_variables=5539 initial_number_of_clauses=70134 initial_number_of_literal_occurrences=304920 running_time(s)=-1526.9 number_of_nodes=516451 number_of_single_nodes=4 number_of_quasi_single_nodes=0 number_of_2-reductions=4497536 number_of_pure_literals=1499630 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=30 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=82701806 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_5_14364.cnf_m2pp_5223
    \endverbatim
-   </li>
+   It seems that the advantage of minisat2 is just that expensive (and
+   apparently ineffective) look-aheads are avoided --- but nothing in
+   the direction of "resolution is more powerful than tree-resolution". </li>
+   <li> satz2-m2pp </li>
+   <li> march_pl </li>
   </ul>
 
 */
