@@ -87,10 +87,10 @@ output_hindman2_sb_stdname(r,n) := output_hindman2_sb(r,n,
 /* Output the boolean clause-set (standard translation) to a file: */
 output_hindman2gen(a,n,filename) := block(
  [FF : hindman2gen_fcs(a,n)],
-  output_fcs(
+  output_fcs_v(
     sconcat("Hindman problem for k=2 with 2 parts and ", n, " elements, starting with ", a, "."), 
     FF,
-    filename))$
+    filename,[]))$
 /* Providing a standard name: "Hindman2gen_a_n.cnf": */
 output_hindman2gen_stdname(a,n) := output_hindman2gen(a,n,
   sconcat("Hindman2gen_",a,"_",n,".cnf"))$

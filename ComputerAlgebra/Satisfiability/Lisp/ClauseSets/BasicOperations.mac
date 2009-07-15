@@ -277,6 +277,10 @@ print_cs_f(comment,FF) := (
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 print_fcs(comment,FF) := print_cs_f(comment,FF)$
+/* Remark: The n-parameter in the parameter line is the number of *occurring*
+   variables. So this function should not be used for printing of (standard)
+   Dimacs format, but instead print_fcs_v(comment,FF,[]) should be used.
+*/
 
 /* Output formal clause-set FF to file n (using print_fcs): */
 /* RENAME: output_fcs */
@@ -290,7 +294,7 @@ output_fcs(comment,FF,n) := with_stdout(n, print_fcs(comment,FF))$
 print_cs_f_v(comment,FF,varlist) := (
   print_nlb(sconcat("c ", comment)),
   for i from 1 thru length(varlist) do print_nlb(sconcat("c ", i, " : ", varlist[i])),
-  print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
+  print_nlb(sconcat("p cnf ", lmax(FF[1]), " ", length(clauses_f(FF)))),
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 print_fcs_v(comment,FF,varlist) := print_cs_f_v(comment,FF,varlist)$
@@ -299,7 +303,7 @@ print_fcl_v(comment,FF,varlist) := (
   block([i:1], for v in varlist do (
     print_nlb(sconcat("c ", i, " : ", v)), i : i + 1
   )),
-  print_nlb(sconcat("p cnf ", length(FF[1]), " ", length(FF[2]))),
+  print_nlb(sconcat("p cnf ", lmax(FF[1]), " ", length(FF[2]))),
   for C in FF[2] do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 
