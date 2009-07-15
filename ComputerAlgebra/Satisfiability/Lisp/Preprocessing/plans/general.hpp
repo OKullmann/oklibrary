@@ -247,7 +247,7 @@ pigeon_in_hole_dnf(m_i,m,n) :=
   setify(create_list(setify(create_list(if j = m_i then php_var(j,i) else -php_var(j,i), j, 1, m)), i, 1, n))$ 
     
 output_weak_php_ts(m,n,f) :=
-  output_cs_f(
+  output_fcs(
     sconcat("PHP with ", m, " pigeons and ", n, " holes."), 
     standardise_fcs(weak_php_ts(m,n))[1], 
     f)$

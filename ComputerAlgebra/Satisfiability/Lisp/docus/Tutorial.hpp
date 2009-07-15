@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -121,10 +121,10 @@ p cnf 3 3
 2 3 0
    \endverbatim
    </li>
-   <li> For output to a file, use the output_cs_f function. By default, the
+   <li> For output to a file, use the output_fcs function. By default, the
    file is located in the directory where you started Maxima.
    \verbatim
-(%i28) output_cs_f("Sample boolean clause set #001",f,"001.cnf")$
+(%i28) output_fcs("Sample boolean clause set #001",f,"001.cnf")$
    \endverbatim
    </li>
   </ol>

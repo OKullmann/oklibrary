@@ -283,8 +283,6 @@ print_fcs(comment,FF) := print_cs_f(comment,FF)$
 */
 
 /* Output formal clause-set FF to file n (using print_fcs): */
-/* RENAME: output_fcs */
-output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF))$
 output_fcs(comment,FF,n) := with_stdout(n, print_fcs(comment,FF))$
 
 /* Print a formal clause-set in Dimacs format, together with a map
