@@ -220,6 +220,16 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 
 
   \todo hindmani_2^5(2) = 14364
   <ul>
+   <li> From the ubcsat-1.0.0-suite it seems rsaps is most effective:
+    <ol>
+     <li> With cutoff=10^6 in 7 from 10 runs it found a solution. </li>
+     <li> With a cutoff=10^5 walksat seemed more efficient, but if failed
+     to find a solution in 10 runs with cutoff=10^6. </li>
+     <li> Interestingly, walksat-tabu has high (i.e., bad) min-averages,
+     but also a large deviation, so that it found one solution with
+     cutoff=10^6. </li>
+    </ol>
+   </li>
    <li> minisat2 seems most efficient, on satisfiable as well as on
    unsatisfiable instances. </li>
    <li>
@@ -249,8 +259,48 @@ c sat_status=0 initial_maximal_clause_length=12 initial_number_of_variables=5539
    It seems that the advantage of minisat2 is just that expensive (and
    apparently ineffective) look-aheads are avoided --- but nothing in
    the direction of "resolution is more powerful than tree-resolution". </li>
-   <li> satz2-m2pp </li>
-   <li> march_pl </li>
+   <li> satz2-m2pp
+   \verbatim
+**** The instance is unsatisfiable. *****
+NB_MONO= 21479226, NB_UNIT= 241108531, NB_BRANCHE= 2944242, NB_BACK= 1488069
+Program terminated in 5.762 seconds.
+satz215 Hindman2gen_5_14364.cnf_m2pp_8170 5.762 2944242 1488069 1367706445 31952092 0 14364 70134 0 199693920 19963489
+   \endverbatim
+   Roughly comparable to OKsolver_2002-m2pp.
+   </li>
+   <li> march_pl
+   \verbatim
+> march_pl Hindman2gen_5_14364.cnf
+c main():: nodeCount: 149162
+c main():: dead ends in main: 87
+c main():: lookAheadCount: 126655586
+c main():: unitResolveCount: 951518
+c main():: time=-850.774592
+c main():: necessary_assignments: 13848
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 1290425, succes #: 1084725
+c main():: doublelook: overall 1.023 of all possible doublelooks executed
+c main():: doublelook: succesrate: 84.060, average DL_trigger: 507.780
+s UNSATISFIABLE
+   \endverbatim
+   So march_pl is the most successful look-ahead solver.
+   </li>
+  </ul>
+
+
+  \todo 28187 < hindmani_2^6(2)
+  <ul>
+   <li> n=28187 found easily satsfiable with rsaps (cutoff=10^5, 10 runs,
+   100% success). </li>
+   <li> n=28188 perhaps unsatisfiable: 10 runs with cutoff=10^5 and 10 runs
+   with cutoff=10^5 yield all min=1. </li>
+   <li> n=30000
+    <ol>
+     <li> rsaps in 10 runs with cutoff=10^5,10^6 always found min=1, while
+     minisat2 made apparently no progress after 23 restarts. So let's assume
+     this problem is unsatisfiable. </li>
+    </ol>
+   </li>
   </ul>
 
 */

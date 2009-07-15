@@ -44,7 +44,7 @@ License, or any later version. */
   Experimentation/Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
   <ul>
    <li> hindman_3(2) </li>
-   <li> hindmani_2^5(2) </li>
+   <li> hindmani_2^6(2) </li>
   </ul>
   
 */
