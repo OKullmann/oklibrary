@@ -17,6 +17,9 @@ License, or any later version. */
    versions provided in OKlib/Satisfiability/Solvers/March/ (this can't be
    used now due to a deficiency of 4.1.2). </li>
    <li> See "March solvers" below. </li>
+   <li> Remark that march_pl relies on the fact that n in the parameter line
+   "p cnf n c" is an upper bound on the largest occurring variable (index;
+   segmentation fault occurs if a literal x is found with abs(x) > n). <li>
   </ul>
 
 
