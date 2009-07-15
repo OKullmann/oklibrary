@@ -32,7 +32,7 @@ sage: An error occurred while installing libfplll-2.1.6-20071129.p5
    \endverbatim
    </li>
    <li> Let's wait whether over time the situation improves. </li>
-   <li> Still not corrected with Sage 4.0.1. </li>
+   <li> Still not corrected with Sage 4.1. </li>
    <li> Now it is impossible to contact Sage without becoming
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
