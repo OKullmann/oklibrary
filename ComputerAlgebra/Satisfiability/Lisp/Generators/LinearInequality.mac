@@ -30,13 +30,14 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* Encoding that some n for m <= n <= o variables must be set to true. */
 
 /* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
-   Constraints" by Olivier Bailleux and Yacine Boufkhad */
+   Constraints" by Olivier Bailleux and Yacine Boufkhad. */
 
 
-/* Variables are "ctt(i,j)", meaning the ith variable at the node whose 
+/* Variables are "ctt(i,j)", meaning the i-th variable at the node whose 
    position is denoted by l (where each successive 0 or 1 means traverse 
    the left or right child respectively, that is [] is the root, [0] is the 
-   left node etc)*/
+   left node etc.).
+*/
 kill(ctt)$
 declare(ctt, noun)$
 declare(ctt, posfun)$
@@ -47,8 +48,8 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    representation of the number of variables set to true in E (that is if
    x variables are set to true in E, then the first x variables in S
    are set to true and the rest to false).
-   
-   S must have the same number variables as E. */
+   S must have the same number variables as E.
+*/
 cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
 cardinality_totalizer_r_cs(S,E, tree_pos) := 
   if length(E) < 1 then {}
@@ -100,14 +101,16 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
 
 /* Given a list of variables S, produces a clause-set F which is
    satisfiable iff the first m variables are set to true, and all
-   variables from the n+1th onwards are set to false. */
+   variables from the (n+1)-th onwards are set to false.
+*/
 cardinality_comparator_cs(S, m,n) := 
   union(
     map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
 
-/* Given a list of variables E, returns a clause-set F which is satisfied iff at
-   least m variables of E are set to true and at most n variables of E are set
-   to true. */
+/* Given a list of variables E, returns a clause-set F which is satisfied iff 
+   at least m variables of E are set to true and at most n variables of E are 
+   set to true.
+*/
 cardinality_cs(E,m,n) := block(
   [S : map(lambda([a],ctt_var([],a)),listify(setmn(1,length(E))))],
   return(
