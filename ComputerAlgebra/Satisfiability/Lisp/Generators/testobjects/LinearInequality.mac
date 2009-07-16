@@ -1,0 +1,36 @@
+/* Matthew Gwynne, 16.7.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LinearInequality.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LinearInequality.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearInequality.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LinearInequality.mac")$
+
+/* ***************************
+   * Cardinality Constraints *
+   ***************************
+*/
+
+okltest_cardinality_totalizer_cs(cardinality_totalizer_cs);
+okltest_cardinality_totalizer_r_cs(cardinality_totalizer_r_cs);
+okltest_cardinality_comparator_cs(cardinality_comparator_cs);
+okltest_cardinality_cs(cardinality_cs);
+
+/*!
+\endhtmlonly
+*/

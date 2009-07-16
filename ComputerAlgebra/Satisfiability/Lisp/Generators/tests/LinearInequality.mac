@@ -1,0 +1,93 @@
+/* Matthew Gwynne, 16.7.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LinearInequality.mac
+  \brief Tests for Linear Inequality generators
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LinearInequality.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearInequality.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
+
+kill(f)$
+
+
+/* ***************************
+   * Cardinality Constraints *
+   ***************************
+*/
+
+okltest_cardinality_totalizer_cs(f) := block([F],
+  assert(f([],[]) = {}),
+  assert(f([1],[2]) = {{-2,1},{-1,2}}),
+  assert(f([1,2],[3,4]) = {{-4,-3,2},{-4,1},{-3,1},{-2,3},{-2,4},{-1,3,4}}),
+  if oklib_test_level = 0 then return(true),
+  F : f([6,7,8,9,10],[1,2,3,4,5]),
+  assert(ucp_0_cs(apply_pa({1,2,3,4,5,6,7,8,9,10},F)) = {}),
+  for i : 1 thru 10 do
+    assert(ucp_0_cs(
+      apply_pa(setify(create_list(if j = i then -j else j,j,1,10)),F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,-6,7,8,9,10},F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,-7,8,9,10},F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,-8,9,10},F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,8,-9,10},F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,8,9,-10},F)) = {}),
+  assert(ucp_0_cs(apply_pa({-1,-2,-3,-4,-5,6,7,8,9,10},F)) = {{}}),
+  assert(ucp_0_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8,-9,-10},F)) = {}),
+  true)$
+
+okltest_cardinality_totalizer_r_cs(f) := block(
+  assert(f([],[],[]) = {}),
+  assert(f([1],[2],[]) = {{-2,1},{-1,2}}),
+  assert(f([1,2],[3,4],[]) = {{-4,-3,2},{-4,1},{-3,1},{-2,3},{-2,4},{-1,3,4}}),
+  true)$
+
+okltest_cardinality_comparator_cs(f) := block(
+  for m : 0 thru 5 do
+    for n : 0 thru 5 do
+      assert(f([],0,0) = {}),
+  assert(f([1],0,1) = {}),
+  assert(f([1],1,1) = {{1}}),
+  assert(f([1,2,3],1,2) = {{1},{-3}}),
+  assert(f([1,2,3,4,5],2,4) = {{1},{2},{-5}}),
+  true)$
+
+okltest_cardinality_cs(f) := block([F],
+  for m : 0 thru 5 do
+    for n : 0 thru 5 do
+      assert(f([],0,0) = {}),
+  assert(f([1],0,1) = {{-1,ctt([],1)},{1,-ctt([],1)}}),
+  assert(f([1],1,1) = {{-1,ctt([],1)},{1,-ctt([],1)},{ctt([],1)}}),
+  F : f([1,2,3,4,5],2,4),
+  assert(ucp_0_cs(apply_pa({1,2,3,4,5}, F)) = {{}}),
+  for i : 1 thru 5 do (
+    assert(ucp_0_cs(
+      apply_pa(union(disjoin(i,{1,2,3,4,5}),{-i}), F)) = {}),
+    assert(ucp_0_cs(
+      apply_pa(union(disjoin(-i,{-1,-2,-3,-4,-5}),{i}), F)) = {{}}),
+    for j : 1 thru 5 do (
+      if i # j then (
+        assert(ucp_0_cs(
+          apply_pa(union(setdifference({1,2,3,4,5},{i,j}),{-i,-j}), F)) = {}),
+        assert(ucp_0_cs(apply_pa(
+          union(setdifference({-1,-2,-3,-4,-5},{-i,-j}),{i,j}), F)) = {}))
+    )
+  ),true)$
+
+/*!
+\endhtmlonly
+*/
