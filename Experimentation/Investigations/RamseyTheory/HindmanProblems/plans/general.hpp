@@ -288,12 +288,20 @@ s UNSATISFIABLE
   </ul>
 
 
-  \todo 28187 < hindmani_2^6(2)
+  \todo hindmani_2^6(2) = 28188
   <ul>
    <li> n=28187 found easily satsfiable with rsaps (cutoff=10^5, 10 runs,
-   100% success). </li>
-   <li> n=28188 perhaps unsatisfiable: 10 runs with cutoff=10^5 and 10 runs
-   with cutoff=10^5 yield all min=1. </li>
+   90% success). </li>
+   <li> n=28188 unsatisfiable:
+    <ol>
+     <li> 10 runs with cutoff=10^5 and 10 runs with cutoff=10^6 yield all
+     (just) min=1. </li>
+     <li> minisat2 determined unsatisfiability in 26 restarts (7534086
+     conflicts, 8426651 decisions; say around 10 hours). </li>
+     <li> march_pl </li>
+     <li> OKsolver_2002-m2pp seems to take, say, 10 days. </li>
+    </ol>
+   </li>
    <li> n=30000
     <ol>
      <li> rsaps in 10 runs with cutoff=10^5,10^6 always found min=1, while
@@ -303,5 +311,25 @@ s UNSATISFIABLE
    </li>
   </ul>
 
+
+  \todo 53312 <= hindmani_2^7(2)
+  <ul>
+   <li> Using rsaps for satisfiability detection. </li>
+   <li> n=53311 found easily satisfiable (10 runs cutoff=10^4 yield 100%
+   success). </li>
+   <li> It seems that the satisfiable problems become easier with increasing
+   start-value! </li>
+   <li> n=53312 looks unsatisfiable (10 runs with cutoffs 10^4, 10^5 and 10^6
+   each yield always min=1). </li>
+   <li> minisat2 </li>
+  </ul>
+
+
+  \todo Analysing a -> hindmani_2^a(2)
+  <ul>
+   <li> For 1 <= a <= 7 the known values are
+   252, 990, 3150, 5600, 14364, 28188, 53312
+   (where the last value is conjectured). </li>
+  </ul>
 */
 

@@ -45,6 +45,7 @@ License, or any later version. */
   <ul>
    <li> hindman_3(2) </li>
    <li> hindmani_2^6(2) </li>
+   <li> hindmani_2^7(2) </li>
   </ul>
   
 */
