@@ -112,11 +112,10 @@ cardinality_comparator_cs(S,m,n) :=
     map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
 
 /* Given a list of variables E, returns a clause-set F which is satisfied iff 
-   at least m variables of E are set to true and at most n variables of E are 
-   set to true.
+   between m and n variables of E are set to true.
 */
 cardinality_cs(E,m,n) := block(
-  [S : map(lambda([a],ctt_var([],a)),listify(setmn(1,length(E))))],
+  [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
   return(
     union(cardinality_totalizer_cs(S,E),cardinality_comparator_cs(S,m,n))))$
 
