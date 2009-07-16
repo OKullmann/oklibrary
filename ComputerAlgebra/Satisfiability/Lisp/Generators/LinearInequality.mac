@@ -1,0 +1,118 @@
+/* Matthew Gwynne, 15.7.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/LinearInequality.mac
+  \brief Basic generators for linear inequalities
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearInequality.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+/* ***************************
+   * Cardinality Constraints *
+   ***************************
+*/
+
+/* Encoding that some n for m <= n <= o variables must be set to true. */
+
+/* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
+   Constraints" by Olivier Bailleux and Yacine Boufkhad */
+
+
+/* Variables are "ctt(i,j)", meaning the ith variable at the node whose 
+   position is denoted by l (where each successive 0 or 1 means traverse 
+   the left or right child respectively, i.e [] is the root, [0] is the 
+   left node etc)*/
+kill(ctt)$
+declare(ctt, noun)$
+declare(ctt, posfun)$
+ctt_var(l,i) := nounify(ctt)(l,i)$
+
+/* Given a list of output variables S and a list of input variables E, 
+   the result is a clause set F which is satisfiable iff S is a unary
+   representation of the number of variables set to true in E (i.e if
+   x variables are set to true in E, then the first x variables in S
+   are set to true and the rest to false).
+   
+   S must have the same number variables as E. */
+cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
+cardinality_totalizer_r_cs(S,E, tree_pos) := 
+  if length(E) < 1 then {}
+  else block(
+     [subtree_a : {}, subtree_b : {}, m_a,m_b, S_x, level,
+      cs :{},V_a,V_b,m:length(E)],
+    /* Work out the temporary variables for the current level */
+    if length(tree_pos) = 0 then
+      S_x : S
+    else
+      S_x : map(lambda([a], ctt_var(tree_pos,a)),create_list(i,i,1,m)),
+    /* Work out variable lists for the two children of this node */
+    m_a : floor(m / 2), m_b : (m - m_a),
+    if m_a > 1 then (
+      V_a : map(
+        lambda([a],ctt_var(cons(0,tree_pos),a)),
+        create_list(i,i,1,m_a)),
+      subtree_a : cardinality_totalizer_r_cs([],take_elements(m_a,E), 
+        cons(0,tree_pos)))
+    else
+      V_a : take_elements(m_a,E),
+    if m_b > 1 then (
+      V_b : map(
+        lambda([a],ctt_var(cons(1,tree_pos),a)),
+        create_list(i,i,1,m_b)),
+      subtree_b : cardinality_totalizer_r_cs([],rest(E,m_a), cons(1,tree_pos)))
+    else
+      V_b : rest(E,m_a),
+    /* Generate clauses ensuring correct unary representation for this node */
+    for alph : 0 thru m_a do
+      for beta : 0 thru m_b do
+        for sigma : 0 thru m do
+          if (alph + beta) = sigma then block(
+            if sigma > 0 then
+              cs : adjoin(union(
+                if alph > 0 then {-V_a[alph]} else {},
+                if beta > 0 then {-V_b[beta]} else {},
+                {S_x[sigma]}), cs),
+            if sigma < m then
+              cs : adjoin(union(
+                if alph < m_a then {V_a[alph+1]} else {},
+                if beta < m_b then {V_b[beta+1]} else {},
+                {-S_x[sigma+1]}),
+                cs)
+          ),
+    if oklib_monitoring then print("Finished level ", tree_pos),
+    return(union(subtree_a, subtree_b, cs))
+  )$
+
+/* Given a list of variables S, produces a clause-set F which is
+   satisfiable iff the first m variables are set to true, and all
+   variables from the n+1th onwards are set to false. */
+cardinality_comparator_cs(S, m,n) := 
+  union(
+    map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
+
+/* Given a list of variables E, returns a clause-set F which is satisfied iff at
+   least m variables of E are set to true and at most n variables of E are set
+   to true. */
+cardinality_cs(E,m,n) := block(
+  [S : map(lambda([a],ctt_var([],a)),listify(setmn(1,length(E))))],
+  return(
+    union(cardinality_totalizer_cs(S,E),cardinality_comparator_cs(S,m,n))))$
+
+/*!
+\endhtmlonly
+*/

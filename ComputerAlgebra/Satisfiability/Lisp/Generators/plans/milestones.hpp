@@ -21,6 +21,12 @@ License, or any later version. */
     - More efficient computation
   
   \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
+   the following topics are handled:
+    - Add statistics functions
+    - Docus
+
+  \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/NonBooleanTranslations.hpp
    the following topics are handled:
     - Add standardised translations
@@ -38,6 +44,11 @@ License, or any later version. */
 
 
   \par Version 0.0.9
+  
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
+   the following topics are handled:
+    - Add adder circuit translation
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
