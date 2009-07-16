@@ -35,7 +35,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* Variables are "ctt(i,j)", meaning the ith variable at the node whose 
    position is denoted by l (where each successive 0 or 1 means traverse 
-   the left or right child respectively, i.e [] is the root, [0] is the 
+   the left or right child respectively, that is [] is the root, [0] is the 
    left node etc)*/
 kill(ctt)$
 declare(ctt, noun)$
@@ -44,7 +44,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
 
 /* Given a list of output variables S and a list of input variables E, 
    the result is a clause set F which is satisfiable iff S is a unary
-   representation of the number of variables set to true in E (i.e if
+   representation of the number of variables set to true in E (that is if
    x variables are set to true in E, then the first x variables in S
    are set to true and the rest to false).
    
