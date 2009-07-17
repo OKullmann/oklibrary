@@ -334,10 +334,19 @@ aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
     take_elements(nb,bits), rest(bits,nb))))$
 
 /* Generates (and caches) the canonical CNF representation as a formal clause
- * set of AES Field muliplication by 2 with new variables. New variables are 
- * introduced for each clause in the canonical DNF representation, where the 
- * variables are of the form dts(i) and i is the rank in the lexiographical 
- * ordering of the clauses.
+   set of AES Field muliplication (within the Rijndael GF(2^8) field) by p 
+   (given as an integer) with new variables. 
+   
+   New variables are introduced for each clause in the canonical DNF 
+   representation (see dualts_fcl), where the variables are of the form dts(i)
+   and i is the rank in the lexiographical ordering of the clauses.
+
+   Caching here simply means that upon the first call to the function with
+   argument "p", the result of the computation for that argument is stored 
+   in a global variable "aes_mul_ts_CNF[p]" which will then be returned 
+   immediately on subsequent calls to "aes_mul_ts_gen" with the same argument 
+   to allow for reuse of "aes_mul_ts_gen" without the overhead of 
+   recomputation.
  */
 aes_mul_ts_CNF : create_list(false,i,1,256)$
 aes_mul_ts_gen(p) := 
@@ -420,10 +429,16 @@ aes_mul9_ts_cp([bits]) :=
     rename_fcl(aes_mul_ts_gen(9),append(bits,aes_make_vars("mul9",1,256)))[2])$
 
 /* Generates (and caches) the canonical CNF representation as a formal clause
- * set of AES Sbox operator with new variables. New variables are 
- * introduced for each clause in the canonical DNF representation, where the 
- * variables are of the form dts(i) and i is the rank in the lexiographical 
- * ordering of the clauses.
+   set of AES Sbox operator with new variables. New variables are 
+   introduced for each clause in the canonical DNF representation (see
+   dualts_fcl), where the new variables are of the form dts(i) and i is the 
+   rank in the lexiographical ordering of the clauses.
+
+   Caching here simply means that upon the first call to the function, the 
+   result of the computation is stored in a global variable "aes_sbox_ts_CNF"
+   which will then be returned immediately on subsequent calls to
+   "aes_sbox_ts_gen" to allow for reuse of "aes_sbox_ts_gen" without the
+   overhead of recomputation.
  */
 aes_sbox_ts_CNF : false;
 aes_sbox_ts_gen() := 
