@@ -45,15 +45,27 @@ int2poly(n,coeff_base) :=
 /* MG : Should this return an error expression if "poly" isn't univariate? */
 poly2int(poly, poly_b, poly_x) := subst(poly_b,poly_x,poly)$
 
-/* Converts a hexidecimal string to a list of GF(2^8) elements: */
-/* MG: Further clarification is needed here. */
+/* Converts a hexidecimal string to a list of GF(2^8) elements:
+
+   Note in particular that it is assumed in this function that the hexidecimal
+   string amounts to a representation of a matrix of bytes, which is given
+   column by column and is transformed into a list of polynomials over GF(2^8)
+   which represents the matrix *row by row*. This is due to it's relation
+   to the AES translation, and this should be changed in future.
+*/
 hex2gf2t8l(hex) :=
   m2l_r(transpose(apply(matrix,
     partition_elements(map(lambda([a],int2poly(polyadicstr2int(simplode(a),16),2)),
       partition_elements(str2chrl(hex),2)),4))))$
   
-/* Converts a list of GF(2^8) elements to a hexidecimal string: */
-/* MG: Further clarification is needed here. */
+/* Converts a list of GF(2^8) elements to a hexidecimal string:
+
+   Note in particular that it is assumed in this function that list of 
+   polynomials over GF(2^8) represents the matrix of polynomials given 
+   *row by row* in the list and the returned hex string is a hexidecimal
+   representation of the matrix given column by column.
+   This is due to it's relation to the AES translation, and this should be 
+   changed in future. */
 gf2t8l2hex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([int2polyadicstr(a,16)]),"0",2)),  
       subst(2,x,m2l_r(transpose(apply(matrix,
@@ -70,11 +82,19 @@ hex2il(h) :=
    The input list is used in the CryptoSystems AES implementation. */
 il2hex(lst) := uaapply(sconcat, map(lambda([s],lpad(int2hex(s),"0",2)),lst))$
 
-/* Generate a DNF clause from a list of values in {0,1}: */
-/* OK : what is the meaning of this ??? */
-binary_list_to_dnf_c(bv) := 
-  setify(map(lambda([b,j],(-1 + b * 2) * j),
-    bv,makelist(i,i,1,length(bv))))$
+/* Generate a DNF clause from a list of values in {0,1}, using variables in the
+   range 1-length(bv), where the satisfying assignment represented by the DNF
+   clause is  i = bv[i] for all i in 1 - length(bv).
+*/
+binl2dnf_l_std(bv) := 
+  binl2dnf_l(bv,makelist(i,i,1,length(bv)))$
+
+/* Generate a DNF clause from a list of values in {0,1}, using variables in the
+   from the list vl where the satisfying assignment represented by the DNF
+   clause is  vl[i] = bv[i] for all i in 1 - length(bv).
+*/
+binl2dnf_l(bv,vl) := 
+  map(lambda([b,j],(-1 + b * 2) * j),bv,vl)$
 
 /*!
 \endhtmlonly

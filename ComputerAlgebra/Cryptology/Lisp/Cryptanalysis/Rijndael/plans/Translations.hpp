@@ -10,6 +10,41 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Standardise block ordering
+  <ul>
+   <li> Within the translation system, any time a list of variables 
+   representing a block within the AES are passed, the list is interpreted
+   as the "block"/"matrix" given *row by row*. </li>
+   <li> However, the standard when representing such blocks in hexidecimal etc
+   is to list the block, *column by column*, which makes much more sense as
+   the number of columns may increase, whereas the number of rows (i.e column
+   size) remains the same. </li>
+   <li> Therefore, each of the translation functions and tests should be
+   rewritten to consider such list of variables *column by column*. </li>
+   <li> This should make the implementation of functions such as aes_hex2pa
+   etc must simpler. </li>
+   <li> This has already been done for the AES implementation in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ . </li>
+  </ul>
+
+
+  \todo Parameterise inclusion of inverse operation in Mixcolumn translation
+  <ul>
+   <li> In the initial AES translation, only the encryption direction was
+   included in the translation for the Mixcolumn, however, as this operation
+   involves the use of multiple xors, decryption does not follow from simple
+   UCP. </li>
+   <li> Therefore, to both allow decryption to follow solely via UCP and to 
+   generally increase the decision power of the translation (i.e increase the
+   likelyhood of cracking certain round AES variants), the inverse of the 
+   Mixcolumn operation was included. </li>
+   <li> To compare and contrast the different approaches, as well as to allow 
+   for different translations of the encryption and inverse/decryption only
+   versions of the Mixcolumns, there should be a parameter to control whether
+   this inverse Mixcolumn is included in the translation. </li>
+  </ul>
+
+
   \todo Rewrite tests based on rewritten translation system
   <ul>
    <li> After the translation system is rewritten (see "Fix translation system")
@@ -155,6 +190,15 @@ License, or any later version. */
      <li> The current system works but a more precise, systematic way of 
      controlling how many rounds, or which rewrite rules are used etc is 
      needed. </li>
+     <li> What is the best way to handle parameters controlling the translation?
+     <ul>
+      <li> There are already many parameters, many of which are controlled via 
+      global variables, which is potentially bad practice and underdocumented. 
+      </li>
+      <li> However taking these parameters as explicit parameters (which must 
+      always be provided) is incredibly cumbersome. </li>
+     </ul>
+     </li>
     </ul>
    </li>
   </ul>

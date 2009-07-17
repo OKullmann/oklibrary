@@ -107,9 +107,8 @@ if oklib_test_level >= 1 then okltest_aes_encrypt_generic(aes_encrypt_f)
 else true;
 
 okltest_aes_decrypt_generic(aes_decrypt_l);
-/* if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt_f)
+if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt_f)
 else true;
-*/
 
 okltest_aes_encrypt_hex(aes_encrypt_hex);
 okltest_aes_decrypt_hex(aes_decrypt_hex);

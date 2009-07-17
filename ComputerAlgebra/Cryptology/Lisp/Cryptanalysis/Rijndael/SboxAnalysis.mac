@@ -44,10 +44,10 @@ int2binlist(int,n) := block([result_list : []],
 /* Generation of the full DNF clause-set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
   cs_to_fcs(map(
-    lambda([ce],binary_list_to_dnf_c(
+    lambda([ce],setify(binl2dnf_l_std(
       append(int2binlist(ce,8),
         int2binlist(rijn_lookup_sbox(ce),8)))
-    ),setmn(0,255)))$
+    )),setmn(0,255)))$
 
 /* Generation of the full CNF clause-set representing the AES sbox */
 generate_full_aes_sbox_cnf_fcs() := block(
@@ -74,8 +74,8 @@ generate_full_int_perm_dnf_fcs(perm) := block(
   binLength : apply(max,map(
     lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2))),perm)),
   cs_to_fcs(setify(map(
-    lambda([a,b], binary_list_to_dnf_c(
-      append(int2binlist(a,binLength),int2binlist(b,binLength)))),elements,
+    lambda([a,b], setify(binl2dnf_l_std(
+      append(int2binlist(a,binLength),int2binlist(b,binLength))))),elements,
       perm)))
 )$
 
