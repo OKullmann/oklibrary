@@ -442,7 +442,14 @@ BestSolution_Max = 4.000000
    doesn't seem to make progress. </li>
    <li> Without symmetry breaking, for the conjectured precise value 377:
     <ol>
-     <li> OKsolver_2002 seems hopeless. </li>
+     <li> OKsolver_2002 seems hopeless:
+     \verbatim
+> OKsolver_2002-m2pp -D20 -M GreenTao_4-3-3-3-3_377.cnf
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 initial_number_of_clauses=27684 initial_number_of_literal_occurrences=121758 running_time(s)=172728.7 number_of_nodes=4729631 number_of_single_nodes=375 number_of_quasi_single_nodes=0 number_of_2-reductions=61736549 number_of_pure_literals=1 number_of_autarkies=4 number_of_missed_single_nodes=667 max_tree_depth=177 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=32 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1128 file_name=GreenTao_4-3-3-3-3_377.cnf_m2pp_24712
+     \endverbatim
+     (without completing any node at level 20).
+     </li>
      <li> minisat2 </li>
     </ol>
    </li>
