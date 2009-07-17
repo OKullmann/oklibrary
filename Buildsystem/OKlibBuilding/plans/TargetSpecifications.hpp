@@ -65,7 +65,7 @@ License, or any later version. */
      predefined as "$(OKSystem_include) $(Boost_include)" (potentially
      changed in the locale definitions-makefile): If file .source_libraries
      exists, then it overrides "$(source_libraries)". </li>
-     <li Every .cpp-file has a .source_libraries file (if needed). </li>
+     <li> Every .cpp-file has a .source_libraries file (if needed). </li>
      <li> We need to customise naming of generated executables, by a new
      make-variable which allows to override the current (automatic) setting
      of the -o-option. </li>
