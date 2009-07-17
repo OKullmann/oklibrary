@@ -32,6 +32,20 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
 
 
+/* NOTE : 
+
+  In several functions such as aes_round_cp, and aes_key_expansion_cp "blocks"
+  are mentioned, which are matrices (4x4 as standard) of bytes used as a unit
+  of computation within the AES.
+
+  In this translation, currently, when given as a list of variables, each block 
+  is considered row by row, rather than column by column as is standard in the
+  literature. This should be changed throughout, see "Standardise block
+  ordering" in the plans.
+
+*/
+
+
 /* ***************************************
    * Sets of Conditions                  *
    ***************************************
@@ -240,7 +254,13 @@ aes_round_constant(ivars, n) := block([rc_el,rc_l],
 
 /* Returns a set of conditions representing the AES keyschedule operation given
    128 key variables and 128 * (aes_num_rounds + 1) output variables
-   (consecutive lots of 128 bits representing the individual round keys). */
+   (consecutive lots of 128 bits representing the individual round keys).
+   
+   The first 128 variables in the list "bits" represent the key block for the 
+   cipher, and then the (i+1)'th consecutive 128 variables in "bits" represents
+   the round key block for the i'th round. 
+   
+   */
 aes_key_expansion_cp([bits]) := block(
   [n_k : 4,n_b : 4, n_r : aes_num_rounds ,kBits, rkBits, nc,rs : {}, 
   sboxVars, addVars,fMat, kMat],

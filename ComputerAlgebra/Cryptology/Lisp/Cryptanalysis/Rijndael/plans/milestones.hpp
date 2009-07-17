@@ -15,6 +15,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Standardise block ordering
     - Fix translation system
     - Representations of the Sbox using additional variables
     - Organisation
