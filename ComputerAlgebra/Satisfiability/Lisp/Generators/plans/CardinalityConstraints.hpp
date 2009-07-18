@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans for Maxima-generators (of SAT-problems) related to cardinality constraints
 
 
+  \todo Connections
+  <ul>
+   <li> See "Cardinality constraints" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Thresholds.hpp
+   for the boolean-function point-of-view. </li>
+   <li> And see "Translations to SAT" in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/plans/general.hpp
+   for the important application of finding hypergraph transversals of
+   bounded size. </li>
+  </ul>
+
+
   \todo Provide complete specifications
   <ul>
    <li> For cardinality_totalizer_cs, cardinality_comparator_cs and

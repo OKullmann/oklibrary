@@ -21,6 +21,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translations to SAT
+  <ul>
+   <li> We need translations of the problem of finding a hypergraph transversal
+   of size "=B" or "<=B" to CNF-SAT-instances plus cardinality constraints.
+   </li>
+   <li> Then to this "mixed problem" one can apply a translation of
+   cardinality constraints to CNF-SAT, to obtain a pure CNF-SAT problem. </li>
+  </ul>
+
+
   \todo Using ILP
   <ul>
    <li> Finding a minimum transversal is trivially translated into an
