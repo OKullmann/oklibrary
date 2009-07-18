@@ -17,6 +17,8 @@ License, or any later version. */
    <li> Then two levels of tests are needed: One which checks the
    (precise) combinatorial specification, and another one which checks
    the (general) specification as a presentation of some constraint. </li>
+   <li> Especially precise information on the added auxiliary variables are
+   needed. </li>
   </ul>
 
 
@@ -30,12 +32,23 @@ License, or any later version. */
   \todo Docus
 
 
-  \todo Add adder circuit translation
+  \todo Implement adder-circuit translation
   <ul>
-   <li> Also provide the translation centred around the Tseitin translation of
-   the boolean adder circuits, for comparison. </li>
+   <li> Also provide the translation using the Tseitin translation of
+   the boolean adder circuits. </li>
    <li> See Satisfiability/Transformers/Generators/plans/LinInequal.hpp for 
    a C++ implementation. </li>
+   <li> Joost Warners dissertation also describes such a translation; are
+   there differences? </li>
+  </ul>
+
+
+  \todo Implement other methods using unary representation
+  <ul>
+   <li> [Een, Soerensson, 2006, Translating Pseudo-Boolean Constraints into
+   SAT] contains another translation. </li>
+   <li> And so does [Sinz, 2005, Towards an Optimal Encoding of Boolean
+   Cardinality Constraints]. </li>
   </ul>
 
 */
