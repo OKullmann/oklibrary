@@ -10,6 +10,23 @@ License, or any later version. */
   \brief Plans for Maxima-generators (of SAT-problems) related to cardinality constraints
 
 
+  \todo Provide complete specifications
+  <ul>
+   <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
+   cardinality_cs *combinatorial* specifications are needed. </li>
+   <li> Then two levels of tests are needed: One which checks the
+   (precise) combinatorial specification, and another one which checks
+   the (general) specification as a presentation of some constraint. </li>
+  </ul>
+
+
+  \todo Add statistics functions
+  <ul>
+   <li> These statistics functions rely on precise (combinatorial)
+   specifications. </li>
+  </ul>
+   
+
   \todo Docus
 
 
@@ -21,8 +38,5 @@ License, or any later version. */
    a C++ implementation. </li>
   </ul>
 
-
-  \todo Add statistics functions
-   
 */
 
