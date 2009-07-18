@@ -34,24 +34,28 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
    Constraints" by Olivier Bailleux and Yacine Boufkhad. */
+/* OK: MG - Further basic information on this reference is needed. */
 
 /* Variables are "ctt(i,j)", meaning the i-th variable at the node whose 
    position is denoted by l (where each successive 0 or 1 means traverse 
    the left or right child respectively, that is [] is the root, [0] is the 
    left node etc.).
-OK: What is "l" ???
+OK: MG - What is "l" ???
 */
 kill(ctt)$
 declare(ctt, noun)$
 declare(ctt, posfun)$
 ctt_var(l,i) := nounify(ctt)(l,i)$
 
-/* Given a list of output variables S and a list of input variables E, 
+/* Given a list S of output variables and a list E of input variables, 
    the result is a clause set F enforcing that S is a unary representation of 
    the number of variables set to true in E. That is, if p is the number of 
    variables set to 1 in E for a satisfing assignment, then the first p 
    variables in S are set to 1 and the rest to 0 (in that assignment).
    S must have the same number of variables as E.
+*/
+/* OK: MG --- isn't a special property of this translation that it can
+   handle *partial* assignments?
 */
 cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
 cardinality_totalizer_r_cs(S,E, tree_pos) := 
@@ -102,18 +106,20 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
     return(union(subtree_a, subtree_b, cs))
   )$
 
-/* Given a list of variables S together with m, n, produces a clause-set F 
+/* Given a list S of variables together with m, n, produces a clause-set F 
    whose satisfying assignments are those total assignments where the first
    m variables are set to true, and all variables from the (n+1)-th onwards 
    are set to false.
 */
+/* OK: MG --- again, what about partial assignments? */
 cardinality_comparator_cs(S,m,n) := 
   union(
     map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
 
-/* Given a list of variables E, returns a clause-set F which is satisfied iff 
+/* Given a list E of variables, returns a clause-set F which is satisfied iff 
    between m and n variables of E are set to true.
 */
+/* OK: MG --- again, what about partial assignments? */
 cardinality_cs(E,m,n) := block(
   [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
   return(
