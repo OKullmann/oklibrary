@@ -126,6 +126,7 @@ SATISFIABLE
 
   \todo hindmani_2(2) = 252
   <ul>
+   <li> n=502, c=1908, c/n ~ 3.80 </li>
    <li> OKsolver_2002
     \verbatim
 kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindman_2_251.cnf
@@ -141,6 +142,8 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=504 i
 
 
   \todo hindmani_2^2(2) = 990
+  </ul>
+   <li> n=914, c=4988, c/n ~ 5.46 </li>
    <li> OKsolver_2002
     \verbatim
 kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindman2gen_2_989.cnf
@@ -156,6 +159,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=914 i
 
   \todo hindmani_2^3(2) = 3150
   <ul>
+   <li> n=, c=, c/n ~  </li>
    <li> minisat2
 > minisat2 Hindman2gen_3_3149.cnf
 restarts              : 13
@@ -182,6 +186,7 @@ UNSATISFIABLE
 
   \todo hindmani_2^4(2) = 5600
   <ul>
+   <li> n=4598, c=28618, c/n ~ 6.22 </li>
    <li> minisat2
    \verbatim
 > minisat2 Hindman2gen_4_5599.cnf
@@ -220,6 +225,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 
 
   \todo hindmani_2^5(2) = 14364
   <ul>
+   <li> n=, c=, c/n ~  </li>
    <li> From the ubcsat-1.0.0-suite it seems rsaps is most effective:
     <ol>
      <li> With cutoff=10^6 in 7 from 10 runs it found a solution. </li>
@@ -290,6 +296,7 @@ s UNSATISFIABLE
 
   \todo hindmani_2^6(2) = 28188
   <ul>
+   <li> n=22205, c=164334, c/n ~ 7.40 </li>
    <li> n=28187 found easily satsfiable with rsaps (cutoff=10^5, 10 runs,
    90% success). </li>
    <li> n=28188 unsatisfiable:
@@ -298,7 +305,22 @@ s UNSATISFIABLE
      (just) min=1. </li>
      <li> minisat2 determined unsatisfiability in 26 restarts (7534086
      conflicts, 8426651 decisions; say around 10 hours). </li>
-     <li> march_pl </li>
+     <li> march_pl
+     \verbatim
+> march_pl Hindman2gen_6_28188.cnf
+c main():: nodeCount: 555857
+c main():: dead ends in main: 240
+c main():: lookAheadCount: 774198284
+c main():: unitResolveCount: 4046431
+c main():: time=-1.785920
+c main():: necessary_assignments: 75369
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 5599383, succes #: 4745621
+c main():: doublelook: overall 0.725 of all possible doublelooks executed
+c main():: doublelook: succesrate: 84.753, average DL_trigger: 832.682
+s UNSATISFIABLE
+     \endverbatim
+     </li>
      <li> OKsolver_2002-m2pp seems to take, say, 10 days. </li>
     </ol>
    </li>
@@ -314,22 +336,92 @@ s UNSATISFIABLE
 
   \todo 53312 <= hindmani_2^7(2)
   <ul>
+   <li> n=41497, c=327078, c/n ~ 7.88 </li>
    <li> Using rsaps for satisfiability detection. </li>
-   <li> n=53311 found easily satisfiable (10 runs cutoff=10^4 yield 100%
+   <li> n=53311 found easily satisfiable (10 runs with cutoff=10^4 yield 100%
    success). </li>
    <li> It seems that the satisfiable problems become easier with increasing
    start-value! </li>
    <li> n=53312 looks unsatisfiable (10 runs with cutoffs 10^4, 10^5 and 10^6
    each yield always min=1). </li>
    <li> minisat2 </li>
+   <li> march_pl </li>
+   <li> OKsolver_2002-m2pp: it seems it would take a few months. </li>
   </ul>
 
 
-  \todo Analysing a -> hindmani_2^a(2)
+  \todo 97280 <= hindmani_2^8(2)
   <ul>
-   <li> For 1 <= a <= 7 the known values are
-   252, 990, 3150, 5600, 14364, 28188, 53312
-   (where the last value is conjectured). </li>
+   <li> n=75151, c=627618, c/n ~ 8.35 </li>
+   <li> Using rsaps for satisfiability detection. </li>
+   <li> n=97279 found easily satisfiable (10 runs with cutoff=2*10^4 yield
+   100% success). </li>
+   <li> n=97280 appears to be unsatisfiable: constant min=1 for cutoff=2*10^4
+   as for 10^5 and 10^6). </li>
   </ul>
+
+
+  \todo 153900 <= hindmani_2^9(2)
+  <ul>
+   <li> n=117964, c=1025114, c/n ~ 8.69 </li>
+   <li> Using rsaps for satisfiability detection; cutoff = 4*10^4 seems
+   sufficient. </li>
+   <li> n=153899 found easily satisfiable  (10 runs with cutoff=4*10^4 yield
+   100% success). </li>
+   <li> n=153900 seems unsatisfiable: constant min=1 for cutoff=4*10^4,
+   as for 10^5 and 10^6. </li>
+  </ul>
+
+
+  \todo 302350 < hindmini_2^10(2)
+  <ul>
+   <li> n=, c=, c/n ~ </li>
+   <li> Using rsaps for satisfiability detection; cutoff = 5*10^4 seems
+   sufficient. </li>
+   <li> As usual (here!), the osteps-value are very close together. They rise
+   in the course of increasing n. At around n=300000  cutoff=4*10^4 starts
+   becoming not always sufficient:
+   \verbatim
+> ubcsat-okl -i Hindman2gen_10_300000.cnf -runs 10 -cutoff 40000 -alg rsaps
+       sat  min     osteps     msteps       seed
+      1 1     0      38677      38677  512636378
+      2 1     0      38529      38529  364640058
+      3 1     0      38391      38391  860276095
+      4 1     0      39678      39678 3401998204
+      5 0     1      39607      40000 4006022246
+      6 1     0      39848      39848  858709410
+      7 0     1      39722      40000 1271966077
+      8 1     0      38953      38953 1617802422
+      9 1     0      39952      39952 1789433686
+     10 0    24      39965      40000 2311572258
+Clauses = 2131996
+Variables = 300000
+TotalLiterals = 8527984
+FlipsPerSecond = 341
+BestStep_Mean = 39332.200000
+Steps_Mean = 39402.800000
+Steps_Max = 40000.000000
+PercentSuccess = 70.00
+BestSolution_Mean = 2.600000
+BestSolution_Median = 0.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 24.000000
+   \endverbatim
+   </li>
+   <li> n=302350 found easily satisfiable. </li>
+   <li> n=302425 seems unsatisfiable </li>
+  </ul>
+
+
+  \todo Analysing the map a -> hindmani_2^a(2)
+  <ul>
+   <li> For 1 <= a <= 9 the known values are
+   252, 990, 3150, 5600, 14364, 28188, 53312, 97280, 153900
+   (where the last three values are conjectured). </li>
+   <li> The successive quotients are (rounded to two decimal places)
+   3.93, 3.19, 1.78, 2.565, 1.96, 1.89, 1.82, 1.58. </li>
+   <li> Thus hindmani_2^9(2) ~ 175000. </li>
+  </ul>
+
 */
 

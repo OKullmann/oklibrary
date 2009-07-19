@@ -46,6 +46,10 @@ License, or any later version. */
    <li> hindman_3(2) </li>
    <li> hindmani_2^6(2) </li>
    <li> hindmani_2^7(2) </li>
+   <li> hindmani_2^8(2) </li>
+   <li> hindmani_2^9(2) </li>
+   <li> hindmani_2^10(2) </li>
+   <li> hindmani_2^11(2) </li>
   </ul>
   
 */
