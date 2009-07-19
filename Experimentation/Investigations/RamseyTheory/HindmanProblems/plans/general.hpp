@@ -334,7 +334,7 @@ s UNSATISFIABLE
   </ul>
 
 
-  \todo 53312 <= hindmani_2^7(2)
+  \todo hindmani_2^7(2) = 53312
   <ul>
    <li> n=41497, c=327078, c/n ~ 7.88 </li>
    <li> Using rsaps for satisfiability detection. </li>
@@ -344,7 +344,8 @@ s UNSATISFIABLE
    start-value! </li>
    <li> n=53312 looks unsatisfiable (10 runs with cutoffs 10^4, 10^5 and 10^6
    each yield always min=1). </li>
-   <li> minisat2 </li>
+   <li> minisat2 determined unsatisfiability in 30 restarts (30602289
+   conflicts, 33994511 decisions; 226393s (~ 2 1/2 days). </li>
    <li> march_pl </li>
    <li> OKsolver_2002-m2pp: it seems it would take a few months. </li>
   </ul>
@@ -358,6 +359,7 @@ s UNSATISFIABLE
    100% success). </li>
    <li> n=97280 appears to be unsatisfiable: constant min=1 for cutoff=2*10^4
    as for 10^5 and 10^6). </li>
+   <li> minisat2 </li>
   </ul>
 
 
