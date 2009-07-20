@@ -87,7 +87,7 @@ Steps_Max = 10000000.000000
    \endverbatim
    </ul>
    <li> minisat2 seems to perform best (also on satisfiable instances):
-ullmann-0:OKplatform> minisat2 Hindmand_3_40000.cnf
+kullmann-0:OKplatform> minisat2 Hindmand_3_40000.cnf
 This is MiniSat 2.0 beta
 WARNING: for repeatability, setting FPU to use double precision
 ============================[ Problem Statistics ]=============================
@@ -159,7 +159,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=914 i
 
   \todo hindmani_2^3(2) = 3150
   <ul>
-   <li> n=, c=, c/n ~  </li>
+   <li> n=2725, c=16378, c/n ~ 6.01 </li>
    <li> minisat2
 > minisat2 Hindman2gen_3_3149.cnf
 restarts              : 13
@@ -225,7 +225,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 
 
   \todo hindmani_2^5(2) = 14364
   <ul>
-   <li> n=, c=, c/n ~  </li>
+   <li> n=11534, c=79800, c/n ~ 6.92 </li>
    <li> From the ubcsat-1.0.0-suite it seems rsaps is most effective:
     <ol>
      <li> With cutoff=10^6 in 7 from 10 runs it found a solution. </li>
@@ -297,7 +297,7 @@ s UNSATISFIABLE
   \todo hindmani_2^6(2) = 28188
   <ul>
    <li> n=22205, c=164334, c/n ~ 7.40 </li>
-   <li> n=28187 found easily satsfiable with rsaps (cutoff=10^5, 10 runs,
+   <li> n=28187 found easily satisfiable with rsaps (cutoff=10^5, 10 runs,
    90% success). </li>
    <li> n=28188 unsatisfiable:
     <ol>
@@ -375,9 +375,9 @@ s UNSATISFIABLE
   </ul>
 
 
-  \todo 302350 < hindmini_2^10(2)
+  \todo 302400 <= hindmini_2^10(2)
   <ul>
-   <li> n=, c=, c/n ~ </li>
+   <li> n=232001, c=2151496, c/n ~ 9.27 </li>
    <li> Using rsaps for satisfiability detection; cutoff = 5*10^4 seems
    sufficient. </li>
    <li> As usual (here!), the osteps-value are very close together. They rise
@@ -410,19 +410,75 @@ BestSolution_Min = 0.000000
 BestSolution_Max = 24.000000
    \endverbatim
    </li>
-   <li> n=302350 found easily satisfiable. </li>
-   <li> n=302425 seems unsatisfiable </li>
+   <li> n=302399 found easily satisfiable (10 runs with cutoff=5*10^4 yield
+   100% success). </li>
+   <li> n=302400 seems unsatisfiable:
+    <ol>
+     <li> 10 runs with cutoff=5*10^4 yield 9 times min=1, once min=2. </li>
+     <li> 10 runs with cutoff=10^5 yield 9 times min=1, once min=2. </li>
+     <li> 10 runs with cutoff=10^6 yield </li>
+    </ol>
+   </li>
+  </ul>
+
+
+ \todo hindmini_2^11(2)
+  <ul>
+   <li> n=?, c=?, c/n ~ ? </li>
+   <li> Using rsaps for satisfiability detection; cutoff = 6*10^4 might be
+   sufficient. </li>
+   <li> n=500000 (created by output_hindman2gen_stdname(11,500000) </li>
   </ul>
 
 
   \todo Analysing the map a -> hindmani_2^a(2)
   <ul>
-   <li> For 1 <= a <= 9 the known values are
-   252, 990, 3150, 5600, 14364, 28188, 53312, 97280, 153900
+   <li> For 1 <= a <= 10 the known values are
+   252, 990, 3150, 5600, 14364, 28188, 53312, 97280, 153900, 302400
    (where the last three values are conjectured). </li>
+   <li> [log,log^2]-transformation looks linear: The linear model is
+   log(log(hindmani_2^a(2))) = 1.690803 + 0.357812 * log(a), which
+   yields hindmani_2^a(2) ~ 226.7474^(a^0.3578117). The predicted
+   values are
+   227, 1044, 3089, 7383, 15480, 29663, 53188, 90593, 148071, 233945. </li>
+   <li> Fitting a non-linear model for h(a) ~ B^(a^e) (via nls) yields
+   h(a) ~ 99.04179^(a^0.43811), where the predicted values are
+   99, 506, 1697, 4607, 10957, 23746, 48008, 91906, 168340, 297222. </li>
+   <li> This predicts h(11) ~ 508680. </li>
    <li> The successive quotients are (rounded to two decimal places)
-   3.93, 3.19, 1.78, 2.565, 1.96, 1.89, 1.82, 1.58. </li>
-   <li> Thus hindmani_2^9(2) ~ 175000. </li>
+   3.93, 3.19, 1.78, 2.565, 1.96, 1.89, 1.82, 1.58, 1.96. </li>
+   <li> The peaks are for a= 2, 5, 10. </li>
+   <li> The values are of a somewhat limited diversity:
+   \verbatim
+for i : 1 thru length(L) do print(i, L[i], ifactors(L[i]));
+1 252     [[2,2],[3,2],[7,1]]
+2 990     [[2,1],[3,2],[5,1],[11,1]]
+3 3150    [[2,1],[3,2],[5,2],[7,1]]
+4 5600    [[2,5],[5,2],[7,1]]
+5 14364   [[2,2],[3,3],[7,1],[19,1]]
+6 28188   [[2,2],[3,5],[29,1]]
+7 53312   [[2,6],[7,2],[17,1]]
+8 97280   [[2,10],[5,1],[19,1]]
+9 153900  [[2,2],[3,4],[5,2],[19,1]]
+10 302400 [[2,6],[3,3],[5,2],[7,1]]
+   \endverbatim
+   </li>
+   <li> The sequence of densities is (excluding a=1; real densities)
+   5.46, 6.01, 6.22, 6.92, 7.40, 7.88, 8.35, 8.69, 9.27. </li>
+   <li> This is rather linear, with outliers for a=4, 9. The linear
+   model is rho(i) = 4.50556 + 0.47500 * i (excluding n=1), which yields
+   5.46 5.93 6.41 6.88 7.36 7.83 8.31 8.78 9.26. </li>
+   <li> The densities w.r.t. the formal number of variables are (excluding a=1)
+   5.04, 5.20, 5.11, 5.56, 5.83, 6.14, 6.45, 6.66, 7.11.
+   This looks less suitable. </li>
+   <li> One needs to determine the n- and/or c-values (numbers of variables
+   and numbers of clauses). </li>
+   <li> The n-sequence is (excluding a=1; these are the real occurring
+   variables)
+   914, 2725, 4598, 11534, 22205, 41497, 75151, 117964, 232001. </li>
+   <li> Again, [log, log^2] transformations looks linear. </li>
+   <li> The c-sequence is (excluding a=1)
+   4988, 16378, 28618, 79800, 164334, 327078, 627618, 1025114, 2151496. </li>
   </ul>
 
 */
