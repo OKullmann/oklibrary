@@ -806,6 +806,16 @@ length(all_aut_ofcs(R5));
    best what we can do for those problems? But if we know more about the
    symmetries between solutions (i.e., the automorphism group of the solution
    space, then we might obtain further compression. </li>
+   <li> There is also the simple representation of these solutions using colours
+   for the two labels/partitions. </li>
+   <li> Colouring edges rather than simply showing a graph with edges missing
+   seems a much better solution, as from a visualisation point of view, one sees
+   both the graph and it's complement at the same time, and so the colour
+   symmetry is more obvious to the eye (as both the graph and it's complement
+   are important for discerning patterns). </li>
+   <li> Both visualisations should be made available, and translations from a 
+   solution (set of literals using the canonical variable naming) to graphs
+   and graph labellings should be written. </li>
   </ul>
 
 

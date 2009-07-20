@@ -69,6 +69,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo Representing edge and vertex labellings
+  <ul>
+   <li> One needs to be able to represent an edge, or vertex labelling of a 
+   given graph in the maxima system. </li>
+   <li> It should then be possible to visualise this somehow using some graph
+   drawing package, or produce LaTeX output to draw the graph with the
+   appropriate labels or colours. </li>
+   <li> See '"Visualising" solutions' in
+   Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp 
+   for potential use in visualising counter examples for Ramsey number SAT 
+   problems. </li>
+   <li> See also "Representing edge and vertex labellings" in 
+   ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp . </li>
+  </ul>
+
+
   \todo Lists instead of sets
   <ul>
    <li> Additionally to "graphs" and "general graphs" we introduce
