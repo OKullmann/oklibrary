@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
 /* *******************
    * Complete graphs *
@@ -94,6 +95,24 @@ kneser_g(n,m) := block([sn : setn(n)],
 /* A generalisation is kneser_g_hyp(G), namely
    kneser_g(n,m) = kneser_g_hyp(complete_stdhg(n,m)).
 */
+
+
+/* ***************************
+   * Ramsey counter examples *
+   ***************************
+*/
+
+/* Ramsey counter example graphs : Vertices are {1,...,n}, in the
+   "ramsey_2^2(q_0,q_1) > n?", joined if the counter example, given
+   as a set of literals S, using the canonical variable naming 
+   (colexicographical ordering of edges), labels the corresponding 
+   edge with 0.
+*/
+ramsey_counterex_graph(n,S) := 
+  [setn(n), 
+   map(lambda([a],unrank_colex_subsets(abs(a),n,2)),
+     subset(S,lambda([b],is(b<0))))]$
+
 
 /*!
 \endhtmlonly

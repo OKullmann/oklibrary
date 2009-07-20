@@ -59,6 +59,13 @@ okltest_bouquet_ogg(bouquet_ogg);
 
 okltest_kneser_g(kneser_g);
 
+/* ***************************
+   * Ramsey counter examples *
+   ***************************
+*/
+
+okltest_ramsey_counterex_graph(ramsey_counterex_graph);
+
 /*!
 \endhtmlonly
 */

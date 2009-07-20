@@ -95,7 +95,8 @@ License, or any later version. */
    using the standard variable naming, to a graph labelling (see 
    "Representing edge and vertex labellings" in 
    ComputerAlgebra/Graphs/Lisp/plans/general.hpp ). </li>
-   <li> For r=2, s=2, one should also be able to translate a solution to the
+   <li> (DONE See ComputerAlgebra/Graphs/Lisp/Generators.mac) 
+   For r=2, s=2, one should also be able to translate a solution to the
    graph representing the solution (where the 2 labels represent an edge being
    either in or out of the graph). </li>
   </ul>
