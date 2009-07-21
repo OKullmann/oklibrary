@@ -49,7 +49,7 @@ License, or any later version. */
    (via "make cleantestobj") to enforce recompilation). </li>
    <li> We need special test-modes for more extensive messages. </li>
    <li> The output of testprograms is copied into a suitable subdirectory of
-   system_directoires/log. Perhaps also the test time-stamps should go here?
+   system_directories/log. Perhaps also the test time-stamps should go here?
    </li>
   </ul>
 
@@ -86,6 +86,9 @@ License, or any later version. */
 
   \todo Dependency files
   <ul>
+   <li> Since options might define macros (which might control conditional
+   inclusion), the options when computing the dependency files should be
+   identical to those when actually compiling the files. </li>
    <li> If when creating the .d-files an error occurs (for example
    due to an inaccessible header file), then for some reason subsequent
    "make check" erroneously succeeds. </li>
@@ -147,7 +150,7 @@ License, or any later version. */
     <ol>
      <li> Cleaning of special or all versions of the test-timestamps. </li>
      <li> Cleaning of test-objectfiles and test-programs. </li>
-     <li> Cleaning of test-depencies. </li>
+     <li> Cleaning of test-dependencies. </li>
     </ol>
    </li>
   </li>
@@ -158,7 +161,7 @@ License, or any later version. */
    <li> We need specialised cleaning regarding the test system. </li>
    <li> Cleaning of special or all versions of the test-timestamps. </li>
    <li> Cleaning of test-objectfiles and test-programs. </li>
-   <li> Cleaning of test-depencies. </li>
+   <li> Cleaning of test-dependencies. </li>
   </ul>
 
 

@@ -790,7 +790,7 @@ endif
 # file in $(dependencies_dir)
 # ----------------------------------------------------------
 $(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp | $(dependencies_dir)
-	$(CXX) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -801,7 +801,7 @@ $(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp | $(dependen
 # file in $(dependencies_dir)
 # ----------------------------------------------------------
 $(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies_dir)
-	$(CC) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -812,7 +812,7 @@ $(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies
 # file in $(dependencies_dir)
 # ----------------------------------------------------------
 $(test_dependency_files) : $(test_aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(test_aux_dir)
-	$(CXX) -MM -MF $@ -MT $(test_lib_dir)/$*.o -MT $(test_lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -MM -MF $@ -MT $(test_lib_dir)/$*.o -MT $(test_lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
