@@ -22,4 +22,6 @@ read_ubcsat = function(filename, ...) {
 #     sat  min     osteps     msteps       seed
 # is assumed.
 # If the (given) line-counters are to be ignored, use the additional argument
-# "row.names=NULL".
+# "row.names=NULL". And if m leading lines are to be ignored, use
+# "skip=m".
+
