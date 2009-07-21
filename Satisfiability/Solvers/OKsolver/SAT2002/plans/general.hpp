@@ -12,7 +12,28 @@ License, or any later version. */
 
   \todo Timing and monitoring
   <ul>
-   <li> DONE (using SYSTIME now default on 32-bit machines)
+   <li> Better representation of monitoring data:
+    <ol>
+     <li> The predicted run-times should have the form
+     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
+     x2 < 365. </li>
+     <li> But this perhaps only for the console output, while the file
+     output is just numbers (for easy evaluation). </li>
+     <li> There should also be some more text explaining the output
+     columns. </li>
+     <li> Yet we have (besides the counter) three columns, namely the
+     number of nodes just processed, the total running time until now,
+     and the predicted running time. </li>
+     <li> The total running time until now should be removed, since
+     it is not very interesting, and can be easily obtained by sending signal
+     SIGUSR1. </li>
+     <li> Instead we should have additionally the average number of nodes
+     (until now, per monitoring %node), the predicted total number of nodes,
+     the time needed for the just processed monitoring %node, and the average
+     time needed until now to process a monitoring %node. </li>
+    </ol>
+   </li>
+   <li> DONE (using SYSTIME is now default on 32-bit machines)
    Timing:
     <ol>
      <li> On Unix/Linux machine process-timing data is available for (much)
@@ -34,17 +55,6 @@ License, or any later version. */
      the high resolution and long duration. </li>
     </ol>
    </li>
-   <li> Better representation of monitoring data:
-    <ol>
-     <li> The predicted run-times should have the form
-     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
-     x2 < 365. </li>
-     <li> But this perhaps only for the console output, while the file
-     output is just numbers (for easy evaluation). </li>
-     <li> There should also be some more text explaining the output
-     columns. </li>
-    </ol>
-   </li>
   </ul>
 
 
@@ -58,7 +68,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> Apparently yet only the number of r_2-reductions is output
-   at each node.
+   at each %node.
     <ol>
      <li> We need to strengthen this by outputting most data. </li>
      <li> Definitely also the branching literal. </li>
@@ -417,9 +427,9 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   <ul>
    <li> Information on where in the tree the solver gets stuck:
     <ol>
-     <li> A useful number should be the (current) minimal depth of a node which
-     has been solved (i.e., its satisfiability-status has been determined).
-     </li>
+     <li> A useful number should be the (current) minimal depth of a %node
+     which has been solved (i.e., its satisfiability-status has been
+     determined). </li>
      <li> We should actually have two such numbers, one for the left main
      branch (which becomes 1 when the "first half" of the search space has been
      completed), and one for the right main branch (which finally becomes
