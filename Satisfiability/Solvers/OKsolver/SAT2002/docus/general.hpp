@@ -51,7 +51,7 @@ License, or any later version. */
    <code>BELEGUNG</code>.) </li>
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
-   node with some statistics. </li>
+   %node with some statistics. </li>
    <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all
    satisfying assignments are found. Currently combination with
    <code>BAUMRES</code> or <code>ASSIGNMENT</code> is not possible (and thus
@@ -143,7 +143,7 @@ License, or any later version. */
         <li> d can be set using<code>-Dd</code>, for example
         <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
         Range 0 <= d <= 30. </li>
-        <li> Once a node at level d is completed, its number is printed out,
+        <li> Once a %node at level d is completed, its number is printed out,
         followed by the number of leaves below it, the total running-time
         until now, and the anticipated running time for the remaining nodes at
         this level, using the current average running time for the monitored
