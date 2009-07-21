@@ -124,6 +124,148 @@ License, or any later version. */
     <ol>
      <li> Likely this just performs computation of minimum transversals (see
      below) in the trivial way via integer linear programming. </li>
+     <li> Using this package in the following way:
+     \verbatim
+######## In Maxima #######
+generate_full_aes_sbox_tt() :=  
+  map(
+     lambda([ce],
+       append(
+         int2binlist(ce[1],8),
+         int2binlist(ce[2],8),
+         if rijn_lookup_sbox(ce[1]) = ce[2] then [1] else [0]))
+     ,cartesian_product(setmn(0,255),setmn(0,255)))$
+
+with_stdout("Sbox.tt", block(
+  apply(print, endcons("O",create_list(i,i,1,16))),
+  for tt_line in generate_full_aes_sbox_tt() do
+    apply(print,tt_line)
+  ))$
+
+######## In R ###########
+
+oklib_load_all()
+library(QCA)
+
+sbox_tt = read.table("Sbox.tt",header=TRUE)
+eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
+     \endverbatim
+     leads to the following error:
+     \verbatim
+Error in vector("double", length) : 
+  cannot allocate vector of length 2130706560
+     \endverbatim
+     </li>
+     <li> Note that using "expl.1=TRUE" instead of "expl.0=TRUE" to minimise
+     the DNF representation returns the following:
+     \verbatim
+Solution: abcdefghiJKlmnOP + abcdefgHiJKLMNop + abcdefGhiJKLmNOP + 
+          abcdefGHiJKLMnOP + abcdeFghIJKLmnOp + abcdeFgHiJKlMnOP + 
+          abcdeFGhiJKlMNOP + abcdeFGHIJklmNoP + abcdEfghijKLmnop + 
+          abcdEfgHijklmnoP + abcdEfGhiJKlmNOP + abcdEfGHijKlMnOP + 
+          abcdEFghIJKLMNOp + abcdEFgHIJkLmNOP + abcdEFGhIjKlMnOP + 
+          abcdEFGHiJKLmNOp + abcDefghIJklMnOp + abcDefgHIjklmnOp + 
+          abcDefGhIJklMnoP + abcDefGHiJKLMNoP + abcDeFghIJKLMnOp + 
+          abcDeFgHiJkLMnoP + abcDeFGhiJklmNOP + abcDeFGHIJKLmnop + 
+          abcDEfghIjKlMNoP + abcDEfgHIJkLmNop + abcDEfGhIjKlmnOp + 
+          abcDEfGHIjKlMNOP + abcDEFghIjkLMNop + abcDEFgHIjKlmNop + 
+          abcDEFGhiJKLmnOp + abcDEFGHIJklmnop + abCdefghIjKLmNOP + 
+          abCdefgHIJKLMNoP + abCdefGhIjkLmnOP + abCdefGHijKlmNOp + 
+          abCdeFghijKLmNOp + abCdeFgHijKLMNOP + abCdeFGhIJKLmNOP + 
+          abCdeFGHIJklMNop + abCdEfghijKLmNop + abCdEfgHIjKlmNoP + 
+          abCdEfGhIJKlmNoP + abCdEfGHIJKLmnoP + abCdEFghiJKLmnoP + 
+          abCdEFgHIJkLMnop + abCdEFGhijKLmnoP + abCdEFGHijkLmNoP + 
+          abCDefghijklmNop + abCDefgHIJklmNOP + abCDefGhijKlmnOP + 
+          abCDefGHIJklmnOP + abCDeFghijkLMnop + abCDeFgHIjkLmNOp + 
+          abCDeFGhijklmNoP + abCDeFGHIjkLMnOp + abCDEfghijklmNOP + 
+          abCDEfgHijkLmnOp + abCDEfGhIjklmnop + abCDEfGHIJKlmnOp + 
+          abCDEFghIJKlMnOP + abCDEFgHijKlmNOP + abCDEFGhIjKLmnOp + 
+          abCDEFGHiJKLmNoP + aBcdefghijklMnoP + aBcdefgHIjklmnOP + 
+          aBcdefGhijKlMNop + aBcdefGHijkLMnOp + aBcdeFghijkLMnOP + 
+          aBcdeFgHiJKlMNOp + aBcdeFGhiJkLMnOp + aBcdeFGHIjKlmnop + 
+          aBcdEfghiJkLmnOp + aBcdEfgHijKLMnOP + aBcdEfGhIJkLmNOp + 
+          aBcdEfGHIjKLmnOP + aBcdEFghijKlMnoP + aBcdEFgHIJKlmnOP + 
+          aBcdEFGhijKlMNOP + aBcdEFGHIjklmNop + aBcDefghiJkLmnOP + 
+          aBcDefgHIJkLmnoP + aBcDefGhijklmnop + aBcDefGHIJKlMNoP + 
+          aBcDeFghijKlmnop + aBcDeFgHIJKLMNop + aBcDeFGhIjKLmnoP + 
+          aBcDeFGHiJkLMnOP + aBcDEfghiJKlMnOp + aBcDEfgHIJklMnOP + 
+          aBcDEfGhIjKLMNOp + aBcDEfGHijKLMnoP + aBcDEFghiJklMnOp + 
+          aBcDEFgHiJklMNop + aBcDEFGhiJkLMnop + aBcDEFGHIJklMNOP + 
+          aBCdefghIJkLmnop + aBCdefgHIJKlMNOP + aBCdefGhIjKlMnOp + 
+          aBCdefGHIJKLMnOP + aBCdeFghiJklmnOP + aBCdeFgHiJklMNoP + 
+          aBCdeFGhijKLmnOP + aBCdeFGHIjklmNoP + aBCdEfghiJklmNoP + 
+          aBCdEfgHIJKLMnoP + aBCdEfGhijklmnOp + aBCdEfGHiJKLMNOP + 
+          aBCdEFghiJkLmnop + aBCdEFgHijKLMNop + aBCdEFGhIjkLMNOP + 
+          aBCdEFGHIjKlMnop + aBCDefghiJkLmnoP + aBCDefgHIjKlmnOP + 
+          aBCDefGhiJklmnop + aBCDefGHIjklMNOP + aBCDeFghIjkLmnOp + 
+          aBCDeFgHIjkLMNoP + aBCDeFGhijKLMnop + aBCDeFGHIJKLmNoP + 
+          aBCDEfghIjKLMNop + aBCDEfgHIjKLmNOp + aBCDEfGhIJkLMnOp + 
+          aBCDEfGHijKlmnoP + aBCDEFghijkLmnop + aBCDEFgHIJKLMNOP + 
+          aBCDEFGhIJKLmnOP + aBCDEFGHIJkLmnOp + AbcdefghIJklMNoP + 
+          AbcdefgHijklMNop + AbcdefGhijkLmnOP + AbcdefGHIJKlMNop + 
+          AbcdeFghiJkLMNOP + AbcdeFgHIjkLmNOP + AbcdeFGhiJklmNop + 
+          AbcdeFGHijkLmNOP + AbcdEfghIJklmNop + AbcdEfgHIjKlmNOP + 
+          AbcdEfGhiJKLMNOp + AbcdEfGHijKLMNoP + AbcdEFghiJKlmNop + 
+          AbcdEFgHiJkLMNoP + AbcdEFGhijkLMnoP + AbcdEFGHiJKLmnOP + 
+          AbcDefghiJKlmnop + AbcDefgHIjklmnoP + AbcDefGhiJklMNOP + 
+          AbcDefGHIJkLMNop + AbcDeFghijKlmnOp + AbcDeFgHijKlMnOp + 
+          AbcDeFGhIjkLmnop + AbcDeFGHIjklMnop + AbcDEfghiJklmNOp + 
+          AbcDEfgHIJKlMNOp + AbcDEfGhIjKLMnop + AbcDEfGHijkLmNop + 
+          AbcDEFghIJkLMNOp + AbcDEFgHiJkLMNOp + AbcDEFGhijklMnOP + 
+          AbcDEFGHIJkLMnOP + AbCdefghIJKlmnop + AbCdefgHijKLmnOp + 
+          AbCdefGhijKLMnOp + AbCdefGHijklMnOp + AbCdeFghiJklMnoP + 
+          AbCdeFgHijklmNOp + AbCdeFGhijKlmNop + AbCdeFGHiJkLMNop + 
+          AbCdEfghIJklmnOp + AbCdEfgHIJkLmnOP + AbCdEfGhIjKlMNop + 
+          AbCdEfGHiJKlmnOp + AbCdEFghIjkLmnoP + AbCdEFgHIjkLmNoP + 
+          AbCdEFGhIJKlmNop + AbCdEFGHiJKLMnoP + AbCDefghIJKlmNOP + 
+          AbCDefgHIJklMnop + AbCDefGhijKLmNOP + AbCDefGHiJKlMNoP + 
+          AbCDeFghIjklMNoP + AbCDeFgHIJkLmNoP + AbCDeFGhiJklMNOp + 
+          AbCDeFGHIjKlMnoP + AbCDEfghiJKlMNop + AbCDEfgHiJkLmNOp + 
+          AbCDEfGhIJKLmNop + AbCDEfGHIJKlMnOp + AbCDEFghiJKlmNoP + 
+          AbCDEFgHiJKLMnOp + AbCDEFGhIjKlMNOp + AbCDEFGHijklMnop + 
+          ABcdefghIjKLMnOp + ABcdefgHiJKLMnop + ABcdefGhijKlmNoP + 
+          ABcdefGHijKlMNOp + ABcdeFghijkLMNop + ABcdeFgHIjKlmNOp + 
+          ABcdeFGhIjKLmNop + ABcdeFGHIJklmNOp + ABcdEfghIJKlMnop + 
+          ABcdEfgHIJkLMNoP + ABcdEfGhiJKLmNop + ABcdEfGHijkLMNOP + 
+          ABcdEFghiJklMnOP + ABcdEFgHIjKLMNoP + ABcdEFGhIjklMnOP + 
+          ABcdEFGHIjklMnOp + ABcDefghiJKLmnop + ABcDefgHijKLMNOp + 
+          ABcDefGhIjKLmNoP + ABcDefGHiJKlmNOp + ABcDeFghiJklMnop + 
+          ABcDeFgHijklmnOP + ABcDeFGhIJKLmNOp + ABcDeFGHijklMNOp + 
+          ABcDEfghiJKlmnoP + ABcDEfgHijKLmNoP + ABcDEfGhiJkLmNOP + 
+          ABcDEfGHIjKLMnoP + ABcDEFghIjklmNOp + ABcDEFgHIJklmnoP + 
+          ABcDEFGhijkLMNoP + ABcDEFGHIjkLMNOp + ABCdefghIJKlmnoP + 
+          ABCdefgHIJKLMnop + ABCdefGhIjkLMnop + ABCdefGHijkLmnoP + 
+          ABCdeFghiJKlMnoP + ABCdeFgHIJkLMnoP + ABCdeFGhIjklMNOp + 
+          ABCdeFGHIjkLmNop + ABCdEfghIjkLMnOP + ABCdEfgHijkLMNOp + 
+          ABCdEfGhIjklmNOP + ABCdEfGHIJKlMnoP + ABCdEFghIJklMNOp + 
+          ABCdEFgHiJkLmNoP + ABCdEFGhijKlMnop + ABCdEFGHIJkLMNOP + 
+          ABCDefghIjklMNop + ABCDefgHIjKlmnoP + ABCDefGhIjklMnoP + 
+          ABCDefGHijklMNoP + ABCDeFghIjKLMNOP + ABCDeFgHIJKlmNOp + 
+          ABCDeFGhiJklmnOp + ABCDeFGHiJKlMnop + ABCDEfghiJklmnoP + 
+          ABCDEfgHIjkLMnoP + ABCDEfGhijKlMNoP + ABCDEfGHijklMNOP + 
+          ABCDEFghIjKLmnop + ABCDEFgHiJkLmNop + ABCDEFGhIjKLMnOP + 
+          ABCDEFGHijkLmNOp
+
+a/A is the absence/presence of X1 
+b/B is the absence/presence of X2 
+c/C is the absence/presence of X3 
+d/D is the absence/presence of X4 
+e/E is the absence/presence of X5 
+f/F is the absence/presence of X6 
+g/G is the absence/presence of X7 
+h/H is the absence/presence of X8 
+i/I is the absence/presence of X9 
+j/J is the absence/presence of X10 
+k/K is the absence/presence of X11 
+l/L is the absence/presence of X12 
+m/M is the absence/presence of X13 
+n/N is the absence/presence of X14 
+o/O is the absence/presence of X15 
+p/P is the absence/presence of X16 
+     \endverbatim
+     which is a representation of all of the original DNF clauses as expected.
+     </li>
+     <li> Perhaps MG should e-mail the R mailing list? </li>
     </ol>
    </li>
    <li> The easiest first thing to do is to compute the set of all necessary
