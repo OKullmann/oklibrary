@@ -190,14 +190,116 @@ License, or any later version. */
      <li> The current system works but a more precise, systematic way of 
      controlling how many rounds, or which rewrite rules are used etc is 
      needed. </li>
-     <li> What is the best way to handle parameters controlling the translation?
+     <li> DONE What is the best way to handle parameters controlling the translation?
      <ul>
       <li> There are already many parameters, many of which are controlled via 
       global variables, which is potentially bad practice and underdocumented. 
       </li>
       <li> However taking these parameters as explicit parameters (which must 
       always be provided) is incredibly cumbersome. </li>
+      <li> These parameters should become arguments to the constraint templates,
+      as this is precisely what these additionals arguments are for, then such
+      information (e.g. that the 2 round AES variant should be considered) is 
+      not hidden away. </li>
+      <li> These can be considered simply by their position in the argument list,
+      and if an argument is optional, then you must still provide it if one of
+      the arguments appearing later in the list must be specified. </li>
+      <li> For this reason, for such parameters, defaults should be provided, 
+      however, they should not be changed in the global scope. </li>
      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Specification : 
+    <ul> 
+     <li> Concepts:
+      <ul>
+       <li> Constraint template - An unevaluated function which takes as 
+       arguments, a list of variables in a predefined order (as in the current
+       system), and a list of arguments for the template. In particular, the 
+       first (required) argument for any constraint template is the namespace
+       under which the template lives. </li>
+       <li> Namespace - An unevaluated function, where
+        <ol>
+         <li> The first (required) argument is a variable. </li>
+	 <li> Further arguments are template-specific and are then used to 
+	 further specify the namespace. </li>
+	 <li> The result of the function (if it were to be evaluated) is
+	 assumed to be a variable. </li>
+	 <li> As the return type of the namespace
+  	 function is assumed to be a variable, we may nest namespaces
+	 within each other. </li>
+	 <li> As the namespace is an unevaluated function, it may be
+	 an unevaluated lambda expression, and so arguments may be 
+	 included in a namespace in this way, that is:
+	 \verbatim
+lambda([a],some_namespace_x(a,1,2,3))
+	 \endverbatim
+	 </li>
+        </ol>
+       </li>
+       <li> Variable - A positive noun, defined in the usual way for each
+       constraint template, where the arguments are used to indicate which
+       instance of a particular type of variable are being used (that is,
+       using nouns in the same way as is usual, see 
+       ComputerAlgebra/Satisfiability/Lisp/Generators/). </li>
+      </ul>
+     </li>
+     <li> Necessary functions: 
+      <ul>
+       <li> Constraint template rewrite function:
+        <ul>
+	 <li> Take as an argument a constraint template. </li>
+	 <li> Returns a set of constraint templates representing the original
+	 constraint. </li>
+	 <li> Each of the constraint templates in the returned set should have
+	 a namespace (specific to this rewrite function) as their namespace
+	 argument. </li>
+	 <li> There should be such a rewrite function for each possible
+	 constraint template, and each such template should have
+	 an associated namespace. </li>
+	</ul>
+       </li>
+       <li> Variable count function:
+        <ul>
+	 <li> Takes as argument a namespace. </li>
+	 <li> Returns the number of variables used in this namespace. </li>
+	 <li> Such a function should be defined for each namespace
+	 and can be recursively calculated based on sub-namespaces. </li>
+	</ul>
+       </li>
+       <li> Variable to integer mapping function:
+        <ul>
+	 <li> Take as an argument a variable. </li>
+	 <li> Return the integer representing that variable. </li>
+	 <li> Note that the argument may have unevaluated namespaces
+	 surrounding it, and these can then be used by the mapping 
+	 function to determine the correct mapping. </li>
+	 <li> Such a mapping function should exist for each namespace,
+	 where the mapping from the set of all variables V(N) in a namespace
+	 N to the set of integers {1,...,size(V(N))} is bijective. </li>
+	 <li> Mapping functions can then be defined recursively using
+	 the mapping functions for sub-namespaces and variable count
+	 functions. </li>
+	</ul>
+       </li>
+       <li> Integer to variable mapping function - simply the inverse of the 
+       "Variable to integer mapping function". </li>
+       <li> Constraint template set to CNF mapping function:
+        <ul>
+	 <li> This function should take as an argument a set of constraint 
+	 templates. </li>
+	 <li> The result should be a CNF clause-set representing the constraint
+	 system. </li>
+	 <li> Auxilliary functions which translate individual constraint 
+	 templates into clause-sets are also necessary (and exist for the
+	 most part). </li>
+	 <li> Additionally, constraints such as equality constraints should
+	 be rewritten, to simple replace literals with their equivalent 
+	 literals. </li>
+	</ul>
+       </li>
+      </ul>
      </li>
     </ul>
    </li>
