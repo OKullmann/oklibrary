@@ -52,6 +52,28 @@ License, or any later version. */
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
    %node with some statistics. </li>
+   <li> If <code>SYSTIME</code> is defined, then instead of the standard time
+   measurement from the C-library the Unix/Linux time measurement from
+   <code>sys/times.h</code> is used.
+    <ul>
+     <li> This enables to measure longer times on 32-bit machines, and thus
+     this is the default on 32-bit machines. </li>
+     <li> While otherwise the standard time measurement is sufficient, and
+     so <code>SYSTIME</code> is not defined here. </li>
+     <li> To define SYSTIME, pass the option
+     \verbatim
+CFLAGS="-DSYSTIME"
+     \endverbatim
+     to the oklib call. </li>
+     <li> If on the other hand on a 32-bit machine this system time should
+     <em>not</em> be used, then pass the option
+     \verbatim
+CFLAGS="-UMACHINE_BITS_OKL"
+     \endverbatim
+     to the oklib call (this makes temporary the machine a non-32-bit
+     machine). </li>
+    </ul>
+   </li>
    <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all
    satisfying assignments are found. Currently combination with
    <code>BAUMRES</code> or <code>ASSIGNMENT</code> is not possible (and thus

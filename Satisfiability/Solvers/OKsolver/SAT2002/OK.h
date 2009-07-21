@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "26"
+#define VERSIONSNUMMER2 "27"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "16.9.2008"
+#define DATUM "21.7.2009"
 
 extern const bool internal;
 
@@ -154,15 +154,23 @@ extern const bool internal;
 /* falls KEININLINE definiert ist, so wird das Schluesselwort __inline__ */
 /* ueberall geloescht */
 
-/* Ist SYSTIME definiert, wird anstelle der (Standard-)Zeitmessung durch clock() */
-/* die (nur) unter SUN verfuegbare Zeitmessung mittels times(Zeiger) verwendet. */
-/* Die Konstante CLOCKS_PER_SEC = 1000000 wird so durch CLK_TCK = 100 ersetzt, */
-/* was erheblich laengere Zeitmessung zulaesst. Informationen unter Sun zu */
-/* times erhaelt man mittels "man 2 times". */
-/* Achtung: Es kann nicht mehr die Kompiler-Option "Xc" fuer maximale ANSI-Konformanz */
-/* benutzt werden, sondern nur noch "Xa". */
-/* Und unter gcc darf nicht "-ansi" verwendet werden (denn bei Verwendung von "-ansi" */
-/* gibt es kein CLK_TCK). */
+/*!
+  \def SYSTIME
+  \brief If set, then instead of the standard-C time measurement the Unix-time
+  measurement is used which allows to measure longer intervals.
+
+  By default set on 32-bit machines. See "man 2 times" for documentation on
+  this Unix-time measurement.
+*/
+
+#ifndef SYSTIME
+#ifdef MACHINE_BITS_OKL
+#  if MACHINE_BITS_OKL == 32
+#   define SYSTIME
+#  endif
+# endif
+#endif
+
 
 /* Algorithmische Optionen */
 

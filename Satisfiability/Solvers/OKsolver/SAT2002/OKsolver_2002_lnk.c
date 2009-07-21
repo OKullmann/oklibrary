@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -88,12 +88,6 @@ License, or any later version. */
 #include <unistd.h>
 #include <assert.h>
 
-#ifdef SYSTIME
-
-#include <sys/times.h>
-
-#endif
-
 #include "OK.h"
 #include "BaumRes.h"
 #include "VarLitKlm.h"
@@ -106,8 +100,13 @@ License, or any later version. */
 #include "Ausgaben.h"
 #include "Speicher.h"
 #include "Reduktion.h"
+
 #ifdef LOKALLERNEN
 #include "lokalesLernen.h"
+#endif
+
+#ifdef SYSTIME
+#include <sys/times.h>
 #endif
 
 /* ------------------------------------------------------------- */
@@ -181,16 +180,16 @@ unsigned int MAXK = 150000;
 /* ------------------------------------------------------------- */
 
 
-static const long EPS =  /* Einheiten pro Sekunde */
+/* Einheiten pro Sekunde */
 #ifndef SYSTIME
-    CLOCKS_PER_SEC;
+  static const long EPS = CLOCKS_PER_SEC;
 #else
-    CLK_TCK;
+  static long EPS;
 #endif
 
 #ifdef SYSTIME
   struct tms SysZeit;
-  struct tms *Zeiger = &SysZeit;
+  struct tms* Zeiger = &SysZeit;
 #endif
 
 clock_t akkVerbrauch = 0; /* akkumulierter Verbrauch */
@@ -1051,6 +1050,10 @@ int main(int argc, char *argv[])
 {
   char *Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
   char *Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
+
+#ifdef SYSTIME
+  EPS = sysconf(_SC_CLK_TCK);
+#endif
 
   signal(SIGUSR1, Zustandsanzeige);
   signal(SIGINT, Abbruch);

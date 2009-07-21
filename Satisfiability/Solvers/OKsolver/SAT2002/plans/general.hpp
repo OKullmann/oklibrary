@@ -10,6 +10,44 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo Timing and monitoring
+  <ul>
+   <li> DONE (using SYSTIME now default on 32-bit machines)
+   Timing:
+    <ol>
+     <li> On Unix/Linux machine process-timing data is available for (much)
+     longer periods (of course with lower resolution). </li>
+     <li> We already have the macro-option SYSTIME, which when activated (i.e.,
+     defined), uses sys/times.h and different definitions. </li>
+     <li> We need to check whether this is already what we want (the time used
+     by the process (not wall-clock time) with a resolution of a second). </li>
+     <li> Since we have already other non-standard-C parts (from the Unix
+     libraries), this should be alright. </li>
+     <li> However we should check what BOOST has to offer. </li>
+     <li> We should then make clear the two options: short times (<= 25 m)
+     with high resolution, or long times with low resolution. </li>
+     <li> It shouldn't be a big deal to actually make it a run-time option
+     (just providing both definitions, and a run-time switch regulates which
+     to use) --- this would be much more convenient. </li>
+     <li> Actually it appears that on 64-bit machines nothings needs to be
+     done, since there apparently 64-bit words are used, so that we get
+     the high resolution and long duration. </li>
+    </ol>
+   </li>
+   <li> Better representation of monitoring data:
+    <ol>
+     <li> The predicted run-times should have the form
+     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
+     x2 < 365. </li>
+     <li> But this perhaps only for the console output, while the file
+     output is just numbers (for easy evaluation). </li>
+     <li> There should also be some more text explaining the output
+     columns. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>
@@ -261,38 +299,6 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> Perhaps via new macros then these typedefs are set. </li>
      <li> Default is that "long unsigned int" should become guaranteed 64 bits,
      while "unsigned int" should become guaranteed 32 bits. </li>
-    </ol>
-   </li>
-   <li> Timing:
-    <ol>
-     <li> On Unix/Linux machine process-timing data is available for (much)
-     longer periods (of course with lower resolution). </li>
-     <li> We already have the macro-option SYSTIME, which when activated (i.e.,
-     defined), uses sys/times.h and different definitions. </li>
-     <li> We need to check whether this is already what we want (the time used
-     by the process (not wall-clock time) with a resolution of a second). </li>
-     <li> Since we have already other non-standard-C parts (from the Unix
-     libraries), this should be alright. </li>
-     <li> However we should check what BOOST has to offer. </li>
-     <li> We should then make clear the two options: short times (<= 25 m)
-     with high resolution, or long times with low resolution. </li>
-     <li> It shouldn't be a big deal to actually make it a run-time option
-     (just providing both definitions, and a run-time switch regulates which
-     to use) --- this would be much more convenient. </li>
-     <li> Actually it appears that on 64-bit machines nothings needs to be
-     done, since there apparently 64-bit words are used, so that we get
-     the high resolution and long duration. </li>
-    </ol>
-   </li>
-   <li> Better representation of monitoring data:
-    <ol>
-     <li> The predicted run-times should have the form
-     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
-     x2 < 365. </li>
-     <li> But this perhaps only for the console output, while the file
-     output is just numbers (for easy evaluation). </li>
-     <li> There should also be some more text explaining the output
-     columns. </li>
     </ol>
    </li>
   </ul>
