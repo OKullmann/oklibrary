@@ -372,6 +372,7 @@ s UNSATISFIABLE
    100% success). </li>
    <li> n=153900 seems unsatisfiable: constant min=1 for cutoff=4*10^4,
    as for 10^5 and 10^6. </li>
+   <li> OKsolver_2002-m2pp: </li>
   </ul>
 
 
@@ -419,6 +420,10 @@ BestSolution_Max = 24.000000
      <li> 10 runs with cutoff=10^6 yield </li>
     </ol>
    </li>
+   <li> OKsolver_2002-m2pp: running it with options "-M -D20", from processing
+   the first 13 obervation-nodes at depth 20 one obtains an average of 362 per
+   observation node, so roughly 380*10^6 nodes altogether. Each node takes
+   about 10 s, so that roughly 4*10^9 s are forecast: roughly 127 years. </li>
   </ul>
 
 
