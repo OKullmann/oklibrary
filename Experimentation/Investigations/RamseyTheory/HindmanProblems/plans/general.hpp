@@ -427,15 +427,15 @@ BestSolution_Max = 24.000000
   </ul>
 
 
- \todo 350000 < hindmini_2^11(2)
+ \todo 353700 < hindmini_2^11(2)
   <ul>
    <li> n=?, c=?, c/n ~ ? </li>
    <li> Reminder: instances are created by
    output_hindman2gen_stdname(11,n). </li>
    <li> Using rsaps for satisfiability detection; cutoff = 6*10^4 seems
    sufficient. </li>
-   <li> n=350000 easily satisfiable. </li>
-   <li> n=360000 seems unsatisfiable. </li>
+   <li> n=353700 easily satisfiable. </li>
+   <li> n=354300 seems unsatisfiable. </li>
   </ul>
 
 
