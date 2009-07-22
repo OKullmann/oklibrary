@@ -296,6 +296,7 @@ static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
+  static double old_total_time = 0; /* in sec */
   if (count_monitor_nodes > totalbeobachtet) {
     totalbeobachtet = count_monitor_nodes;
 #ifndef SYSTIME
@@ -307,12 +308,13 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     const StatisticsCount new_nodes = Knoten - altKnoten;
     const double average_nodes = (double) Knoten / count_monitor_nodes;
     const double predicted_nodes = Gesamtlast * average_nodes;
-    const double total_time = round((double) Verbrauch / EPS);
+    const double total_time = (double) Verbrauch / EPS; /* in sec */
+    const double new_time = total_time - old_total_time;
     const double average_time = total_time / count_monitor_nodes;
     const double predicted_remaining_time =
       (Gesamtlast - count_monitor_nodes) * average_time;
     {
-      double time_ = predicted_remaining_time;
+      double time_ = round(predicted_remaining_time);
       const double sec = fmod(time_, 60);
       time_ = (time_ - sec) / 60;
       const double min = fmod(time_, 60);
@@ -322,27 +324,30 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
       const double days = fmod(time_, 365);
       const double years = (time_ - days) / 365;
       printf(
-             "%6d:%6ld, %8.2f, %11.2E, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
+             "%6d:%6ld, %8.2f, %11.2E, %8.2f, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
              count_monitor_nodes,
              new_nodes,
              average_nodes,
              predicted_nodes,
+             new_time,
              average_time,
              years, days, hours, min, sec
              );
     }
     if (Dateiausgabe)
       fprintf(fpmo,
-              "%6d:%6ld, %8.1f, %11.0f, %9.2f, %12.0f\n",
+              "%9d:%6ld, %8.2f, %14.0f, %9.3f, %9.2f, %13.0f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
               predicted_nodes,
+              new_time,
               average_time,
               predicted_remaining_time
               );
     fflush(NULL);
     altKnoten = Knoten;
+    old_total_time = total_time;
   }
 }
 

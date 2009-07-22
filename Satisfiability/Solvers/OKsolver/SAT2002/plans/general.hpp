@@ -15,7 +15,8 @@ License, or any later version. */
    <li> Better representation of monitoring data:
     <ol>
      <li> There should be some more text explaining the output columns. </li>
-     <li> It would be interesting to see the times needed for the
+     <li> DONE
+     It would be interesting to see the times needed for the
      monitoring node just processed. Apparently for this we need a new
      variable, "old_total_time". </li>
      <li> DONE The predicted run-times should have the form
