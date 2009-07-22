@@ -305,25 +305,32 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
     const StatisticsCount new_nodes = Knoten - altKnoten;
-    const double total_time_s = (double) Verbrauch / EPS;
+    const double average_nodes = (double) Knoten / count_monitor_nodes;
+    const double predicted_nodes = Gesamtlast * average_nodes;
+    const double total_time = (double) Verbrauch / EPS;
+    const double average_time = total_time / count_monitor_nodes;
     const double remaining_reps_computation =
       (double) Gesamtlast / count_monitor_nodes - 1;
-    const double predicted_remaining_time_s =
-      remaining_reps_computation * total_time_s;
+    const double predicted_remaining_time =
+      remaining_reps_computation * total_time;
     printf(
-           "%3d:%6ld, %6.1f, %6.1f\n",
+           "%6d:%6ld, %8.1f, %11.0f, %9.1fs, %12.0fs\n",
            count_monitor_nodes,
            new_nodes,
-           total_time_s,
-           predicted_remaining_time_s
+           average_nodes,
+           predicted_nodes,
+           average_time,
+           predicted_remaining_time
            );
     if (Dateiausgabe)
       fprintf(fpmo,
-              "%3d:%6ld, %6.1f, %6.1f\n",
+              "%6d:%6ld, %8.1f, %11.0f, %9.1f, %12.0f\n",
               count_monitor_nodes,
               new_nodes,
-              total_time_s,
-              predicted_remaining_time_s
+              average_nodes,
+              predicted_nodes,
+              average_time,
+              predicted_remaining_time
               );
     fflush(NULL);
     altKnoten = Knoten;
