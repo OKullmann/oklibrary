@@ -33,14 +33,20 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 */
 
 /* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
-   Constraints" by Olivier Bailleux and Yacine Boufkhad. */
-/* OK: MG - Further basic information on this reference is needed. */
+   Constraints" by Olivier Bailleux and Yacine Boufkhad.
+   
+   Journal : LNCS
+   Volume : 2833
+   Pages : 102-122
+   Publisher : Springer Berlin
+   Year : 2003
+*/
 
-/* Variables are "ctt(i,j)", meaning the i-th variable at the node whose 
-   position is denoted by l (where each successive 0 or 1 means traverse 
-   the left or right child respectively, that is [] is the root, [0] is the 
-   left node etc.).
-OK: MG - What is "l" ???
+/* Variables are "ctt(l,i)", meaning the i-th variable at the node whose 
+   position is denoted by l where l is a list and each successive 0 or 1 
+   in l means traverse the left or right child respectively in the tree
+   built up by the translation. That is l = [] is the root, l = [0] is 
+   the left node etc.
 */
 kill(ctt)$
 declare(ctt, noun)$
@@ -50,12 +56,28 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
 /* Given a list S of output variables and a list E of input variables, 
    the result is a clause set F enforcing that S is a unary representation of 
    the number of variables set to true in E. That is, if p is the number of 
-   variables set to 1 in E for a satisfing assignment, then the first p 
+   variables set to 1 in E for a satisfying assignment, then the first p 
    variables in S are set to 1 and the rest to 0 (in that assignment).
    S must have the same number of variables as E.
-*/
-/* OK: MG --- isn't a special property of this translation that it can
-   handle *partial* assignments?
+
+   A special property of this clause set is that, given an arbitrary partial
+   assignment, unit clause propagation will immediately pick up any forced 
+   assignments. 
+
+   For Example:
+
+   cs : cardinality_totalizer_cs([3,4],[1,2])$
+   ucp_lpa_0_cs(apply_pa({1},cs));
+   [{{-4,2},{-2,4}},[{3}]]
+   ucp_lpa_0_cs(apply_pa({2},cs));
+   [{{-4,1},{-1,4}},[{3}]]
+   ucp_lpa_0_cs(apply_pa({4},cs));
+   [{},[{1,2},{3}]]
+
+   etc. Notice how, 3 is forced by UCP (and is being set to 1) in the 
+   cases where 1 or 2 is set to 1, as in the unary representation
+   3 must be set to 1 if any variable is set to true.
+
 */
 cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
 cardinality_totalizer_r_cs(S,E, tree_pos) := 
@@ -110,16 +132,36 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
    whose satisfying assignments are those total assignments where the first
    m variables are set to true, and all variables from the (n+1)-th onwards 
    are set to false.
+
+   Given an arbitrary partial assignment, this clause-set can be reduced to
+   the empty clause-set (after applying the assignment) by UCP iff no variable
+   in the first m variables of S is set to false, and no variable in the last
+   (length(S) - n) variables is set to true, otherwise it reduces by UCP to the
+   empty clause.
 */
-/* OK: MG --- again, what about partial assignments? */
 cardinality_comparator_cs(S,m,n) := 
   union(
     map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
 
 /* Given a list E of variables, returns a clause-set F which is satisfied iff 
    between m and n variables of E are set to true.
+   
+   A special property of this clause set is that, given an arbitrary partial
+   assignment, unit clause propagation will immediately pick up any forced 
+   assignments. 
+
+   For Example:
+
+   cs : cardinality_cs([1,2],1,1)$
+   ucp_lpa_0_cs(apply_pa({1},standardise_fcs(cs_to_fcs(cs))[1][2]));
+   [{},[{-4,3},{-2}]]
+   ucp_lpa_0_cs(apply_pa({2},standardise_fcs(cs_to_fcs(cs))[1][2]));
+   [{},[{-4,3},{-1}]]
+
+   etc. Notice how, providing the constraint 1 + 2 = 1, and then setting
+   either 1 or 2 to 1, immediately enforces that 2 or 1 (resp) must be false
+   by UCP.
 */
-/* OK: MG --- again, what about partial assignments? */
 cardinality_cs(E,m,n) := block(
   [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
   return(
