@@ -165,13 +165,37 @@ CFLAGS="-UMACHINE_BITS_OKL"
         <li> d can be set using<code>-Dd</code>, for example
         <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
         Range 0 <= d <= 30. </li>
-        <li> Once a %node at level d is completed, its number is printed out,
-        followed by the number of leaves below it, the total running-time
-        until now, and the anticipated running time for the remaining nodes at
-        this level, using the current average running time for the monitored
-        nodes (always in seconds). </li>
-        <li> If file-output is activated, then the monitoring output is echoed
-        to file "FullInputFileName.mo". </li>
+        <li> Once a %node at level d is completed (called a "monitoring
+        node"), its number is printed out, followed by
+         <ol>
+          <li> the number of nodes below it, </li>
+          <li> the current average of the number of nodes below monitoring
+          nodes, </li>
+          <li> the predicted total number of nodes (below monitoring nodes),
+          </li>
+          <li> the (processor) time it took to process the current monitoring
+          %node, </li>
+          <li> the current average time it took to process a monitoring %node,
+          </li>
+          <li> finally the predicted remaining running time (which is just the
+          current average time multiplied with the number of remaining
+          monitoring nodes). </li>
+         </ol>
+        </li>
+        <li> If file-output is activated (via "-F"):
+         <ol>
+          <li> The monitoring output is echoed to file "FullInputFileName.mo".
+          </li>
+          <li> Also output of branching literals for the monitoring levels
+          up to 2 levels before the monitoring level is activated. </li>
+          <li> This output consists of three numbers, first the level, then
+          the name of the variable, and then the first truth value to be
+          visited by the solver. </li>
+          <li> However, in order for this to work, currently also output of
+          satisfying partial assignments (if found) is to be activated (via
+          "-O"). </li>
+         </ol>
+        </li>
        </ul>
       </li>
       <li> <code>-P</code> for only performing preprocessing (cleaning of input
@@ -193,6 +217,8 @@ CFLAGS="-UMACHINE_BITS_OKL"
       </li>
       <li> <code>-R</code> for the special DIMACS return values (default is ON
       in case of DIMACS output, and OFF otherwise). </li>
+      <li> <code>-O</code> for output of a satisfying assignment (if found;
+      default is OFF). </li>
      </ul>
     </li>
     <li> To be completed. </li>

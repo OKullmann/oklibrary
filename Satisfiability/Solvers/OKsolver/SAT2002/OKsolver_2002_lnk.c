@@ -324,7 +324,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
       const double days = fmod(time_, 365);
       const double years = (time_ - days) / 365;
       printf(
-             "%6d:%6ld, %8.2f, %11.2E, %8.2f, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
+             "%6d:%6ld, %8.2f, %11.2E, %8.2fs, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
              count_monitor_nodes,
              new_nodes,
              average_nodes,
@@ -1442,8 +1442,11 @@ int main(int argc, char *argv[])
             if (Monitor)
               {
                 printf("\n%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
-                if (Dateiausgabe)
+                printf("%s\n", Meldung(55));
+                if (Dateiausgabe) {
                   fprintf(fpmo, "%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
+                  fprintf(fpmo, "%s\n", Meldung(56));
+                }
               }
             
             s = SATEntscheidung();
