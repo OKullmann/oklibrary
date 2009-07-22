@@ -307,24 +307,33 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     const StatisticsCount new_nodes = Knoten - altKnoten;
     const double average_nodes = (double) Knoten / count_monitor_nodes;
     const double predicted_nodes = Gesamtlast * average_nodes;
-    const double total_time = (double) Verbrauch / EPS;
+    const double total_time = round((double) Verbrauch / EPS);
     const double average_time = total_time / count_monitor_nodes;
-    const double remaining_reps_computation =
-      (double) Gesamtlast / count_monitor_nodes - 1;
     const double predicted_remaining_time =
-      remaining_reps_computation * total_time;
-    printf(
-           "%6d:%6ld, %8.1f, %11.0f, %9.1fs, %12.0fs\n",
-           count_monitor_nodes,
-           new_nodes,
-           average_nodes,
-           predicted_nodes,
-           average_time,
-           predicted_remaining_time
-           );
+      (Gesamtlast - count_monitor_nodes) * average_time;
+    {
+      double time_ = predicted_remaining_time;
+      const double sec = fmod(time_, 60);
+      time_ = (time_ - sec) / 60;
+      const double min = fmod(time_, 60);
+      time_ = (time_ - min) / 60;
+      const double hours = fmod(time_, 24);
+      time_ = (time_ - hours) / 24;
+      const double days = fmod(time_, 365);
+      const double years = (time_ - days) / 365;
+      printf(
+             "%6d:%6ld, %8.2f, %11.2E, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
+             count_monitor_nodes,
+             new_nodes,
+             average_nodes,
+             predicted_nodes,
+             average_time,
+             years, days, hours, min, sec
+             );
+    }
     if (Dateiausgabe)
       fprintf(fpmo,
-              "%6d:%6ld, %8.1f, %11.0f, %9.1f, %12.0f\n",
+              "%6d:%6ld, %8.1f, %11.0f, %9.2f, %12.0f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
