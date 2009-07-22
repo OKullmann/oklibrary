@@ -265,7 +265,16 @@ p/P is the absence/presence of X16
      \endverbatim
      which is a representation of all of the original DNF clauses as expected.
      </li>
-     <li> Perhaps MG should e-mail the R mailing list? </li>
+     <li> According to "Allan Engelhardt", the size of a vector in R is limited
+     to 2^31 - 1 (on all platforms), and hence we get this error, as QCA seems 
+     to require a larger vector. This is also mentioned here -
+     https://stat.ethz.ch/pipermail/r-help/2002-June/022342.html. </li>
+     <li> However, thinking about it, the problem MG may be having may also be
+     limited RAM as the allocation is of a vector of doubles, and so 4 billion+
+     bytes at least would be more than his available 4 GB memory. A 64 bit
+     machine might do better but even then, likely the aforementioned limit
+     on the size of a vector would still be a problem. </li>
+     <li> DONE Perhaps MG should e-mail the R mailing list? </li>
     </ol>
    </li>
    <li> The easiest first thing to do is to compute the set of all necessary
