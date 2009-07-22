@@ -10,54 +10,6 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
-  \todo Timing and monitoring
-  <ul>
-   <li> Better representation of monitoring data:
-    <ol>
-     <li> The predicted run-times should have the form
-     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
-     x2 < 365. </li>
-     <li> But this perhaps only for the console output, while the file
-     output is just numbers (for easy evaluation). </li>
-     <li> There should also be some more text explaining the output
-     columns. </li>
-     <li> Yet we have (besides the counter) three columns, namely the
-     number of nodes just processed, the total running time until now,
-     and the predicted running time. </li>
-     <li> The total running time until now should be removed, since
-     it is not very interesting, and can be easily obtained by sending signal
-     SIGUSR1. </li>
-     <li> Instead we should have additionally the average number of nodes
-     (until now, per monitoring %node), the predicted total number of nodes,
-     the time needed for the just processed monitoring %node, and the average
-     time needed until now to process a monitoring %node. </li>
-    </ol>
-   </li>
-   <li> DONE (using SYSTIME is now default on 32-bit machines)
-   Timing:
-    <ol>
-     <li> On Unix/Linux machine process-timing data is available for (much)
-     longer periods (of course with lower resolution). </li>
-     <li> We already have the macro-option SYSTIME, which when activated (i.e.,
-     defined), uses sys/times.h and different definitions. </li>
-     <li> We need to check whether this is already what we want (the time used
-     by the process (not wall-clock time) with a resolution of a second). </li>
-     <li> Since we have already other non-standard-C parts (from the Unix
-     libraries), this should be alright. </li>
-     <li> However we should check what BOOST has to offer. </li>
-     <li> We should then make clear the two options: short times (<= 25 m)
-     with high resolution, or long times with low resolution. </li>
-     <li> It shouldn't be a big deal to actually make it a run-time option
-     (just providing both definitions, and a run-time switch regulates which
-     to use) --- this would be much more convenient. </li>
-     <li> Actually it appears that on 64-bit machines nothings needs to be
-     done, since there apparently 64-bit words are used, so that we get
-     the high resolution and long duration. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>
@@ -263,15 +215,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Incorrect output of monitoring-data to files
+  \todo Output of monitoring-data to files
   <ul>
-   <li> When using "-M" together with "-F", then we get spurious output lines
-   (console and file), like
-   \verbatim
-0 :  (null) 0
-   \endverbatim
-   (the last entry seems always to be 0 or 1). </li>
-   <li> Directly at the beginning, but also later. </li>
+   <li> When using "-M" together with "-F", then the output of branching
+   literals is activated, interspersed with the monitoring output (to
+   stdout as well as to the file). </li>
+   <li> However this works currently only when output of a satisfying
+   assignment is activated, since only then the symbol table is created.
+   </li>
+   <li> This needs to be cleaned up; and this output should have its
+   own switch. </li>
    <li> Another problem here is that if the output-file already exists,
    then apparently nothing happens. </li>
   </ul>

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,7 @@ License, or any later version. */
 
 
 
-const char *Meldungen[ANZSPRACHEN][55] =
+const char *Meldungen[ANZSPRACHEN][57] =
 {
   {"Fehler in der Definition der Konstanten! Abbruch.", /* 0 */
    "Kombination von BAUMRES mit LOKALLERNEN zur Zeit noch nicht moeglich.", /* 1 */
@@ -85,6 +85,8 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Der Option -seed= muss eine Zahl folgen.", /* 52 */
    "Der Option -quot= muss eine Zahl folgen.", /* 53 */
    "Die folgende Datei konnte nicht zum Einschreiben der Baumdaten geoeffnet werden: (XML; Makro OUTPUTTREEDATAXML definiert)", /* 54 */
+   "Niveau: Anzahl Knoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit", /* 55 */
+   "Niveau, Anzahl Knoten unter Beobachtungsknoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit", /* 56 */
   },
 
   {"Error in the definition of the constants! Abbort.", /* 0 */
@@ -142,6 +144,8 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Option -seed= must be followed by a number.", /* 52 */
    "Option -quot= must be followed by a number.", /* 53 */
    "The following file could not be opened for writing the tree data (xml; Macro OUTPUTTREEDATAXML defined):", /* 54 */
+   "level: nodes processed, average node count, predicted total node count, time per monitoring node, average time, predicted remaining time", /* 55 */
+   "level, nodes processed below monitoring node, average node count, predicted total node count, time per monitoring node, average time, predicted remaining time", /* 56 */
   },
 };
 

@@ -210,7 +210,13 @@ unsigned int Runde;
 
 /* Statistik */
 
-unsigned long int Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
+/*!
+  \typedef StatisticsCount
+  \brief Unsigned integral type for counting for example nodes and reductions
+*/
+typedef unsigned long int StatisticsCount;
+
+StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
 unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
 static clock_t Verbrauch;
@@ -257,7 +263,7 @@ struct Sammlung {
 #endif
 #ifdef OUTPUTTREEDATAXML
   // clock_t start_run_time;
-  unsigned long int number_2_reductions_at_new_node;
+  StatisticsCount number_2_reductions_at_new_node;
 #endif
   struct Sammlung * davor;
   struct Sammlung * danach;
@@ -284,31 +290,65 @@ static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
 static unsigned int *beobachtet = NULL;
 static unsigned int totalbeobachtet;
 
-static unsigned long int altKnoten;
+static StatisticsCount altKnoten;
 
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 
-__inline__ static void Monitorausgabe(unsigned int b)
-{
-  if (b > totalbeobachtet)
-    {
-      totalbeobachtet = b;
+__inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
+  static double old_total_time = 0; /* in sec */
+  if (count_monitor_nodes > totalbeobachtet) {
+    totalbeobachtet = count_monitor_nodes;
 #ifndef SYSTIME
-      Verbrauch = clock() - akkVerbrauch;
+    Verbrauch = clock() - akkVerbrauch;
 #else
-      times(Zeiger);
-      Verbrauch = SysZeit.tms_utime - akkVerbrauch;
+    times(Zeiger);
+    Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
-      printf("%3d:%6ld, %6.1f, %6.1f\n", b, Knoten - altKnoten, (double) Verbrauch / EPS, ((double) Gesamtlast / b - 1) * Verbrauch / EPS);
-      if (Dateiausgabe)
-        {
-          fprintf(fpmo, "%3d:%6ld, %6.1f, %6.1f\n", b, Knoten - altKnoten, (double) Verbrauch / EPS, ((double) Gesamtlast / b - 1) * Verbrauch / EPS);
-        }
-      fflush(NULL);
-      altKnoten = Knoten;
+    const StatisticsCount new_nodes = Knoten - altKnoten;
+    const double average_nodes = (double) Knoten / count_monitor_nodes;
+    const double predicted_nodes = Gesamtlast * average_nodes;
+    const double total_time = (double) Verbrauch / EPS; /* in sec */
+    const double new_time = total_time - old_total_time;
+    const double average_time = total_time / count_monitor_nodes;
+    const double predicted_remaining_time =
+      (Gesamtlast - count_monitor_nodes) * average_time;
+    {
+      double time_ = round(predicted_remaining_time);
+      const double sec = fmod(time_, 60);
+      time_ = (time_ - sec) / 60;
+      const double min = fmod(time_, 60);
+      time_ = (time_ - min) / 60;
+      const double hours = fmod(time_, 24);
+      time_ = (time_ - hours) / 24;
+      const double days = fmod(time_, 365);
+      const double years = (time_ - days) / 365;
+      printf(
+             "%6d:%6ld, %8.2f, %11.2E, %8.2fs, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
+             count_monitor_nodes,
+             new_nodes,
+             average_nodes,
+             predicted_nodes,
+             new_time,
+             average_time,
+             years, days, hours, min, sec
+             );
     }
-  return;
+    if (Dateiausgabe)
+      fprintf(fpmo,
+              "%9d,%6ld, %8.2f, %14.0f, %9.3f, %9.2f, %13.0f\n",
+              count_monitor_nodes,
+              new_nodes,
+              average_nodes,
+              predicted_nodes,
+              new_time,
+              average_time,
+              predicted_remaining_time
+              );
+    fflush(NULL);
+    altKnoten = Knoten;
+    old_total_time = total_time;
+  }
 }
 
 __inline__ static void Verzweigungsliteralausgabe(const LIT x, unsigned int Tiefe) {
@@ -318,8 +358,10 @@ __inline__ static void Verzweigungsliteralausgabe(const LIT x, unsigned int Tief
     e = Pos;
   else
     e = Neg;
-  printf("%d : %7s %d\n", Tiefe, Symbol(v), e);
-  fprintf(fpmo, "%d : %7s %d\n", Tiefe, Symbol(v), e);
+  if (Belegung) {
+    printf("%-6d %7s %d\n", Tiefe, Symbol(v), e);
+    fprintf(fpmo, "%-6d %7s %d\n", Tiefe, Symbol(v), e);
+  }
   fflush(NULL);
 }
 
@@ -1400,8 +1442,11 @@ int main(int argc, char *argv[])
             if (Monitor)
               {
                 printf("\n%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
-                if (Dateiausgabe)
+                printf("%s\n", Meldung(55));
+                if (Dateiausgabe) {
                   fprintf(fpmo, "%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
+                  fprintf(fpmo, "%s\n", Meldung(56));
+                }
               }
             
             s = SATEntscheidung();
