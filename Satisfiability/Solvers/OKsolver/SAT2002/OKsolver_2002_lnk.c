@@ -210,7 +210,13 @@ unsigned int Runde;
 
 /* Statistik */
 
-unsigned long int Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
+/*!
+  \typedef StatisticsCount
+  \brief Unsigned integral type for counting for example nodes and reductions
+*/
+typedef unsigned long int StatisticsCount;
+
+StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
 unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
 static clock_t Verbrauch;
@@ -257,7 +263,7 @@ struct Sammlung {
 #endif
 #ifdef OUTPUTTREEDATAXML
   // clock_t start_run_time;
-  unsigned long int number_2_reductions_at_new_node;
+  StatisticsCount number_2_reductions_at_new_node;
 #endif
   struct Sammlung * davor;
   struct Sammlung * danach;
@@ -284,31 +290,44 @@ static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
 static unsigned int *beobachtet = NULL;
 static unsigned int totalbeobachtet;
 
-static unsigned long int altKnoten;
+static StatisticsCount altKnoten;
 
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 
-__inline__ static void Monitorausgabe(unsigned int b)
-{
-  if (b > totalbeobachtet)
-    {
-      totalbeobachtet = b;
+__inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
+  if (count_monitor_nodes > totalbeobachtet) {
+    totalbeobachtet = count_monitor_nodes;
 #ifndef SYSTIME
-      Verbrauch = clock() - akkVerbrauch;
+    Verbrauch = clock() - akkVerbrauch;
 #else
-      times(Zeiger);
-      Verbrauch = SysZeit.tms_utime - akkVerbrauch;
+    times(Zeiger);
+    Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
-      printf("%3d:%6ld, %6.1f, %6.1f\n", b, Knoten - altKnoten, (double) Verbrauch / EPS, ((double) Gesamtlast / b - 1) * Verbrauch / EPS);
-      if (Dateiausgabe)
-        {
-          fprintf(fpmo, "%3d:%6ld, %6.1f, %6.1f\n", b, Knoten - altKnoten, (double) Verbrauch / EPS, ((double) Gesamtlast / b - 1) * Verbrauch / EPS);
-        }
-      fflush(NULL);
-      altKnoten = Knoten;
-    }
-  return;
+    const StatisticsCount new_nodes = Knoten - altKnoten;
+    const double total_time_s = (double) Verbrauch / EPS;
+    const double remaining_reps_computation =
+      (double) Gesamtlast / count_monitor_nodes - 1;
+    const double predicted_remaining_time_s =
+      remaining_reps_computation * total_time_s;
+    printf(
+           "%3d:%6ld, %6.1f, %6.1f\n",
+           count_monitor_nodes,
+           new_nodes,
+           total_time_s,
+           predicted_remaining_time_s
+           );
+    if (Dateiausgabe)
+      fprintf(fpmo,
+              "%3d:%6ld, %6.1f, %6.1f\n",
+              count_monitor_nodes,
+              new_nodes,
+              total_time_s,
+              predicted_remaining_time_s
+              );
+    fflush(NULL);
+    altKnoten = Knoten;
+  }
 }
 
 __inline__ static void Verzweigungsliteralausgabe(const LIT x, unsigned int Tiefe) {
