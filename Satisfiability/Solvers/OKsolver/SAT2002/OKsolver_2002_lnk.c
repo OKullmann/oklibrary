@@ -336,7 +336,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     }
     if (Dateiausgabe)
       fprintf(fpmo,
-              "%9d:%6ld, %8.2f, %14.0f, %9.3f, %9.2f, %13.0f\n",
+              "%9d,%6ld, %8.2f, %14.0f, %9.3f, %9.2f, %13.0f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
@@ -358,8 +358,10 @@ __inline__ static void Verzweigungsliteralausgabe(const LIT x, unsigned int Tief
     e = Pos;
   else
     e = Neg;
-  printf("%d : %7s %d\n", Tiefe, Symbol(v), e);
-  fprintf(fpmo, "%d : %7s %d\n", Tiefe, Symbol(v), e);
+  if (Belegung) {
+    printf("%-6d %7s %d\n", Tiefe, Symbol(v), e);
+    fprintf(fpmo, "%-6d %7s %d\n", Tiefe, Symbol(v), e);
+  }
   fflush(NULL);
 }
 

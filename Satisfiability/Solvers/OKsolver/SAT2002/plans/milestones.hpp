@@ -101,7 +101,7 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Incorrect output of monitoring-data to files
+    - Output of monitoring-data to files
 
 
   \par Version 1.0.7

@@ -15,8 +15,7 @@ License, or any later version. */
    <li> Better representation of monitoring data:
     <ol>
      <li> There should be some more text explaining the output columns. </li>
-     <li> DONE
-     It would be interesting to see the times needed for the
+     <li> DONE It would be interesting to see the times needed for the
      monitoring node just processed. Apparently for this we need a new
      variable, "old_total_time". </li>
      <li> DONE The predicted run-times should have the form
@@ -271,15 +270,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Incorrect output of monitoring-data to files
+  \todo Output of monitoring-data to files
   <ul>
-   <li> When using "-M" together with "-F", then we get spurious output lines
-   (console and file), like
-   \verbatim
-0 :  (null) 0
-   \endverbatim
-   (the last entry seems always to be 0 or 1). </li>
-   <li> Directly at the beginning, but also later. </li>
+   <li> When using "-M" together with "-F", then the output of branching
+   literals is activated, interspersed with the monitoring output (to
+   stdout as well as to the file). </li>
+   <li> However this works currently only when output of a satisfying
+   assignment is activated, since only then the symbol table is created.
+   </li>
+   <li> This needs to be cleaned up; and this output should have its
+   own switch. </li>
    <li> Another problem here is that if the output-file already exists,
    then apparently nothing happens. </li>
   </ul>
