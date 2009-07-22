@@ -78,6 +78,16 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    cases where 1 or 2 is set to 1, as in the unary representation
    3 must be set to 1 if any variable is set to true.
 
+   In the result clause-set F, var_cs(F) = union(S,E,V) where variables 
+   in V are of the form ctt(l,i) for a list of 1s and 0s l and an
+   integer i > 0.
+
+   The number of new variables needed given length(E) = n is
+   nvc(n) - n where "nvc" is defined recursively in the following 
+   way:
+
+   nvc(n) = 0 if n < 1
+            n + nvc(floor(n/2)) + nvc(ceiling(n/2))
 */
 cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
 cardinality_totalizer_r_cs(S,E, tree_pos) := 
@@ -138,6 +148,8 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
    in the first m variables of S is set to false, and no variable in the last
    (length(S) - n) variables is set to true, otherwise it reduces by UCP to the
    empty clause.
+
+   In the result clause-set F, var_cs(F) = S.
 */
 cardinality_comparator_cs(S,m,n) := 
   union(
@@ -161,6 +173,19 @@ cardinality_comparator_cs(S,m,n) :=
    etc. Notice how, providing the constraint 1 + 2 = 1, and then setting
    either 1 or 2 to 1, immediately enforces that 2 or 1 (resp) must be false
    by UCP.
+   
+   In the result clause-set F, var_cs(F) = union(S,E,V) where variables 
+   in V are of the form ctt(l,i) for a list of 1s and 0s l and an
+   integer i > 0, and variables in E are of the form ctt([],i) for
+   integer i > 0.
+
+   The number of variables in union(V,E) given length(E) = n is
+   nvc(n) where "nvc" is defined recursively in the following 
+   way:
+
+   nvc(n) = 0 if n < 1
+            n + nvc(floor(n/2)) + nvc(ceiling(n/2))
+
 */
 cardinality_cs(E,m,n) := block(
   [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
