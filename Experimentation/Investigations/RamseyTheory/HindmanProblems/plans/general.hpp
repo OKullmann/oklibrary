@@ -321,7 +321,14 @@ c main():: doublelook: succesrate: 84.753, average DL_trigger: 832.682
 s UNSATISFIABLE
      \endverbatim
      </li>
-     <li> OKsolver_2002-m2pp seems to take, say, 10 days. </li>
+     <li> OKsolver_2002-m2pp needed 5 days:
+     \verbatim
+> OKsolver_2002-m2pp -D20 -M Hindman2gen_6_28188.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=10708 initial_number_of_clauses=145336 initial_number_of_literal_occurrences=624542 running_time(s)=437409.1 number_of_nodes=1754977 number_of_single_nodes=30 number_of_quasi_single_nodes=0 number_of_2-reductions=18313260 number_of_pure_literals=8277966 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=33 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=496260936 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_6_28188.cnf_m2pp_1000
+     \endverbatim
+     Why does march_pl need fewer nodes?
+     </li>
     </ol>
    </li>
    <li> n=30000
@@ -429,15 +436,17 @@ BestSolution_Max = 24.000000
   </ul>
 
 
- \todo 353916 < hindmini_2^11(2)
+ \todo 353924 <= hindmini_2^11(2)
   <ul>
-   <li> n=?, c=?, c/n ~ ? </li>
+   <li> n=268425, c=2502996, c/n ~ 9.32 </li>
    <li> Reminder: instances are created by
    output_hindman2gen_stdname(11,n). </li>
    <li> Using rsaps for satisfiability detection; cutoff = 6*10^4 seems
    sufficient. </li>
-   <li> n=353916 easily satisfiable. </li>
-   <li> n=353925 seems unsatisfiable. </li>
+   <li> n=353924 easily satisfiable: 10 runs with cutoff=6*10^4 yield 100%
+   success. </li>
+   <li> n=353925 seems unsatisfiable: 10 runs with cutoff=10^5 yield
+   constant min=1. </li>
   </ul>
 
 
