@@ -295,6 +295,12 @@ static StatisticsCount altKnoten;
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 
+/*!
+  \brief Given the current count of monitoring nodes, output the monitoring
+  statistics to stdout, and to the file if file-output is set.
+
+  This function is only called when monitoring is activated.
+*/
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   static double old_total_time = 0; /* in sec */
   if (count_monitor_nodes > totalbeobachtet) {
@@ -351,13 +357,16 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   }
 }
 
-__inline__ static void Verzweigungsliteralausgabe(const LIT x, unsigned int Tiefe) {
-  VAR v; VZ e;
-  v = Var(x);
-  if (x == Literal(v, Pos))
-    e = Pos;
-  else
-    e = Neg;
+/*!
+  \brief In monitoring mode, output branching literal x (with the given
+  depth in the search tree).
+
+  Currently output actually only happens if output of a satisfying assignment
+  is enabled.
+*/
+__inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned int Tiefe) {
+  const VAR v = Var(x);
+  const VZ e = (x == Literal(v, Pos)) ? Pos : Neg;
   if (Belegung) {
     printf("%-6d %7s %d\n", Tiefe, Symbol(v), e);
     fprintf(fpmo, "%-6d %7s %d\n", Tiefe, Symbol(v), e);
