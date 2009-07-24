@@ -77,7 +77,7 @@ CFLAGS="-UMACHINE_BITS_OKL"
    <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all
    satisfying assignments are found. Currently combination with
    <code>BAUMRES</code> or <code>ASSIGNMENT</code> is not possible (and thus
-   yet we just count all satisfying assignments.
+   yet we just count all satisfying assignments).
     <ul>
      <li> <code>NSAT_BITS</code> specifies the number of bits for the unsigned
      int value of the number of satisfying assignments. </li>
@@ -186,6 +186,9 @@ CFLAGS="-UMACHINE_BITS_OKL"
          <ol>
           <li> The monitoring output is echoed to file "FullInputFileName.mo".
           </li>
+          <li> The output to the file is more machine-readable, and the last
+          column shows the predicted running times (in seconds) instead of
+          the predicted <em>remaining</em> running times. </li>
           <li> Also output of branching literals for the monitoring levels
           up to 2 levels before the monitoring level is activated. </li>
           <li> This output consists of three numbers, first the level, then

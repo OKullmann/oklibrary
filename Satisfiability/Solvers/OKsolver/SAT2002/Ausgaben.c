@@ -58,7 +58,7 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Oliver Kullmann (Frankfurt, Toronto, Swansea); O.Kullmann@Swansea.ac.uk", /* 25 */
    "OKsolver wird mit einer Liste von Argumenten aufgerufen, die der Reihe nach abgearbeitet werden. Neben Dateinamen (fuer Klauselmengen) koennen dies die folgenden Optionen sein:\n--version --author --help -O -F -M -P -R -B --info -RA --language=i --standard=i -Di -MAXN= -MAXK= -MAXL= --timeout=i -seed= -quot=\nwobei i fuer eine natuerliche Zahl steht.", /* 26 */
    "Die folgende Datei konnte nicht zum Einschreiben der erfuellenden Belegung geoeffnet werden:", /* 27 */
-   "Name der Datei und Anzahl der Beobachtungsknoten:", /* 28 */
+   "Name der Datei, Beobachtungstiefe und Anzahl der Beobachtungsknoten:", /* 28 */
    "Die folgende Datei konnte nicht zum Einschreiben der Ueberwachungsmeldungen geoeffnet werden:", /* 29 */
    "Die folgende Datei konnte nicht zum Eintragen der Ergebnisse geoeffnet werden:", /* 30 */
    "Der Option -D muss eine natuerliche Zahl folgen.", /* 31 */
@@ -86,7 +86,7 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Der Option -quot= muss eine Zahl folgen.", /* 53 */
    "Die folgende Datei konnte nicht zum Einschreiben der Baumdaten geoeffnet werden: (XML; Makro OUTPUTTREEDATAXML definiert)", /* 54 */
    "Niveau: Anzahl Knoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit", /* 55 */
-   "Niveau, Anzahl Knoten unter Beobachtungsknoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit", /* 56 */
+   "    level  nodes  ave_nodes   pred_nodes      time  ave_time     pred_time", /* 56 */
   },
 
   {"Error in the definition of the constants! Abbort.", /* 0 */
@@ -117,7 +117,7 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Oliver Kullmann (Frankfurt, Toronto, Swansea); o.kullmann@swansea.ac.uk", /* 25 */
    "OKsolver is called with a list of arguments, which will be processed consecutively. The arguments can be names of files (for clause-sets) as well as the following options:\n--version --author --help -O -F -M -P -R -B --info -RA --language=i --standard=i -Di -MAXN= -MAXK= -MAXL= --timeout=i -seed= -quot=\nwhere i is a non-negative integer.", /* 26 */
    "The following file could not be opened for writing the satisfying partial assignment:", /* 27 */
-   "Name of file and number of monitoring nodes:", /* 28 */
+   "Name of file, monitoring depth and number of monitoring nodes:", /* 28 */
    "The following file could not be opened for writing the monitor messages:", /* 29 */
    "The following file could not be opened for adding the results:", /* 30 */
    "Option -D must be followed by a non-negative integer.", /* 31 */
@@ -144,8 +144,8 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Option -seed= must be followed by a number.", /* 52 */
    "Option -quot= must be followed by a number.", /* 53 */
    "The following file could not be opened for writing the tree data (xml; Macro OUTPUTTREEDATAXML defined):", /* 54 */
-   "level: nodes processed, average node count, predicted total node count, time per monitoring node, average time, predicted remaining time", /* 55 */
-   "level, nodes processed below monitoring node, average node count, predicted total node count, time per monitoring node, average time, predicted remaining time", /* 56 */
+   "level: nodes processed, average nodes, predicted total nodes, time for monitoring node, average time, predicted remaining time", /* 55 */
+   "    level  nodes  ave_nodes   pred_nodes      time  ave_time     pred_time", /* 56 */
   },
 };
 

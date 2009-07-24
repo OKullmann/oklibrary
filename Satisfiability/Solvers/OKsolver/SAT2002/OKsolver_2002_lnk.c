@@ -278,6 +278,7 @@ static struct Sammlung *SatVar0 = NULL;
 
 /* Zur Beobachtung der SAT-Entscheidung */
 
+//! the depth of the monitoring nodes
 static unsigned int Beobachtungsniveau = 6;
 
 static unsigned int Rekursionstiefe;
@@ -317,9 +318,9 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     const double total_time = (double) Verbrauch / EPS; /* in sec */
     const double new_time = total_time - old_total_time;
     const double average_time = total_time / count_monitor_nodes;
-    const double predicted_remaining_time =
-      (Gesamtlast - count_monitor_nodes) * average_time;
     {
+      const double predicted_remaining_time =
+        (Gesamtlast - count_monitor_nodes) * average_time;
       double time_ = round(predicted_remaining_time);
       const double sec = fmod(time_, 60);
       time_ = (time_ - sec) / 60;
@@ -340,17 +341,19 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
              years, days, hours, min, sec
              );
     }
-    if (Dateiausgabe)
+    if (Dateiausgabe) {
+      const double predicted_total_time = Gesamtlast * average_time;
       fprintf(fpmo,
-              "%9d,%6ld, %8.2f, %14.0f, %9.3f, %9.2f, %13.0f\n",
+              "%9d %6ld %8.2f %14.0f %9.3f %9.2f %13.0f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
               predicted_nodes,
               new_time,
               average_time,
-              predicted_remaining_time
+              predicted_total_time
               );
+    }
     fflush(NULL);
     altKnoten = Knoten;
     old_total_time = total_time;
@@ -1450,10 +1453,10 @@ int main(int argc, char *argv[])
 #endif
             if (Monitor)
               {
-                printf("\n%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
-                printf("%s\n", Meldung(55));
+                printf("\n%s\n %s, %4d, %10d\n", Meldung(28), aktName, Beobachtungsniveau, Gesamtlast);
+                printf("%s\n\n", Meldung(55));
                 if (Dateiausgabe) {
-                  fprintf(fpmo, "%s\n %s, %4d\n", Meldung(28), aktName, Gesamtlast);
+                  fprintf(fpmo, "# %s %4d %11d\n", aktName, Beobachtungsniveau, Gesamtlast);
                   fprintf(fpmo, "%s\n", Meldung(56));
                 }
               }
