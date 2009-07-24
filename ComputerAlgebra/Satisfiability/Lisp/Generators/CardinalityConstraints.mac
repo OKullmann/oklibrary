@@ -60,7 +60,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    variables in S are set to 1 and the rest to 0 (in that assignment).
    S must have the same number of variables as E.
 
-   A special property of this clause set is that, given an arbitrary partial
+   A special property of this clause-set is that, given an arbitrary partial
    assignment, unit clause propagation will immediately pick up any forced 
    assignments. 
 
