@@ -25,3 +25,14 @@ read_ubcsat = function(filename, ...) {
 # "row.names=NULL". And if m leading lines are to be ignored, use
 # "skip=m".
 
+
+# Reading monitoring-data produced by OKsolver_2002:
+read_oksolver_mon = function(filename, ...) {
+  E = read.table(file = filename, header=T,
+        colClasses = c("integer", "integer", "numeric", "numeric", "numeric", "numeric", "numeric"),
+        ...)
+  E
+}
+# A first line
+#    level  nodes  ave_nodes   pred_nodes      time  ave_time     pred_time
+# is assumed.
