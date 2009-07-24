@@ -245,11 +245,12 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    <li> minisat2 determined unsatisfiability in 30 restarts (30602289
    conflicts, 33994511 decisions; 226393s (~ 2 1/2 days). </li>
    <li> march_pl </li>
-   <li> OKsolver_2002-m2pp: it seems it would take a few months. </li>
+   <li> OKsolver_2002-m2pp: after observing 5808 nodes at depth 20, the
+   prediction is 24*10^6 nodes, and about 5 months. </li>
   </ul>
 
 
-  \todo 97280 <= hindmani_2^8(2)
+  \todo hindmani_2^8(2) = 97280
   <ul>
    <li> n=75151, c=627618, c/n ~ 8.35 </li>
    <li> Using rsaps for satisfiability detection. </li>
@@ -257,7 +258,8 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    100% success). </li>
    <li> n=97280 appears to be unsatisfiable: constant min=1 for cutoff=2*10^4
    as for 10^5 and 10^6). </li>
-   <li> minisat2 </li>
+   <li> minisat2 determined unsatisfiability in 30 restarts (27807987
+   conflicts, 31114037 decisions, 351550s (4 days). </li>
    <li> OKsolver_2002-m2pp: After observing 1738 nodes at depth 24, the
    prediction is 30 * 10^6 nodes, and about 2 years. </li>
   </ul>
@@ -272,6 +274,7 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    100% success). </li>
    <li> n=153900 seems unsatisfiable: constant min=1 for cutoff=4*10^4,
    as for 10^5 and 10^6. </li>
+   <li> minisat2 </li>
    <li> OKsolver_2002-m2pp: After 550 monitoring nodes at level 24 the
    prediction is 498*10^6 nodes and around 50 years. So actually
    this problem (a=9) appears to be at least as hard as for a=10
@@ -331,7 +334,7 @@ BestSolution_Max = 24.000000
 
  \todo 353925 <= hindmini_2^11(2)
   <ul>
-   <li> NEEDS TO BE CHECKED n=268425, c=2502996, c/n ~ 9.32 </li>
+   <li> n=268425, c=2502996, c/n ~ 9.32 </li>
    <li> Using rsaps for satisfiability detection; cutoff = 6*10^4 seems
    sufficient. </li>
    <li> n=353924 easily satisfiable: 10 runs with cutoff=6*10^4 yield 100%
@@ -356,7 +359,7 @@ BestSolution_Max = 24.000000
   <ul>
    <li> For 1 <= a <= 11 the known values are
    252, 990, 3150, 5600, 14364, 28188, 53312, 97280, 153900, 302400, 353925
-   (where the last four values are conjectured). </li>
+   (where the last three values are conjectured). </li>
    <li> [log,log^2]-transformation looks linear for 1 <= a <= 10:
     <ol>
      <li> The linear model is
