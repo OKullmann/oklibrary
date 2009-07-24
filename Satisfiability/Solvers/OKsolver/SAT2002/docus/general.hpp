@@ -186,11 +186,11 @@ CFLAGS="-UMACHINE_BITS_OKL"
          <ol>
           <li> The monitoring output is echoed to file "FullInputFileName.mo".
           </li>
-          <li> The output to the file is more machine-readable, and the last
-          column shows the predicted running times (in seconds) instead of
-          the predicted <em>remaining</em> running times. </li>
+          <li> The output to the file is more machine-readable, and the
+          predictions are left out since they are easily computable. </li>
           <li> Also output of branching literals for the monitoring levels
-          up to 2 levels before the monitoring level is activated. </li>
+          up to 2 levels before the monitoring level is activated (only
+          to the file). </li>
           <li> This output consists of three numbers, first the level, then
           the name of the variable, and then the first truth value to be
           visited by the solver. </li>

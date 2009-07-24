@@ -342,16 +342,13 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
              );
     }
     if (Dateiausgabe) {
-      const double predicted_total_time = Gesamtlast * average_time;
       fprintf(fpmo,
-              "%9d %6ld %8.2f %14.0f %9.3f %9.2f %13.0f\n",
+              "%9d %6ld %8.2f %9.3f %9.2f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
-              predicted_nodes,
               new_time,
-              average_time,
-              predicted_total_time
+              average_time
               );
     }
     fflush(NULL);
@@ -371,8 +368,7 @@ __inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned in
   const VAR v = Var(x);
   const VZ e = (x == Literal(v, Pos)) ? Pos : Neg;
   if (Belegung) {
-    printf("%-6d %7s %d\n", Tiefe, Symbol(v), e);
-    fprintf(fpmo, "%-6d %7s %d\n", Tiefe, Symbol(v), e);
+    fprintf(fpmo, "# %-6d %7s %d\n", Tiefe, Symbol(v), e);
   }
   fflush(NULL);
 }
