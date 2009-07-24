@@ -86,8 +86,9 @@ BestStep_Mean = 140790.300000
 Steps_Mean = 10000000.000000
 Steps_Max = 10000000.000000
    \endverbatim
-   </ul>
+   </li>
    <li> minisat2 seems to perform best (also on satisfiable instances):
+   \verbatim
 kullmann-0:OKplatform> minisat2 Hindmand_3_40000.cnf
 This is MiniSat 2.0 beta
 WARNING: for repeatability, setting FPU to use double precision
