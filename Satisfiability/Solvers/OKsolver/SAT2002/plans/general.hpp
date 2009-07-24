@@ -264,6 +264,18 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      while "unsigned int" should become guaranteed 32 bits. </li>
     </ol>
    </li>
+   <li> Monitoring:
+    <ol>
+     <li> The prediction at the beginning seems distorted, since the build-up
+     of the tree up to this monitoring node is taken into account? </li>
+     <li> And are there standards for analysing the various time-series' ?
+     </li>
+     <li> See Heuristics/StatisticalAnalysis/plans/TimeSeriesAnalysis.hpp
+     for an alternative approach for prediction, not just counting the nodes
+     at the monitoring level. Perhaps this isn't too hard to do for the
+     OKsolver_2002. </li>
+    </ol>
+   </li>
   </ul>
 
 
