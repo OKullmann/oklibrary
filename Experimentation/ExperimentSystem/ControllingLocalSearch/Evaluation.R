@@ -29,10 +29,16 @@ read_ubcsat = function(filename, ...) {
 # Reading monitoring-data produced by OKsolver_2002:
 read_oksolver_mon = function(filename, ...) {
   E = read.table(file = filename, header=T,
-        colClasses = c("integer", "integer", "numeric", "numeric", "numeric", "numeric", "numeric"),
+        colClasses = c("integer", "integer", "numeric", "numeric", "numeric"),
         ...)
+  cat(length(E$level),"\n")
   E
 }
 # A first line
-#    level  nodes  ave_nodes   pred_nodes      time  ave_time     pred_time
+#    level  nodes  ave_nodes      time  ave_time
 # is assumed.
+# Remarks:
+# plot(E) yields a nice graphical overview (all combinations of combined
+# data plots); but often, say, plot(E[-(1:100),]) is more appropriate,
+# which eliminates the first 100 rows from the data frame.
+
