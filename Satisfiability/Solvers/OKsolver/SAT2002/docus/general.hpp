@@ -168,12 +168,11 @@ CFLAGS="-UMACHINE_BITS_OKL"
         <li> Once a %node at level d is completed (called a "monitoring
         node"), its number is printed out, followed by
          <ol>
-          <li> the number of nodes below it, </li>
-          <li> the current average of the number of nodes below monitoring
-          nodes, </li>
-          <li> the predicted total number of nodes below monitoring nodes
-          (so the nodes leading to the monitoring nodes are ignored, but
-          otherwise the full search tree size is estimated), </li>
+          <li> the number of nodes created after the last monitoring node
+          has been completed, </li>
+          <li> the current average of the number of nodes created per
+          monitoring node, </li>
+          <li> the predicted total number of nodes, </li>
           <li> the (processor) time it took to process the current monitoring
           %node, </li>
           <li> the current average time it took to process a monitoring %node,
