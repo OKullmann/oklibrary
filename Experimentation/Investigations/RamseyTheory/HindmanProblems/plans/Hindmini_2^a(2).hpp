@@ -258,6 +258,8 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    <li> n=97280 appears to be unsatisfiable: constant min=1 for cutoff=2*10^4
    as for 10^5 and 10^6). </li>
    <li> minisat2 </li>
+   <li> OKsolver_2002-m2pp: After observing 1738 nodes at depth 24, the
+   prediction is 30 * 10^6 nodes, and about 2 years. </li>
   </ul>
 
 
