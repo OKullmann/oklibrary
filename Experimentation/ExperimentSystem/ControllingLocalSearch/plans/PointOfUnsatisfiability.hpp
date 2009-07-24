@@ -130,5 +130,22 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Simpler strategies
+  <ul>
+   <li> Motivated by
+   Experimentation/Investigations/RamseyTheory/HindmanProblems/plans/Hindman_2^a(2).hpp
+   where ubcsat::rsaps behaves very predictibly, we should allow for several
+   strategies. </li>
+   <li> Here the strategy would be just to use a fixed cutoff, and 10 rounds,
+   and to determine the transition point. </li>
+   <li> If mixed cases occur (sat and unsat), then the program simply stops.
+   </li>
+   <li> So here perhaps we do not stop once a solution was found. </li>
+   <li> One could then just use some start value, and from there use bisection,
+   and if necessary (yet no "unsat" case found), multiply the old n-value
+   by some constant; say 1.2. </li>
+  </ul>
+
 */
 
