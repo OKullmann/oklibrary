@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 21.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,16 +19,24 @@ oklib_load("OKlib/ComputerAlgebra/TermSystems/Lisp/Conversions.mac");
 \htmlonly
 */
 
-
-/* ********************************************
-   * Auxiliary functions handling "equations" *
-   ********************************************
+/* ********************
+   * Handling symbols *
+   ********************
 */
 
 /* When translating positions into variables, then the base
    name of the formal variable is given by the following variable:
 */
 special_symbol : "x"$
+
+/* Appending a distinguishing "index" to the special symbol: */
+indexed_symbol(i) :=  parse_string(sconcat(special_symbol,i))$
+
+
+/* ********************************************
+   * Auxiliary functions handling "equations" *
+   ********************************************
+*/
 
 /* Translating a vector into a linear combination, based on
    the special symbol.
@@ -37,7 +45,7 @@ special_symbol : "x"$
    is true.
 */
 translate_vector_lincomb_n(a,n) := 
-  sum(a[i] * parse_string(sconcat(special_symbol,i)), i,1,n)$
+  sum(a[i] * indexed_symbol(i), i,1,n)$
 translate_vector_lincomb(a) := 
   translate_vector_lincomb_n(a,length(a))$
 
@@ -51,9 +59,9 @@ translate_matrix_ineq(A) := block([m,n],
  
 /* Creating inequalities x_i >= 1, x_i <= -1, and x_i = 0,
    specifying the index i (while "x" is special_symbol): */
-interprete_poscond(i) := parse_string(sconcat(special_symbol,i)) >= 1$
-interprete_negcond(i) := parse_string(sconcat(special_symbol,i)) <= -1$
-interprete_zerocond(i) := parse_string(sconcat(special_symbol,i)) = 0$
+interprete_poscond(i) := indexed_symbol(i) >= 1$
+interprete_negcond(i) := indexed_symbol(i) <= -1$
+interprete_zerocond(i) := indexed_symbol(i) = 0$
 
 
 /*!
