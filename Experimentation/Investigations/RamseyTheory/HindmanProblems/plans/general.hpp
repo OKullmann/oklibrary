@@ -13,12 +13,12 @@ License, or any later version. */
   {x_1, ..., x_k, s_1, ..., s_m, p_1, ..., p_m}, where k >= 1, m = 2^k-1-k,
   and where the s_i resp. p_i correspond to the non-empty sums resp. products
   of the x_i. The standard versions don't require the x_i to be distinct,
-  while the injective version do require it. A further parameter s >= 1 allows
-  ranges {a, ..., n} of vertices to be considered (default is s = 1).
+  while the injective version do require it. A further parameter a >= 1 allows
+  ranges {a, ..., n} of vertices to be considered (default is a = 1).
 
   The (normal) numbers are called hindman_r(k_1, ..., k_r) resp.
   hindmani_r(k_1, ..., k_r). The generalised versions are
-  hindman_r^s(k_1, ..., k_r) and hindmani_r^s(k_1, ..., k_r).
+  hindman_r^a(k_1, ..., k_r) and hindmani_r^a(k_1, ..., k_r).
 
 
   \todo Connections
@@ -31,6 +31,7 @@ License, or any later version. */
 
   \todo Generation
   <ul>
+   <li> The following needs update, once the naming-schemes are revised. </li>
    <li> hindmanquads_degenerated_ohg allows x=y (as with Schur numbers). </li>
    <li> x <> y is given by hindmanquads_ohg. </li>
    <li> Both above cases concern k=2, while the general cases are treated by
@@ -44,6 +45,18 @@ License, or any later version. */
    instead of the sum, should be considered. </li>
    <li> How to call the corresponding hypergraphs and numbers? "allproducts"
    resp. "allproductsi"? </li>
+  </ul>
+
+
+  \todo The case k=1
+  <ul>
+   <li> The case k=1 is trivial for Hindman-problems, since summation
+   happens only over subsets. </li>
+   <li> However one could consider hyperedges {x,2*x,x^2}. </li>
+   <li> One could consider a generalised form, where one considers a k-subset,
+   and adds all sums and products of tuples of length from 1 to p over this
+   subset. Then the above would be the case k=1, p=2. </li>
+   <li> For p=3 we would obtain {x, 2*x, x^2, 3*x, x^3}. </li>
   </ul>
 
 
