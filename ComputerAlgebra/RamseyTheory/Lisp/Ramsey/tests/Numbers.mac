@@ -32,12 +32,13 @@ okltest_ramsey(f) := block(
   true)$
 
 
-okltest_ramseyp(f) := block(
-
+okltest_ramsey_p(f) := block(
+  /* XXX */
   true)$
 
+
 /* *****************
-   * Trivial Cases *
+   * Trivial cases *
    *****************
 */
 
@@ -83,9 +84,10 @@ okltest_ramseytrivk(f) := block(
     assert(f(i) = i),
   true)$
 
-/* ********************
-   * Two-color Graphs *
-   ********************
+
+/* *********************
+   * Two-colour graphs *
+   *********************
 */
 
 okltest_ramseyg2_3_a(f) := block(
@@ -251,6 +253,7 @@ okltest_ramseyg3_3_3(f) := block(
   assert(f(3) = 17),
   true)$
 
+
 /* ***************
    * Hypergraphs *
    ***************
@@ -272,6 +275,7 @@ okltest_ramseyhg3_2_4_a(f) := block(
 okltest_ramseyhg3_2_4(f) := block(
   assert(f(4) = 13),
   true)$
+
 
 /* **********
    * Bounds *

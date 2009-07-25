@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding %Ramsey numbers
 
 
+  \bug Incorrect handling of Ramsey parameter tuples
+  <ul>
+   <li> The function "ramsey" should take as parameter exactly a Ramsey
+   parameter tuple. </li>
+   <li> The superfluous parameter r needs to be removed everywhere
+   (except, of course, where explicitly diagonal-versions are treated). </li>
+   <li> The predicate "ramsey_p" is needed. </li>
+   <li> At this time also the testobjects-file needs a make-over: The
+   editorial structure of tests- and testobjects-files is always the same
+   as the basic file (for which tests are provided). </li>
+  </ul>
+
+
   \todo Write docus
 
   

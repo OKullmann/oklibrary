@@ -38,6 +38,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* Returns the current bounds known for the given Ramsey parameter tuple.
    In the case nothing is known, unknown is returned. */
+/* BUG: see ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/Numbers.hpp;
+   also "col_tuple" is inappropriate.
+*/
 ramsey(r,col_tuple) := 
   if ramseytrivle_a(r,col_tuple)#[] then 
     apply(ramseytrivle,ramseytrivle_a(r,col_tuple))
@@ -66,16 +69,13 @@ ramsey(r,col_tuple) :=
   elseif ramseyhg3_2_4_a(r,col_tuple)#[] then 
     apply(ramseyhg3_2_4,ramseyhg3_2_4_a(r,col_tuple))
   else unknown$
-/* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 
+/* Checking whether L is a valid Ramsey parameter tuple: */
+ramsey_p(L) := error("To be implemented.")$
 
-/* Checking whether L is a valid input: */
-ramsey_p(L) := listp(L) and 
- every_s(integerp,L) and every_s(lambda([x],is(x >= 1)),L) and
- ascending_p(L)$
 
 /* *****************
-   * Trivial Cases *
+   * Trivial cases *
    *****************
 */
 
@@ -103,9 +103,9 @@ ramseytrivk_a(r,L) :=
 ramseytrivk(q) := q$
 
 
-/* ********************
-   * Two-color Graphs *
-   ********************
+/* *********************
+   * Two-colour graphs *
+   *********************
 */
 
 ramseyg2_3_a(r,L) := 
@@ -203,6 +203,7 @@ ramseyg3_3_3(q) :=
     [1,6,17][q] 
   else unknown$
 
+
 /* ***************
    * Hypergraphs *
    ***************
@@ -213,6 +214,7 @@ ramseyhg3_2_4_a(r,L) :=
   elseif r = 3 and length(L) = 2 and first(L) = 4 then [last(L)] else []$
 ramseyhg3_2_4(q) := 
   if q = 4 then 13 else unknown$
+
 
 /* ***********
    * Bounds  *
