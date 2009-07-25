@@ -82,6 +82,9 @@ okltest_cartesian_product_l(cartesian_product_l);
 okltest_all_transformations_l(all_transformations_l);
 okltest_all_transformations_l_l(all_transformations_l_l);
 
+okltest_all_tuples(all_tuples);
+okltest_all_tuples_l(all_tuples_l);
+
 /* ************************************
    * Constructions related to subsets *
    ************************************

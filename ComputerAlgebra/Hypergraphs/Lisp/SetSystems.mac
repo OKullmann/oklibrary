@@ -137,6 +137,13 @@ all_transformations_l(X) := uaapply(corr_cartesian_product,
 all_transformations_l_l(X) := cartesian_product_l(
   create_list(X,i,1,length(X)))$
 
+/* More generally, the set of all tuples of length k over X: */
+all_tuples(X,k) := uaapply(corr_cartesian_product,
+  create_list(X,i,1,k))$
+/* Now input and output are lists, and the output is ordered (lexicographically): */
+all_tuples_l(X,k) := cartesian_product_l(
+  create_list(X,i,1,k))$
+
 
 /* ************************************
    * Constructions related to subsets *
