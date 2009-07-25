@@ -19,8 +19,6 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
 /* ******************
    * Ramsey numbers *
    ******************
@@ -28,11 +26,11 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* A "Ramsey parameter tuple" is a pair [L,k], where k is the length of the
    hyperedges considered, the length of L is the number of colours, and each
-   entry of L specifies the size of the complete k-graph as (subgraph) the
-   Ramsey numbers shall guarantee.
+   entry of L specifies the size of the complete k-graph, whose existence
+   as (subgraph) the Ramsey numbers shall guarantee.
 */
 
-/* Bounds for Ramsey numbers are given as integers if the exact bound is known
+/* Bounds for Ramsey numbers are given as integers if the exact bound is known.
  * and pairs otherwise [lower bounds, upper bounds] (which must be correct).
 */
 
@@ -79,7 +77,7 @@ ramsey_p(L) := error("To be implemented.")$
    *****************
 */
 
-/* If min(q_i) < r then the set of all r subsets of {1,..,min(q_i)} is empty,
+/* If min(q_i) < r then the set of all r-subsets of {1,..,min(q_i)} is empty,
    and the Ramsey number is simply min(q_i).  */
 ramseytrivle_a(r,L) := 
   if L = [] then []
@@ -221,21 +219,21 @@ ramseyhg3_2_4(q) :=
    ***********
 */
 
-/* Returns the upper bound given the result of a call to "ramsey" */
+/* Returns the upper bound given the result of a call to "ramsey": */
 ramsey_ub(n) := if listp(n) then last(n) else n$
 /* Returns the upper bound given the result of a call to "ramsey" safely,
    i.e. if the value is unknown, then infinity is returned (so this can be
-   used without checking the return value) */
+   used without checking the return value). */
 ramsey_ub_s(n) := block([ret],
   ret : if listp(n) then last(n) else n,
   return(if ret = unknown then inf else ret))$
 
 
-/* Returns the lower bound given the result of a call to "ramsey" */
+/* Returns the lower bound given the result of a call to "ramsey": */
 ramsey_lb(n) := if listp(n) then first(n) else n$
 /* Returns the lower bound given the result of a call to "ramsey" safely,
    i.e. if the value is unknown, then 0 is returned (so this can be
-   used without checking the return value) */
+   used without checking the return value). */
 ramsey_lb_s(n) := block([ret],
   ret : if listp(n) then first(n) else n,
   return(if ret = unknown then 0 else ret))$
