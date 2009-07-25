@@ -32,14 +32,17 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
 
 /* The non-boolean formal clause-set expressing the Hindman problem for k=2
    with r parts and n vertices.
+   Reminder: The hyperedges are of the form {x,y,x+y,x*y} for x <> y.
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
 hindman2_nbfcsud(r,n) := 
  nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_ohg(n), create_list(i,i,1,r)))$
 
+/* Now allowing x = y: */
 hindman2d_nbfcsud(r,n) := 
  nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_degenerated_ohg(n), create_list(i,i,1,r)))$
 
+/* Again x <> y, but considering only x,y >= a: */
 hindman2gen_fcs(a,n) :=
  tcol2sat_stdohg2stdofcs(hindmanquadsgen_ohg(a,n))$
 
