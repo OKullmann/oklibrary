@@ -12,19 +12,59 @@ License, or any later version. */
 
   \todo Update names
   <ul>
-   <li> hindmanquads_degenerated_ohg -> hindmanquads_ohg </li>
-   <li> hindmanquads_ohg -> hindmaniquads_ohg </li>
-   <li> hindmanquadsgen_degenerated_ohg -> hindmanquadsgen_ohg </li>
-   <li> hindmanquadsgen_ohg -> hindmaniquadsgen_ohg </li>
+   <li> The current "quad"-forms should be replaced by
+   hindman_k2_ohg(a,n) and hindmani_k2_ohg(a,n) (for x <> y). </li>
   </ul>
 
 
-  \todo Implement general functionality
+  \todo Implement general functionality (arbitrary k)
   <ul>
-   <li> Implement hindman_ohg. </li>
-   <li> Implement hindmani_ohg. </li>
-   <li> Implement genhindman_ohg. </li>
-   <li> Implement genhindmani_ohg. </li>
+   <li> hindman_ohg_0(a,k,n) and hindmani_ohg_0(a,k,n) need to improved.
+   </li>
+   <li> Not all tuples [x_1, ..., x_k] have their sums and products
+   in {1, ..., n} --- actually most won't.
+    <ol>
+     <li> Perhaps we solve first the problem with "all products" (only;
+     see 'Implement "all products"' below), since except of trivial
+     cases the product dominates the sum. </li>
+     <li> And then we add the summands to the hyperedges, filtering out
+     the unsuitable ones. </li>
+    </ol>
+   </li>
+   <li> stable_unique is rather slow. </li>
+   <li> DONE (achieved by all_ord_tuples)
+   We need a function producing all tuples [x_1, ..., x_k]
+   over {1, ..., m} with x_1 <= ... <= x_k (while x_1 < ... < x_k
+   is obtained by computing all k-subsets and listifying the result).
+    <ol>
+     <li> Simplest is to compute all k-tuples, and then to sort the
+     results. </li>
+     <li> This is obtained by
+     setify(map(sort,all_tuples_l(setn(m),k))). </li>
+     <li> This is wasteful, but a simple solution, and it yields the
+     canonical order. </li>
+    </ol>
+   </li>
+   <li> DONE
+   A simple first implementation ignores all efficiency considerations.
+    <ol>
+     <li> First a "generic" hyperedge is constructed, e.g. for k=3 the
+     hyperedge
+     {x1,x2,x3,x1+x2,x1+x3,x2+x3,x1+x2+x3,x1*x2,x1*x3,x2*x3,x1*x2*x3}. </li>
+     <li> This is likely best achieved as a union of the sums-only and the
+     products-only case:
+     \verbatim
+union(
+  map(sum_l,map(listify,disjoin({},powerset({x1,x2,x3})))),
+  map(prod_l,map(listify,disjoin({},powerset({x1,x2,x3}))))
+);
+  {x1,x2,x1*x2,x2+x1,x3,x1*x3,x3+x1,x2*x3,x3+x2,x1*x2*x3,x3+x2+x1}
+     \endverbatim
+     </li>
+     <li> Then [x1,x2,x3] runs through all possibilities, and the substitution
+     is performed. </li>
+    </ol>
+   </li>
   </ul>
 
 

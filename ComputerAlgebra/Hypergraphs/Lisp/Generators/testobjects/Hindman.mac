@@ -30,6 +30,14 @@ okltest_hindmanquads_ohg(hindmanquads_ohg);
 okltest_hindmanquadsgen_degenerated_ohg(hindmanquadsgen_degenerated_ohg);
 okltest_hindmanquadsgen_ohg(hindmanquadsgen_ohg);
 
+/* ********************
+   * The general case *
+   ********************
+*/
+
+okltest_hindman_ohg(hindman_ohg_0);
+okltest_hindmani_ohg(hindmani_ohg_0);
+
 /*!
 \endhtmlonly
 */

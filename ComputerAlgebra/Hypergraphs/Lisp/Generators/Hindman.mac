@@ -19,6 +19,10 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/TermSystems/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* *****************
    * Hindman quads *
@@ -47,11 +51,43 @@ hindmanquadsgen_ohg(a,n) := [create_list(i,i,a,n),
    append(create_list({1,y,1+y},y,2,n-1),M))]$
 
 
+/* ********************
+   * The general case *
+   ********************
+*/
 
-hindman_ohg(k,n) := block([])$
-hindmani_ohg(k,n) := block([])$
-genhindman_ohg(a,k,n) := block([])$
-genhindmani_ohg(a,k,n) := block([])$
+/* First trivial implementations (for correctness checking). */
+
+/* Prerequisites: a >= 1, k >= 0, n >= 0 (all natural numbers). */
+
+/* The order on the hyperedges {x_1,...,x_k, ... } is induced by
+   the lexicographical order on the tuples [x_1, ..., x_k].
+   For k >= 3 duplicates can occur, and then the first in the list
+   is kept (all others are removed).
+*/
+hindman_ohg_0(a,k,n) := block(
+ [V : create_list(i,i,a,n),
+  Var : create_list(indexed_symbol(i),i,1,k),
+  T, H],
+  T : all_ord_tuples_l(V,k),
+  H : union(
+   map(sum_l,map(listify,disjoin({},powerset(setify(Var))))),
+   map(prod_l,map(listify,disjoin({},powerset(setify(Var)))))),
+  [V, stable_unique(sublist(
+    map(lambda([t], at(H, map("=", Var,t))), T),
+    lambda([S], subsetp(S,setify(V)))))])$
+
+hindmani_ohg_0(a,k,n) := block(
+ [V : create_list(i,i,a,n),
+  Var : create_list(indexed_symbol(i),i,1,k),
+  T, H],
+  T : map(listify,listify(powerset(setify(V),k))),
+  H : union(
+   map(sum_l,map(listify,disjoin({},powerset(setify(Var))))),
+   map(prod_l,map(listify,disjoin({},powerset(setify(Var)))))),
+  [V, sublist(
+    map(lambda([t], at(H, map("=", Var,t))), T),
+    lambda([S], subsetp(S,setify(V))))])$
 
 /*!
 \endhtmlonly
