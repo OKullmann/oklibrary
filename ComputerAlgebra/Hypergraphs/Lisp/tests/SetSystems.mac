@@ -261,6 +261,30 @@ okltest_all_tuples_l(f) := (
   assert(okltest_all_transformations_l_l(buildq([f],lambda([X],f(X,length(X))))) = true),
   true)$
 
+okltest_all_ord_tuples(f) := (
+  assert(f({},0) = {[]}),
+  assert(f({},1) = {}),
+  assert(f({1},0) = {[]}),
+  assert(f({1},1) = {[1]}),
+  assert(f({1},2) = {[1,1]}),
+  assert(f({1,2},0) = {[]}),
+  assert(f({1,2},1) = {[1],[2]}),
+  assert(f({1,2},2) = {[1,2],[1,1],[2,2]}),
+  assert(f({1,2},3) = {[1,1,1],[1,1,2],[1,2,2],[2,2,2]}),
+  true)$
+
+okltest_all_ord_tuples_l(f) := (
+  assert(f([],0) = [[]]),
+  assert(f([],1) = []),
+  assert(f([1],0) = [[]]),
+  assert(f([1],1) = [[1]]),
+  assert(f([1],2) = [[1,1]]),
+  assert(f([1,2],0) = [[]]),
+  assert(f([1,2],1) = [[1],[2]]),
+  assert(f([1,2],2) = [[1,1],[1,2],[2,2]]),
+  assert(f([1,2],3) = [[1,1,1],[1,1,2],[1,2,2],[2,2,2]]),
+  true)$
+
 
 /* ************************************
    * Constructions related to subsets *

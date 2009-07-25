@@ -148,6 +148,15 @@ Evaluation took 10.2634 seconds (10.3040 elapsed) using 45.777 MB.
   </ul>
 
 
+  \todo Computing all ordered tuples
+  <ul>
+   <li> The implementations of all_ord_tuples and all_ord_tuples_l are
+   rather inefficient (especially for larger k). </li>
+   <li> One possibility would be to use use meta-programming, that is, writing
+   a macro which creates the k-times nested loop. </li>
+  </ul>
+
+
   \todo Set creation
   <ul>
    <li> It would be nice to have "create_set", as we have "create_list". </li>
