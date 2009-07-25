@@ -343,7 +343,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     }
     if (Dateiausgabe) {
       fprintf(fpmo,
-              "%9d %6ld %8.2f %9.3f %9.2f\n",
+              "%9d %6ld %9.3f %9.3f %9.3f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
