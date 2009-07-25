@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/VanderWaerdenTheory/Lisp/VanderWaerden/plans/Numbers.hpp
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Numbers.hpp
   \brief Plans regarding van der Waerden numbers
 
 
