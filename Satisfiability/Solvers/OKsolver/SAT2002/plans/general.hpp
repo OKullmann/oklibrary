@@ -266,9 +266,22 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    </li>
    <li> Monitoring:
     <ol>
-     <li> The prediction at the beginning seems distorted, since the build-up
-     of the tree up to this monitoring node is taken into account? </li>
-     <li> And are there standards for analysing the various time-series' ?
+     <li> The prediction e.g. at the beginning is distorted, since the build-up
+     of the tree up to this monitoring node is taken into account. </li>
+     <li> So that e.g. the very first monitoring node has to take into account
+     all the d nodes on the path leading to it. And after half of the tree
+     is processed, that starting node of the second half has d-1 nodes
+     additionally to take into account (where d is the monitoring depth). </li>
+     <li> Likely it would be better if one had available for each monitoring
+     node the size of its subtree and the time needed for it. </li>
+     <li> Then perhaps a second average would be needed, namely for nodes
+     with depth strictly smaller than the monitoring depth. This would
+     estimate the effort needed for such nodes, and the total estimate
+     would add this to the effort for monitoring nodes. </li>
+     <li> Regarding the prediction formula:
+      <ol>
+       <li> Are there standards for analysing the various time-series' ? </li>
+      </ol>
      </li>
      <li> See Heuristics/StatisticalAnalysis/plans/TimeSeriesAnalysis.hpp
      for an alternative approach for prediction, not just counting the nodes
