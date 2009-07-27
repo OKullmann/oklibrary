@@ -19,14 +19,16 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 /* ******************
    * Ramsey numbers *
    ******************
 */
 
-/* A "Ramsey parameter tuple" is a pair [L,k], where k is the length of the
+/* A "Ramsey parameter tuple" is a pair [r,L], where r is the length of the
    hyperedges considered, the length of L is the number of colours, and each
-   entry of L specifies the size of the complete k-graph, whose existence
+   entry of L specifies the size of the complete r-hypergraph, whose existence
    as (subgraph) the Ramsey numbers shall guarantee.
 */
 
@@ -36,41 +38,41 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 
 /* Returns the current bounds known for the given Ramsey parameter tuple.
    In the case nothing is known, unknown is returned. */
-/* BUG: see ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/Numbers.hpp;
-   also "col_tuple" is inappropriate.
-*/
-ramsey(r,col_tuple) := 
-  if ramseytrivle_a(r,col_tuple)#[] then 
-    apply(ramseytrivle,ramseytrivle_a(r,col_tuple))
-  elseif ramseytriveq_a(r,col_tuple)#[] then 
-    apply(ramseytriveq,ramseytriveq_a(r,col_tuple))
-  elseif ramseytrivk_a(r,col_tuple)#[] then 
-    apply(ramseytrivk,ramseytrivk_a(r,col_tuple))
-  elseif ramseyg2_3_a(r,col_tuple)#[] then 
-    apply(ramseyg2_3,ramseyg2_3_a(r,col_tuple))
-  elseif ramseyg2_4_a(r,col_tuple)#[] then 
-    apply(ramseyg2_4,ramseyg2_4_a(r,col_tuple))
-  elseif ramseyg2_5_a(r,col_tuple)#[] then 
-    apply(ramseyg2_5,ramseyg2_5_a(r,col_tuple))
-  elseif ramseyg2_6_a(r,col_tuple)#[] then 
-    apply(ramseyg2_6,ramseyg2_6_a(r,col_tuple))
-  elseif ramseyg2_7_a(r,col_tuple)#[] then 
-    apply(ramseyg2_7,ramseyg2_7_a(r,col_tuple))
-  elseif ramseyg2_8_a(r,col_tuple)#[] then 
-    apply(ramseyg2_8,ramseyg2_8_a(r,col_tuple))
-  elseif ramseyg2_9_a(r,col_tuple)#[] then 
-    apply(ramseyg2_9,ramseyg2_9_a(r,col_tuple))
-  elseif ramseyg2_10_a(r,col_tuple)#[] then 
-    apply(ramseyg2_10,ramseyg2_10_a(r,col_tuple))
-  elseif ramseyg3_3_3_a(r,col_tuple)#[] then 
-    apply(ramseyg3_3_3,ramseyg3_3_3_a(r,col_tuple))
-  elseif ramseyhg3_2_4_a(r,col_tuple)#[] then 
-    apply(ramseyhg3_2_4,ramseyhg3_2_4_a(r,col_tuple))
+ramsey(param_tuple) := 
+  if ramseytrivle_a(param_tuple)#[] then 
+    apply(ramseytrivle,ramseytrivle_a(param_tuple))
+  elseif ramseytriveq_a(param_tuple)#[] then 
+    apply(ramseytriveq,ramseytriveq_a(param_tuple))
+  elseif ramseytrivk_a(param_tuple)#[] then 
+    apply(ramseytrivk,ramseytrivk_a(param_tuple))
+  elseif ramseyg2_3_a(param_tuple)#[] then 
+    apply(ramseyg2_3,ramseyg2_3_a(param_tuple))
+  elseif ramseyg2_4_a(param_tuple)#[] then 
+    apply(ramseyg2_4,ramseyg2_4_a(param_tuple))
+  elseif ramseyg2_5_a(param_tuple)#[] then 
+    apply(ramseyg2_5,ramseyg2_5_a(param_tuple))
+  elseif ramseyg2_6_a(param_tuple)#[] then 
+    apply(ramseyg2_6,ramseyg2_6_a(param_tuple))
+  elseif ramseyg2_7_a(param_tuple)#[] then 
+    apply(ramseyg2_7,ramseyg2_7_a(param_tuple))
+  elseif ramseyg2_8_a(param_tuple)#[] then 
+    apply(ramseyg2_8,ramseyg2_8_a(param_tuple))
+  elseif ramseyg2_9_a(param_tuple)#[] then 
+    apply(ramseyg2_9,ramseyg2_9_a(param_tuple))
+  elseif ramseyg2_10_a(param_tuple)#[] then 
+    apply(ramseyg2_10,ramseyg2_10_a(param_tuple))
+  elseif ramseyg3_3_3_a(param_tuple)#[] then 
+    apply(ramseyg3_3_3,ramseyg3_3_3_a(param_tuple))
+  elseif ramseyhg3_2_4_a(param_tuple)#[] then 
+    apply(ramseyhg3_2_4,ramseyhg3_2_4_a(param_tuple))
   else unknown$
 
 /* Checking whether L is a valid Ramsey parameter tuple: */
-ramsey_p(L) := error("To be implemented.")$
-
+ramsey_p(L) := listp(L) and 
+  if length(L) > 1 then
+    integerp(L[1]) and L[1] >= 0 and listp(L[2]) and every_s(integerp,L[2]) and
+    every_s(lambda([a], is(a >= 0)), L[2])
+  else false$
 
 /* *****************
    * Trivial cases *
@@ -79,25 +81,25 @@ ramsey_p(L) := error("To be implemented.")$
 
 /* If min(q_i) < r then the set of all r-subsets of {1,..,min(q_i)} is empty,
    and the Ramsey number is simply min(q_i).  */
-ramseytrivle_a(r,L) := 
-  if L = [] then []
-  elseif first(L) < r then [first(L)] else []$
+ramseytrivle_a(L) := 
+  if L[2] = [] then []
+  elseif first(L[2]) < L[1] then [first(L[2])] else []$
 ramseytrivle(min_qi) := min_qi$
 
 
 /* If min(q_i) = r then that part can not be used without making an r-clique,
    so there is simply the remaining Ramsey problem without that part. */
-ramseytriveq_a(r,L) := 
-  if L = [] then []
-  elseif first(L) = r then [r,rest(L)] else []$
-ramseytriveq(r,L) := ramsey(r,L)$
+ramseytriveq_a(L) := 
+  if L[2] = [] then []
+  elseif first(L[2]) = L[1] then [[L[1],rest(L[2])]] else []$
+ramseytriveq(L) := ramsey(L)$
 
 
 /* If k < 2 then the Ramsey number is simply the first time there are enough
    vertices for a q-clique. */
-ramseytrivk_a(r,L) := 
-  if L = [] then []
-  elseif length(L) < 2 then [first(L)] else []$
+ramseytrivk_a(L) := 
+  if L[2] = [] then []
+  elseif length(L[2]) < 2 then [first(L[2])] else []$
 ramseytrivk(q) := q$
 
 
@@ -106,9 +108,9 @@ ramseytrivk(q) := q$
    *********************
 */
 
-ramseyg2_3_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 3 then [last(L)] else []$
+ramseyg2_3_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 3 then [last(L[2])] else []$
 ramseyg2_3(q) := 
   if q <= 15 then
     [1,3,6,9,14,18,23,28,36,
@@ -116,9 +118,9 @@ ramseyg2_3(q) :=
   else unknown$
 
 
-ramseyg2_4_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 4 then [last(L)] else []$
+ramseyg2_4_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 4 then [last(L[2])] else []$
 ramseyg2_4(q) := 
   if q <= 15 then
     [1,4,9,18,25,
@@ -127,9 +129,9 @@ ramseyg2_4(q) :=
   else unknown$
 
 
-ramseyg2_5_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 5 then [last(L)] else []$
+ramseyg2_5_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 5 then [last(L[2])] else []$
 ramseyg2_5(q) := 
   if q <= 15 then
     [1,5,14,25,[43,49],
@@ -137,9 +139,9 @@ ramseyg2_5(q) :=
      [235,1461],[265,inf]][q]
   else unknown$
 
-ramseyg2_6_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 6 then [last(L)] else []$
+ramseyg2_6_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 6 then [last(L[2])] else []$
 ramseyg2_6(q) := 
   if q <= 15 then
     [1,6,18,[35,41],[58,87],
@@ -147,9 +149,9 @@ ramseyg2_6(q) :=
      [0,5033],[401,inf]][q]
   else unknown$
 
-ramseyg2_7_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 7 then [last(L)] else []$
+ramseyg2_7_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 7 then [last(L[2])] else []$
 ramseyg2_7(q) := 
   if q <= 15 then
     [1,7,23,[49,61],[80,143],
@@ -158,9 +160,9 @@ ramseyg2_7(q) :=
   else unknown$
 
 
-ramseyg2_8_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 8 then [last(L)] else []$
+ramseyg2_8_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 8 then [last(L[2])] else []$
 ramseyg2_8(q) := 
   if q <= 15 then
     [1,8,28,[56,84],[101,216],
@@ -169,9 +171,9 @@ ramseyg2_8(q) :=
   else unknown$
 
 
-ramseyg2_9_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 9 then [last(L)] else []$
+ramseyg2_9_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 9 then [last(L[2])] else []$
 ramseyg2_9(q) := 
   if q <= 14 then
     [1,9,36,[73,115],[125,316],
@@ -180,9 +182,9 @@ ramseyg2_9(q) :=
   else unknown$
 
 
-ramseyg2_10_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 2 and first(L) = 10 then [last(L)] else []$
+ramseyg2_10_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 10 then [last(L[2])] else []$
 ramseyg2_10(q) := 
   if q <= 15 then
     [1,10,[40,43],[92,149],[143,442],
@@ -191,10 +193,10 @@ ramseyg2_10(q) :=
   else unknown$
 
 
-ramseyg3_3_3_a(r,L) := 
-  if L = [] then []
-  elseif r = 2 and length(L) = 3 and first(L) = 3 and second(L) = 3 then 
-    [last(L)]
+ramseyg3_3_3_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 2 and length(L[2]) = 3 and first(L[2]) = 3 and second(L[2]) = 3 then 
+    [last(L[2])]
   else []$
 ramseyg3_3_3(q) := 
   if q <= 3 then 
@@ -207,9 +209,9 @@ ramseyg3_3_3(q) :=
    ***************
 */
 
-ramseyhg3_2_4_a(r,L) := 
-  if L = [] then []
-  elseif r = 3 and length(L) = 2 and first(L) = 4 then [last(L)] else []$
+ramseyhg3_2_4_a(L) := 
+  if L[2] = [] then []
+  elseif L[1] = 3 and length(L[2]) = 2 and first(L[2]) = 4 then [last(L[2])] else []$
 ramseyhg3_2_4(q) := 
   if q = 4 then 13 else unknown$
 

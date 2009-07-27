@@ -25,15 +25,26 @@ kill(f)$
 
 okltest_ramsey(f) := block(
   for i : 1 thru 5 do
-    assert(f(2,[1,i]) = 1),
-  assert(f(2,[3,3]) = 6),
-  assert(f(2,[4,4]) = 18),
-  assert(f(2,[3,3,3]) = 17),
+    assert(f([2,[1,i]]) = 1),
+  assert(f([2,[3,3]]) = 6),
+  assert(f([2,[4,4]]) = 18),
+  assert(f([2,[3,3,3]]) = 17),
   true)$
 
 
 okltest_ramsey_p(f) := block(
-  /* XXX */
+  assert(not f([])),
+  for i : -5 thru 5 do
+    assert(not f([i])),
+  assert(not f(["test"])),
+  assert(not f(["test",[]])),
+  assert(not f([1,["test"]])),
+  for i : 0 thru 5 do
+    assert(f([i,[i]])),
+  assert(f([2,[3,3]])),
+  assert(f([2,[4,5]])),
+  assert(f([2,[4,5,6,7,8,9]])),
+  assert(not f([2,"test"])),
   true)$
 
 
@@ -44,9 +55,9 @@ okltest_ramsey_p(f) := block(
 
 okltest_ramseytrivle_a(f) := block(
   for i : 1 thru 5 do
-    assert(f(1,[]) = []),
-  assert(f(1,[1,5]) = []),
-  assert(f(2,[1,5]) = [1]),
+    assert(f([1,[]]) = []),
+  assert(f([1,[1,5]]) = []),
+  assert(f([2,[1,5]]) = [1]),
   true)$
 
 
@@ -58,24 +69,24 @@ okltest_ramseytrivle(f) := block(
 
 okltest_ramseytriveq_a(f) := block( 
   for i : 1 thru 5 do
-    assert(f(1,[]) = []),
-  assert(f(1,[1,5]) = [1,[5]]),
-  assert(f(2,[1,5]) = []),
+    assert(f([1,[]]) = []),
+  assert(f([1,[1,5]]) = [[1,[5]]]),
+  assert(f([2,[1,5]]) = []),
   true)$
 
 
 okltest_ramseytriveq(f) := block(
-  assert(f(2,[2,3,3]) = 6),
-  assert(f(2,[2,2,2,4,4]) = 18),
+  assert(f([2,[2,3,3]]) = 6),
+  assert(f([2,[2,2,2,4,4]]) = 18),
   true)$
 
 
 okltest_ramseytrivk_a(f) := block(
   for i : 1 thru 5 do
-    assert(f(1,[]) = []),
+    assert(f([1,[]]) = []),
   for i : 1 thru 5 do
-    assert(f(i,[i]) = [i]),
-  assert(f(2,[1,1]) = []),
+    assert(f([i,[i]]) = [i]),
+  assert(f([2,[1,1]]) = []),
   true)$
 
 
@@ -84,7 +95,6 @@ okltest_ramseytrivk(f) := block(
     assert(f(i) = i),
   true)$
 
-
 /* *********************
    * Two-colour graphs *
    *********************
@@ -92,10 +102,10 @@ okltest_ramseytrivk(f) := block(
 
 okltest_ramseyg2_3_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = [4]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = [4]),
   true)$
 
 
@@ -108,11 +118,11 @@ okltest_ramseyg2_3(f) := block(
 
 okltest_ramseyg2_4_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = [5]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = [5]),
   true)$
 
 
@@ -124,12 +134,12 @@ okltest_ramseyg2_4(f) := block(
 
 okltest_ramseyg2_5_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[5,6]) = [6]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[5,6]]) = [6]),
   true)$
 
 
@@ -143,14 +153,13 @@ okltest_ramseyg2_5(f) := block(
 
 okltest_ramseyg2_6_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[6,7]) = [7]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[6,7]]) = [7]),
   true)$
-
 
 okltest_ramseyg2_6(f) := block(
   assert(f(1) = 1),
@@ -162,12 +171,12 @@ okltest_ramseyg2_6(f) := block(
 
 okltest_ramseyg2_7_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[7,8]) = [8]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[7,8]]) = [8]),
   true)$
 
 
@@ -181,12 +190,12 @@ okltest_ramseyg2_7(f) := block(
 
 okltest_ramseyg2_8_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[8,9]) = [9]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[8,9]]) = [9]),
   true)$
 
 
@@ -208,12 +217,12 @@ okltest_ramseyg2_9(f) := block(
 
 okltest_ramseyg2_9_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[9,10]) = [10]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[9,10]]) = [10]),
   true)$
 
 
@@ -226,24 +235,24 @@ okltest_ramseyg2_10(f) := block(
 
 okltest_ramseyg2_10_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[10,11]) = [11]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[10,11]]) = [11]),
   true)$
 
 
 okltest_ramseyg3_3_3_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[3,3]) = []),
-  assert(f(2,[3,3,3]) = [3]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[3,3]]) = []),
+  assert(f([2,[3,3,3]]) = [3]),
   true)$
 
 
@@ -253,7 +262,6 @@ okltest_ramseyg3_3_3(f) := block(
   assert(f(3) = 17),
   true)$
 
-
 /* ***************
    * Hypergraphs *
    ***************
@@ -261,14 +269,14 @@ okltest_ramseyg3_3_3(f) := block(
 
 okltest_ramseyhg3_2_4_a(f) := block(
   for i : 3 thru 5 do
-    assert(f(i,[3,4]) = []),
-  assert(f(2,[]) = []),
-  assert(f(2,[3]) = []),
-  assert(f(2,[3,4]) = []),
-  assert(f(2,[4,5]) = []),
-  assert(f(2,[5,6]) = []),
-  assert(f(3,[5,6]) = []),
-  assert(f(3,[4,6]) = [6]),
+    assert(f([i,[3,4]]) = []),
+  assert(f([2,[]]) = []),
+  assert(f([2,[3]]) = []),
+  assert(f([2,[3,4]]) = []),
+  assert(f([2,[4,5]]) = []),
+  assert(f([2,[5,6]]) = []),
+  assert(f([3,[5,6]]) = []),
+  assert(f([3,[4,6]]) = [6]),
   true)$
 
 

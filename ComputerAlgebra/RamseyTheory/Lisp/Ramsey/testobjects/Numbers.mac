@@ -22,6 +22,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
 
 okltest_ramsey(ramsey);
+okltest_ramsey_p(ramsey_p);
 okltest_ramseytrivle_a(ramseytrivle_a);
 okltest_ramseytrivle(ramseytrivle);
 okltest_ramseytriveq_a(ramseytriveq_a);

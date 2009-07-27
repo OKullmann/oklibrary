@@ -212,9 +212,9 @@ ramsey_symbr2_stdfcl(s,r,n) := block([NFF],
    with n vertices which can be given equivalent labels (from the label set
    {1,..,s} in any ram_s^r(p) < m problem for n <= m. */
 ramsey_symbr2_eqs(s,r,n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
-  while n >= ramsey_ub_s(ramsey(r,create_list(p+1,i,1,s))) do p : p + 1,
-  while m >= ramsey_ub_s(ramsey(r,create_list(3,i,1,s))) do 
-    if ramsey_ub_s(ramsey(r,create_list(p,i,1,s))) <= m then block(
+  while n >= ramsey_ub_s(ramsey([r,create_list(p+1,i,1,s)])) do p : p + 1,
+  while m >= ramsey_ub_s(ramsey([r,create_list(3,i,1,s)])) do 
+    if ramsey_ub_s(ramsey([r,create_list(p,i,1,s)])) <= m then block(
       clique_l : cons(setmn((n-m) + 1, (n-m) + p), clique_l),
       m : m - p
     ) else p : p - 1,
@@ -245,7 +245,7 @@ ramsey2_sym_break_rec_r(V,f_v, f_vn, exc_edges) := block(
   len_vert : length(vertices),
   if len_vert > 1 then block(
      [edge_vars, edge_var, F_n, sub_hm : sm2hm({}), result_sm],
-    while len_vert >= ramsey_ub_s(ramsey(2,[p+1,p+1])) do p : p + 1,
+    while len_vert >= ramsey_ub_s(ramsey([2,[p+1,p+1]])) do p : p + 1,
     if oklib_monitor then print("p = ", p),
     edge_vars : map(
       f_v, complete_g(setify(take_elements(p,listify(vertices))))[2]),
