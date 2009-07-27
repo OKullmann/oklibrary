@@ -10,6 +10,26 @@ License, or any later version. */
   \brief Plans regarding %Ramsey numbers
 
 
+  \bug Incorrect parameter checking
+  <ul>
+   <li> The current implementation of ramsey_p is incorrect. </li>
+   <li> All implementations of parameter-transformers (like "ramseytrivle_a")
+   are incorrect: Every such function must work on every possible list. </li>
+   <li> Before performing the correction, first the tests need to be
+   updated to detect the errors (as usual). </li>
+  </ul>
+
+
+  \todo Weak specifications
+  <ul>
+   <li> There are often no explanations about the meaning of the different
+   cases. </li>
+   <li> The "_a"-functions need a general explanation about their usage,
+   and then their specification should just state (as clearly as possible)
+   the special case handled. </li>
+  </ul>
+
+
   \todo Write docus
 
   
