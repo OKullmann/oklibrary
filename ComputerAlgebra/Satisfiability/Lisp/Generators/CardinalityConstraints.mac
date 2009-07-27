@@ -43,7 +43,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 */
 
 /* Variables are "ctt(l,i)", meaning the i-th variable at the node whose 
-   position is denoted by l where l is a list and each successive 0 or 1 
+   position is denoted by l, where l is a list and each successive 0 or 1 
    in l means traverse the left or right child respectively in the tree
    built up by the translation. That is l = [] is the root, l = [0] is 
    the left node etc.
@@ -64,7 +64,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    assignment, unit clause propagation will immediately pick up any forced 
    assignments. 
 
-   For Example:
+   For example:
 
    cs : cardinality_totalizer_cs([3,4],[1,2])$
    ucp_lpa_0_cs(apply_pa({1},cs));
@@ -158,11 +158,11 @@ cardinality_comparator_cs(S,m,n) :=
 /* Given a list E of variables, returns a clause-set F which is satisfied iff 
    between m and n variables of E are set to true.
    
-   A special property of this clause set is that, given an arbitrary partial
-   assignment, unit clause propagation will immediately pick up any forced 
+   A special property of this clause-set is that, given an arbitrary partial
+   assignment, unit-clause propagation will immediately pick up any forced 
    assignments. 
 
-   For Example:
+   For example:
 
    cs : cardinality_cs([1,2],1,1)$
    ucp_lpa_0_cs(apply_pa({1},standardise_fcs(cs_to_fcs(cs))[1][2]));
