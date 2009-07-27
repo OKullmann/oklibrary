@@ -297,7 +297,6 @@ aes_key_expansion_cp([bits]) := block(
       addVars : aes_make_vars("ke",1,8),
       rs : adjoin(apply(aes_add_c,
         append(cols[j-n_k+1][1],sboxVars,addVars)),rs),
-      print(j+1),
       rcVars : aes_make_vars("rc",1,8),
       rs : union(rs, aes_round_constant(rcVars,floor(j/n_k))),
       rs : adjoin(apply(aes_add_c, 

@@ -238,28 +238,24 @@ okltest_aes_mixcolumn_cp(f) := block([pa, iVars, oVars,F],
   /* UNSAT total assignments */
   true)$
 
-okltest_aes_mixcolumns_cp(f) := block([pa,iVars,oVars,F],
+okltest_aes_mixcolumns_cp(f) := block([pa,iVars,oVars,F,
+  aes_cnf_var_number : 0, aes_var_ordering : hash_table()],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   F : block([aes_make_vars : aes_make_vars_int, 
-    aes_mul2_cp : aes_mul2_ts_cp, aes_mul3_cp : aes_mul3_ts_cp,
-    aes_mul9_cp : aes_mul9_ts_cp, aes_mul11_cp : aes_mul11_ts_cp,
-    aes_mul14_cp : aes_mul14_ts_cp, aes_mul13_cp : aes_mul13_ts_cp], 
+    aes_mul2_cp : nounify(aes_mul2_ts_cp_test), 
+    aes_mul3_cp : nounify(aes_mul3_ts_cp_test),
+    aes_mul9_cp : nounify(aes_mul9_ts_cp_test), 
+    aes_mul11_cp : nounify(aes_mul11_ts_cp_test),
+    aes_mul14_cp : nounify(aes_mul14_ts_cp_test), 
+    aes_mul13_cp : nounify(aes_mul13_ts_cp_test)], 
     rewrite_all(apply(f, listify(setn(256))))),
-  iVars : take_elements(128,listify(var_cs(F))),
-  oVars : take_elements(128,rest(listify(var_cs(F)),128)),
-  /* Satisfying total assignments */
-  pa : aes_hex2pa(
-    "0000000000000000000000000000000000000000000000000000000000000000",
-    take_elements(256,listify(var_cs(F)))),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  pa : union(aes_hex2pa("B5A1FF0213199055469AF40000CC0042",iVars),
-    aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",oVars)),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  pa : union(aes_hex2pa("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
-    aes_hex2pa("861BCCB82932AA7EB8C40A5E00C2004C",oVars)),
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  /* UNSAT total assignments */
+    assert(member({-1664,-1648,-1640},F)),
+    assert(member({-1614,1590,1598},F)),
+    assert(member(nounify(aes_mul3_ts_cp_test)(9,10,11,12,13,14,15,16,809,810,
+      811,812,813,814,815,816),F)),
+    assert(member(nounify(aes_mul11_ts_cp_test)(137,138,139,140,141,142,143,
+      144,985,986,987,988,989,990,991,992),F)),
   true)$
 
 okltest_aes_shiftrows_cp(f) := block([pa,iVars,oVarsi,F],
