@@ -79,6 +79,15 @@ statistics_hg(G) := statistics_fcs(G)$
    ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp for first
    applications (and first thoughts). </li>
   </ul>
+  
+  
+  \todo Representing edge and vertex labellings
+  <ul>
+   <li> One needs to be able to represent an edge, or vertex labelling of a 
+   given hypergraph in the maxima system. </li>
+   <li> See also "Representing edge and vertex labellings" in 
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp . </li>
+  </ul>
 
 */
 

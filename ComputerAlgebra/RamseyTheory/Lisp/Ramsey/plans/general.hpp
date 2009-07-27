@@ -85,5 +85,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Representing counter examples
+  <ul>
+   <li> See '"Visualising" solutions' in 
+   Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp
+   . </li>
+   <li> One should be able to translate a solution to a given Ramsey SAT 
+   problem (that is, "ramsey_r^s(q_1,...,q_s) > n?"), given as a set of literals
+   using the standard variable naming, to a graph labelling (see 
+   "Representing edge and vertex labellings" in 
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp ). </li>
+   <li> (DONE See ComputerAlgebra/Graphs/Lisp/Generators.mac) 
+   For r=2, s=2, one should also be able to translate a solution to the
+   graph representing the solution (where the 2 labels represent an edge being
+   either in or out of the graph). </li>
+  </ul>
+
 */
 

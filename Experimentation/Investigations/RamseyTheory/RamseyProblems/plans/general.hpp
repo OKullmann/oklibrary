@@ -806,6 +806,74 @@ length(all_aut_ofcs(R5));
    best what we can do for those problems? But if we know more about the
    symmetries between solutions (i.e., the automorphism group of the solution
    space, then we might obtain further compression. </li>
+   <li> There is also the simple representation of these solutions using colours
+   for the two labels/partitions. </li>
+   <li> Colouring edges rather than simply showing a graph with edges missing
+   seems a much better solution, as from a visualisation point of view, one sees
+   both the graph and it's complement at the same time, and so the colour
+   symmetry is more obvious to the eye (as both the graph and it's complement
+   are important for discerning patterns). </li>
+   <li> Both visualisations should be made available, and translations from a 
+   solution (set of literals using the canonical variable naming) to graphs
+   and graph labellings should be written. </li>
+   <li> Both visualisations are now possible in the library for r=2,s=2:
+    <ul>
+     <li> Given a partial assignment S as a solution to the %Ramsey problem
+     "ramsey_2^2(p,q) > n?", one may show the underlying graph represented
+     by the edges labelled with p in the following way:
+     \verbatim
+n : 17$
+S: {1,-2,-3,4,-5,-6,7,8,9,-10,11,-12,13,-14,-15,-16,-17,18,-19,-20,21,-22,23,24,
+    -25,26,27,-28,-29,-30,-31,32,-33,34,-35,36,37,-38,39,40,41,-42,43,-44,-45,
+    46,47,-48,-49,-50,51,52,-53,54,55,-56,57,-58,-59,60,-61,62,-63,64,-65,66,
+    -67,-68,-69,70,71,-72,73,74,75,76,-77,78,-79,80,81,82,-83,-84,-85,86,87,88,
+    89,-90,-91,-92,93,94,95,-96,-97,98,-99,-100,-101,-102,103,-104,105,106,107,
+    -108,109,-110,111,112,113,-114,-115,-116,-117,118,-119,120,121,-122,123,
+    124,125,126,-127,-128,129,-130,-131,132,-133,-134,135,-136}$
+draw_graph(g2mg(ramsey_counterex_graph(n,S)))$
+     \endverbatim
+     </li>
+     <li> Given a partial assignment S as a solution to the %Ramsey problem
+     "ramsey_2^2(p,q) > n?", one may show the complete graph with different
+     coloured edges for the labels p and q in the following way:
+     \verbatim
+n : 17$
+S: {1,-2,-3,4,-5,-6,7,8,9,-10,11,-12,13,-14,-15,-16,-17,18,-19,-20,21,-22,23,24,
+    -25,26,27,-28,-29,-30,-31,32,-33,34,-35,36,37,-38,39,40,41,-42,43,-44,-45,
+    46,47,-48,-49,-50,51,52,-53,54,55,-56,57,-58,-59,60,-61,62,-63,64,-65,66,
+    -67,-68,-69,70,71,-72,73,74,75,76,-77,78,-79,80,81,82,-83,-84,-85,86,87,88,
+    89,-90,-91,-92,93,94,95,-96,-97,98,-99,-100,-101,-102,103,-104,105,106,107,
+    -108,109,-110,111,112,113,-114,-115,-116,-117,118,-119,120,121,-122,123,
+    124,125,126,-127,-128,129,-130,-131,132,-133,-134,135,-136}$
+vis_ramsey_sol(n,S) :=
+  draw_graph(g2mg(ramsey_counterex_graph(n,S)),
+    show_edges=edges(g2mg(comp_graph(ramsey_counterex_graph(n,S)))),
+    fixed_vertices=create_list(i,i,1,n))$
+vis_ramsey_sol(17,S)$
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> The real question is how to draw such things well. </li>
+  </ul>
+
+
+  \todo Statistics functions are needed to analyse counter examples
+  <ul>
+   <li> Visualising counter examples as in '"Visualising" solutions' seems only
+   to be useful for reasonably small "n" and therefore, one should also provide
+   statistics functions to extract some summarised information from the
+   satisfying assignments we get from these Ramsey problems. </li>
+   <li> Some example statistics: 
+    <ul>
+     <li> Number of edges with each label. </li>
+     <li> Frequency distribution of number of a particular colour edges leaving
+     each node. </li>
+     <li> Number of cycles of a given colour/label of a given length. </li>
+    </ul>
+   </li>
+   <li> Several of these should be possible using the standard 
+   statistics/analysis functions already available for graphs. </li>
   </ul>
 
 

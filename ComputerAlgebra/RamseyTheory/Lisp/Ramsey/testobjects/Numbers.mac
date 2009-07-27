@@ -22,12 +22,27 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/tests/Numbers.mac")$
 
 okltest_ramsey(ramsey);
+okltest_ramsey_p(ramsey_p);
+
+
+/* *****************
+   * Trivial cases *
+   *****************
+*/
+
 okltest_ramseytrivle_a(ramseytrivle_a);
 okltest_ramseytrivle(ramseytrivle);
 okltest_ramseytriveq_a(ramseytriveq_a);
 okltest_ramseytriveq(ramseytriveq);
 okltest_ramseytrivk_a(ramseytrivk_a);
 okltest_ramseytrivk(ramseytrivk);
+
+
+/* *********************
+   * Two-colour graphs *
+   *********************
+*/
+
 okltest_ramseyg2_3_a(ramseyg2_3_a);
 okltest_ramseyg2_3(ramseyg2_3);
 okltest_ramseyg2_4_a(ramseyg2_4_a);
@@ -46,6 +61,22 @@ okltest_ramseyg2_10_a(ramseyg2_10_a);
 okltest_ramseyg2_10(ramseyg2_10);
 okltest_ramseyg3_3_3_a(ramseyg3_3_3_a);
 okltest_ramseyg3_3_3(ramseyg3_3_3);
+
+
+/* ***************
+   * Hypergraphs *
+   ***************
+*/
+
+okltest_ramseyhg3_2_4_a(ramseyhg3_2_4_a);
+okltest_ramseyhg3_2_4(ramseyhg3_2_4);
+
+
+/* **********
+   * Bounds *
+   **********
+*/
+
 okltest_ramsey_ub(ramsey_ub);
 okltest_ramsey_lb(ramsey_lb);
 okltest_ramsey_ub_s(ramsey_ub_s);
