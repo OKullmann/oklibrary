@@ -311,11 +311,17 @@ BestSolution_Max = 2.000000
     <ol>
      <li> cutoff=10^9:
      \verbatim
-     > E2 = read_ubcsat("GreenTao_3-3-3-5_1921.cnf_OUT")
+> E2 = read_ubcsat("GreenTao_3-3-3-5_1921.cnf_OUT")
  1  2  3
 19 78  3
 100
+> E2 = read_ubcsat("GreenTao_3-3-3-5_1921.cnf_OUT2")
+  1   2   3
+167 612  27
+806
      \endverbatim
+     </li>
+     <li> cutoff=2*10^9 </li>
     </ol>
    </li>
    <li> n=1925
