@@ -10,23 +10,6 @@ License, or any later version. */
   \brief Plans regarding %Ramsey numbers
 
 
-  \bug Incorrect handling of Ramsey parameter tuples
-  <ul>
-   <li> The superfluous parameter r needs to be removed everywhere
-   (except, of course, where explicitly diagonal-versions are treated). </li>
-   <li> It is actually not clear at all what "r" stands for: standardisation
-   of the names used ("k" and "r"; perhaps others?) is needed. </li>
-   <li> At this time also the testobjects-file needs a make-over: The
-   editorial structure of tests- and testobjects-files should always be the
-   same as the basic file (for which tests are provided). </li>
-   <li> And specifications for most functions in
-   ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac are missing. </li>
-   <li> DONE The function "ramsey" should take as parameter exactly a Ramsey
-   parameter tuple. </li>
-   <li> DONE The predicate "ramsey_p" is needed. </li>
-  </ul>
-
-
   \todo Write docus
 
   
@@ -122,6 +105,23 @@ License, or any later version. */
      for another catalogue of data (and instances). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \bug DONE Incorrect handling of Ramsey parameter tuples
+  <ul>
+   <li> DONE The superfluous parameter r needs to be removed everywhere
+   (except, of course, where explicitly diagonal-versions are treated). </li>
+   <li> DONE It is actually not clear at all what "r" stands for: standardisation
+   of the names used ("k" and "r"; perhaps others?) is needed. </li>
+   <li> DONE At this time also the testobjects-file needs a make-over: The
+   editorial structure of tests- and testobjects-files should always be the
+   same as the basic file (for which tests are provided). </li>
+   <li> DONE And specifications for most functions in
+   ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac are missing. </li>
+   <li> DONE The function "ramsey" should take as parameter exactly a Ramsey
+   parameter tuple. </li>
+   <li> DONE The predicate "ramsey_p" is needed. </li>
   </ul>
 
 */
