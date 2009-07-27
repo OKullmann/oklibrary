@@ -131,11 +131,24 @@ is(Csa);
   <ul>
    <li> Especially precise information on the added auxiliary variables are
    needed. </li>
-   <li> DONE For cardinality_totalizer_cs, cardinality_comparator_cs and
-   cardinality_cs *combinatorial* specifications are needed. </li>
-   <li> DONE Then two levels of tests are needed: One which checks the
+   <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
+   cardinality_cs *combinatorial* specifications are needed.
+    <ol>
+     <li> Currently there are no specifications (which, of course, must
+     allow to reconstruct the clause-sets(!)). </li>
+     <li> Some properties are mentioned in
+     ComputerAlgebra/Satisfiability/Lisp/Generators/CardinalityConstraints.mac,
+     but these properties shouldn't be there (but possibly in the docus). </li>
+    </ol>
+   </li>
+   <li> Then two levels of tests are needed: One which checks the
    (precise) combinatorial specification, and another one which checks
-   the (general) specification as a presentation of some constraint. </li>
+   the (general) specification as a presentation of some constraint.
+    <ol>
+     <li> Currently the tests are not specified at all. </li>
+     <li> Of course, first the basic functions need to be specified. </li>
+    </ol>
+   </li>
   </ul>
 
 
