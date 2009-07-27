@@ -26,10 +26,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Cardin
    ************************
 */
 
-okltest_cardinality_totalizer_cs(cardinality_totalizer_cs);
-okltest_cardinality_totalizer_r_cs(cardinality_totalizer_r_cs);
-okltest_cardinality_comparator_cs(cardinality_comparator_cs);
-okltest_cardinality_cs(cardinality_cs);
+okltest_cardinality_totalizer_cs_comb(cardinality_totalizer_cs);
+okltest_cardinality_totalizer_cs_spec(cardinality_totalizer_cs);
+okltest_cardinality_comparator_cs_comb(cardinality_comparator_cs);
+okltest_cardinality_comparator_cs_spec(cardinality_comparator_cs);
+okltest_cardinality_cs_comb(cardinality_cs);
+okltest_cardinality_cs_spec(cardinality_cs);
 
 /*!
 \endhtmlonly

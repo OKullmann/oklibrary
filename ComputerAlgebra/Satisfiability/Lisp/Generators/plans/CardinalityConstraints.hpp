@@ -129,13 +129,13 @@ is(Csa);
 
   \todo Provide complete specifications
   <ul>
-   <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
-   cardinality_cs *combinatorial* specifications are needed. </li>
-   <li> Then two levels of tests are needed: One which checks the
-   (precise) combinatorial specification, and another one which checks
-   the (general) specification as a presentation of some constraint. </li>
    <li> Especially precise information on the added auxiliary variables are
    needed. </li>
+   <li> DONE For cardinality_totalizer_cs, cardinality_comparator_cs and
+   cardinality_cs *combinatorial* specifications are needed. </li>
+   <li> DONE Then two levels of tests are needed: One which checks the
+   (precise) combinatorial specification, and another one which checks
+   the (general) specification as a presentation of some constraint. </li>
   </ul>
 
 
