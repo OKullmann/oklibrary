@@ -245,10 +245,12 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    <li> minisat2 determined unsatisfiability in 30 restarts (30602289
    conflicts, 33994511 decisions; 226393s (~ 2 1/2 days). </li>
    <li> march_pl </li>
-   <li> OKsolver_2002-m2pp: after observing 5808 nodes at depth 20, the
-   prediction is 24*10^6 nodes, and about 5 months.
+   <li> OKsolver_2002-m2pp
     <ol>
-     <li> Closer inspection (at cs-oksvr). </li>
+     <li> After observing 5808 nodes at depth 20, the
+     prediction is 24*10^6 nodes, and about 6 months (at cs-oksvr). </li>
+     <li> Different from a=8 (see below), here patterns are hardly visible.
+     </li>
     </ol>
    </li>
   </ul>
