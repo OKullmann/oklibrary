@@ -264,10 +264,22 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    as for 10^5 and 10^6). </li>
    <li> minisat2 determined unsatisfiability in 30 restarts (27807987
    conflicts, 31114037 decisions, 351550s (4 days). </li>
-   <li> OKsolver_2002-m2pp: After observing 1738 nodes at depth 24, the
-   prediction is 30 * 10^6 nodes, and about 2 years.
+   <li> OKsolver_2002-m2pp:
     <ol>
-     <li> Closer inspection (at csltok). </li>
+     <li> After observing 15900 nodes at depth 24, the prediction is
+     90*10^6 nodes (an average of 5.37 nodes per observation node), and about
+     4 years. </li>
+     <li> The distribution of node-counts over the observation-nodes (ordered
+     as they were created) shows a periodic patterns, easy segments
+     interspersed with hard segments. </li>
+     <li> Of course, this all has to do with the switch between different
+     subtrees, and some are apparently hard, and some easy --- however there
+     seems to be a non-trivial pattern. </li>
+     <li> A major period seems to be 1024 observation nodes, while the minimal
+     period seems to be 256 (forcing a "homogenous" behaviour per cell). </li>
+     <li> Inside a cell the hard problems seem often accumulated a either
+     the left or the right edge (where 1024 sometimes needs to be replaced
+     by a smaller power of 2). </li>
     </ol>
    </li>
   </ul>
