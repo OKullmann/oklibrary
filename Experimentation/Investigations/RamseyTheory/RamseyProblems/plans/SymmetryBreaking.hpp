@@ -38,6 +38,10 @@ License, or any later version. */
    to between floor(153/2) and ceil(153/2)). </li>
    <li> MG should include the results from initial experiments he did using
    various solvers such as picosat,minisat etc on this. </li>
+   <li> MG should search for or e-mail McKay regarding the solutions for 
+   high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
+   the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
+   these cases. </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp . 
    </li>
