@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
-  \brief Plans for Maxima-generators for Ramsey-problems
+  \brief Plans for Maxima-generators for %Ramsey-problems
 
 
   \todo Relations to other modules
@@ -101,7 +101,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
   </ul>
 
 
-  \todo Symmetry breaking by using Ramsey-symmetries of the clause-set
+  \todo Symmetry breaking by using %Ramsey-symmetries of the clause-set
   <ul>
    <li> The following considerations seem to be too optimistic:
     <ol>
@@ -341,7 +341,30 @@ ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
   </ul>
 
 
-  \todo Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
+  \todo Considering only labellings with bounded number of particular colours
+  <ul>
+   <li> An idea by MG is that intuitively, dominating an edge-labelling for a
+   %Ramsey problem with more of one label than another only increases the
+   probability of a monochromatic clique of that label occurring and so if a
+   given %Ramsey problem is satisfiable, then it should be satisfiable with an
+   equal amount (up to floor/ceil considerations) of each label in the
+   labelling. </li>
+   <li> So, for example for ramsey_2^2(4) <= 17, there should be a labelling
+   with no monochromatic clique of size 4, where 136/2 = 68 of the edges are
+   labelled with one colour, and 68 of the edges are labelled with the other
+   colour. </li>
+   <li> This is purely a conjecture and so experimental evidence should be
+   compiled, that is, cardinality constraints can be added to generated %Ramsey
+   problems to restrict the number of each colour to between floor(E(K_n)/2) and
+   ceil(E(K_n)/2) for problems for which we have solvers which can determine
+   satisfiability. </li>
+   <li> See "Using cardinality constraints" in
+   Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp
+   . </li>
+  </ul>
+
+
+  \todo Reimplement "Symmetry breaking by using %Ramsey-symmetries of the 
   clause-set"
   <ul>
    <li> First the above todo needs to be completely updated, and merged with
