@@ -44,9 +44,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* Variables are "ctt(l,i)", meaning the i-th variable at the node whose 
    position is denoted by l, where l is a list and each successive 0 or 1 
-   in l means traverse the left or right child respectively in the tree
-   built up by the translation. That is l = [] is the root, l = [0] is 
-   the left node etc.
+   in l (from the right) means traverse the left or right child respectively
+   in the tree built up by the translation. That is l = [] is the root, l = [0]
+   is the left node etc.
 */
 kill(ctt)$
 declare(ctt, noun)$
@@ -60,34 +60,62 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    variables in S are set to 1 and the rest to 0 (in that assignment).
    S must have the same number of variables as E.
 
-   A special property of this clause-set is that, given an arbitrary partial
-   assignment, unit clause propagation will immediately pick up any forced 
-   assignments. 
-
-   For example:
-
-   cs : cardinality_totalizer_cs([3,4],[1,2])$
-   ucp_lpa_0_cs(apply_pa({1},cs));
-   [{{-4,2},{-2,4}},[{3}]]
-   ucp_lpa_0_cs(apply_pa({2},cs));
-   [{{-4,1},{-1,4}},[{3}]]
-   ucp_lpa_0_cs(apply_pa({4},cs));
-   [{},[{1,2},{3}]]
-
-   etc. Notice how, 3 is forced by UCP (and is being set to 1) in the 
-   cases where 1 or 2 is set to 1, as in the unary representation
-   3 must be set to 1 if any variable is set to true.
-
    In the result clause-set F, var_cs(F) = union(S,E,V) where variables 
-   in V are of the form ctt(l,i) for a list of 1s and 0s l and an
+   in V are of the form ctt(l,i) for a list "l" of 1s and 0s and an
    integer i > 0.
 
-   The number of new variables needed given length(E) = n is
+   The clause-set is built from a tree, where each node has a list of variables
+   associated with it. 
+   
+   - "S" is associated with the root node
+   - [E[i]] is associated with the i-th leaf node (in the standard "inorder" 
+     traversal)
+   - The list of variables associated with the left child of the root is
+     [ctt([0],1),...,ctt([0],floor(length(E)/2))]
+   - The list of variables associated with the right child of the root is
+     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))]
+   - The list of variables associated with left child of any other node, 
+     assuming the set of variables associated with the parent node is
+     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(cons(0,l),1),...,ctt(cons(0,l),floor(n/2))].
+   - The set of variables associated with right child of any other node, 
+     assuming the set of variables associated with the parent node is
+     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(cons(1,l),1),...,ctt(cons(1,l),ceiling(n/2))].
+
+   For every internal node, there are then clauses expressing that that 
+   variables associated with that node must be assigned the unary representation
+   of the sum of the variables from the two child nodes. That is, for an
+   internal node "P", with associated list "R", and children "PL" and "PR" with
+   associated lists "RL" and "RR", we have the clauses {-RL[a],-RL[b],RL[c]} 
+   and {RL[a+1],RR[b+1],-R[c+1]} in the result clause-set for all 
+   
+   - 0 <= a <= length(RL)
+   - 0 <= b <= length(RR)
+   - 0 <= c <= length(R)
+   - a+b = c.
+
+   where RL[0] := RR[0] := R[0] := true and RL[length(RL)+1] := 
+   RR[length(RR)+1] := R[length(R)+1] := false, and clauses are reduced or 
+   removed based on the presence of true or false.
+
+   The set of new variables introduced can therefore be 
+   recursively defined using a function "vc", where V = vc(E,[])
+   \ E:
+
+   vc(E,l) = {} if length(E) <= 1
+             otherwise 
+             union(
+               E, 
+               vc({ctt(cons(l,0),1),...,ctt(cons(l,0),floor(length(E)/2))}),
+               vc({ctt(cons(l,1),1),...,ctt(cons(l,1),ceiling(length(E)/2))}))
+
+   Therefore the number of new variables needed given length(E) = n is
    nvc(n) - n where "nvc" is defined recursively in the following 
    way:
 
    nvc(n) = 0 if n < 1
-            n + nvc(floor(n/2)) + nvc(ceiling(n/2))
+            n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise
 */
 cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
 cardinality_totalizer_r_cs(S,E, tree_pos) := 
@@ -143,11 +171,10 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
    m variables are set to true, and all variables from the (n+1)-th onwards 
    are set to false.
 
-   Given an arbitrary partial assignment, this clause-set can be reduced to
-   the empty clause-set (after applying the assignment) by UCP iff no variable
-   in the first m variables of S is set to false, and no variable in the last
-   (length(S) - n) variables is set to true, otherwise it reduces by UCP to the
-   empty clause.
+   The clause set returned is simply a set of length(S) - (n-m) unit clauses
+   where the first "m" variables in S occur as positive literals in unit clauses
+   and the last (length(S) - n + 1) variables occur as negative literals in unit
+   clauses.
 
    In the result clause-set F, var_cs(F) = S.
 */
@@ -155,31 +182,67 @@ cardinality_comparator_cs(S,m,n) :=
   union(
     map(set,setify(take_elements(m,S))),map(set,map("-",setify(rest(S,n)))))$
 
-/* Given a list E of variables, returns a clause-set F which is satisfied iff 
-   between m and n variables of E are set to true.
-   
-   A special property of this clause-set is that, given an arbitrary partial
-   assignment, unit-clause propagation will immediately pick up any forced 
-   assignments. 
-
-   For example:
-
-   cs : cardinality_cs([1,2],1,1)$
-   ucp_lpa_0_cs(apply_pa({1},standardise_fcs(cs_to_fcs(cs))[1][2]));
-   [{},[{-4,3},{-2}]]
-   ucp_lpa_0_cs(apply_pa({2},standardise_fcs(cs_to_fcs(cs))[1][2]));
-   [{},[{-4,3},{-1}]]
-
-   etc. Notice how, providing the constraint 1 + 2 = 1, and then setting
-   either 1 or 2 to 1, immediately enforces that 2 or 1 (resp) must be false
-   by UCP.
+/* Given a list E of variables, returns a clause-set F which is satisfied by a
+   given partial assignment p iff between m and n variables of E are set to true
+   by p.
    
    In the result clause-set F, var_cs(F) = union(S,E,V) where variables 
    in V are of the form ctt(l,i) for a list of 1s and 0s l and an
-   integer i > 0, and variables in E are of the form ctt([],i) for
+   integer i > 0, and variables in S are of the form ctt([],i) for
    integer i > 0.
+   
+   The clause-set is built from a tree, where each node has a list of variables
+   associated with it. 
+   
+   - {ctt([],1),...,ctt([],length(E))} is associated with the root node
+   - [E[i]] is associated with the i-th leaf node (in the standard "inorder" 
+     traversal)
+   - The list of variables associated with the left child of the root is
+     [ctt([0],1),...,ctt([0],floor(length(E)/2))]
+   - The list of variables associated with the right child of the root is
+     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))]
+   - The list of variables associated with left child of any other node, 
+     assuming the set of variables associated with the parent node is
+     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(cons(0,l),1),...,ctt(cons(0,l),floor(n/2))].
+   - The set of variables associated with right child of any other node, 
+     assuming the set of variables associated with the parent node is
+     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(cons(1,l),1),...,ctt(cons(1,l),ceiling(n/2))].
 
-   The number of variables in union(V,E) given length(E) = n is
+   For every internal node, there are then clauses expressing that that 
+   variables associated with that node must be assigned the unary representation
+   of the sum of the variables from the two child nodes. That is, for an
+   internal node "P", with associated list "R", and children "PL" and "PR" with
+   associated lists "RL" and "RR", we have the clauses {-RL[a],-RL[b],RL[c]} 
+   and {RL[a+1],RR[b+1],-R[c+1]} in the result clause-set for all 
+   
+   - 0 <= a <= length(RL)
+   - 0 <= b <= length(RR)
+   - 0 <= c <= length(R)
+   - a+b = c.
+
+   where RL[0] := RR[0] := R[0] := true and RL[length(RL)+1] := 
+   RR[length(RR)+1] := R[length(R)+1] := false, and clauses are reduced or 
+   removed based on the presence of true or false.
+
+   The result clause-set additonally has (length(S) - (n-m)) unit clauses
+   where the first "m" variables in S occur as positive literals in unit clauses
+   and the last (length(S) - n + 1) variables occur as negative literals in unit
+   clauses.
+   
+   The set of new variables introduced can therefore be 
+   recursively defined using a function "vc", where V = vc(S,[])
+   and S = {ctt([],1),...,ctt([],length(E))}:
+
+   vc(S,l) = {} if length(E) <= 1
+             otherwise 
+             union(
+               E, 
+               vc({ctt(cons(l,0),1),...,ctt(cons(l,0),floor(length(E)/2))}),
+               vc({ctt(cons(l,1),1),...,ctt(cons(l,1),ceiling(length(E)/2))}))
+
+   The number of variables in union(V,S) given length(E) = n is
    nvc(n) where "nvc" is defined recursively in the following 
    way:
 
