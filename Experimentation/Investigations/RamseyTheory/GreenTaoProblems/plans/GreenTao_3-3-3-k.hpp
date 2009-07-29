@@ -271,7 +271,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1920
+  \todo greentao_3(3,3,5) > 1921
   <ul>
    <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
@@ -321,7 +321,9 @@ BestSolution_Max = 2.000000
 806
      \endverbatim
      </li>
-     <li> cutoff=2*10^9 </li>
+     <li> cutoff=2*10^9: In 27 runs one solution was found (seed=4076787552,
+     osteps=1932855399). </li>
+     <li> So apparently a higher cutoff is needed. </li>
     </ol>
    </li>
    <li> n=1925
@@ -338,6 +340,7 @@ BestSolution_Max = 2.000000
 100
      \endverbatim
      </li>
+     <li> cutoff=2*10^9: </li>
     </ol>
    </li>
    <li> n=1930
