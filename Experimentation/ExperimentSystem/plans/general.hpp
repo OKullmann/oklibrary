@@ -99,7 +99,16 @@ License, or any later version. */
    <li> See "Simply script for monitoring remote processes" above for
    a simple but flexible tool which just monitors (arbitrary) processes. </li>
    <li> Perhaps using a tool such as "autoson" by McKay (see
-   http://cs.anu.edu.au/~bdm/autoson/ ) would be easiest. </li>
+   http://cs.anu.edu.au/~bdm/autoson/ ) would be easiest.
+    <ol>
+     <li> However, the licence situation is unclear: We can only use software
+     which can be freely redistributed; if it is enough just to keep the
+     package, then this should be alright. </li>
+     <li> A serious restrictions seems to be the common filesystem: So
+     apparently actually the software is not usable for us, since in most
+     situations machines are just connected by ssh ?? </li>
+    </ol>
+   </li>
   </ul>
 
 
