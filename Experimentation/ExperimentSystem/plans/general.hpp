@@ -98,6 +98,8 @@ License, or any later version. */
    copy-and-paste to transfer data from one step to another. </li>
    <li> See "Simply script for monitoring remote processes" above for
    a simple but flexible tool which just monitors (arbitrary) processes. </li>
+   <li> Perhaps using a tool such as "autoson" by McKay (see
+   http://cs.anu.edu.au/~bdm/autoson/ ) would be easiest. </li>
   </ul>
 
 
