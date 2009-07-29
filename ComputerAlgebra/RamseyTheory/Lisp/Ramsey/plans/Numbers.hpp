@@ -15,7 +15,7 @@ License, or any later version. */
    <li> The current implementation of ramsey_p is incorrect. </li>
    <li> All implementations of parameter-transformers (like "ramseytrivle_a")
    are incorrect: Every such function must work on every possible list. </li>
-   <li> Before performing the correction, first the tests need to be
+   <li> DONE Before performing the correction, first the tests need to be
    updated to detect the errors (as usual). </li>
   </ul>
 
