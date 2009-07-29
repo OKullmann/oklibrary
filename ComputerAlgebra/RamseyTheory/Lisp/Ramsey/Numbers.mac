@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
 /* ******************
    * Ramsey numbers *
    ******************
@@ -73,6 +74,7 @@ ramsey_p(L) := listp(L) and
     integerp(L[1]) and L[1] >= 0 and listp(L[2]) and every_s(integerp,L[2]) and
     every_s(lambda([a], is(a >= 0)), L[2])
   else false$
+
 
 /* *****************
    * Trivial cases *
