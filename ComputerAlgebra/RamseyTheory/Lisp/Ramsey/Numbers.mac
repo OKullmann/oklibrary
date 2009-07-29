@@ -75,6 +75,40 @@ ramsey_p(L) := listp(L) and
     every_s(lambda([a], is(a >= 0)), L[2])
   else false$
 
+/*
+  There are numerous different "cases" for the known Ramsey number and so the
+  lookup or computation of these number is split into many functions, which are
+  then combined in "ramsey".
+
+  For each case, there are two functions "ramseyXXX_a" and "ramseyXXX" where 
+  XXX is a short abbreviation for the name/concept associated with the case.
+
+  The "ramseyXXX_a" function takes an arbitrary Ramsey parameter tuple and 
+  returns either [], in which case this "case" does not apply to the given 
+  tuple, or it returns a list of arguments for ramseyXXX, in which case it does
+  and ramseyXXX, given these arguments will return the Ramsey number for that
+  tuple.
+
+  These "cases" are split into 4 main groups.
+
+  The "trivial cases" are those which can be computed directly, based on the
+  definition of the Ramsey numbers.
+
+  The "two-colour graph cases" are those which are associated with Ramsey
+  problems with tuples of the form [2,[p,q]], and their associated functions are
+  "ramseyg2_p_a" and "ramseyg2_p", where "ramseyg2_p" takes q as an argument.
+
+  The "two-colour graph cases" are those which are associated with Ramsey
+  problems with tuples of the form [2,[p1,...,pn], and their associated 
+  functions are "ramseyg2_p1_..._p(n-1)_a" and "ramseyg2_p1_..._p(n-1)", where 
+  "ramseyg2_p1_..._p(n-1)" takes "pn" as an argument.
+  
+  The "hypergraph cases" are those which are associated with Ramsey
+  problems with tuples of the form [r,[p1,...,pn], and their associated 
+  functions are "ramseygr_p1_..._p(n-1)_a" and "ramseygr_p1_..._p(n-1)", where 
+  "ramseygr_p1_..._p(n-1)" takes "pn" as an argument.
+
+*/
 
 /* *****************
    * Trivial cases *
@@ -256,6 +290,10 @@ ramseyg2_10(q) :=
      unknown,[1265,inf]][q]
   else unknown$
 
+/* **********
+   * Graphs *
+   **********
+*/
 
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[3,3,q]], otherwise returns []. */
