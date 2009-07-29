@@ -22,19 +22,34 @@ read_oksolver_mon = function(filename, ...) {
 # which eliminates the first 100 rows from the data frame.
 
 # Plotting levels -> average-nodes and levels -> nodes.
-# Use cut to remove the rows from 1 to cut.
-# Use step to draw vertical lines at levels which are multiples of step.
-plot_oksolver_mon_nodes = function(E, cut=100, step=256, ...) {
+# Use "left" and "right" to restrict to the observation-nodes within this
+# level-range (default is from observation 128 to the maximum).
+# Use "ldstep" to draw vertical lines at levels which are multiples of 
+# step = 2^ldstep (step can also be specified directly, thus ignoring
+# ldstep).
+# If step is larger than the maximum level, then just the default x-axis
+# annotation is used (for the lower plot).
+plot_oksolver_mon_nodes = function(E, left=128, right=max(E$level), ldstep=round(log2(right-left))-3, step=2^ldstep, ...) {
+  E = E[E$level >= left & E$level <= right,]
+  old_mfrow = par("mfrow")
+  old_mar = par("mar")
   par(mfrow=c(2,1), mar=c(0,3,3,2))
-  m = max(E$level)
-  S = seq(step,m,step)
-  plot(E$level[-(1:cut)], E$ave_nodes[-(1:cut)], xaxt="n", ann=F, ...)
-  axis(3, at=S, labels=seq(1,m/step))
-  abline(v=S)
-  par(mar=c(3,3,0,2))
-  plot(E$level[-(1:cut)], E$nodes[-(1:cut)], xaxt="n", ann=F, ...)
-  axis(1, at=S, labels=seq(1,m/step))
-  abline(v=S)
-  par(mfrow=c(1,1))
+  if (step >= 1 && step <= right) {
+    S = seq(step,right,step)
+    plot(E$level, E$ave_nodes, xaxt="n", ann=F, ...)
+    axis(3, at=S, labels=seq(1,right/step))
+    abline(v=S)
+    par(mar=c(3,3,0.2,2))
+    plot(E$level, E$nodes, xaxt="n", ann=F, ...)
+    axis(1, at=S, labels=seq(1,right/step))
+    abline(v=S)
+  }
+  else {
+    plot(E$level, E$ave_nodes, xaxt="n", ann=F, ...)
+    par(mar=c(3,3,0.2,2))
+    plot(E$level, E$nodes, ...)
+  }
+  par(mfrow=old_mfrow, mar=old_mar)
+  cat("ldstep=",ldstep,"step=",step,"left=",left,"right=",right,"\n")
 }
 
