@@ -12,8 +12,10 @@ License, or any later version. */
 
   \bug Incorrect parameter checking
   <ul>
-   <li> The current implementation of ramsey_p is incorrect. (MG: In what
-   respect?) </li>
+   <li> The current implementation of ramsey_p is obviously incorrect. </li>
+   <li> The parameter transformations should be informative, and thus should
+   not use ramsey_p (they should be understandable on their own, and should
+   exactly specify the case). </li>
    <li> DONE All implementations of parameter-transformers (like 
    "ramseytrivle_a") are incorrect: Every such function must work on 
    every possible list. </li>
