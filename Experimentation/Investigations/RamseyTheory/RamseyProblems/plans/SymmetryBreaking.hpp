@@ -23,12 +23,13 @@ License, or any later version. */
    See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac) 
    when added to associated clause set, will fix a monochromatic clique
    of size 5 (as 49 is a *known* upper bound for ramsey_2^2(5)), which will make
-   the clause set unsatisfiable (as it should be). This is not a problem, but it
-   should be noted that symmetry breaking using this method is not making some
-   huge breakthrough here. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac .
+   the clause set unsatisfiable (as it should be). </li>
+   <li> This is not a problem, but it should be noted that symmetry breaking
+   using this method is not making some huge breakthrough here. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac.
    </li>
   </ul>
+
 
   \todo Using cardinality constraints
   <ul>
@@ -37,16 +38,15 @@ License, or any later version. */
    cardinality constraints (that is, number of variables set to true restricted
    to between floor(153/2) and ceil(153/2)). </li>
    <li> MG should include the results from initial experiments he did using
-   various solvers such as picosat,minisat etc on this. </li>
+   various solvers (such as picosat, minisat, OKsolver_2002) etc. on this. </li>
    <li> MG should search for or e-mail McKay regarding the solutions for 
    high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
    the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
    these cases. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp . 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp. 
    </li>
   </ul>
-
 
 */
 
