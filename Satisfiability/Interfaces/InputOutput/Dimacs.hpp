@@ -384,6 +384,11 @@ namespace OKlib {
 
     // Convenience wrappers
 
+    /*!
+      \class List2DIMACSOutput
+      \brief Transfers a clause-set as a sequence of sequences to an output-stream in Dimacs format
+    */
+
     struct List2DIMACSOutput {
       typedef InputOutput::CLSAdaptorDIMACSOutput<> cls_adaptor_type;
       typedef ListTransfer<cls_adaptor_type> list_transfer_type;
