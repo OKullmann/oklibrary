@@ -18,6 +18,7 @@ License, or any later version. */
    <li> Get an overview on the current state of the module, create new
    plans-files for the sub-modules, move the todo's to there, update
    the doxygen-documentation. </li>
+   <li> Especially docus and example-applications are needed! </li>
    <li> Files involved:
     <ol>
      <li> InputOutput/ClauseSetAdaptors.hpp : </li>
@@ -34,7 +35,28 @@ License, or any later version. */
   \todo See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
 
-  \todo Write docus.
+  \todo Write docus
+  <ul>
+   <li> First task: How to create Dimacs-output.
+    <ol>
+     <li> The class template InputOutput::CLSAdaptorDIMACSOutput, a model of
+     concept CLSAdaptor, is the main component. </li>
+     <li> The idea of such a CLSAdaptor is, that it provides event-handlers
+     for registering clauses etc., and delivers the collected information
+     to another component, in edited form. </li>
+     <li> If the clause-set F to be output is given as a sequence of
+     sequences, then class template InputOutput::ListTransfer is the component
+     to be plugged into a CLSAdaptor; in this case, where we just want to
+     output it, this is CLSAdaptorDIMACSOutput. </li>
+     <li> As a convenience instantiation, InputOutput::List2DIMACSOutput is
+     provided, which can be used by
+     \code
+InputOutput::List2DIMACSOutput(F, out, comment)
+     \endcode
+     for an ostream "out" and an optional string "comment". </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Move to the new test system.
