@@ -68,8 +68,10 @@ namespace OKlib {
       Meaning of data members:
       <ul>
        <li> comment_count : number of comment-lines </li>
-       <li> parameter_n : value of the first parameter in the parameter line </li>
-       <li> parameter_c : value of the second parameter in the parameter line </li>
+       <li> parameter_n : value of the first parameter in the parameter line
+       </li>
+       <li> parameter_c : value of the second parameter in the parameter line
+       </li>
        <li> tautological_clauses_count : number of tautological clauses </li>
        <li> non_tautological_clauses_count : number of non-tautological
        clauses </li>
@@ -86,7 +88,8 @@ namespace OKlib {
 
 
       \todo Create a concept:
-      - at least Concepts::FullyConstructibleEq and Concepts::EqualitySubstitutable
+      - at least
+      Concepts::FullyConstructibleEq and Concepts::EqualitySubstitutable
       - default constructed: null-initialised
       - equality holds iff all members are equal
       - output-streamable (?)
@@ -154,6 +157,13 @@ namespace OKlib {
 
       Parameter n is considered as maximal possible variable index,
       while parameter c is considered as upper bound on the number of clauses.
+
+      The role of the template parameters are as follows:
+      <ol>
+       <li> Int is the integral type for the Dimacs literals. </li>
+       <li> String is the string type for comments. </li>
+       <li> AdaptorStatistics is a CLSAdaptor which handles statistics. </li>
+      </ol>
 
 
       \todo For the output-jobs message-classes should be employed.
