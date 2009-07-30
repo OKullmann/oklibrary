@@ -30,6 +30,8 @@ okltest_ramsey_p(ramsey_p);
    *****************
 */
 
+okltest_ramseyr0_a(ramseyr0_a);
+okltest_ramseyr0(ramseyr0);
 okltest_ramseytrivle_a(ramseytrivle_a);
 okltest_ramseytrivle(ramseytrivle);
 okltest_ramseytriveq_a(ramseytriveq_a);

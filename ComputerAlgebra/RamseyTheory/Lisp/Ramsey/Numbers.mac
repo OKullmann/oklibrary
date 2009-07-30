@@ -40,7 +40,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 /* Returns the current bounds known for the given Ramsey parameter tuple.
    In the case nothing is known, unknown is returned. */
 ramsey(param_tuple) := 
-  if ramseytrivle_a(param_tuple)#[] then 
+  if ramseyr0_a(param_tuple)#[] then
+    apply(ramseyr0,ramseyr0_a(param_tuple))
+  elseif ramseytrivle_a(param_tuple)#[] then 
     apply(ramseytrivle,ramseytrivle_a(param_tuple))
   elseif ramseytriveq_a(param_tuple)#[] then 
     apply(ramseytriveq,ramseytriveq_a(param_tuple))
@@ -69,11 +71,11 @@ ramsey(param_tuple) :=
   else unknown$
 
 /* Checking whether L is a valid Ramsey parameter tuple: */
-ramsey_p(L) := listp(L) and 
-  if length(L) > 1 then
-    integerp(L[1]) and L[1] >= 0 and listp(L[2]) and every_s(integerp,L[2]) and
-    every_s(lambda([a], is(a >= 0)), L[2])
-  else false$
+ramsey_p(L) := 
+  listp(L) and length(L) > 1 and
+  integerp(L[1]) and L[1] >= 0 and 
+  listp(L[2]) and length(L[2]) > 0 and every_s(integerp,L[2]) and
+  every_s(lambda([a], is(a >= 0)), L[2])$
 
 /*
   There are numerous different "cases" for the known Ramsey number and so the
@@ -115,13 +117,24 @@ ramsey_p(L) := listp(L) and
    *****************
 */
 
+/* If L[1] = 0 then the set of all 0-subsets of any set is {{}}, 
+   and so as soon as */
+
+/* Given a Ramsey parameter tuple L, returns [0] if L[1] = 0 and 
+   length(L[2]) > 0, otherwise it returns []. */
+ramseyr0_a(L) :=
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
+     L[1] = 0 then [last(L[2])]
+  else []$
+ramseyr0(z) := z$
+
 /* If min(L[2]) < L[1] then the set of all L[1]-subsets of {1,..,min(L)} is 
    empty, and the Ramsey number is simply min(L).  */
 
 /* Given a Ramsey parameter tuple L, returns a list with the minimum 
    element of L[2] if min(L[2]) < L[1], otherwise it returns []. */
 ramseytrivle_a(L) :=
-  if length(L) = 2 and length(L[2]) > 0 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
      integerp(L[1]) and integerp(first(L[2])) and
      L[1] >= 0 and L[2][1] >= 0 and
      first(L[2]) < L[1] then [first(L[2])]
@@ -138,7 +151,7 @@ ramseytrivle(min_qi) := min_qi$
 /* Given a Ramsey parameter tuple L, returns the original L with the minimum
    element of L[2] removed if min(L[2]) = L[1], otherwise it returns []. */
 ramseytriveq_a(L) := 
-  if length(L) = 2 and length(L[2]) > 0 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
      integerp(L[1]) and integerp(first(L[2])) and
      L[1] >= 0 and L[2][1] >= 0 and
      first(L[2]) = L[1] then [[L[1],rest(L[2])]]
@@ -157,7 +170,7 @@ ramseytriveq(L) := ramsey(L)$
 /* Given a Ramsey parameter tuple L, returns a list with the first element
    of L[2] if length(L[2]) = 1, otherwise it returns []. */
 ramseytrivk_a(L) := 
-  if length(L) = 2 and length(L[2]) = 1 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 1 and 
      integerp(L[1]) and integerp(first(L[2])) and
      L[1] >= 0 and L[2][1] >= 0 then [first(L[2])]
   else []$
@@ -174,7 +187,7 @@ ramseytrivk(q) := q$
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[3,q]], otherwise returns []. */
 ramseyg2_3_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 3 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -190,7 +203,7 @@ ramseyg2_3(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[4,q]], otherwise returns []. */
 ramseyg2_4_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 4 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -207,7 +220,7 @@ ramseyg2_4(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[5,q]], otherwise returns []. */
 ramseyg2_5_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 5 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -223,7 +236,7 @@ ramseyg2_5(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[6,q]], otherwise returns []. */
 ramseyg2_6_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 6 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -239,7 +252,7 @@ ramseyg2_6(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[7,q]], otherwise returns []. */
 ramseyg2_7_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 7 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -256,7 +269,7 @@ ramseyg2_7(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[8,q]], otherwise returns []. */
 ramseyg2_8_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 8 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -273,7 +286,7 @@ ramseyg2_8(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[9,q]], otherwise returns []. */
 ramseyg2_9_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 9 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -290,7 +303,7 @@ ramseyg2_9(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[10,q]], otherwise returns []. */
 ramseyg2_10_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 2 and first(L[2]) = 10 and integerp(second(L[2])) and
      second(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -311,7 +324,7 @@ ramseyg2_10(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[3,3,q]], otherwise returns []. */
 ramseyg3_3_3_a(L) := 
-  if length(L) = 2 and length(L[2]) = 3 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 3 and 
      L[1] = 2 and first(L[2]) = 3 and second(L[2]) = 3 and 
      integerp(third(L[2])) and third(L[2]) >= 0 then [last(L[2])]
   else []$
@@ -331,7 +344,7 @@ ramseyg3_3_3(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [3,[4,q]], otherwise returns []. */
 ramseyhg3_2_4_a(L) := 
-  if length(L) = 2 and length(L[2]) = 2 and 
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
      L[1] = 3 and first(L[2]) = 4 and integerp(second(L[2])) and 
      second(L[2]) >= 0 then [last(L[2])]
   else []$
