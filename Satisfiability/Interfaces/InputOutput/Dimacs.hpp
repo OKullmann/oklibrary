@@ -27,6 +27,7 @@ License, or any later version. */
 #include <map>
 #include <vector>
 #include <utility>
+#include <ostream>
 
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/ref.hpp>
@@ -38,6 +39,9 @@ License, or any later version. */
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
+
+#include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
+
 
 namespace OKlib {
   namespace InputOutput {
@@ -375,6 +379,19 @@ namespace OKlib {
         for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci)
           out.clause(*Ci, Ci -> size());
         out.finish();
+      }
+    };
+
+    // Convenience wrappers
+
+    struct List2DIMACSOutput {
+      typedef InputOutput::CLSAdaptorDIMACSOutput<> cls_adaptor_type;
+      typedef ListTransfer<cls_adaptor_type> list_transfer_type;
+      typedef list_transfer_type::string_type string_type;
+      template <class Cls>
+      List2DIMACSOutput(const Cls& F, std::ostream& out, const string_type& comment = "") {
+        cls_adaptor_type A(out);
+        list_transfer_type(F, A, comment);
       }
     };
 
