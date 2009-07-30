@@ -14,6 +14,7 @@ License, or any later version. */
   <ul>
    <li> The current "quad"-forms should be replaced by
    hindman_k2_ohg(a,n) and hindmani_k2_ohg(a,n) (for x <> y). </li>
+   <li> Actually, the missing a-parameter should be indicated by "a1". </li>
   </ul>
 
 

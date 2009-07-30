@@ -67,7 +67,7 @@ License, or any later version. */
    vertices) could, of course, be used also for vdW-problems etc.
     <ol>
      <li> Do we need a general scheme? </li>
-     <li> For the Hindman-problems perhaps the special motication to consider
+     <li> For the Hindman-problems perhaps the special motivation to consider
      this additional parameter was to get a handle on the otherwise too big
      numbers? </li>
      <li> So here we have special (historical) reasons to include parameter a.
