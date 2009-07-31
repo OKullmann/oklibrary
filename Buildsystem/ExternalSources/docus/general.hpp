@@ -113,6 +113,8 @@ oklib gcc gcc_recommended_version_number_okl=4.2.4
    </li>
    <li> Mhash (Buildsystem/ExternalSources/SpecialBuilds/docus/Mhash.hpp) </li>
    <li> Ocaml (Buildsystem/ExternalSources/SpecialBuilds/docus/Ocaml.hpp) </li>
+   <li> Picosat (Buildsystem/ExternalSources/SpecialBuilds/docus/Picosat.hpp)
+   </li>
    <li> Postgresql (Buildsystem/ExternalSources/SpecialBuilds/docus/Postgresql.hpp)
    </li>
    <li> R (Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp) </li>
