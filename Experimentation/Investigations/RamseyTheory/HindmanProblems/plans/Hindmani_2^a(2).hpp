@@ -196,6 +196,9 @@ s UNSATISFIABLE
      (just) min=1. </li>
      <li> minisat2 determined unsatisfiability in 26 restarts (7534086
      conflicts, 8426651 decisions; say around 10 hours). </li>
+     <li> picosat-913: (it appears that picosat does not use a preprocessor?
+     One should check whether combining it with the minisat2 preprocessor
+     helps) </li>
      <li> march_pl
      \verbatim
 > march_pl Hindman2gen_6_28188.cnf
