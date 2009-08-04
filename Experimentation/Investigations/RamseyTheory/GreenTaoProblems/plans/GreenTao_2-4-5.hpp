@@ -69,7 +69,7 @@ BestSolution_Max = 122.000000
   </ul>
 
 
-  \todo greentao_2(4,5) > 4230
+  \todo greentao_2(4,5) > 4231
   <ul>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
@@ -292,8 +292,16 @@ read_ubcsat
     <ol>
      <li> 198 runs with cutoff=4*10^9 produced many minimum=1, but
      no solution. </li>
+     <li> Another 608 runs found one solution (msteps=1395519085,
+     seed=2325178208):
+     \verbatim
+  0   1   2   3   4
+  1 160 390  55   2
+     \endverbatim
+     </li>
     </ol>
    </li>
+   <li> n=4232 </li>
    <li> n=4237: 193 runs with cutoff=4*10^9 produced many minimum=1, but
    no solution. </li>
    <li> n=4250: 181 runs with cutoff=4*10^9 yielded a minimum of 2 falsified
