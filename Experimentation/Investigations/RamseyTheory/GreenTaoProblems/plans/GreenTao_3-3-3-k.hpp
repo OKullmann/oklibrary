@@ -340,7 +340,12 @@ BestSolution_Max = 2.000000
 100
      \endverbatim
      </li>
-     <li> cutoff=2*10^9: </li>
+     <li> cutoff=2*10^9: 76 runs yield
+     \verbatim
+ 1  2  3
+13 62  1
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1930
