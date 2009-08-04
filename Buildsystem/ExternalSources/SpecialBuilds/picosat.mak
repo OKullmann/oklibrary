@@ -16,7 +16,7 @@ $(picosat_directories_okl) : % :
 
 
 # #################################
-# Main Grasp targets
+# Main picosat targets
 # #################################
 
 .PHONY : picosat cleanpicosat cleanallpicosat
