@@ -274,17 +274,30 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
      <li> After observing 15900 nodes at depth 24, the prediction is
      90*10^6 nodes (an average of 5.37 nodes per observation node), and about
      4 years. </li>
+     <li> After 90000 nodes, the prediction is 62*10^6 nodes (average 3.72
+     nodes per observation node), and about 2 1/2 years. </li>
      <li> The distribution of node-counts over the observation-nodes (ordered
      as they were created) shows a periodic patterns, easy segments
-     interspersed with hard segments. </li>
-     <li> Of course, this all has to do with the switch between different
-     subtrees, and some are apparently hard, and some easy --- however there
-     seems to be a non-trivial pattern. </li>
-     <li> A major period seems to be 1024 observation nodes, while the minimal
-     period seems to be 256 (forcing a "homogenous" behaviour per cell). </li>
-     <li> Inside a cell the hard problems seem often accumulated a either
-     the left or the right edge (where 1024 sometimes needs to be replaced
-     by a smaller power of 2). </li>
+     interspersed with hard segments.
+      <ol>
+       <li> Of course, this all has to do with the switch between different
+       subtrees, and some are apparently hard, and some easy --- however there
+       seems to be a non-trivial pattern. </li>
+       <li> A major period seems to be 1024 observation nodes, while the
+       minimal period seems to be 256 (forcing a "homogenous" behaviour per
+       cell). </li>
+       <li> Inside a cell the hard problems seem often accumulated a either
+       the left or the right edge (where 1024 sometimes needs to be replaced
+       by a smaller power of 2). </li>
+      </ol>
+     </li>
+     <li> The final output was
+     \verbatim
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=36512 initial_number_of_clauses=564400 initial_number_of_literal_occurrences=2403960 running_time(s)=855236.4 number_of_nodes=333456 number_of_single_nodes=3 number_of_quasi_single_nodes=0 number_of_2-reductions=5709657 number_of_pure_literals=6423281 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=38 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=365124254 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_8_97280.cnf_m2pp_1658
+     \endverbatim
+     </li>
+     <li> Much closer inspections are needed in order to see whether here
+     really something non-random is going on. </li>
     </ol>
    </li>
   </ul>
