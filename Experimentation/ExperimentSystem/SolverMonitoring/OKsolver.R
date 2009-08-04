@@ -51,5 +51,6 @@ plot_oksolver_mon_nodes = function(E, left=128, right=max(E$level), ldstep=round
   }
   par(mfrow=old_mfrow, mar=old_mar)
   cat("ldstep=",ldstep,"step=",step,"left=",left,"right=",right,"\n")
+  cat("obs/count=", (right-left+1)/length(E$level), "nodes-range=", range(E$nodes), "ave-nodes-range=", range(E$ave_nodes), "\n")
 }
 
