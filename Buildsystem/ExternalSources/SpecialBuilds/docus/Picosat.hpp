@@ -15,7 +15,7 @@ License, or any later version. */
 
   <h2> On the purpose of Picosat </h2>
 
-  Picosat is an award winning conflict-driven SAT solver. It also provides a
+  Picosat is an conflict-driven SAT solver. It also provides a
   variety of specialised functionality including the production of UNSAT proof
   traces.
 
