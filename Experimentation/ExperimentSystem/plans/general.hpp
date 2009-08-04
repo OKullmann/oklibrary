@@ -107,6 +107,11 @@ License, or any later version. */
      <li> A serious restrictions seems to be the common filesystem: So
      apparently actually the software is not usable for us, since in most
      situations machines are just connected by ssh ?? </li>
+     <li> In most cases, such as on PCs in the CS linux lab, the machines have
+     at least the user's home directory in common (via NFS etc). Also, there 
+     are always solutions such as sshfs (see 
+     http://fuse.sourceforge.net/sshfs.html ), although admittedly, these add 
+     further complexity. </li>
     </ol>
    </li>
   </ul>

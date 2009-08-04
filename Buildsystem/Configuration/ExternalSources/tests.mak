@@ -456,7 +456,25 @@ else
 endif
 
 # the following construction needs to be generalised by some function
-grasp_html_documentation_index_location_tag_okl ?= <a href="$(grasp_man_okl)">$(grasp_man_okl)</a>
+picosat_html_documentation_index_location_tag_okl ?= <a href="$(picosat_man_okl)">$(picosat_man_okl)</a>
+
+# New variables for the configuration of building picosat (to be designed 
+# and implemented):
+
+location_picosat_call_okl ?= $(shell (type -P $(picosat_call_okl)))
+ifeq ($(location_picosat_call_okl),)
+  picosat_call_ready_okl ?= NO
+else
+  version_picosat_call_okl ?= $(shell $(picosat_call_okl) --version)
+  ifeq ($(version_picosat_call_okl),$(picosat_recommended_version_number_okl))
+    picosat_call_ready_okl ?= YES
+  else
+    picosat_call_ready_okl ?= ERROR
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+picosat_html_documentation_index_location_tag_okl ?= <a href="$(picosat_man_okl)">$(picosat_man_okl)</a>
 
 # New variables for the configuration of building cmake (to be designed 
 # and implemented):

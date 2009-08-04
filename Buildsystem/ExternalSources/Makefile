@@ -106,6 +106,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/march.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/satz.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/sp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/bzip2.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/picosat.mak
 
 # #################################
 # Cleaning
