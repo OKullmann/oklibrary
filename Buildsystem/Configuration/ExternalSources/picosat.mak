@@ -25,7 +25,6 @@ picosat_call_okl ?= $(picosat_installation_dir_okl)/$(picosat_exec_okl)
 
 picosat_base_doc_dir_okl ?= $(ExternalSources_doc)/SAT/Picosat
 picosat_doc_dir_okl ?= $(picosat_base_doc_dir_okl)/$(picosat_recommended_okl)
-picosat_man_okl ?= $(picosat_doc_dir_okl)/$(picosat_exec_okl).html
 picosat_docu_page_okl ?= $(doc_dir)/doxygen_html/d8/d96/Picosat_8hpp.html
 
 picosat_homepage_url_okl := http://fmv.jku.at/picosat/

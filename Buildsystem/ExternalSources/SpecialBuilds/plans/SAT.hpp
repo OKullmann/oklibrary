@@ -239,8 +239,14 @@ double Solver::progressEstimate() const {
   <ul>
    <li> http://fmv.jku.at/picosat/ </li>
    <li> Likely the solver should be called "picosat913". </li>
-   <li> We need to document the meaning of the output statistics. </li>
-   <li> We need to document (and make precise) the options. </li>
+   <li> Documentation:
+    <ol>
+     <li> We need to document the meaning of the output statistics. </li>
+     <li> We need to document (and make precise) the options. </li>
+     <li> First this documentation can go to the Picosat installation page.
+     </li>
+    </ol>
+   </li>
    <li> Missing preprocessor:
     <ol>
      <li> Likely there exists a dedicated Picosat preprocessor? </li>

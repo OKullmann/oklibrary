@@ -24,7 +24,7 @@ License, or any later version. */
 
   <ul>
    <li> The SAT solver, accessible via <code>$(picosat_exec_okl)</code>. </li>
-   <li> Full documentation in directory <code>$(picosat_doc_dir_okl)</code>.
+   <li> Some documentation in directory <code>$(picosat_doc_dir_okl)</code>.
    </li>
   </ul>
 
@@ -49,7 +49,6 @@ License, or any later version. */
      </li>
     </ul>
    </li>
-   <li> The main documentation page: $(picosat_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
