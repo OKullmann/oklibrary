@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp
-  \brief %Tools for generating van der Waerden hypergraphs.
+  \brief %Tools for generating van der Waerden hypergraphs
 */
 
 #ifndef VANDERWAERDENHYPERGRAPH_77bQMQM_5993KKl
