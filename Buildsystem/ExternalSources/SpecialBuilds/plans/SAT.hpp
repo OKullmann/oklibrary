@@ -238,6 +238,17 @@ double Solver::progressEstimate() const {
   \todo Picosat
   <ul>
    <li> http://fmv.jku.at/picosat/ </li>
+   <li> Likely the solver should be called "picosat913". </li>
+   <li> We need to document the meaning of the output statistics. </li>
+   <li> We need to document (and make precise) the options. </li>
+   <li> Missing preprocessor:
+    <ol>
+     <li> Likely there exists a dedicated Picosat preprocessor? </li>
+     <li> We should also write a wrapper for the minisat2-preprocessor. </li>
+     <li> See "Preprocessing wrappers" in
+     Satisfiability/Reductions/plans/general.hpp. </li>
+    </ol>
+   </li>
   </ul>
 
 
