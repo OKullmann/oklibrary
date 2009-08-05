@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 5.8.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac
+  \brief Around quadratic functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ******************************
+   * Counting integer equations *
+   ******************************
+*/
+
+/* The number of pairs [p,q] with p,q in {a, ..., b} such that
+   both roots of x^2+p*x+q=0 are integers.
+   a and b are integers.
+   For a = 1 and b = n this is sequence A091627 in the sequence library.
+*/
+count_quadintsol_bydef(a,b) := block([count : 0],
+  for p : a thru b do
+    for q : a thru b do
+      if every_s(integerp,map(rhs,solve(x^2 + p*x + q))) then 
+        count : count + 1,
+  count)$
+
+
+/*!
+\endhtmlonly
+*/
+
