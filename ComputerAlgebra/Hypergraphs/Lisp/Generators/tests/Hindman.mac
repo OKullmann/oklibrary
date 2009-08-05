@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Hindman.mac"
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
 
 
 /* *****************
@@ -38,6 +39,17 @@ okltest_hindmanquads_degenerated_ohg(f) := (
   /* XXX */
   true)$
 
+okltest_nver_hindman_a1k2_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = length(hindman_a1k2_ohg(n)[1])),
+  true)$
+
+okltest_nhyp_hindman_a1k2_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = length(hindman_a1k2_ohg(n)[2])),
+  true)$
+
+
 okltest_hindmanquads_ohg(f) := (
   assert(f(0) = [[],[]]),
   assert(f(1) = [[1],[]]),
@@ -48,6 +60,17 @@ okltest_hindmanquads_ohg(f) := (
   assert(f(6) = [[1,2,3,4,5,6],[{1,2,3},{1,3,4},{1,4,5},{1,5,6},{2,3,5,6}]]),
   /* XXX */
   true)$
+
+okltest_nver_hindmani_a1k2_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = length(hindman_a1k2_ohg(n)[1])),
+  true)$
+
+okltest_nhyp_hindmani_a1k2_ohg(f) := (
+  for n : 0 thru 10 do 
+    assert(f(n) = length(hindmani_a1k2_ohg(n)[2])),
+  true)$
+
 
 okltest_hindmanquadsgen_degenerated_ohg(f) := (
   assert(okltest_hindmanquads_degenerated_ohg(buildq([f],lambda([n],f(1,n)))) = true),

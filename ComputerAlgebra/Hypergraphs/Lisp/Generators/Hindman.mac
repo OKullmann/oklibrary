@@ -29,17 +29,39 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************
 */
 
-/* RENAME: hindman_a1k2_ohg(a,n) */
+/* RENAME: hindman_a1k2_ohg(n) */
 hindmanquads_degenerated_ohg(n) := 
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,1,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x,floor(n/x)))]$
+hindman_a1k2_ohg(n) := hindmanquads_degenerated_ohg(n)$
 
-/* RENAME: hindmani_a1k2_ohg(a,n) */
+nver_hindman_a1k2_ohg(n) := n$
+nhyp_hindman_a1k2_ohg(n) := 
+ if n <= 1 then 0 else block([s : floor(sqrt(n))],
+ n-1 - (s-1)*s/2 + sum(floor(n/x), x,2,s))$
+/* By definition: nhyp_hindman_a1k2_ohg(n) = 
+     n-1 + sum(floor(n/x) - x + 1, x, 2, floor(sqrt(n)))
+*/
+/* We have nhyp_hindman_a1k2_ohg(n) = count_quadintsol_bydef(1,n)
+   (see ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac).
+*/
+
+/* RENAME: hindmani_a1k2_ohg(n) */
 hindmanquads_ohg(n) := 
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,2,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x+1,floor(n/x)))]$
+hindmani_a1k2_ohg(n) := hindmanquads_ohg(n);
+
+nver_hindmani_a1k2_ohg(n) := n$
+nhyp_hindmani_a1k2_ohg(n) := 
+ if n <= 2 then 0 else block([s : floor(sqrt(n))],
+ n-1 - (s+1)*s/2 + sum(floor(n/x), x,2,s))$
+/* nhyp_hindmani_a1k2_ohg(n) = 
+     n-2 + sum(floor(n/x) - x, x, 2, floor(sqrt(n))) = 
+     nhyp_hindman_a1k2_ohg(n) - floor(sqrt(n))
+*/
 
 /* RENAME: hindman_k2_ohg(a,n) */
 /* Prerequisite: a >= 1 */
@@ -47,6 +69,8 @@ hindmanquadsgen_degenerated_ohg(a,n) := [create_list(i,i,a,n),
  block([M : create_list({x,y,x+y,x*y}, x,max(a,2),floor(sqrt(n)), y,x,floor(n/x))],
   if a >= 2 then M else
    append(create_list({1,y,1+y},y,1,n-1),M))]$
+hindman_k2_ohg(a,n) := hindmanquadsgen_degenerated_ohg(a,n)$
+
 
 /* RENAME: hindmani_k2_ohg(a,n) */
 hindmanquadsgen_ohg(a,n) := [create_list(i,i,a,n),
