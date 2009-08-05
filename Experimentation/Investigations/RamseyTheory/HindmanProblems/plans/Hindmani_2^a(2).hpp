@@ -196,9 +196,12 @@ s UNSATISFIABLE
      (just) min=1. </li>
      <li> minisat2 determined unsatisfiability in 26 restarts (7534086
      conflicts, 8426651 decisions; say around 10 hours). </li>
-     <li> picosat-913: (it appears that picosat does not use a preprocessor?
-     One should check whether combining it with the minisat2 preprocessor
-     helps) </li>
+     <li> picosat913:
+      <ul>
+       <li> without preprocessor </li>
+       <li> using the minisat2 preprocessor </li>
+      </ul>
+     </li>
      <li> march_pl
      \verbatim
 > march_pl Hindman2gen_6_28188.cnf
@@ -247,6 +250,7 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    each yield always min=1). </li>
    <li> minisat2 determined unsatisfiability in 30 restarts (30602289
    conflicts, 33994511 decisions; 226393s (~ 2 1/2 days). </li>
+   <li> picosat913 </li>
    <li> march_pl </li>
    <li> OKsolver_2002-m2pp
     <ol>
@@ -269,6 +273,7 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
    as for 10^5 and 10^6). </li>
    <li> minisat2 determined unsatisfiability in 30 restarts (27807987
    conflicts, 31114037 decisions, 351550s (4 days). </li>
+   <li> picosat913 </li>
    <li> OKsolver_2002-m2pp:
     <ol>
      <li> After observing 15900 nodes at depth 24, the prediction is
@@ -364,6 +369,7 @@ BestSolution_Max = 24.000000
      <li> 10 runs with cutoff=10^6 yield </li>
     </ol>
    </li>
+   <li> minisat2 </li>
    <li> OKsolver_2002-m2pp: running it with options "-M -D24", from processing
    the first 182 observation-nodes at depth 24 one obtains a prediction of
    about 330*10^6 nodes, which makes about 50 years. </li>
@@ -379,6 +385,7 @@ BestSolution_Max = 24.000000
    success. </li>
    <li> n=353925 seems unsatisfiable: 10 runs with cutoff=10^5 yield
    constant min=1. </li>
+   <li> minisat2 </li>
   </ul>
 
 

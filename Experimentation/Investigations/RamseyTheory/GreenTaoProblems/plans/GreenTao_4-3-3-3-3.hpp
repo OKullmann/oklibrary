@@ -451,6 +451,12 @@ c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 
      (without completing any node at level 20).
      </li>
      <li> minisat2 </li>
+     <li> picosat913
+      <ol>
+       <li> without preprocessor </li>
+       <li> with minisat2 preprocessor </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
