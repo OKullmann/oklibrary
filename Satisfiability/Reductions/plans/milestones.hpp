@@ -30,6 +30,11 @@ License, or any later version. */
     - Update the plans
     - Create milestones
 
+ \par
+   In Satisfiability/Reductions/plans/general.hpp the following topics
+   are handled:
+    - Preprocessing wrappers
+
   \par
    In Satisfiability/Reductions/plans/general.hpp the following topics
    are handled:

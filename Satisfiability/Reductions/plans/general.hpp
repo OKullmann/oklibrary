@@ -12,6 +12,23 @@ License, or any later version. */
 
   \todo DONE Update namespaces.
 
+
+  \todo Preprocessing wrappers
+  <ul>
+   <li> Likely we should create a module Preprocessing. </li>
+   <li> Yet it (only) shall contain tools for writing wrappers,
+   wrapping given solvers with given preprocessors. </li>
+   <li> See the OKsolver_2002 wrapper as well as the satz215 wrapper. </li>
+   <li> In that module of course we shall also develop our own preprocessors.
+   </li>
+   <li> Perhaps this is yet the easiest way (besides updating the
+   OKsolver_2002) to enter the solver-business. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp.
+   </li>
+   <li> Actually, according to the plans there module Preprocessing should
+   be a supermodule, directly located in part Satisfiability. </li>
+  </ul>
+
 */
 
 /*!
