@@ -455,8 +455,8 @@ else
   endif
 endif
 
-# the following construction needs to be generalised by some function
-picosat_html_documentation_index_location_tag_okl ?= <a href="$(picosat_man_okl)">$(picosat_man_okl)</a>
+grasp_html_documentation_index_location_tag_okl ?= <a href="$(grasp_man_okl)">$(grasp_man_okl)</a>
+
 
 # New variables for the configuration of building picosat (to be designed 
 # and implemented):
@@ -473,8 +473,6 @@ else
   endif
 endif
 
-# the following construction needs to be generalised by some function
-picosat_html_documentation_index_location_tag_okl ?= <a href="$(picosat_man_okl)">$(picosat_man_okl)</a>
 
 # New variables for the configuration of building cmake (to be designed 
 # and implemented):
