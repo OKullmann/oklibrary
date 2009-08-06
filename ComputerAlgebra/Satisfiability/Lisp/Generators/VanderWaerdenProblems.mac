@@ -268,7 +268,8 @@ output_greentao_sb_stdname(L,n) := output_greentao_sb(L,n,
   sconcat("GreenTao_sb_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
-/* The diagonal case: */
+/* The diagonal case (m is the number of parts, k the length or arithmetic
+   progressions): */
 output_greentaod(m,k,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_nbfcsud(m,k,n))))],
   output_fcs_v(
