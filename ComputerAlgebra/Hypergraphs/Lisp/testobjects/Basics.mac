@@ -55,7 +55,7 @@ okltest_setsystem2hg(setsystem2hg);
 okltest_listsets2hg(listsets2hg);
 okltest_listsets2oghg(listsets2oghg);
 
-okltest_edge_vertex_com_hg(edge_vertex_com_hg);
+okltest_hypver_hg2com(hypver_hg2com);
 
 okltest_edge_int_com_hg(edge_int_com_hg);
 okltest_vertex_int_com_hg(vertex_int_com_hg);

@@ -126,14 +126,15 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
 
 /* The combinatorial (hyper)edge-vertex matrix of a hypergraph: */
-/* RENAME: edge_vertex_com_hg */
+/* RENAME: hypver_hg2com */
 edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 
   if elementp(v, H) then 1 else 0)]$
 edge_vertex_com_hg(G) := edge_vertex_com_hyp(G)$
+hypver_hg2com(G) := edge_vertex_com_hyp(G)$
 
 /* The (hyper)edge intersection matrix (as a square combinatorial matrix)
    of a hypergraph: */
-/* RENAME: edge_int_com_hg */
+/* RENAME: hypint_hg2scom */
 edge_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(M, trans(M)))))$
 edge_int_com_hg(G) := edge_int_com_hyp(G)$
@@ -141,7 +142,7 @@ edge_int_com_hg(G) := edge_int_com_hyp(G)$
 /* The vertex intersection matrix (as a square combinatorial matrix)
    of a hypergraph (for each pair of vertices the number of common
    occurrences): */
-/* RENAME: vertex_int_com_hg */
+/* RENAME: verint_hg2scom */
 vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
  return(com2scom(prod_com(trans(M), M))))$
 vertex_int_com_hg(G) := vertex_int_com_hyp(G)$

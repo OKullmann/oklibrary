@@ -119,7 +119,7 @@ okltest_listsets2oghg(f) := (
   assert(f([{1,2},{-3,1},{3,2}]) = [[-3,1,2,3],[{1,2},{-3,1},{2,3}],identity]),
   true)$
 
-okltest_edge_vertex_com_hg(f) := (
+okltest_hypver_hg2com(f) := (
   assert(comequalp(f([{},{}]), emptycom) = true),
   assert(comequalp(f([{},{{}}]), zerocom({{}},{})) = true),
   assert(comequalp(f([{1},{}]), zerocom({},{1})) = true),
