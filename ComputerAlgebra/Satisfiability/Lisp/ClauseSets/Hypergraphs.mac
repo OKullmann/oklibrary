@@ -66,6 +66,7 @@ clvar_fcs2com(FF) := cl_var_com_fcs(FF)$
 cl_var_ocom_ofcs(FF) := [FF[2], FF[1], lambda([C,v], 
   if elementp(v, C) then +1 else if elementp(-v,C) then -1 else 0)]$
 clvar_ofcs2ocom(FF) := cl_var_ocom_ofcs(FF)$
+
 /* The inverse operation, creating a formal clause-set from a
    combinatorial matrix, using the columns as variables (positive entries
    yield positive literals, negative entries negative literals).
