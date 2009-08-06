@@ -219,7 +219,27 @@ c 119.7 MB maximally allocated
 c 28007.9 seconds total run time
        \endverbatim
        roughly 8 hours. </li>
-       <li> Using the minisat2 preprocessor </li>
+       <li> Using the minisat2 preprocessor:
+       \verbatim
+c 6 iterations
+c 20991 restarts
+c 0 failed literals
+c 19611716 conflicts
+c 21856001 decisions
+c 29 fixed variables
+c 367241397 learned literals
+c 34.1% deleted literals
+c 3527076464 propagations
+c 32.9% variables used
+c 39559.1 seconds in library
+c 0.1 megaprops/second
+c 3 simplifications
+c 24 reductions
+c 1754.7 MB recycled
+c 110.4 MB maximally allocated
+c 39559.1 seconds total run time
+       \endverbatim
+       Actually, it performs worse than without preprocessing. </li>
       </ul>
      </li>
      <li> march_pl
