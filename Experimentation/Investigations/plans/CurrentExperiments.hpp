@@ -32,7 +32,14 @@ License, or any later version. */
    </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3-3-3-3.hpp
     <ol>
-     <li> greentao_4(3,3,3,3) </li>
+     <li> greentao_4(3,3,3,3)
+      <ol>
+       <li> It is still not so clear that n=377 is unsatisfiable; one
+       should use cutoff=4*10^9 for 1000 runs (with adaptnovelty+). </li>
+       <li> For complete solvers it looks bleak (at this time), but we
+       need to systematically explore the available solvers. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
