@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 /* ****************************
@@ -32,7 +34,10 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/Maint
 */
 
 /* The special case of min_resolution_closure_cs where the input clauses
-   are all full (contain all variables):
+   are all full (contain all variables).
+   In other words, computing all minimal resolvents (for CNF's these are
+   the prime implicates, for DNF's the prime implicants) for full
+   clause-sets.
 */
 min_2resolution_closure_cs(F) := block(
  [prime_implicates : {}, new_implicates, n : nvar_cs(F)],
@@ -44,8 +49,7 @@ min_2resolution_closure_cs(F) := block(
     prime_implicates : union(prime_implicates,new_implicates)),
   return(prime_implicates))$
 
-/* Remark:
-   Given a full clause-set F, the equivalent clause-sets with a minimal
+/* Given a full clause-set F, the equivalent clause-sets with a minimal
    numbers of clauses and secondly minimal number of literal occurrences
    are exactly the minimum transversals of the hypergraph
    subsumption_ghg(min_2resolution_closure_cs(F), F).
@@ -57,6 +61,27 @@ min_2resolution_closure_cs(F) := block(
 all_minequiv_bvs_cs(F) := 
   minimum_transversals_bvs_hg(ghg2hg(
     subsumption_ghg(min_2resolution_closure_cs(F), F)))$
+
+/* Dualisation: */
+
+/* Computing for a full CNF the set of all prime implicants (minimal satisfying
+   assignments), and for a full DNF the set of all prime implicates (minimal
+   clauses which follow):
+*/
+dual_min_2resolution_closure_cs(F) := 
+ comp_cs(min_2resolution_closure_cs(setdifference(full_fcs_v(var_cs(F))[2], F)))$
+/* We have
+   dual_min_2resolution_closure_cs(F) = min_resolution_closure_cs(dual_cs(F))[1]
+   (for full clause-sets).
+*/
+
+/* Computing the minimum "dual prime representation" of a full clause-set F,
+   using a simple algorithm (as above):
+*/
+dual_all_minequiv_bvs_cs(F)  := block(
+ [G : setdifference(full_fcs_v(var_cs(F))[2], F)],
+  map(comp_cs,minimum_transversals_bvs_hg(ghg2hg(
+    subsumption_ghg(min_2resolution_closure_cs(G), G)))))$
 
 
 /* *****************************************************
