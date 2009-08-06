@@ -61,6 +61,36 @@ okltest_minequiv_cs(f) := (
   /* XXX */
   true)$
 
+okltest_dual_min_2resolution_closure_cs(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {{1}}),
+  assert(f({{-1}}) = {{-1}}),
+  assert(f({{1},{-1}}) = {}),
+  assert(f({{1,2}}) = {{1},{2}}),
+  assert(f({{1,2},{-1,-2}}) = {{1,-2},{-1,2}}),
+  assert(f({{1,2},{-1,-2},{-1,2}}) = {{-1,2}}),
+  assert(f({{1,2},{-1,-2},{-1,2},{1,-2}}) = {}),
+  assert(f({{1,2,3},{-1,-2,3},{-1,2,-3},{1,-2,-3}}) = {{1,2,3},{-1,-2,3},{-1,2,-3},{1,-2,-3}}),
+  assert(f({{1,2,3},{-1,-2,3},{-1,2,-3},{1,-2,-3},{1,2,-3}}) = {{1,2,3},{-1,2,-3},{1,-2,-3}}),
+  assert(f({{-3,-2,1},{-2,-1,3},{-1,2,3}}) = {{-3,-1},{-2,-1},{-2,3},{1,3}}),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)[2]) = {}),
+  true)$
+
+/* Testing whether f computes the set of all minimal DNF-representations
+   (w.r.t. first the number of clauses, and then the number of literals)
+   of a full CNF clause-set F.
+*/
+okltest_dual_minequiv_cs(f) := block([R],
+  assert(f({}) = [{{}}]),
+  assert(f({{}}) = [{}]),
+  R : f({{-3,-2,1},{-2,-1,3},{-1,2,3}}),
+  assert(length(R) = 2),
+  assert(setify(R) = {{{-3,-1},{1,3},{-2,-1}}, {{-3,-1},{-2,3},{1,3}}}),
+  /* XXX */
+  true)$
+
 
 /* *****************************************************
    * Finding contained prime-implicates by SAT solvers *

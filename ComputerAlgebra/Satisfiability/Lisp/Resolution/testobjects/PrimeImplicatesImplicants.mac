@@ -27,8 +27,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeI
 */
 
 okltest_min_2resolution_closure_cs(min_2resolution_closure_cs);
-
 okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvs_cs(F))));
+
+okltest_dual_min_2resolution_closure_cs(dual_min_2resolution_closure_cs);
+okltest_dual_minequiv_cs(dual_all_minequiv_bvs_cs);
 
 /* *****************************************************
    * Finding contained prime-implicates by SAT solvers *
