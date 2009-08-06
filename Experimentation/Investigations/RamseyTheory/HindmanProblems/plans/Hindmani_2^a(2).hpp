@@ -198,8 +198,28 @@ s UNSATISFIABLE
      conflicts, 8426651 decisions; say around 10 hours). </li>
      <li> picosat913:
       <ul>
-       <li> without preprocessor </li>
-       <li> using the minisat2 preprocessor </li>
+       <li> Without preprocessor:
+       \verbatim
+c 7 iterations
+c 15183 restarts
+c 1 failed literals
+c 14089448 conflicts
+c 15689408 decisions
+c 966 fixed variables
+c 261431676 learned literals
+c 34.8% deleted literals
+c 2580396449 propagations
+c 38.6% variables used
+c 28007.9 seconds in library
+c 0.1 megaprops/second
+c 4 simplifications
+c 16 reductions
+c 1240.6 MB recycled
+c 119.7 MB maximally allocated
+c 28007.9 seconds total run time
+       \endverbatim
+       roughly 8 hours. </li>
+       <li> Using the minisat2 preprocessor </li>
       </ul>
      </li>
      <li> march_pl
