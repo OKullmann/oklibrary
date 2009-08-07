@@ -22,12 +22,15 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac")$
 
 
-/* *******************
-   * Transformations *
-   *******************
+/* *******************************************
+   * Clause-variable matrices and variations *
+   *******************************************
 */
 
 okltest_clvar_g(clvar_g);
+
+okltest_var_fcs2hg(var_fcs2hg);
+okltest_var_fcs2ghg(var_fcs2ghg);
 
 okltest_cvg_cs(cvg_cs);
 
@@ -39,6 +42,11 @@ okltest_cl_int_scom_cs(cl_int_scom_cs);
 okltest_var_int_scom_fcs(var_int_scom_fcs);
 
 okltest_var_lit_clause_digraph(var_lit_clause_digraph);
+
+/* ***************************************
+   * Implication graphs (and variations) *
+   ***************************************
+*/
 
 okltest_implication_dg_fcs(implication_dg_fcs);
 

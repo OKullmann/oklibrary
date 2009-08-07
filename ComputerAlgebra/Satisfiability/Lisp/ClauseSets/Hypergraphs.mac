@@ -27,33 +27,48 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
-/* *******************
-   * Transformations *
-   *******************
+/* *******************************************
+   * Clause-variable matrices and variations *
+   *******************************************
 */
 
-/* A formal clause-set as a hypergraph */
+/* A formal clause-set as a hypergraph: */
+/* RENAME: fcs2hg */
 hyp_fcs(FF) := [literals_v(FF[1]), FF[2]]$
+fcs2hg(FF) := hyp_fcs(FF)$
 
 
 /* The clause-variable graph of a formal clause-set (also "incidence graph").
    The set of vertices is the disjoint-sum of the clauses ("left") and the
    variables ("right").
- */
+*/
+/* RENAME: clvar_fcs2g */
 clvar_g(FF) := [set_sumn(FF[2], FF[1]),
   family_sets_union(FF[2], 
     lambda([C], map(lambda([x],{[C,1],[var_l(x),2]}), C)))]$
+clvar_fcs2g(FF) := clvar_g(FF)$
 
-/* The variable-hypergraph of a formal clause-set */
+
+/* The variable-hypergraph of a formal clause-set: */
+/* RENAME: var_fcs2hg */
 var_hyp(FF) := [FF[1], map(var_c,FF[2])]$
-/* The variable-interaction graph (or "primal graph") of a formal clause-set */
+var_fcs2hg(FF) := var_hyp(FF)$
+var_fcs2ghg(FF) := [FF[1], FF[2], lambda([H],var_c(H))]$
+
+
+/* The variable-interaction graph (or "primal graph") of a formal clause-set: */
+/* RENAME vi_fcs2g */
 vig_fcs(FF) := section_hyp(var_hyp(FF),2)$
+vi_fcs2g(FF) := vig_fcs(FF)$
+
 
 /* The common-variable graph of a clause-set (this is also the
    "stochastic-dependence graph"). */
+/* RENAME: cv_cs2g */
 cvg_cs(F) := [F, 
  subset(powerset(F,2), lambda([S], 
         block([L : listify(S)], not disjointp(var_c(L[1]), var_c(L[2])))))]$
+cv_cs2g(F) := cvg_cs(F)$
 
 
 /* The combinatorial clause-variable matrix of a formal clause-set: */
@@ -61,7 +76,7 @@ cvg_cs(F) := [F,
 cl_var_com_fcs(FF) := [FF[2], FF[1], lambda([C,v], 
   if elementp(v, C) then +1 else if elementp(-v,C) then -1 else 0)]$
 clvar_fcs2com(FF) := cl_var_com_fcs(FF)$
-/* Remark: abs_com(cls_var_com_fcs(FF)) = edge_vertex_com_hyp(hyp_fcs(FF)). */
+/* Remark: abs_com(clvar_fcs2com(FF)) = hypver_ghg2com(var_fcs2ghg(FF)). */
 /* RENAME: clvar_ofcs2ocom */
 cl_var_ocom_ofcs(FF) := [FF[2], FF[1], lambda([C,v], 
   if elementp(v, C) then +1 else if elementp(-v,C) then -1 else 0)]$
@@ -103,7 +118,7 @@ var_int_scom_fcs(FF) := block([M : cl_var_com_fcs(FF)],
    literal to its clauses).
    Literals are here represented as pairs [v,+1] resp. [v,-1].
 */
-/* RENAME: varlitcl_dg */
+/* RENAME: varlitcl_fcs2dg */
 var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
   Var : listify(FF[1]),
   Lit : create_list([v,j], v,Var, j,[-1,1]),
@@ -117,7 +132,7 @@ var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
       ),
   return([setify(V),setify(E)]))$
 /* The transitive closure of var_lit_clause_digraph. */
-/* RENAME: varlitcl_tr_dg */
+/* RENAME: varlitcltr_fcs2dg */
 var_lit_clause_digraph_tr(FF) := block(
  [G : var_lit_clause_digraph(FF),Var,Cl,E],
   Var : listify(FF[1]),
@@ -127,8 +142,14 @@ var_lit_clause_digraph_tr(FF) := block(
   return([G[1],union(G[2],setify(E))]))$
 
 
+/* ***************************************
+   * Implication graphs (and variations) *
+   ***************************************
+*/
+
 /* The directed implication graph of a formal clause-set (only considering
    clauses of length 1 or 2). */
+/* RENAME: imp_fcs2dg(FF) */
 implication_dg_fcs(FF) := block(
  [F1 : map(listify,listify(scls_k(FF[2],1))), 
   F2 : map(listify,listify(scls_k(FF[2],2)))],

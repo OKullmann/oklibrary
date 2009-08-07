@@ -24,12 +24,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 kill(f)$
 
-/* *******************
-   * Transformations *
-   *******************
+/* *******************************************
+   * Clause-variable matrices and variations *
+   *******************************************
 */
 
 okltest_clvar_g(f) := (
@@ -39,6 +40,19 @@ okltest_clvar_g(f) := (
   assert(f([{1},{{}}]) = [{[{},1],[1,2]},{}]),
   assert(f([{1,2},{{1,2},{1,-2}}]) = [{[{1,2},1],[{1,-2},1],[1,2],[2,2]}, 
     {{[{1,2},1],[1,2]},{[{1,2},1],[2,2]},{[{1,-2},1],[1,2]},{[{1,-2},1],[2,2]}}]),
+  true)$
+
+okltest_var_fcs2hg(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{},{{}}]) = [{},{{}}]),
+  assert(f([{1},{{-1}}]) = [{1},{{1}}]),
+  assert(f([{1},{{-1},{1}}]) = [{1},{{1}}]),
+  assert(f([{1,2},{{1},{-2}}]) = [{1,2},{{1},{2}}]),
+  true)$
+
+okltest_var_fcs2ghg(f) := (
+  /* XXX */
+  assert(okltest_var_fcs2hg(buildq([f], lambda([FF], ghg2hg(f(FF))))) = true),
   true)$
 
 okltest_cvg_cs(f) := block([F,G],
