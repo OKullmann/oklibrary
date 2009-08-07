@@ -455,7 +455,10 @@ BestSolution_Max = 4.000000
 
   \todo Picosat913 for n=377
   <ul>
-   <li> Without preprocessing </li>
+   <li> Without preprocessing: Stopped after 2 days; the problem is that
+   apparently there are no progress-indicators (or could one interprete "level"
+   as such?), and so it's not possible to say whether any progress has been
+   achieved. </li>
    <li> With minisat2 preprocessing </li>
   </ul>
 
@@ -464,7 +467,7 @@ BestSolution_Max = 4.000000
   <ul>
    <li> Without symmetry breaking and without preprocessing:
    \verbatim
-
+> OKsolver_2002-O3-DNDEBUG -D30 -M -F GreenTao_4-3_377.cnf
    \endverbatim
    </li>
    <li> Without symmetry breaking and with preprocessing:
