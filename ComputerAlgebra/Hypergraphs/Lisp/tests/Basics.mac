@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+
 
 kill(f)$
 
@@ -128,6 +130,12 @@ okltest_hypver_hg2com(f) := (
   assert(comequalp(f([{1,2},{{1}}]), [{{1}},{1,2},lambda([H,v],if v=1 then 1 else 0)]) = true),
 true)$
 
+okltest_hypver_ghg2com(f) := block([x,y],
+  assert(com_equalp(f([{},{},x]), [{},{},y]) = true),
+  /* XXX */
+  assert(okltest_hypver_hg2com(buildq([f], lambda([G], f(hg2ghg(G))))) = true),
+  true)$
+
 okltest_edge_int_com_hg(f) := (
   assert(scomequalp(f([{},{}]), emptyscom) = true),
   assert(scomequalp(f([{},{{}}]), zeroscom({{}})) = true),
@@ -192,6 +200,7 @@ okltest_subsumption_ghg(f) := block([E],
   assert(ghg_equalp(f({},{{}}), [{},{{}}, lambda([H],{})]) = true),
   assert(ghg_equalp(f({{}},{}), [{{}},{}, E]) = true),
   assert(ghg_equalp(f({{}},{{}}), [{{}},{{}}, lambda([H],{{}})]) = true),
+  assert(ghg_equalp(f({{1},{1,2}},{{3},{1,3},{1,2,3}}), [{{1},{1,2}}, {{3},{1,3},{1,2,3}}, lambda([H], if H={3} then {} elseif H={1,3} then {{1}} else {{1},{1,2}})]) = true),
   /* XXX */
   true)$
 

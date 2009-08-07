@@ -131,6 +131,8 @@ edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v],
   if elementp(v, H) then 1 else 0)]$
 edge_vertex_com_hg(G) := edge_vertex_com_hyp(G)$
 hypver_hg2com(G) := edge_vertex_com_hyp(G)$
+hypver_ghg2com(G) := [G[2],G[1], buildq([E:G[3]], lambda([H,v], 
+  if elementp(v, E(H)) then 1 else 0))]$
 
 /* The (hyper)edge intersection matrix (as a square combinatorial matrix)
    of a hypergraph: */
@@ -210,7 +212,7 @@ kneser_g_hg(G) := kneser_g_hyp(G)$
    the vertex set is given by the elements of S1 contained in H.
 */
 subsumption_ghg(S1,S2) :=
- [S1, S2, buildq([S1,S2], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
+ [S1, S2, buildq([S1], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
 
 
 /* *****************
