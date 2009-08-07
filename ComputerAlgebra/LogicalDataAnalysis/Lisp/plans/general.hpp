@@ -57,6 +57,23 @@ dual_min_2resolution_closure_cs(SW4F[2]);
   {{-4,-2,-1},{-4,-1,3},{-3,2,4},{1,4}}
 dual_all_minequiv_bvs_cs(SW4F[2]);
   [{{-4,-2,-1},{-4,-1,3},{-3,2,4},{1,4}}]
+
+SW10b : SW4b;
+SW10b[4,4] : 0;
+SW10b[6,4] : 0;
+
+SW10 : tt2cvm(SW10b);
+SW10F : clvar_com2fcs(SW10);
+
+min_2resolution_closure_cs(SW10F[2]);
+  {{-4,1},{-4,2,3},{-3,-1,4},{-2,-1,4}}
+all_minequiv_bvs_cs(SW10F[2]);
+  [{{-4,1},{-4,2,3},{-3,-1,4},{-2,-1,4}}]
+
+dual_min_2resolution_closure_cs(SW10F[2]);
+  {{-4,-3,-2},{-4,-1},{1,2,4},{1,3,4}}
+dual_all_minequiv_bvs_cs(SW10F[2]);
+  [{{-4,-3,-2},{-4,-1},{1,2,4},{1,3,4}}]
      \endverbatim
      </li>
      <li> For the non-boolean case we can have uniform or function domains
