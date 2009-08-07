@@ -36,6 +36,25 @@ License, or any later version. */
    <li> But for the general versions (allowing arbitrary k) we should
    implement first the hypergraph generator, which might take a bit longer,
    and thus perhaps first we only consider the simple cases k1,k2 <= 2. </li>
+   <li> And also general k might be problematic (w.r.t. efficiency), and so
+   we only consider first the case k=2. </li>
+   <li> See Combinatorics/Hypergraphs/Generators/plans/Hindman.hpp for plans
+   for the hypergraph generator. </li>
+   <li> Accordingly, we should create a clause-set generator as a range of
+   ranges:
+    <ol>
+     <li> In this case we simply run twice through the hypergraph, where in
+     the second phase all clauses are negated. </li>
+     <li> We need also such a most rudimentary concept; see
+     ProblemInstances/ClauseSets/plans/general.hpp. </li>
+     <li> Such clause-sets must be possible as input to CLSAdaptor (see
+     Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp). </li>
+     <li> We should also have this form of generator (first) at the Maxima/Lisp
+     level. </li>
+    </ol>
+   </li>
+   <li> The generators should be placed in Hindman_r2k2.hpp (for the boolean
+   problems with k=2), and the application in Hindman_r2k2.cpp. </li>
   </ul>
 
 */
