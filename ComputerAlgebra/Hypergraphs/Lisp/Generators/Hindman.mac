@@ -29,12 +29,13 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************
 */
 
-/* RENAME: hindman_a1k2_ohg(n) */
-hindmanquads_degenerated_ohg(n) := 
+/* The hypergraph with vertex set {1, ..., n} and as hyperedges all possible
+   subsets {x,y,x+y,x*y}:
+*/
+hindman_a1k2_ohg(n) := 
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,1,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x,floor(n/x)))]$
-hindman_a1k2_ohg(n) := hindmanquads_degenerated_ohg(n)$
 
 nver_hindman_a1k2_ohg(n) := n$
 nhyp_hindman_a1k2_ohg(n) := 

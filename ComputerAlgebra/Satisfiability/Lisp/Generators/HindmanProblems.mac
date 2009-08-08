@@ -42,7 +42,8 @@ hindman2_nbfcsud(r,n) :=
 /* Now allowing x = y: */
 /* RENAME: hindman_a1k2_nbfcsud(r,n) */
 hindman2d_nbfcsud(r,n) := 
- nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_degenerated_ohg(n), create_list(i,i,1,r)))$
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindman_a1k2_ohg(n), create_list(i,i,1,r)))$
+hindman_a1k2_nbfcsud(r,n) := hindman2d_nbfcsud(r,n)$
 
 /* Fixing r=2 (thus obtaining boolean clause-sets); 
    again x <> y, but considering only x,y >= a: */

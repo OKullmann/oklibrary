@@ -25,7 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Hindman.m
    *****************
 */
 
-okltest_hindmanquads_degenerated_ohg(hindmanquads_degenerated_ohg);
+okltest_hindman_a1k2_ohg(hindman_a1k2_ohg);
 okltest_nver_hindman_a1k2_ohg(nver_hindman_a1k2_ohg);
 okltest_nhyp_hindman_a1k2_ohg(nhyp_hindman_a1k2_ohg);
 
