@@ -68,6 +68,14 @@ License, or any later version. */
     - Unit tests
 
 
+  \par Version 0.0.13
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Preparations for optimisation
+
+
   \par Version 0.1
 
   \par

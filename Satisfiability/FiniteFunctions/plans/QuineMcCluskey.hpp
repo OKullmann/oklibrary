@@ -200,7 +200,7 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo Docus
   <ul>
-   <li> Explaining the algorithm. </li>
+   <li> Explaining the algorithm (with all details). </li>
    <li> Explaining also the various connections to the rest of the
    library. </li>
    <li> DONE A docus-file is needed. </li>
@@ -251,6 +251,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    <li> The monitoring output should be optional. </li>
    <li> Components from Satisfiability/Interfaces/InputOutput should be
    used. </li>
+   <li> Correct Dimacs output should be generated: currently the parameter
+   line is missing. </li>
    <li> Also options like "--version" or "--help" should be available. </li>
    <li> See Programming/ProgramOptions/plans/general.hpp. </li>
    <li> At a higher verbosity-level the program should forecast its
@@ -273,6 +275,22 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   \todo Unit tests
   <ul>
    <li> Use the (new) higher-order unit test framework. </li>
+  </ul>
+
+
+  \todo Preparations for optimisation
+  <ul>
+   <li> Optionally the necessary prime clauses should be output (in Dimacs
+   format). </li>
+   <li> Also optionally, the hypergraph as computed by subsumption_ghg
+   should be created (the minimum transversals of this hypergraph yield the
+   minimum representations), in strict Dimacs format, where the meaning of
+   variables is explained in the comments. </li>
+   <li> The ordering of the prime clauses likely should be lexicographical.
+   </li>
+   <li> Perhaps for that hypergraph, the unit-clause-propagation should have
+   been performed already (starting with the necessary clauses, which just
+   correspond to unit-hyperedges)? </li>
   </ul>
 
 
@@ -321,7 +339,7 @@ struct ipow3_s<0,c> {
   </ul>
 
 
-  \todo Performance and code analysis analysis
+  \todo Performance and code analysis
   <ul>
    <li> We need tools in the OKlibrary to analyse the performance of
    C/C++ programs. </li>

@@ -52,7 +52,7 @@ License, or any later version. */
   \par Satisfiability/Enumeration 0.0.4
   (see Satisfiability/Enumeration/plans/milestones.hpp)
 
-  \par Satisfiability/FiniteFunctions 0.0.4 : DONE
+  \par Satisfiability/FiniteFunctions 0.1
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
 
   \par
@@ -70,13 +70,13 @@ License, or any later version. */
   \par Satisfiability/Transformers version 0.0.6
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
-  \par Satisfiability/FiniteFunctions 0.0.7
+  \par Satisfiability/FiniteFunctions 0.2
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
 
 
   \par Version 0.1.4
 
-  \par Satisfiability/FiniteFunctions 0.1
+  \par Satisfiability/FiniteFunctions 0.3
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
 
 
