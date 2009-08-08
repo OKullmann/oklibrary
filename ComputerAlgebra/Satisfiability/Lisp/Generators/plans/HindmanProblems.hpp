@@ -35,10 +35,11 @@ License, or any later version. */
      <li> Perhaps after the (possible) "i". </li>
     </ol>
    </li>
-   <li> hindman2gen_fcs(a,n) is for hindmani_2^a(2).
+   <li> DONE
+   hindman2gen_fcs(a,n) is for hindmani_2^a(2).
     <ol>
-     <li> This function should be called hindmani_r2k2_fcs(a,n). </li>
-     <li> And also hindman_r2k2_fcs(a,n) is needed. </li>
+     <li> This function should be called hindmani_r2k2_ofcs(a,n). </li>
+     <li> And also hindman_r2k2_ofcs(a,n) is needed. </li>
     </ol>
    </li>
    <li> There is also the non-diagonal versions, using a parameter tuple

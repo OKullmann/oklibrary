@@ -61,6 +61,9 @@ hindman2_sb_nbfcsud(r,n) := block([S : hindman2_nbfcsud(r,n)],
  [S[1], union(setify(create_list({[1,i]},i,2,r)), S[2]), S[3]])$
 
 
+/* Output facilities */
+
+/* RENAMING needed */
 /* Output the boolean clause-set (standard translation) to a file: */
 output_hindman2(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_nbfcsud(r,n))))],
@@ -73,6 +76,7 @@ output_hindman2(r,n,filename) := block(
 output_hindman2_stdname(r,n) := output_hindman2(r,n,
   sconcat("Hindman_",r,"_",n,".cnf"))$
 
+/* RENAMING needed */
 /* Allowing x=y: */
 output_hindman2d(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2d_nbfcsud(r,n))))],
@@ -85,6 +89,7 @@ output_hindman2d(r,n,filename) := block(
 output_hindman2d_stdname(r,n) := output_hindman2d(r,n,
   sconcat("Hindmand_",r,"_",n,".cnf"))$
 
+/* RENAMING needed */
 output_hindman2_sb(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_sb_nbfcsud(r,n))))],
   output_fcs_v(
@@ -96,16 +101,28 @@ output_hindman2_sb(r,n,filename) := block(
 output_hindman2_sb_stdname(r,n) := output_hindman2_sb(r,n,
   sconcat("Hindman2_sb_",r,"_",n,".cnf"))$
 
-/* Output the boolean clause-set (standard translation) to a file: */
-output_hindman2gen(a,n,filename) := block(
+/* Output the 2-colour cases (no translation needed) to a file: */
+
+output_hindmani_r2k2(a,n,filename) := block(
  [FF :  hindmani_r2k2_ofcs(a,n)],
+  output_fcs_v(
+    sconcat("Hindman problem (injective form) for k=2 with 2 parts and ", n, " elements, starting with ", a, "."), 
+    FF,
+    filename,[]))$
+/* Providing a standard name: "Hindmani_r2k2_a_n.cnf": */
+output_hindmani_r2k2_stdname(a,n) := output_hindmani_r2k2(a,n,
+  sconcat("Hindmani_r2k2_",a,"_",n,".cnf"))$
+
+output_hindman_r2k2(a,n,filename) := block(
+ [FF :  hindman_r2k2_ofcs(a,n)],
   output_fcs_v(
     sconcat("Hindman problem for k=2 with 2 parts and ", n, " elements, starting with ", a, "."), 
     FF,
     filename,[]))$
-/* Providing a standard name: "Hindman2gen_a_n.cnf": */
-output_hindman2gen_stdname(a,n) := output_hindman2gen(a,n,
-  sconcat("Hindman2gen_",a,"_",n,".cnf"))$
+/* Providing a standard name: "Hindman_r2k2_a_n.cnf": */
+output_hindman_r2k2_stdname(a,n) := output_hindman_r2k2(a,n,
+  sconcat("Hindman_r2k2_",a,"_",n,".cnf"))$
+
 
 /*!
 \endhtmlonly

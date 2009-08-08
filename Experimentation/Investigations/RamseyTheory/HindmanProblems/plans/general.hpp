@@ -31,11 +31,10 @@ License, or any later version. */
 
   \todo Generation
   <ul>
-   <li> The following needs update, once the naming-schemes are revised. </li>
-   <li> hindmanquads_degenerated_ohg allows x=y (as with Schur numbers). </li>
-   <li> x <> y is given by hindmanquads_ohg. </li>
+   <li> hindman_k2_ohg allows x=y (as with Schur numbers). </li>
+   <li> x <> y is given by hindmani_k2_ohg. </li>
    <li> Both above cases concern k=2, while the general cases are treated by
-   hindman_ohg. </li>
+   hindman_ohg resp. hindmani_ohg. </li>
   </ul>
 
 

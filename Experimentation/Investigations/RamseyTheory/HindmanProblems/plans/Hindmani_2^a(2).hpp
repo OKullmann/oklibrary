@@ -9,7 +9,7 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/HindmanProblems/plans/Hindman_2^a(2).hpp
   \brief Investigating a -> hindmani_2^a(2)
 
-  These problems are generated in Maxima by output_hindman2gen_stdname(a,n)
+  These problems are generated in Maxima by output_hindmani_r2k2_stdname
 
 
   \todo Investigate the non-injective versions
@@ -20,12 +20,12 @@ License, or any later version. */
    <li> n=252, c=1424, c/n ~ 5.65 </li>
    <li> Trivial for example for OKsolver_2002:
    \verbatim
-> OKsolver_2002-O3-DNDEBUG Hindman2gen_1_251.cnf
+> OKsolver_2002-O3-DNDEBUG Hindmani_r2k2_1_251.cnf
 s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=251 initial_number_of_clauses=1406 initial_number_of_literal_occurrences=5126 running_time(s)=0.0 number_of_nodes=6 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=17 number_of_pure_literals=67 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=3 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=88 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_1_251.cnf
-> OKsolver_2002-O3-DNDEBUG Hindman2gen_1_252.cnf
+c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=251 initial_number_of_clauses=1406 initial_number_of_literal_occurrences=5126 running_time(s)=0.0 number_of_nodes=6 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=17 number_of_pure_literals=67 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=3 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=88 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_1_251.cnf
+> OKsolver_2002-O3-DNDEBUG Hindmani_r2k2_1_252.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=252 initial_number_of_clauses=1424 initial_number_of_literal_occurrences=5196 running_time(s)=0.0 number_of_nodes=11 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=36 number_of_pure_literals=98 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=3 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=170 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_1_252.cnf
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=252 initial_number_of_clauses=1424 initial_number_of_literal_occurrences=5196 running_time(s)=0.0 number_of_nodes=11 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=36 number_of_pure_literals=98 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=3 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=170 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_1_252.cnf
    \endverbatim
    </li>
    <li> We should also count all solutions, and classify them. </li>
@@ -37,12 +37,12 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=252 i
    <li> n=914, c=4988, c/n ~ 5.46 </li>
    <li> OKsolver_2002
     \verbatim
-kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindman2gen_2_989.cnf
+kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindmani_r2k2_2_989.cnf
 s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=913 initial_number_of_clauses=4966 initial_number_of_literal_occurrences=19864 running_time(s)=0.1 number_of_nodes=130 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=581 number_of_pure_literals=1023 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=15 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=17213 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_2_989.cnf
-kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindman2gen_2_990.cnf
+c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=913 initial_number_of_clauses=4966 initial_number_of_literal_occurrences=19864 running_time(s)=0.1 number_of_nodes=130 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=581 number_of_pure_literals=1023 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=15 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=17213 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_2_989.cnf
+kullmann-0:OKplatform> OKsolver_2002-O3-DNDEBUG Hindmani_r2k2_2_990.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=914 initial_number_of_clauses=4988 initial_number_of_literal_occurrences=19952 running_time(s)=1.6 number_of_nodes=2291 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=10006 number_of_pure_literals=14514 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=17 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=282822 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_2_990.cnf
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=914 initial_number_of_clauses=4988 initial_number_of_literal_occurrences=19952 running_time(s)=1.6 number_of_nodes=2291 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=10006 number_of_pure_literals=14514 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=17 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=282822 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_2_990.cnf
     \endverbatim
    </li>
   </ul>
@@ -52,7 +52,7 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=914 i
   <ul>
    <li> n=2725, c=16378, c/n ~ 6.01 </li>
    <li> minisat2
-> minisat2 Hindman2gen_3_3149.cnf
+> minisat2 Hindmani_r2k2_3_3149.cnf
 restarts              : 13
 conflicts             : 38361          (2808 /sec)
 decisions             : 42749          (2.03 % random) (3129 /sec)
@@ -61,7 +61,7 @@ conflict literals     : 502210         (35.14 % deleted)
 Memory used           : 4.34 MB
 CPU time              : 13.6619 s
 SATISFIABLE
-> minisat2 Hindman2gen_3_3150.cnf
+> minisat2 Hindmani_r2k2_3_3150.cnf
 restarts              : 16
 conflicts             : 91478          (2250 /sec)
 decisions             : 100937         (1.98 % random) (2482 /sec)
@@ -80,14 +80,14 @@ UNSATISFIABLE
    <li> n=4598, c=28618, c/n ~ 6.22 </li>
    <li> minisat2
    \verbatim
-> minisat2 Hindman2gen_4_5599.cnf
+> minisat2 Hindmani_r2k2_4_5599.cnf
 restarts              : 11
 conflicts             : 14960          (1504 /sec)
 decisions             : 18767          (1.88 % random) (1887 /sec)
 propagations          : 1242672        (124961 /sec)
 conflict literals     : 248023         (30.22 % deleted)
 SATISFIABLE
-> minisat2 Hindman2gen_4_5600.cnf
+> minisat2 Hindmani_r2k2_4_5600.cnf
 restarts              : 20
 conflicts             : 562200         (3346 /sec)
 decisions             : 623136         (1.96 % random) (3709 /sec)
@@ -100,15 +100,15 @@ UNSATISFIABLE
    (say, 2 m); unsatisfiability is harder, but doable in, say, 1 h:
    \verbatim
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=19 initial_number_of_variables=2312 initial_number_of_clauses=24676 initial_number_of_literal_occurrences=106840 running_time(s)=1757.9 number_of_nodes=85979 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=643340 number_of_pure_literals=181686 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=28 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8501164 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_4_5600.cnf_m2pp_12733
+c sat_status=0 initial_maximal_clause_length=19 initial_number_of_variables=2312 initial_number_of_clauses=24676 initial_number_of_literal_occurrences=106840 running_time(s)=1757.9 number_of_nodes=85979 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=643340 number_of_pure_literals=181686 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=28 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8501164 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_4_5600.cnf_m2pp_12733
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=16 initial_number_of_variables=2493 initial_number_of_clauses=26858 initial_number_of_literal_occurrences=116064 running_time(s)=-1444.1 number_of_nodes=84627 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=621512 number_of_pure_literals=178792 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=27 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8864762 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_4_6000.cnf_m2pp_11324
+c sat_status=0 initial_maximal_clause_length=16 initial_number_of_variables=2493 initial_number_of_clauses=26858 initial_number_of_literal_occurrences=116064 running_time(s)=-1444.1 number_of_nodes=84627 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=621512 number_of_pure_literals=178792 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=27 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8864762 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_4_6000.cnf_m2pp_11324
    \endverbatim
    </li>
    <li> The minisat2-preprocessing seems to help OKsolver_2002 somewhat:
    \verbatim
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 initial_number_of_clauses=28618 initial_number_of_literal_occurrences=114472 running_time(s)=-1470.6 number_of_nodes=110501 number_of_single_nodes=2 number_of_quasi_single_nodes=0 number_of_2-reductions=809722 number_of_pure_literals=2464488 number_of_autarkies=0 number_of_missed_single_nodes=6 max_tree_depth=28 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=78884356 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_4_5600.cnf
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 initial_number_of_clauses=28618 initial_number_of_literal_occurrences=114472 running_time(s)=-1470.6 number_of_nodes=110501 number_of_single_nodes=2 number_of_quasi_single_nodes=0 number_of_2-reductions=809722 number_of_pure_literals=2464488 number_of_autarkies=0 number_of_missed_single_nodes=6 max_tree_depth=28 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=78884356 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_4_5600.cnf
    \endverbatim
    </li>
   </ul>
@@ -131,14 +131,14 @@ c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=4598 
    unsatisfiable instances. </li>
    <li>
    \verbatim
-> minisat2 Hindman2gen_5_14363.cnf
+> minisat2 Hindmani_r2k2_5_14363.cnf
 restarts              : 18
 conflicts             : 266053         (1499 /sec)
 decisions             : 298233         (1.99 % random) (1680 /sec)
 propagations          : 25902069       (145954 /sec)
 conflict literals     : 5067946        (28.93 % deleted)
 SATISFIABLE
-> minisat2 Hindman2gen_5_14364.cnf
+> minisat2 Hindmani_r2k2_5_14364.cnf
 restarts              : 24
 conflicts             : 3223003        (557 /sec)
 decisions             : 3570627        (1.99 % random) (618 /sec)
@@ -149,9 +149,9 @@ UNSATISFIABLE
    </li>
    <li> OKsolver_2002-m2pp
    \verbatim
-> OKsolver_2002-m2pp -D10 -M Hindman2gen_5_14364.cnf
+> OKsolver_2002-m2pp -D10 -M Hindmani_r2k2_5_14364.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=12 initial_number_of_variables=5539 initial_number_of_clauses=70134 initial_number_of_literal_occurrences=304920 running_time(s)=-1526.9 number_of_nodes=516451 number_of_single_nodes=4 number_of_quasi_single_nodes=0 number_of_2-reductions=4497536 number_of_pure_literals=1499630 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=30 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=82701806 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_5_14364.cnf_m2pp_5223
+c sat_status=0 initial_maximal_clause_length=12 initial_number_of_variables=5539 initial_number_of_clauses=70134 initial_number_of_literal_occurrences=304920 running_time(s)=-1526.9 number_of_nodes=516451 number_of_single_nodes=4 number_of_quasi_single_nodes=0 number_of_2-reductions=4497536 number_of_pure_literals=1499630 number_of_autarkies=0 number_of_missed_single_nodes=4 max_tree_depth=30 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=82701806 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_5_14364.cnf_m2pp_5223
    \endverbatim
    It seems that the advantage of minisat2 is just that expensive (and
    apparently ineffective) look-aheads are avoided --- but nothing in
@@ -161,13 +161,13 @@ c sat_status=0 initial_maximal_clause_length=12 initial_number_of_variables=5539
 **** The instance is unsatisfiable. *****
 NB_MONO= 21479226, NB_UNIT= 241108531, NB_BRANCHE= 2944242, NB_BACK= 1488069
 Program terminated in 5.762 seconds.
-satz215 Hindman2gen_5_14364.cnf_m2pp_8170 5.762 2944242 1488069 1367706445 31952092 0 14364 70134 0 199693920 19963489
+satz215 Hindmani_r2k2_5_14364.cnf_m2pp_8170 5.762 2944242 1488069 1367706445 31952092 0 14364 70134 0 199693920 19963489
    \endverbatim
    Roughly comparable to OKsolver_2002-m2pp.
    </li>
    <li> march_pl
    \verbatim
-> march_pl Hindman2gen_5_14364.cnf
+> march_pl Hindmani_r2k2_5_14364.cnf
 c main():: nodeCount: 149162
 c main():: dead ends in main: 87
 c main():: lookAheadCount: 126655586
@@ -244,7 +244,7 @@ c 39559.1 seconds total run time
      </li>
      <li> march_pl
      \verbatim
-> march_pl Hindman2gen_6_28188.cnf
+> march_pl Hindmani_r2k2_6_28188.cnf
 c main():: nodeCount: 555857
 c main():: dead ends in main: 240
 c main():: lookAheadCount: 774198284
@@ -260,9 +260,9 @@ s UNSATISFIABLE
      </li>
      <li> OKsolver_2002-m2pp needed 5 days:
      \verbatim
-> OKsolver_2002-m2pp -D20 -M Hindman2gen_6_28188.cnf
+> OKsolver_2002-m2pp -D20 -M Hindmani_r2k2_6_28188.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=10708 initial_number_of_clauses=145336 initial_number_of_literal_occurrences=624542 running_time(s)=437409.1 number_of_nodes=1754977 number_of_single_nodes=30 number_of_quasi_single_nodes=0 number_of_2-reductions=18313260 number_of_pure_literals=8277966 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=33 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=496260936 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_6_28188.cnf_m2pp_1000
+c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=10708 initial_number_of_clauses=145336 initial_number_of_literal_occurrences=624542 running_time(s)=437409.1 number_of_nodes=1754977 number_of_single_nodes=30 number_of_quasi_single_nodes=0 number_of_2-reductions=18313260 number_of_pure_literals=8277966 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=33 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=496260936 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_6_28188.cnf_m2pp_1000
      \endverbatim
      Why does march_pl need fewer nodes?
      </li>
@@ -338,7 +338,7 @@ c sat_status=0 initial_maximal_clause_length=14 initial_number_of_variables=1070
      </li>
      <li> The final output was
      \verbatim
-c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=36512 initial_number_of_clauses=564400 initial_number_of_literal_occurrences=2403960 running_time(s)=855236.4 number_of_nodes=333456 number_of_single_nodes=3 number_of_quasi_single_nodes=0 number_of_2-reductions=5709657 number_of_pure_literals=6423281 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=38 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=365124254 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindman2gen_8_97280.cnf_m2pp_1658
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=36512 initial_number_of_clauses=564400 initial_number_of_literal_occurrences=2403960 running_time(s)=855236.4 number_of_nodes=333456 number_of_single_nodes=3 number_of_quasi_single_nodes=0 number_of_2-reductions=5709657 number_of_pure_literals=6423281 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=38 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=365124254 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Hindmani_r2k2_8_97280.cnf_m2pp_1658
      \endverbatim
      </li>
      <li> Much closer inspections are needed in order to see whether here
@@ -374,7 +374,7 @@ c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=3651
    in the course of increasing n. At around n=300000, cutoff=4*10^4 starts
    becoming not always sufficient:
    \verbatim
-> ubcsat-okl -i Hindman2gen_10_300000.cnf -runs 10 -cutoff 40000 -alg rsaps
+> ubcsat-okl -i Hindmani_r2k2_10_300000.cnf -runs 10 -cutoff 40000 -alg rsaps
        sat  min     osteps     msteps       seed
       1 1     0      38677      38677  512636378
       2 1     0      38529      38529  364640058
