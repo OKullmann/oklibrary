@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 2.12.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,11 +28,11 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Constraint
    ************
 */
 
-/* The domain association for n Queens */
+/* The domain association for n Queens: */
 Queens_dom(n) := block([sn : setify(makelist(i,i,1,n))], makelist(sn,i,1,n))$
 
 /* The propagator for n queens; changes its arguments, returns true if a change
-   took place */
+   took place: */
 Queens_propagator(dom) := block([n : length(dom), prop : false],
   for i : 1 thru n do 
     if length(dom[i]) = 1 then block([j : listify(dom[i])[1]],
@@ -41,18 +41,18 @@ Queens_propagator(dom) := block([n : length(dom), prop : false],
         if length(dom[k]) < length(dom_k) then prop : true)),
   return(prop))$
 
-/* Iterated propagator for n queens */
+/* Iterated propagator for n queens: */
 Queens_propagator_it : prop_fixedpoint(Queens_propagator)$
 
-/* The look-ahead version of the iterated propagator */
+/* The look-ahead version of the iterated propagator: */
 Queens_propagator_it_la : look_ahead(Queens_propagator_it)$
 
-/* The look-ahead version iterator */
+/* The look-ahead version iterated: */
 Queens_propagator_it_la_it : prop_fixedpoint(Queens_propagator_it_la)$
 
-/* Using the default backtracking algorithm to solve it */
+/* Using the default backtracking algorithm to solve it: */
 Queens_constraint_backtracking(n) := constraint_backtracking(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau)$
-/* Counting all solutions */
+/* Counting all solutions: */
 Queens_constraint_backtracking_counting(n) := constraint_backtracking_counting(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau)$
 
 

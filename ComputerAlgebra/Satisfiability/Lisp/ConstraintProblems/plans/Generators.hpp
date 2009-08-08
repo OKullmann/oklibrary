@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -86,11 +86,13 @@ License, or any later version. */
 
   \todo Hitting clause-sets
   <ul>
+   <li> Here we look at the problem of searching for (special) hitting
+   clause-sets. </li>
    <li> The fundamental propagator "hittingcls_propagator(n,L)",
    where n is the number of boolean variables in the hitting-cls, and
    L is the list of (precise) clause-lengths, is composed of constraints
    imposing the clause-lengths and imposing the conflicts. </li>
-   <li> The constraint variables correspond to the literator occurrences,
+   <li> The constraint variables correspond to the literal occurrences,
    and have value-set {-1,0,+1}. </li>
    <li> Constraints for exact clause-lengths:
     <ol>
