@@ -37,7 +37,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
 */
 /* RENAME: hindmani_a1k2_nbfcsud(r,n) */
 hindman2_nbfcsud(r,n) := 
- nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmanquads_ohg(n), create_list(i,i,1,r)))$
+ nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmani_a1k2_ohg(n), create_list(i,i,1,r)))$
+hindmani_a1k2_nbfcsud(r,n) := hindman2_nbfcsud(r,n)$
 
 /* Now allowing x = y: */
 /* RENAME: hindman_a1k2_nbfcsud(r,n) */

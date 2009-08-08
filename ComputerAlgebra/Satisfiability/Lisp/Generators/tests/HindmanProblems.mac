@@ -29,8 +29,15 @@ kill(f)$
    ********************
 */
 
+okltest_hindmani_a1k2_nbfcsud(f) := (
+  assert(f(0,0) = [{},{},{}]),
+  assert(f(1,2) = [{1,2},{},{1}]),
+  /* XXX */
+  true)$
+
 okltest_hindman_a1k2_nbfcsud(f) := (
   assert(f(0,0) = [{},{},{}]),
+  assert(f(1,2) = [{1,2},{{[1,1],[2,1]}},{1}]),
   /* XXX */
   true)$
 

@@ -50,7 +50,7 @@ okltest_nhyp_hindman_a1k2_ohg(f) := (
   true)$
 
 
-okltest_hindmanquads_ohg(f) := (
+okltest_hindmani_a1k2_ohg(f) := (
   assert(f(0) = [[],[]]),
   assert(f(1) = [[1],[]]),
   assert(f(2) = [[1,2],[]]),
@@ -84,7 +84,7 @@ okltest_hindmanquadsgen_degenerated_ohg(f) := (
   true)$
 
 okltest_hindmanquadsgen_ohg(f) := (
-  assert(okltest_hindmanquads_ohg(buildq([f],lambda([n],f(1,n)))) = true),
+  assert(okltest_hindmani_a1k2_ohg(buildq([f],lambda([n],f(1,n)))) = true),
   assert(f(2,3) = [[2,3],[]]),
   assert(f(2,4) = [[2,3,4],[]]),
   assert(f(3,4) = [[3,4],[]]),
@@ -92,6 +92,7 @@ okltest_hindmanquadsgen_ohg(f) := (
   assert(f(2,6) = [[2,3,4,5,6],[{2,3,5,6}]]),
   assert(f(3,6) = [[3,4,5,6],[]]),
   true)$
+
 
 /* ********************
    * The general case *

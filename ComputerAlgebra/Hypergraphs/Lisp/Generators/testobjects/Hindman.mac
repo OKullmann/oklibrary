@@ -29,7 +29,7 @@ okltest_hindman_a1k2_ohg(hindman_a1k2_ohg);
 okltest_nver_hindman_a1k2_ohg(nver_hindman_a1k2_ohg);
 okltest_nhyp_hindman_a1k2_ohg(nhyp_hindman_a1k2_ohg);
 
-okltest_hindmanquads_ohg(hindmanquads_ohg);
+okltest_hindmani_a1k2_ohg(hindmani_a1k2_ohg);
 okltest_nver_hindmani_a1k2_ohg(nver_hindmani_a1k2_ohg);
 okltest_nhyp_hindmani_a1k2_ohg(nhyp_hindmani_a1k2_ohg);
 

@@ -48,12 +48,11 @@ nhyp_hindman_a1k2_ohg(n) :=
    (see ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac).
 */
 
-/* RENAME: hindmani_a1k2_ohg(n) */
-hindmanquads_ohg(n) := 
+/* The "injective" version, not allowing x=y: */
+hindmani_a1k2_ohg(n) := 
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,2,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x+1,floor(n/x)))]$
-hindmani_a1k2_ohg(n) := hindmanquads_ohg(n);
 
 nver_hindmani_a1k2_ohg(n) := n$
 nhyp_hindmani_a1k2_ohg(n) := 
