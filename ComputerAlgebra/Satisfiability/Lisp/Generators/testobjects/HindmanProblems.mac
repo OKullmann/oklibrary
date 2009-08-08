@@ -29,6 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Hindma
 okltest_hindmani_a1k2_nbfcsud(hindmani_a1k2_nbfcsud);
 okltest_hindman_a1k2_nbfcsud(hindman_a1k2_nbfcsud);
 
+okltest_hindmani_r2k2_ofcs(hindmani_r2k2_ofcs);
 okltest_hindman_r2k2_ofcs(hindman_r2k2_ofcs);
 
 /*!

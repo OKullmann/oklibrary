@@ -41,6 +41,12 @@ okltest_hindman_a1k2_nbfcsud(f) := (
   /* XXX */
   true)$
 
+okltest_hindmani_r2k2_ofcs(f) := (
+  assert(f(1,0) = [[],[]]),
+  assert(f(1,2) = [[1,2],[]]),
+  /* XXX */
+  true)$
+
 okltest_hindman_r2k2_ofcs(f) := (
   assert(f(1,0) = [[],[]]),
   assert(f(1,2) = [[1,2],[{1,2},{-1,-2}]]),

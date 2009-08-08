@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding hypergraphs generators related to Hindman's theorems and conjectures
 
 
-  \todo Update names
+  \todo DONE Update names
   <ul>
    <li> The current "quad"-forms should be replaced by
    hindman_k2_ohg(a,n) and hindmani_k2_ohg(a,n) (for x <> y). </li>

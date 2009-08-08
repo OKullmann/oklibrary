@@ -71,8 +71,8 @@ hindman_k2_ohg(a,n) := [create_list(i,i,a,n),
    append(create_list({1,y,1+y},y,1,n-1),M))]$
 
 
-/* RENAME: hindmani_k2_ohg(a,n) */
-hindmanquadsgen_ohg(a,n) := [create_list(i,i,a,n),
+/* Again, only allowing x <> y: */
+hindmani_k2_ohg(a,n) := [create_list(i,i,a,n),
  block([M : create_list({x,y,x+y,x*y}, x,max(a,2),floor(sqrt(n)), y,x+1,floor(n/x))],
   if a >= 2 then M else
    append(create_list({1,y,1+y},y,2,n-1),M))]$
