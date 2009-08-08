@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,9 +10,16 @@ License, or any later version. */
   \brief Plans in general for categories in Maxima/Lisp
 
 
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Categories/plans/general.hpp
+   for categories of clause-sets etc. </li>
+  </ul>
+
+
   \todo Basic notions
   <ul>
-   <li> There are the two representations by pre-categories and by hom-sets.
+   <li> There are the two representations, by pre-categories and by hom-sets.
    </li>
    <li> Sets are either implicitly or explicitly given, and their elements
    have a concrete representation or an abstract one (require an equality
