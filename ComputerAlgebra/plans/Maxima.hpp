@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -122,8 +122,8 @@ all_unsinghitting_mvd(8, 'all_n8);
    <li> Apparently this just happened when writing the session file. </li>
    <li> A core-file has been produced --- how to analyse this? </li>
    <li> When by mistake printing out the repository to the screen, I
-   got "string too long: desired length 6553600 exceeds the supported maximum length".
-   </li>
+   got "string too long: desired length 6553600 exceeds the supported maximum
+   length". </li>
    <li> So perhaps Maxima, when writing the file, just puts everything into a
    big string, and then the error occurred when this string was too long?
     <ol>
@@ -182,7 +182,8 @@ all_unsinghitting_mvd(8, 'all_n8);
    <li> In the same vein, "ordered graphs" are given by lists of vertices and
    lists of edges, the former without repetition, the latter with sets as
    elements. </li>
-   <li> So it seems that we should rewrite all of of the Maxima-functions. </li>
+   <li> So it seems that we should rewrite all of of the Maxima-functions.
+   </li>
    <li> This combined with the general clean-up. </li>
    <li> The clause-sets etc. are still available, via conversions. </li>
    <li> What about combinatorial matrices? Their point is, after all,
@@ -231,8 +232,8 @@ all_unsinghitting_mvd(8, 'all_n8);
   <ul>
    <li> Making lists fundamental, and introducing new and consistent naming
    conventions. </li>
-   <li> See "Redesign" in ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp.
-   </li>
+   <li> See "Redesign" in
+   ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp. </li>
    <li> See "Redesign" in ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp.
    </li>
    <li> See "Redesign" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp. </li>
@@ -252,8 +253,8 @@ all_unsinghitting_mvd(8, 'all_n8);
    for a more advanced example how to make make these recovering-variables
    optional; here we have also a state-variable (the permutation count),
    which allows re-starting the computation from an arbitrary point. </li>
-   <li> In this way we should rewrite all functions which perform long computations,
-   and for which it makes sense to collect partial results. </li>
+   <li> In this way we should rewrite all functions which perform long
+   computations, and for which it makes sense to collect partial results. </li>
    <li> Using "oklib --maxima -g", a running computation can be interrupted by
    Ctrl-C, a variable "var" can be displayed by "$var" (using "(displa $var)"
    one gets Maxima-representation), and by "continue" (at
@@ -322,7 +323,8 @@ all_unsinghitting_mvd(8, 'all_n8);
    </li>
    <li> How to name the demos-files?
     <ol>
-     <li> If the demonstration accompanies a file, then it has the same name. </li>
+     <li> If the demonstration accompanies a file, then it has the same name.
+     </li>
      <li> Otherwise any appropriate name. </li>
      <li> The suffix ".dem" is mentioned in the Maxima-manual. This or
      ".mac" ?! </li>
@@ -347,9 +349,9 @@ all_unsinghitting_mvd(8, 'all_n8);
      </li>
     </ol>
    </li>
-   <li> DONE How is it integrated into the general demos-system for the OKlibrary?
-   Likely nothing special is done, only we need load-capabilities, likely
-   here only for single files. </li>
+   <li> DONE How is it integrated into the general demos-system for the
+   OKlibrary? Likely nothing special is done, only we need load-capabilities,
+   likely here only for single files. </li>
    <li> DONE (oklib_batch, oklib_demo)
    Extend "oklib_load" to process the maxima-demos? Perhaps better
    a dedicated function. </li>
@@ -401,12 +403,13 @@ all_unsinghitting_mvd(8, 'all_n8);
      dynamic binding. </li>
     </ol>
    </li>
-   <li> DONE For the introduction of "oklib_monitor", apparently "define_variable"
-   should be used? </li>
+   <li> DONE For the introduction of "oklib_monitor", apparently
+   "define_variable" should be used? </li>
    <li> See first examples:
     <ol>
      <li> ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac </li>
-     <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac </li>
+     <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
+     </li>
     </ol>
    </li>
   </ul>

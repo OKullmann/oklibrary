@@ -18,7 +18,8 @@ License, or any later version. */
      <li> ComputerAlgebra/plans/Matroids/Lisp/general.hpp </li>
      <li> ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp </li>
      <li> What about hash-maps? We should put the "general" things into
-     Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
+     Sets, leaving the "data structures" to ComputerAlgebra/DataStructures.
+     </li>
     </ol>
    </li>
    <li> Relations:

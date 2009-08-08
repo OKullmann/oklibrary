@@ -373,8 +373,9 @@ fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
     <ol>
      <li> Arrays allow much faster index access than lists. </li>
      <li> However, running through a list L sequentially via "for x in L do"
-     is fastest (so, given an array a, where one wants to run through the elements
-     sequentially, it's fastest to do so by "for x in listarray(a)" do. </li>
+     is fastest (so, given an array a, where one wants to run through the
+     elements sequentially, it's fastest to do so by "for x in listarray(a)" 
+     do. </li>
      <li> So, when running through a list L where one also needs access to the
      index i, it's fastest to do 
      \verbatim
