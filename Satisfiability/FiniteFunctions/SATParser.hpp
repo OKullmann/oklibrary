@@ -25,7 +25,7 @@ namespace OKlib {
     namespace FiniteFunctions {
       
       /*!
-	\brief Reads a clause-set given in Dimacs format on the given input
+        \brief Reads a clause-set given in Dimacs format on the given input
         filestream and returns it as output.
       */
       ClauseSets read_dimacs_format(std::ifstream& input_file) {

@@ -22,13 +22,13 @@ License, or any later version. */
 namespace OKlib {
   namespace Satisfiability {
     namespace FiniteFunctions {
-
+      
 #ifdef NUMBER_VARIABLES
       const int num_vars = NUMBER_VARIABLES;
 #else
       const int num_vars = 4;
 #endif
-
+      
       //! Boolean variables as integers
       typedef int Variables;
       //! Boolean literals as integers
@@ -38,23 +38,24 @@ namespace OKlib {
       //! Boolean clause-sets as vectors of clauses
       typedef std::vector<Clauses> ClauseSets;
       /*!
-	\brief Hash-table structure used to store and lookup clauses in a
+        \brief Hash-table structure used to store and lookup clauses in a
         clause-set.
-
-	Such a structure provides constant time elementship tests and inserts
+        
+        Such a structure provides constant time elementship tests and inserts
         for clauses in a clause-set, although it has exponential space
         requirements in the number of variables.
       */
       typedef std::vector<bool> HashTable;
       //! Hashes used as index for HashTables
       typedef HashTable::size_type hash_index;
-
-
+      
+      
       /* XXX : Asserts that size types are sufficient are needed here */
-
+      
       /*!
-        \brief Taking a clause and printing the clause in Dimacs format to stdout.
-       */
+        \brief Taking a clause and printing the clause in Dimacs format to
+        stdout.
+      */
       void print_clause(const Clauses& clause) {
         for (Clauses::const_iterator iter = clause.begin();
              iter != clause.end(); ++iter) {
@@ -65,7 +66,7 @@ namespace OKlib {
       }
       
       /*!
-	\brief Taking a clause-set and printing the clause-set in Dimacs format
+        \brief Taking a clause-set and printing the clause-set in Dimacs format
         to stdout.
       */
       void print_clauseset(const ClauseSets& clause_set) {
@@ -76,11 +77,10 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given the base b and power e, computes b raised to the power of e.
-	
-	The key feature of this function is it provides integer computation whereas
-	the standard library works with doubles.
-
+        \brief Given the base b and power e, computes b raised to the power of
+        e. The key feature of this function is it provides integer computation
+        whereas the standard library works with doubles.
+        
       */
       hash_index ipow(const int b, int e) {
         long result = 1;
@@ -91,18 +91,18 @@ namespace OKlib {
       }
       
       /*!
-	\brief Computes the hash value for a given clause
+        \brief Computes the hash value for a given clause
+        
+        The clause hash is simply the sum of c * 3^i for all variables
+        i (where variables are integers in the range 1,  ..., num_vars), where
+        c is:
+        <ul>
+         <li> 0 if variable i does not occur in the given clause </li>
+         <li> 1 if variable i occurs negated in the given clause </li>
+         <li> 2 if variable i occurs positively in the given clause. </li>
+        </ul>
 
-	The clause hash is simply the sum of c * 3^i for all variables
-	i (where variables are integers in the range 1,  ..., num_vars), where c
-	is:
-	<ul>
-	 <li> 0 if variable i does not occur in the given clause </li>
-	 <li> 1 if variable i occurs negated in the given clause </li>
-	 <li> 2 if variable i occurs positively in the given clause. </li>
-	</ul>
-
-       */
+      */
       hash_index hash_clause(const Clauses& clause) {
         long return_value = 0;
         for (Clauses::const_iterator iter = clause.begin();
@@ -117,11 +117,11 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a hash value for a clause, computes the new hash value 
-	where the given literal is negated.
-	
-	The key point here is that the given literal occurs in the Clause 
-	represented by the input hash.
+        \brief Given a hash value for a clause, computes the new hash value 
+        where the given literal is negated.
+        
+        The key point here is that the given literal occurs in the Clause 
+        represented by the input hash.
       */
       hash_index 
       flip_literal_sign_in_hash(hash_index hash, const Literals literal) {
@@ -134,11 +134,11 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a hash value for a clause, computes a new hash for the 
-	clause where the given literal has been removed.
-
-	The key point here is that the given literal is assumed to occur within
-	the clause associated with the input hash.
+        \brief Given a hash value for a clause, computes a new hash for the 
+        clause where the given literal has been removed.
+        
+        The key point here is that the given literal is assumed to occur within
+        the clause associated with the input hash.
       */
       hash_index 
       remove_literal_in_hash(hash_index  hash, const Literals literal) {
@@ -151,8 +151,8 @@ namespace OKlib {
       }
       
       /*!
-	\brief Computes the clause represented by a given hash.
-       */
+        \brief Computes the clause represented by a given hash.
+      */
       unsigned int 
       hash_to_clause(hash_index hash, int clause[], const int num_vars) {
         hash_index var_value = 1;
@@ -172,12 +172,12 @@ namespace OKlib {
       }
       
       /*!
-	\brief Given a clause-set with only variables of size m where m < n,
-	all prime implicates of the given clause-set are returned.
-
-	Running time and space requirements are exponential (powers of 3) in 
-	the number of variables.
-       */
+        \brief Given a clause-set with only variables of size m where m < n,
+        all prime implicates of the given clause-set are returned.
+        
+        Running time and space requirements are exponential (powers of 3) in 
+        the number of variables.
+      */
       ClauseSets
       quine_mccluskey(const ClauseSets& input_cs) {
         int clause[num_vars];
@@ -243,7 +243,7 @@ namespace OKlib {
         }
         return result_cs;
       }
-
+      
     }
   }
 }
