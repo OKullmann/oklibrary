@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 10.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,8 +26,8 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Actions/BasicNotions.ma
 
 /*
  A "left-action" of a set A on a set X is a map *: A x X -> X,
- and a "right-action accordinly a map *: X x A -> X.
- Left actions are the default ("act"), and right-actions
+ and a "right-action" accordingly is a map *: X x A -> X.
+ Left-actions are the default ("act"), and right-actions
  are abbreviated by "ract".
 */
 

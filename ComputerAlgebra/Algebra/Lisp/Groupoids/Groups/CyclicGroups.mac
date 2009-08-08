@@ -19,14 +19,17 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac
 \htmlonly
 */
 
-/* The residule class rings ZZ_n are defined as "residues_rng(n)" in
+/* The residue class rings ZZ_n are defined as "residues_rng(n)" in
    ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac.
 */
 
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
 
-
+/* Zyclic groups of order n (n >= 1), where the operation also allows as
+   inputs arbitrary integers (which are interpreted as representing their
+   congruence classes):
+*/
 cyclic_ugrp(n) := rngfrm2egrd_add(residues_rng(n))$
 
 
