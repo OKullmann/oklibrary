@@ -33,7 +33,7 @@ okltest_hindmani_a1k2_ohg(hindmani_a1k2_ohg);
 okltest_nver_hindmani_a1k2_ohg(nver_hindmani_a1k2_ohg);
 okltest_nhyp_hindmani_a1k2_ohg(nhyp_hindmani_a1k2_ohg);
 
-okltest_hindmanquadsgen_degenerated_ohg(hindmanquadsgen_degenerated_ohg);
+okltest_hindman_k2_ohg(hindman_k2_ohg);
 okltest_hindmanquadsgen_ohg(hindmanquadsgen_ohg);
 
 /* ********************

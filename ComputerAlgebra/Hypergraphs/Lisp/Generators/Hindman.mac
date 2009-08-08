@@ -63,13 +63,12 @@ nhyp_hindmani_a1k2_ohg(n) :=
      nhyp_hindman_a1k2_ohg(n) - floor(sqrt(n))
 */
 
-/* RENAME: hindman_k2_ohg(a,n) */
-/* Prerequisite: a >= 1 */
-hindmanquadsgen_degenerated_ohg(a,n) := [create_list(i,i,a,n),
+/* Instead of vertex set {1, ..., n} now {a, ..., n} is considered. */
+/* Prerequisite: a >= 1. */
+hindman_k2_ohg(a,n) := [create_list(i,i,a,n),
  block([M : create_list({x,y,x+y,x*y}, x,max(a,2),floor(sqrt(n)), y,x,floor(n/x))],
   if a >= 2 then M else
    append(create_list({1,y,1+y},y,1,n-1),M))]$
-hindman_k2_ohg(a,n) := hindmanquadsgen_degenerated_ohg(a,n)$
 
 
 /* RENAME: hindmani_k2_ohg(a,n) */

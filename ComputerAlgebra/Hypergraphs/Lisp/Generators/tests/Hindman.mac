@@ -72,7 +72,7 @@ okltest_nhyp_hindmani_a1k2_ohg(f) := (
   true)$
 
 
-okltest_hindmanquadsgen_degenerated_ohg(f) := (
+okltest_hindman_k2_ohg(f) := (
   assert(okltest_hindman_a1k2_ohg(buildq([f],lambda([n],f(1,n)))) = true),
   assert(f(2,3) = [[2,3],[]]),
   assert(f(2,4) = [[2,3,4],[{2,4}]]),
@@ -124,7 +124,7 @@ okltest_hindman_ohg(f) := (
   assert(f(2,3,6) = [[2,3,4,5,6],[]]),
   assert(f(2,3,7) = [[2,3,4,5,6,7],[]]),
   assert(f(2,3,8) = [[2,3,4,5,6,7,8],[{2,4,6,8}]]),
-  assert(okltest_hindmanquadsgen_degenerated_ohg(buildq([f], lambda([a,n], f(a,2,n)))) = true),
+  assert(okltest_hindman_k2_ohg(buildq([f], lambda([a,n], f(a,2,n)))) = true),
   true)$
 
 okltest_hindmani_ohg(f) := block(
