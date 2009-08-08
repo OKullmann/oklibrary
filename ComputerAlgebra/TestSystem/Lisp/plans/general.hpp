@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Create milestones.
 
 
-  \todo Improving assert
+  \todo DONE Improving assert
   <ul>
    <li> DONE (now caught by errcatch)
    There are some errors which our test-system does not notice.
@@ -32,8 +32,8 @@ License, or any later version. */
    <li> DONE (we roll our own)
    Ask on the Maxima mailing list, whether they have a system in use.
     <ol>
-     <li> Apparently, they only have a system where they put expressions and expected
-     values into files. That's insufficient. </li>
+     <li> Apparently, they only have a system where they put expressions and
+     expected values into files. That's insufficient. </li>
     </ol>
    </li>
    <li> Compare with the C++ test system; see TestSystem/plans/TestSystem.hpp.
@@ -48,7 +48,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> DONE (at least at this time, we just rely on Maxima evaluating all
-   expressions in the file, and do not have our own mechanism for running tests)
+   expressions in the file, and do not have our own mechanism for running
+   tests)
    Execution of the tests:
     <ol>
      <li> Like with the C++ system, in the testobjects-files
@@ -56,15 +57,16 @@ License, or any later version. */
      (provided via dynamic binding when running the tests).
       <ol>
        <li> These "testobjects" perhaps are just the respective function calls,
-       unevaluated, while executing the tests means evaluating these terms. </li>
+       unevaluated, while executing the tests means evaluating these terms.
+       </li>
        <li> So we need one function "install_testokl(t)", which stores the term
        t, unevaluated, on a global list "testobjects_testokl". </li>
       </ol>
      </li>
-     <li> However, just writing the expressions into the testobject-file is easier,
-     and seems to do the job as well ?!? </li>
-     <li> The files in the "tests"-directories get loaded with oklib_load_all(),
-     but not the testobjects-files. </li>
+     <li> However, just writing the expressions into the testobject-file is
+     easier, and seems to do the job as well ?!? </li>
+     <li> The files in the "tests"-directories get loaded with
+     oklib_load_all(), but not the testobjects-files. </li>
      <li> But the mechanics of running tests (how to find out about errors,
      how to get more precise information, etc.) is not clear yet. See
      the next point about "Assert". </li>
@@ -157,8 +159,8 @@ License, or any later version. */
    "oklib check" is also responsible for the maxima-tests, via a sub-goal
    (so that also only the maxima-tests can be involved).
     <ol>
-     <li> After loading all testobject-files, a function "run_testokl" is called
-     which evaluates the terms in "testobjects_testokl". </li>
+     <li> After loading all testobject-files, a function "run_testokl" is
+     called which evaluates the terms in "testobjects_testokl". </li>
      <li> A complication arises for functions to be tested which require
      special contexts. Best to avoid this. However if needed, then the
      testobject should just also contain this context. </li>
@@ -169,11 +171,11 @@ License, or any later version. */
       <ol>
        <li> Since we run the test with a fresh Maxima, we don't need to use
        "kill(all)" at the beginning. </li>
-       <li> However we should have the possibility to run the tests several times,
-       to see whether there are harmful side-effects. </li>
-       <li> So all "main" functions of the OKlibrary shouldn't change the global
-       environment (these "main" functions include all test-functions; perhaps
-       "main" here means "testable"). </li>
+       <li> However we should have the possibility to run the tests several
+       times, to see whether there are harmful side-effects. </li>
+       <li> So all "main" functions of the OKlibrary shouldn't change the
+       global environment (these "main" functions include all test-functions;
+       perhaps "main" here means "testable"). </li>
       </ol>
      </li>
      <li> As usual all testobjects for the calling directory level are
@@ -214,8 +216,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> DONE (error messages are output to a file, and in this way we detect the
-   presence of an error)
+   <li> DONE (error messages are output to a file, and in this way we detect
+   the presence of an error)
    First rough "script" for running the tests
     <ol>
      <li>
@@ -292,6 +294,25 @@ if oklib_test_demos then
     <ol>
      <li> Is it possible to use for the test-runs a different initialisation
      file? Ask on the Maxima mailing list. </li>
+    </ol>
+   </li>
+   <li> It would be better to check whether all testobject-expressions actually
+   evaluate to true (since tests might be broken, and for example simply
+   nothing might be computed):
+    <ol>
+     <li> I remember that there is a Maxima function, which like "batch"
+     executes all expressions in a file, and checks whether each evaluates
+     to true? </li>
+     <li> Apparently there is an undocumented feature of batch, namely it
+     can be called as "batch(filename, 'test)", in which case it expects
+     the file to be organised as a list of pairs of expressions
+     \verbatim
+expression;
+expected_value$
+     \endverbatim
+     however this would be clumsy (since our expected value is always just
+     "true"), and furthermore also some error-log is written to some file,
+     which likely is (too) hard to control. </li>
     </ol>
    </li>
    <li> In oklib_test_level>=1 we must also additionally run the test
