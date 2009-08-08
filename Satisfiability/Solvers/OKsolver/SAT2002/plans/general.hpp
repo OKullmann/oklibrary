@@ -266,6 +266,9 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    </li>
    <li> Monitoring:
     <ol>
+     <li> Likely also on 32-bit machines using 64-bit types for the statistics,
+     enabling a maximal depth of up to 60, should be possible with negligible
+     overhead (see above). </li>
      <li> The prediction e.g. at the beginning is distorted, since the build-up
      of the tree up to this monitoring node is taken into account. </li>
      <li> So that e.g. the very first monitoring node has to take into account
