@@ -55,7 +55,7 @@ min_2resolution_closure_cs(F) := block(
    subsumption_ghg(min_2resolution_closure_cs(F), F).
 */
 /*
-   Using a simple algorithm for computing this minimum "prime representation"
+   Using a simple algorithm for computing all minimum "prime representations"
    of a full clause-set F:
 */
 all_minequiv_bvs_cs(F) := 
@@ -75,7 +75,7 @@ dual_min_2resolution_closure_cs(F) :=
    (for full clause-sets).
 */
 
-/* Computing the minimum "dual prime representation" of a full clause-set F,
+/* Computing all minimum "dual prime representations" of a full clause-set F,
    using a simple algorithm (as above):
 */
 dual_all_minequiv_bvs_cs(F)  := block(
