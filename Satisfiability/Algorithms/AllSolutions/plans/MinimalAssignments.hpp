@@ -45,6 +45,8 @@ License, or any later version. */
    <li> Compare with
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Constructions.hpp.
    </li>
+   <li> And see ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp.
+   </li>
    <li> For a clause-set F, let's call the set of minimal satisfying
    partial assignment also "Tr(F)" (as for hypergraphs). </li>
    <li> Or, perhaps better, Tr(F) is again a set of clauses?! </li>

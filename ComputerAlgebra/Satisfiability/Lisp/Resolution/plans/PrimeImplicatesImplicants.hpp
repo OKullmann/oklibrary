@@ -12,13 +12,16 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> The resolution-module doesn't seem to be the right place. </li>
-   <li> Perhaps we create a whole new module. </li>
+   <li> DONE (to be moved to
+   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp)
+   The resolution-module doesn't seem to be the right place. </li>
+   <li> DONE Perhaps we create a whole new module. </li>
    <li> The basic tasks for a given *clause-set* to compute "prime clauses"
    and "dual prime clauses". </li>
    <li> For a boolean function this means that the prime implicates and prime
    implicants are to be computed. </li>
-   <li> We have this basic terminology problem:
+   <li> DONE
+   We have this basic terminology problem:
     <ol>
      <li> Coming from boolean functions, an absolute point of view is taken,
      where implicates belong to the "false" side, and "implicants" to the
@@ -61,8 +64,9 @@ License, or any later version. */
      elimination inbetween? </li>
     </ol>
    </li>
-   <li> Or should this go somewhere else?? </li>
-   <li> Should we perhaps have modules "PrimeClauses" and "DualPrimeClauses" ?
+   <li> DONE Or should this go somewhere else?? </li>
+   <li> DONE
+   Should we perhaps have modules "PrimeClauses" and "DualPrimeClauses" ?
    Or one module "Primality" (which contains those two)? </li>
   </ul>
 
