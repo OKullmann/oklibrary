@@ -51,10 +51,15 @@ License, or any later version. */
      </li>
      <li> Finally we have the task of "(general) iteration" through M(p).
       <ol>
-       <li> This is given by a function-object I(p) which can be initialised,
-       queried whether the past-the-end has been reached, and if this is not
-       the case, can return the current object and can be advanced to the
-       next element (possibly "past-the-end"). </li>
+       <li> The following needs updating according to the general concepts
+       in ComputerAlgebra/AbstractDataTypes/Lisp/plans/general.hpp. </li>
+       <li> And see "Iteration through lexicographical order" in
+       ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp for
+       a specific example. </li>
+       <li> Iteration is given by a function-object I(p) which can be
+       initialised, queried whether the past-the-end has been reached, and if
+       this is not the case, can return the current object and can be advanced
+       to the next element (possibly "past-the-end"). </li>
        <li> This is like forward-iterators in C++, only that we are running
        through a fixed collection (not an arbitrary one). Likely we don't
        need equality-comparison, but we should provide a method of ranking

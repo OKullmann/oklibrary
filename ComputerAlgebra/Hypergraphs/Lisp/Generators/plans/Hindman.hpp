@@ -18,6 +18,35 @@ License, or any later version. */
   </ul>
 
 
+  \todo Implement iterator-forms
+  <ul>
+   <li> Implement the form of a hypergraph generator, where not the hyperedges
+   are produced, but just a "range" (in the C++ sense) is computed, where
+   then iterators are used to create the hyperedges one after another. </li>
+   <li> Using the general concepts in
+   ComputerAlgebra/AbstractDataTypes/Lisp/plans/general.hpp we have the
+   following natural implementation of a forward iterator:
+   \verbatim
+hindman_a1k2_ohg_ver(n) := create_list(i,i,1,n)$
+hindman_a1k2_ohg_hypit(n) := if n<=1 then [done] else
+ buildq([n,s:floor(sqrt(n))], 
+ [1,
+  lambda([it], block([x:it[4], y:it[5]], {x,y,x+y,x*y})),
+  lambda([it], block([x:it[4], y:it[5]],
+   it[1] : it[1]+1,
+   if x=1 then
+     if y < n-1 then it[5]:y+1
+     elseif s=1 then it[1]:done
+     else (it[4]:2, it[5]:2)
+   elseif y+1<=n/x then it[5]:y+1
+   elseif x<s then (it[4]:x+1, it[5]:x+1)
+   else it[1]:done)),
+  1,1])$
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Implement general functionality (arbitrary k)
   <ul>
    <li> hindman_ohg_0(a,k,n) and hindmani_ohg_0(a,k,n) need to improved.

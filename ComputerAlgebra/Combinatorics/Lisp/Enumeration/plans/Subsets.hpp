@@ -146,6 +146,8 @@ block([x : first_lex_subsets(6,3)],
    <li> Colexicographical order: XXX </li>
    <li> (General) Iteration for lexicographical order XXX
     <ol>
+     <li> The following needs updating according to
+     ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp. </li>
      <li> "itgen_lex_subsets(M,k) yields an iterator "it" "pointing" to
      the first element. </li>
      <li> "iteval_lex_subsets(it)" yields the element. </li>
