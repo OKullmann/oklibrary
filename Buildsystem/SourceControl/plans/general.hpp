@@ -669,12 +669,13 @@ git remote rm Bproject
      <li> 20.2.2009; 11.5 MB; OKlib total: 30.9 MB </li>
      <li> 20.2.2009, after renaming Transitional -> OKlib;
      11.6 MB; OKlib total: 31.1 MB </li>
-     <li> 27.3.2009; 12.0 MB; OKlib total: 31.7 </li>
-     <li> 2.5.2009; 12.6 MB; OKlib total: 33.0 </li>
-     <li> 22.5.2009; 10.7 MB; OKlib total: 31.2 ("git gc --aggressive"
+     <li> 27.3.2009; 12.0 MB; OKlib total: 31.7 MB </li>
+     <li> 2.5.2009; 12.6 MB; OKlib total: 33.0 MB </li>
+     <li> 22.5.2009; 10.7 MB; OKlib total: 31.2 MB ("git gc --aggressive"
      got apparently quite a bit more effective --- without it we had
      now 12.8 MB, while before actually "aggressive" always increased
      disc usage slightly) </li>
+     <li> 9.8.2009; 11.5 MB; OKlib total: 32.8 MB </li>
     </ol>
    </li>
   </ul>
