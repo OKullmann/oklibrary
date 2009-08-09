@@ -28,6 +28,94 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
+/* ****************************************
+   * Prime clauses and dual prime clauses *
+   ****************************************
+*/
+
+/* The set of all "prime clauses" of a clause-set F is
+   computed by 
+
+     prime_clauses_cs(F) = min_resolution_closure_cs(F)[1].
+
+   Alternatively one has
+     prime_clauses_cs(F) =
+        min_2resolution_closure_cs(expand_fcs(cs2fcs(F))[2]).
+*/
+/* Considering F as CNF, this is the set of all "prime implicates"
+   of the corresponding boolean function, while considering F as a DNF
+   this is the set of all "prime implicants".
+
+   That is, a prime implicate of F as CNF is a CNF-clause C which follows
+   from F, while this is not true for any strict subset of C, while
+   a prime implicant of F as a DNF is a DNF-clause C which implies F, while
+   this is not true for any strict subset of C.
+
+   Note that in this library a "clause" C is a combinatorial object, and
+   whether C is a "CNF-clause" or a "DNF-clause" is just a matter of an
+   (additional) interpretation.
+*/
+/* In other words, using the CNF interpretation, the prime clauses of F
+   are the comp_sl(phi) for partial assignments phi such that phi * F
+   is unsatisfiable, while this is not true for any strict subset of phi.
+   And using the DNF interpretation, the prime clauses of F
+   are the phi for partial assignments phi such that phi * F
+   is tautological, while this is not true for any strict subset of phi.
+
+   Note that in this library partial assignments are just represented
+   as DNF-clauses, taking for clause-sets the "default interpretation"
+   as CNF-clause-sets.
+*/
+
+/* Considering F as CNF, the "dual prime clauses" are the prime implicants
+   of F, while considering F as DNF, the dual prime clauses are the
+   prime implicates of F.
+*/
+
+/* Various ways of computing the set of dual prime clauses of a clause-set F:
+
+   dual_prime_clauses_cs(F) =
+     min_elements(dual_cs(F)) =
+     min_2resolution_closure_cs(all_sat_cs(F)) =
+
+     min_resolution_closure_cs(G)[1]
+
+   where G is any DNF representation of F (for example, disjoint DNF
+   representations are obtained from any splitting tree for F).
+*/
+
+/* Note that
+
+     prime_clauses_cs(F) = dual_prime_clauses_cs(dual_prime_clauses_cs(F)),
+
+   and more generally
+
+     prime_clauses_cs(F) = dual_prime_clauses_cs(G),
+
+   where G is any DNF representation of F. This yields
+
+     prime_clauses_cs(F) = min_elements(dual_cs(G)).
+
+*/
+
+/* Remarks: The computation
+   
+     prime_clauses_cs(F) = min_2resolution_closure_cs(F)
+
+   for full F is the Quine/McCluskey procedure, while
+
+     prime_clauses_cs(F) = min_resolution_closure_cs(F)[1]
+
+   (now again for general F) is often called the "consensus algorithm",
+   and finally
+
+     prime_clauses_cs(F) = min_elements(dual_cs(G))
+
+   is called the "double negation procedure of Nelson".
+
+*/
+
+
 /* ****************************
    * The Quine/McCluskey case *
    ****************************
@@ -35,9 +123,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 
 /* The special case of min_resolution_closure_cs where the input clauses
    are all full (contain all variables).
-   In other words, computing all minimal resolvents (for CNF's these are
-   the prime implicates, for DNF's the prime implicants) for full
-   clause-sets.
+   In other words, computing all minimal resolvents, i.e., all prime clauses
+   (for CNF's these are the prime implicates, for DNF's the prime implicants) 
+   for full clause-sets.
 */
 min_2resolution_closure_cs(F) := block(
  [prime_implicates : {}, new_implicates, n : nvar_cs(F)],
@@ -64,15 +152,17 @@ all_minequiv_bvs_cs(F) :=
 
 /* Dualisation: */
 
-/* Computing for a full CNF the set of all prime implicants (minimal satisfying
-   assignments), and for a full DNF the set of all prime implicates (minimal
-   clauses which follow):
+/* Computing the dual prime clauses, that is, for a full CNF the set of all 
+   prime implicants (minimal satisfying assignments), and for a full DNF the 
+   set of all prime implicates (minimal clauses which follow):
 */
 dual_min_2resolution_closure_cs(F) := 
  comp_cs(min_2resolution_closure_cs(setdifference(full_fcs_v(var_cs(F))[2], F)))$
 /* We have
    dual_min_2resolution_closure_cs(F) = min_resolution_closure_cs(dual_cs(F))[1]
    (for full clause-sets).
+   Note that here
+     setdifference(full_fcs_v(var_cs(F))[2], F) = all_sat_cs(F).
 */
 
 /* Computing all minimum "dual prime representations" of a full clause-set F,
@@ -84,15 +174,17 @@ dual_all_minequiv_bvs_cs(F)  := block(
     subsumption_ghg(min_2resolution_closure_cs(G), G)))))$
 
 
-/* *****************************************************
-   * Finding contained prime-implicates by SAT solvers *
-   *****************************************************
+/* **************************************************
+   * Finding contained prime-clauses by SAT solvers *
+   **************************************************
 */
 
-/* Given a clause-set F and a clause C which follows from F, find a prime
-   implicate C' <= S with the help of SAT solver S (which must be applicable
-   to the closure of {F} under applications of partial assignments):
+/* Given a clause-set F (interpreted as CNF) and a clause C which follows from
+   F, find a prime implicate C' <= S with the help of SAT solver S (which must
+   be applicable to the closure of {F} under applications of partial
+   assignments):
 */
+/* RENAME: contained_prime_clause_cs */
 contained_prime_implicate(F,C,S) := block([reduced : true],
  while reduced do (
    reduced : false,
@@ -102,14 +194,16 @@ contained_prime_implicate(F,C,S) := block([reduced : true],
  return(C))$
 
 
-/* Replace for a clause-set F each clause C by a prime
+/* Replace for a clause-set F (as CNF) each clause C by a prime
    implicate C' <= C, using a SAT solver which works on
    the closure of {F} under the application of partial
-   assignments. */
+   assignments: */
+/* RENAME: replace_by_prime_clauses_cs */
 replace_by_prime_implicates(F,S) := block([G : {}],
   for C in F do G : adjoin(contained_prime_implicate(F,C,S), G),
   return(G))$
-/* The special case where F is a hitting clause-set. */
+/* The special case where F is a hitting clause-set: */
+/* RENAME: replace_by_prime_clauses_hitting_cs */
 replace_by_prime_implicates_hitting(F) := 
   replace_by_prime_implicates(F,sat_decision_hitting_cs)$
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,10 +28,18 @@ License, or any later version. */
      stay with the representation and minimise the clauses (given a CNF,
      this would mean the prime implicates), or "go to the other side"
      (for a CNF this means prime implicants). </li>
+     <li> So we use "prime clauses" and "dual prime clauses" for the relative
+     point of view, and "prime implicates" resp. "prime implicants" for the
+     absolute point of view. </li>
     </ol>
    </li>
    <li> See "Dualisation" below. </li>
    <li> See "Connections" below. </li>
+   <li> We need generic testfunctions "okltest_prime_clauses_cs",
+   "okltest_dual_prime_clauses_cs" and the special cases
+   "okltest_prime_clauses_full_cs", "okltest_dual_prime_clauses_full_cs"
+   (since there are many algorithms for computing these fundamental
+   functions). </li>
   </ul>
   
   
@@ -47,8 +55,15 @@ License, or any later version. */
   <ul>
    <li> Implement the algorithm given by "dual_cs" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac
+    <ol>
+     <li> That is, just subsumption elimination needs to be added. </li>
+     <li> How to do this in a better way? For example doing subsumption
+     elimination inbetween? </li>
+    </ol>
    </li>
    <li> Or should this go somewhere else?? </li>
+   <li> Should we perhaps have modules "PrimeClauses" and "DualPrimeClauses" ?
+   Or one module "Primality" (which contains those two)? </li>
   </ul>
 
 

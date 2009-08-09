@@ -92,9 +92,9 @@ okltest_dual_minequiv_cs(f) := block([R],
   true)$
 
 
-/* *****************************************************
-   * Finding contained prime-implicates by SAT solvers *
-   *****************************************************
+/* **************************************************
+   * Finding contained prime-clauses by SAT solvers *
+   **************************************************
 */
 
 okltest_contained_prime_implicate(f) := block(
