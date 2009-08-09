@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac
-  \brief Maxima functions for generating hypergraphs
+  \brief Maxima functions for generating Hindman hypergraphs
 
 Use by
 
@@ -24,21 +24,21 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
-/* *****************
-   * Hindman quads *
-   *****************
+/* ***********************
+   * Hindman quads (k=2) *
+   ***********************
 */
 
 /* The hypergraph with vertex set {1, ..., n} and as hyperedges all possible
    subsets {x,y,x+y,x*y}:
 */
-hindman_a1k2_ohg(n) := 
+hindman_a1k2_ohg(n) :=
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,1,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x,floor(n/x)))]$
 
 nver_hindman_a1k2_ohg(n) := n$
-nhyp_hindman_a1k2_ohg(n) := 
+nhyp_hindman_a1k2_ohg(n) :=
  if n <= 1 then 0 else block([s : floor(sqrt(n))],
  n-1 - (s-1)*s/2 + sum(floor(n/x), x,2,s))$
 /* By definition: nhyp_hindman_a1k2_ohg(n) = 
@@ -49,13 +49,13 @@ nhyp_hindman_a1k2_ohg(n) :=
 */
 
 /* The "injective" version, not allowing x=y: */
-hindmani_a1k2_ohg(n) := 
+hindmani_a1k2_ohg(n) :=
  [create_list(i,i,1,n),
   append(create_list({1,y,1+y},y,2,n-1),
     create_list({x,y,x+y,x*y}, x,2,floor(sqrt(n)), y,x+1,floor(n/x)))]$
 
 nver_hindmani_a1k2_ohg(n) := n$
-nhyp_hindmani_a1k2_ohg(n) := 
+nhyp_hindmani_a1k2_ohg(n) :=
  if n <= 2 then 0 else block([s : floor(sqrt(n))],
  n-1 - (s+1)*s/2 + sum(floor(n/x), x,2,s))$
 /* nhyp_hindmani_a1k2_ohg(n) = 
@@ -70,12 +70,21 @@ hindman_k2_ohg(a,n) := [create_list(i,i,a,n),
   if a >= 2 then M else
    append(create_list({1,y,1+y},y,1,n-1),M))]$
 
+nver_hindman_k2_ohg(a,n) := max(n-a+1,0)$
+nhyp_hindman_k2_ohg(a,n) := if a=1 then nhyp_hindman_a1k2_ohg(n) else
+  block([s : floor(sqrt(n))], if a>s then 0 else
+    (s-a+1)*(1-(s+a)/2)+sum(floor(n/x), x,a,s))$
 
 /* Again, only allowing x <> y: */
 hindmani_k2_ohg(a,n) := [create_list(i,i,a,n),
  block([M : create_list({x,y,x+y,x*y}, x,max(a,2),floor(sqrt(n)), y,x+1,floor(n/x))],
   if a >= 2 then M else
    append(create_list({1,y,1+y},y,2,n-1),M))]$
+
+nver_hindmani_k2_ohg(a,n) := max(n-a+1,0)$
+nhyp_hindmani_k2_ohg(a,n) := if a=1 then nhyp_hindmani_a1k2_ohg(n) else
+  block([s : floor(sqrt(n))], if a>s then 0 else
+    -(s-a+1)*(s+a)/2+sum(floor(n/x), x,a,s))$
 
 
 /* ********************
