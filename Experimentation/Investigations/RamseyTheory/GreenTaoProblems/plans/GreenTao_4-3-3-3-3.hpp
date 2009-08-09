@@ -468,8 +468,15 @@ BestSolution_Max = 4.000000
    <li> Without symmetry breaking and without preprocessing:
    \verbatim
 > OKsolver_2002-O3-DNDEBUG -D30 -M -F GreenTao_4-3_377.cnf
+Name of file, monitoring depth and number of monitoring nodes:
+ GreenTao_4-3_377.cnf,   30, 1073741824
+level: nodes processed, average nodes, predicted total nodes, time for monitoring node, average time, predicted remaining time
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=1508 initial_number_of_clauses=29195 initial_number_of_literal_occurrences=85700 running_time(s)=96556.5 number_of_nodes=5442104 number_of_single_nodes=29075 number_of_quasi_single_nodes=0 number_of_2-reductions=77078983 number_of_pure_literals=0 number_of_autarkies=32 number_of_missed_single_nodes=55540 max_tree_depth=140 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=2218981570 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=2262 file_name=GreenTao_4-3_377.cnf
    \endverbatim
-   </li>
+   No observation node at level 30 reached: From time to time an autarky is
+   found, and also single-nodes are found (quite a few), but likely the
+   depth is just too big. </li>
    <li> Without symmetry breaking and with preprocessing:
    \verbatim
 > OKsolver_2002-m2pp -D20 -M GreenTao_4-3-3-3-3_377.cnf
@@ -477,12 +484,15 @@ s UNKNOWN
 c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 initial_number_of_clauses=27684 initial_number_of_literal_occurrences=121758 running_time(s)=172728.7 number_of_nodes=4729631 number_of_single_nodes=375 number_of_quasi_single_nodes=0 number_of_2-reductions=61736549 number_of_pure_literals=1 number_of_autarkies=4 number_of_missed_single_nodes=667 max_tree_depth=177 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=32 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1128 file_name=GreenTao_4-3-3-3-3_377.cnf_m2pp_24712
    \endverbatim
    (without completing any node at level 20). </li>
+   <li> Interesting to note here that the number of variables and the number of
+   2-clauses coincide: it might be that the reduction actually establishes
+   some new structure. </li>
    <li> With symmetry breaking and without preprocessing:
    \verbatim
 
    \endverbatim
    </li>
-   <li> Wit symmetry breaking and with preprocessing:
+   <li> With symmetry breaking and with preprocessing:
    \verbatim
 
    \endverbatim
