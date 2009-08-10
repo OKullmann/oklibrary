@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobj
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac")$
 
+/*
 
 okltest_aes_sbox_ts_gen(aes_sbox_ts_gen);
 okltest_aes_mul_ts_gen(aes_mul_ts_gen);
@@ -49,6 +50,9 @@ okltest_aes_mixcolumns_cp(aes_mixcolumns_cp);
 okltest_aes_shiftrows_cp(aes_shiftrows_cp);
 okltest_aes_subbytes_cp(aes_subbytes_cp);
 okltest_aes_round_cp(aes_round_cp);
+
+*/
+
 /*
 okltest_aes_key_expansion_cp(aes_key_expansion_cp);
 */
