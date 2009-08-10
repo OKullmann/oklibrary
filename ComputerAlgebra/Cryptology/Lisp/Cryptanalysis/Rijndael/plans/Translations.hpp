@@ -423,6 +423,21 @@ lambda([a],some_namespace_x(a,1,2,3))
   </ul>
 
 
+  \todo Generate translation that allows multiple plaintext/ciphertext pairs
+  <ul>
+   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with AES 
+   using a key K, might not be enough, on it's own, to deduce K (as there may
+   be some K' which performs the same mapping for this specific (P,C)), for
+   genuine experiments and understanding of AES, translations allowing
+   multiple plaintext/ciphertext pairs but sharing the key variables are 
+   needed. </li>
+   <li> A simple method here is to perform the translation multiple times, 
+   introducing distinct variables for each pair of plaintext/ciphertext, but 
+   using the same key variables in each translation. The union of all such 
+   translations is then the required result. </li>
+  </ul>
+
+
   \todo Constraint rewrite system (DONE Covered in "Fix translation system")
   <ul>
    <li> In translating AES to a CNF, one can define a rewrite system based

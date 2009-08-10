@@ -9,6 +9,49 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
+
+  \todo Randomly choosing "unknown" block bits
+  <ul>
+   <li> Given a block (plaintext, key or ciphertext), a method is needed of
+   randomly choosing bits from this block to "unset" (that is, leave unknown). 
+   </li>
+   <li> Two functions should perform this task, one taking the standard arguments
+   and additionally a random seed and returning a partial assignment, and another
+   which takes only the standard arguments and returns a list with both the
+   partial assignment and a randomly chosen seed. </li>
+   <li> So one function should take:
+   <ul> 
+    <li> a block "B" as a list of integers (as specified in the AES 
+    implementation). </li>
+    <li> a list of variables "V" representing the bits for this block. </li> 
+    <li> the number of bits "k" to leave unspecified in the SAT problem. </li>
+   </ul>
+   and should then return a list [pa,r_s] where:
+   <ul>
+    <li> "pa" is a partial assignment to the variables in V other than the "k" 
+    randomly chosen variables. Any variable that the partial assignment assigns
+    a value to should have the value associated with that "bit" in block "B" 
+    that the variable represents. </li>
+    <li> "r_s" is the random seed used to choose which block bits are left
+    unspecified. </li>
+   </ul>
+   </li>
+   <li> The other function should take:
+   <ul> 
+    <li> A random seed "r_s". </li>
+    <li> a block "B" as a list of integers (as specified in the AES 
+    implementation). </li>
+    <li> a list of variables "V" representing the bits for this block. </li> 
+    <li> the number of bits "k" to leave unspecified in the SAT problem. </li>
+   </ul>
+   and should then return a partial assignment "pa" where "pa" is a partial 
+   assignment to the variables in V other than the "k" randomly chosen 
+   variables. Any variable that the partial assignment assigns a value to, 
+   should have the value associated with that "bit" in block "B" that
+   the variable represents. 
+   </li>
+  </ul>
+
   
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic
   Aspects of the AES]
