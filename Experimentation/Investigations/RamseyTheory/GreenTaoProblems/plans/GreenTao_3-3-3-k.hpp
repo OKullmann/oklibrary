@@ -271,7 +271,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1921
+  \todo greentao_3(3,3,5) > 1925
   <ul>
    <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
@@ -345,6 +345,13 @@ BestSolution_Max = 2.000000
  1  2  3
 13 62  1
      \endverbatim
+     Another 57 runs yield
+     \verbatim
+ 0  1  2
+ 1 11 45
+57
+     \endverbatim
+     (the solution has osteps=857758539 and seed=4288803153)
      </li>
     </ol>
    </li>
@@ -377,6 +384,7 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
 100
      \endverbatim
      </li>
+     <li> Another try with cutoff=2*10^9: </li>
     </ol>
    </li>
   </ul>
