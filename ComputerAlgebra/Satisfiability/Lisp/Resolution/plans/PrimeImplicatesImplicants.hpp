@@ -51,6 +51,24 @@ License, or any later version. */
    <li> Currently the name likely is not corrected, since if the input is not
    a full clause-set, then likely we do not compute the min-closure under
    2-subsumption resolution (example?). </li>
+   <li> What is the complexity of min_2resolution_closure_cs(F) ?
+    <ol>
+     <li> If we take the input size as 2^n, then the procedure is trivially
+     polynomial (altogether there are at most 3^n clauses). But the question
+     is whether the running time is polynomial in the real input, that is,
+     in F ?! </li>
+     <li> We need to count the total number of clauses created. </li>
+     <li> This is exactly the number of clauses which follow from F
+     (over the same variables; no need to distinguish between the old
+     clauses in F and the new created ones, but just altogether is counted).
+     </li>
+     <li> If F has 2^n clauses, then altogether 3^n clauses are created,
+     where (2^n)^(log_2(3)) = 3^n. </li>
+     <li> So one could conjecture that the total number of clauses which
+     follow from a full clause-set F (over the same variables, of course)
+     is at most c(F)^(log_2(3)). </li>
+    </ol>
+   </li>
   </ul>
 
 
