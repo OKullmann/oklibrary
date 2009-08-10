@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Improve formulations : MG (as soon as possible)
   <ul>
+   <li> No names consisting only of upper-case letters! See "Weak state of the
+   whole module" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
    <li> Explanations needed! Experiments need full specifications (to be
@@ -37,7 +40,8 @@ License, or any later version. */
      <li> Breaking AES for reduced round variants. </li>
      <li> Investigations into different representations of
      the Sbox. </li>
-     <li> Investigations into replacing the Sbox with random permutations. </li>
+     <li> Investigations into replacing the Sbox with random permutations.
+     </li>
      <li> Investigations into replacing the multiplication with constant field 
      elements with random permutations. </li>
      <li> Investigations into encryption and decryption using different AES 
@@ -65,11 +69,11 @@ License, or any later version. */
    SAT translation. </li>
    <li> Solvers to be used : 
     <ul>
-     <li> OKsolver-2002 </li>
+     <li> OKsolver_2002 </li>
      <li> minisat2 </li>
      <li> ubcsat (1-0-0) </li>
-     <li> picosat </li>
-     <li> Satz </li>
+     <li> picosat913 </li>
+     <li> Satz215 </li>
      <li> sp </li>
      <li> march_pl </li>
     </ul>
@@ -175,32 +179,34 @@ License, or any later version. */
     following way : "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
     AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
     <li> There is obviously then the question of whether there is key which 
-    acts as it's own inverse for at least "k" plaintext blocks, i.e where K1=K2 
-    etc. </li>
+    acts as it's own inverse for at least "k" plaintext blocks, i.e where
+    K1=K2 etc. </li>
    </ul>
    </li>
   </ul>
 
 
-  \todo DONE General organisation
+  \todo General organisation
   <ul>
    <li> All the experiments must be fully reproducible. Thus *only* tools
    as provided by the OKlibrary are to be used, *NO* private code or private
    schemes in any form. </li>
    <li> Besides reproducibility, the point is to strengthen the OKlibrary,
    by continuous improvement, not to weaken it by hiding. </li>
-   <li> DONE Directory structure:
+   <li> Directory structure:
     <ol>
-     <li> DONE The main topic here is not investigation of certain solvers, but to
+     <li> DONE
+     The main topic here is not investigation of certain solvers, but to
      investigate the interaction of cryptography and (generalised) SAT
      solving. </li>
      <li> DONE Thus solver-names as file-names should only occur, if at all, in
      sub-directories associated with specific investigations. </li>
-     <li> DONE The general standards for naming in the OKlibrary have to be
+     <li> The general standards for naming in the OKlibrary have to be
      observed:
       <ul>
-       <li> DONE Non-generic filenames start always with a capital letter. </li>
-       <li> DONE No file- (or directory-)name consists only of capital letters.
+       <li> DONE Non-generic filenames start always with a capital letter.
+       </li>
+       <li> No file- (or directory-)name consists only of capital letters.
        </li>
       </ul>
      </li>
