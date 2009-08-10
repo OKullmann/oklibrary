@@ -21,9 +21,15 @@ License, or any later version. */
     - Organisation
     - Parameterise inclusion of inverse operation in Mixcolumn translation 
 
+
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
     - Provide tests for all functions: DONE
+
+  
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Randomly choosing "unknown" block bits
 
     
   \par Version 0.0.8
@@ -48,6 +54,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Rewrite tests based on rewritten translation system
     - Write Docus
+    - Generate translation that allows multiple plaintext/ciphertext pairs
     - Constraint Rewrite System : DONE
     - Encoding AES (top down) : DONE
 

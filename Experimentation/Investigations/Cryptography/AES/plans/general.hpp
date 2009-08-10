@@ -10,33 +10,6 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo General organisation : MG (as soon as possible)
-  <ul>
-   <li> All the experiments must be fully reproducible. Thus *only* tools
-   as provided by the OKlibrary are to be used, *NO* private code or private
-   schemes in any form. </li>
-   <li> Besides reproducibility, the point is to strengthen the OKlibrary,
-   by continuous improvement, not to weaken it by hiding. </li>
-   <li> Directory structure:
-    <ol>
-     <li> The main topic here is not investigation of certain solvers, but to
-     investigate the interaction of cryptography and (generalised) SAT
-     solving. </li>
-     <li> Thus solver-names as file-names should only occur, if at all, in
-     subdirectories associated with specific investigations. </li>
-     <li> The general standards for naming in the OKlibrary have to be
-     observed:
-      <ul>
-       <li> Non-generic filenames start always with a capital letter. </li>
-       <li> No file- (or directory-)name consists only of capital letters.
-       </li>
-      </ul>
-     </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Improve formulations : MG (as soon as possible)
   <ul>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
@@ -47,7 +20,7 @@ License, or any later version. */
    </li>
    <li> The general naming conventions must be followed:
     <ol>
-     li> No camel-cases here (like "removeTopNVars", "AESHexToPA", "NewCL",
+     <li> No camel-cases here (like "removeTopNVars", "AESHexToPA", "NewCL",
      "mergeSameVarCNFs". </li>
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
@@ -57,38 +30,49 @@ License, or any later version. */
   </ul>
 
 
-  \todo More experiments : MG (as soon as possible)
+  \todo Experiments
   <ul>
-   <li> For the trivial instances (message and key set) more solvers need to
-   be considered. In its own file. </li>
-   <li> Also ciphertext and key set are to be investigated. </li>
-   <li> What is the meaning of
-   "Experiments on AES with the first 32 key bits not set" ? And what does
-   the "summary" show? Apparently only trivial results, which are likely of
-   no interest. </li>
-   <li> Plan for more experiments! </li>
+   <li> The following are the main areas requiring experiments:
+    <ul>
+     <li> Breaking AES for reduced round variants. </li>
+     <li> Investigations into different representations of
+     the Sbox. </li>
+     <li> Investigations into replacing the Sbox with random permutations. </li>
+     <li> Investigations into replacing the multiplication with constant field 
+     elements with random permutations. </li>
+     <li> Investigations into encryption and decryption using different AES 
+     representation. </li>
+     <li> Investigations into small-scale variations of the AES (see 
+     "Generalisations" in 
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp). 
+     </li>
+    </ul>
+   </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp for 
+   experiments regarding breaking AES. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AES/plans/SboxInvestigations.hpp
+   for experiments regarding the Sbox, it's representations and possible 
+   replacements. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AES/plans/FieldMulInvestigations.hpp 
+   for experiments regarding multiplication by constants in GF(2^8),
+   their representations, and possible replacements. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp 
+   for experiments regarding computing encryption and decryption using the AES 
+   SAT translation. </li>
    <li> Solvers to be used : 
     <ul>
      <li> OKsolver-2002 </li>
      <li> minisat2 </li>
      <li> ubcsat (1-0-0) </li>
      <li> picosat </li>
-     <li> RSat </li>
      <li> Satz </li>
+     <li> sp </li>
      <li> march_pl </li>
     </ul>
-   </li>
-   <li> Important is that we systematically study variations of AES:
-    <ol>
-     <li> the different sizes as belonging to Rijndael </li>
-     <li> small-scale variations </li>
-     <li> replacing the Sbox by other permutations (random ones, or
-     very simple ones) </li>
-     <li> replacing the multiplications with certain constants by other
-     permutations </li>
-     <li> replacing the row- and column-permutations by other permutations.
-     </li>
-    </ol>
    </li>
   </ul>
 
@@ -152,200 +136,114 @@ License, or any later version. */
   </ul>
 
 
-  \todo Investigating Sbox given 8 bit input
+  \todo Cryptographic properties of AES
   <ul>
-   <li> Given 8 bits input to the Sbox, the output should be immediately 
-   determined without any decisions needed. Is this actually the case? </li>
-   <li> This question is motivated by the fact that the full AES translation
-   seems to make some decisions when given all the input bits it needs, and
-   this should not be the case. </li>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
-   for experiments with minisat. </li>
-   <li> Looking at this in maxima, with all input bits set to 0 :
-   \verbatim
-(%i7) apply_pa({-1,-2,-3,-4,-5,-6,-7,-8}, Sbox44ICCNF[2]);
-Evaluation took 0.0200 seconds (0.0200 elapsed)
-(%o7) {{-16,-15,-14,-13,11,12},{-16,-14,-12,11,13},{-16,-14,-11,15},{-16,-13,11},{-16,-12,15},
-       {-16,-11,-9},{-16,-10,11,14},{-16,9,10},{-16,13,15},{-15,-14,-13,11,16},{-15,-14,11,13},
-       {-15,-13,-12,11,16},{-15,-13,9,16},{-15,-13,10,16},{-15,-12,-10,11,13},{-15,-12,-9,11,14},
-       {-15,-12,11,13,16},{-15,-11,10},{-15,-10,12,13,14,16},{-15,-9,10,11,12},{-15,9,10,14},
-       {-15,9,11,14},{-15,10,12,16},{-14,-13,9,11},{-14,-12,-11,10},{-14,-12,-9,13,15},
-       {-14,-12,9,10},{-14,-12,9,11,15},{-14,-12,9,11,16},{-14,-12,11},{-14,-11,-9,12,16},
-       {-14,-9,10,11,16},{-14,9},{-14,9,10},{-14,9,15},{-14,10,16},{-14,11,16},{-14,12,16},
-       {-14,13,16},{-13,-12,-11,14,16},{-13,-12,-9,14},{-13,-12,9},{-13,9,10,12,15},{-13,9,11,14},
-       {-13,9,14},{-13,10,16},{-13,12,15,16},{-12,-11,10,13,14,16},{-12,9,10,11,15},{-12,9,11,15},
-       {-12,9,13,14},{-11,-9,10,16},{-11,-9,14,15,16},{-11,9,10,14,15},{-11,10,14,15},{-11,14,16},
-       {-10,-9,11,14},{-10,9,14,16},{-10,16},{-9,10,11},{-9,10,12,13},{-9,11,12,15},{-9,14,15},
-       {-9,14,15,16},{-9,15,16},{9,10,12,13,16},{9,10,12,14},{9,11,12,13,14,15},{9,11,12,15,16},
-       {9,11,13},{9,12,14,16},{9,12,16},{9,13,14,16},{10,11,12,14},{10,11,13,14,15,16},{10,12,15},
-       {10,13,16},{10,14},{11,12,16},{11,13,14},{11,15,16}}
-(%i8) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8}, Sbox44ICCNF[2]));
-Evaluation took 0.0280 seconds (0.0270 elapsed)
-(%o8) [8,81,320,6,2]
-   \endverbatim
+   <li> Given a correct translation of the AES into a SAT problem, represented 
+   by the predicate "AES(P,K,C)" where P, K, and C are lists of 128 variables, 
+   several questions regarding certain cryptographic properties of the AES can
+   be formulated as SAT problems. </li>
+   <li> Does AES have two distinct keys which map the same plaintext blocks 
+   to the same ciphertext block?
+   <ul>
+    <li> This can be translated as "AES(P,K1,C) and AES(P,K2,C) and 
+    NEQ(K1,K2)" where "NEQ" specifies that K1 differs form K2 in at least one 
+    bit. </li>
+   </ul>
    </li>
-   <li> With several different assignments in maxima : 
-   \verbatim
-(%i5) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0270 elapsed)
-(%o5) [8,81,320,6,2]
-(%i6) statistics_cs(apply_pa({1,-2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0280 seconds (0.0260 elapsed)
-(%o6) [8,81,320,6,2]
-(%i7) statistics_cs(apply_pa({-1,2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0280 seconds (0.0250 elapsed)
-(%o7) [8,69,272,6,2]
-(%i8) statistics_cs(apply_pa({-1,-2,3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0250 elapsed)
-(%o8) [8,76,288,6,1]
-(%i9) statistics_cs(apply_pa({-1,-2,-3,4,-5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0260 elapsed)
-(%o9) [8,74,298,6,2]
-(%i10) statistics_cs(apply_pa({-1,-2,-3,-4,5,-6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0240 elapsed)
-(%o10) [8,68,264,6,2]
-(%i11) statistics_cs(apply_pa({-1,-2,-3,-4,-5,6,-7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0260 elapsed)
-(%o11) [8,81,319,6,1]
-(%i12) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,7,-8},Sbox44ICCNF[2]));
-Evaluation took 0.0280 seconds (0.0270 elapsed)
-(%o12) [8,84,324,6,1]
-(%i13) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,8},Sbox44ICCNF[2]));
-Evaluation took 0.0240 seconds (0.0250 elapsed)
-(%o13) [8,73,287,6,2]
-   \endverbatim
-   </li>
-   <li> Whether or not unit clauses occur immediately after setting all Sbox
-   input bits (using the current sbox cnf) depends on the assignment. </li>
-   <li> A better Sbox cnf representation seems to be needed. </li>
-   <li> However, the primary goal is for problems where the key is not known,
-   not simple encryption and decryption, so further insight into where the
-   Sbox is used and exactly what bits being set, we wish to allow easier
-   deductions with, needs to be known (although many representations can be
-   tried). </li>
-  </ul>
-
-
-  \todo Generate problem instances
-  <ul>
-   <li> To generate instances of AES as a SAT problem where the primary
-   variables are the plaintext, key and ciphertext (each 128 variables),
-   the following code generates problem instances as described below: 
-   \verbatim
-removeTopNVars(C,n) := subset(C, lambda([a], is(abs(a) <= (uaapply(max,listify(map(abs,C))) - n))));
-
-hex2il(h) := block([cl],
-  cl : charlist(h),
-  print(cl),
-  return(map(lambda([b], hex2int(simplode(b))), partition_elements(cl,2)))
-)$
-
-gen_uc_ass_aes(ph, pbn, kh ,kbn,ch, cbn) := block(
-  return(
-    map(lambda([a],{a}),union(
-      removeTopNVars(AESHexToPA(ph,aes_make_vars_int("p",1,128)),pbn),
-      removeTopNVars(AESHexToPA(kh,aes_make_vars_int("k",1,128)),kbn),
-      removeTopNVars(AESHexToPA(ch,aes_make_vars_int("c",1,128)),cbn)))));
-
-gen_uc_ass_aes_comp(ph, pbn, kh ,kbn, cbn) := block([ch],
- ch : il2hex(transpose_l(
-         aes_encrypt_l(
-           hex2il(ph),
-           hex2il(kh)),
-         4)),
- return(gen_uc_ass_aes(ph,pbn,kh,kbn,ch,cbn))
-)$
-plaintext_hex : "32488853038D31734198AA2E0370D450"$
-key_hex : "3F6A2B7E151628AED2A6ABF7158809CF"$
-for r from 2 step 1 thru 10 do block([aes_num_rounds:r],
-  aes_cs : aes_cnf_fcs(),
-  output_cs_f(sconcat("AES r=",r," NPKC"),aes_cs,sconcat("AES_r",r,".cnf")),
-  ch: apply(sconcat,map(lambda([s],lpad(int2hex(s),"0",2)),
-    aes_encrypt_l(
-      hex2il(plaintext_hex),
-      hex2il(key_hex)))
-    ),
-  for pn from 0 thru 0 do (
-    for kn from 0 step 2 thru 64 do (
-      for cn from 0 thru 0 do block(
-        output_cs_f(
-          sconcat("AES UC R=",r," PN=",pn,"KN=",kn,"CN=",cn,
-            "P=",plaintext_hex,"K=",key_hex),
-          cs_to_fcs(gen_uc_ass_aes(plaintext_hex,pn,key_hex,kn,ch,cn)),
-          sconcat("AES_UC_r",r,"_pn",pn,"_kn",kn,"_cn",cn,
-            "_P",plaintext_hex,"_K",key_hex,".cnf")),
-        print(sconcat("AES UC R=",r," PN=",pn,"KN=",kn,"CN=",cn,
-           " P=",plaintext_hex,"K=",key_hex))))));
-   \endverbatim
-   The above code generates files "AES_r2.cnf" (for round 2 for example) 
-   containing the main AES translation (with no variable assignments) and then 
-   "AES_UC_r2_pn0_kn0_cn0_P32488853038D31734198AA2E0370D450_K3F6A2B7E151628AED2A6ABF7158809CF.cnf"
-   as the unit clauses for setting up a 2 round AES translation with all 
-   plaintext, key and ciphertext bits set and the plaintext and key
-   provided as "32488853038D31734198AA2E0370D450" and
-   "3F6A2B7E151628AED2A6ABF7158809CF" in the standard AES format.
-   </li>
-   <li> To merge the AES translation cnf with the assignment unit clauses 
-   generated, the following script generates the problem instances : 
-   \verbatim
-#!/bin/bash
-
-# Grab the number of clauses from each
-CL1=`grep "^p" $1  | cut -d " " -f "4"`
-CL2=`grep "^p" $2  | cut -d " " -f "4"`
-
-NewCL=`expr $CL1 + $CL2`
-cat $1 | sed -e "s/p \+\([a-zA-Z]\+\) \+\([0-9]\+\).*$/p \1 \2 $NewCL/"
-cat $2 | grep -v "^p"
-   \endverbatim
-   called "mergeSameVarCNFs.sh" and can be used in the following way : 
-   \verbatim
-./mergeSameVarCNFs.sh AES_r2.cnf AES_UC_r2_pn0_kn32_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf > AES_r2_kn_32_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf   
-   \endverbatim
-   </li>
-   <li> For experimentation, the following is then an example for 
-   running a particular SAT solver (minisat in the example below) on the given
-   problem instance :
-   \verbatim
-for k in `seq 0 32 128`; do
-  for r in `seq 2 2 10`; do
-    echo "K = " $k "R = " $r;
-    ./mergeSameVarCNFs.sh "AES_r${r}.cnf" "AES_UC_r${r}_pn0_kn${k}_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf" > "AES_r${r}_k   n_${k}_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf" ;
-    time ./solvers/minisat/core/minisat "AES_r${r}_kn_${k}_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf" > "AES_r${r}_kn_${k}_P   00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf.results.minisat" 2> "AES_r${r}_kn_${k}_P00000000000000000000000000000000_K000000000   00000000000000000000000_SAT.cnf.results.minisat" ;
-  done
-done
-   \endverbatim
+   <li> Does AES have any key which acts as the identity on one or plaintext
+   blocks?
+   <ul>
+    <li> This can be translated as "AES(P,K,P)". </li>
+    <li> This can also be expanded trivially to find keys where AES algorithm
+    acts as the identity on "k" or more plaintext blocks (for reasonable k) 
+    by simply considering "AES(P1,K,P1) and AES(P2,K,P2) and ... and 
+    AES(Pk,K,Pk) and NEQ(P1,P2,...,Pk)" where here "NEQ" specifies that every 
+    argument differs in at least one variable from every other. </li>
+    <li> This may also be made more damaging to the AES by considering 
+    specifically plaintexts of a particular form (i.e plaintext blocks
+    representing particular common ASCII sequences). </li>
+   </ul>
+   <li> Does AES have any key which is the inverse of any other for some 
+   plaintext/ciphertext pair?
+   <ul>
+    <li> Considering only a single piece of plaintext (i.e that there are two
+    keys K1 and K2 for which AES with that K1 maps some plaintext P to 
+    ciphertext C and AES with K2 maps C to P) can be translated simply as 
+    "AES(P,K1,C) and AES(C,K2,P)". </li>
+    <li> This can be expanded to find keys K1 and K2 where AES using K2 is
+    the inverse of AES with K1 for at least "k" plaintext blocks in the 
+    following way : "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
+    AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
+    <li> There is obviously then the question of whether there is key which 
+    acts as it's own inverse for at least "k" plaintext blocks, i.e where K1=K2 
+    etc. </li>
+   </ul>
    </li>
   </ul>
 
 
-  \todo Computing AES ciphertext given full 128-bit key and plaintext
+  \todo DONE General organisation
   <ul>
-   <li> Question here is : Given the current translation, how well can a SAT
-   solver perform a simple AES computation? </li>
-   <li> It should be that through unit clause propagation etc, the SAT solver
-   should be very quick? </li>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
-   for results using minisat2. </li>
-   <li> Add results for other solvers. </li>
+   <li> All the experiments must be fully reproducible. Thus *only* tools
+   as provided by the OKlibrary are to be used, *NO* private code or private
+   schemes in any form. </li>
+   <li> Besides reproducibility, the point is to strengthen the OKlibrary,
+   by continuous improvement, not to weaken it by hiding. </li>
+   <li> DONE Directory structure:
+    <ol>
+     <li> DONE The main topic here is not investigation of certain solvers, but to
+     investigate the interaction of cryptography and (generalised) SAT
+     solving. </li>
+     <li> DONE Thus solver-names as file-names should only occur, if at all, in
+     sub-directories associated with specific investigations. </li>
+     <li> DONE The general standards for naming in the OKlibrary have to be
+     observed:
+      <ul>
+       <li> DONE Non-generic filenames start always with a capital letter. </li>
+       <li> DONE No file- (or directory-)name consists only of capital letters.
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo Performance of solvers on AES instances with 0-16 key bits unknown
+  \todo DONE More experiments
   <ul>
-   <li> Question here is : Given the current translation, how many key bits can
-   a SAT solver derive in reasonable time given the plaintext and ciphertext, 
-   and how does this scale as we leave more key bits unknown? </li>
-   <li> This is motivated by the idea to compare such results to brute force. 
+   <li> DONE What is the meaning of
+   "Experiments on AES with the first 32 key bits not set" ? And what does
+   the "summary" show? Apparently only trivial results, which are likely of
+   no interest. 
+   <ul>
+    <li> This was regarding initial investigations where all plaintext and 
+    ciphertext variables were set to relevant values and the last 96 key 
+    variables were set. </li>
+    <li> 32 bits were chosen as the AES translation to CNF, using the small CNF
+    representations, presented a challenge to solvers for even very small 
+    numbers of key bits left "unknown"/"unset" in the SAT problem. </li>
+    <li> The experiments were over rounds 2,4,6,8, and 10. </li>
+    <li> Experimental data and results has now been moved. See "Experiments". 
+    </li>
+   </ul>
    </li>
-   <li> 16 bits are used at first to allow a range of results to be generated
-   in a reasonable time. The idea is to then move onto larger numbers of
-   unknown key bits. </li>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
-   for results using minisat2. </li>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/OKsolver.hpp
-   for results using OKsolver. </li>
-   <li> Add results for other solvers. </li>
+   <li> DONE For the trivial instances (message and key set) more solvers need 
+   to be considered. In its own file. </li>
+   <li> DONE Also ciphertext and key set are to be investigated. </li>
+   <li> (MOVED to Experiments) 
+   Important is that we systematically study variations of AES:
+    <ol>
+     <li> the different sizes as belonging to Rijndael </li>
+     <li> small-scale variations </li>
+     <li> replacing the Sbox by other permutations (random ones, or
+     very simple ones) </li>
+     <li> replacing the multiplications with certain constants by other
+     permutations </li>
+     <li> replacing the row- and column-permutations by other permutations.
+     </li>
+    </ol>
+   </li>
+   <li> DONE Plan for more experiments! </li>
   </ul>
 
 */
