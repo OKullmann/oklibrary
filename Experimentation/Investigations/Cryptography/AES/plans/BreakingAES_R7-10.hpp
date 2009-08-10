@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R7-10.hpp
-  \brief On investigations into the Advanced Encryption Standard
+  \brief On investigations into ???
 
 
   \todo Add todos

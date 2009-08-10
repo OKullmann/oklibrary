@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp
-  \brief On investigating encryption and decryption using AES SAT translation
+  \brief On investigating encryption and decryption using AES SAT-translation
 
 
   \todo Encryption

@@ -7,9 +7,9 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AES/plans/FieldMulInvestigations.hpp
-  \brief On investigations into the AES Field multiplications
+  \brief On investigations into the AES field multiplications
+
 
   \todo Add todos
-
 
 */

@@ -81,7 +81,7 @@ Evaluation took 0.0240 seconds (0.0250 elapsed)
 (%o13) [8,73,287,6,2]
    \endverbatim
    </li>
-   <li> Setting all 8 input bits (variables 1 to 8) to 0 (i.e by adding unit 
+   <li> Setting all 8 input bits (variables 1 to 8) to 0 (by adding unit 
    clauses -1 ... -8) for Sbox44CNF : 
    \verbatim
 [12:53:58 - aeternus] data$ ./minisat/minisat/core/minisat test.cnf 
