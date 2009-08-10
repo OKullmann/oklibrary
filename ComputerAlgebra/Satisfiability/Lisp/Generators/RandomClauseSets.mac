@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSet
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *********************************
@@ -48,6 +49,7 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
       if random(2) = 1 then C[i] : -C[i],
     F : endcons(setify(C),F)),
   return([V,F]))$
+random_fcs(n,k,c) := fcl2fcs(random_fcl(n,k,c))$
 
 
 /* **********************************
