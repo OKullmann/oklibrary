@@ -56,5 +56,72 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Categories of boolean functions
+  <ul>
+   <li> Variable-based: Objects are pairs [V,F], where V is a (finite) set
+   of variables, while F: TASS(V) -> {0,1}, where TASS(V) = {0,1}^V. </li>
+   <li> Literal-based: Objects ae pairs [[L,opr], F], where [L,opr] is a
+   literal-system (see above), while F: TASS(L) -> {0,1}, where TASS(L)
+   is the set of maps f: L -> {0,1} which preserve the ZZ_2-operation
+   (that is, we have ZZ_2-morphisms). </li>
+   <li> Morphisms are maps alpha: V -> V' resp. morphisms alpha: L -> L':
+    <ol>
+     <li> Every total assignment f in the codomain is assigned a total
+     assignment alpha(f) in the domain with alpha(f)(x) = f(alpha(x)). </li>
+     <li> We have two categories here, the "DNF-form" and the "CNF-form",
+     where the CNF-condition is that always F(alpha(f)) >= F'(f) holds,
+     while the DNF-condition is F(alpha(f)) <= F'(f). </li>
+    </ol>
+   </li>
+   <li> Let's call the categories BDNF and BCNF. </li>
+   <li> Interpretation of clause-sets as CNF's and DNF's:
+    <ol>
+     <li> From categories of clause-sets we have the functors CNF resp. DNF
+     to BCNF resp. BDNF, which assigns to every clause-set F its boolean
+     function as CNF resp. DNF. </li>
+     <li> So for a clause-set F the two boolean functions DNF(F) and CNF(F)
+     are dual to each other, that is, where the dual of a boolean function
+     F is given by f -> 1 + F(1+f) (where "+" here is xor). </li>
+     <li> On the morphisms the functors just act identical. </li>
+    </ol>
+   </li>
+   <li> Canonical representations of boolean functions:
+    <ol>
+     <li> From BCNF to categories CLS (in their various forms) we have the
+     functors A and P, which assign to the boolean function F the set of
+     maximal resp. minimal implicates (w.r.t. subset inclusion; so the
+     minimal implicates are the prime implicates); an "implicate" is a clause
+     C such that F(f) = 1 implies f(C) = 1 (C as CNF-clause). </li>
+     <li> And from BDNF to categories CLS (in their various forms) we have the
+     functors A and P, which assign to the boolean function F the set of
+     maximal resp. minimal implicants (w.r.t. subset inclusion; so the
+     minimal implicants are the prime implicants); an "implicant" is a clause
+     C such that f(C) = 1 (C as DNF-clause) implies F(f) = 1. </li>
+    </ol>
+   </li>
+   <li> We have an isomorphism D from BDNF to BCNF as well as from BCNF to
+   BDNF given by forming the dual of boolean functions, where D: BDNF -> BCNF
+   can be obtained as the composition of first A and then CNF (or first
+   P and then CNF). </li>
+   <li> Prime clause-sets and dual prime clause-sets:
+    <ol>
+     <li> Let Pr(F) for a clause-set F be the set of prime clauses. Now Pr
+     is a functor from CLS to CLS (in its various forms), namely Pr is
+     the composition of first the functor CNF and then the functor P, or,
+     yielding the same result, first the functor DNF and then P. </li>
+     <li> Let Tr(F) for a clause-set F be the set of dual prime clauses.
+     Tr needed to be a contravariant functor from CLS to CLS, as can be seen
+     with  {} -> {{}}; however having only maps as morphisms, it seems
+     impossible to have any non-trivial contravariant functor? So Tr doesn't
+     seem to be a functor. </li>
+     <li> The point here is that Tr(F) needed to use the mapping from BNCF
+     to CLS given by forming the prime DNF, which doesn't seem to be
+     interpretable as functor(?). (Note that using D doesn't help, since
+     D just equalises the two versions of P on BCNF and on BDNF.) </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
