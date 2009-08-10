@@ -130,12 +130,22 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 min_2resolution_closure_cs(F) := block(
  [prime_implicates : {}, new_implicates, n : nvar_cs(F)],
   for i : 0 thru n do (
+    [F, new_implicates] : two_subsumption_resolvents_rem_cs(F),
+    prime_implicates : union(prime_implicates,new_implicates)),
+  return(prime_implicates))$
+/* With monitoring, and returns additionally the list of level sizes: */
+min_2resolution_closure_mon_cs(F) := block(
+ [prime_implicates : {}, new_implicates, n : nvar_cs(F), 
+  counts : [length(F)]],
+  for i : 0 thru n do (
     if oklib_monitor then (
       print("min_2resolution_closure_cs: entering level =", n - i),
       print("Yet", length(prime_implicates), "prime implicates found.")),
     [F, new_implicates] : two_subsumption_resolvents_rem_cs(F),
-    prime_implicates : union(prime_implicates,new_implicates)),
-  return(prime_implicates))$
+    prime_implicates : union(prime_implicates,new_implicates),
+    counts : cons(length(F), counts)
+  ),
+  return([prime_implicates, reverse(counts)]))$
 
 /* Given a full clause-set F, the equivalent clause-sets with a minimal
    numbers of clauses and secondly minimal number of literal occurrences
