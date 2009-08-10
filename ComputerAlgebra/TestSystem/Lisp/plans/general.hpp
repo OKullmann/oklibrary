@@ -10,6 +10,35 @@ License, or any later version. */
   \brief General plans for the Maxima test system
 
 
+  \bug Error not detected
+  <ul>
+   <li> With ComputerAlgebra/Cryptology/Lisp/testobjects/Conversions.mac
+   and with Maxima 5.19.0 (Ecl) we get the error
+   \verbatim
+(%i49) okltest_binl2dnf_l(binl2dnf_l)
+Maxima encountered a Lisp error:
+
+ FRAME-STACK overflow at size 2304. Stack can probably be resized.
+
+Automatically continuing.
+To reenable the Lisp debugger set *debugger-hook* to nil.
+Evaluation took 0.1560 seconds (0.1660 elapsed)
+   \endverbatim
+   however this error is not detected by the buildsystem, but the system
+   continues. </li>
+   <li> On the other hand, with CLisp we get
+   \verbatim
+
+*** - Program stack overflow. RESET
+
+[../src/eval.d:573] reset() found no driver frame (sp=0xff8c9400-0xff8c2d80)
+Exiting on signal 6
+make: *** [run_maxima] Aborted
+   \endverbatim
+   and so here the buildsystem detects the error. </li>
+  </ul>
+
+
   \todo Create milestones.
 
 
