@@ -67,7 +67,7 @@ okltest_binl2dnf_l_std(f) := block(
   true)$
 
 okltest_binl2dnf_l(f) := block(
-  okltest_binl2dnf_l(lambda([a],f(a,makelist(i,i,1,length(a))))),
+  okltest_binl2dnf_l(lambda([a],f(a,create_list(i,i,1,length(a))))),
   true)$
 
 okltest_hex2il(f) := block(
