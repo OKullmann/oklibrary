@@ -121,6 +121,16 @@ License, or any later version. */
      D just equalises the two versions of P on BCNF and on BDNF.) </li>
     </ol>
    </li>
+   <li> The intersection of BCNF and BDNF allows both forms of the P-functor:
+    <ol>
+     <li> We need to give them now different names: P_CNF and P_DNF. </li>
+     <li> Now also the map Tr: CLS -> CLS (dual prime clauses, or
+     "transversals") becomes a functor, but one needs to retrict the morphisms
+     to, say, isomorphisms, so that the functor CNF (or DNF) becomes a functor
+     to BCNF intersect BDNF. </li>
+     <li> But this likely only in the form of CLS with subsumption. </li>
+    </ol>
+   </li>
   </ul>
 
 */
