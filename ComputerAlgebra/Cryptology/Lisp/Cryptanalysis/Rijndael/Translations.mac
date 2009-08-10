@@ -72,14 +72,16 @@ aes_make_vars_int(name,n,m) :=
   else if name = "k" then create_list(i,i,128 + n,128 + m)
   else if name = "c" then create_list(i,i,256 + n,256 + m)
   else block([rl], 
-    rl : create_list(i,i,aes_cnf_var_number + 3 * 128 + n,aes_cnf_var_number+3*128+m),
+    rl : create_list(i,i,aes_cnf_var_number + 3 * 128 + n,
+      aes_cnf_var_number+3*128+m),
     aes_cnf_var_number : aes_cnf_var_number + (m-n+1),
     return(rl))$
 
 /* Generates a list of variables of the form name_i where
    name is given and i ranges between n and m, offset by a given value to such
    that repeated calls to this function will yield new variables */
-aes_make_vars_named(name, n,m) := block([val : get_hash(name,aes_var_ordering), res], 
+aes_make_vars_named(name, n,m) := block(
+  [val : get_hash(name,aes_var_ordering), res], 
   if val = false then block(val : 0, set_hash(name,aes_var_ordering, 0)),
   res : create_list(eval_string(concat(name,string(i))),i,val + n, val + m),
   set_hash(name,aes_var_ordering,val+m), return(res))$
@@ -111,8 +113,9 @@ aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
   /* Rounds */
   for j : 1 thru (aes_num_rounds - 1) do block(
     ob : take_elements(128,rest(all_ob,j*128)),
-    rs : adjoin(apply(aes_round_c,append(ib,take_elements(128,rest(ekBits,j*128)),
-      ob)),rs),
+    rs : adjoin(
+      apply(aes_round_c,append(ib,take_elements(128,rest(ekBits,j*128)),ob)),
+        rs),
     ib : ob
   ),
   /* Final Round */
@@ -169,7 +172,8 @@ aes_subbytes_cp([bits]) := block([iBits, rkBits, oBits,tBits,rs:{}],
   oBits : rest(bits,128),
   for i : 0 thru 15 do
     rs : adjoin(apply(aes_sbox_c, 
-      append( take_elements(8, rest(iBits,i*8)), take_elements(8, rest(oBits,i*8)))
+      append( take_elements(8, rest(iBits,i*8)),
+        take_elements(8, rest(oBits,i*8)))
     ),rs),
   return(rs)
 )$
@@ -208,9 +212,11 @@ aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
   /* First element */
   for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
     mulAVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul2_c, append(iBits[mod(0 + i,4) + 1],mulAVars)), rs),
+    rs : adjoin(apply(aes_mul2_c,
+        append(iBits[mod(0 + i,4) + 1],mulAVars)), rs),
     mulBVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul3_c, append(iBits[mod(1 + i,4) + 1],mulBVars)), rs),
+    rs : adjoin(apply(aes_mul3_c,
+        append(iBits[mod(1 + i,4) + 1],mulBVars)), rs),
     addAVars : aes_make_vars("mc",1,8),
     rs : adjoin(apply(aes_add_c, append(mulAVars,mulBVars, addAVars)), rs),
     addBVars : aes_make_vars("mc",1,8),
@@ -218,15 +224,20 @@ aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
       append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars)), rs),
     rs : adjoin(apply(aes_add_c, append(addAVars,addBVars, oBits[i+1])), rs)
   ),
-  for i : 0 thru 3 do block([mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
+  for i : 0 thru 3 do block(
+    [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
     mulAVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul14_c, append(oBits[mod(0 + i,4) + 1],mulAVars)), rs),
+    rs : adjoin(apply(aes_mul14_c,
+        append(oBits[mod(0 + i,4) + 1],mulAVars)), rs),
     mulBVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul11_c, append(oBits[mod(1 + i,4) + 1],mulBVars)), rs),
+    rs : adjoin(apply(aes_mul11_c,
+        append(oBits[mod(1 + i,4) + 1],mulBVars)), rs),
     mulCVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul13_c, append(oBits[mod(2 + i,4) + 1],mulCVars)), rs),
+    rs : adjoin(apply(aes_mul13_c,
+        append(oBits[mod(2 + i,4) + 1],mulCVars)), rs),
     mulDVars : aes_make_vars("mc", 1,8),
-    rs : adjoin(apply(aes_mul9_c, append(oBits[mod(3 + i,4) + 1],mulDVars)), rs),
+    rs : adjoin(apply(aes_mul9_c,
+        append(oBits[mod(3 + i,4) + 1],mulDVars)), rs),
     addAVars : aes_make_vars("mc",1,8),
     rs : adjoin(apply(aes_add_c, append(mulAVars,mulBVars, addAVars)), rs),
     addBVars : aes_make_vars("mc",1,8),
@@ -321,7 +332,8 @@ aes_key_expansion_cp([bits]) := block(
    and n output variables. */
 aes_add_cp([bits]) := block([ nb : floor(length(bits) / 3)],
   xreduce(union, map(lambda([a,b,c], {{-a,-b,-c},{-a,b,c},{a,-b,c},{a,b,-c}}), 
-    take_elements(nb,bits), take_elements(nb, rest(bits,nb)), rest(bits,nb*2))))$
+    take_elements(nb,bits),
+    take_elements(nb, rest(bits,nb)), rest(bits,nb*2))))$
 
 /* Returns a set of conditions representing equivalence over 2 sets of bits,
    given 2 consecutive lots of n bits to be represented as logically by the set
@@ -363,62 +375,71 @@ aes_mul_ts_gen(p) :=
 /* Returns a set of conditions representing multiplication by 02 or "x" in the
    Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 aes_mul2_cp : aes_mul2_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables*/
 aes_mul2_pi_cp([bits]) := rename_fcs(FieldMul2CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul2_ts_cp([bits]) :=   
   setify(
     rename_fcl(aes_mul_ts_gen(2),append(bits,aes_make_vars("mul2",1,256)))[2])$
 
-/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
-   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in
+   the Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul3_cp : aes_mul3_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_mul3_pi_cp([bits]) := rename_fcs(FieldMul3CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul3_ts_cp([bits]) :=   
   setify(
     rename_fcl(aes_mul_ts_gen(3),append(bits,aes_make_vars("mul3",1,256)))[2])$
 
-/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
-   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in
+   the Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul14_cp : aes_mul14_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_mul14_pi_cp([bits]) := rename_fcs(FieldMul14CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul14_ts_cp([bits]) :=   
   setify(
-    rename_fcl(aes_mul_ts_gen(14),append(bits,aes_make_vars("mul14",1,256)))[2])$
+    rename_fcl(aes_mul_ts_gen(14),
+      append(bits,aes_make_vars("mul14",1,256)))[2])$
 
-/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
-   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in
+   the Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul11_cp : aes_mul11_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_mul11_pi_cp([bits]) := rename_fcs(FieldMul11CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul11_ts_cp([bits]) :=   
   setify(
-    rename_fcl(aes_mul_ts_gen(11),append(bits,aes_make_vars("mul11",1,256)))[2])$
+    rename_fcl(aes_mul_ts_gen(11),
+      append(bits,aes_make_vars("mul11",1,256)))[2])$
 
-/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
-   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in
+   the Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul13_cp : aes_mul13_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_mul13_pi_cp([bits]) := rename_fcs(FieldMul13CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul13_ts_cp([bits]) :=   
   setify(
-    rename_fcl(aes_mul_ts_gen(13),append(bits,aes_make_vars("mul13",1,256)))[2])$
+    rename_fcl(aes_mul_ts_gen(13),
+      append(bits,aes_make_vars("mul13",1,256)))[2])$
 
-/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
-   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in
+   the Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
 aes_mul9_cp : aes_mul9_pi_cp$
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_mul9_pi_cp([bits]) := rename_fcs(FieldMul9CNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_mul9_ts_cp([bits]) :=   
@@ -457,7 +478,8 @@ aes_sbox_cp : aes_sbox_pi_cp$
 /* Returns a set of conditions representing the AES Sbox given the 8 input bits
    and 8 output bits */
 /* MG : This should ideally take the CNF to be used */
-/* Representation using small subsets of prime implicates and no new variables */
+/* Representation using small subsets of prime implicates and no new
+   variables */
 aes_sbox_pi_cp([bits]) := rename_fcs(Sbox44ICCNF,bits)[2]$
 /* Canonical representation using new variables */
 aes_sbox_ts_cp([bits]) :=
@@ -519,7 +541,8 @@ rewrite_all(rs) := block(
 aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
   aes_reset_vars(),
   rs : apply(aes_cp, 
-    append(aes_make_vars("p",1,128), aes_make_vars("k",1,128), aes_make_vars("c",1,128))),
+    append(aes_make_vars("p",1,128), aes_make_vars("k",1,128),
+      aes_make_vars("c",1,128))),
   rs : rewrite_all(rs),
   return(rs)
 )$
