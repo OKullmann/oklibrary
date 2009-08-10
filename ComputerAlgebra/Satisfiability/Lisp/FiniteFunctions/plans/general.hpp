@@ -78,6 +78,8 @@ License, or any later version. */
      use variables appropriately. </li>
     </ol>
    </li>
+   <li> An especially important case, realised for example by signed
+   clause-sets, is that of a "finite relation", a map f: D^n -> {0,1}. </li>
   </ul>
 
 
