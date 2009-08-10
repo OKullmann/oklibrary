@@ -9,6 +9,7 @@ License, or any later version. */
   \file Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp
   \brief On investigations on breaking AES
 
+
   \todo Breaking AES
   <ul>
    <li> What do we mean by "Breaking AES"?
@@ -34,12 +35,12 @@ License, or any later version. */
     ciphertext variables (to the appropriate values given the plaintext and the
     AES algorithm) and then setting "n" key bits where "n" ranges from 1 to the
     total number of key bits (128 in most cases). </li>
-    <li> To "break" AES, the idea is obviously to leave all key variables unset.
-    </li>
-    <li> Setting some key variables, rather than leaving all key variables unset
-    can be done to produce easier to solve SAT problems that can be used to
-    determine the behaviour of different solvers as the number of unknown key
-    variables increases. </li>
+    <li> To "break" AES, the idea is obviously to leave all key variables
+    unset. </li>
+    <li> Setting some key variables, rather than leaving all key variables
+    unset can be done to produce easier to solve SAT problems that can be used
+    to determine the behaviour of different solvers as the number of unknown
+    key variables increases. </li>
     </li>
    </ul>
    </li>
@@ -47,11 +48,11 @@ License, or any later version. */
    are specified, there is the question of which key bits to specify. To avoid
    situations where knowing some key bits might be more advantageous than 
    others (and so the experimental results not being representative of the 
-   AES as a whole), there is the need to randomise which key bits are specified.
-   (see "Randomly choosing 'unknown' block bits" in 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp). 
+   AES as a whole), there is the need to randomise which key bits are
+   specified. (See "Randomly choosing 'unknown' block bits" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp.) 
    </li>
-   <li> The main question considered here is :  Given fully specified 128-bit 
+   <li> The main question considered here is:  Given fully specified 128-bit 
     plaintext and the associated ciphertext and a number of rounds r (1-10), 
     how many key bits may be left unspecified before the SAT problem becomes 
     infeasible? </li>
@@ -143,7 +144,7 @@ for r from 2 step 1 thru 10 do block([aes_num_rounds:r],
     "3F6A2B7E151628AED2A6ABF7158809CF" in the standard AES format.
     </li>
     <li> To merge the AES translation cnf with the assignment unit clauses 
-    generated, the following script generates the problem instances : 
+    generated, the following script generates the problem instances: 
     \verbatim
 #!/bin/bash
 
@@ -155,14 +156,14 @@ NewCL=`expr $CL1 + $CL2`
 cat $1 | sed -e "s/p \+\([a-zA-Z]\+\) \+\([0-9]\+\).*$/p \1 \2 $NewCL/"
 cat $2 | grep -v "^p"
     \endverbatim
-    called "mergeSameVarCNFs.sh" and can be used in the following way : 
+    called "mergeSameVarCNFs.sh" and can be used in the following way: 
     \verbatim
 ./mergeSameVarCNFs.sh AES_r2.cnf AES_UC_r2_pn0_kn32_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf > AES_r2_kn_32_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf   
     \endverbatim
     </li>
     <li> For experimentation, the following is then an example for 
     running a particular SAT solver (minisat in the example below) on the given
-    problem instance :
+    problem instance:
     \verbatim
 for k in `seq 0 32 128`; do
   for r in `seq 2 2 10`; do
@@ -180,7 +181,7 @@ done
 
   \todo Computing AES ciphertext given full 128-bit key and plaintext
   <ul>
-   <li> Question here is : Given the current translation, how well can a SAT
+   <li> Question here is: Given the current translation, how well can a SAT
    solver perform a simple AES computation? </li>
    <li> It should be that through unit clause propagation etc, the SAT solver
    should be very quick? </li>
@@ -192,7 +193,7 @@ done
 
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
-   <li> Question : what is a good algorithm to use, considering the algorithms
+   <li> Question: what is a good algorithm to use, considering the algorithms
    tested in the "eval_ubcsat" code provided in
    ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp ? </li>
    <li> Presumably local search will not do well on AES instances compared to 
