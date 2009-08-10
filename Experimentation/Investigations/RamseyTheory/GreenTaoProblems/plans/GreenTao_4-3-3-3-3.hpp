@@ -388,6 +388,13 @@ BestSolution_Max = 4.000000
      </li>
      <li> cutoff=4*10^9: 100 runs yield no solution (and an average-min=1.73).
      </li>
+     <li> Further 68 runs (cutoff=4*10^9):
+     \verbatim
+ 1  2
+22 46
+68
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=378
