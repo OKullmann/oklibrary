@@ -28,7 +28,7 @@ okltest_poly2int(poly2int);
 okltest_hex2il(hex2il);
 okltest_il2hex(il2hex);
 okltest_binl2dnf_l_std(binl2dnf_l_std);
-okltest_binl2dnf_l(binl2dnf_l);
+/* okltest_binl2dnf_l(binl2dnf_l); */
 
 /*!
 \endhtmlonly
