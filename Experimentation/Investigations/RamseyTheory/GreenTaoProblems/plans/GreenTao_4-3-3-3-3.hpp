@@ -486,11 +486,13 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=1508 
    depth is just too big. </li>
    <li> Without symmetry breaking and with preprocessing:
    \verbatim
-> OKsolver_2002-m2pp -D20 -M GreenTao_4-3-3-3-3_377.cnf
+> OKsolver_2002-m2pp -D30 -M -F GreenTao_4-3_377.cnf
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 initial_number_of_clauses=27684 initial_number_of_literal_occurrences=121758 running_time(s)=172728.7 number_of_nodes=4729631 number_of_single_nodes=375 number_of_quasi_single_nodes=0 number_of_2-reductions=61736549 number_of_pure_literals=1 number_of_autarkies=4 number_of_missed_single_nodes=667 max_tree_depth=177 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=32 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1128 file_name=GreenTao_4-3-3-3-3_377.cnf_m2pp_24712
+c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 initial_number_of_clauses=27684 initial_number_of_literal_occurrences=121758 running_time(s)=251956.6 number_of_nodes=6807637 number_of_single_nodes=1004 number_of_quasi_single_nodes=0 number_of_2-reductions=88887630 number_of_pure_literals=3 number_of_autarkies=10 number_of_missed_single_nodes=1529 max_tree_depth=179 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=84 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1128 file_name=GreenTao_4-3_377.cnf_m2pp_582
    \endverbatim
-   (without completing any node at level 20). </li>
+   (without completing any monitor node at level 30; regarding the tree depth
+   it looks even worse than without reprocessing, however this might be
+   accidental, given the large search space). </li>
    <li> Interesting to note here that the number of variables and the number of
    2-clauses coincide: it might be that the reduction actually establishes
    some new structure. </li>
