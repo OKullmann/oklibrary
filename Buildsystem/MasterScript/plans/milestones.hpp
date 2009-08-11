@@ -13,6 +13,9 @@ License, or any later version. */
 
   \par Version 0.0.6 :
 
+  \par Buildsystem/MasterScript/SpecialProcessing version 0.1.1
+  (see Buildsystem/MasterScript/SpecialProcessing/plans/milestones.hpp)
+
   \par
    In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
     - Update of pulling and pushing facilities

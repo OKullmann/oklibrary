@@ -318,13 +318,6 @@ if oklib_test_demos then
 
   \todo Improving the test system
   <ul>
-   <li> We have the problem that the created file maxima-init.mac clashes
-   with with other such files created when running "oklib --maxima":
-    <ol>
-     <li> Is it possible to use for the test-runs a different initialisation
-     file? Ask on the Maxima mailing list. </li>
-    </ol>
-   </li>
    <li> It would be better to check whether all testobject-expressions actually
    evaluate to true (since tests might be broken, and for example simply
    nothing might be computed):
@@ -347,6 +340,18 @@ expected_value$
    <li> In oklib_test_level>=1 we must also additionally run the test
    with oklib_test_level-- and with oklib_monitor=true and
    oklib_monitor_level=0,1 (at least). </li>
+   <li> DONE (now handled in 
+   Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp)
+    We have the problem that the created file maxima-init.mac clashes
+    with other such files created when running "oklib --maxima":
+    <ol>
+     <li> DONE (this is now handled by the userdir-directory)
+     Is it possible to use for the test-runs a different initialisation
+     file? Ask on the Maxima mailing list. </li>
+     <li> See "Improve locality" in
+     Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp. </li>
+    </ol>
+   </li>
   </ul>
 
 */
