@@ -26,7 +26,7 @@ License, or any later version. */
   <ul>
    <li> We need some direct representation of a condition that the (integer)
    sum of some given boolean variables is =,>,>=,<,<= some bound B. </li>
-   <li> We need some general scheme for such special
+   <li> We need also some general scheme for such special
    constraint-representations. </li>
    <li> Following our general philosophy of using lists, we could use a
    list with first element a string which identifies the constraint;
@@ -36,11 +36,12 @@ License, or any later version. */
    <li> Finally the number B. </li>
    <li> It would be good if for the relation we would not just use some string,
    but the actually Maxima-presentation of the corresponding Maxima-operator:
-   Now how to refer to the Maxima-operator "<" ? Apparently this is done
-   by using strings. Now how from a string to get back the operator?
-   Apparently by for example subst("<=",r,r(3,4)), which yields 3 <= 4. </li>
-   <li> For example
-   \verbatim
+    <ol>
+     <li> Now how to refer to the Maxima-operator "<" ? Apparently this is done
+     by using strings. Now how from a string to get back the operator?
+     Apparently by for example subst("<=",r,r(3,4)), which yields 3 <= 4. </li>
+     <li> For example
+     \verbatim
 C : ["cardinality", "<", {v1,-v2,v3}, 6];
 Cs : subst(C[2], r, r(sum_l(listify(C[3])), C[4]));
   v3-v2+v1 < 6
@@ -48,26 +49,89 @@ Csa : at(Cs, [v1=1, v2=0, v3=1]);
   2 < 6
 is(Csa);
   true
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> The literals here however are boolean literals, so substitution
+     of values 0,1 seems inappropriate? On the one hand, boolean variables
+     are supposed to be "positive functions", and also we have variables like
+     "1". </li>
+     <li> DONE (the sum-representation is not really appropriate here)
+     Perhaps we make the distinction that if a cardinality constraint
+     occurs in a mixed problem, then the interpretation of the other part
+     (boolean or non-boolean CNF or DNF) is determinative, while free-standing
+     cardinality constraints are interpreted in the ordinary arithmetic sense
+     as above, based on further specifications of the domains of the variables
+     involved. </li>
+     <li> DONE (again, not really appropriate here)
+     So in the context of a boolean clause-set one can use cardinality
+     constraints like ["cardinality", "=", {1,2,3}, 2], which is equivalent
+     to the CNF {{1,2},{1,3},{2,3},{-1,-2,-3}} (while
+     ["cardinality", "=", {1,-2,3}, 2] is equivalent to the CNF
+     {{1,-2},{1,3},{-2,3},{-1,2,-3}}). </li>
+     <li> However, as argued below, the cardinality constraint is only
+     concerned about *literals* which are set to true, and so implicitly
+     in this context always literals set to false are regarded as zero. </li>
+     <li> So it seems that the above Maxima-sum (like "v3-v2+v1") is not
+     really appropriate here --- first the literals have to be evaluated,
+     and then "true" is interpreted as 1, while "false" is interpreted as 0.
+     </li>
+    </ol>
    </li>
-   <li> The literals here however are boolean literals, so substitution
-   of values 0,1 seems inappropriate? On the one hand, boolean variables
-   are supposed to be "positive functions", and also we have variables like
-   "1". </li>
-   <li> Perhaps we make the distinction that if a cardinality constraint
-   occurs in a mixed problem, then the interpretation of the other part
-   (boolean or non-boolean CNF or DNF) is determinative, while free-standing
-   cardinality constraints are interpreted in the ordinary arithmetic sense
-   as above, based on further specifications of the domains of the variables
-   involved. </li>
-   <li> So in the context of a boolean clause-set one can use cardinality
-   constraints like ["cardinality", "=", {1,2,3}, 2], which is equivalent
-   to the CNF {{1,2},{1,3},{2,3},{-1,-2,-3}} (while
-   ["cardinality", "=", {1,-2,3}, 2] is equivalent to the CNF
-   {{1,-2},{1,3},{-2,3},{-1,2,-3}}). </li>
-   <li> How to call these constraints? "card" for "cardinality constraint"?
-   And then further specialised regarding boolean or non-boolean variables,
-   and CNF- or DNF-interpretation of variables? </li>
+   <li> What are non-boolean cardinality constraints?
+    <ol>
+     <li> It seems the appropriate generalisation would be to ask that amongst
+     the given set of literals at least, exactly, at most etc. of
+     the literals are satisfied by the assignment. </li>
+     <li> So one sees that it is not really sensible, as done above, to
+     add up *variables*, but literals are to be considered, which are (relative
+     to some (total) assignment) either true or false, and one considers then
+     only the literals which are true, and makes a requirement on their
+     count. </li>
+    </ol>
+   </li>
+   <li> Lists or sets:
+    <ol>
+     <li> With a list we generalise cardinality constraints in the direction
+     of pseudo-boolean constraints. </li>
+     <li> Perhaps it makes sense to have set-cardinality-constraints, and
+     list-cardinality-constraints (as a generalisation). </li>
+    </ol>
+   </li>
+   <li> Perhaps just "card" instead of "cardinality" is enough as the first
+   element of the list.
+    <ol>
+     <li> Actually, yet we do not use such type-identifiers,
+     but it is the context which determines the nature of the objects? </li>
+     <li> So we should just drop the "card"-string as part of a cardinality
+     constraint? </li>
+     <li> A point in favour of having this identify would be if such
+     cardinality constraints would be instances of more general invocations
+     of "constraints", all just thrown together in one constraint-container.
+     </li>
+     <li> However, here we should consider cardinality-constraints just as
+     generalisations of clauses, and so we should just employ triples like
+      ["=", {1,2,3}, 2]. </li>
+    </ol>
+   </li>
+   <li> How to call these constraints?
+    <ol>
+     <li> "card" for "cardinality constraint"? </li>
+     <li> And then further specialised regarding boolean or non-boolean
+     variables, and CNF- or DNF-interpretation of variables? </li>
+     <li> Perhaps we aim at a symbolism where "card" can just replace
+     "clause", while otherwise everything else is reused?! </li>
+    </ol>
+   </li>
+   <li> Mixed problems:
+    <ol>
+     <li> It seems mixed problem instances should be lists of problem
+     instances. </li>
+     <li> Using "cls-card" for a pair of (boolean) clause-set and (necessarily
+     boolean) cardinality constraint. </li>
+     <li> For such lists we should have the same type of literals for all
+     components. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -129,6 +193,8 @@ is(Csa);
 
   \todo Provide complete specifications
   <ul>
+   <li> This relates to the algorithm implemented by MG according to
+   [Bailleux, Boufkhad, 2003]. </li>
    <li> Especially precise information on the added auxiliary variables are
    needed. </li>
    <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
