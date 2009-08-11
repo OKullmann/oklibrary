@@ -79,6 +79,12 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
+    - Install Maxima with Ecl version 9.7.1
+    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
     - Inappropriate command-extension : DONE
 
   \par
@@ -148,9 +154,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Install Maxima with Ecl version 9.7.1
     - Install xgettext
-    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
     - Database of integer sequences
     - Additional packages
     - System-wide installation
