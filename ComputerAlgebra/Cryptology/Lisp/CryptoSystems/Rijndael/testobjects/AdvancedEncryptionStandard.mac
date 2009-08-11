@@ -76,10 +76,10 @@ okltest_rijn_inv_mixcolumn(rijn_lookup_inv_mixcolumn);
 okltest_rijn_mixcolumn(rijn_mixcolumn);
 okltest_rijn_inv_mixcolumn(rijn_inv_mixcolumn);
 
-/* ???
-okltest_mixcolumns(mixcolumns);
-okltest_inv_mixcolumns(inv_mixcolumns);
-*/
+
+okltest_rijn_mixcolumns(rijn_mixcolumns);
+okltest_rijn_inv_mixcolumns(rijn_inv_mixcolumns);
+
 
 /* *****************
    * Key expansion *
