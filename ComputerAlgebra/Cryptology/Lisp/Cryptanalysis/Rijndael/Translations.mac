@@ -34,13 +34,11 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 /* NOTE : 
 
   In several functions such as aes_round_cp, and aes_key_expansion_cp "blocks"
-  are mentioned, which are matrices (4x4 as standard) of bytes used as a unit
-  of computation within the AES.
+  are mentioned, which are matrices (4x4 as standard) of bytes (8 bits / boolean
+  variables used as a unit of computation within the AES.
 
   In this translation, currently, when given as a list of variables, each block 
-  is considered row by row, rather than column by column as is standard in the
-  literature. This should be changed throughout, see "Standardise block
-  ordering" in the plans.
+  is considered column by column as is standard in the literature.
 
 */
 
@@ -184,9 +182,9 @@ aes_shiftrows_cp([bits]) := block([iBits, oBits],
   iBits : take_elements(128,bits),
   oBits : take_elements(128,rest(bits,128)),
   setify(map(lambda([a,b],aes_eq_c(a,b)), oBits, 
-    apply(append,(
-      transpose_l(aes_shiftrows(transpose_l(partition_elements(iBits,8),4)),4))
-    )))
+    apply(append,
+      aes_shiftrows(partition_elements(iBits,8))))
+    )
 )$
 
 /* Returns a set of conditions representing the AES Mixcolumns operation given
@@ -197,10 +195,8 @@ aes_mixcolumns_cp([bits]) := block([iBits, oBits, nc],
   nc : length(iBits)/32,
   setify(map(lambda([a,b], 
     apply(aes_mixcolumn_c,append(apply(append,a),apply(append,b)))),
-    matrixcolumns(apply(matrix,partition_elements(
-      partition_elements(iBits,8),nc))),
-    matrixcolumns(apply(matrix,partition_elements(
-      partition_elements(oBits,8),nc)))))
+    partition_elements(partition_elements(iBits,8),nc),
+    partition_elements(partition_elements(oBits,8),nc)))
 )$
 
 /* Returns a set of conditions representing the AES Mixcolumn operation (the 
@@ -278,23 +274,18 @@ aes_key_expansion_cp([bits]) := block(
   rkBits : rest(bits,128),
   fBits : take_elements(128,rkBits),
   /* Split into columns */
-  cols : matrixcolumns(
-    lreduce(lambda([a,b],map(append,a,
-      apply(matrix,
-        partition_elements(partition_elements(b,8), 
-          floor(length(b)/(4*8)) ))
-      )), partition_elements(rest(rkBits,128),128), 
-      apply(matrix,
-        partition_elements(partition_elements(fBits,8), 
-          floor(length(fBits)/(4*8)) ))
-    )
-  ),
-  kMat : matrixcolumns(apply(matrix,
-        partition_elements(partition_elements(kBits,8), 
-          floor(length(kBits)/(4*8)) ))),
-  fMat : matrixcolumns(apply(matrix,
-        partition_elements(partition_elements(fBits,8), 
-          floor(length(fBits)/(4*8)) ))),
+  cols : lreduce(
+    lambda([a,b],map(append,a,
+          partition_elements(partition_elements(b,8), 
+            floor(length(b)/(4*8)) ))
+        ), partition_elements(rest(rkBits,128),128), 
+      partition_elements(partition_elements(fBits,8), 
+        floor(length(fBits)/(4*8)) )
+    ),
+  kMat : partition_elements(partition_elements(kBits,8),
+          floor(length(kBits)/(4*8))),
+  fMat : partition_elements(partition_elements(fBits,8), 
+          floor(length(fBits)/(4*8))),
   /* Make first round key equal */
   for j : 1 thru n_k do
     for i : 1 thru 4 do

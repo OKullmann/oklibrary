@@ -10,24 +10,6 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
-  \todo Standardise block ordering
-  <ul>
-   <li> Within the translation system, any time a list of variables 
-   representing a block within the AES are passed, the list is interpreted
-   as the "block"/"matrix" given *row by row*. </li>
-   <li> However, the standard when representing such blocks in hexidecimal etc
-   is to list the block, *column by column*, which makes much more sense as
-   the number of columns may increase, whereas the number of rows (i.e column
-   size) remains the same. </li>
-   <li> Therefore, each of the translation functions and tests should be
-   rewritten to consider such list of variables *column by column*. </li>
-   <li> This should make the implementation of functions such as aes_hex2pa
-   etc must simpler. </li>
-   <li> This has already been done for the AES implementation in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ . </li>
-  </ul>
-
-
   \todo Parameterise inclusion of inverse operation in Mixcolumn translation
   <ul>
    <li> In the initial AES translation, only the encryption direction was
@@ -435,6 +417,24 @@ lambda([a],some_namespace_x(a,1,2,3))
    introducing distinct variables for each pair of plaintext/ciphertext, but 
    using the same key variables in each translation. The union of all such 
    translations is then the required result. </li>
+  </ul>i
+
+
+  \todo DONE Standardise block ordering
+  <ul>
+   <li> Within the translation system, any time a list of variables 
+   representing a block within the AES are passed, the list is interpreted
+   as the "block"/"matrix" given *row by row*. </li>
+   <li> However, the standard when representing such blocks in hexidecimal etc
+   is to list the block, *column by column*, which makes much more sense as
+   the number of columns may increase, whereas the number of rows (i.e column
+   size) remains the same. </li>
+   <li> Therefore, each of the translation functions and tests should be
+   rewritten to consider such list of variables *column by column*. </li>
+   <li> This should make the implementation of functions such as aes_hex2pa
+   etc must simpler. </li>
+   <li> This has already been done for the AES implementation in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ . </li>
   </ul>
 
 
