@@ -7,9 +7,9 @@
 
 # Settings for building and using Clisp
 
-clisp_recommended_version_number_okl ?= 2.47
+clisp_recommended_version_number_okl ?= 2.48
 # on 64-bit machines this needs libffcall
-clisp_supported_not_recommended_version_numbers_okl ?= 
+clisp_supported_not_recommended_version_numbers_okl ?= 2.47
 
 clisp_prefix_okl ?= clisp
 
