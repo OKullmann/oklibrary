@@ -26,8 +26,17 @@ License, or any later version. */
    <li> We need translations of the problem of finding a hypergraph transversal
    of size "=B" or "<=B" to CNF-SAT-instances plus cardinality constraints.
    </li>
+   <li> See "Representing cardinality constraints" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/CardinalityConstraints.hpp.
+   </li>
    <li> Then to this "mixed problem" one can apply a translation of
    cardinality constraints to CNF-SAT, to obtain a pure CNF-SAT problem. </li>
+   <li> Alternatively, one could translate it fully into a
+   cardinality-constraint problem instance, while then for a CNF-translation
+   of (pure) cardinality-constraint problems constraints ">= 1" (which just
+   represent clauses) are handled directly? </li>
+   <li> But this is a loss of information! And we need to have mixed problem
+   types anyway, so we should use the mixed presentation. </li>
   </ul>
 
 
