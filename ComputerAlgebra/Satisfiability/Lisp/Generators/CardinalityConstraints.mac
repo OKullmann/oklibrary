@@ -100,8 +100,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    removed based on the presence of true or false.
 
    The set of new variables introduced can therefore be 
-   recursively defined using a function "vc", where V = vc(E,[])
-   \ E:
+   recursively defined using a function "vc", where V = vc(E,[]) \ E:
 
    vc(E,l) = {} if length(E) <= 1
              otherwise 
@@ -111,8 +110,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
                vc({ctt(cons(l,1),1),...,ctt(cons(l,1),ceiling(length(E)/2))}))
 
    Therefore the number of new variables needed given length(E) = n is
-   nvc(n) - n where "nvc" is defined recursively in the following 
-   way:
+   nvc(n) - n where "nvc" is defined recursively in the following way:
 
    nvc(n) = 0 if n < 1
             n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise
