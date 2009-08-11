@@ -382,9 +382,13 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
  1  2  3
 10 84  6
 100
+> E2 = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT5")
+ 1  2  3
+ 1 14  2
+17
      \endverbatim
      </li>
-     <li> Another try with cutoff=2*10^9: </li>
+     <li> Now with cutoff=4*10^9: </li>
     </ol>
    </li>
   </ul>
