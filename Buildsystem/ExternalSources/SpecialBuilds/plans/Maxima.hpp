@@ -40,6 +40,7 @@ Cannot find out entry point for binary file binary-ecl/maxima-package.o.
   
   \todo Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
   <ul>
+   <li> Request by OK: is this now resolved with Maxima 5.19.0? </li>
    <li> The issue is that load-command fails (%e.g., "load(descriptive)").
    </li>
    <li> The problem occurs if one has a symbolic link on the path during the
