@@ -15,6 +15,8 @@ License, or any later version. */
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp </li>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp </li>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp </li>
+   <li> "Matrix libraries" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
   </ul>
 
 

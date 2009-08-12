@@ -93,6 +93,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Matrix libraries
+  <ul>
+   <li> Eigen http://eigen.tuxfamily.org/index.php?title=Main_Page looks good
+   (it is also stand-alone, and headers only). </li>
+   <li> GMM++ http://home.gna.org/getfem/gmm_intro.html (mainly a transformer
+   between other linear algebra packages) </li>
+  </ul>
+
+
   \todo Cryptology
   <ul>
    <li> What about Crypto++ http://www.cryptopp.com/ ? </li>
