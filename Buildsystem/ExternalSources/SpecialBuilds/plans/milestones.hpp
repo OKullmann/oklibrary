@@ -79,8 +79,14 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Install Maxima with Ecl version 9.7.1
+    - Test failures of Maxima 5.19.0 with Ecl 9.8.2
+    - Install Maxima with Ecl version 9.7.1 : DONE
     - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Update to newest version
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -148,7 +154,6 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
-    - Update to newest version
     - Documentation
 
   \par

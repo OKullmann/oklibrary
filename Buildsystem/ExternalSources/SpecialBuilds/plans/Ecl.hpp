@@ -12,9 +12,9 @@ License, or any later version. */
 
   \todo Update to newest version
   <ul>
-   <li> The newest version is 9.7.1. </li>
-   <li> But Maxima 5.18.1 won't build with it; let's see how the new
-   version 5.19 of Maxima behaves. </li>
+   <li> The newest version is 9.8.2. </li>
+   <li> It builds, and also Maxima builds with it, but showing quite a few
+   failing tests. It seems the tests of not of relevance to us. </li>
   </ul>
 
 

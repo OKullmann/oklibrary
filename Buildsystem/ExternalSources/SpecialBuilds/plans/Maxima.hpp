@@ -10,7 +10,17 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Install Maxima with Ecl version 9.7.1
+  \todo Test failures of Maxima 5.19.0 with ecl 9.8.2
+  <ul>
+   <li> We could ignore these errors (likely they don't concern us (yet)).
+   </li>
+   <li> There was also talk about a Maxima error discovered by the new
+   Ecl version. So perhaps we wait for a Maxima-update. </li>
+  </ul>
+
+
+  \todo DONE (building succeeds now with Ecl version 9.8.2)
+  Install Maxima with Ecl version 9.7.1
   <ul>
    <li> Installing Maxima using 9.7.1 fails in the same way as when using
    9.6.1; let's wait for Maxima 5.19. </li>
