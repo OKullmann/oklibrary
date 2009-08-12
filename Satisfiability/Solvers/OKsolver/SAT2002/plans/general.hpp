@@ -10,6 +10,32 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo Improve the Dimacs-output
+  <ul>
+   <li> Wording of information about reductions:
+    <ol>
+     <li> It should be "reduction_in_maximal_clause_length" instead of
+     "reduced_maximal_clause_length". </li>
+     <li> "reduction_in_number_of_variables" instead of
+     "reduced_number_of_variables". </li>
+     <li> "reduction_in_number_of_clauses" instead of
+     "reduced_number_of_clauses". </li>
+     <li> "reduction_in_number_of_literal_occurrences" instead of
+     "reduced_number_of_literal_occurrences". </li>
+    </ol>
+   </li>
+   <li> The default of output should be to have each measurement on its
+   own line (with "c "):
+    <ol>
+     <li> With an option enabling the old form (all on one line). </li>
+     <li> Likely we should also left-align all output numbers. </li>
+    </ol>
+   </li>
+   <li> At this time also all other output-strings should be inspected, in
+   all supported languages. </li>
+  </ul>
+
+
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>
@@ -99,8 +125,7 @@ License, or any later version. */
      stand-alone file "GesamtOKs.cpp". </li>
     </ol>
    </li>
-   <li> We need to incorporate this functionality with our
-   build system. </li>
+   <li> We need to incorporate this functionality into our build system. </li>
    <li> Since we do not do any more experiments on variations of
    the old OKsolver, we do not need to create the sequence
    of directories anymore here. </li>
