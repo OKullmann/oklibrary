@@ -28,12 +28,32 @@ License, or any later version. */
    sum of some given boolean variables is =,>,>=,<,<= some bound B. </li>
    <li> We need also some general scheme for such special
    constraint-representations. </li>
-   <li> Following our general philosophy of using lists, we could use a
-   list with first element a string which identifies the constraint;
-   in this case the string would be "cardinality". </li>
-   <li> The second element would be one of the five relations. </li>
-   <li> Then comes the set of relevant literals. </li>
-   <li> Finally the number B. </li>
+   <li> The scope of "cardinality constraints":
+    <ol>
+     <li> Following our general philosophy of using lists, we could use a
+     list with first element a string which identifies the constraint;
+     in this case the string would be "cardinality". </li>
+     <li> The second element would be one of the five relations. </li>
+     <li> Then comes the set L of relevant literals. </li>
+     <li> Finally the number B. </li>
+     <li> See below for arguments to remove the constraint identifier. </li>
+     <li> However, relations ">" and "<" are superfluous, and we should only
+     consider "<=", ">=" and "=". </li>
+     <li> Or, alternatively, only "<", ">" and "=" ? </li>
+     <li> Additionally, inbetween-constraints "a <= sum(L) <= b" could
+     be useful (see "cardinality_cs"). </li>
+     <li> Perhaps the elements of the cardinality-constraint-lists are
+     arranged as for the represented inequalities:
+      <ul>
+       <li> [L,">=",a] </li>
+       <li> [L,"<=",a] </li>
+       <li> [L,"=",a] </li>
+       <li> [a,"<=",L,"<=",b] </li>
+      </ul>
+      Likely we should only allowed such standardised forms.
+     </li>
+    </ol>
+   </li>
    <li> It would be good if for the relation we would not just use some string,
    but the actually Maxima-presentation of the corresponding Maxima-operator:
     <ol>
@@ -191,7 +211,7 @@ is(Csa);
   </ul>
 
 
-  \todo Provide complete specifications
+  \todo Provide complete specifications (related to unary encoding)
   <ul>
    <li> This relates to the algorithm implemented by MG according to
    [Bailleux, Boufkhad, 2003]. </li>
@@ -218,6 +238,14 @@ is(Csa);
   </ul>
 
 
+  \todo Rename functions related to unary encoding
+  <ul>
+   <li> These functions realise only special implementations, and so a generic
+   name like "cardinality_cs" is inappropriate. </li>
+   <li> We should also use English spelling, for example "totaliser". </li>
+  </ul>
+
+
   \todo Add statistics functions
   <ul>
    <li> These statistics functions rely on precise (combinatorial)
@@ -226,6 +254,13 @@ is(Csa);
    
 
   \todo Docus
+  <ul>
+   <li> The current amount of text one finds in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/CardinalityConstraints.mac
+   is inappropriate --- function specifications should be rather short and
+   succinct. </li>
+   <li> If appropriate, these texts should be moved to the docus. </li>
+  </ul>
 
 
   \todo Implement adder-circuit translation
