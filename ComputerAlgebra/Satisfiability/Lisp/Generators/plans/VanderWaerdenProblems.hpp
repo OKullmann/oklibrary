@@ -159,7 +159,8 @@ License, or any later version. */
   <ul>
    <li> For a progression-length k (relevant for all parts i with k_i=k)
    we want to use the vertex occurring most often. </li>
-   <li> Then the current implementations, which just chose prime 3, are
+   <li> Then the current implementations, which just chose prime 3 (let's
+   call it "simple symmetry breaking"), are
    defective, since only for k=3 this is the right choice. </li>
    <li> For k=2 we just have a complete graph, and so all vertices are
    equal. </li>
@@ -170,6 +171,13 @@ License, or any later version. */
    <li> For non-prime k >= 3 the first impression is, that the vertex
    with index roughly 0.42*n for k=4 and roughly 0.3*n for k=6 occurs most
    often; this needs to investigated. </li>
+   <li> So it seems that one needs a function at hypergraph level which for
+   given k, n determines the vertex occurring most often. </li>
+   <li> Let's call the resulting symmetry breaking "max-degree symmetry
+   breaking". </li>
+   <li> The only experiments yet to see a potential difference between simple
+   and max-degree symmetry breaking ist greentao_3(3,4,4) (see
+   RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-4-k.hpp). </li>
   </ul>
 
 
