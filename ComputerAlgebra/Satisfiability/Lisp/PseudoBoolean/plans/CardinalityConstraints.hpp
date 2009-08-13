@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans for Maxima-generators (of SAT-problems) related to cardinality constraints
 
 
+  \bug Nonsensical documentation
+  <ul>
+   <li> In
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
+   two large blocks of text are (exactly??) identical. </li>
+   <li> This makes no sense. </li>
+  <ul>
+
+
   \todo Connections
   <ul>
    <li> See "Cardinality constraints" in
