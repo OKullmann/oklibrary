@@ -22,7 +22,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/include.mac");
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/CardinalityConstraints.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
@@ -33,7 +32,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerde
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/CardinalityConstraints.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/HindmanProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$

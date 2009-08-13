@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/CardinalityConstraints.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
   \brief Plans for Maxima-generators (of SAT-problems) related to cardinality constraints
 
 
@@ -223,7 +223,7 @@ is(Csa);
      <li> Currently there are no specifications (which, of course, must
      allow to reconstruct the clause-sets(!)). </li>
      <li> Some properties are mentioned in
-     ComputerAlgebra/Satisfiability/Lisp/Generators/CardinalityConstraints.mac,
+     ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac,
      but these properties shouldn't be there (but possibly in the docus). </li>
     </ol>
    </li>
@@ -256,7 +256,7 @@ is(Csa);
   \todo Docus
   <ul>
    <li> The current amount of text one finds in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/CardinalityConstraints.mac
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
    is inappropriate --- function specifications should be rather short and
    succinct. </li>
    <li> If appropriate, these texts should be moved to the docus. </li>
