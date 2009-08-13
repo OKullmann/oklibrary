@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/docus/CardinalityConstraints.hpp
-  \brief How to use the cardinality constraint generators
+  \brief How to use the translations of cardinality constraint generators into CNF
 
 
   <h1> Cardinality constraints via Maxima in the OKlibrary </h1>

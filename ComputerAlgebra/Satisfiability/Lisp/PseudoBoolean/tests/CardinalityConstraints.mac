@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac
-  \brief Tests for Linear Inequality generators
+  \brief Tests for translations of cardinality constraints into CNF
 
 Use by
 
@@ -32,7 +32,7 @@ kill(f)$
 */
 
 /* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for "cardinality_totalizer_cs" */
+   in the comments for cardinality_totalizer_cs: */
 okltest_cardinality_totalizer_cs_comb(f) := block([F],
   assert(f([],[]) = {}),
   assert(f([1],[2]) = {{-2,1},{-1,2}}),
@@ -45,7 +45,7 @@ okltest_cardinality_totalizer_cs_comb(f) := block([F],
   /* XXX */
   true)$
 
-/* Tests general properties that the clause-set returned by "f" should have, 
+/* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,E), any forced
    assignments follow solely from unit clause propagation. */
 okltest_cardinality_totalizer_cs_spec(f) := block([F],
@@ -64,12 +64,12 @@ okltest_cardinality_totalizer_cs_spec(f) := block([F],
   true)$
 
 /* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for "cardinality_totalizer_cs" */
+   in the comments for cardinality_totalizer_cs: */
 okltest_cardinality_totalizer_r_cs_comb(f) := block(
   okltest_cardinality_totalizer_cs_comb(lambda([a,b], f(a,b,[]))),
   true)$
 
-/* Tests general properties that the clause-set returned by "f" should have, 
+/* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,E,[]), any forced
    assignments follow solely from unit clause propagation. */
 okltest_cardinality_totalizer_r_cs_spec(f) := block(
@@ -77,7 +77,7 @@ okltest_cardinality_totalizer_r_cs_spec(f) := block(
   true)$
 
 /* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for "cardinality_comparator_cs" */
+   in the comments for cardinality_comparator_cs: */
 okltest_cardinality_comparator_cs_comb(f) := block(
   for m : 0 thru 5 do
     for n : 0 thru 5 do
@@ -88,7 +88,7 @@ okltest_cardinality_comparator_cs_comb(f) := block(
   assert(f([1,2,3,4,5],2,4) = {{1},{2},{-5}}),
   true)$
 
-/* Tests general properties that the clause-set returned by "f" should have, 
+/* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,n,m), any forced
    assignments follow solely from unit clause propagation. */
 okltest_cardinality_comparator_cs_spec(f) := block([F],
@@ -99,7 +99,7 @@ okltest_cardinality_comparator_cs_spec(f) := block([F],
   true)$
 
 /* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for "cardinality_cs" */
+   in the comments for cardinality_cs: */
 okltest_cardinality_cs_comb(f) := block([F],
   for m : 0 thru 5 do
     for n : 0 thru 5 do
@@ -108,7 +108,7 @@ okltest_cardinality_cs_comb(f) := block([F],
   assert(f([1],1,1) = {{-1,ctt([],1)},{1,-ctt([],1)},{ctt([],1)}}),
   true)$
 
-/* Tests general properties that the clause-set returned by "f" should have, 
+/* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(E,n,m), any forced
    assignments follow solely from unit clause propagation. */
 okltest_cardinality_cs_spec(f) := block([F],
