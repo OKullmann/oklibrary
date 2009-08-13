@@ -528,6 +528,39 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Apply time-measurements
+  <ul>
+   <li> Apply the time-measurement-system (assuming it is available by now).
+   </li>
+  </ul>
+
+
+  \todo Optimising the code
+  <ul>
+   <li> Valgrind offers the tools Cachegrind, Callgrind, Massif. </li>
+  </ul>
+
+
+  \todo Extension by cardinality constraints
+  <ul>
+   <li> Allowing cardinality constraints as a special form of active clauses
+   is perhaps rather easy to do? </li>
+   <li> See "Cardinality constraints as active clauses" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp.
+   </li>
+   <li> Forced assignments are easy to find by just arithmetical comparison.
+   </li>
+   <li> For the heuristics the constraint is just the set of its prime
+   implicates (numerically). </li>
+   <li> Regarding the variables used (tree-pruning): If it comes to a
+   forced assignment, then just all variables assigned to true resp. to
+   false are involved. </li>
+   <li> And a partial assignment is considered to be an autarky for a
+   cardinality constraint iff it is an autarky for the corresponding
+   set of prime implicates. </li>
+  </ul>
+
+
   \todo Improved Delta(n)-distance
   <ul>
    <li> Given the number a(v) of variables which during the r_2-reduction
@@ -657,19 +690,6 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      Solvers/OKsolver/plans/OKsolver_1_0.hpp). </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Apply time-measurements
-  <ul>
-   <li> Apply the time-measurement-system (assuming it is available by now).
-   </li>
-  </ul>
-
-
-  \todo Optimising the code
-  <ul>
-   <li> Valgrind offers the tools Cachegrind, Callgrind, Massif. </li>
   </ul>
 
 */
