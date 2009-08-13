@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Test failures of Maxima 5.19.0 with ecl 9.8.2
+  \todo DONE (solved with Ecl 9.8.3)
+  Test failures of Maxima 5.19.0 with ecl 9.8.3
   <ul>
    <li> We could ignore these errors (likely they don't concern us (yet)).
    </li>

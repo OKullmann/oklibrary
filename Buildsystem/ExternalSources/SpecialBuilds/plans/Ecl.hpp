@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \todo Update to newest version
+  \todo DONE (now only the usual Bessel-problem)
+  Update to newest version
   <ul>
    <li> The newest version is 9.8.2. </li>
    <li> It builds, and also Maxima builds with it, but showing quite a few

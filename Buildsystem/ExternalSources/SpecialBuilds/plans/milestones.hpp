@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.3 (5.6.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.4 (13.8.2009)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -79,14 +79,14 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Test failures of Maxima 5.19.0 with Ecl 9.8.2
-    - Install Maxima with Ecl version 9.7.1 : DONE
     - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
+    - Test failures of Maxima 5.19.0 with Ecl 9.8.2 : DONE
+    - Install Maxima with Ecl version 9.7.1 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
-    - Update to newest version
+    - Update to newest version : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
