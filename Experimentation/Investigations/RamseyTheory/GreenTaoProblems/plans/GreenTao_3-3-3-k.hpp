@@ -72,7 +72,7 @@ BestSolution_Max = 1.000000
        which should be the right form since we have k=3 here throughout. </li>
       </ol>
      </li>
-     <li> march_pl unclear. </li>
+     <li> march_pl: (letting it run for up to 2 weeks, if necessary) </li>
      <li> satz215 </li>
      <li> minisat2:
       <ol>
