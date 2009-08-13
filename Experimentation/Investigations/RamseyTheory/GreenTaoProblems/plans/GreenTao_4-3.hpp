@@ -498,14 +498,19 @@ c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1128 
    some new structure. </li>
    <li> With symmetry breaking and without preprocessing:
    \verbatim
-
+> OKsolver_2002-O3-DNDEBUG -D30 -M -F GreenTao_sb_4-3_377.cnf
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=1508 initial_number_of_clauses=29198 initial_number_of_literal_occurrences=85703 running_time(s)=152404.7 number_of_nodes=10367390 number_of_single_nodes=81451 number_of_quasi_single_nodes=0 number_of_2-reductions=148752374 number_of_pure_literals=0 number_of_autarkies=23 number_of_missed_single_nodes=165112 max_tree_depth=136 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=4 reduced_number_of_clauses=274 reduced_number_of_literal_occurrences=899 number_of_1-autarkies=4253877291 number_of_initial_unit-eliminations=4 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=2344 file_name=GreenTao_sb_4-3_377.cnf
    \endverbatim
-   </li>
+   As usual, it seems a bit improved, but not much (still no monitoring node
+   completed). </li>
    <li> With symmetry breaking and with preprocessing:
    \verbatim
 
    \endverbatim
    </li>
+   <li> The above "symmetry breaking" is "simple symmetry breaking", which
+   should be the right form since we have k=3 here throughout. </li>
   </ul>
 
 */
