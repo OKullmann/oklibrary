@@ -24,6 +24,8 @@ License, or any later version. */
    (containing the coefficients). </li>
    <li> It just remains the question on the precise composition of the list
    which represents a pseudo-boolean constraint. </li>
+   <li> One could use lists [a,A,L,b], where a, b are integers or inf or minf,
+   meaning a <= A*L <= b. </li>
   </ul>
 
 */

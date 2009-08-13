@@ -63,6 +63,12 @@ License, or any later version. */
       </ul>
       Likely we should only allowed such standardised forms.
      </li>
+     <li> One could just use the form [a,"<=",L,"<=",b], since all three other
+     forms can be expressed by it (using [a,"<=",L,inf], [0,"<=",L,"<=",a]
+     and [a,"<=",L,"<=",a]. </li>
+     <li> Then one could just use triples [a,L,b]. </li>
+     <li> Seems alright that one allows for b now also inf; one should then
+     also allow it for a. </li>
     </ol>
    </li>
    <li> It would be good if for the relation we would not just use some string,
