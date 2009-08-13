@@ -37,20 +37,22 @@ License, or any later version. */
   <h2> Overview on docus </h2>
 
   <ul>
-   <li> Autarkies : to be completed </li>
-   <li> Backtracking : to be completed </li>
-   <li> BranchingTuples :
+   <li> Autarkies: to be completed </li>
+   <li> Backtracking: to be completed </li>
+   <li> BranchingTuples:
    ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/docus/general.hpp </li>
-   <li> %ClauseSets : to be completed </li>
-   <li> ConflictCombinatoris :
+   <li> %ClauseSets: to be completed </li>
+   <li> ConflictCombinatoris:
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/docus/general.hpp
    </li>
-   <li> ConstraintProblems : to be completed </li>
-   <li> %Generators :
+   <li> ConstraintProblems: to be completed </li>
+   <li> %Generators:
    ComputerAlgebra/Satisfiability/Lisp/Generators/docus/general.hpp </li>
-   <li> MinimalUnsatisfiability : to be completed </li>
-   <li> PropositionalLogic : to be completed </li>
-   <li> Resolution : to be completed </li>
+   <li> MinimalUnsatisfiability: to be completed </li>
+   <li> PropositionalLogic: to be completed </li>
+   <li> PseudoBoolean:
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/docus/general.hpp </li>
+   <li> Resolution: to be completed </li>
   </ul>
 
 */
