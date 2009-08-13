@@ -206,6 +206,7 @@ greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
 /* Output in Dimacs format (together with statistics and variable meanings):
 */
 
+/* The 2-colour diagonal version: */
 output_greentao2(k,n,filename) := block(
  [FFGT : standardise_fcs(greentao2_fcs(k,n))],
   output_fcs_v(
@@ -221,6 +222,7 @@ c Variables and associated prime numbers:"),
 output_greentao2_stdname(k,n) := output_greentao2(k,n,
   sconcat("GreenTao_2-",k,"-",k,"_",n,".cnf"))$
 
+/* The 2-colour non-diagonal version: */
 output_greentao2nd(k1,k2,n,filename) := block(
  [FFGT : standardise_fcs(greentao2nd_fcs(k1,k2,n))],
   output_fcs_v(
@@ -236,6 +238,7 @@ c Variables and associated prime numbers:"),
 output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
   sconcat("GreenTao_2-",k1,"-",k2,"_",n,".cnf"))$
 
+/* The general form: */
 output_greentao(L,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))))],
   output_fcs_v(
@@ -251,6 +254,7 @@ c Variables and associated prime numbers and \"colours\":"),
 output_greentao_stdname(L,n) := output_greentao(L,n,
   sconcat("GreenTao_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
+/* The general form with symmetry breaking: */
 output_greentao_sb(L,n,filename) := block(
  [FF : standardise_fcs(greentao_sb_fcs(L,n))],
   output_fcs_v(
