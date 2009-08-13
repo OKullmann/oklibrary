@@ -37,6 +37,8 @@ License, or any later version. */
    sum of some given boolean variables is =,>,>=,<,<= some bound B. </li>
    <li> We need also some general scheme for such special
    constraint-representations. </li>
+   <li> See "The notion of a pseudo-boolean constraint" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp. </li>
    <li> The scope of "cardinality constraints":
     <ol>
      <li> Following our general philosophy of using lists, we could use a
