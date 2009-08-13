@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
-  \brief Plans for Maxima-generators (of SAT-problems) related to cardinality constraints
+  \brief Plans for translations of cardinality constraints into CNF
 
 
   \bug Nonsensical documentation
@@ -182,7 +182,7 @@ is(Csa);
   </ul>
 
 
-  \todo Pseudo-boolean constraints as active clauses
+  \todo Cardinality constraints as active clauses
   <ul>
    <li> As a special case of "Pseudo-boolean constraints as active clauses"
    (see ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp),
