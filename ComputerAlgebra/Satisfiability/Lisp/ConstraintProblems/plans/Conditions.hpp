@@ -15,6 +15,9 @@ License, or any later version. */
    <li> See ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp
    for (older) general plans.
    </li>
+   <li> See "Pseudo-boolean constraints as active clauses" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp
+   for a first example. </li>
   </ul>
 
 

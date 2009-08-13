@@ -172,6 +172,27 @@ is(Csa);
   </ul>
 
 
+  \todo Application of partial assignments
+  <ul>
+   <li> As a special case of "Application of partial assignments" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp,
+   the result of phi*[a,L,b] = [a',L',b'] is obtained by removing the
+   variables of phi from L, and subtracting the number of satisfied literals
+   in L from a and b. </li>
+  </ul>
+
+
+  \todo Pseudo-boolean constraints as active clauses
+  <ul>
+   <li> As a special case of "Pseudo-boolean constraints as active clauses"
+   (see ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp),
+   cardinality constraints should yield a very attractive first model of
+   "active clauses". </li>
+   <li> Their interface as a set of clauses is given by their prime implicates
+   representation (see "Direct realisations" below). </li>
+  </ul>
+
+
   \todo Direct realisations
   <ul>
    <li> For all types of clause-sets (boolean and non-boolean, CNF and DNF)

@@ -26,6 +26,49 @@ License, or any later version. */
    which represents a pseudo-boolean constraint. </li>
    <li> One could use lists [a,A,L,b], where a, b are integers or inf or minf,
    meaning a <= A*L <= b. </li>
+   <li> The major abbreviation for "pseudo-boolean constraint" should be "pbc".
+   </li>
+  </ul>
+
+
+  \todo Application of partial assignments
+  <ul>
+   <li> For a partial assignment and a pbc P=[a,A,L,b] let phi*P be
+   [a',A',L',b], where A', L' are obtained from A resp. L by removing
+   the position corresponding to variables in phi, while a', b' are obtained
+   by arithmetic substitution (and bringing the new constants either to the
+   left or to the right side of the inequality). </li>
+  </ul>
+
+
+  \todo Pseudo-boolean constraints as active clauses
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp
+   and
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp for
+   general plans. </li>
+   <li> See "Pseudo-boolean constraints as active clauses" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+   for the special case of cardinality constraints. </li>
+   <li> Pseudo-boolean constraints, and especially cardinality constraint seem
+   good candidates for first "active clauses":
+    <ol>
+     <li> Determining satisfiability and forced assignments w.r.t. a partial
+     assignment should be relatively easy (it is definitely so for cardinality
+     constraints; for pseudo-boolean constraints one needs to determine
+     satisfiability of a single integer inequality with {0,1}-variables
+     resp. to determine whether some variables have forced values). </li>
+     <li> Actually, for pbc's we have a knapsack-problem, so the problem here
+     is actually not that easy --- we have here an active clause-set! </li>
+     <li> At least for cardinality constraints we can always determine
+     the corresponding prime implicates representation, and in this way
+     really have "virtual clauses" --- via determining the sizes of this
+     representation we can completely emulate the in a sense optimal
+     representation by prime implicates without actually having to create
+     them! </li>
+    </ol>
+   </li>
   </ul>
 
 */
