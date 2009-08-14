@@ -29,6 +29,8 @@ read_oksolver_mon = function(filename, ...) {
 # ldstep).
 # If step is larger than the maximum level, then just the default x-axis
 # annotation is used (for the lower plot).
+# All further parameters are passed to both plot commands; so e.g. with log="y"
+# you can use a logarithmic scale for the values, etc.
 plot_oksolver_mon_nodes = function(E, left=128, right=max(E$level), ldstep=round(log2(right-left))-3, step=2^ldstep, ...) {
   E = E[E$level >= left & E$level <= right,]
   old_mfrow = par("mfrow")
