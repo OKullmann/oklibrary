@@ -259,6 +259,12 @@ double Solver::progressEstimate() const {
   </ul>
 
 
+  \todo Precosat
+  <ul>
+   <li> At least the installation page is needed. </li>
+  </ul>
+
+
   \todo March solvers
   <ul>
    <li> Homepage http://www.st.ewi.tudelft.nl/sat/march_dl.php </li>

@@ -71,6 +71,7 @@ License, or any later version. */
     - SAT4J
     - Minisat
     - Picosat
+    - Precosat
     - March solvers
     - Argo
     - Satz
