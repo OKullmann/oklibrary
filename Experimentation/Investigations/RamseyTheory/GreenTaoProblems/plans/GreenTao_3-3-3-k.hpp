@@ -76,14 +76,19 @@ BestSolution_Max = 1.000000
      <li> satz215 </li>
      <li> minisat2:
       <ol>
-       <li> Determines unsatisfiability with 2257091 conflicts in less
-       than 2 minutes. </li>
+       <li> Determines unsatisfiability with 2257091 conflicts (24 restarts)
+       in less than 2 minutes. </li>
        <li> Using symmetry breaking, actually 2686891 conflicts are needed;
        let's assume that this is a random effect. </li>
-       <li> Without preprocessing: </li>
+       <li> Without preprocessing: 2748900 (24 restarts, a bit more than 2
+       minutes); so for minisat2 the preprocessing doesn't make a big
+       difference. </li>
       </ol>
      </li>
-     <li> picosat913 </li>
+     <li> picosat913 is not as fast as minisat2: 6 1/2 minutes, 10000685
+     conflicts. </li>
+     <li> precosat236 is a bit slower than minisat2: nearly 2 1/2 minutes,
+     1226906 conflicts. </li>
     </ol>
    </li>
    <li> n=138
@@ -122,7 +127,13 @@ BestSolution_Max = 1.000000
    </li>
    <li> (i) can be examined by using minisat2's preprocessing for the
    OKsolver_2002, as well as for the other lookahead-solver, and also running
-   minisat2 without preprocessing. </li>
+   minisat2 without preprocessing.
+    <ol>
+     <li> It helps the conflict-driven solvers a bit, but not so much (at least
+     in this case). </li>
+     <li> So there is something else they are doing well here. </li>
+    </ol>
+   </li>
    <li> For (ii) one needed to inspect the resolution refutation produced by
    minisat2. </li>
    <li> Easier to look at (iii), where we only need to see whether the clauses
