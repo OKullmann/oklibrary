@@ -466,7 +466,9 @@ BestSolution_Max = 4.000000
    apparently there are no progress-indicators (or could one interprete "level"
    as such?), and so it's not possible to say whether any progress has been
    achieved. </li>
-   <li> With minisat2 preprocessing </li>
+   <li> With minisat2 preprocessing: Stopped after 10 hours --- hard to
+   tell the difference (and hard to see any progress due to the confusing
+   output). </li>
   </ul>
 
 
