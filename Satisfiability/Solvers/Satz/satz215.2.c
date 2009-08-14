@@ -1,3 +1,9 @@
+/* Copyright 2001 Chu Min Li
+Satz215 is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in the OKlibrary; 
+either version 3 of the License, or any later version. */
+
 /*!
   \file Satisfiability/Solvers/Satz/satz215.2.c
   \brief Updated version w.r.t. output conventions
