@@ -80,6 +80,7 @@ BestSolution_Max = 1.000000
        than 2 minutes. </li>
        <li> Using symmetry breaking, actually 2686891 conflicts are needed;
        let's assume that this is a random effect. </li>
+       <li> Without preprocessing: </li>
       </ol>
      </li>
      <li> picosat913 </li>
@@ -105,6 +106,28 @@ BestSolution_Max = 1.000000
      <li> adaptnovelty+ doesn't seem to achieve better than a minimum=10. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Why is minisat2 so much faster than OKsolver_2002 ?
+  <ul>
+   <li> The four possible reasons seem to be:
+    <ul>
+     <li> (i) preprocessing </li>
+     <li> (ii) full resolution versus tree-resolution </li>
+     <li> (iii) finding an easy small sub-problem </li>
+     <li> (iv) faster processing (this doesn't seem to play an important role
+     here, since minisat2 needs much less nodes than OKsolver_2002). </li>
+    </ul>
+   </li>
+   <li> (i) can be examined by using minisat2's preprocessing for the
+   OKsolver_2002, as well as for the other lookahead-solver, and also running
+   minisat2 without preprocessing. </li>
+   <li> For (ii) one needed to inspect the resolution refutation produced by
+   minisat2. </li>
+   <li> Easier to look at (iii), where we only need to see whether the clauses
+   used as axioms for the resolution refutation can be easily refuted by
+   OKsolver_2002. </li>
   </ul>
 
 
