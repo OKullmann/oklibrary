@@ -28,7 +28,7 @@ picosat : $(picosat_directories_okl)
 	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) all; $(postcondition) \
 	cp -f $(picosat_exec_okl) $(picosat_call_okl); $(postcondition) \
 	cp -f README LICENSE $(picosat_doc_dir_okl); $(postcondition) \
-	ln -s --force $(picosat_call_okl) $(public_bin_dir_okl)/$(picosat_exec_okl); $(postcondition)
+	ln -s --force $(picosat_call_okl) $(public_bin_dir_okl)/$(picosat_public_call_okl); $(postcondition)
 
 # #################################
 # Cleaning

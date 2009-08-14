@@ -23,7 +23,7 @@ License, or any later version. */
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> The SAT solver, accessible via <code>$(picosat_exec_okl)</code>. </li>
+   <li> The SAT solver, accessible via <code>$(picosat_public_call_okl)</code>. </li>
    <li> Some documentation in directory <code>$(picosat_doc_dir_okl)</code>.
    </li>
   </ul>
@@ -34,7 +34,7 @@ License, or any later version. */
   <ul>
    <li> Recommended version =
    <code>$(picosat_recommended_version_number_okl)</code> </li>
-   <li> Expected path to the executable:
+   <li> Path to the executable:
     <ol>
      <li> picosat program call = <code>$(picosat_call_okl)</code> </li>
      <li> A symbolic link is provided in the public bin-directory

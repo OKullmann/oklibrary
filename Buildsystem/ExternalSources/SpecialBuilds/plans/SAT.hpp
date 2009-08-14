@@ -238,7 +238,8 @@ double Solver::progressEstimate() const {
   \todo Picosat
   <ul>
    <li> http://fmv.jku.at/picosat/ </li>
-   <li> Likely the solver should be called "picosat913". </li>
+   <li> DONE
+   Likely the solver should be called "picosat913". </li>
    <li> Documentation:
     <ol>
      <li> We need to document the meaning of the output statistics. </li>

@@ -6,7 +6,6 @@
 # License, or any later version.
 
 # Settings for building and using Picosat
-# (cannot be downloaded)
 
 picosat_recommended_version_number_okl ?= 913
 picosat_supported_not_recommended_version_numbers_okl ?= 535 632 846
@@ -22,6 +21,7 @@ picosat_installation_dir_okl ?= $(picosat_base_installation_dir_okl)/$(picosat_r
 
 picosat_exec_okl ?= picosat
 picosat_call_okl ?= $(picosat_installation_dir_okl)/$(picosat_exec_okl)
+picosat_public_call_okl ?= $(picosat_exec_okl)$(picosat_recommended_version_number_okl)
 
 picosat_base_doc_dir_okl ?= $(ExternalSources_doc)/SAT/Picosat
 picosat_doc_dir_okl ?= $(picosat_base_doc_dir_okl)/$(picosat_recommended_okl)
