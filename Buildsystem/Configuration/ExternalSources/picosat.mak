@@ -28,5 +28,5 @@ picosat_doc_dir_okl ?= $(picosat_base_doc_dir_okl)/$(picosat_recommended_okl)
 picosat_docu_page_okl ?= $(doc_dir)/doxygen_html/d8/d96/Picosat_8hpp.html
 
 picosat_homepage_url_okl := http://fmv.jku.at/picosat/
-picosat_documentation_url_okl := ???
+picosat_documentation_url_okl := http://fmv.jku.at/precosat/preicosat-sc09.pdf
 
