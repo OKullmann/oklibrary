@@ -88,6 +88,7 @@ kill(dts)$ /* "dual Tseitin" */
 declare(dts, noun)$
 declare(dts, posfun)$
 dts_var(v) := nounify(dts)(v)$
+dtsext_var(v,d) := nounify(dts)(v,d)$
 
 /* dualts_fcl(FF) has the variables FF[1] from FF plus the dts(i) for i from
    1 to c = length(FF[2]) = number of clauses in FF.
@@ -122,6 +123,17 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
    (However, even if all extension of phi make FF true, this cannot be
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */
+
+/* Extended version, using value d (for "distinguish") as second parameter
+   of dts_var:
+*/
+dualtsext_fcl(FF,d) := block([c : length(FF[2]), NV, G1, G2],
+  NV : create_list(dtsext_var(i,d),i,1,c),
+  G1 : map(lambda([C,i], adjoin(dtsext_var(i,d),comp_sl(C))), 
+        FF[2], create_list(i,i,1,c)),
+  G2 : lappend(map(lambda([C,i], create_list({-dtsext_var(i,d),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
 
 
 /* ****************************
