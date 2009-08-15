@@ -291,8 +291,6 @@ static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
 static unsigned int *beobachtet = NULL;
 static unsigned int totalbeobachtet;
 
-static StatisticsCount altKnoten;
-
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 
@@ -303,6 +301,7 @@ static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
   This function is only called when monitoring is activated.
 */
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
+  static StatisticsCount old_nodes = 0;
   static double old_total_time = 0; /* in sec */
   if (count_monitor_nodes > totalbeobachtet) {
     totalbeobachtet = count_monitor_nodes;
@@ -312,7 +311,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
     times(Zeiger);
     Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
-    const StatisticsCount new_nodes = Knoten - altKnoten;
+    const StatisticsCount new_nodes = Knoten - old_nodes;
     const double average_nodes = (double) Knoten / count_monitor_nodes;
     const double predicted_nodes = Gesamtlast * average_nodes;
     const double total_time = (double) Verbrauch / EPS; /* in sec */
@@ -352,7 +351,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
               );
     }
     fflush(NULL);
-    altKnoten = Knoten;
+    old_nodes = Knoten;
     old_total_time = total_time;
   }
 }
@@ -457,7 +456,6 @@ void InitSat( void )
       unsigned int p; unsigned int *Z;
       totalbeobachtet = 0;
       Rekursionstiefe = 0;
-      altKnoten = 0;
       Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
       for (p = 1, Z = Zweiglast + Beobachtungsniveau; Z != Zweiglast; p *= 2)
         *(--Z) = p;
