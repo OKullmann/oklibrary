@@ -79,9 +79,11 @@ weak_php(m,n) := [var_php(m,n),
  union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
 
 output_weak_php(m,n,filename) := block([FF : standardise_fcs(weak_php(m,n))],
-  output_cs_f_v(
+  output_fcs_v(
     sconcat("The pigeonhole principle (weak form): ", m, " pigeons, ", n, " holes."), 
     FF[1], filename, FF[2]))$
+output_weak_php_stdname(m,n) := output_weak_php(m,n,
+  sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
 
 /* No pigeon in more than one hole: */
@@ -97,9 +99,11 @@ strong_php(m,n) := block([FF : weak_php(m,n)],
   [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
 
 output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))],
-  output_cs_f_v(
+  output_fcs_v(
     sconcat("The pigeonhole principle (strong form): ", m, " pigeons, ", n, " holes."), 
     FF[1], filename, FF[2]))$
+output_strong_php_stdname(m,n) := output_strong_php(m,n,
+  sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
 /* Measures */
 
