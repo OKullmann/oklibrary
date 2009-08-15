@@ -81,8 +81,8 @@ dual_cs(F) := apply(or_cs,
 neg_cs(F) := dual_cs(comp_cs(F))$
 
 
-/* The natural DNF-representation of clause-set F via new
-   variables.
+/* The natural CNF-representation of DNF-clause-set F via new
+   variables, directly exploiting the Tseitin translation.
 */
 kill(dts)$ /* "dual Tseitin" */
 declare(dts, noun)$
@@ -91,6 +91,24 @@ dts_var(v) := nounify(dts)(v)$
 
 /* dualts_fcl(FF) has the variables FF[1] from FF plus the dts(i) for i from
    1 to c = length(FF[2]) = number of clauses in FF.
+   The clauses of dualts_fcl(FF) are given by the clauses C of FF with index i
+   as the canonical translations of (C <-> dts(i)), plus the disjunction
+   of all the dts(i).
+   Thus we obtain one clause of length |C|+1, |C| clauses of length 2, and
+   one clause of length |FF|.
+   The order is that we first get all those mirror-clauses and then all those
+   binary clauses (with the natural order on them, given by the order of
+   clauses in FF and the order of the literals in C in FF), and finally
+   the (very) long clause.
+*/
+dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
+  NV : create_list(dts_var(i),i,1,c),
+  G1 : map(lambda([C,i], adjoin(dts_var(i),comp_sl(C))), 
+        FF[2], create_list(i,i,1,c)),
+  G2 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
+/* Characteristic properties:
    Given a total assignment to the variables in FF, by unit-clause 
    propagation all additional variables in dualts_fcl(FF) are determined
    where dts(i) is true iff FF[2][i] is true.
@@ -104,13 +122,6 @@ dts_var(v) := nounify(dts)(v)$
    (However, even if all extension of phi make FF true, this cannot be
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */
-dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
-  NV : create_list(dts_var(i),i,1,c),
-  G1 : map(lambda([C,i], adjoin(dts_var(i),comp_sl(C))), 
-        FF[2], create_list(i,i,1,c)),
-  G2 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
-        FF[2], create_list(i,i,1,c))),
-  [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
 
 
 /* ****************************
