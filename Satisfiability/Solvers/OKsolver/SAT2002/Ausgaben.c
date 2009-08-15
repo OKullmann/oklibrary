@@ -85,8 +85,8 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Der Option -seed= muss eine Zahl folgen.", /* 52 */
    "Der Option -quot= muss eine Zahl folgen.", /* 53 */
    "Die folgende Datei konnte nicht zum Einschreiben der Baumdaten geoeffnet werden: (XML; Makro OUTPUTTREEDATAXML definiert)", /* 54 */
-   "Niveau: Anzahl Knoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit", /* 55 */
-   "    level  nodes ave_nodes      time  ave_time", /* 56 */
+   "Niveau: Anzahl Knoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit, Singleknoten, Autarkien, Suchbaumtiefe", /* 55 */
+   "    level  nodes ave_nodes      time  ave_time singles autarkies depth ave_reductions", /* 56 */
   },
 
   {"Error in the definition of the constants! Abbort.", /* 0 */
@@ -144,8 +144,8 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Option -seed= must be followed by a number.", /* 52 */
    "Option -quot= must be followed by a number.", /* 53 */
    "The following file could not be opened for writing the tree data (xml; Macro OUTPUTTREEDATAXML defined):", /* 54 */
-   "level: nodes processed, average nodes, predicted total nodes, time for monitoring node, average time, predicted remaining time", /* 55 */
-   "    level  nodes ave_nodes      time  ave_time", /* 56 */
+   "level: nodes processed, average nodes, predicted total nodes, time for monitoring node, average time, predicted remaining time, single nodes, autarkies, depth", /* 55 */
+   "    level  nodes ave_nodes      time  ave_time singles autarkies depth ave_reductions", /* 56 */
   },
 };
 

@@ -177,9 +177,13 @@ CFLAGS="-UMACHINE_BITS_OKL"
           %node, </li>
           <li> the current average time it took to process a monitoring %node,
           </li>
-          <li> finally the predicted remaining running time (which is just the
+          <li> the predicted remaining running time (which is just the
           current average time multiplied with the number of remaining
-          monitoring nodes). </li>
+          monitoring nodes), </li>
+          <li> the number of nodes realised (after the last monitoring node)
+          to have only one child due to tree-pruning, </li>
+          <li> the number of autarkies (after the last monitoring node), </li>
+          <li> finally the total tree depth. </li>
          </ol>
         </li>
         <li> If file-output is activated (via "-F"):
@@ -188,6 +192,9 @@ CFLAGS="-UMACHINE_BITS_OKL"
           </li>
           <li> The output to the file is more machine-readable, and the
           predictions are left out since they are easily computable. </li>
+          <li> As an additional output one has the average number of
+          2-reductions ("failed literals") since the last monitoring node.
+          </li>
           <li> Also output of branching literals for the monitoring levels
           up to 2 levels before the monitoring level is activated (only
           to the file). </li>

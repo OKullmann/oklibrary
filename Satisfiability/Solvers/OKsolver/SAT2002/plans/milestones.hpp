@@ -8,21 +8,14 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.5 (2.7.2009)
-
-
-  \par Version 0.9.6
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Improve the Dimacs-output
+  \module_version OKsolver/SAT2002 0.9.6 (15.8.2009)
 
 
   \par Version 0.9.7
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - More performance indicators for monitoring output
+    - Improve the Dimacs-output
 
 
   \par Version 0.9.8
@@ -291,6 +284,7 @@ License, or any later version. */
    - 0.9.3 : 22.9.2007; completed planning for counting all satisfying assignments (implementation postponed), and on the way also code and documentation maintenance.
    - 0.9.4 : 16.9.2008; various "spontaneous" workings: improved the build, extended plans, created application tests, basic code overhauls, using SIGINT instead of SIGUSR2, better documentation, corrected output of statistics.
    - 0.9.5 : 22.7.2009; extended plans, more documentation, provided combination with minisat2-preprocessor, improved timing and monitoring output.
+   - 0.9.6 : 15.8.2009; improved monitoring output, improved documentation, some local code improvements, more plans on extensions.
 
 */
 

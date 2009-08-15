@@ -302,6 +302,9 @@ static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 */
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   static StatisticsCount old_nodes = 0;
+  static StatisticsCount old_single_nodes = 0;
+  static StatisticsCount old_autarkies = 0;
+  static StatisticsCount old_2reductions = 0;
   static double old_total_time = 0; /* in sec */
   if (count_monitor_nodes > totalbeobachtet) {
     totalbeobachtet = count_monitor_nodes;
@@ -330,28 +333,41 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
       const double days = fmod(time_, 365);
       const double years = (time_ - days) / 365;
       printf(
-             "%6d:%6ld, %8.2f, %11.2E, %8.2fs, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs\n",
+             "%6d:%6ld, %8.2f, %11.2E, %8.2fs, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs, %4ld, %4ld, %4d\n",
              count_monitor_nodes,
              new_nodes,
              average_nodes,
              predicted_nodes,
              new_time,
              average_time,
-             years, days, hours, min, sec
+             years, days, hours, min, sec,
+             SingleKnoten - old_single_nodes,
+             Autarkien - old_autarkies,
+             Suchbaumtiefe
              );
     }
     if (Dateiausgabe) {
+      const double average_new_2reductions =
+        (new_nodes == 0) ? 0 : (double) (V1KlRed-old_2reductions)/new_nodes;
+      assert((new_nodes != 0) || (V1KlRed == old_2reductions));
       fprintf(fpmo,
-              "%9d %6ld %9.3f %9.3f %9.3f\n",
+              "%9d %6ld %9.3f %9.3f %9.3f %6ld %5ld %5d %8.2f\n",
               count_monitor_nodes,
               new_nodes,
               average_nodes,
               new_time,
-              average_time
+              average_time,
+              SingleKnoten - old_single_nodes,
+              Autarkien - old_autarkies,
+              Suchbaumtiefe,
+              average_new_2reductions
               );
+      old_2reductions = V1KlRed;
     }
     fflush(NULL);
     old_nodes = Knoten;
+    old_single_nodes = SingleKnoten;
+    old_autarkies = Autarkien;
     old_total_time = total_time;
   }
 }
