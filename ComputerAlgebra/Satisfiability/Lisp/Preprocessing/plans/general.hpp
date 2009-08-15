@@ -219,32 +219,29 @@ License, or any later version. */
    insight into the development. </li>
    <li> Pigeonhole formulas:
     <ul>
-     <li> As an example, if one takes the weak PHP formulas with m pigeons and
-     n holes, one can represent each pigeon m_i occupying a single hole (and
-     no other pigeon being in this hole) by n DNF clauses, each encoding that
-     pigeon m_i occurs a particular hole (for every hole). </li>
-     <li> The weak PHP problem can then be represented by considering for each
-     pigeon the subset of the CNF clause-set that represents that this pigeon
-     sits in any hole and no other pigeon sits in the same hole, taking the
-     above conversation to DNF for each of these sub-clause-sets, and then
-     taking the union of all such DNFs translated to CNF via the canonical
-     translation. </li>
+     <li> As an example, if one takes the weak PHP principle with m pigeons and
+     n holes, one can represent pigeon i occupying a single hole by
+     n DNF-clauses, each encoding that pigeon i sits in a particular hole
+     as its sole occupier. </li>
+     <li> The weak PHP problem can then be represented by considering the
+     conjunction of these DNF's, which can be represented as a CNF by
+     translating each of these DNF's into CNF via the canonical translation.
+     </li>
      <li> This can be done using the following code:
      \verbatim
 rename_var(m_i, m, n, FF) := block([FF2 : FF, num_dts_vars : length(FF[1])],
-  print(num_dts_vars),
   for i : 1 thru n do
     for i : num_dts_vars - (n*m) thru 1 step -1 do
       FF2 : subst(dts_var((m_i-1) * (num_dts_vars - (n*m)) + i),dts_var(i),  FF2),
-  return(FF2))$   
+  return(FF2))$
 
 weak_php_ts(m,n) := 
-  cs_to_fcs(lunion(create_list(
-    setify(rename_var(i,m,n,dualts_fcl(fcs2fcl(cs_to_fcs(pigeon_in_hole_dnf(i,m,n)))))[2]),
+  cs2fcs(lunion(create_list(
+    setify(rename_var(i,m,n,dualts_fcl(fcs2fcl(cs2fcs(pigeon_in_hole_dnf(i,m,n)))))[2]),
     i, 1, m)))$
 
-pigeon_in_hole_dnf(m_i,m,n) :=
-  setify(create_list(setify(create_list(if j = m_i then php_var(j,i) else -php_var(j,i), j, 1, m)), i, 1, n))$ 
+pigeon_in_hole_dnf(i,m,n) :=
+  setify(create_list(setify(create_list(if i2 = i then php_var(i2,j) else -php_var(i2,j), i2, 1, m)), j, 1, n))$
     
 output_weak_php_ts(m,n,f) :=
   output_fcs(
@@ -253,6 +250,10 @@ output_weak_php_ts(m,n,f) :=
     f)$
      \endverbatim
      </li>
+     <li> MG should present experimental data on this; and also documentation
+     for the above code is needed (what is the point of "rename_var" ---
+     we should always use the original variables, and avoid renaming and thus
+     what is needed is a generalisation of dualts_fcl!). </li>
     </ul>
    </li>
   </ul>
