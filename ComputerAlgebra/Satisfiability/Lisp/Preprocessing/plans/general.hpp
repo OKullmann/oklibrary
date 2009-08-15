@@ -10,13 +10,40 @@ License, or any later version. */
   \brief Plans for preprocessing of SAT problems in general
 
 
-  \todo A general perspective
+  \todo Two general forms of preprocessing
   <ul>
-   <li> A "reduction" eliminates "trivial cases", while "preprocessing"
-   reorganises the problem. </li>
-   <li> Given a CNF F, a natural preprocessing scheme is to partition
-   (or, more generally, to cover) F by parts F_i, where each F_i is then
-   analysed and compiled into some "active clause" C_i, a condition
+   <li> "Preprocessing by reduction" is done by applying some "reduction",
+   which simplifies the input. </li>
+   <li> The general aim here is to eliminate "trivial cases". </li>
+   <li> Preprocessing by reduction is heavily employed in worst-case upper
+   bounds, where reductions (used at each node) guarantee that branching
+   will have a strong effect in all branches in the instance. </li>
+   <li> "Preprocessing by amplification" on the other hand aims at making
+   detection of inconsistencies (for CNFs) after application of partial
+   assignments easier, by making the instance (after application) easy to
+   refutate for (certain) reductions. </li>
+   <li> While preprocessing by reduction aims at simplifying the instance
+   according to some measures, preprocessing by amplification typically
+   needs to make the instance bigger (typically the introduction of new
+   variables is essential). </li>
+   <li> Preprocessing by amplification is a more powerful process, needing
+   to uncover deeper relations, while preprocessing by reduction (which is
+   what is typically understood as "preprocessing" in these days) has more the
+   character of a (necessary) hygienic measure. </li>
+   <li> The tools for preprocessing by reduction are delivered by module
+   Satisfiability/Lisp/Reductions (see
+   Satisfiability/Lisp/Reductions/plans/general.hpp). </li>
+   <li> A general scheme for preprocessing by amplification is "preprocessing
+   by local compilation" as discussed below, with the special case of
+   "preprocessing by local dualisation" (see below). </li>
+  </ul>
+
+
+  \todo Preprocessing by local compilation
+  <ul>
+   <li> Given a CNF F, a natural preprocessing-by-amplification scheme is to
+   partition (or, more generally, to cover) F by parts F_i, where each F_i is
+   then analysed and compiled into some "active clause" C_i, a condition
    which is equivalent to F_i. </li>
    <li> A "good condition" C_i determines for every partial assignment whether
    instantiation yields an always-true or an always-false problem; in the
@@ -38,7 +65,7 @@ License, or any later version. */
    that every non-empty CNF is falsifiable). </li>
    <li> The active clause C_i could just be some representation, for example
    by circuits or branching programs, which are then translated into
-   CNFs F_i'. See "Preprocess a CNF via computing DNFs for parts" below
+   CNFs F_i'. See "Preprocess a clause-set by local dualisation" below
    for the perhaps most natural starting point, namely using a DNF for C_i.
    </li>
    <li> Since a non-empty DNF C_i is always satisfiable, and partial assignment
@@ -71,7 +98,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Preprocess a CNF via computing DNFs for parts
+  \todo Preprocess a clause-set by local dualisation
   <ul>
    <li> Partition (cover) the CNF F into F_i, compute good (small)
    DNF representations G_i for the parts F_i, translate the G_i into CNFs

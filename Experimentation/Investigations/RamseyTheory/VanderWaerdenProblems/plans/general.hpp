@@ -103,8 +103,8 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
 
   \todo Preprocessing
   <ul>
-   <li> See "A general perspective" and "Preprocess a CNF via computing DNFs
-   for parts" in
+   <li> See "Preprocessing by local compilation" and "Preprocess a clause-set
+   by local dualisation" in
    ComputerAlgebra/Satisfiability/Lisp/Preprocessing/plans/general.hpp. </li>
    <li> Let FvdW_m(k, S) for a set S of natural numbers denote the natural
    generalisation of the diagonal vdW-clause-set FvdW_m(k,n), using S instead
