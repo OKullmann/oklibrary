@@ -46,6 +46,37 @@ output_weak_php_ts_stdname(m,n) := output_weak_php_ts(m,n,
    <li> MG should present experimental data on this; for this (of course!)
    the above code has to become "official" (with tests and documentation).
    </li>
+   <li> Understanding this example:
+    <ol>
+     <li> Now we want to understand what this "preprocessing" of
+     weak_php_fcs(m,n) means. </li>
+     <li> The clause-set is covered by m clause-set F_i, each given by the
+     "long" clause C_i expressing that pigeon i sits in one whole, plus all
+     clauses which can be resolved with C_i. </li>
+     <li> F_i expresses exactly that pigeon i sits in at least one wole, and
+     no hole occupied by pigeon i is also occupied by another pigeon. </li>
+     <li> The unique DNF of F_i is given by pigeon_in_hole_dnf_cl(i,m,n).
+     </li>
+     <li> Now consider the prime clause-set P_i of F_i (all prime implicates,
+     since F_i is a CNF here). </li>
+     <li> P_i is exponentially large, however it contains no interesting
+     elements, since all elements of P_i can be obtained from F_i by
+     input resolution. </li>
+     <li> So F_i has already the property, that every inconsistency and also
+     every forced assignment can be detected by unit-resolution, while only
+     total satisfying assignments exist. </li>
+     <li> This can easily be seen by flipping the sign of all variables
+     phi(i,j) (for all j), where now F_i becomes a Horn clause-set. </li>
+     <li> Thus very likely F_i is the best representation possible here, and
+     preprocessing can only make things worse. </li>
+     <li> MG should implement the underlying functions, validate all statements
+     experimentally, and then should prove all of this. </li>
+     <li> A necessary condition for making the preprocessing-by-DNF approach
+     work seems to be that for the F_i constituting the cover there must exist
+     some prime clauses which are hard to derive at least by tree resolution.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
