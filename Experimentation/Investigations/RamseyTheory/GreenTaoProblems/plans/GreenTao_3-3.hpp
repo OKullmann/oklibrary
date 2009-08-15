@@ -13,29 +13,27 @@ License, or any later version. */
   output_greentaod_sb_stdname(3,3,n).
 
 
-  \todo greentao_3(3,3,3) = 137
+  \todo DONE (available now)
+  Symmetry breaking:
   <ul>
-   <li> DONE (available now)
-   Symmetry breaking:
-    <ol>
-     <li> The only available symmetry since the symmetry between the
-     partitions, i.e., one vertex can be put into the first partition. </li>
-     <li> For vdW-problems it seems that the middle vertices are best used
-     here (they have also the highest degrees); but here we should consider
-     the vertex degrees. </li>
-     <li> The variable of maximal degree is prime number 3. </li>
-     <li> So perhaps we should always use this for symmetry breaking. </li>
-    </ol>
-   </li>
-   <li> n=100 easily satisfiable by OKsolver_2002. </li>
+   <li> The only available symmetry since the symmetry between the
+   partitions, i.e., one vertex can be put into the first partition. </li>
+   <li> For vdW-problems it seems that the middle vertices are best used
+   here (they have also the highest degrees); but here we should consider
+   the vertex degrees. </li>
+   <li> The variable of maximal degree is prime number 3. </li>
+   <li> So perhaps we should always use this for symmetry breaking. </li>
+  </ul>
+
+
+  \todo adaptnovelty+
+  <ul>
    <li> n=125 easily found satisfiable by adaptnovelty+. </li>
    <li> n=132 easily found satisfiable by adaptnovelty+. </li>
    <li> n=135 easily found satisfiable by adaptnovelty+. </li>
    <li> n=136 easily found satisfiable by adaptnovelty+. </li>
-   <li> n=137
-    <ol>
-     <ol> adaptnovelty+ with runs=1000 and cutoff=10^6 yields
-     \verbatim
+   <li> n=137: adaptnovelty+ with runs=1000 and cutoff=10^6 yields
+   \verbatim
 Clauses = 3614
 Variables = 411
 TotalLiterals = 10431
@@ -48,71 +46,88 @@ BestSolution_Mean = 1.000000
 BestSolution_Median = 1.000000
 BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
-     \endverbatim
-     </li>
-     <li> OKsolver_2002
-      <ol>
-       <li> Seems doable, in, say 1-2 days; one should also
-       try it with the minisat2-preprocessor: seems quite a bit improved
-       (also finding single nodes and autarkies). Still perhaps a few hours;
-       perhaps by using symmetry breaking one gets it really down. </li>
-       <li> Without symmetry breaking and without preprocessing:
+   \endverbatim
+   </li>
+   <li> n=138: adaptnovelty+ yields (nearly) constantly minimum=1 with
+   cutoff=10^6. </li>
+   <li> n=150: cutoff=10*10^6 yields minimum=1; with 10 runs and with 100 runs.
+   </li>
+   <li> n=200: adaptnovelty+ doesn't seem to achieve better than a minimum=10.
+   </li>
+  </ul>
 
-       </li>
-       <li> Without symmetry breaking and with preprocessing:
-       \verbatim
+
+  \todo OKsolver_2002
+  <ul>
+   <li> n=100 easily satisfiable by OKsolver_2002. </li>
+   <li> n=137:
+    <ol>
+     <li> Without symmetry breaking and without preprocessing:
+     
+     </li>
+     <li> Without symmetry breaking and with preprocessing:
+     \verbatim
 > OKsolver_2002-m2pp -D10 -M -F GreenTao_3-3-3-3_137.cnf
 s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 initial_number_of_clauses=3202 initial_number_of_literal_occurrences=12536 running_time(s)=6105.7 number_of_nodes=9573917 number_of_single_nodes=64902 number_of_quasi_single_nodes=0 number_of_2-reductions=63127589 number_of_pure_literals=22228 number_of_autarkies=12674 number_of_missed_single_nodes=88075 max_tree_depth=52 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0reduced_number_of_literal_occurrences=0 number_of_1-autarkies=227225 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=136 file_name=GreenTao_3-3-3-3_137.cnf_m2pp_4279
-       \endverbatim
-       </li>
-       <li> With symmetry breaking and without preprocessing:
-
-       </li>
-       <li> With symmetry breaking and with preprocessing:
-
-       </li>
-       <li> The above "symmetry breaking" is "simple symmetry breaking",
-       which should be the right form since we have k=3 here throughout. </li>
-      </ol>
+     \endverbatim
      </li>
-     <li> march_pl: (letting it run for up to 2 weeks, if necessary) </li>
-     <li> satz215 </li>
-     <li> minisat2:
-      <ol>
-       <li> Determines unsatisfiability with 2257091 conflicts (24 restarts)
-       in less than 2 minutes. </li>
-       <li> Using symmetry breaking, actually 2686891 conflicts are needed;
-       let's assume that this is a random effect. </li>
-       <li> Without preprocessing: 2748900 (24 restarts, a bit more than 2
-       minutes); so for minisat2 the preprocessing doesn't make a big
-       difference. </li>
-      </ol>
+     <li> With symmetry breaking and without preprocessing:
+     
      </li>
+     <li> With symmetry breaking and with preprocessing:
+
+     </li>
+     <li> The above "symmetry breaking" is "simple symmetry breaking",
+     which should be the right form since we have k=3 here throughout. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo march_pl
+  <ul>
+   <li> n=137: (letting it run for up to 2 weeks, if necessary) </li>
+  </ul>
+
+
+  \todo satz215
+
+
+  \todo minisat2
+  <ul>
+   <li> n=137:
+    <ol>
+     <li> Determines unsatisfiability with 2257091 conflicts (24 restarts)
+     in less than 2 minutes. </li>
+     <li> Using symmetry breaking, actually 2686891 conflicts are needed;
+     let's assume that this is a random effect. </li>
+     <li> Without preprocessing: 2748900 (24 restarts, a bit more than 2
+     minutes); so for minisat2 the preprocessing doesn't make a big
+     difference. </li>
+    </ol>
+   </li>
+   <li> n=150: seems not to make progress. </li>
+  </ul>
+
+
+  \todo picosat913
+  <ul>
+   <li> n=137:
+    <ol>
      <li> picosat913 is not as fast as minisat2: 6 1/2 minutes, 10000685
      conflicts. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo precosat236
+  <ul>
+   <li> n=137:
+    <ol>
      <li> precosat236 is a bit slower than minisat2: nearly 2 1/2 minutes,
      1226906 conflicts. </li>
-    </ol>
-   </li>
-   <li> n=138
-    <ol>
-     <li> adaptnovelty+ yields (nearly) constantly minimum=1 with
-     cutoff=10^6. </li>
-    </ol>
-   </li>
-   <li> n=150
-    <ol>
-     <li> minisat2 seems not to make progress. </li>
-     <li> OKsolver_2002: perhaps doable, but likely not easy. </li>
-     <li> From the ubcsat-1.0.0-suite seems adaptnovelty+ to be best. </li>
-     <li> cutoff=10*10^6 yields minimum=1; with 10 runs and with 100 runs.
-     </li>
-    </ol>
-   </li>
-   <li> n=200
-    <ol>
-     <li> adaptnovelty+ doesn't seem to achieve better than a minimum=10. </li>
     </ol>
    </li>
   </ul>
