@@ -76,7 +76,12 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 i
      
      </li>
      <li> With symmetry breaking and with preprocessing:
-
+     \verbatim
+> OKsolver_2002-m2pp -D10 -M -F GreenTao_sb_3-3_137.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 initial_number_of_clauses=3127 initial_number_of_literal_occurrences=12164 running_time(s)=800.1 number_of_nodes=1240869 number_of_single_nodes=6668 number_of_quasi_single_nodes=0 number_of_2-reductions=8108302 number_of_pure_literals=2701 number_of_autarkies=1427 number_of_missed_single_nodes=9847 max_tree_depth=55 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8226 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=172 file_name=GreenTao_sb_3-3_137.cnf_m2pp_18152
+     \verbatim
+     Symmetry breaking is surprisingly effective here.
      </li>
      <li> The above "symmetry breaking" is "simple symmetry breaking",
      which should be the right form since we have k=3 here throughout. </li>
@@ -87,11 +92,43 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 i
 
   \todo march_pl
   <ul>
-   <li> n=137: (letting it run for up to 2 weeks, if necessary) </li>
+   <li> n=137:
+    <ol>
+     <li> Without symmetry breaking and without preprocessing:
+     letting it run for up to 2 weeks, if necessary. </li>
+     <li> Without symmetry breaking and with minisat2-preprocessing:
+
+     </li>
+     <li> With symmetry breaking and without preprocessing:
+
+     </li>
+     <li> With symmetry breaking and with minisat2-preprocessing:
+
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo satz215
+  <ul>
+   <li> n=137:
+    <ol>
+     <li> Without symmetry breaking and without preprocessing:
+
+     </li>
+     <li> Without symmetry breaking and with preprocessing:
+
+     </li>
+     <li> With symmetry breaking and without preprocessing:
+
+     </li>
+     <li> With symmetry breaking and with preprocessing:
+
+     </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo minisat2
@@ -117,6 +154,9 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 i
     <ol>
      <li> picosat913 is not as fast as minisat2: 6 1/2 minutes, 10000685
      conflicts. </li>
+     <li> With minisat2-preprocessing: </li>
+     <li> With symmetry-breaking: </li>
+     <li> With minisat2-preprocessing and with symmetry-breaking: </li>
     </ol>
    </li>
   </ul>
@@ -127,7 +167,8 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 i
    <li> n=137:
     <ol>
      <li> precosat236 is a bit slower than minisat2: nearly 2 1/2 minutes,
-     1226906 conflicts. </li>
+     1226906 conflicts (so fewer conflicts). </li>
+     <li> With symmetry breaking: </li>
     </ol>
    </li>
   </ul>
@@ -155,6 +196,11 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 i
      preprocessing here (at least the OKsolver_2002); however still the number
      of nodes is one magnitude bigger compared with the conflict-driven
      solvers. </li>
+     <li> When using also symmetry breaking, then the node-count of
+     OKsolver_2002 is similar to the best node count of conflict-driven
+     solvers; this simple symmetry-breaking is surprisingly effective at
+     least for the OKsolver (perhaps the heuristics can be much improved?!),
+     while it doesn't seem to help at all for conflict-driven solvers. </li>
     </ol>
    </li>
    <li> For (ii) one needed to inspect the resolution refutation produced by
