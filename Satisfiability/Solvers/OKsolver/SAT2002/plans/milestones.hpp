@@ -22,10 +22,17 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - OUTPUTTREEDATAXML
+    - More performance indicators for monitoring output
 
 
   \par Version 0.9.8
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - OUTPUTTREEDATAXML
+
+
+  \par Version 0.9.9
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
@@ -33,21 +40,21 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.9
+  \par Version 0.9.10
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Buildsystem
 
 
-  \par Version 0.9.10
+  \par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.11
+  \par Version 0.9.12
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:

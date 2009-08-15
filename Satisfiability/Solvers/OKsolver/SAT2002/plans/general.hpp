@@ -36,6 +36,23 @@ License, or any later version. */
   </ul>
 
 
+  \todo More performance indicators for monitoring output
+  <ul>
+   <li> Not just the difference in the number of nodes, but also
+   2-reductions, single-nodes and autarkies are of interest. </li>
+   <li> Pure literals are not important. </li>
+   <li> Regarding the tree-shape, we only have the (total) depth; not too
+   specific, but perhaps also worth to output. </li>
+   <li> The main problem is how to output this data. </li>
+   <li> If file-output is activated, then the extended output should always
+   be on (just adding more columns). </li>
+   <li> But perhaps for the screen-output it should be optional, and these
+   numbers should go into a second row? </li>
+   <li> On the other hand, it's just four additional integers, so they can
+   be just appended to the right? </li>
+  </ul>
+
+
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>
@@ -215,6 +232,8 @@ License, or any later version. */
    checked. </li>
    <li> Output of satisfying assignments needs to be checked. </li>
    <li> We need also to check the other output formats. </li>
+   <li> And monitoring output, to stdout and to file, needs to be checked.
+   </li>
    <li> Finally, a general system for testing SAT solvers, with a general
    problem database, must be created. </li>
   </ul>
