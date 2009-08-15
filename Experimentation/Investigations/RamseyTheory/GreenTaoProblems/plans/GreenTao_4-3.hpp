@@ -472,6 +472,18 @@ BestSolution_Max = 4.000000
   </ul>
 
 
+  \todp Precosat236 for n=377
+  <ul>
+   <li> Stopped after 5 hours; same problem as with picosat, that there is
+   no progress visible, and perhaps not even any such measurement (in the
+   absence of fixed variables --- once one gets one fixed variables, then
+   at least for these problems the solution is near). </li>
+   <li> If there would be at least some documentation on those various outputs,
+   then perhaps one could try to use this for some form of classification of
+   problem types. </li>
+  </ul>
+
+
   \todo OKsolver for n=377
   <ul>
    <li> Without symmetry breaking and without preprocessing:
