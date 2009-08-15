@@ -27,31 +27,25 @@ License, or any later version. */
    </li>
    <li> This can be done using the following code:
    \verbatim
-rename_var(m_i, m, n, FF) := block([FF2 : FF, num_dts_vars : length(FF[1])],
-  for i : 1 thru n do
-    for i : num_dts_vars - (n*m) thru 1 step -1 do
-      FF2 : subst(dts_var((m_i-1) * (num_dts_vars - (n*m)) + i),dts_var(i),  FF2),
-  return(FF2))$
-
-weak_php_ts(m,n) := 
-  cs2fcs(lunion(create_list(
-    setify(rename_var(i,m,n,dualts_fcl(fcs2fcl(cs2fcs(pigeon_in_hole_dnf(i,m,n)))))[2]),
+weak_php_ts_fcl(m,n) := 
+  cl2fcl(lappend(create_list(
+    dualtsext_fcl(cl2fcl(pigeon_in_hole_dnf_cl(i,m,n)), i)[2],
     i, 1, m)))$
 
-pigeon_in_hole_dnf(i,m,n) :=
-  setify(create_list(setify(create_list(if i2 = i then php_var(i2,j) else -php_var(i2,j), i2, 1, m)), j, 1, n))$
+pigeon_in_hole_dnf_cl(i,m,n) :=
+  create_list(setify(create_list(if i2 = i then php_var(i2,j) else -php_var(i2,j), i2, 1, m)), j, 1, n)$
     
-output_weak_php_ts(m,n,f) :=
-  output_fcs(
-    sconcat("PHP with ", m, " pigeons and ", n, " holes."), 
-    standardise_fcs(weak_php_ts(m,n))[1], 
-    f)$
+output_weak_php_ts(m,n,filename) := block([FF : standardise_fcl(weak_php_ts_fcl(m,n))],
+  output_fcl_v(
+    sconcat("Weak PHP with ", m, " pigeons and ", n, " holes in dual Tseitin representation."), 
+    FF[1], filename, FF[2]))$
+output_weak_php_ts_stdname(m,n) := output_weak_php_ts(m,n,
+  sconcat("PHP_weak_ts_",m,"_",n,".cnf"))$
    \endverbatim
    </li>
-   <li> MG should present experimental data on this; and also documentation
-   for the above code is needed (what is the point of "rename_var" ---
-   we should always use the original variables, and avoid renaming and thus
-   what is needed is a generalisation of dualts_fcl!). </li>
+   <li> MG should present experimental data on this; for this (of course!)
+   the above code has to become "official" (with tests and documentation).
+   </li>
   </ul>
 
 */
