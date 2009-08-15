@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,7 @@ License, or any later version. */
   \file Solvers/OKsolver/plans/OKsolver_2_0.hpp
   \brief Plans for the module for the new OKsolver
 
-  Possibly called "OKsolver2009".
+  Possibly called "OKsolver2010".
 
 
   \todo Once we are ready to start, a new sub-module is needed.
@@ -41,7 +41,8 @@ License, or any later version. */
   <ol>
    <li> the original clause-set </li>
    <li> the active clause-set for compressed r_2-learning (see
-   module Learning, Satisfiability/Algorithms/Learning/plans/general.hpp). </li>
+   module Learning, Satisfiability/Algorithms/Learning/plans/general.hpp).
+   </li>
    <li> the active clause-set for equivalence reasoning (see
    module Equivalences). </li>
   </ol>
@@ -59,7 +60,7 @@ License, or any later version. */
    <li> The active clause-set for 2-clauses handles r_2 (and strengthening),
    and extracts equivalences (passed to the active clause-set for equivalence
    reasoning). </li>
-   <li> The active clause-set for 3-clauses  combines all clauses with the
+   <li> The active clause-set for 3-clauses combines all clauses with the
    same variable-set, and extracts 2-clauses and equivalences. </li>
   </ul>
 
@@ -68,15 +69,16 @@ License, or any later version. */
   <ul>
    <li> An interesting option is to compress learned clauses further (using
    for example r_3); see module Learning
-   (Satisfiability/Algorithms/Learning/plans/general.hpp): "After-burner". </li>
+   (Satisfiability/Algorithms/Learning/plans/general.hpp): "After-burner".
+   </li>
    <li> A related question is about "Re-working the tree" (see there).
     <ol>
      <li> According to the general guideline of avoiding "pure heuristics", we
      should always rework the tree. </li>
      <li> However, similar to the experience with r_2 and OKsolver2002, where
-     completing a round of reduction was found to be more efficient then immediate
-     restart of the reduction process, it is quite conceivable that the solver
-     starts "stammering" due to all this clean-up. </li>
+     completing a round of reduction was found to be more efficient then
+     immediate restart of the reduction process, it is quite conceivable that
+     the solver starts "stammering" due to all this clean-up. </li>
     </ol>
    </li>
    <li> As discussed in OK's article [Present and future of practical SAT
@@ -116,7 +118,8 @@ License, or any later version. */
    subsequent replacement of not a by b (or not b by a --- just go for the
    smaller substitution effort). </li>
    <li> Since "equivalence reasoning" is "equality reasoning", in general we
-   obtain equalities between literals, which are "performed" by substitution. </li>
+   obtain equalities between literals, which are "performed" by substitution.
+   </li>
    <li> For (clause) learning purposes these substitution can be ignored, while
    for the reconstruction of satisfying assignments bookkeeping is necessary
    (as well as for determining the set of variables used in the resolution
@@ -134,26 +137,27 @@ License, or any later version. */
    assignment "destructively" (irreversible). </li>
    <li> Potentially the memory savings (if returned to the pool) are
    considerable. </li>
-   <li> This brings up the question of memory management: The Boost Pool library
-   must be investigated. </li>
+   <li> This brings up the question of memory management: The Boost Pool
+   library must be investigated. </li>
   </ul>
 
 
   \todo Autarky search
   <ul>
-   <li> Autarky search (see module Autarkies/Search) is integrated with global learning
-   via the fundamental duality between resolution and autarkies: The global
-   learning component manages the set of variables used in the current resolution
-   tree fragment (for this node(!)), and at every node of the search tree after
-   reduction this set of variables is crossed out (from the current clause-set, and
-   removing the empty clause) and a local search solver is employed on the resulting
-   clause-set (searching for a satisfying assignment --- these are autarkies for the
-   current clause-set). </li>
-   <li> Autarky search is like learning (global or local) the responsibility of the
-   overall algorithm (managing the alliance of active clause-sets), and all members
-   of the alliance are taken into account (this emphasis the requirement, that the
-   members are active *clause-sets*, "faking" to be clause-sets via returning
-   appropriate statistics). </li>
+   <li> Autarky search (see module Autarkies/Search) is integrated with global
+   learning via the fundamental duality between resolution and autarkies: The
+   global learning component manages the set of variables used in the current
+   resolution tree fragment (for this node(!)), and at every node of the
+   search tree after reduction this set of variables is crossed out
+   (from the current clause-set, and removing the empty clause) and a local
+   search solver is employed on the resulting clause-set (searching for a
+   satisfying assignment --- these are autarkies for the current clause-set).
+   </li>
+   <li> Autarky search is like learning (global or local) the responsibility
+   of the overall algorithm (managing the alliance of active clause-sets), and
+   all members of the alliance are taken into account (this emphasis the
+   requirement, that the members are active *clause-sets*, "faking" to be
+   clause-sets via returning appropriate statistics). </li>
    <li> Likely, autarky search should ignore learned clauses (when applying the
    autarky, learned clauses might get shortened). </li>
   </ul>
@@ -161,9 +165,10 @@ License, or any later version. */
 
   \todo Incomplete methods
   <ul>
-   <li> So at each node a satisfiability problem is attacked by incomplete methods:
-   Mainly local search, but one could also use additional measures (like reductions),
-   which are especially appropriate once variables are being crossed out. </li>
+   <li> So at each node a satisfiability problem is attacked by incomplete
+   methods: Mainly local search, but one could also use additional measures
+   (like reductions), which are especially appropriate once variables are
+   being crossed out. </li>
   </ul>
 
 
@@ -178,10 +183,10 @@ License, or any later version. */
      out). </li>
     </ol>
     After returning from the second branch (now the sub-formula has found to
-    be unsatisfiable, and all the variables used by the resolution refutation are
-    crossed out) it doesn't make sense anymore to search for an autarky (since we
-    solved the sub-problem, and it seems from finding an autarky we don't gain
-    anything for the remaining problems).
+    be unsatisfiable, and all the variables used by the resolution refutation
+    are crossed out) it doesn't make sense anymore to search for an autarky
+    (since we solved the sub-problem, and it seems from finding an autarky we
+    don't gain anything for the remaining problems).
    </li>
   </ul>
 
@@ -196,10 +201,12 @@ License, or any later version. */
    the input. </li>
    <li> Marijn Heule had a trick here?
     <ol>
-     <li> Perhaps one marks the new clauses with the creation levels --- then one
-     can go up until before the first level where new clauses are left. </li>
-     <li> Marijn used these levels for his locality principle (the new branching
-     variable must shorten at least one clause from the previous level). </li>
+     <li> Perhaps one marks the new clauses with the creation levels --- then
+     one can go up until before the first level where new clauses are left.
+     </li>
+     <li> Marijn used these levels for his locality principle (the new
+     branching variable must shorten at least one clause from the previous
+     level). </li>
     </ol>
    </li>
   </ul>
@@ -207,10 +214,10 @@ License, or any later version. */
 
   \todo More autarky search
   <ul>
-   <li> Even if the local search algorithm only searches for a satisfying assignment,
-   perhaps it's still worth trying in case no satisfying assignment was found if the
-   assignment nevertheless contained an autarky (see
-   Autarkies/Search/plans/AnalyseTotalAssignment.hpp). </li>
+   <li> Even if the local search algorithm only searches for a satisfying
+   assignment, perhaps it's still worth trying in case no satisfying
+   assignment was found if the assignment nevertheless contained an autarky
+   (see Autarkies/Search/plans/AnalyseTotalAssignment.hpp). </li>
   </ul>
 
 
@@ -231,29 +238,31 @@ License, or any later version. */
    <li> Choosing the first branch perhaps is still done like in the old
    OKsolver, seeking for a satisfying assignment. (The alternative is to seek
    for "good resolutions" ?) </li>
-   <li> Here likely a lot of experimentation is needed (starting with the heuristics
-   from the old OKsolver). </li>
-   <li> But basically we follow the old OKsolver, performing a full look-ahead, and
-   choosing the best-looking future situation; likely this look-ahead should only
-   involve unit-propagations --- it would be nice to do something stronger, but
-   where to stop? </li>
-   <li> The components should allow to do stronger things in the look-ahead, so that
-   we can experiment. </li>
+   <li> Here likely a lot of experimentation is needed (starting with the
+   heuristics from the old OKsolver). </li>
+   <li> But basically we follow the old OKsolver, performing a full
+   look-ahead, and choosing the best-looking future situation; likely this
+   look-ahead should only involve unit-propagations --- it would be nice to do
+   something stronger, but where to stop? </li>
+   <li> The components should allow to do stronger things in the look-ahead,
+   so that we can experiment. </li>
    <li> The simplest (and quite good) criterion for the "best-looking future
-   situation" is the weighted number of new clauses (as in OKsolver); an interesting
-   question here is whether new (that is, shortened) clauses from learned clauses
-   should have a higher weight than new clauses from old clauses?! </li>
+   situation" is the weighted number of new clauses (as in OKsolver); an
+   interesting question here is whether new (that is, shortened) clauses from
+   learned clauses should have a higher weight than new clauses from old
+   clauses?! </li>
    <li> The new theory, based on my (OK's) SAT-Handbook article and handled in
    module Satisfiability/Heuristics, should be applied! See module
    Satisfiability/Heuristics/StatisticalAnalysis. </li>
-   <li> In analogy to the activity-based heuristics for conflict-driven solvers,
-   we can consider such quantities for variable v, where we have now richer
-   possibilities:
+   <li> In analogy to the activity-based heuristics for conflict-driven
+   solvers, we can consider such quantities for variable v, where we have now
+   richer possibilities:
     <ol>
      <li> The number of learned clauses containing v; since we go "far back",
      it might be appropriate here to consider v's involvement in the whole
      resolution process leading to the learned clause in the end. </li>
-     <li> The number of unit clauses with variable v found during reduction. </li>
+     <li> The number of unit clauses with variable v found during reduction.
+     </li>
      <li> The number of failed literals with variable v. </li>
     </ol>
    The intuition is that if we can branch on a variable which was "recently"
@@ -298,32 +307,34 @@ License, or any later version. */
 
   \todo Local search
   <ul>
-   <li> Another main problem is the choice of the local search algorithm and the
-   settings of its parameters:
+   <li> Another main problem is the choice of the local search algorithm and
+   the settings of its parameters:
     <ol>
      <li> Are some algorithms more suitable than others ?! </li>
      <li> How to integrate the data structures ?! </li>
      <li> How to choose the parameters for the local search ?! </li>
      <li> A canonical first choice for the number of random assignments is 1;
      the number of rounds then needs to fiddled. </li>
-     <li> However a canonical choice here would be to run the local search until
-     it reaches its first local optimum. Only doing this would likely simplify the
-     data structures. </li>
+     <li> However a canonical choice here would be to run the local search
+     until it reaches its first local optimum. Only doing this would likely
+     simplify the data structures. </li>
      <li> Makes sense to me: In this way we take from the local search only
      "the best part". </li>
-     <li> Furthermore we only search for a local move until we find an improvement;
-     in this way we need only to search through the whole space of local moves in
-     the last step (where no further improvement is possible). </li>
+     <li> Furthermore we only search for a local move until we find an
+     improvement; in this way we need only to search through the whole space
+     of local moves in the last step (where no further improvement is
+     possible). </li>
      <li> We also require a positive improvement, avoiding
      in this way any kind of book keeping about repeated moves. </li>
     </ol>
    </li>
-   <li> So everything boils down here to the choice of possible moves, to the choice
-   of the optimisation function, and to the choice of the data structures. </li>
+   <li> So everything boils down here to the choice of possible moves, to the
+   choice of the optimisation function, and to the choice of the data
+   structures. </li>
    <li> And possibly there is the question about the random assignment: Every
    variable 1/2 ? </li>
-   <li> Or something else? Or some weights?? Yet I don't see something here, so we
-   just use the plain form of random assignments. </li>
+   <li> Or something else? Or some weights?? Yet I don't see something here,
+   so we just use the plain form of random assignments. </li>
   </ul>
 
 
@@ -333,82 +344,92 @@ License, or any later version. */
    everything worthwhile learning and building a new initial problem
    (an alliance of active clause-sets) with which we start again:
    We should only restart if at least one clause has been learnt; then the
-   partial assignment is emptied (backtracking to level zero), initial reductions
-   are applied if possible,and we start again --- some members of the alliance will
-   have been strengthened. </li>
+   partial assignment is emptied (backtracking to level zero), initial
+   reductions are applied if possible,and we start again --- some members of
+   the alliance will have been strengthened. </li>
    <li> Progress measurements are important: Every search component
-   must somehow estimates its progress, so that a global statistic is possible. </li>
+   must somehow estimates its progress, so that a global statistic is
+   possible. </li>
    <li> Also from restart to restart a memory must be kept, so that one can see
    whether there is overall progress (or not). </li>
    <li> The most fundamental statistics here seems to be the proportion
-   of the search space already covered; see Statistics/TimeSeriesAnalysis.hpp. </li>
-   <li> With this measure we should be able to get some evaluation of the overall
-   progress and restart if progress is too meager (compared to some envisaged running
-   time). </li>
+   of the search space already covered; see Statistics/TimeSeriesAnalysis.hpp.
+   </li>
+   <li> With this measure we should be able to get some evaluation of the
+   overall progress and restart if progress is too meager (compared to some
+   envisaged running time). </li>
   </ul>
 
 
   \todo Time-prediction
   <ul>
-   <li> Likely for OKsolver_2_0 the simplest prediction strategy should be used (as
-   outlined in Statistics/TimeSeriesAnalysis.hpp), which just takes progress as
-   constant over time. </li>
+   <li> Likely for OKsolver_2_0 the simplest prediction strategy should be
+   used (as outlined in Statistics/TimeSeriesAnalysis.hpp), which just takes
+   progress as constant over time. </li>
    <li> This leaves open the question about the restart policy. </li>
    <li> Most basic seems the following possibility: Given the total available
    time T, the number k of restart decisions, and the threshold alpha, for
    i = 1, ..., k at time T * i/(k+1) the prediction is computed, and if this
-   is more than alpha * T (for some alpha >= 1), and something has been learned,
-   then we restart. </li>
-   <li> One could make alpha varying over time, starting with alpha = 3 for example,
-   and then letting it go to 1, reflecting that over time the precision
-   of the measurements increase, while the matter becomes more urgent. </li>
-   <li> There must also be a threshold for what constitutes a substantial enough
-   amount of learning so that a restart seems reasonable (to avoid stammering). </li>
-   <li> Of course, one could use randomisation, but yet I don't see a sensible way
-   to do so, and so perhaps we leave it out (or leave it for OKsolver_3_0). </li>
+   is more than alpha * T (for some alpha >= 1), and something has been
+   learned, then we restart. </li>
+   <li> One could make alpha varying over time, starting with alpha = 3 for
+   example, and then letting it go to 1, reflecting that over time the
+   precision of the measurements increase, while the matter becomes more
+   urgent. </li>
+   <li> There must also be a threshold for what constitutes a substantial
+   enough amount of learning so that a restart seems reasonable (to avoid
+   stammering). </li>
+   <li> Of course, one could use randomisation, but yet I don't see a sensible
+   way to do so, and so perhaps we leave it out (or leave it for
+   OKsolver_3_0). </li>
   </ul>
 
 
-  \todo If restarts don't yield clear benefits, then they are not incorporated into
-  OKsolver_2_0, but the whole issue is thoroughly treated with OKsolver_3_0.
+  \todo If restarts don't yield clear benefits, then they are not incorporated
+  into OKsolver_2_0, but the whole issue is thoroughly treated with
+  OKsolver_3_0.
 
 
   \todo Monitoring the search process
   <ul>
-   <li> The above resource management strategies use prediction; another possibility
-   are the monitoring schemes similar to those investigated by Heule and van Maaren:
+   <li> The above resource management strategies use prediction; another
+   possibility are the monitoring schemes similar to those investigated by
+   Heule and van Maaren:
     <ol>
      <li> Considering some observation level d in the search tree and a given
-     total time R, the time per observation node is R / 2^d. If the time is out,
-     then the search is interrupted, and search jumps to next node on the observation
-     level, mainly in the hope to find a satisfying assignment there, but also good
-     learned clauses could be obtained there. </li>
-     <li> Actually, the scheme of Heule and van Maaren is simpler, since it always
-     completes the computation for the branches encountered at level d. See below
-     for furthe discussions. </li>
+     total time R, the time per observation node is R / 2^d. If the time is
+     out, then the search is interrupted, and search jumps to next node on the
+     observation level, mainly in the hope to find a satisfying assignment
+     there, but also good learned clauses could be obtained there. </li>
+     <li> Actually, the scheme of Heule and van Maaren is simpler, since it
+     always completes the computation for the branches encountered at level d.
+     See below for furthe discussions. </li>
     </ol>
    </li>
    <li> Since mainly we hope for the satisfying assignment,
-   and we assume that the first branch in general is better than the second branch,
-   and furthermore we assume that deeper down the tree the prediction of the
-   first branch becomes better, the rules for determining the next search node
-   are just 1) left before right 2) assume the "error" as far up as possible. </li>
-   <li> The old search nodes can be stored via their partial assignments (possibly
-   only the decision variables). If we tried all nodes at the monitoring level, and
-   time remains, then for the remaining nodes we compute the time available, and
-   repeat the procedure. </li>
+   and we assume that the first branch in general is better than the second
+   branch, and furthermore we assume that deeper down the tree the prediction
+   of the first branch becomes better, the rules for determining the next
+   search node are just 1) left before right 2) assume the "error" as far up
+   as possible. </li>
+   <li> The old search nodes can be stored via their partial assignments
+   (possibly only the decision variables). If we tried all nodes at the
+   monitoring level, and time remains, then for the remaining nodes we compute
+   the time available, and repeat the procedure. </li>
    <li> An option here is of course to use parallelisation (could be wasteful,
    if for example the first branch is really better than the second one). </li>
-   <li> One could also use processes/threads just to implement the jumping (in case
-   of learning all these processes/threads need to send the learned clauses to a
-   central control. </li>
+   <li> One could also use processes/threads just to implement the jumping (in
+   case of learning all these processes/threads need to send the learned
+   clauses to a central control. </li>
    <li> Actually, a better point of view seems to me to introduce an element
    of breadth-first search at the beginning:
     <ol>
      <li> The first goal is to determine the "frontier", a complete search tree
-     where all nodes are reduced, and except of the leaves all splitting
-     are complete; also all global learning and tree pruning has been performed. </li>
-     <li> One hope is that within this frontier the problem was already decided. </li>
+     where all nodes are reduced, and except of the leaves all splitting are
+     complete; also all global learning and tree pruning has been performed.
+     </li>
+     <li> One hope is that within this frontier the problem was already
+     decided. </li>
      <li> If this is not the case, then the leaves (all other nodes have been
      processed) are sorted with descending approximated probabilities of being
      satisfiable, and processed in this order. </li>
@@ -440,10 +461,11 @@ License, or any later version. */
 
   \todo Parameter settings
   <ul>
-   <li> All the parameter settings depend on the input distribution, and so we should
-   learn good parameter values by evaluating the SAT 2007 competition. </li>
-   <li> The conceptually simplest way to achieve this is to optimise the score the
-   solver would have achieved in the SAT 2007 competition. </li>
+   <li> All the parameter settings depend on the input distribution, and so we
+   should learn good parameter values by evaluating the SAT 2007 competition.
+   </li>
+   <li> The conceptually simplest way to achieve this is to optimise the score
+   the solver would have achieved in the SAT 2007 competition. </li>
    <li> Since this needs running the solver on the whole
    competition many times, we need decent computational resources. </li>
   </ul>
