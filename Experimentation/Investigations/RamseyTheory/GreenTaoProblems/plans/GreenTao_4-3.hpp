@@ -165,7 +165,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3) >= 377
+  \todo Lower bounds: greentao_4(3) > 377
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -395,6 +395,13 @@ BestSolution_Max = 4.000000
 68
      \endverbatim
      </li>
+     <li> Finally one solution was found (cutoff=4*10^9):
+     \verbatim
+ 0  1  2
+ 1 34 79
+114
+     \endverbatim
+     with osteps=878382160 and seed=296462353. </li>
     </ol>
    </li>
    <li> n=378
@@ -413,6 +420,7 @@ BestSolution_Max = 4.000000
      outlined in
      ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp
      we first investigate n=376. </li>
+     <li> New run with cutoff=4*10^9: </li>
     </ol>
    </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
@@ -520,9 +528,14 @@ c sat_status=2 initial_maximal_clause_length=4 initial_number_of_variables=1508 
    completed). </li>
    <li> With symmetry breaking and with preprocessing:
    \verbatim
-
+> OKsolver_2002-m2pp -M -D30 -F GreenTao_sb_4-3_377.cnf
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=9 initial_number_of_variables=1125 initial_number_of_clauses=27417 initial_number_of_literal_occurrences=120344 running_time(s)=419516.6 number_of_nodes=10894679 number_of_single_nodes=4 number_of_quasi_single_nodes=0 number_of_2-reductions=138939484 number_of_pure_literals=0 number_of_autarkies=20 number_of_missed_single_nodes=508 max_tree_depth=84 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=278 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1213 file_name=GreenTao_sb_4-3_377.cnf_m2pp_16337
    \endverbatim
-   </li>
+   without reaching any node at level 30; as with greentao_3(3), it looks much
+   better when preprocessing and symmetry breaking are combined, which is
+   strange. Also strange that suddenly there are nearly no single-nodes
+   anymore? </li>
    <li> The above "symmetry breaking" is "simple symmetry breaking", which
    should be the right form since we have k=3 here throughout. </li>
   </ul>
