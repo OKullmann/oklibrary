@@ -87,6 +87,7 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
      which should be the right form since we have k=3 here throughout. </li>
     </ol>
    </li>
+   <li> We should also run OKsolver_2002 without tree-pruning! </li>
   </ul>
 
 
@@ -118,13 +119,21 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
 
      </li>
      <li> Without symmetry breaking and with preprocessing:
-
-     </li>
+     After 14 hours (csltok) no result; strange that symmetry breaking has
+     such an effect?! </li>
      <li> With symmetry breaking and without preprocessing:
 
      </li>
      <li> With symmetry breaking and with preprocessing:
-
+     \verbatim
+NB_MONO= 20243, NB_UNIT= 70999817, NB_BRANCHE= 3163421, NB_BACK= 1594481
+Program terminated in 0.116 seconds.
+satz215 GreenTao_sb_3-3_137.cnf_m2pp_18306 0.116 3163421 1594481 404432467 18289941 0 411 3127 0 49387462 9601974
+     \endverbatim
+     Unclear how much time was spent (satz215 only uses standard C
+     time-measurement), but perhaps 18m (on csltok). So it's
+     slower than OKsolver_2002, and it takes more nodes, but still reasonable.
+     Apparently the double look-ahead can achieve something. </li>
      </li>
     </ol>
    </li>
