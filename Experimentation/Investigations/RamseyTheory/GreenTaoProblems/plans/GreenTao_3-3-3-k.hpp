@@ -319,7 +319,7 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
 17
      \endverbatim
      </li>
-     <li> Now with cutoff=4*10^9: </li>
+     <li> Now with cutoff=4*10^9: 25 runs yield 4 times min=1. </li>
     </ol>
    </li>
   </ul>
