@@ -119,8 +119,13 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
 
      </li>
      <li> Without symmetry breaking and with preprocessing:
-     After 14 hours (csltok) no result; strange that symmetry breaking has
-     such an effect?! </li>
+     \verbatim
+NB_MONO= 1035059, NB_UNIT= -1785284987, NB_BRANCHE= 315959129, NB_BACK= 161499026
+Program terminated in 5.792 seconds.
+satz215 GreenTao_3-3-3-3_137.cnf_m2pp_18554 5.792 315959129 161499026 1880335698 722573320 0 411 3202 0 519236838 94536004
+     \endverbatim
+     perhaps 18h (csltok); strange that symmetry breaking has
+     such an effect (a factor of 100 regarding the tree size)?! </li>
      <li> With symmetry breaking and without preprocessing:
 
      </li>
