@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.1.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,8 @@ License, or any later version. */
      ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp need to be
      developed. </li>
      <li> And then also implement them in C++. </li>
-     <li> Now it should have become clear what to do with the ideas below. </li>
+     <li> Now it should have become clear what to do with the ideas below.
+     </li>
     </ol>
    </li>
   </ul>
@@ -49,12 +50,26 @@ License, or any later version. */
    semantical trees into resolution trees: At the leaves we have the clauses
    causing the conflicts, and at the inner nodes, representing branchings
    (explicit and implicit ones) we do resolution. </li>
-   <li> For the OKsolver this was implemented taking only the variables into
-   account, no storing of clauses, and only along the current path ---
+   <li> For the OKsolver2002 this was implemented taking only the variables
+   into account, no storing of clauses, and only along the current path ---
    with this a surprisingly efficient implementation of "intelligent
    backtracking" was obtained. </li>
    <li> Otherwise learning the (uncompressed) clauses seems to be a bad choice.
    </li>
+   <li> Actually, for OKsolver2002 to learn the r_2-compressed decision clause
+   (containing exactly the decision variables which caused the conflict) is
+   very easy: Just use the current partial assignment, consider only the
+   decision variables and from them only those which are mentioned in the
+   variable set used for tree-pruning! </li>
+   <li> OKsolver2002 does not remove the resolution-variable from the set
+   of variables used for tree pruning, since these variables can never
+   be used for tree pruning (due to regularity of the tree). Still we
+   don't need to remove them, since to determine the learned clause one
+   needs only to consider the variables in the partial assignment
+   corresponding to the path *leading* to the current node. And for the
+   use of this variable set in autarky search (via duality) this is also
+   appropriate (since it is the set of all variables involved in the
+   resolution refutatiion). </li>
   </ul>
 
 
@@ -74,8 +89,8 @@ License, or any later version. */
    <li> For unit-clause-elimination this is done as follows:
     <ol>
      <li> If {x} is the unit clause, and y_1, ...,y_k are the other literals
-     in the original clause, then var(x) points back to var(y_1), ..., var(y_k).
-     </li>
+     in the original clause, then var(x) points back to
+     var(y_1), ..., var(y_k). </li>
      <li> Given a conflict clause C, we determine all sinks v_1, ..., v_m
      reachable from var(x) for x in C, and learn the clause
        C' := { x in C : var(x) in {v_1, ..., v_m} }. </li>
@@ -94,8 +109,8 @@ License, or any later version. */
    <li> If for example the main reduction is r_2, and the obtained (compressed)
    conflict-clause is {x_1, ..., x_k} (literals in the order in which the occur
    on the main path), then we can apply r_3 to the branching formula at x_1
-   (which does not need to consider in the first round variables involved on the
-   path before x_k) and continue, strengthening the current path, and
+   (which does not need to consider in the first round variables involved on
+   the path before x_k) and continue, strengthening the current path, and
    potentially turning decision variables into derived variables. </li>
    <li> In this way the learned clause can be further compressed, and we have
    a reasonable scheme to apply r_3. </li>
@@ -116,8 +131,8 @@ License, or any later version. */
    re-running reductions for r_k (if we use r_k, then adding a single
    conflict-clause seems to need r_{k+1} for the finally inferred assignment,
    and r_{k+2} for the other directions enabled by the added clause). </li>
-   <li> The cleanest possibility is to always rework the tree, and (at least for
-   experimental purposes) we should support this fully. </li>
+   <li> The cleanest possibility is to always rework the tree, and (at least
+   for experimental purposes) we should support this fully. </li>
   </ul>
 
 
