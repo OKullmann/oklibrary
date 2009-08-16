@@ -392,7 +392,8 @@ Satz> cp ../../../sources/SAT/Satz/my_compact.c .
 Satz> gcc -O3 -o compact my_compact.c
    \endverbatim
    </li>
-   <li> Satz 214 and 215
+   <li> DONE
+   Satz 214 and 215
     <ol>
      <li> Installation:
      \verbatim
@@ -402,10 +403,7 @@ Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
 Satz> gcc -O3 -o satz215 satz215.2.c
      \endverbatim
      </li>
-     <li> "NB_BRANCHE" should mean the number of branches, that is,
-     the number of nodes - 1; but what then is NB_BACK? It is always
-     a bit more than half of NB_BRANCHE. </li>
-     <li> satz215 creates the file "timetable": Perhaps we should give
+     <li> DONE satz215 creates the file "timetable": Perhaps we should give
      it a better name. </li>
      <li> DONE (see "Updating the exit codes for Satz215" in
      Satisfiability/Solvers/Satz/plans/general.hpp)
