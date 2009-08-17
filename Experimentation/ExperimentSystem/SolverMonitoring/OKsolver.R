@@ -8,13 +8,13 @@
 # Reading monitoring-data produced by OKsolver_2002:
 read_oksolver_mon = function(filename, ...) {
   E = read.table(file = filename, header=T,
-        colClasses = c("integer", "integer", "numeric", "numeric", "numeric"),
+        colClasses = c("integer", "integer", "numeric", "numeric", "numeric", "integer", "integer", "integer", "numeric"),
         ...)
   cat(length(E$level),"\n")
   E
 }
 # A first line
-#    level  nodes  ave_nodes      time  ave_time
+#    level  nodes ave_nodes      time  ave_time singles autarkies depth ave_reductions
 # is assumed.
 # Remarks:
 # plot(E) yields a nice graphical overview (all combinations of combined
