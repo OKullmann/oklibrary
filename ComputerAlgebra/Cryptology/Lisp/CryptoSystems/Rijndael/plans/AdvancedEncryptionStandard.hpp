@@ -10,8 +10,17 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo Generating randomised AES parameters
+  \todo DONE Generating randomised AES parameters
   <ul>
+   <li> There is no need to generate a random seed. Simply providing the 
+   seed is enough, and randomly generating one gains nothing, and simply
+   makes things more complicated as then this seed must always be recorded. 
+   </li>
+   <li> Otherwise, the same functionality can be had by simply doing:
+   \verbatim
+random_block : map(random, create_list(256,i,1,16))$
+   \endverbatim
+   </li>
    <li> For both testing and experimentation (see
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp), 
    we need some way of generating random plaintext, key and ciphertext blocks. 
