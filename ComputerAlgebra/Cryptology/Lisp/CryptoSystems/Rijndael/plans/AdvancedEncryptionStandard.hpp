@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Truncate AES for reduced rounds
+  <ul>
+   <li> See "Truncate AES for reduced rounds" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   . </li>
+  </ul>
+
+
   \todo DONE Generating randomised AES parameters
   <ul>
    <li> There is no need to generate a random seed. Simply providing the 
