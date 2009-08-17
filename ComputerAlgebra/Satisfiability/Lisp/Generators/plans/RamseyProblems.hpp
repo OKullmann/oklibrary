@@ -10,6 +10,26 @@ License, or any later version. */
   \brief Plans for Maxima-generators for %Ramsey-problems
 
 
+  \todo Extend Ramsey symmetry breaking generators to generate Extended Dimacs
+  <ul>
+   <li> Currently there are no output functions for the %Ramsey symmetry breaking
+   generators, such as "ramsey2_symbr2_cs". </li>
+   <li> Additionally, simply generating Dimacs files for the generated 
+   clause-sets would mean losing information about which variables are which
+   edges, and also presents problems, as the C++ Ramsey generator outputs
+   extended Dimacs. </li>
+   <li> Also, there is currently no way to translate the extended Dimacs file 
+   output by the C++ generator to a Dimacs file using the correct 
+   colexicographical variable ordering/naming. </li>
+   <li> Therefore, output functions are needed for each of the symmetry breaking
+   techniques which output in the same extended Dimacs format used in the C++
+   generator. </li>
+   <li> This should be possible by extending the functionality of output_fcs, by
+   redefining dimacs_l_string (see 
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac). </li>
+  </ul>
+
+
   \todo Relations to other modules
   <ul>
    <li> Compare "Ramsey graphs" in
