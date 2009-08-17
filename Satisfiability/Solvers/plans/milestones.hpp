@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/plans/milestones.hpp
 
-  \module_version Satisfiability/Solvers 0.2.2 (23.9.2007)
+  \module_version Satisfiability/Solvers 0.2.2.1 (17.8.2009)
 
 
   \par Version 0.2.3
@@ -16,8 +16,12 @@ License, or any later version. */
   \par OKsolver version 0.5.3
   (see Satisfiability/Solvers/OKsolver/plans/milestones.hpp)
 
+  \par Satz version 1.0
+  (see Satisfiability/Solvers/Satz/plans/milestones.hpp)
+
   \par
-   In Satisfiability/Solvers/plans/general.hpp the following topics are handled:
+   In Satisfiability/Solvers/plans/general.hpp the following topics
+   are handled:
     - External solvers
     - Update namespaces : DONE
 
@@ -25,11 +29,13 @@ License, or any later version. */
   \par Version 0.2.4
 
   \par
-   In Satisfiability/Solvers/plans/general.hpp the following topics are handled:
+   In Satisfiability/Solvers/plans/general.hpp the following topics
+   are handled:
     - Special solvers
 
   \par
-   In Satisfiability/Solvers/Backtracking/plans/general.hpp the following topics are handled:
+   In Satisfiability/Solvers/Backtracking/plans/general.hpp the following
+   topics are handled:
     - Create milestones
     - Trivial DLL-solver "DLL-Implementations"
 
