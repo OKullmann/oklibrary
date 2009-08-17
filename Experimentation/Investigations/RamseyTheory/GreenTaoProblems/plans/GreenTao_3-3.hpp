@@ -120,6 +120,7 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
      </li>
      <li> Without symmetry breaking and with preprocessing:
      \verbatim
+> satz215-m2pp GreenTao_3-3-3-3_137.cnf
 NB_MONO= 1035059, NB_UNIT= -1785284987, NB_BRANCHE= 315959129, NB_BACK= 161499026
 Program terminated in 5.792 seconds.
 satz215 GreenTao_3-3-3-3_137.cnf_m2pp_18554 5.792 315959129 161499026 1880335698 722573320 0 411 3202 0 519236838 94536004
@@ -127,8 +128,14 @@ satz215 GreenTao_3-3-3-3_137.cnf_m2pp_18554 5.792 315959129 161499026 1880335698
      perhaps 18h (csltok); strange that symmetry breaking has
      such an effect (a factor of 100 regarding the tree size)?! </li>
      <li> With symmetry breaking and without preprocessing:
-
-     </li>
+     \verbatim
+> satz215 GreenTao_sb_3-3_137.cnf
+NB_MONO= 0, NB_UNIT= 761352811, NB_BRANCHE= 23477136, NB_BACK= 12034648
+Program terminated in 0.231 seconds.
+satz215 GreenTao_sb_3-3_137.cnf 0.231 23477136 12034648 745507284 61984415 0 411 3616 -80 26757608 9227479
+     \endverbatim
+     So symmetry breaking alone is substantially more efficient here than
+     preprocessing. </li>
      <li> With symmetry breaking and with preprocessing:
      \verbatim
 NB_MONO= 20243, NB_UNIT= 70999817, NB_BRANCHE= 3163421, NB_BACK= 1594481
