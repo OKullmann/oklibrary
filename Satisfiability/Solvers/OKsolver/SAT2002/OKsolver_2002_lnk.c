@@ -333,7 +333,7 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
       const double days = fmod(time_, 365);
       const double years = (time_ - days) / 365;
       printf(
-             "%6d:%6ld, %8.2f, %11.2E, %8.2fs, %9.2fs, %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs, %4ld, %4ld, %4d\n",
+             "%6d:%7ld %9.2f %9.2E %8.2fs %8.2fs %5.0fy%4.0fd%3.0fh%3.0fm%3.0fs %5ld %5ld %4d\n",
              count_monitor_nodes,
              new_nodes,
              average_nodes,
