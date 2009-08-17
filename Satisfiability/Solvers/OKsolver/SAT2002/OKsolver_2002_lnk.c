@@ -305,21 +305,20 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   static StatisticsCount old_single_nodes = 0;
   static StatisticsCount old_autarkies = 0;
   static StatisticsCount old_2reductions = 0;
-  static double old_total_time = 0; /* in sec */
+  static clock_t old_total_time = 0; /* in ticks */
   if (count_monitor_nodes > totalbeobachtet) {
     totalbeobachtet = count_monitor_nodes;
 #ifndef SYSTIME
-    Verbrauch = clock() - akkVerbrauch;
+    const clock_t total_time = clock() - akkVerbrauch;
 #else
     times(Zeiger);
-    Verbrauch = SysZeit.tms_utime - akkVerbrauch;
+    const clock_t total_time = SysZeit.tms_utime - akkVerbrauch;
 #endif
     const StatisticsCount new_nodes = Knoten - old_nodes;
     const double average_nodes = (double) Knoten / count_monitor_nodes;
     const double predicted_nodes = Gesamtlast * average_nodes;
-    const double total_time = (double) Verbrauch / EPS; /* in sec */
-    const double new_time = total_time - old_total_time;
-    const double average_time = total_time / count_monitor_nodes;
+    const double new_time = (double) (total_time - old_total_time) / EPS; /* in sec */
+    const double average_time = ((double) total_time / EPS) / count_monitor_nodes;
     {
       const double predicted_remaining_time =
         (Gesamtlast - count_monitor_nodes) * average_time;
