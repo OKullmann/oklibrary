@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 28.1.2008 (Swansea) */
 /* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -431,7 +432,14 @@ okltest_dimacs_l_string(f) := (
   true)$
 
 okltest_dimacs_c_string(f) := (
-  /* XXX */
+  assert(f({}) = ""),
+  assert(f({1}) = "1 "),
+  assert(f({1,2,3,4}) = "1 2 3 4 "),
+  true)$
+
+okltest_dimacs_c_stringext(f) := (
+  assert(okltest_dimacs_c_string(
+      buildq([f:f],lambda([a],f(a,dimacs_l_string))))),
   true)$
 
 okltest_standard_statistics_fcs(f) := (

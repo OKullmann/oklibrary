@@ -260,7 +260,10 @@ restrict_V_cl(F,V) := block([L : literals_v(V)],
 dimacs_l_string(x) := sconcat(x," ")$
 
 /* Output a clause: */
-dimacs_c_string(C) := xreduce(sconcat, map(dimacs_l_string, C))$
+dimacs_c_string(C) := dimacs_c_stringext(C,dimacs_l_string)$
+/* Allows the literal translation to be passed in as function f which
+   takes a literal and returns a string. */
+dimacs_c_stringext(C,f) := xreduce(sconcat, map(f,C), "")$
 
 /* Print a string without line-breaks: */
 print_nlb(s) := block([old_linel : linel],
@@ -268,14 +271,19 @@ print_nlb(s) := block([old_linel : linel],
   print(s),
   linel : old_linel)$
 
+/* Print a formal clause-set in ("extended") Dimacs format where literals
+   are translated to the strings printed using the function f, which takes
+   a literal and returns a string. */
+print_fcsext(comment,FF,f) := block(
+  print_nlb(sconcat("c ", comment)),
+  print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
+  for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_stringext(C,f), "0"))
+)$
+
 /* Print a formal clause-set in ("extended") Dimacs format (printing terms
    directly as strings): */
 /* RENAME: print_fcs */
-print_cs_f(comment,FF) := (
-  print_nlb(sconcat("c ", comment)),
-  print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
-  for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
-)$
+print_cs_f(comment,FF) := print_fcsext(comment,FF,dimacs_l_string)$
 print_fcs(comment,FF) := print_cs_f(comment,FF)$
 /* Remark: The n-parameter in the parameter line is the number of *occurring*
    variables. So this function should not be used for printing of (standard)
@@ -283,7 +291,10 @@ print_fcs(comment,FF) := print_cs_f(comment,FF)$
 */
 
 /* Output formal clause-set FF to file n (using print_fcs): */
-output_fcs(comment,FF,n) := with_stdout(n, print_fcs(comment,FF))$
+output_fcs(comment,FF,n) := output_fcsext(comment,FF,n,dimacs_l_string)$
+/* Takes additionally a function f which takes a literal and returns
+   a string, which is used for literal translation at the basic level. */
+output_fcsext(comment,FF,n,f) := with_stdout(n, print_fcsext(comment,FF,f))$
 
 /* Print a formal clause-set in Dimacs format, together with a map
    which explains the meaning of variables (this is useful for example
