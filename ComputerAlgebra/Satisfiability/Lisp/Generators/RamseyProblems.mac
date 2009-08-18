@@ -161,9 +161,30 @@ ramsey2_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
     )
   ),
   return(lunion(rl)))$
+output_ramsey2_symbr2(n,f) := output_fcsext(
+  sconcat(
+    "Ramsey symmetry breaking through use of monochromatic cliques for ",
+    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
+    cs2fcs(ramsey2_symbr2_cs(n)),
+    f,
+    lambda([l], sconcat(
+        if abs(l) = l then "" else "-",
+        xreduce(
+          lambda([a,b],sconcat(a,"S",b," ")),
+          args(args(abs(l))[1])))))$
+output_ramsey2_symbr2_stdname(n) :=
+  output_ramsey2_symbr2(n, sconcat("Ramsey_SB_MC_",n,".ecnf"))$
 
 ramsey2_symbr2_stdcs(n) := 
   ev(ramsey2_symbr2_cs(n), colv(L) := rank_colex_subsets(L), colv)$
+output_ramsey2_symbr2_std(n,f) := output_fcs(
+  sconcat(
+    "Ramsey symmetry breaking through use of monochromatic cliques for ",
+    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
+    cs2fcs(ramsey2_symbr2_stdcs(n)),
+    f)$
+output_ramsey2_symbr2_std_stdname(n) :=
+  output_ramsey2_symbr2_std(n,sconcat("Ramsey_SB_MC_", n,".cnf"))$
 
 /* Arbitrary r */
 ramsey_symbr2_nbfclud(s,r,n) := block(
