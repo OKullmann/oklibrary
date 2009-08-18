@@ -318,25 +318,17 @@ okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F,
   true)$
 
 okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
-  aes_make_vars : aes_make_vars_int],
+  aes_make_vars : aes_make_vars_int, aes_sbox_cp : nounify(aes_sbox_cp_test)],
+  if oklib_test_level = 0 then return(true),
   iVars : aes_make_vars("K",1,128),
-  oVars : partition_elements(aes_make_vars("KO",1, 11*128),128),
-  F : rewrite_all(apply(f, append(iVars,apply(append,oVars)))),
-  /* Satisfying total assignments */
-  pa : union(aes_hex2pa("00000000000000000000000000000000",iVars),
-          aes_hex2pa("00000000000000000000000000000000",oVars[1]), 
-          aes_hex2pa("62636363626363636263636362636363",oVars[2]),
-          aes_hex2pa("9B9898C9F9FBFBAA9B9898C9F9FBFBAA",oVars[3]),
-          aes_hex2pa("90973450696CCFFAF2F457330B0FAC99",oVars[4]),
-          aes_hex2pa("EE06DA7B876A1581759E42B27E91EE2B",oVars[5]),
-          aes_hex2pa("7F2E2B88F8443E098DDA7CBBF34B9290",oVars[6]),
-          aes_hex2pa("EC614B851425758C99FF09376AB49BA7",oVars[7]),
-          aes_hex2pa("217517873550620BACAF6B3CC61BF09B",oVars[8]),
-          aes_hex2pa("0EF903333BA9613897060A04511DFA9F",oVars[9]),
-          aes_hex2pa("B1D4D8E28A7DB9DA1D7BB3DE4C664941",oVars[10]),
-          aes_hex2pa("B4EF5BCB3E92E21123E951CF6F8F188E",oVars[11])), 
-  assert(ucp_0_cs(apply_pa(pa,F)) = {}),
-  /* UNSAT total assignments */
+  oVars : aes_make_vars("KO",1, 11*128),
+  F : rewrite_all(apply(f, append(iVars,oVars))),
+  assert(member(nounify(aes_sbox_cp_test)(1401,1402,1403,1404,1405,1406,1407,
+        1408,2241,2242,2243,2244,2245,2246,2247,2248),F)),
+  assert(member(nounify(aes_sbox_cp_test)(609,610,611,612,613,614,615,616,1961,
+        1962,1963,1964,1965,1966,1967,1968),F)),
+  assert(member({-511,639},F)),
+  assert(member({-436,564},F)),
   true)$
 /*!
 \endhtmlonly

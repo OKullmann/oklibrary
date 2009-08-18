@@ -103,7 +103,7 @@ aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
   /* Key Expansion */
   rs : adjoin(apply(aes_key_expansion_c,append(kBits, ekBits)),rs),
   ib : pBits,
-  all_ob : aes_make_vars("o",1,(aes_num_rounds+1)*128),
+  all_ob : aes_make_vars("o",1,(aes_num_rounds)*128),
   ob : take_elements(128,all_ob),
   /* Initial Round Key Addition */
   rs : adjoin(apply(aes_add_c,append(ib,take_elements(128,ekBits),ob)),rs),
@@ -274,18 +274,9 @@ aes_key_expansion_cp([bits]) := block(
   rkBits : rest(bits,128),
   fBits : take_elements(128,rkBits),
   /* Split into columns */
-  cols : lreduce(
-    lambda([a,b],map(append,a,
-          partition_elements(partition_elements(b,8), 
-            floor(length(b)/(4*8)) ))
-        ), partition_elements(rest(rkBits,128),128), 
-      partition_elements(partition_elements(fBits,8), 
-        floor(length(fBits)/(4*8)) )
-    ),
-  kMat : partition_elements(partition_elements(kBits,8),
-          floor(length(kBits)/(4*8))),
-  fMat : partition_elements(partition_elements(fBits,8), 
-          floor(length(fBits)/(4*8))),
+  cols :  partition_elements(partition_elements(rkBits,8),4),
+  kMat : partition_elements(partition_elements(kBits,8),4),
+  fMat : partition_elements(partition_elements(fBits,8),4),
   /* Make first round key equal */
   for j : 1 thru n_k do
     for i : 1 thru 4 do
@@ -566,6 +557,7 @@ aes_hex2pa(hexStr, variableList) := block(
           egf_coeffs(rijn_bit_field,a,7)),hex2gf2t8l(hexStr)))
   ))
 )$
+
 
 /*!
 \endhtmlonly
