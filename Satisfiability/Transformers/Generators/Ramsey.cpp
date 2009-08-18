@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2004 (Turin)
-/* Copyright 2004 - 2007 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
 #include <OKlib/Satisfiability/Transformers/Generators/Ramsey.hpp>
 
 int main(const int argc, const char* const argv[]) {
-    if (argc <= 2) {
+    if (argc <= 4) {
     std::cerr << "Four arguments are needed: The size of the two monochromatic subsets, the size of the hyperedges, and the number of vertices.\n";
     return 1;
   }
