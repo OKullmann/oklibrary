@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.4 (13.8.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.5 (18.8.2009)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
