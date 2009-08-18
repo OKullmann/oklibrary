@@ -18,8 +18,8 @@ License, or any later version. */
    for %Ramsey problem instances of the form "ramsey_s^r(q_1,...,q_s) < n?". 
    </li>
    <li> See 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac for how to 
-   handle the translation of the non-boolean nature of the problem when 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac for how
+   to handle the translation of the non-boolean nature of the problem when 
    considering %Ramsey problems with more than 2 labels. </li>
   </ul>
 
@@ -34,20 +34,6 @@ License, or any later version. */
    symmetry breaking techniques etc. </li>
   </ul>
 
-
-  \todo DONE Extend generator to generate non-diagonal %Ramsey instances
-  <ul>
-   <li> This was never an issue. The translation did it anyway. </li>
-   <li> While the current %Ramsey generator (see Ramsey.cpp) allows
-   non-diagonal arguments (q1 and q2) for the problem  "ramsey_2^2(q1,q2) < n?",
-   currently only the first argument is considered (that is, we have 
-   "ramsey_2^2(q,q) < n?". </li>
-   <li> Some %Ramsey numbers such as ramsey_2^2(4,6) have small bounds (35-41) 
-   but are still unknown, making them potentially easy targets for a SAT solver
-   to find new bounds. </li>
-   <li> The generator should be extended to accommodate non-diagonal instances.
-   </li>
-  </ul>
 
 */
 
