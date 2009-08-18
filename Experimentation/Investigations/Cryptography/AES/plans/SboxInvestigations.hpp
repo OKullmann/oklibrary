@@ -10,6 +10,35 @@ License, or any later version. */
   \brief On investigations into the AES Sbox
 
 
+  \todo Understanding prime implicates after any partial assignment
+  <ul>
+   <li> To consider the AES Sbox as an "active clause", we want to first be 
+   able, given a partial assignment, to infer as many forced assignments
+   as possible. This can be done simply with the DNF representation. </li>
+   <li> However, secondly one needs, given a partial assignment, to be able to
+   determine various measures for heuristics. </li>
+   <li> Therefore, investigating several statistics (most notably the number of
+   clauses for a given variable) of the prime implicates of the clause-set, 
+   formed after taking the Sbox and applying each partial assignment, is 
+   necessary to try and discern a pattern. </li>
+   <li> If such patterns can be deduced for particular clause-set measures, then
+   the active clause can use this pattern, given a partial assignment, 
+   to return reasonable values for these measures which can be used for 
+   statistics. </li>
+   <li> A C++ implementation of such a system whereby the set of prime 
+   implicates is taken as input, and each partial assignment along with
+   the relevant statistics is returned is necessary. </li>
+   <li> Such a C++ implementation would need to be able to apply a partial
+   assignment to a clause-set and then compute various statistics on the 
+   result. This would need to be done for every partial assignment. </li>
+   <li> After applying the partial assignment, to gain the prime implicates
+   of the new boolean function, one must simply apply subsumption elimination
+   to the new clause-set (which is just result of applying a partial assignment
+   to the prime implicates of the original function). This can be done using 
+   functionality already in the library (MG: Where?). </li>
+  </ul>
+
+
   \todo Investigating Sbox given 8 bit input
   <ul>
    <li> Given 8 bits input to the Sbox, the output should be immediately 

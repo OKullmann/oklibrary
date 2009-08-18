@@ -15,6 +15,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Truncate AES for reduced rounds
     - Standardise block ordering
     - Fix translation system
     - Representations of the Sbox using additional variables
@@ -29,7 +30,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Randomly choosing "unknown" block bits
+    - Randomly choosing "unknown" block bits: DONE
 
     
   \par Version 0.0.8

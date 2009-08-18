@@ -77,8 +77,8 @@ License, or any later version. */
    and such randomisation much be reproducible (so we must store seeds etc
    and the algorithm must be well-defined). </li>
    <li> See "Generating randomised AES parameters" in 
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp for 
-   random block generation. </li>
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   for random block generation. </li>
    <li> See also "Randomly choosing 'unknown' block bits" in 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp 
    for random choosing of "unknown" block bits. </li>
