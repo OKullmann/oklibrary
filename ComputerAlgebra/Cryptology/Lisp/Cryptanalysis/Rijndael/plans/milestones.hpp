@@ -15,12 +15,12 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Truncate AES for reduced rounds
     - Standardise block ordering
     - Fix translation system
     - Representations of the Sbox using additional variables
     - Organisation
     - Parameterise inclusion of inverse operation in Mixcolumn translation 
+    - Truncate AES for reduced rounds: DONE
 
 
   \par

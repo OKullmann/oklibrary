@@ -16,9 +16,9 @@ License, or any later version. */
  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Truncate AES for reduced rounds
     - Notions and notations
     - Update the following todos
+    - Truncate AES for reduced rounds: DONE
 
 
   \par Version 0.0.11

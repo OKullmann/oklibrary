@@ -117,10 +117,14 @@ aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
     ib : ob
   ),
   /* Final Round */
-  /*ob : rest(all_ob,10*128),*/
+  /* If we have a reduced round variant, truncate rather than generalise */
   ob : cBits,
-  rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
-    rest(ekBits,aes_num_rounds*128)),ob)),rs),
+  if aes_num_rounds : 10 then 
+    rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
+            rest(ekBits,aes_num_rounds*128)),ob)),rs)
+  else
+    rs : adjoin(apply(aes_round_c,append(ib,take_elements(128,
+            rest(ekBits,aes_num_rounds*128)),ob)),rs),
   return(rs)
 )$
 
