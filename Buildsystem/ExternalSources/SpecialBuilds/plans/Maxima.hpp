@@ -47,30 +47,7 @@ Cannot find out entry point for binary file binary-ecl/maxima-package.o.
    <li> To create new Maxima packages, xgettext, available at
    http://www.gnu.org/software/gettext/ , is needed </li>
   </ul>
-
   
-  \todo Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
-  <ul>
-   <li> Request by OK: is this now resolved with Maxima 5.19.0? </li>
-   <li> The issue is that load-command fails (%e.g., "load(descriptive)").
-   </li>
-   <li> The problem occurs if one has a symbolic link on the path during the
-   building of maxima and ecl. </li>
-   <li> MG is communicating with the Maxima mailing list on the issue and
-   hopefully this will be resolved in the next Maxima. </li>
-   <li> For now, the symlink to OKplatform can simply be removed, as it is
-   only a convenience. </li>
-   <li> Additionally, if one wishes to use a symlink on the build path,
-   the "file_search_maxima" variable may be "fixed" at runtime by using an
-   old "hard-coded" version of a particular lisp function for listing the
-   directories (Thanks to Robert Dodier):
-   \verbatim
-:lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
-:lisp (set-pathnames)
-   \endverbatim
-   and then load functionality works fine. </li>
-  </ul>
-
 
   \todo Using other Lisps
   <ul>
@@ -130,6 +107,52 @@ Cannot find out entry point for binary file binary-ecl/maxima-package.o.
      The Maxima system doesn't know about these changes. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo DONE Communicate with Maxima/Ecl to fix load behaviour with symlinks on
+  path 
+  <ul>
+   <li> This is now fixed in Maxima 5.19.0:
+   \verbatim
+> mkdir Test
+> ln -s `pwd`/Test TestSym
+> cd TestSym
+> tar zxvf ecl-9.8.3.tgz
+> cd ecl-9.8.3
+> mkdir install
+> LDFLAGS=-Wl,-rpath=`pwd`/install/lib ./configure --prefix=`pwd`/install/
+> make
+> make install
+> cd ..
+> tar zxvf maxima-5.19.0.tar.gz
+> cd maxima-5.19.0
+> mkdir install
+> LANG=C ./configure --prefix=`pwd`/install --with-ecl=`pwd`/../ecl-9.8.3/install/bin/ecl --enable-ecl && LANG=C make && make check && make install
+> ./install/bin/maxima
+> load(descriptive);
+(%o1) /home/aeternus/Work/OKlibrary/OKlibTestSym/maxima-5.19.0/install/share/m\
+axima/5.19.0/share/contrib/descriptive/descriptive.mac
+   \endverbatim
+   </li>
+   <li> DONE Request by OK: is this now resolved with Maxima 5.19.0? </li>
+   <li> The issue is that load-command fails (%e.g., "load(descriptive)").
+   </li>
+   <li> The problem occurs if one has a symbolic link on the path during the
+   building of maxima and ecl. </li>
+   <li> MG is communicating with the Maxima mailing list on the issue and
+   hopefully this will be resolved in the next Maxima. </li>
+   <li> For now, the symlink to OKplatform can simply be removed, as it is
+   only a convenience. </li>
+   <li> Additionally, if one wishes to use a symlink on the build path,
+   the "file_search_maxima" variable may be "fixed" at runtime by using an
+   old "hard-coded" version of a particular lisp function for listing the
+   directories (Thanks to Robert Dodier):
+   \verbatim
+:lisp (setf (symbol-function 'share-subdirs-list) (symbol-function 'default-share-subdirs-list))
+:lisp (set-pathnames)
+   \endverbatim
+   and then load functionality works fine. </li>
   </ul>
 
 

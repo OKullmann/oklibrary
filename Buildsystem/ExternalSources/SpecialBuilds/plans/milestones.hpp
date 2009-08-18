@@ -80,7 +80,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on path
+    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on 
+      path : DONE
     - Test failures of Maxima 5.19.0 with Ecl 9.8.2 : DONE
     - Install Maxima with Ecl version 9.7.1 : DONE
 
