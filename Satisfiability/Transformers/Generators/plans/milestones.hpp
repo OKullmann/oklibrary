@@ -33,6 +33,14 @@ License, or any later version. */
    following topics are handled:
     - Update
 
+  \par
+   In Satisfiability/Transformers/Generators/plans/Ramsey.hpp the following 
+   topics are handled:
+    - Extend generator to generate non-diagonal %Ramsey instances
+    - Generator should produce standardised variables using colexicographical 
+      ordering
+    - Add generator to generate hypergraph %Ramsey problems
+
 
   \par Version 0.0.9
 

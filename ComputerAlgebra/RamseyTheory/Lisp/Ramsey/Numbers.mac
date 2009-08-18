@@ -40,7 +40,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 /* Returns the current bounds known for the given Ramsey parameter tuple.
    In the case nothing is known, unknown is returned. */
 ramsey(param_tuple) := 
-  if ramseytrivle_a(param_tuple)#[] then 
+  if ramseyr0_a(param_tuple)#[] then
+    apply(ramseyr0,ramseyr0_a(param_tuple))
+  elseif ramseytrivle_a(param_tuple)#[] then 
     apply(ramseytrivle,ramseytrivle_a(param_tuple))
   elseif ramseytriveq_a(param_tuple)#[] then 
     apply(ramseytriveq,ramseytriveq_a(param_tuple))
@@ -69,17 +71,62 @@ ramsey(param_tuple) :=
   else unknown$
 
 /* Checking whether L is a valid Ramsey parameter tuple: */
-ramsey_p(L) := listp(L) and 
-  if length(L) > 1 then
-    integerp(L[1]) and L[1] >= 0 and listp(L[2]) and every_s(integerp,L[2]) and
-    every_s(lambda([a], is(a >= 0)), L[2])
-  else false$
+ramsey_p(L) := 
+  listp(L) and length(L) > 1 and
+  integerp(L[1]) and L[1] >= 0 and 
+  listp(L[2]) and length(L[2]) > 0 and every_s(integerp,L[2]) and
+  every_s(lambda([a], is(a >= 0)), L[2])$
 
+/*
+  There are numerous different "cases" for the known Ramsey number and so the
+  lookup or computation of these number is split into many functions, which are
+  then combined in "ramsey".
+
+  For each case, there are two functions "ramseyXXX_a" and "ramseyXXX" where 
+  XXX is a short abbreviation for the name/concept associated with the case.
+
+  The "ramseyXXX_a" function takes an arbitrary Ramsey parameter tuple and 
+  returns either [], in which case this "case" does not apply to the given 
+  tuple, or it returns a list of arguments for ramseyXXX, in which case it does
+  and ramseyXXX, given these arguments will return the Ramsey number for that
+  tuple.
+
+  These "cases" are split into 4 main groups.
+
+  The "trivial cases" are those which can be computed directly, based on the
+  definition of the Ramsey numbers.
+
+  The "two-colour graph cases" are those which are associated with Ramsey
+  problems with tuples of the form [2,[p,q]], and their associated functions are
+  "ramseyg2_p_a" and "ramseyg2_p", where "ramseyg2_p" takes q as an argument.
+
+  The "two-colour graph cases" are those which are associated with Ramsey
+  problems with tuples of the form [2,[p1,...,pn], and their associated 
+  functions are "ramseyg2_p1_..._p(n-1)_a" and "ramseyg2_p1_..._p(n-1)", where 
+  "ramseyg2_p1_..._p(n-1)" takes "pn" as an argument.
+  
+  The "hypergraph cases" are those which are associated with Ramsey
+  problems with tuples of the form [r,[p1,...,pn], and their associated 
+  functions are "ramseygr_p1_..._p(n-1)_a" and "ramseygr_p1_..._p(n-1)", where 
+  "ramseygr_p1_..._p(n-1)" takes "pn" as an argument.
+
+*/
 
 /* *****************
    * Trivial cases *
    *****************
 */
+
+/* If L[1] = 0 then the set of all 0-subsets of any set is {{}}, 
+   and so as soon as */
+
+/* Given a Ramsey parameter tuple L, returns [0] if L[1] = 0 and 
+   length(L[2]) > 0, otherwise it returns []. */
+ramseyr0_a(L) :=
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
+     L[1] = 0 then [last(L[2])]
+  else []$
+ramseyr0(z) := z$
 
 /* If min(L[2]) < L[1] then the set of all L[1]-subsets of {1,..,min(L)} is 
    empty, and the Ramsey number is simply min(L).  */
@@ -87,9 +134,11 @@ ramsey_p(L) := listp(L) and
 /* Given a Ramsey parameter tuple L, returns a list with the minimum 
    element of L[2] if min(L[2]) < L[1], otherwise it returns []. */
 ramseytrivle_a(L) :=
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif first(L[2]) < L[1] then [first(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
+     integerp(L[1]) and integerp(first(L[2])) and
+     L[1] >= 0 and L[2][1] >= 0 and
+     first(L[2]) < L[1] then [first(L[2])]
+  else []$
 /* Given the minimum element "q" of a Ramsey parameter tuple's L[2], and
    assuming "q < L[2]", return the Ramsey number for this tuple. */
 ramseytrivle(min_qi) := min_qi$
@@ -102,9 +151,11 @@ ramseytrivle(min_qi) := min_qi$
 /* Given a Ramsey parameter tuple L, returns the original L with the minimum
    element of L[2] removed if min(L[2]) = L[1], otherwise it returns []. */
 ramseytriveq_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif first(L[2]) = L[1] then [[L[1],rest(L[2])]] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) > 0 and 
+     integerp(L[1]) and integerp(first(L[2])) and
+     L[1] >= 0 and L[2][1] >= 0 and
+     first(L[2]) = L[1] then [[L[1],rest(L[2])]]
+  else []$
 /* Given a Ramsey parameter tuple L, returns the Ramsey number for this
    tuple. 
    
@@ -119,9 +170,10 @@ ramseytriveq(L) := ramsey(L)$
 /* Given a Ramsey parameter tuple L, returns a list with the first element
    of L[2] if length(L[2]) = 1, otherwise it returns []. */
 ramseytrivk_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif length(L[2]) < 2 then [first(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 1 and 
+     integerp(L[1]) and integerp(first(L[2])) and
+     L[1] >= 0 and L[2][1] >= 0 then [first(L[2])]
+  else []$
 /* Given an element "q" of a Ramsey parameter tuple whose L[2] contains only 
    "q" returns the Ramsey number for this tuple. */
 ramseytrivk(q) := q$
@@ -135,9 +187,10 @@ ramseytrivk(q) := q$
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[3,q]], otherwise returns []. */
 ramseyg2_3_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 3 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 3 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[3,q]].*/
 ramseyg2_3(q) := 
@@ -150,9 +203,10 @@ ramseyg2_3(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[4,q]], otherwise returns []. */
 ramseyg2_4_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 4 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 4 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[4,q]].*/
 ramseyg2_4(q) := 
@@ -166,9 +220,10 @@ ramseyg2_4(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[5,q]], otherwise returns []. */
 ramseyg2_5_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 5 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 5 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[5,q]].*/
 ramseyg2_5(q) := 
@@ -181,9 +236,10 @@ ramseyg2_5(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[6,q]], otherwise returns []. */
 ramseyg2_6_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 6 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 6 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[6,q]].*/
 ramseyg2_6(q) := 
@@ -196,9 +252,10 @@ ramseyg2_6(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[7,q]], otherwise returns []. */
 ramseyg2_7_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 7 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 7 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[7,q]].*/
 ramseyg2_7(q) := 
@@ -212,9 +269,10 @@ ramseyg2_7(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[8,q]], otherwise returns []. */
 ramseyg2_8_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 8 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 8 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[8,q]].*/
 ramseyg2_8(q) := 
@@ -228,9 +286,10 @@ ramseyg2_8(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[9,q]], otherwise returns []. */
 ramseyg2_9_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 9 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 9 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[9,q]].*/
 ramseyg2_9(q) := 
@@ -244,9 +303,10 @@ ramseyg2_9(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[10,q]], otherwise returns []. */
 ramseyg2_10_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 2 and first(L[2]) = 10 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 2 and first(L[2]) = 10 and integerp(second(L[2])) and
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[10,q]].*/
 ramseyg2_10(q) := 
@@ -256,14 +316,17 @@ ramseyg2_10(q) :=
      unknown,[1265,inf]][q]
   else unknown$
 
+/* **********
+   * Graphs *
+   **********
+*/
 
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [2,[3,3,q]], otherwise returns []. */
 ramseyg3_3_3_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 2 and length(L[2]) = 3 and first(L[2]) = 3 and second(L[2]) = 3 then 
-    [last(L[2])]
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 3 and 
+     L[1] = 2 and first(L[2]) = 3 and second(L[2]) = 3 and 
+     integerp(third(L[2])) and third(L[2]) >= 0 then [last(L[2])]
   else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [2,[3,3,q]].*/
@@ -281,9 +344,10 @@ ramseyg3_3_3(q) :=
 /* Given a Ramsey parameter tuple L, returns a list with "q" as the only 
    element if L is of the form [3,[4,q]], otherwise returns []. */
 ramseyhg3_2_4_a(L) := 
-  if not ramsey_p(L) then []
-  elseif L[2] = [] then []
-  elseif L[1] = 3 and length(L[2]) = 2 and first(L[2]) = 4 then [last(L[2])] else []$
+  if length(L) = 2 and listp(L[2]) and length(L[2]) = 2 and 
+     L[1] = 3 and first(L[2]) = 4 and integerp(second(L[2])) and 
+     second(L[2]) >= 0 then [last(L[2])]
+  else []$
 /* Returns the Ramsey number for a Ramsey parameter tuple of the form 
    [3,[4,q]].*/
 ramseyhg3_2_4(q) := 
