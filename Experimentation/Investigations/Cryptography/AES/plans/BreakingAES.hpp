@@ -194,8 +194,8 @@ done
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
-   tested in the "eval_ubcsat" code provided in
-   ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp ? </li>
+   tested by "eval_ubcsat" (see 
+   Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R) </li>
    <li> Presumably local search will not do well on AES instances compared to 
    DPLL/CDCL solvers, as often local search solvers perform comparatively
    poorly on industrial and crafted instances, which the AES translations

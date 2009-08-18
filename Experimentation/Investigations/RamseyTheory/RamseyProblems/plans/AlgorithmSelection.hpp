@@ -25,13 +25,11 @@ License, or any later version. */
    <li> This "lumped together" approach also makes it easy to make quick 
    comparisons across different "n" to see how each algorithm scales and to 
    make quick plots to analyse this. </li>
-   <li> Some initial testing using the "eval_ubcsat" given at 
-   "Collecting data" in
-   ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp in
-   "UBCSAT.R", investigating parameter tuple [5,5;2] for 30 <= n <= 33,
+   <li> Some initial testing, using the "eval_ubcsat" 
+   (see Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R),
+   investigating parameter tuple [5,5;2] for 30 <= n <= 33,
    with runs=3, cutoff=1000:
    \verbatim
-source("UBCSAT.R")
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
 for (ramsey_cnf in ramsey_cnfs) {
   result_df <- eval_ubcsat(ramsey_cnf)

@@ -16,11 +16,14 @@ License, or any later version. */
   <ul>
    <li> Steps to be taken:
     <ol>
-     <li> A function "eval_ubcsat" is to be written which runs Ubcsat for a
+     <li> DONE A function "eval_ubcsat" is to be written which runs Ubcsat for a
      list of algorithms on a specific instance, and computes a data frame.
      </li>
-     <li> This has now been basically achieved, and the functions written
+     <li> DONE This has now been basically achieved, and the functions written
      have to be made available. </li>
+     <li> The function eval_ubcsat is now available in 
+     Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R . 
+     </li>
      <li> After that, the whole todo needs to be completely updated, so that
      only future plans remains. </li>
     </ol>
@@ -29,7 +32,30 @@ License, or any later version. */
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> And see Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
    for further examples. </li>
-   <li> We have already "ubcsat-okl".
+   <li> How to name data frames, and how to keep a collection of them,
+   for different problem instances?
+    <ol>
+     <li> Main parameters for a data frame are the name of the instance,
+     and cutoff. </li>
+     <li> Perhaps one needs to envisage always a series, with external
+     parameters determining the instance and a series name, according to
+     which at least the data frames are consistently named. </li>
+     <li> But we need to have "collection of data frames"? </li>
+     <li> So perhaps actually the instance name is just an entry
+     in the data frame, and perhaps also the main parameters. </li>
+     <li> So for one series we just have one data frame; for example
+     for %Ramsey formulas the parameters are s (the number of colours;
+     for boolean problems s=2), [q_1,...,q_s] for the sizes of monochromatic
+     subsets, r for the size of the hyperedges (for graph problems r=2),
+     and n, the number of vertices. </li>
+     <li> All in one data frame, the "database", and the evaluation
+     functions need to sort out the right data. </li>
+     <li> One needs to separate the "instance specifiers" (in this example
+     s, [q_1,...,q_s], r), the "instance parameters" (number of variables,
+     clauses etc.), and the "instance data". </li>
+    </ol>
+   </li>
+   <li> DONE We have already "ubcsat-okl".
     <ol>
      <li> See "ubcsat-okl" in
      Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
@@ -46,7 +72,7 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
      might be integrated into ubcsat-okl. </li>
     </ol>
    </li>
-   <li> One parameter of eval_ubcsat is the list of algorithms, which are
+   <li> DONE One parameter of eval_ubcsat is the list of algorithms, which are
    strings using the Ubcsat abbreviations.
     <ol>
      <li> Default is all cnf-algorithms. </li>
@@ -67,13 +93,13 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
      for weighted MAXSAT. </li>
     </ol>
    </li>
-   <li> Another parameter is "runs"; default 100. </li>
-   <li> And default value for parameter "cutoff" is 10000. </li>
-   <li> Parameter "filename" must be given. </li>
-   <li> Optionally the results of ubcsat are appended to a file. </li>
-   <li> There are some other parameters (like "-tabu 10"), which one
+   <li> DONE Another parameter is "runs"; default 100. </li>
+   <li> DONE And default value for parameter "cutoff" is 10000. </li>
+   <li> DONE Parameter "filename" must be given. </li>
+   <li> DONE Optionally the results of ubcsat are appended to a file. </li>
+   <li> DONE There are some other parameters (like "-tabu 10"), which one
    can optionally append. </li>
-   <li> Also the time needs to be recorded.
+   <li> DONE Also the time needs to be recorded.
     <ol>
      <li> However, adding "time" to the list of parameters to be reported
      yields always "0.000000" ? </li>
@@ -83,7 +109,7 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
      statistics, namely "fps" (flips per second), and "totaltime". </li>
     </ol>
    </li>
-   <li> Other parameter to report:
+   <li> DONE Other parameter to report:
     <ol>
      <li> As a kind of "hidden" parameter we should also record the seed. </li>
      <li> From the parameters reported by "ubcsat -hc" we can use
@@ -110,31 +136,8 @@ ubcsat -rclean \
      instead of "-r stats stdout"), so that parsing is easier? </li>
     </ol>
    </li>
-   <li> How to name data frames, and how to keep a collection of them,
-   for different problem instances?
-    <ol>
-     <li> Main parameters for a data frame are the name of the instance,
-     and cutoff. </li>
-     <li> Perhaps one needs to envisage always a series, with external
-     parameters determining the instance and a series name, according to
-     which at least the data frames are consistently named. </li>
-     <li> But we need to have "collection of data frames"? </li>
-     <li> So perhaps actually the instance name is just an entry
-     in the data frame, and perhaps also the main parameters. </li>
-     <li> So for one series we just have one data frame; for example
-     for %Ramsey formulas the parameters are s (the number of colours;
-     for boolean problems s=2), [q_1,...,q_s] for the sizes of monochromatic
-     subsets, r for the size of the hyperedges (for graph problems r=2),
-     and n, the number of vertices. </li>
-     <li> All in one data frame, the "database", and the evaluation
-     functions need to sort out the right data. </li>
-     <li> One needs to separate the "instance specifiers" (in this example
-     s, [q_1,...,q_s], r), the "instance parameters" (number of variables,
-     clauses etc.), and the "instance data". </li>
-    </ol>
-   </li>
-   <li> Something like the following seems reasonable:
-   (as discussed, one needs to specify what this should achieve, and
+   <li> (DONE Moved into R-subsystem) Something like the following seems 
+   reasonable: (as discussed, one needs to specify what this should achieve, and
    furthermore, all text-formatting etc. should be handled by the wrapper
    ubcsat-okl):
    \verbatim
@@ -201,16 +204,18 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
 }
    \endverbatim
    </li>
-   <li> The above "eval_ubcsat" function runs each of the listed algorithms, 
-   with the given parameters etc on a single cnf returning a combined dataframe
+   <li> DONE The eval_ubcsat function runs each of the listed 
+   algorithms, with the given parameters etc on a single cnf returning a 
+   combined dataframe
    with each of the relevant fields. </li>
-   <li> The "format" function above with parameter "scientific" is used to 
+   <li> (DONE Fixed to 5000)
+   The "format" function above with parameter "scientific" is used to 
    ensure any integer parameters are printed in decimal, not scientific 
    notation. For instance 100000 is usually printed 1e+05 as this is 5 
    characters which is shorter than 100000 (6 characters). The "scientific"
    parameters to "format" adds a bias so 5 + 5000 > 6. </li>
-   <li> For the "scientific" parameter, perhaps ".Machine$integer.max/2" is a 
-   better option? Just ".Machine$integer.max" obviously results in overflow
+   <li> DONE For the "scientific" parameter, perhaps ".Machine$integer.max/2" is
+   a better option? Just ".Machine$integer.max" obviously results in overflow
    and so doesn't work. </li>
   </ul>
 
