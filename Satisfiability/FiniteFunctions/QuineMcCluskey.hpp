@@ -57,8 +57,7 @@ namespace OKlib {
         stdout.
       */
       void print_clause(const Clauses& clause) {
-        for (Clauses::const_iterator iter = clause.begin();
-             iter != clause.end(); ++iter) {
+        for (Clauses::const_iterator iter = clause.begin(); iter != clause.end(); ++iter) {
           std::cout << (int) *iter;
           std::cout << " ";
         }
@@ -70,10 +69,8 @@ namespace OKlib {
         to stdout.
       */
       void print_clauseset(const ClauseSets& clause_set) {
-        for (ClauseSets::const_iterator iter = clause_set.begin();
-             iter != clause_set.end(); ++iter) {
+        for (ClauseSets::const_iterator iter = clause_set.begin(); iter != clause_set.end(); ++iter)
           print_clause(*iter);
-        }
       }
       
       /*!
@@ -84,9 +81,7 @@ namespace OKlib {
       */
       hash_index ipow(const int b, int e) {
         long result = 1;
-        while (e-- > 0) {
-          result *= b;
-        }
+        while (e-- > 0) result *= b;
         return result;
       }
       
@@ -105,14 +100,11 @@ namespace OKlib {
       */
       hash_index hash_clause(const Clauses& clause) {
         long return_value = 0;
-        for (Clauses::const_iterator iter = clause.begin();
-             iter != clause.end(); ++iter) {
-          if (*iter < 0) {
+        for (Clauses::const_iterator iter = clause.begin(); iter != clause.end(); ++iter)
+          if (*iter < 0)
             return_value += ipow(3, abs(*iter) - 1);
-          } else if (*iter > 0) {
+          else if (*iter > 0)
             return_value += 2 * ipow(3, abs(*iter) - 1);
-          }
-        }
         return return_value;
       }
       
@@ -124,13 +116,12 @@ namespace OKlib {
         represented by the input hash.
       */
       hash_index flip_literal_sign_in_hash(hash_index hash, const Literals literal) {
-        if (literal < 0) {
+        if (literal < 0)
           hash += ipow(3, abs(literal) - 1);
-        } else if (literal > 0) {
+        else if (literal > 0)
           hash -= ipow(3, abs(literal) - 1);
-        }
         return hash;
-      }
+        }
       
       /*!
         \brief Given a hash value for a clause, computes a new hash for the 
@@ -140,11 +131,10 @@ namespace OKlib {
         the clause associated with the input hash.
       */
       hash_index remove_literal_in_hash(hash_index  hash, const Literals literal) {
-        if (literal < 0) {
+        if (literal < 0)
           hash -= ipow(3, abs(literal) - 1);
-        } else if (literal > 0) {
+        else if (literal > 0)
           hash -= 2 * ipow(3, abs(literal) - 1);
-        }
         return hash;
       }
       
@@ -188,8 +178,7 @@ namespace OKlib {
         hash_index hash = 0;
         hash_index partner_hash = 0;
         // First Mark Clauses 
-        for (ClauseSets::const_iterator citer = input_cs.begin();
-             citer != input_cs.end(); ++citer) {
+        for (ClauseSets::const_iterator citer = input_cs.begin(); citer != input_cs.end(); ++citer) {
           hash = hash_clause(*citer);
           marked[hash] = true;
           marked_in[hash] = true;
@@ -223,20 +212,17 @@ namespace OKlib {
           }
           // At the end of each level, we only need those clauses that are in 
           // marked_in 
-          for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
+          for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
             marked[citer] = marked_in[citer];
-          }
         }
         // Add clauses to CS 
         ClauseSets result_cs;
-        for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
+        for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
           if (marked_in[citer]) {
             clause_size = hash2clause(citer, clause, num_vars);
             Clauses s_clause(clause, clause + clause_size);
-            
             result_cs.push_back(s_clause);
           }
-        }
         return result_cs;
       }
       
