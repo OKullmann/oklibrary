@@ -93,8 +93,8 @@ namespace OKlib {
       /*!
         \brief Computes the hash value for a given clause
         
-        The clause hash is simply the sum of c * 3^i for all variables
-        i (where variables are integers in the range 1,  ..., num_vars), where
+        The clause hash is simply the sum of c * 3^i for all variables i
+        (where variables are integers in the range 1,  ..., num_vars), where
         c is:
         <ul>
          <li> 0 if variable i does not occur in the given clause </li>
@@ -123,8 +123,7 @@ namespace OKlib {
         The key point here is that the given literal occurs in the Clause 
         represented by the input hash.
       */
-      hash_index 
-      flip_literal_sign_in_hash(hash_index hash, const Literals literal) {
+      hash_index flip_literal_sign_in_hash(hash_index hash, const Literals literal) {
         if (literal < 0) {
           hash += ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -140,8 +139,7 @@ namespace OKlib {
         The key point here is that the given literal is assumed to occur within
         the clause associated with the input hash.
       */
-      hash_index 
-      remove_literal_in_hash(hash_index  hash, const Literals literal) {
+      hash_index remove_literal_in_hash(hash_index  hash, const Literals literal) {
         if (literal < 0) {
           hash -= ipow(3, abs(literal) - 1);
         } else if (literal > 0) {
@@ -153,8 +151,7 @@ namespace OKlib {
       /*!
         \brief Computes the clause represented by a given hash.
       */
-      unsigned int 
-      hash_to_clause(hash_index hash, int clause[], const int num_vars) {
+      unsigned int hash_to_clause(hash_index hash, int clause[], const int num_vars) {
         hash_index var_value = 1;
         Literals num_lit = 0;
         for (int lit = num_vars; lit > 0; --lit) {
@@ -178,14 +175,13 @@ namespace OKlib {
         Running time and space requirements are exponential (powers of 3) in 
         the number of variables.
       */
-      ClauseSets
-      quine_mccluskey(const ClauseSets& input_cs) {
+      ClauseSets quine_mccluskey(const ClauseSets& input_cs) {
         int clause[num_vars];
         hash_index num_partial_assignments = ipow(3, num_vars);
         std::cerr << "Number of Partial Assignments " << num_partial_assignments << std::endl;
         // Marked is used to keep track of all found clauses 
         HashTable marked(num_partial_assignments, 0);
-        // Marked in is used to keep track of all clauses that are still in the 
+        // marked_in is used to keep track of all clauses that are still in the 
         //  result set 
         HashTable marked_in(num_partial_assignments, 0);
         Variables clause_size = 0;
