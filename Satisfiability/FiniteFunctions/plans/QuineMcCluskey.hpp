@@ -125,6 +125,20 @@ License, or any later version. */
    <li> Is there a way of using both the satisfying and the falsifying
    total assignments? Likely the way to do this is to combine the resolution
    algorithm with the dualisation algorithm. </li>
+   <li> Exploiting "sparse" inputs?
+    <ol>
+     <li> The algorithm currently available at Maxima/Lisp level,
+     min_2resolution_closure_cs (see
+     ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac)
+     has the potential advantage that it could run asymptotically faster
+     if the input is has few clauses (relative to the number of variables).
+     </li>
+     <li> See "min_2resolution_closure_cs" in
+     ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+     for the underlying open (at least for us) question about the complexity
+     of QuineMcCluskey (in principal). </li>
+    </ol>
+   </li>
    <li> Can the Quine/McCluskey-algorithm be generalised from boolean
    clause-sets to more general forms of clause-sets?
     <ol>
@@ -319,6 +333,17 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo Improvements of the implementation
   <ul>
+   <li> Likely we keep the following basic structure:
+    <ol>
+     <li> k runs from n to 1. </li>
+     <li> Running through all clauses of length k, and determining whether
+     2-subsumption resolution is possible. </li>
+     <li> Since we run through all clauses of length k, hashing schemes
+     are possible for determining the k potential (2-subsumption)
+     resolution partners. </li>
+     <li> The whole hash table is of size 3^n. </li>
+    </ol>
+   </li>
    <li> ipow should be replaced by an array computed at compile-time.
     <ol>
      <li> How to dynamically initialise an array at compile time? Something
