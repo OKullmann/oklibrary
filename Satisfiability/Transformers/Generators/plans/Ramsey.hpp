@@ -30,7 +30,7 @@ License, or any later version. */
   \todo Write unit tests
 
 
-  \todo Add generator to generate multi-label %Ramsey problems
+  \todo Add generator to generate general %Ramsey problems
   <ul>
    <li> Currently the Ramsey generator only handles Ramsey problems given
    2 labels/partitions/colours. </li>

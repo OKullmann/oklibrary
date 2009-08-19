@@ -36,7 +36,8 @@ License, or any later version. */
   \par
    In Satisfiability/Transformers/Generators/plans/Ramsey.hpp the following 
    topics are handled:
-    - Add generator to generate hypergraph %Ramsey problems
+    - Strengthen connection to Maxima/Lisp level
+    - Move todos to this file
 
 
   \par Version 0.0.9
@@ -47,6 +48,11 @@ License, or any later version. */
     - Complete LinInequal.cpp
     - Also handle ">=" and "=" (besides "<=")
 
+  \par
+   In Satisfiability/Transformers/Generators/plans/Ramsey.hpp the following 
+   topics are handled:
+    - Write unit tests
+
 
   \par Version 0.0.10
 
@@ -55,6 +61,11 @@ License, or any later version. */
     - Create Doxygen documentation
     - Improve VdWTransversals and VdWTransversalsInc
     - Write docus
+
+  \par
+   In Satisfiability/Transformers/Generators/plans/Ramsey.hpp the following 
+   topics are handled:
+    - Add generator to generate general %Ramsey problems
 
 
   \par Version 0.0.11
@@ -73,7 +84,7 @@ License, or any later version. */
    Create new milestones.
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In Transformers/Generators/plans/general.hpp the following
