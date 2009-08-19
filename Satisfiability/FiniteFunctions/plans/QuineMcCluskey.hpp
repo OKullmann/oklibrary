@@ -28,18 +28,16 @@ License, or any later version. */
     <ol>
      <li> Input is a clause-set F (either CNF or DNF). </li>
      <li> In general a "subsumption-resolution" is one resolution step where
-     the resolvent subsumes at least one parent clause. A
-     "2-subsumption-resolution" is where both parent clauses are subsumed
-     (that is, iff both parent clauses are identical except of the clashing
-     literal). </li>
+     the resolvent subsumes at least one parent clause. </li>
+     <li> A "2-subsumption-resolution" is where both parent clauses are
+     subsumed (that is, iff both parent clauses are identical except of the
+     clashing literal). </li>
      <li> Let k := n(F), F_k := F. </li>
      <li> While k > 0 do
       <ol>
        <li> F_{k-1} := all 2-subsumption-resolvents from F_k. </li>
-       <li> Remove from F_k all clauses which were involved in a
-       resolution; and furthermore check whether "by chance" a clause
-       in F_k is otherwise subsumed by some clause in F_{k-1} (then that
-       clause is also removed). </li>
+       <li> Remove from F_k all clauses which were (potentially) involved in a
+       resolution. </li>
       </ol>
      </li>
      <li> The union of F_n, ..., F_0 then is the set of prime implicates
@@ -103,25 +101,26 @@ License, or any later version. */
        been obtained. </li>
       </ol>
      </li>
+     <li> "Push" versus "pull":
+      <ol>
+       <li> The above approach could be characterised as the "push approach",
+       from the parents to the resolvents. </li>
+       <li> The "pull approach" starts with the potential resolvent, and
+       checks whether both parent clauses are present (in which case the
+       resolvent is actually created). </li>
+       <li> In principle both approaches have the same complexity, since both
+       consider exactly all resolvable pairs. </li>
+       <li> However the details differ, especially with respect to the
+       necessity of computing the various hashes. </li>
+       <li> It seems that the push approach has certain advantages, since
+       it easier to detect that one of the parent clauses is not there. </li>
+       <li> On the other hand, there is no need to run through the clauses in
+       numerical order, but one should run through them such that the
+       hash-values are easily computed, and then the situation might change.
+       </li>
+      </ol>
+     </li>
     </ul>
-   </li>
-   <li> One also has to think about the additional subsumption
-   checks. (We also need an example to see that these additional checks
-   are indeed needed.) </li>
-   <li> Many implementations of the Quine-McCluskey algorithm seem to 
-   include an additional minimisation step to calculate all essential prime 
-   implicates/implicants, removing certain clauses after the steps listed 
-   above.
-    <ol>
-     <li> For example, the above algorithm given 
-     {{- 3, - 1, 2}, {- 3, 1, 2}, {- 2, - 1, 3}, {- 1, 2, 3}} returns
-     {{- 3, 2}, {- 1, 2}, {- 1, 3}}, however the input clause-set is
-     equivalent to {{-3,2},{-1,3}} and the R implementation mentioned in 
-     Buildsystem/ExternalSources/SpecialBuilds/plans gives {{-3,2},{-1,3}
-     as well. </li>
-     <li> These are likely computed by the "Carnaugh maps", which we also
-     need to do. </li>
-    </ol>
    </li>
    <li> Is there a way of using both the satisfying and the falsifying
    total assignments? Likely the way to do this is to combine the resolution
