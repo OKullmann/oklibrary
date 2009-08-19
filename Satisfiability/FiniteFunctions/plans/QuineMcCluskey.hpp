@@ -290,35 +290,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
-  \todo Preparations for computing optimum representations
-  <ul>
-   <li> Optionally the necessary prime clauses should be output (in Dimacs
-   format). </li>
-   <li> Also optionally, the hypergraph as computed by subsumption_ghg
-   should be created (the minimum transversals of this hypergraph yield the
-   minimum representations), in strict Dimacs format, where the meaning of
-   variables is explained in the comments. </li>
-   <li> The ordering of the prime clauses likely should be lexicographical.
-   </li>
-   <li> Perhaps for that hypergraph, the unit-clause-propagation should have
-   been performed already (starting with the necessary clauses, which just
-   correspond to unit-hyperedges)? </li>
-  </ul>
-
-
-  \todo Ensure space/time efficiency for smaller number of variables
-  <ul>
-   <li> Currently, the number of variables in the input clause-set is ignored
-   and the number of variables, and the size of the hash table used by the 
-   application are determined at compile time. </li>
-   <li> This is not ideal, as for instance running tests using the 16 variable
-   version of the application will take a several minutes, even for very small
-   basic tests. </li>
-   <li> Could the compile time allocation not simply be replaced with an 
-   malloced/"new"ed array? Are there disadvantages to this? </li>
-  </ul>
-
-
   \todo Performance analysis and code analysis
   <ul>
    <li> We need tools in the OKlibrary to analyse the performance of
@@ -328,6 +299,27 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    <li> Compare "Apply Valgrind", "Apply code analysis tools (like Splint)"
    and "Optimising the code" in Solvers/OKsolver/SAT2002/plans/general.hpp.
    </li>
+  </ul>
+
+
+  \todo Fixed number of variables
+  <ul>
+   <li> The number of variables in the input clause-set is ignored and the
+   number of variables, and the size of the hash table used by the application
+   are (should be) determined at compile-time. </li>
+   <li> So one needs a "preprocessor", which calls the appropriate
+   instantiation (see above). </li>
+   <li> Now one needs to improve the implementation to actually take advantage
+   of the constant number of variables; yet for example the hash table
+   is dynamically allocated, but it could use an array instead of a vector.
+   </li>
+   <li> Though then one needed an array of bits, which we needed to write
+   ourselves. So perhaps we stick to std::vector<bool>. </li>
+   <li> But it seems worth to exploit that the number of variables is a
+   compile-time constant (which enables loop-unrolling, and potentially
+   many other compiler-optimisations). </li>
+   <li> Later one should try out how much it actually costs to replace the
+   constant number of variables with a variable number of variables. </li>
   </ul>
 
 
@@ -402,6 +394,22 @@ struct ipow3_s<0,c> {
      efficient as possible. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Preparations for computing optimum representations
+  <ul>
+   <li> Optionally the necessary prime clauses should be output (in Dimacs
+   format). </li>
+   <li> Also optionally, the hypergraph as computed by subsumption_ghg
+   should be created (the minimum transversals of this hypergraph yield the
+   minimum representations), in strict Dimacs format, where the meaning of
+   variables is explained in the comments. </li>
+   <li> The ordering of the prime clauses likely should be lexicographical.
+   </li>
+   <li> Perhaps for that hypergraph, the unit-clause-propagation should have
+   been performed already (starting with the necessary clauses, which just
+   correspond to unit-hyperedges)? </li>
   </ul>
 
 

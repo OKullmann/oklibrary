@@ -101,11 +101,19 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Ensure space/time efficiency for smaller number of variables
-    - Performance analysis
+    - Performance analysis and code analysis
 
 
   \par Version 0.1.3
+
+  
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Fixed number of variables
+
+
+  \par Version 0.1.4
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -123,17 +131,17 @@ License, or any later version. */
   \par Version 0.2.1
 
   \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
    following topics are handled:
-    - Parallelisation
+    - Preparations for computing optimum representations
 
 
   \par Version 0.2.2
 
   \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Minimisation
+    - Parallelisation
 
 
   \par Version 0.3
