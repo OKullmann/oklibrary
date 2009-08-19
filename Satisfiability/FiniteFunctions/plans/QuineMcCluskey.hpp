@@ -342,6 +342,22 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
      are possible for determining the k potential (2-subsumption)
      resolution partners. </li>
      <li> The whole hash table is of size 3^n. </li>
+     <li> However, it might be worth to always only run through the
+     existing clauses of a given level:
+      <ol>
+       <li> We keep the hash table, and ignore the cost for the initialisation
+       once at the beginning. However later one might think about using a
+       "real" hash table, where then we can save the effort 3^n at all
+       (think of an example with say 30 variables but only a few hundred
+       clauses). </li>
+       <li> We need then the list of all existing clauses for the current
+       level and for the next level. </li>
+       <li> This can be easily computed (given that we have the hash table,
+       and thus can avoid multiple entries). </li>
+       <li> This should save considerable time for those cases where we don't
+       have many clauses. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> ipow should be replaced by an array computed at compile-time.
