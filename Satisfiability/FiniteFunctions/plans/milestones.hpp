@@ -103,7 +103,7 @@ License, or any later version. */
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Ensure space/time efficiency for smaller number of variables
-    - Improvements of the implementation
+    - Performance analysis
 
 
   \par Version 0.1.3
@@ -111,7 +111,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Performance analysis
+    - Improvements of the implementation
 
 
   \par Version 0.2

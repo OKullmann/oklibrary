@@ -277,7 +277,7 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
-  \todo Preparations for optimisation
+  \todo Preparations for computing optimum representations
   <ul>
    <li> Optionally the necessary prime clauses should be output (in Dimacs
    format). </li>
@@ -306,12 +306,25 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
+  \todo Performance analysis and code analysis
+  <ul>
+   <li> We need tools in the OKlibrary to analyse the performance of
+   C/C++ programs. </li>
+   <li> One central system, for making measurements, is described in
+   ComplexitySystem/plans/general.hpp. </li>
+   <li> Compare "Apply Valgrind", "Apply code analysis tools (like Splint)"
+   and "Optimising the code" in Solvers/OKsolver/SAT2002/plans/general.hpp.
+   </li>
+  </ul>
+
+
   \todo Improvements of the implementation
   <ul>
-   <li> ipow should be replaced by an array computed at compile-time. </li>
-   <li> How to dynamically initialise an array at compile time? Something
-   like:
-   \verbatim
+   <li> ipow should be replaced by an array computed at compile-time.
+    <ol>
+     <li> How to dynamically initialise an array at compile time? Something
+     like:
+     \verbatim
 ClauseHash powers[nVars+1];
 
 template<int p, int c>
@@ -328,24 +341,26 @@ struct ipow3_s<0,c> {
     powers[nVars] = c;
   }
 };
-   \endverbatim
-   although then, the question is where to call ipow3_s::ipow3_c()? </li>
+     \endverbatim
+     although then, the question is where to call ipow3_s::ipow3_c()? </li>
+    </ol>
+   </li>
    <li> Likely we should have a dedicated clause-type here, based on
    an array of length 16 and a size-member. </li>
    <li> One needs to connect to the general concepts of variables, literals,
    clauses and clause-sets, such that all these types here become special
    instances of general concepts. </li>
-  </ul>
-
-
-  \todo Performance and code analysis
-  <ul>
-   <li> We need tools in the OKlibrary to analyse the performance of
-   C/C++ programs. </li>
-   <li> One central system, for making measurements, is described in
-   ComplexitySystem/plans/general.hpp. </li>
-   <li> Compare "Apply Valgrind", "Apply code analysis tools (like Splint)"
-   and "Optimising the code" in Solvers/OKsolver/SAT2002/plans/general.hpp.
+   <li> The handling of hash values is poor:
+    <ol>
+     <li> Of course, completely unacceptable that for every run the algorithm
+     runs through all 3^n clauses! </li>
+     <li> The key is a sensible organisation of the computation of hash values,
+     integrated with the general flow. </li>
+     <li> And the computation of hash values needs to be highly optimised ---
+     though this depends on the context, since the aim must be to organise
+     the computation in such a way as to make handling of hash values as
+     efficient as possible. </li>
+    </ol>
    </li>
   </ul>
 
