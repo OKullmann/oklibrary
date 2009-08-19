@@ -22,7 +22,7 @@ License, or any later version. */
   \par Satisfiability/Assignments version 0.0.6 (OK)
   (see Satisfiability/Assignments/plans/milestones.hpp)
 
-  \par Satisfiability/Transformers version 0.0.5
+  \par Satisfiability/Transformers version 0.0.6
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
   \par Satisfiability/Algorithms version 0.0.7
