@@ -200,8 +200,6 @@ namespace OKlib {
                     flip_literal_sign_in_hash(citer, clause[liter]);
                   if (marked[partner_hash]) {
                     long new_hash = remove_literal_in_hash(citer, clause[liter]);
-                    // work out it's partner exists and add the clause to the next 
-                    // level if we don't already have it:
                     marked[new_hash] = true;
                     marked_in[new_hash] = true;
                     marked_in[citer] = false;
