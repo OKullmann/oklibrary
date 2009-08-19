@@ -10,6 +10,26 @@ License, or any later version. */
   \brief Plans for generators for %Ramsey problems
 
 
+  \todo Strengthen connection to Maxima/Lisp level
+  <ul>
+   <li> For all components here there should be (close) procedural
+   specification at the Maxima/Lisp level. </li>
+   <li> One has then to consider the order of the hyperedges and of the
+   clauses. </li>
+  </ul>
+
+
+  \todo Move todos to this file
+  <ul>
+   <li> The todos in Satisfiability/Transformers/Generators/Ramsey.cpp and
+   Satisfiability/Transformers/Generators/Ramsey.hpp need to be
+   (appropriately) moved to this plans-file. </li>
+  </ul>
+
+
+  \todo Write unit tests
+
+
   \todo Add generator to generate multi-label %Ramsey problems
   <ul>
    <li> Currently the Ramsey generator only handles Ramsey problems given
