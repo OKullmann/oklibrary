@@ -318,7 +318,9 @@ okltest_aes_round_cp(f) := block([pa,iVars,oVars,kVars,F,
   true)$
 
 okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
-  aes_make_vars : aes_make_vars_int, aes_sbox_cp : nounify(aes_sbox_cp_test)],
+  aes_make_vars : aes_make_vars_int,
+  aes_var_ordering : hash_table(), aes_cnf_var_number : 0,
+  aes_sbox_cp : nounify(aes_sbox_cp_test)],
   if oklib_test_level = 0 then return(true),
   iVars : aes_make_vars("K",1,128),
   oVars : aes_make_vars("KO",1, 11*128),
