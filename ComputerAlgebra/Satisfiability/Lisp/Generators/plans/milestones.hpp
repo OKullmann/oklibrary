@@ -14,6 +14,16 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Split Generators/Generators.mac
+    - Create new submodule "RamseyTheory"
+    - Update milestones
+
+
+  \par Version 0.0.9
+
+  \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
    the following topics are handled:
     - Extend Ramsey symmetry breaking generators to generate Extended Dimacs
@@ -44,7 +54,7 @@ License, or any later version. */
     - Arithmetic progressions for prime numbers
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
   
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
@@ -71,7 +81,7 @@ License, or any later version. */
     - Systematics output and output-functions
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -85,7 +95,7 @@ License, or any later version. */
     - Random subsets, sublists etc.
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -98,7 +108,7 @@ License, or any later version. */
     - Filtering out
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
