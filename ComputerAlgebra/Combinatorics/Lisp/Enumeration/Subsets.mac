@@ -34,6 +34,18 @@ count_ksubsets(n,k) := binomial(n,k)$
    ***************************
 */
 
+/* "Lexicographical order" treats a subset as a list, sorted in ascending
+    order, and the next subset is obtained by increasing the right-most
+    element which can be increased (while maintaing the subset- and the
+    sortedness-condition), where upon increment at some position the elements
+    to the right are reset to their smallest possible values.
+
+    This corresponds to considering the list as a base-n representation
+    of a number, where n is the size of the base-set, and to each digit
+    1 is added, and then going to the next element means to add 1 to the
+    number.
+*/
+
 /* Produces a list of all k-subsets of M in lexicographical order: */
 lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : first_element(M), R],
@@ -65,6 +77,13 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
 /* *****************************
    * Colexicographical ordering *
    *****************************
+*/
+
+/* "Coexicographical order" treats a subset as a list, sorted in ascending
+    order, and the next subset is obtained by increasing the left-most
+    element which can be increased (while maintaing the subset- and the
+    sortedness-condition), where upon increment at some position the elements
+    to the left are reset to their smallest possible values.
 */
 
 /* Produces a list of all k-subsets of M in colexicographical order: */
