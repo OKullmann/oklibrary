@@ -28,7 +28,7 @@ namespace {
     error_readfile = 3
   };
 
-  const std::string version = "0.1.8";
+  const std::string version = "0.1.9";
 
 }
 
