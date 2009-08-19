@@ -168,8 +168,6 @@ namespace OKlib {
       ClauseSets quine_mccluskey(const ClauseSets& input_cs) {
         int clause[num_vars];
         hash_index num_partial_assignments = ipow(3, num_vars);
-        // logging output:
-        std::cerr << "Number of Partial Assignments " << num_partial_assignments << std::endl;
         // marked is used to keep track of all found clauses:
         HashTable marked(num_partial_assignments, 0);
         // marked_in is used to keep track of all clauses that are still in the
@@ -186,8 +184,6 @@ namespace OKlib {
         }
         // perform algorithm:
         for (Variables level = num_vars; level > 0; --level) {
-          // logging output:
-          std::cerr << "Level " << (int) level << std::endl;
           // run through all clauses:
           for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
             // go through literals in clause:

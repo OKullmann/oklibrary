@@ -247,7 +247,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo Input and output
   <ul>
-   <li> The monitoring output should be optional. </li>
+   <li> DONE (no such output is needed)
+   The monitoring output should be optional. </li>
    <li> Components from Satisfiability/Interfaces/InputOutput should be
    used. </li>
    <li> Correct Dimacs output should be generated: currently the parameter
