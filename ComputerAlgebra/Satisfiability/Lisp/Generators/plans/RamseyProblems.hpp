@@ -10,10 +10,33 @@ License, or any later version. */
   \brief Plans for Maxima-generators for %Ramsey-problems
 
 
+  \todo MG must completely update this file!
+  <ul>
+   <li> Also the milestones have been basically completely disregarded. </li>
+  </ul>
+
+
+  \todo Create a systematic naming scheme
+  <ul>
+   <li> Compare "Improve generator names" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/HindmanProblems.hpp.
+   </li>
+   <li> See the general module ComputerAlgebra/RamseyTheory. </li>
+   <li> A systematic naming scheme across all Ramsey-type generators in this
+   module is needed. </li>
+  </ul>
+
+
+  \todo Implement the general (i.e., non-diagonal) boolean case
+
+
+  \todo Provide specification for all the functions
+
+
   \todo Extend Ramsey symmetry breaking generators to generate Extended Dimacs
   <ul>
-   <li> Currently there are no output functions for the %Ramsey symmetry breaking
-   generators, such as "ramsey2_symbr2_cs". </li>
+   <li> Currently there are no output functions for the %Ramsey symmetry
+   breaking generators, such as "ramsey2_symbr2_cs". </li>
    <li> Additionally, simply generating Dimacs files for the generated 
    clause-sets would mean losing information about which variables are which
    edges, and also presents problems, as the C++ Ramsey generator outputs
@@ -21,11 +44,11 @@ License, or any later version. */
    <li> Also, there is currently no way to translate the extended Dimacs file 
    output by the C++ generator to a Dimacs file using the correct 
    colexicographical variable ordering/naming. </li>
-   <li> Therefore, output functions are needed for each of the symmetry breaking
-   techniques which output in the same extended Dimacs format used in the C++
-   generator. </li>
-   <li> This should be possible by extending the functionality of output_fcs, by
-   redefining dimacs_l_string (see 
+   <li> Therefore, output functions are needed for each of the symmetry
+   breaking techniques which output in the same extended Dimacs format used
+   in the C++ generator. </li>
+   <li> This should be possible by extending the functionality of output_fcs,
+   by redefining dimacs_l_string (see 
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac). </li>
   </ul>
 
@@ -375,9 +398,9 @@ ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
    colour. </li>
    <li> This is purely a conjecture and so experimental evidence should be
    compiled, that is, cardinality constraints can be added to generated %Ramsey
-   problems to restrict the number of each colour to between floor(E(K_n)/2) and
-   ceil(E(K_n)/2) for problems for which we have solvers which can determine
-   satisfiability. </li>
+   problems to restrict the number of each colour to between floor(E(K_n)/2)
+   and ceil(E(K_n)/2) for problems for which we have solvers which can
+   determine satisfiability. </li>
    <li> See "Using cardinality constraints" in
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp
    . </li>
