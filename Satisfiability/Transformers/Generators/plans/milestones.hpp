@@ -36,8 +36,6 @@ License, or any later version. */
   \par
    In Satisfiability/Transformers/Generators/plans/Ramsey.hpp the following 
    topics are handled:
-    - Generator should produce standardised variables using colexicographical 
-      ordering : DONE
     - Add generator to generate hypergraph %Ramsey problems
 
 

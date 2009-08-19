@@ -43,17 +43,5 @@ License, or any later version. */
    considering %Ramsey problems with more than 2 labels. </li>
   </ul>
 
-
-  \todo DONE Generator should produce standardised variables using 
-  colexicographical ordering
-  <ul>
-   <li> The C++ %Ramsey generator (see Ramsey.cpp) should use the same variable
-   names as in 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac . </li>
-   <li> This would allow simple combination of these generated clause-sets with
-   symmetry breaking techniques etc. </li>
-  </ul>
-
-
 */
 
