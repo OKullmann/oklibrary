@@ -151,7 +151,7 @@ namespace OKlib {
       /*!
         \brief Computes the clause represented by a given hash.
       */
-      unsigned int hash_to_clause(hash_index hash, int clause[], const int num_vars) {
+      unsigned int hash2clause(hash_index hash, int clause[], const int num_vars) {
         hash_index var_value = 1;
         Literals num_lit = 0;
         for (int lit = num_vars; lit > 0; --lit) {
@@ -202,7 +202,7 @@ namespace OKlib {
           for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
             // Go through literals in clause
             if (marked[citer]) {
-              clause_size = hash_to_clause(citer, clause, num_vars);
+              clause_size = hash2clause(citer, clause, num_vars);
               if (clause_size == level) {
                 for (Variables liter = 0; liter < clause_size; ++liter) {
                   // If it's partner clause exists 
@@ -231,7 +231,7 @@ namespace OKlib {
         ClauseSets result_cs;
         for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
           if (marked_in[citer]) {
-            clause_size = hash_to_clause(citer, clause, num_vars);
+            clause_size = hash2clause(citer, clause, num_vars);
             Clauses s_clause(clause, clause + clause_size);
             
             result_cs.push_back(s_clause);
