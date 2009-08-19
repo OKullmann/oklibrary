@@ -35,6 +35,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Create new submodule "RamseyTheory"
+
+
+  \todo Update milestones
+  <ul>
+   <li> The milestones of this module are completely out of shape. </li>
+   <li> Generators/plans/RamseyProblems.hpp needs to be re-thought and
+   completely updated. </li>
+   <li>
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/HindmanProblems.hpp
+   is not integrated at all. </li>
+  </ul>
+
+
   \todo Accompanying statistics
   <ul>
    <li> We need to establish the scheme how to supply measurements for

@@ -27,6 +27,9 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.8
+  (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
+
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
    topics are handled:
