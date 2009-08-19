@@ -5,6 +5,16 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Satisfiability/Transformers/Generators/Ramsey.cpp
+  \brief Application for creating 2-colour non-diagonal Ramsey instances
+  (arbitrary hypergraph size).
+
+  For the diagonal case (q1=q2=q) this corresponds to
+  output_ramsey2_stdname(q,r,N) in
+  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac.
+*/
+
 #include <iostream>
 #include <exception>
 

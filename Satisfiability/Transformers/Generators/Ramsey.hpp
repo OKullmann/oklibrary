@@ -1,9 +1,17 @@
 // Oliver Kullmann, 26.7.2004 (Turin)
-/* Copyright 2004 - 2007 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
+
+/*!
+  \file Satisfiability/Transformers/Generators/Ramsey.hpp
+  \brief Fundamental components for creating Ramsey instances
+
+  Currently the code in here is rather outdated.
+
+*/
 
 #ifndef RAMSEY_hhfzqwk15183Gfzx
 #define RAMSEY_hhfzqwk15183Gfzx
@@ -28,14 +36,24 @@ License, or any later version. */
 
 namespace Ramsey {
 
-  // "Quick and dirty" --- to be improved later (via using a standard output interface, and iterators for running through the hyperedges)
+  /*!
+    \class Enumerate_hyperedges
+    \brief Computing the hypergraphs underlying Ramsey-instances
+
+    The procedural specification is given by ramsey_ohg(q,r,n) in
+    ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac.
+
+    That is, vertices are the r-subsets of {1, ..., n}, and for every
+    q-subset T of {1, ..., n} there is the hyperedge of r-subsets of T.
+    Precondition: n >= q >= r >= 0.
+
+    \todo See ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
+
+    \todo Update the underlying notion of "hypergraph"
+  */
 
   template <typename Int = int>
   class Enumerate_hyperedges {
-    // Computes the hypergraph H_R(q,r,n) according to "BuchKombinatorik":
-    // vertices are the r-subsets of {1, ..., n};
-    // for every q-subset T of {1, ..., n} there is the hyperedge of r-subsets of T.
-    // Precondition: n >= q >= r >= 0.
   public :
     typedef Int size_type;
     const size_type q; // size of monochromatic subset
@@ -94,10 +112,20 @@ namespace Ramsey {
   };
 
 
+  /*!
+    \class Ramsey_TwoColours_1
+    \brief Outputs a Ramsey SAT-instance for two colours and arbitrary
+    hyperedge size
+
+    For the diagonal case (q1=q2=q) this corresponds to
+    output_ramsey2_stdname(q,r,N) in
+    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac.
+
+    \todo Use components from module InputOutput.
+  */
+
   template <typename Int = unsigned int>
   class Ramsey_TwoColours_1 {
-
-    // Clause-sets F_R(q_1, q_2, r, N) according to "BuchKombinatorik"
 
     typedef Enumerate_hyperedges<Int> enumeration_type;
   public :
