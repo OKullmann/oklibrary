@@ -19,7 +19,6 @@ License, or any later version. */
   \par ComputerAlgebra/Graphs/Lisp version 0.1.1
   (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
 
-
   \par ComputerAlgebra/Combinatorics version 0.0.4
   (see ComputerAlgebra/Combinatorics/plans/milestones.hpp)
 
