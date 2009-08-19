@@ -146,7 +146,7 @@ namespace OKlib {
         Literals num_lit = 0;
         for (int lit = num_vars; lit > 0; --lit) {
           var_value = ipow(3, abs(lit) - 1);
-          // Work out whether the literal is in the hash
+          // work out whether the literal is in the hash:
           if (hash >= (2 * var_value)) {
             clause[num_lit++] = lit;
             hash -= (2 * var_value);
@@ -168,39 +168,40 @@ namespace OKlib {
       ClauseSets quine_mccluskey(const ClauseSets& input_cs) {
         int clause[num_vars];
         hash_index num_partial_assignments = ipow(3, num_vars);
+        // logging output:
         std::cerr << "Number of Partial Assignments " << num_partial_assignments << std::endl;
-        // Marked is used to keep track of all found clauses 
+        // marked is used to keep track of all found clauses:
         HashTable marked(num_partial_assignments, 0);
-        // marked_in is used to keep track of all clauses that are still in the 
-        //  result set 
+        // marked_in is used to keep track of all clauses that are still in the
+        // result set:
         HashTable marked_in(num_partial_assignments, 0);
         Variables clause_size = 0;
         hash_index hash = 0;
         hash_index partner_hash = 0;
-        // First Mark Clauses 
+        // first mark clauses:
         for (ClauseSets::const_iterator citer = input_cs.begin(); citer != input_cs.end(); ++citer) {
           hash = hash_clause(*citer);
           marked[hash] = true;
           marked_in[hash] = true;
         }
-        // Perform Algorithm
+        // perform algorithm:
         for (Variables level = num_vars; level > 0; --level) {
-          // Output 
+          // logging output:
           std::cerr << "Level " << (int) level << std::endl;
-          // Run through all clauses 
+          // run through all clauses:
           for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
-            // Go through literals in clause
+            // go through literals in clause:
             if (marked[citer]) {
               clause_size = hash2clause(citer, clause, num_vars);
               if (clause_size == level) {
                 for (Variables liter = 0; liter < clause_size; ++liter) {
-                  // If it's partner clause exists 
+                  // if it's partner clause exists:
                   partner_hash =
                     flip_literal_sign_in_hash(citer, clause[liter]);
                   if (marked[partner_hash]) {
                     long new_hash = remove_literal_in_hash(citer, clause[liter]);
-                    // Work out it's partner exists and add the clause to the next 
-                    // level if we don't already have it 
+                    // work out it's partner exists and add the clause to the next 
+                    // level if we don't already have it:
                     marked[new_hash] = true;
                     marked_in[new_hash] = true;
                     marked_in[citer] = false;
@@ -210,12 +211,11 @@ namespace OKlib {
               }
             }
           }
-          // At the end of each level, we only need those clauses that are in 
-          // marked_in 
+          // at the end of each level, we only need those clauses that are in 
+          // marked_in:
           for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
             marked[citer] = marked_in[citer];
         }
-        // Add clauses to CS 
         ClauseSets result_cs;
         for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
           if (marked_in[citer]) {

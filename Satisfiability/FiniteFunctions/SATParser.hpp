@@ -36,12 +36,12 @@ namespace OKlib {
           switch(c) {
           case 'c' :
             input_file.get();
-            // Skip
+            // skip:
             while(input_file and (c = input_file.get()) != '\n');
             break;
           case 'p' :
             input_file.get();
-            // Skip
+            // skip:
             while(input_file and (c = input_file.get()) != '\n');
             break;
           default :
@@ -52,7 +52,7 @@ namespace OKlib {
               input_file >> raw_literal;
             }
             clause_set.push_back(clause);
-            // Jump to newline
+            // jump to newline:
             c = input_file.get();
             while(input_file and (c != '\n') && (c != EOF)) {
               c = input_file.get();
