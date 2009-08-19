@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/FiniteFunctions/plans/milestones.hpp
 
-  \module_version Satisfiability/FiniteFunctions 0.0.5 (1.6.2009)
-
-
-  \par Version 0.0.6
-
-  \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
-   following topics are handled:
-    - Various versions for different values of NUMBER_VARIABLES
-    - bug The code is still full of mixed cases! DONE
+  \module_version Satisfiability/FiniteFunctions 0.0.6 (19.8.2009)
 
 
   \par Version 0.0.7
@@ -25,7 +16,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Docus
+    - Various versions for different values of NUMBER_VARIABLES
 
 
   \par Version 0.0.8
@@ -33,7 +24,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Application tests
+    - Docus
 
 
   \par Version 0.0.9
@@ -41,7 +32,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Maxima level
+    - Application tests
 
 
   \par Version 0.0.10
@@ -49,7 +40,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Precise definitions, and basic types
+    - Maxima level
 
 
   \par Version 0.0.11
@@ -57,7 +48,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Input and output
+    - Precise definitions, and basic types
 
 
   \par Version 0.0.12
@@ -65,10 +56,18 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Unit tests
+    - Input and output
 
 
   \par Version 0.0.13
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Unit tests
+
+
+  \par Version 0.0.14
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -153,6 +152,7 @@ License, or any later version. */
    - 0.0.3 : 19.1.2008; initial version (several plans).
    - 0.0.4 : 22.5.2009; established working version of QuineMcCluskey algorithm, and some further plans.
    - 0.0.5 : 1.6.2009; tidied code further and added doxygen documentation.
+   - 0.0.6 : 19.8.2009; further planning, further improvement in code quality, improved documentation, further improvements regardings the build system.
 
 */
 

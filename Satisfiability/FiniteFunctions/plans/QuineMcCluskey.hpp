@@ -247,8 +247,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo Input and output
   <ul>
-   <li> DONE (no such output is needed)
-   The monitoring output should be optional. </li>
    <li> Components from Satisfiability/Interfaces/InputOutput should be
    used. </li>
    <li> Correct Dimacs output should be generated: currently the parameter
@@ -372,9 +370,6 @@ struct ipow3_s<0,c> {
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
   </ul>
-
-
-  \bug The code is still full of mixed cases! DONE
 
 */
 
