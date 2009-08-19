@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.4.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -140,10 +140,29 @@ namespace Combinatorics {
     return Binom_integer_over_integer<Int>()(a, b);
   }
 
+  
+  // -------------------------------------------------------------
+  // Elementary enumeration
+  // -------------------------------------------------------------
+
   /*!
-    \brief Function for running through all k-subsets of an n-set in lexicographical order
+    \brief Function for running through all k-subsets of an n-set in
+    lexicographical order
+
+    Given a subset as the range of elements, sorted in ascending order,
+    modify the range to the next subset in lexicographical order, if
+    possible.
+
+    See ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac for
+    the procedural specification at Maxima/Lisp level.
+
+
+    \todo See "Iteration through lexicographical order" in
+    ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp. </li>
+    
     \todo The implementation is not very efficient; improve it.
-    \todo The design should be iterator-based.
+
+    \todo The design should be perhaps be iterator-based.
   */
 
   enum choose_possibilities {no_subsets = -1, no_further_subsets = 0, further_subsets = 1};

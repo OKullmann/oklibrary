@@ -137,6 +137,8 @@ next_lex_subsets(S,n) := block(
    \endverbatim
    This algorithm is essentially the same as algorithm L in [Knuth, Vol. 4,
    Fascicle 3, Section 7.2.1.3]. </li>
+   <li> Compare function Combinatorics::choose_next in
+   General/Combinatorics.hpp. </li>
    <li> Usage example:
    \verbatim
 block([x : first_lex_subsets(6,3)], 
