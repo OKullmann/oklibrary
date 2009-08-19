@@ -78,7 +78,8 @@ okltest_aes_sbox_ts_gen(f) := block([FF],
 
 okltest_aes_final_round_cp(f) := block([F],
   if (oklib_test_level < 3) then return(true),
-  F : block([aes_make_vars : aes_make_vars_int], rewrite_all(apply(f, listify(setn(3*128))))),
+  F : block([aes_make_vars : aes_make_vars_int],
+    rewrite_all(apply(f, listify(setn(3*128))))),
   iVars : take_elements(128,listify(var_cs(F))),
   kVars : take_elements(128,rest(listify(var_cs(F)),128)),
   oVars : take_elements(128,rest(listify(var_cs(F)),256)),
@@ -332,6 +333,16 @@ okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
   assert(member({-511,639},F)),
   assert(member({-436,564},F)),
   true)$
+
+okltest_aes_cp(f) := (
+  for i : 1 thru 9 do block([F,aes_num_rounds : i],
+    F : apply(f,create_list(i,i,1,384)),
+    assert(length(subset(F,lambda([a], is(op(a) = aes_round_c)))) = i)),
+  aes_num_rounds : 10,
+  F : apply(f,create_list(i,i,1,384)),
+  assert(length(subset(F,lambda([a], is(op(a) = aes_round_c)))) = 9),
+  true)$
+  
 /*!
 \endhtmlonly
 */

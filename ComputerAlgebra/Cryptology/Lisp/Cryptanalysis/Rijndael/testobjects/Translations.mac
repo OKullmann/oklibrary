@@ -51,6 +51,7 @@ okltest_aes_shiftrows_cp(aes_shiftrows_cp);
 okltest_aes_subbytes_cp(aes_subbytes_cp);
 okltest_aes_round_cp(aes_round_cp);
 okltest_aes_key_expansion_cp(aes_key_expansion_cp);
+okltest_aes_cp(aes_cp);
 
 
 /*!
