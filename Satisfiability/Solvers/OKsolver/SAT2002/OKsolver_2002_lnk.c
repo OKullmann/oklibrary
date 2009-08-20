@@ -153,11 +153,7 @@ bool spezRueckgabe = true; // Kodierung des Ergebnisses im Rueckgabewert
 enum Ausgabeformat Format = Dimacs_Format;
 #else
 bool spezRueckgabe = false;
-#  ifdef XMLAUS
 Ausgabeformat Format = XML_Format;
-#  else
-Ausgabeformat Format = Tabellen_Format;
-#  endif
 #endif
 // am 10.3.2002 fuer den SAT-Wettbewerb hinzugefuegt
 // falls DIMACS_Format gesetzt ist, so wird die Ausgabe einer Belegung
@@ -1206,10 +1202,6 @@ int main(int argc, char *argv[])
       }
       else if (strcmp("-XO", argv[Argument]) == 0) {
         Format = XML_Format;
-	spezRueckgabe = false;
-      }
-      else if (strcmp("-TO", argv[Argument]) == 0) {
-        Format = Tabellen_Format;
 	spezRueckgabe = false;
       }
       else if (strcmp("--specification", argv[Argument]) == 0) {

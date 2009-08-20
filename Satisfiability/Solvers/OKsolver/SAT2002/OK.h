@@ -382,7 +382,7 @@ extern unsigned int MAXN;
 extern unsigned int MAXL;
 extern unsigned int MAXK;
 
-enum Ausgabeformat {Dimacs_Format, XML_Format, Tabellen_Format};
+enum Ausgabeformat {Dimacs_Format, XML_Format};
 
 
 /* ---------------------------------------------------------------------------- */
