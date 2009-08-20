@@ -274,7 +274,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improve statistics
+  \todo Improve statistics code
   <ul>
    <li> Types of statistics variables:
     <ol>
@@ -296,36 +296,6 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> Likely also on 32-bit machines using 64-bit types for the statistics,
      enabling a maximal depth of up to 60, should be possible with negligible
      overhead (see above). </li>
-     <li> The prediction e.g. at the beginning is distorted, since the build-up
-     of the tree up to this monitoring node is taken into account. </li>
-     <li> So that e.g. the very first monitoring node has to take into account
-     all the d nodes on the path leading to it. And after half of the tree
-     is processed, that starting node of the second half has d-1 nodes
-     additionally to take into account (where d is the monitoring depth). </li>
-     <li> Likely it would be better if one had available for each monitoring
-     node the size of its subtree and the time needed for it. </li>
-     <li> Then perhaps a second average would be needed, namely for nodes
-     with depth strictly smaller than the monitoring depth. This would
-     estimate the effort needed for such nodes, and the total estimate
-     would add this to the effort for monitoring nodes. </li>
-     <li> Regarding the prediction formula:
-      <ol>
-       <li> Are there standards for analysing the various time-series' ? </li>
-      </ol>
-     </li>
-     <li> See Heuristics/StatisticalAnalysis/plans/TimeSeriesAnalysis.hpp
-     for an alternative approach for prediction, not just counting the nodes
-     at the monitoring level. Perhaps this isn't too hard to do for the
-     OKsolver_2002. </li>
-    </ol>
-   </li>
-   <li> Statistics regarding the shape of the tree:
-    <ol>
-     <li> Elementary statistics on the distribution of leaf-depths should
-     be very relevant: counting the leaves, and the sum and the sum of
-     squares of their depths (so that mean and standard deviation can
-     be computed). </li>
-     <li> Type "double" should be alright for the sums. </li>
     </ol>
    </li>
   </ul>
@@ -473,17 +443,53 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> Quasi-single nodes should perhaps be ignored here. </li>
      <li> On the other hand, they are also taken into account for the
      (ordinary) height, and so perhaps we should here do the same. </li>
+     <li> Elementary statistics on the distribution of leaf-depths should
+     be very relevant: counting the leaves, and the sum and the sum of
+     squares of their depths (so that mean and standard deviation can
+     be computed). </li>
+     <li> Type "double" should be alright for the sums. </li>
     </ol>
    </li>
-   <li> Counting unit-clause propagations:
+   <li> Statistics regarding reductions:
     <ol>
-     <li> Shall we do so? A question is what to do with the reduction. </li>
+     <li> The distribution of the number of 2-reduction-rounds per nodes (sum
+     and sum of squares for mean and standard deviation) should be interesting.
+     </li>
+     <li> The number of unit-propagations after branching could also be of
+     interest. </li>
+     <li> And the number of unit-propagations after the assignment from a
+     2-reduction. </li>
     </ol>
    </li>
    <li> More information on variables and literals:
     <ol>
      <li> At least the initial variable and literal degrees (maximal, and
      average) are of interest. </li>
+    </ol>
+   </li>
+   <li> Monitoring:
+    <ol>
+     <li> The prediction e.g. at the beginning is distorted, since the build-up
+     of the tree up to this monitoring node is taken into account. </li>
+     <li> So that e.g. the very first monitoring node has to take into account
+     all the d nodes on the path leading to it. And after half of the tree
+     is processed, that starting node of the second half has d-1 nodes
+     additionally to take into account (where d is the monitoring depth). </li>
+     <li> Likely it would be better if one had available for each monitoring
+     node the size of its subtree and the time needed for it. </li>
+     <li> Then perhaps a second average would be needed, namely for nodes
+     with depth strictly smaller than the monitoring depth. This would
+     estimate the effort needed for such nodes, and the total estimate
+     would add this to the effort for monitoring nodes. </li>
+     <li> Regarding the prediction formula:
+      <ol>
+       <li> Are there standards for analysing the various time-series' ? </li>
+      </ol>
+     </li>
+     <li> See Heuristics/StatisticalAnalysis/plans/TimeSeriesAnalysis.hpp
+     for an alternative approach for prediction, not just counting the nodes
+     at the monitoring level. Perhaps this isn't too hard to do for the
+     OKsolver_2002. </li>
     </ol>
    </li>
    <li> MAXSAT information
