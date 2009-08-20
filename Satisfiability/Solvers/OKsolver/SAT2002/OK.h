@@ -390,8 +390,13 @@ enum Ausgabeformat {Dimacs_Format, XML_Format};
 
 /* Statistik */
 
+/*!
+  \typedef StatisticsCount
+  \brief Unsigned integral type for counting for example nodes and reductions
+*/
+typedef unsigned long int StatisticsCount;
 
-extern long unsigned int
+extern StatisticsCount
   Knoten, /* Anzahl der Aufrufe von "SAT" */
   SingleKnoten, /* Anzahl der Aufrufe von "SAT" ohne binaere Verzweigung */
   VerSingleKnoten, /* Verpasste Single-Knoten (wg. falscher Reihenfolge der Zweige */
@@ -404,7 +409,13 @@ extern long unsigned int
   neue2Klauseln,
   maxneue2K;
 
-extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
+/*!
+  \typedef StatisticsCount_short
+  \brief Unsigned integral type for example the maximal search-tree depth
+*/
+typedef unsigned int StatisticsCount_short;
+
+extern StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
 /* Anzahl der ("wirklichen") Blaetter: */
 /*      ((Knoten - SingleKnoten) + 1) / 2  - QuasiSingleKnoten */

@@ -206,14 +206,10 @@ unsigned int Runde;
 
 /* Statistik */
 
-/*!
-  \typedef StatisticsCount
-  \brief Unsigned integral type for counting for example nodes and reductions
-*/
-typedef unsigned long int StatisticsCount;
-
 StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
-unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
+
+StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
+
 
 static clock_t Verbrauch;
 
