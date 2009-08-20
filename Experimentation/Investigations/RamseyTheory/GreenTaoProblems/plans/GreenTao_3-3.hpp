@@ -63,7 +63,29 @@ BestSolution_Max = 1.000000
    <li> n=137:
     <ol>
      <li> Without symmetry breaking and without preprocessing:
-     
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -D14 -M -F GreenTao_3-3-3-3_137.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=411 initial_number_of_clauses=3614 initial_number_of_literal_occurrences=10431 running_time(s)=358228.8 number_of_nodes=517673976 number_of_single_nodes=8226277 number_of_quasi_single_nodes=0 number_of_2-reductions=4048438213 number_of_pure_literals=0 number_of_autarkies=473887 number_of_missed_single_nodes=14846911max_tree_depth=58 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=3256102327 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=411 file_name=GreenTao_3-3-3-3_137.cnf
+     \endverbatim
+     The plot of the numbers of nodes shows some kind of periodic patterns.
+     The relation between nodes and time is very linear:
+     \verbatim
+> NE = lm(E$time ~ E$nodes)
+> summary(NE)
+Residuals:
+      Min        1Q    Median        3Q       Max
+-23.61630  -0.02370   0.01408   0.02322  67.70912
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.408e-02  2.040e-02   -0.69     0.49
+E$nodes      6.924e-04  1.879e-07 3685.43   <2e-16 ***
+Residual standard error: 2.255 on 13850 degrees of freedom
+Multiple R-squared: 0.999,      Adjusted R-squared: 0.999
+F-statistic: 1.358e+07 on 1 and 13850 DF,  p-value: < 2.2e-16
+     \endverbatim
+     The number of nodes was highest at the beginning, and then, piecewise,
+     the sub-problems got easier.
      </li>
      <li> Without symmetry breaking and with preprocessing:
      \verbatim
@@ -71,9 +93,78 @@ BestSolution_Max = 1.000000
 s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 initial_number_of_clauses=3202 initial_number_of_literal_occurrences=12536 running_time(s)=6105.7 number_of_nodes=9573917 number_of_single_nodes=64902 number_of_quasi_single_nodes=0 number_of_2-reductions=63127589 number_of_pure_literals=22228 number_of_autarkies=12674 number_of_missed_single_nodes=88075 max_tree_depth=52 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0reduced_number_of_literal_occurrences=0 number_of_1-autarkies=227225 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=136 file_name=GreenTao_3-3-3-3_137.cnf_m2pp_4279
      \endverbatim
+     The relation between time and nodes is very linear:
+     \verbatim
+> TN = lm(E$time ~ E$nodes)
+> summary(TN)
+Residuals:
+       Min         1Q     Median         3Q        Max
+-9.8510128 -0.0243738 -0.0152368  0.0005773  8.8206325
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.740e-02  2.580e-02   0.675      0.5
+E$nodes     6.361e-04  6.845e-07 929.331   <2e-16 ***
+Residual standard error: 0.7391 on 891 degrees of freedom
+Multiple R-squared: 0.999,      Adjusted R-squared: 0.999
+F-statistic: 8.637e+05 on 1 and 891 DF,  p-value: < 2.2e-16
+     \endverbatim
      </li>
      <li> With symmetry breaking and without preprocessing:
-     
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D10 -F GreenTao_sb_3-3_137.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=411 initial_number_of_clauses=3616 initial_number_of_literal_occurrences=10433 running_time(s)=118149.6 number_of_nodes=169930659 number_of_single_nodes=2708740 number_of_quasi_single_nodes=0 number_of_2-reductions=1325866058 number_of_pure_literals=0 number_of_autarkies=157007 number_of_missed_single_nodes=4893085 max_tree_depth=56 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=3 reduced_number_of_clauses=80 reduced_number_of_literal_occurrences=270 number_of_1-autarkies=2150926704 number_of_initial_unit-eliminations=3 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=445 file_name=GreenTao_sb_3-3_137.cnf
+     \endverbatim
+     W.r.t. the number of nodes symmetry breaking achieves a little bit better
+     than the factor of 3 which is "expected". Time is highly linear in the 
+     nodes:
+     \verbatim
+> TN = lm(E2$time ~ E2$nodes)
+> summary(TN)
+Residuals:
+     Min       1Q   Median       3Q      Max
+-33.3498  -0.7968  -0.5493  -0.1532  83.9398
+Coefficients:
+             Estimate Std. Error  t value Pr(>|t|)
+(Intercept) 5.506e-01  1.915e-01    2.875  0.00413 **
+E2$nodes    6.923e-04  4.250e-07 1628.727  < 2e-16 ***
+Residual standard error: 5.359 on 933 degrees of freedom
+Multiple R-squared: 0.9996,     Adjusted R-squared: 0.9996
+F-statistic: 2.653e+06 on 1 and 933 DF,  p-value: < 2.2e-16
+     \endverbatim
+     The average number of 2-reductions is highly concentrated around the 
+     median 7.7. The number of single nodes is rather linear in the number of
+     nodes:
+     \verbatim
+> SN = lm(E2$singles ~ E2$nodes)
+> summary(SN)
+Residuals:
+     Min       1Q   Median       3Q      Max
+-3259.76   -82.93   -58.47    44.21  2392.32
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 8.393e+01  1.722e+01   4.874 1.29e-06 ***
+E2$nodes    1.548e-02  3.822e-05 405.008  < 2e-16 ***
+Residual standard error: 481.8 on 933 degrees of freedom
+Multiple R-squared: 0.9943,     Adjusted R-squared: 0.9943
+F-statistic: 1.64e+05 on 1 and 933 DF,  p-value: < 2.2e-16
+     \endverbatim
+     The number of autarkies is quite linear in the number of nodes, with
+     outliers, but the central axis is perfectly matched by
+     \verbatim
+> AN = lm(E2$autarkies ~ E2$nodes)
+> summary(AN)
+Residuals:
+     Min       1Q   Median       3Q      Max
+-816.997  -14.188   -4.524   -4.293 2029.113
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 4.293e+00  5.215e+00   0.823    0.411
+E2$nodes    9.003e-04  1.157e-05  77.790   <2e-16 ***
+Residual standard error: 145.9 on 933 degrees of freedom
+Multiple R-squared: 0.8664,     Adjusted R-squared: 0.8663
+F-statistic:  6051 on 1 and 933 DF,  p-value: < 2.2e-16
+     \endverbatim
      </li>
      <li> With symmetry breaking and with preprocessing:
      \verbatim
