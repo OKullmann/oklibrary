@@ -18,6 +18,7 @@ License, or any later version. */
 
   <ul>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-4-5.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-6.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-7.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-3-k.hpp
     <ol>
@@ -30,18 +31,8 @@ License, or any later version. */
      <li> greentao_3(3,4,5) </li>
     </ol>
    </li>
-   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3.hpp
-    <ol>
-     <li> greentao_4(3)
-      <ol>
-       <li> It is still not so clear that n=377 is unsatisfiable; one
-       should use cutoff=4*10^9 for 1000 runs (with adaptnovelty+). </li>
-       <li> For complete solvers it looks bleak (at this time), but we
-       need to systematically explore the available solvers. </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3.hpp </li>
   </ul>
 
 
