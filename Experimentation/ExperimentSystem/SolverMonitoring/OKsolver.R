@@ -5,6 +5,10 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# #######
+# Input #
+# #######
+
 # Reading monitoring-data produced by OKsolver_2002:
 read_oksolver_mon = function(filename, ...) {
   E = read.table(file = filename, header=T,
@@ -20,6 +24,11 @@ read_oksolver_mon = function(filename, ...) {
 # plot(E) yields a nice graphical overview (all combinations of combined
 # data plots); but often, say, plot(E[-(1:100),]) is more appropriate,
 # which eliminates the first 100 rows from the data frame.
+
+
+# ##############
+# # Evaluation #
+# ##############
 
 # Plotting levels -> average-nodes and levels -> nodes.
 # Use "left" and "right" to restrict to the observation-nodes within this
@@ -56,3 +65,42 @@ plot_oksolver_mon_nodes = function(E, left=128, right=max(E$level), ldstep=round
   cat("obs/count=", (right-left+1)/length(E$level), "nodes-range=", range(E$nodes), "ave-nodes-range=", range(E$ave_nodes), "\n")
 }
 
+# Printing some basic summary statistics, and linear regression information,
+# and showing the resulting plots:
+summary_oksolver = function(E, ...) {
+  cat("Nodes:\n")
+  print(summary(E$nodes))
+  cat("2-reductions:\n")
+  print(summary(E$ave_reductions[E$ave_reductions>0]))
+  cat("Single nodes:\n")
+  print(summary(E$singles))
+  cat("Autarkies:\n")
+  print(summary(E$autarkies))
+
+  cat("Time ~ nodes:\n")
+  TN = lm(E$time ~ E$nodes)
+  print(summary(TN)$r.squared)
+  print(coefficients(TN))
+  cat("Single nodes ~ nodes:\n")
+  SN = lm(E$singles ~ E$nodes)
+  print(summary(SN)$r.squared)
+  print(coefficients(SN))
+  cat("Autarkies ~ nodes:\n")
+  AN = lm(E$autarkies ~ E$nodes)
+  print(summary(AN)$r.squared)
+  print(coefficients(AN))
+
+  old_mfrow = par("mfrow")
+  old_mar = par("mar")
+  par(mfrow=c(3,1))
+  par(mar=c(0,4,1,1))
+  plot(E$nodes,E$time, xaxt="n", ...)
+  lines(E$nodes,predict(TN))
+  par(mar=c(0,4,1,1))
+  plot(E$nodes,E$singles, xaxt="n", ...)
+  lines(E$nodes,predict(SN))
+  par(mar=c(5,4,1,1))
+  plot(E$nodes,E$autarkies, ...)
+  lines(E$nodes,predict(AN))
+  par(mfrow=old_mfrow, mar=old_mar)
+}

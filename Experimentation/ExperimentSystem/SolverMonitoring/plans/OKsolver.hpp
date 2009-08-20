@@ -20,5 +20,14 @@ License, or any later version. */
    100 / 10 = 10. </li>
   </ul>
 
+
+  \todo Function summary_oksolver
+  <ul>
+   <li> It would be good if one could just say "summary(E)". For this the
+   data frames needed to be "marked". </li>
+   <li> The R-standard is to have "summary" just outputting text, while by
+   "plot" one gets plots; now we have it combined? </li>
+  </ul>
+
 */
 
