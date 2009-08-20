@@ -420,7 +420,8 @@ BestSolution_Max = 4.000000
      outlined in
      ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp
      we first investigate n=376. </li>
-     <li> New run with cutoff=4*10^9: </li>
+     <li> New run with cutoff=4*10^9: 55 runs yield 7 times min=1 (rest min=2).
+     </li>
     </ol>
    </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
