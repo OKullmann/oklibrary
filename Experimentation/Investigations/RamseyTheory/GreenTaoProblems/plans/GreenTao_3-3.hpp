@@ -66,7 +66,7 @@ BestSolution_Max = 1.000000
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -D14 -M -F GreenTao_3-3-3-3_137.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=411 initial_number_of_clauses=3614 initial_number_of_literal_occurrences=10431 running_time(s)=358228.8 number_of_nodes=517673976 number_of_single_nodes=8226277 number_of_quasi_single_nodes=0 number_of_2-reductions=4048438213 number_of_pure_literals=0 number_of_autarkies=473887 number_of_missed_single_nodes=14846911max_tree_depth=58 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=3256102327 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=411 file_name=GreenTao_3-3-3-3_137.cnf
+c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=411 initial_number_of_clauses=3614 initial_number_of_literal_occurrences=10431 running_time(s)=358228.8 number_of_nodes=517673976 number_of_single_nodes=8226277 number_of_quasi_single_nodes=0 number_of_2-reductions=4048438213 number_of_pure_literals=0 number_of_autarkies=473887 number_of_missed_single_nodes=14846911 max_tree_depth=58 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=3256102327 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=411 file_name=GreenTao_3-3-3-3_137.cnf
      \endverbatim
      The plot of the numbers of nodes shows some kind of periodic patterns.
      The relation between nodes and time is very linear:
@@ -85,13 +85,14 @@ Multiple R-squared: 0.999,      Adjusted R-squared: 0.999
 F-statistic: 1.358e+07 on 1 and 13850 DF,  p-value: < 2.2e-16
      \endverbatim
      The number of nodes was highest at the beginning, and then, piecewise,
-     the sub-problems got easier.
+     the sub-problems got easier. Average 2-reduction per node is 7.8, and 
+     this yields 411/7.8 ~ 53, close to the depth.
      </li>
      <li> Without symmetry breaking and with preprocessing:
      \verbatim
 > OKsolver_2002-m2pp -D10 -M -F GreenTao_3-3-3-3_137.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 initial_number_of_clauses=3202 initial_number_of_literal_occurrences=12536 running_time(s)=6105.7 number_of_nodes=9573917 number_of_single_nodes=64902 number_of_quasi_single_nodes=0 number_of_2-reductions=63127589 number_of_pure_literals=22228 number_of_autarkies=12674 number_of_missed_single_nodes=88075 max_tree_depth=52 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0reduced_number_of_literal_occurrences=0 number_of_1-autarkies=227225 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=136 file_name=GreenTao_3-3-3-3_137.cnf_m2pp_4279
+c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=272 initial_number_of_clauses=3202 initial_number_of_literal_occurrences=12536 running_time(s)=6105.7 number_of_nodes=9573917 number_of_single_nodes=64902 number_of_quasi_single_nodes=0 number_of_2-reductions=63127589 number_of_pure_literals=22228 number_of_autarkies=12674 number_of_missed_single_nodes=88075 max_tree_depth=52 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=227225 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=136 file_name=GreenTao_3-3-3-3_137.cnf_m2pp_4279
      \endverbatim
      The relation between time and nodes is very linear:
      \verbatim
@@ -108,6 +109,7 @@ Residual standard error: 0.7391 on 891 degrees of freedom
 Multiple R-squared: 0.999,      Adjusted R-squared: 0.999
 F-statistic: 8.637e+05 on 1 and 891 DF,  p-value: < 2.2e-16
      \endverbatim
+     The average number of 2-reductions is 6.6, and 272 / 6.6 ~ 41.
      </li>
      <li> With symmetry breaking and without preprocessing:
      \verbatim
@@ -133,7 +135,8 @@ Multiple R-squared: 0.9996,     Adjusted R-squared: 0.9996
 F-statistic: 2.653e+06 on 1 and 933 DF,  p-value: < 2.2e-16
      \endverbatim
      The average number of 2-reductions is highly concentrated around the 
-     median 7.7. The number of single nodes is rather linear in the number of
+     median 7.7. 411 / 7.7 ~ 53, which is close to the depth. The number of 
+     single nodes is rather linear in the number of
      nodes:
      \verbatim
 > SN = lm(E2$singles ~ E2$nodes)
@@ -172,7 +175,8 @@ F-statistic:  6051 on 1 and 933 DF,  p-value: < 2.2e-16
 s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 initial_number_of_clauses=3127 initial_number_of_literal_occurrences=12164 running_time(s)=800.1 number_of_nodes=1240869 number_of_single_nodes=6668 number_of_quasi_single_nodes=0 number_of_2-reductions=8108302 number_of_pure_literals=2701 number_of_autarkies=1427 number_of_missed_single_nodes=9847 max_tree_depth=55 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=8226 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=172 file_name=GreenTao_sb_3-3_137.cnf_m2pp_18152
      \verbatim
-     Symmetry breaking is surprisingly effective here.
+     Average 2-reductions ~ 6.5, and 270 / 6.5 ~ 41. Symmetry breaking is
+     surprisingly effective here.
      </li>
      <li> The above "symmetry breaking" is "simple symmetry breaking",
      which should be the right form since we have k=3 here throughout. </li>

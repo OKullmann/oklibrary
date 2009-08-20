@@ -451,23 +451,25 @@ BestSolution_Max = 146.000000
     <ol>
      <li> Without preprocessing:
      \verbatim
-> OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2-3-6_2072.cnf
- GreenTao_2-3-6_2072.cnf, 1073741824
-  8:    28,   15.1, 2024003323.2
+> OKsolver_2002-O3-DNDEBUG -M -D30 -F GreenTao_2-3-6_2072.cnf
+ Daten/GreenTao/GreenTao_2-3-6_2072.cnf,   30, 1073741824
+     8:     28      3.50  3.76E+09     4.09s     0.51s    17y 148d 14h 15m  3s     0     0   27
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=-653.2 number_of_nodes=16842 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=338046 number_of_pure_literals=11941 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=92 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=3398799 number_of_initial_unit-eliminations=0number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-3-6_2072.cnf
+c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=8765.7 number_of_nodes=35468 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=717493 number_of_pure_literals=24890 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=92 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=7168614 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
      \endverbatim
-     looks hopeless.
+     has average 2-reductions ~ 20.2, where 2071 / 20.2 ~ 102.
      </li>
      <li> With preprocessing:
      \verbatim
 > minisat2 -dimacs=GreenTao_2-3-6_2072_pre.cnf GreenTao_2-3-6_2072.cnf
 > OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_2-3-6_2072_pre.cnf
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=-1489.3 number_of_nodes=6440 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=113298 number_of_pure_literals=1639 number_of_autarkies=0 number_of_missed_single_nodes=0max_tree_depth=101 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=28917 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-3-6_2072_pre.cnf
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=-1489.3 number_of_nodes=6440 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=113298 number_of_pure_literals=1639 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=101 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=28917 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2-3-6_2072_pre.cnf
      \endverbatim
+     Average 2-reductions ~ 17.6, with 1316 / 17.6 ~ 75 (one should run it
+     for a longer time; perhaps the depth of 101 is a kind of "anomaly"?).
      Actually, nearly no reduction in formula size, but quite some variables
-     where eliminated (at the expense of longer clauses). Doesn't seem to
+     were eliminated (at the expense of longer clauses). Doesn't seem to
      make the problem (observable) easier (and for local search algorithms
      it makes it even harder --- see above). </li>
      </li>
