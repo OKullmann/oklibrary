@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.7.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,22 +36,22 @@ bt_sum(t) := apply("+", t)$
 
 /* For the concatenation of branching tuples, "append" is to be used. */
 
-/* Composition of branching tuples at position 1 */
+/* Composition of branching tuples at position 1: */
 bt_composition(a,b) := if emptyp(a) then [] else append(a[1] + b, rest(a))$
-/* Composition of branching tuples at position i */
+/* Composition of branching tuples at position i: */
 bt_composition_i(a,b,i) := if emptyp(a) then [] 
   else append(rest(a, -(length(a) - i + 1)), a[i] + b, rest(a,i))$
 
 /*
- A "permutation" in S_n is a list P of length n of all the elements in {1,...,n};
- it stands for the bijection i -> P[i].
+ A "permutation" in S_n is a list P of length n of all the elements in 
+ {1,...,n}; it stands for the bijection i -> P[i].
 */
 
-/* Apply a permutation (or, more generally, an index selection) */
+/* Apply a permutation (or, more generally, an index selection): */
 bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t))$
 
 /* The branching-tuple-hull of a branching tuple t w.r.t. upper-bound
-   s on the maximum, together with the set of saturated elements */
+   s on the maximum, together with the set of saturated elements: */
 bth(t, s) := if s < bt_max(t) then [{},{}] else 
  block([hull : {t}, new_size : 1, old_size : 0, saturated : {}],
   while new_size > old_size do (
@@ -63,7 +63,7 @@ bth(t, s) := if s < bt_max(t) then [{},{}] else
       new_size : length(hull))),
   return([hull, block([mt:bt_max(t)], subset(hull, lambda([a],is(bt_min(a)+mt>s))))]))$
 
-/* Compute greedily one saturated tuple in the branching-tuple-hull */
+/* Compute greedily one saturated tuple in the branching-tuple-hull: */
 bth_saturated_greedy(t,s) := block([m : bt_max(t), ts : sort(t)],
   while ts[1] + m <= s do (
     ts : bt_composition(ts,t),
@@ -71,8 +71,8 @@ bth_saturated_greedy(t,s) := block([m : bt_max(t), ts : sort(t)],
   ),
   return(ts))$
 
-/* the integer sequence corresponding to an integer branching tuple,
-   that is, the first n elements */
+/* The integer sequence corresponding to an integer branching tuple,
+   that is, the first n elements: */
 int_seq_bt(t) := block([m : bt_max(t), l : length(t)], 
   return(buildq([m,l,t],
    lambda([n], block([S : makelist(1,i,1,min(n,m))],
@@ -80,7 +80,7 @@ int_seq_bt(t) := block([m : bt_max(t), l : length(t)],
        S : endcons(sum(S[i-t[j]+1],j,1,l),S),
      return(S)))
    )))$
-/* for example with fibi : int_seq_bt([1,2]) we get
+/* For example with fibi : int_seq_bt([1,2]) we get
    fibi(7) = [1, 1, 2, 3, 5, 8, 13]
    (note that fib is the predefined Fibonacci-function).
 */
@@ -92,26 +92,26 @@ int_seq_bt(t) := block([m : bt_max(t), l : length(t)],
 */
 
 /* n-ary arithmetic mean (while the arithmetic mean for branching tuples t
-   is just mean(t)) */
+   is just mean(t)): */
 meann([t]) := mean(t)$
 
-/* geometric mean */
+/* Geometric mean: */
 gmean(t) := apply("*", t)^(1/length(t))$
-/* n-ary geometric mean */
+/* n-ary geometric mean: */
 gmeann([t]) := gmean(t)$
 
-/* harmonic mean */
+/* Harmonic mean: */
 hmean(t) := length(t) / apply("+", t^(-1))$
-/* n-ary harmonic mean */
+/* n-ary harmonic mean: */
 hmeann([t]) := hmean(t)$
 
-/* power means with index -inf <= p <= inf */
+/* Power means with index -inf <= p <= inf: */
 genmean(t, p) := if p = minf then lmin(t) elseif p = 0 then gmean(t) elseif p = inf then lmax(t) else mean(t^p)^(1/p)$
-/* (n+1)-ary power means */
+/* (n+1)-ary power means: */
 genmeann([u]) := genmean(rest(u,-1), last(u))$
-/* binary power mean */
+/* Binary power mean: */
 genmean2(x,y,p) := genmeann(x,y,p)$
-/* ternary power mean */
+/* Ternary power mean: */
 genmean3(x,y,z,p) := genmeann(x,y,z,p)$
 
 
@@ -122,23 +122,25 @@ genmean3(x,y,z,p) := genmeann(x,y,z,p)$
 
 load (descriptive)$
 
-/* The lower bound given by the arithmetic mean */
+/* The lower bound given by the arithmetic mean: */
 tau_lo(t) := length(t)^(1/mean(t))$
-/* n-ary version */
+/* n-ary version: */
 tau_lon([t]) := tau_lo(t)$
 
-/* The upper bound given by the power means (defined below) */
+/* The upper bound given by the power means (defined below): */
 tau_up(t) := length(t)^(1/genmean(t,2-length(t)))$
-/* n-ary version */
+/* n-ary version: */
 tau_upn([t]) := tau_up(t)$
+
 
 /* ****************************
    * Comparison of tau-values *
    ****************************
 */
 
-/* bt_comparison(t,alpha) is pos, zero, neg if tau(t) > alpha resp. = alpha resp. < alpha 
-   (this decision uses only symbolic means, no numeric ones) */
+/* bt_comparison(t,alpha) is pos, zero, neg if tau(t) > alpha resp. 
+   = alpha resp. < alpha 
+   (this decision uses only symbolic means, no numeric ones): */
 bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
 
 
@@ -148,15 +150,15 @@ bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
 *******************************************************
 */
 
-/* the chi-functional */
+/* The chi-functional: */
 chi(t,x) := bt_sum(x^(-t))$
 
-/* For fixed t, compute the Newton-step for chi(t,x)-1 = 0 */
+/* For fixed t, compute the Newton-step for chi(t,x)-1 = 0: */
 chi_newtonstep(t) := buildq([t],
  lambda([x], block([p : x^(-t)],
   return((apply("+",p)-1) / apply("+",t*p/x)))))$
 
-/* Computing the tau-function by the Newton-method. */
+/* Computing the tau-function by the Newton-method: */
 tau_eps(t,eps) := block([l:length(t)],
  if l = 0 then inf elseif l = 1 then 1 else
  block([dxf : chi_newtonstep(t), x : tau_lo(t), dx],
@@ -167,13 +169,14 @@ tau_eps(t,eps) := block([l:length(t)],
   ),
   return(x)))$
 
-/* Given a branching tuple, compute its tau-value (supplying a standard eps) */
+/* Given a branching tuple, compute its tau-value (supplying a standard eps):
+*/
 tau(t) := tau_eps(float(t), 10^-15)$
 /* floatnump(tau(t)) is true */
-/* n-ary version (using the standard eps) */
+/* n-ary version (using the standard eps): */
 taun([v]) := tau(v)$
 
-/* Binary and ternary versions */
+/* Binary and ternary versions: */
 tau2(x,y) := taun(x,y)$
 tau3(x,y,z) := taun(x,y,z)$
 
@@ -183,15 +186,16 @@ tau3(x,y,z) := taun(x,y,z)$
    ********************
 */
 
-/* Use float(x) to compute a floating-point representation of x. 
+/* General remarks on floating-point representations:
+   Use float(x) to compute a floating-point representation of x. 
    To use higher precision, set fpprec to the required number of
    decimal digits, and convert via bfloat. 
    Or use the following conversion function.
 */
-/* convert a number to a number with a given precision */
+/* Convert a number to a number with a given precision: */
 hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits, bfloat(x))$
 
-/* the tau-value with a given precision */
+/* The tau-value with a given precision: */
 tau_hp(t, decimal_digits) := block(
  [fpprec : fpprec], 
   fpprec : decimal_digits,
@@ -205,7 +209,7 @@ tau_hp(t, decimal_digits) := block(
 
 oklib_plain_include(sqdnst)$
 
-/* computes a symbolical solution if possible (otherwise returns false) */
+/* Computes a symbolical solution if possible (otherwise returns false): */
 tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], 
  if l = 0 then inf elseif l = 1 then 1
  else (sol : map(rhs, solve(chi(t,x)-1, x)), 
@@ -224,7 +228,7 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos],
 *******************************************************
 */
 
-/* The total differential for the tau-function */
+/* The total differential for the tau-function: */
 Dtau(t) := block([tv : tau(t)], block([pv : tv^(-t)],
   return((-tv * log(tv) / apply("+", t * pv)) * pv)))$
 
@@ -232,7 +236,7 @@ Dtaun([t]) := Dtau(t)$
 Dtau2(x,y) := Dtaun(x,y)$
 Dtau3(x,y,z) := Dtaun(x,y,z)$
 
-/* Symbolic differentiation of tau2 */
+/* Symbolic differentiation of tau2: */
 Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
   return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)))$
 
@@ -251,17 +255,17 @@ tauprobn([t]) := tauprob(t)$
 tauprob2(x,y) := tauprobn(x,y)$
 tauprob3(x,y,z) := tauprobn(x,y,z)$
 
-/* Higher precision */
+/* Higher precision: */
 tauprob_hp(t, decimal_digits) := block([fpprec : fpprec], 
   fpprec : decimal_digits, t : bfloat(t),
   block([ts : t / lmin(t)], tau_hp(ts,decimal_digits)^(-ts)))$
 
-/* Symbolical computation (if possible) */
+/* Symbolical computation (if possible): */
 tauprob_symbolical(t) := tau_symbolical(t)^(-t)$
 /* Applying factor(expand(r)), radcan(r) or fullratsimp(r) to the result r 
    might help simplifying. */
 
-/* The canonical inversion for tuples p with bt_sum(p) = 1 */
+/* The canonical inversion for tuples p with bt_sum(p) = 1: */
 invtauprob(p) := -map(log,p)$
 /* tauprob(invtprop(p)) = p and invtprop(tauprob(t)) = t * log(tau(t)) */
 
@@ -271,9 +275,9 @@ invtauprob(p) := -map(log,p)$
    ****************
 */
 
-/* Auxiliary function to test for zero */
+/* Auxiliary function to test for zero: */
 zerop(x) := is(equal(x,0))$
-/* Auxiliary function to test for +infinity */
+/* Auxiliary function to test for +infinity: */
 infp(x) := is(equal(x,inf))$
 
 /* The basic tau-mean: */
@@ -284,14 +288,14 @@ taumeanb3(x,y,z) := taumeanb([x,y,z]);
 taumean(t) := if length(t) <= 1 then inf 
   elseif some(zerop, t) then 0 
   else float(log(length(t))) / log(tau(t))$
-/* the n-ary tau-mean */
+/* The n-ary tau-mean: */
 taumeann([t]) := taumean(t)$
-/* the binary tau-mean */
+/* The binary tau-mean: */
 taumean2(x,y) := taumeann(x,y)$
-/* the ternary tau-mean */
+/* The ternary tau-mean: */
 taumean3(x,y,z) := taumeann(x,y,z)$
 
-/* tau-mean additionally also allowing inf-values */
+/* Tau-mean additionally also allowing inf-values: */
 taumean_inf(t) := if some(infp, t) then 
     block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
   else taumean(t)$
@@ -304,8 +308,8 @@ taumean_infn([t]) := taumean_inf(t)$
 */
 
 
-/* Considerung for a branching tuple t0 and a direction d0 (a real vector of the same
-length as t) the function x -> tau(t0 + x * d0) : */
+/* Considerung for a branching tuple t0 and a direction d0 (a real vector of
+   the same length as t) the function x -> tau(t0 + x * d0): */
 
 tau_line(x) := (local(x), tau(t0 + x * d0))$
 logtau_line(x) := (local(x), log(tau(t0 + x * d0)))$
