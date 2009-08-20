@@ -31,12 +31,12 @@ License, or any later version. */
     - Outline of the test system
 
   \par
-   Replacement of "some" by "some_s", and of "every" by "every_s" (supplying
-   tests for all modified functions):
+   Replacement of "some" by "some_s" (DONE), and of "every" by "every_s"
+   (supplying tests for all modified functions):
    <ol>
     <li> %Algebra : </li>
-    <li> AutomatedTheoremProving : </li>
-    <li> CombinatorialMatrices : </li>
+    <li> AutomatedTheoremProving : DONE </li>
+    <li> CombinatorialMatrices : DONE </li>
     <li> Cryptology (MG) : DONE
      <ol>
       <li> directly under Lisp : DONE </li>
@@ -46,31 +46,31 @@ License, or any later version. */
     </li>
     <li> DataStructures : </li>
     <li> %Graphs : </li>
-    <li> Hypergraphs : </li>
-    <li> LinearAlgebra : </li>
-    <li> MaximaInternals : </li>
-    <li> %NumberTheory : </li>
-    <li> Numerical : </li>
+    <li> Hypergraphs : DONE </li>
+    <li> LinearAlgebra : DONE </li>
+    <li> MaximaInternals : DONE </li>
+    <li> %NumberTheory : DONE </li>
+    <li> Numerical : DONE </li>
     <li> Satisfiability :
      <ol>
-      <li> Autarkies : </li>
-      <li> Backdoors : </li>
+      <li> Autarkies : DONE </li>
+      <li> Backdoors : DONE </li>
       <li> Backtracking </li>
-      <li> BranchingTuples </li>
+      <li> BranchingTuples : DONE </li>
       <li> %ClauseSets : </li>
-      <li> ConflictCombinatorics : </li>
-      <li> ConstraintProblems </li>
-      <li> Counting : </li>
+      <li> ConflictCombinatorics : DONE </li>
+      <li> ConstraintProblems : DONE </li>
+      <li> Counting : DONE </li>
       <li> %Generators </li>
       <li> MinimalUnsatisfiability </li>
-      <li> PropositionalLogic </li>
-      <li> Reductions : </li>
-      <li> Resolutions : </li>
-      <li> Symmetries : </li>
+      <li> PropositionalLogic : DONE </li>
+      <li> Reductions : DONE </li>
+      <li> Resolutions : DONE </li>
+      <li> Symmetries : DONE </li>
      </ol>
     </li>
-    <li> TestSystem : </li>
-    <li> Trees : </li>
+    <li> TestSystem : DONE </li>
+    <li> Trees : DONE </li>
    </ol>
 
   \par
