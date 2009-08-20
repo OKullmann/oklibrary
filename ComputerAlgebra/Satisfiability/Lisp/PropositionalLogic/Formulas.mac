@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
 /* ***********************************
    * Representation of formulas      *
    ***********************************
@@ -34,7 +35,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* A "propositional formula" is a labelled tree, where the labels are either
    literals at the leaves or operation-labels at inner nodes, which are 
-   strings "and", "not", "xor", "equiv" representing n-ary operations, 
+   strings "and", "or", "xor", "equiv" representing n-ary operations, 
    "impl" (binary) and "not" (unary).
 */
 /*
@@ -113,11 +114,11 @@ elimination_constants_ft(F) := block([l : length(F)],
     nc : length(C),
     C : makelist(C[i][1],i,1,nc),
     if F[1] = "and" then (
-      r : every(identity, C),
+      r : every_s(identity, C),
       if not r or nc = l-1 then return([r])
       else return(cons("and", R)))
     elseif F[1] = "or" then (
-      r : some(identity, C),
+      r : some_s(identity, C),
       if r or nc = l-1 then return([r])
       else return(cons("or", R)))
     else /* now F[1] = "xor" */ (
