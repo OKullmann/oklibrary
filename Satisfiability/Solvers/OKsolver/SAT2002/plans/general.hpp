@@ -319,6 +319,15 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      OKsolver_2002. </li>
     </ol>
    </li>
+   <li> Statistics regarding the shape of the tree:
+    <ol>
+     <li> Elementary statistics on the distribution of leaf-depths should
+     be very relevant: counting the leaves, and the sum and the sum of
+     squares of their depths (so that mean and standard deviation can
+     be computed). </li>
+     <li> Type "double" should be alright for the sums. </li>
+    </ol>
+   </li>
   </ul>
 
 
