@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac"
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
 /*
  A "branching tuple" is a list of positive numbers, which in case of length
  one can also include 0 (also the empty list is possible).
@@ -144,10 +147,9 @@ tau_upn([t]) := tau_up(t)$
 bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
 
 
-/*
-*******************************************************
-*   Computing the tau-function                        *
-*******************************************************
+/* *******************************************************
+   *   Computing the tau-function                        *
+   *******************************************************
 */
 
 /* The chi-functional: */
@@ -222,10 +224,9 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos],
 /* Remark: Apply "optimize" to the result to obtain a representation with
    shared subterms. */
 
-/*
-*******************************************************
-*   Derivatives of the tau-function                   *
-*******************************************************
+/* ***********************************
+   * Derivatives of the tau-function *
+   ***********************************
 */
 
 /* The total differential for the tau-function: */
@@ -243,10 +244,9 @@ Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
 gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2])$
 
 
-/*
-*******************************************************
-*   The induced probability distribution              *
-*******************************************************
+/* ******************************************
+   *   The induced probability distribution *
+   ******************************************
 */
 
 /* The probability distribution derived from a branching tuple: */
@@ -286,7 +286,7 @@ taumeanb2(x,y) := taumeanb([x,y]);
 taumeanb3(x,y,z) := taumeanb([x,y,z]);
 /* The tau-mean for tuples allowing zero-values: */
 taumean(t) := if length(t) <= 1 then inf 
-  elseif some(zerop, t) then 0 
+  elseif some_s(zerop, t) then 0 
   else float(log(length(t))) / log(tau(t))$
 /* The n-ary tau-mean: */
 taumeann([t]) := taumean(t)$
@@ -296,15 +296,15 @@ taumean2(x,y) := taumeann(x,y)$
 taumean3(x,y,z) := taumeann(x,y,z)$
 
 /* Tau-mean additionally also allowing inf-values: */
-taumean_inf(t) := if some(infp, t) then 
+taumean_inf(t) := if some_s(infp, t) then 
     block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
   else taumean(t)$
 taumean_infn([t]) := taumean_inf(t)$
 
-/*
-*******************************************************
-*   Convexity considerations: line versions           *
-*******************************************************
+
+/* *********************************************
+   *   Convexity considerations: line versions *
+   *********************************************
 */
 
 

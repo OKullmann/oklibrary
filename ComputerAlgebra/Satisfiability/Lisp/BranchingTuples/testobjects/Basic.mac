@@ -1,0 +1,93 @@
+/* Oliver Kullmann, 20.8.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/testobjects/Basic.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/testobjects/Basic.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Basic.mac")$
+
+/* ************************
+   * Elementary functions *
+   ************************
+*/
+
+/* ***************
+   * Power means *
+   ***************
+*/
+
+/* ***********************************************
+   * Lower and upper bounds for the tau-function *
+   ***********************************************
+*/
+
+/* ****************************
+   * Comparison of tau-values *
+   ****************************
+*/
+
+/* ********************************
+   *   Computing the tau-function *
+   ********************************
+*/
+
+
+/* ********************
+   * Higher precision *
+   ********************
+*/
+
+/* ************************
+   * Symbolic computation *
+   ************************
+*/
+
+/* *************************************
+   *   Derivatives of the tau-function *
+   *************************************
+*/
+
+
+/* ******************************************
+   *   The induced probability distribution *
+   ******************************************
+*/
+
+
+/* ****************
+   * The tau-mean *
+   ****************
+*/
+
+okltest_taumean(taumean);
+okltest_taumean_inf(taumean_inf);
+
+/* *********************************************
+   *   Convexity considerations: line versions *
+   *********************************************
+*/
+
+
+/* ************************************
+   * Investigations on approximations *
+   ************************************
+*/
+
+/*!
+\endhtmlonly
+*/
