@@ -121,18 +121,6 @@ bool Belegung = false;
 #else
 bool Belegung = true;
 #endif
-/* Ist Belegung = true, so wird eine erfuellende Belegung ausgegen (ggfs.), */
-/* und zwar auf den Standard-Ausgabe-Strom (die naechste Zeile nach der */
-/* Statistik). */
-/* Das Format der Darstellung der partiellen Belegung ist: */
-/*  pro Zeile wird ein Paar "v e" angegeben, wobei */
-/*  v die Nummer der Variablen in der Eingabe ist, */
-/*  und e entweder 0 oder 1 ist. */
-/* Bsp.: F = (-4,2)(4,55)(-2) */
-/* ergibt */
-/*     4 0 */
-/*     2 0 */
-/*    55 1 */
 
 /* Schalter: */
 

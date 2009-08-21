@@ -1603,7 +1603,8 @@ void AusgabeBelegung(FILE* const fp) {
 
   if (Format == Dimacs_Format)
     fprintf(fp, "v");
-  else if (Format == XML_Format) {
+  else {
+    assert(Format == XML_Format);
     extern bool Dateiausgabe;
     Einrueckung = (Dateiausgabe) ? "" : " ";
     fprintf(fp, "%s<solution>\n", Einrueckung);
@@ -1620,12 +1621,10 @@ void AusgabeBelegung(FILE* const fp) {
         else
           fprintf(fp, " -%s", Symbol1(v));
       }
-      else if (Format == XML_Format) {
+      else {
         assert(Einrueckung);
         fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol1(v), e);
       }
-      else
-        fprintf(fp, "%7s %d\n", Symbol1(v), e);
     }
   {
     const Pfadinfo* const Z = Tiefe;
@@ -1638,19 +1637,17 @@ void AusgabeBelegung(FILE* const fp) {
         else
           fprintf(fp, " -%s", Symbol(v));
       }
-      else if (Format == XML_Format) {
+      else {
         assert(Einrueckung);
         fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol(v), e);
       }
-      else
-        fprintf(fp, "%7s %d\n", Symbol(v), e);
     }
     Tiefe = (Pfadinfo*) Z;
   }
 
   if (Format == Dimacs_Format)
     fprintf(fp, " 0\n");
-  else if (Format == XML_Format) {
+  else {
     assert(Einrueckung);
     fprintf(fp, "%s</solution>\n", Einrueckung);
     extern bool Dateiausgabe;
