@@ -48,7 +48,7 @@ License, or any later version. */
    <li> If <code>ASSIGNMENT</code> is defined, then if a satisfying assignment
    is found, it is output, while otherwise only the satisfiability status
    is returned. (Internally, <code>ASSIGNMENT</code> is translated yet into
-   <code>BELEGUNG</code>.) </li>
+   <code>BELEGUNG</code>.) Compare switch "-O" below. </li>
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
    %node with some statistics. </li>
@@ -155,83 +155,103 @@ CFLAGS="-UMACHINE_BITS_OKL"
     The restrictions for variable-names (not beginning with "0,c,p") only hold
     for DIMACS (x=1). DIMACS does not accept an empty clause, while the other
     formats do. </li>
-    <li> Toggles (switching between "ON" and "OFF"):
-     <ul>
-      <li> <code>-F</code> for printing the results also to files (default is
-      OFF). </li>
-      <li> <code>-M</code> for monitoring the level d of the backtracking tree
-      (default is OFF), where d=6 by default (watching 2^6 = 64 nodes).
-       <ul>
-        <li> d can be set using<code>-Dd</code>, for example
-        <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
-        Range 0 <= d <= 30. </li>
-        <li> Once a %node at level d is completed (called a "monitoring
-        node"), its number is printed out, followed by
-         <ol>
-          <li> the number of nodes created after the last monitoring node
-          has been completed, </li>
-          <li> the current average of the number of nodes created per
-          monitoring node, </li>
-          <li> the predicted total number of nodes, </li>
-          <li> the (processor) time it took to process the current monitoring
-          %node, </li>
-          <li> the current average time it took to process a monitoring %node,
-          </li>
-          <li> the predicted remaining running time (which is just the
-          current average time multiplied with the number of remaining
-          monitoring nodes), </li>
-          <li> the number of nodes realised (after the last monitoring node)
-          to have only one child due to tree-pruning, </li>
-          <li> the number of autarkies (after the last monitoring node), </li>
-          <li> finally the total tree depth. </li>
-         </ol>
-        </li>
-        <li> If file-output is activated (via "-F"):
-         <ol>
-          <li> The monitoring output is echoed to file "FullInputFileName.mo".
-          </li>
-          <li> The output to the file is more machine-readable, and the
-          predictions are left out since they are easily computable. </li>
-          <li> As an additional output one has the average number of
-          2-reductions ("failed literals") since the last monitoring node.
-          </li>
-          <li> Also output of branching literals for the monitoring levels
-          up to 2 levels before the monitoring level is activated (only
-          to the file). </li>
-          <li> This output consists of three numbers, first the level, then
-          the name of the variable, and then the first truth value to be
-          visited by the solver. </li>
-          <li> However, in order for this to work, currently also output of
-          satisfying partial assignments (if found) is to be activated (via
-          "-O"). </li>
-         </ol>
-        </li>
-       </ul>
-      </li>
-      <li> <code>-P</code> for only performing preprocessing (cleaning of input
-      and unit-clause-propagation). Some applications:
-       <ul>
-        <li> By
-        \verbatim
+   </li>
+   <li> Output formats:
+    <ol>
+     <li> <code>-DO</code> for printing the output in Dimacs format (this
+     is the default).
+      <ul>
+       <li> Here the possible results "SATISFIABLE, UNSATISFIABLE, UNKNOWN"
+       are in the first line of the output, which starts with "s ". </li>
+       <li> Followed by comment-lines (which start with "c ") with statistics.
+       </li>
+       <li> Finally, if output of satisfying assignments is activated (see
+       switch "-O" below), then in one line, starting with "v ", the list of
+       literals set to true is output (separated by spaces), concluded by
+       " 0" (as with clauses). </li>
+      </ul>
+     </li>
+     <li> <code>-XO</code> for printing the output in XML format. </li>
+    </ol>
+   </li>
+   <li> Toggles (switching between "ON" and "OFF"):
+    <ul>
+     <li> <code>-F</code> for printing the results also to files (default is
+     OFF). </li>
+     <li> <code>-M</code> for monitoring the level d of the backtracking tree
+     (default is OFF), where d=6 by default (watching 2^6 = 64 nodes).
+      <ul>
+       <li> d can be set using<code>-Dd</code>, for example
+       <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
+       Range 0 <= d <= 30. </li>
+       <li> Once a %node at level d is completed (called a "monitoring
+       node"), its number is printed out, followed by
+        <ol>
+         <li> the number of nodes created after the last monitoring node
+         has been completed, </li>
+         <li> the current average of the number of nodes created per
+         monitoring node, </li>
+         <li> the predicted total number of nodes, </li>
+         <li> the (processor) time it took to process the current monitoring
+         %node, </li>
+         <li> the current average time it took to process a monitoring %node,
+         </li>
+         <li> the predicted remaining running time (which is just the
+         current average time multiplied with the number of remaining
+         monitoring nodes), </li>
+         <li> the number of nodes realised (after the last monitoring node)
+         to have only one child due to tree-pruning, </li>
+         <li> the number of autarkies (after the last monitoring node), </li>
+         <li> finally the total tree depth. </li>
+        </ol>
+       </li>
+       <li> If file-output is activated (via "-F"):
+        <ol>
+         <li> The monitoring output is echoed to file "FullInputFileName.mo".
+         </li>
+         <li> The output to the file is more machine-readable, and the
+         predictions are left out since they are easily computable. </li>
+         <li> As an additional output one has the average number of
+         2-reductions ("failed literals") since the last monitoring node.
+         </li>
+         <li> Also output of branching literals for the monitoring levels
+         up to 2 levels before the monitoring level is activated (only
+         to the file). </li>
+         <li> This output consists of three numbers, first the level, then
+         the name of the variable, and then the first truth value to be
+         visited by the solver. </li>
+         <li> However, in order for this to work, currently also output of
+         satisfying partial assignments (if found) is to be activated (via
+         "-O"). </li>
+        </ol>
+       </li>
+      </ul>
+     </li>
+     <li> <code>-P</code> for only performing preprocessing (cleaning of input
+     and unit-clause-propagation). Some applications:
+      <ul>
+       <li> By
+       \verbatim
 > OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($4,29)}'
-        \endverbatim
-        the (precise) number of (occurring) variables is computed (without
-        any reduction). </li>
-        <li> And by
-        \verbatim
+       \endverbatim
+       the (precise) number of (occurring) variables is computed (without
+       any reduction). </li>
+       <li> And by
+       \verbatim
 > OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($5,27)}'
-        \endverbatim
-        the (precise) number of clauses is computed (without any reduction).
-        </li>
-       </ul>
-      </li>
-      <li> <code>-R</code> for the special DIMACS return values (default is ON
-      in case of DIMACS output, and OFF otherwise). </li>
-      <li> <code>-O</code> for output of a satisfying assignment (if found;
-      default is OFF). </li>
-     </ul>
-    </li>
-    <li> To be completed. </li>
+       \endverbatim
+       the (precise) number of clauses is computed (without any reduction).
+       </li>
+      </ul>
+     </li>
+     <li> <code>-R</code> for the special DIMACS return values (default is ON
+     in case of DIMACS output, and OFF otherwise). </li>
+     <li> <code>-O</code> for output of a satisfying assignment (if found;
+     default is OFF, however if macro ASSIGNMENT is set (see above) then the
+     default is ON). </li>
+    </ul>
+   </li>
+   <li> To be completed. </li>
   </ul>
 
 
