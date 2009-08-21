@@ -39,6 +39,44 @@ License, or any later version. */
   </ul>
 
 
+  \todo Preprocessing by reduction
+  <ul>
+   <li> The basic forms are:
+    <ol>
+     <li> application of forced assignments (see
+     Satisfiability/Lisp/Reductions/plans/GeneralisedUCP.hpp) </li>
+     <li> application of autarkies (see
+     Satisfiability/Lisp/Reductions/plans/GeneralisedUCP.hpp and for
+     example
+     ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/MatchingAutarkies.hpp)
+     </li>
+     <li> variable elimination by DP-reduction if the instance becomes
+     "smaller" (in some sense) (see
+     Satisfiability/Lisp/Reductions/plans/DP-Reductions.hpp) </li>
+     <li> replacing a subset of clauses by their set of prime clauses, if
+     the instance becomes smaller in some sense (so it is (also) a reduction,
+     and not (primarily) an amplification). </li>
+    </ol>
+   </li>
+   <li> Replacing subsets by their sets of prime clauses should cover (and
+   explain in a sense) all forms of (local) applications of resolution;
+   for example 2-subsumption resolution considers 2-element subsets.
+    <ol>
+     <li> We need also to consider the case, that the set of all prime clauses
+     is too big, but that some prime clauses are just very short, or even
+     subsume some old clauses. </li>
+     <li> Or perhaps is subsumption crucial here? So we might not use all
+     prime clauses, but at least all old clauses are subsumed. </li>
+     <li> So in effect single clauses are replaced by strict subclauses. </li>
+     <li> Attractive subsets are perhaps distinguished by a high clause
+     density. </li>
+    </ol>
+   </li>
+   <li> Addition of blocked clauses should be considered as amplification.
+   </li>
+  </ul>
+
+
   \todo Preprocessing by local compilation
   <ul>
    <li> Given a CNF F, a natural preprocessing-by-amplification scheme is to
