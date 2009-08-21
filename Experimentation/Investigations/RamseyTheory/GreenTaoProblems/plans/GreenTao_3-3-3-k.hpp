@@ -100,6 +100,47 @@ BestSolution_Max = 2.000000
      \endverbatim
      So let's consider this case as "unsatisfiable".
      </li>
+     <li> OKsolver_2002
+      <ol>
+       <li> Without preprocessing and without symmetry-breaking:
+       \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D30 -F GreenTao_3-3-3-4_434.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         4
+c initial_number_of_variables           1302
+c initial_number_of_clauses             20673
+c initial_number_of_literal_occurrences 62410
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1302
+c running_time(sec)                     6689.7
+c number_of_nodes                       478637
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5829494
+c number_of_pure_literals               0
+c number_of_autarkies                   4810
+c number_of_missed_single_nodes         19
+c max_tree_depth                        113
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 210768130
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_3-3-3-4_434.cnf
+       \endverbatim
+       average 2-reductions ~ 12.2, where 1302/12.2 ~ 107, while speed
+       is 72 nodes per second.
+       </li>
+       <li> With preprocessing and without symmetry-breaking: </li>
+       <li> Without preprocessing and with symmetry-breaking: </li>
+       <li> With preprocessing and with symmetry-breaking: </li>
+      </ol>
+     </li>
+     <li> minisat2 </li>
     </ol>
    </li>
    <li> n=437
