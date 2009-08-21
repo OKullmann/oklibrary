@@ -22,7 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.ma
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
 
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Basic.mac")
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac")$
 
 /*!
