@@ -165,7 +165,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3) > 377
+  \todo Lower bounds: greentao_4(3) > 378
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -406,7 +406,14 @@ BestSolution_Max = 4.000000
    </li>
    <li> n=378
     <ol>
-     <li> cutoff=10^9 yields in 15 runs 14 times min=2 and once min=1. </li>
+     <li> cutoff=10^9 yields in 15 runs 14 times min=2 and once min=1.
+     More runs:
+     \verbatim
+  1   2   3
+ 25 281  21
+327
+     \endverbatim
+     </li>
      <li> cutoff=4*10^9:
      \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 4000000000 -i GreenTao_4-3_378.cnf
@@ -421,9 +428,11 @@ BestSolution_Max = 4.000000
      ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp
      we first investigate n=376. </li>
      <li> New run with cutoff=4*10^9: 55 runs yield 7 times min=1 (rest min=2).
+     Then with 19 runs one was successfull: osteps=3189951424, seed=4157450661.
      </li>
     </ol>
    </li>
+   <li> n=379, cutoff=4*10^9: </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
    osteps ~ 500*10^6, so it looks unsatisfiable. </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
