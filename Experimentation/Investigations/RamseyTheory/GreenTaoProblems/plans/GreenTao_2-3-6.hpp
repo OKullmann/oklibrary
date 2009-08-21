@@ -455,22 +455,55 @@ BestSolution_Max = 146.000000
  Daten/GreenTao/GreenTao_2-3-6_2072.cnf,   30, 1073741824
      8:     28      3.50  3.76E+09     4.09s     0.51s    17y 148d 14h 15m  3s     0     0   27
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=25156.7 number_of_nodes=97866 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1972941 number_of_pure_literals=68223 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=94 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=19812129 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
+c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=42598.1 number_of_nodes=173575 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=3510562 number_of_pure_literals=118091 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=94 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=34995218 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
      \endverbatim
-     has average 2-reductions ~ 20.16, where 2071 / 20.16 ~ 102.7, while speed
-     is 3.89 nodes per second.
+     has average 2-reductions ~ 20.23, where 2071 / 20.16 ~ 102.3, while speed
+     is 4.07 nodes per second.
      </li>
      <li> With preprocessing:
      \verbatim
 > OKsolver_2002-m2pp -M -D30 -F Daten/GreenTao/GreenTao_2-3-6_2072.cnf
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=15917.2 number_of_nodes=33104 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=585198 number_of_pure_literals=8097 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=108 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=149728 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf_m2pp_32660
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=33314.6 number_of_nodes=74584 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1314662 number_of_pure_literals=17611 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=112 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=338411 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf_m2pp_32660
      \endverbatim
-     has average 2-reduction ~ 17.68, where 1316 / 17.68 ~ 74.4, while speed
-     is 2.08 nodes per second. </li>
+     has average 2-reduction ~ 17.63, where 1316 / 17.68 ~ 74.6, while speed
+     is 2.24 nodes per second. </li>
      <li> This looks as if here something strange happened: Why is it so slow?
-     Why is the depth so big? </li>
-     <li> One should run both forms without tree pruning. </li>
+     Why is the depth so big?
+      <ul>
+       <li> It could be that long clauses cause somehow bad performance; but
+       this shouldn't be the case. </li>
+       <li> There could be structural differences, for example with the
+       preprocessed version somehow more rounds are needed for the reduction.
+       </li>
+       <li> Or it could be that the depth (which is the maximal depth of some
+       leaf) for the preprocessed case is misleading, some sort of outlier,
+       while most of the time work is spent higher up in the tree, where
+       instances are bigger (and there are less 2-reductions). </li>
+      </ul>
+     </li>
+     <li> Without tree pruning and without preprocessing:
+     \verbatim
+OKplatform> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D30 -F Daten/GreenTao/GreenTao_2-3-6_2072.cnf
+ Daten/GreenTao/GreenTao_2-3-6_2072.cnf,   30, 1073741824
+     8:     28      3.50  3.76E+09     3.82s     0.48s    16y  94d  3h 55m 17s     0     0   27
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=10322.4 number_of_nodes=49186 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=996863 number_of_pure_literals=34679 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=93 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=9967223 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
+     \endverbatim
+     average 2-reductions ~ 20.27, speed ~ 4.76 nodes per second.
+     </li>
+     <li> Without tree pruning and with preprocessing:
+     \verbatim
+OKplatform> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D30 -F Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf
+ Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf,   30, 1073741824
+s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=10209.4 number_of_nodes=26729 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=472516 number_of_pure_literals=6708 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=108 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=122636 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf
+     \endverbatim
+     average 2-reductions ~ 17.68, speed ~ 2.62 nodes per second.
+     </li>
+     <li> So tree-pruning is actually a bit more expensive than anticipated
+     (at least one these instances), but it is not the cause of the weak
+     performance on preprocessed instances. </li>
     </ol>
    </li>
   </ul>
