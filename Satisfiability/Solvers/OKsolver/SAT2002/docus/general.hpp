@@ -232,13 +232,13 @@ CFLAGS="-UMACHINE_BITS_OKL"
       <ul>
        <li> By
        \verbatim
-> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($4,29)}'
+> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$2 == "initial_number_of_variables" {print $3}'
        \endverbatim
        the (precise) number of (occurring) variables is computed (without
        any reduction). </li>
        <li> And by
        \verbatim
-> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$1 == "c" {print substr($5,27)}'
+> OKsolver_2002-O3-DNDEBUG -P Filename | awk '$2 == "initial_number_of_clauses" {print $3}'
        \endverbatim
        the (precise) number of clauses is computed (without any reduction).
        </li>
@@ -284,16 +284,19 @@ CFLAGS="-UMACHINE_BITS_OKL"
      account), while <code>initial_number_of_clauses</code> is the precise
      number of clauses in the input (again, taking also tautological clauses
      into account). </li>
-     <li> <code>reduced_maximal_clause_length</code>: how much the maximal
-     clause-length was decreased by the reduction. </li>
-     <li> <code>reduced_number_of_variables</code>: How many variables
-     where eliminated by the reduction. </li>
-     <li> <code>reduced_number_of_clauses</code>: How many clauses
-     where eliminated by the reduction. </li>
-     <li> <code>reduced_number_of_literal_occurrences</code>: How many literal
-     occurrences where eliminated by the reduction. </li>
-     <li> <code>initial_number_of_2-clauses</code>: Number of 2-clauses
-     after reduction. </li>
+     <li> The "reddiff"-information specifies the difference achieved by the
+     reduction:
+      <ol>
+       <li> <code>reddiff_maximal_clause_length</code>: how much the maximal
+       clause-length was decreased by the reduction. </li>
+       <li> <code>reddiff_number_of_variables</code>: how many variables
+       were eliminated by the reduction. </li>
+       <li> <code>reddiff_number_of_clauses</code>: how many clauses
+       were eliminated by the reduction. </li>
+       <li> <code>reddiff_number_of_literal_occurrences</code>: how many
+       literal occurrences were eliminated by the reduction. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    </li> The return values for the DIMACS output:

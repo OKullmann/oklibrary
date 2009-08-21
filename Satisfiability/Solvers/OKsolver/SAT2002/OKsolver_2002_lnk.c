@@ -938,7 +938,32 @@ void Statistikzeile(FILE *fp)
       fprintf(fp, "UNKNOWN"); break;
     }
     fprintf(fp, "\n");
-    fprintf(fp, "c sat_status=%d initial_maximal_clause_length=%u initial_number_of_variables=%u initial_number_of_clauses=%u initial_number_of_literal_occurrences=%u running_time(s)=%1.1f number_of_nodes=%lu number_of_single_nodes=%lu number_of_quasi_single_nodes=%lu number_of_2-reductions=%lu number_of_pure_literals=%lu number_of_autarkies=%lu number_of_missed_single_nodes=%lu max_tree_depth=%u number_of_table_enlargements=%u reduced_maximal_clause_length=%u reduced_number_of_variables=%u reduced_number_of_clauses=%u reduced_number_of_literal_occurrences=%u number_of_1-autarkies=%lu number_of_initial_unit-eliminations=%lu number_of_new_2-clauses=%lu maximal_number_of_added_2-clauses=%lu initial_number_of_2-clauses=%u file_name=%s\n",
+    fprintf(fp,
+            "c sat_status                            %d\n"
+            "c initial_maximal_clause_length         %u\n"
+            "c initial_number_of_variables           %u\n"
+            "c initial_number_of_clauses             %u\n"
+            "c initial_number_of_literal_occurrences %u\n"
+            "c running_time(s)                       %1.1f\n"
+            "c number_of_nodes                       %lu\n"
+            "c number_of_single_nodes                %lu\n"
+            "c number_of_quasi_single_nodes          %lu\n"
+            "c number_of_2-reductions                %lu\n"
+            "c number_of_pure_literals               %lu\n"
+            "c number_of_autarkies                   %lu\n"
+            "c number_of_missed_single_nodes         %lu\n"
+            "c max_tree_depth                        %u\n"
+            "c number_of_table_enlargements          %u\n"
+            "c reddiff_maximal_clause_length         %u\n"
+            "c reddiff_number_of_variables           %u\n"
+            "c reddiff_number_of_clauses             %u\n"
+            "c reddiff_number_of_literal_occurrences %u\n"
+            "c number_of_1-autarkies                 %lu\n"
+            "c number_of_initial_unit-eliminations   %lu\n"
+            "c number_of_new_2-clauses               %lu\n"
+            "c maximal_number_of_added_2-clauses     %lu\n"
+            "c number_of_2-clauses_after_reduction   %u\n"
+            "c file_name                             %s\n",
 	    s, P0, N0, K0, L0, (double) Verbrauch / EPS,
 	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL, 
 	    Autarkien, VerSingleKnoten, Suchbaumtiefe,

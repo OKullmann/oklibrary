@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Improve the Dimacs-output
   <ul>
-   <li> Wording of information about reductions:
+   <li> DONE (used "reddiff" instead)
+   Wording of information about reductions:
     <ol>
      <li> It should be "reduction_in_maximal_clause_length" instead of
      "reduced_maximal_clause_length". </li>
@@ -24,7 +25,8 @@ License, or any later version. */
      "reduced_number_of_literal_occurrences". </li>
     </ol>
    </li>
-   <li> The default of output should be to have each measurement on its
+   <li> DONE (no option --- this would be unnecessary clutter)
+   The default of output should be to have each measurement on its
    own line (with "c "):
     <ol>
      <li> With an option enabling the old form (all on one line). </li>
