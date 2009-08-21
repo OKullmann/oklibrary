@@ -944,7 +944,13 @@ void Statistikzeile(FILE *fp)
             "c initial_number_of_variables           %u\n"
             "c initial_number_of_clauses             %u\n"
             "c initial_number_of_literal_occurrences %u\n"
-            "c running_time(s)                       %1.1f\n"
+            "c number_of_initial_unit-eliminations   %lu\n"
+            "c reddiff_maximal_clause_length         %u\n"
+            "c reddiff_number_of_variables           %u\n"
+            "c reddiff_number_of_clauses             %u\n"
+            "c reddiff_number_of_literal_occurrences %u\n"
+            "c number_of_2-clauses_after_reduction   %u\n"
+            "c running_time(sec)                     %1.1f\n"
             "c number_of_nodes                       %lu\n"
             "c number_of_single_nodes                %lu\n"
             "c number_of_quasi_single_nodes          %lu\n"
@@ -954,21 +960,17 @@ void Statistikzeile(FILE *fp)
             "c number_of_missed_single_nodes         %lu\n"
             "c max_tree_depth                        %u\n"
             "c number_of_table_enlargements          %u\n"
-            "c reddiff_maximal_clause_length         %u\n"
-            "c reddiff_number_of_variables           %u\n"
-            "c reddiff_number_of_clauses             %u\n"
-            "c reddiff_number_of_literal_occurrences %u\n"
             "c number_of_1-autarkies                 %lu\n"
-            "c number_of_initial_unit-eliminations   %lu\n"
             "c number_of_new_2-clauses               %lu\n"
             "c maximal_number_of_added_2-clauses     %lu\n"
-            "c number_of_2-clauses_after_reduction   %u\n"
             "c file_name                             %s\n",
-	    s, P0, N0, K0, L0, (double) Verbrauch / EPS,
-	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL, 
+	    s, P0, N0, K0, L0,
+            InitEinerRed, P0 - P, N0 - N, K0 - K, L0 - L, init2Klauseln,
+            (double) Verbrauch / EPS,
+	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL,
 	    Autarkien, VerSingleKnoten, Suchbaumtiefe,
-	    Ueberschreitung2, P0 - P, N0 - N, K0 - K, L0 - L,
-	    FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K, init2Klauseln,
+	    Ueberschreitung2, 
+	    FastAutarkien, neue2Klauseln, maxneue2K,
 	    aktName);
   }
   else if (Format == XML_Format) {
