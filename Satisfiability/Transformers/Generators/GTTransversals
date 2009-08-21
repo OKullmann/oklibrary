@@ -36,13 +36,16 @@ auxfile2="gt_b_$$"
 resultfile="gt_trans_${K}_${N}_${B}.cnf"
 
 # Creating the Dimacs-file representing the hypergraph as positive clause-set:
-${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions in the prime numbers, k=${K}, n=${N}, bound=${B}\\\",standardise_fcs(arithprog_primes_hg(${K},${N}))[1],\\\"${auxfile1}\\\");\""
+${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions in the prime numbers, k=${K}, n=${N}, bound=${B}\\\",standardise_fcs(arithprog_primes_hg(${K},${N}))[1],\\\"${auxfile1}\\\");\""
 
 # Adding the linear inequalities:
 ${lin_equal_progr} "${N}" "${B}" "==" "" >> ${auxfile1}
 
 # Updating the Dimacs parameter line to the real values:
-param="$(${oksolver} -P ${auxfile1} | awk '$1 == "c" {print "p cnf " substr($4,29), substr($5,27)}')"
+output="$(${oksolver} -P ${auxfile1})"
+n=$(echo "${output}" | awk '$2 == "initial_number_of_variables" {print $3}')
+c=$(echo "${output}" | awk '$2 == "initial_number_of_clauses" {print $3}')
+param="p cnf ${n} ${c}"
 cat ${auxfile1} | awk '$1 == "p" {print '"\"${param}\""'}; $1 != "p" {print}' > ${auxfile2}
 # Creating a strict Dimacs-file (with only natural numbers as variable-names):
 cat ${auxfile2} | ${dimacs_translation} > ${resultfile}
