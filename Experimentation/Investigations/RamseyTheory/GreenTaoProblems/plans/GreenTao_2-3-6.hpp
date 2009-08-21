@@ -488,18 +488,18 @@ OKplatform> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D30 -F Daten
  Daten/GreenTao/GreenTao_2-3-6_2072.cnf,   30, 1073741824
      8:     28      3.50  3.76E+09     3.82s     0.48s    16y  94d  3h 55m 17s     0     0   27
 s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=10322.4 number_of_nodes=49186 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=996863 number_of_pure_literals=34679 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=93 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=9967223 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
+c sat_status=2 initial_maximal_clause_length=6 initial_number_of_variables=2071 initial_number_of_clauses=159039 initial_number_of_literal_occurrences=479052 running_time(s)=26182.4 number_of_nodes=125379 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=2530109 number_of_pure_literals=86545 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=94 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=25338066 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072.cnf
      \endverbatim
-     average 2-reductions ~ 20.27, speed ~ 4.76 nodes per second.
+     average 2-reductions ~ 20.18, speed ~ 4.79 nodes per second.
      </li>
      <li> Without tree pruning and with preprocessing:
      \verbatim
 OKplatform> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D30 -F Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf
  Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf,   30, 1073741824
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=10209.4 number_of_nodes=26729 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=472516 number_of_pure_literals=6708 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=108 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=122636 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf
-     \endverbatim
-     average 2-reductions ~ 17.68, speed ~ 2.62 nodes per second.
+ s UNKNOWN
+c sat_status=2 initial_maximal_clause_length=15 initial_number_of_variables=1316 initial_number_of_clauses=88791 initial_number_of_literal_occurrences=467889 running_time(s)=26011.9 number_of_nodes=68988 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1211382 number_of_pure_literals=16289 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=112 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=314872 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=Daten/GreenTao/GreenTao_2-3-6_2072-m2pp.cnf
+    \endverbatim
+     average 2-reductions ~ 17.56, speed ~ 2.65 nodes per second.
      </li>
      <li> So tree-pruning is actually a bit more expensive than anticipated
      (at least one these instances), but it is not the cause of the weak
