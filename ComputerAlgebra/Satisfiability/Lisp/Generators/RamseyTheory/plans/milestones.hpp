@@ -14,6 +14,36 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/general.hpp
+   the following topics are handled:
+    - Systematising output functionality
+
+  \par
+   In Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
+   the following topics are handled:
+    - Organisation
+    - Standardisation
+    - Systematic output and output-functions
+
+  \par
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
+   the following topics are handled:
+    - MG must completely update this file!
+    - Create a systematic naming scheme
+
+  \par
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp
+   the following topics are handled:
+    - Improve generator names
+    - The notion of a "Hindman parameter tuple"
+
+  \par
+   Update the following milestones.
+
+
+  \par Version 0.0.10
+
+  \par
    In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    the following topics are handled:
     - Extend %Ramsey symmetry breaking generators to generate Extended Dimacs
@@ -27,7 +57,7 @@ License, or any later version. */
     - Arithmetic progressions for prime numbers
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
@@ -64,7 +94,7 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.0.8 : 22.8.2009; initial version, several basic generators available, and plans for strengthening Ramsey-problem-generators.
+   - 0.0.8 : 22.8.2009; initial version, several basic generators available (van-der-Waerden-, Green-Tao-, Hindman-, and Ramsey-problems), and plans for further extensions.
 
 */
 
