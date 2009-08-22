@@ -24,11 +24,10 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par Lisp/Generators/RamseyTheory version 0.0.9
-  (see 
-  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp)
+  (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/NonBooleanTranslations.hpp
+   In Lisp/Generators/plans/NonBooleanTranslations.hpp
    the following topics are handled:
     - Add standardised translations
     - Add translations for non-boolean clause-lists with uniform domain DONE 
@@ -42,8 +41,7 @@ License, or any later version. */
   \par Version 0.0.10
 
   \par Lisp/Generators/RamseyTheory version 0.0.10
-  (see 
-  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp)
+  (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
   
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
