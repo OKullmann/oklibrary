@@ -201,8 +201,8 @@ StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
 static clock_t Verbrauch;
 
-static char *aktName;
-static char* Wurzel = NULL;
+static const char* aktName;
+static const char* Wurzel = NULL;
 
 enum Ergebniswerte {SAT = 1, UNSAT = 0, Unbestimmt = 2};
 
@@ -508,21 +508,15 @@ void FinaliseSATPath() {
 #endif
 
 
-/* Die (rekursive) Loesungs-Prozedur */
-
 /*!
-  \brief The SAT decision procedure
+  \brief The (recursive) SAT decision procedure
 
   Assumes input has been read, and returns a decision.
 */
 
-
-static enum Ergebniswerte SATEntscheidung( void )
-
-{
+static enum Ergebniswerte SATEntscheidung(void) {
   typedef unsigned int loop_t;
   loop_t i;
-  float opta; float a; unsigned int optaS;
   VAR v;
   VZ optZweig;
   enum Spruenge r;
@@ -626,8 +620,9 @@ alleReduktionen:
       }
   }
 
-  opta = 0; optaS = 0;
-
+  {
+    float opta = 0;
+    unsigned int optaS = 0;
 /*  Schleife ueber alle Variablen, die jeweils dem Filter vorgelegt werden:
     Findet dieser eine Entscheidung oder eine Einer-Verzweigung, so wird eine 
     solche Variable ausgesucht, und die Schleife abgebrochen.
@@ -635,78 +630,76 @@ alleReduktionen:
     sie ersetzt, falls besser, die alte, bisher beste Verzweigung.
     (Die Zweigauswahl wird von "Abstand" mitberechnet.) 
 */
-
-  for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
-    Filter(v);
-    if (erfuellt) {
-      if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
-        DN = DeltaN[Zweig][Schalter];
-        Z = Huelle[Zweig][Schalter];
-        for (loop_t i = 0; i < DN; ++i, ++Z) {
+    for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+      Filter(v);
+      if (erfuellt) {
+        if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
+          DN = DeltaN[Zweig][Schalter];
+          Z = Huelle[Zweig][Schalter];
+          for (loop_t i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
-          belege(*Z);
+            belege(*Z);
 #else
-          belege(Z -> l);
+            belege(Z -> l);
 #endif
+          }
         }
-      }
 #ifdef OUTPUTTREEDATAXML
-      BeginTreeElement();
-      FinaliseSATPath();
+        BeginTreeElement();
+        FinaliseSATPath();
 #endif  
-      return SAT;
-    }
-    
-    if (reduziert) goto alleReduktionen;
+        return SAT;
+      }
       
-    if (Wahl) {
-      if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
-        /* Durchfuehrung der Belegung: */
-        DN = DeltaN[Zweig][Schalter];
+      if (reduziert) goto alleReduktionen;
+      
+      if (Wahl) {
+        if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
+          /* Durchfuehrung der Belegung: */
+          DN = DeltaN[Zweig][Schalter];
 #ifdef LOKALLERNEN
-        eintragenTiefe();
+          eintragenTiefe();
 #endif
-        Z = Huelle[Zweig][Schalter];
-        for (loop_t i = 0; i < DN; ++i, ++Z) {
+          Z = Huelle[Zweig][Schalter];
+          for (loop_t i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
-          belege(*Z);
+            belege(*Z);
 #else
-          belege(Z -> l);
+            belege(Z -> l);
 #endif
+          }
+          /* Falls BAUMRES gesetzt ist: */
+          /* Da der Standard-Filter nur Autarkien hier liefern kann, */
+          /* die nie zur Erzeugung der leeren Klausel beitragen koennen, */
+          /* muss hier in relVar nichts eingetragen werden. */
+          aktP = LaP[Zweig][Schalter];
+          aktN -= DeltaN[Zweig][Schalter];
+          memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+          goto Schleife;
         }
-        /* Falls BAUMRES gesetzt ist: */
-        /* Da der Standard-Filter nur Autarkien hier liefern kann, */
-        /* die nie zur Erzeugung der leeren Klausel beitragen koennen, */
-        /* muss hier in relVar nichts eingetragen werden. */
-        aktP = LaP[Zweig][Schalter];
-        aktN -= DeltaN[Zweig][Schalter];
-        memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
-        goto Schleife;
+        else {
+          ++QuasiSingleKnoten;
+          Schalter = ! Schalter;
+          optZweig = Zweig;
+          break;
+        }
       }
-      else {
-        ++QuasiSingleKnoten;
-        Schalter = ! Schalter;
-        optZweig = Zweig;
-        break;
+      {
+        Abstand();
+        const float a = (randomisiert) ? Verschmierung(Projektion()) : Projektion();
+        switch (Vergleich(a, opta)) {
+        case gleich :
+          if (Projektion2() <= optaS)
+            break;
+        case groesser :
+          opta = a; optaS = Projektion2();
+          Schalter = ! Schalter;
+          optZweig = Zweig;
+          break;
+        case kleiner :
+          break;
+        }
       }
-    }
-
-    Abstand();
-    if (randomisiert)
-      a = Verschmierung(Projektion());
-    else
-      a = Projektion();
-    switch (Vergleich(a, opta)) {
-    case gleich :
-      if (Projektion2() <= optaS)
-        break;
-    case groesser :
-      opta = a; optaS = Projektion2();
-      Schalter = ! Schalter;
-      optZweig = Zweig;
-      break;
-    case kleiner :
-      break;
     }
   }
   
@@ -1052,8 +1045,8 @@ void Statistikzeile(FILE *fp) {
   return;
 }
 
-char* BasisName(char* const name) {
-  char* const basis = strrchr(aktName, '/');
+const char* BasisName(const char* const name) {
+  const char* const basis = strrchr(aktName, '/');
   if (basis == NULL)
     return name;
   else
