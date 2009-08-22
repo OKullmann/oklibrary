@@ -35,9 +35,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create new submodule "RamseyTheory"
-
-
   \todo Update milestones
   <ul>
    <li> The milestones of this module are completely out of shape. </li>
@@ -142,6 +139,9 @@ License, or any later version. */
    is hidden inside a "misleading" combination of other clauses (variable-
    disjoint). We should implement these clause-sets. </li>
   </ul>
+
+
+  \todo DONE Create new submodule "RamseyTheory"
   
 */
 

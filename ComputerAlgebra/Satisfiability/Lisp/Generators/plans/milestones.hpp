@@ -17,8 +17,8 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - Split Generators/Generators.mac
-    - Create new submodule "RamseyTheory"
     - Update milestones
+    - Create new submodule "RamseyTheory": DONE
 
 
   \par Version 0.0.9
