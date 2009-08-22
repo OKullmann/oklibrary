@@ -182,7 +182,11 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
      which should be the right form since we have k=3 here throughout. </li>
     </ol>
    </li>
-   <li> We should also run OKsolver_2002 without tree-pruning! </li>
+   <li> OKsolver_2002 without tree-pruning:
+    <ol>
+     <li> Without preprocessing and without symmetry breaking: </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -190,17 +194,24 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
   <ul>
    <li> n=137:
     <ol>
-     <li> Without symmetry breaking and without preprocessing:
-     letting it run for up to 2 weeks, if necessary. </li>
-     <li> Without symmetry breaking and with minisat2-preprocessing:
-
+     <li> Without symmetry breaking: stopped after 9 days (progress unclear).
      </li>
-     <li> With symmetry breaking and without preprocessing:
-
-     </li>
-     <li> With symmetry breaking and with minisat2-preprocessing:
-
-     </li>
+     <li> With symmetry breaking:
+    \verbatim
+c main():: nodeCount: 6473650
+c main():: dead ends in main: 114820
+c main():: lookAheadCount: 199038706
+c main():: unitResolveCount: 51538014
+c main():: time=874.280029
+c main():: necessary_assignments: 150625
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 11816985, succes #: 9269815
+c main():: doublelook: overall 6.191 of all possible doublelooks executed
+c main():: doublelook: succesrate: 78.445, average DL_trigger: 4303.527
+s UNSATISFIABLE
+    \endverbatim
+    This seems to be comparable with OKsolver_2002 (though march_pl uses more 
+    nodes). </li>
     </ol>
    </li>
   </ul>
