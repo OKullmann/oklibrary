@@ -29,11 +29,13 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> Likely we should create a submodule "Lisp/Generators/RamseyTheory".
+   <li> DONE
+   Likely we should create a submodule "Lisp/Generators/RamseyTheory".
    </li>
    <li> There then the Green-Tao functions should go into a separate file.
    </li>
-   <li> Perhaps we should split the module, as we have it now with
+   <li> DONE
+   Perhaps we should split the module, as we have it now with
    Investigations/RamseyTheory; a question whether we should use
    "Problems" as part of the module names or not (as in
    ComputerAlgebra/RamseyTheory). </li>
