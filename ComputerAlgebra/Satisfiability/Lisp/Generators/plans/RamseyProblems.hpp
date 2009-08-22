@@ -33,13 +33,13 @@ License, or any later version. */
   \todo Provide specification for all the functions
 
 
-  \todo Extend Ramsey symmetry breaking generators to generate Extended Dimacs
+  \todo Extend %Ramsey symmetry breaking generators to generate Extended Dimacs
   <ul>
    <li> Currently there are no output functions for the %Ramsey symmetry
    breaking generators, such as "ramsey2_symbr2_cs". </li>
    <li> Additionally, simply generating Dimacs files for the generated 
    clause-sets would mean losing information about which variables are which
-   edges, and also presents problems, as the C++ Ramsey generator outputs
+   edges, and also presents problems, as the C++ %Ramsey generator outputs
    extended Dimacs. </li>
    <li> Also, there is currently no way to translate the extended Dimacs file 
    output by the C++ generator to a Dimacs file using the correct 
