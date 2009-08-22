@@ -15,6 +15,8 @@ License, or any later version. */
 
   \todo greentao_3(3,3,4) >= 434
   <ul>
+   <li> Created by output_greentao_stdname([3,3,4],n) and
+   output_greentao_sb_stdname([3,3,4],n). </li>
    <li> n=150 trivially satisfiable by adaptnovelty+. </li>
    <li> n=200 trivially satisfiable by adaptnovelty+. </li>
    <li> n=300 trivially satisfiable by adaptnovelty+. </li>
@@ -135,8 +137,43 @@ c file_name                             GreenTao_3-3-3-4_434.cnf
        average 2-reductions ~ 12.2, where 1302/12.2 ~ 107, while speed
        is 72 nodes per second.
        </li>
-       <li> With preprocessing and without symmetry-breaking: </li>
-       <li> Without preprocessing and with symmetry-breaking: </li>
+       <li> With preprocessing and without symmetry-breaking:
+       \verbatim
+> OKsolver_2002-m2pp -M -D30 -F GreenTao_3-3-3-4_434.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           864
+c initial_number_of_clauses             19175
+c initial_number_of_literal_occurrences 65558
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   432
+c running_time(sec)                     87501.4
+c number_of_nodes                       7410032
+c number_of_single_nodes                8
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                89745142
+c number_of_pure_literals               10442
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         309
+c max_tree_depth                        80
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1045400
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_3-3-3-4_434.cnf_m2pp_19403
+       \endverbatim
+       (without reaching a monitoring node); 2red/nds ~ 12.11, where
+       864 / 12.11 ~ 71, 84.7 nds/sec. This looks like an improvement. </li>
+       <li> Without preprocessing and with symmetry-breaking:
+       \verbatim
+
+       \endverbatim
+       </li>
        <li> With preprocessing and with symmetry-breaking: </li>
       </ol>
      </li>
