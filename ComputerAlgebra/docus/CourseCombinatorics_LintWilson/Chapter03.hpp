@@ -36,14 +36,16 @@ License, or any later version. */
 
   <ul>
    <li> Some experimentation has been started in this area at 
-   Experimentation/Investigations/RamseyTheory/plans/RamseyProblems.hpp . </li>
+   Experimentation/Investigations/RamseyTheory/plans/RamseyProblems.hpp . 
+   </li>
   </ul>
 
   <h2> On the automorphism group of %Ramsey clause-sets </h2>
 
   <ul>
    <li> Some initial discussions on the symmetries of the %Ramsey problems are
-   at ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp . </li>
+   at ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp . 
+   </li>
   </ul>
 
   <h2> Tournaments and transitive tournaments </h2>

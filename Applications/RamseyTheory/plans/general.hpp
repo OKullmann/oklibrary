@@ -20,10 +20,10 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    for SAT-generators at Maxima/Lisp level for Ramsey problems. </li>
    <li> And see
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp.
    </li>
    <li> See
    Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp for hypergraph

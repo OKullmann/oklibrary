@@ -20,13 +20,15 @@ License, or any later version. */
    hybridGM7 etc) which need to be included in the library (both the solvers and
    the results. </li>
    <li> NOTE, for ramsey_2^2(5) <= 49, functions such as "ramsey2_symbr2_cs" (
-   See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac) 
+   See 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac) 
    when added to associated clause set, will fix a monochromatic clique
    of size 5 (as 49 is a *known* upper bound for ramsey_2^2(5)), which will make
    the clause set unsatisfiable (as it should be). </li>
    <li> This is not a problem, but it should be noted that symmetry breaking
    using this method is not making some huge breakthrough here. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac.
+   <li> See 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac.
    </li>
   </ul>
 
@@ -44,7 +46,7 @@ License, or any later version. */
    the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
    these cases. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp. 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp. 
    </li>
   </ul>
 

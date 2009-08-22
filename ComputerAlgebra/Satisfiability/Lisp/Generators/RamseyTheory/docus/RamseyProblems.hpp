@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/Generators/docus/RamseyProblems.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/docus/RamseyProblems.hpp
   \brief How to use the %Ramsey problem generators
 
 

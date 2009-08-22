@@ -44,7 +44,7 @@ License, or any later version. */
    <li> Generators/plans/RamseyProblems.hpp needs to be re-thought and
    completely updated. </li>
    <li>
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/HindmanProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp
    is not integrated at all. </li>
   </ul>
 

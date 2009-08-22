@@ -23,19 +23,9 @@ License, or any later version. */
 
   \par Version 0.0.9
 
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
-   the following topics are handled:
-    - Extend %Ramsey symmetry breaking generators to generate Extended Dimacs
-    - Improve docus
-    - Extreme cases
-    - More efficient computation
-  
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
-   the following topics are handled:
-    - Add statistics functions
-    - Docus
+  \par Lisp/Generators/RamseyTheory version 0.0.9
+  (see 
+  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/NonBooleanTranslations.hpp
@@ -48,13 +38,12 @@ License, or any later version. */
    the following topics are handled:
     - Specifying the AES random generator
 
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
-   the following topics are handled:
-    - Arithmetic progressions for prime numbers
-
 
   \par Version 0.0.10
+
+  \par Lisp/Generators/RamseyTheory version 0.0.10
+  (see 
+  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp)
   
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
@@ -62,23 +51,9 @@ License, or any later version. */
     - Add adder circuit translation
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
-   the following topics are handled:
-    - Relations to other modules
-    - Symmetry breaking by using symmetries of the solution space
-    - Reimplement "Symmetry breaking by using Ramsey-symmetries of the 
-      clause-set"
-
-  \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
    the following topics are handled:
     - Implementing the AES random generator
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
-   the following topics are handled:
-    - Statistics
-    - Systematics output and output-functions
 
 
   \par Version 0.0.11
@@ -132,12 +107,11 @@ License, or any later version. */
     - Generalised colouring problems
 
 
-   \par Version 0.1.2
+  \par Version 0.1.2
 
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
-   the following topics are handled:
-    - %Generators for all standard %Ramsey problems
+  \par Lisp/Generators/RamseyTheory version 0.1.1
+  (see 
+  ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp)
 
 
 

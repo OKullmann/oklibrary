@@ -159,7 +159,7 @@ License, or any later version. */
    <li> For the optimisation version see
    Satisfiability/Optimisation/plans/general.hpp. </li>
    <li> See "Alternative handling of parameter-values 2" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    for an example where the translation into a non-boolean SAT problem arises
    naturally (adding a further value to all variables with the constraint that
    this value must be used exactly B times, in this way demanding

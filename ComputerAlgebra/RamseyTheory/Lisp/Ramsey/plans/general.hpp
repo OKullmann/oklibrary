@@ -14,7 +14,8 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
    the function ramsey_hg(q,r,n) and its variations. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   <li> See 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    for the SAT translation. </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp for
@@ -60,8 +61,8 @@ License, or any later version. */
    </li>
    <li> It would also be interesting here to try apply some of the symmetry 
    breaking ideas discussed in 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp and
-   then consider the number and character of the remaining symmetries. </li>  
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp 
+   and then consider the number and character of the remaining symmetries. </li>
   </ul>
 
 

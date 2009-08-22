@@ -119,7 +119,7 @@ namespace Ramsey {
 
     For the diagonal case (q1=q2=q) this corresponds to
     output_ramsey2_stdname(q,r,N) in
-    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac.
+    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac.
 
     \todo Use components from module InputOutput.
   */

@@ -38,7 +38,7 @@ License, or any later version. */
    for %Ramsey problem instances of the form "ramsey_s^r(q_1,...,q_s) < n?". 
    </li>
    <li> See 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac for how
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac for how
    to handle the translation of the non-boolean nature of the problem when 
    considering %Ramsey problems with more than 2 labels. </li>
   </ul>

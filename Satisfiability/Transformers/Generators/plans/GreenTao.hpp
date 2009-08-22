@@ -16,7 +16,7 @@ License, or any later version. */
    should be located in this module (as satisfiability problems). </li>
    <li> The specifications are to be provided in module
    ComputerAlgebra/Satisfiability/Lisp/Generators; see
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp.
    </li>
    <li> While hypergraph generators should be located in module
    Combinatorics/Hypergraphs/Generators; see
@@ -30,7 +30,7 @@ License, or any later version. */
   <ul>
    <li> The basic generators are greentao2_fcs, greentao2nd_fcs,
    greentao_nbfcsud and greentaod_nbfcsud in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
    </li>
    <li> The symmetry-breaking variants are greentao_sb_fcs and
    greentaod_sb_nbfcsud there. </li>

@@ -16,7 +16,7 @@ License, or any later version. */
    <li> See Ramsey.cpp (to be updated) for a C++ generator. </li>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp.
    </li>
   </ul>
 
@@ -758,7 +758,7 @@ length(all_aut_ofcs(R5));
    <li> An important way of making the problems simpler for SAT solvers
    is to add symmetry-breaking clauses. </li>
    <li> See "Symmetry breaking" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp.
    </li>
    <li> We should try to figure out the automorphism groups of the clause-sets.
    See "Automorphisms of Ramsey clause-sets" in

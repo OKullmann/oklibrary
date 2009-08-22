@@ -6,11 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/HindmanProblems.mac
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/testobjects/HindmanProblems.mac
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/HindmanProblems.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/testobjects/HindmanProblems.mac");
 
 */
 
@@ -18,8 +18,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/Hin
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/HindmanProblems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/HindmanProblems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/tests/HindmanProblems.mac")$
 
 /* ********************
    * Hindman problems *

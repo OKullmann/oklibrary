@@ -13,9 +13,9 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    and
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
    </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp.
@@ -29,7 +29,7 @@ License, or any later version. */
   <ul>
    <li> We need to write a program with functionality like arithprog_primes_hg
    from the Maxima/Lisp level (and all the other functions there in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac).
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac).
    </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/plans/GreenTaoProblems.hpp

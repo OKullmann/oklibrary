@@ -79,7 +79,7 @@ c sat_status=0 initial_maximal_clause_length=7 initial_number_of_variables=371 i
    </li>
    <li> We should also try the alternative encoding as discussed in
    "Alternative handling of parameter-values 2" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp.
    </li>
   </ul>
 

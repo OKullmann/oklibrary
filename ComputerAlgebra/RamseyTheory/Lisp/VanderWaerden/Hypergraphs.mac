@@ -27,7 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac"
 
 /* The satisfiability problems for 2 parts are created by 
    vanderwaerden2_fcs(k,n) (from
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac).
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac).
 */
 
 
