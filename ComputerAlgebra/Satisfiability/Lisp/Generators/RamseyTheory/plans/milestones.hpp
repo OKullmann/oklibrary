@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    the following topics are handled:
     - Extend %Ramsey symmetry breaking generators to generate Extended Dimacs
     - Improve docus
@@ -22,7 +22,7 @@ License, or any later version. */
     - More efficient computation
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   In Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    the following topics are handled:
     - Arithmetic progressions for prime numbers
 
@@ -30,7 +30,7 @@ License, or any later version. */
   \par Version 0.0.10
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    the following topics are handled:
     - Relations to other modules
     - Symmetry breaking by using symmetries of the solution space
@@ -38,10 +38,11 @@ License, or any later version. */
       clause-set"
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   In Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    the following topics are handled:
     - Statistics
     - Systematics output and output-functions
+
 
    \par Version 0.1
    We have rudimentary documentation for all generators, and for %Ramsey
@@ -53,7 +54,7 @@ License, or any later version. */
   \par Version 0.1.1
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
+   In Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    the following topics are handled:
     - %Generators for all standard %Ramsey problems
 
