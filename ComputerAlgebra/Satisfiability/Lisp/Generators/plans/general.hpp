@@ -35,16 +35,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create new submodule "RamseyTheory"
-
-
   \todo Update milestones
   <ul>
    <li> The milestones of this module are completely out of shape. </li>
    <li> Generators/plans/RamseyProblems.hpp needs to be re-thought and
    completely updated. </li>
    <li>
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/HindmanProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp
    is not integrated at all. </li>
   </ul>
 
@@ -142,6 +139,9 @@ License, or any later version. */
    is hidden inside a "misleading" combination of other clauses (variable-
    disjoint). We should implement these clause-sets. </li>
   </ul>
+
+
+  \todo DONE Create new submodule "RamseyTheory"
   
 */
 

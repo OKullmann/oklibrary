@@ -32,7 +32,8 @@ License, or any later version. */
    <li> Perhaps two versions could be supplied, with one ordering first by 
    variable then domain, and then vice versa (then allowing the domain to be
    easily extended? </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac 
+   <li> See 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac 
    for an example of use. </li>
   </ul>
 

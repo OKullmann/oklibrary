@@ -119,7 +119,7 @@ C-STACK overflow at size 139456. Stack can probably be resized.
   \todo %Ramsey hypergraphs
   <ul>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
-   in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
+   in ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp.
    </li>
    <li> Providing a standardised vertex set:
     <ol>

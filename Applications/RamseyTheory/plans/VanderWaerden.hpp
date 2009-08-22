@@ -13,9 +13,9 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    and
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
    </li>
    <li> See Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp. </li>
    <li> See Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp.

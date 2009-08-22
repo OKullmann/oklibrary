@@ -51,10 +51,10 @@ License, or any later version. */
    Combinatorics/Hypergraphs/Generators. </li>
    <li> DONE
    So the content of this file should be moved to
-   Combinatorics/Hypergraphs/Generators/plans/VanderWaerdenProblems.hpp. </li>
+   Combinatorics/Hypergraphs/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp. </li>
    <li> All the functionality like arithprog_primes_hg from the Maxima/Lisp
    level (and all the other functions there in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac)
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac)
    should be available there. </li>
   </ul>
 

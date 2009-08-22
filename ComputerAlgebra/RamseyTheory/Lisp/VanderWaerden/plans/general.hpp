@@ -1,3 +1,4 @@
+
 // Oliver Kullmann, 20.9.2008 (Swansea)
 /* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -14,7 +15,7 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
    the function ramsey_hg(q,r,n) and its variations. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    for the SAT translation. </li>
    <li> See Experimentation/Investigations/plans/VanderWaerdenProblems.hpp for
    investigations. </li>

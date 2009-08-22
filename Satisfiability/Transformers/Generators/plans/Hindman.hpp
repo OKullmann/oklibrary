@@ -14,7 +14,8 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac for
    the hypergraph generators. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac
+   <li> See 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/HindmanProblems.mac
    for the clause-set generators. </li>
   </ul>
 
@@ -22,9 +23,10 @@ License, or any later version. */
   \todo Write simple generator for boolean problems (r=2)
   <ul>
    <li> We have currently "hindman2gen_fcs(a,n)" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/HindmanProblems.mac. </li>
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/HindmanProblems.mac. 
+   </li>
    <li> But it shall become hindmani_r2k2_fcs(a,n); see
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/HindmanProblems.hpp.
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp.
    </li>
    <li> And we also need hindman_r2k2_fcs(a,n). </li>
    <li> It would be good if we could implement the general versions

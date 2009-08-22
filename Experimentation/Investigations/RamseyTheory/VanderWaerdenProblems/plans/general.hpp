@@ -15,7 +15,7 @@ License, or any later version. */
    <li> See ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/general.hpp. </li>
    <li> See VanderWaerden.cpp (to be updated) for a C++ generator. </li>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp.
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp.
    </li>
    <li> External pages:
     <ol>
@@ -34,7 +34,7 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
    \endverbatim
    diagonal boolean problems can be generated quickly. </li>
    <li> In Maxima we have "output_vanderwaerden2_stdname(k,n)" (in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac)
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac)
    as well as "output_vanderwaerden2nd_stdname(k1,k2,n)"
    </li>
    <li> vanderwaerden_2(3) = 9 (density = 3.6) </li>

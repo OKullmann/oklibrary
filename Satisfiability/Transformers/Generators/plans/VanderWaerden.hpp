@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/VanderWaerdenProblems.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    for the fundamental (basic) specifications. </li>
    <li> See OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp
    for hypergraph generators. </li>
