@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file OKsolver/SAT2002/OKsolver_2002_lnk.c
-  \brief The main compilation unit for the old OKsolver
+  \brief The main compilation unit for the OKsolver_2002
 */
 
                        /* OKsolver; 5.3.1998 */
@@ -513,7 +513,7 @@ void FinaliseSATPath() {
 /*!
   \brief The SAT decision procedure
 
-  Assume input has been read, and returns a decision.
+  Assumes input has been read, and returns a decision.
 */
 
 
@@ -576,23 +576,25 @@ alleReduktionen:
       case SAT2 : goto nachSAT2;
       }
   }
-
-
-Schleife:
+  
+  
+ Schleife:
 
 #ifdef DYNAMISCH
-
+  
   InitAbstand2();
 
 #endif
 
-/* Zwar werden so die Autarkien nicht in die dynamische Gewichtsberechnung einbezogen, 
-    dieser Effekt scheint mir jedoch gering, waehrend ihr Einbezug grossen Aufwand mit sich 
-    braechte. So wird also nur Reduktion1() beruecksichtigt. */
+/* Zwar werden so die Autarkien nicht in die dynamische Gewichtsberechnung 
+   einbezogen, dieser Effekt scheint mir jedoch gering, waehrend ihr Einbezug
+   grossen Aufwand mit sich braechte. So wird also nur Reduktion1() 
+   beruecksichtigt.
+*/
 
 
   /* Reduktionen, die von Autarkien affiziert werden */
-  /* (zumindest pure Literale) */
+  /* (zumindest pure Literale): */
 
   switch ( Reduktion2() ) {
     
@@ -626,12 +628,13 @@ Schleife:
 
   opta = 0; optaS = 0;
 
-/*   Schleife ueber alle Variablen, die jeweils dem Filter vorgelegt werden: */
-/*     Findet dieser eine Entscheidung oder eine Einer-Verzweigung, so wird eine */
-/*     solche Variable ausgesucht, und die Schleife abgebrochen. */
-/*     Andernfalls wird mittels "Abstand" die (Zweier-)Verzweigung bewertet, und */
-/*     sie ersetzt, falls besser, die alte, bisher beste Verzweigung. */
-/*     (Die Zweigauswahl wird von "Abstand" mitberechnet.) */
+/*  Schleife ueber alle Variablen, die jeweils dem Filter vorgelegt werden:
+    Findet dieser eine Entscheidung oder eine Einer-Verzweigung, so wird eine 
+    solche Variable ausgesucht, und die Schleife abgebrochen.
+    Andernfalls wird mittels "Abstand" die (Zweier-)Verzweigung bewertet, und
+    sie ersetzt, falls besser, die alte, bisher beste Verzweigung.
+    (Die Zweigauswahl wird von "Abstand" mitberechnet.) 
+*/
 
   for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
     Filter(v);
@@ -658,7 +661,7 @@ Schleife:
       
     if (Wahl) {
       if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
-        /* Durchfuehrung der Belegung */
+        /* Durchfuehrung der Belegung: */
         DN = DeltaN[Zweig][Schalter];
 #ifdef LOKALLERNEN
         eintragenTiefe();
@@ -671,12 +674,10 @@ Schleife:
           belege(Z -> l);
 #endif
         }
-        
         /* Falls BAUMRES gesetzt ist: */
         /* Da der Standard-Filter nur Autarkien hier liefern kann, */
         /* die nie zur Erzeugung der leeren Klausel beitragen koennen, */
         /* muss hier in relVar nichts eingetragen werden. */
-        
         aktP = LaP[Zweig][Schalter];
         aktN -= DeltaN[Zweig][Schalter];
         memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
@@ -709,7 +710,7 @@ Schleife:
     }
   }
   
-  /* Nun ist die beste Variable gefunden, und es wird verzweigt */
+  /* Nun ist die beste Variable gefunden, und es wird verzweigt: */
 
 #ifdef OUTPUTTREEDATAXML
   BeginTreeElement();
@@ -721,7 +722,7 @@ Schleife:
   SatVar -> Marke = Markierung();
 #endif
 
-  /* zuerst optZweig */
+  /* zuerst optZweig: */
 
   DN = DeltaN[optZweig][! Schalter];
   DN2 = DeltaN[! optZweig][! Schalter];
@@ -745,25 +746,23 @@ Schleife:
   aktN -= DN;
   SatVar -> altZeiger2 = Zeiger2;
 
-/* Ist noch genug Speicher fuer die zweite Belegung?! */
+/* Ist noch genug Speicher fuer die zweite Belegung?!: */
 
-  if (Zeiger2 + DN2 >= Groesse2)
-    {
-      Ueberschreitung2++;
-      Groesse2 += N;
-      zweiteBel = (StapeleintragFZ) xrealloc(zweiteBel, Groesse2 * sizeof(StapeleintragF));
-    }
+  if (Zeiger2 + DN2 >= Groesse2) {
+    Ueberschreitung2++;
+    Groesse2 += N;
+    zweiteBel = (StapeleintragFZ) xrealloc(zweiteBel, Groesse2 * sizeof(StapeleintragF));
+  }
   memcpy((void *)(zweiteBel + Zeiger2), (void *)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
   Zeiger2 += DN2;
-
-  if (SatVar -> danach == NULL)
-    {
-      struct Sammlung *Z;
-      Suchbaumtiefe++;
-      SatVar -> danach = (Z = neuerKnoten());
-      Z -> davor = SatVar;
-      SatVar = Z;
-    }
+  
+  if (SatVar -> danach == NULL) {
+    struct Sammlung *Z;
+    Suchbaumtiefe++;
+    SatVar -> danach = (Z = neuerKnoten());
+    Z -> davor = SatVar;
+    SatVar = Z;
+  }
   else
     SatVar = SatVar -> danach;
   SatVar -> Ruecksprung = SAT1;
@@ -787,53 +786,49 @@ Schleife:
 #endif
 
     if (Monitor)
-      if (Rekursionstiefe < Beobachtungsniveau)
-        {
-          beobachtet[Rekursionstiefe] += Zweiglast[Rekursionstiefe];
-          Monitorausgabe(beobachtet[Rekursionstiefe]);
-        }
+      if (Rekursionstiefe < Beobachtungsniveau) {
+        beobachtet[Rekursionstiefe] += Zweiglast[Rekursionstiefe];
+        Monitorausgabe(beobachtet[Rekursionstiefe]);
+      }
 
-  /* rueckgaengig machen */
+  /* rueckgaengig machen: */
 
 #ifdef LOKALLERNEN
   Rueckgaengigmachung(SatVar -> Marke);
 #else
 # ifndef BAUMRES
-  do
-    {
-      Tiefe--;
-      rebelege(PfadLit());
-    }
+  do {
+    Tiefe--;
+    rebelege(PfadLit());
+  }
   while (Tiefe > SatVar -> altTiefe);
 # else
   while (--Tiefe > SatVar -> altTiefe)
     rebelege(PfadLit());
   if (rebelege_Verz(PfadLit()))
     aktV_eintragen_relV();
-  else
-    {
-      Zeiger2 = SatVar -> altZeiger2;
-      SingleKnoten++;
-      r = SatVar -> Ruecksprung;
-      SatVar = SatVar -> davor;
-      if (SatVar == NULL) {
+  else {
+    Zeiger2 = SatVar -> altZeiger2;
+    SingleKnoten++;
+    r = SatVar -> Ruecksprung;
+    SatVar = SatVar -> davor;
+    if (SatVar == NULL) {
 #  ifdef OUTPUTTREEDATAXML
-	EndTreeElement();
+      EndTreeElement();
 #  endif
-        return UNSAT;
-      }
-      if (Monitor)
-        Rekursionstiefe--;
-      switch (r)
-        {
-        case SAT1 : goto nachSAT1;
-        case SAT2 : goto nachSAT2;
-        }
+      return UNSAT;
     }
+    if (Monitor)
+      Rekursionstiefe--;
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
+  }
 # endif
 #endif
 
-  /* nun der zweite Zweig */
+  /* nun der zweite Zweig: */
 
 #ifdef LOKALLERNEN
   eintragenTiefe();
@@ -853,14 +848,13 @@ Schleife:
   aktN = SatVar -> N2;
   memcpy((void *)(aktAnzK + 2), (void *)((SatVar -> AnzK2) + 2), (aktP - 1) * sizeof(unsigned int));
 
-  if (SatVar -> danach == NULL)
-    {
-      struct Sammlung *Z;
-      Suchbaumtiefe++;
-      SatVar -> danach = (Z = neuerKnoten());
-      Z -> davor = SatVar;
-      SatVar = Z;
-    }
+  if (SatVar -> danach == NULL) {
+    struct Sammlung *Z;
+    Suchbaumtiefe++;
+    SatVar -> danach = (Z = neuerKnoten());
+    Z -> davor = SatVar;
+    SatVar = Z;
+  }
   else
     SatVar = SatVar -> danach;
   SatVar -> Ruecksprung = SAT2;
@@ -876,18 +870,16 @@ Schleife:
 #endif
 
     if (Monitor)
-      if (Rekursionstiefe < Beobachtungsniveau)
-        {
-          beobachtet[Rekursionstiefe] += Zweiglast[Rekursionstiefe];
-          Monitorausgabe(beobachtet[Rekursionstiefe]);
-        }
+      if (Rekursionstiefe < Beobachtungsniveau) {
+        beobachtet[Rekursionstiefe] += Zweiglast[Rekursionstiefe];
+        Monitorausgabe(beobachtet[Rekursionstiefe]);
+      }
 
 #ifdef LOKALLERNEN
   Rueckgaengigmachung(SatVar -> Marke);
 #else
 # ifndef BAUMRES
-  do
-  {
+  do {
     Tiefe--;
     rebelege(PfadLit());
   }
@@ -919,14 +911,15 @@ Schleife:
   } 
 }
 
-
-
-
 /* -------------------------------------------------------------------------------- */
 
+/*!
+  \brief Output of statistics
 
-void Statistikzeile(FILE *fp)
-{
+  Either to stdout or to file.
+*/
+
+void Statistikzeile(FILE *fp) {
   if (Format == Dimacs_Format) {
     fprintf(fp, "s ");
     switch (s) {
@@ -973,9 +966,9 @@ void Statistikzeile(FILE *fp)
 	    FastAutarkien, neue2Klauseln, maxneue2K,
 	    aktName);
   }
-  else if (Format == XML_Format) {
+  else {
     fprintf(fp, "<SAT-solver.output timestamp = \"%ld\" >\n", time(0));
-
+    
     fprintf(fp, "  <result value = \"");
     switch (s) {
     case SAT : fprintf(fp, "satisfiable"); break;
@@ -1056,14 +1049,6 @@ void Statistikzeile(FILE *fp)
    if (! Belegung || s != SAT || Dateiausgabe)
       fprintf(fp, "</SAT-solver.output>\n");
   }
-  else
-    fprintf(fp, "%1d %2d %6d %6d %6d %6.1f %7ld %6ld %6ld %8ld %8ld %5ld %4ld %4d %4d %2d %6d %6d %6d %6ld %6ld %7ld %6ld %6d %s\n",
-	    s, P0, N0, K0, L0, (double) Verbrauch / EPS,
-	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL, 
-	    Autarkien, VerSingleKnoten, Suchbaumtiefe,
-	    Ueberschreitung2, P0 - P, N0 - N, K0 - K, L0 - L,
-	    FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K, init2Klauseln,
-	    aktName);
   return;
 }
 
@@ -1098,8 +1083,7 @@ static void Zustandsanzeige (int signum)
 
 jmp_buf Ausgabepunkt;
 
-static void Abbruch (int signum)
-{
+static void Abbruch (int signum) {
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
   longjmp(Ausgabepunkt, 1);
@@ -1115,11 +1099,9 @@ static char *NameBel = NULL; char *NameMon = NULL;
 
 
 
-int main(int argc, char *argv[])
-
-{
-  char *Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
-  char *Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
+int main(const int argc, const char* const argv[]) {
+  const char* const Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
+  const char* const Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
 
 #ifdef SYSTIME
   EPS = sysconf(_SC_CLK_TCK);
@@ -1131,421 +1113,375 @@ int main(int argc, char *argv[])
   if (setjmp(Ausgabepunkt))
     goto Ausgabe;
 
-  if (Konstantenfehler())
-    {
-      fprintf(stderr, "%s\n", Meldung(0));
-      return 1;
-    }
+  if (Konstantenfehler()) {
+    fprintf(stderr, "%s\n", Meldung(0));
+    return 1;
+  }
 
-  if (argc == 1)
-    {
-      fprintf(stderr, "%s\n", Meldung(3));
-      return 0;
-    }
+  if (argc == 1) {
+    fprintf(stderr, "%s\n", Meldung(3));
+    return 0;
+  }
 
   setzenStandard();
 
-  for (Argument = 1; Argument < argc; Argument++)
-    {
-      if (strcmp("--version", argv[Argument]) == 0)
-        {
-          printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
-          printf("%s", Meldung(44));
+  for (Argument = 1; Argument < argc; Argument++) {
+    if (strcmp("--version", argv[Argument]) == 0) {
+      printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
+      printf("%s", Meldung(44));
 #ifdef NBAUMRES
-          printf(" NBAUMRES");
+      printf(" NBAUMRES");
 #endif
 #ifdef LITTAB
-          printf(" LITTAB");
+      printf(" LITTAB");
 #endif
 #ifdef SYSTIME
-          printf(" SYSTIME");
+      printf(" SYSTIME");
 #endif
 #ifdef DYNAMISCH
-          printf(" DYNAMISCH");
+      printf(" DYNAMISCH");
 #endif
 #ifdef DYNAMISCH
-          printf(" FAKTOR=%.2f", FAKTOR);
+      printf(" FAKTOR=%.2f", FAKTOR);
 #endif
 #ifdef LOKALLERNEN
-          printf(" LOKALLERNEN");
+      printf(" LOKALLERNEN");
 #endif
 #ifdef NL2RED
-          printf(" NL2RED");
+      printf(" NL2RED");
 #endif
 #ifdef FASTAUTARKIE
-          printf(" FASTAUTARKIE");
+      printf(" FASTAUTARKIE");
 #endif
 #ifdef KEININLINE
-          printf(" KEININLINE");
+      printf(" KEININLINE");
 #endif
 #ifdef OUTPUTTREEDATAXML
-	  printf(" OUTPUTTREEDATAXML");
+      printf(" OUTPUTTREEDATAXML");
 #endif
-          printf(" STANDARD=%1d", STANDARD);
+      printf(" STANDARD=%1d", STANDARD);
 
-          printf("\n");
-          printf("%s %s\n", Meldung(45), Abstandsname);
-          printf("%s %s\n", Meldung(46), Projektionsname);
-        }
-      else if (strcmp("--author", argv[Argument]) == 0)
-        printf("%s\n", Meldung(25));
-      else if (strcmp("--help", argv[Argument]) == 0)
-        printf("%s\n", Meldung(26));
-      else if (strcmp("-O", argv[Argument]) == 0)
-        Belegung = ! Belegung;
-      else if (strcmp("-F", argv[Argument]) == 0)
-        Dateiausgabe = ! Dateiausgabe;
-      else if (strcmp("-M", argv[Argument]) == 0)
-        Monitor = ! Monitor;      
-      else if (strcmp("-P", argv[Argument]) == 0)
-        nurVorreduktion = ! nurVorreduktion;      
-      else if (strcmp("-R", argv[Argument]) == 0)
-        spezRueckgabe = ! spezRueckgabe;
-      else if (strcmp("-B", argv[Argument]) == 0)
-        Schranken = ! Schranken;
-      else if (strcmp("--info", argv[Argument]) == 0)
-        printf("%s\n%s\n", Meldung(47), Meldung(48));
-      else if (strcmp("-RA", argv[Argument]) == 0)
-        randomisiert = ! randomisiert;
-      else if (strcmp("-DO", argv[Argument]) == 0) {
-        Format = Dimacs_Format;
-	spezRueckgabe = true;
+      printf("\n");
+      printf("%s %s\n", Meldung(45), Abstandsname);
+      printf("%s %s\n", Meldung(46), Projektionsname);
+    }
+    else if (strcmp("--author", argv[Argument]) == 0)
+      printf("%s\n", Meldung(25));
+    else if (strcmp("--help", argv[Argument]) == 0)
+      printf("%s\n", Meldung(26));
+    else if (strcmp("-O", argv[Argument]) == 0)
+      Belegung = ! Belegung;
+    else if (strcmp("-F", argv[Argument]) == 0)
+      Dateiausgabe = ! Dateiausgabe;
+    else if (strcmp("-M", argv[Argument]) == 0)
+      Monitor = ! Monitor;      
+    else if (strcmp("-P", argv[Argument]) == 0)
+      nurVorreduktion = ! nurVorreduktion;      
+    else if (strcmp("-R", argv[Argument]) == 0)
+      spezRueckgabe = ! spezRueckgabe;
+    else if (strcmp("-B", argv[Argument]) == 0)
+      Schranken = ! Schranken;
+    else if (strcmp("--info", argv[Argument]) == 0)
+      printf("%s\n%s\n", Meldung(47), Meldung(48));
+    else if (strcmp("-RA", argv[Argument]) == 0)
+      randomisiert = ! randomisiert;
+    else if (strcmp("-DO", argv[Argument]) == 0) {
+      Format = Dimacs_Format;
+      spezRueckgabe = true;
+    }
+    else if (strcmp("-XO", argv[Argument]) == 0) {
+      Format = XML_Format;
+      spezRueckgabe = false;
+    }
+    else if (strcmp("--specification", argv[Argument]) == 0) {
+      printf("<SAT-solver.specification>\n");
+      printf("  <solver-type mode = \"deterministic\">\n");
+      printf("    <complete/>\n");
+      printf("  </solver-type>\n");
+      printf("  <solver-name base-name = \"%s\" version = \"%s\" url = \"%s\" />\n", "OKsolver", Version, "http://cs.swan.ac.uk/~csoliver/OKsolver");
+      printf("  <solver-author first_name = \"Oliver\" last_name = \"Kullmann\" country = \"United Kingdom\" e-mail = \"O.Kullmann@Swansea.ac.uk\" www = \"http://cs.swan.ac.uk/~csoliver/\" />\n");
+      printf("  <programming_language name = \"C\" />\n");
+      printf("  <compilation_time timestamp = \"%s %s\" />\n", __DATE__, __TIME__);
+      printf("  <url for = \"executable\" value = \"");
+      if (argv[0][0] == '/') // absoluter Pfadname
+        printf("%s\" />\n", argv[0]);
+      else // relativer Pfadname
+        printf("%s/%s\" />\n", getenv("PWD"), argv[0]);
+      printf("  <options string = \"%s\" />\n", OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4);
+      {
+        if (internal)
+          printf("  <internal/>\n");
       }
-      else if (strcmp("-XO", argv[Argument]) == 0) {
-        Format = XML_Format;
-	spezRueckgabe = false;
+      printf("</SAT-solver.specification>\n");
+    }
+    else if (strncmp("--language=", argv[Argument], 11) == 0) {
+      int Nummer;
+      if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1) {
+        fprintf(stderr, "%s\n", Meldung(18));
+        return 1;
       }
-      else if (strcmp("--specification", argv[Argument]) == 0) {
-	printf("<SAT-solver.specification>\n");
-	printf("  <solver-type mode = \"deterministic\">\n");
-	printf("    <complete/>\n");
-	printf("  </solver-type>\n");
-	printf("  <solver-name base-name = \"%s\" version = \"%s\" url = \"%s\" />\n", "OKsolver", Version, "http://cs.swan.ac.uk/~csoliver/OKsolver");
-	printf("  <solver-author first_name = \"Oliver\" last_name = \"Kullmann\" country = \"United Kingdom\" e-mail = \"O.Kullmann@Swansea.ac.uk\" www = \"http://cs.swan.ac.uk/~csoliver/\" />\n");
-	printf("  <programming_language name = \"C\" />\n");
-	printf("  <compilation_time timestamp = \"%s %s\" />\n", __DATE__, __TIME__);
-	printf("  <url for = \"executable\" value = \"");
-	if (argv[0][0] == '/') // absoluter Pfadname
-	  printf("%s\" />\n", argv[0]);
-	else // relativer Pfadname
-	  printf("%s/%s\" />\n", getenv("PWD"), argv[0]);
-	printf("  <options string = \"%s\" />\n", OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4);
-	{
-	  if (internal)
-	    printf("  <internal/>\n");
-	}
-	printf("</SAT-solver.specification>\n");
+      if ((Nummer < 0) || (Nummer >= ANZSPRACHEN)) {
+        fprintf(stderr, "%s %2d\n", Meldung(19), ANZSPRACHEN - 1);
+        return 1;
       }
-      else if (strncmp("--language=", argv[Argument], 11) == 0)
+      Sprache = Nummer;
+    }
+    else if (strncmp("--standard=", argv[Argument], 11) == 0) {
+      int Nummer;
+      if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1) {
+        fprintf(stderr, "%s\n", Meldung(20));
+        return 1;
+      }
+      if ((Nummer <= 0) || (Nummer > ANZSTANDARDS)) {
+        fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS);
+        return 1;
+      }
+      Standard = Nummer;
+      setzenStandard();
+    }
+    else if (strncmp("-D", argv[Argument], 2) == 0) {
+      // -D fuer Beobachtungstiefe (depth)
+      // Verzweigungsliterale werden (falls ueberhaupt Dateiausgabe gesetzt ist)
+      // nur bis zu zwei Stufen unterhalb der Beobachtungsschicht ausgegeben,
+      // so dass hierfuer als das Beobachtungsniveau mindestens zwei sein
+      // sollte.
+      int Nummer;
+      if (sscanf(argv[Argument] + 2, "%d", &Nummer) != 1) {
+        fprintf(stderr, "%s\n", Meldung(31));
+        return 1;
+      }
+      if (Nummer < 0) {
+        fprintf(stderr, "%s\n", Meldung(32));
+        return 1;
+      }
+      Beobachtungsniveau = Nummer;
+    }
+    else if (strncmp("-MAXN=", argv[Argument], 6) == 0) {
+      int maxn;
+      if (sscanf(argv[Argument] + 6, "%d", &maxn) != 1) {
+        fprintf(stderr, "%s\n", Meldung(33));
+        return 1;
+      }
+      if (maxn < 0) {
+        fprintf(stderr, "%s\n", Meldung(34));
+        return 1;
+      }
+      MAXN = maxn;
+    }
+    else if (strncmp("-MAXL=", argv[Argument], 6) == 0) {
+      int maxl;
+      if (sscanf(argv[Argument] + 6, "%d", &maxl) != 1) {
+        fprintf(stderr, "%s\n", Meldung(36));
+        return 1;
+      }
+      if (maxl < 0) {
+        fprintf(stderr, "%s\n", Meldung(37));
+        return 1;
+      }
+      MAXL = maxl;
+    }
+    else if (strncmp("-MAXK=", argv[Argument], 6) == 0) {
+      int maxk;
+      if (sscanf(argv[Argument] + 6, "%d", &maxk) != 1) {
+        fprintf(stderr, "%s\n", Meldung(39));
+        return 1;
+      }
+      if (maxk < 0) {
+        fprintf(stderr, "%s\n", Meldung(40));
+        return 1;
+      }
+      MAXK = maxk;
+    }
+    else if (strncmp("--timeout=", argv[Argument], 10) == 0) {
+      int t;
+      if (sscanf(argv[Argument] + 10, "%d", &t) != 1) {
+        fprintf(stderr, "%s\n", Meldung(42));
+        return 1;
+      }
+      if (t < 0) {
+        fprintf(stderr, "%s\n", Meldung(43));
+        return 1;
+      }
+      Zeitschranke = t;
+    }
+    else if (strncmp("-seed=", argv[Argument], 6) == 0) {
+      long unsigned int S;
+      if (sscanf(argv[Argument] + 6, "%lud", &S) != 1) {
+        fprintf(stderr, "%s\n", Meldung(52));
+        return 1;
+      }
+      Schluessel = S;
+    }
+    else if (strncmp("-quot=", argv[Argument], 6) == 0) {
+      double V;
+      if (sscanf(argv[Argument] + 6, "%lf", &V) != 1)
         {
-          int Nummer;
-          if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(18));
-              return 1;
-            }
-          if ((Nummer < 0) || (Nummer >= ANZSPRACHEN))
-            {
-              fprintf(stderr, "%s %2d\n", Meldung(19), ANZSPRACHEN - 1);
-              return 1;
-            }
-          Sprache = Nummer;
-        }
-      else if (strncmp("--standard=", argv[Argument], 11) == 0)
-        {
-          int Nummer;
-          if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(20));
-              return 1;
-            }
-          if ((Nummer <= 0) || (Nummer > ANZSTANDARDS))
-            {
-              fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS);
-              return 1;
-            }
-          Standard = Nummer;
-          setzenStandard();
-        }
-      else if (strncmp("-D", argv[Argument], 2) == 0)
-	// -D fuer Beobachtungstiefe (depth)
-	// Verzweigungsliterale werden (falls ueberhaupt Dateiausgabe gesetzt ist)
-	// nur bis zu zwei Stufen unterhalb der Beobachtungsschicht ausgegeben,
-	// so dass hierfuer als das Beobachtungsniveau mindestens zwei sein
-	// sollte.
-        {
-          int Nummer;
-          if (sscanf(argv[Argument] + 2, "%d", &Nummer) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(31));
-              return 1;
-            }
-          if (Nummer < 0)
-            {
-              fprintf(stderr, "%s\n", Meldung(32));
-              return 1;
-            }
-          Beobachtungsniveau = Nummer;
-        }
-      else if (strncmp("-MAXN=", argv[Argument], 6) == 0)
-        {
-          int maxn;
-          if (sscanf(argv[Argument] + 6, "%d", &maxn) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(33));
-              return 1;
-            }
-          if (maxn < 0)
-            {
-              fprintf(stderr, "%s\n", Meldung(34));
-              return 1;
-            }
-          MAXN = maxn;
-        }
-      else if (strncmp("-MAXL=", argv[Argument], 6) == 0)
-        {
-          int maxl;
-          if (sscanf(argv[Argument] + 6, "%d", &maxl) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(36));
-              return 1;
-            }
-          if (maxl < 0)
-            {
-              fprintf(stderr, "%s\n", Meldung(37));
-              return 1;
-            }
-          MAXL = maxl;
-        }
-      else if (strncmp("-MAXK=", argv[Argument], 6) == 0)
-        {
-          int maxk;
-          if (sscanf(argv[Argument] + 6, "%d", &maxk) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(39));
-              return 1;
-            }
-          if (maxk < 0)
-            {
-              fprintf(stderr, "%s\n", Meldung(40));
-              return 1;
-            }
-          MAXK = maxk;
-        }
-      else if (strncmp("--timeout=", argv[Argument], 10) == 0)
-        {
-          int t;
-          if (sscanf(argv[Argument] + 10, "%d", &t) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(42));
-              return 1;
-            }
-          if (t < 0)
-            {
-              fprintf(stderr, "%s\n", Meldung(43));
-              return 1;
-            }
-          Zeitschranke = t;
-        }
-      else if (strncmp("-seed=", argv[Argument], 6) == 0)
-        {
-          long unsigned int S;
-          if (sscanf(argv[Argument] + 6, "%lud", &S) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(52));
-              return 1;
-            }
-          Schluessel = S;
-        }
-      else if (strncmp("-quot=", argv[Argument], 6) == 0)
-        {
-          double V;
-          if (sscanf(argv[Argument] + 6, "%lf", &V) != 1)
-            {
-              fprintf(stderr, "%s\n", Meldung(53));
-              return 1;
-            }
-          Verhaeltnis = V;
-        }
-      else if (strncmp("-", argv[Argument], 1) == 0)
-        {
-          fprintf(stderr, "%s %s\n", Meldung(22), argv[Argument]);
+          fprintf(stderr, "%s\n", Meldung(53));
           return 1;
         }
-      else
-        {
-          aktName = argv[Argument];
-          s = Unbestimmt;
-          alarm(Zeitschranke);
+      Verhaeltnis = V;
+    }
+    else if (strncmp("-", argv[Argument], 1) == 0) {
+      fprintf(stderr, "%s %s\n", Meldung(22), argv[Argument]);
+      return 1;
+    }
+    else {
+      aktName = argv[Argument];
+      s = Unbestimmt;
+      alarm(Zeitschranke);
 #ifndef SYSTIME
-          akkVerbrauch = clock();
+      akkVerbrauch = clock();
 #else
-          times(Zeiger);
-          akkVerbrauch = SysZeit.tms_utime;
+      times(Zeiger);
+      akkVerbrauch = SysZeit.tms_utime;
 #endif
-          if (randomisiert)
-            srand_S();
-          if ((fp = fopen(aktName, "r")) == NULL)
-            {
-              fprintf(stderr, "%s %s\n", Meldung(4), aktName);
+      if (randomisiert)
+        srand_S();
+      if ((fp = fopen(aktName, "r")) == NULL) {
+        fprintf(stderr, "%s %s\n", Meldung(4), aktName);
+        return 1;
+      }
+      {
+        struct stat stbuf;
+        if (stat(aktName, &stbuf) == -1) {
+          fprintf(stderr, Meldung(7), aktName);
+          return 1;
+        }
+        Groesse = stbuf.st_size;
+      }
+      
+      if (Dateiausgabe) {
+        if ((fpaus = fopen(Ausgabedatei, "a")) == NULL) {
+          fprintf(stderr, "%s %s\n", Meldung(30), Ausgabedatei);
+          return 1;
+        }
+        if (Belegung || (Monitor && (! nurVorreduktion))) {
+          Wurzel = BasisName(aktName);
+          if (Belegung) {
+            NameBel = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            strcpy(NameBel, Wurzel); strcat(NameBel, ".pa");
+          }
+          if (Monitor && (! nurVorreduktion)) {
+            NameMon = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            strcpy(NameMon, Wurzel); strcat(NameMon, ".mo");
+            if ((fpmo = fopen(NameMon, "w")) == NULL) {
+              fprintf(stderr, "%s %s\n", Meldung(29), NameMon);
               return 1;
             }
-          {
-            struct stat stbuf;
-            if (stat(aktName, &stbuf) == -1)
-              {
-                fprintf(stderr, Meldung(7), aktName);
-                return 1;
-              }
-            Groesse = stbuf.st_size;
           }
-
-          if (Dateiausgabe)
-            {
-              if ((fpaus = fopen(Ausgabedatei, "a")) == NULL)
-                {
-                  fprintf(stderr, "%s %s\n", Meldung(30), Ausgabedatei);
-                  return 1;
-                }
-              if (Belegung || (Monitor && (! nurVorreduktion)))
-                {
-                  Wurzel = BasisName(aktName);
-                  if (Belegung)
-                    {
-                      NameBel = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
-                      strcpy(NameBel, Wurzel); strcat(NameBel, ".pa");
-                    }
-                  if (Monitor && (! nurVorreduktion))
-                    {
-                      NameMon = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
-                      strcpy(NameMon, Wurzel); strcat(NameMon, ".mo");
-                      if ((fpmo = fopen(NameMon, "w")) == NULL)
-                        {
-                          fprintf(stderr, "%s %s\n", Meldung(29), NameMon);
-                          return 1;
-                        }
-                    }
-                }     
-            }
-
+        }     
+      }
+      
 #ifdef OUTPUTTREEDATAXML
-	  {
-	    if (not Wurzel) Wurzel = BasisName(aktName);
-	    NameTreeDataFile = (char*) xmalloc((strlen(Wurzel) + 4 + 1));
-	    strcpy(NameTreeDataFile, Wurzel); strcat(NameTreeDataFile, ".xml");
-	    if ((TreeDataFile = fopen(NameTreeDataFile, "w")) == NULL) {
-	      fprintf(stderr, "%s %s\n", Meldung(54), NameTreeDataFile);
-	      return 1;
-	    }
-	    fprintf(TreeDataFile, "<?xml version=\"1.0\" standalone=\"yes\" ?>\n");
-	    fprintf(TreeDataFile, "<!DOCTYPE t [\n");
-	    fprintf(TreeDataFile, "  <!ELEMENT t (t?, t?)>\n");
-	    fprintf(TreeDataFile, "  <!ATTLIST t\n");
-	    fprintf(TreeDataFile, "    l NMTOKEN #REQUIRED>\n");
-	    fprintf(TreeDataFile, "]>\n\n");
-	    // If already in the preprocessing phase the formula is decided, then no tree-xml-element is output, and thus the file with name NameTreeDataFile does not contain correct xml.
-	  }
-#endif
-
-          switch (Einlesen(fp, Groesse)) {
-          case Sat : s = SAT; break;
-          case Unsat : s = UNSAT; break;
-          case Fehler :
-            fprintf(stdout, "%s %s.\n", Meldung(17), aktName);
-            if (Dateiausgabe)
-              fprintf(fpaus, "%s %s.\n", Meldung(17), aktName);
-            goto Aufraeumen;
-          case Norm :
-            if (nurVorreduktion)
-              break;
-            InitVarLitKlm();
-            InitSat();
-#ifdef LOKALLERNEN
-            InitlokalesLernen();
-#endif
-            if (Monitor)
-              {
-                printf("\n%s\n %s, %4d, %10d\n", Meldung(28), aktName, Beobachtungsniveau, Gesamtlast);
-                printf("%s\n\n", Meldung(55));
-                if (Dateiausgabe) {
-                  fprintf(fpmo, "# %s %4d %11d\n", aktName, Beobachtungsniveau, Gesamtlast);
-                  fprintf(fpmo, "%s\n", Meldung(56));
-                }
-              }
-            
-            s = SATEntscheidung();
-          }
-
-Ausgabe :
-
-#ifndef SYSTIME
-          Verbrauch = clock() - akkVerbrauch;
-#else
-          times(Zeiger);
-          Verbrauch = SysZeit.tms_utime - akkVerbrauch;
-#endif
-          if (Monitor)
-            printf("\n");
-          Statistikzeile(stdout);
-          if (Dateiausgabe)
-            Statistikzeile(fpaus);
-
-/* Achtung: Die Analyse der Ausgabe verlangt, dass das allererste */
-/*             Zeichen die SAT-Zugehoerigkeit (d.h.: 0 oder 1) angibt. */
-
-          if (Belegung && (s == SAT))
-            {
-              if (! Dateiausgabe)
-                AusgabeBelegung(stdout);
-              else
-                {
-                  if ((fppa = fopen(NameBel, "w")) == NULL)
-                    {
-                      fprintf(stderr, "%s %s\n", Meldung(27), NameBel);
-                      return 1;
-                    }
-                  AusgabeBelegung(fppa);
-                }
-            }
-        Aufraeumen :
-
-        alarm(0);
-        AufraeumenSat();
-#ifdef BAUMRES
-        AufraeumenBaumRes();
-#endif
-#ifdef LOKALLERNEN
-        AufraeumenlokalesLernen();
-#endif
-        AufraeumenEinlesen(); /* zuletzt */
-        free(NameBel); NameBel = NULL;
-        free(NameMon); NameMon = NULL;
-#ifdef OUTPUTTREEDATAXML
-	fprintf(TreeDataFile, "\n");
-	free(NameTreeDataFile); NameTreeDataFile = NULL;
-	if (TreeDataFile != NULL) {
-	  fclose(TreeDataFile); TreeDataFile = NULL;
-	}
-#endif
-        if (fp != NULL)
-            {
-              fclose(fp); fp = NULL;
-            }
-          if (fpmo != NULL)
-            {
-              fclose(fpmo); fpmo = NULL;
-            }
-          if (fpaus != NULL)
-            {
-              fclose(fpaus); fpaus = NULL;
-            }
-          if (fppa != NULL)
-            {
-              fclose(fppa); fppa = NULL;
-            }
+      {
+        if (not Wurzel) Wurzel = BasisName(aktName);
+        NameTreeDataFile = (char*) xmalloc((strlen(Wurzel) + 4 + 1));
+        strcpy(NameTreeDataFile, Wurzel); strcat(NameTreeDataFile, ".xml");
+        if ((TreeDataFile = fopen(NameTreeDataFile, "w")) == NULL) {
+          fprintf(stderr, "%s %s\n", Meldung(54), NameTreeDataFile);
+          return 1;
         }
+        fprintf(TreeDataFile, "<?xml version=\"1.0\" standalone=\"yes\" ?>\n");
+        fprintf(TreeDataFile, "<!DOCTYPE t [\n");
+        fprintf(TreeDataFile, "  <!ELEMENT t (t?, t?)>\n");
+        fprintf(TreeDataFile, "  <!ATTLIST t\n");
+        fprintf(TreeDataFile, "    l NMTOKEN #REQUIRED>\n");
+        fprintf(TreeDataFile, "]>\n\n");
+        // If already in the preprocessing phase the formula is decided, then no tree-xml-element is output, and thus the file with name NameTreeDataFile does not contain correct xml.
+      }
+#endif
+      
+      switch (Einlesen(fp, Groesse)) {
+      case Sat : s = SAT; break;
+      case Unsat : s = UNSAT; break;
+      case Fehler :
+        fprintf(stdout, "%s %s.\n", Meldung(17), aktName);
+        if (Dateiausgabe)
+          fprintf(fpaus, "%s %s.\n", Meldung(17), aktName);
+        goto Aufraeumen;
+      case Norm :
+        if (nurVorreduktion)
+          break;
+        InitVarLitKlm();
+        InitSat();
+#ifdef LOKALLERNEN
+        InitlokalesLernen();
+#endif
+        if (Monitor) {
+          printf("\n%s\n %s, %4d, %10d\n", Meldung(28), aktName, Beobachtungsniveau, Gesamtlast);
+          printf("%s\n\n", Meldung(55));
+          if (Dateiausgabe) {
+            fprintf(fpmo, "# %s %4d %11d\n", aktName, Beobachtungsniveau, Gesamtlast);
+            fprintf(fpmo, "%s\n", Meldung(56));
+          }
+        }
+        
+        s = SATEntscheidung();
+      }
+      
+    Ausgabe :
+      
+#ifndef SYSTIME
+      Verbrauch = clock() - akkVerbrauch;
+#else
+      times(Zeiger);
+      Verbrauch = SysZeit.tms_utime - akkVerbrauch;
+#endif
+      if (Monitor)
+        printf("\n");
+      Statistikzeile(stdout);
+      if (Dateiausgabe)
+        Statistikzeile(fpaus);
+      
+      /* Achtung: Die Analyse der Ausgabe verlangt, dass das allererste */
+      /* Zeichen die SAT-Zugehoerigkeit (d.h.: 0 oder 1) angibt. */
+      
+      if (Belegung && (s == SAT)) {
+        if (! Dateiausgabe)
+          AusgabeBelegung(stdout);
+        else {
+          if ((fppa = fopen(NameBel, "w")) == NULL) {
+            fprintf(stderr, "%s %s\n", Meldung(27), NameBel);
+            return 1;
+          }
+          AusgabeBelegung(fppa);
+        }
+      }
+    Aufraeumen :
+      
+      alarm(0);
+      AufraeumenSat();
+#ifdef BAUMRES
+      AufraeumenBaumRes();
+#endif
+#ifdef LOKALLERNEN
+      AufraeumenlokalesLernen();
+#endif
+      AufraeumenEinlesen(); /* zuletzt */
+      free(NameBel); NameBel = NULL;
+      free(NameMon); NameMon = NULL;
+#ifdef OUTPUTTREEDATAXML
+      fprintf(TreeDataFile, "\n");
+      free(NameTreeDataFile); NameTreeDataFile = NULL;
+      if (TreeDataFile != NULL) {
+        fclose(TreeDataFile); TreeDataFile = NULL;
+      }
+#endif
+      if (fp != NULL) {
+        fclose(fp); fp = NULL;
+      }
+      if (fpmo != NULL) {
+        fclose(fpmo); fpmo = NULL;
+      }
+      if (fpaus != NULL) {
+        fclose(fpaus); fpaus = NULL;
+      }
+      if (fppa != NULL) {
+        fclose(fppa); fppa = NULL;
+      }
     }
-
+  }
+  
   if (spezRueckgabe)
     switch (s) {
     case SAT : return 10;
