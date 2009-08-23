@@ -113,10 +113,13 @@ Autarkies ~ nodes:
 [1] 0.7590312
  (Intercept)      E$nodes
 -14.99220801   0.01847188
+
+> hist_oksolver_mon_nodes(E)
      \endverbatim
      average 2-reductions ~ 4.79, 282 / 4.79 ~ 59, speed ~ 1880 nodes per 
-     second.
-     </li>
+     second. The distribution of log2-node-counts looks rather "normally
+     distributed" (with a long tail; with center around 10.5, that is, around 
+     the median). </li>
      <li> One should flip the first-branch decisions, to see whether we get
      more single nodes. </li>
      <li> With preprocessing and without symmetry breaking:
@@ -179,9 +182,14 @@ Autarkies ~ nodes:
 [1] 0.7921343
  (Intercept)      E$nodes
 -23.69363369   0.01576614
+
+> hist_oksolver_mon_nodes(E)
      \endverbatim
-average 2-reduction ~ 8.37, 229 / 8.37 ~ 27.4, speed ~ 1097 nds/sec.
-     </li>
+     average 2-reduction ~ 8.37, 229 / 8.37 ~ 27.4, speed ~ 1097 nds/sec.
+     Distribution of log2-node-counts might show a separation into two
+     "different distributions", one centered around 5, the other around 10
+     but this might be misleading (one could also see three distributions,
+     one with centre 2, one with 5 and one with 10). </li>
      <li> As with greentao_7(2,...,2,3,3) (see below), here preprocessing
      impairs performance (more nodes, and considerably fewer nds/sec), and we 
      also get the enormous depth of the tree (relative to the number of 
@@ -249,9 +257,13 @@ Autarkies ~ nodes:
 [1] 0.7357201
 (Intercept)     E$nodes
 -5.82921479  0.01768372
+
+> hist_oksolver_mon_nodes(E)
      \endverbatim
-     4.73 2-reductions per node, 282 / 4.73 ~ 59.6, 1900 nds/sec.
-     </li>
+     4.73 2red/nds, 282 / 4.73 ~ 59.6, 1900 nds/sec.
+     The distribution seems to be divided into two sub-distributions, the first
+     small one centered around 2, while the main distribution is centered
+     around the median 8.5. </li>
      <li> With preprocessing and with symmetry breaking:
      \verbatim
 
