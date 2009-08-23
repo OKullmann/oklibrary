@@ -104,3 +104,20 @@ summary_oksolver = function(E, ...) {
   lines(E$nodes,predict(AN))
   par(mfrow=old_mfrow, mar=old_mar)
 }
+
+
+# The histogram for the distribution of the binary logarithm of node counts,
+# with the median as solid line, and the mean as dotted line:
+hist_oksolver_mon_nodes = function(E, breaks=30, ...) {
+  L = log2(E$nodes)
+  hist(L,main="",breaks)
+  Median = median(L)
+  Mean = log2(mean(E$nodes))
+  cat("Median=",Median,"\n")
+  cat("Mean=",Mean,"\n")
+  abline(v=Median)
+  abline(v=Mean,lty=3)
+}
+# For the default number of break-points, use 
+# breaks="Sturges"
+
