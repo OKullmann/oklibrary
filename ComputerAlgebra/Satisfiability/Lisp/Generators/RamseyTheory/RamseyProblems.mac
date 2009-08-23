@@ -136,6 +136,28 @@ ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
       i,1,d)))$
 ramsey_symbr1_stdpass(q,n) :=
   ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
+output_ramsey_symbr1_pass(q,n,filename) := block(
+ [PA : ramsey_symbr1_pass(q,n)],
+  output_fcsext(
+    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
+      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
+      q, ", and ", n, " elements."), 
+    cs2fcs(map(set,PA)),
+    filename,
+    colv_string))$
+output_ramsey_symbr1_pass_stdname(q,n) :=
+  output_ramsey_symbr1_pass(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".ecnf"))$
+output_ramsey_symbr1_stdpass(q,n,filename) :=
+  output_fcs(
+    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
+      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
+      q, ", and ", n, " elements. Variables are given their rank in the",
+      "standard colexicographical ordering."),
+    cs2fcs(map(set,ramsey_symbr1_stdpass(q,n))),
+    filename)$
+output_ramsey_symbr1_stdpass_stdname(q,n) :=
+  output_ramsey_symbr1_stdpass(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".cnf"))$
+      
 
 /* XXX preliminary */
 /* r=2, q >= 3, n >= 4 */
@@ -167,11 +189,7 @@ output_ramsey2_symbr2(n,f) := output_fcsext(
     "problems of the form ramsey_r^2(q_1,q_2) < n?"),
     cs2fcs(ramsey2_symbr2_cs(n)),
     f,
-    lambda([l], sconcat(
-        if abs(l) = l then "" else "-",
-        xreduce(
-          lambda([a,b],sconcat(a,"S",b," ")),
-          args(args(abs(l))[1])))))$
+    colv_string)$
 output_ramsey2_symbr2_stdname(n) :=
   output_ramsey2_symbr2(n, sconcat("Ramsey_SB_MC_",n,".ecnf"))$
 
