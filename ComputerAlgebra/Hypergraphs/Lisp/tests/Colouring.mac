@@ -27,10 +27,22 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
+
+
 /* *******************************
    * Translations to boolean SAT *
    *******************************
 */
+
+okltest_colv_string(f) := (
+  assert(f(colv({})) = "E "),
+  assert(f(-colv({})) = "-E "),
+  assert(f(colv({1})) = "1 "),
+  assert(f(-colv({1})) = "-1 "),
+  assert(f(colv({1,2})) = "1S2 "),
+  assert(f(-colv({1,2})) = "-1S2 "),
+  assert(f(colv({1,2,3,4})) = "1S2S3S4 "),
+  true)$
 
 okltest_tcol2sat_hg2fcs(f) := (
   assert(f([{},{}]) = [{},{}]),

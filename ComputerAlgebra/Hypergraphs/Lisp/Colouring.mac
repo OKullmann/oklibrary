@@ -38,6 +38,17 @@ declare(colv,noun)$
 declare(colv,posfun)$
 colv_var(v) := nounify(colv)(v)$
 
+/* Translates a colouring literal to an Extend-dimacs compatible string. */
+colv_string(l) := sconcat(
+  if abs(l) = l then "" else "-",
+  block([S : args(args(abs(l))[1])],
+    sconcat(
+      if length(S) = 0 then "E"
+      else xreduce(
+        lambda([a,b],sconcat(a,"S",b)),
+        rest(S),first(S)),
+      " ")))$
+
 /* Translating the 2-colouring problem for hypergraph G into the SAT problem
    for a formal boolean clause-set: */
 
