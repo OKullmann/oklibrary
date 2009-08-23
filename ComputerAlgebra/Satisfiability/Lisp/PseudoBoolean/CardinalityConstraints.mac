@@ -54,17 +54,17 @@ declare(ctt, posfun)$
 ctt_var(l,i) := nounify(ctt)(l,i)$
 
 /* Given a list S of output variables and a list E of input variables, 
-   the result is a clause set F enforcing that S is a unary representation of 
+   the result is a clause-list F enforcing that S is a unary representation of 
    the number of variables set to true in E. That is, if p is the number of 
    variables set to 1 in E for a satisfying assignment, then the first p 
    variables in S are set to 1 and the rest to 0 (in that assignment).
    S must have the same number of variables as E.
 
-   In the resulting clause-set F, var_cs(F) = union(S,E,V) where variables 
+   In the resulting clause-list F, var_cs(F) = union(S,E,V) where variables 
    in V are of the form ctt(l,i) for a list l of 1s and 0s and an
    integer i > 0.
 
-   The clause-set is built from a tree, where each node has a list of variables
+   The clause-list is built from a tree, where each node has a list of variables
    associated with it. 
    
    - S is associated with the root node
@@ -89,7 +89,7 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    That is, for an internal node P with associated list R, and children 
    PL and PR with associated lists RL and RR, we have the clauses 
    {-RL[a],-RL[b],RL[c]} and {RL[a+1],RR[b+1],-R[c+1]} in the resulting
-   clause-set for all 
+   clause-list for all 
    
    - 0 <= a <= length(RL)
    - 0 <= b <= length(RR)
@@ -116,12 +116,12 @@ ctt_var(l,i) := nounify(ctt)(l,i)$
    nvc(n) = 0 if n < 1
             n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise
 */
-cardinality_totalizer_cs(S,E) := cardinality_totalizer_r_cs(S,E,[])$
-cardinality_totalizer_r_cs(S,E, tree_pos) := 
-  if length(E) < 1 then {}
+cardinality_totalizer_cl(S,E) := cardinality_totalizer_r_cl(S,E,[])$
+cardinality_totalizer_r_cl(S,E, tree_pos) := 
+  if length(E) < 1 then []
   else block(
-     [subtree_a : {}, subtree_b : {}, m_a,m_b, S_x, level,
-      cs :{},V_a,V_b,m:length(E)],
+     [subtree_a : [], subtree_b : [], m_a,m_b, S_x, level,
+      cs :[],V_a,V_b,m:length(E)],
     /* work out the temporary variables for the current level */
     if length(tree_pos) = 0 then
       S_x : S
@@ -133,7 +133,7 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
       V_a : map(
         lambda([a],ctt_var(cons(0,tree_pos),a)),
         create_list(i,i,1,m_a)),
-      subtree_a : cardinality_totalizer_r_cs([],take_elements(m_a,E), 
+      subtree_a : cardinality_totalizer_r_cl([],take_elements(m_a,E), 
         cons(0,tree_pos)))
     else
       V_a : take_elements(m_a,E),
@@ -141,31 +141,30 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
       V_b : map(
         lambda([a],ctt_var(cons(1,tree_pos),a)),
         create_list(i,i,1,m_b)),
-      subtree_b : cardinality_totalizer_r_cs([],rest(E,m_a), cons(1,tree_pos)))
+      subtree_b : cardinality_totalizer_r_cl([],rest(E,m_a), cons(1,tree_pos)))
     else
       V_b : rest(E,m_a),
     /* generate clauses ensuring correct unary representation for this node */
     for alph : 0 thru m_a do
-      for beta : 0 thru m_b do
-        for sigma : 0 thru m do
-          if (alph + beta) = sigma then block(
-            if sigma > 0 then
-              cs : adjoin(union(
-                if alph > 0 then {-V_a[alph]} else {},
-                if beta > 0 then {-V_b[beta]} else {},
-                {S_x[sigma]}), cs),
-            if sigma < m then
-              cs : adjoin(union(
-                if alph < m_a then {V_a[alph+1]} else {},
-                if beta < m_b then {V_b[beta+1]} else {},
-                {-S_x[sigma+1]}),
-                cs)
-          ),
+      for beta : 0 thru m_b do block([sigma : alph+beta],
+        if sigma > 0 then
+        cs : cons(union(
+            if alph > 0 then {-V_a[alph]} else {},
+            if beta > 0 then {-V_b[beta]} else {},
+            {S_x[sigma]}), cs),
+        if sigma < m then
+        cs : cons(union(
+            if alph < m_a then {V_a[alph+1]} else {},
+            if beta < m_b then {V_b[beta+1]} else {},
+            {-S_x[sigma+1]}),
+          cs)
+      ),
     if oklib_monitoring then print("Finished level ", tree_pos),
-    return(union(subtree_a, subtree_b, cs))
+    return(append(subtree_a, subtree_b, cs))
   )$
 
-/* Given a list S of variables together with p, q, produces a clause-set F 
+
+/* Given a list S of variables together with p, q, produces a clause-list F 
    whose satisfying assignments are those total assignments where the first
    p variables are set to true, and all variables from the (q+1)-th onwards 
    are set to false.
@@ -175,22 +174,22 @@ cardinality_totalizer_r_cs(S,E, tree_pos) :=
    and the last (length(S)-q+1) variables occur as negative literals in unit
    clauses.
 
-   In the resulting clause-set F, var_cs(F) = S.
+   In the resulting clause-list F, var_cs(F) = S.
 */
-cardinality_comparator_cs(S,p,q) := 
-  union(
-    map(set,setify(take_elements(p,S))),map(set,map("-",setify(rest(S,q)))))$
+cardinality_comparator_cl(S,p,q) := 
+  append(
+    map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
 
-/* Given a list E of variables, returns a clause-set F which is satisfied by a
+/* Given a list E of variables, returns a clause-list F which is satisfied by a
    given partial assignment phi iff between m and n variables of E are set to 
    true by phi.
    
-   In the resulting clause-set F, var_cs(F) = union(S,E,V) where variables 
+   In the resulting clause-list F, var_cs(F) = union(S,E,V) where variables 
    in V are of the form ctt(l,i) for a list l of 1s and 0s and an
    integer i > 0, and variables in S are of the form ctt([],i) for
    integer i > 0.
    
-   The clause-set is built from a tree, where each node has a list of variables
+   The clause-list is built from a tree, where each node has a list of variables
    associated with it. 
    
    - {ctt([],1),...,ctt([],length(E))} is associated with the root node
@@ -215,7 +214,7 @@ cardinality_comparator_cs(S,p,q) :=
    That is, for an internal node P with associated list R, and children 
    PL and PR with associated lists RL and RR, we have the clauses 
    {-RL[a],-RL[b],RL[c]} and {RL[a+1],RR[b+1],-R[c+1]} in the result 
-   clause-set for all 
+   clause-list for all 
    
    - 0 <= a <= length(RL)
    - 0 <= b <= length(RR)
@@ -226,7 +225,7 @@ cardinality_comparator_cs(S,p,q) :=
    RR[length(RR)+1] := R[length(R)+1] := false, and clauses are reduced or 
    removed based on the presence of true or false.
 
-   The result clause-set additionally has (length(S) - (q-p)) unit clauses
+   The result clause-list additionally has (length(S) - (q-p)) unit clauses
    where the first m variables in S occur as positive literals in unit clauses
    and the last (length(S)-q+1) variables occur as negative literals in unit
    clauses.
@@ -250,10 +249,10 @@ cardinality_comparator_cs(S,p,q) :=
             n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise.
 
 */
-cardinality_cs(E,p,q) := block(
+cardinality_cl(E,p,q) := block(
   [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
   return(
-    union(cardinality_totalizer_cs(S,E),cardinality_comparator_cs(S,p,q))))$
+    append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
 /*!
 \endhtmlonly

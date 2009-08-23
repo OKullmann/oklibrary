@@ -52,7 +52,7 @@ License, or any later version. */
      consider "<=", ">=" and "=". </li>
      <li> Or, alternatively, only "<", ">" and "=" ? </li>
      <li> Additionally, inbetween-constraints "a <= sum(L) <= b" could
-     be useful (see "cardinality_cs"). </li>
+     be useful (see "cardinality_cl"). </li>
      <li> Perhaps the elements of the cardinality-constraint-lists are
      arranged as for the represented inequalities:
       <ul>
@@ -256,7 +256,7 @@ is(Csa);
    <li> Especially precise information on the added auxiliary variables are
    needed. </li>
    <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
-   cardinality_cs *combinatorial* specifications are needed.
+   cardinality_cl *combinatorial* specifications are needed.
     <ol>
      <li> Currently there are no specifications (which, of course, must
      allow to reconstruct the clause-sets(!)). </li>
@@ -279,7 +279,7 @@ is(Csa);
   \todo Rename functions related to unary encoding
   <ul>
    <li> These functions realise only special implementations, and so a generic
-   name like "cardinality_cs" is inappropriate. </li>
+   name like "cardinality_cl" is inappropriate. </li>
    <li> We should also use English spelling, for example "totaliser". </li>
   </ul>
 
