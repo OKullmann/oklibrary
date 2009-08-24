@@ -171,10 +171,42 @@ c file_name                             GreenTao_3-3-3-4_434.cnf_m2pp_19403
        864 / 12.11 ~ 71, 84.7 nds/sec. This looks like an improvement. </li>
        <li> Without preprocessing and with symmetry-breaking:
        \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D30 -F GreenTao_sb_3-3-3-4_434.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         4
+c initial_number_of_variables           1302
+c initial_number_of_clauses             20674
+c initial_number_of_literal_occurrences 62412
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1303
+c running_time(sec)                     146231.2
+c number_of_nodes                       12297953
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                151996719
+c number_of_pure_literals               0
+c number_of_autarkies                   116929
+c number_of_missed_single_nodes         445
+c max_tree_depth                        120
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 5390584354
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_sb_3-3-3-4_434.cnf
+       \endverbatim
+       (without reaching a monitoring node); 2red/nds ~ 12.36, where
+       1302 / 12.36 ~ 105, 84.1 nds/sec. Looks worth than with preprocesssing,
+       while slightly better than without anything. </li>
+       <li> With preprocessing and with symmetry-breaking:
+       \verbatim
 
        \endverbatim
        </li>
-       <li> With preprocessing and with symmetry-breaking: </li>
       </ol>
      </li>
      <li> minisat2 </li>
