@@ -169,6 +169,26 @@ okltest_ramsey_symbr2_eqs(f) := block(
     assert(length(f(2,2,i)) = floor(max((i - 3),0) / 3)),
   true)$
 
+okltest_ramsey2_symbr3_cs(f) := block(
+  for i : 0 thru 3 do
+    assert(f(i) = {}),
+  assert(f(4) = {{-colv({1,2}),colv({1,3})},{colv({1,2}),-colv({1,3})}}),
+  true)$
+
+okltest_ramsey2_symbr3_eqs(f) := block(
+  assert(f(0) = {{}}),
+  assert(f(1) = {{}}),
+  assert(f(2) = {{{1,2}}}),
+  assert(f(3) = {{{1,2}}}),
+  assert(f(4) = {{{1,2},{1,3}}}),
+  true)$
+
+okltest_ramsey2_symbr3_eqs_m(f) := block(
+  assert(
+      okltest_ramsey2_symbr3_eqs(buildq([f:f],lambda([a],f(1,a))))),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

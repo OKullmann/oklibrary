@@ -261,6 +261,61 @@ ramsey_symbr2_eqs(s,r,n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
   return(map(lambda([a],powerset(a,r)),setify(clique_l))))$
 
 
+/* Given a natural number n, gives a clause-set F which represents that all
+   edges are labelled/coloured with the same colour for each edge-set in
+   ramsey2_symbr3_eqs(n). */
+ramsey2_symbr3_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey2_symbr3_eqs(n), 
+  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
+    edge_pairs : powerset(eq_edges,2),
+    for edge in edge_pairs do block(
+      el : map(lambda([e], colv_var(e)),listify(edge)),
+      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
+    )
+  ),
+  return(lunion(rl)))$
+output_ramsey2_symbr3(n,f) := output_fcsext(
+  sconcat(
+    "Ramsey symmetry breaking through recursive application of the PHP for ",
+    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
+    cs2fcs(ramsey2_symbr3_cs(n)),
+    f,
+    colv_string)$
+output_ramsey2_symbr3_stdname(n) :=
+  output_ramsey2_symbr3(n, sconcat("Ramsey_SB_PHP_",n,".ecnf"))$
+
+
+/* Given a natural number n, gives a set of sets of edges in the graph with n
+   vertices which can be given equivalent labels (from {1,2}) in any Ramsey
+   problem of the form "ramsey_2^2(q,q) < n?".
+
+   The idea here is that by fixing a single vertex V in the graph G on n
+   vertices and then considering all edges leaving it, by the pigeon hole
+   principle, at least floor(n/2) of those edges must have the same colour, and
+   so W.L.O.G we fix floor(n/2) edges (call this edge set E) which must have the
+   same colour.
+
+   However, intuitively, if we consider V(E) \ {V}, that is, the vertices
+   "at the end" of the edges from V, then this forms a complete sub-graph
+   and this sub-graph may again have the same principle of fixing a vertex
+   and then fixing edges based on the PHP. The same consideration may also
+   be applied to the V(E(G) \ E(V)) \ {V}, that is, the edges from V, not
+   fixed. In such a way, we may recursively apply the pigeon hole principle
+   to fix edges for smaller and smaller sub-graphs.
+*/
+ramsey2_symbr3_eqs(n) := ramsey2_symbr3_eqs_m(1,n)$
+ramsey2_symbr3_eqs_m(m,n) := block([mid_p,rs : {},edge_equivs],
+    mid_p : ceiling(((n-1) - (m+1)) / 2) + (m + 1),
+    edge_equivs : map(lambda([i],{m,i}),setmn(m+1,mid_p)),
+    if oklib_monitor then
+      print("Length = ", mid_p - m, "Edges = ", m, " to ", setmn(m+1,mid_p)),
+    rs : adjoin(edge_equivs,
+      union(
+        if (mid_p - (m+1)) > 2 then ramsey2_symbr3_eqs_m(m+1, mid_p) else {}, 
+        if (n - (mid_p+1)) > 2 then ramsey2_symbr3_eqs_m(mid_p+1, n) else {})),
+    return(rs))$
+
+
 /*!
 \endhtmlonly
 */
