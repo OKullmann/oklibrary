@@ -136,7 +136,7 @@ ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
       i,1,d)))$
 ramsey_symbr1_stdpass(q,n) :=
   ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
-output_ramsey_symbr1_pass(q,n,filename) := block(
+output_ramsey_symbr1(q,n,filename) := block(
  [PA : ramsey_symbr1_pass(q,n)],
   output_fcsext(
     sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
@@ -145,9 +145,9 @@ output_ramsey_symbr1_pass(q,n,filename) := block(
     cs2fcs(map(set,PA)),
     filename,
     colv_string))$
-output_ramsey_symbr1_pass_stdname(q,n) :=
-  output_ramsey_symbr1_pass(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".ecnf"))$
-output_ramsey_symbr1_stdpass(q,n,filename) :=
+output_ramsey_symbr1_stdname(q,n) :=
+  output_ramsey_symbr1(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".ecnf"))$
+output_ramsey_symbr1_std(q,n,filename) :=
   output_fcs(
     sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
       "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
@@ -155,8 +155,8 @@ output_ramsey_symbr1_stdpass(q,n,filename) :=
       "standard colexicographical ordering."),
     cs2fcs(map(set,ramsey_symbr1_stdpass(q,n))),
     filename)$
-output_ramsey_symbr1_stdpass_stdname(q,n) :=
-  output_ramsey_symbr1_stdpass(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".cnf"))$
+output_ramsey_symbr1_std_stdname(q,n) :=
+  output_ramsey_symbr1_std(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".cnf"))$
       
 
 /* XXX preliminary */
