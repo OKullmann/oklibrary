@@ -181,11 +181,71 @@ cat $2 | grep -v "^c" | grep -v "^p"
 ./run_experiments.sh
    \endverbatim
    </li>
+   <li> Additionally, the structure of the above system allows one to monitor
+   the behaviour of the experiments, using the following monitor script:
+   \verbatim
+# Monitor experiments running on several machines
+
+echo "MACHINE" "EXP" "NAME" "RUNNING_FOR";
+
+cat global_experiments | while read experiment; do
+    MACHINE=`echo $experiment | cut -d " " -f 1`;
+    EXP_DIR=`echo $experiment | cut -d " " -f 2`;
+    CURRENT_EXP=`0</dev/null ssh $MACHINE -C "head -n 1 $EXP_DIR/current_experiment"`;
+    CUR_EXP_PID=`echo $CURRENT_EXP | cut -d " " -f 3`;
+    CUR_EXP_NAME=`echo "$CURRENT_EXP" | cut -d " " -f 2`;
+    CUR_EXP_START_TIME=`0</dev/null ssh $MACHINE -C "ps h -o etime --pid $CUR_EXP_PID"`;
+    echo $MACHINE $EXP_DIR $CUR_EXP_NAME $CUR_EXP_START_TIME
+done
+   \endverbatim
+   where this script expects a file "global_experiments" in the same directory,
+   where each line has a hostname following by a directory name, and it will 
+   simply connect to each host and print the machine, the directory, the 
+   currently running experiment on that machine (given the names used in the 
+   file "experiments" for that set of experiments) and how long that experiment
+   has been running for in total. </li>
+   <li> Note, this monitoring script assumes that any specific details such as
+   usernames, passwords etc have been setup as keys or in the users
+   .ssh/config file , otherwise one would need to edit the script. </li>
+   <li> An example of this global experiments file is:
+   \verbatim
+cspasiphae.swan.ac.uk AES_1_Round
+cssinope.swan.ac.uk AES_2_Round
+cselara.swan.ac.uk AES_3_Round
+csananke.swan.ac.uk AES_4_Round
+csmiranda.swan.ac.uk AES_5_Round
+csio.swan.ac.uk AES_6_Round
+cshimalia.swan.ac.uk AES_7_Round
+cslysithea.swan.ac.uk AES_8_Round
+csiapetus.swan.ac.uk AES_9_Round
+csamalthea.swan.ac.uk AES_10_Round
+cspasiphae.swan.ac.uk Ramsey_2_5_5
+cssinope.swan.ac.uk Ramsey_2_4_4
+cselara.swan.ac.uk Ramsey_2_3_10
+   \endverbatim
+   </li>
+   <li> Additionally, as results will be pooled across many machines, and these
+   machines may be shut down or encounter hardware faults, the existence of such
+   a "global_experiments" file for monitoring, also allows automated backup 
+   using the following script (assumed to be in the same folder as 
+   "global_experiments"):
+   \verbatim
+cat global_experiments | while read exp; do
+    MACHINE=`echo $exp | cut -d " " -f 1`;
+    EXP_DIR=`echo $exp | cut -d " " -f 2`;
+    rsync -r --copy-links $MACHINE:$EXP_DIR .; 
+done
+   \endverbatim
+   This script simply copies each of the experiment directories listed in
+   "global_experiments", across the network, into the current directory,
+   ensuring that any symlinks are resolved to their respective files before
+   copying.
+   </li>
    <li> The above experiment script results in the following solvers each being 
    run on the 1 round AES problems with the number of unknown key bits ranging
    from 0 to 128:
    <ul>
-    <li> picosat915 </li>
+    <li> picosat913 </li>
     <li> minisat2 </li>
     <li> march_pl </li>
     <li> OKsolver_2002-O3-DNDEBUG </li>
