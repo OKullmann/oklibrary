@@ -296,12 +296,12 @@ output_ramsey2_symbr3_stdname(n) :=
    same colour.
 
    However, intuitively, if we consider V(E) \ {V}, that is, the vertices
-   "at the end" of the edges from V, then this forms a complete sub-graph
+   "at the end" of the edges from V, then we have the complete induced sub-graph
    and this sub-graph may again have the same principle of fixing a vertex
-   and then fixing edges based on the PHP. The same consideration may also
-   be applied to the V(E(G) \ E(V)) \ {V}, that is, the edges from V, not
-   fixed. In such a way, we may recursively apply the pigeon hole principle
-   to fix edges for smaller and smaller sub-graphs.
+   and then fixing edges based on the PHP, applied to it. The same
+   consideration may also be applied to the V(E(G) \ E(V)) \ {V}, that is, the
+   edges from V, not fixed. In such a way, we may recursively apply the pigeon
+   hole principle to fix edges for smaller and smaller sub-graphs.
 */
 ramsey2_symbr3_eqs(n) := ramsey2_symbr3_eqs_m(1,n)$
 ramsey2_symbr3_eqs_m(m,n) := block([mid_p,rs : {},edge_equivs],
