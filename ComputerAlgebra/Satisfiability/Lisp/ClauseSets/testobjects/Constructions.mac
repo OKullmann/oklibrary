@@ -21,14 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/Con
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Constructions.mac")$
 
-/* **************************
-   * Syntactical operations *
-   **************************
-*/
-
-okltest_comp_cs(comp_cs);
-okltest_comp_fcs(comp_fcs);
-
 /* **********************
    * Logical operations *
    **********************
@@ -44,6 +36,11 @@ okltest_or_cs(or_cs);
 okltest_dual_cs(dual_cs);
 okltest_dualts_fcl(dualts_fcl);
 okltest_dualtsext_fcl(dualtsext_fcl);
+
+okltest_comp_cs(comp_cs);
+okltest_comp_fcs(comp_fcs);
+
+okltest_neg_cs(neg_cs);
 
 /* ****************************
    * Combinatorial operations *

@@ -29,24 +29,6 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 kill(f)$
 
 
-/* **************************
-   * Syntactical operations *
-   **************************
-*/
-
-okltest_comp_cs(f) := (
-  assert(f({}) = {}),
-  assert(f({{}}) = {{}}),
-  assert(f({{1}}) = {{-1}}),
-  assert(f({{1,2},{-2,-3}}) = {{-1,-2},{2,3}}),
-  true)$
-
-okltest_comp_fcs(f) := block(
-  okltest_comp_cs(buildq([f],lambda([F], fcs2cs(f(cs2fcs(F)))))),
-  assert(f([{1,2,3},{{1,2},{-1,2}}]) = [{1,2,3},{{-1,-2},{1,-2}}]),
-  true)$
-
-
 /* **********************
    * Logical operations *
    **********************
@@ -125,6 +107,25 @@ okltest_dualtsext_fcl(f) := block([x],
    ]]),
   true)$
 
+okltest_comp_cs(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {{-1}}),
+  assert(f({{1,2},{-2,-3}}) = {{-1,-2},{2,3}}),
+  true)$
+
+okltest_comp_fcs(f) := block(
+  okltest_comp_cs(buildq([f],lambda([F], fcs2cs(f(cs2fcs(F)))))),
+  assert(f([{1,2,3},{{1,2},{-1,2}}]) = [{1,2,3},{{-1,-2},{1,-2}}]),
+  true)$
+
+okltest_neg_cs(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {{-1}}),
+  assert(f({{1},{-1}}) = {}),
+  /* XXX */
+  true)$
 
 
 /* ****************************
