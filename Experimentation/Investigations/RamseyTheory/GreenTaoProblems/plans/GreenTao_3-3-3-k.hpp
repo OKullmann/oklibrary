@@ -204,12 +204,41 @@ c file_name                             GreenTao_sb_3-3-3-4_434.cnf
        while slightly better than without anything. </li>
        <li> With preprocessing and with symmetry-breaking:
        \verbatim
-
+> OKsolver_2002-m2pp -M -D30 -F GreenTao_sb_3-3-3-4_434.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           864
+c initial_number_of_clauses             19175
+c initial_number_of_literal_occurrences 65558
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   432
+c running_time(sec)                     105686.7
+c number_of_nodes                       7765574
+c number_of_single_nodes                7
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                94065922
+c number_of_pure_literals               10670
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         319
+c max_tree_depth                        81
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1081511
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_sb_3-3-3-4_434.cnf_m2pp_9920
        \endverbatim
-       </li>
+       (without reaching a monitoring node); 2red/nds ~ 12.11, where
+       864 / 12.11 ~ 71, 73.5 nds/sec. Apparently the preprocessing actually
+       got rid off the added (one) symmetry-breaking clause, and no traces
+       left?? </li>
       </ol>
      </li>
-     <li> minisat2 </li>
+     <li> minisat2; let's run it for a few days. </li>
     </ol>
    </li>
    <li> n=437
