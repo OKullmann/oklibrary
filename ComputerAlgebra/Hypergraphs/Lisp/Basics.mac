@@ -125,6 +125,12 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 /* Converts a list of sets to an ordered general hypergraph: */
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
 
+
+/* ************
+   * Matrices *
+   ************
+*/
+
 /* The combinatorial (hyper)edge-vertex matrix of a hypergraph: */
 /* RENAME: hypver_hg2com */
 edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 
@@ -150,6 +156,47 @@ vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
 vertex_int_com_hg(G) := vertex_int_com_hyp(G)$
 
 
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+/* The k-section of a hypergraph (taking over the vertices of G, while the
+   hyperedges are k-subsets of the old hyperedges): */
+/* RENAME: section_hg */
+section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
+section_hg(G,k) := section_hyp(G,k)$
+
+/* The k-edge-graph, a k-graph, that is, a k-uniform hypergraph, having as 
+    vertices the hyperedges of G and as hyperedges k-sets of hyperedges of G
+    with non-empty intersection:
+*/
+/* RENAME: edge_k_hg */
+edge_k_hyp(G,k) := 
+ if k=0 then if emptyp(G[1]) then [G[2],{}] else [G[2],{{}}]
+ elseif k=1 then [G[2], singletons(disjoin({},G[2]))] else
+ [G[2], subset(powerset(G[2],k), lambda([H], not emptyp(lintersection(H))))]$
+edge_k_hg(G,k) := edge_k_hyp(G,k)$
+/* The edge-graph of a hypergraph: */
+/* RENAME: edge_g_hg */
+edge_g_hyp(G) := edge_k_hyp(G,2)$
+edge_g_hg(G) := edge_g_hyp(G)$
+
+/* The anti-k-edge-graph, a k-graph with vertices the hyperedges of G and as
+   hyperedges k-sets of hyperedges of G with empty intersection:
+*/
+/* RENAME: anti_edge_k_hg */
+anti_edge_k_hyp(G,k) := 
+ if k=0 then if emptyp(G[1]) then [G[2],{{}}] else [G[2],{}]
+ elseif k=1 then [G[2], singletons(intersection({{}},G[2]))] else
+ [G[2], subset(powerset(G[2],k), lambda([H], emptyp(lintersection(H))))]$
+anti_edge_k_hg(G,k) := anti_edge_k_hyp(G,k)$
+/* The Kneser-graph of a hypergraph: */
+/* RENAME: kneser_g_hg */
+kneser_g_hyp(G) := anti_edge_k_hyp(G,2)$
+kneser_g_hg(G) := kneser_g_hyp(G)$
+
+
 /* *****************
    * Constructions *
    *****************
@@ -157,11 +204,6 @@ vertex_int_com_hg(G) := vertex_int_com_hyp(G)$
 
 /* The union of a list L of hypergraphs: */
 union_hg([L]) := [lunion(map(first,L)), lunion(map(second,L))]$
-
-/* The k-section of a hypergraph: */
-/* RENAME: section_hg */
-section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
-section_hg(G,k) := section_hyp(G,k)$
 
 /* The edge-wise complement of a hypergraph: */
 /* RENAME: ecomp_hg */
@@ -178,34 +220,6 @@ subset_closure_hg(G) := subset_closure_hyp(G)$
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 dual_ghg(G) := dual_general_hypergraph(G)$
-
-/* The k-edge-graph, a k-graph, that is, a k-uniform hypergraph, having as 
-    vertices the hyperedges of G and as hyperedges k-sets of hyperedges of G
-    with non-empty intersection:
-*/
-/* RENAME: edge_k_hg */
-edge_k_hyp(G,k) := 
- if k=0 then if emptyp(G[1]) then [G[2],{}] else [G[2],{{}}]
- elseif k=1 then [G[2], singletons(disjoin({},G[2]))] else
- [G[2], subset(powerset(G[2],k), lambda([H], not emptyp(lintersection(H))))]$
-edge_k_hg(G,k) := edge_k_hyp(G,k)$
-/* The edge-graph of a hypergraph: */
-/* RENAME: edge_g_hg */
-edge_g_hyp(G) := edge_k_hyp(G,2)$
-edge_g_hg(G) := edge_g_hyp(G)$
-/* The anti-k-edge-graph, a k-graph with vertices the hyperedges of G and as
-   hyperedges k-sets of hyperedges of G with empty intersection:
-*/
-/* RENAME: anti_edge_k_hg */
-anti_edge_k_hyp(G,k) := 
- if k=0 then if emptyp(G[1]) then [G[2],{{}}] else [G[2],{}]
- elseif k=1 then [G[2], singletons(intersection({{}},G[2]))] else
- [G[2], subset(powerset(G[2],k), lambda([H], emptyp(lintersection(H))))]$
-anti_edge_k_hg(G,k) := anti_edge_k_hyp(G,k)$
-/* The Kneser-graph of a hypergraph: */
-/* RENAME: kneser_g_hg */
-kneser_g_hyp(G) := anti_edge_k_hyp(G,2)$
-kneser_g_hg(G) := kneser_g_hyp(G)$
 
 /* For set-systems S1, S2 the "general subsumption hypergraph", with vertices
    the elements of S1, hyperedge-labels the elements of S2, and for H in S2
