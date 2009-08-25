@@ -35,6 +35,44 @@ License, or any later version. */
    </li>
    <li> At this time also all other output-strings should be inspected, in
    all supported languages. </li>
+   <li> Likely it would be useful to output the time and date. </li>
+   <li> It would also be good if the output of data which doesn't change
+   anymore (number of variables etc.) would only happen once, at the
+   beginning; perhaps included also in the final output.
+    <ol>
+     <li> Compare "Output to files" below. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Output to files
+  <ul>
+   <li> Monitoring output to file:
+    <ol>
+     <li> When using "-M" together with "-F", then the output of branching
+     literals is activated, interspersed with the monitoring output (to
+     stdout as well as to the file). </li>
+     <li> However this works currently only when output of a satisfying
+     assignment is activated, since only then the symbol table is created.
+     </li>
+     <li> This needs to be cleaned up; and this output should have its
+     own switch. </li>
+     <li> Another problem here is that if the output-file already exists,
+     then apparently nothing happens. </li>
+    </ol>
+   </li>
+   <li> Output to .res-file:
+    <ol>
+     <li> Here it would be good also to have the output created by the
+     option "--version" (since this file collects various results). </li>
+     <li> On the other hand, this information in principle is contained in
+     the full name of this result-file? </li>
+     <li> While for screen-output we don't want to see again and again the
+     same numbers which don't change (like the number of variables etc.),
+     likely for the file output however all this should be included. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -241,21 +279,6 @@ License, or any later version. */
    <li> Possibly this is not the case; then we need a precise specification
    what actually is counted, so that then the output can be declared as
    correct. </li>
-  </ul>
-
-
-  \todo Output of monitoring-data to files
-  <ul>
-   <li> When using "-M" together with "-F", then the output of branching
-   literals is activated, interspersed with the monitoring output (to
-   stdout as well as to the file). </li>
-   <li> However this works currently only when output of a satisfying
-   assignment is activated, since only then the symbol table is created.
-   </li>
-   <li> This needs to be cleaned up; and this output should have its
-   own switch. </li>
-   <li> Another problem here is that if the output-file already exists,
-   then apparently nothing happens. </li>
   </ul>
 
 
