@@ -361,6 +361,10 @@ SAGE_ROOT="....."
      which calls "cleanoldext" for all ext's. </li>
      <li> Perhaps when installing, nothing is cleaned before (or after), and
      it is the responsibility of the user to do so. </li>
+     <li> There is also the need for cleaning-up old source packages (which
+     can, over time, use a lot of disc space); perhaps we have some cleaning
+     command which removes from OKplatform/ExternalSources/sources everything
+     which is not in Buildsystem/ExternalSources/sources. </li>
     </ol>
    </li>
    <li> File with installation data:
