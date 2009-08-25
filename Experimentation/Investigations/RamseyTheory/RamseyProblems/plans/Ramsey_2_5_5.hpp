@@ -101,10 +101,10 @@ for n : 5 thru 49 do output_ramsey2_symbr3_stdname(n);
 :lisp (ext:set-limit 'ext:frame-stack 10000)
 :lisp (ext:set-limit 'ext:c-stack 200000)
 :lisp (ext:set-limit 'ext:lisp-stack 200000)
-for n : 37 thru 49 do block([n_e : binomial(n,2)],
+for n : 5 thru 49 do block([n_e : binomial(n,2)],
   output_fcs(
     sconcat("Card ",n),
-    fcl2fcs(cl2fcl(cardinality_cl(create_list(i,i,1,n_e),floor(n_e/2),ceiling(n_e/2)))),
+    fcl2fcs(standardise_fcl(cl2fcl(cardinality_cl(create_list(i,i,1,n_e),floor(n_e/2),ceiling(n_e/2))))[1]),
     sconcat("Card_n",n,".cnf")))$
     \endverbatim
     </li>
