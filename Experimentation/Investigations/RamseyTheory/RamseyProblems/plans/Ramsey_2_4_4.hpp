@@ -140,6 +140,119 @@ Memory used           : 43.93 MB
      </li>
     </ol>
    </li>
+   <li> Using the symmetry breaking by recursive application of the pigeon hole
+   principle (see "ramsey2_symbr3_cs" in 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac )
+   it seems several solvers can prove n=18 unsatisfiable:
+   <ul>
+    <li> To generate, first in maxima:
+    \verbatim
+output_ramsey2_symbr3_stdname(18);
+    \endverbatim
+    and then in the shell:
+    \verbatim
+Ramsey-O3-DNDEBUG 4 4 2 18 > Ramsey_4_4_2_18.ecnf
+./merge_cnf.sh Ramsey_4_4_2_18.ecnf Ramsey_SB_PHP_18.ecnf > Ramsey_4_4_2_18_SB_PHP.ecnf
+ExtendedToStrictDimacs-O3-DNDEBUG < Ramsey_4_4_2_18_SB_PHP.ecnf > Ramsey_4_4_2_18_SB_PHP.cnf
+    \endverbatim
+    where "merge_cnf.sh" is defined as follows:
+    \verbatim
+#!/bin/bash
+
+# Grab the number of clauses from each
+CL1=`grep "^p" $1  | cut -d " " -f "4"`
+CL2=`grep "^p" $2  | cut -d " " -f "4"`
+
+NewCL=`expr $CL1 + $CL2`
+cat $1 | sed -e "s/p \+\([a-zA-Z]\+\) \+\([0-9]\+\).*$/p \1 \2 $NewCL/"
+cat $2 | grep -v "^c" | grep -v "^p"
+    \endverbatim
+    </li>
+    <li> minisat2:
+    \verbatim
+$ minisat2 Ramsey_4_4_2_18_SB_PHP.cnf 
+This is MiniSat 2.0 beta
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+|  Number of variables:  153                                                  |
+|  Number of clauses:    6222                                                 |
+|  Parsing time:         0.01         s                                       |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|         0 |     153     6222    35578 |     2074        0    nan |  0.000 % |
+|       101 |     153     6222    35578 |     2281      101     12 |  0.038 % |
+|       251 |     153     6222    35578 |     2509      251     18 |  0.004 % |
+|       477 |     153     6222    35578 |     2760      477     21 |  0.004 % |
+|       814 |     153     6222    35578 |     3036      814     21 |  0.004 % |
+|      1320 |     153     6222    35578 |     3340     1320     21 |  0.004 % |
+|      2080 |     153     6222    35578 |     3674     2080     21 |  0.004 % |
+|      3222 |     153     6222    35578 |     4041     3222     19 |  0.004 % |
+===============================================================================
+restarts              : 8
+conflicts             : 4647           (23234 /sec)
+decisions             : 7230           (1.72 % random) (36148 /sec)
+propagations          : 62907          (314516 /sec)
+conflict literals     : 81530          (25.95 % deleted)
+Memory used           : 2.63 MB
+CPU time              : 0.200012 s
+
+UNSATISFIABLE
+    \endverbatim
+    </li>
+    <li> OKsolver:
+    \verbatim
+$ OKsolver_2002-O3-DNDEBUG Ramsey_4_4_2_18_SB_PHP.cnf 
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=153 initial_number_of_clauses=6222 initial_number_of_literal_occurrences=36924 running_time(s)=0.2 number_of_nodes=163 number_of_single_nodes=4 number_of_quasi_single_nodes=0 number_of_2-reductions=286 number_of_pure_literals=0 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=11 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=0 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=102 file_name=Ramsey_4_4_2_18_SB_PHP.cnf
+    \endverbatim
+    </li>
+    <li> As a partial check the same symmetry breaking for n=17 yields 
+    satisfiable:
+    \verbatim
+$ minisat2 Ramsey_4_4_2_17_SB_PHP.cnf 
+This is MiniSat 2.0 beta
+WARNING: for repeatability, setting FPU to use double precision
+============================[ Problem Statistics ]=============================
+|                                                                             |
+|  Number of variables:  136                                                  |
+|  Number of clauses:    4844                                                 |
+|  Parsing time:         0.01         s                                       |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|         0 |     136     4844    27680 |     1614        0    nan |  0.000 % |
+|       102 |     136     4844    27680 |     1776      102     12 |  0.043 % |
+|       253 |     136     4844    27680 |     1953      253     15 |  0.005 % |
+|       479 |     136     4844    27680 |     2149      479     17 |  0.005 % |
+|       816 |     136     4844    27680 |     2364      816     15 |  0.005 % |
+|      1323 |     136     4844    27680 |     2600     1323     17 |  0.011 % |
+|      2085 |     136     4844    27680 |     2860     2085     18 |  0.005 % |
+|      3225 |     136     4844    27680 |     3146     1768     20 |  0.005 % |
+|      4934 |     136     4844    27680 |     3461     1881     17 |  0.005 % |
+|      7497 |     136     4844    27680 |     3807     2694     22 |  0.065 % |
+===============================================================================
+restarts              : 10
+conflicts             : 10812          (39172 /sec)
+decisions             : 14637          (1.61 % random) (53029 /sec)
+propagations          : 141515         (512704 /sec)
+conflict literals     : 220783         (26.80 % deleted)
+Memory used           : 2.62 MB
+CPU time              : 0.276017 s
+
+SATISFIABLE
+    \endverbatim
+    </li>
+    <li> MG should finish providing a full proof that this symmetry breaking
+    method is fully correct. </li>
+    <li> Also for such a small instance, the symmetry breaking clauses can be 
+    checked manually to ensure they are as expected, and there is not a bug
+    in the implementation. </li>
+   </ul>
+   </li>
    <li> A more systematic investigation, involving each of the symmetry breaking
    techniques and cardinality constraints (see 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp)
