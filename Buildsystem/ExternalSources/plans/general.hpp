@@ -43,6 +43,8 @@ License, or any later version. */
      <li> But this is potentially troublesome, and we don't have the
      infrastructure yet to really support this. </li>
      <li> So perhaps the target is called "download". </li>
+     <li> See "Update instructions" below for really updating the external
+     sources. </li>
     </ol>
    </li>
    <li> How to know which files to download?
@@ -319,6 +321,89 @@ SAGE_ROOT="....."
 
 
   \todo Finish docus for special builds
+
+
+  \todo Update
+  <ul>
+   <li> Above in "Downloading sources" the ExternalSources-sources are
+   downloaded. </li>
+   <li> Here now we attempt at a new make-target "reinstall", which will
+   re-install all new software if necessary. </li>
+   <li> The target "update" then first calls "download" and then "reinstall".
+   </li>
+   <li> Creating the list of targets:
+    <ol>
+     <li> The list of targets of external sources to be installed is given
+     currently by "all : buildsystem compilers libraries math sat" in
+     ExternalSources/Makefile. </li>
+     <li> One has to go through these external sources now, checking whether
+     the installation exists and has the current version number, and if not,
+     then to issue the install command. </li>
+     <li> See "Dependencies" below. </li>
+     <li> So first "checkext" is to be called, and if then the timestamp-file
+     doesn't exist, then the target is listed for update; see "File with
+     installation data" below. </li>
+     <li> This all should be managed by respective make-rules. </li>
+    </ol>
+   </li>
+   <li> Perhaps "reinstall" becomes the new "all"; "all" currently doesn't
+   need to check for existing installations, but if we support other than
+   local installations (internal to the OKlibrary), then this will be
+   needed. </li>
+   <li> One needs to be careful with cleaning-up after the installation:
+    <ol>
+     <li> One should only clean-up after a successful installation. </li>
+     <li> Then perhaps only the build-directory is removed. </li>
+     <li> Perhaps for every external sources ext we have an additional
+     "cleanoldext" target, which removes all other files in Installations/Ext
+     besides the current installation directory. </li>
+     <li> And as an additional general cleaning target we have "cleanold",
+     which calls "cleanoldext" for all ext's. </li>
+     <li> Perhaps when installing, nothing is cleaned before (or after), and
+     it is the responsibility of the user to do so. </li>
+    </ol>
+   </li>
+   <li> File with installation data:
+    <ol>
+     <li> Perhaps first the list of external sources to be re-installed is
+     put into a file (with current version number, if existing, and new
+     version numbers), and also printed out to screen, with a request for the
+     user to confirm installation. </li>
+     <li> Perhaps actually at this time the user can edit the file,
+     removing or adding external sources, and changing version numbers. </li>
+     <li> So reinstall has subtargets "installdata" and "install", where
+     installdata creates the file with the installation data (each external
+     source has one line), and install performs line for line the installation.
+     </li>
+     <li> So the user can call install directly, given that he has
+     provided the data in the file. </li>
+     <li> If possible, we should actually let the make-program create that
+     file or its lines (so that all dependencies are managed). </li>
+    </ol>
+   </li>
+   <li> Dependencies:
+    <ol>
+     <li> We now need to make the dependencies between external sources
+     explicit. </li>
+     <li> Then we also need to have a way of checking whether an external
+     source is installed or not. </li>
+     <li> So apparently the old filestamps are needed again. </li>
+     <li> For each external source ext, there is a target "checkext", which
+     checks whether ext is installed with the current version number, and
+     in the positive case creates a timestamp-file "ext_installed", and
+     otherwise removes this file (if it exists). </li>
+     <li> Installation then calls "ext_installed" at the end. </li>
+     <li> Better we avoid making dependencies aware of version numbers. </li>
+    </ol>
+   </li>
+   <li> Logging:
+    <ol>
+     <li> One needs to make sure that all logs together go into the log-file,
+     not just the log of the last build. </li>
+     <li> Or perhaps we better have a log-file for each external source! </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo %Tools

@@ -51,6 +51,12 @@ License, or any later version. */
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
+  \par
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Finish docus for special builds
+    - Complete Buildsystem/ExternalSources/docus/Internals.hpp
+
+
 
   \par Version 0.1.6
 
@@ -59,8 +65,7 @@ License, or any later version. */
 
   \par
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Finish docus for special builds
-    - Complete Buildsystem/ExternalSources/docus/Internals.hpp
+    - Update
 
   \par Update the following milestones.
 
