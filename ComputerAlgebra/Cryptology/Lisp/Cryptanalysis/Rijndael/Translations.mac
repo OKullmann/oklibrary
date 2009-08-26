@@ -537,17 +537,13 @@ aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
 aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
   aes_cs : aes_cnf_cs(),
   [create_list(i,i,1,aes_cnf_var_number+3*128), aes_cs])$
-output_aes_cnf_fcs(n) :=
+output_aes_cnf(n) :=
   output_fcs(
     sconcat("AES, 128-bit key and block, ",aes_num_rounds,
       " Rounds SAT Translation"),
     aes_cnf_fcs(), n)$
-output_aes_cnf_fcs_stdname() :=
-  output_fcs(
-    sconcat("AES, 128-bit key and block, ",aes_num_rounds,
-      " Rounds SAT Translation"),
-    aes_cnf_fcs(),
-    sconcat("AES_R",aes_num_rounds,".cnf"))$
+output_aes_cnf_stdname() :=
+  output_aes_cnf(sconcat("AES_R",aes_num_rounds,".cnf"))$
 
 /* Takes a hexidecimal string in the notation typically used for Rijndael blocks
    (discussed in [Design of Rijndael] and in CryptoSystems plans) and given the
