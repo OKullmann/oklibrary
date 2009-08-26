@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,16 @@ License, or any later version. */
    <li> Strong colouring (in every hyperedge all colours are different)
    can be handled by first applying section_hg(G,2) and then tcol2sat_hg2fcs;
    should we provide a convenience function combining them? </li>
+  </ul>
+
+
+  \todo Colouring by transversals
+  <ul>
+   <li> One should work out the precise relation between k-colourings of a
+   hypergraph and its independent k-covers. </li>
+   <li> For example are there other examples besides those with empty
+   hyperedge set where a contraction of two maximal independent subsets
+   forbids a colouring? </li>
   </ul>
 
 

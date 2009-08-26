@@ -117,12 +117,19 @@ gcol2sat_ohg2nbfclud_p(GG,S) :=
    Equivalently, one can use such k-sets S consisting of minimal transversals
    such that their common intersection is empty; but it seems more appropriate
    to convert such an S into an S of the first form by taking complements.
-   Remarks: An empty set as a maximal independent subset can be used here
-   exactly when G = [{},{}] and k=1; this does not correspond to a colouring
-   using exactly one colour.
-   And an independent 0-cover exists exactly for  G = [{},{{}}]; again this
-   does not correspond to a colouring (using exactly null colours --- but G is
-   not colourable). These is the only two anomalies.
+
+   Remarks: 
+    - For the empty vertex set the correspondence to colouring is broken
+      in two cases:
+     + An empty set as a maximal independent subset can be used here
+       exactly when G = [{},{}] and k=1; this does not correspond to a
+       colouring using exactly one colour.
+     + And an independent 0-cover exists exactly for  G = [{},{{}}]; again 
+       this does not correspond to a colouring (using exactly null colours 
+       --- but G is not colourable). 
+    - If in the k-cover two maximal independent sets would coincide then this 
+      actually is not possible. So for example [{1,2},{}] has no independent 
+      2-cover (while it has 4 2-colourings).
 */
 
 /* Computing all k-colourings of hypergraph G as the set of all
