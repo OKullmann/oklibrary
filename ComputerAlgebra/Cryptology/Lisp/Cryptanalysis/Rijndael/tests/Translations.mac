@@ -334,7 +334,8 @@ okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
   assert(member({-436,564},F)),
   true)$
 
-okltest_aes_cp(f) := (
+okltest_aes_cp(f) := block(
+  if oklib_test_level = 0 then return(true),
   for i : 1 thru 9 do block([F,aes_num_rounds : i],
     F : apply(f,create_list(i,i,1,384)),
     assert(length(subset(F,lambda([a], is(op(a) = aes_round_c)))) = i)),
