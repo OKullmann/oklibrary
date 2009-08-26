@@ -43,6 +43,13 @@ okltest_gcol2sat_ohg2nbfclud(gcol2sat_ohg2nbfclud);
 okltest_gcol2sat_stdohg2stdnbfclud(gcol2sat_stdohg2stdnbfclud);
 okltest_gcol2sat_ohg2nbfclud_p(gcol2sat_ohg2nbfclud_p);
 
+/* ***************************************************************
+   * Determining all k-colourings via the transversal hypergraph *
+   ***************************************************************
+*/
+
+okltest_allindkcov_hg(allindkcov_hyptrans_rs_hg);
+
 /*!
 \endhtmlonly
 */

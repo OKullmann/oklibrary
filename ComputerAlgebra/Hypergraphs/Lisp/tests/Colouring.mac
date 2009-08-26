@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Colouring.mac");
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 kill(f)$
@@ -112,6 +114,75 @@ okltest_gcol2sat_stdohg2stdnbfclud(f) := block(
 
 okltest_gcol2sat_ohg2nbfclud_p(f) := block(
   assert(f(0,0) = false),
+  /* XXX */
+  true)$
+
+
+/* ***************************************************************
+   * Determining all k-colourings via the transversal hypergraph *
+   ***************************************************************
+*/
+
+/* Testing whether f(G,k) is the set-system of all independent k-covers
+   of G (together with G[1]):
+*/
+okltest_allindkcov_hg(f) := (
+  assert(f([{},{}],0) = [{}, {{}}]),
+  assert(f([{},{}],1) = [{}, {{{}}}]),
+  assert(f([{},{}],2) = [{}, {}]),
+  assert(f([{},{{}}],0) = [{}, {{}}]),
+  assert(f([{},{{}}],1) = [{}, {}]),
+  assert(f([{},{{}}],2) = [{}, {}]),
+  assert(f([{1},{}],0) = [{1},{}]),
+  assert(f([{1},{}],1) = [{1},{{{1}}}]),
+  assert(f([{1},{}],2) = [{1},{}]),
+  assert(f([{1},{{}}],0) = [{1},{}]),
+  assert(f([{1},{{}}],1) = [{1},{}]),
+  assert(f([{1},{{}}],2) = [{1},{}]),
+  assert(f([{1},{{1}}],0) = [{1},{}]),
+  assert(f([{1},{{1}}],1) = [{1},{}]),
+  assert(f([{1},{{1}}],2) = [{1},{}]),
+  assert(f([{1,2},{}],0) = [{1,2},{}]),
+  assert(f([{1,2},{}],1) = [{1,2},{{{1,2}}}]),
+  assert(f([{1,2},{}],2) = [{1,2},{}]),
+  assert(f([{1,2},{}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{1}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{1}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{1}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{1}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{1,2}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{1,2}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{1,2}}],2) = [{1,2},{{{1},{2}}}]),
+  assert(f([{1,2},{{1,2}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{},{1,2}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{},{1,2}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{},{1,2}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{},{1,2}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{1,2}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{1,2}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{1,2}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{1,2}}],3) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2},{1,2}}],0) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2},{1,2}}],1) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2},{1,2}}],2) = [{1,2},{}]),
+  assert(f([{1,2},{{1},{2},{1,2}}],3) = [{1,2},{}]),
+  assert(f([{1,2,3},{{1,2,3}}],0) = [{1,2,3},{}]),
+  assert(f([{1,2,3},{{1,2,3}}],1) = [{1,2,3},{}]),
+  assert(f([{1,2,3},{{1,2,3}}],2) = [{1,2,3},{{{1,2},{2,3}},{{1,2},{1,3}},{{1,3},{2,3}}}]),
+  assert(f([{1,2,3},{{1,2,3}}],3) = [{1,2,3},{{{1,2},{2,3},{1,3}}}]),
+  assert(f([{1,2,3},{{1,2,3}}],4) = [{1,2,3},{}]),
+  for n : 1 thru if oklib_test_level = 0 then 4 else 6 do
+    for r : 1 thru 2 do
+      for k : 0 thru n+1 do
+        assert(f(complete_stdhg(n,r),k) = [setn(n), if r=1 then {} elseif k=n then {singletons(setn(n))} else {}]),
   /* XXX */
   true)$
 

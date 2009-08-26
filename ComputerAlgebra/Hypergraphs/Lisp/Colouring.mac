@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac")$
 
 
 /* *******************************
@@ -99,6 +101,41 @@ gcol2sat_stdohg2stdnbfclud(GG,S) := [
 gcol2sat_ohg2nbfclud_p(GG,S) :=
   listp(GG) and listp(S) and is(length(GG)=length(S))
   and every_s(ohg_p,GG)$
+
+
+/* ***************************************************************
+   * Determining all k-colourings via the transversal hypergraph *
+   ***************************************************************
+*/
+
+/* k-colourings of a hypergraph G using exactly k colours can be represented 
+   by k-subsets s of powerset(G[1]) such that s is a covering of G[1] by
+   maximal independent subsets.
+   Let us call such a representation s an "independent k-cover"; more
+   precisely it seems better to use the pair [V, S], where V is the
+   vertex set of G, while S is the set of all independent k-covers.
+   Equivalently, one can use such k-sets S consisting of minimal transversals
+   such that their common intersection is empty; but it seems more appropriate
+   to convert such an S into an S of the first form by taking complements.
+   Remarks: An empty set as a maximal independent subset can be used here
+   exactly when G = [{},{}] and k=1; this does not correspond to a colouring
+   using exactly one colour.
+   And an independent 0-cover exists exactly for  G = [{},{{}}]; again this
+   does not correspond to a colouring (using exactly null colours --- but G is
+   not colourable). These is the only two anomalies.
+*/
+
+/* Computing all k-colourings of hypergraph G as the set of all
+   independent k-covers, using _hyptrans(G) for computing
+   the transversal hypergraph of G:
+*/
+allindkcov_hyptrans_hg(G,k,_hyptrans) := block([V : G[1]],
+ [V, map(lambda([S],ecomp(S,V)),anti_edge_k_hg(_hyptrans(G),k)[2])])$
+
+/* The instantiation by the basic algorithm for computing the
+   transversal hypergraph:
+*/
+allindkcov_hyptrans_rs_hg(G,k) := allindkcov_hyptrans_hg(G,k,transversal_hg_rs)$
 
 /*!
 \endhtmlonly
