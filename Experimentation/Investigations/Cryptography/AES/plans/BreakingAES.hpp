@@ -138,7 +138,7 @@ for r from 2 step 1 thru 10 do block([aes_num_rounds:r],
     The above code generates files "AES_r2.cnf" (for round 2 for example) 
     containing the main AES translation (with no variable assignments) and then 
     "AES_UC_r2_pn0_kn0_cn0_P32488853038D31734198AA2E0370D450_K3F6A2B7E151628AED2A6ABF7158809CF.cnf"
-    as the unit clauses for setting up a 2 round AES translation with all 
+    as the unit clauses for setting up a two round AES translation with all 
     plaintext, key and ciphertext bits set and the plaintext and key
     provided as "32488853038D31734198AA2E0370D450" and
     "3F6A2B7E151628AED2A6ABF7158809CF" in the standard AES format.

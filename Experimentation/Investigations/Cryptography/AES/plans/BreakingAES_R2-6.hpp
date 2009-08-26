@@ -10,10 +10,10 @@ License, or any later version. */
   \brief On investigations into breaking reduced round variants of the AES
 
 
-  \todo Breaking 1 round AES using the canonical translation for Sbox and Mul
+  \todo Breaking one round AES using the canonical translation for Sbox and Mul
   <ul>
    <li> The aim here is to monitor the performance of a variety of solvers on
-   the 1 round variant of the "canonical" AES translation, providing all 
+   the one round variant of the "canonical" AES translation, providing all 
    plaintext and ciphertext bits but leaving n key bits unknown where n ranges
    from 0 to 128. </li>
    <li> For the sake of simple experimental, the plaintext and key are all
@@ -26,7 +26,7 @@ License, or any later version. */
    <li> To setup this experiment a directory is created with the following: 
     <ul>
      <li> "AES_R1.cnf" - The AES translation using new variables restricted
-     to 1 round. </li>
+     to one round. </li>
      <li> "AES_UC_P0_K0_CX_KN$N.cnf" - The generated unit clauses specifying the
      plaintext, ciphertext and key bits (variables) to be set, where $N is the
      number of key bits being specified in the problem. </li>
@@ -147,7 +147,7 @@ done
     </li>
     <li> "generate_aes_exp.sh":
     \verbatim
-# Generates AES experiments for 1 round AES.
+# Generates AES experiments for one round AES.
 
 RN=1
 
@@ -242,7 +242,7 @@ done
    copying.
    </li>
    <li> The above experiment script results in the following solvers each being 
-   run on the 1 round AES problems with the number of unknown key bits ranging
+   run on the one round AES problems with the number of unknown key bits ranging
    from 0 to 128:
    <ul>
     <li> picosat913 </li>
@@ -678,10 +678,10 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
   </ul>
 
 
-  \todo Breaking 2 round AES using the canonical translation for Sbox and Mul
+  \todo Breaking two round AES using the canonical translation for Sbox and Mul
   <ul>
-    <li> A CNF representing a 2 round AES variant (1 round and the final round)
-    can be generated in the following way:
+    <li> A CNF representing two round AES variant (one round and the final 
+    round) can be generated in the following way:
     \verbatim
 :lisp (ext:set-limit 'ext:heap-size 3000000000)
 :lisp (ext:set-limit 'ext:frame-stack 10000)
@@ -708,10 +708,10 @@ output_fcs("AES - 2 Rounds - Using canonical translations for Sbox etc.", F, "AE
     </li>
   </ul>
   
-  \todo Breaking 2 round AES using Sbox and Mul translations with no new 
+  \todo Breaking two round AES using Sbox and Mul translations with no new 
   variables
   <ul>
-   <li> A CNF representing a 2 round AES variant (1 round and the final round)
+   <li> A CNF representing a two round AES variant (one round and the final round)
    can be generated in the following way:
    \verbatim
 :lisp (ext:set-limit 'ext:heap-size 3000000000)
