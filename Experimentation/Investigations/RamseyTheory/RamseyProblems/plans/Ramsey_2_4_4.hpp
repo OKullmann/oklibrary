@@ -14,6 +14,51 @@ License, or any later version. */
   <ul>
    <li> Known is ramsey_2^2(4) = 18. </li>
    <li> So we get at most 6120 clauses. </li>
+   <li> To generate an instance of SAT problem specifying "ramsey_2^2(4) > n?"
+   one may use the following:
+   \verbatim
+Ramsey-O3-DNDEBUG 4 4 2 6 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_4_4_2_6.cnf
+   \endverbatim
+   where n has been replaced by 6 in this example.
+   </li>
+   <li> To generate the additional clauses for each of the symmetry 
+   breaking techniques (see 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp)
+   and cardinality constraints, the following can be run in maxima (generating
+   each of the additional clauses for a range of n values):
+   <ul>
+    <li> Symmetry breaking by fixing colours/labels to break monochromatic
+    k-subsets:
+    \verbatim
+for n : 5 thru 18 do output_ramsey2_symbr1_stdname(4,n);
+    \endverbatim
+    </li>
+    <li> Symmetry breaking by fixing monochromatic cliques:
+    \verbatim
+for n : 5 thru 18 do output_ramsey2_symbr2_stdname(n);
+    \endverbatim
+    </li>
+    <li> Symmetry breaking by recursive application of the pigeon hole
+    principle:
+    \verbatim
+for n : 5 thru 18 do output_ramsey2_symbr3_stdname(n);
+    \endverbatim
+    </li>
+    <li> Cardinality constraints:
+    \verbatim
+:lisp (ext:set-limit 'ext:heap-size 3000000000)
+:lisp (ext:set-limit 'ext:frame-stack 10000)
+:lisp (ext:set-limit 'ext:c-stack 200000)
+:lisp (ext:set-limit 'ext:lisp-stack 200000)
+for n : 5 thru 18 do block([n_e : binomial(n,2)],
+  output_fcs(
+    sconcat("Card ",n),
+    fcl2fcs(standardise_fcl(cl2fcl(cardinality_cl(create_list(i,i,1,n_e),floor(n_e/2),ceiling(n_e/2))))[1]),
+    sconcat("Card_n",n,".cnf")))$
+    \endverbatim
+    </li>
+   </ul>
+   </li>
   </ul>
 
 
@@ -296,42 +341,6 @@ for n in `seq 5 49`; do
     echo "OKSOLVERM2PP_CC"$n "./Ramsey-O3-DNDEBUG 4 4 2 ${n} | ./ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_4_4_2_${n}.cnf && ./merge_cnf.sh Card/Card_n${n}.cnf Ramsey_4_4_2_${n}.cnf > Ramsey_4_4_2_${n}_CC.cnf && ./solvers/OKsolver_2002-m2pp -O -D20 -M -F Ramsey_4_4_2_${n}_CC.cnf > Ramsey_4_4_2_${n}_CC.cnf.result.OKsolver-m2pp 2>&1; mv Ramsey_4_4_2_${n}_CC.cnf_m2pp_*.mo Ramsey_4_4_2_${n}_CC.cnf.mo.OKsolver-m2pp;mv Ramsey_4_4_2_${n}_CC.cnf_m2pp_*.pa Ramsey_4_4_2_${n}_CC.cnf.pa.OKsolver-m2pp;rm -f Ramsey_4_4_2_${n}{,_CC}.{e,}cnf" >> experiments;
 done
    \endverbatim
-   </li>
-   <li> To generate the additional clauses for each of the symmetry 
-   breaking techniques and cardinality constraints, the following can
-   be run in maxima:
-   <ul>
-    <li> Symmetry breaking by fixing colours/labels to break monochromatic
-    k-subsets:
-    \verbatim
-for n : 5 thru 18 do output_ramsey2_symbr1_stdname(4,n);
-    \endverbatim
-    </li>
-    <li> Symmetry breaking by fixing monochromatic cliques:
-    \verbatim
-for n : 5 thru 18 do output_ramsey2_symbr2_stdname(n);
-    \endverbatim
-    </li>
-    <li> Symmetry breaking by recursive application of the pigeon hole
-    principle:
-    \verbatim
-for n : 5 thru 18 do output_ramsey2_symbr3_stdname(n);
-    \endverbatim
-    </li>
-    <li> Cardinality constraints:
-    \verbatim
-:lisp (ext:set-limit 'ext:heap-size 3000000000)
-:lisp (ext:set-limit 'ext:frame-stack 10000)
-:lisp (ext:set-limit 'ext:c-stack 200000)
-:lisp (ext:set-limit 'ext:lisp-stack 200000)
-for n : 5 thru 18 do block([n_e : binomial(n,2)],
-  output_fcs(
-    sconcat("Card ",n),
-    fcl2fcs(standardise_fcl(cl2fcl(cardinality_cl(create_list(i,i,1,n_e),floor(n_e/2),ceiling(n_e/2))))[1]),
-    sconcat("Card_n",n,".cnf")))$
-    \endverbatim
-    </li>
-   </ul>
    </li>
    <li> Combining all such investigations (different symmetry breaking 
    techniques, cardinality contraints etc) into a single experiment allows one

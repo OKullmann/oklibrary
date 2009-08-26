@@ -16,6 +16,44 @@ License, or any later version. */
    <li> So we get at most 4597658 clauses. </li>
    <li> This is quite a large number of clauses but should be manageable
    by some DPLL-like solvers and certainly by local search. </li>
+   <li> To generate an instance of SAT problem specifying "ramsey_2^2(4,6) > n?"
+   one may use the following:
+   \verbatim
+Ramsey-O3-DNDEBUG 4 6 2 5 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_4_6_2_5.cnf
+   \endverbatim
+   where n has been replaced by 5 in this example.
+   </li>
+   <li> To generate the additional clauses for each of the symmetry 
+   breaking techniques (see 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp)
+   and cardinality constraints, the following can be run in maxima (generating
+   each of the additional clauses for a range of n values):
+   <ul>
+    <li> Symmetry breaking by fixing colours/labels to break monochromatic
+    k-subsets:
+    \verbatim
+for n : 5 thru 41 do output_ramsey2_symbr1_stdname(4,n);
+    \endverbatim
+    </li>
+    <li> Symmetry breaking by fixing monochromatic cliques:
+    \verbatim
+for n : 5 thru 41 do output_ramsey2_symbr2_stdname(n);
+    \endverbatim
+    </li>
+    <li> Symmetry breaking by recursive application of the pigeon hole
+    principle:
+    \verbatim
+for n : 5 thru 41 do output_ramsey2_symbr3_stdname(n);
+    \endverbatim
+    </li>
+    <li> Note here that adding cardinality constraints as suggested in MGs
+    conjecture in "Considering only labellings with bounded number of particular
+    colours" in 
+    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp 
+    isn't appropriate here, as the conjecture only applies to diagonal 
+    instances. </li>
+   </ul>
+   </li>
   </ul>
 
 
@@ -58,29 +96,6 @@ for n in `seq 5 41`; do
     echo "OKSOLVERM2PP_PHP"$n "./Ramsey-O3-DNDEBUG 4 6 2 ${n} > Ramsey_4_6_2_${n}.ecnf && ./merge_cnf.sh Ramsey_4_6_2_${n}.ecnf Ramsey_SB_PHP_${n}.ecnf > Ramsey_4_6_2_${n}_SB_PHP.ecnf && ./ExtendedToStrictDimacs-O3-DNDEBUG < Ramsey_4_6_2_${n}_SB_PHP.ecnf > Ramsey_4_6_2_${n}_SB_PHP.cnf && ./solvers/OKsolver_2002-m2pp -O -D20 -M -F Ramsey_4_6_2_${n}_SB_PHP.cnf > Ramsey_4_6_2_${n}_SB_PHP.cnf.result.OKsolver-m2pp 2>&1; mv Ramsey_4_6_2_${n}_SB_PHP.cnf_m2pp_*.mo Ramsey_4_6_2_${n}_SB_PHP.cnf.mo.OKsolver-m2pp;mv Ramsey_4_6_2_${n}_SB_PHP.cnf_m2pp_*.pa Ramsey_4_6_2_${n}_SB_PHP.cnf.pa.OKsolver-m2pp;rm -f Ramsey_4_6_2_${n}{,_SB_PHP}.{e,}cnf" >> experiments;
 done
    \endverbatim
-   </li>
-   <li> To generate the additional clauses for each of the symmetry 
-   breaking techniques and cardinality constraints, the following can
-   be run in maxima:
-   <ul>
-    <li> Symmetry breaking by fixing colours/labels to break monochromatic
-    k-subsets:
-    \verbatim
-for n : 5 thru 41 do output_ramsey2_symbr1_stdname(4,n);
-    \endverbatim
-    </li>
-    <li> Symmetry breaking by fixing monochromatic cliques:
-    \verbatim
-for n : 5 thru 41 do output_ramsey2_symbr2_stdname(n);
-    \endverbatim
-    </li>
-    <li> Symmetry breaking by recursive application of the pigeon hole
-    principle:
-    \verbatim
-for n : 5 thru 41 do output_ramsey2_symbr3_stdname(n);
-    \endverbatim
-    </li>
-   </ul>
    </li>
    <li> Combining all such investigations (different symmetry breaking 
    techniques, cardinality contraints etc) into a single experiment allows one
