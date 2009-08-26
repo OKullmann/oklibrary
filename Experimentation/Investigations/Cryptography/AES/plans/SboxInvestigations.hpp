@@ -56,7 +56,7 @@ Sbox44ICCNF : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
    \endverbatim
    In the following, we shall call this Sbox representation Sbox44ICCNF.
    </li>
-   <li> Looking at this in maxima, with all input bits set to 0 :
+   <li> Looking at this in maxima, with all input bits set to 0:
    \verbatim
 (%i7) apply_pa({-1,-2,-3,-4,-5,-6,-7,-8}, Sbox44ICCNF[2]);
 Evaluation took 0.0200 seconds (0.0200 elapsed)
@@ -79,7 +79,7 @@ Evaluation took 0.0280 seconds (0.0270 elapsed)
 (%o8) [8,81,320,6,2]
    \endverbatim
    </li>
-   <li> With several different assignments in maxima : 
+   <li> With several different assignments in maxima: 
    \verbatim
 (%i5) statistics_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8},Sbox44ICCNF[2]));
 Evaluation took 0.0240 seconds (0.0270 elapsed)
@@ -111,7 +111,7 @@ Evaluation took 0.0240 seconds (0.0250 elapsed)
    \endverbatim
    </li>
    <li> Setting all 8 input bits (variables 1 to 8) to 0 (by adding unit 
-   clauses -1 ... -8) for Sbox44CNF : 
+   clauses -1 ... -8) for Sbox44CNF: 
    \verbatim
 [12:53:58 - aeternus] data$ ./minisat/minisat/core/minisat test.cnf 
 This is MiniSat 2.0 beta

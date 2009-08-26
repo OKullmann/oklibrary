@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Improve formulations : MG (as soon as possible)
+  \todo Improve formulations: MG (as soon as possible)
   <ul>
    <li> No names consisting only of upper-case letters! See "Weak state of the
    whole module" in
@@ -67,7 +67,7 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the AES 
    SAT translation. </li>
-   <li> Solvers to be used : 
+   <li> Solvers to be used: 
     <ul>
      <li> OKsolver_2002 </li>
      <li> minisat2 </li>
@@ -176,7 +176,7 @@ License, or any later version. */
     "AES(P,K1,C) and AES(C,K2,P)". </li>
     <li> This can be expanded to find keys K1 and K2 where AES using K2 is
     the inverse of AES with K1 for at least "k" plaintext blocks in the 
-    following way : "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
+    following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
     AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
     <li> There is obviously then the question of whether there is key which 
     acts as it's own inverse for at least "k" plaintext blocks, where

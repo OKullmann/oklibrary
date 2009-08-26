@@ -92,7 +92,7 @@ for bits_to_remove : 0 thru 128 do block([PA],
    </li>
    <li> An experiment can then be run using the following tools:
    <ul>
-    <li> "run_experiment.sh" :
+    <li> "run_experiment.sh":
     \verbatim
 # Reads and outputs to several files:
 # 
