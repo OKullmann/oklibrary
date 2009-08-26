@@ -12,9 +12,6 @@ License, or any later version. */
 
   \todo Improve formulations: MG (as soon as possible)
   <ul>
-   <li> No names consisting only of upper-case letters! See "Weak state of the
-   whole module" in
-   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
    <li> Explanations needed! Experiments need full specifications (to be
@@ -28,6 +25,9 @@ License, or any later version. */
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
    </li>
+   <li> DONE No names consisting only of upper-case letters! See "Weak state of 
+   the whole module" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
   </ul>
@@ -193,7 +193,7 @@ License, or any later version. */
    schemes in any form. </li>
    <li> Besides reproducibility, the point is to strengthen the OKlibrary,
    by continuous improvement, not to weaken it by hiding. </li>
-   <li> Directory structure:
+   <li> DONE Directory structure:
     <ol>
      <li> DONE
      The main topic here is not investigation of certain solvers, but to
@@ -201,12 +201,12 @@ License, or any later version. */
      solving. </li>
      <li> DONE Thus solver-names as file-names should only occur, if at all, in
      sub-directories associated with specific investigations. </li>
-     <li> The general standards for naming in the OKlibrary have to be
+     <li> DONE The general standards for naming in the OKlibrary have to be
      observed:
       <ul>
        <li> DONE Non-generic filenames start always with a capital letter.
        </li>
-       <li> No file- (or directory-)name consists only of capital letters.
+       <li> DONE No file- (or directory-)name consists only of capital letters.
        </li>
       </ul>
      </li>
