@@ -33,12 +33,10 @@ License, or any later version. */
    techniques and cardinality constraints (see 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp)
    can be generated and run using the experiment system discussed in 
-   Experimentation/Investigations/Cryptography/AES/plans/
-BreakingAES_R2-6.hpp), with 
-   the following "generate_exp.sh" script:
+   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp), 
+   with the following "generate_exp.sh" script:
    \verbatim
-# Generates AES experiments for a given round number (param 1)
-# and given key number.
+# Generates Ramsey experiments for "ramsey_2^2(5,5) > n?" for 5 <= n <= 49.
 
 
 for n in `seq 5 49`; do

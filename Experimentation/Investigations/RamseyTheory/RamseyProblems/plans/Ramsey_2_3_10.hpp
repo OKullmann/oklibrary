@@ -31,11 +31,10 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp), with 
    the following "generate_exp.sh" script:
    \verbatim
-# Generates AES experiments for a given round number (param 1)
-# and given key number.
+# Generates Ramsey experiments for "ramsey_2^2(3,10) > n?" for 5 <= n <= 43
 
 
-for n in `seq 5 49`; do
+for n in `seq 5 43`; do
 # No Symmetry breaking
     echo "PICOSAT_"$n "./Ramsey-O3-DNDEBUG 3 10 2 ${n} | ./ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_3_10_2_${n}.cnf && ./solvers/picosat913 -v Ramsey_exp.cnf > Ramsey_3_10_2_${n}.cnf.result.picosat 2>&1 && rm Ramsey_3_10_2_${n}.cnf" >> experiments;
     echo "MINISAT2_"$n "./Ramsey-O3-DNDEBUG 3 10 2 ${n} | ./ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_3_10_2_${n}.cnf && ./solvers/minisat2 Ramsey_3_10_2_${n}.cnf minisat-temp > Ramsey_3_10_2_${n}.cnf.result.minisat2 2>&1; cat minisat-temp >> Ramsey_3_10_2_${n}.cnf.result.minisat2;rm Ramsey_3_10_2_${n}.cnf" >> experiments;

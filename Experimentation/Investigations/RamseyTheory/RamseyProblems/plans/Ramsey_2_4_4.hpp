@@ -260,8 +260,7 @@ SATISFIABLE
    Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp), with 
    the following "generate_exp.sh" script:
    \verbatim
-# Generates AES experiments for a given round number (param 1)
-# and given key number.
+# Generates Ramsey experiments for "ramsey_2^2(4,4) > n?" for 5 <= n <= 49.
 
 
 for n in `seq 5 49`; do
