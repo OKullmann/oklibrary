@@ -266,9 +266,84 @@ Autarkies ~ nodes:
      around the median 8.5. </li>
      <li> With preprocessing and with symmetry breaking:
      \verbatim
-
+> OKsolver_2002-m2pp -M -D10 -F GreenTao_sb_6-2-2-2-2-3-3_47.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         16
+c initial_number_of_variables           225
+c initial_number_of_clauses             4730
+c initial_number_of_literal_occurrences 11353
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   4451
+c running_time(sec)                     216028.4
+c number_of_nodes                       215434556
+c number_of_single_nodes                431683
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1878685678
+c number_of_pure_literals               18025739
+c number_of_autarkies                   6866623
+c number_of_missed_single_nodes         3724945
+c max_tree_depth                        82
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 726406714
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_sb_6-2-2-2-2-3-3_47.cnf_m2pp_7718
+> plot_oksolver_mon_nodes(E,left=1,ldstep=5)
+ldstep= 5 step= 32 left= 1 right= 1024
+obs/count= 1.026052 nodes-range= 0 5536056 ave-nodes-range= 1.286 210385.3
+> summary_oksolver(E)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0      26    2169  215900  206800 5536000
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1.22    8.51    9.29   11.46   13.48   66.00
+Single nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    0.0     0.0     5.0   432.5   389.5  9657.0
+Autarkies:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     0.0      0.0     47.5   6880.0   6212.0 151500.0
+Time ~ nodes:
+[1] 0.9951324
+ (Intercept)      E$nodes
+-6.621237389  0.001033429
+Single nodes ~ nodes:
+[1] 0.6542652
+ (Intercept)      E$nodes
+80.026281984  0.001633056
+Autarkies ~ nodes:
+[1] 0.835877
+ (Intercept)      E$nodes
+434.35530177   0.02986121
+> hist_oksolver_mon_nodes(E)
+Median= 11.08281
+Mean= 17.71978
      \endverbatim
      </li>
+     8.72 2red/nds, 225 / 8.72 ~ 25.8, 997 nds/sec.
+     The distribution has two peaks, one around 5, followed by a slow descend
+     until before 15, and then a sharp ascend to the second peak around 20, 
+     followed by a very steep descend. </li>
+     <li> This is an interesting disaster! Using preprocessing alone impairs
+     performance somewhat, using symmetry breaking alone improves performance
+     quite a bit, while both together has a disastrous effect (compared with
+     the best case the node-count is multiplied by 100, the running time by
+     200)! </li>
+     <li> Using the subdivision of the nodes-plots into 32 segments, there
+     are roughly two parts, both with roughly linear increase of the average 
+     node count: Until the end of segment 23 there is a continous basis of easy
+     problems with occasional much harder problems, but then the harder 
+     problems become much more frequent. </li>
+     <li> Due to the constant increase in the average node count, at any time
+     the prediction is far too good; the hardest monitoring node is the last
+     one. </li>
+     <li> The above data doesn't give much clue what happened. </li>
     </ol>
    </li>
    <li> satz215 </li>
