@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AES/plans/general.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
   \brief On investigations into the Advanced Encryption Standard
 
 
@@ -53,18 +53,18 @@ License, or any later version. */
     </ul>
    </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp for 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp for 
    experiments regarding breaking AES. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/SboxInvestigations.hpp
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
    for experiments regarding the Sbox, it's representations and possible 
    replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/FieldMulInvestigations.hpp 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
    for experiments regarding multiplication by constants in GF(2^8),
    their representations, and possible replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the AES 
    SAT translation. </li>
    <li> Solvers to be used: 

@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/general.hpp
+   <li> See Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
    for experimental investigations. </li>
   </ul>
 
@@ -382,7 +382,9 @@ ncl_list_f(random_ip3);
   \todo Representations of the Sbox using additional variables
   <ul>
    <li> Compare with "Investigating conditions and their representations"
-   in Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
+   in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. 
+   </li>
    <li> When using (only) CNF, likely the use of additional variables is
    crucial. </li>
    <li> One should also consider the various arithmetical representations

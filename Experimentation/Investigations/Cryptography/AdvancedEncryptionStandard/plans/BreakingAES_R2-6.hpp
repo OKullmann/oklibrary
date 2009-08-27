@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R2-6.hpp
   \brief On investigations into breaking reduced round variants of the AES
 
 

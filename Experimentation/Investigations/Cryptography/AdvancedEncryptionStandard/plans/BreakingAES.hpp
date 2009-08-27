@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
   \brief On investigations on breaking AES
 
 
@@ -57,11 +57,11 @@ License, or any later version. */
     how many key bits may be left unspecified before the SAT problem becomes 
     infeasible? </li>
     <li> See 
-    Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R2-6.hpp
     for experiments investigating this question for reduced round variants of 
     AES with less than 7 rounds. </li>
     <li> See 
-    Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R7-10.hpp
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R7-10.hpp
     for experiments investigating this question for reduced round variants of 
     AES with 7 rounds or more. </li>
   </ul>
@@ -185,7 +185,8 @@ done
    solver perform a simple AES computation? </li>
    <li> It should be that through unit clause propagation etc, the SAT solver
    should be very quick? </li>
-   <li> See Experimentation/Investigations/Cryptography/AES/plans/minisat2.hpp
+   <li> See 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/minisat2.hpp
    for results using minisat2. </li>
    <li> Add results for other solvers. </li>
   </ul>
