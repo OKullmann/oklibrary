@@ -201,12 +201,12 @@ License, or any later version. */
      solving. </li>
      <li> DONE Thus solver-names as file-names should only occur, if at all, in
      sub-directories associated with specific investigations. </li>
-     <li> DONE The general standards for naming in the OKlibrary have to be
+     <li> The general standards for naming in the OKlibrary have to be
      observed:
       <ul>
        <li> DONE Non-generic filenames start always with a capital letter.
        </li>
-       <li> DONE No file- (or directory-)name consists only of capital letters.
+       <li> No file- (or directory-)name consists only of capital letters.
        </li>
       </ul>
      </li>
