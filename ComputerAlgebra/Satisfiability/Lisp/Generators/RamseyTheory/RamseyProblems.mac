@@ -111,7 +111,7 @@ ramsey_stdofcs(q,r,n) :=
   standardise_fcl(nbfclud2fcl_alo(ramsey_stdnbfclud(q,r,n)))[1]$
 
 output_ramsey(q,r,n,filename) := block(
- [FFR : ramsey_stdofcs(q,r,n)],
+ [FFR : standardise_fcl(ramsey_ofcs(q,r,n))],
   output_fcl_v(
     sconcat("Ramsey problem: ",length(q),
       " colours, hypergraph edges of size ", r, 
