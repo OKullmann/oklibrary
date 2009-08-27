@@ -31,7 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 
 /* Generation of the full DNF clause-set representing the 
    multiplication with the given constant field element (as
-   a polynomial) in the Rijndael GF(2^8) field */
+   an integer) in the Rijndael GF(2^8) field */
 generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=  
   [setify(create_list(i,i,1,16)),
    map(lambda([ce],setify(binl2dnf_l_std(
@@ -43,11 +43,18 @@ generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=
 
 /* Generation of the full CNF clause-set representing the 
    multiplication with the given constant field element (as
-   a polynomial) in the Rijndael GF(2^8) field */
+   an integer) in the Rijndael GF(2^8) field */
 generate_full_aes_field_mul_cnf_fcs(constant_field_element) := block(
   [full16cs : clauses_f(full_fcs(16)), aes_fieldmul_cs :
   clauses_f(generate_full_aes_field_mul_dnf_fcs(constant_field_element))],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
+output_full_aes_field_mul_cnf(constant_field_element) :=
+  output_fcs(
+    sconcat("AES Field byte field multiplication by ",constant_field_element,
+            " (integer) given a the full CNF representation."),
+    generate_full_aes_field_mul_cnf_fcs(constant_field_element),
+    sconcat("AES_byte_field_mul_full_",constant_field_element,".cnf"))$
+          
 
 /* Tests whether a full CNF clause-set represents the AES field multiplication */
 test_CNF_aes_field_mul(constant_field_element,FF) := 

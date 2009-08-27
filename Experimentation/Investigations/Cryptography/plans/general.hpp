@@ -14,10 +14,10 @@ License, or any later version. */
   <ul>
    <li> See "General organisation" in
    Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
-   <li> Starting with the inappropriate file- and directory-names. </li>
    <li> See "Improve formulations" in
    Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
    <li> And all connections to other modules have to be updated. </li>
+   <li> DONE Starting with the inappropriate file- and directory-names. </li>
   </ul>
 
   

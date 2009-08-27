@@ -243,11 +243,19 @@ okltest_aes_decrypt_generic(f) := block([V1],
 okltest_aes_encrypt_hex(f) := (
   assert(f("0","0") = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
   assert(f("00","000") = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
+  block([aes_num_rounds : 2],
+    assert(f("3243F6A8885A308D313198A2E0370734",
+        "2B7E151628AED2A6ABF7158809CF4F3C") =
+      "AA8F5F0361DDE3EF82D24AD26832469A")),
   true)$
 
 okltest_aes_decrypt_hex(f) := (
   assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","0") = lpad("","0",32)),
   assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","000") = lpad("","0",32)),
+  block([aes_num_rounds : 2],
+    assert(f("AA8F5F0361DDE3EF82D24AD26832469A",
+        "2B7E151628AED2A6ABF7158809CF4F3C") =
+      "3243F6A8885A308D313198A2E0370734")),
   true)$
 
 

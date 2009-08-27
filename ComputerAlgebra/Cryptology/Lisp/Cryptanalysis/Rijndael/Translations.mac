@@ -103,7 +103,7 @@ aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
   /* Key Expansion */
   rs : adjoin(apply(aes_key_expansion_c,append(kBits, ekBits)),rs),
   ib : pBits,
-  all_ob : aes_make_vars("o",1,(aes_num_rounds+1)*128),
+  all_ob : aes_make_vars("o",1,(aes_num_rounds)*128),
   ob : take_elements(128,all_ob),
   /* Initial Round Key Addition */
   rs : adjoin(apply(aes_add_c,append(ib,take_elements(128,ekBits),ob)),rs),
@@ -117,10 +117,14 @@ aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
     ib : ob
   ),
   /* Final Round */
-  /*ob : rest(all_ob,10*128),*/
+  /* If we have a reduced round variant, truncate rather than generalise */
   ob : cBits,
-  rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
-    rest(ekBits,aes_num_rounds*128)),ob)),rs),
+  if aes_num_rounds = 10 then 
+    rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
+            rest(ekBits,aes_num_rounds*128)),ob)),rs)
+  else
+    rs : adjoin(apply(aes_round_c,append(ib,take_elements(128,
+            rest(ekBits,aes_num_rounds*128)),ob)),rs),
   return(rs)
 )$
 
@@ -274,18 +278,9 @@ aes_key_expansion_cp([bits]) := block(
   rkBits : rest(bits,128),
   fBits : take_elements(128,rkBits),
   /* Split into columns */
-  cols : lreduce(
-    lambda([a,b],map(append,a,
-          partition_elements(partition_elements(b,8), 
-            floor(length(b)/(4*8)) ))
-        ), partition_elements(rest(rkBits,128),128), 
-      partition_elements(partition_elements(fBits,8), 
-        floor(length(fBits)/(4*8)) )
-    ),
-  kMat : partition_elements(partition_elements(kBits,8),
-          floor(length(kBits)/(4*8))),
-  fMat : partition_elements(partition_elements(fBits,8), 
-          floor(length(fBits)/(4*8))),
+  cols :  partition_elements(partition_elements(rkBits,8),4),
+  kMat : partition_elements(partition_elements(kBits,8),4),
+  fMat : partition_elements(partition_elements(fBits,8),4),
   /* Make first round key equal */
   for j : 1 thru n_k do
     for i : 1 thru 4 do
@@ -542,18 +537,18 @@ aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
 aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
   aes_cs : aes_cnf_cs(),
   [create_list(i,i,1,aes_cnf_var_number+3*128), aes_cs])$
+output_aes_cnf(n) :=
+  output_fcs(
+    sconcat("AES, 128-bit key and block, ",aes_num_rounds,
+      " Rounds SAT Translation"),
+    aes_cnf_fcs(), n)$
+output_aes_cnf_stdname() :=
+  output_aes_cnf(sconcat("AES_R",aes_num_rounds,".cnf"))$
 
 /* Takes a hexidecimal string in the notation typically used for Rijndael blocks
    (discussed in [Design of Rijndael] and in CryptoSystems plans) and given the
    variable list (assumed to be in the correct left to right bit ordering)
-   generates a PA to the given variables to the given constant. 
-   
-   NOTE : Given the nature of the different representations used within this
-   system and the representations used in the rijndael hexidecimal notation, hex
-   from multiple sets of input and output variables should not just be appended,
-   along with variables in the hopes that this produces a correct assignment. */
-/* MG : The AES implementation should probably be reworked to follow the same 
-   column by column rather than row by row representation. */
+   generates a PA to the given variables to the given constant.  */
 aes_hex2pa(hexStr, variableList) := block(
   setify(map(
     lambda([a,b], if b = 0 then -a else a),
@@ -562,6 +557,7 @@ aes_hex2pa(hexStr, variableList) := block(
           egf_coeffs(rijn_bit_field,a,7)),hex2gf2t8l(hexStr)))
   ))
 )$
+
 
 /*!
 \endhtmlonly

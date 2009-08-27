@@ -10,26 +10,6 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
-  \todo Truncate AES for reduced rounds
-  <ul>
-   <li> The current behaviour of the AES SAT translation when 
-   the variable aes_num_rounds is specified, is to translate an
-   AES variant with (aes_num_rounds - 1) full "normal" AES rounds and
-   then a single instance of the final AES round (which is a special
-   case in Rijndael). </li>
-   <li> To truly say that AES is being "stopped" and inspected after
-   aes_num_rounds rounds, the true behaviour should be that exactly
-   (aes_num_rounds - 1) rounds and 1 final round are translated iff
-   aes_num_rounds = 10, otherwise exactly aes_num_rounds rounds are
-   translated and the special final AES round is not used. </li>
-   <li> Perhaps this should somehow be an option for:
-   <ul>
-    <li> Truncated AES </li>
-    <li> Generalised AES </li>
-   </ul>
-  </ul>
-
-
   \todo Parameterise inclusion of inverse operation in Mixcolumn translation
   <ul>
    <li> In the initial AES translation, only the encryption direction was
@@ -624,6 +604,27 @@ lambda([a],some_namespace_x(a,1,2,3))
     </ol>
    </li>
   </ul>
+
+
+  \todo DONE Truncate AES for reduced rounds
+  <ul>
+   <li> The current behaviour of the AES SAT translation when 
+   the variable aes_num_rounds is specified, is to translate an
+   AES variant with (aes_num_rounds - 1) full "normal" AES rounds and
+   then a single instance of the final AES round (which is a special
+   case in Rijndael). </li>
+   <li> To truly say that AES is being "stopped" and inspected after
+   aes_num_rounds rounds, the true behaviour should be that exactly
+   (aes_num_rounds - 1) rounds and 1 final round are translated iff
+   aes_num_rounds = 10, otherwise exactly aes_num_rounds rounds are
+   translated and the special final AES round is not used. </li>
+   <li> Perhaps this should somehow be an option for:
+   <ul>
+    <li> Truncated AES </li>
+    <li> Generalised AES </li>
+   </ul>
+  </ul>
+
 
 */
 

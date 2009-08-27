@@ -10,11 +10,8 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Improve formulations : MG (as soon as possible)
+  \todo Improve formulations: MG (as soon as possible)
   <ul>
-   <li> No names consisting only of upper-case letters! See "Weak state of the
-   whole module" in
-   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
    <li> Explanations needed! Experiments need full specifications (to be
@@ -28,6 +25,9 @@ License, or any later version. */
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
    </li>
+   <li> DONE No names consisting only of upper-case letters! See "Weak state of 
+   the whole module" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
   </ul>
@@ -67,7 +67,7 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the AES 
    SAT translation. </li>
-   <li> Solvers to be used : 
+   <li> Solvers to be used: 
     <ul>
      <li> OKsolver_2002 </li>
      <li> minisat2 </li>
@@ -176,7 +176,7 @@ License, or any later version. */
     "AES(P,K1,C) and AES(C,K2,P)". </li>
     <li> This can be expanded to find keys K1 and K2 where AES using K2 is
     the inverse of AES with K1 for at least "k" plaintext blocks in the 
-    following way : "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
+    following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
     AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
     <li> There is obviously then the question of whether there is key which 
     acts as it's own inverse for at least "k" plaintext blocks, where
@@ -193,7 +193,7 @@ License, or any later version. */
    schemes in any form. </li>
    <li> Besides reproducibility, the point is to strengthen the OKlibrary,
    by continuous improvement, not to weaken it by hiding. </li>
-   <li> Directory structure:
+   <li> DONE Directory structure:
     <ol>
      <li> DONE
      The main topic here is not investigation of certain solvers, but to
@@ -201,12 +201,12 @@ License, or any later version. */
      solving. </li>
      <li> DONE Thus solver-names as file-names should only occur, if at all, in
      sub-directories associated with specific investigations. </li>
-     <li> The general standards for naming in the OKlibrary have to be
+     <li> DONE The general standards for naming in the OKlibrary have to be
      observed:
       <ul>
        <li> DONE Non-generic filenames start always with a capital letter.
        </li>
-       <li> No file- (or directory-)name consists only of capital letters.
+       <li> DONE No file- (or directory-)name consists only of capital letters.
        </li>
       </ul>
      </li>

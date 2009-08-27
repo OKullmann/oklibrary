@@ -54,6 +54,11 @@ generate_full_aes_sbox_cnf_fcs() := block(
   [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
   clauses_f(generate_full_aes_sbox_dnf_fcs())],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
+output_full_aes_sbox_cnf() :=
+  output_fcs(
+    sconcat("AES Sbox function given the full CNF representation."),
+    generate_full_aes_sbox_cnf_fcs(),
+    sconcat("AES_Sbox_full.cnf"))$
 
 /* Tests whether a full CNF clause-set represents the AES sbox */
 test_CNF_aes_sbox(FF) := 
