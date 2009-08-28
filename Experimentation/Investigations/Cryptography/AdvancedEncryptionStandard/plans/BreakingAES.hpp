@@ -67,7 +67,7 @@ License, or any later version. */
   </ul>
 
   
-  \todo Generating experiment/test blocks
+  \todo Generating experiments
   <ul>
    <li> For simple experiments we can simply use trivial plaintext and key 
    blocks such as all zero plaintext and key blocks, and then consider the 
@@ -86,69 +86,147 @@ License, or any later version. */
    plaintext and key block (for instance all 0 values for each) is reasonable.
    If patterns occur, then these can then investigated using a variety of
    randomly chosen parameters. </li>
-   <li> Provided below is some initial code for generating experiments, however
-   this needs to be rewritten (based on structural changes being made to the 
-   AES translation) and moved into scripts:
+   <li> To setup a set of AES experiments where all plaintext bits are known and
+   all ciphertext bits are known, and each individual experiment leaves the 
+   first $N key bits unspecified for an $R round AES variant, a directory is 
+   created with the following: 
+    <ul>
+     <li> "AES_R$R.cnf" - The AES translation using new variables restricted
+     to $R rounds. </li>
+     <li> "AES_UC_P0_K0_CX_KN$N.cnf" - The generated unit clauses specifying the
+     plaintext, ciphertext and key bits (variables) to be set, where $N is the
+     number of key bits being specified in the problem. </li>
+     <li> "run_experiment.sh" - A shell script called to run the experiment 
+     (see below). </li>
+     <li> "generate_aes_exp.sh" - A shell script called to generate the list
+     of experiments/commands to run (outputs to file "experiments" - see below).
+     </li>
+     <li> "merge_cnf.sh" - A shell script which takes 2 Dimacs filenames as 
+     input and outputs to STDOUT a new Dimacs file which has all the clauses 
+     from both input files, and an updated p-line to account for the sum of the 
+     two files. Note: It is assumed the variable set of the first Dimacs file 
+     encompasses the second. </li>
+    </ul>
+   </li>
+   <li>
+   </li>
+   <li> Generating "AES_R$N.cnf" (where $N=1 in this example):
+   \verbatim
+:lisp (ext:set-limit 'ext:heap-size 3000000000)
+:lisp (ext:set-limit 'ext:frame-stack 10000)
+:lisp (ext:set-limit 'ext:c-stack 200000)
+:lisp (ext:set-limit 'ext:lisp-stack 200000)
+oklib_load_all()$
+oklib_monitoring : true$
+aes_num_rounds : 1$
+block([  
+  aes_sbox_cp : aes_sbox_ts_cp,
+  aes_mul2_cp : aes_mul2_ts_cp,
+  aes_mul3_cp : aes_mul3_ts_cp,
+  aes_mul9_cp : aes_mul9_ts_cp,
+  aes_mul11_cp : aes_mul11_ts_cp,
+  aes_mul13_cp : aes_mul13_ts_cp,
+  aes_mul14_cp : aes_mul14_ts_cp], 
+  output_aes_cnf_fcs_stdname())$
+   \endverbatim
+Note, the ":lisp" commands are necessary to ensure the Maxima/lisp stack and 
+heap are large enough to store the translation.
+   </li>
+   <li> The unit clauses "AES_UC_P0_K0_CX_KN$N.cnf" can be generated
+   in the following way:
+   \verbatim
+aes_num_rounds : 1$
+for bits_to_remove : 0 thru 128 do block([PA],
+  PA : map(set,
+    union(
+      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,1,128)),
+      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,129,256)), 
+      aes_hex2pa(il2hex(
+        aes_encrypt_l(
+          create_list(0,i,1,16), create_list(0,i,1,16))), 
+          create_list(i,i,257,384)))),
+  PA : subset(PA, lambda([a], 
+      not(member(map(abs,a), create_list({i},i,129,129+(bits_to_remove-1)))))),
+  output_fcs(
+    sconcat("AES Unit Clause assignment for all zero plaintext and key ",
+            "and associated ciphertext with the first ", bits_to_remove," bits",
+            "left unset in the key. Rounds = ",aes_num_rounds)  , 
+    cs2fcs(PA), 
+    sconcat("AES_UC_P0_K0_CX_KN",bits_to_remove,".cnf"))
+)$
+   \endverbatim
+   </li>
+   <li> An experiment can then be run using the following tools:
    <ul>
-    <li> To generate instances of AES as a SAT problem where the primary
-    variables are the plaintext, key and ciphertext (each 128 variables),
-    the following code generates problem instances as described below: 
+    <li> "run_experiment.sh":
     \verbatim
-removeTopNVars(C,n) := subset(C, lambda([a], is(abs(a) <= (uaapply(max,listify(map(abs,C))) - n))));
+# Reads and outputs to several files:
+# 
+# input:
+#   experiments
+#     This has lines of the form "name command".
+# output:
+#   $command.watch
+#     memory/cpu profile of the given run
+#   current_experiment
+#      Simply contains a line number for experiments
+#      followed by the name of the experiment and the
+#      process id. 
+#
 
-hex2il(h) := block([cl],
-  cl : charlist(h),
-  print(cl),
-  return(map(lambda([b], hex2int(simplode(b))), partition_elements(cl,2)))
-)$
+# Renice current shell so we don't annoy anyone
+# Process run from this will then pick this up
+renice 19 -p $$;
 
-gen_uc_ass_aes(ph, pbn, kh ,kbn,ch, cbn) := block(
-  return(
-    map(lambda([a],{a}),union(
-      removeTopNVars(AESHexToPA(ph,aes_make_vars_int("p",1,128)),pbn),
-      removeTopNVars(AESHexToPA(kh,aes_make_vars_int("k",1,128)),kbn),
-      removeTopNVars(AESHexToPA(ch,aes_make_vars_int("c",1,128)),cbn)))));
 
-gen_uc_ass_aes_comp(ph, pbn, kh ,kbn, cbn) := block([ch],
- ch : il2hex(transpose_l(
-         aes_encrypt_l(
-           hex2il(ph),
-           hex2il(kh)),
-         4)),
- return(gen_uc_ass_aes(ph,pbn,kh,kbn,ch,cbn))
-)$
-plaintext_hex : "32488853038D31734198AA2E0370D450"$
-key_hex : "3F6A2B7E151628AED2A6ABF7158809CF"$
-for r from 2 step 1 thru 10 do block([aes_num_rounds:r],
-  aes_cs : aes_cnf_fcs(),
-  output_cs_f(sconcat("AES r=",r," NPKC"),aes_cs,sconcat("AES_r",r,".cnf")),
-  ch: apply(sconcat,map(lambda([s],lpad(int2hex(s),"0",2)),
-    aes_encrypt_l(
-      hex2il(plaintext_hex),
-      hex2il(key_hex)))
-    ),
-  for pn from 0 thru 0 do (
-    for kn from 0 step 2 thru 64 do (
-      for cn from 0 thru 0 do block(
-        output_cs_f(
-          sconcat("AES UC R=",r," PN=",pn,"KN=",kn,"CN=",cn,
-            "P=",plaintext_hex,"K=",key_hex),
-          cs_to_fcs(gen_uc_ass_aes(plaintext_hex,pn,key_hex,kn,ch,cn)),
-          sconcat("AES_UC_r",r,"_pn",pn,"_kn",kn,"_cn",cn,
-            "_P",plaintext_hex,"_K",key_hex,".cnf")),
-        print(sconcat("AES UC R=",r," PN=",pn,"KN=",kn,"CN=",cn,
-           " P=",plaintext_hex,"K=",key_hex))))));
+EXP_START_LINE_NO=0
+# Restart the experiment from where we left off
+if [ -f current_experiment ]; then
+    EXP_START_LINE_NO=`head -n 1 current_experiment | cut -d " " -f 1`
+fi
+
+# Go through the experiment file line by line and execute the experiments
+EXP_LINE_NO=0
+cat experiments | while read EXP; do
+    EXP_LINE_NO=`expr $EXP_LINE_NO + 1`;
+    if [ $EXP_LINE_NO -ge $EXP_START_LINE_NO ]; then
+	# Work out name etc
+	EXP_NAME=`echo "$EXP" | cut -d " " -f 1`;
+	EXP_COMMAND=`echo "$EXP" | cut -d " " -f 1 --complement`;
+	echo "Running" $EXP_NAME;
+	# Run command, and work out it's PID
+	eval $EXP_COMMAND &
+	EXP_PID=$!;
+	SESSION_ID=`ps h -o sid --pid $EXP_PID`;
+	# Keep track of memory usage etc
+	echo "PID CPU VMEM PMEM CPUTIME ETIME CMD" > $EXP_NAME.watch;
+	watch --no-title "ps h -s $SESSION_ID -o pid,%cpu,vsz,rss,cputime,etime,comm | grep -v ' \(watch\|sh\|bash\|ps\|grep\) *$' >> $EXP_NAME.watch" > $EXPNAME.log 2>&1 &
+	WATCH_PID=$!;
+	# Keep track of current experiment and then wait until 
+	# it's finished before cleaning up
+	echo $EXP_LINE_NO $EXP_NAME $EXP_PID > current_experiment;
+	wait $EXP_PID > $EXPNAME.log 2>&1;
+	kill -9 $WATCH_PID;
+    fi
+done
     \endverbatim
-    The above code generates files "AES_r2.cnf" (for round 2 for example) 
-    containing the main AES translation (with no variable assignments) and then 
-    "AES_UC_r2_pn0_kn0_cn0_P32488853038D31734198AA2E0370D450_K3F6A2B7E151628AED2A6ABF7158809CF.cnf"
-    as the unit clauses for setting up a two round AES translation with all 
-    plaintext, key and ciphertext bits set and the plaintext and key
-    provided as "32488853038D31734198AA2E0370D450" and
-    "3F6A2B7E151628AED2A6ABF7158809CF" in the standard AES format.
     </li>
-    <li> To merge the AES translation cnf with the assignment unit clauses 
-    generated, the following script generates the problem instances: 
+    <li> "generate_aes_exp.sh":
+    \verbatim
+# Generates AES experiments for one round AES.
+
+RN=1
+
+for k in `seq 0 128`; do
+    echo "PICOSAT_"$k "./merge_cnf.sh AES_R${RN}.cnf AES_UC_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf && ./solvers/picosat913 -v AES_R${RN}_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf.result.picosat 2>&1; rm AES_R${RN}_P0_K0_CX_KN$k.cnf" >> experiments;
+    echo "MINISAT2_"$k "./merge_cnf.sh AES_R${RN}.cnf AES_UC_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf && ./solvers/minisat2 AES_R${RN}_P0_K0_CX_KN$k.cnf minisat-temp > AES_R${RN}_P0_K0_CX_KN$k.cnf.result.minisat2 2>&1; cat minisat-temp >> AES_R${RN}_P0_K0_CX_KN$k.cnf.result.minisat2;rm AES_R${RN}_P0_K0_CX_KN$k.cnf" >> experiments;
+    echo "MARCH_PL_"$k "./merge_cnf.sh AES_R${RN}.cnf AES_UC_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf && ./solvers/march_pl AES_R${RN}_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf.result.march_pl 2>&1;rm AES_R${RN}_P0_K0_CX_KN$k.cnf" >> experiments;
+    echo "OKSOLVER_"$k "./merge_cnf.sh AES_R${RN}.cnf AES_UC_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf && ./solvers/OKsolver_2002-O3-DNDEBUG -O -D20 -M -F AES_R${RN}_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf.result.OKsolver 2>&1; mv AES_R${RN}_P0_K0_CX_KN$k.cnf.mo AES_R${RN}_P0_K0_CX_KN$k.cnf.mo.OKsolver;mv AES_R${RN}_P0_K0_CX_KN$k.cnf.pa AES_R${RN}_P0_K0_CX_KN$k.cnf.pa.OKsolver;rm AES_R${RN}_P0_K0_CX_KN$k.cnf" >> experiments;
+    echo "OKSOLVERM2PP_"$k "./merge_cnf.sh AES_R${RN}.cnf AES_UC_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf && ./solvers/OKsolver_2002-m2pp -O -D20 -M -F AES_R${RN}_P0_K0_CX_KN$k.cnf > AES_R${RN}_P0_K0_CX_KN$k.cnf.result.OKsolver-m2pp 2>&1; mv AES_R${RN}_P0_K0_CX_KN$k.cnf_m2pp_*.mo AES_R${RN}_P0_K0_CX_KN$k.cnf.mo.OKsolver-m2pp;mv AES_R${RN}_P0_K0_CX_KN$k.cnf_m2pp_*.pa AES_R${RN}_P0_K0_CX_KN$k.cnf.pa.OKsolver-m2pp;rm AES_R${RN}_P0_K0_CX_KN$k.cnf" >> experiments;
+done
+    \endverbatim
+    </li>
+    <li> "merge_cnf.sh":
     \verbatim
 #!/bin/bash
 
@@ -158,28 +236,90 @@ CL2=`grep "^p" $2  | cut -d " " -f "4"`
 
 NewCL=`expr $CL1 + $CL2`
 cat $1 | sed -e "s/p \+\([a-zA-Z]\+\) \+\([0-9]\+\).*$/p \1 \2 $NewCL/"
-cat $2 | grep -v "^p"
-    \endverbatim
-    called "mergeSameVarCNFs.sh" and can be used in the following way: 
-    \verbatim
-./mergeSameVarCNFs.sh AES_r2.cnf AES_UC_r2_pn0_kn32_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf > AES_r2_kn_32_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf   
-    \endverbatim
-    </li>
-    <li> For experimentation, the following is then an example for 
-    running a particular SAT solver (minisat in the example below) on the given
-    problem instance:
-    \verbatim
-for k in `seq 0 32 128`; do
-  for r in `seq 2 2 10`; do
-    echo "K = " $k "R = " $r;
-    ./mergeSameVarCNFs.sh "AES_r${r}.cnf" "AES_UC_r${r}_pn0_kn${k}_cn0_P00000000000000000000000000000000_K00000000000000000000000000000000.cnf" > "AES_r${r}_k   n_${k}_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf" ;
-    time ./solvers/minisat/core/minisat "AES_r${r}_kn_${k}_P00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf" > "AES_r${r}_kn_${k}_P   00000000000000000000000000000000_K00000000000000000000000000000000_SAT.cnf.results.minisat" 2> "AES_r${r}_kn_${k}_P00000000000000000000000000000000_K000000000   00000000000000000000000_SAT.cnf.results.minisat" ;
-  done
-done
+cat $2 | grep -v "^c" | grep -v "^p"
     \endverbatim
     </li>
    </ul>
    </li>
+   <li> To run the experiment, one can then simply run:
+   \verbatim
+./generate_aes_exp.sh
+./run_experiments.sh
+   \endverbatim
+   </li>
+   <li> Additionally, the structure of the above system allows one to monitor
+   the behaviour of the experiments, using the following monitor script:
+   \verbatim
+# Monitor experiments running on several machines
+
+echo "MACHINE" "EXP" "NAME" "RUNNING_FOR";
+
+cat global_experiments | while read experiment; do
+    MACHINE=`echo $experiment | cut -d " " -f 1`;
+    EXP_DIR=`echo $experiment | cut -d " " -f 2`;
+    CURRENT_EXP=`0</dev/null ssh $MACHINE -C "head -n 1 $EXP_DIR/current_experiment"`;
+    CUR_EXP_PID=`echo $CURRENT_EXP | cut -d " " -f 3`;
+    CUR_EXP_NAME=`echo "$CURRENT_EXP" | cut -d " " -f 2`;
+    CUR_EXP_START_TIME=`0</dev/null ssh $MACHINE -C "ps h -o etime --pid $CUR_EXP_PID"`;
+    echo $MACHINE $EXP_DIR $CUR_EXP_NAME $CUR_EXP_START_TIME
+done
+   \endverbatim
+   where this script expects a file "global_experiments" in the same directory,
+   where each line has a hostname following by a directory name, and it will 
+   simply connect to each host and print the machine, the directory, the 
+   currently running experiment on that machine (given the names used in the 
+   file "experiments" for that set of experiments) and how long that experiment
+   has been running for in total. </li>
+   <li> Note, this monitoring script assumes that any specific details such as
+   usernames, passwords etc have been setup as keys or in the users
+   .ssh/config file , otherwise one would need to edit the script. </li>
+   <li> An example of this global experiments file is:
+   \verbatim
+cspasiphae.swan.ac.uk AES_1_Round
+cssinope.swan.ac.uk AES_2_Round
+cselara.swan.ac.uk AES_3_Round
+csananke.swan.ac.uk AES_4_Round
+csmiranda.swan.ac.uk AES_5_Round
+csio.swan.ac.uk AES_6_Round
+cshimalia.swan.ac.uk AES_7_Round
+cslysithea.swan.ac.uk AES_8_Round
+csiapetus.swan.ac.uk AES_9_Round
+csamalthea.swan.ac.uk AES_10_Round
+cspasiphae.swan.ac.uk Ramsey_2_5_5
+cssinope.swan.ac.uk Ramsey_2_4_4
+cselara.swan.ac.uk Ramsey_2_3_10
+   \endverbatim
+   </li>
+   <li> Additionally, as results will be pooled across many machines, and these
+   machines may be shut down or encounter hardware faults, the existence of such
+   a "global_experiments" file for monitoring, also allows automated backup 
+   using the following script (assumed to be in the same folder as 
+   "global_experiments"):
+   \verbatim
+cat global_experiments | while read exp; do
+    MACHINE=`echo $exp | cut -d " " -f 1`;
+    EXP_DIR=`echo $exp | cut -d " " -f 2`;
+    rsync -r --copy-links $MACHINE:$EXP_DIR .; 
+done
+   \endverbatim
+   This script simply copies each of the experiment directories listed in
+   "global_experiments", across the network, into the current directory,
+   ensuring that any symlinks are resolved to their respective files before
+   copying.
+   </li>
+   <li> The above experiment script results in the following solvers each being 
+   run on the one round AES problems with the number of unknown key bits ranging
+   from 0 to 128:
+   <ul>
+    <li> picosat913 </li>
+    <li> minisat2 </li>
+    <li> march_pl </li>
+    <li> OKsolver_2002-O3-DNDEBUG </li>
+    <li> OKsolver_2002-m2pp </li>
+   </ul>
+   </li>
+   <li> The above scripts need to be explained further, polished and moved 
+   somewhere more appropriate. </li>
   </ul>
 
 
