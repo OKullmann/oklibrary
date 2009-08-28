@@ -145,6 +145,14 @@ License, or any later version. */
       <ol>
        <li> Could it be 0-based? Since the DNF-representation is hitting, it
        is 0-based. </li>
+       <li> MG: Is it not 1-based but not 0-based, as every clause has at least
+       one of the new variables in it and therefore applying a full falsifying
+       assignment, will not yield the empty clause. The empty clause will only 
+       occur after unit clause propagation. </li>
+       <li> MG: Isn't the only 0-based clause-set representation, precisely the 
+       prime implicates? </li>
+       <li> Is there a simple example of a clause-set which is 2-based but not
+       1-based? </li>
        <li> Most natural should be to use dualts_fcl in
        ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
       </ol>
