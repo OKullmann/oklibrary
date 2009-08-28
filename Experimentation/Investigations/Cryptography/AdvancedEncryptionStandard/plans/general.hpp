@@ -6,30 +6,47 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AES/plans/general.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
   \brief On investigations into the Advanced Encryption Standard
 
 
   \todo Improve formulations: MG (as soon as possible)
   <ul>
-   <li> Clean-up minisat output (of course, no intermediate results). </li>
-   <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
-   <li> Explanations needed! Experiments need full specifications (to be
-   reproducible). </li>
-   <li> And discussions! What are the underlying problems to be investigated?
+   <li> Clean-up minisat output (of course, no intermediate results).
+   <ul>
+    <li> What is meant by intermediate results here? </li>
+   </ul>
    </li>
    <li> The general naming conventions must be followed:
     <ol>
-     <li> No camel-cases here (like "removeTopNVars", "AESHexToPA", "NewCL",
-     "mergeSameVarCNFs". </li>
+     <li> DONE No camel-cases here (like "removeTopNVars", "AESHexToPA", 
+     "NewCL", "mergeSameVarCNFs". </li>
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
+   </li>
+   <li> (DONE see for example "Generating experiments" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp)
+   Explanations needed! Experiments need full specifications (to be
+   reproducible). </li>
+   <li> DONE More care! (Of course, the doxygen-output needs to be inspected) 
+   </li>
+   <li> (DONE see "Experiments") And discussions! What are the underlying 
+   problems to be investigated?
    </li>
    <li> DONE No names consisting only of upper-case letters! See "Weak state of 
    the whole module" in
    Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
+  </ul>
+
+
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   for an AES implementation in Maxima. </li>
+   <li> See ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   for an AES translation into SAT. </li>
   </ul>
 
 
@@ -53,18 +70,18 @@ License, or any later version. */
     </ul>
    </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp for 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp for 
    experiments regarding breaking AES. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/SboxInvestigations.hpp
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
    for experiments regarding the Sbox, it's representations and possible 
    replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/FieldMulInvestigations.hpp 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
    for experiments regarding multiplication by constants in GF(2^8),
    their representations, and possible replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AES/plans/EncryptionDecryption.hpp 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the AES 
    SAT translation. </li>
    <li> Solvers to be used: 
@@ -128,6 +145,14 @@ License, or any later version. */
       <ol>
        <li> Could it be 0-based? Since the DNF-representation is hitting, it
        is 0-based. </li>
+       <li> MG: Is it not 1-based but not 0-based, as every clause has at least
+       one of the new variables in it and therefore applying a full falsifying
+       assignment, will not yield the empty clause. The empty clause will only 
+       occur after unit clause propagation. </li>
+       <li> MG: Isn't the only 0-based clause-set representation, precisely the 
+       prime implicates? </li>
+       <li> Is there a simple example of a clause-set which is 2-based but not
+       1-based? </li>
        <li> Most natural should be to use dualts_fcl in
        ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
       </ol>

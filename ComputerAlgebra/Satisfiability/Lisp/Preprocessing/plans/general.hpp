@@ -95,7 +95,7 @@ License, or any later version. */
    <li> Considering only the unsatisfiability case, this notion of a good
    representation F_i' w.r.t. reduction r has been called a "r-based
    representation" in  "Investigating conditions and their representations" in
-   Experimentation/Investigations/Cryptography/AES/plans/general.hpp. </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
    <li> The tautology case doesn't seem to fit into the standard SAT
    methods (forced assignments and autarkies), but seems to need a
    specific test, which however can be easily achieved by just checking
@@ -142,7 +142,7 @@ License, or any later version. */
    DNF representations G_i for the parts F_i, translate the G_i into CNFs
    F_i', obtaining the preprocessed F' (with parts F_i'). </li>
    <li> Compare "Investigating conditions and their representations" in
-   Experimentation/Investigations/Cryptography/AES/plans/general.hpp;
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp;
    there the (unique) DNFs are already given. </li>
    <li> A "good" DNF representation means here
     <ol>

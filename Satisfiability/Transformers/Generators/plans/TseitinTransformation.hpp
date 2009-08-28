@@ -19,7 +19,7 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/StraightLinePrograms.hpp.
    </li>
    <li> See "Investigating conditions and their representations" in
-   Experimentation/Investigations/Cryptography/AES/plans/general.hpp for an
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp for an
    interesting study. </li>
   </ul>
 
