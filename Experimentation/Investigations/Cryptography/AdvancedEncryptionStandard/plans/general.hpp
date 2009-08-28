@@ -66,18 +66,18 @@ License, or any later version. */
     </ul>
    </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp for 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp for 
    experiments regarding breaking AES. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
    for experiments regarding the Sbox, it's representations and possible 
    replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
    for experiments regarding multiplication by constants in GF(2^8),
    their representations, and possible replacements. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the AES 
    SAT translation. </li>
    <li> Solvers to be used: 
