@@ -57,13 +57,13 @@ License, or any later version. */
     how many key bits may be left unspecified before the SAT problem becomes 
     infeasible? </li>
     <li> See 
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R2-6.hpp
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R1-5.hpp
     for experiments investigating this question for reduced round variants of 
-    AES with less than 7 rounds. </li>
+    AES with less than 6 rounds. </li>
     <li> See 
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R7-10.hpp
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R6-10.hpp
     for experiments investigating this question for reduced round variants of 
-    AES with 7 rounds or more. </li>
+    AES with 6 rounds or more. </li>
   </ul>
 
   
@@ -82,6 +82,10 @@ License, or any later version. */
    <li> See also "Randomly choosing 'unknown' block bits" in 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp 
    for random choosing of "unknown" block bits. </li>
+   <li> However, for initial experiments, running experiments with a fixed
+   plaintext and key block (for instance all 0 values for each) is reasonable.
+   If patterns occur, then these can then investigated using a variety of
+   randomly chosen parameters. </li>
    <li> Provided below is some initial code for generating experiments, however
    this needs to be rewritten (based on structural changes being made to the 
    AES translation) and moved into scripts:
@@ -186,9 +190,7 @@ done
    <li> It should be that through unit clause propagation etc, the SAT solver
    should be very quick? </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/minisat2.hpp
-   for results using minisat2. </li>
-   <li> Add results for other solvers. </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp . </li>
   </ul>
 
 
@@ -198,9 +200,10 @@ done
    tested by "eval_ubcsat" (see 
    Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R) </li>
    <li> Presumably local search will not do well on AES instances compared to 
-   DPLL/CDCL solvers, as often local search solvers perform comparatively
+   DPLL/CDCL solvers, as often local search solvers perform
    poorly on industrial and crafted instances, which the AES translations
-   are likely similar to. </li>
+   are likely similar to, considering the large number of new variables 
+   involved. </li>
    <li> What sort of metrics to use to determine a good algorithm once the
    experiment has been run?
    <ul>
