@@ -45,10 +45,21 @@ License, or any later version. */
    output_greentao_stdname(append(create_list(2,i,1,4),[3,3]),47) resp.
    output_greentao_sb_stdname(append(create_list(2,i,1,4),[3,3]),47). </li>
    <li> n=46 trivially satisfiable by adaptnovelty+. </li>
-   <li> n=47 found unsatisfiable by minisat2 in 30 seconds XXX
+   <li> n=47 found easily unsatisfiable by minisat2:
     <ol>
-     <li> Without symmetry breaking </li>
-     <li> With symmetry breaking </li>
+     <li> Without symmetry breaking: 19 restarts, 335241 conflicts, 77s
+     (csltok). </li>
+     <li> With symmetry breaking: 20 restarts, 544888 conflict. As usual,
+     symmetry breaking impairs performance. </li>
+     <li> Without preprocessing and without symmetry breaking: 18 restarts,
+     259250 conflicts. So also minisat2 seems hurt by the preprocessing! </li>
+     <li> Without preprocessing and with symmetry breaking: 20 restarts,
+     645974 conflict. Again symmetry breaking impairs performance, and this
+     quite a bit, compared to without it (and also without preprocessing).
+     In absolute terms for this combination the performance is worst. </li>
+     <li> Since the node-count is lower, minisat2 seems to do here something
+     better than OKsolver_2002: dynamic heuristics? locality? full resolution
+     versus tree resolution? </li>
     </ol>
    </li>
    <li> OKsolver_2002:
@@ -266,18 +277,108 @@ Autarkies ~ nodes:
      around the median 8.5. </li>
      <li> With preprocessing and with symmetry breaking:
      \verbatim
-
+> OKsolver_2002-m2pp -M -D10 -F GreenTao_sb_6-2-2-2-2-3-3_47.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         16
+c initial_number_of_variables           225
+c initial_number_of_clauses             4730
+c initial_number_of_literal_occurrences 11353
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   4451
+c running_time(sec)                     216028.4
+c number_of_nodes                       215434556
+c number_of_single_nodes                431683
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1878685678
+c number_of_pure_literals               18025739
+c number_of_autarkies                   6866623
+c number_of_missed_single_nodes         3724945
+c max_tree_depth                        82
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 726406714
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_sb_6-2-2-2-2-3-3_47.cnf_m2pp_7718
+> plot_oksolver_mon_nodes(E,left=1,ldstep=5)
+ldstep= 5 step= 32 left= 1 right= 1024
+obs/count= 1.026052 nodes-range= 0 5536056 ave-nodes-range= 1.286 210385.3
+> summary_oksolver(E)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0      26    2169  215900  206800 5536000
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1.22    8.51    9.29   11.46   13.48   66.00
+Single nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    0.0     0.0     5.0   432.5   389.5  9657.0
+Autarkies:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     0.0      0.0     47.5   6880.0   6212.0 151500.0
+Time ~ nodes:
+[1] 0.9951324
+ (Intercept)      E$nodes
+-6.621237389  0.001033429
+Single nodes ~ nodes:
+[1] 0.6542652
+ (Intercept)      E$nodes
+80.026281984  0.001633056
+Autarkies ~ nodes:
+[1] 0.835877
+ (Intercept)      E$nodes
+434.35530177   0.02986121
+> hist_oksolver_mon_nodes(E)
+Median= 11.08281
+Mean= 17.71978
      \endverbatim
+     </li>
+     8.72 2red/nds, 225 / 8.72 ~ 25.8, 997 nds/sec.
+     The distribution has two peaks, one around 5, followed by a slow descend
+     until before 15, and then a sharp ascend to the second peak around 20, 
+     followed by a very steep descend. </li>
+     <li> This is an interesting disaster! Using preprocessing alone impairs
+     performance somewhat, using symmetry breaking alone improves performance
+     quite a bit, while both together has a disastrous effect (compared with
+     the best case the node-count is multiplied by 100, the running time by
+     200)! </li>
+     <li> Using the subdivision of the nodes-plots into 32 segments, there
+     are roughly two parts, both with roughly linear increase of the average 
+     node count: Until the end of segment 23 there is a continous basis of easy
+     problems with occasional much harder problems, but then the harder 
+     problems become much more frequent. </li>
+     <li> Due to the constant increase in the average node count, at any time
+     the prediction is far too good; the hardest monitoring node is the last
+     one. </li>
+     <li> The above data doesn't give much clue what happened (perhaps it is
+     important that the depth increased, but this itself is only an effect,
+     and doesn't explain much). </li>
+     <li> The easy problems have a lot 2-reductions, the hard ones much less.
      </li>
     </ol>
    </li>
-   <li> satz215 </li>
+   <li> satz215
+   <ol>
+    <li> Without preprocessing and without symmetry breaking:
+    aborted after 3 1/2 hours (csltok). </li>
+    <li> Without preprocessing and with symmetry breaking:
+    </li>
+   </ol>
+  </li>
    <li> march_pl </li>
   </ul>
 
 
   \todo greentao_7(2,...,2,3,3) = 53
   <ul>
+   <li> Generated by 
+   output_greentao_stdname(append(create_list(2,i,1,5),[3,3]),n)
+   and output_greentao_sb_stdname(append(create_list(2,i,1,5),[3,3]),n).
+   </li>
    <li> n=52 trivially satisfiable by adaptnovelty+. </li>
    <li> n=53 poses some difficulties for minisat2 (learning
    very long clauses), but in ~ 70m and 11222376 conflicts (27 restarts)
@@ -287,22 +388,96 @@ Autarkies ~ nodes:
    for minisat2, 15589496 conflicts and 28 restarts. It is understandable
    that minisat2 is hard to steer, and thus can't exploit the additional
    symmetry breaking rule, but again it gets a bit harder? </li>
+   <li> Without preprocessing: </li>
    <li> OKsolver_2002 can solve it in 3.8 days (without preprocessing and
    with symmetry breaking):
    \verbatim
 s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=7 initial_number_of_variables=371 initial_number_of_clauses=8415 initial_number_of_literal_occurrences=17453 running_time(s)=331416.7 number_of_nodes=176784736 number_of_single_nodes=1480233 number_of_quasi_single_nodes=0 number_of_2-reductions=2961445595 number_of_pure_literals=0 number_of_autarkies=1108523 number_of_missed_single_nodes=3399131 max_tree_depth=63 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=15885525871 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=8004 file_name=GreenTao_sb_7-2-2-2-2-2-3-3_53.cnf
    \endverbatim
+   16.75 2red/nds, 371 / 16.75 ~ 22.1, 533 nds/sec (csltok).
    Interesting to understand the autarkies and the single nodes. </li>
+   <li> The number of nodes is definitely worse than with minisat2, so
+   something is achieved here by minisat2 (or badly done by OKsolver_2002).
+   </li>
    <li> With preprocessing and without symmetry breaking:
    \verbatim
+> OKsolver_2002-m2pp -M -D15 -F GreenTao_7-2-2-2-2-2-3-3_53.cnf
+GreenTao_7-2-2-2-2-2-3-3_53.cnf_m2pp_15229,   15,      32768
 
+ 16255:4017096  14922.59  4.89E+08  4529.56s    17.95s     0y   3d 10h 21m 18s  1470 116746  153
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         29
+c initial_number_of_variables           310
+c initial_number_of_clauses             7764
+c initial_number_of_literal_occurrences 18809
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   7400
+c running_time(sec)                     293581.0
+c number_of_nodes                       243777417
+c number_of_single_nodes                78417
+c number_of_quasi_single_nodes          840
+c number_of_2-reductions                2133168434
+c number_of_pure_literals               14320249
+c number_of_autarkies                   5574285
+c number_of_missed_single_nodes         14682434
+c max_tree_depth                        153
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 464218661
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_7-2-2-2-2-2-3-3_53.cnf_m2pp_15229
+
+> E = read_oksolver_mon("GreenTao_7-2-2-2-2-2-3-3_53.cnf_m2pp_15229.mo")
+14724
+> plot_oksolver_mon_nodes(E)
+ldstep= 11 step= 2048 left= 128 right= 16255
+obs/count= 1.104355 nodes-range= 1 4626650 ave-nodes-range= 699.985 14922.59
+> summary_oksolver(E)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      1      13     102   16470    1265 4627000
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.100   5.750   8.860   8.824  11.200  90.000
+Single nodes:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.000    0.000    0.000    5.312    0.000 2609.000
+Autarkies:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     0.0      0.0      0.0    375.3     11.0 124100.0
+Time ~ nodes:
+[1] 0.9886211
+(Intercept)     E$nodes
+1.092014523 0.001136873
+Single nodes ~ nodes:
+[1] 0.7498523
+  (Intercept)       E$nodes
+-0.1662990797  0.0003325131
+Autarkies ~ nodes:
+[1] 0.8931323
+ (Intercept)      E$nodes
+-21.11046739   0.02406468
+> hist_oksolver_mon_nodes(E)
+Median= 6.672425
+Mean= 14.00792
    \endverbatim
+   8.75 2red/nds, 310 / 8.75 ~ 35.4, 830 nds/sec (csltok).
    </li>
+   <li> As above, preprocessing impairs performance quite a bit; especially
+   interesting seems (again) the large tree-depth. The average node-count
+   slowly but constantly goes up; the histogram shows perhaps two peaks,
+   one at around 2, the other around 5, but we have a heavy tail. </li>
    <li> Remark: Having a look into the monitoring output, especially the
    autarky-counts looks strangely structured (some kind of periodic
    behaviour), for example many kind of (exact) doublings and repetitions,
    or arithmetic progressions --- and this somehow periodic. </li>
+   <li> Without preprocessing and with symmetry breaking: </li>
   </ul>
 
 
