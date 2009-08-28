@@ -291,9 +291,9 @@ cselara.swan.ac.uk Ramsey_2_3_10
    \endverbatim
    </li>
    <li> Additionally, as results will be pooled across many machines, and these
-   machines may be shut down or encounter hardware faults, the existence of such
-   a "global_experiments" file for monitoring, also allows automated backup 
-   using the following script (assumed to be in the same folder as 
+   machines may be shut down or encounter hardware faults, the existence of
+   such a "global_experiments" file for monitoring, also allows automated
+   backup using the following script (assumed to be in the same folder as 
    "global_experiments"):
    \verbatim
 cat global_experiments | while read exp; do

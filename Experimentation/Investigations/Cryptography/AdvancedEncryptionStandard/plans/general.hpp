@@ -10,13 +10,9 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Improve formulations: MG (as soon as possible)
+  \todo Improve formulations: MG (as soon as possible!)
   <ul>
-   <li> Clean-up minisat output (of course, no intermediate results).
-   <ul>
-    <li> What is meant by intermediate results here? </li>
-   </ul>
-   </li>
+   <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> The general naming conventions must be followed:
     <ol>
      <li> DONE No camel-cases here (like "removeTopNVars", "AESHexToPA", 
@@ -33,8 +29,8 @@ License, or any later version. */
    <li> (DONE see "Experiments") And discussions! What are the underlying 
    problems to be investigated?
    </li>
-   <li> DONE No names consisting only of upper-case letters! See "Weak state of 
-   the whole module" in
+   <li> DONE No names consisting only of upper-case letters! See
+   "Weak state of the whole module" in
    Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>

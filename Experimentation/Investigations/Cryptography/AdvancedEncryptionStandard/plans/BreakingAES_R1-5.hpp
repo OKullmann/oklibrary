@@ -438,13 +438,13 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
     seconds. </li>
     <li> The experiments should be paused, and restarted with an updated
     "run_experiments.sh" including use of the "time" command to give accurate
-    readings, especially for solvers such as march with broken timers (the timer
-    overflows). </li>
+    readings, especially for solvers such as march with broken timers (the 
+    timer overflows). </li>
    </ul>
    </li>
    <li> OKsolver* and march_pl seem to considerably slow the experiment in this
-   case and so it may be reasonable to remove them for larger numbers of unknown
-   key bits? </li>
+   case and so it may be reasonable to remove them for larger numbers of
+   unknown key bits? </li>
    <li> Monitoring scripts in the R system should be written to read the output
    of each solver, so such data can be easily amalgamated and then properly
    analysed. </li>
