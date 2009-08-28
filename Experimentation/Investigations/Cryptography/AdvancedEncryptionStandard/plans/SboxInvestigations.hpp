@@ -21,8 +21,8 @@ License, or any later version. */
    clauses for a given variable) of the prime implicates of the clause-set, 
    formed after taking the Sbox and applying each partial assignment, is 
    necessary to try and discern a pattern. </li>
-   <li> If such patterns can be deduced for particular clause-set measures, then
-   the active clause can use this pattern, given a partial assignment, 
+   <li> If such patterns can be deduced for particular clause-set measures,
+   then the active clause can use this pattern, given a partial assignment, 
    to return reasonable values for these measures which can be used for 
    statistics. </li>
    <li> A C++ implementation of such a system whereby the set of prime 
@@ -174,8 +174,8 @@ SATISFIABLE
    <li> A better Sbox CNF representation seems to be needed. </li>
    <li> However, the primary goal is for problems where the key is not known,
    not simple encryption and decryption, so further insight into where the
-   Sbox is used and exactly what bits are commonly set and that we wish to allow
-   easier deductions with. </li>
+   Sbox is used and exactly what bits are commonly set and that we wish to
+   allow easier deductions with. </li>
   </ul>
 
 */
