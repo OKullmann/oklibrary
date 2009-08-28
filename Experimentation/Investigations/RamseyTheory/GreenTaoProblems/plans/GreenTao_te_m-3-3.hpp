@@ -45,10 +45,21 @@ License, or any later version. */
    output_greentao_stdname(append(create_list(2,i,1,4),[3,3]),47) resp.
    output_greentao_sb_stdname(append(create_list(2,i,1,4),[3,3]),47). </li>
    <li> n=46 trivially satisfiable by adaptnovelty+. </li>
-   <li> n=47 found unsatisfiable by minisat2 in 30 seconds XXX
+   <li> n=47 found easily unsatisfiable by minisat2:
     <ol>
-     <li> Without symmetry breaking </li>
-     <li> With symmetry breaking </li>
+     <li> Without symmetry breaking: 19 restarts, 335241 conflicts, 77s
+     (csltok). </li>
+     <li> With symmetry breaking: 20 restarts, 544888 conflict. As usual,
+     symmetry breaking impairs performance. </li>
+     <li> Without preprocessing and without symmetry breaking: 18 restarts,
+     259250 conflicts. So also minisat2 seems hurt by the preprocessing! </li>
+     <li> Without preprocessing and with symmetry breaking: 20 restarts,
+     645974 conflict. Again symmetry breaking impairs performance, and this
+     quite a bit, compared to without it (and also without preprocessing).
+     In absolute terms for this combination the performance is worst. </li>
+     <li> Since the node-count is lower, minisat2 seems to do here something
+     better than OKsolver_2002: dynamic heuristics? locality? full resolution
+     versus tree resolution? </li>
     </ol>
    </li>
    <li> OKsolver_2002:
@@ -377,6 +388,7 @@ Mean= 17.71978
    for minisat2, 15589496 conflicts and 28 restarts. It is understandable
    that minisat2 is hard to steer, and thus can't exploit the additional
    symmetry breaking rule, but again it gets a bit harder? </li>
+   <li> Without preprocessing: </li>
    <li> OKsolver_2002 can solve it in 3.8 days (without preprocessing and
    with symmetry breaking):
    \verbatim
@@ -385,6 +397,9 @@ c sat_status=0 initial_maximal_clause_length=7 initial_number_of_variables=371 i
    \endverbatim
    16.75 2red/nds, 371 / 16.75 ~ 22.1, 533 nds/sec (csltok).
    Interesting to understand the autarkies and the single nodes. </li>
+   <li> The number of nodes is definitely worse than with minisat2, so
+   something is achieved here by minisat2 (or badly done by OKsolver_2002).
+   </li>
    <li> With preprocessing and without symmetry breaking:
    \verbatim
 > OKsolver_2002-m2pp -M -D15 -F GreenTao_7-2-2-2-2-2-3-3_53.cnf
