@@ -12,18 +12,26 @@ License, or any later version. */
 
   \todo Improve formulations: MG (as soon as possible)
   <ul>
-   <li> Clean-up minisat output (of course, no intermediate results). </li>
-   <li> More care! (Of course, the doxygen-output needs to be inspected) </li>
-   <li> Explanations needed! Experiments need full specifications (to be
-   reproducible). </li>
-   <li> And discussions! What are the underlying problems to be investigated?
+   <li> Clean-up minisat output (of course, no intermediate results).
+   <ul>
+    <li> What is meant by intermediate results here? </li>
+   </ul>
    </li>
    <li> The general naming conventions must be followed:
     <ol>
-     <li> No camel-cases here (like "removeTopNVars", "AESHexToPA", "NewCL",
-     "mergeSameVarCNFs". </li>
+     <li> DONE No camel-cases here (like "removeTopNVars", "AESHexToPA", 
+     "NewCL", "mergeSameVarCNFs". </li>
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
+   </li>
+   <li> (DONE see for example "Generating experiments" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp)
+   Explanations needed! Experiments need full specifications (to be
+   reproducible). </li>
+   <li> DONE More care! (Of course, the doxygen-output needs to be inspected) 
+   </li>
+   <li> (DONE see "Experiments") And discussions! What are the underlying 
+   problems to be investigated?
    </li>
    <li> DONE No names consisting only of upper-case letters! See "Weak state of 
    the whole module" in

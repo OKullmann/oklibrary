@@ -25,7 +25,7 @@ License, or any later version. */
    is then restricted, and the SAT problem is then to derive this key. </li>
    <li> See "Generating experiments" in 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
-   for details on generating an experiment set for this experiment.
+   for details on generating an experiment set for this experiment ($N=1).
    </li>
    <li> minisat2 seems to perform reasonably well on such problems:
     <ul>
