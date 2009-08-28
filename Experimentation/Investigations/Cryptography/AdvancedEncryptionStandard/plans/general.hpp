@@ -41,6 +41,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   for an AES implementation in Maxima. </li>
+   <li> See ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   for an AES translation into SAT. </li>
+  </ul>
+
+
   \todo Experiments
   <ul>
    <li> The following are the main areas requiring experiments:
