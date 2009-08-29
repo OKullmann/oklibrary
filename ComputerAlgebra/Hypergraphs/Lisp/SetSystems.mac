@@ -95,7 +95,7 @@ add_element_l(x,B) := map(lambda([S],adjoin(x,S)),B)$
    *****************************************
 */
 
-/* The intersection of a list of sets (or of a set of sets): */
+/* The intersection of a non-empty list of sets (or of a set of sets): */
 lintersection(L) := tree_reduce(intersection,L)$
 
 

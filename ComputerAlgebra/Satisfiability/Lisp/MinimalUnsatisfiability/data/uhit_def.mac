@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,8 +9,8 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
   \brief Classification of unsatisfiable hitting clause-sets in dependency on the deficiency, only considering clause-sets which are reduced w.r.t. singular DP-reduction
 
-  Only small datasets here; others are excluded from for example "uhit_def_4.mac"
-  for deficiency 4.
+  Only small datasets here; others are excluded from for example
+  "uhit_def_4.mac" for deficiency 4.
 
 Use by
 
@@ -41,7 +41,7 @@ kill(uhit_def)$
 /* The list of available deficiencies. */
 uhit_def[0,"info"] : append(makelist(k,k,1,27),[43,58])$
 
-/* For a given deficiency k, the info-field uhit_def[k,"info] contains:
+/* For a given deficiency k, the info-field uhit_def[k,"info"] contains:
  - true if the classification is complete, and false/unknown otherwise
  - the smallest possible n resp. a lower bound
  - the largest possible n resp. an upper bound

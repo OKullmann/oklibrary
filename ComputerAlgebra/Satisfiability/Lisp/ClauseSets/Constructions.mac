@@ -158,7 +158,7 @@ vardisjoint_full_gluing(FF1,FF2) := block(
   return([if FF1[2] = {} and FF2[2] = {} then {} else setn(n+1), 
           union(add_element(n+1,GG1[2]), add_element(-(n+1),GG2[2]))]))$
 
-/* Full gluing, standardising the variables: */
+/* Full gluing, keeping the old variables, but standardising them: */
 full_gluing(FF1,FF2) := block(
  [V : listify(union(FF1[1],FF2[1])), n, h, F1, F2],
   n : length(V),
