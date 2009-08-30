@@ -110,6 +110,11 @@ okltest_mean_variable_frequency_cs(mean_variable_frequency_cs);
 
 okltest_variable_degrees_list_cs(variable_degrees_list_cs);
 
+okltest_full_variables_cs(full_variables_cs);
+okltest_full_variables_fcs(full_variables_fcs);
+okltest_full_var_csp(full_var_csp);
+okltest_full_var_fcsp(full_var_fcsp);
+
 /* *******************************
    * Weighted numbers of clauses *
    *******************************

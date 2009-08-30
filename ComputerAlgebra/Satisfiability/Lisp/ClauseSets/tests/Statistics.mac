@@ -380,6 +380,33 @@ okltest_variable_degrees_list_cs(f) := block(
     assert(f(full_fcs(n)[2]) = if n=0 then [] else [[2^n,n]]),
   true)$
 
+okltest_full_variables_cs(f) := (
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {1}),
+  assert(f({{1},{-1}}) = {1}),
+  assert(f({{1},{2}}) = {}),
+  true)$
+
+okltest_full_variables_fcs(f) := block([X],
+  assert(f([{},{}]) = {}),
+  assert(f([X,{}]) = X),
+  assert(okltest_full_variables_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  true)$
+
+okltest_full_var_csp(f) := (
+  assert(f({}) = false),
+  assert(f({{}}) = false),
+  assert(f({{1}}) = true),
+  assert(f({{1},{-1}}) = true),
+  assert(f({{1},{2}}) = false),
+  true)$
+
+okltest_full_var_fcsp(f) := (
+  assert(f([{},{}]) = false),
+  assert(f([{1},{}]) = true),
+  assert(okltest_full_var_csp(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
+  true)$
+
 
 /* *******************************
    * Weighted numbers of clauses *

@@ -248,6 +248,16 @@ variable_degrees_list_cs(F) := block(
     enter_new_occurrence(h,p[2]),
   get_distribution(h))$
 
+/* The set of full variables of a non-empty clause-set: */
+full_variables_cs(F) := lintersection(map(var_c,F))$
+/* The set of full variables of a formal clause-set: */
+full_variables_fcs(FF) := if emptyp(FF[2]) then FF[1] else
+ full_variables_cs(FF[2])$
+/* Predicate for deciding whether a clause-set contains a full variable: */
+full_var_csp(F) := if emptyp(F) then false else 
+  not emptyp(full_variables_cs(F))$
+full_var_fcsp(FF) := not emptyp(full_variables_fcs(FF))$
+
 
 /* *******************************
    * Weighted numbers of clauses *
