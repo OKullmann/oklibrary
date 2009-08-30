@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.6.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,6 +17,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/In
 
 /*!
 \htmlonly
+*/
+
+/* ********************************
+   * Performing single extensions *
+   ********************************
 */
 
 /* Compute a new variable for a clause-set; likely best suited
@@ -43,7 +48,10 @@ random_sublist(S,p) :=
    while q regulates how many of the choice-literals are included 
    into the (-v)-clauses.
    <ul>
-    <li> p=1, q=1 is the case that all clauses as large as possible). </li>
+    <li> p=1, q=1 is the case that all clauses are as large as possible.
+    These are the "hitting extensions", provided that FF is hitting,
+    and that that the intersection of the clauses in G clashes with all
+    the clauses in FF minus G. </li>
     <li> q=0,p=0 is the case of just introducing new unit-clauses (with
     new variables), while q=0 in general are the marginal extension
     (all clauses minimal). </li>
@@ -65,6 +73,12 @@ basic_inverse_singulardp_fcs(FF,G,p,q) := block(
   for D in G do block([E : setdifference(D,C0)],
     FF[2] : adjoin(adjoin(-v,union(E,setify(random_sublist(C0,q)))),FF[2])),
   return(true))$
+
+
+/* ********************************
+   * Performing random extensions *
+   ********************************
+*/
 
 /* Find a random subset of a set-system, of size exactly s and 
    with intersection size at least i; return false in case it 
