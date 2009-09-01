@@ -12,13 +12,20 @@ License, or any later version. */
 
   \todo Improve formulations: MG (as soon as possible!)
   <ul>
-   <li> Clean-up minisat output (of course, no intermediate results). </li>
    <li> The general naming conventions must be followed:
     <ol>
      <li> DONE No camel-cases here (like "removeTopNVars", "AESHexToPA", 
      "NewCL", "mergeSameVarCNFs". </li>
      <li> Grammatical case indicates verb or noun! </li>
     </ol>
+   </li>
+   <li> DONE Clean-up minisat output (of course, no intermediate results).
+   <ul>
+    <li> What is meant by intermediate results here? </li>
+    <li> Solver output should be concise, and individual restarts of solvers
+    such as minisat should not be included in plans/docus unless there is 
+    specifically something interesting to present. </li>
+   </ul>
    </li>
    <li> (DONE see for example "Generating experiments" in 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp)
