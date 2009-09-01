@@ -104,7 +104,7 @@ for bits_to_remove : 0 thru 128 do block([PA],
   PA : map(set,
     union(
       aes_hex2pa("00000000000000000000000000000000", create_list(i,i,1,128)),
-      aes_hex2pa("123456789ABCDEF0123456789ABCDEF0", create_list(i,i,129,256)), 
+      aes_hex2pa("123456789ABCDEF0123456789ABCDEF0", create_list(i,i,129,256)),
       aes_hex2pa(
         aes_encrypt_hex(
           "00000000000000000000000000000000", 

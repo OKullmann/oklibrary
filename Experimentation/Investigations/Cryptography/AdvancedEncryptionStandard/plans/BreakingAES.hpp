@@ -44,7 +44,7 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> For such experiments, when considering experiments where some key bits 
+   <li> For such experiments, when considering experiments where some key bits
    are specified, there is the question of which key bits to specify. To avoid
    situations where knowing some key bits might be more advantageous than 
    others (and so the experimental results not being representative of the 
@@ -103,7 +103,7 @@ License, or any later version. */
      </li>
      <li> "merge_cnf.sh" - A shell script which takes 2 Dimacs filenames as 
      input and outputs to STDOUT a new Dimacs file which has all the clauses 
-     from both input files, and an updated p-line to account for the sum of the 
+     from both input files, and an updated p-line to account for the sum of the
      two files. Note: It is assumed the variable set of the first Dimacs file 
      encompasses the second. </li>
     </ul>
@@ -140,7 +140,7 @@ for bits_to_remove : 0 thru 128 do block([PA],
   PA : map(set,
     union(
       aes_hex2pa("00000000000000000000000000000000", create_list(i,i,1,128)),
-      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,129,256)), 
+      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,129,256)),
       aes_hex2pa(il2hex(
         aes_encrypt_l(
           create_list(0,i,1,16), create_list(0,i,1,16))), 

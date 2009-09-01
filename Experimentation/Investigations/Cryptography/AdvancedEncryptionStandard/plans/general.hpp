@@ -62,13 +62,13 @@ License, or any later version. */
      the Sbox. </li>
      <li> Investigations into replacing the Sbox with random permutations.
      </li>
-     <li> Investigations into replacing the multiplication with constant field 
+     <li> Investigations into replacing the multiplication with constant field
      elements with random permutations. </li>
      <li> Investigations into encryption and decryption using different AES 
      representation. </li>
      <li> Investigations into small-scale variations of the AES (see 
      "Generalisations" in 
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp). 
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp).
      </li>
     </ul>
    </li>
@@ -150,9 +150,9 @@ License, or any later version. */
        is 0-based. </li>
        <li> MG: Is it not 1-based but not 0-based, as every clause has at least
        one of the new variables in it and therefore applying a full falsifying
-       assignment, will not yield the empty clause. The empty clause will only 
+       assignment, will not yield the empty clause. The empty clause will only
        occur after unit clause propagation. </li>
-       <li> MG: Isn't the only 0-based clause-set representation, precisely the 
+       <li> MG: Isn't the only 0-based clause-set representation, precisely the
        prime implicates? </li>
        <li> Is there a simple example of a clause-set which is 2-based but not
        1-based? </li>
@@ -170,8 +170,8 @@ License, or any later version. */
 
   \todo Cryptographic properties of AES
   <ul>
-   <li> Given a correct translation of the AES into a SAT problem, represented 
-   by the predicate "AES(P,K,C)" where P, K, and C are lists of 128 variables, 
+   <li> Given a correct translation of the AES into a SAT problem, represented
+   by the predicate "AES(P,K,C)" where P, K, and C are lists of 128 variables,
    several questions regarding certain cryptographic properties of the AES can
    be formulated as SAT problems. </li>
    <li> Does AES have two distinct keys which map the same plaintext blocks 
@@ -261,7 +261,7 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> DONE For the trivial instances (message and key set) more solvers need 
+   <li> DONE For the trivial instances (message and key set) more solvers need
    to be considered. In its own file. </li>
    <li> DONE Also ciphertext and key set are to be investigated. </li>
    <li> (MOVED to Experiments) 
