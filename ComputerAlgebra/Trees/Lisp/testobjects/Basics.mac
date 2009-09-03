@@ -56,9 +56,9 @@ okltest_nlvs_lrt(nlvs_lrt);
 okltest_ninds_rt(ninds_rt);
 okltest_ninds_lrt(ninds_lrt);
 
-okltest_height(height);
+okltest_height_rt(height_rt);
 
-okltest_levelled_height(levelled_height);
+okltest_levelled_height_rt(levelled_height_rt);
 
 
 
