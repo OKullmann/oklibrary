@@ -59,6 +59,19 @@ okltest_nlvs_l(nlvs_l);
 
 okltest_graph2tree(graph2tree);
 
+/* **************
+   * Generators *
+   **************
+*/
+
+okltest_complete_rt(complete_rt);
+
+okltest_random_ltree(random_ltree);
+
+okltest_all2_rt(all2_rt);
+okltest_all2i_rt(all2i_rt);
+okltest_all2l_rt(all2l_rt);
+
 /*!
 \endhtmlonly
 */

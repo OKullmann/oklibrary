@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,13 +18,17 @@ License, or any later version. */
      <li> rooted trees; </li>
      <li> rooted ordered trees (here "ordered" refers to the order of
      children), especially if all inner nodes have at most resp. exactly 2
-     children (and the same for rooted trees); </li>
+     children; see all2_rt in ComputerAlgebra/Trees/Lisp/Basics.mac for the 
+     enumeration of the Maxima list-representations for the binary case. </li>
      <li> oriented trees. </li>
     </ol>
    </li>
    <li> This for "labelled structures" (i.e., all such structures with
    standardised vertex sets) or "unlabelled structures" (i.e., all
    isomorphism types). </li>
+   <li> See ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp
+   for the proper handling of the enumerative aspects; likely in this module
+   perhaps only the basic generators are to be found.
   </ul>
 
 

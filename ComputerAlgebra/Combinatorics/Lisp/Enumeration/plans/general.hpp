@@ -121,8 +121,9 @@ License, or any later version. */
      <li> Set partitions </li>
      <li> Integer partitions </li>
      <li> Product spaces </li>
-     <li> Trees (not as data structures; and in %Graphs we do not handle
-     the enumerative aspects) </li>
+     <li> Trees (not as data structures; in
+     ComputerAlgebra/Graphs/Lisp/Trees/plans/Generators.hpp we do not
+     handle the proper enumerative aspects) </li>
      <li> Tableaux </li>
     </ol>
    </li>
