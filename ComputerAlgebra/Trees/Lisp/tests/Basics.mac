@@ -88,6 +88,16 @@ okltest_l2ult(f) := block([x],
   assert(f([x,[x,[1],[2]],[x,[x],[x,[x]]]]) = [[[],[]], [[],[[]]]]),
   true)$
 
+okltest_rt2lrt_il(f) := block([x,y],
+  assert(f([],[],x) = [x]),
+  assert(f([],[1],x) = [x]),
+  assert(f([[],[]], [x], y) = [x, [y], [y]]),
+  assert(f([[],[]], [x,1], y) = [x, [y], [y]]),
+  assert(f([[[]]], [1,2], x) = [1, [2, [x]]]),
+  assert(f([[[]]], [1,2,y], x) = [1, [2, [x]]]),
+  assert(f([[[]],[[]]], [1,2,3], x) = [1, [2,[x]], [3,[x]]]),
+  true)$
+
 
 /* ************
    * Measures *

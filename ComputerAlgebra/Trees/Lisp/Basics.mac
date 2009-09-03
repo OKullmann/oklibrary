@@ -86,6 +86,19 @@ dst(T,p) := block([S : subtree(T,p)],
 l2ult(T) := map(l2ult,rest(T))$
 lrt2rt() := l2ult(T)$
 
+/* Adding labels from list L to unlabelled tree T at inner nodes in in-order,
+   while leaves are labelled by l.
+   Prerequisite: the length of L is at least the number of inner nodes of T.
+*/
+rt2lrt_il(T,L,l) := if emptyp(T) then [l] else
+  block([res : [first(L)]],
+    L : rest(L),
+    for S in T do block([n : ninds_rt(S)],
+      res : cons(rt2lrt_il(S, take_l(n,L), l), res),
+      L : rest(L,n)
+    ),
+    reverse(res))$
+
 
 /* ************
    * Measures *
