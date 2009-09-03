@@ -29,7 +29,7 @@ kill(f)$
    ****************************
 */
 
-okltest_rt_p(f) := ([x],
+okltest_rt_p(f) := block([x],
   assert(f([]) = true),
   assert(f(0) = false),
   assert(f({}) = false),
@@ -81,12 +81,13 @@ okltest_dst(f) := (
    ****************************
 */
 
-okltest_l2ult(f) := ([x],
+okltest_l2ult(f) := block([x],
   assert(f([0]) = []),
   assert(f([x]) = []),
   assert(f([x,[1],[2]]) = [[],[]]),
   assert(f([x,[x,[1],[2]],[x,[x],[x,[x]]]]) = [[[],[]], [[],[[]]]]),
   true)$
+
 
 /* ************
    * Measures *
@@ -102,7 +103,7 @@ okltest_nnds_rt(f) := (
   assert(f([[[]],[[[]]],[],[[],[[]]]]) = 11),
   true)$
 
-okltest_nnds_lrt(f) := ([x],
+okltest_nnds_lrt(f) := block([x],
   assert(f([x]) = 1),
   assert(f([x,[x],[x],[x]]) = 4),
   assert(f([x,[x,[x,[x]]]]) = 4),
@@ -119,7 +120,7 @@ okltest_nlvs_rt(f) := (
   assert(f([[[]],[[[]]],[],[[],[[]]]]) = 5),
   true)$
 
-okltest_nlvs_lrt(f) := ([x],
+okltest_nlvs_lrt(f) := block([x],
   assert(f([x]) = 1),
   assert(f([x,[x],[x],[x]]) = 3),
   assert(f([x,[x,[x,[x]]]]) = 1),
@@ -135,7 +136,7 @@ okltest_ninds_rt(f) := (
   assert(f([[[]],[[[]]],[],[[],[[]]]]) = 6),
   true)$
 
-okltest_ninds_lrt(f) := ([x],
+okltest_ninds_lrt(f) := block([x],
   assert(f([x]) = 0),
   assert(f([x,[x],[x],[x]]) = 1),
   assert(f([x,[x,[x,[x]]]]) = 3),
