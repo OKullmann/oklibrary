@@ -31,8 +31,10 @@ License, or any later version. */
 
   \todo Concepts and abbreviations
   <ul>
-   <li> An "unlabelled rooted tree" perhaps abbreviated by "rt". </li>
-   <li> And a "labelled rooted tree" perhaps abbreviated by "lrt". </li>
+   <li> DONE
+   An "unlabelled rooted tree" perhaps abbreviated by "rt". </li>
+   <li> DONE
+   And a "labelled rooted tree" perhaps abbreviated by "lrt". </li>
    <li> The functions need to be renamed. </li>
   </ul>
 
