@@ -41,25 +41,6 @@ okltest_rt_p(f) := ([x],
   assert(f([[],[[]],[[],[]],[1,[]]]) = false),
   true)$
 
-okltest_nnds(f) := (
-  assert(f([]) = 1),
-  assert(f([[]]) = 2),
-  assert(f([[[]]]) = 3),
-  assert(f([[],[]]) = 3),
-  assert(f([[],[],[]]) = 4),
-  assert(f([[[]],[[[]]],[],[[],[[]]]]) = 11),
-  true)$
-
-okltest_nlvs(f) := (
-  assert(f([]) = 1),
-  assert(f([[]]) = 1),
-  assert(f([[[]]]) = 1),
-  assert(f([[],[]]) = 2),
-  assert(f([[],[],[]]) = 3),
-  assert(f([[],[[[]]],[]]) = 3),
-  assert(f([[[]],[[[]]],[],[[],[[]]]]) = 5),
-  true)$
-
 okltest_lvs(f) := (
   assert(f([]) = {[]}),
   assert(f([[]]) = {[1]}),
@@ -94,28 +75,6 @@ okltest_dst(f) := (
   assert(dst([[[]],[[],[]],[]],[2]) = {[2,1],[2,2]}),
   true)$
 
-okltest_height(f) := (
-  assert(f([]) = 0),
-  assert(f([[]]) = 1),
-  assert(f([[[]]]) = 2),
-  assert(f([[[]],[[[]]]]) = 3),
-  assert(f([[],[],[],[]]) = 1),
-  true)$
-
-okltest_levelled_height(f) := (
-  assert(f([]) = 0),
-  assert(f([[]]) = 0),
-  assert(f([[[]]]) = 0),
-  assert(f([[],[]]) = 1),
-  assert(f([[[[[]]]],[]]) = 1),
-  assert(f([[],[[],[]]]) = 1),
-  assert(f([[],[[],[[],[]]]]) = 1),
-  assert(f([[[],[]],[[],[]]]) = 2),
-  for d : 0 thru 3 do
-    for q : 2 thru 3 do
-      assert(f(complete_rt(d,q)) = d),
-  true)$
-
 
 /* ****************************
    * Labelled rooted trees    *
@@ -129,18 +88,80 @@ okltest_l2ult(f) := ([x],
   assert(f([x,[x,[1],[2]],[x,[x],[x,[x]]]]) = [[[],[]], [[],[[]]]]),
   true)$
 
-okltest_nnds_l(f) := ([x],
+/* ************
+   * Measures *
+   ************
+*/
+
+okltest_nnds_rt(f) := (
+  assert(f([]) = 1),
+  assert(f([[]]) = 2),
+  assert(f([[[]]]) = 3),
+  assert(f([[],[]]) = 3),
+  assert(f([[],[],[]]) = 4),
+  assert(f([[[]],[[[]]],[],[[],[[]]]]) = 11),
+  true)$
+
+okltest_nnds_lrt(f) := ([x],
   assert(f([x]) = 1),
   assert(f([x,[x],[x],[x]]) = 4),
   assert(f([x,[x,[x,[x]]]]) = 4),
   assert(f([x, [x,[x]], [x, [x], [x,[x]]]]) = 7),
   true)$
 
-okltest_nlvs_l(f) := ([x],
+okltest_nlvs_rt(f) := (
+  assert(f([]) = 1),
+  assert(f([[]]) = 1),
+  assert(f([[[]]]) = 1),
+  assert(f([[],[]]) = 2),
+  assert(f([[],[],[]]) = 3),
+  assert(f([[],[[[]]],[]]) = 3),
+  assert(f([[[]],[[[]]],[],[[],[[]]]]) = 5),
+  true)$
+
+okltest_nlvs_lrt(f) := ([x],
   assert(f([x]) = 1),
   assert(f([x,[x],[x],[x]]) = 3),
   assert(f([x,[x,[x,[x]]]]) = 1),
   assert(f([x, [x,[x]], [x, [x], [x,[x]]]]) = 3),
+  true)$
+
+okltest_ninds_rt(f) := (
+  assert(f([]) = 0),
+  assert(f([[]]) = 1),
+  assert(f([[[]]]) = 2),
+  assert(f([[],[]]) = 1),
+  assert(f([[],[],[]]) = 1),
+  assert(f([[[]],[[[]]],[],[[],[[]]]]) = 6),
+  true)$
+
+okltest_ninds_lrt(f) := ([x],
+  assert(f([x]) = 0),
+  assert(f([x,[x],[x],[x]]) = 1),
+  assert(f([x,[x,[x,[x]]]]) = 3),
+  assert(f([x, [x,[x]], [x, [x], [x,[x]]]]) = 4),
+  true)$
+
+okltest_height_rt(f) := (
+  assert(f([]) = 0),
+  assert(f([[]]) = 1),
+  assert(f([[[]]]) = 2),
+  assert(f([[[]],[[[]]]]) = 3),
+  assert(f([[],[],[],[]]) = 1),
+  true)$
+
+okltest_levelled_height_rt(f) := (
+  assert(f([]) = 0),
+  assert(f([[]]) = 0),
+  assert(f([[[]]]) = 0),
+  assert(f([[],[]]) = 1),
+  assert(f([[[[[]]]],[]]) = 1),
+  assert(f([[],[[],[]]]) = 1),
+  assert(f([[],[[],[[],[]]]]) = 1),
+  assert(f([[[],[]],[[],[]]]) = 2),
+  for d : 0 thru 3 do
+    for q : 2 thru 3 do
+      assert(f(complete_rt(d,q)) = d),
   true)$
 
 

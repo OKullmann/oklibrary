@@ -28,19 +28,12 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/Basics.mac")$
 
 okltest_rt_p(rt_p);
 
-okltest_nnds(nnds);
-okltest_nlvs(nlvs);
-
 okltest_lvs(lvs);
 okltest_nds(nds);
 
 okltest_subtree(subtree);
 
 okltest_dst(dst);
-
-okltest_height(height);
-
-okltest_levelled_height(levelled_height);
 
 /* ****************************
    * Labelled rooted trees    *
@@ -49,8 +42,25 @@ okltest_levelled_height(levelled_height);
 
 okltest_l2ult(l2ult);
 
-okltest_nnds_l(nnds_l);
-okltest_nlvs_l(nlvs_l);
+/* ************
+   * Measures *
+   ************
+*/
+
+okltest_nnds_rt(nnds_rt);
+okltest_nnds_lrt(nnds_lrt);
+
+okltest_nlvs_rt(nlvs_rt);
+okltest_nlvs_lrt(nlvs_lrt);
+
+okltest_ninds_rt(ninds_rt);
+okltest_ninds_lrt(ninds_lrt);
+
+okltest_height(height);
+
+okltest_levelled_height(levelled_height);
+
+
 
 /* ****************
    * Transformers *

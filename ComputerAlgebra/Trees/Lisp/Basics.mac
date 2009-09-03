@@ -38,12 +38,6 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 rt_p(T) := listp(T) and every_s(rt_p,T)$
 
-/* The number of nodes in an unlabelled tree: */
-nnds(T) := 1+sum_l(map(nnds,T))$
-
-/* The number of leaves in an unlabelled rooted tree: */
-nlvs(T) := if T = [] then 1 else sum_l(map(nlvs,T))$
-
 /* A "node representation" for an unlabelled rooted tree is a list
    of natural numbers (>= 1) representing the path from the root
    to the node. */
@@ -77,26 +71,12 @@ dst(T,p) := block([S : subtree(T,p)],
   setify(create_list(endcons(i,p),i,1,length(S))))$
 
 
-/* The height of an unlabelled tree: */
-height(T) := if T = [] then 0 else
-  1 + lmax(map(height,T))$
-
-/* The "levelled height" of an unlabelled tree 
-   (also the "Horton-Strahler number"): */
-levelled_height(T) := if T = [] then 0 else block(
-  [H : map(levelled_height,T), max, count : 0],
-   max : lmax(H),
-   for h in H unless count=2 do
-     if h=max then count : count + 1,
-   if count <= 1 then return(max) else return(1+max))$
-
-
 /* ****************************
    * Labelled rooted trees    *
    ****************************
 */
 
-/* A "labelled rooted tree" is recursively defined as a list
+/* A "labelled rooted tree" ("lrt") is recursively defined as a list
    [L, T_1, ..., T_n], n >= 0, where L is the label, and the T_i
    are the subtrees.
 */
@@ -104,12 +84,55 @@ levelled_height(T) := if T = [] then 0 else block(
 /* Transforms a labelled into an unlabelled tree by removing the labels: */
 /* UPDATE: rename to lrt2rt. */
 l2ult(T) := map(l2ult,rest(T))$
+lrt2rt() := l2ult(T)$
 
+
+/* ************
+   * Measures *
+   ************
+*/
+
+/* The number of nodes in an unlabelled tree: */
+/* RENAME: nnds_rt */
+nnds(T) := 1+sum_l(map(nnds,T))$
+nnds_rt(T) := nnds(T)$
 /* Number of nodes in a labelled rooted tree: */
+/* RENAME: nnds_lrt */
 nnds_l(T) := 1+sum_l(map(nnds_l,rest(T)))$
+nnds_lrt(T) := nnds_l(T)$
 
+/* The number of leaves in an unlabelled rooted tree: */
+/* RENAME: nlvs_rt */
+nlvs(T) := if emptyp(T) then 1 else sum_l(map(nlvs,T))$
+nlvs_rt(T) := nlvs(T)$
 /* The number of leaves in a labelled rooted tree: */
+/* RENAME: nlvs_lrt */
 nlvs_l(T) := if length(T) = 1 then 1 else sum_l(map(nlvs_l,rest(T)))$
+nlvs_lrt(T) := nlvs_l(T)$
+
+/* The number of inner nodes in an unlabelled rooted tree: */
+ninds_rt(T) := if emptyp(T) then 0 else 1+sum_l(map(ninds_rt,T))$
+/* The number of inner nodes in a labelled rooted tree: */
+ninds_lrt(T) := if length(T) = 1 then 0 else 1+sum_l(map(ninds_lrt,rest(T)))$
+
+/* We have nnds(T) = nlvs(T) + ninds(T). */
+
+/* The height of an unlabelled tree: */
+/* RENAME: height_rt */
+height(T) := if T = [] then 0 else
+  1 + lmax(map(height,T))$
+height_rt(T) := height(T)$
+
+/* The "levelled height" of an unlabelled tree 
+   (also the "Horton-Strahler number"): */
+/* RENAME: levelled_height_rt */
+levelled_height(T) := if T = [] then 0 else block(
+  [H : map(levelled_height,T), max, count : 0],
+   max : lmax(H),
+   for h in H unless count=2 do
+     if h=max then count : count + 1,
+   if count <= 1 then return(max) else return(1+max))$
+levelled_height_rt(T) := levelled_height(T)$
 
 
 /* ****************
@@ -151,6 +174,7 @@ all2_rt(m) := if m=1 then [[]] else
 all2i_rt(i) := all2_rt(2*i+1)$
 /* And given the number of leaves (a natural number >= 1): */
 all2l_rt(l) := all2_rt(2*l-1)$
+
 
 /*!
 \endhtmlonly
