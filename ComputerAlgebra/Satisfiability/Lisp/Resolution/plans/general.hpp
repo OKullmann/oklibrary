@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,20 @@ License, or any later version. */
 
 
   \todo See ProofSystems/Resolution/plans/Search.hpp.
+
+
+  \todo Resolution trees
+  <ul>
+   <li> Function splitting2resolution_tree in
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
+   transforms splitting trees into resolution trees. </li>
+   <li> There is also a function for outputting resolution trees; this
+   function should move here. </li>
+   <li> We need to make this concept explicit. </li>
+   <li> A "resolution tree" ("rt"; for the boolean case) is a rooted binary
+   tree labelled with clauses such that each inner node-label is the resolvent
+   of the labels of the two children. </li>
+  </ul>
 
 
   \todo Resolution proofs
