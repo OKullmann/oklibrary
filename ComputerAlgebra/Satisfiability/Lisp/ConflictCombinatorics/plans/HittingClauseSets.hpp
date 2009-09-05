@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,6 +32,14 @@ License, or any later version. */
      <li> "Search.mac" (e.g., searching for special hitting cls via SAT) </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Connections
+  <ul>
+   <li> See
+   Experimentation/Investigations/UHittingCatalogue/plans/general.hpp
+   for investigations. </li>
   </ul>
 
 
@@ -237,13 +245,15 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> In ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
+   <li> In
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
    one finds a catalogue of claw-free unsatisfiable hitting clause-sets for
    given deficiency.
     <ol>
      <li> A main tool are the functions all_unsinghitting_def(k,n) and
      all_unsinghitting(n), which for given k,n resp. given n determine
-     all isomorphism types of claw-free unsatisfiable hitting clause-sets. </li>
+     all isomorphism types of claw-free unsatisfiable hitting clause-sets.
+     </li>
      <li> The basis idea is that from full_fcs(n) by 2-subsumption resolution
      we can create all hitting clause-sets using at most n variables. </li>
      <li> Once we have test cases (if the above functions take too long,

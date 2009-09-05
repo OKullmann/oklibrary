@@ -50,6 +50,15 @@ License, or any later version. */
    <li> hindmani_2^11(2) </li>
    <li> hindmani_2^12(2) </li>
   </ul>
+
+
+  <h1> Unsatisfiable hitting clause-sets </h1>
+
+  See
+  Experimentation/Investigations/UHittingCatalogue/plans/general.hpp
+  <ul>
+   <li> Deficiency = 3, n = 5 </li>
+  </ul>
   
 */
 
