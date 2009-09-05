@@ -207,5 +207,29 @@ License, or any later version. */
    if distinguishing between left and right, and only one if not). </li>
   </ul>
 
+
+  \todo Creating all F in MU(1) with var(F) = V
+  <ul>
+   <li> For a given set V of variables, all elements F in MU(1) with exactly
+   this set of variables is to be listed. </li>
+   <li> And canonical representatives of isomorphism classes. </li>
+   <li> To get the elements of SMU(1), one just creates the binary trees
+   where the inner nodes are labelled with unique elements from V.
+    <ol>
+     <li> We have all2i_rt and rt2lrt_il in
+     ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
+    </ol>
+   </li>
+   <li> Given the elements of SMU(1), one can then consider all "thinning outs"
+   (removing literal occurrences with creating pure literals):
+    <ol>
+     <li> In this way some clause-sets are created several times, but this
+     seems hard to avoid. </li>
+     <li> If there are m occurrences of a literal x, then from 0 to m-1 of
+     these occurrences can be removed. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
