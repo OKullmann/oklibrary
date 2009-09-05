@@ -352,6 +352,12 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
      </li>
     </ol>
    </li>
+   <li> However we need to try out whether different variable orderings have
+   an influence on the running time (for example sorting by ascending or
+   descending variable degrees, or perhaps by minimising the product
+   of the variable degrees). One would guess that trying to avoid creating
+   many new clauses is preferable. For this all to work, the algorithm must
+   only look at the clauses actually present. </li>
    <li> ipow should be replaced by an array computed at compile-time.
     <ol>
      <li> How to dynamically initialise an array at compile time? Something
