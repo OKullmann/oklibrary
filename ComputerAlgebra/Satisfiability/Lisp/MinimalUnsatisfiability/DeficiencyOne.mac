@@ -43,7 +43,12 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    in the whole tree exactly once.
    For a "tree representation" the clause-labels are removed,
    and only the resolution variables (at inner nodes) and the
-   clause-labels at the leaves are kept.
+   clause-labels at the leaves are kept, that is, we have a
+   binary tree labelled with literals at inner nodes, and with
+   clauses at leaves.
+   For tree representations of F in SMU(1) one doesn't need the clauses 
+   at the leaves, and so splitting trees, where all leaves are labelled by 
+   "false" and where the variable-labels are unique, are to be used then.
 */
 
 /* ******************************************************
