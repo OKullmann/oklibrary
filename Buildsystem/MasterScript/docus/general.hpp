@@ -121,24 +121,26 @@ License, or any later version. */
    <li> Push and pull for oklib-repositories (where the public repository
    is $(git_http_address_okl)):
     <ol>
-     <li> <code>--push-developer username branchname</code> pushes to the
-     public repository ("branchname" can be left out); pushing to the public
-     repository is only possible if write-access has been granted. </li>
-     <li> <code>--pull-public branchname</code> pulls from the public
-     repository (the default pull for the packages; typically "branchname"
-     is "master"). </li>
-     <li> <code>--push-ssh remote-machine remote-OKplatform-dir branchname</code>
-     pushes via ssh to an arbitrary OKlibrary-repository ("branchname" can be
-     left out). If "remote-OKplatform-dir" contains for example "~" (for
+     <li> <code>--push-developer arguments</code> pushes to the
+     public repository, transferring arguments to the git-command. Note that
+     pushing to the public repository is only possible if write-access has
+     been granted. </li>
+     <li> <code>--pull-public arguments</code> pulls from the public
+     repository, transferring arguments to the git-command. Note that the
+     branch-name is required as an argument, if git has not been configured
+     otherwise. </li>
+     <li> <code>--push-ssh remote-machine remote-OKplatform-dir arguments</code>
+     pushes via ssh to an arbitrary OKlibrary-repository. If
+     "remote-OKplatform-dir" contains for example "~" (for
      the home directory), then it is to be put in quotation marks. The
      "remote-machine" must be of the form "user@machine" if the username
      on the remote machine is different.</li>
-     <li> <code>--pull-ssh remote-machine remote-OKplatform-dir branchname</code>
-     pulls via ssh from an arbitrary OKlibrary-repository ("branchname"
-     typically is "master"). If "remote-OKplatform-dir" contains characters
-     only meaningful on the remote machine, then it is to be put in quotation
-     marks. The "remote-machine" must be of the form "user@machine" if the
-     username on the remote machine is different. </li>
+     <li> <code>--pull-ssh remote-machine remote-OKplatform-dir arguments</code>
+     pulls via ssh from an arbitrary OKlibrary-repository. If
+     "remote-OKplatform-dir" contains characters only meaningful on the remote
+     machine, then it is to be put in quotation marks. The "remote-machine"
+     must be of the form "user@machine" if the username on the remote machine
+     is different. </li>
     </ol>
    </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
