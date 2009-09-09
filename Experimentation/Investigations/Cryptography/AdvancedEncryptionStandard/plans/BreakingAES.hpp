@@ -136,14 +136,16 @@ heap are large enough to store the translation.
    in the following way:
    \verbatim
 aes_num_rounds : 1$
+plaintext : "00000000000000000000000000000000"$
+key : "00000000000000000000000000000000"$
 for bits_to_remove : 0 thru 128 do block([PA],
   PA : map(set,
     union(
-      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,1,128)),
-      aes_hex2pa("00000000000000000000000000000000", create_list(i,i,129,256)),
+      aes_hex2pa(plaintext, create_list(i,i,1,128)),
+      aes_hex2pa(key, create_list(i,i,129,256)), 
       aes_hex2pa(il2hex(
         aes_encrypt_l(
-          create_list(0,i,1,16), create_list(0,i,1,16))), 
+          hex2il(plaintext), hex2il(key))), 
           create_list(i,i,257,384)))),
   PA : subset(PA, lambda([a], 
       not(member(map(abs,a), create_list({i},i,129,129+(bits_to_remove-1)))))),
