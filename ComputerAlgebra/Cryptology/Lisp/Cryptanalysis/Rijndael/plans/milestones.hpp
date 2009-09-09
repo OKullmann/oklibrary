@@ -15,13 +15,16 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Standardise block ordering
     - Fix translation system
-    - Representations of the Sbox using additional variables
-    - Organisation
     - Parameterise inclusion of inverse operation in Mixcolumn translation 
+    - Standardise block ordering: DONE
     - Truncate AES for reduced rounds: DONE
 
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Representations of the Sbox using additional variables
+    - Organisation
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
