@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,8 +24,38 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
 
 kill(f)$
+
+/* ************************
+   * Tree representations *
+   ************************
+*/
+
+/* ****************************
+   * Generating all instances *
+   ****************************
+*/
+
+okltest_all_smusat1_cs(f) := (
+  assert(f(0) = [{{}}]),
+  assert(f(1) = [ {{1},{-1}} ]),
+  assert(f(2) = [ {{1},{-1,2},{-1,-2}}, {{2},{-2,1},{-2,-1}}, {{-1},{1,2},{1,-2}}, {{-2},{2,1},{2,-1}} ]),
+  /* XXX */
+  true)$
+
+okltest_num_all_smusat1(f) := (
+  for n : 0 thru if oklib_test_level=0 then 3 else 5 do
+    assert(f(n) = length(all_smusat1_cs(n))),
+  true)$
+
+
+/* ******************************************************
+   * Heuristical approach: removing literal occurrences *
+   * to achieve a given maximal variable degree         *
+   ******************************************************
+*/
 
 okltest_remlitocc_greedy(f) := block(
   assert(f({},inf,0) = [{},minf]),

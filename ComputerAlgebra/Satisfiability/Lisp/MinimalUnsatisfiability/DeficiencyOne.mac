@@ -21,6 +21,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/De
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+
 
 /* We have 
  - uniform_usat_hitting_min(k) in 
@@ -50,6 +54,25 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    at the leaves, and so splitting trees, where all leaves are labelled by 
    "false" and where the variable-labels are unique, are to be used then.
 */
+
+
+/* ****************************
+   * Generating all instances *
+   ****************************
+*/
+
+/* The list of all F in SMU(1) with var(F) = {1,...,n}.
+   The order is given first by the order of all rooted binary trees,
+   and then by the lexicographical order of permutations of n (related
+   to the inner nodes of the tree representations, traversed in in-order).
+ */
+oklib_plain_include("integer_sequence")$
+all_smusat1_cs(n) := 
+ map(treehittingcls_st, map(lambda([P], rt2lrt_il(P[1],P[2],false)),
+    cartesian_product_l([all2i_rt(n), listify(permutations(1 .. n))])))$
+/* The number of these F: */
+num_all_smusat1(n) := num_all2i_rt(n) * n!$
+
 
 /* ******************************************************
    * Heuristical approach: removing literal occurrences *
