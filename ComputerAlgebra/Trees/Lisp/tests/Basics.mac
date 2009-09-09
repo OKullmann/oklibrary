@@ -211,6 +211,11 @@ okltest_all2_rt(f) := (
   /* XXX */
   true)$
 
+okltest_num_all2_rt(f) := (
+  for m in (1 .. 2 .. 11) do
+    assert(f(m) = length(all2_rt(m))),
+  true)$
+
 okltest_all2i_rt(f) := (
   assert(f(0) = [[]]),
   assert(f(1) = [[[],[]]]),
@@ -218,11 +223,34 @@ okltest_all2i_rt(f) := (
   /* XXX */
   true)$
 
+okltest_num_all2i_rt(f) := (
+  for m in (0 .. 6) do
+    assert(f(m) = length(all2i_rt(m))),
+  true)$
+
 okltest_all2l_rt(f) := (
   assert(f(1) = [[]]),
   assert(f(2) = [[[],[]]]),
   assert(f(3) = [[[],[[],[]]], [[[],[]], []]]),
   /* XXX */
+  true)$
+
+okltest_num_all2l_rt(f) := (
+  for m in (1 .. 6) do
+    assert(f(m) = length(all2l_rt(m))),
+  true)$
+
+okltest_all_rt(f) := (
+  assert(f(-1) = []),
+  assert(f(0) = []),
+  assert(f(1) = [ [] ]),
+  assert(f(2) = [ [[]] ]),
+  assert(f(3) = [ [[],[]], [[[]]] ]),
+  true)$
+
+okltest_num_all_rt(f) := (
+  for m in (1 .. 7) do
+    assert(f(m) = length(all_rt(m))),
   true)$
 
 

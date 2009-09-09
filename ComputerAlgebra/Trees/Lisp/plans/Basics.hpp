@@ -16,4 +16,17 @@ License, or any later version. */
    <li> Currently the effort is quadratic, while it should be linear. </li>
   </ul>
 
+
+  \todo Generating all binary trees
+  <ul>
+   <li> Why is the formula num_all2i_rt(i) = catalan_number(i) correct? </li>
+  </ul>
+
+
+  \todo Catalan numbers
+  <ul>
+   <li> Perhaps the function catalan_number should move to supermodule
+   NumberTheory? </li>
+  </ul>
+
 */

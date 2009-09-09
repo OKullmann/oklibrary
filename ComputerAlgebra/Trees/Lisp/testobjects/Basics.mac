@@ -81,8 +81,14 @@ okltest_complete_rt(complete_rt);
 okltest_random_ltree(random_ltree);
 
 okltest_all2_rt(all2_rt);
+okltest_num_all2_rt(num_all2_rt);
 okltest_all2i_rt(all2i_rt);
+okltest_num_all2i_rt(num_all2i_rt);
 okltest_all2l_rt(all2l_rt);
+okltest_num_all2l_rt(num_all2l_rt);
+
+okltest_all_rt(all_rt);
+okltest_num_all_rt(num_all_rt);
 
 /*!
 \endhtmlonly

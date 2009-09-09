@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* ****************************
@@ -175,7 +177,7 @@ random_ltree(n) := graph2tree(mg2g(random_tree(n)),1);
 
 
 /* The list of all binary unlabelled trees with m nodes (recursively
-   created, with increasing node number in the left substree).
+   created, with increasing node number in the left subtree).
    Prerequisite: m is an odd natural number.
 */
 oklib_plain_include("integer_sequence")$
@@ -183,11 +185,28 @@ all2_rt(m) := if m=1 then [[]] else
   lappend(create_list(
     cartesian_product_l([all2_rt(a),all2_rt(m-a-1)]), 
     a, 1 .. 2 .. m-2))$
+/* The number of all these trees: */
+num_all2_rt(m) := num_all2i_rt((m-1)/2)$
 /* Now given the number i of inner nodes (a natural number >= 0): */
 all2i_rt(i) := all2_rt(2*i+1)$
+/* The number of all these trees: */
+num_all2i_rt(i) := catalan_number(i)$
 /* And given the number of leaves (a natural number >= 1): */
 all2l_rt(l) := all2_rt(2*l-1)$
+/* The number of all these trees: */
+num_all2l_rt(l) := num_all2i_rt(l-1)$
 
+/* The list of all unlabelled (rooted) trees with m nodes (where m is
+   an integer).
+   The order is is given by the lexicographical order of unordered integer
+   partitions (recursively).
+*/
+all_rt(m) := if m <= 0 then [] elseif m=1 then [[]] else
+  lappend(create_list(cartesian_product_l(map(all_rt,p)), p, listify(uinteger_partitions(m-1))))$
+/* The number of all these trees: */
+num_all_rt(m) := if m <= 0 then 0 else catalan_number(m-1)$
+
+catalan_number(n) :=  binom(2*n,n)/(n+1)$
 
 /*!
 \endhtmlonly
