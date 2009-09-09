@@ -88,5 +88,21 @@ Evaluation took 0.0000 seconds (0.0004 elapsed) using 1,016 bytes.
    ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
+
+  \todo Unordered integer partitions
+  <ul>
+   <li> Is there a more direct way of computing unordered integer partitions?
+   (without using integer partitions)?
+    <ol>
+     <li> Given the proposed formula below, it should be possible to convert
+     the subsets of {1,...,n-1} into unordered integer partitions. </li>
+    </ol>
+   </li>
+   <li> The Maxima-function permutations is very inefficient for example for
+   lists like create_list(1,i,1,n) --- are there better algorithms? </li>
+   <li> The number of unordered partitions of n seems to be 2^(n-1) ---
+   is this correct? </li>
+  </ul>
+
 */
 

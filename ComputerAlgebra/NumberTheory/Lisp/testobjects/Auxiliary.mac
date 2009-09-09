@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,8 +45,21 @@ okltest_polyadicstr2int(polyadicstr2int);
 okltest_int2polyadicstr(int2polyadicstr);
 okltest_int2polyadic(int2polyadic);
 
+/* **********************
+   * Integer partitions *
+   **********************
+*/
 
 okltest_ext_integer_partitions(ext_integer_partitions);
+okltest_num_ext_integer_partitions(num_ext_integer_partitions);
+
+okltest_uinteger_partitions(uinteger_partitions);
+okltest_num_uinteger_partitions(num_uinteger_partitions);
+
+/* ***********************
+   * Corrected functions *
+   ***********************
+*/
 
 okltest_pow(pow);
 
