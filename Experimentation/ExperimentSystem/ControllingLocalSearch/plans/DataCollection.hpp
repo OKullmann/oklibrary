@@ -12,17 +12,32 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug Specification of eval_ubcsat is badly written
+  <ul>
+   <li> How to use this function? </li>
+   <li> Often a (non-sensical) "will be" is used (does this refer to later
+   extensions?) ?? </li>
+   <li> Also "should" is mis-used (since this likely is not an option for the
+   function!). </li>
+   <li> What is "and returns a new adds data frame" ?? </li>
+   <li> Commas are needed (and semicolons, and full-stops). </li>
+   <li> Many nonsensical uses of quotation marks. </li>
+   <li> Are environment variables to be used by the user?? (Obviously this
+   shouldn't be the case.) </li>
+  </ul>
+
+
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
     <ol>
-     <li> DONE A function "eval_ubcsat" is to be written which runs Ubcsat for a
-     list of algorithms on a specific instance, and computes a data frame.
+     <li> DONE A function "eval_ubcsat" is to be written which runs Ubcsat for
+     a list of algorithms on a specific instance, and computes a data frame.
      </li>
      <li> DONE This has now been basically achieved, and the functions written
      have to be made available. </li>
      <li> The function eval_ubcsat is now available in 
-     Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R . 
+     Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R. 
      </li>
      <li> After that, the whole todo needs to be completely updated, so that
      only future plans remains. </li>
