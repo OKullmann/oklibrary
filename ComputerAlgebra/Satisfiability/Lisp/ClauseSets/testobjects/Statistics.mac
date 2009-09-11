@@ -57,10 +57,10 @@ okltest_literal_degree_cs(literal_degree_cs);
 
 okltest_literal_degrees_cs(literal_degrees_cs);
 okltest_literal_degrees_cl(literal_degrees_cl);
-
-okltest_all_literal_degrees_fcs(all_literal_degrees_fcs);
+okltest_literal_degrees_fcs(literal_degrees_fcs);
 
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
+okltest_ordered_literal_degrees_fcs(ordered_literal_degrees_fcs);
 
 okltest_min_literal_degree_cs(min_literal_degree_cs);
 okltest_min_literal_degree_fcs(min_literal_degree_fcs);
@@ -114,6 +114,9 @@ okltest_full_variables_cs(full_variables_cs);
 okltest_full_variables_fcs(full_variables_fcs);
 okltest_full_var_csp(full_var_csp);
 okltest_full_var_fcsp(full_var_fcsp);
+
+okltest_singularpure_variables_cs(singularpure_variables_cs);
+okltest_singular_variables_cs(singular_variables_cs);
 
 /* *******************************
    * Weighted numbers of clauses *
