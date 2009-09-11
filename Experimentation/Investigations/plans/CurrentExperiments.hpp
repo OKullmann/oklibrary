@@ -39,7 +39,7 @@ License, or any later version. */
   <h2> Hindman problems </h2>
 
   See (currently)
-  Experimentation/Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
+  RamseyTheory/SchurProblems/plans/general.hpp.
   <ul>
    <li> hindman_3(2) </li>
    <li> hindmani_2^6(2) </li>
@@ -49,6 +49,13 @@ License, or any later version. */
    <li> hindmani_2^10(2) </li>
    <li> hindmani_2^11(2) </li>
    <li> hindmani_2^12(2) </li>
+  </ul>
+
+
+  <h2> Van der Waerden problems </h2>
+
+  <ul>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp </li>
   </ul>
 
 
