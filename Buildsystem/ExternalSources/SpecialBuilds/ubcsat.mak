@@ -28,7 +28,9 @@ $(ubcsat-directories) : % :
 
 ubcsat : $(ubcsat-directories) ubcsat-okl
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_build_dir_okl),src)
-	chmod u+w $(ubcsat-src-directory)/*; dos2unix $(ubcsat-src-directory)/*
+	cd $(ubcsat-src-directory); $(postcondition) \
+	chmod u+w *; $(postcondition) \
+	dos2unix --quiet *
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
 	cp -f $(ubcsat_corrected_files_okl) $(ubcsat-tmp-src-directory)
 	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat -DNDEBUG $(ubcsat-tmp-src-directory)/*.c -lm
@@ -41,7 +43,7 @@ ubcsat : $(ubcsat-directories) ubcsat-okl
 	ln -s --force $(ubcsat_call_okl) $(public_bin_dir_okl)/ubcsat
 
 ubcsat-okl :
-	$(preprocessing_call) $(OKbuildsystem)/ExternalSources/SpecialBuilds/Wrappers/ubcsat-okl > $(public_bin_dir_okl)/ubcsat-okl
+	$(preprocessing_call) $(ubcsat_wrapper_okl) > $(public_bin_dir_okl)/ubcsat-okl
 	chmod u+x $(public_bin_dir_okl)/ubcsat-okl
 
 
