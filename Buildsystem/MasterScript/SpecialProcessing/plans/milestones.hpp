@@ -19,6 +19,11 @@ License, or any later version. */
     - Improve locality
 
   \par
+   In Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp
+   the following topics are handled:
+    - Reasonable memory and stack limits
+
+  \par
    in Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp
    the following topics are handled:
     - Create milestones : DONE

@@ -98,6 +98,8 @@ C-STACK overflow at size 139456. Stack can probably be resized.
      and then calculating the approriate values.
      One also needs to find out how to pass command-line arguments to
      ecl (for example "--frame-stack 4096"). </li>
+     <li> Compare "Reasonable memory and stack limits" in
+     Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp. </li>
     </ol>
    </li>
    <li> On the other hand, a non-recursive solution is also very easy to
