@@ -184,7 +184,147 @@ c sat_status=0 initial_maximal_clause_length=6 initial_number_of_variables=270 i
    </li>
    <li> OKsolver_2002 without tree-pruning:
     <ol>
-     <li> Without preprocessing and without symmetry breaking: </li>
+     <li> Without preprocessing and without symmetry breaking:
+     \verbatim
+> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D16 -F GreenTao_3-3_137.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         3
+c initial_number_of_variables           411
+c initial_number_of_clauses             3614
+c initial_number_of_literal_occurrences 10431
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   411
+c running_time(sec)                     726528.6
+c number_of_nodes                       1236624567
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                9821525375
+c number_of_pure_literals               0
+c number_of_autarkies                   1019283
+c number_of_missed_single_nodes         0
+c max_tree_depth                        58
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 168173441743
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_3-3_137.cnf
+> E = read_oksolver_mon("GreenTao_3-3_137.cnf.mo")
+62846
+> plot_oksolver_mon_nodes(E)
+ldstep= 13 step= 8192 left= 128 right= 65536
+obs/count= 1.042856 nodes-range= 1 1248779 ave-nodes-range= 5039.079 34624.96
+> summary_oksolver(E)
+Nodes:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+      1.0      19.0     804.5   19680.0   11700.0 1249000.0
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.500   7.440   7.900   8.003   8.170  44.000
+Single nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0       0       0       0       0       0
+Autarkies:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.00    0.00    0.00   16.22    4.00 1514.00
+Time ~ nodes:
+[1] 0.999718
+ (Intercept)      E$nodes
+0.0622892181 0.0005843438
+Single nodes ~ nodes:
+[1] NaN
+(Intercept)     E$nodes
+          0           0
+Autarkies ~ nodes:
+[1] 0.723745
+  (Intercept)       E$nodes
+-1.3708555637  0.0008939138
+> hist_oksolver_mon_nodes(E)
+Median= 9.651948
+Mean= 14.26423
+> hist_oksolver_mon_nodes(E,breaks="st")
+Median= 9.651948
+     \endverbatim
+     The node distribution shows two clear peakes, one around 4, the other 
+     around the mean.
+     </li>
+     <li> With symmetry breaking and with preprocessing: 
+     \verbatim
+> system_directories/bin/OKsolver_2002_NTP-O3-DNDEBUG -M -D10 -F GreenTao_sb_3-3_137-m2pp.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         6
+c initial_number_of_variables           270
+c initial_number_of_clauses             3127
+c initial_number_of_literal_occurrences 12164
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   172
+c running_time(sec)                     2855.8
+c number_of_nodes                       4972865
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                32618680
+c number_of_pure_literals               7938
+c number_of_autarkies                   4427
+c number_of_missed_single_nodes         0
+c max_tree_depth                        55
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 30488
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_sb_3-3_137-m2pp.cnf
+> E = read_oksolver_mon("GreenTao_sb_3-3_137-m2pp.cnf.mo")
+1024
+> plot_oksolver_mon_nodes(E)
+ldstep= 7 step= 128 left= 128 right= 1024
+obs/count= 1 nodes-range= 6 858348 ave-nodes-range= 2983.664 6898.701
+> plot_oksolver_mon_nodes(E,ldstep=6)
+ldstep= 6 step= 64 left= 128 right= 1024
+obs/count= 1 nodes-range= 6 858348 ave-nodes-range= 2983.664 6898.701
+> summary_oksolver(E)
+Nodes:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     6.0    145.0    354.5   4856.0    976.2 858300.0
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  1.830   6.328   6.540   6.542   6.750   8.530
+Single nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0       0       0       0       0       0
+Autarkies:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   0.000   0.000   4.323   0.000 361.000
+Time ~ nodes:
+[1] 0.9998242
+ (Intercept)      E$nodes
+0.0052467076 0.0005731962
+Single nodes ~ nodes:
+[1] NaN
+(Intercept)     E$nodes
+          0           0
+Autarkies ~ nodes:
+[1] 0.6404928
+ (Intercept)      E$nodes
+1.8800399269 0.0005030981
+> hist_oksolver_mon_nodes(E,breaks="st")
+Median= 8.46964
+Mean= 12.24565
+     \endverbatim
+     Subdividing into 16 intervals, exactly at the edge from 8 to 9 we have
+     a sharp peak for the node counts (at monitoring nodes). The distribution
+     of node counts has one peak, at the median, and a heavy tail.
+     </li>
+     <li> So roughly tree-pruning achieves to speed-up the running time by
+     a factor from 2 to 3, being more efficient in the presence of symmetry
+     breaking with preprocessing. </li>
     </ol>
    </li>
   </ul>

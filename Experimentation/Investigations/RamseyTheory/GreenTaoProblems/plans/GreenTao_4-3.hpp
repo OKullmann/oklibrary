@@ -432,7 +432,14 @@ BestSolution_Max = 4.000000
      </li>
     </ol>
    </li>
-   <li> n=379, cutoff=4*10^9: </li>
+   <li> n=379, cutoff=4*10^9:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-3_379.cnf_OUT")
+  1   2
+ 34 190
+224
+   \endverbatim
+   </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
    osteps ~ 500*10^6, so it looks unsatisfiable. </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
