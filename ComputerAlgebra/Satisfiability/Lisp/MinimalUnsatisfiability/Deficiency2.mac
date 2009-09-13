@@ -33,8 +33,8 @@ pos_c(n) := setn(n)$
 neg_c(n) := setmn(-n,-1)$
 imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
 
-/* The standard MUSAT(def=2) formulas where every literal occurs at least 
-   twice, for n >= 2: */
+/* The standard MUSAT(def=2) non-singular formal clause-sets (where every
+   literal occurs at least twice) for n >= 2: */
 musatd2(n) := 
  [setn(n), union({pos_c(n),neg_c(n)}, setify(create_list(imp_c(i,n),i,1,n)))]$
 
