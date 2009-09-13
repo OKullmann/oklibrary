@@ -44,9 +44,13 @@ random_sublist(S,p) :=
    and replacing the clauses in G by clauses containing -v. */
 /* Changes FF in-place, always returns true. */
 /* p regulates how many of the possible literals
-   are included into the v-clause (as a choice probability).
-   while q regulates how many of the choice-literals are included 
-   into the (-v)-clauses.
+   are included into the v-clause (as a choice-probability).
+   while q regulates how many of these literals are included
+   into the (-v)-clauses (that is, first C0 as as subset of the
+   intersection of G is determined, containing each literal of the
+   intersection with probability p, and then each clause of FF - G
+   is considered, the elements of C0 are removed, and then each
+   literal of C0 is added with probability q).
    <ul>
     <li> p=1, q=1 is the case that all clauses are as large as possible.
     These are the "hitting extensions", provided that FF is hitting,
