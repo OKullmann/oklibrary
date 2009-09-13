@@ -272,6 +272,7 @@ singularpure_variables_cs(F) :=
 singular_variables_cs(F) := block([FF : cs2fcs(F), h],
   h : literal_degrees_fcs(FF),
   subset(FF[1], lambda([v], block([D : {ev_hm(h,v), ev_hm(h,-v)}], elementp(1,D) and not elementp(0,D)))))$
+singular_variables_fcs(FF) := singular_variables_cs(fcs2cs(FF))$
 
 
 /* *******************************

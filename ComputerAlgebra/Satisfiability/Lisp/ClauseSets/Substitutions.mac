@@ -73,6 +73,7 @@ rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
   h : osm2hm(map("[",V,L)),
   [setify(abs(L)), substitutetotal_cs(FF[2],h)])$
+rename_cs(F,L) := fcs2cs(rename_fcs(cs2fcs(F),L))$
 rename_fcl(FF,L) := block(
  [V : FF[1], h],
   h : osm2hm(map("[",V,L)),

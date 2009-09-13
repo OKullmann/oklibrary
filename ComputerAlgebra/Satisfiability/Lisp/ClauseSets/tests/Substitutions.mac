@@ -74,9 +74,20 @@ okltest_substitute_cs(f) := block([h],
 okltest_rename_fcs(f) := block(
   assert(f([{},{}],[]) = [{},{}]),
   assert(f([{},{{}}],[]) = [{},{{}}]),
+  assert(f([{1},{}],[2]) = [{2},{}]),
+  assert(f([{1},{{}}],[2]) = [{2},{{}}]),
   assert(f([{1},{{1}}],[-2]) = [{2},{{-2}}]),
   assert(f([{1},{{-1}}],[-1]) = [{1},{{1}}]),
   assert(f([{1,2},{{1,2},{-1,2}}],[-2,1]) = [{1,2},{{-2,1},{1,2}}]),
+  assert(okltest_rename_cs(buildq([f], lambda([F,L], fcs2cs(f(cs2fcs(F),L))))) = true),
+  true)$
+
+okltest_rename_cs(f) := (
+  assert(f({},[]) = {}),
+  assert(f({{}},[]) = {{}}),
+  assert(f({{1}},[-3]) = {{-3}}),
+  assert(f({{1,2},{-2,3},{}},[2,-3,1]) = {{2,-3},{3,1},{}}),
+  /* XXX */
   true)$
 
 okltest_all_var_renamings_fcs(f) := (
