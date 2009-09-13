@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,17 +27,19 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
 
+
 /* ****************************************
    * Isomorphism testing via backtracking *
    ****************************************
 */
 
 /* Checks whether two clause-sets are isomorphic (where renaming
-   of variables and flipping is considered). */
-/* Using a direct backtracking approach. */
+   of variables and flipping is considered), by using a direct backtracking 
+   approach:
+*/
 is_isomorphic_btr_cs(F1,F2) :=
  is_isomorphic_btr_fcs(cs_to_fcs(F1), cs_to_fcs(F2))$
-/* Checks whether two formal clause-sets are isomorphic. */
+/* Checks whether two formal clause-sets are isomorphic: */
 is_isomorphic_btr_fcs(FF1,FF2) := block(
  if elementp({},FF1[2]) then (
    if not elementp({},FF2[2]) then return(false))
@@ -73,8 +75,9 @@ is_isomorphic_btr_fcs(FF1,FF2) := block(
    for mapping remaining variables (sorted by ascending sets
    of possibilities), and the set of remaining clauses from F1 to
    be mapped to clauses in F1.
-   Prerequisite: map_possibilities, rem_clauses are not empty. */
-/* Inherits F1, F2. */
+   Prerequisite: map_possibilities, rem_clauses are not empty.
+   Inherits F1, F2.
+*/
 is_isomorphic_btr_piso(part_iso,domain_piso,map_possibilities,rem_clauses) := block(
  [B : first(map_possibilities), v, Y, found_iso : false],
   v : B[1], Y : B[2],
@@ -114,8 +117,9 @@ is_isomorphic_btr_piso(part_iso,domain_piso,map_possibilities,rem_clauses) := bl
 */
 
 /* Checks whether two formal clause-sets are isomorphic (where renaming
-   of variables and flipping is considered). */
-/* Using the digraph-isomorphism-check from the Maxima graphs-package. */
+   of variables and flipping is considered), by using the 
+   digraph-isomorphism-check from the Maxima graphs-package:
+*/
 is_isomorphic_fcs(FF1,FF2) :=
  if ncl_list_f(FF1) # ncl_list_f(FF2) then false
  elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
@@ -156,11 +160,11 @@ is_varisomorphic_com_fcs_p(FF1,FF2) :=
    **********************************
 */
 
-/* For a set of formal clause-sets, determines a set of non-isomorphic
-   representatives. */
+/* For a set of formal clause-sets, determines a subset of non-isomorphic
+   representatives: */
 representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_btr_fcs)],
   return(map(choose_element, classes)))$
-/* The variation for a set of clause-sets */
+/* The variation for a set of clause-sets: */
 representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_btr_cs)],
   return(map(choose_element, classes)))$
 
@@ -172,9 +176,10 @@ fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_
 
 /* Given a hash_repository repo of isomormphism types, check whether a
    given formal clause-set is already contained or not, and in the latter
-   case insert it into the repository. */
-/* Returns true iff FF has been inserted. */
-/* repo is a hash-map of isomorphism types. */
+   case insert it into the repository.
+   Returns true iff FF has been inserted.
+   repo is a hash-map of isomorphism types.
+*/
 manage_repository_isomorphism_types(FF, repo) := block(
  [p : fcs_identifier(FF), candidates],
   candidates : ev_hm(repo,p),
@@ -194,7 +199,8 @@ manage_repository_isomorphism_types(FF, repo) := block(
 */
 
 /* Compute the sorted list of pairs [deficiency, count] for a given
-   hash-repository. */
+   hash-repository:
+*/
 analyse_isorepo_def(repository) := block(
  [M : hm2sm(repository), h : sm2hm({})],
   for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1]],
@@ -204,7 +210,7 @@ analyse_isorepo_def(repository) := block(
 analyse_isorepo_set(repository) :=
  family_sets_union(map(second,hm2sm(repository)),
                    lambda([S],map(fcs2cs,S)))$
-/* Returns the sorted list [deficiency, set of clause-sets]. */
+/* Returns the sorted list [deficiency, set of clause-sets]: */
 analyse_isorepo_defset(repository) := block(
  [M : hm2sm(repository), h : sm2hm({})],
   for P in M do block([def : P[1][2] - P[1][1]],
