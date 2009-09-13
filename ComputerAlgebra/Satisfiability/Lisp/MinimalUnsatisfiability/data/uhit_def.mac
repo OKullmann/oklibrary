@@ -34,12 +34,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 kill(uhit_def)$
 
 /* The list of available deficiencies. */
-uhit_def[0,"info"] : append(makelist(k,k,1,27),[43,58])$
+uhit_def[0,"info"] : append(create_list(k,k,1,27),[43,58])$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info"] contains:
  - true if the classification is complete, and false/unknown otherwise
@@ -452,12 +453,13 @@ lambert_w_b(x,b) := block([fpprec : 20],
    ***************************
 */
 
-/* The list of all clause-sets in the catalogue for a given deficiency. */
-/* Sorted by ascending number of variables, and for a given number of variables
-   in the given order. */
+/* The list of all clause-sets in the catalogue for a given deficiency k >= 1.
+   Sorted by ascending number of variables, and for a given number of variables
+   in the given order.
+*/
 all_uhit_def(k) := block([L : uhit_def[k,"info"]],
   if op(L) = uhit_def then return([]),
-  apply(append,makelist(uhit_def[k,n],n,map(first,L[4]))))$
+  lappend(create_list(uhit_def[k,n],n,map(first,L[4]))))$
 
 
 /* Apply function f to all elements of the catalogue:
@@ -471,11 +473,13 @@ apply_uhit(f) := block([list_def : uhit_def[0,"info"], result : []],
   return(result))$
 
 
-/* Collecting all clause-sets from the uhit-catalogue for a
-   given number of variables and a range of deficiencies. */
+/* Collecting all clause-sets (into a set) from the uhit-catalogue for a
+   given number of variables and a range of deficiencies.
+   Prerequisite: k0, k1, n >= 0 are natural numbers.
+*/
 collect_uhit_n(n,k0,k1) :=
-  setify(apply(append,sublist(
-    makelist(uhit_def[k,n],k,k0,k1),
+  setify(lappend(sublist(
+    create_list(uhit_def[k,n],k,k0,k1),
     lambda([L], is(op(L) # uhit_def)))))$
 
 /* The set of all known non-singular unsatisfiable hitting 
