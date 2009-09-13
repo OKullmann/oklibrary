@@ -57,6 +57,24 @@ okltest_musatd2(f) := (
   ),
   true)$
 
+
+/* *****************************************************
+   * Unsatisfiable hitting clause-sets of deficiency 2 *
+   *****************************************************
+*/
+
+okltest_hittingtype_d2_cs(f) := (
+  assert(f({}) = false),
+  assert(f({{}}) = false),
+  assert(f({{1},{-1}}) = false),
+  assert(f({{1,2},{-1,2},{1,-2},{-1,-2}}) = 2),
+  assert(f({{2,3},{-2,3},{2,-3},{-2,-3}}) = 2),
+  assert(f({{1,2,3},{-1,-2,-3},{-1,2},{-2,3},{-3,1}}) = 3),
+  assert(f({{1,-2,3},{-1,2,-3},{-1,-2},{2,3},{-3,1}}) = 3),
+  /* XXX */
+  true)$
+
+
 /*!
 \endhtmlonly
 */

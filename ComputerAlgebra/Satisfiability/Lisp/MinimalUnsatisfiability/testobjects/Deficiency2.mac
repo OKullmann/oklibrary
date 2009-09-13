@@ -29,6 +29,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 okltest_charprop_nsmusatd2(charprop_nsmusatd2);
 okltest_musatd2(musatd2);
 
+/* *****************************************************
+   * Unsatisfiable hitting clause-sets of deficiency 2 *
+   *****************************************************
+*/
+
+okltest_hittingtype_d2_cs(hittingtype_d2_cs);
+
 /*!
 \endhtmlonly
 */

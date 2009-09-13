@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/De
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
 
 
 /* *********************************************************************
@@ -37,6 +39,25 @@ imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
    literal occurs at least twice) for n >= 2: */
 musatd2(n) := 
  [setn(n), union({pos_c(n),neg_c(n)}, setify(create_list(imp_c(i,n),i,1,n)))]$
+
+
+/* *****************************************************
+   * Unsatisfiable hitting clause-sets of deficiency 2 *
+   *****************************************************
+*/
+
+/* Every unsatisfiable hitting clause-set F of deficiency 2 is either of
+   type 2 or type 3, depending on whether elimination of singular variables
+   yields a clause-set isomorphic to musatd2(2) or musatd2(3).
+*/
+
+/* Returns 2, 3 or false, where false results iff F is not an unsatisfiable 
+   hitting clause-set of deficiency 2, while otherwise its type is returned:
+*/
+hittingtype_d2_cs(F) := block([F : singular_dp_reduction(F), T],
+ T : classify_candidates_uhit_def([F])[1],
+ if T=false or T[2]="new" or T[1][1]#2 then false
+ else T[1][2])$
 
 
 /*!
