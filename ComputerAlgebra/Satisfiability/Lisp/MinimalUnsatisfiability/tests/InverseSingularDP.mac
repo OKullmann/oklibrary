@@ -66,6 +66,43 @@ okltest_basic_inverse_singulardp_fcs(f) := block([FF],
   assert(cs_to_fcs(singular_dp_reduction(FF[2])) = full_fcs(3)),
   true)$
 
+okltest_pre_hitting_extension_fcs_p(f) := (
+  assert(f([{},{}], {}) = false),
+  assert(f([{},{}], {{}}) = false),
+  assert(f([{},{{}}], {}) = false),
+  assert(f([{},{{}}], {{}}) = true),
+  assert(f([{1},{{1},{-1}}], {}) = false),
+  assert(f([{1},{{1},{-1}}], {2}) = false),
+  assert(f([{1},{{1},{-1}}], {{1}}) = true),
+  assert(f([{1},{{1},{-1}}], {{1},{-1}}) = true),
+  assert(f([{1,2},{{1},{2}}], {{1}}) = false),
+  assert(f([{1,2},{{1},{2}}], {{1},{2}}) = true),
+  /* XXX */
+  true)$
+
+okltest_hitting_extension_fcs_p(f) := (
+  assert(f([{},{}], {}) = false),
+  assert(f([{},{}], {{}}) = false),
+  assert(f([{},{{}}], {}) = false),
+  assert(f([{},{{}}], {{}}) = true),
+  assert(f([{1},{{1},{-1}}], {}) = false),
+  assert(f([{1},{{1},{-1}}], {2}) = false),
+  assert(f([{1},{{1},{-1}}], {{1}}) = true),
+  assert(f([{1},{{1},{-1}}], {{1},{-1}}) = true),
+  assert(f([{1,2},{{1},{2}}], {{1}}) = false),
+  assert(f([{1,2},{{1},{2}}], {{1},{2}}) = false),
+  /* XXX */
+  true)$
+
+okltest_all_pre_hitting_extensions_fcs(f) := (
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = { [{1},{{1},{-1}}] }),
+  assert(f([{1},{{1}}]) = { [{1,2},{{1,-2},{1,2}}] }),
+  assert(f([{1},{{1},{}}]) = { [{1,2},{{1,-2},{-2},{2}}] }),
+  assert(f([{1},{{1},{-1}}]) = { [{1,2}, {{1,-2},{1,2},{-1}}], [{1,2}, {{-1,-2},{-1,2},{1}}], [{1,2},{{1,-2},{-1,-2},{2}}] }),
+  assert(f([{1,2,3}, {{1,3},{2,3},{-3}}]) = { [{1,2,3,4}, {{1,3,-4},{2,3,-4},{-3,-4},{4}}], [{1,2,3,4}, {{1,3,-4},{2,3,-4},{3,4},{-3}}], [{1,2,3,4},{{-3,-4},{-3,4},{1,3},{2,3}}] }),
+  true)$
+
 
 /* ********************************
    * Performing random extensions *

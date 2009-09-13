@@ -19,6 +19,12 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/In
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+
+
 /* ********************************
    * Performing single extensions *
    ********************************
@@ -54,8 +60,8 @@ random_sublist(S,p) :=
    <ul>
     <li> p=1, q=1 is the case that all clauses are as large as possible.
     These are the "hitting extensions", provided that FF is hitting,
-    and that that the intersection of the clauses in G clashes with all
-    the clauses in FF minus G. </li>
+    and that the intersection of the clauses in G clashes with all
+    the clauses in FF minus G (see below). </li>
     <li> q=0,p=0 is the case of just introducing new unit-clauses (with
     new variables), while q=0 in general are the marginal extension
     (all clauses minimal). </li>
@@ -69,7 +75,7 @@ random_sublist(S,p) :=
    p, q are integers or reals with 0 <= p,q <= 1. 
 */
 basic_inverse_singulardp_fcs(FF,G,p,q) := block(
- [I : apply(intersection,listify(G)), v : new_var_fcs(FF), C0 : {}],
+ [I : lintersection(G), v : new_var_fcs(FF), C0 : {}],
   FF[1] : adjoin(v,FF[1]),
   C0 : setify(random_sublist(I,p)),
   FF[2] : setdifference(FF[2],G),
@@ -77,6 +83,28 @@ basic_inverse_singulardp_fcs(FF,G,p,q) := block(
   for D in G do block([E : setdifference(D,C0)],
     FF[2] : adjoin(adjoin(-v,union(E,setify(random_sublist(C0,q)))),FF[2])),
   return(true))$
+
+hitting_extension_fcs(FF,G) := basic_inverse_singulardp_fcs(FF,G,1,1)$
+
+/* Testing whether G yields a "pre-hitting-extension", that is, G is a 
+   non-empty sub-clause-set of FF such that the intersection of G clashes with
+   every clause from FF - G.
+*/
+pre_hitting_extension_fcs_p(FF,G) := subsetp(G,FF[2]) and not emptyp(G) and
+ block([I : lintersection(G)], every_s(lambda([C], clashp(C,I)), setdifference(FF[2],G)))$
+
+/* For a "hitting extension", G additionally needs to be a hitting clause-set
+   (which is automatically fulfilled if FF is hitting):
+*/
+hitting_extension_fcs_p(FF,G) := pre_hitting_extension_fcs_p(FF,G) and
+ hittingcsp(G)$
+
+/* The set of all pre-hitting extensions (as formal clause-sets) of
+   formal clause-set FF:
+*/
+all_pre_hitting_extensions_fcs(FF) := 
+ map(lambda([G], block([FF2 : copy(FF)], hitting_extension_fcs(FF2,G), FF2)), 
+     subset(disjoin({},powerset(FF[2])), lambda([G], pre_hitting_extension_fcs_p(FF,G))))$
 
 
 /* ********************************

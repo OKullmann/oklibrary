@@ -32,6 +32,11 @@ okltest_random_sublist(random_sublist);
 
 okltest_basic_inverse_singulardp_fcs(basic_inverse_singulardp_fcs);
 
+okltest_pre_hitting_extension_fcs_p(pre_hitting_extension_fcs_p);
+okltest_hitting_extension_fcs_p(hitting_extension_fcs_p);
+
+okltest_all_pre_hitting_extensions_fcs(all_pre_hitting_extensions_fcs);
+
 /* ********************************
    * Performing random extensions *
    ********************************
