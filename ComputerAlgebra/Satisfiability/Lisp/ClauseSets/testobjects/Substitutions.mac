@@ -44,6 +44,10 @@ okltest_substitute_cs(substitute_cs);
 
 okltest_rename_fcs(rename_fcs);
 
+okltest_all_var_renamings_fcs(all_var_renamings_fcs);
+okltest_all_sign_flippings_fcs(all_sign_flippings_fcs);
+okltest_all_renamings_fcs(all_renamings_fcs);
+
 okltest_standardise_fcs(standardise_fcs);
 okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
 

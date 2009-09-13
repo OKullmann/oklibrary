@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2007 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.m
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 /* ********************************************
    * Substitutions for variables and literals *
@@ -75,6 +77,19 @@ rename_fcl(FF,L) := block(
  [V : FF[1], h],
   h : osm2hm(map("[",V,L)),
   [abs(L), substitutetotal_cl(FF[2],h)])$
+
+/* The set of all renamings without flipping signs or introducing new 
+   variables of a formal clause-set FF:
+*/
+all_var_renamings_fcs(FF) :=
+ map(lambda([L], rename_fcs(FF,L)), permutations(FF[1]))$
+/* The set of all sign-flippings of a formal clause-set FF: */
+all_sign_flippings_fcs(FF) := block([V : listify(FF[1])],
+ map(lambda([L], rename_fcs(FF,L*V)), all_tuples({-1,1},length(V))))$
+/* The set of all renamings without introducing new variables
+   of a formal clause-set FF:
+*/
+all_renamings_fcs(FF) := lunion(map(all_sign_flippings_fcs, all_var_renamings_fcs(FF)))$
 
 
 /* Translating variable names of a formal clause-set into natural numbers;
