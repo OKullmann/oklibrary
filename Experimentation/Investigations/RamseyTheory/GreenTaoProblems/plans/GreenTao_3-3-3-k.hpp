@@ -341,7 +341,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1925
+  \todo greentao_3(3,3,5) > 1926
   <ul>
    <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
@@ -425,9 +425,8 @@ BestSolution_Max = 2.000000
      </li>
     </ol>
    </li>
-   <li> n=1926
-
-   </li>
+   <li> n=1926 found satisfiable (seed=1969942517, osteps=1115197460). </li>
+   <li> n=1927 </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
