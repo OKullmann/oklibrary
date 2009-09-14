@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac")$
 
 
 /* *********************************************************************
@@ -71,6 +72,33 @@ okltest_hittingtype_d2_cs(f) := (
   assert(f({{2,3},{-2,3},{2,-3},{-2,-3}}) = 2),
   assert(f({{1,2,3},{-1,-2,-3},{-1,2},{-2,3},{-3,1}}) = 3),
   assert(f({{1,-2,3},{-1,2,-3},{-1,-2},{2,3},{-3,1}}) = 3),
+  /* XXX */
+  true)$
+
+okltest_all_reps_uhitd2_t_fcs(f) := (
+  for t : 2 thru 3 do
+   for n : -1 thru 1 do
+     assert(f(t,n) = {}),
+  assert(f(3,2) = {}),
+  assert(f(2,2) = {musatd2(2)}),
+  assert(f(3,3) = {musatd2(3)}),
+  assert(f(2,3) = { [{1,2,3},{{1,2},{1,-2},{-1,2},{-1,-2,-3},{-1,-2,3}}], [{1,2,3},{{1,2},{-1,2},{1,-2,-3},{-1,-2,-3},{-2,3}}], [{1,2,3},{{1,2,-3},{1,-2,-3},{-1,2,-3},{-1,-2,-3},{3}}] }),
+  /* XXX */
+  true)$
+
+okltest_all_reps_uhitd2_fcs(f) := (
+ for n : -1 thru 1 do
+   assert(f(n) = {}),
+  assert(f(2) = {musatd2(2)}),
+  assert(f(3) = {musatd2(3), [{1,2,3},{{1,2},{1,-2},{-1,2},{-1,-2,-3},{-1,-2,3}}], [{1,2,3},{{1,2},{-1,2},{1,-2,-3},{-1,-2,-3},{-2,3}}], [{1,2,3},{{1,2,-3},{1,-2,-3},{-1,2,-3},{-1,-2,-3},{3}}] }),
+  /* XXX */
+  true)$
+
+okltest_all_uhitd2_fcs(f) := (
+ for n : -1 thru 1 do
+   assert(f(n) = {}),
+  assert(f(2) = {musatd2(2)}),
+
   /* XXX */
   true)$
 

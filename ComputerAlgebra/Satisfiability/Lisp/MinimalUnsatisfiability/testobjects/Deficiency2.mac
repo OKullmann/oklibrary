@@ -36,6 +36,10 @@ okltest_musatd2(musatd2);
 
 okltest_hittingtype_d2_cs(hittingtype_d2_cs);
 
+okltest_all_reps_uhitd2_t_fcs(all_reps_uhitd2_t_fcs);
+okltest_all_reps_uhitd2_fcs(all_reps_uhitd2_fcs);
+okltest_all_uhitd2_fcs(all_uhitd2_fcs);
+
 /*!
 \endhtmlonly
 */
