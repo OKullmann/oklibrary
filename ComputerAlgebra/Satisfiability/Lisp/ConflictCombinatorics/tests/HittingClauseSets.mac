@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,6 +31,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reduction
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
 
 kill(f)$
 
@@ -87,6 +89,30 @@ okltest_nvar_max_var_hitting_def(f) := (
   assert(f(3) = 7),
   for k : 2 thru 5 do ([FF : f(k)],
     assert(f(k) = nvar_f(max_var_hitting_def(k)))),
+  true)$
+
+okltest_all_hitting_extensions_k_fcs(f) := block([X],
+  assert(f(X,-1) = {}),
+  assert(f(X,0) = X),
+  assert(f({},1) = {}),
+  assert(f({[{},{}]},1) = {}),
+  assert(f({[{},{{}}]},1) = { [{1},{{-1},{1}}] }),
+  assert(f({[{},{{}}]},2) = { [{1,2},{{-1,-2},{-1,2},{1}}], [{1,2},{{1,-2},{1,2},{-1}}], [{1,2},{{1,-2},{-1,-2},{2}}] }),
+  for k : 0 thru if oklib_test_level=0 then 2 else 3 do 
+   block([H : f({[{},{{}}]},k), S : all_smusat1_cs(k)],
+    assert(map(fcs2cs,lunion(map(all_renamings_fcs,H))) = setify(S))
+  ),
+  true)$
+
+okltest_all_reps_hitting_extensions_k_fcs(f) := block([X],
+  assert(f(X,-1) = {}),
+  assert(f({},0) = {}),
+  assert(f({[{},{}]},0) = {[{},{}]}),
+  assert(f({ [{1},{{1},{-1}}], [{2},{{2},{-2}}] },0) = {[{1},{{1},{-1}}]}),
+  assert(f({},1) = {}),
+  assert(f({[{},{}]},1) = {}),
+  assert(f({[{},{{}}]},1) = { [{1},{{-1},{1}}] }),
+  assert(f({[{},{{}}]},2) = { [{1,2},{{-1,-2},{1,-2},{2}}] }),
   true)$
 
 

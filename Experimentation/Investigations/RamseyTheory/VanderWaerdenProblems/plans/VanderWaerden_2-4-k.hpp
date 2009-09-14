@@ -28,7 +28,7 @@ create_list(vanderwaerden4k(k),k,1,9);
 d = c(4,7,18,35,55,73,109,146)
 plot(d)
 x = log((1:length(d))[-(1:2)])
-y : log(d[-(1:2)])
+y = log(d[-(1:2)])
 plot(x,y)
 L = lm(y ~ x)
 summary(L)
@@ -41,6 +41,9 @@ C = coefficients(L)
 f = function(k){exp(C[1]) * k^C[2]}
 plot(d)
 lines(f(1:length(d)))
+f(1:10)
+ [1]   1.846715   7.875051  18.394758  33.582025  53.564174  78.441799
+ [7] 108.298437 143.205718 183.226470 228.416720
    \endverbatim
    </li>
   </ul>
@@ -309,23 +312,38 @@ BestSolution_Mean = 1.150000
 BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 2.000000
-
 > E = read_ubcsat("VanDerWaerden_2-4-8_145.cnf_AUS")
-
  0  1  2
  4 77 19
 100
    \endverbatim
    </li>
-   <li> It seems that gsat-tabu is best from the ubcsat-1-0-0 suite.
+   <li> It seems that gsat-tabu is best from the ubcsat-1-0-0 suite?:
    \verbatim
-
+> ubcsat-okl -alg gsat-tabu -runs 100 -cutoff 1000000 -i VanDerWaerden_2-4-8_145.cnf | tee VanDerWaerden_2-4-8_145.cnf_AUS2
+Clauses = 4862
+Variables = 145
+TotalLiterals = 25168
+FlipsPerSecond = 150984
+BestStep_Mean = 307929.290000
+Steps_Mean = 994437.860000
+Steps_Max = 1000000.000000
+PercentSuccess = 1.00
+BestSolution_Mean = 1.320000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 2.000000
+ 0  1  2
+ 1 66 33
+100
    \endverbatim
    </li>
+   So actually it seems that adaptnovelty+ is better, and thus here we have a
+   case where better performance for smaller cutoff-values is misleading. </li>
   </ul>
 
 
-  \todo vanderwaerden_2(4,9) > 262
+  \todo vanderwaerden_2(4,9) > 296
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
@@ -465,12 +483,187 @@ BestSolution_Max = 27.000000
      </li>
      <li> With adaptnovelty+ (cutoff=10^6):
      \verbatim
-
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 1000000 -i VanDerWaerden_2-4-9_262.cnf | tee VanDerWaerden_2-4-9_262.cnf_AUS
+ 0 16 17 18 19 20 21 23 24 25 26 27 28 29 30 31
+ 3  1  2  2  6  2  3  2  1  5 19 17 21 12  3  1
+100
      \endverbatim
+     Hm --- perhaps adaptnovelty+ is actually better when it comes to larger
+     cutoffs (or at least w.r.t. finding solutions)?! </li>
      </li>
     </ol>
    </li>
-   <li> n=263 </li>
+   <li> n=263 found satisfiable by adaptnovelty+ with cutoff=10^6
+   (seed=3699341296, osteps=72347):
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 1000000 -i VanDerWaerden_2-4-9_263.cnf | tee VanDerWaerden_2-4-9_263.cnf_AUS
+Clauses = 15589
+Variables = 263
+TotalLiterals = 83316
+FlipsPerSecond = 49375
+BestStep_Mean = 464066.000000
+Steps_Mean = 976996.130000
+Steps_Max = 1000000.000000
+PercentSuccess = 3.00
+BestSolution_Mean = 26.490000
+BestSolution_Median = 28.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 32.000000
+ 0 17 19 20 21 22 23 24 25 26 27 28 29 30 31 32
+ 3  1  3  2  3  1  2  3  4  3 13 24 17 14  6  1
+   \endverbatim
+   </li>
+   <li> n=264 found satisfiable by adaptnovelty+ with cutoff=10^6
+   (seed=1031057194, osteps=813990):
+Clauses = 15708
+Variables = 264
+TotalLiterals = 83952
+FlipsPerSecond = 48629
+BestStep_Mean = 468605.860000
+Steps_Mean = 998139.900000
+Steps_Max = 1000000.000000
+PercentSuccess = 1.00
+BestSolution_Mean = 27.650000
+BestSolution_Median = 28.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 33.000000
+ 0 18 19 20 21 23 24 25 26 27 28 29 30 31 32 33
+ 1  1  1  2  2  2  6  3  6 11 18 16 11 11  8  1
+   \endverbatim
+   </li>
+   <li> n=265 found satisfiable by adaptnovelty+ with cutoff=10^6
+   (seed=1091609315, osteps=600425). </li>
+   <li> n=266 found satisfiable by adaptnovelty+ with cutoff=10^6
+   (seed=4173596225, osteps=318672). </li>
+   <li> n=267 found satisfiable by adaptnovelty+ with cutoff=10^6
+   (seed=1038073943, osteps=990919):
+   \verbatim
+Clauses = 16071
+Variables = 267
+TotalLiterals = 85899
+FlipsPerSecond = 48162
+BestStep_Mean = 413333.000000
+Steps_Mean = 999909.190000
+Steps_Max = 1000000.000000
+PercentSuccess = 1.00
+BestSolution_Mean = 29.010000
+BestSolution_Median = 30.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 34.000000
+ 0 19 20 21 23 24 25 26 27 28 29 30 31 32 33 34
+ 1  1  2  2  2  3  3  2  6  6 12 18 19 13  8  2
+   \endverbatim
+   </li>
+   <li> n=268
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 1000000 -i VanDerWaerden_2-4-9_268.cnf | tee VanDerWaerden_2-4-9_268.cnf_AUS
+Clauses = 16193
+Variables = 268
+TotalLiterals = 86552
+FlipsPerSecond = 47014
+BestStep_Mean = 489412.130000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 29.910000
+BestSolution_Median = 31.000000
+BestSolution_Min = 20.000000
+BestSolution_Max = 35.000000
+20 21 22 23 26 27 28 29 30 31 32 33 34 35
+ 3  1  1  4  2  3  7  8 17 23 18  7  5  1
+   \endverbatim
+   but found satisfiable with cutoff=2*10^6 (seed=1345857851, osteps=160923):
+   \verbatim
+ 0 19 20 21 22 23 24 26 27 28 29 30 31 32 33 34
+ 4  1  4  2  1  1  2  7  3 12 17 16 16  9  3  2
+100
+   \endverbatim
+   </li>
+   <li> n=269 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=996923753, osteps=1099230). </li>
+   <li> n=270 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=3659785745, osteps=807607). </li>
+   <li> n=271 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=531082902, osteps=278105). </li>
+   <li> n=272 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1970325183, osteps=727890). </li>
+   <li> n=273 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1821288488, osteps=474978). </li>
+   <li> n=274 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=96564019, osteps=966284). </li>
+   <li> n=275 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=83432612, osteps=343301):
+   \verbatim
+Clauses = 17057
+Variables = 275
+TotalLiterals = 91178
+FlipsPerSecond = 45803
+BestStep_Mean = 931362.360000
+Steps_Mean = 1945969.930000
+Steps_Max = 2000000.000000
+PercentSuccess = 5.00
+BestSolution_Mean = 32.160000
+BestSolution_Median = 35.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 39.000000
+ 0 24 25 26 28 29 30 31 32 33 34 35 36 37 38 39
+ 5  2  1  2  4  3  1  2  6  7 16 18 24  4  4  1
+   \endverbatim
+   </li>
+   <li> n=276 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=2699968525, osteps=634428). </li>
+   <li> n=277 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1868050270, osteps=757488). </li>
+   <li> n=278 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1739242999, osteps=1644942). </li>
+   <li> n=279 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1463764243, osteps=318520). </li>
+   <li> n=280 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1380488068, osteps=1042265). </li>
+   <li> n=281 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=3596813003, osteps=701978). </li>
+   <li> n=290 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1761025677, osteps=839031).  </li>
+   <li> n=295 found satisfiable by adaptnovelty+ with cutoff=2*10^6
+   (seed=1176168555, osteps=1693117).  </li>
+   <li> n=296 seemed unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-4-9_296.cnf -solve | tee VanDerWaerden_2-4-9_296.cnf_AUS
+Clauses = 19783
+Variables = 296
+TotalLiterals = 105772
+FlipsPerSecond = 41502
+BestStep_Mean = 886547.620000
+Steps_Mean = 2000000.000000
+Steps_Max = 2000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 49.470000
+BestSolution_Median = 51.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 55.000000
+ 1 40 42 43 45 46 47 48 49 50 51 52 53 54 55
+ 2  1  1  2  2  4  6  8  6 11 16 11 19  7  4
+   \endverbatim
+   but then a solution was found (seed=1986226015, osteps=154011). </li>
+   <li> n=300 seems unsatisfiable:
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-4-9_300.cnf -solve | tee VanDerWaerden_2-4-9_300.cnf_AUS
+Clauses = 20326
+Variables = 300
+TotalLiterals = 108684
+FlipsPerSecond = 40762
+BestStep_Mean = 887586.680000
+Steps_Mean = 2000000.000000
+Steps_Max = 2000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 54.620000
+BestSolution_Median = 55.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 62.000000
+ 1 46 47 48 50 51 52 53 54 55 56 57 58 59 60 62
+ 1  1  1  2  4  2  6  8 14 14 10 15 11  7  3  1
+   \endverbatim
+   </li>
   </ul>
 
 */

@@ -36,6 +36,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
 
 
 /* ***************************************
@@ -134,6 +135,19 @@ rbrouwer1999 : [setn(7), {
 max_var_hitting_def(k) := if k=2 then musatd2(3) else
   vardisjoint_full_gluing(max_var_hitting_def(k-1), musatd2(3))$
 nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
+
+
+/* Given a set S of formal hitting clause-sets, compute the set of all 
+  singular hitting extensions by (exactly) k steps (where k is an integer):
+*/
+all_hitting_extensions_k_fcs(S,k) := if k < 0 then {}
+ elseif k=0 then S else
+  all_hitting_extensions_k_fcs(lunion(map(all_pre_hitting_extensions_fcs,S)),k-1)$
+/* Now returning a set of non-isomorphic representatives: */
+all_reps_hitting_extensions_k_fcs(S,k) := 
+ if k < 0 then {} else block([S : representatives_fcs(S)],
+   if k=0 then return(S) else
+    all_reps_hitting_extensions_k_fcs(lunion(map(all_pre_hitting_extensions_fcs,S)),k-1))$
 
 
 /* *********
