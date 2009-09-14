@@ -343,7 +343,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,9) >= 296
+  \todo vanderwaerden_2(4,9) > 296
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
@@ -626,7 +626,7 @@ BestSolution_Max = 39.000000
    (seed=1761025677, osteps=839031).  </li>
    <li> n=295 found satisfiable by adaptnovelty+ with cutoff=2*10^6
    (seed=1176168555, osteps=1693117).  </li>
-   <li> n=296 seems unsatisfiable:
+   <li> n=296 seemed unsatisfiable:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-4-9_296.cnf -solve | tee VanDerWaerden_2-4-9_296.cnf_AUS
 Clauses = 19783
@@ -643,8 +643,8 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 55.000000
  1 40 42 43 45 46 47 48 49 50 51 52 53 54 55
  2  1  1  2  2  4  6  8  6 11 16 11 19  7  4
-
    \endverbatim
+   but then a solution was found (seed=1986226015, osteps=154011). </li>
    <li> n=300 seems unsatisfiable:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-4-9_300.cnf -solve | tee VanDerWaerden_2-4-9_300.cnf_AUS
