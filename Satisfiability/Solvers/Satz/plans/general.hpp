@@ -41,6 +41,19 @@ License, or any later version. */
   <ul>
    <li> Adapt the method of OKsolver_2002, to use the Unix time system for
    32-bit machines. </li>
+   <li> The time measurement is also faulty:
+   \verbatim
+> time satz215 VanDerWaerden_2-4-6_73.cnf
+**** The instance is unsatisfiable. *****
+NB_MONO= 39, NB_UNIT= 788138, NB_BRANCHE= 78809, NB_BACK= 39800
+Program terminated in 0.002 seconds.
+satz215 VanDerWaerden_2-4-6_73.cnf 0.002 78809 39800 4882931 207876 0 73 1349 0 190588 62376
+
+real    1m20.445s
+user    0m24.296s
+sys     0m0.058s
+   \endverbatim
+   </li>
   </ul>
 
 
