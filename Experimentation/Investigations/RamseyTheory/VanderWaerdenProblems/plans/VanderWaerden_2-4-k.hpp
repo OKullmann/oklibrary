@@ -289,10 +289,87 @@ c file_name                             VanDerWaerden_2-4-7_109.cnf
   </ul>
 
 
+  \todo Performance of satz215
+  <ul>
+   <li>
+   \verbatim
+> satz215 VanDerWaerden_2-4-4_35.cnf
+NB_MONO= 0, NB_UNIT= 707, NB_BRANCHE= 111, NB_BACK= 56
+> satz215 VanDerWaerden_2-4-5_55.cnf
+NB_MONO= 0, NB_UNIT= 19373, NB_BRANCHE= 2528, NB_BACK= 1279
+> satz215 VanDerWaerden_2-4-6_73.cnf
+NB_MONO= 39, NB_UNIT= 788138, NB_BRANCHE= 78809, NB_BACK= 39800
+   \endverbatim
+   </li>
+   <li> This looks much worse than OKsolver_2002. </li>
+  </ul>
+
+
   \todo Performance of march_pl
 
 
   \todo Performance of minisat2
+  <ul>
+   <li>
+   \verbatim
+minisat2 VanDerWaerden_2-4-4_35.cnf
+restarts              : 3
+conflicts             : 344            (34407 /sec)
+
+> minisat2 VanDerWaerden_2-4-5_55.cnf
+restarts              : 8
+conflicts             : 3755           (31297 /sec)
+
+> minisat2 VanDerWaerden_2-4-6_73.cnf
+restarts              : 17
+conflicts             : 194391         (20058 /sec)
+   \endverbatim
+   </li>
+   <li> This looks much worse than OKsolver_2002. </li>
+  </ul>
+
+
+  \todo Performance of picosat236
+  <ul>
+   <li>
+   \verbatim
+picosat VanDerWaerden_2-4-4_35.cnf
+c 6 iterations
+c 2 restarts
+c 0 failed literals
+c 318 conflicts
+c 344 decisions
+
+> picosat VanDerWaerden_2-4-5_55.cnf
+c 7 iterations
+c 3 restarts
+c 0 failed literals
+c 3191 conflicts
+c 3440 decisions
+
+> picosat VanDerWaerden_2-4-6_73.cnf
+c 13 iterations
+c 3 restarts
+c 0 failed literals
+c 107987 conflicts
+c 116761 decisions
+
+> picosat VanDerWaerden_2-4-7_108.cnf
+c 0 iterations
+c 3 restarts
+c 0 failed literals
+c 2442419 conflicts
+c 2679965 decisions
+> picosat VanDerWaerden_2-4-7_109.cnf
+c 20 iterations
+c 3 restarts
+c 0 failed literals
+c 4433747 conflicts
+c 4860329 decisions
+   \endverbatim
+   </li>
+   <li> Seems comparable to OKsolver_2002 (likely better than minisat2). </li>
+  </ul>
 
 
   \todo Local search for the satisfiable instances
@@ -343,7 +420,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,9) > 296
+  \todo vanderwaerden_2(4,9) > 300
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
@@ -645,7 +722,7 @@ BestSolution_Max = 55.000000
  2  1  1  2  2  4  6  8  6 11 16 11 19  7  4
    \endverbatim
    but then a solution was found (seed=1986226015, osteps=154011). </li>
-   <li> n=300 seems unsatisfiable:
+   <li> n=300 seemed unsatisfiable:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-4-9_300.cnf -solve | tee VanDerWaerden_2-4-9_300.cnf_AUS
 Clauses = 20326
@@ -663,7 +740,9 @@ BestSolution_Max = 62.000000
  1 46 47 48 50 51 52 53 54 55 56 57 58 59 60 62
  1  1  1  2  4  2  6  8 14 14 10 15 11  7  3  1
    \endverbatim
-   </li>
+   but (using cutoff=4*10^6) a solution was found (seed=483608069,
+   osteps=1595734). </li>
+   <li> n=310 </li>
   </ul>
 
 */
