@@ -438,6 +438,10 @@ BestSolution_Max = 4.000000
   1   2
  34 190
 224
+> E = read_ubcsat("GreenTao_4-3_379.cnf_OUT2")
+ 1  2
+ 7 45
+52
    \endverbatim
    </li>
    <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
