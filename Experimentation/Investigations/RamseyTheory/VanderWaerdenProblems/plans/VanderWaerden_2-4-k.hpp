@@ -742,7 +742,19 @@ BestSolution_Max = 62.000000
    \endverbatim
    but (using cutoff=4*10^6) a solution was found (seed=483608069,
    osteps=1595734). </li>
-   <li> n=310 </li>
+   <li> n=310
+    <ol>
+     <li> 200 runs with cutoff=4*10^6:
+     \verbatim
+ 2  3  4  5  7 52 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
+ 2  3  4  4  1  1  3  2  3  2  8  4 14 15 22 35 27 23 10 12  4  1
+     \endverbatim
+     </li>
+     <li> 200 runs with cutoff=6*10^6:
+
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
