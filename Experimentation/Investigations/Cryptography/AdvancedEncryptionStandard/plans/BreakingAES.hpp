@@ -106,6 +106,9 @@ License, or any later version. */
      from both input files, and an updated p-line to account for the sum of the
      two files. Note: It is assumed the variable set of the first Dimacs file 
      encompasses the second. </li>
+     <li> "timeout" - A utility (available as part of the GNU coreutils - 
+     http://www.gnu.org/software/coreutils/), which allows a command to be run
+     with a given timeout. </li>
     </ul>
    </li>
    <li>
@@ -176,6 +179,8 @@ for bits_to_remove : 0 thru 128 do block([PA],
 #      process id. 
 #
 
+DEFAULT_TIMEOUT=7200
+
 # Renice current shell so we don't annoy anyone
 # Process run from this will then pick this up
 renice 19 -p $$;
@@ -197,7 +202,7 @@ cat experiments | while read EXP; do
 	EXP_COMMAND=`echo "$EXP" | cut -d " " -f 1 --complement`;
 	echo "Running" $EXP_NAME;
 	# Run command, and work out it's PID
-	eval $EXP_COMMAND &
+	(./timeout $DEFAULT_TIMEOUT /usr/bin/time -p bash -c "$EXP_COMMAND" 2>$EXP_NAME.time) &
 	EXP_PID=$!;
 	SESSION_ID=`ps h -o sid --pid $EXP_PID`;
 	# Keep track of memory usage etc
@@ -213,6 +218,10 @@ cat experiments | while read EXP; do
 done
     \endverbatim
     </li>
+    <li> Note here, any individual experiment instance runs for at most 
+    DEFAULT_TIMEOUT seconds (so 2 hours in this particular case), and the time
+    each experiment takes is measured using the standard unix time utility, as
+    some solvers etc will not display correct time information. </li>
     <li> "generate_aes_exp.sh":
     \verbatim
 # Generates AES experiments for one round AES.
