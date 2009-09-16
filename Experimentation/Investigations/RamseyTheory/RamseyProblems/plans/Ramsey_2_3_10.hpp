@@ -100,6 +100,8 @@ for n in `seq 5 43`; do
 done
    \endverbatim
    </li>
+   <li> The above experiment (in the generation script) is currently running on
+   cselara with a timeout of 2 hours. </li>
    <li> Combining all such investigations (different symmetry breaking 
    techniques, cardinality contraints etc) into a single experiment allows one
    to run through all such investigations for a short time and then split the
