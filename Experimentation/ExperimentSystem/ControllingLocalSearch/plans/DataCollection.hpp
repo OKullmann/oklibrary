@@ -14,16 +14,23 @@ License, or any later version. */
 
   \bug Specification of eval_ubcsat is badly written
   <ul>
-   <li> How to use this function? </li>
-   <li> Often a (non-sensical) "will be" is used (does this refer to later
-   extensions?) ?? </li>
-   <li> Also "should" is mis-used (since this likely is not an option for the
-   function!). </li>
-   <li> What is "and returns a new adds data frame" ?? </li>
+   <li> At its most basic the eval_ubcsat function can be run on
+   a given DIMACS file ("test.cnf" in this case), by running:
+   \verbatim
+df = eval_ubcsat("test.cnf")
+   \endverbatim
+   </li>
    <li> Commas are needed (and semicolons, and full-stops). </li>
-   <li> Many nonsensical uses of quotation marks. </li>
-   <li> Are environment variables to be used by the user?? (Obviously this
-   shouldn't be the case.) </li>
+   <li> DONE Many nonsensical uses of quotation marks. </li>
+   <li> DONE Also "should" is mis-used (since this likely is not an option for
+   the function!). </li>
+   <li> DONE What is "and returns a new adds data frame" ?? </li>
+   <li> (DONE These are defaults only, and are taken
+   as optional arguments for eval_ubcsat) Are environment variables to be used
+   by the user?? (Obviously this shouldn't be the case.) </li>
+   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
+   later extensions?) ?? </li>
+   <li> DONE How to use this function? </li>
   </ul>
 
 
