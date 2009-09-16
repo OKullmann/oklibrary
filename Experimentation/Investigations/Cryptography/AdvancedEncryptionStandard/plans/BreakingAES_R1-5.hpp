@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R1-5.hpp
-  \brief On investigations into breaking reduced round variants of the AES
+  \brief On investigations into breaking reduced round variants of the AES with small numbers of rounds
 
 
   \todo Breaking one round AES using the canonical translation for Sbox and Mul
@@ -16,6 +16,16 @@ License, or any later version. */
    the one round variant of the "canonical" AES translation, providing all 
    plaintext and ciphertext bits but leaving n key bits unknown where n ranges
    from 0 to 128. </li>
+   <li> The basic questions here are simply:
+    <ul>
+     <li> How do current SAT solvers perform on these problems? </li>
+     <li> Are there any solvers that perform far better than others on
+     these problems? If so why? (Such things may suggest improvements in
+     formulations of the problem. </li>
+     <li> Are there any interesting boundaries after which the problems
+     become hard with the current formulations? </li>
+    </ul>
+   </li>
    <li> For the sake of simple experimental, the plaintext and key are all
    zero and the ciphertext is the corresponding ciphertext given 1-round AES. 
    Further experimentation can be done using random keys if a pattern emerges.
@@ -197,44 +207,64 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
    <li> Monitoring scripts in the R system should be written to read the output
    of each solver, so such data can be easily amalgamated and then properly
    analysed. </li>
+   <li> Experiments currently running on "cspasiphae", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
   </ul>
 
 
   \todo Breaking two round AES using the canonical translation for Sbox and Mul
   <ul>
-    <li> A CNF representing two round AES variant (one round and the final 
-    round) can be generated in the following way:
-    \verbatim
-:lisp (ext:set-limit 'ext:heap-size 3000000000)
-:lisp (ext:set-limit 'ext:frame-stack 10000)
-:lisp (ext:set-limit 'ext:c-stack 200000)
-:lisp (ext:set-limit 'ext:lisp-stack 200000)
-
-
-oklib_load_all()$
-
-aes_sbox_cp : aes_sbox_ts_cp$
-aes_mul3_cp : aes_mul3_ts_cp$
-
-aes_mul2_cp : aes_mul2_ts_cp$
-aes_mul9_cp : aes_mul9_ts_cp$
-aes_mul11_cp : aes_mul11_ts_cp$
-aes_mul13_cp : aes_mul13_ts_cp$
-aes_mul14_cp : aes_mul14_ts_cp$
-
-aes_num_rounds : 2$
-
-block([oklib_monitoring : true], F : aes_cnf_fcs())$
-output_fcs("AES - 2 Rounds - Using canonical translations for Sbox etc.", F, "AES_r2_ts.cnf")$
-    \endverbatim
-    </li>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=2). 
+   </li>
+   <li> Experiments currently running on "cssinope", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
   </ul>
+
+
+  \todo Breaking three round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=3). 
+   </li>
+   <li> Experiments currently running on "cselara", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
+
+  \todo Breaking four round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=4). 
+   </li>
+   <li> Experiments currently running on "csananke", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
+
+  \todo Breaking five round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=5). 
+   </li>
+   <li> Experiments currently running on "csmiranda", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
   
   \todo Breaking two round AES using Sbox and Mul translations with no new 
   variables
   <ul>
-   <li> A CNF representing a two round AES variant (one round and the final round)
-   can be generated in the following way:
+   <li> A CNF representing a two round AES variant (one round and the final 
+   round) can be generated in the following way:
    \verbatim
 :lisp (ext:set-limit 'ext:heap-size 3000000000)
 :lisp (ext:set-limit 'ext:frame-stack 10000)
