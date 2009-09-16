@@ -181,7 +181,7 @@ License, or any later version. */
       always be provided) is incredibly cumbersome. </li>
       <li> These parameters should become arguments to the constraint templates,
       as this is precisely what these additionals arguments are for, then such
-      information (e.g. that the 2 round AES variant should be considered) is 
+      information (%e.g. that the 2 round AES variant should be considered) is 
       not hidden away. </li>
       <li> These can be considered simply by their position in the argument list,
       and if an argument is optional, then you must still provide it if one of
@@ -192,7 +192,7 @@ License, or any later version. */
      </li>
     </ul>
    </li>
-   <li> Specification : 
+   <li> Specification: 
     <ul> 
      <li> Concepts:
       <ul>
@@ -224,7 +224,7 @@ lambda([a],some_namespace_x(a,1,2,3))
        constraint template, where the arguments are used to indicate which
        instance of a particular type of variable are being used (that is,
        using nouns in the same way as is usual, see 
-       ComputerAlgebra/Satisfiability/Lisp/Generators/). </li>
+       ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac). </li>
       </ul>
      </li>
      <li> Necessary functions: 
@@ -244,7 +244,7 @@ lambda([a],some_namespace_x(a,1,2,3))
        </li>
        <li> Variable count function:
         <ul>
-	 <li> Takes as argument a namespace. </li>
+	 <li> Takes as argument namespace arguments. </li>
 	 <li> Returns the number of variables used in this namespace. </li>
 	 <li> Such a function should be defined for each namespace
 	 and can be recursively calculated based on sub-namespaces. </li>
@@ -271,8 +271,8 @@ lambda([a],some_namespace_x(a,1,2,3))
         <ul>
 	 <li> This function should take as an argument a set of constraint 
 	 templates. </li>
-	 <li> The result should be a CNF clause-set representing the constraint
-	 system. </li>
+	 <li> The result should be a CNF clause-set representing the 
+         constraint system. </li>
 	 <li> Auxilliary functions which translate individual constraint 
 	 templates into clause-sets are also necessary (and exist for the
 	 most part). </li>
@@ -281,7 +281,72 @@ lambda([a],some_namespace_x(a,1,2,3))
 	 literals. </li>
 	</ul>
        </li>
+       <li> Rewrite all constraint templates function:
+        <ul>
+         <li> Takes as argument a set of constraint templates. </li>
+	 <li> Returns a set of constraint templates after applying all
+	 rewrite rules. </li>
+        </ul>
+       </li>
+       <li> Translate to CNF function:
+        <ul>
+	 <li> Takes as argument a set of constraint templates. </li>
+	 <li> Returns a set of clauses and constraint templates after 
+	 applying all translations from constraint templates to CNF.
+	 </li>
+	 <li> Call this result set a pseudo-constraint-template set. </li>
+	 <li> Ideally this function would return only a set of clauses,
+	 however, if it is passed constraint-templates which do not have
+	 a translation to CNF then it will simply return them as they are.
+	 </li>
+	 <li> Each specific rewrite situation, such as for instance handling
+	 of equality constraints should be represented by separate functions
+	 which rewrite the entire pseudo-constraint-template set, and are
+	 then called by this function. </li>
+	</ul>
+       </li>
       </ul>
+     </li>
+     <li> Overview of system:
+     <ul>
+      <li> To translate AES one would call a rewrite all constraint template
+      function called "aes_rewrite_all", which would take as an argument a set
+      containing only a constraint template called "aes_ct", where arguments 
+      for the constraint template are the variables of AES 
+      (plaintext, key and ciphertext), along with a list of arguments, which 
+      would include the identity as the namespace (i.e., "lambda([a],a)"), and
+      then additionally arguments specifying which translation is used for the
+      Sbox, field multiplications, and whether one should include the 
+      mixcolumn inverse operation etc. </li>
+      <li> So for example:
+      \verbatim
+rewrite_all({aes_ct(p1,...,p128,k1,...,k128,c1,...,c128,[lambda([a],a),aes_sbox_ts_cp,aes_mul2_ts_cp,....,true])});
+      \endverbatim
+      </li>
+      <li> "rewrite_all" would then call constraint template rewrite 
+      function, called for instance, "aes_ctr", which would take as an 
+      argument, the arguments of "aes_ct". </li>
+      <li> aes_ctr would then translate this into a list of constraint 
+      templates, such as "aes_subbytes_ct", for which all newly introduced
+      variables have the namespace "aes_ns", where additional arguments to
+      the namespace are additional (non-namespace) arguments to "aes_ct",
+      and the namespace argument of (for instance) "aes_subbytes_ct" is
+      "lambda([a],aes_ns(a,arg1,arg2,...))", and additional arguments
+      to sub-constraint-templates are simply those arguments relevant
+      to that sub-constraint-template. </li>
+      <li> Such a rewrite procedure should continue until
+      all constraint-template rewrite functions have been applied
+      (in reasonable order). </li>
+      <li> The result of "rewrite_all" is then a set of constraint
+      templates which can no longer be rewritten in smaller
+      constraint templates. </li>
+      <li> At this point one can then call a translate to CNF function
+      on this set of constraint templates to rewrite it to CNF. </li>
+      <li> Within the translate to CNF function, constraint templates
+      such as those representing equivalence of variables can be translated
+      by replacement of variables etc, rather than adding additional clauses
+      etc. </li>
+     </ul>
      </li>
     </ul>
    </li>

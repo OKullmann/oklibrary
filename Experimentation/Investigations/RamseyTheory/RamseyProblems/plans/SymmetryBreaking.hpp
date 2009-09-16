@@ -14,17 +14,17 @@ License, or any later version. */
   <ul>
    <li> Systematic experiments need to be run examining the performance of
    different classes of solvers on various %Ramsey problems when additional
-   symmetry breaking clauses are added, in particular, symmetry breaking clauses
-   derived from the "Fixing monochromatic cliques" method. </li>
+   symmetry breaking clauses are added, in particular, symmetry breaking 
+   clauses derived from the "Fixing monochromatic cliques" method. </li>
    <li> MG ran some experiments using other solvers (picosat, minisat 2.1,
-   hybridGM7 etc) which need to be included in the library (both the solvers and
-   the results. </li>
+   hybridGM7 etc) which need to be included in the library (both the solvers 
+   and the results. </li>
    <li> NOTE, for ramsey_2^2(5) <= 49, functions such as "ramsey2_symbr2_cs" (
    See 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac) 
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac)
    when added to associated clause set, will fix a monochromatic clique
-   of size 5 (as 49 is a *known* upper bound for ramsey_2^2(5)), which will make
-   the clause set unsatisfiable (as it should be). </li>
+   of size 5 (as 49 is a *known* upper bound for ramsey_2^2(5)), which will 
+   make the clause set unsatisfiable (as it should be). </li>
    <li> This is not a problem, but it should be noted that symmetry breaking
    using this method is not making some huge breakthrough here. </li>
    <li> See 
@@ -40,7 +40,8 @@ License, or any later version. */
    cardinality constraints (that is, number of variables set to true restricted
    to between floor(153/2) and ceil(153/2)). </li>
    <li> MG should include the results from initial experiments he did using
-   various solvers (such as picosat, minisat, OKsolver_2002) etc. on this. </li>
+   various solvers (such as picosat, minisat, OKsolver_2002) etc. on this. 
+   </li>
    <li> MG should search for or e-mail McKay regarding the solutions for 
    high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
    the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
