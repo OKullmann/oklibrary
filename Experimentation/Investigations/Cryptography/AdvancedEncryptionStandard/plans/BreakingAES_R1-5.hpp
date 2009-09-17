@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R1-5.hpp
-  \brief On investigations into breaking reduced round variants of the AES
+  \brief On investigations into breaking reduced round variants of the AES with small numbers of rounds
 
 
   \todo Breaking one round AES using the canonical translation for Sbox and Mul
@@ -16,6 +16,17 @@ License, or any later version. */
    the one round variant of the "canonical" AES translation, providing all 
    plaintext and ciphertext bits but leaving n key bits unknown where n ranges
    from 0 to 128. </li>
+   <li> The basic questions here are simply:
+    <ul>
+     <li> How do current SAT solvers perform on these problems? </li>
+     <li> Are there any solvers that perform far better than others on
+     these problems? If so why? (Such things may suggest improvements in
+     formulations of the problem. </li>
+     <li> Are there any interesting boundaries after which the problems
+     become hard with the current formulations? </li>
+    </ul>
+   The idea is simply to get one's bearings with respect to the problem.
+   </li>
    <li> For the sake of simple experimental, the plaintext and key are all
    zero and the ciphertext is the corresponding ciphertext given 1-round AES. 
    Further experimentation can be done using random keys if a pattern emerges.
@@ -197,44 +208,105 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
    <li> Monitoring scripts in the R system should be written to read the output
    of each solver, so such data can be easily amalgamated and then properly
    analysed. </li>
+   <li> Experiments currently running on "cspasiphae", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
   </ul>
 
 
   \todo Breaking two round AES using the canonical translation for Sbox and Mul
   <ul>
-    <li> A CNF representing two round AES variant (one round and the final 
-    round) can be generated in the following way:
-    \verbatim
-:lisp (ext:set-limit 'ext:heap-size 3000000000)
-:lisp (ext:set-limit 'ext:frame-stack 10000)
-:lisp (ext:set-limit 'ext:c-stack 200000)
-:lisp (ext:set-limit 'ext:lisp-stack 200000)
-
-
-oklib_load_all()$
-
-aes_sbox_cp : aes_sbox_ts_cp$
-aes_mul3_cp : aes_mul3_ts_cp$
-
-aes_mul2_cp : aes_mul2_ts_cp$
-aes_mul9_cp : aes_mul9_ts_cp$
-aes_mul11_cp : aes_mul11_ts_cp$
-aes_mul13_cp : aes_mul13_ts_cp$
-aes_mul14_cp : aes_mul14_ts_cp$
-
-aes_num_rounds : 2$
-
-block([oklib_monitoring : true], F : aes_cnf_fcs())$
-output_fcs("AES - 2 Rounds - Using canonical translations for Sbox etc.", F, "AES_r2_ts.cnf")$
-    \endverbatim
-    </li>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=2). 
+   </li>
+   <li> Experiments currently running on "cssinope", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+   <li> For up to eight unknown key bits, the problem is trivial, and minisat2 
+   requires a single decision, and the rest follows by propagation. With 
+   OKsolver everything follows purely by propagation. </li>
+   <li> From 9 unknown key bits onwards, the number of decisions required to 
+   find the satisfying assignment with minisat2 seems to grow exponentially:
+   <table>
+   <tr>
+    <th> Number of unknown key bits </th><th>Decisions</th>
+    <th>Conflicts</th><th>Restarts</th><th>CPU time (s)</th>
+   </tr>
+   <tr><td>9</td><td>33</td><td>3</td><td>1</td><td>6.4</td></tr>
+   <tr><td>10</td><td>265</td><td>5</td><td>1</td><td>6.66</td></tr>
+   <tr><td>11</td><td>479</td><td>17</td><td>1</td><td>6.8</td></tr>
+   <tr><td>15</td><td>724</td><td>138</td><td>2</td><td>7.8</td></tr>
+   <tr><td>16</td><td>3070</td><td>493</td><td>4</td><td>9.2</td></tr>
+   <tr><td>20</td><td>81076</td><td>15848</td><td>11</td><td>39.7</td></tr>
+   </table>
+   From 8 to 9 and from 15 to 16 unknown key bits, the behaviour seems to 
+   change dramatically. Could this have something to do with the byte 
+   boundaries in the key?
+   </li>
+   <li> Why do the first 8 key bits follow immediately by unit clause 
+   elimination? </li>
+   <li> With OKsolver however, the number of nodes is always low and there
+   are a significant number of 2-reductions:
+   <table>
+    <tr>
+      <th>Number of unknown key bits</th><th>Nodes</th>
+      <th>2-reductions</th><th>CPU time (s)</th>
+    </tr>
+    <tr><td>5</td><td>0</td><td>0</td><td>1.3</td></tr>
+    <tr><td>8</td><td>0</td><td>0</td><td>1.3</td></tr>
+    <tr><td>9</td><td>1</td><td>1</td><td>1.5</td></tr>
+    <tr><td>16</td><td>1</td><td>255</td><td>6.8</td></tr>
+    <tr><td>17</td><td>1</td><td>1933</td><td>155.5</td></tr>
+    <tr><td>20</td><td>9</td><td>7556</td><td>3539.5</td></tr>
+    <tr><td>25</td><td>8</td><td>8838</td><td>5313.3</td></tr>
+   </table>
+   However, OKsolver takes a significant amount of time as the problem 
+   increases, presumably because the problem is large and computing
+   2 reductions on such a large CNF is expensive. </li>
   </ul>
+
+
+  \todo Breaking three round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=3). 
+   </li>
+   <li> Experiments currently running on "cselara", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
+
+  \todo Breaking four round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=4). 
+   </li>
+   <li> Experiments currently running on "csananke", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
+
+  \todo Breaking five round AES using the canonical translation for Sbox and 
+  Mul
+  <ul>
+   <li> See "Breaking one round AES using the canonical translation for Sbox 
+   and Mul" for aims, questions, and how to generate this experiment ($N=5). 
+   </li>
+   <li> Experiments currently running on "csmiranda", from n=128 (where n is 
+   the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
+   hours. </li>
+  </ul>
+
   
   \todo Breaking two round AES using Sbox and Mul translations with no new 
   variables
   <ul>
-   <li> A CNF representing a two round AES variant (one round and the final round)
-   can be generated in the following way:
+   <li> A CNF representing a two round AES variant (one round and the final 
+   round) can be generated in the following way:
    \verbatim
 :lisp (ext:set-limit 'ext:heap-size 3000000000)
 :lisp (ext:set-limit 'ext:frame-stack 10000)

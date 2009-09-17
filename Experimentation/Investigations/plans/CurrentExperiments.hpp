@@ -12,6 +12,42 @@ License, or any later version. */
   Just to see what experiments are running at *this* time.
 
 
+  <h1> Cryptography </h1>
+
+  <h2> Advanced Encryption Standard </h2>
+
+  <ul>
+   <li> Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R1-5.hpp
+    <ol>
+     <li> Breaking one round AES using the canonical translation for Sbox and 
+     Mul</li>
+     <li> Breaking two round AES using the canonical translation for Sbox and 
+     Mul </li>
+     <li> Breaking three round AES using the canonical translation for Sbox 
+     and Mul </li> 
+     <li> Breaking four round AES using the canonical translation for Sbox 
+     and Mul </li> 
+     <li> Breaking five round AES using the canonical translation for Sbox 
+     and Mul </li> 
+    </ol>
+   </li>
+   <li> Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R6-10.hpp
+    <ol>
+     <li> Breaking six round AES using the canonical translation for Sbox 
+     and Mul </li> 
+     <li> Breaking seven round AES using the canonical translation for Sbox 
+     and Mul </li> 
+     <li> Breaking eight round AES using the canonical translation for Sbox 
+     and Mul </li> 
+     <li> Breaking nine round AES using the canonical translation for Sbox 
+     and Mul </li>
+     <li> Breaking ten round AES using the canonical translation for Sbox 
+     and Mul </li> 
+    </ol>
+   </li>
+  </ul>
+
+
   <h1> Ramsey theory </h1>
 
   <h2> Green-Tao problems </h2>
