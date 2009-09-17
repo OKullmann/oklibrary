@@ -742,6 +742,12 @@ BestSolution_Max = 62.000000
    \endverbatim
    but (using cutoff=4*10^6) a solution was found (seed=483608069,
    osteps=1595734). </li>
+   <li> n=301 </li>
+   <li> n=305: 200 runs with cutoff=4*10^6:
+   \verbatim
+ 2  3  5 51 52 53 54 55 56 57 58 59 60 61 62 63 64
+ 3 12  1  1  5  7  7 15 17 17 26 21 30 22 12  3  1
+   </li>
    <li> n=310
     <ol>
      <li> 200 runs with cutoff=4*10^6:
@@ -751,7 +757,8 @@ BestSolution_Max = 62.000000
      \endverbatim
      </li>
      <li> 200 runs with cutoff=6*10^6:
-
+ 2  3  4  5  6 51 52 55 56 57 58 59 60 61 62 63 64 65 66 67 68
+ 1  9  2  2  2  1  3  1  8  6  8 12 22 21 24 27 22 15  9  4  1
      </li>
     </ol>
    </li>
