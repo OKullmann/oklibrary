@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Breaking one round AES using the canonical translation for Sbox and Mul
   <ul>
    <li> The aim here is to monitor the performance of a variety of solvers on
-   the one round variant of the "canonical" AES translation, providing all 
+   the one-round variant of the "canonical" AES translation, providing all 
    plaintext and ciphertext bits but leaving n key bits unknown where n ranges
    from 0 to 128. </li>
    <li> The basic questions here are simply:
@@ -35,7 +35,7 @@ License, or any later version. */
    but how much of this key is provided in the SAT problem to the SAT solver
    is then restricted, and the SAT problem is then to derive this key. </li>
    <li> See "Generating experiments" in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
    for details on generating an experiment set for this experiment ($N=1).
    </li>
    <li> minisat2 seems to perform reasonably well on such problems:
@@ -150,7 +150,7 @@ c 77729689 propagations
 c 48.8 seconds total run time
    \endverbatim
    </li>
-   <li> OKsolver seems to perform well 
+   <li> OKsolver_2002 seems to perform well 
    <ul>
     <li> 
     \verbatim
@@ -158,9 +158,10 @@ cs360678@cspasiphae:~> cat AES_1_Round/AES_R1_P0_K0_CX_KN72.cnf.result.OKsolver 
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=256 initial_number_of_variables=32176 initial_number_of_clauses=510420 initial_number_of_literal_occurrences=1500064 running_time(s)=8.7 number_of_nodes=1 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=255 number_of_pure_literals=0 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=0 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=7136 reduced_number_of_clauses=110841 reduced_number_of_literal_occurrences=326240 number_of_1-autarkies=0 number_of_initial_unit-eliminations=7136 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=374080 file_name=AES_R1_P0_K0_CX_KN72.cnf
     \endverbatim
+     (this should be updated using the current OKsolver_2002).
     </li>
     <li> However, when the number of unknown key bits reaches 73 and above, 
-    OKsolver seems to have considerable trouble:
+    OKsolver_2002 takes more time (though the problem is still very simple):
     \verbatim
 cs360678@cspasiphae:~> cat AES_1_Round/AES_R1_P0_K0_CX_KN73.cnf.result.OKsolver | grep -v "^v"
 s SATISFIABLE
@@ -176,7 +177,7 @@ c sat_status=1 initial_maximal_clause_length=256 initial_number_of_variables=321
     </li>
    </ul>
    </li>
-   <li> Preprocessing seems to help OKsolver considerably here:
+   <li> Preprocessing seems to help OKsolver_2002 considerably here:
    \verbatim
 cs360678@cspasiphae:~> cat AES_1_Round/AES_R1_P0_K0_CX_KN75.cnf.result.OKsolver-m2pp | grep -v "^v"
 s UNKNOWN
@@ -186,10 +187,10 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
    \endverbatim
    </li>
    <li> march_pl also doesn't seem to work particularly well on such problems,
-   although better than OKsolver:
+   although faster than OKsolver_2002:
    <ul>
     <li> For the number of unknown key bits being 10, march_pl takes under a 
-    second. </li>
+    second. (??? the number of nodes is important!) </li>
     <li> For the number of unknown key bits being 50, march_pl takes around 
     25 seconds. </li>
     <li> For the number of unknown key bits being 75, march_pl takes nearly 
@@ -202,8 +203,8 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
     timer overflows). </li>
    </ul>
    </li>
-   <li> OKsolver* and march_pl seem to considerably slow the experiment in this
-   case and so it may be reasonable to remove them for larger numbers of
+   <li> OKsolver_2002 and march_pl seem to considerably slow the experiment in
+   this case and so it may be reasonable to remove them for larger numbers of
    unknown key bits? </li>
    <li> Monitoring scripts in the R system should be written to read the output
    of each solver, so such data can be easily amalgamated and then properly
@@ -224,7 +225,7 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
    hours. </li>
    <li> For up to eight unknown key bits, the problem is trivial, and minisat2 
    requires a single decision, and the rest follows by propagation. With 
-   OKsolver everything follows purely by propagation. </li>
+   OKsolver_2002 everything follows purely by propagation. </li>
    <li> From 9 unknown key bits onwards, the number of decisions required to 
    find the satisfying assignment with minisat2 seems to grow exponentially:
    <table>
@@ -239,13 +240,15 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
    <tr><td>16</td><td>3070</td><td>493</td><td>4</td><td>9.2</td></tr>
    <tr><td>20</td><td>81076</td><td>15848</td><td>11</td><td>39.7</td></tr>
    </table>
+REMARK OK: the text should be readable as pure text, so no such html-tables please. Numerical evaluation by R-tools is needed.
+
    From 8 to 9 and from 15 to 16 unknown key bits, the behaviour seems to 
    change dramatically. Could this have something to do with the byte 
    boundaries in the key?
    </li>
    <li> Why do the first 8 key bits follow immediately by unit clause 
    elimination? </li>
-   <li> With OKsolver however, the number of nodes is always low and there
+   <li> With OKsolver_2002 however, the number of nodes is always low and there
    are a significant number of 2-reductions:
    <table>
     <tr>
@@ -260,9 +263,9 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
     <tr><td>20</td><td>9</td><td>7556</td><td>3539.5</td></tr>
     <tr><td>25</td><td>8</td><td>8838</td><td>5313.3</td></tr>
    </table>
-   However, OKsolver takes a significant amount of time as the problem 
+   However, OKsolver_2002 takes a significant amount of time as the problem 
    increases, presumably because the problem is large and computing
-   2 reductions on such a large CNF is expensive. </li>
+   2-reductions on such a large CNF is expensive. </li>
   </ul>
 
 
