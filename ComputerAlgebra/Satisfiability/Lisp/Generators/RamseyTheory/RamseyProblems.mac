@@ -111,7 +111,7 @@ ramsey_stdofcs(q,r,n) :=
   standardise_fcl(nbfclud2fcl_alo(ramsey_stdnbfclud(q,r,n)))[1]$
 
 output_ramsey(q,r,n,filename) := block(
- [FFR : ramsey_stdofcs(q,r,n)],
+ [FFR : standardise_fcl(ramsey_ofcs(q,r,n))],
   output_fcl_v(
     sconcat("Ramsey problem: ",length(q),
       " colours, hypergraph edges of size ", r, 
@@ -136,6 +136,28 @@ ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
       i,1,d)))$
 ramsey_symbr1_stdpass(q,n) :=
   ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
+output_ramsey_symbr1(q,n,filename) := block(
+ [PA : ramsey_symbr1_pass(q,n)],
+  output_fcsext(
+    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
+      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
+      q, ", and ", n, " elements."), 
+    cs2fcs(map(set,PA)),
+    filename,
+    colv_string))$
+output_ramsey_symbr1_stdname(q,n) :=
+  output_ramsey_symbr1(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".ecnf"))$
+output_ramsey_symbr1_std(q,n,filename) :=
+  output_fcs(
+    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
+      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
+      q, ", and ", n, " elements. Variables are given their rank in the",
+      "standard colexicographical ordering."),
+    cs2fcs(map(set,ramsey_symbr1_stdpass(q,n))),
+    filename)$
+output_ramsey_symbr1_std_stdname(q,n) :=
+  output_ramsey_symbr1_std(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".cnf"))$
+      
 
 /* XXX preliminary */
 /* r=2, q >= 3, n >= 4 */
@@ -167,11 +189,7 @@ output_ramsey2_symbr2(n,f) := output_fcsext(
     "problems of the form ramsey_r^2(q_1,q_2) < n?"),
     cs2fcs(ramsey2_symbr2_cs(n)),
     f,
-    lambda([l], sconcat(
-        if abs(l) = l then "" else "-",
-        xreduce(
-          lambda([a,b],sconcat(a,"S",b," ")),
-          args(args(abs(l))[1])))))$
+    colv_string)$
 output_ramsey2_symbr2_stdname(n) :=
   output_ramsey2_symbr2(n, sconcat("Ramsey_SB_MC_",n,".ecnf"))$
 
@@ -242,43 +260,61 @@ ramsey_symbr2_eqs(s,r,n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
   if oklib_monitor then print("Cliques chosen : ", clique_l),
   return(map(lambda([a],powerset(a,r)),setify(clique_l))))$
 
-/* Given a set of vertices representing the symmetric (k,2) Ramsey problem 
-   with n vertices, a hashmap from the variables to their meanings (as
-   edges) and a hashmap from variable meanings to their corresponding 
-   variables, break symmetries of the clause-set by considering monochromatic 
-   p-cliques in the subgraphs of the graph using previous Ramsey numbers. 
 
-   If certain edges should be excluded from the symmetry breaking because they
-   have, in some sense, already been considered from some previous symmetry
-   breaking, then these can be passed as an additional arguments, as a set of
-   variables using "ramsey2_sym_break_rec_r".
+/* Given a natural number n, gives a clause-set F which represents that all
+   edges are labelled/coloured with the same colour for each edge-set in
+   ramsey2_symbr3_eqs(n). */
+ramsey2_symbr3_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
+  clique_l : ramsey2_symbr3_eqs(n), 
+  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
+    edge_pairs : powerset(eq_edges,2),
+    for edge in edge_pairs do block(
+      el : map(lambda([e], colv_var(e)),listify(edge)),
+      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
+    )
+  ),
+  return(lunion(rl)))$
+output_ramsey2_symbr3(n,f) := output_fcsext(
+  sconcat(
+    "Ramsey symmetry breaking through recursive application of the PHP for ",
+    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
+    cs2fcs(ramsey2_symbr3_cs(n)),
+    f,
+    colv_string)$
+output_ramsey2_symbr3_stdname(n) :=
+  output_ramsey2_symbr3(n, sconcat("Ramsey_SB_PHP_",n,".ecnf"))$
 
-   This function returns a set of clauses to add to the clause set.
+
+/* Given a natural number n, gives a set of sets of edges in the graph with n
+   vertices which can be given equivalent labels (from {1,2}) in any Ramsey
+   problem of the form "ramsey_2^2(q,q) < n?".
+
+   The idea here is that by fixing a single vertex V in the graph G on n
+   vertices and then considering all edges leaving it, by the pigeon hole
+   principle, at least floor(n/2) of those edges must have the same colour, and
+   so W.L.O.G we fix floor(n/2) edges (call this edge set E) which must have the
+   same colour.
+
+   However, intuitively, if we consider V(E) \ {V}, that is, the vertices
+   "at the end" of the edges from V, then we have the complete induced sub-graph
+   and this sub-graph may again have the same principle of fixing a vertex
+   and then fixing edges based on the PHP, applied to it. The same
+   consideration may also be applied to the V(E(G) \ E(V)) \ {V}, that is, the
+   edges from V, not fixed. In such a way, we may recursively apply the pigeon
+   hole principle to fix edges for smaller and smaller sub-graphs.
 */
-ramsey2_sym_break_rec(V,f_v,f_vn) := ramsey2_sym_break_rec_r(V,f_v,f_vn,{})$
-ramsey2_sym_break_rec_r(V,f_v, f_vn, exc_edges) := block(
-  [vertices : {}, cur_ramsey_num : 2, len_vert, p : 2],
-  if oklib_monitor then print("Excluded Edges = ", exc_edges),
-  vertices : setdifference(
-    lunion(map(lambda([v],f_vn(v)), V)),
-    lunion(map(lambda([v],f_vn(v)), exc_edges))),
-  if oklib_monitor then print("Current Vertices = ", vertices), 
-  len_vert : length(vertices),
-  if len_vert > 1 then block(
-     [edge_vars, edge_var, F_n, sub_hm : sm2hm({}), result_sm],
-    while len_vert >= ramsey_ub_s(ramsey([2,[p+1,p+1]])) do p : p + 1,
-    if oklib_monitor then print("p = ", p),
-    edge_vars : map(
-      f_v, complete_g(setify(take_elements(p,listify(vertices))))[2]),
-    if oklib_monitor then print("p-clique chosen (as edges) = ", edge_vars),
-    F_n : ramsey2_sym_break_rec_r(V,f_v, f_vn, union(exc_edges,edge_vars)),
-    if oklib_monitor then print("Edge vars = ", edge_vars),
-    return(union(F_n,
-      map(lambda([a], {a[1], -a[2]}), 
-        subset(cartesian_product(edge_vars,edge_vars),
-          lambda([b],not is(b[1] = b[2])))))))
-  else return({})
-)$
+ramsey2_symbr3_eqs(n) := ramsey2_symbr3_eqs_m(1,n)$
+ramsey2_symbr3_eqs_m(m,n) := block([mid_p,rs : {},edge_equivs],
+    mid_p : ceiling(((n-1) - (m+1)) / 2) + (m + 1),
+    edge_equivs : map(lambda([i],{m,i}),setmn(m+1,mid_p)),
+    if oklib_monitor then
+      print("Length = ", mid_p - m, "Edges = ", m, " to ", setmn(m+1,mid_p)),
+    rs : adjoin(edge_equivs,
+      union(
+        if (mid_p - (m+1)) > 2 then ramsey2_symbr3_eqs_m(m+1, mid_p) else {}, 
+        if (n - (mid_p+1)) > 2 then ramsey2_symbr3_eqs_m(mid_p+1, n) else {})),
+    return(rs))$
+
 
 /*!
 \endhtmlonly

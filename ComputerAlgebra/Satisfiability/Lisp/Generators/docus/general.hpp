@@ -15,8 +15,9 @@ License, or any later version. */
   <ul>
    <li> Sudoku:
    ComputerAlgebra/Satisfiability/Lisp/Generators/docus/Sudoku.hpp. </li>
-   <li> %Ramsey problems:
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/docus/RamseyProblems.hpp. </li>
+   <li> Problems in %Ramsey theory:
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/docus/general.hpp.
+   </li>
   </ul>
 
 */

@@ -307,7 +307,7 @@ generalised_ucp1(fcs2cs(apply_pa_fcs(ramsey_symbr1e_pass(3,6), ofcs2fcs(ramsey2_
      the %Ramsey problem at hand (probably only "n" is needed), and produces
      a set of clauses which can be added to the problem to map those symmetries
      immediately obvious to the solver. </li>
-     <li> There is now a function "ramsey2_sym_break_rec" which generates a set
+     <li> There is now a function "ramsey2_symbr2_cs" which generates a set
      of clauses to break the symmetries described in MG's idea above. </li>
      <li> The need for this function to take mappings from variables to 
      their "meanings" should be alleviated once there is are "rank" and
@@ -412,7 +412,8 @@ ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
   <ul>
    <li> First the above todo needs to be completely updated, and merged with
    this todo. </li>
-   <li> Function added called "ramsey_symbr2_cs" which takes only "n" and 
+   <li> (DONE Function removed, now covered by ramsey2_symbr2_cs)
+   Function added called "ramsey_symbr2_cs" which takes only "n" and 
    has 
    \verbatim
 load("obsubst");

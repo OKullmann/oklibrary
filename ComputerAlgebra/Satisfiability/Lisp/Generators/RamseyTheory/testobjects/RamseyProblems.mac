@@ -34,7 +34,9 @@ okltest_ramsey_symbr2_stdnbfclud(ramsey_symbr2_stdnbfclud);
 okltest_ramsey_symbr2_fcl(ramsey_symbr2_fcl);
 okltest_ramsey_symbr2_stdfcl(ramsey_symbr2_stdfcl);
 okltest_ramsey_symbr2_eqs(ramsey_symbr2_eqs);
-okltest_ramsey2_sym_break_rec(ramsey2_sym_break_rec);
+okltest_ramsey2_symbr3_cs(ramsey2_symbr3_cs);
+okltest_ramsey2_symbr3_eqs_m(ramsey2_symbr3_eqs_m);
+okltest_ramsey2_symbr3_eqs(ramsey2_symbr3_eqs);
 
 /*!
 \endhtmlonly

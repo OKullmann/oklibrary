@@ -88,6 +88,32 @@ License, or any later version. */
   </ul>
 
 
+  <h2> %Ramsey problems </h2>
+
+  <ul>
+   <li> RamseyTheory/RamseyProblems/plans/Ramsey_2_5_5.hpp
+    <ul> 
+     <li> Using DPLL and Conflict driven solvers </li>
+    </ul>
+   </li>
+   <li> RamseyTheory/RamseyProblems/plans/Ramsey_2_4_4.hpp
+    <ul> 
+     <li> Using DPLL and Conflict driven solvers </li>
+    </ul>
+   </li>
+   <li> RamseyTheory/RamseyProblems/plans/Ramsey_2_4_6.hpp
+    <ul> 
+     <li> Using DPLL and Conflict driven solvers </li>
+    </ul>
+   </li>
+   <li> RamseyTheory/RamseyProblems/plans/Ramsey_2_3_10.hpp
+    <ul> 
+     <li> Using DPLL and Conflict driven solvers </li>
+    </ul>
+   </li>
+  </ul>
+
+
   <h2> Van der Waerden problems </h2>
 
   <ul>

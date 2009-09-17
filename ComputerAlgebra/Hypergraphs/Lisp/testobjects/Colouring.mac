@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Colouring.mac")$
    *******************************
 */
 
+okltest_colv_string(colv_string);
 okltest_tcol2sat_hg2fcs(tcol2sat_hg2fcs);
 okltest_tcol2sat_stdhg2stdfcs(tcol2sat_stdhg2stdfcs);
 okltest_tcol2sat_ohg2fcl(tcol2sat_ohg2fcl);
