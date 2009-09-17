@@ -15,7 +15,7 @@ License, or any later version. */
    <li> Known is 43 <= ramsey_2^2(5) <= 49. </li>
    <li> So we get 1-2 million clauses. </li>
    <li> To generate an instance of SAT problem specifying "ramsey_2^2(5) > n?"
-   one may use the following:
+   use the following:
    \verbatim
 Ramsey-O3-DNDEBUG 5 5 2 6 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_5_5_2_6.cnf
    \endverbatim
@@ -24,7 +24,7 @@ Ramsey-O3-DNDEBUG 5 5 2 6 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_5_5_2_6.c
    <li> To generate the additional clauses for each of the symmetry 
    breaking techniques (see 
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp)
-   and cardinality constraints, the following can be run in maxima (generating
+   and cardinality constraints, run the following in maxima (generating
    each of the additional clauses for a range of n values):
    <ul>
     <li> Symmetry breaking by fixing colours/labels to break monochromatic

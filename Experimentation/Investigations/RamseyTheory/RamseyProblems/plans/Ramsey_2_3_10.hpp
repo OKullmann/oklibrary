@@ -17,7 +17,7 @@ License, or any later version. */
    <li> This is likely too many clauses for most solvers but perhaps
    some local search solvers might be able to manage something? </li>
    <li> To generate an instance of SAT problem specifying 
-   "ramsey_2^2(3,10) > n?" one may use the following:
+   "ramsey_2^2(3,10) > n?" use the following:
    \verbatim
 Ramsey-O3-DNDEBUG 3 10 2 6 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_3_10_2_6.cnf
    \endverbatim
@@ -29,7 +29,7 @@ Ramsey-O3-DNDEBUG 3 10 2 6 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_3_10_2_6
    <li> To generate the additional clauses for each of the symmetry 
    breaking techniques (see 
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp)
-   and cardinality constraints, the following can be run in maxima (generating
+   and cardinality constraints, run the following in maxima (generating
    each of the additional clauses for a range of n values):
    <ul>
     <li> Symmetry breaking by fixing colours/labels to break monochromatic
