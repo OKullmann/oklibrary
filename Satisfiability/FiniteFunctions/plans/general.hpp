@@ -274,6 +274,9 @@ p/P is the absence/presence of X16
      bytes at least would be more than his available 4 GB memory. A 64 bit
      machine might do better but even then, likely the aforementioned limit
      on the size of a vector would still be a problem. </li>
+     <li> Running the qmcc minimisation on a machine with 8GB memory yields
+     a similar error, complaining that a vector of size 15.9GB can not be
+     generated. Using this function then seems infeasible? </li>
      <li> DONE Perhaps MG should e-mail the R mailing list? </li>
     </ol>
    </li>
