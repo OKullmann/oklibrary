@@ -284,7 +284,71 @@ c file_name                             VanDerWaerden_2-4-7_109.cnf
    \endverbatim
    </li>
    <li> vdw_2(4,8) = 146
-
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D16 -F VanDerWaerden_2-4-8_146.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         8
+c initial_number_of_variables           146
+c initial_number_of_clauses             4930
+c initial_number_of_literal_occurrences 25520
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     417795.2
+c number_of_nodes                       260999494
+c number_of_single_nodes                22477
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1289661772
+c number_of_pure_literals               209803
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         57858
+c max_tree_depth                        47
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 3107263
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-4-8_146.cnf
+ E = read_oksolver_mon("VanDerWaerden_2-4-8_146.cnf.mo")
+65491
+> plot_oksolver_mon_nodes(E)
+ldstep= 13 step= 8192 left= 128 right= 65536
+obs/count= 1.000688 nodes-range= 1 375720 ave-nodes-range= 2282.791 8694.232
+> summary_oksolver(E)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      1     281    1025    3985    3351  375700
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.290   5.100   5.300   5.309   5.510  27.000
+Single nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.0000  0.0000  0.0000  0.3432  0.0000 54.0000
+Autarkies:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0       0       0       0       0       0
+Time ~ nodes:
+[1] 0.9944431
+ (Intercept)      E$nodes
+-0.355068103  0.001689846
+Single nodes ~ nodes:
+[1] 0.6518576
+  (Intercept)       E$nodes
+-0.2196576270  0.0001412363
+Autarkies ~ nodes:
+[1] NaN
+(Intercept)     E$nodes
+          0           0
+> hist_oksolver_mon_nodes(E)
+Median= 10.00141
+Mean= 11.96046
+   \endverbatim
+   2reds/nds ~ 4.94, n / 4.94 ~ 29.6; in the second half the monitoring nodes
+   got much easier, and the distribution of node-counts had one central peak
+   around the median and a very thin "heavy tail". </li>
    </li>
   </ul>
 
@@ -420,7 +484,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,9) > 301
+  \todo vanderwaerden_2(4,9) > 302
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
@@ -754,7 +818,8 @@ BestSolution_Max = 62.000000
      osteps=5004399). </li>
     </ol>
    </li>
-   <li> n=302: </li>
+   <li> n=302 found satisfiable by adaptnovelty+ with cutoff=8*10^6
+   (seed=4209052746, osteps=4948335). </li>
    <li> n=305: 200 runs with cutoff=4*10^6:
    \verbatim
  2  3  5 51 52 53 54 55 56 57 58 59 60 61 62 63 64
