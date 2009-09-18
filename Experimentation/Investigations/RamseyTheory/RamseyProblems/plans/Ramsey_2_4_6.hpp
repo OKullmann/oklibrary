@@ -62,8 +62,9 @@ for n : 5 thru 41 do output_ramsey2_symbr3_stdname(n);
    <li> A systematic investigation, involving the applicable symmetry breaking
    techniques (see 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp)
-   can be generated and run using the experiment system discussed in 
-   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp), with 
+   can be generated and run using the experiment system discussed at "General 
+   experiment system" in 
+   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp), with
    the following "generate_exp.sh" script:
    \verbatim
 # Generates Ramsey experiments for "ramsey_2^2(4,6) > n?" for 5 <= n <= 41.
