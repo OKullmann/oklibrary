@@ -40,6 +40,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElem
 
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Closures.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Commutativity.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Enumeration.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/Homomorphisms.mac")$
