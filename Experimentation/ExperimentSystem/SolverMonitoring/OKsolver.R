@@ -25,7 +25,32 @@ read_oksolver_mon = function(filename, ...) {
 # data plots); but often, say, plot(E[-(1:100),]) is more appropriate,
 # which eliminates the first 100 rows from the data frame.
 
+# Reading OKsolver output (stdout) and returning a data.frame
+read_oksolver_output = function(filename, ...) {
+  S = system(paste("cat ", filename, " | grep sat_status | cut -d ' ' -f '1' --complement"),intern=TRUE)
+  S = gsub("[^a-zA-Z_\\-\\=0-9 \\.]","",S)
+  S = gsub("file_name=([^ ]*)","file_name=\"\\1\"",S)
+  S = paste("list(",gsub(" ", ",",S),")")
+  E = eval(parse(text=S))
+  data.frame(E)
+}
 
+# Reading a set of OKsolver outputs into a data.frame (given as a list of
+# filenames)
+read_oksolver_outputs = function(filenames) {
+ for(file in filenames) {
+   if(exists("result_df")) {
+     result_df = rbind(result_df,read_oksolver_output(file))
+   } else {
+     result_df = read_oksolver_output(file)
+   }
+ }
+ result_df
+}
+# Note one can use:
+# read_oksolver_outputs(dir(pattern=glob2rx("*.result")))
+# to read all files with ".result" as the end.
+  
 # ##############
 # # Evaluation #
 # ##############
