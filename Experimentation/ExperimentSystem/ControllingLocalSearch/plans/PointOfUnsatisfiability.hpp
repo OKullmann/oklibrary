@@ -128,6 +128,23 @@ License, or any later version. */
      statistics envolved. </li>
     </ol>
    </li>
+   <li> On the underlying assumptions:
+    <ol>
+     <li> "Most" problems seems to have just one "centre" of the
+     min-distribution, and the task is to "push hard" to move this centre
+     towards min=0. </li>
+     <li> Of course, using a low cutoff-value, one will see a high min-average,
+     and a few outliers with much lower min-value, however for "most" cases
+     it seems not effective to  go into this direction, that is, using many
+     runs with relatively low cutoff-values. </li>
+     <li> One exception is vanderwaerden_2(4,9), where apparently all
+     ubcsat-algorithm show "two centres", the main one with high min-average,
+     and the second one with average close to zero. Here it seems ineffective
+     to increase the cutoff-value to force the two centres to merge.
+     See
+     RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp. </li>
+    </ol>
+   </li>
   </ul>
 
 
