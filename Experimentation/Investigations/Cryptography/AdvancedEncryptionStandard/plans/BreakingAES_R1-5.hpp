@@ -268,6 +268,8 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    However, OKsolver_2002 takes a significant amount of time as the problem 
    increases, presumably because the problem is large and computing
    2-reductions on such a large CNF is expensive. </li>
+   <li> For any of the runs so far, for $KN=0 to $KN=25, the OKsolver
+   has not found any autarkies. </li>
   </ul>
 
 
