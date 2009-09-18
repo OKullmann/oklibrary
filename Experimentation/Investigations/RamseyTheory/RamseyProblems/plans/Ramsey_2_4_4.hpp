@@ -301,8 +301,9 @@ SATISFIABLE
    <li> A more systematic investigation, involving each of the symmetry breaking
    techniques and cardinality constraints (see 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp)
-   can be generated and run using the experiment system discussed in 
-   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES_R2-6.hpp), with 
+   can be generated and run using the experiment system discussed at "General 
+   experiment system" in 
+   Experimentation/Investigations/Cryptography/AES/plans/BreakingAES.hpp), with
    the following "generate_exp.sh" script:
    \verbatim
 # Generates Ramsey experiments for "ramsey_2^2(4,4) > n?" for 5 <= n <= 49.

@@ -203,15 +203,17 @@ c sat_status=1 initial_maximal_clause_length=129 initial_number_of_variables=249
     timer overflows). </li>
    </ul>
    </li>
-   <li> OKsolver_2002 and march_pl seem to considerably slow the experiment in
-   this case and so it may be reasonable to remove them for larger numbers of
-   unknown key bits? </li>
    <li> Monitoring scripts in the R system should be written to read the output
    of each solver, so such data can be easily amalgamated and then properly
    analysed. </li>
    <li> Experiments currently running on "cspasiphae", from n=128 (where n is 
    the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
    hours. </li>
+   <li> (DONE - No, simply adding a timeout is better, and analysing the 
+   behaviour of, for example, the OKsolver for the time it runs is useful)
+   OKsolver_2002 and march_pl seem to considerably slow the experiment in
+   this case and so it may be reasonable to remove them for larger numbers of
+   unknown key bits? </li>
   </ul>
 
 
@@ -266,6 +268,8 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    However, OKsolver_2002 takes a significant amount of time as the problem 
    increases, presumably because the problem is large and computing
    2-reductions on such a large CNF is expensive. </li>
+   <li> For any of the runs so far, for $KN=0 to $KN=25, the OKsolver
+   has not found any autarkies. </li>
   </ul>
 
 
