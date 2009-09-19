@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Actions/BasicNotions.ma
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
 /* *****************
    * Basic notions *
    *****************
@@ -29,6 +32,9 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Actions/BasicNotions.ma
  and a "right-action" accordingly is a map *: X x A -> X.
  Left-actions are the default ("act"), and right-actions
  are abbreviated by "ract".
+
+ An action on a groupoid preserves the operation, i.e., all maps X -> X
+ (for given a in A) are homomorphisms.
 */
 
 /* Checking whether compo is a binary left-external law of composition on 
@@ -44,29 +50,31 @@ recompo_p(compo,X,A) := block(
    subsetp(map(lambda([P],apply(compo,P)),cartesian_product(X,A)),X))],
  not emptyp(e) and e[1])$
 
-act_set_p(act,A,X) := setp(A) and setp(X) and ecompo_p(compo,A,X)$
-ract_set_p(act,A,X) := setp(A) and setp(X) and recompo_p(compo,A,X)$
+/* Checking whether act is an action of set A on set X resp. (unital)
+   groupoid V:
+*/
+act_set_p(act_,A,X) := setp(A) and setp(X) and ecompo_p(act_,A,X)$
+ract_set_p(act_,X,A) := setp(A) and setp(X) and recompo_p(act_,X,A)$
 
-/* An action on a groupoid preserves the operation. */
-act_grd_p(act,A,V) := act_set_p(act,A,V[1]) and 
+act_grd_p(act_,A,V) := act_set_p(act_,A,V[1]) and 
 block([counterexample : false],
  for a in A unless counterexample do
   for x in V[1] unless counterexample do
    for y in V[1] unless counterexample do
-     if act(a,V[2](x,y)) # V[2](act(a,x),act(a,y)) then counterexample : true,
+     if act_(a,V[2](x,y)) # V[2](act_(a,x),act_(a,y)) then counterexample : true,
  return(not counterexample))$
-ract_grd_p(act,V,A) := ract_set_p(act,A,V[1]) and 
+ract_grd_p(act_,V,A) := ract_set_p(act_,V[1],A) and 
 block([counterexample : false],
  for a in A unless counterexample do
   for x in V[1] unless counterexample do
    for y in V[1] unless counterexample do
-     if act(V[2](x,y),a) # V[2](act(x,a),act(y,a)) then counterexample : true,
+     if act_(V[2](x,y),a) # V[2](act_(x,a),act_(y,a)) then counterexample : true,
  return(not counterexample))$
 
-act_ugrd(act,A,V) :=
-  act_grd_p(act,A,V) and every(lambda([a], is(act(a,V[3]) = V[3])), A)$
-ract_ugrd(act,V,A) :=
-  ract_grd_p(act,V,A) and every(lambda([a], is(act(V[3],a) = V[3])), A)$
+act_ugrd_p(act_,A,V) :=
+  act_grd_p(act_,A,V) and every_s(lambda([a], is(act_(a,V[3]) = V[3])), A)$
+ract_ugrd_p(act_,V,A) :=
+  ract_grd_p(act_,V,A) and every_s(lambda([a], is(act_(V[3],a) = V[3])), A)$
 
 
 /* ***************
@@ -108,5 +116,6 @@ stabiliser_act(act,A,x) := subset(A,lambda([a],is(act(a,x)=x)))$
 stabiliser_ract(act,x,A) := subset(A,lambda([a],is(act(x,a)=x)))$
 
 
+/*!
+\endhtmlonly
 */
-

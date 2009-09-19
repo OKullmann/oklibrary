@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Actions/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Operations/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/include.mac")$
