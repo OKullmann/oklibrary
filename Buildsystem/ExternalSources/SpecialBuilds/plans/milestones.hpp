@@ -189,7 +189,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
    following topics are handled:
-    - Update to version 3.4.0
+    - Update
 
 
   \par Version 0.2.7 (cleaning up installations)
