@@ -34,7 +34,7 @@ License, or any later version. */
    Replacement of "some" by "some_s" (DONE), and of "every" by "every_s"
    (supplying tests for all modified functions):
    <ol>
-    <li> %Algebra : </li>
+    <li> %Algebra : DONE </li>
     <li> AutomatedTheoremProving : DONE </li>
     <li> CombinatorialMatrices : DONE </li>
     <li> Cryptology (MG) : DONE
