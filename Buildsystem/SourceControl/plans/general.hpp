@@ -676,6 +676,7 @@ git remote rm Bproject
      now 12.8 MB, while before actually "aggressive" always increased
      disc usage slightly) </li>
      <li> 9.8.2009; 11.5 MB; OKlib total: 32.8 MB </li>
+     <li> 19.9.2009: 11.9 MB; OKlib total 33.8 MB </li>
     </ol>
    </li>
   </ul>
