@@ -51,6 +51,7 @@ f(1:10)
 
   \todo Performance of OKsolver-2002
   <ul>
+   <li> The minisat2-preprocessing has no effect here. </li>
    <li> vdw_2(4,4) = 35
    \verbatim
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-4-4_34.cnf
@@ -350,6 +351,14 @@ Mean= 11.96046
    got much easier, and the distribution of node-counts had one central peak
    around the median and a very thin "heavy tail". </li>
    </li>
+   <li> k=9, n=303:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D30 -F VanDerWaerden_2-4-9_303.cnf
+ VanDerWaerden_2-4-9_303.cnf,   30, 1073741824
+   26:   1371    830.15  8.91E+11    40.22s    23.54s   801y 156d  0h 43m 57s     0     0   49
+   \endverbatim
+   so even with 1000 processors one would get in just down to about a month.
+   This is "infeasible", and better methods are needed. </li>
   </ul>
 
 
@@ -370,6 +379,19 @@ NB_MONO= 39, NB_UNIT= 788138, NB_BRANCHE= 78809, NB_BACK= 39800
 
 
   \todo Performance of march_pl
+  <ul>
+   <li> For VanDerWaerden_2-4-6_73.cnf 5520 nodes and 8.3 s are needed. </li>
+   <li> For VanDerWaerden_2-4-7_108.cnf 73308 and 240 s, and for
+   VanDerWaerden_2-4-7_109.cnf 250583 nodes and 817 s. </li>
+   <li> Comparison with OKsolver_2002 unclear; march_pl takes longer, but needs
+   fewer nodes, perhaps due to the partial r_3-reduction and the added
+   resolvents. </li>
+   <li>
+   \verbatim
+> time march_pl VanDerWaerden_2-4-8_146.cnf
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo Performance of minisat2
@@ -820,6 +842,30 @@ BestSolution_Max = 62.000000
    </li>
    <li> n=302 found satisfiable by adaptnovelty+ with cutoff=8*10^6
    (seed=4209052746, osteps=4948335). </li>
+   <li> n=303
+    <ol>
+     <li>
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 8000000 -i VanDerWaerden_2-4-9_303.cnf -solve | tee VanDerWaerden_2-4-9_303.cnf_AUS
+Clauses = 20737
+Variables = 303
+TotalLiterals = 110883
+FlipsPerSecond = 41760
+BestStep_Mean = 3623527.685000
+Steps_Mean = 8000000.000000
+Steps_Max = 8000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 48.345000
+BestSolution_Median = 54.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 59.000000
+ 1  2  3  4 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+ 3 12  7  1  1  1  1  1  6  6  7  8  9 11 29 26 21 33 12  5
+     \endverbatim
+     </li>
+     <li> 400 runs with cutoff=16*10^6 on cs-wsok: </li>
+    </ol>
+   </li>
    <li> n=305: 200 runs with cutoff=4*10^6:
    \verbatim
  2  3  5 51 52 53 54 55 56 57 58 59 60 61 62 63 64
