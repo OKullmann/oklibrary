@@ -389,8 +389,22 @@ NB_MONO= 39, NB_UNIT= 788138, NB_BRANCHE= 78809, NB_BACK= 39800
    <li>
    \verbatim
 > time march_pl VanDerWaerden_2-4-8_146.cnf
+c main():: nodeCount: 29328090
+c main():: dead ends in main: 49807
+c main():: lookAheadCount: 990103603
+c main():: doublelook: #: 141777685, succes #: 118216193
+real    1624m7.508s
+user    1507m4.853s
+sys     1m13.086s
    \endverbatim
+   Roughly four times faster than OKsolver_2002, and much fewer nodes. So
+   apparently the added resolvents and/or the partial r_3-reduction pays
+   off here, and makes march_pl to the best solver on these instances.
    </li>
+   <li> k=9 likely needs to be run at least a month, while there is no
+   (usable) progress meter; and given that march_pl is not really drastically
+   faster than OKsolver_2002, it seems futile to run march_pl on instances
+   where unsatisfiability is conjectured. </li>
   </ul>
 
 
