@@ -35,14 +35,14 @@ read_ubcsat = function(filename, ...) {
 # ##################
 
 # Default list of output parameters which ubcsat outputs.
-# This default list is that of ubcsat-okl
+# This default list is that used by ubcsat-okl.
 # Use the output_params parameter of eval_ubcsat to specify
 # a different list of output parameters (ubcsat output parameters).
 eval_ubcsat_output_params = list("run","found","best","beststep","steps","seed")
 
 # Default list of ubcsat algorithms eval_ubcsat evaluates, given
 # as a named list, where the name of each item is a reference for the
-# algorithm and the value of each item is the algorithm parameter
+# algorithm, and the value of each item is the algorithm parameter
 # as given to ubcsat.
 eval_ubcsat_cnf_algs = list(gsat="gsat", gsat_simple="gsat -v simple",
   gwsat="gwsat", gsat_tabu="gsat-tabu",hsat="hsat", hwsat="hwsat",
@@ -95,14 +95,14 @@ add_constant_column = function(df,const_var, name) {
 # Result:
 #     The result data.frame has as its columns, the output parameters
 #     given by output_params from each run of ubcsat, with
-#     additional columns added, specifying the algorithm a particular
+#     additional columns added specifying the algorithm a particular
 #     run used, as well as columns for each of the statistics variables
 #     that ubcsat outputs for that run (of ubcsat, not a run within
 #     ubcsat).
 #
 #     Every algorithm is evaluated using a single run of ubcsat, where
 #     the number of runs of the algorithm is determined by the output
-#     parameters given in output_params (see eval_ubcsat_output_params).
+#     parameters, given in output_params (see eval_ubcsat_output_params).
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
 eval_ubcsat = function(
