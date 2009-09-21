@@ -169,6 +169,8 @@ write_matrix = function(m, file, append = FALSE) {
 # text (given pattern) in field1 for that row.
 # If pattern does not match some substring of field1's value in a particular
 # row, then the result of field2 in that row is conversion("").
+# MG: This should be removed and replicated somehow as a shell script.
+#     NO string processing should be done at the R level.
 extract_new_column = function(df,field1,field2,pattern, conversion) {
   temp_df = data.frame(do.call(c,
     lapply(df[,field1],
