@@ -34,47 +34,23 @@ read_ubcsat = function(filename, ...) {
 # # Running Ubcsat #
 # ##################
 
-# Default shell command used to call ubcsat when calling eval_ubcsat.
-eval_ubcsat_command = "ubcsat -rclean \\
- -r out '%output%' %output_params% \\
-  -r stats '%stats_output%'  numclauses,numvars,numlits,fps,totaltime,time \\
-   %std_params% -alg %alg% -i %target%"
-# There are several variables which can be placed in the command string
-# which are directly substituted with the relevant values:
-#
-# %output_params% 
-#     This variable is substituted with a list of output
-#     parameters, specified in eval_ubcsat_output_params.
-# %std_params%
-#     This variable is substituted with a string with
-#     "-arg1 val1 -arg2 val2 ..." etc, where arg1 etc. are
-#     arguments to ubcsat. The default list of argument-value pairs
-#     is stored in eval_ubcsat_std_params as a list with labelled
-#     values. For example "eval_ubcsat_std_params=list(runs=500,cutoff=10)"
-#     results in %std_params% being replaced with "-runs 500 -cutoff 10".
-# %target%
-#     This variable is substituted with the input file which
-#     eval_ubcsat is evaluating.
-# %alg%
-#     This variable is substituted with the current ubcsat algorithm
-#     that eval_ubcsat is evaluating with the command.
-# %output%
-#     This variable is substituted with the file to which
-#     the standard ubcsat output is be placed. By default this
-#     is %target%-%alg%.result.
-# %stats_output%
-#     This variable is substituted with the file to which
-#     the ubcsat statistics is output.
-
 # Default list of output parameters which ubcsat outputs.
-eval_ubcsat_output_params = list("run","found","best","beststep","steps","seed",
-  "nullflips","percentnull","rand","candidates","agemean")
+# This default list is that of ubcsat-okl
+# Use the output_params parameter of eval_ubcsat to specify
+# a different list of output parameters (ubcsat output parameters).
+eval_ubcsat_output_params = list("run","found","best","beststep","steps","seed")
 
-# Default list of ubcsat algorithms eval_ubcsat evaluates.
-eval_ubcsat_cnf_algs = list("gsat", "gsat -v simple", "gwsat", "gsat-tabu",
-  "hsat", "hwsat","walksat", "walksat-tabu", "novelty", "novelty+",
-  "adaptnovelty+","rnovelty", "rnovelty+", "saps", "rsaps", "sapsnr", "rots",
-  "irots", "samd", "walksat-tabu -v nonull")
+# Default list of ubcsat algorithms eval_ubcsat evaluates, given
+# as a named list, where the name of each item is a reference for the
+# algorithm and the value of each item is the algorithm parameter
+# as given to ubcsat.
+eval_ubcsat_cnf_algs = list(gsat="gsat", gsat_simple="gsat -v simple",
+  gwsat="gwsat", gsat_tabu="gsat-tabu",hsat="hsat", hwsat="hwsat",
+  walksat="walksat", walksat_tabu="walksat-tabu", novelty="novelty",
+  noveltyp="novelty+",adaptnoveltyp="adaptnovelty+",rnovelty="rnovelty",
+  rnoveltyp="rnovelty+", saps="saps", rsaps="rsaps", sapsnr="sapsnr",
+  rots="rots", irots="irots", samd="samd",
+  walksat_tabu_nonull="walksat-tabu -v nonull")
 
 # Default labelled list "arg=val" of argument-value pairs of arguments to the
 # ubcsat command. 
@@ -92,21 +68,16 @@ add_constant_column = function(df,const_var, name) {
 }
 
 # Runs a selection of ubcsat algorithms on the given input file, and
-# returns the results of these runs as a dataframe.
+# returns the results of these runs as a data.frame.
 #
 # Parameters:
 #     input
 #       The path to the file to evaluate the ubcsat algorithms on.
-#     output
-#       The path to the file to store temporary results from ubcsat
-#       for each run in. Variables %target% and %alg% may be used as
-#       placeholders for the input file path and algorithm being used
-#       and is substituted with the appropriate values.
-#     command
-#       The command to run when calling ubcsat, see
-#       eval_ubcsat_command.
 #     algs
-#       A list of ubcsat-algorithms to evaluate on the given input file.
+#       A list of ubcsat-algorithms to evaluate on the given input file
+#       where the name of each item is a reference for the
+#       algorithm and the value of each item is the algorithm parameter
+#       as given to ubcsat.
 #     output_params
 #       A list of ubcsat parameters/values that is included as
 #       columns in the output data.frame. For example "run" or "found".
@@ -115,11 +86,6 @@ add_constant_column = function(df,const_var, name) {
 #       specifying the command-line arguments to provide to "ubcsat"
 #       when it is called. That is, "-arg1 val1 -arg2 val2" etc. is
 #       appended to the ubcsat command in the appropriate place.
-#     stats_output
-#       A temporary file to store the ubcsat statistics output for
-#       each run. Variables %target% and %alg% may be used as
-#       placeholders for the input file path and algorithm being used
-#       and is substituted with the appropriate values.
 #     monitor
 #       Boolean variable, indicating whether or not to print output
 #       to stdout as eval_ubcsat is running. TRUE indicates output
@@ -141,49 +107,79 @@ add_constant_column = function(df,const_var, name) {
 #     Each row in the result dataframe then represents a run in ubcsat.
 eval_ubcsat = function(
  input,
- output="%target%-%alg%.result",
- command=eval_ubcsat_command,
  algs=eval_ubcsat_cnf_algs,
  output_params=eval_ubcsat_output_params, 
  params = eval_ubcsat_std_params,
- stats_output="%target%-%alg%.stats.result",
  monitor=FALSE) {
 
-  eval_ubcsat_command = gsub("%target%", input, command)
-  eval_ubcsat_command = gsub("%output_params%", 
-    do.call(paste,c(output_params,list(sep=","))), eval_ubcsat_command)
+  eval_ubcsat_df = NULL
+  # Setup parameter string
   std_params = ""
   for (param_name in names(params)) {
     std_params = paste(std_params," -",param_name, " ",
       format(params[[param_name]],scientific=5000),sep="")
   }
-  eval_ubcsat_command = gsub("%std_params%", std_params, eval_ubcsat_command)
-  output_file = gsub("%target%", input, output)
-  stats_output_file = gsub("%target%", input, stats_output)
-  for (alg in algs) {
-    output_file_t = gsub("%alg%", gsub(" ","",alg), output_file)
-    stats_output_file_t = gsub("%alg%", gsub(" ","",alg), stats_output_file)
-    eval_ubcsat_command_t = gsub("%alg%", alg, eval_ubcsat_command)
-    eval_ubcsat_command_t =
-      gsub("%output%", output_file_t, eval_ubcsat_command_t)
-    eval_ubcsat_command_t = 
-      gsub("%stats_output%", stats_output_file_t, eval_ubcsat_command_t)
-    if (monitor) print(eval_ubcsat_command_t)
-    system(eval_ubcsat_command_t)
-    result_df = read.table(output_file_t,col.names=as.vector(output_params))
-    result_df = add_constant_column(result_df,alg, "alg")
-    stats_df = read.table(stats_output_file_t,
+  # Run ubcsat-okl with each algorithm
+  alg_names = names(algs)
+  for (alg in 1:length(algs)) {
+    output_file = paste(input,"-",alg_names[alg],".eval_ubcsat_result",sep="")
+    stats_output_file =
+      paste(input,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
+    eval_ubcsat_command = paste(
+      "ubcsat -r out '", output_file, "' ",
+      do.call(paste,c(output_params,list(sep=","))),
+      " -r stats '", stats_output_file, "' ",
+      "numclauses,numvars,numlits,fps,totaltime,time ",
+      std_params," -alg ", algs[alg], " -i ",input, " > ",
+      input,"-",alg_names[alg],".eval_ubcsat_log",sep="")
+    if (monitor) print(eval_ubcsat_command)
+    system(eval_ubcsat_command)
+    # Read in output from respective files.
+    result_df = read.table(output_file,col.names=as.vector(output_params))
+    result_df = add_constant_column(result_df,alg_names[alg], "alg")
+    # Add statistics data
+    stats_df = read.table(stats_output_file,
       colClasses=c("character","character","real"))
     for (i in 1:length(stats_df[[1]])) {
       result_df = add_constant_column(result_df, 
         stats_df[[3]][[i]], stats_df[[1]][[i]])
     }
-    if (exists("eval_ubcsat_df")) { 
-      eval_ubcsat_df = rbind(eval_ubcsat_df, result_df) 
-    } else {
-      eval_ubcsat_df = result_df
-    }
+    # Add rows from this ubcsat result to the result data.frame
+    eval_ubcsat_df = rbind(eval_ubcsat_df, result_df) 
   }
   eval_ubcsat_df
 }
+# For example, running:
+#
+# eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),monitor=TRUE)
+#
+# for an example cnf, results in the data.frame:
+#
+#   run found   best beststep steps      seed                 alg Clauses
+# 1   1     0 510109        0     1 931021056                gsat  510108
+# 2   1     0 510109        0     1 931350014 walksat_tabu_nonull  510108
+#   Variables TotalLiterals FlipsPerSecond TotalCPUTimeElapsed CPUTime_Mean
+# 1     32176       1499752            100                0.01         0.01
+# 2     32176       1499752            100                0.01         0.01
+#   CPUTime_Median
+# 1           0.01
+# 2           0.01
+#
+# Note that there are only 2 runs (one for each algorithm), and the cutoff is
+# 1 for each of these runs.
+#
+# whereas running:
+#
+# eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"),monitor=TRUE)
+#
+# produces:
+#
+#   run found   best beststep steps                 alg Clauses Variables
+# 1   1     0 510109        0     1                gsat  510108     32176
+# 2   1     0 510109        0     1 walksat_tabu_nonull  510108     32176
+#   TotalLiterals FlipsPerSecond TotalCPUTimeElapsed CPUTime_Mean CPUTime_Median
+# 1       1499752            100                0.01         0.01           0.01
+# 2       1499752            100                0.01         0.01           0.01
+#
+# where seed is no longer included in the results.
 
