@@ -117,6 +117,7 @@ License, or any later version. */
   <h2> Van der Waerden problems </h2>
 
   <ul>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp </li>
    <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp </li>
   </ul>
 

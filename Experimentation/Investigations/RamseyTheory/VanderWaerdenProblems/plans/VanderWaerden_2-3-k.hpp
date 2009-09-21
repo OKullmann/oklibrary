@@ -28,7 +28,7 @@ create_list(vanderwaerden3k(k),k,1,17);
 d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
 plot(d)
 x = log((1:length(d))[-(1:4)])
-y : log(d[-(1:4)])
+y = log(d[-(1:4)])
 plot(x,y)
 L = lm(y ~ x)
 summary(L)
@@ -41,6 +41,8 @@ C = coefficients(L)
 f = function(k){exp(C[1]) * k^C[2]}
 plot(d)
 lines(f(1:length(d)))
+f(17)
+  278.7812
    \endverbatim
    </li>
   </ul>
@@ -301,6 +303,101 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
    <li> For k=16, n=237 a local minimum of 1 is easily found (even with just
    100000 steps), while to find a solution one should use, say, 10^7 steps
    (and then solutions seem to be found often, e.g., seed=370833091). </li>
+   <li> But with vanderwaerden_2(3,17) (below) we see that adaptnovelty+
+   is better; perhaps, as with vdw_2(4,k), getting stronger with higher
+   cutoff. </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(3,17) >= 278
+  <ul>
+   <li> The prediction (see above) is n=279. </li>
+   <li> n=270 easily found satisfiable with samd (cutoff=10^6). </li>
+   <li> n=275 found satisfiable by adaptnovelty+ (run 14, cutoff=10^6,
+   seed=1567198554). </li>
+   <li> n=276 found satisfiable by adaptnovelty+ (run 28, cutoff=10^6,
+   seed=1440019878). </li>
+   <li> n=277 found satisfiable by adaptnovelty+ (run 10, cutoff=2*10^6,
+   seed=2732014045). </li>
+   <li> n=278
+    <ol>
+     <li> cutoff=2*10^6:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 2000000 -i VanDerWaerden_2-3-17_278.cnf -solve | tee VanDerWaerden_2-3-17_278.cnf_AUS
+Clauses = 21460
+Variables = 278
+TotalLiterals = 96272
+FlipsPerSecond = 69054
+BestStep_Mean = 391212.470000
+Steps_Mean = 2000000.000000
+Steps_Max = 2000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.820000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+ 1  2
+18 82
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6:
+     \verbatim
+ 1  2
+11 33
+44
+     \endverbatim
+     </li>
+     <li> cutoff=16*10^6:
+
+     </li>
+    </ol>
+   </li>
+   <li> n=280
+   \verbatim
+> ubcsat-okl -alg samd -runs 100 -cutoff 1000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS
+Clauses = 21772
+Variables = 280
+TotalLiterals = 97684
+FlipsPerSecond = 131553
+BestStep_Mean = 335464.530000
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.090000
+BestSolution_Median = 2.000000
+BestSolution_Min = 2.000000
+BestSolution_Max = 3.000000
+ 2  3
+91  9
+> ubcsat-okl -alg samd -runs 100 -cutoff 2000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS2 
+ 2  3
+97  3
+> ubcsat-okl -alg samd -runs 100 -cutoff 4000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS3
+ 1  2
+ 1 99
+> ubcsat-okl -alg samd -runs 100 -cutoff 8000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS3
+ 1  2
+ 1 99
+> ubcsat-okl -alg samd -runs 100 -cutoff 16000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS4
+ 1  2
+ 4 96
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 16000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS4
+Clauses = 21772
+Variables = 280
+TotalLiterals = 97684
+FlipsPerSecond = 66820
+BestStep_Mean = 1808806.410000
+Steps_Mean = 16000000.000000
+Steps_Max = 16000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.860000
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+ 1  2
+14 86
+   \endverbatim
+   So actually also here adaptnovelty+ seems best. </li>
   </ul>
 
 */
