@@ -252,19 +252,40 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    elimination? </li>
    <li> With OKsolver_2002 however, the number of nodes is always low and there
    are a significant number of 2-reductions:
-   <table>
-    <tr>
-      <th>Number of unknown key bits</th><th>Nodes</th>
-      <th>2-reductions</th><th>CPU time (s)</th>
-    </tr>
-    <tr><td>5</td><td>0</td><td>0</td><td>1.3</td></tr>
-    <tr><td>8</td><td>0</td><td>0</td><td>1.3</td></tr>
-    <tr><td>9</td><td>1</td><td>1</td><td>1.5</td></tr>
-    <tr><td>16</td><td>1</td><td>255</td><td>6.8</td></tr>
-    <tr><td>17</td><td>1</td><td>1933</td><td>155.5</td></tr>
-    <tr><td>20</td><td>9</td><td>7556</td><td>3539.5</td></tr>
-    <tr><td>25</td><td>8</td><td>8838</td><td>5313.3</td></tr>
-   </table>
+\verbatim
+> oklib_load_all()
+> options(width=250)
+> df <- read_oksolver_outputs(dir(pattern=glob2rx("AES_R*_P0*.cnf.result.OKsolver")))
+> df <- extract_new_column(df,"file_name","unknown_key_bits", "(?<=AES_R[0-9]_P0_K0_CX_KN).*(?=\\.cnf$)", as.integer)
+> df[order(df[,"unknown_key_bits"]), c("unknown_key_bits","number_of_nodes","number_of_2reductions","running_times","number_of_initial_uniteliminations")]
+   unknown_key_bits number_of_nodes number_of_2reductions running_times number_of_initial_uniteliminations
+1                 0               0                     0           1.4                              63840
+2                 1               0                     0           1.4                              63840
+13                2               0                     0           1.4                              63840
+20                3               0                     0           1.3                              63840
+21                4               0                     0           1.3                              63840
+22                5               0                     0           1.3                              63840
+23                6               0                     0           1.3                              63840
+24                7               0                     0           1.3                              63840
+25                8               0                     0           1.3                              63840
+26                9               1                     1           1.5                              35031
+3                10               1                    35           1.6                              34974
+4                11               1                   255           2.4                              34877
+5                12               1                   255           2.5                              34700
+6                13               1                   255           2.6                              34363
+7                14               1                   255           3.0                              33706
+8                15               1                   255           3.9                              32409
+9                16               1                   255           6.8                              29832
+10               17               1                  1933         155.5                              22562
+11               18               2                  6586         805.3                              22508
+12               19               8                  7556        2839.7                              22416
+14               20               9                  7556        3539.5                              22248
+15               21              10                  7556        4213.0                              21928
+16               22               7                  6980        3585.9                              21304
+17               23               8                  6980        4353.8                              20072
+18               24               7                  6735        4583.9                              17624
+19               25               8                  8838        5313.3                              11901
+\endverbatim
    However, OKsolver_2002 takes a significant amount of time as the problem 
    increases, presumably because the problem is large and computing
    2-reductions on such a large CNF is expensive. </li>
@@ -282,6 +303,34 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    <li> Experiments currently running on "cselara", from n=128 (where n is 
    the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
    hours. </li>
+   <li> OKsolver seems to solve these problems (for the currently solved $KN)
+   with very few nodes, and this seems to be mostly due to r2 reductions:
+   \verbatim
+> oklib_load_all()
+> options(width=250)
+> df <- read_oksolver_outputs(dir(pattern=glob2rx("AES_R*_P0*.cnf.result.OKsolver")))
+> df <- extract_new_column(df,"file_name","unknown_key_bits", "(?<=AES_R[0-9]_P0_K0_CX_KN).*(?=\\.cnf$)", as.integer)
+> df[order(df[,"unknown_key_bits"]), c("unknown_key_bits","number_of_nodes","number_of_2reductions","running_times","number_of_initial_uniteliminations")]
+   unknown_key_bits number_of_nodes number_of_2reductions running_times number_of_initial_uniteliminations
+1                 0               0                     0           2.0                              95504
+2                 1               1                     2          11.1                              45747
+10                2               1                     6          11.1                              45678
+11                3               1                     7          11.2                              45565
+12                4               1                    15          11.4                              45364
+13                5               1                    31          11.9                              44987
+14                6               1                    63          13.2                              44258
+15                7               1                   127          15.7                              42825
+16                8               1                   255          22.1                              39984
+17                9               2                  2155        1400.4                              31321
+3                10               2                  7593         967.6                              31258
+4                11               8                  8810        3334.2                              31153
+5                12               9                  8810        4151.2                              30964
+6                13              10                  8810        4928.3                              30607
+7                14               7                  8226        4117.7                              29914
+8                15               8                  8226        5016.5                              28549
+9                16               7                  7975        6837.5                              25840
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -294,6 +343,38 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    <li> Experiments currently running on "csananke", from n=128 (where n is 
    the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
    hours. </li>
+   <li> Again, as with three rounds, OKsolver seems to solve these instances 
+   with very few nodes, and with very similar numbers of nodes in each case
+   to three rounds:
+   \verbatim
+> oklib_load_all()
+> options(width=250)
+> df <- read_oksolver_outputs(dir(pattern=glob2rx("AES_R*_P0*.cnf.result.OKsolver")))
+> df <- extract_new_column(df,"file_name","unknown_key_bits", "(?<=AES_R[0-9]_P0_K0_CX_KN).*(?=\\.cnf$)", as.integer)
+> df[order(df[,"unknown_key_bits"]), c("unknown_key_bits","number_of_nodes","number_of_2reductions","running_times","number_of_initial_uniteliminations")]
+   unknown_key_bits number_of_nodes number_of_2reductions running_times number_of_initial_uniteliminations
+1                 0               0                     0           2.6                             127168
+2                 1               1                     1          17.7                              42052
+9                 2               1                     4          17.8                              41976
+10                3               1                     7          18.3                              41854
+11                4               1                    15          18.5                              41640
+12                5               1                    31          20.2                              41242
+13                6               1                    63          23.4                              40476
+14                7               1                   127          29.7                              38974
+15                8               1                   255          44.1                              36000
+16                9               2                  2109        1289.6                              27491
+3                10               2                  7577         991.0                              27462
+4                11               8                  8798        3370.5                              27421
+5                12               9                  8798        4084.2                              27356
+6                13              10                  8798        5453.9                              27243
+7                14               7                  8214        5910.2                              27034
+8                15               8                  8214        7351.0                              26633
+   \endverbatim
+   </li>
+   <li> Why are the number of nodes the same here as in round 3 and round 2? 
+   </li>
+   <li> One should look at the search tree and see which variables
+   are being branched on? </li>
   </ul>
 
 
@@ -306,6 +387,39 @@ REMARK OK: the text should be readable as pure text, so no such html-tables plea
    <li> Experiments currently running on "csmiranda", from n=128 (where n is 
    the number of missing key bits) to n=0 in steps of 5, with a timeout of 2
    hours. </li>
+   <li> The OKsolver has very similar results again for five rounds as for 
+   four rounds:
+   \verbatim
+> oklib_load_all()
+> options(width=250)
+> df <- read_oksolver_outputs(dir(pattern=glob2rx("AES_R*_P0*.cnf.result.OKsolver")))
+> df <- extract_new_column(df,"file_name","unknown_key_bits", "(?<=AES_R[0-9]_P0_K0_CX_KN).*(?=\\.cnf$)", as.integer)
+> df[order(df[,"unknown_key_bits"]), c("unknown_key_bits","number_of_nodes","number_of_2reductions","running_times","number_of_initial_uniteliminations")]
+   unknown_key_bits number_of_nodes number_of_2reductions running_times number_of_initial_uniteliminations
+1                 0               0                     0           3.3                             158832
+2                 1               1                     1          23.0                              38222
+9                 2               1                     4          21.9                              38180
+10                3               1                     7          23.7                              38122
+11                4               1                    15          24.5                              38032
+12                5               1                    31          27.2                              37878
+13                6               1                    63          31.8                              37596
+14                7               1                   127          43.0                              37058
+15                8               1                   255          64.2                              36008
+16                9               2                  2109        1217.2                              27499
+3                10               2                  7577         980.6                              27470
+4                11               8                  8798        3330.2                              27429
+5                12               9                  8798        4062.7                              27364
+6                13              10                  8798        4759.2                              27251
+7                14               7                  8214        3888.0                              27042
+8                15               8                  8214        4755.3                              26641
+   \endverbatim
+   </li>
+   <li> Five rounds and four rounds with the OKsolver seem to produce very 
+   similar results, only differing in the number of unit clause eliminations.
+   </li>
+   <li> Why are the results so similar, given the change in clause sets, one
+   would expect a much greater change. </li>
+   <li> Again (for all rounds so far), the OKsolver finds no autarkies. </li>
   </ul>
 
   
