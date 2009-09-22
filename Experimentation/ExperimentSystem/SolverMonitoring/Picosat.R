@@ -37,19 +37,63 @@ read_picosat_output = function(filename, ...) {
   }
   data.frame(result)
 }
+#
+# An example of the format of the data.frame can be found below:
+#
+#                  filename num_variables num_clauses iterations restarts
+# 1 AES_R1_P0_K0_CX_KN0.cnf         32176      510492          0        0
+#   failed_literals conflicts decisions fixed_variables learned_literals
+# 1               0         0         0           32176            31812
+#   deleted_literals_pc propagations variables_used_pc seconds_in_library
+# 1                   0        32176               100                0.3
+#   megaprops_second simplifications reductions MB_recycled
+# 1              0.1               0          0           0
+#   MB_maximally_allocated seconds_total_run_time
+# 1                    9.7                    0.3
+
+#
+#
+# This illustrates the fields included, which are all read directly
+# from the corresponding picosat output fields.
+#
+# Some fields with names including percentage signs etc have been renamed
+# to include "_pc" for "percentage" etc, although such instances should be
+# intuitive.
 
 # Reading a set of minisat2 outputs into a data.frame (given as a list of
 # filenames)
 read_picosat_outputs = function(filenames) {
+ result_df = NULL
  for(file in filenames) {
-   if(exists("result_df")) {
      result_df = rbind(result_df,read_picosat_output(file))
-   } else {
-     result_df = read_oksolver_output(file)
-   }
  }
  result_df
 }
 # Note one can use:
 # read_minisat2_outputs(dir(pattern=glob2rx("*.result")))
 # to read all files with ".result" as the end.
+#
+# The format of the output data.frame is the same as
+# read_picosat_output, except there is a row in the data.frame
+# corresponding to each of the filenames given as input.
+#
+# For example:
+#
+# > read_picosat_outputs(list("AES_R1_P0_K0_CX_KN0.cnf.result.picosat","AES_R1_P0_K0_CX_KN2.cnf.result.picosat"))
+#
+#                  filename num_variables num_clauses iterations restarts
+# 1 AES_R1_P0_K0_CX_KN0.cnf         32176      510492          0        0
+# 2 AES_R1_P0_K0_CX_KN2.cnf         32176      510490          0        0
+#   failed_literals conflicts decisions fixed_variables learned_literals
+# 1               0         0         0           32176            31812
+# 2               0         0         0           32176            31814
+#   deleted_literals_pc propagations variables_used_pc seconds_in_library
+# 1                   0        32176               100                0.3
+# 2                   0        32176               100                0.3
+#   megaprops_second simplifications reductions MB_recycled
+# 1              0.1               0          0           0
+# 2              0.1               0          0           0
+#   MB_maximally_allocated seconds_total_run_time
+# 1                    9.7                    0.3
+# 2                    9.7                    0.3
+#

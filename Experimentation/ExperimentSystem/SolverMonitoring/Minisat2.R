@@ -56,19 +56,52 @@ read_minisat2_output = function(filename, ...) {
   result = c(result,list(filename=filename))
   data.frame(result)
 }
+# An example of the data.frame output is given below:
+#
+#   num_variables num_clauses parsing_time restarts conflicts conflicts_per_sec
+# 1         32176      510492            0        1         0                 0
+#   decisions random_decisions_pc decisions_per_sec propagations
+# 1         1                   0                 1        32176
+#   propagations_per_sec memory_used cpu_time
+# 1                19666       33.23   1.6361
+#                                  filename
+# 1 AES_R1_P0_K0_CX_KN0.cnf.result.minisat2
+#
+# This illustrates the included fields, which are all read directly from the
+# minisat2 output.
+#
+
 
 # Reading a set of minisat2 outputs into a data.frame (given as a list of
 # filenames)
 read_minisat2_outputs = function(filenames) {
- for(file in filenames) {
-   if(exists("result_df")) {
-     result_df = rbind(result_df,read_minisat2_output(file))
-   } else {
-     result_df = read_oksolver_output(file)
-   }
- }
- result_df
+  result_df = NULL
+  for(file in filenames) {
+    result_df = rbind(result_df,read_minisat2_output(file))
+  }
+  result_df
 }
 # Note one can use:
 # read_minisat2_outputs(dir(pattern=glob2rx("*.result")))
 # to read all files with ".result" as the end.
+#
+# The format of the data.frame is the same as with
+# read_minisat2_output, except with a row for each
+# filename given as input.
+#
+# For example:
+#
+# > read_minisat2_outputs(list("AES_R1_P0_K0_CX_KN0.cnf.result.minisat2","AES_R1_P0_K0_CX_KN2.cnf.result.minisat2"))
+#   num_variables num_clauses parsing_time restarts conflicts conflicts_per_sec
+# 1         32176      510492            0        1         0                 0
+# 2         32176      510490            0        1         0                 0
+#   decisions random_decisions_pc decisions_per_sec propagations
+# 1         1                   0                 1        32176
+# 2         1                   0                 1        32176
+#   propagations_per_sec memory_used cpu_time
+# 1                19666       33.23   1.6361
+# 2                20415       33.23   1.5761
+#                                  filename
+# 1 AES_R1_P0_K0_CX_KN0.cnf.result.minisat2
+# 2 AES_R1_P0_K0_CX_KN2.cnf.result.minisat2
+#
