@@ -161,3 +161,39 @@ write_matrix = function(m, file, append = FALSE) {
   write(t(m), file = file, ncolumns = dim(m)[2], append = append)
 }
 
+# Post processing dataframes
+
+# Given a dataframe with with field field1, return the dataframe with
+# an additional field field2 to the data.frame where the value of field2
+# in each row is the result of running applying "conversion" to the matching
+# text (given pattern) in field1 for that row.
+# If pattern does not match some substring of field1's value in a particular
+# row, then the result of field2 in that row is conversion("").
+# MG: This should be removed and replicated somehow as a shell script.
+#     NO string processing should be done at the R level.
+extract_new_column = function(df,field1,field2,pattern, conversion) {
+  temp_df = data.frame(do.call(c,
+    lapply(df[,field1],
+      function(s) {
+        match = regexpr(pattern,s,perl=TRUE)
+        if (match != -1) {
+          conversion(substr(s,match[1],match[1]+attr(match,"match.length")-1))
+        } else {
+          conversion("")
+        }
+      } )))
+  colnames(temp_df) = c(field2)
+  data.frame(df,temp_df)
+}
+# Example:
+# Given a data.frame df with a column file_name, with entries of the form
+# "AES_R1_P0_K0_CX_KN89.cnf", the following:
+#
+#
+# df2 <- extract_new_column(df,"file_name","unknown_key_bits",
+#   "(?<=AES_R1_P0_K0_CX_KN).*(?=.cnf)",as.integer)
+#
+# produces a new data.frame df2 with a column "unknown_key_bits" which
+# contains the integer in the string (89 in the example).
+
+

@@ -12,21 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Specification of eval_ubcsat is badly written
-  <ul>
-   <li> How to use this function? </li>
-   <li> Often a (non-sensical) "will be" is used (does this refer to later
-   extensions?) ?? </li>
-   <li> Also "should" is mis-used (since this likely is not an option for the
-   function!). </li>
-   <li> What is "and returns a new adds data frame" ?? </li>
-   <li> Commas are needed (and semicolons, and full-stops). </li>
-   <li> Many nonsensical uses of quotation marks. </li>
-   <li> Are environment variables to be used by the user?? (Obviously this
-   shouldn't be the case.) </li>
-  </ul>
-
-
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
@@ -288,6 +273,29 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    might yield an improvement, while if not then the algorithm wanders
    randomly around without achieving something (so increasing the cutoff
    seems of little value). </li>
+  </ul>
+
+
+  \bug DONE Specification of eval_ubcsat is badly written
+  <ul>
+   <li> DONE Commas are needed (and semicolons, and full-stops). </li>
+   <li> (DONE See Evaluation.R comments) 
+   At its most basic the eval_ubcsat function can be run on
+   a given DIMACS file ("test.cnf" in this case), by running:
+   \verbatim
+df = eval_ubcsat("test.cnf")
+   \endverbatim
+   </li>
+   <li> DONE Many nonsensical uses of quotation marks. </li>
+   <li> DONE Also "should" is mis-used (since this likely is not an option for
+   the function!). </li>
+   <li> DONE What is "and returns a new adds data frame" ?? </li>
+   <li> (DONE These are defaults only, and are taken
+   as optional arguments for eval_ubcsat) Are environment variables to be used
+   by the user?? (Obviously this shouldn't be the case.) </li>
+   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
+   later extensions?) ?? </li>
+   <li> DONE How to use this function? </li>
   </ul>
 
 */

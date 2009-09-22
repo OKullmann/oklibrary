@@ -56,6 +56,10 @@ echo "       sat  min     osteps     msteps       seed                          
 ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
    \endverbatim
    This appends the algorithm as a column to the data, line by line. </li>
+   <li> Should this script also take into account that the user may want to
+   specify different output parameters, and then provide different headers for
+   when this is the case, or is this functionality beyond the scope of
+   ubcsat-okl, and the output parameters are fixed? </li>
    <li> We also need the DIMACS output codes (10 for satisfying assignment
    found, 0 for unknown).
    <li> Another point is how to handle statistics as they are only printed
