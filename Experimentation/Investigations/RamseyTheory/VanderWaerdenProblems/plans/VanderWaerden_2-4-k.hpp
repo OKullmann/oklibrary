@@ -909,7 +909,13 @@ BestSolution_Max = 59.000000
  1  9  2  2  2  1  3  1  8  6  8 12 22 21 24 27 22 15  9  4  1
      \endverbatim
      </li>
-     <li> cutoff=16*10^6 </li>
+     <li> cutoff=16*10^6, 400 runs:
+     \verbatim
+ 2  3  4  5  6  7  8 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65
+ 6 29 20 22  8  3  3  2  1  9  3  4  8 10 13 20 28 40 37 55 44 21 12  2
+     \endverbatim
+     </li>
+     <li> cutoff=32*10^6 </li>
     </ol>
    </li>
   </ul>
