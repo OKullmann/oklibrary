@@ -309,7 +309,7 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
   </ul>
 
 
-  \todo vanderwaerden_2(3,17) >= 278
+  \todo vanderwaerden_2(3,17) > 278
   <ul>
    <li> The prediction (see above) is n=279. </li>
    <li> n=270 easily found satisfiable with samd (cutoff=10^6). </li>
@@ -347,11 +347,11 @@ BestSolution_Max = 2.000000
 44
      \endverbatim
      </li>
-     <li> cutoff=16*10^6:
-
-     </li>
+     <li> cutoff=16*10^6: In run 222 a solution was found by adaptnovelty+
+     (seed=2225069948, osteps=12016774). </li>
     </ol>
    </li>
+   <li> n=279 </li>
    <li> n=280
    \verbatim
 > ubcsat-okl -alg samd -runs 100 -cutoff 1000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS
