@@ -309,7 +309,7 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
   </ul>
 
 
-  \todo vanderwaerden_2(3,17) > 278
+  \todo vanderwaerden_2(3,17) >= 279
   <ul>
    <li> The prediction (see above) is n=279. </li>
    <li> n=270 easily found satisfiable with samd (cutoff=10^6). </li>
@@ -351,7 +351,32 @@ BestSolution_Max = 2.000000
      (seed=2225069948, osteps=12016774). </li>
     </ol>
    </li>
-   <li> n=279 </li>
+   <li> n=279
+    <ol>
+     <li> cutoff=16*10^6:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 400 -cutoff 16000000 -i VanDerWaerden_2-3-17_279.cnf -solve | tee VanDerWaerden_2-3-17_279.cnf_AUS
+Clauses = 21616
+Variables = 279
+TotalLiterals = 96978
+FlipsPerSecond = 67558
+BestStep_Mean = 2654188.382500
+Steps_Mean = 16000000.000000
+Steps_Max = 16000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.682500
+BestSolution_Median = 2.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 2.000000
+  1   2
+127 273
+     \endverbatim
+     </li>
+     <li> cutoff=32*10^6:
+
+     </li>
+    </ol>
+   </li>
    <li> n=280
    \verbatim
 > ubcsat-okl -alg samd -runs 100 -cutoff 1000000 -i VanDerWaerden_2-3-17_280.cnf -solve | tee VanDerWaerden_2-3-17_280.cnf_AUS
