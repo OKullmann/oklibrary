@@ -44,8 +44,9 @@ License, or any later version. */
    </li>
    <li> MG should search for or e-mail McKay regarding the solutions for 
    high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
-   the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
-   these cases. </li>
+   the %Ramsey number R(5,5)] and check to see whether this conjecture holds 
+   in these cases. </li>
+   <li> MG has e-mailed McKay regarding this and is awaiting a reply. </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp. 
    </li>
