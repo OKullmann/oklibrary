@@ -895,6 +895,7 @@ BestSolution_Max = 59.000000
      osteps=8862697). </li>
     </ol>
    </li>
+   <li> n=306 </li>
    <li> n=310
     <ol>
      <li> 200 runs with cutoff=4*10^6:
@@ -915,7 +916,12 @@ BestSolution_Max = 59.000000
  6 29 20 22  8  3  3  2  1  9  3  4  8 10 13 20 28 40 37 55 44 21 12  2
      \endverbatim
      </li>
-     <li> cutoff=32*10^6 </li>
+     <li> cutoff=32*10^6
+     \verbatim
+ 2  3  4  5  6  7  8 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+14 45 33 30 17  5  2  3  1  1  2  9  9 10 17 27 23 29 54 36 16 10  7
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
