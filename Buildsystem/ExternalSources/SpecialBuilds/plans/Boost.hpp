@@ -38,7 +38,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Building version 1_38_0 / 1_39_0
+  \todo Building version 1_38_0 / 1_39_0 / 1_40_0
   <ul>
    <li> DONE (they are all built now)
    Building seems unproblematic, but likely this is due to the fact
@@ -138,7 +138,7 @@ bo = static_cast<bool>(a != y);
 
   \todo Problems with building Boost
   <ul>
-   <li> 1_39 is out, and we need to investigate the changes:
+   <li> 1_40 is out, and we need to investigate the changes:
     <ol>
      <li> DONE (we seems to have now a working system)
      Apparently now a standard Unix/Linux build is partially
