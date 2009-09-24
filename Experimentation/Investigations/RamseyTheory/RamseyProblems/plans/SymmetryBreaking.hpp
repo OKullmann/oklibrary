@@ -39,16 +39,36 @@ License, or any later version. */
    considerably longer per %node when monitoring at the same depth) when using
    cardinality constraints (that is, number of variables set to true restricted
    to between floor(153/2) and ceil(153/2)). </li>
+   <li> However, this should be looked into further, as the time per node is 
+   irrelevant if overall less nodes are used. </li>
+   <li> Consider combining the PHP symmetry breaking, which already gives
+   ramsey_2^2(4) = 18 in reasonable time, with the cardinality constraints
+   (they are perfectly compatible). </li>
    <li> MG should include the results from initial experiments he did using
    various solvers (such as picosat, minisat, OKsolver_2002) etc. on this. 
    </li>
-   <li> MG should search for or e-mail McKay regarding the solutions for 
-   high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
-   the %Ramsey number R(5,5)] and check to see whether this conjecture holds in
-   these cases. </li>
+   <li> From the paper "Subgraph Counting Identities and Ramsey Numbers" by 
+   McKay and Radziszowski, there are 656 non-isomorphic solutions for 
+   "ramsey_2_2(5,5) > 42 ?" (available at 
+   http://cs.anu.edu.au/~bdm/data/ramsey.html), where 16 of these have 
+   floor(binom(42,2)/2) = 430 edges of one label. </li>
+   <li> However, there there are far more known solutions further from this 
+   central number (this can also be seen in the distribution of all 
+   ramsey_2^2(4,4) solutions), and with respect to this, Dr McKay offers that
+   it seems that the solutions seem to like being slightly away from this 
+   central number of edges (number of one label). </li>
+   <li> When considering the conjecture, then, it seems reasonable to consider
+   that perhaps a solution might only lie in a certain bound, within a certain
+   distance of this central area (although there seem to be no available 
+   counter-examples to the original conjecture)? </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp. 
    </li>
+   <li> DONE MG should search for or e-mail McKay regarding the solutions for 
+   high n values for ramsey_2^2(5) mentioned in [A new upper bound for 
+   the %Ramsey number R(5,5)] and check to see whether this conjecture holds 
+   in these cases. </li>
+   <li> DONE MG has e-mailed McKay regarding this and is awaiting a reply. </li>
   </ul>
 
 */
