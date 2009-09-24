@@ -558,6 +558,36 @@ aes_hex2pa(hexStr, variableList) := block(
   ))
 )$
 
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+/* The translation system given below is designed to replace the above
+   translation system in it's entirety but must be introduced piecewise,
+   with appropriate tests. */
+
+/* AES variables - aes_v(i,id) */
+/* id here is used as an identifier such as "ks" for key schedule bits, "o"
+   for output bits etc. */
+/* These are used throughout for all AES constraint templates */
+kill(aes_v)$
+declare(aes_v, noun)$
+declare(aes_v, posfun)$
+aes_var(i,id) := nounify(aes_v)(i,id)$
+
+/* Given a list of constraint templates, returns a new list of constraint
+   templates after applying the given rewrite map. */
+aes_rewrite_all_ctl(rs,rewrite_map) := block(
+  [rewrite_hash : osm2hm(rewrite_map),rs_new : []],
+  for ct in rs do block([ctr],
+    ctr : ev_hm(rewrite_hash,op(ct)),
+    if ctr # false then
+      rs_new : cons(aes_rewrite_all_ctl(apply(ctr[1],args(ct)),rewrite_map),rs_new)
+    else 
+      rs_new : cons([first(rs)],rs_new),
+    rs : rest(rs)),
+  return(lappend(rs_new)))$
 
 /*!
 \endhtmlonly
