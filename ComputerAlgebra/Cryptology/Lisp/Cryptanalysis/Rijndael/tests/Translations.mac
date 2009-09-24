@@ -343,6 +343,20 @@ okltest_aes_cp(f) := block(
   F : apply(f,create_list(i,i,1,384)),
   assert(length(subset(F,lambda([a], is(op(a) = aes_round_c)))) = 9),
   true)$
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+okltest_aes_rewrite_all_ctl(f) := block([test_ctrb],
+  assert(f([],[]) = []),
+  assert(f([nounify(a)(1),nounify(b)(2)],[]) = [nounify(b)(2),nounify(a)(1)]),
+  test_ctrb : [lambda([a,b,c],[nounify(f1)(a,b,c)]),
+               lambda([a],a),lambda([a],a)],
+  assert(f([nounify(x)(1,2,3)], [[nounify(x),test_ctrb]]) =
+    [nounify(f1)(1,2,3)]),
+  true)$
   
 /*!
 \endhtmlonly
