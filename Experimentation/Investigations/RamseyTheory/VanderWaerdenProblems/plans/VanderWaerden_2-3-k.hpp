@@ -373,7 +373,10 @@ BestSolution_Max = 2.000000
      \endverbatim
      </li>
      <li> cutoff=32*10^6:
-
+     \verbatim
+  1   2
+202 198
+     \endverbatim
      </li>
     </ol>
    </li>
