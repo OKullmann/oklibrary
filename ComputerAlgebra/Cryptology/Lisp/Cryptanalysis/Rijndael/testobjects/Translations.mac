@@ -60,6 +60,21 @@ okltest_aes_cp(aes_cp);
 
 okltest_aes_rewrite_all_ctl(aes_rewrite_all_ctl);
 
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(construct_constraint_namespace);
+okltest_apply_constraint_template(apply_constraint_template);
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_aes_ctr_ctl(aes_ctr_ctl);
 
 /*!
 \endhtmlonly

@@ -576,6 +576,12 @@ declare(aes_v, noun)$
 declare(aes_v, posfun)$
 aes_var(i,id) := nounify(aes_v)(i,id)$
 
+/* Given two integers n and m, a namespace, and
+   a noun identifier, returns a list of AES variables of the form
+   aes_v(i,id) for n <= i <= m. */
+generate_aes_constraint_vars(n,m,namespace, id) :=
+  res : map(namespace,create_list(aes_var(i,id),i,n,m))$
+
 /* Given a list of constraint templates, returns a new list of constraint
    templates after applying the given rewrite map. */
 aes_rewrite_all_ctl(rs,rewrite_map) := block(
@@ -588,6 +594,131 @@ aes_rewrite_all_ctl(rs,rewrite_map) := block(
       rs_new : cons([first(rs)],rs_new),
     rs : rest(rs)),
   return(lappend(rs_new)))$
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+/* Given a parent namespace namespace_p, a new namespace template
+   namespace, and a list of variables, returns a new namespace, which
+   consists of namespace_p composed with namespace, where namespace has
+    the given list of arguments as it's arguments. */
+construct_constraint_namespace(namespace_p,namespace,arg_l) :=
+  buildq([arg_l,namespace,namespace_p],
+      lambda([a],namespace_p(apply(namespace,cons(a,arg_l)))))$
+
+/* Given a constraint template function, a list of arguments to the constraint
+   template, and a list of constraint template parameters (namespace etc),
+   returns a constraint template constructed from these parameters. */
+apply_constraint_template(ct,bits,arg_l) := apply(ct, endcons(arg_l,bits))$
+
+
+/* ***********************************************
+   * Constraint templates                        *
+   ***********************************************
+*/
+
+/* AES constraint template */
+kill(aes_ct)$
+declare(aes_ct,noun)$
+/* AES key expansion template */
+kill(aes_key_expansion_ct)$
+declare(aes_key_expansion_ct,noun)$
+/* AES addition template */
+/* MG: This could become a more general xor/addition constraint if
+   the rewrite system is used more globally in the library. */
+kill(aes_add_ct)$
+declare(aes_add_ct,noun)$
+/* AES round template */
+kill(aes_round_ct)$
+declare(aes_round_ct,noun)$
+/* AES final round template */
+kill(aes_final_round_ct)$
+declare(aes_final_round_ct,noun)$
+
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+/* Namespace */
+kill(aes_ctr_ns)$
+declare(aes_ctr_ns,noun)$
+declare(aes_ctr_ns,posfun)$
+aes_namespace([args]) := apply(nounify(aes_ctr_ns),args)$
+
+/* Rewrite function designed to rewrite the AES constraint template "aes_ct".
+
+   Takes as arguments 385 variables, which are the arguments of the "aes_ct"
+   instance being rewritten.
+
+   The first 384 of these are 128 plaintext, 128 key and 128 ciphertext
+   variables respectively. The final argument is a pair (list) of auxiliary
+   arguments, the first being the namespace to place all variables introduced
+   by this function within, and the second being the integer number of rounds
+   which specifies which round-variant of AES is being rewritten.
+
+   The result of this function is a list of constraint template instances
+   representing the AES constraint template instance being rewritten.
+*/
+aes_ctr_ctl([arg_l]) := block(
+  [bits, ct_arg_l, pBits, kBits, cBits, ekBits, ib, ob, rs : [],namespace,
+  aes_num_rounds],
+  ct_arg_l : last(arg_l),
+  aes_num_rounds : ct_arg_l[2],
+  bits : rest(arg_l,-1),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1],aes_namespace,rest(ct_arg_l)),
+  pBits : take_elements(128,bits),
+  kBits : take_elements(128,rest(bits,128)),
+  cBits : rest(bits,256),
+  ekBits :
+    generate_aes_constraint_vars(
+      1,(aes_num_rounds+1)*128,namespace,nounify(k)),
+  /* Key Expansion */
+  rs : cons(
+    apply_constraint_template(
+      aes_key_expansion_ct,append(kBits,ekBits),[namespace,aes_num_rounds]),
+    rs),
+  ib : pBits,
+  all_ob :
+    generate_aes_constraint_vars(1,(aes_num_rounds)*128,namespace,nounify(o)),
+  ob : take_elements(128,all_ob),
+  /* Initial Round Key Addition */
+  rs : cons(
+    apply_constraint_template(
+      aes_add_ct,append(ib,take_elements(128,ekBits),ob),[namespace,1]),
+    rs),
+  ib : ob,
+  /* Rounds */
+  for j : 1 thru (aes_num_rounds - 1) do block(
+    ob : take_elements(128,rest(all_ob,j*128)),
+    rs : cons(
+      apply_constraint_template(aes_round_ct,
+        append(ib,take_elements(128,rest(ekBits,j*128)),ob),
+        append([namespace,j],rest(ct_arg_l,2))),
+      rs),
+    ib : ob
+  ),
+  /* Final Round */
+  /* If we have a reduced round variant, truncate rather than generalise */
+  ob : cBits,
+  if aes_num_rounds = 10 then 
+    rs : cons(
+      apply_constraint_template(aes_final_round_ct,
+        append(ib,take_elements(128,rest(ekBits,aes_num_rounds*128)),ob),
+        append([namespace,aes_num_rounds],rest(ct_arg_l,2))),
+      rs)
+  else
+    rs : cons(
+      apply_constraint_template(aes_round_ct,
+        append(ib,take_elements(128,rest(ekBits,aes_num_rounds*128)),ob),
+        append([namespace,aes_num_rounds],rest(ct_arg_l,2))),
+      rs),
+  return(rs)
+)$
 
 /*!
 \endhtmlonly

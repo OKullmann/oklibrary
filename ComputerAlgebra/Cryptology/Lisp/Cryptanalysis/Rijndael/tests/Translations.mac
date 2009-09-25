@@ -357,6 +357,58 @@ okltest_aes_rewrite_all_ctl(f) := block([test_ctrb],
   assert(f([nounify(x)(1,2,3)], [[nounify(x),test_ctrb]]) =
     [nounify(f1)(1,2,3)]),
   true)$
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(f) := block(
+  assert(f(lambda([a],a),lambda([a],a),[])(0) = 0),
+  assert(f(lambda([a],a),nounify(f),[])(0) = nounify(f)(0)),
+  assert(f(nounify(f),lambda([a],a),[])(0) = nounify(f)(0)),
+  assert(f(nounify(f1),nounify(f2),[])(0) = nounify(f1)(nounify(f2)(0))),
+  assert(f(nounify(f1),nounify(f2),[1,2])(0) =
+    nounify(f1)(nounify(f2)(0,1,2))),
+  true)$
+
+okltest_apply_constraint_template(f) := block(
+  assert(f(lambda([a],0),[],[]) = 0),
+  for i : 0 thru 5 do
+    assert(f(lambda([[a]],0),[i],[]) = 0),
+  assert(f(nounify(f), [],[]) = nounify(f)([])),
+  assert(f(nounify(f), [1,2,3],[]) = nounify(f)(1,2,3,[])),
+  assert(f(nounify(f), [1,2],[3,4]) = nounify(f)(1,2,[3,4])),
+  true)$
+
+oktest_generate_aes_constraint_vars(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
+  for i : 0 thru 5 do
+    assert(f(i,i, lambda([a],a),nounify(id)) = [aes_v(i,nounify(id))]),
+ for i : 0 thru 5 do
+    assert(f(i,i, nounify(n),nounify(id)) =
+      [nounify(n)(aes_v(i,nounify(id)))]),
+  assert(f(1,2, nounify(n),nounify(id)) =
+    [nounify(n)(aes_v(1,nounify(id))),nounify(n)(aes_v(2,nounify(id)))]),
+  true)$
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_aes_ctr_ctl(f) := block([ctl],
+  ctl : apply(aes_ctr_ctl, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) = [aes_round_ct,aes_add_ct,aes_key_expansion_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) = [385,385,385]),
+  assert(every_s(lambda([a], is(last(args(a)) =
+          [lambda([a],'n(apply(aes_namespace,cons(a,[1])))),1])),ctl)),
+  assert(args(ctl[1])[50] =
+    nounify(n)(aes_namespace(aes_v(50,nounify(o)),1))),
+  assert(args(ctl[2])[200] =
+    nounify(n)(aes_namespace(aes_v(72,nounify(k)),1))),
+  true)$
   
 /*!
 \endhtmlonly
