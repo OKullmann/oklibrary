@@ -897,6 +897,17 @@ BestSolution_Max = 59.000000
    </li>
    <li> n=306 found satisfiable in run 105 (cutoff=16*10^6, seed=4147819434,
    osteps=390227). </li>
+   <li> n=307
+    <ol>
+     <li> cutoff=16*10^6:
+     \verbatim
+ 1  2  3  4  5  6  7 46 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62
+ 4 18 31 26  7  1  1  1  2  4  6 10 11 12 21 26 39 61 38 46 25  6  4
+     \endverbatim
+     </li>
+     <li> cutoff=32*10^6 </li>
+    </ol>
+   </li>
    <li> n=310
     <ol>
      <li> 200 runs with cutoff=4*10^6:
