@@ -620,20 +620,61 @@ apply_constraint_template(ct,bits,arg_l) := apply(ct, endcons(arg_l,bits))$
 */
 
 /* AES constraint template */
+/* This template takes 384 arguments plus the auxiliary argument list.
+
+   Each of the 384 arguments should be a variable, representing
+   128 plaintext bits, 128 key bits, and 128 ciphertext bits as input
+   to the AES encryption algorithm.
+
+   The argument list should consist of the parent namespace, and
+   the number of rounds.
+*/
 kill(aes_ct)$
 declare(aes_ct,noun)$
 /* AES key expansion template */
+/* This template takes the 128 * (number of rounds + 2) arguments plus the
+   auxiliary argument list.
+
+   Each of the standard arguments should be a variable, representing
+   128 key bits and the round key bits for each round (one after the other) as
+   input to the AES key schedule.
+
+   The argument list should consist of the parent namespace, and
+   the number of rounds.
+*/
 kill(aes_key_expansion_ct)$
 declare(aes_key_expansion_ct,noun)$
 /* AES addition template */
+/* This template takes any number of standard arguments divisble by three
+   followed by the auxilliary argument list.
+
+   The template represents the constraint which xors the first third
+   of the standard arguments, with the second third, with the result
+   as the third third.
+
+   The argument list should consist of the parent namespace, and
+   any number of additional arguments which help to uniquely
+   identify this constraint template instance from others.
+*/
 /* MG: This could become a more general xor/addition constraint if
    the rewrite system is used more globally in the library. */
 kill(aes_add_ct)$
 declare(aes_add_ct,noun)$
 /* AES round template */
+/* This template takes 384 arguments plus the auxiliary argument list.
+
+   Each of the 384 arguments should be a variable, representing
+   128 plaintext bits, 128 key bits, and 128 ciphertext bits as input
+   to the AES round.
+
+   The argument list should consist of the parent namespace, and
+   the index of this round in the total number of rounds.
+*/
 kill(aes_round_ct)$
 declare(aes_round_ct,noun)$
 /* AES final round template */
+/* This template takes the same arguments as the aes_round_ct template
+   with the same meaning. */
 kill(aes_final_round_ct)$
 declare(aes_final_round_ct,noun)$
 
