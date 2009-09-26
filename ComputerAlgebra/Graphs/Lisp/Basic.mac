@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -75,49 +75,49 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 */
 
 g_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
-  every(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,G[1])), G[2])$
+  every_s(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,G[1])), G[2])$
 gl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
-  every(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,G[1])),G[2])$
+  every_s(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,G[1])),G[2])$
 dg_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
-  every(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),G[1])), G[2])$
+  every_s(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),G[1])), G[2])$
 dgl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
-  every(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),G[1])), G[2])$
+  every_s(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),G[1])), G[2])$
 mug_p(G) := listp(G) and is(length(G)=3) and g_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 mugl_p(G) := listp(G) and is(length(G)=3) and gl_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 mudg_p(G) := listp(G) and is(length(G)=3) and dg_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 mudgl_p(G) := listp(G) and is(length(G)=3) and dgl_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 gg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
-  every(lambda([e], block([s : G[3](e)],
+  every_s(lambda([e], block([s : G[3](e)],
     setp(s) and elementp(length(s),{1,2}) and subsetp(s,G[1]))), G[2])$
 gdg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
-  every(lambda([e], block([l : G[3](e)],
+  every_s(lambda([e], block([l : G[3](e)],
     listp(l) and is(length(l)=2) and subsetp(setify(l),G[1]))), G[2])$
 
 og_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
-  every(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,setify(G[1]))), G[2])$
+  every_s(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,setify(G[1]))), G[2])$
 ogl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
-  every(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,setify(G[1]))), G[2])$
+  every_s(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,setify(G[1]))), G[2])$
 odg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
-  every(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),setify(G[1]))), G[2])$
+  every_s(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),setify(G[1]))), G[2])$
 odgl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
-  every(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),setify(G[1]))), G[2])$
+  every_s(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),setify(G[1]))), G[2])$
 omug_p(G) := listp(G) and is(length(G)=3) and og_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 omugl_p(G) := listp(G) and is(length(G)=3) and ogl_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 omudg_p(G) := listp(G) and is(length(G)=3) and odg_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 omudgl_p(G) := listp(G) and is(length(G)=3) and odgl_p([G[1],G[2]]) and
-  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+  every_s(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
 ogg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(G[2]) and
-  every(lambda([e], block([s : G[3](e)],
+  every_s(lambda([e], block([s : G[3](e)],
     setp(s) and elementp(length(s),{1,2}) and subsetp(s,setify(G[1])))), G[2])$
 ogdg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(G[2]) and
-  every(lambda([e], block([l : G[3](e)],
+  every_s(lambda([e], block([l : G[3](e)],
     listp(l) and is(length(l)=2) and subsetp(setify(l),setify(G[1])))), G[2])$
 
 
@@ -134,7 +134,7 @@ ogdg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(
 /* G1, G2, can be of arbitrary but identical graph-type: */
 gr_equalp(G1,G2) := if length(G1)=2 then is(G1 = G2) else
  is(G1[1] = G2[1] and G1[2] = G2[2]) and
-  every(lambda([e],is(G1[3](e)=G2[3](e))), G1[2])$
+  every_s(lambda([e],is(G1[3](e)=G2[3](e))), G1[2])$
 
 
 /* **************
@@ -179,6 +179,7 @@ omugl2ogg(G) := generic_omug2ogg(G)$
 
 g2og(G) := generic_g2og(G)$
 gl2ogl(G) := generic_g2og(G)$
+mug2omug(G) := generic_gg2ogg(G)$
 mugl2omugl(G) := generic_gg2ogg(G)$
 gg2ogg(G) := generic_gg2ogg(G)$
 
@@ -332,21 +333,21 @@ oklib_plain_include(graphs)$
 
 /* Tests whether a general or multi-graph has parallel edges: */
 parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$
-parallel_edges_mug_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
-parallel_edges_mugl_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+parallel_edges_mug_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
+parallel_edges_mugl_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
 parallel_edges_ogg_p(G) := is(length(setify(map(G[3],G[2]))) < length(G[2]))$
-parallel_edges_omug_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
-parallel_edges_omugl_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+parallel_edges_omug_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
+parallel_edges_omugl_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
 
 
 /* Tests whether a graph with loops is irreflexive (that is, doesn't actually
    have loops): */
 irreflexive_gl(G) := every_s(lambda([e],is(length(e)=2)), G[2])$
-irreflexive_mugl(G) := every(G[2],lambda([e],is(length(e)=2)))$
-irreflexive_gg(G) := every(G[2],lambda([e],is(length(G[3](e))=2)))$
-irreflexive_ogl(G) := every(G[2],lambda([e],is(length(e)=2)))$
-irreflexive_omugl(G) := every(G[2],lambda([e],is(length(e)=2)))$
-irreflexive_ogg(G) := every(G[2],lambda([e],is(length(G[3](e))=2)))$
+irreflexive_mugl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_gg(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
+irreflexive_ogl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_omugl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_ogg(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
 
 
 /* An "oriented graph" is, following the abuse of language in [Jensen,

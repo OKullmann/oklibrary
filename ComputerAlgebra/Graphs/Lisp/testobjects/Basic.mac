@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -136,7 +136,19 @@ okltest_edge_induced_subgraph_gg(edge_induced_subgraph_gg);
    **********
 */
 
+okltest_parallel_edges_gg_p(parallel_edges_gg_p);
+okltest_parallel_edges_mug_p(parallel_edges_mug_p);
+okltest_parallel_edges_mugl_p(parallel_edges_mugl_p);
+okltest_parallel_edges_ogg_p(parallel_edges_ogg_p);
+okltest_parallel_edges_omug_p(parallel_edges_omug_p);
+okltest_parallel_edges_omugl_p(parallel_edges_omugl_p);
+
 okltest_irreflexive_gl(irreflexive_gl);
+okltest_irreflexive_mugl(irreflexive_mugl);
+okltest_irreflexive_gg(irreflexive_gg);
+okltest_irreflexive_ogl(irreflexive_ogl);
+okltest_irreflexive_omugl(irreflexive_omugl);
+okltest_irreflexive_ogg(irreflexive_ogg);
 
 okltest_dominating_vertex_g_p(dominating_vertex_g_p);
 okltest_dominating_vertex_gl_p(dominating_vertex_gl_p);
