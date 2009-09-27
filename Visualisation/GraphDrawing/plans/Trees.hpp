@@ -89,6 +89,8 @@ License, or any later version. */
        vector (given by the positions of the roots of the subtrees)
        such that translating the coordinates of the drawing of one subtree 
        yields the coordinates of the other). </li>
+       <li> A Maxima example of mirror trees. 
+       mt(T) := reverse(makelist(mt(T[i]),i,1,length(T)))</li>
       </ol>
      </li>
     </ol>
