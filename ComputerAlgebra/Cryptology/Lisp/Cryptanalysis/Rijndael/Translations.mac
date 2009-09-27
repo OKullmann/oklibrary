@@ -1132,6 +1132,161 @@ aes_mixcolumns_ctr_ctl([arg_l]) := block(
     create_list(i,i,1,4))
 )$
 
+
+/*
+   Mixcolumn
+
+*/
+
+aes_mixcolumn_ctrb :
+ [aes_mixcolumn_ctr_ctl,aes_mixcolumn_namespace,aes_mixcolumn_ns_var_l]$
+
+
+/* AES mixcolumn namespace */
+kill(aes_mixcolumn_ns)$
+declare(aes_mixcolumn_ns,noun)$
+declare(aes_mixcolumn_ns,posfun)$
+aes_mixcolumn_namespace([args]) := apply(nounify(aes_mixcolumn_ns),args)$
+
+aes_mixcolumn_ns_var_l(arg_l,rewrite_mapping) := block([vars : [],namespace,
+  rewrite_hash : osm2hm(rewrite_mapping),lookup_var_lf],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace :
+    construct_constraint_namespace(
+      arg_l[1],aes_mixcolumn_namespace,rest(arg_l)),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc2)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc3)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad23)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad11)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc14)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc11)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc13)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc9)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad1411)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad139)),vars),
+  vars : cons(lookup_var_lf(aes_mul2_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(lookup_var_lf(aes_mul3_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(lookup_var_lf(aes_mul14_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(lookup_var_lf(aes_mul13_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(lookup_var_lf(aes_mul9_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(lookup_var_lf(aes_mul11_ct)([namespace],rewrite_mapping),vars),
+  vars : append(
+    create_list(
+      lookup_var_lf(aes_add_ct)([namespace,i],rewrite_mapping),i,1,20),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the AES Mixcolumn operation (the 
+   individual operation applied to a single column in AES Mixcolumns) given
+   128 plaintext variables and 128 output variables. */
+aes_mixcolumn_ctr_ctl([arg_l]) := block(
+  [namespace,bits,ct_arg_l,iBits, oBits, nc,rs : []],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace :
+    construct_constraint_namespace(
+      ct_arg_l[1],aes_mixcolumn_namespace,rest(ct_arg_l)),
+  iBits : partition_elements(take_elements(32, bits),8),
+  oBits : partition_elements(rest(bits, 32), 8),
+  /* First element */
+  for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
+    mulAVars :
+      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc2)),
+    rs : cons(
+      apply_constraint_template(aes_mul2_ct,
+        append(iBits[mod(0 + i,4) + 1],mulAVars),
+        [namespace,i]),
+      rs),
+    mulBVars :
+      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc3)),
+    rs : cons(
+      apply_constraint_template(aes_mul3_ct,
+        append(iBits[mod(1 + i,4) + 1],mulBVars),
+        [namespace,i]),
+      rs),
+    addAVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad23)),
+    rs : cons(
+      apply_constraint_template(aes_add_ct,
+        append(mulAVars,mulBVars, addAVars),
+        [namespace,6*i + 1]),
+      rs),
+    addBVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad11)),
+    rs : cons(
+      apply_constraint_template(aes_add_ct, 
+        append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars),
+        [namespace,6*i + 2]),
+      rs),
+    rs : cons(
+      apply_constraint_template(aes_add_ct,
+        append(addAVars,addBVars, oBits[i+1]),
+        [namespace,6*i + 3]),
+      rs)
+  ),
+  for i : 0 thru 3 do block(
+    [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
+    mulAVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc14)),
+    rs : cons(
+      apply_constraint_template(aes_mul14_ct,
+        append(oBits[mod(0 + i,4) + 1],mulAVars),
+        [namespace,i]),
+      rs),
+    mulBVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc11)),
+    rs : cons(
+      apply_constraint_template(aes_mul11_ct,
+        append(oBits[mod(1 + i,4) + 1],mulBVars),
+        [namespace,i]),
+      rs),
+    mulCVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc13)),
+    rs : cons(
+      apply_constraint_template(aes_mul13_ct,
+        append(oBits[mod(2 + i,4) + 1],mulCVars),
+        [namespace,i]),
+      rs),
+    mulDVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc9)),
+    rs : cons(
+      apply_constraint_template(aes_mul9_ct,
+        append(oBits[mod(3 + i,4) + 1],mulDVars),
+        [namespace,i]),
+      rs),
+    addAVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad1411)),
+    rs : cons(
+      apply_constraint_template(aes_add_ct,
+        append(mulAVars,mulBVars, addAVars),
+        [namespace,6*i + 4]),
+      rs),
+    addBVars :
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad139)),
+    rs : cons(
+      apply_constraint_template(aes_add_ct, 
+        append(mulCVars,mulDVars, addBVars),
+        [namespace,6*i + 5]),
+      rs),
+    rs : cons(
+      apply_constraint_template(aes_add_ct,
+        append(addAVars,addBVars, iBits[i+1]),
+        [namespace,6*i + 6]),
+      rs)
+  ),
+  return(rs)
+)$
+
+
 /*!
 \endhtmlonly
 */
