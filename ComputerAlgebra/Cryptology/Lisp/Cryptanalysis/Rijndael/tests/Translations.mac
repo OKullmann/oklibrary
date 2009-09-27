@@ -398,8 +398,20 @@ oktest_generate_aes_constraint_vars(f) := block(
    ***********************************************
 */
 
+okltest_aes_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_namespace(aes_var(a,nounify(o)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_namespace(aes_var(a,nounify(k)),1)),
+        create_list(i,i,1,256)))),
+  true)$
+
 okltest_aes_ctr_ctl(f) := block([ctl],
-  ctl : apply(aes_ctr_ctl, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
   assert(map(op,ctl) = [aes_round_ct,aes_add_ct,aes_key_expansion_ct]),
   assert(map(lambda([a],length(args(a))), ctl) = [385,385,385]),
   assert(every_s(lambda([a], is(last(args(a)) =

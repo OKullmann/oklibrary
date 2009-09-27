@@ -619,6 +619,18 @@ apply_constraint_template(ct,bits,arg_l) := apply(ct, endcons(arg_l,bits))$
    ***********************************************
 */
 
+/* Standard templates */
+
+/* Constraint template rewrite bundle which does nothing
+   (i.e the rewrite function it represents has the identity
+   as it's namespace, and no variables are introduced by it's
+   rewrite function). */
+kill(zero_ct)$
+declare(zero_ct,noun)$
+zero_ctrb : [lambda([[a]],apply(zero_ct,a)), lambda([a],a),lambda([a,b],[])]$
+
+/* AES templates */
+
 /* AES constraint template */
 /* This template takes 384 arguments plus the auxiliary argument list.
 
@@ -678,11 +690,13 @@ declare(aes_round_ct,noun)$
 kill(aes_final_round_ct)$
 declare(aes_final_round_ct,noun)$
 
-
 /* ***********************************************
    * Constraint template rewrite functions       *
    ***********************************************
 */
+
+/* AES constraint rewrite bundle */
+aes_ctrb : [aes_ctr,aes_namespace,aes_ns_var_l]$
 
 /* Namespace */
 kill(aes_ctr_ns)$
@@ -690,6 +704,57 @@ declare(aes_ctr_ns,noun)$
 declare(aes_ctr_ns,posfun)$
 aes_namespace([args]) := apply(nounify(aes_ctr_ns),args)$
 
+
+/* Returns a list of the variables introduced when
+   applying aes_ctr_ctl given the auxiliary parameter
+   list arg_l, under the given rewrite_mapping.
+
+   For example, given the constraint template instance
+
+   aes_ct(1,...,384,arg_l)
+
+   is rewritten using aes_ctr_ctl, under
+   rewrite_mapping, the list of variables
+   returned by this function are exactly those
+   variables introduced by aes_ctr_ctl and
+   any rewritten-subconstraints it introduces
+   (mapped to the corresponding rewrite functions
+   by variable mapping, that is, this function
+   recursively generates such a variable list,
+   based on sub-constraints it uses).
+*/
+aes_ns_var_l(arg_l,rewrite_mapping) := block(
+  [aes_num_rounds,vars : [],namespace,
+   rewrite_hash : osm2hm(rewrite_mapping),lookup_hash],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1],aes_namespace,rest(arg_l)),
+  aes_num_rounds : arg_l[2],
+  vars : cons(
+    generate_aes_constraint_vars(1,(aes_num_rounds+1)*128,
+      namespace,nounify(k)),vars),
+  vars : cons(
+    generate_aes_constraint_vars(1,aes_num_rounds*128,
+      namespace,nounify(o)),vars),
+  vars : cons(
+    lookup_var_lf(aes_key_expansion_ct)(
+      [namespace,aes_num_rounds],rewrite_mapping),vars),
+  vars : cons(
+    lookup_var_lf(aes_add_ct)([namespace],rewrite_mapping),
+    vars),
+  if aes_num_rounds = 10 then 
+    vars : cons(
+      lookup_var_lf(aes_final_round_ct)([namespace,10],rewrite_mapping),
+      vars)
+  else
+    vars : cons(
+      lookup_var_lf(aes_round_ct)([namespace,aes_num_rounds],rewrite_mapping),
+      vars),
+  for r : 1 thru aes_num_rounds - 1 do
+    vars : cons(lookup_var_lf(aes_round_ct)([namespace,r],rewrite_mapping),
+      vars),
+  return(lappend(vars)))$
 /* Rewrite function designed to rewrite the AES constraint template "aes_ct".
 
    Takes as arguments 385 variables, which are the arguments of the "aes_ct"
