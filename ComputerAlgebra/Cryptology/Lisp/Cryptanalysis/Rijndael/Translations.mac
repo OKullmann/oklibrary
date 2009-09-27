@@ -696,7 +696,7 @@ declare(aes_final_round_ct,noun)$
 */
 
 /* AES constraint rewrite bundle */
-aes_ctrb : [aes_ctr,aes_namespace,aes_ns_var_l]$
+aes_ctrb : [aes_ctr_ctl,aes_namespace,aes_ns_var_l]$
 
 /* Namespace */
 kill(aes_ctr_ns)$
@@ -823,6 +823,82 @@ aes_ctr_ctl([arg_l]) := block(
         append(ib,take_elements(128,rest(ekBits,aes_num_rounds*128)),ob),
         append([namespace,aes_num_rounds],rest(ct_arg_l,2))),
       rs),
+  return(rs)
+)$
+
+/*
+   AES Round
+
+*/
+
+aes_round_ctrb :
+ [aes_round_ctr_ctl, aes_round_namespace, aes_round_ns_var_l]$
+
+/* AES round namespace */
+kill(aes_round_ns)$
+declare(aes_round_ns,noun)$
+declare(aes_round_ns,posfun)$
+aes_round_namespace([args]) := apply(nounify(aes_round_ns),args)$
+
+aes_round_ns_var_l(arg_l,rewrite_mapping) := block(
+  [vars : [],namespace,
+   rewrite_hash : osm2hm(rewrite_mapping),lookup_hash],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1],aes_round_namespace,rest(arg_l)),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(so)),vars),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(ro)),vars),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(mo)),vars),
+  vars : cons(
+    lookup_var_lf(aes_subbytes_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(
+    lookup_var_lf(aes_shiftrows_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(
+    lookup_var_lf(aes_mixcolumns_ct)([namespace],rewrite_mapping),vars),
+  vars : cons(
+    lookup_var_lf(aes_add_ct)([namespace],rewrite_mapping),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing AES round given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+aes_round_ctr_ctl([arg_l]) := block(
+  [r,ct_arg_l,namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1],aes_round_namespace,rest(ct_arg_l)),
+  r : ct_arg_l[2],
+  iBits : take_elements(128,bits),
+  rkBits : take_elements(128,rest(bits,128)),
+  oBits : rest(bits,256),
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(so)),
+  rs : cons(
+    apply_constraint_template(aes_subbytes_ct,
+        append(iBits,tBits),
+        [namespace]),
+    rs),
+  iBits : tBits,
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(ro)),
+  rs : cons(
+    apply_constraint_template(aes_shiftrows_ct,
+        append(iBits,tBits),
+        [namespace]),
+    rs),
+  iBits : tBits,
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(mo)),
+  rs : cons(
+    apply_constraint_template(aes_mixcolumns_ct,
+      append(iBits, tBits),
+      [namespace]),
+    rs),
+  iBits : tBits,
+  tBits : oBits,
+  rs : cons(
+    apply_constraint_template(aes_add_ct,
+      append(iBits, rkBits, tBits),
+      [namespace]),
+    rs),
   return(rs)
 )$
 

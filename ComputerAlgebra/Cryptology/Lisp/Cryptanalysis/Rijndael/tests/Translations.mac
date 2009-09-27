@@ -421,6 +421,31 @@ okltest_aes_ctr_ctl(f) := block([ctl],
   assert(args(ctl[2])[200] =
     nounify(n)(aes_namespace(aes_v(72,nounify(k)),1))),
   true)$
+
+okltest_aes_round_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(mo)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(ro)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(so)),1)),
+        create_list(i,i,1,128)))),
+  true)$
+
+okltest_aes_round_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_mixcolumns_ct,aes_shiftrows_ct,aes_subbytes_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) = [385,257,257,257]),
+  assert(every_s(lambda([a], is(last(args(a)) =
+          [lambda([a],
+            'n(apply(aes_round_namespace,cons(a,[1]))))])),ctl)),
+  true)$
   
 /*!
 \endhtmlonly

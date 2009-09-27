@@ -77,6 +77,9 @@ oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
 okltest_aes_ns_var_l(aes_ns_var_l);
 okltest_aes_ctr_ctl(aes_ctr_ctl);
 
+okltest_aes_round_ns_var_l(aes_round_ns_var_l);
+okltest_aes_round_ctr_ctl(aes_round_ctr_ctl);
+
 /*!
 \endhtmlonly
 */
