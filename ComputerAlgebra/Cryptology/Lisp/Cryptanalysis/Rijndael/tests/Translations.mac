@@ -416,12 +416,13 @@ okltest_aes_ctr_ctl(f) := block([ctl],
   ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
   assert(map(op,ctl) = [aes_round_ct,aes_add_ct,aes_key_expansion_ct]),
   assert(map(lambda([a],length(args(a))), ctl) = [385,385,385]),
-  assert(every_s(lambda([a], is(last(args(a)) =
-          [lambda([a],'n(apply(aes_namespace,cons(a,[1])))),1])),ctl)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],'n(apply(aes_namespace,cons(a,[1])))))),ctl)),
   assert(args(ctl[1])[50] =
     nounify(n)(aes_namespace(aes_v(50,nounify(o)),1))),
   assert(args(ctl[2])[200] =
     nounify(n)(aes_namespace(aes_v(72,nounify(k)),1))),
+  assert(template_instance_distinguishable_p(ctl)),
   true)$
 
 okltest_aes_round_ns_var_l(f) := block(
@@ -446,9 +447,10 @@ okltest_aes_round_ctr_ctl(f) := block(
   assert(map(op,ctl) =
     [aes_add_ct,aes_mixcolumns_ct,aes_shiftrows_ct,aes_subbytes_ct]),
   assert(map(lambda([a],length(args(a))), ctl) = [385,257,257,257]),
-  assert(every_s(lambda([a], is(last(args(a)) =
-          [lambda([a],
-            'n(apply(aes_round_namespace,cons(a,[1]))))])),ctl)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_round_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
   true)$
 
 
@@ -466,14 +468,36 @@ okltest_aes_final_round_ns_var_l(f) := block(
     f([lambda([a],a),1],[[aes_subbytes_ct, [0,0,lambda([[a]],[1])]]])[1] = 1),
   true)$
 
+
 okltest_aes_final_round_ctr_ctl(f) := block(
   ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
   assert(map(op,ctl) =
     [aes_add_ct,aes_shiftrows_ct,aes_subbytes_ct]),
   assert(map(lambda([a],length(args(a))), ctl) = [385,257,257]),
-  assert(every_s(lambda([a], is(last(args(a)) =
-          [lambda([a],
-            'n(apply(aes_final_round_namespace,cons(a,[1]))))])),ctl)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_final_round_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_subbytes_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_sbox_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,16)),
+  true)$
+
+
+okltest_aes_subbytes_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_sbox_ct,i,1,16)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(17,i,1,16)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_subbytes_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    [16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]),
+  assert(template_instance_distinguishable_p(ctl)),
   true)$
   
 /*!

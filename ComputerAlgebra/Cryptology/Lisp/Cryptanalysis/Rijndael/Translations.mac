@@ -613,6 +613,18 @@ construct_constraint_namespace(namespace_p,namespace,arg_l) :=
    returns a constraint template constructed from these parameters. */
 apply_constraint_template(ct,bits,arg_l) := apply(ct, endcons(arg_l,bits))$
 
+/* Predicate which returns true if every constraint template
+   instance in the given list can be distinguished from every
+   other based solely on the auxiliary arguments.
+
+   Note, this is important, as namespaces, and variables are based on this
+   and any created variable must be unique, even if it is created during
+   the rewriting of different instances of the same constraint template.
+*/
+template_instance_distinguishable_p(ctl) :=
+  is(length(map(lambda([a],[op(a),last(args(a))]),ctl)) =
+     length(setify(map(lambda([a],[op(a),last(args(a))]),ctl))))$
+
 
 /* ***********************************************
    * Constraint templates                        *
@@ -664,9 +676,10 @@ declare(aes_key_expansion_ct,noun)$
    of the standard arguments, with the second third, with the result
    as the third third.
 
-   The argument list should consist of the parent namespace, and
-   any number of additional arguments which help to uniquely
-   identify this constraint template instance from others.
+   The argument list should consist of the parent namespace, the number
+   of standard arguments, and any number of additional arguments
+   which help to uniquely identify this constraint template instance
+   from others.
 */
 /* MG: This could become a more general xor/addition constraint if
    the rewrite system is used more globally in the library. */
@@ -689,6 +702,18 @@ declare(aes_round_ct,noun)$
    with the same meaning. */
 kill(aes_final_round_ct)$
 declare(aes_final_round_ct,noun)$
+/* AES subbytes template */
+kill(aes_subbytes_ct)$
+declare(aes_subbytes_ct,noun)$
+/* AES mixcolumns template */
+kill(aes_mixcolumns_ct)$
+declare(aes_mixcolumns_ct,noun)$
+/* AES shiftrows template */
+kill(aes_shiftrows_ct)$
+declare(aes_shiftrows_ct,noun)$
+/* AES sbox template */
+kill(aes_sbox_ct)$
+declare(aes_sbox_ct,noun)$
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -741,7 +766,7 @@ aes_ns_var_l(arg_l,rewrite_mapping) := block(
     lookup_var_lf(aes_key_expansion_ct)(
       [namespace,aes_num_rounds],rewrite_mapping),vars),
   vars : cons(
-    lookup_var_lf(aes_add_ct)([namespace],rewrite_mapping),
+    lookup_var_lf(aes_add_ct)([namespace,384],rewrite_mapping),
     vars),
   if aes_num_rounds = 10 then 
     vars : cons(
@@ -795,7 +820,7 @@ aes_ctr_ctl([arg_l]) := block(
   /* Initial Round Key Addition */
   rs : cons(
     apply_constraint_template(
-      aes_add_ct,append(ib,take_elements(128,ekBits),ob),[namespace,1]),
+      aes_add_ct,append(ib,take_elements(128,ekBits),ob),[namespace,384]),
     rs),
   ib : ob,
   /* Rounds */
@@ -857,7 +882,7 @@ aes_round_ns_var_l(arg_l,rewrite_mapping) := block(
   vars : cons(
     lookup_var_lf(aes_mixcolumns_ct)([namespace],rewrite_mapping),vars),
   vars : cons(
-    lookup_var_lf(aes_add_ct)([namespace],rewrite_mapping),vars),
+    lookup_var_lf(aes_add_ct)([namespace,384],rewrite_mapping),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing AES round given
    128 plaintext variables, 128 key variables and 128 output
@@ -897,7 +922,7 @@ aes_round_ctr_ctl([arg_l]) := block(
   rs : cons(
     apply_constraint_template(aes_add_ct,
       append(iBits, rkBits, tBits),
-      [namespace]),
+      [namespace,384]),
     rs),
   return(rs)
 )$
@@ -930,7 +955,7 @@ aes_final_round_ns_var_l(arg_l,rewrite_mapping) := block(
   vars : cons(
     lookup_var_lf(aes_shiftrows_ct)([namespace],rewrite_mapping),vars),
   vars : cons(
-    lookup_var_lf(aes_add_ct)([namespace],rewrite_mapping),vars),
+    lookup_var_lf(aes_add_ct)([namespace,384],rewrite_mapping),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing AES round given
    128 plaintext variables, 128 key variables and 128 output
@@ -963,10 +988,56 @@ aes_final_round_ctr_ctl([arg_l]) := block(
   rs : cons(
     apply_constraint_template(aes_add_ct,
       append(iBits, rkBits, tBits),
-      [namespace]),
+      [namespace,384]),
     rs),
   return(rs)
 )$
+
+/*
+   Subbytes
+   
+*/
+
+aes_subbytes_ctrb :
+ [aes_subbytes_ctr_ctl,aes_subbytes_namespace,aes_subbytes_ns_var_l]$
+
+
+/* AES subbytes namespace */
+kill(aes_subbytes_ns)$
+declare(aes_subbytes_ns,noun)$
+declare(aes_subbytes_ns,posfun)$
+aes_subbytes_namespace([args]) := apply(nounify(aes_subbytes_ns),args)$
+
+aes_subbytes_ns_var_l(arg_l,rewrite_mapping) := block([namespace,
+  rewrite_hash : osm2hm(rewrite_mapping),lookup_var_lf],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1], aes_subbytes_namespace,rest(arg_l)),
+  lappend(create_list(
+      lookup_var_lf(aes_sbox_ct)(
+        append([namespace,i],arg_l),rewrite_mapping),i,1,16)))$
+/* Returns a set of conditions representing the AES Subbytes operation given
+   128 plaintext variables and 128 output variables. */
+aes_subbytes_ctr_ctl([arg_l]) := block(
+  [namespace,ct_arg_l,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1], aes_subbytes_namespace,rest(ct_arg_l)),
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  for i : 0 thru 15 do
+    rs : cons(
+      apply_constraint_template(aes_sbox_ct,
+        append(
+          take_elements(8, rest(iBits,i*8)),
+          take_elements(8, rest(oBits,i*8))),
+        [namespace,i+1]),
+      rs),
+  return(rs)
+)$
+
 
 /*!
 \endhtmlonly
