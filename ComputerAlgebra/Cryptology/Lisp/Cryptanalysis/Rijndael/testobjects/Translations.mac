@@ -86,6 +86,12 @@ okltest_aes_final_round_ctr_ctl(aes_final_round_ctr_ctl);
 okltest_aes_subbytes_ns_var_l(aes_subbytes_ns_var_l);
 okltest_aes_subbytes_ctr_ctl(aes_subbytes_ctr_ctl);
 
+okltest_aes_shiftrows_ns_var_l(aes_shiftrows_ns_var_l);
+okltest_aes_shiftrows_ctr_ctl(aes_shiftrows_ctr_ctl);
+
+okltest_aes_mixcolumns_ns_var_l(aes_mixcolumns_ns_var_l);
+okltest_aes_mixcolumns_ctr_ctl(aes_mixcolumns_ctr_ctl);
+
 /*!
 \endhtmlonly
 */

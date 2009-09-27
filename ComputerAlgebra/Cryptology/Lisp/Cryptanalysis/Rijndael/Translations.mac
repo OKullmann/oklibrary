@@ -708,12 +708,18 @@ declare(aes_subbytes_ct,noun)$
 /* AES mixcolumns template */
 kill(aes_mixcolumns_ct)$
 declare(aes_mixcolumns_ct,noun)$
+/* AES mixcolumn template */
+kill(aes_mixcolumn_ct)$
+declare(aes_mixcolumn_ct,noun)$
 /* AES shiftrows template */
 kill(aes_shiftrows_ct)$
 declare(aes_shiftrows_ct,noun)$
 /* AES sbox template */
 kill(aes_sbox_ct)$
 declare(aes_sbox_ct,noun)$
+/* AES equality template */
+kill(aes_eq_ct)$
+declare(aes_eq_ct,noun)$
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -1038,6 +1044,93 @@ aes_subbytes_ctr_ctl([arg_l]) := block(
   return(rs)
 )$
 
+
+/*
+   Shiftrows
+
+*/
+
+aes_shiftrows_ctrb :
+ [aes_shiftrows_ctr_ctl,aes_shiftrows_namespace,aes_shiftrows_ns_var_l]$
+
+/* AES shiftrows namespace */
+kill(aes_shiftrows_ns)$
+declare(aes_shiftrows_ns,noun)$
+declare(aes_shiftrows_ns,posfun)$
+aes_shiftrows_namespace(arg_l) := apply(nounify(aes_shiftrows_ns),arg_l)$
+
+
+aes_shiftrows_ns_var_l(arg_l,rewrite_mapping) := block([namespace,
+  rewrite_hash : osm2hm(rewrite_mapping),lookup_var_lf],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1], aes_shiftrows_namespace,rest(arg_l)),
+  lappend(create_list(
+      lookup_var_lf(aes_eq_ct)(
+        append([namespace,i],arg_l),rewrite_mapping),i,1,128)))$
+
+/* Returns a set of conditions representing the AES Shiftrows operation given
+   128 plaintext variables and 128 output variables. */
+aes_shiftrows_ctr_ctl([arg_l]) := block(
+  [namespace,ct_arg_l,bits,iBits, oBits,count : 0],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1], aes_shiftrows_namespace,rest(ct_arg_l)),
+  iBits : take_elements(128,bits),
+  oBits : take_elements(128,rest(bits,128)),
+  map(
+    lambda([a,b],
+      apply_constraint_template(aes_eq_ct,[a,b],
+        [namespace,count : count +1])), oBits, 
+    apply(append,
+      aes_shiftrows(partition_elements(iBits,8))))
+)$
+
+
+/*
+   Mixcolumns
+
+*/
+
+aes_mixcolumns_ctrb :
+ [aes_mixcolumns_ctr_ctl,aes_mixcolumns_namespace,aes_mixcolumns_ns_var_l]$
+
+/* AES mixcolumns namespace */
+kill(aes_mixcolumns_ns)$
+declare(aes_mixcolumns_ns,noun)$
+declare(aes_mixcolumns_ns,posfun)$
+aes_mixcolumns_namespace([arg_l]) := apply(nounify(aes_mixcolumns_ns),arg_l)$
+
+
+aes_mixcolumns_ns_var_l(arg_l,rewrite_mapping) := block([namespace,
+  rewrite_hash : osm2hm(rewrite_mapping),lookup_var_lf],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1], aes_mixcolumns_namespace,rest(arg_l)),  
+  lappend(create_list(lookup_var_lf(aes_mixcolumn_ct)(
+      append([namespace,column],rest(arg_l)),rewrite_mapping),column,1,4)))$
+/* Returns a set of conditions representing the AES Mixcolumns operation given
+   128 plaintext variables and 128 output variables. */
+aes_mixcolumns_ctr_ctl([arg_l]) := block(
+  [namespace, ct_arg_l,bits,iBits, oBits, nc],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1], aes_mixcolumns_namespace,rest(ct_arg_l)),
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  nc : length(iBits)/32,
+  map(lambda([a,b,column], 
+    apply_constraint_template(aes_mixcolumn_ct,
+      append(apply(append,a),apply(append,b)),
+      append([namespace,column],rest(ct_arg_l)))),
+    partition_elements(partition_elements(iBits,8),nc),
+    partition_elements(partition_elements(oBits,8),nc),
+    create_list(i,i,1,4))
+)$
 
 /*!
 \endhtmlonly

@@ -499,7 +499,47 @@ okltest_aes_subbytes_ctr_ctl(f) := block(
     [16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]),
   assert(template_instance_distinguishable_p(ctl)),
   true)$
-  
+
+
+okltest_aes_shiftrows_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_eq_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,128)),
+  true)$
+
+
+okltest_aes_shiftrows_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_eq_ct,i,1,128)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(3,i,1,128)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_shiftrows_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    create_list(i,i,1,128)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_mixcolumns_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_mixcolumn_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,4)),
+  true)$
+
+
+okltest_aes_mixcolumns_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_mixcolumn_ct,i,1,4)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(65,i,1,4)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_mixcolumns_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    create_list(i,i,1,4)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
 /*!
 \endhtmlonly
 */
