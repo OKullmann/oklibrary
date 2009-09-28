@@ -1287,6 +1287,145 @@ aes_mixcolumn_ctr_ctl([arg_l]) := block(
 )$
 
 
+/*
+   Key expansion
+
+*/
+
+
+aes_key_expansion_ctrb :
+ [aes_key_expansion_ctr_ctl,aes_key_expansion_namespace,
+  aes_key_expansion_ns_var_l]$
+
+/* Generates a set of unit clauses (initially simpler than simplifying constants
+   or making partial assignments) to set the given vars (representing the bits
+   of AES round constants) to the round constant for round n */
+aes_round_constant_l(ivars, n) := block([rc_el,rc_l],
+  rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
+               create_list(2,i,1,(n -1)),1),
+  rc_l : egf_coeffs(rijn_bit_field,egf_num2poly(rijn_byte_field,rc_el),7),
+  return(map(lambda([a,b], if b = 0 then -a else a),ivars, rc_l))
+)$
+
+/* AES key expansion namespace */
+kill(aes_key_expansion_ns)$
+declare(aes_key_expansion_ns,noun)$
+declare(aes_key_expansion_ns,posfun)$
+aes_key_expansion_namespace([args]) :=
+  apply(nounify(aes_key_expansion_ns),args)$
+
+aes_key_expansion_ns_var_l(arg_l,rewrite_mapping) := block(
+  [n_r : arg_l[2],vars : [],namespace,
+  rewrite_hash : osm2hm(rewrite_mapping),lookup_var_lf],
+  lookup_var_lf : lambda([cta],
+    ev_hm_d(rewrite_hash,cta,zero_ctrb)[3]),
+  namespace : construct_constraint_namespace(
+    arg_l[1],aes_key_expansion_namespace,rest(arg_l)),
+  vars : cons(
+    generate_aes_constraint_vars(1,4*8*n_r,namespace,nounify(sb)),vars),
+  vars : cons(
+    generate_aes_constraint_vars(1,8*n_r,namespace,nounify(ke)),vars),
+  vars : cons(
+    generate_aes_constraint_vars(1,8*n_r,namespace,nounify(rc)),vars),
+  vars : append(vars,
+    create_list(
+      lookup_var_lf(aes_eq_ct)([namespace,i],rewrite_mapping),i,1,16 + n_r)),
+  vars : append(vars,
+    create_list(
+      lookup_var_lf(aes_add_ct)([namespace,i],rewrite_mapping),i,1,17 * n_r)),
+  vars : append(vars,
+    create_list(
+      lookup_var_lf(aes_sbox_ct)([namespace,i],rewrite_mapping),i,1, 4 * n_r)),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the AES keyschedule operation given
+   128 key variables and 128 * (aes_num_rounds + 1) output variables
+   (consecutive lots of 128 bits representing the individual round keys).
+   
+   The first 128 variables in the list "bits" represent the key block for the 
+   cipher, and then the (i+1)'th consecutive 128 variables in "bits" represents
+   the round key block for the i'th round. 
+   
+   */
+aes_key_expansion_ctr_ctl([arg_l]) := block(
+  [namespace,bits,ct_arg_l, n_k : 4,n_b : 4, n_r,kBits, rkBits, nc,rs : [],
+   sboxVars, addVars,fMat, kMat],
+  bits : rest(arg_l,-1),
+  ct_arg_l : last(arg_l),
+  namespace : construct_constraint_namespace(
+    ct_arg_l[1],aes_key_expansion_namespace,rest(ct_arg_l)),
+  n_r : ct_arg_l[2],
+  /* Primary Variables */
+  kBits : take_elements(128,bits),
+  rkBits : rest(bits,128),
+  fBits : take_elements(128,rkBits),
+  /* Split into columns */
+  cols :  partition_elements(partition_elements(rkBits,8),4),
+  kMat : partition_elements(partition_elements(kBits,8),4),
+  fMat : partition_elements(partition_elements(fBits,8),4),
+  /* Make first round key equal */
+  for j : 1 thru n_k do
+    for i : 1 thru n_b do
+      rs : cons(
+        apply_constraint_template(aes_eq_ct,
+          append(kMat[j][i], fMat[j][i]),
+          [namespace,4*(j-1)+i]),
+        rs),
+  /* Setup output bits */
+  for j : n_k thru (n_b * (n_r +1)) - 1 do block(
+    if mod(j, n_k) = 0 then block (
+      sboxVars : generate_aes_constraint_vars(
+        (j-n_k)*8*(4/n_k) +1,(j-n_k)*8*(4/n_k) +8,namespace,nounify(sb)),
+      rs : cons(
+        apply_constraint_template(aes_sbox_ct,
+          append(cols[j][2], sboxVars),
+          [namespace,(j-n_k) + 1]),
+        rs),
+      addVars : generate_aes_constraint_vars(
+        (j-n_k)*(8/n_k) +1,(j-n_k)*(8/n_k) +8,namespace,nounify(ke)),
+      rs : cons(
+        apply_constraint_template(aes_add_ct,
+          append(cols[j-n_k+1][1],sboxVars,addVars),
+          [namespace,4*(j-n_k) + floor((j-n_k)/n_k) + 1]),
+        rs),
+      rcVars : generate_aes_constraint_vars(
+        (j-n_k)*(8/n_k) + 1,(j-n_k)*(8/n_k) + 8,namespace,nounify(rc)),
+      rs : cons(
+        apply_constraint_template(aes_eq_ct,
+            append(aes_round_constant_l(rcVars,floor(j/n_k)),
+              create_list(true,i,1,8)),
+            [namespace,(n_k*n_b) + (j-n_k)/n_k + 1]),
+        rs),
+      rs : cons(
+        apply_constraint_template(aes_add_ct, 
+          append(rcVars,addVars, cols[j+1][1]),
+          [namespace,4*(j-n_k) + floor((j-n_k)/n_k) + 2]),
+        rs),
+      for i : 1 thru 3 do block([offset: ((j-n_k)*(4/n_k) + i)*8],
+        sboxVars : generate_aes_constraint_vars(
+          offset + 1,offset + 8,namespace,nounify(sb)),
+        rs : cons(
+          apply_constraint_template(aes_sbox_ct, 
+            append(cols[j][mod(i+1,4)+1], sboxVars),
+            [namespace,(j-n_k) + i + 1]),
+          rs),
+        rs : cons(
+          apply_constraint_template(aes_add_ct, 
+            append(cols[j-n_k+1][i+1],sboxVars, cols[j+1][i+1]),
+            [namespace,4*(j-n_k) + floor((j-n_k)/n_k) + 2 + i]),
+          rs)
+      )
+    )
+    else for i : 1 thru 4 do 
+      rs : cons(
+        apply_constraint_template(aes_add_ct,
+          append(cols[j][i], cols[j-n_k+1][i],cols[j+1][i]),
+          [namespace,4*(j-n_k) + ceiling((j-n_k)/n_k) +i]),
+        rs)
+  ),
+  return(rs)
+)$
+
+
 /*!
 \endhtmlonly
 */

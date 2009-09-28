@@ -600,6 +600,41 @@ okltest_aes_mixcolumn_ctr_ctl(f) := block(
   assert(template_instance_distinguishable_p(ctl)),
   true)$
 
+okltest_aes_key_expansion_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(rc)),1)),
+        create_list(i,i,1,8)),
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(ke)),1)),
+        create_list(i,i,1,8)),
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(sb)),1)),
+        create_list(i,i,1,32)))),
+  assert(
+    last(f([lambda([a],a),1],[[aes_sbox_ct, [0,0,lambda([[a]],[1])]]])) = 1),
+  true)$
+
+okltest_aes_key_expansion_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_add_ct,aes_sbox_ct,aes_add_ct,aes_sbox_ct,aes_add_ct,aes_sbox_ct,
+     aes_add_ct,aes_eq_ct,aes_add_ct,aes_sbox_ct,aes_eq_ct,aes_eq_ct,
+     aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,
+     aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) =
+    [25,25,25,25,25,25,25,25,25,25,25,25,25,17,25,17,25,17,25,17,25,17,17,17,
+     17,17,17,17,17,17,17,17,17,17,17,17,17,17]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_key_expansion_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
 /*!
 \endhtmlonly
 */
