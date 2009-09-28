@@ -1,6 +1,5 @@
-
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 
 kill(f)$
+
 
 /* ******************************
    * Providing basic test cases *
@@ -790,10 +790,66 @@ okltest_edge_induced_subgraph_gdg(f) := block([G,edgef],
    **********
 */
 
+okltest_parallel_edges_gg_p(f) := block([EF],
+  assert(f([{},{},EF]) = false),
+  assert(f([{1},{},EF]) = false),
+  assert(f([{1},{1},lambda([e],{1})]) = false),
+  assert(f([{1},{1,2},lambda([e],{1})]) = true),
+  true)$
+
+okltest_parallel_edges_mug_p(f) := block([EF],
+  assert(f([{},{},EF]) = false),
+  assert(f([{1},{},EF]) = false),
+  assert(f([{1,2},{{1,2}},lambda([e],choose_element(e))]) = false),
+  assert(f([{1,2,3},{{2,3}},lambda([e],choose_element(e))]) = true),
+  true)$
+
+okltest_parallel_edges_mugl_p(f) := (
+  assert(okltest_parallel_edges_mug_p(f) = true),
+  assert(f([{1},{{1}},lambda([e],choose_element(e))]) = false),
+  assert(f([{2},{{2}},lambda([e],choose_element(e))]) = true),
+  true)$
+
+okltest_parallel_edges_ogg_p(f) := (
+  assert(okltest_parallel_edges_gg_p(buildq([f],lambda([G],f(gg2ogg(G))))) = true),
+  true)$
+
+okltest_parallel_edges_omug_p(f) := (
+  assert(okltest_parallel_edges_mug_p(buildq([f],lambda([G],f(mug2omug(G))))) = true),
+  true)$
+
+okltest_parallel_edges_omugl_p(f) := (
+  assert(okltest_parallel_edges_mugl_p(buildq([f],lambda([G],f(mugl2omugl(G))))) = true),
+  true)$
+
 okltest_irreflexive_gl(f) := (
   assert(f([{},{}]) = true),
   assert(f([{1},{{1}}]) = false),
   /* XXX */
+  true)$
+
+okltest_irreflexive_mugl(f) := block([EF],
+  assert(f([{},{},EF]) = true),
+  assert(f([{1},{{1}},lambda([e],1)]) = false),
+  assert(f([{1},{{1}},lambda([e],2)]) = false),
+  assert(okltest_irreflexive_gl(buildq([f],lambda([G],f(gl2mugl(G))))) = true),
+  /* XXX */
+  true)$
+
+okltest_irreflexive_gg(f) := (
+  assert(okltest_irreflexive_mugl(buildq([f],lambda([G],f(mugl2gg(G))))) = true),
+  true)$
+
+okltest_irreflexive_ogl(f) := (
+  assert(okltest_irreflexive_gl(buildq([f],lambda([G],f(gl2ogl(G))))) = true),
+  true)$
+
+okltest_irreflexive_omugl(f) := (
+  assert(okltest_irreflexive_mugl(buildq([f],lambda([G],f(mugl2omugl(G))))) = true),
+  true)$
+
+okltest_irreflexive_ogg(f) := (
+  assert(okltest_irreflexive_gg(buildq([f],lambda([G],f(gg2ogg(G))))) = true),
   true)$
 
 okltest_dominating_vertex_g_p(f) := (
