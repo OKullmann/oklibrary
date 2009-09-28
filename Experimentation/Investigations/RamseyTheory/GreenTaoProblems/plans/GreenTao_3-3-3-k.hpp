@@ -200,7 +200,7 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             GreenTao_sb_3-3-3-4_434.cnf
        \endverbatim
        (without reaching a monitoring node); 2red/nds ~ 12.36, where
-       1302 / 12.36 ~ 105, 84.1 nds/sec. Looks worth than with preprocesssing,
+       1302 / 12.36 ~ 105, 84.1 nds/sec. Looks worse than with preprocesssing,
        while slightly better than without anything. </li>
        <li> With preprocessing and with symmetry-breaking:
        \verbatim
@@ -238,7 +238,22 @@ c file_name                             GreenTao_sb_3-3-3-4_434.cnf_m2pp_9920
        left?? </li>
       </ol>
      </li>
-     <li> minisat2; let's run it for a few days. </li>
+     <li> minisat2: also looks hopeless:
+     \verbatim
+> minisat2 GreenTao_3-3-3-4_434.cnf
+| 1474310789 |     864    19175    65558 |   262983   177338     59 |  0.000 % |
+*** INTERRUPTED ***
+restarts              : 40
+conflicts             : 1575350950     (544 /sec)
+decisions             : 1884366472     (1.86 % random) (651 /sec)
+propagations          : 83941261019    (29000 /sec)
+conflict literals     : 94551775063    (16.96 % deleted)
+Memory used           : 386.03 MB
+CPU time              : 2.89452e+06 s
+     \endverbatim
+     </li>
+     <li> So to determine unsatisfiability here, new ideas/algorithms are
+     needed. </li>
     </ol>
    </li>
    <li> n=437
