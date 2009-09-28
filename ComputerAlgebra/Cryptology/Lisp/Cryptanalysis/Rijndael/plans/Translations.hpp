@@ -441,8 +441,14 @@ aes_rewrite_all_ctl({aes_ct(p1,...,p128,k1,...,k128,c1,...,c128,[lambda([a],a),a
       templates to be defined which based on their arguments might be 
       translated (via secondary translation functions) to several different
       actual constraint systems (see 
-      Satisfiability/Lisp/ConstraintProblems/Conditions.mac). 
+      Satisfiability/Lisp/ConstraintProblems/Conditions.mac and 
+      Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp). 
       </li>
+      <li> MG should see 
+      Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+      and replace the functional notation used in the new system with
+      lists and clarify the distinction between constraint templates
+      and constraints. </li>
       <li> Such abstractions also allow simple named representations of
       constraints such as the AES at the top level, where specifying the full
       constraint (including all satisfying assignments as a DNF, as used in
