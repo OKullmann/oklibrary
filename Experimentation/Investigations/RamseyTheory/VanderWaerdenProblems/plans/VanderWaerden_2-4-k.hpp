@@ -520,7 +520,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,9) > 307
+  \todo vanderwaerden_2(4,9) > 308
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
@@ -909,7 +909,16 @@ BestSolution_Max = 59.000000
      osteps=106667). </li>
     </ol>
    </li>
-   <li> n=308 </li>
+   <li> n=308 found satisfiable in run 247 with cutoff=32*10^6
+   (seed=2621501336, osteps=4647811), while with cutoff=10^6 and 4000 runs no
+   solutions were found:
+   \verbatim
+  1   2   3   4   5   6   7  46  47  49  50  51  52  53  54  55  56  57  58  59
+  1   6  32  12  17   2   2   1   2   1   3   4   9  10  13  23  33  46  94 118
+ 60  61  62  63  64  65  66  67  68  69  70  71  72
+147 242 291 412 527 555 505 424 272 130  49  16   1
+   \endverbatim
+   </li>
    <li> n=310
     <ol>
      <li> 200 runs with cutoff=4*10^6:
