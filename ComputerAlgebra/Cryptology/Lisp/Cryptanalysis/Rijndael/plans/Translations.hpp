@@ -196,16 +196,28 @@ License, or any later version. */
     <ul> 
      <li> Concepts:
       <ul>
-       <li> Constraint template - An unevaluated function which takes as 
-       arguments, a list of variables in a predefined order (as in the current
-       system), and a list of arguments for the template. In particular, the 
-       first (required) argument for any constraint template is the namespace
-       under which the template lives. Consider something of the form:
+       <li> Constraint - A list with at least 2 arguments, the first being
+       the name of the constraint, the second a list of variables in a 
+       predefined order, and then any additional arguments which may
+       be required for the computation of the constraints. For example:
        \verbatim
-aes_ct(aes_ns(p,1),...,aes_ns(p,128),...,aes_ns(c,128),[aes_ns,rounds])
+["aes_ct",[aes_ns(p,1),...,aes_ns(p,128),...,aes_ns(c,128)],rounds]
        \endverbatim
-       where "aes_ct" is the constraint template function, and the whole
-       expression represents an instance of the constraint template.
+       See
+       Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+       for an example of similar such constraints. 
+       </li>
+       <li> Constraint template - A list with at least 2 arguments, the 
+       first being a constraint, the second, the namespace to be used
+       when rewritting the given constraint, and then any additional 
+       arguments which will help uniquely identify a particular constraint 
+       template instance (in general, uniquely identifying constraints
+       isn't important as they just represent a given function, however,
+       when rewriting them, one must distinguish them, to avoid introducing
+       clashing variables etc). Consider something of the form:
+       \verbatim
+[["aes_ct",[aes_ns(p,1),...,aes_ns(p,128),...,aes_ns(c,128)],rounds],aes_ns]
+       \endverbatim
        </li>
        <li> Namespace - An unevaluated function, where
         <ol>
@@ -237,9 +249,9 @@ lambda([a],some_namespace_x(a,1,2,3))
      <li> Datatypes (in an abstract sense):
       <ul>
        <li> Constraint template - denoted by postfix "ct". </li>
-       <li> Constraint template rewrite function - denoted by "ctr" in 
+       <li> Constraint rewrite function - denoted by "ctr" in 
        function name. </li>
-       <li> Constraint template list - denoted by "ctl". </li>
+       <li> Constraint list - denoted by "ctl". </li>
       </ul>
      </li>
      <li> Necessary functions and structures: 
@@ -262,11 +274,9 @@ lambda([a],some_namespace_x(a,1,2,3))
        </li>
        <li> Constraint template rewrite function:
         <ul>
-	 <li> Take as arguments the arguments to the associated constraint 
-	 template (the template which this function is defined to rewrite). 
-	 </li>
+	 <li> Take as argument, the given constraint template. </li>
 	 <li> Returns a list of constraint templates representing the original
-	 constraint. </li>
+	 constraint template. </li>
 	 <li> Each of the constraint templates in the returned list should 
 	 have a namespace n as their 
 	 namespace argument, where n is the functional composition of 
@@ -275,27 +285,22 @@ lambda([a],some_namespace_x(a,1,2,3))
 	 rewritten. </li>
 	 <li> For example, given the constraint template:
 	 \verbatim
-example_ct(ct_arg_1,ct_arg_2,ct_arg_3,[ex_namespace_parent,ex_param]);
+[["example_ct",[ct_arg_1,ct_arg_2,ct_arg_3],ex_param],ex_namespace_parent]);
 	 \endverbatim
-	 a constraint rewrite function "example_ctr" would be called:
-	 \verbatim
-example_ctr_ctl(ct_arg_1,ct_arg_2,ct_arg_3,[ex_namespace_parent,ex_param]);
-	 \endverbatim
+	 a constraint rewrite function "example_ctr" with this as an argument
 	 and would return:
 	 \verbatim
-[example_sub_ct(ct_arg_1,ct_arg_2,ex_namespace(ex_namespace(ct_arg_new,ex_param)),[example_namespace]),
-example_sub_ct2(ct_arg_3,[example_namespace])]
+[[["example_sub_ct",[ct_arg_1,ct_arg_2,ex_namespace(ex_namespace(ct_arg_new,ex_param))]],example_namespace],
+[["example_sub_ct2",[ct_arg_3]],example_namespace]]
 	 \endverbatim
 	 </li>
 	</ul>
        </li>
        <li> Namespace variables function:
         <ul>
-	 <li> Take as the first argument the last argument of the constraint 
+	 <li> Take as the first argument the constraint 
 	 template which the constraint template function associated with this
 	 function rewrites. </li>
-	 <li> Note in particular, the first argument is simply the set
-	 of auxiliary parameters for the given rewrite template. </li>
 	 <li> Take as the second argument a rewrite mapping. </li>
 	 <li> Return a list of variables introduced by the associated 
 	 constraint template rewrite function. </li>
@@ -307,7 +312,7 @@ example_sub_ct2(ct_arg_3,[example_namespace])]
        <li> Rewrite mapping:
         <ul>
 	 <li> A list of mappings, where a mapping is simply a two element 
-	 list, with the first element being the name of a constraint template,
+	 list, with the first element being the name of a constraint,
 	 for example, "aes_ct", and the second argument being a constraint
 	 template rewrite bundle, with which to rewrite this template. </li>
 	 <li> Such rewrite mappings then determine which rewrite rules are to
@@ -352,6 +357,21 @@ example_sub_ct2(ct_arg_3,[example_namespace])]
 	 then called by this function. </li>
 	</ul>
        </li>
+       <li> Constraint template list to CNF clause list mapping function:
+        <ul>
+	 <li> This function should take as an argument a list of constraint 
+	 templates. </li>
+	 <li> The result should be a formal CNF clause-list representing the 
+         constraint system. </li>
+	 <li> Auxilliary functions which translate individual constraint 
+	 templates into clause-lists are also necessary (and exist for the
+	 most part). </li>
+	 <li> Additionally, constraints such as equality constraints should
+	 be rewritten, to simple replace literals with their equivalent 
+	 literals, although there are different options which
+	 should be represented by different rewrite functions. </li>
+	</ul>
+       </li>
        <li> (DONE Replaced with variable generator)
        Variable count function:
         <ul>
@@ -380,20 +400,6 @@ example_sub_ct2(ct_arg_3,[example_namespace])]
        <li> (DONE Replaced with variable generator)
        Integer to variable mapping function - simply the inverse of the 
        "Variable to integer mapping function". </li>
-       <li> Constraint template set to CNF mapping function:
-        <ul>
-	 <li> This function should take as an argument a set of constraint 
-	 templates. </li>
-	 <li> The result should be a CNF clause-set representing the 
-         constraint system. </li>
-	 <li> Auxilliary functions which translate individual constraint 
-	 templates into clause-sets are also necessary (and exist for the
-	 most part). </li>
-	 <li> Additionally, constraints such as equality constraints should
-	 be rewritten, to simple replace literals with their equivalent 
-	 literals. </li>
-	</ul>
-       </li>
       </ul>
      </li>
      <li> Overview of system:
@@ -409,13 +415,13 @@ example_sub_ct2(ct_arg_3,[example_namespace])]
       mixcolumn inverse operation etc. </li>
       <li> So for example:
       \verbatim
-aes_rewrite_all_ctl({aes_ct(p1,...,p128,k1,...,k128,c1,...,c128,[lambda([a],a),aes_sbox_ts_cp,aes_mul2_ts_cp,....,true])});
+aes_rewrite_all_ctl([[["aes_ct",[p1,...,p128,k1,...,k128,c1,...,c128]],lambda([a],a)]]);
       \endverbatim
       </li>
       <li> "aes_rewrite_all_ctl" would then call constraint template rewrite 
-      function, called for instance, "aes_ctr", which would take as an 
-      argument, the arguments of "aes_ct", along with a rewrite mapping. </li>
-      <li> aes_ctr would then translate this into a list of constraint 
+      function, called for instance, "aes_ctr_ctl", which would take as an 
+      argument, the constraint template, along with a rewrite mapping. </li>
+      <li> aes_ctr_ctl would then translate this into a list of constraint 
       templates, such as "aes_subbytes_ct", for which all newly introduced
       variables have the namespace "aes_ns", where additional arguments to
       the namespace are additional (non-namespace) arguments to "aes_ct",
@@ -436,28 +442,29 @@ aes_rewrite_all_ctl({aes_ct(p1,...,p128,k1,...,k128,c1,...,c128,[lambda([a],a),a
       such as those representing equivalence of variables can be translated
       by replacement of variables etc, rather than adding additional clauses
       etc. </li>
-      <li> The point behind having constraint-templates here is that it offers
-      an abstraction away from an actual constraint, and allows constraint
-      templates to be defined which based on their arguments might be 
-      translated (via secondary translation functions) to several different
-      actual constraint systems (see 
-      Satisfiability/Lisp/ConstraintProblems/Conditions.mac and 
-      Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp). 
-      </li>
-      <li> MG should see 
+      <li> (DONE) MG should see 
       Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
       and replace the functional notation used in the new system with
       lists and clarify the distinction between constraint templates
       and constraints. </li>
-      <li> Such abstractions also allow simple named representations of
-      constraints such as the AES at the top level, where specifying the full
-      constraint (including all satisfying assignments as a DNF, as used in
-      Satisfiability/Lisp/ConstraintProblems/Conditions.mac) would be 
-      infeasible. </li>
      </ul>
      </li>
     </ul>
    </li>
+  </ul>
+
+
+  \todo Move notion of AES constraints to separate module/unit
+  <ul>
+   <li> The representation of components of the AES as constraints
+   and the evaluation of these constraints is separate from the 
+   rewriting of these constraints (constraints, plus additional information).
+   </li>
+   <li> The AES implementation at 
+   Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac 
+   should be updated to take the same arguments as each of the constraints 
+   used within this system (no global variables like aes_num_rounds), so one 
+   can evaluate the constraints generated by the rewrite functions. </li>
   </ul>
 
 
