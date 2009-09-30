@@ -24,6 +24,7 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Representations of the Sbox using additional variables
+    - Move notion of AES constraints to separate module/unit
     - Organisation
 
   \par
