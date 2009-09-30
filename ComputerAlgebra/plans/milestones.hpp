@@ -44,7 +44,7 @@ License, or any later version. */
       <li> Lisp/CryptoSystems : DONE </li>
      </ol>
     </li>
-    <li> DataStructures : </li>
+    <li> DataStructures : DONE </li>
     <li> %Graphs : </li>
     <li> Hypergraphs : DONE </li>
     <li> LinearAlgebra : DONE </li>

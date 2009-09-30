@@ -357,7 +357,284 @@ okltest_aes_rewrite_all_ctl(f) := block([test_ctrb],
   assert(f([nounify(x)(1,2,3)], [[nounify(x),test_ctrb]]) =
     [nounify(f1)(1,2,3)]),
   true)$
-  
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(f) := block(
+  assert(f(lambda([a],a),lambda([a],a),[])(0) = 0),
+  assert(f(lambda([a],a),nounify(f),[])(0) = nounify(f)(0)),
+  assert(f(nounify(f),lambda([a],a),[])(0) = nounify(f)(0)),
+  assert(f(nounify(f1),nounify(f2),[])(0) = nounify(f1)(nounify(f2)(0))),
+  assert(f(nounify(f1),nounify(f2),[1,2])(0) =
+    nounify(f1)(nounify(f2)(0,1,2))),
+  true)$
+
+okltest_apply_constraint_template(f) := block(
+  assert(f(lambda([a],0),[],[]) = 0),
+  for i : 0 thru 5 do
+    assert(f(lambda([[a]],0),[i],[]) = 0),
+  assert(f(nounify(f), [],[]) = nounify(f)([])),
+  assert(f(nounify(f), [1,2,3],[]) = nounify(f)(1,2,3,[])),
+  assert(f(nounify(f), [1,2],[3,4]) = nounify(f)(1,2,[3,4])),
+  true)$
+
+oktest_generate_aes_constraint_vars(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
+  for i : 0 thru 5 do
+    assert(f(i,i, lambda([a],a),nounify(id)) = [aes_v(i,nounify(id))]),
+ for i : 0 thru 5 do
+    assert(f(i,i, nounify(n),nounify(id)) =
+      [nounify(n)(aes_v(i,nounify(id)))]),
+  assert(f(1,2, nounify(n),nounify(id)) =
+    [nounify(n)(aes_v(1,nounify(id))),nounify(n)(aes_v(2,nounify(id)))]),
+  true)$
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_aes_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_namespace(aes_var(a,nounify(o)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_namespace(aes_var(a,nounify(k)),1)),
+        create_list(i,i,1,256)))),
+  assert(
+    f([lambda([a],a),1],[[aes_round_ct, [0,0,lambda([[a]],[1])]]])[1] = 1),
+  true)$
+
+okltest_aes_ctr_ctl(f) := block([ctl],
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) = [aes_round_ct,aes_add_ct,aes_key_expansion_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) = [385,385,385]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],'n(apply(aes_namespace,cons(a,[1])))))),ctl)),
+  assert(args(ctl[1])[50] =
+    nounify(n)(aes_namespace(aes_v(50,nounify(o)),1))),
+  assert(args(ctl[2])[200] =
+    nounify(n)(aes_namespace(aes_v(72,nounify(k)),1))),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+okltest_aes_round_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(mo)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(ro)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_round_namespace(aes_var(a,nounify(so)),1)),
+        create_list(i,i,1,128)))),
+  assert(
+    f([lambda([a],a),1],[[aes_subbytes_ct, [0,0,lambda([[a]],[1])]]])[1] = 1),
+  true)$
+
+okltest_aes_round_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_mixcolumns_ct,aes_shiftrows_ct,aes_subbytes_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) = [385,257,257,257]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_round_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_final_round_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_final_round_namespace(aes_var(a,nounify(ro)),1)),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],aes_final_round_namespace(aes_var(a,nounify(so)),1)),
+        create_list(i,i,1,128)))),
+  assert(
+    f([lambda([a],a),1],[[aes_subbytes_ct, [0,0,lambda([[a]],[1])]]])[1] = 1),
+  true)$
+
+
+okltest_aes_final_round_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_shiftrows_ct,aes_subbytes_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) = [385,257,257]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_final_round_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_subbytes_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_sbox_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,16)),
+  true)$
+
+
+okltest_aes_subbytes_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_sbox_ct,i,1,16)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(17,i,1,16)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_subbytes_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    [16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_shiftrows_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_eq_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,128)),
+  true)$
+
+
+okltest_aes_shiftrows_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_eq_ct,i,1,128)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(3,i,1,128)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_shiftrows_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    create_list(i,i,1,128)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_mixcolumns_ns_var_l(f) := block(
+  assert(f([lambda([a],a)],[]) = []),
+  assert(f([lambda([a],a)],[[aes_mixcolumn_ct, [0,0,lambda([[a]],[1])]]]) =
+    create_list(1,i,1,4)),
+  true)$
+
+
+okltest_aes_mixcolumns_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,256),[[nounify(n),1]])),
+  assert(map(op,ctl) = create_list(aes_mixcolumn_ct,i,1,4)),
+  assert(map(lambda([a],length(args(a))), ctl) = create_list(65,i,1,4)),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_mixcolumns_namespace,cons(a,[1])))))),ctl)),
+  assert(map(lambda([a],second(last(args(a)))), ctl) =
+    create_list(i,i,1,4)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+
+okltest_aes_mixcolumn_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(ad139)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(ad1411)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc9)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc13)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc11)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc14)),1)),
+        create_list(i,i,1,32)),      
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(ad11)),1)),
+        create_list(i,i,1,32)),
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(ad23)),1)),
+        create_list(i,i,1,32)),
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc3)),1)),
+        create_list(i,i,1,32)),
+      map(
+        lambda([a],aes_mixcolumn_namespace(aes_var(a,nounify(mc2)),1)),
+        create_list(i,i,1,32)))),
+  assert(
+    first(f([lambda([a],a),1],[[aes_mul2_ct,[0,0,lambda([[a]],[1])]]]))  = 1),
+  true)$
+
+
+okltest_aes_mixcolumn_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,64),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_add_ct,aes_add_ct,aes_mul9_ct,aes_mul13_ct,aes_mul11_ct,
+     aes_mul14_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_mul9_ct,aes_mul13_ct,
+     aes_mul11_ct,aes_mul14_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_mul9_ct,
+     aes_mul13_ct,aes_mul11_ct,aes_mul14_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_mul9_ct,aes_mul13_ct,aes_mul11_ct,aes_mul14_ct,aes_add_ct,aes_add_ct,
+     aes_add_ct,aes_mul3_ct,aes_mul2_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_mul3_ct,aes_mul2_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_mul3_ct,
+     aes_mul2_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_mul3_ct,aes_mul2_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) =
+    [25,25,25,17,17,17,17,25,25,25,17,17,17,17,25,25,25,17,17,17,17,25,25,25,
+     17,17,17,17,25,25,25,17,17,25,25,25,17,17,25,25,25,17,17,25,
+     25,25,17,17]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],'n(apply(aes_mixcolumn_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
+okltest_aes_key_expansion_ns_var_l(f) := block(
+  assert(
+    f([lambda([a],a),1],[]) =
+    append(
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(rc)),1)),
+        create_list(i,i,1,8)),
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(ke)),1)),
+        create_list(i,i,1,8)),
+      map(
+        lambda([a],aes_key_expansion_namespace(aes_var(a,nounify(sb)),1)),
+        create_list(i,i,1,32)))),
+  assert(
+    last(f([lambda([a],a),1],[[aes_sbox_ct, [0,0,lambda([[a]],[1])]]])) = 1),
+  true)$
+
+okltest_aes_key_expansion_ctr_ctl(f) := block(
+  ctl : apply(f, append(create_list(i,i,1,384),[[nounify(n),1]])),
+  assert(map(op,ctl) =
+    [aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,aes_add_ct,
+     aes_add_ct,aes_sbox_ct,aes_add_ct,aes_sbox_ct,aes_add_ct,aes_sbox_ct,
+     aes_add_ct,aes_eq_ct,aes_add_ct,aes_sbox_ct,aes_eq_ct,aes_eq_ct,
+     aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,
+     aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct,aes_eq_ct]),
+  assert(map(lambda([a],length(args(a))), ctl) =
+    [25,25,25,25,25,25,25,25,25,25,25,25,25,17,25,17,25,17,25,17,25,17,17,17,
+     17,17,17,17,17,17,17,17,17,17,17,17,17,17]),
+  assert(every_s(lambda([a], is(first(last(args(a))) =
+          lambda([a],
+            'n(apply(aes_key_expansion_namespace,cons(a,[1])))))),ctl)),
+  assert(template_instance_distinguishable_p(ctl)),
+  true)$
+
 /*!
 \endhtmlonly
 */

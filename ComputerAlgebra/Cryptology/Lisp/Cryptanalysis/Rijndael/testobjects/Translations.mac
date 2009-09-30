@@ -60,6 +60,44 @@ okltest_aes_cp(aes_cp);
 
 okltest_aes_rewrite_all_ctl(aes_rewrite_all_ctl);
 
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(construct_constraint_namespace);
+okltest_apply_constraint_template(apply_constraint_template);
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_aes_ns_var_l(aes_ns_var_l);
+okltest_aes_ctr_ctl(aes_ctr_ctl);
+
+okltest_aes_round_ns_var_l(aes_round_ns_var_l);
+okltest_aes_round_ctr_ctl(aes_round_ctr_ctl);
+
+okltest_aes_final_round_ns_var_l(aes_final_round_ns_var_l);
+okltest_aes_final_round_ctr_ctl(aes_final_round_ctr_ctl);
+
+okltest_aes_subbytes_ns_var_l(aes_subbytes_ns_var_l);
+okltest_aes_subbytes_ctr_ctl(aes_subbytes_ctr_ctl);
+
+okltest_aes_shiftrows_ns_var_l(aes_shiftrows_ns_var_l);
+okltest_aes_shiftrows_ctr_ctl(aes_shiftrows_ctr_ctl);
+
+okltest_aes_mixcolumns_ns_var_l(aes_mixcolumns_ns_var_l);
+okltest_aes_mixcolumns_ctr_ctl(aes_mixcolumns_ctr_ctl);
+
+
+okltest_aes_mixcolumn_ns_var_l(aes_mixcolumn_ns_var_l);
+okltest_aes_mixcolumn_ctr_ctl(aes_mixcolumn_ctr_ctl);
+
+okltest_aes_key_expansion_ns_var_l(aes_key_expansion_ns_var_l);
+okltest_aes_key_expansion_ctr_ctl(aes_key_expansion_ctr_ctl);
 
 /*!
 \endhtmlonly

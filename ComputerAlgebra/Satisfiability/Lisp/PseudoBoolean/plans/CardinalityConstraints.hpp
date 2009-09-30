@@ -16,7 +16,7 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
    two large blocks of text are (exactly??) identical. </li>
    <li> This makes no sense. </li>
-  <ul>
+  </ul>
 
 
   \todo Connections

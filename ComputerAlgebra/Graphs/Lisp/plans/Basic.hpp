@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -64,16 +64,28 @@ License, or any later version. */
      <li> And a "directed multigraph" is a triple [V,E,f], where now the
      elements of E or pairs, while a "directed multigraph with loops" allows
      the elements of the pairs to be identical. </li>
-     <li> However, it seems more natural to actually make the domain of f all
-     possible edges (directed or undirected, with or without loops); then
-     possibly the edge set could be dropped. </li>
-     <li> We must then change all functions concerned with multi(di)graphs.
+     <li> One could actually make the domain of f the set of all possible
+     edges (directed or undirected, with or without loops), allowing then (of
+     course) the value 0. Then possibly the edge set could be dropped. </li>
+     <li> We needed then to change all functions concerned with
+     multi(di)graphs. </li>
+     <li> To compute the set of edges, one had to go through all possible
+     edges (given the vertex set) and select those with a weight at least 1.
      </li>
+     <li> The basic possibilities are (i) with/without explicit edge set,
+     (ii) allowing/disallowing zero multiplicities. Without explicit edge set,
+     we need to allow zero multiplicities, while with it one could disallow
+     (as now) or allow them (having then two possibilities for checking whether
+     some edge is present). </li>
+     <li> At this time it seems best to avoid the further proliferation of
+     graph types, and just stick to the current form of "multigraph", since
+     yet there is no concrete motivation to consider further types. </li>
     </ol>
    </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
-   have the possibility of "lazy graph representations". Seems unavoidable.
-   </li>
+   have the possibility of "lazy graph representations". Seems unavoidable ---
+   except that by changing the concept of a multigraph as above we can at least
+   avoid to mention the edge-set. </li>
    <li> "Oriented" versions:
     <ol>
      <li> An "oriented general digraph" has additionally a function o, defined
