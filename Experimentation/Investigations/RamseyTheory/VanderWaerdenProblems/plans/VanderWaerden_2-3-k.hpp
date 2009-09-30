@@ -45,6 +45,23 @@ f(17)
   278.7812
    \endverbatim
    </li>
+   <li> Using the conjecture 279 (see below):
+      \verbatim
+d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279)
+x = log((1:length(d))[-(1:4)])
+y = log(d[-(1:4)])
+L = lm(y ~ x)
+C = coefficients(L)
+C[2]
+  2.060493
+f = function(k){exp(C[1]) * k^C[2]}
+round(f(1:20))
+1   3   8  14  22  33  45  59  75  93 
+114 136 160 187 215 246 279 314 351 390
+round(f(1:17)) - d
+ -2 -3 -1 -4  0  1 -1  1 -2 -4  0  1  0  1 -3  8  0
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -378,6 +395,12 @@ BestSolution_Max = 2.000000
 202 198
      \endverbatim
      </li>
+     <li> cutoff=64*10^6:
+     \verbatim
+325  75
+400
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=280
@@ -426,6 +449,51 @@ BestSolution_Max = 2.000000
 14 86
    \endverbatim
    So actually also here adaptnovelty+ seems best. </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(3,18) > 305
+  <ul>
+   <li> The prediction (see above) is n=314. </li>
+   <li> n=300 found satisfiable with cutoff=10^6. </li>
+   <li> n=301 found satisfiable with cutoff=10^6 (seed=3824107188,
+   osteps=627657). </li>
+   <li> n=302 : cutoff=10^6
+   \verbatim
+ 1  2
+71 29
+100
+   \endverbatim
+   but found satisfiable with cutoff=2*10^6 (seed=1205573131, osteps=988309).
+   </li>
+   <li> n=303 : cutoff=10^6
+   \verbatim
+ 1  2
+61 39
+100
+   \endverbatim
+    but found satisfiable with cutoff=2*10^6 (seed=3612981472, osteps=1991145).
+   </li>
+   <li> n=305:
+    <ol>
+     <li> cutoff=10^6
+     \verbatim
+ 1  2
+61 39
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6 found a solution in run 99 (seed=2434783444,
+     osteps=532233). </li>
+    </ol>
+   </li>
+   <li> n=310: cutoff=10^6
+   \verbatim
+ 1  2  3
+60 39  1
+100
+   \endverbatim
+   </li>
   </ul>
 
 */
