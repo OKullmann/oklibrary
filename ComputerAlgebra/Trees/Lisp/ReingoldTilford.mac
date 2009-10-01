@@ -22,8 +22,15 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac");
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/ReingoldTilford.mac")$
 
 
+/* ****************************
+   * Reingold-Tilford algorithm *
+   ****************************
+*/
 
+/* To be finished */
+rt(T,x,y) := 
 
+/* Obsoleted but keep as reference. 
 ltd(T,x,y) := cons([x,y],
             map(ltd,T,
                 create_list(x+(-1)^i,i,1,length(T)),
@@ -33,11 +40,16 @@ ltd2(T,x,y) := if T=[] then x=0 else cons([x,y],
             map(ltd2,T,
                 create_list(x,i,1,length(T)),
                 create_list((y-1),i,1,length(T))));
-
-ltd2([[],[]],0,0);
-
+*/
 
 
+
+
+/* The mirror image of binary trees. */
+mt(T) := reverse(makelist(mt(T[i]),i,1,length(T)))$
+
+/* Translating a tree with coordinates */
+/* To be finished */
 tl() := 
 
 
