@@ -452,7 +452,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,18) > 305
+  \todo vanderwaerden_2(3,18) >= 311
   <ul>
    <li> The prediction (see above) is n=314. </li>
    <li> n=300 found satisfiable with cutoff=10^6. </li>
@@ -493,6 +493,12 @@ BestSolution_Max = 2.000000
 60 39  1
 100
    \endverbatim
+   but with cutoff=8*10^6 in run 112 a solution was found (seed=1883662893,
+   osteps=3087470). </li>
+   <li> n=311:
+    <ol>
+     <li> cutoff=8*10^6 yields in 400 runs always min=1. </li>
+    </ol>
    </li>
   </ul>
 

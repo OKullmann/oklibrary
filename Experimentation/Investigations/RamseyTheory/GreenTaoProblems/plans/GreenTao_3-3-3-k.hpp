@@ -441,7 +441,17 @@ BestSolution_Max = 2.000000
     </ol>
    </li>
    <li> n=1926 found satisfiable (seed=1969942517, osteps=1115197460). </li>
-   <li> n=1927 </li>
+   <li> n=1927
+    <ol>
+     <li> cutoff=4*10^9
+     \verbatim
+ 1  2
+36 64
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
