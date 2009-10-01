@@ -1,5 +1,5 @@
 /* Rui Wang, 28.9.2009 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/ReingoldTilford.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basic.mac")$
 
 
 /* ****************************
@@ -27,8 +27,9 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/ReingoldTilford.mac")$
    ****************************
 */
 
-/* To be finished */
+/* To be finished
 rt(T,x,y) := 
+*/
 
 /* Obsoleted but keep as reference. 
 ltd(T,x,y) := cons([x,y],
@@ -46,10 +47,14 @@ ltd2(T,x,y) := if T=[] then x=0 else cons([x,y],
 
 
 /* The mirror image of binary trees. */
-mt(T) := reverse(makelist(mt(T[i]),i,1,length(T)))$
+mt(T) := reverse(create_list(mt(T[i]),i,1,length(T)))$
 
 /* Translating a tree with coordinates */
-/* To be finished */
+/* To be finished
 tl() := 
+*/
 
 
+/*!
+\endhtmlonly
+*/
