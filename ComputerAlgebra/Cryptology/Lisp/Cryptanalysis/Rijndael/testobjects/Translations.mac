@@ -138,6 +138,9 @@ okltest_aes_mul9_pi_cst_cl(aes_mul9_pi_cst_cl);
 okltest_aes_mul9_ts_var_l(aes_mul9_ts_var_l);
 okltest_aes_mul9_ts_cst_cl(aes_mul9_ts_cst_cl);
 
+okltest_aes_constraints2cnf_pi_cl(aes_constraints2cnf_pi_cl);
+okltest_aes_constraints2cnf_ts_cl(aes_constraints2cnf_ts_cl);
+
 /*!
 \endhtmlonly
 */

@@ -582,6 +582,15 @@ aes_var(i,id) := nounify(aes_v)(i,id)$
 generate_aes_constraint_vars(n,m,namespace, id) :=
   res : map(namespace,create_list(aes_var(i,id),i,n,m))$
 
+aes_rewrite_mapping_std :
+  [["aes_cst",aes_ctrb],["aes_key_expansion_cst",aes_key_expansion_ctrb],
+  ["aes_round_cst",aes_round_ctrb],
+  ["aes_final_round_cst",aes_final_round_ctrb],
+  ["aes_subbytes_cst",aes_subbytes_ctrb],
+  ["aes_shiftrows_cst",aes_shiftrows_ctrb],
+  ["aes_mixcolumns_cst",aes_mixcolumns_ctrb],
+  ["aes_mixcolumn_cst",aes_mixcolumn_ctrb]]$
+
 /* ********************************************
    * Rewrite system functions                 *
    ********************************************
@@ -1252,7 +1261,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
 )$
 
 /* ****************************************
-   * Translation functions                *
+   * CNF Translation functions                *
    ****************************************
 */
 
@@ -1556,7 +1565,54 @@ aes_mul9_ts_cst_cl(cst) := block(
     rename_fcl(aes_mul_ts_gen(9),
       append(bits,
         generate_aes_constraint_vars(1,256, namespace,nounify(mul9))))[2])$
-  
+
+/* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
+   returns a list of clauses representing these constraints.
+
+   In particular, in the case of Sbox and field multiplication constraints,
+   this translation uses the non-canonical representation of these constraints,
+   generated through heuristic experimentation (see FieldMul2CNF etc). */
+aes_constraints2cnf_pi_cl(rs) := block([prog_l : 0, rs_len : length(rs)],
+  lappend(map(
+    lambda([a],block(
+      if oklib_monitoring then
+        print("Rewriting '", first(a), "(",
+          prog_l : prog_l + 1,"/",rs_len,")"),
+      if first(a) = "aes_add_cst" then aes_add_cst_cl(a)
+      else if first(a) = "aes_eq_cst" then aes_eq_cst_cl(a)
+      else if first(a) = "aes_mul2_cst" then aes_mul2_pi_cst_cl(a)
+      else if first(a) = "aes_mul3_cst" then aes_mul3_pi_cst_cl(a)
+      else if first(a) = "aes_mul14_cst" then aes_mul14_pi_cst_cl(a)
+      else if first(a) = "aes_mul13_cst" then aes_mul13_pi_cst_cl(a)
+      else if first(a) = "aes_mul11_cst" then aes_mul11_pi_cst_cl(a)
+      else if first(a) = "aes_mul9_cst" then aes_mul9_pi_cst_cl(a)
+      else if first(a) = "aes_sbox_cst" then aes_sbox_pi_cst_cl(a)
+      else a)),
+  rs)))$
+
+/* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
+   returns a list of clauses representing these constraints.
+
+   In particular, in the case of Sbox and field multiplication constraints,
+   this translation uses the canonical representations of these constraints
+   using new variables. */
+aes_constraints2cnf_ts_cl(rs) := block([prog_l : 0,rs_len : length(rs)],
+  lappend(map(
+    lambda([a],block(
+      if oklib_monitoring then
+        print("Rewriting '", first(a), "(",
+          prog_l : prog_l + 1,"/",rs_len,")"),
+      if first(a) = "aes_add_cst" then aes_add_cst_cl(a)
+      else if first(a) = "aes_eq_cst" then aes_eq_cst_cl(a)
+      else if first(a) = "aes_mul2_cst" then aes_mul2_ts_cst_cl(a)
+      else if first(a) = "aes_mul3_cst" then aes_mul3_ts_cst_cl(a)
+      else if first(a) = "aes_mul14_cst" then aes_mul14_ts_cst_cl(a)
+      else if first(a) = "aes_mul13_cst" then aes_mul13_ts_cst_cl(a)
+      else if first(a) = "aes_mul11_cst" then aes_mul11_ts_cst_cl(a)
+      else if first(a) = "aes_mul9_cst" then aes_mul9_ts_cst_cl(a)
+      else if first(a) = "aes_sbox_cst" then aes_sbox_ts_cst_cl(a)
+      else a)),
+  rs)))$
 
 /*!
 \endhtmlonly

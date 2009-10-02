@@ -983,6 +983,24 @@ okltest_aes_mul9_ts_cst_cl(f) := block([cl,cst],
   assert(length(last(cl)) = 256),
   true)$
 
+okltest_aes_constraints2cnf_pi_cl(f) := block(
+  assert(f([]) = []),
+  okltest_aes_eq_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  okltest_aes_sbox_pi_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  okltest_aes_mul2_pi_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  assert(f([["aes_eq_cst", [1,2]],["aes_add_cst", [1,2,3]]]) =
+    [{-1,2},{1,-2},{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}]),
+  true)$
+
+okltest_aes_constraints2cnf_ts_cl(f) := block(
+  assert(f([]) = []),
+  okltest_aes_eq_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  okltest_aes_sbox_ts_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  okltest_aes_mul2_ts_cst_cl(buildq([f:f],lambda([a],f([a])))),
+  assert(f([["aes_eq_cst", [1,2]],["aes_add_cst", [1,2,3]]]) =
+    [{-1,2},{1,-2},{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}]),
+  true)$
+
 /*!
 \endhtmlonly
 */
