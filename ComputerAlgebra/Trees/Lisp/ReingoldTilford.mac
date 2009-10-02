@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 
 /* ****************************
