@@ -1240,6 +1240,30 @@ aes_key_expansion_cstr_cstl(cst) := block(
   return(rs)
 )$
 
+/* ****************************************
+   * Translation functions                *
+   ****************************************
+*/
+
+/* Returns a list of CNF clauses representing addition within GF(2^n) given
+   an "aes_add_cst" constraint with 2 * n input variables (n bits to be added
+   to the next n bits) and n output variables. */
+aes_add_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 3)],
+  lappend(map(lambda([a,b,c], [{-a,-b,-c},{-a,b,c},{a,-b,c},{a,b,-c}]), 
+    take_elements(nb,cst[2]),
+    take_elements(nb, rest(cst[2],nb)), rest(cst[2],nb*2))))$
+
+/* Returns a list of CNF clauses representing equivalence between the first
+   half of the list of variables and the second half in the constraint.
+
+   Variables in the second half may also be "true", in which case, unit
+   clauses will be introduced.
+*/
+aes_eq_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 2)],
+  lappend(
+    map(lambda([a,b], if b = true then [{a}] else [{-a,b},{a,-b}]), 
+    take_elements(nb,cst[2]), rest(cst[2],nb))))$
+
 
 /*!
 \endhtmlonly
