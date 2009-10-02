@@ -69,8 +69,10 @@ evaluate_set_map_d(M,x,y) := block([found : false, val],
    of the list as arguments):
 */
 l2sm(L) := setify(map("[",create_list(i,i,1,length(L)),L))$
+l2osm(L) := map("[",create_list(i,i,1,length(L)),L)$
 /* More generally, using list LA as list of arguments: */
 ll2sm(LA,L) := setify(map("[",LA,L))$
+ll2osm(LA,L) := map("[",LA,L)$
 
 /* The set of all bijections from set A to set B as set-maps: */
 allbij_sm(A,B) := if length(A) # length(B) then {} else
@@ -170,6 +172,7 @@ okl_make_array(type,dim) := block([a : make_array(type,dim+1)],
 okl_listarray(a) := rest(listarray(a))$
 /* RENAME: ary2l */
 array2l(a) := okl_listarray(a)$
+ary2l(a) := okl_listarray(a)$
 /* Here L must be a list and a an okl-array: */
 okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
 
