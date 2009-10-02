@@ -252,7 +252,7 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
    *****************************************
 */
 
-/* The closure of a set system under subset-formation */
+/* The closure of a set system under subset-formation: */
 subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 
 
@@ -265,7 +265,8 @@ sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
 */
 
 
-/* Eliminates all subsumed elements from a set system: */
+/* Eliminates all subsumed elements from a set system (that is, computes
+   the set of all minimal elements w.r.t. the subset-relation): */
 min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not_subsumed],
  while not emptyp(remains) do (
   A : first(remains), remains : rest(remains),

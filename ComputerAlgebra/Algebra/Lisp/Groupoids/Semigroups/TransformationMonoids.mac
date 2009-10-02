@@ -42,7 +42,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 transformation_l_compo(x,y) := create_list(x[i], i,y)$
 trf_l_compo(x,y) := transformation_l_compo(x,y)$
 
-/* The full transformation monoid with n elements: */
+/* The full transformation monoid over n elements (and thus with n^n
+   transformations): */
 /* RENAME: trf_l_mon */
 transformations_l_mon(n) := 
   [all_transformations_l(setn(n)), 
