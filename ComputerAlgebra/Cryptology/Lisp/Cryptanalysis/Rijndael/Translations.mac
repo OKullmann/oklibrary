@@ -673,10 +673,10 @@ aes_ns_var_l(cst) := block(
   aes_num_rounds : cst[3],
   vars : cons(
     generate_aes_constraint_vars(1,(aes_num_rounds+1)*128,
-      namespace,"k"),vars),
+      namespace,nounify(k)),vars),
   vars : cons(
     generate_aes_constraint_vars(1,aes_num_rounds*128,
-      namespace,"o"),vars),
+      namespace,nounify(o)),vars),
   return(lappend(vars)))$
 /* Rewrite function designed to rewrite the AES constraint template "aes_ct".
 
@@ -699,14 +699,14 @@ aes_cstr_cstl(cst) := block(
   aes_num_rounds : cst[3],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    if length(cst) < 3 then lambda([a],a) else last(cst),
+    if length(cst) < 4 then lambda([a],a) else last(cst),
     aes_namespace,cst),
   pBits : take_elements(128,bits),
   kBits : take_elements(128,rest(bits,128)),
   cBits : rest(bits,256),
   ekBits :
     generate_aes_constraint_vars(
-      1,(aes_num_rounds+1)*128,namespace,"k"),
+      1,(aes_num_rounds+1)*128,namespace,nounify(k)),
   /* Key Expansion */
   rs : cons(
     construct_constraint(
@@ -714,7 +714,7 @@ aes_cstr_cstl(cst) := block(
     rs),
   ib : pBits,
   all_ob :
-    generate_aes_constraint_vars(1,(aes_num_rounds)*128,namespace,"o"),
+    generate_aes_constraint_vars(1,(aes_num_rounds)*128,namespace,nounify(o)),
   ob : take_elements(128,all_ob),
   /* Initial Round Key Addition */
   rs : cons(
@@ -766,10 +766,11 @@ aes_round_namespace([args]) := apply(nounify(aes_round_ns),args)$
 
 aes_round_ns_var_l(cst) := block([vars : [],namespace],
   namespace : construct_constraint_namespace(
-    last(cst),aes_round_namespace,cst),
-  vars : cons(generate_aes_constraint_vars(1,128,namespace,"so"),vars),
-  vars : cons(generate_aes_constraint_vars(1,128,namespace,"ro"),vars),
-  vars : cons(generate_aes_constraint_vars(1,128,namespace,"mo"),vars),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_round_namespace,cst),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(so)),vars),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(ro)),vars),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(mo)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing AES round given
    128 plaintext variables, 128 key variables and 128 output
@@ -778,18 +779,19 @@ aes_round_cstr_cstl(cst) := block(
   [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst),aes_round_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_round_namespace,cst),
   iBits : take_elements(128,bits),
   rkBits : take_elements(128,rest(bits,128)),
   oBits : rest(bits,256),
-  tBits : generate_aes_constraint_vars(1,128,namespace,"so"),
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(so)),
   rs : cons(
     construct_constraint("aes_subbytes_cst",
         append(iBits,tBits),
         [],namespace),
     rs),
   iBits : tBits,
-  tBits : generate_aes_constraint_vars(1,128,namespace,"ro"),
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(ro)),
   rs : cons(
     construct_constraint("aes_shiftrows_cst",
         append(iBits,tBits),
@@ -829,9 +831,10 @@ aes_final_round_namespace([args]) := apply(nounify(aes_final_round_ns),args)$
 aes_final_round_ns_var_l(cst) := block(
   [vars : [],namespace],
   namespace : construct_constraint_namespace(
-    last(cst),aes_final_round_namespace,cst),
-  vars : cons(generate_aes_constraint_vars(1,128,namespace,"so"),vars),
-  vars : cons(generate_aes_constraint_vars(1,128,namespace,"ro"),vars),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_final_round_namespace,cst),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(so)),vars),
+  vars : cons(generate_aes_constraint_vars(1,128,namespace,nounify(ro)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing AES round given
    128 plaintext variables, 128 key variables and 128 output
@@ -840,18 +843,19 @@ aes_final_round_cstr_cstl(cst) := block(
   [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst),aes_final_round_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_final_round_namespace,cst),
   iBits : take_elements(128,bits),
   rkBits : take_elements(128,rest(bits,128)),
   oBits : rest(bits,256),
-  tBits : generate_aes_constraint_vars(1,128,namespace,"so"),
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(so)),
   rs : cons(
     construct_constraint("aes_subbytes_cst",
         append(iBits,tBits),
         [],namespace),
     rs),
   iBits : tBits,
-  tBits : generate_aes_constraint_vars(1,128,namespace,"ro"),
+  tBits : generate_aes_constraint_vars(1,128,namespace,nounify(ro)),
   rs : cons(
     construct_constraint("aes_shiftrows_cst",
         append(iBits,tBits),
@@ -889,7 +893,8 @@ aes_subbytes_cstr_cstl(cst) := block(
   [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst), aes_subbytes_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_subbytes_namespace,cst),
   iBits : take_elements(128,bits),
   oBits : rest(bits,128),
   for i : 0 thru 15 do
@@ -926,7 +931,8 @@ aes_shiftrows_cstr_cstl(cst) := block(
   [namespace,bits,iBits, oBits,count : 0],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst), aes_shiftrows_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_shiftrows_namespace,cst),
   iBits : take_elements(128,bits),
   oBits : take_elements(128,rest(bits,128)),
   map(
@@ -960,7 +966,8 @@ aes_mixcolumns_cstr_cstl(cst) := block(
   [namespace, bits,iBits, oBits, nc],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst), aes_mixcolumns_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_mixcolumns_namespace,cst),
   iBits : take_elements(128,bits),
   oBits : rest(bits,128),
   nc : length(iBits)/32,
@@ -992,27 +999,28 @@ aes_mixcolumn_namespace([args]) := apply(nounify(aes_mixcolumn_ns),args)$
 aes_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
   namespace :
     construct_constraint_namespace(
-      last(cst),aes_mixcolumn_namespace,cst),
+      if length(cst) < 3 then lambda([a],a) else last(cst),
+      aes_mixcolumn_namespace,cst),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc2"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc2)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc3"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc3)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"ad23"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad23)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"ad11"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad11)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc14"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc14)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc11"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc11)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc13"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc13)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"mc9"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc9)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"ad1411"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad1411)),vars),
   vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,"ad139"),vars),
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad139)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the AES Mixcolumn operation (the 
    individual operation applied to a single column in AES Mixcolumns) given
@@ -1022,34 +1030,35 @@ aes_mixcolumn_cstr_cstl(cst) := block(
   bits : cst[2],
   namespace :
     construct_constraint_namespace(
-      last(cst),aes_mixcolumn_namespace,cst),
+      if length(cst) < 3 then lambda([a],a) else last(cst),
+      aes_mixcolumn_namespace,cst),
   iBits : partition_elements(take_elements(32, bits),8),
   oBits : partition_elements(rest(bits, 32), 8),
   /* First element */
   for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
     mulAVars :
-      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,"mc2"),
+      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc2)),
     rs : cons(
       construct_constraint("aes_mul2_cst",
         append(iBits[mod(0 + i,4) + 1],mulAVars),
         [],namespace),
       rs),
     mulBVars :
-      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,"mc3"),
+      generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc3)),
     rs : cons(
       construct_constraint("aes_mul3_cst",
         append(iBits[mod(1 + i,4) + 1],mulBVars),
         [],namespace),
       rs),
     addAVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"ad23"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad23)),
     rs : cons(
       construct_constraint("aes_add_cst",
         append(mulAVars,mulBVars, addAVars),
         [],namespace),
       rs),
     addBVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"ad11"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad11)),
     rs : cons(
       construct_constraint("aes_add_cst", 
         append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars),
@@ -1064,42 +1073,42 @@ aes_mixcolumn_cstr_cstl(cst) := block(
   for i : 0 thru 3 do block(
     [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
     mulAVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"mc14"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc14)),
     rs : cons(
       construct_constraint("aes_mul14_cst",
         append(oBits[mod(0 + i,4) + 1],mulAVars),
         [],namespace),
       rs),
     mulBVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"mc11"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc11)),
     rs : cons(
       construct_constraint("aes_mul11_cst",
         append(oBits[mod(1 + i,4) + 1],mulBVars),
         [],namespace),
       rs),
     mulCVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"mc13"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc13)),
     rs : cons(
       construct_constraint("aes_mul13_cst",
         append(oBits[mod(2 + i,4) + 1],mulCVars),
         [],namespace),
       rs),
     mulDVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"mc9"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc9)),
     rs : cons(
       construct_constraint("aes_mul9_cst",
         append(oBits[mod(3 + i,4) + 1],mulDVars),
         [],namespace),
       rs),
     addAVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"ad1411"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad1411)),
     rs : cons(
       construct_constraint("aes_add_cst",
         append(mulAVars,mulBVars, addAVars),
         [],namespace),
       rs),
     addBVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,"ad139"),
+      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad139)),
     rs : cons(
       construct_constraint("aes_add_cst", 
         append(mulCVars,mulDVars, addBVars),
@@ -1145,13 +1154,14 @@ aes_key_expansion_namespace([args]) :=
 aes_key_expansion_ns_var_l(cst) := block(
   [n_r : cst[3],vars : [],namespace],
   namespace : construct_constraint_namespace(
-    last(cst),aes_key_expansion_namespace,cst),
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_key_expansion_namespace,cst),
   vars : cons(
-    generate_aes_constraint_vars(1,4*8*n_r,namespace,"sb"),vars),
+    generate_aes_constraint_vars(1,4*8*n_r,namespace,nounify(sb)),vars),
   vars : cons(
-    generate_aes_constraint_vars(1,8*n_r,namespace,"ke"),vars),
+    generate_aes_constraint_vars(1,8*n_r,namespace,nounify(ke)),vars),
   vars : cons(
-    generate_aes_constraint_vars(1,8*n_r,namespace,"rc"),vars),
+    generate_aes_constraint_vars(1,8*n_r,namespace,nounify(rc)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the AES keyschedule operation given
    128 key variables and 128 * (aes_num_rounds + 1) output variables
@@ -1167,7 +1177,8 @@ aes_key_expansion_cstr_cstl(cst) := block(
    sboxVars, addVars,fMat, kMat],
   bits : cst[2],
   namespace : construct_constraint_namespace(
-    last(cst),aes_key_expansion_namespace,cst),
+    if length(cst) < 4 then lambda([a],a) else last(cst),
+    aes_key_expansion_namespace,cst),
   n_r : cst[3],
   /* Primary Variables */
   kBits : take_elements(128,bits),
@@ -1264,6 +1275,40 @@ aes_eq_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 2)],
     map(lambda([a,b], if b = true then [{a}] else [{-a,b},{a,-b}]), 
     take_elements(nb,cst[2]), rest(cst[2],nb))))$
 
+/* Returns a list of CNF clauses representing the sbox relation
+   given the appropriate sbox constraint ("aes_sbox_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and Sbox44ICCNF).
+*/
+aes_sbox_pi_cst_cl(cst) := rename_fcl(map(listify,Sbox44ICCNF),cst[2])[2]$
+
+
+/* AES sbox namespace */
+kill(aes_sbox_ts_ns)$
+declare(aes_sbox_ts_ns,noun)$
+declare(aes_sbox_ts_ns,posfun)$
+aes_sbox_ts_namespace([args]) :=
+  apply(nounify(aes_sbox_ts_ns),args)$
+
+aes_sbox_ts_var_l(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : construct_constraint_namespace(
+    last(cst),aes_sbox_namespace,cst),
+  generate_aes_constraint_vars(1,256, namespace,nounify(sbox_ts)))$
+
+aes_sbox_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : construct_constraint_namespace(
+    if length(cst) < 3 then lambda([a],a) else last(cst),
+    aes_sbox_ts_namespace,cst),
+    sbox : aes_sbox_ts_gen(),
+    vars : append(bits,
+      generate_aes_constraint_vars(1,256, namespace,nounify(sbox_ts))),
+    cnf : rename_fcl(sbox,vars),
+    cnf[2])$
 
 /*!
 \endhtmlonly
