@@ -37,6 +37,9 @@ frame_stack : 2^13;
    the suffix "_ecl". </li>
    <li> One also has the command-line parameters "--heap-size, --lisp-stack,
    --frame-stack, --c-stack", but it seems they are not useful here. </li>
+   <li> MG mentioned that increasing certain of the above values has a
+   negative effect on others due to increased memory-consumption; MG should
+   explore this. </li>
   </ul>
 
 */
