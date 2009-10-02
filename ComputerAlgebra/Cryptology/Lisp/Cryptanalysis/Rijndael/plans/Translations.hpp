@@ -212,8 +212,14 @@ License, or any later version. */
        <li> Namespace - An unevaluated function, where
         <ol>
          <li> The first (required) argument is a variable. </li>
-	 <li> Further arguments are template-specific and are then used to 
-	 further specify the namespace. </li>
+	 <li> The remaining arguments are specific to the constraint
+	 and are used as parameters. For instance, an AES constraint will
+	 include the number of rounds as an additional parameter. </li>
+	 <li> The last argument to a namespace is then simply
+	 a constraint, providing context for the namespace. In all currrently
+	 considered cases, this constraint will be a constraint being 
+	 rewritten by the constraint rewrite rule associated with the given
+	 namespace. </li>
 	 <li> The result of the function (if it were to be evaluated) is
 	 assumed to be a variable. </li>
 	 <li> As the return type of the namespace
