@@ -53,7 +53,7 @@ hindman_r2k2_ofcs(a,n) :=
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
    vertex 1 to be in part 1); now we must have n >= 1: */
-hindman2_sb_nbfcsud(r,n) := block([S : hindmani_a1k2_nbfcsud(r,n)],
+hindmani_a1k2_sb_nbfcsud(r,n) := block([S : hindmani_a1k2_nbfcsud(r,n)],
  [S[1], union(setify(create_list({[1,i]},i,2,r)), S[2]), S[3]])$
 
 
@@ -83,17 +83,17 @@ output_hindman_a1k2(r,n,filename) := block(
 output_hindman_a1k2_stdname(r,n) := output_hindman_a1k2(r,n,
   sconcat("Hindman_a1k2_",r,"_",n,".cnf"))$
 
-/* RENAMING needed */
-output_hindman2_sb(r,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_sb_nbfcsud(r,n))))],
+/* With symmetry breaking: */
+output_hindmani_a1k2_sb(r,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindmani_a1k2_sb_nbfcsud(r,n))))],
   output_fcs_v(
-    sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
+    sconcat("Hindman problem (injective form) for k=2 with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
     FF[1],
     filename,
     FF[2]))$
-/* Providing a standard name: "Hindman2_r_n.cnf": */
-output_hindman2_sb_stdname(r,n) := output_hindman2_sb(r,n,
-  sconcat("Hindman2_sb_",r,"_",n,".cnf"))$
+/* Providing a standard name: "Hindmani_a1k2_r_n.cnf": */
+output_hindmani_a1k2_sb_stdname(r,n) := output_hindmani_a1k2_sb(r,n,
+  sconcat("Hindmani_a1k2_sb_",r,"_",n,".cnf"))$
 
 
 /* Output the 2-colour cases (no translation needed) to a file: */
