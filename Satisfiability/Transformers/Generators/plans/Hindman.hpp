@@ -22,15 +22,13 @@ License, or any later version. */
 
   \todo Write simple generator for boolean problems (r=2)
   <ul>
-   <li> We have currently "hindman2gen_fcs(a,n)" in
+   <li> We have currently output_hindmani_r2k2_stdname and
+   output_hindman_r2k2_stdname, based on hindmani_r2k2_ofcs and
+   hindman_r2k2_ofcs in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/HindmanProblems.mac. 
    </li>
-   <li> But it shall become hindmani_r2k2_fcs(a,n); see
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp.
-   </li>
-   <li> And we also need hindman_r2k2_fcs(a,n). </li>
    <li> It would be good if we could implement the general versions
-   hindmannd_r2_fcs(a,k1,k2,n) and hindmanind_r2_fcs(a,k1,k2,n). </li>
+   hindman_r2_ofcs(a,k1,k2,n) and hindmani_r2_ofcs(a,k1,k2,n). </li>
    <li> So the input would consist of four numbers a, k1, k2, n; likely
    no need to make a distinction in the names of the created files regarding
    "diagonal" (k1=k2) versus "non-diagonal", and regarding "standard" (a=1)
@@ -38,12 +36,12 @@ License, or any later version. */
    <li> But for the general versions (allowing arbitrary k) we should
    implement first the hypergraph generator, which might take a bit longer,
    and thus perhaps first we only consider the simple cases k1,k2 <= 2. </li>
-   <li> And also general k might be problematic (w.r.t. efficiency), and so
+   <li> And also general k might be problematic w.r.t. efficiency, and so
    we only consider first the case k=2. </li>
    <li> See Combinatorics/Hypergraphs/Generators/plans/Hindman.hpp for plans
    for the hypergraph generator. </li>
-   <li> Accordingly, we should create a clause-set generator as a range of
-   ranges:
+   <li> Accordingly, we should create a clause-set generator as producing a
+   range of ranges:
     <ol>
      <li> In this case we simply run twice through the hypergraph, where in
      the second phase all clauses are negated. </li>
