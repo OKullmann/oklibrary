@@ -48,6 +48,7 @@ okltest_cardinality_totalizer_cl_comb(f) := block([F],
 /* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,E), any forced
    assignments follow solely from unit clause propagation. */
+/* OK: these properties need to be precisely specified! */
 okltest_cardinality_totalizer_cl_spec(f) := block([F],
   F : cl2cs(f([6,7,8,9,10],[1,2,3,4,5])),
   assert(ucp_0_cs(apply_pa({1,2,3,4,5,6,7,8,9,10},F)) = {}),
@@ -72,6 +73,9 @@ okltest_cardinality_totalizer_r_cl_comb(f) := block(
 /* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,E,[]), any forced
    assignments follow solely from unit clause propagation. */
+/* OK: these properties need to be precisely specified! The permanent
+   repetition makes things only worse.
+*/
 okltest_cardinality_totalizer_r_cl_spec(f) := block(
   okltest_cardinality_totalizer_cl_spec(lambda([a,b], f(a,b,[]))),
   true)$
@@ -91,6 +95,8 @@ okltest_cardinality_comparator_cl_comb(f) := block(
 /* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(S,n,m), any forced
    assignments follow solely from unit clause propagation. */
+/* OK: these properties need to be precisely specified!
+*/
 okltest_cardinality_comparator_cl_spec(f) := block([F],
   assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],2,3)))[2][1] = {-4,1,2}),
   assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],1,3)))[2][1] = {-4,1}),
@@ -100,6 +106,7 @@ okltest_cardinality_comparator_cl_spec(f) := block([F],
 
 /* Tests that the function f returns a clause-set which is exactly as specified
    in the comments for cardinality_cl: */
+/* OK: What is meant with the permanent "exactly" ?? */
 okltest_cardinality_cl_comb(f) := block([F],
   for m : 0 thru 5 do
     for n : 0 thru 5 do
@@ -111,6 +118,8 @@ okltest_cardinality_cl_comb(f) := block([F],
 /* Tests general properties that the clause-set returned by f should have, 
    in particular that given any partial assignment to f(E,n,m), any forced
    assignments follow solely from unit clause propagation. */
+/* OK: these properties need to be precisely specified!
+*/
 okltest_cardinality_cl_spec(f) := block([F],
   F : cl2cs(f([1,2,3,4,5],2,4)),
   assert(ucp_0_cs(apply_pa({1,2,3,4,5}, F)) = {{}}),

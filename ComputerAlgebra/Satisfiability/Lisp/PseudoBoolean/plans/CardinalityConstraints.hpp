@@ -16,6 +16,13 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
    two large blocks of text are (exactly??) identical. </li>
    <li> This makes no sense. </li>
+   <li> OK started to update the documentation, and the requests posed by OK
+   should be answered as soon as possible (both in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
+   and in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac
+   . </li>
+   <li> Also all the bad repetitions need to be removed. </li>
   </ul>
 
 

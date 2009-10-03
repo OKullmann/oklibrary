@@ -34,7 +34,6 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
    Constraints" by Olivier Bailleux and Yacine Boufkhad.
-   
    Journal : LNCS
    Volume : 2833
    Pages : 102-122
@@ -42,46 +41,52 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    Year : 2003
 */
 
-/* Variables are "ctt(l,i)", meaning the i-th variable at the node whose 
-   position is denoted by l, where l is a list and each successive 0 or 1 
-   in l (from the right) means traverse the left or right child respectively
-   in the tree built up by the translation. That is l = [] is the root, l = [0]
+/* Variables are "ctt(L,i)", meaning the i-th variable at the node whose 
+   position is denoted by L, where L is a list and each successive 0 or 1 
+   in L (from the right) means traverse the left or right child respectively
+   in the tree built up by the translation. That is L = [] is the root, L = [0]
    is the left node etc.
+OK: Apparently l is a special kind of list?
+    And what are these "nodes" and what is the "tree"??
+    What is i ??
 */
 kill(ctt)$
 declare(ctt, noun)$
 declare(ctt, posfun)$
-ctt_var(l,i) := nounify(ctt)(l,i)$
+ctt_var(L,i) := nounify(ctt)(L,i)$
 
-/* Given a list S of output variables and a list E of input variables, 
-   the result is a clause-list F enforcing that S is a unary representation of 
-   the number of variables set to true in E. That is, if p is the number of 
-   variables set to 1 in E for a satisfying assignment, then the first p 
-   variables in S are set to 1 and the rest to 0 (in that assignment).
-   S must have the same number of variables as E.
+/* Given a list S of "output" variables and a list E of "input" variables
+   of the same length, the result is a clause-list F encoding that S is a 
+   unary representation of the number of variables set to true in E.
+   Here var_cs(F) = union(S,E,V) where variables in V are of the form ctt(L,i)
+   for lists L of 1s and 0s and integers i > 0.
+   Now the total satisfying assignments phi of F are those assignments phi
+   which are arbitrary on E, and, letting p be the number of variables set
+   to 1 from E, where the first p variables in S are set to 1 and the rest to 
+   0; finally the values of the auxiliary variables from V are determined
+   as indicated above.
+OK: What are the prerequisites: Can S, E overlap?
+    And what precisely are the conditions for phi on V??
 
-   In the resulting clause-list F, var_cs(F) = union(S,E,V) where variables 
-   in V are of the form ctt(l,i) for a list l of 1s and 0s and an
-   integer i > 0.
-
-   The clause-list is built from a tree, where each node has a list of variables
-   associated with it. 
-   
-   - S is associated with the root node
+   The clause-list is built from a tree, where each node has a list of 
+   variables associated with it:
+   - S is associated with the root node.
    - [E[i]] is associated with the i-th leaf node (in the standard inorder
-     traversal)
+     traversal).
    - The list of variables associated with the left child of the root is
-     [ctt([0],1),...,ctt([0],floor(length(E)/2))]
+     [ctt([0],1),...,ctt([0],floor(length(E)/2))].
    - The list of variables associated with the right child of the root is
-     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))]
+     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))].
    - The list of variables associated with left child of any other node, 
      assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(l,1),...,ctt(l,n)], is
      [ctt(cons(0,l),1),...,ctt(cons(0,l),floor(n/2))].
    - The set of variables associated with right child of any other node, 
      assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,n)] is
+     [ctt(l,1),...,ctt(l,n)], is
      [ctt(cons(1,l),1),...,ctt(cons(1,l),ceiling(n/2))].
+OK: The above is completely unclear, since unspecified.
+    What follows is not understandable.
 
    For every internal node, there are then clauses expressing that that 
    variables associated with that node must be assigned the unary
