@@ -1,33 +1,45 @@
 // Oliver Kullmann, 27.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file TestSystem/plans/TestSystem.hpp
+  \file TestSystem/plans/general.hpp
   \brief Plans for the test system (as a whole)
 
-  At the moment, the test system is in a patchy state due to several
-  interruptions and re-designs. However, basically the re-design is
-  over, and all what is needed is a clean-up, and instrumenting
-  the build-system to handle the new test-system correctly.
+  <ul>
+   <li> At the moment, the test system is in a patchy state due to several
+   interruptions and re-designs. </li>
+   <li> However, basically the re-design is over, and all what is needed is a
+   clean-up, and instrumenting the build-system to handle the new test-system
+   correctly. </li>
+  </ul>
 
 
-  \todo Update the documentation.
+  \todo Update namespace
 
 
-  \todo Documentation:
-   - especially the division of labour between the three streams,
-     and how the log-facilities work at the different verbosity-levels
-     need to be explained.
+  \todo Update the documentation
 
-  \todo Build system:
-   - enable linking of only updated testobject-files
-   - is it possible to make out of the testobject.o-files
-     a *dynamic* link library (a static link library is possible
-     via ar)?
+
+  \todo Documentation
+  <ul>
+   <li> Especially the division of labour between the three streams,
+   and how the log-facilities work at the different verbosity-levels
+   need to be explained. </li>
+  </ul>
+
+
+  \todo Build system
+  <ul>
+   <li> Enable linking of only updated testobject-files. </li>
+   <li> Is it possible to make out of the testobject.o-files
+   a *dynamic* link library (a static link library is possible
+   via ar)? </li>
+  </ul>
+
 
   \todo Compiler warnings
   <ul>

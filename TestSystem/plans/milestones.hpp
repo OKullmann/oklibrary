@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.8.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,40 +10,46 @@ License, or any later version. */
 
   \module_version TestSystem 0.1.3 (6.2.2007)
 
+
   \par Version 0.1.4 :
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - TestSystem::TestBase
+   - TestSystem::TestBase
 
   In TestSystem/plans/TestProgram.hpp the following topics are handled:
-  - Messages
-  - Infos
+   - Messages
+   - Infos
+
 
   \par Version 0.1.5 :
 
   In TestSystem/plans/TestExceptions.hpp the following topics are handled:
-  - More error-information
-  - Test TestSystem::messages::ErrorDescription
-  - OKLIB_TEST_RETHROW_NO_LOG
-  - Transition
-  - An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed
+   - More error-information
+   - Test TestSystem::messages::ErrorDescription
+   - OKLIB_TEST_RETHROW_NO_LOG
+   - Transition
+   - An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed
 
   Expand and update the tests, so that the test system is thoroughly tested.
+
 
   \par Version 0.1.6 :
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - Unknown exceptions
-  - Encapsulation
-  - Testing
-  - Transition
+   - Unknown exceptions
+   - Encapsulation
+   - Testing
+   - Transition
 
-  In TestSystem/plans/TestSystem.hpp the following topics are handled:
-  - Documentation
-  - Build system
+  In TestSystem/plans/general.hpp the following topics are handled:
+   - Update namespace
+   - Documentation
+   - Build system
+
 
   \par Version 0.2 :
   The new test system is ready to use.
+
   
 
   -------------------------------------------------------------------------------------------------------------------------------------
