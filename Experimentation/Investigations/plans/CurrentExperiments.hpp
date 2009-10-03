@@ -129,6 +129,18 @@ License, or any later version. */
   <ul>
    <li> Deficiency = 3, n = 5 </li>
   </ul>
+
+
+  <h1> Groupoids </h1>
+
+  <ul>
+   <li> Investigations/Groupoids/plans/Transformations.hpp
+    <ol>
+     <li> "Hypergraph transformations I" </li>
+     <li> "Hypergraph transformations II" </li>
+    </ol>
+   </li>
+  </ul>
   
 */
 
