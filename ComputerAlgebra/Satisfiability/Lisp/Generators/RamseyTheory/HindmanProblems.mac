@@ -35,16 +35,12 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
    Reminder: The hyperedges are of the form {x,y,x+y,x*y} for x <> y.
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
-/* RENAME: hindmani_a1k2_nbfcsud(r,n) */
-hindman2_nbfcsud(r,n) := 
+hindmani_a1k2_nbfcsud(r,n) := 
  nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindmani_a1k2_ohg(n), create_list(i,i,1,r)))$
-hindmani_a1k2_nbfcsud(r,n) := hindman2_nbfcsud(r,n)$
 
 /* Now allowing x = y: */
-/* RENAME: hindman_a1k2_nbfcsud(r,n) */
-hindman2d_nbfcsud(r,n) := 
+hindman_a1k2_nbfcsud(r,n) := 
  nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(hindman_a1k2_ohg(n), create_list(i,i,1,r)))$
-hindman_a1k2_nbfcsud(r,n) := hindman2d_nbfcsud(r,n)$
 
 /* Fixing r=2 (thus obtaining boolean clause-sets); 
    again x <> y, but considering only x,y >= a: */
@@ -57,7 +53,7 @@ hindman_r2k2_ofcs(a,n) :=
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
    vertex 1 to be in part 1); now we must have n >= 1: */
-hindman2_sb_nbfcsud(r,n) := block([S : hindman2_nbfcsud(r,n)],
+hindman2_sb_nbfcsud(r,n) := block([S : hindmani_a1k2_nbfcsud(r,n)],
  [S[1], union(setify(create_list({[1,i]},i,2,r)), S[2]), S[3]])$
 
 
@@ -66,7 +62,7 @@ hindman2_sb_nbfcsud(r,n) := block([S : hindman2_nbfcsud(r,n)],
 /* RENAMING needed */
 /* Output the boolean clause-set (standard translation) to a file: */
 output_hindman2(r,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2_nbfcsud(r,n))))],
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindmani_a1k2_nbfcsud(r,n))))],
   output_fcs_v(
     sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements."), 
     FF[1],
@@ -79,7 +75,7 @@ output_hindman2_stdname(r,n) := output_hindman2(r,n,
 /* RENAMING needed */
 /* Allowing x=y: */
 output_hindman2d(r,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman2d_nbfcsud(r,n))))],
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(hindman_a1k2_nbfcsud(r,n))))],
   output_fcs_v(
     sconcat("Hindman problem for k=2 with ", r, " parts and ", n, " elements, allowing degeneration."), 
     FF[1],

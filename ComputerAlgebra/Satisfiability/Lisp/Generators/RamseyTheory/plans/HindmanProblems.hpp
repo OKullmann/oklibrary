@@ -15,12 +15,14 @@ License, or any later version. */
    <li> The current names are rather unsystematic. </li>
    <li> Also the notion of "degeneration" needs to be replaced by "injective"
    (appropriately). </li>
-   <li> hindman2_nbfcsud(r,n) is for hindmani_r(2).
+   <li> DONE
+   hindman2_nbfcsud(r,n) is for hindmani_r(2).
     <ol>
      <li> This function should be called hindmani_a1k2_nbfcsud(r,n). </li>
     </ol>
    </li>
-   <li> hindman2d_nbfcsud(r,n) is for hindman_r(2).
+   <li> DONE
+   hindman2d_nbfcsud(r,n) is for hindman_r(2).
     <ol>
      <li> This function should be called hindman_a1k2_nbfcsud(r,n). </li>
     </ol>
