@@ -16,6 +16,7 @@ License, or any later version. */
 #include <vector>
 #include <cassert>
 #include <cmath>
+#include <stdexcept>
 
 namespace OKlib {
   namespace Combinatorics {
@@ -55,23 +56,30 @@ namespace OKlib {
           size_type nver() const {
             if (n < a) return 0; else return n-a+1;
           }
-          size_type nhyp() const { // ATTENTION: overflow possible
+          size_type nhyp() const {
             if (n < a+a+inj or n < a*(a+inj)) return 0;
-            size_type s = std::sqrt((double) n);
-            if (a == 1) {
-              size_type sum = 0;
-              for (vertex_type x = 2; x <= s; ++x) sum += n/x;
-              return n-1 + sum - (s+2*inj-1)*s/2;
-            }
-            else {
-              size_type sum = 0;
-              for (vertex_type x = a; x <= s; ++x) sum += n/x;
-              return sum - ((s+1-a)*(s+a+2*inj-2))/2;
-            }
+            const size_type s = std::sqrt((double) n);
+            if (a == 1)
+              return sum(2,s) - (s+2*inj-1)*s/2 + (n-1);
+            else
+              return sum(a,s) - ((s+a+2*inj-2)*(s+1-a))/2;
           }
 
           set_system_type operator()() const {
 
+          }
+
+        private :
+
+          size_type sum(const vertex_type start, const size_type end) const {
+            size_type sum = 0;
+            for (vertex_type x = start; x <= end; ++x) {
+              const vertex_type q =  n/x;
+              sum += q;
+              if (sum < q)
+                throw std::overflow_error("ERROR[Hindman]: n too big.");
+              return sum;
+            }
           }
         };
 
