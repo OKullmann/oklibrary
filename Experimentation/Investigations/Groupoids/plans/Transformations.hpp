@@ -84,9 +84,9 @@ FC := Range(phi);
 GeneratorsOfFpMonoid(FC);
 RelationsOfFpMonoid(FC);
      \endverbatim
-     but unfortunately this seems to fail: Perhaps a newer version of the
-     Monoid-package exists? Or perhaps one needs more memory?
-     </li>
+     but unfortunately this seems to fail (on a 32-bit machine as well as on a
+     64-bit machine): Perhaps a newer version of the Monoid-package exists? Or
+     perhaps one needs more memory? </li>
      <li> Now "bottom-up", trying to guess a complete set of relations. </li>
      <li> Using three generators m[1] = c0, m[2] = c1, m[3] = s together with
      the four basic relations, expressing that c0,c1 are involutions which
