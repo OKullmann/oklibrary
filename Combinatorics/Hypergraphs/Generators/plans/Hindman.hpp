@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans on generators for Hindman-hypergraphs
 
 
-  \todo Class Generators::Hindman2_hypergraph
+  \todo Class Generators::Hindman_k2
   <ul>
    <li> We need to use the new test system. </li>
    <li> Since these hypergraphs could be very big, we should produce a
@@ -25,6 +25,7 @@ License, or any later version. */
    </li>
    <li> We should also have such a range-of-ranges hypergraph in some form
    at the Maxima/Lisp level. </li>
+   <li> However, first we supply a non-virtual version. </li>
   </ul>
 
 */

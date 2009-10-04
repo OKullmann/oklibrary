@@ -14,6 +14,8 @@ License, or any later version. */
 #define HINDMANHYPERGRAPH_jjdhsTfr435R
 
 #include <vector>
+#include <cassert>
+#include <cmath>
 
 namespace OKlib {
   namespace Combinatorics {
@@ -21,19 +23,54 @@ namespace OKlib {
       namespace Generators {
 
         /*!
-          \class Hindman2_hypergraph
+          \class Hindman_k2
           \brief Functor for creating Hindman hypergraphs with k=2
 
           Specification: hindman_k2_ohg and hindmani_k2_ohg in
-          ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac.
+          ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac, together
+          with their statistics functions.
+
+          The hypergrap is represented as a vector of vectors.
 
           \todo To be implemented.
         */
 
-        template <typename Int = int>
-        class Hindman2_hypergraph {
+        template <typename UInt = unsigned int>
+        struct Hindman_k2 {
 
-          Hindman2_hypergraph(const Int a, const Int n, const bool inj = false) {
+          typedef UInt vertex_type;
+          typedef std::vector<vertex_type> hyperedge_type;
+          typedef std::vector<hyperedge_type> set_system_type;
+          typedef typename set_system_type::size_type size_type;
+
+          const vertex_type a; // start index
+          const vertex_type n; // end index
+          const bool inj; // whether only different vertices are considered
+
+          Hindman_k2(const vertex_type a, const vertex_type n, const bool inj = false)
+            : a(a), n(n), inj(inj) {
+            assert(a >= 1);
+          }
+
+          size_type nver() const {
+            if (n < a) return 0; else return n-a+1;
+          }
+          size_type nhyp() const { // ATTENTION: overflow possible
+            if (n < a+a+inj or n < a*(a+inj)) return 0;
+            size_type s = std::sqrt((double) n);
+            if (a == 1) {
+              size_type sum = 0;
+              for (vertex_type x = 2; x <= s; ++x) sum += n/x;
+              return n-1 + sum - (s+2*inj-1)*s/2;
+            }
+            else {
+              size_type sum = 0;
+              for (vertex_type x = a; x <= s; ++x) sum += n/x;
+              return sum - ((s+1-a)*(s+a+2*inj-2))/2;
+            }
+          }
+
+          set_system_type operator()() const {
 
           }
         };
