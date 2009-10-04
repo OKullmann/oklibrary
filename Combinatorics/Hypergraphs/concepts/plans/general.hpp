@@ -66,7 +66,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Concept design
+  \todo Concept design in general
   <ul>
    <li> Writing the basic concepts for hypergraphs, similar to the concepts
    for graphs from the Boost graph library (sequences of vertices and
@@ -96,6 +96,33 @@ License, or any later version. */
 
 
   \todo Move the related files from OKlib/Concepts here : DONE
+
+
+  \todo The simplest form of hypergraphs
+  <ul>
+   <li> The simplest concept of a hypergraph represents as hypergraph just
+   as a range of ranges. </li>
+   <li> A first example is Hypergraphs::Generators::Hindman_k2 in
+   OKlib/Combinatorics/Hypergraphs/Generators/Hindman.hpp; see also
+   Combinatorics/Hypergraphs/Generators/plans/Hindman.hpp. </li>
+   <li> Perhaps here already one has some hierarchy:
+    <ol>
+     <li> Simplest just a range of ranges, with no further requirements. </li>
+     <li> The set of vertices is here not directly accessible (only through
+     the union of all hyperedges). </li>
+     <li> Next a simple concept which provides some simple wrapper, providing
+     for example traits like "hyperedge_type". </li>
+     <li> As a next level two explicit statistics-functions nver and nhyp might
+     be added (where nhyp was as the size of the hyperedge-range already
+     accessible before, but nhyp is new). </li>
+     <li> Does one need two size-types, one for the vertices, one for the
+     hyperedges? Seems necessary. </li>
+     <li> One could also have a concept inbetween: A hypergraph just provides
+     some type- and statistics-members plus access to the range of ranges.
+     </li>
+    </ol>
+   </li>
+  </ul>
 
 */
 

@@ -26,6 +26,8 @@ License, or any later version. */
    <li> We should also have such a range-of-ranges hypergraph in some form
    at the Maxima/Lisp level. </li>
    <li> However, first we supply a non-virtual version. </li>
+   <li> See the todos in
+   OKlib/Combinatorics/Hypergraphs/Generators/Hindman.hpp. </li>
   </ul>
 
 */

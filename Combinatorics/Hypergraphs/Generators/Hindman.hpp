@@ -33,7 +33,28 @@ namespace OKlib {
 
           The hypergrap is represented as a vector of vectors.
 
-          \todo To be implemented.
+          \todo To be implemented
+          <ul>
+           <li> Only missing is the function-application member-function (which
+           creates the hypergraph). </li>
+          </ul>
+
+          \todo To be tested
+          <ul>
+           <li> Test the statistics-functions. </li>
+          </ul>
+
+          \todo Design of the concept
+          <ul>
+           <li> See "The simplest form of hypergraphs" in
+           Hypergraphs/concepts/plans/general.hpp. </li>
+           <li> Currently the class (functor) is a mixture, on the one hand
+           providing elements (like hyperedge_type etc.) as if the objects
+           would be hypergraphs themselves, on the other hand actually just
+           computing a range of ranges (in this way delegating all
+           access-functionality). </li>
+          </ul>
+
         */
 
         template <typename UInt = unsigned int>
