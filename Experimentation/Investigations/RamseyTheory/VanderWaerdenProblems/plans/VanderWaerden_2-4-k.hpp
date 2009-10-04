@@ -946,6 +946,13 @@ BestSolution_Max = 59.000000
 400
      \endverbatim
      </li>
+     <li> cutoff=64*10^6
+     \verbatim
+ 1  2  3  4  5  6  7 44 45 48 49 50 51 52 53 54 55 56 57 58 59 60
+13 22 87 66 32 11  8  1  1  1  2  9  9 10 15 13 15 25 25 21  7  7
+400
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=310
