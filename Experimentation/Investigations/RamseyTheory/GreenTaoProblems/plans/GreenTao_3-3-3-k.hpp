@@ -356,8 +356,13 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1926
+  \todo greentao_3(3,3,5) > 1927
   <ul>
+   <li> For n > 1000 one needs to use
+   \verbatim
+:lisp (ext:set-limit 'ext:heap-size 1073741824)
+   \endverbatim
+   </li>
    <li> n=1000 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1200 easy for adaptnovelty+ with cutoff=100000. </li>
    <li> n=1400 easy for adaptnovelty+ with cutoff=10^6. </li>
@@ -449,9 +454,11 @@ BestSolution_Max = 2.000000
 36 64
 100
      \endverbatim
+     another 19 runs found one solution (seed=3593018407, osteps=138183620).
      </li>
     </ol>
    </li>
+   <li> n=1928, cutoff=4*10^9 </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
