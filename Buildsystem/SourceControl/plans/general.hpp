@@ -117,11 +117,11 @@ git show --name-status -r
 git log --name-status -r -10 | cat
       \endverbatim
       "name-status" here causes the filenames and status for each commit to
-      appear and "-r" ensures it is recursive, which seems necessarily to ensure
-      the full path is shown. 
+      appear and "-r" ensures it is recursive, which seems necessarily to
+      ensure the full path is shown. 
 
-      I will look into adding this functionality to the post-receive script in a t
-      est repository as well as the other issues.
+      I will look into adding this functionality to the post-receive script in
+      a test repository as well as the other issues.
       </li>
       <li> DONE (change performed)
       The following change should provide the desired behaviour 
@@ -232,12 +232,13 @@ git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthe
 OKlib::OKlib  
    \endverbatim
    </li>
-   <li> DONE (put under version control in Configuration/SourceControl; after an
-   update it has to be copied to .git/hooks of the central shared repositories)
+   <li> DONE (put under version control in Configuration/SourceControl; after
+   an update it has to be copied to .git/hooks of the central shared
+   repositories)
    Should we use a link instead of replacing the original post-receive script?
    (OK: a link to what?)
-   (MH: My intention was that the script would also be under version control. For
-   example, it could be in OKlib/Buildsystem/post-receive-email and then
+   (MH: My intention was that the script would also be under version control.
+   For example, it could be in OKlib/Buildsystem/post-receive-email and then
    the OKlib bare repository on cs-oksvr has a link 
    \verbatim
 /work/Repositories/Git/bare/OKlib/hooks/post-receive-email --> /work/Repositories/Git/OKlib/Buildsystem/post-receive-email
@@ -261,13 +262,12 @@ OKlib::OKlib
    \verbatim
 mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
    \endverbatim
-   Apparently to the script "post-receive" per branch a line with reference-data
-   is passed on stdin, while stdin is passed onto mutt which then sends these
-   lines in the body. A more sophisticated solution is given in in the
-   Git-repository under "contrib/hooks/post-receive-email" (see also the text in
-   "hooks/post-receive"), which we should examine (it seems we should also set
-   up
-   an OKlibrary-e-mail-list ?!).
+   Apparently to the script "post-receive" per branch a line with
+   reference-data is passed on stdin, while stdin is passed onto mutt which
+   then sends these lines in the body. A more sophisticated solution is given
+   in in the Git-repository under "contrib/hooks/post-receive-email" (see also
+   the text in "hooks/post-receive"), which we should examine (it seems we
+   should also set up an OKlibrary-e-mail-list ?!).
    </li>
   </ul>
 
@@ -283,38 +283,39 @@ git config remote.origin.url
      \endverbatim</li>
      <li> Remote repositories can be handled via git-remote (see man page - MG)
      </li>
-     <li> When pushing to or pulling from a remote repository, how does git know
-     how to communicate? It seems there are two options:
+     <li> When pushing to or pulling from a remote repository, how does git
+     know how to communicate? It seems there are two options:
       <ul>
        <li> ssh is used (either an automatic channel is set up, or the password
        is asked for; at the "plumbing"-level the commands "git-ssh-fetch" and
-       "git-ssh-upload" are responsible for this). For "untrusted users", on the
-       server-side the special git-shell should be used, which needs to be set up
-       as the login-shell for that user (apparently ssh has no control over the
-       login-shell, but it's up to the login-shell on the server-side). </li>
+       "git-ssh-upload" are responsible for this). For "untrusted users", on
+       the server-side the special git-shell should be used, which needs to be
+       set up as the login-shell for that user (apparently ssh has no control
+       over the login-shell, but it's up to the login-shell on the
+       server-side). </li>
        <li> No ssh is used, but on the remote repository git-daemon is running
-       (this apparently does not require anything on the pushing/pulling side?).
-       </li>
+       (this apparently does not require anything on the pushing/pulling
+       side?). </li>
       </ul>
       ssh is the default protocol, you can explicitly specify which you wish to
       use by adding the protocol
       specifier to the url like so - ssh://username@host:/path/to/repository - 
-      (see http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS or
-      man git-push)
+      (see http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS
+      or man git-push)
      </li>
      <li> Copied clones which know how to connect:
      How to create a clone, which can be copied (as a directory),
      and wherever this clone is used, by "git push" and "git pull" it connects
      by one of the three above methods to the source, given that the service is
-     activated? In this way we can make the clone downloadable from the Internet,
-     anybody can start developing locally, and they can connect to the
-     source-clone if they have the permissions. </li>
+     activated? In this way we can make the clone downloadable from the
+     Internet, anybody can start developing locally, and they can connect to
+     the source-clone if they have the permissions. </li>
      <li> It seems that shared repositories (that's what we are interested in)
      behave as follows:
       <ol>
-       <li> When created, the default-group of the user is considered, and every
-       user belonging to this group can push (i.e., write) to this repository
-       (while all can pull, i.e., read). </li>
+       <li> When created, the default-group of the user is considered, and
+       every user belonging to this group can push (i.e., write) to this
+       repository (while all can pull, i.e., read). </li>
        <li> To give an external developer access, one has to create an account,
        where the developer just belongs to the group of the repository and to
        nothing else (also no home directory). </li>
@@ -374,8 +375,8 @@ OKlib> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Ins
    <li> When advancing the version of OKlib, we should create a tag:
     <ol>
      <li> "git tag": A tag is just a mark for a commit;
-     so when committing the central milestones-file with the new version number,
-     thereafter a tag "OKlib_?.?.?" should be created. </li>
+     so when committing the central milestones-file with the new version
+     number, thereafter a tag "OKlib_?.?.?" should be created. </li>
      <li> This tag is only a light-weight tag: For releases a "full tag" with
      GPG-signature should be used. </li>
      <li> Or perhaps we should use such a "full tag" for every new version
@@ -412,7 +413,8 @@ git tag -m "FIRST RELEASE" -a OKlib-0.2.0
     <ol>
      <li> The git manual says:
      \verbatim
-Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
+Somebody hands you a copy of a file, and asks which commits modified a file
+such that it contained the given content either before or after the commit. 
 You can find out with this:
 $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
          grep -B 1 `git hash-object filename`
@@ -427,15 +429,16 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      <li> Is it possible to only allows pushs to a repository if the pushing
      repository is identical in content to the receiving repository? </li>
      <li> By default only fast-forward pushs are possible, that is, the pushing
-     repository is a "subset" (or "predecessor") of the receiving repository ---
-     however with <code>git push --force</code> this check could be overwritten?
+     repository is a "subset" (or "predecessor") of the receiving repository
+     --- however with <code>git push --force</code> this check could be
+     overwritten?
      </li>
      <li> So the problem is whether the application of option "--force" to push
      can be disabled. </li>
      <li> In Git/Documentation/cvs-migration.html under "Advanced Shared
      Repository Management" there is a script (using an update hook) explained
-     which allows differentiation between users who can use --force and those who
-     can't (and further measures). </li>
+     which allows differentiation between users who can use --force and those
+     who can't (and further measures). </li>
     </ol>
    </li>
    <li> Combining different repositories:
@@ -452,9 +455,10 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
     \verbatim
 git mv file1 file2 dir1 dir2 Annotations
     \endverbatim
-    to this subdirectory (with a subsequent "git commit"), and then with pulling
-    from this directory we get all files into OKlib (with new part
-    "Annotations"). The problem here is that the history gets interrupted. </li>
+    to this subdirectory (with a subsequent "git commit"), and then with
+    pulling from this directory we get all files into OKlib (with new part
+    "Annotations"). The problem here is that the history gets interrupted.
+    </li>
     <li> The solution (from
     http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html)
      <ol>
@@ -484,6 +488,27 @@ git remote rm Bproject
   </ul>
 
 
+  \todo Change dates and revision numbers
+  <ul>
+   <li> How to handle change dates and revision numbers in files with Git?
+   </li>
+   <li> This is needed in the definitions of macros OKLIB_FILE_ID in
+   testobjects-files. </li>
+   <li> Where CVS puts date and revision number, we need now
+   data and the sha of the commit (or perhaps just the sha). </li>
+   <li> The problem is, that the sha is known only after the commit. </li>
+   <li> One could automatically add a second commit, where then the sha
+   of the previous commit has been added to the file. </li>
+   <li> It's possible, but somehow seems ugly to me. </li>
+   <li> Alternatively, one could enter the sha of last commit
+   for the file, plus the date. </li>
+   <li> Or one keeps the old format, and a program just enters before
+   commit the date and increments the (file) revision number (which then
+   would be just a natural number)? Perhaps additionally the sha of
+   the last commit. This seems reasonable to me. </li>
+  </ul>
+
+
   \todo Exploring usage patterns;
   <ul>
    <li> The configuration data about developers, library names etc. must go
@@ -496,8 +521,8 @@ git remote rm Bproject
     <ol>
      <li> Symbolic links are stored exactly as given (in absolute or relative
      form). </li>
-     <li> So by using relative links we could put the links into the repository.
-     </li>
+     <li> So by using relative links we could put the links into the
+     repository. </li>
      <li> So it seems we should do that (since some directories have such a
      link, some not; and the relative position of the build directory is also
      known --- in case of a move something has to be done anyway). </li>
@@ -508,13 +533,13 @@ git remote rm Bproject
    history, changes whatsoever (otherwise space would explode over time) ---
    how to achieve this?
     <ol>
-     <li> Since every new version has a new name, it seems that we just need the
-     possibility to remove the history of an item? </li>
+     <li> Since every new version has a new name, it seems that we just need
+     the possibility to remove the history of an item? </li>
      <li> And perhaps we can tell git in advance that the new entry is
      "don't care" ? </li>
-     <li> Another possibility is that the external sources are not under version
-     control, but we manage information like md5-checksums, and it's up to the
-     user to download the files. See "ExternalSources repository" in
+     <li> Another possibility is that the external sources are not under
+     version control, but we manage information like md5-checksums, and it's
+     up to the user to download the files. See "ExternalSources repository" in
      Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
      <li> For convenience we provide also an archive with all current external
      sources in it. </li>
@@ -526,22 +551,6 @@ git remote rm Bproject
    <li> What about version numbers in Git? What is the
    version-numbering-systems there, and what kind of statistics
    are supported? It seems the answer is simple -- nothing?! </li>
-   <li> How to handle change dates and revision numbers in files with Git?
-    <ol>
-     <li> Where CVS puts date and revision number, we need now
-     data and the sha of the commit (or perhaps just the sha). </li>
-     <li> The problem is, that the sha is known only after the commit. </li>
-     <li> One could automatically add a second commit, where then the sha
-     of the previous commit has been added to the file. </li>
-     <li> It's possible, but somehow seems ugly to me. </li>
-     <li> Alternatively, one could enter the sha of last commit
-     for the file, plus the date. </li>
-     <li> Or one keeps the old format, and a program just enters before
-     commit the date and increments the (file) revision number (which then
-     would be just a natural number)? Perhaps additionally the sha of
-     the last commit. This seems reasonable to me. </li>
-    </ol>
-   </li>
    <li> Unified repositories ("holistic" or "active" libraries)
     <ul>
      <li> Optimally, the OKlibrary-package is exactly a clone of the
@@ -561,7 +570,8 @@ git remote rm Bproject
      <li> A problem is, that Annotations currently has public as well as
      non-public parts; likely this needs to be separated. </li>
      <li> A good solution would be, if "selective cloning" would be possible
-     (push and pull for such clones then only concern the embedded parts). </li>
+     (push and pull for such clones then only concern the embedded parts).
+     </li>
      <li> It seems, that at least at a higher level Git currently does not
      offer something in this direction. Send an e-mail to the Git-list! </li>
      <li> Is "git-submodule" a solution? Unclear what it does?? And not
@@ -574,8 +584,8 @@ git remote rm Bproject
     <ul>
      <li> The version control system is built by the library (ExternalSources).
      </li>
-     <li> One has to reflect on how an (external) user of the library might want
-     to extend the library (under the version control!). </li>
+     <li> One has to reflect on how an (external) user of the library might
+     want to extend the library (under the version control!). </li>
      <li> Hopefully the distributed version control constitutes also the main
      part of the
      update-solution for an external user (who extended the library)! </li>

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,8 +9,12 @@ License, or any later version. */
   \file Sequences/tests/Comparisons.hpp
   \brief Generic tests for algorithms comparing sequences
 
-  \todo How to get a kind of version number like CVS's??
-  For the time being, we edit these entries by hand.
+  \todo How to get a kind of version number like CVS's?
+  <ul>
+   <li> For the time being, we edit these entries by hand. </li>
+   <li> See "Change dates and revision numbers" in
+   Buildsystem/SourceControl/plans/general.hpp. </li>
+  </ul>
 
 */
 
