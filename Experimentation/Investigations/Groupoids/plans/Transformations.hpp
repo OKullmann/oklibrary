@@ -61,15 +61,17 @@ LoadPackage("monoid");
 c0 := Transformation([3,4,1,2]);
 c1 := Transformation([1,4,3,2]);
 s := Transformation([1,2,3,3]);
-C := Semigroup(c0,c1,s);
+C := Monoid(c0,c1,s);
+GeneratorsOfMonoid(C);
+  [Transformation([3,4,1,2]),Transformation([1,4,3,2]),Transformation([1,2,3,3])]
 Size(C);
   28
 Centre(C);
   [ Transformation( [ 1, 2, 3, 4 ] ) ]
 Idempotents(C);
-  [ Transformation( [ 1, 1, 3, 1 ] ), Transformation( [ 1, 1, 3, 3 ] ), Transformation( [ 1, 1, 3, 4 ] ),
-    Transformation( [ 1, 2, 3, 1 ] ), Transformation( [ 1, 2, 3, 3 ] ), Transformation( [ 1, 2, 3, 4 ] ),
-    Transformation( [ 1, 3, 3, 1 ] ), Transformation( [ 1, 3, 3, 3 ] ), Transformation( [ 1, 3, 3, 4 ] ) ]
+  [Transformation([1,1,3,1]),Transformation([1,1,3,3]),Transformation([1,1,3,4]),
+  Transformation([1,2,3,1]),Transformation([1,2,3,3]),Transformation([1,2,3,4]),
+  Transformation([1,3,3,1]),Transformation([1,3,3,3]),Transformation([1,3,3,4])]
    \endverbatim
    </li>
    <li> Finding a presentation:
@@ -77,16 +79,38 @@ Idempotents(C);
      <li> First by using Gap directly:
      \verbatim
 phi := IsomorphismFpMonoid(C);
-recursion depth trap (5000)
-  ??
-
 FC := Range(phi);
-GeneratorsOfFpMonoid(FC);
+m := GeneratorsOfMonoid(FC);
+PreImageElm(phi, m[1]);
+  [ Transformation( [ 1, 2, 3, 3 ] ) ]
+PreImageElm(phi, m[2]);
+  [ Transformation( [ 1, 4, 3, 2 ] ) ]
+PreImageElm(phi, m[3]);
+  [ Transformation( [ 3, 4, 1, 2 ] ) ]
+
+# So m1 = s, m2 = c1, m3 = c0.
+
 RelationsOfFpMonoid(FC);
+[ [ m1^2, m1 ], 
+  [ m2^2, <identity ...> ], 
+  [ m3*m2, m2*m3 ], 
+  [ m3^2, <identity ...> ], 
+  [ m1*m2*m1*m2, m1*m2*m1 ], 
+  [ m1*m2*m3*m1, m1*m2*m3 ],
+  [ m1*m2*m3^2, m1*m2 ], 
+  [ m1*m3*m1*m2, m1*m3*m1 ], 
+  [ m2*m1*m2*m1, m1*m2*m1 ], 
+  [ m2*m1*m2^2, m2*m1 ], 
+  [ m2*m1*m3^2, m2*m1 ],
+  [ m3*m1*m2^2, m3*m1 ], 
+  [ m3*m1*m3*m1, m1*m3*m1*m3 ], 
+  [ m3*m1*m3^2, m3*m1 ], 
+  [ m1*m2*m1*m3*m1, m1*m2*m1*m3 ],
+  [ m2*m3*m1*m2*m1, m3*m1*m2*m1 ] ]
      \endverbatim
-     but unfortunately this seems to fail (on a 32-bit machine as well as on a
-     64-bit machine): Perhaps a newer version of the Monoid-package exists? Or
-     perhaps one needs more memory? </li>
+     Note the consistent use of "monoid" here; it is also possible to use
+     "semigroup" (possibly yielding a different representation), but then
+     also a "semigroup" needs to be constructed. </li>
      <li> Now "bottom-up", trying to guess a complete set of relations. </li>
      <li> Using three generators m[1] = c0, m[2] = c1, m[3] = s together with
      the four basic relations, expressing that c0,c1 are involutions which
@@ -114,8 +138,37 @@ Size(C1);
      \endverbatim
      (Note that Gap composes transformations from left to right.)
      </li>
+     <li> Trying the relations computed by Gap above:
+     \verbatim
+C16 := f3 / [ [ m[1]^2, m[1] ], 
+  [ m[2]^2, m[2]^0 ], 
+  [ m[3]*m[2], m[2]*m[3] ], 
+  [ m[3]^2, m[2]^0 ], 
+  [ m[1]*m[2]*m[1]*m[2], m[1]*m[2]*m[1] ], 
+  [ m[1]*m[2]*m[3]*m[1], m[1]*m[2]*m[3] ],
+  [ m[1]*m[2]*m[3]^2, m[1]*m[2] ], 
+  [ m[1]*m[3]*m[1]*m[2], m[1]*m[3]*m[1] ], 
+  [ m[2]*m[1]*m[2]*m[1], m[1]*m[2]*m[1] ], 
+  [ m[2]*m[1]*m[2]^2, m[2]*m[1] ], 
+  [ m[2]*m[1]*m[3]^2, m[2]*m[1] ],
+  [ m[3]*m[1]*m[2]^2, m[3]*m[1] ], 
+  [ m[3]*m[1]*m[3]*m[1], m[1]*m[3]*m[1]*m[3] ], 
+  [ m[3]*m[1]*m[3]^2, m[3]*m[1] ], 
+  [ m[1]*m[2]*m[1]*m[3]*m[1], m[1]*m[2]*m[1]*m[3] ],
+  [ m[2]*m[3]*m[1]*m[2]*m[1], m[3]*m[1]*m[2]*m[1] ] ];
+Size(C16);
+  28
+     \endverbatim
+     </li>
+     <li> The last four relations can be left out without changing the
+     size, but then removing the (new) last one increases the size to 32.
+     </li>
     </ol>
    </li>
+   <li> To understand the monoid C, Prof. Mitchell proposes to use the function
+   "DisplayEggBoxesOfSemigroup", which displays the eggbox diagram of the
+   D-classes (strong orbits of the semigroup on itself by left and right 
+   multiplication) of the semigroup C. </li>
   </ul>
 
 
