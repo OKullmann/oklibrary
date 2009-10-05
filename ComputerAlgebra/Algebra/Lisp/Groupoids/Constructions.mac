@@ -27,9 +27,18 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 */
 
 /* For a given composition, derive the "complex composition", which
-   for subsets X, Y computes the composition of all combinations. */
+   for subsets X, Y computes the composition of all combinations: */
+complex_compo(compo_) := buildq([compo_], lambda([X,Y],
+ block([result : {}],
+  if length(X) <= length(Y) then
+   for x in X do result : union(result, map(lambda([y],apply(compo_,[x,y])),Y))
+   else for y in Y do result : union(result, map(lambda([x],apply(compo_,[x,y])),X)),
+  result)))$
+/* Remark: A simpler implementation is
 complex_compo(compo) := buildq([compo], lambda([X,Y],
   map(lambda([P],apply(compo,P)),cartesian_product(X,Y))))$
+however this has a large memory consumption, and is also slower.
+*/
 
 complex_grd(V) := [powerset(V[1]), complex_compo(V[2])]$
 
