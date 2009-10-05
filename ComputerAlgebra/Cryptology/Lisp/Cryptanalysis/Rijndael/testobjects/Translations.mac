@@ -67,7 +67,7 @@ oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
 
 okltest_construct_constraint_namespace(construct_constraint_namespace);
 okltest_construct_constraint(construct_constraint);
-okltest_rewrite_all_ctl(rewrite_all_ctl);
+okltest_rewrite_all_cstl(rewrite_all_cstl);
 okltest_rewrite_all_vars_l(rewrite_all_vars_l);
 
 

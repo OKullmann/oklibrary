@@ -671,7 +671,6 @@ okltest_aes_sbox_pi_cst_cl(f) := block([cl],
 
 okltest_aes_sbox_ts_var_l(f) := block([cst],
   cst : ["aes_sbox_cst", create_list(i,i,1,16),nounify(n)],
-  cl : f(cst),
   assert(f(cst) = create_list(
       'n(aes_sbox_ts_ns(aes_v(i,nounify(sbox_ts)),cst)),i,1,256)),
   true)$
@@ -709,10 +708,10 @@ okltest_aes_mul2_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul2_ns(aes_v(1,nounify(mul2)),cst))}),
+         'n(aes_mul2_ts_ns(aes_v(1,nounify(mul2_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul2_ns(aes_v(256,nounify(mul2)),cst))}),
+         -'n(aes_mul2_ts_ns(aes_v(256,nounify(mul2_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 
@@ -746,10 +745,10 @@ okltest_aes_mul3_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul3_namespace(aes_v(1,nounify(mul3)),cst))}),
+         'n(aes_mul3_ts_namespace(aes_v(1,nounify(mul3_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul3_namespace(aes_v(256,nounify(mul3)),cst))}),
+         -'n(aes_mul3_ts_namespace(aes_v(256,nounify(mul3_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 
@@ -804,10 +803,10 @@ okltest_aes_mul14_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul14_namespace(aes_v(1,nounify(mul14)),cst))}),
+         'n(aes_mul14_ts_namespace(aes_v(1,nounify(mul14_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul14_namespace(aes_v(256,nounify(mul14)),cst))}),
+         -'n(aes_mul14_ts_namespace(aes_v(256,nounify(mul14_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 
@@ -870,10 +869,10 @@ okltest_aes_mul11_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul11_namespace(aes_v(1,nounify(mul11)),cst))}),
+         'n(aes_mul11_ts_namespace(aes_v(1,nounify(mul11_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul11_namespace(aes_v(256,nounify(mul11)),cst))}),
+         -'n(aes_mul11_ts_namespace(aes_v(256,nounify(mul11_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 
@@ -935,10 +934,10 @@ okltest_aes_mul13_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul13_namespace(aes_v(1,nounify(mul13)),cst))}),
+         'n(aes_mul13_ts_namespace(aes_v(1,nounify(mul13_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul13_namespace(aes_v(256,nounify(mul13)),cst))}),
+         -'n(aes_mul13_ts_namespace(aes_v(256,nounify(mul13_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 
@@ -976,10 +975,10 @@ okltest_aes_mul9_ts_cst_cl(f) := block([cl,cst],
   cl : f(cst),
   assert(cl[1] =
     {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
-         'n(aes_mul9_namespace(aes_v(1,nounify(mul9)),cst))}),
+         'n(aes_mul9_ts_namespace(aes_v(1,nounify(mul9_ts)),cst))}),
   assert(last(rest(cl,-1)) =
     {16,
-         -'n(aes_mul9_namespace(aes_v(256,nounify(mul9)),cst))}),
+         -'n(aes_mul9_ts_namespace(aes_v(256,nounify(mul9_ts)),cst))}),
   assert(length(last(cl)) = 256),
   true)$
 

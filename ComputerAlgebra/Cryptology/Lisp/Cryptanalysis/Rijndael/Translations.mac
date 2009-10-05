@@ -580,16 +580,16 @@ aes_var(i,id) := nounify(aes_v)(i,id)$
    a noun identifier, returns a list of AES variables of the form
    aes_v(i,id) for n <= i <= m. */
 generate_aes_constraint_vars(n,m,namespace, id) :=
-  res : map(namespace,create_list(aes_var(i,id),i,n,m))$
+  create_list(namespace(aes_var(i,id)),i,n,m)$
 
 aes_rewrite_mapping_std :
-  [["aes_cst",aes_ctrb],["aes_key_expansion_cst",aes_key_expansion_ctrb],
-  ["aes_round_cst",aes_round_ctrb],
-  ["aes_final_round_cst",aes_final_round_ctrb],
-  ["aes_subbytes_cst",aes_subbytes_ctrb],
-  ["aes_shiftrows_cst",aes_shiftrows_ctrb],
-  ["aes_mixcolumns_cst",aes_mixcolumns_ctrb],
-  ["aes_mixcolumn_cst",aes_mixcolumn_ctrb]]$
+  [["aes_cst",aes_cstrb],["aes_key_expansion_cst",aes_key_expansion_cstrb],
+  ["aes_round_cst",aes_round_cstrb],
+  ["aes_final_round_cst",aes_final_round_cstrb],
+  ["aes_subbytes_cst",aes_subbytes_cstrb],
+  ["aes_shiftrows_cst",aes_shiftrows_cstrb],
+  ["aes_mixcolumns_cst",aes_mixcolumns_cstrb],
+  ["aes_mixcolumn_cst",aes_mixcolumn_cstrb]]$
 
 /* ********************************************
    * Rewrite system functions                 *
@@ -614,14 +614,14 @@ construct_constraint(cst_n,vars,arg_l,namespace) :=
    constraints after applying the given rewrite map. */
 rewrite_all_cstl(cstl,rewrite_map) := block(
   [rewrite_hash : osm2hm(rewrite_map),cstl_new : []],
-  for cst in rs do block([cstr],
+  for cst in cstl do block([cstr],
     cstr : ev_hm(rewrite_hash,cst[1]),
     if cstr # false then
-      cstl_new : cons(rewrite_all_cstl(cstr[1](cstl),rewrite_map),cstl_new)
+      cstl_new : cons(rewrite_all_cstl(cstr[1](cst),rewrite_map),cstl_new)
     else 
-      cstl_new : cons([first(rs)],rs_new),
-    cstl : rest(rs)),
-  return(lappend(rs_new)))$
+      cstl_new : cons([first(cstl)],cstl_new),
+    cstl : rest(cstl)),
+  return(lappend(cstl_new)))$
 
 /* Given a list of constraints, and a rewrite map, returns a list of
    new variables which would be introduced when calling rewrite_all
@@ -923,7 +923,7 @@ aes_subbytes_cstr_cstl(cst) := block(
 
 */
 
-aes_shiftrows_ctrb :
+aes_shiftrows_cstrb :
  [aes_shiftrows_cstr_cstl,aes_shiftrows_namespace,aes_shiftrows_ns_var_l]$
 
 /* AES shiftrows namespace */
@@ -958,7 +958,7 @@ aes_shiftrows_cstr_cstl(cst) := block(
 
 */
 
-aes_mixcolumns_ctrb :
+aes_mixcolumns_cstrb :
  [aes_mixcolumns_cstr_cstl,aes_mixcolumns_namespace,aes_mixcolumns_ns_var_l]$
 
 /* AES mixcolumns namespace */
@@ -1307,7 +1307,7 @@ aes_sbox_ts_namespace([args]) :=
 aes_sbox_ts_var_l(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
-    last(cst),aes_sbox_namespace,cst),
+    last(cst),aes_sbox_ts_namespace,cst),
   generate_aes_constraint_vars(1,256, namespace,nounify(sbox_ts)))$
 
 /* Given an "aes_sbox_cst" constraint, returns a clause list
@@ -1360,10 +1360,10 @@ aes_mul2_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul2_namespace,cst),
+    aes_mul2_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(2),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul2))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul2_ts))))[2])$
 
 /* Returns a list of CNF clauses representing the multiplication by 03
    given the appropriate constraint ("aes_mul3_cst" with 16 variables
@@ -1400,10 +1400,10 @@ aes_mul3_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul3_namespace,cst),
+    aes_mul3_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(3),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul3))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul3_ts))))[2])$
 
 
 /* Returns a list of CNF clauses representing the multiplication by 14
@@ -1441,10 +1441,10 @@ aes_mul14_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul14_namespace,cst),
+    aes_mul14_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(14),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul14))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul14_ts))))[2])$
 
 /* Returns a list of CNF clauses representing the multiplication by 11
    given the appropriate constraint ("aes_mul11_cst" with 16 variables
@@ -1481,10 +1481,10 @@ aes_mul11_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul11_namespace,cst),
+    aes_mul11_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(11),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul11))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul11_ts))))[2])$
 
 /* Returns a list of CNF clauses representing the multiplication by 13
    given the appropriate constraint ("aes_mul13_cst" with 16 variables
@@ -1521,10 +1521,10 @@ aes_mul13_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul13_namespace,cst),
+    aes_mul13_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(13),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul13))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul13_ts))))[2])$
 
 /* Returns a list of CNF clauses representing the multiplication by 09
    given the appropriate constraint ("aes_mul9_cst" with 16 variables
@@ -1561,10 +1561,10 @@ aes_mul9_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace],
   namespace : construct_constraint_namespace(
     if length(cst) < 3 then lambda([a],a) else last(cst),
-    aes_mul9_namespace,cst),
+    aes_mul9_ts_namespace,cst),
     rename_fcl(aes_mul_ts_gen(9),
       append(bits,
-        generate_aes_constraint_vars(1,256, namespace,nounify(mul9))))[2])$
+        generate_aes_constraint_vars(1,256, namespace,nounify(mul9_ts))))[2])$
 
 /* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
    returns a list of clauses representing these constraints.
