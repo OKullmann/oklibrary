@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
    gruppoid), compute the closure: */
 closure_bydef_grd(compo_,S) := block([S_old : {}],
   while length(S_old) < length(S) do (
+    if oklib_monitor then print("Current size of closure is ", length(S)),
     S_old : S,
     S : union(S, complex_compo(compo_)(S,S))
   ),
