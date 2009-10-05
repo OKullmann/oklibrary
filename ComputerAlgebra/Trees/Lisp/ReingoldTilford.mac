@@ -27,8 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    ******************************
 */
 
-/* The mirror image of binary trees: */
-mt(T) := reverse(create_list(mt(T[i]),i,1,length(T)))$
+/* The mirror image of trees: */
+mirror_rt(T) := reverse(create_list(mt(T[i]),i,1,length(T)))$
 
 
 /*!
