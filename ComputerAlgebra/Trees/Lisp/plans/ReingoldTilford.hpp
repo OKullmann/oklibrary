@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Create milestones
   
   
-  \todo Reingold-Tilford algorithm in abstract level
+  \todo Reingold-Tilford algorithm at abstract level
   <ul>
    <li> See "Four aesthetic criterions for Reingold-Tilford algorithm" 
    in Visualisation/GraphDrawing/plans/Trees.hpp. </li>
@@ -42,20 +42,22 @@ License, or any later version. */
       
   \todo Reingold-Tilford algorithm in Maxima. 
   <ul>
-   <li> Define a Maxima function rt(T,x,y).
+   <li> Define a Maxima function reingold_tilford_rt(T,x,y).
     <ul>
-     <li> Input: An "unlabelled rooted binary tree" T and the x and y 
-     coordinates of its root. An "unlabelled rooted binary tree" is 
+     <li> Input: An "unlabelled rooted binary tree" T and the coordinates
+     x, y of its root. </li>
+     <li> An "unlabelled rooted binary tree" is 
      recursively defined as a list [T_1, ..., T_n], where the T_i are
-     the subtrees and the maximum value of n is 2. (the case n=0, i.e., 
+     the subtrees and the maximum value of n is 2. (The case n=0, i.e., 
      the empty list, represents the trivial tree.) </li>
-     <li> Output: T with coordinates of each node. </li>
+     <li> Output: labelled T with coordinates at each node. </li>
     </ul>
    </li>
    <li> Examples:
     <ul>
-     <li> Input: rt([],x,y); Output: [[x,y]] </li>
-     <li> Input: rt([[],[]],x,y); Output: [[x,y],[[x-1,y-1]],[[x+1,y-1]]] </li>
+     <li> Input: reingold_tilford_rt([],x,y); Output: [[x,y]] </li>
+     <li> Input: reingold_tilford_rt([[],[]],x,y); Output: [[x,y],[[x-1,y-1]],[[x+1,y-1]]].
+     </li>
     </ul>
    </li> 
   </ul> 
