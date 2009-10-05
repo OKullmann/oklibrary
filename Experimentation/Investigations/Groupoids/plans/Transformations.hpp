@@ -198,13 +198,13 @@ print("ml = ", ml),
  C : closure_bydef_grd(trf_l_compo, {c0l,c1l,sl,ml}),
  length(C)
 )$
-:lisp (ext:set-limit 'ext:heap-size 1073741824)
 for i : 0 thru 3 do print(i, det2_cl(i));
 0 2
 1 176
 2 404
-3 
+3 656
    \endverbatim
+   (where 176=2^4*11, 404=2^2*101, 656=2^4*41).
    </li>
    <li> In Gap:
     <ol>
@@ -271,8 +271,6 @@ M3 := Monoid(c0,c1,s,m);
 Size(M3);
   656;
      \endverbatim
-     One sees that the Gap-algorithm is vastly more efficient than our approach
-     by definition (of course). </li>
      </li>
      <li> n=4: Now we need to compute the four transformations directly
      in Gap (instead of copy-and-paste them from Maxima, as above). Of course,
