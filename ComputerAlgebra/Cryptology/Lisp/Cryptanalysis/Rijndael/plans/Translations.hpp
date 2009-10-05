@@ -232,6 +232,27 @@ License, or any later version. */
 lambda([a],some_namespace_x(a,1,2,3))
 	 \endverbatim
 	 </li>
+	 <li> The problem with having the whole constraint as the final 
+	 argument for the namespace here, is that as more and more rewrites
+	 occur, there is a significant overhead, as each variable is then a 
+	 rather large object. This grows exponentially, as at each level,
+	 the namespace used for the level above occurs for every variable
+	 instance. </li>
+	 <li> Such an overhead is quite significant, taking more than 30 
+	 seconds to generate just 8 variables 3 levels down. </li>
+	 <li> This makes generating the AES translation for any number of 
+	 rounds rather difficult. </li>
+	 <li> One solution would be to have every rewrite function take 
+	 the namespace to use, rather than using a namespace specific
+	 to that rewrite function. Then the rewrite_all_cstl function
+	 would use the namespace associated given in the constraint
+	 rewrite bundle. </li>
+	 <li> If rewrite_all_cstl used the namespace in the constraint
+	 rewrite bundle, then for efficient generation of the AES 
+	 translation, one could simply use a different constraint
+	 rewrite bundle which would specify namespaces which drop, hash, or
+	 canonically map the constraint variables to a much smaller
+	 object. </li>
         </ol>
        </li>
        <li> Variable - A positive noun, defined in the usual way
