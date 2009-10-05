@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,11 +13,12 @@ License, or any later version. */
   \todo Write tests
 
 
-  \todo Closures
+  \todo Closures extended
   <ul>
    <li> A fundamental operation is the closure of a subset under the
    operations. </li>
-   <li> As a result we obtain the closure plus shortest terms in the
+   <li> This is realised by closure_bydef_grd. </li>
+   <li> An extension is that we obtain the closure *plus* shortest terms in the
    generators representing the elements of the closure, plus all relations
    found such that the generated structure is determined by these relations.
    </li>
