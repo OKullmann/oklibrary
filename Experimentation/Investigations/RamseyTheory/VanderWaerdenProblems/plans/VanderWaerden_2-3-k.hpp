@@ -502,7 +502,19 @@ BestSolution_Max = 2.000000
      (seed=1836688823, osteps=1914277). </li>
     </ol>
    </li>
-   <li> n=312 </li>
+   <li> n=312
+    <ol>
+     <li> cutoff=4*10^6:
+     \verbatim
+   1    2
+1942   58
+2000
+     \endverbatim
+     (the histogram of osteps is nearly strictly decreasing, only at about
+     3*10^6 we seem to have a local minimum, followed by a slight increase,
+     peaking at 3.5*10^6). </li>
+    </ol>
+   </li>
   </ul>
 
 */
