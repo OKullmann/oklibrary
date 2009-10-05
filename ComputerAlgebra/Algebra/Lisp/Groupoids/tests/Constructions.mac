@@ -29,12 +29,21 @@ kill(f)$
    ***********************
 */
 
-okltest_complex_compo(f) := ([C],
+okltest_complex_compo(f) := block([C],
   C : f("+"),
   assert(C({},{}) = {}),
   assert(C({},{0}) = {}),
+  assert(C({0},{}) = {}),
   assert(C({0},{1,2}) = {1,2}),
+  assert(C({1,2},{0}) = {1,2}),
   assert(C({1,2,3},{-1,0,1}) = {1,2,3,0,4}),
+  C : f("["),
+  assert(C({},{}) = {}),
+  assert(C({},{0}) = {}),
+  assert(C({0},{}) = {}),
+  assert(C({0},{1,2}) = {[0,1],[0,2]}),
+  assert(C({1,2},{0}) = {[1,0],[2,0]}),
+  assert(C({1,2},{3,4}) = {[1,3],[1,4],[2,3],[2,4]}),
   C : f(transformation_l_compo),
   assert(C({},{}) = {}),
   assert(C({},{[]}) = {}),
