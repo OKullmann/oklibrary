@@ -90,6 +90,15 @@ okltest_num_all2l_rt(num_all2l_rt);
 okltest_all_rt(all_rt);
 okltest_num_all_rt(num_all_rt);
 
+
+/* **************
+   * Operations *
+   **************
+*/
+
+okltest_mirror_rt(mirror_rt);
+
+
 /*!
 \endhtmlonly
 */
