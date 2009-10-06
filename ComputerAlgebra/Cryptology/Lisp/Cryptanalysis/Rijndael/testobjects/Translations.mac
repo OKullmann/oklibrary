@@ -58,7 +58,7 @@ okltest_aes_cp(aes_cp);
    ***********************************************
 */
 
-okltest_aes_rewrite_all_ctl(aes_rewrite_all_ctl);
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
 
 /* ********************************************
    * Rewrite system functions                 *
@@ -66,8 +66,10 @@ okltest_aes_rewrite_all_ctl(aes_rewrite_all_ctl);
 */
 
 okltest_construct_constraint_namespace(construct_constraint_namespace);
-okltest_apply_constraint_template(apply_constraint_template);
-oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+okltest_construct_constraint(construct_constraint);
+okltest_rewrite_all_cstl(rewrite_all_cstl);
+okltest_rewrite_all_vars_l(rewrite_all_vars_l);
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -75,29 +77,69 @@ oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
 */
 
 okltest_aes_ns_var_l(aes_ns_var_l);
-okltest_aes_ctr_ctl(aes_ctr_ctl);
+okltest_aes_cstr_cstl(aes_cstr_cstl);
 
 okltest_aes_round_ns_var_l(aes_round_ns_var_l);
-okltest_aes_round_ctr_ctl(aes_round_ctr_ctl);
+okltest_aes_round_cstr_cstl(aes_round_cstr_cstl);
 
 okltest_aes_final_round_ns_var_l(aes_final_round_ns_var_l);
-okltest_aes_final_round_ctr_ctl(aes_final_round_ctr_ctl);
+okltest_aes_final_round_cstr_cstl(aes_final_round_cstr_cstl);
 
 okltest_aes_subbytes_ns_var_l(aes_subbytes_ns_var_l);
-okltest_aes_subbytes_ctr_ctl(aes_subbytes_ctr_ctl);
+okltest_aes_subbytes_cstr_cstl(aes_subbytes_cstr_cstl);
 
 okltest_aes_shiftrows_ns_var_l(aes_shiftrows_ns_var_l);
-okltest_aes_shiftrows_ctr_ctl(aes_shiftrows_ctr_ctl);
+okltest_aes_shiftrows_cstr_cstl(aes_shiftrows_cstr_cstl);
 
 okltest_aes_mixcolumns_ns_var_l(aes_mixcolumns_ns_var_l);
-okltest_aes_mixcolumns_ctr_ctl(aes_mixcolumns_ctr_ctl);
+okltest_aes_mixcolumns_cstr_cstl(aes_mixcolumns_cstr_cstl);
 
 
 okltest_aes_mixcolumn_ns_var_l(aes_mixcolumn_ns_var_l);
-okltest_aes_mixcolumn_ctr_ctl(aes_mixcolumn_ctr_ctl);
+okltest_aes_mixcolumn_cstr_cstl(aes_mixcolumn_cstr_cstl);
 
 okltest_aes_key_expansion_ns_var_l(aes_key_expansion_ns_var_l);
-okltest_aes_key_expansion_ctr_ctl(aes_key_expansion_ctr_ctl);
+okltest_aes_key_expansion_cstr_cstl(aes_key_expansion_cstr_cstl);
+
+
+/* ****************************************
+   * Translation functions                *
+   ****************************************
+*/
+
+okltest_aes_add_cst_cl(aes_add_cst_cl);
+okltest_aes_eq_cst_cl(aes_eq_cst_cl);
+
+okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl);
+okltest_aes_sbox_ts_var_l(aes_sbox_ts_var_l);
+okltest_aes_sbox_ts_cst_cl(aes_sbox_ts_cst_cl);
+
+okltest_aes_mul2_pi_cst_cl(aes_mul2_pi_cst_cl);
+okltest_aes_mul2_ts_var_l(aes_mul2_ts_var_l);
+okltest_aes_mul2_ts_cst_cl(aes_mul2_ts_cst_cl);
+
+okltest_aes_mul3_pi_cst_cl(aes_mul3_pi_cst_cl);
+okltest_aes_mul3_ts_var_l(aes_mul3_ts_var_l);
+okltest_aes_mul3_ts_cst_cl(aes_mul3_ts_cst_cl);
+
+okltest_aes_mul14_pi_cst_cl(aes_mul14_pi_cst_cl);
+okltest_aes_mul14_ts_var_l(aes_mul14_ts_var_l);
+okltest_aes_mul14_ts_cst_cl(aes_mul14_ts_cst_cl);
+
+okltest_aes_mul11_pi_cst_cl(aes_mul11_pi_cst_cl);
+okltest_aes_mul11_ts_var_l(aes_mul11_ts_var_l);
+okltest_aes_mul11_ts_cst_cl(aes_mul11_ts_cst_cl);
+
+okltest_aes_mul13_pi_cst_cl(aes_mul13_pi_cst_cl);
+okltest_aes_mul13_ts_var_l(aes_mul13_ts_var_l);
+okltest_aes_mul13_ts_cst_cl(aes_mul13_ts_cst_cl);
+
+okltest_aes_mul9_pi_cst_cl(aes_mul9_pi_cst_cl);
+okltest_aes_mul9_ts_var_l(aes_mul9_ts_var_l);
+okltest_aes_mul9_ts_cst_cl(aes_mul9_ts_cst_cl);
+
+okltest_aes_constraints2cnf_pi_cl(aes_constraints2cnf_pi_cl);
+okltest_aes_constraints2cnf_ts_cl(aes_constraints2cnf_ts_cl);
 
 /*!
 \endhtmlonly
