@@ -628,8 +628,8 @@ rewrite_all_cstl(cstl,rewrite_map) := block(
    with the same parameters. */
 rewrite_all_vars_l(cstl,rewrite_map) := block(
   [rewrite_hash : osm2hm(rewrite_map),lookup_var_lf,varl : []],
-  lookup_var_lf : lambda([cst2], block(
-      [rwf : ev_hm_d(rewrite_hash,cst2[1],zero_cstrb)],
+  lookup_var_lf : lambda([cst], block(
+      [rwf : ev_hm_d(rewrite_hash,cst[1],zero_cstrb)],
       append(
         rwf[3](cst),
         rewrite_all_vars_l(rwf[1](cst),rewrite_map)))),
@@ -678,7 +678,8 @@ aes_namespace([args]) := apply(nounify(aes_ctr_ns),args)$
 aes_ns_var_l(cst) := block(
   [aes_num_rounds,vars : [],namespace],
   namespace : construct_constraint_namespace(
-    last(cst),aes_namespace,cst),
+    if length(cst) < 4 then lambda([a],a) else last(cst),
+    aes_namespace,cst),
   aes_num_rounds : cst[3],
   vars : cons(
     generate_aes_constraint_vars(1,(aes_num_rounds+1)*128,
