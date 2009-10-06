@@ -277,6 +277,9 @@ rewrite_all_cstl_fast(cstl,rewrite_map) := block(
 	 and rewrite_all_vars_l_fast. Therefore, one could use the fast 
 	 translation, and simply map back to the full variable representations
 	 if needed. </li>
+	 <li> The namespace here should not include the entire constraint,
+	 but just additional information which uniquely identifies the 
+	 namespace, specific to an individual constraint. </li>
         </ol>
        </li>
        <li> Variable - A positive noun, defined in the usual way
@@ -505,6 +508,37 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
      </li>
     </ul>
    </li>
+   <li> Rather than dealing with list of constraints, where the "type"
+   of constraint is determined within the constraint itself, perhaps
+   it would be better to have a list of list of constraints where
+   different types of constraint are separated into different lists. </li>
+   <li> So, for example, instead of:
+   \verbatim
+[["examp1", [1,...,n],namespace],["examp2",[1,...,m],namespace2],["examp2",[1,...,o],namespace3]]
+   \endverbatim
+   you have something like:
+   \verbatim
+[["examp1",[[[1,...,n],namespace]]],["examp2",[[[1,...,m],namespace],[[1,...,o],namespace]]]]
+   \endverbatim
+   </li>
+   <li> The advantages here are that:
+    <ul>
+     <li> The system avoids pushing type information into the constraint 
+     object itself, and is therefore more in line with the rest of the
+     OKlibrary. </li>
+     <li> Determining the number of any given type of constraint is much
+     easier. </li>
+     <li> ??? </li>
+    </ul>
+    The disadvantages are:
+    <ul>
+    <li> There is some lose of information, in that the order of constraints
+    in relation to each other is lost. However, this isn't actually used
+    for anything currently. </li>
+    <li> ??? </li>
+    </ul>
+   </li>
+   <li> This todo should be split up, as it is getting rather large. </li>
   </ul>
 
 
