@@ -394,12 +394,14 @@ okltest_rewrite_all_cstl(f) := block([test_ctrb],
     [["f1",[1,2,3],'n]]),
   true)$
 
-okltest_rewrite_all_vars_l(f) := block([test_ctrb],
+okltest_rewrite_all_vars_l(f) := block([test_ctrb,cst_t],
   assert(f([],[]) = []),
   assert(f([["f",[],'n],["g",[],'m]],[]) = []),
   test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
-               lambda([a],a),lambda([a],[1])],
-  assert(f([["x",[1,2,3],'n]], [["x",test_ctrb]]) =
+               lambda([a],a),lambda([a],
+                 if a = cst_t then [1] else assert(false))],
+  cst_t : ["x",[1,2,3],'n],
+  assert(f([cst_t], [["x",test_ctrb]]) =
     [1]),  
   true)$
 

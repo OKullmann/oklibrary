@@ -253,6 +253,30 @@ lambda([a],some_namespace_x(a,1,2,3))
 	 rewrite bundle which would specify namespaces which drop, hash, or
 	 canonically map the constraint variables to a much smaller
 	 object. </li>
+	 <li> Another solution is to simply include additional wrapper 
+	 functions for rewrite_all_cstl, rewrite_all_vars_l etc, which
+	 avoid this explosion by keeping track of constraints individually
+	 and only introducing an identifier when a new constraint appears.
+	 </li>
+	 <li> For example:
+	 \verbatim
+rewrite_all_cstl_fast(cstl,rewrite_map) := block(
+  [cst_hash : sm2hm({}), cst_count : 0],
+  local(construct_constraint_namespace),
+  construct_constraint_namespace(namespace_p,namespace,cst) := block(
+    if ev_hm(cst_hash, [namespace_p,namespace,cst]) = false then
+      set_hm(cst_hash, [namespace_p,namespace,cst], cst_count : cst_count + 1),
+    lambda([a], namespace_p(a,cst[1],ev_hm(cst_hash, [namespace_p,namespace,cst])))),
+  rewrite_all_cstl(cstl,rewrite_map))$
+	 \endverbatim
+	 </li>
+	 <li> Such a system would only affect the actual variable 
+	 representations, but not the order of the variables, or anything
+	 else about the translation, and so there would be an exact 
+	 one to one mapping between the variables returned by rewrite_all_vars_l
+	 and rewrite_all_vars_l_fast. Therefore, one could use the fast 
+	 translation, and simply map back to the full variable representations
+	 if needed. </li>
         </ol>
        </li>
        <li> Variable - A positive noun, defined in the usual way
