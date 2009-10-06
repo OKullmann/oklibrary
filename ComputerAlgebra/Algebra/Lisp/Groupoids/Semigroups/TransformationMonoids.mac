@@ -40,7 +40,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 /* Composition of transformations as lists. */
 /* Prerequisite: length(x) = length(y). */
 /* RENAME: trf_l_compo */
-transformation_l_compo(x,y) := if length(x) <= 300 then create_list(x[i], i,y)
+transformation_l_compo(x,y) := if length(x) <= 200 then create_list(x[i], i,y)
  else block([a : l2ary(x)],  create_list(a[i], i,y))$
 trf_l_compo(x,y) := transformation_l_compo(x,y)$
 
