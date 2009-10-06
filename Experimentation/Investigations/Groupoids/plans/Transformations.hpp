@@ -34,10 +34,9 @@ det_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, h, MSA, C],
  c1 : lambda([S], ecomp(S,N)),
  s : lambda([S], subset_closure(S)),
  h : osm2hm(ll2osm(listify(MS),create_list(i,i,1,2^(2^n)))),
- MSA : l2ary(listify(MS)),
- c0l : create_list(ev_hm(h,c0(MSA[i])), i,1,2^(2^n)),
- c1l : create_list(ev_hm(h,c1(MSA[i])), i,1,2^(2^n)),
- sl : create_list(ev_hm(h,s(MSA[i])), i,1,2^(2^n)),
+ c0l : map(lambda([S],ev_hm(h,c0(S))), listify(MS)),
+ c1l : map(lambda([S],ev_hm(h,c1(S))), listify(MS)),
+ sl : map(lambda([S],ev_hm(h,s(S))), listify(MS)),
  C : closure_bydef_grd(trf_l_compo, {c0l,c1l,sl}),
  length(C)
 )$
@@ -186,11 +185,10 @@ det2_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, m,ml, h, MSA, C]
  s : lambda([S], subset_closure(S)),
  m : lambda([S], min_elements(S)),
  h : osm2hm(ll2osm(listify(MS),create_list(i,i,1,2^(2^n)))),
- MSA : l2ary(listify(MS)),
- c0l : create_list(ev_hm(h,c0(MSA[i])), i,1,2^(2^n)),
- c1l : create_list(ev_hm(h,c1(MSA[i])), i,1,2^(2^n)),
- sl : create_list(ev_hm(h,s(MSA[i])), i,1,2^(2^n)),
- ml : create_list(ev_hm(h,m(MSA[i])), i,1,2^(2^n)),
+ c0l : map(lambda([S],ev_hm(h,c0(S))), listify(MS)),
+ c1l : map(lambda([S],ev_hm(h,c1(S))), listify(MS)),
+ sl : map(lambda([S],ev_hm(h,s(S))), listify(MS)),
+ ml : map(lambda([S],ev_hm(h,m(S))), listify(MS)),
 print("c0l = ",c0l),
 print("c1l = ",c1l),
 print("sl = ", sl),
@@ -198,11 +196,42 @@ print("ml = ", ml),
  C : closure_bydef_grd(trf_l_compo, {c0l,c1l,sl,ml}),
  length(C)
 )$
-for i : 0 thru 3 do print(i, det2_cl(i));
+
+heap_size : 3/2*10^9;
+:lisp (ext:set-limit 'ext:heap-size $heap_size)
+oklib_monitor : true;
+
+for i : 0 thru 4 do print(i, det2_cl(i));
+
+Current size of closure is  2
 0 2
+
+Current size of closure is  4
+Current size of closure is  16
+Current size of closure is  80
+Current size of closure is  176
 1 176
+
+Current size of closure is  4
+Current size of closure is  16
+Current size of closure is  83
+Current size of closure is  350
+Current size of closure is  404
 2 404
+
+Current size of closure is  4
+Current size of closure is  16
+Current size of closure is  83
+Current size of closure is  421
+Current size of closure is  656
 3 656
+
+Current size of closure is  4
+Current size of closure is  16
+Current size of closure is  83
+Current size of closure is  434
+XXX
+4 XXX
    \endverbatim
    (where 176=2^4*11, 404=2^2*101, 656=2^4*41).
    </li>
