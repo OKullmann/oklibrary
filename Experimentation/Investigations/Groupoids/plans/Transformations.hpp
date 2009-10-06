@@ -189,10 +189,12 @@ det2_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, m,ml, h, MSA, C]
  c1l : map(lambda([S],ev_hm(h,c1(S))), listify(MS)),
  sl : map(lambda([S],ev_hm(h,s(S))), listify(MS)),
  ml : map(lambda([S],ev_hm(h,m(S))), listify(MS)),
-print("c0l = ",c0l),
-print("c1l = ",c1l),
-print("sl = ", sl),
-print("ml = ", ml),
+ if oklib_monitor then (
+  print("c0l = ",c0l),
+  print("c1l = ",c1l),
+  print("sl = ", sl),
+  print("ml = ", ml)
+ ),
  C : closure_bydef_grd(trf_l_compo, {c0l,c1l,sl,ml}),
  length(C)
 )$
