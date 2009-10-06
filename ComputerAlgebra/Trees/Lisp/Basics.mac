@@ -83,6 +83,10 @@ dst(T,p) := block([S : subtree(T,p)],
    are the subtrees.
 */
 
+/* Checking whether T is a labelled rooted tree: */
+lrt_p(T) := listp(T) and is(length(T) >= 1) and every_s(lrt_p,rest(T))$
+
+
 /* Transforms a labelled into an unlabelled tree by removing the labels: */
 /* UPDATE: rename to lrt2rt. */
 l2ult(T) := map(l2ult,rest(T))$

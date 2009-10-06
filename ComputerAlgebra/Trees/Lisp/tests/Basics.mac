@@ -81,6 +81,17 @@ okltest_dst(f) := (
    ****************************
 */
 
+okltest_lrt_p(f) := block([x],
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([[]]) = true),
+  assert(f([0]) = true),
+  assert(f([0,[]]) = false),
+  assert(f([0,0]) = false),
+  assert(f([0,[0]]) = true),
+  /* XXX */
+  true)$
+
 okltest_l2ult(f) := block([x],
   assert(f([0]) = []),
   assert(f([x]) = []),
@@ -265,6 +276,7 @@ okltest_mirror_rt(f) := (
   assert(f([[[]],[]]) = [[],[[]]]),
   assert(f([[[],[[]]],[]]) = [[],[[[]],[]]]),
   assert(f([[[],[[]]],[[[]],[]]]) = [[[],[[]]],[[[]],[]]]),
+  /* XXX */
   true)$
 
 

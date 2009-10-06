@@ -40,6 +40,8 @@ okltest_dst(dst);
    ****************************
 */
 
+okltest_lrt_p(lrt_p);
+
 okltest_l2ult(l2ult);
 
 okltest_rt2lrt_il(rt2lrt_il);
