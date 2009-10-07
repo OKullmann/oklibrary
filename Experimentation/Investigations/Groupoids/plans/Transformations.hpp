@@ -286,7 +286,7 @@ det2_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, m,ml, h, MSA, C]
  c1l : map(lambda([S],ev_hm(h,c1(S))), listify(MS)),
  sl : map(lambda([S],ev_hm(h,s(S))), listify(MS)),
  ml : map(lambda([S],ev_hm(h,m(S))), listify(MS)),
- if oklib_monitor then (
+ if oklib_monitor and oklib_monitor_level >= 1 then (
   print("c0l = ",c0l),
   print("c1l = ",c1l),
   print("sl = ", sl),
@@ -296,7 +296,7 @@ det2_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, m,ml, h, MSA, C]
  length(C)
 )$
 
-heap_size : 3/2*10^9;
+heap_size : 4*10^9;
 :lisp (ext:set-limit 'ext:heap-size $heap_size)
 oklib_monitor : true;
 
