@@ -33,6 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinS
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.mac")$
 
 /*!
 \endhtmlonly
