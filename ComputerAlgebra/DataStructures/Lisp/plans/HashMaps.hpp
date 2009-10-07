@@ -32,6 +32,39 @@ License, or any later version. */
   </ul>
 
 
+  \todo Using the Maxima "associative arrays"
+  <ul>
+   <li> One could try an alternative implementation of hash-maps via the
+   associative arrays provided by Maxima.
+   <li> Testing the speed:
+   \verbatim
+test1(n) := block([N : setn(n), P, MS, c0, h, t],
+  P : powerset(N),
+ MS : powerset(P),
+ c0 : lambda([S], setdifference(P,S)),
+ t : elapsed_run_time(),
+ h : osm2hm(ll2osm(listify(MS),create_list(i,i,1,2^(2^n)))),
+ print(elapsed_run_time()-t),
+ map(lambda([S],ev_hm(h,c0(S))), listify(MS))
+)$
+test2(n) := block([N : setn(n), P, MS, c0, h, t],
+  P : powerset(N),
+ MS : powerset(P),
+ c0 : lambda([S], setdifference(P,S)),
+ t : elapsed_run_time(),
+ block([i : 1],
+   for S in MS do (h[S] : i, i : i+1)
+ ),
+ print(elapsed_run_time()-t),
+ map(lambda([S],h[c0(S)]), listify(MS))
+)$
+   \endverbatim
+   </li>
+   <li> test2 is much faster, but h becomes a global variable. </li>
+   <li> So one needs to create a new variable-name to be used here. </li>
+  </ul>
+
+
   \todo New naming conventions
   <ul>
    <li> Rename old functions as indicated in
