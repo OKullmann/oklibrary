@@ -57,17 +57,17 @@ create_list(det_cl(n),n,0,3);
    <li> In Gap:
    \verbatim
 LoadPackage("monoid");
-c0 := Transformation([3,4,1,2]);
-c1 := Transformation([1,4,3,2]);
-s := Transformation([1,2,3,3]);
-C := Monoid(c0,c1,s);
-GeneratorsOfMonoid(C);
+c0a := Transformation([3,4,1,2]);
+c1a := Transformation([1,4,3,2]);
+sa := Transformation([1,2,3,3]);
+Ca := Monoid(c0a,c1a,sa);
+GeneratorsOfMonoid(Ca);
   [Transformation([3,4,1,2]),Transformation([1,4,3,2]),Transformation([1,2,3,3])]
-Size(C);
+Size(Ca);
   28
-Centre(C);
+Centre(Ca);
   [ Transformation( [ 1, 2, 3, 4 ] ) ]
-Idempotents(C);
+Idempotents(Ca);
   [Transformation([1,1,3,1]),Transformation([1,1,3,3]),Transformation([1,1,3,4]),
   Transformation([1,2,3,1]),Transformation([1,2,3,3]),Transformation([1,2,3,4]),
   Transformation([1,3,3,1]),Transformation([1,3,3,3]),Transformation([1,3,3,4])]
@@ -77,19 +77,16 @@ Idempotents(C);
     <ol>
      <li> First by using Gap directly:
      \verbatim
-phi := IsomorphismFpMonoid(C);
-FC := Range(phi);
-m := GeneratorsOfMonoid(FC);
-PreImageElm(phi, m[1]);
-  [ Transformation( [ 1, 2, 3, 3 ] ) ]
-PreImageElm(phi, m[2]);
-  [ Transformation( [ 1, 4, 3, 2 ] ) ]
-PreImageElm(phi, m[3]);
-  [ Transformation( [ 3, 4, 1, 2 ] ) ]
+phi_Ca := IsomorphismFpMonoid(Ca);
+FCa := Range(phi_Ca);
+ma := GeneratorsOfMonoid(FCa);
+sa = PreImageElm(phi_Ca, ma[1])[1];
+c1a = PreImageElm(phi_Ca, ma[2])[1];
+c0a = PreImageElm(phi_Ca, ma[3])[1];
 
-# So m1 = s, m2 = c1, m3 = c0.
+# So m1 = sa, m2 = c1a, m3 = c0a.
 
-RelationsOfFpMonoid(FC);
+RelationsOfFpMonoid(FCa);
 [ [ m1^2, m1 ], 
   [ m2^2, <identity ...> ], 
   [ m3*m2, m2*m3 ], 
@@ -164,10 +161,110 @@ Size(C16);
      </li>
     </ol>
    </li>
-   <li> To understand the monoid C, Prof. Mitchell proposes to use the function
-   "DisplayEggBoxesOfSemigroup", which displays the eggbox diagram of the
-   D-classes (strong orbits of the semigroup on itself by left and right 
-   multiplication) of the semigroup C. </li>
+   <li> To understand the monoid Ca, Prof. Mitchell proposes to use the
+   function "DisplayEggBoxesOfSemigroup", which displays the eggbox diagram
+   of the D-classes (strong orbits of the semigroup on itself by left and
+   right multiplication) of the semigroup C. </li>
+  </ul>
+
+
+  \todo Hypergraph transformations Ib
+  <ul>
+   <li> Now instead of closure under subset-formation we consider elimination
+   of subsumed subsets. </li>
+   <li>
+   \verbatim
+det1b_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, h, MSA, C],
+ P : powerset(N),
+ MS : powerset(P),
+ c0 : lambda([S], setdifference(P,S)),
+ c1 : lambda([S], ecomp(S,N)),
+ m : lambda([S], min_elements(S)),
+ h : osm2hm(ll2osm(listify(MS),create_list(i,i,1,2^(2^n)))),
+ c0l : map(lambda([S],ev_hm(h,c0(S))), listify(MS)),
+ c1l : map(lambda([S],ev_hm(h,c1(S))), listify(MS)),
+ ml : map(lambda([S],ev_hm(h,m(S))), listify(MS)),
+ C : closure_bydef_grd(trf_l_compo, {c0l,c1l,ml}),
+ length(C)
+)$
+
+heap_size : 3/2*10^9;
+:lisp (ext:set-limit 'ext:heap-size $heap_size)
+oklib_monitor : true;
+
+for i : 0 thru 4 do print(i, det1b_cl(i));
+Current size of closure is  2
+0 2
+Current size of closure is  3
+Current size of closure is  9
+Current size of closure is  23
+Current size of closure is  28
+1 28
+Current size of closure is  3
+Current size of closure is  9
+Current size of closure is  25
+Current size of closure is  68
+Current size of closure is  74
+2 74
+Current size of closure is  3
+Current size of closure is  9
+Current size of closure is  25
+Current size of closure is  68
+Current size of closure is  76
+3 76
+Current size of closure is  3
+Current size of closure is  9
+Current size of closure is  25
+Current size of closure is  68
+Current size of closure is  76
+4 76
+   \endverbatim
+   (where 28=2^2*7, 74=2*37, 76=2^2*19).
+   </li>
+   <li> So here the conjecture is that as soon as the base-set contains at
+   least three elements, then the closure contains exactly 76 elements,
+   and the monoids for different such base-sets are canonically isomorphic.
+   </li>
+   <li> See below for a direct Gap-presentation of these 3 transformations for
+   n=3 (named c0,c1,m):
+   \verbatim
+Cb := Monoid(c0,c1,m);
+Size(Cb);
+  76
+   \endverbatim
+   </li>
+   <li> Finding a presentation:
+    <ol>
+     <li> First by using Gap directly:
+     \verbatim
+phi_Cb := IsomorphismFpMonoid(Cb);
+FCb := Range(phi_Cb);
+mb := GeneratorsOfMonoid(FCb);
+m = PreImageElm(phi_Cb, mb[1])[1];
+c1 = PreImageElm(phi_Cb, mb[2])[1];
+c0 = PreImageElm(phi_Cb, mb[3])[1];
+
+# So mb1 = m, mb2 = c1, mb3 = c0.
+
+RelationsOfFpMonoid(FCb);
+[ [ m1^2, m1 ], 
+  [ m2^2, <identity ...> ], 
+  [ m3*m2, m2*m3 ], 
+  [ m3^2, <identity ...> ], 
+  [ m1*m2*m1, m1*m2 ], 
+  [ m1*m2*m3^2, m1*m2 ],
+  [ m2*m1*m2^2, m2*m1 ], 
+  [ m2*m1*m3^2, m2*m1 ], 
+  [ m3*m1*m2^2, m3*m1 ], 
+  [ m3*m1*m3^2, m3*m1 ], 
+  [ m1*m3*m1*m3*m1, m3*m1*m3*m1 ],
+  [ m1*m2*m3*m1*m2*m3*m1, m1*m3*m1*m2*m3*m1 ], 
+  [ m2*m1*m3*m1*m2*m3*m1, m1*m3*m1*m2*m3*m1 ],
+  [ m3*m1*m3*m1*m2*m3*m1, m1*m3*m1*m2*m3*m1 ] ]
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -305,9 +402,8 @@ Size(M3);
      </li>
      <li> n=4: Now we need to compute the four transformations directly
      in Gap (instead of copy-and-paste them from Maxima, as above). Of course,
-     we have now 2^16=65536 elements in the base-set, but one needs to try
-     it (in order to see whether perhaps some stationary point is reached).
-     </li>
+     we have now 2^16=65536 elements in the base-set, but this should be
+     possible. </li>
     </ol>
    </li>
   </ul>
