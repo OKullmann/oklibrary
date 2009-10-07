@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,9 +21,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
-/* *******************
-   * Sudoku problems *
-   *******************
+
+/* *************************
+   * The basic translation *
+   *************************
 */
 
 /* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k: */
@@ -31,23 +32,29 @@ kill(sdk)$
 declare(sdk, noun)$
 declare(sdk, posfun)$
 sdk_var(i,j,k) := nounify(sdk)(i,j,k)$
+/* Here we have 1 <= i, j <= N, where N = p^2 is the dimension of the whole
+   matrix, while p is the "box dimension" (p=3 for the standard Sudoku
+   problems, while N=9).
+*/
 
 /* The set of variables for Sudoku formulas of box-dimension p: */
 var_sdk(p) := block([N : p^2],
  setify(create_list(sdk_var(i,j,k), i,1,N, j,1,N, k,1,N)))$
 
-/* In the following p denotes the box-dimension. */
-
 /* Constraints: different numbers in each row. */
 sdk_different_rows(p) := block([N : p^2],
- setify(create_list({- sdk_var(i,j1,k), - sdk_var(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
+ setify(create_list({- sdk_var(i,j1,k), - sdk_var(i,j2,k)}, 
+                    i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
 
 /* Constraints: different numbers in each column. */
 sdk_different_columns(p) := block([N : p^2],
- setify(create_list({- sdk_var(i1,j,k), - sdk_var(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
+ setify(create_list({- sdk_var(i1,j,k), - sdk_var(i2,j,k)}, 
+                    j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
 
 
-/* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields in the box: */
+/* Given coordinates 1 <= i,j <= p of one of the N boxes, compute the list of 
+   coordinates of the N fields in the box (from top-left to bottom-right):
+*/
 sdk_positions_box(i,j,p) := block(
  [row_offset : p * (i-1), column_offset : p * (j-1)],
  create_list([row_offset + r, column_offset + c], r,1,p, c,1,p))$
@@ -80,7 +87,11 @@ output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
     filename,
     FF[2]))$
 
-/* Additional constraints: */
+
+/* **************************
+   * Additional constraints *
+   **************************
+*/
 
 /* Constraints: every row contains all numbers. */
 sdk_all_rows(p) := block([N : p^2],
@@ -95,9 +106,10 @@ sdk_all_boxes(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(p[1],p[2],k),p,sdk_positions_box(i,j,p))),
   i,1,p, j,1,p, k,1,N)))$
 
-/* Constraints: every field carries a different numbers. */
+/* Constraints: every field carries at most one numbers. */
 sdk_different_fields(p) := block([N : p^2],
-  setify(create_list({-sdk_var(i,j,k1), -sdk_var(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
+  setify(create_list({-sdk_var(i,j,k1), -sdk_var(i,j,k2)}, 
+         i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
 
 
 /* The Sudoku problem (dual weak form) as formal clause-set: */
@@ -114,7 +126,7 @@ output_dual_weak_sdk(p,filename) := block([FF : standardise_fcs(dual_weak_sdk(p)
     FF[2]))$
 
 
-/* The Strong sudoku problem as formal clause-set: */
+/* The Strong Sudoku problem as formal clause-set: */
 strong_sdk(p) := [var_sdk(p), 
  union(weak_sdk(p)[2], dual_weak_sdk(p)[2])]$
 
@@ -127,7 +139,10 @@ output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
     FF[2]))$
 
 
-/* Measures for the translated formulas */
+/* ************
+   * Measures *
+   ************
+*/
 
 /* Number of variables: */
 nvar_sdk(p) := p^6$
