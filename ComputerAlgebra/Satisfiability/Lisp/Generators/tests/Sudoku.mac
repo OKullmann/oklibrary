@@ -1,0 +1,132 @@
+/* Oliver Kullmann, 7.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.mac
+  \brief Tests for Sudoku generators
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+/* *************************
+   * The basic translation *
+   *************************
+*/
+
+okltest_var_sdk(f) := (
+
+  true)$
+
+okltest_sdk_different_rows(f) := (
+
+  true)$
+
+okltest_sdk_different_columns(f) := (
+
+  true)$
+
+okltest_sdk_positions_box(f) := (
+
+  true)$
+
+okltest_sdk_different_boxes(f) := (
+
+  true)$
+
+okltest_sdk_all_fields(f) := (
+
+  true)$
+
+okltest_weak_sdk(f) := (
+
+  true)$
+
+
+/* **************************
+   * Additional constraints *
+   **************************
+*/
+
+okltest_sdk_all_rows(f) := (
+
+  true)$
+
+okltest_sdk_all_columns(f) := (
+
+  true)$
+
+okltest_sdk_all_boxes(f) := (
+
+  true)$
+
+okltest_dual_weak_sdk(f) := (
+
+  true)$
+
+okltest_strong_sdk(f) := (
+
+  true)$
+
+/* ************
+   * Measures *
+   ************
+*/
+
+okltest_nvar_sdk(f) := (
+
+  true)$
+
+okltest_ncl_list_weak_sdk(f) := (
+
+  true)$
+
+okltest_ncl_list_dual_weak_sdk(f) := (
+
+  true)$
+
+okltest_ncl_list_strong_sdk(f) := (
+
+  true)$
+
+okltest_ncl_weak_sdk(f) := (
+
+  true)$
+
+okltest_ncl_dual_weak_sdk(f) := (
+
+  true)$
+
+okltest_ncl_strong_sdk(f) := (
+
+  true)$
+
+okltest_nlitocc_weak_sdk(f) := (
+
+  true)$
+
+okltest_nlitocc_dual_weak_sdk(f) := (
+
+  true)$
+
+okltest_nlitocc_strong_sdk(f) := (
+
+  true)$
+
+/*!
+\endhtmlonly
+*/

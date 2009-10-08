@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,6 +15,12 @@ License, or any later version. */
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
    <li> See the investigations in
    Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp. </li>
+  </ul>
+
+
+  \todo Update function names
+  <ul>
+   <li> Many function need the suffix "_fcs" or "cs". </li>
   </ul>
 
 
@@ -204,8 +210,8 @@ License, or any later version. */
   \todo Sudoku generator for the Minion constraint solver.
   <ul>
    <li> This should be placed into a module for constraint satisfaction. </li>
-   <li> What is the meaning of "generator" here? Is this just a file-format, or,
-   more meaningfully, do we first create a constraint-satisfaction-problem,
+   <li> What is the meaning of "generator" here? Is this just a file-format,
+   or, more meaningfully, do we first create a constraint-satisfaction-problem,
    using a suitable Maxima-representation of "constraints", and then output
    this in Minion-format? </li>
    <li> Parameters: n (box size), N = n^2, M = N^2  </li>
