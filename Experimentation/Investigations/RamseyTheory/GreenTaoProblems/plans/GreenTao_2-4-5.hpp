@@ -73,6 +73,7 @@ BestSolution_Max = 122.000000
 
   \todo greentao_2(4,5) > 4231
   <ul>
+   <li> The (weak) conjecture is greentao_2(4,5) = 4232. </li>
    <li> n=2000 trivial for ubcsat-rnovelty+. </li>
    <li> n=4000 found satisfiable by ubcsat-rnovelty+ with
    msteps=8376482 and seed=2773039201. </li>
@@ -303,7 +304,14 @@ read_ubcsat
      </li>
     </ol>
    </li>
-   <li> n=4232 </li>
+   <li> n=4232, cutoff=4*10^9:
+   \verbatim
+> E2 = read_ubcsat("GreenTao_2-4-5_4232.out", row.names=NULL,skip=9)
+   1    2    3    4    5
+ 382 1336  240   26    1
+1985
+   \endverbatim
+   </li>
    <li> n=4237: 193 runs with cutoff=4*10^9 produced many minimum=1, but
    no solution. </li>
    <li> n=4250: 181 runs with cutoff=4*10^9 yielded a minimum of 2 falsified

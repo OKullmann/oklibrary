@@ -53,7 +53,6 @@ License, or any later version. */
   <h2> Green-Tao problems </h2>
 
   <ul>
-   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-4-5.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-6.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-7.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-3-k.hpp
