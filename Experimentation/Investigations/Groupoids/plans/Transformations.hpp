@@ -87,37 +87,57 @@ c0a = PreImageElm(phi_Ca, ma[3])[1];
 # So m1 = sa, m2 = c1a, m3 = c0a.
 
 RelationsOfFpMonoid(FCa);
-[ [ m1^2, m1 ], 
-  [ m2^2, <identity ...> ], 
-  [ m3*m2, m2*m3 ], 
-  [ m3^2, <identity ...> ], 
-  [ m1*m2*m1*m2, m1*m2*m1 ], 
+[ [ m1^2, m1 ],
+  [ m2^2, <identity ...> ],
+  [ m3*m2, m2*m3 ],
+  [ m3^2, <identity ...> ],
+  [ m1*m2*m1*m2, m1*m2*m1 ],
   [ m1*m2*m3*m1, m1*m2*m3 ],
-  [ m1*m2*m3^2, m1*m2 ], 
-  [ m1*m3*m1*m2, m1*m3*m1 ], 
-  [ m2*m1*m2*m1, m1*m2*m1 ], 
-  [ m2*m1*m2^2, m2*m1 ], 
+  [ m1*m2*m3^2, m1*m2 ],
+  [ m1*m3*m1*m2, m1*m3*m1 ],
+  [ m2*m1*m2*m1, m1*m2*m1 ],
+  [ m2*m1*m2^2, m2*m1 ],
   [ m2*m1*m3^2, m2*m1 ],
-  [ m3*m1*m2^2, m3*m1 ], 
-  [ m3*m1*m3*m1, m1*m3*m1*m3 ], 
-  [ m3*m1*m3^2, m3*m1 ], 
+  [ m3*m1*m2^2, m3*m1 ],
+  [ m3*m1*m3*m1, m1*m3*m1*m3 ],
+  [ m3*m1*m3^2, m3*m1 ],
+
   [ m1*m2*m1*m3*m1, m1*m2*m1*m3 ],
   [ m2*m3*m1*m2*m1, m3*m1*m2*m1 ] ]
      \endverbatim
      Note the consistent use of "monoid" here; it is also possible to use
      "semigroup" (possibly yielding a different representation), but then
      also a "semigroup" needs to be constructed. </li>
+     <li> These relations just translated:
+     \verbatim
+s^2 = s
+c1^2 = id
+c1 c0 = c0 c1
+c0^2 = id
+c1 s c1 s = s c1 s
+s c0 c1 s = c0 c1 s
+  superfluous
+c1 s c0 s = s c0 s
+s c1 s c1 = s c1 s
+  superfluous
+  superfluous
+  superfluous
+s c0 s c0 = c0 s c0 s
+s c0 s c1 s = c0 s c1 s
+s c1 s c0 c1 = s c1 s c0
+  superfluous
+     \endverbatim
      <li> Now "bottom-up", trying to guess a complete set of relations. </li>
      <li> Using three generators m[1] = c0, m[2] = c1, m[3] = s together with
      the four basic relations, expressing that c0,c1 are involutions which
      commute and that s is idempotent:
      \verbatim
 f3 := FreeMonoid(3);
-m := GeneratorsOfMonoid(f3);
-r1 := [m[1]^2, m[1]^0];
-r2 := [m[2]^2, m[2]^0];
-r3 := [m[1]*m[2], m[2]*m[1]];
-r4 := [m[3]*m[3], m[3]];
+g := GeneratorsOfMonoid(f3);
+r1 := [g[1]^2, g[1]^0];
+r2 := [g[2]^2, g[2]^0];
+r3 := [g[1]*g[2], g[2]*g[1]];
+r4 := [g[3]*g[3], g[3]];
 C0 := f3 / [r1,r2,r3,r4];
 Size(C0);
   ??
@@ -127,31 +147,75 @@ Size(C0);
      closure under superset-formation s' = c1 s c1, adding
      the relation Tr^2 = s':
      \verbatim
-r5 := [(m[2]*m[3]*m[1])^2, m[2]*m[3]*m[2]];
+r5 := [(g[2]*g[3]*g[1])^2, g[2]*g[3]*g[2]];
 C1 := f3 / [r1,r2,r3,r4,r5];
 Size(C1);
   ??
      \endverbatim
      (Note that Gap composes transformations from left to right.)
      </li>
+     <li> Adding s' s = s s':
+     \verbatim
+r6 := [ g[3]*g[2]*g[3]*g[2], g[2]*g[3]*g[2]*g[3] ];
+C2 := f3 / [r1,r2,r3,r4,r5,r6];
+Size(C2);
+  44
+     \endverbatim
+     </li>
+     <li> Adding c1 s c0 s = s c0 s:
+     \verbatim
+r7 := [ g[3]*g[1]*g[3]*g[2], g[3]*g[1]*g[3] ];
+C3 := f3 / [r1,r2,r3,r4,r5,r6,r7];
+Size(C3);
+  32
+     \endverbatim
+     </li>
+     <li> Adding s c0 s c0 = c0 s c0 s:
+     \verbatim
+r8 := [ g[1]*g[3]*g[1]*g[3], g[3]*g[1]*g[3]*g[1] ];
+C4 := f3 / [r1,r2,r3,r4,r5,r6,r7,r8];
+Size(C4);
+  28
+     \endverbatim
+     </li>
+     <li> So we got a representation with 8 equations; checking independence:
+     \verbatim
+Size(f3 / [r1,r2,r3,r4,r5,r6,r8]);
+  36
+Size(f3 / [r1,r2,r3,r4,r5,r7,r8]);
+  32
+Size(f3 / [r1,r2,r3,r4,r6,r7,r8]);
+  ??
+Size(f3 / [r1,r2,r3,r5,r6,r7,r8]);
+  28
+Size(f3 / [r1,r2,r5,r6,r7,r8]);
+  ??
+Size(f3 / [r1,r3,r5,r6,r7,r8]);
+  ??
+Size(f3 / [r2,r3,r5,r6,r7,r8]);
+  ??
+     \endverbatim
+     So r4 is derivable. </li>
+     <li> The conjecture is that [r1,r2,r3,r5,r6,r7,r8] is a minimal system
+     of equations (relations) representing C. </li>
      <li> Trying the relations computed by Gap above:
      \verbatim
-C16 := f3 / [ [ m[1]^2, m[1] ], 
-  [ m[2]^2, m[2]^0 ], 
-  [ m[3]*m[2], m[2]*m[3] ], 
-  [ m[3]^2, m[2]^0 ], 
-  [ m[1]*m[2]*m[1]*m[2], m[1]*m[2]*m[1] ], 
-  [ m[1]*m[2]*m[3]*m[1], m[1]*m[2]*m[3] ],
-  [ m[1]*m[2]*m[3]^2, m[1]*m[2] ], 
-  [ m[1]*m[3]*m[1]*m[2], m[1]*m[3]*m[1] ], 
-  [ m[2]*m[1]*m[2]*m[1], m[1]*m[2]*m[1] ], 
-  [ m[2]*m[1]*m[2]^2, m[2]*m[1] ], 
-  [ m[2]*m[1]*m[3]^2, m[2]*m[1] ],
-  [ m[3]*m[1]*m[2]^2, m[3]*m[1] ], 
-  [ m[3]*m[1]*m[3]*m[1], m[1]*m[3]*m[1]*m[3] ], 
-  [ m[3]*m[1]*m[3]^2, m[3]*m[1] ], 
-  [ m[1]*m[2]*m[1]*m[3]*m[1], m[1]*m[2]*m[1]*m[3] ],
-  [ m[2]*m[3]*m[1]*m[2]*m[1], m[3]*m[1]*m[2]*m[1] ] ];
+C16 := f3 / [ [ g[1]^2, g[1] ], 
+  [ g[2]^2, g[2]^0 ], 
+  [ g[3]*g[2], g[2]*g[3] ], 
+  [ g[3]^2, g[2]^0 ], 
+  [ g[1]*g[2]*g[1]*g[2], g[1]*g[2]*g[1] ], 
+  [ g[1]*g[2]*g[3]*g[1], g[1]*g[2]*g[3] ],
+  [ g[1]*g[2]*g[3]^2, g[1]*g[2] ], 
+  [ g[1]*g[3]*g[1]*g[2], g[1]*g[3]*g[1] ], 
+  [ g[2]*g[1]*g[2]*g[1], g[1]*g[2]*g[1] ], 
+  [ g[2]*g[1]*g[2]^2, g[2]*g[1] ], 
+  [ g[2]*g[1]*g[3]^2, g[2]*g[1] ],
+  [ g[3]*g[1]*g[2]^2, g[3]*g[1] ], 
+  [ g[3]*g[1]*g[3]*g[1], g[1]*g[3]*g[1]*g[3] ], 
+  [ g[3]*g[1]*g[3]^2, g[3]*g[1] ], 
+  [ g[1]*g[2]*g[1]*g[3]*g[1], g[1]*g[2]*g[1]*g[3] ],
+  [ g[2]*g[3]*g[1]*g[2]*g[1], g[3]*g[1]*g[2]*g[1] ] ];
 Size(C16);
   28
      \endverbatim
