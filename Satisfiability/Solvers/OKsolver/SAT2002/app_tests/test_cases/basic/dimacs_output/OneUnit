@@ -23,4 +23,4 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
-c file_name                             app_tests/test_cases/basic/OneUnit\.cnf
+c file_name                             test_cases/basic/OneUnit\.cnf
