@@ -496,7 +496,7 @@ void BeginTreeElement() {
   fprintf(TreeDataFile, "<t l=\"%ld\">", V1KlRed - SatVar -> number_2_reductions_at_new_node);
 }
 void EndTreeElement() {
-  fprintf(TreeDataFile, "</t>");
+  fprintf(TreeDataFile, "</t>\n");
 }
 void FinaliseSATPath() {
   do {
@@ -1367,7 +1367,7 @@ int main(const int argc, const char* const argv[]) {
       
 #ifdef OUTPUTTREEDATAXML
       {
-        if (not Wurzel) Wurzel = BasisName(aktName);
+        if (! Wurzel) Wurzel = BasisName(aktName);
         NameTreeDataFile = (char*) xmalloc((strlen(Wurzel) + 4 + 1));
         strcpy(NameTreeDataFile, Wurzel); strcat(NameTreeDataFile, ".xml");
         if ((TreeDataFile = fopen(NameTreeDataFile, "w")) == NULL) {
@@ -1380,7 +1380,9 @@ int main(const int argc, const char* const argv[]) {
         fprintf(TreeDataFile, "  <!ATTLIST t\n");
         fprintf(TreeDataFile, "    l NMTOKEN #REQUIRED>\n");
         fprintf(TreeDataFile, "]>\n\n");
-        // If already in the preprocessing phase the formula is decided, then no tree-xml-element is output, and thus the file with name NameTreeDataFile does not contain correct xml.
+        // If already in the preprocessing phase the formula is decided, then
+        // no tree-xml-element is output, and thus the file with name
+        // NameTreeDataFile does not contain correct xml.
       }
 #endif
       

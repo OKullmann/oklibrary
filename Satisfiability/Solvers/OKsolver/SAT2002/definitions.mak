@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 CFLAGS ?= "-D MACHINE_BITS_OKL=$(machine_bits_okl)"
 
-programs := OKsolver_2002 OKsolver_2002_lnk OKsolver_2002_osa OKsolver_2002_NTP OKsolver_2002_NLT OKsolver_2002_NTP_osa OKsolver_2002_NLT_osa OKsolver_2002_ALLSAT_NTP
+programs := OKsolver_2002 OKsolver_2002_lnk OKsolver_2002_osa OKsolver_2002_NTP OKsolver_2002_NLT OKsolver_2002_NTP_osa OKsolver_2002_NLT_osa OKsolver_2002_ALLSAT_NTP OKsolver_2002_OUTPUTXML
 
 source_libraries = 
 
