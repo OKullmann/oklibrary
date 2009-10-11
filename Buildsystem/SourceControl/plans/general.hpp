@@ -470,6 +470,8 @@ git merge -s ours --no-commit Bproject/master
 git read-tree --prefix=Directory/ -u Bproject/master
 git commit -m "Merge B project as subdirectory Directory"
       \endverbatim
+      (where "Bproject" is just a (remote-)name, while "/path/to/B" means the
+      other repository).
       </li>
       <li> Then via subsequent
       \verbatim
@@ -481,6 +483,32 @@ git pull -s subtree Bproject master
 git remote rm Bproject
       \endverbatim
       </li>
+     </ol>
+    </li>
+    <li> An alternative solution from [Version Control with Git; Jon Loeliger,
+    2009], page 143:
+     <ol>
+      <li> Here one just assumes that repository B, which uses directory B,
+      shall be placed at A/B. </li>
+      <li> First just the content of B is copied to A/B (nothing related to
+      git), and this is committed in one go (using a message like "Transferring
+      B to A"). </li>
+      <li> Then the history is pulled in via
+      \verbatim
+git pull -s ours path_to_repository_B master
+      \endverbatim
+      </li>
+      <li> If one wishes to pull further changes from B, one can do so via
+      \verbatim
+git pull -s subtree path_to_repository_B master
+      \endverbatim
+      (this is the same as above, only not using an alias). </li>
+      <li> The difference to above is just that here no alias (above
+      "Bproject") for the remote repository has been introduced, and that
+      in the above solution one can place the other project at an arbitrary
+      place (just ignoring the directory-name of B), while here the directory
+      name of B is used, and it is placed directly at the root of this
+      repository A. </li>
      </ol>
     </li>
    </ul>
