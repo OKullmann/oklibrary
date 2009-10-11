@@ -165,7 +165,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3) > 379
+  \todo Lower bounds: greentao_4(3) > 380
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -445,9 +445,14 @@ BestSolution_Max = 4.000000
    \endverbatim
    finally in another 345 runs one solution was found: seed=3835287522,
    osteps=2675973906. </li>
-   <li> n=380, cutoff=4*10^9 </li>
-   <li> n=381 cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
-   osteps ~ 500*10^6, so it looks unsatisfiable. </li>
+   <li> n=380, cutoff=4*10^9: Using cutoff=4*10^9 one solution was found in
+   110 runs: osteps=2056704946, seed=285602449. </li>
+   <li> n=381:
+    <ol>
+     <li> cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
+     osteps ~ 500*10^6, so it looks unsatisfiable. </li>
+    </ol>
+   </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
    <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
