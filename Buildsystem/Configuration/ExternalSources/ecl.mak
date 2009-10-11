@@ -7,8 +7,8 @@
 
 # Settings for building and using Ecl
 
-ecl_recommended_version_number_okl ?= 9.8.4
-ecl_supported_not_recommended_version_numbers_okl ?= 9.8.3
+ecl_recommended_version_number_okl ?= 9.10.2
+ecl_supported_not_recommended_version_numbers_okl ?= 9.8.4
 
 ecl_prefix_okl ?= ecl
 
