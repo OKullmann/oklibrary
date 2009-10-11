@@ -78,24 +78,94 @@ License, or any later version. */
 
   \todo OUTPUTTREEDATAXML
   <ul>
-   <li> We need to compile versions with this macro defined. </li>
-   <li> We need to test these versions. </li>
+   <li> DONE
+   We need to compile versions with this macro defined. </li>
+   <li> DONE (seems better to stick with the compile-time option)
+   Wouldn't it be better, if this wouldn't be a compile-time option,
+   but simply a run-time option?
+    <ol>
+     <li> But there is some overhead, including the statistical computation.
+     </li>
+     <li> And of course there is the overhead for the output. </li>
+    </ol>
+   </li>
+   <li> What to do with the generated .xml-files?
+    <ol>
+     <li> 
+     <li> DONE
+     Likely best that the test-system removes them. </li>
+     <li> DONE
+     Perhaps just all .xml-files. </li>
+     <li> DONE (for now just the test-directory)
+     But perhaps this should happen in a new sub-directory of the
+     test-directory. </li>
+     <li> Likely best if the directory for running the OKsolver (and where then
+     the output-files are placed) is located in system_directors/tests. </li>
+     <li> Then either we continue to use relative path-names, since the
+     test-output-templates must be independent from the repository,
+     or (more complicated) these templates are preprocessed (writing into
+     them the path-names). </li>
+    </ol>
+   </li>
+   <li> We need to test these versions.
+    </li>
+   <li> Output format:
+    <ol>
+     <li> DONE
+     Yet the tree-data is output just on one line --- likely we should
+     output every node on its own line. </li>
+     <li> DONE (doesn't seem a problem)
+     Then the files get a bit bigger. </li>
+    </ol>
+   </li>
    <li> Document these versions.
     <ol>
      <li> Specify the DTD. </li>
+     <li> Specify the data. </li>
     </ol>
    </li>
-   <li> Apparently yet only the number of r_2-reductions is output
+   <li> Yet only the number of r_2-reductions is output
    at each %node.
     <ol>
      <li> We need to strengthen this by outputting most data. </li>
-     <li> Definitely also the branching literal. </li>
+     <li> Definitely the branching literal is needed. </li>
+     <li> If we have 2 successors, then we need the distance values. </li>
+     <li> For each node we should have the basic statistics: n and the
+     list of clause-length, together with the counts. </li>
+     <li> However, we might use options: For big trees we get quite big
+     files, and then perhaps one prefers just minimal information. </li>
     </ol>
    </li>
    <li> We need also Maxima-readable output:
     <ol>
      <li> The output should be the expression computed by the
      analogous Maxima program. </li>
+     <li> The version OKsolver_2002_ast (see
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac)
+     already provide the splitting trees. </li>
+     <li> The labels are already lists, so we can just add further
+     node-information; however do we want to keep the partial assignments?
+     </li>
+     <li> So the general scheme for solvers producing amended splitting
+     trees needs to be genealised, allowing to put various statistics
+     into the nodes (additionally to or instead of the partial assignments).
+     </li>
+     <li> We really should avoid here another compile-time option.
+      <ol>
+       <li> So we need a run-time option. </li>
+       <li> Or we just produce both versions (in different files). </li>
+       <li> Or, alternatively, the OKsolver_2002 (C-version) only outputs the
+       xml-information, and an external programs converts this into the
+       Maxima format; this perhaps is best. </li>
+       <li> We need then a C++ xml-library; would be great if Boost meanwhile
+       had something? (Or the new standard?? But don't believe so.) </li>
+       <li> We have some simple functionality in OKlib/General/XMLHandling.hpp.
+       </li>
+       <li> For transferring the random-formulas-experiment-xml-files to
+       the database, we used the xerces library (see
+       Experimentation/RandomGenerator/ExperimentUebertragung.cpp). </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
