@@ -7,18 +7,21 @@
 # License, or any later version.
 
 # Run through all forms of executables for the OKsolver and
-# through all available test formulas and check the output
+# through all available test formulas, and check the output.
 
 list_solvers=${bin_dir}/OKsolver_2002*
+app_test_dir=${OKlib}/Satisfiability/Solvers/OKsolver/SAT2002/app_tests
 
 echo -e "SOLVERS FOUND:\n" ${list_solvers}
 
+cd ${app_test_dir}
+
 case ${test_level} in
-basic) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf')"
+basic) list_test_cases="$(find test_cases/basic -name '*.cnf')"
     ;;
-full) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf')"
+full) list_test_cases="$(find test_cases/basic -name '*.cnf') $(find test_cases/full -name '*.cnf')"
     ;;
-extensive) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf') $(find app_tests/test_cases/extensive -name '*.cnf')"
+extensive) list_test_cases="$(find test_cases/basic -name '*.cnf') $(find test_cases/full -name '*.cnf') $(find test_cases/extensive -name '*.cnf')"
     ;;
 esac
 
@@ -49,5 +52,7 @@ for S in ${list_solvers}; do
     fi;
   done;
 done
+
+rm *.cnf.xml
 
 exit 0
