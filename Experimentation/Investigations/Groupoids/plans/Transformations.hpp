@@ -360,7 +360,7 @@ det2_cl(n) := block([N : setn(n), P, MS, c0, c0l, c1,c1l, s,sl, m,ml, h, MSA, C]
  length(C)
 )$
 
-heap_size : 4*10^9;
+heap_size : 5*10^9;
 :lisp (ext:set-limit 'ext:heap-size $heap_size)
 oklib_monitor : true;
 
@@ -397,7 +397,7 @@ Current size of closure is  966
 XXX
 4 XXX
    \endverbatim
-   (where 176=2^4*11, 404=2^2*101, 656=2^4*41). 4 GB is not enough. </li>
+   (where 176=2^4*11, 404=2^2*101, 656=2^4*41). </li>
    <li> In Gap:
     <ol>
      <li> n=1:
