@@ -397,8 +397,7 @@ Current size of closure is  966
 XXX
 4 XXX
    \endverbatim
-   (where 176=2^4*11, 404=2^2*101, 656=2^4*41).
-   </li>
+   (where 176=2^4*11, 404=2^2*101, 656=2^4*41). 4 GB is not enough. </li>
    <li> In Gap:
     <ol>
      <li> n=1:
