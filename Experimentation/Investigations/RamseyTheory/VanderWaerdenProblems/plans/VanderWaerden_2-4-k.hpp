@@ -962,6 +962,14 @@ BestSolution_Max = 59.000000
 400
      \endverbatim
      </li>
+     <li> cutoff=128*10^6
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 400 -cutoff 128000000 -i VanDerWaerden_2-4-9_309.cnf -solve | tee VanDerWaerden_2-4-9_309.cnf_AUS3
+  1   2   3   4   5   6   7   8  46  49  50  51  52  53  54  55  56  57  58
+ 22  63 156  60  39  11   1   1   1   1   1   5   6   7  11   4   3   5   3
+400
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=310
