@@ -1,13 +1,23 @@
 // Oliver Kullmann, 18.12.2002 (Swansea)
-/* Copyright 2002 - 2007 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#ifndef XMLHANDLINGWAECHTER
+/*!
+  \file OKlib/General/XMLHandling.hpp
+  \brief Simple tools for writing XML-code
 
-#define XMLHANDLINGWAECHTER
+  \todo What to do with this?
+  <ul>
+   <li> What is in Boost? </li>
+  </ul>
+
+*/
+
+#ifndef XMLHANDLINGWAECHTER_hVcde43w
+#define XMLHANDLINGWAECHTER_hVcde43w
 
 #include <vector>
 #include <utility>
