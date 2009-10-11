@@ -74,9 +74,9 @@ add_constant_column = function(df,const_var, name) {
 #     input
 #       The path to the file to evaluate the ubcsat algorithms on.
 #     algs
-#       A list of ubcsat-algorithms to evaluate on the given input file
+#       A list of ubcsat-algorithms to evaluate on the given input file,
 #       where the name of each item is a reference for the
-#       algorithm and the value of each item is the algorithm parameter
+#       algorithm, and the value of each item is the algorithm parameter
 #       as given to ubcsat.
 #     output_params
 #       A list of ubcsat parameters/values that is included as
@@ -90,21 +90,20 @@ add_constant_column = function(df,const_var, name) {
 #       Boolean variable, indicating whether or not to print output
 #       to stdout as eval_ubcsat is running. TRUE indicates output
 #       should be output, whereas FALSE is the default.
-#     
 #
 # Result:
-#     The result data.frame has as its columns, the output parameters
+#     The result data.frame has as columns the output parameters
 #     given by output_params from each run of ubcsat, with
 #     additional columns added specifying the algorithm a particular
 #     run used, as well as columns for each of the statistics variables
-#     that ubcsat outputs for that run (of ubcsat, not a run within
-#     ubcsat).
+#     that ubcsat outputs for that run.
 #
 #     Every algorithm is evaluated using a single run of ubcsat, where
 #     the number of runs of the algorithm is determined by the output
 #     parameters, given in output_params (see eval_ubcsat_output_params).
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
+
 eval_ubcsat = function(
  input,
  algs=eval_ubcsat_cnf_algs,
