@@ -37,6 +37,8 @@ License, or any later version. */
    then by default they should be "temporary" files. </li>
    <li> These files must also not pollute the user-directory; so they should
    all be placed in some created directory. </li>
+   <li> And obviously, it needs to be possible just to evaluate the files,
+   without generating them --- so *two* functions are needed. </li>
    <li> The examples don't show the important step that the computed dataframe
    MUST BE STORED. </li>
   </ul>
@@ -44,17 +46,31 @@ License, or any later version. */
 
   \bug Bad columns produced by eval_ubcsat
   <ul>
-   <li> The column-names should be identical to the names used by ubcsat. </li>
+   <li> The column-names should be identical to the names used by ubcsat (in
+   the output!). </li>
    <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
    msteps". </li>
    <li> "Clauses", "Variables" and other constant measures should not show up
-   in the dataframe. </li>
+   in such dataframes. </li>
    <li> For the data which is constant per algorithm, a second dataframe
    should be returned. </li>
    <li> There is no need to have more or less of these parameters --- we need
    them all, in suitable packaging! </li>
    <li> The point of ubcsat_eval and such tools must be to give convenient
    access to *all* the data. </li>
+   <li> And what is the type of the algorithm-column? Shouldn't it be a
+   *factor*, with values given by strings? In any case, its use must be
+   documented. </li>
+   <li> Access to the factor levels should be possible through the variable
+   eval_ubcsat_cnf_algs, however this is not possible. </li>
+   <li> It seems that MG didn't understand the nature of dataframes. </li>
+  </ul>
+
+
+  \bug Missing evaluation tools
+  <ul>
+   <li> When producing a function like eval_ubcsat, then it is a must to
+   produce at the same time basic evaluation tools for the dataframe. </li>
   </ul>
 
 
