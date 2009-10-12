@@ -12,6 +12,36 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug Misplaced eval_ubcsat
+  <ul>
+   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
+   </li>
+   <li> After moving this function (and accompanying code), the todos below
+   needs to be updated. </li>
+  </ul>
+
+
+  \bug Bad documentation for eval_ubcsat
+  <ul>
+   <li> When examples are given, then they need to be reproducible (as much
+   as possible). </li>
+   <li> A cutoff=1 is nonsense. </li>
+   <li> The attributes of the resulting dataframe need to be specified more
+   precisely; what are their data types? </li>
+   <li> Reference to "standard output" is wrong here, since the output appears
+   in the R-terminal. It is also not explained what that output is. </li>
+   <li> Nowhere are the created files mentioned?? One needs the specification
+   of their names and their contents. And it should be possible to disable them
+   (likely this should be the default); that is, if these files are needed,
+   then by default they should be "temporary" files. </li>
+   <li> These files must also not pollute the user-directory; so they should
+   all be placed in some created directory. </li>
+   <li> The examples don't show the important step that the computed dataframe
+   MUST BE STORED. </li>
+  </ul>
+
+
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
@@ -137,8 +167,8 @@ ubcsat -rclean \
     </ol>
    </li>
    <li> (DONE Moved into R-subsystem) Something like the following seems 
-   reasonable: (as discussed, one needs to specify what this should achieve, and
-   furthermore, all text-formatting etc. should be handled by the wrapper
+   reasonable: (as discussed, one needs to specify what this should achieve,
+   and furthermore, all text-formatting etc. should be handled by the wrapper
    ubcsat-okl):
    \verbatim
 ubcsat_command <- "ubcsat -rclean \\
@@ -214,9 +244,9 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    notation. For instance 100000 is usually printed 1e+05 as this is 5 
    characters which is shorter than 100000 (6 characters). The "scientific"
    parameters to "format" adds a bias so 5 + 5000 > 6. </li>
-   <li> DONE For the "scientific" parameter, perhaps ".Machine$integer.max/2" is
-   a better option? Just ".Machine$integer.max" obviously results in overflow
-   and so doesn't work. </li>
+   <li> DONE For the "scientific" parameter, perhaps ".Machine$integer.max/2"
+   is a better option? Just ".Machine$integer.max" obviously results in
+   overflow and so doesn't work. </li>
   </ul>
 
 
