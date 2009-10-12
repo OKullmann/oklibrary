@@ -42,6 +42,22 @@ License, or any later version. */
   </ul>
 
 
+  \bug Bad columns produced by eval_ubcsat
+  <ul>
+   <li> The column-names should be identical to the names used by ubcsat. </li>
+   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
+   msteps". </li>
+   <li> "Clauses", "Variables" and other constant measures should not show up
+   in the dataframe. </li>
+   <li> For the data which is constant per algorithm, a second dataframe
+   should be returned. </li>
+   <li> There is no need to have more or less of these parameters --- we need
+   them all, in suitable packaging! </li>
+   <li> The point of ubcsat_eval and such tools must be to give convenient
+   access to *all* the data. </li>
+  </ul>
+
+
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
