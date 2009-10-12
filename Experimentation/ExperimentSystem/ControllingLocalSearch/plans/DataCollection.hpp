@@ -71,6 +71,14 @@ License, or any later version. */
   <ul>
    <li> When producing a function like eval_ubcsat, then it is a must to
    produce at the same time basic evaluation tools for the dataframe. </li>
+   <li> Given the dataframe in E, the best algorithms seems best graphed
+   by
+   \verbatim
+plot(E$alg,E$best)
+   \endverbatim
+   which plots per algorithm the boxplots of the min-distribution. </li>
+   <li> One only needs to make sure that on the x-axis all algorithms are
+   listed. </li>
   </ul>
 
 
