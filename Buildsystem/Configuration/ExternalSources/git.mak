@@ -9,8 +9,8 @@
 
 all_extsrc_okl += git
 
-git_recommended_version_number_okl ?= 1.6.4.4
-git_supported_not_recommended_version_numbers_okl ?= 1.6.4.2
+git_recommended_version_number_okl ?= 1.6.5
+git_supported_not_recommended_version_numbers_okl ?= 1.6.4.4
 
 git_prefix_okl ?= git
 
