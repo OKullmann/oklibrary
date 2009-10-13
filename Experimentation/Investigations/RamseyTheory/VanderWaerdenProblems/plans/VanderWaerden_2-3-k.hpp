@@ -457,25 +457,25 @@ BestSolution_Max = 2.000000
   \todo vanderwaerden_2(3,18) >= 312
   <ul>
    <li> The prediction (see above) is n=314. </li>
-   <li> n=300 found satisfiable with cutoff=10^6. </li>
-   <li> n=301 found satisfiable with cutoff=10^6 (seed=3824107188,
-   osteps=627657). </li>
+   <li> n=300 found satisfiable with adaptnovelty+ with cutoff=10^6. </li>
+   <li> n=301 found satisfiable with adaptnovelty+ with cutoff=10^6
+   (seed=3824107188, osteps=627657). </li>
    <li> n=302 : cutoff=10^6
    \verbatim
  1  2
 71 29
 100
    \endverbatim
-   but found satisfiable with cutoff=2*10^6 (seed=1205573131, osteps=988309).
-   </li>
+   but found satisfiable with cutoff=2*10^6 (seed=1205573131, osteps=988309,
+   adaptnovelty+). </li>
    <li> n=303 : cutoff=10^6
    \verbatim
  1  2
 61 39
 100
    \endverbatim
-    but found satisfiable with cutoff=2*10^6 (seed=3612981472, osteps=1991145).
-   </li>
+    but found satisfiable with cutoff=2*10^6 (seed=3612981472, osteps=1991145,
+    adaptnovelty+). </li>
    <li> n=305:
     <ol>
      <li> cutoff=10^6
@@ -486,7 +486,7 @@ BestSolution_Max = 2.000000
      \endverbatim
      </li>
      <li> cutoff=2*10^6 found a solution in run 99 (seed=2434783444,
-     osteps=532233). </li>
+     osteps=532233, adaptnovelty+). </li>
     </ol>
    </li>
    <li> n=310: cutoff=10^6
@@ -496,17 +496,17 @@ BestSolution_Max = 2.000000
 100
    \endverbatim
    but with cutoff=8*10^6 in run 112 a solution was found (seed=1883662893,
-   osteps=3087470). </li>
+   osteps=3087470, adaptnovelty+). </li>
    <li> n=311:
     <ol>
      <li> cutoff=8*10^6 yields in 400 runs always min=1. </li>
      <li> Using cutoff=4*10^6, in round 944 a solution was found
-     (seed=1836688823, osteps=1914277). </li>
+     (seed=1836688823, osteps=1914277, adaptnovelty+). </li>
     </ol>
    </li>
    <li> n=312
     <ol>
-     <li> cutoff=4*10^6:
+     <li> cutoff=4*10^6 with adaptnovelty+:
      \verbatim
    1    2
 1942   58
@@ -515,7 +515,7 @@ BestSolution_Max = 2.000000
      (the histogram of osteps is nearly strictly decreasing, only at about
      3*10^6 we seem to have a local minimum, followed by a slight increase,
      peaking at 3.5*10^6). </li>
-     <li> cutoff=8*10^6:
+     <li> cutoff=8*10^6 with adaptnovelty+:
      \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 2000 -cutoff 8000000 -i VanDerWaerden_2-3-18_312.cnf -solve | tee VanDerWaerden_2-3-18_312.cnf_AUS2
 Clauses = 26889
@@ -536,7 +536,7 @@ BestSolution_Max = 2.000000
      \endverbatim
      (now the histogram is strictly decreasing).
      </li>
-     <li> cutoff=10^6 (to compare samd and adaptnovelty+):
+     <li> cutoff=10^6 to compare samd and adaptnovelty+:
      \verbatim
 > ubcsat-okl -alg samd -runs 8000 -cutoff 1000000 -i VanDerWaerden_2-3-18_312.cnf -solve | tee VanDerWaerden_2-3-18_312.cnf_AUS3
 Clauses = 26889
@@ -556,7 +556,21 @@ BestSolution_Max = 4.000000
 8000
 
 > ubcsat-okl -alg adaptnovelty+ -runs 8000 -cutoff 1000000 -i VanDerWaerden_2-3-18_312.cnf -solve | tee VanDerWaerden_2-3-18_312.cnf_AUS4
-
+Clauses = 26889
+Variables = 312
+TotalLiterals = 121302
+FlipsPerSecond = 56657
+BestStep_Mean = 364589.452625
+Steps_Mean = 1000000.000000
+Steps_Max = 1000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.430375
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 3.000000
+   1    2    3
+4708 3141  151
+8000
      \endverbatim
      So actually samd seems to clearly outperform adaptnovelty+. </li>
     </ol>
