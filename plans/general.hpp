@@ -368,7 +368,7 @@ namespace SatAlg = Satisfiability::Algorithms;
    alike --- but perhaps xemacs can be configured to show also the comprising
    directory?
     <ol>
-     <li> Under Options -> Menubars we find "Verbose Buffer Menu Entries",
+     <li> Under Options -> Menubars we find "Verbose Buffer Menu Entries".
      But this shows the full path name *from the left*, which makes the
      output rather hard to read, and shows also some unneccesary classification
      information. </li>
@@ -378,18 +378,20 @@ namespace SatAlg = Satisfiability::Algorithms;
      <li> http://www.balestra.org/~bradym/emacs-lisp/buffermenu.el comes
      close what we need, but again it shows the full pathname; OK contacted
      the authors, asking for a generalisation of these functions. </li>
+     <li> Unfortunately, no answer; so one must find other sources of
+     information. </li>
     </ol>
    </li>
-   <li> Perhaps we should have files "strategy.hpp": The milestones
+   <li> DONE Perhaps we should have files "strategy.hpp": The milestones
    only contain the results of the planning process (and a bit of
    indication of direction through the milestone-labels), while
    the strategy-file would contain the rationales, strategic
    decisions and strategic visions. </li>
-   <li> Another "systematic" file in plans-directories is "wishlist.hpp",
+   <li> DONE Another "systematic" file in plans-directories is "wishlist.hpp",
    which is especially for users the place where they can articulate
    wishes. (Which might not be realised --- general.hpp contains all
    wishes which are to be realised (first they unfold in general.hpp,
-   and finally they got moved to their own plans-file).) </li>
+   and finally they get moved to their own plans-file).) </li>
    <li> DONE (now being practised)
    The module-plan-files is just called "general.hpp". </li>
   </ul>
