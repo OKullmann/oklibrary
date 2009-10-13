@@ -13,7 +13,8 @@ License, or any later version. */
   \par Version 0.1.2
 
   \par
-   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following
+   topics are handled:
     - Move
     - The role of documents_dir
     - Doxygen error messages
@@ -25,7 +26,8 @@ License, or any later version. */
   \par Version 0.1.3
 
   \par
-   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following
+   topics are handled:
     - Search engine
     - Other code
 
