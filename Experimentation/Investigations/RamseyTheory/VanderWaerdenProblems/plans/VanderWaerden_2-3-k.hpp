@@ -45,22 +45,56 @@ f(17)
   278.7812
    \endverbatim
    </li>
-   <li> Using the conjecture 279 (see below):
+   <li> Using the conjectures 279, 312 (see below):
       \verbatim
-d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279)
+d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312)
 x = log((1:length(d))[-(1:4)])
 y = log(d[-(1:4)])
 L = lm(y ~ x)
 C = coefficients(L)
 C[2]
-  2.060493
+  2.059168
 f = function(k){exp(C[1]) * k^C[2]}
 round(f(1:20))
-1   3   8  14  22  33  45  59  75  93 
-114 136 160 187 215 246 279 314 351 390
-round(f(1:17)) - d
- -2 -3 -1 -4  0  1 -1  1 -2 -4  0  1  0  1 -3  8  0
+ 1   3   8  14  22  33  45  59  75  93 
+ 114 136 160 187 215 246 279 313 350 389
+round(f(1:18)) - d
+ -2 -3 -1 -4  0  1 -1  1 -2 -4  0  1  0  1 -3  8  0  1
    \endverbatim
+   </li>
+   <li> Now using a quadratic model (using the above d):
+\verbatim
+x = (1:length(d))[-(1:4)]
+y = d[-(1:4)]
+
+Lq = lm(y ~ poly(x,2))
+summary(Lq)
+Residual standard error: 2.696 on 11 degrees of freedom
+Multiple R-squared: 0.9993,     Adjusted R-squared: 0.9992
+F-statistic:  7888 on 2 and 11 DF,  p-value: < 2.2e-16
+plot(x,y)
+lines(x,predict(Lq))
+
+Lq = lm(y ~ x + I(x^2))
+summary(Lq)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.17308    6.19170  -0.028    0.978
+x           -0.39766    1.16300  -0.342    0.739
+I(x^2)       0.98146    0.04996  19.643 6.48e-10 ***
+Residual standard error: 2.696 on 11 degrees of freedom
+Multiple R-squared: 0.9993,     Adjusted R-squared: 0.9992
+F-statistic:  7888 on 2 and 11 DF,  p-value: < 2.2e-16
+Cq = coefficients(Lq)
+fq = function(k){Cq[1] + Cq[2]*k + Cq[3]*k^2}
+round(fq(1:20))
+ 0   3   7  14  22  33  45  59  76  94 
+ 114 136 161 187 215 245 277 311 347 384
+round(fq(1:18)) - d
+ -3 -3 -2 -4  0  1 -1  1 -1 -3  0  1  1  1 -3  7 -2 -1
+\endverbatim
+   (using orthogonal polynomials via poly(x,2) seems to result in more
+   meaningfull coefficients, however the regression results are the same).
    </li>
   </ul>
 
@@ -575,6 +609,15 @@ BestSolution_Max = 3.000000
      So actually samd seems to clearly outperform adaptnovelty+. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(3,19)
+  <ul>
+   <li> The predictions (see above) are n= 347, 350. </li>
+   <li> Experience with k=18 is that samd is best, however we should
+   have a look again --- this might change with different k's or with
+   different cutoff's. </li>
   </ul>
 
 */
