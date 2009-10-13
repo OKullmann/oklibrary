@@ -79,6 +79,11 @@ plot(E$alg,E$best)
    which plots per algorithm the boxplots of the min-distribution. </li>
    <li> One only needs to make sure that on the x-axis all algorithms are
    listed. </li>
+   <li> Considering single algorithms by e.g.
+   \verbatim
+> table(E$best[E$alg=="adaptnoveltyp"])
+   \endverbatim
+   (note that currently algorithm names are inappropriately handled). </li>
   </ul>
 
 
