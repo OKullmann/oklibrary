@@ -74,7 +74,23 @@ License, or any later version. */
    also on the version numbers of the modules (again with changes over time).
    If doxygen does not support it yet, then we should submit some feature
    request, and postpone this item. See what' in 1.5.3. </li>
-   <li> It appears that all .cpp-files are considered as linked together? </li>
+   <li> How to avoid false links (create by doxygen)?
+    <ol>
+     <li> For example in satz215.2.c a struct "node" is defined --- now we
+     get a link to that class wherever the word "node" occurs --- for example
+     it occurs here: node. </li>
+     <li> For C++ we have unnamed namespaces, where the members should not
+     be referenced --- we should check this (since it appears that all
+     .cpp-files are considered as linked together?). </li>
+     <li> However for the example "node", we want to have this documented
+     for the file satz215.2.c --- but nowhere else! How to achieve this? </li>
+     <li> Obviously, using "%node" everywhere is not a solution. Contact the
+     doxygen mailing list. </li>
+     <li> Another, definitely nonsensic case, is the use of "w.r.t.", for
+     example here: w.r.t. In this case, a *private* data member called "t"
+     is referenced (as here: x.t)! </li>
+    </ol>
+   </li>
    <li> Documentation for other programming languages?
     <ol>
      <li> makefiles ? </li>
