@@ -27,16 +27,43 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_800.cnf", params=list(runs=100,cutoff=10000)
    \verbatim
 E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE, algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
    \endverbatim
-   (currently algorithms-names are inappropriately handled by eval_ubcsat).
-   </li>
+   (currently algorithms-names are inappropriately handled by eval_ubcsat):
+   adaptnovelty+ is clearly best: the best min(=6), and a very small spread;
+   the second is samd, but with worst min, and a far larger spread. </li>
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 800
+  \todo Lower bounds: greentao_4(3,3,3,4) > 950
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
-   <li> n=900 </li>
+   <li> n=850
+    <ol>
+     <li> cutoff=10^4: adaptnovelty+ reaches in 100 runs min=17
+     (while sapsnr reaches min=12, and samd reaches min=15). </li>
+     <li> cutoff=10^5: adaptnovelty+ reaches in 100 runs min=1, while sapsnr
+     finds a solution in run 31 (seed=1051937617). </li>
+    </ol>
+   </li>
+   <li> n=900
+    <ol>
+     <li> cutoff=10^4: adaptnovelty+ reaches in 100 runs min=22
+     (while sapsnr reaches min=29, and samd reaches min=22). </li>
+     <li> cutoff=10^5: adaptnovelty+ reaches in 100 runs min=3
+     (while sapsnr reaches min=21, and samd reaches min=5). </li>
+     <li> cutoff=10^6: adaptnovelty+ finds a solution in run 2
+     (seed=446607350). </li>
+    </ol>
+   </li>
+   <li> n=950
+    <ol>
+     <li> cutoff=10^6, using adaptnovelty+: reaches min=1 (median=4,
+     mean=4.3). </li>
+     <li> cutoff=10^7 (adaptnovelty+): found a solution in run 3
+     (seed=3537296603). </li>
+    </ol>
+   </li>
+   <li> n=975 </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while
@@ -44,6 +71,15 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      unsatisfiable. </li>
      <li> However, using adaptnovelty+ with cutoff=100*10^3 we reach min=17,
      so here adaptnovelty+ is much better! </li>
+     <li> cutoff=10^6: adaptnovelty+ reaches in 100 runs min=4
+     (while sapsnr reaches min=50, and samd reaches min=8). </li>
+     <li> cutoff=10^7 (adaptnovelty+): reaches in 100 runs min=1 (where
+     median=5 and mean=5.01). </li>
+     <li> cutoff=10^8 (adaptnovelty+):
+     \verbatim
+
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
