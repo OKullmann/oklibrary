@@ -33,7 +33,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 950
+  \todo Lower bounds: greentao_4(3,3,3,4) > 975
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -63,7 +63,17 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      (seed=3537296603). </li>
     </ol>
    </li>
-   <li> n=975 </li>
+   <li> n=975
+    <ol>
+     <li> cutoff=10^7 (adaptnovelty+): A solution was found in run 60
+     (seed=839702132, osteps=9609423). </li>
+    </ol>
+   </li>
+   <li> n=988
+    <ol>
+     <li> cutoff=10^7 (adaptnovelty+): </li>
+    </ol>
+   </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while
@@ -77,7 +87,9 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      median=5 and mean=5.01). </li>
      <li> cutoff=10^8 (adaptnovelty+):
      \verbatim
-
+> ubcsat-okl -alg adaptnovelty+ -cutoff 100000000 -runs 100 -solve -i GreenTao_4-3-3-3-4_1000.cnf | tee GreenTao_4-3-3-3-4_1000.cnf_OUT
+ 1  2  3  4
+ 6 51 40  3
      \endverbatim
      </li>
     </ol>
