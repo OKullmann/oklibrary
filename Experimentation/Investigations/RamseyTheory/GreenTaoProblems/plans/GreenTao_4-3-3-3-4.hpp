@@ -33,7 +33,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 975
+  \todo Lower bounds: greentao_4(3,3,3,4) > 988
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -70,6 +70,12 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
     </ol>
    </li>
    <li> n=988
+    <ol>
+     <li> cutoff=10^7 (adaptnovelty+): A solution was found in run 19
+     (seed=825817361, osteps=8785207). </li>
+    </ol>
+   </li>
+   <li> n=994
     <ol>
      <li> cutoff=10^7 (adaptnovelty+): </li>
     </ol>
