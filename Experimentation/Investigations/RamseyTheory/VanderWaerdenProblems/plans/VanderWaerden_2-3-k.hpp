@@ -612,7 +612,7 @@ BestSolution_Max = 3.000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,19) > 345
+  \todo vanderwaerden_2(3,19) > 348
   <ul>
    <li> The predictions (see above) are n= 347, 350. </li>
    <li> Experience with k=18 is that samd is best, however we should
@@ -631,6 +631,23 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_347.cnf", params=list(runs=100,cutoff=1000
    \endverbatim
    by plot(E$alg,E$best), now the best algorithms seem gsat_tabu, rnovelty,
    rnoveltyp, saps, rsaps and samd. </li>
+   <li> Using cutoff=100000:
+   \verbatim
+E = eval_ubcsat("VanDerWaerden_2-3-19_347.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+   \endverbatim
+   by plot(E$alg,E$best), now the best algorithms seem gsat_tabu,
+   adaptnoveltyp, rnoveltyp, rsaps, rots and samd (all found a solution).
+   gsat_tabu seems the best, followed by samd. </li>
+   <li> Evaluating
+   \verbatim
+E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+   \endverbatim
+   now only two algorithms found a solution, gsat_tabu and samd, and these
+   two seems to be best (hard to distinguish between them). </li>
+   <li> Evaluating
+   \verbatim
+> E = eval_ubcsat("VanDerWaerden_2-3-19_349.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+   \endverbatim </li>
   </ul>
 
 */
