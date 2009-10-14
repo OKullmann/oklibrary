@@ -607,6 +607,27 @@ BestSolution_Max = 3.000000
 8000
      \endverbatim
      So actually samd seems to clearly outperform adaptnovelty+. </li>
+     <li> Now cutoff=8*10^6:
+     \verbatim
+> ubcsat-okl -alg samd -runs 1000 -cutoff 8000000 -i VanDerWaerden_2-3-18_312.cnf -solve | tee VanDerWaerden_2-3-18_312.cnf_AUS5
+Clauses = 26889
+Variables = 312
+TotalLiterals = 121302
+FlipsPerSecond = 122375
+BestStep_Mean = 486193.876000
+Steps_Mean = 8000000.000000
+Steps_Max = 8000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.013000
+BestSolution_Median = 1.000000
+BestSolution_Min = 1.000000
+BestSolution_Max = 10.000000
+  1   2  10
+995   4   1
+1000
+     \endverbatim
+     So perhaps with higher cutoff adaptnovelty+ gets better? Though samd
+     appears to be faster. </li>
     </ol>
    </li>
   </ul>
