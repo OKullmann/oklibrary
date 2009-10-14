@@ -46,6 +46,34 @@ f(1:10)
  [7] 108.298437 143.205718 183.226470 228.416720
    \endverbatim
    </li>
+   <li> Including the conjecture for k=9:
+   \verbatim
+d = c(4,7,18,35,55,73,109,146,309)
+plot(d)
+x = log((1:length(d))[-(1:2)])
+y = log(d[-(1:2)])
+plot(x,y)
+L = lm(y ~ x)
+summary(L)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   0.2298     0.3471   0.662    0.537
+x             2.3572     0.1964  12.002 7.08e-05 ***
+Residual standard error: 0.1886 on 5 degrees of freedom
+Multiple R-squared: 0.9665,     Adjusted R-squared: 0.9597
+F-statistic:   144 on 1 and 5 DF,  p-value: 7.085e-05
+lines(x,predict(L))
+C = coefficients(L)
+f = function(k){exp(C[1]) * k^C[2]}
+plot(d)
+lines(f(1:length(d)))
+round(f(1:10))
+  1   6  17  33  56  86 124 169 223 286
+round(f(1:10)) - d
+  -3  -1  -1  -2   1  13  15  23 -86
+   \endverbatim
+   This model is not very good (the outlier for k=9 is hard to handle).
+   </li>
   </ul>
 
 
@@ -948,6 +976,15 @@ BestSolution_Max = 59.000000
 4000
      \endverbatim
      </li>
+     <li> cutoff=16*10^6
+     \verbatim
+  1   2   3   4   5   6   7   8  44  45  46  47  48  49  50  51  52  53  54  55
+ 33  88 295 221 162  56  21   9   1   3   2   7  18  27  37  39  54  73 117 159
+ 56  57  58  59  60  61  62  63  64
+182 271 415 465 475 417 222 100  31
+4000
+     \endverbatim
+     </li>
      <li> cutoff=32*10^6
      \verbatim
  1  2  3  4  5  6  7  8 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62
@@ -967,6 +1004,10 @@ BestSolution_Max = 59.000000
 > ubcsat-okl -alg adaptnovelty+ -runs 400 -cutoff 128000000 -i VanDerWaerden_2-4-9_309.cnf -solve | tee VanDerWaerden_2-4-9_309.cnf_AUS3
   1   2   3   4   5   6   7   8  46  49  50  51  52  53  54  55  56  57  58
  22  63 156  60  39  11   1   1   1   1   1   5   6   7  11   4   3   5   3
+400
+> ubcsat-okl -alg samd -runs 400 -cutoff 128000000 -i VanDerWaerden_2-4-9_309.cnf -solve | tee VanDerWaerden_2-4-9_309.cnf_AUS6
+  2   3   4   5   7  45  46  47  48  49  50  51  52  53  54  55
+  1   6   1   3   1   2   9  28  64 121 106  40  15   1   1   1
 400
      \endverbatim
      </li>
@@ -1000,6 +1041,17 @@ BestSolution_Max = 59.000000
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(4,10) > 309
+  <ul>
+   <li> We don't have a nice prediction, except of that it's greater than
+   309. </li>
+   <li> Evaluating
+   \verbatim
+> E = eval_ubcsat("VanDerWaerden_2-4-10_350.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+   \endverbatim </li>
   </ul>
 
 */
