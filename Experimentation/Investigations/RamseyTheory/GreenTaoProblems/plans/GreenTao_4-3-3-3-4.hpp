@@ -75,9 +75,50 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      (seed=825817361, osteps=8785207). </li>
     </ol>
    </li>
+   <li> n=989
+    <ol>
+     <li> cutoff=10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3  4  5  6  7
+ 2 14 22 30 21  9  2
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3  4  5  6
+ 4 32 45 14  4  1
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=991
+    <ol>
+     <li> cutoff=10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3  4  5  6  7
+ 1  8 21 28 30  8  4
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=994
     <ol>
-     <li> cutoff=10^7 (adaptnovelty+): </li>
+     <li> cutoff=10^7 (adaptnovelty+):
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 100 -solve -i GreenTao_4-3-3-3-4_994.cnf | tee GreenTao_4-3-3-3-4_994.cnf_OUT
+ 1  2  3  4  5  6  7  8
+ 1  2 13 20 37 18  7  2
+     \endverbatim
+     </li>
+     <li> Checking all algorithms with cutoff=10^6:
+     \verbatim
+> E = eval_ubcsat("GreenTao_4-3-3-3-4_994.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE)
+     \endverbatim
+     The best algorithms seem to be gwsat, gsat_tabu, adaptnoveltyp and samd,
+     with adaptnoveltyp clearly best (reaching also the best min=6). </li>
     </ol>
    </li>
    <li> n=1000
