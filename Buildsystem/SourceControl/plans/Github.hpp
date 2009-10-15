@@ -128,4 +128,28 @@ git pull MLgithub master:4f0ea0c
    if running). </li>
   </ul>
 
+
+  \todo SourceForge
+  <ul>
+   <li> The public (read-only) git-address at SourceForge is
+   \verbatim
+git://oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary
+   \endverbatim
+   When cloning this repository, one must rename it to "oklib" via
+   \verbatim
+git clone git://oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary oklib
+   \endverbatim
+   </li>
+   <li> A remote-alias for this can be created by
+   \verbatim
+git remote add sourceforge git://oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary
+   \endverbatim
+   </li>
+   <li> The private (read/write) git-address is
+   \verbatim
+ssh://xgateruq9@oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary
+   \endverbatim
+   (this needs the password for the SourceForge account). </li>
+  </ul>
+
 */

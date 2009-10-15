@@ -14,3 +14,9 @@ git_http_push_repository_okl ?= git@github.com:OKullmann/oklibrary.git
 git_http_repository ?= git://github.com/OKullmann/oklibrary.git
 # The home page of the repository at GitHub:
 git_http_address_okl ?= http://github.com/OKullmann/oklibrary
+
+# The URL for pushing to the repository at SourceForge
+# (requires administration password):
+git_sourceforge_push_repository_okl ?= ssh://xgateruq9@oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary
+# The URL of the public clone/pull/fetch repository at SourceForge:
+git_sourceforge_repository_okl ?= git://oklibrary.git.sourceforge.net/gitroot/oklibrary/oklibrary
