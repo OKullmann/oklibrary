@@ -664,11 +664,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_347.cnf", params=list(runs=100,cutoff=1000
 E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
    \endverbatim
    now only two algorithms found a solution, gsat_tabu and samd, and these
-   two seems to be best (hard to distinguish between them). </li>
+   two seem to be best (hard to distinguish between them). </li>
    <li> Evaluating
    \verbatim
 > E = eval_ubcsat("VanDerWaerden_2-3-19_349.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
-   \endverbatim </li>
+   \endverbatim
+   adaptnoveltyp, rnovelty, rnoveltyp hard to distinguish, gsat_tabu has higher
+   variance, the bulk of rsaps' results are far worse, but outliers reach also
+   min=1, rots seems a bit worse than the novelty's and gsat_tabu, and finally
+   samd seems best. </li>
+   <li> Using cutoff=10^6: </li>
   </ul>
 
 */

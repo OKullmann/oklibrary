@@ -1051,7 +1051,11 @@ BestSolution_Max = 59.000000
    <li> Evaluating
    \verbatim
 > E = eval_ubcsat("VanDerWaerden_2-4-10_350.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
-   \endverbatim </li>
+   \endverbatim
+   by plot(E$alg,E$best): It seems that gsat_tabu, rots and samd are best,
+   where samd reached the best min=37, but this might be just an outlier, and
+   perhaps rots is best. </li>
+   <li> Using cutoff=10^6: </li>
   </ul>
 
 */
