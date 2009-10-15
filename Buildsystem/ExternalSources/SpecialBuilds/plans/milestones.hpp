@@ -106,35 +106,7 @@ License, or any later version. */
     - bug CLisp doesn't use libsigsegv (though specified) : DONE
 
 
-  \par Version 0.2.4 (installing e-mail services)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp the following
-   topics are handled:
-    - Building Apache
-    - Installation script
-    - Writing docus page
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following
-   topics are handled:
-    - Building Mailman on freshly setup machine
-    - Building Mailman in general
-    - Update above instructions
-    - Building Mailman on cs-wsok (for testing)
-    - Testing
-    - Installation script
-    - Writing docus page
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Postfix.hpp the following
-   topics are handled:
-    - Building Postfix on a freshly setup test machine
-    - Installation script
-    - Writing docus page
-
-
-  \par Version 0.2.5 (installing computer algebra)
+  \par Version 0.2.4 (installing computer algebra)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Aldor.hpp the following
@@ -168,7 +140,7 @@ License, or any later version. */
     - Handling of redefined load-function
 
 
-  \par Version 0.2.6 (completion of general services, and installing SAT)
+  \par Version 0.2.5 (completion of general services, and installing SAT)
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -192,7 +164,7 @@ License, or any later version. */
     - Update
 
 
-  \par Version 0.2.7 (cleaning up installations)
+  \par Version 0.2.6 (cleaning up installations)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
@@ -219,7 +191,7 @@ License, or any later version. */
     - Improve installation
 
 
-  \par Version 0.2.8 (new external sources for computer algebra and graphs)
+  \par Version 0.2.7 (new external sources for computer algebra and graphs)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the
@@ -238,7 +210,7 @@ License, or any later version. */
     - Cliques
 
 
-  \par Version 0.2.9
+  \par Version 0.2.8
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
