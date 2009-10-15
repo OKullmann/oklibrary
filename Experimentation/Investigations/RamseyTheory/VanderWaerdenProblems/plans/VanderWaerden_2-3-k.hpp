@@ -673,7 +673,10 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    variance, the bulk of rsaps' results are far worse, but outliers reach also
    min=1, rots seems a bit worse than the novelty's and gsat_tabu, and finally
    samd seems best. </li>
-   <li> Using cutoff=10^6: </li>
+   <li> Using cutoff=10^6: Now gsat_tabu is best, followied by samd (all
+   just reaching min=1). </li>
+   <li> So let's assume that gsat-tabu is the best. </li>
+   <li> n=349 (using gsat-tabu) </li>
   </ul>
 
 */
