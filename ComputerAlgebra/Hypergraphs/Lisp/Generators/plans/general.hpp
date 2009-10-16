@@ -292,6 +292,8 @@ trans_colex(G) :=
 
   \todo Arithmetic progressions in prime numbers
   <ul>
+   <li> See Combinatorics/Hypergraphs/Generators/plans/GreenTao.hpp for
+   C++ generators. </li>
    <li> It seems that statistics on the number of hyperedges in
    arithprog_primes_ohg are of interest (and non-trivial); see
    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp

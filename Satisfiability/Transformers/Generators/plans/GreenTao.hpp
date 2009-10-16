@@ -12,15 +12,14 @@ License, or any later version. */
 
   \todo Connections and scope
   <ul>
-   <li> Generators for VanderWaerden, Ramsey-, GreenTao etc.-problems
-   should be located in this module (as satisfiability problems). </li>
+   <li> Generators for GreenTao etc.-problems should be located in this module
+   (as satisfiability problems). </li>
    <li> The specifications are to be provided in module
    ComputerAlgebra/Satisfiability/Lisp/Generators; see
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp.
    </li>
    <li> While hypergraph generators should be located in module
-   Combinatorics/Hypergraphs/Generators; see
-   Combinatorics/Hypergraphs/Generators/plans/general.hpp. </li>
+   Combinatorics/Hypergraphs/Generators/plans/GreenTao.hpp. </li>
    <li> In module Applications/RamseyTheory one finds applications for
    investigating the associated numbers, hypergraphs and SAT problems. </li>
   </ul>

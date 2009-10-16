@@ -100,7 +100,7 @@ License, or any later version. */
 
   \todo The simplest form of hypergraphs
   <ul>
-   <li> The simplest concept of a hypergraph represents as hypergraph just
+   <li> The simplest concept of a hypergraph represents a hypergraph just
    as a range of ranges. </li>
    <li> A first example is Hypergraphs::Generators::Hindman_k2 in
    OKlib/Combinatorics/Hypergraphs/Generators/Hindman.hpp; see also
