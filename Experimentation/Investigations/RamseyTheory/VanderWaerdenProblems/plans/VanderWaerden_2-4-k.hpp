@@ -1044,10 +1044,10 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 309
+  \todo vanderwaerden_2(4,10) >= 309
   <ul>
-   <li> We don't have a nice prediction, except of that it's greater than
-   309. </li>
+   <li> We don't have a nice prediction, except of that it's greater (or 
+   equal) than 309. </li>
    <li> Evaluating
    \verbatim
 > E = eval_ubcsat("VanDerWaerden_2-4-10_350.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
@@ -1064,6 +1064,10 @@ BestSolution_Max = 59.000000
 E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
    \endverbatim
    again rots seems best (reaching min=26). </li>
+   <li> The same, but with cutoff=10^6: three algorithms, each with one run,
+   reached min=3, namely rots, rsaps and sapsnr, while otherwise the best min 
+   is 26. Again rots seems best. </li>
+   <li> The same, but with cutoff=4*10^6: </li>
   </ul>
 
 */

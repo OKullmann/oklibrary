@@ -633,7 +633,7 @@ BestSolution_Max = 10.000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,19) > 348
+  \todo vanderwaerden_2(3,19) >= 349
   <ul>
    <li> The predictions (see above) are n= 347, 350. </li>
    <li> Experience with k=18 is that samd is best, however we should
@@ -673,10 +673,20 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    variance, the bulk of rsaps' results are far worse, but outliers reach also
    min=1, rots seems a bit worse than the novelty's and gsat_tabu, and finally
    samd seems best. </li>
-   <li> Using cutoff=10^6: Now gsat_tabu is best, followied by samd (all
+   <li> Using cutoff=10^6: Now gsat_tabu is best, followed by samd (all
    just reaching min=1). </li>
    <li> So let's assume that gsat-tabu is the best. </li>
-   <li> n=349 (using gsat-tabu) </li>
+   <li> n=349:
+    <ol>
+     <li> Using gsat-tabu, with cutoff=10^6:
+     \verbatim
+   1    2    3    4    9
+1143  834   20    2    1
+2000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
