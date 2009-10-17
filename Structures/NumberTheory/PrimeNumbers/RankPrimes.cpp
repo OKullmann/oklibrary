@@ -39,19 +39,22 @@ License, or any later version. */
 #include <string>
 #include <map>
 #include <utility>
+#include <cassert>
 
 #include <gmpxx.h>
 
 namespace {
 
-  const int errcode_parameter = 1,
+  enum { errcode_parameter = 1,
     errcode_file = 2,
     errcode_mode = 3,
     errcode_index = 4,
     errcode_prime1 = 5,
     errcode_prime2 = 6,
     errcode_read = 7,
-    errcode_stdin = 8;
+    errcode_stdin = 8,
+    errcode_indexval = 9
+  };
 
   const std::string program = "RankPrimes";
   const std::string err = "ERROR[" + program + "]: ";
@@ -89,6 +92,7 @@ int main(const int argc, const char* const argv[]) {
   }
   const Mode mode = (mode_string == "rank") ? rank : unrank;
 
+  // Reading the primes-table
   table_type table;
   for (;;) {
     mpz_class index, prime;
@@ -152,7 +156,11 @@ int main(const int argc, const char* const argv[]) {
     std::cin >> i;
     if (not std::cin) {
       std::cerr << err << "Error when attempting to read an integer from standard input.\n";
-      return(errcode_stdin);
+      return errcode_stdin;
+    }
+    if (i < 1) {
+      std::cerr << err << "Indices to be unranked must be at least 1.\n";
+      return errcode_indexval;
     }
     if (not table.empty()) {
       iterator_type it = table.lower_bound(i);
@@ -169,6 +177,7 @@ int main(const int argc, const char* const argv[]) {
         }
       }
     }
+    assert(j <= i);
     for (; j < i;
          ++j, mpz_nextprime(p.get_mpz_t(), p.get_mpz_t())) {}
     std::cout << p << "\n"; break;
