@@ -25,8 +25,8 @@ License, or any later version. */
     <ul>
      <li> A datafile containing pairs "index prime", so that computation
      becomes faster by jumping directly to the nearest prime resp. index.
-     <li> With a non-integer entry in index position one can indicate the the
-     end of the data section. </li>
+     <li> With a non-integer entry in index position one can indicate the end
+     of the data section. </li>
     </ul>
    </li>
    <li> Either the string "rank" or "unrank". </li>
