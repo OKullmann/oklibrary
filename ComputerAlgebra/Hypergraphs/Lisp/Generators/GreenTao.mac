@@ -1,0 +1,86 @@
+/* Oliver Kullmann, 17.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac
+  \brief Maxima functions for generating Green-Tao hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ***********************
+   * Green-Tao's theorem *
+   ***********************
+*/
+
+/* The list of arithmetic progressions of length k amongst the first
+   prime numbers up to prime number p, and finishing with p. */
+/* Prerequisite k >= 3, p > k. */
+/* Inherits prp = product_primes(k) and prk = primep(k). */
+arithprog_primes_finish[k,p] := arithprog_primes_finish_nm(k,p)$
+/* Without memoisation: */
+arithprog_primes_finish_nm(k,p) := block([res : []],
+  if prk then block([d : divide(p-k,k-1)],
+    if d[2] = 0 then block([prog : arpr(k-1,k+d[1],d[1])],
+      if every_s('primep, prog) then res : cons(cons(k,prog),res)
+  )),
+  for d : prp step prp thru (p-k)/(k-1) do block([prog : arpr(k,p,-d)],
+    if every_s('primep, prog) then res : cons(reverse(prog),res)
+  ),
+  return(res))$
+
+/* The list of all arithmetic progressions of length k amongst the first n
+   prime numbers (memo=true means memoisation of arithmetic progressions):
+*/
+arithprog_primes(k,n,memo) := 
+ if k=0 then [[]] elseif n = 0 then []
+ elseif k=1 then create_list([p], p,primes_first(n))
+ elseif k=2 then map(listify,listify(powerset(setify(primes_first(n)),2)))
+ else block([p : 1, res : [], prp : product_primes(k), prk : primep(k)],
+   thru n do (
+     p : next_prime(p),
+     if p > k then 
+       if memo then res : append(res,arithprog_primes_finish[k,p])
+       else res : append(res,arithprog_primes_finish_nm(k,p))
+   ),
+   res)$
+
+/* The hypergraph of all arithmetic progressions of size k in the first
+   n prime numbers. */
+/* Prerequisite: k, n integers, k, n >= 0. */
+arithprog_primes_ohg(k,n) := 
+ [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
+arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
+
+/* Statistics functions: */
+
+nver_arithprog_primes_ohg(k,n) := n$
+nver_arithprog_primes_hg(k,n) := n$
+
+nhyp_arithprog_primes_ohg(k,n) := 
+ if n=0 then if k=0 then 1 else 0 else
+  n_arithprog_primes_c(k,n)$
+nhyp_arithprog_primes_hg(k,n) := nhyp_arithprog_primes_ohg(k,n)$
+
+
+
+/*!
+\endhtmlonly
+*/

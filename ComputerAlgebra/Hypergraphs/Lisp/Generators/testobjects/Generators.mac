@@ -53,21 +53,6 @@ okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
 okltest_arithmetic_progressions(arithmetic_progressions);
 okltest_arithprog_list_ohg(arithprog_list_ohg);
 
-/* ***********************
-   * Green-Tao's theorem *
-   ***********************
-*/
-
-okltest_arithprog_primes_finish(arithprog_primes_finish);
-okltest_arithprog_primes_finish_nm(arithprog_primes_finish_nm);
-okltest_arithprog_primes(arithprog_primes);
-okltest_arithprog_primes_ohg(arithprog_primes_ohg);
-
-okltest_nver_arithprog_primes_hg(nver_arithprog_primes_hg);
-okltest_nver_arithprog_primes_ohg(nver_arithprog_primes_ohg);
-okltest_nhyp_arithprog_primes_hg(nhyp_arithprog_primes_hg);
-okltest_nhyp_arithprog_primes_ohg(nhyp_arithprog_primes_ohg);
-
 /* ******************************
    * Schur's and Rado's theorem *
    ******************************
