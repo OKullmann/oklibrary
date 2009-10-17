@@ -31,23 +31,27 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 */
 
 /* The list of arithmetic progressions of length k amongst the first
-   prime numbers up to prime number p, and finishing with p. */
+   prime numbers up to prime number p, and finishing with p;
+   sorted by decreasing slope (that is, increasing start-value).
+*/
 /* Prerequisite k >= 3, p > k. */
 /* Inherits prp = product_primes(k) and prk = primep(k). */
 arithprog_primes_finish[k,p] := arithprog_primes_finish_nm(k,p)$
 /* Without memoisation: */
 arithprog_primes_finish_nm(k,p) := block([res : []],
+  for d : prp step prp thru (p-k)/(k-1) do block([prog : arpr(k,p,-d)],
+    if every_s('primep, prog) then res : cons(reverse(prog),res)
+  ),
   if prk then block([d : divide(p-k,k-1)],
     if d[2] = 0 then block([prog : arpr(k-1,k+d[1],d[1])],
       if every_s('primep, prog) then res : cons(cons(k,prog),res)
   )),
-  for d : prp step prp thru (p-k)/(k-1) do block([prog : arpr(k,p,-d)],
-    if every_s('primep, prog) then res : cons(reverse(prog),res)
-  ),
   return(res))$
 
 /* The list of all arithmetic progressions of length k amongst the first n
-   prime numbers (memo=true means memoisation of arithmetic progressions):
+   prime numbers (memo=true means memoisation of arithmetic progressions).
+   The order is first by increasing end-value of the sequence, and second
+   by inreasing start-value.
 */
 arithprog_primes(k,n,memo) := 
  if k=0 then [[]] elseif n = 0 then []
@@ -63,8 +67,11 @@ arithprog_primes(k,n,memo) :=
    res)$
 
 /* The hypergraph of all arithmetic progressions of size k in the first
-   n prime numbers. */
-/* Prerequisite: k, n integers, k, n >= 0. */
+   n prime numbers.
+   Prerequisite: k, n integers, k, n >= 0.
+   The order of the ordered version is first by increasing end-value, second
+   by increasing start-value of the arithmetic progressions.
+*/
 arithprog_primes_ohg(k,n) := 
  [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
