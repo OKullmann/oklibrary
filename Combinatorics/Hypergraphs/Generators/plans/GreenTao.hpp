@@ -30,7 +30,7 @@ License, or any later version. */
    <li> See arithprog_primes_ohg(k,n) in
    ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac for the
    specification. </li>
-   <li> For simplicity we store the hyperedes. </li>
+   <li> For simplicity we store the hyperedges. </li>
    <li> Using a vector of vectors. </li>
   </ul>
 

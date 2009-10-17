@@ -105,21 +105,32 @@ License, or any later version. */
    <li> A first example is Hypergraphs::Generators::Hindman_k2 in
    OKlib/Combinatorics/Hypergraphs/Generators/Hindman.hpp; see also
    Combinatorics/Hypergraphs/Generators/plans/Hindman.hpp. </li>
+   <li> A second, slightly extended example is
+   Hypergraphs::Generators::GreenTao in
+   OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp; see also
+   Combinatorics/Hypergraphs/Generators/plans/GreenTao.hpp. </li>
    <li> Perhaps here already one has some hierarchy:
     <ol>
      <li> Simplest just a range of ranges, with no further requirements. </li>
      <li> The set of vertices is here not directly accessible (only through
      the union of all hyperedges). </li>
-     <li> Next a simple concept which provides some simple wrapper, providing
+     <li> Next a simple concept providing some simple wrapper-class, providing
      for example traits like "hyperedge_type". </li>
      <li> As a next level two explicit statistics-functions nver and nhyp might
      be added (where nhyp was as the size of the hyperedge-range already
-     accessible before, but nhyp is new). </li>
+     accessible before, but nver is new). </li>
      <li> Does one need two size-types, one for the vertices, one for the
      hyperedges? Seems necessary. </li>
      <li> One could also have a concept inbetween: A hypergraph just provides
      some type- and statistics-members plus access to the range of ranges.
-     </li>
+     Hypergraphs::Generators::Hindman_k2 is an example. This is perhaps
+     simplest, just a wrapper around the range of ranges, and not itself
+     making the hyperedges available. </li>
+     <li> What to do with the set of vertices? A slightly extended concept
+     could just offer a range which contains the vertices. </li>
+     <li> As in Hypergraphs::Generators::GreenTao. </li>
+     <li> Shall it always be possible that nver() and nhyp() can be called
+     without computing the hypergraph? Perhaps. </li>
     </ol>
    </li>
   </ul>
