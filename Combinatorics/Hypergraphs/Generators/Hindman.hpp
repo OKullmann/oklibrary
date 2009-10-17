@@ -31,12 +31,14 @@ namespace OKlib {
           ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac, together
           with their statistics functions.
 
-          The hypergrap is represented as a vector of vectors.
+          The hypergraph is represented as a vector of vectors.
 
           \todo To be implemented
           <ul>
-           <li> Only missing is the function-application member-function (which
+           <li> Only missing is the hyperedge_set-member-function (which
            creates the hypergraph). </li>
+           <li> What about the vertex_set-member-function, yielding the range
+           from a to n ? </li>
           </ul>
 
           \todo To be tested
@@ -48,7 +50,7 @@ namespace OKlib {
           <ul>
            <li> See "The simplest form of hypergraphs" in
            Hypergraphs/concepts/plans/general.hpp. </li>
-           <li> Currently the class (functor) is a mixture, on the one hand
+           <li> Currently this class (functor) is a mixture, on the one hand
            providing elements (like hyperedge_type etc.) as if the objects
            would be hypergraphs themselves, on the other hand actually just
            computing a range of ranges (in this way delegating all
@@ -73,6 +75,7 @@ namespace OKlib {
             : a(a), n(n), inj(inj) {
             assert(a >= 1);
           }
+          Hindman_k2() : a(1), n(0), inj(false) {}
 
           size_type nver() const {
             if (n < a) return 0; else return n-a+1;
@@ -86,7 +89,7 @@ namespace OKlib {
               return sum(a,s) - ((s+a+2*inj-2)*(s+1-a))/2;
           }
 
-          set_system_type operator()() const {
+          set_system_type hyperedge_set() const {
 
           }
 
