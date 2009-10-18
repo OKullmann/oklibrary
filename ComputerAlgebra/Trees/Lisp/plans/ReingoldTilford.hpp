@@ -56,21 +56,25 @@ License, or any later version. */
      <li>In each level, the distance between the right most node of left 
      subtree and left most node of right subtree must be at least 2 which can
      be determined by rl-lr, which the lr is the preliminary x coordinate of 
-     the right most node of left subtree plus the accumulation of all its ancestors in left subtrees, rl is the preliminary x coordinate of the 
+     the right most node of left subtree plus the accumulation of all its
+     ancestors in left subtrees, rl is the preliminary x coordinate of the 
      left most node of right subtree plus the accumulation of all its 
      ancestors in right subtrees. If the distance is strictly less than 2, 
-     both the preliminary x coordinate and the  offset of the root of right subtree need to be plus by 2-(RL-LR). This checking must be performed 
+     both the preliminary x coordinate and the  offset of the root of right 
+     subtree need to be plus by 2-(RL-LR). This checking must be performed 
      in each level from the roots of left and right subtree until leaves.
      The step is performed everytime before the post-order traversal
      go up to a higher level.</li>
      <li>Set the offset value of each node from leaves to root. The offset is 
      calculated by subtracting the average value of preliminiary x coordinates
      of the children of current node from the preliminary x coordinate of 
-     current node. For example, p is the parent of left child l and right 
-     child r. The preliminary x coordinates of p, l and r are 2, 0 and 2 respectively so the offset of r is 2-(0+2)/2=1. If current node has 
+     current node. For example, p is the parent of left child l and right
+     child r. The preliminary x coordinates of p, l and r are 2, 0 and 2 
+     respectively so the offset of r is 2-(0+2)/2=1. If current node has 
      only one child, the offset is preliminary x coordinate of current node
      minus 1. The offset of leaves are 0.</li>
-     <li>Recusively set the final x coordinate of each node from root by accumulating the offset of all the ancestors of current node, then 
+     <li>Recusively set the final x coordinate of each node from root by 
+     accumulating the offset of all the ancestors of current node, then 
      plus its preliminary x coordinate.</li>
     </ol>
    </li> 
