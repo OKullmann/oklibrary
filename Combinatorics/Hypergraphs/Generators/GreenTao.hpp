@@ -17,6 +17,7 @@ License, or any later version. */
 #include <cassert>
 #include <stdexcept>
 #include <limits>
+#include <utility>
 
 #include <gmpxx.h>
 
@@ -188,6 +189,66 @@ namespace OKlib {
 
         };
 
+
+        /*!
+          \class Sizes_strata_indmon
+          \brief Given an ordered hypergraph, compute the sizes of the strata
+          given by the maximum element of hyperedges.
+
+          See specification sizes_strata_indmon_ohg in
+          ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac.
+
+          \todo Create unit tests.
+
+          \todo Move to stratification submodule.
+
+        */
+
+        template <class Vertices, class Hyperedges>
+        struct Sizes_strata_indmon {
+          typedef Vertices vertex_container_type;
+          typedef Hyperedges hyperedge_container_type;
+          typedef typename vertex_container_type::value_type vertex_type;
+          typedef typename vertex_container_type::size_type v_size_type;
+          typedef typename hyperedge_container_type::size_type h_size_type;
+
+          typedef std::pair<v_size_type, h_size_type> pair_type;
+          typedef std::vector<pair_type> result_type;
+          
+          result_type operator()(const vertex_container_type& V, const hyperedge_container_type& G) {
+            result_type result;
+            if (G.empty()) return result;
+            typedef typename vertex_container_type::const_iterator v_it_t;
+            v_it_t v_it = V.begin();
+            vertex_type v = *v_it;
+            v_size_type i = 1; // i is the index of v
+            typedef typename hyperedge_container_type::const_iterator h_it_t;
+            h_it_t h_it = G.begin();
+            vertex_type m = h_it -> back();
+            while (v != m) { ++v_it; ++i; v = *v_it; }
+            h_size_type c = 1;
+            ++h_it;
+            const h_it_t h_end = G.end();
+            for(; h_it != h_end; ++h_it) {
+              const vertex_type nm = h_it -> back();
+              if (nm == m) ++c;
+              else {
+                result.push_back(pair_type(i,c));
+                m = nm; c = 1;
+                while (v != m) { ++v_it; ++i; v = *v_it; }
+              }
+            }
+            result.push_back(pair_type(i,c));
+            return result;
+          }
+        };
+
+        template <class Vertices, class Hyperedges>
+        typename Sizes_strata_indmon<Vertices, Hyperedges>::result_type
+          sizes_strata_indmon(const Vertices& V, const Hyperedges& H) {
+          return Sizes_strata_indmon<Vertices, Hyperedges>()(V,H);
+        }
+        
       }
     }
   }
