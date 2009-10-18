@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac
-  \brief Tests for transversal-functions
+  \brief Tests for basic hypergraph functions
 
 Use by
 

@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/tests/Colouring.mac
-  \brief Tests for transversal-functions
+  \brief Tests for colouring-related functions
 
 Use by
 
