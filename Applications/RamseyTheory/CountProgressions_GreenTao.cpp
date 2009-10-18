@@ -45,7 +45,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != 3) {
     std::cerr << err << "Exactly two arguments are needed,\n"
-    "the length k of arithmetic progressions, and the number n of primes.\n";
+    "the length k of arithmetic progressions, and the maximal number N of primes.\n";
     return(errcode_parameter);
   }
 
