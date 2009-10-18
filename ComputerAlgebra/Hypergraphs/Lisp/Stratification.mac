@@ -25,6 +25,79 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
+/* **********************************
+   * Strata in monotone hypergraphs *
+   **********************************
+*/
+
+/* Given an ordered hypergraph, determine the sizes of the strata (of 
+   hyperedges) given by the same maximal element (of the hyperedges).
+   Returned is a list of pairs [v,c], where v is a vertex occurring
+   as a maximum of some hyperedge, while c is the count of hyperedges
+   with this maximum; the order is ascending in v.
+   Prerequisites:
+    - vertices are integers
+    - no hyperedge is empty
+    - in the given order of hyperedges, the maximum of hyperedges is 
+      non-decreasing
+    - the vertex list is sorted in increasing order (this is needed once
+      indices of the elements are considered).
+*/
+sizes_strata_mon_ohg(G) := if emptyp(G[2]) then []
+ else block([m : lmax(first(G[2])), c : 1, res : [], nm],
+  for H in rest(G[2]) do (
+    nm : lmax(H),
+    if nm = m then c : c + 1
+    else (
+      res : cons([m,c], res),
+      m : nm, c : 1
+    )),
+  res : cons([m,c], res),
+  return(reverse(res)))$
+/* The cumulative form: */
+sizes_cstrata_mon_ohg(G) := accumulate_l(sizes_strata_mon_ohg(G))$
+
+/* Now using the indices of the vertices (as given by the list G[1]): */
+sizes_strata_indmon_ohg(G) := if emptyp(G[2]) then []
+ else block([m : lmax(first(G[2])), c : 1, res : [], nm, V : il2ary(G[1]), v : first(G[1]), i : 1],
+  while m # v do (i : i + 1, v : V[i]),
+  for H in rest(G[2]) do (
+    nm : lmax(H),
+    if nm = m then c : c + 1
+    else (
+      res : cons([i,c], res),
+      m : nm, c : 1,
+      while m # v do (i : i + 1, v : V[i])
+    )),
+  res : cons([i,c], res),
+  return(reverse(res)))$
+/* Remark: sizes_strata_indmon_ohg(G) is very similar to strata_ohg(G) (see
+   below), only that the latter considers all vertices, not just those which 
+   occur, and thus an array can be used (since the first component of the 
+   pairs is then just the position in the list).
+*/
+/* The cumulative form: */
+sizes_cstrata_indmon_ohg(G) := accumulate_l(sizes_strata_indmon_ohg(G))$
+
+
+/* Accumulation of a list L of pairs: computes a similar list of pairs, of the 
+   same length and coinciding with L on the first components of the pairs, 
+   while the second components are accumulated:
+*/
+accumulate_l(L) := if emptyp(L) then [] else
+ block([res : [first(L)], s : second(first(L))],
+  for p in rest(L) do (
+    s : s + second(p),
+    res : cons([first(p), s], res)
+  ),
+  return(reverse(res)))$
+
+
+/* *************************************
+   * Stratifying arbitrary hypergraphs *
+   *************************************
+*/
+
 /* For a set-system S and an ordering L of the vertices, compute an okl-array
    "a" of the same length as L, such that a[i] is the set of all hyperedges
    containing vertex L[i] and being contained in {L[1], ..., L[i]}.
@@ -44,6 +117,10 @@ strata_ses(S,L) := block(
 strata_hg(G,L) := strata_ses(G[2],L)$
 /* Here using the given order: */
 strata_ohg(G) := strata_hg(G,G[1])$
+/* Remark: If the vertices are integers, and the hyperedges are ordered
+   by increasing largest element, then sizes_strata_indmon_ohg(G) can be
+   used (see above).
+*/
 
 /* Creating a monotone hypergraph generator for G by stratification according
    to L:
