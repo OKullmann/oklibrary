@@ -25,13 +25,18 @@ License, or any later version. */
 
   \todo Generator
   <ul>
-   <li> Write a generator for Green-Tao hypergraphs (as model of a general
+   <li> DONE Write a generator for Green-Tao hypergraphs (as model of a general
    hypergraph concept). </li>
-   <li> See arithprog_primes_ohg(k,n) in
+   <li> DONE See arithprog_primes_ohg(k,n) in
    ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac for the
    specification. </li>
-   <li> For simplicity we store the hyperedges. </li>
-   <li> Using a vector of vectors. </li>
+   <li> DONE For simplicity we store the hyperedges. </li>
+   <li> DONE Using a vector of vectors. </li>
+   <li> Write application tests. </li>
+   <li> Write unit tests. </li>
+   <li> Make the program available. </li>
+   <li> Another application prints for inputs k, n in R-format for i from 1 to
+   n the sizes of the hypergraphs for (k,i). </li>
   </ul>
 
 */

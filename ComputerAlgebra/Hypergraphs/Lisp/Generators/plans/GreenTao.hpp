@@ -12,7 +12,9 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See Combinatorics/Hypergraphs/Generators/plans/GreenTao.hpp for
+   <li> See Combinatorics/Hypergraphs/Generators/plans/GreenTao.hpp
+   and OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp,
+   OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.cpp for
    C++ generators. </li>
   </ul>
 
@@ -23,7 +25,7 @@ License, or any later version. */
    arithprog_primes_ohg are of interest (and non-trivial); see
    Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
    . </li>
-   <li> The basic facts for arithprog_primes_finish, namely that for an
+   <li> The basic fact for arithprog_primes_finish, namely that for an
    arithmetic progression P of length k of primes with start a and slope d
    we must have a >= k, and if a <> k then product_primes(k) divides d,
    must be documented. </li>
