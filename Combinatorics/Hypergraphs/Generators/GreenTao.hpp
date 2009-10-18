@@ -198,6 +198,8 @@ namespace OKlib {
           See specification sizes_strata_indmon_ohg in
           ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac.
 
+          \todo Create application tests.
+
           \todo Create unit tests.
 
           \todo Move to stratification submodule.
@@ -244,9 +246,48 @@ namespace OKlib {
         };
 
         template <class Vertices, class Hyperedges>
-        typename Sizes_strata_indmon<Vertices, Hyperedges>::result_type
+        inline typename Sizes_strata_indmon<Vertices, Hyperedges>::result_type
           sizes_strata_indmon(const Vertices& V, const Hyperedges& H) {
           return Sizes_strata_indmon<Vertices, Hyperedges>()(V,H);
+        }
+
+        /*!
+          \class Accumulate_l
+          \brief Changes a vector of pairs in-place, replacing the second
+          components by the accumulated sums.
+
+          See specification accumulate_l in
+          ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac.
+
+          \todo Create application tests.
+
+          \todo Create unit tests.
+
+          \todo Move to stratification submodule.
+
+        */
+
+        template <typename V, typename Num>
+        struct Accumulate_l {
+          typedef V label_type;
+          typedef Num number_type;
+          typedef std::pair<label_type, number_type> pair_type;
+          typedef std::vector<pair_type> vector_type;
+          void operator()(vector_type& vector) {
+            number_type sum(0);
+            typedef typename vector_type::iterator it_t;
+            const it_t end = vector.end();
+            for (it_t i = vector.begin(); i != end; ++i) {
+              sum += i -> second;
+              i -> second = sum;
+            }
+          }
+        };
+
+        template <typename V, typename Num>
+        inline void accumulate_l(
+          std::vector<std::pair<V, Num> >& vector) {
+          Accumulate_l<V,Num>()(vector);
         }
         
       }
