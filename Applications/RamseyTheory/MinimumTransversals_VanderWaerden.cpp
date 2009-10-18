@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp
+  \file Applications/RamseyTheory/MinimumTransversals_VanderWaerden.cpp
   \brief Application for computing minimum transversal of hypergraphs of arithmetic progressions
 
   <ul>
