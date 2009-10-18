@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
 /* ******************
    * Basic measures *
    ******************
