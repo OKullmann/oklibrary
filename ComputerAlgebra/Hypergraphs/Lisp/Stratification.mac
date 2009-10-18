@@ -44,9 +44,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
       indices of the elements are considered).
 */
 sizes_strata_mon_ohg(G) := if emptyp(G[2]) then []
- else block([m : lmax(first(G[2])), c : 1, res : [], nm],
-  for H in rest(G[2]) do (
-    nm : lmax(H),
+ else block([m : lmax(first(G[2])), c : 1, res : []],
+  for H in rest(G[2]) do block([nm : lmax(H)],
     if nm = m then c : c + 1
     else (
       res : cons([m,c], res),
@@ -59,15 +58,14 @@ sizes_cstrata_mon_ohg(G) := accumulate_l(sizes_strata_mon_ohg(G))$
 
 /* Now using the indices of the vertices (as given by the list G[1]): */
 sizes_strata_indmon_ohg(G) := if emptyp(G[2]) then []
- else block([m : lmax(first(G[2])), c : 1, res : [], nm, V : il2ary(G[1]), v : first(G[1]), i : 1],
-  while m # v do (i : i + 1, v : V[i]),
-  for H in rest(G[2]) do (
-    nm : lmax(H),
+ else block([m : lmax(first(G[2])), c : 1, res : [], V : il2ary(G[1]), v : first(G[1]), i : 1],
+  while v # m do (i : i + 1, v : V[i]),
+  for H in rest(G[2]) do block([nm : lmax(H)],
     if nm = m then c : c + 1
     else (
       res : cons([i,c], res),
       m : nm, c : 1,
-      while m # v do (i : i + 1, v : V[i])
+      while v # m do (i : i + 1, v : V[i])
     )),
   res : cons([i,c], res),
   return(reverse(res)))$
