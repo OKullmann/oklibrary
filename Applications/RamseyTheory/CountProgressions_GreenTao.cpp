@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Applications/RamseyTheory/plans/CountProgressions_GreenTao.cpp
+  \file Applications/RamseyTheory/CountProgressions_GreenTao.cpp
   \brief Application for counting arithmetic progressions in the prime numbers
 
   Called with parameters k and N, outputs the number of hyperedges of the
@@ -65,11 +65,12 @@ int main(const int argc, const char* const argv[]) {
     typedef OKlib::Combinatorics::Hypergraphs::Generators::Sizes_strata_indmon<hyperedge_type, set_system_type> strata_gen_t;
     typedef strata_gen_t::result_type statistics_vector_t;
 
-    const statistics_vector_t non_cumulative = strata_gen_t()(V,G);
+    statistics_vector_t cumulative = strata_gen_t()(V,G);
+    OKlib::Combinatorics::Hypergraphs::Generators::accumulate_l(cumulative);
 
     std::cout << "n nhyp\n";
-    for (statistics_vector_t::const_iterator i = non_cumulative.begin();
-      i != non_cumulative.end(); ++i) {
+    for (statistics_vector_t::const_iterator i = cumulative.begin();
+      i != cumulative.end(); ++i) {
       std::cout << i -> first << " " << i -> second << "\n";
     }
 
