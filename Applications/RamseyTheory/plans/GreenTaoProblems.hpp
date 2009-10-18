@@ -95,4 +95,12 @@ License, or any later version. */
    <li> Perhaps calling this application "CountProgressions_GreenTao". </li>
   </ul>
 
+
+  \todo Computing minimum transversals
+  <ul>
+   <li> Similar to
+   Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp we
+   need MinimumTransversals_GreenTao.cpp. </li>
+  </ul>
+
 */

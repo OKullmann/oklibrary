@@ -13,8 +13,9 @@ License, or any later version. */
    <li> The two command line parameters are N and k, the maximal number of
    vertices and the progression-length. </li>
    <li> Provides the generator for
-   Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.cpp,
-   and thus that library-file has to be compiled first. </li>
+   Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.cpp
+   (there the main-function is to be found), and thus that library-file has to
+   be compiled before creating the full application here. </li>
    <li> Since currently this dependency can not be expressed by our build
    system, this application is not compiled automatically, but has to be
    be compiled on demand by using
