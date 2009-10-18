@@ -35,8 +35,6 @@ License, or any later version. */
    <li> Write application tests. </li>
    <li> Write unit tests. </li>
    <li> Make the program available. </li>
-   <li> Another application prints for inputs k, n in R-format for i from 1 to
-   n the sizes of the hypergraphs for (k,i). </li>
   </ul>
 
 */

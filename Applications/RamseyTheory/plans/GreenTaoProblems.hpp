@@ -27,19 +27,22 @@ License, or any later version. */
 
   \todo Generator for Green-Tao problems
   <ul>
-   <li> We need to write a program with functionality like arithprog_primes_hg
+   <li> DONE (see OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.cpp)
+   We need to write a program with functionality like arithprog_primes_hg
    from the Maxima/Lisp level (and all the other functions there in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac).
    </li>
    <li> See
-   Experimentation/Investigations/RamseyTheory/plans/GreenTaoProblems.hpp
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/general.hpp
    for experiments. </li>
    <li> Best we provide this functionality as Unix tools as well as at
    library level. </li>
-   <li> Perhaps this hypergraph creation happens in
+   <li> DONE
+   Perhaps this hypergraph creation happens in
    OKlib/Combinatorics/Hypergraphs, while here we plug these
    hypergraphs together to get a clause-set. </li>
-   <li> The hypergraph can be output as a positive clause-set,
+   <li> DONE
+   The hypergraph can be output as a positive clause-set,
    in DIMACS format, into a file. </li>
    <li> From OKlib/Satisfiability/Transformers we get the tools
    for standardising the names.
@@ -75,7 +78,21 @@ License, or any later version. */
    </li>
    <li> Also important to be able to compute the various statistics on
    arithmetical progressions of primes (without creating hypergraphs or
-   clause-sets). </li>
+   clause-sets); see below. </li>
+  </ul>
+
+
+  \todo Statistics on the number of arithmetic progressions
+  <ul>
+   <li> A simple application is needed, which for inputs k, n prints in
+   R-format for i from 1 to n the sizes of the hypergraphs for (k,i). </li>
+   <li> This should be based on the hypergraph computed by
+   Generators::GreenTao, to which then a function as sizes_cstrata_indmon_ohg
+   is applied. </li>
+   <li> So two range-transformations are to be provided, specified by
+   sizes_strata_indmon_ohg and accumulate_l (in
+   ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac). </li>
+   <li> Perhaps calling this application "CountProgressions_GreenTao". </li>
   </ul>
 
 */

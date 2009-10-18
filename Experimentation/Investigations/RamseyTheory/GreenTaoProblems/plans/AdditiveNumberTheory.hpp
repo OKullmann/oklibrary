@@ -26,8 +26,20 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    'load("stats")') can be used. </li>
    <li> There are role models for the regression function in the literature.
    </li>
-   <li> One should also consider n_arithprog_primes_nc[k,n] (the non-cumulative
-   data, i.e., as list the difference list of the above list). </li>
+   <li> One can also consider n_arithprog_primes_nc[k,n] (the non-cumulative
+   data, i.e., as list the difference list of the above list):
+   \verbatim
+plot2d([discrete,create_list(i,i,1,1000),create_list(n_arithprog_primes_nc[3,n],n,1,1000)]);
+   \endverbatim
+   Though it seems that the accumulated data is easier to handle (since being
+   smoother). </li>
+   <li> Perhaps it is more appropriate to consider only changes here, that
+   is, skipping n-values where no new arithmetic progression is added).
+   This is plotted in non-cumulative resp. cumulative form by
+   \verbatim
+plot2d([discrete, sizes_strata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
+plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
+   \endverbatim
    <li> And one can consider the densities
    ln_arithprog_primes_c(k,n) / create_list(i,i,1,n). </li>
    <li> Hard to believe that there is nothing in the literature / on the
