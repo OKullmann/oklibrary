@@ -94,68 +94,68 @@ License, or any later version. */
     <ul>
      <li> Define a tree T: [A,[B,[C,[D]],[E,[F],[G]]],[H,[I],[J,[K],[L]]]], 
      which has 12 nodes.
-		<!--	  A
-			/  \
-		       B   H 
-		      /\   /\
-		     C E  I J
-		    / /\   /\ 
-		   D F G  K L  -->
+    <!--   A
+         /  \
+         B   H 
+        /\   /\
+       C E  I J
+      / /\   /\ 
+     D F G  K L  -->
        <ul>
         <li> Post-order traversal, order D,C,F,G,E,B,I,K,L,J,H,A
          <ol>
-	  <li> D is a leave and left child, thus its preliminary x coordinate
-	  is 0, offset is 0. </li>
-	  <li> C is a left child and the parent of D, so its preliminary x 
-	  coordinate is 0, because D is the only one child of C, so the offset 
-	  of C is 0-1=-1. </li>
-	  <li> F is the same as D, so px=0, offset=0, px is used to indicate
+          <li> D is a leave and left child, thus its preliminary x coordinate
+          is 0, offset is 0. </li>
+          <li> C is a left child and the parent of D, so its preliminary x 
+          coordinate is 0, because D is the only one child of C, so the offset 
+          of C is 0-1=-1. </li>
+          <li> F is the same as D, so px=0, offset=0, px is used to indicate
           the preliminary x coordinate, it will be used in all of the
           following example. </li>
-	  <li> G is the right child of E, so px=0+2=2, offset=0. </li>
-	  <li> E is the right child of C, and the parent of F and G, so
+          <li> G is the right child of E, so px=0+2=2, offset=0. </li>
+          <li> E is the right child of C, and the parent of F and G, so
           px=0+2=2, offset=2-(0+2)/2=1.</li>
-	  <li> Determine the seperation between the right most node of left 
-	  subtree and the left most node of right subtree in same level, in
+          <li> Determine the seperation between the right most node of left 
+          subtree and the left most node of right subtree in same level, in
           the case, they are D and F .So use the method given above to
           calculate the distance between the two nodes, (0+1)-(0+(-1))=2,
           thus no further move needed. </li>
-	  <li> B px=0, offset=0-(0+2)/2=-1. </li>
-	  <li> I, K px=0, offset=0. </li>
-	  <li> L px=0+2=2, offset=0. </li>
-	  <li> J px=0+2=2, offset=2-(0+2)/2=1. </li>
-	  <li> I doesn't have any child, so we don't need perform the distance 
-	  check between the two subtrees of H. </li> 
-	  <li> H px=0+2=2, offset=2-(0+2)/2=1. </li>
-	  <li> Check the seperation of E and I, (0+1)-(2+(-1))=0<2. So the px 
-	  and offset of H, which is the root of the subtree, need to be added 
-	  by 2-0=2. </li>
-	  <li> Updated H, px=2+2=4, offset=1+2=3. </li>
-	  <li> Go down the lower level of subtrees to check the seperation of G
-	  and K, (0+1+3)-(2+(-1)+1)=2. </li>
-	  <li> It's the bottom of subtrees, so checking is completed.</li>
-	  <li>A px=0, offset=0-(0+4)/2=-2. </li>
-	  <li> Now, post-order traversal is finished. </li>
+          <li> B px=0, offset=0-(0+2)/2=-1. </li>
+          <li> I, K px=0, offset=0. </li>
+          <li> L px=0+2=2, offset=0. </li>
+          <li> J px=0+2=2, offset=2-(0+2)/2=1. </li>
+          <li> I doesn't have any child, so we don't need perform the distance 
+          check between the two subtrees of H. </li> 
+          <li> H px=0+2=2, offset=2-(0+2)/2=1. </li>
+          <li> Check the seperation of E and I, (0+1)-(2+(-1))=0<2. So the px 
+          and offset of H, which is the root of the subtree, need to be added 
+          by 2-0=2. </li>
+          <li> Updated H, px=2+2=4, offset=1+2=3. </li>
+          <li> Go down the lower level of subtrees to check the seperation of G
+          and K, (0+1+3)-(2+(-1)+1)=2. </li>
+          <li> It's the bottom of subtrees, so checking is completed.</li>
+          <li>A px=0, offset=0-(0+4)/2=-2. </li>
+          <li> Now, post-order traversal is finished. </li>
          </ol>
         </li>
         <li> Pre-order traversal, order A,B,C,D,E,F,G,H,I,J,K,L
          <ol>
-	  <li> A x=0, x indicates x coordinates, the followings are the same 
-	  meaning. </li>
-	  <li> B x=0+(-2)=-2. </li>
-	  <li> C x=0+(-2)+(-1)=-3. </li>
-	  <li> D x=0+(-2)+(-1)+(-1)=-4. </li>
-	  <li> E x=2+(-2)+(-1)=-1. </li>
-	  <li> F x=0+(-2)+(-1)+1=-2. </li>
-	  <li> G x=2+(-2)+(-1)+1=0. </li>
-	  <li> H x=4+(-2)=2. </li>
-	  <li> I x=0+(-2)+3=1. </li>
-	  <li> J x=2+(-2)+3=3. </li>
-	  <li> K x=0+(-2)+3+1=2. </li>
-	  <li> L x=2+(-2)+3+1=4. </li>
-	 </ol>
-	</li>
-      </ul>
+          <li> A x=0, x indicates x coordinates, the followings are the same 
+          meaning. </li>
+          <li> B x=0+(-2)=-2. </li>
+          <li> C x=0+(-2)+(-1)=-3. </li>
+          <li> D x=0+(-2)+(-1)+(-1)=-4. </li>
+          <li> E x=2+(-2)+(-1)=-1. </li>
+          <li> F x=0+(-2)+(-1)+1=-2. </li>
+          <li> G x=2+(-2)+(-1)+1=0. </li>
+          <li> H x=4+(-2)=2. </li>
+          <li> I x=0+(-2)+3=1. </li>
+          <li> J x=2+(-2)+3=3. </li>
+          <li> K x=0+(-2)+3+1=2. </li>
+          <li> L x=2+(-2)+3+1=4. </li>
+         </ol>
+        </li>
+       </ul>
      </li>
     </ul>
    </li>
