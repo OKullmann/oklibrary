@@ -1067,7 +1067,35 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    <li> The same, but with cutoff=10^6: three algorithms, each with one run,
    reached min=3, namely rots, rsaps and sapsnr, while otherwise the best min 
    is 26. Again rots seems best. </li>
-   <li> The same, but with cutoff=4*10^6: </li>
+   <li> The same, but with cutoff=4*10^6: the three best algorithms seem now
+   adaptnovelty+, rnovelty+ and saps (the best is min=2; perhaps adapnovelty+ 
+   is best):
+   \verbatim
+> table(E$best[E$alg=="adaptnoveltyp"])
+
+ 3  4  5 28 29 30 31 32 33 34 35
+ 1  1  1  5  5 11 14 22 20 14  6
+> table(E$best[E$alg=="rnoveltyp"])
+
+ 2  4 28 30 31 32 33 34 35 36 37 38 39 40 41 42
+ 1  2  1  2  1  1  7  3 11 15 15 17 13  8  2  1
+> table(E$best[E$alg=="saps"])
+
+ 2 28 31 33 34 35 36 37 38
+ 1  1  2  8 14 19 36 18  1
+> table(E$best[E$alg=="irots"])
+
+ 5 30 31 32 33 34 35 36 37
+ 1  2  7 10 18 23 25 11  3
+   \endverbatim
+   </li>
+   <li> Evaluating (cutoff=10^5)
+   \verbatim
+>  E = eval_ubcsat("VanDerWaerden_2-4-10_320.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+   \endverbatim
+   gsat-tabu and samd appear best (both reaching min=23).
+   </li>
+   <li> Now using cutoff=10^6: </li>
   </ul>
 
 */
