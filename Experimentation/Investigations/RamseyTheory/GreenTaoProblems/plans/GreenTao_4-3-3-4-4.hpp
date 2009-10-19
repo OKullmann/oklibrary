@@ -70,6 +70,7 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
      osteps=1458757). </li>
     </ol>
    </li>
+   <li> n=2750 </li>
    <li> n=3000:
     <ol>
      <li> cutoff=2*10^6:
@@ -98,7 +99,16 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
 1039000 2735000 3453000 3238000 3823000 3998000
      \endverbatim
      </li>
-     <li> cutoff=8*10^6: </li>
+     <li> cutoff=8*10^6:
+     \verbatim
+22 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
+ 1  1  3  3  2  1  6  5  5  3  6  7  7 10  5 12  6  3  5  2  3  1  1  1  1
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+2252000 5102000 6445000 6065000 7346000 7994000
+     \endverbatim
+     So let's assume for now that this is unsatisfiable. </li>
     </ol>
    </li>
   </ul>

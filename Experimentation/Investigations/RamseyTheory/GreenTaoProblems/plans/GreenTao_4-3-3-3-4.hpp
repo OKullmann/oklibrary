@@ -136,7 +136,24 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      2045601853, osteps=122505356). </li>
     </ol>
    </li>
-   <li> n=995 </li>
+   <li> n=995
+    <ol>
+     <li> cutoff=16*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3
+25 74  1
+100
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  3958000  31940000  57640000  63860000  88740000 159400000
+     \endverbatim
+     </li>
+     <li> cutoff=32*10^7 (adaptnovelty+):
+     \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while
