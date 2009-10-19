@@ -40,8 +40,13 @@ License, or any later version. */
   </ul> 
 
 
-  \todo The details of coordinates computation of Reingold-Tilford algorithm
+  \todo The full Reingold-Tilford algorithm
   <ul>
+   <li> First we implement the "abstract" algorithm, which elegantly
+   implements the idea, without taking care of efficiency. </li>
+   <li> Then, additionally, the full algorithm is implemented, which refines
+   the abstract version, making it linear-time. Here now we describe the
+   full version. </li>
    <li> The Reingold-Tilford algorithm can be simply considered as a recursive
    algorithm, which consists of two traversals. The first one is a post-order
    traversal, and the second one is pre-order traversal. The post-order
@@ -166,7 +171,8 @@ License, or any later version. */
       
   \todo Reingold-Tilford algorithm in Maxima. 
   <ul>
-   <li> Define a Maxima function reingold_tilford_rt(T,x,y).
+   <li> Define a Maxima function reingold_tilford_rt(T,x,y) (for the
+   abstract version).
     <ul>
      <li> Input: An "unlabelled rooted binary tree" T and the coordinates
      x, y of its root. </li>
