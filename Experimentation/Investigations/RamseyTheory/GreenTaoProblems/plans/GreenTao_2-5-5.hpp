@@ -255,8 +255,8 @@ ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 3000000000 -i GreenTao_2_5_33000.cnf -
    Hm; one has to run more extensive experiments (for example, running it
    with this seed and 6 * 10^9 steps on a 64-bit machine), but it might be
    unsatisfiable. </li>
-   <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned 32-bit value,
-   and thus can be at most 4294967295. </li>
+   <li> BUT, also on a 64-bit machine the cutoff-value just is an unsigned
+   32-bit value, and thus can be at most 4294967295. </li>
    <li> Down to one falsified clause with seed 1782112367. </li>
    <li> n = 33000 actually is satisfiable:
    \verbatim
@@ -310,6 +310,9 @@ BestSolution_Min = 1.000000
 
   \todo Survey propagation: greentao_2(5) > 34308
   <ul>
+   <li> The conjecture is greentao_2(5) = 34309, since for n < 34309
+   survey propagation always finds a solution, while for n >= 34309 it seems
+   always to diverge; see below for further information. </li>
    <li> Running it on GreenTao_2_5_33500.cnf:
    \verbatim
 builds/SAT/SurveyPropagation/sp-1.4> ./sp -l GreenTao_2_5_33500.cnf

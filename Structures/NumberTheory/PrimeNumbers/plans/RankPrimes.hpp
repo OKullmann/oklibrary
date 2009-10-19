@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding ranking and unranking of prime numbers
 
 
+  \todo Connections
+  <ul>
+   <li> In OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp we have
+   Generators::First_prime_numbers for listing the first n prime numbers. </li>
+   <li> This function should move here. </li>
+  </ul>
+
+
   \todo Create application test
 
 

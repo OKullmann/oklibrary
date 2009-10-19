@@ -10,18 +10,31 @@ License, or any later version. */
   \brief Plans on generators for Green-Tao-hypergraphs
 
 
-  \todo Generator
+  \todo Connections
   <ul>
-   <li> Write a generator for Green-Tao hypergraphs (as model of a general
-   hypergraph concept). </li>
    <li> See Hypergraphs/concepts/plans/general.hpp for the
    concepts; especiall todo "The simplest form of hypergraphs" there for the
    first implementation. </li>
    <li> See arithprog_primes_ohg(k,n) in
-   ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac
+   ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac
    for the basic function specification. </li>
    <li> See Applications/RamseyTheory/plans/GreenTaoProblems.hpp on
    supporting to compute Gree-Tao numbers at C++ level. </li>
+  </ul>
+
+
+  \todo Generator
+  <ul>
+   <li> DONE Write a generator for Green-Tao hypergraphs (as model of a general
+   hypergraph concept). </li>
+   <li> DONE See arithprog_primes_ohg(k,n) in
+   ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac for the
+   specification. </li>
+   <li> DONE For simplicity we store the hyperedges. </li>
+   <li> DONE Using a vector of vectors. </li>
+   <li> Write application tests. </li>
+   <li> Write unit tests. </li>
+   <li> Make the program available. </li>
   </ul>
 
 */
