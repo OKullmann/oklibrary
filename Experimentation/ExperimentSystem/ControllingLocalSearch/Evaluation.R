@@ -44,13 +44,28 @@ eval_ubcsat_output_params = list("run","found","best","beststep","steps","seed")
 # as a named list, where the name of each item is a reference for the
 # algorithm, and the value of each item is the algorithm parameter
 # as given to ubcsat.
-eval_ubcsat_cnf_algs = list(gsat="gsat", gsat_simple="gsat -v simple",
-  gwsat="gwsat", gsat_tabu="gsat-tabu",hsat="hsat", hwsat="hwsat",
-  walksat="walksat", walksat_tabu="walksat-tabu", novelty="novelty",
-  noveltyp="novelty+",adaptnoveltyp="adaptnovelty+",rnovelty="rnovelty",
-  rnoveltyp="rnovelty+", saps="saps", rsaps="rsaps", sapsnr="sapsnr",
-  rots="rots", irots="irots", samd="samd",
-  walksat_tabu_nonull="walksat-tabu -v nonull")
+eval_ubcsat_cnf_algs = list(
+   gsat="gsat", 
+   gsat_simple="gsat -v simple",
+   gwsat="gwsat", 
+   gsat_tabu="gsat-tabu",
+   hsat="hsat",
+   hwsat="hwsat",
+   walksat="walksat",
+   walksat_tabu="walksat-tabu", 
+   novelty="novelty",
+   noveltyp="novelty+",
+   adaptnoveltyp="adaptnovelty+",
+   rnovelty="rnovelty",
+   rnoveltyp="rnovelty+",
+   saps="saps",
+   rsaps="rsaps",
+   sapsnr="sapsnr",
+   rots="rots",
+   irots="irots",
+   samd="samd",
+   walksat_tabu_nonull="walksat-tabu -v nonull"
+)
 
 # Default labelled list "arg=val" of argument-value pairs of arguments to the
 # ubcsat command. 
