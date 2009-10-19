@@ -279,7 +279,7 @@ okltest_mirror_rt(f) := (
   /* XXX */
   true)$
 
-okltest_trans_rt(f) := (
+okltest_trans_lrt(f) := (
   assert(f([[]],1,2) = false),
   assert(f([],2,2) = false),
   assert(f([[1,2]],3,1) = [[4,3]]),
