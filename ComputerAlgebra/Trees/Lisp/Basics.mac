@@ -225,8 +225,7 @@ mirror_rt(T) := reverse(map(mirror_rt,T))$
    (as lists of length 2), translate the coordinates by x and y:
 */
 trans_lrt(T,x,y) := 
- if length(T)=1 then [first(T)+[x,y]] 
- else cons(first(T)+[x,y],create_list(trans_lrt(T[i],x,y),i,2,length(T)))$
+ cons(first(T)+[x,y], map(lambda([S],trans_lrt(S,x,y)),rest(T)))$
 
 
 /*!
