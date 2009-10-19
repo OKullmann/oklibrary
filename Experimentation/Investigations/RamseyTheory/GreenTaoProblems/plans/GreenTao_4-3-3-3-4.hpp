@@ -33,7 +33,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 990
+  \todo Lower bounds: greentao_4(3,3,3,4) > 994
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -106,6 +106,15 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
 100
      \endverbatim
      </li>
+     <li> cutoff=8*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3  4
+18 68 13  1
+100
+     \endverbatim
+     </li>
+     <li> cutoff=16*10^7 (adaptnovelty+): finds a solution in run 5 (seed=
+     2464081211, osteps=118475284). </li>
     </ol>
    </li>
    <li> n=994
@@ -123,6 +132,26 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      \endverbatim
      The best algorithms seem to be gwsat, gsat_tabu, adaptnoveltyp and samd,
      with adaptnoveltyp clearly best (reaching also the best min=6). </li>
+     <li> cutoff=16*10^7 (adaptnovelty+): finds a solution in run 7 (seed=
+     2045601853, osteps=122505356). </li>
+    </ol>
+   </li>
+   <li> n=995
+    <ol>
+     <li> cutoff=16*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3
+25 74  1
+100
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  3958000  31940000  57640000  63860000  88740000 159400000
+     \endverbatim
+     </li>
+     <li> cutoff=32*10^7 (adaptnovelty+):
+     \verbatim
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1000
@@ -143,6 +172,16 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
  6 51 40  3
      \endverbatim
      </li>
+     <li> cutoff=16*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3
+14 74 12
+100
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  4633000  36250000  57420000  66770000  93560000 156800000
+     \endverbatim
+     So let's assume this is unsatisfiable. </li>
     </ol>
    </li>
   </ul>

@@ -121,61 +121,6 @@ arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
 arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
 
 
-/* ***********************
-   * Green-Tao's theorem *
-   ***********************
-*/
-
-/* The list of arithmetic progressions of length k amongst the first
-   prime numbers up to prime number p, and finishing with p. */
-/* Prerequisite k >= 3, p > k. */
-/* Inherits prp = product_primes(k) and prk = primep(k). */
-arithprog_primes_finish[k,p] := arithprog_primes_finish_nm(k,p)$
-/* Without memoisation: */
-arithprog_primes_finish_nm(k,p) := block([res : []],
-  if prk then block([d : divide(p-k,k-1)],
-    if d[2] = 0 then block([prog : arpr(k-1,k+d[1],d[1])],
-      if every_s('primep, prog) then res : cons(cons(k,prog),res)
-  )),
-  for d : prp step prp thru (p-k)/(k-1) do block([prog : arpr(k,p,-d)],
-    if every_s('primep, prog) then res : cons(reverse(prog),res)
-  ),
-  return(res))$
-
-/* The list of all arithmetic progressions of length k amongst the first n
-   prime numbers (memo=true means memoisation of arithmetic progressions):
-*/
-arithprog_primes(k,n,memo) := 
- if k=0 then [[]] elseif n = 0 then []
- elseif k=1 then create_list([p], p,primes_first(n))
- elseif k=2 then map(listify,listify(powerset(setify(primes_first(n)),2)))
- else block([p : 1, res : [], prp : product_primes(k), prk : primep(k)],
-   thru n do (
-     p : next_prime(p),
-     if p > k then 
-       if memo then res : append(res,arithprog_primes_finish[k,p])
-       else res : append(res,arithprog_primes_finish_nm(k,p))
-   ),
-   res)$
-
-/* The hypergraph of all arithmetic progressions of size k in the first
-   n prime numbers. */
-/* Prerequisite: k, n integers, k, n >= 0. */
-arithprog_primes_ohg(k,n) := 
- [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
-arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
-
-/* Statistics functions: */
-
-nver_arithprog_primes_ohg(k,n) := n$
-nver_arithprog_primes_hg(k,n) := n$
-
-nhyp_arithprog_primes_ohg(k,n) := 
- if n=0 then if k=0 then 1 else 0 else
-  n_arithprog_primes_c(k,n)$
-nhyp_arithprog_primes_hg(k,n) := nhyp_arithprog_primes_ohg(k,n)$
-
-
 /* *******************
    * Schur's theorem *
    *******************

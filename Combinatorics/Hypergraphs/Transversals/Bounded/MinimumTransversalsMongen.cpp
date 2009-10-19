@@ -16,6 +16,8 @@ License, or any later version. */
    <li> Functions Transversals::Bounded::generator::initialise and
    Transversals::Bounded::generator needs to be provided in another
    compilation unit. </li>
+   <li> The generator has to compute for input n the list of hyperedges
+   finishing in n. </li>
   </ul>
 */
 

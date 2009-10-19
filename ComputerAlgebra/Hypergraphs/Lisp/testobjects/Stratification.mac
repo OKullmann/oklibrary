@@ -1,0 +1,49 @@
+/* Oliver Kullmann, 18.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/testobjects/Stratification.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Stratification.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Stratification.mac")$
+
+/* **********************************
+   * Strata in monotone hypergraphs *
+   **********************************
+*/
+
+okltest_sizes_strata_mon_ohg(sizes_strata_mon_ohg);
+okltest_sizes_strata_indmon_ohg(sizes_strata_indmon_ohg);
+
+okltest_accumulate_l(accumulate_l);
+
+/* *************************************
+   * Stratifying arbitrary hypergraphs *
+   *************************************
+*/
+
+okltest_strata_ses(strata_ses);
+
+/* **************
+   * Heuristics *
+   **************
+*/
+
+
+/*!
+\endhtmlonly
+*/
