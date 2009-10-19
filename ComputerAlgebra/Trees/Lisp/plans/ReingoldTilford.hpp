@@ -171,11 +171,11 @@ License, or any later version. */
       
   \todo Reingold-Tilford algorithm in Maxima. 
   <ul>
-   <li> Define a Maxima function reingold_tilford_rt(T,x,y) (for the
+   <li> Define a Maxima function reingold_tilford_rt(T,[x,y]) (for the
    abstract version).
     <ul>
      <li> Input: An "unlabelled rooted binary tree" T and the coordinates
-     x, y of its root. </li>
+     [x, y] of its root. </li>
      <li> An "unlabelled rooted binary tree" is 
      recursively defined as a list [T_1, ..., T_n], where the T_i are
      the subtrees and the maximum value of n is 2. (The case n=0, i.e., 
@@ -185,8 +185,8 @@ License, or any later version. */
    </li>
    <li> Examples:
     <ul>
-     <li> Input: reingold_tilford_rt([],x,y); Output: [[x,y]] </li>
-     <li> Input: reingold_tilford_rt([[],[]],x,y);
+     <li> Input: reingold_tilford_rt([], [x,y]); Output: [[x,y]] </li>
+     <li> Input: reingold_tilford_rt([[],[]], [x,y]);
      Output: [[x,y],[[x-1,y-1]],[[x+1,y-1]]].
      </li>
     </ul>

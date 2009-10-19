@@ -232,12 +232,12 @@ and is(length(first(T)) >= 1) and listp(first(first(T))) and
 is(length(first(first(T))) = 2) and every_s(l2rt_p,rest(T))$
 
 
-/* Given a labelled tree T with 2-dimensional coordinates
-   translate the coordinates by x and y:
+/* Given a labelled tree T with 2-dimensional coordinates and
+   a coordinate vector p, translate the coordinates by p:
 */
-trans_lrt(T,x,y) := 
- cons(cons(first(first(T))+[x,y], rest(first(T))), 
-      map(lambda([S],trans_lrt(S,x,y)),rest(T)))$
+trans_lrt(T,p) := 
+ cons(cons(first(first(T))+p, rest(first(T))), 
+      map(lambda([S],trans_lrt(S,p)),rest(T)))$
 
 
 /*!
