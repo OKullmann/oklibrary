@@ -221,6 +221,9 @@ catalan_number(n) :=  binom(2*n,n)/(n+1)$
 /* The mirror image of trees: */
 mirror_rt(T) := reverse(map(mirror_rt,T))$
 
+/* Trees translating. x,y are translating vectors.*/
+trans_rt(T,x,y) := if length(T)=1 and length(first(T))=2 then [first(T)+[x,y]] elseif length(T)>1 then cons(first(T)+[x,y],create_list(trans_rt(T[i],x,y),i,2,length(T)))$
+
 
 /*!
 \endhtmlonly
