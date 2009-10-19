@@ -59,7 +59,7 @@ License, or any later version. */
        preliminary x coordinate is 0+2=2.( If the current node is the only one 
        child of its parent, we define it as the left child.)</li>
        <li> Set the offset value of each node from leaves to root. The offset
-       is calculated by subtracting the average value of preliminiary x
+       is calculated by subtracting the average value of preliminary x
        coordinates of the children of current node from the preliminary x
        coordinate of current node. For example, p is the parent of left child
        l and right child r. The preliminary x coordinates of p, l and r are 2,
@@ -77,11 +77,11 @@ License, or any later version. */
        both the preliminary x coordinate and the  offset of the root of right 
        subtree need to be plus by 2-(RL-LR). This checking must be performed 
        in each level from the roots of left and right subtree until leaves.
-       The step is performed everytime before the post-order traversal
+       The step is performed every time before the post-order traversal
        go up to a higher level. </li>
       </ol>
      </li>
-     <li> Pre-order traversal, recusively do the following step from root.
+     <li> Pre-order traversal, recursively do the following step from root.
       <ol>
        <li> Set the final x coordinate of each node from root by accumulating 
        the offset of all the ancestors of current node, then plus its 
@@ -92,19 +92,21 @@ License, or any later version. */
    </li>
    <li> An example:
     <ul>
-     <li> Define a tree T: [A,[B,[C,[D]],[E,[F],[G]]],[H,[I],[J,[K],[L]]]], 
+     <li> Define a tree T: [A, [B,[C,[D]],[E,[F],[G]]], [H,[I],[J,[K],[L]]]], 
      which has 12 nodes.
-    <!--   A
+     \verbatim
+           A
          /  \
          B   H 
         /\   /\
        C E  I J
       / /\   /\ 
-     D F G  K L  -->
+     D F G  K L
+     \endverbatim
        <ul>
         <li> Post-order traversal, order D,C,F,G,E,B,I,K,L,J,H,A
          <ol>
-          <li> D is a leave and left child, thus its preliminary x coordinate
+          <li> D is a leaf and left child, thus its preliminary x coordinate
           is 0, offset is 0. </li>
           <li> C is a left child and the parent of D, so its preliminary x 
           coordinate is 0, because D is the only one child of C, so the offset 
@@ -115,7 +117,7 @@ License, or any later version. */
           <li> G is the right child of E, so px=0+2=2, offset=0. </li>
           <li> E is the right child of C, and the parent of F and G, so
           px=0+2=2, offset=2-(0+2)/2=1.</li>
-          <li> Determine the seperation between the right most node of left 
+          <li> Determine the separation between the right most node of left 
           subtree and the left most node of right subtree in same level, in
           the case, they are D and F .So use the method given above to
           calculate the distance between the two nodes, (0+1)-(0+(-1))=2,
@@ -127,11 +129,11 @@ License, or any later version. */
           <li> I doesn't have any child, so we don't need perform the distance 
           check between the two subtrees of H. </li> 
           <li> H px=0+2=2, offset=2-(0+2)/2=1. </li>
-          <li> Check the seperation of E and I, (0+1)-(2+(-1))=0<2. So the px 
+          <li> Check the separation of E and I, (0+1)-(2+(-1))=0<2. So the px 
           and offset of H, which is the root of the subtree, need to be added 
           by 2-0=2. </li>
           <li> Updated H, px=2+2=4, offset=1+2=3. </li>
-          <li> Go down the lower level of subtrees to check the seperation of G
+          <li> Go down the lower level of subtrees to check the separation of G
           and K, (0+1+3)-(2+(-1)+1)=2. </li>
           <li> It's the bottom of subtrees, so checking is completed.</li>
           <li>A px=0, offset=0-(0+4)/2=-2. </li>
