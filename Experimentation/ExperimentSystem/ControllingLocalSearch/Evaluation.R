@@ -69,7 +69,7 @@ eval_ubcsat_cnf_algs = list(
 
 # Default labelled list "arg=val" of argument-value pairs of arguments to the
 # ubcsat command. 
-eval_ubcsat_std_params = list(runs=100,cutoff=10000)
+eval_ubcsat_std_params = list(runs=100,cutoff=100000)
 
 # Takes a dataframe, a constant value C and returns a new data frame with
 # an additional column where that column has value C for every row in the
