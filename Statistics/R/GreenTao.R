@@ -18,9 +18,10 @@ fit_greentao = function(k, N, monitor=FALSE) {
 
 # Helper function for fit_greentao, which creates the dataframe:
 fit_greentao_create = function(k, N, monitor=FALSE) {
-  filename = paste("GreenTaoStat_", k, "_", N, sep="")
+  N_as_string = format(N,scientific=FALSE)
+  filename = paste("GreenTaoStat_", k, "_", N_as_string, sep="")
   statistics_program = "CountProgressions_GreenTao-O3-DNDEBUG"
-  command = paste(statistics_program, k, N, ">", filename)
+  command = paste(statistics_program, k, N_as_string, ">", filename)
   if (monitor) cat("Command: ", command, "\n")
   system(command)
   E = read.table(filename, colClasses=c("integer","integer"),header=TRUE)
