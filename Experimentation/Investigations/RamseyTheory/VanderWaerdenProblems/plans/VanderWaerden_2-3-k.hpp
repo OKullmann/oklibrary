@@ -697,7 +697,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,20)
+  \todo vanderwaerden_2(3,20) > 386
   <ul>
    <li> The predictions (see above) are n= 386, 389. </li>
    <li> Experience with k=19 is that gsat-tabu is best, however we should
@@ -709,7 +709,20 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    \endverbatim
    gsat-tabu, adaptnovelty+ and rnoveltyp seem best (all reaching min=2). </li>
    </li>
-   <li> Now using cutoff=10^6: </li>
+   <li> Now using cutoff=10^6: gsat-tabu seems best, and also finds as only
+   solver a solution (this could be luck, and rnovelty as the second solver
+   could be better). </li>
+   <li> n=386:
+    <ol>
+     <li> cutoff=2*10^6 with gsat-tabu: found a solution in run 2 
+     (seed=3063820134). </li>
+    </ol>
+   </li>
+   <li> n=387:
+    <ol>
+     <li> cutoff=2*10^6 with gsat-tabu: </li>
+    </ol>
+   </li>
   </ul>
 
 */
