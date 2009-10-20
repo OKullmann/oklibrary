@@ -280,7 +280,12 @@ okltest_mirror_rt(f) := (
   true)$
 
 okltest_l2rt_p(f) := block([label],
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([[]]) = false),
   assert(f([[1,2]]) = false),
+  assert(f([[[]]]) = false),
+  assert(f([[[1]]]) = false),
   assert(f([[[0,0]]]) = true),
   assert(f([[[0,0]],[[[1,2]]],[[[3,4]]]]) = true),
   assert(f([[[0,0]],[[[1,2]],[4,4]],[[[3,4]]]]) = false),
