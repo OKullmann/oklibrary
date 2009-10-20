@@ -720,7 +720,30 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    </li>
    <li> n=387:
     <ol>
-     <li> cutoff=2*10^6 with gsat-tabu: </li>
+     <li> cutoff=2*10^6 with gsat-tabu:
+     \verbatim
+ 2  3  4
+14 50 36
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26010  189900  596200  702300 1104000 1967000
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 with gsat-tabu:
+     \verbatim
+ 2  3  4
+30 56 14
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  41100  614600 1393000 1479000 2188000 3910000
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 with rnovelty:
+     \verbatim
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
