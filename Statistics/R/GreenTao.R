@@ -33,6 +33,7 @@ fit_greentao_create = function(k, N, monitor=FALSE) {
 fit_greentao_eval = function(E, monitor=FALSE) {
   X = E$n
   Y = E$nhyp
+  cat("Number of observations (changes) = ", length(X), "\n")
   cat("Max nhyp = ", Y[length(Y)], "\n")
 
   x = log(X)
