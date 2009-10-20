@@ -100,7 +100,7 @@ okltest_num_all_rt(num_all_rt);
 
 okltest_mirror_rt(mirror_rt);
 
-okltest_l2rt_p(l2rt_p);
+okltest_tdlrt_p(tdlrt_p);
 
 okltest_trans_lrt(trans_lrt);
 

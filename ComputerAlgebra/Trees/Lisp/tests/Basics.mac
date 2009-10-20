@@ -279,7 +279,7 @@ okltest_mirror_rt(f) := (
   /* XXX */
   true)$
 
-okltest_l2rt_p(f) := block([label],
+okltest_tdlrt_p(f) := block([label],
   assert(f(0) = false),
   assert(f([]) = false),
   assert(f([[]]) = false),

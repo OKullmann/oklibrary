@@ -221,15 +221,15 @@ catalan_number(n) :=  binom(2*n,n)/(n+1)$
 /* The mirror image of trees: */
 mirror_rt(T) := reverse(map(mirror_rt,T))$
 
-/* A "labelled tree with 2-dimensional coordinates", short "l2rt",
+/* A "labelled tree with 2-dimensional coordinates", short "tdlrt",
    is a labelled tree, where each label is a list containing a
    list of 2 elements (the coordinates) as first element.
 */
 
 /* Testing whether T is a labelled tree with 2-dimensional coordinates: */
-l2rt_p(T) := listp(T) and is(length(T) >= 1) and listp(first(T))
+tdlrt_p(T) := listp(T) and is(length(T) >= 1) and listp(first(T))
 and is(length(first(T)) >= 1) and listp(first(first(T))) and
-is(length(first(first(T))) = 2) and every_s(l2rt_p,rest(T))$
+is(length(first(first(T))) = 2) and every_s(tdlrt_p,rest(T))$
 
 
 /* Given a labelled tree T with 2-dimensional coordinates and
