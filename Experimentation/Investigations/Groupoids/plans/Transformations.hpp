@@ -394,6 +394,7 @@ Current size of closure is  16
 Current size of closure is  83
 Current size of closure is  434
 Current size of closure is  966
+Current size of closure is  972
 XXX
 4 XXX
    \endverbatim
