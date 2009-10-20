@@ -29,7 +29,8 @@ License, or any later version. */
    <li> A cutoff=1 is nonsense. </li>
    <li> The attributes of the resulting dataframe need to be specified more
    precisely; what are their data types? </li>
-   <li> Reference to "standard output" is wrong here, since the output appears
+   <li> DONE
+   Reference to "standard output" is wrong here, since the output appears
    in the R-terminal. It is also not explained what that output is. </li>
    <li> Nowhere are the created files mentioned?? One needs the specification
    of their names and their contents. And it should be possible to disable them

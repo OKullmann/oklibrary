@@ -102,9 +102,8 @@ add_constant_column = function(df,const_var, name) {
 #       when it is called. That is, "-arg1 val1 -arg2 val2" etc. is
 #       appended to the ubcsat command in the appropriate place.
 #     monitor
-#       Boolean variable, indicating whether or not to print output
-#       to stdout as eval_ubcsat is running. TRUE indicates output
-#       should be output, whereas FALSE is the default.
+#       Boolean variable, indicating whether or not to print the
+#       system commands issued (for ubcsat); default is TRUE.
 #
 # Result:
 #     The result data.frame has as columns the output parameters
@@ -124,7 +123,7 @@ eval_ubcsat = function(
  algs=eval_ubcsat_cnf_algs,
  output_params=eval_ubcsat_output_params, 
  params = eval_ubcsat_std_params,
- monitor=FALSE) {
+ monitor=TRUE) {
 
   eval_ubcsat_df = NULL
   # Setup parameter string
