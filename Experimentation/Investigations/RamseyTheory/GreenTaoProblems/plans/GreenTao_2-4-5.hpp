@@ -308,8 +308,8 @@ read_ubcsat
    \verbatim
 > E2 = read_ubcsat("GreenTao_2-4-5_4232.out", row.names=NULL,skip=9)
    1    2    3    4    5
- 382 1336  240   26    1
-1985
+ 394 1399  259   27    1
+2080
    \endverbatim
    </li>
    <li> n=4237: 193 runs with cutoff=4*10^9 produced many minimum=1, but
