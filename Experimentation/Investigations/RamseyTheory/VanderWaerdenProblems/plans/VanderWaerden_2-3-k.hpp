@@ -757,7 +757,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,20) > 387
+  \todo vanderwaerden_2(3,20) > 388
   <ul>
    <li> The predictions (see above) are n= 386, 389. </li>
    <li> Experience with k=19 is that gsat-tabu is best, however we should
@@ -827,10 +827,21 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    </li>
    <li> n=388
     <ol>
-     <li> rnovelty with cutoff=8*10^6 </li>
-     <li> gsat-tabu with cutoff=8*10^6 </li>
+     <li> rnovelty with cutoff=8*10^6: found a solution in run 33
+     (seed=2441787444, osteps=4412722). </li>
+     <li> gsat-tabu with cutoff=8*10^6:
+     \verbatim
+ 1  2  3  4
+ 3 32 62  3
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  25570  924300 2283000 2818000 4242000 7901000
+     \endverbatim
+     </li>
     </ol>
    </li>
+   <li> n=389: </li>
   </ul>
 
 */
