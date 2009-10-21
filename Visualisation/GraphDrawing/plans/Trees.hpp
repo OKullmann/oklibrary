@@ -46,8 +46,7 @@ License, or any later version. */
    (for the nodes) and branching literals (for the edges). </li>
    <li> First we implement the algorithm at Maxima/Lisp level.
     <ol>
-     <li> See "Tree drawing" in ComputerAlgebra/Trees/Lisp/plans/general.hpp.
-     </li>
+     <li> See ComputerAlgebra/Trees/Lisp/plans/ReingoldTilford.hpp. </li>
      <li> Input is a tree, output is the same tree, but labelled with the
      coordinates. </li>
      <li> We have the basic form of the algorithm, just implementing directly
@@ -107,6 +106,8 @@ License, or any later version. */
     </ol>
     See "Graphics library" and "Graph visualisation library" in
     GraphDrawing/plans/general.hpp. </li>
+    <li> See ComputerAlgebra/Trees/Lisp/plans/Visualisation.hpp for drawing
+    trees at the Maxima/Lisp level. </li>
   </ul>
 
 
