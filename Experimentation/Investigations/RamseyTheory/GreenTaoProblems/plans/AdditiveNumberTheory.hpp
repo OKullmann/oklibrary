@@ -115,6 +115,9 @@ Non-linear model nhyp = a * n^b:
 0.001841092 1.653029200
 Residual range:  -360.6184 351.3982
 
+80000 - 70976
+  9024
+
 > f = fit_greentao(6,160000)
 Number of observations (changes) =  150810
 Max nhyp =  749499
@@ -122,6 +125,9 @@ Non-linear model nhyp = a * n^b:
           a           b
 0.001491893 1.671835433
 Residual range:  -1185.398 669.2617
+
+160000 - 150810
+  9190
    \endverbatim
    So f_6(n) = 0.001491893 * n^1.671835433 is a good model (for n <= 160000).
    </li>
@@ -196,10 +202,26 @@ Residual range:  -3534.482 2613.697
 
 4000000 -  1781803
   2218197
+
+> f = fit_greentao(8,8000000)
+Number of observations (changes) =  4688545
+Max nhyp =  7728990
+Non-linear model nhyp = a * n^b:
+           a            b
+4.218958e-05 1.631506e+00
+Residual range:  -10123.48 6262.802
+
+8000000 - 4688545
+  3311455
    \endverbatim
-   So f_8(n) = 5.514205e-05 * n^1.613797 is a good model
-   (for n <= 4*10^6). </li>
-   <li> And one can consider the densities
+   So f_8(n) = 4.218958e-05 * n^1.631506 is a good model
+   (for n <= 8*10^6). </li>
+   <li> A natural conjecture here is that for every k there exists some
+   index i_k >= 1 such that for every j >= i_k there exists an arithmetic
+   progression of length k ending with p_j. For k <= 5 we can already
+   conjecture the smallest such i_k, and this should also be possible for
+   k=6, while then it becomes more difficult. </li>
+   <li> One can consider the densities
    ln_arithprog_primes_c(k,n) / create_list(i,i,1,n). </li>
    <li> Hard to believe that there is nothing in the literature / on the
    Internet: We should enter for example ln_arithprog_primes_c(3,30) =
