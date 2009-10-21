@@ -23,12 +23,12 @@ create_list(vanderwaerden3k(k),k,1,17);
    \endverbatim
    </li>
    <li> Via R we get the prediction f(k) ~ 0.8132032 * k^2.0602760 when
-   excluding the first 4 points:
+   excluding the first 4 points (this is motivated by looking at the graph):
    \verbatim
-d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
-plot(d)
-x = log((1:length(d))[-(1:4)])
-y = log(d[-(1:4)])
+d0 = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
+plot(d0)
+x = log((1:length(d0))[-(1:4)])
+y = log(d0[-(1:4)])
 plot(x,y)
 L = lm(y ~ x)
 summary(L)
@@ -38,11 +38,18 @@ Coefficients:
 x            2.06028    0.01799 114.495  < 2e-16 ***
 lines(x,predict(L))
 C = coefficients(L)
+exp(C[1])
+  0.8132032
+C[2]
+  2.060276
 f = function(k){exp(C[1]) * k^C[2]}
-plot(d)
-lines(f(1:length(d)))
-f(17)
-  278.7812
+plot(d0)
+lines(f(1:length(d0)))
+round(f(1:20))
+  1   3   8  14  22  33  45  59  75  93 114 136 160 187 215 246 279 314 351
+  390
+d0 - round(f(1:16))
+  2  3  1  4  0 -1  1 -1  2  4  0 -1  0 -1  3 -8
    \endverbatim
    </li>
    <li> Using the conjectures 279, 312, 349 (see below):
@@ -52,36 +59,37 @@ x = log((1:length(d))[-(1:4)])
 y = log(d[-(1:4)])
 L = lm(y ~ x)
 C = coefficients(L)
+exp(C[1])
+  0.8164498
 C[2]
   2.058377
 f = function(k){exp(C[1]) * k^C[2]}
 round(f(1:21))
  1   3   8  14  22  33  45  59  75  93 114 136 160 187 215 246 278 313 350
  389 430
-round(f(1:19)) - d
--2 -3 -1 -4  0  1 -1  1 -2 -4  0  1  0  1 -3  8 -1  1  1
+d - round(f(1:19))
+2  3  1  4  0 -1  1 -1  2  4  0 -1  0 -1  3 -8  1 -1 -1
    \endverbatim
    </li>
    <li> Now using a quadratic model (using the above d):
 \verbatim
-x = (1:length(d))[-(1:4)]
-y = d[-(1:4)]
-
-Lq = lm(y ~ poly(x,2))
+X = (1:length(d))[-(1:4)]
+Y = d[-(1:4)]
+Lq = lm(Y ~ poly(X,2))
 summary(Lq)
 Residual standard error: 2.632 on 12 degrees of freedom
 Multiple R-squared: 0.9995,     Adjusted R-squared: 0.9994
 F-statistic: 1.119e+04 on 2 and 12 DF,  p-value: < 2.2e-16
-plot(x,y)
-lines(x,predict(Lq))
+plot(X,Y)
+lines(X,predict(Lq))
 
-Lq = lm(y ~ x + I(x^2))
+Lq = lm(Y ~ X + I(X^2))
 summary(Lq)
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
 (Intercept)  1.49457    5.51319   0.271    0.791
-x           -0.76469    0.99586  -0.768    0.457
-I(x^2)       0.99927    0.04097  24.388 1.36e-11 ***
+X           -0.76469    0.99586  -0.768    0.457
+I(X^2)       0.99927    0.04097  24.388 1.36e-11 ***
 Residual standard error: 2.632 on 12 degrees of freedom
 Multiple R-squared: 0.9995,     Adjusted R-squared: 0.9994
 F-statistic: 1.119e+04 on 2 and 12 DF,  p-value: < 2.2e-16
@@ -90,11 +98,63 @@ fq = function(k){Cq[1] + Cq[2]*k + Cq[3]*k^2}
 round(fq(1:21))
  2   4   8  14  23  33  45  59  76  94 114 136 160 187 215 245 277 311 348
  386 426
-round(fq(1:19)) - d
- -1 -2 -1 -4  1  1 -1  1 -1 -3  0  1  0  1 -3  7 -2 -1 -1
+d - round(fq(1:19))
+ 1  2  1  4 -1 -1  1 -1  1  3  0 -1  0 -1  3 -7  2  1  1
    \endverbatim
    (using orthogonal polynomials via poly(x,2) seems to result in more
    meaningfull coefficients, however the regression results are the same).
+   </li>
+   <li> Non-linear regression (using the above X, Y):
+   \verbatim
+NL = nls(Y ~ a*(X^b), start = c(a = 0.8164498, b = 2.058377))
+> summary(NL)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  0.84917    0.04274   19.87 4.13e-11 ***
+b  2.04306    0.01810  112.85  < 2e-16 ***
+Residual standard error: 2.506 on 13 degrees of freedom
+Number of iterations to convergence: 2
+Achieved convergence tolerance: 5.458e-06
+Cnl = coefficients(NL)
+Cnl
+        a         b
+0.8491743 2.0430615
+fnl = function(k){Cnl[1] * k^Cnl[2]}
+round(fnl(1:21))
+ 1   3   8  14  23  33  45  59  76  94 114 136 160 186 215 245 277 312 348
+ 386 427
+d - round(fnl(1:19))
+ 2  3  1  4 -1 -1  1 -1  1  3  0 -1  0  0  3 -7  2  0  1
+   \endverbatim
+   </li>
+   <li> Finally using a quadratic model with non-linear regression and
+   all data:
+   \verbatim
+i = 1:length(d)
+NLq = nls(d ~ a + b*i + c * i^2, start = c(a=0, b = 0, c = 1))
+summary(NLq)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  3.74303    1.83844   2.036   0.0587 .
+b -1.11280    0.42330  -2.629   0.0182 *
+c  1.01187    0.02056  49.210   <2e-16 ***
+Residual standard error: 2.395 on 16 degrees of freedom
+Number of iterations to convergence: 1
+Achieved convergence tolerance: 1.616e-07
+Cnlq = coefficients(NLq)
+Cnlq
+        a         b         c
+ 3.743034 -1.112797  1.011868
+fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
+round(fnlq(1:21))
+ 4   6  10  15  23  33  46  60  76  94 114 136 160 186 215 245 277 312 348
+ 386 427
+d - round(fnlq(i)
+ -1  0 -1  3 -1 -1  0 -2  1  3  0 -1  0  0  3 -7  2  0  1
+plot(d)
+lines(i,f(i))
+   \endverbatim
+   Perhaps this is the best approach?
    </li>
   </ul>
 
