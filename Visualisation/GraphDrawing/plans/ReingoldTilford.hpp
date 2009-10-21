@@ -15,14 +15,15 @@ License, or any later version. */
   
   \todo A basic example of visualising a tree using Gnuplot
   <ul>
-   <li> The coordinates of points using in this example is produced by Reingold-Tilford algorithm, which the details please refers to "The full
-   Reingold-Tilford algorithm" in ComputerAlgebra/Trees/Lisp/plans/ReingoldTilford.hpp. </li>
-   <li> Define p as a list of points
+   <li> The coordinates of points using in this example is produced by the
+   Reingold-Tilford algorithm; for the details please refer to
+   ComputerAlgebra/Trees/Lisp/plans/ReingoldTilford.hpp. </li>
+   <li> Define p as a list of points:
    \verbatim
    p: points([[0,0],[-2,-1],[2,-1],[-3,-2],[-1,-2],[1,-2],[3,-2],[-4,-3],
    [-2,-3],[0,-3],[2,-3],[4,-3]]);
    \endverbatim </li>
-   <li> Define a drawing scene in 2-dimensional.
+   <li> Define a 2-dimensional drawing scene:
    \verbatim
    s: gr2d(xrange = [-15,15],
    yrange = [-8,8],
@@ -43,9 +44,8 @@ License, or any later version. */
    polygon([[3,-2],[2,-3]]),
    polygon([[3,-2],[4,-3]]));
    \endverbatim </li>
-   <li> Perform the drawing using "draw(s);" </li>
+   <li> Perform the drawing using "draw(s);". </li>
   </ul> 
-
 
 */
 
