@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Visualisation/GraphDrawing/plans/ReingoldTilford.hpp
-  \brief Plans regarding visualisation of trees produced by Reingold-Tilford algorithm using Gnuplot
+  \file ComputerAlgebra/Trees/Lisp/plans/Visualisation.hpp
+  \brief Plans regarding visualisation of trees using Gnuplot
   
   
   \todo Create milestones
@@ -15,7 +15,7 @@ License, or any later version. */
   
   \todo A basic example of visualising a tree using Gnuplot
   <ul>
-   <li> The coordinates of points using in this example is produced by the
+   <li> The coordinates of points used in this example are produced by the
    Reingold-Tilford algorithm; for the details please refer to
    ComputerAlgebra/Trees/Lisp/plans/ReingoldTilford.hpp. </li>
    <li> Define p as a list of points:
