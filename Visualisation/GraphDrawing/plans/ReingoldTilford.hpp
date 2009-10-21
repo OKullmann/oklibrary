@@ -45,6 +45,9 @@ License, or any later version. */
    polygon([[3,-2],[4,-3]]));
    \endverbatim </li>
    <li> Perform the drawing using "draw(s);". </li>
+   <li> The task is now, given a tree labelled with 2-dimensional coordinates,
+   to extract this data algorithmically. For that it would be helpful to have
+   more explanations on the above. </li>
   </ul> 
 
 */
