@@ -62,7 +62,7 @@ License, or any later version. */
        preliminary x coordinate is 0 plus the defined minimum distance between 
        two nodes. In the case, the defined minimum distance is 2, so its 
        preliminary x coordinate is 0+2=2.( If the current node is the only one 
-       child of its parent, we define it as the left child.)</li>
+       child of its parent, we define it as the left child.) </li>
        <li> Set the offset value of each node from leaves to root. The offset
        is calculated by subtracting the average value of preliminary x
        coordinates of the children of current node from the preliminary x
@@ -71,7 +71,7 @@ License, or any later version. */
        0 and 2 respectively so the offset of r is 2-(0+2)/2=1. If current node
        has only one child (left child), the offset is the preliminary x
        coordinate of current node minus 1 (1 is the result of the minimum
-       distance 2 divided by 2). The offset of leaves are 0.</li>
+       distance 2 divided by 2). The offset of leaves are 0. </li>
        <li> In each level, the distance between the right most node of left 
        subtree and left most node of right subtree must be at least 2 which can
        be determined by rl-lr, which the lr is the preliminary x coordinate of 
@@ -121,7 +121,7 @@ License, or any later version. */
           following example. </li>
           <li> G is the right child of E, so px=0+2=2, offset=0. </li>
           <li> E is the right child of C, and the parent of F and G, so
-          px=0+2=2, offset=2-(0+2)/2=1.</li>
+          px=0+2=2, offset=2-(0+2)/2=1. </li>
           <li> Determine the separation between the right most node of left 
           subtree and the left most node of right subtree in same level, in
           the case, they are D and F .So use the method given above to
@@ -140,8 +140,8 @@ License, or any later version. */
           <li> Updated H, px=2+2=4, offset=1+2=3. </li>
           <li> Go down the lower level of subtrees to check the separation of G
           and K, (0+1+3)-(2+(-1)+1)=2. </li>
-          <li> It's the bottom of subtrees, so checking is completed.</li>
-          <li>A px=0, offset=0-(0+4)/2=-2. </li>
+          <li> It's the bottom of subtrees, so checking is completed. </li>
+          <li> A px=0, offset=0-(0+4)/2=-2. </li>
           <li> Now, post-order traversal is finished. </li>
          </ol>
         </li>
@@ -192,6 +192,7 @@ License, or any later version. */
     </ul>
    </li> 
   </ul> 
+  
  
 */
 
