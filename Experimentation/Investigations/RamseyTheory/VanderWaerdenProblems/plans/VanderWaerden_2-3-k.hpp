@@ -757,7 +757,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,20) > 386
+  \todo vanderwaerden_2(3,20) > 387
   <ul>
    <li> The predictions (see above) are n= 386, 389. </li>
    <li> Experience with k=19 is that gsat-tabu is best, however we should
@@ -800,10 +800,35 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   41100  614600 1393000 1479000 2188000 3910000
      \endverbatim
      </li>
-     <li> cutoff=4*10^6 with rnovelty:
+     <li> cutoff=4*10^6 with rnovelty: found a solution in run 62
+    (seed=1299962486, osteps=1466958). </li>
+     <li> rnovelty might be better:
      \verbatim
+ 0  2  3  4
+ 1 21 29 11
+62
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  14410  614000 1303000 1467000 2288000 3844000
      \endverbatim
      </li>
+     <li> For comparison: adaptnovelty+:
+     \verbatim
+>  ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 8000000 -i VanDerWaerden_2-3-20_387.cnf -solve | tee VanDerWaerden_2-3-20_387.cnf_AUS4
+ 1  2  3  4
+ 1 51 44  4
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 193900 1162000 2486000 2976000 4207000 7925000
+     \endverbatim
+     Unclear; but it seems the cutoff has to be increased to 8*10^6. </li>
+    </ol>
+   </li>
+   <li> n=388
+    <ol>
+     <li> rnovelty with cutoff=8*10^6 </li>
+     <li> gsat-tabu with cutoff=8*10^6 </li>
     </ol>
    </li>
   </ul>
