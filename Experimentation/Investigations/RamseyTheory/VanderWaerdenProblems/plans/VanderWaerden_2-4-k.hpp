@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) >= 309
+  \todo vanderwaerden_2(4,10) > 320
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1108,7 +1108,28 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
  1  2  7 24 39 20  6  1
    \endverbatim
    but these could well be outliers. Unclear situation. </li>
-   <li> cutoff=10^7: </li>
+   <li> cutoff=10^7: four solvers found solutions:
+   \verbatim
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 0  2  3 20 21 22 23 24 25 26 27 28
+ 2  1  2  2  2  6 16 21 26 17  4  1
+> table(E$best[E$alg=="rnoveltyp"])
+ 0  1 24 25 26 27 28 29 30 31 32 33
+ 1  2  3  3  4  6 17 25 21 10  7  1
+> table(E$best[E$alg=="rsaps"])
+ 0  3  4 26 27 28 29 30 31 32
+ 1  1  1  3  5 12 23 32 20  2
+> table(E$best[E$alg=="noveltyp"])
+ 0 39 40 41 42 43 44 45 46 47 48
+ 1  2  4  4  6 11 18 23 15 15  1
+   \endverbatim
+   where the above order seems to be appropriate for their ranking.
+   So perhaps for now we should assume that adaptnovelty+ is best. </li>
+   <li> n=330 with adaptnovelty+
+    <ol>
+     <li> cutoff=10^7 </li>
+    </ol>
+   </li>
   </ul>
 
 */
