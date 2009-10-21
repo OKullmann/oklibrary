@@ -82,7 +82,27 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
  783600 1609000 1837000 1735000 1937000 1998000
      \endverbatim
      </li>
-     <li> cutoff=4*10^6: </li>
+     <li> cutoff=4*10^6:
+     \verbatim
+ 6  8  9 10 11 12 13 14 15 16 17 18 19 20 24 26 27 28
+ 1  1  4  7  6  7  8  7  9  5 15 11  6  9  1  1  1  1
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+1405000 2539000 3257000 3100000 3774000 3999000
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^6:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19
+ 2  1  2  4  6  9  9  7  8 14  9  6 10  5  2  4  1  1
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+2026000 4310000 5894000 5648000 7210000 7995000
+     \endverbatim
+     </li>
+     <li> cutoff=16*10^6 </li>
     </ol>
    </li>
    <li> n=3000:
