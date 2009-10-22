@@ -67,5 +67,38 @@ License, or any later version. */
    some operation to make F, G variable-disjoint. </li>
   </ul>
 
+
+  \todo Produce extension to dualts_fcl
+  <ul>
+   <li> Given a formal clause list F, and a partial assignment
+   phi, there are forced assignments on phi * F which 
+   are not derived by unit propagation. </li>
+   <li> For example [[1,2,3},[{1,2},{1,3}]] has {1} as a forced
+   assignment, however
+   \verbatim
+DNF : [[1,2,3],[{1,2},{1,3}]]$
+CNF : fcs2cs(fcl2fcs(dualts_fcl(DNF)))$
+ucp_lpa_0_cs(CNF)[2];
+   \endverbatim 
+   yields [], not [{1}]. </li>
+   <li> Adding for every literal l, the translation of l => C where C is the
+   disjunction of dts(i) for every i where l occurs in the i-th clause in F, 
+   gives a representation which has that under any partial assignment, all 
+   forced assignments on F follow by unit clause propagation on dualts_fcl(F).
+   </li>
+   <li> Using the same example
+   \verbatim
+DNF : [[1,2,3],[{1,2},{1,3}]]$
+CNF : fcs2cs(fcl2fcs(dualts_fcl(DNF)))$
+CNF : union(CNF,{{dts(1),dts(2), -1},{1},{dts(1),-2},{dts(2),3}})$
+ucp_lpa_0_cs(CNF)[2];
+   \endverbatim
+   correctly yields [{1}].
+   </li>
+   <li> When DNF is a set of prime implicants, is it the case that 
+   given any partial assignment on dualts_fcl(F) (rather than F), all forced 
+   assignments on dualts_fcl(F) follow by UCP ? </li>
+  </ul>
+
 */
 
