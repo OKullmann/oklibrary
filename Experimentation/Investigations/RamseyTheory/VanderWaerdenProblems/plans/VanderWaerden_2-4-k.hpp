@@ -1127,7 +1127,17 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    So perhaps for now we should assume that adaptnovelty+ is best. </li>
    <li> n=330 with adaptnovelty+
     <ol>
-     <li> cutoff=10^7 </li>
+     <li> cutoff=10^7 
+     \verbatim
+ 2  4 23 26 28 29 30 31 32 33 34
+ 5  3  2  3 11 17 24 19  9  5  2
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  11110 1841000 4807000 4775000 7835000 9856000
+     \endverbatim
+     </li>
+     <li> cutoff=10^8 </li>
     </ol>
    </li>
   </ul>
