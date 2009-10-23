@@ -37,6 +37,50 @@ License, or any later version. */
      </li>
     </ul>
    </li>
+   <li> Pseudocode
+    <ul>
+     <li> Define a type Tree and type Node.
+      \verbatim
+       Type Tree {
+         Tree leftsubtree, rightsubtree;
+         Node leftmost, rightmost;
+         Node root;
+       }
+ 
+       Type Node {
+         Integer x, y;
+         Integer level;
+       }
+      \endverbatim
+      </li>
+      <li>
+      \verbatim
+       Function Tree RT(Tree T) {
+ 
+        If T.leftsubtree == empty && T.rightsubtree == empty
+           
+           T.leftmost.x=0, T.rightmost.x=0;
+           T.root.x=0, T.root.y=T.root.level;
+           Return T;
+        
+        Else
+          
+          T.leftsubtree = RT(T.leftsubtree);
+          T.rightsubtree = RT(T.rightsubtree);
+ 
+          tempx = (T.leftsubtree.rightmost.x-T.rightsubtree.leftmost.x+2)/2; 
+          T.leftsubtree = Translating(T.leftsubtree, [-tempx-T.leftsubtree.root.x, 0]);
+          T.rightsubtree = Translating(T.rightsubtree, [tempx-T.rightsubtree.root.x, 0]);
+          T.leftmost.x = T.leftsubtree.leftmost - tempx;
+          T.rightmost.x = T.rightsubtree.rightmost + tempx;
+          T.root.x = 0, T.root.y = T.root.level;
+ 
+        Return T;
+      }
+      \endverbatim
+      </li>
+    </ul>
+   </li>
   </ul> 
 
 
