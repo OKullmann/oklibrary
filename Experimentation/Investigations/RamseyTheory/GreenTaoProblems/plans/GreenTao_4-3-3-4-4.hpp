@@ -46,7 +46,7 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo greentao_4(3,3,4,4) > 2500
+  \todo greentao_4(3,3,4,4) > 2750
   <ul>
    <li> Assuming adaptnovelty+ is the best algorithm from the Ubcsat-suite.
    </li>
@@ -102,7 +102,8 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
 2026000 4310000 5894000 5648000 7210000 7995000
      \endverbatim
      </li>
-     <li> cutoff=16*10^6 </li>
+     <li> cutoff=32*10^6 found a solution in run 54 (seed=3641748139,
+     osteps=17217403). </li>
     </ol>
    </li>
    <li> n=3000:
