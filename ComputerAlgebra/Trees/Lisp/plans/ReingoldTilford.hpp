@@ -71,8 +71,8 @@ License, or any later version. */
           tempx = (T.leftsubtree.rightmost.x-T.rightsubtree.leftmost.x+2)/2; 
           T.leftsubtree = Translating(T.leftsubtree, [-tempx-T.leftsubtree.root.x, 0]);
           T.rightsubtree = Translating(T.rightsubtree, [tempx-T.rightsubtree.root.x, 0]);
-          T.leftmost.x = T.leftsubtree.leftmost - tempx;
-          T.rightmost.x = T.rightsubtree.rightmost + tempx;
+          T.leftmost.x = T.leftsubtree.leftmost.x - tempx;
+          T.rightmost.x = T.rightsubtree.rightmost.x + tempx;
           T.root.x = 0, T.root.y = T.root.level;
  
         Return T;
