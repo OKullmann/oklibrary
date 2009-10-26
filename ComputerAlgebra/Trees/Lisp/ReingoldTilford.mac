@@ -26,6 +26,14 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    * Reingold-Tilford algorithm *
    ******************************
 */
+reingold_tilford_rt(T,x,y) := block([rt],cons([[x,y]],rest(apply(rt:lambda([T,x,y],block([tc,tl,tr,temp],if T=[] then return([[[x,y],[0,0]]]) else [tl,tr]:map(rt,T,create_list(x,i,1,length(T)),create_list(y-1,i,1,length(T))),
+if mod((tl[1][2][2]-tr[1][2][1]+1),2)=0
+then temp:(tl[1][2][2]-tr[1][2][1]+1)/2
+else temp:(tl[1][2][2]-tr[1][2][1]+2)/2,
+tl:trans_lrt(tl,[-temp-tl[1][1][1],0]),
+tr:trans_lrt(tr,[temp-tr[1][1][1],0]),
+tc:cons([[x,y],[tl[1][2][1]-temp,tr[1][2][2]+temp]],[cons([tl[1][1]],rest(tl)),cons([tr[1][1]],rest(tr))]),
+return(tc))), [T,x,y]))))$
 
 
 /*!
