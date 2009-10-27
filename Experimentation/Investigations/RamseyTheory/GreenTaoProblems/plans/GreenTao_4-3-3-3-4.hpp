@@ -157,7 +157,21 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
    (seed=3070906952, osteps=244941203). </li>
    <li> n=997: cutoff=32*10^7 (adaptnovelty+) found as olution in run 20
    (seed=2765449941, osteps=202286569). </li>
-   <li> n=998 </li>
+   <li> n=998
+    <ol>
+     <li> cutoff=32*10^7 (adaptnovelty+):
+     \verbatim
+> E = read_ubcsat("GreenTao_4-3-3-3-4_998.cnf_OUT");
+ 1  2
+14 37
+51
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  3491000  46060000  74970000 107200000 146400000 276500000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while

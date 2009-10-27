@@ -92,6 +92,7 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
 1405000 2539000 3257000 3100000 3774000 3999000
      \endverbatim
      </li>
+     <li> n=2880 </li>
      <li> cutoff=8*10^6:
      \verbatim
  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19
@@ -156,7 +157,8 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
  4540000 11330000 18840000 18320000 25920000 31400000
      \verbatim
      </li>
-     <li> cutoff=100*10^6: </li>
+     <li> cutoff=100*10^6: 8 runs yield just a minimum of 20, so this
+     looks indeed unsatisfiable (or very hard). </li>
     </ol>
    </li>
   </ul>
