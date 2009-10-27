@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 26.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac
+  \brief Maxima functions for generating Gasarch hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+kill(sqv)$
+declare(sqv,noun)$
+sqv_var(i,j) := nounify(sqv)(i,j)$
+sqv_pair(P) := nounify(sqv)(first(P),second(P))$
+
+gasarch_ohg(p,q) := [
+ create_list(sqv_var(i,j), i,1,p, j,1,q),
+ map(lambda([p], map(sqv_pair, cartesian_product(first(p),second(p)))), cartesian_product_l(map(listify,[powerset(setn(p),2), powerset(setn(q),2)])))]$
+
+standardise_gasarch(p,q) := 
+  buildq([q], lambda([t], ev(t, sqv(i,j):=(i-1)*q+j, sqv)))$
+invstandardise_gasarch(p,q) := 
+  buildq([q], lambda([i], block([d : divide(i-1,q)+1],
+    sqv_var(d[1], d[2]))))$
+
+
+gasarch_stdohg(p,q) := block([s : standardise_gasarch(p,q)],
+ s(gasarch_ohg(p,q)))$
+
+/*!
+\endhtmlonly
+*/
+

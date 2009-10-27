@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/in
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/GasarchProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/HindmanProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/SchurProblems.mac")$

@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Hindman.mac")$
