@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/include.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Visualisation.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/ReingoldTilford.mac")$
