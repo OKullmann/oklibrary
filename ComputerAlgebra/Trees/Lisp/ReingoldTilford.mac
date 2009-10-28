@@ -26,6 +26,10 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    * Reingold-Tilford algorithm *
    ******************************
 */
+
+/* Produce a labelled rooted tree with 2-dimensional coordinates from an 
+   unlabelled rooted tree T with specified root coordinates x, y. 
+*/
 reingold_tilford_rt(T,x,y) := block([rt],cons([[x,y]],rest(apply(rt:lambda([T,x,y],block([tc,tl,tr,temp],if T=[] then return([[[x,y],[x,x]]]) else [tl,tr]:map(rt,T,create_list(x,i,1,length(T)),create_list(y-1,i,1,length(T))),
 if mod(((tl[1][2][2]-tl[1][1][1])-(tr[1][2][1]-tr[1][1][1])+1),2)=0
 then temp:((tl[1][2][2]-tl[1][1][1])-(tr[1][2][1]-tr[1][1][1])+1)/2
