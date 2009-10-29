@@ -113,7 +113,7 @@ map(lb,create_list(i,i,1,60)) - tau_arithprog_seq[3];
      <li> Otherwise the bound is trivial. </li>
     </ul>
    </li>
-   <li> Methods fur upper bounds on tau_arithprog_hg(k,n):
+   <li> Methods for upper bounds on tau_arithprog_hg(k,n):
     <ul>
      <li> tau_arithprog_hg(k,n) <= n. </li>
      <li> More generally, for 0 <= p <= n we have tau_arithprog_hg(k,n) <=
