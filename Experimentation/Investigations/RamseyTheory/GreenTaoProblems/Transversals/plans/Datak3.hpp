@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Elementary statistics
   <ul>
    <li> Investigating tr_arithprog_hg(k,n). </li>
-   <li> Staticstics:
+   <li> Statistics:
    \verbatim
 Lp_0_20 : create_list(transversal_hg_rs(arithprog_primes_hg(3,n)),n,0,20)$
 for i : 0 thru 20 do (print(i, statistics_fcs(arithprog_primes_hg(3,i)), 
