@@ -41,7 +41,7 @@ tdlrt2edges(T) :=block([nt,nt1,nt2],if rest(T)=[] then return(T) else [nt1,nt2]:
 nt:append(cons([T[1][1],nt1[1][1]],if rest(nt1)=[]then [] else nt1),cons([T[1][1],nt2[1][1]],if rest(nt2)=[]then [] else nt2)),
 return(nt))$
 
-/* Visualise a labelled rooted tree T with 2-dimensional coordinates. */
+/* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
    xran : the range for the x coordinate [x1,x2].
    yran : the range for the y coordinate [y1,y2].
