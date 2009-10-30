@@ -63,6 +63,30 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
    6984  116100  267100  324700  490500  998400
    \endverbatim
    </li>
+   <li> cutoff=10^7
+   \verbatim
+> ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 100 -i Gasarch_4-16-17.cnf -solve | tee Gasarch_4-16-17.cnf_OUT3
+> E = read_ubcsat("Gasarch_4-16-17.cnf_OUT3");
+ 3  4
+22 78
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  73910  647600 1763000 2432000 3618000 9801000
+   \endverbatim
+   </li>
+   <li> cutoff=10^8:
+   \verbatim
+>  ubcsat-okl -alg adaptnovelty+ -cutoff 100000000 -runs 100 -i Gasarch_4-16-17.cnf -solve | tee Gasarch_4-16-17.cnf_OUT4
+> E = read_ubcsat("Gasarch_4-16-17.cnf_OUT4");
+ 3  4
+39  4
+43
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   92170  8709000 23920000 31800000 50790000 93420000
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -162,6 +186,126 @@ c file_name                             Gasarch_4-17-17.cnf_m2pp_22254
    length of clauses learned around 140). </li>
   </ul>
 
+
+  \todo Investigating the transversals
+  <ul>
+   <li> The full transversal hypergraph:
+   \verbatim
+fGh(d) := block([G : gasarch_hg(d,d), T],
+ T : transversal_hg_rs(G),
+ print(d, statistics_fcs(G), statistics_fcs(T),  ncl_list_fcs(T)),
+ T
+)$
+
+fGh(1)$
+1 [1,0,0,-1,inf] [1,1,0,0,0] [[0,1]]
+
+fGh(2)$
+2 [4,1,4,4,4] [4,4,4,1,1] [[1,4]]
+
+
+fGh(3)$
+3 [9,9,36,4,4] [9,51,198,4,3] [[3,6],[4,45]]
+
+fGh(4)$
+4 [16,36,144,4,4] [16,1240,10320,9,7] [[7,96],[8,648],[9,496]]
+   \endverbatim
+   </li>
+   <li> Now just the sizes and the numbers of minimum hyperedges; first at 
+   Maxima/Lisp level, then at C++ level. The generator here needs to be
+   written so that only one vertex is added at a time.
+   \verbatim
+gasarch_sqatomic_ohg(n) := block([d : ceiling(n^(1/2)), G, V, VS, E],
+ G : gasarch_ohg(d,d),
+ V : take_elements(n,G[1]),
+ VS : setify(V),
+ E : sublist(G[2], lambda([H], subsetp(H, VS))),
+ [V,E])$
+gasarch_sqatomic_hg(n) := ohg2hg(gasarch_sqatomic_ohg(n))$
+
+oklib_monitor : true$
+Gh_36 : minimum_transversals_mongen(36,gasarch_sqatomic_hg,[{}])$
+   1 0 1
+2 0 1
+3 0 1
+   4 1 4
+5 1 4
+6 2 12
+7 2 12
+8 2 2
+   9 3 6
+10 3 6
+11 4 30
+12 5 72
+13 5 72
+14 5 12
+15 6 42
+   16 7 96
+17 7 96
+18 8 504
+19 9 1320
+20 10 2640
+21 10 2640
+22 10 480
+23 11 1728
+24 12 4056
+   25 13 7800
+26 13 7800
+27 13 720
+28 14 2520
+29 15 5760
+30 16 10800
+31 16 10800
+32 16 1440
+33 17 6480
+34 18 17280
+35 19 36000
+36 20 64800
+
+gasarch_sqatomic_stdohg(n) := block([d : ceiling(n^(1/2)), G, V, VS, E],
+ G : gasarch_stdohg(d,d),
+ V : take_elements(n,G[1]),
+ VS : setify(V),
+ E : sublist(G[2], lambda([H], subsetp(H, VS))),
+ [V,E])$
+gasarch_sqatomic_stdhg(n) := ohg2hg(gasarch_sqatomic_stdohg(n))$
+
+oklib_monitor : true$
+Gh_64 : minimum_transversals_mongen(64,gasarch_sqatomic_stdhg,[{}])$
+1 0 1
+2 0 1
+3 0 1
+    4 1 4
+5 1 3
+6 2 11
+7 2 11
+8 2 2
+    9 3 6
+10 3 1
+11 4 23
+12 5 65
+13 5 65
+14 5 12
+15 6 42
+    16 7 96
+17 7 3
+18 8 399
+19 9 1179
+20 10 2499
+21 10 2499
+22 10 480
+23 11 1728
+24 12 4056
+    25 13 7800
+26 13 20
+
+   \endverbatim
+   so d in [1,2,3,4,5,6] -> tau(d) = 0, 1, 3, 7, 13, 20 yielding densities 
+   0, 0.25, 0.33, 0.4375, 0.52, 0.5{period}, where the numbers of minimum 
+   transversals are 1, 4, 6, 96, 7800, 64800, with 4=2^2, 6=2 * 3, 96=2^5 * 3, 
+   7800=2^3 * 3 * 5^2 * 13, 64800=2^6 * 3^4 * 5^3.
+   </li>
+  </ul>
 
 */
 
