@@ -30,16 +30,17 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
 /* Extract a list of points [[x1,y1], [x2,y2], ... , [xn,yn]] from a labelled
    rooted tree T with 2-dimensional coordinates.
 */
-tdlrt2points(T) :=block([nt,nt1,nt2],if rest(T)=[] then return([T[1][1]]) else [nt1,nt2]:map(tdlrt2points, rest(T)),
-nt:cons(T[1][1],append(nt1,nt2)),
-return(nt))$
+tdlrt2points(T) :=block([nt,nt1,nt2],if rest(T)=[] then return([T[1][1]]) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2points, rest(T)),
+nt:cons(T[1][1],append(nt1,nt2))) else ([nt1]:map(tdlrt2points, rest(T)),
+nt:cons(T[1][1],nt1)),
+return(nt)))$
 
 /* Extract a list of edges [[[x1,y1],[x2,y2]], ... , [[xn',yn'],[xn,yn]]] from a
    labelled rooted tree T with 2-dimensional coordinates.
 */
-tdlrt2edges(T) :=block([nt,nt1,nt2],if rest(T)=[] then return(T) else [nt1,nt2]:map(tdlrt2edges, rest(T)), 
-nt:append(cons([T[1][1],nt1[1][1]],if rest(nt1)=[]then [] else nt1),cons([T[1][1],nt2[1][1]],if rest(nt2)=[]then [] else nt2)),
-return(nt))$
+tdlrt2edges(T) :=block([nt,nt1,nt2],if rest(T)=[] then return(T) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2edges, rest(T)), 
+nt:append(cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1),cons([T[1][1],nt2[1][1]],if rest(nt2)=[] and rest(nt2[1])=[] then [] else nt2))) else ([nt1]:map(tdlrt2edges, rest(T)), 
+nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), return(nt)))$
 
 /* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
