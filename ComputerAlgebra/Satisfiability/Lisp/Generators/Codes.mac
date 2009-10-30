@@ -1,0 +1,65 @@
+/* Oliver Kullmann, 29.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/Codes.mac
+  \brief Generators for finding codes via SAT
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Codes.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* According to Jan */
+
+
+/* "Covering variables": */
+kill(cvv)$
+declare(cvv, noun)$
+declare(cvv, posfun)$
+cvv_var(i,j,k) := nounify(cvv)(i,j,k)$
+
+/* "Transversal variables": */
+kill(trv)$
+declare(trv, noun)$
+declare(trv, posfun)$
+trv_var(i,j) := nounify(trv)(i,j)$
+
+/* "Selector variables": */
+kill(slv)$
+declare(slv, noun)$
+declare(slv, posfun)$
+slv_var(j,k) := nounify(slv)(j,k)$
+
+/* The list of cardinality constraints involved: */
+code_fcardl(n,M,q,R) := [
+ append(create_list(cvv_var(i,j,k), i,1,q, j,1,n, k,1,M),
+        create_list(trv_var(i,j), i,1,q, j,1,n),
+        create_list(slv_var(j,k), j,1,n, k,1,M)),
+ append(create_list([1,create_list(cvv_var(i,j,k), i,1,q),1], j,1,n, k,1,M),
+        create_list([1,create_list(trv_var(i,j), i,1,q),1], j,1,n),
+        create_list([0,create_list(slv_var(j,k), j,1,n),n-R-1], k,1,M))]$
+
+/* The clauses involved, in the "weak" form (only the necessary direction
+   of the implication):
+*/
+code_cl(n,M,q,R) := 
+ create_list({-cvv_var(i,j,k), -trv_var(i,j), slv_var(j,k)}, i,1,q, j,1,n, k,1,M)$
+
+code_fc-cardl(n,M,q,R) := block(
+ [F : code_fcardl(n,M,q,R)],
+  [F1[1], code_cl(n,M,q,R), F1[2]])$
+
+
+/*!
+\endhtmlonly
+*/
