@@ -21,26 +21,50 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
-
+/* Variables sqv(i,j) for field (i,j): */
 kill(sqv)$
 declare(sqv,noun)$
 sqv_var(i,j) := nounify(sqv)(i,j)$
 sqv_pair(P) := nounify(sqv)(first(P),second(P))$
 
+/* Enumerating the fields of a p x q rectangle in layers, where each layer
+   is a full vertical line from top to bottom followed by a horizontal line
+   from right to left:
+*/
+enumerate_rectangle(p,q) := block([m : min(p,q), R],
+ R : lappend(create_list(append(create_list([j,i], j,1,i), create_list([i,i-j], j,1,i-1)), i,1,m)),
+ R : append(R, lappend(create_list(create_list([i,m-j], j,0,m-1), i,m+1,p))),
+ R : append(R, lappend(create_list(create_list([j,i], j,1,m), i,m+1,q))),
+ R)$
+
+/* The ordered hypergraph with vertex set the fields of a p x q rectange,
+   ordered according to enumerate_rectangle(p,q), and with hyperedges all 
+   subsets with (exactly) 4 vertices which are the corners of some rectangle:
+*/
 gasarch_ohg(p,q) := [
- create_list(sqv_var(i,j), i,1,p, j,1,q),
+ map(sqv_pair,enumerate_rectangle(p,q)),
  map(lambda([p], map(sqv_pair, cartesian_product(first(p),second(p)))), cartesian_product_l(map(listify,[powerset(setn(p),2), powerset(setn(q),2)])))]$
+gasarch_hg(p,q) := ohg2hg(gasarch_ohg(p,q))$
 
+/* Computing standardisation functions, which standardise the variables
+   sqv(i,j) from a p x q rectangle according to the order enumerate_rectangle:
+*/
 standardise_gasarch(p,q) := 
-  buildq([q], lambda([t], ev(t, sqv(i,j):=(i-1)*q+j, sqv)))$
+  buildq([q], lambda([t], ev(t, sqv(i,j):= unknown, sqv)))$
+/* Computing the inversion function (which just applies to natural
+   numbers, not to terms as the standardisation-function): */
 invstandardise_gasarch(p,q) := 
-  buildq([q], lambda([i], block([d : divide(i-1,q)+1],
-    sqv_var(d[1], d[2]))))$
+  buildq([q], lambda([i], unknown))$
 
-
+/* The hypergraph isomorphic to gasarch_ohg(p,q), standardised according
+   to the given order:
+*/
 gasarch_stdohg(p,q) := block([s : standardise_gasarch(p,q)],
  s(gasarch_ohg(p,q)))$
+gasarch_stdhg(p,q) := ohg2hg(gasarch_stdohg(p,q))$
+
 
 /*!
 \endhtmlonly
