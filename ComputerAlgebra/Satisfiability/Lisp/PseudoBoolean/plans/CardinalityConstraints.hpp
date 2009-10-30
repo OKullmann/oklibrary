@@ -46,39 +46,16 @@ License, or any later version. */
    constraint-representations. </li>
    <li> See "The notion of a pseudo-boolean constraint" in
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp. </li>
-   <li> The scope of "cardinality constraints":
-    <ol>
-     <li> Following our general philosophy of using lists, we could use a
-     list with first element a string which identifies the constraint;
-     in this case the string would be "cardinality". </li>
-     <li> The second element would be one of the five relations. </li>
-     <li> Then comes the set L of relevant literals. </li>
-     <li> Finally the number B. </li>
-     <li> See below for arguments to remove the constraint identifier. </li>
-     <li> However, relations ">" and "<" are superfluous, and we should only
-     consider "<=", ">=" and "=". </li>
-     <li> Or, alternatively, only "<", ">" and "=" ? </li>
-     <li> Additionally, inbetween-constraints "a <= sum(L) <= b" could
-     be useful (see "cardinality_cl"). </li>
-     <li> Perhaps the elements of the cardinality-constraint-lists are
-     arranged as for the represented inequalities:
-      <ul>
-       <li> [L,">=",a] </li>
-       <li> [L,"<=",a] </li>
-       <li> [L,"=",a] </li>
-       <li> [a,"<=",L,"<=",b] </li>
-      </ul>
-      Likely we should only allowed such standardised forms.
-     </li>
-     <li> One could just use the form [a,"<=",L,"<=",b], since all three other
-     forms can be expressed by it (using [a,"<=",L,inf], [0,"<=",L,"<=",a]
-     and [a,"<=",L,"<=",a]. </li>
-     <li> Then one could just use triples [a,L,b]. </li>
-     <li> Seems alright that one allows for b now also inf; one should then
-     also allow it for a. </li>
-    </ol>
-   </li>
-   <li> It would be good if for the relation we would not just use some string,
+   <li> Let's use "card" for "cardinality constraint", "cardl" for lists of
+   cardinality constraints, "cards" for sets, and "fcardl" resp. "fcards" for
+   "formal" lists resp. sets of cardinality constraints. </li>
+   <li> A "cardinality constraint" is a triple [a,L,b], where L is a
+   list of variables, while a,b are natural numbers or 0 or inf. </li>
+   <li> The meaning is that for the number s of satisfied literals in L
+   we have a <= s <= b. </li>
+   <li> DONE (for cardinality constraints the translations into sums is not
+   of real relevance)
+   It would be good if for the relation we would not just use some string,
    but the actually Maxima-presentation of the corresponding Maxima-operator:
     <ol>
      <li> Now how to refer to the Maxima-operator "<" ? Apparently this is done
@@ -95,7 +72,8 @@ is(Csa);
   true
      \endverbatim
      </li>
-     <li> The literals here however are boolean literals, so substitution
+     <li> DONE
+     The literals here however are boolean literals, so substitution
      of values 0,1 seems inappropriate? On the one hand, boolean variables
      are supposed to be "positive functions", and also we have variables like
      "1". </li>
@@ -126,11 +104,10 @@ is(Csa);
      <li> It seems the appropriate generalisation would be to ask that amongst
      the given set of literals at least, exactly, at most etc. of
      the literals are satisfied by the assignment. </li>
-     <li> So one sees that it is not really sensible, as done above, to
-     add up *variables*, but literals are to be considered, which are (relative
-     to some (total) assignment) either true or false, and one considers then
-     only the literals which are true, and makes a requirement on their
-     count. </li>
+     <li> So one sees that it is not sensible to add up *variables*, but
+     literals are to be considered, which are (relative to some (total)
+     assignment) either true or false, and one considers then only the
+     literals which are true, and makes a requirement on their count. </li>
     </ol>
    </li>
    <li> Lists or sets:
@@ -141,7 +118,8 @@ is(Csa);
      list-cardinality-constraints (as a generalisation). </li>
     </ol>
    </li>
-   <li> Perhaps just "card" instead of "cardinality" is enough as the first
+   <li> DONE (no type identifiers)
+   Perhaps just "card" instead of "cardinality" is enough as the first
    element of the list.
     <ol>
      <li> Actually, yet we do not use such type-identifiers,
@@ -157,7 +135,8 @@ is(Csa);
       ["=", {1,2,3}, 2]. </li>
     </ol>
    </li>
-   <li> How to call these constraints?
+   <li> DONE
+   How to call these constraints?
     <ol>
      <li> "card" for "cardinality constraint"? </li>
      <li> And then further specialised regarding boolean or non-boolean
@@ -170,7 +149,7 @@ is(Csa);
     <ol>
      <li> It seems mixed problem instances should be lists of problem
      instances. </li>
-     <li> Using "cls-card" for a pair of (boolean) clause-set and (necessarily
+     <li> Using "cs-card" for a pair of (boolean) clause-set and (necessarily
      boolean) cardinality constraint. </li>
      <li> For such lists we should have the same type of literals for all
      components. </li>
