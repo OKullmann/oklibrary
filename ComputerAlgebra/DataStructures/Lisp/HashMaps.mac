@@ -243,6 +243,9 @@ enter_new_occurrence(h,x) :=
   set_hm(h,x,ev_hm_d(h,x,0)+1)$
 get_distribution(h) := listify(hm2sm(h))$
 
+/* Canning the above process in a function, that is, compute the
+   list of pairs [x,count]:
+*/
 list_distribution(L) := block([h : sm2hm({})],
   for x in L do enter_new_occurrence(h,x),
   get_distribution(h))$
