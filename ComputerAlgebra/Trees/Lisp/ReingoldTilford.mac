@@ -42,7 +42,7 @@ tc:cons([[x,y],[tl[1][2][1]-temp,tr[1][2][2]+temp]],[cons([tl[1][1]],rest(tl)),c
 return(tc))
 else
 ( [tl]:map(rt,T,[x],[y-1]),
-temp:((tl[1][2][2]-tl[1][1][1])-x+1),
+temp:((tl[1][2][2]-tl[1][1][1])+1),
 tl:trans_lrt(tl,[-temp-tl[1][1][1]+x,0]),
 tc:cons([[x,y],[tl[1][2][1]-temp,x]],[cons([tl[1][1]],rest(tl))]),
 return(tc))
