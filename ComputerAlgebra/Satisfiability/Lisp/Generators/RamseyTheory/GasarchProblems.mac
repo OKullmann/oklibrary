@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 gasarch_nbfclud(r,p,q) := 
