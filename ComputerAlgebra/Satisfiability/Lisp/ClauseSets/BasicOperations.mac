@@ -77,7 +77,7 @@ literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
    ***********
 */
 
-/* complementation of a set of literals */
+/* Complementation of a set or list of literals: */
 comp_sl(L) := map("-", L)$
 
 /*
