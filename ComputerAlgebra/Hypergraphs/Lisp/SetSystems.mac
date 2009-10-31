@@ -260,7 +260,7 @@ subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)))$
 /* Sorts the elements of a list according to their length (descending): */
 sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
-/* Remark: The Maxima function "sort" is not necessarily stable.
+/* Remark: The Maxima function "sort" is not necessarily stable (??).
    Thus elements of equal lengths may get reordered.
 */
 
