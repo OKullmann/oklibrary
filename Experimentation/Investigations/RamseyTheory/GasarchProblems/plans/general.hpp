@@ -16,6 +16,9 @@ License, or any later version. */
   <ul>
    <li> Let gasarch(r) by the smallest d such that gasarch_nbfclud(r,d,d)
    is unsatisfiable. </li>
+   <li> Since the problems are special bipartite Ramsey problems, we better
+   introduce bipartite Ramsey problems in general, and then consider the
+   Gasarch problems as finding a monochromatic 2x2-subgraph. </li>
   </ul>
 
 
@@ -86,6 +89,16 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
    92170  8709000 23920000 31800000 50790000 93420000
    \endverbatim
+   </li>
+   <li> Complete solvers:
+    <ol>
+     <li> march_pl doesn't make progress at all. </li>
+     <li> minisat2 and picosat apparently also don't make progress. </li>
+     <li> Hard to say about satz215, but also nothing happens. </li>
+     <li> OKsolver with or without minisat2-preprocessing doesn't complete
+     a node at level 30 within a day (a depth around 180 is reached,
+     with only very few 2-reductions (and a few single nodes)). </li>
+    </ol>
    </li>
   </ul>
 
