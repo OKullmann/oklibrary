@@ -44,6 +44,7 @@ nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1
 
 /* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
+   x,y  : the root coordinates (x,y) of the tree.
    xran : the range for the x coordinate [x1,x2].
    yran : the range for the y coordinate [y1,y2].
    pts  : the size of a point, it must be a non-negative number.
@@ -51,8 +52,8 @@ nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1
    ptc  : the colour of points (red, blue, ...)
    edgc : the colour of edges (red, blue, ...) 
 */
-draw_tdlrt(T,xran,yran,pts,ptt,ptc,edgc) := apply(draw2d,
-      append([grid=true,xrange = xran,yrange = yran,point_size = pts,point_type = ptt,color = ptc,points(tdlrt2points(reingold_tilford_rt(T,0,0))),color=edgc],map(polygon, tdlrt2edges(reingold_tilford_rt(T,0,0)))))$
+draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := apply(draw2d,
+      append([grid=true,xrange = xran,yrange = yran,point_size = pts,point_type = ptt,color = ptc,points(tdlrt2points(reingold_tilford_rt(T,x,y))),color=edgc],map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y)))))$
 
 
 /*!
