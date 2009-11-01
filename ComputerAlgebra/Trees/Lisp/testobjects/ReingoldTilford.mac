@@ -27,7 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/ReingoldTilford.mac")$
    ******************************
 */
 
-
+okltest_reingold_tilford_rt(reingold_tilford_rt);
 
 
 /*!
