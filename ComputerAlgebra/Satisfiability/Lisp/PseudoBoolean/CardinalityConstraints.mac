@@ -27,6 +27,49 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
+
+/* **********************
+   * Direct translation *
+   **********************
+*/
+
+/* Translating a cardinality constraint into a CNF-clause-list: */
+/* PROBLEM: Is sort stable?? And is ">" to be used instead of ">="?? */
+direct_crd2cl(C) := block(
+ [a : C[1], 
+  D : sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))),
+  b : C[3]],
+  append(
+   direct_crd2cl_ge(D, a),
+   direct_crd2cl_lt(D, b+1)
+ )
+)$
+
+/* D sorted descending, ub strict upper bound: */
+direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
+ elseif emptyp(D) then []
+ else block([p : first(D), x, c, with_x, without_x],
+  x : first(p),
+  c : second(p),
+  with_x : add_element_l(-x,direct_crd2cl_lt(rest(D), ub-c)),
+  without_x : direct_crd2cl_lt(rest(D), ub),
+  append(with_x, without_x)
+)$
+
+/* D sorted descending, lb strict lower bound: */
+direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else
+ block([s : sum_l(map(second,D))],
+  if lb > s then [{}]
+  else direct_crd2cl_lt(map(lambda([p], [-first(p),second(p)]),D), s-lb+1))$
+
+/* Translating a list of cardinality constraints into a list of
+   CNF-clause-lists:
+*/
+direct_crdl2cl(F) := lappend(map(direct_crd2cl,F))$
+
+direct_fccardl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
+
+
 /* ************************
    * Using unary encoding *
    ************************
