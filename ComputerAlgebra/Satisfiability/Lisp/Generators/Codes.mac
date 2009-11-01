@@ -19,46 +19,109 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Codes.mac");
 \htmlonly
 */
 
-/* According to Jan */
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
-/* "Covering variables": */
-kill(cvv)$
-declare(cvv, noun)$
-declare(cvv, posfun)$
-cvv_var(i,j,k) := nounify(cvv)(i,j,k)$
+/* ******************
+   * Covering codes *
+   ******************
+*/
 
-/* "Transversal variables": */
-kill(trv)$
-declare(trv, noun)$
-declare(trv, posfun)$
-trv_var(i,j) := nounify(trv)(i,j)$
+/* Given the alphabet-size q, the length n of code-words, and the envisaged
+   radius R (all natural numbers), determine the minimum size M of a subset
+   C of {1,...,q}^n (a code) such that every word from {1,...,q}^n has
+   Hamming-distance to an element of C at most R.
+*/
 
-/* "Selector variables": */
-kill(slv)$
-declare(slv, noun)$
-declare(slv, posfun)$
-slv_var(j,k) := nounify(slv)(j,k)$
+/* According to Jan-Christoph Schlage-Puchta the code C is encoded as
+   an nxq-matrix A with entries subsets of {1,...,M} such that every
+   row is a partition of {1,...,M}:
+   A(i,j) is the set of indices of codewords c with c_i=j.
+   An arbitrary element t of {1,...,q}^n is a map from {1,...,n}
+   to {1,...,q}, that is, for every row i we select a column t(i)
+   of A. The Hamming distance of code-word k in {1,...,M} to t
+   is n - m, where m is the number of i in {1,...,n} such that
+   k is in A(i,t(i)) (these indices i are the indices where
+   code-word c_k is equal to w).
+
+   The solutions of the problems created below are the code words which
+   have a distance greater than R to all code-words.
+
+   This is a QBF SAT-problem, where the "code variables" below are universal
+   variables, while the "word variables" and the "coincidence variables"
+   are existential variables: If the problem is satisfiable, then no covering
+   code exists for the given parameters, while if it is unsatisfiable, then
+   a covering code was found.
+*/
+
+
+/* "Code variables", where cdv(i,j,k) means that part j of the
+    partition of {1,...,M} represented by row i contains k, that is,
+    element k of the code has in component i the value j.
+*/
+kill(cdv)$
+declare(cdv, noun)$
+declare(cdv, posfun)$
+cdv_var(i,j,k) := nounify(cdv)(i,j,k)$
+
+/* "Word variables", where wrv(i,j) means that the word w
+   selects value j in row i:
+*/
+kill(wrv)$
+declare(wrv, noun)$
+declare(wrv, posfun)$
+wrv_var(i,j) := nounify(wrv)(i,j)$
+
+/* "Coincidence variables", where civ(i,k) means that the transversal
+   coincides in row i with the element k of the code:
+*/
+kill(civ)$
+declare(civ, noun)$
+declare(civ, posfun)$
+civ_var(i,k) := nounify(civ)(i,k)$
+
 
 /* The list of cardinality constraints involved: */
-code_fcardl(n,M,q,R) := [
- append(create_list(cvv_var(i,j,k), i,1,q, j,1,n, k,1,M),
-        create_list(trv_var(i,j), i,1,q, j,1,n),
-        create_list(slv_var(j,k), j,1,n, k,1,M)),
- append(create_list([1,create_list(cvv_var(i,j,k), i,1,q),1], j,1,n, k,1,M),
-        create_list([1,create_list(trv_var(i,j), i,1,q),1], j,1,n),
-        create_list([0,create_list(slv_var(j,k), j,1,n),n-R-1], k,1,M))]$
+coveringcode_fcardl(q,n,R,M) := [
+ append(create_list(cdv_var(i,j,k), i,1,n, j,1,q, k,1,M),
+        create_list(wrv_var(i,j), i,1,n, j,1,q),
+        create_list(civ_var(i,k), i,1,n, k,1,M)),
+ append(create_list([1,create_list(cdv_var(i,j,k), j,1,q),1], i,1,n, k,1,M),
+        create_list([1,create_list(wrv_var(i,j), j,1,q),1], i,1,n),
+        create_list([0,create_list(civ_var(i,k), i,1,n),n-R-1], k,1,M))]$
 
-/* The clauses involved, in the "weak" form (only the necessary direction
-   of the implication):
+/* The clauses involved, in the "weak" form (only the necessary direction), 
+   that is, the implication that if code-word k has in component i the
+   value j and the select word t has the same value at that position,
+   then the counting-variable is true:
 */
-code_cl(n,M,q,R) := 
- create_list({-cvv_var(i,j,k), -trv_var(i,j), slv_var(j,k)}, i,1,q, j,1,n, k,1,M)$
+coveringcode_cl(q,n,R,M) := 
+ create_list({-cdv_var(i,j,k), -wrv_var(i,j), civ_var(i,k)}, i,1,q, j,1,n, k,1,M)$
 
-code_fc-cardl(n,M,q,R) := block(
- [F : code_fcardl(n,M,q,R)],
-  [F1[1], code_cl(n,M,q,R), F1[2]])$
+/* The complete representation, as a formal combination of clause-list and
+   cardinality-constraint list:
+*/
+coveringcode_fccardl(q,n,R,M) := block(
+ [F : coveringcode_fcardl(q,n,R,M)],
+  [F[1], coveringcode_cl(q,n,R,M), F[2]])$
 
+/* Translated into a boolean formal clause-list, using the direct
+   translation:
+*/
+coveringcode_fcl(q,n,R,M) := direct_fccardl2fcl(coveringcode_fccardl(q,n,R,M))$
+
+
+/* Quick hack for the output (not explicitly renaming the variables): */
+output_coveringcode(q,n,R,M,filename) := block([FF : standardise_fcl(coveringcode_fcl(q,n,R,M))],
+  output_fcl_v(
+    sconcat("The existence of a covering code of alphabet size ", q, ", length ", n, ", radius ", R, " and with M = ", M, "."), 
+    FF[1],
+    filename,
+    FF[2]))$
+
+output_coveringcode_stdname(q,n,R,M) := output_coveringcode(q,n,R,M,
+  sconcat("CoveringCode_",q,"-",n,"-",R,"_",M,".cnf"))$
 
 /*!
 \endhtmlonly
