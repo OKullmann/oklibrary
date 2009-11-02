@@ -562,6 +562,17 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      average) are of interest. </li>
     </ol>
    </li>
+   <li> More information on single-nodes:
+    <ol>
+     <li> Data on the tree-depth (average, deviation) should be of interest.
+     </li>
+     <li> Also data on the length of the path-assignment. </li>
+     <li> And data on the clause learned, if possible. Then likely we should
+     remove from the resolution-variable-set at each resolution step the
+     resolution variable (this is not done yet, since we don't use that
+     clause). </li>
+    </ol>
+   </li>
    <li> Monitoring:
     <ol>
      <li> The prediction e.g. at the beginning is distorted, since the build-up
