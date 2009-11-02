@@ -83,7 +83,7 @@ civ_var(i,k) := nounify(civ)(i,k)$
 
 
 /* The list of cardinality constraints involved: */
-coveringcode_fcardl(q,n,R,M) := [
+coveringcode_fcrdl(q,n,R,M) := [
  append(create_list(cdv_var(i,j,k), i,1,n, j,1,q, k,1,M),
         create_list(wrv_var(i,j), i,1,n, j,1,q),
         create_list(civ_var(i,k), i,1,n, k,1,M)),
@@ -102,14 +102,14 @@ coveringcode_cl(q,n,R,M) :=
 /* The complete representation, as a formal combination of clause-list and
    cardinality-constraint list:
 */
-coveringcode_fccardl(q,n,R,M) := block(
- [F : coveringcode_fcardl(q,n,R,M)],
+coveringcode_fccrdl(q,n,R,M) := block(
+ [F : coveringcode_fcrdl(q,n,R,M)],
   [F[1], coveringcode_cl(q,n,R,M), F[2]])$
 
 /* Translated into a boolean formal clause-list, using the direct
    translation:
 */
-coveringcode_fcl(q,n,R,M) := direct_fccardl2fcl(coveringcode_fccardl(q,n,R,M))$
+coveringcode_fcl(q,n,R,M) := direct_fccrdl2fcl(coveringcode_fccrdl(q,n,R,M))$
 
 
 /* Quick hack for the output (not explicitly renaming the variables): */

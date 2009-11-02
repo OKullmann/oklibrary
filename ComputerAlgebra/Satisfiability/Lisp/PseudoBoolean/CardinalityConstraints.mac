@@ -45,7 +45,12 @@ direct_crd2cl(C) := block(
  )
 )$
 
-/* D sorted descending, ub strict upper bound: */
+/*  Given a list D of literals together with counts (as a list of pairs [x,c],
+    where x is a literal and c >= 1 the count), sorted in descending order
+    w.r.t. the counts, and a strict upper bound ub, compute the equivalent
+    clause-list: */
+/* QUESTION: This list should be the repetition-free list of prime implicates?
+*/
 direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
  elseif emptyp(D) then []
  else block([p : first(D), x, c, with_x, without_x],
@@ -56,7 +61,10 @@ direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
   append(with_x, without_x)
 )$
 
-/* D sorted descending, lb strict lower bound: */
+/* A list D as above for direct_crd2cl_lt and a (non-strict) lower bound lb,
+   compute the equivalent clause-list: */
+/* QUESTION: This list should be the repetition-free list of prime implicates?
+*/
 direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else
  block([s : sum_l(map(second,D))],
   if lb > s then [{}]
@@ -67,7 +75,9 @@ direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else
 */
 direct_crdl2cl(F) := lappend(map(direct_crd2cl,F))$
 
-direct_fccardl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
+/* Translating a formal clause-cardinality-list into a formal clause-list:
+*/
+direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
 
 
 /* ************************

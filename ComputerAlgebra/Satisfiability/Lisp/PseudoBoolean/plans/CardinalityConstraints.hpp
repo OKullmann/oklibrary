@@ -46,8 +46,8 @@ License, or any later version. */
    constraint-representations. </li>
    <li> See "The notion of a pseudo-boolean constraint" in
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp. </li>
-   <li> Let's use "card" for "cardinality constraint", "cardl" for lists of
-   cardinality constraints, "cards" for sets, and "fcardl" resp. "fcards" for
+   <li> Let's use "crd" for "cardinality constraint", "crdl" for lists of
+   cardinality constraints, "crds" for sets, and "fcrdl" resp. "fcrds" for
    "formal" lists resp. sets of cardinality constraints. </li>
    <li> A "cardinality constraint" is a triple [a,L,b], where L is a
    list of variables, while a,b are natural numbers or 0 or inf. </li>
@@ -138,10 +138,10 @@ is(Csa);
    <li> DONE
    How to call these constraints?
     <ol>
-     <li> "card" for "cardinality constraint"? </li>
+     <li> "crd" for "cardinality constraint"? </li>
      <li> And then further specialised regarding boolean or non-boolean
      variables, and CNF- or DNF-interpretation of variables? </li>
-     <li> Perhaps we aim at a symbolism where "card" can just replace
+     <li> Perhaps we aim at a symbolism where "crd" can just replace
      "clause", while otherwise everything else is reused?! </li>
     </ol>
    </li>
@@ -149,8 +149,8 @@ is(Csa);
     <ol>
      <li> It seems mixed problem instances should be lists of problem
      instances. </li>
-     <li> Using "cs-card" for a pair of (boolean) clause-set and (necessarily
-     boolean) cardinality constraint. </li>
+     <li> Using "cs-crd" for a pair of (boolean) clause-set and (necessarily
+     boolean) crdinality constraint. </li>
      <li> For such lists we should have the same type of literals for all
      components. </li>
     </ol>
