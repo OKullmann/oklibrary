@@ -1125,6 +1125,16 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    \endverbatim
    where the above order seems to be appropriate for their ranking.
    So perhaps for now we should assume that adaptnovelty+ is best. </li>
+   <li> n=321 with adaptnovelty+
+    <ol>
+     <li> cutoff=10^7:
+     \verbatim
+> nohup ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 10000000 -i VanDerWaerden_2-4-10_321.cnf | tee VanDerWaerden_2-4-10_321.cnf_OUT &
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=322 </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
@@ -1137,7 +1147,13 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
   11110 1841000 4807000 4775000 7835000 9856000
      \endverbatim
      </li>
-     <li> cutoff=10^8 </li>
+     <li> cutoff=10^8:
+     \verbatim
+ 2  3  4  5  6 22 23 24 25 26 27 28 29 30
+33 50 39 22  3  1  1  9 23 40 43 53 11  4
+332
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
