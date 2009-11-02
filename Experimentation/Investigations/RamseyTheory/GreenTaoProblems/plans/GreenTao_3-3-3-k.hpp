@@ -356,7 +356,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1927
+  \todo greentao_3(3,3,5) > 1928
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -458,7 +458,9 @@ BestSolution_Max = 2.000000
      </li>
     </ol>
    </li>
-   <li> n=1928, cutoff=4*10^9 </li>
+   <li> n=1928, cutoff=4*10^9: In 100 runs one solution was found
+   (seed=733180643, osteps=3800942926). </li>
+   <li> n=1929 </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
