@@ -96,8 +96,65 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
      <li> minisat2 and picosat apparently also don't make progress. </li>
      <li> Hard to say about satz215, but also nothing happens. </li>
      <li> OKsolver with or without minisat2-preprocessing doesn't complete
-     a node at level 30 within a day (a depth around 180 is reached,
-     with only very few 2-reductions (and a few single nodes)). </li>
+     a node at level 30 within a day:
+     \verbatim
+> OKsolver_2002-m2pp -M -D30 Gasarch_4-16-17.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         12
+c initial_number_of_variables           816
+c initial_number_of_clauses             66096
+c initial_number_of_literal_occurrences 393312
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   816
+c running_time(sec)                     37419.5
+c number_of_nodes                       244589
+c number_of_single_nodes                24758
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                889054
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         16367
+c max_tree_depth                        194
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Gasarch_4-16-17.cnf_m2pp_8228
+> OKsolver_2002-O3-DNDEBUG -M -D30 Gasarch_4-16-17.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         4
+c initial_number_of_variables           1088
+c initial_number_of_clauses             67184
+c initial_number_of_literal_occurrences 265472
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1632
+c running_time(sec)                     10937.1
+c number_of_nodes                       700231
+c number_of_single_nodes                37899
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5878849
+c number_of_pure_literals               0
+c number_of_autarkies                   302
+c number_of_missed_single_nodes         30075
+c max_tree_depth                        233
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 147596107
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Gasarch_4-16-17.cnf
+     \endverbatim
+     Unclear whether preprocessing helps or not.
+     </li>
     </ol>
    </li>
   </ul>
