@@ -395,10 +395,9 @@ Current size of closure is  83
 Current size of closure is  434
 Current size of closure is  966
 Current size of closure is  972
-XXX
-4 XXX
+4 972
    \endverbatim
-   (where 176=2^4*11, 404=2^2*101, 656=2^4*41). </li>
+   (where 176=2^4*11, 404=2^2*101, 656=2^4*41, 972=2^2*3^5). </li>
    <li> In Gap:
     <ol>
      <li> n=1:
