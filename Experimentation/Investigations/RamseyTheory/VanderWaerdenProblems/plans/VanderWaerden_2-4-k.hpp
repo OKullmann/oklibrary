@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 320
+  \todo vanderwaerden_2(4,10) > 321
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1130,11 +1130,23 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
      <li> cutoff=10^7:
      \verbatim
 > nohup ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 10000000 -i VanDerWaerden_2-4-10_321.cnf | tee VanDerWaerden_2-4-10_321.cnf_OUT &
+> E=read_ubcsat("VanDerWaerden_2-4-10_321.cnf_OUT")
+ 0  1  2 21 22 23 24 25 26 27
+ 1  2  2  1  6 12 24 25 18  9
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  36040 1817000 3963000 4553000 7101000 9987000
      \endverbatim
      </li>
     </ol>
    </li>
-   <li> n=322 </li>
+   <li> n=322:
+    <ol>
+     <li> cutoff=10^7:
+     </li>
+    </ol>
+   </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
