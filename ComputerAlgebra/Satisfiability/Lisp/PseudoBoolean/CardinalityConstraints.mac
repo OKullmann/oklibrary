@@ -46,9 +46,14 @@ direct_crd2cl(C) := block(
 )$
 
 /*  Given a list D of literals together with counts (as a list of pairs [x,c],
-    where x is a literal and c >= 1 the count), sorted in descending order
-    w.r.t. the counts, and a strict upper bound ub, compute the equivalent
-    clause-list: */
+    where x is a literal and c >= 1 the count; no repetition w.r.t. literals),
+    sorted in descending order w.r.t. the counts, and a strict upper bound ub,
+    compute the equivalent clause-list.
+    The order of the clause-list is as follows:
+ 1. The major sorting is given by the order of D (regarding the literals).
+ 2. For a given literal x, first the clauses containing -x and then the clauses
+    not containing the underlying variable are taken.
+*/
 /* QUESTION: This list should be the repetition-free list of prime implicates?
 */
 direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
