@@ -90,6 +90,18 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
    92170  8709000 23920000 31800000 50790000 93420000
    \endverbatim
    </li>
+   <li> With minisat2-preprocessing:
+    <ol>
+     <li> cutoff=10^6 (adaptnovelty+):
+     \verbatim
+ 5  6  7  8  9 10
+ 3 14 38 28 12  5
+100
+     \endverbatim
+     </li>
+     <li> cutoff=10^7 </li>
+    </ol>
+   </li>
    <li> Complete solvers:
     <ol>
      <li> march_pl doesn't make progress at all. </li>
