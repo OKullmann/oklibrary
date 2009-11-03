@@ -441,77 +441,78 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      who can't (and further measures). </li>
     </ol>
    </li>
-   <li> Combining different repositories:
-   <ul>
-    <li> Accidentally, from the OKlib-repository I pulled the
-    Annotations-repository --- and it worked: It merged the complete history of
-    the Annotations-files and -directories into the OKlib-directory.
-    </li>
-    <li> Problematic only that it moved everything to the top-level: How can we
-    achieve that they all are moved to some sub-directory? The git-pull
-    documentation seems not to say something here? </li>
-    <li> A simple thing to do is to first create in the repository
-    Annotations a directory "Annotations", move all files with
-    \verbatim
+  </ul>
+
+
+  \todo Combining different repositories:
+  <ul>
+   <li> Accidentally, from the OKlib-repository I pulled the
+   Annotations-repository --- and it worked: It merged the complete history of
+   the Annotations-files and -directories into the OKlib-directory.
+   </li>
+   <li> Problematic only that it moved everything to the top-level: How can we
+   achieve that they all are moved to some sub-directory? The git-pull
+   documentation seems not to say something here? </li>
+   <li> A simple thing to do is to first create in the repository
+   Annotations a directory "Annotations", move all files with
+   \verbatim
 git mv file1 file2 dir1 dir2 Annotations
-    \endverbatim
-    to this subdirectory (with a subsequent "git commit"), and then with
-    pulling from this directory we get all files into OKlib (with new part
-    "Annotations"). The problem here is that the history gets interrupted.
-    </li>
-    <li> The solution (from
-    http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html)
-     <ol>
-      <li> To pull everything (the first time) from repository B, placing it in
-      directory "Directory", use the following:
-      \verbatim
+   \endverbatim
+   to this subdirectory (with a subsequent "git commit"), and then with
+   pulling from this directory we get all files into OKlib (with new part
+   "Annotations"). The problem here is that the history gets interrupted.
+   </li>
+   <li> The solution (from
+   http://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html)
+    <ol>
+     <li> To pull everything (the first time) from repository B, placing it in
+     directory "Directory", use the following:
+     \verbatim
 git remote add -f Bproject /path/to/B
 git merge -s ours --no-commit Bproject/master
 git read-tree --prefix=Directory/ -u Bproject/master
 git commit -m "Merge B project as subdirectory Directory"
-      \endverbatim
-      (where "Bproject" is just a (remote-)name, while "/path/to/B" means the
-      other repository).
-      </li>
-      <li> Then via subsequent
-      \verbatim
+     \endverbatim
+     (where "Bproject" is just a (remote-)name, while "/path/to/B" means the
+     other repository).
+     </li>
+     <li> Then via subsequent
+     \verbatim
 git pull -s subtree Bproject master
-      \endverbatim
-      updates from the other repository (B) can be pulled. </li>
-      <li> If this is (no longer) needed, then use
-      \verbatim
+     \endverbatim
+     updates from the other repository (B) can be pulled. </li>
+     <li> If this is (no longer) needed, then use
+     \verbatim
 git remote rm Bproject
-      \endverbatim
-      </li>
-     </ol>
-    </li>
-    <li> An alternative solution from [Version Control with Git; Jon Loeliger,
-    2009], page 143:
-     <ol>
-      <li> Here one just assumes that repository B, which uses directory B,
-      shall be placed at A/B. </li>
-      <li> First just the content of B is copied to A/B (nothing related to
-      git), and this is committed in one go (using a message like "Transferring
-      B to A"). </li>
-      <li> Then the history is pulled in via
-      \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> An alternative solution from [Version Control with Git; Jon Loeliger,
+   2009], page 143:
+    <ol>
+     <li> Here one just assumes that repository B, which uses directory B,
+     shall be placed at A/B. </li>
+     <li> First just the content of B is copied to A/B (nothing related to
+     git), and this is committed in one go (using a message like "Transferring
+     B to A"). </li>
+     <li> Then the history is pulled in via
+     \verbatim
 git pull -s ours path_to_repository_B master
-      \endverbatim
-      </li>
-      <li> If one wishes to pull further changes from B, one can do so via
-      \verbatim
+     \endverbatim
+     </li>
+     <li> If one wishes to pull further changes from B, one can do so via
+     \verbatim
 git pull -s subtree path_to_repository_B master
-      \endverbatim
-      (this is the same as above, only not using an alias). </li>
-      <li> The difference to above is just that here no alias (above
-      "Bproject") for the remote repository has been introduced, and that
-      in the above solution one can place the other project at an arbitrary
-      place (just ignoring the directory-name of B), while here the directory
-      name of B is used, and it is placed directly at the root of this
-      repository A. </li>
-     </ol>
-    </li>
-   </ul>
+     \endverbatim
+     (this is the same as above, only not using an alias). </li>
+     <li> The difference to above is just that here no alias (above
+     "Bproject") for the remote repository has been introduced, and that
+     in the above solution one can place the other project at an arbitrary
+     place (just ignoring the directory-name of B), while here the directory
+     name of B is used, and it is placed directly at the root of this
+     repository A. </li>
+    </ol>
    </li>
   </ul>
 
