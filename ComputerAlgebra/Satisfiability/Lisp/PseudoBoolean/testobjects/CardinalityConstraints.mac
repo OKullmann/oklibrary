@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/testobjects/
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac")$
 
+/* **********************
+   * Direct translation *
+   **********************
+*/
+
+okltest_direct_crd2cl_lt(direct_crd2cl_lt);
+
 /* ************************
    * Using unary encoding *
    ************************

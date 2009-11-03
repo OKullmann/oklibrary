@@ -26,6 +26,21 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePr
 kill(f)$
 
 
+/* **********************
+   * Direct translation *
+   **********************
+*/
+
+okltest_direct_crd2cl_lt(f) := (
+  for ub : -1 thru 1 do
+    assert(f([],ub) = if ub <= 0 then [{}] else []),
+  for c : 1 thru 3 do
+    for ub : -1 thru c+3 do
+      assert(f([[1,c]], ub) = if ub<=0 then [{}] elseif ub<=c then [{-1}] else []),
+  /* XXX */
+  true)$
+
+
 /* ************************
    * Using unary encoding *
    ************************
