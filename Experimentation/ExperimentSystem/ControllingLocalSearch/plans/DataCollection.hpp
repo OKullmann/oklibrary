@@ -88,6 +88,16 @@ plot(E$alg,E$best)
   </ul>
 
 
+  \bug Bad parameter of eval_ubcsat
+  <ul>
+   <li> Collecting the parameters in a list is inappropriate, but just the
+   standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
+  </ul>
+
+
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
