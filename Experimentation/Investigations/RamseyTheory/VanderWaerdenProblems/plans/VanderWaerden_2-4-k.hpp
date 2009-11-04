@@ -1145,7 +1145,12 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    osteps=2557765). </li>
    <li> n=323, cutoff=10^7: a solution was found in run 22 (seed=420342374,
    osteps=9743243). </li>
-   <li> n=324, cutoff=10^7: </li>
+   <li> n=324
+    <ol>
+     <li> cutoff=10^7: </li>
+     <li> cutoff=10^8: </li>
+    </ol>
+   </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
@@ -1163,6 +1168,9 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
  2  3  4  5  6 22 23 24 25 26 27 28 29 30
 33 50 39 22  3  1  1  9 23 40 43 53 11  4
 332
+  2   3   4   5   6  21  22  23  24  25  26  27  28  29  30
+ 84 113 112  48  18   2   3  13  19  62 117 189 162  51   7
+1000
      \endverbatim
      </li>
     </ol>
