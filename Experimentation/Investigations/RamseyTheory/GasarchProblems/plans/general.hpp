@@ -99,7 +99,34 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
 100
      \endverbatim
      </li>
-     <li> cutoff=10^7 </li>
+     <li> cutoff=10^7
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 100 -i Gasarch_4-16-17-m2pp.cnf -solve | tee Gasarch_4-16-17-m2pp.cnf_OUT2
+Clauses = 66096
+Variables = 1088
+TotalLiterals = 393312
+FlipsPerSecond = 30907
+BestStep_Mean = 3805127.530000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 5.830000
+BestSolution_Median = 6.000000
+BestSolution_Min = 4.000000
+BestSolution_Max = 7.000000
+> E=read_ubcsat("Gasarch_4-16-17-m2pp.cnf_OUT2")
+ 4  5  6  7
+ 2 26 59 13
+100
+     \endverbatim
+     So here again it seems that the preprocessing doesn't help; and
+     furthermore the flips-per-second seem to be drastically reduced
+     compared to without preprocessing (the number of literal occurrences
+     has just been increased by a factor of 393312/265472 = 1.481557). </li>
+     <li> One needs to consider whether other algorithms might be better on
+     this instance:
+
+     </li>
     </ol>
    </li>
    <li> Complete solvers:
