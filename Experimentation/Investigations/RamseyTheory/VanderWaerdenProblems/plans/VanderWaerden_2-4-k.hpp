@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 321
+  \todo vanderwaerden_2(4,10) > 323
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1141,12 +1141,11 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
      </li>
     </ol>
    </li>
-   <li> n=322:
-    <ol>
-     <li> cutoff=10^7:
-     </li>
-    </ol>
-   </li>
+   <li> n=322, cutoff=10^7: a solution was found in run 51 (seed=3424017434,
+   osteps=2557765). </li>
+   <li> n=323, cutoff=10^7: a solution was found in run 22 (seed=420342374,
+   osteps=9743243). </li>
+   <li> n=324, cutoff=10^7: </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
