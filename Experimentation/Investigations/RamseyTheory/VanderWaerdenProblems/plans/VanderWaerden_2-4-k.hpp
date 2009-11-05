@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 323
+  \todo vanderwaerden_2(4,10) > 324
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1147,10 +1147,39 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    osteps=9743243). </li>
    <li> n=324
     <ol>
-     <li> cutoff=10^7: </li>
-     <li> cutoff=10^8: </li>
+     <li> cutoff=10^7 found one solution in 1000 runs:
+     \verbatim
+> nohup ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 10000000 -i VanDerWaerden_2-4-10_324.cnf | tee VanDerWaerden_2-4-10_324.cnf_OUT &
+> E=read_ubcsat("VanDerWaerden_2-4-10_324.cnf_OUT")
+  0   1   2   3   4   5  18  21  22  23  24  25  26  27  28  29  30  31
+  1  11  19   9   4   2   1   2   9  29  69 143 193 254 178  66   9   1
+1000
+> E[E$min==0,]
+    sat min  osteps  msteps       seed
+993   1   0 2065594 2065594 2579089101
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8842 1877000 4370000 4471000 6848000 9996000
+     \endverbatim
+     </li>
+     <li> cutoff=10^8 found three solution:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i VanDerWaerden_2-4-10_324.cnf | tee VanDerWaerden_2-4-10_324.cnf_OUT2
+> E = read_ubcsat("VanDerWaerden_2-4-10_324.cnf_OUT2")
+ 0  1  2  3  4  5 21 22 23 24 25 26
+ 3  7 13  4  6  2  1  6 12 20 12  4
+90
+> E[E$min==0,]
+   sat min   osteps   msteps       seed
+38   1   0 67111454 67111454 3357914690
+48   1   0 37435932 37435932 3595047384
+62   1   0 68099425 68099425  748374078
+     \endverbatim
+     </li>
+     <li> So it seems one needs to use cutoff=10^8 now. </li>
     </ol>
    </li>
+   <li> n = 325, cutoff=10^8: </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
