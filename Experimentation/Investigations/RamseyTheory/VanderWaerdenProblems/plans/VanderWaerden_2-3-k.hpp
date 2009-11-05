@@ -859,7 +859,26 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   18300  631700 1531000 2300000 3661000 7883000
      \endverbatim
      It seems rnovelty is a bit better. </li>
-     <li> cutoff = 10^8 </li>
+     <li> cutoff = 10^8:
+     \verbatim
+> nohup ubcsat-okl -alg rnovelty -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS
+> E=read_ubcsat("VanDerWaerden_2-3-20_389.cnf_AUS")
+  1   2
+ 28 371
+399
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   67020  3267000  9072000 15800000 21300000 92970000
+> summary(E$osteps[E$min==1])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  551000 24360000 57580000 49740000 72950000 92970000
+
+> ubcsat-okl -alg rnovelty -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve | tee VanDerWaerden_2-3-20_389.cnf_AUS3
+
+> nohup ubcsat-okl -alg gsat-tabu -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS4 &
+     \endverbatim
+
+     </li>
     </ol>
    </li>
   </ul>
