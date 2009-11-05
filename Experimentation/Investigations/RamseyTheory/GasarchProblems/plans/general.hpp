@@ -76,7 +76,34 @@ E = eval_ubcsat("Gasarch_4-17-17.cnf")
 > summary(E$osteps)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   73910  647600 1763000 2432000 3618000 9801000
+> ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 2000 -i Gasarch_4-16-17.cnf -solve | tee Gasarch_4-16-17.cnf_OUT5
+Clauses = 67184
+Variables = 1088
+TotalLiterals = 265472
+FlipsPerSecond = 170466
+BestStep_Mean = 2394165.637000
+Steps_Mean = 10000000.000000
+Steps_Max = 10000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 3.765000
+BestSolution_Median = 4.000000
+BestSolution_Min = 2.000000
+BestSolution_Max = 5.000000
+> E=read_ubcsat("Gasarch_4-16-17.cnf_OUT5")
+   2    3    4    5
+   4  467 1524    5
+2000
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26330  641300 1540000 2394000 3291000 9990000
+> E[E$min==2,]
+     sat min  osteps msteps       seed
+529    0   2 9152422  1e+07 3103656038
+550    0   2 3109812  1e+07 2805697975
+1846   0   2 7230811  1e+07  356507595
+1987   0   2 2546463  1e+07 1382936908
    \endverbatim
+   Running these four seeds with 4*10^9 steps still yields only min=2.
    </li>
    <li> cutoff=10^8:
    \verbatim
@@ -125,7 +152,17 @@ BestSolution_Max = 7.000000
      has just been increased by a factor of 393312/265472 = 1.481557). </li>
      <li> One needs to consider whether other algorithms might be better on
      this instance:
-
+     \verbatim
+> E = eval_ubcsat("Gasarch_4-16-17-m2pp.cnf", params=list(cutoff=1000000,runs=100))
+plot(E$alg,E$best)
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 5  6  7  8  9 10
+ 2 19 34 27 15  3
+> table(E$best[E$alg=="hwsat"])
+ 6  7  8  9 10
+16 26 34 23  1
+     \endverbatim
+     shows clearly that also here adaptnovelty+ is best, followed by hwsat.
      </li>
     </ol>
    </li>
