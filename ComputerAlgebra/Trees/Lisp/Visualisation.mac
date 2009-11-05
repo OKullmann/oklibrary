@@ -1,0 +1,61 @@
+/* Rui Wang, 28.10.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Trees/Lisp/Visualisation.mac
+  \brief Functions of tree drawing using Gnuplot
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/Visualisation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
+
+
+/* ******************************
+   * Tree drawing *
+   ******************************
+*/
+
+/* Extract a list of points [[x1,y1], [x2,y2], ... , [xn,yn]] from a labelled
+   rooted tree T with 2-dimensional coordinates.
+*/
+tdlrt2points(T) :=block([nt,nt1,nt2],if rest(T)=[] then return([T[1][1]]) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2points, rest(T)),
+nt:cons(T[1][1],append(nt1,nt2))) else ([nt1]:map(tdlrt2points, rest(T)),
+nt:cons(T[1][1],nt1)),
+return(nt)))$
+
+/* Extract a list of edges [[[x1,y1],[x2,y2]], ... , [[xn',yn'],[xn,yn]]] from a
+   labelled rooted tree T with 2-dimensional coordinates.
+*/
+tdlrt2edges(T) :=block([nt,nt1,nt2],if rest(T)=[] then return(T) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2edges, rest(T)), 
+nt:append(cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1),cons([T[1][1],nt2[1][1]],if rest(nt2)=[] and rest(nt2[1])=[] then [] else nt2))) else ([nt1]:map(tdlrt2edges, rest(T)), 
+nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), return(nt)))$
+
+/* Visualise an unlabelled rooted tree T. */
+/* The attribues of the visualised tree can be defined.
+   x,y  : the root coordinates (x,y) of the tree.
+   xran : the range for the x coordinate [x1,x2].
+   yran : the range for the y coordinate [y1,y2].
+   pts  : the size of a point, it must be a non-negative number.
+   ptt  : the type of points (circle, diamant, ...)
+   ptc  : the colour of points (red, blue, ...)
+   edgc : the colour of edges (red, blue, ...) 
+*/
+draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := block(apply(draw2d,
+      append([grid=true,xrange = xran,yrange = yran,point_size = pts,point_type = ptt,color = ptc,points(tdlrt2points(reingold_tilford_rt(T,x,y))),color=edgc],map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y))))),return(true))$
+
+
+/*!
+\endhtmlonly
+*/

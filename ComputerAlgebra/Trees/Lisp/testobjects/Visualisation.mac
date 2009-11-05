@@ -1,4 +1,4 @@
-/* Rui Wang, 6.10.2009 (Swansea) */
+/* Rui Wang, 31.10.2009 (Swansea) */
 /* Copyright 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,11 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Trees/Lisp/testobjects/ReingoldTilford.mac
+  \file ComputerAlgebra/Trees/Lisp/testobjects/Visualisation.mac
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/testobjects/ReingoldTilford.mac");
+oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/testobjects/Visualisation.mac");
 
 */
 
@@ -18,16 +18,20 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/testobjects/ReingoldTilford.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
-oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/ReingoldTilford.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Visualisation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/Visualisation.mac")$
 
 
 /* ******************************
-   * Reingold-Tilford algorithm *
+   * Tree drawing *
    ******************************
 */
 
-okltest_reingold_tilford_rt(reingold_tilford_rt);
+okltest_tdlrt2points(tdlrt2points);
+
+okltest_tdlrt2edges(tdlrt2edges);
+
+okltest_draw_rt(draw_rt);
 
 
 /*!
