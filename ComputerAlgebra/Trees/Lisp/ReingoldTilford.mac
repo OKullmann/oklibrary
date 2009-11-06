@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac
-  \brief Functions of Reingold-Tilford algorithm
+  \brief Functions related to the Reingold-Tilford algorithm
 
 Use by
 
@@ -28,25 +28,27 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 */
 
 /* Produce a labelled rooted tree with 2-dimensional coordinates from an 
-   unlabelled rooted tree T with specified root coordinates x, y. 
+   unlabelled rooted tree T with specified root coordinates x, y:
 */
 reingold_tilford_rt(T,x,y) := reingold_tilford_clean(reingold_tilford_computation(T,x,y))$
 
-/* Remove the data regarding the left most node and right most node from
-   the result of reingold_tilford_computation.
+/* Remove the data regarding the left-most node and right-most node from
+   the result of reingold_tilford_computation:
 */
 reingold_tilford_clean(T) := cons([T[1][1]],map(reingold_tilford_clean,rest(T)))$
 
 /* Coordinates computation using Reingold-Tilford algorithm. The input is
-   an unlabelled rooted tree T with speccified root coordinates x, y.
+   an unlabelled rooted tree T with specified root coordinates x, y.
    The function will produce a labelled rooted tree with 2-dimensional 
    coordinates. Furthermore, it contains additional data in each node which
-   are the x coordinates of the left most node and the right most node of 
+   are the x-coordinates of the left-most node and the right-most node of 
    current node.
 */
-reingold_tilford_computation(T,x,y) := block([cur_tr,left_subtr,right_subtr,offset,temp],if T=[] then return([[[x,y],[x,x]]]) else
-if length(T) = 2 then
-([left_subtr,right_subtr]:map(reingold_tilford_computation,T,create_list(x,i,1,length(T)),create_list(y-1,i,1,length(T))),
+reingold_tilford_computation(T,x,y) := block(
+ [cur_tr,left_subtr,right_subtr,offset,temp],
+  if T=[] then return([[[x,y],[x,x]]]) else
+  if length(T) = 2 then
+    ([left_subtr,right_subtr]:map(reingold_tilford_computation,T,create_list(x,i,1,length(T)),create_list(y-1,i,1,length(T))),
 temp:(left_subtr[1][2][2]-left_subtr[1][1][1])-(right_subtr[1][2][1]-right_subtr[1][1][1]),
 if mod((temp+1),2)=0
 then offset:(temp+1)/2
