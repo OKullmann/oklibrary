@@ -20,7 +20,6 @@ oklib_load("OKlib/ComputerAlgebra/Trees/Lisp/tests/ReingoldTilford.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
 
 kill(f)$
 
