@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 324
+  \todo vanderwaerden_2(4,10) > 325
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1179,7 +1179,16 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
      <li> So it seems one needs to use cutoff=10^8 now. </li>
     </ol>
    </li>
-   <li> n = 325, cutoff=10^8: </li>
+   <li> n = 325, cutoff=10^8: found one solution (seed=1755037834,
+   osteps=38900247):
+   \verbatim
+> E = read_ubcsat("VanDerWaerden_2-4-10_325.cnf_OUT")
+ 0  1  2  3  5 20 21 22 23 24 25 26
+ 1  6 18  4  4  1  2  4  9 13 16  3
+81
+   \endverbatim
+   </li>
+   <li> n = 326, cutoff=10^8 </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
