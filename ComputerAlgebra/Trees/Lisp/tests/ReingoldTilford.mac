@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 
+
 /* ******************************
    * Reingold-Tilford algorithm *
    ******************************
@@ -35,8 +36,17 @@ okltest_reingold_tilford_rt(f) := block([x,y],
   assert(f([[[]],[[]]],0,0) = [[[0,0]],[[[-1,-1]],[[[-2,-2]]]],[[[1,-1]],[[[0,-2]]]]]),
   assert(f([[[],[]],[[]]],0,0) = [[[0,0]],[[[-2,-1]],[[[-3,-2]]],[[[-1,-2]]]],[[[2,-1]],[[[1,-2]]]]]),
   assert(f([[[],[]],[[],[]]],0,0) = [[[0,0]],[[[-2,-1]],[[[-3,-2]]],[[[-1,-2]]]],[[[2,-1]],[[[1,-2]]],[[[3,-2]]]]]),
+  /* XXX */
+  true)$
+
+okltest_reingold_tilford_clean(f) := (
+  /* XXX */
   true)$
  
+okltest_reingold_tilford_computation(f) := (
+  /* XXX */
+  true)$
+
 
 /*!
 \endhtmlonly
