@@ -85,6 +85,12 @@ plot(E$alg,E$best)
 > table(E$best[E$alg=="adaptnoveltyp"])
    \endverbatim
    (note that currently algorithm names are inappropriately handled). </li>
+   <li> These tables can be put into a linear order by sorting first according
+   to min-value reached (the lower the better), and second by count obtained
+   (the higher the better). A function should be written which prints out the
+   sorted tables in a nice way. </li>
+   <li> Perhaps then the (first) evaluation tool just uses plot(E$alg,E$best),
+   followed by printing those sorted tables. </li>
   </ul>
 
 
