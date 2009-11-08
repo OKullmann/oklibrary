@@ -644,6 +644,25 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Improving the implementation
+  <ul>
+   <li> Handling of autarkies:
+    <ol>
+     <li> On instances where there are many autarkies (see for example
+     Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp),
+     it would be more efficient not to restart after an autarky was found, but
+     first to complete the list of variables (checking for autarkies, but not
+     computing statistics), and only then to restart. </li>
+     <li> Likely this strategy is less efficient on most instances (with
+     autarkies --- without autarkies it doesn't matter), and so perhaps could
+     be a command-line option (or compile-time --- or automatically detected
+     by the solver (once one node had more than one autarky, the behaviour
+     switches from "immediately restart" to "first complete")). </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Start planning on evaluating and optimising heuristics
   <ul>
    <li> Based on OK's SAT-handbook article. </li>
