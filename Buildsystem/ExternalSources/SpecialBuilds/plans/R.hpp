@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \todo Installing 2.10.0
+  <ul>
+   <li> The tests fail:
+   \verbatim
+running regression tests ...
+make[4]: Entering directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/R/R-2.10.0/tests'
+running code in 'reg-tests-1.R' ...make[4]: *** [reg-tests-1.Rout] Error 1
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo DONE (problem solved by redefining HOME)
   Installing 2.9.0
   <ul>
