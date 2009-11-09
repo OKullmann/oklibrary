@@ -151,7 +151,7 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
   </ul>
 
 
-  \todo greentao_6(2,...,2,3,4) >= 136
+  \todo greentao_6(2,...,2,3,4) = 136
   <ul>
    <li> Best local search solver:
    \verbatim
@@ -190,7 +190,8 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      <li> cutoff=10^6 with gwsat: 93 times min=1, 7 times min=2. </li>
      <li> cutoff=10^6 with rnovelty: 78 times min=1, 21 times min=2, once
      min=3. </li>
-     <li> minisat2: </li>
+     <li> minisat2: determined unsatisfiability in 31 restarts (55800700
+     conflicts, 106321 s (csltok)). </li>
    </li>
    <li> n=140:
     <ol>
@@ -198,6 +199,12 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      cutoff=10^6. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo greentao_7(2,...,2,3,4)
+  <ul>
+   <li> n=140: cutoff=10^5 using saps </li>
   </ul>
 
 */
