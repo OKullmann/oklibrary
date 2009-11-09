@@ -98,6 +98,43 @@ c file_name                             GreenTao_3-2-3-5_550.cnf_m2pp_9474
      </li>
     </ol>
    </li>
+   <li> n=562
+    <ol>
+     <li> adaptnovelty+ with cutoff=10^6:
+     \verbatim
+> E=read_ubcsat("GreenTao_3-2-3-5_562.cnf_OUT")
+  1   2   3
+ 91 104   5
+200
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 122700  262800  352800  413600  529700  996600
+     \endverbatim
+     (looks worse than for n=575 ?!)
+     </li>
+     <li> Evaluation of all ubcsat-algorithms:
+     \verbatim
+> E = eval_ubcsat("GreenTao_3-2-3-5_562.cnf", params=list(cutoff=1000000,runs=100))
+     \endverbatim
+     
+     </li>
+    </ol>
+   </li>
+   <li> n=575
+    <ol>
+     <li> adaptnovelty+ with cutoff=10^6:
+     \verbatim
+> E=read_ubcsat("GreenTao_3-2-3-5_575.cnf_OUT")
+  1   2   3
+108  91   1
+200
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 130900  331500  452000  506100  677500  992900
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=600
     <ol>
      <li> saps with cutoff=10^5:
