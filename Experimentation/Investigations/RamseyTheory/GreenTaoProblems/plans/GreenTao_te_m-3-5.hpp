@@ -13,7 +13,7 @@ License, or any later version. */
   and output_greentao_sb_stdname(append(create_list(2,i,1,m),[3,5]),n).
 
 
-  \todo 550 < greentao_3(2,3,5)
+  \todo greentao_3(2,3,5) >= 558
   <ul>
    <li> n=550
     <ol>
@@ -98,6 +98,33 @@ c file_name                             GreenTao_3-2-3-5_550.cnf_m2pp_9474
      </li>
     </ol>
    </li>
+   <li> n=556: cutoff=10^6 and novelty+ found a solution in run 3
+   (seed=695982803, osteps=675537). </li>
+   <li> n=557: cutoff=10^6 and novelty+ found a solution in run 12
+   (seed=1721874736, osteps=723073). </li>
+   <li> n=558:
+    <ol>
+     <li> cutoff=10^6 and novelty+:
+     \verbatim
+  1   2
+188  12
+200
+     \endverbatim
+     </li>
+     <li> cutoff=10^7 and novelty+: 100 runs yield constantly min=1. </li>
+     <li> OKsolver_2002
+
+     </li>
+    </ol>
+   </li>
+   <li> n=559: cutoff=10^6 and novelty+:
+   \verbatim
+> E=read_ubcsat("GreenTao_3-2-3-5_559.cnf_OUT")
+  1   2   3
+172  27   1
+200
+   \endverbatim
+   </li>
    <li> n=562
     <ol>
      <li> adaptnovelty+ with cutoff=10^6:
@@ -115,9 +142,43 @@ c file_name                             GreenTao_3-2-3-5_550.cnf_m2pp_9474
      <li> Evaluation of all ubcsat-algorithms:
      \verbatim
 > E = eval_ubcsat("GreenTao_3-2-3-5_562.cnf", params=list(cutoff=1000000,runs=100))
+plot(E$alg,E$best)
+min(E$best)
+ 1
+E$alg[E$best==1]
+> table(E$best[E$alg=="noveltyp"])
+ 1  2
+84 16
+> table(E$best[E$alg=="novelty"])
+ 1  2
+70 30
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 1  2
+46 54
+> table(E$best[E$alg=="sapsnr"])
+ 1  2  3  4  5  6
+34 35  5  9 12  5
+> table(E$best[E$alg=="gwsat"])
+ 1  2  3  4
+30 61  8  1
+> table(E$best[E$alg=="saps"])
+ 1  2  3  4  5  6  7
+29 29  1 19 19  2  1
+> table(E$best[E$alg=="gsat_tabu"])
+ 1  2  3  4  5
+ 7 18 52 21  2
+> table(E$best[E$alg=="samd"])
+ 1  2  3  4  5
+ 3 22 49 25  1
+> table(E$best[E$alg=="walksat_tabu"])
+ 1  2  3  4  5  6  7  8
+ 1  8 16 16 24 21 13  1
+> table(E$best[E$alg=="rnoveltyp"])
+ 1  2  3  4  5  6  7  8  9 10 11 12
+ 1  3  3 10  3  5  7 15 11 19 21  2
      \endverbatim
-     
-     </li>
+     so noveltyp seems clearly best. </li>
+     <li> Let's assume for now that this is unsatisfiable. </li>
     </ol>
    </li>
    <li> n=575
