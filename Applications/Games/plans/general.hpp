@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,32 +26,6 @@ License, or any later version. */
    <li> Backgammon perhaps involves too much special knowledge. </li>
    <li> "Tic, Tac, Toe" and generalisations could be a nice exercise. </li>
    <li> For Sudoku see module LatinSquares. </li>
-   <li> For Poker we should make a clear distinction between the "real
-   situation" and the "imagined situation": In the context of this library,
-   a "poker assistant" is sought which analyses precisely the current
-   factual situation, yielding a "useful" representation on which basis
-   the player then can use his "psychological" and "strategic" skills
-   for the next move.
-    <ol>
-     <li> Poker should have some combinatorial content. (But if the aspect
-     of betting strategies, modelling players behaviour etc. is too strong,
-     then it might not be a good candidate.) </li>
-     <li> This is mixed with probabilities, for which a good theory
-     perhaps must be compiled in advance. </li>
-     <li> The advice could be a series of possible "best moves",
-     with associated probability distributions about "what could be"
-     and "what could happen". </li>
-     <li> First we need some overview on the literature.
-      <ul>
-       <li> http://en.wikipedia.org/wiki/Poker defines the rules and the
-       various games. </li>
-       <li> The PhD thesis
-       http://www.cs.ualberta.ca/~darse/Papers/billings-phd.html
-       should give a first overview. </li>
-      </ul>
-     </li>
-    </ol>
-   </li>
   </ul>
 
 
