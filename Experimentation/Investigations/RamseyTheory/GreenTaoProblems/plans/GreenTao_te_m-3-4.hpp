@@ -202,9 +202,67 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
   </ul>
 
 
-  \todo greentao_7(2,...,2,3,4)
+  \todo greentao_7(2,...,2,3,4) >= 142
   <ul>
-   <li> n=140: cutoff=10^5 using saps </li>
+   <li> n=140: cutoff=10^5 using saps found 3 solutions in 100 runs (e.g.,
+   seed=4007050970, osteps=26801). </li>
+   <li> n=141
+    <ol>
+     <li> cutoff=10^6 using saps:
+     \verbatim
+ 0  1  2
+ 9 78 13
+100
+     \endverbatim
+     (best solution: seed=414927092, osteps=73582).
+     </li>
+    </ol>
+   </li>
+   <li> n=142
+    <ol>
+     <li> cutoff=10^6 using saps:
+     \verbatim
+ 1  2
+77 23
+100
+     \endverbatim
+     </li>
+     <li> cutoff=10^7 using saps:
+     \verbatim
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=145
+    <ol>
+     <li> cutoff=10^6 using saps:
+     \verbatim
+ 1  2
+39 61
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=150:
+    <ol>
+     <li> cutoff=10^5 using saps:
+     \verbatim
+ 1  2  3  4
+ 8 52 38  2
+100
+     \endverbatim
+     </li>
+     <li> cutoff=10^6 using saps:
+     \verbatim
+ 1  2
+44 56
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
