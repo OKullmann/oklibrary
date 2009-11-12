@@ -48,6 +48,7 @@ License, or any later version. */
   </ul>
 
 
+
   <h1> Ramsey theory </h1>
 
   <h2> Green-Tao problems </h2>
@@ -68,6 +69,8 @@ License, or any later version. */
    </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-4.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp </li>
   </ul>
 
 
@@ -121,6 +124,14 @@ License, or any later version. */
   </ul>
 
 
+  <h2> Gasarch problems </h2>
+
+  <ul>
+   <li> RamseyTheory/GasarchProblems/plans/general.hpp </li>
+  </ul>
+
+
+
   <h1> Unsatisfiable hitting clause-sets </h1>
 
   See
@@ -128,6 +139,7 @@ License, or any later version. */
   <ul>
    <li> Deficiency = 3, n = 5 </li>
   </ul>
+
 
 
   <h1> Groupoids </h1>
