@@ -216,6 +216,13 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      \endverbatim
      (best solution: seed=414927092, osteps=73582).
      </li>
+     <li> cutoff=10^6 using adaptnovelty+:
+     \verbatim
+ 0  1  2
+37 62  1
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=142
@@ -229,9 +236,44 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      </li>
      <li> cutoff=10^7 using saps:
      \verbatim
-
+ 1  2
+99  1
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   2209   70730  195600  919500  709400 9654000
      \endverbatim
      </li>
+     <li> Determining the best Ubcsat-algorithm (cutoff=10^6):
+     \verbatim
+> E = eval_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf", params=list(cutoff=1000000,runs=100))
+> plot(E$alg,E$best)
+> table(E$best[E$alg=="adaptnoveltyp"])
+  1
+100
+> table(E$best[E$alg=="gwsat"])
+ 1  2
+99  1
+> table(E$best[E$alg=="noveltyp"])
+ 1  2
+93  7
+> table(E$best[E$alg=="saps"])
+ 1  2
+78 22
+     \endverbatim
+     So actually adaptnovelty+ seems (again) best. </li>
+     <li>  cutoff=10^7 using adaptnovelty+:
+     \verbatim
+> E = read_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf_OUT3")
+  1
+100
+100
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  43740  113900  205500  252300  346500  850900
+     \endverbatim
+     </li>
+     <li> It seems minisat2 could need months here. </li>
     </ol>
    </li>
    <li> n=145
@@ -263,6 +305,12 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo greentao_8(2,...,2,3,4)
+  <ul>
+   <li> n=145: adaptnovelty+ with cutoff=10^6 </li>
   </ul>
 
 */
