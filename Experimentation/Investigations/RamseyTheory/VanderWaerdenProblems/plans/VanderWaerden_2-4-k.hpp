@@ -1201,13 +1201,23 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
 162
    \endverbatim
    So we should use cutoff=2*10^8 now. </li>
-   <li> n=327: In 81 runs one solution was found (seed=403939055,
-   osteps=23019617):
+   <li> n=327, cutoff=2*10^8: In 81 runs one solution was found 
+   (seed=403939055, osteps=23019617):
    \verbatim
 > E = read_ubcsat("VanDerWaerden_2-4-10_327.cnf_OUT")
  0  1  2  3  4  5 22 23 24 25 26 27
  1  1 28 12  5  3  2  5  9  8  6  1
 81
+   \endverbatim
+   And in another 112 runs also one solution was found:
+   \verbatim
+> nohup ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 200000000 -i VanDerWaerden_2-4-10_327.cnf > VanDerWaerden_2-4-10_327.cnf_OUT &
+ 0  1  2  3  4  5 21 22 23 24 25 26
+ 1  3 33 11 11  3  1  3  5  9 17 15
+112
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+   525600  32000000  91600000  89860000 138000000 199800000
    \endverbatim
    </li>
    <li> n=328 </li>
