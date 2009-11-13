@@ -308,9 +308,15 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
   </ul>
 
 
-  \todo greentao_8(2,...,2,3,4)
+  \todo greentao_8(2,...,2,3,4) > 150
   <ul>
-   <li> n=145: adaptnovelty+ with cutoff=10^6 </li>
+   <li> n=145: adaptnovelty+ with cutoff=10^7 finds 29 solutions in
+   29 runs. </li>
+   <li> n=150: adaptnovelty+ with cutoff=10^7 found solution easily
+   (seed=361186873). </li>
+   <li> n=151: adaptnovelty+ with cutoff=10^7  </li>
+   <li> n=155: adaptnovelty+ with cutoff=10^7 produced in 100 runs always
+   min=1, so looks unsatisfiable. </li>
   </ul>
 
 */
