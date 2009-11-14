@@ -125,8 +125,23 @@ License, or any later version. */
   </ul>
 
 
+  \todo Enumerating all solutions
+  <ul>
+   <li> Likely this should go to a submodule of module
+   CombinatorialMatrices/Lisp/LatinSquares. </li>
+   <li> Apparently for box-dimension 2 we have 288 solutions; this should be
+   computed and made available. </li>
+   <li> There are 576 many latin squares of order 4; given that they are
+   derived from just 4 reduced latin squares of order 4, it should be
+   easy to make them available, and then to filter out the sudokus amongst
+   them. </li>
+  </ul>
+
+
   \todo Sampling of all solutions
   <ul>
+   <li> Likely this should go to a submodule of module
+   CombinatorialMatrices/Lisp/LatinSquares. </li>
    <li> A solution is just a total assignment (fulfilling the
    Sudoku-constraints. </li>
    <li> See Satisfiability/Enumeration/plans/general.hpp. </li>
@@ -144,6 +159,20 @@ License, or any later version. */
      way all solutions. </li>
      <li> However it might be worthwile to first restrict the solution
      space. </li>
+    </ol>
+   </li>
+   <li> Another approach just uses "random self-reduction":
+    <ol>
+     <li> Start with the empty partial assignment. </li>
+     <li> Create the list of all pairs (empty field)/values. </li>
+     <li> Remove the obiously unsatisfiable extensions by one such pair. </li>
+     <li> Choose a random pair from the list, and check whether this extension
+     is still satisfiable; if not, remove from the list, and choose another
+     pair (as long as the list is not empty, there must exist a satisfiable
+     extension). </li>
+     <li> Repeat until a full solution is obtained. </li>
+     <li> The question is whether this process yields perfect sampling of all
+     solutions? One should check this for box-dimension 2. </li>
     </ol>
    </li>
   </ul>
