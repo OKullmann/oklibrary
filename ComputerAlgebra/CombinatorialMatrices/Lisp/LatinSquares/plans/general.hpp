@@ -25,5 +25,25 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Organisation
+  <ul>
+   <li> The main question is why we have two modules, this one and
+   Groupoids/Quasigroups ? </li>
+   <li> Perhaps Sudoku (and related structures) are more naturally
+   considered combinatorial, and thus belong to here, while all those
+   algebraic considerations belong there. </li>
+   <li> What about counting and enumeration? </li>
+   <li> Since here as basic structure we have combinatorial matrices, one might
+   consider as notion of isomorphism principal isotopism here (the natural
+   notion of isomorphism for combinatorial matrices), while most other notions
+   go to module Quasigroups ? </li>
+   <li> Counting latin squares is the same as counting quasigroups, while
+   counting reduced latin squares is the same as counting loops (unital
+   quasigroups) with fixed neutral element (while for order n the total
+   number of loops has to be multiplied with n, since every element could
+   be the neutral element). </li>
+  </ul>
+
 */
 
