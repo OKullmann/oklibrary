@@ -70,14 +70,14 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 /* TODO: What means "can be defined"? Apparently the attributes *must*
    be defined, but this shouldn't be the case!
 */
-draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := block(
+draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := (
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt,color = ptc,
                  points(tdlrt2points(reingold_tilford_rt(T,x,y))),
                  color=edgc],
                 map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y))))),
-   return(true))$
+   true)$
 
 
 /*!
