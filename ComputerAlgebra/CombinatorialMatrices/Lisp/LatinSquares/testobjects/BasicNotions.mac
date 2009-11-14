@@ -21,37 +21,43 @@ oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/testob
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/tests/BasicNotions.mac")$
 
+/* *****************************
+   * Notions of "latin squares *
+   *****************************
+*/
+
+okltest_comlso_p(comlso_p);
+okltest_comls_p(comls_p);
+okltest_ls_p(ls_p);
+okltest_hrls_p(hrls_p);
+okltest_rls_p(rls_p);
+
 /* *****************
-   * Basic notions *
+   * Orthogonality *
    *****************
 */
 
-okltest_lso_p(lso_p);
-okltest_ls_p(ls_p);
-okltest_stdls_p(stdls_p);
-okltest_fstdls_p(fstdls_p);
-
-okltest_ols_p(ols_p);
-okltest_mols_p(mols_p);
+okltest_ocomls_p(ocomls_p);
+okltest_mocomls_p(mocomls_p);
 
 /* ************
    * Examples *
    ************
 */
 
-okltest_cyc3_fstdls(cyc3_fstdls);
-okltest_cyc3_o_stdls(cyc3_o_stdls);
-okltest_nassoc_fstdls(nassoc_fstdls);
-okltest_dk10_fstdls(dk10_fstdls);
-okltest_dk10_o_stdls(dk10_o_stdls);
+okltest_cyc3_rls(cyc3_rls);
+okltest_cyc3_o_hrls(cyc3_o_hrls);
+okltest_nassoc_rls(nassoc_rls);
+okltest_dk10_rls(dk10_rls);
+okltest_dk10_o_hrls(dk10_o_hrls);
 
 /* ***************
    * Conversions *
    ***************
 */
 
-okltest_qgrp2ls(qgrp2ls);
-okltest_uqgrp2fstdls(uqgrp2fstdls);
+okltest_qgrp2comls(qgrp2comls);
+okltest_uqgrp2rls(uqgrp2rls);
 
 /*!
 \endhtmlonly

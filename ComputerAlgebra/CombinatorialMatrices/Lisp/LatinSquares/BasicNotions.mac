@@ -22,64 +22,85 @@ oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicN
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
 
 
-/* *****************
-   * Basic notions *
-   *****************
+/* *****************************
+   * Notions of "latin squares *
+   *****************************
 */
 
-/* A "latin square over H" is a combinatorial matrix A such that the size
-   of the row index-set as well as the size of the column index-set is
-   equal to the size of the set H, and such that every row and every
-   column is a permutation of H: */
-lso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
+/* A "combinatorial latin square over H" is a combinatorial matrix A such that
+   the size of the row index-set as well as the size of the column index-set is
+   equal to the size of the set H, and such that every row and every column is
+   a permutation of H:
+*/
+comlso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
   is(n = length(A[1])) and
     every_s(lambda([R],length(unique(R))=n),com2ll_r(A)) and
     every_s(lambda([C],length(unique(C))=n),com2ll_c(A)))$
 /* Remarks: Accordingly, isomorphism of latin squares are isomorphisms of
    combinatorial matrices, and thus treat columns and rows independently.
-   "lso" stands for "latin square over".
+   However this inherited standard notion of isomorphism is not general 
+   enough, since also value permuations must be considered; see below for the 
+   various notions considered.
+   "comlso" stands for "combinatorial latin square over" (the value set).
 */
 
-/* A "latin square" is a square combinatorial matrix A such that scom2com(A)
-   is a latin square over A[1]:
-*/
-ls_p(A) := listp(A) and is(length(A) = 2) and lso_p(scom2com(A),A[1])$
-/* We have ls_p(A) = qgrp_p(A). */
-/* Remark: This notion of "latin square" follows the general convention,
-   though one has to note that the true species of latin squares is given
-   by (just) square-sized combinatorial matrices.
-   However, since "latin squares" are thus defined as square combinatorial
-   matrices, the notion of isomorphisms for them is that of square 
-   combinatorial matrices (which glues columns and rows together).
-   The notion of a "fully standardised latin square" kind of repairs this
-   defect by standardising the first row and the first column.
+/* A "combinatorial latin square" is a quasigroup: */
+comls_p(A) := qgrp_p(A)$
+/* 
+  So here row index set, column index set and value set coincide. We have
+    comls_p(A) = scom_p(A) and block([B : scom2com(A)], comlso_p(B,B[1])).
 */
 
-/* A "standardised latin square" is a square Maxima matrix A such that 
-   m2scom(A) is a latin square which has i as the first entry in row i
-   (for all i): */
-stdls_p(A) := matrixp(A) and block([s : matrix_size(A)],
-  is(s[1] = s[2]) and ls_p(m2scom(A)) and (is(s[1] = 0) or 
-  is(transpose(A)[1] = create_list(i,i,1,s[1]))))$
-/* A "fully standardised latin square" is a standardised latin square which
-   has i as the first entry in column i (for all i): */
-fstdls_p(A) := stdls_p(A) and block([s : matrix_size(A)],
+/*
+  The notion of "isomorphic quasigroups" is not of (high) relevance for latin 
+  squares, but the three more general notions used for quasigroups are 
+  to be used: Isotopism, parastrophism and paratopism (their combination) .
+*/
+
+
+/* A "latin square" is a square Maxima matrix A such that m2scom(A) is a 
+   combinatorial latin square:
+*/
+ls_p(A) := matrixp(A) and block([s : matrix_size(A)],
+  is(s[1] = s[2]) and comls_p(m2scom(A)))$
+/* Standardised combinatorial latin squares fully correspond to 
+   latin squares (as Maxima matrices). */
+
+/* A "half-reduced latin square" is a latin square which has i as the 
+   first entry in row i (for all i): */
+hrls_p(A) := ls_p(A) and block([s : matrix_size(A)],
+  is(s[1] = 0) or is(transpose(A)[1] = create_list(i,i,1,s[1])))$
+/* A "reduced latin square" is a half-reduced latin square which has i as the 
+   first entry in column i (for all i): */
+rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
   is(s[1] = 0) or is(A[1] = create_list(i,i,1,s[1])))$
 
-/* Whether two latin squares are "orthogonal", i.e., whether the super-imposed
-   values are always different (as pairs). */
-/* Prerequisite: A, B are latin squares. */
-ols_p(A,B) := is(A[1] = B[1]) and block([L : listify(A[1])],
+/* Reduced latin squares fully correspond to standardised unital quasigroups
+   (with element 1 as the unit).
+*/
+
+
+/* *****************
+   * Orthogonality *
+   *****************
+*/
+
+/* Whether two combinatorial latin squares are "orthogonal", i.e., whether the
+   super-imposed values are always different (as pairs): */
+/* Prerequisite: A, B are combinatorial latin squares. */
+ocomls_p(A,B) := is(A[1] = B[1]) and block([L : listify(A[1])],
   is(length(unique(create_list([A[2](i,j), B[2](i,j)], i,L, j,L))) = length(L)^2))$
 
 /* Whether a list of latin squares is "mutually" (i.e., pairwise) orthogonal:
 */
-mols_p(L) := listp(L) and block([n : length(L), is_mols : true],
+mocomls_p(L) := listp(L) and block([n : length(L), is_mols : true],
   for i : 1 thru n unless not is_mols do block([A : L[i]],
     for j : i+1 thru n unless not is_mols do
-      is_mols : ols_p(A,L[j])),
+      is_mols : ocomls_p(A,L[j])),
   is_mols)$
 
 
@@ -88,25 +109,25 @@ mols_p(L) := listp(L) and block([n : length(L), is_mols : true],
    ************
 */
 
-/* The (cyclic, unique) fully standardised latin square of order 3: */
-cyc3_fstdls : matrix(
+/* The (cyclic, unique) reduced latin square of order 3: */
+cyc3_rls : matrix(
  [1,2,3],
  [2,3,1],
  [3,1,2]
 )$
-/* The unique (standardised) latin square orthogonal to cyc3_fstdls: */
-cyc3_o_stdls : matrix(
+/* The unique (half-reduced) latin square orthogonal to cyc3_rls: */
+cyc3_o_hrls : matrix(
  [1,3,2],
  [2,1,3],
  [3,2,1]
 )$
-/* The quasigroup corresponding to cyc3_o_stdls is also non-unital (and
-   thus non-associativ).
+/* The quasigroup corresponding to cyc3_o_hrls is also non-unital (and
+   thus non-associative).
 */
 
-/* A smallest fully standardised latin square (corresponding to a unital
+/* A smallest reduced latin square (corresponding to a unital
    quasigroup) which is not a group: */
-nassoc_fstdls : matrix(
+nassoc_rls : matrix(
  [1,2,3,4,5],
  [2,1,5,3,4],
  [3,4,1,5,2],
@@ -114,9 +135,9 @@ nassoc_fstdls : matrix(
  [5,3,4,2,1]
 )$
 
-/* The (fully standardised) latin square of order 10 from 
+/* The (reduced) latin square of order 10 from 
    [Knuth, Volume 4, Fascicle 0]: */
-dk10_fstdls : matrix(
+dk10_rls : matrix(
  [1,2,3,4,5,6,7,8,9,10],
  [2,9,4,3,6,5,8,7,10,1],
  [3,10,6,7,4,1,9,5,8,2],
@@ -128,8 +149,8 @@ dk10_fstdls : matrix(
  [9,4,7,1,10,2,6,3,5,8],
  [10,3,9,2,7,8,5,1,4,6]
 )$
-/* The unique (standardised) latin square orthogonal to dk10_fstdls: */
-dk10_o_stdls : matrix(
+/* The unique (half-reduced) latin square orthogonal to dk10_rls: */
+dk10_o_hrls : matrix(
  [1,3,9,6,10,5,8,4,7,2],
  [2,8,5,10,4,7,6,1,3,9],
  [3,6,7,5,9,8,1,2,10,4],
@@ -150,13 +171,13 @@ dk10_o_stdls : matrix(
 
 /* Relations to quasigroups: */
 
-/* Converting a quasigroup into a latin square: */
-qgrp2ls(Q) := Q$
+/* Converting a quasigroup into a combinatorial latin square: */
+qgrp2comls(Q) := Q$
 /* Remark: More general, so a groupoid is "converted" into a
    "composition table".
 */
-/* Converting a unital quasigroup into a fully standardised latin square: */
-uqgrp2fstdls(Q) := block([L : cons(Q[3],listify(disjoin(Q[3],Q[1]))), h],
+/* Converting a unital quasigroup into a reduced latin square: */
+uqgrp2rls(Q) := block([L : cons(Q[3],listify(disjoin(Q[3],Q[1]))), h],
   h : osm2hm(map("[", L, create_list(i,i,1,length(L)))),
   oscom2m([L, lambda([x,y], ev_hm(h,Q[2](x,y)))]))$
 

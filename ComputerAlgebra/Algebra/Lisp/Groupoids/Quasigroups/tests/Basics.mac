@@ -28,15 +28,15 @@ kill(f)$
    ***************
 */
 
+okltest_comls2qgrp(f) := (
+  /* XXX */
+  true)$
+
 okltest_ls2qgrp(f) := (
   /* XXX */
   true)$
 
-okltest_stdls2qgrp(f) := (
-  /* XXX */
-  true)$
-
-okltest_fstdls2uqgrp(f) := (
+okltest_rls2uqgrp(f) := (
   /* XXX */
   true)$
 

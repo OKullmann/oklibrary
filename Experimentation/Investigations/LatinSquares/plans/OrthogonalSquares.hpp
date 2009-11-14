@@ -12,16 +12,16 @@ License, or any later version. */
 
   \todo Experiments with the example from [Knuth, Vol. 4, Fascicle 0]
   <ul>
-   <li> Given dk10_fstdls (see
+   <li> Given dk10_rls (see
    ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac), the task
-   is to find the (unique) orthogonal latin square dk10_o_stdls. </li>
+   is to find the (unique) orthogonal latin square dk10_o_hrls. </li>
    <li> And this using the direct translation into a (boolean) SAT problem.
    </li>
    <li>
    Easy for the OKsolver-2002:
    \verbatim
 LS_b : strong_ls(10)$
-LS_o : orthogonality_cond_ls(dk10_fstdls)$
+LS_o : orthogonality_cond_ls(dk10_rls)$
 F : [LS_b[1], union(LS_b[2],LS_o,row_symmetrybreaking_ls(10))]$
 SF : standardise_fcs(F)$
 output_fcs_v(sconcat("The orthogonal latin square problem (weak form) with dimension ", p, " and matrix according to DK."),SF[1],"KOLS.cnf",SF[2]);
@@ -37,7 +37,7 @@ k
    <li> Even easier for OKsolver-2002 with the added dual conditions:
    \verbatim
 LS_b : strong_ls(10)$
-LS_o : orthogonality_strongcond_ls(dk10_fstdls)$
+LS_o : orthogonality_strongcond_ls(dk10_rls)$
 Fs : [LS_b[1], union(LS_b[2],LS_o,row_symmetrybreaking_ls(10))]$
 SFs : standardise_fcs(Fs)$
 output_fcs_v(sconcat("The orthogonal latin square problem (strong form) with dimension ", p, " and matrix according to DK."),SFs[1],"KOLSs.cnf",SFs[2]);
@@ -131,7 +131,7 @@ BestSolution_Max = 8.000000
    <li> Also unsatisfiability, when forbidding the single solution,
    is relatively easy for the OKsolver-2002:
    \verbatim
-Fs_s : [LS_b[1], union(LS_b[2],LS_o,row_symmetrybreaking_ls(10),{exluding_solution_ls(dk10_o_stdls)})]$
+Fs_s : [LS_b[1], union(LS_b[2],LS_o,row_symmetrybreaking_ls(10),{exluding_solution_ls(dk10_o_hrls)})]$
 SFs_s : standardise_fcs(Fs_s)$
 output_fcs_v(sconcat("The orthogonal latin square problem (strong form) with dimension ", p, " and matrix according to DK, with excluded solution."),SFs_s[1],"KOLSs_s.cnf",SFs_s[2]);
 

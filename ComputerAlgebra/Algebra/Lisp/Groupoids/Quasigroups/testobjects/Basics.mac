@@ -26,9 +26,9 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/tests/Ba
    ***************
 */
 
+okltest_comls2qgrp(comls2qgrp);
 okltest_ls2qgrp(ls2qgrp);
-okltest_stdls2qgrp(stdls2qgrp);
-okltest_fstdls2uqgrp(fstdls2uqgrp);
+okltest_rls2uqgrp(rls2uqgrp);
 
 /*!
 \endhtmlonly

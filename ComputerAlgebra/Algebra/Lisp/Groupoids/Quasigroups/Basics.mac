@@ -40,16 +40,16 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/Bas
 
 /* Relations to latin squares: */
 
-/* Converting a latin square into a quasigroup: */
-ls2qgrp(L) := L$
-stdls2qgrp(L) := m2scom(L)$
+/* Converting a (combinatorial) latin square to a quasigroup: */
+comls2qgrp(L) := L$
+ls2qgrp(L) := m2scom(L)$
 /* These conversions also convert general composition tables into
    groupoids.
 */
 
-/* Converting a fully standardised latin square into a unital quasigroup: */
-/* Prerequisite for fstdls2uqgrp: L is not empty. */
-fstdls2uqgrp(L) := endcons(1,stdls2qgrp(L))$
+/* Converting a reduced latin square into a unital quasigroup: */
+/* Prerequisite for rls2uqgrp: L is not empty. */
+rls2uqgrp(L) := endcons(1,ls2qgrp(L))$
 
 /* See ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac
    for the inverse conversions.

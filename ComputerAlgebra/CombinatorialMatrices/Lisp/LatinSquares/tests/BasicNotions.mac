@@ -29,19 +29,19 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
-/* *****************
-   * Basic notions *
-   *****************
+/* *****************************
+   * Notions of "latin squares *
+   *****************************
 */
 
-okltest_lso_p(f) := (
+okltest_comlso_p(f) := (
   /* XXX */
   true)$
 
-/* Remark: The semantics of okltest_ls_p is identical with that of
-   okltest_qgrp_p. Currently all tests are handled by okltest_ls_p.
+/* Remark: The semantics of okltest_comls_p is identical with that of
+   okltest_qgrp_p. Currently all tests are handled by okltest_comls_p.
 */
-okltest_ls_p(f) := (
+okltest_comls_p(f) := (
   assert(f(0) = false),
   assert(f([]) = false),
   assert(f([[],[]]) = false),
@@ -53,17 +53,21 @@ okltest_ls_p(f) := (
   assert(f(scom_l([2,1],[1,2])) = true),
   assert(f(scom_l([1,2],[2,2])) = false),
   for n : 1 thru 6 do
-    assert(f(qgrp2ls(ugrp2grp(cyclic_ugrp(n)))) = true),
+    assert(f(qgrp2comls(ugrp2grp(cyclic_ugrp(n)))) = true),
   true)$
 
-okltest_stdls_p(f) := (
+okltest_ls_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_hrls_p(f) := (
   /* XXX */
   assert(f(matrix([2,1],[1,2])) = false),
   assert(f(matrix([1,2],[2,1])) = true),
   assert(f(matrix([1,3,2],[2,1,3],[3,2,1])) = true),
   true)$
 
-okltest_fstdls_p(f) := (
+okltest_rls_p(f) := (
   /* XXX */
   assert(f(matrix([2,1],[1,2])) = false),
   assert(f(matrix([1,2],[2,1])) = true),
@@ -71,19 +75,24 @@ okltest_fstdls_p(f) := (
   assert(f(matrix([1,2,3],[2,3,1],[3,1,2])) = true),
   assert(f(matrix([1,3,2],[2,1,3],[3,2,1])) = false),
   for n : 1 thru 6 do
-    assert(f(uqgrp2fstdls(cyclic_ugrp(n))) = true),
+    assert(f(uqgrp2rls(cyclic_ugrp(n))) = true),
   true)$
 
 
-okltest_ols_p(f) := (
+/* *****************
+   * Orthogonality *
+   *****************
+*/
+
+okltest_ocomls_p(f) := (
   assert(f(scom_l([1]),scom_l([1])) = true),
   assert(f(scom_l([1,2],[2,1]), scom_l([1,2],[2,1])) = false),
   assert(f(scom_l([1,2],[2,1]), scom_l([2,1],[1,2])) = false),
-  assert(f(m2scom(cyc3_fstdls), m2scom(cyc3_o_stdls)) = true),
+  assert(f(m2scom(cyc3_rls), m2scom(cyc3_o_hrls)) = true),
   true)$
 
-okltest_mols_p(f) := (
-  assert(okltest_ols_p(buildq([f],lambda([A,B], f([A,B]))))),
+okltest_mocomls_p(f) := (
+  assert(okltest_ocomls_p(buildq([f],lambda([A,B], f([A,B]))))),
   /* XXX */
   true)$
 
@@ -93,40 +102,40 @@ okltest_mols_p(f) := (
    ************
 */
 
-okltest_cyc3_fstdls(f) := (
+okltest_cyc3_rls(f) := (
   assert(matrix_size(f) = [3,3]),
-  assert(fstdls_p(f) = true),
+  assert(rls_p(f) = true),
   true)$
 
-okltest_cyc3_o_stdls(f) := block([Q],
+okltest_cyc3_o_hrls(f) := block([Q],
   assert(matrix_size(f) = [3,3]),
-  assert(fstdls_p(f) = false),
-  assert(stdls_p(f) = true),
-  assert(ols_p(m2scom(f),m2scom(cyc3_fstdls)) = true),
-  Q : stdls2qgrp(f),
+  assert(rls_p(f) = false),
+  assert(hrls_p(f) = true),
+  assert(ocomls_p(m2scom(f),m2scom(cyc3_rls)) = true),
+  Q : ls2qgrp(f),
   assert(qgrp_p(Q) = true),
   assert(has_neutral_el_grd(Q) = false),
   assert(associative_bydef_grd(Q) = false),
   true)$
 
-okltest_nassoc_fstdls(f) := block([Q],
+okltest_nassoc_rls(f) := block([Q],
   assert(matrix_size(f) = [5,5]),
-  assert(fstdls_p(f) = true),
-  Q : fstdls2uqgrp(f),
+  assert(rls_p(f) = true),
+  Q : rls2uqgrp(f),
   assert(uqgrp_p(Q) = true),
   assert(associative_bydef_grd(ugrd2grd(Q)) = false),
   true)$
 
-okltest_dk10_fstdls(f) := (
+okltest_dk10_rls(f) := (
   assert(matrix_size(f) = [10,10]),
-  assert(fstdls_p(f) = true),
+  assert(rls_p(f) = true),
   true)$
 
-okltest_dk10_o_stdls(f) := (
+okltest_dk10_o_hrls(f) := (
   assert(matrix_size(f) = [10,10]),
-  assert(fstdls_p(f) = false),
-  assert(stdls_p(f) = true),
-  assert(ols_p(m2scom(f),m2scom(dk10_fstdls)) = true),
+  assert(rls_p(f) = false),
+  assert(hrls_p(f) = true),
+  assert(ocomls_p(m2scom(f),m2scom(dk10_rls)) = true),
   true)$
 
 
@@ -135,13 +144,13 @@ okltest_dk10_o_stdls(f) := (
    ***************
 */
 
-okltest_qgrp2ls(f) := (
+okltest_qgrp2comls(f) := (
   /* XXX */
   true)$
 
-okltest_uqgrp2fstdls(f) := (
+okltest_uqgrp2rls(f) := (
   assert(f([{77},lambda([x,y],77),77]) = matrix([1])),
-  assert(f(fstdls2uqgrp(nassoc_fstdls)) = nassoc_fstdls),
+  assert(f(rls2uqgrp(nassoc_rls)) = nassoc_rls),
   for n : 1 thru 5 do block(
    [M : f(cyclic_ugrp(n)),
     L : create_list(i,i,1,n)],
