@@ -79,8 +79,8 @@ hrls_p(A) := ls_p(A) and block([s : matrix_size(A)],
 rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
   is(s[1] = 0) or is(A[1] = create_list(i,i,1,s[1])))$
 
-/* Reduced latin squares fully correspond to standardised unital quasigroups
-   (with element 1 as the unit).
+/* Reduced non-empty latin squares fully correspond to standardised unital 
+   quasigroups (with element 1 as the unit).
 */
 
 
@@ -184,6 +184,21 @@ uqgrp2rls(Q) := block([L : cons(Q[3],listify(disjoin(Q[3],Q[1]))), h],
 /* See ComputerAlgebra/Algebra/Lisp/Groupoids/Quasigroups/Basics.mac
    for the inverse conversions.
 */
+
+
+/* ************
+   * Counting *
+   ************
+*/
+
+/* The number of reduced latin squares of order n (n >= 0): */
+num_rls(n) := if n=0 then 1
+ elseif n<=11 then [1,1,1,4,56,9408,16942080,535281401856,377597570964258816,7580721483160132811489280,5363937773277371298119673540771840][n]
+ else unknown$
+
+/* The number of latin squares of order n (n >= 0): */
+num_ls(n) := if n=0 then 1 else
+ num_rls(n) * n! * (n-1)!$
 
 /*!
 \endhtmlonly
