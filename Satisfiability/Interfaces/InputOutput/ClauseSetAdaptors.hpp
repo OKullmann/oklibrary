@@ -7,7 +7,21 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/ClauseSetAdaptors.hpp
-  \brief Adaptors to transfer clause-sets into some data structure.
+  \brief Adaptors to transfer clause-sets into some data structure
+
+  A "CLSAdaptor" is a class (according to the concept below) for
+  the input of a clause-set via transmission of clauses and meta-data,
+  and which delivers some component (according to the purpose of the
+  adaptor) filled with this data (e.g., some data-structure, or the data
+  might be directly output).
+
+  Main CLS-adaptors delivered here are:
+  <ul>
+   <li> InputOutput::CLSAdaptorStatistics (computing statistics) </li>
+   <li> InputOutput::CLSAdaptorDIMACSOutput (output in DIMACs format) </li>
+   <li> InputOutput::RawDimacsCLSAdaptor (transfer to vector of vectors) </li>
+   <li> InputOutput::RawDimacsCLSAdaptorSets (transfer to set of sets) </li>
+  </ul>
 
 
   \todo Write concept for CLSAdaptor:

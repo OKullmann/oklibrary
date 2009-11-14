@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,11 +7,18 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/Dimacs.hpp
-  \brief %Tools for the input and output of cnf's in DIMACS format.
+  \brief %Tools for input and output of cnf's in DIMACS format (via CLS-adaptors)
 
-  InputOutput::StandardDIMACSInput transfers a clause-set on a stream into
-  a CLS-adaptor, while InputOutput::ListTransfer transfers a clause-set
-  in a rudimentary data-structure into a CLS-adaptor.
+  The main components are as follows:
+  <ul>
+   <li> InputOutput::StandardDIMACSInput transfers a clause-set on a stream
+   into a CLS-adaptor. </li>
+   <li> InputOutput::ListTransfer transfers a clause-set given by a
+   rudimentary data-structure into a CLS-adaptor. </li>
+   <li> Instance InputOutput::List2DIMACSOutput directly translates such a
+   clause-set into DIMACS output. </li>
+  </ul>
+
 */
 
 

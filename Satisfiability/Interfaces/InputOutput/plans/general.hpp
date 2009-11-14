@@ -56,6 +56,12 @@ InputOutput::List2DIMACSOutput(F, out, comment)
      for an ostream "out" and an optional string "comment". </li>
     </ol>
    </li>
+   <li> Interfaces/InputOutput/ClauseSetAdaptors.hpp provides various
+   adaptors, for transfer into some data-structure, or directly to output,
+   or just counting. </li>
+   <li> While Interfaces/InputOutput/Dimacs.hpp yields basically components
+   which take a CLS-adaptor as template parameter, and supply it with the
+   input from some source in DIMACS format. </li>
   </ul>
 
 

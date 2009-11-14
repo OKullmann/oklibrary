@@ -99,7 +99,7 @@ License, or any later version. */
 
   \todo ListTransfer
   <ul>
-   <li> Is thie submodule really the right place? </li>
+   <li> Is this submodule really the right place? </li>
    <li> Once namespaces are updated, one should have a look whether
    the name "ListTransfer" is appropriate. </li>
   </ul>
@@ -112,21 +112,23 @@ License, or any later version. */
    \verbatim
 p gcnf n c k
    \endverbatim
-   where k specifies the set of possible values {0, ..., k-1} </li>
-   <li> literals are of the form
+   where k specifies the set of possible values {0, ..., k-1}. </li>
+   <li> Literals are of the form
    \verbatim
 n,v
    \endverbatim
    where n as usual is the variable (number), while v in {0, ..., k-1}. </li>
-   <li> if k=2, then also "+n", "-n" and "n" are literals (so that ordinary
+   <li> If k=2, then also "+n", "-n" and "n" are literals (so that ordinary
    Dimacs inputs are accepted). </li>
   </ul>
 
 
-  \todo Write higher level modules like
-  ReadClauseCollection<DimacsParser, ClauseCollection> and
-  WriteClauseCollection<ClauseCollection, DimacsWriter>
-  (likely this should go into a separate file).
+  \todo Write higher level modules
+  <ul>
+   <li> Like ReadClauseCollection<DimacsParser, ClauseCollection> and
+   WriteClauseCollection<ClauseCollection, DimacsWriter>
+   (likely this should go into a separate file). </li>
+  </li>
 
 */
 
