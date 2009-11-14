@@ -30,19 +30,32 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/ReingoldTilford.mac")$
 /* Extract a list of points [[x1,y1], [x2,y2], ... , [xn,yn]] from a labelled
    rooted tree T with 2-dimensional coordinates:
 */
-/* TODO: INDENTATION! */
-tdlrt2points(T) :=block([nt,nt1,nt2],if rest(T)=[] then return([T[1][1]]) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2points, rest(T)),
-nt:cons(T[1][1],append(nt1,nt2))) else ([nt1]:map(tdlrt2points, rest(T)),
-nt:cons(T[1][1],nt1)),
-return(nt)))$
+tdlrt2points(T) := block([nt,nt1,nt2],
+      if rest(T)=[] then return([T[1][1]]) 
+      else if length(rest(T))=2 
+           then ([nt1,nt2]:map(tdlrt2points, rest(T)),
+                 nt:cons(T[1][1],append(nt1,nt2))) 
+           else ([nt1]:map(tdlrt2points, rest(T)),
+                 nt:cons(T[1][1],nt1)),
+      return(nt))$
 
 /* Extract a list of edges [[[x1,y1],[x2,y2]], ... , [[xn',yn'],[xn,yn]]] from
    a labelled rooted tree T with 2-dimensional coordinates:
 */
-/* TODO: INDENTATION! */
-tdlrt2edges(T) :=block([nt,nt1,nt2],if rest(T)=[] then return(T) else (if length(rest(T))=2 then ([nt1,nt2]:map(tdlrt2edges, rest(T)), 
-nt:append(cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1),cons([T[1][1],nt2[1][1]],if rest(nt2)=[] and rest(nt2[1])=[] then [] else nt2))) else ([nt1]:map(tdlrt2edges, rest(T)), 
-nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), return(nt)))$
+tdlrt2edges(T) := block([nt,nt1,nt2],
+      if rest(T)=[] then return(T) 
+      else if length(rest(T))=2 
+           then ([nt1,nt2]:map(tdlrt2edges, rest(T)), 
+                 nt:append(cons([T[1][1],nt1[1][1]],
+                                if rest(nt1)=[] and rest(nt1[1])=[] then [] 
+                                else nt1),
+                                cons([T[1][1],nt2[1][1]],
+                                     if rest(nt2)=[] and rest(nt2[1])=[] then []
+                                     else nt2))) 
+           else ([nt1]:map(tdlrt2edges, rest(T)), 
+                 nt:cons([T[1][1],nt1[1][1]],
+                         if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), 
+      return(nt))$
 
 /* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
@@ -54,12 +67,17 @@ nt:cons([T[1][1],nt1[1][1]],if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1
    ptc  : the colour of points (red, blue, ...)
    edgc : the colour of edges (red, blue, ...) 
 */
-/* TODO: INDENTATION! */
 /* TODO: What means "can be defined"? Apparently the attributes *must*
    be defined, but this shouldn't be the case!
 */
-draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := block(apply(draw2d,
-      append([grid=true,xrange = xran,yrange = yran,point_size = pts,point_type = ptt,color = ptc,points(tdlrt2points(reingold_tilford_rt(T,x,y))),color=edgc],map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y))))),return(true))$
+draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := block(
+   apply(draw2d,
+         append([grid=true,xrange = xran,yrange = yran,
+                 point_size = pts,point_type = ptt,color = ptc,
+                 points(tdlrt2points(reingold_tilford_rt(T,x,y))),
+                 color=edgc],
+                map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y))))),
+   return(true))$
 
 
 /*!
