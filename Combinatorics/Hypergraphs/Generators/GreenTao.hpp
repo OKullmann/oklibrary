@@ -68,7 +68,8 @@ namespace OKlib {
 
           \todo Complete implementation
           <ul>
-           <li> Provide an alternative constructor which just copies the
+           <li> DONE
+           Provide an alternative constructor which just copies the
            vertex set. </li>
            <li> Missing is member function nhyp. </li>
            <li> Shouldn't member function vertex_set return a const
@@ -110,6 +111,13 @@ namespace OKlib {
             // C++0X: the following assert should become compile-time
             assert(std::numeric_limits<vertex_type>::max() >= 4294967295UL);
             assert(k <= max_k);
+          }
+          GreenTao(const vertex_type k, const vertex_type n, const hyperedge_type& V)
+            : k(k), n(n), prime_k(prime(k)), vertex_set_(V) {
+            // C++0X: the following assert should become compile-time
+            assert(std::numeric_limits<vertex_type>::max() >= 4294967295UL);
+            assert(k <= max_k);
+            assert(vertex_set_.size() == n);
           }
 
           size_type nver() const { return n; }
