@@ -10,14 +10,22 @@ License, or any later version. */
   \brief Application for computing all size-bounded transversals of a hypergraph
 
   <ul>
+   <li> The hypergraph is read from standard input, in DIMACS format. </li>
+   <li> The output is the list of transversals, also in DIMACS format. </li>
    <li> The role model is transversals_bvs in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac. </li>
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac.
+   </li>
    <li> To perform this computation requires (exactly) one parameter, of the
    form "=B". </li>
-   <li> With no parameter, or with an argument of the form ">=B"
-   minimum_transversals_lbbvs_hg in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac is
-   realised, i.e., incremental search. </li>
+   <li> This is a simple recursive search (by branching on vertices) for
+   computing basically all minimal transversals of size at most B. </li>
+   <li> With an argument ">=B" (a lower bound), or with no argument
+   (corresponding to ">=0"), minimum_transversals_lbbvs_hg in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac
+   is realised, i.e., incremental search. </li>
+   <li> So "=B" is used if the size of minimum transversals is known, while
+   otherwise starting from a known lower bound the size of minimum transversals
+   is computed by the algorithm. </li>
   </ul>
 
 */

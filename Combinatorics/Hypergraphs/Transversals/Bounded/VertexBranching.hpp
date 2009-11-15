@@ -173,6 +173,8 @@ namespace OKlib {
         ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac.
         <ul>
          <li> gen(n) is the list of new hyperedges for vertex n. </li>
+         <li> So actually vertex names are assumed to be standardised
+         (different from the more general Maxima function). </li>
         </ul>
       */
       

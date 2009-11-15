@@ -14,10 +14,16 @@ License, or any later version. */
    further parameters to be passed to the initialisation of the generator.
    </li>
    <li> Functions Transversals::Bounded::generator::initialise and
-   Transversals::Bounded::generator needs to be provided in another
+   Transversals::Bounded::generator need to be provided in another
    compilation unit. </li>
-   <li> The generator has to compute for input n the list of hyperedges
-   finishing in n. </li>
+   <li> That generator has to compute for input n the list of hyperedges
+   finishing in n (for example as a vector of vectors). </li>
+   <li> Note that here vertices have to be natural numbers from 1 to n. </li>
+   <li> The Maxima-specification is given by minimum_transversals_mongen in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac
+   (using [{}] for parameter MT0, since here we assume that we start with
+   the hypergraph with no vertices and no hyperedges (n=0), which has thus
+   exactly one transversal, the empty set). </li>
   </ul>
 */
 
