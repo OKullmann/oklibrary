@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp
-  \brief %Tools for generating GreenTao hypergraphs
+  \brief %Tools for generating Green-Tao hypergraphs
 */
 
 #ifndef GREENTAOHYPERGRAPH_mmnVre09h
@@ -66,7 +66,20 @@ namespace OKlib {
 
           The hypergraph is represented as a vector of vectors.
 
-          \todo To be implemented
+          \todo Complete implementation
+          <ul>
+           <li> Provide an alternative constructor which just copies the
+           vertex set. </li>
+           <li> Missing is member function nhyp. </li>
+           <li> Shouldn't member function vertex_set return a const
+           reference? </li>
+           <li> We need a member function, which for given 1 <= i <= n
+           just computes the vector of hyperedges ending with prime p_i.
+           This is useful on its own (for cumulative computations), and should
+           also be used for computing all hyperedges. </li>
+           <li> The hyperedges should be alternatively provided by just a
+           nested iterator, without storing the hyperedges. </li>
+          </ul>
           
 
           \todo To be tested
@@ -89,7 +102,7 @@ namespace OKlib {
           const bool prime_k;
 
           static const unsigned int max_k = 19; // for k=20 the first
-          // arithmetic progressions apears for n=22,009,064,470.
+          // arithmetic progressions appears for n=22,009,064,470.
           static const unsigned int rounds_compositeness_test = 10;
 
           GreenTao(const vertex_type k, const vertex_type n)
@@ -100,7 +113,7 @@ namespace OKlib {
           }
 
           size_type nver() const { return n; }
-          size_type nhyp() const;
+          size_type nhyp() const; // XXX
 
           hyperedge_type vertex_set() const { return vertex_set_; }
 
