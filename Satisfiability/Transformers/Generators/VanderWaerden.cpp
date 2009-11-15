@@ -14,9 +14,17 @@ License, or any later version. */
    <li> The two command-line parameters are the progression size and the
    number of vertices. </li>
   </ul>
+
+  \todo Complete update needed
+  <ul>
+   <li> Use InputOutput::HypergraphTwoColouring in
+   Interfaces/InputOutput/Colouring.hpp. </li>
+  </ul>
 */
 
 #include <iostream>
+
+#include <boost/lexical_cast.hpp>
 
 #include <OKlib/General/ErrorHandling.hpp>
 
@@ -24,7 +32,7 @@ License, or any later version. */
 
 int main(const int argc, const char* const argv[]) {
     if (argc <= 2) {
-    std::cerr << "Two arguments are needed: The size of the arithmetic progression, and the number of elements.\n";
+    std::cerr << "ERROR[VanderWaerden]: Two arguments are needed: The size of the arithmetic progression, and the number of elements.\n";
     return 1;
   }
   try {
