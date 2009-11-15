@@ -32,6 +32,8 @@ License, or any later version. */
    <li> The name-components "std" (as in gcol2sat_stdohg2stdnbfclud) are
    not very appropriate (they cover only a special case, namely that
    standardised hypergraphs yield standardised clause-sets). </li>
+   <li> For translation to boolean SAT also the "non-diagonal" versions
+   (using two hypergraphs) should be provided. </li>
    <li> Strong colouring (in every hyperedge all colours are different)
    can be handled by first applying section_hg(G,2) and then tcol2sat_hg2fcs;
    should we provide a convenience function combining them? </li>

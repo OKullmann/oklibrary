@@ -38,7 +38,7 @@ declare(colv,noun)$
 declare(colv,posfun)$
 colv_var(v) := nounify(colv)(v)$
 
-/* Translates a colouring literal to an Extend-dimacs compatible string. */
+/* Translates a colouring literal to an extended-dimacs compatible string. */
 colv_string(l) := sconcat(
   if abs(l) = l then "" else "-",
   block([S : args(args(abs(l))[1])],
@@ -62,7 +62,7 @@ tcol2sat_stdohg2stdofcs(G) := [G[1], append(G[2], comp_cl(G[2]))]$
 
 /* Now for ordered hypergraphs, producing clause-lists: */
 /* If G does not contain an empty hyperedge, then the result is
-   actually a (formal) clause-set. */
+   actually a (formal) ordered clause-list. */
 tcol2sat_ohg2fcl(G) := [map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
     append(Fpos, comp_cs(Fpos)))]$
