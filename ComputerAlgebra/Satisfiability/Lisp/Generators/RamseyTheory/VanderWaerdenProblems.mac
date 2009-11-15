@@ -165,6 +165,9 @@ greentao2_sb_fcs(k,n) := block([G : greentao2_fcs(k,n)],
 greentao2nd_fcs(k1,k2,n) := block(
  [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
   [G1[1], union(G1[2], comp_cs(G2[2]))])$
+greentao2nd_fcl(k1,k2,n) := block(
+ [G1 : arithprog_primes_ohg(k1,n), G2 : arithprog_primes_ohg(k2,n)],
+  [G1[1], append(G1[2], comp_cs(G2[2]))])$
 
 /* Now the general form, where L is a vdW-parameter-tuple: */
 greentao_nbfcsud(L,n) := 
@@ -225,8 +228,8 @@ output_greentao2_stdname(k,n) := output_greentao2(k,n,
 
 /* The 2-colour non-diagonal version: */
 output_greentao2nd(k1,k2,n,filename) := block(
- [FFGT : standardise_fcs(greentao2nd_fcs(k1,k2,n))],
-  output_fcs_v(
+ [FFGT : standardise_fcl(greentao2nd_fcl(k1,k2,n))],
+  output_fcl_v(
     sconcat("Green-Tao problem (non-diagonal form),
 c created by the OKlibrary at ", timedate(),": 
 c 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers.

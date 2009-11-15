@@ -98,6 +98,8 @@ License, or any later version. */
    example [2,2,2,2,3,3,4] in "_7_2:4_3:2_4". </li>
    <li> The part "_sb" in the name (for symmetry-breaking) should perhaps
    be placed at the very end. </li>
+   <li> The output-function should use the clause-list-forms, not the
+   clause-set-forms. </li>
   </ul>
 
 
