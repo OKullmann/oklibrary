@@ -18,6 +18,16 @@ License, or any later version. */
    </li>
   </ul>
 
+  \todo Improve implementation
+  <ul>
+   <li> The name-map likely can be implemented much faster using a hash-map
+   (in C++0x). </li>
+   <li> Make the comments the same as with output_greentao2nd_stdname(k1,k2,n).
+   </li>
+  <ul>
+
+  \todo Write application tests
+
 */
 
 #include <iostream>
@@ -73,9 +83,10 @@ int main(const int argc, const char* const argv[]) {
 
     typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<uint_type> gt_generator;
     const gt_generator g1(k1,n);
+    const gt_generator g2(k2,n,g1.vertex_set());
     typedef gt_generator::set_system_type set_system_type;
-    const set_system_type G1(g1.hyperedge_set());
-    const set_system_type G2(gt_generator(k2,n).hyperedge_set());
+    const set_system_type& G1(g1.hyperedge_set());
+    const set_system_type& G2(k1 == k2 ? G1 : g2.hyperedge_set());
     NameMap M;
     {
       typedef gt_generator::hyperedge_type hyperedge_type;
