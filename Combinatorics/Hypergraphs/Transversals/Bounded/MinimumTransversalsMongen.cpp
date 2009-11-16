@@ -25,6 +25,17 @@ License, or any later version. */
    the hypergraph with no vertices and no hyperedges (n=0), which has thus
    exactly one transversal, the empty set). </li>
   </ul>
+
+  \todo Making the types available
+  <ul>
+   <li> In order that functions "initialise" and "generator" can be defined
+   by clients, the involved types should be made available in a header-file.
+   </li>
+   <li> Better would be a mechanism so that clients can influence these three
+   types. </li>
+   <li>
+  </ul>
+
 */
 
 #include <iostream>
@@ -37,7 +48,7 @@ License, or any later version. */
 #include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/VertexBranching.hpp>
 
 
-namespace {
+namespace { // these types are needed for linking the two functions below
   typedef unsigned int vertex_type;
   typedef std::set<vertex_type> hyperedge_type;
   typedef std::vector<hyperedge_type> hyperedge_list_type;
@@ -51,7 +62,7 @@ namespace OKlib {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
-      extern void initialise(const parameter_type& P);
+      extern void initialise(const size_type N, const parameter_type& P);
       extern hyperedge_list_type generator(const size_type n);
     }
    }
@@ -73,7 +84,7 @@ namespace {
     error_parameters = 1
   };
 
-  const std::string version = "0.0.2";
+  const std::string version = "0.0.3";
 
 }
 
@@ -90,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
     parameter_type P; P.reserve(argc-2);
     for (int i = 2; i < argc; ++i)
       P.push_back(boost::lexical_cast<size_type>(argv[i]));
-    ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::initialise(P);
+    ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::initialise(N, P);
   }
 
   typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
