@@ -38,7 +38,7 @@ RamseyTheory> oklib all programs=MinimumTransversals_GreenTao
 
 namespace {
 
-  typedef unsigned int size_type;
+  typedef unsigned long size_type;
 
   typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<size_type> GT_hypergraph_type;
   typedef GT_hypergraph_type::set_system_type set_system_type;
