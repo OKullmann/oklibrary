@@ -90,6 +90,27 @@ Lp60_3 : minimum_transversals_mongen(60,A3p,[{}])$
 42 20 687
    \endverbatim
    </li>
+   <li> At C++ level:
+   \verbatim
+> MinimumTransversals_GreenTao-O3-DNDEBUG 70 3
+43 21 2465
+44 21 807
+45 21 34
+46 21 4
+47 22 6
+48 23 32
+49 24 245
+50 25 1044
+51 25 150
+52 26 1224
+53 26 154
+54 26 18
+55 27 435
+56 28 753
+57 29 1294
+58 29 726
+   \endverbatim
+   </li>
   </ul>
 
 
