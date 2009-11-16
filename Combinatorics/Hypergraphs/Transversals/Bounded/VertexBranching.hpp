@@ -24,6 +24,7 @@ License, or any later version. */
 #include <functional>
 #include <ostream>
 #include <iomanip>
+#include <set>
 
 #include <OKlib/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
 
@@ -253,6 +254,13 @@ namespace OKlib {
 
       };
 
+
+      /*!
+        \class TrivialOutput
+        \brief Functor for just outputting the number of minimum transversals
+        (together with the number of vertices and the minimum size of a transversal)
+      */
+
       template <class SetSystem> struct TrivialOutput {
         typedef SetSystem set_system_type;
         typedef Bounded_transversals_bv<set_system_type> transversals_bv_type;
@@ -263,6 +271,90 @@ namespace OKlib {
         void operator() (const size_type n, const size_type t, const transversal_list_type& MT) {
           out << n << " " << t << " " << MT.size() << std::endl;
         }
+      };
+
+
+      /*!
+        \class DirectStratification
+        \brief Transforms a set-system into a standardised stratified set-system according to the order on the vertices.
+
+        The Maxima-specification is function strata_ses(S.L) in
+        ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac, though that
+        function does not perform standardisation.
+
+        Prerequisites:
+        <ul>
+         <li> A linear order is given on the vertices. </li>
+         <li> The vertex-list L is linearly ordered (in ascending order). </li>
+         <li> No hyperedge of S is empty. </li>
+        </ul>
+
+        \todo Move to stratification module.
+
+        \todo Handling of order
+        <ul>
+         <li> Currently the order is given by "<" etc. as well as by the order
+         of the vertex-list L. </li>
+         <li> More generally, one could have one version for each of these two
+         possibilities. </li>
+         <li> The order given (just) by the vertex-list would correspond to
+         what function strata_ses(S,L) uses. </li>
+        </ul>
+
+        \todo Write tests
+
+      */
+
+      template <class SetSystem, typename UInt = unsigned int>
+      struct DirectStratification {
+        typedef SetSystem set_system_type;
+        typedef UInt uint_type;
+        typedef typename set_system_type::value_type hyperedge_type;
+        typedef typename hyperedge_type::value_type vertex_type;
+
+        typedef std::set<uint_type> new_hyperedge_type;
+        typedef std::vector<new_hyperedge_type> new_set_system_type;
+        typedef std::vector<new_set_system_type> strata_type;
+
+        typedef std::vector<uint_type> vertex_container;
+        typedef typename vertex_container::const_iterator vertex_iterator;
+        
+        const vertex_container V; // the vertices
+        const uint_type n; // number of vertices
+        const vertex_iterator begin_V;
+        const vertex_iterator end_V;
+
+        DirectStratification(
+            const set_system_type& S,
+            const hyperedge_type& L)
+          : V(L.begin(),L.end()), n(V.size()), begin_V(V.begin()), end_V(V.end()), St(n) {
+          typedef typename set_system_type::const_iterator hyperedge_it;
+          const hyperedge_it end_S(S.end());
+          for (hyperedge_it H = S.begin(); H != end_S; ++H) {
+            // TODO: use iterator-construction for the following transfer
+            new_hyperedge_type N;
+            typedef typename hyperedge_type::const_iterator vertex_it;
+            const vertex_it end_H(H -> end());
+            for (vertex_it v = H -> begin(); v != end_H; ++v)
+              N.insert(index(*v));
+            St[*--N.end()-1].push_back(N);
+          }
+        }
+
+        uint_type index(const vertex_type v) const {
+          assert(std::lower_bound(begin_V, end_V, v) != end_V);
+          return (std::lower_bound(begin_V, end_V, v) - begin_V) + 1;
+        }
+
+        const new_set_system_type& operator()(const uint_type i) const {
+          assert(i > 0);
+          assert(i <= n);
+          return St[i-1];
+        }
+
+        private :
+
+          strata_type St;
       };
 
     }
