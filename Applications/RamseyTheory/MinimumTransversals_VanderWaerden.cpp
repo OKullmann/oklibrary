@@ -53,7 +53,7 @@ namespace OKlib {
    namespace Transversals {
     namespace Bounded {
 
-      void initialise(const parameter_type& P) {
+      void initialise(const size_type, const parameter_type& P) {
         if (P.empty())
           throw std::runtime_error
             ("ERROR[MinimumTransversals_VanderWaerden]: "

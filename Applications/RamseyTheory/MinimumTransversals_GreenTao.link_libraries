@@ -1,0 +1,1 @@
+echo "${lib_dir}/MinimumTransversalsMongen.o ${gmp_link_option_okl} -lgmpxx"
