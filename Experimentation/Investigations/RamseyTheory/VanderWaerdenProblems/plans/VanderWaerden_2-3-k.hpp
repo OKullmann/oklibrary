@@ -874,6 +874,13 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   551000 24360000 57580000 49740000 72950000 92970000
 
 > ubcsat-okl -alg rnovelty -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve | tee VanDerWaerden_2-3-20_389.cnf_AUS3
+> E = read_ubcsat("VanDerWaerden_2-3-20_389.cnf_AUS3")
+  1   2
+ 67 933
+1000
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   17140  3765000  9559000 15030000 18850000 98290000
 
 > nohup ubcsat-okl -alg gsat-tabu -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS4 &
      \endverbatim
