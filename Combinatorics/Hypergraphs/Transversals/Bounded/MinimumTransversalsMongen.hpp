@@ -14,22 +14,22 @@ License, or any later version. */
 #ifndef MINIMUMTRANSVERSALSMONGEN_jNbckpq5q20
 #define MINIMUMTRANSVERSALSMONGEN_jNbckpq5q20
 
+#include <set>
+#include <vector>
+
 namespace OKlib {
  namespace Combinatorics {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
 
-      // auxiliary types
       typedef unsigned int vertex_type;
       typedef std::set<vertex_type> hyperedge_type;
-
       typedef std::vector<hyperedge_type> hyperedge_list_type;
-      typedef hyperedge_list_type::size_type size_type;
-      typedef std::vector<size_type> parameter_type;
+      typedef std::vector<vertex_type> parameter_type;
 
-      void initialise(const size_type N, const parameter_type& P);
-      hyperedge_list_type generator(const size_type n);
+      void initialise(const vertex_type N, const parameter_type& P);
+      hyperedge_list_type generator(const vertex_type n);
 
     }
    }

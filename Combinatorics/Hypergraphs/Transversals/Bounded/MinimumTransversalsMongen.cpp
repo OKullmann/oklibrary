@@ -53,14 +53,14 @@ License, or any later version. */
 
 namespace {
 
+  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::vertex_type;
   using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::hyperedge_list_type;
-  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::size_type;
   using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::parameter_type;
 
   template <class> struct GeneratorWrapper {
-    typedef ::size_type size_type;
+    typedef ::vertex_type vertex_type;
     typedef ::hyperedge_list_type hyperedge_list_type;
-    hyperedge_list_type operator() (const size_type n) const {
+    hyperedge_list_type operator() (const vertex_type n) const {
       return ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::generator(n);
     }
   };
@@ -81,11 +81,11 @@ int main(const int argc, const char* const argv[]) {
     return error_parameters;
   }
 
-  const size_type N = boost::lexical_cast<size_type>(argv[1]);
+  const vertex_type N = boost::lexical_cast<vertex_type>(argv[1]);
   {
     parameter_type P; P.reserve(argc-2);
     for (int i = 2; i < argc; ++i)
-      P.push_back(boost::lexical_cast<size_type>(argv[i]));
+      P.push_back(boost::lexical_cast<vertex_type>(argv[i]));
     ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::initialise(N, P);
   }
 

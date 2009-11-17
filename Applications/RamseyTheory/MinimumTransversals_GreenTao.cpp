@@ -43,20 +43,20 @@ namespace OKlib {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
-    
-      typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<size_type> GT_hypergraph_type;
+
+      typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<vertex_type> GT_hypergraph_type;
       typedef GT_hypergraph_type::set_system_type set_system_type;
 
-      typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::DirectStratification<set_system_type, size_type> Strata_t;
+      typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::DirectStratification<set_system_type, vertex_type> Strata_t;
 
       struct Wrapper {
         Wrapper() : S(0) {}
-        void set(const size_type k, const size_type N) {
+        void set(const vertex_type k, const vertex_type N) {
           if (S) delete S;
           GT_hypergraph_type G(k, N);
           S = new Strata_t(G.hyperedge_set(), G.vertex_set());  
         }
-        hyperedge_list_type operator()(const size_type n) const {
+        hyperedge_list_type operator()(const vertex_type n) const {
           assert(S);
           return S -> operator()(n);
         }
@@ -69,7 +69,7 @@ namespace OKlib {
       Wrapper prog_gen;
 
 
-      void initialise(const size_type N, const parameter_type& P) {
+      void initialise(const vertex_type N, const parameter_type& P) {
         if (P.size() < 1)
           throw std::runtime_error
             ("ERROR[MinimumTransversals_GreenTao]: "
@@ -77,7 +77,7 @@ namespace OKlib {
         prog_gen.set(P[0], N);
       }
 
-      hyperedge_list_type generator(const size_type n) {
+      hyperedge_list_type generator(const vertex_type n) {
         return prog_gen(n);
       }
 

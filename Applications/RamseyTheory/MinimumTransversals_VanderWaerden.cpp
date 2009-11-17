@@ -41,9 +41,9 @@ namespace OKlib {
    namespace Transversals {
     namespace Bounded {
 
-      OKlib::Arithprog_finish<hyperedge_type, hyperedge_list_type, size_type> prog_gen;
+      OKlib::Arithprog_finish<hyperedge_type, hyperedge_list_type, vertex_type> prog_gen;
 
-      void initialise(const size_type, const parameter_type& P) {
+      void initialise(const vertex_type, const parameter_type& P) {
         if (P.empty())
           throw std::runtime_error
             ("ERROR[MinimumTransversals_VanderWaerden]: "
@@ -51,7 +51,7 @@ namespace OKlib {
         prog_gen.set(P.front());
       }
 
-      hyperedge_list_type generator(const size_type n) {
+      hyperedge_list_type generator(const vertex_type n) {
         return prog_gen(n);
       }
 
