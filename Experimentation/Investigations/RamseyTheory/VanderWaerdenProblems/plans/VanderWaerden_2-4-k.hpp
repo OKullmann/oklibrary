@@ -1044,7 +1044,7 @@ BestSolution_Max = 59.000000
   </ul>
 
 
-  \todo vanderwaerden_2(4,10) > 327
+  \todo vanderwaerden_2(4,10) > 328
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
@@ -1220,7 +1220,36 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    525600  32000000  91600000  89860000 138000000 199800000
    \endverbatim
    </li>
-   <li> n=328 </li>
+   <li> n=328
+    <ol>
+     <li> cutoff=2*10^8:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 200000000 -i VanDerWaerden_2-4-10_328.cnf | tee VanDerWaerden_2-4-10_328.cnf_OUT
+> E = read_ubcsat("VanDerWaerden_2-4-10_328.cnf_OUT")
+ 1  2  3  4  5 21 22 23 24 25 26 27 28
+ 2 51 45 28  9  1  7  3 12 17 19  4  2
+200
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+   599500  40370000  84970000  92870000 141000000 198300000
+     \endverbatim
+     </li> 
+     <li> cutoff=4*10^8:
+     \verbatim
+> nohup ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 400000000 -i VanDerWaerden_2-4-10_328.cnf > VanDerWaerden_2-4-10_328.cnf_OUT &
+> E=read_ubcsat("VanDerWaerden_2-4-10_328.cnf_OUT")
+ 0  1  2  3  4  5 23 24 25 26
+ 1  1 29 17  4  2  1  1  1  1
+58
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  1000000  36620000 124200000 146200000 228000000 397700000
+     \endverbatim
+     So cutoff=4*10^8 seems needed now.
+     </li>
+    </ol>
+   </li>
+   <li> n=329 </li>
    <li> n=330 with adaptnovelty+
     <ol>
      <li> cutoff=10^7 
