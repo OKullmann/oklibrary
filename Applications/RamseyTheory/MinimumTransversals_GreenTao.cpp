@@ -36,44 +36,38 @@ RamseyTheory> oklib all programs=MinimumTransversals_GreenTao
 #include <OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp>
 #include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/VertexBranching.hpp>
 
-namespace {
-
-  typedef unsigned long size_type;
-
-  typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<size_type> GT_hypergraph_type;
-  typedef GT_hypergraph_type::set_system_type set_system_type;
-
-  typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::DirectStratification<set_system_type, size_type> Strata_t;
-  typedef Strata_t::new_set_system_type hyperedge_list_type;
-
-  struct Wrapper {
-    Wrapper() : S(0) {}
-    void set(const size_type k, const size_type N) {
-      if (S) delete S;
-      GT_hypergraph_type G(k, N);
-      S = new Strata_t(G.hyperedge_set(), G.vertex_set());  
-    }
-    hyperedge_list_type operator()(const size_type n) const {
-      assert(S);
-      return S -> operator()(n);
-    }
-    ~Wrapper() { delete S; }
-
-    private :
-      const Strata_t* S;
-  };
-
-  Wrapper prog_gen;
-
-  typedef std::vector<size_type> parameter_type;
-
-}
+#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.hpp>
 
 namespace OKlib {
  namespace Combinatorics {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
+    
+      typedef OKlib::Combinatorics::Hypergraphs::Generators::GreenTao<size_type> GT_hypergraph_type;
+      typedef GT_hypergraph_type::set_system_type set_system_type;
+
+      typedef OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::DirectStratification<set_system_type, size_type> Strata_t;
+
+      struct Wrapper {
+        Wrapper() : S(0) {}
+        void set(const size_type k, const size_type N) {
+          if (S) delete S;
+          GT_hypergraph_type G(k, N);
+          S = new Strata_t(G.hyperedge_set(), G.vertex_set());  
+        }
+        hyperedge_list_type operator()(const size_type n) const {
+          assert(S);
+          return S -> operator()(n);
+        }
+        ~Wrapper() { delete S; }
+
+        private :
+          const Strata_t* S;
+      };
+
+      Wrapper prog_gen;
+
 
       void initialise(const size_type N, const parameter_type& P) {
         if (P.size() < 1)

@@ -33,25 +33,15 @@ RamseyTheory> oklib all programs=MinimumTransversals_VanderWaerden
 
 #include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp>
 
-namespace {
-  typedef unsigned int vertex_type;
-  typedef std::set<vertex_type> hyperedge_type;
-  typedef std::vector<hyperedge_type> hyperedge_list_type;
-  typedef hyperedge_list_type::size_type size_type;
-
-  typedef std::vector<size_type> parameter_type;
-}
-
-namespace {
-  OKlib::Arithprog_finish<hyperedge_type, hyperedge_list_type, size_type>
-  prog_gen;
-}
+#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.hpp>
 
 namespace OKlib {
  namespace Combinatorics {
   namespace Hypergraphs {
    namespace Transversals {
     namespace Bounded {
+
+      OKlib::Arithprog_finish<hyperedge_type, hyperedge_list_type, size_type> prog_gen;
 
       void initialise(const size_type, const parameter_type& P) {
         if (P.empty())

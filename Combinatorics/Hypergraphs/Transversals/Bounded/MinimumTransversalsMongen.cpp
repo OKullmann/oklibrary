@@ -15,7 +15,8 @@ License, or any later version. */
    </li>
    <li> Functions Transversals::Bounded::generator::initialise and
    Transversals::Bounded::generator need to be provided in another
-   compilation unit. </li>
+   compilation unit (declared in the header file
+   Bounded/MinimumTransversalsMongen.hpp). </li>
    <li> That generator has to compute for input n the list of hyperedges
    finishing in n (for example as a vector of vectors). </li>
    <li> Note that here vertices have to be natural numbers from 1 to n. </li>
@@ -28,7 +29,8 @@ License, or any later version. */
 
   \todo Making the types available
   <ul>
-   <li> In order that functions "initialise" and "generator" can be defined
+   <li> DONE
+   In order that functions "initialise" and "generator" can be defined
    by clients, the involved types should be made available in a header-file.
    </li>
    <li> Better would be a mechanism so that clients can influence these three
@@ -47,30 +49,13 @@ License, or any later version. */
 #include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
 #include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/VertexBranching.hpp>
 
-
-namespace { // these types are needed for linking the two functions below
-  typedef unsigned int vertex_type;
-  typedef std::set<vertex_type> hyperedge_type;
-  typedef std::vector<hyperedge_type> hyperedge_list_type;
-  typedef hyperedge_list_type::size_type size_type;
-
-  typedef std::vector<size_type> parameter_type;
-}
-
-namespace OKlib {
- namespace Combinatorics {
-  namespace Hypergraphs {
-   namespace Transversals {
-    namespace Bounded {
-      extern void initialise(const size_type N, const parameter_type& P);
-      extern hyperedge_list_type generator(const size_type n);
-    }
-   }
-  }
- }
-}
+#include <OKlib/Combinatorics/Hypergraphs/Transversals/Bounded/MinimumTransversalsMongen.hpp>
 
 namespace {
+
+  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::hyperedge_list_type;
+  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::size_type;
+  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::parameter_type;
 
   template <class> struct GeneratorWrapper {
     typedef ::size_type size_type;
@@ -104,6 +89,7 @@ int main(const int argc, const char* const argv[]) {
     ::OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::initialise(N, P);
   }
 
+  using OKlib::Combinatorics::Hypergraphs::Transversals::Bounded::hyperedge_type;
   typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
   typedef std::set<hyperedge_type, hyperedge_ordering_type> set_system_type;
 
