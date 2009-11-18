@@ -236,7 +236,7 @@ extract_arraylist(h) := okl_listarray(extract_array(h))$
    of occurrences, and then get the list of pairs [x,count],
    sorted by x, where the x are the different objects:
     - first create an empty hash-map h : sm2hm({})
-    - then call enter_new_occurrences(h,x) for each occurrence,
+    - then call enter_new_occurrence(h,x) for each occurrence,
     - and finally get the result via get_distribution(h).
 */
 enter_new_occurrence(h,x) :=
