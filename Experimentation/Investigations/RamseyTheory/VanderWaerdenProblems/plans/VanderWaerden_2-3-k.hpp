@@ -883,9 +883,17 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    17140  3765000  9559000 15030000 18850000 98290000
 
 > nohup ubcsat-okl -alg gsat-tabu -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS4 &
-     \endverbatim
+> E=read_ubcsat("VanDerWaerden_2-3-20_389.cnf_AUS4")
+  1   2   3   4   5   6
+165 750  71  10   3   1
+1000
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    7145  4473000 13520000 21760000 31660000 99550000
 
-     </li>
+> nohup ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS5 &
+     \endverbatim
+     So actually gsat-tabu is better than rnovelty for higher cutoff. </li>
     </ol>
    </li>
   </ul>
