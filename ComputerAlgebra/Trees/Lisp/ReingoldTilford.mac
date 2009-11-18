@@ -48,9 +48,13 @@ reingold_tilford_rt(T,x,y) := reingold_tilford_clean(reingold_tilford_computatio
           the x-coordinates of the left-most node and right-most
           node, where each label is a list containing two lists of 2
           elements (the coordinates) as first element.
+[ [[x,y],[xmin,xmax]], ... ]
    Output: A binary labelled rooted tree with 2-dimensional coordinates, which
            is a binary labelled rooted tree, where each label is a list 
            containing a list of 2 elements (the coordinates) as first element. 
+simpler! [[x,y],[xmin,xmax]] -> [[x,y]]
+
+"clean" ? "remove_annotations"
 */
 reingold_tilford_clean(T) := cons([T[1][1]],map(reingold_tilford_clean,rest(T)))$
 
@@ -59,30 +63,39 @@ reingold_tilford_clean(T) := cons([T[1][1]],map(reingold_tilford_clean,rest(T)))
    The function will produce a labelled rooted tree with 2-dimensional 
    coordinates. Furthermore, it contains additional data in each node which
    are the x-coordinates of the left-most node and the right-most node.
+
+"computation" ? "annotated"
+
+singles: most natural just to go down; perhaps as option to go (always) left or right
+leftmost_x(T) := T[1][2][1]$
+rightmost_x(T) := T[1][2][2]$
+x_tdlrt(T) := T[1][1][1]$
+y_tdlrt(T) := T[1][1][2]$
+XXX
 */
 reingold_tilford_computation(T,x,y) := block(
  [cur_tr,left_subtr,right_subtr,offset],
-  if T=[] then 
-    return([[[x,y],[x,x]]]) else
-  if length(T) = 2 then
-    ([left_subtr,right_subtr]:map(reingold_tilford_computation,
-                                  T,create_list(x,i,1,length(T)),
-                                  create_list(y-1,i,1,length(T))),
-     offset:(left_subtr[1][2][2]-left_subtr[1][1][1])-(right_subtr[1][2][1]-right_subtr[1][1][1]),
-     if mod((offset+1),2)=0
-     then offset:(offset+1)/2
-     else offset:(offset+2)/2,
-     left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
-     right_subtr:trans_lrt(right_subtr,[offset-right_subtr[1][1][1]+x,0]),
-     cur_tr:cons([[x,y],[left_subtr[1][2][1]-offset,right_subtr[1][2][2]+offset]],
-                 [left_subtr,right_subtr]),
-     return(cur_tr))
-  else
-    ([left_subtr]:map(reingold_tilford_computation,T,[x],[y-1]),
-     offset:((left_subtr[1][2][2]-left_subtr[1][1][1])+1),
-     left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
-     cur_tr:cons([[x,y],[left_subtr[1][2][1]-offset,x]],[left_subtr]),
-     return(cur_tr))
+  if emptyp(T) then 
+    [[[x,y],[x,x]]] else
+  if length(T) = 2 then (
+    [left_subtr,right_subtr]:map(reingold_tilford_computation,
+                                 T,create_list(x,i,1,length(T)),
+                                 create_list(y-1,i,1,length(T))),
+    offset:(left_subtr[1][2][2]-left_subtr[1][1][1])-(right_subtr[1][2][1]-right_subtr[1][1][1]),
+    if mod((offset+1),2)=0
+    then offset:(offset+1)/2
+    else offset:(offset+2)/2,
+    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
+    right_subtr:trans_lrt(right_subtr,[offset-right_subtr[1][1][1]+x,0]),
+    cons([[x,y],[left_subtr[1][2][1]-offset,right_subtr[1][2][2]+offset]],
+         [left_subtr,right_subtr])
+  )
+  else (
+    [left_subtr]:map(reingold_tilford_computation,T,[x],[y-1]),
+    offset:((left_subtr[1][2][2]-left_subtr[1][1][1])+1),
+    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
+    cons([[x,y],[left_subtr[1][2][1]-offset,x]],[left_subtr])
+  )
 )$
 
 
