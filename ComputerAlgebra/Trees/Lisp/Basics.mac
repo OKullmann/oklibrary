@@ -90,7 +90,7 @@ lrt_p(T) := listp(T) and is(length(T) >= 1) and every_s(lrt_p,rest(T))$
 /* Transforms a labelled into an unlabelled tree by removing the labels: */
 /* UPDATE: rename to lrt2rt. */
 l2ult(T) := map(l2ult,rest(T))$
-lrt2rt() := l2ult(T)$
+lrt2rt(T) := l2ult(T)$
 
 /* Adding labels from list L to unlabelled tree T at inner nodes in in-order,
    while leaves are labelled by l.
@@ -171,7 +171,8 @@ graph2tree(G,r) := block([N : listify(neighbours(r,G))],
    **************
 */
 
-/* The complete (unlabelled, rooted) tree of depth d and width q: */
+/* The complete (unlabelled, rooted) tree of depth d and with q children at
+   each inner node: */
 complete_rt(d,q) := if d=0 then [] else
   create_list(complete_rt(d-1,q),i,1,q)$
 
@@ -199,6 +200,19 @@ num_all2i_rt(i) := catalan_number(i)$
 all2l_rt(l) := all2_rt(2*l-1)$
 /* The number of all these trees: */
 num_all2l_rt(l) := num_all2i_rt(l-1)$
+
+/* Creating "random" binary unlabelled trees with m nodes, by a simple
+   random process where all possibilities for distributions of node
+   counts on the two children are equally likely (this does not create the
+   uniform distribution over all binary unlabelled trees):
+*/
+random2_rt(m) := if m=1 then [] else
+ block([num_possibilities : (m-1)/2, rand, left, right],
+  rand : random(num_possibilities),
+  left : 1 + rand * 2,
+  right : (m-1) - left,
+  [random2_rt(left), random2_rt(right)])$
+
 
 /* The list of all unlabelled (rooted) trees with m nodes (where m is
    an integer).
