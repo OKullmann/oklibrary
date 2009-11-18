@@ -596,6 +596,11 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      for an alternative approach for prediction, not just counting the nodes
      at the monitoring level. Perhaps this isn't too hard to do for the
      OKsolver_2002. </li>
+     <li> How could one do periodisation? For example with
+     GreenTao_3-2-3-5_558.cnf (see
+     Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp)
+     very late a big explosion happens, and all predictions, based on taking
+     all nodes into account, become meaningless. </li>
     </ol>
    </li>
    <li> MAXSAT information
