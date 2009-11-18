@@ -112,9 +112,145 @@ c file_name                             GreenTao_3-2-3-5_550.cnf_m2pp_9474
      \endverbatim
      </li>
      <li> cutoff=10^7 and novelty+: 100 runs yield constantly min=1. </li>
-     <li> OKsolver_2002
+     <li> OKsolver_2002-O3-DNDEBUG with monitoring-depth 16 made good
+     progress, until in the very last part a steep increase in the number
+     of nodes (and in the depth) happened, culminating with the very last
+     node, which was far harder than everything else:
+     \verbatim
+> tail GreenTao_3-2-3-5_558.cnf.mo
+    65526  28603   324.692   306.370     3.510      0 13524    55    10.88
+    65527  49012   325.435   577.380     3.519      0 23320    55    11.09
+    65528  27549   325.850   331.270     3.524      0 13835    55    10.91
+    65529 562334   334.427  6488.950     3.623   5378 191960    55    11.79
+    65530 837667   347.205  9069.920     3.761  17668 251517    56    11.42
+    65531 138580   349.314  1507.570     3.784      0 62472    56    10.89
+    65532  80440   350.536   831.820     3.797      7 39280    56    11.08
+    65533 1269559   369.904 13897.170     4.009  26180 410500    57    11.42
+    65534 220228   373.258  2424.560     4.045      7 103785    57    10.93
+    65535 1614247   397.885 17704.900     4.316  18279 543185    58    11.52
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           1674
+c initial_number_of_clauses             171716
+c initial_number_of_literal_occurrences 358797
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   157077
+c running_time(sec)                     511654.4
+c number_of_nodes                       46513164
+c number_of_single_nodes                685702
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                533093485
+c number_of_pure_literals               0
+c number_of_autarkies                   15720875
+c number_of_missed_single_nodes         332
+c max_tree_depth                        72
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 663956927
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_3-2-3-5_558.cnf
+> plot_oksolver_mon_nodes(E)
+ldstep= 13 step= 8192 left= 128 right= 65535
+obs/count= 1.172691 nodes-range= 0 1614247 ave-nodes-range= 12.391 397.885
+> summary_oksolver(E)
+Nodes:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+      0.0       5.0      19.0     466.7      87.0 1614000.0
+2-reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.25   10.36   11.51   12.30   12.99   68.00
+Single nodes:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    0.000     0.000     0.000     6.968     0.000 26180.000
+Autarkies:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     0.0      2.0      9.0    157.5     34.0 543200.0
+Time ~ nodes:
+[1] 0.997862
+(Intercept)     E$nodes
+-0.04139706  0.01093504
+Single nodes ~ nodes:
+[1] 0.8307606
+(Intercept)     E$nodes
+-0.29176246  0.01555560
+Autarkies ~ nodes:
+[1] 0.9936747
+(Intercept)     E$nodes
+  5.1898732   0.3263478
+> hist_oksolver_mon_nodes(E)
+Median= 4.247928
+Mean= 8.866372
 
-     </li>
+> plot(E$nodes,E$ave_reductions)
+
+> invest =function(lb) {
+ S = E$nodes >= lb
+ N = E$nodes[S]
+ R = E$ave_reductions[S]
+ plot(N,R)
+ cat("Nodes:\n")
+ print(summary(N))
+ cat("Reductions:\n")
+ print(summary(R))
+ length(N)
+}
+
+> invest(1)
+Nodes:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+      1.0       5.0      20.0     469.2      87.0 1614000.0
+Reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.25   10.36   11.51   12.30   12.99   68.00
+[1] 55575
+> invest(100)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    100     163     307    1957     770 1614000
+Reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8.11   10.88   11.42   11.45   11.97   15.83
+[1] 12869
+> invest(1000)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1000    1418    2214    8408    4508 1614000
+Reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   9.26   11.02   11.45   11.45   11.87   14.17
+[1] 2610
+> invest(2000)
+Nodes:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   2002    2751    4194   14300    8294 1614000
+Reductions:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   9.59   11.03   11.46   11.44   11.84   12.96
+[1] 1417
+     \endverbatim
+     (computation aborted). Subdividing the monitoring-range into 1024
+     intervals, an explosion happened in interval 1024. </li>
+     <li> The last plot and its investigation is interesting, suggesting that
+     there are two types of observation-nodes: One with low node-count and a
+     wide range of 2-red-averages (from 0 to 70), while from, say, a node
+     count of 100 on the range of 2-red-averages is very restricted (around
+     11.45). So perhaps 2-reductions are very much responsible for the node
+     count? </li>
+     <li> While autarkies here seem just to occur with a very stable
+     frequency, and don't have much influence (regarding the given numbers ---
+     but possibly the numbers would be much bigger without them). This needs 
+     further investigation. </li>
+     <li> Perhaps QCA could be applicable?! </li>
+     <li> Regarding the branching, perhaps the variables are all those about
+     the first colour, since once we set one node to the first colour, all
+     other nodes don't get this colour (a large number of 2-clauses). What
+     then happens very late (interval 1024)? </li>
+     <li> minisat2 </li>
     </ol>
    </li>
    <li> n=559: cutoff=10^6 and novelty+:
