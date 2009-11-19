@@ -60,8 +60,8 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 /* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
    p    : the root coordinates of the tree [x,y].
-   xran : the range for the x coordinate [x1,x2].
-   yran : the range for the y coordinate [y1,y2].
+   xran : the range for the x coordinate [x_min,x_max].
+   yran : the range for the y coordinate [y_min,y_max].
    pts  : the size of a point, it must be a non-negative number.
    ptt  : the type of points (circle, diamant, ...)
    ptc  : the colour of points (red, blue, ...)
