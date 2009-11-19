@@ -113,6 +113,64 @@ Lp60_4 : minimum_transversals_mongen(60,A4p,[{}])$
 55 12 1
    \endverbatim
    </li>
+   <li> At C++ level:
+   \verbatim
+> MinimumTransversals_GreenTao-O3-DNDEBUG 100 4
+56 13 35
+57 13 6
+58 14 78
+59 14 78
+60 14 13
+61 15 60
+62 16 2280
+63 16 912
+64 16 840
+65 16 315
+66 16 252
+67 16 224
+68 16 224
+69 16 152
+70 16 38
+71 17 58
+72 18 416
+73 19 416
+74 19 416
+75 19 416
+76 19 104
+77 19 2
+78 20 55
+   \endverbatim
+   So we are not far off what minisat2 can compute (see below). </li>
+   <li> For orientation, those n-values where no hyperedge has been added
+   (compared to n-1):
+   \verbatim
+for n: 4 thru 200 do block(
+ [d:nhyp_arithprog_primes_ohg(4,n)-nhyp_arithprog_primes_ohg(4,n-1)],
+  if d=0 then print(n));
+4
+5
+6
+7
+8
+11
+12
+15
+18
+19
+20
+21
+24
+29
+33
+41
+47
+59
+68
+75
+95
+102
+   \endverbatim
+   So not all phases of stagnation are due to no hyperedge being added. </li>
   </ul>
 
 
