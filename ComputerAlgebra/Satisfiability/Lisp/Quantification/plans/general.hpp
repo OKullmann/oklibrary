@@ -82,6 +82,53 @@ License, or any later version. */
    ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp) yields a source of
    generators, for families of hypergraphs where the solutions are known
    (possibly only probabilistically). </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/Codes.mac;
+   likely this module should be moved here. </li>
+  </ul>
+
+
+  \todo Perhaps only considering the simplest case
+  <ul>
+   <li> Motivated by the covering-code problem (see
+   ComputerAlgebra/Satisfiability/Lisp/Generators/Codes.mac). perhaps our
+   first algorithmic approach in the QBF-area just concerns problems of
+   the type Q = (for-all x_1, ..., x_p there-exist y_1, ..., y_q such that
+   F(x,y) holds), where F(x,y) is a CNF allowing cardinality constraints
+   and ordinary clauses. </li>
+   <li> Instantiation:
+    <ol>
+     <li> One basic approach is to instantiate all x_i, and then to solve
+     the SAT problem. </li>
+    </ol>
+   </li>
+   <li> Vis MUS:
+    <ol>
+     <li> Another basic approach is to consider F'(y), where all x have been
+     crossed out, and to find a (minimally) unsatisfiable sub-clause-set F'',
+     such that the original universal variables occurring in clauses of F''
+     don't have a clash --- exactly in this case Q is false. </li>
+     <li> So here one would enumerate of minimally unsatisfiable
+     sub-clause-sets of F'(y), and check whether these clauses are clash-free
+     regarding the original x-variables. </li>
+     <li> This looks attractive, since the problem of enumerating MUS's is
+     interesting in its own right, and quite some algorithms exist for it.
+     </li>
+     <li> Perhaps one could also include the clash-freeness condition in the
+     search for the MUS's ?! </li>
+    </ol>
+   </li>
+   <li> In any case a largest autarky for F'(y) is to be computed and applied.
+   So practically we can assume F'(y) to be lean. </li>
+   <li> The boolean-function approach:
+    <ol>
+     <li> To consider the boolean-function version, that is we consider Q as
+     a satisfiability problem in the x-variables, where now not just constant
+     boolean functions are to be used, but boolean functions depending on the
+     x_1, ..., x_q, and where the substitution must yield a tautology, seems
+     already for this Pi_2-level quite daunting, but nevertheless very
+     interesting. </li>
+    </ol>
+   </li>
   </ul>
 
 */
