@@ -78,8 +78,6 @@ reingold_tilford_remove_annotations(T) := cons([T[1][1]],map(reingold_tilford_re
    coordinates. Furthermore, it contains additional data in each node which
    are the x-coordinates of the left-most node and the right-most node.
 
-
-
 singles: most natural just to go down; perhaps as option to go (always) left or right
 leftmost_x(T) := T[1][2][1]$
 rightmost_x(T) := T[1][2][2]$
@@ -94,22 +92,27 @@ reingold_tilford_annotated(T,p) := block(
   if length(T) = 2 then (
     [left_subtr,right_subtr]:map(reingold_tilford_annotated,
                                  T,create_list([p[1],p[2]-1],i,1,length(T))),
-    offset:(left_subtr[1][2][2]-left_subtr[1][1][1])-(right_subtr[1][2][1]-right_subtr[1][1][1]),
+    offset:(rightmost_x(left_subtr)-x_tdlrt(left_subtr))-(leftmost_x(right_subtr)-x_tdlrt(right_subtr)),
     if mod((offset+1),2)=0
     then offset:(offset+1)/2
     else offset:(offset+2)/2,
-    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+p[1],0]),
-    right_subtr:trans_lrt(right_subtr,[offset-right_subtr[1][1][1]+p[1],0]),
-    cons([[p[1],p[2]],[left_subtr[1][2][1]-offset,right_subtr[1][2][2]+offset]],
+    left_subtr:trans_lrt(left_subtr,[-offset-x_tdlrt(left_subtr)+p[1],0]),
+    right_subtr:trans_lrt(right_subtr,[offset-x_tdlrt(right_subtr)+p[1],0]),
+    cons([[p[1],p[2]],[leftmost_x(left_subtr)-offset,rightmost_x(right_subtr)+offset]],
          [left_subtr,right_subtr])
   )
   else (
     [left_subtr]:map(reingold_tilford_annotated,T,[[p[1],p[2]-1]]),
-    offset:((left_subtr[1][2][2]-left_subtr[1][1][1])+1),
-    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+p[1],0]),
-    cons([[p[1],p[2]],[left_subtr[1][2][1]-offset,p[1]]],[left_subtr])
+    offset:(rightmost_x(left_subtr)-x_tdlrt(left_subtr))+1,
+    left_subtr:trans_lrt(left_subtr,[-offset-x_tdlrt(left_subtr)+p[1],0]),
+    cons([[p[1],p[2]],[leftmost_x(left_subtr)-offset,p[1]]],[left_subtr])
   )
 )$
+
+
+/* Hyperfunctions for reingold_tilford_annotated */
+leftmost_x(T) := T[1][2][1]$
+rightmost_x(T) := T[1][2][2]$
 
 
 /*!
