@@ -17,7 +17,7 @@ License, or any later version. */
    \verbatim
 A5p(n):=arithprog_primes_hg(5,n)$
 oklib_monitor : true$
-Lp80_5 : minimum_transversals_mongen(80,A5p,[{}])$
+Lp120_5 : minimum_transversals_mongen(120,A5p,[{}])$
 1 0 1
 2 0 1
 3 0 1
@@ -148,6 +148,38 @@ Lp80_5 : minimum_transversals_mongen(80,A5p,[{}])$
      76 -> 77 and 89 -> 90, where in both cases one new arithmetic progression
      is added, but it has no effect (at least at this time). </li>
     </ol>
+   </li>
+   <li> At C++ level:
+   \verbatim
+> MinimumTransversals_GreenTao-O3-DNDEBUG 180 5 | tee GreenTao_Trans_5_180_OUT
+1 0 1
+2 0 1
+3 0 1
+4 0 1
+5 0 1
+6 0 1
+7 0 1
+8 0 1
+9 0 1
+10 0 1
+   \endverbatim
+   ERROR! For n=10 we have the first hyperedge (and thus 5 transversals of
+   length 1):
+   \verbatim
+arithprog_primes_ohg(5,10);
+ [[2,3,5,7,11,13,17,19,23,29],[{5,11,17,23,29}]]
+
+arithprog_primes_ohg(5,16);
+ [[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53],[{5,11,17,23,29},{5,17,29,41,53}]]
+
+> GreenTao-O3-DNDEBUG 5 10
+p hyp 10 0
+> GreenTao-O3-DNDEBUG 5 16
+p hyp 16 1
+5 17 29 41 53 0
+   \endverbatim
+   So program "GreenTao" (for computing GT-hypergraphs) is false for k=5.
+   It appears that actually just that first hyperedge is missing!
    </li>
   </ul>
 
