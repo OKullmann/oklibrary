@@ -13,7 +13,7 @@ License, or any later version. */
   and output_greentao_sb_stdname(append(create_list(2,i,1,m),[3,5]),n).
 
 
-  \todo greentao_3(2,3,5) >= 558
+  \todo greentao_3(2,3,5) > 558
   <ul>
    <li> n=550
     <ol>
@@ -250,16 +250,39 @@ Reductions:
      the first colour, since once we set one node to the first colour, all
      other nodes don't get this colour (a large number of 2-clauses). What
      then happens very late (interval 1024)? </li>
-     <li> minisat2 </li>
+     <li> minisat2 actually finds a satisfying assignment:
+     \verbatim
+> minisat2 GreenTao_3-2-3-5_558.cnf
+|  25566627 |     978   150454   346323 |   795555   412549     33 |  0.000 % |
+===============================================================================
+restarts              : 30
+conflicts             : 30829712       (236 /sec)
+decisions             : 40539158       (1.70 % random) (310 /sec)
+propagations          : 3289905696     (25191 /sec)
+conflict literals     : 1175934931     (26.30 % deleted)
+Memory used           : 576.89 MB
+CPU time              : 130600 s
+
+SATISFIABLE
+     \endverbatim
+     Hopefully this can be verified for example by the OKsolver. </li>
     </ol>
    </li>
-   <li> n=559: cutoff=10^6 and novelty+:
-   \verbatim
+   <li> n=559:
+    <ol>
+     <li> cutoff=10^6 and novelty+:
+     \verbatim
 > E=read_ubcsat("GreenTao_3-2-3-5_559.cnf_OUT")
   1   2   3
 172  27   1
 200
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> minisat2:
+
+     </li>
+     <li> OKsolver_2002 </li>
+    </ol>
    </li>
    <li> n=562
     <ol>
