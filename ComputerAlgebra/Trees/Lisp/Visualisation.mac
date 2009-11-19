@@ -59,7 +59,7 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 
 /* Visualise an unlabelled rooted tree T. */
 /* The attribues of the visualised tree can be defined.
-   x,y  : the root coordinates (x,y) of the tree.
+   p    : the root coordinates of the tree [x,y].
    xran : the range for the x coordinate [x1,x2].
    yran : the range for the y coordinate [y1,y2].
    pts  : the size of a point, it must be a non-negative number.
@@ -70,13 +70,13 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 /* TODO: What means "can be defined"? Apparently the attributes *must*
    be defined, but this shouldn't be the case!
 */
-draw_rt(T,x,y,xran,yran,pts,ptt,ptc,edgc) := (
+draw_rt(T,p,xran,yran,pts,ptt,ptc,edgc) := (
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt,color = ptc,
-                 points(tdlrt2points(reingold_tilford_rt(T,x,y))),
+                 points(tdlrt2points(reingold_tilford_rt(T,p))),
                  color=edgc],
-                map(polygon, tdlrt2edges(reingold_tilford_rt(T,x,y))))),
+                map(polygon, tdlrt2edges(reingold_tilford_rt(T,p))))),
    true)$
 
 

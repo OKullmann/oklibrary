@@ -31,7 +31,8 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    binary unlabelled rooted tree T with specified root coordinates x, y:
    Input: A binary unlabelled rooted tree T which is recursively defined as a 
           list [T_1, ..., T_n], 0 <= n <= 2, where the T_i are the subtrees.
-          The root coordinates x, y.
+          The root coordinates p which is a list [x,y] contains a pair of 
+          coordinates.
    Output: A binary labelled rooted tree with 2-dimensional coordinates, which
            is a binary labelled rooted tree, where each label is a list 
            containing a list of 2 elements (the coordinates) as first element.
@@ -40,7 +41,7 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    [L, T_1, ..., T_n], 0 <= n <= 2, where L is the label, and the T_i are the
    subtrees.)
 */
-reingold_tilford_rt(T,x,y) := reingold_tilford_clean(reingold_tilford_computation(T,x,y))$
+reingold_tilford_rt(T,p) := reingold_tilford_clean(reingold_tilford_computation(T,p))$
 
 /* Remove the data regarding the left-most node and right-most node from
    the result of reingold_tilford_computation:
@@ -59,7 +60,8 @@ simpler! [[x,y],[xmin,xmax]] -> [[x,y]]
 reingold_tilford_clean(T) := cons([T[1][1]],map(reingold_tilford_clean,rest(T)))$
 
 /* Coordinates computation using Reingold-Tilford algorithm. The input is
-   an unlabelled rooted tree T with specified root coordinates x, y.
+   an unlabelled rooted tree T with specified root coordinates p which is
+   defined as a list [x,y].
    The function will produce a labelled rooted tree with 2-dimensional 
    coordinates. Furthermore, it contains additional data in each node which
    are the x-coordinates of the left-most node and the right-most node.
@@ -73,28 +75,27 @@ x_tdlrt(T) := T[1][1][1]$
 y_tdlrt(T) := T[1][1][2]$
 XXX
 */
-reingold_tilford_computation(T,x,y) := block(
- [cur_tr,left_subtr,right_subtr,offset],
+reingold_tilford_computation(T,p) := block(
+ [left_subtr,right_subtr,offset],
   if emptyp(T) then 
-    [[[x,y],[x,x]]] else
+    [[[p[1],p[2]],[p[1],p[1]]]] else
   if length(T) = 2 then (
     [left_subtr,right_subtr]:map(reingold_tilford_computation,
-                                 T,create_list(x,i,1,length(T)),
-                                 create_list(y-1,i,1,length(T))),
+                                 T,create_list([p[1],p[2]-1],i,1,length(T))),
     offset:(left_subtr[1][2][2]-left_subtr[1][1][1])-(right_subtr[1][2][1]-right_subtr[1][1][1]),
     if mod((offset+1),2)=0
     then offset:(offset+1)/2
     else offset:(offset+2)/2,
-    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
-    right_subtr:trans_lrt(right_subtr,[offset-right_subtr[1][1][1]+x,0]),
-    cons([[x,y],[left_subtr[1][2][1]-offset,right_subtr[1][2][2]+offset]],
+    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+p[1],0]),
+    right_subtr:trans_lrt(right_subtr,[offset-right_subtr[1][1][1]+p[1],0]),
+    cons([[p[1],p[2]],[left_subtr[1][2][1]-offset,right_subtr[1][2][2]+offset]],
          [left_subtr,right_subtr])
   )
   else (
-    [left_subtr]:map(reingold_tilford_computation,T,[x],[y-1]),
+    [left_subtr]:map(reingold_tilford_computation,T,[[p[1],p[2]-1]]),
     offset:((left_subtr[1][2][2]-left_subtr[1][1][1])+1),
-    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+x,0]),
-    cons([[x,y],[left_subtr[1][2][1]-offset,x]],[left_subtr])
+    left_subtr:trans_lrt(left_subtr,[-offset-left_subtr[1][1][1]+p[1],0]),
+    cons([[p[1],p[2]],[left_subtr[1][2][1]-offset,x]],[left_subtr])
   )
 )$
 
