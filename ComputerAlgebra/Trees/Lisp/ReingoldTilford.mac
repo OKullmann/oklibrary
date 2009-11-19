@@ -29,6 +29,18 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 /* Produce a binary labelled rooted tree with 2-dimensional coordinates from a
    binary unlabelled rooted tree T with specified root coordinates x, y:
+   Reingold-Tilford: 
+          {reingold_tilford_rt(T,p)|T=[T_1, ..., T_n],p=[x,y]}
+          Base case: If T consists of a single node, the coordinates of the 
+                     single node is defined equal to p.
+          Divide   : Recursively apply the algorithm to each subtree of T.
+          Conquer  : 1. Make the distance 1 or 2 between the right most node of
+                        the left subtree and the left most node of the right
+                        subtree.
+                     2. Make the root r of T one unit higher than and horizontally
+                        half way between its children.
+                        If r has only one subtree, say the left one, then place
+                        r at horizontal distance 1 to the right of its left child.      
    Input: A binary unlabelled rooted tree T which is recursively defined as a 
           list [T_1, ..., T_n], 0 <= n <= 2, where the T_i are the subtrees.
           The root coordinates p which is a list [x,y] contains a pair of 
