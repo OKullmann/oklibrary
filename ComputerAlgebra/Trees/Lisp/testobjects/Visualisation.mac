@@ -31,8 +31,6 @@ okltest_tdlrt2points(tdlrt2points);
 
 okltest_tdlrt2edges(tdlrt2edges);
 
-/* okltest_draw_rt(draw_rt); */
-
 
 /*!
 \endhtmlonly

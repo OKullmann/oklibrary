@@ -50,5 +50,42 @@ License, or any later version. */
    more explanations on the above. </li>
   </ul> 
 
+
+  \todo Full implementation of tree drawing using Gnuplot
+  <ul> 
+   <li> In the basic example, all points and edges must be specified manually.
+   For the requirement of algorithmically extracting the data of points and edges
+   from the results of reingold_tilford_rt, tdlrt2points and tdlrt2deges are
+   provided. Then the extracted data can be used by draw_rt to perform tree
+   drawing.  
+   </li>
+   <li> The usage of draw_rt. 
+    <ul>
+     <li> The following parameters must be provided and in correct order.
+      <ol>
+       <li> A binary unlabelled rooted tree T. </li>
+       <li> The root coordinates p which is a list [x,y] contains a pair of 
+       coordinates. </li>
+       <li> The range for the x coordinate which is a list [x_min,x_max] contains
+       a pair of extreme x coordinates. If the range is given as `auto', the
+       range for the x coordinate will be computed automatically. </li>
+       <li> The range for the y coordinate which is a list [y_min,y_max] contains
+       a pair of extreme y coordinates. If the range is given as `auto', the
+       range for the y coordinate will be computed automatically. </li>
+       <li> The points size, it must be a non-negative number.(eg. 0, 1, 3.4) </li>
+       <li> The points type. (dot, plus, multiply, asterisk, square, filled_square,
+       circle, filled_circle, up_triangel, filled_up_triangle, down_triangle,
+       filled_down_triangle, diamant, filled_diamant) </li>
+       <li> The points colour. Colours can be given as names or in hexadecimal rgb
+       code "#rrggbb". </li>
+       <li> The edges colour. Colours can be given as names or in hexadecimal rgb
+       code "#rrggbb". </li>
+      </ol>
+     </li>
+     <li> An example: draw_rt([[],[]],[0,0],auto,auto,1,circle,red,blue). </li>
+    </ul> 
+   </li>
+  </ul>
+
 */
 

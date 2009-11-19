@@ -254,6 +254,11 @@ trans_lrt(T,p) :=
       map(lambda([S],trans_lrt(S,p)),rest(T)))$
 
 
+/* Hyperfunctions for labelled rooted trees with 2-dimensional coordinates. */
+x_tdlrt(T) := T[1][1][1]$
+y_tdlrt(T) := T[1][1][2]$
+
+
 /*!
 \endhtmlonly
 */

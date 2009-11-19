@@ -31,7 +31,7 @@ License, or any later version. */
        until their horizontal distance becomes equal to 2. </li>
        <li> Place the root r of T vertically one unit above and horizontally
        half way between its children. </li>
-       <li> If r has only one subtree, say the left one, the place r 
+       <li> If r has only one subtree, say the left one, then place r 
        at horizontal distance 1 to the right of its left child. </li>
       </ol>
      </li>

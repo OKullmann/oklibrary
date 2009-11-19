@@ -28,8 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/ReingoldTilford.mac")$
 */
 
 okltest_reingold_tilford_rt(reingold_tilford_rt);
-okltest_reingold_tilford_clean(reingold_tilford_clean);
-okltest_reingold_tilford_computation(reingold_tilford_computation);
+okltest_reingold_tilford_remove_annotations(reingold_tilford_remove_annotations);
+okltest_reingold_tilford_annotated(reingold_tilford_annotated);
 
 
 /*!
