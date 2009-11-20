@@ -160,25 +160,11 @@ namespace OKlib {
             // Now the main loop:
             for (v_it_type pi = vbegin; pi != vend; ++pi) {
               const vertex_type p = *pi;
-              if (p <= prd_primes) continue;
+              if (p <= k) continue;
               set_system_type F;
-              const vertex_type max_slope = (p-k)/(k-1);
-              for (vertex_type d = prd_primes; d <= max_slope; d+=prd_primes) {
-                bool all_primes = true;
-                for (vertex_type i = 1, e = p-d; i < k; ++i, e -= d)
-                  if (not primes_table[e]) {all_primes = false; break;}
-                if (all_primes) {
-                  // TODO: use progression-iterator here
-                  hyperedge_type H;
-                  H.reserve(k);
-                  for (vertex_type i = 0, e = p - (k-1)*d; i < k; ++i, e += d)
-                    H.push_back(e);
-                  F.push_back(H);
-                }
-              }
               if (prime_k) {
                 const vertex_type q = (p-k)/(k-1);
-                if ((k-1)*q == p-k) {
+                if (q >= 2 and (k-1)*q == p-k) {
                   bool all_primes = true;
                   for (vertex_type e = k+q; e <= p; e+= q)
                     if (not primes_table[e]) {all_primes = false; break;}
@@ -187,6 +173,22 @@ namespace OKlib {
                     hyperedge_type H;
                     H.reserve(k);
                     for (vertex_type e = k; e <= p; e += q)
+                      H.push_back(e);
+                    F.push_back(H);
+                  }
+                }
+              }
+              if (p > prd_primes) {
+                const vertex_type max_slope = (p-k)/(k-1);
+                for (vertex_type d = prd_primes; d <= max_slope; d+=prd_primes) {
+                  bool all_primes = true;
+                  for (vertex_type i = 1, e = p-d; i < k; ++i, e -= d)
+                    if (not primes_table[e]) {all_primes = false; break;}
+                  if (all_primes) {
+                    // TODO: use progression-iterator here
+                    hyperedge_type H;
+                    H.reserve(k);
+                    for (vertex_type i = 0, e = p - (k-1)*d; i < k; ++i, e += d)
                       H.push_back(e);
                     F.push_back(H);
                   }
