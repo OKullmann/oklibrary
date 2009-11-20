@@ -94,9 +94,7 @@ reingold_tilford_annotated(T,p) := block(
   )
   else (
     [left_subtr]:map(reingold_tilford_annotated,T,[[p[1],p[2]-1]]),
-    offset:(rightmost_x(left_subtr)-x_tdlrt(left_subtr)),
-    left_subtr:trans_lrt(left_subtr,[-offset-x_tdlrt(left_subtr)+p[1],0]),
-    cons([[p[1],p[2]],[leftmost_x(left_subtr)-offset,p[1]]],[left_subtr])
+    cons([[p[1],p[2]],[leftmost_x(left_subtr),rightmost_x(left_subtr)]],[left_subtr])
   )
 )$
 
