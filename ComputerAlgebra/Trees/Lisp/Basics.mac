@@ -213,6 +213,16 @@ random2_rt(m) := if m=1 then [] else
   right : (m-1) - left,
   [random2_rt(left), random2_rt(right)])$
 
+/* Another generator for creating "random" binary unlabelled rooted trees
+   with m nodes. It covers all possibilities includes single subtrees.
+*/
+random_all_rt(m) := if m=1 then [] else if m=2 then [[]] else
+ block([left, right],
+  left : random(m),
+  right : (m-1) - left,
+  if left=0 then [random_all_rt(right)] else
+  if right=0 then [random_all_rt(left)]
+  else [random_all_rt(left), random_all_rt(right)])$
 
 /* The list of all unlabelled (rooted) trees with m nodes (where m is
    an integer).
