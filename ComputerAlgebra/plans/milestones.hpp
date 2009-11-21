@@ -102,7 +102,7 @@ License, or any later version. */
       <li> BranchingTuples </li>
       <li> %ClauseSets : DONE </li>
       <li> ConflictCombinatorics : DONE </li>
-      <li> ConstraintProblems </li>
+      <li> ConstraintProblems : DONE </li>
       <li> Counting : DONE </li>
       <li> %Generators </li>
       <li> MinimalUnsatisfiability </li>
