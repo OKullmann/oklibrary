@@ -31,10 +31,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains
 */
 
 /* For a domain association returns the list of domain sizes: */
-dom_lengths(dom) := makelist(length(dom[i]),i,1,length(dom))$
+dom_lengths(dom) := map(length,dom)$
 /* For a domain association returns the list of logs of domain sizes.
    Prerequisite: No empty domains. */
-log_dom_lengths(dom) := makelist(float(log(length(dom[i]))),i,1,length(dom))$
+log_dom_lengths(dom) := float(map(log,dom_lengths(dom)))$
 
 
 /* ***************************
