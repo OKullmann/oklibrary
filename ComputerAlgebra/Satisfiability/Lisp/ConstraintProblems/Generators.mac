@@ -22,6 +22,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Generat
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 /* ************
    * n Queens *
@@ -29,7 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Constraint
 */
 
 /* The domain association for n Queens: */
-Queens_dom(n) := block([sn : setify(makelist(i,i,1,n))], makelist(sn,i,1,n))$
+Queens_dom(n) := block([sn : setn(n)], create_list(sn,i,1,n))$
 
 /* The propagator for n queens; changes its arguments, returns true if a change
    took place: */
