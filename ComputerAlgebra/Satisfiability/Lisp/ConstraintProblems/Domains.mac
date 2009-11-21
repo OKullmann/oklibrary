@@ -22,7 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains
 /*
  A "domain association" is a list D of sets, where the variables are
  {1, ..., |D|}, and D[i] is the domain of variable i.
- Domain associations should be non-empty.
+ Domain associations should be non-empty lists.
 */
 
 /* ********************
@@ -30,9 +30,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains
    ********************
 */
 
-/* For a domain association returns the list of domain sizes. */
+/* For a domain association returns the list of domain sizes: */
 dom_lengths(dom) := makelist(length(dom[i]),i,1,length(dom))$
-/* For a domain association returns the list of logs of domain sizes. */
+/* For a domain association returns the list of logs of domain sizes.
+   Prerequisite: No empty domains. */
 log_dom_lengths(dom) := makelist(float(log(length(dom[i]))),i,1,length(dom))$
 
 

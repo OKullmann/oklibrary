@@ -1,17 +1,16 @@
-/* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Oliver Kullmann, 21.11.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac
-  \brief Inclusion file for Maxima constraint-satisfaction related functions
+  \file ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/testobjects/Domains.mac
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/testobjects/Domains.mac");
 
 */
 
@@ -20,9 +19,24 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Generators.mac")$
-
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/tests/Domains.mac")$
+
+
+/* ********************
+   * Helper functions *
+   ********************
+*/
+
+okltest_dom_lengths(dom_lengths);
+
+okltest_log_dom_lengths(log_dom_lengths);
+
+
+/* ***************************
+   * Heuristical evaluations *
+   ***************************
+*/
+
 
 /*!
 \endhtmlonly
