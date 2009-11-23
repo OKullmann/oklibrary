@@ -104,6 +104,8 @@ okltest_tdlrt_p(tdlrt_p);
 
 okltest_trans_lrt(trans_lrt);
 
+okltest_y_extreme_tdlrt(y_extreme_tdlrt);
+
 /*!
 \endhtmlonly
 */
