@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.12.2007 (Swansea) */
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSat
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* ***************
@@ -29,18 +30,25 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Doma
 */
 
 /*
+  See ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains.mac
+  for the notion of "domain association".
+*/
+/*
  A "propagator" is a function which potentially removes values from domains
  in a domain association. It changes the domain association in-place,
  and returns true iff some change (i.e., reduction) happened.
 */
+trivial_propagator(dom) := false;
 
 /* A new propagator which iterates the given one until a fixed point is 
-   reached. */
+   reached:
+*/
 prop_fixedpoint(prop) := buildq([prop], lambda([dom], block([p : false],
   for i : 1 thru inf do if prop(dom) then p : true else return(p))))$
 
-/* A propagator transformer, removing values which lead to a contradiction by 
-   propagation. */
+/* Another propagator transformer (constructing a new propagator from prop),
+   removing values which lead to a contradiction by propagation:
+*/
 look_ahead(prop) := buildq([prop], lambda([dom],
   block([n : length(dom), p : prop(dom)],
     for i : 1 thru n do block([dom_i : dom[i]],
@@ -61,12 +69,21 @@ look_ahead(prop) := buildq([prop], lambda([dom],
 /* For a constraint satisfaction problem given by domain association and
    a propagator, return [sol,size], where size is the number of nodes
    in the search tree, while sol is a solution as a list of values or false 
-   iff no solution exists; the heuristics computes a pair 
-   [variable, [list of values]]. */
+   iff no solution exists.
+   The heuristics heur(dom,prop) computes a pair [variable, [list of values]]
+   for given domain assocation and propagator. dom does not contain empty
+   domains, and at least one domain has length at least 2. */
+/* Termination is guaranteed if the propagator always either removes
+   some value or produces some empty domain, or yields a domain association
+   where all domains are singleton sets.
+   Correctness is guaranteed if the propagator makes sure that in case
+   a domain association with all singletons is returned, this actually
+   represents a solution.
+*/
 constraint_backtracking(dom,prop,heur) := block([size : 1],
    (prop_fixedpoint(look_ahead(prop)))(dom),
    if min_dom_size(dom) = 0 then [false,size]
-   elseif max_dom_size(dom) = 1 then [makelist(listify(dom[i])[1],i,1,length(dom)),size] else (
+   elseif max_dom_size(dom) = 1 then [map(single_element,dom),size] else (
      block([v,val,res,loopbreak : false],
      [v, val] : heur(dom,prop),
      for e in val do (
@@ -122,6 +139,15 @@ variable_heuristics_tau(dom,prop) := (local(dom,prop,opt_tau,opt_v,opt_dist,mu,n
     L : sort(L, comp),
     return([opt_v, makelist((listify(dom_v))[i], i, L)])))
 )$
+
+/* The trivial heuristics, which just returns the first variable with
+  domain-size at least two and the list of its values:
+*/
+trivial_variable_heuristics(dom,prop) := block([v : 1],
+ for D in dom do
+   if length(D) >= 2 then return([v,listify(D)])
+   else v : v + 1)$
+
 
 /*!
 \endhtmlonly
