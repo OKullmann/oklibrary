@@ -20,9 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains
 */
 
 /*
- A "domain association" is a list D of sets, where the variables are
+ A "domain association" is a non-empty list D of sets, where the variables are
  {1, ..., |D|}, and D[i] is the domain of variable i.
- Domain associations should be non-empty lists.
 */
 
 /* ********************
