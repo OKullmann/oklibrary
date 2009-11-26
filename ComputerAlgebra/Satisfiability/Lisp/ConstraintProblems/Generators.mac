@@ -33,8 +33,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* The domain association for n Queens: */
 Queens_dom(n) := block([sn : setn(n)], create_list(sn,i,1,n))$
 
-/* The propagator for n queens; changes its arguments, returns true if a change
-   took place: */
+/* The simplest propagator for n queens, just crossing out values which are
+   not compatible with a variable which has a singleton domain: changes its 
+   arguments, returns true if a change took place: */
 Queens_propagator(dom) := block([n : length(dom), prop : false],
   for i : 1 thru n do 
     if length(dom[i]) = 1 then block([j : listify(dom[i])[1]],
@@ -54,6 +55,8 @@ Queens_propagator_it_la_it : prop_fixedpoint(Queens_propagator_it_la)$
 
 /* Using the default backtracking algorithm to solve it: */
 Queens_constraint_backtracking(n) := constraint_backtracking(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau)$
+/* For comparison, using the trivial heuristics: */
+Queens_constraint_backtracking_th(n) := constraint_backtracking(Queens_dom(n),Queens_propagator_it,trivial_variable_heuristics)$
 /* Counting all solutions: */
 Queens_constraint_backtracking_counting(n) := constraint_backtracking_counting(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau)$
 
