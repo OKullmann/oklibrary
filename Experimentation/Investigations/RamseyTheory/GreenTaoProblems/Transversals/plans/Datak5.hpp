@@ -173,6 +173,85 @@ Lp120_5 : minimum_transversals_mongen(120,A5p,[{}])$
 139 14 1024
 140 14 1024
 141 14 512
+142 15 7104
+143 16 333888
+144 16 333888
+145 16 333888
+146 16 330880
+147 16 140800
+148 16 140800
+   \endverbatim
+   </li>
+   <li> For orientation, those n-values where at least one hyperedge has been
+   added (compared to n-1):
+   \verbatim
+for n: 4 thru 200 do block(
+ [d:nhyp_arithprog_primes_ohg(5,n)-nhyp_arithprog_primes_ohg(5,n-1)],
+  if d>0 then print(n));
+10
+16
+31
+32
+37
+40
+45
+49
+54
+55
+58
+61
+62
+64
+71
+74
+77
+78
+82
+86
+87
+90
+92
+97
+98
+107
+111
+112
+113
+121
+122
+123
+125
+128
+134
+135
+141
+142
+143
+146
+147
+149
+150
+152
+154
+155
+156
+160
+162
+163
+166
+168
+170
+171
+175
+179
+181
+184
+187
+190
+191
+194
+196
+200
    \endverbatim
    </li>
   </ul>
