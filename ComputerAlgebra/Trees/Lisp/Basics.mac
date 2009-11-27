@@ -214,7 +214,7 @@ random2_rt(m) := if m=1 then [] else
   [random2_rt(left), random2_rt(right)])$
 
 /* Another generator for creating "random" binary unlabelled rooted trees
-   with m nodes. It covers all possibilities includes single subtrees.
+   with m nodes. It covers all possibilities including single subtrees.
 */
 random_all_rt(m) := if m=1 then [] else if m=2 then [[]] else
  block([left, right],
@@ -262,6 +262,13 @@ is(length(first(first(T))) = 2) and every_s(tdlrt_p,rest(T))$
 trans_lrt(T,p) := 
  cons(cons(first(first(T))+p, rest(first(T))), 
       map(lambda([S],trans_lrt(S,p)),rest(T)))$
+
+
+/* The extreme y coordinate of a labelled rooted tree with 2-dimensional
+   coordinates.
+*/
+y_extreme_tdlrt(T) := if length(T)=1 then y_tdlrt(T) else
+         lmin(map(y_extreme_tdlrt,rest(T)))$
 
 
 /* Hyperfunctions for labelled rooted trees with 2-dimensional coordinates. */

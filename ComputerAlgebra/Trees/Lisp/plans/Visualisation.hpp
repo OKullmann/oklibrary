@@ -13,7 +13,8 @@ License, or any later version. */
   \todo Create milestones
   
   
-  \todo A basic example of visualising a tree using Gnuplot
+  \todo DONE
+  A basic example of visualising a tree using Gnuplot
   <ul>
    <li> The coordinates of points used in this example are produced by the
    Reingold-Tilford algorithm; for the details please refer to
@@ -51,7 +52,7 @@ License, or any later version. */
   </ul> 
 
 
-  \todo Full implementation of tree drawing using Gnuplot
+  \todo DONE Full implementation of tree drawing using Gnuplot
   <ul> 
    <li> In the basic example, all points and edges must be specified manually.
    For the requirement of algorithmically extracting the data of points and edges
@@ -61,31 +62,36 @@ License, or any later version. */
    </li>
    <li> The usage of draw_rt. 
     <ul>
-     <li> The following parameters must be provided and in correct order.
+     <li> The function takes two parameters, the first one must be a binary
+     unlabelled rooted tree; the second one is a list containing drawing
+     attributes. If an empty list [] is provided, the automatic computation and
+     drawing will be performed. Otherwise, the drawing attributes in the list
+     can be defined as [name_1, value_1, ... , name_N, value_N], n >= 0. Each
+     attribute contains two fields, which are name and value, both of which must
+     be provided. Possible attribute names are 'root', 'x_ran', 'y_ran', 'p_size',
+     'p_type', 'p_colour', 'e_colour'. The details are listed below.
       <ol>
-       <li> A binary unlabelled rooted tree T. </li>
-       <li> The root coordinates p which is a list [x,y] contains a pair of 
+       <li> root: the root coordinates which is a list [x,y] contains a pair of 
        coordinates. </li>
-       <li> The range for the x coordinate which is a list [x_min,x_max] contains
-       a pair of extreme x coordinates. If the range is given as `auto', the
-       range for the x coordinate will be computed automatically. </li>
-       <li> The range for the y coordinate which is a list [y_min,y_max] contains
-       a pair of extreme y coordinates. If the range is given as `auto', the
-       range for the y coordinate will be computed automatically. </li>
-       <li> The points size, it must be a non-negative number.(eg. 0, 1, 3.4) </li>
-       <li> The points type. (dot, plus, multiply, asterisk, square, filled_square,
-       circle, filled_circle, up_triangel, filled_up_triangle, down_triangle,
-       filled_down_triangle, diamant, filled_diamant) </li>
-       <li> The points colour. Colours can be given as names or in hexadecimal rgb
-       code "#rrggbb". </li>
-       <li> The edges colour. Colours can be given as names or in hexadecimal rgb
-       code "#rrggbb". </li>
+       <li> x_ran: the range for the x coordinate which is a list [x_min,x_max] 
+       contains a pair of extreme x coordinates. </li>
+       <li> y_ran: the range for the y coordinate which is a list [y_min,y_max] 
+       contains a pair of extreme y coordinates. </li>
+       <li> p_size: the points size, it must be a non-negative number.
+       (eg. 0, 1, 3.4) </li>
+       <li> p_type: the points type. (Possible values: dot, plus, multiply,
+       asterisk, square, filled_square, circle, filled_circle, up_triangel,
+       filled_up_triangle, down_triangle, filled_down_triangle, diamant,
+       filled_diamant). </li>
+       <li> p_colour: the points colour. Colours can be given as names or in hexadecimal rgb code "#rrggbb". </li>
+       <li> e_colour: the edges colour. Colours can be given as names or in hexadecimal rgb code "#rrggbb". </li>
       </ol>
      </li>
-     <li> An example: draw_rt([[],[]],[0,0],auto,auto,1,circle,red,blue). </li>
+     <li> Somes examples: draw_rt([[],[]],[]); draw_rt([[],[[],[]]],[root,[1,1]]). </li>
     </ul> 
    </li>
   </ul>
+
 
 */
 
