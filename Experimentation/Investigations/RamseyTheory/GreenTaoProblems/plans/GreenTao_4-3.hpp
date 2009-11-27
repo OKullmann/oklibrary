@@ -451,6 +451,18 @@ BestSolution_Max = 4.000000
     <ol>
      <li> cutoff=2*10^9 yields in 8 runs constantly min=2 with the maximal
      osteps ~ 500*10^6, so it looks unsatisfiable. </li>
+     <li> cutoff=4*10^9:
+     \verbatim
+> nohup ubcsat-okl -runs 1000 -cutoff 4000000000 -alg adaptnovelty+ -i GreenTao_4-3_381.cnf | tee GreenTao_4-3_381.cnf_OUT &
+> E = read_ubcsat("GreenTao_4-3_381.cnf_OUT")
+  1   2   3
+ 49 624  28
+701
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+3.368e+06 2.945e+08 7.322e+08 1.041e+09 1.482e+09 3.955e+09
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be

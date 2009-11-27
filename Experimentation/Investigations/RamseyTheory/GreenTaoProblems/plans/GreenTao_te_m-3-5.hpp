@@ -250,6 +250,42 @@ Reductions:
      the first colour, since once we set one node to the first colour, all
      other nodes don't get this colour (a large number of 2-clauses). What
      then happens very late (interval 1024)? </li>
+     <li> Also using -D20 doesn't bring more inside: Again doesn't complete
+     the last monitoring node. </li>
+     \verbatim
+csoliver@cs-oksvr:~/OKplatform> tail nohup.out
+1048575:1617278     30.85  3.23E+07 21846.88s     0.42s     0y   0d  0h  0m  0s 21310 544482   62
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           1674
+c initial_number_of_clauses             171716
+c initial_number_of_literal_occurrences 358797
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   157077
+c running_time(sec)                     515655.7
+c number_of_nodes                       38185392
+c number_of_single_nodes                568919
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                437581299
+c number_of_pure_literals               0
+c number_of_autarkies                   12878659
+c number_of_missed_single_nodes         265
+c max_tree_depth                        66
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 4066478903
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_3-2-3-5_558.cnf
+     \endverbatim
+     so again it fall into a deep hole at the last monitoring node, and after
+     8590 m no progress visible --- interestingly the rather slow 32-bit
+     machine csltok (see above) seems faster than this 64-bit machine!. </li>
      <li> minisat2 actually finds a satisfying assignment:
      \verbatim
 > minisat2 GreenTao_3-2-3-5_558.cnf
