@@ -356,7 +356,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1928
+  \todo greentao_3(3,3,5) > 1929
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -460,7 +460,14 @@ BestSolution_Max = 2.000000
    </li>
    <li> n=1928, cutoff=4*10^9: In 100 runs one solution was found
    (seed=733180643, osteps=3800942926). </li>
-   <li> n=1929 </li>
+   <li> n=1929 found satisfiable (seed=1305993935, osteps=2072609418):
+   \verbatim
+> E = read_ubcsat("GreenTao_3-3-3-5_1929.cnf_OUT")
+  0   1   2   3
+  1  32 109   2
+144
+   \endverbatim
+   </li>
    <li> n=1930
     <ol>
      <li> cutoff=4*10^8 yields (length, table)
