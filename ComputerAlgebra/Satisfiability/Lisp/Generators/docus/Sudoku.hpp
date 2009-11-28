@@ -34,13 +34,12 @@ License, or any later version. */
  sdk(7,4,6),sdk(7,6,9),sdk(7,7,5),sdk(8,3,5),sdk(8,5,8),sdk(8,7,9),sdk(9,1,3),
 sdk(9,5,1),sdk(9,9,4)});
 (%i8) SP120 : [S3[1],union(S3[2],P120)]$
-(%i9) fcs_p(SP120);
-Evaluation took 165.0739 seconds (189.7842 elapsed) using 438.141 MB.
-(%o9) true
-(%i10) sSP120 : standardise_fcs(SP120)$
-(%i11) output_fcs_v(
+(%i9) sSP120 : standardise_fcs(SP120)$
+(%i10) output_fcs_v(
  sconcat("The Sudoku problem (strong form) with box-dimension ", 3, ", with initial constraints from Problem 120 in [extreme Sudoku, Gould]."),
  sSP120[1],"SP120.cnf",sSP120[2]);
+
+
    \endverbatim
 
 
@@ -50,17 +49,60 @@ Evaluation took 165.0739 seconds (189.7842 elapsed) using 438.141 MB.
    \verbatim
 > OKsolver_2002-O3-DNDEBUG SP100.cnf
 s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=9 initial_number_of_variables=729 initial_number_of_clauses=10554 initial_number_of_literal_occurrences=23352 running_time(s)=0.0 number_of_nodes=1
-  number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=1 number_of_pure_literals=0 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=0
-   number_of_table_enlargements=0 reduced_maximal_clause_length=1 reduced_number_of_variables=577 reduced_number_of_clauses=9699 reduced_number_of_literal_occurrences=21410 
-  number_of_1-autarkies=0 number_of_initial_unit-eliminations=577 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=720 file_name=SP100.cnf
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             10554
+c initial_number_of_literal_occurrences 23352
+c number_of_initial_unit-eliminations   577
+c reddiff_maximal_clause_length         1
+c reddiff_number_of_variables           577
+c reddiff_number_of_clauses             9699
+c reddiff_number_of_literal_occurrences 21410
+c number_of_2-clauses_after_reduction   720
+c running_time(sec)                     0.0
+c number_of_nodes                       1
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             SP100.cnf
+s SATISFIABLE
 
 > OKsolver_2002-O3-DNDEBUG SP120.cnf
 s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=9 initial_number_of_variables=729 initial_number_of_clauses=10558 initial_number_of_literal_occurrences=23356 running_time(s)=0.0 number_of_nodes=1 
-  number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=5 number_of_pure_literals=0 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=0
-  number_of_table_enlargements=0 reduced_maximal_clause_length=2 reduced_number_of_variables=547 reduced_number_of_clauses=9432 reduced_number_of_literal_occurrences=20792 
-  number_of_1-autarkies=0 number_of_initial_unit-eliminations=547 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=976 file_name=SP120.cnf
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             10558
+c initial_number_of_literal_occurrences 23356
+c number_of_initial_unit-eliminations   547
+c reddiff_maximal_clause_length         2
+c reddiff_number_of_variables           547
+c reddiff_number_of_clauses             9432
+c reddiff_number_of_literal_occurrences 20792
+c number_of_2-clauses_after_reduction   976
+c running_time(sec)                     0.0
+c number_of_nodes                       1
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             SP120.cnf
    \endverbatim
 
 */
