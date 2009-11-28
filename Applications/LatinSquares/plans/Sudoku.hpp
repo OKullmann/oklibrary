@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,8 +13,7 @@ License, or any later version. */
   \todo Relations
   <ul>
    <li> See "Relations" in Hypergraphs/Matchings/plans/general.hpp. </li>
-   <li> See "Sudoku" in
-   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp.
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Sudoku.hpp.
    </li>
    <li> See investigations in
    Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp. </li>
@@ -25,7 +24,7 @@ License, or any later version. */
   <ul>
    <li>
     <ol>
-    <li> One possible format is:
+    <li> One possible format (for the standard 9x9-case) is:
     \verbatim
 3
 .94...13..............76..2.8..1.....32.........2...6.....5.4.......8..7..63.4..8
@@ -68,6 +67,8 @@ License, or any later version. */
 
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
   <ul>
+   <li> An update of the following is needed, especially with regard to the
+   works at Maxima-level. </li>
    <li> Compare the handling of coordinates with
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac. </li>
    <li> Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2,

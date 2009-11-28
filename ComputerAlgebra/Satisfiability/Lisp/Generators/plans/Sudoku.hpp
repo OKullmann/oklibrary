@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
-   <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
+   <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp (plans
+   at C++ level). </li>
    <li> See the investigations in
    Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp. </li>
   </ul>
@@ -185,6 +186,12 @@ License, or any later version. */
    and removing any assignment creates further solutions). </li>
    <li> So "minimal" here is related to the partial assignment (and not
    to the problem instance). </li>
+   <li> See http://magictour.free.fr/suexco.txt, where the generator "suexg"
+   is described. </li>
+   <li> Regarding *minimum* uniquely satisfiable problems, that is, where the
+   partial assignment has minimum size, the conjecture is that this size is 17;
+   all known non-isomorphic cases are apparently made available(?) by
+   Gordon Royle. </li>
    <li> The natural approach is to create a random solution (see "Sampling of
    all solutions" above), which is trivially uniquely satisfiable and then
    randomly remove assignments (i.e., literals) which can be removed without
