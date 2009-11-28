@@ -42,8 +42,9 @@ okltest_int2digit(int2digit);
 okltest_polyadic2int(polyadic2int);
 okltest_polyadicstr2int(polyadicstr2int);
 
-okltest_int2polyadicstr(int2polyadicstr);
 okltest_int2polyadic(int2polyadic);
+okltest_int2polyadic_padd(int2polyadic_padd);
+okltest_int2polyadicstr(int2polyadicstr);
 
 /* **********************
    * Integer partitions *

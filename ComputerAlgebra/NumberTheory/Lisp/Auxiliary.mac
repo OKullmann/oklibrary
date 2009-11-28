@@ -85,7 +85,8 @@ hex2int(str) := polyadicstr2int(str,16)$
 
 /* Computing the representation of a number m to base b 
    (as a list, big endian). */
-/* Prerequisites: m a natural number >= 0, b a natural number >= 2. */
+/* Prerequisites: m a natural number >= 0, b a natural number >= 2
+   (where in case m=0 also b in {0,1} is possible). */
 int2polyadic(m,b) :=
   if m = 0 then [0]
   else block([result : []],
@@ -93,6 +94,10 @@ int2polyadic(m,b) :=
       result : cons(d[2], result),
       m : d[1]),
     return(result))$
+/* Adding leading zeros if the result does not have length l: */
+int2polyadic_padd(m,b,l) := block([L : int2polyadic(m,b)],
+  append(create_list(0,i,1,l-length(L)), L))$
+
 /* Converts a given integer m to its base b representation as a
    string, where 2 <= b <= 36 is a natural number. */
 int2polyadicstr(m,b) := if m >= 0 then
