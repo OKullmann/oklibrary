@@ -31,6 +31,8 @@ okltest_tdlrt2points(tdlrt2points);
 
 okltest_tdlrt2edges(tdlrt2edges);
 
+okltest_tdlrt2label(tdlrt2label);
+
 
 /*!
 \endhtmlonly
