@@ -26,12 +26,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    *******************************************
 */
 
-/* For given formal clause-set FF and partial assignment phi compute, by
+/* For given formal clause-set FF and partial assignment phi, compute, by
    repeated randomised removal of literals from phi, a minimal
    phi' <= phi such that in phi' * FF all assignments from phi - phi'
    are enforced.
 */
-/* Prerequisite: phi * FF is unsatisfiable, var(phi) <= var(FF). */
+/* Prerequisite: var(phi) <= var(FF). */
 minUNISAT(FF,phi,solver) := block(
  [minimal : false, FFA : [FF[1],union(FF[2],{comp_sl(phi)})]],
   while not minimal do (
@@ -43,8 +43,10 @@ minUNISAT(FF,phi,solver) := block(
   ),
   return(phi))$
 /* A main application is the situation where phi is a total satisfying
-   assignment for phi, and one wants to find a minimal phi' such that
-   phi' * F has phi as its unique solution.
+   assignment for FF, and one wants to find a minimal phi' such that
+   phi' * FF has phi as its unique solution.
+   If on the other hand phi * FF is unsatisfiable, then phi' is a minimal
+   sub-assignment of phi such that phi' * FF is still unsatisfiable.
 */
 
 /*!
