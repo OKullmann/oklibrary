@@ -1,5 +1,5 @@
 // Matthew Gwynne, 12.4.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -65,14 +65,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(2),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 27, 71, 3, 2]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[2, 10], [3, 17]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 21, 54, 3, 2]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[2, 9], [3, 12]]
 test_CNF_aes_field_mul(intToGF2t8Poly(2),ip_aes);
 true
@@ -84,14 +84,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(3),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 171, 888, 9, 3]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[3, 23], [4, 34], [5, 51], [6, 34], [7, 14], [8, 9], [9, 6]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 61, 271, 9, 3]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[3, 19], [4, 19], [5, 11], [6, 6], [7, 2], [8, 3], [9, 1]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true
@@ -103,14 +103,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(9),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 367, 2110, 9, 3]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[3, 16], [4, 49], [5, 94], [6, 97], [7, 77], [8, 31], [9, 3]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 86, 402, 8, 3]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[3, 12], [4, 32], [5, 24], [6, 10], [7, 6], [8, 2]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true
@@ -122,14 +122,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(3),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 171, 888, 9, 3]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[3, 23], [4, 34], [5, 51], [6, 34], [7, 14], [8, 9], [9, 6]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 61, 271, 9, 3]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[3, 19], [4, 19], [5, 11], [6, 6], [7, 2], [8, 3], [9, 1]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true
@@ -141,14 +141,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(9),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 367, 2110, 9, 3]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[3, 16], [4, 49], [5, 94], [6, 97], [7, 77], [8, 31], [9, 3]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 86, 402, 8, 3]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[3, 12], [4, 32], [5, 24], [6, 10], [7, 6], [8, 2]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true
@@ -160,14 +160,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(11),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 492, 2896, 9, 4]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[4, 40], [5, 157], [6, 155], [7, 103], [8, 33], [9, 4]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 148, 767, 7, 4]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[4, 28], [5, 75], [6, 35], [7, 10]]
 test_CNF_aes_field_mul(intToGF2t8Poly(11),ip_aes);
 true
@@ -179,14 +179,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(13),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 489, 2885, 9, 4]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[4, 57], [5, 118], [6, 171], [7, 106], [8, 34], [9, 3]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 139, 727, 9, 4]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[4, 30], [5, 63], [6, 32], [7, 13], [9, 1]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true
@@ -198,14 +198,14 @@ h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(14),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 456, 2689, 9, 3]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[3, 4], [4, 47], [5, 118], [6, 153], [7, 96], [8, 33], [9, 5]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 119, 612, 8, 3]
-ncl_list_f(ip_aes);
+ncl_list_fcs(ip_aes);
 [[3, 3], [4, 33], [5, 42], [6, 28], [7, 11], [8, 2]]
 test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
 true

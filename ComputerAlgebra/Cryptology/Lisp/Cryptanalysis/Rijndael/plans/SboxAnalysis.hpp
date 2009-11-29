@@ -140,7 +140,7 @@ h_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 1359, 9430, 9, 6]
-ncl_list_f(cs_to_fcs(p_aes));
+ncl_list_cs(p_aes);
 [[6, 265], [7, 913], [8, 180], [9, 1]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
@@ -178,7 +178,7 @@ true
 ir_p_aes : all_irrcl_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ir_p_aes);
 [16, 447, 3087, 8, 6]
-ncl_list_f(cs_to_fcs(ir_p_aes));
+ncl_list_cs(ir_p_aes);
 [[6, 99], [7, 291], [8, 57]]
 oklib_monitor : true;
 oklib_monitor_level : 1;
@@ -291,7 +291,7 @@ statistics_cs(random_hcs);
 random_pi : replace_by_prime_implicates_hitting(random_hcs)$
 statistics_cs(random_pi);
 [16,1363,9379,9,5]
-ncl_list_f(cs_to_fcs(random_pi));
+ncl_list_cs(random_pi);
 [[5,1],[6,298],[7,929],[8,132],[9,3]]
 irredundant_bydef(cs_to_fcs(random_pi),dll_simplest_trivial1);
 false
@@ -300,7 +300,7 @@ test_CNF_int_perm(random_ip,random_perm, dll_simplest_trivial1);
 true
 statistics_cs(random_ip[2]);
 [16,565,3869,9,5]
-ncl_list_f(random_ip);
+ncl_list_fcs(random_ip);
 [[5,1],[6,149],[7,351],[8,63],[9,1]]
 
 set_random_state(make_random_state(25012))$ 
@@ -312,7 +312,7 @@ statistics_cs(random_hcs2);
 random_pi2 : replace_by_prime_implicates_hitting(random_hcs2)$
 statistics_cs(random_pi2);
 [16,1324,9102,9,5]
-ncl_list_f(cs_to_fcs(random_pi2));
+ncl_list_cs(random_pi2);
 [[5,6],[6,306],[7,861],[8,150],[9,1]]
 irredundant_bydef(cs_to_fcs(random_pi2),dll_simplest_trivial1);
 random_ip2 : first_irr_fcs(cs_to_fcs(random_pi2),dll_simplest_trivial2)$
@@ -320,7 +320,7 @@ test_CNF_int_perm(random_ip2,random_perm2, dll_simplest_trivial1);
 true
 statistics_cs(random_ip2[2]);
 [16,545,3731,9,5]
-ncl_list_f(random_ip2);
+ncl_list_fcs(random_ip2);
 [[5,3],[6,134],[7,353],[8,54],[9,1]]
 
 set_random_state(make_random_state(3093215))$
@@ -332,7 +332,7 @@ statistics_cs(random_hcs3);
 random_pi3 : replace_by_prime_implicates_hitting(random_hcs3)$
 statistics_cs(random_pi3);
 [16,1383,9558,9,5]
-ncl_list_f(cs_to_fcs(random_pi3));
+ncl_list_cs(random_pi3);
 [[5,1],[6,268],[7,968],[8,145],[9,1]]
 irredundant_bydef(cs_to_fcs(random_pi3),dll_simplest_trivial1);
 false
@@ -341,7 +341,7 @@ test_CNF_int_perm(random_ip3,random_perm3, dll_simplest_trivial1);
 true
 statistics_cs(random_ip3[2]);
 [16,563,3877,9,5]
-ncl_list_f(random_ip3);
+ncl_list_fcs(random_ip3);
 [[5,1],[6,124],[7,377],[8,60],[9,1]]
    \endverbatim
    </li>
