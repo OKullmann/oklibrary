@@ -73,8 +73,24 @@ okltest_ncl_fcs(f) := (
   /* XXX */
   true)$
 
+okltest_ncl_fcl(f) := (
+  /* XXX */
+  true)$
+
 okltest_ncl_cs(f) := (
   /* XXX */
+  true)$
+
+okltest_ncl_cl(f) := (
+  /* XXX */
+  true)$
+
+okltest_nlitocc_cl(f) := (
+  assert(f([]) = 0),
+  assert(f([{}]) = 0),
+  assert(f([{1},{-1}]) = 2),
+  assert(f([{1},{},{1,2},{-2,3}]) = 5),
+  assert(f([{},{1},{},{1},{1,2},{-2,3},{2,1}]) = 8),
   true)$
 
 okltest_nlitocc_cs(f) := (
@@ -84,9 +100,23 @@ okltest_nlitocc_cs(f) := (
   assert(f({{1},{},{1,2},{-2,3}}) = 5),
   true)$
 
+okltest_nlitocc_fcl(f) := (
+  assert(f([[],[]]) = 0),
+  assert(f([[1],[{},{1},{1},{-1},{}]]) = 3),
+  assert(okltest_nlitocc_cl(buildq([f],lambda([F],f(cl2fcl(F))))) = true),
+  true)$
+
 okltest_nlitocc_fcs(f) := block([x,y,z],
   assert(okltest_nlitocc_cs(buildq([f],lambda([F],f(cs2fcs(F))))) = true),
   assert(okltest_nlitocc_cs(buildq([f],lambda([F],f([union(var_cs(F),{x,y,z}),F])))) = true),
+  true)$
+
+okltest_ncl_list_fcl(f) := (
+  assert(f([[],[]]) = []),
+  assert(f([[1,2,3],[]]) = []),
+  assert(f([[],[{},{}]]) = [[0,2]]),
+  assert(f([[1,3,5],[{},{}]]) = [[0,2]]),
+  assert(okltest_ncl_list_fcs(buildq([f], lambda([FF],f(fcs2fcl(FF))))) = true),
   true)$
 
 okltest_ncl_list_fcs(f) := (
@@ -97,6 +127,14 @@ okltest_ncl_list_fcs(f) := (
   assert(f([{1,2},{{1},{-1,2},{1,-2}}]) = [[1,1],[2,2]]),
   for n : 0 thru 3 do
     assert(f(full_fcs(n)) = [[n,2^n]]),
+  true)$
+
+okltest_ncl_list_cl(f) := (
+  assert(okltest_ncl_list_fcl(buildq([f], lambda([FF],f(fcl2cl(FF))))) = true),
+  true)$
+
+okltest_ncl_list_cs(f) := (
+  assert(okltest_ncl_list_fcs(buildq([f], lambda([FF],f(fcs2cs(FF))))) = true),
   true)$
 
 okltest_max_rank_cs(f) := (

@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac"
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ******************
@@ -44,30 +45,38 @@ nvar_ofcs(FF) := length(FF[1])$
 /* RENAME: ncl_fcs */
 ncl_f(FF) := length(clauses_f(FF))$
 ncl_fcs(FF) := length(FF[2])$
+ncl_fcl(FF) := length(FF[2])$
 /* Number of clauses of a clause-set: */
 ncl_cs(F) := length(F)$
+ncl_cl(F) := length(F)$
 
 /* Number of literal occurrences in a clause-set: */
-/* RENAME: nlitocc_cs */
-nlitocc(F) := block([s : 0],
- for C in F do s : s + length(C), return(s))$
-nlitocc_cs(F) := nlitocc(F)$
-nlitocc_fcs(FF) := nlitocc_cs(FF[2])$
+nlitocc_cl(F) := sum_l(map(length,listify(F)))$
+nlitocc_cs(F) := nlitocc_cl(F)$
+nlitocc_fcl(FF) := nlitocc_cl(FF[2])$
+nlitocc_fcs(FF) := nlitocc_cl(FF[2])$
  
 /* The list of pairs
    [occurring clause-lengths, number of clauses of this length],
    sorted by ascending clause-length.
 */
-/* RENAME: ncl_list_fcs */
-ncl_list_f(FF) := block(
- [n : nvar_f(FF), counts, res : []],
+ncl_list_fcl(FF) := block([n : nvar_fcl(FF), counts, res : []],
   counts : make_array(fixnum, n+1),
   for C in FF[2] do block([l : length(C)],
     counts[l] : counts[l] + 1),
   for i : 0 thru n do
-    if counts[i] # 0 then res : endcons([i, counts[i]], res),
-  return(res))$
-ncl_list_fcs(FF) := ncl_list_f(FF)$
+    if counts[i] # 0 then res : cons([i, counts[i]], res),
+  return(reverse(res)))$
+ncl_list_fcs(FF) := ncl_list_fcl(FF)$
+ncl_list_cl(F) := block(
+ [n : nvar_cl(F), counts, res : []],
+  counts : make_array(fixnum, n+1),
+  for C in F do block([l : length(C)],
+    counts[l] : counts[l] + 1),
+  for i : 0 thru n do
+    if counts[i] # 0 then res : cons([i, counts[i]], res),
+  return(reverse(res)))$
+ncl_list_cs(F) := ncl_list_cl(F)$
 
 /* Maximal clause-length of a clause-set: */
 max_rank_cs(F) := block([m : -1],
@@ -156,7 +165,7 @@ max_literal_degree_l_cl(F) :=
    degree): */
 literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
 /* The average literal degree of a formal clause-set: */
-mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
+mean_literal_degree_fcs(FF) := nlitocc_fcs(FF) / (2 * nvar_f(FF))$
 /* Literal frequencies in various forms: */
 min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
 max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$

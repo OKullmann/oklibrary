@@ -34,12 +34,19 @@ okltest_nvar_fcl(nvar_fcl);
 okltest_nvar_ofcs(nvar_ofcs);
 
 okltest_ncl_fcs(ncl_fcs);
+okltest_ncl_fcl(ncl_fcl);
 okltest_ncl_cs(ncl_cs);
+okltest_ncl_cl(ncl_cl);
 
+okltest_nlitocc_cl(nlitocc_cl);
 okltest_nlitocc_cs(nlitocc_cs);
+okltest_nlitocc_fcl(nlitocc_fcl);
 okltest_nlitocc_fcs(nlitocc_fcs);
 
+okltest_ncl_list_fcl(ncl_list_fcl);
 okltest_ncl_list_fcs(ncl_list_fcs);
+okltest_ncl_list_cl(ncl_list_cl);
+okltest_ncl_list_cs(ncl_list_cs);
 
 okltest_max_rank_cs(max_rank_cs);
 okltest_max_rank_fcs(max_rank_fcs);
