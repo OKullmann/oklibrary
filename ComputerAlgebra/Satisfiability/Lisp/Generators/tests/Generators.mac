@@ -51,13 +51,13 @@ okltest_nvar_full_fcs(f) := block(
 
 okltest_ncl_list_full_fcs(f) := block(
  for n : 0 thru 4 do
-   assert(f(n) = ncl_list_f(full_fcs(n))),
+   assert(f(n) = ncl_list_fcs(full_fcs(n))),
  true
 )$
 
 okltest_ncl_full_fcs(f) := block(
  for n : 0 thru 4 do
-   assert(f(n) = ncl_f(full_fcs(n))),
+   assert(f(n) = ncl_fcs(full_fcs(n))),
  true
 )$
 
@@ -84,14 +84,14 @@ okltest_nvar_php(f) := block(
 okltest_ncl_list_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = ncl_list_f(weak_php(m,n))),
+   assert(f(m,n) = ncl_list_fcs(weak_php(m,n))),
  true
 )$
 
 okltest_ncl_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = ncl_f(weak_php(m,n))),
+   assert(f(m,n) = ncl_fcs(weak_php(m,n))),
  true
 )$
 

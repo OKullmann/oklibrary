@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.9.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,23 +53,23 @@ usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input c
 /* Measures for the translated formulas */
 
 /* Number of variables: */
-n_var_usat_musat(FF) := nvar_f(FF) + ncl_f(FF)$
+n_var_usat_musat(FF) := nvar_f(FF) + ncl_fcs(FF)$
 
 /* Number of clauses: */
-n_cl_usat_musat(FF) := block([l : nlitocc(FF[2]), c : ncl_f(FF)],
+n_cl_usat_musat(FF) := block([l : nlitocc_fcs(FF), c : ncl_fcs(FF)],
   c + l + c*(c-1)/2)$
 
 /* Deficiency: */
 deficiency_usat_musat(FF) := block(
- [l : nlitocc(FF[2]), c : ncl_f(FF), n : nvar_f(FF)],
+ [l : nlitocc_fcs(FF), c : ncl_fcs(FF), n : nvar_f(FF)],
   l + c*(c-1)/2 - n)$
 
-/* List of clause-counts as with ncl_list_f: */
+/* List of clause-counts as with ncl_list_fcs: */
 ncl_list_usat_musat(FF) := block(
- [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+ [l : nlitocc_fcs(FF), c : ncl_fcs(FF), h : sm2hm({})],
   if l # 0 then set_hm(h, 1+c, l),
   if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
-  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+  for P in ncl_list_fcs(FF) do block([cl : P[1]+c-1],
     set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
   return(listify(hm2sm(h))))$
 
@@ -94,13 +94,13 @@ n_cl_sat_musat(FF) := n_cl_usat_musat(FF) + 1$
 /* Deficiency: */
 deficiency_sat_musat(FF) := deficiency_usat_musat(FF) + 1$
 
-/* List of clause-counts as with ncl_list_f: */
+/* List of clause-counts as with ncl_list_fcs: */
 ncl_list_sat_musat(FF) := block(
- [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+ [l : nlitocc_fcs(FF), c : ncl_fcs(FF), h : sm2hm({})],
   if l # 0 then set_hm(h, 1+c, l),
   set_hm(h,c,1), /* this is additional, compared to ncl_list_usat_musat(FF) */
   if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
-  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+  for P in ncl_list_fcs(FF) do block([cl : P[1]+c-1],
     set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
   return(listify(hm2sm(h))))$
 
@@ -153,7 +153,7 @@ maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
 /* Number of variables */
 n_var_maxclique_mures(G,k) := k + binom(k,2) + length(G[1]) * k$
 
-/* List of clause-counts as with ncl_list_f */
+/* List of clause-counts as with ncl_list_fcs: */
 ncl_list_maxclique_mures(G,k) := block([n : length(G[1]), m : length(G[2])],
  if k = 0 then [[0,1]]
  elseif k = 1 then [[1, n + 1], [2, n * k]]
