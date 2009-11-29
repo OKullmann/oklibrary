@@ -52,22 +52,22 @@ oklib_load_all();
    <li> A "boolean clause-set" is a set of boolean clauses.
    \verbatim
 (%i16) C2:{-1,3}$
-(%i17) C3:{2,3}$
+(%i17) C3:{2,3,-4}$
 (%i18) F:{C1,C2,C3};
-(%o18)                   {{- 2, 1}, {- 1, 3}, {2, 3}}
+(%o18)                   {{-4, 2, 3}, {- 2, 1}, {- 1, 3}}
    \endverbatim
    </li>
    <li> The variables of a clause-set can be obtained by the var_cs function:
    \verbatim
 (%i19) var_cs(F);
-(%o19)                             {1, 2, 3}
+(%o19)                             {1, 2, 3, 4}
    \endverbatim
    </li>
    <li> The number of variables of a clause-set can be obtained by the
    nvar_cs function.
    \verbatim
 (%i20) nvar_cs(F);
-(%o20)                                 3
+(%o20)                                 4
    \endverbatim
    </li>
    <li> The number of clauses of a clause-set is given by the ncl_cs function.
@@ -80,7 +80,7 @@ oklib_load_all();
    nlitocc_cs function.
    \verbatim
 (%i22) nlitocc_cs(F);
-(%o22)                                 6
+(%o22)                                 7
    \endverbatim
    </li>
    <li> A "formal boolean clause-set" is a pair [V, F], where V is a set of
@@ -88,21 +88,23 @@ oklib_load_all();
    The function cs2fcs(F) returns the formal clause-set of a clause-set F.
    \verbatim
 (%i23) FF:cs2fcs(F);
-(%o23)             [{1, 2, 3}, {{- 2, 1}, {- 1, 3}, {2, 3}}]
+(%o23)             [{1, 2, 3}, {{-4, 2, 3}, {- 2, 1}, {- 1, 3}}]
    \endverbatim
    </li>
    <li> The variables of a formal clause-set can be obtained by the
    var_fcs function.
    \verbatim
 (%i24) var_fcs(FF);
-(%o24)                             {1, 2, 3}
+(%o24)                             {1, 2, 3, 4}
    \endverbatim
+   Note that the point of "formal clause-sets" is to allow that variables
+   might not occur in the clause-set.
    </li>
    <li> The number of variables of a formal clause set is given by the
    nvar_fcs function.
    \verbatim
 (%i25) nvar_fcs(FF);
-(%o25)                                 3
+(%o25)                                 4
    \endverbatim
    </li>
    <li> The number of clauses of a formal clause set is given by the
@@ -118,9 +120,9 @@ oklib_load_all();
 (%i27) print_fcs("Sample boolean clause set #001",FF)$
 c Sample boolean clause set #001
 p cnf 3 3
+-4 2 3 0
 -2 1 0
 -1 3 0
-2 3 0
    \endverbatim
    </li>
    <li> For output to a file, use the output_fcs function. By default, the
