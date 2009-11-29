@@ -140,8 +140,5 @@ License, or any later version. */
    disjoint). We should implement these clause-sets. </li>
   </ul>
 
-
-  \todo DONE Create new submodule "RamseyTheory"
-  
 */
 

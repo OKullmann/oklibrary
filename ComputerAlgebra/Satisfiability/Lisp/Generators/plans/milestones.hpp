@@ -8,22 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp
 
-  \module_version Satisfiability/Lisp/Generators 0.0.7 (30.11.2008)
-
-
-  \par Version 0.0.8
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - Create new submodule "RamseyTheory": DONE
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Sudoku.hpp
-   the following topics are handled:
-    - Update function names : DONE
-    - Formulating "Sudoku problem instances" : DONE
-    - Improve implementation : DONE
+  \module_version Satisfiability/Lisp/Generators 0.0.8 (29.11.2009)
 
 
   \par Version 0.0.9
@@ -132,6 +117,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.7 : 30.11.2008; initial version, several basic generators available, and plans for strengthening Ramsey-problem-generators.
+   - 0.0.8 : 29.11.2009; various generators from the field of Ramsey-theory, progress with AES-random-generator, latin squares and Sudoku problems, improved the general system.
 
 */
 
