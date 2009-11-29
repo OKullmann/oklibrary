@@ -20,23 +20,46 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.ma
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 kill(f)$
+
+
+/* *************
+   * Variables *
+   *************
+*/
+
+okltest_var_sdk(f) := (
+  assert(f(0) = []),
+  assert(f(1) = [sdk(1,1,1)]),
+  assert(f(2) = block([N : 2^2], create_list(sdk(i,j,k), i,1,N, j,1,N, k,1,N))),
+  true)$
+
+okltest_standardise_sdk(f) := (
+  for p : 0 thru 2 do
+    assert(f(var_sdk(p),p) = create_list(i,i,1,(p^2)^3)),
+  true)$
+
+okltest_invstandardise_sdk(f) := (
+  for p : 1 thru 2 do
+    assert(map(lambda([n],f(n,p)),create_list(i,i,1,(p^2)^3)) = var_sdk(p)),
+  true)$
+
 
 /* *************************
    * The basic translation *
    *************************
 */
 
-okltest_var_sdk(f) := (
-
+okltest_sdk_different_rows_cl(f) := (
+  assert(f(0) = []),
+  assert(f(1) = []),
+  /* XXX */
   true)$
 
-okltest_sdk_different_rows(f) := (
-
-  true)$
-
-okltest_sdk_different_columns(f) := (
+okltest_sdk_different_columns_cl(f) := (
 
   true)$
 
@@ -44,15 +67,15 @@ okltest_sdk_positions_box(f) := (
 
   true)$
 
-okltest_sdk_different_boxes(f) := (
+okltest_sdk_different_boxes_cl(f) := (
 
   true)$
 
-okltest_sdk_all_fields(f) := (
+okltest_sdk_all_fields_cl(f) := (
 
   true)$
 
-okltest_weak_sdk(f) := (
+okltest_weak_sdk_fcl(f) := (
 
   true)$
 
@@ -88,44 +111,117 @@ okltest_strong_sdk(f) := (
 */
 
 okltest_nvar_sdk(f) := (
-
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do (
+    assert(f(p) = nvar_fcl(weak_sdk_fcl(p))),
+    assert(f(p) = nvar_fcl(dual_weak_sdk_fcl(p))),
+    assert(f(p) = nvar_fcl(strong_sdk_fcl(p)))
+  ),
   true)$
 
-okltest_ncl_list_weak_sdk(f) := (
-
+okltest_ncl_list_weak_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcl(weak_sdk_fcl(p))),
   true)$
 
-okltest_ncl_list_dual_weak_sdk(f) := (
-
+okltest_ncl_list_weak_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcs(weak_sdk_fcs(p))),
   true)$
 
-okltest_ncl_list_strong_sdk(f) := (
-
+okltest_ncl_list_dual_weak_sdk_fcl(f) := (
+for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcl(dual_weak_sdk_fcl(p))),
   true)$
 
-okltest_ncl_weak_sdk(f) := (
-
+okltest_ncl_list_dual_weak_sdk_fcs(f) := (
+for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcs(dual_weak_sdk_fcs(p))),
   true)$
 
-okltest_ncl_dual_weak_sdk(f) := (
-
+okltest_ncl_list_strong_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcl(strong_sdk_fcl(p))),
   true)$
 
-okltest_ncl_strong_sdk(f) := (
-
+okltest_ncl_list_strong_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_list_fcs(strong_sdk_fcs(p))),
   true)$
 
-okltest_nlitocc_weak_sdk(f) := (
-
+okltest_ncl_weak_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcl(weak_sdk_fcl(p))),
   true)$
 
-okltest_nlitocc_dual_weak_sdk(f) := (
-
+okltest_ncl_weak_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcs(weak_sdk_fcs(p))),
   true)$
 
-okltest_nlitocc_strong_sdk(f) := (
-
+okltest_ncl_dual_weak_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcl(dual_weak_sdk_fcl(p))),
   true)$
+
+okltest_ncl_dual_weak_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcs(dual_weak_sdk_fcs(p))),
+  true)$
+
+okltest_ncl_strong_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcl(strong_sdk_fcl(p))),
+  true)$
+
+okltest_ncl_strong_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = ncl_fcs(strong_sdk_fcs(p))),
+  true)$
+
+okltest_nlitocc_weak_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcl(weak_sdk_fcl(p))),
+  true)$
+
+okltest_nlitocc_weak_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcs(weak_sdk_fcs(p))),
+  true)$
+
+okltest_nlitocc_dual_weak_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcl(dual_weak_sdk_fcl(p))),
+  true)$
+
+okltest_nlitocc_dual_weak_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcs(dual_weak_sdk_fcs(p))),
+  true)$
+
+okltest_nlitocc_strong_sdk_fcl(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcl(strong_sdk_fcl(p))),
+  true)$
+
+okltest_nlitocc_strong_sdk_fcs(f) := (
+  for p : 0 thru if oklib_test_level=0 then 2 else 3 do
+    assert(f(p) = nlitocc_fcs(strong_sdk_fcs(p))),
+  true)$
+
+
+/* ********************
+   * Creating puzzles *
+   ********************
+*/
+
+okltest_sdk_fields_stdcl(f) := (
+  assert(f([],0) = []),
+  assert(f([[1,1,1]],1) = [{1}]),
+  assert(f([[1,1,1]],2) = [{1}]),
+  assert(f([[1,1,1],[4,4,4]],2) = [{1},{64}]),
+  assert(f([[9,9,9],[1,1,1]],3) = [{729},{1}]),
+  true)$
+
 
 /*!
 \endhtmlonly

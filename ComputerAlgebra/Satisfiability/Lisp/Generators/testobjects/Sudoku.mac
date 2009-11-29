@@ -21,24 +21,32 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/Sud
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.mac")$
 
+/* *************
+   * Variables *
+   *************
+*/
+
+okltest_var_sdk(var_sdk);
+
+okltest_standardise_sdk(standardise_sdk);
+okltest_invstandardise_sdk(invstandardise_sdk);
+
 /* *************************
    * The basic translation *
    *************************
 */
 
-okltest_var_sdk(var_sdk);
+okltest_sdk_different_rows_cl(sdk_different_rows_cl);
 
-okltest_sdk_different_rows(sdk_different_rows);
-
-okltest_sdk_different_columns(sdk_different_columns);
+okltest_sdk_different_columns_cl(sdk_different_columns_cl);
 
 okltest_sdk_positions_box(sdk_positions_box);
 
-okltest_sdk_different_boxes(sdk_different_boxes);
+okltest_sdk_different_boxes_cl(sdk_different_boxes_cl);
 
-okltest_sdk_all_fields(sdk_all_fields);
+okltest_sdk_all_fields_cl(sdk_all_fields_cl);
 
-okltest_weak_sdk(weak_sdk);
+okltest_weak_sdk_fcl(weak_sdk_fcl);
 
 /* **************************
    * Additional constraints *
@@ -62,17 +70,34 @@ okltest_strong_sdk(strong_sdk);
 
 okltest_nvar_sdk(nvar_sdk);
 
-okltest_ncl_list_weak_sdk(ncl_list_weak_sdk);
-okltest_ncl_list_dual_weak_sdk(ncl_list_dual_weak_sdk);
-okltest_ncl_list_strong_sdk(ncl_list_strong_sdk);
+okltest_ncl_list_weak_sdk_fcl(ncl_list_weak_sdk_fcl);
+okltest_ncl_list_weak_sdk_fcs(ncl_list_weak_sdk_fcs);
+okltest_ncl_list_dual_weak_sdk_fcl(ncl_list_dual_weak_sdk_fcl);
+okltest_ncl_list_dual_weak_sdk_fcs(ncl_list_dual_weak_sdk_fcs);
+okltest_ncl_list_strong_sdk_fcl(ncl_list_strong_sdk_fcl);
+okltest_ncl_list_strong_sdk_fcs(ncl_list_strong_sdk_fcs);
 
-okltest_ncl_weak_sdk(ncl_weak_sdk);
-okltest_ncl_dual_weak_sdk(ncl_dual_weak_sdk);
-okltest_ncl_strong_sdk(ncl_strong_sdk);
+okltest_ncl_weak_sdk_fcl(ncl_weak_sdk_fcl);
+okltest_ncl_weak_sdk_fcs(ncl_weak_sdk_fcs);
+okltest_ncl_dual_weak_sdk_fcl(ncl_dual_weak_sdk_fcl);
+okltest_ncl_dual_weak_sdk_fcs(ncl_dual_weak_sdk_fcs);
+okltest_ncl_strong_sdk_fcl(ncl_strong_sdk_fcl);
+okltest_ncl_strong_sdk_fcs(ncl_strong_sdk_fcs);
 
-okltest_nlitocc_weak_sdk(nlitocc_weak_sdk);
-okltest_nlitocc_dual_weak_sdk(nlitocc_dual_weak_sdk);
-okltest_nlitocc_strong_sdk(nlitocc_strong_sdk);
+okltest_nlitocc_weak_sdk_fcl(nlitocc_weak_sdk_fcl);
+okltest_nlitocc_weak_sdk_fcs(nlitocc_weak_sdk_fcs);
+okltest_nlitocc_dual_weak_sdk_fcl(nlitocc_dual_weak_sdk_fcl);
+okltest_nlitocc_dual_weak_sdk_fcs(nlitocc_dual_weak_sdk_fcs);
+okltest_nlitocc_strong_sdk_fcl(nlitocc_strong_sdk_fcl);
+okltest_nlitocc_strong_sdk_fcs(nlitocc_strong_sdk_fcs);
+
+/* ********************
+   * Creating puzzles *
+   ********************
+*/
+
+okltest_sdk_fields_stdcl(sdk_fields_stdcl);
+
 
 /*!
 \endhtmlonly

@@ -19,13 +19,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update function names
+  \todo DONE
+  Update function names
   <ul>
-   <li> Many function need the suffix "_fcs" or "cs". </li>
+   <li> DONE
+   Many function need the suffix "_fcs" or "cs". </li>
   </ul>
 
 
-  \todo Formulating "Sudoku problem instances"
+  \todo DONE
+  Formulating "Sudoku problem instances"
   <ul>
    <li> We need an easy method for specifying partial assignments to
    fields. </li>
@@ -39,16 +42,19 @@ License, or any later version. */
    of literals used by the partial assignment. </li>
    <li> Improved output:
     <ol>
-     <li> We need the possibility to add a list of clauses (in the original
+     <li> DONE (sdk_fields_stdcl creates the list of clauses)
+     We need the possibility to add a list of clauses (in the original
      variables).
       <ul>
        <li> Specifying that field (i,j) carries number k then simply happens by
        the unit-clause {sdk(i,j,k)}. </li>
       </ul>
      </li>
-     <li> The Dimacs-output should contain those clauses at the beginning.
+     <li> DONE (realised by output_sdk_puzzle)
+     The Dimacs-output should contain those clauses at the end.
      </li>
-     <li> In order to facilitate adding clauses to the already standardised
+     <li> DONE
+     In order to facilitate adding clauses to the already standardised
      Dimacs-file, the index of variables should be well-defined.
       <ul>
        <li> Perhaps innermost is the field-value, then the column index, then
@@ -58,12 +64,14 @@ License, or any later version. */
        sdk(1,2,1), ..., sdk(9,9,9). </li>
       </ul>
      </li>
-     <li> So some helper functions are needed to compute the standardised
+     <li> DONE (we have now standardise_sdk, invstandardise_sdk)
+     So some helper functions are needed to compute the standardised
      indices from the original names. </li>
      <li> Compare "Extensions" in
      ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp.
      </li>
-     <li> For creating the Sudoku Dimacs-files then we do not need the
+     <li> DONE (performing the standardisation is more systematic)
+     For creating the Sudoku Dimacs-files then we do not need the
      standardisation anymore, but we could directly use the variable indices.
      </li>
     </ol>
@@ -71,13 +79,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improve implementation
+  \todo DONE Improve implementation
   <ul>
-   <li> Compare "Systematisation" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp. </li>
-   <li> One should try whether using "create_list" in sdk_different_boxes,
-   without storing the intermediate value, really slows down the computation
-   (possibly the optimisation is detected?). </li>
    <li> DONE Can something be done about a stack-overflow for
    output_strong_sdk(6,"~/sdk_s_6.cnf") on csltok? Works on cs-wsok, and so
    it just seems to be a question of main memory (though csltok has 2GB). </li>
@@ -90,11 +93,21 @@ License, or any later version. */
      name "strong sdk". </li>
     </ol>
    </li>
-   <li> Add the conditions, that a field doesn't get several numbers.
-   DONE. </li>
+   <li> DONE
+   Add the conditions, that a field doesn't get several numbers. </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
    Replace, if possible, all loops by the use of "create_list". </li>
+  </ul>
+
+
+  \todo Further improve implementation
+  <ul>
+   <li> Compare "Systematisation" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp. </li>
+   <li> One should try whether using "create_list" in sdk_different_boxes,
+   without storing the intermediate value, really slows down the computation
+   (possibly the optimisation is detected?). </li>
   </ul>
 
 

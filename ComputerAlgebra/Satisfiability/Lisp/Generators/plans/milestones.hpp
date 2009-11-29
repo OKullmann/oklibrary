@@ -16,12 +16,26 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
-    - Split Generators/Generators.mac
-    - Update milestones
     - Create new submodule "RamseyTheory": DONE
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Sudoku.hpp
+   the following topics are handled:
+    - Update function names : DONE
+    - Formulating "Sudoku problem instances" : DONE
+    - Improve implementation : DONE
 
 
   \par Version 0.0.9
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Split Generators/Generators.mac
+    - Update milestones
+
+
+  \par Version 0.0.10
 
   \par Lisp/Generators/RamseyTheory version 0.0.9
   (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
@@ -38,7 +52,7 @@ License, or any later version. */
     - Specifying the AES random generator
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par Lisp/Generators/RamseyTheory version 0.0.10
   (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
@@ -54,7 +68,7 @@ License, or any later version. */
     - Implementing the AES random generator
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -68,7 +82,7 @@ License, or any later version. */
     - Random subsets, sublists etc.
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -81,7 +95,7 @@ License, or any later version. */
     - Filtering out
 
 
-  \par Version 0.0.13
+  \par Version 0.0.14
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
