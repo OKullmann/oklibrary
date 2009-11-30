@@ -57,6 +57,20 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
                          if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), 
       return(nt))$
 
+/* Produce a list of labels [[label_1,x_1,y_1],..., [label_n,x_n,y_n]] where the
+label_i is a string either "true" or "false"; x_i, y_i are the coordinates of the
+label's position, which according to the leaves in an binary labelled rooted tree
+T.
+*/
+tdlrt2label(T,l) := 
+  if length(T) = 1 then [cons(if l=1 then "true" else 
+                             if l=2 then "false" else
+                             if l=0 then "", [x_tdlrt(T),y_tdlrt(T)-0.2])] else
+  block([left,right],
+  if length(T) = 3 then ([left,right]: map(tdlrt2label,rest(T),[1,2]),
+                         append(left,right))
+  else tdlrt2label(T[2],0))$
+
 /* Visualise an unlabelled rooted tree T. */
 /* Parameter arg is a list which may be empty or contain drawing attributes. 
    If an empty list [] is provided, the automatic computation and drawing will
@@ -93,10 +107,10 @@ draw_rt(T,arg) := block([tdlrt,xdis,ydis,p:[0,0],xran:auto,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt,color = ptc,
                  points(tdlrt2points(tdlrt)),
+                 apply(label,tdlrt2label(tdlrt,0)),
                  color=edgc,transparent=true],
                 map(polygon, tdlrt2edges(tdlrt)))),
    true)$
-
 
 
 /*!
