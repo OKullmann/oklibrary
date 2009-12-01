@@ -214,8 +214,10 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             S_EasterMonster_Neg.cnf
    \endverbatim
  
-  Remark: The number of 2-reductions cannot be used as a measure of
-   hardness, since it depends on the order the variables are encountered.
+  Remark: Using the number of 2-reductions as a measure of hardness is
+  fragile, since it depends on the branchings used; however perhaps it can
+  serve as some hardness-indication (especially if only one node has been
+  used).
 
 */
 
