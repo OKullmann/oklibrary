@@ -37,10 +37,11 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
           Conquer  : 1. Make the distance 1 or 2 between the right most node of
                         the left subtree and the left most node of the right
                         subtree.
-                     2. Make the root r of T one unit higher than and horizontally
-                        half way between its children.
+                     2. Make the root r of T one unit higher than and 
+                        horizontally half way between its children.
                         If r has only one subtree, say the left one, then place
-                        r at horizontal distance 1 to the right of its left child.      
+                        r at horizontal distance 1 to the right of its left
+                        child.      
    Input: A binary unlabelled rooted tree T which is recursively defined as a 
           list [T_1, ..., T_n], 0 <= n <= 2, where the T_i are the subtrees.
           The root coordinates p which is a list [x,y] contains a pair of 
@@ -98,7 +99,7 @@ reingold_tilford_annotated(T,p) := block(
   )
 )$
 
-/* Hyperfunctions for reingold_tilford_annotated */
+/* Access-functions for reingold_tilford_annotated: */
 leftmost_x(T) := T[1][2][1]$
 rightmost_x(T) := T[1][2][2]$
 
