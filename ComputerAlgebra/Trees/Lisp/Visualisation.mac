@@ -57,10 +57,12 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
                          if rest(nt1)=[] and rest(nt1[1])=[] then [] else nt1)), 
       return(nt))$
 
-/* Produce a list of labels [[label_1,x_1,y_1],..., [label_n,x_n,y_n]] where the
-label_i is a string either "true" or "false"; x_i, y_i are the coordinates of the
-label's position, which according to the leaves in an binary labelled rooted tree
-T.
+/* Produce a list of labels [[label_1,x_1,y_1],..., [label_n,x_n,y_n]] for
+   the leaves, where label_i is either "true" or "false"; x_i, y_i are the 
+   coordinates of the label's position, (using the leave-coordinates in the 
+   binary labelled rooted tree T).
+TODO: See bug report "False labels at the leaves"; likely this function
+      has just to be removed.
 */
 tdlrt2label(T,l) := 
   if length(T) = 1 then [cons(if l=1 then "true" else 
@@ -71,20 +73,36 @@ tdlrt2label(T,l) :=
                          append(left,right))
   else tdlrt2label(T[2],0))$
 
-/* Visualise an unlabelled rooted tree T. */
-/* Parameter arg is a list which may be empty or contain drawing attributes. 
-   If an empty list [] is provided, the automatic computation and drawing will
-   be performed. Otherwise, the drawing attributes can be defined as
-   [name_1, value_1, ... , name_N, value_N], n >= 0. Each attribute contains
-   two fields, name and value, both of which must be provided.
-   Possible attribute names and values are:
-    root     : the root coordinates of the tree [x,y].
-    x_ran    : the range for the x coordinate [x_min,x_max].
-    y_ran    : the range for the y coordinate [y_min,y_max].
-    p_size   : the size of a point, it must be a non-negative number.
-    p_type   : the type of points (circle, diamant, ...)
-    p_colour : the colour of points (red, blue, ...)
-    e_colour : the colour of edges (red, blue, ...) 
+/* Draw an unlabelled rooted tree T, using the Reingold-Tilford algorithm. */
+/* Parameter arg is a list which may be empty or may contain drawing 
+   attributes. Missing attributes get default values, as specified below.
+   The drawing attributes are defined as 
+     [name_1, value_1, ... , name_N, value_N], n >= 0.
+   Each attribute contains two fields, name and value, both of which must be
+   provided. Possible attribute names and values are:
+
+    root     : the root coordinates of the tree [x,y]; default [0,0].
+    x_ran    : the range for the x coordinate [x_min,x_max]; default auto.
+    y_ran    : the range for the y coordinate [y_min,y_max]; default auto.
+    p_size   : the size of a point (a non-negative number); default computed
+    p_type   : the type of points (either as name or as integer):
+      $none (-1)
+      dot (0)
+      plus (1)
+      multiply (2)
+      asterisk (3)
+      square (4)
+      filled_square (5)
+      circle (6)
+      filled_circle (7) *default*
+      up_triangle (8)
+      filled_up_triangle (9)
+      down_triangle (10)
+      filled_down_triangle (11)
+      diamant (12)
+      filled_diamant (13)
+    p_colour : the colour of points (red, blue, ...); default red.
+    e_colour : the colour of edges (red, blue, ...); default blue.
 */
 draw_rt(T,arg) := block([tdlrt,xdis,ydis,p:[0,0],xran:auto,
    yran:auto,pts,ptt:filled_circle,ptc:red,edgc:blue],
