@@ -192,7 +192,7 @@ okltest_levelled_height_rt(f) := (
    ****************
 */
 
-okltest_graph2tree(f) := (
+okltest_g2lrt(f) := (
   assert(f([{1},{}],1) = [1]),
   assert(f([{1,2},{{1,2}}],1) = [1,[2]]),
   assert(f([{1,2},{{1,2}}],2) = [2,[1]]),
@@ -211,7 +211,7 @@ okltest_complete_rt(f) := (
   /* XXX */
   true)$
 
-okltest_random_ltree(f) := (
+okltest_random_lrt(f) := (
   /* XXX */
   true)$
 
@@ -251,6 +251,14 @@ okltest_num_all2l_rt(f) := (
     assert(f(m) = length(all2l_rt(m))),
   true)$
 
+okltest_random2_rt(f) := (
+  /* XXX */
+  true)$
+
+okltest_random12_rt(f) := (
+  /* XXX */
+  true)$
+
 okltest_all_rt(f) := (
   assert(f(-1) = []),
   assert(f(0) = []),
@@ -262,6 +270,10 @@ okltest_all_rt(f) := (
 okltest_num_all_rt(f) := (
   for m in (1 .. 7) do
     assert(f(m) = length(all_rt(m))),
+  true)$
+
+okltest_catalan_number(f) := (
+  /* XXX */
   true)$
 
 

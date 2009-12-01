@@ -71,7 +71,7 @@ okltest_levelled_height_rt(levelled_height_rt);
    ****************
 */
 
-okltest_graph2tree(graph2tree);
+okltest_g2lrt(g2lrt);
 
 /* **************
    * Generators *
@@ -80,7 +80,7 @@ okltest_graph2tree(graph2tree);
 
 okltest_complete_rt(complete_rt);
 
-okltest_random_ltree(random_ltree);
+okltest_random_lrt(random_lrt);
 
 okltest_all2_rt(all2_rt);
 okltest_num_all2_rt(num_all2_rt);
@@ -89,9 +89,12 @@ okltest_num_all2i_rt(num_all2i_rt);
 okltest_all2l_rt(all2l_rt);
 okltest_num_all2l_rt(num_all2l_rt);
 
+okltest_random2_rt(random2_rt);
+okltest_random12_rt(random12_rt);
+
 okltest_all_rt(all_rt);
 okltest_num_all_rt(num_all_rt);
-
+okltest_catalan_number(catalan_number);
 
 /* **************
    * Operations *
