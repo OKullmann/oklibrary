@@ -51,7 +51,91 @@ License, or any later version. */
    <code>BELEGUNG</code>.) Compare switch "-O" below. </li>
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
-   %node with some statistics. </li>
+   %node with some statistics.
+    <ol>
+     <li> The output is stored in the file "filename.xml", where filename is
+     the (full) name of the input file. </li>
+     <li> The embedded DTD is
+     \verbatim
+<!DOCTYPE t [
+  <!ELEMENT t (t?, t?)>
+  <!ATTLIST t
+    l NMTOKEN #REQUIRED>
+]>
+     \endverbatim
+     </li>
+     <li> The attribute-value for "l" is the number of r_2-reductions at the
+     node. </li>
+     <li> An example
+     \verbatim
+> OKplatform/system_directories/bin/OKsolver_2002_OUTPUTXML-O3-DNDEBUG S_EasterMonster.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             10551
+c initial_number_of_literal_occurrences 23349
+c number_of_initial_unit-eliminations   490
+c reddiff_maximal_clause_length         3
+c reddiff_number_of_variables           490
+c reddiff_number_of_clauses             8984
+c reddiff_number_of_literal_occurrences 19739
+c number_of_2-clauses_after_reduction   1343
+c running_time(sec)                     0.0
+c number_of_nodes                       9
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                100
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        3
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             S_EasterMonster.cnf
+
+> cat S_EasterMonster.cnf.xml
+<?xml version="1.0" standalone="yes" ?>
+<!DOCTYPE t [
+  <!ELEMENT t (t?, t?)>
+  <!ATTLIST t
+    l NMTOKEN #REQUIRED>
+]>
+
+<t l="0"><t l="7"><t l="9"></t>
+<t l="25"></t>
+</t>
+<t l="9"><t l="12"></t>
+<t l="4"><t l="10"></t>
+<t l="24"></t>
+</t>
+</t>
+</t>
+     \endverbatim
+     </li>
+     <li> This tree as a labelled (binary) Maxima-tree is (using lists
+     of values as labels (here of length 1)):
+     \verbatim
+T :
+  [ [0],
+  [ [7],
+    [[9]],
+    [[25]]
+  ],
+  [ [9],
+    [[12]],
+    [ [4],
+      [[10]],
+      [[24]]
+    ]
+  ]
+]$
+     \endverbatim
+     (Draw with draw_rt(lrt2rt(T),[]) (ignoring the labels). </li>
+    </ol>
+   </li>
    <li> If <code>SYSTIME</code> is defined, then instead of the standard time
    measurement from the C-library the Unix/Linux time measurement from
    <code>sys/times.h</code> is used.
