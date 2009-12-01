@@ -89,7 +89,7 @@ License, or any later version. */
      <li> And of course there is the overhead for the output. </li>
     </ol>
    </li>
-   <li> What to do with the generated .xml-files?
+   <li> What to do with the generated .xml-files (for the tests)?
     <ol>
      <li> 
      <li> DONE
@@ -108,8 +108,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> We need to test these versions.
-    </li>
-   <li> Output format:
+   </li>
+   <li> DONE Output format:
     <ol>
      <li> DONE
      Yet the tree-data is output just on one line --- likely we should
@@ -118,7 +118,7 @@ License, or any later version. */
      Then the files get a bit bigger. </li>
     </ol>
    </li>
-   <li> Document these versions.
+   <li> DONE Document these versions.
     <ol>
      <li> Specify the DTD. </li>
      <li> Specify the data. </li>
@@ -134,6 +134,9 @@ License, or any later version. */
      list of clause-length, together with the counts. </li>
      <li> However, we might use options: For big trees we get quite big
      files, and then perhaps one prefers just minimal information. </li>
+     <li> See also "Annotated tree output" in
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp
+     for the Maxima-level. </li>
     </ol>
    </li>
    <li> We need also Maxima-readable output:

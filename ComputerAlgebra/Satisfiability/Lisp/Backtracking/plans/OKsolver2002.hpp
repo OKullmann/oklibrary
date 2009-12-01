@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -104,6 +104,14 @@ okcat_php_54 : collapse_inf_branches(okat_php_54, 0);
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Annotated tree output
+  <ul>
+   <li> The tree output by function OKsolver_2002_ast (an annotated splitting
+   tree) should mirror the information output by the OKsolver_2002 when
+   compile-time option OUTPUTTREEDATAXML is used. </li>
   </ul>
 
 
