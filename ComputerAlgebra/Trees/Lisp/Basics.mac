@@ -161,9 +161,8 @@ levelled_height_rt(T) := levelled_height(T)$
 
 /* Transforms a graph G, which is a tree, into a labelled rooted tree 
    (using root r, and the natural order on the vertices of G): */
-/* UPDATE: rename to g2lrt. */
-graph2tree(G,r) := block([N : listify(neighbours(r,G))],
- return(cons(r, create_list(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
+g2lrt(G,r) := block([N : listify(neighbours(r,G))],
+ return(cons(r, create_list(g2lrt(remove_vertices_graph({r},G),v),v,N))))$
 
 
 /* **************
@@ -178,7 +177,7 @@ complete_rt(d,q) := if d=0 then [] else
 
 oklib_plain_include(graphs)$
 /* A random labelled tree with n vertices (labels 1,...,n; root is 1) */
-random_ltree(n) := graph2tree(mg2g(random_tree(n)),1);
+random_lrt(n) := g2lrt(mg2g(random_tree(n)),1);
 
 
 /* The list of all binary unlabelled trees with m nodes (recursively
@@ -204,7 +203,8 @@ num_all2l_rt(l) := num_all2i_rt(l-1)$
 /* Creating "random" binary unlabelled trees with m nodes, by a simple
    random process where all possibilities for distributions of node
    counts on the two children are equally likely (this does not create the
-   uniform distribution over all binary unlabelled trees):
+   uniform distribution over all binary unlabelled trees).
+   Prerequisite: m is an odd natural number.
 */
 random2_rt(m) := if m=1 then [] else
  block([num_possibilities : (m-1)/2, rand, left, right],
@@ -213,16 +213,19 @@ random2_rt(m) := if m=1 then [] else
   right : (m-1) - left,
   [random2_rt(left), random2_rt(right)])$
 
-/* Another generator for creating "random" binary unlabelled rooted trees
-   with m nodes. It covers all possibilities including single subtrees.
+/* The variation which allows single nodes: Now all node distributions
+   over left and right subtree are possible (and equally likely), and
+   the cases with empty left or empty right subtree create a single node.
+   (Thus single nodes are the likelier the smaller the (sub-)tree.
+   Prerequisite: m >= 1 is an natural number.
 */
-random_all_rt(m) := if m=1 then [] else if m=2 then [[]] else
+random12_rt(m) := if m=1 then [] else if m=2 then [[]] else
  block([left, right],
   left : random(m),
   right : (m-1) - left,
   if left=0 then [random_all_rt(right)] else
   if right=0 then [random_all_rt(left)]
-  else [random_all_rt(left), random_all_rt(right)])$
+  else [random12_rt(left), random12_rt(right)])$
 
 /* The list of all unlabelled (rooted) trees with m nodes (where m is
    an integer).
@@ -264,14 +267,14 @@ trans_lrt(T,p) :=
       map(lambda([S],trans_lrt(S,p)),rest(T)))$
 
 
-/* The extreme y coordinate of a labelled rooted tree with 2-dimensional
-   coordinates.
-*/
+/* The top-most (i.e., minimal) y-coordinate of a labelled rooted tree with
+   2-dimensional coordinates: */
 y_extreme_tdlrt(T) := if length(T)=1 then y_tdlrt(T) else
          lmin(map(y_extreme_tdlrt,rest(T)))$
 
 
-/* Hyperfunctions for labelled rooted trees with 2-dimensional coordinates. */
+/* Access-functions for labelled rooted trees with 2-dimensional coordinates:
+*/
 x_tdlrt(T) := T[1][1][1]$
 y_tdlrt(T) := T[1][1][2]$
 
