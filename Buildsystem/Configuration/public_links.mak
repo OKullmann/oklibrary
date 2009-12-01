@@ -8,6 +8,7 @@
 # The list of links to be established to programs from the OKlibrary.
 
 oksolver2002_okl ?= $(bin_dir)/OKsolver_2002-O3-DNDEBUG
+oksolver2002outputxml_okl ?= $(bin_dir)/OKsolver_2002_OUTPUTXML-O3-DNDEBUG
 
 ramsey_generator_okl ?= $(bin_dir)/Ramsey-O3-DNDEBUG
 vanderwaerden_generator_okl ?= $(bin_dir)/VanderWaerden-O3-DNDEBUG
@@ -40,5 +41,5 @@ greentaocnf_okl ?= $(bin_dir)/GreenTaoCNF-O3-DNDEBUG
 
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
 
-public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(oklib_call)
+public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(oklib_call)
 
