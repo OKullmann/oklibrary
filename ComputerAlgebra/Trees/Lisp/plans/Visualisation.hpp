@@ -8,6 +8,40 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Trees/Lisp/plans/Visualisation.hpp
   \brief Plans regarding visualisation of trees using Gnuplot
+
+
+  \bug False labels at the leaves
+  <ul>
+   <li> draw_rt creates labels at the leaves, which makes no sense for trees
+   where the leaves have no labels. </li>
+   <li> So it has no place in "draw_rt" which is about *unlabelled* trees.
+   </li>
+   <li> There needs to be another version, "draw_lrt", which takes labels
+   into account. </li>
+   <li> And printing out the labels is a bad idea --- it's just unreadable.
+   </li>
+   <li> Obviously, for leaf-labels with two possibilities, one should just use
+   shape and/or colour for the leaves to differentiate the two possibilities.
+   </li>
+   <li> It seems the function should not just be called "draw_lrt", but
+   "draw_lrt_X", where X gives information on the special assumptions about
+   the labels: For different assumptions one has different drawing functions.
+   </li>
+   <li> For example "draw_lrt_bl" for boolean at the leaves (while
+   labels for inner nodes are currently ignored. </li>
+   <li> Actually, a reasonable easy way to show the labels at (arbitrary) nodes
+   is just to print them instead the node-symbols; one should use an additional
+   parameter d, a natural number >= -1, and for nodes of depth <= d then
+   the label is printed, while otherwise the (normal) node-symbol is shown.
+   </li>
+   <li> So we would have "draw_lrt_d", where the labels of nodes are just
+   printed up to depth d, and "draw_lrt_dbl", which treats the leaves
+   differently (requiring the labels there of special form, namely just
+   booleans, and showing them out graphically). </li>
+   <li> In order to be able to cope with labels, obviously we also need
+   a version reingold_tilford_lrt, which just ignores the labels, but
+   *keeps them*. </li>
+  </ul>
   
   
   \todo Create milestones
