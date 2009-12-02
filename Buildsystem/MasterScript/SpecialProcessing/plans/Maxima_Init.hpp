@@ -43,8 +43,8 @@ c_stack : 2^20;
 heap_size : 2^30;
 lisp_stack : 2^17;
 :lisp (ext:set-limit 'ext:frame-stack $frame_stack)
-:lisp (ext:set-limit 'ext:binding-stack $binding_stak)
-:lisp (ext:set-limit 'ext:c-stack $c_stak)
+:lisp (ext:set-limit 'ext:binding-stack $binding_stack)
+:lisp (ext:set-limit 'ext:c-stack $c_stack)
 :lisp (ext:set-limit 'ext:heap-size $heap_size)
 :lisp (ext:set-limit 'ext:lisp-stack $lisp_stack)
    \endverbatim
