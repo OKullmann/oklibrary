@@ -17,22 +17,22 @@ License, or any later version. */
    version 4 of Sage. </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
-usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
+/usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
 collect2: ld returned 1 exit status
 make[4]: *** [libfplll.la] Error 1
-make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-3.2.3/spkg/build/libfplll-2.1.6-20071129.p5/src'
+make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.2.1/spkg/build/libfplll-3.0.12.p0/src'
 make[3]: *** [all-recursive] Error 1
-make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-3.2.3/spkg/build/libfplll-2.1.6-20071129.p5/src'
+make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.2.1/spkg/build/libfplll-3.0.12.p0/src'
 Error building libfplll
 
-real    1m7.638s
-user    0m14.141s
-sys     0m5.712s
-sage: An error occurred while installing libfplll-2.1.6-20071129.p5
+real    0m48.806s
+user    0m36.738s
+sys     0m9.989s
+sage: An error occurred while installing libfplll-3.0.12.p0
    \endverbatim
    </li>
    <li> Let's wait whether over time the situation improves. </li>
-   <li> Still not corrected with Sage 4.1. </li>
+   <li> Still not corrected with Sage 4.2.1. </li>
    <li> Now it is impossible to contact Sage without becoming
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
