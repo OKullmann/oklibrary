@@ -1,0 +1,44 @@
+#!/bin/bash
+# Oliver Kullmann, 2.12.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Use by
+#
+# Xml2Maxima File
+#
+# where "File" is the input-file for the OKsolver (including a possible suffix
+# like ".cnf") ; the existence of "File.xml" is assumed (created by 
+# OKsolver_2002_OUTPUTXML-O3-DNDEBUG), and "File.mac" is now
+# created, containing the same tree, but as a labelled rooted Maxima tree.
+# Use then
+#
+# load("File.cnf.mac");
+#
+# in Maxima to get the tree stored in variable "T_oklib".
+
+
+set -o errexit
+set -o nounset
+
+script_name="Xml2Maxima"
+
+if [[ $# == 0 ]]; then
+  echo "ERROR[${script_name}]: no arguments."
+  exit 0
+fi
+
+filename="$1"
+
+input_file="${filename}.xml"
+
+output_file="${filename}.mac"
+
+echo "T_oklib : " > ${output_file}
+
+awk 'NR >= 7' ${input_file} | tr -d "\n" | sed -e 's/<t l="\([0-9]*\)">/[[\1]/g' -e 's|</t>|]|g' -e 's/\]\[/],[/g' >> ${output_file}
+
+echo ";" >> ${output_file}

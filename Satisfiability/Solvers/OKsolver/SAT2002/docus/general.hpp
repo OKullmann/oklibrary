@@ -133,7 +133,14 @@ T :
   ]
 ]$
      \endverbatim
-     (Draw with draw_rt(lrt2rt(T),[]) (ignoring the labels). </li>
+     This Maxima representation is computed by "Xml2Maxima":
+     \verbatim
+> Xml2Maxima S_EasterMonster.cnf
+> cat S_EasterMonster.cnf.mac
+T_oklib :
+[[0],[[7],[[9]],[[25]]],[[9],[[12]],[[4],[[10]],[[24]]]]];
+     \endverbatim
+     Draw with draw_rt(lrt2rt(T_oklib),[]) (ignoring the labels). </li>
     </ol>
    </li>
    <li> If <code>SYSTIME</code> is defined, then instead of the standard time

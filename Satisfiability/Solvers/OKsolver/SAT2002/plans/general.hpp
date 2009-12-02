@@ -139,7 +139,8 @@ License, or any later version. */
      for the Maxima-level. </li>
     </ol>
    </li>
-   <li> We need also Maxima-readable output:
+   <li> DONE (script Xml2Maxima does the translation)
+   We need also Maxima-readable output:
     <ol>
      <li> The output should be the expression computed by the
      analogous Maxima program. </li>
