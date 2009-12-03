@@ -31,7 +31,11 @@ okltest_tdlrt2points(tdlrt2points);
 
 okltest_tdlrt2edges(tdlrt2edges);
 
-okltest_tdlrt2label(tdlrt2label);
+okltest_lrt2value(lrt2value);
+
+okltest_dec2hex(dec2hex);
+
+okltest_format_rgb(format_rgb);
 
 
 /*!
