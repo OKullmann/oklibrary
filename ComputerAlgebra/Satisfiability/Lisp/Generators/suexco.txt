@@ -1,0 +1,381 @@
+Given a binary matrix A(n,m) with m columns and n rows
+find all subsets S of the rows which sum to the all-1-vector.
+So, for each column c there is exactly one row r in S
+with A(r,c)=1.
+
+we could just backtrack through all subsets of the rows:
+
+   i=0;S[i]=empty subset of {1..m};I[i]=0;
+m0:i++;I[i]=I[i-1];
+m1:I[i]++;if(I[i]>n)goto m2;
+   if(Row(I[i])/\S[i-1]) nonempty) goto m1;
+   S[i]=S[i-1]\/Row[I[i]]
+   if(S[i]={1..m}) print I[1]..I[i];
+   goto m0;
+m2:i--;if(i>0)goto m1;
+   return
+
+If m is small enough, then S[i] and the rows would be variable
+with m bits, intersection would be AND, union OR. If m is large
+and the matrix is sparse then we would use indices from rows and
+columns to the nonzero entries of the matrix instead. See below.
+
+
+The above method is not very fast since it discards the
+constraint that every element from {1..m} must be met, 
+so at any step i we can choose the column with the fewest
+matching rows and only walk through these rows :
+(let's say a row r and a column c are "matching", iff A(r,c)=1)
+
+
+   i=0;unmark all rows and columns;I[0]=0;
+m0:i++;I[i]=0;
+   C[i]=unmarked column matching the fewest unmarked rows
+   if there is a column matching no unmarked row then goto m2;
+m1:I[i]++;if(I[i]>n)goto m2;
+   if(Row I[i] is marked)goto m1;
+   if(Row I[i])does not match column C[i] then goto m1;
+   mark all rows intersecting Row I[i]
+   mark all columns matching any marked row
+   if(all columns are marked){solutions++;print I[1..i] as solution;goto m2;}
+   goto m0;
+m2:i--;
+   unmark all rows matching column C[i]
+   unmark all columns matching one of these rows from the above line
+   if(i>0)goto m1;
+   return
+
+
+
+Here is another formulation with a sparse matrix represented
+only by the row- and column-pointers to the nonzero entries:
+
+for a column c let Rows[c] be the number of matching rows
+for a column c let Row[c][1..Rows[c]] be the indices of the matching rows
+
+for a row r let Cols[c] be the number of matching columns
+for a row r let Col[r][1..Cols[r]] be the indices of the matching columns
+
+
+   i=0;unmark all rows and columns;I[i]=0;
+m0:i++;I[i]=0;
+   C[i]=unmarked column with the fewest entries matching unmarked rows
+   if there is a column matching no unmarked row then m2;
+m1:I[i]++;if(I[i]>n)goto m2;
+   if(row I[i] is marked)goto m1;
+   if(row I[i])does not match C[i] then m1;
+   mark all cols matching row I[i]
+   mark all rows matching any of these cols, that is all rows intersecting row I[i]
+   if(all columns are marked) print I[1..i] as solution and then goto m2
+   goto m0;
+m2:i--;
+   unmark all cols matching row I[i]
+   unmark all rows intersecting row I[i]
+   if(i>0)goto m1;
+   return
+
+
+
+The exact program looks like this:
+
+
+   for(i=0;i<=n;i++)Ur[i]=0;
+   for(i=0;i<=m;i++)Uc[i]=0;
+   i=0;solutions=0;
+m0:i++;I[i]=0;
+   min=n+1;for(c=1;c<=m;c++){if(Uc[c]==0){
+     match=0;for(r=1;r<=Rows[c];r++)if(Ur[r]==0)match++;}
+     if(match<min){min=match;C[i]=c;}
+   if(min==0)goto m2;
+   if(min==n+1){solutions++;goto m2;}
+m1:c=C[i];I[i]++;if(I[i]>Rows[c])goto m2;
+   r=Row[c][I[i]];
+   if(Ur[r])goto m1;
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+     for(k=1;k<Rows[d];k++)Ur[Row[d][k]]++;}
+   if(all columns are marked) print I[1..i] as solution and then goto m2
+   goto m0;
+m2:i--;c=C[i];
+   r=Row[c][I[i]];
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]--;
+     for(k=1;k<Rows[d];k++)Ur[Row[d][k]]--;}
+   if(i>0)goto m1;
+   return solutions;
+
+
+-------------------------------------------
+
+For a standard sudoku we have a binary matrix A(729,324).
+Each row stands for a placement of one of the 9 symbols
+into one of the 81 cells. The columns stand for the constraints
+which must be met: 
+(let Row,Column,Block,Cell with capital letters be those from
+the sudoku-board)
+
+exactly one placement per Cell
+exactly one placement per Symbol and Column
+exactly one placement per Symbol and Row
+exactly one placement per Symbol and Block
+The rows (placements) are denoted e.g. "r1c2s3" or short "123"
+for: place Symbol 3 into Row 1,Column 2 .
+The columns (constraints) are denoted e.g. "b1s2"
+for Symbol 2 into Block 1 .
+
+
+
+So the row representing the placement of symbol s into
+cell x,y has a one in columns
+
+cell(x,y)     = x*9-9+y
+block(x,y,s)  = (3*(x-1)/3+(y-1)/3)*9+s+81
+row(x,s)      = x*9-9+s+81*2
+column(y,s)   = y*9-9+s+81*3
+other encodings are possible. We use an encoding based on 1..9 which
+relates better to common sudoku notations rather than a system based
+on 0..8 which could be better for addressing the cells and blocks.
+
+
+
+
+//=================version 1=============================================
+
+// simple and short sudoku-solver based on an exact-cover-problem-solver
+// by Guenter Stertenbrink,sterten@aol.com   compiled with GCC3.2
+// some explanations are at : http://magictour.free.fr/suexco.doc
+// DOS-executable is at : http://magictour.free.fr/suexco.exe
+
+#include <stdio.h>
+ int A[10][10],Rows[325],Cols[730],Row[325][10],Col[730][5],Ur[730],Uc[325];
+ int C[82],I[82],Node[82];
+ int i,j,k,r,c,d,n=729,m=324,x,y,s;
+ int max,min,clues,match;
+ FILE *file;
+
+/*
+we have a binary n*m matrix whose rows are indexed with r and columns with c.
+At step i a row and column is chosen from that matrix and an entry
+into the sudoku-matrix A[][] is computed from them.
+
+A[1..9][1..9] contains the sudoku-grid. A[x][y]=0 iff the cell (x,y) is empty
+Rows[c] is the number of rows matching column c in the binary exactcover-matrix
+Row[c][i] , i=1..Rows[c] is the index of the i-th row which matches column c
+Cols[r] is the number of columns matching row r in the binary exactcover-matrix
+Col[r][i] , i=1..Cols[c] is the index of the i-th column which matches row r
+Ur[r] is zero, iff row r has not yet been marked forbidden
+Uc[c] is zero, iff column c has not yet been marked forbidden
+C[i] is the column chosen at step i
+I[i] is the row chosen at step i
+Node[i] counts how often A[][] was filled with i new entries in the process
+
+int main(int argc,char*argv[]){
+  if(argc<2){m5:printf("\nusage:suexco file\n\n");
+  printf("     prints the number of solutions of the sudoku-puzzle in file\n");
+  printf("      empty cells are -.* or 0 , other nondigit-characters are");
+  printf(" ignored\n");exit(1);}
+
+// ---------------read the input-file into array A[][]----------------------
+ if((file=fopen(argv[1],"rb"))==NULL)
+    {fclose(file);printf("\nfile-error\n\n");goto m5;}
+ i=0;for(x=1;x<=9;x++)for(y=1;y<=9;y++){
+   m1:if(feof(file)){
+      printf("\nonly %i sudoku-entries found in file %s\n",i,argv[1]);goto m5;}
+   c=fgetc(file);if(c=='-' || c=='.'|| c=='0' || c=='*')c=48;
+   if(c<48 || c>57)goto m1;
+   A[x][y]=c-48;if(A[x][y]<0 || A[x][y]>9)goto m1;
+ i++;};
+
+// --------------generate the basic binary exact-cover-matrix,
+// -----that is, not the matrix itself but the rows and columns
+r=0;for(x=1;x<=9;x++)for(y=1;y<=9;y++)for(s=1;s<=9;s++){
+r++;Cols[r]=4;Col[r][1]=x*9-9+y;Col[r][2]=(3*((x-1)/3)+(y-1)/3)*9+s+81;
+Col[r][3]=x*9-9+s+81*2;Col[r][4]=y*9-9+s+81*3;}
+for(c=1;c<=m;c++)Rows[c]=0;
+for(r=1;r<=n;r++)for(c=1;c<=Cols[r];c++){
+  x=Col[r][c];Rows[x]++;Row[x][Rows[x]]=r;}
+
+// --------------do the initial markings required by the given clues----------
+ for(i=0;i<=n;i++)Ur[i]=0;for(i=0;i<=m;i++)Uc[i]=0;
+ for(x=1;x<=9;x++)for(y=1;y<=9;y++)
+   if(A[x][y]){clues++;r=x*81-81+y*9-9+A[x][y];
+     for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+       for(k=1;k<=Rows[d];k++){Ur[Row[d][k]]++;}}}
+
+// -------------backtrack through all subsets of the rows-----------------
+   i=0;
+m2://------next level. Compute the next entry------------------
+   i++;I[i]=0;
+  // ------find the column c=C[i] with fewest matching rows, if empty column
+  // is found, then backtrack
+  min=n+1;
+  for(c=1;c<=m;c++){
+    if(Uc[c]==0){match=0;for(r=1;r<=Rows[c];r++)if(Ur[Row[c][r]]==0)match++;
+      if(match<min){min=match;C[i]=c;}}}
+  if(min==0 || min>n)goto m4;
+m3://--------walk through all unmarked rows r matching column c=C[i]
+   c=C[i];I[i]++;if(I[i]>Rows[c])goto m4;
+   r=Row[c][I[i]];if(Ur[r])goto m3;
+//x=(r-1)/81+1;y=((r-1)%81)/9+1;s=(r-1)%9+1;A[x][y]=s;if(clues+i==81)output;
+   // ----delete all columns which match row r and all rows which match 
+   //any of these columns
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+     for(k=1;k<=Rows[d];k++)Ur[Row[d][k]]++;}
+   // -------entry was made, matrix was updated, goto the next level---------
+   Node[i]++;goto m2;
+m4:// ----backtrack. Goto previous level, take back the last move
+   // restore the data as they were before that move and make the next
+   // available move at that level
+   i--;c=C[i];r=Row[c][I[i]];
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]--;
+     for(k=1;k<=Rows[d];k++){Ur[Row[d][k]]--;}}
+   if(i>0)goto m3;
+   printf("\n%i solutions\n",Node[81-clues]);
+}
+
+
+
+
+
+
+//==================version 3============================================
+
+/* "suexco" sudoku-solver based on an exact-cover-problem-solver
+   send improvement suggestions to sterten@aol.com 
+   compiled with GCC3.2
+   some explanations are at : http://magictour.free.fr/suexco.doc
+   DOS-executable is at : http://magictour.free.fr/suexco.exe
+   version 3 , changes from version 2 : added print_sudoku routine,
+    included furcations-routine
+
+We have the obvious 324 constraints : cell, symbol in row,
+symbol in column, symbol in block with 81 each.
+These make the forced(1) - placements.
+Forced(2) includes forced(1) and k-furcations with (at least) k-1
+dead ends (when filling in forced(1)-placements)
+A k-furcation is a constraint which can be met in k ways.
+Or a binary column with sum=k in exact-cover-speak.
+That means now, that I not necessarily always choose a 
+binary column with minimum sum as is typical for exact-cover-solver.
+This could make it slower for small n.
+Now with this new forced(2)-rule, I can find no 9*9 sudoku-grid
+which requires backtracking.
+*/
+
+
+#include <stdio.h>
+# define N 3
+# define N2 9
+# define N4 81  // change these 3 for larger grids
+ int A[N2+1][N2+1],Rows[4*N4+1],Cols[N4*N2+1],Row[4*N4+1][N2+1];
+ int Col[N4*N2+1][5],Ur[N4*N2+1],Uc[4*N4+1],C[N4+1],I[N4+1];
+ int i3,i1,ls,maxc,mc,ii,r1,lr,i,j,k,r,c,d,n=N4*N2,m=4*N4,x,y,s,i0;
+ int m3,max,min,clues,match,guesses;
+ int Node[N4+1],Node2[N4+1],Node3[N4+1],nodes,node2,node3;
+ char l[65]="-123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#*~";
+ FILE *file;
+int forced();
+int bifur();
+void print_sudoku(int d);
+
+
+int main(int argc,char*argv[]){
+  if(argc<2){m5:printf("\nusage:suexco file [verbose]\n\n");
+  printf("     prints the number of solutions of the sudoku-puzzle in file\n");
+  printf("      empty cells are -.* or 0 , other nondigit-characters are");
+  printf(" ignored\n\n      version 2\n");exit(1);}
+
+r=0;for(x=1;x<=N2;x++)for(y=1;y<=N2;y++)for(s=1;s<=N2;s++){
+r++;Cols[r]=4;Col[r][1]=x*N2-N2+y;Col[r][2]=(N*((x-1)/N)+(y-1)/N)*N2+s+N4;
+Col[r][3]=x*N2-N2+s+N4*2;Col[r][4]=y*N2-N2+s+N4*3;}
+for(c=1;c<=m;c++)Rows[c]=0;
+for(r=1;r<=n;r++)for(c=1;c<=Cols[r];c++){
+  x=Col[r][c];Rows[x]++;Row[x][Rows[x]]=r;}
+
+ if((file=fopen(argv[1],"rb"))==NULL)
+    {fclose(file);printf("\nfile-error\n\n");goto m5;}
+m6:i=0;for(x=1;x<=N2;x++)for(y=1;y<=N2;y++){
+   m1:if(feof(file)){exit(1);
+      printf("\nonly %i sudoku-entries found in file %s\n",i,argv[1]);goto m5;}
+   c=fgetc(file);j=0;if(c=='-' || c=='.'|| c=='0' || c=='*')goto m7;
+   while(l[j]!=c && j<=N2)j++;if(j>N2)goto m1;
+   m7:A[x][y]=j;i++;}
+
+ for(i=0;i<=n;i++)Ur[i]=0;for(i=0;i<=m;i++)Uc[i]=0;
+ for(i=1;i<=N4;i++){Node[i]=0;Node2[i]=0;Node3[i]=0;}
+ clues=0;for(x=1;x<=N2;x++)for(y=1;y<=N2;y++)
+   if(A[x][y]){clues++;r=x*N4-N4+y*N2-N2+A[x][y];
+     for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+       for(k=1;k<=Rows[d];k++){Ur[Row[d][k]]++;}}}
+
+   i=0;nodes=0;guesses=0;node2=0;node3=0;
+m2:i++;I[i]=0;
+   min=10;for(c=1;c<=m;c++){
+    if(Uc[c]==0){match=0;for(r=1;r<=Rows[c];r++)if(Ur[Row[c][r]]==0)match++;
+      if(match==0)goto m4;if(match<min){C[i]=c;min=match;}}}if(min>9)goto m4;
+    if(min<2)goto m3;
+    mc=-8;for(c=1;c<=m;c++){
+    if(Uc[c]==0){match=0;for(r=1;r<=Rows[c];r++)if(Ur[Row[c][r]]==0)match++;
+      m3=match;C[i]=c;r=bifur();if(r+1>=m3)mc=c; } }
+   if(mc<0){   ;guesses++;goto m4;}  c=mc;C[i]=c;
+
+m3:c=C[i];I[i]++;if(I[i]>Rows[c])goto m4;
+   r=Row[c][I[i]];if(Ur[r])goto m3;
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+     for(k=1;k<=Rows[d];k++)Ur[Row[d][k]]++;}
+   x=(r-1)/N4+1;y=((r-1)%N4)/N2+1;s=(r-1)%(N2)+1;A[x][y]=s;
+   if(i==N4-clues && argc>2)print_sudoku(0);
+   Node[i]++;nodes++;goto m2;
+m4:i--;c=C[i];r=Row[c][I[i]];
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]--;
+     for(k=1;k<=Rows[d];k++){Ur[Row[d][k]]--;}}
+   x=(r-1)/N4+1;y=((r-1)%N4)/N2+1;A[x][y]=0;
+   if(i>0)goto m3;
+   printf("%i solutions  %i nodes   %i node2   %i node3   %i guesses\n",Node[N4-clues],nodes,node2,node3,guesses);
+   if(argc>2){for(i=1;i<=N4-clues;i++)printf("%i ",Node[i]);printf("\n");
+              for(i=1;i<=N4-clues;i++)printf("%i ",Node2[i]);printf("\n");
+              for(i=1;i<=N4-clues;i++)printf("%i ",Node3[i]);printf("\n");}
+   goto m6; }
+
+
+int bifur(){ //counts forks in column c[i] that lead to dead ends
+  int c;ii=0;c=C[i];y=0;
+m3:c=C[i];ii++;if(ii>Rows[c])return y;
+   r=Row[c][ii];if(Ur[r])goto m3;
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+     for(k=1;k<=Rows[d];k++)Ur[Row[d][k]]++;}
+   Node2[i]++;node2++;y+=forced();
+   c=C[i];r=Row[c][ii];for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]--;
+     for(k=1;k<=Rows[d];k++)Ur[Row[d][k]]--;}
+   goto m3;}
+
+
+int forced(){ //returns 1, if the current path leads to a dead end
+              // returns 0, if it leads to a bifurcation   
+   i0=i;lr=1;
+w2:i++;min=n+1;for(c=1;c<=m;c++){
+    if(Uc[c]==0){match=0;for(r=1;r<=Rows[c];r++)if(Ur[Row[c][r]]==0){j=r;match++;}
+    if(match==0)goto w4;if(match<min){min=match;C[i]=c;I[i]=j;}}}if(min>n)goto w4;
+   if(min>1){lr=0;goto w4;}
+w3:c=C[i];r=Row[c][I[i]];
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]++;
+     for(k=1;k<=Rows[d];k++)Ur[Row[d][k]]++;}
+  Node3[i]++;node3++;goto w2;
+w4:i--;c=C[i];r=Row[c][I[i]];
+   if(i==i0)return lr;
+   for(j=1;j<=Cols[r];j++){d=Col[r][j];Uc[d]--;
+     for(k=1;k<=Rows[d];k++){Ur[Row[d][k]]--;}}
+   goto w4;}
+
+
+void print_sudoku(int d){
+   int x,y,s,a;
+   printf("\n\n");
+   for(x=1;x<=N2;x++){for(y=1;y<=N2;y++)
+       {a=A[x][y];printf("%c",l[a]);if(y%N==0)printf(" ");}
+        printf("\n");if(x%N==0)printf("\n");}printf("\n"); 
+  if(d){
+ a=0;for(x=1;x<=N2;x++){for(y=1;y<=N2;y++)
+   {for(s=1;s<=N2;s++){a++;printf("%i",(Ur[a]>0));}printf(" ");}
+   printf("\n");}
+ }}
+
+

@@ -118,7 +118,7 @@ License, or any later version. */
    <li> So "minimal" here is related to the partial assignment (and not
    to the problem instance). </li>
    <li> See http://magictour.free.fr/suexco.txt, where the generator "suexg"
-   is described. </li>
+   is described (also copied into this directory). </li>
    <li> Regarding *minimum* uniquely satisfiable problems, that is, where the
    partial assignment has minimum size, the conjecture is that this size is 17;
    all known non-isomorphic cases are apparently made available(?) by
