@@ -121,8 +121,8 @@ License, or any later version. */
    is described (also copied into this directory). </li>
    <li> Regarding *minimum* uniquely satisfiable problems, that is, where the
    partial assignment has minimum size, the conjecture is that this size is 17;
-   all known non-isomorphic cases are apparently made available(?) by
-   Gordon Royle. </li>
+   all known non-isomorphic cases are made available by Gordon Royle at
+   http://units.maths.uwa.edu.au/~gordon/sudokumin.php . </li>
    <li> The natural approach is to create a random solution (see "Sampling of
    all solutions" above), which is trivially uniquely satisfiable and then
    randomly remove assignments (i.e., literals) which can be removed without
