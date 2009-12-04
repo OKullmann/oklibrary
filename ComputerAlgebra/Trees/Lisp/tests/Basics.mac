@@ -254,23 +254,26 @@ okltest_num_all2l_rt(f) := (
 okltest_random2_rt(f) := block([x],
   assert(f(1) = []),
   assert(f(3) = [[],[]]),
-  x: f(5),
-  assert(x = [[],[[],[]]] or x = [[[],[]],[]]),
-  x: f(7),
-  assert(x = [[[],[]],[[],[]]] or x = [[[],[[],[]]],[]] or x = [[[[],[]],[]],[]] or x = [[],[[],[[],[]]]] or x = [[],[[[],[]],[]]]),
-  /* XXX */
+  set_random(0),
+  assert(f(5) = [[],[[],[]]]),
+  assert(f(5) = [[[],[]],[]]),
+  assert(f(7) = [[[],[[],[]]],[]]),
+  assert(f(7) = [[[],[]],[[],[]]]),
+  assert(f(7) = [[],[[[],[]],[]]]),
+  assert(f(9) = [[[[],[]],[[],[]]],[]]),
   true)$
 
 okltest_random12_rt(f) := block([x],
   assert(f(1) = []),
   assert(f(2) = [[]]),
-  x: f(3),
-  assert(x = [[],[]] or x = [[[]]]),
-  x: f(4),
-  assert(x = [[[],[]]] or x = [[[[]]]] or x = [[],[[]]] or x = [[[]],[]]),
-  x: f(5),
-  assert(x = [[[[[]]]]] or x = [[[]],[[]]] or x = [[[],[]],[]] or x = [[],[[],[]]] or x = [[],[[[]]]] or x = [[[[]]],[]] or x = [[[[],[]]]] or x = [[[],[[]]]] or x = [[[[]],[]]]),
-  /* XXX */
+  set_random(0),
+  assert(f(3) = [[[]]]),
+  assert(f(4) = [[[[]]]]),
+  assert(f(5) = [[[[[]]]]]),
+  assert(f(3) = [[],[]]),
+  assert(f(4) = [[[],[]]]),
+  assert(f(5) = [[[[]]],[]]),
+  assert(f(6) = [[[]],[[[]]]]),
   true)$
     
 okltest_all_rt(f) := (
