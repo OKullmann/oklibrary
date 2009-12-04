@@ -179,14 +179,88 @@ format_rgb(rgb) := apply(concat,append(["#"],map(dec2hex,rgb)))$
    otherwise, the output colour is red ("#FF0000").
 */
 value2rgb(v) := apply(format_rgb,
-          [if length(v)=1 then
-            [255-min(v[1]*15,255),min(v[1],255),min(v[1]*10,255)]
-           else [255,0,0]])$
+          [if length(v)>=1 then
+            (if v[1]=true then [255,255,255] else
+             if v[1]=false then [0,0,0] else
+               [255-min(v[1]*15,255),min(v[1],255),min(v[1]*10,255)]) else
+             [255,0,0]])$
 
 
 /* Binding one colour to one point.
 */
 colouring(v,p) := [color= value2rgb(v),points([p])]$
+
+
+/* Print the labels of the nodes of a binary labelled rooted tree T instead of
+   the node-symbols up to the depth d, where d is a natural number >= -1, and
+   for the nodes of depth <= d then the labels are printed, while otherwise 
+   the (normal) node-symbol is shown. Leaves are treated differently, where
+   the leaves that are labelled by "true" show the node-symbol with white
+   colour, otherwise black colour.
+   For the details of parameter arg, see the specification of draw_rt.
+*/
+draw_lrt_dbl(T,arg,d) := block([nd,tdlrt,xdis,ydis,p:[0,0],xran:auto,
+   yran:auto,pts,ptt:filled_circle,ptc:red,edgc:blue],
+   if emptyp(arg)=false then
+    for i:1 thru length(arg) step 2 do (
+     if arg[i]= root then p:arg[i+1] else
+     if arg[i]= x_ran then xran:arg[i+1] else
+     if arg[i]= y_ran then yran:arg[i+1] else
+     if arg[i]= p_size then pts:arg[i+1] else
+     if arg[i]= p_type then ptt:arg[i+1] else
+     if arg[i]= p_colour then ptc:arg[i+1] else
+     if arg[i]= e_colour then edgc:arg[i+1]),
+   tdlrt:reingold_tilford_annotated(lrt2rt(T),p), 
+   xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
+   ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
+   tdlrt:reingold_tilford_remove_annotations(tdlrt),
+   nd: nodes_division(tdlrt2points(tdlrt),lrt2value(T),d),
+   if member(p_size,arg)=false then
+   pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
+   apply(draw2d,
+         append([grid=true,xrange = xran,yrange = yran,
+                 point_size = pts,point_type = ptt,color = ptc],
+                 if not(nd[1]=[]) then
+                  [apply(label,map(cons,map(string,apply(append,nd[2])),nd[1]))]
+                 else [],
+                 if not(nd[3]=[]) then
+                  [points(nd[3])]
+                 else [],
+                 if not(nd[5]=[]) then
+                  apply(append,(map(colouring, nd[6],nd[5])))
+                 else [],
+                 [color=edgc,transparent=true],
+                 map(polygon, tdlrt2edges(tdlrt)))),
+   true)$
+
+
+/* Dividing the nodes of trees into 3 parts according to the depth d and 
+   whether nodes are leaves.
+   Input: a point list pl, a value list vl and depth d.
+   Output: a list [pointlist1,valuelist1,pointlist2,valuelist2,pointlist3,
+   valuelist3], where pointlist1 and valuelist1 are relating to the nodes
+   above the depth d(inclusive), pointlist2 and valuelist2 are relating to
+   the nodes below the depth d, pointlist3 and valuelist3 are relating to
+   the nodes which are leaves.
+*/
+nodes_division(pl,vl,d) := 
+    block([y: pl[1][2]+d*(-1), l:[[],[],[],[],[],[]]],
+          for i:1 thru length(pl)-1 do
+            (if i=length(pl) then 
+              (l[5]:endcons(pl[i],l[5]), l[6]:endcons(vl[i],l[6])) else
+             if pl[i][2]<=pl[i+1][2] then
+               (l[5]:endcons(pl[i],l[5]), l[6]:endcons(vl[i],l[6])) else
+             if pl[i][2]>=y then
+               (l[1]:endcons(pl[i],l[1]), l[2]:endcons(vl[i],l[2])) else 
+               (l[3]:endcons(pl[i],l[3]), l[4]:endcons(vl[i],l[4]))),
+          if length(pl) =1 and d>=0 then
+            [[pl[1]],[vl[1]],[[]],[[]],[[]],[[]]] else 
+          if length(pl) =1 and d=-1 then
+            [[[]],[[]],[pl[1]],[vl[1]],[[]],[[]]] else
+            (l[5]:endcons(pl[length(pl)],l[5]),
+             l[6]:endcons(vl[length(pl)],l[6]),
+             l)
+)$
 
 
 /*!
