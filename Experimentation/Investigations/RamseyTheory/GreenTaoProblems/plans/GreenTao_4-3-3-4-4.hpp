@@ -92,7 +92,6 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
 1405000 2539000 3257000 3100000 3774000 3999000
      \endverbatim
      </li>
-     <li> n=2880 </li>
      <li> cutoff=8*10^6:
      \verbatim
  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19
@@ -105,6 +104,11 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
      </li>
      <li> cutoff=32*10^6 found a solution in run 54 (seed=3641748139,
      osteps=17217403). </li>
+    </ol>
+   </li>
+   <li> n=2880
+    <ol>
+     <li> cutoff=32*10^6 </li>
     </ol>
    </li>
    <li> n=3000:

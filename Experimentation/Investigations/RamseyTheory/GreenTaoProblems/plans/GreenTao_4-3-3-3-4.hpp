@@ -155,7 +155,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
    </li>
    <li> n=996: with cutoff=32*10^7 adaptnovelty+ found a solution in run 81
    (seed=3070906952, osteps=244941203). </li>
-   <li> n=997: cutoff=32*10^7 (adaptnovelty+) found as olution in run 20
+   <li> n=997: cutoff=32*10^7 (adaptnovelty+) found a solution in run 20
    (seed=2765449941, osteps=202286569). </li>
    <li> n=998
     <ol>

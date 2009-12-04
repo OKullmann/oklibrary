@@ -85,7 +85,11 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
-   <li> n=14375 </li>
+   <li> n=14375
+    <ol>
+     <li> cutoff=10^9 </li>
+    </ol>
+   </li>
    <li> n=15000
     <ol>
      <li>
