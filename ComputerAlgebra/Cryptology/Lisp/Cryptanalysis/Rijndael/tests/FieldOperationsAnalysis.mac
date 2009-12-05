@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.4.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
 
-  \bug What is the meaning of the part commented out?
+  \bug What is the meaning of the part commented out? MG -- ACTION REQUIRED!
   <ul>
    <li>
    \verbatim
@@ -32,8 +32,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/F
    </ul>
 
 
-
-  \bug DONE Tests take too much time for level basic.
+  \bug DONE Tests take too much time for level basic. MG -- ACTION REQUIRED!
   <ul>
    <li> It seems this can be avoided, since oklib_test_level is yet
    not queried in the tests. </li>
@@ -41,7 +40,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/F
    oklib_test_level = 0, due to the time the function to be tested takes. </li>
   </ul>
 
-  \bug (DONE Tests now need expanding OK: what does this mean???)
+
+  \bug (DONE Tests now need expanding OK: what does this mean??? MG -- ACTION
+  REQUIRED)
   Test functions only take ONE argument.
   <ul>
    <li> The above functions is only a HELPER function. </li>
@@ -57,13 +58,19 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 kill(f)$
 
+
+/* ******************************************
+   * Field Multiplication Analysis          *
+   ******************************************
+*/
+
 /* Tests for AES GF(2^8) constant field multiplication dnf generator.
     
    The function to be tested takes a Rijndael GF(2^8) element as an integer
    and produces the DNF clause set representing multiplication by that element 
    in said finite field.
 */
-/* OK: What does this mean?? */
+/* OK: What does this mean?? MG -- ACTION REQUIRED */
 okltest_generate_full_aes_field_mul_dnf_fcs(f) := block(
   [mulFullDNF,inputList,outputList],
   if oklib_test_level = 0 then return(true),
@@ -107,6 +114,12 @@ okltest_test_CNF_aes_field_mul(f) := block(
   if oklib_test_level = 1 then return(true),
   assert(f(2,generate_full_aes_field_mul_cnf_fcs(2))),
   true)$
+
+
+/* ******************************************
+   * Representations by hitting clause-sets *
+   ******************************************
+*/
 
 okltest_hitting_cnf_aes_field_mul(f) := block([FF],
   if oklib_test_level = 0 then return(true),
