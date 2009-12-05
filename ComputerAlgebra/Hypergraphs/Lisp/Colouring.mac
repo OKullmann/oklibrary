@@ -38,7 +38,7 @@ declare(colv,noun)$
 declare(colv,posfun)$
 colv_var(v) := nounify(colv)(v)$
 
-/* Translates a colouring literal to an extended-dimacs compatible string. */
+/* Translates a colouring literal to an extended-dimacs compatible string: */
 colv_string(l) := sconcat(
   if abs(l) = l then "" else "-",
   block([S : args(args(abs(l))[1])],
@@ -51,7 +51,6 @@ colv_string(l) := sconcat(
 
 /* Translating the 2-colouring problem for hypergraph G into the SAT problem
    for a formal boolean clause-set: */
-
 tcol2sat_hg2fcs(G) := block(
  [Fpos : map(lambda([H], map(colv_var,H)), listify(G[2]))],
   [map(colv_var,G[1]), setify(append(Fpos, comp_cs(Fpos)))])$
@@ -95,7 +94,8 @@ col2sat_stdohg2stdnbfclud(G,S) := [
 
 /* Generalised colouring, where for hypergraph GG[i] every hyperedge must
    contain a vertex not coloured by colour S[i].
-   Prerequisite: length(GG) = length(S). */
+   Prerequisite: length(GG) = length(S).
+*/
 gcol2sat_ohg2nbfclud(GG,S) := [
  map(colv_var, stable_unique(lappend(map(first,GG)))),
  lappend(create_list(
