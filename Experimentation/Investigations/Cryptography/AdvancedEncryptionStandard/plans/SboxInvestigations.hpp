@@ -10,6 +10,20 @@ License, or any later version. */
   \brief On investigations into the AES Sbox
 
 
+  \todo Investigate CNF representations
+  <ul>
+   <li> One needs to systematically explore CNF representations, with and
+   without new variables. </li>
+   <li> First to study the set of prime implicates.
+    <ol>
+     <li> Basic statistics? </li>
+     <li> Necessary clauses? </li>
+     <li> Minimum representations? </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Understanding prime implicates after any partial assignment
   <ul>
    <li> To consider the AES Sbox as an "active clause", we want to first be 
