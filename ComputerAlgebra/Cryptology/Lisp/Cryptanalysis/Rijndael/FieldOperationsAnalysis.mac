@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
+
 /* ******************************************
    * Field Multiplication Analysis          *
    ******************************************
@@ -31,7 +32,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 
 /* Generation of the full DNF clause-set representing the 
    multiplication with the given constant field element (as
-   an integer) in the Rijndael GF(2^8) field */
+   an integer) in the Rijndael GF(2^8) field.
+   Prerequisite: 1 <= constant_field_element <= 255.
+*/
+/* RENAME: aesmult_fulldnf_fcs */
 generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=  
   [setify(create_list(i,i,1,16)),
    map(lambda([ce],setify(binl2dnf_l_std(
@@ -43,26 +47,42 @@ generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=
 
 /* Generation of the full CNF clause-set representing the 
    multiplication with the given constant field element (as
-   an integer) in the Rijndael GF(2^8) field */
+   an integer) in the Rijndael GF(2^8) field.
+   Prerequisite: 1 <= constant_field_element <= 255.
+*/
+/* RENAME: aesmult_fullcnf_fcs */
 generate_full_aes_field_mul_cnf_fcs(constant_field_element) := block(
   [full16cs : clauses_f(full_fcs(16)), aes_fieldmul_cs :
   clauses_f(generate_full_aes_field_mul_dnf_fcs(constant_field_element))],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
+
+
+/* Output the full CNF clause-set of the permutation given by multiplication
+   with a field-element different from zero:
+*/
+/* RENAME: output_aesmult_fullcnf_stdname */
 output_full_aes_field_mul_cnf(constant_field_element) :=
   output_fcs(
-    sconcat("AES Field byte field multiplication by ",constant_field_element,
-            " (integer) given a the full CNF representation."),
+    sconcat("Full CNF representation of the AES byte-field multiplication by ",constant_field_element, "."),
     generate_full_aes_field_mul_cnf_fcs(constant_field_element),
     sconcat("AES_byte_field_mul_full_",constant_field_element,".cnf"))$
           
 
-/* Tests whether a full CNF clause-set represents the AES field multiplication */
+/* Tests whether a full CNF clause-set represents the AES field
+   multiplication: */
 test_CNF_aes_field_mul(constant_field_element,FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    generate_full_aes_field_mul_dnf_fcs(constant_field_element))$
 
+
+/* ******************************************
+   * Representations by hitting clause-sets *
+   ******************************************
+*/
+
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction) */
+/* RENAME: aesmult2hittingcnf_fcs */
 hitting_cnf_aes_field_mul(constant_field_element,h) := 
   dualtreehittingcls_condensed_fcs(generate_full_aes_field_mul_dnf_fcs(constant_field_element),h)$
 
