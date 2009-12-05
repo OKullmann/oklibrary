@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations into the AES Sbox
 
 
+  \todo Connections
+  <ul>
+   <li> See Investigations/BooleanFunctions/plans/Permutations.hpp for
+   general investigations on permutations of {0,1}^n. </li>
+  </ul>
+
+
   \todo Investigate CNF representations
   <ul>
    <li> One needs to systematically explore CNF representations, with and

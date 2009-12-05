@@ -10,7 +10,14 @@ License, or any later version. */
   \brief On investigations into the AES field multiplications
 
 
-  \todo Number of prime implicates for Field multiplications
+  \todo Connections
+  <ul>
+   <li> See Investigations/BooleanFunctions/plans/Permutations.hpp for
+   general investigations on permutations of {0,1}^n. </li>
+  </ul>
+
+
+  \todo Number of prime implicates for field multiplications
   <ul>
    <li> Currently, within the SAT translation, the most powerful representation
    of the Field operations used within the AES SAT translation (such as 
