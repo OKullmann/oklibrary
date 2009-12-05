@@ -8,6 +8,20 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
+
+
+  \bug generate_full_aes_field_mul_dnf_fcs only works for trivial arguments
+  <ul>
+   <li> "generate_full_aes_field_mul_dnf_fcs(n)" for n >= 10 produces
+   various errors. </li>
+  </ul>
+
+
+  \bug What's the purpose of test_CNF_aes_field_mul
+  <ul>
+   <li> There is exactly one "full" CNF clause-set for a field multiplication,
+   so what is the point of this function? </li>
+  </ul>
   
   
   \todo Generate good CNF hitting clause-sets for the AES Field Operations
