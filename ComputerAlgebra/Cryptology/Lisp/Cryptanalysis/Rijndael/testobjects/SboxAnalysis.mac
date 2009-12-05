@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.4.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,16 +21,29 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobj
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/SboxAnalysis.mac")$
 
+/* ******************************************
+   * Sbox Analysis                          *
+   ******************************************
+*/
+
+okltest_int2binlist(int2binlist);
+
 okltest_generate_full_aes_sbox_dnf_fcs(generate_full_aes_sbox_dnf_fcs);
 okltest_generate_full_aes_sbox_cnf_fcs(generate_full_aes_sbox_cnf_fcs);
 
 okltest_test_CNF_aes_sbox(test_CNF_aes_sbox);
+
+/* ******************************************
+   * Representations by hitting clause-sets *
+   ******************************************
+*/
+
 okltest_hitting_cnf_aes_sbox(hitting_cnf_aes_sbox);
+
+
 
 okltest_generate_full_int_perm_dnf_fcs(generate_full_int_perm_dnf_fcs);
 okltest_generate_full_int_perm_cnf_fcs(generate_full_int_perm_cnf_fcs);
-
-okltest_int2binlist(int2binlist);
 
 okltest_test_CNF_int_perm(test_CNF_int_perm);
 
