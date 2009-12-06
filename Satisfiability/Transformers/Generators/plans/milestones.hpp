@@ -39,6 +39,12 @@ License, or any later version. */
     - Strengthen connection to Maxima/Lisp level
     - Move todos to this file
 
+  \par
+   In Satisfiability/Transformers/Generators/plans/GreenTao.hpp the following 
+   topics are handled:
+    - Connections and scope
+    - The basic generators
+
 
   \par Version 0.0.9
 

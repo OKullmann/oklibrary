@@ -9,6 +9,8 @@ License, or any later version. */
   \file Satisfiability/Transformers/Generators/plans/GreenTao.hpp
   \brief Plans for generators for Green-Tao problems
 
+  This covers GreenTaoCNF.cpp and GreenTaoGCNF.cpp
+
 
   \todo Connections and scope
   <ul>
@@ -36,7 +38,10 @@ License, or any later version. */
    <li> And the output-functions are output_greentao2, output_greentao2nd,
    output_greentao and output_greentaod (basic forms), plus output_greentao_sb
    and output_greentaod_sb. </li>
+   <li> The script "GTSat" covers output_greentao2nd and output_greentao;
+   yet the symmetry-breaking clauses have to be added manually. </li>
+   <li> DONE (GTdSat)
+   Likely we should also provide a wrapper script for the diagonal cases. </li>
   </ul>
 
 */
-
