@@ -12,6 +12,33 @@ License, or any later version. */
   For the specification see output_greentao in
   Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
 
+
+  \bug "GreenTaoGCNF 3 4 4" fails
+  <ul>
+   <li> We get on cs-wsok (64-bit machine) the following false output,
+   caused by a memory violation:
+   \verbatim
+OKplatform> system_directories/bin/GreenTaoGCNF 3 4 4
+c Green-Tao problem with 2 colours,
+c and with arithmetic-progression lengths (3,4), while n = 4.
+p cnf 8 9
+-5 -5 -7 0
+1 2 0
+1 2 0
+5 6 0
+5 6 0
+-1 -2 0
+-1 -2 0
+-5 -6 0
+-5 -6 0
+   \endverbatim
+   </li>
+   <li> The problem was that the hypergraph-generator copied the set of
+   vertices, while it should have returned a reference. </li>
+   <li> The above example should be turned into an application test. </li>
+  </ul>
+
+
   \todo Compare with specification
   <ul>
    <li> Once the Maxima-function output_greentao uses ordered clause-sets,
