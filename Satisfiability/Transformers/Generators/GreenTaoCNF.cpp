@@ -6,11 +6,13 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/GreenTao.hpp
-  \brief Application for creating SAT instances expressing Green-Tao problems
+  \file Satisfiability/Transformers/Generators/GreenTaoCNF.hpp
+  \brief Application for creating SAT instances expressing 2-coloured Green-Tao problems
 
   <ul>
-   <li> Yet only binary Green-Tao-problems can be generated. </li>
+   <li> Only 2-coloured Green-Tao-problems can be generated; for more than
+   two colours see Satisfiability/Transformers/Generators/GreenTaoGCNF.hpp.
+   </li>
    <li> The three command-line parameters are the two progression size and the
    number of vertices. </li>
    <li> For the Maxima specification see output_greentao2nd_stdname(k1,k2,n)
@@ -75,7 +77,7 @@ int main(const int argc, const char* const argv[]) {
         boost::lexical_cast<int_type>(argv[3]) < 0) {
       std::cerr << err << "All parameters must be non-negative.\n";
       return errcode_neg_parameter;
-  }
+    }
 
     const uint_type k1 = boost::lexical_cast<uint_type>(argv[1]);
     const uint_type k2 = boost::lexical_cast<uint_type>(argv[2]);
