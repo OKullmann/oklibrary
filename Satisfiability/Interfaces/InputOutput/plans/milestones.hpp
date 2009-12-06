@@ -121,6 +121,12 @@ License, or any later version. */
   \par Version 0.4 :
 
   \par
+   In Interfaces/InputOutput/plans/Colouring.hpp the following topics
+   are handled:
+    - Improve design
+    - Improve implementations
+
+  \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - General propositional formulas and circuits

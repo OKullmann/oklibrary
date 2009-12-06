@@ -111,7 +111,10 @@ namespace OKlib {
            - nbfclud2fcl_aloamo in
              Satisfiability/Lisp/Generators/NonBooleanTranslations.mac.
 
-          \todo Use some smart pointer.
+          \todo Write tests.
+
+          \todo Would the use of smart pointers be appropriate?
+
         */
         template <class SetSystem, typename Int=int>
         struct GeneralisedHypergraphColouring {
