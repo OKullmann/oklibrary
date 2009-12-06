@@ -123,7 +123,7 @@ namespace OKlib {
           size_type nver() const { return n; }
           size_type nhyp() const; // XXX
 
-          hyperedge_type vertex_set() const { return vertex_set_; }
+          const hyperedge_type& vertex_set() const { return vertex_set_; }
 
           set_system_type hyperedge_set() const {
             set_system_type result;
