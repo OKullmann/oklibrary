@@ -21,8 +21,11 @@ License, or any later version. */
   <ul>
    <li> Currently, within the SAT translation, the most powerful representation
    of the Field operations used within the AES SAT translation (such as 
-   multiplication by 02, 03 etc within Rijndael's byte field, see XXX) is the 
-   canonical translation using new variables (see "dualts_fcl" in XXX). </li>
+   multiplication by 02, 03 etc within Rijndael's byte field, see 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp)
+   is the canonical translation using new variables (see "dualts_fcl" in 
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac).
+   </li>
    <li> However, the most powerful representation of any boolean function, not 
    considering size of the translation is always the set of prime implicates. 
    </li>
@@ -107,6 +110,54 @@ N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x 
    <li> It would be nice here to be able to read the clause-sets into the
    Maxima system, where we have statistics_fcl etc. (see "Input and output" in 
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp). </li>
+  </ul>
+
+  
+  \todo Minimisation of the field operations
+  <ul>
+   <li> See "Minimisation" in 
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li>
+  <li> We can use the QCA package, given in 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
+   the minimum sized CNF or DNF clause-set representation. </li>
+   <li> This should be possible using the following code:
+    \verbatim
+######## In Maxima #######
+generate_full_byteop_tt(byteop) :=  
+  map(
+     lambda([ce],
+       append(
+         int2binlist(ce[1],8),
+         int2binlist(ce[2],8),
+         if byteop(ce[1]) = ce[2] then [1] else [0]))
+     ,cartesian_product(setmn(0,255),setmn(0,255)))$
+
+rijn_lookup_mul : lambda([b],
+  buildq([b],lambda([a], aes_field_mul_data[b,a])))$
+
+mulConstant : 2;
+with_stdout(sconcat("RijndaelMul",mulConstant,".tt"), block(
+  apply(print, endcons("O",create_list(i,i,1,16))),
+  for tt_line in generate_full_byteop_tt(rijn_lookup_mul(mulConstant)) do
+    apply(print,tt_line)
+  ))$
+
+
+######## In R ###########
+
+oklib_load_all()
+library(QCA)
+
+mulConstant = 2
+mul_tt = read.table(paste("RijndaelMul",mulConstant,".tt",sep=""),header=TRUE)
+eqmcc(mul_tt, outcome="O", expl.0=TRUE)
+   \endverbatim
+   where mulConstant can be set in each case to one of 2,3 for the 
+   multiplication in the encryption direction, and 9,11,13 or 14 for
+   the multiplications used when the decryption of MixColumn is
+   included in the translation. </li>  
+   <li> Such minimisations are being tried using the QCA/R system currently by
+   MG. </li>
   </ul>
 
 
