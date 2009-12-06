@@ -17,6 +17,8 @@ License, or any later version. */
 
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <cassert>
 
 namespace OKlib {
   namespace Satisfiability {
@@ -69,7 +71,6 @@ namespace OKlib {
             typedef typename hypergraph_type::const_iterator h_iterator;
             typedef typename hyperedge_type::const_iterator v_iterator;
             typedef std::vector<int_type> aux_clause_type;
-            typedef typename aux_clause_type::iterator aux_iterator;
             typedef typename aux_clause_type::size_type size_type;
             {
               const h_iterator end = G1.end();
@@ -97,6 +98,114 @@ namespace OKlib {
           }
 
         };
+
+
+        /*!
+          \class GeneralisedHypergraphColouring
+          \brief Transforming generalised hypergraph colouring to (boolean) CNF
+
+          Using the regular encoding with AMO-clauses. The specifications at
+          Maxima-level are
+           - gcol2sat_ohg2nbfclud in
+             Hypergraphs/Lisp/Colouring.mac, together with
+           - nbfclud2fcl_aloamo in
+             Satisfiability/Lisp/Generators/NonBooleanTranslations.mac.
+
+          \todo Use some smart pointer.
+        */
+        template <class SetSystem, typename Int=int>
+        struct GeneralisedHypergraphColouring {
+
+          typedef SetSystem hypergraph_type;
+          typedef typename hypergraph_type::value_type hyperedge_type;
+          typedef typename hyperedge_type::value_type vertex_type;
+
+          typedef Int int_type;
+
+          typedef std::vector<const hypergraph_type*> list_hypergraphs_type;
+          typedef typename list_hypergraphs_type::const_iterator list_hypergraphs_iterator;
+          typedef std::vector<vertex_type> list_vertices_type;
+          typedef typename list_vertices_type::const_iterator list_vertices_iterator;
+
+          typedef typename list_hypergraphs_type::size_type size_type;
+
+          const list_hypergraphs_type& list_hypergraphs;
+          const list_vertices_type& list_vertices;
+          const size_type num_colours;
+          const size_type num_vertices;
+          const size_type n;
+          const list_vertices_iterator begin_vertices, end_vertices;
+
+          GeneralisedHypergraphColouring(const list_hypergraphs_type& list_h, const list_vertices_type& list_v) :
+            list_hypergraphs(list_h),
+            list_vertices(list_v),
+            num_colours(list_h.size()),
+            num_vertices(list_v.size()),
+            n(num_colours * num_vertices),
+            begin_vertices(list_vertices.begin()),
+            end_vertices(list_vertices.end()) {}
+
+          int_type standardise(const vertex_type v, const size_type colour) const {
+            assert(colour >= 1);
+            assert(colour <= num_colours);
+            const int_type sv = (std::lower_bound(begin_vertices, end_vertices, v) - begin_vertices);
+            return sv * num_colours + colour;
+          }
+
+          template <class CLSAdaptor>
+          void transfer(CLSAdaptor& out, const std::string& comment) const {
+            out.comment(comment);
+            out.n(n);
+            const list_hypergraphs_iterator end_list = list_hypergraphs.end();
+            {
+              size_type c = 0;
+              for (list_hypergraphs_iterator i = list_hypergraphs.begin(); i != end_list; ++i)
+                c += (*i) -> size();
+              c += num_vertices;
+              c += num_vertices * (num_colours * (num_colours-1))/2;
+              out.c(c);
+            }
+            typedef std::vector<int_type> aux_clause_type;
+            for (list_hypergraphs_iterator Gi = list_hypergraphs.begin(); Gi != end_list; ++Gi) {
+              const hypergraph_type& G = **Gi;
+              const int_type colour = (Gi - list_hypergraphs.begin()) + 1;
+              // TODO: use iterator-adaptors in the following
+              typedef typename hypergraph_type::const_iterator h_iterator;
+              typedef typename hyperedge_type::const_iterator v_iterator;
+              const h_iterator end = G.end();
+              for (h_iterator i = G.begin(); i != end; ++i) {
+                const int_type s = i -> size();
+                aux_clause_type C;
+                C.reserve(s);
+                for (v_iterator j = i -> begin(); j != i -> end(); ++j)
+                  C.push_back(- standardise(*j,colour));
+                out.clause(C, s);
+              }
+            }
+            for (list_vertices_iterator i = begin_vertices; i != end_vertices; ++i) {
+              const vertex_type v = *i;
+              aux_clause_type C;
+              C.reserve(num_colours);
+              for (size_type colour = 1; colour <= num_colours; ++colour)
+                C.push_back(standardise(v,colour));
+              out.clause(C, num_colours);
+            }
+            for (list_vertices_iterator i = begin_vertices; i != end_vertices; ++i) {
+              const vertex_type v = *i;
+              for (size_type c1 = 1; c1 < num_colours; ++c1)
+                for (size_type c2 = c1+1; c2 <= num_colours; ++c2) {
+                  aux_clause_type C;
+                  C.reserve(2);
+                  C.push_back(-standardise(v,c1));
+                  C.push_back(-standardise(v,c2));
+                  out.clause(C, 2);
+                }
+            }
+            out.finish();
+          }
+
+        };
+
 
       }
     }
