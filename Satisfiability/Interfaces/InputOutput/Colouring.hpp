@@ -146,12 +146,20 @@ namespace OKlib {
             num_vertices(list_v.size()),
             n(num_colours * num_vertices),
             begin_vertices(list_vertices.begin()),
-            end_vertices(list_vertices.end()) {}
+            end_vertices(list_vertices.end()) {
+#ifndef NDEBUG
+            if (begin_vertices != end_vertices)
+              for (list_vertices_iterator i = begin_vertices; i != end_vertices-1; ++i)
+                assert(*i < *(i+1));
+#endif
+          }
 
           int_type standardise(const vertex_type v, const size_type colour) const {
             assert(colour >= 1);
             assert(colour <= num_colours);
-            const int_type sv = (std::lower_bound(begin_vertices, end_vertices, v) - begin_vertices);
+            const int_type sv = std::lower_bound(begin_vertices, end_vertices, v) - begin_vertices;
+            assert(sv >= 0);
+            assert(size_type(sv) < num_vertices);
             return sv * num_colours + colour;
           }
 
