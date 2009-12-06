@@ -20,6 +20,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Update
+  <ul>
+   <li> Update ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac
+   according to
+   ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac. </li>
+   <li> Compare "Systematisation" below. </li>
+  </ul>
+
+
   \todo Systematisation
   <ul>
    <li> We do very similar things for latin squares, Sudoku problems and

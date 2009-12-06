@@ -39,6 +39,21 @@ License, or any later version. */
 
   \par Version 0.0.11
 
+  \par
+   In Lisp/Generators/plans/LatinSquares.hpp
+   the following topics are handled:
+    - Update
+    - Systematisation
+    - Extensions
+
+   \par
+    In Lisp/Generators/plans/Sudoku.hpp
+    the following topics are handled:
+    - Further improve implementation
+
+
+  \par Version 0.0.12
+
   \par Lisp/Generators/RamseyTheory version 0.0.10
   (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
   
@@ -53,7 +68,7 @@ License, or any later version. */
     - Implementing the AES random generator
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -67,7 +82,7 @@ License, or any later version. */
     - Random subsets, sublists etc.
 
 
-  \par Version 0.0.13
+  \par Version 0.0.14
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
@@ -80,7 +95,7 @@ License, or any later version. */
     - Filtering out
 
 
-  \par Version 0.0.14
+  \par Version 0.0.15
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
