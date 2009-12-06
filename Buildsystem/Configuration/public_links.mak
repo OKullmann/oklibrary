@@ -39,8 +39,9 @@ greentao_okl ?= $(bin_dir)/GreenTao-O3-DNDEBUG
 countprogressionsgreentao_okl ?= $(bin_dir)/CountProgressions_GreenTao-O3-DNDEBUG
 
 greentaocnf_okl ?= $(bin_dir)/GreenTaoCNF-O3-DNDEBUG
+greentaogcnf_okl ?= $(bin_dir)/GreenTaoGCNF-O3-DNDEBUG
 
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
 
-public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(oklib_call)
+public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(oklib_call)
 
