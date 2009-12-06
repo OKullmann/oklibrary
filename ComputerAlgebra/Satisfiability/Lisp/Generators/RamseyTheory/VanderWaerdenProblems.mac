@@ -222,9 +222,9 @@ c Variables and associated prime numbers:"),
     FFGT[1],
     filename,
     FFGT[2]))$
-/* Providing a standard name: "GreenTao_2-k-k_n.cnf": */
+/* Providing a standard name: "GreenTao_2-k_n.cnf": */
 output_greentao2_stdname(k,n) := output_greentao2(k,n,
-  sconcat("GreenTao_2-",k,"-",k,"_",n,".cnf"))$
+  sconcat("GreenTao_2-",k,"_",n,".cnf"))$
 
 /* The 2-colour non-diagonal version: */
 output_greentao2nd(k1,k2,n,filename) := block(
