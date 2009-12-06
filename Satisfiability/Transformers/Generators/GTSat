@@ -19,8 +19,13 @@
 # for s>2  the problem is translated into boolean SAT via the direct encoding.
 
 # The resulting file is called "GreenTao_2-k_1-...k_2_n.cnf".
+# If however the environment defines variable "resultfile", then this
+# name is used for the output-file.
 # The Maxima-specification is output_greentao2nd_stdname for s=2, and
 # output_greentao_stdname for s>2.
+
+# For diagonal problems (all k_i are equal) better use "GTdSat" (since
+# the filename is abbreviated here).
 
 set -o nounset
 
