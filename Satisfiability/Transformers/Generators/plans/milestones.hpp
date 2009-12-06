@@ -8,25 +8,18 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Transformers/Generators 0.0.6.2 (15.3.2009)
+  \module_version Transformers/Generators 0.0.7 (6.12.2009)
 
 
-  \par Version 0.0.7
+  \par Version 0.0.8
 
   \par
    In Transformers/Generators/plans/general.hpp the following
    topics are handled:
     - Update
 
-  \par
-   In Transformers/Generators/LinInequal.hpp the following topics are handled:
-    - Create application : DONE
 
-  \par
-   Update milestones : DONE
-
-
-  \par Version 0.0.8
+  \par Version 0.0.9
 
   \par
    In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
@@ -46,7 +39,7 @@ License, or any later version. */
     - The basic generators
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -60,7 +53,7 @@ License, or any later version. */
     - Write unit tests
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -74,7 +67,7 @@ License, or any later version. */
     - Add generator to generate general %Ramsey problems
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following
@@ -90,7 +83,7 @@ License, or any later version. */
    Create new milestones.
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -114,6 +107,7 @@ License, or any later version. */
 
    - 0.0.5 : 11.6.2007; initial version number (several plans, and two (old) implementations in OKsolver/Experimental/Transformationen).
    - 0.0.6 : 10.11.2007; update of plans and restructuring.
+   - 0.0.7 : 6.12.2009; tools for computing transversal numbers for Green-Tao and van-der-Waerden problems, tools for cardinality constraints, SAT generators for Hindman- and GreenTao-problems.
 
 */
 

@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers 0.0.4 (18.11.2007)
+  \module_version Satisfiability/Transformers 0.0.4.1 (6.12.2009)
 
 
   \par Version 0.0.5
 
-  \par Transformers/Generators version 0.0.8
+  \par Transformers/Generators version 0.0.9
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
 
   \par Transformers/SATModuloTheories version 0.0.3
@@ -28,7 +28,7 @@ License, or any later version. */
 
   \par Version 0.0.6
 
-  \par Transformers/Generators version 0.0.10
+  \par Transformers/Generators version 0.0.11
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
 
 
