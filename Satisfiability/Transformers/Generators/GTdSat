@@ -1,0 +1,44 @@
+# Oliver Kullmann, 6.12.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Wrapper script for creating diagonal Green-Tao SAT problems in Dimacs format
+
+# Usage:
+
+# GTdSat m k n
+
+# m is the number of colours, k is the length of arithmetic progressions, while
+# n is the number of vertices (i.e., prime numbers).
+# The name of the output-file is "GreenTao_m-k_n.cnf".
+
+set -o errexit
+set -o nounset
+
+script_name="GTSat"
+
+if [[ $# != 3 ]]; then
+  echo "ERROR[${script_name}]: Exactly three parameters m, k, n are needed:
+  The number m of colours, the progression-length k, and the number n of prime numbers."
+  exit 1
+fi
+
+m=$1
+k=$2
+n=$3
+
+parameter_line=""
+for ((i=1; i <= ${m}; ++i)); do
+  parameter_line="${parameter_line} ${k}"
+done
+
+parameter_line="${parameter_line} ${n}"
+resultfile="GreenTao_${m}-${k}_${n}.cnf"
+
+export resultfile
+GTSat ${parameter_line}
+
+exit 0
