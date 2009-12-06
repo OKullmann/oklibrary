@@ -104,7 +104,7 @@ License, or any later version. */
       <li> ConflictCombinatorics : DONE </li>
       <li> ConstraintProblems : DONE </li>
       <li> Counting : DONE </li>
-      <li> %Generators </li>
+      <li> %Generators : DONE </li>
       <li> MinimalUnsatisfiability </li>
       <li> PropositionalLogic </li>
       <li> Reductions : DONE </li>

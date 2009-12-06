@@ -1,5 +1,5 @@
 /* Matthew Henderson, 1.10.2008 (Berea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -57,7 +57,7 @@ ls_positions_box(i,j,p) := block(
 
 /* Every field carries a number: */
 ls_all_fields(p) := block([N : p],
- setify(create_list(setify(makelist(ls_var(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
+ setify(create_list(setify(create_list(ls_var(i,j,k), k,1,N)), i,1,N, j,1,N)))$
 
 /* The latin square problem (weak form) as formal clause-set: */
 weak_ls(p) := [var_ls(p), 
@@ -72,11 +72,11 @@ output_weak_ls(p,filename) := block([FF : standardise_fcs(weak_ls(p))],
 
 /* Every row contains all numbers: */
 ls_all_rows(p) := block([N : p],
- setify(create_list(setify(makelist(ls_var(i,j,k),j,1,N)), i,1,N, k,1,N)))$
+ setify(create_list(setify(create_list(ls_var(i,j,k),j,1,N)), i,1,N, k,1,N)))$
 
 /* Every column contains all numbers: */
 ls_all_columns(p) := block([N : p],
- setify(create_list(setify(makelist(ls_var(i,j,k),i,1,N)), j,1,N, k,1,N)))$
+ setify(create_list(setify(create_list(ls_var(i,j,k),i,1,N)), j,1,N, k,1,N)))$
 
 /* Every field carries a different number: */
 ls_different_fields(p) := block([N : p],
