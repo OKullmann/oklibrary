@@ -251,14 +251,31 @@ okltest_num_all2l_rt(f) := (
     assert(f(m) = length(all2l_rt(m))),
   true)$
 
-okltest_random2_rt(f) := (
-  /* XXX */
+okltest_random2_rt(f) := block([x],
+  assert(f(1) = []),
+  assert(f(3) = [[],[]]),
+  set_random(0),
+  assert(f(5) = [[],[[],[]]]),
+  assert(f(5) = [[[],[]],[]]),
+  assert(f(7) = [[[],[[],[]]],[]]),
+  assert(f(7) = [[[],[]],[[],[]]]),
+  assert(f(7) = [[],[[[],[]],[]]]),
+  assert(f(9) = [[[[],[]],[[],[]]],[]]),
   true)$
 
-okltest_random12_rt(f) := (
-  /* XXX */
+okltest_random12_rt(f) := block([x],
+  assert(f(1) = []),
+  assert(f(2) = [[]]),
+  set_random(0),
+  assert(f(3) = [[[]]]),
+  assert(f(4) = [[[[]]]]),
+  assert(f(5) = [[[[[]]]]]),
+  assert(f(3) = [[],[]]),
+  assert(f(4) = [[[],[]]]),
+  assert(f(5) = [[[[]]],[]]),
+  assert(f(6) = [[[]],[[[]]]]),
   true)$
-
+    
 okltest_all_rt(f) := (
   assert(f(-1) = []),
   assert(f(0) = []),

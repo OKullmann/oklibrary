@@ -127,5 +127,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo Colouring schemes
+  <ul> 
+   <li> Handle labelled trees where the labels are lists of values (constant
+   length). Now the label is a list which contains just one value. </li>
+   <li> Investigate RGB colour model which will be used for the colouring
+   schemes. </li>
+  </ul>
+  
+  
+  \todo draw_lrt_x
+  <ul>
+   <li> "draw_lrt_X", where X gives information on the special assumptions
+   about the labels: For different assumptions one has different drawing functions. </li>
+  </ul> 
+  
+  
+  
 */
 

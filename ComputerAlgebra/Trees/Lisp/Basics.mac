@@ -223,8 +223,8 @@ random12_rt(m) := if m=1 then [] else if m=2 then [[]] else
  block([left, right],
   left : random(m),
   right : (m-1) - left,
-  if left=0 then [random_all_rt(right)] else
-  if right=0 then [random_all_rt(left)]
+  if left=0 then [random12_rt(right)] else
+  if right=0 then [random12_rt(left)]
   else [random12_rt(left), random12_rt(right)])$
 
 /* The list of all unlabelled (rooted) trees with m nodes (where m is
