@@ -1,0 +1,12 @@
+c Green-Tao problem with 2 colours,
+c and with arithmetic-progression lengths (3,4), while n = 4.
+p cnf 8 9
+-3 -5 -7 0
+1 2 0
+3 4 0
+5 6 0
+7 8 0
+-1 -2 0
+-3 -4 0
+-5 -6 0
+-7 -8 0

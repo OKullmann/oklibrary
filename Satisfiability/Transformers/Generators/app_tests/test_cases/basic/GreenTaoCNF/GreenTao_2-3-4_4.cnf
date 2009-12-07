@@ -1,0 +1,3 @@
+c Green-Tao problem with two colours, where k1 = 3, k2 = 4, and n = 4.
+p cnf 4 1
+2 3 4 0

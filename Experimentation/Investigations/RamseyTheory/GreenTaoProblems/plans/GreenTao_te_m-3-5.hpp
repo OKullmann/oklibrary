@@ -314,9 +314,16 @@ SATISFIABLE
 172  27   1
 200
      \endverbatim
+     We need to use, say, 10000 runs.
      </li>
-     <li> minisat2:
-
+     <li> minisat2: runs now for 16.1 days (csltok), current state:
+     \verbatim
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+| 194147767 |     982   151637   348951 |  1291324   230856     29 |  0.000 % |
+     \endverbatim
      </li>
      <li> OKsolver_2002 </li>
     </ol>
