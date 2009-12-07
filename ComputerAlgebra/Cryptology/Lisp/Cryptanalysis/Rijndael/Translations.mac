@@ -346,7 +346,7 @@ aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
 aes_mul_ts_CNF : create_list(false,i,1,256)$
 aes_mul_ts_gen(p) := 
   if aes_mul_ts_CNF[p+1] = false then block([plus16 : lambda([x],x+16)],
-      [mul_dnf : generate_full_aes_field_mul_dnf_fcs(p)],
+      [mul_dnf : rijnmult_fulldnf_fcs(p)],
     aes_mul_ts_CNF[p+1] : dualts_fcl(
       [listify(mul_dnf[1]),
        sort(
