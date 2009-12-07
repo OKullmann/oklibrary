@@ -26,10 +26,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
    ******************************************
 */
 
-okltest_int2binlist(int2binlist);
-
-okltest_generate_full_aes_sbox_dnf_fcs(generate_full_aes_sbox_dnf_fcs);
-okltest_generate_full_aes_sbox_cnf_fcs(generate_full_aes_sbox_cnf_fcs);
+okltest_rijnsbox_fulldnf_fcs(rijnsbox_fulldnf_fcs);
+okltest_rijnsbox_fullcnf_fcs(rijnsbox_fullcnf_fcs);
 
 okltest_test_CNF_aes_sbox(test_CNF_aes_sbox);
 
@@ -38,7 +36,7 @@ okltest_test_CNF_aes_sbox(test_CNF_aes_sbox);
    ******************************************
 */
 
-okltest_hitting_cnf_aes_sbox(hitting_cnf_aes_sbox);
+okltest_rijnsbox2hittingcnf_fcs(rijnsbox2hittingcnf_fcs);
 
 
 

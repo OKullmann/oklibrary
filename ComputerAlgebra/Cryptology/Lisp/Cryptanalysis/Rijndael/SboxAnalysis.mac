@@ -30,45 +30,28 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
    ******************************************
 */
 
-/* Transforms an integer into a big endian binary list representation
-   padded with 0s to the left up to length "n": */
-/* WHAT are the input prerequisites? WHY aren't the functions from
-   ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac used?
-   ACTION requested from MG.
-*/
-int2binlist(int,n) := block([result_list : []],
-  while int >= 2^n do int : int - 2^n,
-  for i : n-1 thru 0 step -1 do block(
-    if int >= 2^i then block(
-      result_list : endcons(1,result_list),
-      int : int- 2^i
-    ) else result_list : endcons(0,result_list)),
-  return(result_list))$
 
 /* Generation of the full DNF clause-set representing the AES sbox: */
-/* RENAME: aessbox_fulldnf_fcs */
-generate_full_aes_sbox_dnf_fcs() :=  
+rijnsbox_fulldnf_fcs() :=  
   cs_to_fcs(map(
     lambda([ce],setify(binl2dnf_l_std(
-      append(int2binlist(ce,8),
-        int2binlist(rijn_lookup_sbox(ce),8)))
+      append(int2polyadic_padd(ce,2,8),
+        int2polyadic_padd(rijn_lookup_sbox(ce),2,8)))
     )),setmn(0,255)))$
 
 /* Generation of the full CNF clause-set representing the AES sbox: */
-/* RENAME: aessbox_fullcnf_fcs */
-generate_full_aes_sbox_cnf_fcs() := block(
+rijnsbox_fullcnf_fcs() := block(
   [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
-  clauses_f(generate_full_aes_sbox_dnf_fcs())],
+  clauses_f(rijnsbox_fulldnf_fcs())],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
    S-box:
 */
-/* RENAME: output_aessbox_fullcnf_stdname */
-output_full_aes_sbox_cnf() :=
+output_rijnsbox_fullcnf_stdname() :=
   output_fcs(
     sconcat("AES Sbox function given the full CNF representation."),
-    generate_full_aes_sbox_cnf_fcs(),
+    rijnsbox_fullcnf_fcs(),
     sconcat("AES_Sbox_full.cnf"))$
 
 /* Tests whether a full CNF clause-set represents the AES sbox: */
@@ -76,7 +59,7 @@ output_full_aes_sbox_cnf() :=
    by MG.
 */
 test_CNF_aes_sbox(FF) := 
- is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = generate_full_aes_sbox_dnf_fcs())$
+ is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
 
 
 /* ******************************************
@@ -87,7 +70,7 @@ test_CNF_aes_sbox(FF) :=
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction): */
 /* RENAME: aessbox2hittingcnf_fcs */
-hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
+rijnsbox2hittingcnf_fcs(h) := dualtreehittingcls_condensed_fcs(rijnsbox_fulldnf_fcs(),h)$
 
 
 /* XXX The following is MISPLACED here. */
@@ -116,7 +99,7 @@ generate_full_int_perm_dnf_fcs(perm) := block(
     lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2))),perm)),
   cs_to_fcs(setify(map(
     lambda([a,b], setify(binl2dnf_l_std(
-      append(int2binlist(a,binLength),int2binlist(b,binLength))))),elements,
+      append(int2polyadic_padd(a,2,binLength),int2polyadic_padd(b,2,binLength))))),elements,
       perm)))
 )$
 

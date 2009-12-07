@@ -20,7 +20,7 @@ plaintext : "00000000000000000000000000000000"$
 key : "00000000000000000000000000000000"$
 ciphertext : il2hex(aes_encrypt_l(hex2il(plaintext),hex2il(key)))$
 aes_num_rounds : 10$
-aes_intl2varl(il,vl) := binl2dnf_l(flatten(map(lambda([a],int2binlist(a,8)),transpose_l(il,4))),vl)$
+aes_intl2varl(il,vl) := binl2dnf_l(flatten(map(lambda([a],int2polyadic_padd(a,2,8)),transpose_l(il,4))),vl)$
 pa : setify(append(
   aes_intl2varl(hex2il(plaintext),create_list(i,i,1,128)), 
   aes_intl2varl(hex2il(key), create_list(i,i,129,256)), 
@@ -50,7 +50,7 @@ key : "00000000000000000000000000000000"$
 ciphertext : "00000000000000000000000000000000"$
 plaintext : il2hex(aes_decrypt_l(hex2il(ciphertext),hex2il(key)))$
 aes_num_rounds : 10$
-aes_intl2varl(il,vl) := binl2dnf_l(flatten(map(lambda([a],int2binlist(a,8)),transpose_l(il,4))),vl)$
+aes_intl2varl(il,vl) := binl2dnf_l(flatten(map(lambda([a],int2polyadic_padd(a,2,8)),transpose_l(il,4))),vl)$
 pa : setify(append(
   aes_intl2varl(hex2il(plaintext),create_list(i,i,1,128)), 
   aes_intl2varl(hex2il(key), create_list(i,i,129,256)), 

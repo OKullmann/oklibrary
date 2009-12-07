@@ -29,20 +29,8 @@ kill(f)$
    ******************************************
 */
 
-okltest_int2binlist(f) := block(
-  for i : 0 thru 5 do
-    assert(f(i,0) = []),
-  for i : 0 thru 10 do
-    assert(f(i,1) = [mod(i,2)]),
-  for i : 0 thru 10 do 
-    assert(f(2^i,10) = create_list(if j = 10 - i then 1 else 0, j, 1, 10)),
-  assert(f(123,8) = [0,1,1,1,1,0,1,1]),
-  assert(f(123,2) = [1,1]),
-  assert(f(123,15) = [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1]),
-  assert(f(5019,13) = [1,0,0,1,1,1,0,0,1,1,0,1,1]),
-  true)$
 
-okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
+okltest_rijnsbox_fulldnf_fcs(f) := block([sboxFullDNF],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   sboxFullDNF : f(),
@@ -58,7 +46,7 @@ okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
     {{-16,-13,-11,-10,-9,12,14,15}}),
   true)$
 
-okltest_generate_full_aes_sbox_cnf_fcs(f) := block([sboxFullCNF],
+okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   if oklib_test_level = 2 then return(true),
@@ -86,7 +74,7 @@ okltest_test_CNF_aes_sbox(f) := block(
   if oklib_test_level = 3 then return(true),
   assert(f([{1,2},{{1}}]) = false),
   assert(f([{1,2},{{1,2},{-1,2},{-2,1}}]) = false),
-  assert(f(generate_full_aes_sbox_cnf_fcs())),
+  assert(f(rijnsbox_fullcnf_fcs())),
   true)$
 
 
@@ -95,7 +83,7 @@ okltest_test_CNF_aes_sbox(f) := block(
    ******************************************
 */
 
-okltest_hitting_cnf_aes_sbox(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
+okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   if oklib_test_level = 2 then return(true),

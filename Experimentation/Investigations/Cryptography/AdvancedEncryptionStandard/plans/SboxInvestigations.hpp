@@ -71,7 +71,7 @@ License, or any later version. */
    <li> The "default" Sbox representation with no new variables currently used 
    can be generated in the following way:
    \verbatim
-h2_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4))$
+h2_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4))$
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
 Sbox44ICCNF : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
    \endverbatim
@@ -165,6 +165,43 @@ SATISFIABLE
    not simple encryption and decryption, so further insight into where the
    Sbox is used and exactly what bits are commonly set and that we wish to
    allow easier deductions with. </li>
+  </ul>
+
+  \todo Minimisation of the Sbox
+  <ul>
+   <li> See "Minimisation" in 
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li>
+   <li> We can use the QCA package, given in 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
+   the minimum sized CNF or DNF clause-set representation. </li>
+   <li> This should be possible using the following code:
+    \verbatim
+######## In Maxima #######
+generate_full_aes_sbox_tt() :=  
+  map(
+     lambda([ce],
+       append(
+         int2polyadic_padd(ce[1],2,8),
+         int2polyadic_padd(ce[2],2,8),
+         if rijn_lookup_sbox(ce[1]) = ce[2] then [1] else [0]))
+     ,cartesian_product(setmn(0,255),setmn(0,255)))$
+
+with_stdout("Sbox.tt", block(
+  apply(print, endcons("O",create_list(i,i,1,16))),
+  for tt_line in generate_full_aes_sbox_tt() do
+    apply(print,tt_line)
+  ))$
+
+######## In R ###########
+
+oklib_load_all()
+library(QCA)
+
+sbox_tt = read.table("Sbox.tt",header=TRUE)
+eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
+   \endverbatim
+   although currently there are issues with memory (see "Minimisation in
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp). </li>  
   </ul>
 
 */

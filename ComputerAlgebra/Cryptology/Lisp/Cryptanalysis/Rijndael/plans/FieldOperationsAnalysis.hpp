@@ -10,9 +10,9 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
 
 
-  \bug generate_full_aes_field_mul_dnf_fcs only works for trivial arguments
+  \bug rijnmult_fulldnf_fcs only works for trivial arguments
   <ul>
-   <li> "generate_full_aes_field_mul_dnf_fcs(n)" for n >= 10 produces
+   <li> "rijnmult_fulldnf_fcs(n)" for n >= 10 produces
    various errors. </li>
   </ul>
 
@@ -28,37 +28,37 @@ License, or any later version. */
   <ul>
    <li> Multiplication by 2 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(2),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(2),dll_heuristics_max_lit));
 [16, 522, 7244, 16, 3]
    \endverbatim
    </li>
    <li> Multiplication by 3 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(3),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(3),dll_heuristics_max_lit));
 [16, 842, 11592, 16, 3]
    \endverbatim
    </li>
    <li> Multiplication by 9 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(9),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(9),dll_heuristics_max_lit));
 [16, 1192, 15742, 16, 4]
    \endverbatim
    </li>
    <li> Multiplication by 11 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(11),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(11),dll_heuristics_max_lit));
 [16, 1270, 17012, 16, 5]
    \endverbatim
    </li>
    <li> Multiplication by 13 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(13),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(13),dll_heuristics_max_lit));
 [16, 1230, 16180, 16, 6]
    \endverbatim
    </li>
    <li> Multiplication by 14 in Rijndael's byte field (GF(2^8)).
    \verbatim
-statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(14),dll_heuristics_max_lit));
+statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(14),dll_heuristics_max_lit));
 [16, 1312, 17406, 16, 4]
    \endverbatim
    </li>
@@ -75,7 +75,7 @@ statistics_cs(hitting_cnf_aes_field_mul(intToGF2t8Poly(14),dll_heuristics_max_li
    <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
    <li> Multiplication by 2 
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(2),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(2),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 27, 71, 3, 2]
@@ -94,7 +94,7 @@ true
    </li>
    <li> Multiplication by 3 
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(3),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(3),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 171, 888, 9, 3]
@@ -113,7 +113,7 @@ true
    </li>
    <li> Multiplication by 9
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(9),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(9),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 367, 2110, 9, 3]
@@ -132,7 +132,7 @@ true
    </li>
    <li> Multiplication by 3 
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(3),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(3),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 171, 888, 9, 3]
@@ -151,7 +151,7 @@ true
    </li>
    <li> Multiplication by 9
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(9),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(9),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 367, 2110, 9, 3]
@@ -170,7 +170,7 @@ true
    </li>
    <li> Multiplication by 11
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(11),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(11),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 492, 2896, 9, 4]
@@ -189,7 +189,7 @@ true
    </li>
    <li> Multiplication by 13
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(13),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(13),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 489, 2885, 9, 4]
@@ -208,7 +208,7 @@ true
    </li>
    <li> Multiplication by 14
    \verbatim
-h_aes : hitting_cnf_aes_field_mul(intToGF2t8Poly(14),dll_heuristics_max_lit)$
+h_aes : rijnmult2hittingcnf_fcs(intToGF2t8Poly(14),dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 456, 2689, 9, 3]
