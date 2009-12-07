@@ -32,8 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 
 
 /* Generation of the full DNF clause-set representing the AES sbox: */
-/* RENAME: aessbox_fulldnf_fcs */
-generate_full_aes_sbox_dnf_fcs() :=  
+rijnsbox_fulldnf_fcs() :=  
   cs_to_fcs(map(
     lambda([ce],setify(binl2dnf_l_std(
       append(int2polyadic_padd(ce,2,8),
@@ -41,20 +40,18 @@ generate_full_aes_sbox_dnf_fcs() :=
     )),setmn(0,255)))$
 
 /* Generation of the full CNF clause-set representing the AES sbox: */
-/* RENAME: aessbox_fullcnf_fcs */
-generate_full_aes_sbox_cnf_fcs() := block(
+rijnsbox_fullcnf_fcs() := block(
   [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
-  clauses_f(generate_full_aes_sbox_dnf_fcs())],
+  clauses_f(rijnsbox_fulldnf_fcs())],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
    S-box:
 */
-/* RENAME: output_aessbox_fullcnf_stdname */
-output_full_aes_sbox_cnf() :=
+output_rijnsbox_fullcnf_stdname() :=
   output_fcs(
     sconcat("AES Sbox function given the full CNF representation."),
-    generate_full_aes_sbox_cnf_fcs(),
+    rijnsbox_fullcnf_fcs(),
     sconcat("AES_Sbox_full.cnf"))$
 
 /* Tests whether a full CNF clause-set represents the AES sbox: */
@@ -62,7 +59,7 @@ output_full_aes_sbox_cnf() :=
    by MG.
 */
 test_CNF_aes_sbox(FF) := 
- is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = generate_full_aes_sbox_dnf_fcs())$
+ is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
 
 
 /* ******************************************
@@ -73,7 +70,7 @@ test_CNF_aes_sbox(FF) :=
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction): */
 /* RENAME: aessbox2hittingcnf_fcs */
-hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
+rijnsbox2hittingcnf_fcs(h) := dualtreehittingcls_condensed_fcs(rijnsbox_fulldnf_fcs(),h)$
 
 
 /* XXX The following is MISPLACED here. */

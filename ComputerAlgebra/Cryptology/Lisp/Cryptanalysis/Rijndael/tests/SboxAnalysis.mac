@@ -30,7 +30,7 @@ kill(f)$
 */
 
 
-okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
+okltest_rijnsbox_fulldnf_fcs(f) := block([sboxFullDNF],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   sboxFullDNF : f(),
@@ -46,7 +46,7 @@ okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
     {{-16,-13,-11,-10,-9,12,14,15}}),
   true)$
 
-okltest_generate_full_aes_sbox_cnf_fcs(f) := block([sboxFullCNF],
+okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   if oklib_test_level = 2 then return(true),
@@ -74,7 +74,7 @@ okltest_test_CNF_aes_sbox(f) := block(
   if oklib_test_level = 3 then return(true),
   assert(f([{1,2},{{1}}]) = false),
   assert(f([{1,2},{{1,2},{-1,2},{-2,1}}]) = false),
-  assert(f(generate_full_aes_sbox_cnf_fcs())),
+  assert(f(rijnsbox_fullcnf_fcs())),
   true)$
 
 
@@ -83,7 +83,7 @@ okltest_test_CNF_aes_sbox(f) := block(
    ******************************************
 */
 
-okltest_hitting_cnf_aes_sbox(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
+okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   if oklib_test_level = 2 then return(true),

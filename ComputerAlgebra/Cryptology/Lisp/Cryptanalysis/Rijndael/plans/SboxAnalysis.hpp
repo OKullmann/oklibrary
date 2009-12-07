@@ -21,19 +21,19 @@ License, or any later version. */
   <ul> 
    <li> Different heuristics for generating hitting clause-sets
    \verbatim
-length(hitting_cnf_aes_sbox(dll_heuristics_first_formal));
+length(rijnsbox2hittingcnf_fcs(dll_heuristics_first_formal));
 2048
-length(hitting_cnf_aes_sbox(dll_heuristics_first_real));
+length(rijnsbox2hittingcnf_fcs(dll_heuristics_first_real));
 2048
-length(hitting_cnf_aes_sbox(dll_heuristics_first_shortest_clause));
+length(rijnsbox2hittingcnf_fcs(dll_heuristics_first_shortest_clause));
 2048
-statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
+statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit));
 [16, 1513, 19546, 16, 6]
-length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
+length(rijnsbox2hittingcnf_fcs(dll_heuristics_max_var));
 2048
-statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(3,3)));
+statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(3,3)));
 [16, 1468, 18925, 16, 6]
-statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
+statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4)));
 [16, 1438, 18536, 16, 6]
    \endverbatim
    Would be interesting to understand this. See below. </li>
@@ -48,7 +48,7 @@ statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
    <li> Since the AES-DNF is unique, as a correctness test we can
    just check whether we get the input back (using any heuristics):
    \verbatim
-test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
+test_CNF_aes_sbox(cs_to_fcs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit)));
    \endverbatim
    </li>
    <li> We should also use reductions. For that we need the ability
@@ -67,9 +67,9 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
      should do a good job. </li>
      <li> Experimental results:
      \verbatim
-statistics_cs(hitting_cnf_aes_sbox(johnson_heuristic));
+statistics_cs(rijnsbox2hittingcnf_fcs(johnson_heuristic));
 [16, 1516, 19573, 16, 6]
-statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)));
+statistics_cs(rijnsbox2hittingcnf_fcs(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)));
 [16, 1516, 19573, 16, 6]
      \endverbatim
      <li> DONE (differences are due to ties)
@@ -136,7 +136,7 @@ statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simples
    <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
    <li>
    \verbatim
-h_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit)$
+h_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 1359, 9430, 9, 6]
@@ -149,7 +149,7 @@ statistics_cs(ip_aes[2]);
 [16, 581, 4006, 8, 6]
 test_CNF_aes_sbox(ip_aes);
 true
-h2_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4))$
+h2_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4))$
 test_CNF_aes_sbox(cs_to_fcs(h2_aes));
 true
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
@@ -160,7 +160,7 @@ statistics_cs(ip2_aes[2]);
 [16, 559, 3838, 8, 6]
 test_CNF_aes_sbox(ip2_aes);
 true
-h0_aes : hitting_cnf_aes_sbox(dll_heuristics_first_formal)$
+h0_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_first_formal)$
 p0_aes : replace_by_prime_implicates_hitting(h0_aes)$
 statistics_cs(p0_aes);
 [16, 1722, 12118, 9, 5]
@@ -220,7 +220,7 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    <li> One should test these. </li>
    <li> If the Maxima computation, via
    \verbatim
-min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
+min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    \endverbatim
    takes too long, then we need a C++ implementation; see
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp,
@@ -375,7 +375,7 @@ ncl_list_fcs(random_ip3);
   \todo Organisation
   <ul>
    <li> Perhaps we should provide a constant for
-   generate_full_aes_sbox_cnf_fcs(). </li>
+   rijnsbox_fullcnf_fcs(). </li>
   </ul>
 
 

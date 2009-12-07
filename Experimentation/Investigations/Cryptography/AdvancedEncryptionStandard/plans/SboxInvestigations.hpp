@@ -71,7 +71,7 @@ License, or any later version. */
    <li> The "default" Sbox representation with no new variables currently used 
    can be generated in the following way:
    \verbatim
-h2_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4))$
+h2_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4))$
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
 Sbox44ICCNF : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
    \endverbatim

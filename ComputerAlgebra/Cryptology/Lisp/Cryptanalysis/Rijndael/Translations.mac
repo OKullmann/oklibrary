@@ -447,7 +447,7 @@ aes_mul9_ts_cp([bits]) :=
 aes_sbox_ts_CNF : false;
 aes_sbox_ts_gen() := 
   if aes_sbox_ts_CNF = false then block([plus16 : lambda([x],x+16)],
-      [sbox_dnf : generate_full_aes_sbox_dnf_fcs()],
+      [sbox_dnf : rijnsbox_fulldnf_fcs()],
     aes_sbox_ts_CNF : dualts_fcl(
       [listify(sbox_dnf[1]),
        sort(
