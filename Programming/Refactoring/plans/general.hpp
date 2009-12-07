@@ -29,7 +29,7 @@ License, or any later version. */
 for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
   sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F}; done
      \endverbatim
-     <li>
+     </li>
      <li> This replaces all occurrences of "load(" at the beginning of a line
      (possibly with spaces, which are preserved) by "oklib_plain_include".
      </li>
