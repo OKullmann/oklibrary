@@ -29,18 +29,6 @@ kill(f)$
    ******************************************
 */
 
-okltest_int2binlist(f) := block(
-  for i : 0 thru 5 do
-    assert(f(i,0) = []),
-  for i : 0 thru 10 do
-    assert(f(i,1) = [mod(i,2)]),
-  for i : 0 thru 10 do 
-    assert(f(2^i,10) = create_list(if j = 10 - i then 1 else 0, j, 1, 10)),
-  assert(f(123,8) = [0,1,1,1,1,0,1,1]),
-  assert(f(123,2) = [1,1]),
-  assert(f(123,15) = [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1]),
-  assert(f(5019,13) = [1,0,0,1,1,1,0,0,1,1,0,1,1]),
-  true)$
 
 okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
   if oklib_test_level = 0 then return(true),

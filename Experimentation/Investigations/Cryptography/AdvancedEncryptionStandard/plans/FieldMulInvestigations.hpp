@@ -127,8 +127,8 @@ generate_full_byteop_tt(byteop) :=
   map(
      lambda([ce],
        append(
-         int2binlist(ce[1],8),
-         int2binlist(ce[2],8),
+         int2polyadic_padd(ce[1],2,8),
+         int2polyadic_padd(ce[2],2,8),
          if byteop(ce[1]) = ce[2] then [1] else [0]))
      ,cartesian_product(setmn(0,255),setmn(0,255)))$
 
