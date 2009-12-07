@@ -205,7 +205,7 @@ leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
    
 */
 draw_lrt_dbl(T,arg,d) := block([nd,tdlrt,xdis,ydis,p:[0,0],
-   pts,ptt:filled_circle,lbc:red,ptc:blue,edgc:blue,tc:green,fc:black],
+   pts,ptt:filled_circle,lbc:red,ptc:white,edgc:blue,tc:red,fc:grey],
    if emptyp(arg)=false then
     for i:1 thru length(arg) step 2 do (
      if arg[i]= root then p:arg[i+1] else
