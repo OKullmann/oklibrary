@@ -49,13 +49,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")
    ********************************
 */
 
-/* Negate a splitting tree, i.e., negate the leaves. */
+/* Negate a splitting tree, i.e., negate the leaves: */
 negate_st(T) := if length(T) = 1 then [not T[1]] else
 [T[1], negate_st(T[2]), negate_st(T[3])]$
 
 /* Condense a splitting tree to a splitting tree representing the same
-   boolean function, but were every inner node has one satisfiable
-   and one unsatisfiable successor. */
+   boolean function, but where every inner node has one satisfiable
+   and one unsatisfiable successor:
+*/
 condense_st(T) := if length(T) = 1 then T else block(
  [x : T[1], T1 : condense_st(T[2]), T2 : condense_st(T[3])],
  if T1 = [false] and T2 = [false] then return([false])
@@ -79,7 +80,8 @@ monitorcheck_osl_v(name) := if oklib_monitor then (
 
 /* For input F (a clause-set) returns a pair consisting of a splitting
    tree of minimum size, and its size (the number of nodes).
-   The labels of inner nodes are variables. */
+   The labels of inner nodes are variables.
+*/
 /* RENAME: optimal_st_cs */
 optimal_splitting_tree(F) := 
   optimal_splitting_tree_rec(F,0,2^(nvar_cs(F)+1)-1)$
@@ -115,7 +117,8 @@ optimal_splitting_tree_rec(F,depth,upperb) :=
 */
 
 /* Counting the satisfying assignments in a splitting tree (relative to the set
-   V of variables) */
+   V of variables):
+*/
 count_sat_st(st,V) := if st = [true] then 2^(length(V)) 
   elseif st = [false] then 0 else
   block([nV : disjoin(var_l(st[1]), V)],
@@ -125,14 +128,16 @@ count_sat_st(st,V) := if st = [true] then 2^(length(V))
    Returns a list which scans the true-leaves from left to right.
    If T is a splitting tree for clause-set F (as CNF), then the returned
    clause-set G (the setification of the returned list) is a hitting 
-   clause-set which as DNF is equivalent to F. */
+   clause-set which as DNF is equivalent to F.
+*/
 sat_pass_st(st) := sat_pass_st_a(st,{})$
 sat_pass_st_a(st,phi) := if st = [true] then [phi] 
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)))$
 /* Dually, compute the hitting clause-set (as a clause-list, scanning the
    tree from left to right) which (as CNF) represents the falsifying
-   assignments. */
+   assignments.
+*/
 usat_clauses_st(st) := usat_clauses_st_a(st,{})$
 usat_clauses_st_a(st,C) := if st = [false] then [C] 
   elseif st = [true] then [] else
@@ -140,7 +145,8 @@ usat_clauses_st_a(st,C) := if st = [false] then [C]
 
 
 /* Given a complete splitting tree for a clause-set F, return a resolution
-   tree: */
+   tree:
+*/
 splitting2resolution_tree(st,F) := splitting2resolution_tree_rel(st,{},F)$
 splitting2resolution_tree_rel(st,phi,F) := 
   if length(st) = 1 then
@@ -165,20 +171,22 @@ declare(trv,noun)$
 declare(trv,posfun)$
 trv_var(v) := nounify(trv)(v)$
 
-/* The complete splitting tree of height k which is complete as tree and which has
-   different tree-variables at each inner node. */
-/* The corresponding tree-hitting clause-sets are exactly the uniform saturated
+/* The complete splitting tree of height k which is complete as tree and which
+   has different tree-variables at each inner node.
+   The corresponding tree-hitting clause-sets are exactly the uniform saturated
    minimally unsatisfiable clause-sets of deficiency 1; equivalently, exactly
-   the unsatisfiable uniform regular hitting clause-sets. */
+   the unsatisfiable uniform regular hitting clause-sets.
+*/
 complete_st_alldifferent(k) := complete_st_alldifferent_pref(k,[])$
 complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(prefix), 
      complete_st_alldifferent_pref(k-1, cons(1,prefix)),
      complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
 
-/* The complete splitting tree of height k and levelled height <= 1 */
-/* The corresponding tree-hitting clause-sets are exactly the saturated
-   minimally unsatisfiable Horn clause-sets. */
+/* The complete splitting tree of height k and levelled height <= 1.
+   The corresponding tree-hitting clause-sets are exactly the saturated
+   minimally unsatisfiable Horn clause-sets.
+*/
 horn_st(k) := horn_st_pref(k,[])$
 horn_st_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(prefix), [false], horn_st_pref(k-1, cons(2,prefix))]$
@@ -207,7 +215,8 @@ horn_st_pref(k,prefix) := if k = 0 then [false] else
 
 /* For input F (a clause-set) returns a pair consisting of a r_k-splitting
    tree of minimum size, and its size. 
-   Splitting literals are always splitting variables. */
+   Splitting literals are always splitting variables.
+*/
 optimal_r_splitting_tree(F,k) := block(
  [name : sconcat("optimal_r_splitting_tree(",k,")")],
  optimal_r_splitting_tree_rec(F,k,0,2^(nvar_cs(F)+1)-1))$
@@ -249,7 +258,8 @@ optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
 */
 
 /* Given a clause-set F and an r_k-splitting tree T for F, compute
-   the amended r_k-splitting tree. */
+   the amended r_k-splitting tree.
+*/
 amend_r_splitting_tree(F,T,k) := block(
   [x : T[1], Fr : generalised_ucp_pa(F,k)],
   if length(T) = 1 then 
@@ -267,7 +277,7 @@ amend_r_splitting_tree(F,T,k) := block(
 
 oklib_plain_include("stringproc")$
 
-/* Output a splitting tree st as latex-ps-tree to stream s */
+/* Output a splitting tree st as latex-ps-tree to stream s: */
 tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
   elseif st = [false] then printf(s, "~a", "\\Tdot")
   else (
@@ -275,17 +285,17 @@ tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
      printf(s, "{"), tex_st(s, st[2]), tex_st(s, st[3]), printf(s, "}")
 )$
 
-/* Output a splitting tree st as latex-ps-tree to file with name n */
+/* Output a splitting tree st as latex-ps-tree to a file with name n: */
 tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s))$
  
-/* Output a resolution tree rt as latex-ps-tree to stream s */
+/* Output a resolution tree rt as latex-ps-tree to stream s: */
 tex_rt(s,rt) := if length(rt) = 1 then printf(s, "~a~a~a", "\\TR{$\\set", rt[1], "$}")
   else (
      printf(s, "~a~a~a", "\\pstree{\\TR{$\\set", rt[1], "$}}"),
      printf(s, "{"), tex_rt(s, rt[2]), tex_rt(s, rt[3]), printf(s, "}")
 )$
 
-/* Output a resolution tree st as latex-ps-tree to file with name n */
+/* Output a resolution tree st as latex-ps-tree to a file with name n: */
 tex_rt_f(n, rt) := (block[s : openw(n)], tex_rt(s, rt), close(s))$
 
 /*!
