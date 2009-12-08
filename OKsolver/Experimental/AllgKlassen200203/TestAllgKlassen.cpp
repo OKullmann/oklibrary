@@ -1,12 +1,12 @@
 // Oliver Kullmann, 21.2.2003 (Swansea)
-/* Copyright 2003 - 2007, 2008 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file OKlib/OKsolver/Experimental/AllgKlassen200203/Test.cpp
+  \file OKlib/OKsolver/Experimental/AllgKlassen200203/TestAllgKlassen.cpp
   \brief Test old experimental classes
   \deprecated Old code
 */
