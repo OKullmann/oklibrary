@@ -1,14 +1,25 @@
 // Oliver Kullmann, 27.7.2003 (Swansea)
-/* Copyright 2003 - 2007, 2008 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#ifndef CLAUSESWAECHTER
-#define CLAUSESWAECHTER
+/*!
+  \file OKlib/OKsolver/Experimental/AllgKlassen200203/Clauses.cpp
+  \brief Experimental code for clauses
+  \deprecated Old code
+*/
+
+#ifndef CLAUSESWAECHTER_anCq9iy
+#define CLAUSESWAECHTER_anCq9iy
 
 #include <set>
+#include <sstream>
+
+#include <boost/concept_check.hpp>
+
+#include <OKlib/General/ErrorHandling.hpp>
 
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
 
@@ -86,7 +97,7 @@ namespace Clauses {
     
 }
 
-#include "Literals.hpp"
+#include <OKlib/OKsolver/Experimental/AllgKlassen200203/Literals.hpp>
 
 namespace Clauses {
 
