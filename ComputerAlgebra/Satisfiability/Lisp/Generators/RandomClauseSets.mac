@@ -75,6 +75,7 @@ random_rcl_fcl(n,p,c) :=
         if random(2) = 1 then C[i] : -C[i],
     F : endcons(setdifference(setify(C),{0}),F)),
   return([V,F]))$
+random_rcl_fcs(n,p,c) := fcl2fcs(random_rcl_fcl(n,p,c))$
 
 
 /* **********************************
