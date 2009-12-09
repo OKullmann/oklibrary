@@ -757,7 +757,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,20) > 388
+  \todo vanderwaerden_2(3,20) >= 389
   <ul>
    <li> The predictions (see above) are n= 386, 389. </li>
    <li> Experience with k=19 is that gsat-tabu is best, however we should
@@ -892,8 +892,17 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
     7145  4473000 13520000 21760000 31660000 99550000
 
 > nohup ubcsat-okl -alg adaptnovelty+ -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS5 &
+> E = read_ubcsat("VanDerWaerden_2-3-20_389.cnf_AUS5");
+  1   2   3
+ 64 520   6
+590
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   51760  5938000 15350000 22130000 34500000 99970000
+
      \endverbatim
-     So actually gsat-tabu is better than rnovelty for higher cutoff. </li>
+     So actually gsat-tabu is better than rnovelty for higher cutoff, and
+     adaptnovelty+ gets better, but still worse than gsat-tabu. </li>
     </ol>
    </li>
   </ul>
