@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Concepts/plans/Clauses.hpp
-  \brief Plans for concepts for clauses.
+  \file Satisfiability/ProblemInstances/Clauses/concepts/general.hpp
+  \brief Plans for concepts for clauses
 
 
   \todo The following needs to be updated.
