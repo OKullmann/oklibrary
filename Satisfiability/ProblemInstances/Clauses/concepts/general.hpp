@@ -10,25 +10,17 @@ License, or any later version. */
   \brief Plans for concepts for clauses
 
 
-  \todo The following needs to be updated.
+  \todo Connections
   <ul>
-   <li> See supermodule Satisfiability/ProblemInstances. </li>
-   <li> See supermodule ComputerAlgebra/Satisfiability. </li>
-   <li> This file shall be partially moved to
-   Satisfiability/ProblemInstances/ActiveClauses/concepts/plans
-   and partially to
-   Satisfiability/ProblemInstances/Clauses/concepts/plans.
-   </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/Clauses.hpp. </li>
+   <li> For an earlier attempt see
+   OKsolver/Experimental/AllgKlassen200203/Clauses.hpp. </li>
   </ul>
 
 
-  \todo Concepts for and-clauses, or-clauses, etc.
-
-
-  \todo Relations
+  \todo General ideas
   <ul>
-   <li> What are the relations to Concepts/plans/ClauseSets.hpp and
-   Concepts/plans/ActiveClauseSets.hpp? </li>
+   <li> Do we need to distinguish between and-clauses and or-clauses? </li>
   </ul>
 
 
@@ -46,16 +38,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Old concepts
+  \todo Partial assignments
   <ul>
-   <li> For an earlier attempt see
-   OKsolver/Experimental/AllgKlassen200203/Clauses.hpp. </li>
-  </ul>
-
-
-  \todo A fundamental issue here is the relation to the concept of
-  partial assignments (see Concepts/plans/PartialAssignments.hpp)
-  <ul>
+   <li> A fundamental issue here is the relation to the concept of
+   partial assignments (see Concepts/plans/PartialAssignments.hpp). </li>
    <li> It should be possible to easily switch between
    the concepts of partial assignments and clauses; perhaps the only
    difference is in the complexity of the operations: while clauses correspond
