@@ -240,30 +240,61 @@ License, or any later version. */
   
   \todo Generalisations
   <ul>
-   <li> The 2 basic generalisations that seem natural are
+   <li> There are several parameters which are considered when generalising 
+   the AES in [Algebraic Aspects of the Advanced Encryption Standard].
+   These are
     <ul>
      <li> Allowing arbitrary field elements as the basic unit of computation 
      rather than the Rijndael byte elements in GF(2^8). Such a unit is then 
-     considered to be a "word" within the AES system. </li>
-     <li> DONE Allowing arbitrary permutations in the place of the Sbox, Mixcolumn, 
-     and field multiplications. </li>
+     considered to be a "word" within the AES system. The parameter here is
+     e which denotes the size of the finite field the element should be 
+     considered in, i.e., the field used is GF(2^e).</li>
+     <li> Allowing the number of columns n_C in the AES block to be varied. 
+     </li>
+     <li> Allowing the number of rows n_R in the AES block to be varied. </li>
     </ul>
-   This then allows for the generalisations from [Algebraic Aspects of the
-   AES], as well as others such as the replacement of the sbox with a random 
-   permutation, which have been discussed (below and in 
-   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp ).
+   There are also then other generalisations which we wish to allow for
+   further experimentation.
+   <ul>
+     <li> Generalisations based on [A simplified AES algorithm and it's linear
+     and differential cryptanalyses] and other papers should also be 
+     considered, and whether they can fit into the framework. </li>
+     <li> [A simplified AES algorithm and it's linear and differential 
+     cryptanalyses] simply uses a field size of 4 (i.e., GF(2^4) finite field)
+     but uses different affine transforms in the Sbox and so on to
+     the generalisations given in [Algebraic Aspects of the Advanced 
+     Encryption Standard]. Such translations should fit reasonably into
+     the same generalisation scheme. </li>
+     <li> DONE Allowing arbitrary permutations in the place of the Sbox, 
+     Mixcolumn, and field multiplications. </li>
+   </ul>   
    </li>
    <li> Generalising this based on parameter n_R discussed in [Algebraic
-   Aspects of the AES}, seems possible by use of a lookup function for the
-   constant to multiply based on n_R, as well as looking up the field to
-   multiply over. </li>
-   <li> Generalising over n_C should be trivial as given a function on elements
-   in the QR/PID of size n_R (columns), the result of MixColumns is just a
-   mapping over n_C of these elements and so the n_C parameter seems irrelevant
-   here. </li>
+   Aspects of the AES}, seems possible by parameterising the
+   MixColumn operation, as this is the only operation which considers columns
+   and their size. Such a parameterisation has already been done and so
+   such new versions of MixColumn simply need to be written. </li>
+   <li> Generalising over n_C should be trivial as the MixColumn operation
+   only maps over the columns, and everything else either acts on bytes or
+   rows. The ShiftRows operation is specified for each different value of n_C 
+   in [Algebraic Aspects of the Advanced Encryption Standard] and so this must
+   just be taken into account by the ShiftRows implementation. </li>
    <li> Generalising over e, seems to tie in closely with generalising over
    n_R, as the polynomial the elements in columns of the block form, are over
-   elements of size e. </li>
+   elements of size e, and should just require using different functions
+   for the Sbox and field multiplications (in conjunction with the different
+   MixColumn operation), and such generalisations have been made already. 
+   </li>
+   <li> The small scale key schedule for each of these parameters is 
+   relatively simple, in that it depends only on n_R and whereas the standard
+   AES key schedule applies the Sbox and the addition of a constant to a 
+   single byte and then applies various XORs across the column to generate a 
+   new column, the small scale versions for n_R = 2 and n_R=1 simply apply the
+   same Sbox and round constant addition (the small scale versions) but remove
+   the additional XOR operations for the rows which are not present for
+   the small scale versions. Such generalisations should be possible by
+   simply parameterising the key schedule. See [Small Scale Variants of the 
+   AES]. </li>
   </ul>
   
   
