@@ -13,7 +13,7 @@ License, or any later version. */
   and by "GTSat 3 4 k n" at C++ level.
   
 
-  \todo greentao_3(3,4,4) > 1537
+  \todo greentao_3(3,4,4) > 1538
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -76,6 +76,12 @@ License, or any later version. */
    </li>
    <li> n=1538
     <ol>
+     <li> cutoff=10^9: 2 solutions found with 214 runs (seed=1006777768,
+     osteps=507922529). </li>
+    </ol>
+   </li>
+   <li> n=1539
+    <ol>
      <li> cutoff=10^9 </li>
     </ol>
    </li>
@@ -120,6 +126,7 @@ License, or any later version. */
      <li> cutoff=10^8: 100% success. </li>
     </ol>
    </li>
+   <li> n=7500 </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
