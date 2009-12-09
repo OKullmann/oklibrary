@@ -25,26 +25,6 @@ License, or any later version. */
   \todo Concepts for and-clauses, or-clauses, etc.
 
 
-  \todo Shall there be also "active clauses" ?!
-  <ul>
-   <li> Seems reasonable; perhaps there is actually not a big difference,
-   since the literals need not to be there anyway --- however with regard to
-   active clauses more care is needed for the concept, and this might be
-   quite right. </li>
-   <li> An active clause perhaps is something like
-   a "small active clause-set" (see Concepts/plans/ActiveClauseSets.hpp),
-   in which we can also grasp into. </li>
-   <li> The hierarchy then would be
-    <ol>
-     <li> (generalised) literals </li>
-     <li> active clauses </li>
-     <li> active clause-sets </li>
-     <li> alliances of active clause-sets </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Relations
   <ul>
    <li> What are the relations to Concepts/plans/ClauseSets.hpp and
