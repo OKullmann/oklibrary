@@ -191,8 +191,21 @@ Mul2PI : read_fcs("AES_Mul2_PI.cnf")$
 MTHG2 : minimum_transversals_bvs_hg(ghg2hg(subsumption_ghg(Mul2[2], rijnmult_fullcnf_fcs(2)[2])))$
    \endverbatim
    </li>
-   <li> MG is currently running this experiment with each of the 
-   field multiplications. </li>
+   <li> For multiplication by 02, the above Maxima function returns 102 
+   minimum CNF representations of size 20 in 2190.1490 seconds. 
+   An example of such a minimum representation is:
+   \verbatim
+{{-16,-15,-8},{-16,-13,-6},{-16,6,13},{-16,8,15},{-15,1,8},{-14,7},{-13,1,6},
+{-12,-5,-1},{-12,5,16},{-11,4},{-10,3},{-9,2},{-8,1,15},{-7,14},{-6,1,13},
+{-5,12,16},{-4,11},{-3,10},{-2,9},{-1,5,12}}
+   \endverbatim
+   </li>
+   <li> Most (90) of the minimum representations contain 8 clauses of size 2, 
+   and 12 clauses of size 3. There are then a further twelve clause-sets 
+   where there are only 8 clause of size 3, but then 4 clauses of size 4. 
+   </li>
+   <li> MG is currently running experiments with the other field 
+   multiplications. </li>
   </ul>
 
 
