@@ -17,7 +17,13 @@ License, or any later version. */
    version 4 of Sage. </li>
    <li> Building sage-4.2.1 from source on cspcmg (64 bit OpenSUSE 11.1) 
    works perfectly. MG: How is OK building the package? Is this using the 
-   OKlib build system or just the standard Sage makefile for testing? </li>
+   OKlib build system or just the standard Sage makefile for testing? OK:
+   this is an inappropriate question, since building something in the
+   OKlibrary means always using the buildsystem (if it is available, which
+   is the case here). So apparently MG didn't use the buildsystem? Obviously
+   this needs to be used; information on building outside the buildsystem
+   is obviously useful in case of problems, but only for finding out
+   about the problems. </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
