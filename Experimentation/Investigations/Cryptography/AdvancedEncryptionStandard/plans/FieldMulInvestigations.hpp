@@ -156,11 +156,57 @@ eqmcc(mul_tt, outcome="O", expl.0=TRUE)
    multiplication in the encryption direction, and 9,11,13 or 14 for
    the multiplications used when the decryption of MixColumn is
    included in the translation. </li>  
-   <li> Such minimisations are being tried using the QCA/R system currently by
-   MG. </li>
+   <li> Even with multiplication by 02, the R/QCA system still runs out of
+   memory (see "Minimisation" in 
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp for details). </li>
+   <li> Another possibility is to minimise the field multiplications by 02
+   using the minimum transversal functions present in the Maxima subsystem. 
+   Assuming the prime implicates for multiplication by 02 have been generated
+   like so:
+   \verbatim
+output_rijnmult_fullcnf_stdname(2);
+   \endverbatim
+   in Maxima, and then from the shell
+   \verbatim
+QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_Mul2_PI.cnf
+   \endverbatim
+   the following, in Maxima, should produce a set of all minimum 
+   representations
+   \verbatim 
+oklib_plain_include("stringproc")$
+
+read_fcs_f(n) := block([fh, line, ll, cs : [], l,b,c],
+  fh : openr(n),
+  while stringp(line : readline(fh)) do (
+    ll : tokens(line),
+    if length(ll) >= 1 then
+      if not(first(ll) = "c" or first(ll) = "p") then
+        cs : cons(setify(rest(map(parse_string,ll),-1)), cs)
+  ),
+  cs : setify(cs),
+  return(cs_to_fcs(cs))
+)$
+
+Mul2PI : read_fcs("AES_Mul2_PI.cnf")$
+MTHG2 : minimum_transversals_bvs_hg(ghg2hg(subsumption_ghg(Mul2[2], rijnmult_fullcnf_fcs(2)[2])))$
+   \endverbatim
+   </li>
+   <li> For multiplication by 02, the above Maxima function returns 102 
+   minimum CNF representations of size 20 in 2190.1490 seconds. 
+   An example of such a minimum representation is:
+   \verbatim
+{{-16,-15,-8},{-16,-13,-6},{-16,6,13},{-16,8,15},{-15,1,8},{-14,7},{-13,1,6},
+{-12,-5,-1},{-12,5,16},{-11,4},{-10,3},{-9,2},{-8,1,15},{-7,14},{-6,1,13},
+{-5,12,16},{-4,11},{-3,10},{-2,9},{-1,5,12}}
+   \endverbatim
+   </li>
+   <li> Most (90) of the minimum representations contain 8 clauses of size 2, 
+   and 12 clauses of size 3. There are then a further twelve clause-sets 
+   where there are only 8 clause of size 3, but then 4 clauses of size 4. 
+   </li>
+   <li> MG is currently running experiments with the other field 
+   multiplications. </li>
   </ul>
 
-
-  \todo Add todos ??? ACTION required from MG
 
 */
