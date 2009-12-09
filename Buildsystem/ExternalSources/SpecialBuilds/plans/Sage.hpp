@@ -15,6 +15,9 @@ License, or any later version. */
    <li> Likely the failures below indicate missing "-fPIC"-options to gcc
    in the respective sub-builds; and perhaps this is corrected with
    version 4 of Sage. </li>
+   <li> Building sage-4.2.1 from source on cspcmg (64 bit OpenSUSE 11.1) 
+   works perfectly. MG: How is OK building the package? Is this using the 
+   OKlib build system or just the standard Sage makefile for testing? </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
