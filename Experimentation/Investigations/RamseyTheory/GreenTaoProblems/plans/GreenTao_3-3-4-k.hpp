@@ -122,7 +122,21 @@ License, or any later version. */
    </li>
    <li> n=8000
     <ol>
-     <li> cutoff=10^8 </li>
+     <li> cutoff=10^8:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_3-3-4-5_8000.cnf | tee GreenTao_3-3-4-5_8000.cnf_OUT
+> E=read_ubcsat("GreenTao_3-3-4-5_8000.cnf_OUT")
+24 26 27 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 51 53
+ 1  3  1  1  3  5  3  1  5  2  4  4  1  4  1  5  3  5  2  2  3  5  1  4  2  1
+58
+ 1
+73
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+15540000 37710000 68590000 64060000 84820000 99420000
+     \endverbatim
+     looks unsatisfiable (although one might try cutoff=2*10^8). </li>
+     </li>
     </ol>
    </li>
   </ul>
