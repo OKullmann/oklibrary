@@ -39,6 +39,25 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
      "temp_file" has been created, which (later) needs to be removed. </li>
     </ol>
    </li>
+   <li> One may use Emacs quite easily to refactor a large number of files 
+   (see http://xahlee.org/emacs/find_replace_inter.html). The basic idea is
+    <ol>
+     <li> Open Emacs, and run (ESC-x) "find-dired" specifying the directory, 
+     and then "-type f" as the args parameter. This makes emacs list all the
+     files (including those in subdirectories) in the given directory. </li>
+     <li> Type "%m" and then specify ".*" as the regex to mark all listed 
+     files (one could specify "^.*\.mac" or something similar to only mark 
+     ".mac" files etc). </li>
+     <li> Run (ESC-x) "dired-do-query-replace-regexp" and then specify the
+     normal regexp and replacement. Emacs will cycle through the files that
+     contain the matching pattern and offer the user the option of replacing
+     the pattern for each instance as occurs during a normal search and 
+     replace. </li>
+     <li> Upon finishing, each of the files containing matching patterns is
+     left as an open buffer in the Emacs window, and the user can save these
+     files in the usual way (for instance ESC-x save-some-buffers). </li>
+    </ol>
+   </li>
   </ul>
 
 
