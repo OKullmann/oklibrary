@@ -84,6 +84,9 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
                 filled_diamant (13)
     ptc   : the colour of points (red, blue, ...); default red.
     edgc  : the colour of edges (red, blue, ...); default blue.
+    output: if output is set to "true", the tree drawing will be output to a
+            file called "output.eps" in the current directory. Otherwise, the
+            tree drawing will be displayed normally.
     
    T is a compulsary parameter that can be accepted by a function call in the
    following ways:  
@@ -98,7 +101,7 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 */
 draw_rt(['P]) :=     
   block([tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
-         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc],
+         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc,output:output],
    if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
     (T:ev(first(P)), ev(rest(P))) else
     ev(P),
@@ -108,6 +111,7 @@ draw_rt(['P]) :=
    if ptt='ptt or ptt=unknown then ptt:filled_circle,
    if ptc='ptc or ptc=unknown then ptc:red,
    if edgc='edgc or edgc=unknown then edgc:blue,
+   if output='output or output=unknown then output:false,
    tdlrt:reingold_tilford_annotated(T,p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
@@ -119,7 +123,9 @@ draw_rt(['P]) :=
                  point_size = pts,point_type = ptt,color = ptc,
                  points(tdlrt2points(tdlrt)),                 
                  color=edgc,transparent=true],
-                map(polygon, tdlrt2edges(tdlrt)))),
+                map(polygon, tdlrt2edges(tdlrt)),
+                if output=true then 
+                [file_name="output", terminal='eps] else [])),
    true)$
 
 
@@ -130,7 +136,7 @@ draw_rt(['P]) :=
 */
 draw_lrt(['P]) := 
   block([tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
-         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc],
+         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc,output:output],
    if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
     (T:ev(first(P)), ev(rest(P))) else
     ev(P),
@@ -140,6 +146,7 @@ draw_lrt(['P]) :=
    if ptt='ptt or ptt=unknown then ptt:filled_circle,
    if ptc='ptc or ptc=unknown then ptc:red,
    if edgc='edgc or edgc=unknown then edgc:blue,
+   if output='output or output=unknown then output:false,
    tdlrt:reingold_tilford_annotated(lrt2rt(T),p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
@@ -151,7 +158,9 @@ draw_lrt(['P]) :=
                  point_size = pts,point_type = ptt],
                 apply(append,(map(colouring, lrt2value(T),tdlrt2points(tdlrt)))),
                 [color=edgc,transparent=true],
-                map(polygon, tdlrt2edges(tdlrt)))),
+                map(polygon, tdlrt2edges(tdlrt)),
+                if output=true then 
+                [file_name="output", terminal='eps] else [])),
    true)$
 
 
@@ -217,11 +226,10 @@ leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
 */
 draw_lrt_dbl(['P]) := 
   block([nd,tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
-         pts:pts,ptt:ptt,lbc:lbc,edgc:edgc,tc:tc,fc:fc,d:d],
+         pts:pts,ptt:ptt,lbc:lbc,edgc:edgc,tc:tc,fc:fc,d:d,output:output],
    if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
     (T:ev(first(P)), ev(rest(P))) else
     ev(P),
-     
    if p='p or p=unknown then p:[0,0],
    if ptt='ptt or ptt=unknown then ptt:filled_circle,
    if lbc='lbc or lbc=unknown then lbc:red,
@@ -229,7 +237,7 @@ draw_lrt_dbl(['P]) :=
    if fc='fc or fc=unknown then fc:grey,
    if edgc='edgc or edgc=unknown then edgc:blue,
    if d='d or d=unknown then d:-1,
-
+   if output='output or output=unknown then output:false,
    tdlrt:reingold_tilford_annotated(lrt2rt(T),p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
@@ -254,7 +262,9 @@ draw_lrt_dbl(['P]) :=
                   nd[6],nd[5],create_list([tc,fc],i,1,length(nd[6])))))
                  else [],
                  [color=edgc,transparent=true],
-                 map(polygon, tdlrt2edges(tdlrt)))),
+                 map(polygon, tdlrt2edges(tdlrt)),
+                if output=true then 
+                [file_name="output", terminal='eps] else [])),
    true)$
 
 
