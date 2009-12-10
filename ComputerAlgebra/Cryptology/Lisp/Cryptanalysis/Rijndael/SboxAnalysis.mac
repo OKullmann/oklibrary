@@ -54,9 +54,11 @@ output_rijnsbox_fullcnf_stdname() :=
     rijnsbox_fullcnf_fcs(),
     sconcat("AES_Sbox_full.cnf"))$
 
-/* Tests whether a full CNF clause-set represents the AES sbox: */
-/* AGAIN, this seems to be be completely superfluous?? ACTION required
-   by MG.
+/* Tests whether a full CNF clause-set represents the AES sbox:
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
 */
 test_CNF_aes_sbox(FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
@@ -69,7 +71,6 @@ test_CNF_aes_sbox(FF) :=
 
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction): */
-/* RENAME: aessbox2hittingcnf_fcs */
 rijnsbox2hittingcnf_fcs(h) := dualtreehittingcls_condensed_fcs(rijnsbox_fulldnf_fcs(),h)$
 
 
