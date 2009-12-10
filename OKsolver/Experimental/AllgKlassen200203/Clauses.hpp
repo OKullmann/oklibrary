@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OKlib/OKsolver/Experimental/AllgKlassen200203/Clauses.cpp
+  \file OKlib/OKsolver/Experimental/AllgKlassen200203/Clauses.hpp
   \brief Experimental code for clauses
   \deprecated Old code
 */
