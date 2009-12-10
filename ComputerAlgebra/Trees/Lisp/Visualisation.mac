@@ -59,53 +59,61 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 
 
 /* Draw an unlabelled rooted tree T, using the Reingold-Tilford algorithm. */
-/* Parameter arg is a list which may be empty or may contain drawing 
-   attributes. Missing attributes get default values, as specified below.
-   The drawing attributes are defined as 
-     [name_1, value_1, ... , name_N, value_N], n >= 0.
-   Each attribute contains two fields, name and value, both of which must be
-   provided. Possible attribute names and values are:
+/* Possible paramters are listed as follows:
 
-    root     : the root coordinates of the tree [x,y]; default [0,0].
-    x_ran    : the range for the x coordinate [x_min,x_max]; default auto.
-    y_ran    : the range for the y coordinate [y_min,y_max]; default auto.
-    p_size   : the size of a point (a non-negative number); default computed
-    p_type   : the type of points (either as name or as integer):
-      $none (-1)
-      dot (0)
-      plus (1)
-      multiply (2)
-      asterisk (3)
-      square (4)
-      filled_square (5)
-      circle (6)
-      filled_circle (7) *default*
-      up_triangle (8)
-      filled_up_triangle (9)
-      down_triangle (10)
-      filled_down_triangle (11)
-      diamant (12)
-      filled_diamant (13)
-    p_colour : the colour of points (red, blue, ...); default red.
-    e_colour : the colour of edges (red, blue, ...); default blue.
+    T     : an unlabelled rooted tree.
+    p     : the root coordinates of the tree [x,y]; default [0,0].
+    xran  : the range for the x coordinate [x_min,x_max]; default auto.
+    yran  : the range for the y coordinate [y_min,y_max]; default auto.
+    pts   : the size of a point (a non-negative number); default computed
+    ptt   : the type of points (either as name or as integer):
+                $none (-1)
+                dot (0)
+                plus (1)
+                multiply (2)
+                asterisk (3)
+                square (4)
+                filled_square (5)
+                circle (6)
+                filled_circle (7) *default*
+                up_triangle (8)
+                filled_up_triangle (9)
+                down_triangle (10)
+                filled_down_triangle (11)
+                diamant (12)
+                filled_diamant (13)
+    ptc   : the colour of points (red, blue, ...); default red.
+    edgc  : the colour of edges (red, blue, ...); default blue.
+    
+   T is a compulsary parameter that can be accepted by a function call in the
+   following ways:  
+    1. Set T in global (e.g. T:value; then, draw_rt()).
+    2. Use "T:value" as an argument. (e.g. draw_rt(T:value)).
+    3. Use the "value" of T as the first argument. (e.g. draw_rt(value)).
+   The other parameters are optional, the usage of which are similar to the
+   parameter T which is listed above except 3. Furthermore, the optional 
+   parameters can be set to "unknown" (e.g. draw_rt(pts:unknown)) so that
+   the default values of the parameters will be used.
+
 */
-draw_rt(T,arg) := block([tdlrt,xdis,ydis,p:[0,0],xran:auto,
-   yran:auto,pts,ptt:filled_circle,ptc:red,edgc:blue],
-   if emptyp(arg)=false then
-    for i:1 thru length(arg) step 2 do (
-     if arg[i]= root then p:arg[i+1] else
-     if arg[i]= x_ran then xran:arg[i+1] else
-     if arg[i]= y_ran then yran:arg[i+1] else
-     if arg[i]= p_size then pts:arg[i+1] else
-     if arg[i]= p_type then ptt:arg[i+1] else
-     if arg[i]= p_colour then ptc:arg[i+1] else
-     if arg[i]= e_colour then edgc:arg[i+1]),
+draw_rt(['P]) :=     
+  block([tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
+         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc],
+   if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
+    (T:ev(first(P)), ev(rest(P))) else
+    ev(P),
+   if p='p or p=unknown then p:[0,0],
+   if xran='xran or xran=unknown then xran:auto,
+   if yran='yran or yan=unknown then yran:auto,
+   if ptt='ptt or ptt=unknown then ptt:filled_circle,
+   if ptc='ptc or ptc=unknown then ptc:red,
+   if edgc='edgc or edgc=unknown then edgc:blue,
    tdlrt:reingold_tilford_annotated(T,p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
    tdlrt:reingold_tilford_remove_annotations(tdlrt),
-   if member(p_size,arg)=false then
-   pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
+   if pts='pts or pts=unknown then
+    pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt,color = ptc,
@@ -117,25 +125,27 @@ draw_rt(T,arg) := block([tdlrt,xdis,ydis,p:[0,0],xran:auto,
 
 /* Perform the tree drawing with a labelled rooted tree T. RGB colour model is
    used for the colouring schemes.
-   For the details of parameter arg, see the specification of draw_rt.
+   The compulsary parameter T is a labelled rooted tree. For the usage and 
+   other possible parameters, please refer to draw_rt.
 */
-draw_lrt(T,arg) := block([tdlrt,xdis,ydis,p:[0,0],xran:auto,
-   yran:auto,pts,ptt:filled_circle,ptc:red,edgc:blue],
-   if emptyp(arg)=false then
-    for i:1 thru length(arg) step 2 do (
-     if arg[i]= root then p:arg[i+1] else
-     if arg[i]= x_ran then xran:arg[i+1] else
-     if arg[i]= y_ran then yran:arg[i+1] else
-     if arg[i]= p_size then pts:arg[i+1] else
-     if arg[i]= p_type then ptt:arg[i+1] else
-     if arg[i]= p_colour then ptc:arg[i+1] else
-     if arg[i]= e_colour then edgc:arg[i+1]),
+draw_lrt(['P]) := 
+  block([tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
+         ptt:ptt,pts:pts,ptc:ptc,edgc:edgc],
+   if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
+    (T:ev(first(P)), ev(rest(P))) else
+    ev(P),
+   if p='p or p=unknown then p:[0,0],
+   if xran='xran or xran=unknown then xran:auto,
+   if yran='yran or yan=unknown then yran:auto,
+   if ptt='ptt or ptt=unknown then ptt:filled_circle,
+   if ptc='ptc or ptc=unknown then ptc:red,
+   if edgc='edgc or edgc=unknown then edgc:blue,
    tdlrt:reingold_tilford_annotated(lrt2rt(T),p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
    tdlrt:reingold_tilford_remove_annotations(tdlrt),
-   if member(p_size,arg)=false then
-   pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
+   if pts='pts or pts=unknown then
+    pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt],
@@ -189,55 +199,59 @@ colouring(v,p) := [color= value2rgb(v),points([p])]$
 leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
              [if value=true then color=c[1] else color=c[2],points([p])])$
 
-/* Print the labels of the nodes of a binary labelled rooted tree T instead of
-   the node-symbols up to the depth d, where d is a natural number >= -1, and
-   for the nodes of depth <= d then the labels are printed, while otherwise 
-   the (normal) node-symbol is shown. Leaves are treated differently, where
-   the leaves that are labelled by "true" show the node-symbol with green
-   colour, otherwise black colour.
-   For the details of parameter arg, see the specification of draw_rt.
-   In addition to the attributes listed in the specification of draw_rt, the
-   following attributes are provided for draw_lrt_dbl:
+/* Print the labels of the nodes of a binary labelled rooted tree T up to the    
+   depth d, where d is a natural number >= -1, and for the nodes of depth <= d
+   then the labels are printed, while otherwise nothing shows. Leaves are
+   treated differently, where the leaves that are labelled by "true" show the 
+   node-symbol with red colour, otherwise grey colour.
+   The compulsary parameter T is a labelled rooted tree. For the usage and 
+   other possible parameters, please refer to draw_rt.
+   Additionally, the following possible parameters are provided for 
+   draw_lrt_dbl:
    
-   l_colour         : the colour of labels; default red.
-   true_lvs_colour  : the colour of true-leaves; default green.
-   false_lvs_colour : the colour of false-leaves; default black.
-   
+    lbc : the colour of labels; default red.
+    tc  : the colour of true-leaves; default red.
+    fc  : the colour of false-leaves; default grey.
+    d   : the maximum depth which the labels will be printed.
+           (d is a natural number >= -1).
 */
-draw_lrt_dbl(T,arg,d) := block([nd,tdlrt,xdis,ydis,p:[0,0],
-   pts,ptt:filled_circle,lbc:red,ptc:white,edgc:blue,tc:red,fc:grey],
-   if emptyp(arg)=false then
-    for i:1 thru length(arg) step 2 do (
-     if arg[i]= root then p:arg[i+1] else
-     if arg[i]= x_ran then xran:arg[i+1] else
-     if arg[i]= y_ran then yran:arg[i+1] else
-     if arg[i]= p_size then pts:arg[i+1] else
-     if arg[i]= p_type then ptt:arg[i+1] else
-     if arg[i]= p_colour then ptc:arg[i+1] else
-     if arg[i]= l_colour then lbc:arg[i+1] else
-     if arg[i]= true_lvs_colour then tc:arg[i+1] else
-     if arg[i]= false_lvs_colour then fc:arg[i+1] else
-     if arg[i]= e_colour then edgc:arg[i+1]),
+draw_lrt_dbl(['P]) := 
+  block([nd,tdlrt,xdis,ydis,T:T,p:p,xran:xran,yran:yran,
+         pts:pts,ptt:ptt,lbc:lbc,edgc:edgc,tc:tc,fc:fc,d:d],
+   if not emptyp(P) and (atom(first(P)) or op(first(P))#":") then
+    (T:ev(first(P)), ev(rest(P))) else
+    ev(P),
+     
+   if p='p or p=unknown then p:[0,0],
+   if ptt='ptt or ptt=unknown then ptt:filled_circle,
+   if lbc='lbc or lbc=unknown then lbc:red,
+   if tc='tc or tc=unknown then tc:red,
+   if fc='fc or fc=unknown then fc:grey,
+   if edgc='edgc or edgc=unknown then edgc:blue,
+   if d='d or d=unknown then d:-1,
+
    tdlrt:reingold_tilford_annotated(lrt2rt(T),p), 
    xdis:rightmost_x(tdlrt)-leftmost_x(tdlrt),
    ydis:y_tdlrt(tdlrt)-y_extreme_tdlrt(tdlrt),
-   if member(x_ran,arg)=false then
-   xran:[leftmost_x(tdlrt)-0.5,rightmost_x(tdlrt)+0.5],
-   if member(y_ran,arg)=false then
-   yran:[p[2]-ydis-0.5,p[2]+0.5],
+   if xran='xran or xran=unknown then
+    xran:[leftmost_x(tdlrt)-0.5,rightmost_x(tdlrt)+0.5],
+   if yran='yran or yan=unknown then
+    yran:[p[2]-ydis-0.5,p[2]+0.5],
    tdlrt:reingold_tilford_remove_annotations(tdlrt),
    nd: nodes_division(tdlrt2points(tdlrt),lrt2value(T),d),
-   if member(p_size,arg)=false then
-   pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
+   if pts='pts or pts=unknown then 
+    pts:min(10/(max(xdis,2)^(5/11)),10/(max(ydis,2)^(5/11))),
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt],
                  if not(nd[1]=[]) then
                   [color = lbc,label_alignment=left, 
-                  apply(label,map(cons,map(string,if listp(nd[2][1]) then apply(append,nd[2]) else nd[2]),nd[1]+0.1))]
+                  apply(label,map(cons,map(string,if listp(nd[2][1]) then 
+                  apply(append,nd[2]) else nd[2]),nd[1]+0.1))]
                  else [],
                  if not(nd[5]=[]) then
-                  apply(append,(map(leaves_colour, nd[6],nd[5],create_list([tc,fc],i,1,length(nd[6])))))
+                  apply(append,(map(leaves_colour, 
+                  nd[6],nd[5],create_list([tc,fc],i,1,length(nd[6])))))
                  else [],
                  [color=edgc,transparent=true],
                  map(polygon, tdlrt2edges(tdlrt)))),
