@@ -10,13 +10,6 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
 
 
-  \bug rijnmult_fulldnf_fcs only works for trivial arguments
-  <ul>
-   <li> "rijnmult_fulldnf_fcs(n)" for n >= 10 produces
-   various errors. </li>
-  </ul>
-
-
   \bug What's the purpose of test_CNF_aes_field_mul
   <ul>
    <li> There is exactly one "full" CNF clause-set for a field multiplication,
@@ -235,5 +228,22 @@ true
 
   
   \todo DONE Provide tests for all functions
+
+
+  \bug DONE rijnmult_fulldnf_fcs only works for trivial arguments
+  <ul>
+   <li> "rijnmult_fulldnf_fcs(n)" for n >= 10 produces
+   various errors. </li>
+   <li> This occurred as "aes_field_mul_data", which is an
+   lookup array for the field operations which are actually
+   considered in the AES, was used to lookup the values
+   for translation, and for any field elements not considered
+   in the AES, the array was not defined, leading to errors.
+   This has been fixed by using a simple if statements which
+   uses the gf-package multiplication routines if the data
+   is not available from the array. </li>
+  </ul>
+
+
 
 */
