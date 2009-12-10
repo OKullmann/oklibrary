@@ -73,7 +73,13 @@ test_CNF_aes_sbox(FF) :=
 rijnsbox2hittingcnf_fcs(h) := dualtreehittingcls_condensed_fcs(rijnsbox_fulldnf_fcs(),h)$
 
 
-/* XXX The following is MISPLACED here. */
+/* XXX The following is MISPLACED here.
+
+MG : Where best to move to? I consider two
+possibilities a new Permutations.mac in either
+Satisfiability/Lisp/Generators or Satisfiability/Lisp/FiniteFunctions ?
+
+*/
 
 /* Given a list L of positive integers where L represents the permutation
    where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
