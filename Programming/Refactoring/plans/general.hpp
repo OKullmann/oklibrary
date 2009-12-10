@@ -44,7 +44,7 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
     <ol>
      <li> Open Emacs, and run (ESC-x) "find-dired" specifying the directory, 
      and then "-type f" as the args parameter. This makes emacs list all the
-     files (including those in subdirectories) in the given directory. </li>
+     files (including those in subdirectories) in the given directory.
      <li> Type "%m" and then specify ".*" as the regex to mark all listed 
      files (one could specify "^.*\.mac" or something similar to only mark 
      ".mac" files etc). </li>
@@ -56,6 +56,21 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
      <li> Upon finishing, each of the files containing matching patterns is
      left as an open buffer in the Emacs window, and the user can save these
      files in the usual way (for instance ESC-x save-some-buffers). </li>
+     <li> OK: What does this mean? Don't understand how to invoke it ---
+     more details please. </li>
+    </ol>
+   </li>
+   <li> Simple method to use xemacs:
+    <ol>
+     <li> A simple method to invoke xemacs is to use, e.g.
+     \verbatim
+ComputerAlgebra> xemacs $(grep -rl "binom(" --exclude="*~" *) &
+     \endverbatim
+     when searching for all occurrences of "binom(". </li>
+     <li> This loads all the files into xemacs; via the replace-function
+     (which has a memory) one then runs through all occurrences in a file,
+     performing replacement if needed. Easiest to just delete the buffer
+     after replacement. </li>
     </ol>
    </li>
   </ul>
