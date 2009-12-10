@@ -128,7 +128,24 @@ License, or any later version. */
      <li> cutoff=10^8: 100% success. </li>
     </ol>
    </li>
-   <li> n=7500 </li>
+   <li> n=7250 </li>
+   <li> n=7500:
+    <ol>
+     <li> cutoff=10^8:
+     \verbatim
+> ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_3-3-4-5_7500.cnf | tee GreenTao_3-3-4-5_7500.cnf_OUT
+> E=read_ubcsat("GreenTao_3-3-4-5_7500.cnf_OUT")
+ 2  4  5  7  8  9 10 12 13 14 16 18 19
+ 1  5  3  2  3  1  1  1  1  1  2  1  2
+24
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+20480000 65180000 73430000 70900000 84870000 98250000
+     \endverbatim
+     Perhaps the cutoff-value is too low, but for now we assume it's
+     unsatisfiable. </li>
+    </ol>
+   </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
