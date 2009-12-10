@@ -6,49 +6,43 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Concepts/plans/Clauses.hpp
-  \brief Plans for concepts for clauses.
+  \file Satisfiability/ProblemInstances/Clauses/concepts/general.hpp
+  \brief Plans for concepts for clauses
 
 
-  \todo The following needs to be updated.
+  \todo Connections
   <ul>
-   <li> See supermodule Satisfiability/ProblemInstances. </li>
-   <li> See supermodule ComputerAlgebra/Satisfiability. </li>
-   <li> This file shall be partially moved to
-   Satisfiability/ProblemInstances/ActiveClauses/concepts/plans
-   and partially to
-   Satisfiability/ProblemInstances/Clauses/concepts/plans.
-   </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/Clauses.hpp. </li>
+   <li> For an earlier attempt see
+   OKsolver/Experimental/AllgKlassen200203/Clauses.hpp. </li>
   </ul>
 
 
-  \todo Concepts for and-clauses, or-clauses, etc.
-
-
-  \todo Shall there be also "active clauses" ?!
+  \todo General ideas
   <ul>
-   <li> Seems reasonable; perhaps there is actually not a big difference,
-   since the literals need not to be there anyway --- however with regard to
-   active clauses more care is needed for the concept, and this might be
-   quite right. </li>
-   <li> An active clause perhaps is something like
-   a "small active clause-set" (see Concepts/plans/ActiveClauseSets.hpp),
-   in which we can also grasp into. </li>
-   <li> The hierarchy then would be
-    <ol>
-     <li> (generalised) literals </li>
-     <li> active clauses </li>
-     <li> active clause-sets </li>
-     <li> alliances of active clause-sets </li>
-    </ol>
-   </li>
+   <li> Do we need to distinguish between and-clauses and or-clauses? </li>
   </ul>
 
 
-  \todo Relations
+  \todo Clauses for unit-clause propagation
   <ul>
-   <li> What are the relations to Concepts/plans/ClauseSets.hpp and
-   Concepts/plans/ActiveClauseSets.hpp? </li>
+   <li> The following seems sensible for clauses used especially for
+   unit-clause propagation (as a one-off reduction, especially for a
+   given input clause-set, as a simple preprocessing; only falsified literals
+   are processed). </li>
+   <li> Construction by a sequence of literals. </li>
+   <li> Simulating a sequence of literals, we have the typical
+   access-components for containers, but only for reading. </li>
+   <li> Additionally we have remove(Lit x), after which the size-member is
+   still correct, however in order for the iteration through the literals to
+   work, first update(TotalAssignment&) needs to be applied. </li>
+   <li> remove(Lit) returns a literal, which is null iff the size after
+   removal is not one, while otherwise the remaining literal is returned. </li>
+   <li> Satisfied literals are ignored. </li>
+   <li> update(TotalAssignment&) is only relevant if at least two literals are
+   left. Though one needs also to find out here whether the clause has
+   been satisfied; so update returns a boolean, which is true iff the clause
+   was found satisfied. </li>
   </ul>
 
 
@@ -66,16 +60,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Old concepts
+  \todo Partial assignments
   <ul>
-   <li> For an earlier attempt see
-   OKsolver/Experimental/AllgKlassen200203/Clauses.hpp. </li>
-  </ul>
-
-
-  \todo A fundamental issue here is the relation to the concept of
-  partial assignments (see Concepts/plans/PartialAssignments.hpp)
-  <ul>
+   <li> A fundamental issue here is the relation to the concept of
+   partial assignments (see Concepts/plans/PartialAssignments.hpp). </li>
    <li> It should be possible to easily switch between
    the concepts of partial assignments and clauses; perhaps the only
    difference is in the complexity of the operations: while clauses correspond

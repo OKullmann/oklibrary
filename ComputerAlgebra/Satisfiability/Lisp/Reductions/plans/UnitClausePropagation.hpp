@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding UCP
 
 
+  \todo Connections
+  <ul>
+   <li> See Satisfiability/Reductions/UnitClausePropagation/plans/general.hpp
+   for plans at the C++ level. </li>
+  </ul>
+
+
   \todo The most basic form of UCP
   <ul>
    <li> DONE

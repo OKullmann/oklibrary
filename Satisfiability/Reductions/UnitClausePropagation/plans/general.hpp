@@ -1,16 +1,25 @@
 // Oliver Kullmann, 25.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Reductions/UnitClausePropagation/plans/general.hpp
+  \file Satisfiability/Reductions/UnitClausePropagation/plans/general.hpp
   \brief Plans for the module on unit clause propagation
 
 
   \todo Update namespaces.
+
+
+  \todo Connections
+  <ul>
+   <li> Old first prototype:
+   OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp. </li>
+   <li> See Satisfiability/Lisp/Reductions/plans/UnitClausePropagation.hpp
+   for the Maxima/Lisp level. </li>
+  </ul>
 
 
   \todo Update the plans.
@@ -19,20 +28,30 @@ License, or any later version. */
   \todo Create milestones.
 
 
-  \todo Transferring (and updating)
-  OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp.
+  \todo Implement trivial unit-propagation (quadratic time)
+  <ul>
+   <li> It seems we only need to update
+   OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp. </li>
+  </ul>
 
 
-  \todo Implementing the standard linear time UP-algorithm
-  (based on the bipartite structure) for P-clause-sets.
+  \todo Implement standard linear-time algorithm for boolean clause-sets
+  <ul>
+   <li> See "Clauses for unit-clause propagation" in
+   Satisfiability/ProblemInstances/Clauses/concepts/general.hpp. </li>
+  </ul>
 
 
-  \todo Investigate how to specialise the general UP-algorithm
+  \todo Implementing the standard linear-time UCP-algorithm
+  (based on the bipartite structure) for Power-clause-sets.
+
+
+  \todo Investigate how to specialise the general UCP-algorithm
   for clause-sets and boolean clause-sets.
 
 
   \todo The basic algorithm should assume an "active clause-set" and
-  an "active partial assignment":
+  an "active partial assignment"
   <ul>
    <li> The clause-sets receives the variable-domains from the partial
    assignment. </li>
@@ -57,11 +76,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo A clause-set F can be constructed with a binding to a partial assignment
-  F.phi().
+  \todo A clause-set F can be constructed with a binding to a partial
+  assignment F.phi().
   <ul>
-   <li> With F.sat_status() we get whether F with the current value of F.phi() is
-   unsatisfiable, satisfied or unknown (we need also the autarky-information
+   <li> With F.sat_status() we get whether F with the current value of F.phi()
+   is unsatisfiable, satisfied or unknown (we need also the autarky-information
    somehow). </li>
    <li> With F.implied_literals() a sequence of implied literals is returned.
    </li>
@@ -78,7 +97,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo UCP for clause-sets has the following interesting property:
+  \todo UCP for clause-sets has the following interesting property
   <ul>
    <li> When applying an assignment v -> eps, running through all relevant
    clauses, then when evaluating the clauses the current partial assignment is
@@ -93,14 +112,15 @@ License, or any later version. */
   </ul>
 
 
-  \todo A variation point is whether we want to go also through the satisfied clauses
-  or not (marking them as satisfied)
+  \todo A variation point is whether we want to go also through the satisfied
+  clauses or not (marking them as satisfied)
   <ul>
-   <li> This makes a difference for example for associated statistics gathering.
-   </li>
+   <li> This makes a difference for example for associated statistics
+   gathering. </li>
    <li> In the (old) OKsolver there was a clear separation: UCP didn't look at
-   satisfied clauses and didn't gather statistics; this was the responsibility of
-   the branching heuristics look-ahead (together with autarky reduction). </li>
+   satisfied clauses and didn't gather statistics; this was the responsibility
+   of the branching heuristics look-ahead (together with autarky reduction).
+   </li>
   </ul>
 
 */
