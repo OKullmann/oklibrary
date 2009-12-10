@@ -100,7 +100,7 @@ ramsey_nbfclud(q,r,n) := block(
 ramsey_stdnbfclud(q,r,n) := block(
   [dis_q : listify(
     map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), setify(q)))],
-  return([create_list(i,i,1,binom(n,r)),
+  return([create_list(i,i,1,binomial(n,r)),
    lappend(create_list(
      col2sat_stdohg2stdnbfclud(ramsey_stdohg(q_i[1],r,n),q_i[2])[2], q_i, dis_q)),
    create_list(i,i,1,length(q))

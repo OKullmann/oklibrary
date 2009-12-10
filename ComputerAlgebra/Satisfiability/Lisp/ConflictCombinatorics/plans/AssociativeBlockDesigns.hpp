@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -101,7 +101,7 @@ License, or any later version. */
    <li> Most natural seems the clause-based approach:
     <ol>
      <li> For each of the 2^k clauses we have a variable, with domain
-     all binom(n,k) * 2^k clauses. </li>
+     all binomial(n,k) * 2^k clauses. </li>
      <li> We have one injectivity condition over all variables (an active
      clause). </li>
      <li> We have one condition stating that all assigned clauses clash

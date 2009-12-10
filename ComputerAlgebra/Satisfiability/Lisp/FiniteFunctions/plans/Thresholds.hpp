@@ -91,7 +91,7 @@ License, or any later version. */
   <ul>
    <li> Of special interest are the representations of amo_bf(n), that is,
    that at most one of x_1, ..., x_n is 1. </li>
-   <li> The standard CNF-representation uses binom(n,2) clauses {-x_i,-x_j}.
+   <li> The standard CNF-representation uses binomial(n,2) clauses {-x_i,-x_j}.
    This is also the set of prime implicates (all are essential). </li>
    <li> There are n+1 prime implicants, namely those full clauses having
    at most one positive literal, and all these are (again) essential. </li>

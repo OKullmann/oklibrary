@@ -237,7 +237,7 @@ all_rt(m) := if m <= 0 then [] elseif m=1 then [[]] else
 /* The number of all these trees: */
 num_all_rt(m) := if m <= 0 then 0 else catalan_number(m-1)$
 
-catalan_number(n) :=  binom(2*n,n)/(n+1)$
+catalan_number(n) :=  binomial(2*n,n)/(n+1)$
 
 
 /* **************

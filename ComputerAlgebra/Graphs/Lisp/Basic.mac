@@ -359,9 +359,9 @@ orientedgraph_odgl_p(G) := not is(length(setify(map(setify,G[2]))) < length(G[2]
 
 
 /* Tests whether a graph is complete: */
-complete_g_p(G) := is(binom(length(G[1]),2) = length(G[2]))$
+complete_g_p(G) := is(binomial(length(G[1]),2) = length(G[2]))$
 complete_gl_p(G) := complete_g_p(gl2g(G))$
-complete_og_p(G) := is(binom(length(G[1]),2) = length(G[2]))$
+complete_og_p(G) := is(binomial(length(G[1]),2) = length(G[2]))$
 complete_ogl_p(G) := complete_og_p(ogl2og(G))$
 complete_mug_p(G) := complete_g_p(mug2g(G))$
 complete_mugl_p(G) := complete_gl_p(mugl2gl(G))$

@@ -39,7 +39,7 @@ okltest_complete_g(f) := (
   for n : 0 thru 5 do block([G : f(setn(n))],
     assert(g_p(G)=true),
     assert(G[1] = setn(n)),
-    assert(length(G[2]) = binom(n,2))),
+    assert(length(G[2]) = binomial(n,2))),
   assert(okltest_complete_stdg(buildq([f],lambda([n],f(setn(n)))))),
   true)$
 

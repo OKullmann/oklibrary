@@ -189,12 +189,12 @@ is(Csa);
      <li> sum(L) < B has the CNF-realisation consisting of all B-subsets
      of L, which are (then) complemented. </li>
      <li> Example L = {1,-2,3} and B=2: {{-1,2},{-1,-3},{2,-3}} </li>
-     <li> The number of clauses is thus binom(m,B). </li>
+     <li> The number of clauses is thus binomial(m,B). </li>
      <li> sum(L) <= B is equivalent to sum(L) < B+1. </li>
      <li> sum(L) >= B has the DNF-realisation consisting of all B-subsets
      of L. </li>
      <li> Example L = {1,-2,3} and B=2: {{1,-2},{1,3},{-2,3}} </li>
-     <li> So the number of clauses is binom(m,B). </li>
+     <li> So the number of clauses is binomial(m,B). </li>
      <li> sum(L) > B is equivalent to sum(L) >= B+1. </li>
      <li> sum(L) >= B is equivalent to sum(-L) <= m-B. </li>
      <li> sum(L) <= B is equivalent to sum(-L) >= m-B. </li>
@@ -203,8 +203,8 @@ is(Csa);
      CNF-representations of sum(L) < B+1 and sum(-L) < m-B+1. </li>
      <li> That is, we have all (B+1)-subsets of L, complemented, and
      all (m-B+1)-subsets of L. </li>
-     <li> The number of clauses is thus binom(m,B+1) + binom(m,m-B+1) =
-     binom(m,B+1) + binom(m,B-1). </li>
+     <li> The number of clauses is thus binomial(m,B+1) + binomial(m,m-B+1) =
+     binomial(m,B+1) + binomial(m,B-1). </li>
      <li> Example L = {1,-2,3} and B=2: {{-1,2,-3},{1,-2},{1,3},{-2,3}}. </li>
      <li> And the DNF-representation of sum(L) = B is the product of the
      DNF-representations of sum(L) >= B and sum(-L) >= m-B. </li>
@@ -215,7 +215,7 @@ is(Csa);
      </li>
      <li> One sees that the DNF-representation just lists all total satisfying
      assignments (no resolution is possible between them). </li>
-     <li> The number of clauses is thus binom(m,B). </li>
+     <li> The number of clauses is thus binomial(m,B). </li>
     </ol>
    </li>
    <li> These clause-sets coincide with the sets of all prime implicates resp.

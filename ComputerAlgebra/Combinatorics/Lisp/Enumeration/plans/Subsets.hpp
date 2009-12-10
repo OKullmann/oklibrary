@@ -30,7 +30,7 @@ License, or any later version. */
   \todo Enumerating all k-subsets lexicographically : DONE
   <ul>
    <li> Given natural numbers n, k >= 0, the task is to enumerate the set
-   binom({1,...,n},k) of all k-subsets of {1,...,n}. (See "Main concepts"
+   binomial({1,...,n},k) of all k-subsets of {1,...,n}. (See "Main concepts"
    in ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp.) </li>
    <li> We have lexicographical and colexicographical ordering. </li>
    <li> More precisely, one considers lists of integers, ordered

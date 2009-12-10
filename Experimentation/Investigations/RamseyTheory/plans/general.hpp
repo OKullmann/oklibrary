@@ -29,7 +29,7 @@ License, or any later version. */
    <li> So the hypergraphs are (V_t^N, E_t^N), where the hyperedges are
    the t-subsets of V such that an ordering exists making this subset
    to a "line" (such an ordering is then unique). </li>
-   <li> We have |E_t^N| = sum_{i=0}^{t-1} binom(t,i) * N^i, where i stands
+   <li> We have |E_t^N| = sum_{i=0}^{t-1} binomial(t,i) * N^i, where i stands
    for the number of degeneration-coordinates. </li>
    <li> The Hales-Jewett theorem now asserts the existence of
    halesjewett_r(t) = N, so that N' >= N is equivalent to the hypergraph

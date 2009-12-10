@@ -194,22 +194,22 @@ ramsey_stdohg(q,r,n) :=
 
 /* Statistics functions: */
 
-nver_ramsey_hg(q,r,n) := binom(n,r)$
-nver_ramsey_ohg(q,r,n) := binom(n,r)$
-nver_ramsey_stdohg(q,r,n) := binom(n,r)$
+nver_ramsey_hg(q,r,n) := binomial(n,r)$
+nver_ramsey_ohg(q,r,n) := binomial(n,r)$
+nver_ramsey_stdohg(q,r,n) := binomial(n,r)$
 
 nhyp_ramsey_hg(q,r,n) := 
   if q > n then 0
   elseif r > n then 0
   else if r > q then 0
   elseif r = 0 then 1
-  else binom(n,q)$ 
+  else binomial(n,q)$ 
 nhyp_ramsey_ohg(q,r,n) := 
   if q > n then 0
   elseif r > n then 0
   else if r > q then 0
   elseif r = 0 then 1
-  else binom(n,q)$ 
+  else binomial(n,q)$ 
 
 /*!
 \endhtmlonly

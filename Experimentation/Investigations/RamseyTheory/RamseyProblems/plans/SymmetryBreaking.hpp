@@ -51,7 +51,7 @@ License, or any later version. */
    McKay and Radziszowski, there are 656 non-isomorphic solutions for 
    "ramsey_2_2(5,5) > 42 ?" (available at 
    http://cs.anu.edu.au/~bdm/data/ramsey.html), where 16 of these have 
-   floor(binom(42,2)/2) = 430 edges of one label. </li>
+   floor(binomial(42,2)/2) = 430 edges of one label. </li>
    <li> However, there there are far more known solutions further from this 
    central number (this can also be seen in the distribution of all 
    ramsey_2^2(4,4) solutions), and with respect to this, Dr McKay offers that

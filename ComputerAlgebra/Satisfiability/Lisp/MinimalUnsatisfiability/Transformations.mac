@@ -121,7 +121,7 @@ srfswx_var(i) := nounify(srfswx)(i)$
 srfswy_var(i,j) := nounify(srfswy)(i,j)$
 srfswz_var(v,i) := nounify(srfswz)(v,i)$
 
-new_k(k) := binom(k,2) + 2 * k$
+new_k(k) := binomial(k,2) + 2 * k$
 
 /* Input a graph G and k >= 0, output a formal clause-set FF 
    which contains a minimally unsatisfiable sub-clause-set of size 
@@ -151,14 +151,14 @@ maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
 /* Measures for the translated formulas */
 
 /* Number of variables */
-n_var_maxclique_mures(G,k) := k + binom(k,2) + length(G[1]) * k$
+n_var_maxclique_mures(G,k) := k + binomial(k,2) + length(G[1]) * k$
 
 /* List of clause-counts as with ncl_list_fcs: */
 ncl_list_maxclique_mures(G,k) := block([n : length(G[1]), m : length(G[2])],
  if k = 0 then [[0,1]]
  elseif k = 1 then [[1, n + 1], [2, n * k]]
- elseif k = 2 then [[1, n * k], [2, n * k], [3, binom(k,2) * m + 1]] else
- [[1, n * k], [2, n * k], [3, binom(k,2) * m ], [k + binom(k,2), 1]])$
+ elseif k = 2 then [[1, n * k], [2, n * k], [3, binomial(k,2) * m + 1]] else
+ [[1, n * k], [2, n * k], [3, binomial(k,2) * m ], [k + binomial(k,2), 1]])$
 
 
 /*!

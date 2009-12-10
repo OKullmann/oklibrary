@@ -113,7 +113,7 @@ License, or any later version. */
    <li> A parameter value 2 means that the corresponding part can contain
    at most one element. </li>
    <li> Currently this gets (automatically) translated using the standard
-   representation of AMO for the vertices, using binom(n,2) binary clauses
+   representation of AMO for the vertices, using binomial(n,2) binary clauses
    (since two different vertices make always a progression of length 2). </li>
    <li> An alternative is presented in "At-most-one as a CNF" in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Thresholds.hpp,

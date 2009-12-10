@@ -214,9 +214,9 @@ okltest_ramsey_hg(f) := (
   for q : 0 thru 3 do
     for r : 0 thru 3 do
       for n : 0 thru 3 do block([G : f(q,r,n)],
-        assert(length(G[1]) = binom(n,r)),
+        assert(length(G[1]) = binomial(n,r)),
         assert(length(G[2]) = if q>n then 0 else
-          if r<=q then (if r=0 then 1 else binom(n,q)) else 0)),
+          if r<=q then (if r=0 then 1 else binomial(n,q)) else 0)),
   true)$
 
 okltest_ramsey_ohg(f) := (

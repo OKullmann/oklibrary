@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.1.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -126,9 +126,9 @@ License, or any later version. */
    square of order n, and MOS(n,k) for the condition on the existence of k
    squares of order n which are mutually orthogonal):
     <ol>
-     <li> LS(n) has 2*n*binom(n,2)*n = n^3 * (n-1) = O(n^4) 2-clauses
+     <li> LS(n) has 2*n*binomial(n,2)*n = n^3 * (n-1) = O(n^4) 2-clauses
      (using n^2 variables, each with domain size n). </li>
-     <li> MOS(n, k) has binom(k,2)*n^4*(n^2-1)/2 = k*(k-1)*n^4*(n^2-1)/4 =
+     <li> MOS(n, k) has binomial(k,2)*n^4*(n^2-1)/2 = k*(k-1)*n^4*(n^2-1)/4 =
      O(k^2 * n^6) 4-clauses (using k*n^2 variables, each with domain size n).
      </li>
      <li> MOLS(n,k) has k * n^3 * (n-1) = O(k * n^4) 2-clauses and 
