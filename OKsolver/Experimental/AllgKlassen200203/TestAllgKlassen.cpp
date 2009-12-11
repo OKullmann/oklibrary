@@ -38,7 +38,6 @@ License, or any later version. */
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/Clauses.hpp>
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/ClauseSets.hpp>
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp>
-#include <OKlib/OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp>
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/OutputCls.hpp>
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/InputCls.hpp>
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp>
