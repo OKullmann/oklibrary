@@ -10,14 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of Git
 
 
-  \todo Problems installing version 1.6.5.4
-  <ul>
-   <li> We get an xmlto-error, using version 0.0.18. </li>
-   <li> Is a newer version required? An e-mail has been sent to the Git
-   mailing list. </li>
-  </ul>
-
-
   \todo Prerequisites
   <ul>
    <li> What to do about xmlto --- is this available in recent
