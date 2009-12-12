@@ -60,12 +60,15 @@ License, or any later version. */
      <li> On the other hand, one can overload on enumeration types, and
      thus one could use a function like exceptional_value<T>(). Again,
      only with C++09 this would be a constant. </li>
-     <li> For C++03 one needed to use class templates: Exceptional<T>::value.
-     </li>
+     <li> For C++03 one needed to use class templates:
+     exceptional_value<T>::value. </li>
      <li> Perhaps this is best, to use such meta-functors, perhaps for the
      first and last "real" value, and the exceptional value. </li>
+     <li> Calling the traits-metafunctions "first_value", "last_value" and
+     "exceptional_value". If there is no exceptional value, then the last
+     metafunction is not defined. </li>
      <li> The placement could be in namespace
-     OKlib::Satisfiability::Enumerations::traits. </li>
+     OKlib::Satisfiability::Values::traits. </li>
      <li> The disadvantage of using enums is that we don't have full
      type-safety; this is the advantage of the boost-type. </li>
      <li> Of course, we could establish this small battery as a battery of
