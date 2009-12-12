@@ -14,7 +14,7 @@ License, or any later version. */
   for older concepts of partial assignments.
 
 
-  \todo See PartialAssignments/plans/PartialAssignments.hpp for further design
+  \todo See Assignments/PartialAssignments/plans/general.hpp for further design
   studies.
 
 
