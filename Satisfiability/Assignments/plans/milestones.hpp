@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.9.2007 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,6 +19,7 @@ License, or any later version. */
   \par
    In Satisfiability/Assignments/plans/general.hpp the following
    topics are handled:
+    - How to handle "unassigned" ? : DONE
     - Move the OKlib/Concepts/plans/Assignments.hpp here : DONE
 
   \par

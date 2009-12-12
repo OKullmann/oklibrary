@@ -15,7 +15,9 @@ License, or any later version. */
   Move the OKlib/Concepts/plans/Assignments.hpp here.
 
 
-  \todo How to handle "unassigned" ?
+  \todo DONE (see Values::Assignment_status in
+  OKlib/Satisfiability/Values/StatusTypes.hpp)
+  How to handle "unassigned" ?
   <ul>
    <li> Determining the state of a variable w.r.t. a partial or total
    assignment, it can be unassigned or it can have a specific value. </li>
