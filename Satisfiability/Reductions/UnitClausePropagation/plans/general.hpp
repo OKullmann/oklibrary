@@ -30,15 +30,24 @@ License, or any later version. */
 
   \todo Implement trivial unit-propagation (quadratic time)
   <ul>
-   <li> It seems we only need to update
-   OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp. </li>
+   <li> We only need to update function
+   UnitPropagation::unit_propagation_simple in
+   Reductions/UnitClausePropagation/UnitPropagation.hpp. </li>
+   <li> However, also the concepts used need to be updated. </li>
   </ul>
 
 
   \todo Implement standard linear-time algorithm for boolean clause-sets
   <ul>
+   <li> We have the generic function
+   UnitPropagation::unit_propagation_improved in
+   Reductions/UnitClausePropagation/UnitPropagation.hpp. </li>
+   <li> Here the clause-literal graph is assumed to be given. </li>
+   <li> Perhaps first we should use a more lightweight approach, constructing
+   the necessary data structures by the algorithm itself. </li>
    <li> See "Clauses for unit-clause propagation" in
-   Satisfiability/ProblemInstances/Clauses/concepts/general.hpp. </li>
+   Satisfiability/ProblemInstances/Clauses/concepts/general.hpp for
+   a basic concept of clauses supporting basic linear time algorithms. </li>
   </ul>
 
 

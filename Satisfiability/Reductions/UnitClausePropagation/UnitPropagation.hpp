@@ -6,10 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OKlib/OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp
+  \file OKlib/Satisfiability/Reductions/UnitClausePropagation/UnitPropagation.hpp
   \brief Experimental code for unit-propagation (boolean clause-sets)
   \deprecated Old code, needs a full update and redesign. Has also never been
   put into action.
+
+  \todo Update namespaces
 */
 
 #ifndef UNITPROPAGATIONWAECHTER_93Rt3
@@ -21,6 +23,17 @@ License, or any later version. */
 #include <OKlib/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
 
 namespace UnitPropagation {
+
+  /*!
+    \brief Generic function for UCP, applying just iterated linear search for unit-clauses
+
+    \todo Make the concept for Cls explicit
+    <ul>
+     <li> F.unsat() should just check for the empty clause. </li>
+     <li> F.sat() should just check for the empty clause-set. </li>
+     <li> F.apply(phi) applies the partial assignment in-place. </li>
+    </ul>
+  */
 
   template <class Cls>
   Auxiliary::Sat_status unit_propagation_simple(Cls& F) {
@@ -38,6 +51,16 @@ namespace UnitPropagation {
 }
 
 namespace UnitPropagation {
+
+  /*!
+    \brief Generic implementation of the basic linear-time algorithm for UCP
+
+    \todo Make the underlying concepts explicit
+    <ul>
+     <li> For a literal x, [x.begin,x.end()] is the range of all clauses in
+     which x occurs. </li>
+    </ul>
+  */
 
   template <class Cls>
   Auxiliary::Sat_status unit_propagation_improved(const Cls& F, typename Cls::Pass& phi) {
