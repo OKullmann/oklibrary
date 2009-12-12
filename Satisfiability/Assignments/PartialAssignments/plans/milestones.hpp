@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Assignments/PartialAssignments/plans/general.hpp the following topics are handled:
     - Move Concepts/plans/PartialAssignments.hpp here : DONE
-    - Move PartAssign.hpp here
+    - Move PartAssign.hpp here : DONE
     - Update namespace usage
 
 

@@ -14,7 +14,8 @@ License, or any later version. */
   Move Concepts/plans/PartialAssignments.hpp here.
 
 
-  \todo Move PartAssign.hpp here.
+  \todo DONE
+  Move PartAssign.hpp here.
 
 
   \todo Update namespace usage.
@@ -24,7 +25,7 @@ License, or any later version. */
   <ul>
    <li> See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp.
    </li>
-   <li> Update Satisfiability/Assignments/PartAssign.hpp, so that it becomes
+   <li> Update PartialAssignments/PartAssign.hpp, so that it becomes
    a very simple implementation of the generic concepts. </li>
   </ul>
 

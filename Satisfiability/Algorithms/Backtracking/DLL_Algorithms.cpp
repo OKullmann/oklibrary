@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.2002 (Swansea)
-/* Copyright 2002 - 2007 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,7 @@ License, or any later version. */
 #include <OKlib/Satisfiability/ProblemInstances/Literals/Literal.hpp>
 #include <OKlib/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
 #include <OKlib/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
-#include <OKlib/Satisfiability/Assignments/PartAssign.hpp>
+#include <OKlib/Satisfiability/Assignments/PartialAssignments/PartAssign.hpp>
 #include <OKlib/Satisfiability/Algorithms/Backtracking/DLL_Algorithms.hpp>
 
 namespace DLL_Algorithms {
