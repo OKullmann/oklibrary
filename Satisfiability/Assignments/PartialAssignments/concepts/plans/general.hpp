@@ -10,31 +10,45 @@ License, or any later version. */
   \brief Plans for concepts for partial assignments
 
 
-  \todo See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
-  for older concepts of partial assignments.
-
-
-  \todo Generalisations
+  \todo Connections
   <ul>
-   <li> With generalised literals we have more than one variable per literal.
-   </li>
-   <li> Do we still speak of "partial assignments" ? One could use:
-    <ol>
-     <li> "partial assignments" for partial maps v -> value </li>
-     <li> "partial multiassignments" for partial maps v -> set-of-values </li>
-     <li> "partial specifications" for arbitrary sets of literals </li>
-    </ol>
-   </li>
-   <li> "Partial assignments" are some form of normalised constraints. These
-   normalisation conditions need to be discussed (they are especially critical
-   for non-unary literals). </li>
-   <li> Consider equality-literals: Here substitutions can be performed! And
-   in general we could have eliminated variables, which depend in arbitrary
-   ways on other variables. How to handle this? And what if some active
-   clause-sets perform the substitutions, some don't ?! </li>
-   <li> Partial assignments in general contain several types of literals. So a
-   partial assignment is a tuple or a sequence of mono-typed partial
-   assignments ?! </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp
+   for the C++ level. </li>
+   <li> See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+   for older concepts of partial assignments. </li>
+  </ul>
+
+
+  \todo The basic concept of a "partial assignment"
+  <ul>
+   <li> A "partial assignment" in its most basic form is a collection
+   of literals. </li>
+   <li> More specifically, we use sequences in the C++ sense. </li>
+   <li> So we have value_type, iterator and const_iterator as dependent
+   types (where value_type yields the literal-type), and begin(), end() and
+   size() as member functions. </li>
+   <li> The literals might concern several variables; a partial assignment
+   specifies a set of total assignments, namely all those total assignments
+   which satisfy all literals. </li>
+   <li> Several normalisation conditions are potentially involved; partial
+   assignments can just be understood as constraints used for the special
+   purpose of search through a backtracking tree. </li>
+   <li> So for standard boolean partial assignments every literal has a
+   unique variable and a unique truth value (thus such partial assignments are
+   never inconsistent). </li>
+   <li> There are several possibilities for evaluating partial assignments;
+   for (single) variable-based onces one can compute for example for a
+   variable the set of allowed values. </li>
+   <li> Perhaps the most general form of partial assignment should be called
+   "partial specification". </li>
+   <li> And if for a variable in the domain of the partial assignment more
+   than one value is possible, then one could speak of "partial
+   multiassignments". </li>
+   <li> Here the "domain" is the set of variables underlying the literals
+   constituting the partial assignment. </li>
+   <li> A partial specification involves only one type of literal; shall we
+   call tuples of partial speciciations (over different types of literals)
+   "alliances of partial speciciations"? </li>
   </ul>
 
 
@@ -123,7 +137,7 @@ License, or any later version. */
 
   \todo How to do the updates in an alliance of active clause-sets
   <ul>
-   <li> Perhaps each active clause-set can be registered?). </li>
+   <li> Perhaps each active clause-set can be registered? </li>
    <li> One idea:
     <ol>
      <li> With phi.update_iterator() an active clause-set F can obtain an
@@ -148,10 +162,6 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
-
-
-  \todo Refinements of partial assignments offer access to a variable
-  container.
 
 
   \todo Relation to the notion of clauses
