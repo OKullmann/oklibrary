@@ -7,45 +7,38 @@ License, or any later version. */
 
 /*!
   \file OKlib/Satisfiability/Assignments/concepts/plans/general.hpp
-  \brief Plans for concepts for total assignments.
+  \brief Plans for concepts for (total) assignments.
 
 
-  \todo Concept discussion
+  \todo The basic concept of a "total assignment"
   <ul>
-   <li> The main point here is to consider partial assignments with
-   fixed domain (that is, variables for which the value is defined). </li>
-   <li> One needs to discuss the relationship to
-   Concepts/plans/PartialAssignments.hpp.
-    <ol>
-     <li> For assignments we do not need to consider all those
-     extension- and undo-problems. </li>
-     <li> And we should focus on literals with one variable. </li>
-     <li> However there is the problem of generalised literals ---
-     should this be considered here, or should we consider "assignments" here
-     as "total assignments" in the sense of <strong>single models</strong>
-     (while partial assignments stand for <strong>sets of models</strong>) ?!
-     </li>
-    </ol>
-   </li>
-   <li> Concepts for assignments as specialisations of concepts for maps
-   (see my notes as discussed in the MSc thesis of B):
-    <ol>
-     <li> If f is an assignment, then dom(f) is defined, </li>
-     <li> and for v of type dom(f) the expression f(v) can be build
-     (v is a variable with values, f(v) is of the value type). </li>
-     <li> dom(f) is a set in the general sense (which can have iterators
-     and element-decision). As a refinement iterators through all pairs (x, y)
-     (so that std::map can easily yield models). </li>
-     <li> However, with the directive of being able to use types directly
-     supported by C++, "f[variable_index]" would be better, since then
-     arrays and vectors could be used. </li>
-    </ol>
-   </li>
-   <li> The main application seems to be local-seach algorithms.
-   See LocalSearch/plans/SupportTotalAssignments.hpp. </li>
-   <li> But there are many other uses of total assignments: basically every
-   SAT algorithms needs to use them, to find out about the state of the
-   variables. </li>
+   <li> The basic intuition for a "total assignment" is that of a "model",
+   that is, a "structure" (which might satisfy some given condition, so
+   that then it qualifies as a "model"). </li>
+   <li> This is in contrast to "partial assignments" (see
+   Assignments/PartialAssignments/concepts/plans/general.hpp), which are
+   basically specifying sets of total assignments. </li>
+   <li> A total assignment is furthermore a map, with range the base set
+   of the structure. </li>
+   <li> The arguments could be arbitrary "indices", but it seems that for the
+   domain of (generalised) satisfiability variables are the appropriate
+   arguments. </li>
+   <li> For a total assignment f and a variable v, the basic operation is
+   "f[v]", yielding a value; this syntax allows arrays and vectors as
+   total assignments. </li>
+   <li> Furthermore we have "value_type" for the type of values, generically as
+   \code
+OKlib::Satisfiability::Assignments::traits::value_type<T>::type
+   \endcode
+   or, if available, as T::value_type. </li>
+   <li> The domain, the set of variables for which f is defined, is in general
+   only implicitly defined. </li>
+   <li> If we just speak of an "assignment", then f[v] is potentially
+   undefined for v in the (implicit) domain, indicated by some special
+   value in the domain. </li>
+   <li> Although this is similar to partial assignments, the underlying ideas
+   are different: assignments don't stand for sets of total assignments, but
+   for total assignments on some sub-sets of variables. </li>
   </ul>
 
 */
