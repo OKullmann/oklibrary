@@ -24,7 +24,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Clauses for unit-clause propagation
+  \todo DONE (we have now Clauses::RClausesAsVectors and
+  Clauses::RClausesAsSets)
+  Clauses for unit-clause propagation
   <ul>
    <li> The following seems sensible for clauses used especially for
    unit-clause propagation (as a one-off reduction, especially for a
@@ -35,9 +37,11 @@ License, or any later version. */
    access-components for containers, but only for reading. </li>
    <li> Additionally we have remove(Lit x), after which the size-member is
    still correct, however in order for the iteration through the literals to
-   work, first update(TotalAssignment&) needs to be applied. </li>
-   <li> remove(Lit) returns a literal, which is null iff the size after
-   removal is not one, while otherwise the remaining literal is returned. </li>
+   take the removed literal into account, first update(const TotalAssignment&)
+   needs to be applied. </li>
+   <li> remove(Lit) returns a boolean, which is true iff the size after
+   removal is one, and where then by unit(const TotalAssignment&) the
+   unit-literal is computed. </li>
    <li> Satisfied literals are ignored. </li>
    <li> update(TotalAssignment&) is only relevant if at least two literals are
    left. Though one needs also to find out here whether the clause has
