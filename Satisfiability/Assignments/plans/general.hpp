@@ -11,7 +11,8 @@ License, or any later version. */
   implementations.
 
 
-  \todo Move the OKlib/Concepts/plans/Assignments.hpp here.
+  \todo DONE
+  Move the OKlib/Concepts/plans/Assignments.hpp here.
 
 
   \todo How to handle "unassigned" ?

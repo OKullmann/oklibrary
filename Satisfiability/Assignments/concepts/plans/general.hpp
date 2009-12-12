@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Concepts/plans/Assignments.hpp
+  \file OKlib/Satisfiability/Assignments/concepts/plans/general.hpp
   \brief Plans for concepts for total assignments.
 
 
