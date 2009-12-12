@@ -6,16 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Concepts/plans/PartialAssignments.hpp
+  \file OKlib/Satisfiability/Assignments/PartialAssignments/concepts/plans/general.hpp
   \brief Plans for concepts for partial assignments
 
 
   \todo See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
   for older concepts of partial assignments.
-
-
-  \todo See Assignments/PartialAssignments/plans/general.hpp for further design
-  studies.
 
 
   \todo Generalisations

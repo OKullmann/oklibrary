@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans for the module on partial assignments
 
 
-  \todo Move Concepts/plans/PartialAssignments.hpp here.
+  \todo DONE
+  Move Concepts/plans/PartialAssignments.hpp here.
 
 
   \todo Move PartAssign.hpp here.
