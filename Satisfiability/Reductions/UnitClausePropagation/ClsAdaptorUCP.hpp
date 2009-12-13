@@ -36,9 +36,19 @@ namespace OKlib {
         \class CLSAdaptorUcp
         \brief Transferring a (boolean) clause-set into a vector of vectors, and then performing unit-clause propagation
 
-        Models CLSAdaptor and basic ClauseList. This is the basic linear-time
-        algorithm, using the clause-literal graph and considering only
-        falsified literals during the reduction process.
+        Specification:
+        <ul>
+         <li> Models CLSAdaptor and basic ClauseList. </li>
+         <li> This is the basic linear-time algorithm, using the
+         clause-literal graph and considering only falsified literals during
+         the reduction process. </li>
+         <li> The reduction process is performed when calling perform_ucp()
+         (after having completed the transfer). </li>
+         <li> The clause-list is usable thereafter iff the return-value is
+         "open". </li>
+         <li> Additional comments reflecting the UCP-process are available
+         via add_comment(). </li>
+        </ul>
 
         Assumptions:
         <ul>
@@ -136,20 +146,23 @@ namespace OKlib {
         // afterwords iff the return-value is "open".
         OKlib::Satisfiability::Values::Sat_status perform_ucp() {
           using namespace OKlib::Satisfiability::Values;
+          add_com << "\nc Additional comments regarding the unit-clause propagation:";
+          add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";
+          add_com << "\nc After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is " << F.size() << ".";
           if (empty_cl) {
-            add_com << "\nc Empty clause in input.";
+            add_com << "\nc Empty clause directly entailed by input (thus the problem is unsatisfiable).";
             return falsified;
           }
           if (phi.empty())
             if (F.empty()) {
-              add_com << "\nc No non-tautological clause in input.";
+              add_com << "\nc No non-tautological clause in input (thus the problem is satisfiable).";
               return satisfied;
             }
             else {
               add_com << "\nc No unit-clause in input.";
               return open;
             }
-          add_com << "\nc " << phi.size() << " unit-clauses in input.";
+          add_com << "\nc Number of unit-clauses in input = " << phi.size() << ".";
 
           // create the clause-literal graph:
           typedef std::list<iterator> occurrence_list_t;
@@ -174,7 +187,10 @@ namespace OKlib {
             for (o_iterator C = cl_graph[i].begin(); C != endO; ++C)
               if ((*C) -> remove(x)) {
                 const typename value_type::unit_return_t R = (*C) -> unit(f);
-                if (R.first == falsified) return falsified;
+                if (R.first == falsified) {
+                  add_com << "\nc UCP determines unsatisfiability after processing " << (next - phi.begin()) + 1 << " assignments.";
+                  return falsified;
+                }
                 if (R.first == satisfied) continue;
                 const int_type y = R.second;
                 assert(y != 0);
@@ -195,8 +211,14 @@ namespace OKlib {
             case satisfied : F.erase(i++); break;
             case open : ++i;
             }
-          if (F.empty()) return satisfied;
-          else return open;
+          if (F.empty()) {
+            add_com << "\nc UCP determines satisfiability after processing " << phi.size() << " assignments.";
+            return satisfied;
+          }
+          else {
+            add_com << "\nc UCP performed " << phi.size() << " assignments.";
+            return open;
+          }
         }
 
       private :
