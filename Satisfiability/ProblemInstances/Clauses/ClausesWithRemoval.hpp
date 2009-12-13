@@ -50,6 +50,7 @@ License, or any later version. */
 #include <utility>
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/var.hpp>
+#include <OKlib/Satisfiability/ProblemInstances/Literals/cond.hpp>
 #include <OKlib/Satisfiability/Values/StatusTypes.hpp>
 
 namespace OKlib {
