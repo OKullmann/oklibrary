@@ -32,6 +32,7 @@ License, or any later version. */
 
 */
 
+#include <string>
 #include <iostream>
 #include <map>
 #include <cassert>

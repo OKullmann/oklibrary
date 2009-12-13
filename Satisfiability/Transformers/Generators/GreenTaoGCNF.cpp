@@ -21,6 +21,7 @@ License, or any later version. */
 
 */
 
+#include <string>
 #include <iostream>
 #include <vector>
 #include <sstream>
