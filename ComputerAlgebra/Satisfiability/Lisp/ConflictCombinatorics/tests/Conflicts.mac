@@ -124,7 +124,7 @@ okltest_partition_number_cs(f) := block(
   for k : 0 thru 3 do (
     assert(f(uniform_usat_hitting_min(k)) = 1),
     assert(f(uniform_usat_hitting_max(k)) = 1),
-    assert(f(smusat_horn(k)) = 1)),
+    assert(f(smusat_horn_cs(k)) = 1)),
   assert(f(sasg2000[2]) = 1),
 true)$
 

@@ -100,8 +100,6 @@ nearly_full_hitting_fcs(n) := block([FF : full_fcs(n)],
   return([FF[1], adjoin(setn(n-1), setdifference(FF[2], {setn(n), adjoin(-n,setn(n-1))}))]))$
 
 /* Saturated minimally unsatisfiable Horn clause-sets with k variables: */
-/* RENAME: smusat_horn_cs */
-smusat_horn(k) := treehittingcls_st(horn_st(k))$
 smusat_horn_cs(k) := treehittingcls_st(horn_st(k))$
 /* Standardised (trv[] -> 1, trv[2] -> 2, trv[2,2] -> 3 etc.): */
 smusat_horn_stdfcl(k) := [create_list(i,i,1,k),

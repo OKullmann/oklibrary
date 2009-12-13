@@ -33,7 +33,7 @@ okltest_ucp_cs(f) := block(
   assert(f({{-1},{1,2}}) = {}),
   assert(f({{-1},{1,2,3}}) = {{2,3}}),
   assert(f({{-1},{1,2},{-2,3},{-3}}) = {{}}),
-  for n : 0 thru 5 do block([F : smusat_horn(n)],
+  for n : 0 thru 5 do block([F : smusat_horn_cs(n)],
     assert(f(F) = {{}}),
     assert(f(union(F,{{1,2}})) = {{}})
   ),

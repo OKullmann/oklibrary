@@ -42,7 +42,7 @@ okltest_singular_dp_reduction(f) := (
     assert(f(F) = {{}})),
   for k : 0 thru 3 do block([F : uniform_usat_hitting_min(k)],
     assert(f(F) = {{}})),
-  for k : 0 thru 3 do block([F : smusat_horn(k)],
+  for k : 0 thru 3 do block([F : smusat_horn_cs(k)],
     assert(f(F) = {{}})),
   assert(nvar_cs(f(weak_php(3,2)[2])) = 3),
   true)$

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,7 +90,7 @@ okltest_generalised_ucp_pa(f) := block(
 okltest_generalised_ucp_opa(f) := block([F],
   assert(okltest_generalised_ucp_pa(buildq([f],lambda([F,k], block([R:f(F,k)], [R[1],setify(R[2])])))) = true),
   for n : 1 thru 5 do (
-    F : setify(rest(listify(smusat_horn(n)))),
+    F : setify(rest(listify(smusat_horn_cs(n)))),
     for k : 0 thru 3 do
       if k = 0 then assert(f(F,k) = [F,[]])
       else assert(f(F,k) = [{},create_list(trv_var(create_list(2,j,1,i-1)),i,1,n)])
