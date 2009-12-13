@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,8 +7,7 @@ License, or any later version. */
 
 /*!
   \file ProblemInstances/Literals/plans/general.hpp
-  \brief General plans on literals, their concepts and
-  implementations.
+  \brief General plans on literals, their concepts and implementations.
 
 
   \todo Move the related concepts and plans from OKlib/Concepts here.
@@ -24,6 +23,10 @@ License, or any later version. */
    based on the basic atomic condition for arbitrary value-types. What to
    do about the requirement that the atomic condition of a literal is not
    constant? Just an invariant? </li>
+   <li> It seems using "-x" for the negation of a (boolean) literal x
+   is easiest. </li>
+   <li> While a boolean literal x is positive iff OKlib::Literals::cond(x)
+   is true. </li>
   </ul>
 
 */
