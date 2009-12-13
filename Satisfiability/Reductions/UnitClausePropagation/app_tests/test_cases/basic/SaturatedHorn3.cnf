@@ -1,0 +1,6 @@
+c The saturated Horn clause-set with 3 variables.
+p cnf 3 4
+-1 0
+1 -2 0
+1 2 -3 0
+1 2 3 0

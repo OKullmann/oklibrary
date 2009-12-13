@@ -1,0 +1,7 @@
+c Just the empty clause.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 0, c = 1.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 0.
+c Empty clause directly entailed by input (thus the problem is unsatisfiable).
+p cnf 0 1
+0

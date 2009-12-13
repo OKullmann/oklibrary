@@ -1,0 +1,43 @@
+#!/bin/bash
+# Oliver Kullmann, 13.12.2009 (Swansea)
+# Copyright 2009 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Run through all available cases for unit-clause propagation, and check the output.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories
+set -o nounset
+
+app_test_dir=${OKlib}/Satisfiability/Reductions/UnitClausePropagation/app_tests
+
+cd ${app_test_dir}
+
+program_tested="UnitClausePropagation"
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic -maxdepth 1 -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find test_cases/basic -maxdepth 1 -name '*.cnf') $(find test_cases/full -maxdepth 1 -name '*.cnf')"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic -maxdepth 1 -name '*.cnf') $(find test_cases/full -maxdepth 1 -name '*.cnf') $(find test_cases/extensive -maxdepth 1 -name '*.cnf')"
+    ;;
+esac
+
+echo -e "\nTEST FORMULAS FOUND:"
+echo "${list_test_cases}"
+
+echo "Processing:"
+
+for P in ${list_test_cases}; do
+  echo "Filename:" "${P}"
+  directory=$(dirname ${P})
+  filename=$(basename ${P})
+  result_file="${directory}/dimacs_output/${filename}"
+  output=$(cat ${P} | ${program_tested}-O3-DNDEBUG)
+  echo "${output}" | diff - "${result_file}"
+done
+
+exit 0

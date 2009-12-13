@@ -1,0 +1,7 @@
+c Just a binary clause.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 2, c = 1.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 1.
+c No unit-clause in input.
+p cnf 2 1
+-2 1 0

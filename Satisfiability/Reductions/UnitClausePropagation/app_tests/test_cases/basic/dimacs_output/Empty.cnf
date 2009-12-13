@@ -1,0 +1,6 @@
+c Empty clause-set.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 0, c = 0.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 0.
+c No non-tautological clause in input (thus the problem is satisfiable).
+p cnf 0 0

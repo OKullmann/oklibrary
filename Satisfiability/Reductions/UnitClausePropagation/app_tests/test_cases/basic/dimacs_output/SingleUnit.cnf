@@ -1,0 +1,7 @@
+c Just a single unit-clause.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 1, c = 1.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 0.
+c Number of unit-clauses in input = 1.
+c UCP determines satisfiability after processing 1 assignments.
+p cnf 0 0

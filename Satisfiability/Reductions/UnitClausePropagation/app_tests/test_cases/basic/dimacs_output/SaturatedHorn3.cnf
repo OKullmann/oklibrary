@@ -1,0 +1,8 @@
+c The saturated Horn clause-set with 3 variables.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 3, c = 4.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 3.
+c Number of unit-clauses in input = 1.
+c UCP determines unsatisfiability after processing 2 assignments.
+p cnf 0 1
+0

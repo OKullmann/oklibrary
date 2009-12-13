@@ -1,0 +1,7 @@
+c The saturated Horn clause-set with 3 variables, plus one additional binary clause.
+p cnf 5 5
+-1 0
+1 -2 0
+1 2 -3 0
+1 2 3 0
+-4 5 0
