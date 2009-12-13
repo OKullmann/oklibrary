@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -99,8 +99,20 @@ uniform_usat_hitting_max(k) := full_fcs(k)[2]$
 nearly_full_hitting_fcs(n) := block([FF : full_fcs(n)],
   return([FF[1], adjoin(setn(n-1), setdifference(FF[2], {setn(n), adjoin(-n,setn(n-1))}))]))$
 
-/* Saturated minimally unsatisfiable Horn clause-sets with k variables */
+/* Saturated minimally unsatisfiable Horn clause-sets with k variables: */
+/* RENAME: smusat_horn_cs */
 smusat_horn(k) := treehittingcls_st(horn_st(k))$
+smusat_horn_cs(k) := treehittingcls_st(horn_st(k))$
+/* Standardised (trv[] -> 1, trv[2] -> 2, trv[2,2] -> 3 etc.): */
+smusat_horn_stdfcl(k) := [create_list(i,i,1,k),
+ endcons(setmn(-k,-1),create_list(setify(cons(i,create_list(-j,j,1,i-1))),i,1,k))]$
+smusat_horn_stdfcs(k) := fcl2fcs(smusat_horn_stdfcl(k))$
+/* Statistics: */
+nvar_smusat_horn(k) := k$
+ncl_smusat_horn(k) := k+1$
+ncl_list_smusat_horn(k) := if k=0 then [[0,1]] else
+endcons([k,2], create_list([i,1],i,1,k-1))$
+nlitocc_smusat_horn(k) := k*(k+1)/2 + k$
 
 
 /* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number

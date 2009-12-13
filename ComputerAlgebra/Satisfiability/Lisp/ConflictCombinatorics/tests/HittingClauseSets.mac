@@ -56,6 +56,56 @@ okltest_hitting_cls_rep_st(f) := block(
    **************
 */
 
+okltest_smusat_horn_cs(f) := (
+  assert(f(0) = {{}}),
+  assert(f(1) = {{-trv([])},{trv([])}}),
+  assert(f(2) = {{-trv([]),-trv([2])},{-trv([]),trv([2])},{trv([])}}),
+  assert(f(3) = {{-trv([]),-trv([2]),-trv([2,2])},{-trv([]),-trv([2]),trv([2,2])},{-trv([]),trv([2])},{trv([])}}),
+  assert(okltest_smusat_horn_stdfcs(buildq([f], lambda([k], cs2fcs((ev(f(k), trv(L):=length(L)+1, trv)))))) = true),
+  true)$
+
+okltest_smusat_horn_stdfcl(f) := (
+  assert(f(0) = [[],[{}]]),
+  assert(f(1) = [[1],[{1},{-1}]]),
+  assert(f(2) = [[1,2],[{1},{-1,2},{-1,-2}]]),
+  assert(f(3) = [[1,2,3],[{1},{-1,2},{-1,-2,3},{-1,-2,-3}]]),
+  true)$
+
+okltest_smusat_horn_stdfcs(f) := (
+  assert(f(0) = [{},{{}}]),
+  assert(f(1) = [{1},{{1},{-1}}]),
+  assert(f(2) = [{1,2},{{1},{-1,2},{-1,-2}}]),
+  assert(f(3) = [{1,2,3},{{1},{-1,2},{-1,-2,3},{-1,-2,-3}}]),
+  true)$
+
+okltest_nvar_smusat_horn(f) := (
+  for k : 0 thru 5 do block([n : f(k)],
+    assert(n = nvar_cs(smusat_horn_cs(k))),
+    assert(n = nvar_fcl(smusat_horn_stdfcl(k)))
+  ),
+  true)$
+
+okltest_ncl_smusat_horn(f) := (
+  for k : 0 thru 5 do block([c : f(k)],
+    assert(c = ncl_cs(smusat_horn_cs(k))),
+    assert(c = ncl_fcl(smusat_horn_stdfcl(k)))
+  ),
+  true)$
+
+okltest_ncl_list_smusat_horn(f) := (
+  for k : 0 thru 5 do block([cl : f(k)],
+    assert(cl = ncl_list_cs(smusat_horn_cs(k))),
+    assert(cl = ncl_list_fcl(smusat_horn_stdfcl(k)))
+  ),
+  true)$
+
+okltest_nlitocc_smusat_horn(f) := (
+  for k : 0 thru 5 do block([l : f(k)],
+    assert(l = nlitocc_cs(smusat_horn_cs(k))),
+    assert(l = nlitocc_fcl(smusat_horn_stdfcl(k)))
+  ),
+  true)$
+
 okltest_sasg2000(FF) := block([F : FF[2]],
   assert(FF[1] = {1,2,3,4}),
   assert(not treehittingcsp(F)),

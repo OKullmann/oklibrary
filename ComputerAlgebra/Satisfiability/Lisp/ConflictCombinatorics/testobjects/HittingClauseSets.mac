@@ -33,6 +33,14 @@ okltest_hitting_cls_rep_st(hitting_cls_rep_st);
    **************
 */
 
+okltest_smusat_horn_cs(smusat_horn_cs);
+okltest_smusat_horn_stdfcl(smusat_horn_stdfcl);
+okltest_smusat_horn_stdfcs(smusat_horn_stdfcs);
+okltest_nvar_smusat_horn(nvar_smusat_horn);
+okltest_ncl_smusat_horn(ncl_smusat_horn);
+okltest_ncl_list_smusat_horn(ncl_list_smusat_horn);
+okltest_nlitocc_smusat_horn(nlitocc_smusat_horn);
+
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
 
