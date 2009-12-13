@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Interfaces/InputOutput/Dimacs.hpp
+  \file OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp
   \brief %Tools for input and output of cnf's in DIMACS format (via CLS-adaptors)
 
   The main components are as follows:

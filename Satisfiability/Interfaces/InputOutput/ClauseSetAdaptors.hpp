@@ -40,7 +40,7 @@ License, or any later version. */
    (without contractions) has been found) </li>
    <li>
    \code 
-template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
+template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
                    int_type total_original_number_literal_occurrences) 
    \endcode
    (input a non-tautological clause as a range over the literals, where
