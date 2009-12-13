@@ -6,10 +6,38 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ProblemInstances/Clauses/ClausesWithRemoval.hpp
+  \file OKlib/Satisfiability/ProblemInstances/Clauses/ClausesWithRemoval.hpp
   \brief Clause-classes which allow removal of literals
 
   Especially appropriate for (simple) unit-clause propagation.
+
+  The concept of a "ClauseWithRemoval" is as follows:
+  <ul>
+   <li> Construction with a sequence of literals (given by begin and end).
+   </li>
+   <li> The sequence must be non-tautological and of lengt at least two. </li>
+   <li> Provides then the basic functionality of a sequence of literals. </li>
+   <li> Additionally there is the member function remove(x) for a literal x
+   occurring in the clause, which possibly "lazily" removes x (see "update"
+   below). </li>
+   <li> So the sequence can not be retrieved directly after this; however
+   its size can be determined (taking only the removals by remove(x) into
+   account). </li>
+   <li> remove(x) returns a boolean which is true iff the unit-clause has
+   been created (ignoring satisfied literals). </li>
+   <li> Via unit(f) for a total assignment f (containing the evaluations
+   underlying the removals) one obtains the sat-status of the clause plus
+   the remaining unit-literal if possible. </li>
+   <li> It is assumed that only literals have been removed which are set to
+   false by f. </li>
+   <li> Finally update(f) updates the clause, returning the sat-status;
+   only if the sat-status is open and the clause is not unit can the
+   sequence of literals be used after this. </li>
+  </ul>
+
+  \todo Make the above concept definition more precise.
+
+  \todo Write concept-check and concept-prototypes.
 
 */
 
@@ -32,6 +60,10 @@ namespace OKlib {
         /*!
           \class RClausesAsVectors
           \brief Clauses with remove-functionality, implemented by vectors
+
+          Model of concept ClauseWithRemoval.
+
+          \todo Write unit-tests.
         */
 
         template <class Lit>
@@ -41,9 +73,9 @@ namespace OKlib {
 
           typedef Lit value_type;
 
-          template <class LiteralList> RClausesAsVectors(
-            const typename LiteralList::const_iterator begin,
-            const typename LiteralList::const_iterator end) :
+          template <class Iterator> RClausesAsVectors(
+            const Iterator begin,
+            const Iterator end) :
             C(begin,end), b(C.begin()), e(C.end()), s(C.size()) {
               assert(s >= 2);
             }
@@ -53,12 +85,22 @@ namespace OKlib {
             assert(s >= 1);
           }
 
+          const RClausesAsVectors& operator =(const RClausesAsVectors& rhs) {
+            C = rhs.C;
+            assert(C.size() >= 2);
+            b = C.begin();
+            e = C.end();
+            s = rhs.s;
+            assert(s >= 1);
+            return *this;
+          }
+
           friend bool operator ==(const RClausesAsVectors& lhs, const RClausesAsVectors& rhs) {
             return lhs.C == rhs.C and lhs.s == rhs.s;
           }
 
         private :
-          typedef std::vector<const Lit> vector_t;
+          typedef std::vector<value_type> vector_t;
         public :
           typedef typename vector_t::const_iterator const_iterator;
           typedef const_iterator iterator;
@@ -73,16 +115,25 @@ namespace OKlib {
             return --s == 1;
           }
 
+          typedef std::pair<OKlib::Satisfiability::Values::Sat_status,value_type> unit_return_t;
+
           template <class TotalAssignment>
-          std::pair<OKlib::Satisfiability::Values::Sat_status,value_type> unit(const TotalAssignment& f) const {
+          unit_return_t unit(const TotalAssignment& f) const {
             using namespace OKlib::Satisfiability::Values;
             assert(s == 1);
-            for (iterator i = b; i != e; ++i)
-              switch (f[OKlib::Literals::var(*i)]) {
-              case val0 : continue;
-              case val1 : return std::make_pair(satisfied, value_type(0));
-              case unassigned : return std::make_pair(open, *i);
+            for (iterator i = b; i != e; ++i) {
+              const value_type x = *i;
+              switch (f[OKlib::Literals::var(x)]) {
+              case val0 :
+                if (OKlib::Literals::cond(x)) continue; else
+                return std::make_pair(satisfied, value_type(0));
+              case val1 :
+                if (OKlib::Literals::cond(x))
+                  return std::make_pair(satisfied, value_type(0));
+                else continue;
+              case unassigned : return std::make_pair(open, x);
               }
+            }
             return std::make_pair(falsified, value_type(0));
           }
 
@@ -95,8 +146,10 @@ namespace OKlib {
             for (iterator i = b; i != end; ++i) {
               const value_type x = *i;
               switch (f[OKlib::Literals::var(x)]) {
-                case val0 : continue;
-                case val1 : return satisfied;
+                case val0 : if (OKlib::Literals::cond(x)) continue;
+                else return satisfied;
+                case val1 : if (OKlib::Literals::cond(x)) return satisfied;
+                else continue;
                 case unassigned : D.push_back(x);
               }
             }
@@ -111,7 +164,6 @@ namespace OKlib {
 
         private :
 
-          const RClausesAsVectors& operator =(const RClausesAsVectors& rhs); // not provided
           vector_t C;
           iterator b;
           iterator e;
@@ -122,6 +174,10 @@ namespace OKlib {
         /*!
           \class RClausesAsSets
           \brief Clauses with remove-functionality, implemented by sets
+
+          Model of concept ClauseWithRemoval.
+
+          \todo Write unit-tests.
         */
 
         template <class Lit>
@@ -131,9 +187,9 @@ namespace OKlib {
 
           typedef Lit value_type;
 
-          template <class LiteralList> RClausesAsSets(
-            const typename LiteralList::const_iterator begin,
-            const typename LiteralList::const_iterator end) :
+          template <class Iterator> RClausesAsSets(
+            const Iterator begin,
+            const Iterator end) :
             C(begin,end), b(C.begin()) {
               assert(C.size() >= 2);
             }
@@ -142,19 +198,26 @@ namespace OKlib {
             assert(C.size() >= 2);
           }
 
-          friend bool operator ==(const RClausesAsSets& lhs, const RClausesAsSets& rhs) {
+          const RClausesAsSets& operator =(const RClausesAsSets& rhs) {
+            C = rhs.C;
+            assert(C.size() >= 2);
+            b = C.begin();
+            return *this;
+          }
+
+         friend bool operator ==(const RClausesAsSets& lhs, const RClausesAsSets& rhs) {
             return lhs.C == rhs.C;
           }
 
         private :
-          typedef std::set<const Lit> set_t;
+          typedef std::set<value_type> set_t;
         public :
           typedef typename set_t::const_iterator const_iterator;
           typedef const_iterator iterator;
           typedef typename set_t::size_type size_type;
 
-          iterator begin() const { return b; }
-          iterator end() const {return C.end(); }
+          const_iterator begin() const { return b; }
+          const_iterator end() const {return C.end(); }
           size_type size() const { return C.size(); }
 
           bool remove(const value_type x) {
@@ -164,15 +227,24 @@ namespace OKlib {
             return s == 2;
           }
 
+          typedef std::pair<OKlib::Satisfiability::Values::Sat_status,value_type> unit_return_t;
+
           template <class TotalAssignment>
           std::pair<OKlib::Satisfiability::Values::Sat_status,value_type> unit(const TotalAssignment& f) const {
             using namespace OKlib::Satisfiability::Values;
             assert(C.size() == 1);
             const value_type x = *b;
+            assert(x != 0);
             switch (f[OKlib::Literals::var(x)]) {
-            case val0 : return make_pair(falsified, value_type(0));
-            case val1 : return std::make_pair(satisfied, value_type(0));
-            case unassigned : return std::make_pair(open, x);
+            case val0 :
+              if (OKlib::Literals::cond(x)) return
+                std::make_pair(falsified, value_type(0));
+              else return std::make_pair(satisfied, value_type(0));
+            case val1 :
+              if (OKlib::Literals::cond(x))
+                return std::make_pair(satisfied, value_type(0));
+              else return std::make_pair(falsified, value_type(0));
+            default : return std::make_pair(open, x);
             }
           }
 
@@ -181,12 +253,20 @@ namespace OKlib {
             using namespace OKlib::Satisfiability::Values;
             assert(C.size() >= 1);
             const iterator end(C.end());
-            for (iterator i = b; i != end;) {
+            for (iterator i = C.begin(); i != end;) {
               const value_type x = *(i++);
+              assert(x != 0);
               switch (f[OKlib::Literals::var(x)]) {
-                case val0 : C.erase(x); break;
-                case val1 : return satisfied;
-                case unassigned : continue;
+                case val0 :
+                  if (OKlib::Literals::cond(x)) {
+                    C.erase(i); break;
+                  } else return satisfied;
+                case val1 :
+                  if (OKlib::Literals::cond(x)) return satisfied;
+                  else {
+                    C.erase(i); break;
+                  }
+                case unassigned : ;
               }
             }
             if (C.empty()) return falsified;
@@ -196,9 +276,8 @@ namespace OKlib {
 
         private :
 
-          const RClausesAsSets& operator =(const RClausesAsSets& rhs); // not provided
           set_t C;
-          const iterator b;
+          iterator b;
         };
 
       }
