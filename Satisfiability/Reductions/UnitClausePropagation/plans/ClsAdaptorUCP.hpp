@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Instead of "UnitClausePropagation.cpp" we should use some more specific
    name. </li>
-   <li> The algorithms in this application should perhaps be centered around
+   <li> The algorithms in this application should perhaps be centred around
    usage of the concept of "binary clauses with removal", and using the
    full clause-literal graph. </li>
    <li> And also UnitClausePropagation/ClsAdaptorUCP.hpp should have some
@@ -79,6 +79,12 @@ n=5; Musatd2-O3-DNDEBUG ${n} 1 > Musatd2p1_${n}.cnf
    <li> Experiments on 32-bit machines as well as on 64-bit machines. </li>
    <li> We need some tools for time-measurement, recording and evaluation
    (the last of course by R) of applications. </li>
+   <li> Perhaps in this context we concentrate on "one-off" applications of
+   UCP, that is, just reading a file, computing the simplification, and
+   outputting it (as in UnitClausePropagation.cpp). </li>
+   <li> Then we don't need to worry about reversing information stored in
+   clauses (since pure UCP itself does not involve any form of backtracking).
+   </li>
   </ul>
 
 */
