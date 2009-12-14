@@ -15,6 +15,7 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - False counting of initial unit-clause eliminations
     - Improve the Dimacs-output
 
 

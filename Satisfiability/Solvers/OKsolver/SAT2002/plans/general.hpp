@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \bug False counting of initial unit-clause eliminations
+  <ul>
+   <li> Counting of initial unit-clause propagations is not correct. </li>
+   <li> For example using the examples provided by "Smusat_Horn-O3-DNDEBUG k"
+   (see "Improve efficiency of UnitClausePropagation.cpp" in
+   Satisfiability/Reductions/UnitClausePropagation/plans/general.hpp),
+   the count seems always to be 2, while it should be k-1. </li>
+   <li> Compare also "Correct computation of basic statistics" below. </li>
+   <li> On the other hand, the count for "Musatd2 n 1", namely n-1, seems
+   correct. </li>
+  </ul>
+
+
   \todo Improve the Dimacs-output
   <ul>
    <li> DONE (used "reddiff" instead)
@@ -655,6 +668,16 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
   \todo Improving the implementation
   <ul>
+   <li> At least the initial unit-clause elimination (in
+   OKsolver/SAT2002/Einlesen.c) is very inefficient; see
+   Satisfiability/Reductions/UnitClausePropagation/plans/general.hpp).
+    <ol>
+     <li> First one needs to reconstruct the underlying algorithm. </li>
+    </ol>
+   </li>
+   <li> We should also investigate the unit-clause elimination(s) used then
+   during the normal processing (one form for the reduction, one for the
+   look-ahead, and one for branching). </li>
    <li> Handling of autarkies:
     <ol>
      <li> On instances where there are many autarkies (see for example
