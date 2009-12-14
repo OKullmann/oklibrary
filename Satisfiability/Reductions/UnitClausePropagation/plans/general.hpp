@@ -69,16 +69,41 @@ Smusat_Horn-O3-DNDEBUG k > Smusat_Horn_k.cnf
    (maximum usage seems to be around 230 MB). </li>
    <li> satz215 creates a core dump (memory access error) for k=20000. </li>
    <li> march_pl for k=20000 needs about 120 s for parsing, and uses about 800
-   MB (that's not too bad, quite a bit less than OKsolver_2002). </li>
+   MB (that's not too bad, quite a bit less than OKsolver_2002). However
+   aborted after more than 3 hours (with succeeding). </li>
    <li> So there seems to be a lot to gain. Since we have very long
    clauses here, the advantage of using just two watched literals per
    clause becomes very big. </li>
    <li> Perhaps we should use a memory pool; and using only vectors should
    minimise memory usage. </li>
+   <li> And, of course, we need to experiment with watched literals; perhaps
+   making an exception for binary clauses, where we can simplify the
+   implementation. </li>
    <li> It seems that also parsing is rather slow (compared to minisat2). </li>
-   <li> We need also test-cases with small clause-sizes. Perhaps the Smusat(2)
+   <li> We need also test-cases with small clause-sizes. Perhaps the Musat(2)
    cases with one additional unit-clause (then most of the clauses are
    binary, and we just have two full clauses). </li>
+   <li> Generator at Maxima-level:
+   \verbatim
+musatd2p1_fcl(n) := block([FF:musatd2_fcl(n)], [FF[1], endcons({1},FF[2])]);
+output_musatd2p1(n) := outputext_fcl(sconcat("SMU(2) with ",n," variables, plus one unit-clause."), musatd2p1_fcl(n), sconcat("Smusatd2p1_",n,".cnf"))$
+   \endverbatim
+   Just writing to file is very slow. </li>
+   <li> The same at C++ level:
+   \verbatim
+n=5; Musatd2-O3-DNDEBUG ${n} 1 > Musatd2p1_${n}.cnf
+   \endverbatim
+   </li>
+   <li> Using n=1000000: Here the vector-version seems slightly faster than
+   the set-version (12s versus 11s on csltok). </li>
+   <li> OKsolver_2002 is extremely slow (7300 s); what's going on here? </li>
+   <li> minisat2 is also very slow (5200 s); again, why is this? </li>
+   <li> We should also consider random clause-sets with some added
+   unit-clause(s). </li>
+   <li> Sudoku puzzles can also be used. </li>
+   <li> Experiments on 32-bit machines as well as on 64-bit machines. </li>
+   <li> We need some tools for time-measurement, recording and evaluation
+   (the last of course by R) of applications. </li>
   </ul>
 
 
