@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -184,8 +184,8 @@ License, or any later version. */
    UHIT(delta=2).
     <ol>
      <li> The simplest guess is a triple (t,a,b), where t in {2,3} is the
-     major isomorphism type (whether reduction yields musatd2(2) or
-     musatd2(3)), where a is the number of variables of degree >= 3,
+     major isomorphism type (whether reduction yields musatd2_fcs(2) or
+     musatd2_fcs(3)), where a is the number of variables of degree >= 3,
      and where b is the number of variables of degree 2. </li>
      <li> We need a catalogue where the known examples are entered. </li>
      <li> This catalogue could contain lists of known isomorphism types

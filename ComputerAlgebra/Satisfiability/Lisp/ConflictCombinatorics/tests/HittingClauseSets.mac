@@ -185,7 +185,7 @@ okltest_hittingcsp(f) := block(
   assert(f({{1}}) = true),
   assert(f({{},{1}}) = false),
   for n : 2 thru 4 do
-    assert(f(musatd2(n)[2]) = if n <= 3 then true else false),
+    assert(f(musatd2_fcs(n)[2]) = if n <= 3 then true else false),
   assert(f({{1},{-1}}) = true),
   for n : 0 thru 4 do
     assert(f(uniform_usat_hitting_min(n))),
@@ -199,7 +199,7 @@ okltest_hitting1rcsp(f) := block(
   assert(f({{1}}) = true),
   assert(f({{},{1}}) = false),
   for n : 2 thru 4 do
-    assert(f(musatd2(n)[2]) = false),
+    assert(f(musatd2_fcs(n)[2]) = false),
   assert(f({{1},{-1}}) = true),
   for n : 0 thru 4 do
     assert(f(uniform_usat_hitting_min(n)) = true),
@@ -214,7 +214,7 @@ okltest_treehittingcsp(f) := block(
   assert(f({{},{1}}) = false),
   assert(f({{1},{-1}}) = true),
   for n : 2 thru 4 do
-    assert(f(musatd2(n)[2]) = if n <= 2 then true else false),
+    assert(f(musatd2_fcs(n)[2]) = if n <= 2 then true else false),
   for n : 0 thru 4 do
     assert(f(uniform_usat_hitting_min(n))),
   for n : 0 thru 4 do
@@ -225,9 +225,9 @@ okltest_check_hitting_nsing_def(f) := block(
   assert(f({{}}) = [1]),
   assert(f({}) = []),
   assert(f({{1},{-1}}) = []),
-  assert(f(musatd2(2)[2]) = [2]),
-  assert(f(musatd2(3)[2]) = [2]),
-  assert(f(musatd2(4)[2]) = []),
+  assert(f(musatd2_fcs(2)[2]) = [2]),
+  assert(f(musatd2_fcs(3)[2]) = [2]),
+  assert(f(musatd2_fcs(4)[2]) = []),
   assert(f({{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}}) = [3]),
   assert(f({{1,2,3},{-1,2,3},{1,-2,4}, {-1,-2,4},{2,-3,5},{2,-3,-5},{-2,-4,5},{-2,-4,-5}}) = [3]),
   assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3},{-1,4,5},{-1,-4,5},{-1,4,-5},{-1,-4,-5}}) = [3]),
@@ -434,7 +434,7 @@ okltest_all_unsinghitting_def(f) := block([presult,result],
   result : f(5,3,'presult), assert(result = {full_fcs(3)[2]}), assert(presult = result),
   result : f(2,3,'presult), 
   assert(length(result) = 1),
-  assert(is_isomorphic_cs(single_element(result), musatd2(3)[2])),
+  assert(is_isomorphic_cs(single_element(result), musatd2_fcs(3)[2])),
   assert(subsetp(result,presult) = true),
   result : f(4,3,'presult),
   assert(length(result) = 1), assert(presult = result),

@@ -27,7 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 */
 
 okltest_charprop_nsmusatd2(charprop_nsmusatd2);
-okltest_musatd2(musatd2);
+okltest_musatd2_fcs(musatd2_fcs);
 
 okltest_nvar_musatd2(nvar_musatd2);
 okltest_ncl_musatd2(ncl_musatd2);

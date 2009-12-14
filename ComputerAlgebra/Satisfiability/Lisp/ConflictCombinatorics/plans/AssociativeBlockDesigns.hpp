@@ -166,7 +166,7 @@ License, or any later version. */
   <ul>
    <li> sasg2000 allows 2-subsumption resolution, and the apparently
    unique result (up to isomorphism) is the unsatisfiable hitting
-   clause-set of deficiency 2 with 3 variables (musatd2(3)). </li>
+   clause-set of deficiency 2 with 3 variables (musatd2_fcs(3)). </li>
    <li> brouwer1999 allows 2-subsumption resolution.
     <ol>
      <li> Reducing it w.r.t. 2-subsumption-resolution, but without

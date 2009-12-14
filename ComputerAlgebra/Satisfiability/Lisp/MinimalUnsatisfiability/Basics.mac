@@ -88,7 +88,7 @@ non_saturating_pas_bydef(FF,solver) := block(
    clause-set of deficiency k, according to [OK, XSZ, 2008]. */
 /* This bound is sharp at least for 
  - k = 2^n-n (realised by full_fcs(n))
- - k=2 (realised by musatd2(n))
+ - k=2 (realised by musatd2_fcs(n))
  - k=3 (realised by minvdegdef3(n))
  - k=4 (realised by minvdegdef4(n)). */
 /* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 

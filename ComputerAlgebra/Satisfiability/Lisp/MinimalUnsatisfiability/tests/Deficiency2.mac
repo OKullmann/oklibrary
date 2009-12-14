@@ -52,8 +52,8 @@ okltest_charprop_nsmusatd2(f) := (
   assert(f([{1,2,3},{{-1,-2,-3},{1,2,3},{-1,2},{-2,3},{-3,1}}],3) = true),
   true)$
 
-okltest_musatd2(f) := (
-  for n : 2 thru 5 do block([FF : musatd2(n)],
+okltest_musatd2_fcs(f) := (
+  for n : 2 thru 5 do block([FF : f(n)],
     assert(charprop_nsmusatd2(FF,n) = true),
     assert(elementp(setn(n),FF[2]) = true)
   ),
@@ -109,8 +109,8 @@ okltest_all_reps_uhitd2_t_fcs(f) := (
    for n : -1 thru 1 do
      assert(f(t,n) = {}),
   assert(f(3,2) = {}),
-  assert(f(2,2) = {musatd2(2)}),
-  assert(f(3,3) = {musatd2(3)}),
+  assert(f(2,2) = {musatd2_fcs(2)}),
+  assert(f(3,3) = {musatd2_fcs(3)}),
   assert(f(2,3) = { [{1,2,3},{{1,2},{1,-2},{-1,2},{-1,-2,-3},{-1,-2,3}}], [{1,2,3},{{1,2},{-1,2},{1,-2,-3},{-1,-2,-3},{-2,3}}], [{1,2,3},{{1,2,-3},{1,-2,-3},{-1,2,-3},{-1,-2,-3},{3}}] }),
   /* XXX */
   true)$
@@ -118,15 +118,15 @@ okltest_all_reps_uhitd2_t_fcs(f) := (
 okltest_all_reps_uhitd2_fcs(f) := (
  for n : -1 thru 1 do
    assert(f(n) = {}),
-  assert(f(2) = {musatd2(2)}),
-  assert(f(3) = {musatd2(3), [{1,2,3},{{1,2},{1,-2},{-1,2},{-1,-2,-3},{-1,-2,3}}], [{1,2,3},{{1,2},{-1,2},{1,-2,-3},{-1,-2,-3},{-2,3}}], [{1,2,3},{{1,2,-3},{1,-2,-3},{-1,2,-3},{-1,-2,-3},{3}}] }),
+  assert(f(2) = {musatd2_fcs(2)}),
+  assert(f(3) = {musatd2_fcs(3), [{1,2,3},{{1,2},{1,-2},{-1,2},{-1,-2,-3},{-1,-2,3}}], [{1,2,3},{{1,2},{-1,2},{1,-2,-3},{-1,-2,-3},{-2,3}}], [{1,2,3},{{1,2,-3},{1,-2,-3},{-1,2,-3},{-1,-2,-3},{3}}] }),
   /* XXX */
   true)$
 
 okltest_all_uhitd2_fcs(f) := (
  for n : -1 thru 1 do
    assert(f(n) = {}),
-  assert(f(2) = {musatd2(2)}),
+  assert(f(2) = {musatd2_fcs(2)}),
 
   /* XXX */
   true)$

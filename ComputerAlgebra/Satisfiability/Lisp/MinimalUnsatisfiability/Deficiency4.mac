@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.5.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,7 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 /* Sequence of elements of MU(4) (as formal clause-sets, with standardised
    variables) according to [OK, XSZ, 2008], which realises the min-var-degree
    of 6. n >= 2 is the number of variables. */
-minvdegdef4(n) := block([FF : musatd2(n), S],
+minvdegdef4(n) := block([FF : musatd2_fcs(n), S],
   S : {pos_c(n), neg_c(n), imp_c(1,n)},
   return(partial_gluing(FF,S,FF,S)))$
 

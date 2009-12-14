@@ -38,9 +38,6 @@ imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
 
 /* The standard MUSAT(def=2) non-singular formal clause-sets (where every
    literal occurs at least twice) for n >= 2: */
-/* RENAME: musatd2_fcs */
-musatd2(n) :=
- [setn(n), union({pos_c(n),neg_c(n)}, setify(create_list(imp_c(i,n),i,1,n)))]$
 musatd2_fcs(n) := fcl2fcs(musatd2_fcl(n))$
 musatd2_fcl(n) := [create_list(i,i,1,n), append([pos_c(n),neg_c(n)], create_list(imp_c(i,n),i,1,n))]$
 /* Statistics: */
@@ -59,7 +56,7 @@ nlitocc_musatd2(n) := n*4$
 
 /* Every unsatisfiable hitting clause-set F of deficiency 2 is either of
    type 2 or type 3, depending on whether elimination of singular variables
-   yields a clause-set isomorphic to musatd2(2) or musatd2(3).
+   yields a clause-set isomorphic to musatd2_fcs(2) or musatd2_fcs(3).
 */
 
 /* Returns 2, 3 or false, where false results iff F is not an unsatisfiable 
@@ -76,7 +73,7 @@ hittingtype_d2_cs(F) := block([F : singular_dp_reduction(F), T],
    n variables (where n is an integer):
 */
 all_reps_uhitd2_t_fcs(t,n) :=
- all_reps_hitting_extensions_k_fcs({musatd2(t)},n-t)$
+ all_reps_hitting_extensions_k_fcs({musatd2_fcs(t)},n-t)$
 
 /*The set of all isomorphism-types (i.e., representatives) of unsatisfiable 
    formal hitting clause-sets of deficiency 2 with n variables (with 
