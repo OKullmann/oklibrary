@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solver
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 /* *********************************************************************
@@ -55,6 +56,34 @@ okltest_musatd2(f) := (
   for n : 2 thru 5 do block([FF : musatd2(n)],
     assert(charprop_nsmusatd2(FF,n) = true),
     assert(elementp(setn(n),FF[2]) = true)
+  ),
+  true)$
+
+okltest_nvar_musatd2(f) := (
+  for n : 2 thru 7 do block([nc : f(n)],
+    assert(nc = nvar_fcs(musatd2_fcs(n))),
+    assert(nc = nvar_fcl(musatd2_fcl(n)))
+  ),
+  true)$
+
+okltest_ncl_musatd2(f) := (
+  for n : 2 thru 7 do block([c : f(n)],
+    assert(c = ncl_fcs(musatd2_fcs(n))),
+    assert(c = ncl_fcl(musatd2_fcl(n)))
+  ),
+  true)$
+
+okltest_ncl_list_musatd2(f) := (
+  for n : 2 thru 7 do block([cl : f(n)],
+    assert(cl = ncl_list_fcs(musatd2_fcs(n))),
+    assert(cl = ncl_list_fcl(musatd2_fcl(n)))
+  ),
+  true)$
+
+okltest_nlitocc_musatd2(f) := (
+  for n : 2 thru 7 do block([l : f(n)],
+    assert(l = nlitocc_fcs(musatd2_fcs(n))),
+    assert(l = nlitocc_fcl(musatd2_fcl(n)))
   ),
   true)$
 
