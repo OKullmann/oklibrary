@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding r_k-reductions
 
 
+  \todo Connections
+  <ul>
+   <li> See Reductions/KLevelForcedAssignments/plans/general.hpp for plans
+   at C++ level. </li>
+  </ul>
+
+
   \todo Update names
   <ul>
    <li> All names need to be changed, reflecting their (main) argument
@@ -33,8 +40,8 @@ License, or any later version. */
    <li> We need more systematic coverage (with small clause-sets). </li>
    <li> We should also employ some form of data-tables so that the tests
    mainly run through these tables. </li>
-   <li> And we should strengthen re-use of sub-tests between the various (rather
-   similar) test-functions. </li>
+   <li> And we should strengthen re-use of sub-tests between the various
+   (rather similar) test-functions. </li>
   </ul>
 
 
@@ -42,10 +49,10 @@ License, or any later version. */
   <ul>
    <li> Implement the generalisations of r_k using oracles S for satisfiability
    and U for unsatisfiability (see [Investigating a general hierarchy of
-   polynomially decidable classes of {CNF}'s based on short tree-like resolution
-   proofs; Kullmann, 1999, ECCC], and [Upper and Lower Bounds on the Complexity
-   of Generalised Resolution and Generalised Constraint Satisfaction Problems;
-   Kullmann, 2004, AMAI]. </li>
+   polynomially decidable classes of {CNF}'s based on short tree-like
+   resolution proofs; Kullmann, 1999, ECCC], and [Upper and Lower Bounds on
+   the Complexity of Generalised Resolution and Generalised Constraint
+   Satisfaction Problems; Kullmann, 2004, AMAI]. </li>
    <li> Perhaps two variations: Early detection of oracle-applicability, and
    late detection (at the leaves). </li>
    <li> For additional oracle-examples see
@@ -55,8 +62,8 @@ License, or any later version. */
    </li>
    <li> Renamable Horn is only interesting for S. </li>
    <li> An extension is given by linearly satisfiable clause-sets. </li>
-   <li> Another class contained in the class of linearly satisfiable clause-sets
-   is given by matching satisfiable clause-sets. </li>
+   <li> Another class contained in the class of linearly satisfiable
+   clause-sets is given by matching satisfiable clause-sets. </li>
    <li> All the above classes are stable under application of forced partial
    assignments, and likely we should only consider such classes. For d >= 1,
    the class of satisfiable clause-sets of maximal deficiency d (as well as

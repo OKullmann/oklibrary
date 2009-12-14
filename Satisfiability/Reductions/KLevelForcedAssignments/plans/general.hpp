@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.12.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,6 +18,13 @@ License, or any later version. */
 
 
   \todo Update namespaces.
+
+
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac
+   for Maxima-specifications. </li>
+  </ul>
 
 
   \todo First the scope (the (informal) concepts) has to be established.
