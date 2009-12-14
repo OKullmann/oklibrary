@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := Test_Transformations
 
-programs := FaronsPuzzle VanderWaerden Ramsey LinInequal GreenTaoCNF GreenTaoGCNF Smusat_Horn
+programs := FaronsPuzzle VanderWaerden Ramsey LinInequal GreenTaoCNF GreenTaoGCNF Smusat_Horn Musatd2
 
 source_libraries = $(boost_include_option_okl)
 
