@@ -34,7 +34,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 997
+  \todo Lower bounds: greentao_4(3,3,3,4) > 998
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -169,10 +169,20 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
 > summary(E$osteps)
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
   3491000  46060000  74970000 107200000 146400000 276500000
+
+> ubcsat-okl -alg adaptnovelty+ -runs 500 -cutoff 320000000 -i GreenTao_4-3-3-3-4_998.cnf | tee GreenTao_4-3-3-3-4_998.cnf_OUT
+> E2 = read_ubcsat("GreenTao_4-3-3-3-4_998.cnf_OUT")
+  0   1   2   3
+  2 171 323   4
+500
+> summary(E2$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  3559000  52810000  90070000 111600000 155000000 313400000
      \endverbatim
-     </li>
+     (best solution: seed=2845522946, osteps=48802626). </li>
     </ol>
    </li>
+   <li> n=999: cutoff=32*10^7 (adaptnovelty+) </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while
