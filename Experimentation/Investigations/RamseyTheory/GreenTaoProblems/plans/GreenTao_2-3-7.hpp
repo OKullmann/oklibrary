@@ -85,9 +85,15 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
+   <li> n=14000
+    <ol>
+     <li> cutoff=10^9: </li>
+    </ol>
+   </li>
    <li> n=14375
     <ol>
-     <li> cutoff=10^9 </li>
+     <li> cutoff=10^9: three times min=6. So let's consider this unsatisfiable
+     for now. </li>
     </ol>
    </li>
    <li> n=15000
