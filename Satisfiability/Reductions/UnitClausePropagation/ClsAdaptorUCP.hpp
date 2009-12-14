@@ -109,7 +109,11 @@ namespace OKlib {
         const assignment_type& ucp_total() const { return f; }
         const partial_assignment_type& ucp_partial() const { return phi; }
 
-        void comment(const string_type& com_) { com = com_; }
+        void comment(const string_type& com_) {
+          if (com.empty()) com = com_;
+          else
+            com += "\nc" + com_;
+        }
         void n(const int_type n_) {
           num_var = n_;
           f.assign(num_var+1, OKlib::Satisfiability::Values::unassigned);

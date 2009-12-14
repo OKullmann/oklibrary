@@ -1,0 +1,6 @@
+c First line, 
+c and second line,
+c and third line.
+p cnf 4 2
+1 -2 0
+-2 3 0

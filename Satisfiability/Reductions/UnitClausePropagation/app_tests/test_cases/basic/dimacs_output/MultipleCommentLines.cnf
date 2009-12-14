@@ -1,0 +1,10 @@
+c First line, 
+c and second line,
+c and third line.
+c Additional comments regarding the unit-clause propagation:
+c The original parameter were: n = 4, c = 2.
+c After elimination of empty clauses, unit-clauses and tautological clauses the number of clauses is 2.
+c No unit-clause in input.
+p cnf 3 2
+-2 1 0
+-2 3 0
