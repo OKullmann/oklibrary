@@ -38,6 +38,9 @@ for P in ${list_test_cases}; do
   result_file="${directory}/dimacs_output/${filename}"
   output=$(cat ${P} | ${program_tested}-O3-DNDEBUG)
   echo "${output}" | diff - "${result_file}"
+  if [[ $? != 0 ]]; then
+    exit 1
+  fi
 done
 
 exit 0
