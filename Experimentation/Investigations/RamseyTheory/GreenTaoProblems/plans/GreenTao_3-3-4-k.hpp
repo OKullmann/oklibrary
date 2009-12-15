@@ -88,7 +88,21 @@ License, or any later version. */
    </li>
    <li> n=1540: cutoff=10^9 found two solutions in 164 runs (seed=163883519,
    osteps=337015990). </li>
-   <li> n=1541 </li>
+   <li> n=1541
+    <ol>
+     <li> cutoff=10^9 (adaptnovelty+):
+     \verbatim
+> E = read_ubcsat("GreenTao_3-3-4-4_1541.cnf_OUT")
+ 1  2  3  5
+ 2 13  1  1
+17
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+204200000 287600000 469700000 496300000 700700000 900400000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1550
     <ol>
      <li> Looks (at first sight) unsatisfiable: 10 runs with
@@ -115,7 +129,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7479
+  \todo greentao_3(3,4,5) > 7490
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -138,7 +152,8 @@ License, or any later version. */
    osteps=67497802). </li>
    <li> n=7479: cutoff=10^8 finds a solution (seed=1752281516,
    osteps=79570476). </li>
-   <Li> n=7490: </li>
+   <li> n=7490:  cutoff=10^8 finds one solution in 40 runs (seed=1381313198,
+   osteps=32116058). </li>
    <li> n=7500:
     <ol>
      <li> cutoff=10^8:
@@ -152,8 +167,7 @@ License, or any later version. */
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
 20480000 65180000 73430000 70900000 84870000 98250000
      \endverbatim
-     Perhaps the cutoff-value is too low, but for now we assume it's
-     unsatisfiable. </li>
+     </li>
     </ol>
    </li>
    <li> n=8000
