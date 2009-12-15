@@ -34,7 +34,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 998
+  \todo Lower bounds: greentao_4(3,3,3,4) > 999
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -182,7 +182,8 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      (best solution: seed=2845522946, osteps=48802626). </li>
     </ol>
    </li>
-   <li> n=999: cutoff=32*10^7 (adaptnovelty+) </li>
+   <li> n=999: cutoff=32*10^7 (adaptnovelty+) found 2 solutions in 56 runs
+   (seed=3665124127, osteps=129828231). </li>
    <li> n=1000
     <ol>
      <li> cutoff=10*10^3 with 100 runs reaches only min=68 (sapsnr), while
@@ -210,7 +211,8 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
   4633000  36250000  57420000  66770000  93560000 156800000
      \endverbatim
-     So let's assume this is unsatisfiable. </li>
+     </li>
+     <li> cutoff=32*10^7 (adaptnovelty+): </li>
     </ol>
    </li>
   </ul>
