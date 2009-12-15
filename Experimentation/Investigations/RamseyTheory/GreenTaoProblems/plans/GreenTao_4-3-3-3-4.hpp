@@ -182,7 +182,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      (best solution: seed=2845522946, osteps=48802626). </li>
     </ol>
    </li>
-   <li> n=999: cutoff=32*10^7 (adaptnovelty+) found 2 solutions in 56 runs
+   <li> n=999: cutoff=32*10^7 (adaptnovelty+) found 3 solutions in 65 runs
    (seed=3665124127, osteps=129828231). </li>
    <li> n=1000
     <ol>
