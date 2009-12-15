@@ -73,7 +73,7 @@ output_rijnmult_fullcnf_stdname(field_element) :=
 
 /* Tests whether a full CNF clause-set represents the AES field
    multiplication: */
-test_CNF_aes_field_mul(field_element,FF) := 
+rijnmult_cnfp(field_element,FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    rijnmult_fulldnf_fcs(field_element))$
 

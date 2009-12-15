@@ -63,7 +63,7 @@ okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
     {-16,-13,-11,-10,-9,12,14,-15}), sboxFullCNF[2]) = {{}}),
   true)$
 
-okltest_test_CNF_aes_sbox(f) := block(
+okltest_rijnsbox_cnfp(f) := block(
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
   if oklib_test_level = 2 then return(true),
@@ -89,11 +89,11 @@ okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
   if oklib_test_level = 2 then return(true),
   sboxCNF : f(dll_heuristics_first_formal),
   assert(length(sboxCNF) > 1),
-  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNF))),
+  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNF))),
   sboxCNFreal : f(dll_heuristics_first_real),
-  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNFreal))),
+  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFreal))),
   sboxCNFmax : f(dll_heuristics_max_var),
-  assert(test_CNF_aes_sbox(cs_to_fcs(sboxCNFmax))),
+  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFmax))),
   if oklib_test_level = 3 then return(true),
   if oklib_test_level = 4 then return(true),
   assert(hittingcsp(sboxCNF)),
@@ -103,7 +103,7 @@ okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
 
 
 
-okltest_generate_full_int_perm_dnf_fcs(f) := block(
+okltest_perm_fulldnf_fcs(f) := block(
   assert(f([]) = [{},{}]),
   assert(f([0]) = [{1,2}, {{-2,-1}}]),
   assert(f([1]) = [{1,2}, {{1,2}}]),
@@ -118,7 +118,7 @@ okltest_generate_full_int_perm_dnf_fcs(f) := block(
       assert(length(clauses_f(f(j))) = i),
   true)$
 
-okltest_generate_full_int_perm_cnf_fcs(f) := block(
+okltest_perm_fulldnf_fcs(f) := block(
   assert(f([]) = [{},{{}}]),
   assert(f([0]) = [{1,2},{{-2,-1},{-2,1},{-1,2}}]),
   assert(f([1]) = [{1,2},{{-2,1},{-1,2},{1,2}}]),
@@ -138,7 +138,7 @@ okltest_generate_full_int_perm_cnf_fcs(f) := block(
     ),
   true)$
 
-okltest_test_CNF_int_perm(f) := block(
+okltest_perm_cnfp(f) := block(
   assert(f([{},{{}}], [], dll_simplest_trivial1)),
   assert(not f([{},{{}}], [1], dll_simplest_trivial1)),
   assert(not f([{},{}], [1], dll_simplest_trivial1)),

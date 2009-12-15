@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
 
 
-  \bug What's the purpose of test_CNF_aes_field_mul
+  \bug What's the purpose of rijnmult_cnfp
   <ul>
    <li> There is exactly one "full" CNF clause-set for a field multiplication,
    so what is the point of this function? </li>
@@ -81,7 +81,7 @@ statistics_cs(ip_aes[2]);
 [16, 21, 54, 3, 2]
 ncl_list_fcs(ip_aes);
 [[2, 9], [3, 12]]
-test_CNF_aes_field_mul(intToGF2t8Poly(2),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(2),ip_aes);
 true
    \endverbatim
    </li>
@@ -100,7 +100,7 @@ statistics_cs(ip_aes[2]);
 [16, 61, 271, 9, 3]
 ncl_list_fcs(ip_aes);
 [[3, 19], [4, 19], [5, 11], [6, 6], [7, 2], [8, 3], [9, 1]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>
@@ -119,7 +119,7 @@ statistics_cs(ip_aes[2]);
 [16, 86, 402, 8, 3]
 ncl_list_fcs(ip_aes);
 [[3, 12], [4, 32], [5, 24], [6, 10], [7, 6], [8, 2]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>
@@ -138,7 +138,7 @@ statistics_cs(ip_aes[2]);
 [16, 61, 271, 9, 3]
 ncl_list_fcs(ip_aes);
 [[3, 19], [4, 19], [5, 11], [6, 6], [7, 2], [8, 3], [9, 1]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>
@@ -157,7 +157,7 @@ statistics_cs(ip_aes[2]);
 [16, 86, 402, 8, 3]
 ncl_list_fcs(ip_aes);
 [[3, 12], [4, 32], [5, 24], [6, 10], [7, 6], [8, 2]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>
@@ -176,7 +176,7 @@ statistics_cs(ip_aes[2]);
 [16, 148, 767, 7, 4]
 ncl_list_fcs(ip_aes);
 [[4, 28], [5, 75], [6, 35], [7, 10]]
-test_CNF_aes_field_mul(intToGF2t8Poly(11),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(11),ip_aes);
 true
    \endverbatim
    </li>
@@ -195,7 +195,7 @@ statistics_cs(ip_aes[2]);
 [16, 139, 727, 9, 4]
 ncl_list_fcs(ip_aes);
 [[4, 30], [5, 63], [6, 32], [7, 13], [9, 1]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>
@@ -214,7 +214,7 @@ statistics_cs(ip_aes[2]);
 [16, 119, 612, 8, 3]
 ncl_list_fcs(ip_aes);
 [[3, 3], [4, 33], [5, 42], [6, 28], [7, 11], [8, 2]]
-test_CNF_aes_field_mul(intToGF2t8Poly(3),ip_aes);
+rijnmult_cnfp(intToGF2t8Poly(3),ip_aes);
 true
    \endverbatim
    </li>

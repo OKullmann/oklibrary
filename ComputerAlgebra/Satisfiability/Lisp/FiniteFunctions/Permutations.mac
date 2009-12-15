@@ -1,0 +1,97 @@
+/* Matthew Gwynne, 12.3.2008 (Swansea) */
+/* Copyright 2008, 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
+  \brief Cryptanalysis functions and tools regarding AES/Rijndael Sbox.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+
+
+/* ******************************************
+   * Sbox Analysis                          *
+   ******************************************
+*/
+
+
+/* Given a list L of positive integers where L represents the permutation
+   where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
+   DNF F where the variable set is 1,..,2*binLength and binLength is the
+   maximum of the minimum number of bits to represent any of the integers in
+   the list L, and F is satisfied if any only if the assignment to variables
+   1,...,binLength is the big endian representation of sort(L)[i] and
+   binLength+1,...,2*binLength is the big endian representation of L[i] for
+   every 1 <= i <= length(L), i.e., there is a DNF clause for each such i,
+   representing each such possible assignment. */
+perm_fulldnf_fcs(perm) := block(
+  elements : sort(perm),
+  /* MG : Is there a function which given a positive integer returns the
+     minimum number of bits necessary to represent that integer?
+
+     Such a function could replace the code
+     
+     lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2)))
+
+     below.
+     
+     In ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac. there are logarithm
+     functions, but they don't handle 0, or handle the addition of 1 that we
+     need (i.e., we need 1 bit to represent the integer 1).
+
+     So for example, the suggested function should take 5 and return 3, and
+     take 8 and return 4, and take 0 and return 1.     
+*/
+  binLength : apply(max,map(
+    lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2))),perm)),
+  cs_to_fcs(setify(map(
+    lambda([a,b], setify(binl2dnf_l_std(
+      append(int2polyadic_padd(a,2,binLength),int2polyadic_padd(b,2,binLength))))),elements,
+      perm)))
+)$
+
+/* Given a list L of positive integers where L represents the permutation
+   where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
+   CNF F where the variable set is 1,..,2*binLength and binLength is the
+   maximum of the minimum number of bits to represent any of the integers in
+   the list L, and F is satisfied if any only if the assignment to variables
+   1,...,binLength is the big endian representation of sort(L)[i] and
+   binLength+1,...,2*binLength is the big endian representation of L[i] for
+   every 1 <= i <= length(L), i.e., F is the full CNF representation of
+   perm_fulldnf_fcs(L). */
+perm_fullcnf_fcs(perm) := block(
+  [fullncs, int_perm_dnf : perm_fulldnf_fcs(perm)],
+  fullncs : full_fcs(length(int_perm_dnf[1])),
+  [int_perm_dnf[1],setdifference(clauses_f(fullncs),
+    map(comp_sl,clauses_f(int_perm_dnf)))]
+)$
+
+/* Given a formal clause-set FF, a list L of integers representing a
+  permutation as described in perm_fulldnf_fcs, and a
+  SAT solver S, returns true if FF is satisfied and falsified
+   by the same assignments as perm_fulldnf_fcs(L). */
+perm_cnfp(FF,perm,S) := 
+  every_s(lambda([a],S(apply_pa_f(a,FF))),
+    perm_fulldnf_fcs(perm)[2]) and
+  every_s(lambda([a],not S(apply_pa_f(a,FF))),
+    map(comp_sl,perm_fullcnf_fcs(perm)[2]))$
+
+/*!
+\endhtmlonly
+*/
