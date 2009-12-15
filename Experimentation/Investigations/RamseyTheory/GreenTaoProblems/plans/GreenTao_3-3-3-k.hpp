@@ -502,8 +502,7 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
 17
      \endverbatim
      </li>
-     <li> Now with cutoff=4*10^9: 43 runs yield 7 times min=1 (rest min=2).
-     Another 86 runs yield 15 times min=1 (rest min=2).
+     <li> Now with cutoff=4*10^9: 131 runs yield 23 times min=1 (rest min=2).
      </li>
     </ol>
    </li>
