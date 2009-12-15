@@ -124,21 +124,28 @@ constraint_backtracking_counting(dom,prop,heur) := (
    a propagator, compute the best variable as the variable with minimal
    tau-value, where the branching tuple is given by the measure differences
    applied to the domain association before and after propagation,
-   where the measure is the logarithm of the product of domain sizes. */
-variable_heuristics_tau(dom,prop) := (local(dom,prop,opt_tau,opt_v,opt_dist,mu,new_dom),
- opt_tau : inf, mu : sum_log_dom_size(dom), 
- for v : 1 thru length(dom) do block([dist : [], dom_v : dom[v]],
-   if length(dom_v) > 1 then (
-     for e in dom_v do block([new_dom : copylist(dom), tau_value],
-       new_dom[v] : {e}, prop(new_dom), dist : endcons(mu - sum_log_dom_size(new_dom), dist)),
-     tau_value : tau(dist),
-     if tau_value < opt_tau then (opt_tau : tau_value, opt_v : v, opt_dist : dist))
-   ),
- block([dom_v : dom[opt_v]],
-  block([L : makelist(i,i,1,length(dom_v)), comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))], 
-    L : sort(L, comp),
-    return([opt_v, makelist((listify(dom_v))[i], i, L)])))
-)$
+   while the measure is the logarithm of the product of domain sizes.
+   The ordering of values is by increasing distance.
+*/
+variable_heuristics_tau(dom,prop) := block(
+[mu : sum_log_dom_size(dom), opt_tau:inf, opt_v, opt_dist, opt_dom],
+ block([v:1], /* dom_v = dom[v] */
+  for dom_v in dom do block([dist : []],
+    if length(dom_v) > 1 then (
+      for e in dom_v do block([new_dom : copylist(dom), tau_value],
+        new_dom[v] : {e}, prop(new_dom), 
+        dist : cons(mu - sum_log_dom_size(new_dom), dist)
+      ),
+      tau_value : tau(dist),
+      if tau_value < opt_tau then
+        (opt_tau : tau_value, opt_v : v, opt_dist : dist, opt_dom : dom_v)),
+    v : v+1
+  )
+ ),
+ block([L : create_list(i,i,1,length(opt_dom)),
+        comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))], 
+   L : sort(L, comp),
+   return([opt_v, create_list((listify(opt_dom))[i], i, L)])))$
 
 /* The trivial heuristics, which just returns the first variable with
   domain-size at least two and the list of its values:
