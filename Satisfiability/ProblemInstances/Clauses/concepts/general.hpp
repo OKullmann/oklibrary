@@ -61,6 +61,27 @@ License, or any later version. */
    (here we would need three watched literals per clause). </li>
    <li> Taking care of those special literals in a clause would be the
    responsibility of the clause (not some higher-level mechanism). </li>
+   <li> For a first usage, see "First implementation, based on watched
+   literals" in Reductions/KLevelForcedAssignments/plans/general.hpp. </li>
+   <li> "Head-tail clauses" perhaps don't need a different concept? See
+   "Head-tail clauses" in ProblemInstances/Clauses/plans/general.hpp for
+   plans for a first implementation. </li>
+   <li> The basic concept:
+    <ol>
+     <li> Construction by a sequence of literals (as usual); at least
+     two literals. </li>
+     <li> Offering the functionality of an immutable sequence of literals.
+     </li>
+     <li> By first() and second() we get the two watched literals. </li>
+     <li> By remove_first/second(TotalAssignment f) a new first/second
+     watched literal is requested; returned is a pair (sat-status, literal),
+     where the literal is null iff it has not been changed. </li>
+     <li> This is definitely the case when the clause was found falsified.
+     </li>
+     <li> In case the clause was found satisfied also the watched literal
+     can stay unchanged. </li>
+    </ol>
+   </li>
   </ul>
 
 

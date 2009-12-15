@@ -53,7 +53,9 @@ Smusat_Horn-O3-DNDEBUG k > Smusat_Horn_k.cnf
    minimise memory usage. </li>
    <li> And, of course, we need to experiment with watched literals; perhaps
    making an exception for binary clauses, where we can simplify the
-   implementation. </li>
+   implementation. Though not in this sub-module; see "Implement initial UCP
+   based on head-tail clauses" in
+   Reductions/UnitClausePropagation/plans/general.hpp. </li>
    <li> It seems that also parsing is rather slow (compared to minisat2). </li>
    <li> We need also test-cases with small clause-sizes. Perhaps the Musat(2)
    cases with one additional unit-clause (then most of the clauses are

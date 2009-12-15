@@ -41,7 +41,9 @@ okltest_constraint_backtracking(constraint_backtracking);
    **************
 */
 
+okltest_test_propagator(test_propagator);
 
+okltest_variable_heuristics_tau(variable_heuristics_tau);
 
 
 /*!

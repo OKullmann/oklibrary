@@ -21,6 +21,23 @@ License, or any later version. */
   \todo Update ProblemInstances/Clauses/Clause.hpp, so that it becomes
   a very simple implementation of the generic concepts.
 
+
+  \todo Head-tail clauses
+  <ul>
+   <li> Similar to ProblemInstances/Clauses/ClausesWithRemoval.hpp, we
+   need an implementation of clauses for initial UCP, which uses two
+   watched literals in the head-tail form. </li>
+   <li> That is, the two watched literals are initially the first and
+   the last clause, and then they move inward; this is faster for finding
+   the next watched literal (since we don't consider again the literals
+   we already touched, and we can stop once the two watched literals
+   touch), while we do not have here the update-problem (for initial
+   UCP there is no backtracking). </li>
+   <li> The concept could perhaps be just that for (general) watched literals;
+   see "Watched literals" in ProblemInstances/Clauses/concepts/general.hpp.
+   </li>
+  </ul>
+
 */
 
 /*!

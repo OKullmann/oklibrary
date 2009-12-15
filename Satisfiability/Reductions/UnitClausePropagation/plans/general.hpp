@@ -51,6 +51,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Implement initial UCP based on head-tail clauses
+  <ul>
+   <li> See "Head-tail clauses" in ProblemInstances/Clauses/plans/general.hpp
+   for the underlying clause-implementation. </li>
+   <li> Binary clauses should be taken out, and treated directly. </li>
+  </ul>
+
+
   \todo Implementing the standard linear-time UCP-algorithm
   (based on the bipartite structure) for Power-clause-sets.
 

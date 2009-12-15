@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Domains
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
 /*
  A "domain association" is a non-empty list D of sets, where the variables are
  {1, ..., |D|}, and D[i] is the domain of variable i.
@@ -41,14 +44,14 @@ log_dom_lengths(dom) := float(map(log,dom_lengths(dom)))$
    ***************************
 */
 
-/* For a domain association returns the minimal domain size. */
+/* For a domain association returns the minimal domain size: */
 min_dom_size(dom) := lmin(dom_lengths(dom))$
 
-/* For a domain association returns the maximal domain size */
+/* For a domain association returns the maximal domain size: */
 max_dom_size(dom) := lmax(dom_lengths(dom))$
 
-/* For a domain association returns the sum of logarithms of domain sizes */
-sum_log_dom_size(dom) := xreduce("+", log_dom_lengths(dom))$
+/* For a domain association returns the sum of logarithms of domain sizes: */
+sum_log_dom_size(dom) := sum_l(log_dom_lengths(dom))$
 
 /*!
 \endhtmlonly
