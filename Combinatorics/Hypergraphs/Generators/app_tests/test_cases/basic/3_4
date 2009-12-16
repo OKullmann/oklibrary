@@ -1,2 +1,4 @@
-p hyp 4 1
+c Green-Tao hypergraph with arithmetic-progression length 3 and 4 vertices.
+c The prime numbers are used directly as vertices.
+p cnf 7 1
 3 5 7 0
