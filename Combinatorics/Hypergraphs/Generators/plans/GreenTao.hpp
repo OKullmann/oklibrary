@@ -34,7 +34,7 @@ License, or any later version. */
    <li> DONE Using a vector of vectors. </li>
    <li> Write application tests. </li>
    <li> Write unit tests. </li>
-   <li> Make the program available. </li>
+   <li> DONE Make the program available. </li>
   </ul>
 
 */
