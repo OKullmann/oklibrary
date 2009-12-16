@@ -47,7 +47,6 @@ License, or any later version. */
      flips of variables. </li>
      <li> A basic question is how this compares with conjugatedness of
      permutations (equivalent to having the same cycle type)? </li>
-     <li> 
     </ol>
    </li>
   </ul>
