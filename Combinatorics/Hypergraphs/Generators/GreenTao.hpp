@@ -99,7 +99,6 @@ namespace OKlib {
           typedef typename set_system_type::size_type size_type;
 
           const vertex_type k; // length of arithmetic progressions
-          const vertex_type n; // number of vertices
           const bool prime_k;
 
           static const unsigned int max_k = 19; // for k=20 the first
@@ -107,13 +106,13 @@ namespace OKlib {
           static const unsigned int rounds_compositeness_test = 10;
 
           GreenTao(const vertex_type k, const vertex_type n)
-            : k(k), n(n), prime_k(prime(k)), vertex_set_(first_prime_numbers(n)) {
+            : k(k), prime_k(prime(k)), vertex_set_(first_prime_numbers(n)), n(n), max_prime((n==0)?0:vertex_set_.back()) {
             // C++0X: the following assert should become compile-time
             assert(std::numeric_limits<vertex_type>::max() >= 4294967295UL);
             assert(k <= max_k);
           }
           GreenTao(const vertex_type k, const vertex_type n, const hyperedge_type& V)
-            : k(k), n(n), prime_k(prime(k)), vertex_set_(V) {
+            : k(k), prime_k(prime(k)), vertex_set_(V), n(n), max_prime((n==0)?0:vertex_set_.back()) {
             // C++0X: the following assert should become compile-time
             assert(std::numeric_limits<vertex_type>::max() >= 4294967295UL);
             assert(k <= max_k);
@@ -121,6 +120,7 @@ namespace OKlib {
           }
 
           size_type nver() const { return n; }
+          size_type max_index() const { return max_prime; }
           size_type nhyp() const; // XXX
 
           const hyperedge_type& vertex_set() const { return vertex_set_; }
@@ -209,6 +209,8 @@ namespace OKlib {
         private :
 
           const hyperedge_type vertex_set_;
+          const vertex_type n; // number of vertices
+          const vertex_type max_prime; // maximal value of a vertex
 
         };
 
