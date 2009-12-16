@@ -11,6 +11,8 @@ License, or any later version. */
 
   Called with parameters k and n, outputs the Green-Tao hypergraph
   in Dimacs format.
+
+  \todo Use Messages
 */
 
 #include <iostream>
@@ -55,7 +57,9 @@ int main(const int argc, const char* const argv[]) {
 
     const set_system_type G(g.hyperedge_set());
 
-    std::cout << "p hyp " << g.nver() << " " << G.size() << "\n";
+    std::cout << "c Green-Tao hypergraph with arithmetic-progression length " << g.k << " and " << g.nver() << " vertices.\n";
+    std::cout << "c The prime numbers are used directly as vertices.\n";
+    std::cout << "p cnf " << g.max_index() << " " << G.size() << "\n";
 
     for (set_system_type::const_iterator i = G.begin(); i != G.end(); ++i) {
       const hyperedge_type H = *i;
