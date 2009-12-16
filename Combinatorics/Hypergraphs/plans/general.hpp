@@ -12,6 +12,17 @@ License, or any later version. */
 
   \todo Update namespaces. DONE
 
+
+  \todo Input and output
+  <ul>
+   <li> We consider hypergraphs as special clause-sets (namely positive
+   clause-sets). </li>
+   <li> So it seems that we don't need special input and output? </li>
+   <li> Perhaps for the input we should check positivity of all literals? </li>
+   <li> And for the input perhaps we add some standardised comment before the
+   parameter-line, indicating that here we have a hypergraph? </li>
+  </ul>
+
 */
 
 /*!

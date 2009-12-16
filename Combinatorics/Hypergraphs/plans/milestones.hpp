@@ -36,6 +36,11 @@ License, or any later version. */
   \par Hypergraphs/Colourings 0.0.6
   (see Hypergraphs/Colourings/plans/milestones.hpp)
 
+  \par
+   In Hypergraphs/plans/general.hpp the following
+   topics are handled:
+    - Input and output
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
