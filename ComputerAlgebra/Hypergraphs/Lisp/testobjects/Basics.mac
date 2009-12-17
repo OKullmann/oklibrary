@@ -73,6 +73,11 @@ okltest_edge_g_hg(edge_g_hg);
 okltest_anti_edge_k_hg(anti_edge_k_hg);
 okltest_kneser_g_hg(kneser_g_hg);
 
+/* ************************************************
+   * Constructions related to the subset-relation *
+   ************************************************
+*/
+
 okltest_subsumption_ghg(subsumption_ghg);
 
 /* *****************

@@ -210,16 +210,22 @@ union_hg([L]) := [lunion(map(first,L)), lunion(map(second,L))]$
 ecomp_hyp(G) := [G[1], ecomp(G[2],G[1])]$
 ecomp_hg(G) := ecomp_hyp(G)$
 
-/* The closure under subset-formation of a hypergraph: */
-/* RENAME: subset_closure_hg */
-subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
-subset_closure_hg(G) := subset_closure_hyp(G)$
-
 /* The dual of a general hypergraph: */
 /* RENAME: dual_ghg */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
  lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 dual_ghg(G) := dual_general_hypergraph(G)$
+
+
+/* ************************************************
+   * Constructions related to the subset-relation *
+   ************************************************
+*/
+
+/* The closure under subset-formation of a hypergraph: */
+/* RENAME: subset_closure_hg */
+subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
+subset_closure_hg(G) := subset_closure_hyp(G)$
 
 /* For set-systems (S1, S2) the "general subsumption hypergraph" has vertices
    the elements of S1, hyperedge-labels the elements of S2, while for H in S2
@@ -229,7 +235,7 @@ subsumption_ghg(S1,S2) :=
  [S1, S2, buildq([S1], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
 /* For the ordering of subsumption_ghg(S1,S2) one uses the given ordering
    on sets S1, S2, that is, the lexicographical ordering.
-   Standardisation (of the vertex set) thus  uses the lexicographical ordering
+   Standardisation (of the vertex set) thus uses the lexicographical ordering
    of S1.
 */
 
