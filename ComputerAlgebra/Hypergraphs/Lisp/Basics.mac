@@ -239,6 +239,27 @@ subsumption_ghg(S1,S2) :=
    of S1.
 */
 
+/* The "reduced subsumption hypergraph" for set-systems (S1,S2) is constructed
+   as follows from subsumption_ghg(S1,S2):
+    - let G := subsumption_ghg(S1,S2);
+    - first subsumption-elimination is performed on G, obtaining G';
+    - then all unit-hyperedges {v} are removed from G' together with their
+      vertices;
+    - finally the general hypergraph is converted into a hypergraph, and
+      vertices not occurring in any hyperedge anymore are removed.
+
+The following function computes this reduced subsumption hypergraph together
+with the set of sets from S1 which where eliminated by the unit-elimination:
+*/
+rsubsumption_hg(S1,S2) := block(
+ [G : ghg2hg(subsumption_ghg(S1,S2)), U,U2, V,E],
+ E : min_elements(G[2]),
+ U : subset(E, lambda([H], is(length(H)=1))),
+ U2 : map(single_element,U),
+ E : setdifference(E,U),
+ V : lunion(E),
+ [ [V,E], U2 ])$
+
 
 /* *****************
    * Connectedness *
