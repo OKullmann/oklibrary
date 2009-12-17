@@ -156,7 +156,7 @@ min_2resolution_closure_mon_cs(F) := block(
 */
 /*
    Using a simple algorithm for computing all minimum "prime representations"
-   of a full clause-set F:
+   of a full clause-set F (as a list):
 */
 all_minequiv_bvs_cs(F) := 
   minimum_transversals_bvs_hg(ghg2hg(

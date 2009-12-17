@@ -46,7 +46,7 @@ okltest_min_2resolution_closure_cs(f) := (
 
 /* Testing whether f computes the set of all minimal CNF-representations
    (w.r.t. first the number of clauses, and then the number of literals)
-   of a full CNF clause-set F.
+   of a full CNF clause-set F:
 */
 okltest_minequiv_cs(f) := (
   assert(f({}) = {{}}),
@@ -78,9 +78,9 @@ okltest_dual_min_2resolution_closure_cs(f) := (
     assert(f(full_fcs(n)[2]) = {}),
   true)$
 
-/* Testing whether f computes the set of all minimal DNF-representations
-   (w.r.t. first the number of clauses, and then the number of literals)
-   of a full CNF clause-set F.
+/* Testing whether f computes a repetition-free list of all minimal
+   DNF-representations (w.r.t. first the number of clauses, and then the
+   number of literals) of a full CNF clause-set F:
 */
 okltest_dual_minequiv_cs(f) := block([R],
   assert(f({}) = [{{}}]),
