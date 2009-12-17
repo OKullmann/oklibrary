@@ -132,7 +132,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7490
+  \todo greentao_3(3,4,5) > 7500
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -171,8 +171,12 @@ License, or any later version. */
 20480000 65180000 73430000 70900000 84870000 98250000
      \endverbatim
      </li>
+     <li> In further 110 runs one solution was found (seed=173131959,
+     cutoff=85955523). </li>
+     <li> Let's increase the cutoff to 2*10^8. </li>
     </ol>
    </li>
+   <li> n=7600, cutoff=2*10^8 </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
