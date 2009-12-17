@@ -415,9 +415,15 @@ struct ipow3_s<0,c> {
    variables is explained in the comments. </li>
    <li> The ordering of the prime clauses likely should be lexicographical.
    </li>
-   <li> Perhaps for that hypergraph, the unit-clause-propagation should have
-   been performed already (starting with the necessary clauses, which just
-   correspond to unit-hyperedges)? </li>
+   <li> For that hypergraph, the unit-clause-propagation should have
+   been performed already (just involving the necessary clauses, which just
+   correspond to unit-hyperedges).
+    <ol>
+     <li> See rsubsumption_hg_full_cs(F) in
+     ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+     for the Maxima-specification. </li>
+    </ol>
+   </li>
   </ul>
 
 
