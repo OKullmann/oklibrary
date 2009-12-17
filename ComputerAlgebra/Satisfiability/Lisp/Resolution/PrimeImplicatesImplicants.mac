@@ -154,13 +154,27 @@ min_2resolution_closure_mon_cs(F) := block(
    (see ComputerAlgebra/Hypergraphs/Lisp/Basics.mac for
    subsumption_ghg).
 */
+
+/* The subsumption-hypergraph of a full clause-set F: Vertices are the
+   prime clauses of F, hyperedges are the sets of prime-clauses which
+   subsume some total assignment:
+*/
+subsumption_hg_full_cs(F) := 
+ ghg2hg(subsumption_ghg(min_2resolution_closure_cs(F), F))$
+
 /*
-   Using a simple algorithm for computing all minimum "prime representations"
-   of a full clause-set F (as a list):
+   Using a simple hypergraph transversal algorithm for computing all minimum
+   "prime representations" (as a repetition-free list) of a full clause-set F:
 */
 all_minequiv_bvs_cs(F) := 
-  minimum_transversals_bvs_hg(ghg2hg(
-    subsumption_ghg(min_2resolution_closure_cs(F), F)))$
+  minimum_transversals_bvs_hg(subsumption_hg_full_cs(F))$
+
+/* Now computing the reduced subsumption-hypergraph (where necessary prime
+   clauses have been eliminated as well as subsumptions), together with the
+   set of necessary clauses:
+*/
+rsubsumption_hg_full_cs(F) := rsubsumption_hg(min_2resolution_closure_cs(F), F)$
+
 
 /* Dualisation: */
 
