@@ -150,7 +150,9 @@ min_2resolution_closure_mon_cs(F) := block(
 /* Given a full clause-set F, the equivalent clause-sets with a minimal
    numbers of clauses and secondly minimal number of literal occurrences
    are exactly the minimum transversals of the hypergraph
-   subsumption_ghg(min_2resolution_closure_cs(F), F).
+   subsumption_ghg(min_2resolution_closure_cs(F), F)
+   (see ComputerAlgebra/Hypergraphs/Lisp/Basics.mac for
+   subsumption_ghg).
 */
 /*
    Using a simple algorithm for computing all minimum "prime representations"

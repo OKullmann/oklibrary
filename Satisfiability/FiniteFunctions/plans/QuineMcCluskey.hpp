@@ -408,7 +408,9 @@ struct ipow3_s<0,c> {
    <li> Optionally the necessary prime clauses should be output (in Dimacs
    format). </li>
    <li> Also optionally, the hypergraph as computed by subsumption_ghg
-   should be created (the minimum transversals of this hypergraph yield the
+   (see
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+   ) should be created (the minimum transversals of this hypergraph yield the
    minimum representations), in strict Dimacs format, where the meaning of
    variables is explained in the comments. </li>
    <li> The ordering of the prime clauses likely should be lexicographical.
