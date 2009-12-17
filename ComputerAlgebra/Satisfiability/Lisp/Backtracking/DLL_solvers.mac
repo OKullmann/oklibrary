@@ -125,7 +125,14 @@ dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
    so this time the "amended heuristics" returns a pair [x,L],
    and non-leaf-nodes a labelled with pairs [x,L], while
    leaf-nodes are still just labelled with [true] or [false].
-   Here L is the list of distance-pairs used by the heuristic. */
+   Here L is the list of distance-pairs used by the heuristic.
+
+   So such an "amended splitting tree" ("ast") has as labels at
+   inner nodes pairs [x,L], where x is the splitting literal, while L is the
+   list of pairs of distances (each pair handling the two branches) for the
+   distance functions (used for tie-breaking: if the projections
+   of the first pairs are equal, consider the second pair etc.).
+*/
 dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
   monitorcheck_dll("dll_red_st_dist", red),
   if emptyp(Fr) then [true]
@@ -349,10 +356,14 @@ amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_d
    ))))$
 
 
-/* Extract a tree with distances */
-extract_tbt(T,i) := block([l : length(T)],
-  if l = 1 then [[]] else
-  cons(T[1][2][i], makelist(extract_tbt(T[j],i),j,2,l)))$
+/* For an amended splitting tree T ("ast"), extract the tree labelled
+   with distances (pairs of real numbers, at inner nodes; formally a
+   tree with branching tuples, that is, "tbt") given by the 
+   ith distance function:
+*/
+ast2tbt(T,i) :=
+  if length(T)=1 then T else
+  cons(T[1][2][i], map(lambda([t],ast2tbt(t,i)), rest(T)))$
 
 /* Check that inf-branches are trivial: m is the number of monitoring
    distances, returns the top-most offending nodes */

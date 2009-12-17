@@ -286,10 +286,10 @@ assert(nnds_l(trivial_ncl_ast_54) = 103);
 assert(height(l2ult(trivial_ncl_ast_54)) = 8);
 assert(levelled_height(l2ult(trivial_ncl_ast_54)) = 3);
 
-tbt_t_ast_54 : extract_tbt(trivial_ncl_ast_54, 1);
-tbt_n_ast_54 : extract_tbt(trivial_ncl_ast_54, 2);
-tbt_c_ast_54 : extract_tbt(trivial_ncl_ast_54, 3);
-tbt_l_ast_54 : extract_tbt(trivial_ncl_ast_54, 4);
+tbt_t_ast_54 : ast2tbt(trivial_ncl_ast_54, 1);
+tbt_n_ast_54 : ast2tbt(trivial_ncl_ast_54, 2);
+tbt_c_ast_54 : ast2tbt(trivial_ncl_ast_54, 3);
+tbt_l_ast_54 : ast2tbt(trivial_ncl_ast_54, 4);
 
 tpd_t_ast_54 : tauprob_tbt(tbt_t_ast_54);
 tpd_n_ast_54 : tauprob_tbt(tbt_n_ast_54);
@@ -316,10 +316,10 @@ assert(nnds_l(n_clt_ast_54) = 71);
 assert(height(l2ult(n_clt_ast_54)) = 7);
 assert(levelled_height(l2ult(n_clt_ast_54)) = 3);
 
-tbt_nn_ast_54 : extract_tbt(n_clt_ast_54, 1);
-tbt_nc_ast_54 : extract_tbt(n_clt_ast_54, 2);
-tbt_nl_ast_54 : extract_tbt(n_clt_ast_54, 3);
-tbt_nt_ast_54 : extract_tbt(n_clt_ast_54, 4);
+tbt_nn_ast_54 : ast2tbt(n_clt_ast_54, 1);
+tbt_nc_ast_54 : ast2tbt(n_clt_ast_54, 2);
+tbt_nl_ast_54 : ast2tbt(n_clt_ast_54, 3);
+tbt_nt_ast_54 : ast2tbt(n_clt_ast_54, 4);
 
 tpd_nn_ast_54 : tauprob_tbt(tbt_nn_ast_54);
 tpd_nc_ast_54 : tauprob_tbt(tbt_nc_ast_54);
@@ -346,10 +346,10 @@ assert(nnds_l(c_nlt_ast_54) = 49);
 assert(height(l2ult(c_nlt_ast_54)) = 7);
 assert(levelled_height(l2ult(c_nlt_ast_54)) = 3);
 
-tbt_cc_ast_54 : extract_tbt(c_nlt_ast_54, 1);
-tbt_cn_ast_54 : extract_tbt(c_nlt_ast_54, 2);
-tbt_cl_ast_54 : extract_tbt(c_nlt_ast_54, 3);
-tbt_ct_ast_54 : extract_tbt(c_nlt_ast_54, 4);
+tbt_cc_ast_54 : ast2tbt(c_nlt_ast_54, 1);
+tbt_cn_ast_54 : ast2tbt(c_nlt_ast_54, 2);
+tbt_cl_ast_54 : ast2tbt(c_nlt_ast_54, 3);
+tbt_ct_ast_54 : ast2tbt(c_nlt_ast_54, 4);
 
 tpd_cc_ast_54 : tauprob_tbt(tbt_cc_ast_54);
 tpd_cn_ast_54 : tauprob_tbt(tbt_cn_ast_54);
@@ -376,10 +376,10 @@ assert(nnds_l(l_nct_ast_54) = 45);
 assert(height(l2ult(l_nct_ast_54)) = 9);
 assert(levelled_height(l2ult(l_nct_ast_54)) = 3);
 
-tbt_ll_ast_54 : extract_tbt(l_nct_ast_54, 1);
-tbt_ln_ast_54 : extract_tbt(l_nct_ast_54, 2);
-tbt_lc_ast_54 : extract_tbt(l_nct_ast_54, 3);
-tbt_lt_ast_54 : extract_tbt(l_nct_ast_54, 4);
+tbt_ll_ast_54 : ast2tbt(l_nct_ast_54, 1);
+tbt_ln_ast_54 : ast2tbt(l_nct_ast_54, 2);
+tbt_lc_ast_54 : ast2tbt(l_nct_ast_54, 3);
+tbt_lt_ast_54 : ast2tbt(l_nct_ast_54, 4);
 
 tpd_ll_ast_54 : tauprob_tbt(tbt_ll_ast_54);
 tpd_ln_ast_54 : tauprob_tbt(tbt_ln_ast_54);
@@ -414,11 +414,11 @@ assert(nnds_l(wnc_nclt_ast_54) = 47);
 assert(height(l2ult(wnc_nclt_ast_54)) = 10);
 assert(levelled_height(l2ult(wnc_nclt_ast_54)) = 3);
 
-tbt_wncwnc_ast_54 : extract_tbt(wnc_nclt_ast_54, 1);
-tbt_wncn_ast_54 : extract_tbt(wnc_nclt_ast_54, 2);
-tbt_wncc_ast_54 : extract_tbt(wnc_nclt_ast_54, 3);
-tbt_wncl_ast_54 : extract_tbt(wnc_nclt_ast_54, 4);
-tbt_wnct_ast_54 : extract_tbt(wnc_nclt_ast_54, 5);
+tbt_wncwnc_ast_54 : ast2tbt(wnc_nclt_ast_54, 1);
+tbt_wncn_ast_54 : ast2tbt(wnc_nclt_ast_54, 2);
+tbt_wncc_ast_54 : ast2tbt(wnc_nclt_ast_54, 3);
+tbt_wncl_ast_54 : ast2tbt(wnc_nclt_ast_54, 4);
+tbt_wnct_ast_54 : ast2tbt(wnc_nclt_ast_54, 5);
 
 tpd_wncwnc_ast_54 : tauprob_tbt(tbt_wncwnc_ast_54);
 tpd_wncn_ast_54 : tauprob_tbt(tbt_wncn_ast_54);
@@ -447,10 +447,10 @@ assert(nnds_l(l_nct_ast_65) = 219);
 assert(height(l2ult(l_nct_ast_65)) = 16);
 assert(levelled_height(l2ult(l_nct_ast_65)) = 4);
 
-tbt_ll_ast_65 : extract_tbt(l_nct_ast_65, 1);
-tbt_ln_ast_65 : extract_tbt(l_nct_ast_65, 2);
-tbt_lc_ast_65 : extract_tbt(l_nct_ast_65, 3);
-tbt_lt_ast_65 : extract_tbt(l_nct_ast_65, 4);
+tbt_ll_ast_65 : ast2tbt(l_nct_ast_65, 1);
+tbt_ln_ast_65 : ast2tbt(l_nct_ast_65, 2);
+tbt_lc_ast_65 : ast2tbt(l_nct_ast_65, 3);
+tbt_lt_ast_65 : ast2tbt(l_nct_ast_65, 4);
 
 tpd_ll_ast_65 : tauprob_tbt(tbt_ll_ast_65);
 tpd_ln_ast_65 : tauprob_tbt(tbt_ln_ast_65);
@@ -500,10 +500,10 @@ assert(nnds_l(col_ok2002_ncl234_ast_65) = 31);
 assert(height(l2ult(col_ok2002_ncl234_ast_65)) = 9);
 assert(levelled_height(l2ult(col_ok2002_ncl234_ast_65)) = 2);
 
-tbt_wnc_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 1);
-tbt_n_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 3);
-tbt_c_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 4);
-tbt_l_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 5);
+tbt_wnc_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 1);
+tbt_n_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 3);
+tbt_c_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 4);
+tbt_l_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 5);
 
 tpd_wnc_ok2002_ncl234_ast_65 : tauprob_tbt(tbt_wnc_ok2002_ncl234_ast_65);
 tpd_n_ok2002_ncl234_ast_65 : tauprob_tbt(tbt_n_ok2002_ncl234_ast_65);
@@ -547,9 +547,9 @@ approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.1,min(approx_min_var
 approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.01,min(approx_min_varl+0.01,1)]], 100)[2][1];
 assert_float_equal(approx_min_varl, 0.985);
 
-tpbt_w2_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 6);
-tpbt_w3_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 7);
-tpbt_w4_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 8);
+tpbt_w2_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 6);
+tpbt_w3_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 7);
+tpbt_w4_ok2002_ncl234_ast_65 : ast2tbt(col_ok2002_ncl234_ast_65, 8);
 
 minvarw23(x,y) := tpd_variance(tauprob_tbt(
   x * tpbt_w2_ok2002_ncl234_ast_65 + y * (1-x) * tpbt_w3_ok2002_ncl234_ast_65 +
