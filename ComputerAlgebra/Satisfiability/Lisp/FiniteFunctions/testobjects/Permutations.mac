@@ -14,6 +14,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobject
 
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Permutations.mac")$
+
 /*!
 \htmlonly
 */
@@ -23,10 +26,12 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobject
    *************************************
 */
 
+/*
 okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
 okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
 
 okltest_perm_cnfp(perm_cnfp);
+*/
 
 /*!
 \endhtmlonly
