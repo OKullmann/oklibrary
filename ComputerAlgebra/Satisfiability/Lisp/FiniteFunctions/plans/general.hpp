@@ -86,10 +86,9 @@ License, or any later version. */
   \todo Representing boolean functions by their truth tables
   <ul>
    <li> The truth table is just a sequence of bits. So once the order
-   is standardised (in such a way that it adding variables doesn't
-   change the order), truth tables can be jused represented by natural
-   numbers (including zero), plus the information how many variables are
-   there. </li>
+   is standardised (in such a way that adding variables doesn't change the
+   order), truth tables can be represented by natural numbers (including
+   zero), plus the information how many variables are there. </li>
    <li> Most natural seems here to use binary counting, with leading
    digit last (compare
    ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp). </li>
