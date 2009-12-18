@@ -26,24 +26,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
    *************************************
 */
 
-/* Given a list L of positive integers where L represents the permutation
-   where i is mapped to L[i] for all 1 <= i <= length(L), returns a
-   DNF F where the variable set is 1,..,2*binLength and binLength is the
-   maximum of the minimum number of bits to represent any of the integers in
-   the list L, and F is satisfied if any only if the assignment to variables
-   1,...,binLength is the big endian representation of i and
-   binLength+1,...,2*binLength is the big endian representation of L[i] for
-   every 1 <= i <= length(L), i.e., there is a DNF clause for each such i,
-   representing each such possible assignment. */
-
-/* XXX */
-
-/* XXX */
-
-/* Given a formal clause-set FF, a list L of integers representing a
-  permutation as described in perm_fulldnf_fcs, and a
-  SAT solver S, returns true if FF is satisfied and falsified
-   by the same assignments as perm_fulldnf_fcs(L). */
 
 /*!
 \endhtmlonly
