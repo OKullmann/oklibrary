@@ -39,22 +39,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
 /* XXX */
 
 /* XXX */
-perm_fullcnf_fcs(perm) := block(
-  [fullncs, int_perm_dnf : perm_fulldnf_fcs(perm)],
-  fullncs : full_fcs(length(int_perm_dnf[1])),
-  [int_perm_dnf[1],setdifference(clauses_f(fullncs),
-    map(comp_sl,clauses_f(int_perm_dnf)))]
-)$
 
 /* Given a formal clause-set FF, a list L of integers representing a
   permutation as described in perm_fulldnf_fcs, and a
   SAT solver S, returns true if FF is satisfied and falsified
    by the same assignments as perm_fulldnf_fcs(L). */
-perm_cnfp(FF,perm,S) := 
-  every_s(lambda([a],S(apply_pa_f(a,FF))),
-    perm_fulldnf_fcs(perm)[2]) and
-  every_s(lambda([a],not S(apply_pa_f(a,FF))),
-    map(comp_sl,perm_fullcnf_fcs(perm)[2]))$
 
 /*!
 \endhtmlonly
