@@ -27,5 +27,33 @@ License, or any later version. */
    tr_arithprog_hg(k,n). </li>
   </ul>
 
+
+  \todo Investigating greentao_2(2,k)
+  <ul>
+   <li> Simple function for computing greentao_2(2,k):
+   \verbatim
+greentao2(k) := block([break:false,res],
+ for n : 0 thru inf unless break do block([G : arithprog_primes_hg(k,n)[2]],
+ if not emptyp(G) and emptyp(lintersection(G)) then (break:true,res:n)),
+ res)$
+   \endverbatim
+   </li>
+   <li> Easy to compute for k <= 10:
+   \verbatim
+for k : 1 thru 10 do print(k, greentao2(k));
+    1  2
+    2  3
+    3  7
+    4  14
+    5  31
+    6  55
+    7  214
+    8  349
+    9  690
+   10  5482
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
