@@ -14,7 +14,7 @@ License, or any later version. */
   Maxima-level, and by "GTSat 2 ... 2 3 5 n" at C++ level.
 
 
-  \todo greentao_3(2,3,5) > 558
+  \todo greentao_3(2,3,5) > 562
   <ul>
    <li> n=550
     <ol>
@@ -314,20 +314,39 @@ SATISFIABLE
 172  27   1
 200
      \endverbatim
-     We need to use, say, 10000 runs.
      </li>
-     <li> minisat2: runs now for 16.1 days (csltok), current state:
+     <li>
+     In a second try one solution was found quickly:
+     \verbatim
+> ubcsat-okl -alg novelty+ -cutoff 1000000 -runs 10000 -i GreenTao_3-2-3-5_559.cnf | tee GreenTao_3-2-3-5_559.cnf_OUT
+       sat  min     osteps     msteps       seed
+    39 1     0     925169     925169  270520321
+     \endverbatim
+     </li>
+     <li> minisat2: abort after nearly 26 days (csltok):
      \verbatim
 ============================[ Search Statistics ]==============================
 | Conflicts |          ORIGINAL         |          LEARNT          | Progress |
 |           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
 ===============================================================================
-| 194147767 |     982   151637   348951 |  1291324   230856     29 |  0.000 % |
+| 291221740 |     982   151637   348951 |  1420456   492530     29 |  0.000 % |
+*** INTERRUPTED ***
+restarts              : 36
+conflicts             : 312341917      (140 /sec)
+decisions             : 407597722      (1.75 % random) (182 /sec)
+propagations          : 32165890883    (14369 /sec)
+conflict literals     : 10963422073    (26.69 % deleted)
+Memory used           : 794.32 MB
+CPU time              : 2.23859e+06 s
      \endverbatim
      </li>
      <li> OKsolver_2002 </li>
     </ol>
    </li>
+   <li> n=560, cutoff=10^6 (novelty+) finds in 1074 runs one solution
+   (seed=449744216, osteps=402793). </li>
+   <li> n=561, cutoff=10^6 (novelty+) finds in 256 runs one solution
+   (seed=4223011878, osteps=161530). </li>
    <li> n=562
     <ol>
      <li> adaptnovelty+ with cutoff=10^6:
@@ -381,9 +400,23 @@ E$alg[E$best==1]
  1  3  3 10  3  5  7 15 11 19 21  2
      \endverbatim
      so noveltyp seems clearly best. </li>
-     <li> Let's assume for now that this is unsatisfiable. </li>
+     <li> cutoff=10^6 (novelty+) finds in 5486 runs two solutions
+     (seed=665936935, osteps=541019):
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_562.cnf_OUT")
+   0    1    2    3
+   2 4663  815    6
+5486
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8586  157900  302600  362300  524300  999700
+     \endverbatim
+     </li>
+     <li> The osteps-summary doesn't necessarily indicate that the cutoff
+     should be increased? </li>
     </ol>
    </li>
+   <li> n=563, cutoff=10^6 (novelty+) </li>
    <li> n=575
     <ol>
      <li> adaptnovelty+ with cutoff=10^6:
