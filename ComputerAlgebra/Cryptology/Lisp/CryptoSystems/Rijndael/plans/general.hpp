@@ -23,16 +23,16 @@ License, or any later version. */
    Given future generalisations, it seems best to consider bytes as "words" and
    so we have
     <ul>
-     <li> "Word" - signified by "_w" </li>
-     <li> List of "Word"s - signified by "_lw" </li> 
+     <li> "Word" - signified by "_w". </li>
+     <li> List of "Word"s - signified by "_lw". </li> 
     </ul>
    </li>
    <li> There is still the issue of some functions that use different, more 
-   specific data types; either convenience functions etc (using the rijndael 
+   specific data types; either convenience functions etc (using the Rijndael 
    byte field, for example), or many other fields or permutations, if later 
    generalisations are considered.
     <ul>
-     <li> For the rijndael byte field, perhaps "_b" would be appropriate? </li>
+     <li> For the Rijndael byte field, perhaps "_b" would be appropriate? </li>
      <li> What is an appropriate convention for others? Some general scheme 
      that can be used for all or most of such types? </li>
     </ul>
@@ -53,7 +53,8 @@ License, or any later version. */
   <ul>
    <li> The following ideas need to be integrated into the plans (after
    milestone 0.1).
-   <li> It would also be interesting to have an expression-based implementation.
+   <li> It would also be interesting to have an expression-based
+   implementation.
     <ol>
      <li> Based on the basic abstract operations (perhaps there are options).
      </li>
@@ -99,9 +100,9 @@ License, or any later version. */
      <li> DONE
      The Key Scheduling operation could simply take a list of GF(2) elements
      convert this to a list of GF(2^8) elements and perform the key schedule
-     repeatedly in an iterative or recursive manner to produce the expanded key,
-     for which the algorithm is relatively simple and described in Design of
-     Rijndael and in various other places, returning an expanded key (list
+     repeatedly in an iterative or recursive manner to produce the expanded
+     key, for which the algorithm is relatively simple and described in Design
+     of Rijndael and in various other places, returning an expanded key (list
      of GF(2) elements) of size of r+1 times the block size, which the
      individual round keys can then be extracted from using a helper function.
      </li>
@@ -201,8 +202,9 @@ License, or any later version. */
      <li> (DONE Moved to Generalisations) What sort of generalisations are
      needed?
       <ol>
-       <li> Should the elements of the round such as ShiftRows be interchangable
-       to some arbitrary permutation (perhaps just across rows?)? </li>
+       <li> Should the elements of the round such as ShiftRows be
+       interchangable to some arbitrary permutation (perhaps just across
+       rows?)? </li>
        <li> Should MixColumns be generalised to an arbitrary 4-Byte value
        multiplication, should it even be viewed in this way? See ??? </li>
       </ol>
@@ -222,9 +224,9 @@ License, or any later version. */
     </ol>
     Furthermore declarations of local variables are needed.
    </li>
-   <li> The finite field packages function names, along with maximas syntax make
-   things a little verbose and perhaps a little longer than is really necessary
-   although this is more of a nuisance than a real problem.
+   <li> The finite field packages function names, along with maximas syntax
+   make things a little verbose and perhaps a little longer than is really
+   necessary although this is more of a nuisance than a real problem.
    OK : Why is there a nuisance? In general in the OKlibrary "full" names are
    appreciated; is this somewhat special here?
    MG : It only arose as an issue due to my wish to keep the code relatively
