@@ -38,15 +38,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
 
 /* XXX */
 
-/* Given a list L of positive integers where L represents the permutation
-   where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
-   CNF F where the variable set is 1,..,2*binLength and binLength is the
-   maximum of the minimum number of bits to represent any of the integers in
-   the list L, and F is satisfied if any only if the assignment to variables
-   1,...,binLength is the big endian representation of sort(L)[i] and
-   binLength+1,...,2*binLength is the big endian representation of L[i] for
-   every 1 <= i <= length(L), i.e., F is the full CNF representation of
-   perm_fulldnf_fcs(L). */
+/* XXX */
 perm_fullcnf_fcs(perm) := block(
   [fullncs, int_perm_dnf : perm_fulldnf_fcs(perm)],
   fullncs : full_fcs(length(int_perm_dnf[1])),
