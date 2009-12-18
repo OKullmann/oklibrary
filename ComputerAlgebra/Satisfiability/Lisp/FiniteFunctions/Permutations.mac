@@ -35,35 +35,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
    binLength+1,...,2*binLength is the big endian representation of L[i] for
    every 1 <= i <= length(L), i.e., there is a DNF clause for each such i,
    representing each such possible assignment. */
-perm_fulldnf_fcs(perm) := block([permSize, binLength],
-/* MG : Is there a function which given a positive integer returns the
-   minimum number of bits necessary to represent that integer?
 
-   Such a function could replace the code
-     
-   lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2)))
-
-   below.
-     
-   In ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac. there are logarithm
-   functions, but they don't handle 0, or handle the addition of 1 that we
-   need (i.e., we need 1 bit to represent the integer 1).
-
-   So for example, the suggested function should take 5 and return 3, and
-   take 8 and return 4, and take 0 and return 1.     
-*/
-  permSize : length(perm),
-  binLength : if abs(permSize-1) = 0 then 1 else ceiling(log(permSize)/log(2)),
-  print(binLength),
-  return(
-    [setn(binLength*2),
-    setify(map(
-        lambda([a,b], setify(binl2dnf_l_std(
-              append(int2polyadic_padd(a-1,2,binLength),
-                int2polyadic_padd(b-1,2,binLength))))),
-        create_list(i,i,1,permSize),
-        perm))])
-)$
+/* XXX */
 
 /* Given a list L of positive integers where L represents the permutation
    where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
