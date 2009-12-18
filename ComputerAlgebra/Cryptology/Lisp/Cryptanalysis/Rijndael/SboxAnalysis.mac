@@ -54,11 +54,13 @@ output_rijnsbox_fullcnf_stdname() :=
     rijnsbox_fullcnf_fcs(),
     sconcat("AES_Sbox_full.cnf"))$
 
-/* Tests whether a full CNF clause-set represents the AES sbox: */
-/* AGAIN, this seems to be be completely superfluous?? ACTION required
-   by MG.
+/* Tests whether a formal CNF clause-set represents the AES sbox:
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
 */
-test_CNF_aes_sbox(FF) := 
+rijnsbox_cnfp(FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
 
 
@@ -69,75 +71,8 @@ test_CNF_aes_sbox(FF) :=
 
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction): */
-/* RENAME: aessbox2hittingcnf_fcs */
 rijnsbox2hittingcnf_fcs(h) := dualtreehittingcls_condensed_fcs(rijnsbox_fulldnf_fcs(),h)$
 
-
-/* XXX The following is MISPLACED here. */
-
-/* Given a list L of positive integers where L represents the permutation
-   where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
-   DNF F where the variable set is 1,..,2*binLength and binLength is the
-   maximum of the minimum number of bits to represent any of the integers in
-   the list L, and F is satisfied if any only if the assignment to variables
-   1,...,binLength is the big endian representation of sort(L)[i] and
-   binLength+1,...,2*binLength is the big endian representation of L[i] for
-   every 1 <= i <= length(L), i.e., there is a DNF clause for each such i,
-   representing each such possible assignment. */
-/* RENAME: update to new naming scheme */
-generate_full_int_perm_dnf_fcs(perm) := block(
-  elements : sort(perm),
-  /* MG : Is there a function which given a positive integer returns the
-     minimum number of bits necessary to represent that integer?
-
-     Such a function could replace the code
-     
-     lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2)))
-
-     below.
-     
-     In ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac. there are logarithm
-     functions, but they don't handle 0, or handle the addition of 1 that we
-     need (i.e., we need 1 bit to represent the integer 1).
-
-     So for example, the suggested function should take 5 and return 3, and
-     take 8 and return 4, and take 0 and return 1.     
-*/
-  binLength : apply(max,map(
-    lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2))),perm)),
-  cs_to_fcs(setify(map(
-    lambda([a,b], setify(binl2dnf_l_std(
-      append(int2polyadic_padd(a,2,binLength),int2polyadic_padd(b,2,binLength))))),elements,
-      perm)))
-)$
-
-/* Given a list L of positive integers where L represents the permutation
-   where sort(L)[i] is mapped to L[i] for all 1 <= i <= length(L), returns a
-   CNF F where the variable set is 1,..,2*binLength and binLength is the
-   maximum of the minimum number of bits to represent any of the integers in
-   the list L, and F is satisfied if any only if the assignment to variables
-   1,...,binLength is the big endian representation of sort(L)[i] and
-   binLength+1,...,2*binLength is the big endian representation of L[i] for
-   every 1 <= i <= length(L), i.e., F is the full CNF representation of
-   generate_full_int_perm_dnf_fcs(L). */
-/* RENAME: update to new naming scheme */
-generate_full_int_perm_cnf_fcs(perm) := block(
-  [fullncs, int_perm_dnf : generate_full_int_perm_dnf_fcs(perm)],
-  fullncs : full_fcs(length(int_perm_dnf[1])),
-  [int_perm_dnf[1],setdifference(clauses_f(fullncs),
-    map(comp_sl,clauses_f(int_perm_dnf)))]
-)$
-
-/* Given a formal clause-set FF, a list L of integers representing a
-  permutation as described in generate_full_int_perm_dnf_fcs, and a
-  SAT solver S, returns true if FF is satisfied and falsified
-   by the same assignments as generate_full_int_perm_dnf_fcs(L). */
-/* RENAME: update to new naming scheme */
-test_CNF_int_perm(FF,perm,S) := 
-  every_s(lambda([a],S(apply_pa_f(a,FF))),
-    generate_full_int_perm_dnf_fcs(perm)[2]) and
-  every_s(lambda([a],not S(apply_pa_f(a,FF))),
-    map(comp_sl,generate_full_int_perm_cnf_fcs(perm)[2]))$
 
 /*!
 \endhtmlonly

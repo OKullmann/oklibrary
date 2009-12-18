@@ -48,7 +48,7 @@ statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4)));
    <li> Since the AES-DNF is unique, as a correctness test we can
    just check whether we get the input back (using any heuristics):
    \verbatim
-test_CNF_aes_sbox(cs_to_fcs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit)));
+rijnsbox_cnfp(cs_to_fcs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit)));
    \endverbatim
    </li>
    <li> We should also use reductions. For that we need the ability
@@ -147,10 +147,10 @@ false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
 [16, 581, 4006, 8, 6]
-test_CNF_aes_sbox(ip_aes);
+rijnsbox_cnfp(ip_aes);
 true
 h2_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4))$
-test_CNF_aes_sbox(cs_to_fcs(h2_aes));
+rijnsbox_cnfp(cs_to_fcs(h2_aes));
 true
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
 statistics_cs(p2_aes);
@@ -158,7 +158,7 @@ statistics_cs(p2_aes);
 ip2_aes : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
 statistics_cs(ip2_aes[2]);
 [16, 559, 3838, 8, 6]
-test_CNF_aes_sbox(ip2_aes);
+rijnsbox_cnfp(ip2_aes);
 true
 h0_aes : rijnsbox2hittingcnf_fcs(dll_heuristics_first_formal)$
 p0_aes : replace_by_prime_implicates_hitting(h0_aes)$
@@ -167,7 +167,7 @@ statistics_cs(p0_aes);
 ip0_aes : first_irr_fcs(cs_to_fcs(p0_aes), dll_simplest_trivial2)$
 statistics_cs(ip0_aes[2]);
 [16, 680, 4784, 9, 5]
-test_CNF_aes_sbox(ip0_aes);
+rijnsbox_cnfp(ip0_aes);
 true
    \endverbatim
    </li>
@@ -192,7 +192,7 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
      <li> See 
      ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac
      </li>
-     <li> Function test_CNF_aes_sbox delivers the required equivalence test.
+     <li> Function rijnsbox_cnfp delivers the required equivalence test.
      </li>
      <li> Then via hypergraph transversals we obtain all irredundant cores. 
      </li>
@@ -284,7 +284,7 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    \verbatim
 set_random_state(make_random_state(1))$
 random_perm : random_permutation(makelist(i,i,0,255))$
-random_dnf : generate_full_int_perm_dnf_fcs(random_perm)$
+random_dnf : perm_fulldnf_fcs(random_perm)$
 random_hcs : dualtreehittingcls_condensed_fcs(random_dnf,dll_heuristics_max_lit)$
 statistics_cs(random_hcs);
 [16,1536,19764,16,5]
@@ -296,7 +296,7 @@ ncl_list_cs(random_pi);
 irredundant_bydef(cs_to_fcs(random_pi),dll_simplest_trivial1);
 false
 random_ip : first_irr_fcs(cs_to_fcs(random_pi),dll_simplest_trivial2)$
-test_CNF_int_perm(random_ip,random_perm, dll_simplest_trivial1);
+perm_cnfp(random_ip,random_perm, dll_simplest_trivial1);
 true
 statistics_cs(random_ip[2]);
 [16,565,3869,9,5]
@@ -305,7 +305,7 @@ ncl_list_fcs(random_ip);
 
 set_random_state(make_random_state(25012))$ 
 random_perm2 : random_permutation(makelist(i,i,0,255))$
-random_dnf2 : generate_full_int_perm_dnf_fcs(random_perm2)$
+random_dnf2 : perm_fulldnf_fcs(random_perm2)$
 random_hcs2 : dualtreehittingcls_condensed_fcs(random_dnf2,dll_heuristics_max_lit)$
 statistics_cs(random_hcs2);
 [16,1510,19456,16,6]
@@ -316,7 +316,7 @@ ncl_list_cs(random_pi2);
 [[5,6],[6,306],[7,861],[8,150],[9,1]]
 irredundant_bydef(cs_to_fcs(random_pi2),dll_simplest_trivial1);
 random_ip2 : first_irr_fcs(cs_to_fcs(random_pi2),dll_simplest_trivial2)$
-test_CNF_int_perm(random_ip2,random_perm2, dll_simplest_trivial1);
+perm_cnfp(random_ip2,random_perm2, dll_simplest_trivial1);
 true
 statistics_cs(random_ip2[2]);
 [16,545,3731,9,5]
@@ -325,7 +325,7 @@ ncl_list_fcs(random_ip2);
 
 set_random_state(make_random_state(3093215))$
 random_perm3 : random_permutation(makelist(i,i,0,255))$
-random_dnf3 : generate_full_int_perm_dnf_fcs(random_perm3)$
+random_dnf3 : perm_fulldnf_fcs(random_perm3)$
 random_hcs3 : dualtreehittingcls_condensed_fcs(random_dnf3,dll_heuristics_max_lit)$
 statistics_cs(random_hcs3);
 [16,1576,20254,16,6]
@@ -337,7 +337,7 @@ ncl_list_cs(random_pi3);
 irredundant_bydef(cs_to_fcs(random_pi3),dll_simplest_trivial1);
 false
 random_ip3 : first_irr_fcs(cs_to_fcs(random_pi3),dll_simplest_trivial2)$
-test_CNF_int_perm(random_ip3,random_perm3, dll_simplest_trivial1);
+perm_cnfp(random_ip3,random_perm3, dll_simplest_trivial1);
 true
 statistics_cs(random_ip3[2]);
 [16,563,3877,9,5]

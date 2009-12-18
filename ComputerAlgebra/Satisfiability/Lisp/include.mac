@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac"
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/include.mac")$

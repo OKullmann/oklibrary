@@ -40,7 +40,13 @@ rijnmult_fulldnf_fcs(field_element) :=
    map(lambda([ce],setify(binl2dnf_l_std(
     append(egf_coeffs(rijn_bit_field,int2poly(ce,2),7),
       egf_coeffs(rijn_bit_field,int2poly(
-        aes_field_mul_data[field_element,ce+1],
+        if arrayinfo(aes_field_mul_data)[3][1] >= field_element + 1 and
+           integerp(aes_field_mul_data[field_element,ce+1]) then
+          aes_field_mul_data[field_element,ce+1]
+        else egf_poly2num(rijn_byte_field,
+          egf_mul(rijn_byte_field,
+            egf_num2poly(rijn_byte_field,field_element),
+            egf_num2poly(rijn_byte_field,ce))),
         2),7))))),
     setify(create_list(i,i,0,255)))]$
 
@@ -67,7 +73,7 @@ output_rijnmult_fullcnf_stdname(field_element) :=
 
 /* Tests whether a full CNF clause-set represents the AES field
    multiplication: */
-test_CNF_aes_field_mul(field_element,FF) := 
+rijnmult_cnfp(field_element,FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    rijnmult_fulldnf_fcs(field_element))$
 
