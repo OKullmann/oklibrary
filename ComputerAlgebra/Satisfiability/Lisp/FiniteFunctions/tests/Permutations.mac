@@ -19,6 +19,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Perm
 \htmlonly
 */
 
+/* *************************************
+   * Permutations as boolean functions *
+   *************************************
+*/
+
 okltest_perm_fulldnf_fcs(f) := block(
   assert(f([]) = [{},{}]),
   assert(f([0]) = [{1,2}, {{-2,-1}}]),

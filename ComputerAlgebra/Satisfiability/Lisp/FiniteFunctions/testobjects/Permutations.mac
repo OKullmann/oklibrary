@@ -18,6 +18,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobject
 \htmlonly
 */
 
+/* *************************************
+   * Permutations as boolean functions *
+   *************************************
+*/
+
 okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
 okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
 
