@@ -14,9 +14,26 @@ License, or any later version. */
   <ul>
    <li> For a natural number n >= 0 one considers the set V_n = {0,1}^n of all
    bit-vectors. </li>
-   <li> The functions to be studied here are permutations f of V_n, represented
-   as relations by boolean functions f^*: {0,1}^(2n), that is, f^*(x,y) = 1
-   iff f(x) = y. </li>
+   <li> The functions to be studied here are permutations f of V_n. </li>
+   <li> Permutations are represented as relations by boolean functions
+   f^*: {0,1}^(2n), that is, f^*(x,y) = 1 iff f(x) = y. </li>
+   <li> These boolean function have exactly one DNF-representation (using 2^n
+   clauses of length 2*n). </li>
+   <li> The CNF-representations are of special interest here. </li>
+   <li> In ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac
+   we have perm2cnffcs(P), which for a permutation P in list-form creates
+   the full cnf-fcs. </li>
+   <li> In
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+   we have all_minequiv_bvs_fcs to compute than all minimum CNF's (that is,
+   by all_minequiv_bvs_fcs(perm2cnffcs(P)). </li>
+   <li> A simpler function there is rsubsumption_hg_full_fcs: By
+   rsubsumption_hg_full_fcs(FF)[2] we obtain the list of necessary prime
+   implicates (that is, by rsubsumption_hg_full_fcs(perm2cnffcs(P))[2]). </li>
+   <li> The permutations are (according to our standard representation)
+   not permutations of bit-vectors, but of the numbers 1,..,2^n; which
+   are considered as bit-vectors using binary representation of numbers. </li>
+   <li> So all permutations are created by permutations(setn(2^n)). </li>
    <li> There are 2^(2^(2n)) boolean functions altogether of 2n arguments,
    while there are (2^n)! such permutations f. </li>
    <li> V_n can be considered as an n-dimensional algebra over F_2 (the
@@ -52,10 +69,30 @@ License, or any later version. */
   </ul>
 
 
+  \todo What to investigate for these boolean functions
+  <ul>
+   <li> The number of prime implicates is of importance, the number of
+   necessary clauses amongst them, the size of minimum CNF representations,
+   and their number. </li>
+   <li> Shortest r_k-compressions of the set of prime implicates are of
+   high interest (since we expect them to be most useful for their use
+   in SAT-translations). </li>
+   <li> Also OBDD-representations are to be studied. </li>
+   <li> And shortest circuit-representations. </li>
+  </ul>
+
+
+  \todo Trivial cases
+  <ul>
+   <li> The case n=0 </li>
+   <li> The case n=1 </li>
+  </ul>
+
+
   \todo The case n=2
   <ul>
    <li> Here we have just (2^2)! = 24 permutations altogether, so we can
-   conveniently list them all. </li>
+   conveniently list them all (by permutations({1,2,3,4})). </li>
    <li> The number of linear automorphisms is order_gl(2,2) = 6, while there
    are 2^2=4 translationen, which makes 24 affine automorphisms altogether.
    </li>
