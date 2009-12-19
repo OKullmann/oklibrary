@@ -126,11 +126,11 @@ create_set_map(h) :=
  - lambda_hm.
 */
 
-/* Set a value for the hash map. */
+/* Set a value for the hash map: */
 set_hm(h,x,y) := set_hash_okl(sconcat(x),h,y)$
-/* Compute a value, returning false if undefined */
+/* Compute a value, returning false if undefined: */
 ev_hm(h,x) := get_hash_okl(sconcat(x),h)$
-/* Compute a value, returning the provided value if undefined. */
+/* Compute a value, returning the provided value if undefined: */
 ev_hm_d(h,x,y) := get_hash_okl(sconcat(x),h,y)$
 /* Delete a key from a hash map. Returns false if x is not in h, otherwise
    return true. */
