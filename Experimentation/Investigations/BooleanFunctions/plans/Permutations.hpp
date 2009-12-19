@@ -74,6 +74,22 @@ License, or any later version. */
    <li> The number of prime implicates is of importance, the number of
    necessary clauses amongst them, the size of minimum CNF representations,
    and their number. </li>
+   <li> At Maxima-level this is computed as follows:
+   \verbatim
+investigate_permutations(n) := block([m : 2^n],
+ for P in permutations(setn(m)) do block(
+  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s],
+   Pr : min_2resolution_closure_cs(F),
+   pr : length(Pr),
+   S : rsubsumption_hg(Pr,F),
+   nec : length(S[2]),
+   Min : all_minequiv_bvs_rsubhg(S),
+   min : length(Min),
+   s : length(first(Min)),
+   print(pr, nec, s, min)
+ ))$
+   \endverbatim
+   </li>
    <li> Shortest r_k-compressions of the set of prime implicates are of
    high interest (since we expect them to be most useful for their use
    in SAT-translations). </li>
@@ -84,8 +100,9 @@ License, or any later version. */
 
   \todo Trivial cases
   <ul>
-   <li> The case n=0 </li>
-   <li> The case n=1 </li>
+   <li> The case n=0: investigate_permutations(0) yields "1 1 1 1". </li>
+   <li> The case n=1: investigate_permutations(1) yields two times
+   "2 2 2 1". </li>
   </ul>
 
 
@@ -93,6 +110,52 @@ License, or any later version. */
   <ul>
    <li> Here we have just (2^2)! = 24 permutations altogether, so we can
    conveniently list them all (by permutations({1,2,3,4})). </li>
+   <li> We get
+   \verbatim
+investigate_permutations(2);
+
+4 4 4 1
+10 0 5 2
+4 4 4 1
+10 0 5 2
+10 0 5 2
+10 0 5 2
+10 0 5 2
+4 4 4 1
+10 0 5 2
+10 0 5 2
+4 4 4 1
+10 0 5 2
+10 0 5 2
+4 4 4 1
+10 0 5 2
+10 0 5 2
+4 4 4 1
+10 0 5 2
+10 0 5 2
+10 0 5 2
+10 0 5 2
+4 4 4 1
+10 0 5 2
+4 4 4 1
+   \endverbatim
+   </li>
+   <li> So we have two cases: One with 4 prime implicates, which all are
+   necessary, and one with 10 prime implicates, none of which are
+   necessary, and having 2 minimum representations, each with 5 clauses. </li>
+   <li> The first case is given by the identity, the second case by
+   the permutation [1,2,4,3]:
+   \verbatim
+all_minequiv_bvs_fcs(perm2cnffcs([1,2,3,4]));
+  [{{-4,2},{-3,1},{-2,4},{-1,3}}]
+all_minequiv_bvs_fcs(perm2cnffcs([1,2,4,3]));
+  [{{-4,-3,2},{-4,-2,1},{-3,-2,4},{-1,3},{1,2,4}},
+   {{-4,-2,3},{-4,-1,2},{-3,1},{-2,-1,4},{2,3,4}}]
+   \endverbatim
+   </li>
+   <li> The identity is treated in general below. For the second case
+   (a transposition) actually the two minimum clause-sets are disjoined
+   (a partitioning of the set of all prime-clauses). </li>
    <li> The number of linear automorphisms is order_gl(2,2) = 6, while there
    are 2^2=4 translationen, which makes 24 affine automorphisms altogether.
    </li>
