@@ -31,6 +31,7 @@ okltest_min_2resolution_closure_cs(min_2resolution_closure_cs);
 okltest_subsumption_hg_full_cs(subsumption_hg_full_cs);
 okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvs_cs(F))));
 okltest_rsubsumption_hg_full_cs(rsubsumption_hg_full_cs);
+okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvsr_cs(F))));
 
 okltest_dual_min_2resolution_closure_cs(dual_min_2resolution_closure_cs);
 okltest_dual_minequiv_cs(dual_all_minequiv_bvs_cs);

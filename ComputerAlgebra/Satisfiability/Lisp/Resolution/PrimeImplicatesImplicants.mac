@@ -177,6 +177,16 @@ all_minequiv_bvs_fcs(FF) := all_minequiv_bvs_cs(fcs2cs(FF))$
 rsubsumption_hg_full_cs(F) := rsubsumption_hg(min_2resolution_closure_cs(F), F)$
 rsubsumption_hg_full_fcs(FF) := rsubsumption_hg_full_cs(fcs2cs(FF))$
 
+/* Computing the list of all minimum prime representations by using the 
+   output S of rsubsumption_hg_full_cs (this is somewhat more efficient):
+*/
+all_minequiv_bvs_rsubhg(S) :=
+  add_elements_l(S[2], minimum_transversals_bvs_hg(S[1]))$
+/* The resulting computation of all minimum prime representations of a
+   full clause-set F: */
+all_minequiv_bvsr_cs(F) := all_minequiv_bvs_rsubhg(rsubsumption_hg_full_cs(F))$
+all_minequiv_bvsr_fcs(FF) := all_minequiv_bvsr_cs(fcs2cs(FF))$
+
 
 /* Dualisation: */
 
