@@ -74,22 +74,9 @@ License, or any later version. */
    <li> The number of prime implicates is of importance, the number of
    necessary clauses amongst them, the size of minimum CNF representations,
    and their number. </li>
-   <li> At Maxima-level this is computed as follows:
-   \verbatim
-investigate_permutations(n) := block([m : 2^n],
- for P in permutations(setn(m)) do block(
-  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s],
-   Pr : min_2resolution_closure_cs(F),
-   pr : length(Pr),
-   S : rsubsumption_hg(Pr,F),
-   nec : length(S[2]),
-   Min : all_minequiv_bvs_rsubhg(S),
-   min : length(Min),
-   s : length(first(Min)),
-   print(pr, nec, s, min)
- ))$
-   \endverbatim
-   </li>
+   <li> At Maxima-level this is computed as available by
+   investigate_permutations(n) (in
+   Experimentation/Investigations/BooleanFunctions/Permutations.mac). </li>
    <li> Shortest r_k-compressions of the set of prime implicates are of
    high interest (since we expect them to be most useful for their use
    in SAT-translations). </li>
@@ -112,32 +99,11 @@ investigate_permutations(n) := block([m : 2^n],
    conveniently list them all (by permutations({1,2,3,4})). </li>
    <li> We get
    \verbatim
-investigate_permutations(2);
+h2 : investigate_permutations(2)$
+ev_ip(h2);
 
-4 4 4 1
-10 0 5 2
-4 4 4 1
-10 0 5 2
-10 0 5 2
-10 0 5 2
-10 0 5 2
-4 4 4 1
-10 0 5 2
-10 0 5 2
-4 4 4 1
-10 0 5 2
-10 0 5 2
-4 4 4 1
-10 0 5 2
-10 0 5 2
-4 4 4 1
-10 0 5 2
-10 0 5 2
-10 0 5 2
-10 0 5 2
-4 4 4 1
-10 0 5 2
-4 4 4 1
+  [4,4,4,1] 8
+  [10,0,5,2] 16
    \endverbatim
    </li>
    <li> So we have two cases: One with 4 prime implicates, which all are
@@ -146,6 +112,11 @@ investigate_permutations(2);
    <li> The first case is given by the identity, the second case by
    the permutation [1,2,4,3]:
    \verbatim
+last(ev_hm(h2,[4,4,4,1]));
+  [1,2,3,4]
+last(ev_hm(h2,[10,0,5,2]));
+[1,2,4,3]
+
 all_minequiv_bvs_fcs(perm2cnffcs([1,2,3,4]));
   [{{-4,2},{-3,1},{-2,4},{-1,3}}]
 all_minequiv_bvs_fcs(perm2cnffcs([1,2,4,3]));
@@ -167,6 +138,13 @@ all_minequiv_bvs_fcs(perm2cnffcs([1,2,4,3]));
   <ul>
    <li> Here we have just (2^3)! = 40320 permutations altogether, so we
    can still consider them all (algorithmically). </li>
+   <li> Experiment:
+   \verbatim
+oklib_monitor:true;
+h3 : investigate_permutations(3)$
+
+   \endverbatim
+   </li>
    <li> The number of linear automorphisms is order_gl(3,2) = 168, while
    there are 2^3=8 translations, which makes 1344 affine automorphisms
    altogether. </li>
