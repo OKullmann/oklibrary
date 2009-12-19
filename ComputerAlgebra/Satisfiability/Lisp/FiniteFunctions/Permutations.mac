@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *************************************
@@ -26,6 +29,51 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
    *************************************
 */
 
+/* We consider only permutations of {1,...,m}, where for permutations
+   we just the list representations (so that the set of all such
+   representations is permutations(setn(m))).
+   See ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac for
+   the symmetric group.
+*/
+
+/* Furthermore we only consider m = 2^k for natural k >= 0, so that the set
+   {1,...,m} is in one-to-one correspondence to {0,1}^k. Using the bijection
+   R for such a presentation, the mapping x -> y of the permutation f
+   yields then the boolean list append(R(x), R(y)) of length 2k.
+   These lists are considered as the satisfying assignments of the
+   corresponding boolean functions.
+*/
+
+/* However, the generality provided by using R seems only to lead to confusion,
+   and so we fix R: {1,...,m} -> {0,1}^k, x -> R(x) as the standard
+   representation of x-1 in binary, with (left-)padded zeros.
+   This is computed by int2polyadic_padd(x-1,2,k).
+   So the example for m=2 (k=1) the transposition [2,1], that is, the
+   map 1->2, 2->1, yields the satisfied vectors {[0,1],[1,0]}, and thus
+   the CNF-clause-set {{-1,2},{2,1}}.
+*/
+
+/* Translating boolean vectors into clauses (using the position as variables):
+*/
+bv2c(v) := setify(map(
+  lambda([p], if first(p)=0 then -second(p) else second(p)), 
+  map("[", v, create_list(i,i,1,length(v)))))$
+
+/* Translating a permutation P (standardised, as list) into a boolean function
+   (the predicate of P as a map), and representing this function as a dnf:
+*/
+perm2dnffcl(P) := block([m : length(P), k, V, F, R],
+  k : fld(m),
+  V : create_list(i,i,1,m),
+  R : lambda([x],int2polyadic_padd(x-1,2,k)),
+  F : map(append, map(R,V), map(R,P)),
+  return([V, map(bv2c,F)]))$
+perm2dnffcs(P) := fcl2fcs(perm2dnffcl(P))$
+
+/* Now representing the function as cnf: */
+perm2cnffcs(P) := block([m : length(P), FF : perm2dnffcs(P), k],
+  k : fld(m),
+  return([FF[1], setdifference(all_tass(setn(2*k)), FF[2])]))$
 
 /*!
 \endhtmlonly

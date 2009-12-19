@@ -26,12 +26,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/P
    *************************************
 */
 
-/*
-okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
-okltest_perm_fulldnf_fcs(perm_fulldnf_fcs);
-
-okltest_perm_cnfp(perm_cnfp);
-*/
+okltest_bv2c(bv2c);
+okltest_perm2dnffcl(perm2dnffcl);
+okltest_perm2dnffcs(perm2dnffcs);
+okltest_perm2cnffcs(perm2cnffcs);
 
 /*!
 \endhtmlonly

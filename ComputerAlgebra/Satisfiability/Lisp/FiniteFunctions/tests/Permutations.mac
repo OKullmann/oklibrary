@@ -24,15 +24,19 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Perm
    *************************************
 */
 
-okltest_perm_fulldnf_fcs(f) := block(
+okltest_bv2c(f) := block(
   /* XXX */
   true)$
 
-okltest_perm_fullcnf_fcs(f) := block(
+okltest_perm2dnffcl(f) := block(
   /* XXX */
   true)$
 
-okltest_perm_cnfp(f) := block(
+okltest_perm2dnffcs(f) := block(
+  /* XXX */
+  true)$
+
+okltest_perm2cnffcs(f) := block(
   /* XXX */
   true)$
 
