@@ -59,7 +59,7 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
 
 
 /* Draw an unlabelled rooted tree T, using the Reingold-Tilford algorithm. */
-/* Possible paramters are listed as follows:
+/* Possible parameters are listed as follows:
 
     T     : an unlabelled rooted tree.
     p     : the root coordinates of the tree [x,y]; default [0,0].
@@ -88,7 +88,7 @@ tdlrt2edges(T) := block([nt,nt1,nt2],
             file called "output.eps" in the current directory. Otherwise, the
             tree drawing will be displayed normally.
     
-   T is a compulsary parameter that can be accepted by a function call in the
+   T is a compulsory parameter that can be accepted by a function call in the
    following ways:  
     1. Set T in global (e.g. T:value; then, draw_rt()).
     2. Use "T:value" as an argument. (e.g. draw_rt(T:value)).
@@ -131,7 +131,7 @@ draw_rt(['P]) :=
 
 /* Perform the tree drawing with a labelled rooted tree T. RGB colour model is
    used for the colouring schemes.
-   The compulsary parameter T is a labelled rooted tree. For the usage and 
+   The compulsory parameter T is a labelled rooted tree. For the usage and 
    other possible parameters, please refer to draw_rt.
 */
 draw_lrt(['P]) := 
@@ -208,12 +208,12 @@ colouring(v,p) := [color= value2rgb(v),points([p])]$
 leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
              [if value=true then color=c[1] else color=c[2],points([p])])$
 
-/* Print the labels of the nodes of a binary labelled rooted tree T up to the    
+/* Print the labels of the nodes of a binary labelled rooted tree T up to the
    depth d, where d is a natural number >= -1, and for the nodes of depth <= d
    then the labels are printed, while otherwise nothing shows. Leaves are
    treated differently, where the leaves that are labelled by "true" show the 
    node-symbol with red colour, otherwise grey colour.
-   The compulsary parameter T is a labelled rooted tree. For the usage and 
+   The compulsory parameter T is a labelled rooted tree. For the usage and 
    other possible parameters, please refer to draw_rt.
    Additionally, the following possible parameters are provided for 
    draw_lrt_dbl:
@@ -295,6 +295,9 @@ nodes_division(pl,vl,d) :=
              l[6]:endcons(vl[length(pl)],l[6]),
              l)
 )$
+
+/* Drawing of splitting trees: */
+draw_st(['P]) := apply(draw_lrt_dbl, P)$
 
 
 /*!
