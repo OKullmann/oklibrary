@@ -62,7 +62,7 @@ for n : 5 thru 18 do block([n_e : binomial(n,2)],
   </ul>
 
 
-  \todo Using DPLL and Conflict driven solvers
+  \todo Using DPLL and conflict-driven solvers
   <ul>
    <li> Satisfiability for n=17:
     <ol>
@@ -298,8 +298,8 @@ SATISFIABLE
     in the implementation. </li>
    </ul>
    </li>
-   <li> A more systematic investigation, involving each of the symmetry breaking
-   techniques and cardinality constraints (see 
+   <li> A more systematic investigation, involving each of the symmetry
+   breaking techniques and cardinality constraints (see 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/SymmetryBreaking.hpp)
    can be generated and run using the experiment system discussed at "General 
    experiment system" in 
