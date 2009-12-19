@@ -74,15 +74,63 @@ s UNSATISFIABLE
   <ul>
    <li> Easy for OKsolver:
    \verbatim
-> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_78.cnf
+> OKsolver_2002-O3-DNDEBUG GreenTao_2-3-4_78.cnf
 s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=4 initial_number_of_variables=77 initial_number_of_clauses=450 initial_number_of_literal_occurrences=1439 running_time(s)=0.0 number_of_nodes=25 number_of_single_nodes=0 number_of_quasi_single_nodes=1 number_of_2-reductions=56 number_of_pure_literals=7 number_of_autarkies=3 number_of_missed_single_nodes=0 max_tree_depth=10 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=25 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_78.cnf
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           77
+c initial_number_of_clauses             450
+c initial_number_of_literal_occurrences 1439
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     0.0
+c number_of_nodes                       25
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                49
+c number_of_pure_literals               11
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 25
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_2-3-4_78.cnf
    \endverbatim
    and
    \verbatim
-> OKsolver_2002-O3-DNDEBUG GreenTao_2_3_4_79.cnf
+> OKsolver_2002-O3-DNDEBUG GreenTao_2-3-4_79.cnf
 s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=78 initial_number_of_clauses=460 initial_number_of_literal_occurrences=1472 running_time(s)=0.0 number_of_nodes=41 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=133 number_of_pure_literals=3 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=6 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=37 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_3_4_79.cnf
+c sat_status                            0
+c initial_maximal_clause_length         4
+c initial_number_of_variables           78
+c initial_number_of_clauses             460
+c initial_number_of_literal_occurrences 1472
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     0.0
+c number_of_nodes                       41
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                111
+c number_of_pure_literals               3
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        6
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 37
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_2-3-4_79.cnf
    \endverbatim
    </li>
   </ul>
