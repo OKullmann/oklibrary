@@ -108,6 +108,31 @@ License, or any later version. */
   </ul>
 
 
+  \todo DONE (we just use full clause-sets)
+  Boolean functions represented by sets of satisfied/falsified inputs
+  <ul>
+   <li> An n-ary boolean function can be represented by a set of lists of
+   length n, with elements 0,1. </li>
+   <li> This as "dnf-representation" is the set of inputs mapped to 1, and as
+   "cnf-representation" mapped to 0. </li>
+   <li> How to call such representations? There is the notion of "minterms"
+   and "maxterms", but I (OK) find this confusing. Let's just call it the
+   "positive full representation" and the "negative full representation"
+   ("full" as with "full clauses"). </li>
+   <li> Abbreviations "pfrbf" and "nfrbf". </li>
+   <li> So for example the pfrbf of the binary and is {[1,1]}, while the
+   nfrbf is {[0,0],[0,1],[1,0]}. </li>
+   <li> Shall we make a distinction between sets and lists? </li>
+   <li> These sets are just re-coding of the full DNF and the full CNF
+   representations; so do we need this type of representation at all? </li>
+   <li> Perhaps it is convenient (and intuitive) to have it. </li>
+   <li> However as DNF-clause-sets the above is {{1,2}}, while as
+   CNF-clause-set we have {{-1,-2},{-1,2},{1,-2}} (using the positions as
+   variables). </li>
+   <li> So we better avoid this doubling of entities. </li>
+  </ul>
+
+
   \todo File formats
   <ul>
    <li> Lexicographical listing of all values:
