@@ -14,7 +14,7 @@ License, or any later version. */
   Maxima-level, and by "GTSat 2 ... 2 3 5 n" at C++ level.
 
 
-  \todo greentao_3(2,3,5) > 562
+  \todo greentao_3(2,3,5) > 575
   <ul>
    <li> n=550
     <ol>
@@ -416,7 +416,34 @@ E$alg[E$best==1]
      should be increased? </li>
     </ol>
    </li>
-   <li> n=563, cutoff=10^6 (novelty+) </li>
+   <li> n=563, cutoff=10^6 (novelty+):
+   \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_563.cnf_OUT")
+   0    1    2    3
+   2 4893  822   13
+5730
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8135  155800  300200  358900  523700 1000000
+   \endverbatim
+   (seed=3852946212,osteps=842014).
+   And with cutoff=2*10^6
+   \verbatim
+> E2 = read_ubcsat("GreenTao_3-2-3-5_563.cnf_OUT2")
+   0    1    2
+   2 1734   45
+1781
+> summary(E2$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  11080  189400  358900  508400  710900 1996000
+   \endverbatim
+   </li>
+   <li> n=564, cutoff=2*10^6 (novelty+): a solution found in run 269
+   (seed=547643513, osteps=1980136). </li>
+   <li> n=565, cutoff=2*10^6 (novelty+): two solutions found in 3390 runs
+   (seed=1584156557, osteps=555457). </li>
+   <li> n=566, cutoff=2*10^6 (novelty+): one solution found in 523 runs
+   (seed=1418552292, osteps=1384572). </li>
    <li> n=575
     <ol>
      <li> adaptnovelty+ with cutoff=10^6:
@@ -430,8 +457,23 @@ E$alg[E$best==1]
  130900  331500  452000  506100  677500  992900
      \endverbatim
      </li>
+     <li> cutoff=2*10^6 (novelty+): one solution found in 1012 runs
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_575.cnf_OUT")
+  0   1   2
+  1 996  15
+1012
+> E[E$min==0,]
+    sat min  osteps  msteps       seed
+151   1   0 1480941 1480941 1122654540
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  19260  177300  317000  416600  541600 1976000
+     \endverbatim
+     </li>
     </ol>
    </li>
+   <li> n=580, cutoff=2*10^6 (novelty+) </li>
    <li> n=600
     <ol>
      <li> saps with cutoff=10^5:
@@ -490,6 +532,17 @@ plot(E$alg,E$best)
      There seems to be a general tendency that adaptnovelty+ gets better than
      other algorithms with higher cutoffs (while it's not good with lower
      cutoffs). 
+     </li>
+     <li> cutoff=2*10^6, novelty+:
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_600.cnf_OUT")
+  2   3   4   5   6
+ 11 109 106  42   3
+271
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  32740  483000  907800  921700 1312000 1999000
+     \endverbatim
      </li>
      <li> Let's consider n=600 for now as unsatisfiable. </li>
     </ol>
