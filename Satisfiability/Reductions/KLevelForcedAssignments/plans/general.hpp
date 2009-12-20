@@ -32,9 +32,21 @@ License, or any later version. */
 
   \todo First implementation, based on watched literals
   <ul>
-   <li> It seems that UCP for the input is considered as preprocessing,
-   and that we should consider computing r_k(F) for k >= 2, where all
-   clauses of F have at least two literals. </li>
+   <li> The role of UCP:
+    <ol>
+     <li> One could consider UCP for the input as preprocessing,
+     and so only consider computing r_k(F) for k >= 2, where all
+     clauses of F have at least two literals. </li>
+     <li> If however the recursive r_k-procedure performs UCP directly
+     on its input, which seems sensible, then we do not need a special
+     UCP-preprocessing. </li>
+     <li> The point is that all what r_k is doing is UCP plus assuming
+     certain literals. And UCP with watched literals works with whatever
+     assignments are in the buffer (to be processed). </li>
+     <li> These can be the initial unit-clauses found, the assumptions,
+     or the forced assignments. </li>
+    </ol>
+   </li>
    <li> Binary clauses are taken out of F: for every literal x there are
    vectors U(x) of literals, and for {x,y} we have U(x) containing y, and
    U(y) containing x. </li>
@@ -70,14 +82,104 @@ License, or any later version. */
    its presentation as total assignment, and the sequence of unassigned
    variables:
     <ol>
-     <li> One can add "forced literals" or "decision literals". </li>
+     <li> One can add "forced literals" and "free literals" (via two
+     member functions); call it perhaps add_forced(x) and add_free(x). </li>
+     <li> These functions return a boolean, which is false iff this addition
+     contradicts an assignment already active (while if it is just the same,
+     then the operation has no effect). </li>
      <li> For a literal x we can request its state (via the total assignment).
-     </li>
+     Syntax perhaps "[x]". </li>
      <li> And one can reset the state to just before the last decision
-     literal. </li>
+     literal; perhaps reset_last_free(). </li>
      <li> That means all forced literals from the back of the partial
      assignment as stack are taken away, until possibly one hits a decision
      literal - also this is taken away, and then the process stops. </li>
+     <li> This "reset" is for making a test-assignment undone (the recursive
+     process will leave exactly the assignments forced by this test-assignment
+     in the assignment-component; one might also use them for local learning).
+     </li>
+     <li> Finally, the literals added are entered into some buffer, and
+     one can pop literals from the buffer (for processing them). Perhaps
+     using "pop(x)". </li>
+     <li> Resetting the state assumes that all literals have been processed,
+     and thereafter the buffer is empty. </li>
+     <li> Assignments are considered as DNF-clauses, and thus literals themself
+     are assumed to be satisfied. </li>
+     <li> Perhaps best to realise the list of unassigned variables via a
+     vector, which for each variable-index contains pointers to the next
+     and the previous active literal (as in the OKsolver_2002). </li>
+     <li> When a variable is assigned, then its predecessor and successor
+     are re-linked to skip that variable. </li>
+     <li> If the variable is un-assigned (by reset), then its links are
+     re-activated. </li>
+    </ol>
+   </li>
+   <li> Ignoring the case of finding satisfying assignments:
+    <ol>
+     <li> This (first) implementation shall just completely ignore the
+     case that a satisfying assignment might have been found. </li>
+     <li> This safes a lot of tests for satisfying assignments. </li>
+     <li> This is also as r_k has been defined in [ECCC 1999, report 041].
+     </li>
+     <li> So the Maxima-specification is generalised_ucp_cs (see
+     ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac). </li>
+     <li> Additional consideration of satisfying assignments, or, better,
+     autarkies found will be considered later. </li>
+    </ol>
+   </li>
+   <li> Overall algorithmic flow:
+    <ol>
+     <li> The recursive procedure r(k,F,T) takes parameters k >= 0, the
+     "clause-set" F (as reference), and the "total assignment" T (as
+     reference). </li>
+     <li> F contains the binary clauses as vectors (see above), plus the
+     clauses of length at least three with watched literals. </li>
+     <li> T contains the unit-clauses found, plus any other assignment. </li>
+     <li> Precondition is that watched literals which are false w.r.t. T
+     are in the list of assignments to be processed. </li>
+     <li> Return value is a boolean, true iff the clause-set was found
+     unsatisfiable. </li>
+     <li> Other output is T with all additional forced assignments found, and
+     F in a state consistent with T. </li>
+     <li> If k=0, then F is just checked whether it contains the empty clause.
+     </li>
+     <li> If k=1, then just UCP is performed. </li>
+     <li> If k >= 2, then first UCP is performed (on T), and then a loop
+     through all (elementary) assignments is performed, seeking for a
+     contradiction at level k-1. </li>
+     <li> So a literal x is "assumed", added via T.add_free(x), and r(k-1,F,T)
+     is called. </li>
+     <li> If the return-value is true (a contradiction was found), then
+     T.reset() is performed, and then T.add_forced(-x), and UCP is performed.
+     </li>
+     <li> Otherwise just T.reset() is performed. </li>
+     <li> The loop over all other assignments is finished in any case, and
+     restarted iff some reduction was found. </li>
+    </ol>
+   </li>
+   <li> Performing UCP:
+    <ol>
+     <li> One assignment x (i.e., x -> 1) is popped from T. </li>
+     <li> First one runs through all binary clauses activated by this
+     assignment, and enters the assignment into T (as forced, of course). </li>
+     <li> Then one runs through all watched clauses for -x, and requests a
+     new watched literal y. </li>
+     <li> The clause is then added to the watch-list of y. </li>
+     <li> At the end, the watch-list for -x is just emptied. </li>
+     <li> If during these processes a contradiction was found, then the whole
+     process stops. </li>
+     <li> And the whole procedure returns with "contradiction found", since
+     UCP is performed upon entry. </li>
+    </ol>
+   </li>
+   <li> Watched literals:
+    <ol>
+     <li> The "user" of watched literals doesn't bother about whether it is
+     the "first" or "second" watched literal. </li>
+     <li> It is the clause which needs to store this; best it just stores the
+     two watched literals as literals (together with other information if
+     needed), and then when called to update a watched literal, the literal
+     is given as parameter (to be checked against the two watched ones). </li>
     </ol>
    </li>
   </ul>
