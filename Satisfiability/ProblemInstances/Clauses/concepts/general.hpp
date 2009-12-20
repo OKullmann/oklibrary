@@ -80,6 +80,9 @@ License, or any later version. */
      </li>
      <li> In case the clause was found satisfied also the watched literal
      can stay unchanged. </li>
+     <li> An alternative is to just use remove(Lit x, TotalAssignment f),
+     where it is the reponsibility of the clause to handle x as "first"
+     or "second" watched literal. This makes usage easier. </li>
     </ol>
    </li>
   </ul>
