@@ -17,6 +17,7 @@ License, or any later version. */
 #include <vector>
 #include <string>
 #include <sstream>
+#include <cassert>
 
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
@@ -34,7 +35,7 @@ namespace OKlib {
 
       /*!
         \class CLSAdaptorUcp
-        \brief Transferring a (boolean) clause-set into a vector of vectors, and then performing unit-clause propagation
+        \brief Transferring a (boolean) clause-set into a clause-list, and then performing unit-clause propagation
 
         Specification:
         <ul>
@@ -80,6 +81,13 @@ namespace OKlib {
         \todo Separate the transfer from the unit-clause propagation
         <ul>
          <li> Then for the UCP general (boolean) literals can be used. </li>
+        </ul>
+
+        \todo Harmonise with KLevelForcedAssignments::CLSAdaptorKUcp
+        <ul>
+         <li> See
+         OKlib/Satisfiability/Reductions/KLevelForcedAssignments/GeneralisedUCP.hpp.
+         </li>
         </ul>
 
       */
