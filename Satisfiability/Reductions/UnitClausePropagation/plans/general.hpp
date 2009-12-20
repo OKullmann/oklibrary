@@ -10,7 +10,10 @@ License, or any later version. */
   \brief Plans for the module on unit-clause propagation
 
 
-  \todo Update namespaces.
+  \todo DONE Update namespaces.
+
+
+  \todo Update namespace usage
 
 
   \todo Connections
@@ -143,12 +146,18 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::UnitClausePropagation
-  \brief Generic unit clause propagation (and non-parameterised generalisations)
+  \namespace OKlib::Satisfiability::Reductions::UnitClausePropagation
+  \brief Components for unit-clause propagation ("UCP")
+
+  Alias "Ucp".
 */
 
 namespace OKlib {
-  namespace UnitClausePropagation {
+  namespace Satisfiability {
+    namespace Reductions {
+      namespace UnitClausePropagation {
+      }
+      namespace Ucp = UnitClausePropagation;
+    }
   }
 }
-

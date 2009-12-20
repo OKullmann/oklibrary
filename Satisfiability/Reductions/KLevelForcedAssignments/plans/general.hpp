@@ -17,7 +17,7 @@ License, or any later version. */
   of generalised unit-clause-propagation.
 
 
-  \todo Update namespaces.
+  \todo DONE Update namespaces.
 
 
   \todo Connections
@@ -187,12 +187,19 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::KLevelForcedAssignments
-  \brief Components for generalised unit clause elimination
+  \namespace OKlib::Satisfiability::Reductions::KLevelForcedAssignments
+  \brief Components for generalised unit-clause elimination
+
+  Alias "Klfa".
 */
 
 namespace OKlib {
-  namespace KLevelForcedAssignments {
+  namespace Satisfiability {
+    namespace Reductions {
+      namespace KLevelForcedAssignments
+      }
+      namespace Klfa = KLevelForcedAssignments;
+    }
   }
 }
 
