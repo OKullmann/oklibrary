@@ -19,6 +19,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Perm
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+
 /* *************************************
    * Permutations as boolean functions *
    *************************************
@@ -33,23 +38,30 @@ okltest_bv2c(f) := block(
   true)$
 
 okltest_perm2dnffcl(f) := block(
-  /* assert(f([1]) = [[1,2],[{-2,-1}]]), */
   assert(f([1,2]) = [[1,2],[{-2,-1},{1,2}]]),
   assert(f([2,1]) = [[1,2],[{-1,2},{-2,1}]]),
   assert(f([1,2,3,4]) = [[1,2,3,4],[{-4,-3,-2,-1},{-3,-1,2,4},{-4,-2,1,3},
     {1,2,3,4}]]),
   assert(f([2,1,4,3]) = [[1,2,3,4],[{-3,-2,-1,4},{-4,-3,-1,2},{-2,1,3,4},
     {-4,1,2,3}]]),
+  for k : 3 thru 5 do block([m : 2^k, P, FF],
+   P : create_list(i,i,1,m),
+   FF : f(P),
+   assert(FF[1] = create_list(i,i,1,2*k)),
+   assert(length(FF[2]) = m),
+   assert(setify(FF[2]) = setify(map(union, all_tass_l(setn(k)), all_tass_l(setmn(k+1,2*k)))))
+  ),
+  assert(okltest_perm2dnffcs(buildq([f], lambda([P], fcl2fcs(f(P))))) = true),
   true)$
 
 okltest_perm2dnffcs(f) := block(
-  /* assert(f([1]) = [{1,2},{{-2,-1}}]), */
   assert(f([1,2]) = [{1,2},{{-2,-1},{1,2}}]),
   assert(f([2,1]) = [{1,2},{{-1,2},{-2,1}}]),
   assert(f([1,2,3,4]) = [{1,2,3,4},{{-4,-3,-2,-1},{-3,-1,2,4},{-4,-2,1,3},
     {1,2,3,4}}]),
   assert(f([2,1,4,3]) = [{1,2,3,4},{{-3,-2,-1,4},{-4,-3,-1,2},{-2,1,3,4},
     {-4,1,2,3}}]),
+  /* XXX */
   true)$
 
 okltest_perm2cnffcs(f) := block(
@@ -58,6 +70,7 @@ okltest_perm2cnffcs(f) := block(
   assert(f([1,2,3,4]) = [{1,2,3,4},{{-4,-3,-2,1},{-4,-3,-1,2},{-4,-3,1,2},
     {-4,-2,-1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,1,2,4},
     {-2,-1,3,4},{-2,1,3,4},{-1,2,3,4}}]),
+  /* XXX */
   true)$
 
 /*!
