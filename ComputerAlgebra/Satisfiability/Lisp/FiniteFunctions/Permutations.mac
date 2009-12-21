@@ -13,6 +13,17 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac");
 
+
+  \bug perm2dnffcl does not handle m = 2^0 = 1
+  <ul>
+   <li> See the result of
+   \verbatim
+perm2dnffcl([1]);
+[[1],[{-2,-1}]]
+   \endverbatim
+   which is clearly not a valid formal clause-set. </li>
+  </ul>
+
 */
 
 /*!
