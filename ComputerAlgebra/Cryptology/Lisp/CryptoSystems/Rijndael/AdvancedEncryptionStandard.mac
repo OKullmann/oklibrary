@@ -52,9 +52,9 @@ rijn_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
 rijn_byte_field : [2,8,rijn_polynomial]$
 
 
-/* ***************************************
-   * Custom Field Operations             *
-   ***************************************
+/* ***************************
+   * Custom field operations *
+   ***************************
 */
 
 /* Field function definitions for convenience */
@@ -71,14 +71,14 @@ rijn_egf2t8_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
    ***************
 */
 
-/* AES finite field addition with integers as input and output */
+/* AES finite field addition with integers as input and output: */
 rijn_gf2t8_add(byteia,byteib) := 
   egf_poly2num(rijn_byte_field,rijn_egf2t8_add(
     egf_num2poly(rijn_byte_field,byteia),
     egf_num2poly(rijn_byte_field,byteib)))$
 
 /* AES finite field addition with integers as input using built-in
-   logical operators */
+   logical operators: */
 rijn_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
 
 
@@ -87,19 +87,20 @@ rijn_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
    *********
 */
 
-/* Constant used in the affine transformation within sbox */
+/* Constant used in the affine transformation within sbox: */
 rijn_affine_constant : '(x^6 + x^5 + x + 1)$
-/* Constant used in the affine transformation within inv_sbox */
+/* Constant used in the affine transformation within inv_sbox: */
 rijn_inv_affine_constant : '(x^2 + 1)$ 
 
-/* Matrix used in the affine transformation within rijn_sbox */
+/* Matrix used in the affine transformation within rijn_sbox: */
 rijn_sbox_matrix : apply(matrix,
   create_list(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
-/* Matrix used in the affine transformation within inv_sbox */
+/* Matrix used in the affine transformation within inv_sbox: */
 rijn_inv_sbox_matrix : apply(matrix,
   create_list(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
 
-/* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
+/* AES sbox. 
+   Takes a value in GF(2^8) and returns the result of applying the
    Rijndael Sbox operation on the value. */
 rijn_sbox(bytei) := 
   block([invbyte,result,byte : egf_num2poly(rijn_byte_field,bytei)],
@@ -115,7 +116,7 @@ rijn_sbox(bytei) :=
           lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
           rijn_affine_constant)))))$
 
-/* Inverse of sbox */
+/* Inverse of sbox: */
 rijn_inv_sbox(bytei) :=
   block([final_result, result,byte : egf_num2poly(rijn_byte_field,bytei)],
     result : rijn_egf2_matmul(rijn_inv_sbox_matrix,
@@ -127,11 +128,12 @@ rijn_inv_sbox(bytei) :=
     else egf_poly2num(rijn_byte_field,rijn_egf2t8_inv(final_result))
 )$
 
-/* Sbox implementation that utilises a lookup array to provide fast operation */
+/* Sbox implementation that utilises a lookup array to provide fast operation:
+*/
 rijn_lookup_sbox(bytei) := sbox_data[bytei+1];
 
 /* Inverse Sbox implementation that utilises a lookup array to provide 
-   fast operation */
+   fast operation: */
 rijn_lookup_inv_sbox(bytei) := inv_sbox_data[bytei+1];
 
 
@@ -143,14 +145,14 @@ rijn_lookup_inv_sbox(bytei) := inv_sbox_data[bytei+1];
 /* 
    Takes the input block as a list of 16 bytes and applies
    the sbox operation to each byte, returning the list of 
-   result bytes.
+   result bytes:
 */
 rijn_subbytes(inputblock, sbox_f) := map(sbox_f, inputblock)$
 
 /* 
    Takes the input block as a list of 16 bytes and applies
    the inverse sbox operation to each byte, returning the list of 
-   result bytes.
+   result bytes:
 */
 rijn_inv_subbytes(inputblock,inv_sbox_f) := map(inv_sbox_f, inputblock)$
 
@@ -162,14 +164,14 @@ rijn_inv_subbytes(inputblock,inv_sbox_f) := map(inv_sbox_f, inputblock)$
 
 /*
    List of shifts left for each row in the block in the  shiftrows
-   operation.
+   operation:
 */
 aes_shiftrows_shifts : [0,1,2,3]$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
    performs the shiftrows operation, returning the resulting
-   block as a list of GF(2^8) elements.
+   block as a list of GF(2^8) elements:
 */
 aes_shiftrows(inputblock) := block(
 [list_rows : partition_elements(transpose_l(inputblock,4),4)],
@@ -180,7 +182,7 @@ aes_shiftrows(inputblock) := block(
 /*
    Takes a list of GF(2^8) elements (the block), and
    performs the inverse shiftrows operation, returning the resulting
-   block as a list of GF(2^8) elements.
+   block as a list of GF(2^8) elements:
 */
 aes_inv_shiftrows(inputblock) := 
   block([aes_shiftrows_shifts : -aes_shiftrows_shifts],
@@ -196,16 +198,16 @@ aes_inv_shiftrows(inputblock) :=
    Matrix used in the mixcolumns step to model the 
    multiplication of each 4-byte column by a constant
    in a polynomial ring of at most order 4 with coefficients in
-   GF(2^8).
+   GF(2^8):
 */
 rijn_mixcolumns_matrix : block([x], apply(matrix, 
   create_list(rotate([x, x + 1, 1, 1], i),i,0,3)))$
-/* Inverse of the rijn_mix_columns_matrix */
+/* Inverse of the rijn_mix_columns_matrix: */
 rijn_inv_mixcolumns_matrix : block([x], apply(matrix,
   create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
 
 /* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block. */
+   column in the AES/Rijndael block: */
 rijn_mixcolumn(inputblocki) :=
   transpose_l(
     map(lambda([y],egf_poly2num(rijn_byte_field,y)),matrixcolumns(
@@ -216,7 +218,7 @@ rijn_mixcolumn(inputblocki) :=
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block using lookups for
-   multiplications.*/
+   multiplications: */
 rijn_lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
   map(lambda([a], xreduce(logxor,a,0)),
@@ -236,14 +238,14 @@ rijn_mixcolumns(inputblock,mixcolumn_f) :=
       apply(matrix,partition_elements(transpose_l(inputblock,4),4)))))),4)$
 
 /* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block. */
+   column in the AES/Rijndael block: */
 rijn_inv_mixcolumn(inputblock) :=
   block([rijn_mixcolumns_matrix : rijn_inv_mixcolumns_matrix],
     rijn_mixcolumn(inputblock))$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block using lookups for
-   multiplications.*/
+   multiplications: */
 rijn_lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
   map(lambda([a], xreduce(logxor,a,0)),
@@ -267,9 +269,10 @@ rijn_inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
 */
 
 /*
-  Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit words) 
-  of the plaintext block, and the number of rounds and returns the expanded key
-  (all of the round keys as one large block) as a list of GF(2^8) elements.
+  Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit 
+  words) of the plaintext block, and the number of rounds, and returns the
+  expanded key (all of the round keys as one large block) as a list of 
+  GF(2^8) elements:
 */
 aes_key_expansion(kl, n_b, sbox_f, aes_add) := block(
   [n_k : length(kl) / 4, 
@@ -299,7 +302,7 @@ aes_key_expansion(kl, n_b, sbox_f, aes_add) := block(
    Takes the plaintext list of GF(2^8) elements and the 
    round key for this round as a list of GF(2^8) elements, and
    returns a list of the same size of GF(2^8) elements as the plaintext
-   as the result of the round operation. 
+   as the result of the round operation:
  */
 aes_round(pl, rkl, sbox_f, mixcolumn_f, aes_add) := 
   map(aes_add,
@@ -311,7 +314,7 @@ inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f,aes_add) :=
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
-   encryption algorithm (hence number of rounds is assumed to be 10).
+   encryption algorithm (hence number of rounds is assumed to be 10):
 */
 aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
   [n_b : length(pl)/4], 
@@ -332,7 +335,7 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
 /* 
    Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
-   decryption algorithm (hence number of rounds is assumed to be 10).
+   decryption algorithm (hence number of rounds is assumed to be 10):
 */
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
   [n_b : length(pl)/4], 
