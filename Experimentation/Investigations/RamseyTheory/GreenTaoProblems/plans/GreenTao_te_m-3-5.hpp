@@ -14,7 +14,7 @@ License, or any later version. */
   Maxima-level, and by "GTSat 2 ... 2 3 5 n" at C++ level.
 
 
-  \todo greentao_3(2,3,5) > 575
+  \todo greentao_3(2,3,5) > 580
   <ul>
    <li> n=550
     <ol>
@@ -473,7 +473,34 @@ E$alg[E$best==1]
      </li>
     </ol>
    </li>
-   <li> n=580, cutoff=2*10^6 (novelty+) </li>
+   <li> n=580, cutoff=2*10^6 (novelty+) found one solution in 2482 runs:
+   \verbatim
+ E = read_ubcsat("GreenTao_3-2-3-5_580.cnf_OUT")
+   0    1    2    3
+   1  110 2145  226
+2482
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8632  253800  545900  673000 1010000 2000000
+> E[E$min==0,]
+     sat min osteps msteps       seed
+1934   1   0 715931 715931 2205549087
+   \endverbatim
+   We see quite a change: min=2 is now the overwhelming majority; one might
+   need to check whether under these changed circumstances perhaps now
+   adaptnovelty+ is better. </li>
+   <li> n=581, cutoff=2*10^6 (novelty+): </li>
+   <li> n=585, cutoff=2*10^6 (novelty+):
+   \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_585.cnf_OUT")
+   2    3    4
+1026 2809  113
+3948
+> summary(E$osteps)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8295  251200  561200  690300 1041000 1999000
+   \endverbatim
+   Either this needs much higher cutoff/runs, or it is unsatisfiable. </li>
    <li> n=600
     <ol>
      <li> saps with cutoff=10^5:
