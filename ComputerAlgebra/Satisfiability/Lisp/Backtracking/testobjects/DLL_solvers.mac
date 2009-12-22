@@ -59,6 +59,8 @@ okltest_dll_heuristics_max_lit_tb(dll_heuristics_max_lit_tb);
 
 okltest_ast2tbt(ast2tbt);
 
+okltest_check_inf_branches_ast(check_inf_branches_ast);
+
 /* *************
    * Distances *    
    *************
