@@ -378,18 +378,17 @@ ast2tbt(T,i) :=
    the DLL-solver chooses immediately this "shortcut", without further
    investigating the other distances.
 */
-check_inf_branches(T,m) := block([l : length(T), rel_distances, inf_ind],
+check_inf_branches_ast(T,m) := block([l : length(T), rel_distances, inf_ind],
   if l = 1 then return([]),
   rel_distances : rest(T[1][2],-m),
   inf_ind : sublist_indices(rel_distances, lambda([d], member(inf,d))),
   if not emptyp(inf_ind) then (
-    if length(inf_ind) # 1 then 
-      error("check_inf_branches: more than one inf-notification!"),
+    if length(inf_ind) # 1 then return(false),
     inf_ind : sublist_indices(rel_distances[inf_ind[1]], lambda([x],is(x=inf))),
     if not every(makelist(is(nnds_l(T[1+i]) = 1), i, inf_ind)) then
       return(append([T[1], inf_ind], makelist(nnds_l(T[1+i]),i,inf_ind)))
   ),
-  return(apply(append, makelist(check_inf_branches(T[i],m),i,2,l))))$
+  return(apply(append, makelist(check_inf_branches_ast(T[i],m),i,2,l))))$
 
 /* Counts nodes containing some inf-distance-value */
 count_inf_branches(T,m) := block([l : length(T), flag : 0],
