@@ -489,7 +489,28 @@ E$alg[E$best==1]
    We see quite a change: min=2 is now the overwhelming majority; one might
    need to check whether under these changed circumstances perhaps now
    adaptnovelty+ is better. </li>
-   <li> n=581, cutoff=2*10^6 (novelty+): </li>
+   <li> n=581
+    <ol>
+     <li> cutoff=2*10^6 (novelty+):
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_581.cnf_OUT")
+   1    2    3    4
+ 508 8495  995    2
+10000
+> summary(E$osteps[E$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  17010  665400 1075000 1087000 1577000 1999000
+> summary(E$osteps[E$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10870  284400  578000  697400 1031000 1998000
+> summary(E$osteps[E$min==3])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   7201  115200  259800  349500  467900 1975000
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6 (adaptnovelty+): </li>
+    </ol>
+   </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
    \verbatim
 > E = read_ubcsat("GreenTao_3-2-3-5_585.cnf_OUT")
