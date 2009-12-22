@@ -365,8 +365,19 @@ ast2tbt(T,i) :=
   if length(T)=1 then T else
   cons(T[1][2][i], map(lambda([t],ast2tbt(t,i)), rest(T)))$
 
-/* Check that inf-branches are trivial: m is the number of monitoring
-   distances, returns the top-most offending nodes */
+/* Check that inf-branches of an ast T are trivial, using the number m of 
+   monitoring distances (which are to be ignored); returns the empty list
+   if for every inner node with some pair of distances containing inf
+   the corresponding branches lead directly to a leaf, while otherwise the
+   top-most offending nodes are returned. If there are two relevant pairs
+   containing a distance inf, then false is returned.
+   The motivation is as follows: The m distance-pairs at the end of the
+   list of distance-pairs are just computed for monitoring, and otherwise
+   ignored. Now a distance inf must mean, that following the corresponding
+   branch will lead to an immediate decision --- it is assumed that
+   the DLL-solver chooses immediately this "shortcut", without further
+   investigating the other distances.
+*/
 check_inf_branches(T,m) := block([l : length(T), rel_distances, inf_ind],
   if l = 1 then return([]),
   rel_distances : rest(T[1][2],-m),
