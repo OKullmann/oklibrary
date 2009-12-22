@@ -368,9 +368,12 @@ ast2tbt(T,i) :=
 /* Check that inf-branches of an ast T are trivial, using the number m of 
    monitoring distances (which are to be ignored); returns the empty list
    if for every inner node with some pair of distances containing inf
-   the corresponding branches lead directly to a leaf, while otherwise the
-   top-most offending nodes are returned. If there are two relevant pairs
-   containing a distance inf, then false is returned.
+   the corresponding branches lead directly to a leaf, while otherwise for the
+   first offending node in inorder-transversal the list containing of the
+   (amended) node-label, the list of branch-indices (either 1 or 2) where
+   at least one of the two branches is inf, and the number of nodes in these
+   inf-subtrees is returned. If there are two relevant pairs containing a
+   distance inf, then false is returned.
    The motivation is as follows: The m distance-pairs at the end of the
    list of distance-pairs are just computed for monitoring, and otherwise
    ignored. Now a distance inf must mean, that following the corresponding
@@ -385,7 +388,7 @@ check_inf_branches_ast(T,m) := block([l : length(T), rel_distances, inf_ind],
   if not emptyp(inf_ind) then (
     if length(inf_ind) # 1 then return(false),
     inf_ind : sublist_indices(rel_distances[inf_ind[1]], lambda([x],is(x=inf))),
-    if not every(makelist(is(nnds_l(T[1+i]) = 1), i, inf_ind)) then
+    if not every(lambda([i], is(nnds_l(T[1+i]) = 1)), inf_ind) then
       return(append([T[1], inf_ind], makelist(nnds_l(T[1+i]),i,inf_ind)))
   ),
   return(apply(append, makelist(check_inf_branches_ast(T[i],m),i,2,l))))$
