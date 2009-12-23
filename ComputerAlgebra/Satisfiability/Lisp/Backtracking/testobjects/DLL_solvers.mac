@@ -61,6 +61,8 @@ okltest_ast2tbt(ast2tbt);
 
 okltest_check_inf_branches_ast(check_inf_branches_ast);
 
+okltest_collapse_inf_branches_ast(collapse_inf_branches_ast);
+
 /* *************
    * Distances *    
    *************

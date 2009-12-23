@@ -146,6 +146,16 @@ okltest_check_inf_branches_ast(f) := block([L,x,m,d],
   /* XXX */
   true)$
 
+okltest_collapse_inf_branches_ast(f) := block([L,L1,L2,m,x],
+  assert(f([L],m) = [L]),
+  assert(f([ [x,[[d,d]]], [L],[L]], 0) = [ [x,[[d,d]]], [L],[L]]),
+  assert(f([ [x,[[inf,d]]], [L1],[L2]], 0) = [L2]),
+  assert(f([ [x,[[inf,d],[d,inf]]], [L1],[L2]], 1) = [L2]),
+  assert(f([ [x,[[inf,d]]], [L], [[x,[[d,inf]]], [L1],[L2]]], 0) = [L1]),
+  assert(f([ [x,[[d,d]]], [L], [[x,[[d,inf]]], [L1],[L2]]], 0) = [ [x,[[d,d]]], [L], [L1]]),
+  /* XXX */
+  true)$
+
 
 /* *************
    * Distances *    
