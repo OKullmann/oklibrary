@@ -403,7 +403,8 @@ count_inf_branches(T,m) := block([l : length(T), flag : 0],
 
 /* Collapses nodes where all branches except of one are inf-branches
    (such nodes are hidden reductions); m is the number of monitoring
-   distances (to be ignored, as with check_inf_branches_ast): */
+   distances (to be ignored, as with check_inf_branches_ast; it is assumed 
+   that not both branches are inf-branches): */
 /* RENAME: collapse_inf_branches_ast */
 collapse_inf_branches(T,m) := block(
   [l : length(T), rel_distances, inf_ind, other],
