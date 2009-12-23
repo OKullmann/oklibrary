@@ -29,6 +29,28 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 rijn_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
 rijn_byte_field : [2,8,rijn_polynomial]$
 
+/* The standard representation of an element of the Rijndael field uses
+   univariate polynomials in x over the integers, which are treated as
+   representative of their equivalence class.
+*/
+
+/* Standardising a univariate polynomial in x over ZZ as an element
+   of the Rijndael field, consisting of all polynomial of degree at
+   most 7 over ZZ_2 = {0,1}:
+*/
+rijn_stand(p) := egf_stand(rijn_byte_field,p)$
+
+/* An alternative representation uses the elements of {0,...,255},
+   interpreted as polynomial over the formal element "2".
+   The general conversions are as follows, for integer 0 <= n and
+   polynomials p over the nonnegative integers:
+*/
+nat2polybin(n) := block([L : reverse(int2polyadic(n,2))],
+ sum_l(L * create_list(('x)^i,i,0,length(L)-1)))$
+polybin2nat(p) := block([h : hipow(p,'x)],
+ polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
+
+
 rijn_egf2t8_add(a,b) := egf_add(rijn_byte_field,a,b)$
 rijn_egf2t8_inv(a) := egf_inv(rijn_byte_field,a)$
 rijn_egf2t8_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
