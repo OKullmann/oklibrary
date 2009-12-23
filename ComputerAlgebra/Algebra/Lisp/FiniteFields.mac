@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 22.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,14 +76,15 @@ egf_coeffs([args]) := egf_func(coeffs, args)$
 */
 
 /* Computing the standard polynomial representation in
-   the field f for a given integer polynomial p. */
+   the field f for a given integer polynomial p: */
 gf_stand(p) := gf_add(0,p)$
 egf_stand(f,p) := egf_func(gf_stand, [f,p])$
 
 /* Deciding whether two integer polynomials p,q represent the
-   same element in the field f. */
+   same element in the field f: */
 gf_equalp(p,q) := is(gf_stand(p) = gf_stand(q))$
 egf_equalp(f,p,q) := egf_func(gf_equalp, [f,p,q])$
+
 
 /*!
 \endhtmlonly

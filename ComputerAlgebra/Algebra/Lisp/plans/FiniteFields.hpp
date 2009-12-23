@@ -29,7 +29,7 @@ License, or any later version. */
   \todo Maxima bugs
   <ul>
    <li> All items below need to be updated w.r.t. the new Maxima version
-   5.16.3. </li>
+   5.20 (there doesn't seem to be much improvement). </li>
    <li> Register all gf-bugs we are aware of with the Maxima bug-tracker,
    and also send a summarising e-mail to the Maxima mailing list.
     <ol>
