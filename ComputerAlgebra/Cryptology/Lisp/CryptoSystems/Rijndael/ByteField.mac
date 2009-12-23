@@ -55,17 +55,17 @@ rijn_add(a,b) := egf_add(rijn_byte_field,a,b)$
 rijn_inv(a) := egf_inv(rijn_byte_field,a)$
 rijn_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
 
-/* AES finite field addition with integers as input and output: */
-rijn_gf2t8_add(byteia,byteib) := 
+/* AES field addition with integers as input and output: */
+rijn_natadd(byteia,byteib) := 
   egf_poly2num(rijn_byte_field,rijn_add(
     egf_num2poly(rijn_byte_field,byteia),
     egf_num2poly(rijn_byte_field,byteib)))$
 
 oklib_plain_include(functs)$
 
-/* AES finite field addition with integers as input using built-in
+/* The same operation as rijn_natadd, but now using built-in
    logical operators: */
-rijn_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
+rijn_nataddl(byteia,byteib) := logxor(byteia,byteib)$
 
 
 /*!

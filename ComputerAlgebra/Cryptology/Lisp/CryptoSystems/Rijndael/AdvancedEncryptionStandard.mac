@@ -328,19 +328,19 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
 
 /* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k) := 
-  aes_encrypt(p,k,rijn_lookup_sbox,rijn_lookup_mixcolumn,rijn_log_gf2t8_add)$
+  aes_encrypt(p,k,rijn_lookup_sbox,rijn_lookup_mixcolumn,rijn_nataddl)$
 
 /* AES Encryption using field operations: */
 aes_encrypt_f(p,k) := 
-  aes_encrypt(p,k,rijn_sbox,rijn_mixcolumn,rijn_gf2t8_add)$
+  aes_encrypt(p,k,rijn_sbox,rijn_mixcolumn,rijn_natadd)$
 
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k) := 
-  aes_decrypt(c,k,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_lookup_inv_mixcolumn,rijn_log_gf2t8_add)$
+  aes_decrypt(c,k,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_lookup_inv_mixcolumn,rijn_nataddl)$
 
 /* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 
-  aes_decrypt(c,k,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn,rijn_gf2t8_add)$
+  aes_decrypt(c,k,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn,rijn_natadd)$
 
 
 /* Various representations of input/output */
