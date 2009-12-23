@@ -418,7 +418,7 @@ collapse_inf_branches(T,m) := block(
       T : T[1+other],
       return(collapse_inf_branches(T,m)))
   ),
-  return(cons(T[1], makelist(collapse_inf_branches(T[i],m),i,2,l))))$
+  return(cons(T[1], map(lambda([T2],collapse_inf_branches(T2,m)), rest(T)))))$
 collapse_inf_branches_ast(T,m) := collapse_inf_branches(T,m)$
 
 
