@@ -51,9 +51,17 @@ polybin2nat(p) := block([h : hipow(p,'x)],
  polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
 
 
+/* Addition and multiplication in the byte-field is just addition
+   and multiplication of polynomials, however this does not yield
+   standardised results; for standardised results use the following:
+*/
 rijn_add(a,b) := egf_add(rijn_byte_field,a,b)$
-rijn_inv(a) := egf_inv(rijn_byte_field,a)$
+rijn_mul(a,b) := egf_mul(rijn_byte_field,a,b)$
 rijn_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
+
+/* Inversion in the byte-field (yielding a standardised result): */
+rijn_inv(a) := egf_inv(rijn_byte_field,a)$
+
 
 /* AES field addition with integers as input and output: */
 rijn_natadd(byteia,byteib) := 
