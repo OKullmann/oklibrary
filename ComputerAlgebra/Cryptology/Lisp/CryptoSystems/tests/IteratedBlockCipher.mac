@@ -1,0 +1,50 @@
+/* Oliver Kullmann, 23.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/tests/IteratedBlockCipher.mac
+  \brief Tests regarding iterated block ciphers (in general)
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/tests/IteratedBlockCipher.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+/* *******************************************************************
+   * Compositional iterated block ciphers with iterated key schedule *
+   *******************************************************************
+*/
+
+okltest_key_schedule_0(f) := block([r,F,k],
+  F : f(r),
+  assert(F(k,0) = k),
+  assert(F(k,1) = r(k,1)),
+  assert(F(k,2) = r(r(k,1),2)),
+  assert(F(k,3) = r(r(r(k,1),2),3)),
+  true)$
+
+okltest_ibc_0(f) := block([r,c,t,C,m,k],
+  C : f(r,t,c),
+  assert(C(m,k,0) = m),
+  assert(C(m,k,1) = c(t(m,0),k)),
+  assert(C(m,k,2) = c(t(c(t(m,0),k),1),r(k,1))),
+  assert(C(m,k,3) = c(t(c(t(c(t(m,0),k),1),r(k,1)),2),r(r(k,1),2))),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

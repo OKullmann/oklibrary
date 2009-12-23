@@ -21,6 +21,10 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/include.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/include.mac")$
 
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac")$
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/tests/IteratedBlockCipher.mac")$
+
 /*!
 \endhtmlonly
 */

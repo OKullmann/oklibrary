@@ -1,0 +1,121 @@
+/* Oliver Kullmann, 23.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac
+  \brief General structures regarding iterated block cipher
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* *******************************************************************
+   * Compositional iterated block ciphers with iterated key schedule *
+   *******************************************************************
+*/
+
+/*
+   Let I be the "index set" (the possible values of round indices i), KB
+   be the set of possible keys ("key blocks"), and MB the set of possible
+   messages ("message blocks"; to be used for plain text and cipher text).
+*/
+
+/* 
+   The "key schedule" produces from an initial "key" a sequence
+   K_0, ..., K_N of keys via the equations
+
+   K_0 = key
+   K_i = f(K_{i-1},i).
+   
+   Here
+
+   f : KB x I -> KB
+
+   is the "key round function", while I = {1, ..., N}.
+*/
+
+/* For such a key round-function compute a function, call it F,
+   with F(key,i) = K_i according to the above definition:
+*/
+key_schedule_0(key_round_f) := buildq([key_round_f], lambda([key,N],
+ block([result:key],
+  for i : 1 thru N do result : key_round_f(result,i),
+  return(result))))$
+
+/* 
+   The iterated block cipher C(m,k,N) is computed via the following
+   equations:
+
+   M_0 = plain text = m
+   M_i = rc( mr(M_{i-1},i-1), K_{i-1})
+   M_N = cipher text = C(m,k,N)
+
+   where K_0, ..., K_{N-1} is computed from k via the above
+   key schedule. So
+
+   C : MB x KB x I -> MB.
+
+   For the constitutive functions rc (the "round composition") and mr (the
+   "message round function") we have
+
+   rc : MB x KB -> MB
+   mr : MB x I -> MB.
+
+   The "round function" rf is the map MB x KB x I -> MB,
+   given by
+
+   rf(m,k,i) = m for i=0
+   rf(m,k,i) = rc(mr(m,i-1),k) for i > 0.
+
+   So
+
+   M_i = rf(M_{i-1}, K_{i-1}, i)
+
+   for i > 0.
+
+   We have I = {0, ..., N-1}. Often the map mr(-,0) is just the identity.
+   Then N is one more than the "official" round count (since "key whitening"
+   for the input has been counted as first round).
+*/
+
+/* Given a key round-function, and a round function given by the
+   message-round-function and the round-composition, compute a block cipher
+   C such that C(m,k,N) = M_N according to the above definition:
+*/
+ibc_0(key_round_f, message_round_f, compo_f) := 
+ buildq([key_round_f, message_round_f, compo_f],
+  lambda([plain_text,key,N],
+   block([cipher_text:plain_text, round_key:key],
+    for i : 1 thru N do (
+      cipher_text : compo_f(message_round_f(cipher_text,i-1), round_key),
+      round_key : key_round_f(round_key,i)
+   ),
+   return(cipher_text))))$
+
+/* Remarks:
+   For AES-like block-ciphers the composition is addition modulo 2 ("xor"),
+   while the message-round-function is defined as follows (0 < i < N):
+
+   mr(m,0) = m
+   mr(m,i) = mix_columns(shift_rows(sub_bytes(m)))
+   mr(m,N) = shift_rows(sub_bytes(m)).
+
+   Here sub_bytes: MB -> MB is the S-box (operating on elementary units like 
+   bytes) applied in parallel, shift_rows: MB -> MB is a simple permutation of
+   the elementary units, while mix_columns: MB -> MB is an invertible affine
+   map over the unit vector space.
+*/
+
+/*!
+\endhtmlonly
+*/
