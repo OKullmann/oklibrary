@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* **********************************
@@ -369,7 +370,7 @@ ast2tbt(T,i) :=
    monitoring distances (which are to be ignored); returns the empty list
    if for every inner node with some pair of distances containing inf
    the corresponding branches lead directly to a leaf, while otherwise for the
-   first offending node in inorder-transversal the list containing of the
+   first offending nodes from the root the appended lists containing the
    (amended) node-label, the list of branch-indices (either 1 or 2) where
    at least one of the two branches is inf, and the number of nodes in these
    inf-subtrees is returned. If there are two relevant pairs containing a
@@ -388,10 +389,10 @@ check_inf_branches_ast(T,m) := block([l : length(T), rel_distances, inf_ind],
   if not emptyp(inf_ind) then (
     if length(inf_ind) # 1 then return(false),
     inf_ind : sublist_indices(rel_distances[inf_ind[1]], lambda([x],is(x=inf))),
-    if not every(lambda([i], is(nnds_l(T[1+i]) = 1)), inf_ind) then
-      return(append([T[1], inf_ind], makelist(nnds_l(T[1+i]),i,inf_ind)))
+    if not every_s(lambda([i], is(nnds_lrt(T[1+i]) = 1)), inf_ind) then
+      return(append([T[1], inf_ind], create_list(nnds_lrt(T[1+i]),i,inf_ind)))
   ),
-  return(apply(append, makelist(check_inf_branches_ast(T[i],m),i,2,l))))$
+  return(lappend(map(lambda([T2],check_inf_branches_ast(T2,m)), rest(T)))))$
 
 /* Counts nodes containing some inf-distance-value */
 count_inf_branches(T,m) := block([l : length(T), flag : 0],
