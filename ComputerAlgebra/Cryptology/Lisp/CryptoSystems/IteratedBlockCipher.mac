@@ -48,9 +48,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCip
    with F(key,i) = K_i according to the above definition:
 */
 key_schedule_0(key_round_f) := buildq([key_round_f], lambda([key,N],
- block([result:key],
-  for i : 1 thru N do result : key_round_f(result,i),
-  return(result))))$
+ lreduce(key_round_f,cons(k,create_list(i,i,1,N)))))$
 
 /* 
    The iterated block cipher C(m,k,N) is computed via the following
