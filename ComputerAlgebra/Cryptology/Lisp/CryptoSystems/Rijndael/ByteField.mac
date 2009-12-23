@@ -51,13 +51,13 @@ polybin2nat(p) := block([h : hipow(p,'x)],
  polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
 
 
-rijn_egf2t8_add(a,b) := egf_add(rijn_byte_field,a,b)$
-rijn_egf2t8_inv(a) := egf_inv(rijn_byte_field,a)$
-rijn_egf2t8_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
+rijn_add(a,b) := egf_add(rijn_byte_field,a,b)$
+rijn_inv(a) := egf_inv(rijn_byte_field,a)$
+rijn_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
 
 /* AES finite field addition with integers as input and output: */
 rijn_gf2t8_add(byteia,byteib) := 
-  egf_poly2num(rijn_byte_field,rijn_egf2t8_add(
+  egf_poly2num(rijn_byte_field,rijn_add(
     egf_num2poly(rijn_byte_field,byteia),
     egf_num2poly(rijn_byte_field,byteib)))$
 

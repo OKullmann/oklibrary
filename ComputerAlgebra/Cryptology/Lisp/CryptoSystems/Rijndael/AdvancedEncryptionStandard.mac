@@ -68,12 +68,12 @@ rijn_sbox(bytei) :=
   if byte = 0 then 
     egf_poly2num(rijn_byte_field,rijn_affine_constant)
   else block([invbyte,result],
-    invbyte : rijn_egf2t8_inv(byte),
+    invbyte : rijn_inv(byte),
     result : rijn_egf2_matmul(rijn_sbox_matrix,
       columnvector(egf_coeffs(rijn_byte_field,invbyte,7))),
     return(
       egf_poly2num(rijn_byte_field,
-        rijn_egf2t8_add(
+        rijn_add(
           lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
           rijn_affine_constant)))))$
 
@@ -82,11 +82,11 @@ rijn_inv_sbox(bytei) :=
   block([final_result, result,byte : egf_num2poly(rijn_byte_field,bytei)],
     result : rijn_egf2_matmul(rijn_inv_sbox_matrix,
       columnvector(egf_coeffs(rijn_byte_field,byte,7))),
-    final_result : rijn_egf2t8_add(
+    final_result : rijn_add(
       lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
       rijn_inv_affine_constant),
     if (final_result = 0) then 0
-    else egf_poly2num(rijn_byte_field,rijn_egf2t8_inv(final_result))
+    else egf_poly2num(rijn_byte_field,rijn_inv(final_result))
 )$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation:
@@ -172,7 +172,7 @@ rijn_inv_mixcolumns_matrix : block([x], apply(matrix,
 rijn_mixcolumn(inputblocki) :=
   transpose_l(
     map(lambda([y],egf_poly2num(rijn_byte_field,y)),matrixcolumns(
-      rijn_egf2t8_matmul(rijn_mixcolumns_matrix,
+      rijn_matmul(rijn_mixcolumns_matrix,
         columns2matrix([
           map(lambda([y],egf_num2poly(rijn_byte_field,y)),
             transpose_l(inputblocki,4))])))[1]),4)$
