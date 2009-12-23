@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 
 /* **********************************
