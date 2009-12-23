@@ -19,6 +19,10 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Advance
 \htmlonly
 */
 
+/* The following two files are guaranteed to be included: */
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/BitField.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac")$
+
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
@@ -26,8 +30,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
-oklib_plain_include(functs)$
-oklib_plain_include(eigen)$
+oklib_plain_include(functs)$ /* QUESTION from OK: still needed? */
+oklib_plain_include(eigen)$ /* QUESTION from OK: why this package? */
 
 
 /* *************
@@ -37,49 +41,6 @@ oklib_plain_include(eigen)$
 
 /* Default number of rounds to be used in the AES functions. */
 aes_num_rounds : 10$
-
-/*
-   The following triple represents the "bit field" or field of integers 
-   modulo 2 (using our egf-interface to the Maxima finite-fields-package).
-*/
-rijn_bit_field : [2,1,'x]$
-
-/*
-   The irreducible polynomial over GF(2) used as the modulus in Rijndael to
-   define a GF(2^8) field.
-*/
-rijn_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
-rijn_byte_field : [2,8,rijn_polynomial]$
-
-
-/* ***************************
-   * Custom field operations *
-   ***************************
-*/
-
-/* Field function definitions for convenience */
-
-rijn_egf2_matmul(a,b) := egf_matmul(rijn_bit_field,a,b)$
-
-rijn_egf2t8_add(a,b) := egf_add(rijn_byte_field,a,b)$
-rijn_egf2t8_inv(a) := egf_inv(rijn_byte_field,a)$
-rijn_egf2t8_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
-
-
-/* ***************
-   * Conversions *
-   ***************
-*/
-
-/* AES finite field addition with integers as input and output: */
-rijn_gf2t8_add(byteia,byteib) := 
-  egf_poly2num(rijn_byte_field,rijn_egf2t8_add(
-    egf_num2poly(rijn_byte_field,byteia),
-    egf_num2poly(rijn_byte_field,byteib)))$
-
-/* AES finite field addition with integers as input using built-in
-   logical operators: */
-rijn_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
 
 
 /* *********

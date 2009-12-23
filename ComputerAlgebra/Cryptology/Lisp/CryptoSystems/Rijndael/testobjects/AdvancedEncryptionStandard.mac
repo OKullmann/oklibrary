@@ -28,20 +28,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
 */
 
 
-
-/* ***************************
-   * Custom field operations *
-   ***************************
-*/
-
-
-
-/* ***************
-   * Conversions *
-   ***************
-*/
-
-
 /* *********
    * S box *
    *********

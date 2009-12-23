@@ -1,0 +1,51 @@
+/* Oliver Kullmann, 23.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac
+  \brief Components for the Rijndael byte field (a field with 2^8 elements)
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+
+
+/*
+   The irreducible polynomial over GF(2) used as the modulus in Rijndael to
+   define the GF(2^8) field:
+*/
+rijn_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
+rijn_byte_field : [2,8,rijn_polynomial]$
+
+rijn_egf2t8_add(a,b) := egf_add(rijn_byte_field,a,b)$
+rijn_egf2t8_inv(a) := egf_inv(rijn_byte_field,a)$
+rijn_egf2t8_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
+
+/* AES finite field addition with integers as input and output: */
+rijn_gf2t8_add(byteia,byteib) := 
+  egf_poly2num(rijn_byte_field,rijn_egf2t8_add(
+    egf_num2poly(rijn_byte_field,byteia),
+    egf_num2poly(rijn_byte_field,byteib)))$
+
+oklib_plain_include(functs)$
+
+/* AES finite field addition with integers as input using built-in
+   logical operators: */
+rijn_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
+
+
+/*!
+\endhtmlonly
+*/

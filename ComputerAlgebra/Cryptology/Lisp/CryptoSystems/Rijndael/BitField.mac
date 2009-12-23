@@ -1,0 +1,36 @@
+/* Oliver Kullmann, 23.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/BitField.mac
+  \brief Components for the Rijndael bit field (a field with 2^1 elements)
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/BitField.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+
+
+/*
+   The following triple represents the "bit field" or field of integers 
+   modulo 2 (using our egf-interface to the Maxima finite-fields-package).
+*/
+rijn_bit_field : [2,1,'x]$
+
+rijn_egf2_matmul(a,b) := egf_matmul(rijn_bit_field,a,b)$
+
+
+/*!
+\endhtmlonly
+*/
