@@ -142,6 +142,7 @@ okltest_check_inf_branches_ast(f) := block([L,x,m,d],
   assert(f([[x, [[d,d]]], [L], [L]],0) = []),
   assert(f([[x, [[d,inf]]], [L], [[x,[[d,d]]], [L],[L]]],0) = [[x,[[d,inf]]], [2], 3]),
   assert(f([[x, [[inf,inf]]], [L], [[x,[[d,d]]], [L],[L]]],0) = [[x,[[inf,inf]]], [1,2], 1, 3]),
+  assert(f([[[x],[[d,d]]], [[x,[[inf,d]]], [[x,[[d,d]]],[L],[L]],[L]], [[x,[[d,inf]]], [L],[[x,[[inf,inf]]],[L],[L]]]], 0) = [[x,[[inf,d]]],[1],3, [x,[[d,inf]]],[2],3]),
   /* XXX */
   true)$
 
