@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteFie
 */
 
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /*
    The irreducible polynomial over GF(2) used as the modulus in Rijndael to
