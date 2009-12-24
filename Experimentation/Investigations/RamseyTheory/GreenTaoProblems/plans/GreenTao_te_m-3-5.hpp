@@ -508,7 +508,27 @@ E$alg[E$best==1]
    7201  115200  259800  349500  467900 1975000
      \endverbatim
      </li>
-     <li> cutoff=2*10^6 (adaptnovelty+): </li>
+     <li> cutoff=2*10^6 (adaptnovelty+):
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_581.cnf_OUT2")
+   1    2    3
+ 244 9631  125
+10000
+> summary(E$osteps[E$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 181600  702500 1126000 1139000 1587000 1979000
+> summary(E$osteps[E$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 113000  351000  516700  612800  781300 1999000
+> summary(E$osteps[E$min==3])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 121300  237900  305300  342600  405900 1131000
+     \endverbatim
+     Apparently adaptnovelty+ is better than novelty+ in avoiding the worst
+     cases, but worse in achieving the best cases (and this should be what
+     counts). </li>
+     <li> cutoff=4*10^6 (novelty+): </li>
+     <li> cutoff=4*10^6 (adaptnovelty+): </li>
     </ol>
    </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
