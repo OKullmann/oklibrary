@@ -38,7 +38,7 @@ rijn_byte_field : [2,8,rijn_polynomial]$
    of the Rijndael field, consisting of all polynomial of degree at
    most 7 over ZZ_2 = {0,1}:
 */
-rijn_stand(p) := egf_stand(rijn_byte_field,p)$
+rijn_stand(p) := ratdisrep(egf_stand(rijn_byte_field,p))$
 
 /* An alternative representation uses the elements of {0,...,255},
    interpreted as polynomial over the formal element "2".
@@ -49,7 +49,9 @@ nat2polybin(n) := block([L : reverse(int2polyadic(n,2))],
  sum_l(L * create_list(('x)^i,i,0,length(L)-1)))$
 polybin2nat(p) := block([h : hipow(p,'x)],
  polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
-
+/* Remark: Note that in the context of the byte-field these operations
+   only make sense for 0 <= n <= 255 and standardised polynomials.
+*/
 
 /* Addition and multiplication in the byte-field is just addition
    and multiplication of polynomials, however this does not yield
@@ -57,7 +59,7 @@ polybin2nat(p) := block([h : hipow(p,'x)],
 */
 rijn_add(a,b) := egf_add(rijn_byte_field,a,b)$
 rijn_mul(a,b) := egf_mul(rijn_byte_field,a,b)$
-rijn_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
+rijn_matmul(a,b) := totaldisrep(egf_matmul(rijn_byte_field,a,b))$
 
 /* Inversion in the byte-field (yielding a standardised result): */
 rijn_inv(a) := egf_inv(rijn_byte_field,a)$
