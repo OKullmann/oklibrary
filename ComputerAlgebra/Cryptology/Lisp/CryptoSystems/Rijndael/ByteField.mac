@@ -63,17 +63,20 @@ rijn_matmul(a,b) := egf_matmul(rijn_byte_field,a,b)$
 rijn_inv(a) := egf_inv(rijn_byte_field,a)$
 
 
-/* AES field addition with integers as input and output: */
-rijn_natadd(byteia,byteib) := 
-  egf_poly2num(rijn_byte_field,rijn_add(
-    egf_num2poly(rijn_byte_field,byteia),
-    egf_num2poly(rijn_byte_field,byteib)))$
+/* The field operations with integers as input and output: */
 
+rijn_natadd(a,b) := 
+  polybin2nat(rijn_add(nat2polybin(a), nat2polybin(b)))$
 oklib_plain_include(functs)$
+/* The same operation as rijn_natadd, but now using the built-in
+   logical operator (for xor on numbers): */
+rijn_nataddl(a,b) := logxor(a,b)$
 
-/* The same operation as rijn_natadd, but now using built-in
-   logical operators: */
-rijn_nataddl(byteia,byteib) := logxor(byteia,byteib)$
+rijn_natmul(a,b) := 
+  polybin2nat(rijn_mul(nat2polybin(a), nat2polybin(b)))$
+
+rijn_natinv(a) := 
+  polybin2nat(rijn_inv(nat2polybin(a)))$
 
 
 /*!
