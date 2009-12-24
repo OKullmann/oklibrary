@@ -134,7 +134,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7500
+  \todo greentao_3(3,4,5) > 7600
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -178,7 +178,10 @@ License, or any later version. */
      <li> Let's increase the cutoff to 2*10^8. </li>
     </ol>
    </li>
-   <li> n=7600, cutoff=2*10^8 </li>
+   <li> n=7600, cutoff=2*10^8 (adaptnovelty+): in 156 runs one solution was
+   found (seed=3054809508, osteps=165824921). It seems one should double
+   the cutoff. </li>
+   <li> n=7700, cutoff=4*10^8 </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
