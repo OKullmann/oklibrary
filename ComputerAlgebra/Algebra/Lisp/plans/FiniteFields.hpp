@@ -41,6 +41,7 @@ License, or any later version. */
    <li> A list of the known bugs here, which can be marked as the bugs are
    reported to the Maxima bug-tracker and mailing list.
     <ul>
+     <li> "gf_matmul" can not multiply square matrices of dimension 1. </li>
      <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling
      of negative exponents is incorrect. 
      \verbatim
