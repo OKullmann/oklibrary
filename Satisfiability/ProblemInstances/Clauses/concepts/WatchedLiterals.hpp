@@ -43,6 +43,14 @@ License, or any later version. */
      <li> An alternative is to just use remove(Lit x, TotalAssignment f),
      where it is the reponsibility of the clause to handle x as "first"
      or "second" watched literal. This makes usage easier. </li>
+     <li> And actually the return-type should just be a literal, with
+     the following three cases:
+      <ol>
+       <li> it is 0 iff the clause is falsified; </li>
+       <li> it is x (the input literal) iff the clause is satisfied; </li>
+       <li> otherwise it is the new literal. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
