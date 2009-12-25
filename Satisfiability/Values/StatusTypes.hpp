@@ -33,6 +33,13 @@ namespace OKlib {
           enum { value = unassigned };
         };
       }
+      inline Assignment_status operator- (const Assignment_status a) {
+        switch (a) {
+        case val0 : return val1;
+        case val1 : return val0;
+        default : return unassigned;
+        }
+      }
 
       enum Sat_status { falsified = 0, satisfied = 1, open = 2 };
       namespace traits {
