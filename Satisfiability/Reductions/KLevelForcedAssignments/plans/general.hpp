@@ -82,6 +82,8 @@ License, or any later version. */
    its presentation as total assignment, and the sequence of unassigned
    variables:
     <ol>
+     <li> This component should be a model of an assignment; see
+     OKlib/Satisfiability/Assignments/concepts/plans/general.hpp. </li>
      <li> One can add "forced literals" and "free literals" (via two
      member functions); call it perhaps push_forced(x) and push_free(x). </li>
      <li> These functions return a boolean, which is false iff this addition
@@ -109,7 +111,7 @@ License, or any later version. */
      are assumed to be satisfied. </li>
      <li> Perhaps best to realise the list of unassigned variables via a
      vector, which for each variable-index contains pointers to the next
-     and the previous active literal (as in the OKsolver_2002). </li>
+     and the previous active variable (as in the OKsolver_2002). </li>
      <li> When a variable is assigned, then its predecessor and successor
      are re-linked to skip that variable. </li>
      <li> If the variable is un-assigned (by reset), then its links are
