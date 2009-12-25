@@ -114,6 +114,10 @@ License, or any later version. */
      are re-linked to skip that variable. </li>
      <li> If the variable is un-assigned (by reset), then its links are
      re-activated. </li>
+     <li> Additionally to f[v] for a variable v, perhaps we should supply also
+     f(x) for a literal x; this would make usage much more convenient. </li>
+     <li> One could also use f[x] (overloaded); however this would not work
+     for integral type, and so f(x) needs to be used. </li>
     </ol>
    </li>
    <li> Ignoring the case of finding satisfying assignments:
