@@ -83,7 +83,7 @@ License, or any later version. */
    variables:
     <ol>
      <li> One can add "forced literals" and "free literals" (via two
-     member functions); call it perhaps add_forced(x) and add_free(x). </li>
+     member functions); call it perhaps push_forced(x) and push_free(x). </li>
      <li> These functions return a boolean, which is false iff this addition
      contradicts an assignment already active (while if it is just the same,
      then the operation has no effect). </li>
@@ -100,7 +100,9 @@ License, or any later version. */
      </li>
      <li> Finally, the literals added are entered into some buffer, and
      one can pop literals from the buffer (for processing them). Perhaps
-     using "pop(x)". </li>
+     using "pop()". Or better asking via top() for the literal to be removed,
+     removing it via pop(), while by empty() one checks whether there is
+     still some literal to be processed. </li>
      <li> Resetting the state assumes that all literals have been processed,
      and thereafter the buffer is empty. </li>
      <li> Assignments are considered as DNF-clauses, and thus literals themself
@@ -147,10 +149,10 @@ License, or any later version. */
      <li> If k >= 2, then first UCP is performed (on T), and then a loop
      through all (elementary) assignments is performed, seeking for a
      contradiction at level k-1. </li>
-     <li> So a literal x is "assumed", added via T.add_free(x), and r(k-1,F,T)
+     <li> So a literal x is "assumed", added via T.push_free(x), and r(k-1,F,T)
      is called. </li>
      <li> If the return-value is true (a contradiction was found), then
-     T.reset() is performed, and then T.add_forced(-x), and UCP is performed.
+     T.reset() is performed, and then T.push_forced(-x), and UCP is performed.
      </li>
      <li> Otherwise just T.reset() is performed. </li>
      <li> The loop over all other assignments is finished in any case, and
@@ -165,7 +167,7 @@ License, or any later version. */
      <li> Then one runs through all watched clauses for -x, and requests a
      new watched literal y. </li>
      <li> The clause is then added to the watch-list of y. </li>
-     <li> At the end, the watch-list for -x is just emptied. </li>
+     <li> And this clause is removed from the watch-list of -x. </li>
      <li> If during these processes a contradiction was found, then the whole
      process stops. </li>
      <li> And the whole procedure returns with "contradiction found", since
