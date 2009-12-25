@@ -10,9 +10,6 @@ License, or any later version. */
   \brief General plans on literals, their concepts and implementations.
 
 
-  \todo Move the related concepts and plans from OKlib/Concepts here.
-
-
   \todo Update namespace-usage.
 
 
