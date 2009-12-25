@@ -66,10 +66,12 @@ namespace OKlib {
 
           typedef std::vector<literal_type> bclause_list_type;
           typedef std::vector<bclause_list_type> bclause_set_type;
+          typedef typename bclause_list_type::const_iterator iterator_bclauses;
 
           typedef typename clause_set_type::iterator iterator_clauses;
           typedef std::list<iterator_clauses> wclause_list_type;
           typedef std::vector<wclause_list_type> wclause_set_type;
+          typedef typename wclause_list_type::iterator iterator_wclauses;
 
           typedef typename clause_set_type::size_type size_type;
 
@@ -123,12 +125,13 @@ namespace OKlib {
           void finish() const {}
           bool empty_clause() const { return empty_cl; }
 
+          // return true iff a contradiction was found
           bool perform_kucp(const size_type k) {
             if (empty_cl) return true;
             if (k == 0) return false;
             if (contradicting_ucl) return true;
             if (k == 1) { return perform_ucp(); }
-            // XXX
+            // XXX to be implemented
             return false;
           }
 
@@ -154,8 +157,27 @@ namespace OKlib {
             return lit + num_var;
           }
 
+          // return true iff a contradiction was found
           bool perform_ucp() {
-            // XXX
+            while (not f.empty()) {
+              const int_type x = - f.top(); f.pop();
+              const int_type x_i = index(x);
+              {
+                const iterator_bclauses end = F2[x_i].end();
+                for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
+                  if (not f.push_forced(*i)) return true;
+              }
+              const iterator_wclauses end = FW[x_i].end();
+              for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
+                const iterator_clauses j = *(i++);
+                const int_type y = *j -> remove(x, f);
+                if (y == 0) return true;
+                if (y == x) continue;
+                if (not f.push_forced(y)) return true;
+                FW[x_i].remove(i);
+                FW[index(y)].push_back(j);
+              }
+            }
             return false;
           }
         };
