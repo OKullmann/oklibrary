@@ -33,6 +33,7 @@ License, or any later version. */
      <li> Offering the functionality of an immutable sequence of literals.
      </li>
      <li> By first() and second() we get the two watched literals. </li>
+     <li> Actually, this might not be needed. </li>
      <li> By remove_first/second(TotalAssignment f) a new first/second
      watched literal is requested; returned is a pair (sat-status, literal),
      where the literal is null iff it has not been changed. </li>
