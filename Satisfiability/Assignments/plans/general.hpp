@@ -11,6 +11,13 @@ License, or any later version. */
   implementations.
 
 
+  \todo Naming
+  <ul>
+   <li> The modules "TotalAssignments" and "PartialAssignments" could be
+   be called "Total" and "Partial" instead. </li>
+  </ul>
+
+
   \todo DONE
   Move the OKlib/Concepts/plans/Assignments.hpp here.
 
