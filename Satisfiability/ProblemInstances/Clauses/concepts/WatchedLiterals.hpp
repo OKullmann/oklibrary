@@ -54,6 +54,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> See Clauses::WatchedLiterals_mono in
+   OKlib/Satisfiability/ProblemInstances/Clauses/WatchedLiterals.hpp for a
+   first prototype. </li>
   </ul>
 
 */
