@@ -120,6 +120,9 @@ License, or any later version. */
      f(x) for a literal x; this would make usage much more convenient. </li>
      <li> One could also use f[x] (overloaded); however this would not work
      for integral type, and so f(x) needs to be used. </li>
+     <li> See
+     OKlib/Satisfiability/Assignments/TotalAssignments/AssignmentsWithBuffer.hpp
+     for models. </li>
     </ol>
    </li>
    <li> Ignoring the case of finding satisfying assignments:
