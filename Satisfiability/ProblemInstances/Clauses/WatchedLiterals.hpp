@@ -81,7 +81,7 @@ namespace OKlib {
           value_type second() const { assert(*i2==w2); return w2; }
 
           template <class Assignment>
-          value_type remove(const value_type x, const Assignment& f) {
+          value_type remove(const value_type x, Assignment& f) {
             using namespace OKlib::Satisfiability::Values;
             if (x == w1) {
               for (const_iterator i = i1+1; i != e; ++i) {
@@ -102,6 +102,8 @@ namespace OKlib {
                 default : continue;
                 }
               }
+              if (f.push(w2)) return x;
+              else return 0;
             }
             else {
               assert(x == w2);
@@ -132,7 +134,8 @@ namespace OKlib {
                 default : continue;
                 }
               }
-              return value_type(0);
+              if (f.push(w1)) return x;
+              else return 0;
             }
           }
 
