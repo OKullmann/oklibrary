@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Interfaces/InputOutput/ClauseSetAdaptors.hpp
+  \file OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp
   \brief Adaptors to transfer clause-sets into some data structure
 
   A "CLSAdaptor" is a class (according to the concept below) for
