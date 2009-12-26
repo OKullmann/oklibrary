@@ -47,9 +47,8 @@ namespace OKlib {
 
        const index_type n;
 
-       BAssignmentWithQueue(const index_type n_) : n(n_) {
+       BAssignmentWithQueue(const index_type n_) : n(n_), V(n+1) {
          assert(n >= 0);
-         V.reserve(n+1);
          phi.reserve(n);
          next_lit = phi.begin();
        }
