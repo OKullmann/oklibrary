@@ -68,6 +68,14 @@ namespace OKlib {
             : C(b_,e_), b(C.begin()), e(C.end()), i1(b), i2(e-1), w1(*i1), w2(*i2) {
             assert(C.size() >= 3);
           }
+          template <typename InputIterator>
+          void assign(const InputIterator b_, const InputIterator e_) {
+            C.assign(b_,e_);
+            assert(C.size() >= 3);
+            b = C.begin(); e = C.end();
+            i1 = b; i2 = e-1;
+            w1 = *i1; w2 = *i2;
+          }
 
           value_type first() const { return w1; }
           value_type second() const { return w2; }
@@ -129,8 +137,8 @@ namespace OKlib {
 
         private :
 
-          const clause_type C;
-          const const_iterator b, e;
+          clause_type C;
+          const_iterator b, e;
           const_iterator i1, i2;
           value_type w1, w2;
         };
