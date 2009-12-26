@@ -280,6 +280,7 @@ namespace OKlib {
           typedef WatchedClauses clause_type;
           typedef typename clause_type::value_type literal_type;
           typedef Assignment assignment_type;
+          typedef std::string string_type;
 
           typedef std::vector<clause_type> clause_set_type;
 
@@ -294,12 +295,14 @@ namespace OKlib {
 
           typedef typename clause_set_type::size_type size_type;
 
-          CLSAdaptorUcpW() : empty_cl(false), contradicting_ucl(false) {}
-          
+          CLSAdaptorUcpW() : empty_cl(false), contradicting_ucl(false), contradiction_ucp(false) {}
+
+          const string_type& orig_comment() const { return com; }
+          string_type add_comment() const { return add_com.str(); }
+          const assignment_type& assignment() const { return f; }
 
           // Functionality for CLSAdaptor
           typedef literal_type int_type;
-          typedef std::string string_type;
           void comment(const string_type& com_) {
             if (com.empty()) com = com_;
             else com += "\nc" + com_;
@@ -307,8 +310,8 @@ namespace OKlib {
           void n(const int_type n_) {
             num_var = n_;
             max_lit_index = 2*num_var;
-            F2.reserve(max_lit_index+1);
-            FW.reserve(max_lit_index+1);
+            F2.resize(max_lit_index+1);
+            FW.resize(max_lit_index+1);
           }
           void c(const int_type c_) {
             num_cl = c_;
@@ -341,8 +344,143 @@ namespace OKlib {
             FW[index(x)].push_back(C);
             FW[index(y)].push_back(C);
           }
-          void finish() const {}
+          void finish() {
+            num_2cl = 0;
+            for (int_type i = 1; i < F2.size(); ++i)
+                num_2cl += F2[i].size();
+            num_2cl /= 2;
+            num_ge3cl = F.size();
+          }
           bool empty_clause() const { return empty_cl; }
+
+          // output to cls-adaptor
+          template <class CLSAdaptor>
+          void output(CLSAdaptor& A) {
+            A.comment(orig_comment() + add_comment());
+            if (contradiction_ucp and not empty_cl and not contradicting_ucl)
+              add_com << "\nc Unit-clause propagation found a contradiction.";
+            typedef std::vector<literal_type> litv_t;
+            if (empty_cl or contradicting_ucl or contradiction_ucp) {
+              A.n(0); A.c(1);
+              A.clause(litv_t(), 0);
+              A.finish();
+              return;
+            }
+            int_type max_var = 0;
+            typedef typename clause_set_type::size_type size_type;
+            size_type fin_num_cl = 0;
+            using namespace OKlib::Satisfiability::Values;
+            for (int_type v = 1; v <= num_var; ++v) {
+              if (f[v] != unassigned) continue;
+              if (v > max_var) max_var = v;
+              for (int_type sign = 0; sign <= 1; ++sign) {
+                const literal_type x = (1 - 2*sign) * v;
+                const int_type xi = index(x);
+                const iterator_bclauses end = F2[xi].end();
+                for (iterator_bclauses i = F2[xi].begin(); i != end; ++i) {
+                  const literal_type y = *i;
+                  if (f(y) == val1) continue;
+                  ++fin_num_cl;
+                  const int_type vy = OKlib::Literals::var(y);
+                  if (vy > max_var) max_var = vy;
+                }
+              }
+            }
+            fin_num_cl /= 2;
+            const size_type fin_num_2cl = fin_num_cl;
+            typedef typename clause_set_type::const_iterator citerator_clauses;
+            const citerator_clauses end = F.end();
+            typedef typename clause_type::const_iterator citerator_literals;
+            for (citerator_clauses i = F.begin(); i != end; ++i) {
+              const citerator_literals endC = i -> end();
+              bool satisfied = false;
+              for (citerator_literals j = i -> begin(); j != endC; ++j)
+                if (f(*j) == val1) {satisfied = true; break;}
+              if (satisfied) continue;
+              ++fin_num_cl;
+              for (citerator_literals j = i -> begin(); j != endC; ++j)
+                if (f(*j) == unassigned) {
+                  const int_type v = OKlib::Literals::var(*j);
+                  if (v > max_var) max_var = v;
+                }
+            }
+            const size_type fin_num_ge3cl = fin_num_cl - fin_num_2cl;
+            A.n(max_var); A.c(fin_num_cl);
+            for (int_type v = 1; v <= num_var; ++v) {
+              if (f[v] != unassigned) continue;
+              for (int_type sign = 0; sign <= 1; ++sign) {
+                const literal_type x = (1 - 2*sign) * v;
+                const int_type xi = index(x);
+                const iterator_bclauses end = F2[xi].end();
+                for (iterator_bclauses i = F2[xi].begin(); i != end; ++i) {
+                  const literal_type y = *i;
+                  if (f(y) == val1) continue;
+                  const int_type vy = OKlib::Literals::var(y);
+                  if (vy < v) continue;
+                  litv_t C; C.reserve(2);
+                  C.push_back(x); C.push_back(y);
+                  A.clause(C,2);
+                }
+              }
+            }
+            for (citerator_clauses i = F.begin(); i != end; ++i) {
+              const citerator_literals endC = i -> end();
+              bool satisfied = false;
+              size_type l = 0;
+              for (citerator_literals j = i -> begin(); j != endC; ++j) {
+                const Assignment_status s = f(*j);
+                if (s == unassigned) ++l;
+                else if (s == val1) {satisfied = true; break;}
+              }
+              if (satisfied) continue;
+              litv_t C;
+              C.reserve(l);
+              for (citerator_literals j = i -> begin(); j != endC; ++j)
+                if (f(*j) == unassigned) C.push_back(*j);
+              A.clause(C,l);
+            }
+            A.finish();
+          }
+
+          // return true iff a contradiction was found
+          bool perform_ucp() {
+            add_com << "\nc Additional comments regarding the unit-clause propagation:";
+            add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";
+            add_com << "\nc After elimination of duplicated literals and of empty, unit and tautological clauses there are:";
+            add_com << num_2cl << "\nc 2-clauses, and " << num_ge3cl << " clauses of length >= 3.";
+            add_com << "\nc Number of unit-clauses in input = " << f.size() << ".";
+            if (empty_cl) {
+              add_com << "\nc Empty clause present in input (thus the problem is unsatisfiable).";
+              return true;
+            }
+            if (contradicting_ucl) {
+              add_com << "\nc Conflicting unit-clauses present in input (thus the problem is unsatisfiable).";
+              return true;
+            }
+            
+            while (not f.empty()) {
+              const int_type x = - f.top(); f.pop();
+              const int_type x_i = index(x);
+              {
+                const iterator_bclauses end = F2[x_i].end();
+                for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
+                  if (not f.push_forced(*i)) {
+                    return contradiction_ucp = true;
+                  }
+              }
+              const iterator_wclauses end = FW[x_i].end();
+              for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
+                const iterator_clauses j = *(i++);
+                const int_type y = *j -> remove(x, f);
+                if (y == 0) { return contradiction_ucp = true; }
+                if (y == x) continue;
+                if (not f.push_forced(y)) {return contradiction_ucp = true;}
+                FW[x_i].remove(i);
+                FW[index(y)].push_back(j);
+              }
+            }
+            return false;
+          }
 
         private :
           clause_set_type F;
@@ -350,11 +488,12 @@ namespace OKlib {
           wclause_set_type FW;
           assignment_type f;
           int_type num_var;
-          int_type num_cl;
+          int_type num_cl, num_2cl, num_ge3cl;
           int_type max_lit_index;
           string_type com;
           bool empty_cl;
           bool contradicting_ucl;
+          bool contradiction_ucp;
           std::stringstream add_com;
 
           // translate a literal lit into an index from 0 to max_lit_index
@@ -366,29 +505,6 @@ namespace OKlib {
             return lit + num_var;
           }
 
-          // return true iff a contradiction was found
-          bool perform_ucp() {
-            while (not f.empty()) {
-              const int_type x = - f.top(); f.pop();
-              const int_type x_i = index(x);
-              {
-                const iterator_bclauses end = F2[x_i].end();
-                for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
-                  if (not f.push_forced(*i)) return true;
-              }
-              const iterator_wclauses end = FW[x_i].end();
-              for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
-                const iterator_clauses j = *(i++);
-                const int_type y = *j -> remove(x, f);
-                if (y == 0) return true;
-                if (y == x) continue;
-                if (not f.push_forced(y)) return true;
-                FW[x_i].remove(i);
-                FW[index(y)].push_back(j);
-              }
-            }
-            return false;
-          }
         };
 
       }
