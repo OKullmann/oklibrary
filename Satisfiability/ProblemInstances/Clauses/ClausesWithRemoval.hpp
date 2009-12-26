@@ -188,7 +188,8 @@ namespace OKlib {
 
           typedef Lit value_type;
 
-          template <class Iterator> RClausesAsSets(
+          template <class Iterator>
+          RClausesAsSets(
             const Iterator begin,
             const Iterator end) :
             C(begin,end), b(C.begin()) {
@@ -225,6 +226,8 @@ namespace OKlib {
             const size_type s = C.size();
             assert(s >= 2);
             C.erase(x);
+            assert(C.size() == s-1);
+            assert(C.begin() == b);
             return s == 2;
           }
 
@@ -238,8 +241,8 @@ namespace OKlib {
             assert(x != 0);
             switch (f[OKlib::Literals::var(x)]) {
             case val0 :
-              if (OKlib::Literals::cond(x)) return
-                std::make_pair(falsified, value_type(0));
+              if (OKlib::Literals::cond(x))
+                return std::make_pair(falsified, value_type(0));
               else return std::make_pair(satisfied, value_type(0));
             case val1 :
               if (OKlib::Literals::cond(x))
