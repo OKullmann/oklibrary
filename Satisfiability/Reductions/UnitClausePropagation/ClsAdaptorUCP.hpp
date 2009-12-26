@@ -476,7 +476,6 @@ namespace OKlib {
                 const int_type y = j -> remove(x, f);
                 if (y == 0) { return contradiction_ucp = true; }
                 if (y == x) continue;
-                if (not f.push(y)) {return contradiction_ucp = true;}
                 FW[x_i].erase(i);
                 FW[index(y)].push_back(j);
               }
