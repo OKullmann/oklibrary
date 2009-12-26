@@ -457,7 +457,7 @@ namespace OKlib {
               return true;
             }
             add_com << "\nc Number of unit-clauses in input = " << f.size() << ".";
-            
+
             while (not f.empty()) {
               const int_type x = - f.top(); f.pop();
               assert(x != 0);
@@ -471,11 +471,12 @@ namespace OKlib {
               }
               const iterator_wclauses end = FW[x_i].end();
               for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
+                const iterator_wclauses i_old = i;
                 const iterator_clauses j = *(i++);
                 const int_type y = j -> remove(x, f);
                 if (y == 0) { return contradiction_ucp = true; }
                 if (y == x) continue;
-                FW[x_i].erase(i);
+                FW[x_i].erase(i_old);
                 FW[index(y)].push_back(j);
               }
             }
