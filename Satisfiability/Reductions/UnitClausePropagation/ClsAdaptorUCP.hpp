@@ -327,8 +327,7 @@ namespace OKlib {
             const range_iterator bc = boost::const_begin(clause);
             if (s == 1) {
               const literal_type x = *bc;
-              if (not f.push(x))
-                contradicting_ucl = true;
+              if (not f.push(x)) contradicting_ucl = true;
               return;
             }
             if (s == 2) {
