@@ -45,10 +45,16 @@ namespace OKlib {
 
        typedef OKlib::Satisfiability::Values::Assignment_status value_type;
 
-       const index_type n;
-
+       BAssignmentWithQueue() : n(0), next_lit(phi.begin()) {}
        BAssignmentWithQueue(const index_type n_) : n(n_), V(n+1) {
          assert(n >= 0);
+         phi.reserve(n);
+         next_lit = phi.begin();
+       }
+       void resize(const index_type n_) {
+         assert(n_ >= 0);
+         n = n_;
+         V.resize(n+1);
          phi.reserve(n);
          next_lit = phi.begin();
        }
@@ -90,6 +96,7 @@ namespace OKlib {
 
      private :
 
+       index_type n;
        typedef std::vector<value_type> vector_t;
        vector_t V;
        typedef std::vector<literal_type> pass_t;
