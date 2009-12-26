@@ -67,6 +67,8 @@ namespace OKlib {
           WatchedLiterals_mono(const InputIterator b_, const InputIterator e_)
             : C(b_,e_), b(C.begin()), e(C.end()), i1(b), i2(e-1), w1(*i1), w2(*i2) {
             assert(C.size() >= 3);
+            assert(*i1 == w1);
+            assert(*i2 == w2);
           }
           template <typename InputIterator>
           void assign(const InputIterator b_, const InputIterator e_) {
@@ -75,6 +77,20 @@ namespace OKlib {
             b = C.begin(); e = C.end();
             i1 = b; i2 = e-1;
             w1 = *i1; w2 = *i2;
+          }
+
+          WatchedLiterals_mono(const WatchedLiterals_mono& w)
+            : C(w.C), b(C.begin()), e(C.end()), i1(b), i2(e-1), w1(w.w1), w2(w.w2) {
+            assert(*i1 == w1);
+            assert(*i2 == w2);
+          }
+
+          WatchedLiterals_mono& operator= (const WatchedLiterals_mono& rhs) {
+            C = rhs.C;
+            b = C.begin(); e = C.end();
+            i1 = b; i2 = e-1;
+            w1 = *i1; w2 = *i2;
+            return *this;
           }
 
           value_type first() const { assert(*i1==w1); return w1; }
