@@ -86,6 +86,7 @@ namespace OKlib {
         assert(next_lit != phi.end());
          ++next_lit;
        }
+       index_type size() const { return phi.end() - next_lit; }
        bool empty() const { return next_lit == phi.end(); }
 
      private :
