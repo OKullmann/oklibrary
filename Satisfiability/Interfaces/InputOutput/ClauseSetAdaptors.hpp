@@ -36,7 +36,7 @@ License, or any later version. */
    finished) </li>
    <li> <code> adaptor.tautological_clause(int_type number_literal_occurrences)
    </code>
-   (state that a tautological clauses with that-many literal occurrences
+   (state that a tautological clause with that-many literal occurrences
    (without contractions) has been found) </li>
    <li>
    \code 
