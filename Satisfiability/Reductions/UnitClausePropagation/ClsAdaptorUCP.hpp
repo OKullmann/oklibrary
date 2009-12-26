@@ -312,6 +312,7 @@ namespace OKlib {
             max_lit_index = 2*num_var;
             F2.resize(max_lit_index+1);
             FW.resize(max_lit_index+1);
+            f.resize(num_var);
           }
           void c(const int_type c_) {
             num_cl = c_;
@@ -326,8 +327,8 @@ namespace OKlib {
             const range_iterator bc = boost::const_begin(clause);
             if (s == 1) {
               const literal_type x = *bc;
-              if (not f.add_forced(x))
-                contradicting_ucl : true;
+              if (not f.push(x))
+                contradicting_ucl = true;
               return;
             }
             if (s == 2) {
@@ -338,7 +339,7 @@ namespace OKlib {
               return;
             }
             F.push_back(clause_type(bc, boost::const_end(clause)));
-            const iterator_clauses C = F.back();
+            const iterator_clauses C = --F.end();
             const literal_type x = C -> first();
             const literal_type y = C -> second();
             FW[index(x)].push_back(C);
@@ -464,18 +465,18 @@ namespace OKlib {
               {
                 const iterator_bclauses end = F2[x_i].end();
                 for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
-                  if (not f.push_forced(*i)) {
+                  if (not f.push(*i)) {
                     return contradiction_ucp = true;
                   }
               }
               const iterator_wclauses end = FW[x_i].end();
               for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
                 const iterator_clauses j = *(i++);
-                const int_type y = *j -> remove(x, f);
+                const int_type y = j -> remove(x, f);
                 if (y == 0) { return contradiction_ucp = true; }
                 if (y == x) continue;
-                if (not f.push_forced(y)) {return contradiction_ucp = true;}
-                FW[x_i].remove(i);
+                if (not f.push(y)) {return contradiction_ucp = true;}
+                FW[x_i].erase(i);
                 FW[index(y)].push_back(j);
               }
             }
