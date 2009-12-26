@@ -6,13 +6,43 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/Smusat_Horn.hpp
+  \file Satisfiability/Transformers/Generators/Smusat_Horn.cpp
   \brief Application for creating the saturated minimally unsatisfiable Horn clause-sets (in Dimacs format)
 
   The Maxima-specification is smusat_horn_stdfcl(k) (see
   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac).
 
   \todo Write application tests
+
+  \todo Improving speed
+  <ul>
+   <li>
+   \verbatim
+> time Smusat_Horn-O3-DNDEBUG 5000 > Smusat_Horn_5000.cnf
+real    0m18.938s
+user    0m4.298s
+sys     0m0.371s
+
+> time Smusat_Horn-O3-DNDEBUG 10000 > Smusat_Horn_10000.cnf
+real    1m16.468s
+user    0m17.014s
+sys     0m1.398s
+   \endverbatim
+   </li>
+   <li> While minisat2 parses (and solves) these file in 1.5s resp. 6s; so
+   there should be a faster way of writing this file (assuming that writing
+   should be faster than reading). </li>
+   <li> Just replacing e.g.
+   \verbatim
+std::cout << -j << " ";
+   \endverbatim
+   by
+   \verbatim
+std::printf("%d ", -j);
+   \endverbatim
+   and so on doesn't change much (perhaps slighlty faster, perhaps not). </li>
+   <li> Perhaps we need a larger stream-buffer? </li>
+  </ul>
 
 */
 
