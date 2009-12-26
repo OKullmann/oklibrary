@@ -46,7 +46,7 @@ namespace OKlib {
        typedef OKlib::Satisfiability::Values::Assignment_status value_type;
 
        BAssignmentWithQueue() : n(0), next_lit(phi.begin()) {}
-       BAssignmentWithQueue(const index_type n_) : n(n_), V(n+1) {
+       BAssignmentWithQueue(const index_type n_) : n(n_), V(n+1,OKlib::Satisfiability::Values::unassigned) {
          assert(n >= 0);
          phi.reserve(n);
          next_lit = phi.begin();
@@ -54,7 +54,7 @@ namespace OKlib {
        void resize(const index_type n_) {
          assert(n_ >= 0);
          n = n_;
-         V.resize(n+1);
+         V.resize(n+1,OKlib::Satisfiability::Values::unassigned);
          phi.reserve(n);
          next_lit = phi.begin();
        }
