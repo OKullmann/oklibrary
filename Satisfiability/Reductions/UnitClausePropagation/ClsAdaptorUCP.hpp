@@ -357,9 +357,9 @@ namespace OKlib {
           // output to cls-adaptor
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
-            A.comment(orig_comment() + add_comment());
             if (contradiction_ucp and not empty_cl and not contradicting_ucl)
               add_com << "\nc Unit-clause propagation found a contradiction.";
+            A.comment(orig_comment() + add_comment());
             typedef std::vector<literal_type> litv_t;
             if (empty_cl or contradicting_ucl or contradiction_ucp) {
               A.n(0); A.c(1);
@@ -445,11 +445,10 @@ namespace OKlib {
 
           // return true iff a contradiction was found
           bool perform_ucp() {
-            add_com << "\nc Additional comments regarding the unit-clause propagation:";
+            add_com << "\nc Additional comments regarding trivial preprocessing and unit-clause propagation:";
             add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";
             add_com << "\nc After elimination of duplicated literals and of empty, unit and tautological clauses there are:";
-            add_com << num_2cl << "\nc 2-clauses, and " << num_ge3cl << " clauses of length >= 3.";
-            add_com << "\nc Number of unit-clauses in input = " << f.size() << ".";
+            add_com << "\nc " << num_2cl << " 2-clauses, and " << num_ge3cl << " clauses of length >= 3.";
             if (empty_cl) {
               add_com << "\nc Empty clause present in input (thus the problem is unsatisfiable).";
               return true;
@@ -458,6 +457,7 @@ namespace OKlib {
               add_com << "\nc Conflicting unit-clauses present in input (thus the problem is unsatisfiable).";
               return true;
             }
+            add_com << "\nc Number of unit-clauses in input = " << f.size() << ".";
             
             while (not f.empty()) {
               const int_type x = - f.top(); f.pop();
