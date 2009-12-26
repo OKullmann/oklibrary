@@ -12,6 +12,15 @@ License, or any later version. */
   The full clause-literal graph is used here. If a command-line value is used
   of value "set", then the implementation uses (std::)sets for implementing
   clauses.
+
+  \bug Counting of assignments in the set-case does not work
+  <ul>
+   <li> The result is sometest just "1 assignments" (in the added comments).
+   </li>
+   <li> DONE Yet the "set"-case is not part of the applications tests --- this
+   needs to be repaired. </li>
+  </ul>
+
 */
 
 #include <iostream>

@@ -1,0 +1,9 @@
+c Saturated minimally unsatisfiable clause-set of deficiency 2 with 3 variables,
+c and with added unit-clause 1.
+p cnf 3 6
+1 2 3 0
+-1 -2 -3 0
+-1 2 0
+-2 3 0
+-3 1 0
+1 0
