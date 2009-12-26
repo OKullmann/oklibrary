@@ -192,18 +192,17 @@ namespace OKlib {
           RClausesAsSets(
             const Iterator begin,
             const Iterator end) :
-            C(begin,end), b(C.begin()) {
+            C(begin,end) {
               assert(C.size() >= 2);
             }
 
-          RClausesAsSets(const RClausesAsSets& D) : C(D.C), b(C.begin()) {
+          RClausesAsSets(const RClausesAsSets& D) : C(D.C) {
             assert(C.size() >= 2);
           }
 
           const RClausesAsSets& operator =(const RClausesAsSets& rhs) {
             C = rhs.C;
             assert(C.size() >= 2);
-            b = C.begin();
             return *this;
           }
 
@@ -218,7 +217,7 @@ namespace OKlib {
           typedef const_iterator iterator;
           typedef typename set_t::size_type size_type;
 
-          const_iterator begin() const { return b; }
+          const_iterator begin() const { return C.begin(); }
           const_iterator end() const {return C.end(); }
           size_type size() const { return C.size(); }
 
@@ -227,7 +226,6 @@ namespace OKlib {
             assert(s >= 2);
             C.erase(x);
             assert(C.size() == s-1);
-            assert(C.begin() == b);
             return s == 2;
           }
 
@@ -237,7 +235,7 @@ namespace OKlib {
           std::pair<OKlib::Satisfiability::Values::Sat_status,value_type> unit(const TotalAssignment& f) const {
             using namespace OKlib::Satisfiability::Values;
             assert(C.size() == 1);
-            const value_type x = *b;
+            const value_type x = *C.begin();
             assert(x != 0);
             switch (f[OKlib::Literals::var(x)]) {
             case val0 :
@@ -281,7 +279,6 @@ namespace OKlib {
         private :
 
           set_t C;
-          iterator b;
         };
 
       }
