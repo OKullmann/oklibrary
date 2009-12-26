@@ -45,12 +45,12 @@ namespace OKlib {
         class WatchedLiterals_mono {
         public :
 
-          typedef Lit literal_type;
-          typedef typename OKlib::Literals::traits::var_type<literal_type>::type var_type;
+          typedef Lit value_type;
+          typedef typename OKlib::Literals::traits::var_type<value_type>::type var_type;
 
         private :
 
-          typedef std::vector<literal_type> clause_type;
+          typedef std::vector<value_type> clause_type;
 
         public :
 
@@ -70,7 +70,7 @@ namespace OKlib {
           }
 
           template <class Assignment>
-          literal_type remove(const literal_type x, const Assignment& f) {
+          value_type remove(const value_type x, const Assignment& f) {
             using namespace OKlib::Satisfiability::Values;
             if (x == w1) {
               for (const_iterator i = i1+1; i != e; ++i) {
@@ -120,7 +120,7 @@ namespace OKlib {
                 default : continue;
                 }
               }
-              return literal_type(0);
+              return value_type(0);
             }
           }
 
@@ -129,7 +129,7 @@ namespace OKlib {
           const clause_type C;
           const const_iterator b, e;
           const_iterator i1, i2;
-          literal_type w1, w2;
+          value_type w1, w2;
         };
 
       }
