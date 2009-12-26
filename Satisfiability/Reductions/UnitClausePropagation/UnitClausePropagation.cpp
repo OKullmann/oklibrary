@@ -8,6 +8,10 @@ License, or any later version. */
 /*!
   \file OKlib/Satisfiability/Reductions/UnitClausePropagation/UnitClausePropagation.cpp
   \brief Application for performing UCP on Dimacs input
+
+  The full clause-literal graph is used here. If a command-line value is used
+  of value "set", then the implementation uses (std::)sets for implementing
+  clauses.
 */
 
 #include <iostream>
