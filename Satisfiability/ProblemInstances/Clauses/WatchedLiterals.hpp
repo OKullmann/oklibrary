@@ -69,6 +69,9 @@ namespace OKlib {
             assert(C.size() >= 3);
           }
 
+          value_type first() const { return w1; }
+          value_type second() const { return w2; }
+
           template <class Assignment>
           value_type remove(const value_type x, const Assignment& f) {
             using namespace OKlib::Satisfiability::Values;
