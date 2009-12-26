@@ -461,6 +461,7 @@ namespace OKlib {
             
             while (not f.empty()) {
               const int_type x = - f.top(); f.pop();
+              assert(x != 0);
               const int_type x_i = index(x);
               {
                 const iterator_bclauses end = F2[x_i].end();

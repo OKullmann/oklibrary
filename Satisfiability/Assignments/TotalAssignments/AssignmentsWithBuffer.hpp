@@ -64,6 +64,7 @@ namespace OKlib {
          return V[index_type(v)];
        }
        value_type operator() (const literal_type x) const {
+         assert(index_type(OKlib::Literals::var(x)) <= n);
          if (OKlib::Literals::cond(x))
            return V[index_type(OKlib::Literals::var(x))];
          else
@@ -71,6 +72,7 @@ namespace OKlib {
        }
 
        bool push(const literal_type x) {
+         assert(index_type(OKlib::Literals::var(x)) <= n);
          switch (operator()(x)) {
          case OKlib::Satisfiability::Values::val0 :
            return false;
