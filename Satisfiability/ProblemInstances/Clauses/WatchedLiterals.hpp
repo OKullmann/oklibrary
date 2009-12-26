@@ -77,8 +77,8 @@ namespace OKlib {
             w1 = *i1; w2 = *i2;
           }
 
-          value_type first() const { return w1; }
-          value_type second() const { return w2; }
+          value_type first() const { assert(*i1==w1); return w1; }
+          value_type second() const { assert(*i2==w2); return w2; }
 
           template <class Assignment>
           value_type remove(const value_type x, const Assignment& f) {
@@ -86,8 +86,8 @@ namespace OKlib {
             if (x == w1) {
               for (const_iterator i = i1+1; i != e; ++i) {
                 if (i == i2) continue;
-                const Assignment_status e = f(*i);
-                switch (e) {
+                const Assignment_status val = f(*i);
+                switch (val) {
                 case val1 : return x;
                 case unassigned : i1 = i; w1 = *i; return w1;
                 default : continue;
@@ -95,8 +95,8 @@ namespace OKlib {
               }
               for (const_iterator i = b; i != i1; ++i) {
                 if (i == i2) continue;
-                const Assignment_status e = f(*i);
-                switch (e) {
+                const Assignment_status val = f(*i);
+                switch (val) {
                 case val1 : return x;
                 case unassigned : i1 = i; w1 = *i; return w1;
                 default : continue;
@@ -105,22 +105,23 @@ namespace OKlib {
             }
             else {
               assert(x == w2);
-              for (const_iterator i = i2-1; i != b; --i) {
-                if (i == i1) continue;
-                const Assignment_status e = f(*i);
-                switch (e) {
-                case val1 : return x;
-                case unassigned : i2 = i; w2 = *i; return w2;
-                default : continue;
+              if (i2 != b)
+                for (const_iterator i = i2-1; i != b; --i) {
+                  if (i == i1) continue;
+                  const Assignment_status val = f(*i);
+                  switch (val) {
+                  case val1 : return x;
+                  case unassigned : i2 = i; w2 = *i; return w2;
+                  default : continue;
+                  }
                 }
-              }
-              if (b != i1) {
-                const Assignment_status e = f(*b);
-                switch (e) {
-                case val1 : return x;
-                case unassigned : i2 = b; w2 = *b; return w2;
-                default : ;
-                }
+              if (i1 != b) {
+               const Assignment_status val = f(*b);
+               switch (val) {
+               case val1 : return x;
+               case unassigned : i2 = b; w2 = *b; return w2;
+               default : ;
+               }
               }
               for (const_iterator i = e-1; i != i2; --i) {
                 if (i == i1) continue;
