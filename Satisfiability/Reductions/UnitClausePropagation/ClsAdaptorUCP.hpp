@@ -145,7 +145,7 @@ namespace OKlib {
             const Assignment_status new_val = Assignment_status(OKlib::Literals::cond(x));
             const Assignment_status old_val = f[v];
             if (old_val == unassigned) {
-              phi.push_back(x);            
+              phi.push_back(x);
               f[v] = new_val;
             }
             else if (old_val != new_val) empty_cl = true;
