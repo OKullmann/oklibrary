@@ -12,6 +12,7 @@ oksolver2002outputxml_okl ?= $(bin_dir)/OKsolver_2002_OUTPUTXML-O3-DNDEBUG
 oksolver2002_xml2maxima_okl ?= $(OKlib)/Satisfiability/Solvers/OKsolver/SAT2002/Xml2Maxima
 
 ucp_okl ?= $(bin_dir)/UnitClausePropagation-O3-DNDEBUG
+ucpw_okl ?= $(bin_dir)/UnitClausePropagationW-O3-DNDEBUG
 
 ramsey_generator_okl ?= $(bin_dir)/Ramsey-O3-DNDEBUG
 vanderwaerden_generator_okl ?= $(bin_dir)/VanderWaerden-O3-DNDEBUG
@@ -50,5 +51,5 @@ musatd2_okl ?= $(bin_dir)/Musatd2-O3-DNDEBUG
 
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
 
-public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call)
+public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ucpw_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(greentao_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call)
 

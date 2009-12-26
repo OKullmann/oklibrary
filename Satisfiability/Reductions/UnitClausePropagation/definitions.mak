@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program :=
 
-programs := UnitClausePropagation
+programs := UnitClausePropagation UnitClausePropagationW
 
 source_libraries =  $(boost_include_option_okl)
 
