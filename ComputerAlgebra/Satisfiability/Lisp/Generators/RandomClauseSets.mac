@@ -36,9 +36,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 /* Prerequisites: 0 <= k <= length(unique(V)). */
 random_sublist_l(V,k) := block([res : []],
   thru k do block([x : V[random(length(V))+1]],
-    res : endcons(x,res),
+    res : cons(x,res),
     V : delete(x,V)),
-  return(res))$
+  return(reverse(res)))$
 
 /* Using the Maxima pseudo-random generator, compute random clause-lists
    with n variables, clause-length k and c clauses: */
@@ -47,8 +47,8 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
   thru c do block([C : random_sublist_l(V,k)],
     for i : 1 thru k do
       if random(2) = 1 then C[i] : -C[i],
-    F : endcons(setify(C),F)),
-  return([V,F]))$
+    F : cons(setify(C),F)),
+  return([V,reverse(F)]))$
 random_fcs(n,k,c) := fcl2fcs(random_fcl(n,k,c))$
 
 
@@ -73,8 +73,8 @@ random_rcl_fcl(n,p,c) :=
       if random(1.0) >= p then C[i] : 0
       else
         if random(2) = 1 then C[i] : -C[i],
-    F : endcons(setdifference(setify(C),{0}),F)),
-  return([V,F]))$
+    F : cons(setdifference(setify(C),{0}),F)),
+  return([V,reverse(F)]))$
 random_rcl_fcs(n,p,c) := fcl2fcs(random_rcl_fcl(n,p,c))$
 
 
