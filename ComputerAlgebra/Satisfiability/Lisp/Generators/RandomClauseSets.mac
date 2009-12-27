@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *********************************
@@ -35,7 +36,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    result is repetition-free. */
 /* Prerequisites: 0 <= k <= length(unique(V)). */
 random_sublist_l(V,k) := block([res : []],
-  thru k do block([x : V[random(length(V))+1]],
+  thru k do block([x : random_element(V)],
     res : cons(x,res),
     V : delete(x,V)),
   return(reverse(res)))$
