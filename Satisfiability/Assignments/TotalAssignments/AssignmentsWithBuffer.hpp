@@ -33,6 +33,17 @@ namespace OKlib {
      /*!
        \class BAssignmentWithQueue
        \brief Boolean assignments with queue for (elementary) assignments to be processed
+
+       \todo Provide specification
+
+       \todo Write unit-tests
+
+       \todo Improve implementation
+       <ul>
+        <li> Regarding member functions push, [] and () it seems that the
+        code needs clean-up w.r.t. the various auxiliary values computed. </li>
+       </ul>
+
      */
 
      template <typename Lit>
@@ -111,6 +122,8 @@ namespace OKlib {
      /*!
        \class BAssignmentWithRQueue
        \brief Boolean assignments with resettable queue for (elementary) assignments to be processed
+
+       \todo Complete.
      */
 
      template <typename Lit>
