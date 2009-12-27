@@ -397,7 +397,8 @@ namespace OKlib {
               if (occurring and v > max_var) max_var = v;
             }
             fin_num_cl /= 2;
-            const size_type fin_num_2cl = fin_num_cl;
+            // currently not used:
+            // const size_type fin_num_2cl = fin_num_cl;
             typedef typename clause_set_type::const_iterator citerator_clauses;
             const citerator_clauses end = F.end();
             typedef typename clause_type::const_iterator citerator_literals;
@@ -415,7 +416,8 @@ namespace OKlib {
                   if (v > max_var) max_var = v;
                 }
             }
-            const size_type fin_num_ge3cl = fin_num_cl - fin_num_2cl;
+            // currently not used:
+            // const size_type fin_num_ge3cl = fin_num_cl - fin_num_2cl;
             A.n(max_var); A.c(fin_num_cl);
 
             // output of binary clauses
@@ -429,7 +431,6 @@ namespace OKlib {
                   const literal_type y = *i;
                   if (y < x) continue;
                   if (f(y) == val1) continue;
-                  const int_type vy = OKlib::Literals::var(y);
                   litv_t C; C.reserve(2);
                   C.push_back(x); C.push_back(y);
                   A.clause(C,2);
