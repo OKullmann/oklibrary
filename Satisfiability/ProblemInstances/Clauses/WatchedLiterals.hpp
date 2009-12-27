@@ -31,6 +31,8 @@ namespace OKlib {
           See ProblemInstances/Clauses/concepts/WatchedLiterals.hpp
           for the concept.
 
+          \todo Complete the concept
+
           \todo Provide unit-tests
 
           \todo Complete sequence-member-functions
@@ -38,6 +40,7 @@ namespace OKlib {
           \todo Improve implementation
           <ul>
            <li> Likely we should provide a specialisation for size 3. </li>
+           <li> Are members b, e really helpful (w.r.t. speed)? </li<
           </ul>
         */
 
