@@ -85,9 +85,17 @@ BestSolution_Max = 19.000000
      </li>
     </ol>
    </li>
-   <li> n=14000
+   <li> n=13800
     <ol>
      <li> cutoff=10^9: </li>
+     <li> cutoff=2*10^9: </li>
+    </ol>
+   </li>
+   <li> n=14000
+    <ol>
+     <li> cutoff=10^9: 4 runs yield min=3. </li>
+     <li> cutoff=2*10^9: 1 run yields min=3. </li>
+     <li> So let's consider this for now as unsatisfiable. </li>
     </ol>
    </li>
    <li> n=14375
