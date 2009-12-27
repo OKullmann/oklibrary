@@ -348,8 +348,8 @@ namespace OKlib {
           }
           void finish() {
             num_2cl = 0;
-            for (int_type i = 0; i < F2.size(); ++i)
-                num_2cl += F2[i].size();
+            for (size_type i = 0; i < F2.size(); ++i)
+              num_2cl += F2[i].size();
             num_2cl /= 2;
             num_ge3cl = F.size();
           }
