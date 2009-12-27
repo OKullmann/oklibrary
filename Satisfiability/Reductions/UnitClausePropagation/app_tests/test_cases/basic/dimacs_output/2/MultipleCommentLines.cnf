@@ -1,0 +1,11 @@
+c First line, 
+c and second line,
+c and third line.
+c Additional comments regarding trivial preprocessing and unit-clause propagation:
+c The original parameter were: n = 4, c = 2.
+c After elimination of duplicated literals and of empty, unit and tautological clauses there are:
+c 2 2-clauses, and 0 clauses of length >= 3.
+c Number of unit-clauses in input = 0.
+p cnf 3 2
+-2 1 0
+-2 3 0

@@ -1,0 +1,9 @@
+c The saturated Horn clause-set with 3 variables, extended by two variables.
+c Additional comments regarding trivial preprocessing and unit-clause propagation:
+c The original parameter were: n = 5, c = 5.
+c After elimination of duplicated literals and of empty, unit and tautological clauses there are:
+c 2 2-clauses, and 2 clauses of length >= 3.
+c Number of unit-clauses in input = 1.
+p cnf 5 2
+-4 5 0
+-4 5 0

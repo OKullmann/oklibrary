@@ -8,6 +8,8 @@ License, or any later version. */
 /*!
   \file OKlib/Satisfiability/Reductions/UnitClausePropagation/UnitClausePropagationW.cpp
   \brief Application for performing UCP based on watched literals on Dimacs input
+
+  \todo Write application tests : DONE
 */
 
 #include <iostream>
