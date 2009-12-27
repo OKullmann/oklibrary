@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
   \brief On investigations into the Advanced Encryption Standard
 
 
@@ -46,9 +46,11 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   <li> See
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    for an AES implementation in Maxima. </li>
-   <li> See ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   <li> See
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    for an AES translation into SAT. </li>
   </ul>
 
@@ -73,7 +75,8 @@ License, or any later version. */
     </ul>
    </li>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp for 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
+   for 
    experiments regarding breaking AES. </li>
    <li> See 
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
@@ -119,7 +122,7 @@ License, or any later version. */
      </li>
      <li> A "positive representation" R is an active clause-set on variables
      V' >= V such that if R(f) is true then also C(f) is true, and for f
-     such that C(F) is true there is a unique f' which differs from f only
+     such that C(f) is true there is a unique f' which differs from f only
      on V' - V such that C'(f) is true. </li>
      <li> Let r be a reduction. </li>
      <li> R now is "r-based" if for a partial assignment phi with var(phi) <= V
@@ -134,6 +137,12 @@ License, or any later version. */
      variables in V' - V. It seems sensible to me (OK) to consider this
      as the basis, but for further refinements considerations of V' - V
      might be needed. </li>
+     <li> Another sensible condition here is for f with C(f) true how difficult
+     it is to compute the extension f'. For example one could demand that
+     the additional assignments follow by unit-clause propagation. </li>
+     <li> See "Bases of the set of prime clauses relative to some reduction" in
+     ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp
+     for the case where no additional variables are considered. </li>
     </ol>
    </li>
    <li> Studying the representations of the Sbox
