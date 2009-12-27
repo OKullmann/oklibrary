@@ -26,6 +26,7 @@ extensive) list_test_cases="$(find test_cases/basic -maxdepth 1 -name '*.cnf') $
     ;;
 esac
 
+echo -e "\nTESTING ${program_tested}"
 echo -e "\nTEST FORMULAS FOUND:"
 echo "${list_test_cases}"
 
@@ -35,7 +36,7 @@ for P in ${list_test_cases}; do
   echo "Filename:" "${P}"
   directory=$(dirname ${P})
   filename=$(basename ${P})
-  result_file="${directory}/dimacs_output/${filename}"
+  result_file="${directory}/dimacs_output/1/${filename}"
 
   output=$(cat ${P} | ${program_tested}-O3-DNDEBUG)
   echo "${output}" | diff - "${result_file}"
