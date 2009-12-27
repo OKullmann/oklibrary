@@ -268,8 +268,8 @@ License, or any later version. */
      <li> A possibility here is to use the r_k-reductions, which may yield
      several forced assignments at once. </li>
      <li> If B can be represented by a Horn-CNF (likely we should check
-     this?!), then at least the determining a specific dependency is
-     easy; see [Ibaraki, Kogan, Makino; 1999 + 2001; Artificial Intelligence]
+     this?!), then at least determining a specific dependency is easy; see
+     [Ibaraki, Kogan, Makino; 1999 + 2001; Artificial Intelligence]
      for further considerations. </li>
     </ol>
    </ul>
