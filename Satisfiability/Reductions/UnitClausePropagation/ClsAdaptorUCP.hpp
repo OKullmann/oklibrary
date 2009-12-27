@@ -375,27 +375,33 @@ namespace OKlib {
             typedef typename clause_set_type::size_type size_type;
             size_type fin_num_cl = 0;
             using namespace OKlib::Satisfiability::Values;
+            // first considering binary clauses:
             for (int_type v = 1; v <= num_var; ++v) {
               if (f[v] != unassigned) continue;
-              if (v > max_var) max_var = v;
+              bool occurring = false;
               for (int_type sign = 0; sign <= 1; ++sign) {
                 const literal_type x = (1 - 2*sign) * v;
                 const int_type xi = index(x);
-                const iterator_bclauses end = F2[xi].end();
-                for (iterator_bclauses i = F2[xi].begin(); i != end; ++i) {
-                  const literal_type y = *i;
-                  if (f(y) == val1) continue;
-                  ++fin_num_cl;
-                  const int_type vy = OKlib::Literals::var(y);
-                  if (vy > max_var) max_var = vy;
+                if (not F2[xi].empty()) {
+                  occurring = true;
+                  const iterator_bclauses end = F2[xi].end();
+                  for (iterator_bclauses i = F2[xi].begin(); i != end; ++i) {
+                    const literal_type y = *i;
+                    if (f(y) == val1) continue;
+                    ++fin_num_cl;
+                    const int_type vy = OKlib::Literals::var(y);
+                    if (vy > max_var) max_var = vy;
+                  }
                 }
               }
+              if (occurring and v > max_var) max_var = v;
             }
             fin_num_cl /= 2;
             const size_type fin_num_2cl = fin_num_cl;
             typedef typename clause_set_type::const_iterator citerator_clauses;
             const citerator_clauses end = F.end();
             typedef typename clause_type::const_iterator citerator_literals;
+            // now considering all clauses of length >= 3:
             for (citerator_clauses i = F.begin(); i != end; ++i) {
               const citerator_literals endC = i -> end();
               bool satisfied = false;
@@ -421,9 +427,9 @@ namespace OKlib {
                 const iterator_bclauses end = F2[xi].end();
                 for (iterator_bclauses i = F2[xi].begin(); i != end; ++i) {
                   const literal_type y = *i;
+                  if (y < x) continue;
                   if (f(y) == val1) continue;
                   const int_type vy = OKlib::Literals::var(y);
-                  if (vy < v) continue;
                   litv_t C; C.reserve(2);
                   C.push_back(x); C.push_back(y);
                   A.clause(C,2);
