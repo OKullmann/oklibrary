@@ -263,6 +263,8 @@ namespace OKlib {
            <li> the literal type is a signed integral type </li>
           </ul>
 
+          \todo Complete specification
+
           \todo Complete implementation
 
           \todo Write unit-tests
@@ -353,6 +355,7 @@ namespace OKlib {
           }
           bool empty_clause() const { return empty_cl; }
 
+
           // output to cls-adaptor
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
@@ -366,6 +369,8 @@ namespace OKlib {
               A.finish();
               return;
             }
+
+            // determining maximal variable index and number of clauses
             int_type max_var = 0;
             typedef typename clause_set_type::size_type size_type;
             size_type fin_num_cl = 0;
@@ -406,6 +411,8 @@ namespace OKlib {
             }
             const size_type fin_num_ge3cl = fin_num_cl - fin_num_2cl;
             A.n(max_var); A.c(fin_num_cl);
+
+            // output of binary clauses
             for (int_type v = 1; v <= num_var; ++v) {
               if (f[v] != unassigned) continue;
               for (int_type sign = 0; sign <= 1; ++sign) {
@@ -423,6 +430,8 @@ namespace OKlib {
                 }
               }
             }
+
+            // output of clauses of length >= 3
             for (citerator_clauses i = F.begin(); i != end; ++i) {
               const citerator_literals endC = i -> end();
               bool satisfied = false;
@@ -441,6 +450,7 @@ namespace OKlib {
             }
             A.finish();
           }
+
 
           // return true iff a contradiction was found
           bool perform_ucp() {
