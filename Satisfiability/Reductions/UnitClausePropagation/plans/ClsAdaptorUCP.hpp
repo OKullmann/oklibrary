@@ -51,24 +51,19 @@ k=1000; head -n 2 Smusat_Horn_${k}.cnf > Smusat_Horn_R_${k}.cnf; tail -n +3 Smus
    </li>
    <li> Sets versus vectors:
     <ol>
-     <li> The set-version of UnitClausePropagation seems to be a bit faster for
-     k, say, up to 5000, but then it needs a lot of memory, and this seems to
-     kill performance. </li>
-     <li> This was a first impression, however the following data on csltok
-     seems to be different (see below to compare with the vector-version):
+     <li> It seems that the set-version is definitely worse, time- and
+     space-wise, than the vector-version (see below to compare with the
+     vector-version):
      \verbatim
-n=1000: ~ 0.95s
-n=2000: ~ 4.45s
-n=4000: ~ 21.0s
+> time cat Smusat_Horn_k.cnf | UnitClausePropagation-O3-DNDEBUG set
+n=1000: ~ 1.9s
+n=2000: ~ 13.3s
+n=4000: ~ 67s
      \endverbatim
-     At the time of running these experiments other processes used a lot
-     of memory. </li>
-     <li> The vector-version of UnitClausePropagation gets faster than the
-     set-version for k, say, more than 6000, and it uses only 50% of the
-     memory. </li>
-     <li> Again, this was the first impression, but the data below seems to
-     say that the vector-version is always faster:
+     </li>
+     <li> Growth for the vector-version:
      \verbatim
+> time cat Smusat_Horn_k.cnf | UnitClausePropagation-O3-DNDEBUG
 n=1000: ~ 0.8s
 n=2000: ~ 3.5s
 n=4000: ~ 15.0s
@@ -80,8 +75,8 @@ n=4000: ~ 15.0s
      parsing in UnitClausePropagation is less efficient. </li>
     </ol>
    </li>
-   <li> The OKsolver_2002-O3-DNDEBUG is definitely slower than both versions,
-   but it uses somewhat less memory.
+   <li> The OKsolver_2002-O3-DNDEBUG is definitely slower than the
+   vector-version, but it uses somewhat less memory.
     <ol>
      <li> Growth (running times are the same for Smusat_Horn_n.cnf as for
      Smusat_Horn_R_n.cnf):
@@ -190,9 +185,9 @@ n=1000000: 11.8s
 n=2000000: 24.6s
 
 > time cat Musatd2p1_n.cnf | UnitClausePropagation-O3-DNDEBUG set
-n=500000: 6.5s
-n=1000000: 13.1s
-n=2000000: 28.3s
+n=500000: 6.86s
+n=1000000: 13.8s
+n=2000000: 31s
      \endverbatim
      </li>
     </ol>
