@@ -57,9 +57,9 @@ rijnmult_fulldnf_fcs(field_element) :=
    Prerequisite: 1 <= field_element <= 255.
 */
 rijnmult_fullcnf_fcs(field_element) := block(
-  [full16cs : clauses_f(full_fcs(16)), aes_fieldmul_cs :
-  clauses_f(rijnmult_fulldnf_fcs(field_element))],
-  cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
+  [full16cs : fcs2cs(full_fcs(16)), aes_fieldmul_cs :
+  fcs2cs(rijnmult_fulldnf_fcs(field_element))],
+  cs2fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
 
 
 /* Output the full CNF clause-set of the permutation given by multiplication
