@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
 
 
 /* **********************
@@ -29,17 +30,36 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 */
 
 /* "Generalised unit-clause-propagation":
-    input a clause-set F and level k, output r_k(F).
-    Every forced assignment is found for k large enough. */
-/* RENAME: generalised_ucp_cs */
-generalised_ucp(F,k) := block([mr : min_rank_cs(F)],
- if mr > k then F
- elseif mr = 0 then {{}} else
-  block([V : var_cs(F), break : false],
+    input a clause-set F and level k >= 0, output r_k(F).
+    Every forced assignment is found for k large enough.
+*/
+/* The general idea: */
+generalised_ucp_g_cs(F,k) :=
+ if k=0 then
+   if elementp({},F) then {{}} else F
+ else block([V : var_cs(F), break : false],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
       (F : apply_pa({-eps * v}, F), break : true),
-  if break then return(generalised_ucp(F,k)) else return(F)))$
+  if break then return(generalised_ucp(F,k)) else return(F))$
+
+/* For the cases k=0,1 one has special algorithms (making the
+   implementation more efficient), and also the case k=1 should
+   be applied in any case.
+*/
+/* RENAME: generalised_ucp_cs */
+generalised_ucp(F,k) := block(
+ if elementp({},F) then return({{}})
+ elseif k=0 then return(F),
+ F : ucp_0_cs(F),
+ if k=1 or F={{}} then return(F)
+ else block([mr : min_rank_cs(F)],
+  if mr > k then return(F) else
+   block([V : var_cs(F), break : false],
+   for v in V unless break do for eps in {-1,1} unless break do
+     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
+       (F : apply_pa({-eps * v}, F), break : true),
+   if break then return(generalised_ucp(F,k)) else return(F))))$
 generalised_ucp_cs(F,k) := generalised_ucp(F,k)$
 
 /* generalised_ucp(F,1) is unit-clause-elimination.
@@ -73,6 +93,7 @@ generalised_ucp_opa(F,k) := block([V : var_cs(F), mr : min_rank_cs(F)],
 
 /* Instances */
 
+generalised_ucp0_cs(F) := generalised_ucp_cs(F,0);
 generalised_ucp1(F) := generalised_ucp(F,1);
 generalised_ucp2(F) := generalised_ucp(F,2);
 generalised_ucp_pa1(F) := generalised_ucp_pa(F,1);

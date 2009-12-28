@@ -30,13 +30,14 @@ kill(f)$
    **********************
 */
 
-okltest_generalised_ucp(f) := block(
+okltest_generalised_ucp_cs(f) := block(
   for k : 0 thru 10 do (
     assert(f({},k) = {}),
     assert(f({{}},k) = {{}}),
     assert(f({{},{1,2}},k) = {{}}),
     assert(f({{1},{-1,2,3}},k) = if k=0 then {{1},{-1,2,3}} else {{2,3}}),
-    assert(f({{1},{-1,2}},k) = if k=0 then {{1},{-1,2}} else {})
+    assert(f({{1},{-1,2}},k) = if k=0 then {{1},{-1,2}} else {}),
+    assert(f({{1,2},{3},{-3}},k) = if k=0 then {{1,2},{3},{-3}} else {{}})
   ),
   if oklib_test_level = 0 then return(true),
 
@@ -59,7 +60,7 @@ okltest_generalised_ucp(f) := block(
 
 
 okltest_generalised_ucp_pa(f) := block(
-  okltest_generalised_ucp(buildq([f], lambda([F,k], f(F,k)[1]))),
+  okltest_generalised_ucp_cs(buildq([f], lambda([F,k], f(F,k)[1]))),
 
   for k : 0 thru 10 do (
     assert(f({},k)[2] = {}),

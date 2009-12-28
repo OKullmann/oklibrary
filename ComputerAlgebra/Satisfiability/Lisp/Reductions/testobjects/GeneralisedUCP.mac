@@ -27,7 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitCl
    **********************
 */
 
-okltest_generalised_ucp(generalised_ucp);
+okltest_generalised_ucp_cs(generalised_ucp_g_cs);
+okltest_generalised_ucp_cs(generalised_ucp_cs);
 okltest_generalised_ucp_pa(generalised_ucp_pa);
 okltest_generalised_ucp_opa(generalised_ucp_opa);
 
