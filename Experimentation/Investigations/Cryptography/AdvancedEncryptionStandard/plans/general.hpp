@@ -143,6 +143,12 @@ License, or any later version. */
      <li> See "Bases of the set of prime clauses relative to some reduction" in
      ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp
      for the case where no additional variables are considered. </li>
+     <li> The function rand_rbase_cs(F,r) in
+     ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac randomply
+     computes an r-base of F. </li>
+     <li> It seems most promising (for now) to consider here r=r_1 and r=r_2,
+     applied to the sets of prime implicates of the various "boxes" involved.
+     </li>
     </ol>
    </li>
    <li> Studying the representations of the Sbox

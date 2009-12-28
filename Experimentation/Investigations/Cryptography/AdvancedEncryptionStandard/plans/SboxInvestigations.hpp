@@ -26,6 +26,8 @@ License, or any later version. */
      <li> Basic statistics? </li>
      <li> Necessary clauses? </li>
      <li> Minimum representations? </li>
+     <li> r-bases for r in {r_1,r_2}? (See rand_rbase_cs(F,r) in
+     ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac.) </li>
     </ol>
    </li>
   </ul>
@@ -166,6 +168,7 @@ SATISFIABLE
    Sbox is used and exactly what bits are commonly set and that we wish to
    allow easier deductions with. </li>
   </ul>
+
 
   \todo Minimisation of the Sbox
   <ul>

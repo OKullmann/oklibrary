@@ -79,7 +79,8 @@ License, or any later version. */
    Experimentation/Investigations/BooleanFunctions/Permutations.mac). </li>
    <li> Shortest r_k-compressions of the set of prime implicates are of
    high interest (since we expect them to be most useful for their use
-   in SAT-translations). </li>
+   in SAT-translations). See rand_rbase_cs(F,r) in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac. </li>
    <li> Also OBDD-representations are to be studied. </li>
    <li> And shortest circuit-representations. </li>
   </ul>
