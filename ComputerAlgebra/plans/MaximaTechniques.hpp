@@ -266,7 +266,9 @@ fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
    <li> genmatrix(f,m,n) cannot handle the cases n=0: Use
    genmatrix_m(f,m,n) resp. genmatrix_sm(f,n) instead (in
    ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
-   <li> The "matrix multiplication .", applied to two 1x1 matrices, does not
+   <li> DONE (scalarmatrixp set to false now, which disables this unwanted
+   behaviour)
+   The "matrix multiplication .", applied to two 1x1 matrices, does not
    return a matrix but a number:
     <ol>
      <li> So before applying matrix multiplication A . B, one needs to check

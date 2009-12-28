@@ -33,11 +33,12 @@ define_variable(
   "m4_SHELL(maxima_eis_installation_dir_okl)",
   any);
 
-showtime : true;
-linel : 100;
-stringdisp : true;
-stardisp : true;
-display2d : false;
+scalarmatrixp : false; /* now matrix([0]) . matrix([0]) = matrix([0]) */
+showtime : true; /* show how much run-time was needed */
+linel : 100; /* width for displaying expressions */
+stringdisp : true; /* show strings with quotation marks */
+stardisp : true; /* show multiplications via "*" */
+display2d : false; /* show output as strings (which can be copied!) */
 set_plot_option([gnuplot_term, x11]);
 
 define_variable(
