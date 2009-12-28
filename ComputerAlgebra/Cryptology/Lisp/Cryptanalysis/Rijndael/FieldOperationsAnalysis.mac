@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOp
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
@@ -71,10 +72,10 @@ output_rijnmult_fullcnf_stdname(field_element) :=
     sconcat("AES_byte_field_mul_full_",field_element,".cnf"))$
           
 
-/* Tests whether a full CNF clause-set represents the AES field
+/* Tests whether a formal CNF clause-set FF represents an AES field
    multiplication: */
 rijnmult_cnfp(field_element,FF) := 
- is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
+ is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    rijnmult_fulldnf_fcs(field_element))$
 
 
