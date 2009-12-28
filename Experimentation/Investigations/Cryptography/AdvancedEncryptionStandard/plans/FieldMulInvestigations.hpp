@@ -62,8 +62,8 @@ N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x 
    <li> Multiplication by 2:
    <ul>
     <li> There are 58 prime implicates for multiplication by 2. </li>
-    <li> The minimal size prime clause is 2. </li>
-    <li> The maximal size prime clause is 4. </li>
+    <li> The minimal size of a prime clause is 2. </li>
+    <li> The maximal size of a prime clause is 4. </li>
     <li> This is to be expected (???) as multiplication by 2 is a very simple
     operation. </li>
     <li> In this case, representing multiplication by 02 by all it's prime
@@ -73,36 +73,36 @@ N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x 
    <li> Multiplication by 3:
    <ul>
     <li> There are 5048 prime implicates for multiplication by 3. </li>
-    <li> The minimal size prime clause is 3. </li>
-    <li> The maximal size prime clause is 9. </li>
+    <li> The minimal size of a prime clause is 3. </li>
+    <li> The maximal size of a prime clause is 9. </li>
    </ul>
    </li>
    <li> Multiplication by 9:
    <ul>
     <li> There are 7840 prime implicates for multiplication by 9. </li>
-    <li> The minimal size prime clause is 3. </li>
-    <li> The maximal size prime clause is 9. </li>
+    <li> The minimal size of a prime clause is 3. </li>
+    <li> The maximal size of a prime clause is 9. </li>
    </ul>
    </li>
    <li> Multiplication by 11:
    <ul>
     <li> There are 15008 prime implicates for multiplication by 11. </li>
-    <li> The minimal size prime clause is 4. </li>
-    <li> The maximal size prime clause is 9. </li>
+    <li> The minimal size of a prime clause is 4. </li>
+    <li> The maximal size of a prime clause is 9. </li>
    </ul>
    </li>
    <li> Multiplication by 13:
    <ul>
     <li> There are 15312 prime implicates for multiplication by 13. </li>
-    <li> The minimal size prime clause is 4. </li>
-    <li> The maximal size prime clause is 9. </li>
+    <li> The minimal size of a prime clause is 4. </li>
+    <li> The maximal size of a prime clause is 9. </li>
    </ul>
    </li>
    <li> Multiplication by 14:
    <ul>
     <li> There are 14300 prime implicates for multiplication by 14. </li>
-    <li> The minimal size prime clause is 3. </li>
-    <li> The maximal size prime clause is 9. </li>
+    <li> The minimal size of a prime clause is 3. </li>
+    <li> The maximal size of a prime clause is 9. </li>
    </ul>
    </li>
    <li> We need to handle all multiplications; and we need the size (and
@@ -192,8 +192,8 @@ MTHG2 : minimum_transversals_bvs_hg(ghg2hg(subsumption_ghg(Mul2[2], rijnmult_ful
    \endverbatim
    </li>
    <li> For multiplication by 02, the above Maxima function returns 102 
-   minimum CNF representations of size 20 in 2190.1490 seconds. 
-   An example of such a minimum representation is:
+   minimum CNF representations of size 20 in 2190.1490 seconds. </li>
+   <li> An example of such a minimum representation is:
    \verbatim
 {{-16,-15,-8},{-16,-13,-6},{-16,6,13},{-16,8,15},{-15,1,8},{-14,7},{-13,1,6},
 {-12,-5,-1},{-12,5,16},{-11,4},{-10,3},{-9,2},{-8,1,15},{-7,14},{-6,1,13},
@@ -207,6 +207,5 @@ MTHG2 : minimum_transversals_bvs_hg(ghg2hg(subsumption_ghg(Mul2[2], rijnmult_ful
    <li> MG is currently running experiments with the other field 
    multiplications. </li>
   </ul>
-
 
 */
