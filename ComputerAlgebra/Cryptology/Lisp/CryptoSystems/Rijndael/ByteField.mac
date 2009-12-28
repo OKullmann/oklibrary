@@ -23,8 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /*
-   The irreducible polynomial over GF(2) used as the modulus in Rijndael to
-   define the GF(2^8) field:
+   The irreducible polynomial over ZZ_2 used as the modulus in Rijndael to
+   define the field of order 2^8:
 */
 rijn_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
 rijn_byte_field : [2,8,rijn_polynomial]$
@@ -38,7 +38,7 @@ rijn_byte_field : [2,8,rijn_polynomial]$
    of the Rijndael field, consisting of all polynomial of degree at
    most 7 over ZZ_2 = {0,1}:
 */
-rijn_stand(p) := ratdisrep(egf_stand(rijn_byte_field,p))$
+rijn_stand(p) := polymod(divide(p,rijn_polynomial,x)[2],2)$
 
 /* An alternative representation uses the elements of {0,...,255},
    interpreted as polynomial over the formal element "2".
@@ -58,8 +58,8 @@ polybin2nat(p) := block([h : hipow(p,'x)],
    standardised results; for standardised results use the following:
 */
 rijn_add(a,b) := rijn_stand(a+b)$
-rijn_mul(a,b) := egf_mul(rijn_byte_field,a,b)$
-rijn_matmul(a,b) := totaldisrep(egf_matmul(rijn_byte_field,a,b))$
+rijn_mul(a,b) := rijn_stand(a*b)$
+rijn_matmul(a,b) := matrixmap(rijn_stand, a.b)$
 
 /* Inversion in the byte-field (yielding a standardised result): */
 rijn_inv(a) := egf_inv(rijn_byte_field,a)$
