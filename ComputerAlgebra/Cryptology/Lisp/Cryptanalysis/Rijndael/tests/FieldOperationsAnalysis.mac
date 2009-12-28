@@ -56,6 +56,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/F
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
@@ -125,6 +126,7 @@ okltest_rijnmult_fullcnf_fcs(f) := block([FF],
 
 okltest_rijnmult_cnfp(f) := block(
   if oklib_test_level = 0 then return(true),
+  assert(f(1, [setn(16), lunion(create_list({{-i,i+8},{-(i+8),i}}, i,1,8))]) = true),
   assert(f(2,[{},{}]) = false),
   assert(f(3,[{},{}]) = false),
   assert(f(2,[setn(16),{{1,2},{4,-5,6},{-16}}]) = false),
