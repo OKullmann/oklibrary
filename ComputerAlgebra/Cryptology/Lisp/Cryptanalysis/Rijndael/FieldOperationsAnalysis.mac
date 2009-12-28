@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 
 
 /* ******************************************
@@ -31,25 +33,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
    ******************************************
 */
 
-/* Generation of the full DNF clause-set representing the 
-   multiplication with the given field element (as an integer) in the 
+/* Generation of the (unique) DNF clause-set representing the 
+   multiplication with the field element a (as an integer) in the 
    Rijndael GF(2^8) field.
-   Prerequisite: 1 <= field_element <= 255.
+   Prerequisite: 1 <= a <= 255.
 */
-rijnmult_fulldnf_fcs(field_element) :=  
-  [setify(create_list(i,i,1,16)),
-   map(lambda([ce],setify(binl2dnf_l_std(
-    append(egf_coeffs(rijn_bit_field,int2poly(ce,2),7),
-      egf_coeffs(rijn_bit_field,int2poly(
-        if arrayinfo(aes_field_mul_data)[3][1] >= field_element + 1 and
-           integerp(aes_field_mul_data[field_element,ce+1]) then
-          aes_field_mul_data[field_element,ce+1]
-        else egf_poly2num(rijn_byte_field,
-          egf_mul(rijn_byte_field,
-            egf_num2poly(rijn_byte_field,field_element),
-            egf_num2poly(rijn_byte_field,ce))),
-        2),7))))),
-    setify(create_list(i,i,0,255)))]$
+rijnmult_fulldnf_fcl(a) :=
+  perm2dnffcl(1+map(lambda([b], rijn_natmul(a,b)), create_list(i,i,0,255)))$
+rijnmult_fulldnf_fcs(a) := fcl2fcs(rijnmult_fulldnf_fcl(a))$
 
 /* Generation of the full CNF clause-set representing the 
    multiplication with the given field element (as an integer) in the
