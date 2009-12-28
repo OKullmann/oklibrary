@@ -28,12 +28,12 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Byte
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 
 
-/* ******************************************
-   * Field Multiplication Analysis          *
-   ******************************************
+/* *********************************
+   * Field multiplication analysis *
+   *********************************
 */
 
-/* Generation of the (unique) DNF clause-set representing the 
+/* Generation of the (unique, full) DNF clause-set representing the 
    multiplication with the field element a (as an integer) in the 
    Rijndael GF(2^8) field.
    Prerequisite: 1 <= a <= 255.
@@ -48,8 +48,8 @@ rijnmult_fulldnf_fcs(a) := fcl2fcs(rijnmult_fulldnf_fcl(a))$
    Prerequisite: 1 <= field_element <= 255.
 */
 rijnmult_fullcnf_fcs(field_element) := block(
-  [full16cs : fcs2cs(full_fcs(16)), aes_fieldmul_cs :
-  fcs2cs(rijnmult_fulldnf_fcs(field_element))],
+  [full16cs : fcs2cs(full_fcs(16)), 
+   aes_fieldmul_cs : fcs2cs(rijnmult_fulldnf_fcs(field_element))],
   cs2fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
 
 
@@ -76,7 +76,7 @@ rijnmult_cnfp(field_element,FF) :=
 */
 
 /* Generation of a CNF hitting clause-set, given a heuristics h for
-   a backtracking solver (without reduction) */
+   a backtracking solver (without reduction): */
 rijnmult2hittingcnf_fcs(field_element,h) := 
   dualtreehittingcls_condensed_fcs(rijnmult_fulldnf_fcs(field_element),h)$
 
