@@ -104,7 +104,9 @@ License, or any later version. */
    variables (see "Investigating conditions and their representations" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp)
    of the underlying boolean function. </li>
-   <li> First we just need the natural randomised algorithm for producing some
+   <li> DONE (we have rand_rbase_cs in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac)
+   First we just need the natural randomised algorithm for producing some
    r-base.
     <ol>
      <li> We start with F' = F, while G = {} is the set of clauses which are

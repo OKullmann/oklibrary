@@ -1,0 +1,53 @@
+/* Oliver Kullmann, 27.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac
+  \brief Removing redundancies from the set of prime implicates by reductions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac");
+
+*/
+
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+
+/* ************
+   * Sampling *
+   ************
+*/
+
+rand_rbase_cs(F,red_) := block([S : F, G : {}, found : true],
+ while found = true do (
+  found : false,
+  for C in random_permutation(setdifference(S,G)) unless found#false do
+   block([S2 : disjoin(C,S)],
+    if every_s(
+      lambda([D], elementp({}, red_(apply_pa_cs(comp_sl(D), S2)))),
+      setdifference(F,S2))
+    then found : S2
+    else G : adjoin(C,G)),
+  if found#false then (S : found, found : true)
+ ),
+ return(S))$
+
+/* Remarks:
+   If red_(F) = F then rand_rbase_cs(F,red_) is subsumption elimination for F.
+   If red_(F) = generalised_ucp_cs(F,inf) then rand_rbase_cs(F,red_) returns
+   a choice of an irredundant core of F.
+*/
+
+/*!
+\endhtmlonly
+*/
