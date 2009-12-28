@@ -54,7 +54,8 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/F
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
