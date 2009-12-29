@@ -95,11 +95,11 @@ uniform_tpd(T) := block([l : length(T)],
    Trees with distances are treated here as "trees with branching tuples".
 */
 
-/* check whether T is "formally" a tree with distances
-   (or "with branching tuples") */
+/* Check whether T is "formally" a tree with distances
+   (or "with branching tuples"): */
 tbtp(T) := if not listp(T) then false else block([l : length(T)],
   is(l > 0) and listp(T[1]) and length(T[1]) = l-1 and
-   apply("and",makelist(tbtp(T[i]),i,2,l)))$
+   every_s(tbtp, rest(T)))$
 
 
 /* Transformations of a tree with distances to a tree with measure: */
