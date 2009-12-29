@@ -98,8 +98,8 @@ License, or any later version. */
      <ol>
       <li> Autarkies : DONE </li>
       <li> Backdoors : DONE </li>
-      <li> Backtracking </li>
-      <li> BranchingTuples </li>
+      <li> Backtracking : DONE </li>
+      <li> BranchingTuples : DONE </li>
       <li> %ClauseSets : DONE </li>
       <li> ConflictCombinatorics : DONE </li>
       <li> ConstraintProblems : DONE </li>
