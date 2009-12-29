@@ -209,17 +209,19 @@ random_sm(n,x) := block(
         if i > j then random(x) elseif i=j then random(x)/2 else 0),n)],
   m + transpose(m))$
 
-/* A random permutation of a Maxima matrix: */
+/* A random permutation of a Maxima matrix, via row and column permutation
+   (thus the rows and columns themselfes stay intact, they only change
+   their places and get internally permuted): */
 random_permutation_m(M) := block([s : matrix_size(M)],
-  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))),
-         M,
-         trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
+  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) .
+  M .
+  trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
 /* A random permutation of the rows of a Maxima matrix: */
 random_rpermutation_m(M) := block([s : matrix_size(M)],
-  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))), M))$
+  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M)$
 /* A random permutation of the columns of a Maxima matrix: */
 random_cpermutation_m(M) := block([s : matrix_size(M)],
-  prod_m(M, trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
+  M . trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
 
 /* A random self-polar matrix : */
 random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
@@ -303,12 +305,6 @@ trans_scom(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
    * Algebraic operations *
    ************************
 */
-
-/* The product of Maxima matrices, yielding always a matrix (not a scalar
-   in cases of overloading with scalar product): */
-prod_m([LM]) := block([P : apply(".", LM)],
-  if not matrixp(P) then matrix([P])
-  else P)$
 
 /* The addition of two square combinatorial matrices
    Precondition: A[1] = B[1]. */

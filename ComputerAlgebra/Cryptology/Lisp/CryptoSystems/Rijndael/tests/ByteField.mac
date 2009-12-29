@@ -74,7 +74,7 @@ okltest_rijn_mul(f) := block([x],
 
 okltest_rijn_matmul(f) := block([x],
   assert(f(matrix(),matrix()) = matrix()),
-  /* assert(f(matrix([0]),matrix([0])) = matrix([0])), */ /* MAXIMA ERROR */
+  assert(f(matrix([0]),matrix([0])) = matrix([0])),
   assert(f(matrix([x,0],[0,x]),matrix([x,0],[0,x])) = matrix([x^2,0],[0,x^2])),
   assert(f(matrix([x,1],[x,x^2]),matrix([1,x^3],[x,0])) = matrix([0,x^4],[x^3+x,x^4])),
   assert(f(matrix([x^4,0],[0,x^4]),matrix([x^4,0],[0,x^4])) = matrix([x^4+x^3+x+1,0],[0,x^4+x^3+x+1])),

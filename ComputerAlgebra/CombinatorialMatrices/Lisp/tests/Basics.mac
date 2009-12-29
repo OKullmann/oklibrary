@@ -311,7 +311,11 @@ okltest_random_permutation_m(f) := (
   assert(f(matrix([])) = matrix([])),
   assert(f(matrix([],[])) = matrix([],[])),
   assert(f(matrix([0])) = matrix([0])),
-
+  assert(f(matrix([0,0])) = matrix([0,0])),
+  set_random(1),
+  assert(f(matrix([1,2],[3,4])) = matrix([4,3],[2,1])),
+  assert(f(matrix([1,2,3],[4,5,6])) = matrix([3,1,2],[6,4,5])),
+  assert(f(matrix([1,2],[3,4],[5,6])) = matrix([6,5],[2,1],[4,3])),
   true)$
 
 okltest_random_rpermutation_m(f) := (
@@ -319,7 +323,10 @@ okltest_random_rpermutation_m(f) := (
   assert(f(matrix([])) = matrix([])),
   assert(f(matrix([],[])) = matrix([],[])),
   assert(f(matrix([0])) = matrix([0])),
-
+  assert(f(matrix([0,0])) = matrix([0,0])),
+  set_random(1),
+  assert(f(matrix([1,2],[3,4],[5,6])) = matrix([5,6],[1,2],[3,4])),
+  assert(f(matrix([1,2,3,4,5,6])) = matrix([1,2,3,4,5,6])),
   true)$
 
 okltest_random_cpermutation_m(f) := (
@@ -327,7 +334,9 @@ okltest_random_cpermutation_m(f) := (
   assert(f(matrix([])) = matrix([])),
   assert(f(matrix([],[])) = matrix([],[])),
   assert(f(matrix([0])) = matrix([0])),
-
+  assert(f(matrix([0,0])) = matrix([0,0])),
+  assert(f(matrix([1,2,3],[4,5,6],[7,8,9])) = matrix([3,1,2],[6,4,5],[9,7,8])),
+  assert(f(matrix([1],[2],[3],[4],[5],[6])) = matrix([1],[2],[3],[4],[5],[6])),
   true)$
 
 okltest_random_spolar_m(f) := (
@@ -428,16 +437,6 @@ okltest_trans_scom(f) := (
    * Algebraic operations *
    ************************
 */
-
-okltest_prod_m(f) := block(
-  assert(f(matrix([1,2],[3,4])) = matrix([1,2],[3,4])),
-  assert(f(matrix(),matrix()) = matrix()),
-  assert(f(matrix([]),matrix()) = matrix([])),
-  assert(f(matrix([],[]),matrix()) = matrix([],[])),
-  assert(f(matrix([2]),matrix([3])) = matrix([6])),
-  assert(f(matrix([1,2]),matrix([3],[4])) = matrix([11])),
-  assert(f(matrix([2]),matrix([3]),matrix([5])) = matrix([30])),
-  true)$
 
 okltest_add_scom(f) := (
 

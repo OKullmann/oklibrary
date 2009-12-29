@@ -147,8 +147,6 @@ okltest_trans_scom(trans_scom);
    ************************
 */
 
-okltest_prod_m(prod_m);
-
 okltest_add_scom(add_scom);
 okltest_diff_scom(diff_scom);
 okltest_scprod_scom(scprod_scom);
