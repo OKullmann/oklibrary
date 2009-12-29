@@ -14,7 +14,7 @@ License, or any later version. */
   Maxima-level, and by "GTSat 2 ... 2 3 5 n" at C++ level.
 
 
-  \todo greentao_3(2,3,5) > 580
+  \todo greentao_3(2,3,5) >= 581
   <ul>
    <li> n=550
     <ol>
@@ -527,8 +527,38 @@ E$alg[E$best==1]
      Apparently adaptnovelty+ is better than novelty+ in avoiding the worst
      cases, but worse in achieving the best cases (and this should be what
      counts). </li>
-     <li> cutoff=4*10^6 (novelty+): </li>
-     <li> cutoff=4*10^6 (adaptnovelty+): </li>
+     <li> cutoff=4*10^6 (novelty+):
+     \verbatim
+> E = read_ubcsat("GreenTao_3-2-3-5_581.cnf_OUT3")
+   1    2    3
+1013 8900   87
+10000
+> summary(E$osteps[E$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  66300 1097000 1981000 2026000 2981000 3990000
+> summary(E$osteps[E$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   9536  295200  634300  853200 1178000 3991000
+> summary(E$osteps[E$min==3])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  14180  104300  239200  270900  404300  904300
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 (adaptnovelty+):
+     \verbatim
+> E2 = read_ubcsat("GreenTao_3-2-3-5_581.cnf_OUT4")
+   1    2    3
+ 516 9483    1
+10000
+> summary(E$osteps[E$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  66300 1097000 1981000 2026000 2981000 3990000
+> summary(E$osteps[E$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   9536  295200  634300  853200 1178000 3991000
+     \endverbatim
+     </li>
+     <li> Let's assume that this is unsatisfiable. </li>
     </ol>
    </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
