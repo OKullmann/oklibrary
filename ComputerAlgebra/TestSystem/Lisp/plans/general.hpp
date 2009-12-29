@@ -341,6 +341,14 @@ expected_value$
    <li> In oklib_test_level>=1 we must also additionally run the test
    with oklib_test_level-- and with oklib_monitor=true and
    oklib_monitor_level=0,1 (at least). </li>
+   <li> return-expressions in functions to be tested:
+    <ol>
+     <li> If the function to be tested doesn't use a block, but uses a
+     return-expression, then this just terminates the assert-evaluation
+     itself. </li>
+     <li> How can this be avoided? </li>
+    </ol>
+   </li>
    <li> DONE (now handled in 
    Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp)
     We have the problem that the created file maxima-init.mac clashes
