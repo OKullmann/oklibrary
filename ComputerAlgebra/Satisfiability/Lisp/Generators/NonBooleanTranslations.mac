@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTrans
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ******************************
@@ -29,7 +30,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
    ******************************
 */
 
-/* Variables are "nbv(v,e)", meaning that variable v has value number e: */
+/* Variables are "nbv(v,e)", meaning that variable v has value e: */
 kill(nbv)$
 declare(nbv, noun)$
 declare(nbv, posfun)$
@@ -60,6 +61,157 @@ nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
                 v,FF[1], p,powerset_l(FF[3](v),2)))])$
 nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
 nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
+
+
+/* **************************************
+   * The generalised nested translation *
+   **************************************
+*/
+
+/* The same variable nbv(v,e) are used, but now using nbv(v,i),
+   where i is an index. */
+
+/* Consider a non-boolean formal clause-set FF = [V,F,D]; so
+   D is the function-domain D, and for a variable v the set D(v) is the
+   set of values of v. We assume that V does not contain variables of the
+   form nbv(x,y). We consider FF as CNF (so we use "SAT-terminology").
+
+   We assume further that T(v) is an (arbitrary) labelled ordered boolean 
+   unsatisfiable clause-set where the label set contains D(v),
+   while all variables are of the form nbv(v,i) for in prinicpal arbitrary i.
+   The clauses of T(v) associated to values e in D(v) are denoted by
+   T(v,e), while TR(v) := T(v) - {T(v,e) : e in D(v)} is the (possibly
+   empty) clause-set containing the remaining clauses.
+
+   We assume that all clauses in T(v) - TR(v) are necessary, that is,
+   for every e in D(v) there is a total assignment phi for the variables
+   in T(v) such that all clauses except of T(v,e) are satisfied.
+
+   The standard nested translation uses 1 <= i < |D(v)| (while for the
+   above standard translation we have 1 <= i <= D(v)).
+
+   The translation now replaces every clause C in F by the clause which
+   is the union of the clauses T(v,e) for the literals [v,e] in C, and
+   adds furthermore all clauses in T'(v) for all v in V.
+
+   Let D(v) = {e_1, ..., e_k}.
+
+   We obtain the above weak standard translation by letting
+   T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
+          { {nbv(v,e_1), ..., nbv(v,e_k)} }
+   where T(v,e_i) = {-nbv(v,e_i)}.
+   For the strong standard translation we just add the binary clauses
+   {-nbv(v,e_i), -nbv(v,e_j)} for i <> j.
+
+   The standard nested translation uses
+   T(v) = smusat_horn_stdfcl(k-1)
+   where T(v,e_i) uses some permutation of the clause-list (which is of
+   length k), and where the variables 1, ..., k-1 are replaced by nbv(v,i).
+
+*/
+
+gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
+
+gennest_nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
+ [GG[1], append(GG[2],
+    create_list({-nbv_var(v,first(p)), -nbv_var(v,second(p))},
+                v,FF[1], p,powerset_l(FF[3](v),2)))])$
+nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
+nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
+
+
+/* **************************************
+   * The generalised nested translation *
+   **************************************
+*/
+
+/* The same variable nbv(v,e) are used, but now using nbv(v,i),
+   where i is an index. */
+
+/* Consider a non-boolean formal clause-set FF = [V,F,D]; so
+   D is the function-domain D, and for a variable v the set D(v) is the
+   set of values of v. We assume that V does not contain variables of the
+   form nbv(x,y). We consider FF as CNF (so we use "SAT-terminology").
+
+   We assume further that T(v) is an (arbitrary) labelled ordered boolean 
+   unsatisfiable clause-set where the label set contains D(v),
+   while all variables are of the form nbv(v,i) for in prinicpal arbitrary i.
+   The clauses of T(v) associated to values e in D(v) are denoted by
+   T(v,e), while TR(v) := T(v) - {T(v,e) : e in D(v)} is the (possibly
+   empty) clause-set containing the remaining clauses.
+
+   We assume that all clauses in T(v) - TR(v) are necessary, that is,
+   for every e in D(v) there is a total assignment phi for the variables
+   in T(v) such that all clauses except of T(v,e) are satisfied.
+
+   The standard nested translation uses 1 <= i < |D(v)| (while for the
+   above standard translation we have 1 <= i <= D(v)).
+
+   The translation now replaces every clause C in F by the clause which
+   is the union of the clauses T(v,e) for the literals [v,e] in C, and
+   adds furthermore all clauses in T'(v) for all v in V.
+
+   Let D(v) = {e_1, ..., e_k}.
+
+   We obtain the above weak standard translation by letting
+   T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
+          { {nbv(v,e_1), ..., nbv(v,e_k)} }
+   where T(v,e_i) = {-nbv(v,e_i)}.
+   For the strong standard translation we just add the binary clauses
+   {-nbv(v,e_i), -nbv(v,e_j)} for i <> j.
+
+   The standard nested translation uses
+   T(v) = smusat_horn_stdfcl(k-1)
+   where T(v,e_i) uses some permutation of the clause-list (which is of
+   length k), and where the variables 1, ..., k-1 are replaced by nbv(v,i).
+
+*/
+
+gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
+
+/* T(v,e)
+   TR(v) a clause-list
+   TV(v) a list of variables
+*/
+gennest_nbfcl2fcl(FF,T,TR,TV) := [
+ lappend(map(TV,FF[1])),
+ append(
+   map(lambda([C], gennest_clause_trans(C,T)), FF[2]),
+   lappend(map(TR,FF[1]))
+ )]$
+
+/* For obtaining the standard translation: */
+standtrans_T(v,e) := {-nbv_var(v,e)}$
+standtrans_fd_weak_TR(D) := buildq([D],
+ lambda([v], [setify(create_list(nbv_var(v,e), e, D(v)))]))$
+standtrans_ud_weak_TR(D) := buildq([D],
+ lambda([v], [setify(create_list(nbv_var(v,e), e, D))]))$
+standtrans_fd_TV(D) := buildq([D],
+ lambda([v], create_list(nbv_var(v,e), e, D(v))))$
+standtrans_ud_TV(D) := buildq([D],
+ lambda([v], create_list(nbv_var(v,e), e, D)))$
+
+nbfclfd2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans_fd_weak_TR(FF[3]), standtrans_fd_TV(FF[3]))$
+nbfclud2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans_ud_weak_TR(FF[3]), standtrans_ud_TV(FF[3]))$
+
+/* The standard nested translation */
+
+/* Using a uniform domain D, and ordering the saturated Horn clause in
+   the same way (from smallest to largest):
+*/
+standnest_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D))],
+ buildq([D,k,h],
+  lambda([v,e], block([i : ev_hm(h,e)],
+   if i < k then setify(cons(nbv_var(v,i),create_list(-nbv_var(v,j),j,1,i-1)))
+   else setify(create_list(-nbv_var(v,j),j,1,i-1))))))$
+standnest_TR(D) := buildq([D], lambda([v], []))$
+standnest_TV(D) := buildq([D],
+ lambda([v], create_list(nbv_var(v,i), i,1,length(D)-1)))$
+
+nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_TR(FF[3]), standnest_TV(FF[3]))$
+
+/* Now directly standardising the variables: */
+
 
 
 /*!
