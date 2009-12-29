@@ -48,10 +48,11 @@ bt_composition_i(a,b,i) := if emptyp(a) then []
 /*
  A "permutation" in S_n is a list P of length n of all the elements in 
  {1,...,n}; it stands for the bijection i -> P[i].
+ See ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac.
 */
 
 /* Apply a permutation (or, more generally, an index selection): */
-bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t))$
+bt_apply_permutation(perm, t) := create_list(t[i], i, perm)$
 
 /* The branching-tuple-hull of a branching tuple t w.r.t. upper-bound
    s on the maximum, together with the set of saturated elements: */

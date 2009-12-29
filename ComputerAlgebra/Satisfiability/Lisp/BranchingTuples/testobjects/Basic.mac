@@ -26,6 +26,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/B
    ************************
 */
 
+okltest_bt_apply_permutation(bt_apply_permutation);
+
 /* ***************
    * Power means *
    ***************

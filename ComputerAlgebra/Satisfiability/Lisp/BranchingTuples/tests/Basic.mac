@@ -28,6 +28,15 @@ kill(f)$
    ************************
 */
 
+okltest_bt_apply_permutation(f) := block([x,y],
+  assert(f([],[]) = []),
+  assert(f([1],[x]) = [x]),
+  assert(f([1,2],[x,y]) = [x,y]),
+  assert(f([2,1],[x,y]) = [y,x]),
+  assert(f([3,2,1],[x,y,10]) = [10,y,x]),
+  true)$
+
+
 /* ***************
    * Power means *
    ***************
