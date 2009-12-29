@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/T
 */
 
 okltest_canonical_tpd(canonical_tpd);
+okltest_uniform_tpd(uniform_tpd);
 
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *

@@ -81,7 +81,7 @@ canonical_tpd(T) := if emptyp(T) then [[[]],1] else
 
 /* Simpler, equip unlabelled tree T with the uniform tpd at each node: */
 uniform_tpd(T) := block([l : length(T)],
-  cons(makelist(1/l,i,1,l), makelist(uniform_tpd(T[i]),i,1,l)))$
+  cons(create_list(1/l,i,1,l), map(uniform_tpd,T)))$
 
 
 /* **************************************************
