@@ -36,6 +36,9 @@ okltest_uniform_tpd(uniform_tpd);
 
 okltest_tbtp(tbtp);
 
+okltest_min_sum_tbt(min_sum_tbt);
+okltest_max_sum_tbt(max_sum_tbt);
+
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *
    **********************************************************

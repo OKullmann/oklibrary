@@ -68,6 +68,20 @@ okltest_tbtp(f) := (
   assert(f([[0,0], [[0,0], [[]], [[]]], [[0],[]]]) = false),
   true)$
 
+okltest_min_sum_tbt(f) := block([x,y],
+  assert(f([[]]) = [0]),
+  assert(f([[1,2], [[]], [[]]]) = [1, [0], [0]]),
+  assert(f([[x],[[y],[[]]]]) = [x+y,[y,[0]]]),
+  assert(f([[1,2], [[3,4], [[]], [[]]], [[]]]) = [2, [3,[0],[0]], [0]]),
+  true)$
+
+okltest_max_sum_tbt(f) := (
+  assert(f([[]]) = [0]),
+  assert(f([[1,2], [[]], [[]]]) = [2, [0], [0]]),
+  assert(f([[x],[[y],[[]]]]) = [x+y,[y,[0]]]),
+  assert(f([[1,2], [[3,4], [[]], [[]]], [[]]]) = [5, [4,[0],[0]], [0]]),
+  true)$
+
 
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *

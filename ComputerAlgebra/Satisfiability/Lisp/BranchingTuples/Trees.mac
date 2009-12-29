@@ -102,17 +102,17 @@ tbtp(T) := if not listp(T) then false else block([l : length(T)],
    every_s(tbtp, rest(T)))$
 
 
-/* Transformations of a tree with distances to a tree with measure: */
+/* Transformations of a tree with distances to a tree with measure */
 
-/* the min-sum of a tree with branching tuples */
-min_sum_tbt(T) := block([w : length(T)], if w = 1 then [0] else
- block([L : makelist(min_sum_tbt(T[i]),i,2,w)],
-  return(cons(lmin(makelist(T[1][i]+L[i][1],i,1,w-1)),L))))$
+/* The min-sum of a tree with branching tuples: */
+min_sum_tbt(T) := if length(T) = 1 then [0] else
+ block([L : map(min_sum_tbt,rest(T))],
+  return(cons(lmin(T[1] + map(first,L)), L)))$
 
-/* the max-sum of a tree with branching tuples */
-max_sum_tbt(T) := block([w : length(T)], if w = 1 then [0] else
- block([L : makelist(max_sum_tbt(T[i]),i,2,w)],
-  return(cons(lmax(makelist(T[1][i]+L[i][1],i,1,w-1)),L))))$
+/* The max-sum of a tree with branching tuples: */
+max_sum_tbt(T) := if length(T) = 1 then [0] else
+ block([L : map(max_sum_tbt,rest(T))],
+  return(cons(lmax(T[1] + map(first,L)), L)))$
 
 
 /* Transformation of a tree with measure to a tree with distance: */
