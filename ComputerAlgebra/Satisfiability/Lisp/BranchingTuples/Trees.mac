@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,10 +19,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac"
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* **********************************************************
@@ -71,15 +72,14 @@ ipd_rp(T) := block([P : tpd_flatten(T), h : sm2hm({})],
    *******************************************
 */
 
-/* For an unlabelled tree T, returns the tree equipped with the canonical
-   tpd together with the number of leaves */
-canonical_tpd(T) := block([w : length(T)],
- if w = 0 then [ [[]], 1 ] else
- block([S : makelist(canonical_tpd(T[i]), i, 1, w), s],
-  s : sum(S[i][2],i,1,w),
-  return([ cons(makelist(S[i][2]/s,i,1,w), makelist(S[i][1],i,1,w)), s ])))$
+/* For an unlabelled tree T, returns (as a pair) the tree equipped with the 
+   canonical tpd together with the number of leaves: */
+canonical_tpd(T) := if emptyp(T) then [[[]],1] else
+ block([S : map(canonical_tpd,T), s],
+  s : sum_l(map(second,S)),
+  return([cons(map(second,S)/s, map(first,S)), s]))$
 
-/* Simpler, equip unlabelled tree T with the uniform tpd at each node */
+/* Simpler, equip unlabelled tree T with the uniform tpd at each node: */
 uniform_tpd(T) := block([l : length(T)],
   cons(makelist(1/l,i,1,l), makelist(uniform_tpd(T[i]),i,1,l)))$
 
