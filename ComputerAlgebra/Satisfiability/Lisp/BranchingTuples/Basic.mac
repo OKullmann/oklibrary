@@ -75,18 +75,24 @@ bth_saturated_greedy(t,s) := block([m : bt_max(t), ts : sort(t)],
   ),
   return(ts))$
 
-/* The integer sequence corresponding to an integer branching tuple,
-   that is, the first n elements: */
+/* The integer sequence corresponding to an integer branching tuple t,
+   that is, the first n elements.
+   Prerequisites: t is not empty, and also t <> [0].
+ */
 int_seq_bt(t) := block([m : bt_max(t), l : length(t)], 
   return(buildq([m,l,t],
-   lambda([n], block([S : makelist(1,i,1,min(n,m))],
+   lambda([n], block([S : create_list(1,i,1,min(n,m))],
      for i : m thru n-1 do
        S : endcons(sum(S[i-t[j]+1],j,1,l),S),
      return(S)))
    )))$
-/* For example with fibi : int_seq_bt([1,2]) we get
+/* The sequence is f(0),f(1),f(2),...,f(n-1), where
+   f(n) := f(n-first(t)) + ... + f(m-last(t))
+   if this expression is defined (i.e., iff n >= max(t)),
+   while otherwise f(n) := 1.
+   For example with fibi : int_seq_bt([1,2]) we get
    fibi(7) = [1, 1, 2, 3, 5, 8, 13]
-   (note that fib is the predefined Fibonacci-function).
+   (note here that fib is the predefined Fibonacci-function).
 */
 
 
