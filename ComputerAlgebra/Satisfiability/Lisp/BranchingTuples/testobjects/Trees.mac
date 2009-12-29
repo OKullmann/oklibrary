@@ -52,6 +52,9 @@ okltest_tauprob_symbolical_tbt(tauprob_symbolical_tbt);
 
 okltest_ipd_rp(ipd_rp);
 
+okltest_maxtau_tbt(maxtau_tbt);
+okltest_mintau_tbt(mintau_tbt);
+
 /*!
 \endhtmlonly
 */

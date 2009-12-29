@@ -133,12 +133,13 @@ tauprob_symbolical_tbt(T) := if length(T) = 1 then [[]] else
  cons(tauprob_symbolical(T[1]), map(tauprob_symbolical_tbt, rest(T)))$
 
 
-/* The maximal tau-value for a tree with distances */
-maxtau_tbt(T) := block([w : length(T)], if w = 1 then 1 else
- max(tau(T[1]), lmax(makelist(maxtau_tbt(T[i]),i,2,w))))$
-/* The minimal tau-value for a tree with distances */
-mintau_tbt(T) := block([w : length(T)], if w = inf then 1 else
- min(tau(T[1]), lmin(makelist(mintau_tbt(T[i]),i,2,w))))$
+/* The maximal tau-value for a tree with distances: */
+maxtau_tbt(T) := if length(T) = 1 then 1 else
+ max(tau(T[1]), lmax(map(maxtau_tbt,rest(T))))$
+/* The minimal tau-value for a tree with distances: */
+mintau_tbt(T) := if length(T) = 1 then inf else
+ min(tau(T[1]), lmin(map(mintau_tbt, rest(T))))$
+
 
 /* The lower bound on nlvs for a tree with distances given by
    the tau-function */
