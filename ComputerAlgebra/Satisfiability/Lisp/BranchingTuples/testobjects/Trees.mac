@@ -39,6 +39,8 @@ okltest_tbtp(tbtp);
 okltest_min_sum_tbt(min_sum_tbt);
 okltest_max_sum_tbt(max_sum_tbt);
 
+okltest_delta_tm(delta_tm);
+
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *
    **********************************************************

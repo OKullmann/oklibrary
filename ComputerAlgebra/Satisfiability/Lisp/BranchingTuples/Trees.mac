@@ -117,9 +117,9 @@ max_sum_tbt(T) := if length(T) = 1 then [0] else
 
 /* Transformation of a tree with measure to a tree with distance: */
 
-/* the differences for a tree with a measure */
-delta_tm(T) := block([w : length(T)], if w = 1 then [[]] else
- return(cons(makelist(T[1]-T[i][1],i,2,w), makelist(delta_tm(T[i]),i,2,w))))$
+/* The differences for a tree with a measure: */
+delta_tm(T) := if length(T) = 1 then [[]] else
+ return(cons(T[1]-map(first,rest(T)), map(delta_tm,rest(T))))$
 
 
 /* Transformation of a tree with distances to a tree with tpd: */

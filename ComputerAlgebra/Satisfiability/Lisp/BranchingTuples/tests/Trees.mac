@@ -82,6 +82,16 @@ okltest_max_sum_tbt(f) := (
   assert(f([[1,2], [[3,4], [[]], [[]]], [[]]]) = [5, [4,[0],[0]], [0]]),
   true)$
 
+okltest_delta_tm(f) := block([x,y,z],
+  assert(f([0]) = [[]]),
+  assert(f([0,[0]]) = [[0],[[]]]),
+  assert(f([x,[y]]) = [[x-y],[[]]]),
+  assert(f([x,[y,[z]]]) = [[x-y],[[y-z],[[]]]]),
+  assert(f([x,[y],[z]])  = [[x-y,x-z],[[]],[[]]]),
+  assert(f([x,[y],[z,[1],[2]]])  = [[x-y,x-z],[[]],[[z-1,z-2],[[]],[[]]]]),
+  assert(f([x,[y],[z],[5]])  = [[x-y,x-z,x-5],[[]],[[]],[[]]]),
+  true)$
+
 
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *
