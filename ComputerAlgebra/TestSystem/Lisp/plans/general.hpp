@@ -152,7 +152,8 @@ make: *** [run_maxima] Aborted
        session is started. </li>
        <li> So we want just batch-processing without output if no error occurs.
        </li>
-       <li> Seems difficult; perhaps the error-output is stored in a file? </li>
+       <li> Seems difficult; perhaps the error-output is stored in a file?
+       </li>
        <li> This would then be the error-output and the testobject-term. </li>
        <li> It seems not possible to redirect the output of the
        backtrace-function? </li>
@@ -162,9 +163,9 @@ make: *** [run_maxima] Aborted
        error-information in case of an error. </li>
        <li> We issue then an error inside the batch-file, and so the make-process
        notices the error and halts. </li>
-       <li> If an error occurred, perhaps with "trace(all)" everything is traced,
-       and the error term is re-evaluated? "trace" seems to be more informative
-       than "backtrace". </li>
+       <li> If an error occurred, perhaps with "trace(all)" everything is
+       traced, and the error term is re-evaluated? "trace" seems to be more
+       informative than "backtrace". </li>
       </ul>
      </li>
      <li> DONE (yes, at least for now it's sufficient).
@@ -352,6 +353,14 @@ expected_value$
      Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Handling floating and bigfloating numbers
+  <ul>
+   <li> It seems that assert_float_equal and assert_bfloat_equal work fine,
+   however especially for assert_bfloat_equal this needs to be properly
+   tested. </li>
   </ul>
 
 */
