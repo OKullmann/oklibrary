@@ -109,8 +109,8 @@ smusat_horn_stdfcs(k) := fcl2fcs(smusat_horn_stdfcl(k))$
 nvar_smusat_horn(k) := k$
 ncl_smusat_horn(k) := k+1$
 ncl_list_smusat_horn(k) := if k=0 then [[0,1]] else
-endcons([k,2], create_list([i,1],i,1,k-1))$
-nlitocc_smusat_horn(k) := k*(k+1)/2 + k$
+ endcons([k,2], create_list([i,1],i,1,k-1))$
+ nlitocc_smusat_horn(k) := k*(k+1)/2 + k$
 
 
 /* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number

@@ -31,7 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
    for exactly (up to isomorphism) the uniform elements of SMU(1) 
    (with 2^k clauses).
- - smusat_horn_cs(k) (also there)
+ - smusat_horn_cs(k) and smusat_horn_stdfcs(k) (also there)
    for exactly (up to isomorphism) the Horn elements of SMU(1) (with k
    variables).
 */
