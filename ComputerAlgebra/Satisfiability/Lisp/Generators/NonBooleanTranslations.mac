@@ -112,63 +112,6 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
 
 gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
 
-gennest_nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
- [GG[1], append(GG[2],
-    create_list({-nbv_var(v,first(p)), -nbv_var(v,second(p))},
-                v,FF[1], p,powerset_l(FF[3](v),2)))])$
-nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
-nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
-
-
-/* **************************************
-   * The generalised nested translation *
-   **************************************
-*/
-
-/* The same variable nbv(v,e) are used, but now using nbv(v,i),
-   where i is an index. */
-
-/* Consider a non-boolean formal clause-set FF = [V,F,D]; so
-   D is the function-domain D, and for a variable v the set D(v) is the
-   set of values of v. We assume that V does not contain variables of the
-   form nbv(x,y). We consider FF as CNF (so we use "SAT-terminology").
-
-   We assume further that T(v) is an (arbitrary) labelled ordered boolean 
-   unsatisfiable clause-set where the label set contains D(v),
-   while all variables are of the form nbv(v,i) for in prinicpal arbitrary i.
-   The clauses of T(v) associated to values e in D(v) are denoted by
-   T(v,e), while TR(v) := T(v) - {T(v,e) : e in D(v)} is the (possibly
-   empty) clause-set containing the remaining clauses.
-
-   We assume that all clauses in T(v) - TR(v) are necessary, that is,
-   for every e in D(v) there is a total assignment phi for the variables
-   in T(v) such that all clauses except of T(v,e) are satisfied.
-
-   The standard nested translation uses 1 <= i < |D(v)| (while for the
-   above standard translation we have 1 <= i <= D(v)).
-
-   The translation now replaces every clause C in F by the clause which
-   is the union of the clauses T(v,e) for the literals [v,e] in C, and
-   adds furthermore all clauses in T'(v) for all v in V.
-
-   Let D(v) = {e_1, ..., e_k}.
-
-   We obtain the above weak standard translation by letting
-   T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
-          { {nbv(v,e_1), ..., nbv(v,e_k)} }
-   where T(v,e_i) = {-nbv(v,e_i)}.
-   For the strong standard translation we just add the binary clauses
-   {-nbv(v,e_i), -nbv(v,e_j)} for i <> j.
-
-   The standard nested translation uses
-   T(v) = smusat_horn_stdfcl(k-1)
-   where T(v,e_i) uses some permutation of the clause-list (which is of
-   length k), and where the variables 1, ..., k-1 are replaced by nbv(v,i).
-
-*/
-
-gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
-
 /* T(v,e)
    TR(v) a clause-list
    TV(v) a list of variables
