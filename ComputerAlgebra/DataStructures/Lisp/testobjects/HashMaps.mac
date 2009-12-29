@@ -36,6 +36,7 @@ okltest_evaluate_set_map_d(evaluate_set_map_d);
 
 okltest_l2sm(l2sm);
 okltest_ll2sm(ll2sm);
+okltest_l2osm_inv(l2osm_inv);
 
 okltest_allbij_sm(allbij_sm);
 okltest_allperm_sm(allperm_sm);

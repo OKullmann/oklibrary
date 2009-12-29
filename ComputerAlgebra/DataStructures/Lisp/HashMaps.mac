@@ -74,6 +74,11 @@ l2osm(L) := map("[",create_list(i,i,1,length(L)),L)$
 ll2sm(LA,L) := setify(map("[",LA,L))$
 ll2osm(LA,L) := map("[",LA,L)$
 
+/* Now taking the values of the list as arguments, mapped to their
+   indices:
+*/
+l2osm_inv(L) := map("[", L, create_list(i,i,1,length(L)))$
+
 /* The set of all bijections from set A to set B as set-maps: */
 allbij_sm(A,B) := if length(A) # length(B) then {} else
  block([LA : listify(A)],
