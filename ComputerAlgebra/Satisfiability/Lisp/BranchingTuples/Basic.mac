@@ -244,19 +244,21 @@ Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
 gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2])$
 
 
-/* ******************************************
-   *   The induced probability distribution *
-   ******************************************
+/* ****************************************
+   * The induced probability distribution *
+   ****************************************
 */
 
-/* The probability distribution derived from a branching tuple: */
-tauprob(t) := block([ts : t / lmin(t)], tau(ts)^(-ts))$
+/* The probability distribution derived from a non-empty branching tuple: */
+tauprob(t) := if length(t)=1 then [1] else
+ block([ts : t / lmin(t)], tau(ts)^(-ts))$
 tauprobn([t]) := tauprob(t)$
 tauprob2(x,y) := tauprobn(x,y)$
 tauprob3(x,y,z) := tauprobn(x,y,z)$
 
 /* Higher precision: */
-tauprob_hp(t, decimal_digits) := block([fpprec : fpprec], 
+tauprob_hp(t, decimal_digits) := if length(t)=1 then [1] else
+ block([fpprec : fpprec], 
   fpprec : decimal_digits, t : bfloat(t),
   block([ts : t / lmin(t)], tau_hp(ts,decimal_digits)^(-ts)))$
 

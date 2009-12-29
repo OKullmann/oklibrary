@@ -58,16 +58,57 @@ kill(f)$
    ************************
 */
 
-/* *************************************
-   *   Derivatives of the tau-function *
-   *************************************
+/* ************************************
+   * Derivatives of the tau-function *
+   ************************************
 */
 
 
-/* ******************************************
-   *   The induced probability distribution *
-   ******************************************
+/* ****************************************
+   * The induced probability distribution *
+   ****************************************
 */
+
+okltest_tauprob(f) := block([x,res].
+  assert(f([0]) = [1]),
+  assert(f([x]) = [1]),
+  res : f([1,2]),
+  assert_float_equal(res[1], 0.6180339887498948),
+  assert_float_equal(res[2], 0.3819660112501052),
+  assert(f([1,1]) = [0.5, 0.5]),
+  assert(f([2,2]) = [0.5, 0.5]),
+  assert(f([3,3]) = [0.5, 0.5]),
+  for l : 3 thru 4 do
+   for v : 1 thru 3 do block([t : create_list(v,i,1,l)],
+    res : f(t),
+    for r in res do
+      assert_float_equal(r, 1/l)
+  ),
+  true)$
+
+okltest_tauprob_hp(f) := block([x,res,d:30].
+  assert(f([0],d) = [1]),
+  assert(f([x],d) = [1]),
+  res : f([1,2],d),
+  assert_bfloat_equal(res[1], 6.18033988749894848204586834366b-1, d),
+  assert_bfloat_equal(res[2], 3.81966011250105151795413165634b-1, d),
+  for l : 2 thru 4 do
+   for v : 1 thru 3 do block([t : create_list(v,i,1,l)],
+    res : f(t,d),
+    for r in res do
+      assert_bfloat_equal(r, 1/l, d)
+  ),
+  true)$
+
+okltest_tauprob_symbolical(f) := block([x],
+  assert(f([0]) = [1]),
+  assert(f([x]) = [1]),
+  for l : 2 thru 4 do
+   for v : 1 thru 3 do 
+    assert(f(create_list(v,i,1,l)) = create_list(1/l,i,1,l)),
+  assert(f([1,2]) = [2/(sqrt(5)+1),4/(sqrt(5)+1)^2]),
+  true)$
+
 
 /* ****************
    * The tau-mean *

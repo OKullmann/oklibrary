@@ -68,6 +68,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/B
    ******************************************
 */
 
+okltest_tauprob(tauprob);
+okltest_tauprob_hp(tauprob_hp);
+okltest_tauprob_symbolical(tauprob_symbolical);
 
 /* ****************
    * The tau-mean *
