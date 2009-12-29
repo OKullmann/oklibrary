@@ -24,6 +24,11 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Byte
 
 kill(f)$
 
+/* ******************
+   * Representation *
+   ******************
+*/
+
 okltest_rijn_polynomial(f) := block([x, GF_IRREDUCIBILITY_CHECK : true],
   assert(hipow(f,x) = 8),
   assert(gf_set(2,8,f) = true),
@@ -57,6 +62,12 @@ okltest_polybin2nat(f) := block([x],
   for e : 0 thru 5 do
     assert(f(x^e) = 2^e),
   true)$
+
+
+/* **************
+   * Operations *
+   **************
+*/
 
 okltest_rijn_add(f) := block([x],
   assert(f(0,0) = 0),

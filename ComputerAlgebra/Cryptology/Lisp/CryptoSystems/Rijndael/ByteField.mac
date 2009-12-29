@@ -22,6 +22,12 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteFie
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
+
+/* ******************
+   * Representation *
+   ******************
+*/
+
 /*
    The irreducible polynomial over ZZ_2 used as the modulus in Rijndael to
    define the field of order 2^8:
@@ -51,6 +57,12 @@ polybin2nat(p) := block([h : hipow(p,'x)],
  polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
 /* Remark: Note that in the context of the byte-field these operations
    only make sense for 0 <= n <= 255 and standardised polynomials.
+*/
+
+
+/* **************
+   * Operations *
+   **************
 */
 
 /* Addition and multiplication in the byte-field is just addition

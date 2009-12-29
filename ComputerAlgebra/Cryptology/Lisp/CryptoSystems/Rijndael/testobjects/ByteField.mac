@@ -21,12 +21,22 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobj
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/ByteField.mac")$
 
+/* ******************
+   * Representation *
+   ******************
+*/
+
 okltest_rijn_polynomial(rijn_polynomial);
 
 okltest_rijn_stand(rijn_stand);
 
 okltest_nat2polybin(nat2polybin);
 okltest_polybin2nat(polybin2nat);
+
+/* **************
+   * Operations *
+   **************
+*/
 
 okltest_rijn_add(rijn_add);
 okltest_rijn_mul(rijn_mul);
