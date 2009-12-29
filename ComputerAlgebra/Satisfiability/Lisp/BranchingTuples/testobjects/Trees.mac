@@ -41,6 +41,10 @@ okltest_max_sum_tbt(max_sum_tbt);
 
 okltest_delta_tm(delta_tm);
 
+okltest_tauprob_tbt(tauprob_tbt);
+okltest_tauprob_hp_tbt(tauprob_hp_tbt);
+okltest_tauprob_symbolical_tbt(tauprob_symbolical_tbt);
+
 /* **********************************************************
    * Rooted trees labelled with probability distributions   *
    **********************************************************

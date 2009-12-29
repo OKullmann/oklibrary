@@ -119,19 +119,18 @@ max_sum_tbt(T) := if length(T) = 1 then [0] else
 
 /* The differences for a tree with a measure: */
 delta_tm(T) := if length(T) = 1 then [[]] else
- return(cons(T[1]-map(first,rest(T)), map(delta_tm,rest(T))))$
+ cons(T[1]-map(first,rest(T)), map(delta_tm,rest(T)))$
 
 
 /* Transformation of a tree with distances to a tree with tpd: */
-tauprob_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
- return(cons(tauprob(T[1]), makelist(tauprob_tbt(T[i]),i,2,w))))$
+tauprob_tbt(T) := if length(T) = 1 then [[]] else
+ cons(tauprob(T[1]), map(tauprob_tbt, rest(T)))$
 /* The same, but with higher precision: */
-tauprob_hp_tbt(T,d) := block([w : length(T)], if w = 1 then [[]] else
- return(cons(tauprob_hp(T[1],d), makelist(tauprob_hp_tbt(T[i],d),i,2,w))))$
+tauprob_hp_tbt(T,d) := if length(T) = 1 then [[]] else
+ cons(tauprob_hp(T[1],d), map(lambda([t], tauprob_hp_tbt(t,d)), rest(T)))$
 /* The same, but using symbolical calculations (if possible!): */
-tauprob_symbolical_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
- return(cons(tauprob_symbolical(T[1]), 
-             makelist(tauprob_symbolical_tbt(T[i]),i,2,w))))$
+tauprob_symbolical_tbt(T) := if length(T) = 1 then [[]] else
+ cons(tauprob_symbolical(T[1]), map(tauprob_symbolical_tbt, rest(T)))$
 
 
 /* The maximal tau-value for a tree with distances */

@@ -87,9 +87,43 @@ okltest_delta_tm(f) := block([x,y,z],
   assert(f([0,[0]]) = [[0],[[]]]),
   assert(f([x,[y]]) = [[x-y],[[]]]),
   assert(f([x,[y,[z]]]) = [[x-y],[[y-z],[[]]]]),
-  assert(f([x,[y],[z]])  = [[x-y,x-z],[[]],[[]]]),
-  assert(f([x,[y],[z,[1],[2]]])  = [[x-y,x-z],[[]],[[z-1,z-2],[[]],[[]]]]),
-  assert(f([x,[y],[z],[5]])  = [[x-y,x-z,x-5],[[]],[[]],[[]]]),
+  assert(f([x,[y],[z]]) = [[x-y,x-z],[[]],[[]]]),
+  assert(f([x,[y],[z,[1],[2]]]) = [[x-y,x-z],[[]],[[z-1,z-2],[[]],[[]]]]),
+  assert(f([x,[y],[z],[5]]) = [[x-y,x-z,x-5],[[]],[[]],[[]]]),
+  true)$
+
+okltest_tauprob_tbt(f) := block([x,res],
+  assert(f([[]]) = [[]]),
+  assert(f([[0],[[]]]) = [[1],[[]]]),
+  assert(f([[x],[[]]]) = [[1],[[]]]),
+  for l : 2 thru 4 do
+   for v : 1 thru 3 do (
+    res : f(cons(create_list(v,i,1,l), create_list([[]],i,1,l))),
+    for r in res[1] do
+     assert_float_equal(r,1/l)
+  ),
+  true)$
+
+okltest_tauprob_hp_tbt(f) := block([x,res,d:30],
+  assert(f([[]],d) = [[]]),
+  assert(f([[0],[[]]],d) = [[1],[[]]]),
+  assert(f([[x],[[]]],d) = [[1],[[]]]),
+  for l : 2 thru 4 do
+   for v : 1 thru 3 do (
+    res : f(cons(create_list(v,i,1,l), create_list([[]],i,1,l)), d),
+    for r in res[1] do
+     assert_bfloat_equal(r,1/l,d)
+  ),
+  true)$
+
+okltest_tauprob_symbolical_tbt(f) := block([x],
+  assert(f([[]]) = [[]]),
+  assert(f([[0],[[]]]) = [[1],[[]]]),
+  assert(f([[x],[[]]]) = [[1],[[]]]),
+  for l : 2 thru 4 do
+   for v : 1 thru 3 do
+    assert(f(cons(create_list(v,i,1,l), create_list([[]],i,1,l))) = cons(create_list(1/l,i,1,l), create_list([[]],i,1,l))),
+  assert(f([[1,1], [[2,2],[[]],[[]]], [[]]]) = [[1/2,1/2], [[1/2,1/2],[[]],[[]]], [[]]]),
   true)$
 
 
