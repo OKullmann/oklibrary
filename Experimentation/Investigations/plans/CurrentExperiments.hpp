@@ -118,6 +118,9 @@ License, or any later version. */
 
   <ul>
    <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp </li>
+   <li> (Postponed for now until the full Ramsey-theory-project starts)
+   RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_3-3-3-k.hpp
+   </li>
   </ul>
 
 
