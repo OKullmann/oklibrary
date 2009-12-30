@@ -159,16 +159,69 @@ License, or any later version. */
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D16 -F GreenTao_3-2-4-4_553.cnf
      \endverbatim
+     Looks possible.
+     </li>
+     <li> With preprocessing and without symmetry breaking:
+     \verbatim
+> OKsolver_2002-m2pp -M -D16 -F GreenTao_3-2-4-4_553.cnf
+     \endverbatm
+     Didn't complete a monitoring node after 3 m and 150000 nodes (now no
+     autarkies were found, different from the run without preprocessing,
+     where there are many). </li>
      </li>
     </ol>
    </li>
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) > 
+  \todo greentao_4(2,2,4,4) > 575
   <ul>
    <li> Let's start with n = 570; should be satisfiable, and not too hard.
    </li>
+   <li> And let's use novelty+ as the main Ubcsat-solver. </li>
+   <li> n=560:
+    <ol>
+     <li> cutoff=10^5: Only min=1 reached once in 100 runs. </li>
+     <li> cutoff=10^6: Finds one satisfying assignment in 100 runs
+     (seed=1415197577, osteps=723855). </li>
+    </ol>
+   </li>
+   <li> n=565: cutoff=2*10^6 found a solution (seed=1961628490,
+   osteps=1873226). </li>
+   <li> n=570:
+    <ol>
+     <li> cutoff=10^5: Only min=2 reached in 100 runs. </li>
+     <li> cutoff=10^6:
+     \verbatim
+ 1  2  3  4
+ 7 62 28  3
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6: One solution found:
+     \verbatim
+ 0  1  2  3
+ 1 14 72 13
+100
+> E[E$min==0,]
+   sat min  osteps  msteps       seed
+65   1   0 1403508 1403508 2325307179
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=575, cutoff=4*10^6 found one solution in 100 runs:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_575.cnf_OUT")
+ 0  1  2  3
+ 1 24 70  5
+100
+> E[E$min==0,]
+   sat min  osteps  msteps     seed
+83   1   0 3483852 3483852 16671608
+   \endverbatim
+   </li>
+   <li> n=580, cutoff=8*10^6 </li>
   </ul>
 
 */
