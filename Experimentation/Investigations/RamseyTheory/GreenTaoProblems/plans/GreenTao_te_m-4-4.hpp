@@ -159,7 +159,9 @@ License, or any later version. */
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D16 -F GreenTao_3-2-4-4_553.cnf
      \endverbatim
-     Looks possible.
+     Looks possible. (Running it on a 64-bit machine ("cspasiphae"), it seems
+     much slower than on the old 32-bit laptp: It needs roughly 40s for
+     10000 nodes (and on cs-wsok it is more than 80s).)
      </li>
      <li> With preprocessing and without symmetry breaking:
      \verbatim
@@ -170,6 +172,8 @@ License, or any later version. */
      where there are many). </li>
      </li>
     </ol>
+   </li>
+   <li> minisat2 for n=553:
    </li>
   </ul>
 
