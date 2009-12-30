@@ -56,7 +56,8 @@ vanderwaerden_nbfclud(L,n) :=
 vanderwaerden_nbfcsud(L,n) := nbfclud2nbfcsud(vanderwaerden_nbfclud(L,n))$
 
 
-/* Translating the general forms into boolean clause-sets: */
+/* Translating the general forms into boolean clause-sets via the
+   (strong) standard translation: */
 vanderwaerden_aloamo_fcl(L,n) :=
   nbfclud2fcl_aloamo(vanderwaerden_nbfclud(L,n))$
 vanderwaerden_aloamo_fcs(L,n) := fcl2fcs(vanderwaerden_aloamo_fcl(L,n))$
@@ -84,6 +85,36 @@ invstandardise_vanderwaerden_aloamo(L,n) := block([m : length(L)],
     nbv_var(d[1], d[2])))))$
 
 
+/* Translating the general forms into boolean clause-sets via the
+   standard nested translation:
+*/
+vanderwaerden_standnest_fcl(L,n) :=
+nbfclud2fcl_standnest(vanderwaerden_nbfclud(L,n))$
+vanderwaerden_standnext_fcs(L,n) := fcl2fcs(vanderwaerden_standnext_fcl(L,n))$
+
+/* Standardising these boolean clause-sets: */
+vanderwaerden_standnest_stdfcl(L,n) := block([m : length(L)],
+  [block([s : standardise_vanderwaerden_standnest(L,n)],
+     s(vanderwaerden_standnest_fcl(L,n))),
+   block([invs : invstandardise_vanderwaerden_standnest(L,n)],
+     create_list(invs(i), i,1,n*(m-1)))])$
+/* We have vanderwaerden_standnest_stdfcl(L,n) =
+   standardise_fcl(vanderwaerden_standnest_fcl(L,n)).
+*/
+vanderwaerden_standnest_stdfcs(L,n) := block(
+ [FF : vanderwaerden_standnest_stdfcl(L,n)],
+  [fcl2fcs(FF[1]), FF[2]])$
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables:
+*/
+standardise_vanderwaerden_standnest(L,n) := block([m : length(L)],
+  buildq([m], lambda([t], ev(t, nbv(v,i):=(v-1)*(m-1)+i, nbv))))$
+invstandardise_vanderwaerden_standnest(L,n) := block([m : length(L)],
+  buildq([m], lambda([i], block([d : divide(i-1,m-1)+1],
+    nbv_var(d[1], d[2])))))$
+
+
 /* Statistics functions */
 
 nvar_vanderwaerden2(k,n) := n$
@@ -105,6 +136,7 @@ nhyp_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
   if l=0 then if n=0 then 0 else 1 else
   nhyp_vanderwaerden_cl(L,n) + n + n*binomial(l,2))$
 /* These two functions are also valid for the standardised forms. */
+
 
 /* Output functions */
 
@@ -138,6 +170,17 @@ output_vanderwaerden(L,n,filename) := block(
     FF[2]))$
 output_vanderwaerden_stdname(L,n) := output_vanderwaerden(L,n,
   sconcat("VanDerWaerden_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+output_vanderwaerden_standnest(L,n,filename) := block(
+ [FF : vanderwaerden_standnest_stdfcl(L,n)],
+  output_fcl_v(
+    sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements.
+c Using the standard nested translation."), 
+    FF[1],
+    filename,
+    FF[2]))$
+output_vanderwaerden_standnest_stdname(L,n) := output_vanderwaerden_standnest(L,n,
+  sconcat("VanDerWaerden_N_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
 /* *****************************************
