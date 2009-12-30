@@ -153,9 +153,6 @@ standnest_TV(D) := buildq([D],
 
 nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_TR(FF[3]), standnest_TV(FF[3]))$
 
-/* Now directly standardising the variables: */
-
-
 
 /*!
 \endhtmlonly
