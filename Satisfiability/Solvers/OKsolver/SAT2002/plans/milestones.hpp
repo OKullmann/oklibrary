@@ -14,7 +14,8 @@ License, or any later version. */
   \par Version 0.9.7
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - False counting of initial unit-clause eliminations
     - Improve the Dimacs-output
 
@@ -22,21 +23,24 @@ License, or any later version. */
   \par Version 0.9.8
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Output to files
 
 
   \par Version 0.9.9
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - OUTPUTTREEDATAXML
 
 
   \par Version 0.9.10
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Documentation problems
     - Language standards
 
@@ -44,21 +48,24 @@ License, or any later version. */
   \par Version 0.9.11
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Buildsystem
 
 
   \par Version 0.9.12
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Complete the help facilities of the OKsolver
 
 
   \par Version 0.9.13
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Write docus-pages
 
 
@@ -72,7 +79,8 @@ License, or any later version. */
   \par Version 1.0.1
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Add doxygen-documentation
     - Eliminate old history in code
 
@@ -80,35 +88,40 @@ License, or any later version. */
   \par Version 1.0.2
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Create systematic application tests
   
 
   \par Version 1.0.3
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Add asserts throughout
 
 
   \par Version 1.0.4
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Investigate unit-testing
 
 
   \par Version 1.0.5
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Correct computation of basic statistics
 
 
   \par Version 1.0.6
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Apply Valgrind
     - Apply code analysis tools (like Splint)
 
@@ -123,35 +136,40 @@ License, or any later version. */
   \par Version 1.2.1
 
    \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Improve statistics
 
 
   \par Version 1.2.2
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Declare variable as close to their first usage as possible
 
 
   \par Version 1.2.3
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Use const-qualification
 
 
   \par Version 1.2.4
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Use restrict-qualification
 
 
   \par Version 1.2.5
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Elimination of compile-time options
 
 
@@ -164,14 +182,24 @@ License, or any later version. */
   \par Version 1.3.1
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Output of clause-sets
 
 
   \par Version 1.3.2
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - Inefficiency on 64-bit platforms
+
+
+  \par Version 1.3.3
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Simple parallelisation
 
 
@@ -191,21 +219,24 @@ License, or any later version. */
   \par Version 1.5.1
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Extend statistics
 
 
   \par Version 1.5.2
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - More influence on heuristics
 
 
   \par Version 1.5.3
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Start planning on evaluating and optimising heuristics
 
 
@@ -219,7 +250,8 @@ License, or any later version. */
   \par Version 1.7
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Apply time-measurements
 
 
@@ -232,7 +264,8 @@ License, or any later version. */
   \par Version 1.8.1
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Optimising the code
 
 
@@ -257,14 +290,16 @@ License, or any later version. */
   \par Version 2.1
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Extension by cardinality constraints
 
 
   \par Version 2.2
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Improved Delta(n)-distance
     - Enable finding all solutions
 

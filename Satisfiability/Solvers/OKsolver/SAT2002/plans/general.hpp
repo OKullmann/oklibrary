@@ -468,6 +468,30 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Inefficiency on 64-bit platforms
+  <ul>
+   <li> It seems that the OKsolver runs by a factor of four(!) slower on
+   64-bit platforms (compared to 32-bit platforms). </li>
+   <li> See
+   Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-4-4.hpp
+   for an example. </li>
+   <li> First one needs precise measurements:
+    <ol>
+     <li> A collection of testcases is needed, including various cases
+     from Ramsey-theory, as above,and random clause-sets. </li>
+     <li> Are more cases needed? </li>
+     <li> Then measurements need to be taken on various machines. </li>
+    </ol>
+   </li>
+   <li> One would think that the main problem is that variables and literals
+   are now 64-bit words. </li>
+   <li> Perhaps the problem could be solved by fixing the main types to
+   32-bit types. </li>
+   <li> Some types, for examples for statistics, should be 64-bits: Perhaps
+   we should simply fix for all types their precision. </li>
+  </ul>
+
+
   \todo Simple parallelisation
   </ul>
    <li> As a simple means to achieve parallelisation, for a given depth
