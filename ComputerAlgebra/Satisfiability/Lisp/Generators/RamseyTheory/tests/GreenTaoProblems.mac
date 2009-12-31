@@ -110,6 +110,25 @@ okltest_greentaod_sb_nbfcsud(f) := (
   /* XXX */
   true)$
 
+
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
+
+
+/* ************************
+   * Statistics functions *
+   ************************
+*/
+
+
+/* ********************
+   * Output functions *
+   ********************
+*/
+
+
 /*!
 \endhtmlonly
 */

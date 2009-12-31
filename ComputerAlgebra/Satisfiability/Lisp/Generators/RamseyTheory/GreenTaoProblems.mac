@@ -96,7 +96,21 @@ greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
  [G[1], union(setify(create_list({[3,i]},i,2,m)), G[2]), G[3]])$
 
 
-/* Output in Dimacs format (together with statistics and variable meanings):
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
+
+
+/* ************************
+   * Statistics functions *
+   ************************
+*/
+
+
+/* ********************
+   * Output functions *
+   ********************
 */
 
 /* The 2-colour diagonal version: */

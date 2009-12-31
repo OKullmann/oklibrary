@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac
-  \brief %Generators for clause-sets related to Van der Waerden problems
+  \brief %Generators for clause-sets related to van der Waerden problems
 
 Use by
 
@@ -36,17 +36,20 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    {1,...,n} into two parts such that none of them contains an arithmetic 
-   progression of size k. */
-/* (We are using "trivially generalised partitionings here, where the
-    parts can be empty.) */
+   progression of size k.
+   (We are using "trivially generalised partitionings" here, where the
+    parts can be empty.)
+*/
 /* Prerequisites: k, n natural numbers >= 0. */
 vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_hg(k,n))$
 /* The general non-diagonal form (the above case has k=k1=k2). */
 /* Prerequisites: k1, k2, n natural numbers >= 0. */
 vanderwaerden2nd_fcs(k1,k2,n) := union_hg(comp_fcs(arithprog_hg(k1,n)),arithprog_hg(k2,n))$
 
-/* Now the general form, where L is a vdW-parameter-tuple. */
-/* Prerequisite: vanderwaerden_p(L) is true, n natural number >= 0. */
+/* Now the general form, where L is a vdW-parameter-tuple.
+   Prerequisite: vanderwaerden_p(L) is true, n natural number >= 0
+   (see ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac).
+*/
 vanderwaerden_nbfclud(L,n) :=
  if emptyp(L) then [create_list(i,i,1,n),[],[]] else
   gcol2sat_stdohg2stdnbfclud(
@@ -54,6 +57,11 @@ vanderwaerden_nbfclud(L,n) :=
    create_list(i,i,1,length(L)))$
 vanderwaerden_nbfcsud(L,n) := nbfclud2nbfcsud(vanderwaerden_nbfclud(L,n))$
 
+
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
 
 /* Translating the general forms into boolean clause-sets via the
    (strong) standard translation: */
@@ -114,7 +122,10 @@ invstandardise_vanderwaerden_standnest(L,n) := block([m : length(L)],
     nbv_var(d[1], d[2])))))$
 
 
-/* Statistics functions */
+/* ************************
+   * Statistics functions *
+   ************************
+*/
 
 nvar_vanderwaerden2(k,n) := n$
 nvar_vanderwaerden2nd(k1,k2,n) := n$
@@ -137,7 +148,10 @@ nhyp_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
 /* These two functions are also valid for the standardised forms. */
 
 
-/* Output functions */
+/* ********************
+   * Output functions *
+   ********************
+*/
 
 output_vanderwaerden2(k,n,filename) := 
   output_fcs_v(

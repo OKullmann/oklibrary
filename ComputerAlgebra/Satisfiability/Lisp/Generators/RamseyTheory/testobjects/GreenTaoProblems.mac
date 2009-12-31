@@ -34,6 +34,24 @@ okltest_greentao_sb_fcs(greentao_sb_fcs);
 okltest_greentaod_nbfcsud(greentaod_nbfcsud);
 okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
+
+
+/* ************************
+   * Statistics functions *
+   ************************
+*/
+
+
+/* ********************
+   * Output functions *
+   ********************
+*/
+
+
 /*!
 \endhtmlonly
 */
