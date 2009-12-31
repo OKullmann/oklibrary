@@ -133,18 +133,18 @@ nvar_vanderwaerden(L,n) := n$
 nvar_vanderwaerden_aloamo(L,n) := length(L)*n$
 /* nvar_vanderwaerden_aloamo is also valid for the standardised forms. */
 
-nhyp_vanderwaerden2_cs(k,n) := if k=0 then nhyp_arithprog_hg(0,n) 
+ncl_vanderwaerden2_cs(k,n) := if k=0 then nhyp_arithprog_hg(0,n) 
  else 2 * nhyp_arithprog_hg(k,n)$
-nhyp_vanderwaerden2nd_cs(k1,k2,n) := 
+ncl_vanderwaerden2nd_cs(k1,k2,n) := 
  if k1=0 and k2=0 then nhyp_arithprog_hg(0,n)
  else nhyp_arithprog_hg(k1,n) + nhyp_arithprog_hg(k2,n)$
-nhyp_vanderwaerden_cl(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
-nhyp_vanderwaerden_cs(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
-nhyp_vanderwaerden_aloamo_cl(L,n) :=
-  nhyp_vanderwaerden_cl(L,n) + n + n*binomial(length(L),2)$
-nhyp_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
+ncl_vanderwaerden_cl(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
+ncl_vanderwaerden_cs(L,n) := sum_l(create_list(nhyp_arithprog_hg(k,n),k,L))$
+ncl_vanderwaerden_aloamo_cl(L,n) :=
+  ncl_vanderwaerden_cl(L,n) + n + n*binomial(length(L),2)$
+ncl_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
   if l=0 then if n=0 then 0 else 1 else
-  nhyp_vanderwaerden_cl(L,n) + n + n*binomial(l,2))$
+  ncl_vanderwaerden_cl(L,n) + n + n*binomial(l,2))$
 /* These two functions are also valid for the standardised forms. */
 
 

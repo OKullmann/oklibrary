@@ -217,20 +217,20 @@ okltest_nvar_vanderwaerden_aloamo(f) := block([K,N],
   ),
   true)$
 
-okltest_nhyp_vanderwaerden2_cs(f) := (
+okltest_ncl_vanderwaerden2_cs(f) := (
   for k : 0 thru 3 do
     for n : 0 thru k+3 do
       assert(f(k,n) = length(vanderwaerden2_fcs(k,n)[2])),
   true)$
 
-okltest_nhyp_vanderwaerden2nd_cs(f) := (
+okltest_ncl_vanderwaerden2nd_cs(f) := (
   for k1 : 0 thru 3 do
     for k2 : 0 thru 3 do
     for n : 0 thru 5 do
       assert(f(k1,k2,n) = length(vanderwaerden2nd_fcs(k1,k2,n)[2])),
   true)$
 
-okltest_nhyp_vanderwaerden_cl(f) := block([K,N],
+okltest_ncl_vanderwaerden_cl(f) := block([K,N],
   if oklib_test_level = 0 then (K : 2, N : 3)
   else (K : 4, N : 5),
   for L in map(sort,all_transformations_l(setn(K))) do
@@ -239,7 +239,7 @@ okltest_nhyp_vanderwaerden_cl(f) := block([K,N],
   ),
   true)$
 
-okltest_nhyp_vanderwaerden_cs(f) := block([K,N],
+okltest_ncl_vanderwaerden_cs(f) := block([K,N],
   if oklib_test_level = 0 then (K : 2, N : 3)
   else (K : 4, N : 5),
   for L in map(sort,all_transformations_l(setn(K))) do
@@ -248,7 +248,7 @@ okltest_nhyp_vanderwaerden_cs(f) := block([K,N],
   ),
   true)$
 
-okltest_nhyp_vanderwaerden_aloamo_cl(f) := block([K,N],
+okltest_ncl_vanderwaerden_aloamo_cl(f) := block([K,N],
   if oklib_test_level = 0 then (K : 2, N : 3)
   else (K : 4, N : 5),
   for L in map(sort,all_transformations_l(setn(K))) do
@@ -258,7 +258,7 @@ okltest_nhyp_vanderwaerden_aloamo_cl(f) := block([K,N],
   ),
   true)$
 
-okltest_nhyp_vanderwaerden_aloamo_cs(f) := block([K,N],
+okltest_ncl_vanderwaerden_aloamo_cs(f) := block([K,N],
   if oklib_test_level = 0 then (K : 2, N : 3)
   else (K : 4, N : 5),
   for L in map(sort,all_transformations_l(setn(K))) do (

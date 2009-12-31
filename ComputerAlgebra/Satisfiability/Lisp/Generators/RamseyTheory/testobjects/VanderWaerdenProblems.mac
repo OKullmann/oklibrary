@@ -56,12 +56,12 @@ okltest_nvar_vanderwaerden2nd(nvar_vanderwaerden2nd);
 okltest_nvar_vanderwaerden(nvar_vanderwaerden);
 okltest_nvar_vanderwaerden_aloamo(nvar_vanderwaerden_aloamo);
 
-okltest_nhyp_vanderwaerden2_cs(nhyp_vanderwaerden2_cs);
-okltest_nhyp_vanderwaerden2nd_cs(nhyp_vanderwaerden2nd_cs);
-okltest_nhyp_vanderwaerden_cl(nhyp_vanderwaerden_cl);
-okltest_nhyp_vanderwaerden_cs(nhyp_vanderwaerden_cs);
-okltest_nhyp_vanderwaerden_aloamo_cl(nhyp_vanderwaerden_aloamo_cl);
-okltest_nhyp_vanderwaerden_aloamo_cs(nhyp_vanderwaerden_aloamo_cs);
+okltest_ncl_vanderwaerden2_cs(ncl_vanderwaerden2_cs);
+okltest_ncl_vanderwaerden2nd_cs(ncl_vanderwaerden2nd_cs);
+okltest_ncl_vanderwaerden_cl(ncl_vanderwaerden_cl);
+okltest_ncl_vanderwaerden_cs(ncl_vanderwaerden_cs);
+okltest_ncl_vanderwaerden_aloamo_cl(ncl_vanderwaerden_aloamo_cl);
+okltest_ncl_vanderwaerden_aloamo_cs(ncl_vanderwaerden_aloamo_cs);
 
 /* ********************
    * Output functions *

@@ -52,7 +52,8 @@ License, or any later version. */
    Satisfiability/Lisp/Generators/plans/general.hpp in general, we need
    statistics for all main measurements (and also for all others, if
    possible). </li>
-   <li> First the hypergraph measurements needs to be established; see
+   <li> DONE
+   First the hypergraph measurements needs to be established; see
    "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
   </ul>
 
