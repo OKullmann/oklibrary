@@ -1,0 +1,203 @@
+/* Oliver Kullmann, 30.12.2009 (Swansea) */
+/* Copyright 2009 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/GreenTaoProblems.mac
+  \brief %Generators for clause-sets related to Green-Tao problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/GreenTaoProblems.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* *****************************************
+   * Arithmetic progressions in the primes *
+   *****************************************
+*/
+
+/* Boolean formal clause-sets, whose solutions are the partitionings of 
+   the set of the first n prime numbers into two parts such that none of them 
+   contains an arithmetic progression of size k.
+   The variables are the first n prime numbers.
+*/
+greentao2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_primes_hg(k,n))$
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first block: */
+greentao2_sb_fcs(k,n) := block([G : greentao2_fcs(k,n)],
+ [G[1], adjoin({-3}, G[2])])$
+
+
+/* More generally, create boolean formal clause-sets encoding the 
+   partitionings of the first n prime numbers into two parts such that the
+   first part (value 0) does not contain an arithmetic progression of size k1,
+   whiel the second part (value 1) does not contain an arithmetic progression
+   of size k2 ("nd" for "non-diagonal"):
+*/
+greentao2nd_fcs(k1,k2,n) := block(
+ [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
+  [G1[1], union(G1[2], comp_cs(G2[2]))])$
+greentao2nd_fcl(k1,k2,n) := block(
+ [G1 : arithprog_primes_ohg(k1,n), G2 : arithprog_primes_ohg(k2,n)],
+  [G1[1], append(G1[2], comp_cs(G2[2]))])$
+
+/* Now the general form, where L is a vdW-parameter-tuple: */
+greentao_nbfcsud(L,n) := 
+ if emptyp(L) then [setify(primes_first(n)),{},{}] else
+ block([LG : [], old_k : 0, old_hg : []],
+  for i : 1 thru length(L) do block([k : L[i]],
+    if k > old_k then (
+      old_hg : arithprog_primes_ohg(k,n),
+      old_k : k
+    ),
+    LG : endcons(old_hg,LG)
+  ),
+  return(nbfclud2nbfcsud(
+    gcol2sat_stdohg2stdnbfclud(LG,create_list(i,i,1,length(L))))))$
+
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first blocks
+   of sections of equal progression lengths: */
+greentao_sb_fcs(L,n) := block(
+ [FF : nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))), 
+  sbC : {}, old_k : 0],
+  for i : 1 thru length(L) do block([k : L[i]],
+    if k > old_k then (
+      sbC : adjoin(nbv_var(3,i), sbC),
+      old_k : k
+  )),
+  return([FF[1], adjoin(sbC,FF[2])]))$
+
+
+/* The diagonal case (m parts, arithmetic progressions of size k): */
+greentaod_nbfcsud(m,k,n) := 
+ if m=0 then [setify(primes_first(n)),{},{}] else
+ block([G : arithprog_primes_ohg(k,n)],
+  nbfclud2nbfcsud(
+    gcol2sat_stdohg2stdnbfclud(create_list(G,i,1,m),create_list(i,i,1,m))))$
+/* Symmetry breaking for n >= 2, forcing prime 3 into the first block: */
+greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
+ [G[1], union(setify(create_list({[3,i]},i,2,m)), G[2]), G[3]])$
+
+
+/* Output in Dimacs format (together with statistics and variable meanings):
+*/
+
+/* The 2-colour diagonal version: */
+output_greentao2(k,n,filename) := block(
+ [FFGT : standardise_fcs(greentao2_fcs(k,n))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (diagonal form), 
+c created by the OKlibrary at ", timedate(),":
+c 2 parts, arithmetic progressions of size ", k, ", and ", n, " prime numbers.
+", standard_statistics_fcs(FFGT[1]), "
+c Variables and associated prime numbers:"), 
+    FFGT[1],
+    filename,
+    FFGT[2]))$
+/* Providing a standard name: "GreenTao_2-k_n.cnf": */
+output_greentao2_stdname(k,n) := output_greentao2(k,n,
+  sconcat("GreenTao_2-",k,"_",n,".cnf"))$
+
+/* The 2-colour non-diagonal version: */
+output_greentao2nd(k1,k2,n,filename) := block(
+ [FFGT : standardise_fcl(greentao2nd_fcl(k1,k2,n))],
+  output_fcl_v(
+    sconcat("Green-Tao problem (non-diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers.
+", standard_statistics_fcs(FFGT[1]), "
+c Variables and associated prime numbers:"), 
+    FFGT[1],
+    filename,
+    FFGT[2]))$
+/* Providing a standard name: "GreenTao_2-k1-k2_n.cnf": */
+output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
+  sconcat("GreenTao_2-",k1,"-",k2,"_",n,".cnf"))$
+
+/* The general form: */
+output_greentao(L,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (general form),
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_stdname(L,n) := output_greentao(L,n,
+  sconcat("GreenTao_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+/* The general form with symmetry breaking: */
+output_greentao_sb(L,n,filename) := block(
+ [FF : standardise_fcs(greentao_sb_fcs(L,n))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (general form),
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+c Symmetry breaking by putting prime 3 into the first parts
+c   of constant segments of progression lengths.
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_sb_stdname(L,n) := output_greentao_sb(L,n,
+  sconcat("GreenTao_sb_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+
+/* The diagonal case (m is the number of parts, k the length or arithmetic
+   progressions): */
+output_greentaod(m,k,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_nbfcsud(m,k,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c ", m, " parts with arithmetic progressions of sizes ", k, "
+c and ", n, " prime numbers.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentaod_stdname(m,k,n) := output_greentaod(m,k,n,
+  sconcat("GreenTao_",m,"-",k,"_",n,".cnf"))$
+
+output_greentaod_sb(m,k,n,filename) := block(
+ [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_sb_nbfcsud(m,k,n))))],
+  output_fcs_v(
+    sconcat("Green-Tao problem (diagonal form),
+c created by the OKlibrary at ", timedate(),": 
+c ", m, " parts with arithmetic progressions of sizes ", k, "
+c and ", n, " prime numbers. Symmetry breaking by putting prime 3 into part 1.
+", standard_statistics_fcs(FF[1]), "
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentaod_sb_stdname(m,k,n) := output_greentaod_sb(m,k,n,
+  sconcat("GreenTao_sb_",m,"-",k,"_",n,".cnf"))$
+
+
+/*!
+\endhtmlonly
+*/

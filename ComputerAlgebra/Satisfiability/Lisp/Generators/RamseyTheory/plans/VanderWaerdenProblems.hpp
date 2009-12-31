@@ -27,12 +27,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Organisation
+  \todo Organisation : DONE
   <ul>
    <li> DONE
    Likely we should create a submodule "Lisp/Generators/RamseyTheory".
    </li>
-   <li> There then the Green-Tao functions should go into a separate file.
+   <li> DONE
+   There then the Green-Tao functions should go into a separate file.
    </li>
    <li> DONE
    Perhaps we should split the module, as we have it now with

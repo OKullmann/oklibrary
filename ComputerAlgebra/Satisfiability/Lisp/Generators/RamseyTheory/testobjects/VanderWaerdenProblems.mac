@@ -53,18 +53,6 @@ okltest_nhyp_vanderwaerden_cs(nhyp_vanderwaerden_cs);
 okltest_nhyp_vanderwaerden_aloamo_cl(nhyp_vanderwaerden_aloamo_cl);
 okltest_nhyp_vanderwaerden_aloamo_cs(nhyp_vanderwaerden_aloamo_cs);
 
-/* *****************************************
-   * Arithmetic progressions in the primes *
-   *****************************************
-*/
-
-okltest_greentao2_fcs(greentao2_fcs);
-okltest_greentao2_sb_fcs(greentao2_sb_fcs);
-okltest_greentao2nd_fcs(greentao2nd_fcs);
-okltest_greentao_nbfcsud(greentao_nbfcsud);
-okltest_greentao_sb_fcs(greentao_sb_fcs);
-okltest_greentaod_nbfcsud(greentaod_nbfcsud);
-okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 
 /*!
 \endhtmlonly
