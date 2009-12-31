@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Application for creating SAT instances expressing Green-Tao problems with more than 2 colours
 
   For the specification see output_greentao in
-  Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
+  Satisfiability/Lisp/Generators/RamseyTheory/GreenTaoProblems.mac.
 
   \todo Compare with specification
   <ul>

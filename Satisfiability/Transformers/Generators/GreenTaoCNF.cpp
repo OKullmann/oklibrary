@@ -16,7 +16,7 @@ License, or any later version. */
    <li> The three command-line parameters are the two progression size and the
    number of vertices. </li>
    <li> For the Maxima specification see output_greentao2nd_stdname(k1,k2,n)
-   in ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
+   in ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/GreenTaoProblems.mac.
    </li>
   </ul>
 
