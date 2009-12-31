@@ -159,9 +159,10 @@ License, or any later version. */
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D16 -F GreenTao_3-2-4-4_553.cnf
      \endverbatim
-     Looks possible. (Running it on a 64-bit machine ("cspasiphae"), it seems
+     Looks possible. (Running it on a 64-bit machine ("cspasiphae"), it is
      much slower than on the old 32-bit laptp: It needs roughly 40s for
-     10000 nodes (and on cs-wsok it is more than 80s).)
+     10000 nodes (and on cs-wsok it is more than 80s), while on csltok
+     (32-bit, 1.7GHz) it needs roughly 20s for 10000 nodes!)
      </li>
      <li> With preprocessing and without symmetry breaking:
      \verbatim
@@ -178,7 +179,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) > 575
+  \todo greentao_4(2,2,4,4) > 580
   <ul>
    <li> Let's start with n = 570; should be satisfiable, and not too hard.
    </li>
@@ -225,7 +226,77 @@ License, or any later version. */
 83   1   0 3483852 3483852 16671608
    \endverbatim
    </li>
-   <li> n=580, cutoff=8*10^6 </li>
+   <li> n=576, cutoff=8*10^6 found two solutions:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_576.cnf_OUT")
+ 0  1  2
+ 2 38 60
+100
+> E[E$min==0,]
+   sat min  osteps  msteps       seed
+51   1   0 2153855 2153855 3258497817
+76   1   0 7167424 7167424 1485882798
+   \endverbatim
+   </li>
+   <li> n=577, cutoff=8*10^6 found four solutions:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_577.cnf_OUT")
+ 0  1  2
+ 4 45 51
+100
+> E[E$min==0,]
+   sat min  osteps  msteps       seed
+14   1   0 4257866 4257866 2950525585
+39   1   0 6706276 6706276 3190160765
+44   1   0  993412  993412  557624388
+88   1   0 7500128 7500128 2192412699
+   \endverbatim
+   </li>
+   <li> n=578, cutoff=8*10^6 found two solutions:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_578.cnf_OUT")
+ 0  1  2  3
+ 2 39 58  1
+100
+> E[E$min==0,]
+   sat min  osteps  msteps      seed
+44   1   0 7670173 7670173 507583806
+95   1   0 2771712 2771712 457551247
+   \endverbatim
+   </li>
+   <li> n=579, cutoff=8*10^6 found 9 solutions in 456 runs:
+   \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_579.cnf_OUT")
+  0   1   2   3
+  9 110 336   1
+456
+> E[E$min==0,]
+    sat min  osteps  msteps       seed
+122   1   0 2586652 2586652 2079796651
+133   1   0 6589542 6589542 1027139407
+142   1   0 6180698 6180698 1112107542
+206   1   0 7075206 7075206 1607625335
+225   1   0 1535855 1535855 3261883268
+251   1   0 6498298 6498298 1816856192
+440   1   0 5000770 5000770 4060946138
+448   1   0 6636397 6636397 4118168529
+456   1   0 6359963 6359963  843130387
+   \endverbatim
+   </li>
+   <li> n=580
+    <ol>
+     <li> cutoff=8*10^6:
+     \verbatim
+> E = read_ubcsat("GreenTao_4-2-2-4-4_580.cnf_OUT")
+ 1  2  3
+27 71  2
+100
+     \endverbatim
+     But by another 5 runs a solution was found (seed=2467546148,
+     osteps=1805111). </li>
+    </ol>
+   </li>
+   <li> n=585, cutoff=8*10^6 </li>
   </ul>
 
 */
