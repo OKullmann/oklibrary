@@ -28,6 +28,14 @@ kill(f)$
    *****************************************
 */
 
+okltest_greentao2_fcl(f) := (
+  assert(f(0,0) = [[],[{}]]),
+  assert(f(0,1) = [[2],[{}]]),
+  assert(f(1,0) = [[],[]]),
+  assert(f(3,5) = [[2,3,5,7,11],[{3,5,7},{3,7,11},{-3,-5,-7},{-3,-7,-11}]]),
+  assert(okltest_greentao2_fcs(buildq([f],lambda([k,n],fcl2fcs(f(k,n))))) = true),
+  true)$
+
 okltest_greentao2_fcs(f) := (
   assert(f(0,0) = [{},{{}}]),
   assertf((0,1) = [{2},{{}}]),
