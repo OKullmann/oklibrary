@@ -147,7 +147,7 @@ maxclique_cleanup(V,k) := setify(create_list({-srfswz_var(V[v],i)}, i,1,k, v,1,l
 
 /* The main function: */
 maxclique_mures_fcs(G,k) := block([V : listify(G[1]), E : listify(G[2])],
- [union(setify(makelist(srfswx_var(i),i,1,k)), 
+ [union(setify(create_list(srfswx_var(i),i,1,k)), 
         setify(create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)),
         setify(create_list(srfswz_var(V[v],i), v,1,length(V), i,1,k))),
   union(maxclique_start(k),maxclique_edges(E,k),maxclique_vertices(V,k),maxclique_cleanup(V,k))])$
