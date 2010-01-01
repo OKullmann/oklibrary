@@ -28,8 +28,11 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory
 
 okltest_greentao2_fcs(greentao2_fcs);
 okltest_greentao2nd_fcs(greentao2nd_fcs);
+
 okltest_greentao_nbfclud(greentao_nbfclud);
 okltest_greentao_nbfcsud(greentao_nbfcsud);
+
+okltest_greentaod_nbfclud(greentaod_nbfclud);
 okltest_greentaod_nbfcsud(greentaod_nbfcsud);
 
 /* ****************************************
