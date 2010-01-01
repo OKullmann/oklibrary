@@ -41,6 +41,17 @@ okltest_lex_subsets_l(f) := block(
       assert(f(setn(i),j) = listify(powerset(setn(i),j))),
   true)$ 
 
+okltest_lex_subsets_ll(f) := (
+  assert(f([],0) = [{}]),
+  assert(f([],1) = []),
+  assert(f([3,2,1],1) = [{3},{2},{1}]),
+  assert(f([3,1,2],2) = [{1,3},{2,3},{1,2}]),
+  assert(f([1,4,3,2],2) = [{1,4},{1,3},{1,2},{3,4},{2,4},{2,3}]),
+  assert(f([1,4,3,2],3) = [{1,4,3},{1,4,2},{1,3,2},{4,3,2}]),
+  assert(f([1,4,3,2,5],3) = [{1,4,3},{1,4,2},{1,4,5},{1,3,2},{1,3,5},{1,2,5},{4,3,2},{4,3,5},{4,2,5},{3,2,5}]),
+  assert(okltest_lex_subsets_l(buildq([f],lambda([M,k],f(listify(M),k)))) = true),
+  true)$
+
 okltest_rank_lex_subsets(f) := block(
   for i : 0 thru 5 do  
     assert(f({},i) = 1),
@@ -76,6 +87,17 @@ okltest_colex_subsets_l(f) := block([cl],
     rl : f(setn(i),3),
     assert(take_elements(length(rl),cl) = rl)),
   true)$ 
+
+okltest_colex_subsets_ll(f) := (
+  assert(f([],0) = [{}]),
+  assert(f([],1) = []),
+  assert(f([3,2,1],1) = [{3},{2},{1}]),
+  assert(f([3,1,2],2) = [{1,3},{2,3},{1,2}]),
+  assert(f([1,4,3,2],2) = [{1,4},{1,3},{3,4},{1,2},{2,4},{2,3}]),
+  assert(f([1,4,3,2],3) = [{1,4,3},{1,4,2},{1,3,2},{4,3,2}]),
+  assert(f([1,4,3,2,5],3) = [{1,4,3},{1,4,2},{1,3,2},{4,3,2},{1,4,5},{1,3,5},{4,3,5},{1,2,5},{4,2,5},{3,2,5}]),
+  assert(okltest_colex_subsets_l(buildq([f],lambda([M,k],f(listify(M),k)))) = true),
+  true)$
 
 okltest_rank_colex_subsets(f) := block(
   assert(f({}) = 1),

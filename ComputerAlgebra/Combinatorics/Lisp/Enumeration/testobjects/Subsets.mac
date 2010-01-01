@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subset
 */
 
 okltest_lex_subsets_l(lex_subsets_l);
+okltest_lex_subsets_ll(lex_subsets_ll);
 okltest_rank_lex_subsets(rank_lex_subsets);
 okltest_unrank_lex_subsets(unrank_lex_subsets);
 
@@ -36,6 +37,7 @@ okltest_unrank_lex_subsets(unrank_lex_subsets);
 */
 
 okltest_colex_subsets_l(colex_subsets_l);
+okltest_colex_subsets_ll(colex_subsets_ll);
 okltest_rank_colex_subsets(rank_colex_subsets);
 okltest_unrank_colex_subsets(unrank_colex_subsets);
 

@@ -47,13 +47,17 @@ count_ksubsets(n,k) := binomial(n,k)$
 */
 
 /* Produces a list of all k-subsets of M in lexicographical order: */
-lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
-  block([x : first_element(M), R],
-    R : disjoin(x,M),
-    append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
+lex_subsets_l(M,k) := lex_subsets_ll(listify(M),k)$
 /* We have lex_subsets_l(M,k) =
    map(setify,sort(map(listify,listify(powerset(M,k))), lex_lessp_l)).
 */
+/* More generally, now M is a repetition-free list, and the order is as
+   specified by the order of M:
+*/
+lex_subsets_ll(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+ block([x : first(M), R : rest(M)],
+    append(add_element_l(x,lex_subsets_ll(R,k-1)), lex_subsets_ll(R,k)))$
+
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    lexicographical enumeration of all |S|-subsets: */
@@ -87,13 +91,16 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
 */
 
 /* Produces a list of all k-subsets of M in colexicographical order: */
-colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
-  block([x : last_element(M), R],
-    R : disjoin(x,M),
-    append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
+colex_subsets_l(M,k) := colex_subsets_ll(listify(M),k)$
 /* We have colex_subsets_l(M,k) =
    map(setify,sort(map(listify,listify(powerset(M,k))), colex_lessp_l)).
 */
+/* More generally, now M is a repetition-free list, and the order is as
+   specified by the order of M:
+*/
+colex_subsets_ll(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+  block([x : last(M), R : rest(M,-1)],
+    append(colex_subsets_ll(R,k), add_element_l(x,colex_subsets_ll(R,k-1))))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    colexicographical enumeration of all |S|-subsets: */
