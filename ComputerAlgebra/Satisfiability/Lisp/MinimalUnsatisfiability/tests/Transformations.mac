@@ -118,6 +118,39 @@ okltest_ncl_list_sat_musat(f) := block(
     assert(f(FF) = ncl_list_fcs(sat_musat(FF)))),
   true)$
 
+
+/* ********************************************************
+   * Max-Clique translated to "SHORT RES" and "SMALL MUS" *
+   ********************************************************
+*/
+
+okltest_new_k(f) := (
+  assert(f(0) = 0),
+  assert(f(1) = 2),
+  assert(f(2) = 5),
+  assert(f(3) = 9),
+  assert(f(4) = 14),
+  true)$
+
+okltest_maxclique_start(f) := (
+  assert(f(0) = {{}}),
+  assert(f(1) = {{srfswx(1)}}),
+  assert(f(2) = {{srfswx(1),srfswx(2),srfswy(1,2)}}),
+  assert(f(3) = {{srfswx(1),srfswx(2),srfswx(3),srfswy(1,2),srfswy(1,3),srfswy(2,3)}}),
+  true)$
+
+okltest_maxclique_edges(f) := (
+
+  true)$
+
+okltest_maxclique_cleanup(f) := (
+
+  true)$
+
+okltest_maxclique_mures(f) := (
+
+  true)$
+
 /*!
 \endhtmlonly
 */

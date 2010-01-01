@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.9.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,19 @@ okltest_n_var_sat_musat(n_var_sat_musat);
 okltest_n_cl_sat_musat(n_cl_sat_musat);
 okltest_deficiency_sat_musat(deficiency_sat_musat);
 okltest_ncl_list_sat_musat(ncl_list_sat_musat);
+
+/* ********************************************************
+   * Max-Clique translated to "SHORT RES" and "SMALL MUS" *
+   ********************************************************
+*/
+
+okltest_new_k(new_k);
+
+okltest_maxclique_start(maxclique_start);
+okltest_maxclique_edges(maxclique_edges);
+okltest_maxclique_cleanup(maxclique_cleanup);
+
+okltest_maxclique_mures(maxclique_mures);
 
 /*!
 \endhtmlonly

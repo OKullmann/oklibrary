@@ -134,13 +134,17 @@ new_k(k) := binomial(k,2) + 2 * k$
 
    Furthermore FF is unsatisfiable iff G has at least one edge.
 */
-/* Auxiliary functions: */
-maxclique_start(k) := {setify(append(makelist(srfswx_var(i),i,1,k), create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)))}$
+/* Auxiliary functions */
+
+/* The singleton clause-set {C}, where C is the set of all srfswx(i) for
+   1 <= i <= k and srfswy(i,j) for 1 <= i < j <= k: */
+maxclique_start(k) := {setify(append(create_list(srfswx_var(i),i,1,k), create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)))}$
 maxclique_edges(E,k) := setify(create_list({-srfswy_var(i,j), srfswz_var(listify(E[e])[1],i), srfswz_var(listify(E[e])[2],j)}, i,1,k-1, j,i+1,k, e,1,length(E)))$
 /* Remark to maxclique_edges: the underlying paper is ambiguous here whether to use
 the orientation of the edges or not (we do). */
 maxclique_vertices(V,k) := setify(create_list({-srfswx_var(i), srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
 maxclique_cleanup(V,k) := setify(create_list({-srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
+
 /* The main function: */
 maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
  [union(setify(makelist(srfswx_var(i),i,1,k)), 
