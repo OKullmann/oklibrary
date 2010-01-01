@@ -44,10 +44,6 @@ okltest_greentao2_fcs(f) := (
   assert(f(3,4) = [{2,3,5,7},{{3,5,7},{-3,-5,-7}}]),
   true)$
 
-okltest_greentao2_sb_fcs(f) := (
-  /* XXX */
-  true)$
-
 okltest_greentao2nd_fcs(f) := (
   okltest_greentao2_fcs(buildq([f], lambda([k,n], f(k,k,n)))),
   assert(f(3,4,5) = [{2,3,5,7,11}, {{3,5,7},{3,7,11}}]),
@@ -81,6 +77,27 @@ okltest_greentao_nbfcsud(f) := (
   /* XXX */
   true)$
 
+
+okltest_greentaod_nbfcsud(f) := (
+  /* XXX */
+  true)$
+
+
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
+
+
+/* *********************
+   * Symmetry breaking *
+   *********************
+*/
+
+okltest_greentao2_sb_fcs(f) := (
+  /* XXX */
+  true)$
+
 okltest_greentao_sb_fcs(f) := (
   assert(f([],2) = [{},{{}}]),
   assert(f([],3) = [{},{{}}]),
@@ -102,19 +119,9 @@ okltest_greentao_sb_fcs(f) := (
   /* XXX */
   true)$
 
-okltest_greentaod_nbfcsud(f) := (
-  /* XXX */
-  true)$
-
 okltest_greentaod_sb_nbfcsud(f) := (
   /* XXX */
   true)$
-
-
-/* ****************************************
-   * Translation into boolean clause-sets *
-   ****************************************
-*/
 
 
 /* ************************

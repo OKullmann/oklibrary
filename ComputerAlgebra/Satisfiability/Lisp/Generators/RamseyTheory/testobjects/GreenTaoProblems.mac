@@ -27,17 +27,26 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory
 */
 
 okltest_greentao2_fcs(greentao2_fcs);
-okltest_greentao2_sb_fcs(greentao2_sb_fcs);
 okltest_greentao2nd_fcs(greentao2nd_fcs);
 okltest_greentao_nbfcsud(greentao_nbfcsud);
-okltest_greentao_sb_fcs(greentao_sb_fcs);
 okltest_greentaod_nbfcsud(greentaod_nbfcsud);
-okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 
 /* ****************************************
    * Translation into boolean clause-sets *
    ****************************************
 */
+
+
+/* *********************
+   * Symmetry breaking *
+   *********************
+*/
+
+okltest_greentao2_sb_fcs(greentao2_sb_fcs);
+
+okltest_greentao_sb_fcs(greentao_sb_fcs);
+
+okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 
 
 /* ************************
