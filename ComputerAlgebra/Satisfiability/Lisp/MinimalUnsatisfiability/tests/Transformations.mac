@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 
 
 kill(f)$
@@ -163,10 +164,13 @@ maxclique_mures_testcases : append([
 [[{1},{}],3],
 [[{1,2},{{1,2}}],0],
 [[{1,2},{{1,2}}],1],
-[[{1},{{1,2}}],2]
+[[{1,2},{{1,2}}],2],
+[[{1,2},{{1,2}}],3]
 ],
 create_list([complete_stdg(n),n],n,1,5),
-create_list([complete_stdg(n),n],n,1,6)
+create_list([complete_stdg(n),n],n,1,6),
+create_list([pathgraph_g(n),3],n,1,5),
+create_list([cyclegraph_gl(n),3],n,3,5)
 )$
 
 okltest_nvar_maxclique_mures_fcs(f) := (
@@ -175,8 +179,8 @@ okltest_nvar_maxclique_mures_fcs(f) := (
   true)$
 
 okltest_ncl_list_maxclique_mures_fcs(f) := block(
-  for T in maxclique_mures_testcases do (print(T),
-    assert(apply(f,T) = ncl_list_fcs(apply(maxclique_mures_fcs,T)))),
+  for T in maxclique_mures_testcases do
+    assert(apply(f,T) = ncl_list_fcs(apply(maxclique_mures_fcs,T))),
   true)$
 
 /*!
