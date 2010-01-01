@@ -49,6 +49,8 @@ okltest_maxclique_cleanup(maxclique_cleanup);
 
 okltest_maxclique_mures_fcs(maxclique_mures_fcs);
 
+okltest_nvar_maxclique_mures_fcs(nvar_maxclique_mures_fcs);
+okltest_ncl_list_maxclique_mures_fcs(ncl_list_maxclique_mures_fcs);
 
 /*!
 \endhtmlonly
