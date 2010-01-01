@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.2.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,12 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/Formulas.hpp
   \brief Plans on representations of propositional logic
+
+
+  \todo Replacement of "makelist" by "create_list"
+  <ul>
+   <li> Supplying tests for all modified functions. </li>
+  </ul>
 
 
   \todo Basic concepts

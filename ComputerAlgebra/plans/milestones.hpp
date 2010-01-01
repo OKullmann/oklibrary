@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -94,7 +94,7 @@ License, or any later version. */
     <li> MaximaInternals : DONE </li>
     <li> %NumberTheory : DONE </li>
     <li> Numerical : DONE </li>
-    <li> Satisfiability :
+    <li> Satisfiability : DONE
      <ol>
       <li> Autarkies : DONE </li>
       <li> Backdoors : DONE </li>
@@ -106,7 +106,7 @@ License, or any later version. */
       <li> Counting : DONE </li>
       <li> %Generators : DONE </li>
       <li> MinimalUnsatisfiability : DONE </li>
-      <li> PropositionalLogic </li>
+      <li> PropositionalLogic : DONE </li>
       <li> Reductions : DONE </li>
       <li> Resolutions : DONE </li>
       <li> Symmetries : DONE </li>

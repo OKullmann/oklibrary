@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,6 +29,9 @@ License, or any later version. */
 
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.9
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic version 0.1.1
+  (see ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
