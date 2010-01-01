@@ -45,6 +45,7 @@ pathgraph_g(n) := og2g(pathgraph_og(n))$
 /* Prerequisite: n <> 0, 2: */
 cyclegraph_ogl(n) := [create_list(i,i,1,n),endcons({n,1},
   create_list({i,i+1},i,1,n-1))]$
+cyclegraph_gl(n) := ogl2gl(cyclegraph_ogl(n))$
 /* Remark: cyclegraph_ogl is irreflexiv iff n >= 3. */
 /* Now allowing also the case n = 2: */
 /* Prerequisite: n >= 1: */
