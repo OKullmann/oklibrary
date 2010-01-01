@@ -1,0 +1,10 @@
+c Green-Tao hypergraph with arithmetic-progression length 4 and 17 vertices.
+c The prime numbers are used directly as vertices.
+p cnf 59 7
+5 11 17 23 0
+11 17 23 29 0
+5 17 29 41 0
+7 19 31 43 0
+17 29 41 53 0
+5 23 41 59 0
+41 47 53 59 0
