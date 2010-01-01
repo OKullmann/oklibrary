@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.10.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,10 +20,12 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/GreenT
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/GreenTao.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
-/* ***********************
-   * Green-Tao's theorem *
-   ***********************
+
+/* *****************************************
+   * Arithmetic progressions in the primes *
+   *****************************************
 */
 
 okltest_arithprog_primes_finish(arithprog_primes_finish);
@@ -31,10 +33,24 @@ okltest_arithprog_primes_finish_nm(arithprog_primes_finish_nm);
 okltest_arithprog_primes(arithprog_primes);
 okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 
+/* **************
+   * Statistics *
+   **************
+*/
+
 okltest_nver_arithprog_primes_hg(nver_arithprog_primes_hg);
 okltest_nver_arithprog_primes_ohg(nver_arithprog_primes_ohg);
 okltest_nhyp_arithprog_primes_hg(nhyp_arithprog_primes_hg);
 okltest_nhyp_arithprog_primes_ohg(nhyp_arithprog_primes_ohg);
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+okltest_std_primes_ohg(std_primes_ohg);
+okltest_std_primes_ohg(standardise_ohg);
+okltest_std_primes_ohg(standardise_ary_ohg);
 
 /*!
 \endhtmlonly

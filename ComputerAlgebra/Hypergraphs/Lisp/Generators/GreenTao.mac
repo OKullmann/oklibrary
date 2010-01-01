@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.10.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,9 +26,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
 
-/* ***********************
-   * Green-Tao's theorem *
-   ***********************
+/* *****************************************
+   * Arithmetic progressions in the primes *
+   *****************************************
 */
 
 /* The list of arithmetic progressions of length k amongst the first
@@ -79,7 +79,11 @@ arithprog_primes_ohg(k,n) :=
  [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
 
-/* Statistics functions: */
+
+/* **************
+   * Statistics *
+   **************
+*/
 
 nver_arithprog_primes_ohg(k,n) := n$
 nver_arithprog_primes_hg(k,n) := n$
@@ -90,6 +94,29 @@ nhyp_arithprog_primes_ohg(k,n) :=
 nhyp_arithprog_primes_hg(k,n) := nhyp_arithprog_primes_ohg(k,n)$
 
 
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+/* The following function is to be applied to an ordered hypergraph G
+   created by arithprog_primes_ohg, and it standardises the vertex set.
+
+   A single translation from a vertex v of G to its standardisation is given
+   by
+     rank_primes(v),
+   while the inverse, given a standardised index i, is given by
+     unrank_primes(i).
+
+   Faster are the generic functions standardise_ohg(G) and
+   standardise_ary_ohg.
+*/
+
+/* Directly by definition (very slow): */
+std_primes_ohg(G) := [create_list(i,i,1,length(G[1])),
+ map(lambda([H], rank_primes_s(H)), G[2])]$
+
+arithprog_primes_stdohg(k,n) := standardise_ary_ohg(arithprog_primes_stdohg(k,n))$
 
 /*!
 \endhtmlonly
