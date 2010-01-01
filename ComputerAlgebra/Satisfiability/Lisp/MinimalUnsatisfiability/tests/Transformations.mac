@@ -147,7 +147,7 @@ okltest_maxclique_cleanup(f) := (
 
   true)$
 
-okltest_maxclique_mures(f) := (
+okltest_maxclique_mures_fcs(f) := (
 
   true)$
 

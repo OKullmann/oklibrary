@@ -146,7 +146,7 @@ maxclique_vertices(V,k) := setify(create_list({-srfswx_var(i), srfswz_var(V[v],i
 maxclique_cleanup(V,k) := setify(create_list({-srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
 
 /* The main function: */
-maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
+maxclique_mures_fcs(G,k) := block([V : listify(G[1]), E : listify(G[2])],
  [union(setify(makelist(srfswx_var(i),i,1,k)), 
         setify(create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)),
         setify(create_list(srfswz_var(V[v],i), v,1,length(V), i,1,k))),
@@ -155,10 +155,11 @@ maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
 /* Measures for the translated formulas */
 
 /* Number of variables */
-n_var_maxclique_mures(G,k) := k + binomial(k,2) + length(G[1]) * k$
+nvar_maxclique_mures_fcs(G,k) := k + binomial(k,2) + length(G[1]) * k$
 
 /* List of clause-counts as with ncl_list_fcs: */
-ncl_list_maxclique_mures(G,k) := block([n : length(G[1]), m : length(G[2])],
+ncl_list_maxclique_mures_fcs(G,k) := 
+block([n : length(G[1]), m : length(G[2])],
  if k = 0 then [[0,1]]
  elseif k = 1 then [[1, n + 1], [2, n * k]]
  elseif k = 2 then [[1, n * k], [2, n * k], [3, binomial(k,2) * m + 1]] else

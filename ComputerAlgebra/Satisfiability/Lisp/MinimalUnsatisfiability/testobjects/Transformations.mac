@@ -47,7 +47,8 @@ okltest_maxclique_start(maxclique_start);
 okltest_maxclique_edges(maxclique_edges);
 okltest_maxclique_cleanup(maxclique_cleanup);
 
-okltest_maxclique_mures(maxclique_mures);
+okltest_maxclique_mures_fcs(maxclique_mures_fcs);
+
 
 /*!
 \endhtmlonly
