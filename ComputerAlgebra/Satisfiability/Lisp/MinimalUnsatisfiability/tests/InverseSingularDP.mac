@@ -44,8 +44,8 @@ okltest_random_sublist(f) := (
   assert(f({},0) = []),
   assert(f({},1) = []),
   assert(f(setn(10),0) = []),
-  assert(f(setn(10),1) = makelist(i,i,1,10)),
-  assert(subsetp(setify(f(makelist(i,i,1,10),0.5)), setn(10)) = true),
+  assert(f(setn(10),1) = create_list(i,i,1,10)),
+  assert(subsetp(setify(f(create_list(i,i,1,10),0.5)), setn(10)) = true),
   true)$
 
 okltest_basic_inverse_singulardp_fcs(f) := block([FF],
