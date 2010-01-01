@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac"
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
 
 /* ***********************
@@ -56,7 +57,7 @@ arithprog_primes_finish_nm(k,p) := block([res : []],
 arithprog_primes(k,n,memo) := 
  if k=0 then [[]] elseif n = 0 then []
  elseif k=1 then create_list([p], p,primes_first(n))
- elseif k=2 then map(listify,listify(powerset(setify(primes_first(n)),2)))
+ elseif k=2 then map(listify,colex_subsets_l(setify(primes_first(n)),2))
  else block([p : 1, res : [], prp : product_primes(k), prk : primep(k)],
    thru n do (
      p : next_prime(p),

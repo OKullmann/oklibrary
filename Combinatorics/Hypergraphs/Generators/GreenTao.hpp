@@ -8,6 +8,8 @@ License, or any later version. */
 /*!
   \file OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp
   \brief %Tools for generating Green-Tao hypergraphs
+
+  \bug The order of binary hyperedges is not correct
 */
 
 #ifndef GREENTAOHYPERGRAPH_mmnVre09h

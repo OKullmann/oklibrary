@@ -15,7 +15,14 @@ License, or any later version. */
   \todo Compare with specification
   <ul>
    <li> Once the Maxima-function output_greentao uses ordered clause-sets,
-   make sure that the order of clauses really coincide. </li>
+   make sure that the order of clauses really coincide.
+    <ol>
+     <li> Similarly to the bug at Maxima-level, the order of binary clauses
+     is not correct, while otherwise it seems alright. </li>
+     <li> See bug "The order of binary hyperedges is not correct" in
+     OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp. </li>
+    </ol>
+   </li>
    <li> Provide similar comments as output_greentao is doing. </li>
   </ul>
 
