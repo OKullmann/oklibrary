@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ***********************
@@ -124,6 +125,28 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 
 /* Converts a list of sets to an ordered general hypergraph: */
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
+
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+/* Standardising an arbitrary ordered hypergraph, using the order of
+   the vertices to define their indices:
+*/
+standardise_ohg(G) := block([h : osm2hm(l2osm_inv(G[1])), t],
+ t : lambda([H], map(lambda([x], ev_hm(h,x)), H)),
+ [create_list(i,i,1,length(G[1])), map(t, G[2])])$
+
+/* In the same way, standardising an ordered hypergraph whose vertices are 
+   natural numbers (>= 1), using an array (of size equal to the maximal
+   vertex-value):
+*/
+standardise_ary_ohg(G) := if emptyp(G[1]) then G else
+ block([A : osm2ary_lt(l2osm_inv(G[1]),last(G[1]),fixnum), t],
+  t : lambda([H], map(lambda([x], A[x]), H)),
+  [create_list(i,i,1,length(G[1])), map(t, G[2])])$
 
 
 /* ************
