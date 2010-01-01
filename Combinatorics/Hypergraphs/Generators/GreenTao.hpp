@@ -8,8 +8,6 @@ License, or any later version. */
 /*!
   \file OKlib/Combinatorics/Hypergraphs/Generators/GreenTao.hpp
   \brief %Tools for generating Green-Tao hypergraphs
-
-  \bug The order of binary hyperedges is not correct
 */
 
 #ifndef GREENTAOHYPERGRAPH_mmnVre09h
@@ -131,6 +129,7 @@ namespace OKlib {
             set_system_type result;
             if (k==0) { result.push_back(hyperedge_type()); return result; }
             if (n==0) return result;
+            assert(not vertex_set_.empty());
             typedef typename hyperedge_type::const_iterator v_it_type;
             const v_it_type vbegin(vertex_set_.begin());
             const v_it_type vend(vertex_set_.end());
@@ -140,8 +139,8 @@ namespace OKlib {
               return result;
             }
             if (k==2) {
-              for (v_it_type i = vbegin; i != vend; ++i)
-                for (v_it_type j = i+1; j != vend; ++j) {
+              for (v_it_type j = vbegin; j != vend; ++j)
+                for (v_it_type i = vbegin; i != j; ++i) {
                   // C++0X: result.push_back(hyperedge_type {*i,*j})
                   hyperedge_type H;
                   H.push_back(*i); H.push_back(*j);
