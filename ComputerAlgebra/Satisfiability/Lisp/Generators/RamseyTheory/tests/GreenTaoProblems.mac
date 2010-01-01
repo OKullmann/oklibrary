@@ -52,6 +52,12 @@ okltest_greentao2_fcs(f) := (
   assert(f(3,4) = [{2,3,5,7},{{3,5,7},{-3,-5,-7}}]),
   true)$
 
+okltest_greentao2nd_fcl(f) := (
+  assert(f(0,0,0) = [[],[{}]]),
+  assert(f(0,1,2) = [[2,3],[{},{-2},{-3}]]),
+  assert(okltest_greentao2nd_fcs(buildq([f],lambda([k1,k2,n],fcl2fcs(f(k1,k2,n))))) = true),
+  true)$
+
 okltest_greentao2nd_fcs(f) := (
   okltest_greentao2_fcs(buildq([f], lambda([k,n], f(k,k,n)))),
   assert(f(3,4,5) = [{2,3,5,7,11}, {{3,5,7},{3,7,11}}]),

@@ -49,12 +49,11 @@ greentao2_fcs(k,n) := fcl2fcs(greentao2_fcl(k,n))$
    whiel the second part (value 1) does not contain an arithmetic progression
    of size k2 ("nd" for "non-diagonal"):
 */
-greentao2nd_fcs(k1,k2,n) := block(
- [G1 : arithprog_primes_hg(k1,n), G2 : arithprog_primes_hg(k2,n)],
-  [G1[1], union(G1[2], comp_cs(G2[2]))])$
-greentao2nd_fcl(k1,k2,n) := block(
+greentao2nd_fcl(k1,k2,n) := if k1=0 and k2=0 then arithprog_primes_ohg(0,n)
+else block(
  [G1 : arithprog_primes_ohg(k1,n), G2 : arithprog_primes_ohg(k2,n)],
   [G1[1], append(G1[2], comp_cs(G2[2]))])$
+greentao2nd_fcs(k1,k2,n) := fcl2fcs(greentao2nd_fcl(k1,k2,n))$
 
 
 /* Now the general form, where L is a vdW-parameter-tuple: */
