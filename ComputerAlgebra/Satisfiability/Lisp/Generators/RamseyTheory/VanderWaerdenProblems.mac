@@ -97,7 +97,7 @@ invstandardise_vanderwaerden_aloamo(L,n) := block([m : length(L)],
 */
 vanderwaerden_standnest_fcl(L,n) :=
 nbfclud2fcl_standnest(vanderwaerden_nbfclud(L,n))$
-vanderwaerden_standnext_fcs(L,n) := fcl2fcs(vanderwaerden_standnext_fcl(L,n))$
+vanderwaerden_standnest_fcs(L,n) := fcl2fcs(vanderwaerden_standnest_fcl(L,n))$
 
 /* Standardising these boolean clause-sets: */
 vanderwaerden_standnest_stdfcl(L,n) := block([m : length(L)],
