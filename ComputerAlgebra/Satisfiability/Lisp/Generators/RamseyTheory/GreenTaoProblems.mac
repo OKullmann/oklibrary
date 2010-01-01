@@ -56,18 +56,20 @@ greentao2nd_fcl(k1,k2,n) := block(
 
 
 /* Now the general form, where L is a vdW-parameter-tuple: */
-greentao_nbfcsud(L,n) := 
- if emptyp(L) then [setify(primes_first(n)),{},{}] else
+greentao_nbfclud(L,n) := 
+ if emptyp(L) then [primes_first(n),[],[]] else
  block([LG : [], old_k : 0, old_hg : []],
   for i : 1 thru length(L) do block([k : L[i]],
     if k > old_k then (
       old_hg : arithprog_primes_ohg(k,n),
       old_k : k
     ),
-    LG : endcons(old_hg,LG)
+    LG : cons(old_hg,LG)
   ),
-  return(nbfclud2nbfcsud(
-    gcol2sat_stdohg2stdnbfclud(LG,create_list(i,i,1,length(L))))))$
+  return(
+    gcol2sat_stdohg2stdnbfclud(reverse(LG),create_list(i,i,1,length(L)))))$
+
+greentao_nbfcsud(L,n) := nbfclud2nbfcsud(greentao_nbfclud(L,n))$
 
 
 /* The diagonal case (m parts, arithmetic progressions of size k): */
