@@ -202,15 +202,19 @@ fl2array(L) := okl_fillarray_l(okl_make_array(flonum,length(L)),L)$
 
 /* RENAME: sm2ary */
 sm2array(M) := sm2array_lt(M,length(M),any)$
+sm2ary(M) := sm2array(M)$
 /* RENAME: osm2ary */
 osm2array(M) := sm2array(M)$
+osm2ary(M) := osm2array(M)$
 /* If the type of the indices is known, and the length of the array
    is also to be specified: */
 /* RENAME: sm2ary_lt */
 sm2array_lt(M,l,type) := block([a : okl_make_array(type,l)],
   for p in M do a[p[1]] : p[2], return(a))$
+sm2ary_lt(M,l,type) := sm2array_lt(M,l,type)$
 /* RENAME: osm2ary_lt */
 osm2array_lt(M,l,type) := sm2array_lt(M,l,type)$
+osm2ary_lt(M,l,type) := osm2array_lt(M,l,type)$
 
 /* Interpreting a value "false" as "not assigned": */
 /* RENAME: ary2osm */
