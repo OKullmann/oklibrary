@@ -60,7 +60,7 @@ greentao2nd_fcs(k1,k2,n) := fcl2fcs(greentao2nd_fcl(k1,k2,n))$
 greentao_nbfclud(L,n) := 
  if emptyp(L) then [primes_first(n),[],[]] else
  block([LG : [], old_k : -1, old_hg],
-  for i : 1 thru length(L) do block([k : L[i]],
+  for k in L do (
     if k > old_k then (
       old_hg : arithprog_primes_ohg(k,n),
       old_k : k
