@@ -105,7 +105,7 @@ License, or any later version. */
       <li> ConstraintProblems : DONE </li>
       <li> Counting : DONE </li>
       <li> %Generators : DONE </li>
-      <li> MinimalUnsatisfiability </li>
+      <li> MinimalUnsatisfiability : DONE </li>
       <li> PropositionalLogic </li>
       <li> Reductions : DONE </li>
       <li> Resolutions : DONE </li>
