@@ -9,6 +9,7 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories
 set -o nounset
 
+list_programs="${bin_dir}/GreenTao ${bin_dir}/GreenTao-O3-DNDEBUG"
 app_test_dir=${OKlib}/Combinatorics/Hypergraphs/Generators/app_tests
 
 cd ${app_test_dir}
@@ -27,11 +28,14 @@ echo "${list_test_cases}"
 
 echo "PROCESSING:"
 
-for P in ${list_test_cases}; do
-  echo "Filename:" "${P}"
-  output=$(GreenTao-O3-DNDEBUG $(basename "${P}" | tr "_" " "))
-  echo "${output}" | diff - "${P}"
-  if [[ $? -ne 0 ]]; then exit 1; fi
+for prog in ${list_programs}; do
+  echo "${prog}"
+  for P in ${list_test_cases}; do
+    echo "Filename:" "${P}"
+    output=$(${prog} $(basename "${P}" | tr "_" " "))
+    echo "${output}" | diff - "${P}"
+    if [[ $? -ne 0 ]]; then exit 1; fi
+  done
 done
 
 

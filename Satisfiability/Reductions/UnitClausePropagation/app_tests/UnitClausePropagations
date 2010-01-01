@@ -11,6 +11,7 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories
 set -o nounset
 
+list_programs="${bin_dir}/UnitClausePropagation ${bin_dir}/UnitClausePropagation-O3-DNDEBUG"
 app_test_dir=${OKlib}/Satisfiability/Reductions/UnitClausePropagation/app_tests
 
 cd ${app_test_dir}
@@ -32,24 +33,25 @@ echo "${list_test_cases}"
 
 echo "Processing:"
 
-for P in ${list_test_cases}; do
-  echo "Filename:" "${P}"
-  directory=$(dirname ${P})
-  filename=$(basename ${P})
-  result_file="${directory}/dimacs_output/1/${filename}"
+for prog in ${list_programs}; do
+  echo "${prog}"
+  for P in ${list_test_cases}; do
+    echo "Filename:" "${P}"
+    directory=$(dirname ${P})
+    filename=$(basename ${P})
+    result_file="${directory}/dimacs_output/1/${filename}"
 
-  output=$(cat ${P} | ${program_tested}-O3-DNDEBUG)
-  echo "${output}" | diff - "${result_file}"
-  if [[ $? != 0 ]]; then
-    exit 1
-  fi
+    output=$(cat ${P} | ${prog})
+    echo "${output}" | diff - "${result_file}"
+    if [[ $? != 0 ]]; then exit 1; fi
 
-  output=$(cat ${P} | ${program_tested}-O3-DNDEBUG set)
-  echo "${output}" | diff - "${result_file}"
-  if [[ $? != 0 ]]; then
-    echo "Parameter: set"
-    exit 1
-  fi
+    output=$(cat ${P} | ${prog} set)
+    echo "${output}" | diff - "${result_file}"
+    if [[ $? != 0 ]]; then
+      echo "Parameter: set"
+      exit 1
+    fi
+  done
 done
 
 exit 0

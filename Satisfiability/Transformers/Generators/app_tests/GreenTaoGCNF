@@ -9,6 +9,7 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories
 set -o nounset
 
+list_programs="${bin_dir}/GreenTaoGCNF ${bin_dir}/GreenTaoGCNF-O3-DNDEBUG"
 app_test_dir=${OKlib}/Satisfiability/Transformers/Generators/app_tests
 
 cd ${app_test_dir}
@@ -29,15 +30,16 @@ echo "${list_test_cases}"
 
 echo "PROCESSING:"
 
-for P in ${list_test_cases}; do
-  echo "Filename:" "${P}"
-  parameter_line=$(basename ${P})
-  parameter_line=${parameter_line#GreenTao_*-}
-  parameter_line=${parameter_line%.cnf}
-  parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
-  output=$(${program_tested}-O3-DNDEBUG ${parameter_line})
-  echo "${output}" | diff - "${P}"
-  if [[ $? -ne 0 ]]; then exit 1; fi
+for prog in ${list_programs}; do
+  echo "${prog}"
+  for P in ${list_test_cases}; do
+    echo "Filename:" "${P}"
+    parameter_line=$(basename ${P})
+    parameter_line=${parameter_line#GreenTao_*-}
+    parameter_line=${parameter_line%.cnf}
+    parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
+    output=$(${program_tested}-O3-DNDEBUG ${parameter_line})
+    echo "${output}" | diff - "${P}"
+    if [[ $? -ne 0 ]]; then exit 1; fi
+  done
 done
-
-
