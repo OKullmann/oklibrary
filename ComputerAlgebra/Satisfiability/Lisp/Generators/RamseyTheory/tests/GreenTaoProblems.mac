@@ -29,8 +29,8 @@ kill(f)$
 */
 
 okltest_greentao2_fcl(f) := (
-  assert(f(0,0) = [[],[{}]]),
-  assert(f(0,1) = [[2],[{}]]),
+  assert(f(0,0) = [[],[{},{}]]),
+  assert(f(0,1) = [[2],[{},{}]]),
   assert(f(1,0) = [[],[]]),
   assert(f(3,5) = [[2,3,5,7,11],[{3,5,7},{3,7,11},{-3,-5,-7},{-3,-7,-11}]]),
   assert(okltest_greentao2_fcs(buildq([f],lambda([k,n],fcl2fcs(f(k,n))))) = true),
@@ -53,13 +53,15 @@ okltest_greentao2_fcs(f) := (
   true)$
 
 okltest_greentao2nd_fcl(f) := (
-  assert(f(0,0,0) = [[],[{}]]),
+  assert(f(0,0,0) = [[],[{},{}]]),
   assert(f(0,1,2) = [[2,3],[{},{-2},{-3}]]),
   assert(okltest_greentao2nd_fcs(buildq([f],lambda([k1,k2,n],fcl2fcs(f(k1,k2,n))))) = true),
+  assert(okltest_greentao2_fcl(buildq([f],lambda([k,n],f(k,k,n)))) = true),
   true)$
 
 okltest_greentao2nd_fcs(f) := (
   okltest_greentao2_fcs(buildq([f], lambda([k,n], f(k,k,n)))),
+  assert(okltest_greentao2_fcs(buildq([f],lambda([k,n],f(k,k,n)))) = true),
   assert(f(3,4,5) = [{2,3,5,7,11}, {{3,5,7},{3,7,11}}]),
   assert(f(3,4,9) = [{2,3,5,7,11,13,17,19,23}, {{3,5,7},{3,7,11},{3,11,19},{3,13,23},{5,11,17},{7,13,19},{11,17,23},{-5,-11,-17,-23}}]),
   true)$

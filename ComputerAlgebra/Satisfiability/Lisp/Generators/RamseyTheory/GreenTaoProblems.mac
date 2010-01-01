@@ -34,13 +34,17 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************************************
 */
 
+/* General remark: Generated formal clause-lists have multiple
+   clause-occurrences iff there are multiple progression lengths zero;
+   otherwise we have ordered clause-sets.
+*/
+
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    the set of the first n prime numbers into two parts such that none of them 
    contains an arithmetic progression of size k.
    The variables are the first n prime numbers.
 */
-greentao2_fcl(k,n) := if k = 0 then arithprog_primes_ohg(k,n) else
- tcol2sat_stdohg2stdfcl(arithprog_primes_ohg(k,n))$
+greentao2_fcl(k,n) := tcol2sat_stdohg2stdfcl(arithprog_primes_ohg(k,n))$
 greentao2_fcs(k,n) := fcl2fcs(greentao2_fcl(k,n))$
 
 /* More generally, create boolean formal clause-sets encoding the 
@@ -49,8 +53,7 @@ greentao2_fcs(k,n) := fcl2fcs(greentao2_fcl(k,n))$
    whiel the second part (value 1) does not contain an arithmetic progression
    of size k2 ("nd" for "non-diagonal"):
 */
-greentao2nd_fcl(k1,k2,n) := if k1=0 and k2=0 then arithprog_primes_ohg(0,n)
-else block(
+greentao2nd_fcl(k1,k2,n) := block(
  [G1 : arithprog_primes_ohg(k1,n), G2 : arithprog_primes_ohg(k2,n)],
   [G1[1], append(G1[2], comp_cs(G2[2]))])$
 greentao2nd_fcs(k1,k2,n) := fcl2fcs(greentao2nd_fcl(k1,k2,n))$
