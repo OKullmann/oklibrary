@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,6 +43,11 @@ okltest_greentaod_nbfcsud(greentaod_nbfcsud);
    ****************************************
 */
 
+okltest_greentao_aloamo_fcl(greentao_aloamo_fcl);
+okltest_greentao_aloamo_fcs(greentao_aloamo_fcs);
+
+okltest_greentao_standnest_fcl(greentao_standnest_fcl);
+okltest_greentao_standnest_fcs(greentao_standnest_fcs);
 
 /* *********************
    * Symmetry breaking *

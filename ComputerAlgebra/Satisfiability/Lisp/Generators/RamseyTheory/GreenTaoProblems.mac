@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,6 +90,19 @@ greentaod_nbfcsud(m,k,n) := nbfclud2nbfcsud(greentaod_nbfclud(m,k,n))$
    ****************************************
 */
 
+/* Translating the general forms into boolean clause-sets via the
+   (strong) standard translation: */
+greentao_aloamo_fcl(L,n) :=
+  nbfclud2fcl_aloamo(greentao_nbfclud(L,n))$
+greentao_aloamo_fcs(L,n) := fcl2fcs(greentao_aloamo_fcl(L,n))$
+
+/* Translating the general forms into boolean clause-sets via the
+   standard nested translation; here L must be non-empty:
+*/
+greentao_standnest_fcl(L,n) :=
+  nbfclud2fcl_standnest(greentao_nbfclud(L,n))$
+greentao_standnest_fcs(L,n) := fcl2fcs(greentao_standnest_fcl(L,n))$
+
 
 /* *********************
    * Symmetry breaking *
@@ -121,6 +134,16 @@ greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
    * Statistics functions *
    ************************
 */
+
+
+
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+
 
 
 /* ********************
