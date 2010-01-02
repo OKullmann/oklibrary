@@ -74,7 +74,8 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
 /* Consider a non-boolean formal clause-set FF = [V,F,D]; so
    D is the function-domain D, and for a variable v the set D(v) is the
    set of values of v. We assume that V does not contain variables of the
-   form nbv(x,y). We consider FF as CNF (so we use "SAT-terminology").
+   form nbv(x,y). And we assume that all domains are non-empty.
+   We consider FF as CNF (so we use "SAT-terminology").
 
    We assume further that T(v) is an (arbitrary) labelled ordered boolean 
    unsatisfiable clause-set where the label set contains D(v),
@@ -94,7 +95,7 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
    is the union of the clauses T(v,e) for the literals [v,e] in C, and
    adds furthermore all clauses in T'(v) for all v in V.
 
-   Let D(v) = {e_1, ..., e_k}.
+   Let D(v) = {e_1, ..., e_k} (k >= 1).
 
    We obtain the above weak standard translation by letting
    T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
@@ -110,11 +111,18 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
 
 */
 
+/* For a map T(v,e), depending on variables and their values and computing
+   a clause-set, translate a non-boolean clause C into a new clause which is 
+   the union of the results of applying T to the elements of C:
+*/
 gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
 
-/* T(v,e)
-   TR(v) a clause-list
-   TV(v) a list of variables
+/* Given a non-boolean formal clause-list FF, a map T(v,e) which associates
+   to every variable v and its values e a boolean clause-list in the
+   variables nbv(v,i), a map TR(v) which associates to every variable v
+   a clause-list (the "remaining" clauses), and a map TV(v) which associates
+   to every variable v the list of variables of T(v,e), compute the
+   boolean clause-set as specified above:
 */
 gennest_nbfcl2fcl(FF,T,TR,TV) := [
  lappend(map(TV,FF[1])),
@@ -139,8 +147,8 @@ nbfclud2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans
 
 /* The standard nested translation */
 
-/* Using a uniform domain D, and ordering the saturated Horn clause in
-   the same way (from smallest to largest):
+/* Using a uniform non-empty domain D, and ordering the saturated Horn clause
+   in the same way (from smallest to largest):
 */
 standnest_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D))],
  buildq([D,k,h],
