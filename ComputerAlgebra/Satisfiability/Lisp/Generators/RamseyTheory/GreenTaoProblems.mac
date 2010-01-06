@@ -225,12 +225,11 @@ greentao_standnest_stdfcl(L,n) :=
 
 /* The 2-colour diagonal version: */
 output_greentao2(k,n,filename) := block(
- [FFGT : standardise_fcs(greentao2_fcs(k,n))],
-  output_fcs_v(
+ [FFGT : standardise_fcl(greentao2_fcl(k,n))],
+  output_fcl_v(
     sconcat("Green-Tao problem (diagonal form), 
 c created by the OKlibrary at ", timedate(),":
 c 2 parts, arithmetic progressions of size ", k, ", and ", n, " prime numbers.
-", standard_statistics_fcs(FFGT[1]), "
 c Variables and associated prime numbers:"), 
     FFGT[1],
     filename,
