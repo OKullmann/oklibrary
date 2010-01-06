@@ -165,8 +165,8 @@ invstandardise_greentao_aloamo(L,P) := block(
   buildq([m,A], lambda([i], block([d : divide(i-1,m)+1],
     nbv_var(A[d[1]], d[2])))))$
 
-/* Computing the pair [FF,L], where FF is the standardised form of
-   greentao_nbfclud(L,n), while L is the list of original variable:
+/* Computing the pair [FF,V], where FF is the standardised form of
+   greentao_aloamo_fcl(L,n), while V is the list of original variables:
 */
 greentao_aloamo_stdfcl(L,n) :=
  if n=0 then 
@@ -181,6 +181,40 @@ greentao_aloamo_stdfcl(L,n) :=
    standardise_fcl(greentao_aloamo_fcl(L,n)).
 */
 
+
+
+/* Standardising the standard nested translation */
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables; P is here the list of the first
+   n prime numbers (while [L,n] are the Green-Tao parameters):
+*/
+standardise_greentao_standnest(L,P) := block(
+ [m : length(L),
+  A : osm2ary_lt(l2osm_inv(P),last(P),fixnum)],
+  buildq([m,A], lambda([t], ev(t, nbv(v,i):=(A[v]-1)*(m-1)+i, nbv))))$
+
+invstandardise_greentao_standnest(L,P) := block(
+ [m : length(L),
+  A : osm2ary_lt(l2osm(P),length(P),fixnum)],
+  buildq([m,A], lambda([i], block([d : divide(i-1,m-1)+1],
+    nbv_var(A[d[1]], d[2])))))$
+
+/* Computing the pair [FF,V], where FF is the standardised form of
+   greentao_standnest_fcl, while V is the list of original variables:
+*/
+greentao_standnest_stdfcl(L,n) :=
+ if n=0 then 
+   [[[],create_list({},i,1,length(sublist(L,lambda([x],is(x=0)))))],[]] 
+ else
+ block([m : length(L), FF : greentao_nbfclud(L,n)],
+  [block([s : standardise_greentao_standnest(L,FF[1])],
+     s(nbfclud2fcl_standnest(FF))),
+   block([invs : invstandardise_greentao_standnest(L,FF[1])],
+     create_list(invs(i), i,1,n*(m-1)))])$
+/* We have greentao_standnest_stdfcl(L,n) =
+   standardise_fcl(greentao_standnest_fcl(L,n)).
+*/
 
 
 

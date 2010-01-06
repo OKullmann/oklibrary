@@ -74,6 +74,8 @@ okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 
 okltest_greentao_aloamo_stdfcl(greentao_aloamo_stdfcl);
 
+okltest_greentao_standnest_stdfcl(greentao_standnest_stdfcl);
+
 /* ********************
    * Output functions *
    ********************

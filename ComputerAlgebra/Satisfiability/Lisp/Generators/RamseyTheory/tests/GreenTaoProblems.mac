@@ -199,8 +199,10 @@ okltest_greentaod_sb_nbfcsud(f) := (
    *******************
 */
 
-testcases_greentao_std : [
- [[],0], [[],1], [[],2],
+testcases_empty_greentao_std : [
+ [[],0], [[],1], [[],2]
+]$
+testcases_nonempty_greentao_std : [
  [[0],0], [[0],1], [[0],2],
  [[0,0],0], [[0,0],1], [[0,0],2],
  [[0,1],0], [[0,1],1], [[0,1],2],
@@ -214,8 +216,15 @@ testcases_greentao_std : [
 
 okltest_greentao_aloamo_stdfcl(f) := (
   assert(f([],0) = [[[],[]],[]]),
-  for T in testcases_greentao_std do
+  for T in 
+      append(testcases_empty_greentao_std,testcases_nonempty_greentao_std) do
     assert(apply(f,T) = standardise_fcl(apply(greentao_aloamo_fcl,T))),
+  true)$
+
+okltest_greentao_standnest_stdfcl(f) := (
+  assert(f([],0) = [[[],[]],[]]),
+  for T in testcases_nonempty_greentao_std do
+    assert(apply(f,T) = standardise_fcl(apply(greentao_standnest_fcl,T))),
   true)$
 
 
