@@ -98,7 +98,18 @@ colex_subsets_l(M,k) := colex_subsets_ll(listify(M),k)$
 /* More generally, now M is a repetition-free list, and the order is as
    specified by the order of M:
 */
-colex_subsets_ll(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+colex_subsets_ll(M,k) := if k=0 then [{}] 
+ elseif k=1 then map(set,M)
+ elseif k=2 then block([res : [], j : 1],
+   for y in M do block([i : 1],
+     for x in M unless i = j do (
+       res : cons({x,y},res), i : i+1
+     ),
+     j : j+1
+   ),
+   return(reverse(res))
+ )
+ elseif emptyp(M) then [] else
   block([x : last(M), R : rest(M,-1)],
     append(colex_subsets_ll(R,k), add_element_l(x,colex_subsets_ll(R,k-1))))$
 
