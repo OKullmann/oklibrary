@@ -245,7 +245,6 @@ output_greentao2nd(k1,k2,n,filename) := block(
     sconcat("Green-Tao problem (non-diagonal form),
 c created by the OKlibrary at ", timedate(),": 
 c 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " prime numbers.
-", standard_statistics_fcs(FFGT[1]), "
 c Variables and associated prime numbers:"), 
     FFGT[1],
     filename,
@@ -262,7 +261,6 @@ output_greentao(L,n,filename) := block(
 c created by the OKlibrary at ", timedate(),": 
 c ", length(L), " parts with arithmetic progressions of sizes ", L, "
 c and ", n, " prime numbers.
-", standard_statistics_fcs(FF[1]), "
 c Variables and associated prime numbers and \"colours\":"),
     FF[1],
     filename,
@@ -297,7 +295,6 @@ output_greentaod(m,k,n,filename) := block(
 c created by the OKlibrary at ", timedate(),": 
 c ", m, " parts with arithmetic progressions of sizes ", k, "
 c and ", n, " prime numbers.
-", standard_statistics_fcs(FF[1]), "
 c Variables and associated prime numbers and \"colours\":"),
     FF[1],
     filename,
@@ -312,7 +309,6 @@ output_greentaod_sb(m,k,n,filename) := block(
 c created by the OKlibrary at ", timedate(),": 
 c ", m, " parts with arithmetic progressions of sizes ", k, "
 c and ", n, " prime numbers. Symmetry breaking by putting prime 3 into part 1.
-", standard_statistics_fcs(FF[1]), "
 c Variables and associated prime numbers and \"colours\":"),
     FF[1],
     filename,
