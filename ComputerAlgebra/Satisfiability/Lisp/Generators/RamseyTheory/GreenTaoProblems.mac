@@ -255,8 +255,8 @@ output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
 
 /* The general form: */
 output_greentao(L,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))))],
-  output_fcs_v(
+ [FF : standardise_fcl(nbfclfd2fcl_aloamo(nbfclud2nbfclfd(greentao_nbfclud(L,n))))],
+  output_fcl_v(
     sconcat("Green-Tao problem (general form),
 c created by the OKlibrary at ", timedate(),": 
 c ", length(L), " parts with arithmetic progressions of sizes ", L, "
