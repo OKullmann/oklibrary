@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 21.1.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,9 +29,9 @@ count_ksubsets_s(M,k) := binomial(length(M),k)$
 count_ksubsets(n,k) := binomial(n,k)$
 /* Prerequisites in both cases: k is an integer. */
 
-/* ***************************
+/* ****************************
    * Lexicographical ordering *
-   ***************************
+   ****************************
 */
 
 /* "Lexicographical order" treats a subset as a list, sorted in ascending
@@ -78,9 +78,9 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   return(setify(S)))$
 
 
-/* *****************************
+/* ******************************
    * Colexicographical ordering *
-   *****************************
+   ******************************
 */
 
 /* "Coexicographical order" treats a subset as a list, sorted in ascending
