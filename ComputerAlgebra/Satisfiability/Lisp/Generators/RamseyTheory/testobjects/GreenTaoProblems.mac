@@ -67,6 +67,13 @@ okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 */
 
 
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+okltest_greentao_aloamo_stdfcl(greentao_aloamo_stdfcl);
+
 /* ********************
    * Output functions *
    ********************

@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 
 /* *****************************************
@@ -59,7 +60,7 @@ greentao2nd_fcl(k1,k2,n) := block(
 greentao2nd_fcs(k1,k2,n) := fcl2fcs(greentao2nd_fcl(k1,k2,n))$
 
 
-/* Now the general form, where L is a vdW-parameter-tuple: */
+/* Now the general form, where L is an extended vdW-parameter-tuple: */
 greentao_nbfclud(L,n) := 
  if emptyp(L) then [primes_first(n),[],[]] else
  block([LG : [], old_k : -1, old_hg],
@@ -74,6 +75,10 @@ greentao_nbfclud(L,n) :=
     gcol2sat_stdohg2stdnbfclud(reverse(LG),create_list(i,i,1,length(L)))))$
 
 greentao_nbfcsud(L,n) := nbfclud2nbfcsud(greentao_nbfclud(L,n))$
+
+/* Remarks: Validity of L is tested by extvanderwaerden_p(L) in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac.
+*/
 
 
 /* The diagonal case (m parts, arithmetic progressions of size k): */
@@ -141,6 +146,39 @@ greentaod_sb_nbfcsud(m,k,n) := block([G : greentaod_nbfcsud(m,k,n)],
 /* *******************
    * Standardisation *
    *******************
+*/
+
+/* Standardising the standard translation */
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables; P is here the list of the first
+   n prime numbers (while [L,n] are the Green-Tao parameters):
+*/
+standardise_greentao_aloamo(L,P) := block(
+ [m : length(L),
+  A : osm2ary_lt(l2osm_inv(P),last(P),fixnum)],
+  buildq([m,A], lambda([t], ev(t, nbv(v,i):=(A[v]-1)*m+i, nbv))))$
+
+invstandardise_greentao_aloamo(L,P) := block(
+ [m : length(L),
+  A : osm2ary_lt(l2osm(P),length(P),fixnum)],
+  buildq([m,A], lambda([i], block([d : divide(i-1,m)+1],
+    nbv_var(A[d[1]], d[2])))))$
+
+/* Computing the pair [FF,L], where FF is the standardised form of
+   greentao_nbfclud(L,n), while L is the list of original variable:
+*/
+greentao_aloamo_stdfcl(L,n) :=
+ if n=0 then 
+   [[[],create_list({},i,1,length(sublist(L,lambda([x],is(x=0)))))],[]] 
+ else
+ block([m : length(L), FF : greentao_nbfclud(L,n)],
+  [block([s : standardise_greentao_aloamo(L,FF[1])],
+     s(nbfclud2fcl_aloamo(FF))),
+   block([invs : invstandardise_greentao_aloamo(L,FF[1])],
+     create_list(invs(i), i,1,n*m))])$
+/* We have greentao_aloamo_stdfcl(L,n) =
+   standardise_fcl(greentao_aloamo_fcl(L,n)).
 */
 
 
