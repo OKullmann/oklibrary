@@ -121,7 +121,7 @@ greentao2_sb_fcs(k,n) := block([G : greentao2_fcs(k,n)],
 /* Symmetry breaking for n >= 2, forcing prime 3 into the first blocks
    of sections of equal progression lengths: */
 greentao_sb_aloamo_fcs(L,n) := block(
- [FF : nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentao_nbfcsud(L,n))), 
+ [FF : greentao_aloamo_fcs(L,n), 
   sbC : {}, old_k : 0],
   for i : 1 thru length(L) do block([k : L[i]],
     if k > old_k then (
