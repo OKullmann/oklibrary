@@ -56,7 +56,7 @@ okltest_greentao_standnest_fcs(greentao_standnest_fcs);
 
 okltest_greentao2_sb_fcs(greentao2_sb_fcs);
 
-okltest_greentao_sb_fcs(greentao_sb_fcs);
+okltest_greentao_sb_aloamo_fcs(greentao_sb_aloamo_fcs);
 
 okltest_greentaod_sb_nbfcsud(greentaod_sb_nbfcsud);
 

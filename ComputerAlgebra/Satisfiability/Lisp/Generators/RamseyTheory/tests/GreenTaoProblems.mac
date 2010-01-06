@@ -162,7 +162,7 @@ okltest_greentao2_sb_fcs(f) := (
   /* XXX */
   true)$
 
-okltest_greentao_sb_fcs(f) := (
+okltest_greentao_sb_aloamo_fcs(f) := (
   assert(f([],2) = [{},{{}}]),
   assert(f([],3) = [{},{{}}]),
   assert(f([1],2) = [{nbv(2,1),nbv(3,1)},{{-nbv(2,1)},{-nbv(3,1)},{nbv(2,1)},{nbv(3,1)}}]),
