@@ -47,17 +47,19 @@ count_ksubsets(n,k) := binomial(n,k)$
 */
 
 /* Produces a list of all k-subsets of M in lexicographical order: */
-lex_subsets_l(M,k) := lex_subsets_ll(listify(M),k)$
-/* We have lex_subsets_l(M,k) =
-   map(setify,sort(map(listify,listify(powerset(M,k))), lex_lessp_l)).
+lex_subsets_l(M,k) := listify(powerset(M,k))$
+/* This implementation assumes that the internal order of sets is given by
+   lexicographical order.
+   Alternatively we have 
+     lex_subsets_l(M,k) = lex_subsets_ll(listify(M),k)
+                        = map(setify,
+                              sort(map(listify,
+                                       listify(powerset(M,k))), lex_lessp_l)).
 */
 /* More generally, now M is a repetition-free list, and the order is as
    specified by the order of M:
 */
-lex_subsets_ll(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
- block([x : first(M), R : rest(M)],
-    append(add_element_l(x,lex_subsets_ll(R,k-1)), lex_subsets_ll(R,k)))$
-
+lex_subsets_ll(M,k) := reverse(colex_subsets_ll(reverse(M),k))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    lexicographical enumeration of all |S|-subsets: */
