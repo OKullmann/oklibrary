@@ -161,13 +161,20 @@ License, or any later version. */
    <li> OKsolver_2002 for n=553:
     <ol>
      <li> Without preprocessing and without symmetry breaking:
-     \verbatim
+      <ul>
+       <li>
+       \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D16 -F GreenTao_3-2-4-4_553.cnf
-     \endverbatim
-     Looks possible. (Running it on a 64-bit machine ("cspasiphae"), it is
-     much slower than on the old 32-bit laptp: It needs roughly 40s for
-     10000 nodes (and on cs-wsok it is more than 80s), while on csltok
-     (32-bit, 1.7GHz) it needs roughly 20s for 10000 nodes!)
+       \endverbatim
+       Looks possible. </li>
+       <li> Running it on a 64-bit machine ("cspasiphae"), it is
+       much slower than on the old 32-bit laptp: It needs roughly 40s for
+       10000 nodes (and on cs-wsok it is more than 80s), while on csltok
+       (32-bit, 1.7GHz) it needs roughly 20s for 10000 nodes!) </li>
+       <li> Aborted after 1631 monitoring nodes (average time 6m per
+       monitoring node, average node count 87600). So with some
+       parallelisation (and a more efficient implementation for 64-bit
+       machines) it might be possible (say with 10 machines in 2 weeks). </li>
      </li>
      <li> With preprocessing and without symmetry breaking:
      \verbatim
@@ -179,8 +186,10 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> minisat2 for n=553:
-   </li>
+   <li> minisat2 for n=553: Aborted after 129431786 conflicts; unclear whether
+   something has been achieved. </li>
+   <li> march_pl: aborted after 10000m; some progress was made (154*10^6
+   nodes processed, 1424 resolvents added). </li>
   </ul>
 
 
