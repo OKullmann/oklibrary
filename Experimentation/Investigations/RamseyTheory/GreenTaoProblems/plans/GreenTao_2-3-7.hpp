@@ -37,7 +37,7 @@ contradiction
   </ul>
 
 
-  \todo greentao_2(3,7) > 13750
+  \todo greentao_2(3,7) > 13800
   <ul>
    <li> n=5000: ubcsat::adaptnovelty+ finds it satisfiable with just a
    cutoff=10000. </li>
@@ -87,10 +87,23 @@ BestSolution_Max = 19.000000
    </li>
    <li> n=13800
     <ol>
-     <li> cutoff=10^9: </li>
-     <li> cutoff=2*10^9: </li>
+     <li> cutoff=10^8: In 36 runs one solution was found:
+     \verbatim
+> E = read_ubcsat("GreenTao_2-3-7_13800.cnf_OUT2")
+ 0  1  2  3  4
+ 1  3 10 17  5
+36
+> E[E$min==0,]
+   sat min   osteps   msteps      seed
+21   1   0 77868065 77868065 793605254
+     \endverbatim
+     </li>
+     <li> cutoff=10^9: three runs yield twice min=1 and once min=2. </li>
+     <li> cutoff=2*10^9: one run yields min=2. </li>
+     <li> So perhaps a cutoff=10^8 is more appropriate here. </li>
     </ol>
    </li>
+   <li> n=13850, cutoff=10^8 </li>
    <li> n=14000
     <ol>
      <li> cutoff=10^9: 4 runs yield min=3. </li>
