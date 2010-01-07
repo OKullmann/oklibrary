@@ -253,7 +253,7 @@ c Variables and associated prime numbers:"),
 output_greentao2nd_stdname(k1,k2,n) := output_greentao2nd(k1,k2,n,
   sconcat("GreenTao_2-",k1,"-",k2,"_",n,".cnf"))$
 
-/* The general form: */
+/* The general form, with aloamo-translation: */
 output_greentao(L,n,filename) := block(
  [FF : greentao_aloamo_stdfcl(L,n)],
   output_fcl_v(
@@ -268,7 +268,23 @@ c Variables and associated prime numbers and \"colours\":"),
 output_greentao_stdname(L,n) := output_greentao(L,n,
   sconcat("GreenTao_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
-/* The general form with symmetry breaking: */
+/* The general form, with standard-nested-translation: */
+output_greentao_standnest(L,n,filename) := block(
+ [FF : greentao_standnest_stdfcl(L,n)],
+  output_fcl_v(
+    sconcat("Green-Tao problem, translated via standard nested translation to the boolean form,
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_standnest_stdname(L,n) := output_greentao_standnest(L,n,
+  sconcat("GreenTao_N_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+
+/* The general form with aloamo-translation and with symmetry breaking: */
 output_greentao_sb(L,n,filename) := block(
  [FF : standardise_fcs(greentao_sb_aloamo_fcs(L,n))],
   output_fcs_v(
@@ -286,8 +302,8 @@ output_greentao_sb_stdname(L,n) := output_greentao_sb(L,n,
   sconcat("GreenTao_sb_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
-/* The diagonal case (m is the number of parts, k the length or arithmetic
-   progressions): */
+/* The diagonal case, with aloamo-translation (m is the number of parts, 
+   k the length or arithmetic progressions): */
 output_greentaod(m,k,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(greentaod_nbfcsud(m,k,n))))],
   output_fcs_v(
