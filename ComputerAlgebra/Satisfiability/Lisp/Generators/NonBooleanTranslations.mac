@@ -68,18 +68,18 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
    **************************************
 */
 
-/* The same variable nbv(v,e) are used, but now using nbv(v,i),
+/* The same variables nbv(v,e) are used, but now in the form nbv(v,i),
    where i is an index. */
 
 /* Consider a non-boolean formal clause-set FF = [V,F,D]; so
-   D is the function-domain D, and for a variable v the set D(v) is the
+   D is the function-domain, and for a variable v the set D(v) is the
    set of values of v. We assume that V does not contain variables of the
    form nbv(x,y). And we assume that all domains are non-empty.
    We consider FF as CNF (so we use "SAT-terminology").
 
    We assume further that T(v) is an (arbitrary) labelled ordered boolean 
    unsatisfiable clause-set where the label set contains D(v),
-   while all variables are of the form nbv(v,i) for in prinicpal arbitrary i.
+   while all variables are of the form nbv(v,i) for in principal arbitrary i.
    The clauses of T(v) associated to values e in D(v) are denoted by
    T(v,e), while TR(v) := T(v) - {T(v,e) : e in D(v)} is the (possibly
    empty) clause-set containing the remaining clauses.
@@ -98,14 +98,14 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
    Let D(v) = {e_1, ..., e_k} (k >= 1).
 
    We obtain the above weak standard translation by letting
-   T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
-          { {nbv(v,e_1), ..., nbv(v,e_k)} }
+     T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
+            { {nbv(v,e_1), ..., nbv(v,e_k)} }
    where T(v,e_i) = {-nbv(v,e_i)}.
    For the strong standard translation we just add the binary clauses
    {-nbv(v,e_i), -nbv(v,e_j)} for i <> j.
 
    The standard nested translation uses
-   T(v) = smusat_horn_stdfcl(k-1)
+     T(v) = smusat_horn_stdfcl(k-1)
    where T(v,e_i) uses some permutation of the clause-list (which is of
    length k), and where the variables 1, ..., k-1 are replaced by nbv(v,i).
 
