@@ -49,6 +49,18 @@ for k : 0 thru 8 do print(k,length(add_bincl_nec(smusat_horn_stdfcs(k)[2],{},dll
      <li> {{1,2},{1,3},{2,3}} is a possible extension. </li>
     </ol>
    </li>
+   <li> So it seems one maximal solution for smusat_horn_stdfcs(k) is
+   powerset(set(k),2) (which has size k*(k-1)/2); the following tests
+   all yield "true":
+   \verbatim
+for k : 0 thru 5 do block(
+ [V : create_list(i,i,1,5),
+  D : create_list(i,i,1,k+1), Vt, TR_strong],
+  Vt : standnest_TV(D),
+  TR_strong : buildq([Vt],lambda([v], listify(powerset(setify(Vt(v)),2)))),
+  print(k, gennest_nbfcl2fcl_p(V,lambda([v],D),dll_simplest_trivial2, standnest_T(D),TR_strong,standnest_TV(D))))$
+   \endverbatim
+   </li>
   </ul>
 
 */
