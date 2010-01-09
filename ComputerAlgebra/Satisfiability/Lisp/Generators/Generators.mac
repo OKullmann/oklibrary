@@ -30,10 +30,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 
 /* The full clause-set over variable set or list V: */
 full_fcs_v(V) := [if listp(V) then setify(V) else V, all_tass(V)]$
+full_cs_v(V) := all_tass(V)$
 /* We have full_fcs_v(V) = expand_fcs([V,{{}}]) for sets V. */
 /* The formal full clause set with variable set {1,...,n} and all
    possible (full) clauses (also known as "canonical CNF/DNF") */
 full_fcs(n) := full_fcs_v(setn(n))$
+full_cs(n) := full_cs_v(setn(n))$
 
 /* Measures */
 
