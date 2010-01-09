@@ -61,6 +61,12 @@ for k : 0 thru 5 do block(
   print(k, gennest_nbfcl2fcl_p(V,lambda([v],D),dll_simplest_trivial2, standnest_T(D),TR_strong,standnest_TV(D))))$
    \endverbatim
    </li>
+   <li> And the proof that after addition of all positive binary clauses all
+   of the clauses of smusat_horn_stdfcs(k) are still necessary is simple:
+   Consider the k+1 total assignment which set at most one variable to false
+   (and all other to true): these assignments falsify exactly the k+1 clauses
+   from smusat_horn_stdfcs(k) respectively, and satisfy all other clauses.
+   </li>
   </ul>
 
 */
