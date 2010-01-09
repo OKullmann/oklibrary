@@ -15,6 +15,9 @@ License, or any later version. */
    <li> See ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac (and
    ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp) for translations
    of colouring problems to SAT problems. </li>
+   <li> See
+   Experimentation/Investigations/BooleanTranslations/plans/general.hpp for
+   investigations. </li>
   </ul>
 
 
