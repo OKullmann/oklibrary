@@ -39,6 +39,9 @@ create_list(vanderwaerden33k(k),k,1,6);
      <li> vanderwaerden33k(8) > 160 </li>
     </ol>
    </li>
+   <li> In [Landman, Robertson; Ramsey Theory on the Integers] we find
+   "vanderwaerden_3(3,3,5) = 77", however below we see
+   vanderwaerden_3(3,3,5) > 79. </li>
   </ul>
 
 
