@@ -160,10 +160,13 @@ standnest_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D))],
    if i < k then setify(cons(nbv_var(v,i),create_list(-nbv_var(v,j),j,1,i-1)))
    else setify(create_list(-nbv_var(v,j),j,1,i-1))))))$
 standnest_TR(D) := lambda([v], [])$
+standnest_strong_TR(D) := buildq([Vt : standnest_TV(D)],
+ lambda([v], listify(powerset(setify(Vt(v)),2))))$
 standnest_TV(D) := buildq([l:length(D)],
  lambda([v], create_list(nbv_var(v,i), i,1,l-1)))$
 
 nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_TR(FF[3]), standnest_TV(FF[3]))$
+nbfclud2fcl_standnest_strong(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_strong_TR(FF[3]), standnest_TV(FF[3]))$
 
 
 /* ************************************************
