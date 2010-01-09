@@ -13,7 +13,7 @@ License, or any later version. */
   and by "GTSat 3 4 k n" at C++ level.
   
 
-  \todo greentao_3(3,4,4) > 1543
+  \todo greentao_3(3,4,4) > 1544
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -110,7 +110,17 @@ License, or any later version. */
    <li> n=1543: cutoff=10^9: in 474 runs one solution was found
    (seed=2142163637, osteps=918202991). It seems we need to double the
    cutoff. </li>
-   <li> n=1544: cutoff=2*10^9 </li>
+   <li> n=1544: cutoff=2*10^9
+   \verbatim
+  1   2   3
+ 41 137   6
+184
+  0   1   2   3   4
+  1  63 261  22   1
+348
+   \endverbatim
+   (seed=2955200386, osteps=664563809). </li>
+   <li> n=1545: cutoff=2*10^9 </li>
    <li> n=1550
     <ol>
      <li> Looks (at first sight) unsatisfiable: 10 runs with
@@ -184,7 +194,17 @@ License, or any later version. */
    <li> n=7600, cutoff=2*10^8 (adaptnovelty+): in 249 runs one solution was
    found (seed=3054809508, osteps=165824921). It seems one should double
    the cutoff. </li>
-   <li> n=7700, cutoff=4*10^8 </li>
+   <li> n=7650, cutoff=4*10^8 </li>
+   <li> n=7700, cutoff=4*10^8 (adaptnovelty+):
+   \verbatim
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 21
+ 1  1  2  3  6  5  4  9 12 12 13 10  3  5  5  7  1  1
+100
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 19
+ 1  3  4  8  9 12 10 10 10 14  4  9  5  1
+100
+   \endverbatim
+   </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
