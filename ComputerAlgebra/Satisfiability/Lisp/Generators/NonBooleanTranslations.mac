@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ******************************
@@ -119,7 +120,7 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
 gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
 
 /* Given a non-boolean formal clause-list FF, a map T(v,e) which associates
-   to every variable v and its values e a boolean clause-list in the
+   to every variable v and its values e a boolean clause in the
    variables nbv(v,i), a map TR(v) which associates to every variable v
    a clause-list (the "remaining" clauses), and a map TV(v) which associates
    to every variable v the list of variables of T(v,e), compute the
@@ -131,6 +132,8 @@ gennest_nbfcl2fcl(FF,T,TR,TV) := [
    map(lambda([C], gennest_clause_trans(C,T)), FF[2]),
    lappend(map(TR,FF[1]))
  )]$
+/* Remark: See gennest_nbfcl2fcl_p below for checking correctness. */
+
 
 /* For obtaining the standard translation: */
 standtrans_T(v,e) := {-nbv_var(v,e)}$
@@ -152,13 +155,13 @@ nbfclud2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans
    in the same way (from smallest to largest):
 */
 standnest_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D))],
- buildq([D,k,h],
+ buildq([k,h],
   lambda([v,e], block([i : ev_hm(h,e)],
    if i < k then setify(cons(nbv_var(v,i),create_list(-nbv_var(v,j),j,1,i-1)))
    else setify(create_list(-nbv_var(v,j),j,1,i-1))))))$
-standnest_TR(D) := buildq([D], lambda([v], []))$
-standnest_TV(D) := buildq([D],
- lambda([v], create_list(nbv_var(v,i), i,1,length(D)-1)))$
+standnest_TR(D) := lambda([v], [])$
+standnest_TV(D) := buildq([l:length(D)],
+ lambda([v], create_list(nbv_var(v,i), i,1,l-1)))$
 
 nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_TR(FF[3]), standnest_TV(FF[3]))$
 
@@ -168,11 +171,32 @@ nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), 
    ************************************************
 */
 
+/* Checking for correctness of the arguments T,TR,TV of gennest_nbfcl2fcl:
+   V is the list of variables, D is the functional domain (yielding for
+   every variable in V a repetition-free list of values), S is a
+   SAT solver (input a boolean formal clause-set, output true/false).
+*/
+gennest_nbfcl2fcl_p(V,D_,S_, T_,TR_,TV_) := block([counterexample : false],
+  for v in V unless counterexample do block(
+   [Fv : map(lambda([e],T_(v,e)),D_(e)), Fr : TR_(v), F,Vv],
+    if not cl_p(Fv) or not cl_p(Fr) then (counterexample : true, return()),
+    F : setify(append(Fv, Fr)), Vv : var_cs(F),
+    if not subsetp(Vv, setify(TV_(v))) or 
+        S_([Vv,F]) # false or
+        some_s(lambda([E], impliesp_cs(disjoin(E,F),E,S_)), Fv)
+    then counterexample : true
+  ),
+  if counterexample then return(false),
+  for P in powerset(setify(V),2) unless counterexample do
+    if not apply(disjointp, map(setify,map(TV_, listify(P)))) then counterexample : true,
+  return(not counterexample))$
+    
+
 /* Find a maximal set of binary clauses (without new variables) which
    can be added to the union of F1, F2 while maintaining that all clauses
    in F1 are necessary.
    Prerequisites: F1, F2 are clause-sets, S is some SAT-solver (input a
-   clause-set, output true/false).
+   boolean formal clause-set, output true/false).
 */
 add_bincl_nec(F1,F2,S) := block(
  [U : union(F1,F2), V],

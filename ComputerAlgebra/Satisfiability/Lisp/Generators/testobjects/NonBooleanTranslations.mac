@@ -47,6 +47,8 @@ okltest_nbfclud2fcl_alo(nbfclud2fcl_alo_2);
    ************************************************
 */
 
+okltest_gennest_nbfcl2fcl_p(gennest_nbfcl2fcl_p);
+
 okltest_add_bincl_nec(add_bincl_nec);
 
 /*!
