@@ -108,6 +108,10 @@ greentao_standnest_fcl(L,n) :=
   nbfclud2fcl_standnest(greentao_nbfclud(L,n))$
 greentao_standnest_fcs(L,n) := fcl2fcs(greentao_standnest_fcl(L,n))$
 
+greentao_standnest_strong_fcl(L,n) :=
+  nbfclud2fcl_standnest_strong(greentao_nbfclud(L,n))$
+greentao_standnest_strong_fcs(L,n) := fcl2fcs(greentao_standnest_strong_fcl(L,n))$
+
 
 /* *********************
    * Symmetry breaking *
@@ -216,6 +220,18 @@ greentao_standnest_stdfcl(L,n) :=
    standardise_fcl(greentao_standnest_fcl(L,n)).
 */
 
+greentao_standnest_strong_stdfcl(L,n) :=
+ if n=0 then 
+   [[[],create_list({},i,1,length(sublist(L,lambda([x],is(x=0)))))],[]] 
+ else
+ block([m : length(L), FF : greentao_nbfclud(L,n)],
+  [block([s : standardise_greentao_standnest(L,FF[1])],
+     s(nbfclud2fcl_standnest_strong(FF))),
+   block([invs : invstandardise_greentao_standnest(L,FF[1])],
+     create_list(invs(i), i,1,n*(m-1)))])$
+/* We have greentao_standnest_strong_stdfcl(L,n) =
+   standardise_fcl(greentao_standnest_strong_fcl(L,n)).
+*/
 
 
 /* ********************
@@ -282,6 +298,20 @@ c Variables and associated prime numbers and \"colours\":"),
     FF[2]))$
 output_greentao_standnest_stdname(L,n) := output_greentao_standnest(L,n,
   sconcat("GreenTao_N_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+output_greentao_standnest_strong(L,n,filename) := block(
+ [FF : greentao_standnest_strong_stdfcl(L,n)],
+  output_fcl_v(
+    sconcat("Green-Tao problem, translated via strong standard nested translation to the boolean form,
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_standnest_strong_stdname(L,n) := output_greentao_standnest_strong(L,n,
+  sconcat("GreenTao_SN_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
 /* The general form with aloamo-translation and with symmetry breaking: */

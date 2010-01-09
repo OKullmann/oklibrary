@@ -152,6 +152,14 @@ okltest_greentao_standnest_fcs(f) := (
   /* XXX */
   true)$
 
+okltest_greentao_standnest_strong_fcl(f) := (
+
+  true)$
+
+okltest_greentao_standnest_strong_fcs(f) := (
+
+  true)$
+
 
 /* *********************
    * Symmetry breaking *
@@ -225,6 +233,12 @@ okltest_greentao_standnest_stdfcl(f) := (
   assert(f([],0) = [[[],[]],[]]),
   for T in testcases_nonempty_greentao_std do
     assert(apply(f,T) = standardise_fcl(apply(greentao_standnest_fcl,T))),
+  true)$
+
+okltest_greentao_standnest_strong_stdfcl(f) := (
+  assert(f([],0) = [[[],[]],[]]),
+  for T in testcases_nonempty_greentao_std do
+    assert(apply(f,T) = standardise_fcl(apply(greentao_standnest_strong_fcl,T))),
   true)$
 
 
