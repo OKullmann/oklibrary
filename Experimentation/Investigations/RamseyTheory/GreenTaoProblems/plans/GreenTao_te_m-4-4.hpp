@@ -186,10 +186,13 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> minisat2 for n=553: Aborted after 129431786 conflicts; unclear whether
-   something has been achieved. </li>
    <li> march_pl: aborted after 10000m; some progress was made (154*10^6
    nodes processed, 1424 resolvents added). </li>
+   <li> satz215: </li>
+   <li> minisat2 for n=553: Aborted after 129431786 conflicts; unclear whether
+   something has been achieved. </li>
+   <li> picosat913: </li>
+   <li> precosat236: </li>
   </ul>
 
 
