@@ -42,6 +42,12 @@ okltest_nbfcsfd2fcs_aloamo(nbfcsfd2fcs_aloamo);
 
 okltest_nbfclud2fcl_alo(nbfclud2fcl_alo_2);
 
+/* ************************************************
+   * Tools for the generalised nested translation *
+   ************************************************
+*/
+
+okltest_add_bincl_nec(add_bincl_nec);
 
 /*!
 \endhtmlonly

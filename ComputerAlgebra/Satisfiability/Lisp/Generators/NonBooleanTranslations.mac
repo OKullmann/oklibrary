@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 
 
 /* ******************************
@@ -161,6 +162,34 @@ standnest_TV(D) := buildq([D],
 
 nbfclud2fcl_standnest(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(FF[3]), standnest_TR(FF[3]), standnest_TV(FF[3]))$
 
+
+/* ************************************************
+   * Tools for the generalised nested translation *
+   ************************************************
+*/
+
+/* Find a maximal set of binary clauses (without new variables) which
+   can be added to the union of F1, F2 while maintaining that all clauses
+   in F1 are necessary.
+   Prerequisites: F1, F2 are clause-sets, S is some SAT-solver (input a
+   clause-set, output true/false).
+*/
+add_bincl_nec(F1,F2,S) := block(
+ [U : union(F1,F2), V],
+  V : var_cs(U),
+  for C in random_permutation(setdifference(all_pass_n(V,2),U)) do block(
+   [new_U : adjoin(C,U)],
+    if every_s(lambda([D], not impliesp_cs(disjoin(D,new_U),D,S)), F1) then
+      U : new_U
+  ),
+  return(setdifference(U,union(F1,F2))))$
+/* Remarks: For a variable v with domain D the meaning of F1, F2
+   w.r.t. the above description is
+     F1 = {T(v,e) : e in D}
+     F2 = TR(v).
+   add_bincl_nec(F1,F2,S) then computes some maximal set of binary clauses
+   which can be added to TR(v).
+*/
 
 /*!
 \endhtmlonly
