@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,19 +26,19 @@ License, or any later version. */
    to take the ordering given by the variable list, and the ordering given by
    the domain and then define the new ordering on the domain lexicographically
    based first on the variable ordering and then on the domain. </li>
-   <li> Such a (variable,domain) lexicographical ordering would allow additional
-   variables to be added to the problem at the end of the variable ordering 
-   without requiring renumbering. </li>
+   <li> Such a (variable,domain) lexicographical ordering would allow
+   additional variables to be added to the problem at the end of the variable
+   ordering without requiring renumbering. </li>
    <li> Perhaps two versions could be supplied, with one ordering first by 
    variable then domain, and then vice versa (then allowing the domain to be
-   easily extended? </li>
+   easily extended)? </li>
    <li> See 
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac 
    for an example of use. </li>
   </ul>
 
 
-  \todo Translating non-boolean clause-sets into boolean clause-sets
+  \todo DONE Translating non-boolean clause-sets into boolean clause-sets
   <ul>
    <li> DONE
    Write nbfcsfd2fcs_alo(FF) and nbfcsfd2fcs_aloamo(FF), translating
