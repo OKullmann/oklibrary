@@ -235,10 +235,21 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
    found (seed=1667268345, osteps=342601286). </li>
    <li> n=1010, cutoff=10^9 (adaptnovelty+): in 91 runs one solution was found
    (seed=4034341891, osteps=669592854). </li>
+   <li> n=1015
+    <ol>
+     <li> Using the standard nested translation, with cutoff=10^7: </li>
+    </ol>
+   </li>
    <li> n=1020
     <ol>
      <li> cutoff=10^9 (adaptnovelty+) </li>
-     <li> Using the standard nested translation, with cutoff=10^7: </li>
+     <li> Using the standard nested translation, with cutoff=10^7:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10
+  4  26  59 110 136  95  46  21   2   1
+500
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
