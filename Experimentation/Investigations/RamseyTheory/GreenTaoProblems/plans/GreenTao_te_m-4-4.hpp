@@ -344,7 +344,6 @@ License, or any later version. */
 > summary(E$osteps[E$min==1])
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
   536800  5037000 12270000 12320000 17450000 30670000
-
   0   1   2
   1 103 265
 369
@@ -357,6 +356,59 @@ License, or any later version. */
 > summary(E$osteps[E$min==2])
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
    98950   989600  1800000  2308000  2968000 11240000
+     \endverbatim
+     </li>
+     <li> Best local search algorithm from Ubcsat-suite for the standard
+     nested translation:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_4-2-2-4-4_584.cnf")
+     \endverbatim
+     evaluated by plot(E$alg,E$best): Only one algorithm reached min=1,
+     namely saps:
+     \verbatim
+> table(E$best[E$alg=="saps"])
+ 1  2  3  4  5  6  7  8  9 10 11 12 13
+ 1  2  5  5  7 13 14 16 17 10  6  3  1
+> table(E$best[E$alg=="rnovelty"])
+ 2  3  4  5  6
+10 33 46  9  2
+     \endverbatim
+     Of course, this could be just chance. </li>
+     <li> saps with cutoff=2*10^5 (nested translation):
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10
+ 2  4  4  4 12 19 18 18 12  7
+100
+     \endverbatim
+     </li>
+     <li> rnovelty with cutoff=2*10^5 (nested translation):
+     \verbatim
+ 2  3  4  5
+17 46 32  5
+100
+     \endverbatim
+     So actually, at least for these cutoffs, saps seems better for finding
+     a solution.
+     </li>
+     <li> saps with cutoff=4*10^5 (nested translation):
+     \verbatim
+ 1  2  3  4  5  6  7  8
+10  5 13 13 18 20 11 10
+100
+     \endverbatim
+     </li>
+     <li> saps with cutoff=8*10^5 (nested translation):
+     \verbatim
+ 1  2  3  4  5  6  7
+ 8 10 24 16 24 12  6
+100
+     \endverbatim
+     </li>
+     <li> saps with cutoff=1.6*10^6 (nested translation):
+     \verbatim
+ 1  2  3  4  5  6  7
+32 16 21 20  7  3  1
+100
      \endverbatim
      </li>
     </ol>
@@ -405,9 +457,70 @@ License, or any later version. */
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
-
+> table(E$best[E$alg=="rnovelty"])
+ 2  3  4  5  6  7
+ 6 28 49 15  1  1
+> table(E$best[E$alg=="sapsnr"])
+ 2  3  4  5  6  7  8  9 10 11 12 13
+ 5  6  4  2  8 17 14 16 14  7  6  1
+> table(E$best[E$alg=="rnoveltyp"])
+ 2  3  4  5  6
+ 4 35 43 14  4
+> table(E$best[E$alg=="walksat_tabu_nonull"])
+ 2  3  4  5  6  7  8  9
+ 2 13 17 26 22 10  9  1
+> table(E$best[E$alg=="walksat_tabu"])
+ 2  3  4  5  6  7  8
+ 2 10 27 19 21 16  5
+> table(E$best[E$alg=="novelty"])
+ 2  3  4  5  6  7  8
+ 2  4 27 33 26  7  1
+> table(E$best[E$alg=="walksat"])
+ 2  3  4  5  6  7  8  9 10 11
+ 1 12 16 23 21 10  6  6  3  2
+> table(E$best[E$alg=="noveltyp"])
+ 2  3  4  5  6  7
+ 1  4 31 43 19  2
+> table(E$best[E$alg=="saps"])
+ 2  3  4  5  6  7  8  9 10 11 12 13
+ 1  3  8  4 11 18 20 16 10  6  2  1
+> table(E$best[E$alg=="gwsat"])
+ 2  3  4  5  6  7  8  9 10 11 12
+ 1  1  2  6 12 22 19 20 10  6  1
+     \endverbatim
+     So here rnovelty seems best. </li>
+     <li> rnovelty with cutoff=10^6 (nested translation):
+     \verbatim
+ 1  2  3  4
+ 2 55 42  1
+100
      \endverbatim
      </li>
+     <li> rnovelty with cutoff=4*10^6 (nested translation):
+     \verbatim
+ 1  2  3
+ 3 80 17
+100
+> summary(EN$osteps[EN$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 111300  221000  330700  984100 1421000 2510000
+> summary(EN$osteps[EN$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  38660  228200  371700  804900 1010000 3525000
+> summary(EN$osteps[EN$min==3])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  66530  167100  342700  497700  653500 2410000
+     \endverbatim
+     This doesn't look as if increasing the cutoff helps much. </li>
+     <li> rnovelty with cutoff=8*10^6 (nested translation):
+     \verbatim
+ 2  3
+91  9
+100
+     \endverbatim
+     Realising min=1 seems to be even harder under this translation.
+     One needed to check whether for such higher cutoff-values rnovelty
+     still is best. </li>
     </ol>
    </li>
   </ul>
