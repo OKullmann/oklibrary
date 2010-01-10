@@ -40,19 +40,20 @@ create_list(vanderwaerden34k(k),k,1,5);
   \todo vanderwaerden_3(3,4,4) = 89
   <ul>
    <li> First just using aloamo-translation without symmetry-breaking. </li>
-   <li> Finding a satisfying assignment for n = 83 easy for OKsolver_2002 (in
-   5958 nodes). </li>
-   <li> Finding a satisfying assignment for n = 84 still relatively easy for
-   OKsolver_2002 (in 95712 nodes; ~ 40s); however using monitor-depth 16, no
-   node at level 16 was completed. </li>
-   <li> Finding a satisfying assignment for n = 85 still relatively easy for
-   OKsolver_2002 (in 90435 nodes). </li>
-   <li> Finding a satisfying assignment for n = 86 still relatively easy for
-   OKsolver_2002 (in 106506 nodes). </li>
-   <li> Finding a satisfying assignment for n = 87 still relatively easy for
-   OKsolver_2002 (in 111055 nodes). </li>
-   <li> Finding a satisfying assignment for n = 88 quite hard:
-   \verbatim
+   <li> OKsolver_2002
+    <ol>
+     <li> Finding a satisfying assignment for n=83 easy (in 5958 nodes). </li>
+     <li> Finding a satisfying assignment for n=84 still relatively easy
+     (in 95712 nodes; ~ 40s); however using monitor-depth 16, no node at level
+     16 was completed. </li>
+     <li> Finding a satisfying assignment for n=85 still relatively easy
+     (in 90435 nodes). </li>
+     <li> Finding a satisfying assignment for n=86 still relatively easy
+     (in 106506 nodes). </li>
+     <li> Finding a satisfying assignment for n=87 still relatively easy
+     (in 111055 nodes). </li>
+     <li> Finding a satisfying assignment for n=88 quite hard:
+     \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D20 VanDerWaerden_3-3-4-4_88.cnf
  66818:   1741    625.66  6.56E+08     0.99s     0.41s     0y   4d 16h 17m  4s     0     0   52
 
@@ -82,25 +83,36 @@ c number_of_1-autarkies                 3187088053
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_3-3-4-4_88.cnf
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> n=89 with OKsolver_2002: </li>
+    </ol>
    </li>
-   <li> n = 89 with OKsolver_2002: </li>
    <li> minisat2: Aborted for n=84 after 27 restarts (13m); it seems minisat2
    is weak on vdW-instances (though it could be here the case that for deciding
    unsatisfiability it's better). </li>
-   <li> picosat:
+   <li> picosat913:
     <ol>
      <li> Found a solution for n=84 in 3m17s. </li>
      <li> Found a solution for n=85 in 4m30s. </li>
      <li> Found a solution for n=86 in 1m18s. </li>
      <li> Found a solution for n=87 in 9m37s. </li>
-     <li> n=88 </li>
+     <li> Found a solution for n=88 in 500m. So in all these cases
+     OKsolver_2002 is somewhat faster, but performance is comparable. </li>
+     <li> n=89 </li>
     </ol>
    </li>
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> Found a solution for n=84 in 4m20s; so perhaps no big difference
+     to picosat913. </li>
+    </ol>
    </li>
    <li> march_pl: found a solution for n=84 in 5 1/2 m (117976 nodes). </li>
    <li> satz215: Aborted for n=84 after 9m; again it could be that it performs
    better on unsatisfiable instances. </li>
+   <li> Now considering the standard strong nested translation. </li>
   </ul>
   
 */
