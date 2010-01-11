@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1929
+  \todo greentao_3(3,3,5) > 1930
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -503,9 +503,11 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
      \endverbatim
      </li>
      <li> Now with cutoff=4*10^9: 131 runs yield 23 times min=1 (rest min=2).
-     </li>
+     In another 405 runs one solution was found (seed=2789358783, 
+     osteps=2164367412). </li>
     </ol>
    </li>
+   <li> n=1931, cutoff=4*10^9: </li>
   </ul>
 
 
