@@ -38,7 +38,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 1010
+  \todo Lower bounds: greentao_4(3,3,3,4) > 1015
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -237,17 +237,31 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
    (seed=4034341891, osteps=669592854). </li>
    <li> n=1015
     <ol>
-     <li> Using the standard nested translation, with cutoff=10^7: </li>
+     <li> Using the standard nested translation, with cutoff=10^7: In 317
+     runs one solution was found (seed=548029005, osteps=8867169):
+     \verbatim
+ 0  1  2  3  4  5  6  7  8
+ 1  8 30 71 76 66 48 16  1
+317
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1020
     <ol>
-     <li> cutoff=10^9 (adaptnovelty+) </li>
-     <li> Using the standard nested translation, with cutoff=10^7:
+     <li> cutoff=10^9 (aloamo, adaptnovelty+) </li>
+     <li> Using the standard nested translation (adaptnovelty+), with
+     cutoff=10^7:
      \verbatim
   1   2   3   4   5   6   7   8   9  10
   4  26  59 110 136  95  46  21   2   1
 500
+     \endverbatim
+     </li>
+     <li> Using the strong standard nested translation (adaptnovelty+), with
+     cutoff=10^7:
+     \verbatim
+
      \endverbatim
      </li>
     </ol>
