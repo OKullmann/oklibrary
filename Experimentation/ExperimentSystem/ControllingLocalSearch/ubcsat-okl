@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 1.8.2008 (Swansea)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,5 +9,9 @@
 # Typical use (for example):
 # ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
+# Is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
+# (this is automatically performed when building ubcsat).
+
+echo "# $*"
 echo "       sat  min     osteps     msteps       seed"
 ubcsat m4_SHELL(ubcsat_defaults_okl) $*
