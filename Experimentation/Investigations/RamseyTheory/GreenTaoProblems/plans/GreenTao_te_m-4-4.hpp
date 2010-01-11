@@ -330,11 +330,11 @@ License, or any later version. */
    </li>
    <li> march_pl: aborted after 10000m; some progress was made (154*10^6
    nodes processed, 1424 resolvents added). </li>
-   <li> satz215: </li>
+   <li> satz215: aborted after 2800m. </li>
    <li> minisat2 for n=553: Aborted after 129431786 conflicts; unclear whether
    something has been achieved. </li>
-   <li> picosat913: </li>
-   <li> precosat236: </li>
+   <li> picosat913: aborted after 2800m. </li>
+   <li> precosat236: aborted after 2800m. </li>
   </ul>
 
 
