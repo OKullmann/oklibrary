@@ -85,7 +85,36 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_3-3-4-4_88.cnf
      \endverbatim
      </li>
-     <li> n=89 with OKsolver_2002: </li>
+     <li> n=89 with OKsolver_2002:
+     \verbatim
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         4
+c initial_number_of_variables           267
+c initial_number_of_clauses             4844
+c initial_number_of_literal_occurrences 16817
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   267
+c running_time(sec)                     176914.2
+c number_of_nodes                       245703089
+c number_of_single_nodes                26
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2018597987
+c number_of_pure_literals               0
+c number_of_autarkies                   38
+c number_of_missed_single_nodes         1428
+c max_tree_depth                        52
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 19135399222
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_3-3-4-4_89.cnf
+     \endverbatim
+     (2 days). </li>
     </ol>
    </li>
    <li> minisat2: Aborted for n=84 after 27 restarts (13m); it seems minisat2
