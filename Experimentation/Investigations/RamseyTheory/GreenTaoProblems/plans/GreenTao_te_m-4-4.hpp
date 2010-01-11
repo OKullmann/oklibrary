@@ -59,13 +59,33 @@ License, or any later version. */
 100
    \endverbatim
    (seed=3514873770, osteps=223114). </li>
-   <li> n=552, novelty+, cutoff=10^6: 5 solutions found
-   \verbatim
+   <li> n=552:
+    <ol>
+     <li> novelty+ (aloamo), cutoff=10^6: 5 solutions found
+     \verbatim
  0  1  2  3  4  5  6  7
  5 38 34 15  3  3  1  1
 100
-   \endverbatim
-   (seed=783660701, osteps=463980). </li>
+     \endverbatim
+     (seed=783660701, osteps=463980). </li>
+     <li> rnovelty (weak standard nested), cutoff=10^6:
+     \verbatim
+> EN = read_ubcsat("GreenTao_N_3-2-4-4_552.cnf_OUT")
+ 0  1  2  3
+10 65 24  1
+100
+     \endverbatim
+     </li>
+     <li> rnovelty+ (strong standard nested), cutoff=10^6:
+     \verbatim
+ 0  1  2
+28 53 19
+100
+     \endverbatim
+     So rather clearly the strong standard nested translation is superior
+     here. </li>
+    </ol>
+   </li>
    <li> n=553, novelty+ (aloamo):
     <ol>
      <li> cutoff=10^6:
@@ -129,9 +149,84 @@ License, or any later version. */
 11 52 34  3
      \endverbatim
      </li>
-     <li> So it seems that the strong standard nested translation is best
-     here. </li>
-     <li> cutoff=2*10^5 (strong standard nested): </li>
+     <li> So it seems that the strong standard nested translation is better
+     than the weak one here. </li>
+     <li> cutoff=2*10^5 with rnovelty+ (strong standard nested):
+     \verbatim
+ 1  2  3
+32 60  8
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^5 with rnovelty (strong standard nested):
+     \verbatim
+ 1  2  3  4
+19 69 11  1
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5 with rnovelty+ (strong standard nested):
+     \verbatim
+ 1  2  3
+41 57  2
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5 with rnovelty (strong standard nested):
+     \verbatim
+ 1  2  3
+36 62  2
+100
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^5 with rnovelty+ (strong standard nested):
+     \verbatim
+ 1  2
+51 49
+100
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^5 with rnovelty (strong standard nested):
+     \verbatim
+ 1  2
+54 46
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6 with rnovelty+ (strong standard nested):
+     \verbatim
+ 1  2
+63 37
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6 with rnovelty (strong standard nested):
+     \verbatim
+> ESN = read_ubcsat("GreenTao_SN_3-2-4-4_553.cnf_OUT")
+ 1  2
+66 34
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 with rnovelty+ (strong standard nested):
+     \verbatim
+ 1  2
+84 16
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 with rnovelty (strong standard nested):
+     \verbatim
+ 1  2
+68 32
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6 with sapsnr (strong standard nested):
+     \verbatim
+
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=555, novelty+
@@ -243,11 +338,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) > 584
+  \todo greentao_4(2,2,4,4) >= 585
   <ul>
-   <li> Let's start with n = 570; should be satisfiable, and not too hard.
-   </li>
-   <li> And let's use novelty+ as the main Ubcsat-solver. </li>
+   <li> The conjecture is greentao_4(2,2,4,4) = 585. </li>
+   <li> Let's use novelty+ as the main Ubcsat-solver (aloamo). </li>
    <li> n=560:
     <ol>
      <li> cutoff=10^5: Only min=1 reached once in 100 runs. </li>
@@ -494,6 +588,16 @@ License, or any later version. */
 > summary(E$osteps[E$min==1])
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
   313400  1651000  5439000  8654000 10490000 30470000
+
+  1   2
+ 66 326
+392
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   56830  1048000  2186000  4052000  3940000 30100000
+> summary(E$osteps[E$min==1])
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  517100  3349000 10820000 11870000 18610000 30100000
      \endverbatim
      </li>
      <li> The standard nested translation:
@@ -575,7 +679,72 @@ License, or any later version. */
      Realising min=1 seems to be even harder under this translation.
      One needed to check whether for such higher cutoff-values rnovelty
      still is best. </li>
-     <li> saps with cutoff=1.6*10^6 </li>
+     <li> saps with cutoff=1.6*10^6 (nested translation): ???
+     \verbatim
+ 1  2  3  4  5  6  7
+61 38 66 44  7  4  5
+225
+> summary(EN$osteps[EN$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  24640  426000 1011000  900700 1306000 1582000
+     \endverbatim
+     Thus saps is definitely better than rnovelty here, and the (weak) standard
+     translation is superior to the aloamo-translation. </li>
+     <li> sapsnr with cutoff=1.6*10^6 (nested translation):
+     \verbatim
+
+     \endverbatim
+     </li>
+     <li> Finding a best algorithm for the strong standard nested translation:
+     \verbatim
+> E = eval_ubcsat("GreenTao_SN_4-2-2-4-4_585.cnf")
+     \endverbatim
+     using plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="sapsnr"])
+ 1  3  4  5  6  7  8  9 10 11 12
+ 1  2 12  4  8 21 22 15 10  4  1
+> table(E$best[E$alg=="rnovelty"])
+ 2  3  4  5  6
+10 36 38 14  2
+> table(E$best[E$alg=="rnoveltyp"])
+ 2  3  4  5  6
+ 9 38 40 12  1
+> table(E$best[E$alg=="walksat_tabu_nonull"])
+ 2  3  4  5  6  7  8  9
+ 3  7 19 22 24 13 10  2
+> table(E$best[E$alg=="noveltyp"])
+ 2  3  4  5  6  7
+ 2 16 41 32  8  1
+> table(E$best[E$alg=="walksat_tabu"])
+ 2  3  4  5  6  7  8  9
+ 2  9 15 28 19 16 10  1
+     \endverbatim
+     </li>
+     <li> rnovelty with cutoff=10^6 (strong nested translation):
+     \verbatim
+ 1  2  3  4
+ 2 75 22  1
+100
+     \endverbatim
+     </li>
+     <li> rnoveltyp with cutoff=10^6 (strong nested translation):
+     \verbatim
+
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=10^6 (strong nested translation):
+     \verbatim
+ 1  2  3  4  5  6
+18 24 17 18 13 10
+100
+     \endverbatim
+     </li>
+     <li> saps with cutoff=10^6 (strong nested translation):
+     \verbatim
+
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
