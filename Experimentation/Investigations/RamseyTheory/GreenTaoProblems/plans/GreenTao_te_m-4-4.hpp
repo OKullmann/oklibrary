@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -224,7 +224,9 @@ License, or any later version. */
      </li>
      <li> cutoff=4*10^6 with sapsnr (strong standard nested):
      \verbatim
-
+ 1  2
+96  4
+100
      \endverbatim
      </li>
     </ol>
@@ -679,22 +681,14 @@ License, or any later version. */
      Realising min=1 seems to be even harder under this translation.
      One needed to check whether for such higher cutoff-values rnovelty
      still is best. </li>
-     <li> saps with cutoff=1.6*10^6 (nested translation): ???
+     <li> sapsnr with cutoff=1.6*10^6 (weak nested translation):
      \verbatim
- 1  2  3  4  5  6  7
-61 38 66 44  7  4  5
-225
-> summary(EN$osteps[EN$min==1])
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-  24640  426000 1011000  900700 1306000 1582000
+ 1  2  3  4  5  6  8
+31 18 33  8  6  3  1
+100
      \endverbatim
-     Thus saps is definitely better than rnovelty here, and the (weak) standard
-     translation is superior to the aloamo-translation. </li>
-     <li> sapsnr with cutoff=1.6*10^6 (nested translation):
-     \verbatim
-
-     \endverbatim
-     </li>
+     Thus sapsnr is definitely better than rnovelty here, and the (weak)
+     standard translation is superior to the aloamo-translation. </li>
      <li> Finding a best algorithm for the strong standard nested translation:
      \verbatim
 > E = eval_ubcsat("GreenTao_SN_4-2-2-4-4_585.cnf")
