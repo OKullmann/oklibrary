@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.10.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -251,7 +251,13 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
     <ul>
      <li> aloamo
       <ol>
-       <li> cutoff=10^9 (aloamo, adaptnovelty+) </li>
+       <li> cutoff=10^9 (aloamo, adaptnovelty+)
+       \verbatim
+  1   2   3
+ 18 227 111
+356
+       \endverbatim
+       </li>
       </ol>
      </li>
      <li> Weak standard nested translation
@@ -263,6 +269,12 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
 500
        \endverbatim
        </li>
+       <li> sapsnr, cutoff=10^7 </li>
+       <li> Best local search algorithm, evaluating
+       \verbatim
+E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+       \endverbatim
+       by plot(E$alg,E$best): </li>
       </ol>
      </li>
      <li> Strong standard nested translation
