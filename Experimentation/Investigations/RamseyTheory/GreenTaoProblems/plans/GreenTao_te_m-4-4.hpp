@@ -192,8 +192,9 @@ License, or any later version. */
      \endverbatim
      Thus actually sapsnr seems best here (n=553, strong standard nested).
      </li>
-     <li> cutoff=4*10^6 with sapsnr (strong standard nested):
+     <li> cutoff=4*10^6 with saps (strong standard nested):
      \verbatim
+
      \endverbatim
      </li>
     </ol>
@@ -486,38 +487,21 @@ License, or any later version. */
 10 33 46  9  2
      \endverbatim
      Of course, this could be just chance. </li>
-     <li> saps with cutoff=2*10^5 (nested translation):
+     <li> saps (weak nested translation) with cutoff=2*10^5, 4*10^5, 8*10^5,
+     1.6*10^6:
      \verbatim
  1  2  3  4  5  6  7  8  9 10
  2  4  4  4 12 19 18 18 12  7
 100
-     \endverbatim
-     </li>
-     <li> rnovelty with cutoff=2*10^5 (nested translation):
-     \verbatim
- 2  3  4  5
-17 46 32  5
-100
-     \endverbatim
-     So actually, at least for these cutoffs, saps seems better for finding
-     a solution.
-     </li>
-     <li> saps with cutoff=4*10^5 (nested translation):
-     \verbatim
+
  1  2  3  4  5  6  7  8
 10  5 13 13 18 20 11 10
 100
-     \endverbatim
-     </li>
-     <li> saps with cutoff=8*10^5 (nested translation):
-     \verbatim
+
  1  2  3  4  5  6  7
  8 10 24 16 24 12  6
 100
-     \endverbatim
-     </li>
-     <li> saps with cutoff=1.6*10^6 (nested translation):
-     \verbatim
+
  1  2  3  4  5  6  7
 32 16 21 20  7  3  1
 100
@@ -525,8 +509,16 @@ License, or any later version. */
  2 21  8  8 15  5  1
 60
      \endverbatim
-     So it seems clear that the standard nested translation is superior
+     So it seems clear that the (weak) standard nested translation is superior
      over the aloamo-translation. </li>
+     <li> rnovelty with cutoff=2*10^5 (nested translation):
+     \verbatim
+ 2  3  4  5
+17 46 32  5
+100
+     \endverbatim
+     So at least for these cutoffs, saps seems better for finding a solution.
+     </li>
     </ol>
    </li>
    <li> n=585
@@ -568,15 +560,7 @@ License, or any later version. */
   517100  3349000 10820000 11870000 18610000 30100000
      \endverbatim
      </li>
-     <li> The standard nested translation:
-     \verbatim
-> ubcsat-okl -alg novelty+ -runs 100 -cutoff 100000 -i GreenTao_N_4-2-2-4-4_585.cnf | tee GreenTao_N_4-2-2-4-4_585.cnf_OUT
- 3  4  5  6  7
-10 32 37 17  4
-100
-     \endverbatim
-     </li>
-     <li> Best local search algorithm from Ubcsat-suite for the standard
+     <li> Best local search algorithm from Ubcsat-suite for the (weak) standard
      nested translation:
      \verbatim
 > E = eval_ubcsat("GreenTao_N_4-2-2-4-4_585.cnf")
@@ -615,15 +599,13 @@ License, or any later version. */
  1  1  2  6 12 22 19 20 10  6  1
      \endverbatim
      So here rnovelty seems best. </li>
-     <li> rnovelty with cutoff=10^6 (nested translation):
+     <li> rnovelty (weak standard nested translation) with cutoff=10^6,
+     4*10^6, 8*10^6:
      \verbatim
  1  2  3  4
  2 55 42  1
 100
-     \endverbatim
-     </li>
-     <li> rnovelty with cutoff=4*10^6 (nested translation):
-     \verbatim
+
  1  2  3
  3 80 17
 100
@@ -636,17 +618,12 @@ License, or any later version. */
 > summary(EN$osteps[EN$min==3])
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   66530  167100  342700  497700  653500 2410000
-     \endverbatim
-     This doesn't look as if increasing the cutoff helps much. </li>
-     <li> rnovelty with cutoff=8*10^6 (nested translation):
-     \verbatim
+
  2  3
 91  9
 100
      \endverbatim
-     Realising min=1 seems to be even harder under this translation.
-     One needed to check whether for such higher cutoff-values rnovelty
-     still is best. </li>
+     </li>
      <li> sapsnr with cutoff=1.6*10^6 (weak nested translation):
      \verbatim
  1  2  3  4  5  6  8
@@ -705,6 +682,8 @@ License, or any later version. */
      \endverbatim
      </li>
     </ol>
+    So the question (for now) is to decide between the weak and the strong
+    (standard) nested translation, and between saps and sapsnr.
    </li>
    <li> n=586
     <ol>
