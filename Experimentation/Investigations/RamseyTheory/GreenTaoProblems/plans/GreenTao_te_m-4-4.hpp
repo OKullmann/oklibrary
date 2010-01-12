@@ -24,8 +24,6 @@ License, or any later version. */
   \todo greentao_3(2,4,4) >= 553
   <ul>
    <li> The conjecture is greentao_3(2,4,4) = 553. </li>
-   <li> Let's start with n = 530; should be satisfiable, and not too hard.
-   </li>
    <li> Best local search algorithm from Ubcsat-suite:
    \verbatim
 > E = eval_ubcsat("GreenTao_3-2-4-4_530.cnf")
@@ -86,24 +84,18 @@ License, or any later version. */
      here. </li>
     </ol>
    </li>
-   <li> n=553, novelty+ (aloamo):
+   <li> n=553:
     <ol>
-     <li> cutoff=10^6:
+     <li> novelty+ (aloamo) with cutoff=10^6, 2*10^6, 4*10^6
      \verbatim
  1  2  3  4  5  6
 33 38 16  6  6  1
 100
-     \endverbatim
-     </li>
-     <li> cutoff=2*10^6 (aloamo):
-     \verbatim
+
  1  2  3
 63 30  7
 100
-     \endverbatim
-     </li>
-     <li> cutoff=4*10^6 (aloamo):
-     \verbatim
+
  1  2  3
 95  4  1
 100
@@ -128,7 +120,7 @@ License, or any later version. */
  1  2  3  4  5  6
  9 20 41 22  7  1
      \endverbatim
-     Clearly rnoveltyp and rnovelty are best. </li>
+     Clearly rnoveltyp and rnovelty seem best. </li>
      <li> Finding a best algorithm for the weak standard nested translation:
      \verbatim
 > E = eval_ubcsat("GreenTao_N_3-2-4-4_553.cnf")
@@ -151,87 +143,62 @@ License, or any later version. */
      </li>
      <li> So it seems that the strong standard nested translation is better
      than the weak one here. </li>
-     <li> cutoff=2*10^5 with rnovelty+ (strong standard nested):
+     <li> rnovelty+ (strong standard nested) with cutoff=2*10^5, 4*10^5,
+     8*10^5, 2*10^6, 4*10^6:
      \verbatim
  1  2  3
 32 60  8
 100
-     \endverbatim
-     </li>
-     <li> cutoff=2*10^5 with rnovelty (strong standard nested):
-     \verbatim
- 1  2  3  4
-19 69 11  1
-100
-     \endverbatim
-     </li>
-     <li> cutoff=4*10^5 with rnovelty+ (strong standard nested):
-     \verbatim
  1  2  3
 41 57  2
 100
-     \endverbatim
-     </li>
-     <li> cutoff=4*10^5 with rnovelty (strong standard nested):
-     \verbatim
- 1  2  3
-36 62  2
-100
-     \endverbatim
-     </li>
-     <li> cutoff=8*10^5 with rnovelty+ (strong standard nested):
-     \verbatim
  1  2
 51 49
 100
-     \endverbatim
-     </li>
-     <li> cutoff=8*10^5 with rnovelty (strong standard nested):
-     \verbatim
- 1  2
-54 46
-100
-     \endverbatim
-     </li>
-     <li> cutoff=2*10^6 with rnovelty+ (strong standard nested):
-     \verbatim
  1  2
 63 37
 100
-     \endverbatim
-     </li>
-     <li> cutoff=2*10^6 with rnovelty (strong standard nested):
-     \verbatim
-> ESN = read_ubcsat("GreenTao_SN_3-2-4-4_553.cnf_OUT")
- 1  2
-66 34
-100
-     \endverbatim
-     </li>
-     <li> cutoff=4*10^6 with rnovelty+ (strong standard nested):
-     \verbatim
  1  2
 84 16
 100
      \endverbatim
      </li>
-     <li> cutoff=4*10^6 with rnovelty (strong standard nested):
+     <li> rnovelty (strong standard nested) with cutoff=2*10^5, 4*10^5,
+     8*10^5, 2*10^6, 4*10^6:
      \verbatim
+ 1  2  3  4
+19 69 11  1
+100
+ 1  2  3
+36 62  2
+100
+ 1  2
+54 46
+100
+ 1  2
+66 34
+100
  1  2
 68 32
 100
      \endverbatim
-     </li>
+     So rnovelty+ seems here (n=553, strong standard nested) better than
+     rnovelty. </li>
      <li> cutoff=4*10^6 with sapsnr (strong standard nested):
      \verbatim
  1  2
 96  4
 100
      \endverbatim
+     Thus actually sapsnr seems best here (n=553, strong standard nested).
+     </li>
+     <li> cutoff=4*10^6 with sapsnr (strong standard nested):
+     \verbatim
+     \endverbatim
      </li>
     </ol>
    </li>
-   <li> n=555, novelty+
+   <li> n=555, novelty+ (aloamo)
     <ol>
      <li> cutoff=10^6:
      \verbatim
@@ -240,7 +207,7 @@ License, or any later version. */
 100
      \endverbatim
      </li>
-     <li> cutoff=2*10^6
+     <li> cutoff=2*10^6 (aloamo)
      \verbatim
  1  2  3  4  5
 42 47  4  6  1
@@ -249,7 +216,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> n=560, novelty+:
+   <li> n=560, novelty+ (aloamo):
     <ol>
      <li> cutoff=10^6:
      \verbatim
@@ -258,7 +225,7 @@ License, or any later version. */
 100
      \endverbatim
      </li>
-     <li> cutoff=2*10^6
+     <li> cutoff=2*10^6 (aloamo):
      \verbatim
  1  2  3  4  5
 30 32 20 15  3
@@ -268,7 +235,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> n=570: For cutoff in 10^6, 2*10^6, 4*10^6, 8*10^6, cutoff=16*10^6
-   (novelty+) we get the following min-distributions:
+   (novelty+, aloamo) we get the following min-distributions:
    \verbatim
  1  2  3  4  5  6  7  8  9 10
  1  6 15 13 18 14 10 14  6  3
