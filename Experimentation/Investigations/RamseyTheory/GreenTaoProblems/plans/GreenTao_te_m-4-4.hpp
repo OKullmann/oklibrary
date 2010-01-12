@@ -340,9 +340,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) >= 585
+  \todo greentao_4(2,2,4,4) > 585
   <ul>
-   <li> The conjecture is greentao_4(2,2,4,4) = 585. </li>
    <li> Let's use novelty+ as the main Ubcsat-solver (aloamo). </li>
    <li> n=560:
     <ol>
@@ -689,6 +688,15 @@ License, or any later version. */
      \endverbatim
      Thus sapsnr is definitely better than rnovelty here, and the (weak)
      standard translation is superior to the aloamo-translation. </li>
+     <li> saps with cutoff=1.6*10^6 (weak nested translation):
+     \verbatim
+ 0  1  2  3  4  5  6
+ 1 24 18 24 18 12  3
+100
+> ESN[ESN$min==0,]
+   sat min osteps msteps       seed
+48   1   0 942735 942735 3414697231
+     \endverbatim
      <li> Finding a best algorithm for the strong standard nested translation:
      \verbatim
 > E = eval_ubcsat("GreenTao_SN_4-2-2-4-4_585.cnf")
@@ -722,11 +730,6 @@ License, or any later version. */
 100
      \endverbatim
      </li>
-     <li> rnoveltyp with cutoff=10^6 (strong nested translation):
-     \verbatim
-
-     \endverbatim
-     </li>
      <li> sapsnr with cutoff=10^6 (strong nested translation):
      \verbatim
  1  2  3  4  5  6
@@ -734,10 +737,12 @@ License, or any later version. */
 100
      \endverbatim
      </li>
-     <li> saps with cutoff=10^6 (strong nested translation):
-     \verbatim
+    </ol>
+   </li>
+   <li> n=586
+    <ol>
+     <li> saps with cutoff=2*10^6, weak standard nested translation:
 
-     \endverbatim
      </li>
     </ol>
    </li>
