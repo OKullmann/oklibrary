@@ -248,23 +248,35 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
     </ol>
    </li>
    <li> n=1020
-    <ol>
-     <li> cutoff=10^9 (aloamo, adaptnovelty+) </li>
-     <li> Using the standard nested translation (adaptnovelty+), with
-     cutoff=10^7:
-     \verbatim
+    <ul>
+     <li> aloamo
+      <ol>
+       <li> cutoff=10^9 (aloamo, adaptnovelty+) </li>
+      </ol>
+     </li>
+     <li> Weak standard nested translation
+      <ol>
+       <li> adaptnovelty+, cutoff=10^7:
+       \verbatim
   1   2   3   4   5   6   7   8   9  10
   4  26  59 110 136  95  46  21   2   1
 500
-     \endverbatim
+       \endverbatim
+       </li>
+      </ol>
      </li>
-     <li> Using the strong standard nested translation (adaptnovelty+), with
-     cutoff=10^7:
-     \verbatim
-
-     \endverbatim
+     <li> Strong standard nested translation
+      <ol>
+       <li> adaptnovelty+, cutoff=10^7:
+       \verbatim
+  4   5   6   7   8   9  10  11  12
+ 15  46  94 120 115  81  21   6   2
+500
+       \endverbatim
+       </li>
+      </ol>
      </li>
-    </ol>
+    </ul>
    </li>
   </ul>
 
