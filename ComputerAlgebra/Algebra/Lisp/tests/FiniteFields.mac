@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 4.6.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -302,7 +302,7 @@ okltest_egf_exp(f) := block([field, elemSet],
   assert(f(field,x^5+x^3+x+1, 23) = x^6+x^5+x),
   assert(f(field,x^7+x^2, 5) = x^4+x^3+x+1),
   assert(f(field,x^5+x^3+x+1, 204) = x^3+x^2),
-  elemSet : map(lambda([a], f(field,x+1,a)), setify(makelist(i,i,0,255))),
+  elemSet : map(lambda([a], f(field,x+1,a)), setify(create_list(i,i,0,255))),
   elemSet : adjoin(0, elemSet),
   assert(length(elemSet) = 256),
   true)$
