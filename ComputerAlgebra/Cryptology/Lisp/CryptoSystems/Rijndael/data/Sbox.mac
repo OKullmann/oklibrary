@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software$ you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library$ either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac
-  \brief Rijndael's raw sbox definition.
+  \brief Rijndael's raw sbox definition
 
 Use by
 
@@ -19,264 +19,40 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sb
 \htmlonly
 */
 
-array(sbox_data,256)$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
-sbox_data[1] : 99$
-sbox_data[2] : 124$
-sbox_data[3] : 119$
-sbox_data[4] : 123$
-sbox_data[5] : 242$
-sbox_data[6] : 107$
-sbox_data[7] : 111$
-sbox_data[8] : 197$
-sbox_data[9] : 48$
-sbox_data[10] : 1$
-sbox_data[11] : 103$
-sbox_data[12] : 43$
-sbox_data[13] : 254$
-sbox_data[14] : 215$
-sbox_data[15] : 171$
-sbox_data[16] : 118$
-sbox_data[17] : 202$
-sbox_data[18] : 130$
-sbox_data[19] : 201$
-sbox_data[20] : 125$
-sbox_data[21] : 250$
-sbox_data[22] : 89$
-sbox_data[23] : 71$
-sbox_data[24] : 240$
-sbox_data[25] : 173$
-sbox_data[26] : 212$
-sbox_data[27] : 162$
-sbox_data[28] : 175$
-sbox_data[29] : 156$
-sbox_data[30] : 164$
-sbox_data[31] : 114$
-sbox_data[32] : 192$
-sbox_data[33] : 183$
-sbox_data[34] : 253$
-sbox_data[35] : 147$
-sbox_data[36] : 38$
-sbox_data[37] : 54$
-sbox_data[38] : 63$
-sbox_data[39] : 247$
-sbox_data[40] : 204$
-sbox_data[41] : 52$
-sbox_data[42] : 165$
-sbox_data[43] : 229$
-sbox_data[44] : 241$
-sbox_data[45] : 113$
-sbox_data[46] : 216$
-sbox_data[47] : 49$
-sbox_data[48] : 21$
-sbox_data[49] : 4$
-sbox_data[50] : 199$
-sbox_data[51] : 35$
-sbox_data[52] : 195$
-sbox_data[53] : 24$
-sbox_data[54] : 150$
-sbox_data[55] : 5$
-sbox_data[56] : 154$
-sbox_data[57] : 7$
-sbox_data[58] : 18$
-sbox_data[59] : 128$
-sbox_data[60] : 226$
-sbox_data[61] : 235$
-sbox_data[62] : 39$
-sbox_data[63] : 178$
-sbox_data[64] : 117$
-sbox_data[65] : 9$
-sbox_data[66] : 131$
-sbox_data[67] : 44$
-sbox_data[68] : 26$
-sbox_data[69] : 27$
-sbox_data[70] : 110$
-sbox_data[71] : 90$
-sbox_data[72] : 160$
-sbox_data[73] : 82$
-sbox_data[74] : 59$
-sbox_data[75] : 214$
-sbox_data[76] : 179$
-sbox_data[77] : 41$
-sbox_data[78] : 227$
-sbox_data[79] : 47$
-sbox_data[80] : 132$
-sbox_data[81] : 83$
-sbox_data[82] : 209$
-sbox_data[83] : 0$
-sbox_data[84] : 237$
-sbox_data[85] : 32$
-sbox_data[86] : 252$
-sbox_data[87] : 177$
-sbox_data[88] : 91$
-sbox_data[89] : 106$
-sbox_data[90] : 203$
-sbox_data[91] : 190$
-sbox_data[92] : 57$
-sbox_data[93] : 74$
-sbox_data[94] : 76$
-sbox_data[95] : 88$
-sbox_data[96] : 207$
-sbox_data[97] : 208$
-sbox_data[98] : 239$
-sbox_data[99] : 170$
-sbox_data[100] : 251$
-sbox_data[101] : 67$
-sbox_data[102] : 77$
-sbox_data[103] : 51$
-sbox_data[104] : 133$
-sbox_data[105] : 69$
-sbox_data[106] : 249$
-sbox_data[107] : 2$
-sbox_data[108] : 127$
-sbox_data[109] : 80$
-sbox_data[110] : 60$
-sbox_data[111] : 159$
-sbox_data[112] : 168$
-sbox_data[113] : 81$
-sbox_data[114] : 163$
-sbox_data[115] : 64$
-sbox_data[116] : 143$
-sbox_data[117] : 146$
-sbox_data[118] : 157$
-sbox_data[119] : 56$
-sbox_data[120] : 245$
-sbox_data[121] : 188$
-sbox_data[122] : 182$
-sbox_data[123] : 218$
-sbox_data[124] : 33$
-sbox_data[125] : 16$
-sbox_data[126] : 255$
-sbox_data[127] : 243$
-sbox_data[128] : 210$
-sbox_data[129] : 205$
-sbox_data[130] : 12$
-sbox_data[131] : 19$
-sbox_data[132] : 236$
-sbox_data[133] : 95$
-sbox_data[134] : 151$
-sbox_data[135] : 68$
-sbox_data[136] : 23$
-sbox_data[137] : 196$
-sbox_data[138] : 167$
-sbox_data[139] : 126$
-sbox_data[140] : 61$
-sbox_data[141] : 100$
-sbox_data[142] : 93$
-sbox_data[143] : 25$
-sbox_data[144] : 115$
-sbox_data[145] : 96$
-sbox_data[146] : 129$
-sbox_data[147] : 79$
-sbox_data[148] : 220$
-sbox_data[149] : 34$
-sbox_data[150] : 42$
-sbox_data[151] : 144$
-sbox_data[152] : 136$
-sbox_data[153] : 70$
-sbox_data[154] : 238$
-sbox_data[155] : 184$
-sbox_data[156] : 20$
-sbox_data[157] : 222$
-sbox_data[158] : 94$
-sbox_data[159] : 11$
-sbox_data[160] : 219$
-sbox_data[161] : 224$
-sbox_data[162] : 50$
-sbox_data[163] : 58$
-sbox_data[164] : 10$
-sbox_data[165] : 73$
-sbox_data[166] : 6$
-sbox_data[167] : 36$
-sbox_data[168] : 92$
-sbox_data[169] : 194$
-sbox_data[170] : 211$
-sbox_data[171] : 172$
-sbox_data[172] : 98$
-sbox_data[173] : 145$
-sbox_data[174] : 149$
-sbox_data[175] : 228$
-sbox_data[176] : 121$
-sbox_data[177] : 231$
-sbox_data[178] : 200$
-sbox_data[179] : 55$
-sbox_data[180] : 109$
-sbox_data[181] : 141$
-sbox_data[182] : 213$
-sbox_data[183] : 78$
-sbox_data[184] : 169$
-sbox_data[185] : 108$
-sbox_data[186] : 86$
-sbox_data[187] : 244$
-sbox_data[188] : 234$
-sbox_data[189] : 101$
-sbox_data[190] : 122$
-sbox_data[191] : 174$
-sbox_data[192] : 8$
-sbox_data[193] : 186$
-sbox_data[194] : 120$
-sbox_data[195] : 37$
-sbox_data[196] : 46$
-sbox_data[197] : 28$
-sbox_data[198] : 166$
-sbox_data[199] : 180$
-sbox_data[200] : 198$
-sbox_data[201] : 232$
-sbox_data[202] : 221$
-sbox_data[203] : 116$
-sbox_data[204] : 31$
-sbox_data[205] : 75$
-sbox_data[206] : 189$
-sbox_data[207] : 139$
-sbox_data[208] : 138$
-sbox_data[209] : 112$
-sbox_data[210] : 62$
-sbox_data[211] : 181$
-sbox_data[212] : 102$
-sbox_data[213] : 72$
-sbox_data[214] : 3$
-sbox_data[215] : 246$
-sbox_data[216] : 14$
-sbox_data[217] : 97$
-sbox_data[218] : 53$
-sbox_data[219] : 87$
-sbox_data[220] : 185$
-sbox_data[221] : 134$
-sbox_data[222] : 193$
-sbox_data[223] : 29$
-sbox_data[224] : 158$
-sbox_data[225] : 225$
-sbox_data[226] : 248$
-sbox_data[227] : 152$
-sbox_data[228] : 17$
-sbox_data[229] : 105$
-sbox_data[230] : 217$
-sbox_data[231] : 142$
-sbox_data[232] : 148$
-sbox_data[233] : 155$
-sbox_data[234] : 30$
-sbox_data[235] : 135$
-sbox_data[236] : 233$
-sbox_data[237] : 206$
-sbox_data[238] : 85$
-sbox_data[239] : 40$
-sbox_data[240] : 223$
-sbox_data[241] : 140$
-sbox_data[242] : 161$
-sbox_data[243] : 137$
-sbox_data[244] : 13$
-sbox_data[245] : 191$
-sbox_data[246] : 230$
-sbox_data[247] : 66$
-sbox_data[248] : 104$
-sbox_data[249] : 65$
-sbox_data[250] : 153$
-sbox_data[251] : 45$
-sbox_data[252] : 15$
-sbox_data[253] : 176$
-sbox_data[254] : 84$
-sbox_data[255] : 187$
-sbox_data[256] : 22$
+aes_sbox_l : [
+99,124,119,123,242,107,111,197,48,1,
+103,43,254,215,171,118,202,130,201,125,
+250,89,71,240,173,212,162,175,156,164,
+114,192,183,253,147,38,54,63,247,204,
+52,165,229,241,113,216,49,21,4,199,
+35,195,24,150,5,154,7,18,128,226,
+235,39,178,117,9,131,44,26,27,110,
+90,160,82,59,214,179,41,227,47,132,
+83,209,0,237,32,252,177,91,106,203,
+190,57,74,76,88,207,208,239,170,251,
+67,77,51,133,69,249,2,127,80,60,
+159,168,81,163,64,143,146,157,56,245,
+188,182,218,33,16,255,243,210,205,12,
+19,236,95,151,68,23,196,167,126,61,
+100,93,25,115,96,129,79,220,34,42,
+144,136,70,238,184,20,222,94,11,219,
+224,50,58,10,73,6,36,92,194,211,
+172,98,145,149,228,121,231,200,55,109,
+141,213,78,169,108,86,244,234,101,122,
+174,8,186,120,37,46,28,166,180,198,
+232,221,116,31,75,189,139,138,112,62,
+181,102,72,3,246,14,97,53,87,185,
+134,193,29,158,225,248,152,17,105,217,
+142,148,155,30,135,233,206,85,40,223,
+140,161,137,13,191,230,66,104,65,153,
+45,15,176,84,187,22]$
+
+/* RENAME: aes_sbox_ary */
+array(sbox_data, fixnum, 256)$
+okl_fillarray_l(sbox_data, aes_sbox_l)$
+
 
 /*!
 \endhtmlonly
