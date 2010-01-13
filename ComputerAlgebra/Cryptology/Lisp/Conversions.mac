@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.3.2007 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,9 +23,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
-/* Pads a string s to the left with character c until it is n characters in
-   length: */
-lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
+/* Pads a string s to the left with Maxima-character c until it is at least
+   n characters in length (n is an arbitrary integer): */
+lpad(st, c, n) := simplode([smake(max(n-slength(st),0),c), st])$
 /* Pad a list of numbers with leading zeros to reach the
    full block-length 16:
 */

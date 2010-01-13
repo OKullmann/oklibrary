@@ -24,8 +24,12 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 okltest_lpad(f) := block(
-  for n : 0 thru 3 do
-    assert(f("","",n) = ""),
+  assert(f("","x",0) = ""),
+  assert(f("","x",-1) = ""),
+  assert(f("","x",1) = "x"),
+  assert(f("x","y",0) = "x"),
+  assert(f("x","y",1) = "x"),
+  assert(f("x","y",2) = "yx"),
   for n : -3 thru 4 do
     assert(f("test","c",n) = "test"),
   assert(f("","-",1) = "-"),
