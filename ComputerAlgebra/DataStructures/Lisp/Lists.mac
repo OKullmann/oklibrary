@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -247,9 +247,8 @@ rotate(l,n) :=
   else rotate(append(rest(l), [first(l)]), n+1)$
 
 /* Converts a list "l" to a matrix with rows of length "len_row", 
-   finds the tranpose matrix, and returns the flattening of 
-   this matrix. len_row must be a multiple of the length 
-   of l. */
+   computes the transposed matrix, and returns the flattening of 
+   this matrix. len_row must be a multiple of the length of l. */
 transpose_l(l,len_row) :=
   m2l_r(transpose(apply(matrix,partition_elements(l,len_row))))$
 
