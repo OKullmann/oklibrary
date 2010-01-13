@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -283,7 +283,7 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    <li> 
    \verbatim
 set_random_state(make_random_state(1))$
-random_perm : random_permutation(makelist(i,i,0,255))$
+random_perm : random_permutation(create_list(i,i,0,255))$
 random_dnf : perm_fulldnf_fcs(random_perm)$
 random_hcs : dualtreehittingcls_condensed_fcs(random_dnf,dll_heuristics_max_lit)$
 statistics_cs(random_hcs);
@@ -304,7 +304,7 @@ ncl_list_fcs(random_ip);
 [[5,1],[6,149],[7,351],[8,63],[9,1]]
 
 set_random_state(make_random_state(25012))$ 
-random_perm2 : random_permutation(makelist(i,i,0,255))$
+random_perm2 : random_permutation(create_list(i,i,0,255))$
 random_dnf2 : perm_fulldnf_fcs(random_perm2)$
 random_hcs2 : dualtreehittingcls_condensed_fcs(random_dnf2,dll_heuristics_max_lit)$
 statistics_cs(random_hcs2);
@@ -324,7 +324,7 @@ ncl_list_fcs(random_ip2);
 [[5,3],[6,134],[7,353],[8,54],[9,1]]
 
 set_random_state(make_random_state(3093215))$
-random_perm3 : random_permutation(makelist(i,i,0,255))$
+random_perm3 : random_permutation(create_list(i,i,0,255))$
 random_dnf3 : perm_fulldnf_fcs(random_perm3)$
 random_hcs3 : dualtreehittingcls_condensed_fcs(random_dnf3,dll_heuristics_max_lit)$
 statistics_cs(random_hcs3);
