@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.1.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -245,9 +245,15 @@ scom2ll_c(M) := com2ll_c(scom2com(M))$
 
 /* Remarks: For a Maxima matrix A, by A[i] we obtain the list of the elements
    of row i; accordingly, by transpose(A)[i] we obtain column i as list.
-   On the other hand, by row(A,i) resp. column(A,i) we obtain the rows resp.
+   On the other hand, by row(A,i) resp. col(A,i) we obtain the rows resp.
    columns as (Maxima) matrices.
+
+   For convenience these functions for Maxima-matrices:
 */
+/* Extracting row i from Maxima-matrix M as list: */
+row_m(M,i) := M[i]$
+/* Extracting column i from Maxima-matrix M as list: */
+column_m(M,i) := transpose(col(M,i))[1]$
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */

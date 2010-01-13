@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -376,6 +376,17 @@ okltest_scom2ll_c(f) := (
   /* XXX */
   true)$
 
+okltest_row_m(f) := (
+  assert(f(matrix([]),1) = []),
+  assert(f(matrix([],[]),2) = []),
+  assert(f(matrix([1]),1) = [1]),
+  assert(f(matrix([1,2],[3,4]),2) = [3,4]),
+  true)$
+
+okltest_column_m(f) := (
+  assert(f(matrix([1]),1) = [1]),
+  assert(f(matrix([1,2],[3,4]),2) = [2.4]),
+  true)$
 
 okltest_scom2g(f) := (
 

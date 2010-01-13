@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -121,6 +121,9 @@ okltest_scom2ll_r(scom2ll_r);
 okltest_com2l_c(com2l_c);
 okltest_com2ll_c(com2ll_c);
 okltest_scom2ll_c(scom2ll_c);
+
+okltest_row_m(row_m);
+okltest_column_m(column_m);
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
