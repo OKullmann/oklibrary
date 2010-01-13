@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -174,6 +174,9 @@ lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
 
 okl_make_array(type,dim) := block([a : make_array(type,dim+1)], 
   a[0] : dim, a)$
+/* Remark: the possibilities for "type" are
+  fixnum, flonum, any.
+*/
 okl_listarray(a) := rest(listarray(a))$
 /* RENAME: ary2l */
 array2l(a) := okl_listarray(a)$
@@ -181,6 +184,9 @@ ary2l(a) := okl_listarray(a)$
 /* Here L must be a list and a an okl-array: */
 okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
 
+/* A named okl-array of size n can be created by
+  array(name, type, n).
+*/
 
 /* Creating okl-arrays from lists: */
 
