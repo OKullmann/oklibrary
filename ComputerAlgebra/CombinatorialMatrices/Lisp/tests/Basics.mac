@@ -385,7 +385,7 @@ okltest_row_m(f) := (
 
 okltest_column_m(f) := (
   assert(f(matrix([1]),1) = [1]),
-  assert(f(matrix([1,2],[3,4]),2) = [2.4]),
+  assert(f(matrix([1,2],[3,4]),2) = [2,4]),
   true)$
 
 okltest_scom2g(f) := (
