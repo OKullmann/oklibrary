@@ -13,7 +13,8 @@ License, or any later version. */
   \bug Error not detected
   <ul>
    <li> With ComputerAlgebra/Cryptology/Lisp/testobjects/Conversions.mac
-   and with Maxima 5.19.0 (Ecl) we get the error
+   and with Maxima 5.19.0 (Ecl) we get the error (this is just an example,
+   the functions referred to do no longer exist):
    \verbatim
 (%i49) okltest_binl2dnf_l(binl2dnf_l)
 Maxima encountered a Lisp error:
