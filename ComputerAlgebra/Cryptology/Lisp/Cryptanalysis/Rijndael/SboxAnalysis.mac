@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Adva
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 /* ******************************************
@@ -40,9 +41,9 @@ rijnsbox_fulldnf_fcs() := fcl2fcs(rijnsbox_fulldnf_fcl())$
 
 /* Generation of the full CNF clause-set representing the AES sbox: */
 rijnsbox_fullcnf_fcs() := block(
-  [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
-  clauses_f(rijnsbox_fulldnf_fcs())],
-  cs2fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
+  [full : full_cs(16),
+   aes_sbox_cs : fcs2cs(rijnsbox_fulldnf_fcs())],
+  cs2fcs(setdifference(full, map(comp_sl,aes_sbox_cs))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
    S-box:
