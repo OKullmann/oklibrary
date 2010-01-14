@@ -128,7 +128,8 @@ c file_name                             VanDerWaerden_3-3-4-4_89.cnf
      <li> Found a solution for n=87 in 9m37s. </li>
      <li> Found a solution for n=88 in 500m. So in all these cases
      OKsolver_2002 is somewhat faster, but performance is comparable. </li>
-     <li> n=89 </li>
+     <li> n=89: determined unsatisfiability in 3544m14.234s (cs-wsok; so
+     again a bit slower than OKsolver_2002). </li>
     </ol>
    </li>
    </li>
