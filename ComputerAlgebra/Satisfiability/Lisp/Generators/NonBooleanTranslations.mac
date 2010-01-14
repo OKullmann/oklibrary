@@ -135,7 +135,8 @@ gennest_nbfcl2fcl(FF,T,TR,TV) := [
 /* Remark: See gennest_nbfcl2fcl_p below for checking correctness. */
 
 
-/* For obtaining the standard translation: */
+/* The standard translation */
+
 standtrans_T(v,e) := {-nbv_var(v,e)}$
 standtrans_fd_weak_TR(D) := buildq([D],
  lambda([v], [setify(create_list(nbv_var(v,e), e, D(v)))]))$
@@ -148,6 +149,7 @@ standtrans_ud_TV(D) := buildq([D],
 
 nbfclfd2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans_fd_weak_TR(FF[3]), standtrans_fd_TV(FF[3]))$
 nbfclud2fcl_alo_2(FF) := gennest_nbfcl2fcl(rest(FF,-1), standtrans_T, standtrans_ud_weak_TR(FF[3]), standtrans_ud_TV(FF[3]))$
+
 
 /* The standard nested translation */
 
