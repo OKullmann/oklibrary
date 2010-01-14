@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.2 (27.9.2008)
+  \module_version ComputerAlgebra 0.1.2.1 (14.1.2010)
 
 
   \par Version 0.1.3
@@ -75,14 +75,14 @@ License, or any later version. */
 
   \par
    Replacement of "makelist" by "create_list" (and supplying tests for all
-   modified functions):
+   modified functions): DONE
    <ol>
     <li> %Algebra : DONE </li>
     <li> AutomatedTheoremProving : DONE </li>
     <li> CombinatorialMatrices : DONE </li>
-    <li> Cryptology (MG)
+    <li> Cryptology (MG) : DONE
      <ol>
-      <li> directly under Lisp </li>
+      <li> directly under Lisp : DONE </li>
       <li> Lisp/Cryptanalysis : DONE </li>
       <li> Lisp/CryptoSystems : DONE </li>
      </ol>
