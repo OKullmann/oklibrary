@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/B
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 
 kill(f)$
 
@@ -61,6 +62,34 @@ okltest_polybin2nat(f) := block([x],
   assert(f(x^2) = 4),
   for e : 0 thru 5 do
     assert(f(x^e) = 2^e),
+  true)$
+
+okltest_rijn_stand_vec(f) := (
+
+  true)$
+
+okltest_nat2vecbin(f) := (
+
+  true)$
+
+okltest_nat2vecbin_rijn(f) := (
+
+  true)$
+
+okltest_vecbin2nat(f) := (
+
+  true)$
+
+okltest_polybin2vecbin(f) := (
+
+  true)$
+
+okltest_polybin2vecbin_rijn(f) := (
+
+  true)$
+
+okltest_vecbin2polybin(f) := (
+
   true)$
 
 
@@ -113,6 +142,20 @@ okltest_rijn_natinv(f) := (
   assert(f(2) = 141),
   assert(f(polybin2nat(rijn_stand(-1))) = polybin2nat(rijn_stand(-1))),
   true)$
+
+okltest_rijn_vecadd(f) := (
+
+  true)$
+
+okltest_rijn_vecmul(f) := (
+
+  true)$
+
+okltest_rijn_vecinv(f) := (
+  assert(f([1]) = [0,0,0,0,0,0,0,1]),
+  /* XXX */
+  true)$
+
 
 /*!
 \endhtmlonly

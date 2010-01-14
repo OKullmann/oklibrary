@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,6 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteFie
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
@@ -51,13 +50,37 @@ rijn_stand(p) := polymod(divide(p,rijn_polynomial,x)[2],2)$
    The general conversions are as follows, for integer 0 <= n and
    polynomials p over the nonnegative integers:
 */
-nat2polybin(n) := block([L : reverse(int2polyadic(n,2))],
- sum_l(L * create_list(('x)^i,i,0,length(L)-1)))$
-polybin2nat(p) := block([h : hipow(p,'x)],
- polyadic2int(reverse(create_list(coeff(p,'x,i),i,0,h)),2))$
+nat2polybin(n) := vecbin2polybin(int2polyadic(n,2))$
+polybin2nat(p) := polyadic2int(polybin2vecbin(p),2)$
 /* Remark: Note that in the context of the byte-field these operations
-   only make sense for 0 <= n <= 255 and standardised polynomials.
+   only make sense for 0 <= n <= 255 and standardised polynomials p.
 */
+
+/* Finally, the byte-field is an 8-dimensional vector-space over the
+   field ZZ_2 = {0,1}. Similar to consider the elements of the byte-field
+   as (arbitrary) polynomials, we can consider here arbitrary integer-vectors,
+   and standardisation just happens by computing the remainders modulo
+   2 componentwise.
+*/
+rijn_stand_vec(v) := mod(v,2)$
+
+/* Converting between the representation by natural numbers and the
+   vector representation:
+*/
+nat2vecbin(n) := int2polyadic(n,2)$
+nat2vecbin_rijn(n) := int2polyadic_padd(n,2,8)$
+
+vecbin2nat(v) := polyadic2int(v,2)$
+
+/* Converting between the representation by polynomials and the
+   vector representation:
+*/
+polybin2vecbin(p) := block([h : hipow(p,'x)],
+ reverse(create_list(coeff(p,'x,i),i,0,h)))$
+polybin2vecbin_rijn(p) := block([L : polybin2vecbin(p)],
+ append(create_list(0,i,1,8-length(L)),L))$
+
+vecbin2polybin(v) := sum_l(reverse(v) * create_list(('x)^i,i,0,length(v)-1))$
 
 
 /* **************
@@ -74,7 +97,7 @@ rijn_mul(a,b) := rijn_stand(a*b)$
 rijn_matmul(a,b) := matrixmap(rijn_stand, a.b)$
 
 /* Inversion in the byte-field (yielding a standardised result): */
-rijn_inv(a) := egf_inv(rijn_byte_field,a)$
+rijn_inv(a) := rijn_stand(gcdex(a,rijn_polynomial)[1])$
 
 
 /* The field operations with integers as input and output: */
@@ -92,6 +115,15 @@ rijn_natmul(a,b) :=
 rijn_natinv(a) := 
   polybin2nat(rijn_inv(nat2polybin(a)))$
 
+
+/* The field operations with binary vectors (as lists) as input and output: */
+
+rijn_vecadd(a,b) := rijn_stand_vec(a+b)$
+
+rijn_vecmul(a,b) := 
+ polybin2vecbin_rijn(rijn_mul(vecbin2polybin(a), vecbin2polybin(b)))$
+
+rijn_vecinv(a) := polybin2vecbin_rijn(rijn_inv(vecbin2polybin(a)))$
 
 /*!
 \endhtmlonly

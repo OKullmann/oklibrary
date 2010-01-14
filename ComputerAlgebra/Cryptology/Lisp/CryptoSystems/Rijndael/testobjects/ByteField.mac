@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,6 +33,16 @@ okltest_rijn_stand(rijn_stand);
 okltest_nat2polybin(nat2polybin);
 okltest_polybin2nat(polybin2nat);
 
+okltest_rijn_stand_vec(rijn_stand_vec);
+
+okltest_nat2vecbin(nat2vecbin);
+okltest_nat2vecbin_rijn(nat2vecbin_rijn);
+okltest_vecbin2nat(vecbin2nat);
+
+okltest_polybin2vecbin(polybin2vecbin);
+okltest_polybin2vecbin_rijn(polybin2vecbin_rijn);
+okltest_vecbin2polybin(vecbin2polybin);
+
 /* **************
    * Operations *
    **************
@@ -47,6 +57,10 @@ okltest_rijn_natadd(rijn_natadd);
 okltest_rijn_natadd(rijn_nataddl);
 okltest_rijn_natmul(rijn_natmul);
 okltest_rijn_natinv(rijn_natinv);
+
+okltest_rijn_vecadd(rijn_vecadd);
+okltest_rijn_vecmul(rijn_vecmul);
+okltest_rijn_vecinv(rijn_vecinv);
 
 /*!
 \endhtmlonly
