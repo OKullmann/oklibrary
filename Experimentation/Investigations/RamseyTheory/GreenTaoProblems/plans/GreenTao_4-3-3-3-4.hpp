@@ -256,6 +256,9 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   1   2   3
  18 227 111
 356
+  1   2   3   4
+ 17 222 126   2
+367
        \endverbatim
        </li>
       </ol>
