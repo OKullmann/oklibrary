@@ -120,7 +120,17 @@ License, or any later version. */
 348
    \endverbatim
    (seed=2955200386, osteps=664563809). </li>
-   <li> n=1545: cutoff=2*10^9 </li>
+   <li> n=1545:
+    <ol>
+     <li> aloamo, adaptnovelty, cutoff=2*10^9:
+     \verbatim
+ 1  2  3
+13 35  4
+52
+     \endverbatim
+    </ol>
+   </li>
+   </li>
    <li> n=1550
     <ol>
      <li> Looks (at first sight) unsatisfiable: 10 runs with
@@ -194,7 +204,13 @@ License, or any later version. */
    <li> n=7600, cutoff=2*10^8 (adaptnovelty+): in 249 runs one solution was
    found (seed=3054809508, osteps=165824921). It seems one should double
    the cutoff. </li>
-   <li> n=7650, cutoff=4*10^8 </li>
+   <li> n=7650, cutoff=4*10^8 (adaptnovelty+, aloamo):
+   \verbatim
+ 2  5  6  7  8  9 10 11 12 14 15
+ 1  2  4  2  1  3  4  2  2  3  2
+26
+   \endverbatim
+   </li>
    <li> n=7700, cutoff=4*10^8 (adaptnovelty+):
    \verbatim
  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 21

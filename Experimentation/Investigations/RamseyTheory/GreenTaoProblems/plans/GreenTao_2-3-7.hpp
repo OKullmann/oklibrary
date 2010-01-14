@@ -103,7 +103,16 @@ BestSolution_Max = 19.000000
      <li> So perhaps a cutoff=10^8 is more appropriate here. </li>
     </ol>
    </li>
-   <li> n=13850, cutoff=10^8 </li>
+   <li> n=13850, cutoff=10^8 (adaptnovelty+, aloamo):
+   \verbatim
+ 1  2  3  4  5
+ 1  2 10  5  3
+21
+2 3 4
+5 8 7
+20
+   \endverbatim
+   </li>
    <li> n=14000
     <ol>
      <li> cutoff=10^9: 4 runs yield min=3. </li>
