@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAna
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
@@ -33,7 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 
 /* Generation of the full DNF clause-set representing the AES sbox: */
 rijnsbox_fulldnf_fcs() :=  
-  cs_to_fcs(map(
+  cs2fcs(map(
     lambda([ce],setify(binl2dnf_l_std(
       append(int2polyadic_padd(ce,2,8),
         int2polyadic_padd(rijn_lookup_sbox(ce),2,8)))
@@ -43,7 +44,7 @@ rijnsbox_fulldnf_fcs() :=
 rijnsbox_fullcnf_fcs() := block(
   [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
   clauses_f(rijnsbox_fulldnf_fcs())],
-  cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
+  cs2fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
    S-box:
@@ -61,7 +62,7 @@ output_rijnsbox_fullcnf_stdname() :=
    to the Sbox. See plans/SboxAnalysis.hpp .
 */
 rijnsbox_cnfp(FF) := 
- is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
+ is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
 
 
 /* ******************************************
