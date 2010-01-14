@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.4.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,8 +31,6 @@ kill(f)$
 
 
 okltest_rijnsbox_fulldnf_fcs(f) := block([sboxFullDNF],
-  if oklib_test_level = 0 then return(true),
-  if oklib_test_level = 1 then return(true),
   sboxFullDNF : f(),
   assert(length(sboxFullDNF[2]) = 256),
   assert(length(sboxFullDNF[1]) = 16),
@@ -48,8 +46,6 @@ okltest_rijnsbox_fulldnf_fcs(f) := block([sboxFullDNF],
 
 okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
   if oklib_test_level = 0 then return(true),
-  if oklib_test_level = 1 then return(true),
-  if oklib_test_level = 2 then return(true),
   sboxFullCNF : f(),
   assert(length(sboxFullCNF[2]) = 2^16 - 256),
   assert(length(sboxFullCNF[1]) = 16),
@@ -65,13 +61,10 @@ okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
 
 okltest_rijnsbox_cnfp(f) := block(
   if oklib_test_level = 0 then return(true),
-  if oklib_test_level = 1 then return(true),
-  if oklib_test_level = 2 then return(true),
   assert(f([{},{}]) = false),
   assert(f([{},{{}}]) = false),
   assert(f([{1},{{}}]) = false),
   assert(f([{1},{{1}}]) = false),
-  if oklib_test_level = 3 then return(true),
   assert(f([{1,2},{{1}}]) = false),
   assert(f([{1,2},{{1,2},{-1,2},{-2,1}}]) = false),
   assert(f(rijnsbox_fullcnf_fcs())),
@@ -86,7 +79,6 @@ okltest_rijnsbox_cnfp(f) := block(
 okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
-  if oklib_test_level = 2 then return(true),
   sboxCNF : f(dll_heuristics_first_formal),
   assert(length(sboxCNF) > 1),
   assert(rijnsbox_cnfp(cs_to_fcs(sboxCNF))),
@@ -94,8 +86,6 @@ okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
   assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFreal))),
   sboxCNFmax : f(dll_heuristics_max_var),
   assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFmax))),
-  if oklib_test_level = 3 then return(true),
-  if oklib_test_level = 4 then return(true),
   assert(hittingcsp(sboxCNF)),
   assert(hittingcsp(sboxCNFreal)),
   assert(hittingcsp(sboxCNFmax)),
