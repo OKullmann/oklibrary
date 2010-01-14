@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac")$
 
 
 /* ******************************************
@@ -33,12 +35,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 
 
 /* Generation of the full DNF clause-set representing the AES sbox: */
-rijnsbox_fulldnf_fcs() :=  
-  cs2fcs(map(
-    lambda([ce],setify(binl2dnf_l_std(
-      append(int2polyadic_padd(ce,2,8),
-        int2polyadic_padd(rijn_lookup_sbox(ce),2,8)))
-    )),setmn(0,255)))$
+rijnsbox_fulldnf_fcl() := perm2dnffcl(1+aes_sbox_l)$
+rijnsbox_fulldnf_fcs() := fcl2fcs(rijnsbox_fulldnf_fcl())$
 
 /* Generation of the full CNF clause-set representing the AES sbox: */
 rijnsbox_fullcnf_fcs() := block(
