@@ -29,9 +29,10 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 oklib_plain_include(functs)$ /* QUESTION from OK: still needed? */
-oklib_plain_include(eigen)$ /* QUESTION from OK: why this package? */
+oklib_plain_include(eigen)$ /* (for function columnvector) */
 
 
 /* *************
@@ -60,34 +61,21 @@ rijn_sbox_matrix : apply(matrix,
 rijn_inv_sbox_matrix : apply(matrix,
   create_list(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
 
-/* AES sbox. 
-   Takes a value in GF(2^8) and returns the result of applying the
-   Rijndael Sbox operation on the value. */
-rijn_sbox(bytei) := 
-  block([invbyte,result,byte : egf_num2poly(rijn_byte_field,bytei)],
-  if byte = 0 then 
-    egf_poly2num(rijn_byte_field,rijn_affine_constant)
-  else block([invbyte,result],
-    invbyte : rijn_inv(byte),
-    result : rijn_egf2_matmul(rijn_sbox_matrix,
-      columnvector(egf_coeffs(rijn_byte_field,invbyte,7))),
-    return(
-      egf_poly2num(rijn_byte_field,
-        rijn_add(
-          lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
-          rijn_affine_constant)))))$
+/* The AES sbox */
 
-/* Inverse of sbox: */
-rijn_inv_sbox(bytei) :=
-  block([final_result, result,byte : egf_num2poly(rijn_byte_field,bytei)],
-    result : rijn_egf2_matmul(rijn_inv_sbox_matrix,
-      columnvector(egf_coeffs(rijn_byte_field,byte,7))),
-    final_result : rijn_add(
-      lreduce(lambda([a,b], a * x + b), flatten(args(result)),0),
-      rijn_inv_affine_constant),
-    if (final_result = 0) then 0
-    else egf_poly2num(rijn_byte_field,rijn_inv(final_result))
-)$
+/* Takes a value from the byte field as vector and returns the result
+   of applying the Rijndael Sbox operation (as vector): */
+rijn_sbox_vec(v) := rijn_stand_vec(column_m(
+   rijn_sbox_matrix . columnvector(rijn_vecinv(v)) +
+   columnvector(polybin2vecbin_rijn(rijn_affine_constant)), 1))$
+/* Now representing bytes as natural numbers: */
+rijn_sbox(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
+
+/* Inverse of Sbox: */
+rijn_inv_sbox_vec(v) := rijn_vecinv(rijn_stand_vec(column_m(
+  rijn_inv_sbox_matrix . columnvector(v) + 
+  columnvector(polybin2vecbin_rijn(rijn_inv_affine_constant)),1)))$
+rijn_inv_sbox(bytei) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(bytei)))$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation:
 */
