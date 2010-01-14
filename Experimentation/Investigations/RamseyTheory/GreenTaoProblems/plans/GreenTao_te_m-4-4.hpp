@@ -194,7 +194,9 @@ License, or any later version. */
      </li>
      <li> cutoff=4*10^6 with saps (strong standard nested):
      \verbatim
-
+ 1  2
+99  1
+100
      \endverbatim
      </li>
     </ol>
@@ -688,7 +690,26 @@ License, or any later version. */
    <li> n=586
     <ol>
      <li> saps with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+  1   2   3   4   5   6   7
+169  73 112  80  36  26   4
+500
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
 
+     \endverbatim
+     </li>
+     <li> saps with cutoff=2*10^6, strong standard nested translation:
+     \verbatim
+
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=2*10^6, strong standard nested translation:
+     \verbatim
+
+     \endverbatim
      </li>
     </ol>
    </li>
