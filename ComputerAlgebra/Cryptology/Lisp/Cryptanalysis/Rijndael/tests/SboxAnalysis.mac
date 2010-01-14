@@ -30,33 +30,33 @@ kill(f)$
 */
 
 
-okltest_rijnsbox_fulldnf_fcs(f) := block([sboxFullDNF],
-  sboxFullDNF : f(),
-  assert(length(sboxFullDNF[2]) = 256),
-  assert(length(sboxFullDNF[1]) = 16),
-  assert(apply_pa(setify(create_list(i,i,1,8)), sboxFullDNF[2])=
+okltest_rijnsbox_fulldnf_fcs(f) := block([F],
+  F : f(),
+  assert(length(F[2]) = 256),
+  assert(length(F[1]) = 16),
+  assert(apply_pa(setify(create_list(i,i,1,8)), F[2])=
     {{-14,-13,-12,-9,10,11,15,16}}),
   assert(elementp({-11,-9,-8,-7,-5,-4,-3,-2,1,6,10,12,13,14,15,16},
-    sboxFullDNF[2])),
+    F[2])),
   assert(elementp({-15,-14,-10,-6,-3,1,2,4,5,7,8,9,11,12,13,16},
-    sboxFullDNF[2])),
-  assert(apply_pa(setify(create_list(-i,i,1,8)), sboxFullDNF[2])=
+    F[2])),
+  assert(apply_pa(setify(create_list(-i,i,1,8)), F[2])=
     {{-16,-13,-11,-10,-9,12,14,15}}),
   true)$
 
-okltest_rijnsbox_fullcnf_fcs(f) := block([sboxFullCNF],
+okltest_rijnsbox_fullcnf_fcs(f) := block([F],
   if oklib_test_level = 0 then return(true),
-  sboxFullCNF : f(),
-  assert(length(sboxFullCNF[2]) = 2^16 - 256),
-  assert(length(sboxFullCNF[1]) = 16),
+  F : f(),
+  assert(length(F[2]) = 2^16 - 256),
+  assert(length(F[1]) = 16),
   assert(apply_pa(union(setify(create_list(-i,i,1,8)),
-    {-14,-13,-12,-9,10,11,15,16}), sboxFullCNF[2])= {}),
+    {-14,-13,-12,-9,10,11,15,16}), F[2])= {}),
   assert(apply_pa(union(setify(create_list(-i,i,1,8)),
-    {-14,-13,-12,-9,10,-11,15,16}), sboxFullCNF[2])= {{}}),
+    {-14,-13,-12,-9,10,-11,15,16}), F[2])= {{}}),
   assert(apply_pa(union(setify(create_list(i,i,1,8)),
-    {-16,-13,-11,-10,-9,12,14,15}), sboxFullCNF[2]) = {}),
+    {-16,-13,-11,-10,-9,12,14,15}), F[2]) = {}),
   assert(apply_pa(union(setify(create_list(i,i,1,8)),
-    {-16,-13,-11,-10,-9,12,14,-15}), sboxFullCNF[2]) = {{}}),
+    {-16,-13,-11,-10,-9,12,14,-15}), F[2]) = {{}}),
   true)$
 
 okltest_rijnsbox_cnfp(f) := block(
@@ -76,19 +76,20 @@ okltest_rijnsbox_cnfp(f) := block(
    ******************************************
 */
 
-okltest_rijnsbox2hittingcnf_fcs(f) := block([sboxCNF,sboxCNFreal, sboxCNFmax],
+okltest_rijnsbox2hittingcnf_fcs(f) := block(
+ [sbox_cnf,sbox_cnf_real, sbox_cnf_max],
   if oklib_test_level = 0 then return(true),
   if oklib_test_level = 1 then return(true),
-  sboxCNF : f(dll_heuristics_first_formal),
-  assert(length(sboxCNF) > 1),
-  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNF))),
-  sboxCNFreal : f(dll_heuristics_first_real),
-  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFreal))),
-  sboxCNFmax : f(dll_heuristics_max_var),
-  assert(rijnsbox_cnfp(cs_to_fcs(sboxCNFmax))),
-  assert(hittingcsp(sboxCNF)),
-  assert(hittingcsp(sboxCNFreal)),
-  assert(hittingcsp(sboxCNFmax)),
+  sbox_cnf : f(dll_heuristics_first_formal),
+  assert(length(sbox_cnf) > 1),
+  assert(rijnsbox_cnfp(cs_to_fcs(sbox_cnf))),
+  sbox_cnf_real : f(dll_heuristics_first_real),
+  assert(rijnsbox_cnfp(cs_to_fcs(sbox_cnf_real))),
+  sbox_cnf_max : f(dll_heuristics_max_var),
+  assert(rijnsbox_cnfp(cs_to_fcs(sbox_cnf_max))),
+  assert(hittingcsp(sbox_cnf)),
+  assert(hittingcsp(sbox_cnf_real)),
+  assert(hittingcsp(sbox_cnf_max)),
   true)$
 
 
