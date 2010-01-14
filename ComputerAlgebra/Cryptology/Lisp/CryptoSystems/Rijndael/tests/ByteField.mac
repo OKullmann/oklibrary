@@ -125,6 +125,11 @@ okltest_rijn_inv(f) := block([x],
   assert(f(x) = x^7+x^3+x^2+1),
   true)$
 
+okltest_rijn_einv(f) := (
+  assert(f(0) = 0),
+  assert(okltest_rijn_inv(f) = true),
+  true)$
+
 okltest_rijn_natadd(f) := (
   assert(f(0,0) = 0),
   assert(okltest_rijn_add(buildq([f], lambda([a,b], nat2polybin(f(polybin2nat(rijn_stand(a)),polybin2nat(rijn_stand(b))))))) = true),
@@ -138,20 +143,22 @@ okltest_rijn_natmul(f) := (
   true)$
 
 okltest_rijn_natinv(f) := (
+  assert(f(0) = 0),
   assert(f(1) = 1),
   assert(f(2) = 141),
   assert(f(polybin2nat(rijn_stand(-1))) = polybin2nat(rijn_stand(-1))),
   true)$
 
 okltest_rijn_vecadd(f) := (
-
+  /* XXX */
   true)$
 
 okltest_rijn_vecmul(f) := (
-
+  /* XXX */
   true)$
 
 okltest_rijn_vecinv(f) := (
+  assert(f([0]) = [0,0,0,0,0,0,0,0]),
   assert(f([1]) = [0,0,0,0,0,0,0,1]),
   /* XXX */
   true)$

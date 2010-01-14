@@ -98,6 +98,8 @@ rijn_matmul(a,b) := matrixmap(rijn_stand, a.b)$
 
 /* Inversion in the byte-field (yielding a standardised result): */
 rijn_inv(a) := rijn_stand(gcdex(a,rijn_polynomial)[1])$
+/* Extended inversion (with 0 -> 0): */
+rijn_einv(a) := if a=0 then 0 else rijn_inv(a)$
 
 
 /* The field operations with integers as input and output: */
@@ -113,7 +115,7 @@ rijn_natmul(a,b) :=
   polybin2nat(rijn_mul(nat2polybin(a), nat2polybin(b)))$
 
 rijn_natinv(a) := 
-  polybin2nat(rijn_inv(nat2polybin(a)))$
+  polybin2nat(rijn_einv(nat2polybin(a)))$
 
 
 /* The field operations with binary vectors (as lists) as input and output: */
@@ -123,7 +125,7 @@ rijn_vecadd(a,b) := rijn_stand_vec(a+b)$
 rijn_vecmul(a,b) := 
  polybin2vecbin_rijn(rijn_mul(vecbin2polybin(a), vecbin2polybin(b)))$
 
-rijn_vecinv(a) := polybin2vecbin_rijn(rijn_inv(vecbin2polybin(a)))$
+rijn_vecinv(a) := polybin2vecbin_rijn(rijn_einv(vecbin2polybin(a)))$
 
 /*!
 \endhtmlonly
