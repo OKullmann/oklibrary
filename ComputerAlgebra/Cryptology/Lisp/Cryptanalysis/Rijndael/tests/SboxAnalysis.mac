@@ -20,6 +20,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/S
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 kill(f)$
 
