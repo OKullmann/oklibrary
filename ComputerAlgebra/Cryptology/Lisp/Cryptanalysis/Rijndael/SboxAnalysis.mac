@@ -40,10 +40,9 @@ rijnsbox_fulldnf_fcl() := perm2dnffcl(1+aes_sbox_l)$
 rijnsbox_fulldnf_fcs() := fcl2fcs(rijnsbox_fulldnf_fcl())$
 
 /* Generation of the full CNF clause-set representing the AES sbox: */
-rijnsbox_fullcnf_fcs() := block(
-  [full : full_cs(16),
-   aes_sbox_cs : fcs2cs(rijnsbox_fulldnf_fcs())],
-  cs2fcs(setdifference(full, map(comp_sl,aes_sbox_cs))))$
+rijnsbox_fullcnf_fcs() :=
+ cs2fcs(setdifference(full_cs(16), 
+             map(comp_sl,fcs2cs(rijnsbox_fulldnf_fcs()))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
    S-box:
