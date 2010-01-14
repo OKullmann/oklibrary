@@ -181,9 +181,10 @@ h3 : investigate_permutations(3)$
 [1,2,4,7,6,8,3,5] [48,0,11,2]
 [1,2,4,7,8,5,6,3] [51,0,12,1152]
 [1,4,6,7,8,5,3,2] [40,0,10,20]
-
 XXX
    \endverbatim
+   Computation aborted (took too long; unclear whether there might be more
+   cases --- better monitoring is needed, and faster computation).
    </li>
    <li> The number of linear automorphisms is order_gl(3,2) = 168, while
    there are 2^3=8 translations, which makes 1344 affine automorphisms
