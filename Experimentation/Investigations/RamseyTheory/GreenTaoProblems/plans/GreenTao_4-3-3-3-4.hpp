@@ -38,7 +38,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 1015
+  \todo Lower bounds: greentao_4(3,3,3,4) > 1020
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -313,7 +313,8 @@ E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=100
 
        \endverbatim
        </li>
-       <li> rnoveltyp, cutoff=10^7 </li>
+       <li> rnoveltyp, cutoff=10^7 found a solution in run 14
+       (seed=1890651975, osteps=8736133). </li>
       </ol>
      </li>
      <li> Strong standard nested translation
@@ -348,11 +349,13 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
  1  1  1  4  1 10 17 16 21 21 21 30 14 12 20  5  4  1
        \endverbatim
        </li>
-       <li> rnoveltyp, cutoff=10^7 </li>
+       <li> rnoveltyp, cutoff=10^7: in 12 runs only a min=6 was reached, so
+       it seems inferior to the weak nested translation. </li>
       </ol>
      </li>
     </ul>
    </li>
+   <li> n=1025, weak standard nested translation, rnovelty+, cutoff=10^7 </li>
   </ul>
 
 */
