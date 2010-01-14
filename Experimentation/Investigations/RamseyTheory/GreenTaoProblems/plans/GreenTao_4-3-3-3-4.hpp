@@ -269,12 +269,48 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
 500
        \endverbatim
        </li>
-       <li> sapsnr, cutoff=10^7 </li>
+       <li> sapsnr, cutoff=10^7:
+       \verbatim
+ 44  46  47  48  49  50  51  52  53  54  55  56
+  1   8  12  21  30  52  76 114  70  69  36  11
+500
+       \endverbatim
+       </li>
        <li> Best local search algorithm, evaluating
        \verbatim
 E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
        \endverbatim
-       by plot(E$alg,E$best): </li>
+       by plot(E$alg,E$best):
+       \verbatim
+> table(E$best[E$alg=="rnoveltyp"])
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
+ 2  6  8 10 20 22 15 21 25 17 21 13 10  4  3  2  1
+> table(E$best[E$alg=="novelty"])
+ 2  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 
+ 1  2  1  2  5  5  6 11  8  8 11 13 16 11 16 10 18 16  5 13  7  4  2  6  1  1
+30
+ 1
+> table(E$best[E$alg=="walksat_tabu_nonull"])
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+ 1  2  4  8 15 23 29 23 32 27 18 12  2  3  1
+> table(E$best[E$alg=="walksat_tabu"])
+ 5  6  7  8  9 10 11 12 13 14 15 16 17
+ 2  2  3  5 13 32 28 34 20 22 22 12  5
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 7  8  9 10 11 12 13 14 15 16 17 18 19 21
+ 1  1  3  7 21 26 38 28 31 20 11  9  3  1
+> table(E$best[E$alg=="noveltyp"])
+ 8 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 34 35
+ 1  1  2  3  2  5  9  9  7  7  6  8  8  8 13 16 14  5 18 14 14  7  7  4  4  1
+36 38 39 40
+ 3  2  1  1
+> table(E$best[E$alg=="gwsat"])
+10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+ 2  5  1  3  9  9 19 25 28  9 40 15 14  9  8  1  3
+
+       \endverbatim
+       </li>
+       <li> rnoveltyp, cutoff=10^7 </li>
       </ol>
      </li>
      <li> Strong standard nested translation
@@ -286,6 +322,30 @@ E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=100
 500
        \endverbatim
        </li>
+       <li> Best local search algorithm, evaluating
+       \verbatim
+E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+       \endverbatim
+       by plot(E$alg,E$best):
+       \verbatim
+> table(E$best[E$alg=="rnoveltyp"])
+ 5  8  9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+ 1  2  5  6  8 10 13 11 15 21 14 15 13 19  9 10 10  8  7  1  1  1
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 7  9 10 11 12 13 14 15 16 17 18 19 21
+ 1  4  7 20 27 37 31 26 25 12  5  4  1
+> table(E$best[E$alg=="gwsat"])
+ 8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 26 29
+ 2  3  2  2  8  9 19 20 21 27 29 25 17  9  3  1  1  1  1
+> table(E$best[E$alg=="rnovelty"])
+ 8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 29 30
+ 1  3  3  3  7  7 14 13 19 18 19 16 18 10 11  7 13  9  2  3  3  1
+> table(E$best[E$alg=="walksat_tabu"])
+14 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+ 1  1  1  4  1 10 17 16 21 21 21 30 14 12 20  5  4  1
+       \endverbatim
+       </li>
+       <li> rnoveltyp, cutoff=10^7 </li>
       </ol>
      </li>
     </ul>
