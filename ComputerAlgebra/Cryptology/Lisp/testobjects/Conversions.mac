@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 5.4.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,8 +27,6 @@ okltest_int2poly(int2poly);
 okltest_poly2int(poly2int);
 okltest_hex2il(hex2il);
 okltest_il2hex(il2hex);
-okltest_binl2dnf_l_std(binl2dnf_l_std);
-okltest_binl2dnf_l(binl2dnf_l);
 
 /*!
 \endhtmlonly
