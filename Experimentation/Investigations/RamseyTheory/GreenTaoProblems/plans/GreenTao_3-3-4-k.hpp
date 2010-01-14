@@ -13,7 +13,7 @@ License, or any later version. */
   and by "GTSat 3 4 k n" at C++ level.
   
 
-  \todo greentao_3(3,4,4) > 1544
+  \todo greentao_3(3,4,4) > 1545
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -122,12 +122,15 @@ License, or any later version. */
    (seed=2955200386, osteps=664563809). </li>
    <li> n=1545:
     <ol>
-     <li> aloamo, adaptnovelty, cutoff=2*10^9:
+     <li> aloamo, adaptnovelty+, cutoff=2*10^9:
      \verbatim
  1  2  3
 13 35  4
 52
      \endverbatim
+     </li>
+     <li> Weak standard nested, rnoveltyp, cutoff=10^7: found a solution
+     in the first run (seed=1652015207, osteps=1816932). </li>
     </ol>
    </li>
    </li>
@@ -151,6 +154,7 @@ License, or any later version. */
  5 46 35  6  6  2
 100
      \endverbatim
+     <li> Weak standard nested, rnoveltyp, cutoff=10^7: </li>
      </li>
     </ol>
    </li>
