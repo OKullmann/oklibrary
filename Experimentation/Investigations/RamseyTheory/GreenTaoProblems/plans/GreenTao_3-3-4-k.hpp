@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   and by "GTSat 3 4 k n" at C++ level.
   
 
-  \todo greentao_3(3,4,4) > 1550
+  \todo greentao_3(3,4,4) > 1600
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -170,7 +170,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> n=1600 </li>
+   <li> n=1600: Weak standard nested, rnovelty+, cutoff=10^7 found a solution
+   in run 21 (seed=2913780691, osteps=8089572). </li>
+   <li> n=1650 </li>
   </ul>
 
 
