@@ -73,6 +73,82 @@ okltest_nbfcsfd2fcs_aloamo(f) := block([FF,D],
    **************************************
 */
 
+okltest_gennest_clause_trans(f) := (
+
+  true)$
+
+okltest_gennest_nbfcl2fcl(f) := (
+
+  true)$
+
+okltest_standtrans_T(f) := (
+
+  true)$
+
+okltest_standtrans_fd_weak_TR(f) := (
+
+  true)$
+
+okltest_standtrans_ud_weak_TR(f) := (
+
+  true)$
+
+okltest_standtrans_fd_TV(f) := (
+
+  true)$
+
+okltest_standtrans_ud_TV(f) := (
+
+  true)$
+
+okltest_nbfclfd2fcl_alo_2(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_alo_2(f) := (
+
+  true)$
+
+okltest_standnest_T(f) := (
+
+  true)$
+
+okltest_standnest_TR(f) := (
+
+  true)$
+
+okltest_standnest_strong_TR(f) := (
+
+  true)$
+
+okltest_standnest_TV(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_standnest(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_standnest_strong(f) := (
+
+  true)$
+
+okltest_logarithmic_T(f) := (
+
+  true)$
+
+okltest_logarithmic_TR(f) := (
+
+  true)$
+
+okltest_logarithmic_TV(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_logarithmic(f) := (
+
+  true)$
+
 
 /* ************************************************
    * Tools for the generalised nested translation *

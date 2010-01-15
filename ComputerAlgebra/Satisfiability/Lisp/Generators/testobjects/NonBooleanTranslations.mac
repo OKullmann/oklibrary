@@ -40,7 +40,28 @@ okltest_nbfcsfd2fcs_aloamo(nbfcsfd2fcs_aloamo);
    **************************************
 */
 
+okltest_gennest_clause_trans(gennest_clause_trans);
+okltest_gennest_nbfcl2fcl(gennest_nbfcl2fcl);
+
+okltest_standtrans_T(standtrans_T);
+okltest_standtrans_fd_weak_TR(standtrans_fd_weak_TR);
+okltest_standtrans_ud_weak_TR(standtrans_fd_weak_TR);
+okltest_standtrans_fd_TV(standtrans_fd_TV);
+okltest_standtrans_ud_TV(standtrans_ud_TV);
+/* okltest_nbfclfd2fcl_alo(nbfclfd2fcl_alo_2); */
 okltest_nbfclud2fcl_alo(nbfclud2fcl_alo_2);
+
+okltest_standnest_T(standnest_T);
+okltest_standnest_TR(standnest_TR);
+okltest_standnest_strong_TR(standnest_strong_TR);
+okltest_standnest_TV(standnest_TV);
+okltest_nbfclud2fcl_standnest(nbfclud2fcl_standnest);
+okltest_nbfclud2fcl_standnest_strong(nbfclud2fcl_standnest_strong);
+
+okltest_logarithmic_T(logarithmic_T);
+okltest_logarithmic_TR(logarithmic_TR);
+okltest_logarithmic_TV(logarithmic_TV);
+okltest_nbfclud2fcl_logarithmic(nbfclud2fcl_logarithmic);
 
 /* ************************************************
    * Tools for the generalised nested translation *
