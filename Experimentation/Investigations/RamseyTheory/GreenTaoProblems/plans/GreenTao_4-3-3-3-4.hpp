@@ -38,7 +38,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 1020
+  \todo Lower bounds: greentao_4(3,3,3,4) > 1025
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -355,7 +355,32 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
      </li>
     </ul>
    </li>
-   <li> n=1025, weak standard nested translation, rnovelty+, cutoff=10^7 </li>
+   <li> n=1025
+    <ol>
+     <li> Weak standard nested translation, rnovelty+, cutoff=10^7:
+     \verbatim
+> E=read_ubcsat("GreenTao_N_4-3-3-3-4_1025.cnf_OUT")
+ 0  1  2  3  4  5  6  7  8
+ 1  7 26 53 80 52 29  8  1
+257
+> E[E$min==0,]
+    sat min  osteps  msteps       seed
+257   1   0 2471159 2471159 4183213878
+     \endverbatim
+     </li>
+     <li> Same, but with cutoff=2*10^7:
+     \verbatim
+ 0  2  3  4  5  6
+ 1 10 28 23  6  1
+69
+> E[E$min==0,]
+   sat min  osteps  msteps      seed
+69   1   0 7048847 7048847 838582080
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=1030 </li>
   </ul>
 
 */
