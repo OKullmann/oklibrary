@@ -310,7 +310,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) > 585
+  \todo greentao_4(2,2,4,4) > 587
   <ul>
    <li> Let's use novelty+ as the main Ubcsat-solver (aloamo). </li>
    <li> n=560:
@@ -694,6 +694,38 @@ License, or any later version. */
   1   2   3   4   5   6   7
 169  73 112  80  36  26   4
 500
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+  0   1   2   3   4   5   6   7
+  1 134  86  84  42  25  10   1
+383
+     \endverbatim
+     (seed=2960943394, osteps=137554). </li>
+    </ol>
+   </li>
+   <li> n=587
+    <ol>
+     <li> saps with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+> EN = read_ubcsat("GreenTao_N_4-2-2-4-4_587.cnf_OUT")
+ 0  1  2  3  4  5  6  7
+ 2 45 26 45 31 23 10  1
+183
+> EN[EN$min==0,]
+    sat min osteps msteps       seed
+82    1   0 813381 813381  698013339
+115   1   0 888991 888991 2520556202
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=588
+    <ol>
+     <li> saps with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+
      \endverbatim
      </li>
      <li> sapsnr with cutoff=2*10^6, weak standard nested translation:
