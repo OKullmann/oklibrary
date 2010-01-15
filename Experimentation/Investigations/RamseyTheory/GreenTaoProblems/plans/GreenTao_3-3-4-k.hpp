@@ -13,7 +13,7 @@ License, or any later version. */
   and by "GTSat 3 4 k n" at C++ level.
   
 
-  \todo greentao_3(3,4,4) > 1545
+  \todo greentao_3(3,4,4) > 1550
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -127,9 +127,12 @@ License, or any later version. */
  1  2  3
 13 35  4
 52
+ 1  2  3
+28 87  8
+123
      \endverbatim
      </li>
-     <li> Weak standard nested, rnoveltyp, cutoff=10^7: found a solution
+     <li> Weak standard nested, rnovelty+, cutoff=10^7: found a solution
      in the first run (seed=1652015207, osteps=1816932). </li>
     </ol>
    </li>
@@ -154,10 +157,20 @@ License, or any later version. */
  5 46 35  6  6  2
 100
      \endverbatim
-     <li> Weak standard nested, rnoveltyp, cutoff=10^7: </li>
+     <li> Weak standard nested, rnovelty+, cutoff=10^7:
+     \verbatim
+> E=read_ubcsat("GreenTao_N_3-3-4-4_1550.cnf_OUT1")
+  0   1   2   3
+243 212  42   3
+500
+> summary(E$osteps[E$min==0])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 599300 3286000 4930000 5318000 7516000 9961000
+     \endverbatim
      </li>
     </ol>
    </li>
+   <li> n=1600 </li>
   </ul>
 
 
