@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1930
+  \todo greentao_3(3,3,5) > 1931
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -507,7 +507,29 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
      osteps=2164367412). </li>
     </ol>
    </li>
-   <li> n=1931, cutoff=4*10^9: </li>
+   <li> n=1931:
+    <ol>
+     <li> (aloamo, adaptnovelty+) cutoff=4*10^9:
+     \verbatim
+ 1  2  3
+ 5 29  1
+35
+     \endverbatim
+     </li>
+     <li> Weak nested translation, rnovelty+, cutoff=10^7: In run 6 a
+     solution was found (seed=1383005715, osteps=9198721). </li>
+    </ol>
+   </li>
+   <li> n=1940
+    <ol>
+     <li> Weak nested translation, rnovelty+, cutoff=10^7: </li>
+     <li> Best ubcsat-solver:
+     \verbatim
+E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=1000000))
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
