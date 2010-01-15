@@ -26,15 +26,29 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> int2poly and poly2int should simply be removed, as 
+   they are no longer used, and in a general setting aren't useful
+   as they assume "x" to be the variable and also assume "x"
+   is not otherwise used (resulting in errors). </li>
+   <li> int2poly and poly2int can easily be mimiced like so:
+   \verbatim
+$ int2poly(10,2);
+x^3+x
+$ expand(lreduce(lambda([a,b], a * x + b),int2polyadic(10,2)));
+x^3+x
+   \endverbatim
+   and a simple function which generates the polynomial given
+   it's coefficients could be added to 
+   ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac . 
+   </li>
    <li> "int2poly(-4,2);" yields an error. </li>
-   <li> OK: has this been done???
+   <li> (DONE - see gf2t8l2hex)
    Functions such as GF2t8ListToHex should be renamed (although
    also moved - see above) using whatever proper naming scheme is decided for
    Rijndael data types - see "Notions and Notations" in 
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp 
    </li>
-   <li> OK: has this been done??? and shouldn't the naming conventions
-   be different???
+   <li> (DONE - Also fixed naming conventions - see gf2t8l2hex etc)
    Conversion functions with suitable inverses working on lists
    of the appropriate elements to allow movement between various 
    different representations of data in Cryptology (for AES and others) :
