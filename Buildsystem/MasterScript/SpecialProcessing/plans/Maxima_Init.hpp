@@ -24,8 +24,10 @@ License, or any later version. */
 :lisp (ext:set-limit 'ext:heap-size 1073741824)
 :lisp (ext:set-limit 'ext:lisp-stack 131072)
    \endverbatim
-   should be more reasonable than the default values. </li>
-   <li> These commands are for Ecl --- do they also work for CLisp? </li>
+   should be more reasonable than the default values. Remark:
+   apparently with Ecl version 9.12.3 heap-size is already 2^30. </li>
+   <li> DONE (apparently these commands are Ecl-specific)
+   These commands are for Ecl --- do they also work for CLisp? </li>
    <li> How to use Maxima variables in this context?
    \verbatim
 frame_stack : 2^13;
@@ -33,23 +35,24 @@ frame_stack : 2^13;
    \endverbatim
    seems to work. </li>
    <li> So we should use variables "frame_stack, binding_stack, c_stack,
-   heap_size, lisp_stack". If they only work for Ecl, then we should add
+   heap_size, lisp_stack". Since they only work for Ecl, then we should add
    the suffix "_ecl". </li>
    <li> This yields
    \verbatim
-frame_stack : 2^13;
-binding_stack : 2^16;
-c_stack : 2^20;
-heap_size : 2^30;
-lisp_stack : 2^17;
-:lisp (ext:set-limit 'ext:frame-stack $frame_stack)
-:lisp (ext:set-limit 'ext:binding-stack $binding_stack)
-:lisp (ext:set-limit 'ext:c-stack $c_stack)
-:lisp (ext:set-limit 'ext:heap-size $heap_size)
-:lisp (ext:set-limit 'ext:lisp-stack $lisp_stack)
+frame_stack_ecl : 2^13;
+binding_stack_ecl : 2^16;
+c_stack_ecl : 2^20;
+heap_size_ecl : 2^30;
+lisp_stack_ecl : 2^17;
+:lisp (ext:set-limit 'ext:frame-stack $frame_stack_ecl)
+:lisp (ext:set-limit 'ext:binding-stack $binding_stack_ecl)
+:lisp (ext:set-limit 'ext:c-stack $c_stack_ecl)
+:lisp (ext:set-limit 'ext:heap-size $heap_size_ecl)
+:lisp (ext:set-limit 'ext:lisp-stack $lisp_stack_ecl)
    \endverbatim
    </li>
-   <li> Now we should define Maxima functions "set_frame_stack_ecl", etc.,
+   <li> DONE (available in ComputerAlgebra/MaximaInternals/MemoryManagement.lisp)
+   Now we should define Maxima functions "set_frame_stack_ecl", etc.,
    which perform these Lisp-instructions --- how to do this?
     <ol>
      <li> As in ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp, we have to
