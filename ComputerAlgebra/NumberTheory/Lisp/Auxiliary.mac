@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,10 @@ ld(x) := log(x) / log(2)$
 fld(n) := if n = 0 then minf else 
  block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
   if b > n then return(l-1) else return(l))$
+/* Remark: With Maxima 5.20.1 it seems that for all n >= 1 we have
+   fld(n) = floor(ld(n)), however fld(n) is actually faster, except
+   for very big n (say, with over 5000 decimal digits).
+*/
 
 /* Returns the floor of the logarithm of n base b, correcting
    for issues in precision causing round off. Cannot handle large
@@ -42,6 +46,10 @@ fld(n) := if n = 0 then minf else
 floorlog(n,b) := block([l : floor(float(log(n)/log(b)))], 
   if b^(l+1) <= n then (l+1) else
   if b^(l) > n then (l-1) else l)$ /* handles issues with precision */
+/* Again it seems that with Maxima 5.20.1 we always have 
+   floorlog(n,b) = floor(log(n)/log(b)),
+   however for n for which floorlog(n,b) is defined it is much faster.
+*/
 
 
 /* ******************************
