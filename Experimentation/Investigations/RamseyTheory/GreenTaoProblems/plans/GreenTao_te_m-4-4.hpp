@@ -287,9 +287,13 @@ License, or any later version. */
        monitoring node, average node count 87600). So with some
        parallelisation (and a more efficient implementation for 64-bit
        machines) it might be possible (say with 10 machines in 2 weeks). </li>
-       <li> Using the standard strong nested translation: looks as if it would
-       take many months. </li>
-       </li>
+       <li> Using the standard strong nested translation: Running it at
+       monitoring-level 20, until monitor-node 13 the prediction was, say,
+       3 years, but then it got stuck, and didn't make progress after
+       a few hundred million nodes and a few days. However, as discussed
+       below, this translation can likely be improved. </li>
+       <li> precosat236 and picosat913 apparently didn't make progress
+       after a few days on the standard strong nested translation. </li>
        <li> Using the logarithmic translation: somewhat hard to say, since
        the first 40000 monitoring nodes at monitoring depth 30 are skipped,
        but then it seems to process them mostly without jumps (which would
