@@ -389,11 +389,47 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
 500
      \endverbatim
      </li>
+     <li> Strong nested standard translation: Evaluating
+     \verbatim
+E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+     by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="rnoveltyp"])
+ 8  9 10 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+ 1  1  2  2  1  2  5  5 12  8  8 10 15 20 21 13 13 16 12 13  5  5  3  2  2  2
+35
+ 1
+> table(E$best[E$alg=="rnovelty"])
+ 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 34
+ 1  3  1  4  1  4  2 11 10  9 13  8 14 19 17 14 11 12 13  8 12  7  3  2  1
+> table(E$best[E$alg=="adaptnoveltyp"])
+10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 4  1 13 11 26 35 33 29 22  9 11  4  1  1
+> table(E$best[E$alg=="gwsat"])
+11 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+ 2  6  9 13 21 23 22 22 29 18 12  7  7  5  4
+     \endverbatim
+     So also here seems rnovelty+ best. </li>
+     <li> Strong nested standard translation, saps, cutoff=2*10^7:
+     \verbatim
+40 45 46 47 48 49 50 51 52 53 54
+ 1  2  5  5 15 17 25 25 23 16  3
+137
+     \endverbatim
+     </li>
+     <li> Strong nested standard translation, rnovelty+, cutoff=2*10^7:
+     \verbatim
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 18
+ 2  5 10 16 27 26 23 15 12 16  9  8  1  2
+172
+     \endverbatim
+     </li>
      <li> Logarithmic translation: Evaluating
-   \verbatim
+     \verbatim
 E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
-   \endverbatim
-   by plot(E$alg,E$best), 
+     \endverbatim
+     by plot(E$alg,E$best):
+     </li>
     </ol>
    </li>
   </ul>
