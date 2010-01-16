@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1931
+  \todo greentao_3(3,3,5) > 1940
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -522,14 +522,29 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
    </li>
    <li> n=1940
     <ol>
-     <li> Weak nested translation, rnovelty+, cutoff=10^7: </li>
-     <li> Best ubcsat-solver:
+     <li> Weak nested translation, rnovelty+, cutoff=10^7:
+     \verbatim
+ 0  1  2  3  4  5  6  7
+ 1  5 13 23 32 19  5  2
+100
+     \endverbatim
+     (seed=1131255522, osteps=7633695). </li>
+     <li> cutoff=2*10^7:
+     \verbatim
+ 0  1  2  3  4  5
+ 1  7 34 34 19  5
+100
+     \endverbatim
+     (seed=2316712870, osteps=1698213). </li>
+     <li> Best ubcsat-solver: Evaluating
      \verbatim
 E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=1000000))
      \endverbatim
+     by plot(E$alg,E$best), 
      </li>
     </ol>
    </li>
+   <li> n=1950 </li>
   </ul>
 
 
