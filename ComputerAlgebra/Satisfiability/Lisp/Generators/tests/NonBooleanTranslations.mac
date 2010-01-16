@@ -133,16 +133,53 @@ okltest_nbfclud2fcl_standnest_strong(f) := (
 
   true)$
 
-okltest_logarithmic_T(f) := (
-
+okltest_logarithmic_T(f) := block([t,v,e],
+  t : f([3]),
+  assert(t(v,3) = {}),
+  t : f([4,2]),
+  assert(t(v,4) = {-nbv(v,1)}),
+  assert(t(v,2) = {nbv(v,1)}),
+  t : f([1,3,2]),
+  assert(t(v,1) = {-nbv(v,1),-nbv(v,2)}),
+  assert(t(v,3) = {-nbv(v,1),nbv(v,2)}),
+  assert(t(v,2) = {nbv(v,1),-nbv(v,2)}),
+  t : f([-1,3,5,e]),
+  assert(t(v,-1) = {-nbv(v,1),-nbv(v,2)}),
+  assert(t(v,3) = {-nbv(v,1),nbv(v,2)}),
+  assert(t(v,5) = {nbv(v,1),-nbv(v,2)}),
+  assert(t(v,e) = {nbv(v,1),nbv(v,2)}),
+  t : f([1,2,-3,4,5]),
+  assert(t(v,1) = {-nbv(v,1),-nbv(v,2),-nbv(v,3)}),
+  assert(t(v,2) = {-nbv(v,1),-nbv(v,2),nbv(v,3)}),
+  assert(t(v,-3) = {-nbv(v,1),nbv(v,2),-nbv(v,3)}),
+  assert(t(v,4) = {-nbv(v,1),nbv(v,2),nbv(v,3)}),
+  assert(t(v,5) = {nbv(v,1),-nbv(v,2),-nbv(v,3)}),
   true)$
 
-okltest_logarithmic_TR(f) := (
-
+okltest_logarithmic_TR(f) := block([t,v,e],
+  t : f([3]),
+  assert(t(v) = []),
+  t : f([4,2]),
+  assert(t(v) = []),
+  t : f([1,3,2]),
+  assert(t(v) = [{nbv(v,1),nbv(v,2)}]),
+  t : f([-1,3,5,e]),
+  assert(t(v) = []),
+  t : f([1,2,-3,4,5]),
+  assert(t(v) = [{nbv(v,1),-nbv(v,2),nbv(v,3)},{nbv(v,1),nbv(v,2),-nbv(v,3)},{nbv(v,1),nbv(v,2),nbv(v,3)}]),
   true)$
 
-okltest_logarithmic_TV(f) := (
-
+okltest_logarithmic_TV(f) := block([t,v,e],
+  t : f([3]),
+  assert(t(v) = []),
+  t : f([4,2]),
+  assert(t(v) = [nbv(v,1)]),
+  t : f([1,3,2]),
+  assert(t(v) = [nbv(v,1),nbv(v,2)]),
+  t : f([-1,3,5,e]),
+  assert(t(v) = [nbv(v,1),nbv(v,2)]),
+  t : f([1,2,-3,4,5]),
+  assert(t(v) = [nbv(v,1),nbv(v,2),nbv(v,3)]),
   true)$
 
 okltest_nbfclud2fcl_logarithmic(f) := (

@@ -175,6 +175,7 @@ nbfclud2fcl_standnest_strong(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(F
 
 /* The logarithmic translation */
 
+/* For non-empty D only. */
 logarithmic_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D)), A],
  A : l2ary(take_l(k,full_cl(ceiling(ld(k))))),
  buildq([A,h], lambda([v,e], 
@@ -182,7 +183,7 @@ logarithmic_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D)), A],
 logarithmic_TR(D) := block([k : length(D), L],
  L : rest(full_cl(ceiling(ld(k))),k),
  buildq([L], lambda([v],
-   map(lambda([C], map(lambda([x], sign_l(x) * nbv_var(v,x)), C)), L))))$
+   map(lambda([C], map(lambda([x], if x>0 then nbv_var(v,x) else -nbv_var(v,-x)), C)), L))))$
 logarithmic_TV(D) := buildq([l:ceiling(ld(length(D)))],
  lambda([v], create_list(nbv_var(v,i), i,1,l)))$
 
