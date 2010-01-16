@@ -190,6 +190,26 @@ logarithmic_TV(D) := buildq([l:ceiling(ld(length(D)))],
 nbfclud2fcl_logarithmic(FF) := gennest_nbfcl2fcl(rest(FF,-1), logarithmic_T(FF[3]), logarithmic_TR(FF[3]), logarithmic_TV(FF[3]))$
 
 
+/* The reduced (nested) translation */
+
+/* Using a uniform non-empty domain D, and placing the long clause
+   at the last value:
+*/
+reduced_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D))],
+ buildq([k,h],
+  lambda([v,e], block([i : ev_hm(h,e)],
+   if i < k then {nbv_var(v,i)}
+   else setify(create_list(-nbv_var(v,j),j,1,i-1))))))$
+reduced_TR(D) := lambda([v], [])$
+reduced_strong_TR(D) := buildq([Vt : reduced_TV(D)],
+ lambda([v], listify(powerset(setify(Vt(v)),2))))$
+reduced_TV(D) := buildq([l:length(D)],
+ lambda([v], create_list(nbv_var(v,i), i,1,l-1)))$
+
+nbfclud2fcl_reduced(FF) := gennest_nbfcl2fcl(rest(FF,-1), reduced_T(FF[3]), reduced_TR(FF[3]), reduced_TV(FF[3]))$
+nbfclud2fcl_reduced_strong(FF) := gennest_nbfcl2fcl(rest(FF,-1), reduced_T(FF[3]), reduced_strong_TR(FF[3]), reduced_TV(FF[3]))$
+
+
 /* ************************************************
    * Tools for the generalised nested translation *
    ************************************************

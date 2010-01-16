@@ -63,6 +63,13 @@ okltest_logarithmic_TR(logarithmic_TR);
 okltest_logarithmic_TV(logarithmic_TV);
 okltest_nbfclud2fcl_logarithmic(nbfclud2fcl_logarithmic);
 
+okltest_reduced_T(reduced_T);
+okltest_reduced_TR(reduced_TR);
+okltest_reduced_strong_TR(reduced_strong_TR);
+okltest_reduced_TV(reduced_TV);
+okltest_nbfclud2fcl_reduced(nbfclud2fcl_reduced);
+okltest_nbfclud2fcl_reduced_strong(nbfclud2fcl_reduced_strong);
+
 /* ************************************************
    * Tools for the generalised nested translation *
    ************************************************

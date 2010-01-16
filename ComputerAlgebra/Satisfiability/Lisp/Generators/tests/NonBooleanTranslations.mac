@@ -186,6 +186,30 @@ okltest_nbfclud2fcl_logarithmic(f) := (
 
   true)$
 
+okltest_reduced_T(f) := (
+
+  true)$
+
+okltest_reduced_TR(f) := (
+
+  true)$
+
+okltest_reduced_strong_TR(f) := (
+
+  true)$
+
+okltest_reduced_TV(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_reduced(f) := (
+
+  true)$
+
+okltest_nbfclud2fcl_reduced_strong(f) := (
+
+  true)$
+
 
 /* ************************************************
    * Tools for the generalised nested translation *
@@ -200,6 +224,8 @@ okltest_gennest_nbfcl2fcl_p(f) := block([Du,D],
   assert(f([1,2,3,4,5],D,dll_simplest_trivial2, standnest_T(Du),standnest_TR(Du),standnest_TV(Du)) = true),
   assert(f([1,2,3,4,5],D,dll_simplest_trivial2, standnest_T(Du),standnest_strong_TR(Du),standnest_TV(Du)) = true),
   assert(f([1,2,3,4,5],D,dll_simplest_trivial2, logarithmic_T(Du),logarithmic_TR(Du),logarithmic_TV(Du)) = true),
+  assert(f([1,2,3,4,5],D,dll_simplest_trivial2, reduced_T(Du),reduced_TR(Du),reduced_TV(Du)) = true),
+  assert(f([1,2,3,4,5],D,dll_simplest_trivial2, reduced_T(Du),reduced_strong_TR(Du),reduced_TV(Du)) = true),
   true)$
 
 okltest_add_bincl_nec(f) := (
