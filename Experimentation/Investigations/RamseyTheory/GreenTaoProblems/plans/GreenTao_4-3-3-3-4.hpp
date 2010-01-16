@@ -380,7 +380,22 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
      </li>
     </ol>
    </li>
-   <li> n=1030 </li>
+   <li> n=1030
+    <ol>
+     <li> Weak standard nested translation, rnovelty+, cutoff=10^7:
+     \verbatim
+  1   2   3   4   5   6   7   8   9
+  6  21  60 119 103 112  51  21   7
+500
+     \endverbatim
+     </li>
+     <li> Logarithmic translation: Evaluating
+   \verbatim
+E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+   \endverbatim
+   by plot(E$alg,E$best), 
+    </ol>
+   </li>
   </ul>
 
 */
