@@ -160,6 +160,34 @@ okltest_greentao_standnest_strong_fcs(f) := (
 
   true)$
 
+okltest_greentao_logarithmic_fcl(f) := (
+  assert(f([0],0) = [[],[{}]]),
+  assert(f([0,0],0) = [[],[{},{}]]),
+  assert(f([1],0) = [[],[]]),
+  assert(f([1],1) = [[],[{}]]),
+  assert(f([1],2) = [[],[{},{}]]),
+  assert(f([0,1],0) = [[],[{}]]),
+  assert(f([0,1],1) = [[nbv(2,1)],[{},{nbv(2,1)}]]),
+  assert(f([0,1],2) = [[nbv(2,1),nbv(3,1)],[{},{nbv(2,1)},{nbv(3,1)}]]),
+  assert(f([1,1],0) = [[],[]]),
+  assert(f([1,1],1) = [[nbv(2,1)],[{-nbv(2,1)},{nbv(2,1)}]]),
+  assert(f([1,1],2) = [[nbv(2,1),nbv(3,1)],[{-nbv(2,1)},{-nbv(3,1)},{nbv(2,1)},{nbv(3,1)}]]),
+  assert(f([2],0) = [[],[]]),
+  assert(f([2],1) = [[],[]]),
+  assert(f([2],2) = [[],[{}]]),
+  assert(f([2],3) = [[],[{},{},{}]]),
+  assert(f([2,3],0) = [[],[]]),
+  assert(f([2,3],1) = [[nbv(2,1)],[]]),
+  assert(f([2,3],2) = [[nbv(2,1),nbv(3,1)],[{-nbv(2,1),-nbv(3,1)}]]),
+  assert(f([2,3],3) = [[nbv(2,1),nbv(3,1),nbv(5,1)],[{-nbv(2,1),-nbv(3,1)},{-nbv(2,1),-nbv(5,1)},{-nbv(3,1),-nbv(5,1)}]]),
+  assert(f([2,3],4) = [[nbv(2,1),nbv(3,1),nbv(5,1),nbv(7,1)],[{-nbv(2,1),-nbv(3,1)},{-nbv(2,1),-nbv(5,1)},{-nbv(3,1),-nbv(5,1)},{-nbv(2,1),-nbv(7,1)},{-nbv(3,1),-nbv(7,1)},{-nbv(5,1),-nbv(7,1)},{nbv(3,1),nbv(5,1),nbv(7,1)}]]),
+  /* XXX */
+  true)$
+
+okltest_greentao_logarithmic_fcs(f) := (
+
+  true)$
+
 
 /* *********************
    * Symmetry breaking *
@@ -239,6 +267,12 @@ okltest_greentao_standnest_strong_stdfcl(f) := (
   assert(f([],0) = [[[],[]],[]]),
   for T in testcases_nonempty_greentao_std do
     assert(apply(f,T) = standardise_fcl(apply(greentao_standnest_strong_fcl,T))),
+  true)$
+
+okltest_greentao_logarithmic_stdfcl(f) := (
+  assert(f([],0) = [[[],[]],[]]),
+  for T in testcases_nonempty_greentao_std do
+    assert(apply(f,T) = standardise_fcl(apply(greentao_logarithmic_fcl,T))),
   true)$
 
 

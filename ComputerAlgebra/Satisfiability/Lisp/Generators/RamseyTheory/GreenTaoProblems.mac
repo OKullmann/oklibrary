@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTr
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* *****************************************
@@ -111,6 +112,13 @@ greentao_standnest_fcs(L,n) := fcl2fcs(greentao_standnest_fcl(L,n))$
 greentao_standnest_strong_fcl(L,n) :=
   nbfclud2fcl_standnest_strong(greentao_nbfclud(L,n))$
 greentao_standnest_strong_fcs(L,n) := fcl2fcs(greentao_standnest_strong_fcl(L,n))$
+
+/* Translating the general forms into boolean clause-sets via the
+   logarithmic translation; here L must be non-empty:
+*/
+greentao_logarithmic_fcl(L,n) :=
+  nbfclud2fcl_logarithmic(greentao_nbfclud(L,n))$
+greentao_logarithmic_fcs(L,n) := fcl2fcs(greentao_logarithmic_fcl(L,n))$
 
 
 /* *********************
@@ -234,6 +242,40 @@ greentao_standnest_strong_stdfcl(L,n) :=
 */
 
 
+/* Standardising the logarithmic translation */
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables; P is here the list of the first
+   n prime numbers (while [L,n] are the Green-Tao parameters):
+*/
+standardise_greentao_logarithmic(L,P) := block(
+ [m : ceiling(ld(length(L))),
+  A : osm2ary_lt(l2osm_inv(P),last(P),fixnum)],
+  buildq([m,A], lambda([t], ev(t, nbv(v,i):=(A[v]-1)*m+i, nbv))))$
+
+invstandardise_greentao_logarithmic(L,P) := block(
+ [m : ceiling(ld(length(L))),
+  A : osm2ary_lt(l2osm(P),length(P),fixnum)],
+  buildq([m,A], lambda([i], block([d : divide(i-1,m)+1],
+    nbv_var(A[d[1]], d[2])))))$
+
+/* Computing the pair [FF,V], where FF is the standardised form of
+   greentao_logarithmic_fcl, while V is the list of original variables:
+*/
+greentao_logarithmic_stdfcl(L,n) :=
+ if n=0 then 
+   [[[],create_list({},i,1,length(sublist(L,lambda([x],is(x=0)))))],[]] 
+ else
+ block([m : ceiling(ld(length(L))), FF : greentao_nbfclud(L,n)],
+  [block([s : standardise_greentao_logarithmic(L,FF[1])],
+     s(nbfclud2fcl_logarithmic(FF))),
+   block([invs : invstandardise_greentao_logarithmic(L,FF[1])],
+     create_list(invs(i), i,1,n*m))])$
+/* We have greentao_logarithmic_stdfcl(L,n) =
+   standardise_fcl(greentao_logarithmic_fcl(L,n)).
+*/
+
+
 /* ********************
    * Output functions *
    ********************
@@ -312,6 +354,21 @@ c Variables and associated prime numbers and \"colours\":"),
     FF[2]))$
 output_greentao_standnest_strong_stdname(L,n) := output_greentao_standnest_strong(L,n,
   sconcat("GreenTao_SN_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+/* The general form, logarithmic translation: */
+output_greentao_logarithmic(L,n,filename) := block(
+ [FF : greentao_logarithmic_stdfcl(L,n)],
+  output_fcl_v(
+    sconcat("Green-Tao problem, translated via logarithmic translation to the boolean form,
+c created by the OKlibrary at ", timedate(),": 
+c ", length(L), " parts with arithmetic progressions of sizes ", L, "
+c and ", n, " prime numbers.
+c Variables and associated prime numbers and \"colours\":"),
+    FF[1],
+    filename,
+    FF[2]))$
+output_greentao_logarithmic_stdname(L,n) := output_greentao_logarithmic(L,n,
+  sconcat("GreenTao_L_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
 
 
 /* The general form with aloamo-translation and with symmetry breaking: */
