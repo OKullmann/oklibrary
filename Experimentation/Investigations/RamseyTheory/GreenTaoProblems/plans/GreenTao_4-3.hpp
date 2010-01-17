@@ -453,8 +453,15 @@ BestSolution_Max = 4.000000
    \endverbatim
    finally in another 345 runs one solution was found: seed=3835287522,
    osteps=2675973906. </li>
-   <li> n=380, cutoff=4*10^9: Using cutoff=4*10^9 one solution was found in
-   110 runs: osteps=2056704946, seed=285602449. </li>
+   <li> n=380:
+    <ol>
+     <li> Aloamo, adaptnovelty+, cutoff=4*10^9: One solution was found in
+     110 runs: osteps=2056704946, seed=285602449. </li>
+     <li> Logarithmic translation: OKsolver_2002 didn't complete a monitoring
+     node at depth 30 (86341.6 s), unclear whether minisat2 after 32 restarts
+     (85416 s) or precosat236 (85414.4 s) made any progress. </li>
+    </ol>
+   </li>
    <li> n=381:
     <ol>
      <li> Aloamo: cutoff=2*10^9 yields in 8 runs constantly min=2 with the
