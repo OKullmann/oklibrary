@@ -475,8 +475,20 @@ BestSolution_Max = 4.000000
      \verbatim
 E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000000))
      \endverbatim
-     evaluating it by plot(E$alg,E$best): 
+     evaluating it by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 2  3  4  5  6  7  8  9
+ 1  4 14 54 65 46 15  1
+> table(E$best[E$alg=="gwsat"])
+ 4  5  6  7  8  9 10 11
+ 3 15 36 36 50 40 16  4
+> table(E$best[E$alg=="rnoveltyp"])
+ 4  6  8  9 10 11 12 13 14 15 16 17 18 19 20
+ 1  1  4  4  6 10 19 25 27 42 26 17 13  4  1
+     \endverbatim
      </li>
+     <li> Logarithmic translation, adaptnovelty+: </li>
     </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be

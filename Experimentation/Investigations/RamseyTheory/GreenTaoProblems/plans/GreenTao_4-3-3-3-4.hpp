@@ -389,6 +389,13 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
 500
      \endverbatim
      </li>
+     <li> Weak standard nested translation, rnovelty+, cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6   7
+ 20  67 130 162  89  26   6
+500
+     \endverbatim
+     </li>
      <li> Strong nested standard translation: Evaluating
      \verbatim
 E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
@@ -423,13 +430,49 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=10
  2  5 10 16 27 26 23 15 12 16  9  8  1  2
 172
      \endverbatim
-     </li>
+     Thus the weak nested translation seems better than the strong. </li>
      <li> Logarithmic translation: Evaluating
      \verbatim
 E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
      \endverbatim
      by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="adaptnoveltyp"])
+ 8  9 10 11 12 13 14 15 16 17 18 19 20 21
+ 2  1  5  5 24 19 36 32 26 21 15  7  6  1
+> table(E$best[E$alg=="gwsat"])
+ 9 10 11 12 13 14 15 16 17 18 19 20 21 22
+ 5  3  4 20 26 25 19 27 26 23  9  8  4  1
+     \endverbatim
+     It seems the weak nested translation is superior. </li>
+     <li> Logarithmic translation, rnovelty+, cutoff=10^7:
+     \verbatim
+12 15 16 17 18 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+ 1  3  1  2  3  4  4  3  2  9  2  8  6 15 12 16 25 10 24 23 20 26 36 22 24 21
+41 42 43 44 45
+ 9  8  3  1  1
+344
+     \endverbatim
+     And cutoff=2*10^7:
+     \verbatim
+ 8 13 14 15 16 17 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38
+ 1  1  3  1  1  1  2  2  1  4  3  7  8  5 12 11  7  1 13 13  8 10 17 16  6  9
+39
+ 7
+170
+     \endverbatim
      </li>
+     <li> Logarithmic translation, adaptnovelty+ </li>
+     <li> Weak standard reduced translation: Evaluating
+     \verbatim
+E = eval_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+     \endverbatim
+     by plot(E$alg,E$best): </li>
+     <li> Strong standard reduced translation: Evaluating
+     \verbatim
+E = eval_ubcsat("GreenTao_SR_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+     \endverbatim
+     by plot(E$alg,E$best): </li>
     </ol>
    </li>
   </ul>
