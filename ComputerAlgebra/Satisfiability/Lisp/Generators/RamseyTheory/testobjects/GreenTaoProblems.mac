@@ -55,6 +55,12 @@ okltest_greentao_standnest_strong_fcs(okltest_greentao_standnest_fcs);
 okltest_greentao_logarithmic_fcl(greentao_logarithmic_fcl);
 okltest_greentao_logarithmic_fcs(greentao_logarithmic_fcs);
 
+okltest_greentao_reduced_fcl(greentao_reduced_fcl);
+okltest_greentao_reduced_fcs(greentao_reduced_fcs);
+
+okltest_greentao_reduced_strong_fcl(okltest_greentao_reduced_fcl);
+okltest_greentao_reduced_strong_fcs(okltest_greentao_reduced_fcs);
+
 /* *********************
    * Symmetry breaking *
    *********************
@@ -85,6 +91,10 @@ okltest_greentao_standnest_stdfcl(greentao_standnest_stdfcl);
 okltest_greentao_standnest_strong_stdfcl(greentao_standnest_strong_stdfcl);
 
 okltest_greentao_logarithmic_stdfcl(greentao_logarithmic_stdfcl);
+
+okltest_greentao_reduced_stdfcl(greentao_reduced_stdfcl);
+
+okltest_greentao_reduced_strong_stdfcl(greentao_reduced_strong_stdfcl);
 
 /* ********************
    * Output functions *
