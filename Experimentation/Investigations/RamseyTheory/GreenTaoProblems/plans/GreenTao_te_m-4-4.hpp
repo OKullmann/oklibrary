@@ -34,7 +34,7 @@ License, or any later version. */
    evaluated by plot(E$alg,E$best): Again novelty+ seems best (the only
    solver who found a solution):
    \verbatim
->  table(E$best[E$alg=="noveltyp"])
+> table(E$best[E$alg=="noveltyp"])
  0  1  2  3  4  5  6  8
  3 16 32 19 14  8  7  1
    \endverbatim
@@ -785,7 +785,85 @@ License, or any later version. */
 > E = eval_ubcsat("GreenTao_L_4-2-2-4-4_588.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="walksat_tabu"])
+ 1  2  3  4  5  6  7  8  9
+ 1  2 14 25 20 16 15  6  1
+> table(E$best[E$alg=="rnoveltyp"])
+ 2  3  4  5  6
+22 45 28  4  1
+> table(E$best[E$alg=="rnovelty"])
+ 2  3  4  5  6
+20 51 20  8  1
+> table(E$best[E$alg=="novelty"])
+ 2  3  4  5  6  7
+ 3 21 41 29  5  1
+> table(E$best[E$alg=="noveltyp"])
+ 2  3  4  5  6
+ 2 31 39 25  3
+> table(E$best[E$alg=="sapsnr"])
+ 2  3  4  5  6  7  8  9 10 11 12 13
+ 1  5  4  9 11 13 23 13 17  2  1  1
+> table(E$best[E$alg=="saps"])
+ 2  3  4  5  6  7  8  9 10 11 12 13
+ 1  1  1  4 13 15 21 21 14  4  4  1
+     \endverbatim
+     So here rnovelty+ seems best, while likely the success of walksat-tabu
+     is just chance (but one needs to try it out). </li>
+     <li> rnovelty+ with cutoff=10^6, logarithmic translation:
+     \verbatim
+ 1  2  3
+ 3 44 12
+59
+     \endverbatim
+     So again it seems that rnovelty+ is not suitable for finding solutions,
+     and the performance for low cutoffs is misleading. </li>
+     <li> walksat-tabu with cutoff=10^6, logarithmic translation:
+     \verbatim
+2 3
+8 2
+10
+     \endverbatim
+     Also walksat-tabu seems inefficient here. </li>
+     <li> sapsnr with cutoff=10^6, logarithmic translation:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9
+28 47 43 38 25 30  5  2  1
+219
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=2*10^6, logarithmic translation:
+     \verbatim
 
+     \endverbatim
+     </li>
+     <li> Now we consider the weak standard reduced translation. </li>
+     <li> Best local search algorithm from Ubcsat-suite:
+     \verbatim
+> E = eval_ubcsat("GreenTao_R_4-2-2-4-4_588.cnf")
+     \endverbatim
+     evaluated by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="sapsnr"])
+ 1  2  3  4  5  6  7  8  9 10 11 12 13
+ 1  3  1  5  1  4 12 18 21 16 12  5  1
+> table(E$best[E$alg=="walksat_tabu_nonull"])
+ 1  2  3  4  5  6  7  8  9 10
+ 1  2  5 14 20 23 21  8  3  3
+> table(E$best[E$alg=="rnoveltyp"])
+ 2  3  4  5  6
+18 36 29 16  1
+     \endverbatim
+     </li>
+     <li> Next we consider the strong standard reduced translation. </li>
+     <li> Best local search algorithm from Ubcsat-suite:
+     \verbatim
+> E = eval_ubcsat("GreenTao_SR_4-2-2-4-4_588.cnf")
+     \endverbatim
+     evaluated by plot(E$alg,E$best):
+     \verbatim
+
+     \endverbatim
      </li>
     </ol>
    </li>
