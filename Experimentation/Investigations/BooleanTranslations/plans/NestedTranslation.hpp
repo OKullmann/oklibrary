@@ -69,5 +69,36 @@ for k : 0 thru 5 do block(
    </li>
   </ul>
 
+
+  \todo The order of Horn clauses
+  <ul>
+   <li> Yet we considered only "standard" weak and strong nested translations,
+   where the goal is to minimise the number of literal occurrences, and
+   thus the shorter clauses are used for the smaller arithmetic progressions
+   (since the number of arithmetic progressions decreases with increasing
+   progression size). </li>
+   <li> However this creates long clauses. One would use the opposite order
+   if the goal is to avoid having long clauses (this would have a tendency to
+   make the translated clauses equal in size). </li>
+  </ul>
+
+
+  \todo The reduced forms
+  <ul>
+   <li> The weak reduced translation is obtained from the strong nested
+   translation by performing subsumption-resolution with the additional
+   2-clauses (and the resolvents), and then discarding these 2-clauses, while
+   for the strong reduced translation they are kept. </li>
+   <li> For the fully symmetry problem greentao_3(3,3,3) (see
+   Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3.hpp)
+   the OKsolver actually nodes considerably more time for the strong reduced
+   form than for the logarithmic translation, while from the latter by
+   two subsumption-resolution-steps per variable we get the strong reduced
+   form. This should be just idiosyncratic for the OKsolver_2002's heuristic,
+   but in general there is the problem, to which value to associate the long
+   clause of the reduced translation. Compare "The order of Horn clauses"
+   above. </li>
+  </ul>
+
 */
 
