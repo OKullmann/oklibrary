@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1940
+  \todo greentao_3(3,3,5) > 1950
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -540,11 +540,43 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
      \verbatim
 E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=1000000))
      \endverbatim
-     by plot(E$alg,E$best), 
+     by plot(E$alg,E$best):
+     \verbatim
+> table(E$best[E$alg=="rnovelty"])
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19
+ 2  2  8  6 19 24 28 24 22 23 14 14  3  3  2  4  2
+> table(E$best[E$alg=="rnoveltyp"])
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 6  4 11 22 31 16 29 23 23 17  4  7  2  3  2
+> table(E$best[E$alg=="walksat_tabu_nonull"])
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 19 20
+ 2  2  2 10 20 16 22 28 29 28 23 11  5  1  1
+> table(E$best[E$alg=="walksat_tabu"])
+ 5  6  7  8  9 10 11 12 13 14 15 16 17 22
+ 1  1 12  6 13 19 17 32 34 32 20  9  3  1
+     \endverbatim
      </li>
     </ol>
    </li>
-   <li> n=1950 </li>
+   <li> n=1950:
+    <ol>
+     <li> Weak standard nested translation, rnovelty+, cutoff=10^7:
+     \verbatim
+ 0  1  2  3  4  5  6  7  8
+ 1 11 18 51 57 31 22  7  2
+200
+     \endverbatim
+     (seed=4280674293, osteps=2424310). </li>
+    <li> Weak standard nested translation, rnovelty+, cutoff=2*10^7:
+     \verbatim
+ 1  2  3  4  5  6
+ 8 38 54 67 28  5
+200
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=1960 </li>
   </ul>
 
 
