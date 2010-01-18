@@ -396,9 +396,39 @@ Mean= 17.71978
      monitoring-depth 10, it made first good progress, but then after node
      1020 it fall into a hole (depth increased from already a very high 115
      to 155). </li>
-     <li> The standard weak nested translation </li>
-     <li> The simple logarithmic translation: </li>
-
+     <li> The standard weak nested translation:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D10 GreenTao_N_6-2-2-2-2-3-3_47.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         15
+c initial_number_of_variables           234
+c initial_number_of_clauses             4620
+c initial_number_of_literal_occurrences 26060
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1081
+c running_time(sec)                     3142.2
+c number_of_nodes                       8578652
+c number_of_single_nodes                7909
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                17040065
+c number_of_pure_literals               1574177
+c number_of_autarkies                   120
+c number_of_missed_single_nodes         38374
+c max_tree_depth                        152
+c number_of_table_enlargements          10
+c number_of_1-autarkies                 417248
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_6-2-2-2-2-3-3_47.cnf
+     \endverbatim
+     </li>
+     <li> The simple logarithmic translation: looks as if would take
+     many days. </li>
     </ol>
    </li>
    <li> satz215
