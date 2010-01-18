@@ -1,5 +1,5 @@
 # Oliver Kullmann, 4.6.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -118,6 +118,8 @@ add_constant_column = function(df,const_var, name) {
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
 
+# RENAME: run_ubcsat (also elsewhere (including plans-files))
+
 eval_ubcsat = function(
  input,
  algs=eval_ubcsat_cnf_algs,
@@ -162,11 +164,12 @@ eval_ubcsat = function(
   }
   eval_ubcsat_df
 }
+
 # For example, running:
 #
-# eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),monitor=TRUE)
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),monitor=TRUE)
 #
-# for an example cnf, results in the data.frame:
+# for an example cnf, results in the data.frame E with the following values:
 #
 #   run found   best beststep steps      seed                 alg Clauses
 # 1   1     0 510109        0     1 931021056                gsat  510108
@@ -183,7 +186,7 @@ eval_ubcsat = function(
 #
 # whereas running:
 #
-# eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"),monitor=TRUE)
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"),monitor=TRUE)
 #
 # produces:
 #
