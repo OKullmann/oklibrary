@@ -199,3 +199,11 @@ eval_ubcsat = function(
 #
 # where seed is no longer included in the results.
 
+# First attempt, just showing all results in table form:
+eval_ubcsat_dataframe = function(E) {
+  for (A in names(eval_ubcsat_cnf_algs)) {
+    cat(A,": ")
+    print(table(E$best[E$alg==A]))
+  }
+}
+
