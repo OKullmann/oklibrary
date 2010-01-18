@@ -855,6 +855,11 @@ License, or any later version. */
 18 36 29 16  1
      \endverbatim
      </li>
+     <li> sapsnr with cutoff=10^6, weak standard reduced translation:
+     \verbatim
+
+     \endverbatim
+     </li>
      <li> Next we consider the strong standard reduced translation. </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
@@ -862,7 +867,12 @@ License, or any later version. */
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
-
+> table(E$best[E$alg=="sapsnr"])
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+ 1  1  1  4  5  4  9 23 19 16  7  8  1  1
+> table(E$best[E$alg=="saps"])
+ 1  4  6  7  8  9 10 11 12 13
+ 1  3  4 19 19 23 15 12  2  2
      \endverbatim
      </li>
     </ol>
