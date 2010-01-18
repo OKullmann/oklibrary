@@ -570,16 +570,19 @@ Mean= 14.00792
      <li> We should give minisat2 10 days. </li>
      <li> Determined unsatisfiability with 37 restarts, 645336350 conflicts,
      and 817059 s (~ 9.5 days). </li>
-     <li> Weak nested standard translation: </li>
     </ol>
    </li>
    <li> The above is all for the aloamo-translation, using adaptnovelty+. </li>
    <li> Using the logarithmic translation:
     <ol>
+     <li> First considering minisat2. </li>
      <li> One would expect the simple logarithmic translation to be especially
      efficient here, since we have 8=2^3 colours. Aborted after 30 restarts
      (28540214 conflicts, 1h 15m); so at least it is not drastically better.
      </li>
+     <li> Weak nested standard translation: now just needed 33 restarts,
+     123368322 conflicts, and 61862.1 s. </li>
+     <li> precosat236 is very similar (60873.0 s, 62499546 conflicts). </li>
     </ol>
    </li>
    <li> We should also try the alternative encoding as discussed in
