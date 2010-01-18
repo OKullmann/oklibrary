@@ -217,7 +217,20 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    </li>
    <li> n=1670
     <ol>
-     <li> Weak standard nested, rnovelty+, cutoff=2*10^7: </li>
+     <li> Weak standard nested, rnovelty+, cutoff=2*10^7:
+     \verbatim
+ 1  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 1  3  8 17 37 50 69 69 91 51 42 35 12 10  4  1
+500
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^7:
+     \verbatim
+ 3  4  5  6  7  8  9 10 11 14
+ 2  4 17 21 35 26 14 12  7  1
+139
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
