@@ -495,7 +495,19 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
  1  1  4  4  6 10 19 25 27 42 26 17 13  4  1
      \endverbatim
      </li>
-     <li> Logarithmic translation, adaptnovelty+: </li>
+     <li> Logarithmic translation, adaptnovelty+, cutoff=10^7:
+     \verbatim
+  1   2   3   4   5   6
+  1  26 168 490 285  30
+1000
+     \endverbatim
+     and cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6
+  2  20 143 281  53   1
+500
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
