@@ -163,21 +163,8 @@ rijn_inv_mixcolumns_matrix : block([x], apply(matrix,
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block: */
 rijn_mixcolumn(inputblocki) :=
-  transpose_l(
-    map(lambda([y],egf_poly2num(rijn_byte_field,y)),matrixcolumns(
-      rijn_matmul(rijn_mixcolumns_matrix,
-        columns2matrix([
-          map(lambda([y],egf_num2poly(rijn_byte_field,y)),
-            transpose_l(inputblocki,4))])))[1]),4)$
-
-/* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block using lookups for
-   multiplications: */
-rijn_lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
-  lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], xreduce(logxor,a,0)),
-    create_list(
-      map(lookup_field_mul,rotate([2, 3, 1, 1], i),inputblocki),i,0,3)))$
+  map(rijn_stand,m2l_r(
+      rijn_mixcolumns_matrix . columnvector(inputblocki)));
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -188,7 +175,9 @@ rijn_lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
 */
 rijn_mixcolumns(inputblock,mixcolumn_f) :=
   transpose_l(m2l_r(columns2matrix(
-    map(mixcolumn_f,matrixcolumns(
+    map(
+      lambda([a], map(polybin2nat,mixcolumn_f(map(nat2polybin,a)))),
+      matrixcolumns(
       apply(matrix,partition_elements(transpose_l(inputblock,4),4)))))),4)$
 
 /* Mixcolumn operation applied to the elements of a single
@@ -196,15 +185,6 @@ rijn_mixcolumns(inputblock,mixcolumn_f) :=
 rijn_inv_mixcolumn(inputblock) :=
   block([rijn_mixcolumns_matrix : rijn_inv_mixcolumns_matrix],
     rijn_mixcolumn(inputblock))$
-
-/* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block using lookups for
-   multiplications: */
-rijn_lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
-  lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], xreduce(logxor,a,0)),
-    create_list(
-      map(lookup_field_mul,rotate([14,11,13,9], i),inputblocki),i,0,3)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -321,7 +301,7 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
 
 /* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k) := 
-  aes_encrypt(p,k,rijn_lookup_sbox_nat,rijn_lookup_mixcolumn,rijn_nataddl)$
+  aes_encrypt(p,k,rijn_lookup_sbox_nat,rijn_mixcolumn,rijn_nataddl)$
 
 /* AES Encryption using field operations: */
 aes_encrypt_f(p,k) := 
@@ -329,7 +309,7 @@ aes_encrypt_f(p,k) :=
 
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k) := 
-  aes_decrypt(c,k,rijn_lookup_sbox_nat,rijn_lookup_inv_sbox_nat,rijn_lookup_inv_mixcolumn,rijn_nataddl)$
+  aes_decrypt(c,k,rijn_lookup_sbox_nat,rijn_lookup_inv_sbox_nat,rijn_inv_mixcolumn,rijn_nataddl)$
 
 /* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 

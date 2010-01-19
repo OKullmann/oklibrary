@@ -58,8 +58,6 @@ okltest_aes_inv_shiftrows(aes_inv_shiftrows);
    ***************
 */
 
-okltest_rijn_mixcolumn(rijn_lookup_mixcolumn);
-okltest_rijn_inv_mixcolumn(rijn_lookup_inv_mixcolumn);
 okltest_rijn_mixcolumn(rijn_mixcolumn);
 okltest_rijn_inv_mixcolumn(rijn_inv_mixcolumn);
 

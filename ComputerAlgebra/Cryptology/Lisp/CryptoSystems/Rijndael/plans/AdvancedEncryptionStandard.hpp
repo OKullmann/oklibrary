@@ -43,7 +43,7 @@ License, or any later version. */
      <li> aes_encrypt_f </li>
      <li> aes_decrypt_f </li>
      <li> aes_key_expansion </li>
-     <li> rijn_mixcolumns </li>
+     <li> rijn_mixcolumns : DONE </li>
      <li> rijn_sbox : DONE </li>
     </ul>
    </li>
