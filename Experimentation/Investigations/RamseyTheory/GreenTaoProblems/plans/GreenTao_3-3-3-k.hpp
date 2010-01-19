@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1960
+  \todo greentao_3(3,3,5) > 1970
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -609,6 +609,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
      </li>
     </ol>
    </li>
+   <li> n=1070: Weak standard nested translation with rnovelty+ and
+   cutoff=10^8 found a solution (seed=3847181900, osteps=15562348). </li>
+   <li> n=1080 </li>
   </ul>
 
 
