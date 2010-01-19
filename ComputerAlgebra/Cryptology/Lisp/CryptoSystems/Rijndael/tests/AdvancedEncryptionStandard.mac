@@ -145,7 +145,7 @@ okltest_rijn_inv_mixcolumns(f) := block(
 
 okltest_aes_key_expansion(f) := block(
   /* Extreme Cases for sbox */
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],4,rijn_lookup_sbox_nat,
+  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],rijn_lookup_sbox_nat,
     rijn_nataddl)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,99,99,99,98,99,
     99,99,98,99,99,99,98,99,99,99,155,152,152,201,249,251,251,170,155,152,152,
     201,249,251,251,170,144,151,52,80,105,108,207,250,242,244,87,51,11,15,172,
