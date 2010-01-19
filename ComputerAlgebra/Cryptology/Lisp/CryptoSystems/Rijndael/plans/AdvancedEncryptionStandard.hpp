@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,6 +9,47 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
   \brief Plans on the AES implementation
 
+
+  \todo Alter internal AES functions to use polynomials and matrices
+  <ul>
+   <li> The functions used internally within the AES encryption
+   implementation should use polynomials as the basic representation
+   as then
+    <ul>
+     <li> there is no need for conversions to and from the 
+     polynomial representations within each of these internal functions and 
+     <li> the addition and multiplications within the byte field are
+     simply the standard polynomials multiplications, modulo the rijndael
+     polynomial (and such a standardisation can be applied at higher
+     levels, although initially it should still be applied within
+     each of these functions). </li>
+    </ul>
+   </li>
+   <li> Additionally, using matrices of polynomials as a standard
+   representations makes complete sense, as then the operations
+   such as rijn_mixcolumns are just standard matrix multiplications,
+   and there is again no need for unnecessary conversions. </li>
+   <li> If natural, such as in the case of the sbox (where
+   for experimentation etc, sometimes the different
+   variations of the sbox can be used) the old versions
+   (such as rijn_sbox_nat) can still be made available and 
+   used in old functions (such as aes_key_expansion) until those
+   functions have been updated to use polynomials as
+   well. </li>
+   <li> Functions to translate (including lookup versions of any of the below):
+    <ul>
+     <li> aes_encrypt_l </li>
+     <li> aes_decrypt_l </li>
+     <li> aes_encrypt_f </li>
+     <li> aes_decrypt_f </li>
+     <li> aes_key_expansion </li>
+     <li> rijn_mixcolumns : DONE </li>
+     <li> rijn_sbox : DONE </li>
+    </ul>
+   </li>
+   <li> Such a translation should occur piecewise, first the translation
+   to using polynomials, and then to using matrices. </li>
+  </ul>
 
   \todo DONE Generating randomised AES parameters
   <ul>

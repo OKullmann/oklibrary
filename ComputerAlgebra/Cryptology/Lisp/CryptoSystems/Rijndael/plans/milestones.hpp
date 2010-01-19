@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.2.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,6 +16,7 @@ License, or any later version. */
  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Alter internal AES functions to use polynomials and matrices
     - Notions and notations
     - Update the following todos
     - Truncate AES for reduced rounds: DONE
