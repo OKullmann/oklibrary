@@ -589,8 +589,26 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
   1   9  26  75 103 119  56  24   8   1
 422
    \endverbatim
-   (seed=2613143980, osteps=8752208). </li>
-   <li> n=1970 </li>
+   (seed=2613143980, osteps=8752208). Finally with rnovelty and cutoff=10^8
+   a solution was found in 31 runs. </li>
+   <li> n=1970
+    <ol>
+     <li> Weak standard nested translation, rnovelty+, cutoff=10^7:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9
+ 1  3 19 45 47 63 24 12  4
+218
+     \endverbatim
+     </li>
+     <li> Weak standard nested translation, rnovelty, cutoff=10^7:
+     \verbatim
+ 2  3  4  5  6  7  8  9 11
+ 9 40 59 60 43 42 10  6  1
+270
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
