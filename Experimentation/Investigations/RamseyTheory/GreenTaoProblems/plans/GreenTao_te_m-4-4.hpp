@@ -857,7 +857,9 @@ License, or any later version. */
      </li>
      <li> sapsnr with cutoff=10^6, weak standard reduced translation:
      \verbatim
-
+ 1  2  3  4  5  6  7  8
+ 5 11  9 17 19 25 11  2
+99
      \endverbatim
      </li>
      <li> Next we consider the strong standard reduced translation. </li>
