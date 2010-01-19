@@ -46,10 +46,21 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_5(2,2,3,3,3)
+  \todo greentao_5(2,2,3,3,3) > 153
   <ul>
    <li> Likely the simple logarithmic translation isn't best here anymore.
    </li>
+   <li> n=152: easily found satisfiable by sapsnr and weak nested standard
+   translation (cutoff=10^5). </li>
+   <li> n=153, weak nested standard translation, rnovelty, cutoff=10^6: In run
+   477 a solution was found (seed=105677245, osteps=141802):
+   \verbatim
+  0   1   2   3
+  1 184 290   2
+477
+   \endverbatim
+   </li>
+   <li> n=154 </li>
    <li> Best local search algorithm from Ubcsat-suite for the weak nested
    standard translation:
    \verbatim
@@ -119,6 +130,20 @@ gsat_simple :
  6 14 23 16 17  6 13  2  2  1
    \endverbatim
    </li>
+   <li> Weak nested standard translation, rnovelty, cutoff=10^6:
+   \verbatim
+ 1  2  3
+14 83  3
+100
+   \endverbatim
+   </li>
+   <li> Weak nested standard translation, sapsnr, cutoff=10^6:
+   \verbatim
+  1   2   3
+183 736  81
+1000
+   \endverbatim
+   So actually sapsnr might be better. </li>
   </ul>
 
 */
