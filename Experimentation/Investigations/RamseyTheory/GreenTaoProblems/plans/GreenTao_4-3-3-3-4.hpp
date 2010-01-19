@@ -38,7 +38,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 1025
+  \todo Lower bounds: greentao_4(3,3,3,4) > 1030
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -396,6 +396,10 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
 500
      \endverbatim
      </li>
+     <li> Weak standard nested translation with sapsnr and cutoff=4*10^7 only
+     reached min=46. </li>
+     <li> Weak standard nested translation, rnovelty+, cutoff=8*10^7: found
+     a solution in run 29 (seed=927551785, osteps=14114027). </li>
      <li> Strong nested standard translation: Evaluating
      \verbatim
 E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
@@ -471,6 +475,20 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=100
   3   9  26  58 106 107  93  77  18   3
 500
      \endverbatim
+     and with cutoff=2*10^7:
+     \verbatim
+ 2  3  4  5  6  7  8  9 10 11
+ 1  7 19 53 84 92 68 35  3  1
+363
+     \endverbatim
+     while rnovelty+ with cutoff=4*10^7 achieves
+     \verbatim
+ 4  8 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33
+ 1  1  1  1  2  2  3  2  3  7  4  2  4  6  6 11  9 12 10 26 24 18 19 26 20 19
+34 35 36 37 39
+ 8  8  2  2  2
+261
+     \endverbatim
      </li>
      <li> So definitely the weak standard nested translation is superior. </li>
      <li> Weak standard reduced translation: Evaluating
@@ -513,6 +531,7 @@ rnovelty :
      </li>
     </ol>
    </li>
+   <li> n=1040, weak standard nested translation, rnovelty+
   </ul>
 
 */
