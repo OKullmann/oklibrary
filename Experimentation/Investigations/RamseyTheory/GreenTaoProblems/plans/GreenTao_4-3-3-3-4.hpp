@@ -467,6 +467,9 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=100
  2  3  4  5  6  7  8  9 10 11 13
  1  2  3 20 30 72 90 65 33 15  1
 332
+  3   4   5   6   7   8   9  10  11  12
+  3   9  26  58 106 107  93  77  18   3
+500
      \endverbatim
      </li>
      <li> So definitely the weak standard nested translation is superior. </li>
