@@ -114,6 +114,22 @@ License, or any later version. */
      further complexity. </li>
     </ol>
    </li>
+   <li> There are also other tools such as BOINC
+    <ul>
+     <li> See http://boinc.berkeley.edu/ . </li>
+     <li> Documentation available at 
+     http://boinc.berkeley.edu/trac/wiki/ProjectMain . </li>
+     <li> BOINC is intended for grid computing and could be useful for small 
+     experiments on university computers, but then could be easily expanded
+     to allow volunteers to offer computing resources for larger experiments. 
+     </li>
+     <li> BOINC also offers a wrapper script, so arbitrary applications
+     can be run using it's system rather than just custom BOINC-specific
+     applications (although applications that communicate directly
+     with the BOINC system may be able to store more information).
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
