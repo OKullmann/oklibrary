@@ -68,21 +68,27 @@ rijn_sbox_vec(v) := rijn_stand_vec(column_m(
    rijn_sbox_matrix . columnvector(rijn_vecinv(v)) +
    columnvector(polybin2vecbin_rijn(rijn_affine_constant)), 1))$
 /* Now representing bytes as natural numbers: */
-rijn_sbox(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
+rijn_sbox_nat(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
+/* Now representing bytes as polynomials (the standard representation): */
+rijn_sbox(bytei) := vecbin2polybin(rijn_sbox_vec(polybin2vecbin_rijn(bytei)))$
 
 /* Inverse of Sbox: */
 rijn_inv_sbox_vec(v) := rijn_vecinv(rijn_stand_vec(column_m(
   rijn_inv_sbox_matrix . columnvector(v) + 
   columnvector(polybin2vecbin_rijn(rijn_inv_affine_constant)),1)))$
-rijn_inv_sbox(bytei) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(bytei)))$
+rijn_inv_sbox_nat(bytei) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(bytei)))$
+rijn_inv_sbox(bytei) := vecbin2polybin(rijn_inv_sbox_vec(polybin2vecbin_rijn(bytei)))$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation:
 */
-rijn_lookup_sbox(bytei) := sbox_data[bytei+1];
+rijn_lookup_sbox_nat(bytei) := sbox_data[bytei+1]$
+rijn_lookup_sbox(bytei) := nat2polybin(sbox_data[polybin2nat(bytei)+1])$
 
 /* Inverse Sbox implementation that utilises a lookup array to provide 
    fast operation: */
-rijn_lookup_inv_sbox(bytei) := inv_sbox_data[bytei+1];
+rijn_lookup_inv_sbox_nat(bytei) := inv_sbox_data[bytei+1]$
+rijn_lookup_inv_sbox(bytei) :=
+  nat2polybin(inv_sbox_data[polybin2nat(bytei)+1])$
 
 
 /* *************
@@ -315,19 +321,19 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
 
 /* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k) := 
-  aes_encrypt(p,k,rijn_lookup_sbox,rijn_lookup_mixcolumn,rijn_nataddl)$
+  aes_encrypt(p,k,rijn_lookup_sbox_nat,rijn_lookup_mixcolumn,rijn_nataddl)$
 
 /* AES Encryption using field operations: */
 aes_encrypt_f(p,k) := 
-  aes_encrypt(p,k,rijn_sbox,rijn_mixcolumn,rijn_natadd)$
+  aes_encrypt(p,k,rijn_sbox_nat,rijn_mixcolumn,rijn_natadd)$
 
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k) := 
-  aes_decrypt(c,k,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_lookup_inv_mixcolumn,rijn_nataddl)$
+  aes_decrypt(c,k,rijn_lookup_sbox_nat,rijn_lookup_inv_sbox_nat,rijn_lookup_inv_mixcolumn,rijn_nataddl)$
 
 /* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 
-  aes_decrypt(c,k,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn,rijn_natadd)$
+  aes_decrypt(c,k,rijn_sbox_nat,rijn_inv_sbox_nat,rijn_inv_mixcolumn,rijn_natadd)$
 
 
 /* Various representations of input/output */
