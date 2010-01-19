@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Ba
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *************************
@@ -69,7 +70,7 @@ all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
 
 /* Returns true iff input FF is saturated minimally unsatisfiable. */
 saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
- every(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), literals_v(FF[1]))$
+ every_s(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), literals_v(FF[1]))$
 
 /* Return the set of partial assignments of size at most 1 which after
    application do not result in a minimally unsatisfiable clause-set. */

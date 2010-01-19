@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.2.1 (14.1.2010)
+  \module_version ComputerAlgebra 0.1.2.2 (19.1.2010)
 
 
   \par Version 0.1.3
@@ -31,8 +31,8 @@ License, or any later version. */
     - Outline of the test system
 
   \par
-   Replacement of "some" by "some_s" (DONE), and of "every" by "every_s"
-   (supplying tests for all modified functions):
+   Replacement of "some" by "some_s", and of "every" by "every_s"
+   (supplying tests for all modified functions): DONE
    <ol>
     <li> %Algebra : DONE </li>
     <li> AutomatedTheoremProving : DONE </li>
@@ -45,24 +45,24 @@ License, or any later version. */
      </ol>
     </li>
     <li> DataStructures : DONE </li>
-    <li> %Graphs : </li>
+    <li> %Graphs : DONE </li>
     <li> Hypergraphs : DONE </li>
     <li> LinearAlgebra : DONE </li>
     <li> MaximaInternals : DONE </li>
     <li> %NumberTheory : DONE </li>
     <li> Numerical : DONE </li>
-    <li> Satisfiability :
+    <li> Satisfiability : DONE
      <ol>
       <li> Autarkies : DONE </li>
       <li> Backdoors : DONE </li>
       <li> Backtracking : DONE </li>
       <li> BranchingTuples : DONE </li>
-      <li> %ClauseSets : </li>
+      <li> %ClauseSets : DONE </li>
       <li> ConflictCombinatorics : DONE </li>
       <li> ConstraintProblems : DONE </li>
       <li> Counting : DONE </li>
-      <li> %Generators </li>
-      <li> MinimalUnsatisfiability </li>
+      <li> %Generators : DONE </li>
+      <li> MinimalUnsatisfiability : DONE </li>
       <li> PropositionalLogic : DONE </li>
       <li> Reductions : DONE </li>
       <li> Resolutions : DONE </li>
