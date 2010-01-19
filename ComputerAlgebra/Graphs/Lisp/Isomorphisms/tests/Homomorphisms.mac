@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 25.6.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,6 +28,23 @@ kill(f)$
    ***************************
 */
 
+okltest_homomorphism_gl_p(f) := block([h,G1,G2,E],
+  G1 : [{},{}],
+  assert(f(G1,G2,h) = true),
+  G1 : [{1},{}],
+  assert(f(G1,[{1},E],identity) = true),
+  assert(f(G1,[{1,2},{{1,2}}],identity) = true),
+  G1 : [{1},{{1}}],
+  assert(f(G1,[{1},{}],identity) = false),
+  assert(f(G1,[{1},{{1}}],identity) = true),
+  assert(f(G1,[{1,2},{{1}}],identity) = true),
+  assert(f(G1,[{1,2},{{1,2}}],identity) = false),
+  assert(f(G1,[{1,2},{{1,2},{1}}],identity) = true),
+  G1 : [{1,2},{{1,2}}],
+  assert(f(G1,[{1,2},{}],identity) = false),
+  assert(f(G1,[{1,2},{{1},{2}}],identity) = false),
+  assert(f(G1,[{1,2},{{1,2}}],identity) = true),
+  true)$
 
 
 /* ****************************
