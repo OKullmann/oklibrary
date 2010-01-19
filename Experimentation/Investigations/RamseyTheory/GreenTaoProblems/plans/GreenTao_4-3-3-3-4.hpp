@@ -462,7 +462,14 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=100
 170
      \endverbatim
      </li>
-     <li> Logarithmic translation, adaptnovelty+, cutoff=10^7: </li>
+     <li> Logarithmic translation, adaptnovelty+, cutoff=10^7:
+     \verbatim
+ 2  3  4  5  6  7  8  9 10 11 13
+ 1  2  3 20 30 72 90 65 33 15  1
+332
+     \endverbatim
+     </li>
+     <li> So definitely the weak standard nested translation is superior. </li>
      <li> Weak standard reduced translation: Evaluating
      \verbatim
 E = eval_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
@@ -495,7 +502,11 @@ rnovelty :
      \endverbatm
      </li>
      <li> Strong standard reduced translation, adaptnovelty+, cutoff=10^7:
-
+     \verbatim
+  4   5   6   7   8   9  10  11  12  13  14
+  2   4  13  42  77 106 102 100  40  11   3
+500
+     \endverbatim
      </li>
     </ol>
    </li>
