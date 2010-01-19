@@ -65,31 +65,73 @@ okltest_polybin2nat(f) := block([x],
   true)$
 
 okltest_rijn_stand_vec(f) := (
-
+  assert(f([]) = []),
+  assert(f([0]) = [0]),
+  assert(f([1]) = [1]),
+  assert(f([1,0,0,0,0,1,1]) = [1,0,0,0,0,1,1]),
+  assert(f([2]) = [0]),
+  assert(f([3]) = [1]),
+  assert(f([3,1,1,1,2]) = [1,1,1,1,0]),
   true)$
 
 okltest_nat2vecbin(f) := (
-
+  assert(f(0) = [0]),
+  assert(f(1) = [1]),
+  assert(f(2) = [1,0]),
+  assert(f(3) = [1,1]),
+  assert(f(4) = [1,0,0]),
+  for e : 0 thru 10 do
+    assert(f(2^e) = cons(1,create_list(0,i,1,e))),
   true)$
 
 okltest_nat2vecbin_rijn(f) := (
-
+  assert(f(0) = [0,0,0,0,0,0,0,0]),
+  assert(f(1) = [0,0,0,0,0,0,0,1]),
+  assert(f(2) = [0,0,0,0,0,0,1,0]),
+  assert(f(3) = [0,0,0,0,0,0,1,1]),
+  assert(f(4) = [0,0,0,0,0,1,0,0]),
+  for e : 0 thru 7 do
+    assert(f(2^e) = create_list(if i = 8 - e then 1 else 0, i, 1, 8)),
   true)$
 
 okltest_vecbin2nat(f) := (
-
+  assert(f([0]) = 0),
+  assert(f([1]) = 1),
+  assert(f([1,0]) = 2),
+  assert(f([1,1]) = 3),
+  assert(f([1,0,0]) = 4),
+  for e : 0 thru 10 do
+    assert(f(cons(1,create_list(0,i,1,e))) = 2^e),
   true)$
 
 okltest_polybin2vecbin(f) := (
-
+  assert(f(0) = [0]),
+  assert(f(1) = [1]),
+  assert(f(x) = [1,0]),
+  assert(f(x+1) = [1,1]),
+  assert(f(x^2) = [1,0,0]),
+  for e : 0 thru 10 do
+    assert(f(x^e) = cons(1,create_list(0,i,1,e))),
   true)$
 
 okltest_polybin2vecbin_rijn(f) := (
-
+  assert(f(0) = [0,0,0,0,0,0,0,0]),
+  assert(f(1) = [0,0,0,0,0,0,0,1]),
+  assert(f(x) = [0,0,0,0,0,0,1,0]),
+  assert(f(x+1) = [0,0,0,0,0,0,1,1]),
+  assert(f(x^2) = [0,0,0,0,0,1,0,0]),
+  for e : 0 thru 7 do
+    assert(f(x^e) = create_list(if i = 8 - e then 1 else 0, i, 1, 8)),
   true)$
 
 okltest_vecbin2polybin(f) := (
-
+  assert(f([0]) = 0),
+  assert(f([1]) = 1),
+  assert(f([1,0]) = x),
+  assert(f([1,1]) = x+1),
+  assert(f([1,0,0]) = x^2),
+  for e : 0 thru 10 do
+    assert(f(cons(1,create_list(0,i,1,e))) = x^e),
   true)$
 
 
@@ -150,16 +192,34 @@ okltest_rijn_natinv(f) := (
   true)$
 
 okltest_rijn_vecadd(f) := (
-  /* XXX */
+  assert(f([0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]) = [0,0,0,0,0,0,0,0]),
+  for i : 0 thru 7 do
+    assert(f(nat2vecbin_rijn(2^i),nat2vecbin_rijn(0)) = nat2vecbin_rijn(2^i)),
+  for i : 0 thru 7 do
+    assert(f(nat2vecbin_rijn(2^i),nat2vecbin_rijn(2^i)) = nat2vecbin_rijn(0)),
+  assert(f([1,0,1,1,0,1,0,0], [1,1,1,1,1,1,1,1]) = [0,1,0,0,1,0,1,1]),
   true)$
 
 okltest_rijn_vecmul(f) := (
-  /* XXX */
+  assert(f([0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]) = [0,0,0,0,0,0,0,0]),
+  assert(f([0,0,0,0,0,0,0,1], [0,0,0,0,0,0,0,1]) = [0,0,0,0,0,0,0,1]),
+  for i : 0 thru 7 do
+    assert(f(nat2vecbin_rijn(2^i),nat2vecbin_rijn(0)) = nat2vecbin_rijn(0)),
+  for i : 0 thru 6 do
+    assert(f(nat2vecbin_rijn(2^i),nat2vecbin_rijn(2)) = nat2vecbin_rijn(2^(i+1))),
+  for i : 0 thru 3 do
+    assert(f(nat2vecbin_rijn(2^i),nat2vecbin_rijn(2^i)) = nat2vecbin_rijn(2^(2*i))),
+  assert(f(nat2vecbin_rijn(2^7),nat2vecbin_rijn(2)) = [0,0,0,1,1,0,1,1]),
+  assert(f(nat2vecbin_rijn(2^4),nat2vecbin_rijn(2^4)) = [0,0,0,1,1,0,1,1]),
+  assert(f(nat2vecbin_rijn(2^7), nat2vecbin_rijn(2^7)) = [1,0,0,1,1,0,1,0]),
+  assert(f(nat2vecbin_rijn(56), nat2vecbin_rijn(32)) = [0,1,0,0,0,0,0,1]),
   true)$
 
 okltest_rijn_vecinv(f) := (
   assert(f([0]) = [0,0,0,0,0,0,0,0]),
   assert(f([1]) = [0,0,0,0,0,0,0,1]),
+  assert(okltest_rijn_inv(
+      buildq([f], lambda([a], vecbin2polybin(f(polybin2vecbin_rijn(a))))))),
   /* XXX */
   true)$
 

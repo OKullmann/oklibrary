@@ -31,7 +31,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
-oklib_plain_include(functs)$ /* QUESTION from OK: still needed? */
 oklib_plain_include(eigen)$ /* (for function columnvector) */
 
 
