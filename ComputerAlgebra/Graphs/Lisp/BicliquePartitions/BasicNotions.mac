@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.5.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac")$
    ***********************
 */
 
-ebcp_gg_p(B,G) := setp(B) and partitionp(B,G[2]) and every(lambda([b],ebc_gg_p(b,G)),B)$
+ebcp_gg_p(B,G) := setp(B) and partitionp(B,G[2]) and
+ every_s(lambda([b],ebc_gg_p(b,G)),B)$
 
 /* To be completed:
 vbcp_gg_p := 

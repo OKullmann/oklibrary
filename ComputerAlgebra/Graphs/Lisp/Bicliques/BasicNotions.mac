@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.1.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,7 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Bicliques/BasicNotions.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ***********************
@@ -38,8 +39,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 */
 
 vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
- every(setp, B) and disjointp(B[1],B[2]) and
- every(lambda([b], subsetp(b,G[1])), B) and
+ every_s(setp, B) and disjointp(B[1],B[2]) and
+ every_s(lambda([b], subsetp(b,G[1])), B) and
  subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
 
 /* CHANGE: the concept of a multigraph changed.
@@ -47,19 +48,19 @@ vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
    is non-zero on all potential edges.
  */
 vbc_mugl_p(B,G) := listp(B) and is(length(B)=2) and
- every(setp, B) and disjointp(B[1],B[2]) and
- every(lambda([b], subsetp(b,G[1])), B) and
+ every_s(setp, B) and disjointp(B[1],B[2]) and
+ every_s(lambda([b], subsetp(b,G[1])), B) and
  subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
 
 vbc_gg_p(B,G) := listp(B) and is(length(B)=2) and
- every(setp, B) and disjointp(B[1],B[2]) and
- every(lambda([b], subsetp(b,G[1])), B) and
+ every_s(setp, B) and disjointp(B[1],B[2]) and
+ every_s(lambda([b], subsetp(b,G[1])), B) and
  subsetp(map(setify,cartesian_product(B[1],B[2])), map(G[3],G[2]))$
 
 
 vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
- every(setp, B) and disjointp(B[1],B[2]) and
- every(lambda([b], subsetp(b,G[1])), B) and
+ every_s(setp, B) and disjointp(B[1],B[2]) and
+ every_s(lambda([b], subsetp(b,G[1])), B) and
  subsetp(cartesian_product(B[1],B[2]), G[2])$
 
 
