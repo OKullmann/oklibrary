@@ -36,12 +36,13 @@ License, or any later version. */
    used in old functions (such as aes_key_expansion) until those
    functions have been updated to use polynomials as
    well. </li>
-   <li> Functions to translate (including lookup versions of any of the below):
+   <li> Functions to translate to polynomial 
+   representation (including lookup versions of any of the below):
     <ul>
-     <li> aes_encrypt_l </li>
-     <li> aes_decrypt_l </li>
-     <li> aes_encrypt_f </li>
-     <li> aes_decrypt_f </li>
+     <li> aes_encrypt_l : DONE </li>
+     <li> aes_decrypt_l : DONE </li>
+     <li> aes_encrypt_f : DONE </li>
+     <li> aes_decrypt_f : DONE </li>
      <li> aes_round : DONE </li>
      <li> aes_inv_round : DONE </li>
      <li> aes_key_expansion : DONE </li>
