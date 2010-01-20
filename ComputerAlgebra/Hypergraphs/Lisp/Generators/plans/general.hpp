@@ -51,7 +51,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create complete r-graphs
+  \todo Create complete r-graphs : DONE (using colexicographical order)
   <ul>
    <li> Implement "complete_hg(V,r), complete_stdhg(n,r), complete_ohg(V,r),
    complete_stdohg(n,r)", where the order is given by lexicographical order
@@ -120,6 +120,10 @@ C-STACK overflow at size 139456. Stack can probably be resized.
 
   \todo %Ramsey hypergraphs
   <ul>
+   <li> We should always have that standardisation should not change the
+   order of vertices or hyperedges, however this seems to be the case here?
+   </li>
+   <li> Perhaps we should use complete_hg and variations. </li>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
    in ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp.
    </li>

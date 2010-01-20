@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,7 +26,10 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Generator
    ************************
 */
 
+okltest_complete_hg(complete_hg);
 okltest_complete_stdhg(complete_stdhg);
+okltest_complete_ohg(complete_ohg);
+okltest_complete_stdohg(complete_stdohg);
 
 okltest_nver_complete_hg(nver_complete_hg);
 okltest_nhyp_complete_hg(nhyp_complete_hg);

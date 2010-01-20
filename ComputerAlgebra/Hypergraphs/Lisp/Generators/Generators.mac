@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,9 +31,14 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
    ************************
 */
 
+/* The complete r-graph with vertex set V: */
+complete_hg(V,r) := [V, powerset(V,r)]$
 /* The standardised complete r-graph: */
-complete_stdhg(n,r) := block([N : setn(n)],
-  [N, powerset(N,r)])$
+complete_stdhg(n,r) := complete_hg(setn(n),r)$
+
+/* Using colexicographical order, where V now is a list: */
+complete_ohg(V,r) := [V, colex_subsets_ll(V,r)]$
+complete_stdohg(n,r) := complete_ohg(create_list(i,i,1,n),r)$
 
 /* Statistics functions: */
 
