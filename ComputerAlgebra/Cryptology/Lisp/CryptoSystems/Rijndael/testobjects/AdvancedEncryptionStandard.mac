@@ -79,7 +79,7 @@ okltest_aes_key_expansion(aes_key_expansion);
 */
 
 okltest_aes_round(aes_round);
-okltest_inv_aes_round(inv_aes_round);
+okltest_aes_inv_round(aes_inv_round);
 
 okltest_aes_encrypt(aes_encrypt);
 okltest_aes_decrypt(aes_decrypt);

@@ -173,7 +173,7 @@ okltest_aes_round(f) := block(
     [224,126,108,114,247,65,112,85,181,48,74,109,254,31,10,56]),
   true)$
 
-okltest_inv_aes_round(f) := block(
+okltest_aes_inv_round(f) := block(
   assert(totaldisrep(f([164,238,162,207,252,114,239,68,45,86,113,142,141,81,
     242,28],[160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5],
     rijn_lookup_inv_sbox_nat,rijn_inv_mixcolumn,rijn_nataddl))=
