@@ -46,6 +46,7 @@ License, or any later version. */
      <li> aes_inv_round </li>
      <li> aes_key_expansion : DONE </li>
      <li> rijn_mixcolumns : DONE </li>
+     <li> rijn_mixcolumn : DONE </li>
      <li> rijn_sbox : DONE </li>
     </ul>
    </li>
