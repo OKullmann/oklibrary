@@ -213,17 +213,16 @@ rijn_inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
    Takes an AES round key for round r as a list of
    integers and returns the round key for round r+1.
  */
-aes_keyschedule(kl, r, sbox_f, aes_add) := block(
+aes_keyschedule(kl, r, sbox_f) := block(
   [newcols, oldcols : partition_elements(kl,4), n_k : length(kl)/4,
-   round_constant : polybin2nat(rijn_stand(x^(r-1)))],
+   round_constant : x^(r-1)],
   newcols : [create_list(
-    aes_add(
-      aes_add(oldcols[1][i],sbox_f(oldcols[n_k][mod(i,4)+1])),
-      if i = 1 then round_constant else 0),i,1,4)],
+    oldcols[1][i] + sbox_f(oldcols[n_k][mod(i,4)+1]) + 
+      if i = 1 then round_constant else 0,i,1,4)],
   for j : 2 thru n_k do
     newcols : endcons(
-      create_list(aes_add(oldcols[j][i],newcols[j-1][i]),i,1,4),newcols),
-  return(m2l_r(newcols)))$
+      create_list(oldcols[j][i] + newcols[j-1][i],i,1,4),newcols),
+  return(map(rijn_stand,m2l_r(newcols))))$
 
 /* Given the AES key as a list of integers representing the
    byte field elements in the AES key block, column by column,
@@ -231,9 +230,9 @@ aes_keyschedule(kl, r, sbox_f, aes_add) := block(
    of the concatenation of the round key blocks for all AES rounds,
    column by column.
  */
- aes_key_expansion(kl, sbox_f, aes_add) := block(
+ aes_key_expansion(kl, sbox_f) := block(
   [ks : lambda([kl,r],
-    endcons(aes_keyschedule(last(kl),r,sbox_f,aes_add),kl))],
+    endcons(aes_keyschedule(last(kl),r,sbox_f),kl))],
   m2l_r(lreduce(ks, create_list(i,i,1,aes_num_rounds), [kl])))$
 
 
@@ -260,10 +259,13 @@ inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f,aes_add) :=
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
-aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block( 
+aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
+  [ks_sbox_f :
+    buildq([sbox_f],lambda([a], nat2polybin(sbox_f(polybin2nat(a)))))],
   /* Initial Rounds */
   ekl : partition_elements(
-    aes_key_expansion(kl,sbox_f,aes_add),length(pl)),
+    map(polybin2nat,
+      aes_key_expansion(map(nat2polybin,kl),ks_sbox_f)),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f,aes_add)),
@@ -281,9 +283,12 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
    decryption algorithm (hence number of rounds is assumed to be 10):
 */
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
+  [ks_sbox_f :
+    buildq([sbox_f],lambda([a], nat2polybin(sbox_f(polybin2nat(a)))))],
   /* Initial Rounds */
   ekl : partition_elements(
-    aes_key_expansion(kl,sbox_f,aes_add),length(pl)),
+    map(polybin2nat,
+      aes_key_expansion(map(nat2polybin,kl),ks_sbox_f)),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   if aes_num_rounds = 10 then
