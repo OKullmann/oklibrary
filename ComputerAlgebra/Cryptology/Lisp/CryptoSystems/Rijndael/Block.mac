@@ -1,0 +1,50 @@
+/* Matthew Gwynne, 21.01.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Block.mac
+  \brief Components for the Rijndael key and message blocks
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Block.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+
+
+/*
+   There are 3 main representations of the AES message and key blocks
+   (which are treated in the same way).
+
+   The main representation is a n_b = 4xn matrix where the block size
+   n_b is one of {128,164,192,224,256}, and this matrix corresponds
+   exactly to the matrices as described in the AES standard. The elements
+   of the matrix are simply polynomials.
+
+   Another representation is that of a list of polynomials which lists
+   the elements of the AES block column by column.
+
+   The final representation is that of a list of integers which lists
+   the elements of the AES block column by column where each element is
+   an integer representing the polynomials as used in the above representations,
+   where the exact details of the correspondence are given in polybin2nat etc
+   in ByteField.mac.
+*/
+
+/* Converting polynomial matrices to polynomial lists */
+rijn_m2l(M) := m2l_r(transpose(M))$
+rijn_l2m(L) := transpose(apply(matrix,partition_elements(L,4)))$
+
+/*!
+\endhtmlonly
+*/

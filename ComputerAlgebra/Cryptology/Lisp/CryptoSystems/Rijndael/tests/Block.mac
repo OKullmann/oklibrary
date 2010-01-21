@@ -1,0 +1,39 @@
+/* Matthew Gwynne, 21.1.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/Block.mac
+  \brief Tests for Advanced Encryption Standard
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/Block.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+okltest_rijn_m2l(f) := (
+  assert(f(diagmatrix(4,0)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+  assert(f(diagmatrix(4,1)) = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),
+  assert(f(matrixmap(nat2polybin,
+        matrix([1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]))) =
+    map(nat2polybin,[1,5,9,13,2,6,10,14,3,7,11,15,4,8,12,16])),
+  true)$
+
+okltest_rijn_l2m(f) := (
+  assert(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]) = diagmatrix(4,0)),
+  assert(f([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]) = diagmatrix(4,1)),
+  assert(f(map(nat2polybin,[1,5,9,13,2,6,10,14,3,7,11,15,4,8,12,16])) = matrixmap(nat2polybin,
+        matrix([1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]))),
+  true)$
+
+/*!
+\endhtmlonly
+*/
