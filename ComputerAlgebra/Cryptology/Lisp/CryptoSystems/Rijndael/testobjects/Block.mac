@@ -24,6 +24,9 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
 okltest_rijn_m2l(rijn_m2l);
 okltest_rijn_l2m(rijn_l2m);
 
+okltest_rijn_natl2m(rijn_natl2m);
+okltest_rijn_m2natl(rijn_m2natl);
+
 /*!
 \endhtmlonly
 */

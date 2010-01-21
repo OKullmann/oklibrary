@@ -34,6 +34,26 @@ okltest_rijn_l2m(f) := (
         matrix([1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]))),
   true)$
 
+okltest_rijn_natl2m(f) := (
+  assert(f(create_list(0,i,1,16)) = diagmatrix(4,0)),
+  assert(f(create_list(1,i,1,16)) = genmatrix(lambda([a,b],1),4,4)),
+  assert(f([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]) = matrix(
+      [1,x^2+1,x^3+1,x^3+x^2+1],
+      [x,x^2+x,x^3+x,x^3+x^2+x],
+      [x+1,x^2+x+1,x^3+x+1,x^3+x^2+x+1],
+      [x^2,x^3,x^3+x^2,x^4])),
+  true)$
+
+okltest_rijn_m2natl(f) := (
+    assert(f(diagmatrix(4,0)) = create_list(0,i,1,16)),
+  assert(f(genmatrix(lambda([a,b],1),4,4)) = create_list(1,i,1,16)),
+  assert(f(matrix(
+      [1,x^2+1,x^3+1,x^3+x^2+1],
+      [x,x^2+x,x^3+x,x^3+x^2+x],
+      [x+1,x^2+x+1,x^3+x+1,x^3+x^2+x+1],
+      [x^2,x^3,x^3+x^2,x^4])) = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]),
+  true)$
+
 /*!
 \endhtmlonly
 */

@@ -45,6 +45,10 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 rijn_m2l(M) := m2l_r(transpose(M))$
 rijn_l2m(L) := transpose(apply(matrix,partition_elements(L,4)))$
 
+/* Converting integer lists to polynomial matrices */
+rijn_natl2m(L) := rijn_l2m(map(nat2polybin,L))$
+rijn_m2natl(M) := rijn_m2l(matrixmap(polybin2nat,M))$
+
 /*!
 \endhtmlonly
 */
