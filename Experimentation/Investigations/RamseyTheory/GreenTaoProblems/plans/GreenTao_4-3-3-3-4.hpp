@@ -38,7 +38,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3,3,3,4) > 1030
+  \todo Lower bounds: greentao_4(3,3,3,4) > 1040
   <ul>
    <li> n=800 easily found satisfiable by sapsnr (cutoff=10*10^3,
    runs=100). </li>
@@ -531,7 +531,10 @@ rnovelty :
      </li>
     </ol>
    </li>
-   <li> n=1040, weak standard nested translation, rnovelty+
+   <li> n=1040, weak standard nested translation, rnovelty+: finds a solution
+   with cutoff=8*10^7 in run 96 (seed=4254844099, osteps=39626357) (while
+   255 runs with cutoff=4*10^8 only obtained min=1 three times). </li>
+   <li> n=1050 </li>
   </ul>
 
 */
