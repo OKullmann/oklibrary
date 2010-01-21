@@ -63,7 +63,7 @@ License, or any later version. */
      <li> aes_key_expansion </li>
      <li> rijn_mixcolumns </li>
      <li> rijn_mixcolumn </li>
-     <li> rijn_subbytes </li>
+     <li> rijn_subbytes : DONE </li>
     </ul>
    </li>
    <li> Such a translation should occur piecewise, first the translation

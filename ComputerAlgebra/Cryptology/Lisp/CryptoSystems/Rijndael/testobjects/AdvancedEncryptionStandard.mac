@@ -43,6 +43,8 @@ okltest_rijn_inv_sbox_nat(rijn_lookup_inv_sbox_nat);
    *************
 */
 
+okltest_rijn_subbytes(rijn_subbytes);
+okltest_rijn_inv_subbytes(rijn_inv_subbytes);
 
 
 /* **************

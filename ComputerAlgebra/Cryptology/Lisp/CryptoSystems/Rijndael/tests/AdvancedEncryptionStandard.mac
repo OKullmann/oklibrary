@@ -81,7 +81,30 @@ okltest_rijn_inv_sbox(f) := block(
    *************
 */
 
-/* XXX */
+okltest_rijn_subbytes(f) := (
+  assert(f(diagmatrix(4,0),rijn_sbox) =
+    genmatrix(lambda([a,b],x^6+x^5+x+1),4,4)),
+  assert(f(diagmatrix(4,1),rijn_sbox) =
+    genmatrix(lambda([a,b],
+      if a = b then x^6+x^5+x^4+x^3+x^2 else x^6+x^5+x+1),4,4)),
+  assert(f(rijn_l2m(
+        map(nat2polybin,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])),rijn_sbox) =
+    rijn_l2m(map(nat2polybin,
+        [124,119,123,242,107,111,197,48,1,103,43,254,215,171,118,202]))),
+  true)$
+
+okltest_rijn_inv_subbytes(f) := (
+  assert(f(genmatrix(lambda([a,b],x^6+x^5+x+1),4,4),rijn_inv_sbox) =
+    diagmatrix(4,0)),
+  assert(f(
+      genmatrix(lambda([a,b],
+          if a = b then x^6+x^5+x^4+x^3+x^2
+          else x^6+x^5+x+1),4,4),rijn_inv_sbox) = diagmatrix(4,1)),
+  assert(totaldisrep(f(rijn_l2m(map(nat2polybin,[124,119,123,242,107,111,197,
+            48,1,103,43,254,215,171,118,202])),rijn_inv_sbox)) =
+    rijn_l2m(map(nat2polybin, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))),
+  true)$
+    
 
 
 /* **************
