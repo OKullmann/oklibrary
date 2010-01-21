@@ -209,15 +209,15 @@ rijn_inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
    polynomials and returns the round key for round r+1.
  */
 aes_keyschedule(kl, r, sbox_f) := block(
-  [newcols, oldcols : partition_elements(kl,4), n_k : length(kl)/4,
-   round_constant : x^(r-1)],
-  newcols : [create_list(
-    oldcols[1][i] + sbox_f(oldcols[n_k][mod(i,4)+1]) + 
-      if i = 1 then round_constant else 0,i,1,4)],
+  [newcols : matrix(), n_k : length(matrixcolumns(kl)), round_constant : x^(r-1)],
+  newcols : addcol(newcols,columnvector(
+      create_list(
+        kl[i,1] + sbox_f(kl[mod(i,4)+1,n_k]) + 
+        if i = 1 then round_constant else 0,i,1,4))),
   for j : 2 thru n_k do
-    newcols : endcons(
-      create_list(oldcols[j][i] + newcols[j-1][i],i,1,4),newcols),
-  return(map(rijn_stand,m2l_r(newcols))))$
+    newcols : addcol(newcols,columnvector(
+      create_list(kl[i,j] + newcols[i,j-1],i,1,4))),
+  return(matrixmap(rijn_stand,newcols)))$
 
 /* Given the AES key as a list of polynomials representing the
    byte field elements in the AES key block, column by column,
@@ -228,7 +228,7 @@ aes_keyschedule(kl, r, sbox_f) := block(
  aes_key_expansion(kl, sbox_f) := block(
   [ks : lambda([kl,r],
     endcons(aes_keyschedule(last(kl),r,sbox_f),kl))],
-  m2l_r(lreduce(ks, create_list(i,i,1,aes_num_rounds), [kl])))$
+  apply(addcol,lreduce(ks, create_list(i,i,1,aes_num_rounds), [kl])))$
 
 
 /* *********************************
@@ -258,7 +258,7 @@ aes_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
 aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
   /* Initial Rounds */
   ekl : partition_elements(
-      aes_key_expansion(kl,sbox_f),length(pl)),
+      rijn_m2l(aes_key_expansion(rijn_l2m(kl),sbox_f)),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f)),
@@ -280,7 +280,7 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   /* Initial Rounds */
   ekl : partition_elements(
-      aes_key_expansion(kl,sbox_f),length(pl)),
+      rijn_m2l(aes_key_expansion(rijn_l2m(kl),sbox_f)),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   if aes_num_rounds = 10 then
