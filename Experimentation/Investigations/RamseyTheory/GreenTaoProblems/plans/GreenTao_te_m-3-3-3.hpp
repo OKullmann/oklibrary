@@ -38,11 +38,14 @@ License, or any later version. */
      <li> For the logarithmic translation, without symmetry breaking and
      without preprocessing, it seems that it will take several hundred days.
      </li>
-     <li> Otherwise the same, but with minisat2-preprocessing doesn't look much
-     different. </li>
+     <li> With minisat2-preprocessing while otherwise the same it doesn't look
+     much different. </li>
+     <li> Weak nested standard translation, without symmetry breaking and
+     without preprocessing: </li>
     </ol>
    </li>
-   <li> minisat2: </li>
+   <li> minisat2: aborted after 34 restarts (182314933 conflicts, 133210 s).
+   </li>
   </ul>
 
 
@@ -60,7 +63,31 @@ License, or any later version. */
 477
    \endverbatim
    </li>
-   <li> n=154 </li>
+   <li> n=154
+    <ol>
+     <li> Weak standard nested translation, rnovelty, cutoff=10^6:
+     \verbatim
+  1   2   3   4
+228 761   8   3
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^6:
+     \verbatim
+  1   2   3   4
+249 747   3   1
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^6:
+     \verbatim
+  1   2   3
+265 729   6
+1000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Best local search algorithm from Ubcsat-suite for the weak nested
    standard translation:
    \verbatim
