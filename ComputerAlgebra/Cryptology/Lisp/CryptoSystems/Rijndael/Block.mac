@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Block.m
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /*

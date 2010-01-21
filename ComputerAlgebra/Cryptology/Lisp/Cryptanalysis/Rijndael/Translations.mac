@@ -187,7 +187,7 @@ aes_shiftrows_cp([bits]) := block([iBits, oBits],
   oBits : take_elements(128,rest(bits,128)),
   setify(map(lambda([a,b],aes_eq_c(a,b)), oBits, 
     apply(append,
-      aes_shiftrows(partition_elements(iBits,8))))
+      rijn_m2l(aes_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
     )
 )$
 
@@ -948,9 +948,9 @@ aes_shiftrows_cstr_cstl(cst) := block(
   map(
     lambda([a,b],
       construct_constraint("aes_eq_cst",[a,b],
-        [],namespace)), oBits, 
+        [],namespace)), oBits,
     apply(append,
-      aes_shiftrows(partition_elements(iBits,8))))
+      rijn_m2l(aes_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
 )$
 
 
