@@ -113,17 +113,15 @@ okltest_rijn_inv_subbytes(f) := (
 */
 
 okltest_aes_shiftrows(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))=
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])) =
-      [1,6,11,16,5,10,15,4,9,14,3,8,13,2,7,12]),
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(genmatrix(lambda([a,b],[a,b]),4,4)) =
+    genmatrix(lambda([a,b],[a,mod((b-1)+(a-1),4)+1]),4,4)),
   true)$
 
 okltest_aes_inv_shiftrows(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))=
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([1,6,11,16,5,10,15,4,9,14,3,8,13,2,7,12])) =
-  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]),
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(genmatrix(lambda([a,b],[a,mod((b-1)+(a-1),4)+1]),4,4)) =
+    genmatrix(lambda([a,b],[a,b]),4,4)),
   true)$
 
 
