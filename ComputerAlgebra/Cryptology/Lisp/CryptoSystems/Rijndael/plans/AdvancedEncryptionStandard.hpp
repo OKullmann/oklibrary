@@ -51,7 +51,24 @@ License, or any later version. */
    used in old functions (such as aes_key_expansion) until those
    functions have been updated to use polynomials as
    well. </li>
-   <li> Functions to translate to polynomial 
+   <li> Functions to translate to matrix representation 
+   (including lookup versions of any of the below):
+    <ul>
+     <li> aes_encrypt_l </li>
+     <li> aes_decrypt_l </li>
+     <li> aes_encrypt_f </li>
+     <li> aes_decrypt_f </li>
+     <li> aes_round </li>
+     <li> aes_inv_round </li>
+     <li> aes_key_expansion </li>
+     <li> rijn_mixcolumns </li>
+     <li> rijn_mixcolumn </li>
+     <li> rijn_subbytes </li>
+    </ul>
+   </li>
+   <li> Such a translation should occur piecewise, first the translation
+   to using polynomials, and then to using matrices. </li>
+   <li> DONE Functions to translate to polynomial 
    representation (including lookup versions of any of the below):
     <ul>
      <li> aes_encrypt_l : DONE </li>
@@ -66,8 +83,6 @@ License, or any later version. */
      <li> rijn_sbox : DONE </li>
     </ul>
    </li>
-   <li> Such a translation should occur piecewise, first the translation
-   to using polynomials, and then to using matrices. </li>
   </ul>
 
   \todo DONE Generating randomised AES parameters
