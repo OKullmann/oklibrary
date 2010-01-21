@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Remove addition from AES round
+  <ul>
+   <li> Removing the addition from the AES round will make
+   the formulation easier as then 
+    <ul>
+     <li> there is no decision as to whether to include the addition before 
+     the round or after within the round, and </li>
+     <li> the implementation of the AES as an iterated block cipher
+     (see CryptoSystems/IteratedBlockCipher.mac) becomes trivial
+     as the functions that makeup the IBC are already defined. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Alter internal AES functions to use polynomials and matrices
   <ul>
    <li> The functions used internally within the AES encryption
