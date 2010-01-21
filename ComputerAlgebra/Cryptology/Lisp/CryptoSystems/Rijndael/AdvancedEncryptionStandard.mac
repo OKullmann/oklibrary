@@ -168,8 +168,8 @@ rijn_inv_mixcolumns_matrix : block([x], apply(matrix,
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block: */
 rijn_mixcolumn(inputblocki) :=
-  map(rijn_stand,m2l_r(
-      rijn_mixcolumns_matrix . columnvector(inputblocki)));
+  matrixmap(rijn_stand,
+      rijn_mixcolumns_matrix . inputblocki);
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -178,8 +178,9 @@ rijn_mixcolumn(inputblocki) :=
    the actual operation done on a particular column must be
    provided as the second argument.
 */
-rijn_mixcolumns(inputblock,mixcolumn_f) :=
-  m2l_r(map(mixcolumn_f, partition_elements(inputblock,4)))$
+rijn_mixcolumns(inputblock,mixcolumn_f) := block([M : matrix()],
+  for i : 1 thru 4 do M : addcol(M,mixcolumn_f(col(inputblock,i))),
+  return(M))$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block: */
@@ -243,11 +244,11 @@ aes_keyschedule(kl, r, sbox_f) := block(
  */
 aes_round(pl, rkl, sbox_f, mixcolumn_f) := 
   map(rijn_stand,
-    rijn_mixcolumns(rijn_m2l(aes_shiftrows(
-        rijn_subbytes(rijn_l2m(pl),sbox_f))),mixcolumn_f)+rkl)$
+    rijn_m2l(rijn_mixcolumns(aes_shiftrows(
+        rijn_subbytes(rijn_l2m(pl),sbox_f)),mixcolumn_f))+rkl)$
 aes_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
-    rijn_m2l(rijn_inv_subbytes(aes_inv_shiftrows(rijn_l2m(
-        rijn_inv_mixcolumns(pl+rkl,inv_mixcolumn_f))), inv_sbox_f))$
+    rijn_m2l(rijn_inv_subbytes(aes_inv_shiftrows(
+        rijn_inv_mixcolumns(rijn_l2m(pl+rkl),inv_mixcolumn_f)), inv_sbox_f))$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16

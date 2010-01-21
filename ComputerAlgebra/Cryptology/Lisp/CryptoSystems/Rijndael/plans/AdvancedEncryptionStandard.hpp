@@ -61,8 +61,8 @@ License, or any later version. */
      <li> aes_round </li>
      <li> aes_inv_round </li>
      <li> aes_key_expansion </li>
-     <li> rijn_mixcolumns </li>
-     <li> rijn_mixcolumn </li>
+     <li> rijn_mixcolumns : DONE </li>
+     <li> rijn_mixcolumn : DONE </li>
      <li> rijn_shiftrows : DONE </li>
      <li> rijn_subbytes : DONE </li>
     </ul>
