@@ -26,26 +26,32 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    There are 3 main representations of the AES message and key blocks
    (which are treated in the same way).
 
+TODO: "n_b = 4xn" ???
+
    The main representation is a n_b = 4xn matrix where the block size
    n_b is one of {128,164,192,224,256}, and this matrix corresponds
-   exactly to the matrices as described in the AES standard. The elements
-   of the matrix are simply polynomials.
+   exactly to the matrices as described in the AES standard.
+
+TODO: And, what does this mean?
+
+   The elements
+   of the matrix are polynomials.
 
    Another representation is that of a list of polynomials which lists
    the elements of the AES block column by column.
 
    The final representation is that of a list of integers which lists
    the elements of the AES block column by column where each element is
-   an integer representing the polynomials as used in the above representations,
-   where the exact details of the correspondence are given in polybin2nat etc
-   in ByteField.mac.
+   an integer representing the polynomials as used in the above
+   representations, where the exact details of the correspondence are given in
+   polybin2nat etc. in ByteField.mac.
 */
 
-/* Converting polynomial matrices to polynomial lists */
+/* Converting polynomial matrices to polynomial lists and back: */
 rijn_m2l(M) := m2l_r(transpose(M))$
 rijn_l2m(L) := transpose(apply(matrix,partition_elements(L,4)))$
 
-/* Converting integer lists to polynomial matrices */
+/* Converting integer lists to polynomial matrices and back: */
 rijn_natl2m(L) := rijn_l2m(map(nat2polybin,L))$
 rijn_m2natl(M) := rijn_m2l(matrixmap(polybin2nat,M))$
 

@@ -70,12 +70,16 @@ rijn_inv_sbox_matrix : apply(matrix,
 
 /* The AES sbox */
 
+/* TODO: polynomials are the basic form, the resut should be derived
+   from it.
+*/
 /* Takes a value from the byte field as vector and returns the result
    of applying the Rijndael Sbox operation (as vector): */
 rijn_sbox_vec(v) := rijn_stand_vec(column_m(
    rijn_sbox_matrix . columnvector(rijn_vecinv(v)) +
    columnvector(polybin2vecbin_rijn(rijn_affine_constant)), 1))$
 /* Now representing bytes as natural numbers: */
+/* TODO: The following two functions have bad parameter-names. */
 rijn_sbox_nat(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
 /* Now representing bytes as polynomials (the standard representation): */
 rijn_sbox(bytei) := vecbin2polybin(rijn_sbox_vec(polybin2vecbin_rijn(bytei)))$
@@ -109,6 +113,7 @@ rijn_lookup_inv_sbox(bytei) :=
    the sbox operation to each byte, returning the list of 
    result bytes:
 */
+/* TODO: Since matrixpmap is used, apparently these are not "blocks". */
 rijn_subbytes(inputblock, sbox_f) := matrixmap(sbox_f, inputblock)$
 
 /* 
