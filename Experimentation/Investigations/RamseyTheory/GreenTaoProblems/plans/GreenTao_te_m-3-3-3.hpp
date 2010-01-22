@@ -86,6 +86,19 @@ License, or any later version. */
 1000
      \endverbatim
      </li>
+     <li> cutoff=8*10^6:
+     \verbatim
+  1   2   3
+267 731   2
+1000
+> summary(EN2$osteps[EN2$min==1])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  14340  160400  341700  718500  676100 7094000
+> summary(EN2$osteps[EN2$min==2])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1733   34550   69400  109400  125800 2773000
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Best local search algorithm from Ubcsat-suite for the weak nested
