@@ -9,6 +9,20 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
   \brief Plans on the AES implementation
 
+  
+  \todo Convert aes_key_expansion to return a list of matrices
+  <ul>
+   <li> Currently aes_key_expansion returns a 4x(4*(rounds+1)) matrix. </li>
+   <li> This was motivated by the fact that it originally returned a list
+   representation of the same structure, which was based on the formulation
+   given in the AES standard. </li>
+   <li> However, we can remove 2 conversions (to this matrix and back
+   to the list) by simply returning a list of keys for each round. </li>
+   <li> This should be much less confusing for the reader, and the only
+   downside is that there is an additional type floating around
+   (lists of matrices rather than simply matrices). </li>
+  </ul>
+
 
   \todo Remove addition from AES round
   <ul>
@@ -25,7 +39,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Alter internal AES functions to use polynomials and matrices
+  \todo DONE Alter internal AES functions to use polynomials and matrices
   <ul>
    <li> The functions used internally within the AES encryption
    implementation should use polynomials as the basic representation
@@ -54,10 +68,10 @@ License, or any later version. */
    <li> Functions to translate to matrix representation 
    (including lookup versions of any of the below):
     <ul>
-     <li> aes_encrypt_l </li>
-     <li> aes_decrypt_l </li>
-     <li> aes_encrypt_f </li>
-     <li> aes_decrypt_f </li>
+     <li> aes_encrypt_l : DONE </li>
+     <li> aes_decrypt_l : DONE </li>
+     <li> aes_encrypt_f : DONE </li>
+     <li> aes_decrypt_f : DONE </li>
      <li> aes_round : DONE </li>
      <li> aes_inv_round : DONE </li>
      <li> aes_key_expansion : DONE </li>
