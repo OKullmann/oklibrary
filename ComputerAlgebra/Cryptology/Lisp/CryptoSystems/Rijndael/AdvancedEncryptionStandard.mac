@@ -262,22 +262,23 @@ aes_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
 aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
+  [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
+    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
   /* Initial Rounds */
-  ekl : partition_elements(
-      rijn_m2l(aes_key_expansion(rijn_l2m(kl),sbox_f)),length(pl)),
+  ekl : partition_m(aes_key_expansion(kl,sbox_f),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([a,b],
-        rijn_m2l(aes_round(rijn_l2m(a),rijn_l2m(b),sbox_f,mixcolumn_f))),
+        aes_round(a,b,sbox_f,mixcolumn_f)),
     rest(rest(ekl), -1), pl + initial_rk),
   /* Final Round */
-  map(rijn_stand,
+  matrixmap(rijn_stand,
     if aes_num_rounds = 10 then
-      rijn_m2l(aes_shiftrows(
-        rijn_subbytes(rijn_l2m(initial_result),sbox_f))) + final_rk
+      aes_shiftrows(
+        rijn_subbytes(initial_result,sbox_f)) + final_rk
     else
-      rijn_m2l(aes_round(
-          rijn_l2m(initial_result),rijn_l2m(final_rk), sbox_f, mixcolumn_f)))
+      aes_round(
+          initial_result,final_rk, sbox_f, mixcolumn_f))
 )$
 
 /* 
@@ -286,21 +287,21 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
    decryption algorithm (hence number of rounds is assumed to be 10):
 */
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
+  [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
+    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
   /* Initial Rounds */
-  ekl : partition_elements(
-      rijn_m2l(aes_key_expansion(rijn_l2m(kl),sbox_f)),length(pl)),
+  ekl : partition_m(aes_key_expansion(kl,sbox_f),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   if aes_num_rounds = 10 then
-    initial_result : 
-      rijn_m2l(rijn_inv_subbytes(aes_inv_shiftrows(rijn_l2m(pl+final_rk)),
-        inv_sbox_f))
+    initial_result :
+      rijn_inv_subbytes(aes_inv_shiftrows(pl+final_rk),inv_sbox_f)
   else
     initial_result :
-      rijn_m2l(aes_inv_round(rijn_l2m(pl),rijn_l2m(final_rk), inv_sbox_f,inv_mixcolumn_f)),
-  map(rijn_stand,
+      aes_inv_round(pl,final_rk, inv_sbox_f,inv_mixcolumn_f),
+  matrixmap(rijn_stand,
     rreduce(
-      lambda([a,b],rijn_m2l(aes_inv_round(rijn_l2m(a),rijn_l2m(b),inv_sbox_f,inv_mixcolumn_f))), 
+      lambda([a,b],aes_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
       rest(rest(ekl), -1), initial_result) + initial_rk)
 )$
 
@@ -317,32 +318,32 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
 aes_encrypt_l(p,k) := 
   aes_encrypt(p,k,rijn_lookup_sbox,rijn_mixcolumn)$
 aes_encrypt_nat_l(p,k) := 
-  map(polybin2nat,
-    aes_encrypt(map(nat2polybin,p),map(nat2polybin,k),
+  rijn_m2natl(
+    aes_encrypt(rijn_natl2m(p),rijn_natl2m(k),
       rijn_lookup_sbox,rijn_mixcolumn))$
 
 /* AES Encryption using field operations: */
 aes_encrypt_f(p,k) := 
   aes_encrypt(p,k,rijn_sbox,rijn_mixcolumn)$
 aes_encrypt_nat_f(p,k) := 
-  map(polybin2nat,
-    aes_encrypt(map(nat2polybin,p),map(nat2polybin,k),
+  rijn_m2natl(
+    aes_encrypt(rijn_natl2m(p),rijn_natl2m(k),
       rijn_sbox,rijn_mixcolumn))$
 
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k) := 
   aes_decrypt(c,k,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn)$
 aes_decrypt_nat_l(c,k) := 
-  map(polybin2nat,
-    aes_decrypt(map(nat2polybin,c),map(nat2polybin,k),
+  rijn_m2natl(
+    aes_decrypt(rijn_natl2m(c),rijn_natl2m(k),
       rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn))$
 
 /* AES Decryption using field operations: */
 aes_decrypt_f(c,k) := 
   aes_decrypt(c,k,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn)$
 aes_decrypt_nat_f(c,k) := 
-  map(polybin2nat,
-    aes_decrypt(map(nat2polybin,c),map(nat2polybin,k),
+  rijn_m2natl(
+    aes_decrypt(rijn_natl2m(c),rijn_natl2m(k),
       rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn))$
   
 
