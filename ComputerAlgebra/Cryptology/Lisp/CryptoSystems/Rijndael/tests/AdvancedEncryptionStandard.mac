@@ -81,7 +81,30 @@ okltest_rijn_inv_sbox(f) := block(
    *************
 */
 
-/* XXX */
+okltest_rijn_subbytes(f) := (
+  assert(f(diagmatrix(4,0),rijn_sbox) =
+    genmatrix(lambda([a,b],x^6+x^5+x+1),4,4)),
+  assert(f(diagmatrix(4,1),rijn_sbox) =
+    genmatrix(lambda([a,b],
+      if a = b then x^6+x^5+x^4+x^3+x^2 else x^6+x^5+x+1),4,4)),
+  assert(f(rijn_l2m(
+        map(nat2polybin,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])),rijn_sbox) =
+    rijn_l2m(map(nat2polybin,
+        [124,119,123,242,107,111,197,48,1,103,43,254,215,171,118,202]))),
+  true)$
+
+okltest_rijn_inv_subbytes(f) := (
+  assert(f(genmatrix(lambda([a,b],x^6+x^5+x+1),4,4),rijn_inv_sbox) =
+    diagmatrix(4,0)),
+  assert(f(
+      genmatrix(lambda([a,b],
+          if a = b then x^6+x^5+x^4+x^3+x^2
+          else x^6+x^5+x+1),4,4),rijn_inv_sbox) = diagmatrix(4,1)),
+  assert(totaldisrep(f(rijn_l2m(map(nat2polybin,[124,119,123,242,107,111,197,
+            48,1,103,43,254,215,171,118,202])),rijn_inv_sbox)) =
+    rijn_l2m(map(nat2polybin, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))),
+  true)$
+    
 
 
 /* **************
@@ -90,17 +113,15 @@ okltest_rijn_inv_sbox(f) := block(
 */
 
 okltest_aes_shiftrows(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))=
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])) =
-      [1,6,11,16,5,10,15,4,9,14,3,8,13,2,7,12]),
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(genmatrix(lambda([a,b],[a,b]),4,4)) =
+    genmatrix(lambda([a,b],[a,mod((b-1)+(a-1),4)+1]),4,4)),
   true)$
 
 okltest_aes_inv_shiftrows(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))=
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([1,6,11,16,5,10,15,4,9,14,3,8,13,2,7,12])) =
-  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]),
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(genmatrix(lambda([a,b],[a,mod((b-1)+(a-1),4)+1]),4,4)) =
+    genmatrix(lambda([a,b],[a,b]),4,4)),
   true)$
 
 
@@ -110,31 +131,33 @@ okltest_aes_inv_shiftrows(f) := block(
 */
 
 okltest_rijn_mixcolumn(f) := block(
-  assert(f([0,0,0,0]) = [0,0,0,0]),
-  assert(f(map(nat2polybin,[50,67,7,52]))=
-    map(nat2polybin,[146, 137, 35, 122])),
+  assert(f(rijn_natl2m([0,0,0,0])) = rijn_natl2m([0,0,0,0])),
+  assert(f(rijn_natl2m([50,67,7,52]))=
+    rijn_natl2m([146, 137, 35, 122])),
   true)$
 
 okltest_rijn_inv_mixcolumn(f) := block(
-  assert(f([0,0,0,0]) = [0,0,0,0]),
-  assert(f(map(nat2polybin,[146, 137, 35, 122]))=
-    map(nat2polybin,[50,67,7,52])),
+  assert(f(rijn_natl2m([0,0,0,0])) = rijn_natl2m([0,0,0,0])),
+  assert(f(rijn_natl2m([146, 137, 35, 122]))=
+    rijn_natl2m([50,67,7,52])),
   true)$
 
 okltest_rijn_mixcolumns(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        rijn_mixcolumn)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],
-        rijn_mixcolumn))=[54,138,227,52,110,147,34,192,56,34,228,167,81,96,
-    38,164]),
+  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+        rijn_mixcolumn) = rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])),
+  assert(f(rijn_natl2m(
+          [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52]),
+        rijn_mixcolumn)= rijn_natl2m(
+      [54,138,227,52,110,147,34,192,56,34,228,167,81,96,38,164])),
   true)$
 
 okltest_rijn_inv_mixcolumns(f) := block(
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        rijn_inv_mixcolumn)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-  assert(totaldisrep(f([54,138,227,52,110,147,34,192,56,34,228,167,81,96,38,
-        164],rijn_inv_mixcolumn))=[50,136,49,224,67,90,49,55,246,48,152,7,168,
-    141,162,52]),
+  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+        rijn_inv_mixcolumn) = rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])),
+  assert(f(rijn_natl2m(
+          [54,138,227,52,110,147,34,192,56,34,228,167,81,96,38,164])
+      ,rijn_inv_mixcolumn)= rijn_natl2m(
+    [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52])),
   true)$ 
 
 
@@ -145,16 +168,15 @@ okltest_rijn_inv_mixcolumns(f) := block(
 
 okltest_aes_key_expansion(f) := block(
   /* Extreme Cases for sbox */
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],rijn_lookup_sbox_nat,
-    rijn_nataddl)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,99,99,99,98,99,
-    99,99,98,99,99,99,98,99,99,99,155,152,152,201,249,251,251,170,155,152,152,
-    201,249,251,251,170,144,151,52,80,105,108,207,250,242,244,87,51,11,15,172,
-    153,238,6,218,123,135,106,21,129,117,158,66,178,126,145,238,43,127,46,43,
-    136,248,68,62,9,141,218,124,187,243,75,146,144,236,97,75,133,20,37,117,140,
-    153,255,9,55,106,180,155,167,33,117,23,135,53,80,98,11,172,175,107,60,198,
-    27,240,155,14,249,3,51,59,169,97,56,151,6,10,4,81,29,250,159,177,212,216,
+  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),rijn_lookup_sbox) = rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,99,99,
+  99,98,99,99,99,98,99,99,99,98,99,99,99,155,152,152,201,249,251,251,170,155,
+  152,152,201,249,251,251,170,144,151,52,80,105,108,207,250,242,244,87,51,11,
+  15,172,153,238,6,218,123,135,106,21,129,117,158,66,178,126,145,238,43,127,46,
+  43,136,248,68,62,9,141,218,124,187,243,75,146,144,236,97,75,133,20,37,117,
+  140,153,255,9,55,106,180,155,167,33,117,23,135,53,80,98,11,172,175,107,60,
+  198,27,240,155,14,249,3,51,59,169,97,56,151,6,10,4,81,29,250,159,177,212,216,
     226,138,125,185,218,29,123,179,222,76,102,73,65,180,239,91,203,62,146,226,
-    17,35,233,81,207,111,143,24,142]),
+    17,35,233,81,207,111,143,24,142])),
   true)$
 
 
@@ -164,45 +186,47 @@ okltest_aes_key_expansion(f) := block(
 */
 
 okltest_aes_round(f) := block(
-  assert(totaldisrep(f([25,160,154,233,61,244,198,248,227,226,141,72,190,43,
-    42,8],[160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5],
-    rijn_lookup_sbox_nat,rijn_mixcolumn,rijn_nataddl))=
-    [164,238,162,207,252,114,239,68,45,86,113,142,141,81,242,28]),
-  assert(totaldisrep(f([72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,
-    231],[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0],
-    rijn_lookup_sbox_nat,rijn_mixcolumn,rijn_nataddl))=
-    [224,126,108,114,247,65,112,85,181,48,74,109,254,31,10,56]),
+  assert(f(map(nat2polybin,[25,160,154,233,61,244,198,248,227,226,141,72,190,43,
+    42,8]),map(nat2polybin,[160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5]),
+    rijn_lookup_sbox,rijn_mixcolumn)=
+    map(nat2polybin,[164,238,162,207,252,114,239,68,45,86,113,142,141,81,242,28])),
+  assert(f(map(nat2polybin,[72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,
+    231]),map(nat2polybin,[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0]),
+    rijn_lookup_sbox,rijn_mixcolumn) =
+    map(nat2polybin,[224,126,108,114,247,65,112,85,181,48,74,109,254,31,10,56])),
   true)$
 
-okltest_inv_aes_round(f) := block(
-  assert(totaldisrep(f([164,238,162,207,252,114,239,68,45,86,113,142,141,81,
-    242,28],[160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5],
-    rijn_lookup_inv_sbox_nat,rijn_inv_mixcolumn,rijn_nataddl))=
-    [25,160,154,233,61,244,198,248,227,226,141,72,190,43,42,8]),
-  assert(totaldisrep(f([224,126,108,114,247,65,112,85,181,48,74,109,254,31,10,
-    56],[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0],
-    rijn_lookup_inv_sbox_nat,rijn_inv_mixcolumn,rijn_nataddl)) =
-    [72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,231]),
+okltest_aes_inv_round(f) := block(
+  assert(f(map(nat2polybin,[164,238,162,207,252,114,239,68,45,86,113,142,141,81,
+    242,28]),map(nat2polybin,[160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5]),
+    rijn_lookup_inv_sbox,rijn_inv_mixcolumn)=
+    map(nat2polybin,[25,160,154,233,61,244,198,248,227,226,141,72,190,43,42,8])),
+  assert(f(map(nat2polybin,[224,126,108,114,247,65,112,85,181,48,74,109,254,31,10,
+    56]),map(nat2polybin,[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0]),
+    rijn_lookup_inv_sbox,rijn_inv_mixcolumn) =
+    map(nat2polybin,[72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,231])),
   true)$
 
 okltest_aes_encrypt(f) := block(
   assert(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    rijn_lookup_sbox_nat,rijn_mixcolumn,rijn_nataddl) = 
-    [102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46]),
-  assert(f([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],[43,40,171,
-    9,126,174,247,207,21,210,21,79,22,166,136,60],rijn_lookup_sbox_nat,
-    rijn_mixcolumn,rijn_nataddl) = 
-    [87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6]),
+    rijn_lookup_sbox,rijn_mixcolumn) = 
+    map(nat2polybin,[102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46])),
+  assert(f(map(nat2polybin,
+        [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52]),
+      map(nat2polybin,[43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),
+      rijn_lookup_sbox,rijn_mixcolumn) = 
+    map(nat2polybin,[87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6])),
   true)$
 
 okltest_aes_decrypt(f) := block(
-  assert(f([87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6],[43,40,
-    171,9,126,174,247,207,21,210,21,79,22,166,136,60],rijn_lookup_sbox_nat,
-    rijn_lookup_inv_sbox_nat,rijn_inv_mixcolumn,rijn_nataddl) = 
-    [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52]),
-  assert(f([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46],[0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0],rijn_sbox_nat,rijn_lookup_inv_sbox_nat,
-    rijn_inv_mixcolumn,rijn_nataddl) = 
+  assert(f(map(nat2polybin,
+        [87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6]),
+      map(nat2polybin,[43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),
+      rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn) = 
+    map(nat2polybin,[50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52])),
+  assert(f(map(nat2polybin,[102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46]),[0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0],rijn_sbox,rijn_lookup_inv_sbox,
+    rijn_inv_mixcolumn) = 
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   true)$
 
@@ -229,9 +253,21 @@ okltest_aes(f_e,f_d) := block([inputList, outputList],
 */
 
 /* The generic aes-encryption test function, where the inputs as well as the
-   output is given as a list of bytes:
+   output is given as a list of polynomials:
 */
 okltest_aes_encrypt_generic(f) := block([V1],
+/* Test values according to [The Design of Rijndael; Daemen, Rijmen, 
+   Appendix D.3]
+*/
+  V1 : map(nat2polybin,map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"])),
+  assert(f(pad_block_16([]),pad_block_16([])) = V1),
+  assert(f(V1, pad_block_16([])) = map(nat2polybin,map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]))),
+  true)$
+
+/* The generic aes-encryption test function, where the inputs as well as the
+   output is given as a list of bytes:
+*/
+okltest_aes_encrypt_nat_generic(f) := block([V1],
 /* Test values according to [The Design of Rijndael; Daemen, Rijmen, 
    Appendix D.3]
 */
@@ -241,14 +277,28 @@ okltest_aes_encrypt_generic(f) := block([V1],
   true)$
 
 /* The generic aes-decryption test function, where the inputs as well as the
-   output is given as a list of bytes:
+   output is given as a list of polynomials:
 */
 okltest_aes_decrypt_generic(f) := block([V1],
 /* Test values according to [The Design of Rijndael; Daemen, Rijmen, 
    Appendix D.3]
 */
+  V1 : map(nat2polybin,map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"])),
+  assert(totaldisrep(f(map(nat2polybin,map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"])), pad_block_16([]))) = V1),
+
+  assert(f(V1, pad_block_16([])) = pad_block_16([])),
+  true)$
+
+/* The generic aes-decryption test function, where the inputs as well as the
+   output is given as a list of bytes:
+*/
+okltest_aes_decrypt_nat_generic(f) := block([V1],
+/* Test values according to [The Design of Rijndael; Daemen, Rijmen, 
+   Appendix D.3]
+*/
   V1 : map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"]),
-  assert(f(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]), pad_block_16([])) = V1),
+  assert(totaldisrep(f(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]), pad_block_16([]))) = V1),
+
   assert(f(V1, pad_block_16([])) = pad_block_16([])),
   true)$
 

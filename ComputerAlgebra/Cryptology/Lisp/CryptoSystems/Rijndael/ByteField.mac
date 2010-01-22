@@ -13,6 +13,34 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac");
 
+
+  \bug rijn_vecinv([0,0,0,0,0,1,0,1]) # [0,1,0,1,0,0,1,0]
+  <ul>
+   <li> We have that
+   \verbatim
+> is(rijn_vecinv([0,0,0,0,0,1,0,1]) = [0,1,0,1,0,0,1,0]);
+false
+   \endverbatim
+   but
+   \verbatim
+> is(totaldisrep(rijn_vecinv([0,0,0,0,0,1,0,1])) = [0,1,0,1,0,0,1,0]);
+true
+   \endverbatim
+   </li>
+   <li> This is not an issue with the computation itself as
+   \verbatim
+> rijn_vecinv([0,0,0,0,0,1,0,1]); 
+[0,1,0,1,0,0,1,0]
+   \endverbatim
+   but the result of rijn_vecinv seems to be in CRE form (somehow?) which
+   is not equivalent to the standard list and so totaldisrep must be used.
+   </li>
+   <li> This causes problems for instance in okltest_aes_decrypt_generic
+   in CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac where
+   rijn_vecinv is used by aes_decrypt_f and must be compared to
+   output during the tests. </li>
+  </ul>
+
 */
 
 /*!

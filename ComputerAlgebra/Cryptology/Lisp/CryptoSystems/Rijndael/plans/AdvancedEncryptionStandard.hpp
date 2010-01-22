@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Remove addition from AES round
+  <ul>
+   <li> Removing the addition from the AES round will make
+   the formulation easier as then 
+    <ul>
+     <li> there is no decision as to whether to include the addition before 
+     the round or after within the round, and </li>
+     <li> the implementation of the AES as an iterated block cipher
+     (see CryptoSystems/IteratedBlockCipher.mac) becomes trivial
+     as the functions that makeup the IBC are already defined. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Alter internal AES functions to use polynomials and matrices
   <ul>
    <li> The functions used internally within the AES encryption
@@ -36,19 +51,39 @@ License, or any later version. */
    used in old functions (such as aes_key_expansion) until those
    functions have been updated to use polynomials as
    well. </li>
-   <li> Functions to translate (including lookup versions of any of the below):
+   <li> Functions to translate to matrix representation 
+   (including lookup versions of any of the below):
     <ul>
      <li> aes_encrypt_l </li>
      <li> aes_decrypt_l </li>
      <li> aes_encrypt_f </li>
      <li> aes_decrypt_f </li>
-     <li> aes_key_expansion </li>
+     <li> aes_round </li>
+     <li> aes_inv_round </li>
+     <li> aes_key_expansion : DONE </li>
      <li> rijn_mixcolumns : DONE </li>
-     <li> rijn_sbox : DONE </li>
+     <li> rijn_mixcolumn : DONE </li>
+     <li> rijn_shiftrows : DONE </li>
+     <li> rijn_subbytes : DONE </li>
     </ul>
    </li>
    <li> Such a translation should occur piecewise, first the translation
    to using polynomials, and then to using matrices. </li>
+   <li> DONE Functions to translate to polynomial 
+   representation (including lookup versions of any of the below):
+    <ul>
+     <li> aes_encrypt_l : DONE </li>
+     <li> aes_decrypt_l : DONE </li>
+     <li> aes_encrypt_f : DONE </li>
+     <li> aes_decrypt_f : DONE </li>
+     <li> aes_round : DONE </li>
+     <li> aes_inv_round : DONE </li>
+     <li> aes_key_expansion : DONE </li>
+     <li> rijn_mixcolumns : DONE </li>
+     <li> rijn_mixcolumn : DONE </li>
+     <li> rijn_sbox : DONE </li>
+    </ul>
+   </li>
   </ul>
 
   \todo DONE Generating randomised AES parameters
