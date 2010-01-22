@@ -587,6 +587,8 @@ Mean= 14.00792
      </ol>
      <li> picosat913 seems inefficient (at least on the weak nested standard
      translation). </li>
+     <li> Minisat2 for the strong nested standard translation needs 34 restarts
+     and 155103731 conflicts (79293.8 s); again the progress-oscillation. </li>
      <li> The strong reduced translation needs 35 restarts (289342808 
      conflicts, 156029 s). One sees here again the oscillation of the
      progress-value. </li>

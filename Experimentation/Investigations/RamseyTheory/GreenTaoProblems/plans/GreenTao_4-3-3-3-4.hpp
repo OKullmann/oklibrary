@@ -531,10 +531,16 @@ rnovelty :
      </li>
     </ol>
    </li>
-   <li> n=1040, weak standard nested translation, rnovelty+: finds a solution
-   with cutoff=8*10^7 in run 96 (seed=4254844099, osteps=39626357) (while
-   255 runs with cutoff=4*10^8 only obtained min=1 three times). </li>
-   <li> n=1050 </li>
+   <li> n=1040, weak standard nested translation
+    <ol>
+     <li> rnovelty+: finds a solution with cutoff=8*10^7 in run 96
+     (seed=4254844099, osteps=39626357) (while 255 runs with
+     cutoff=4*10^8 only obtained min=1 three times). </li>
+     <li> adaptnovelty+: with cutoff=8*10^7 in 83 runs only min=2 was
+     reached. </li>
+    </ol>
+   </li>
+   <li> n=1050, rnovelty+, cutoff=8*10^7 </li>
   </ul>
 
 */

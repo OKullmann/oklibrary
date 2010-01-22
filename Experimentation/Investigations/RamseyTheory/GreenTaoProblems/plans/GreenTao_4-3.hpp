@@ -507,7 +507,20 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
   2  20 143 281  53   1
 500
      \endverbatim
+     cutoff=4*10^7:
+     \verbatim
+  1   2   3   4   5
+  4  47 229 219   4
+503
+     \endverbatim
+     cutoff=8*10^7:
+     \verbatim
+  1   2   3   4
+ 13  82 314  91
+500
+     \endverbatim
      </li>
+     <li> Weak nested translation, rnovelty </li>
     </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
