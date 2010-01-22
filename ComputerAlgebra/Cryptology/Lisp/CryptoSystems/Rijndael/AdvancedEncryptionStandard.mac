@@ -249,12 +249,12 @@ aes_keyschedule(kl, r, sbox_f) := block(
    as the result of the round operation:
  */
 aes_round(pl, rkl, sbox_f, mixcolumn_f) := 
-  map(rijn_stand,
-    rijn_m2l(rijn_mixcolumns(aes_shiftrows(
-        rijn_subbytes(rijn_l2m(pl),sbox_f)),mixcolumn_f))+rkl)$
+  matrixmap(rijn_stand,
+    rijn_mixcolumns(aes_shiftrows(
+        rijn_subbytes(pl,sbox_f)),mixcolumn_f)+rkl)$
 aes_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
-    rijn_m2l(rijn_inv_subbytes(aes_inv_shiftrows(
-        rijn_inv_mixcolumns(rijn_l2m(pl+rkl),inv_mixcolumn_f)), inv_sbox_f))$
+    rijn_inv_subbytes(aes_inv_shiftrows(
+        rijn_inv_mixcolumns(pl+rkl,inv_mixcolumn_f)), inv_sbox_f)$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
@@ -267,7 +267,8 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
       rijn_m2l(aes_key_expansion(rijn_l2m(kl),sbox_f)),length(pl)),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
-    lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f)),
+    lreduce(lambda([a,b],
+        rijn_m2l(aes_round(rijn_l2m(a),rijn_l2m(b),sbox_f,mixcolumn_f))),
     rest(rest(ekl), -1), pl + initial_rk),
   /* Final Round */
   map(rijn_stand,
@@ -275,7 +276,8 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
       rijn_m2l(aes_shiftrows(
         rijn_subbytes(rijn_l2m(initial_result),sbox_f))) + final_rk
     else
-      aes_round(initial_result,final_rk, sbox_f, mixcolumn_f))
+      rijn_m2l(aes_round(
+          rijn_l2m(initial_result),rijn_l2m(final_rk), sbox_f, mixcolumn_f)))
 )$
 
 /* 
@@ -295,10 +297,10 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
         inv_sbox_f))
   else
     initial_result :
-      aes_inv_round(pl,final_rk, inv_sbox_f,inv_mixcolumn_f),
+      rijn_m2l(aes_inv_round(rijn_l2m(pl),rijn_l2m(final_rk), inv_sbox_f,inv_mixcolumn_f)),
   map(rijn_stand,
     rreduce(
-      lambda([a,b],aes_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
+      lambda([a,b],rijn_m2l(aes_inv_round(rijn_l2m(a),rijn_l2m(b),inv_sbox_f,inv_mixcolumn_f))), 
       rest(rest(ekl), -1), initial_result) + initial_rk)
 )$
 

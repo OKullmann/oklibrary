@@ -58,8 +58,8 @@ License, or any later version. */
      <li> aes_decrypt_l </li>
      <li> aes_encrypt_f </li>
      <li> aes_decrypt_f </li>
-     <li> aes_round </li>
-     <li> aes_inv_round </li>
+     <li> aes_round : DONE </li>
+     <li> aes_inv_round : DONE </li>
      <li> aes_key_expansion : DONE </li>
      <li> rijn_mixcolumns : DONE </li>
      <li> rijn_mixcolumn : DONE </li>
