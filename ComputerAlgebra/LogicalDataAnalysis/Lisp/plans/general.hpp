@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.8.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,8 +18,8 @@ License, or any later version. */
    ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
    <li> So a "data frame" is a combinatorial matrix M, where M[1] (the
    set of row names) yields the set of "cases", M[2] (the set of column
-   names) yields the sets of "variables", and where the values, which
-   are column-specific (that is, every variables has a domain). </li>
+   names) yields the sets of "variables", and where the values are
+   column-specific (that is, every variables has a domain). </li>
    <li> This seems to be best understood as a clause-variable matrix,
    where variables can be boolean or non-boolean.
     <ol>
@@ -79,8 +79,9 @@ dual_all_minequiv_bvs_cs(SW10F[2]);
      <li> For the non-boolean case we can have uniform or function domains
      (as in ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac).
      </li>
-     <li> So here we should actually have just matrices, and matrices with
-     domains (as we have it for nb-clause-sets). </li>
+     <li> So here we should again have just (combinatorial) matrices, and
+     (combinatorial) matrices with domains (as we have it for nb-clause-sets).
+     </li>
     </ol>
    </li>
   </ul>
