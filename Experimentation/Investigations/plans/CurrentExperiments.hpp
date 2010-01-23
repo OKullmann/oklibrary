@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.6.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -69,6 +69,7 @@ License, or any later version. */
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-4.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-4-4.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-3-3.hpp </li>
   </ul>
 
 
