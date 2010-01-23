@@ -19,9 +19,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones : DONE
-
-
   \todo Write tests
 
 
