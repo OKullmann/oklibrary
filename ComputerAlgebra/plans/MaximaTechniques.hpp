@@ -369,6 +369,18 @@ fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
   </ul>
 
 
+  \todo Issues with internal representations
+  <ul>
+   <li> Maxima functions for polynomials like gcdex produce their output
+   (in most cases!) in so-called CRE-form. </li>
+   <li> Whether some part of the term contains CRE-elements can be seen by 
+   setting "display2d:true" (the default), where then "/R/" shows up.
+   Unfortunately, just using disp2d doesn't work. </li>
+   <li> We provide the test-function tcre_p(p), which is true iff p contains
+   some element in CRE-form. </li>
+  </ul>
+
+
   \todo Document important programming techniques
   <ul>
    <li> Lists vs. arrays:
