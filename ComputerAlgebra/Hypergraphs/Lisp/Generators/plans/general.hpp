@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -124,6 +124,9 @@ C-STACK overflow at size 139456. Stack can probably be resized.
    order of vertices or hyperedges, however this seems to be the case here?
    </li>
    <li> Perhaps we should use complete_hg and variations. </li>
+   <li> Compare with ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac
+   (so that we arrive at a certain standardisation of generator-facilities).
+   </li>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
    in ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp.
    </li>
