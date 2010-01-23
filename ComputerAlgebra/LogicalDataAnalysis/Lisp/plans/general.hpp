@@ -34,17 +34,13 @@ License, or any later version. */
 tt2cvm(M) := m2com(subst(-1,0,M))$
      \endverbatim
      is to be used. </li>
-     <li> Displaying matrices in the usual style (for inspection) can be done
-     via
-     \verbatim
-disp_2d(x) := block([display2d:true], disp(x))$
-     \endverbatim
-     </li>
+     <li> Displaying matrices in the usual style (for inspection) is done
+     via using disp2d. </li>
      <li> Considering the example of Table 4 (page 44) in [Schneider, Wagemann,
      2007], we get the "session"
      \verbatim
 SW4b : matrix([0,0,0,1],[0,0,1,1],[0,1,0,1],[0,1,1,1],[1,0,0,0],[1,0,1,1],[1,1,0,0],[1,1,1,0])$
-disp_2d(SW4b);
+disp2d(SW4b);
 SW4 : tt2cvm(SW4b);
 SW4F : clvar_com2fcs(SW4);
 
