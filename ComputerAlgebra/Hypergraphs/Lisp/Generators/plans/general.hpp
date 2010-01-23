@@ -133,10 +133,6 @@ C-STACK overflow at size 139456. Stack can probably be resized.
    <li> Providing a standardised vertex set:
     <ol>
      <li> DONE
-     To handle large hypergraphs, we need to provide a version with
-     standardised vertex names, using a standard enumeration of r-subsets
-     (compare "Create complete r-graphs" above). </li>
-     <li> DONE
      We only need to consider lexicographical ordering of the
      vertex names. Actually, in order to preserve monotonicity, we better
      use colexicographical ordering. </li>
@@ -161,111 +157,6 @@ C-STACK overflow at size 139456. Stack can probably be resized.
      (see Ramsey.cpp). </li>
      <li> So that we can easily create additional clauses with Maxima,
      added then to the C++-generated files. </li>
-     <li> DONE
-     The new generators should be named "ramsey_stdhg" and
-     "std_ramsey_stdohg". </li>
-    </ol>
-   </li>
-   <li> DONE (we provide two versions, with vertices like {1,3} and with
-   vertices like rv(1,3))
-   The hypergraphs ramsey_hg use sets directly as vertex names
-   (like "{1,3}"), not naming schemes like "rv(1,3)".
-    <ol>
-     <li> On the one hand, this is natural in this situation. </li>
-     <li> But it makes the approach less flexible: Using unevaluated
-     functions like "rv", renaming should be possible by just stipulating
-     an interpretation of "rv"! </li>
-     <li> The task is to figure out, how (locally, in a block) we can
-     evaluate expressions containing terms like "rv(i,j)" using
-     some (locally) specified function f(i,j).
-      <ol>
-       <li> This works as follows:
-       \verbatim
-ev([rv(1,3),rv(2,3,5)],rv([L]):=rank_colex_subsets(setify(L)),nouns);
- [2,7]
-       \endverbatim
-       </li>
-       <li> "nouns" is needed to evaluate the "nouns" rv. </li>
-       <li> Shown is also how to handle n-ary functions. </li>
-       <li> Strange Maxima error:
-       \verbatim
-kill(rv)$
-declare(rv,noun)$
-rcs(S) := block([L : listify(S)],
-  apply("+",create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
-ev(rv(1,4),rv([L]):=rcs(setify(L)),nouns);
- 4
-ev(rv(1,5),rv([L]):=rcs(setify(L)),nouns);
- 7.0
-rcs({1,5});
- 7
-       \endverbatim
-       </li>
-       <li> According to Stavros (Maxima mailing list) this is due to
-       an old (buggy?) interpretation of verbification as computing
-       floating point values. </li>
-       <li> The solution is not to use the global flag "nouns", but
-       just to list the function which shall be treated as "verbs":
-       \verbatim
-ev(rv(1,5),rv([L]):=rcs(setify(L)),rv);
- 7
-       \endverbatim
-       </li>
-       <li> This seems to be of reasonable speed (and faster than
-       standardise_fcl). </ol>
-     </li>
-     <li> DONE (we use rv(1,2,3), and if the user uses e.g. rv(2,1,3)
-     then this is his responsibility; the standardisation of rv(1,2,3)
-     and rv(2,1,3) is the same)
-     It remains whether we should use, %e.g., rv(1,2,3) or rv({1,2,3}).
-      <ol>
-       <li> The form rv(1,2,3) is a bit shorter. </li>
-       <li> But the vertices rv(1,2,3) and rv(2,1,3) are different, though
-       they represent the same set {1,2,3}. </li>
-       <li> One could enforce associativity and commutativity, but perhaps
-       this would introduce unnecessary complexities here. </li>
-       <li> Or one disallows rv(2,1,3). </li>
-      </ol>
-     </li>
-     <li> Several possibilities for creating ramsey-hypergraphs:
-      <ol>
-       <li> DONE (we now have ramseyrv_ohg, which directly computes
-       trans_rv(ramsey_ohg(q,r,n)))
-       As it is now, with sets as vertices, and then apply a
-       translation function:
-       \verbatim
-kill(rv)$
-declare(rv,noun)$
-rv_var(v) := nounify(rv)(v)$
-
-trans_rv(G) :=
- [map(lambda([s],uaapply(rv_var,listify(s))),G[1]), 
-  map(lambda([S], map(lambda([s],uaapply(rv_var,listify(s))),S)), G[2])]$
-       \endverbatim
-       </li>
-       <li> DONE (ramsey_stdohg does this)
-       Then using
-       \verbatim
-ev_rv(t) :=
- ev(t, rv([L]):=rank_colex_subsets(setify(L)), rv)$
-       \endverbatim
-       one can get rid off the rv-terms by using ev_rv(G). </li>
-       <li> We can also directly translate the subsets via
-       \verbatim
-trans_colex(G) :=
- [map(lambda([s],rank_colex_subsets(s)),G[1]), 
-  map(lambda([S], map(lambda([s],rank_colex_subsets(s)),S)), G[2])]$
-       \endverbatim
-       </li>
-       <li> And we can directly generate the hypergraphs using the
-       colexicographical ranks of subsets; or we directly create them
-       with the rv-terms, and evaluate them at this point. </li>
-      </ol>
-     </li>
-     <li> DONE (it is not possible(?))
-     Regarding "late" translation, a question is also whether a
-     term like "{1,2,3}", which should stand for "set(1,2,3)", can
-     also be locally evaluated by evaluating set(1,2,3) as f(1,2,3). </li>
     </ol>
    </li>
    <li> Accompanying statistics are needed.

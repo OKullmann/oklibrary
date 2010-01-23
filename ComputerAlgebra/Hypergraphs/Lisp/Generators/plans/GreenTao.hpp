@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.10.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Arithmetic progressions in prime numbers
+  \todo Further information on arithmetic progressions in prime numbers
   <ul>
    <li> It seems that statistics on the number of hyperedges in
    arithprog_primes_ohg are of interest (and non-trivial); see
@@ -29,6 +29,11 @@ License, or any later version. */
    arithmetic progression P of length k of primes with start a and slope d
    we must have a >= k, and if a <> k then product_primes(k) divides d,
    must be documented. </li>
+  </ul>
+
+
+  \todo Basic implementations : DONE
+  <ul>
    <li> DONE (now reasonable fast, and for faster computations more
    complex algorithms are needed)
    The function arithprog_primes_ohg is very slow.
