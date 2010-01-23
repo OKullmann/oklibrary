@@ -1,4 +1,4 @@
-// Oliver Kullmann, 17.12010 (Swansea)
+// Oliver Kullmann, 17.1.2010 (Swansea)
 /* Copyright 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -49,8 +49,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_5(2,2,3,3,3) > 153
+  \todo greentao_5(2,2,3,3,3) >= 154
   <ul>
+   <li> The conjecture is greentao_5(2,2,3,3,3) = 154. </li>
    <li> Likely the simple logarithmic translation isn't best here anymore.
    </li>
    <li> n=152: easily found satisfiable by sapsnr and weak nested standard
@@ -72,21 +73,28 @@ License, or any later version. */
 1000
      \endverbatim
      </li>
-     <li> cutoff=2*10^6:
+     <li> rnovelty+, cutoff=10^6:
+     \verbatim
+   1    2    3
+ 677 1318    5
+2000
+     \endverbatim
+     </li>
+     <li> rnovelty, cutoff=2*10^6:
      \verbatim
   1   2   3   4
 249 747   3   1
 1000
      \endverbatim
      </li>
-     <li> cutoff=4*10^6:
+     <li> rnovelty, cutoff=4*10^6:
      \verbatim
   1   2   3
 265 729   6
 1000
      \endverbatim
      </li>
-     <li> cutoff=8*10^6:
+     <li> rnovelty, cutoff=8*10^6:
      \verbatim
   1   2   3
 267 731   2
@@ -99,6 +107,13 @@ License, or any later version. */
    1733   34550   69400  109400  125800 2773000
      \endverbatim
      </li>
+     <li> rnovelty+, cutoff=8*10^6:
+     \verbatim
+  1   2
+822 178
+1000
+     \endverbatim
+     So rnovelty+ is definitely better than rnovelty. </li>
     </ol>
    </li>
    <li> Best local search algorithm from Ubcsat-suite for the weak nested
