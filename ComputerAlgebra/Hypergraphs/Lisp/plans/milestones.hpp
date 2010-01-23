@@ -8,16 +8,13 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Hypergraphs 0.0.7 (9.1.2009)
+  \module_version ComputerAlgebra/Hypergraphs 0.0.7.1 (23.1.2010)
 
 
   \par Version 0.0.8
 
-  \par
-   In ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - Create complete r-graphs : DONE
-    - %Ramsey hypergraphs
+  \par ComputerAlgebra/Hypergraphs/Lisp/Generators version 0.1 : DONE
+  (see ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/milestones.hpp)
 
   \par
    Update milestones.
@@ -25,10 +22,8 @@ License, or any later version. */
 
   \par Version 0.0.9
 
-  \par
-   In ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/GreenTao.hpp
-   the following topics are handled:
-    - Arithmetic progressions in prime numbers
+  \par ComputerAlgebra/Hypergraphs/Lisp/Generators version 0.1.2
+  (see ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/milestones.hpp)
 
 
 
