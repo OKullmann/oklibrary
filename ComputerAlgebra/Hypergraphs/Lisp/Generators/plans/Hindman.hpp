@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.7.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,14 +8,6 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/Hindman.hpp
   \brief Plans regarding hypergraphs generators related to Hindman's theorems and conjectures
-
-
-  \todo DONE Update names
-  <ul>
-   <li> The current "quad"-forms should be replaced by
-   hindman_k2_ohg(a,n) and hindmani_k2_ohg(a,n) (for x <> y). </li>
-   <li> Actually, the missing a-parameter should be indicated by "a1". </li>
-  </ul>
 
 
   \todo Implement iterator-forms

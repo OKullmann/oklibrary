@@ -51,20 +51,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create complete r-graphs : DONE (using colexicographical order)
-  <ul>
-   <li> Implement "complete_hg(V,r), complete_stdhg(n,r), complete_ohg(V,r),
-   complete_stdohg(n,r)", where the order is given by lexicographical order
-   (see "Enumerating all k-subsets lexicographically" in
-   ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp). </li>
-   <li> However, see "Ramsey hypergraphs" below --- to be used as the
-   vertex set of a %Ramsey hypergraph, we needed to use colexicographical
-   ordering. </li>
-   <li> This would also yield that the hyperedge list of complete_stdohg(n,r)
-   extends that of complete_stdohg(n',r) for n' <= n. </li>
-  </ul>
-
-
   \todo Hypergraphs of arithmetic progressions
   <ul>
    <li> The current implementation of arithprog_ohg/arithprog_hg can only
