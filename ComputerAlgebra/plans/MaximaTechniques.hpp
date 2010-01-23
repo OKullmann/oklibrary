@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.6.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -136,7 +136,7 @@ xreduce(nounify(union), [a,b,c,d]);
    and tell the Maxima mailing list that "makelist" should be "deprecated")
    List creation:
     <ol>
-     <li> Better avoid makelist, since it is less powerfull then
+     <li> Better avoid makelist, since it is less powerful then
      create_list, and also does not handle well the case of empty lists. </li>
      <li> Better, we should use makelist only if we are sure that the
      second list bound is not smaller than the first, and if we do not need
@@ -432,7 +432,7 @@ B : map(lambda([x],x+1),B)$
     <ol>
      <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
      is set by set_random_state(make_random_state(n)). </li>
-     <li> This is achieved by the oklibrary-function "set_random"
+     <li> This is achieved by the OKlibrary-function "set_random"
      (in ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
      <li> Randomised functions are "random", "random_permutation". </li>
     </ol>
@@ -462,7 +462,7 @@ block([f], local(f), f(x) := x)
      <li> However it seems that these local functions are not values, and thus
      cannot be carried around. </li>
      <li> So if for example just an auxiliary hash-function is needed, then
-     it seems better to define it as such a local arrau-function. </li>
+     it seems better to define it as such a local array-function. </li>
     </ol>
    </li>
    <li> All different types of loops (see the existing code).
@@ -491,7 +491,7 @@ block([f], local(f), f(x) := x)
        having lists as keys in the hash map) consists of the functions
         <ul>
          <li> sm2hm for creating hash-maps (from set-maps) </li>
-         <li> set_hm for seting a single value, and compose_hm_sm for
+         <li> set_hm for setting a single value, and compose_hm_sm for
          setting the values of a whole set-map </li>
          <li> ev_hm for evaluating the hash-map at a single argument, and hm2sm
          for creating a whole set-map out of it. </li>
@@ -514,7 +514,7 @@ block([fpprec : fpprec], fpprec : d, Comp)
      exact computations are used, while number-literals like
      "1.0" are by default interpreted as float. </li>
      <li> However numerical procedures often enforce usage of type
-     float (for example "newton"), and thus can't be used (succesfully)
+     float (for example "newton"), and thus can't be used (successfully)
      in Comp. </li>
      <li> It seems that an expression involving some bfloat-argument
      is always evaluated in bfloat-arithmetic. </li>
@@ -522,7 +522,7 @@ block([fpprec : fpprec], fpprec : d, Comp)
    </li>
    <li> Call by reference (or "call by name"):
     <ol>
-     <li> Pass referency to x by "f('x). </li>
+     <li> Pass reference to x by "f('x). </li>
      <li> Inside f, for assignments to x use "x :: value". </li>
      <li> And on the right-hand-side use "ev(x)". </li>
      <li> To avoid name-clashes, call the formal parameter e.g. "_x". </li>
