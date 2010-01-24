@@ -298,10 +298,73 @@ c file_name                             GreenTao_SR_3-3-3-3_137.cnf
      this makes it unbalanced. One could try to randomise this. </li>
      <li> Minisat2-Preprocessing for the strong reduced translation has
      apparently only a small influence, and should be negligible. </li>
-     <li> Standard symmetry-breaking, which would set nbv(3,1) to true, had
-     no effect on the SR-translation, since the root node is a single here;
+     <li> Standard symmetry-breaking, which would set nbv(3,1) to true, would
+     had no effect on the SR-translation, since the root node is a single here;
      this seems to be interesting --- prime number 3 doesn't play a role
      in the unsatisfiability! </li>
+     <li> The weak standard nested translation:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D10 GreenTao_N_3-3-3-3_137.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         6
+c initial_number_of_variables           272
+c initial_number_of_clauses             3066
+c initial_number_of_literal_occurrences 15330
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     3234.0
+c number_of_nodes                       7068419
+c number_of_single_nodes                22744
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                30832450
+c number_of_pure_literals               1931502
+c number_of_autarkies                   2933
+c number_of_missed_single_nodes         26010
+c max_tree_depth                        65
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1527371
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_3-3-3-3_137.cnf
+     \endverbatim
+     </li>
+     <li> The strong standard nested translation:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D10 GreenTao_SN_3-3-3-3_137.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         6
+c initial_number_of_variables           274
+c initial_number_of_clauses             3203
+c initial_number_of_literal_occurrences 15604
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   137
+c running_time(sec)                     2588.2
+c number_of_nodes                       4368169
+c number_of_single_nodes                15562
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                26137544
+c number_of_pure_literals               15036
+c number_of_autarkies                   12148
+c number_of_missed_single_nodes         17394
+c max_tree_depth                        66
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 748506
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_SN_3-3-3-3_137.cnf
+     \endverbatim
+     So here the strong nested form is somewhat better than the weak nested
+     form. </li>
     </ol>
    </li>
    <li> OKsolver_2002 without tree-pruning:

@@ -44,7 +44,12 @@ License, or any later version. */
      without preprocessing: </li>
     </ol>
    </li>
-   <li> minisat2: aborted after 34 restarts (182314933 conflicts, 133210 s).
+   <li> minisat2:
+    <ol>
+     <li> Simple logarithmic translation aborted after 34 restarts
+     (182314933 conflicts, 133210 s). </li>
+     <li> Weak nested standard translation: </li>
+    </ol>
    </li>
   </ul>
 
