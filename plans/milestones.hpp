@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.3.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,10 +26,10 @@ License, or any later version. */
   TO BE REACHED $(deadline_022)
   \par Buildsystem version 0.2.1 (OK, MG)
   (see Buildsystem/plans/milestones.hpp)
-  \par LegalIssues version 0.0.7 (OK)
-  (see LegalIssues/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
+  \par LegalIssues version 0.0.7 (OK) : DONE
+  (see LegalIssues/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.1 (OK) : DONE
   (see OKlib/Satisfiability/plans/milestones.hpp)
   \par Plans

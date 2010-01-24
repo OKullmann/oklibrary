@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,27 +10,6 @@ License, or any later version. */
   \brief Plans regarding licences
 
   The basic decision is to use GPLv3 (http://www.fsf.org/licensing/licenses/gpl.html)
-
-
-  \todo Further licence installations
-  <ul>
-   <li> Also tex files need the licence. </li>
-   <li> DONE
-   Also html files need the licence.
-    <ol>
-     <li> Likely the licence should be placed as early as possible. </li>
-     <li> But likely the first possible place is after the preamble (specifying
-     the encoding etc.). </li>
-     <li> See LegalIssues/Header.html for the template. </li>
-    </ol>
-   </li>
-   <li> DONE (added a simple copyright and license statement as standard
-   page footer)
-   Is it necessary that the licence is also visible on
-   each document page ? Seems so. It seems that there is no
-   special doxygen construction for licence text; perhaps
-   one should ask on the doxygen mailing list. </li>
-  </ul>
 
 
   \todo Licence maintenance
@@ -49,8 +28,8 @@ License, or any later version. */
    should be updated. </li>
    <li> Also a third type of script is needed for make-files. </li>
    <li> Important that these scripts tell us about "bad" files. </li>
-   <li> Part of the licence must be that the full history is handed down. Is this
-   guaranteed by the original text, or do we need to amend it?
+   <li> Part of the licence must be that the full history is handed down. Is
+   this guaranteed by the original text, or do we need to amend it?
     <ol>
      <li> E-mail was sent to FSL. </li>
      <li> No answer (6.10.2007); one should try it again. </li>
