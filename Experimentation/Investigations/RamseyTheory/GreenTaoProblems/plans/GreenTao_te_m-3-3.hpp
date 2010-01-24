@@ -592,6 +592,9 @@ Mean= 14.00792
      <li> The strong reduced translation needs 35 restarts (289342808 
      conflicts, 156029 s). One sees here again the oscillation of the
      progress-value. </li>
+     <li> The weak reduced translation needs 34 restarts (179254328 conflicts,
+     91449.9 s), seems also better than the strong one. </li>
+    </ol>
    </li>
    <li> We should also try the alternative encoding as discussed in
    "Alternative handling of parameter-values 2" in

@@ -224,13 +224,34 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 500
      \endverbatim
      </li>
-     <li> cutoff=4*10^7:
+     <li> rnovelty+, cutoff=4*10^7:
      \verbatim
  3  4  5  6  7  8  9 10 11 14
  2  4 17 21 35 26 14 12  7  1
 139
      \endverbatim
      </li>
+     <li> rnovelty, cutoff=4*10^7:
+     \verbatim
+  2   3   4   5   6   7   8   9  10  11  12  13  14  15
+  2   4  23  37  82 117  98  77  34  19   3   2   1   1
+500
+     \endverbatim
+     </li>
+     <li> rnovelty+, cutoff=8*10^7:
+     \verbatim
+  2   3   4   5   6   7   8   9  10
+  6  21  36 121 137 108  47  21   3
+500
+     \endverbatim
+     </li>
+     <li> rnovelty, cutoff=8*10^7:
+     \verbatim
+ 3  4  5  6  7  8  9 10 11
+ 5 15 29 45 21 16  7  2  1
+141
+     \endverbatim
+     So rnovelty+ seems better. </li>
     </ol>
    </li>
   </ul>
