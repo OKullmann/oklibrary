@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -675,6 +675,13 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> One could ask for a "change log", that is, for the
      changing data we only report the difference to the last output (using
      "+" and "-" to mark the direction of the change). </li>
+    </ol>
+   </li>
+   <li> More on-the-fly information
+    <ol>
+     <li> It should be possible to send a signal to a running OKsolver, so that
+     the current partial assignment is output, marking the decision variables
+     with their levels. </li>
     </ol>
    </li>
   </ul>
