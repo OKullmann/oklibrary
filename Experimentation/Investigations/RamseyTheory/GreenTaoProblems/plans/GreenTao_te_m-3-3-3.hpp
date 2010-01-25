@@ -41,7 +41,62 @@ License, or any later version. */
      <li> With minisat2-preprocessing while otherwise the same it doesn't look
      much different. </li>
      <li> Weak nested standard translation, without symmetry breaking and
-     without preprocessing: </li>
+     without preprocessing:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_N_4-2-3-3-3_151.cnf
+ 65524:      0   2581.88  1.69E+08     0.00s     2.06s     0y   0d  0h  0m 25s     1     0   75
+ 65528:      0   2581.72  1.69E+08     0.00s     2.06s     0y   0d  0h  0m 17s     1     0   75
+ 65529:12765013   2776.48  1.82E+08 10206.27s     2.22s     0y   0d  0h  0m 16s 37975     0   75
+ 65530:13311450   2979.57  1.95E+08 10473.31s     2.38s     0y   0d  0h  0m 14s 34869     0   75
+ 65532:      0   2979.48  1.95E+08     0.00s     2.38s     0y   0d  0h  0m 10s     1     0   75
+ 65533:6034022   3071.51  2.01E+08  4741.86s     2.45s     0y   0d  0h  0m  7s 13521     0   77
+ 65534:      0   3071.47  2.01E+08     0.00s     2.45s     0y   0d  0h  0m  5s     1     0   77
+ 65535:16202856   3318.66  2.17E+08 13016.92s     2.65s     0y   0d  0h  0m  3s 41924     0   77
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           451
+c initial_number_of_clauses             14985
+c initial_number_of_literal_occurrences 51930
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   11325
+c running_time(sec)                     252816.1
+c number_of_nodes                       324842537
+c number_of_single_nodes                830588
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1451148120
+c number_of_pure_literals               76171692
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         853329
+c max_tree_depth                        82
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 2536092
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_4-2-3-3-3_151.cnf
+     \endverbatim
+     So tree-pruning seems to be efficient here, but with the last monitoring
+     node it falls into a hole; one needed to look at the branchings --- it
+     could well be that what has been achieved is just to consider some
+     nodes for the first colour, and still most of them remain (in the last
+     monitoring node) for inspection. </li>
+     <li> Strong nested standard translation, without symmetry breaking and
+     without preprocessing: perhaps not so much different from the weak
+     form. </li>
+     <li> Strong reduced standard translation, without symmetry breaking and
+     without preprocessing: While with the nested (standard) translation
+     the first 2^15 nodes are reasy, now from the beginning we have high
+     node counts, and also now often (but not always!) the processing time
+     per node is much higher. Perhaps this is due to inefficient working
+     of the OKsolver_2002. It could also be that the total solution time
+     would be lower (since here the hard problems appear at the beginning).
+     But for now aborted (since yet the strong reduced translation never
+     performed well). </li>
     </ol>
    </li>
    <li> minisat2:
