@@ -36,6 +36,9 @@ License, or any later version. */
      as the functions that makeup the IBC are already defined. </li>
     </ul>
    </li>
+   <li> This should be compared to the definition of AES and while
+   straying from the definition is possible, it should only be done with 
+   good reason. </li>
   </ul>
 
 
