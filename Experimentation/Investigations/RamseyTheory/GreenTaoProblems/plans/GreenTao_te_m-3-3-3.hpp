@@ -26,7 +26,7 @@ License, or any later version. */
   output_greentao_reduced_strong_stdname(append(create_list(2,i,1,m),[3,3,3]),n).
 
 
-  \todo greentao_4(2,3,3,3) >= 151
+  \todo greentao_4(2,3,3,3) = 151
   <ul>
    <li> Let's start with adaptnovelty+ and the logarithmic translation (seems
    best here). </li>
@@ -103,7 +103,8 @@ c file_name                             GreenTao_N_4-2-3-3-3_151.cnf
     <ol>
      <li> Simple logarithmic translation aborted after 34 restarts
      (182314933 conflicts, 133210 s). </li>
-     <li> Weak nested standard translation: </li>
+     <li> Weak nested standard translation: determines unsatisfiability in
+     33 restarts (92925583 conflicts, 43611.9 s). </li>
     </ol>
    </li>
   </ul>
