@@ -338,7 +338,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo greentao_4(2,2,4,4) > 587
+  \todo greentao_4(2,2,4,4) > 588
   <ul>
    <li> Let's use novelty+ as the main Ubcsat-solver (aloamo). </li>
    <li> n=560:
@@ -751,28 +751,6 @@ License, or any later version. */
    </li>
    <li> n=588
     <ol>
-     <li> saps with cutoff=2*10^6, weak standard nested translation:
-     \verbatim
- 1  2  3  4  5  6  7
-77 47 70 61 36 31  2
-324
-     \endverbatim
-     </li>
-     <li> sapsnr with cutoff=2*10^6, weak standard nested translation:
-     \verbatim
-
-     \endverbatim
-     </li>
-     <li> saps with cutoff=2*10^6, strong standard nested translation:
-     \verbatim
-
-     \endverbatim
-     </li>
-     <li> sapsnr with cutoff=2*10^6, strong standard nested translation:
-     \verbatim
-
-     \endverbatim
-     </li>
      <li> saps with cutoff=10^6, logarithmic translation:
      \verbatim
  1  2  3  4  5  6  7  8
@@ -780,7 +758,8 @@ License, or any later version. */
 95
      \endverbatim
      </li>
-     <li> Best local search algorithm from Ubcsat-suite:
+     <li> Best local search algorithm from Ubcsat-suite for logarithmic
+     translation:
      \verbatim
 > E = eval_ubcsat("GreenTao_L_4-2-2-4-4_588.cnf")
      \endverbatim
@@ -862,6 +841,20 @@ License, or any later version. */
 99
      \endverbatim
      </li>
+     <li> saps with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+ 1  2  3  4  5  6  7
+77 47 70 61 36 31  2
+324
+     \endverbatim
+     </li>
+     <li> sapsnr with cutoff=2*10^6, weak standard nested translation:
+     \verbatim
+ 0  1  2  3  4  5  6  7
+ 1 45 32 47 28 19 15  2
+189
+     \endverbatim
+     (seed=2449845146, osteps=1366309). </li>
      <li> Next we consider the strong standard reduced translation. </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
@@ -877,8 +870,11 @@ License, or any later version. */
  1  3  4 19 19 23 15 12  2  2
      \endverbatim
      </li>
+     <li> The current best combination seems the weak standard nested
+     translation with sapsnr. </li>
     </ol>
    </li>
+   <li> n=589, weak standard nested translation, sapsnr, cutoff=2*10^6 </li>
   </ul>
 
 */
