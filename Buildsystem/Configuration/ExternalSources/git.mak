@@ -1,5 +1,5 @@
 # Oliver Kullmann, 16.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,8 +9,8 @@
 
 all_extsrc_okl += git
 
-git_recommended_version_number_okl ?= 1.6.6
-git_supported_not_recommended_version_numbers_okl ?= 1.6.5.6
+git_recommended_version_number_okl ?= 1.6.6.1
+git_supported_not_recommended_version_numbers_okl ?= 1.6.6
 
 git_prefix_okl ?= git
 
