@@ -10,6 +10,23 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Sbox polynomial implementation
+  <ul>
+   <li> The polynomial representation should use operations
+   on polynomials, but the Sbox operation is defined in 
+   terms of an affine transform which works on a vector
+   of bits. </li>
+   <li> This results in the polynomial implementation of
+   the Sbox function using a number of conversions and
+   becoming quite convoluted. </li>
+   <li> Better conversions functions between the data types,
+   such as polynomials and maxima vectors (rather than just
+   list vectors) should help, but one needs to also
+   rethink how this can be best written to offer a simple
+   and concise implementation. </li>
+  </ul>
+  
+
   \todo Small scale AES implementation
   <ul> 
    <li> The small scale AES variants as described in

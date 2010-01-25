@@ -82,14 +82,22 @@ rijn_sbox_vec(v) := rijn_stand_vec(column_m(
 /* TODO: The following two functions have bad parameter-names. */
 rijn_sbox_nat(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
 /* Now representing bytes as polynomials (the standard representation): */
-rijn_sbox(bytei) := vecbin2polybin(rijn_sbox_vec(polybin2vecbin_rijn(bytei)))$
+rijn_sbox(bytei) := 
+  rijn_stand(vecbin2polybin(column_m(
+    rijn_sbox_matrix .
+    columnvector(polybin2vecbin_rijn(rijn_einv(rijn_stand(bytei)))),1)) + rijn_affine_constant)$
 
 /* Inverse of Sbox: */
 rijn_inv_sbox_vec(v) := rijn_vecinv(rijn_stand_vec(column_m(
   rijn_inv_sbox_matrix . columnvector(v) + 
   columnvector(polybin2vecbin_rijn(rijn_inv_affine_constant)),1)))$
 rijn_inv_sbox_nat(bytei) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(bytei)))$
-rijn_inv_sbox(bytei) := vecbin2polybin(rijn_inv_sbox_vec(polybin2vecbin_rijn(bytei)))$
+rijn_inv_sbox(bytei) :=
+  rijn_stand(rijn_einv(rijn_stand(
+      vecbin2polybin(column_m(
+          rijn_inv_sbox_matrix .
+            columnvector(polybin2vecbin_rijn(bytei)),1)) +
+          rijn_inv_affine_constant)))$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation:
 */
