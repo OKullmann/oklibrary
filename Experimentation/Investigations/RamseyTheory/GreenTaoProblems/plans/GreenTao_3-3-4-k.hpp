@@ -252,6 +252,13 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 141
      \endverbatim
      So rnovelty+ seems better. </li>
+     <li> adaptnovelty+, cutoff=16*10^7:
+     \verbatim
+ 5  7  8  9 10 11 13
+ 2  5  3  7  5  6  1
+29
+     \endverbatim
+     Looks inappropriate. </li>
     </ol>
    </li>
   </ul>
