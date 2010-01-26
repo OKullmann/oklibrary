@@ -70,7 +70,7 @@ rijn_inv_sbox_matrix : apply(matrix,
 
 /* The AES sbox */
 
-/* TODO: polynomials are the basic form, the resut should be derived
+/* TODO: polynomials are the basic form, the result should be derived
    from it.
 */
 /* Takes a value from the byte field as vector and returns the result
