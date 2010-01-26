@@ -155,9 +155,9 @@ License, or any later version. */
     <li> CombinatorialMatrices : </li>
     <li> Cryptology (MG)
      <ol>
-      <li> directly under Lisp </li>
-      <li> Lisp/Cryptanalysis </li>
-      <li> Lisp/CryptoSystems </li>
+      <li> directly under Lisp : DONE </li>
+      <li> Lisp/Cryptanalysis : DONE </li>
+      <li> Lisp/CryptoSystems : DONE </li>
      </ol>
     </li>
     <li> DataStructures : DONE </li>
