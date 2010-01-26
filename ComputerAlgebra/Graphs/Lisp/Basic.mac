@@ -263,10 +263,10 @@ gdg2gg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 ogdg2ogg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 
 /* Representing graphs by directed graphs: */
-g2dg(G) := [G[1], setify(apply(append,
+g2dg(G) := [G[1], setify(lappend(
   map(lambda([e], block([d : listify(e)], [d,reverse(d)])),
       listify(G[2]))))]$
-gl2dgl(G) := [G[1], setify(apply(append,
+gl2dgl(G) := [G[1], setify(lappend(
   map(lambda([e], block([d : listify(e)], 
         if length(d)=1 then [append(d,d)] else [d,reverse(d)])),
       listify(G[2]))))]$
