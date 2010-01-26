@@ -16,14 +16,18 @@ License, or any later version. */
  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Sbox polynomial implementation
-    - Small scale AES implementation
-    - Convert aes_key_expansion to return a list of matrices
-    - Remove addition from AES round
     - Notions and notations
     - Update the following todos
     - Alter internal AES functions to use polynomials and matrices : DONE
     - Truncate AES for reduced rounds: DONE
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Sbox polynomial implementation
+    - Small scale AES implementation
+    - Convert aes_key_expansion to return a list of matrices
+    - Remove addition from AES round
 
 
   \par Version 0.0.11
@@ -31,9 +35,9 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Key schedule
     - The Rijndael cipher as an iterated condition system
     - Design of round functions
+    - Key schedule : DONE
     - Algebraic aspects DONE
 
 

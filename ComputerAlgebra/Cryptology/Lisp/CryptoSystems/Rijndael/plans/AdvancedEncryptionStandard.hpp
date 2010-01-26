@@ -39,6 +39,8 @@ License, or any later version. */
    key and message blocks (e), along with the number of rounds (r). </li>
    <li> The current system 
     <ul>
+     <li> arbitrary polynomials as the block elements of the AES, where
+     these polynomials are then standardised using rijn_stand. </li>
      <li> has the number of rounds as a  variable (which should be moved to a 
      parameter of the function - see XXX), and 
      <li> allows arbitrary functions to be used (passed as parameters) for 
@@ -50,12 +52,17 @@ License, or any later version. */
     and therefore, the small scale variations could be implemented with
     minimal changes to the current system by 
     <ul>
-     <li> Moving the number of round to a parameter of the respective
+     <li> parameterising the rijn_stand, such that each function that uses
+     it takes a function rijn_stand_f or something similarly named, and 
+     then uses this standardisation function, so as to ensure polynomials
+     are then standardised to the small scale fields rather than
+     the standard AES byte field. </li>
+     <li> moving the number of round to a parameter of the respective
      functions which use it. </li>
-     <li> Writing generic functions which generate Sbox and MixColumn 
+     <li> writing generic functions which generate Sbox and MixColumn 
      operations for the given small scale variations (with the
      relevant parameters). </li>
-     <li> Ensure all functions throughout the AES determine the
+     <li> ensure all functions throughout the AES determine the
      number of rows and columns in the matrix purely from the
      matrix and do not assume columns are of size 4 etc. </li>
     </ul>
