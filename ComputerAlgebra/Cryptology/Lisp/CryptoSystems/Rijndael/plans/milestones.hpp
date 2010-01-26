@@ -35,9 +35,9 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Key schedule
     - The Rijndael cipher as an iterated condition system
     - Design of round functions
+    - Key schedule : DONE
     - Algebraic aspects DONE
 
 

@@ -79,37 +79,6 @@ License, or any later version. */
    </li>
   </ul>
 
-  
-  \todo Key Schedule
-  <ul>
-   <li> How to approach key scheduling?
-    <ol>
-     <li> AES and symmetric plaintext-key sizes provide a fairly elegant
-     recursive key generation where each round key is just the result of
-     the key generation on the last round key, whereas asymetric sizes such
-     as 192bit plaintext and a 128bit key means you will have to use parts
-     of the previous two round keys. </li>
-     <li>  This seems to be done with an expanded key which is a large
-     array/list of round keys in Design of Rijndael. </li>
-     <li> Current implementation simply implements the key schedule as 
-     described in [Design of Rijndael], taking a list of GF(2^8) elements
-     and returning a longer list of GF(2^8) elements that can be partitioned
-     into round keys. </li>
-     <li> A simpler, more elegant key schedule description should be possible?
-     </li>
-     <li> DONE
-     The Key Scheduling operation could simply take a list of GF(2) elements
-     convert this to a list of GF(2^8) elements and perform the key schedule
-     repeatedly in an iterative or recursive manner to produce the expanded
-     key, for which the algorithm is relatively simple and described in Design
-     of Rijndael and in various other places, returning an expanded key (list
-     of GF(2) elements) of size of r+1 times the block size, which the
-     individual round keys can then be extracted from using a helper function.
-     </li>
-    </ol>
-   </li> 
-  </ul>
-
 
   \todo The Rijndael cipher as an iterated condition system
   <ul>
@@ -297,6 +266,39 @@ License, or any later version. */
    the small scale versions. Such generalisations should be possible by
    simply parameterising the key schedule. See [Small Scale Variants of the 
    AES]. </li>
+  </ul>
+
+  
+  \todo DONE Key Schedule
+  <ul>
+   <li> How to approach key scheduling?
+    <ol>
+     <li> AES and symmetric plaintext-key sizes provide a fairly elegant
+     recursive key generation where each round key is just the result of
+     the key generation on the last round key, whereas asymetric sizes such
+     as 192bit plaintext and a 128bit key means you will have to use parts
+     of the previous two round keys. </li>
+     <li>  This seems to be done with an expanded key which is a large
+     array/list of round keys in Design of Rijndael. </li>
+     <li> Current implementation simply implements the key schedule as 
+     described in [Design of Rijndael], taking a list of GF(2^8) elements
+     and returning a longer list of GF(2^8) elements that can be partitioned
+     into round keys. </li>
+     <li> The keyschedule now uses a recursive scheme as the AES has been 
+     restricted to symmetric message and key block sizes for simplicity. </li>
+     <li> DONE A simpler, more elegant key schedule description should be 
+     possible? </li>
+     <li> DONE
+     The Key Scheduling operation could simply take a list of GF(2) elements
+     convert this to a list of GF(2^8) elements and perform the key schedule
+     repeatedly in an iterative or recursive manner to produce the expanded
+     key, for which the algorithm is relatively simple and described in Design
+     of Rijndael and in various other places, returning an expanded key (list
+     of GF(2) elements) of size of r+1 times the block size, which the
+     individual round keys can then be extracted from using a helper function.
+     </li>
+    </ol>
+   </li> 
   </ul>
   
   
