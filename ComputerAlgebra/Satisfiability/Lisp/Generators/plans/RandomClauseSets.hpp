@@ -42,7 +42,7 @@ License, or any later version. */
    <li> According to our general philosophy, the function OKgenerator does not
    check its input, but we have a special test function for this. </li>
    <li> The AES-function is considered as aes: W(128) x W(128) -> W(128),
-   given by "aes_int(p,k)" (see
+   given by "aes_int(p,k,10)" (see
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac).
    </li>
    <li> The central helper function is the OKlitgenerator(s,k,n,p,c),
@@ -52,7 +52,7 @@ License, or any later version. */
      {-n, ..., n} - {0}, given by 0 -> 1, 1 -> 2, ..., n-1 -> n, and
      then n -> -1, n+1 -> -2, ..., 2n-1 -> -n. </li>
      <li> Now OKlitgenerator(s,k,n,p,c) :=
-      alpha_n(aes_int(n * 2^96 + p * 2^64 + c, s * 2^64 + k) mod 2n)). </li>
+      alpha_n(aes_int(n * 2^96 + p * 2^64 + c, s * 2^64 + k,10) mod 2n)). </li>
      <li> Thus -2^31 < OKlitgenerator(s,k,n,p,c) < 2^31, where the value 0
      is excluded. </li>
     </ol>

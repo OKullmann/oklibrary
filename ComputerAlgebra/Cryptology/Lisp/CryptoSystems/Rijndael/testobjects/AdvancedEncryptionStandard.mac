@@ -22,12 +22,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Adva
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac")$
 
 
-/* *************
-   * Constants *
-   *************
-*/
-
-
 /* *********
    * S box *
    *********
