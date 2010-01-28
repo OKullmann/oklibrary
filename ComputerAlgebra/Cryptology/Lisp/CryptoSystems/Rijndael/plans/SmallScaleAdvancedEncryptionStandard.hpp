@@ -25,15 +25,16 @@ License, or any later version. */
      <li> arbitrary polynomials as the block elements of the AES, where
      these polynomials are then standardised using rijn_stand. </li>
      <li> has the number of rounds as a  variable (which should be moved to a 
-     parameter of the function - see XXX), and 
+     parameter of the function), and 
      <li> allows arbitrary functions to be used (passed as parameters) for 
      the Sbox function and MixColumn function, which are the only 2 functions 
      which work at the element/word level in AES, and </li>
      <li> takes matrices (which have their respective sizes implicitly as
      part of their structure/representation). </li>
     </ul>
-    and therefore, the small scale variations could be implemented with
-    minimal changes to the current system by 
+    </li>
+   <li> Therefore, the small scale variations could be implemented with
+   minimal changes to the current system by 
     <ul>
      <li> parameterising the rijn_stand, such that each function that uses
      it takes a function rijn_stand_f or something similarly named, and 
@@ -53,6 +54,40 @@ License, or any later version. */
     which takes the parameters for the small scale variation 
     and then calls the normal AES, using the above defined 
     functions and pre-existing parameter. </li>
+   <li> However, as
+    <ul> 
+     <li> the nature of the OKlibrary dictates that code should act as a 
+     specification, and therefore should be readable in it's own right, without
+     unnecessary generalisations. </li>
+     <li> the small scale variations can both include or not the final round and
+     so this would add unnecessary generalisations to the existing AES code. 
+     </li>
+     <li> the code for both should be as simple as possible. </li>
+    </ul>
+    it is better to simply write the code again (using the standard AES code
+    as a template). </li>
+    <li> Rather than just implement the standard small scale variations as given
+    in [Algebraic Aspects of the Advanced Encryption Standard], several natural 
+    generalisations should be made.
+    <ul>
+     <li> Rather than just allowing n_C and n_R to be 1, 2 or 4, we should allow
+     the matrix to be an arbitrary size between 1 and 4, where
+     <ul>
+      <li> Shiftrows is generalised in the natural way. </li>
+      <li> MixColumns will lookup the correct matrix for multiplication but
+      this lookup may be undefined for n_C and n_R values not considered in 
+      [Algebraic Aspects of the Advanced Encryption Standard]. </li>
+      <li> KeyExpansion/KeySchedule is generalised in the natural way. </li>
+     </ul>
+    </li>
+    <li> Rather than just allowing the block elements to be elements of GF(2)
+    GF(2^4) and GF(2^8) fields, one should just allow arbitrary finite fields
+    of the form GF(p^e) where then the standard variations use p=2. This would
+    then require custom rijn_stand, Mixcolumn and Sbox functions but no more
+    as all other functionality just works on standard polynomial operations
+    which are then standardised (quotiented) as late as possible using 
+    rijn_stand. </li>
+   </ul>
   </ul>
 
 
