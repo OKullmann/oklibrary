@@ -167,7 +167,7 @@ eval_ubcsat = function(
 
 # For example, running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),monitor=TRUE)
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1))
 #
 # for an example cnf, results in the data.frame E with the following values:
 #
@@ -186,7 +186,7 @@ eval_ubcsat = function(
 #
 # whereas running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"),monitor=TRUE)
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"))
 #
 # produces:
 #
