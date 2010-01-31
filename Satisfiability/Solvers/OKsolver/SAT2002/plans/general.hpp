@@ -497,9 +497,14 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    <li> As a simple means to achieve parallelisation, for a given depth
    the clause-sets at that level should be output (to files, with
    suitable names indicating the decisions leading to that clause-set). </li>
+   <li> This should simply employ the monitoring-mode, outputting the (reduced)
+   clause-sets at the monitoring nodes, while not going into the branches, but
+   immediately backtracking (with result "unknown"). </li>
    <li> Then a simple script would allocate these problem-instances to
    the available machines, monitor their execution, record the results,
    and schedule new jobs if possible (and needed). </li>
+   <li> For monitoring-depth 0 one would get the OKsolver_2002 to act
+   as preprocessor (applying r_2-reduction and autarky-reduction). </li>
    <li> To handle a large number of jobs, it must also be possible to
    just output a certain clause-set from the long list; for example
    when using a depth D=13, then by specifying a number from 1 to 8192
