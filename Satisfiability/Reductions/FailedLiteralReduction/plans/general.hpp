@@ -32,6 +32,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo First simple implementation
+  <ul>
+   <li> Just using UnitClausePropagation::CLSAdaptorUcpW. </li>
+   <li> However, this adaptor might not be usable for the iterated reduction
+   attempts, since it is an adaptor, reading clauses and transferring
+   them into some other data structure. It would only be helpful for handling
+   the input? </li>
+   <li> Or perhaps CLSAdaptorUcpW::perform_ucp can be used with various
+   partial assignments in the buffer?! </li>
+   <li> Compare "First implementation, based on watched literals" in
+   Reductions/KLevelForcedAssignments/plans/general.hpp. </li>
+   <li> In the first implementation for simplicity not considering whether
+   some reduction attempts might be superfluous. </li>
+   <li> If a reduction was found, the assignment is simply permanently
+   added to the total assignment. </li>
+  </ul>
+
+
   \todo Transferring the implementation used in OKsolver_2002
 
 
