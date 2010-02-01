@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Standardise data types and documentation
+  <ul>
+   <li> Currently the specifications (in comments) and docus
+   are incomplete and inconsistent, due to changes from lists
+   of integers to matrices of polynomials, and the original 
+   poor definitions. </li>
+   <li> A comment section needs to be written at the top of
+   the AdvancedEncryptionStandard.mac to describe the basic
+   idea and the basic standard datatypes present. </li>
+   <li> This should also be transferred to docus. </li>
+  </ul>
+
+
   \todo Sbox polynomial implementation
   <ul>
    <li> The polynomial representation should use operations

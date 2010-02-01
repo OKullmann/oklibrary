@@ -108,19 +108,18 @@ rijn_lookup_inv_sbox(bytei) :=
 */
 
 /* 
-   Takes the input block as a list of 16 bytes and applies
-   the sbox operation to each byte, returning the list of 
-   result bytes:
+   Takes the input block as a matrix of 16 polynomials in
+   the range 0-nat2polybin(255) and applies the sbox operation to
+   each polynomial, returning the matrix of result polynomials:
 */
-/* TODO: Since matrixpmap is used, apparently these are not "blocks". */
-rijn_subbytes(inputblock, sbox_f) := matrixmap(sbox_f, inputblock)$
+rijn_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
 
 /* 
-   Takes the input block as a list of 16 bytes and applies
-   the inverse sbox operation to each byte, returning the list of 
-   result bytes:
+   Takes the input block as a matrix of 16 polynomials in the range
+   0-nat2polybin(255) and applies the inverse sbox operation to each
+   polynomial, returning the list of result polynomials:
 */
-rijn_inv_subbytes(inputblock,inv_sbox_f) := matrixmap(inv_sbox_f, inputblock)$
+rijn_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
 
 /* **************
@@ -135,22 +134,24 @@ rijn_inv_subbytes(inputblock,inv_sbox_f) := matrixmap(inv_sbox_f, inputblock)$
 aes_shiftrows_shifts : [0,1,2,3]$
 
 /*
-   Takes a list of GF(2^8) elements (the block), and
-   performs the shiftrows operation, returning the resulting
-   block as a list of GF(2^8) elements:
+   Takes a matrix and performs the shiftrows operation,
+   returning a matrix where each row has been shifted
+   cyclically by the specified amount (see aes_shiftrows_shifts[i]
+   for the shift for the i'th row).
 */
-aes_shiftrows(inputblock) := 
+aes_shiftrows(inputmatrix) := 
   apply(matrix,
-    create_list(rotate(inputblock[abs(r)+1],-r), r, aes_shiftrows_shifts))$
+    create_list(rotate(inputmatrix[abs(r)+1],-r), r, aes_shiftrows_shifts))$
 
 /*
-   Takes a list of GF(2^8) elements (the block), and
-   performs the inverse shiftrows operation, returning the resulting
-   block as a list of GF(2^8) elements:
+   Takes a matrix and performs the inverse shiftrows operation,
+   returning a matrix where each row has been shifted
+   cyclically by the specified amount (see -aes_shiftrows_shifts[i]
+   for the shift for the i'th row).
 */
-aes_inv_shiftrows(inputblock) := 
+aes_inv_shiftrows(inputmatrix) := 
   block([aes_shiftrows_shifts : -aes_shiftrows_shifts],
-  aes_shiftrows(inputblock))$
+  aes_shiftrows(inputmatrix))$
 
 
 /* ***************
@@ -171,10 +172,10 @@ rijn_inv_mixcolumns_matrix : block([x], apply(matrix,
   create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
 
 /* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block: */
-rijn_mixcolumn(inputblocki) :=
+   column (given a matrix of polynomials) in the AES/Rijndael block: */
+rijn_mixcolumn(inputmatrixi) :=
   matrixmap(rijn_stand,
-      rijn_mixcolumns_matrix . inputblocki);
+      rijn_mixcolumns_matrix . inputmatrixi);
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -183,15 +184,15 @@ rijn_mixcolumn(inputblocki) :=
    the actual operation done on a particular column must be
    provided as the second argument.
 */
-rijn_mixcolumns(inputblock,mixcolumn_f) := block([M : matrix()],
-  for i : 1 thru 4 do M : addcol(M,mixcolumn_f(col(inputblock,i))),
+rijn_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
+  for i : 1 thru 4 do M : addcol(M,mixcolumn_f(col(inputmatrix,i))),
   return(M))$
 
 /* Mixcolumn operation applied to the elements of a single
-   column in the AES/Rijndael block: */
-rijn_inv_mixcolumn(inputblock) :=
+   column (given a matrix) in the AES/Rijndael block: */
+rijn_inv_mixcolumn(inputmatrix) :=
   block([rijn_mixcolumns_matrix : rijn_inv_mixcolumns_matrix],
-    rijn_mixcolumn(inputblock))$
+    rijn_mixcolumn(inputmatrix))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -200,8 +201,8 @@ rijn_inv_mixcolumn(inputblock) :=
    the actual operation done on a particular column must be
    provided as the second argument.
 */
-rijn_inv_mixcolumns(inputblock,inv_mixcolumn_f) := 
-  rijn_mixcolumns(inputblock,inv_mixcolumn_f)$
+rijn_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) := 
+  rijn_mixcolumns(inputmatrix,inv_mixcolumn_f)$
 
 
 /* *****************
@@ -242,9 +243,9 @@ aes_keyschedule(kl, r, sbox_f) := block(
 */
 
 /* 
-   Takes the plaintext list of GF(2^8) elements and the 
+   Takes the plaintext matrix of GF(2^8) elements and the 
    round key for this round as a list of GF(2^8) elements, and
-   returns a list of the same size of GF(2^8) elements as the plaintext
+   returns a matrix of the same size of GF(2^8) elements as the plaintext
    as the result of the round operation:
  */
 aes_round_wa(pl,sbox_f,mixcolumn_f) := /* Without round key addition */
@@ -260,7 +261,7 @@ aes_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
     aes_inv_round_wa(pl+rkl, inv_sbox_f, inv_mixcolumn_f)$
 
 /* 
-   Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
+   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
