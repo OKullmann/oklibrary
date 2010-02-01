@@ -41,7 +41,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Remove addition from AES round
+
+
+  \todo DONE Remove addition from AES round
   <ul>
    <li> Removing the addition from the AES round will make
    the formulation easier as then 
@@ -56,6 +58,16 @@ License, or any later version. */
    <li> This should be compared to the definition of AES and while
    straying from the definition is possible, it should only be done with 
    good reason. </li>
+   <li> The standard definition of AES includes the key addition within the
+   round and then the input to the first round is the plaintext added to
+   the first round key block, although this differs from their standard
+   definition of a "Key-Alternating Block Cipher" (a subset of Iterative
+   Block Ciphers). </li>
+   <li> It seems best to stick with the standard definition as given by the 
+   book here, and so the round has been split into two parts, so that
+   one function is available without the addition (postfixed with "_wa")
+   and the normal round simply uses this function after applying
+   the addition. </li>
   </ul>
 
 
