@@ -73,7 +73,13 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp the following
    topics are handled:
-    - Improve application InputOutput/ExtendedToStrictDimacs.cpp
+    - Parameter handling
+    - Extended Dimacs format
+    - Complete doxygen-documentation
+    - Write docus
+
+  \par
+   Update milestones.
 
 
   \par Version 0.1.1 :
