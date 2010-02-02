@@ -79,15 +79,16 @@ License, or any later version. */
       [Algebraic Aspects of the Advanced Encryption Standard]. </li>
       <li> KeyExpansion/KeySchedule is generalised in the natural way. </li>
      </ul>
-    </li>
-    <li> Rather than just allowing the block elements to be elements of GF(2)
-    GF(2^4) and GF(2^8) fields, one should just allow arbitrary finite fields
-    of the form GF(p^e) where then the standard variations use p=2. This would
-    then require custom rijn_stand, Mixcolumn and Sbox functions but no more
-    as all other functionality just works on standard polynomial operations
-    which are then standardised (quotiented) as late as possible using 
-    rijn_stand. </li>
-   </ul>
+     </li>
+     <li> Rather than just allowing the block elements to be elements of GF(2)
+     GF(2^4) and GF(2^8) fields, one should just allow arbitrary finite fields
+     of the form GF(p^e) where then the standard variations use p=2. This would
+     then require custom rijn_stand, Mixcolumn and Sbox functions but no more
+     as all other functionality just works on standard polynomial operations
+     which are then standardised (quotiented) as late as possible using 
+     rijn_stand. </li>
+    </ul>
+   </li>
   </ul>
 
 
