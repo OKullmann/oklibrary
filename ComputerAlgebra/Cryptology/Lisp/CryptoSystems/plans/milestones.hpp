@@ -25,6 +25,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/general.hpp the
    following todos are handled:
+    - Decryption using iterative block ciphers
     - Other cryptosystems
 
 

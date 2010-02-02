@@ -79,6 +79,7 @@ okltest_aes_inv_round(aes_inv_round);
 
 okltest_aes_encrypt(aes_encrypt);
 okltest_aes_decrypt(aes_decrypt);
+okltest_aes_encrypt(aes_encrypt_ibc);
 
 /* *************************************
    * Convenience instantiations of AES *
