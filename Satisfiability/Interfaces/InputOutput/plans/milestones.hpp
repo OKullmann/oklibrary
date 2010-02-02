@@ -88,6 +88,11 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
     - Improve class InputOutput::StandardDIMACSInput
     - Use Messages for messages.
+
+  \par
+   In Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp the following
+   topics are handled:
+    - Permutations
     
 
   \par Version 0.1.2 :

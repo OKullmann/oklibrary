@@ -39,6 +39,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Permutations
+  <ul>
+   <li> As options, permutations of the variables, of the signs of literals,
+   and of the order of clauses are performed (altogether 2^3=8 possibilities).
+   </li>
+   <li> One can either specify the seed for the pseudo-random generator, or
+   a random seed is chosen by the program (output in a comment line). </li>
+  </ul>
+
+
   \todo Complete doxygen-documentation
 
 
