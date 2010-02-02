@@ -86,8 +86,41 @@ License, or any later version. */
      then require custom rijn_stand, Mixcolumn and Sbox functions but no more
      as all other functionality just works on standard polynomial operations
      which are then standardised (quotiented) as late as possible using 
-     rijn_stand. </li>
+     rijn_stand. This would require either generating (in a canonical way) or
+     providing a polynomial to define the finite field (for the division, see
+     rijn_polynomial). </li>
+     <li> Allow simply any natural number as the number of rounds, as such
+     an operation is well-defined. </li>
     </ul>
+   </li>
+   <li> Therefore, to implement the following, it seems best that there be two
+   basic levels.
+   <ul>
+    <li> At the one level, we define a small scale AES which allows one to 
+    specify arbitrary Sbox, MixColumn, and standardisation functions and the
+    number of rounds. </li>
+    <li> On the other level we provide wrapper functions which generate the 
+    Sbox, MixColumn and standardisation functions given the parameters. </li>
+   </ul>
+   </li>
+   <li> The basic data types should be the same as in the current AES 
+   implementation where 
+   <ol>
+    <li> the byte/word elements (elements over the small field defined using 
+    parameters p,e and the division polynomial) are polynomials, which
+    are then standardised by the provided standardisation functions. </li>
+    <li> the overall message and key blocks are maxima matrices where the
+    elements of the matrices are the polynomials mentioned above. </li>
+   </ol>
+   </li>
+   <li> [Algebraic Aspects of the Advanced Encryption Standard] defines two 
+   classes of small scale variant, one (the default) which has the same round 
+   function for every round, and one (the AES-like variant) which has a final 
+   round which is different from other rounds.
+   <ul>
+    <li> We should provide both variations. </li>
+    <li> What naming scheme to use to distinguish them? </li>
+   </ul>
    </li>
   </ul>
 
