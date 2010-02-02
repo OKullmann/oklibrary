@@ -125,4 +125,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Datatypes and naming conventions
+  <ul> 
+   <li> A naming scheme for each of the datatypes used, as well
+   as for the whole class of small scale AES functions must be
+   devised. </li>
+   <li> For now, functions are prefixed with "saes_"  for "small-scale AES".
+   </li>
+  </ul>
+
+
 */

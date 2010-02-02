@@ -31,6 +31,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - Datatypes and naming conventions
     - Small scale AES implementation
 
 
