@@ -135,4 +135,54 @@ License, or any later version. */
   </ul>
 
 
+  \todo Generating test vectors
+  <ul>
+   <li> An implementation of the small scale variants presented in
+   [Algebraic Aspects of the Advanced Encryption Standard] and 
+   in more detail in [Small Scale Variants of the AES] can be found 
+   in the SAGE system (see 
+   http://www.sagemath.org/doc/reference/sage/crypto/mq/sr.html). </li>
+   <li> To run the encryption for AES given a plaintext and key, one
+   may do the following in the sage system (using version 4.2.1 below):
+   \verbatim
+import sage.crypto
+sr = mq.SR(10,4,4,8, star=true, allow_zero_inversions=true)
+AES_e = sr(sr.state_array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]), sr.state_array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))
+AES_e
+   \endverbatim
+with 
+\verbatim
+[                        a^7 + a^5 + 1                 a^7 + a^6 + a^5 + a^2                         a^7 + a^2 + a                 a^6 + a^5 + a^4 + a^3]
+[      a^6 + a^5 + a^4 + a^3 + a^2 + a             a^7 + a^6 + a^5 + a^4 + a                                   a^5       a^7 + a^6 + a^5 + a^3 + a^2 + a]
+[        a^7 + a^4 + a^3 + a^2 + a + 1                   a^6 + a^4 + a^3 + a                 a^7 + a^5 + a^4 + a^2 a^7 + a^6 + a^5 + a^4 + a^3 + a^2 + 1]
+[                  a^6 + a^5 + a^3 + 1                     a^7 + a^3 + a + 1         a^7 + a^5 + a^3 + a^2 + a + 1         a^6 + a^5 + a^3 + a^2 + a + 1]
+\endverbatim
+   as the result, and this can be converted to the hexidecimal format, like so
+   \verbatim
+sr.hex_str(AES_e, typ="vector")
+   \endverbatim
+   resulting in 
+   \verbatim
+'66E94BD4EF8A2C3B884CFA59CA342B2E'
+   \endverbatim
+   </li>
+   <li> Note above that the first four parameters to the "sr" constructor are 
+   r,n_R,n_C,e as specified above, and then 
+   <ol>
+    <li> the "star" parameter specifies that the small scale AES variant should
+    include a different final round (as occurs with the standard AES), </li>
+    <li> "allow_zero_inversions" specifies that the field inversion should be 
+    extended such that 0^(-1) = 0 (as in the AES), and </li>
+   </ol>
+   </li>
+   <li> There also appears to be an "aes_mode" parameter which suggests that 
+   the key schedule implemented is somehow different to the AES, but this 
+   does not seem to be the case in either the definition or in any basic
+   tests so far. This needs to be further considered, or the authors should
+   be e-mailed. </li>
+   <li> This system is not currently available in the OKlibrary as there
+   are there are issues compiling it in our system (see 
+   "Update to new Sage" in 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp). </li>
+  </ul>
 */
