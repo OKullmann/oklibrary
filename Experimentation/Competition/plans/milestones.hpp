@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,21 +14,24 @@ License, or any later version. */
   \par Version 0.5.1 :
 
   \par
-   In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
+   In Experimentation/Competition/plans/general.hpp the following topics
+   are handled:
     - Update namespaces
 
 
   \par Version 0.5.2 :
 
   \par
-   In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
+   In Experimentation/Competition/plans/general.hpp the following topics
+   are handled:
     - Update
 
 
   \par Version 0.5.3 :
 
   \par
-   In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
+   In Experimentation/Competition/plans/general.hpp the following topics
+   are handled:
     - Concepts
 
   \par
@@ -38,7 +41,8 @@ License, or any later version. */
   \par Version 0.6 :
 
   \par
-   In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
+   In Experimentation/Competition/plans/general.hpp the following topics
+   are handled:
     - New tests
     - Messsages
 
@@ -47,12 +51,21 @@ License, or any later version. */
 
 
   \par Version 0.7 :
-  The module is fully synchronised with the OKlibrary (using ProgramOptions etc.).
+  The module is fully synchronised with the OKlibrary (using
+  ProgramOptions etc.).
+
+
+  \par Version 0.8 :
+
+  \par
+   In Experimentation/Competition/plans/general.hpp the following topics
+   are handled:
+    - SET ("SAT Evaluation Toolkit")
 
 
   \par Version 1.0 :
-  A flexible and powerfull toolset is provided for evaluating various forms of competitions,
-  fully integrated with the OKlibrary.
+  A flexible and powerfull toolset is provided for evaluating various forms of
+  competitions, fully integrated with the OKlibrary.
 
 
 

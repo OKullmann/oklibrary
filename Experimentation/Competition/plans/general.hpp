@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.3.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,12 +36,23 @@ License, or any later version. */
   </ul>
 
 
-   \todo New tests
-   Transfer to the new test system
+  \todo SET ("SAT Evaluation Toolkit")
+  <ul>
+   <li> Implement at R level the SAT-2005 competition as specified in this
+   module. </li>
+   <li> Implement at R level the methods for evaluating R competitions from
+   [Pulina, Empirical Evaluation of Scoring Methods, 2006]. </li>
+   <li> Implement at R level the methods from Mladen Nikolic 2010. </li>
+   <li> The SET-project shall start end of April 2010. </li>
+  </ul>
 
 
-   \todo Messages
-   Use Messages.
+  \todo New tests
+  Transfer to the new test system
+
+
+  \todo Messages
+  Use Messages.
 
 */
 
