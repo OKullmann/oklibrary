@@ -215,6 +215,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      confirming that rnovelty+ seems best here. </li>
     </ol>
    </li>
+   <li> n=1660 </li>
    <li> n=1670
     <ol>
      <li> Weak standard nested, rnovelty+, cutoff=2*10^7:
@@ -252,6 +253,23 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 141
      \endverbatim
      So rnovelty+ seems better. </li>
+     <li> rnovelty+, cutoff=16*10^7:
+     \verbatim
+  2   3   4   5   6   7   8
+  7  46 131 146 118  41   9
+498
+  1   2   3   4   5   6   7   8
+  3   6  30 126 125  73  34   4
+401
+     \endverbatim
+     </li>
+     <li> rnovelty+, cutoff=32*10^7:
+     \verbatim
+ 1  2  3  4  5  6  7
+ 2 10 21 55 45  8  1
+142
+     \endverbatim
+     </li>
      <li> adaptnovelty+, cutoff=16*10^7:
      \verbatim
  5  7  8  9 10 11 13
@@ -316,6 +334,9 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
  2  5  6  7  8  9 10 11 12 14 15
  1  2  4  2  1  3  4  2  2  3  2
 26
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 1  4  8  1  7  4 10  9 15 18 11  2  4  1  2  3
+100
    \endverbatim
    </li>
    <li> n=7700, cutoff=4*10^8 (adaptnovelty+):

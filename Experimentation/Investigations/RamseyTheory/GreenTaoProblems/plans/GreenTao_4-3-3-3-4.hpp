@@ -541,8 +541,37 @@ rnovelty :
     </ol>
    </li>
    <li> n=1050, rnovelty+, cutoff=8*10^7: finds in 293 runs one solution
-   (seed=2097534984, osteps=68769314). </li>
-   <li> n=1060, rnovelty+, cutoff=8*10^7: </li>
+   (seed=2097534984, osteps=68769314); another 232 runs:
+   \verbatim
+ 2  3  4  5  6  7  8  9
+ 7 25 75 75 36 10  3  1
+232
+   \endverbatim
+   while cutoff=16*10^7 yields:
+   \verbatim
+ 1  2  3  4  5  6  7
+ 2  7 36 50 17  2  1
+115
+   \endverbatim
+   and cutoff=32*10^7:
+   \verbatim
+ 1  2  3  4  5
+ 5 29 83 44  4
+165
+   \endverbatim
+   </li>
+   <li> n=1060
+    <ol>
+     <li> rnovelty+, cutoff=8*10^7:
+     \verbatim
+  2   3   4   5   6   7   8   9  10  11  12
+  2  13  36  90 107 116  85  33  15   2   1
+500
+     \endverbatim
+     while cutoff=32*10^7
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */

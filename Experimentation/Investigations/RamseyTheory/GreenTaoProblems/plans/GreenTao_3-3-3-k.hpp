@@ -616,7 +616,26 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
    osteps=10033702), while rnovelty with the same cutoff found none in 71
    runs (and no min=1 in 18 runs with cutoff=2*10^8), so rnovelty+ seems
    better. </li>
-   <li> n=1990, weak standard nested translation, rnovelty+, cutoff=10^8 </li>
+   <li> n=1985, weak standard nested translation, rnovelty+, cutoff=10^8 </li>
+   <li> n=1990, weak standard nested translation:
+    <ol>
+     <li> rnovelty+, cutoff=10^8:
+     \verbatim
+  1   2   3   4   5   6
+  5  48 160 206  70  11
+500
+  1   2   3   4   5   6   7
+  6  63 163 178  80   9   1
+500
+     \endverbatim
+     </li>
+     <li> rnovelty+, cutoff=2*10^8:
+     \verbatim
+ 1  2  3  4  5
+ 2 28 45 23  2
+100
+     \endverbatim
+     </li>
   </ul>
 
 
