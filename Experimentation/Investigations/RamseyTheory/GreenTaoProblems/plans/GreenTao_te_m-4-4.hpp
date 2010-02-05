@@ -874,7 +874,17 @@ License, or any later version. */
      translation with sapsnr. </li>
     </ol>
    </li>
-   <li> n=589, weak standard nested translation, sapsnr, cutoff=2*10^6 </li>
+   <li> n=589
+    <ol>
+     <li> Weak standard nested translation, sapsnr, cutoff=2*10^6
+     \verbatim
+ 1  2  3  4  5  6  7  8
+98 66 81 52 28 21  1  1
+348
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
