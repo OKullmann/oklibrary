@@ -173,7 +173,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3) > 381
+  \todo Lower bounds: greentao_4(3) > 382
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -556,7 +556,20 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
      </li>
     </ol>
    </li>
-   <li> n=382, weak nested translation, rnovelty, cutoff=8*10^7 </li>
+   <li> n=382, weak nested translation, rnovelty, cutoff=8*10^7:
+   \verbatim
+  1   2   3   4
+ 48 238 434  64
+784
+   \endverbatim
+   while with rnovelty+:
+   \verbatim
+  0   1   2   3   4   5
+  4  76 430 750 155   1
+1416
+   \endverbatim
+   (best seed=517603456, osteps=28119845). So rnovelty+ seems better (and
+   also faster). </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
    <li> n=400, cutoff=10^9 yields in 12 runs a minimum=4, and this only
