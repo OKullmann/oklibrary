@@ -25,9 +25,15 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Sbox polynomial implementation
-    - Small scale AES implementation
     - Convert aes_key_expansion to return a list of matrices
     - Remove addition from AES round
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Generating test vectors
+    - Datatypes and naming conventions
+    - Small scale AES implementation
 
 
   \par Version 0.0.11

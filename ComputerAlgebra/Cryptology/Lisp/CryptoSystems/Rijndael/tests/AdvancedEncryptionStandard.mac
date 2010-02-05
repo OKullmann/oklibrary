@@ -26,14 +26,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Adva
 
 kill(f)$
 
-/* *************
-   * Constants *
-   *************
-*/
-
-/* XXX */
-
-
 /* *********
    * S box *
    *********
@@ -168,7 +160,7 @@ okltest_rijn_inv_mixcolumns(f) := block(
 
 okltest_aes_key_expansion(f) := block(
   /* Extreme Cases for sbox */
-  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),rijn_lookup_sbox) = rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,99,99,
+  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),10,rijn_lookup_sbox) = rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,99,99,
   99,98,99,99,99,98,99,99,99,98,99,99,99,155,152,152,201,249,251,251,170,155,
   152,152,201,249,251,251,170,144,151,52,80,105,108,207,250,242,244,87,51,11,
   15,172,153,238,6,218,123,135,106,21,129,117,158,66,178,126,145,238,43,127,46,
@@ -208,12 +200,12 @@ okltest_aes_inv_round(f) := block(
   true)$
 
 okltest_aes_encrypt(f) := block(
-  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+  assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),10,
     rijn_lookup_sbox,rijn_mixcolumn) = 
     rijn_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46])),
   assert(f(rijn_natl2m(
         [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52]),
-      rijn_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),
+      rijn_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),10,
       rijn_lookup_sbox,rijn_mixcolumn) = 
     rijn_natl2m([87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6])),
   true)$
@@ -221,11 +213,11 @@ okltest_aes_encrypt(f) := block(
 okltest_aes_decrypt(f) := block(
   assert(f(rijn_natl2m(
         [87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6]),
-      rijn_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),
+      rijn_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),10,
       rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn) = 
     rijn_natl2m([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52])),
   assert(f(rijn_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46]),rijn_natl2m([0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0]),rijn_sbox,rijn_lookup_inv_sbox,
+    0,0,0,0,0,0,0,0,0,0,0,0]),10,rijn_sbox,rijn_lookup_inv_sbox,
     rijn_inv_mixcolumn) = 
     rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])),
   true)$
@@ -260,8 +252,8 @@ okltest_aes_encrypt_generic(f) := block([V1],
    Appendix D.3]
 */
   V1 : rijn_natl2m(map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"])),
-  assert(f(diagmatrix(4,0),diagmatrix(4,0)) = V1),
-  assert(f(V1, diagmatrix(4,0)) = rijn_natl2m(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]))),
+  assert(f(diagmatrix(4,0),diagmatrix(4,0),10) = V1),
+  assert(f(V1, diagmatrix(4,0),10) = rijn_natl2m(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]))),
   true)$
 
 /* The generic aes-encryption test function, where the inputs as well as the
@@ -272,8 +264,8 @@ okltest_aes_encrypt_nat_generic(f) := block([V1],
    Appendix D.3]
 */
   V1 : map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"]),
-  assert(f(pad_block_16([]),pad_block_16([])) = V1),
-  assert(f(V1, pad_block_16([])) = map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"])),
+  assert(f(pad_block_16([]),pad_block_16([]),10) = V1),
+  assert(f(V1, pad_block_16([]),10) = map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"])),
   true)$
 
 /* The generic aes-decryption test function, where the inputs as well as the
@@ -284,8 +276,8 @@ okltest_aes_decrypt_generic(f) := block([V1],
    Appendix D.3]
 */
   V1 : rijn_natl2m(map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"])),
-  assert(totaldisrep(f(rijn_natl2m(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"])), diagmatrix(4,0))) = V1),
-  assert(f(V1, diagmatrix(4,0)) = diagmatrix(4,0)),
+  assert(totaldisrep(f(rijn_natl2m(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"])), diagmatrix(4,0),10)) = V1),
+  assert(f(V1, diagmatrix(4,0),10) = diagmatrix(4,0)),
   true)$
 
 /* The generic aes-decryption test function, where the inputs as well as the
@@ -296,33 +288,31 @@ okltest_aes_decrypt_nat_generic(f) := block([V1],
    Appendix D.3]
 */
   V1 : map(hex2int, ["66","E9","4B","D4","EF","8A","2C","3B","88","4C","FA","59","CA","34","2B","2E"]),
-  assert(totaldisrep(f(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]), pad_block_16([]))) = V1),
+  assert(totaldisrep(f(map(hex2int, ["F7","95","BD","4A","52","E2","9E","D7","13","D3","13","FA","20","E9","8D","BC"]), pad_block_16([]),10)) = V1),
 
-  assert(f(V1, pad_block_16([])) = pad_block_16([])),
+  assert(f(V1, pad_block_16([]),10) = pad_block_16([])),
   true)$
 
 
 okltest_aes_encrypt_hex(f) := (
-  assert(f("0","0") = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
-  assert(f("00","000") = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
-  block([aes_num_rounds : 2],
+  assert(f("0","0",10) = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
+  assert(f("00","000",10) = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
     assert(f("3243F6A8885A308D313198A2E0370734",
-        "2B7E151628AED2A6ABF7158809CF4F3C") =
-      "AA8F5F0361DDE3EF82D24AD26832469A")),
+        "2B7E151628AED2A6ABF7158809CF4F3C",2) =
+      "AA8F5F0361DDE3EF82D24AD26832469A"),
   true)$
 
 okltest_aes_decrypt_hex(f) := (
-  assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","0") = lpad("","0",32)),
-  assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","000") = lpad("","0",32)),
-  block([aes_num_rounds : 2],
-    assert(f("AA8F5F0361DDE3EF82D24AD26832469A",
-        "2B7E151628AED2A6ABF7158809CF4F3C") =
-      "3243F6A8885A308D313198A2E0370734")),
+  assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","0",10) = lpad("","0",32)),
+  assert(f("66E94BD4EF8A2C3B884CFA59CA342B2E","000",10) = lpad("","0",32)),
+  assert(f("AA8F5F0361DDE3EF82D24AD26832469A",
+      "2B7E151628AED2A6ABF7158809CF4F3C",2) =
+    "3243F6A8885A308D313198A2E0370734"),
   true)$
 
 
 okltest_aes_int(f) := (
-  assert(f(0,0) = 136792598789324718765670228683992083246), 
+  assert(f(0,0,10) = 136792598789324718765670228683992083246), 
   true)$
 
 /*!
