@@ -206,7 +206,16 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
      <li> minisat2: determined unsatisfiability in 31 restarts (55800700
      conflicts, 106321 s (csltok)). </li>
      <li> Until now only the strong standard translation was used; now using
-     the weak standard nested translation: </li>
+     the weak standard nested translation. </li>
+     <li> OKsolver_2002
+      <ol>
+       <li> Without symmetry breaking: As it is often the case, the second
+       branch is much harder, and local maxima of node-counts for monitoring
+       nodes occur at the nodes which complete a branching at lower levels.
+       </li>
+      </ol>
+     </li>
+     <li> minisat2 </li>
    </li>
    <li> n=140:
     <ol>
