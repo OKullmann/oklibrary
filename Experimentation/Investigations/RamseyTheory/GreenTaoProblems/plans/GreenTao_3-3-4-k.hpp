@@ -282,7 +282,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7600
+  \todo greentao_3(3,4,5) > 7650
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -329,15 +329,21 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    <li> n=7600, cutoff=2*10^8 (adaptnovelty+): in 249 runs one solution was
    found (seed=3054809508, osteps=165824921). It seems one should double
    the cutoff. </li>
-   <li> n=7650, cutoff=4*10^8 (adaptnovelty+, aloamo):
-   \verbatim
+   <li> n=7650
+    <ol>
+     <li> cutoff=4*10^8 (adaptnovelty+, aloamo):
+     \verbatim
  2  5  6  7  8  9 10 11 12 14 15
  1  2  4  2  1  3  4  2  2  3  2
 26
  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
  1  4  8  1  7  4 10  9 15 18 11  2  4  1  2  3
 100
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Weak standard nested translation, rnovelty+, cutoff=10^6 finds a
+     solution in the first run (seed=1527646207, osteps=920073). </li>
+    </ol>
    </li>
    <li> n=7700, cutoff=4*10^8 (adaptnovelty+):
    \verbatim
