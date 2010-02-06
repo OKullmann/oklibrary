@@ -357,7 +357,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1980
+  \todo greentao_3(3,3,5) > 1985
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -616,7 +616,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
    osteps=10033702), while rnovelty with the same cutoff found none in 71
    runs (and no min=1 in 18 runs with cutoff=2*10^8), so rnovelty+ seems
    better. </li>
-   <li> n=1985, weak standard nested translation, rnovelty+, cutoff=10^8 </li>
+   <li> n=1985, weak standard nested translation, rnovelty+, cutoff=10^8:
+   finds one solution in 74 runs (seed=280301594, osteps=85326534). </li>
+   <li> n=1986, weak standard nested translation, rnovelty+, cutoff=10^8: </li>
    <li> n=1990, weak standard nested translation:
     <ol>
      <li> rnovelty+, cutoff=10^8:
