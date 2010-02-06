@@ -883,6 +883,18 @@ License, or any later version. */
 348
      \endverbatim
      </li>
+     <li> Weak standard nested translation, sapsnr, cutoff=4*10^6
+     \verbatim
+  1   2   3   4   5   6
+176  76  54  22   9   1
+338
+     \endverbatim
+     </li>
+     <li> Weak standard nested translation, sapsnr, cutoff=8*10^6
+     \verbatim
+
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
