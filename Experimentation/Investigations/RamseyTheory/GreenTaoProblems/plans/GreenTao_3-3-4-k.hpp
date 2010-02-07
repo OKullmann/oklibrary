@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([3,4,k],n).
   
 
-  \todo greentao_3(3,4,4) > 1650
+  \todo greentao_3(3,4,4) > 1660
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -215,7 +215,11 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      confirming that rnovelty+ seems best here. </li>
     </ol>
    </li>
-   <li> n=1660 </li>
+   <li> n=1660: weak standard nested translation, rnovelty+ with
+   cutoff=16*10^7 found in 157 runs one solution (seed=3193141014,
+   osteps=87677992), while with cutoff=32*10^7 in 39 runs only min=2 was
+   reached. </li>
+   <li> n=1665: weak standard nested translation, rnovelty+ </li>
    <li> n=1670
     <ol>
      <li> Weak standard nested, rnovelty+, cutoff=2*10^7:
@@ -345,8 +349,10 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      solution in the first run (seed=1527646207, osteps=920073). </li>
     </ol>
    </li>
-   <li> n=7700, cutoff=4*10^8 (adaptnovelty+):
-   \verbatim
+   <li> n=7700
+    <ol>
+     <li> aloamo, cutoff=4*10^8 (adaptnovelty+):
+     \verbatim
  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 21
  1  1  2  3  6  5  4  9 12 12 13 10  3  5  5  7  1  1
 100
@@ -356,7 +362,19 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
  3  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21
  1  1  2  2  3 10 13  7 10  8 12  6 12  3  2  3  2  3
 100
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Weak standard nested translation, rnovelty+, cutoff=2*10^6:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 18 23 26
+ 5  2 18 18 19 21 23 29 22 10 11  8  5  2  7  1  1  1
+203
+     \endverbatim
+     while with cutoff=4*10^6 two solutions were found in 7 runs
+     (seed=1076160763, osteps=3425039). </li>
+    </ol>
+   </li>
+   <li> n=7750, weak standard nested translation, rnovelty+, cutoff=4*10^6:
    </li>
    <li> n=8000
     <ol>
