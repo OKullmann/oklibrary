@@ -366,6 +366,14 @@ License, or any later version. */
    <li> Possibly this is not the case; then we need a precise specification
    what actually is counted, so that then the output can be declared as
    correct. </li>
+   <li> Table enlargements:
+    <ol>
+     <li> With the instance GreenTao_N_6-2-2-2-2-3-4_136.cnf (see
+     Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-4.hpp)
+     we have only relatively few nodes, but get (actually the first time that
+     I see it at all) several table enlargements? Is this correct? </li>
+    </ol>
+   </li>
   </ul>
 
 

@@ -212,10 +212,48 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
        <li> Without symmetry breaking: As it is often the case, the second
        branch is much harder, and local maxima of node-counts for monitoring
        nodes occur at the nodes which complete a branching at lower levels.
+       Aborted after 3 hours:
+       \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D20 GreenTao_N_6-2-2-2-2-3-4_136.cnf
+520192: 225216      3.88  4.07E+06   880.30s     0.01s     0y   0d  1h 58m 18s   119     0  213
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         20
+c initial_number_of_variables           679
+c initial_number_of_clauses             37955
+c initial_number_of_literal_occurrences 203255
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   9180
+c running_time(sec)                     17821.8
+c number_of_nodes                       4659973
+c number_of_single_nodes                1568
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                16952345
+c number_of_pure_literals               155029
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         57156
+c max_tree_depth                        336
+c number_of_table_enlargements          18
+c number_of_1-autarkies                 6876472
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
+       \endverbatim
+       This is the first time that I see that "table enlargements" happened;
+       this should be investigated further (yet only a relatively small
+       number of nodes were created?).
        </li>
+       <li> With the strong nested standard translation it doesn't seem better;
+       again, after just 100000 nodes there are 8 table enlargements?! </li>
       </ol>
      </li>
-     <li> minisat2 </li>
+     <li> minisat2 determines unsatisfiability in 29 restarts (21805719
+     conflicts, 38567.2 s), so the problem got (as usual) somewhat easier
+     with the weak standard nested translation. </li>
    </li>
    <li> n=140:
     <ol>
