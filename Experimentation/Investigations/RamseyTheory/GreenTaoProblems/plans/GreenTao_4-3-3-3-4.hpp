@@ -568,7 +568,12 @@ rnovelty :
   2  13  36  90 107 116  85  33  15   2   1
 500
      \endverbatim
-     while cutoff=32*10^7
+     while cutoff=16*10^7 yields
+     \verbatim
+  2   3   4   5   6   7   8   9  10
+  4  38 103 142  72  53  20   3   2
+437
+     \endverbatim
      </li>
     </ol>
    </li>

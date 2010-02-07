@@ -581,6 +581,8 @@ Mean= 14.00792
      efficient here, since we have 8=2^3 colours. Aborted after 30 restarts
      (28540214 conflicts, 1h 15m); so at least it is not drastically better.
      </li>
+     <li> And also after 39 restarts no progress achieved, so definitely worse
+     than the aloamo-translation. </li>
      <li> Weak nested standard translation: now just needed 33 restarts,
      123368322 conflicts, and 61862.1 s. </li>
      <li> precosat236 is very similar (60873.0 s, 62499546 conflicts). </li>

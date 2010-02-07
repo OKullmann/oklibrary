@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.9.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -229,7 +229,8 @@ Residual range:  -10123.48 6262.802
    into that database of integer sequences and see whether there is information
    in it. </li>
    <li> Yes, this sequence is A125505 in
-   http://www.research.att.com/~njas/sequences/Seis.html. </li>
+   http://www.research.att.com/~njas/sequences/Seis.html (see
+   http://www.research.att.com/~njas/sequences/A125505). </li>
    <li> There it is only listed for n=64; this we can easily extend, and
    perhaps we should do so. </li>
    <li> And apparently for k >= 4 there is nothing entered there --- we
