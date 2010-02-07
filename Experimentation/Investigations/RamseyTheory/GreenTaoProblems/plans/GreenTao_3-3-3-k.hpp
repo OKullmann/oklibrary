@@ -58,8 +58,27 @@ BestSolution_Min = 0.000000
 BestSolution_Max = 2.000000
    \endverbatim
    </li>
-   <li> n=433: cutoff=60*10^6 found in 175 runs one solution
-   (seed=3663211116). </li>
+   <li> n=433
+    <ol>
+     <li> cutoff=60*10^6 found in 175 runs one solution (seed=3663211116).
+     </li>
+     <li> Until now only the aloamo-translation has been considered; the
+     weak standard nested translation with rnovelty+ and cutoff=10*10^6 yields
+     \verbatim
+ 1  2
+85 15
+100
+     \endverbatim
+     while cutoff=20*10^6 yields
+     \verbatim
+> E=read_ubcsat("GreenTao_N_3-3-3-4_433.cnf_OUT")
+ 0   1  2
+ 1 177  1
+179
+     \endverbatim
+     (seed=3770956838, osteps=19094627). </li>
+    </ol>
+   </li>
    <li> n=434:
     <ol>
      <li> cutoff=60*10^6:
@@ -259,6 +278,42 @@ CPU time              : 2.89452e+06 s
      </li>
      <li> So to determine unsatisfiability here, new ideas/algorithms are
      needed. </li>
+     <li> The above is all for the aloamo-translation. Now we consider the
+     weak standard nested translation. </li>
+     <li> Best Ubcsat-solver:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_3-3-3-4_434.cnf", params=list(runs=100,cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+rnoveltyp :
+ 1  2  3  4
+ 8 44 42  6
+adaptnoveltyp :
+ 1  2  3  4
+ 7 44 39 10
+rnovelty :
+ 1  2  3  4
+ 6 53 33  8
+noveltyp :
+ 1  2  3  4  5
+ 4 25 54 15  2
+novelty :
+ 1  2  3  4
+ 3 36 53  8
+gwsat :
+ 1  2  3  4  5  6  7
+ 1  5 22 40 21 10  1
+     \endverbatim
+     </li>
+     <li> rnovelty+ with cutoff=4*10^6:
+     \verbatim
+> E=read_ubcsat("GreenTao_N_3-3-3-4_434.cnf_OUT")
+ 1  2
+61 39
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=437
