@@ -1,0 +1,147 @@
+/* Matthew Gwynne, 4.2.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac
+  \brief Components for the finite fields associated with the small scale AES words.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallStcaleWordFields.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+
+
+/* ******************
+   * Representation *
+   ******************
+*/
+
+/*
+   The irreducible polynomials over ZZ_b used as the modulus in the small
+   scale variants of Rijndael to define the field of order b^e:
+*/
+ss_polynomial_2_1 : '(x)$
+ss_polynomial_2_4 : '(x^4 + x + 1)$
+ss_polynomial_2_8 : '(x^8 + x^4 + x^3 + x + 1)$ /* == rijn_polynomial */
+/* Function which given the base and the exponent for a
+   finite field of type GF(b^e) returns the default modulus polynomial
+   used in the small scale system. */
+ss_poly_std(b,e) :=
+  if b = 2 then
+    if e = 1 then ss_polynomial_2_1
+    else if e = 4 then ss_polynomial_2_4
+    else if e = 8 then ss_polynomial_2_8
+    else und
+  else und$
+
+
+/* The standard representation of an element of the (small scale) Rijndael
+   field uses univariate polynomials in x over the integers, which are treated
+   as representative of their equivalence class.
+*/
+
+/* Standardising a univariate polynomial in x over ZZ as an element
+   of the field field defined by the characteristic e and
+   modulo polynomial mod_poly:
+*/
+ss_stand(p,b,mod_poly) := polymod(divide(p,mod_poly,x)[2],b)$
+
+/* An alternative representation uses the elements of {0,...,b^e-1},
+   interpreted as polynomial over the formal element "b".
+   The general conversions are as follows, for integer 0 <= n and
+   polynomials p over the nonnegative integers:
+*/
+nat2poly(n,b) := vec2poly(int2polyadic(n,b))$
+poly2nat(p,b) := polyadic2int(poly2vec(p),b)$
+/* Remark: Note that in the context of the word-field these operations
+   only make sense for 0 <= n <= b^e-1 and standardised polynomials p.
+*/
+
+/* Finally, the word-field for small scale variants is an e-dimensional
+   vector-space over the field ZZ_b = {0,...,b-1}. Similar to consider the
+   elements of the word-field as (arbitrary) polynomials, we can consider here
+   arbitrary integer-vectors, and standardisation just happens by computing
+   the remainders modulo b component-wise.
+*/
+ss_stand_vec(v,b) := mod(v,b)$
+
+/* Converting between the representation by natural numbers and the
+   vector representation:
+*/
+nat2vec(n,b) := int2polyadic(n,b)$
+nat2vec_ss(n,b,e) := int2polyadic_padd(n,b,e)$
+/* Remark: Note that these functions are simply aliases for int2polyadic,
+   and are provided so as to maintain consistency naming with
+   ByteField.mac and AdvancedEncryptionStandard.mac . */
+
+vec2nat(v,b) := polyadic2int(v,b)$
+
+/* Converting between the representation by polynomials and the
+   vector representation:
+*/
+poly2vec(p) := block([h : hipow(p,'x)],
+ reverse(create_list(coeff(p,'x,i),i,0,h)))$
+poly2vec_ss(p,e) := block([L : poly2vec(p)],
+ append(create_list(0,i,1,e-length(L)),L))$
+
+vec2poly(v) := sum_l(reverse(v) * create_list(('x)^i,i,0,length(v)-1))$
+
+
+/* **************
+   * Operations *
+   **************
+*/
+
+/* Addition and multiplication in the word-field is just addition
+   and multiplication of polynomials, however this does not yield
+   standardised results; for standardised results use the following:
+*/
+ss_add(m,n,b,mod_poly) := ss_stand(m+n,b,mod_poly)$
+ss_mul(m,n,b,mod_poly) := ss_stand(m*n,b,mod_poly)$
+ss_matmul(m,n,b,mod_poly) :=
+  matrixmap(lambda([p],ss_stand(p,b,mod_poly)), m.n)$
+
+/* Inversion in the word-field (yielding a standardised result): */
+ss_inv(p,b,mod_poly) :=
+  ss_stand(totaldisrep(gcdex(p,mod_poly)[1]),b,mod_poly)$
+/* Extended inversion (with 0 -> 0): */
+ss_einv(p,b,mod_poly) := if p=0 then 0 else ss_inv(p,b,mod_poly)$
+
+
+/* The field operations with integers as input and output: */
+
+ss_natadd(m,n,b,mod_poly) := 
+  poly2nat(ss_add(nat2poly(m,b), nat2poly(n,b),b,mod_poly),b)$
+oklib_plain_include(functs)$
+
+ss_natmul(m,n,b,mod_poly) := 
+  poly2nat(ss_mul(nat2poly(m,b), nat2poly(n,b),b,mod_poly),b)$
+
+ss_natinv(p,b,mod_poly) := 
+  poly2nat(ss_einv(nat2poly(p,b),b,mod_poly),b)$
+
+
+/* The field operations with b-ary vectors (as lists) as input and output: */
+
+ss_vecadd(m,n,b) := ss_stand_vec(m+n,b)$
+
+ss_vecmul(m,n,b,e,mod_poly) := 
+  poly2vec_ss(ss_mul(vec2poly(m), vec2poly(n),b,mod_poly),e)$
+
+ss_vecinv(p,b,e,mod_poly) :=
+  poly2vec_ss(ss_einv(vec2poly(p),b,mod_poly),e)$
+
+/*!
+\endhtmlonly
+*/
