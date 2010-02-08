@@ -286,7 +286,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7700
+  \todo greentao_3(3,4,5) > 7750
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -375,7 +375,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
     </ol>
    </li>
    <li> n=7750, weak standard nested translation, rnovelty+, cutoff=4*10^6:
-   </li>
+   In 92 runs 5 solutions were found (seed=3051660126, osteps=2154632). </li>
    <li> n=8000
     <ol>
      <li> cutoff=10^8:
