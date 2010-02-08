@@ -314,6 +314,14 @@ gwsat :
 100
      \endverbatim
      </li>
+     <li> rnovelty+ with cutoff=2*10^7:
+     \verbatim
+> E=read_ubcsat("GreenTao_N_3-3-3-4_434.cnf_OUT")
+  1   2
+877 123
+1000
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=437
