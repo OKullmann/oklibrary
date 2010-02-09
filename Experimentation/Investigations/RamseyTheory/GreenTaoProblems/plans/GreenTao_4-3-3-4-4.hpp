@@ -111,11 +111,6 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
      osteps=17217403). </li>
     </ol>
    </li>
-   <li> n=2880
-    <ol>
-     <li> cutoff=32*10^6 </li>
-    </ol>
-   </li>
    <li> n=3000:
     <ol>
      <li> cutoff=2*10^6:
@@ -168,6 +163,8 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
      </li>
      <li> cutoff=100*10^6: 8 runs yield just a minimum of 20, so this
      looks indeed unsatisfiable (or very hard). </li>
+     <li> Until now only the aloamo-translation has been considered; now
+     investigating the weak standard nested translation with rnovelty+. </li>
     </ol>
    </li>
   </ul>

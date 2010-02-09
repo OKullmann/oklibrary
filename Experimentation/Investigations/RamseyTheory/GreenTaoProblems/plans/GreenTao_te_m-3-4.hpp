@@ -376,7 +376,11 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
    29 runs. </li>
    <li> n=150: adaptnovelty+ with cutoff=10^7 found solution easily
    (seed=361186873). </li>
-   <li> n=151: adaptnovelty+ with cutoff=10^7  </li>
+   <li> n=151
+    <ol>
+     <li> Using now the weak standard nested translation and rnovelty+. </li>
+    </ol>
+   </li>
    <li> n=155: adaptnovelty+ with cutoff=10^7 produced in 100 runs always
    min=1, so looks unsatisfiable. </li>
   </ul>
