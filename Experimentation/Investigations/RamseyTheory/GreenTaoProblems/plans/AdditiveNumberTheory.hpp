@@ -25,7 +25,9 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    but for initial considerations also simple_linear_regression (use
    'load("stats")') can be used. </li>
    <li> There are role models for the regression function in the literature.
-   </li>
+   The main starting point should be [Grosswald, Hagis, 1979, Arithmetic
+   progressions consisting only of primes, Mathematics of Computation,
+   33(148):1343-1352]. </li>
    <li> One can also consider n_arithprog_primes_nc[k,n] (the non-cumulative
    data, i.e., as list the difference list of the above list):
    \verbatim
