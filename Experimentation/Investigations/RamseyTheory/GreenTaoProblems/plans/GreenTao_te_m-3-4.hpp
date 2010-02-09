@@ -97,7 +97,7 @@ c file_name                             GreenTao_3-2-3-4_117.cnf
    <li> n=130
     <ol>
      <li> OKsolver_2002 without symmetry breaking and without preprocessing
-     apparently falls into a deep whole:
+     apparently falls into a deep hole:
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D30 GreenTao_4-2-2-3-4_130.cnf
 227528557:    113      0.00  2.24E+04     0.80s     0.00s     0y   0d  0h  1m 15s     0     1   85
