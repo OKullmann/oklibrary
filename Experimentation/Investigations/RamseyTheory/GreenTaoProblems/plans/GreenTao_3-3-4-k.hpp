@@ -219,7 +219,20 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    cutoff=16*10^7 found in 157 runs one solution (seed=3193141014,
    osteps=87677992), while with cutoff=32*10^7 in 39 runs only min=2 was
    reached. </li>
-   <li> n=1665: weak standard nested translation, rnovelty+ </li>
+   <li> n=1665: weak standard nested translation, rnovelty+
+    <ol>
+     <li> cutoff=16*10^7:
+     \verbatim
+ 2  3  4  5  6  7  8
+ 1  9 32 22  5  1  1
+71
+ 1  2  3  4  5  6  7
+ 1  5 24 33 23  4  1
+91
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1670
     <ol>
      <li> Weak standard nested, rnovelty+, cutoff=2*10^7:
