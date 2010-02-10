@@ -109,6 +109,24 @@ ss_inv_sbox_std(wordi, b,e) :=
     ss_inv_sbox_matrix_std(b,e),ss_inv_affine_constant_std(b,e))$
 
 
+/* *************
+   * Sub-bytes *
+   *************
+*/
+
+/* 
+   Takes the input block as a matrix of 16 polynomials in
+   the range 0-nat2polybin(b^e -1) and applies the sbox operation to
+   each polynomial, returning the matrix of result polynomials:
+*/
+ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
+
+/* 
+   Takes the input block as a matrix of 16 polynomials in the range
+   0-nat2polybin(b^e-1) and applies the inverse sbox operation to each
+   polynomial, returning the list of result polynomials:
+*/
+ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
 /*!
 \endhtmlonly

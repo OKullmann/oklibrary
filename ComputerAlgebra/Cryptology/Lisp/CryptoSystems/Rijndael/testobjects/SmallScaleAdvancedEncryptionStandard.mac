@@ -30,6 +30,14 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
 okltest_ss_sbox(ss_sbox);
 okltest_ss_inv_sbox(ss_inv_sbox);
 
+/* *************
+   * Sub-bytes *
+   *************
+*/
+
+okltest_ss_subbytes(ss_subbytes);
+okltest_ss_inv_subbytes(ss_inv_subbytes);
+
 /*!
 \endhtmlonly
 */
