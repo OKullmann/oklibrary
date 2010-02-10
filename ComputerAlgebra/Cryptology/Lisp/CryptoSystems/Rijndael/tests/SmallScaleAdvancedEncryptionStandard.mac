@@ -105,6 +105,23 @@ okltest_ss_inv_subbytes(f) := block([inv_sbox_f],
     rijn_l2m(map(nat2polybin, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))),
   true)$
 
+/* **************
+   * Shift rows *
+   **************
+*/
+
+okltest_ss_shiftrows(f) := block(
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(apply(matrix,create_list([0,1,x,x+1],i,0,3))) =
+      apply(matrix,create_list(rotate([0,1,x,x+1],-i),i,0,3))),
+  true)$
+
+okltest_ss_inv_shiftrows(f) := block(
+  assert(f(diagmatrix(4,0))=diagmatrix(4,0)),
+  assert(f(apply(matrix,create_list(rotate([0,1,x,x+1],-i),i,0,3))) =
+      apply(matrix,create_list([0,1,x,x+1],i,0,3))),
+  true)$
+
 /*!
 \endhtmlonly
 */

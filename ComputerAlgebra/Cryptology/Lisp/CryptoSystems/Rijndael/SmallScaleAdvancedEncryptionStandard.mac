@@ -128,6 +128,35 @@ ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
 */
 ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
+
+/* **************
+   * Shift rows *
+   **************
+*/
+
+
+/*
+   Takes a matrix and performs the shiftrows operation,
+   returning a matrix where each row has been shifted
+   cyclically by the specified amount (see aes_shiftrows_shifts[i]
+   for the shift for the i'th row).
+*/
+ss_shiftrows(inputmatrix) :=
+  apply(matrix,
+    create_list(rotate(inputmatrix[abs(r)+1],-r), r, 0,length(inputmatrix)-1))$
+
+
+/*
+   Takes a matrix and performs the inverse shiftrows operation,
+   returning a matrix where each row has been shifted
+   cyclically by the specified amount (see -aes_shiftrows_shifts[i]
+   for the shift for the i'th row).
+*/
+ss_inv_shiftrows(inputmatrix) :=
+  apply(matrix,
+    create_list(rotate(inputmatrix[abs(r)+1],r), r, 0,length(inputmatrix)-1))$
+
+
 /*!
 \endhtmlonly
 */

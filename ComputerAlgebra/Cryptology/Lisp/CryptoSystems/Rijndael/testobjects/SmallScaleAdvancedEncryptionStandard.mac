@@ -38,6 +38,15 @@ okltest_ss_inv_sbox(ss_inv_sbox);
 okltest_ss_subbytes(ss_subbytes);
 okltest_ss_inv_subbytes(ss_inv_subbytes);
 
+/* **************
+   * Shift rows *
+   **************
+*/
+
+okltest_ss_shiftrows(ss_shiftrows);
+okltest_ss_inv_shiftrows(ss_inv_shiftrows);
+
+
 /*!
 \endhtmlonly
 */
