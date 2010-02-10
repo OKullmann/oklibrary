@@ -299,7 +299,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 7900
+  \todo greentao_3(3,4,5) > 8000
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -393,7 +393,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    In 60 runs one solution was found (seed=2495938585, osteps=4986167). </li>
    <li> n=8000
     <ol>
-     <li> cutoff=10^8:
+     <li> cutoff=10^8, aloamo:
      \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 100 -cutoff 100000000 -i GreenTao_3-3-4-5_8000.cnf | tee GreenTao_3-3-4-5_8000.cnf_OUT
 > E=read_ubcsat("GreenTao_3-3-4-5_8000.cnf_OUT")
@@ -407,8 +407,12 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 15540000 37710000 68590000 64060000 84820000 99420000
      \endverbatim
      looks unsatisfiable (although one might try cutoff=2*10^8). </li>
-     </li>
+     <li> 
+     <li> Weak standard nested translation, rnovelty+, cutoff=16*10^6 find in
+     6 runs one solution (seed=3908229136, osteps=11449398). </li>
     </ol>
+   </li>
+   <li> n=8100, weak standard nested translation, rnovelty+, cutoff=16*10^6
    </li>
   </ul>
   
