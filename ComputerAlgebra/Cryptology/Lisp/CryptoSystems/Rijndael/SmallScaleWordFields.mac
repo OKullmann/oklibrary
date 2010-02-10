@@ -37,7 +37,7 @@ ss_polynomial_2_8 : '(x^8 + x^4 + x^3 + x + 1)$ /* == rijn_polynomial */
 /* Function which given the base and the exponent for a
    finite field of type GF(b^e) returns the default modulus polynomial
    used in the small scale system. */
-ss_poly_std(b,e) :=
+ss_polynomial_std(b,e) :=
   if b = 2 then
     if e = 1 then ss_polynomial_2_1
     else if e = 4 then ss_polynomial_2_4

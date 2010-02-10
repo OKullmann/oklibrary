@@ -26,7 +26,49 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 
 kill(f)$
 
-/* XXX */
+/* *********
+   * S box *
+   *********
+*/
+
+okltest_ss_sbox(f) := block(
+  /* Test vector for b=2 e=4 generated using "Small Scale Variants of the AES
+  (SR) Polynomial System Generator" in Sage */
+  assert(create_list(poly2nat(
+        f(nat2poly(i,2),2,4,ss_polynomial_2_4,
+          ss_sbox_matrix_2_4,ss_affine_constant_2_4),2),i,0,15) =
+    [6,11,5,4,2,14,7,10,9,13,15,12,3,1,0,8]),
+  assert(f(0,2,8,ss_polynomial_2_8,
+      ss_sbox_matrix_2_8,ss_affine_constant_2_8) = x^6+x^5+x+1),
+  assert(f(x^6+x^4+x,2,8,ss_polynomial_2_8,
+      ss_sbox_matrix_2_8,ss_affine_constant_2_8) = 0),
+  assert(f(x^7+x^6+x^5+x^4+x^3+x^2+x+1,2,8,ss_polynomial_2_8,
+      ss_sbox_matrix_2_8,ss_affine_constant_2_8) = x^4+x^2+x),
+  if oklib_test_level=0 then return(true),
+  for b : 0 thru 255 do
+    assert(f(b,2,8,ss_polynomial_2_8,
+      ss_sbox_matrix_2_8,ss_affine_constant_2_8) = rijn_lookup_sbox(b)),
+  true)$
+
+okltest_ss_inv_sbox(f) := block(
+  assert(create_list(poly2nat(
+        f(nat2poly(i,2),2,4,ss_polynomial_2_4,
+          ss_inv_sbox_matrix_2_4,ss_inv_affine_constant_2_4),2),i,
+      [6,11,5,4,2,14,7,10,9,13,15,12,3,1,0,8]) =
+    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]),
+  assert(f(0,2,8,ss_polynomial_2_8,
+      ss_inv_sbox_matrix_2_8,ss_inv_affine_constant_2_8) = x^6+x^4+x),
+  assert(f(x^6+x^5+x+1,2,8,ss_polynomial_2_8,
+      ss_inv_sbox_matrix_2_8,ss_inv_affine_constant_2_8) = 0),
+  assert(f(x^4+x^2+x,2,8,ss_polynomial_2_8,
+      ss_inv_sbox_matrix_2_8,ss_inv_affine_constant_2_8) =
+    x^7+x^6+x^5+x^4+x^3+x^2+x+1),
+  if oklib_test_level=0 then return(true),
+  for b : 0 thru 255 do
+    assert(f(b,2,8,ss_polynomial_2_8,
+      ss_inv_sbox_matrix_2_8,ss_inv_affine_constant_2_8) =
+    rijn_lookup_inv_sbox(b)),
+  true)$
 
 /*!
 \endhtmlonly

@@ -22,7 +22,13 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/SmallScaleAdvancedEncryptionStandard.mac")$
 
 
-/* XXX */
+/* *********
+   * S box *
+   *********
+*/
+
+okltest_ss_sbox(ss_sbox);
+okltest_ss_inv_sbox(ss_inv_sbox);
 
 /*!
 \endhtmlonly
