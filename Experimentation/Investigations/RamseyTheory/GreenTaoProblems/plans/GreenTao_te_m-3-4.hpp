@@ -374,11 +374,35 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
   <ul>
    <li> n=145: adaptnovelty+ with cutoff=10^7 finds 29 solutions in
    29 runs. </li>
-   <li> n=150: adaptnovelty+ with cutoff=10^7 found solution easily
-   (seed=361186873). </li>
+   <li> n=150
+    <ol>
+     <li> aloamo-translation, adaptnovelty+ with cutoff=10^7 found solution
+     easily (seed=361186873). </li>
+     <li> Logarithmic translation with rnovelty+ and cutoff=2*10^6 found a
+     solution in 56 runs. </li>
+     <li> Walksat seems to be better here, and found a solution with
+     cutoff=2*10^6 in 4 runs. </li>
+     <li> And walksat-tabu seems even better: first 10 runs with cutoff=2*10^6
+     found each a solution. </li>
+    </ol>
+   </li>
    <li> n=151
     <ol>
-     <li> Using now the weak standard nested translation and rnovelty+. </li>
+     <li> Logarithmic translation, rnovelty+, cutoff=2*10^6:
+     \verbatim
+  1   2
+526 474
+1000
+     \endverbatim
+     </li>
+     <li> Logarithmic translation, walksat-tabu with cutoff=10^6:
+
+     </li>
+     <li> Running OKsolver_2002 on the logarithmic translation looks hopeless.
+     </li>
+     <li> OKsolver_2002 with the weak standard nested translation made some
+     progress, but then it felt into a hole. </li>
+     <li> minisat2 with weak standard nested translation: </li>
     </ol>
    </li>
    <li> n=155: adaptnovelty+ with cutoff=10^7 produced in 100 runs always
