@@ -51,9 +51,19 @@ TODO: And, what does this mean?
 rijn_m2l(M) := m2l_r(transpose(M))$
 rijn_l2m(L) := transpose(apply(matrix,partition_elements(L,4)))$
 
+/* Converting polynomial matrices to polynomial lists and back for
+   matrices over arbitrary small scale fields and arbitrary matrices */
+ss_m2l(M) := m2l_r(transpose(M))$
+ss_l2m(L,n_R) := transpose(apply(matrix,partition_elements(L,n_R)))$
+
 /* Converting integer lists to polynomial matrices and back: */
 rijn_natl2m(L) := rijn_l2m(map(nat2polybin,L))$
 rijn_m2natl(M) := rijn_m2l(matrixmap(polybin2nat,M))$
+
+ss_natl2m(L,b,n_R) := 
+  ss_l2m(map(lambda([n],nat2poly(n,b)),L),n_R)$
+ss_m2natl(M,b) := 
+  ss_m2l(matrixmap(lambda([p],poly2nat(p,b)),M))$
 
 /*!
 \endhtmlonly
