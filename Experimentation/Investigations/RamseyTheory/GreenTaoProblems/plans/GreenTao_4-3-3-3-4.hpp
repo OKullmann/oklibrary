@@ -573,6 +573,15 @@ rnovelty :
   2   3   4   5   6   7   8   9  10
   4  38 103 142  72  53  20   3   2
 437
+ 2  3  4  5  6  7  8
+ 1 10 27 42 26 10  3
+119
+     \endverbatim
+     and cutoff=32*10^7 yields
+     \verbatim
+ 2  3  4  5  6  7
+ 3 12 22 17  4  1
+59
      \endverbatim
      </li>
     </ol>
