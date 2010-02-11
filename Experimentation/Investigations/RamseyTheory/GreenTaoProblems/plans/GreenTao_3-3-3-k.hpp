@@ -322,6 +322,10 @@ gwsat :
 1000
      \endverbatim
      </li>
+     <li> OKsolver_2002 (without symmetry-breaking and without preprocessing):
+     looks hopeless; same with preprocessing (apparently not much is changed).
+     </li>
+     <li> minisat2: </li>
     </ol>
    </li>
    <li> n=437
