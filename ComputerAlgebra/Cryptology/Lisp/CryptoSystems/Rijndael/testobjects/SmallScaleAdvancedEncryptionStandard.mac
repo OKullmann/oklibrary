@@ -60,6 +60,13 @@ okltest_ss_mixcolumns(ss_mixcolumns);
 okltest_ss_inv_mixcolumns(ss_inv_mixcolumns);
 
 
+/* *****************
+   * Key expansion *
+   *****************
+*/
+
+okltest_ss_key_expansion(ss_key_expansion); 
+
 /*!
 \endhtmlonly
 */

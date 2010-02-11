@@ -223,6 +223,43 @@ ss_inv_mixcolumn_std(inputmatrix,b,e) :=
 ss_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) := 
   rijn_mixcolumns(inputmatrix,inv_mixcolumn_f)$
 
+
+/* *****************
+   * Key expansion *
+   *****************
+*/
+
+/*
+   Takes an AES round key for round r as a list of
+   polynomials and returns the round key for round r+1.
+ */
+ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
+  [newcols : matrix(), n_C : length(matrixcolumns(kl)),
+   round_constant : x^(r-1), n_R : length(kl)],
+  newcols : addcol(newcols,columnvector(
+      create_list(
+        (if n_C > 1 then kl[i,1] else 0) + sbox_f(kl[mod(i,n_R)+1,n_C]) + 
+        if i = 1 then round_constant else 0,i,1,n_R))),
+  for j : 2 thru n_C do
+    newcols : addcol(newcols,columnvector(
+      create_list(kl[i,j] + newcols[i,j-1],i,1,n_R))),
+  return(matrixmap(lambda([p],ss_stand(p,b,mod_poly)),newcols)))$
+
+/* Given the AES key as a list of polynomials representing the
+   byte field elements in the AES key block, column by column,
+   returns a list of polynomials representing the byte field elements
+   of the concatenation of the round key blocks for all AES rounds,
+   column by column.
+ */
+ss_key_expansion(kl, num_rounds, b, mod_poly, sbox_f) := block(
+  [ks : lambda([kl,r],
+    endcons(ss_keyschedule(last(kl),r,b,mod_poly,sbox_f),kl))],
+  apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [kl])))$
+ss_key_expansion_std(kl,num_rounds,b,e) := 
+  ss_key_expansion(kl,num_rounds,b,ss_polynomial_std(b,e), ss_sbox_std(b,e))$
+
+
+
 /*!
 \endhtmlonly
 */
