@@ -370,7 +370,7 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
   </ul>
 
 
-  \todo greentao_8(2,...,2,3,4) > 150
+  \todo greentao_8(2,...,2,3,4) >= 151
   <ul>
    <li> n=145: adaptnovelty+ with cutoff=10^7 finds 29 solutions in
    29 runs. </li>
@@ -395,9 +395,8 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
 1000
      \endverbatim
      </li>
-     <li> Logarithmic translation, walksat-tabu with cutoff=10^6:
-
-     </li>
+     <li> Logarithmic translation, walksat-tabu with cutoff=10^6: In 1000 runs
+     always min=1 was reached. Same with cutoff=2*10^6. </li>
      <li> Running OKsolver_2002 on the logarithmic translation looks hopeless.
      </li>
      <li> OKsolver_2002 with the weak standard nested translation made some
