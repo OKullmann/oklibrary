@@ -892,7 +892,9 @@ License, or any later version. */
      </li>
      <li> Weak standard nested translation, sapsnr, cutoff=8*10^6
      \verbatim
-
+  1   2   3   5
+151  31  17   1
+200
      \endverbatim
      </li>
     </ol>
