@@ -22,7 +22,58 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/SmallScaleAdvancedEncryptionStandard.mac")$
 
 
-/* XXX */
+/* *********
+   * S box *
+   *********
+*/
+
+okltest_ss_sbox(ss_sbox);
+okltest_ss_inv_sbox(ss_inv_sbox);
+
+/* *************
+   * Sub-bytes *
+   *************
+*/
+
+okltest_ss_subbytes(ss_subbytes);
+okltest_ss_inv_subbytes(ss_inv_subbytes);
+
+/* **************
+   * Shift rows *
+   **************
+*/
+
+okltest_ss_shiftrows(ss_shiftrows);
+okltest_ss_inv_shiftrows(ss_inv_shiftrows);
+
+
+/* ***************
+   * Mix columns *
+   ***************
+*/
+
+okltest_ss_mixcolumn(ss_mixcolumn);
+okltest_ss_inv_mixcolumn(ss_inv_mixcolumn);
+
+
+okltest_ss_mixcolumns(ss_mixcolumns);
+okltest_ss_inv_mixcolumns(ss_inv_mixcolumns);
+
+
+/* *****************
+   * Key expansion *
+   *****************
+*/
+
+okltest_ss_key_expansion(ss_key_expansion); 
+
+/* *********************************
+   * AES encryption and decryption *
+   *********************************
+*/
+
+okltest_ss_round(ss_round);
+okltest_ss_inv_round(ss_inv_round);
 
 /*!
 \endhtmlonly

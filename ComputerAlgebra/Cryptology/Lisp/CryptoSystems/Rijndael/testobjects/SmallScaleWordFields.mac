@@ -1,0 +1,66 @@
+/* Matthew Gwynne, 4.2.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/SmallScaleWordFields.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/SmallScaleWordFields.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/SmallScaleWordFields.mac")$
+
+/* ******************
+   * Representation *
+   ******************
+*/
+
+okltest_ss_stand(ss_stand);
+
+okltest_nat2poly(nat2poly);
+okltest_poly2nat(poly2nat);
+
+okltest_ss_stand_vec(ss_stand_vec);
+
+okltest_nat2vec(nat2vec);
+okltest_nat2vec_ss(nat2vec_ss);
+okltest_vec2nat(vec2nat);
+
+okltest_poly2vec(poly2vec);
+okltest_poly2vec_ss(poly2vec_ss);
+okltest_vec2poly(vec2poly);
+
+/* **************
+   * Operations *
+   **************
+*/
+
+
+okltest_ss_add(ss_add);
+okltest_ss_mul(ss_mul);
+okltest_ss_matmul(ss_matmul);
+okltest_ss_inv(ss_inv);
+okltest_ss_einv(ss_einv);
+
+okltest_ss_natadd(ss_natadd);
+okltest_ss_natmul(ss_natmul);
+okltest_ss_natinv(ss_natinv);
+
+okltest_ss_vecadd(ss_vecadd);
+okltest_ss_vecmul(ss_vecmul);
+okltest_ss_vecinv(ss_vecinv);
+
+/*!
+\endhtmlonly
+*/

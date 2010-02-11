@@ -34,6 +34,14 @@ okltest_rijn_l2m(f) := (
         matrix([1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]))),
   true)$
 
+okltest_ss_m2l(f) := (
+  assert(okltest_rijn_m2l(f)),
+  true)$
+
+okltest_ss_l2m(f) := (
+  assert(okltest_rijn_l2m(buildq([f], lambda([L], f(L,4))))),
+  true)$
+
 okltest_rijn_natl2m(f) := (
   assert(f(create_list(0,i,1,16)) = diagmatrix(4,0)),
   assert(f(create_list(1,i,1,16)) = genmatrix(lambda([a,b],1),4,4)),
@@ -44,6 +52,7 @@ okltest_rijn_natl2m(f) := (
       [x^2,x^3,x^3+x^2,x^4])),
   true)$
 
+
 okltest_rijn_m2natl(f) := (
     assert(f(diagmatrix(4,0)) = create_list(0,i,1,16)),
   assert(f(genmatrix(lambda([a,b],1),4,4)) = create_list(1,i,1,16)),
@@ -52,6 +61,14 @@ okltest_rijn_m2natl(f) := (
       [x,x^2+x,x^3+x,x^3+x^2+x],
       [x+1,x^2+x+1,x^3+x+1,x^3+x^2+x+1],
       [x^2,x^3,x^3+x^2,x^4])) = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]),
+  true)$
+
+okltest_ss_natl2m(f) := (
+  assert(okltest_rijn_natl2m(buildq([f], lambda([L], f(L,2,4))))),
+  true)$
+
+okltest_ss_m2natl(f) := (
+  assert(okltest_rijn_m2natl(buildq([f], lambda([L], f(L,2))))),
   true)$
 
 /*!
