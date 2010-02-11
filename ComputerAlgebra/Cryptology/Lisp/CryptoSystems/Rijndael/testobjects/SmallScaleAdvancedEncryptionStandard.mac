@@ -67,6 +67,14 @@ okltest_ss_inv_mixcolumns(ss_inv_mixcolumns);
 
 okltest_ss_key_expansion(ss_key_expansion); 
 
+/* *********************************
+   * AES encryption and decryption *
+   *********************************
+*/
+
+okltest_ss_round(ss_round);
+okltest_ss_inv_round(ss_inv_round);
+
 /*!
 \endhtmlonly
 */

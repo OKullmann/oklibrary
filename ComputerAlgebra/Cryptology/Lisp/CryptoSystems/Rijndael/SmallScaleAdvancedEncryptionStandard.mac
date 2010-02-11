@@ -259,6 +259,46 @@ ss_key_expansion_std(kl,num_rounds,b,e) :=
   ss_key_expansion(kl,num_rounds,b,ss_polynomial_std(b,e), ss_sbox_std(b,e))$
 
 
+/* *********************************
+   * Small scale AES encryption and decryption *
+   *********************************
+*/
+
+/* 
+   Takes the plaintext matrix of GF(2^8) elements and the 
+   round key for this round as a list of GF(2^8) elements, and
+   returns a matrix of the same size of GF(2^8) elements as the plaintext
+   as the result of the round operation:
+ */
+ss_round_wa(pl,sbox_f,mixcolumn_f) := 
+    ss_mixcolumns(ss_shiftrows(
+        ss_subbytes(pl,sbox_f)),mixcolumn_f)$
+ss_round(pl, rkl,b,mod_poly,sbox_f, mixcolumn_f) := 
+  matrixmap(lambda([p], ss_stand(p,b,mod_poly)),
+    ss_round_wa(pl,sbox_f,mixcolumn_f)+rkl)$
+ss_inv_round_wa(pl,inv_sbox_f,inv_mixcolumn_f) := 
+    ss_inv_subbytes(ss_inv_shiftrows(
+        ss_inv_mixcolumns(pl,inv_mixcolumn_f)), inv_sbox_f)$
+ss_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
+    ss_inv_round_wa(pl+rkl,inv_sbox_f, inv_mixcolumn_f)$
+
+/* 
+   Takes the plaintext matrix of GF(2^8) elements and the 
+   round key for this round as a list of GF(2^8) elements, and
+   returns a matrix of the same size of GF(2^8) elements as the plaintext
+   as the result of the final aes round operation (without mixcolumn):
+ */
+ss_final_round_wa(pl,sbox_f) := /* Without round key addition */
+    ss_shiftrows(
+        ss_subbytes(pl,sbox_f))$
+ss_final_round(pl,b,mod_poly, rkl, sbox_f) := 
+  matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
+    ss_final_round_wa(pl,sbox_f)+rkl)$
+ss_inv_final_round_wa(pl,inv_sbox_f) := 
+    ss_inv_subbytes(ss_inv_shiftrows(pl), inv_sbox_f)$
+ss_inv_final_round(pl,rkl,inv_sbox_f) := 
+    ss_inv_final_round_wa(pl+rkl, inv_sbox_f)$
+
 
 /*!
 \endhtmlonly
