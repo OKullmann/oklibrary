@@ -157,6 +157,72 @@ ss_inv_shiftrows(inputmatrix) :=
     create_list(rotate(inputmatrix[abs(r)+1],r), r, 0,length(inputmatrix)-1))$
 
 
+/* ***************
+   * Mix columns *
+   ***************
+*/
+
+/*
+   Matrices used in the mixcolumns step to model the 
+   multiplication of each n_C-byte column by a constant
+   in a polynomial ring of at most order n_C with coefficients in
+   GF(b^e):
+*/
+ss_mixcolumns_matrix_2_8 : block([x], apply(matrix, 
+  create_list(rotate([x, x + 1, 1, 1], i),i,0,3)))$
+ss_mixcolumns_std(b,e) :=
+  if b = 2 then
+    if e = 8 then ss_mixcolumns_matrix_2_8
+    else und
+  else und$
+/* Inverse of the rijn_mix_columns_matrix: */
+ss_inv_mixcolumns_matrix_2_8 : block([x], apply(matrix,
+  create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
+ss_inv_mixcolumns_std(b,e) :=
+  if b = 2 then
+    if e = 8 then ss_inv_mixcolumns_matrix_2_8
+    else und
+  else und$
+
+
+/* Mixcolumn operation applied to the elements of a single
+   column (given a matrix of polynomials) in the AES/Rijndael block: */
+ss_mixcolumn(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) :=
+  matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
+      mixcolumns_matrix . inputmatrixi);
+ss_mixcolumn_std(inputmatrix,b,e) :=
+  ss_mixcolumn(inputmatrix,b,e,
+    ss_polynomial_std(b,e),ss_mixcolumns_matrix_std(b,e))$
+
+/*
+   Takes a list of GF(b^e) elements (the block), and
+   performs the mixcolumns operation, returning the resulting
+   block as a list of GF(b^e) elements. A function specifying
+   the actual operation done on a particular column must be
+   provided as the second argument.
+*/
+ss_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
+  for i : 1 thru 4 do M : addcol(M,mixcolumn_f(col(inputmatrix,i))),
+  return(M))$
+
+/* Mixcolumn operation applied to the elements of a single
+   column (given a matrix) in the AES/Rijndael block: */
+ss_inv_mixcolumn(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix) :=
+    ss_mixcolumn(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix)$
+ss_inv_mixcolumn_std(inputmatrix,b,e) :=
+  ss_inv_mixcolumn(inputmatrix,b,e,
+    ss_polynomial_std(b,e), ss_inv_mixcolumns_matrix_std(b,e))$
+
+/*
+   Takes a list of GF(b^e) elements (the block), and
+   performs the inverse mixcolumns operation, returning the resulting
+   block as a list of GF(b^e) elements. A function specifying
+   the actual operation done on a particular column must be
+   provided as the second argument.
+*/
+ss_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) := 
+  rijn_mixcolumns(inputmatrix,inv_mixcolumn_f)$
+
 /*!
 \endhtmlonly
 */

@@ -47,6 +47,19 @@ okltest_ss_shiftrows(ss_shiftrows);
 okltest_ss_inv_shiftrows(ss_inv_shiftrows);
 
 
+/* ***************
+   * Mix columns *
+   ***************
+*/
+
+okltest_ss_mixcolumn(ss_mixcolumn);
+okltest_ss_inv_mixcolumn(ss_inv_mixcolumn);
+
+
+okltest_ss_mixcolumns(ss_mixcolumns);
+okltest_ss_inv_mixcolumns(ss_inv_mixcolumns);
+
+
 /*!
 \endhtmlonly
 */
