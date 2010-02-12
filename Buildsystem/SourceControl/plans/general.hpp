@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -718,6 +718,7 @@ git pull -s subtree path_to_repository_B master
      <li> 19.9.2009: 11.9 MB; OKlib total 33.8 MB </li>
      <li> 4.10.2009: 12.0 MB; OKlib total 34.1 MB </li>
      <li> 7.12.2009: 12.5 MB; OKlib total 35.1 MB </li>
+     <li> 12.2.2010: 13.4 MB; OKlib total 36.9 MB </li>
     </ol>
    </li>
   </ul>
