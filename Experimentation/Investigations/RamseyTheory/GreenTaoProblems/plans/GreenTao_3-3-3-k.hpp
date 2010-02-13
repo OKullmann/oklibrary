@@ -688,7 +688,8 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
    runs (and no min=1 in 18 runs with cutoff=2*10^8), so rnovelty+ seems
    better. </li>
    <li> n=1985, weak standard nested translation, rnovelty+, cutoff=10^8:
-   finds one solution in 74 runs (seed=280301594, osteps=85326534). </li>
+   finds one solution in 74 runs (seed=280301594, osteps=85326534)
+   (while 63 runs with cutoff=2*10^8 didn't find a solution). </li>
    <li> n=1986, weak standard nested translation, rnovelty+, cutoff=10^8:
    in 374 runs two solutions were found (seed=2398771372, osteps=42038499).
    </li>
