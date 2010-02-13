@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.1.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Combinatorics/Enumeration 0.0.3 (5.1.2009)
+  \module_version ComputerAlgebra/Combinatorics/Enumeration 0.0.3.1 (12.2.2010)
 
 
   \par Version 0.0.4
@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp the
    following topics are handled:
-    - Main concepts
+    - Main concepts : DONE
 
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
@@ -31,6 +31,11 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par
+   In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp the
+   following topics are handled:
+    - Iteration
+
+  \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
    following topics are handled:
     - Iteration through lexicographical order
@@ -38,6 +43,9 @@ License, or any later version. */
   \par
    The basic functions for enumerating (and ranking) k-subsets are
    provided.
+
+  \par
+   Expand the following milestones.
 
 
    \par Version 0.0.6

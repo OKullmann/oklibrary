@@ -26,7 +26,7 @@ License, or any later version. */
   output_greentao_reduced_strong_stdname(append(create_list(2,i,1,m),[3,3,4]),n).
 
 
-  \todo greentao_4(2,3,3,4) > 446
+  \todo greentao_4(2,3,3,4) > 452
   <ul>
    <li> First considering the weak standard nested translation with rnovelty+.
    </li>
@@ -45,6 +45,30 @@ License, or any later version. */
    osteps=2670307). </li>
    <li> n=446, cutoff=4*10^6: finds a solution in run 2 (seed=3913893840,
    osteps=3235502). </li>
+   <li> n=447, cutoff=4*10^6: in 332 runs 13 solutions were found
+   (seed=1711609145, osteps=865779). </li>
+   <li> n=448, cutoff=4*10^6: in run 131 a solution was found
+   (seed=4208191351, osteps=3277920). </li>
+   <li> n=449, cutoff=6*10^6: in run 54 a solution was found
+   (seed=3969099878, osteps=2013315). </li>
+   <li> n=450, cutoff=6*10^6: in run 162 a solution was found
+   (seed=1486592823, osteps=2486421). </li>
+   <li> n=451, cutoff=6*10^6: in run 13 a solution was found
+   (seed=3091775367, osteps=5018123). </li>
+   <li> n=452, cutoff=6*10^6: in run 11 a solution was found
+   (seed=592938116, osteps=3809907). </li>
+   <li> n=453
+    <ol>
+     <li> cutoff=6*10^6:
+     \verbatim
+  1   2   3
+214 169  17
+400
+     \endverbatim
+     </li>
+     <li> cutoff=10^7: </li>
+    </ol>
+   </li>
   </ul>
 
 */
