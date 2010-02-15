@@ -693,6 +693,17 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
    <li> n=1986, weak standard nested translation, rnovelty+, cutoff=10^8:
    in 374 runs two solutions were found (seed=2398771372, osteps=42038499).
    </li>
+   <li> n=1987, weak standard nested translation, rnovelty+:
+    <ol>
+     <li> cutoff=2*10^8:
+     \verbatim
+1 2 3 4
+2 7 8 8
+25
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1990, weak standard nested translation:
     <ol>
      <li> rnovelty+, cutoff=10^8:

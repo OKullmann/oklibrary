@@ -165,6 +165,14 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", params=list(runs=100,cutoff=10000
      looks indeed unsatisfiable (or very hard). </li>
      <li> Until now only the aloamo-translation has been considered; now
      investigating the weak standard nested translation with rnovelty+. </li>
+     <li> cutoff=4*10^7:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+ 2  2  2  8 12 16 14 15 11  8  2  2  3  2  1
+100
+     \endverbatim
+     So the weak standard nested translation definitely is stronger than
+     aloamo. </li>
     </ol>
    </li>
   </ul>

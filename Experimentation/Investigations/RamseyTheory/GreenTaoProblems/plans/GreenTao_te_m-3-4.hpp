@@ -402,6 +402,8 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
      <li> OKsolver_2002 with the weak standard nested translation made some
      progress, but then it felt into a hole. </li>
      <li> minisat2 with weak standard nested translation: </li>
+     <li> minisat2 with strong standard nested translation: aborted after 34
+     restarts (the typical oscillation, and no progress visible). </li>
     </ol>
    </li>
    <li> n=155: adaptnovelty+ with cutoff=10^7 produced in 100 runs always
