@@ -572,7 +572,17 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
    also faster). </li>
    <li> n=383: weak nested standard translation, rnovelty+, cutoff=8*10^7 found
    two solutions in 577 runs (seed=3954065297, osteps=694138). </li>
-   <li> n=384: weak nested standard translation, rnovelty+, cutoff=8*10^7:
+   <li> n=384: weak nested standard translation, rnovelty+,
+    <ol>
+     <li> cutoff=4*10^7:
+     \verbatim
+  1   2   3   4   5   6
+ 30 239 786 848  96   1
+2000
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^7: </li>
+    </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
