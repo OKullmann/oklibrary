@@ -66,7 +66,42 @@ License, or any later version. */
 400
      \endverbatim
      </li>
-     <li> cutoff=10^7: </li>
+     <li> cutoff=10^7:
+     \verbatim
+  1   2   3
+310 151   5
+466
+     \endverbatim
+     </li>
+     <li> Best local search algorithm from Ubcsat-suite:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_4-2-3-3-4_453.cnf", params=list(runs=100,cutoff=1000000))
+     \endverbatim
+     evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
+     \verbatim
+rnovelty :
+ 1  2  3  4  5
+ 7 34 44 14  1
+rnoveltyp :
+ 1  2  3  4
+ 7 29 41 23
+walksat_tabu_nonull :
+ 1  2  3  4  5  6
+ 5 18 33 29 10  5
+noveltyp :
+ 1  2  3  4  5
+ 2 27 54 15  2
+walksat_tabu :
+ 1  2  3  4  5  6
+ 2 15 25 33 22  3
+novelty :
+ 1  2  3  4  5
+ 1  5 53 38  3
+gwsat :
+ 1  3  4  5  6  7  8  9
+ 1  5 14 28 30 15  6  1
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
