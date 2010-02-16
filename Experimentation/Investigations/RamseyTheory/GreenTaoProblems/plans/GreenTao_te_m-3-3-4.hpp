@@ -55,8 +55,27 @@ License, or any later version. */
    (seed=1486592823, osteps=2486421). </li>
    <li> n=451, cutoff=6*10^6: in run 13 a solution was found
    (seed=3091775367, osteps=5018123). </li>
-   <li> n=452, cutoff=6*10^6: in run 11 a solution was found
-   (seed=592938116, osteps=3809907). </li>
+   <li> n=452 cutoff=6*10^6
+    <ol>
+     <li> cutoff=6*10^6: In run 11 a solution was found (seed=592938116,
+     osteps=3809907). </li>
+     <li> cutoff=10^7:
+     \verbatim
+ 0  1  2
+ 4 75 21
+100
+     \endverbatim
+     So perhaps actually walksat-tabu-nonull is better (for higher cutoffs).
+     </li>
+     <li> walksat-tabu-nonull, cutoff=10^7:
+     \verbatim
+ 0  1  2
+ 5 84 11
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=453
     <ol>
      <li> cutoff=6*10^6:
@@ -102,6 +121,13 @@ gwsat :
  1  5 14 28 30 15  6  1
      \endverbatim
      </li>
+     <li> walksat-tabu-nonull with cutoff=10^7
+     \verbatim
+  1   2   3
+323  74   3
+400
+     \endverbatim
+     Since it's faster than rnovelty+, it seems to be superior. </li>
     </ol>
    </li>
   </ul>
