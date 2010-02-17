@@ -26,8 +26,9 @@ License, or any later version. */
   output_greentao_reduced_strong_stdname(append(create_list(2,i,1,m),[3,3,4]),n).
 
 
-  \todo greentao_4(2,3,3,4) > 452
+  \todo greentao_4(2,3,3,4) >= 453
   <ul>
+   <li> The conjecture is greentao_4(2,3,3,4) = 453. </li>
    <li> First considering the weak standard nested translation with rnovelty+.
    </li>
    <li> n=442, cutoff=10^6: finds one solution in 15 runs (seed=2776413455,
@@ -74,6 +75,22 @@ License, or any later version. */
 100
      \endverbatim
      </li>
+     <li> rnovelty, cutoff=10^7:
+     \verbatim
+ 1  2
+70 30
+100
+     \endverbatim
+     So here we have a case where an algorithms seem good, because it finds
+     reasonably many cases with min=1, but actually it fails to realise
+     min=0 ! </li>
+     <li> walksat-tabu, cutoff=10^7:
+     \verbatim
+ 0  1  2  3
+ 3 68 12  1
+84
+     \endverbatim
+     So walksat-tabu-nonull seems better. </li>
     </ol>
    </li>
    <li> n=453
@@ -128,6 +145,14 @@ gwsat :
 400
      \endverbatim
      Since it's faster than rnovelty+, it seems to be superior. </li>
+     <li> walksat-tabu, cutoff=10^7:
+     \verbatim
+ 1  2  3
+65 32  3
+100
+     \endverbatim
+     So it seems that the nonull-option improves performance (though at the
+     cost of running time). </li>
     </ol>
    </li>
   </ul>
