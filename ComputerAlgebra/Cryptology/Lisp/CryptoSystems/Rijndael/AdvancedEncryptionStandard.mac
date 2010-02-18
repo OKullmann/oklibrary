@@ -331,7 +331,8 @@ aes_decrypt(pl, kl, num_rounds, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
 */
 
 
-/* Combined AES round */
+/* Combined AES round: */
+/* OK: what does this mean? */
 aes_round_ibc(plain_text, round, sbox_f,mixcolumn_f) :=
   if round = 0 then plain_text
   else if round = 10 then
@@ -339,7 +340,9 @@ aes_round_ibc(plain_text, round, sbox_f,mixcolumn_f) :=
   else
     aes_round_wa(plain_text, sbox_f, mixcolumn_f)$
 
-/* AES encryption as ibc */
+/* AES encryption as ibc (see
+   Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac): */
+/* OK: this should just be a helper-function */
 aes_encrypt_ibc(plaintext, key, num_rounds, sbox_f, mixcolumn_f) :=
     ibc_0(
       buildq([sbox_f],lambda([key,r], aes_keyschedule(key,r,sbox_f))),
