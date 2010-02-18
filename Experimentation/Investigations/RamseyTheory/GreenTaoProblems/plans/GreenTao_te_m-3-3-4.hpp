@@ -157,5 +157,15 @@ gwsat :
    </li>
   </ul>
 
+
+  \todo greentao_5(2,2,3,3,4) > 460
+  <ul>
+   <li> First considering the weak standard nested translation with
+   rnovelty+. </li>
+   <li> n=460, cutoff=10^7: found a solution in run 100 (seed=689351359,
+   osteps=6436295). </li>
+   <li> n=461, cutoff=2*10^7 </li>
+  </ul>
+
 */
 
