@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,6 +55,18 @@ License, or any later version. */
    <li> Also some of the general graph libraries (see "General C++ graph
    libraries" in Buildsystem/ExternalSources/SpecialBuilds/plans/Graphs.hpp)
    have graphics-capabilities. </li>
+   <li> Using the R platform: (see
+   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp).
+    <ol>
+     <li> igraph http://igraph.sourceforge.net/ (based on a C library) offers
+     various graph algorithms and visualisation tools. </li>
+     <li> Rgraphviz
+     http://www.bioconductor.org/packages/2.5/bioc/html/Rgraphviz.html
+     apparently just a graphviz interface, using the graph-package to
+     create the grahs. </li>
+     <li> diagram http://r-forge.r-project.org/R/?group_id=342 </li>
+    </ol>
+   </li>
   </ul>
 
 

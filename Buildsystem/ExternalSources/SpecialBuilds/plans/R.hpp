@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -100,13 +100,19 @@ Error: package 'tcltk' could not be loaded
      http://cran.r-project.org/src/contrib/Descriptions/QCA.html) </li>
      <li> "boolean" </li>
      <li> "combinat" </li>
+     <li> diagram http://r-forge.r-project.org/R/?group_id=342 </li>
      <li> "dyn" </li>
      <li> "gafit" </li>
      <li> "glpk" </li>
+     <li> "graph" http://www.bioconductor.org/packages/2.5/bioc/html/graph.html
+     </li>
+     <li> "igraph" http://igraph.sourceforge.net/ </li>
      <li> "linprog" </li>
      <li> "pspline" </li>
      <li> "quadprog" </li>
      <li> "randaes" </li>
+     <li> "Rgraphviz"
+     http://www.bioconductor.org/packages/2.5/bioc/html/Rgraphviz.html </li>
      <li> "sudoku" </li>
     </ol>
    </li>
