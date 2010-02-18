@@ -426,7 +426,16 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      osteps=23392210). </li>
     </ol>
    </li>
-   <li> n=8100, weak standard nested translation, rnovelty+, cutoff=32*10^6
+   <li> n=8200, weak standard nested translation, rnovelty+
+    <ol>
+     <li> cutoff=32*10^6:
+     \verbatim
+ 3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19 20 24
+ 2  1  6  1  7  9  7  5  2  9 10  1  2  2  3  2  1  1
+71
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
   
