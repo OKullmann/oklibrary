@@ -23,9 +23,14 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
+/* ************
+   * Counting *
+   ************
+*/
+
 /* The number of subsets of size k of set M: */
 count_ksubsets_s(M,k) := binomial(length(M),k)$
-/* The number of k-subsets of {1,...,n}: */
+/* The number of k-subsets of {1,...,n} (n >= 0): */
 count_ksubsets(n,k) := binomial(n,k)$
 /* Prerequisites in both cases: k is an integer. */
 

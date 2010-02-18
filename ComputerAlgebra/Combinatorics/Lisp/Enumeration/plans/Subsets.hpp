@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.1.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,7 +18,7 @@ License, or any later version. */
 
   \todo Completing the basic functionality
   <ul>
-   <li> Also the counting-functions need testing. </li>
+   <li> DONE Also the counting-functions need testing. </li>
    <li> Should it be "ksubsets", or just "subsets"? (Later we will
    actually enumerate all subsets, so perhaps "ksubsets" is better.) </li>
    <li> Write a basic docus. </li>

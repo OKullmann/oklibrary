@@ -26,6 +26,28 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
+/* ************
+   * Counting *
+   ************
+*/
+
+okltest_count_ksubsets_s(f) := block([a,b,c],
+  for n : -2 thru 2 do
+    assert(f({},n) = if n=0 then 1 else 0),
+  assert(f({a,b,c},2) = 3),
+  assert(okltest_count_ksubsets(buildq([f], lambda([n,k], f(setn(n),k)))) = true),
+  true)$
+
+okltest_count_ksubsets(f) := (
+  for n : -2 thru 2 do
+    assert(f(0,n) = if n=0 then 1 else 0),
+  assert(f(1,-1) = 0),
+  assert(f(1,0) = 1),
+  assert(f(1,1) = 1),
+  assert(f(1,2) = 0),
+  assert(f(4,2) = 6),
+  true)$
+
 /* ****************************
    * Lexicographical ordering *
    ****************************

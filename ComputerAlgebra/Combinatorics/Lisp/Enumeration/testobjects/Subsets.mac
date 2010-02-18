@@ -21,6 +21,14 @@ oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/testobjects/Sub
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/tests/Subsets.mac")$
 
+/* ************
+   * Counting *
+   ************
+*/
+
+okltest_count_ksubsets_s(count_ksubsets_s);
+okltest_count_ksubsets(count_ksubsets);
+
 /* ****************************
    * Lexicographical ordering *
    ****************************
