@@ -306,7 +306,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 8100
+  \todo greentao_3(3,4,5) > 8200
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -434,7 +434,8 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
  2  1  6  1  7  9  7  5  2  9 10  1  2  2  3  2  1  1
 71
      \endverbatim
-     </li>
+     Using cutoff=64*10^6, in run 10 a solution was found (seed=2296183965,
+     cutoff=20180202). </li>
     </ol>
    </li>
   </ul>
