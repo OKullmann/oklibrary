@@ -52,11 +52,11 @@ count_ksubsets(n,k) := binomial(n,k)$
 */
 
 /* Produces a list of all k-subsets of M in lexicographical order: */
-lex_subsets_l(M,k) := listify(powerset(M,k))$
+lex_ksubsets_l(M,k) := listify(powerset(M,k))$
 /* This implementation assumes that the internal order of sets is given by
    lexicographical order.
    Alternatively we have 
-     lex_subsets_l(M,k) = lex_subsets_ll(listify(M),k)
+     lex_ksubsets_l(M,k) = lex_ksubsets_ll(listify(M),k)
                         = map(setify,
                               sort(map(listify,
                                        listify(powerset(M,k))), lex_lessp_l)).
@@ -64,11 +64,11 @@ lex_subsets_l(M,k) := listify(powerset(M,k))$
 /* More generally, now M is a repetition-free list, and the order is as
    specified by the order of M:
 */
-lex_subsets_ll(M,k) := reverse(colex_subsets_ll(reverse(M),k))$
+lex_ksubsets_ll(M,k) := reverse(colex_ksubsets_ll(reverse(M),k))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    lexicographical enumeration of all |S|-subsets: */
-rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
+rank_lex_ksubsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(map(binomial,n-L,create_list(k-i+1, i,1,k))))$
 /*  Note, for lex ordering, this does depend on n (as for instance {2,3,4}
     comes after {1,2,6}).
@@ -76,7 +76,7 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
 
 /* Returns the 'x'th subset in the lexicographical enumeration of all
    k-subsets of {1,...,n}: */ 
-unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
+unrank_lex_ksubsets(x,n,k) := block([S : [], L : 1],
   x : binomial(n,k) - x,
   for i : 1 thru k do block([j : k-i+1],
     while binomial(n-L, j) > x do L : L + 1,
@@ -98,14 +98,14 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
 */
 
 /* Produces a list of all k-subsets of M in colexicographical order: */
-colex_subsets_l(M,k) := colex_subsets_ll(listify(M),k)$
-/* We have colex_subsets_l(M,k) =
+colex_ksubsets_l(M,k) := colex_ksubsets_ll(listify(M),k)$
+/* We have colex_ksubsets_l(M,k) =
    map(setify,sort(map(listify,listify(powerset(M,k))), colex_lessp_l)).
 */
 /* More generally, now M is a repetition-free list, and the order is as
    specified by the order of M:
 */
-colex_subsets_ll(M,k) := if k=0 then [{}] 
+colex_ksubsets_ll(M,k) := if k=0 then [{}] 
  elseif k=1 then map(set,M)
  elseif k=2 then block([res : [], j : 1],
    for y in M do block([i : 1],
@@ -118,17 +118,17 @@ colex_subsets_ll(M,k) := if k=0 then [{}]
  )
  elseif emptyp(M) then [] else
   block([x : last(M), R : rest(M,-1)],
-    append(colex_subsets_ll(R,k), add_element_l(x,colex_subsets_ll(R,k-1))))$
+    append(colex_ksubsets_ll(R,k), add_element_l(x,colex_ksubsets_ll(R,k-1))))$
 
 /* Returns the rank (position) of the subset S of {1,...,n} in the 
    colexicographical enumeration of all |S|-subsets: */
-rank_colex_subsets(S) := block([L : listify(S)],
+rank_colex_ksubsets(S) := block([L : listify(S)],
   sum_l(map(binomial,L-1,create_list(i,i,1,length(L)))) + 1)$
 /*  Note, for colex ordering, this does not depend on n. */
 
 /* Returns the 'x'th subset in the colexicographical enumeration of all
    k-subsets of {1,...,n}. */ 
-unrank_colex_subsets(x,n,k) := block([S : [], L : n],
+unrank_colex_ksubsets(x,n,k) := block([S : [], L : n],
   x : x - 1,
   for i : k thru 1 step -1 do (
     while binomial(L-1,i) > x do L : L - 1,

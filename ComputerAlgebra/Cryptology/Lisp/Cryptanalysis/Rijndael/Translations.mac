@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -352,8 +352,8 @@ aes_mul_ts_gen(p) :=
        sort(
          listify(mul_dnf[2]),
          lambda([a,b], is(
-           rank_lex_subsets(map(plus16,a),32) < 
-             rank_lex_subsets(map(plus16,b),32)))
+           rank_lex_ksubsets(map(plus16,a),32) < 
+             rank_lex_ksubsets(map(plus16,b),32)))
         )]
      ),
      return(aes_mul_ts_CNF[p+1])
@@ -453,8 +453,8 @@ aes_sbox_ts_gen() :=
        sort(
          listify(sbox_dnf[2]),
          lambda([a,b], is(
-           rank_lex_subsets(map(plus16,a),32) < 
-             rank_lex_subsets(map(plus16,b),32)))
+           rank_lex_ksubsets(map(plus16,a),32) < 
+             rank_lex_ksubsets(map(plus16,b),32)))
         )]
      ), 
      return(aes_sbox_ts_CNF)

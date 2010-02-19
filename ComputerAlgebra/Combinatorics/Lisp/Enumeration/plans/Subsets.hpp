@@ -19,7 +19,7 @@ License, or any later version. */
   \todo Completing the basic functionality
   <ul>
    <li> DONE Also the counting-functions need testing. </li>
-   <li> Should it be "ksubsets", or just "subsets"? (Later we will
+   <li> DONE Should it be "ksubsets", or just "subsets"? (Later we will
    actually enumerate all subsets, so perhaps "ksubsets" is better.) </li>
    <li> Write a basic docus. </li>
    <li> The explanations from "Enumerating all k-subsets lexicographically"
@@ -50,24 +50,24 @@ listify(powerset(setn(n),k))
    <li> For a given Maxima-set M, and k >= 0, the list of all k-subsets
    of M in lexicographical order is computed as follows:
    \verbatim
-lex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+lex_ksubsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : first_element(M), R],
     R : disjoin(x,M),
-    append(add_element_l(x,lex_subsets_l(R,k-1)), lex_subsets_l(R,k)))$
+    append(add_element_l(x,lex_ksubsets_l(R,k-1)), lex_ksubsets_l(R,k)))$
    \endverbatim
    </li>
    <li> And colexicographical order:
    \verbatim
-colex_subsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
+colex_ksubsets_l(M,k) := if k=0 then [{}] elseif emptyp(M) then [] else
   block([x : last_element(M), R],
     R : disjoin(x,M),
-    append(colex_subsets_l(R,k), add_element_l(x,colex_subsets_l(R,k-1))))$
+    append(colex_ksubsets_l(R,k), add_element_l(x,colex_ksubsets_l(R,k-1))))$
    \endverbatim
    </li>
    <li> Regarding ranking, for colex-order we restrict attention to
    the base-set {1, ..., n} (that is, S is a subset of {1, ..., n}):
    \verbatim
-rank_colex_subsets(S) := block([L : listify(S)],
+rank_colex_ksubsets(S) := block([L : listify(S)],
   sum_l(create_list(binomial(L[i]-1,i), i,1,length(L))) + 1)$
    \endverbatim
    (note that the rank w.r.t. colex-order does not depend on n).
@@ -81,7 +81,7 @@ rank_colex_subsets(S) := block([L : listify(S)],
    recursion. </li>
    <li> Now ranking for lex-order:
    \verbatim
-rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
+rank_lex_ksubsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(create_list(binomial(n-L[i],k-i+1), i,1,k)))$
    \endverbatim
    </li>
@@ -91,9 +91,9 @@ rank_lex_subsets(S,n) := block([L : listify(S), k : length(S)],
    plus the k-subsets containing v_1 as first element, which without
    this element are after {v_2, ..., v_k}. Via recursion then the
    formula is obtained. </li>
-   <li> The inverse of rank_colex_subsets is the following function:
+   <li> The inverse of rank_colex_ksubsets is the following function:
    \verbatim
-unrank_colex_subsets(x,n,k) := block([S : [], L : n],
+unrank_colex_ksubsets(x,n,k) := block([S : [], L : n],
   x : x - 1,
   for i : k thru 1 step -1 do (
     while binomial(L-1,i) > x do L : L - 1,
@@ -102,11 +102,11 @@ unrank_colex_subsets(x,n,k) := block([S : [], L : n],
   return(setify(S)))$
    \endverbatim
    By definition we have
-   rank_colex_subsets(unrank_colex_subsets(x,n,k),n) = x
+   rank_colex_ksubsets(unrank_colex_ksubsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k). </li>
-   <li> The inverse of rank_lex_subsets is the following function:
+   <li> The inverse of rank_lex_ksubsets is the following function:
    \verbatim
-unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
+unrank_lex_ksubsets(x,n,k) := block([S : [], L : 1],
   x : binomial(n,k) - x,
   for i : 1 thru k do block([j : k-i+1],
     while binomial(n-L, j) > x do L : L + 1,
@@ -115,7 +115,7 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   return(setify(S)))$
    \endverbatim
    By definition we have
-   rank_lex_subsets(unrank_lex_subsets(x,n,k),n) = x
+   rank_lex_ksubsets(unrank_lex_ksubsets(x,n,k),n) = x
    for 1 <= x <= binomial(n,k).
    </li>
   </ul>
@@ -125,8 +125,8 @@ unrank_lex_subsets(x,n,k) := block([S : [], L : 1],
   <ul>
    <li> State-free iteration for lexicographical order is given as follows:
    \verbatim
-first_lex_subsets(n,k) := setn(k)$
-next_lex_subsets(S,n) := block(
+first_lex_ksubsets(n,k) := setn(k)$
+next_lex_ksubsets(S,n) := block(
  [L : listify(S), l : length(S), i, prev : n+1],
   i : l-1,
   for x in reverse(L) do
@@ -141,8 +141,8 @@ next_lex_subsets(S,n) := block(
    General/Combinatorics.hpp. </li>
    <li> Usage example:
    \verbatim
-block([x : first_lex_subsets(6,3)], 
-  while x#done do (print(x), x : next_lex_subsets(x,6)));
+block([x : first_lex_ksubsets(6,3)], 
+  while x#done do (print(x), x : next_lex_ksubsets(x,6)));
    \endverbatim
    </li>
    <li> Colexicographical order: XXX </li>
@@ -150,19 +150,19 @@ block([x : first_lex_subsets(6,3)],
     <ol>
      <li> The following needs updating according to
      ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp. </li>
-     <li> "itgen_lex_subsets(M,k) yields an iterator "it" "pointing" to
+     <li> "itgen_lex_ksubsets(M,k) yields an iterator "it" "pointing" to
      the first element. </li>
-     <li> "iteval_lex_subsets(it)" yields the element. </li>
-     <li> "itend_lex_subsets(it) = it[1]" returns true iff it points "past the
+     <li> "iteval_lex_ksubsets(it)" yields the element. </li>
+     <li> "itend_lex_ksubsets(it) = it[1]" returns true iff it points "past the
      end". </li>
-     <li> "itadv_lex_subsets(it)" advances a valid iterator (pointing to an
+     <li> "itadv_lex_ksubsets(it)" advances a valid iterator (pointing to an
      element) one step, based on a shallow copy of it. </li>
      <li> Algorithm T in [Knuth, Vol. 4, Fascicle 3, Section 7.2.1.3]
      should yield an appropriate algorithm. </li>
      <li> An application example:
      \verbatim
-block([it : itgen_lex_subsets(M,k)], while not itend_lex_subsets(it) do
-  print(iteval_lex_subsets(it)), itadv_lex_subsets(it));
+block([it : itgen_lex_ksubsets(M,k)], while not itend_lex_ksubsets(it) do
+  print(iteval_lex_ksubsets(it)), itadv_lex_ksubsets(it));
      \endverbatim
      </li>
     </ol>
@@ -172,7 +172,7 @@ block([it : itgen_lex_subsets(M,k)], while not itend_lex_subsets(it) do
 
   \todo Improving colexicographical unranking
   <ul>
-   <li> unrank_colex_subsets(x,n,k) does not really depend on n, it is only
+   <li> unrank_colex_ksubsets(x,n,k) does not really depend on n, it is only
    a large enough start value needed for L. </li>
    <li> It would be better if from x and k we could compute a good value n
    (and thus it wouldn't be needed as input). </li>

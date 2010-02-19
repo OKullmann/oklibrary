@@ -34,20 +34,20 @@ okltest_count_ksubsets(count_ksubsets);
    ****************************
 */
 
-okltest_lex_subsets_l(lex_subsets_l);
-okltest_lex_subsets_ll(lex_subsets_ll);
-okltest_rank_lex_subsets(rank_lex_subsets);
-okltest_unrank_lex_subsets(unrank_lex_subsets);
+okltest_lex_ksubsets_l(lex_ksubsets_l);
+okltest_lex_ksubsets_ll(lex_ksubsets_ll);
+okltest_rank_lex_ksubsets(rank_lex_ksubsets);
+okltest_unrank_lex_ksubsets(unrank_lex_ksubsets);
 
 /* ******************************
    * Colexicographical ordering *
    ******************************
 */
 
-okltest_colex_subsets_l(colex_subsets_l);
-okltest_colex_subsets_ll(colex_subsets_ll);
-okltest_rank_colex_subsets(rank_colex_subsets);
-okltest_unrank_colex_subsets(unrank_colex_subsets);
+okltest_colex_ksubsets_l(colex_ksubsets_l);
+okltest_colex_ksubsets_ll(colex_ksubsets_ll);
+okltest_rank_colex_ksubsets(rank_colex_ksubsets);
+okltest_unrank_colex_ksubsets(unrank_colex_ksubsets);
 
 /*!
 \endhtmlonly

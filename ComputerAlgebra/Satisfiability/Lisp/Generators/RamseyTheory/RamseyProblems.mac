@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -135,7 +135,7 @@ ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
       block([j:(i-1)*q+1],{colv_var({j,j+1}),-colv_var({j,j+2})}),
       i,1,d)))$
 ramsey_symbr1_stdpass(q,n) :=
-  ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
+  ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_ksubsets(S),colv)$
 output_ramsey_symbr1(q,n,filename) := block(
  [PA : ramsey_symbr1_pass(q,n)],
   output_fcsext(
@@ -163,7 +163,7 @@ output_ramsey_symbr1_std_stdname(q,n) :=
 /* r=2, q >= 3, n >= 4 */
 ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
 ramsey_symbr1e_stdpass(q,n) :=
-  ev(ramsey_symbr1e_pass(q,n), colv(S) := rank_colex_subsets(S),colv)$
+  ev(ramsey_symbr1e_pass(q,n), colv(S) := rank_colex_ksubsets(S),colv)$
 
 
 /* ************************************
@@ -194,7 +194,7 @@ output_ramsey2_symbr2_stdname(n) :=
   output_ramsey2_symbr2(n, sconcat("Ramsey_SB_MC_",n,".ecnf"))$
 
 ramsey2_symbr2_stdcs(n) := 
-  ev(ramsey2_symbr2_cs(n), colv(L) := rank_colex_subsets(L), colv)$
+  ev(ramsey2_symbr2_cs(n), colv(L) := rank_colex_ksubsets(L), colv)$
 output_ramsey2_symbr2_std(n,f) := output_fcs(
   sconcat(
     "Ramsey symmetry breaking through use of monochromatic cliques for ",
@@ -225,7 +225,7 @@ ramsey_symbr2_stdnbfclud(s,r,n) := block(
  [eq_edges : [], clique_l : [], rl : [], cliq],
   clique_l : ramsey_symbr2_eqs(s,r,n),
   for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
-    edge_pairs : powerset(map(rank_colex_subsets,eq_edges),2),
+    edge_pairs : powerset(map(rank_colex_ksubsets,eq_edges),2),
     for edge in edge_pairs do 
       for c in powerset(setn(s),2) do block([cl : listify(c)],
         el : listify(edge),
@@ -235,7 +235,7 @@ ramsey_symbr2_stdnbfclud(s,r,n) := block(
       )
   ),
   return([
-    map(rank_colex_subsets,listify(powerset(setn(n),2))),
+    map(rank_colex_ksubsets,listify(powerset(setn(n),2))),
     lappend(rl),create_list(i,i,1,s)]))$
 
 

@@ -37,7 +37,7 @@ complete_hg(V,r) := [V, powerset(V,r)]$
 complete_stdhg(n,r) := complete_hg(setn(n),r)$
 
 /* Using colexicographical order, where V now is a list: */
-complete_ohg(V,r) := [V, colex_subsets_ll(V,r)]$
+complete_ohg(V,r) := [V, colex_ksubsets_ll(V,r)]$
 complete_stdohg(n,r) := complete_ohg(create_list(i,i,1,n),r)$
 
 /* Statistics functions: */
@@ -193,7 +193,7 @@ ramseyrv_ohg(q,r,n) := block([V0 : setn(n), V],
    numbers (while keeping the lexicographical order of ramsey_stdohg):
 */
 ramsey_stdohg(q,r,n) :=
- ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_subsets(setify(L)), rv)$
+ ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_ksubsets(setify(L)), rv)$
 
 /* Statistics functions: */
 

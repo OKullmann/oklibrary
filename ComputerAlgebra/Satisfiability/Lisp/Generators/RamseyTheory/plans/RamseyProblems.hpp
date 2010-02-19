@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.9.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -417,8 +417,8 @@ ramsey_symbr3_cs_m(m,n) := block([mid_p,rs : {},edge_equivs],
    has 
    \verbatim
 load("obsubst");
-is(opsubst(lambda([x], rank_lex_subsets(x,n)), colv, ramsey_symbr2_cs(n)) = 
-   ramsey2_sym_break_rec(setn(n), lambda([x], rank_lex_subsets(x,n)), lambda([x], unrank_lex_subsets(x,n,2))));
+is(opsubst(lambda([x], rank_lex_ksubsets(x,n)), colv, ramsey_symbr2_cs(n)) = 
+   ramsey2_sym_break_rec(setn(n), lambda([x], rank_lex_ksubsets(x,n)), lambda([x], unrank_lex_ksubsets(x,n,2))));
 
 true
    \endverbatim

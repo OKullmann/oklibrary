@@ -22,9 +22,9 @@ License, or any later version. */
      <li> This could be called "state-free iteration" through M(p). </li>
      <li> If x is the last element, then "done" is returned (otherwise
      the next element). </li>
-     <li> Naming "first_lex_subsets", "first_colex_subsets",
-     "first_lex_permutations" etc., and "next_lex_subsets",
-     "next_colex_subsets" and "next_lex_permutations" etc. </li>
+     <li> Naming "first_lex_ksubsets", "first_colex_ksubsets",
+     "first_lex_permutations" etc., and "next_lex_ksubsets",
+     "next_colex_ksubsets" and "next_lex_permutations" etc. </li>
     </ol>
    </li>
    <li> Finally we have the task of "(general) iteration" through M(p).
