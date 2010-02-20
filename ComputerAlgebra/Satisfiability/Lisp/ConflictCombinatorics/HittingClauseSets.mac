@@ -595,9 +595,8 @@ all_unsinghitting_mvd(n, _hash_repo) := block([count],
    ***************************
 */
 
-/* The conjectured sharpening of the general MU-bound (see
-   max_min_var_degree_def_rec in Lisp/MinimalUnsatisfiability/Basics.mac; 
-   [OK, XSZ; 2008]. */
+/* The sharpening of the general MU-bound (see max_min_var_degree_def_rec in 
+   Lisp/MinimalUnsatisfiability/Basics.mac) according [OK, XSZ; 2008]. */
 hit_max_min_var_degree_def_rec[k] :=
  if k <= 5 then max_min_var_degree_def_rec[k] 
  elseif k=6 then max_min_var_degree_def_rec[6]-1
@@ -610,7 +609,9 @@ hit_max_min_var_degree_def_rec[k] :=
      )),
    return(min(K,res)))$
 /* It follows that for k=2^n-n+1 we have
-   hit_max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k]-1.
+   hit_max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k]-1,
+   while otherwise we have equality.
+
    Now it seems that new "defects" crop up for k in {14,...,17},
    and this will again create infinitely many new defect-cases.
    It seems that introducing a defect for k=14 reduces exactly
@@ -629,7 +630,7 @@ hit_max_min_var_degree_def_rec[k] :=
 /* For the uhit-catalogue check for the existence of examples where the
    bound is sharp (these have value 0 in the last component). */
 check_uhit_catalogue_maxminvardeg() :=
-  apply_uhit(lambda([k,n,i,F], [k, n, i, max_min_var_degree_def_law(k) - min_variable_degree_cs(F)]))$
+  apply_uhit(lambda([k,n,i,F], [k, n, i, hit_max_min_var_degree_def_rec[k] - min_variable_degree_cs(F)]))$
 /* Extract the [k,n,i]-tuples where the bound is sharp, sorted 
    lexicographically. */
 sharp_uhit_catalogue_maxminvardeg() :=
