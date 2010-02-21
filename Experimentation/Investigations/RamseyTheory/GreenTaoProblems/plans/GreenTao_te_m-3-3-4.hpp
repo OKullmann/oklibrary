@@ -158,7 +158,7 @@ gwsat :
   </ul>
 
 
-  \todo greentao_5(2,2,3,3,4) > 462
+  \todo greentao_5(2,2,3,3,4) > 463
   <ul>
    <li> First considering the weak standard nested translation with
    rnovelty+. </li>
@@ -178,7 +178,21 @@ gwsat :
     </ol>
    </li>
    <li> n=462, cutoff=2*10^7, walksat-tabu-nonull: found a solution in the
-   first run (seed=89229228</li>
+   first run (seed=89229228, osteps=8204248). </li>
+   <li> n=463, cutoff=2*10^7, walksat-tabu-nonull: found a solution in run 88
+   (seed=3466211155, osteps=17673628). </li>
+   <li> n=464
+    <ol>
+     <li> cutoff=2*10^7, walksat-tabu-nonull:
+     \verbatim
+ 1  2  3
+21 65 14
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7, walksat-tabu-nonull: </li>
+    </ol>
+   </li>
   </ul>
 
 */
