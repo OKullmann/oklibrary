@@ -342,11 +342,11 @@ okltest_aes_key_expansion_cp(f) := block([pa,iVars,oVars,iVars,F,
   oVars : aes_make_vars("KO",1, 11*128),
   F : rewrite_all(apply(f, append(iVars,oVars))),
   assert(member(nounify(aes_sbox_cp_test)(1401,1402,1403,1404,1405,1406,1407,
-        1408,2241,2242,2243,2244,2245,2246,2247,2248),F)),
+        1408,2241,2242,2243,2244,2245,2246,2247,2248),F) = true),
   assert(member(nounify(aes_sbox_cp_test)(609,610,611,612,613,614,615,616,1961,
-        1962,1963,1964,1965,1966,1967,1968),F)),
-  assert(member({-511,639},F)),
-  assert(member({-436,564},F)),
+        1962,1963,1964,1965,1966,1967,1968),F) = true),
+  assert(member({-511,639},F) = true),
+  assert(member({-436,564},F) = true),
   true)$
 
 okltest_aes_cp(f) := block(
