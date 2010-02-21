@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,6 +32,8 @@ okltest_hitting_cls_rep_st(hitting_cls_rep_st);
    * Generators *
    **************
 */
+
+okltest_over_full_hitting_fcs(over_full_hitting_fcs);
 
 okltest_smusat_horn_cs(smusat_horn_cs);
 okltest_smusat_horn_stdfcl(smusat_horn_stdfcl);

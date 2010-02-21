@@ -99,6 +99,19 @@ uniform_usat_hitting_max(k) := full_fcs(k)[2]$
 nearly_full_hitting_fcs(n) := block([FF : full_fcs(n)],
   return([FF[1], adjoin(setn(n-1), setdifference(FF[2], {setn(n), adjoin(-n,setn(n-1))}))]))$
 
+/* An unsatisfiable non-singular hitting clause-set with m+1 variables and 
+   deficiency 2^m - m + 1, while the minimum var-degree is 2^m.
+   Prerequisite: m >= 2.
+*/
+over_full_hitting_fcs(m) := block(
+ [n : m+1, A : full_cl(2), B],
+  B : full_cs_v(setmn(3,n)),
+  [setn(n), union({A[1],A[2]}, or_cs2({A[3]}, B), or_cs2({A[4]}, B))])$
+/* Remarks: over_full_hitting_fcs(m) realises the maximum min-var-degree for
+   clause-sets of deficiency 2^m-m+1.
+*/
+ 
+
 /* Saturated minimally unsatisfiable Horn clause-sets with k variables: */
 smusat_horn_cs(k) := treehittingcls_st(horn_st(k))$
 /* Standardised (trv[] -> 1, trv[2] -> 2, trv[2,2] -> 3 etc.): */
@@ -611,7 +624,9 @@ hit_max_min_var_degree_def_rec[k] :=
 /* It follows that for k=2^n-n+1 we have
    hit_max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k]-1,
    while otherwise we have equality.
+*/
 
+/*
    Now it seems that new "defects" crop up for k in {14,...,17},
    and this will again create infinitely many new defect-cases.
    It seems that introducing a defect for k=14 reduces exactly
