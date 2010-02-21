@@ -250,10 +250,8 @@ License, or any later version. */
     <ol>
      <li> max_min_var_deg_uhit_def(k) yields the maximal min-var-deg
      realised in the uhit_def-catalogue for deficiency k. </li>
-     <li> We have sharpness w.r.t. the bound for k in
-     {2, 3,4,5, 6, 7, 8,9,10,11,12, 13, 18,19,20,21, 22,23,24,25,26,27,
-     43, 51,52,53,54,55,56,58},
-     </li>
+     <li> For 1 <= k <= 59 sharpness of the bound is not known for
+     14 <= k <= 17, 29 <= k <= 42 and 44 <= k <= 51. </li>
      <li> We have the current maxima for the non-sharp cases (compared
      to the upper bound hit_max_min_var_degree_def_rec):
       <ul>
