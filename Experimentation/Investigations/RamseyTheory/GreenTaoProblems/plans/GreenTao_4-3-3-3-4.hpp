@@ -560,6 +560,17 @@ rnovelty :
 165
    \endverbatim
    </li>
+   <li> n=1051, rnovelty+
+    <ol>
+     <li> cutoff=32*10^7:
+     \verbatim
+ 2  3  4  5
+ 4 16 13  1
+34
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1055
     <ol>
      <li> rnovelty+, cutoff=16*10^7:
