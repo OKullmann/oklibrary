@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -79,6 +79,14 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    versions 4.2 or later). </li>
    <li> It seems best to proceed in stages, first installing the latest
    4.2.x and updating our code, and then installing the latest 4.3.x. </li>
+   <li> And then the latest 4.4.x. </li>
+   <li> Building 4.4.3:
+    <ol>
+     <li> Now Gmp and Mpfr is needed. </li>
+     <li> For Gmp just use the configure-option
+     "--with-gmp=$(gmp_installation_dir_okl)". </li>
+    </ol>
+   </li>
   </ul>
   
 
