@@ -1,5 +1,5 @@
 # Matthew Henderson, 30.10.2006 (Swansea)
-# Copyright 2006-2007, 2008, 2009 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -56,22 +56,4 @@ include $(OKconfiguration)/ExternalSources/boost.mak
 include $(OKconfiguration)/ExternalSources/mhash.mak
 include $(OKconfiguration)/ExternalSources/picosat.mak
 include $(OKconfiguration)/ExternalSources/precosat.mak
-
-
-# ################################
-# mpfr
-# ###############################
-
-# NEEDS UPDATE
-
-mpfr_recommended_version_number ?= 2.3.0
-mpfr_supported_version_numbers ?= $(mpfr_recommended_version_number)
-
-mpfr_prefix ?= mpfr
-
-mpfr_homepage_url := http://www.mpfr.org/
-
-mpfr_targets_prefix := $(mpfr_prefix)-
-mpfr_targets := $(addprefix $(mpfr_targets_prefix), $(mpfr_supported_version_numbers))
-mpfr_recommended := $(mpfr_targets_prefix)$(mpfr_recommended_version_number)
 
