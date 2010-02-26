@@ -109,6 +109,7 @@ License, or any later version. */
    </li>
   </ul>
 
+
   \todo Finding hard instances for box-dimension >3
   <ul>
    <li> Some puzzles of box-dimension greater than 3 are available on these
