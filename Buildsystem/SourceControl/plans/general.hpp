@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans and todos for the versioning control system
 
 
+  \todo Clean-up regarding shared repositories
+  <ul>
+   <li> Since now we use Github for providing shared repositories, we don't
+   have our own shared repositories anymore. </li>
+   <li> So we need to clean-up the todos:
+    <ol>
+     <li> "Resetting the shared repository" below. </li>
+     <li> "Notification-e-mails" below. </li>
+    </ol>
+   </li>
+   <li> And also elsewhere in the build-system one needs to clean-up. </li>
+  </ul>
+
+
   \todo Spell checking
   <ul>
    <li> On my laptop (OK) having for example
