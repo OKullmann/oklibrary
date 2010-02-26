@@ -17,9 +17,9 @@ License, or any later version. */
    In Buildsystem/SourceControl/plans/general.hpp the following topics
    are handled:
     - Clean-up regarding shared repositories
+    - Documentation
     - Spell checking
     - Cloning
-    - Remote access
 
   \par
    In Buildsystem/SourceControl/plans/Branching.hpp the following topics
@@ -35,6 +35,7 @@ License, or any later version. */
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
+    - Remote access
     - Tagging
     - More advanced usage
     - Change dates and revision numbers

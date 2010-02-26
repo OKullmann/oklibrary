@@ -24,6 +24,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Documentation
+  <ul>
+   <li> There needs to be an index-page for Git, which contains the link to
+   Git's own documentation and to all other documentation we provide. </li>
+   <li> Is there a newer version of the Git community book? </li>
+   <li> "Pro Git" can be downloaded, and hopefully also distributed, from
+   http://www.progit.org . </li>
+  </ul>
+
+
   \todo Spell checking
   <ul>
    <li> On my laptop (OK) having for example
