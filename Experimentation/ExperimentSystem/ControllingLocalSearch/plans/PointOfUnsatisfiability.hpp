@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -150,18 +150,90 @@ License, or any later version. */
 
   \todo Simpler strategies
   <ul>
-   <li> Motivated by
-   Experimentation/Investigations/RamseyTheory/HindmanProblems/plans/Hindman_2^a(2).hpp
-   where ubcsat::rsaps behaves very predictibly, we should allow for several
-   strategies. </li>
-   <li> Here the strategy would be just to use a fixed cutoff, and 10 rounds,
-   and to determine the transition point. </li>
-   <li> If mixed cases occur (sat and unsat), then the program simply stops.
+   <li> We should start with several scripts, each just implementing one
+   simple strategy. </li>
+   <li> Simplest: just use fixed cutoff and number-of-rounds:
+    <ol>
+     <li> There are five input-parameter:
+      <ol>
+       <li> n, the start value for the generator </li>
+       <li> cutoff </li>
+       <li> number of rounds </li>
+       <li> ubcsat-algorithm </li>
+       <li> script for generating dimacs-files. </li>
+      </ol>
+     </li>
+     <li> The algorithm starts with n, runs ubcsat, if it finds a solution
+     then it is recorded and n increased, otherwise it stops. </li>
+     <li> A directory is created by the script, which contains all data, in
+     such a form that if interrupted, just re-starting the script will continue
+     (nearly) where it was interrupted. </li>
+     <li> The generation-script takes n as input and creates the dimacs-file
+     "current.cnf" in the output directory. </li>
+     <li> Overall architecture:
+      <ol>
+       <li> In principle we have the three stages "preparation", "running",
+       "transfer". </li>
+       <li> Preparation creates the experiment directory. </li>
+       <li> Running just means calling the run-experiment-program with the
+       experiment directory as parameter (first time or re-start doesn't
+       matter). </li>
+       <li> Perhaps regarding "transfer" yet we do nothing; later we might
+       transfer the data into a database. </li>
+      </ol>
+     </li>
+     <li> Monitoring the state of the process:
+      <ul>
+       <li> For monitoring purpose there should be one monitoring file, called
+       "monitor", in which the current activity and the past results are
+       recorded; so just monitoring the last 10 lines of this file should
+       suffice to get the basic information. </li>
+       <li> The past result are just lines containing n, seed, osteps for
+       each solution found, and otherwise just a message that no solution was
+       found. </li>
+       <li> At the beginning of "monitoring" all meta-information is given.
+       </li>
+       <li> To detect that the process was interrupted needs some global
+       control. </li>
+       <li> Though to have some simple activity signal would be nice. </li>
+       <li> Simplest is just to append all ubcsat-output in file "output", so
+       that monitoring that file shows what is going on. </li>
+       <li> Likely no need to have a more fine-grained recording. </li>
+       <li> However we want the possibility for R-evaluation. So "output" must
+       be R-readable; perhaps just prefixing all ubcsat-okl output with n, and
+       not having the satisfying assignment or the other ubcsat-output, should
+       suffice. </li>
+      </ul>
+     </li>
+     <li> Detection of the result of a ubcsat-invocation:
+      <ul>
+       <li> Best of course if Ubcsat would return a Dimacs-return-code. </li>
+       <li> Contact the ubcsat-group how to do this best. </li>
+      </ul>
+     </li>
+     <li> Data stored in the experiment-directory:
+      <ol>
+       <li> Likely just the parameters stored, each in its own file, is
+       sufficient. </li>
+       <li> The file containing n would be updated after a run which found a
+       solution. So restarting just repeats the current n. </li>
+      </ol>
+     </li>
+    </ol>
    </li>
-   <li> So here perhaps we do not stop once a solution was found. </li>
-   <li> One could then just use some start value, and from there use bisection,
-   and if necessary (yet no "unsat" case found), multiply the old n-value
-   by some constant; say 1.2. </li>
+   <li> Find the first point where finding a satisfying assignment isn't that
+   easy anymore:
+    <ol>
+     <li> Motivated by
+     Experimentation/Investigations/RamseyTheory/HindmanProblems/plans/Hindman_2^a(2).hpp
+     where ubcsat::rsaps behaves very predictably. </li>
+     <li> Here the strategy would be just to use a fixed cutoff, and 10 rounds,
+     and to determine the transition point. </li>
+     <li> If mixed cases occur (sat and unsat), then the program simply stops.
+     </li>
+     <li> So here we do not stop once a solution was found. </li>
+    </ol>
+   </li>
   </ul>
 
 */
