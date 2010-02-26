@@ -18,8 +18,6 @@ License, or any later version. */
    are handled:
     - Clean-up regarding shared repositories
     - Documentation
-    - Spell checking
-    - Cloning
 
   \par
    In Buildsystem/SourceControl/plans/Branching.hpp the following topics
@@ -27,15 +25,21 @@ License, or any later version. */
     - Tutorial on branching : DONE
     - On branching (in our situation) : DONE
 
-  \par
-   Update the following milestones.
-
 
   \par Version 0.2.3
 
   \par
-   In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
+   In Buildsystem/SourceControl/plans/general.hpp the following topics
+   are handled:
+    - Spell checking
+    - Cloning
     - Remote access
+
+
+  \par Version 0.2.4
+
+  \par
+   In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
     - Tagging
     - More advanced usage
     - Change dates and revision numbers

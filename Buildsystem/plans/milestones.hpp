@@ -22,6 +22,9 @@ License, or any later version. */
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
 
+  \par Buildsystem/SourceControl 0.2.2
+  (see Buildsystem/SourceControl/plans/milestones.hpp)
+
   \par Buildsystem/MasterScript version 0.0.5 : DONE
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
@@ -37,7 +40,7 @@ License, or any later version. */
   \par Buildsystem/MasterScript version 0.0.6
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
-  \par Buildsystem/SourceControl 0.2.3
+  \par Buildsystem/SourceControl 0.2.4
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
   \par Buildsystem/ExternalSources version 0.1.4
