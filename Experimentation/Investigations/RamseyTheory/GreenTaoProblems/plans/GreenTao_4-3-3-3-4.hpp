@@ -569,6 +569,13 @@ rnovelty :
 34
      \endverbatim
      </li>
+     <li> cutoff=64*10^7:
+     \verbatim
+1 2 3
+1 7 8
+16
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1055
