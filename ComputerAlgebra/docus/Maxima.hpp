@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.1.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,7 +32,8 @@ License, or any later version. */
        starting with "OKlib". </li>
        <li> At each level files "include.mac" are provided to include
        whole (super-)modules. </li>
-       <li> So "oklib_load_all()" just is <code>oklib_load("OKlib/ComputerAlgebra/include.mac")</code>. </li>
+       <li> So "oklib_load_all()" just is
+       <code>oklib_load("OKlib/ComputerAlgebra/include.mac")</code>. </li>
        <li> But also specific Maxima-files can be loaded. </li>
       </ul>
      </li>
@@ -127,7 +128,8 @@ oklib --maxima --batch=FILE
     <ol>
      <li> The variable "oklib_session_name" contains the name used for
      storing results in a file via "oklib_save". </li>
-     <li> Calling <code>oklib_save(arguments)</code> triggers the following actions:
+     <li> Calling <code>oklib_save(arguments)</code> triggers the following
+     actions:
       <ol>
        <li> If "oklib_store" is false, then nothing happens. </li>
        <li> If not "oklib_storage_interval"-many run-time minutes have elapsed
@@ -193,8 +195,8 @@ oklib --maxima --batch=FILE
    <li> How to write programs at the Maxima/Lisp level in the OKlibrary
    is discussed in ComputerAlgebra/docus/MaximaTechniques.hpp. </li>
    <li> For a tutorial see ComputerAlgebra/docus/MaximaTutorial.hpp. </li>
-   <li> The demonstrations (in <code>demos</code>-subdirectories) can be run via
-   <code>oklib_demo(filename)</code> (as to be found in the preamble of the
+   <li> The demonstrations (in <code>demos</code>-subdirectories) can be run
+   via <code>oklib_demo(filename)</code> (as to be found in the preamble of the
    respective demos-file). After showing each expression to be evaluated,
    Maxima waits for the user to press the cr-key. </li>
    <li> Another possibility to load a file with protocolling of the expressions
@@ -203,11 +205,14 @@ oklib --maxima --batch=FILE
   </ul>
 
 
-  <h2> Overviews on specific modules </h2>
+  <h2> Docus for specific modules </h2>
 
   <ul>
+   <li> %Combinatorics : ComputerAlgebra/Combinatorics/Lisp/docus/general.hpp
+   </li>
    <li> %Graphs : ComputerAlgebra/Graphs/Lisp/docus/general.hpp </li>
-   <li> Linear algebra : ComputerAlgebra/LinearAlgebra/Lisp/docus/general.hpp </li>
+   <li> Linear algebra : ComputerAlgebra/LinearAlgebra/Lisp/docus/general.hpp
+   </li>
    <li> Satisfiability : ComputerAlgebra/Satisfiability/Lisp/docus/general.hpp
    </li>
   </ul>
