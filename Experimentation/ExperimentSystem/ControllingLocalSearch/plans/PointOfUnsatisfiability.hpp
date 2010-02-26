@@ -80,7 +80,7 @@ License, or any later version. */
        <li> Requiring that min=1 must occur, and this with a certain
        frequency, is based on the experiences with adaptnovelty+, which
        has a quite small volatility; we could generalise this to ask
-       for runs with min <= min_required, where for more volatily algorithms
+       for runs with min <= min_required, where for more volatile algorithms
        one could use up to min_required = 5. </li>
       </ol>
      </li>
@@ -125,7 +125,7 @@ License, or any later version. */
      <li> Perhaps R is most suitable here; also for later developments
      we might use more sophisticated statistical evaluations. </li>
      <li> Though C++ feels better, and at this time there are no complicated
-     statistics envolved. </li>
+     statistics involved. </li>
     </ol>
    </li>
    <li> On the underlying assumptions:
