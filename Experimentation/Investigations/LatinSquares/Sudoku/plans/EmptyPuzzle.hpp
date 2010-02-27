@@ -143,15 +143,23 @@ NB_MONO= 89, NB_UNIT= 553, NB_BRANCHE= 41, NB_BACK= 0
 Program terminated in 0.000 seconds.
 satz215 Weak_Sudoku_Box_dim_3.cnf 0.000 41 0 24973 1 1 729 8829 -1458 0 0
 
+real    0m0.171s
+user    0m0.063s
+sys     0m0.010s
+
 > satz215 Dual_Weak_Sudoku_Box_dim_3.cnf
 
 Aborted after 50m.
 
-> satz215 Strong_Sudoku_Box_dim_4.cnf
+> satz215 Strong_Sudoku_Box_dim_3.cnf
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 622, NB_BRANCHE= 39, NB_BACK= 0
 Program terminated in 0.000 seconds.
 satz215 Strong_Sudoku_Box_dim_3.cnf 0.000 39 0 20451 27 1 729 11988 -1458 0 0
+
+real    0m0.266s
+user    0m0.112s
+sys     0m0.018s
    \endverbatim
    </li>
    <li> minisat2:
@@ -340,16 +348,25 @@ c file_name                             Strong_Sudoku_Box_dim_4.cnf_m2pp_30100
    <li> march_pl: none of the three problems is solved within an hour. </li>
    <li> satz215:
    \verbatim
+> satz215 Weak_Sudoku_Box_dim_4.cnf
 **** The instance is satisfiable. *****
 NB_MONO= 609, NB_UNIT= 4611, NB_BRANCHE= 209, NB_BACK= 27
 Program terminated in 0.000 seconds.
 satz215 Weak_Sudoku_Box_dim_4.cnf 0.000 209 27 567647 81 1 4096 92416 -12288 0 0
+
+real    0m10.107s
+user    0m4.203s
+sys     0m0.046s
 
 > satz215 Strong_Sudoku_Box_dim_4.cnf
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 3635, NB_BRANCHE= 157, NB_BACK= 0
 Program terminated in 0.001 seconds.
 satz215 Strong_Sudoku_Box_dim_4.cnf 0.001 157 0 446914 102 1 4096 123904 -12288 0 0
+
+real    0m6.047s
+user    0m2.837s
+sys     0m0.012s
    \endverbatim
    So satz215 seems the strong look-ahead solver. </li>
    <li> minisat2:
@@ -434,7 +451,14 @@ aborted after 40m; needs to be re-run via
 "time satz215 Weak_Sudoku_Box_dim_5.cnf"
 
 > satz215 Strong_Sudoku_Box_dim_5.cnf
+**** The instance is satisfiable. *****
+NB_MONO= 0, NB_UNIT= 14040, NB_BRANCHE= 412, NB_BACK= 0
+Program terminated in 0.010 seconds.
+satz215 Strong_Sudoku_Box_dim_5.cnf 0.010 412 0 4608214 625 1 15625 752500 -62500 0 0
 
+real    3m38.463s
+user    1m44.504s
+sys     0m0.094s
    \endverbatim
    </li>
    <li> minisat2:
