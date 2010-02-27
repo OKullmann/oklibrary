@@ -574,6 +574,9 @@ rnovelty :
 1 2 3
 1 7 8
 16
+1 2 3
+1 2 3
+6
      \endverbatim
      </li>
     </ol>
