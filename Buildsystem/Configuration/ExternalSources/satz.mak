@@ -17,6 +17,8 @@ satz215_installation_dir_okl ?= $(satz_base_installation_dir_okl)/satz215
 satz215_corrected_src_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Satz/satz215.2.c
 
 satz215_call_okl ?= $(satz215_installation_dir_okl)/satz215
+satz215_wrapper_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215
+satz215_m2pp_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215-m2pp
 
 satz215_docu_page_okl ?= $(doc_dir)/doxygen_html/
 

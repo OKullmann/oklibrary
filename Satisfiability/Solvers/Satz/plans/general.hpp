@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,6 +54,8 @@ user    0m24.296s
 sys     0m0.058s
    \endverbatim
    </li>
+   <li> Once the time-measurement has been corrected, the wrapper for satz215
+   should be removed. </li>
   </ul>
 
 
