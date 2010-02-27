@@ -395,6 +395,32 @@ CPU time              : 0.846871 s
    <li> OKsolver_2002:
    \verbatim
 > OKsolver_2002-O3-DNDEBUG Weak_Sudoku_Box_dim_5.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         25
+c initial_number_of_variables           15625
+c initial_number_of_clauses             563125
+c initial_number_of_literal_occurrences 1140625
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   562500
+c running_time(sec)                     487.5
+c number_of_nodes                       420
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                1013
+c number_of_pure_literals               1862
+c number_of_autarkies                   2
+c number_of_missed_single_nodes         0
+c max_tree_depth                        400
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 2713283
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Weak_Sudoku_Box_dim_5.cnf
 
 > OKsolver_2002-O3-DNDEBUG Strong_Sudoku_Box_dim_5.cnf
 
