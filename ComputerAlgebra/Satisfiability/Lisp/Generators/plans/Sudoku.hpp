@@ -19,6 +19,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Implement the four mixed cases for the direct translation
+  <ul>
+   <li> See "Translations to boolean CNFs based on the direct encoding" in
+   Experimentation/Investigations/LatinSquares/Sudoku/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Further improve implementation
   <ul>
    <li> Compare "Systematisation" in

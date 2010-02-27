@@ -22,7 +22,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Studying translations to boolean CNFs
+  \todo Translations to boolean CNFs based on the direct encoding
   <ul>
    <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac we
    provide three translations:
@@ -30,6 +30,28 @@ License, or any later version. */
      <li> output_weak_sdk_stdname </li>
      <li> output_dual_weak_sdk_stdname </li>
      <li> output_strong_sdk_stdname </li>
+    </ol>
+   </li>
+   <li> In general we have four types of clauses for the direct encoding:
+    <ol>
+     <li> primary binary clauses: different numbers per line </li>
+     <li> primary long clauses: every field gets a number </li>
+     <li> dual binary clauses: at most one number per field </li>
+     <li> dual long clauses: every line contains all numbers </li>
+    </ol>
+   </li>
+   <li> Thus we get 2^4=16 possible combinations, but not all combinations
+   are valid:
+    <ol>
+     <li> Long clauses are needed, otherwise no field getting a number would
+     be a solution. </li>
+     <li> And at least all primary or all dual clauses are needed. </li>
+     <li> So we have 3 + 3 + 1 = 7 valid possibilities. </li>
+     <li> How to call them? The primary clauses (only) has been called already
+     "weak", only the dual clauses "dual weak", and primary and dual together
+     "strong". Remain the 4 mixed cases. </li>
+     <li> Perhaps "weak pb", "weak pl", "dual weak pb" and "dual weak pl"
+     ("p" for "plus") ? </li>
     </ol>
    </li>
   </ul>
