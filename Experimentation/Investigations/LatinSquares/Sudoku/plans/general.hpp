@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/LatinSquares/plans/Sudoku.hpp
+  \file Experimentation/Investigations/LatinSquares/Sudoku/plans/general.hpp
   \brief On investigations regarding Sudoku problems (standard, and extended)
 
   Besides experimentations in creating and solving big Sudoku problems (with
