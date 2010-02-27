@@ -27,7 +27,7 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.9
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.10
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic version 0.1.1
@@ -47,9 +47,8 @@ License, or any later version. */
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
-  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.10
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.12
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
-
 
 
   \par Version 0.0.9
@@ -63,11 +62,17 @@ License, or any later version. */
     - Domain association and allowed total assignments
     - The notion of "condition"
 
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.13
+  (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
+
 
   \par Version 0.0.10
 
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.14
+  (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the
@@ -88,6 +93,9 @@ License, or any later version. */
     - The trivial algorithm
     - AES as an ics
     - Applications from railway safety
+
+  \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.1
+  (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
 
 
