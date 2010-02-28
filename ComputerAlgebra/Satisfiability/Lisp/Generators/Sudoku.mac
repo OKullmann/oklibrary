@@ -29,7 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *************
 */
 
-/* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k: */
+/* Variables for the direct encoding are "sdk(i,j,k)", meaning that 
+   field (i,j) carries number k: */
 kill(sdk)$
 declare(sdk, noun)$
 declare(sdk, posfun)$
@@ -39,11 +40,13 @@ sdk_var(i,j,k) := nounify(sdk)(i,j,k)$
    problems, while N=9).
 */
 
-/* The list of variables for Sudoku formulas of box-dimension p: */
+/* The list of variables for Sudoku formulas in direct encoding
+   of box-dimension p: */
 var_sdk(p) := block([N : p^2],
  create_list(sdk_var(i,j,k), i,1,N, j,1,N, k,1,N))$
 
-/* Standardise all Sudoku-variables in term T (for box-dimension p): */
+/* Standardise all Sudoku-variables in term T w.r.t. direct encoding
+   (for box-dimension p): */
 standardise_sdk(T,p) := block([N : p^2],
  ev(T, sdk(i,j,k) := (i-1)*N^2 + (j-1)*N + (k-1) +1, sdk))$
 /* For standardised variable n, compute the corresponding sdk-variable.
@@ -92,7 +95,7 @@ sdk_all_fields_cl(p) := block([N : p^2],
  create_list(setify(create_list(sdk_var(i,j,k), k,1,N)), i,1,N, j,1,N))$
 
 
-/* The Sudoku problem (weak form) as formal clause-list: */
+/* The Sudoku problem in weak form (direct encoding) as formal clause-list: */
 weak_sdk_fcl(p) := [var_sdk(p), 
  append(sdk_different_rows_cl(p), 
         sdk_different_columns_cl(p),
@@ -103,7 +106,8 @@ weak_sdk_fcs(p) := fcl2fcs(weak_sdk_fcl(p))$
 weak_sdk_stdfcs(p) := fcl2fcs(weak_sdk_stdfcl(p))$
 
 
-/* Output an "empty" Sudoku problem to a file, using the weak encoding: */
+/* Output an "empty" Sudoku problem to a file, using the weak translation
+   and direct encoding: */
 output_weak_sdk(p,filename) := block([FF : weak_sdk_stdfcl(p)],
   output_fcl_v(
     sconcat(
@@ -140,7 +144,8 @@ sdk_different_fields_cl(p) := block([N : p^2],
          i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N))$
 
 
-/* The Sudoku problem (dual weak form) as formal clause-list: */
+/* The Sudoku problem in dual weak form (direct encoding) as formal 
+   clause-list: */
 dual_weak_sdk_fcl(p) := [var_sdk(p), 
  append(sdk_all_rows_cl(p),
         sdk_all_columns_cl(p),
@@ -151,7 +156,8 @@ dual_weak_sdk_fcs(p) := fcl2fcs(dual_weak_sdk_fcl(p))$
 dual_weak_sdk_stdfcs(p) := fcl2fcs(dual_weak_sdk_stdfcl(p))$
 
 
-/* Output an "empty" Sudoku problem to a file, using the dual weak encoding: */
+/* Output an "empty" Sudoku problem to a file, using the dual weak translation
+   and direct encoding: */
 output_dual_weak_sdk(p,filename) := block([FF : dual_weak_sdk_stdfcl(p)],
   output_fcl_v(
     sconcat(
@@ -164,7 +170,7 @@ output_dual_weak_sdk_stdname(p) :=
   output_dual_weak_sdk(p,sconcat("Dual_Weak_Sudoku_Box_dim_",p,".cnf"))$
 
 
-/* The strong Sudoku problem as formal clause-list: */
+/* The strong Sudoku problem (direct encoding) as formal clause-list: */
 strong_sdk_fcl(p) := [var_sdk(p), 
  append(weak_sdk_fcl(p)[2], dual_weak_sdk_fcl(p)[2])]$
 strong_sdk_stdfcl(p) := standardise_sdk(strong_sdk_fcl(p),p)$
@@ -173,7 +179,8 @@ strong_sdk_stdfcs(p) := fcl2fcs(strong_sdk_stdfcl(p))$
 strong_sdk_stdofcs(p) := fcs2fcl(strong_sdk_stdfcs(p))$
 
 
-/* Output an "empty" Sudoku problem to a file, using the strong encoding: */
+/* Output an "empty" Sudoku problem to a file, using the strong translation 
+   and direct encoding: */
 output_strong_sdk(p,filename) := block([FF : strong_sdk_stdfcl(p)],
   output_fcl_v(
     sconcat(
@@ -245,13 +252,17 @@ nlitocc_strong_sdk_fcs(p) := block([L : ncl_list_strong_sdk_fcs(p)],
    ********************
 */
 
+/* For the direct encoding */
+
 /* Field settings as unit-clauses, already standardised. Input is a list L
    of triples [i,j,k], meaning that field [i,j] carries number k.
    Prerequisite is that all fields are in range allowed by p.
 */
 sdk_fields_stdcl(L,p) := map(set, map(lambda([t],standardise_sdk(t,p)),map(lambda([t],apply(sdk_var,t)), L)))$
 
-/* Output a Sudoku problem ("puzzle") to a file, using the strong encoding: */
+/* Output a complete Sudoku problem ("puzzle") to a file, using the strong
+   translation:
+*/
 output_sdk_puzzle(p,L,comment,filename) := block(
  [FF : strong_sdk_stdofcs(p),
   F : sdk_fields_stdcl(L,p)],
