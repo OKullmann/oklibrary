@@ -23,6 +23,9 @@ License, or any later version. */
   <ul>
    <li> See "Translations to boolean CNFs based on the direct encoding" in
    Experimentation/Investigations/LatinSquares/Sudoku/plans/general.hpp. </li>
+   <li> Write tests for the mixed forms (weakpl_sdk_fcl, weakpb_sdk_fcl,
+   dual_weakpl_sdk_fcl, dual_weakpb_sdk_fcl). </li>
+   <li> Write statistics functions for the mixed forms. </li>
   </ul>
 
 
