@@ -109,7 +109,7 @@ License, or any later version. */
      <li> Of course, one could apply this approach just to the
      problem given by the empty partial assignment, and obtain in this
      way all solutions. </li>
-     <li> However it might be worthwile to first restrict the solution
+     <li> However it might be worthwhile to first restrict the solution
      space. </li>
     </ol>
    </li>
@@ -117,7 +117,7 @@ License, or any later version. */
     <ol>
      <li> Start with the empty partial assignment. </li>
      <li> Create the list of all pairs (empty field)/values. </li>
-     <li> Remove the obiously unsatisfiable extensions by one such pair. </li>
+     <li> Remove the obviously unsatisfiable extensions by one such pair. </li>
      <li> Choose a random pair from the list, and check whether this extension
      is still satisfiable; if not, remove from the list, and choose another
      pair (as long as the list is not empty, there must exist a satisfiable
