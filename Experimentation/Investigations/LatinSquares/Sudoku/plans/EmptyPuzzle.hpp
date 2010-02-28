@@ -440,9 +440,35 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             Weak_Sudoku_Box_dim_5.cnf
 
 > OKsolver_2002-O3-DNDEBUG Strong_Sudoku_Box_dim_5.cnf
-
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         25
+c initial_number_of_variables           15625
+c initial_number_of_clauses             752500
+c initial_number_of_literal_occurrences 1562500
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   750000
+c running_time(sec)                     2927.2
+c number_of_nodes                       398
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                317
+c number_of_pure_literals               0
+c number_of_autarkies                   2
+c number_of_missed_single_nodes         0
+c max_tree_depth                        397
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Strong_Sudoku_Box_dim_5.cnf
    \endverbatim
-   </li>
+   So for the strong form now backtracking occurred, however the overhead
+   of the rather powerless r_2-reduction is considerable. </li>
    <li> satz215:
    \verbatim
 > satz215 Weak_Sudoku_Box_dim_5.cnf
@@ -523,6 +549,143 @@ c 9.0 MB maximally allocated
 c 0.7 seconds total run time
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Box-dimension p=6
+  <ul>
+   <li> satz215 aborts with a memory-error. </li>
+   <li> OKsolver_2002:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG Weak_Sudoku_Box_dim_6.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         36
+c initial_number_of_variables           46656
+c initial_number_of_clauses             2450736
+c initial_number_of_literal_occurrences 4945536
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   2449440
+c running_time(sec)                     8409.0
+c number_of_nodes                       411
+c number_of_single_nodes                1
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4360
+c number_of_pure_literals               1917
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        175
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 10884262
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Weak_Sudoku_Box_dim_6.cnf
+
+(a previous run was aborted (without result) after 5688 nodes)
+
+> OKsolver_2002-O3-DNDEBUG Strong_Sudoku_Box_dim_6.cnf
+XXX
+(a previous run showed that the problem was solved in 911 nodes)
+   \endverbatim
+   The major problem seems the high overhead of the r_2-reduction, which here
+   is mostly powerless. </li>
+   <li> picosat913
+   \verbatim
+> picosat913 Weak_Sudoku_Box_dim_6.cnf
+c 0 iterations
+c 254 restarts
+c 0 failed literals
+c 91856 conflicts
+c 1370001 decisions
+c 0 fixed variables
+c 20133966 learned literals
+c 0.7% deleted literals
+c 22630393 propagations
+c 61.0% variables used
+c 51.3 seconds in library
+c 0.4 megaprops/second
+c 1 simplifications
+c 87 reductions
+c 76.6 MB recycled
+c 30.3 MB maximally allocated
+c 51.3 seconds total run time
+
+> picosat913 Strong_Sudoku_Box_dim_6.cnf
+c 0 iterations
+c 9 restarts
+c 0 failed literals
+c 1530 conflicts
+c 36274 decisions
+c 0 fixed variables
+c 263451 learned literals
+c 0.3% deleted literals
+c 6599783 propagations
+c 11.4% variables used
+c 3.4 seconds in library
+c 1.9 megaprops/second
+c 1 simplifications
+c 0 reductions
+c 0.0 MB recycled
+c 50.5 MB maximally allocated
+c 3.4 seconds total run time
+   \endverbatim
+   </li>
+   <li> precosat236:
+   \verbatim
+> precosat236 Weak_Sudoku_Box_dim_6.cnf
+c *** CAUGHT SIGNAL 2 ***
+c
+c 322129 conflicts, 1432262 decisions, 698 random
+c 0 iterations, 765 restarts, 0 skipped
+c 8 enlarged, 396 shrunken, 3145 rescored, 121 rebiased
+c 1 simplifications, 0 reductions
+c
+c vars: 0 fixed, 0 equiv, 1296 elim, 0 merged
+c elim: 729757 resolutions, 1 phases, 0 rounds
+c sbst: 0% substituted, 0.0% nots, 0.0% ands, 0.0% xors, 0.0% ites
+c arty: 0.00 and 0.00 xor average arity
+c prbe: 206414 probed, 68 phases, 2 rounds
+c prbe: 0 failed, 0 lifted, 0 merged
+c sccs: 0 non trivial, 0 fixed, 0 merged
+c hash: 0 units, 0 merged
+c mins: 99988984 learned, 1% deleted, 0 strong, 11 depth
+c subs: 5544 forward, 670 backward, 0 doms
+c strs: 0 forward, 0 backward
+c doms: 0 dominators, 0 high, 0 low
+c prps: 78248397 propagations, 0.18 megaprops
+c
+c 434.7 seconds, 402 MB max, 228 MB recycled
+c
+c *** CAUGHT SIGNAL 2 ***
+c
+
+> precosat236 Strong_Sudoku_Box_dim_6.cnf
+c 4969 conflicts, 90054 decisions, 62 random
+c 0 iterations, 26 restarts, 0 skipped
+c 0 enlarged, 192 shrunken, 48 rescored, 3 rebiased
+c 1 simplifications, 0 reductions
+c
+c vars: 0 fixed, 0 equiv, 0 elim, 0 merged
+c elim: 600061 resolutions, 1 phases, 0 rounds
+c sbst: 0% substituted, 0.0% nots, 0.0% ands, 0.0% xors, 0.0% ites
+c arty: 0.00 and 0.00 xor average arity
+c prbe: 12124 probed, 2 phases, 0 rounds
+c prbe: 0 failed, 0 lifted, 0 merged
+c sccs: 0 non trivial, 0 fixed, 0 merged
+c hash: 0 units, 0 merged
+c mins: 893366 learned, 0% deleted, 0 strong, 4 depth
+c subs: 933 forward, 192 backward, 0 doms
+c strs: 0 forward, 0 backward
+c doms: 0 dominators, 0 high, 0 low
+c prps: 2137912 propagations, 0.03 megaprops
+c
+c 67.6 seconds, 294 MB max, 0 MB recycled
+   \endverbatim
+   So picosat913 seems stronger. </li>
   </ul>
 
 */
