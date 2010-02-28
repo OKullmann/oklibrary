@@ -65,6 +65,17 @@ sys     0m0.058s
   </ul>
 
 
+  \todo Correct memory handling
+  <ul>
+   <li> With Sudoku problems of box-dimension 6 we get a memory access error:
+   \verbatim
+> satz215 Strong_Sudoku_Box_dim_6.cnf
+/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/bin/satz215: line 12: 13463 Speicherzugriffsfehler  (core dumped) /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/SAT/Satz/satz215/satz215 $*
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Use signals as with OKsolver_2002
   <ul>
    <li> The solver should react as OKsolver_2002 to the signals SIGINT and

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,6 +41,14 @@ License, or any later version. */
    In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
    are handled:
     - Improve file output
+
+
+  \par Version 0.7
+
+  \par
+   In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
+   are handled:
+    - Correct memory handling
 
 
   \par Version 1.0
