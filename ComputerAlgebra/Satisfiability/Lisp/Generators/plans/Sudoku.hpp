@@ -61,6 +61,19 @@ License, or any later version. */
      but we need C++ components. </li>
     </ol>
    </li>
+   <li> It seems however, that the most basic version should already exclude
+   trivial inconsistencies:
+    <ol>
+     <li> Thus best is likely to start with the list of all possible pairs
+     [field, value]. </li>
+     <li> A random element is chosen, and this field together with the fields
+     with the same value in the same line is removed. </li>
+     <li> This process is repeated. </li>
+     <li> This yields a different random process (fields with many values have
+     a higher probability for being chosen), but this process is also natural.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -112,6 +125,9 @@ License, or any later version. */
      <li> Repeat until a full solution is obtained. </li>
      <li> The question is whether this process yields perfect sampling of all
      solutions? One should check this for box-dimension 2. </li>
+     <li> This process is similar to the second process above for creating
+     random Sudoku problems, only that above no satisfiability-cheque is
+     performed. </li>
     </ol>
    </li>
   </ul>
