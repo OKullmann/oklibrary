@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations regarding "empty" Sudoku problems (just finding a solution)
 
 
-  \todo Box-dimension p=3
+  \todo Box-dimension p=3 with direct encoding and three standard translations
   <ul>
    <li> OKsolver_2002:
    \verbatim
@@ -195,7 +195,7 @@ CPU time              : 0.034994 s
   </ul>
 
 
-  \todo Box-dimension p=4
+  \todo Box-dimension p=4 with direct encoding and three standard translations
   <ul>
    <li> OKsolver_2002:
    \verbatim
@@ -407,7 +407,7 @@ CPU time              : 0.846871 s
   </ul>
 
 
-  \todo Box-dimension p=5
+  \todo Box-dimension p=5 with direct encoding and three standard translations
   <ul>
    <li> OKsolver_2002:
    \verbatim
@@ -552,7 +552,7 @@ c 0.7 seconds total run time
   </ul>
 
 
-  \todo Box-dimension p=6
+  \todo Box-dimension p=6 with direct encoding and three standard translations
   <ul>
    <li> satz215 aborts with a memory-error. </li>
    <li> OKsolver_2002:
