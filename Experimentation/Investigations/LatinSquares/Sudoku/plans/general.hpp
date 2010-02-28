@@ -54,6 +54,8 @@ License, or any later version. */
      ("p" for "plus") ? </li>
     </ol>
    </li>
+   <li> Previous experimentations would suggest that "weak pl" is a good
+   combination. </li>
   </ul>
 
 
