@@ -156,6 +156,13 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
+
+
+  <h1> Sudoku </h1>
+
+  <ul>
+   <li> Investigations/LatinSquares/Sudoku/plans/EmptyPuzzle.hpp </li>
+  </ul>
   
 */
 
