@@ -688,6 +688,167 @@ c 67.6 seconds, 294 MB max, 0 MB recycled
    So picosat913 seems stronger. </li>
   </ul>
 
+
+  \todo Direct encoding, weak-pl translation
+  <ul>
+   <li> Created by output_weakpl_sdk_stdname(p). </li>
+   <li> p=4
+    <ol>
+     <li> For the OKsolver_2002 definitely worse than the weak translation:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG WeakPl_Sudoku_Box_dim_4.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         16
+c initial_number_of_variables           4096
+c initial_number_of_clauses             93184
+c initial_number_of_literal_occurrences 200704
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   92160
+c running_time(sec)                     802.6
+c number_of_nodes                       3857
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                50571
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        93
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 30610
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WeakPl_Sudoku_Box_dim_4.cnf
+     \endverbatim
+     </li>
+     <li> satz215 again worse than the weak translation: aborted after 1m50s.
+     </li>
+     <li> minisat2:
+     \verbatim
+> minisat2 WeakPl_Sudoku_Box_dim_4.cnf
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 677            (1.03 % random) (1125 /sec)
+propagations          : 4096           (6805 /sec)
+conflict literals     : 0              ( nan % deleted)
+Memory used           : 6.94 MB
+CPU time              : 0.601908 s
+     \endverbatim
+     This looks very similar to the strong form. </li>
+     <li> picosat913
+     \verbatim
+> picosat913 WeakPl_Sudoku_Box_dim_4.cnf
+c 0 iterations
+c 0 restarts
+c 0 failed literals
+c 0 conflicts
+c 672 decisions
+c 0 fixed variables
+c 0 learned literals
+c 0.0% deleted literals
+c 167936 propagations
+c 0.0% variables used
+c 0.1 seconds in library
+c 1.9 megaprops/second
+c 1 simplifications
+c 0 reductions
+c 0.0 MB recycled
+c 1.4 MB maximally allocated
+c 0.1 seconds total run time
+     \endverbatim
+     </li>
+     <li> From the ubcsat-suite, sapsnr with cutoff=20000 has in 10 runs
+     100% success, while adaptnovelty+ with cutoff=1000000 has in 10 runs
+     10% success. </li>
+    </ol>
+   </li>
+   <li> p=5
+    <ol>
+     <li> minisat2:
+     \verbatim
+restarts              : 8
+conflicts             : 4849           (1265 /sec)
+decisions             : 50625          (1.35 % random) (13210 /sec)
+propagations          : 557895         (145573 /sec)
+conflict literals     : 728520         (0.54 % deleted)
+Memory used           : 30.72 MB
+CPU time              : 3.83242 s
+     \endverbatim
+     More conflicts than with the strong form, but faster due to the smaller
+     clause-set. </li>
+     <li> picosat913:
+     \verbatim
+c 0 iterations
+c 16 restarts
+c 0 failed literals
+c 3339 conflicts
+c 33798 decisions
+c 0 fixed variables
+c 373038 learned literals
+c 0.8% deleted literals
+c 1500346 propagations
+c 43.2% variables used
+c 1.2 seconds in library
+c 1.3 megaprops/second
+c 1 simplifications
+c 1 reductions
+c 0.4 MB recycled
+c 10.0 MB maximally allocated
+c 1.2 seconds total run time
+     \endverbatim
+     This looks a bit weaker than with the strong form. </li>
+     <li> From the ubcsat-suite, sapsnr with cutoff=1000000 seems very weak,
+     and the same for adaptnovelty+. We need to determine the best algorithm
+     from the ubcsat-suite. </li>
+     <li> Best Ubcsat-solver:
+     \verbatim
+> E = eval_ubcsat("WeakPl_Sudoku_Box_dim_5.cnf", params=list(runs=100,cutoff=100000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+rsaps :
+ 2  4  6  7  8 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+ 1  1  1  1  3  1  6  2  4  6  4  4  4  9  9  6  4  1  1  3  2  8  2  4  2  4
+31 33 34 35 40 43
+ 2  1  1  1  1  1
+rnoveltyp :
+ 4  6  7  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+ 2  2  1  8  2  5  6 10  5  7  8  7  8 10  6  2  5  3  2  1
+rnovelty :
+ 5  6  7  8  9 10 12 13 14 15 16 17 18 19 20 21 23 24 25
+ 1  1  3  5  4  2  8  6  7 10 10 16 10  5  2  7  1  1  1
+     \endverbatim
+     </li>
+     <li> rsaps with cutoff=10^6 in 10 runs has 90% success. </li>
+    </ol>
+   </li>
+   <li> p=6 </li>
+  </ul>
+
+
+  \todo Direct encoding, weak-pb translation
+  <ul>
+   <li> Created by output_weakpb_sdk_stdname(p). </li>
+   <li> p=4 </li>
+  </ul>
+
+
+  \todo Direct encoding, dual-weak-pl translation
+  <ul>
+   <li> Created by output_dual_weakpl_sdk_stdname(p). </li>
+   <li> p=4 </li>
+  </ul>
+
+
+  \todo Direct encoding, dual-weak-pb translation
+  <ul>
+   <li> Created by output_dual_weakpb_sdk_stdname(p). </li>
+   <li> p=4 </li>
+  </ul>
+    
 */
 
 
