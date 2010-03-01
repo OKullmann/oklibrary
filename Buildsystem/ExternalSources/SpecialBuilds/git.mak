@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.5.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -27,7 +27,7 @@ git_base : $(git_directories_okl)
 	$(call unarchive,$(git_source_okl),$(git_base_build_dir_okl)) $(postcondition) \
 	cd $(git_build_dir_okl); $(postcondition) \
 	make configure; $(postcondition) \
-	sh ./configure --prefix=$(git_install_directory_okl); $(postcondition) \
+	sh ./configure --prefix=$(git_install_directory_okl) --without-python; $(postcondition) \
 	make all doc; $(postcondition) \
 	cp -r $(git_build_dir_okl)/Documentation $(git_doc_dir_okl); $(postcondition) \
 	$(git_install_command_okl) install-doc; $(postcondition) \
