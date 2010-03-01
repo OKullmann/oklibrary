@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Combinatorics/Enumeration 0.0.3.1 (12.2.2010)
+  \module_version ComputerAlgebra/Combinatorics/Enumeration 0.0.3.2 (1.3.2010)
 
 
   \par Version 0.0.4
@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/Subsets.hpp the
    following topics are handled:
-    - Completing the basic functionality
+    - Completing the basic functionality : DONE
     - Enumerating all k-subsets lexicographically : DONE
 
   \par

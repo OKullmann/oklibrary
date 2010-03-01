@@ -73,6 +73,14 @@ rank_lex_ksubsets(S,n) := block([L : listify(S), k : length(S)],
 /*  Note, for lex ordering, this does depend on n (as for instance {2,3,4}
     comes after {1,2,6}).
 */
+/* Explanation:
+   This formula comes from considering how many subsets are *after*
+   S in the order: Let S = {v_1, ..., v_k} (as above). The elements after S
+   have either every element larger than v_1, these are binomial(n-v_1,k),
+   plus the k-subsets containing v_1 as first element, which without
+   this element are after {v_2, ..., v_k}. Via recursion then the
+   formula is obtained.
+*/
 
 /* Returns the 'x'th subset in the lexicographical enumeration of all
    k-subsets of {1,...,n}: */ 
@@ -125,6 +133,16 @@ colex_ksubsets_ll(M,k) := if k=0 then [{}]
 rank_colex_ksubsets(S) := block([L : listify(S)],
   sum_l(map(binomial,L-1,create_list(i,i,1,length(L)))) + 1)$
 /*  Note, for colex ordering, this does not depend on n. */
+
+/* Explanation:
+   This formula comes from considering how many subsets are before
+   S in the order: Let S = {v_1, ..., v_k} (k = length(S)) be sorted
+   in ascending order. Now the elements before S are those k-subsets with
+   elements all smaller than v_k, these are binomial(v_k-1,k), plus the
+   k-subsets containing v_k as last element, and without this last element
+   being before {v_1, ..., v_{k-1}}. The formula is obtained then by
+   recursion.
+*/
 
 /* Returns the 'x'th subset in the colexicographical enumeration of all
    k-subsets of {1,...,n}. */ 
