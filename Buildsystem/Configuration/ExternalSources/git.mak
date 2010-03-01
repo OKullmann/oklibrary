@@ -11,6 +11,7 @@ all_extsrc_okl += git
 
 git_recommended_version_number_okl ?= 1.6.6.2
 git_supported_not_recommended_version_numbers_okl ?= 1.6.6.1
+# Remarks: Installation of 1.7.0.1 fails on cs-wsok.
 
 git_prefix_okl ?= git
 
