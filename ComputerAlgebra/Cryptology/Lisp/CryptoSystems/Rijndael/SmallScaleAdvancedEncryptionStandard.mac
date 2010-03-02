@@ -40,7 +40,7 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 ss_affine_constant_2_4 : '(x^2+x)$
 ss_affine_constant_2_8 : '(x^6 + x^5 + x + 1)$
 /* Returns the default affine constant for the default GF(b^e) field: */
-ss_affine_constant_std(b,e) :=
+ss_affine_constant(b,e) :=
   if b = 2 then
     if e = 4 then ss_affine_constant_2_4
     else if e = 8 then ss_affine_constant_2_8
@@ -55,7 +55,7 @@ ss_affine_constant_std(b,e) :=
 ss_inv_affine_constant_2_4 : '(x+1)$ 
 ss_inv_affine_constant_2_8 : '(x^2 + 1)$
 /* Returns the default inverse affine constant for the default GF(b^e) field. */
-ss_inv_affine_constant_std(b,e) :=
+ss_inv_affine_constant(b,e) :=
   if b = 2 then
     if e = 4 then ss_inv_affine_constant_2_4
     else if e = 8 then ss_inv_affine_constant_2_8
@@ -70,7 +70,7 @@ ss_sbox_matrix_2_4 : apply(matrix,
 ss_sbox_matrix_2_8 : apply(matrix,
   create_list(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
 /* Returns the default sbox matrix for the default GF(b^e) field. */
-ss_sbox_matrix_std(b,e) :=
+ss_sbox_matrix(b,e) :=
   if b = 2 then
     if e = 4 then ss_sbox_matrix_2_4
     else if e = 8 then ss_sbox_matrix_2_8
@@ -82,7 +82,7 @@ ss_inv_sbox_matrix_2_4 : apply(matrix,
 ss_inv_sbox_matrix_2_8 : apply(matrix,
   create_list(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
 /* Returns the default inverse sbox matrix for the default GF(b^e) field. */
-ss_inv_sbox_matrix_std(b,e) :=
+ss_inv_sbox_matrix(b,e) :=
   if b = 2 then
     if e = 4 then ss_inv_sbox_matrix_2_4
     else if e = 8 then ss_inv_sbox_matrix_2_8
@@ -100,8 +100,8 @@ ss_sbox(wordi,b,e,mod_poly, sbox_matrix,affine_constant) :=
       affine_constant,b,mod_poly)$
 /* std ?? */
 ss_sbox_std(wordi, b,e) :=
-  ss_sbox(wordi,b,e,ss_polynomial_std(b,e),
-    ss_sbox_matrix_std(b,e),ss_affine_constant_std(b,e))$
+  ss_sbox(wordi,b,e,ss_polynomial(b,e),
+    ss_sbox_matrix(b,e),ss_affine_constant(b,e))$
 ss_inv_sbox(wordi,b,e,mod_poly, inv_sbox_matrix,inv_affine_constant) := block(
   ss_einv(ss_stand(vec2poly(column_m(
     inv_sbox_matrix .
@@ -109,8 +109,8 @@ ss_inv_sbox(wordi,b,e,mod_poly, inv_sbox_matrix,inv_affine_constant) := block(
       poly2vec_ss(wordi,e)),1)) +
       inv_affine_constant,b,mod_poly),b,mod_poly))$
 ss_inv_sbox_std(wordi, b,e) :=
-  ss_inv_sbox(wordi,b,e,ss_polynomial_std(b,e),
-    ss_inv_sbox_matrix_std(b,e),ss_inv_affine_constant_std(b,e))$
+  ss_inv_sbox(wordi,b,e,ss_polynomial(b,e),
+    ss_inv_sbox_matrix(b,e),ss_inv_affine_constant(b,e))$
 
 
 /* *************
@@ -183,7 +183,7 @@ ss_mixcolumns_matrix_2_4_4 : block([x], apply(matrix,
   create_list(rotate([x, x + 1, 1, 1], i),i,0,3)))$
 ss_mixcolumns_matrix_2_8_4 : block([x], apply(matrix, 
   create_list(rotate([x, x + 1, 1, 1], i),i,0,3)))$
-ss_mixcolumns_matrix_std(b,e,n_R) :=
+ss_mixcolumns_matrix(b,e,n_R) :=
   if b = 2 then
     if n_R = 4 then
       if e = 4 then ss_mixcolumns_matrix_2_4_4
@@ -210,7 +210,7 @@ ss_inv_mixcolumns_matrix_2_4_4 : block([x], apply(matrix,
   create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
 ss_inv_mixcolumns_matrix_2_8_4 : block([x], apply(matrix,
   create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
-ss_inv_mixcolumns_matrix_std(b,e,n_R) :=
+ss_inv_mixcolumns_matrix(b,e,n_R) :=
   if b = 2 then
     if n_R = 4 then
       if e = 4 then ss_inv_mixcolumns_matrix_2_4_4
@@ -235,8 +235,8 @@ ss_mixcolumn(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) :=
       mixcolumns_matrix . inputmatrixi);
 ss_mixcolumn_std(inputmatrix,b,e) := block(
   ss_mixcolumn(inputmatrix,b,e,
-    ss_polynomial_std(b,e),
-    ss_mixcolumns_matrix_std(b,e,length(inputmatrix))))$
+    ss_polynomial(b,e),
+    ss_mixcolumns_matrix(b,e,length(inputmatrix))))$
 
 /*
    Takes a list of GF(b^e) elements (the block), and
@@ -256,8 +256,8 @@ ss_inv_mixcolumn(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix) :=
     ss_mixcolumn(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix)$
 ss_inv_mixcolumn_std(inputmatrix,b,e) :=
   ss_inv_mixcolumn(inputmatrix,b,e,
-    ss_polynomial_std(b,e),
-    ss_inv_mixcolumns_matrix_std(b,e,length(inputmatrix)))$
+    ss_polynomial(b,e),
+    ss_inv_mixcolumns_matrix(b,e,length(inputmatrix)))$
 
 /*
    Takes a list of GF(b^e) elements (the block), and
@@ -302,7 +302,7 @@ ss_key_expansion(kl, num_rounds, b, mod_poly, sbox_f) := block(
     endcons(ss_keyschedule(last(kl),r,b,mod_poly,sbox_f),kl))],
   apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [kl])))$
 ss_key_expansion_std(kl,num_rounds,b,e) := 
-  ss_key_expansion(kl,num_rounds,b,ss_polynomial_std(b,e), ss_sbox_std(b,e))$
+  ss_key_expansion(kl,num_rounds,b,ss_polynomial(b,e), ss_sbox_std(b,e))$
 
 
 /* *********************************************
