@@ -337,7 +337,7 @@ ss_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
 ss_final_round_wa(pl,sbox_f) := /* Without round key addition */
     ss_shiftrows(
         ss_subbytes(pl,sbox_f))$
-ss_final_round(pl,rkl,b,mod_poly, sbox_f) := 
+ss_final_round(pl,rkl,b,mod_poly, sbox_f) :=  /* With round key addition */
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
     ss_final_round_wa(pl,sbox_f)+rkl)$
 ss_inv_final_round_wa(pl,inv_sbox_f) := 
@@ -351,6 +351,7 @@ ss_inv_final_round(pl,rkl,inv_sbox_f) :=
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
+/* WITH final round (_wf) */
 ss_encrypt_wf(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], 
@@ -372,10 +373,29 @@ ss_encrypt_wf(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
 )$
 
 /* 
+   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   encryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_encrypt(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
+  [n_C : length(pl),
+   partition_m : lambda([M,n], 
+     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+  /* Initial Rounds */
+  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  initial_rk : first(ekl),
+  matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
+    lreduce(lambda([m,n],
+        ss_round(m,n,b,mod_poly,sbox_f,mixcolumn_f)),
+    rest(ekl), pl + initial_rk))
+)$
+
+/* 
    Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10):
 */
+/* WITH final round (_wf) */
 ss_decrypt_wf(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], /* This should be moved somewhere suitable */
@@ -393,6 +413,24 @@ ss_decrypt_wf(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn
     rreduce(
       lambda([a,b],ss_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
       rest(rest(ekl), -1), initial_result) + initial_rk)
+)$
+
+/* 
+   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   decryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_decrypt(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
+  [n_C : length(pl),
+   partition_m : lambda([M,n], /* This should be moved somewhere suitable */
+    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+  /* Initial Rounds */
+  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  initial_rk : first(ekl), 
+  matrixmap(lambda([a],ss_stand(a,b,mod_poly)),
+    rreduce(
+      lambda([a,b],ss_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
+      rest(ekl), pl) + initial_rk)
 )$
 
 /*!
