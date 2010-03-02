@@ -211,7 +211,18 @@ gwsat :
    </li>
    <li> n=467, cutoff=4*10^7, rnovelty+: found a solution in run 16
    (seed=3217946404, osteps=24166244). </li>
-   <li> n=468, cutoff=4*10^7, rnovelty+ </li>
+   <li> n=468
+    <ol>
+     <li> cutoff=4*10^7, rnovelty+
+     \verbatim
+ 1  2  3
+32 67  1
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^7, walksat-tabu-nonull </li>
+    </ol>
+   </li>
   </ul>
 
 */
