@@ -130,24 +130,26 @@ okltest_ss_inv_shiftrows(f) := block(
 
 okltest_ss_mixcolumn(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
-      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8) = ss_natl2m([0,0,0,0],2,4)),
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
+    ss_natl2m([0,0,0,0],2,4)),
   assert(f(ss_natl2m([50,67,7,52],2,4),2,8,
-      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8) =
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
     ss_natl2m([146, 137, 35, 122],2,4)),
   true)$
 
 okltest_ss_inv_mixcolumn(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
-      ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8) =
+      ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4) =
     ss_natl2m([0,0,0,0],2,4)),
   assert(f(ss_natl2m([146, 137, 35, 122],2,4),2,8,
-      ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8)=
+      ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4)=
     ss_natl2m([50,67,7,52],2,4)),
   true)$
 
 okltest_ss_mixcolumns(f) := block([mixcolumn_f],
-  mixcolumn_f : lambda([M],
-    ss_mixcolumn(M, 2,8,ss_polynomial_2_8,ss_mixcolumns_matrix_2_8)),
+  mixcolumn_f : lambda([M], ss_mixcolumn_std(M,2,4)),
+  assert(f(matrix([0]), mixcolumn_f) = matrix([0])),
+  mixcolumn_f : lambda([M],ss_mixcolumn_std(M, 2,8)),
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),
         mixcolumn_f) = ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4)),
   assert(f(ss_natl2m(
@@ -158,7 +160,7 @@ okltest_ss_mixcolumns(f) := block([mixcolumn_f],
 
 okltest_ss_inv_mixcolumns(f) := block([inv_mixcolumn_f],
   inv_mixcolumn_f : lambda([M],
-    ss_inv_mixcolumn(M, 2,8,ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8)),
+    ss_inv_mixcolumn(M, 2,8,ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4)),
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),
         inv_mixcolumn_f) = ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4)),
   assert(f(ss_natl2m(
@@ -208,6 +210,9 @@ okltest_ss_key_expansion(f) := block(
 */
 
 okltest_ss_round(f) := block(
+  assert(f(matrix([0]),matrix([0]),2,ss_polynomial_2_4,
+      lambda([a],ss_sbox_std(a,2,4)),lambda([a],ss_mixcolumn_std(a,2,4))) =
+    matrix([x^2+x])),
   assert(f(ss_natl2m([25,160,154,233,61,244,198,248,227,226,141,72,190,43,
     42,8],2,4),ss_natl2m([160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5],2,4),2,ss_polynomial_2_8,
     rijn_lookup_sbox,rijn_mixcolumn)=
@@ -229,6 +234,37 @@ okltest_ss_inv_round(f) := block(
     ss_natl2m([72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,231],2,4)),
   true)$
 
+
+okltest_ss_encrypt_wf(f) := block(
+    assert(f(ss_natl2m([0],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
+        lambda([p],ss_sbox_std(p,2,4)),lambda([C], ss_mixcolumn_std(C,2,4))) =
+      ss_natl2m([7],2,1)),
+  assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),10,2,8,ss_polynomial_2_8,
+    rijn_lookup_sbox,rijn_mixcolumn) = 
+    ss_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46],2,4)),
+  assert(f(ss_natl2m(
+        [50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],2,4),
+      ss_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60],2,4),10,2,8,ss_polynomial_2_8,
+      rijn_lookup_sbox,rijn_mixcolumn) = 
+    ss_natl2m([87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6],2,4)),
+  true)$
+
+okltest_ss_decrypt_wf(f) := block(
+    assert(f(ss_natl2m([7],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
+        lambda([p],ss_sbox_std(p,2,4)),lambda([p],ss_inv_sbox_std(p,2,4)),
+        lambda([C], ss_inv_mixcolumn_std(C,2,4))) = ss_natl2m([0],2,1)),
+  assert(f(
+      ss_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46],2,4),
+      ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),10,2,8,
+      ss_polynomial_2_8,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn) = 
+    ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4)),
+  assert(f(ss_natl2m(
+        [87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6],2,4),
+      ss_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60],2,4),
+      10,2,8,ss_polynomial_2_8,rijn_lookup_sbox,rijn_inv_sbox,rijn_inv_mixcolumn) =
+    ss_natl2m([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],2,4)
+    ),
+  true)$
 
 /*!
 \endhtmlonly

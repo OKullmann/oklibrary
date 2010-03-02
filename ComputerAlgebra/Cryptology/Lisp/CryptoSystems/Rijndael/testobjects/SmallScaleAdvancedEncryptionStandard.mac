@@ -74,6 +74,8 @@ okltest_ss_key_expansion(ss_key_expansion);
 
 okltest_ss_round(ss_round);
 okltest_ss_inv_round(ss_inv_round);
+okltest_ss_encrypt_wf(ss_encrypt_wf);
+okltest_ss_decrypt_wf(ss_decrypt_wf);
 
 /*!
 \endhtmlonly
