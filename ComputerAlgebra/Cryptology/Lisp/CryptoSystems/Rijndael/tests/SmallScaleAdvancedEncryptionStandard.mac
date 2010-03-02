@@ -34,7 +34,7 @@ kill(f)$
    *********
 */
 
-okltest_ss_sbox(f) := block(
+okltest_ss_sbox_gen(f) := block(
   /* Test vector for b=2 e=4 generated using "Small Scale Variants of the AES
   (SR) Polynomial System Generator" in Sage */
   assert(create_list(poly2nat(
@@ -53,7 +53,7 @@ okltest_ss_sbox(f) := block(
       ss_sbox_matrix_2_8,ss_affine_constant_2_8) = rijn_lookup_sbox(b)),
   true)$
 
-okltest_ss_inv_sbox(f) := block(
+okltest_ss_inv_sbox_gen(f) := block(
   assert(create_list(poly2nat(
         f(nat2poly(i,2),2,4,ss_polynomial_2_4,
           ss_inv_sbox_matrix_2_4,ss_inv_affine_constant_2_4),2),i,
@@ -81,7 +81,7 @@ okltest_ss_inv_sbox(f) := block(
 
 
 okltest_ss_subbytes(f) := block([sbox_f],
-  sbox_f : lambda([p],ss_sbox_std(p,2,8)),
+  sbox_f : lambda([p],ss_sbox(p,2,8)),
   assert(f(diagmatrix(4,0),sbox_f) =
     genmatrix(lambda([a,b],x^6+x^5+x+1),4,4)),
   assert(f(diagmatrix(4,1),sbox_f) =
@@ -94,7 +94,7 @@ okltest_ss_subbytes(f) := block([sbox_f],
   true)$
 
 okltest_ss_inv_subbytes(f) := block([inv_sbox_f],
-  inv_sbox_f : lambda([p], ss_inv_sbox_std(p,2,8)),
+  inv_sbox_f : lambda([p], ss_inv_sbox(p,2,8)),
   assert(f(genmatrix(lambda([a,b],x^6+x^5+x+1),4,4),inv_sbox_f) =
     diagmatrix(4,0)),
   assert(f(
@@ -128,7 +128,7 @@ okltest_ss_inv_shiftrows(f) := block(
    ***************
 */
 
-okltest_ss_mixcolumn(f) := block(
+okltest_ss_mixcolumn_gen(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
       ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
     ss_natl2m([0,0,0,0],2,4)),
@@ -137,7 +137,7 @@ okltest_ss_mixcolumn(f) := block(
     ss_natl2m([146, 137, 35, 122],2,4)),
   true)$
 
-okltest_ss_inv_mixcolumn(f) := block(
+okltest_ss_inv_mixcolumn_gen(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
       ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4) =
     ss_natl2m([0,0,0,0],2,4)),
@@ -147,9 +147,9 @@ okltest_ss_inv_mixcolumn(f) := block(
   true)$
 
 okltest_ss_mixcolumns(f) := block([mixcolumn_f],
-  mixcolumn_f : lambda([M], ss_mixcolumn_std(M,2,4)),
+  mixcolumn_f : lambda([M], ss_mixcolumn(M,2,4)),
   assert(f(matrix([0]), mixcolumn_f) = matrix([0])),
-  mixcolumn_f : lambda([M],ss_mixcolumn_std(M, 2,8)),
+  mixcolumn_f : lambda([M],ss_mixcolumn(M, 2,8)),
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),
         mixcolumn_f) = ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4)),
   assert(f(ss_natl2m(
@@ -159,8 +159,7 @@ okltest_ss_mixcolumns(f) := block([mixcolumn_f],
   true)$
 
 okltest_ss_inv_mixcolumns(f) := block([inv_mixcolumn_f],
-  inv_mixcolumn_f : lambda([M],
-    ss_inv_mixcolumn(M, 2,8,ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4)),
+  inv_mixcolumn_f : lambda([M],ss_inv_mixcolumn(M, 2,8)),
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),
         inv_mixcolumn_f) = ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4)),
   assert(f(ss_natl2m(
@@ -176,18 +175,18 @@ okltest_ss_inv_mixcolumns(f) := block([inv_mixcolumn_f],
 
 okltest_ss_key_expansion(f) := block(
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),10,2,
-      ss_polynomial_2_4,lambda([p],ss_sbox_std(p,2,4))) =
+      ss_polynomial_2_4,lambda([p],ss_sbox(p,2,4))) =
     ss_natl2m(map(hex2int,charlist(
         sconcat("00000000000000007666766676667666211C577A211C577ACBE",
           "29C98BD84EAFEB3E22F7A92FE780015883AF2A80CD00C13B9294B81475",
           "14B6177483CC97B9830451A0D26C45D5C6D22042F22EB7FB7122958067",
           "AED055A17"))),2,4)),
   assert(f(ss_natl2m([0,0,0,0],2,2),10,2,
-      ss_polynomial_2_4,lambda([p],ss_sbox_std(p,2,4))) =
+      ss_polynomial_2_4,lambda([p],ss_sbox(p,2,4))) =
     ss_natl2m(map(hex2int,charlist(
         sconcat("000076762C5A92C88149632AF6DC07DB76AD3994B420"))),2,2)),
   assert(f(ss_natl2m([0],2,1),10,2,
-      ss_polynomial_2_4,lambda([p],ss_sbox_std(p,2,4))) =
+      ss_polynomial_2_4,lambda([p],ss_sbox(p,2,4))) =
     ss_natl2m(map(hex2int,charlist(
         sconcat("078D9E6B7F2"))),2,1)),
   /* Extreme Cases for sbox */
@@ -211,7 +210,7 @@ okltest_ss_key_expansion(f) := block(
 
 okltest_ss_round(f) := block(
   assert(f(matrix([0]),matrix([0]),2,ss_polynomial_2_4,
-      lambda([a],ss_sbox_std(a,2,4)),lambda([a],ss_mixcolumn_std(a,2,4))) =
+      lambda([a],ss_sbox(a,2,4)),lambda([a],ss_mixcolumn(a,2,4))) =
     matrix([x^2+x])),
   assert(f(ss_natl2m([25,160,154,233,61,244,198,248,227,226,141,72,190,43,
     42,8],2,4),ss_natl2m([160,136,35,42,250,84,163,108,254,44,57,118,23,177,57,5],2,4),2,ss_polynomial_2_8,
@@ -237,7 +236,7 @@ okltest_ss_inv_round(f) := block(
 
 okltest_ss_encrypt_wf(f) := block(
     assert(f(ss_natl2m([0],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
-        lambda([p],ss_sbox_std(p,2,4)),lambda([C], ss_mixcolumn_std(C,2,4))) =
+        lambda([p],ss_sbox(p,2,4)),lambda([C], ss_mixcolumn(C,2,4))) =
       ss_natl2m([7],2,1)),
   assert(f(ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),10,2,8,ss_polynomial_2_8,
     rijn_lookup_sbox,rijn_mixcolumn) = 
@@ -251,8 +250,8 @@ okltest_ss_encrypt_wf(f) := block(
 
 okltest_ss_decrypt_wf(f) := block(
     assert(f(ss_natl2m([7],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
-        lambda([p],ss_sbox_std(p,2,4)),lambda([p],ss_inv_sbox_std(p,2,4)),
-        lambda([C], ss_inv_mixcolumn_std(C,2,4))) = ss_natl2m([0],2,1)),
+        lambda([p],ss_sbox(p,2,4)),lambda([p],ss_inv_sbox(p,2,4)),
+        lambda([C], ss_inv_mixcolumn(C,2,4))) = ss_natl2m([0],2,1)),
   assert(f(
       ss_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46],2,4),
       ss_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],2,4),10,2,8,
