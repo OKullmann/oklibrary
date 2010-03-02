@@ -825,7 +825,48 @@ rnovelty :
      <li> rsaps with cutoff=10^6 in 10 runs has 90% success. </li>
     </ol>
    </li>
-   <li> p=6 </li>
+   <li> p=6
+    <ol>
+     <li> minisat2:
+     \verbatim
+> minisat2 WeakPl_Sudoku_Box_dim_6.cnf
+*** INTERRUPTED ***
+restarts              : 18
+conflicts             : 248627         (563 /sec)
+decisions             : 537432         (1.70 % random) (1216 /sec)
+propagations          : 20995970       (47520 /sec)
+conflict literals     : 70230664       (1.51 % deleted)
+Memory used           : 396.64 MB
+CPU time              : 441.831 s
+     \endverbatim
+     </li>
+     <li> picosat913:
+     \verbatim
+> picosat913 WeakPl_Sudoku_Box_dim_6.cnf
+c 0 iterations
+c 181 restarts
+c 0 failed literals
+c 57449 conflicts
+c 740981 decisions
+c 0 fixed variables
+c 10503622 learned literals
+c 1.0% deleted literals
+c 17097396 propagations
+c 51.9% variables used
+c 20.9 seconds in library
+c 0.8 megaprops/second
+c 1 simplifications
+c 13 reductions
+c 34.6 MB recycled
+c 34.1 MB maximally allocated
+c 20.9 seconds total run time
+     \endverbatim
+     </li>
+     <li> rsaps with cutoff=10^6 reached in 10 runs only min=48. </li>
+    </ol>
+   </li>
+   <li> So altogether it seems that this translation is worse than the
+   strong translation. </li>
   </ul>
 
 
