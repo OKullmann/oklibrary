@@ -83,6 +83,9 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
    signifies "*w*ith *f*inal round".
 */
 
+/* TODO: REWRITE documentation below */
+/* TODO: TIDY code below to ensure readability. */
+
 /* *********
    * S box *
    *********
@@ -279,9 +282,9 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
 
 /* Mixcolumn operation applied to the elements of a single
    column (given a matrix of polynomials) in the AES/Rijndael block: */
-ss_mixcolumn_gen(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) :=
+ss_mixcolumn_gen(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) := block(
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
-      mixcolumns_matrix . inputmatrixi);
+      mixcolumns_matrix . inputmatrixi));
 ss_mixcolumn(inputmatrix,b,e) := block(
   ss_mixcolumn_gen(inputmatrix,b,e,
     ss_polynomial(b,e),
@@ -401,7 +404,7 @@ ss_inv_final_round(pl,rkl,inv_sbox_f) :=
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
 /* WITH final round (_wf) */
-ss_encrypt_wf(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
+ss_encrypt_wf_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], 
      map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
@@ -426,7 +429,18 @@ ss_encrypt_wf(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10):
 */
-ss_encrypt(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
+/* WITH final round (_wf) */
+ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
+   ss_encrypt_wf_gen(pl,kl,num_rounds,b,e,
+     ss_polynomial(b,e), lambda([a], ss_sbox(a,b,e)),
+     lambda([a], ss_mixcolumn(a,b,e)))$
+
+/* 
+   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   encryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], 
      map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
@@ -440,12 +454,23 @@ ss_encrypt(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
 )$
 
 /* 
+   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   encryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_encrypt(pl, kl, num_rounds,b,e) :=
+  ss_encrypt_gen(pl,kl,num_rounds,b,e,
+    ss_polynomial(b,e),
+    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
+    buildq([b,e],lambda([a], ss_mixcolumn(a,b,e))))$
+
+/* 
    Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10):
 */
 /* WITH final round (_wf) */
-ss_decrypt_wf(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
+ss_decrypt_wf_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], /* This should be moved somewhere suitable */
     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
@@ -469,7 +494,18 @@ ss_decrypt_wf(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10):
 */
-ss_decrypt(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
+/* WITH final round (_wf) */
+ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
+  ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
+    lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
+    lambda([a], ss_inv_mixcolumn(a,b,e)))$
+
+/* 
+   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   decryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], /* This should be moved somewhere suitable */
     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
@@ -481,6 +517,18 @@ ss_decrypt(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f)
       lambda([a,b],ss_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
       rest(ekl), pl) + initial_rk)
 )$
+
+/* 
+   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   decryption algorithm (hence number of rounds is assumed to be 10):
+*/
+ss_decrypt(pl, kl, num_rounds, b,e) :=
+  ss_decrypt_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
+    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
+    buildq([b,e],lambda([a], ss_inv_sbox(a,b,e))),
+    buildq([b,e],lambda([a], ss_inv_mixcolumn(a,b,e))))$
+
 
 /*!
 \endhtmlonly

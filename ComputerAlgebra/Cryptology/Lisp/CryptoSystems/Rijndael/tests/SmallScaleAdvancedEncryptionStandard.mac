@@ -234,7 +234,7 @@ okltest_ss_inv_round(f) := block(
   true)$
 
 
-okltest_ss_encrypt_wf(f) := block(
+okltest_ss_encrypt_wf_gen(f) := block(
     assert(f(ss_natl2m([0],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
         lambda([p],ss_sbox(p,2,4)),lambda([C], ss_mixcolumn(C,2,4))) =
       ss_natl2m([7],2,1)),
@@ -248,7 +248,7 @@ okltest_ss_encrypt_wf(f) := block(
     ss_natl2m([87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6],2,4)),
   true)$
 
-okltest_ss_encrypt(f) := block(
+okltest_ss_encrypt_gen(f) := block(
     assert(f(ss_natl2m([0],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
         lambda([p],ss_sbox(p,2,4)),lambda([C], ss_mixcolumn(C,2,4))) =
       ss_natl2m([7],2,1)),
@@ -259,7 +259,7 @@ okltest_ss_encrypt(f) := block(
         2,4)),    
     true)$
 
-okltest_ss_decrypt_wf(f) := block(
+okltest_ss_decrypt_wf_gen(f) := block(
     assert(f(ss_natl2m([7],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
         lambda([p],ss_sbox(p,2,4)),lambda([p],ss_inv_sbox(p,2,4)),
         lambda([C], ss_inv_mixcolumn(C,2,4))) = ss_natl2m([0],2,1)),
@@ -276,7 +276,7 @@ okltest_ss_decrypt_wf(f) := block(
     ),
   true)$
 
-okltest_ss_decrypt(f) := block(
+okltest_ss_decrypt_gen(f) := block(
     assert(f(ss_natl2m([7],2,1),ss_natl2m([0],2,1),10,2,4,ss_polynomial_2_4,
         lambda([p],ss_sbox(p,2,4)),lambda([p],ss_inv_sbox(p,2,4)),
         lambda([C], ss_inv_mixcolumn(C,2,4))) = ss_natl2m([0],2,1)),
