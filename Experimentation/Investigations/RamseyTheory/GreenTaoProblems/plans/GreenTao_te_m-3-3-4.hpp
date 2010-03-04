@@ -213,14 +213,21 @@ gwsat :
    (seed=3217946404, osteps=24166244). </li>
    <li> n=468
     <ol>
-     <li> cutoff=4*10^7, rnovelty+
+     <li> cutoff=4*10^7, rnovelty+:
      \verbatim
  1  2  3
 32 67  1
 100
      \endverbatim
      </li>
-     <li> cutoff=4*10^7, walksat-tabu-nonull </li>
+     <li> cutoff=4*10^7, walksat-tabu-nonull:
+     \verbatim
+ 1  2  3
+16 74 10
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^7, rnovelty </li>
     </ol>
    </li>
   </ul>
