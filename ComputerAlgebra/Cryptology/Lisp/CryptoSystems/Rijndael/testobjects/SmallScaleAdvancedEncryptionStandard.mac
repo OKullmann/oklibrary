@@ -79,6 +79,13 @@ okltest_ss_decrypt_wf_gen(ss_decrypt_wf_gen);
 okltest_ss_encrypt_gen(ss_encrypt_gen);
 okltest_ss_decrypt_gen(ss_decrypt_gen);
 
+/* **********************************************************
+   * Small scale AES encryption as an iterated block cipher *
+   **********************************************************
+*/
+
+okltest_ss_encrypt_gen(ss_encrypt_ibc_gen);
+
 /*!
 \endhtmlonly
 */

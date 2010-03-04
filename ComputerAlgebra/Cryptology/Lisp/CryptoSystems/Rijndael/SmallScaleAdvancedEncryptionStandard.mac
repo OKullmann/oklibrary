@@ -530,6 +530,33 @@ ss_decrypt(pl, kl, num_rounds, b,e) :=
     buildq([b,e],lambda([a], ss_inv_mixcolumn(a,b,e))))$
 
 
+/* **********************************************************
+   * Small scale AES encryption as an iterated block cipher *
+   **********************************************************
+*/
+
+/* Combined AES round: */
+/* OK: what does this mean? */
+ss_round_ibc_gen(plain_text, round, sbox_f,mixcolumn_f) :=
+  if round = 0 then plain_text
+  else
+    ss_round_wa(plain_text, sbox_f, mixcolumn_f)$
+
+/* Small scale AES encryption as ibc (see
+   Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac): */
+/* OK: this should just be a helper-function */
+ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
+  sbox_f, mixcolumn_f) :=
+    ibc_0(
+      buildq([b,mod_poly,sbox_f],
+        lambda([key,r], ss_keyschedule(key,r,b,mod_poly,sbox_f))),
+      buildq([sbox_f,mixcolumn_f],
+        lambda([p,r], ss_round_ibc_gen(p,r,sbox_f,mixcolumn_f))),
+      buildq([b,mod_poly],
+        lambda([m,n],
+          matrixmap(lambda([p],ss_stand(p,b,mod_poly)),m+n)))
+      )(plaintext,key,num_rounds+1)$
+
 /*!
 \endhtmlonly
 */
