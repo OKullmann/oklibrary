@@ -10,6 +10,19 @@ License, or any later version. */
   \brief On performance of symmetry breaking techniques on %Ramsey problems
 
 
+  \todo Handling symmetries using extended resolution
+  <ul>
+   <li> OK mentioned that there was a paper which mentions small 
+   proof refutations for unsatisfiable %Ramsey problems using
+   symmetry rules. </li>
+   <li> OK also suggested that there was evidence that such things could
+   be translated or replicated using the extended resolution proof
+   system, maintaining the succinctness of the proof. </li>
+   <li> MG: Is this the paper being referred to [The Symmetry Rule in 
+   Propositional Logic]? It doesn't seem to mention %Ramsey problems? </li>
+  </ul>
+
+
   \todo Performance of symmetry breaking by fixing monochromatic cliques
   <ul>
    <li> Systematic experiments need to be run examining the performance of
