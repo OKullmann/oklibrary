@@ -571,12 +571,10 @@ rnovelty :
      </li>
      <li> cutoff=64*10^7:
      \verbatim
-1 2 3
-1 7 8
-16
-1 2 3
-1 2 3
-6
+ 1   2   3  4
+ 5  18  28  4
+55
+
      \endverbatim
      </li>
     </ol>

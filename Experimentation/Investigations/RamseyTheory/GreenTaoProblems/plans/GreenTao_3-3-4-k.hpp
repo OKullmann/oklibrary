@@ -231,7 +231,13 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 140
      \endverbatim
      </li>
-     <li> cutoff=64*10^7 </li>
+     <li> cutoff=64*10^7
+     \verbatim
+ 1  2  3  4
+ 2 12 23  7
+48
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1665: weak standard nested translation, rnovelty+
@@ -485,15 +491,17 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> cutoff=128*10^6:
      \verbatim
- 3  7 14 15 17
- 1  1  1  1  1
-5
- 6  7  9 13
- 1  1  1  1
-4
+ 2  3  4  5  6  7  8  9 11 13 14 15 17 18
+ 1  4  3  5  2  9  4  4  1  3  2  2  2  1
+43
      \endverbatim
      </li>
-     <li> cutoff=2*10^8 </li>
+     <li> cutoff=2*10^8
+     \verbatim
+3 4 5 6 8 9 12
+2 2 3 1 2 2  1
+13
+     </li>
     </ol>
    </li>
   </ul>
