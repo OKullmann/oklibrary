@@ -189,16 +189,15 @@ ss_inv_sbox(field_element, b,e) :=
 */
 
 /* 
-??? range ??? 16
-   Takes the input block as a matrix of 16 polynomials in
-   the range 0-nat2polybin(b^e -1) and applies the sbox operation to
+   Takes the input block as a matrix of polynomials in
+   the range 0-nat2polybin(b^e -1) and applies the given sbox operation to
    each polynomial, returning the matrix of result polynomials:
 */
 ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
 
 /* 
-   Takes the input block as a matrix of 16 polynomials in the range
-   0-nat2polybin(b^e-1) and applies the inverse sbox operation to each
+   Takes the input block as a matrix of polynomials in the range
+   0-nat2polybin(b^e-1) and applies the given inverse sbox operation to each
    polynomial, returning the list of result polynomials:
 */
 ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
@@ -212,9 +211,8 @@ ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
 /*
    Takes a matrix and performs the shiftrows operation,
-   returning a matrix where each row has been shifted
-   cyclically by the specified amount (see aes_shiftrows_shifts[i]
-   for the shift for the i'th row).
+   returning a matrix where row i (1 indexed) has been shifted
+   cyclically left by i-1.
 */
 ss_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -223,9 +221,8 @@ ss_shiftrows(inputmatrix) :=
 
 /*
    Takes a matrix and performs the inverse shiftrows operation,
-   returning a matrix where each row has been shifted
-   cyclically by the specified amount (see -aes_shiftrows_shifts[i]
-   for the shift for the i'th row).
+   returning a matrix where row i (1 indexed) has been shifted
+   cyclically right by i -1.
 */
 ss_inv_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -298,8 +295,9 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
   else und$
 
 
-/* Mixcolumn operation applied to the elements of a single
-   column (given a matrix of polynomials) in the AES/Rijndael block: */
+/* Takes a vector of polynomials and returns the result of
+   multiplying the input matrix by the given mixcolumns_matrix
+   in field specified by b, e and mod_poly:*/
 ss_mixcolumn_gen(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) := block(
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
       mixcolumns_matrix . inputmatrixi));
@@ -308,20 +306,17 @@ ss_mixcolumn(inputmatrix,b,e) := block(
     ss_polynomial(b,e),
     ss_mixcolumns_matrix(b,e,length(inputmatrix))))$
 
-/*
-   Takes a list of GF(b^e) elements (the block), and
-   performs the mixcolumns operation, returning the resulting
-   block as a list of GF(b^e) elements. A function specifying
-   the actual operation done on a particular column must be
-   provided as the second argument.
-*/
+/* Takes a matrix of polynomials and returns the result of
+   applying the transformation function mixcolumn_f
+   to each column vector:*/
 ss_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
   for i : 1 thru length(matrixcolumns(inputmatrix)) do
     M : addcol(M,mixcolumn_f(col(inputmatrix,i))),
   return(M))$
 
-/* Mixcolumn operation applied to the elements of a single
-   column (given a matrix) in the AES/Rijndael block: */
+/* Takes a vector of polynomials and returns the result of
+   multiplying the input matrix by the given inv_mixcolumns_matrix
+   in field specified by b, e and mod_poly:*/
 ss_inv_mixcolumn_gen(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix) :=
     ss_mixcolumn_gen(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix)$
 ss_inv_mixcolumn(inputmatrix,b,e) :=
@@ -329,13 +324,9 @@ ss_inv_mixcolumn(inputmatrix,b,e) :=
     ss_polynomial(b,e),
     ss_inv_mixcolumns_matrix(b,e,length(inputmatrix)))$
 
-/*
-   Takes a list of GF(b^e) elements (the block), and
-   performs the inverse mixcolumns operation, returning the resulting
-   block as a list of GF(b^e) elements. A function specifying
-   the actual operation done on a particular column must be
-   provided as the second argument.
-*/
+/* Takes a matrix of polynomials and returns the result of
+   applying the transformation function inv_mixcolumn_f
+   to each column vector:*/
 ss_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) := 
   ss_mixcolumns(inputmatrix,inv_mixcolumn_f)$
 
@@ -346,8 +337,10 @@ ss_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) :=
 */
 
 /*
-   Takes an AES round key for round r as a list of
-   polynomials and returns the round key for round r+1.
+   Takes a matrix of polynomials as the round key for
+   round r-1, and returns the small scale AES round
+   key for round r, given the small scale sbox function
+   sbox_f.
  */
 ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
   [newcols : matrix(), n_C : length(matrixcolumns(kl)),
@@ -361,12 +354,14 @@ ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
       create_list(kl[i,j] + newcols[i,j-1],i,1,n_R))),
   return(matrixmap(lambda([p],ss_stand(p,b,mod_poly)),newcols)))$
 
-/* Given the AES key as a list of polynomials representing the
-   byte field elements in the AES key block, column by column,
-   returns a list of polynomials representing the byte field elements
-   of the concatenation of the round key blocks for all AES rounds,
-   column by column.
- */
+/*
+   Takes a matrix of polynomials as the input key and
+   returns a matrix of size n_R * n_C * (num_rounds+1)
+   where columns i * (n_R * n_C) to (i+1) * (n_R * N_C)
+   are the round key matrix for round i, where n_R and
+   n_C are the number of rows and number of columns in
+   the input key matrix (resp).
+*/
 ss_key_expansion_gen(kl, num_rounds, b, mod_poly, sbox_f) := block(
   [ks : lambda([kl,r],
     endcons(ss_keyschedule(last(kl),r,b,mod_poly,sbox_f),kl))],
@@ -380,46 +375,74 @@ ss_key_expansion(kl,num_rounds,b,e) :=
    *********************************************
 */
 
-/* 
-   Takes the plaintext matrix of GF(2^8) elements and the 
-   round key for this round as a list of GF(2^8) elements, and
-   returns a matrix of the same size of GF(2^8) elements as the plaintext
-   as the result of the round operation:
- */
+/* Takes a matrix of polynomials and another matrix
+   of polynomials representing the round key and computes the result of
+   applying the small scale AES round function on this matrix
+   given the sbox and mixcolumn functions.
+
+   Note ss_round_wa does not take the round key and does
+   not perform the key addition, but remains otherwise
+   the same.
+*/
 ss_round_wa(pl,sbox_f,mixcolumn_f) := 
     ss_mixcolumns(ss_shiftrows(
         ss_subbytes(pl,sbox_f)),mixcolumn_f)$
 ss_round(pl, rkl,b,mod_poly,sbox_f, mixcolumn_f) := 
   matrixmap(lambda([p], ss_stand(p,b,mod_poly)),
     ss_round_wa(pl,sbox_f,mixcolumn_f)+rkl)$
+/* Takes a matrix of polynomials and another matrix
+   of polynomials representing the round key and computes the result of
+   applying the inverse of the small scale AES round function on this matrix
+   given the sbox and mixcolumn functions.
+
+   Note ss_inv_round_wa does not take the round key and does
+   not perform the key addition, but remains otherwise
+   the same.
+*/
 ss_inv_round_wa(pl,inv_sbox_f,inv_mixcolumn_f) := 
     ss_inv_subbytes(ss_inv_shiftrows(
         ss_inv_mixcolumns(pl,inv_mixcolumn_f)), inv_sbox_f)$
 ss_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
     ss_inv_round_wa(pl+rkl,inv_sbox_f, inv_mixcolumn_f)$
 
-/* 
-   Takes the plaintext matrix of GF(2^8) elements and the 
-   round key for this round as a list of GF(2^8) elements, and
-   returns a matrix of the same size of GF(2^8) elements as the plaintext
-   as the result of the final aes round operation (without mixcolumn):
- */
+
+/* Takes a matrix of polynomials and another matrix
+   of polynomials representing the round key and computes the result of
+   applying the specialised final small scale AES round function on this
+   matrix given the sbox and mixcolumn functions.
+
+   Note ss_final_round_wa does not take the round key and does
+   not perform the key addition, but remains otherwise
+   the same.
+*/
 ss_final_round_wa(pl,sbox_f) := /* Without round key addition */
     ss_shiftrows(
         ss_subbytes(pl,sbox_f))$
 ss_final_round(pl,rkl,b,mod_poly, sbox_f) :=  /* With round key addition */
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
     ss_final_round_wa(pl,sbox_f)+rkl)$
+/* Takes a matrix of polynomials and another matrix
+   of polynomials representing the round key and computes the result of
+   applying the inverse of the specialised final small scale AES round
+   function on this  matrix given the sbox and mixcolumn functions.
+
+   Note ss_inv_final_round_wa does not take the round key and does
+   not perform the key addition, but remains otherwise
+   the same.
+*/
 ss_inv_final_round_wa(pl,inv_sbox_f) := 
     ss_inv_subbytes(ss_inv_shiftrows(pl), inv_sbox_f)$
 ss_inv_final_round(pl,rkl,inv_sbox_f) := 
     ss_inv_final_round_wa(pl+rkl, inv_sbox_f)$
 
 
-/* 
-   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   encryption algorithm (hence number of rounds is assumed to be 10):
+/* Takes a matrix of polynomials, another matrix
+   of polynomials representing the round key, and the number of rounds and
+   computes the result (as a matrix of polynomials) of applying the small
+   scale AES on this  matrix given the sbox and mixcolumn functions.
+
+   Note ss_encrypt_wf(,_gen) use the standard round function for the final
+   round, not the specialised version.
 */
 /* WITH final round (_wf) */
 ss_encrypt_wf_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
@@ -441,23 +464,11 @@ ss_encrypt_wf_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block
       ss_round(
           initial_result,final_rk,b,mod_poly, sbox_f, mixcolumn_f))
 )$
-
-/* 
-   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   encryption algorithm (hence number of rounds is assumed to be 10):
-*/
 /* WITH final round (_wf) */
 ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
    ss_encrypt_wf_gen(pl,kl,num_rounds,b,e,
      ss_polynomial(b,e), lambda([a], ss_sbox(a,b,e)),
      lambda([a], ss_mixcolumn(a,b,e)))$
-
-/* 
-   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   encryption algorithm (hence number of rounds is assumed to be 10):
-*/
 ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], 
@@ -470,22 +481,20 @@ ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumn_f) := block(
         ss_round(m,n,b,mod_poly,sbox_f,mixcolumn_f)),
     rest(ekl), pl + initial_rk))
 )$
-
-/* 
-   Takes the plaintext matrix of 16 GF(2^8) elements, the key matrix of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   encryption algorithm (hence number of rounds is assumed to be 10):
-*/
 ss_encrypt(pl, kl, num_rounds,b,e) :=
   ss_encrypt_gen(pl,kl,num_rounds,b,e,
     ss_polynomial(b,e),
     buildq([b,e],lambda([a], ss_sbox(a,b,e))),
     buildq([b,e],lambda([a], ss_mixcolumn(a,b,e))))$
 
-/* 
-   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   decryption algorithm (hence number of rounds is assumed to be 10):
+/* Takes a matrix of polynomials, another matrix
+   of polynomials representing the round key, and the number of rounds and
+   computes the result (as a matrix of polynomials) of applying the small
+   scale AES decryption on this  matrix given the sbox, inverse sbox and
+   inverse  mixcolumn functions.
+
+   Note ss_decrypt_wf(,_gen) use the standard inverse round function for the
+   final round, not the specialised version.
 */
 /* WITH final round (_wf) */
 ss_decrypt_wf_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
@@ -506,23 +515,12 @@ ss_decrypt_wf_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixco
       lambda([a,b],ss_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
       rest(rest(ekl), -1), initial_result) + initial_rk)
 )$
-
-/* 
-   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   decryption algorithm (hence number of rounds is assumed to be 10):
-*/
 /* WITH final round (_wf) */
 ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
   ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
     lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
     lambda([a], ss_inv_mixcolumn(a,b,e)))$
-
-/* 
-   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   decryption algorithm (hence number of rounds is assumed to be 10):
-*/
+/* WITHOUT final round */
 ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [n_C : length(pl),
    partition_m : lambda([M,n], /* This should be moved somewhere suitable */
@@ -535,12 +533,7 @@ ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolum
       lambda([a,b],ss_inv_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
       rest(ekl), pl) + initial_rk)
 )$
-
-/* 
-   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
-   GF(2^8) elements and returns the result of applying the 128 bit AES 
-   decryption algorithm (hence number of rounds is assumed to be 10):
-*/
+/* WITHOUT final round */
 ss_decrypt(pl, kl, num_rounds, b,e) :=
   ss_decrypt_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
     buildq([b,e],lambda([a], ss_sbox(a,b,e))),
