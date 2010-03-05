@@ -69,6 +69,21 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
    is defined without a specialised final round (contrary to the standard AES
    definition) and AES* is defined in the same way as the standard AES with a
    specialised final round which does not contain MixColumns.
+
+   In the case of some functions, two variants are provided, the standard
+   version (without any special ending) and a generalised version (postfixed
+   with "_gen").
+
+   The standard versions take (in addition to any other
+   arguments) the base b and exponent e for the field, and then all other
+   parameters (mod_poly, the sbox function, mixcolumn function etc) are
+   derived using functions such as ss_polynomial, ss_sbox etc which provide
+   the default constants and implementations.
+
+   The generalised version then take all parameters necessary for their
+   function (from the list of parameters described above) without
+   assuming any defaults.
+   
 */
 
 /*
@@ -141,27 +156,30 @@ ss_inv_sbox_matrix(b,e) :=
     else und
   else und$
 
-/* The small scale AES sbox */
-/* SPECIFICATION ?? */
-/* wordi ?? */
-ss_sbox_gen(wordi,b,e,mod_poly, sbox_matrix,affine_constant) := 
-  ss_stand(vec2poly(column_m(
-    sbox_matrix .
-    columnvector(
-      poly2vec_ss(ss_einv(ss_stand(wordi,b,mod_poly),b,mod_poly),e)),1)) +
-      affine_constant,b,mod_poly)$
-/* std ?? */
-ss_sbox(wordi, b,e) :=
-  ss_sbox_gen(wordi,b,e,ss_polynomial(b,e),
+/* The small scale AES sbox takes an individual small scale
+   field element (an element of the block) and returns
+   the result of applying the small scale sbox operation
+   defined for the given field parameters, sbox_matrix
+   and affine_constant. Note here that sbox_matrix is a
+   diagonal matrix of size e of elements in {1,...,b} and
+   affine constant is a column vector size e with elements
+   in {1,...,b}. */
+ss_sbox_gen(field_element,b,e,mod_poly, sbox_matrix,affine_constant) := block(
+  [inv_elem : ss_einv(ss_stand(field_element,b,mod_poly),b,mod_poly)],
+  ss_stand(mvec2poly(
+    sbox_matrix . poly2mvec_ss(inv_elem,e) + poly2mvec_ss(affine_constant,e)
+    ),b,mod_poly))$
+ss_sbox(field_element, b,e) :=
+  ss_sbox_gen(field_element,b,e,ss_polynomial(b,e),
     ss_sbox_matrix(b,e),ss_affine_constant(b,e))$
-ss_inv_sbox_gen(wordi,b,e,mod_poly, inv_sbox_matrix,inv_affine_constant) := block(
-  ss_einv(ss_stand(vec2poly(column_m(
-    inv_sbox_matrix .
-    columnvector(
-      poly2vec_ss(wordi,e)),1)) +
-      inv_affine_constant,b,mod_poly),b,mod_poly))$
-ss_inv_sbox(wordi, b,e) :=
-  ss_inv_sbox_gen(wordi,b,e,ss_polynomial(b,e),
+ss_inv_sbox_gen(field_element,b,e,mod_poly,
+    inv_sbox_matrix,inv_affine_constant) := block(
+  [affine_result : mvec2poly(
+      inv_sbox_matrix . poly2mvec_ss(field_element,e) +
+          poly2mvec_ss(inv_affine_constant,e))],
+  ss_einv(ss_stand(affine_result,b,mod_poly),b,mod_poly))$
+ss_inv_sbox(field_element, b,e) :=
+  ss_inv_sbox_gen(field_element,b,e,ss_polynomial(b,e),
     ss_inv_sbox_matrix(b,e),ss_inv_affine_constant(b,e))$
 
 

@@ -38,8 +38,11 @@ okltest_nat2vec_ss(nat2vec_ss);
 okltest_vec2nat(vec2nat);
 
 okltest_poly2vec(poly2vec);
+okltest_poly2mvec(poly2mvec);
 okltest_poly2vec_ss(poly2vec_ss);
+okltest_poly2mvec_ss(poly2mvec_ss);
 okltest_vec2poly(vec2poly);
+okltest_mvec2poly(mvec2poly);
 
 /* **************
    * Operations *

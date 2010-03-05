@@ -163,6 +163,10 @@ okltest_poly2vec(f) := (
   assert(f(2*x^2) = [2,0,0]),
   true)$
 
+okltest_poly2mvec(f) := (
+  assert(okltest_poly2vec(buildq([f], lambda([a],column_m(f(a),1))))),
+  true)$
+
 okltest_poly2vec_ss(f) := (
   assert(f(0,8) = [0,0,0,0,0,0,0,0]),
   assert(f(1,8) = [0,0,0,0,0,0,0,1]),
@@ -174,6 +178,10 @@ okltest_poly2vec_ss(f) := (
   assert(f(2*x^2,8) = [0,0,0,0,0,2,0,0]),
   true)$
 
+okltest_poly2mvec_ss(f) := (
+  assert(okltest_poly2vec_ss(buildq([f], lambda([a,e],column_m(f(a,e),1))))),
+  true)$
+
 okltest_vec2poly(f) := (
   assert(f([0]) = 0),
   assert(f([1]) = 1),
@@ -183,6 +191,10 @@ okltest_vec2poly(f) := (
   for e : 0 thru 10 do
     assert(f(cons(1,create_list(0,i,1,e))) = x^e),
   assert(f([2,0,0]) = 2*x^2),
+  true)$
+
+okltest_mvec2poly(f) := (
+  assert(okltest_vec2poly(buildq([f], lambda([a],f(columnvector(a)))))),
   true)$
 
 
