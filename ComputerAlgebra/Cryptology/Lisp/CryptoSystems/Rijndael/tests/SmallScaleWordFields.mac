@@ -23,6 +23,9 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_plain_include(eigen)$ /* (for function columnvector) */
+
 
 kill(f)$
 
