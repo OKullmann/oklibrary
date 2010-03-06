@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([3,4,k],n).
   
 
-  \todo greentao_3(3,4,4) > 1660
+  \todo greentao_3(3,4,4) > 1661
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -237,9 +237,11 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
  2 12 23  7
 48
      \endverbatim
-     </li>
+     In further 15 runs one solution was found (seed=3028693870,
+     osteps=187092298). </li>
     </ol>
    </li>
+   <li> n=1661: weak standard nested translation, rnovelty+ </li>
    <li> n=1665: weak standard nested translation, rnovelty+
     <ol>
      <li> cutoff=16*10^7:
@@ -501,7 +503,10 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 3 4 5 6 8 9 12
 2 2 3 1 2 2  1
 13
+     \endverbatim
      </li>
+     <li> walksat-tabu-nonull using cutoff=128*10^6 reaches in 5 runs only
+     a min=72. </li>
     </ol>
    </li>
   </ul>
