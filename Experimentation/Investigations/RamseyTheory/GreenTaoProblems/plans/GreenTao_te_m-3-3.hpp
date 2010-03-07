@@ -660,6 +660,91 @@ BestSolution_Min = 1.000000
 BestSolution_Max = 1.000000
    \endverbatim
    </li>
+   <li> Trying the (simple) logarithmic translation:
+    <ol>
+     <li> n=70, first finding the best Ubcsat-algorithm:
+     \verbatim
+> E = eval_ubcsat("GreenTao_L_12-2-2-2-2-2-2-2-2-2-2-3-3_70.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+gsat_tabu :
+ 0  1  2  3  4
+ 6 23 39 23  9
+rsaps :
+ 0  1  2
+ 5 53 42
+samd :
+ 0  1  2  3  4  6
+ 3 32 39 18  7  1
+rots :
+ 0  1  2
+ 2 58 40
+hwsat :
+ 0  1  2
+ 1 49 50
+hsat :
+ 0  1  2  3  4
+ 1  8 59 26  6
+     \endverbatim
+     </li>
+     <li> So the logarithmic translation seems superior over the
+     aloamo-translation (at least for finding some solution with low cutoff).
+     </li>
+     <li> n=70:
+     \verbatim
+with cutoff=10^6:
+
+gsat-tabu:
+ 0  1  2  3  4  5
+25 34  6 26  7  2
+100
+rsaps:
+ 0  1
+34 66
+100
+
+with cutoff=2*10^6:
+rsaps:
+ 0  1
+60 40
+100
+     \endverbatim
+     <li> n=71:
+     gsat-tabu:
+     \verbatim
+cutoff 10^5:
+ 1  2  3  4  5
+22 25 39 11  3
+100
+cutoff 10^6:
+ 1  2  3  4  5
+46 13 31  9  1
+100
+     \endverbatim
+     rsaps:
+     \verbatim
+cutoff 10^5:
+ 1  2  3
+37 59  4
+100
+cutoff 10^6:
+ 1  2
+95  5
+100
+     \endverbatim
+     </li>
+     <li> So rsaps seems be here (for the logarithmic translation). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo greentao_13(2,...,2,3,3) > 72
+  <ul>
+   <li> n=72, cutoff=10^5, logarithmic translation, rsaps: finds in run 15
+   a solution (seed=3360784682, osteps=93857). </li>
+   <li> n=73, cutoff=10^6, logarithmic translation, rsaps: 100 runs all
+   min=1. </li>
   </ul>
 
 */
