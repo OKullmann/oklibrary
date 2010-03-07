@@ -267,7 +267,7 @@ dual_weakpb_sdk_fcl(p) := [var_sdk(p),
         sdk_all_boxes_cl(p),
         sdk_different_fields_cl(p),
         sdk_different_rows_cl(p),
-        dk_different_columns_cl(p),
+        sdk_different_columns_cl(p),
         sdk_different_boxes_cl(p))]$
 dual_weakpb_sdk_stdfcl(p) := standardise_sdk(dual_weakpb_sdk_fcl(p),p)$
 dual_weakpb_sdk_fcs(p) := fcl2fcs(dual_weakpb_sdk_fcl(p))$
