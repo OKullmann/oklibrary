@@ -506,7 +506,16 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      \endverbatim
      </li>
      <li> walksat-tabu-nonull using cutoff=128*10^6 reaches in 5 runs only
-     a min=72. </li>
+     a min=72, while in 6 runs with cutoff=256*10^6 only min=80 was reached.
+     </li>
+     <li> Finding best algorithm from Ubcsat:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",params=list(cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
