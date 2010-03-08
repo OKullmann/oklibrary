@@ -824,5 +824,60 @@ gsat :
    the logarithmic translation. </li>
   </ul>
 
+
+  \todo greentao_14(2,...,2,3,3) > 78
+  <ul>
+   <li> Using the logarithmic translation with rsaps. </li>
+   <li> n=73, cutoff=10^5:
+   \verbatim
+ 0  1  2
+42 56  2
+100
+   \endverbatim
+   </li>
+   <li> n=74, cutoff=10^5:
+   \verbatim
+ 0  1  2
+18 81  1
+100
+   \endverbatim
+   </li>
+   <li> n=75, cutoff=10^5:
+   \verbatim
+ 0  1  2
+13 64 23
+100
+   \endverbatim
+   </li>
+   <li> n=76, cutoff=10^5:
+   \verbatim
+ 0  1  2
+ 1 62 37
+100
+   \endverbatim
+   (seed=3235041835, osteps=68723). </li>
+   <li> n=77, cutoff=10^5:
+   \verbatim
+ 0  1  2
+ 1 62 37
+100
+   \endverbatim
+   (by chance the same distribution as for n=76; seed=2309495126,
+   osteps=45043). </li>
+   <li> n=78, cutoff=10^5:
+   \verbatim
+ 1  2  3
+45 54  1
+100
+   \endverbatim
+   However 27 further runs found one solution (seed=2350260863, osteps=22138).
+   </li>
+   <li> n=79, cutoff=10^5, 500 runs:
+   \verbatim
+
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
