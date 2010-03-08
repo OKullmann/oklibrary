@@ -23,10 +23,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Advance
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_plain_include(eigen)$ /* (for function columnvector) */
 
-oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 /*
    The following implements the small scale AES as described in [Small Scale
@@ -51,34 +50,34 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
    In addition to these parameters, we additionally (to [Small Scale Variants
    of the AES]) allow arbitrary finite fields rather than just fields of size
    2^e for the block elements and therefore we also introduce an integer
-   parameter b for the base, and a parameter mod_poly for the modulo
-   polynomial to standardise the result of any operations in this field.
+   parameter b for the base, and a parameter mod_poly for the
+   modulo-polynomial to standardise the result of any operations in this field.
 
-   Given these variety of parameters, functions are needed to define
+   Given this variety of parameters, functions are needed to define
    different Sbox and MixColumn operations based on the new dimensions of the
    fields and the block, which in turn use different vectors and matrices
    in their definition (as defined by [Small Scale Variants of the AES] or by
-   the user in cases where this has not been defined), therefore functions
-   such as ss_mixcolumn_matrix, ss_sbox_matrix, ss_sbox_affine_constant etc
-   are defined which take their defining parameters (from b,e,n_C,n_R) and
-   return the "standard" object to be used in each case.
+   the user in cases where this has not been defined there), therefore
+   functions such as ss_mixcolumn_matrix, ss_sbox_matrix,
+   ss_sbox_affine_constant etc. are defined which take their defining
+   parameters (from b,e,n_C,n_R) and return the "standard" object to be used
+   in each case.
 
    In [Small Scale Variants of the AES], there are two major variations, apart
    from the minor variations described above, those denoted by AES (the
-   default variation in [Small Scale Variants of the AES]) and AES* where AES
+   default variation in [Small Scale Variants of the AES]) and AES*, where AES
    is defined without a specialised final round (contrary to the standard AES
-   definition) and AES* is defined in the same way as the standard AES with a
-   specialised final round which does not contain MixColumns.
+   definition), while AES* is defined in the same way as the standard AES with
+   a specialised final round which does not contain MixColumns.
 
-   In the case of some functions, two variants are provided, the standard
-   version (without any special ending) and a generalised version (postfixed
-   with "_gen").
+   For some functions two variants are provided, the standard version (without
+   any special ending) and a generalised version (postfixed with "_gen").
 
-   The standard versions take (in addition to any other
-   arguments) the base b and exponent e for the field, and then all other
-   parameters (mod_poly, the sbox function, mixcolumn function etc) are
-   derived using functions such as ss_polynomial, ss_sbox etc which provide
-   the default constants and implementations.
+   The standard versions take (in addition to any other arguments) the base b
+   and exponent e for the field, and then all other parameters (mod_poly, the
+   sbox function, mixcolumn function etc) are derived using functions such as
+   ss_polynomial, ss_sbox etc which provide the default constants and
+   implementations.
 
    The generalised version then take all parameters necessary for their
    function (from the list of parameters described above) without
@@ -96,10 +95,15 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
    The AES and AES* variations as described in [XXX] are called given by
    the functions ss_encrypt and ss_encrypt_wf respectively where "_wf"
    signifies "*w*ith *f*inal round".
+
+OK: What is [XXX]??
+
 */
 
 /* TODO: REWRITE documentation below */
 /* TODO: TIDY code below to ensure readability. */
+
+/* OK: I thought this file would have been completed? */
 
 /* *********
    * S box *
@@ -164,6 +168,7 @@ ss_inv_sbox_matrix(b,e) :=
    diagonal matrix of size e of elements in {1,...,b} and
    affine constant is a column vector size e with elements
    in {1,...,b}. */
+/* OK: What is the *mathematical* definition? */
 ss_sbox_gen(field_element,b,e,mod_poly, sbox_matrix,affine_constant) := block(
   [inv_elem : ss_einv(ss_stand(field_element,b,mod_poly),b,mod_poly)],
   ss_stand(mvec2poly(
@@ -192,6 +197,7 @@ ss_inv_sbox(field_element, b,e) :=
    Takes the input block as a matrix of polynomials in
    the range 0-nat2polybin(b^e -1) and applies the given sbox operation to
    each polynomial, returning the matrix of result polynomials:
+OK: "range" ??
 */
 ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
 
@@ -199,6 +205,7 @@ ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
    Takes the input block as a matrix of polynomials in the range
    0-nat2polybin(b^e-1) and applies the given inverse sbox operation to each
    polynomial, returning the list of result polynomials:
+OK: "range" ??
 */
 ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
@@ -213,6 +220,7 @@ ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
    Takes a matrix and performs the shiftrows operation,
    returning a matrix where row i (1 indexed) has been shifted
    cyclically left by i-1.
+OK: "1 indexed" ??
 */
 ss_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -223,6 +231,7 @@ ss_shiftrows(inputmatrix) :=
    Takes a matrix and performs the inverse shiftrows operation,
    returning a matrix where row i (1 indexed) has been shifted
    cyclically right by i -1.
+OK: "1 indexed" ??
 */
 ss_inv_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -298,6 +307,7 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
 /* Takes a vector of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
    in field specified by b, e and mod_poly:*/
+/* OK: what is the *mathematical* definition? */
 ss_mixcolumn_gen(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) := block(
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
       mixcolumns_matrix . inputmatrixi));
@@ -309,6 +319,7 @@ ss_mixcolumn(inputmatrix,b,e) := block(
 /* Takes a matrix of polynomials and returns the result of
    applying the transformation function mixcolumn_f
    to each column vector:*/
+/* OK: what is the *mathematical* definition? */
 ss_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
   for i : 1 thru length(matrixcolumns(inputmatrix)) do
     M : addcol(M,mixcolumn_f(col(inputmatrix,i))),
@@ -317,6 +328,7 @@ ss_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
 /* Takes a vector of polynomials and returns the result of
    multiplying the input matrix by the given inv_mixcolumns_matrix
    in field specified by b, e and mod_poly:*/
+/* OK: what is the *mathematical* definition? */
 ss_inv_mixcolumn_gen(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix) :=
     ss_mixcolumn_gen(inputmatrix,b,e,mod_poly,inv_mixcolumns_matrix)$
 ss_inv_mixcolumn(inputmatrix,b,e) :=
@@ -341,7 +353,8 @@ ss_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) :=
    round r-1, and returns the small scale AES round
    key for round r, given the small scale sbox function
    sbox_f.
- */
+*/
+/* OK: what is the *mathematical* definition? */
 ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
   [newcols : matrix(), n_C : length(matrixcolumns(kl)),
    round_constant : x^(r-1), n_R : length(kl)],
@@ -358,7 +371,7 @@ ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
    Takes a matrix of polynomials as the input key and
    returns a matrix of size n_R * n_C * (num_rounds+1)
    where columns i * (n_R * n_C) to (i+1) * (n_R * N_C)
-   are the round key matrix for round i, where n_R and
+   are the round key matrix for round i, and where n_R and
    n_C are the number of rows and number of columns in
    the input key matrix (resp).
 */
@@ -383,6 +396,7 @@ ss_key_expansion(kl,num_rounds,b,e) :=
    Note ss_round_wa does not take the round key and does
    not perform the key addition, but remains otherwise
    the same.
+OK: "remains the same"??
 */
 ss_round_wa(pl,sbox_f,mixcolumn_f) := 
     ss_mixcolumns(ss_shiftrows(
@@ -398,6 +412,7 @@ ss_round(pl, rkl,b,mod_poly,sbox_f, mixcolumn_f) :=
    Note ss_inv_round_wa does not take the round key and does
    not perform the key addition, but remains otherwise
    the same.
+OK: "remains the same"??
 */
 ss_inv_round_wa(pl,inv_sbox_f,inv_mixcolumn_f) := 
     ss_inv_subbytes(ss_inv_shiftrows(
@@ -414,6 +429,7 @@ ss_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
    Note ss_final_round_wa does not take the round key and does
    not perform the key addition, but remains otherwise
    the same.
+OK: "remains the same"??
 */
 ss_final_round_wa(pl,sbox_f) := /* Without round key addition */
     ss_shiftrows(
@@ -567,6 +583,8 @@ ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
         lambda([m,n],
           matrixmap(lambda([p],ss_stand(p,b,mod_poly)),m+n)))
       )(plaintext,key,num_rounds+1)$
+
+/* OK: Where is the instantiation yielding AES? */
 
 /*!
 \endhtmlonly
