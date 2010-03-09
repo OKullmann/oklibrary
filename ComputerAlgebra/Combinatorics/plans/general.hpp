@@ -10,18 +10,5 @@ License, or any later version. */
   \brief General plans regarding "traditional" combinatorics, counting and
   enumeration
 
-
-  \todo Module outline : DONE
-  <ul>
-   <li> What other modules should be included? </li>
-   <li> Since here only "traditional combinatorics" is handled, of course
-   "hypergraphs" are not included, but also not "graphs". </li>
-   <li> This is different from the part OKlib/Combinatorics, which includes
-   all possible forms of combinatorics. </li>
-   <li> Besides enumeration, what then do we find here? Counting. </li>
-   <li> So besides module Enumeration we shall have module Counting, for
-   counting-mathematics (e.g., partitions). </li>
-  </ul>
-
 */
 

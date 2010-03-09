@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.2.3 (23.1.2010)
+  \module_version ComputerAlgebra 0.1.2.4 (9.3.2010)
 
 
   \par Version 0.1.3
@@ -19,7 +19,7 @@ License, or any later version. */
   \par ComputerAlgebra/Graphs/Lisp version 0.1.1
   (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
 
-  \par ComputerAlgebra/Combinatorics version 0.0.4
+  \par ComputerAlgebra/Combinatorics version 0.0.4 : DONE
   (see ComputerAlgebra/Combinatorics/plans/milestones.hpp)
 
   \par ComputerAlgebra/Hypergraphs version 0.0.8 : DONE
