@@ -984,11 +984,15 @@ c 0.1 seconds total run time
      </li>
      <li> satz215:
 \verbatim
-> satz21 WeakPb_Sudoku_Box_dim_4.cnf 
+> satz215 WeakPb_Sudoku_Box_dim_4.cnf 
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 4112, NB_BRANCHE= 166, NB_BACK= 6 
 Program terminated in 0.000 seconds.
 satz215 WeakPb_Sudoku_Box_dim_4.cnf 0.000 166 6 540938 29 1 4096 123136 -12288 0 0
+
+real    0m2.301s
+user    0m2.212s
+sys     0m0.044s
 \endverbatim
      </li>
     </ol>
@@ -1160,11 +1164,15 @@ c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
      </li>
      <li> satz215:
 \verbatim
-> satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf
+> satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 3599, NB_BRANCHE= 155, NB_BACK= 0 
 Program terminated in 0.000 seconds.
 satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 0.000 155 0 445398 121 1 4096 123648 -12288 0 0
+
+real    0m2.794s
+user    0m2.668s
+sys     0m0.032s
 \endverbatim
      </li>
     </ol>
