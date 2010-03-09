@@ -249,7 +249,7 @@ tseitin_trans_list_rel(F,prefix) := block(
   else block(
     [E : ["equiv", [v], cons(F[1],makelist([tstr_var(endcons(i-1,prefix))],i,2,l))]],
     return(
-     cons(E, apply(append, 
+     cons(E, lappend( 
       makelist(tseitin_trans_list_rel(F[i], endcons(i-1,prefix)),i,2,l))))))$
 tseitin_trans_list(F) := tseitin_trans_list_rel(F,[])$
 

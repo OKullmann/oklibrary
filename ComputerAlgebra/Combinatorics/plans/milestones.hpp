@@ -8,24 +8,16 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Combinatorics/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Combinatorics 0.0.2.1 (1.3.2010)
-
-
-  \par Version 0.0.3
-
-  \par ComputerAlgebra/Combinatorics/Enumeration version 0.0.4 : DONE
-  (see ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/milestones.hpp)
-
-  \par
-   In ComputerAlgebra/Combinatorics/plans/general.hpp the following topics
-   are handled:
-    - Module outline
+  \module_version ComputerAlgebra/Combinatorics 0.0.3 (9.3.2010)
 
 
   \par Version 0.0.4
 
-  \par ComputerAlgebra/Combinatorics/Enumeration version 0.0.5
+  \par ComputerAlgebra/Combinatorics/Enumeration version 0.0.6
   (see ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/milestones.hpp)
+
+  \par
+   Update the milestones (including module Counting).
 
 
 
@@ -34,6 +26,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.2 : 5.1.2009; basic plans on enumerating fundamental combinatorial objects.
+   - 0.0.3 : 9.3.2010; main concepts for enumeration, first example k-subsets, and thoughts about the general structure of this supermodule.
 
 */
 

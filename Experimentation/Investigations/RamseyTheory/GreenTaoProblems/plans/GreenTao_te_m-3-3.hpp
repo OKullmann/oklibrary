@@ -739,12 +739,186 @@ cutoff 10^6:
   </ul>
 
 
-  \todo greentao_13(2,...,2,3,3) > 72
+  \todo greentao_13(2,...,2,3,3) >= 73
   <ul>
-   <li> n=72, cutoff=10^5, logarithmic translation, rsaps: finds in run 15
-   a solution (seed=3360784682, osteps=93857). </li>
-   <li> n=73, cutoff=10^6, logarithmic translation, rsaps: 100 runs all
-   min=1. </li>
+   <li> The conjecture is greentao_13(2,...,2,3,3) = 73. </li>
+   <li> n=72
+    <ol>
+     <li> cutoff=10^5, logarithmic translation, rsaps: finds in run 15
+     a solution (seed=3360784682, osteps=93857). Another 100 runs:
+     \verbatim
+ 0  1  2
+ 8 52 40
+100
+     \endverbatim
+     </li>
+     <li> cutoff=10^5, weak standard nested translation, rsaps:
+     \verbatim
+ 0  1  2  3
+ 1 18 60 21
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=73, cutoff=10^6, logarithmic translation, rsaps: 1100 runs all
+   min=1 except of 6 times min=2. </li>
+   <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
+   \verbatim
+> E = eval_ubcsat("GreenTao_L_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+rsaps :
+ 1  2
+42 58
+gwsat :
+ 1  2  3
+25 72  3
+rots :
+ 1  2  3
+24 74  2
+walksat_tabu_nonull :
+ 1  2  3
+23 75  2
+walksat_tabu :
+ 1  2
+22 78
+irots :
+ 1  2
+22 78
+hwsat :
+ 1  2  3  4
+14 59 25  2
+sapsnr :
+ 2  3  4  5  7
+14 41 31 13  1
+gsat_tabu :
+ 1  2  3  4  5  6  7
+ 8 10 39 33  8  1  1
+   \endverbatim
+   So still rsaps seems best. </li>
+   <li> Finding the best Ubcsat-algorithm for the weak standard nested
+   translation:
+   \verbatim
+> E = eval_ubcsat("GreenTao_N_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+rsaps :
+ 1  2  3  4
+10 66 21  3
+gsat_simple :
+ 1  2  3  4  5  6
+ 2  5 32 45 15  1
+gwsat :
+ 1  2  3  4  5  6
+ 1  9 36 40 13  1
+hsat :
+ 1  2  3  4  5  6
+ 1  7 31 42 18  1
+gsat :
+ 1  2  3  4  5  6
+ 1  5 27 41 23  3
+   \endverbatim
+   So also here rsaps seems best. It seems this translation is inferior to
+   the logarithmic translation. </li>
+  </ul>
+
+
+  \todo greentao_14(2,...,2,3,3) >= 82
+  <ul>
+   <li> The conjecture is greentao_14(2,...,2,3,3) = 82. </li>
+   <li> Using the logarithmic translation with rsaps. </li>
+   <li> n=73, cutoff=10^5:
+   \verbatim
+ 0  1  2
+42 56  2
+100
+   \endverbatim
+   </li>
+   <li> n=74, cutoff=10^5:
+   \verbatim
+ 0  1  2
+18 81  1
+100
+   \endverbatim
+   </li>
+   <li> n=75, cutoff=10^5:
+   \verbatim
+ 0  1  2
+13 64 23
+100
+   \endverbatim
+   </li>
+   <li> n=76, cutoff=10^5:
+   \verbatim
+ 0  1  2
+ 1 62 37
+100
+   \endverbatim
+   (seed=3235041835, osteps=68723). </li>
+   <li> n=77, cutoff=10^5:
+   \verbatim
+ 0  1  2
+ 1 62 37
+100
+   \endverbatim
+   (by chance the same distribution as for n=76; seed=2309495126,
+   osteps=45043). </li>
+   <li> n=78, cutoff=10^5:
+   \verbatim
+ 1  2  3
+45 54  1
+100
+   \endverbatim
+   However 27 further runs found one solution (seed=2350260863, osteps=22138).
+   </li>
+   <li> n=79, cutoff=10^5, 500 runs:
+   \verbatim
+> E2=read_ubcsat("GreenTao_L_14-2-2-2-2-2-2-2-2-2-2-2-2-3-3_79.cnf_OUT")
+  0   1   2   3
+  2 219 272   7
+500
+> E2[E2$min==0,]
+    sat min osteps msteps       seed
+354   1   0  35553  35553  135591762
+367   1   0  80973  80973 2195697436
+   \endverbatim
+   </li>
+   <li> n=80, cutoff=10^5, 500 runs: In run 175 a solution was found
+   (seed=4244046541, osteps=98636). </li>
+   <li> n=81, cutoff=10^5, 500 runs: a solution was found in run 5
+   (seed=2849798377, osteps=98149). </li>
+   <li> n=82
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+  1   2   3   4
+  8 258 220  14
+500
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^5:
+     \verbatim
+  1   2   3   4
+ 24 344 131   1
+500
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5:
+     \verbatim
+  1   2   3
+ 53 411  36
+500
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^5:
+     \verbatim
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */

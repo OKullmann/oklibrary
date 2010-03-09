@@ -186,7 +186,7 @@ aes_shiftrows_cp([bits]) := block([iBits, oBits],
   iBits : take_elements(128,bits),
   oBits : take_elements(128,rest(bits,128)),
   setify(map(lambda([a,b],aes_eq_c(a,b)), oBits, 
-    apply(append,
+    lappend(
       rijn_m2l(aes_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
     )
 )$
@@ -198,7 +198,7 @@ aes_mixcolumns_cp([bits]) := block([iBits, oBits, nc],
   oBits : rest(bits,128),
   nc : length(iBits)/32,
   setify(map(lambda([a,b], 
-    apply(aes_mixcolumn_c,append(apply(append,a),apply(append,b)))),
+    apply(aes_mixcolumn_c,append(lappend(a),lappend(b)))),
     partition_elements(partition_elements(iBits,8),nc),
     partition_elements(partition_elements(oBits,8),nc)))
 )$
@@ -553,7 +553,7 @@ aes_hex2pa(hexStr, variableList) := block(
   setify(map(
     lambda([a,b], if b = 0 then -a else a),
         variableList, 
-        apply(append,map(lambda([a], 
+        lappend(map(lambda([a], 
           egf_coeffs(rijn_bit_field,a,7)),hex2gf2t8l(hexStr)))
   ))
 )$
@@ -949,7 +949,7 @@ aes_shiftrows_cstr_cstl(cst) := block(
     lambda([a,b],
       construct_constraint("aes_eq_cst",[a,b],
         [],namespace)), oBits,
-    apply(append,
+    lappend(
       rijn_m2l(aes_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
 )$
 
@@ -983,7 +983,7 @@ aes_mixcolumns_cstr_cstl(cst) := block(
   nc : length(iBits)/32,
   map(lambda([a,b,column], 
     construct_constraint("aes_mixcolumn_cst",
-      append(apply(append,a),apply(append,b)),
+      append(lappend(a),lappend(b)),
       [],namespace)),
     partition_elements(partition_elements(iBits,8),nc),
     partition_elements(partition_elements(oBits,8),nc),

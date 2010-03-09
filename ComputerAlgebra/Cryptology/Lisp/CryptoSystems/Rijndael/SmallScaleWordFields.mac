@@ -94,8 +94,11 @@ poly2vec(p) := block([h : hipow(p,'x)],
  reverse(create_list(coeff(p,'x,i),i,0,h)))$
 poly2vec_ss(p,e) := block([L : poly2vec(p)],
  append(create_list(0,i,1,e-length(L)),L))$
+poly2mvec(p) := columnvector(poly2vec(p))$
+poly2mvec_ss(p,e) := columnvector(poly2vec_ss(p,e))$
 
 vec2poly(v) := sum_l(reverse(v) * create_list(('x)^i,i,0,length(v)-1))$
+mvec2poly(v) := vec2poly(column_m(v,1))$ /* Maxima vector (matrix) */
 
 
 /* **************

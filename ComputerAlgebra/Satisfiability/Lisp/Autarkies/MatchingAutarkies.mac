@@ -38,7 +38,7 @@ cllit_aut_odg(F,phi) :=
      map(lambda([C],[C,1]),F), 
      map(lambda([x],[x,2]),
        listify(intersection(literals_v(var_ocs(F)),phi)))),
-   apply(append,
+   lappend(
      map(
        lambda([C], 
          map(lambda([x],[[C,1],[x,2]]),

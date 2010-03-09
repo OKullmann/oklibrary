@@ -156,7 +156,7 @@ draw_lrt(['P]) :=
    apply(draw2d,
          append([grid=true,xrange = xran,yrange = yran,
                  point_size = pts,point_type = ptt],
-                apply(append,(map(colouring, lrt2value(T),tdlrt2points(tdlrt)))),
+                lappend((map(colouring, lrt2value(T),tdlrt2points(tdlrt)))),
                 [color=edgc,transparent=true],
                 map(polygon, tdlrt2edges(tdlrt)),
                 if output=true then 
@@ -255,10 +255,10 @@ draw_lrt_dbl(['P]) :=
                  if not(nd[1]=[]) then
                   [color = lbc,label_alignment=left, 
                   apply(label,map(cons,map(string,if listp(nd[2][1]) then 
-                  apply(append,nd[2]) else nd[2]),nd[1]+0.1))]
+                  lappend(nd[2]) else nd[2]),nd[1]+0.1))]
                  else [],
                  if not(nd[5]=[]) then
-                  apply(append,(map(leaves_colour, 
+                  lappend((map(leaves_colour, 
                   nd[6],nd[5],create_list([tc,fc],i,1,length(nd[6])))))
                  else [],
                  [color=edgc,transparent=true],
