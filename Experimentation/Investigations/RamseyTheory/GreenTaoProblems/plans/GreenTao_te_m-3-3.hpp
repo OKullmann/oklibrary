@@ -914,6 +914,13 @@ gsat :
      </li>
      <li> cutoff=8*10^5:
      \verbatim
+  1   2   3
+ 89 410   1
+500
+     \endverbatim
+     </li>
+     <li> cutoff=16*10^5:
+     \verbatim
 
      \endverbatim
      </li>
