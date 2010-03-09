@@ -825,8 +825,9 @@ gsat :
   </ul>
 
 
-  \todo greentao_14(2,...,2,3,3) > 78
+  \todo greentao_14(2,...,2,3,3) >= 82
   <ul>
+   <li> The conjecture is greentao_14(2,...,2,3,3) = 82. </li>
    <li> Using the logarithmic translation with rsaps. </li>
    <li> n=73, cutoff=10^5:
    \verbatim
@@ -874,8 +875,49 @@ gsat :
    </li>
    <li> n=79, cutoff=10^5, 500 runs:
    \verbatim
-
+> E2=read_ubcsat("GreenTao_L_14-2-2-2-2-2-2-2-2-2-2-2-2-3-3_79.cnf_OUT")
+  0   1   2   3
+  2 219 272   7
+500
+> E2[E2$min==0,]
+    sat min osteps msteps       seed
+354   1   0  35553  35553  135591762
+367   1   0  80973  80973 2195697436
    \endverbatim
+   </li>
+   <li> n=80, cutoff=10^5, 500 runs: In run 175 a solution was found
+   (seed=4244046541, osteps=98636). </li>
+   <li> n=81, cutoff=10^5, 500 runs: a solution was found in run 5
+   (seed=2849798377, osteps=98149). </li>
+   <li> n=82
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+  1   2   3   4
+  8 258 220  14
+500
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^5:
+     \verbatim
+  1   2   3   4
+ 24 344 131   1
+500
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5:
+     \verbatim
+  1   2   3
+ 53 411  36
+500
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^5:
+     \verbatim
+
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
