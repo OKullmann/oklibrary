@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Combinatorics/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Combinatorics 0.0.2.1 (1.3.2010)
+  \module_version ComputerAlgebra/Combinatorics 0.0.2.2 (9.3.2010)
 
 
   \par Version 0.0.3
@@ -19,7 +19,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Combinatorics/plans/general.hpp the following topics
    are handled:
-    - Module outline
+    - Module outline : DONE
 
 
   \par Version 0.0.4

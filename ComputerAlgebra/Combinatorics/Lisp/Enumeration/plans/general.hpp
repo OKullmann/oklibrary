@@ -7,8 +7,11 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/plans/general.hpp
-  \brief General plans regarding enumerating combinatorial objects
+  \brief General plans regarding enumerating basic combinatorial objects (in
+  the algorithmic sense, as opposed to just counting)
 
+  For pure counting see
+  ComputerAlgebra/Combinatorics/Lisp/Counting/plans/general.hpp.
 
   \todo Iteration
   <ul>
