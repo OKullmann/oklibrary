@@ -241,7 +241,18 @@ gwsat :
    </li>
    <li> n=469, rnovelty+, cutoff=4*10^6: in run 529 a solution was found
    (seed=2454496664, osteps=3555403). </li>
-   <li> n=470, rnovelty+, cutoff=4*10^6 </li>
+   <li> n=470, rnovelty+:
+    <ol>
+     <li> cutoff=4*10^6:
+     \verbatim
+ 1  2  3  4
+ 1 48 97 28
+174
+     \endverbatim
+     </li>
+     <li> cutoff=10^7 </li>
+    </ol>
+   </li>
   </ul>
 
 */
