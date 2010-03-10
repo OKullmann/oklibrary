@@ -92,11 +92,9 @@ oklib_plain_include(eigen)$ /* (for function columnvector) */
    function, where additional parameters are taken, rather than using the
    standard constants provided by functions such as ss_mixcolumn_matrix etc.
 
-   The AES and AES* variations as described in [XXX] are called given by
-   the functions ss_encrypt and ss_encrypt_wf respectively where "_wf"
-   signifies "*w*ith *f*inal round".
-
-OK: What is [XXX]??
+   The AES and AES* variations as described in [Small scale variants of the
+   AES] are called given by the functions ss_encrypt and ss_encrypt_wf
+   respectively where "_wf" signifies "*w*ith *f*inal round".
 
 */
 
@@ -167,8 +165,29 @@ ss_inv_sbox_matrix(b,e) :=
    and affine_constant. Note here that sbox_matrix is a
    diagonal matrix of size e of elements in {1,...,b} and
    affine constant is a column vector size e with elements
-   in {1,...,b}. */
-/* OK: What is the *mathematical* definition? */
+   in {1,...,b}.
+
+   Formally given a polynomial p as the field_element, the
+   result of ss_sbox_gen is the polynomial of the form:
+
+   sum(b[i] * x^(e-i), i, 1,e)
+
+   where
+
+   b[i] = sum(sbox_matrix[i,j] * a[j], i, 1, e) + affine_constant[i]
+
+   and the coefficients a[i] (for i in {1,...,e}) are the coefficients
+   of the polynomial defined as the inverse of p in the field:
+
+   sum(a[i] * x^(e-i),i,1,e) = p^(-1) (in GF(b^e) mod mod_poly)
+
+   where a[i],b[i] range over {0,...,b}.
+
+   ss_inv_sbox(,_gen) are defined precisely the same as ss_sbox(,_gen)
+   but for convention/convenience another function is provided with
+   the expectation that the inv_sbox_matrix provided is the inverse
+   of the matrix provided to ss_sbox(,_gen) within the GF(b^e) field.   
+*/
 ss_sbox_gen(field_element,b,e,mod_poly, sbox_matrix,affine_constant) := block(
   [inv_elem : ss_einv(ss_stand(field_element,b,mod_poly),b,mod_poly)],
   ss_stand(mvec2poly(
@@ -194,18 +213,16 @@ ss_inv_sbox(field_element, b,e) :=
 */
 
 /* 
-   Takes the input block as a matrix of polynomials in
-   the range 0-nat2polybin(b^e -1) and applies the given sbox operation to
-   each polynomial, returning the matrix of result polynomials:
-OK: "range" ??
+   Takes the input block as a matrix of arbitrary polynomials
+   and applies the given sbox operation to each polynomial, returning
+   the matrix of result polynomials:
 */
 ss_subbytes(inputmatrix, sbox_f) := matrixmap(sbox_f, inputmatrix)$
 
 /* 
-   Takes the input block as a matrix of polynomials in the range
-   0-nat2polybin(b^e-1) and applies the given inverse sbox operation to each
-   polynomial, returning the list of result polynomials:
-OK: "range" ??
+   Takes the input block as a matrix of polynomials and applies the given
+   inverse sbox operation to each polynomial, returning the list of result
+   polynomials:
 */
 ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
@@ -218,9 +235,8 @@ ss_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 
 /*
    Takes a matrix and performs the shiftrows operation,
-   returning a matrix where row i (1 indexed) has been shifted
-   cyclically left by i-1.
-OK: "1 indexed" ??
+   returning a matrix where row i (for i in {1,..,length(inputmatrix)) has
+   been shifted cyclically left by i-1.
 */
 ss_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -229,9 +245,8 @@ ss_shiftrows(inputmatrix) :=
 
 /*
    Takes a matrix and performs the inverse shiftrows operation,
-   returning a matrix where row i (1 indexed) has been shifted
-   cyclically right by i -1.
-OK: "1 indexed" ??
+   returning a matrix where row i (for i in {1,..,length(inputmatrix)) has
+   been shifted cyclically right by i -1.
 */
 ss_inv_shiftrows(inputmatrix) :=
   apply(matrix,
@@ -304,26 +319,37 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
   else und$
 
 
-/* Takes a vector of polynomials and returns the result of
+/* Takes a (maxima) vector of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
-   in field specified by b, e and mod_poly:*/
-/* OK: what is the *mathematical* definition? */
-ss_mixcolumn_gen(inputmatrixi,b,e,mod_poly,mixcolumns_matrix) := block(
+   in field specified by b, e and mod_poly.
+
+   So for an input vector V of size n_R, the result is a vector W such that
+   for i in {1,...,n_R}
+
+   W[i] = sum(ss_stand(mixcolumns_matrix[i,j] * V[i]),b,e,mod_poly),j,1,n_R)
+
+   where ss_stand is the standardisation of the result of the multiplication
+   into a polynomial of the form sum(a[i] * x^(e-i), i, 1,e) where each a[i]
+   is in {1,...,b}, i.e., a standardised representation of GF(b^e) field
+   elements.
+*/
+ss_mixcolumn_gen(V,b,e,mod_poly,mixcolumns_matrix) := block(
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
-      mixcolumns_matrix . inputmatrixi));
-ss_mixcolumn(inputmatrix,b,e) := block(
-  ss_mixcolumn_gen(inputmatrix,b,e,
+      mixcolumns_matrix . V));
+ss_mixcolumn(V,b,e) := block(
+  ss_mixcolumn_gen(V,b,e,
     ss_polynomial(b,e),
-    ss_mixcolumns_matrix(b,e,length(inputmatrix))))$
+    ss_mixcolumns_matrix(b,e,length(V))))$
 
 /* Takes a matrix of polynomials and returns the result of
    applying the transformation function mixcolumn_f
-   to each column vector:*/
+   to each column vector.
+*/
 /* OK: what is the *mathematical* definition? */
-ss_mixcolumns(inputmatrix,mixcolumn_f) := block([M : matrix()],
-  for i : 1 thru length(matrixcolumns(inputmatrix)) do
-    M : addcol(M,mixcolumn_f(col(inputmatrix,i))),
-  return(M))$
+ss_mixcolumns(M,mixcolumn_f) := block([N : matrix()],
+  for i : 1 thru length(matrixcolumns(M)) do
+    N : addcol(N,mixcolumn_f(col(M,i))),
+  return(N))$
 
 /* Takes a vector of polynomials and returns the result of
    multiplying the input matrix by the given inv_mixcolumns_matrix
@@ -393,10 +419,9 @@ ss_key_expansion(kl,num_rounds,b,e) :=
    applying the small scale AES round function on this matrix
    given the sbox and mixcolumn functions.
 
-   Note ss_round_wa does not take the round key and does
-   not perform the key addition, but remains otherwise
-   the same.
-OK: "remains the same"??
+   Note ss_round_wa does not take the round key, and performs
+   all operations in the small scale AES round, apart from the
+   addition of the round key (i.e., subbytes, shiftrows, mixcolumns).
 */
 ss_round_wa(pl,sbox_f,mixcolumn_f) := 
     ss_mixcolumns(ss_shiftrows(
@@ -409,10 +434,11 @@ ss_round(pl, rkl,b,mod_poly,sbox_f, mixcolumn_f) :=
    applying the inverse of the small scale AES round function on this matrix
    given the sbox and mixcolumn functions.
 
-   Note ss_inv_round_wa does not take the round key and does
-   not perform the key addition, but remains otherwise
-   the same.
-OK: "remains the same"??
+
+   Note ss_inv_round_wa does not take the round key, and performs
+   all operations in the small scale AES round, apart from the
+   addition of the round key (i.e., inv_subbytes, inv_shiftrows,
+   inv_mixcolumns).
 */
 ss_inv_round_wa(pl,inv_sbox_f,inv_mixcolumn_f) := 
     ss_inv_subbytes(ss_inv_shiftrows(
@@ -426,10 +452,9 @@ ss_inv_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) :=
    applying the specialised final small scale AES round function on this
    matrix given the sbox and mixcolumn functions.
 
-   Note ss_final_round_wa does not take the round key and does
-   not perform the key addition, but remains otherwise
-   the same.
-OK: "remains the same"??
+   Note ss_final_round_wa does not take the round key, and performs
+   all operations in the small scale AES round, apart from the
+   addition of the round key (i.e., subbytes, shiftrows).
 */
 ss_final_round_wa(pl,sbox_f) := /* Without round key addition */
     ss_shiftrows(
@@ -442,9 +467,9 @@ ss_final_round(pl,rkl,b,mod_poly, sbox_f) :=  /* With round key addition */
    applying the inverse of the specialised final small scale AES round
    function on this  matrix given the sbox and mixcolumn functions.
 
-   Note ss_inv_final_round_wa does not take the round key and does
-   not perform the key addition, but remains otherwise
-   the same.
+   Note ss_inv_final_round_wa does not take the round key, and performs
+   all operations in the small scale AES round, apart from the
+   addition of the round key (i.e., inv_subbytes, inv_shiftrows).
 */
 ss_inv_final_round_wa(pl,inv_sbox_f) := 
     ss_inv_subbytes(ss_inv_shiftrows(pl), inv_sbox_f)$
@@ -562,8 +587,20 @@ ss_decrypt(pl, kl, num_rounds, b,e) :=
    **********************************************************
 */
 
-/* Combined AES round: */
-/* OK: what does this mean? */
+/* Combined small scale round function to be used within the
+   iterated block cipher implementation of the small scale AES
+   (ss_encrypt_ibc_gen).
+
+   For the given plaintext and round, ss_round_ibc_gen acts
+   identically on plain_text if round is 0, and otherwise
+   acts as the small scale AES round function (without key
+   addition).
+
+   The reason for the difference when round is 0, is so that
+   the iterated block cipher scheme applies the initial round
+   key addition required by the AES, before iterating the round
+   function.
+*/
 ss_round_ibc_gen(plain_text, round, sbox_f,mixcolumn_f) :=
   if round = 0 then plain_text
   else
