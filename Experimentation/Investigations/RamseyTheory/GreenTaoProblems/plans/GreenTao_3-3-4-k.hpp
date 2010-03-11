@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([3,4,k],n).
   
 
-  \todo greentao_3(3,4,4) > 1661
+  \todo greentao_3(3,4,4) > 1662
   <ul>
    <li> Creating problems via output_greentao_stdname([3,4,4],n). </li>
    <li> n=500 trivially satisfiable (adaptnovelty+). </li>
@@ -241,7 +241,10 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      osteps=187092298). </li>
     </ol>
    </li>
-   <li> n=1661: weak standard nested translation, rnovelty+ </li>
+   <li> n=1662: weak standard nested translation, rnovelty+, cutoff=64*10^7
+   found a solution in 38 runs (seed=1319314469, seed=298802296). </li>
+   <li> n=1663: weak standard nested translation, rnovelty+, cutoff=64*10^7
+   </li>
    <li> n=1665: weak standard nested translation, rnovelty+
     <ol>
      <li> cutoff=16*10^7:
@@ -503,6 +506,9 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 3 4 5 6 8 9 12
 2 2 3 1 2 2  1
 13
+ 2  3  4  5  6  7  8  9 12
+ 1  2  4  3  4  1  4  3  1
+23
      \endverbatim
      </li>
      <li> walksat-tabu-nonull using cutoff=128*10^6 reaches in 5 runs only
@@ -510,12 +516,12 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> Finding best algorithm from Ubcsat:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",params=list(cutoff=1000000))
+> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",params=list(runs=100,cutoff=1000000))
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
-
      \endverbatim
-     </li>
+     rnovelty and rnovelty+ seem clearly best. </li>
+     <li> cutoff=2*10^8, rnovelty </li>
     </ol>
    </li>
   </ul>
