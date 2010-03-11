@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -156,31 +156,37 @@ dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
 /* The simplest heuristics: return the first variable. */
 dll_heuristics_first_formal(FF) := first(FF[1])$
 
+/* Instantiations of SAT solvers: */
 dll_simplest_trivial1(FF) := dll_simplest(FF, dll_heuristics_first_formal)$
 dll_simplest_spa_trivial1(FF) := dll_simplest_spa(FF, dll_heuristics_first_formal)$
 dll_simplest_st_trivial1(FF) := dll_simplest_st(FF, dll_heuristics_first_formal)$
 dll_rk_trivial1(FF,k) := dll_rk(FF, dll_heuristics_first_formal, k)$
 dll_rk_st_trivial1(FF,k) := dll_rk_st(FF, dll_heuristics_first_formal, k)$
 
+
 /* The second-simplest heuristics: return the literal of the first
    literal-occurrence. */
 dll_heuristics_first_real(FF) := first(first(FF[2]))$
 
+/* Instantiations of SAT solvers: */
 dll_simplest_trivial2(FF) := dll_simplest(FF, dll_heuristics_first_real)$
 dll_simplest_spa_trivial2(FF) := dll_simplest_spa(FF, dll_heuristics_first_real)$
 dll_simplest_st_trivial2(FF) := dll_simplest_st(FF, dll_heuristics_first_real)$
 dll_rk_trivial2(FF,k) := dll_rk(FF, dll_heuristics_first_real, k)$
 dll_rk_st_trivial2(FF,k) := dll_rk_st(FF, dll_heuristics_first_real, k)$
 
+
 /* Heuristics: first literal in first shortest clause */
 dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
  for C in FF[2] do if length(C) < ml then (ml : length(C), x : first(C)),
   return(x))$
 
+/* Instantiations of SAT solvers: */
 dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_clause)$
 dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
 dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_clause, k)$
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
+
 
 /* Heuristics: choose a variable occurring most often, and choose the sign
    first which satisfies most clauses. */
@@ -190,6 +196,7 @@ dll_heuristics_max_var(FF) := block(
  if literal_degree_cs(FF[2],v) >= literal_degree_cs(FF[2],-v) then
    return(v) else return(-v))$
 
+/* Instantiations of SAT solvers: */
 dll_simplest_max_var(FF) := dll_simplest(FF, dll_heuristics_max_var)$
 dll_simplest_st_max_var(FF) := dll_simplest_st(FF, dll_heuristics_max_var)$
 dll_rk_max_var(FF,k) := dll_rk(FF, dll_heuristics_max_var, k)$
@@ -212,6 +219,7 @@ choose_most_sat_literal_h(A) := buildq([A], lambda([FF],
 
 johnson_heuristic : choose_most_sat_literal_h(satprob_hitting_f)$
 
+
 /* Heuristics: choose a literal occurring most often;
    in case of ties, the return value is implementation-defined. */
 dll_heuristics_max_lit(FF) := max_literal_degree_l_cs(FF[2])[2]$
@@ -220,6 +228,7 @@ dll_simplest_max_lit(FF) := dll_simplest(FF, dll_heuristics_max_lit)$
 dll_simplest_st_max_lit(FF) := dll_simplest_st(FF, dll_heuristics_max_lit)$
 dll_rk_max_lit(FF,k) := dll_rk(FF, dll_heuristics_max_lit, k)$
 dll_rk_st_max_lit(FF,k) := dll_rk_st(FF, dll_heuristics_max_lit, k)$
+
 
 /* Heuristics: choose a literal occurring most often and do additional
    "lookahead" to try to avoid ties (hence tb "tie break"). */
