@@ -873,23 +873,311 @@ c 20.9 seconds total run time
   \todo Direct encoding, weak-pb translation
   <ul>
    <li> Created by output_weakpb_sdk_stdname(p). </li>
-   <li> p=4 </li>
+   <li> p=4 
+    <ol>
+     <li> march_pl:
+\verbatim
+> march_pl WeakPb_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> minisat2:
+\verbatim
+> minisat2 WeakPb_Sudoku_Box_dim_4.cnf 
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 678            (1.33 % random) (543 /sec)
+propagations          : 3840           (3077 /sec)
+conflict literals     : 0              ( nan % deleted)
+Memory used           : 10.71 MB
+CPU time              : 1.24808 s
+
+SATISFIABLE
+\endverbatim
+     </li>
+     <li> OKsolver_2002 with minisat2-preprocessing:
+\verbatim
+> OKsolver_2002-m2pp WeakPb_Sudoku_Box_dim_4.cnf 
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         30
+c initial_number_of_variables           3840
+c initial_number_of_clauses             106752
+c initial_number_of_literal_occurrences 353280
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   101760
+c running_time(sec)                     112.1
+c number_of_nodes                       146
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                123
+c number_of_pure_literals               0
+c number_of_autarkies                   6
+c number_of_missed_single_nodes         0
+c max_tree_depth                        144
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WeakPb_Sudoku_Box_dim_4.cnf_m2pp_21116
+\endverbatim
+     </li>
+     <li> OKsolver_2002:
+\verbatim
+> OKsolver_2002-O3-DNDEBUG WeakPb_Sudoku_Box_dim_4.cnf 
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           4096
+c initial_number_of_clauses             123136
+c initial_number_of_literal_occurrences 249856
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   122880
+c running_time(sec)                     47.6
+c number_of_nodes                       143
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                226
+c number_of_pure_literals               0
+c number_of_autarkies                   6
+c number_of_missed_single_nodes         0
+c max_tree_depth                        142
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 264350
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WeakPb_Sudoku_Box_dim_4.cnf
+\endverbatim
+     </li>
+     <li> picosat:
+\verbatim
+> picosat913 WeakPb_Sudoku_Box_dim_4.cnf 
+s SATISFIABLE
+
+c
+c 0 iterations
+c 0 restarts
+c 0 failed literals
+c 0 conflicts
+c 672 decisions
+c 0 fixed variables
+c 0 learned literals
+c 0.0% deleted literals
+c 229376 propagations
+c 0.0% variables used
+c 0.1 seconds in library
+c 2.3 megaprops/second
+c 1 simplifications
+c 0 reductions
+c 0.0 MB recycled
+c 1.3 MB maximally allocated
+c 0.1 seconds total run time
+\endverbatim
+     </li>
+     <li> satz215:
+\verbatim
+> satz215 WeakPb_Sudoku_Box_dim_4.cnf 
+**** The instance is satisfiable. *****
+NB_MONO= 0, NB_UNIT= 4112, NB_BRANCHE= 166, NB_BACK= 6 
+Program terminated in 0.000 seconds.
+satz215 WeakPb_Sudoku_Box_dim_4.cnf 0.000 166 6 540938 29 1 4096 123136 -12288 0 0
+
+real    0m2.301s
+user    0m2.212s
+sys     0m0.044s
+\endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo Direct encoding, dual-weak-pl translation
   <ul>
    <li> Created by output_dual_weakpl_sdk_stdname(p). </li>
-   <li> p=4 </li>
+   <li> p=4 
+    <ol>
+     <li> OKsolver_2002:
+\verbatim
+> OKsolver_2002-O3-DNDEBUG Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> march_pl:
+\verbatim
+> march_pl Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> OKsolver_2002 with minisat2-preprocessing:
+\verbatim
+> OKsolver_2002-m2pp Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> minisat2:
+\verbatim
+> minisat2 Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> picosat:
+\verbatim
+> picosat913 Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> satz215
+\verbatim
+> satz215 Dual_WeakPl_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
-
+    
   \todo Direct encoding, dual-weak-pb translation
   <ul>
    <li> Created by output_dual_weakpb_sdk_stdname(p). </li>
-   <li> p=4 </li>
+   <li> p=4 
+    <ol>
+     <li> OKsolver_2002:
+\verbatim
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           4096
+c initial_number_of_clauses             123648
+c initial_number_of_literal_occurrences 258048
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   122880
+c running_time(sec)                     47.8
+c number_of_nodes                       142
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                96
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         0
+c max_tree_depth                        141
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
+\endverbatim
+     </li>
+     <li> march_pl:
+\verbatim
+> march_pl Dual_WeakPb_Sudoku_Box_dim_4.cnf
+Aborted after 50m.
+\endverbatim
+     </li>
+     <li> OKsolver_2002 with minisat2-preprocessing:
+\verbatim
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           4096
+c initial_number_of_clauses             111360
+c initial_number_of_literal_occurrences 233472
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   110592
+c running_time(sec)                     42.6
+c number_of_nodes                       144
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                123
+c number_of_pure_literals               0
+c number_of_autarkies                   4
+c number_of_missed_single_nodes         0
+c max_tree_depth                        143
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf_m2pp_25744
+\endverbatim
+     </li>
+     <li> minisat2:
+\verbatim
+> minisat2 Dual_WeakPb_Sudoku_Box_dim_4.cnf
+restarts              : 8
+conflicts             : 3257           (4112 /sec)
+decisions             : 10540          (1.39 % random) (13307 /sec)
+propagations          : 194504         (245571 /sec)
+conflict literals     : 385829         (0.64 % deleted)
+Memory used           : 8.35 MB
+CPU time              : 0.792049 s
+
+SATISFIABLE
+\endverbatim
+     </li>
+     <li> picosat:
+\verbatim
+> picosat913 Dual_WeakPb_Sudoku_Box_dim_4.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         16
+c initial_number_of_variables           4096
+c initial_number_of_clauses             123648
+c initial_number_of_literal_occurrences 258048
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   122880
+c running_time(sec)                     47.8
+c number_of_nodes                       142
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                96
+c number_of_pure_literals               0
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         0
+c max_tree_depth                        141
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
+\endverbatim
+     </li>
+     <li> satz215:
+\verbatim
+> satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 
+**** The instance is satisfiable. *****
+NB_MONO= 0, NB_UNIT= 3599, NB_BRANCHE= 155, NB_BACK= 0 
+Program terminated in 0.000 seconds.
+satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 0.000 155 0 445398 121 1 4096 123648 -12288 0 0
+
+real    0m2.794s
+user    0m2.668s
+sys     0m0.032s
+\endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
-    
 */
 
 
