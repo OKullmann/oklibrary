@@ -921,9 +921,91 @@ gsat :
      </li>
      <li> cutoff=16*10^5:
      \verbatim
-
+  1   2
+307 693
+1000
      \endverbatim
      </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo greentao_15(2,...,2,3,3) > 82
+  <ul>
+   <li> Using the logarithmic translation with rsaps. </li>
+   <li> n=82
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+ 1  2  3  4
+42 48  9  1
+100
+     \endverbatim
+     Then in another 116 runs a solution was found. </li>
+     <li> walksat-tabu-nonull: </li>
+    </ol>
+   </li>
+   <li> n=83:
+    <ol>
+     <li> 100 runs with cutoff=10^5 only reach min=1. </li>
+     <li> Perhaps it's time now to increase the cutoff to 2*10^5, while
+     considering 1000 runs seems neededd. </li>
+     <li> cutoff=2*10^5:
+     \verbatim
+ 1  2  3
+44 50  6
+100
+  1   2   3
+417 524  59
+1000
+     \endverbatim
+     </li>
+     <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
+     \verbatim
+> E = eval_ubcsat("GreenTao_L_15-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_83.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+walksat_tabu_nonull :
+ 1  2  3
+25 68  7
+walksat_tabu :
+ 1  2  3
+23 69  8
+rots :
+ 1  2  3
+19 56 25
+irots :
+ 1  2  3  4
+17 60 22  1
+rsaps :
+ 1  2  3  4
+15 56 25  4
+hwsat :
+ 1  2  3  4  5
+10 30 36 21  3
+gwsat :
+ 1  2  3
+ 5 60 35
+rnoveltyp :
+ 1  2  3  4  5
+ 2 28 41 27  2
+rnovelty :
+ 1  2  3  4  5
+ 2 19 48 25  6
+novelty :
+ 1  2  3  4  5  6
+ 1 17 33 32 14  3
+saps :
+ 1  2  3  4  5  6  8
+ 1  7 26 23 29 12  2
+sapsnr :
+ 1  2  3  4  5  6  7
+ 1  1 16 39 27 12  4
+     \endverbatim
+     </li>
+     <li> walksat-tabu-nonull: </li>
     </ol>
    </li>
   </ul>
