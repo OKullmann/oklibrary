@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -188,22 +188,26 @@ min_resolution_closure_cs(F) := block(
    *****************
 */
 
-/* The resolvable 2-sets of a clause-set on a given resolution literal */
+/* The resolvable 2-sets of a clause-set on a given resolution literal: */
 resolvable_cs_l(F,x) := subset(powerset(F,2), lambda([Cs], resolvable_s_l(Cs,x)))$
 
-/* All resolvents of a clause-set on a given resolution literal */
+/* All resolvents of a clause-set on a given resolution literal: */
 resolvents_cs_l(F,x) := map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x))$
 
-/* The DP-operator in one step for clause-set F and resolution literal v. */
-dp_operator(F,v) := block([Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
- union(setdifference(F, Fv), resolvents_cs_l(Fv,v)))$
+/* The DP-operator in one step for clause-set F and resolution literal v: */
+/* RENAME: dp_operator_cs */
+dp_operator(F,v) := block(
+ [Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
+  union(setdifference(F, Fv), resolvents_cs_l(Fv,v)))$
+dp_operator_cs(F,v) := dp_operator(F,v)$
+dp_operator_fcs(FF,v) := [disjoin(v,FF[1]), dp_operator_cs(FF[2],v)]$
 
-/* DP combined with subsumption elimination */
+/* DP combined with subsumption elimination: */
 min_dp_operator(F,v) := min_elements(dp_operator(F,v))$
 
 /* Returns a list of pairs [s,c], where s is the size of DP-procedure-run
    (the sum of sizes of the clause-sets) and c is the count, where the list
-   is sorted by ascending s. */
+   is sorted by ascending s: */
 distribution_min_dp(FF) := block(
  [P : permutations(FF[1]), l : length(FF[2]), hash, counts : {}],
   for p in P do block([F : FF[2], s : l],

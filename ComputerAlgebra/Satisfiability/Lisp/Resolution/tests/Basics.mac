@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac
-  \brief Tests for splitting trees
+  \brief Tests for basic resolution functionality
 
 Use by
 
@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.ma
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 kill(f)$
 
@@ -38,6 +39,7 @@ okltest_two_subsumption_resolvent_p(f) := (
   assert(f({1,2},{-1,2}) = [{2}]),
   assert(f({1,2},{-1,-2}) = []),
   true)$
+
 
 /* *************************
    * Adding all resolvents *
@@ -76,6 +78,7 @@ okltest_two_subsumption_resolvents_rem_cs(f) := (
   assert(f({{1,2},{-1,-2}}) = [{},{{1,2},{-1,-2}}]),
   true)$
 
+
 /* *****************
    * DP resolution *
    *****************
@@ -93,6 +96,16 @@ okltest_dp_operator(f) := (
     for v : n thru 1 step -1 do (
       F : f(F,v),
       assert(F = full_fcs(v-1)[2]))),
+  true)$
+
+okltest_dp_operator_fcs(f) := (
+  assert(f([{},{}],1) = [{},{}]),
+  assert(f([{},{{}}],1) = [{},{{}}]),
+  assert(f([{1},{}],1) = [{},{}]),
+  assert(f([{1},{{}}],1) = [{},{{}}]),
+  assert(f([{2},{}],1) = [{2},{}]),
+  assert(f([{2},{{}}],1) = [{2},{{}}]),
+  assert(okltest_dp_operator(buildq([f], lambda([F,v], fcs2cs(f(cs2fcs(F),v))))) = true),
   true)$
 
 okltest_distribution_min_dp(f) := block(
