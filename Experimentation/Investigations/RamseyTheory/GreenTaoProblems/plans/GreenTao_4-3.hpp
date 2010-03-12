@@ -173,7 +173,7 @@ rots 79.2 min = 64
   </ul>
 
 
-  \todo Lower bounds: greentao_4(3) > 383
+  \todo Lower bounds: greentao_4(3) > 384
   <ul>
    <li> Best we see first where adaptnovelty+ finds easily solutions. </li>
    <li> n=300 very easily satisfiable. </li>
@@ -598,12 +598,11 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
 190
      \endverbatim
      </li>
-     <li> cutoff=32*10^7:
-     \verbatim
-
-     \endverbatim
-     </li>
+     <li> cutoff=64*10^7: In 127 runs one solution was found (seed=2964481864,
+     osteps=112033518). </li>
     </ol>
+   </li>
+   <li> n=385: weak nested standard translation, rnovelty+, cutoff=32*10^7
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>
