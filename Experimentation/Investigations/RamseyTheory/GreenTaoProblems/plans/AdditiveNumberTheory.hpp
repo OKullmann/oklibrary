@@ -43,6 +43,11 @@ plot2d([discrete, sizes_strata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
 plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo k=3
+  <ul>
    <li> Using Applications/RamseyTheory/CountProgressions_GreenTao.cpp
    and non-linear regression in R:
    \verbatim
@@ -67,7 +72,12 @@ Non-linear model nhyp = a * n^b:
 Residual range:  -12970.68 6619.329
    \endverbatim
    so f_3'(n) = 0.07487019 * n^1.90377210. We should consider larger n. </li>
-   <li> For k=4:
+  </ul>
+
+
+  \todo k=4
+  <ul>
+   <li>
    \verbatim
 > f = fit_greentao(4,20000)
 Number of observations (changes) =  19975
@@ -87,7 +97,12 @@ Residual range:  -5417.02 3489.321
    \endverbatim
    So f_4(n) = 0.02317292 * n^1.81359675 is a good model (for n <= 40000).
    </li>
-   <li> For k=5:
+  </ul>
+
+
+  \todo k=5
+  <ul>
+   <li>
    \verbatim
 > f = fit_greentao(5,40000)
 Number of observations (changes) =  39346
@@ -107,7 +122,12 @@ Residual range:  -1959.498 1117.054
    \endverbatim
    So f_5(n) = 0.004561643 * n^1.739623162 is a good model (for n <= 80000).
    </li>
-   <li> For k=6:
+  </ul>
+
+
+  \todo k=6
+  <ul>
+   <li>
    \verbatim
 > f = fit_greentao(6,80000)
 Number of observations (changes) =  70976
@@ -133,7 +153,12 @@ Residual range:  -1185.398 669.2617
    \endverbatim
    So f_6(n) = 0.001491893 * n^1.671835433 is a good model (for n <= 160000).
    </li>
-   <li> For k=7:
+  </ul>
+
+
+  \todo k=7
+  <ul>
+   <li>
    \verbatim
 > f = fit_greentao(7,160000)
 Number of observations (changes) =  59909
@@ -170,7 +195,12 @@ Residual range:  -2338.546 1748.609
    \endverbatim
    So f_7(n) = 0.0002054541 * n^1.6465780527 is a good model
    (for n <= 1000000). </li>
-   <li> For k=8:
+  </ul>
+
+
+  \todo k=8
+  <ul>
+   <li>
    \verbatim
 > f = fit_greentao(8,1000000)
 Number of observations (changes) =  230866
@@ -218,6 +248,11 @@ Residual range:  -10123.48 6262.802
    \endverbatim
    So f_8(n) = 4.218958e-05 * n^1.631506 is a good model
    (for n <= 8*10^6). </li>
+  </ul>
+
+
+  \todo Some further considerations
+  <ul>
    <li> A natural conjecture here is that for every k there exists some
    index i_k >= 1 such that for every j >= i_k there exists an arithmetic
    progression of length k ending with p_j. For k <= 5 we can already
