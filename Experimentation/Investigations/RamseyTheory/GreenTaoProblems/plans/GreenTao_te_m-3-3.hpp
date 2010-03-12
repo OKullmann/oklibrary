@@ -931,9 +931,10 @@ gsat :
   </ul>
 
 
-  \todo greentao_15(2,...,2,3,3) > 82
+  \todo greentao_15(2,...,2,3,3) >= 83
   <ul>
-   <li> Using the logarithmic translation with rsaps. </li>
+   <li> The conjecture is greentao_15(2,...,2,3,3) = 83. </li>
+   <li> Using the logarithmic translation, first with rsaps. </li>
    <li> n=82
     <ol>
      <li> cutoff=10^5:
@@ -943,7 +944,13 @@ gsat :
 100
      \endverbatim
      Then in another 116 runs a solution was found. </li>
-     <li> walksat-tabu-nonull: </li>
+     <li> walksat-tabu-nonull, cutoff=10^5:
+     \verbatim
+  0   1   2
+  7 292 221
+520
+     \endverbatim
+     So it looks as if walksat-tabu-nonull is better than rsaps. </li>
     </ol>
    </li>
    <li> n=83:
@@ -1005,7 +1012,20 @@ sapsnr :
  1  1 16 39 27 12  4
      \endverbatim
      </li>
-     <li> walksat-tabu-nonull: </li>
+     <li> walksat-tabu-nonull, cutoff=10^5:
+     \verbatim
+   1    2    3
+2681 6903  416
+10000
+     \endverbatim
+     </li>
+     <li> walksat-tabu-nonull, cutoff=2*10^5:
+     \verbatim
+  1   2   3
+466 532   2
+1000
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
