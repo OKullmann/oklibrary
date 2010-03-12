@@ -60,6 +60,8 @@ okltest_apply_pa_prpl(apply_pa_prpl);
    ****************************
 */
 
+okltest_tseitin_trans_list_rel(tseitin_trans_list_rel);
+okltest_tseitin_trans_list(tseitin_trans_list);
 okltest_tseitin_trans_basic(tseitin_trans_basic);
 
 /*!

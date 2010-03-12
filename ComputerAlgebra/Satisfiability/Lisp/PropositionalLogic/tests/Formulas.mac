@@ -98,6 +98,26 @@ okltest_apply_pa_prpl(f) := block([v,w,phi],
    ****************************
 */
 
+okltest_tseitin_trans_list_rel(f) := block([F,T,a,b,c,d],
+  F : ["and",
+    ["or", ["and", [a], [b]], ["and", [c], [d]]],
+    ["or", ["and", [neg(a)], [b]], ["and", [c], [neg(d)]]]],
+  T : append(["and", [tstr_var([])]], f(F,[])),
+  assert(nvar_ft(T) = 16-1 + 4),
+  T : basic_simplification_ft(T),
+  assert(nvar_ft(T) = 16-1 + 4),
+  true)$
+
+okltest_tseitin_trans_list(f) := block([F,T,a,b,c,d],
+  F : ["and",
+    ["or", ["and", [a], [b]], ["and", [c], [d]]],
+    ["or", ["and", [neg(a)], [b]], ["and", [c], [neg(d)]]]],
+  T : append(["and", [tstr_var([])]], f(F)),
+  assert(nvar_ft(T) = 16-1 + 4),
+  T : basic_simplification_ft(T),
+  assert(nvar_ft(T) = 16-1 + 4),
+  true)$
+
 okltest_tseitin_trans_basic(f) := block([F,T,a,b,c,d],
   F : ["and",
     ["or", ["and", [a], [b]], ["and", [c], [d]]],
