@@ -26,6 +26,16 @@ License, or any later version. */
   output_greentao_reduced_strong_stdname(append(create_list(2,i,1,m),[3,3]),n).
 
 
+  \todo General considerations
+  <ul>
+   <li> See
+   Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
+   for number-theoretic considerations and data. </li>
+   <li> It seems that for n >= 12 every hypergraph arithprog_primes_ohg(3,n)
+   has at least one more hyperedge than its for n-1. </li>
+  </ul>
+
+
   \todo greentao_3(2,3,3) = 31
   <ul>
    <li> n=30 trivially satisfiable by adaptnovelty+. </li>
