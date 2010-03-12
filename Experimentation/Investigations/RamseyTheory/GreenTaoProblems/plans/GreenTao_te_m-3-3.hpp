@@ -1040,5 +1040,68 @@ sapsnr :
    </li>
   </ul>
 
+
+  \todo greentao_16(2,...,2,3,3) > 85
+  <ul>
+   <li> Using the logarithmic translation, first with walksat-tabu-nonull.
+   </li>
+   <li> n=83, cutoff=10^5: In run 15 a solution was found. </li>
+   <li> n=84
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+ 1  2  3  4
+20 39 40  1
+100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^5: In run 16 a solution was found (seed=825725346,
+     osteps=196004). </li>
+    </ol>
+   </li>
+   <li> n=85, cutoff=2*10^5: In run 33 a solution was found (seed=3899890229,
+   osteps=140110). </li>
+   <li> n=86
+    <ol>
+     <li> cutoff=2*10^5:
+     \verbatim
+ 1  2  3  4
+ 5 31 50 14
+100
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5:
+     \verbatim
+ 1  2  3  4
+ 3 47 45  5
+100
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^5:
+     \verbatim
+ 1  2  3  4
+14 57 27  2
+100
+     \endverbatim
+     </li>
+     <li> cutoff=16*10^5:
+     \verbatim
+ 1  2  3  4
+25 66  8  1
+100
+     \endverbatim
+     </li>
+     <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
+     \verbatim
+> E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", params=list(runs=100,cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+  </ul>
+   
 */
 
