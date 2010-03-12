@@ -56,8 +56,8 @@ okltest_ss_mixcolumn_gen(ss_mixcolumn_gen);
 okltest_ss_inv_mixcolumn_gen(ss_inv_mixcolumn_gen);
 
 
-okltest_ss_mixcolumns(ss_mixcolumns);
-okltest_ss_inv_mixcolumns(ss_inv_mixcolumns);
+okltest_ss_mixcolumns_gen(ss_mixcolumns_gen);
+okltest_ss_inv_mixcolumns_gen(ss_inv_mixcolumns_gen);
 
 
 /* *****************
@@ -72,8 +72,8 @@ okltest_ss_key_expansion_gen(ss_key_expansion_gen);
    *********************************
 */
 
-okltest_ss_round(ss_round);
-okltest_ss_inv_round(ss_inv_round);
+okltest_ss_round_gen(ss_round_gen);
+okltest_ss_inv_round_gen(ss_inv_round_gen);
 okltest_ss_encrypt_wf_gen(ss_encrypt_wf_gen);
 okltest_ss_decrypt_wf_gen(ss_decrypt_wf_gen);
 okltest_ss_encrypt_gen(ss_encrypt_gen);

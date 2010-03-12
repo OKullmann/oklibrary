@@ -9,6 +9,25 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
   \brief Plans on the AES implementation
 
+  
+  \todo Use matrix of GF(b) matrices for MixColumn
+  <ul>
+   <li> To allow the rearrangement of the small scale AES
+   such that the linear component of the Sbox is moved into
+   MixColumns, the MixColumn matrix should be a matrix with elements
+   in the range {1,...,b} where b is the characteristic of the  
+   small scale word field. </li>
+   <li> Not every square e-dimensional matrix over {1,...,b}
+   can be represented as a multiplication by an element in 
+   GF(b^e), as there are two many elements, and so for
+   such a generalisation, the MixColumns should be changed
+   so that the collection of Sbox matrices can be integrated with it. 
+   </li>
+   <li> Note that because of the nature of the ShiftRows and addition,
+   the ShiftRows and Subbytes commute, allowing such an alternative
+   representation. </li>
+  </ul>
+
 
   \todo Small scale AES implementation
   <ul> 

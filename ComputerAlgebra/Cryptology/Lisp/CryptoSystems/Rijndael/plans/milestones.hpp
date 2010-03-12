@@ -24,6 +24,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - Use matrix of GF(b) matrices for MixColumn
     - Sbox polynomial implementation
     - Convert aes_key_expansion to return a list of matrices
     - Remove addition from AES round
