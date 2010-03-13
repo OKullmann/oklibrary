@@ -1136,7 +1136,9 @@ walksat_tabu :
      So definitely walksat-tabu(-nonull) is not best here. </li>
      <li> rsaps, cutoff=8*10^5:
      \verbatim
-
+  1   2
+835 467
+1302
      \endverbatim
      </li>
     </ol>
