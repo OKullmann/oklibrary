@@ -29,6 +29,24 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************
 */
 
+/*
+   A "combinatorial matrix" is a triple M = [R,C,f], where R is the set of
+   row indices, C the set of column indices, and f is a map with domain
+   R x C. It is a matrix "over H" if all values of f are elements of H.
+   The abbreviation is "com".
+
+   A "square combinatorial matrix" is a pair [I, f], where f is a map with
+   domain I x I. Again it is a matrix "over H" if all values of f are elements
+   of H. The abbreviation is "scom".
+
+   The ordered forms, called "ocom" and "oscom", use lists instead of sets
+   for the rows and colums.
+
+   "Standardised" versions have row- and column-sets of the form {1,...,n}
+   for a natural number n >= 0. Abbreviations are "stdcom", "stdscom" and
+   "ostdcom" resp. "ostdscom".
+*/
+
 /* Checking whether fam is a family with index set XxY over Z: */
 binfam_p(fam,X,Y,Z) := block(
  [e : errcatch(
@@ -106,7 +124,7 @@ scom2m(M) := com2m(scom2com(M))$
 oscom2m(M) := ocom2m(oscom2ocom(M))$
 /* For special situations, see lmcom2m, lmscom2m below (w.r.t efficiency). */
 
-/* Transforms a Maxima matrix into a combinatorial matrix
+/* Transforms a Maxima matrix into a (standardised) combinatorial matrix
    (attention: this constitutes a reference to the original matrix). */
 m2com(M) := block([m,n],
   [m,n] : matrix_size(M),

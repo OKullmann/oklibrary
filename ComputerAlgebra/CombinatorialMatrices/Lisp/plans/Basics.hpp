@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.8.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,19 +24,25 @@ License, or any later version. */
 
   \todo Basic notions
   <ul>
-   <li> A "(combinatorial) matrix" is a triple [R,C,f], where R is the set of
+   <li> DONE
+   A "(combinatorial) matrix" is a triple [R,C,f], where R is the set of
    row indices, C the set of column indices, and f is a map with domain
    R x C. </li>
-   <li> While a "square matrix" is a pair [I, f], where f is a map with
+   <li> DONE
+   While a "square matrix" is a pair [I, f], where f is a map with
    domain I x I. </li>
-   <li> Square matrices [I,f] can be converted to matrices [I,I,f]. </li>
-   <li> A matrix "over M" is a matrix whose values are elements of M. </li>
+   <li> DONE
+   Square matrices [I,f] can be converted to matrices [I,I,f]. </li>
+   <li> DONE
+   A matrix "over H" is a matrix whose values are elements of H. </li>
    <li> So combinatorial matrices over {0,1} correspond to *incidence
    structures*, while combinatorial matrices over {-1,0,+1} correspond
    to labelled boolean clause-sets. </li>
-   <li> We also have "ordered matrices" and "ordered square matrices",
+   <li> DONE
+   We also have "ordered matrices" and "ordered square matrices",
    where instead of index-sets we have repetition-free lists. </li>
-   <li> Abbreviations:
+   <li> DONE
+   Abbreviations:
     <ol>
      <li> "com" for combinatorial matrices </li>
      <li> "scom" for square combinatorial matrices </li>
@@ -47,8 +53,9 @@ License, or any later version. */
      <li> ("osycom" for ordered symmetric combinatorial matrices). </li>
     </ol>
    </li>
-   <li> A "standardised combinatorial matrix" (stcom) has index sets
-   {1,...,n} for n in NN. </li>
+   <li> DONE
+   A "standardised combinatorial matrix" (stdcom) has index sets
+   {1,...,n} for n in NN_0. </li>
   </ul>
 
 
