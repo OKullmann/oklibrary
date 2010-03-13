@@ -116,6 +116,7 @@ Error: package 'tcltk' could not be loaded
      <li> "sudoku" </li>
     </ol>
    </li>
+   <li> There should be also packages for machine learning. </li>
   </ul>
 
 
