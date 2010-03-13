@@ -196,6 +196,18 @@ okltest_scom_l(f) := (
   /* XXX */
   true)$
 
+okltest_mrc2ocom(f) := block([M,m,x],
+  m : matrix([1,2],[3,4]),
+  M : f(m,["a",88],[x,"jkl"]),
+  assert(M[1] = ["a",88]),
+  assert(M[2] = [x,"jkl"]),
+  assert(M[3]("a",x) = 1),
+  assert(M[3]("a","jkl") = 2),
+  assert(M[3](88,x) = 3),
+  assert(M[3](88,"jkl") = 4),
+  /* XXX */
+  true)$
+
 
 /* ***********************
    * Basic constructions *

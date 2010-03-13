@@ -144,11 +144,22 @@ m2oscom(M) := [create_list(i,i,1,matrix_size(M)[1]), buildq([M], lambda([i,j], '
 lmcom2m(M) := ev(part(M[3],2,0),eval);
 lmscom2m(M) := ev(part(M[2],2,0),eval);
 
-/* For convenience: Input as the Maxima function "matrix", but returns
+/* For convenience: Input as for the Maxima function "matrix", but returns
    a com resp. scom:
 */
 com_l([L]) := m2com(apply(matrix,L))$
 scom_l([L]) := m2scom(apply(matrix,L))$
+
+/* Transforms a Maxima matrix M with a given list R of row-names and a
+   given list C of column-names into an ordered cominatorial matrix.
+   (Attention: Again, this constitutes a reference to the original matrix.)
+*/
+mrc2ocom(M,R,C) := block(
+ [hr : osm2hm(l2osm_inv(R)), hc : osm2hm(l2osm_inv(C))],
+  [R, C,
+   buildq([M,hr,hc], lambda([a,b], 'M[ev_hm(hr,a),ev_hm(hc,b)]))])$
+
+/* Access to the matrix-references again by lmcom2m. */
 
 
 /* ***********************

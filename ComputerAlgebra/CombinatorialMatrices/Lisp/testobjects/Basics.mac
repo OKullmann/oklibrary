@@ -70,6 +70,8 @@ okltest_m2oscom(m2oscom);
 okltest_com_l(com_l);
 okltest_scom_l(scom_l);
 
+okltest_mrc2ocom(mrc2ocom);
+
 /* ***********************
    * Basic constructions *
    ***********************
