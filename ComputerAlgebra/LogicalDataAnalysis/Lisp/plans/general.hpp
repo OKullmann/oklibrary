@@ -80,6 +80,41 @@ dual_all_minequiv_bvs_cs(SW10F[2]);
      </li>
     </ol>
    </li>
+   <li> Perhaps we could use combinatorial matrices over {0,1}:
+    <ol>
+     <li> The row-names would then be the case-names. </li>
+     <li> While the column-names would be the variable-names. </li>
+     <li> The data-matrix from [The Outcomes of Homeless Mobilization;
+     Cress, Snow, The American Journal of Sociology, 2000], Table 3 would
+     then be available as follows:
+     \verbatim
+CS : mrc2ocom(matrix(
+ [1,1,1,1,1,1,1,1,1,1],
+ [1,0,1,1,1,1,1,1,1,1],
+ [1,1,1,0,1,1,1,1,1,1],
+ [1,1,1,0,1,1,1,0,1,1],
+ [1,1,1,1,1,1,0,0,1,1],
+ [1,1,1,0,1,1,1,0,1,0],
+ [1,0,0,1,1,1,1,0,1,0],
+ [0,1,0,1,0,1,0,0,0,1],
+ [0,1,0,0,0,1,0,0,0,1],
+ [0,0,1,1,0,0,0,1,0,0],
+ [0,0,0,0,0,1,0,0,0,1],
+ [0,0,0,0,0,1,0,0,0,1],
+ [0,1,0,1,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0,0,0]),
+ ["PUH", "AOS", "OUH", "TUH", "PUEJ", "DtUH", "HCRP", "BUH", "DnUH", "HF", "HUH", "HU", "MUH", "HPU", "MC"],
+ ["Via", "DisT", "SymA", "CSup", "DiagF", "ProgF", "Rep", "Res", "Ri", "Re"])$
+
+ocom_p(CS,{0,1});
+
+CS[3]("TUH", "SymA");
+ 1
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
   
 */
