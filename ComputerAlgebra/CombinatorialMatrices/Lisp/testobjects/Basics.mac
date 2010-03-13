@@ -29,6 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac
 okltest_binfam_p(binfam_p);
 
 okltest_com_p(com_p);
+okltest_ocom_p(ocom_p);
 okltest_scom_p(scom_p);
 
 okltest_sqscom_p(sqscom_p);

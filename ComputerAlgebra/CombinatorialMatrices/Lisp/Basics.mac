@@ -57,6 +57,10 @@ binfam_p(fam,X,Y,Z) := block(
 /* Tests whether M is a combinatorial matrix over H: */
 com_p(M,H) := listp(M) and is(length(M) = 3) and setp(M[1]) and setp(M[2]) and
  binfam_p(M[3],M[1],M[2],H)$
+ocom_p(M,H) := listp(M) and is(length(M) = 3) and listp(M[1]) and listp(M[2])
+ and is(length(setify(M[1]))=length(M[1]))
+ and is(length(setify(M[2]))=length(M[2]))
+ and binfam_p(M[3],setify(M[1]),setify(M[2]),H)$
 /* Tests whether M is a square combinatorial matrix over H: */
 scom_p(M,H) := listp(M) and is(length(M) = 2) and setp(M[1]) and 
   com_p([M[1],M[1],M[2]],H)$

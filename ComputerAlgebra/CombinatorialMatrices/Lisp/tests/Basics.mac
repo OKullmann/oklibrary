@@ -51,6 +51,10 @@ okltest_com_p(f) := block([fun],
   assert(f([{1},{1},lambda([i,j],2)],{2}) = true),
   true)$
 
+okltest_ocom_p(f) := block(
+  /* XXX */
+  true)$
+
 okltest_scom_p(f) := block([fun],
   assert(f(0,{}) = false),
   assert(f([],{}) = false),
@@ -70,6 +74,7 @@ okltest_sqscom_p(f) := (
 okltest_osqcom_p(f) := (
   /* XXX */
   true)$
+
 
 
 /* *********************
