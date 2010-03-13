@@ -1041,8 +1041,9 @@ sapsnr :
   </ul>
 
 
-  \todo greentao_16(2,...,2,3,3) > 85
+  \todo greentao_16(2,...,2,3,3) >= 86
   <ul>
+   <li> the conjecture is greentao_16(2,...,2,3,3) = 86. </li>
    <li> Using the logarithmic translation, first with walksat-tabu-nonull.
    </li>
    <li> n=83, cutoff=10^5: In run 15 a solution was found. </li>
@@ -1059,8 +1060,27 @@ sapsnr :
      osteps=196004). </li>
     </ol>
    </li>
-   <li> n=85, cutoff=2*10^5: In run 33 a solution was found (seed=3899890229,
-   osteps=140110). </li>
+   <li> n=85
+    <ol>
+     <li> walksat-tabu-nonull. cutoff=2*10^5:
+     In run 33 a solution was found (seed=3899890229, osteps=140110). </li>
+     <li> hwsat, cutoff=2*10^5:
+     \verbatim
+ 0  1  2  3  4
+10 63 24  2  1
+100
+     \endverbatim
+     </li>
+     <li> rsaps, cutoff=2*10^5:
+     \verbatim
+ 0  1  2
+17 64 19
+100
+     \endverbatim
+     So rsaps seems back here as best algorithm (is m=13 the only outlier?).
+     </li>
+    </ol>
+   </li>
    <li> n=86
     <ol>
      <li> cutoff=2*10^5:
@@ -1096,6 +1116,26 @@ sapsnr :
 > E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", params=list(runs=100,cutoff=1000000))
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
+
+hwsat :
+ 1  2
+77 23
+gwsat :
+ 1  2
+72 28
+rsaps :
+ 1  2
+72 28
+irots :
+ 1  2
+72 28
+walksat_tabu :
+ 1  2  3  4
+19 56 24  1
+     \endverbatim
+     So definitely walksat-tabu(-nonull) is not best here. </li>
+     <li> rsaps, cutoff=8*10^5:
+     \verbatim
 
      \endverbatim
      </li>
