@@ -428,7 +428,7 @@ BestSolution_Max = 2.000000
   </ul>
 
 
-  \todo greentao_3(3,3,5) > 1987
+  \todo greentao_3(3,3,5) > 1988
   <ul>
    <li> For n > 1000 one needs to use
    \verbatim
@@ -730,19 +730,15 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
 68
      \endverbatim
      </li>
-     <li> cutoff=4*10^8
-     \verbatim
- 2  3  4
-12  6  1
-19
-1 2 3
-2 3 9
-14
-1 2 3 4
-2 6 3 3
-14
-     \endverbatim
-     </li>
+     <li> cutoff=4*10^8: In altogether 226 runs one solution was found
+     (seed=2410474560, osteps=75173657; while 18 runs with cutoff=8*10^8
+     didn't find a solution). </li>
+    </ol>
+   </li>
+   <li> n=1989, weak standard nested translation, rnovelty+:
+    <ol>
+     <li> cutoff=10^8 </li>
+     <li> cutoff=4*10^8 </li>
     </ol>
    </li>
    <li> n=1990, weak standard nested translation:
