@@ -485,8 +485,10 @@ E$alg[E$best==1]
      </li>
     </ol>
    </li>
-   <li> n=580, cutoff=2*10^6 (novelty+) found one solution in 2482 runs:
-   \verbatim
+   <li> n=580
+    <ol>
+     <li> cutoff=2*10^6 (novelty+) found one solution in 2482 runs:
+     \verbatim
  E = read_ubcsat("GreenTao_3-2-3-5_580.cnf_OUT")
    0    1    2    3
    1  110 2145  226
@@ -497,10 +499,20 @@ E$alg[E$best==1]
 > E[E$min==0,]
      sat min osteps msteps       seed
 1934   1   0 715931 715931 2205549087
-   \endverbatim
-   We see quite a change: min=2 is now the overwhelming majority; one might
-   need to check whether under these changed circumstances perhaps now
-   adaptnovelty+ is better. </li>
+     \endverbatim
+     We see quite a change: min=2 is now the overwhelming majority; one might
+     need to check whether under these changed circumstances perhaps now
+     adaptnovelty+ is better. </li>
+     <li> Weak standard nested translation, sapsnr, cutoff=10^6:
+     \verbatim
+ 0  1  2  3
+ 1 33 53 13
+100
+     \endverbatim
+     So it seems clear that this translation with sapsnr is superior over
+     the aloamo-translation. </li>
+    </ol>
+   </li>
    <li> n=581
     <ol>
      <li> cutoff=2*10^6 (novelty+):
@@ -572,7 +584,30 @@ E$alg[E$best==1]
      </li>
      <li> Until now here only the aloamo-translation has been considered;
      now we consider the weak standard nested translation. </li>
-     <li> 
+     <li> Finding the best Ubcsat-algorithm:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_3-2-3-5_581.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+sapsnr :
+ 1  2  3  4  5  6
+ 5  9 27 33 22  4
+gwsat :
+ 1  2  3  4  5  6
+ 1  9 23 34 28  5
+saps :
+ 1  2  3  4  5  6
+ 1  5 29 35 24  6
+     \endverbatim
+     </li>
+     <li> Weak standard nested translation, sapsnr, cutoff=10^6:
+     \verbatim
+ 1  2  3
+33 40 27
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
