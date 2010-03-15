@@ -606,6 +606,9 @@ saps :
  1  2  3
 33 40 27
 100
+  1   2   3   4
+460 589 397   7
+1453
      \endverbatim
      </li>
      <li> minisat2 determines unsatisfiability:
