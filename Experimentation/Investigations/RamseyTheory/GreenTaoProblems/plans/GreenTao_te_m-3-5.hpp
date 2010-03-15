@@ -711,4 +711,28 @@ plot(E$alg,E$best)
    </li>
   </ul>
 
+
+  \todo greentao_4(2,2,3,5)
+  <ul>
+   <li> Using weak standard nested translation with sapsnr. </li>
+   <li> Created by
+   output_greentao_standnest_stdname(append(create_list(2,i,1,2),[3,5]),n).
+   </li>
+   <li> n=581:
+    <ol>
+     <li> cutoff=10^5 in 100 runs didn't find a solution. </li>
+     <li> cutoff=10^6 in 100 runs yields min=1 97 times and 3 times min=2.
+     </li>
+     <li> Finding the best Ubcsat-algorithm:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_4-2-2-3-5_581.cnf", params=list(runs=100,cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+  </ul>
+
 */
