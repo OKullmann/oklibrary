@@ -26,7 +26,7 @@ License, or any later version. */
   output_greentao_reduced_strong_stdname(append(create_list(2,i,1,m),[3,5]),n).
 
 
-  \todo greentao_3(2,3,5) >= 581
+  \todo greentao_3(2,3,5) = 581
   <ul>
    <li> n=550
     <ol>
@@ -606,6 +606,21 @@ saps :
  1  2  3
 33 40 27
 100
+     \endverbatim
+     </li>
+     <li> minisat2 determines unsatisfiability:
+     \verbatim
+> minisat2 GreenTao_N_3-2-3-5_581.cnf
+| 194147745 |     988   150528   381538 |  1366664   312117     92 |  1.980 % |
+===============================================================================
+restarts              : 35
+conflicts             : 205723929      (154 /sec)
+decisions             : 218415159      (1.18 % random) (164 /sec)
+propagations          : 13406735824    (10053 /sec)
+conflict literals     : 17789955664    (17.80 % deleted)
+Memory used           : 1129.76 MB
+CPU time              : 1.33355e+06 s
+UNSATISFIABLE
      \endverbatim
      </li>
     </ol>
