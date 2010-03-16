@@ -715,7 +715,7 @@ plot(E$alg,E$best)
   </ul>
 
 
-  \todo greentao_4(2,2,3,5)
+  \todo greentao_4(2,2,3,5) > 581
   <ul>
    <li> Using weak standard nested translation with sapsnr. </li>
    <li> Created by
@@ -732,10 +732,29 @@ plot(E$alg,E$best)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
+saps :
+ 0  1  2
+ 5 93  2
+gwsat
+ 0  1  2
+ 3 66 31
+walksat :
+ 0  1  2
+ 2 73 25
+sapsnr :
+ 0  1  2
+ 1 91  8
+walksat_tabu :
+ 0  1  2
+ 1 58 41
+hwsat :
+ 0  1  2  3  4  5
+ 1 23 40 28  4  4
      \endverbatim
-     </li>
+     So here saps seems best. </li>
     </ol>
    </li>
+   <li> n=582, cutoff=10^6, saps: 100 runs yield all min=1. </li>
   </ul>
 
 */
