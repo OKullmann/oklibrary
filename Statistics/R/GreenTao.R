@@ -1,5 +1,5 @@
 # Oliver Kullmann, 20.10.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -7,18 +7,35 @@
 
 # Fitting the number of arithmetic progressions
 
-# For the length k of arithmetic progressions and the maximal number N
+# For the length k of arithmetic progressions and the maximal number n
 # of primes considered, return a function f(n) which approximates
 # the number of hyperedges in arithprog_greentao_ohg(k,n):
-fit_greentao = function(k, N, monitor=FALSE) {
-  fit_greentao_eval(fit_greentao_create(k, N, monitor), monitor)
+fit_greentao = function(k, n, N=2, monitor=FALSE) {
+  fit_greentao_eval(fit_greentao_create(k, n, monitor), k, N, monitor)
 }
-# If using "monitor=TRUE", information on the initial linear regression and 
-# the sequencing non-linear regression is printed.
+# If using "monitor=TRUE", information on the linear regression is printed.
+
+# As model we use the asymptotic formula (7) from [Grosswald, Hagis, 1979,
+# Arithmetic Progressions Consisting Only of Primes], where x is replaced
+# by n*log(n), using that according to the Prime Number theorem asymptotically
+# the n-th prime number is n*log(n). The formula (7) for the number
+# of arithmetic progresssions of length k with members up to x, but consisting
+# only of prime numbers, is according to this formula:
+# C_k/(2*(k-1)) * x^2/(log(x))^k * (1 + sum_{i=1}^N a_i/(log(x))^i
+# This is proven now for k<=4, while in general it follows from the
+# Hardy-Littlewood m-tuples conjecture, that for all N>=0 this formula is
+# asymptotically correct (the quotient with the correct value goes to 1
+# with x going to infinity).
+# In the paper an explicit formula for C_k is given, and implicit formulas
+# for the a_i (also depending on k), but we approximate these values just
+# by linear regression.
+
+# N >= 1 is needed to get decent precision (while higher values don't seem
+# to make a big difference).
 
 # Helper function for fit_greentao, which creates the dataframe:
-fit_greentao_create = function(k, N, monitor=FALSE) {
-  N_as_string = format(N,scientific=FALSE)
+fit_greentao_create = function(k, n, monitor=FALSE) {
+  N_as_string = format(n,scientific=FALSE)
   filename = paste("GreenTaoStat_", k, "_", N_as_string, sep="")
   statistics_program = "CountProgressions_GreenTao-O3-DNDEBUG"
   command = paste(statistics_program, k, N_as_string, ">", filename)
@@ -30,36 +47,54 @@ fit_greentao_create = function(k, N, monitor=FALSE) {
 }
 
 # Helper function for fit_greentao, which evaluates the dataframe:
-fit_greentao_eval = function(E, monitor=FALSE) {
+fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   X = E$n
   Y = E$nhyp
   cat("Number of observations (changes) = ", length(X), "\n")
   cat("Max nhyp = ", Y[length(Y)], "\n")
 
-  x = log(X)
-  y = log(Y)
-  L = lm(y ~ x)
-  if (monitor) {
-    cat("\nThe linear model (log-log regression) nhyp = a0 * n^b0:\n")
-    print(summary(L))
-  }
-  Cl = coefficients(L)
-  a0 = exp(Cl[1])
-  b0 = Cl[2]
-  if (monitor) {
-    f = function(n) { a0 * n^b0 }
-    cat("a0 = ", a0, ", b0 = ", b0, "\n")
-    cat("Residual range: ", range(f(E$n) - E$nhyp), "\n\n")
-  }
+  P = X*log(X)
+  X0 = P^2/(log(P))^k
+  A = array(dim=c(N,length(X)))
+  if (N > 0)
+    for (i in 1:N)
+      if (i==1) A[i,] = X0/log(P)
+      else A[i,] = A[i-1,]/log(P)
+  
+  if (N == 0)
+    HL = lm(Y ~ X0)
+  else if (N == 1)
+    HL = lm(Y ~ X0 + A[1,])
+  else if (N == 2)
+    HL = lm(Y ~ X0 + A[1,] + A[2,])
+  else if (N == 3)
+    HL = lm(Y ~ X0 + A[1,] + A[2,] + A[3,])
+  else if (N == 4)
+    HL = lm(Y ~ X0 + A[1,] + A[2,] + A[3,] + A[4,])
+  else return()
 
-  start_values = list(a = a0, b = b0)
-  NL = nls(Y ~ a*(X^b), start = start_values)
-  cat("Non-linear model nhyp = a * n^b:\n")
-  if (monitor) print(summary(NL))
-  Cnl = coefficients(NL)
-  print(Cnl)
-  f2 = function(n) { Cnl[1] * n^(Cnl[2]) }
-  cat("Residual range: ", range(f2(E$n) - E$nhyp), "\n")
-  return(f2)
+  if (monitor) {
+    cat("\nThe adopted Hardy-Littlewood model:")
+    print(summary(HL))
+  }
+  Chl = coefficients(HL)
+  c = Chl[1]
+  m = Chl[2]
+  a = Chl[-(1:2)]
+
+  f = function(n) {
+   x = n * log(n)
+   x0 = x^2/(log(x))^k
+   b = array(dim=c(N,length(n)))
+   if (N > 0)
+     for (i in 1:N)
+      if (i==1) b[i,] = x0/log(x)
+      else b[i,] = b[i-1,]/log(x)
+   c + m*x0 + rowSums(t(b) %*% a)
+  }
+  cat("Coefficients:", c, m, a, "\n")
+  cat("Residual range:", range(f(E$n) - E$nhyp), "\n\n")
+
+  return(f)
 }
 
