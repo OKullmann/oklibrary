@@ -28,6 +28,8 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    The main starting point should be [Grosswald, Hagis, 1979, Arithmetic
    progressions consisting only of primes, Mathematics of Computation,
    33(148):1343-1352]. </li>
+   <li> This is implemented by "fit_greentao" in OKlib/Statistics/R/GreenTao.R.
+   </li>
    <li> One can also consider n_arithprog_primes_nc[k,n] (the non-cumulative
    data, i.e., as list the difference list of the above list):
    \verbatim
@@ -43,35 +45,54 @@ plot2d([discrete, sizes_strata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
 plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
    \endverbatim
    </li>
+   <li> At the C++-level we have
+   Applications/RamseyTheory/CountProgressions_GreenTao.cpp. </li>
   </ul>
 
 
   \todo k=3
   <ul>
    <li> Using Applications/RamseyTheory/CountProgressions_GreenTao.cpp
-   and non-linear regression in R:
+   and linear regression in R:
    \verbatim
+> f = fit_greentao(3,1000)
+Number of observations (changes) =  995
+Max nhyp =  40510
+Coefficients: -1.455676 0.2433109 4.530863 -13.22174
+Residual range: -46.01184 36.11967
+
+> f(100)
+  578.4306
+
 > f = fit_greentao(3,10000)
 Number of observations (changes) =  9995
 Max nhyp =  3091531
-Non-linear model nhyp = a * n^b:
-         a          b
-0.08330711 1.89230541
-Residual range:  -1936.854 1003.250
+Coefficients: 187.4584 0.2631131 4.522825 -14.97632
+Residual range: -912.0556 707.5263
+
+f(100)
+  741.4426
    \endverbatim
-   So f_3(n) = 0.08330711 * n^1.89230541 seems to be a good model. </li>
-   <li> For N=100000 we need a C++ program which doesn't store the
-   progressions. For N=30000 we obtain:
+   (where the correct value for f(100) is 579). </li>
+   <li> So f_3(n) = 187.4584 + 0.2631131*x^2/log(x)^3 * 
+   (1 + 4.522825/log(x) - 14.97632/log(x)^2) is a good model, where
+   x = n*log(n). </li>
+   <li> For N=30000 we obtain:
    \verbatim
 > f = fit_greentao(3,30000)
 Number of observations (changes) =  29995
 Max nhyp =  25000740
-Non-linear model nhyp = a * n^b:
-         a          b
-0.07487019 1.90377210
-Residual range:  -12970.68 6619.329
+Coefficients: 393.4117 0.2968310 3.823654 -11.38840
+Residual range: -3423.644 3254.2
+
+f(100)
+  961.2944
    \endverbatim
-   so f_3'(n) = 0.07487019 * n^1.90377210. We should consider larger n. </li>
+   So f_3(n) = 393.4117 + 0.2968310*x^2/log(x)^3 * 
+   (1 + 3.823654/log(x) - 11.38840/log(x)^2) is a good model, where
+   x = n*log(n). </li>
+   <li> For N=100000 we need a C++ program which doesn't store the
+   progressions. </li>
   </ul>
 
 
@@ -82,20 +103,15 @@ Residual range:  -12970.68 6619.329
 > f = fit_greentao(4,20000)
 Number of observations (changes) =  19975
 Max nhyp =  1462656
-Non-linear model nhyp = a * n^b:
-         a          b
-0.02662577 1.79946138
-Residual range:  -1194.638 1049.931
+Coefficients: 145.6985 0.2360898 10.58077 -41.45108
+Residual range: -412.8622 501.4584
 
 > f = fit_greentao(4,40000)
 Number of observations (changes) =  39975
 Max nhyp =  5148933
-Non-linear model nhyp = a * n^b:
-         a          b
-0.02317292 1.81359675
-Residual range:  -5417.02 3489.321
+Coefficients: -497.1373 0.5891194 2.073577 9.843178
+Residual range: -929.1254 1103.620
    \endverbatim
-   So f_4(n) = 0.02317292 * n^1.81359675 is a good model (for n <= 40000).
    </li>
   </ul>
 
@@ -105,22 +121,17 @@ Residual range:  -5417.02 3489.321
    <li>
    \verbatim
 > f = fit_greentao(5,40000)
-Number of observations (changes) =  39346
-Max nhyp =  462281
-Non-linear model nhyp = a * n^b:
-          a           b
-0.005413189 1.723282665
-Residual range:  -855.3122 516.4819
+Number of observations (changes) =  39347
+Max nhyp =  462282
+Coefficients: -212.7657 0.762841 0.06329398 28.88302
+Residual range: -289.5044 227.3657
 
 > f = fit_greentao(5,80000)
-Number of observations (changes) =  79346
-Max nhyp =  1545856
-Non-linear model nhyp = a * n^b:
-          a           b
-0.004561643 1.739623162
-Residual range:  -1959.498 1117.054
+Number of observations (changes) =  79347
+Max nhyp =  1545857
+Coefficients: -89.12968 0.4274986 8.573074 -25.10926
+Residual range: -540.5143 447.7293
    \endverbatim
-   So f_5(n) = 0.004561643 * n^1.739623162 is a good model (for n <= 80000).
    </li>
   </ul>
 
@@ -132,10 +143,8 @@ Residual range:  -1959.498 1117.054
 > f = fit_greentao(6,80000)
 Number of observations (changes) =  70976
 Max nhyp =  234774
-Non-linear model nhyp = a * n^b:
-          a           b
-0.001841092 1.653029200
-Residual range:  -360.6184 351.3982
+Coefficients: -106.7271 1.150551 9.422184 14.64226
+Residual range: -163.4261 167.8231
 
 80000 - 70976
   9024
@@ -143,15 +152,12 @@ Residual range:  -360.6184 351.3982
 > f = fit_greentao(6,160000)
 Number of observations (changes) =  150810
 Max nhyp =  749499
-Non-linear model nhyp = a * n^b:
-          a           b
-0.001491893 1.671835433
-Residual range:  -1185.398 669.2617
+Coefficients: -100.9089 0.8658116 16.82488 -33.42583
+Residual range: -366.5206 321.9369
 
 160000 - 150810
   9190
    \endverbatim
-   So f_6(n) = 0.001491893 * n^1.671835433 is a good model (for n <= 160000).
    </li>
   </ul>
 
@@ -163,10 +169,8 @@ Residual range:  -1185.398 669.2617
 > f = fit_greentao(7,160000)
 Number of observations (changes) =  59909
 Max nhyp =  78058
-Non-linear model nhyp = a * n^b:
-           a            b
-0.0003991339 1.5930359517
-Residual range:  -200.6960 197.7186
+Coefficients: -5.022792 0.2405188 54.32041 -247.3408
+Residual range: -169.1657 159.1667
 
 160000 -  59909
   100091
@@ -174,10 +178,8 @@ Residual range:  -200.6960 197.7186
 > f = fit_greentao(7,500000)
 Number of observations (changes) =  298388
 Max nhyp =  497046
-Non-linear model nhyp = a * n^b:
-           a            b
-0.0002711559 1.6253012589
-Residual range:  -730.2256 322.508
+Coefficients: 593.3755 -5.288303 225.8332 -1575.388
+Residual range: -473.103 585.1443
 
 500000 - 298388
   201612
@@ -185,16 +187,13 @@ Residual range:  -730.2256 322.508
 > f = fit_greentao(7,1000000)
 Number of observations (changes) =  736449
 Max nhyp =  1558942
-Non-linear model nhyp = a * n^b:
-           a            b
-0.0002054541 1.6465780527
-Residual range:  -2338.546 1748.609
+Coefficients: -981.546 4.110067 -67.06604 709.1288
+Residual range: -972.0245 518.9356
 
 1000000 -  736449
   263551
    \endverbatim
-   So f_7(n) = 0.0002054541 * n^1.6465780527 is a good model
-   (for n <= 1000000). </li>
+   </li>
   </ul>
 
 
@@ -205,10 +204,8 @@ Residual range:  -2338.546 1748.609
 > f = fit_greentao(8,1000000)
 Number of observations (changes) =  230866
 Max nhyp =  268082
-Non-linear model nhyp = a * n^b:
-           a            b
-0.0001012130 1.5703794794
-Residual range:  -478.4431 327.3195
+Coefficients: -177.2491 3.526203 53.25977 198.9277
+Residual range: -200.5256 189.2639
 
 1000000 - 230866
   769134
@@ -216,15 +213,14 @@ Residual range:  -478.4431 327.3195
 > f = fit_greentao(8,2000000)
 Number of observations (changes) =  649644
 Max nhyp =  812685
-Non-linear model nhyp = a * n^b:
-           a            b
-6.999855e-05 1.597307e+00
-Residual range:  -1618.485 1040.744
+Coefficients: 239.008 3.78891 61.47959 -7.395578
+Residual range: -534.6951 876.0352
 
 2000000 - 649644
   1350356
 
 > f = fit_greentao(8,4000000)
+TO BE UPDATED:
 Number of observations (changes) =  1781803
 Max nhyp =  2491439
 Non-linear model nhyp = a * n^b:
@@ -236,6 +232,7 @@ Residual range:  -3534.482 2613.697
   2218197
 
 > f = fit_greentao(8,8000000)
+TO BE UPDATED:
 Number of observations (changes) =  4688545
 Max nhyp =  7728990
 Non-linear model nhyp = a * n^b:
