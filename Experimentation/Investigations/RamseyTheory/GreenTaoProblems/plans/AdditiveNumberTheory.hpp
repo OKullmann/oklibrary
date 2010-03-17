@@ -220,13 +220,10 @@ Residual range: -534.6951 876.0352
   1350356
 
 > f = fit_greentao(8,4000000)
-TO BE UPDATED:
 Number of observations (changes) =  1781803
 Max nhyp =  2491439
-Non-linear model nhyp = a * n^b:
-           a            b
-5.514205e-05 1.613797e+00
-Residual range:  -3534.482 2613.697
+Coefficients: -675.2275 6.202912 -31.85938 883.982
+Residual range: -863.7256 977.2554
 
 4000000 -  1781803
   2218197
@@ -243,8 +240,7 @@ Residual range:  -10123.48 6262.802
 8000000 - 4688545
   3311455
    \endverbatim
-   So f_8(n) = 4.218958e-05 * n^1.631506 is a good model
-   (for n <= 8*10^6). </li>
+   </li>
   </ul>
 
 
