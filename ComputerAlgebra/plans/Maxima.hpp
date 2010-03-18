@@ -13,6 +13,28 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \bug Strings cause errors in evaluation of expressions
+  <ul>
+   <li> Once there is anywhere a string, ">" can not be applied anymore:
+   \verbatim
+(%i1) is("x">0);
+Maxima encountered a Lisp error:
+ "x" is not of type LIST.
+(%i2) is(f("x")>0);
+Maxima encountered a Lisp error:
+ "x" is not of type LIST.
+(%i3) declare(f, posfun);
+(%i4) is(f(1) > 0);
+(%o4) true
+(%i5) is(f("x") > 0);
+Maxima encountered a Lisp error:
+ "x" is not of type LIST.
+   \endverbatim
+   </li>
+   <li> Notify the Maxima mailing-list. </li>
+  </ul>
+
+
   \todo No recursion for memoised functions
   <ul>
    <li> See "There are severe restrictions for memoised recursive functions"
