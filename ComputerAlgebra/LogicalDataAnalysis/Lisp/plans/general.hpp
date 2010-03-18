@@ -108,11 +108,32 @@ CS : mrc2ocom(matrix(
  ["Via", "DisT", "SymA", "CSup", "DiagF", "ProgF", "Rep", "Res", "Ri", "Re"])$
 
 ocom_p(CS,{0,1});
+  true
 
 CS[3]("TUH", "SymA");
  1
      \endverbatim
      </li>
+     <li> Via
+     \verbatim
+ttcom2cvm(M) := subst(-1,0,M)$
+CSc : ttcom2cvm(CS);
+     \endverbatim
+     we obtain a "clause-variable" matrix. To obtain a clause-set, we need
+     to wrap the variable-strings ("Via" etc.) by a variable-producing
+     function, for example the generic wrapper "gv":
+     \verbatim
+FF : clvar_w_ocom2fcl(CSc, gv);
+fcl_p(clvar_ocom2fcl(CSc));
+  false
+     \endverbatim
+     The error is due to the Maxima-bug when handling strings; so currently we
+     can't have variables like gv("Via"). </li>
+     <li> Though in principle it seems that using such variables is reasonable;
+     only perhaps we typically avoid the distinction between small and capital
+     letters, just using only small letters. </li>
+     <li> An alternative would be to introduce dedicated variables
+     (like Via), however then we would get easily naming-conflicts. </li>
     </ol>
    </li>
   </ul>
