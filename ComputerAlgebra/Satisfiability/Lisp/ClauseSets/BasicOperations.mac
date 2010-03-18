@@ -39,7 +39,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
  and yields a different object, and such that abs(x) = x.
 */
 
-v_p(v) := 
+/* RENAME: var_p */
+v_p(v) :=
+ not stringp(v) and
  is(is(v>0)=true) and 
  is(is(-v<0)=true) and 
  is(is(-v#v)=true) and 

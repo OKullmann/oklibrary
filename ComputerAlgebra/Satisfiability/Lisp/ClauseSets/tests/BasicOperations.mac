@@ -32,6 +32,7 @@ kill(f)$
 */
 
 okltest_v_p(f) := block([x],
+  assert(f("x") = false),
   assert(f(1) = true),
   assert(f(0) = false),
   assert(f(-1) = false),
