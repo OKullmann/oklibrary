@@ -137,6 +137,30 @@ fcl_p(clvar_ocom2fcl(CSc));
     </ol>
    </li>
   </ul>
-  
+
+
+  \todo Representing partial boolean functions
+  <ul>
+   <li> Given a set V of variables, a partial boolean function f could be
+   represented by a pair [T,F], where T,F are disjoint sets of total
+   assignments over V, representing the true resp. false point of f. </li>
+   <li> However, falsifying assignments are the domain of CNF, not DNF,
+   and so the proper generalisation, allowing arbitrary clause-sets T,F over
+   V, seems to be a triple [V,T,F], such that T,F are clause-sets over V,
+   and such that the satisfying assignment of T as DNF are disjoint from
+   the falsifying assignments of F as CNF. </li>
+   <li> So T directly represents the sufficient conditions, while F directly
+   represents the necessary conditions. </li>
+   <li> An example:
+    <ol>
+     <li> Let V={1,2}. </li>
+     <li> Let [T,F] be [{{1,2}},{{-1,-2}}], saying that <1->1,2->1> -> true,
+     and <1->0,2->0> -> false. </li>
+     <li> The (here unique) triple-representation is
+     [{1,2}, {{1,2}}, {{1,2}}]. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
