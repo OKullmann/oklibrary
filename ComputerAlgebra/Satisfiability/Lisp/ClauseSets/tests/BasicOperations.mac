@@ -75,6 +75,19 @@ okltest_literals_v(f) := (
   assert(f({1,-2,-1}) = {1,-1,2,-2}),
   true)$
 
+okltest_gv(f) := block([a],
+  assert(v_p(f()) = true),
+  assert(v_p(f(1)) = true),
+  assert(v_p(f(1,2,[],{})) = true),
+  /* assert(v_p(f("hh")) = true), */ /* BUG with Maxima */
+  assert(v_p(f(a)) = true),
+  assert(is(f(1) = f(1)) = true),
+  assert(is(f(1) = f(2)) = false),
+  assert(is(f(1) = f(a)) = false),
+  assert(is(f(a) = f(a)) = true),
+  assert(is(gv_var(a) = f(a)) = true),
+  true)$
+
 
 /* ***********
    * Clauses *

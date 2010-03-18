@@ -39,7 +39,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
  and yields a different object, and such that abs(x) = x.
 */
 
-/* RENAME: var_p */
 v_p(v) :=
  not stringp(v) and
  is(is(v>0)=true) and 
@@ -72,6 +71,15 @@ sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
    and then we obtain the closure under complementation (and also
    a list of literals is possible): */
 literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
+
+/* A generic function for creating variables, e.g., 
+     gv("h"), gv(1,2,[33])
+   etc. For equality-checking use (as usual in this context) just "=".
+*/
+kill(gv)$
+declare(gv, noun)$
+declare(gv, posfun)$
+gv_var([x]) := apply(nounify(gv),x)$
 
 
 /* ***********
