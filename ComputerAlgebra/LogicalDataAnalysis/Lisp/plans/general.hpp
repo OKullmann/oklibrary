@@ -154,13 +154,51 @@ fcl_p(clvar_ocom2fcl(CSc));
    <li> An example:
     <ol>
      <li> Let V={1,2}. </li>
-     <li> Let [T,F] be [{{1,2}},{{-1,-2}}], saying that <1->1,2->1> -> true,
-     and <1->0,2->0> -> false. </li>
+     <li> Let [T,F] be [{{1,2}},{{-1,-2}}], saying that <1->1, 2->1> -> true,
+     and <1->0, 2->0> -> false. </li>
      <li> The (here unique) triple-representation is
      [{1,2}, {{1,2}}, {{1,2}}]. </li>
     </ol>
    </li>
   </ul>
 
+
+  \todo Analysing the extension-landscape
+  <ul>
+   <li> The goal is to represent a partial boolean function using as few as
+   many case-distinctions (clauses), either as DNF or as CNF. </li>
+   <li> The reason for this minimisation is that the cases represent a
+   fundamentally different domain, which needs a handling on its own, and
+   thus for economic principles we would like to have as few cases as
+   possible. </li>
+   <li> Given a partial boolean function P = [V,T,F] in triple representation,
+   we do not make any assumptions on the possible extensions. </li>
+   <li> The immediate goal is to find shortest CNF or CNF G for P. </li>
+   <li> These CNF/DNF are naturally (total) boolean functions over V, however
+   the goal is not to find "good" or "reasonable" extensions, but to explore
+   the landscape. </li>
+   <li> This could mean the following (now considering only DNF or only CNF
+   representations, and assuming that we want to have K cases):
+    <ol>
+     <li> Find all G (as above) of length K. </li>
+     <li> The total assignments which satisfy/falsify all G are the
+     sufficient/necessary assumptions we have to make in order to achieve
+     (only) K cases. </li>
+     <li> The total assignments which satisfy/falsify no G are the
+     sufficient/necessary assumptions we have to avoid in order to achieve
+     (only) K cases. </li>
+     <li> These two assumption-types seem most natural. The remaining
+     assumptions, satisfying/falsifying some G, are all possible for a
+     K-representation; they are not independent of each other, and one could
+     create a directed graph with the dependency relations. </li>
+     <li> In the first two cases one gets sets of total assignments,
+     representing boolean functions, and again one can seek for short
+     representations of these boolean functions (here now we don't have the
+     problem of extension, but all we need is a usable representation of these
+     boolean functions). </li>
+    </ol>
+   </li>
+  </ul>
+  
 */
 
