@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 kill(f)$
 
@@ -109,6 +110,32 @@ okltest_clvar_m2fcs(f) := (
   assert(f(matrix([],[])) = [{},{{}}]),
   assert(f(matrix([1],[-1])) = [{1},{{1},{-1}}]),
   assert(f(matrix([0,1,2],[-1,2,-4],[0,0,0],[1,1,-1])) = [{1,2,3},{{2,3},{-1,2,-3},{},{1,2,-3}}]),
+  true)$
+
+okltest_clvar_w_com2fcs(f) := block([x,L],
+  assert(f([{},{},x],gv) = [{},{}]),
+  assert(f([{1},{},x],gv) = [{},{{}}]),
+  assert(f([{},{1},x],gv) = [{gv(1)},{}]),
+  assert(f([{1},{1},lambda([i,j],0)],gv) = [{gv(1)},{{}}]),
+  assert(f([{1},{1},lambda([i,j],-1)],gv) = [{gv(1)},{{-gv(1)}}]),
+  assert(f([{1},{1},lambda([i,j],1)],gv) = [{gv(1)},{{gv(1)}}]),
+  for n : 0 thru 6 do block([FF : full_fcs(n)],
+    assert(f(clvar_fcs2com(FF),identity) = FF)
+  ),
+  assert(okltest_clvar_m2fcs(buildq([f], lambda([M], f(m2com(M),identity)))) = true),
+  true)$
+
+okltest_clvar_w_ocom2fcl(f) := block([x,L],
+  assert(f([[],[],x],gv) = [[],[]]),
+  assert(f([[1],[],x],gv) = [[],[{}]]),
+  assert(f([[],[1],x],gv) = [[gv(1)],[]]),
+  assert(f([[1],[1],lambda([i,j],0)],gv) = [[gv(1)],[{}]]),
+  assert(f([[1],[1],lambda([i,j],-1)],gv) = [[gv(1)],[{-gv(1)}]]),
+  assert(f([[1],[1],lambda([i,j],1)],gv) = [[gv(1)],[{gv(1)}]]),
+  for n : 0 thru 6 do block([FF : full_fcl(n)],
+    assert(f(clvar_fcl2ocom(FF),identity) = FF)
+  ),
+  assert(okltest_clvar_m2fcs(buildq([f], lambda([M], fcl2fcs(f(m2ocom(M),identity))))) = true),
   true)$
 
 okltest_cl_int_scom_cs(f) := (

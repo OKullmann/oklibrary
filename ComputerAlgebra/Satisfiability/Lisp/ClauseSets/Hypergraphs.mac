@@ -87,6 +87,8 @@ clvar_fcl2ocom(FF) := cl_var_ocom_ofcs(FF)$
    combinatorial matrix, using the columns as variables (positive entries
    yield positive literals, negative entries negative literals).
    Prerequisite: The columns indices can serve as variables.
+   The matrix entries are not restricted to {-1,0,+1}, only the
+   relation "<" must be applicable.
 */
 clvar_com2fcs(M) := [M[2], 
  map(lambda([i], disjoin(0,
@@ -101,10 +103,21 @@ clvar_ocom2fcl(M) := [M[2],
  M[1])]$
 /* Now taking a Maxima matrix as input: */
 clvar_m2fcs(M) := clvar_com2fcs(m2com(M))$
-/* If the column-indices can not serve as variables, use the generic
-   variable-wrapper:
-TO BE COMPLETED
+/* If the column-indices can not serve as variables, use the function-argument
+   make_var to create variables as make_var(j) ("w" in the name is for
+   wrapper):
 */
+clvar_w_com2fcs(M,make_var) := [map(make_var,M[2]), 
+ map(lambda([i], disjoin(0,
+  map(lambda([j], block([x : M[3](i,j)], 
+   if x > 0 then make_var(j) elseif x < 0 then -make_var(j) else 0)), M[2]))), 
+ M[1])]$
+clvar_w_ocom2fcl(M,make_var) := [map(make_var,M[2]),
+ map(lambda([i], disjoin(0, setify(
+  map(lambda([j], block([x : M[3](i,j)], 
+   if x > 0 then make_var(j) elseif x < 0 then -make_var(j) else 0)),
+  M[2])))),
+ M[1])]$
 
 
 /* The clause-intersection matrix (as square combinatorial matrix)

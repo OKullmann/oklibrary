@@ -38,6 +38,8 @@ okltest_cl_var_com_fcs(cl_var_com_fcs);
 okltest_clvar_com2fcs(clvar_com2fcs);
 okltest_clvar_ocom2fcl(clvar_ocom2fcl);
 okltest_clvar_m2fcs(clvar_m2fcs);
+okltest_clvar_w_com2fcs(clvar_w_com2fcs);
+okltest_clvar_w_ocom2fcl(clvar_w_ocom2fcl);
 
 okltest_cl_int_scom_cs(cl_int_scom_cs);
 okltest_var_int_scom_fcs(var_int_scom_fcs);
