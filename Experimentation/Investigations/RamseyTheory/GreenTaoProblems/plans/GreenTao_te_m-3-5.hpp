@@ -717,7 +717,8 @@ plot(E$alg,E$best)
 
   \todo greentao_4(2,2,3,5) > 581
   <ul>
-   <li> Using weak standard nested translation with sapsnr. </li>
+   <li> Using weak standard nested translation with sapsnr (however this isn't
+   best anymore --- saps seems best now). </li>
    <li> Created by
    output_greentao_standnest_stdname(append(create_list(2,i,1,2),[3,5]),n).
    </li>
@@ -754,7 +755,15 @@ hwsat :
      So here saps seems best. </li>
     </ol>
    </li>
-   <li> n=582, cutoff=10^6, saps: 100 runs yield all min=1. </li>
+   <li> n=582
+    <ol>
+     <li> cutoff=10^6, saps: 100 runs yield all min=1. In 1000 runs
+     995 times min=1, and 5 times m=2. 75% of osteps for min=1 are below
+     233600. </li>
+     <li> gwsat, cutoff=10^6: in 1000 runs 757 times min=1, and 243 times
+     min=2. </li>
+    </ol>
+   </li>
   </ul>
 
 */
