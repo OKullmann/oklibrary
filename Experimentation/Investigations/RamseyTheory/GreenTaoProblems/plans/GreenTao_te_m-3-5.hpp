@@ -762,6 +762,18 @@ hwsat :
      233600. </li>
      <li> gwsat, cutoff=10^6: in 1000 runs 757 times min=1, and 243 times
      min=2. </li>
+     <li> Considering the logarithmic translation:
+      <ol>
+       <li> Finding the best Ubcsat-algorithm:
+       \verbatim
+> E = eval_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", params=list(runs=100,cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+       \endverbatim
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
