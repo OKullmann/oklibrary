@@ -762,6 +762,8 @@ hwsat :
      233600. </li>
      <li> gwsat, cutoff=10^6: in 1000 runs 757 times min=1, and 243 times
      min=2. </li>
+     <li> walksat, cutoff=10^6: in 1000 runs 815 times min=1, 183 times min=2,
+     and 2 times min=2. </li>
      <li> Considering the logarithmic translation:
       <ol>
        <li> Finding the best Ubcsat-algorithm:
