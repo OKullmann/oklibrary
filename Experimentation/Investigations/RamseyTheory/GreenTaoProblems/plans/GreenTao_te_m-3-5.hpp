@@ -755,6 +755,18 @@ hwsat :
     </ol>
    </li>
    <li> n=582, cutoff=10^6, saps: 100 runs yield all min=1. </li>
+   <li> Considering the logarithmic translation:
+    <ol>
+     <li> Finding the best Ubcsat-algorithm:
+     \verbatim
+> E = eval_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", params=list(runs=100,cutoff=1000000))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
