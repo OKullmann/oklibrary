@@ -31,7 +31,7 @@ Maxima encountered a Lisp error:
  "x" is not of type LIST.
    \endverbatim
    </li>
-   <li> Notify the Maxima mailing-list. </li>
+   <li> DONE Notify the Maxima mailing-list. </li>
   </ul>
 
 
