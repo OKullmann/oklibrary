@@ -14,8 +14,20 @@ License, or any later version. */
   <ul>
    <li> http://www.cs.waikato.ac.nz/ml/weak seems to have good algorithms.
    </li>
+  </ul>
+
+
+  \todo Repositories
+  <ul>
    <li> Repositories with problem collections one should find at
    http://www.ics.uci.edu/~mlearn . </li>
+  </ul>
+
+
+  \todo Book [Machine Learning, Tom Mitchell]
+  <ul>
+   <li> http://www.cs.cmu.edu/~tom/mlbook.html should contain various
+   implementations and problem collections. </li>
   </ul>
 
 */
