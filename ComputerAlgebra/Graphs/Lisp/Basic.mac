@@ -142,7 +142,7 @@ gr_equalp(G1,G2) := if length(G1)=2 then is(G1 = G2) else
    **************
 */
 
-/* Promotions gr -> grl and mugr -> mugrl happen implicitly. */
+/* Promotions g -> gl and mug -> mugl happen implicitly. */
 
 /* Works for g2mug, gl2mugl, og2omug, ogl2omugl, dg2mudg, dgl2mudgl, odg2omudg,
    odgl2omudgl: */
@@ -225,6 +225,7 @@ ogg2omugl(G) := generic_ogg2omugl(G)$
 
 og2g(G) := [setify(G[1]), setify(G[2])]$
 ogl2gl(G) := [setify(G[1]), setify(G[2])]$
+omug2mug(G) := [setify(G[1]), setify(G[2]), G[3]]$
 omugl2mugl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogg2gg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 

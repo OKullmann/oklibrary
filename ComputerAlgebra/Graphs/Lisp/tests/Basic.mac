@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -409,6 +409,15 @@ okltest_gl2mugl(f) := block(
       assert(mugl2gl(f(G)) = G),
   true)$
 
+
+okltest_g2gg(f) := block(
+  assert(gr_equalp(f([{},{}]), [{},{},identity]) = true),
+  assert(gr_equalp(f([{1},{}]), [{1},{},identity]) = true),
+  assert(gr_equalp(f([{1,2},{{1,2}}]), [{1,2},{{1,2}},identity]) = true),
+  for G in okltest_list_g do
+    assert(gg2gl(f(G)) = G),
+  true)$
+
 okltest_gl2gg(f) := block(
   assert(gr_equalp(f([{},{}]), [{},{},identity]) = true),
   assert(gr_equalp(f([{1},{}]), [{1},{},identity]) = true),
@@ -436,6 +445,14 @@ okltest_ogl2omugl(f) := block(
       assert(omugl2ogl(f(G)) = G),
   true)$
 
+okltest_og2ogg(f) := block(
+  assert(gr_equalp(f([[],[]]), [[],[],identity]) = true),
+  assert(gr_equalp(f([[1],[{1}]]), [[1],[{1}],identity]) = true),
+  assert(gr_equalp(f([[1,2],[{1,2}]]), [[1,2],[{1,2}],identity]) = true),
+  for G in okltest_list_og do
+    assert(ogg2ogl(f(G)) = G),
+  true)$
+
 okltest_ogl2ogg(f) := block(
   assert(gr_equalp(f([[],[]]), [[],[],identity]) = true),
   assert(gr_equalp(f([[1],[{1}]]), [[1],[{1}],identity]) = true),
@@ -454,6 +471,14 @@ okltest_omugl2ogg(f) := block([k1,k2],
       assert(gr_equalp(ogg2omugl(f(G)),G) = true),
   true)$
 
+okltest_g2og(f) := block(
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{1},{}]) = [[1],[]]),
+  assert(f([{1,2},{{1,2}}]) = [[1,2],[{1,2}]]),
+  for G in okltest_list_g do
+    assert(og2g(f(G)) = G),
+  true)$
+
 okltest_gl2ogl(f) := block(
   assert(f([{},{}]) = [[],[]]),
   assert(f([{1},{}]) = [[1],[]]),
@@ -461,6 +486,14 @@ okltest_gl2ogl(f) := block(
   for L in [okltest_list_g,okltest_list_gl] do
     for G in L do
       assert(ogl2gl(f(G)) = G),
+  true)$
+
+okltest_mug2omug(f) := block([k],
+  assert(f([{},{},k]) = [[],[],k]),
+  assert(gr_equalp(f([{1},{},k]), [[1],[],identity]) = true),
+  assert(f([{1,2},{{1,2}},lambda([e],2)]) = [[1,2],[{1,2}],lambda([e],2)]),
+  for G in okltest_list_mug do
+    assert(omug2mug(f(G)) = G),
   true)$
 
 okltest_mugl2omugl(f) := block([k],
@@ -532,6 +565,14 @@ okltest_omudgl2ogdg(f) := block([k1,k2],
   for L in [okltest_list_omudg,okltest_list_omudgl] do
     for G in L do
       assert(gr_equalp(ogdg2omudgl(f(G)),G) = true),
+  true)$
+
+okltest_dg2odg(f) := block(
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{1},{}]) = [[1],[]]),
+  assert(f([{1,2},{[1,2]}]) = [[1,2],[[1,2]]]),
+  for G in okltest_list_dg do
+    assert(odgl2dgl(f(G)) = G),
   true)$
 
 okltest_dgl2odgl(f) := block(
