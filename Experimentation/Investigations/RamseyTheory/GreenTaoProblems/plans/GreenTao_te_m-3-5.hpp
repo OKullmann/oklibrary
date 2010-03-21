@@ -753,6 +753,13 @@ hwsat :
  1 23 40 28  4  4
      \endverbatim
      So here saps seems best. </li>
+     <li> saps, cutoff=10^6:
+     \verbatim
+  0   1   2
+ 52 942   6
+1000
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=582
