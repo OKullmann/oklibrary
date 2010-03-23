@@ -812,7 +812,13 @@ rnoveltyp :
        </li>
        <li> walksat-tabu with cutoff=10^5 looks far weaker than rnovelty+.
        </li>
-       <li> sapsnr with cutoff=10^5 </li>
+       <li> sapsnr with cutoff=10^5:
+       \verbatim
+  1   2   3
+574 407  19
+1000
+       \endverbatim
+       </li>
       </ol>
      </li>
     </ol>
