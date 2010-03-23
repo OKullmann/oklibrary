@@ -715,10 +715,10 @@ plot(E$alg,E$best)
   </ul>
 
 
-  \todo greentao_4(2,2,3,5) > 581
+  \todo greentao_4(2,2,3,5) >= 582
   <ul>
-   <li> Using weak standard nested translation with sapsnr (however this isn't
-   best anymore --- saps seems best now). </li>
+   <li> The conjecture is greentao_4(2,2,3,5) = 582. </li>
+   <li> Using weak standard nested translation with sapsnr. </li>
    <li> Created by
    output_greentao_standnest_stdname(append(create_list(2,i,1,2),[3,5]),n).
    </li>
@@ -779,8 +779,40 @@ hwsat :
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
+saps :
+  1
+100
+sapsnr :
+  1
+100
+walksat_tabu :
+ 1  2
+96  4
+walksat_tabu_nonull :
+ 1  2
+95  5
+gwsat :
+ 1  2
+92  8
+rnoveltyp :
+ 1  2
+92  8
+       \endverbatim
+       One needs to remark here that saps is by far the slowest algorithm
+       here, and that actually w.r.t. speed (flips per second) the order
+       of the list above is exactly reversed (with rnoveltyp around 6 times
+       faster than saps). Though one needed to repeat this experiment on
+       a machine with fixed processor speed. </li>
+       <li> rnovelty+, cutoff=10^5:
+       \verbatim
+  1   2   3
+469 500  31
+1000
        \endverbatim
        </li>
+       <li> walksat-tabu with cutoff=10^5 looks far weaker than rnovelty+.
+       </li>
+       <li> sapsnr with cutoff=10^5 </li>
       </ol>
      </li>
     </ol>
