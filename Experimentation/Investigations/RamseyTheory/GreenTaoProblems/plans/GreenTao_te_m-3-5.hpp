@@ -766,7 +766,7 @@ hwsat :
     <ol>
      <li> cutoff=10^6, saps: 100 runs yield all min=1. In 1000 runs
      995 times min=1, and 5 times m=2. 75% of osteps for min=1 are below
-     233600. </li>
+     233600. Another 2000 runs yield 1984 times min=1 and 16 times min=2. </li>
      <li> gwsat, cutoff=10^6: in 1000 runs 757 times min=1, and 243 times
      min=2. </li>
      <li> walksat, cutoff=10^6: in 1000 runs 815 times min=1, 183 times min=2,
