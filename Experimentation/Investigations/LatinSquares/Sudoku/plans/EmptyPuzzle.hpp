@@ -876,13 +876,13 @@ c 20.9 seconds total run time
    <li> p=4 
     <ol>
      <li> march_pl:
-\verbatim
+     \verbatim
 > march_pl WeakPb_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> minisat2:
-\verbatim
+     \verbatim
 > minisat2 WeakPb_Sudoku_Box_dim_4.cnf 
 restarts              : 1
 conflicts             : 0              (0 /sec)
@@ -893,10 +893,10 @@ Memory used           : 10.71 MB
 CPU time              : 1.24808 s
 
 SATISFIABLE
-\endverbatim
+     \endverbatim
      </li>
      <li> OKsolver_2002 with minisat2-preprocessing:
-\verbatim
+     \verbatim
 > OKsolver_2002-m2pp WeakPb_Sudoku_Box_dim_4.cnf 
 s SATISFIABLE
 c sat_status                            1
@@ -924,10 +924,10 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             WeakPb_Sudoku_Box_dim_4.cnf_m2pp_21116
-\endverbatim
+     \endverbatim
      </li>
      <li> OKsolver_2002:
-\verbatim
+     \verbatim
 > OKsolver_2002-O3-DNDEBUG WeakPb_Sudoku_Box_dim_4.cnf 
 s SATISFIABLE
 c sat_status                            1
@@ -955,10 +955,10 @@ c number_of_1-autarkies                 264350
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             WeakPb_Sudoku_Box_dim_4.cnf
-\endverbatim
+     \endverbatim
      </li>
      <li> picosat:
-\verbatim
+     \verbatim
 > picosat913 WeakPb_Sudoku_Box_dim_4.cnf 
 s SATISFIABLE
 
@@ -980,10 +980,10 @@ c 0 reductions
 c 0.0 MB recycled
 c 1.3 MB maximally allocated
 c 0.1 seconds total run time
-\endverbatim
+     \endverbatim
      </li>
      <li> satz215:
-\verbatim
+    \verbatim
 > satz215 WeakPb_Sudoku_Box_dim_4.cnf 
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 4112, NB_BRANCHE= 166, NB_BACK= 6 
@@ -993,7 +993,7 @@ satz215 WeakPb_Sudoku_Box_dim_4.cnf 0.000 166 6 540938 29 1 4096 123136 -12288 0
 real    0m2.301s
 user    0m2.212s
 sys     0m0.044s
-\endverbatim
+     \endverbatim
      </li>
     </ol>
    </li>
@@ -1006,40 +1006,40 @@ sys     0m0.044s
    <li> p=4 
     <ol>
      <li> OKsolver_2002:
-\verbatim
+     \verbatim
 > OKsolver_2002-O3-DNDEBUG Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> march_pl:
-\verbatim
+     \verbatim
 > march_pl Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> OKsolver_2002 with minisat2-preprocessing:
-\verbatim
+     \verbatim
 > OKsolver_2002-m2pp Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> minisat2:
-\verbatim
+     \verbatim
 > minisat2 Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> picosat:
-\verbatim
+     \verbatim
 > picosat913 Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> satz215
-\verbatim
+     \verbatim
 > satz215 Dual_WeakPl_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
     </ol>
    </li>
@@ -1052,7 +1052,7 @@ Aborted after 50m.
    <li> p=4 
     <ol>
      <li> OKsolver_2002:
-\verbatim
+     \verbatim
 s SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         16
@@ -1079,16 +1079,16 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
-\endverbatim
+     \endverbatim
      </li>
      <li> march_pl:
-\verbatim
+     \verbatim
 > march_pl Dual_WeakPb_Sudoku_Box_dim_4.cnf
 Aborted after 50m.
-\endverbatim
+     \endverbatim
      </li>
      <li> OKsolver_2002 with minisat2-preprocessing:
-\verbatim
+     \verbatim
 s SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         16
@@ -1118,7 +1118,7 @@ c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf_m2pp_25
 \endverbatim
      </li>
      <li> minisat2:
-\verbatim
+     \verbatim
 > minisat2 Dual_WeakPb_Sudoku_Box_dim_4.cnf
 restarts              : 8
 conflicts             : 3257           (4112 /sec)
@@ -1129,10 +1129,10 @@ Memory used           : 8.35 MB
 CPU time              : 0.792049 s
 
 SATISFIABLE
-\endverbatim
+     \endverbatim
      </li>
      <li> picosat:
-\verbatim
+     \verbatim
 > picosat913 Dual_WeakPb_Sudoku_Box_dim_4.cnf
 s SATISFIABLE
 c sat_status                            1
@@ -1160,10 +1160,10 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
-\endverbatim
+     \endverbatim
      </li>
      <li> satz215:
-\verbatim
+     \verbatim
 > satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 
 **** The instance is satisfiable. *****
 NB_MONO= 0, NB_UNIT= 3599, NB_BRANCHE= 155, NB_BACK= 0 
@@ -1173,11 +1173,12 @@ satz215 Dual_WeakPb_Sudoku_Box_dim_4.cnf 0.000 155 0 445398 121 1 4096 123648 -1
 real    0m2.794s
 user    0m2.668s
 sys     0m0.032s
-\endverbatim
+     \endverbatim
      </li>
     </ol>
    </li>
   </ul>
+
 */
 
 
