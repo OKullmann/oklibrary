@@ -597,6 +597,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      squares of their depths (so that mean and standard deviation can
      be computed). </li>
      <li> Type "double" should be alright for the sums. </li>
+     <li> It shouldn't be too hard to compute the size of the resolution
+     refutation found (including pruning). </li>
     </ol>
    </li>
    <li> Statistics regarding reductions:
@@ -641,6 +643,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      with depth strictly smaller than the monitoring depth. This would
      estimate the effort needed for such nodes, and the total estimate
      would add this to the effort for monitoring nodes. </li>
+     <li> Also the size of the resolution tree could be interesting (per
+     monitoring node). </li>
      <li> Regarding the prediction formula:
       <ol>
        <li> Are there standards for analysing the various time-series' ? </li>
