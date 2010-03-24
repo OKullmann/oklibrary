@@ -692,6 +692,41 @@ c 67.6 seconds, 294 MB max, 0 MB recycled
   \todo Direct encoding, weak-pl translation
   <ul>
    <li> Created by output_weakpl_sdk_stdname(p). </li>
+   <li> p=3
+    <ol>
+     <li> OKsolver_2002
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG WeakPl_Sudoku_Box_dim_3.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             9072
+c initial_number_of_literal_occurrences 20412
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   8748
+c running_time(sec)                     40.3
+c number_of_nodes                       15054
+c number_of_single_nodes                36
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                117883
+c number_of_pure_literals               0
+c number_of_autarkies                   2
+c number_of_missed_single_nodes         13
+c max_tree_depth                        42
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 40448
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WeakPl_Sudoku_Box_dim_3.cnf
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> p=4
     <ol>
      <li> For the OKsolver_2002 definitely worse than the weak translation:
@@ -873,6 +908,41 @@ c 20.9 seconds total run time
   \todo Direct encoding, weak-pb translation
   <ul>
    <li> Created by output_weakpb_sdk_stdname(p). </li>
+   <li> p=3
+    <ol>
+     <li> OKsolver_2002
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG WeakPb_Sudoku_Box_dim_3.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             11745
+c initial_number_of_literal_occurrences 24057
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   11664
+c running_time(sec)                     0.2
+c number_of_nodes                       39
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                92
+c number_of_pure_literals               0
+c number_of_autarkies                   4
+c number_of_missed_single_nodes         0
+c max_tree_depth                        38
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 12966
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WeakPb_Sudoku_Box_dim_3.cnf
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> p=4 
     <ol>
      <li> march_pl:
@@ -1003,6 +1073,41 @@ sys     0m0.044s
   \todo Direct encoding, dual-weak-pl translation
   <ul>
    <li> Created by output_dual_weakpl_sdk_stdname(p). </li>
+   <li> p=3
+    <ol>
+     <li> OKsolver_2002:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG Dual_WeakPl_Sudoku_Box_dim_3.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             3240
+c initial_number_of_literal_occurrences 8748
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   2916
+c running_time(sec)                     0.1
+c number_of_nodes                       49
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                283
+c number_of_pure_literals               0
+c number_of_autarkies                   2
+c number_of_missed_single_nodes         0
+c max_tree_depth                        45
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 263
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Dual_WeakPl_Sudoku_Box_dim_3.cnf
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> p=4 
     <ol>
      <li> OKsolver_2002:
@@ -1049,6 +1154,41 @@ Aborted after 50m.
   \todo Direct encoding, dual-weak-pb translation
   <ul>
    <li> Created by output_dual_weakpb_sdk_stdname(p). </li>
+   <li> p=3
+    <ol>
+     <li> OKsolver_2002
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG Dual_WeakPb_Sudoku_Box_dim_3.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         9
+c initial_number_of_variables           729
+c initial_number_of_clauses             11907
+c initial_number_of_literal_occurrences 25515
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   11664
+c running_time(sec)                     0.4
+c number_of_nodes                       34
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                23
+c number_of_pure_literals               0
+c number_of_autarkies                   2
+c number_of_missed_single_nodes         0
+c max_tree_depth                        33
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Dual_WeakPb_Sudoku_Box_dim_3.cnf
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> p=4 
     <ol>
      <li> OKsolver_2002:
@@ -1150,6 +1290,27 @@ user    0m2.668s
 sys     0m0.032s
      \endverbatim
      </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Summary
+  <ul>
+   <li> First reporting on the performance of the 7 forms (weak, dualweak,
+   strong, weakpl, weakpb, dualweakpl, dualweakpb) of the direct translation.
+   </li>
+   <li> OKsolver:
+    <ol>
+     <li> p = 3: weakpl is worst (not solved yet), the rest is roughly
+     comparable (though dualweak needs 122 nodes, more than double the
+     others). </li>
+     <li> p = 4: weak best, slightly worse weakpb, dualweakpb, then strong;
+     dualweak very weak; unsolved weakpl, dualweakpl. </li>
+     <li> p = 5: weak best, then strong; unsolved dualweak, weakpl,
+     dualweakpl. Not tried yet: weakpb, dualweakpb. </li>
+     <li> p = 6: weak best, then strong; unsolved dualweak, weakpl,
+     dualweakpl. Not tried yet: weakpb, dualweakpb. </li>
     </ol>
    </li>
   </ul>
