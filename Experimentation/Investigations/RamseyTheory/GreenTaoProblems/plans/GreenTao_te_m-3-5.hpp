@@ -626,6 +626,7 @@ CPU time              : 1.33355e+06 s
 UNSATISFIABLE
      \endverbatim
      </li>
+     <li> OKsolver_2002 (without preprocessing): </li>
     </ol>
    </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
@@ -820,6 +821,32 @@ rnoveltyp :
        \endverbatim
        </li>
       </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo greentao_5(2,2,2,3,5) > 582
+  <ul>
+   <li> Using weak standard nested translation with saps. </li>
+   <li> n=582
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+ 1  2  3
+12 78 10
+100
+     \endverbatim
+     </li>
+     <li>
+     <li> Finding the best Ubcsat-algorithm:
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_5-2-2-2-3-5_582.cnf")
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+
+     \endverbatim
      </li>
     </ol>
    </li>
