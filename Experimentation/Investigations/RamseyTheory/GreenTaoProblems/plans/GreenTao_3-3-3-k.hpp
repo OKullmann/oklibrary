@@ -325,7 +325,19 @@ gwsat :
      <li> OKsolver_2002 (without symmetry-breaking and without preprocessing):
      looks hopeless; same with preprocessing (apparently not much is changed).
      </li>
-     <li> minisat2: </li>
+     <li> minisat2: looks hopeless:
+     \verbatim
+| 436832686 |     864    18743    90269 |   193132    29758     43 |  0.000 % |
+*** INTERRUPTED ***
+restarts              : 37
+conflicts             : 437344653      (786 /sec)
+decisions             : 496767675      (1.91 % random) (893 /sec)
+propagations          : 16236183376    (29195 /sec)
+conflict literals     : 21117220859    (27.85 % deleted)
+Memory used           : 114.55 MB
+CPU time              : 556126 s
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=437
