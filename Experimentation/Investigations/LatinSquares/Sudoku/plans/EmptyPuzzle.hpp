@@ -1134,32 +1134,7 @@ SATISFIABLE
      <li> picosat:
      \verbatim
 > picosat913 Dual_WeakPb_Sudoku_Box_dim_4.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         16
-c initial_number_of_variables           4096
-c initial_number_of_clauses             123648
-c initial_number_of_literal_occurrences 258048
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   122880
-c running_time(sec)                     47.8
-c number_of_nodes                       142
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          1
-c number_of_2-reductions                96
-c number_of_pure_literals               0
-c number_of_autarkies                   1
-c number_of_missed_single_nodes         0
-c max_tree_depth                        141
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Dual_WeakPb_Sudoku_Box_dim_4.cnf
+
      \endverbatim
      </li>
      <li> satz215:
