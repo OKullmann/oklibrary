@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -258,6 +258,26 @@ namespace OKlib {
           \class CLSAdaptorUcpW
           \brief Transferring a (boolean) clause-set into a clause-list, and then performing UCP using watched literals
 
+          Functionality:
+          <ul>
+           <li> An object U of type CLSAdaptorUcpW is constructed via the
+           default constructor. </li>
+           <li> U then is to be used as a CLSAdaptor (see specification in
+           OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp),
+           to read in a clause-set. </li>
+           <li> No standardisation on variables is performed, and so it is
+           recommended that this done is before transfer. </li>
+           <li> The original comment is available via U.orig_comment(). </li>
+           <li> Then via U.perform_ucp() unit-clause propagation is performed;
+           the return value is true iff a contradiction was found. </li>
+           <li> Via U.add_comment() the additional comment, added after
+           performing UCP, is returned. </li>
+           <li> Via U.output(A) the clause-set can be transferred to another
+           CLS-adaptor A (before and/or after performing UCP). </li>
+           <li> Via U.assignment() a constant reference to the assignment
+           computed is returned. </li>
+          </ul>
+
           Requirements:
           <ul>
            <li> the literal type is a signed integral type </li>
@@ -279,10 +299,11 @@ namespace OKlib {
 
         template <class WatchedClauses, class Assignment>
         struct CLSAdaptorUcpW {
-          typedef WatchedClauses clause_type;
-          typedef typename clause_type::value_type literal_type;
           typedef Assignment assignment_type;
           typedef std::string string_type;
+        private :
+          typedef WatchedClauses clause_type;
+          typedef typename clause_type::value_type literal_type;
 
           typedef std::vector<clause_type> clause_set_type;
 
@@ -297,6 +318,7 @@ namespace OKlib {
 
           typedef typename clause_set_type::size_type size_type;
 
+        public :
           CLSAdaptorUcpW() : empty_cl(false), contradicting_ucl(false), contradiction_ucp(false) {}
 
           const string_type& orig_comment() const { return com; }
