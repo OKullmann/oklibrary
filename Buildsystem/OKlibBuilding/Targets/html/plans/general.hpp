@@ -1,5 +1,5 @@
 // Matthew Henderson, 15.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,30 +50,15 @@ License, or any later version. */
    system_directories/log (and add suffix .txt; this filename
    is a configuration-variable). </li>
   </ul>
-  
 
-  \todo Doxygen general
+
+  \todo Doxygen problems
   <ul>
-   <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED,
-   we should use the tag EXPAND_AS_DEFINED (since we do not alter the
-   definitions), however this does not work? </li>
    <li> In OKDatabase/CreateStatistic.cpp we have, within an unnamed
    namespace, the private member v of class Densities --- nevertheless
    doxygen claims, that at every other place, where an object is called v,
    this private member is referenced??? This looks like a clear doxygen-bug
    to me. </li>
-   <li> Can doxygen tell which other files include a file (not in graph form,
-   but in text form)? </li>
-   <li> For functions there is a "callergraph" --- shall we use it? </li>
-   <li> How to avoid that a leading "include" in a Doxygen-comment is
-   interpreted as a doxygen-command? And how to avoid that apparently certain
-   "keywords" are captured by doxygen? The keyword-interpretation can be
-   avoided by prefixing them with "%". </li>
-   <li> How to obtain general statistics: About the number of classes, lines
-   of code, etc. (best with some statistics on the change over time) and then
-   also on the version numbers of the modules (again with changes over time).
-   If doxygen does not support it yet, then we should submit some feature
-   request, and postpone this item. See what' in 1.5.3. </li>
    <li> How to avoid false links (create by doxygen)?
     <ol>
      <li> For example in satz215.2.c a struct "node" is defined --- now we
@@ -91,6 +76,26 @@ License, or any later version. */
      is referenced (as here: x.t)! </li>
     </ol>
    </li>
+  </ul>
+  
+
+  \todo Doxygen general
+  <ul>
+   <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED,
+   we should use the tag EXPAND_AS_DEFINED (since we do not alter the
+   definitions), however this does not work? </li>
+   <li> Can doxygen tell which other files include a file (not in graph form,
+   but in text form)? </li>
+   <li> For functions there is a "callergraph" --- shall we use it? </li>
+   <li> How to avoid that a leading "include" in a Doxygen-comment is
+   interpreted as a doxygen-command? And how to avoid that apparently certain
+   "keywords" are captured by doxygen? The keyword-interpretation can be
+   avoided by prefixing them with "%". </li>
+   <li> How to obtain general statistics: About the number of classes, lines
+   of code, etc. (best with some statistics on the change over time) and then
+   also on the version numbers of the modules (again with changes over time).
+   If doxygen does not support it yet, then we should submit some feature
+   request, and postpone this item. See what' in 1.5.3. </li>
    <li> Documentation for other programming languages?
     <ol>
      <li> makefiles ? </li>

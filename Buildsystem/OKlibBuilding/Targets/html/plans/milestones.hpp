@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.7.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,12 +18,20 @@ License, or any later version. */
     - Move
     - The role of documents_dir
     - Doxygen error messages
+    - Doxygen problems
+
+
+  \par Version 0.1.3
+
+  \par
+   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following
+   topics are handled:
     - Doxygen general
     - Doxygen menu and main page review
     - Docus pages
 
 
-  \par Version 0.1.3
+  \par Version 0.1.4
 
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following

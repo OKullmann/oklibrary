@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,14 +14,16 @@ License, or any later version. */
   \par Version 0.2.2
 
   \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics
+   are handled:
     - bug Mixing C and C++
     - bug Incorrect build of new tests I
     - bug Incorrect build of new tests II
     - %Test system
 
   \par
-   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the
+   following topics are handled:
     - General look and feel
     - New target for main action
 
@@ -32,14 +34,16 @@ License, or any later version. */
   (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
 
   \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics
+   are handled:
     - Setting the paths to GCC and Boost link libraries
     - User control of system versions
     - General_options
     - Dependency files
 
   \par
-   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the
+   following topics are handled:
     - Target "all":
     - Target "check"
     - Target "prebuild"
@@ -47,8 +51,12 @@ License, or any later version. */
 
   \par Version 0.2.4
 
+  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.3
+  (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
+
   \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics
+   are handled:
     - Verbosity
     - Targets
     - Role of srcdir
@@ -56,7 +64,8 @@ License, or any later version. */
     - %Test cleaning
 
   \par
-   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the
+   following topics are handled:
     - Target "html"
     - Target "reset"
     - Target "new-module"
@@ -64,8 +73,12 @@ License, or any later version. */
 
   \par Version 0.2.5
 
+  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.4
+  (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
+
   \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics
+   are handled:
     - Error messages of gcc should be processed
     - Linking and options
     - Force make
@@ -74,19 +87,22 @@ License, or any later version. */
     - New targets
 
   \par
-   In Buildsystem/OKlibBuilding/plans/MakeSystem.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/MakeSystem.hpp the following topics
+   are handled:
     - CMake
 
 
   \par Version 0.2.6
 
   \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics
+   are handled:
     - Complexity system:
     - Measurements
 
   \par
-   In Buildsystem/OKlibBuilding/plans/MakeSystem.hpp the following topics are handled:
+   In Buildsystem/OKlibBuilding/plans/MakeSystem.hpp the following topics
+   are handled:
     - Competition extraction tools
 
 
