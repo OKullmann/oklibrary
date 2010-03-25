@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo First implementation, based on watched literals
   <ul>
+   <li> This is about the class template
+   KLevelForcedAssignments::CLSAdaptorKUcp. </li>
    <li> See "First simple implementation" in
    Reductions/FailedLiteralReduction/plans/general.hpp for the special case
    k=2. </li>
