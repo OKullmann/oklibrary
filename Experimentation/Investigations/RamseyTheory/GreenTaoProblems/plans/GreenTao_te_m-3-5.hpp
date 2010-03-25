@@ -827,7 +827,7 @@ rnoveltyp :
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 582
+  \todo greentao_5(2,2,2,3,5) > 585
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -846,10 +846,64 @@ rnoveltyp :
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
+walksat :
+ 0  1  2  3  4
+ 1 19 51 21  8
+saps :
+ 1  2  3
+16 70 14
+gwsat :
+ 1  2  3  4  5
+12 31 40 13  4
+sapsnr :
+ 1  2  3
+ 9 70 21
+walksat_tabu :
+ 1  2  3  4
+ 5 27 47 21
+rnovelty :
+ 1  2  3  4
+ 2 42 48  8
+hwsat :
+ 1  2  3  4  5  6  7  8  9
+ 2 14 19 27 18 10  7  1  2
+rsaps :
+ 1  2  3  4  5  6  7  8
+ 2  3 20 39 14  9  7  6
+rnoveltyp :
+ 1  2  3  4
+ 1 37 49 13
+walksat_tabu_nonull :
+ 1  2  3  4  5
+ 1 31 43 24  1
+noveltyp :
+ 1  2  3  4  5
+ 1 12 48 35  4
+rots :
+ 1  2  3  4  5  6  7  8
+ 1  5 21 30 26 13  3  1
      \endverbatim
-     </li>
+     So walksat looks like a clear winner. </li>
     </ol>
    </li>
+   <li> n=583, walksat, cutoff=10^5: in 17 runs one solution was found
+   (seed=3001400000, osteps=97947). </li>
+   <li> n=584
+    <ol>
+     <li> walksat, cutoff=10^5:
+     \verbatim
+ 1  2  3  4  5
+24 66 87 20  3
+200
+     \endverbatim
+     </li>
+     <li> walksat, cutoff=2*10^5: In 61 runs one solution was found
+     (seed=3856782094, osteps=144523). </li>
+    </ol>
+   </li>
+   <li> n=585, walksat, cutoff=2*10^5: Found a solution in 12 runs
+   (seed=2413939155, osteps=134993). </li>
+   <li> n=586, walksat, cutoff=2*10^5: </li>
   </ul>
 
 */
