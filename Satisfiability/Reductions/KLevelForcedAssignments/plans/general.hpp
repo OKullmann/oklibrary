@@ -53,7 +53,7 @@ License, or any later version. */
    <li> Binary clauses are taken out of F: for every literal x there are
    vectors U(x) of literals, and for {x,y} we have U(x) containing y, and
    U(y) containing x. </li>
-   <li> Clauses with length >= 3 support watched literals; see
+   <li> %Clauses with length >= 3 support watched literals; see
    Satisfiability/ProblemInstances/Clauses/concepts/WatchedLiterals.hpp.
     <ol>
      <li> The invariant is that watched literals are (currently) not set
