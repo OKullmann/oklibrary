@@ -34,7 +34,7 @@ License, or any later version. */
 
   \todo First simple implementation
   <ul>
-   <li> Just using UnitClausePropagation::CLSAdaptorUcpW. </li>
+   <li> Just using Reductions::UnitClausePropagation::CLSAdaptorUcpW. </li>
    <li> However, this adaptor might not be usable for the iterated reduction
    attempts, since it is an adaptor, reading clauses and transferring
    them into some other data structure. It would only be helpful for handling
