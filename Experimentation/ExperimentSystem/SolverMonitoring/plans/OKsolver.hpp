@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,31 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp
   \brief General plans monitoring OKsolver_2002
+
+
+  \todo R-problem with read_oksolver_mon
+  <ul>
+   <li> Suddenly we get warnings:
+   \verbatim
+> E=read_oksolver_mon("GreenTao_N_3-2-3-5_581.cnf.mo")
+486511
+Warnmeldungen:
+1: In if (!header) rlabp <- FALSE :
+  Bedingung hat Länge > 1 und nur das erste Element wird benutzt
+2: In if (header) { :
+  Bedingung hat Länge > 1 und nur das erste Element wird benutzt
+   \endverbatim
+   </li>
+   <li> These warnings apparently do not show up directly after starting
+   R, but then later; and also a certain length of the file seems to be
+   needed. </li>
+   <li> The read-table call directly:
+   \verbatim
+E = read.table(file="GreenTao_N_3-2-3-5_581.cnf.mo",header=T,colClasses=c("integer","integer","numeric","numeric","numeric","integer","integer","integer","numeric"))
+   \endverbatim
+   </li>
+   <li> Contact the R-mailing list. </li>
+  </ul>
 
 
   \todo Object-oriented syntax
