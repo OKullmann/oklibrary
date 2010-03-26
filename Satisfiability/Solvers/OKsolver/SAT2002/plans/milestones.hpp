@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -135,7 +135,7 @@ License, or any later version. */
 
   \par Version 1.2.1
 
-   \par
+  \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - Improve statistics
@@ -229,7 +229,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
-    - More influence on heuristics
+    - Output intermediate results
 
 
   \par Version 1.5.3
@@ -237,14 +237,23 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
+    - More influence on heuristics
+
+
+  \par Version 1.5.4
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - Start planning on evaluating and optimising heuristics
 
 
-   \par Version 1.6
+  \par Version 1.6
 
-   \par
-    Extend statistics, and make evaluation and optimisation of heuristics
-    possible; furthermore extend the possibilities to influence heuristics.
+  \par
+   Extend statistics, extract forced assignments, and make evaluation and
+   optimisation of heuristics possible; furthermore extend the possibilities
+   to influence heuristics.
 
 
   \par Version 1.7

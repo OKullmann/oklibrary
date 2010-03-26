@@ -704,6 +704,30 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Output intermediate results
+  <ul>
+   <li> Also if the instances couldn't be solved, often something was achieved,
+   and this should be extracted. </li>
+   <li> Output of unit-clauses inferred:
+    <ol>
+     <li> As an option, the output of forced assignments once they were found,
+     should be enabled. </li>
+     <li> To start with, we have the effect of r_1-reduction on the input.
+     </li>
+     <li> Then we have the effect of r_2-reduction. </li>
+     <li> The next forced assignment found is when at level 0 we go to examine
+     the second branch: then the assignment for that second branch is enforced.
+     </li>
+     <li> Again all following r_1-reduction are forced too. </li>
+     <li> And again all following r_2-reductions are forced. </li>
+     <li> The same is repeated when (then!) at level 1 we go to examine the
+     second branch. </li>
+     <li> And so on, always increasing the reached level by +1. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo More influence on heuristics
   <ul>
    <li> We should have an additional option which reverts the order of
