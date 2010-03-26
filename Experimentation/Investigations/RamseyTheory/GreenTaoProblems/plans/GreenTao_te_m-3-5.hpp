@@ -625,8 +625,39 @@ Memory used           : 1129.76 MB
 CPU time              : 1.33355e+06 s
 UNSATISFIABLE
      \endverbatim
+     (time = 22225.83 m = 370.4306 h = 15.43461 d).
      </li>
-     <li> OKsolver_2002 (without preprocessing): </li>
+     <li> OKsolver_2002 (without preprocessing):
+      <ol>
+       <li> Progress is achieved, using monitoring-depth 20, but at the very
+       end of the list of monitoring nodes the sub-problems get increasingly
+       difficult. Not clear yet whether the problem gets solved (after 2114
+       minutes on csltok, still much less than what minisat2 needed). </li>
+       <li> Very peculiar the distribution of single-node-counts: a very
+       strong tendency towards counts which are divisible by 7:
+       \verbatim
+> E=read_oksolver_mon("GreenTao_N_3-2-3-5_581.cnf.mo")
+478605
+> table(E$singles)
+     0      1      2      3      4      5      6      7      8     14     15
+461752   5487     93    224    379    658   1099   4053      2   1868      1
+    21     28     29     35     42     49     50     56     63     70     77
+   904    560      1    348    275    126      1    156    103     71     63
+    84     91     98    105    112    119    126    133    134    140    147
+    51     35     37     16     19     17     14     27      1     20     17
+   154    161    168    169    175    182    189    196    203    210    217
+    16      8      7      1      7     12      5      6      3      8      4
+   224    231    245    252    259    266    273    280    287    294    301
+     6      5      5      1      2      3      4      2      2      1      2
+   315    329    336    343    364    385    386    399    441    476    560
+     2      2      1      2      3      2      1      1      1      1      1
+> as.numeric(as.vector(as.data.frame(table(E$singles))$Var1)) %% 7
+ [1] 0 1 2 3 4 5 6 0 1 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0
+[39] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+       \endverbatim
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> n=585, cutoff=2*10^6 (novelty+):
@@ -827,7 +858,7 @@ rnoveltyp :
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 585
+  \todo greentao_5(2,2,2,3,5) > 589
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -903,7 +934,15 @@ rots :
    </li>
    <li> n=585, walksat, cutoff=2*10^5: Found a solution in 12 runs
    (seed=2413939155, osteps=134993). </li>
-   <li> n=586, walksat, cutoff=2*10^5: </li>
+   <li> n=586, walksat, cutoff=2*10^5: in run 44 a solution was found
+   (seed=3886996291, osteps=136280). </li>
+   <li> n=587, walksat, cutoff=2*10^5: in run 90 a solution was found
+   (seed=2632716927, osteps=54379). </li>
+   <li> n=588, walksat, cutoff=2*10^5: in run 39 a solution was found
+   (seed=2347578362, osteps=90750). </li>
+   <li> n=589, walksat, cutoff=2*10^5: in run 40 a solution was found
+   (seed=3563485142, osteps=143655). </li>
+   <li> n=589, walksat, cutoff=2*10^5: </li>
   </ul>
 
 */
