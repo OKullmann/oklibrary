@@ -631,29 +631,22 @@ UNSATISFIABLE
       <ol>
        <li> Progress is achieved, using monitoring-depth 20, but at the very
        end of the list of monitoring nodes the sub-problems get increasingly
-       difficult. Not clear yet whether the problem gets solved (after 2114
+       difficult. Not clear yet whether the problem gets solved (after 3282
        minutes on csltok, still much less than what minisat2 needed). </li>
        <li> Very peculiar the distribution of single-node-counts: a very
        strong tendency towards counts which are divisible by 7:
        \verbatim
 > E=read_oksolver_mon("GreenTao_N_3-2-3-5_581.cnf.mo")
-478605
-> table(E$singles)
-     0      1      2      3      4      5      6      7      8     14     15
-461752   5487     93    224    379    658   1099   4053      2   1868      1
-    21     28     29     35     42     49     50     56     63     70     77
-   904    560      1    348    275    126      1    156    103     71     63
-    84     91     98    105    112    119    126    133    134    140    147
-    51     35     37     16     19     17     14     27      1     20     17
-   154    161    168    169    175    182    189    196    203    210    217
-    16      8      7      1      7     12      5      6      3      8      4
-   224    231    245    252    259    266    273    280    287    294    301
-     6      5      5      1      2      3      4      2      2      1      2
-   315    329    336    343    364    385    386    399    441    476    560
-     2      2      1      2      3      2      1      1      1      1      1
-> as.numeric(as.vector(as.data.frame(table(E$singles))$Var1)) %% 7
- [1] 0 1 2 3 4 5 6 0 1 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0
-[39] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+488652
+> T=table(E$singles)
+> as.numeric(as.vector(as.data.frame(T)$Var1)) %% 7
+  [1] 0 1 2 3 4 5 6 0 1 0 1 0 0 1 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 1 0
+ [38] 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+ [75] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[112] 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+> table(as.numeric(as.vector(as.data.frame(T)$Var1)) %% 7)
+  0   1   2   3   4   5   6
+119  17   2   1   1   1   1
        \endverbatim
        </li>
       </ol>
@@ -942,7 +935,24 @@ rots :
    (seed=2347578362, osteps=90750). </li>
    <li> n=589, walksat, cutoff=2*10^5: in run 40 a solution was found
    (seed=3563485142, osteps=143655). </li>
-   <li> n=589, walksat, cutoff=2*10^5: </li>
+   <li> n=589, walksat:
+    <ol>
+     <li> cutoff=2*10^5:
+     \verbatim
+ 1  2  3  4  5
+25 98 56 18  3
+200
+     \endverbatim
+     </li>
+     <li> cutoff=4*10^5:
+     \verbatim
+  1   2   3
+ 66 104  30
+200
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
