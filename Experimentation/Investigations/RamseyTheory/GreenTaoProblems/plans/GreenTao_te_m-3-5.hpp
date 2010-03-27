@@ -639,7 +639,7 @@ UNSATISFIABLE
 > E=read_oksolver_mon("GreenTao_N_3-2-3-5_581.cnf.mo")
 488652
 > T=table(E$singles)
-> as.numeric(as.vector(as.data.frame(T)$Var1)) %% 7
+> as.numeric(names(T)) %% 7
   [1] 0 1 2 3 4 5 6 0 1 0 1 0 0 1 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 1 0
  [38] 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
  [75] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0
