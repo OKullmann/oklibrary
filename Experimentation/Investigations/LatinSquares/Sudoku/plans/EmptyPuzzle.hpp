@@ -1274,7 +1274,26 @@ SATISFIABLE
      <li> picosat:
      \verbatim
 > picosat913 Dual_WeakPb_Sudoku_Box_dim_4.cnf
+s SATISFIABLE
 
+c
+c 0 iterations
+c 12 restarts
+c 0 failed literals
+c 1885 conflicts
+c 8924 decisions
+c 0 fixed variables
+c 153703 learned literals
+c 0.5% deleted literals
+c 399484 propagations
+c 82.8% variables used
+c 0.2 seconds in library
+c 1.8 megaprops/second
+c 1 simplifications
+c 5 reductions
+c 0.5 MB recycled
+c 1.6 MB maximally allocated
+c 0.2 seconds total run time
      \endverbatim
      </li>
      <li> satz215:
