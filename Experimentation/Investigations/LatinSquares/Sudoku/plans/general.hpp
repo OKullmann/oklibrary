@@ -158,5 +158,47 @@ License, or any later version. */
    </li>
   </ul>
 
+  \todo Tools for investigations with concrete Sudoku instances
+  <ul>
+   <li> cnf_puzzle   
+    \verbatim
+NAME
+     cnf_puzzle
+SYNOPSIS
+     cnf_puzzle [OPTIONS] empty puzzle
+OPTIONS
+     -c FILE
+     Add the clauses in FILE to the output.
+DESCRIPTION
+     cnf_puzzle outputs a Sudoku puzzle in Dimacs cnf format
+     according to the direct encoding. The file empty is a 
+     Dimacs format cnf file representing an empty Sudoku puzzle.
+     puzzle is a string representing a concrete instance of a
+     Sudoku puzzle. The puzzle string contains 81 digits with
+     values between 0 and 9. 0 represents an empty cell. The 
+     fixed fields of the puzzle are specified by non-zero values.
+     If position I contains non-zero value k then the final Sudoku
+     puzzle output has fixed field (I/9, I%9) = k, where / is
+     integer division and % is the modulus operator.
+
+     An optional file argument allows arbitrary other clauses to
+     be added to the output. (The intention being to allow the
+     negation of a satisfying assignment).
+     \endverbatim
+     <ol>
+      <li> Perhaps allowing arbitrary extra clauses to be appended to the 
+      output is a bad idea. Really we only want to allow precisely the 
+      negation of the (unique?) satisfying assignment? </li>
+      <li> As above, the script is not especially flexible because it has to
+      be called once per puzzle. Nicer would be to allow multiple concrete 
+      puzzles as input but then how to control the output so that different
+      puzzles are output to different files? </li>
+      <li> Possibly the script should be able to handle puzzles of larger 
+      dimension but then a different format for the puzzle input is 
+      needed. </li>
+     </ol>
+    </li>
+  </ul>
+
 */
 
