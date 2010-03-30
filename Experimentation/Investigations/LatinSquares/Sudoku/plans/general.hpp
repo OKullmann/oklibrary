@@ -158,6 +158,7 @@ License, or any later version. */
    </li>
   </ul>
 
+
   \todo Tools for investigations with concrete Sudoku instances
   <ul>
    <li> cnf_puzzle   
@@ -170,32 +171,48 @@ OPTIONS
      -c FILE
      Add the clauses in FILE to the output.
 DESCRIPTION
-     cnf_puzzle outputs a Sudoku puzzle in Dimacs cnf format
-     according to the direct encoding. The file empty is a 
-     Dimacs format cnf file representing an empty Sudoku puzzle.
-     puzzle is a string representing a concrete instance of a
-     Sudoku puzzle. The puzzle string contains 81 digits with
+     cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format
+     according to the direct encoding. The file "empty" is a 
+     cnf-file in Dimacs format representing an empty Sudoku puzzle.
+     "puzzle" is a string representing a concrete instance of a
+     Sudoku puzzle. The puzzle-string contains 81 digits with
      values between 0 and 9. 0 represents an empty cell. The 
      fixed fields of the puzzle are specified by non-zero values.
-     If position I contains non-zero value k then the final Sudoku
-     puzzle output has fixed field (I/9, I%9) = k, where / is
-     integer division and % is the modulus operator.
+     If position 1 <= i <= 81 contains non-zero value k then the final Sudoku
+     puzzle output has fixed field ((i-1)/9+1, (i-1)%9+1) with value k, where
+     / is integer division and % is the modulus operator.
 
      An optional file argument allows arbitrary other clauses to
      be added to the output. (The intention being to allow the
      negation of a satisfying assignment).
      \endverbatim
      <ol>
-      <li> Perhaps allowing arbitrary extra clauses to be appended to the 
+      <li> It would be good if optionally instead of the string "empty"
+      the script could read from standard input. </li>
+      <li> Also good if there would be an option "--strict", which only
+      accepts the string as specified above, while otherwise space-symbols
+      in the string are ignored, and missing values at the end are
+      automatically added as zeros. </li>
+      <li> Is "FILE" also in Dimacs-format? The point here is about the
+      preamble, the initial comments plus the parameter-line. </li>
+      <li> DONE (good enough for the beginning)
+      Perhaps allowing arbitrary extra clauses to be appended to the 
       output is a bad idea. Really we only want to allow precisely the 
       negation of the (unique?) satisfying assignment? </li>
-      <li> As above, the script is not especially flexible because it has to
+      <li> DONE (good enough for the beginning)
+      As above, the script is not especially flexible because it has to
       be called once per puzzle. Nicer would be to allow multiple concrete 
       puzzles as input but then how to control the output so that different
       puzzles are output to different files? </li>
-      <li> Possibly the script should be able to handle puzzles of larger 
-      dimension but then a different format for the puzzle input is 
-      needed. </li>
+      <li> Larger dimensions:
+       <ol>
+        <li> Possibly the script should be able to handle puzzles of larger 
+        dimension but then a different format for the puzzle input is 
+        needed. </li>
+        <li> We should have a look how at the various web-pages these larger
+        instances are specified. </li>
+       </ol>
+      </li>
      </ol>
     </li>
   </ul>
