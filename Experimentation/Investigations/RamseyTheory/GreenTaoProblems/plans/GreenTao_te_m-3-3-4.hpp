@@ -254,7 +254,18 @@ gwsat :
      osteps=7671202). </li>
     </ol>
    </li>
-   <li> n=471, rnovelty+, cutoff=10^7 </li>
+   <li> n=471, rnovelty+
+    <ol>
+     <li> cutoff=10^7:
+     \verbatim
+  1   2   3   4
+ 45 377 257  15
+694
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7 </li>
+    </ol>
+   </li>
   </ul>
 
 */
