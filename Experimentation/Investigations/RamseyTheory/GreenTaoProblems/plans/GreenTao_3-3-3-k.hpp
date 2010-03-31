@@ -773,6 +773,13 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
 100
      \endverbatim
      </li>
+     <li> rnovelty+, cutoff=4*10^8:
+     \verbatim
+ 1  2  3  4
+ 9 53 79 15
+156
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
