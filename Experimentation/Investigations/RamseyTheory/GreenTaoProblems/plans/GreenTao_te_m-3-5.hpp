@@ -631,8 +631,17 @@ UNSATISFIABLE
       <ol>
        <li> Progress is achieved, using monitoring-depth 20, but at the very
        end of the list of monitoring nodes the sub-problems get increasingly
-       difficult. Not clear yet whether the problem gets solved (after 3282
-       minutes on csltok, still much less than what minisat2 needed). </li>
+       difficult. Not clear yet whether the problem gets solved; after 6000 m
+       nearly the end of the monitoring-list was reached:
+       \verbatim
+> tail GreenTao_N_3-2-3-5_581.cnf.mo
+  1048571 188987    35.695  2099.240     0.342      7     0    63     9.80
+  1048572 109535    35.800  1161.550     0.343     14     0    63    10.19
+       \endverbatim
+       however then the computer crashed. Better to repeat it on cs-oksvr.
+       </li>
+       <li> Single nodes seemed to play an important node, but no autarkies
+       were found. </li>
        <li> Very peculiar the distribution of single-node-counts: a very
        strong tendency towards counts which are divisible by 7:
        \verbatim
@@ -851,7 +860,7 @@ rnoveltyp :
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 594
+  \todo greentao_5(2,2,2,3,5) > 595
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -963,7 +972,20 @@ rots :
    (seed=486754794, osteps=366951). </li>
    <li> n=594, walksat, cutoff=8*10^5: in run 200 a solution was found
    (seed=945147507, osteps=415889). </li>
-   <li> n=595, walksat, cutoff=8*10^5 </li>
+   <li> n=595, walksat
+    <ol>
+     <li> cutoff=8*10^5:
+     \verbatim
+ 1  2  3
+66 87 20
+173
+     \endverbatim
+     <li>
+     <li> cutoff=10^6: In run 30 a solution was found (seed=3948629926,
+     osteps=642601). </li>
+    </ol>
+   </li>
+   <li> n=596, walksat, cutoff=10^6 </li>
   </ul>
 
 */
