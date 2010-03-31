@@ -10,6 +10,43 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output.
 
 
+  \todo Elementary file-surgery
+  <ul>
+   <li> For adapting a single Dimacs-file we have
+   InputOutput/ExtendedToStrictDimacs.cpp (see
+   Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp). </li>
+   <li> Appending files:
+    <ol>
+     <li> We need a script
+     \verbatim
+AppendDimacs file_1 ... file_n
+     \endverbatim
+     which creates a new comment "Append current-date file_1 ... file_n:",
+     followed by the comments from the files in the given order (each with
+     heading "File filename"), then the parameter line "p n c", where n is the
+     maximum of the n-values of file_i, while c is the sum of c-values of
+     file_i, and finally the clauses from file_1, ..., file_n (of course,
+     without the comment- and parameter-lines). </li>
+     <li> An awk-script should do the job (we just need to filter lines, and
+     to compute the sum and the maximum). </li>
+     <li> Two passes over all files are used, but for the first pass each
+     file-reading is aborted as soon as the parameter-line was read. </li>
+     <li> So the first pass just computes the new n and c, and copies the
+     comments to standard output. </li>
+     <li> In the second pass then first the new parameter-line is output, and
+     then all lines after the parameter-line in files file_1, ..., file_n are
+     copied to the output. </li>
+     <li> There is also the possibility, that some of the file_i do not contain
+     a parameter-line, in which case the maximum n and the clause-count c
+     for this file is also to be computed in the first pass. </li>
+     <li> Computing c can just be done by counting the number of occurrences
+     of " 0", while for computing n the maximum of the absolute values of
+     numbers read is to be computed. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Rewrite code for the new namespaces.
 
 

@@ -16,16 +16,24 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
-    - Rewrite code for the new namespaces.
+    - Elementary file-surgery
     - Update
     - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
+
+
+  \par Version 0.0.11 :
+
+  \par
+   In Interfaces/InputOutput/plans/general.hpp the following topics
+   are handled:
+    - Rewrite code for the new namespaces.
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.0.11 :
+  \par Version 0.0.12 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -36,7 +44,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.0.12 :
+  \par Version 0.0.13 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -49,7 +57,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.0.13:
+  \par Version 0.0.14:
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
