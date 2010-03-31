@@ -712,6 +712,8 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
     <ol>
      <li> As an option, the output of forced assignments once they were found,
      should be enabled. </li>
+     <li> Perhaps best in the form on unit-clauses in Dimacs-format, so that
+     these clauses can be appended to the original instance. </li>
      <li> To start with, we have the effect of r_1-reduction on the input.
      </li>
      <li> Then we have the effect of r_2-reduction. </li>
