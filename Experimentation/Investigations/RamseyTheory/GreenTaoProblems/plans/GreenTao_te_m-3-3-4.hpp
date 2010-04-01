@@ -158,7 +158,7 @@ gwsat :
   </ul>
 
 
-  \todo greentao_5(2,2,3,3,4) > 470
+  \todo greentao_5(2,2,3,3,4) > 471
   <ul>
    <li> First considering the weak standard nested translation with
    rnovelty+. </li>
@@ -263,9 +263,11 @@ gwsat :
 694
      \endverbatim
      </li>
-     <li> cutoff=2*10^7 </li>
+     <li> cutoff=2*10^7: in run 46 a solution was found (seed=2641525455,
+     osteps=13744258). </li>
     </ol>
    </li>
+   <li> n=472, rnovelty+, cutoff=2*10^7 </li>
   </ul>
 
 */
