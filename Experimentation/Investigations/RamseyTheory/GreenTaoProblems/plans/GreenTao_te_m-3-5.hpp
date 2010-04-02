@@ -860,7 +860,7 @@ rnoveltyp :
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 597
+  \todo greentao_5(2,2,2,3,5) > 599
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -989,7 +989,11 @@ rots :
    (seed=841240642, osteps=348363). </li>
    <li> n=597, walksat, cutoff=10^6: In run 38 a solution was found
    (seed=1493254021, osteps=155394). </li>
-   <li> n=598, walksat, cutoff=10^6 </li>
+   <li> n=598, walksat, cutoff=10^6: In run 48 a solution was found
+   (seed=2759806596, osteps=288326). </li>
+   <li> n=599, walksat, cutoff=10^6: In run 107 a solution was found
+   (seed=3466890966, osteps=476027). </li>
+   <li> n=600, walksat, cutoff=10^6 </li>
   </ul>
 
 */
