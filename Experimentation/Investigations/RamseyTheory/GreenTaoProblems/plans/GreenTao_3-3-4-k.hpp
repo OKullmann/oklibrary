@@ -243,7 +243,16 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    </li>
    <li> n=1662: weak standard nested translation, rnovelty+, cutoff=64*10^7
    found a solution in 38 runs (seed=1319314469, seed=298802296). </li>
-   <li> n=1663: weak standard nested translation, rnovelty+, cutoff=64*10^7
+   <li> n=1663: weak standard nested translation, rnovelty+
+    <ol>
+     <li> cutoff=64*10^7
+     \verbatim
+  1   2   3   4   5
+  9  63 131  50   5
+258
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=1665: weak standard nested translation, rnovelty+
     <ol>
