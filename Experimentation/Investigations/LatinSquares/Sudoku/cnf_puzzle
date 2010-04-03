@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Matthew Henderson, 3.4.2010 (Berea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can 
+# redistribute it and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation and included in this 
+# library; either version 3 of the License, or any later version.
+
+# NAME
+#      cnf_puzzle
+# SYNOPSIS
+#      cnf_puzzle empty
+# DESCRIPTION
+#      cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format according to 
+#      the direct encoding. The file "empty" is a cnf-file in Dimacs format 
+#      representing an empty Sudoku puzzle. The puzzle-string, read from
+#      standard input, contains 81 digits with values between 0 and 9. 
+#      0 represents an empty cell. The fixed fields of the puzzle are 
+#      specified by non-zero values. If position 1 <= i <= 81 contains 
+#      non-zero value k then the final Sudoku puzzle output has fixed field 
+#      ((i-1)/9+1, (i-1)%9+1) with value k, where / is integer division and 
+#      % is the modulus operator.
+# EXAMPLE
+#      If "sudoku17" is a file containing lines of 81 digits, with each line
+#      representing a different Sudoku puzzle according to the input format 
+#      given above, then:
+#       head -n 1 sudoku17 | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p.cnf
+#      creates a Dimacs-cnf-format file "p.cnf" representing the first 
+#      puzzle from "sudoku17".
+
+# Dimacs-cnf-format file for empty puzzle.
+emptypuzzle=$1
+# Sudoku puzzles from standard input.
+read puzzles # Yet, only reading a single puzzle is supported.
+
+# Box dimension.
+p=3
+# Size of Sudoku puzzle.
+n=$p**2
+# Number of fields.
+m=$n**2
+
+# Number of fixed fields for current puzzle.
+ff=0
+
+# Unit clauses (to be computed from fixed fields).
+ucs=
+
+# Function: unit_clause $x $y
+#   0 <= x <= m - 1   (Puzzle string index)
+#   1 <= y <= n       (Field entry)
+# Assigns to the variable ncs a unit clause string in Dimacs-cnf-format 
+# representing the fixed field (i,j)=k according to the direct encoding. 
+
+unit_clause() {
+  index=$1
+  k=$2   
+  i=$((index / n + 1))
+  j=$((index % n + 1))
+  printf -v ncs "%s %s\n" $(((i-1)*n**2+(j-1)*n+(k-1)+1)) 0
+}
+
+# Iterate over the m fields of the input puzzle. If a field is non-zero then
+# append an appropriate unit clause to the list of unit clauses and increment 
+# the total count of fixed fields.
+
+for (( x=0; x<m; ++x ))
+do
+  y=${puzzles:$x:1}
+  if [ $y -ne 0 ]
+  then {
+    ((ff++))
+    unit_clause $x $y
+    ucs=$ucs$ncs    
+  }
+  fi
+done
+
+# Output the empty puzzle file with modified clause count.
+awk -f inc_cls.awk -v x=$ff $emptypuzzle
+# Output the unit clauses.
+printf "%s %s\n" $ucs
+
