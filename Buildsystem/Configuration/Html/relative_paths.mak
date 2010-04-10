@@ -32,6 +32,10 @@ rel_history_release_history_output := $(shell $(rel_path_tool) $(release_history
 rel_tenchallenges_baltimore2008_talk_location := $(shell $(rel_path_tool) $(baltimore2008_talk_location) $(tenchallenges_page_output))
 rel_tenchallenges_tenchallenges_doxygen_directory := $(shell $(rel_path_tool) $(tenchallenges_doxygen_directory) $(tenchallenges_page_output))
 
+# From the Ramsey-Theory-page:
+rel_greenTao_bctcs2010_talk_location := $(shell $(rel_path_tool) $(greentao_bctcs2010_talk_location) $(ramseytheory_page_output))
+
+
 # From the external sources page: ("les" for local external sources)
 rel_les_boost_docu_page_okl := $(shell $(rel_path_tool) $(boost_docu_page_okl) $(externalsources_page_output))
 rel_les_mhash_docu_page_okl := $(shell $(rel_path_tool) $(mhash_docu_page_okl) $(externalsources_page_output))
