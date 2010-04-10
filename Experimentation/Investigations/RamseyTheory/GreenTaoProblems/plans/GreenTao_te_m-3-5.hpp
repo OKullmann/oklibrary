@@ -860,7 +860,7 @@ rnoveltyp :
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 606
+  \todo greentao_5(2,2,2,3,5) > 607
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -1007,6 +1007,14 @@ rots :
    (seed=3901374280, osteps=332675). </li>
    <li> n=606, walksat, cutoff=10^6: In run 38 a solution was found
    (seed=2868885090, osteps=699872). </li>
+   <li> n=607, walksat, cutoff=10^6:
+   \verbatim
+  1   2   3
+105  92   3
+200
+   \endverbatim
+   In another 151 runs a solution was found (seed=3961377519, osteps=158435).
+   </li>
   </ul>
 
 */
