@@ -855,6 +855,42 @@ rnoveltyp :
        </li>
       </ol>
      </li>
+     <li> OKsolver_2002:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D20 GreenTao_N_4-2-2-3-5_582.cnf
+
+524287:2000514     71.86  7.54E+07 20504.79s     0.63s     0y   3d 20h 18m 19s 48216     0   69
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         15
+c initial_number_of_variables           1745
+c initial_number_of_clauses             353339
+c initial_number_of_literal_occurrences 1153461
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   169071
+c running_time(sec)                     1560686.8
+c number_of_nodes                       188207805
+c number_of_single_nodes                3194685
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1866485094
+c number_of_pure_literals               65236419
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         15526
+c max_tree_depth                        140
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 9082462499
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_4-2-2-3-5_582.cnf
+     \endverbatim
+     So at the node for the completion of the left subtree the solver felt into
+     a hole (18 days spent). Also here a strong regularity w.r.t. the counts
+     of single-nodes was observed (strong preference of multiples of 7). </li>
     </ol>
    </li>
   </ul>
