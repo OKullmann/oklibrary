@@ -15,6 +15,8 @@ License, or any later version. */
    <li> The task is to find a nice (thus very likely approximated) law for
    the values in the list ln_arithprog_primes_c(k,n) (see
    ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac) for fixed k >= 1. </li>
+   <li> The best internet resource seems to be
+   http://primes.utm.edu/top20/page.php?id=14 . </li>
    <li> Ploted via %e.g.
    \verbatim
 plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
