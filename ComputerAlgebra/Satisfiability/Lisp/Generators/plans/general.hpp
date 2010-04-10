@@ -37,10 +37,16 @@ License, or any later version. */
 
   \todo Update milestones
   <ul>
-   <li> The milestones of this module are completely out of shape. </li>
-   <li> Generators/plans/RamseyProblems.hpp needs to be re-thought and
+   <li> Some general development strategies are to be developed. </li>
+   <li> Perhaps we should have a sub-module "LatinSquares" (including
+   Sudoku). </li>
+   <li> What happened to
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LinearInequality.hpp
+   (mentioned in milestone 0.1.4) ? </li>
+   <li> DONE
+   Generators/plans/RamseyProblems.hpp needs to be re-thought and
    completely updated. </li>
-   <li>
+   <li> DONE
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/HindmanProblems.hpp
    is not integrated at all. </li>
   </ul>
