@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,8 @@ License, or any later version. */
    <li> In
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac
    we have "random_sublist". </li>
-   <li> And in ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
+   <li> And in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
    we have "random_sublist_l". </li>
    <li> Likely these functions should go to DataStructures/Lists.mac.
    </li>
