@@ -1051,6 +1051,17 @@ rots :
    \endverbatim
    In another 151 runs a solution was found (seed=3961377519, osteps=158435).
    </li>
+   <li> n=608, walksat
+    <ol>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2   3
+209 179  12
+400
+     \endverbatim
+     More runs are needed (while likely the cutoff is sufficient). </li>
+    </ol>
+   </li>
   </ul>
 
 */
