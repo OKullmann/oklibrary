@@ -764,6 +764,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
   1   2   3   4   5   6   7
   6  63 163 178  80   9   1
 500
+  1   2   3   4   5   6   7
+ 10  76 201 250 104   9   1
+651
      \endverbatim
      </li>
      <li> rnovelty+, cutoff=2*10^8:
@@ -778,6 +781,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
  1  2  3  4
  9 53 79 15
 156
+ 1  2  3  4
+ 8 63 83 10
+164
      \endverbatim
      </li>
     </ol>
