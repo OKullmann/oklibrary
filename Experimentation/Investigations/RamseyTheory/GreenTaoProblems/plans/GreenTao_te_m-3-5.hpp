@@ -629,16 +629,50 @@ UNSATISFIABLE
      </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
-       <li> Progress is achieved, using monitoring-depth 20, but at the very
-       end of the list of monitoring nodes the sub-problems get increasingly
-       difficult. Not clear yet whether the problem gets solved; after 6000 m
-       nearly the end of the monitoring-list was reached:
+       <li> Progress is achieved, using monitoring-depth 20, but at the last
+       monitoring node the solver felt into a hole:
        \verbatim
-> tail GreenTao_N_3-2-3-5_581.cnf.mo
-  1048571 188987    35.695  2099.240     0.342      7     0    63     9.80
-  1048572 109535    35.800  1161.550     0.343     14     0    63    10.19
+> OKsolver_2002-O3-DNDEBUG -M -D20 -F GreenTao_N_3-2-3-5_581.cnf
+
+>  tail GreenTao_N_3-2-3-5_581.cnf.mo
+  1048566  32735    33.468   302.120     0.297      0     0    63     9.80
+  1048567  67514    33.532   603.040     0.297      8     0    63     9.99
+  1048568  38657    33.569   342.890     0.298      0     0    63    10.14
+  1048569 763553    34.297  6611.470     0.304   8883     0    63    10.16
+  1048570 1277518    35.515  8391.060     0.312  22593     0    63    10.05
+  1048571 188987    35.695  1239.420     0.313      7     0    63     9.80
+  1048572 109535    35.800   684.820     0.314     14     0    63    10.19
+  1048573 2491404    38.176 16524.260     0.329  50479     0    64     9.88
+  1048574 246079    38.410  1660.240     0.331     16     0    64     9.90
+  1048575 1828763    40.154 12126.630     0.343  26943     0    64     9.98
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         10
+c initial_number_of_variables           1161
+c initial_number_of_clauses             183634
+c initial_number_of_literal_occurrences 429344
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   168490
+c running_time(sec)                     1016841.0
+c number_of_nodes                       136369397
+c number_of_single_nodes                2445793
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1359006383
+c number_of_pure_literals               47933615
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         3394
+c max_tree_depth                        112
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 6633673123
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_3-2-3-5_581.cnf
        \endverbatim
-       however then the computer crashed. Better to repeat it on cs-oksvr.
        </li>
        <li> Single nodes seemed to play an important node, but no autarkies
        were found. </li>
@@ -658,6 +692,8 @@ UNSATISFIABLE
 119  17   2   1   1   1   1
        \endverbatim
        </li>
+       <li> With m2-preprocessing the problem seems to get harder for
+       OKsolver_2002. </li>
       </ol>
      </li>
     </ol>
