@@ -473,6 +473,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      cutoff=20180202). </li>
     </ol>
    </li>
+   <li> n=8250, weak standard nested translation, rnovelty, cutoff=2*10^8 </li>
    <li> n=8300, weak standard nested translation, rnovelty+
     <ol>
      <li> cutoff=32*10^6:
@@ -512,8 +513,8 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> cutoff=2*10^8
      \verbatim
-3 4 5 6 8 9 12
-2 2 3 1 2 2  1
+ 3 4 5 6 8 9 12
+ 2 2 3 1 2 2  1
 13
  2  3  4  5  6  7  8  9 12
  1  2  4  3  4  1  4  3  1
@@ -530,7 +531,16 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 > eval_ubcsat_dataframe(E)
      \endverbatim
      rnovelty and rnovelty+ seem clearly best. </li>
-     <li> cutoff=2*10^8, rnovelty </li>
+     <li> cutoff=2*10^8, rnovelty 
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 15
+ 2  3  5  7  3  5 13  8  3  1  2  2  1
+55
+ 1  2  3  4  5  6  7  8  9 10 11 12
+ 2  3  6  5  8 12  3  7  4  1  2  2
+55
+     \endverbatim
+     So rnovelty seems better than rnovelty+. </li>
     </ol>
    </li>
   </ul>
