@@ -59,8 +59,8 @@ extvanderwaerden_p(L) := listp(L) and
 */
 
 vanderwaerden3k(k) := 
- if k <= 16 then
-   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238][k]
+ if k <= 18 then
+   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
