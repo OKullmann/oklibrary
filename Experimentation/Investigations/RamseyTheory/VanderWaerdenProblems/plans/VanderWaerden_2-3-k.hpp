@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -904,6 +904,18 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
      So actually gsat-tabu is better than rnovelty for higher cutoff, and
      adaptnovelty+ gets better, but still worse than gsat-tabu. </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(3,21)
+  <ul>
+   <li> The prediction (see above) is n= 427. </li>
+   <li> Experience with k=20 is that gsat-tabu is best, however we should
+   have a look again --- this might change with different k's or with
+   different cutoff's. </li>
+   <li> n=426, gsat-tabu, cutoff=10^8:
+
    </li>
   </ul>
 
