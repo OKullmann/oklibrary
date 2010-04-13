@@ -64,7 +64,7 @@ License, or any later version. */
      <li> This sequence is the same as obtained by computing the sequence of
      transversal numbers via VdWTransversalsInc and listing those n for which
      we obtained a satisfiable instance. </li>
-     <li> Why is this? The independence number always increases by one at
+     <li> Why is this?: The independence number always increases by one at
      the satisfiable instances, while for the unsatisfiable instances the
      transversal numbe increases, i.e., the independence number stays the
      same. </li>
@@ -126,6 +126,11 @@ transform_steps_l(L) := if length(L) <= 1 then [] else
      </li>
      <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
      A065825 XXX </li>
+     <li> Given a sequence L like A065825, which contains the independence
+     numbers in compressed form, only containing the changes, one obtains
+     alpha_arithprog(k,n) by returning the first k where L[k] >= n ---
+     this is already achieved by transform_threshold_l(L), starting with n=0.
+     </li>
     </ol>
    </li>
   </ul>

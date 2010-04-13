@@ -335,7 +335,7 @@ define_variable(
   exactk_tau_arithprog,
   12,
   fixnum)$
-/* Note that these sequences start with n=1. */
+/* Note that these sequences (for tau_arithprog(k,n)) start with n=1. */
 
 /* The following data has been computed by
    "VdWTransversalsInc 3 1 0 OutputFile" (i.e.,
@@ -496,6 +496,23 @@ tau_arithprog_seq[12] : [
 5,5,5,5,5,5,6,6,6,6,
 6,6,6,6,6,6,6,7,7,7,
 7,7,7,7,7,7,7,7
+]$
+
+/* Alternative data given as "skiplists" of independence numbers, that is,
+   the entry for index i is the first n such that the indepence number is i.
+   From such a skiplist L one obtains the initial list of independence numbers,
+   starting with n=0, via transform_threshold_l(L).
+*/
+
+/* Data from Bestk3.txt, taken from 
+   http://www.math.uni.wroc.pl/~jwr/non-ave.htm:
+*/
+alpha_skiplist_arithprog_seq[3] : [
+1,2,4,5,9,11,13,14,20,24,
+26,30,32,36,40,41,51,54,58,63,
+71,74,82,84,92,95,100,104,111,114,
+121,122,137,145,150,157,163,165,169,174,
+194
 ]$
 
 /* For n <= exactv_tau_arithprog(k) we have stored exact values

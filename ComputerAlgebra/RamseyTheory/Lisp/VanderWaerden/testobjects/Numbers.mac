@@ -57,6 +57,8 @@ okltest_vanderwaerdents_a(vanderwaerdents_a);
    ******************************************************************
 */
 
+okltest_alpha_skiplist_arithprog_seq(alpha_skiplist_arithprog_seq);
+
 /* *********************************
    * Analysing transversal numbers *
    *********************************

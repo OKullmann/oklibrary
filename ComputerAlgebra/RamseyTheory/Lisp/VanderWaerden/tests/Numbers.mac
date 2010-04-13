@@ -197,6 +197,11 @@ okltest_vanderwaerdents_a(f) := block([a,b],
    ******************************************************************
 */
 
+okltest_alpha_skiplist_arithprog_seq(f) := (
+  assert(prefix_p(alphal_arithprog(3), rest(transform_threshold_l(f[3]))) = true),
+  true)$
+
+
 /* *********************************
    * Analysing transversal numbers *
    *********************************
