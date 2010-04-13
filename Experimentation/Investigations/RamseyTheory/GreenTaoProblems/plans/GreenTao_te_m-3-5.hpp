@@ -932,7 +932,7 @@ c file_name                             GreenTao_N_4-2-2-3-5_582.cnf
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 608
+  \todo greentao_5(2,2,2,3,5) > 609
   <ul>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
@@ -1103,7 +1103,10 @@ rots :
      </li>
     </ol>
    </li>
-   <li> n=609, walksat </li>
+   <li> n=609, walksat: cutoff=10^5 finds a solution in run 4561
+   (seed=886206866, osteps=78635), while cutoff=10^6 finds a solution in run
+   51 (seed=456485295, osteps=928598). </li>
+   <li> n=610, walksat </li>
   </ul>
 
 */
