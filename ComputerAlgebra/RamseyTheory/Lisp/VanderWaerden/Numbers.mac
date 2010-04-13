@@ -505,7 +505,8 @@ exactv_tau_arithprog(k) :=
  else length(tau_arithprog_seq[k])$
 
 
-/* Exact formulas (returns unknown if no exact formula applies): */
+/* Exact (trivial) formulas (returns unknown if no exact formula applies;
+   for natural numbers k, n): */
 exactf_tau_arithprog(k,n) :=
  if n < k then 0
  elseif k=1 then n
@@ -541,11 +542,23 @@ tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
    *********************************
 */
 
+/* The independence numbers (for natural numbers k, n; also known as r_k(n)):
+*/
 alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
+/* The list of all known values (from n=1, as long as there are no gaps)
+   for k >= 3: */
+alphal_arithprog(k) := if k > exactk_tau_arithprog then []
+ else block([L : tau_arithprog_seq[k], N],
+  N : create_list(i,i,1,length(L)),
+  return(N - L))$
+
+/* The relative transversal number (for natural numbers k, n): */
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
+/* The relative independence number (for natural numbers k, n): */
 ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
-/* The list of all known values (from n=1 not allowing gaps) for k >= 3: */
+/* The list of all known values (from n=1, as long as there are no gaps)
+   for k >= 3: */
 ralphal_arithprog(k) := if k > exactk_tau_arithprog then []
  else block([L : tau_arithprog_seq[k], N],
   N : create_list(i,i,1,length(L)),
