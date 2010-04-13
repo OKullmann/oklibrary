@@ -31,7 +31,8 @@ License, or any later version. */
 
   \todo Improving exactf_tau_arithprog
   <ul>
-   <li> How do we get Maxima to evaluate simple terms?
+   <li> DONE (package boolsimp does this job)
+   How do we get Maxima to evaluate simple terms?
    \verbatim
 exactf_tau_arithprog(1,n);
  if n < 1 then 0 elseif 1 = 1 then n elseif 1 = 2 then n-1 elseif n <= 1 and evenp(1)

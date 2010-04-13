@@ -580,6 +580,11 @@ exactf_tau_arithprog(k,n) :=
  elseif n <= 2*k and oddp(k) then
    if n = 2*k then 2 else 1
  else unknown$
+/* The following inclusion enable simplification of for example
+    exactf_tau_arithprog(k,n):
+*/
+oklib_plain_include(boolsimp)$
+
 
 /* The nearest n-value downward and its transversal-value where we have
    exact values stored.
