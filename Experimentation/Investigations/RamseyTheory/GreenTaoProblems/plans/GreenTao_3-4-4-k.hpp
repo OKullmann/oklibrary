@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([4,4,k],n).
 
 
-  \todo greentao_3(4) > 3500
+  \todo greentao_3(4) > 4800
   <ul>
    <li> Let's start with the weak standard nested translation and with
    rnovelty+. </li>
@@ -29,6 +29,21 @@ License, or any later version. */
    <li> n=3000 is satisfiable in 2831 steps. </li>
    <li> n=3500 is satisfiable in 6780 steps (seems hard for OKsolver_2002,
    and also for minisat2). </li>
+   <li> n=4000 is satisfiable in 26560 steps. </li>
+   <li> n=4500: cutoff=300000 finds a solution in the second run. </li>
+   <li> n=4800: cutoff=2*10^6: in run 2 a solution was found (seed=2960182613,
+   osteps=1914331). </li>
+   <li> n=4850, cutoff=4*10^6 </li>
+   <li> n=4900, cutoff=4*10^6: in 9 runs min=1 is attained only once, so for
+   this time let's consider this as unsatisfiable. </li>
+   <li> n=5000:
+    <ol>
+     <li> cutoff=2*10^6 no longer sufficient (in 4 runs only min=10 was
+     reached). </li>
+     <li> Also with cutoff=4*10^6 in 6 runs only min=9 was reached. </li>
+     <li> So let's consider this (for now) as unsatisfiable. </li>
+    </ol>
+   </li>
   </ul>
   
 */
