@@ -66,6 +66,8 @@ License, or any later version. */
      <li> greentao_3(3,4,5) </li>
     </ol>
    </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3.hpp : COMPLETED for
+   now </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-4.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-4-4.hpp </li>
