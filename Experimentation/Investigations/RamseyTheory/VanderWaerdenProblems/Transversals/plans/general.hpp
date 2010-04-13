@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.2.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,7 +59,8 @@ License, or any later version. */
      <li> The known values are
      1, 2, 4, 5, 9, 11, 13, 14, 20, 24, 26, 30, 32, 36, 40, 41, 51, 54, 58, 63,
      71, 74, 82, 84, 92, 95, 100, 104, 111, 114, 121, 122, 137, 145, 150, 157,
-     starting with k=1. </li>
+     163, 165, 169, 174, 194;
+     starting with k=1 (added data from Bestk3.txt). </li>
      <li> This sequence is the same as obtained by computing the sequence of
      transversal numbers via VdWTransversalsInc and listing those n for which
      we obtained a satisfiable instance. </li>
@@ -70,7 +71,7 @@ License, or any later version. */
      <li> The satisfying assignments yield the complements of the minimum
      independent sets here. </li>
      <li> From this sequence we obtain values for alpha_arithprog(3,n) for
-     n <= 157, quite a bit more what A003002 contains. </li>
+     n <= 194, quite a bit more what A003002 contains. </li>
      <li> We need to have a look at
      http://www.math.uni.wroc.pl/~jwr/non-ave.htm , where perhaps we obtain
      more information on how these numbers where obtained. </li>
