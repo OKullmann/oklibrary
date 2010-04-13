@@ -498,22 +498,69 @@ tau_arithprog_seq[12] : [
 7,7,7,7,7,7,7,7
 ]$
 
-/* Alternative data given as "skiplists" of independence numbers, that is,
-   the entry for index i is the first n such that the indepence number is i.
-   From such a skiplist L one obtains the initial list of independence numbers,
+/* 
+  Transforming an initial list T of transversal vdW-numbers to transversal
+  vdw-numbers, or transforming a "steplist" of independence numbers into a
+  list of independence numbers.
+  If T contains non-integer values, then the list is cut off at
+  the first such occurrence.
+  The list of transversal vdw-numbers starts with n=0.
+
+  Given a sequence T for fixed k, containing vanderwaerden_{m+1}([2]_m, k) for
+  m = 0, ..., (or the steplist as explained below), one obtains
+  tau_arithprog(k,n) for n=0, ... by running through m=0,1,..., and observing
+  when first the value x=T[m+1] is strictly greater than n --- for this m we
+  have tau_arithprog(k,n) = m.
+
+  So transform_threshold_l(T) is the list [t_0,t_1, ..., t_p]
+  of non-decreasing natural numbers t_i >= 0, where t_i is the smallest
+  0 <= m <= length(T) such that T'[m+1] > i, and where T' is obtained from
+  T by adding an element to the end which is bigger by one than the last
+  element of T (this yields one more correct value in the result list, since
+  the numbers of T are strictly increasing).
+  So p = -1 if T is empty, while otherwise p = last(T).
+  And we have t_i <= t_{i+1} <= t_i + 1.
+  Prerequisite: T is a sequence of strictly increasing natural numbers >= 0,
+  with a possible suffix of non-integers.
+*/
+transform_threshold_l(T) :=  block(
+ block([noti : find_first_l(lambda([x], not integerp(x)), T)],
+  if noti#inf then T : take_l(noti-1,T)),
+ if emptyp(T) then return([]),
+ block([n : 0, m : 0, R : []],
+  for x in endcons(last(T)+1,T) do (
+    if x > n then (
+      R : append(R,create_list(m,i,1,x-n)), 
+      n : x
+    ),
+    m : m+1
+  ),
+  return(R)))$
+
+/* Alternative data for transversal numbers, given as "steplists" of 
+   independence numbers, that is, the entry for index i is the first n such 
+   that the independence number is i.
+   From such a steplist L one obtains the initial list of independence numbers,
    starting with n=0, via transform_threshold_l(L).
 */
 
 /* Data from Bestk3.txt, taken from 
    http://www.math.uni.wroc.pl/~jwr/non-ave.htm:
 */
-alpha_skiplist_arithprog_seq[3] : [
+alpha_steplist_arithprog_seq[3] : [
 1,2,4,5,9,11,13,14,20,24,
 26,30,32,36,40,41,51,54,58,63,
 71,74,82,84,92,95,100,104,111,114,
 121,122,137,145,150,157,163,165,169,174,
 194
 ]$
+
+/* Letting tau_arithprog_seq[k] be the larger of the alternatives: */
+block([A : rest(transform_threshold_l(alpha_steplist_arithprog_seq[3])), l],
+ l : length(A),
+ if l > length(tau_arithprog_seq[3]) then
+   tau_arithprog_seq[3] : create_list(i,i,1,l) - A)$
+
 
 /* For n <= exactv_tau_arithprog(k) we have stored exact values
    in tau_arithprog_seq[k]: */
@@ -615,50 +662,14 @@ upper_vanderwaerdend_approxcralpha(m,k) :=
    sequences of numbers
 */
 
-/* The initial sequence of transversal vdW-numbers (as far as it is
-   stored).
+/* The initial sequence of transversal vdW-numbers for progression-length k
+   (as far as it is stored; the number m of 2's starts with 0).
    If no sequence is stored, then m <= k-1 is considered.
    k natural number >= 0.
 */
 initial_sequence_vdWt(k) :=
   create_list(vanderwaerdent(m,k),m,0,last(tau_arithprog_seq[k])-1);
 
-/* 
-  From a list T of transversal numbers of vdW-hypergraphs
-  to transversal vdw-numbers.
-  If T contains non-integer values, then the list is cutoff at
-  the first such occurrence.
-  The list of transversal vdw-numbers starts with n=0.
-
-  Given the sequence T for fixed k (where m=0, ...), one obtains
-  tau_arithprog(k,n) for n=0, ... by running through m=0,1,..., and observing
-  when first the value x=T[m+1] is strictly greater than n --- for this m we
-  have tau_arithprog(k,n) = m.
-
-  So transform_threshold_l(T) is the list [t_0,t_1, ..., t_p]
-  of non-decreasing natural numbers t_i >= 0 where t_i is the smallest
-  0 <= m <= length(T) such that T'[m+1] > i, where T' is obtained from
-  T by adding an element to the end which is bigger by one than the last
-  element of T (this yields one more correct value in the result list, since
-  the numbers of T are strictly increasing).
-  So p = -1 if T is empty, while otherwise p = last(T).
-  And we have t_i <= t_{i+1} <= t_i + 1.
-  Prerequisite: L is a sequence of strictly increasing natural numbers >= 0,
-  with a possible suffix of non-integers.
-*/
-transform_threshold_l(T) :=  block(
- block([noti : find_first_l(lambda([x], not integerp(x)), T)],
-  if noti#inf then T : take_l(noti-1,T)),
- if emptyp(T) then return([]),
- block([n : 0, m : 0, R : []],
-  for x in endcons(last(T)+1,T) do (
-    if x > n then (
-      R : append(R,create_list(m,i,1,x-n)), 
-      n : x
-    ),
-    m : m+1
-  ),
-  return(R)))$
 
 /*!
 \endhtmlonly
