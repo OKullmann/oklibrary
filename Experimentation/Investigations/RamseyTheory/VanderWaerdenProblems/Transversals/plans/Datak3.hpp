@@ -263,7 +263,7 @@ L60_3 : minimum_transversals_mongen(60,A3,[{}])$
   <ul>
    <li> The transversal vdW-numbers seem most suitable for predictions:
    \verbatim
-create_list(vanderwaerdent(m,3),m,0,74);
+initial_sequence_vdWt(3);
 [
  3,6,7,8,10,12,15,16,17,18,
  19,21,22,23,25,27,28,29,31,33,
@@ -272,7 +272,15 @@ create_list(vanderwaerdent(m,3),m,0,74);
  60,61,62,64,65,66,67,68,69,70,
  72,73,75,76,77,78,79,80,81,83,
  85,86,87,88,89,90,91,93,94,96,
- 97,98,99,101,102
+ 97,98,99,101,102,103,105,106,107,108,
+ 109,110,112,113,115,116,117,118,119,120,
+ 123,124,125,126,127,128,129,130,131,132,
+ 133,134,135,136,138,139,140,141,142,143,
+ 144,146,147,148,149,151,152,153,154,155,
+ 156,158,159,160,161,162,164,166,167,168,
+ 170,171,172,173,175,176,177,178,179,180,
+ 181,182,183,184,185,186,187,188,189,190,
+ 191,192,193
 ]
    \endverbatim
    </li>
@@ -288,9 +296,9 @@ L = lm(y ~ x)
 summary(L)
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.204198   0.024323  -8.395 6.21e-13 ***
-x            0.333381   0.006184  53.913  < 2e-16 ***
-Adjusted R-squared: 0.9696
+(Intercept) -0.184533   0.013322  -13.85   <2e-16 ***
+x            0.327640   0.002966  110.46   <2e-16 ***
+Adjusted R-squared: 0.9852
 plot(x,y)
 lines(x,predict(L))
 C = coefficients(L)
@@ -298,7 +306,7 @@ f = function(n){1/exp(C[1]) * n^(-C[2])}
 plot(d)
 lines(f(1:length(d)))
    \endverbatim
-   So f(n) ~ 1.226541 * n^(-0.3333806). </li>
+   So f(n) ~ 1.202656 * n^(-0.3276399). </li>
    <li> By [Rankin, 1961] it is known that
    ralpha_arithprog(3,n) > c^(-log(n)^(1/2))
    for some suitable c > 1 (this goes back to [Behrend, 1946]). </li>
@@ -310,9 +318,9 @@ L = lm(y ~ x)
 summary(L)
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -1.56640    0.03554  -44.07   <2e-16 ***
-x            1.21567    0.02622   46.37   <2e-16 ***
-Adjusted R-squared: 0.9594
+(Intercept) -1.52020    0.01922  -79.11   <2e-16 ***
+x            1.17830    0.01293   91.13   <2e-16 ***
+Adjusted R-squared: 0.9784
 plot(x,y)
 lines(x,predict(L))
 C = coefficients(L)
@@ -320,7 +328,7 @@ f = function(n){exp(- exp(C[1]) * log(n)^C[2])}
 plot(d)
 lines(f(1:length(d)))
    \endverbatim
-   so f(n) ~ exp(-0.2087957 * log(n)^1.215668) is a more suitable model (at
+   so f(n) ~ exp(-0.2186679 * log(n)^1.178299) is a more suitable model (at
    least "theoretically", while regarding this data it is not
    distinguishable from the above model for n >= 20). </li>
    <li> The inverse fi of f is given by
