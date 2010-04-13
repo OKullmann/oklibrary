@@ -62,7 +62,7 @@ License, or any later version. */
    </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-4-k.hpp
     <ol>
-     <li> greentao_3(3,4,4) </li>
+     <li> greentao_3(3,4,4) : COMPLETED for now </li>
      <li> greentao_3(3,4,5) </li>
     </ol>
    </li>
