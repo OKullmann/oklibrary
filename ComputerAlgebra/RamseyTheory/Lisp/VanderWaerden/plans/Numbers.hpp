@@ -29,6 +29,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving exactf_tau_arithprog
+  <ul>
+   <li> How do we get Maxima to evaluate simple terms?
+   \verbatim
+exactf_tau_arithprog(1,n);
+ if n < 1 then 0 elseif 1 = 1 then n elseif 1 = 2 then n-1 elseif n <= 1 and evenp(1)
+           then (if n = 1 then 2 else 1) elseif n <= 2 and oddp(1) then (if n = 2 then 2 else 1)
+           else unknown
+   \endverbatim
+   --- this should yield "if n < 1 then 0 else n" ?! </li>
+  </ul>
+
+
   \todo The LRC-formula
   <ul>
    <li> DONE (the "m" from the paper was not correctly used)
