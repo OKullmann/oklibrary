@@ -42,6 +42,13 @@ exactf_tau_arithprog(1,n);
   </ul>
 
 
+  \todo Improving initial_sequence_vdWt
+  <ul>
+   <li> The computation is very slow (and thus likely can be made more
+   intelligent). </li>
+  </ul>
+
+
   \todo The LRC-formula
   <ul>
    <li> DONE (the "m" from the paper was not correctly used)
