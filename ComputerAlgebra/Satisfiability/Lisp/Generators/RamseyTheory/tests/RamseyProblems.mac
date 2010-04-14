@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/tests/RamseyProblems.mac
-  \brief Tests for clause-set-generators
+  \brief Tests for Ramsey-problem -generators
 
 Use by
 
@@ -31,19 +31,6 @@ okltest_ramsey2_ofcs(f) := (
   assert(f(0,1,1) = [[colv({1})], []]),
   assert(f(1,1,1) = [[colv({1})], [{colv({1})},{-colv({1})}]]),
   true)$
-
-okltest_ramsey2_stdofcs(f) := (
-  assert(f(0,0,0) = [[1], [{1},{-1}]]),
-  assert(f(1,0,0) = [[1], []]),
-  assert(f(0,1,0) = [[], []]),
-  assert(f(0,0,1) = [[1], [{1},{-1}]]),
-  assert(f(1,1,0) = [[], []]),
-  assert(f(1,0,1) = [[1], [{1},{-1}]]),
-  assert(f(0,1,1) = [[1], []]),
-  assert(f(1,1,1) = [[1], [{1},{-1}]]),
-  true)$
-
-
 
 
 /*!

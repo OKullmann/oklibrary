@@ -22,7 +22,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/tests/RamseyProblems.mac")$
 
 okltest_ramsey2_ofcs(ramsey2_ofcs);
-/*okltest_ramsey2_stdofcs(ramsey2_stdofcs);*/
 
 /*!
 \endhtmlonly

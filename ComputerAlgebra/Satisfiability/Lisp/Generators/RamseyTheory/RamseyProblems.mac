@@ -65,24 +65,6 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
 
-/* The standardised version, using colexicographic ordering for the
-   standardisation of the variables (while the lexicographical order
-   is reflected in the sorting of the list of variables):
-*/
-ramsey2_stdofcs(q,r,n) := tcol2sat_stdohg2stdfcl(ramsey_stdohg(q,r,n))$
-
-output_ramsey2(q,r,n,filename) := block(
- [FFR : ramsey2_stdofcs(q,r,n)],
-  output_fcl_v(
-    sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
-    FFR[1],
-    filename,
-    FFR[2]))$
-
-output_ramsey2_stdname(q,r,n) := 
- output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
-
-
 
 /*!
 \endhtmlonly
