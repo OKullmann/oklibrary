@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([4,4,k],n).
 
 
-  \todo greentao_3(4) > 4800
+  \todo greentao_3(4) > 4878
   <ul>
    <li> Let's start with the weak standard nested translation and with
    rnovelty+. </li>
@@ -33,7 +33,17 @@ License, or any later version. */
    <li> n=4500: cutoff=300000 finds a solution in the second run. </li>
    <li> n=4800: cutoff=2*10^6: in run 2 a solution was found (seed=2960182613,
    osteps=1914331). </li>
-   <li> n=4850, cutoff=4*10^6 </li>
+   <li> n=4850, cutoff=4*10^6: in run 3 a solution was found (seed=914035932,
+   osteps=3424650). </li>
+   <li> n=4875, cutoff=4*10^6: in run 5 a solution was found (seed=2573294237,
+   osteps=3164363). </li>
+   <li> n=4878, cutoff=4*10^6: in run 4 a solution was found (seed=2807257037,
+   osteps=3921866). </li>
+   <li> n=4879, cutoff=4*10^6 </li>
+   <li> n=4881, cutoff=4*10^6: in 8 runs min=1 is attained only twice, so for
+   this time let's consider this as unsatisfiable. </li>
+   <li> n=4888, cutoff=4*10^6: in 7 runs min=1 is attained only once, so for
+   this time let's consider this as unsatisfiable. </li>
    <li> n=4900, cutoff=4*10^6: in 9 runs min=1 is attained only once, so for
    this time let's consider this as unsatisfiable. </li>
    <li> n=5000:
