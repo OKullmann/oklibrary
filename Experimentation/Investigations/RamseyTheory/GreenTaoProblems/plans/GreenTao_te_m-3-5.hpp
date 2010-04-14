@@ -932,8 +932,9 @@ c file_name                             GreenTao_N_4-2-2-3-5_582.cnf
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 609
+  \todo greentao_5(2,2,2,3,5) >= 610
   <ul>
+  <li> The conjecture is greentao_5(2,2,2,3,5) = 610. </li>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
     <ol>
@@ -1106,7 +1107,22 @@ rots :
    <li> n=609, walksat: cutoff=10^5 finds a solution in run 4561
    (seed=886206866, osteps=78635), while cutoff=10^6 finds a solution in run
    51 (seed=456485295, osteps=928598). </li>
-   <li> n=610, walksat </li>
+   <li> n=610, walksat
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+   1    2    3    4    5    6    7    8    9
+ 191 1292 2864 3095 1818  617  110   10    3
+10000
+     \endverbatim
+     </li>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2   3
+486 482  32
+1000
+     \endverbatim
+   </li>
   </ul>
 
 */
