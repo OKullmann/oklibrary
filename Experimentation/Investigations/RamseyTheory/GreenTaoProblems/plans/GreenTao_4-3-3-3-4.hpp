@@ -580,8 +580,20 @@ rnovelty :
     </ol>
    </li>
    <li> n=1052, rnovelty+, cutoff=64*10^7: In run 62 a solution was found
-   (seed=990282986, osteps=230887851). </li>
-   <li> n=1053, rnovelty+, cutoff=64*10^7 </li>
+   (seed=990282986, osteps=230887851); further runs:
+   \verbatim
+  1   2   3   4
+ 11  71 121  13
+216
+   \endverbatim
+   </li>
+   <li> n=1053, rnovelty+, cutoff=64*10^7:
+   \verbatim
+ 1  2  3  4
+ 4 19 56 15
+94
+   \endverbatim
+   </li>
    <li> n=1055
     <ol>
      <li> rnovelty+, cutoff=16*10^7:
