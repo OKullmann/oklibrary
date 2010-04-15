@@ -92,26 +92,17 @@ License, or any later version. */
      is transform_threshold_l(L) in
      ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac. </li>
      <li> Given the sequence tau_arithprog(k,n) (n running), one obtains
-     vanderwaerden_{m+1}([2]_m, k) by running through n=0,1,..., and observing
-     when first the value is strictly greater than m --- for this n we have
+     vanderwaerden_{m+1}([2]_m, k) for m=0,1,..., by observing when first the
+     value is strictly greater than m --- for this index n we have
      vanderwaerden_{m+1}([2]_m, k) = n. </li>
      <li> In other words, the values of vanderwaerden_{m+1}([2]_m, k) are
      exactly the step-indices, where the value of tau_arithprog(k,n)
      increases by one. </li>
      <li> The transformer (where L is a non-decreasing sequence of natural
-     numbers, and the indices here start with 0):
-     \verbatim
-transform_steps_l(L) := if length(L) <= 1 then [] else
- block([a : first(L), i : 1, R : []],
-  for b in rest(L) do (
-    if b > a then (R : endcons(i,R), a : b),
-    i : i + 1
-  ),
-  return(R))$
-     \endverbatim
-     </li>
+     numbers, and the indices here start with 0), is transform_steps_l(L)
+     (see ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac). </li>
      <li> Given the sequence vanderwaerden_{m+1}([2]_m, k), one obtains
-     A065825 XXX </li>
+     A065825 by XXX </li>
      <li> Given a sequence L like A065825, which contains the independence
      numbers in compressed form, only containing the changes (a "steplist"),
      one obtains alpha_arithprog(k,n) by returning the first k where
