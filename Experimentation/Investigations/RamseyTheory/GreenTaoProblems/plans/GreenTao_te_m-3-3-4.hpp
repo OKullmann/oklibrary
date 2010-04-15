@@ -289,9 +289,26 @@ gwsat :
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
-
+rnovelty :
+ 2  3  4  5  6  7  8
+ 1  8 22 36 22  9  2
+rnoveltyp :
+ 3  4  5  6  7  8
+ 6 26 33 22 11  2
+noveltyp :
+ 3  4  5  6  7  8
+ 3 21 23 34 12  7
+walksat_tabu_nonull :
+ 3  4  5  6  7  8  9 10 11
+ 3  8 14 26 22 19  5  2  1
+walksat_tabu :
+ 3  4  5  6  7  8  9 10
+ 2  8 11 25 29 16  7  2
+gwsat :
+ 3  4  6  7  8  9 10 11 12 13 14 15
+ 1  1 10  7 12 14 20 20  6  6  1  2
      \endverbatim
-     </li>
+     So actually rnovelty seems best. </li>
     </ol>
    </li>
   </ul>
