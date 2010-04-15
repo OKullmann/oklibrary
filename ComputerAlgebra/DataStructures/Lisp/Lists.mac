@@ -206,6 +206,9 @@ sublist_indices_el(L,x) := sublist_indices(L,lambda([e],is(e=x)))$
    i > length(L). */
 /* Returns a shallow copy of L. */
 remove_element(i,L) := append(take_elements(i-1,L), rest(L,i))$
+/* Removes all elements in list E from list L (returing a shallow copy of L):
+*/
+remove_elements(E,L) := (for x in E do L : delete(x,L), L)$
 
 /* Return the sublist of list L for which the corresponding entry in
    okl-array I is 0. Returns a shallow copy. */

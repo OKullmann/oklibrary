@@ -88,6 +88,7 @@ okltest_take_elements(take_elements);
 okltest_sublist_indices_el(sublist_indices_el);
 
 okltest_remove_element(remove_element);
+okltest_remove_elements(remove_elements);
 
 okltest_sublist_indicator(sublist_indicator);
 

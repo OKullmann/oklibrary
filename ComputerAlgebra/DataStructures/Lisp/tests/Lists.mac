@@ -316,6 +316,14 @@ okltest_remove_element(f) := (
    assert(L1 = [1,2,3])),
   true)$
 
+okltest_remove_elements(f) := block([L],
+  assert(f([],L) = L),
+  assert(f([1],[]) = []),
+  assert(f([1],[1]) = []),
+  assert(f([1],[1,1,2,1,2]) = [2,2]),
+  assert(f([1,2,3],[1,4,2,1,5,2]) = [4,5]),
+  true)$
+
 okltest_sublist_indicator(f) := (
   assert(f([],okl_make_array(fixnum,0)) = []),
   assert(f([],okl_make_array(fixnum,1)) = []),
