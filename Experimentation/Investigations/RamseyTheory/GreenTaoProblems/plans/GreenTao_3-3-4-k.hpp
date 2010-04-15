@@ -351,7 +351,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 8200
+  \todo greentao_3(3,4,5) > 8300
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -551,6 +551,8 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
 55
      \endverbatim
      So rnovelty seems better than rnovelty+. </li>
+     <li> cutoff=4*10^8, rnovelty: in run 68 a solution was found
+     (seed=4131142001, osteps=350760305). </li>
     </ol>
    </li>
   </ul>
