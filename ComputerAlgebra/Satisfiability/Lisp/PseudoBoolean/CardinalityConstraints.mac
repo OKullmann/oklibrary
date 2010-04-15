@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.7.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
   \brief Translating cardinality constraints into CNF
 
-  Encoding p <= v_1 + ... + v_k <= q for given boolean variables v_1, ..., v_k
+  Encoding p <= x_1 + ... + x_k <= q for given boolean literals x_1, ..., x_k
   and natural numbers p, q.
 
 
@@ -26,6 +26,14 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+
+/*
+  A "(boolean) set-cardinality-constraint" ("scrd") is a triple [a,L,b],
+  where a, b are natural numbers >= 0 or inf, while L is a set of
+  (boolean) literals (allowing complementary literals).
+  For a "(boolean) (list-)cardinality-constraint" ("crd") L is a list of
+  literals (allowing repetitions and complementary literals).
+*/
 
 
 /* **********************

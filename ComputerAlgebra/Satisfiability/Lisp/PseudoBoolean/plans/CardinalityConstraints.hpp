@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.7.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,7 +50,7 @@ License, or any later version. */
    cardinality constraints, "crds" for sets, and "fcrdl" resp. "fcrds" for
    "formal" lists resp. sets of cardinality constraints. </li>
    <li> A "cardinality constraint" is a triple [a,L,b], where L is a
-   list of variables, while a,b are natural numbers or 0 or inf. </li>
+   list of literals, while a,b are natural numbers or 0 or inf. </li>
    <li> The meaning is that for the number s of satisfied literals in L
    we have a <= s <= b. </li>
    <li> DONE (for cardinality constraints the translations into sums is not
