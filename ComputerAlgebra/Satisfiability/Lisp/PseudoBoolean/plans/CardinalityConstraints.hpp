@@ -40,7 +40,8 @@ License, or any later version. */
 
   \todo Representing "cardinality constraints"
   <ul>
-   <li> We need some direct representation of a condition that the (integer)
+   <li> DONE (fixed now the notion of a "cardinality constraint")
+   We need some direct representation of a condition that the (integer)
    sum of some given boolean variables is =,>,>=,<,<= some bound B. </li>
    <li> We need also some general scheme for such special
    constraint-representations. </li>
@@ -49,7 +50,8 @@ License, or any later version. */
    <li> Let's use "crd" for "cardinality constraint", "crdl" for lists of
    cardinality constraints, "crds" for sets, and "fcrdl" resp. "fcrds" for
    "formal" lists resp. sets of cardinality constraints. </li>
-   <li> A "cardinality constraint" is a triple [a,L,b], where L is a
+   <li> DONE
+   A "cardinality constraint" is a triple [a,L,b], where L is a
    list of literals, while a,b are natural numbers or 0 or inf. </li>
    <li> The meaning is that for the number s of satisfied literals in L
    we have a <= s <= b. </li>
@@ -110,7 +112,8 @@ is(Csa);
      literals which are true, and makes a requirement on their count. </li>
     </ol>
    </li>
-   <li> Lists or sets:
+   <li> DONE (the distinction doesn't seem to be of importance)
+    Lists or sets:
     <ol>
      <li> With a list we generalise cardinality constraints in the direction
      of pseudo-boolean constraints. </li>
@@ -150,7 +153,7 @@ is(Csa);
      <li> It seems mixed problem instances should be lists of problem
      instances. </li>
      <li> Using "cs-crd" for a pair of (boolean) clause-set and (necessarily
-     boolean) crdinality constraint. </li>
+     boolean) cardinality constraint. </li>
      <li> For such lists we should have the same type of literals for all
      components. </li>
     </ol>

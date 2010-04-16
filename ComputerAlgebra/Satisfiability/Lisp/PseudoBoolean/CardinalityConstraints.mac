@@ -29,10 +29,7 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /*
-  A "(boolean) set-cardinality-constraint" ("scrd") is a triple [a,L,b],
-  where a, b are natural numbers >= 0 or inf, while L is a set of
-  (boolean) literals (allowing complementary literals).
-  For a "(boolean) (list-)cardinality-constraint" ("crd") L is a list of
+  For a "(boolean) cardinality-constraint" ("crd") L is a list of
   literals (allowing repetitions and complementary literals).
 */
 
