@@ -25,6 +25,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /*
@@ -35,28 +36,61 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
   literals (allowing repetitions and complementary literals).
 */
 
+/* ***************************************
+   * Simplifying cardinality constraints *
+   ***************************************
+*/
+
+/*
+  A "sorted cardinality constraint" ("scrd") is a triple [lb,C0,ub] similar
+  to above, but where C0 now is an ordered set-map, sorted by descending
+  values, which assigns to the occurring literals their counts (natural
+  numbers >= 1).
+*/
+
+/* Translating a cardinality constraint into a sorted cardinality constraint,
+   sorting literals with equal counts in the build-in order:
+*/
+/* PROBLEM: Is sort stable?? And is ">" to be used instead of ">="?? */
+crd2scrd(C) := [C[1], sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))), C[3]]$
+
+/* Removing tautologies from a sorted cardinality constraint.
+   Returned is the equivalent sorted cardinality constraint, where for
+   every clashing pair of literals the literal(s) attaining the min-count
+   are removed, while the bounds are reduced by the min-count.
+*/
+remove_tautologies_scrd(C) := block(
+[a : C[1], b : C[3], h : osm2hm(C[2]), NC],
+ NC : map(
+  lambda([P], block([cneg : ev_hm(h,-P[1])],
+    if cneg=false then P
+    else block([cpos : ev_hm(h,P[1])],
+      if cpos=0 then 0
+      else (
+        set_hm(h,-P[1],0),
+        [a,b] : [a,b] - cneg,
+        if cpos=cneg then 0
+        else [P[1],cpos-cneg]
+      )))),
+  C[2]),
+ [a,delete(0,NC),b])$
+
 
 /* **********************
    * Direct translation *
    **********************
 */
 
-/* Translating a cardinality constraint into a CNF-clause-list: */
-/* PROBLEM: Is sort stable?? And is ">" to be used instead of ">="?? */
-direct_crd2cl(C) := block(
- [a : C[1], 
-  D : sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))),
-  b : C[3]],
-  append(
-   direct_crd2cl_ge(D, a),
-   direct_crd2cl_lt(D, b+1)
- )
-)$
+/* Translating a cardinality constraint into a CNF-clause-list (which has
+   first the clauses for the lower bound, and then the clauses for the
+   upper bound):
+*/
+direct_crd2cl(C) := block([R : remove_tautologies_scrd(crd2scrd(C)), a, b, D],
+ [a : R[1], D : R[2], b : R[3]],
+  append(direct_crd2cl_ge(D, a), direct_crd2cl_lt(D, b+1)))$
 
-/*  Given a list D of literals together with counts (as a list of pairs [x,c],
-    where x is a literal and c >= 1 the count; no repetition w.r.t. literals),
-    sorted in descending order w.r.t. the counts, and a strict upper bound ub,
-    compute the equivalent clause-list.
+/*  Given a sorted cardinality constraint [0,D,ub-1] without tautological
+    literal-pairs, compute the equivalent clause-list.
     The order of the clause-list is as follows:
  1. The major sorting is given by the order of D (regarding the literals).
  2. For a given literal x, first the clauses containing -x and then the clauses
@@ -76,8 +110,8 @@ direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
   append(with_x, without_x)
 )$
 
-/* A list D as above for direct_crd2cl_lt and a (non-strict) lower bound lb,
-   compute the equivalent clause-list: */
+/* Given a sorted cardinality constraint [lb,D,inf] without tautological
+   literal-pairs, compute the equivalent clause-list: */
 /* QUESTION: This list should be the repetition-free list of prime implicates?
 */
 direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else

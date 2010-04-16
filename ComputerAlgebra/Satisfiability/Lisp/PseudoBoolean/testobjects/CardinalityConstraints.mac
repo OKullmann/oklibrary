@@ -21,11 +21,21 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/testobjects/
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac")$
 
+/* ***************************************
+   * Simplifying cardinality constraints *
+   ***************************************
+*/
+
+okltest_crd2scrd(crd2scrd);
+
+okltest_remove_tautologies_scrd(remove_tautologies_scrd);
+
 /* **********************
    * Direct translation *
    **********************
 */
 
+okltest_direct_crd2cl(direct_crd2cl);
 okltest_direct_crd2cl_lt(direct_crd2cl_lt);
 okltest_direct_crd2cl_ge(direct_crd2cl_ge);
 
