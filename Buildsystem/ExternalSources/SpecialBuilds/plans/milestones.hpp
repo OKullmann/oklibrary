@@ -210,6 +210,11 @@ License, or any later version. */
     - Graph colouring
     - Cliques
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/RamseyTheory.hpp
+   the following topics are handled:
+    - Software by Aaron Robertson
+
 
   \par Version 0.2.8
 
