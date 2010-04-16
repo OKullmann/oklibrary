@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.11.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,12 +52,12 @@ License, or any later version. */
   <ul>
    <li> The question here is how to provide a method of extracting a proof
    of the given bounds, as there are various different methods:
-   <ul>
-    <li> Trivial bounds based on reasoning regarding small parameter values
-    </li>
-    <li> Proven bounds with references. </li>
-    <li> Bounds (not implemented). </li>
-   </ul>
+    <ol>
+     <li> Trivial bounds based on reasoning regarding small parameter values
+     </li>
+     <li> Proven bounds with references. </li>
+     <li> Bounds (not implemented). </li>
+    </ol>
    </li>
    <li> How to handle annotation with references for bounds? </li>
   </ul>
@@ -65,7 +65,8 @@ License, or any later version. */
 
   \todo %Ramsey numbers
   <ul>
-   <li> The following needs to be updated according to the general naming
+   <li> DONE
+   The following needs to be updated according to the general naming
    conventions discussed in "Systematic notations for the numbers in %Ramsey
    theory" in ComputerAlgebra/RamseyTheory/plans/general.hpp.
     <ol>
@@ -87,11 +88,12 @@ License, or any later version. */
      this is best. </li>
     </ol>
    </li>
-   <li> A "Ramsey parameter tuple" is a tuple [[q_1,...,q_s],r], where s
+   <li> DONE
+   A "Ramsey parameter tuple" is a tuple [r, [q_1,...,q_s]], where s
    is the number of colours (all q_i and r are natural numbers). </li>
-   <li> The function ramsey(r, par_tuple) computes a pair, consisting of
+   <li> The function ramsey([r, par_tuple]) computes a pair, consisting of
    a lower and an upper bound on the %Ramsey number for this tuple. </li>
-   <li> This function is now available, but needs 
+   <li> This function is now available, but needs to be improved:
     <ul>
      <li> The known general upper and lower bounds need to be integrated:
       <ol>
@@ -108,7 +110,8 @@ License, or any later version. */
        </li>
        <li> Either we provide pairs [lower bound, upper bound], or precise
        values (just integers). </li>
-       <li> The system needs to general enough, so that also the values given
+       <li> DONE (ramsey_hm has been removed)
+       The system needs to general enough, so that also the values given
        by ramsey_hm can be checked (possibly improved).
         <ol>
          <li> It might be good to extend the hash-map ramsey_hm to contain
