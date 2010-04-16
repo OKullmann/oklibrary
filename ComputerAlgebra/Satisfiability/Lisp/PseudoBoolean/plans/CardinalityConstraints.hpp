@@ -187,6 +187,16 @@ is(Csa);
    <li> For all types of clause-sets (boolean and non-boolean, CNF and DNF)
    and all types of (in)equalities provide the direct (combinatorial)
    realisations. </li>
+   <li> The CNF-representation for boolean literals is given now by
+   direct_crd2cl.
+    <ol>
+     <li> We should also provide statistic-functions (which, of course,
+     compute the statistics directly). </li>
+     <li> We need to prove the assertions regarding prime-implicates
+     (that is, direct_crd2cl_lt and direct_crd2cl_ge compute repetition-free
+     lists of (exactly the) prime implicates; see below). </li>
+    </ol>
+   </li>
    <li> Let L be a set of boolean literals (of size m).
     <ol>
      <li> sum(L) < B has the CNF-realisation consisting of all B-subsets

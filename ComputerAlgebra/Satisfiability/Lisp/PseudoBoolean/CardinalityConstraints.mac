@@ -93,8 +93,6 @@ direct_crd2cl(C) := block([R : remove_tautologies_scrd(crd2scrd(C)), a, b, D],
  2. For a given literal x, first the clauses containing -x and then the clauses
     not containing the underlying variable are taken.
 */
-/* QUESTION: This list should be the repetition-free list of prime implicates?
-*/
 direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
  elseif emptyp(D) then []
  else block([p : first(D), x, c, with_x, without_x],
@@ -109,8 +107,6 @@ direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
 
 /* Given a sorted cardinality constraint [lb,D,inf] without tautological
    literal-pairs, compute the equivalent clause-list: */
-/* QUESTION: This list should be the repetition-free list of prime implicates?
-*/
 direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else
  block([s : sum_l(map(second,D))],
   if lb > s then [{}]
