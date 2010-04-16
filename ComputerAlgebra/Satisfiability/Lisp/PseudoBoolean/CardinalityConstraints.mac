@@ -48,7 +48,6 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 /* Translating a cardinality constraint into a sorted cardinality constraint,
    sorting literals with equal counts in the build-in order:
 */
-/* PROBLEM: Is sort stable?? And is ">" to be used instead of ">="?? */
 crd2scrd(C) := [C[1], sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))), C[3]]$
 
 /* Removing tautologies from a sorted cardinality constraint.

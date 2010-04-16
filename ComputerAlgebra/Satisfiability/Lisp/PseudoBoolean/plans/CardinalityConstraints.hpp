@@ -161,6 +161,17 @@ is(Csa);
   </ul>
 
 
+  \todo Simplifications
+  <ul>
+   <li> For crd2scrd we have the following problems:
+    <ol>
+     <li> Is sort stable?? </li>
+     <li> Is ">" to be used instead of ">="?? </li>
+    </ol>
+    This problems are of general relevance. </li>
+  </ul>
+
+
   \todo Application of partial assignments
   <ul>
    <li> As a special case of "Application of partial assignments" in
