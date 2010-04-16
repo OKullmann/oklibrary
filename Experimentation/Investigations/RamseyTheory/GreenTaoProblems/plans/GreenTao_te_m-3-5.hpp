@@ -627,6 +627,8 @@ UNSATISFIABLE
      \endverbatim
      (time = 22225.83 m = 370.4306 h = 15.43461 d).
      </li>
+     <li> picosat913 </li>
+     <li> precosat236 </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
        <li> Progress is achieved, using monitoring-depth 20, but at the last
@@ -1116,12 +1118,28 @@ rots :
 10000
      \endverbatim
      </li>
+     li> cutoff=2*10^5:
+     \verbatim
+   1    2    3    4    5    6    7
+ 752 3053 3828 1966  367   32    2
+10000
+     \endverbatim
+     </li>
      <li> cutoff=10^6:
      \verbatim
   1   2   3
 486 482  32
 1000
      \endverbatim
+     </li>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2
+794 206
+1000
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
