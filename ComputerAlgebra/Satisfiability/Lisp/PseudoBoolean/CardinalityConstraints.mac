@@ -29,8 +29,11 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /*
-  For a "(boolean) cardinality-constraint" ("crd") L is a list of
-  literals (allowing repetitions and complementary literals).
+  A "(boolean) cardinality-constraint" ("crd") is a triple [a,L,b],
+  where a, b are natural numbers >= 0 or inf, while L is a list of
+  (boolean) literals (allowing repetitions and complementary literals).
+  The meaning is "a <= sum(L) <= b", where sum(L) counts the satisfied
+  literals.
 */
 
 /* ***************************************
