@@ -1,4 +1,3 @@
-
 // Oliver Kullmann, 20.9.2008 (Swansea)
 /* Copyright 2008, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
