@@ -69,8 +69,10 @@ direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
  else block([p : first(D), x, c, with_x, without_x],
   x : first(p),
   c : second(p),
-  with_x : add_element_l(-x,direct_crd2cl_lt(rest(D), ub-c)),
+  with_x : direct_crd2cl_lt(rest(D), ub-c),
   without_x : direct_crd2cl_lt(rest(D), ub),
+  with_x : remove_elements(without_x,with_x),
+  with_x : add_element_l(-x,with_x),
   append(with_x, without_x)
 )$
 
