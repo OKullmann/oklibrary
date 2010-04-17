@@ -14,10 +14,11 @@ License, or any later version. */
   <ul>
    <li> In RamseyTheory/Lisp/VanderWaerden/Numbers.mac we need to provide
    everything known about van-der-Waerden numbers. </li>
-   <li> See "Systematic notations for the numbers in %Ramsey theory" in
-   ComputerAlgebra/RamseyTheory/plans/general.hpp. </li>
+   <li> See
+   "Architectures of the systems for showing/computing Ramsey-type numbers" in
+   ComputerAlgebra/RamseyTheory/Lisp/plans/general.hpp. </li>
    <li> And see
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp.
    </li>
   </ul>
 
