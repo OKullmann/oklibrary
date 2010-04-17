@@ -59,5 +59,34 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo How to annotate numbers with justifications?
+  <ul>
+   <li> Once the computations get a bit more involved, the need arises to
+   annotate the computed bounds/numbers with justifications (how did the
+   system compute them?). </li>
+   <li> Perhaps we introduce a global boolean variable "oklib_term_annotation",
+   with default-value false, when when activated switches annotations on for
+   the various bounds-functions involved. </li>
+   <li> Then the old value (either an integer or a pair of integers/inf) is
+   replaced by a pair, where the first component is the old value, while
+   the second component is the annotation. </li>
+   <li> It seems annotations must be performed "ad-hoc" by each of the
+   side-functions and by the main function (see above) --- using some general
+   scheme very likely it gets unreadable. </li>
+   <li> In order to avoid that the functions become hard to read, likely
+   they invoke a global switch at the beginning: normally without annotation,
+   while when annotation is activated then the code is repeated but now using
+   resp. providing the annotations. </li>
+   <li> Likely we can not use the Maxima mechanisms, however as an additional
+   aid they could be useful:
+    <ol>
+     <li> How to get the history of a computation? </li>
+     <li> At least at Lisp-level one can have a "hidden" annotation (that's
+     the point of oklib_load_annotation!) --- how to use this? </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
