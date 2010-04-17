@@ -131,6 +131,16 @@ greentaod2(k) :=
 greentaod2_a(L) := vanderwaerdend2_a(L)$
 
 
+greentaod3(k) :=
+  if k <= 3 then [1,4,137][k]
+  else unknown$
+/* Remark: These numbers have been verified/computed by SAT solving
+   methods.
+*/
+greentaod3_a(L) := vanderwaerdend3_a(L)$
+
+
+
 /* ************************
    * The transversal case *
    ************************
