@@ -146,8 +146,125 @@ greentaod3_a(L) := vanderwaerdend3_a(L)$
    ************************
 */
 
-greentaot(m,k) := 0$
+/* Prerequisites: m >= 0, k >= 1: */
+greentaot(m,k) := if m=0 then greentaod1(k)
+ elseif k=1 then m+1
+ elseif k=2 then m+2
+ else block([res : greentaottau(m,k)],
+  if res#unknown then return(res)
+  else return(unknown))$
 greentaot_a(L) := vanderwaerdent_a(L)$
+
+/* Only using the list of transversal numbers: */
+greentaottau(m,k) := block([n : 1, t],
+  t : tau_arithprog_primes(k,n),
+  while not listp(t) and t <= m do (
+    n : n+1, t : tau_arithprog_primes(k,n)
+  ),
+  if listp(t) then return(unknown) else return(n))$
+
+
+/* ******************************************************************
+   * Transversal numbers of hypergraphs of arithmetic progresssions *
+   ******************************************************************
+*/
+
+/* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
+define_variable(
+  exactk_tau_arithprog_primes,
+  6,
+  fixnum)$
+/* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
+
+/* The following data has been computed by
+   "GTTransversalsInc 3 1 0 OutputFile" (i.e.,
+   using SAT solvers):
+*/
+tau_arithprog_primes_seq[3] : [
+0,0,0,1,1,1,2,2,3,3,
+3,3,4,5,5,6,6,7,7,7,
+8,9,10,10,10,10,10,11,12,13,
+13,14,15,15,15,16,16,17,18,19,
+19,20,21,21,21,21,22,23,24,25,
+25,26,26,26,27,28,29,29,30,30,
+31,32,32,32,33,33,33,34,35,36,
+37,38,39,39,40,41,41,42,42,43,
+44
+]$
+/* The following data has been computed by
+   "GTTransversalsInc 4 1 0 OutputFile":
+*/
+tau_arithprog_primes_seq[4] : [
+0,0,0,0,0,0,0,0,1,1,
+1,1,1,2,2,2,3,3,3,3,
+3,4,4,4,4,5,5,5,5,5,
+5,6,6,6,7,8,9,9,9,9,
+9,9,9,9,10,11,11,11,11,11,
+12,12,12,12,12,13,13,14,14,14,
+15,16,16,16,16,16,16,16,16,16,
+17,18,19,19,19,19,19,20,21,21,
+21,21,22
+]$
+/* The following data has been computed by
+   "MinimumTransversals_GreenTao-O3-DNDEBUG 180 5":
+*/
+tau_arithprog_primes_seq[5] : [
+0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+2,3,3,3,3,3,3,3,3,3,
+3,3,3,3,3,3,3,3,4,4,
+4,4,4,4,4,4,4,5,5,5,
+6,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,8,8,8,
+8,8,8,8,8,8,9,9,9,9,
+9,9,9,9,9,9,9,10,10,10,
+10,10,10,10,10,10,11,11,11,11,
+11,12,12,12,12,12,12,12,12,12,
+13,13,14,14,14,14,14,14,14,14,
+14,14,14,14,14,14,14,14,14,14,
+14,15,16,16,16,16,16,16
+]$
+
+
+/* For n <= exactv_tau_arithprog_primes(k) we have stored exact values
+   in tau_arithprog_primes_seq[k]: */
+exactv_tau_arithprog_primes(k) := 
+ if k<=2 or k > exactk_tau_arithprog_primes then 0
+ else length(tau_arithprog_primes_seq[k])$
+
+/* Exact (trivial) formulas (returns unknown if no exact formula applies;
+   for natural numbers k, n): */
+exactf_tau_arithprog_primes(k,n) :=
+ if n < k then 0
+ elseif k=1 then n
+ elseif k=2 then n-1
+ else unknown$
+/* The following inclusion enables simplification of for example
+    exactf_tau_arithprog_primes(k,n):
+*/
+oklib_plain_include(boolsimp)$
+
+/* The pair of nearest n-value downward and its transversal-value where we have
+   exact values stored (using only stored *transversal-values* besides the
+   trivial formulas).
+   Prerequisite: The exact formulas don't apply (directly).
+*/
+nearest_tau_arithprog_primes(k,n) := block(
+ [maxn : exactv_tau_arithprog_primes(k)],
+  if n <= maxn then return([n, tau_arithprog_primes_seq[k][n]])
+  elseif maxn > 0 then return([maxn, tau_arithprog_primes_seq[k][maxn]])
+  else return([k-1,0]))$
+
+/* The best known values (using only stored transversal-values): */
+/* Prerequisites: k, n natural numbers >= 1 */
+tau_arithprog_primes(k,n) := block([e : exactf_tau_arithprog_primes(k,n)],
+ if e#unknown then return(e),
+ block([nn,v],
+   [nn,v] : nearest_tau_arithprog_primes(k,n),
+   if nn=n then return(v)
+   else return([v, (n - nn) + v])))$
+
 
 /*!
 \endhtmlonly
