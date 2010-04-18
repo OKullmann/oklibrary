@@ -14,148 +14,109 @@ License, or any later version. */
   
   \todo Literature overview
   <ul>
-   <li> A conjecture seems to be that vdw_2(3,k) <= k^2 for k >= 3. </li>
-   <li> The known values with k=1, ..., 16 are available via
+   <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3. </li>
+   <li> The known values with k=1, ..., 18 are available via
    vanderwaerden3k(k):
    \verbatim
-create_list(vanderwaerden3k(k),k,1,17);
- [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,unknown]
+create_list(vanderwaerden3k(k),k,1,19);
+ [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,unknown]
    \endverbatim
    </li>
-   <li> Via R we get the prediction f(k) ~ 0.8132032 * k^2.0602760 when
-   excluding the first 4 points (this is motivated by looking at the graph):
+   <li> Log-log regression (in R) does not yield a good model, as can be
+   seen inspecting the plot:
    \verbatim
-d0 = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238)
+d0 = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312)
 plot(d0)
-x = log((1:length(d0))[-(1:4)])
-y = log(d0[-(1:4)])
-plot(x,y)
-L = lm(y ~ x)
-summary(L)
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.20677    0.04173  -4.955 0.000574 ***
-x            2.06028    0.01799 114.495  < 2e-16 ***
-lines(x,predict(L))
-C = coefficients(L)
-exp(C[1])
-  0.8132032
-C[2]
-  2.060276
-f = function(k){exp(C[1]) * k^C[2]}
-plot(d0)
-lines(f(1:length(d0)))
-round(f(1:20))
-  1   3   8  14  22  33  45  59  75  93 114 136 160 187 215 246 279 314 351
-  390
-d0 - round(f(1:16))
-  2  3  1  4  0 -1  1 -1  2  4  0 -1  0 -1  3 -8
-   \endverbatim
-   </li>
-   <li> Using the conjectures 279, 312, 349 (see below):
-   \verbatim
-d = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349)
-x = log((1:length(d))[-(1:4)])
-y = log(d[-(1:4)])
-L = lm(y ~ x)
-C = coefficients(L)
-exp(C[1])
-  0.8164498
-C[2]
-  2.058377
-f = function(k){exp(C[1]) * k^C[2]}
-round(f(1:21))
- 1   3   8  14  22  33  45  59  75  93 114 136 160 187 215 246 278 313 350
- 389 430
-d - round(f(1:19))
-2  3  1  4  0 -1  1 -1  2  4  0 -1  0 -1  3 -8  1 -1 -1
-   \endverbatim
-   </li>
-   <li> Now using a quadratic model (using the above d):
-\verbatim
-X = (1:length(d))[-(1:4)]
-Y = d[-(1:4)]
-Lq = lm(Y ~ poly(X,2))
-summary(Lq)
-Residual standard error: 2.632 on 12 degrees of freedom
-Multiple R-squared: 0.9995,     Adjusted R-squared: 0.9994
-F-statistic: 1.119e+04 on 2 and 12 DF,  p-value: < 2.2e-16
-plot(X,Y)
-lines(X,predict(Lq))
+lines(d0)
+x0 = log((1:length(d0)))
+y0 = log(d0)
+plot(x0,y0)
+L0 = lm(y0 ~ x0)
+summary(L0)
 
-Lq = lm(Y ~ X + I(X^2))
-summary(Lq)
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept)  1.49457    5.51319   0.271    0.791
-X           -0.76469    0.99586  -0.768    0.457
-I(X^2)       0.99927    0.04097  24.388 1.36e-11 ***
-Residual standard error: 2.632 on 12 degrees of freedom
-Multiple R-squared: 0.9995,     Adjusted R-squared: 0.9994
-F-statistic: 1.119e+04 on 2 and 12 DF,  p-value: < 2.2e-16
-Cq = coefficients(Lq)
-fq = function(k){Cq[1] + Cq[2]*k + Cq[3]*k^2}
-round(fq(1:21))
- 2   4   8  14  23  33  45  59  76  94 114 136 160 187 215 245 277 311 348
- 386 426
-d - round(fq(1:19))
- 1  2  1  4 -1 -1  1 -1  1  3  0 -1  0 -1  3 -7  2  1  1
+(Intercept)   0.6000     0.1257   4.773 0.000207 ***
+x0            1.7232     0.0580  29.708    2e-15 ***
+Residual standard error: 0.1918 on 16 degrees of freedom
+Multiple R-squared: 0.9822,     Adjusted R-squared: 0.9811
+
+lines(x0,predict(L0))
    \endverbatim
-   (using orthogonal polynomials via poly(x,2) seems to result in more
-   meaningfull coefficients, however the regression results are the same).
    </li>
-   <li> Non-linear regression (using the above X, Y):
+   <li> Using the conjectured values 349, 389, 416 (see below):
    \verbatim
-NL = nls(Y ~ a*(X^b), start = c(a = 0.8164498, b = 2.058377))
-> summary(NL)
+d = append(d0, c(349, 389, 416))
+plot(d)
+lines(d)
+lines((1:length(d))^2)
+x = log((1:length(d)))
+y = log(d)
+L = lm(y ~ x)
+plot(x,y)
+lines(x,predict(L))
+   \endverbatim
+   </li>
+   <li> Non-linear regression yields a better model:
+   \verbatim
+X = (1:length(d))
+Y = d
+plot(X,Y)
+NL = nls(Y ~ a*(X^b), start = c(a = 0.8, b = 2))
+lines(predict(NL))
+summary(NL)
+
 Parameters:
   Estimate Std. Error t value Pr(>|t|)
-a  0.84917    0.04274   19.87 4.13e-11 ***
-b  2.04306    0.01810  112.85  < 2e-16 ***
-Residual standard error: 2.506 on 13 degrees of freedom
-Number of iterations to convergence: 2
-Achieved convergence tolerance: 5.458e-06
+a  0.90740    0.04635   19.58 4.69e-14 ***
+b  2.01846    0.01776  113.64  < 2e-16 ***
+Residual standard error: 3.224 on 19 degrees of freedom
+
 Cnl = coefficients(NL)
 Cnl
         a         b
-0.8491743 2.0430615
+0.9074047 2.0184632
 fnl = function(k){Cnl[1] * k^Cnl[2]}
-round(fnl(1:21))
- 1   3   8  14  23  33  45  59  76  94 114 136 160 186 215 245 277 312 348
- 386 427
-d - round(fnl(1:19))
- 2  3  1  4 -1 -1  1 -1  1  3  0 -1  0  0  3 -7  2  0  1
+round(fnl(1:23))
+  1 4 8 15 23 34 46 60 77 95
+  115 137 161 187 215 244 276 310 346 384
+  423 465 509
+d - round(fnl(1:21))
+  2 2 1 3 -1 -2 0 -2 0 2
+ -1 -2 -1 -1 3 -6 3  2 3 5
+ -7
    \endverbatim
    </li>
    <li> Finally using a quadratic model with non-linear regression and
    all data:
    \verbatim
-i = 1:length(d)
-NLq = nls(d ~ a + b*i + c * i^2, start = c(a=0, b = 0, c = 1))
+NLq = nls(d ~ a + b*X + c * X^2, start = c(a=0, b = 0, c = 1))
+lines(predict(NLq))
 summary(NLq)
+
 Parameters:
   Estimate Std. Error t value Pr(>|t|)
-a  3.74303    1.83844   2.036   0.0587 .
-b -1.11280    0.42330  -2.629   0.0182 *
-c  1.01187    0.02056  49.210   <2e-16 ***
-Residual standard error: 2.395 on 16 degrees of freedom
-Number of iterations to convergence: 1
-Achieved convergence tolerance: 1.616e-07
+a  2.46466    2.32839   1.059    0.304
+b -0.67960    0.48750  -1.394    0.180
+c  0.98738    0.02152  45.880   <2e-16 ***
+Residual standard error: 3.223 on 18 degrees of freedom
+
 Cnlq = coefficients(NLq)
 Cnlq
-        a         b         c
- 3.743034 -1.112797  1.011868
+         a          b          c
+ 2.4646617 -0.6796012  0.9873845
 fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
-round(fnlq(1:21))
- 4   6  10  15  23  33  46  60  76  94 114 136 160 186 215 245 277 312 348
- 386 427
-d - round(fnlq(i)
- -1  0 -1  3 -1 -1  0 -2  1  3  0 -1  0  0  3 -7  2  0  1
-plot(d)
-lines(i,f(i))
+round(fnlq(1:23))
+  3 5 9 16 24 34 46 60 76 94
+  114 136 160 186 214 244 276 310 346 384
+  424 465 509
+
+d - round(fnlq(X))
+  0 1 0 2 -2 -2 0 -2 1 3
+  0 -1 0 0 4 -6 3 2 3 5
+  -8
    \endverbatim
-   Perhaps this is the best approach?
-   </li>
+   Hard to distinguish from the above model. </li>
   </ul>
 
 
@@ -424,7 +385,6 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
 
   \todo vanderwaerden_2(3,17) >= 279
   <ul>
-   <li> The prediction (see above) is n=279. </li>
    <li> n=270 easily found satisfiable with samd (cutoff=10^6). </li>
    <li> n=275 found satisfiable by adaptnovelty+ (run 14, cutoff=10^6,
    seed=1567198554). </li>
@@ -550,7 +510,6 @@ BestSolution_Max = 2.000000
 
   \todo vanderwaerden_2(3,18) >= 312
   <ul>
-   <li> The prediction (see above) is n=314. </li>
    <li> n=300 found satisfiable with adaptnovelty+ with cutoff=10^6. </li>
    <li> n=301 found satisfiable with adaptnovelty+ with cutoff=10^6
    (seed=3824107188, osteps=627657). </li>
@@ -695,7 +654,6 @@ BestSolution_Max = 10.000000
 
   \todo vanderwaerden_2(3,19) >= 349
   <ul>
-   <li> The predictions (see above) are n= 347, 350. </li>
    <li> Experience with k=18 is that samd is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
@@ -759,7 +717,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
 
   \todo vanderwaerden_2(3,20) >= 389
   <ul>
-   <li> The predictions (see above) are n= 386, 389. </li>
    <li> Experience with k=19 is that gsat-tabu is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
@@ -911,7 +868,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   \todo vanderwaerden_2(3,21) >= 416
   <ul>
    <li> The conjecture is vanderwaerden_2(3,21) = 416. </li>
-   <li> The prediction (see above) is n=427. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
