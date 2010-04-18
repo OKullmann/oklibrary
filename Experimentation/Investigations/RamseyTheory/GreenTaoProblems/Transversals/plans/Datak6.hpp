@@ -17,7 +17,7 @@ License, or any later version. */
    \verbatim
 A6p(n):=arithprog_primes_hg(6,n)$
 oklib_monitor : true$
-Lp100_6 : minimum_transversals_mongen(100,A6p,[{}])$
+Lp200_6 : minimum_transversals_mongen(200,A6p,[{}])$
 1 0 1
 2 0 1
 3 0 1
@@ -222,6 +222,53 @@ Lp100_6 : minimum_transversals_mongen(100,A6p,[{}])$
    </li>
    <li> All counts have a rather simple structure when represented using
    base 6 (using int2polyadic(count,6))! One should investigate this. </li>
+   <li> At C++ level:
+   \verbatim
+> MinimumTransversals_GreenTao-O3-DNDEBUG 400 6 | tee GreenTao_Trans_6_400_OUT
+
+   \endverbatim
+   </li>
+   <li> For orientation, those n-values where at least one hyperedge has been
+   added (compared to n-1):
+   \verbatim
+for n: 5 thru 300 do block(
+ [d:nhyp_arithprog_primes_ohg(6,n)-nhyp_arithprog_primes_ohg(6,n-1)],
+  if d>0 then print(n));
+37
+55
+64
+71
+90
+97
+125
+134
+143
+146
+152
+155
+160
+162
+179
+184
+200
+201
+204
+211
+212
+214
+228
+232
+242
+250
+263
+269
+275
+289
+292
+293
+294
+   \endverbatim
+   </li>
   </ul>
 
 
