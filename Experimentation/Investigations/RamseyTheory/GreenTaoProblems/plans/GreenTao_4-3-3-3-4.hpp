@@ -587,12 +587,49 @@ rnovelty :
 216
    \endverbatim
    </li>
-   <li> n=1053, rnovelty+, cutoff=64*10^7:
-   \verbatim
+   <li> n=1053, rnovelty+
+    <ol>
+     <li> cutoff=10^7:
+     \verbatim
+  3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+  2   6  25  60  81 146 160 146 142 110  62  39  14   5   2
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=64*10^7:
+     \verbatim
  1  2  3  4
  4 19 56 15
 94
-   \endverbatim
+     \endverbatim
+     </li>
+     <li>  Evaluating
+     \verbatim
+E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1053.cnf", params=list(runs=100,cutoff=1000000))
+     \endverbatim
+     by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
+     \verbatim
+rnoveltyp :
+ 8  9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 26 27 28 29 30 33
+ 1  2  1  2  5  6  3 10  9 10  7  7  8  3  6  6  3  3  1  4  2  1
+walksat_tabu_nonull :
+10 11 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+ 1  1  2  5  4  4 17 11  8 10  9  7  9  6  4  1  1
+rnovelty :
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+ 2  4  7  3  4  7  7  7 12  6  7  7  5  9  2  1  4  3  3
+walksat_tabu :
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+ 1  1  1  2  6  8 15 12 14 11  6  9  3  3  2  3  2  1
+adaptnoveltyp :
+13 14 15 16 17 18 19 20 21 22 23 24 25 26 28
+ 1  3  3  5  8 12 19 16 13  6  2  6  2  3  1
+gwsat :
+16 19 20 21 22 23 24 25 26 27 28 29 30 31 32 34 36
+ 1  1  2  5 12  9 10  7 12 14  8  7  3  5  1  2  1
+     \endverbatim
+     So also here rnovelty+ is best. </li>
+    </ol>
    </li>
    <li> n=1055
     <ol>
