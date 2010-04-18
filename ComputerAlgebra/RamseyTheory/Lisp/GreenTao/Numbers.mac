@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  6,
+  5,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
