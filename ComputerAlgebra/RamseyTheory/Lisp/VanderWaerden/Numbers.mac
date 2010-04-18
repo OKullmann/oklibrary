@@ -649,9 +649,10 @@ exactf_tau_arithprog(k,n) :=
 oklib_plain_include(boolsimp)$
 
 
-/* The nearest n-value downward and its transversal-value where we have
-   exact values stored (using only stored *transversal-values*).
-   Prerequisite: The exact formulas don't apply.
+/* The pair of nearest n-value downward and its transversal-value where we have
+   exact values stored (using only stored *transversal-values* besides the
+   trivial formulas).
+   Prerequisite: The exact formulas don't apply (directly).
 */
 nearest_tau_arithprog(k,n) := block([maxn : exactv_tau_arithprog(k)],
   if n <= maxn then return([n, tau_arithprog_seq[k][n]])
@@ -678,8 +679,8 @@ tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
 */
 alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
-/* The list of all known values (from n=1, as long as there are no gaps)
-   for k >= 3: */
+/* The list of all known values (from n=1, as long as there are no gaps, and
+   using only the stored transversal-numbers) for k >= 3: */
 alphal_arithprog(k) := if k > exactk_tau_arithprog then []
  else alphatau_l(tau_arithprog_seq[k])$
 
@@ -687,8 +688,8 @@ alphal_arithprog(k) := if k > exactk_tau_arithprog then []
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
 /* The relative independence number (for natural numbers k, n): */
 ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
-/* The list of all known values (from n=1, as long as there are no gaps)
-   for k >= 3: */
+/* The list of all known values (from n=1, as long as there are no gaps, and
+   using only the stored transversal-numbers) for k >= 3: */
 ralphal_arithprog(k) := if k > exactk_tau_arithprog then []
  else block([L : tau_arithprog_seq[k], N],
   N : create_list(i,i,1,length(L)),
@@ -729,7 +730,7 @@ upper_vanderwaerdend_approxcralpha(m,k) :=
 */
 
 /* The initial sequence of transversal vdW-numbers for progression-length k
-   (as far as it is stored; the number m of 2's starts with 0).
+   (as far as there are stored tau-values; the number m of 2's starts with 0).
    If no sequence is stored, then m <= k-1 is considered.
    k natural number >= 0.
 */
