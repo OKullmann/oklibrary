@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  5,
+  6,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
@@ -225,6 +225,40 @@ tau_arithprog_primes_seq[5] : [
 14,14,14,14,14,14,14,14,14,14,
 14,15,16,16,16,16,16,16
 ]$
+/* The following data has been computed by
+   "GTTransversalsInc 6 1 0 OutputFile":
+*/
+tau_arithprog_primes_seq[6] : [
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,2,2,2,2,2,2,
+2,2,2,3,3,3,3,3,3,3,
+4,4,4,4,4,4,4,4,4,4,
+4,4,4,4,4,4,4,4,4,5,
+5,5,5,5,5,5,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,
+7,8,8,8,8,8,8,8,8,8,
+8,9,9,9,9,9,9,9,9,9,
+9,9,9,9,9,9,9,9,10,10,
+10,10,10,10,10,10,10,10,10,10,
+10,10,10,10,10,10,10,10,10,10,
+11,11,11,12,12,12,12,12,12,12,
+13,14,14,14,14,14,14,14,14,14,
+14,14,14,14,14,14,14,14,14,14,
+14,14,14,14,14,14,14,14,14,14,
+14,14,14,14,14,14,14,14,14,15,
+15,15,15,15,15,15,15,15,15,15,
+15,15,15,15,15,15,15,15,15,15,
+15,15,15,15,15,15,15,15,15,15,
+15,15,15,15,15,15,15,15
+]$
 
 
 /* For n <= exactv_tau_arithprog_primes(k) we have stored exact values
@@ -264,6 +298,20 @@ tau_arithprog_primes(k,n) := block([e : exactf_tau_arithprog_primes(k,n)],
    [nn,v] : nearest_tau_arithprog_primes(k,n),
    if nn=n then return(v)
    else return([v, (n - nn) + v])))$
+
+
+/* *********************************
+   * Analysing transversal numbers *
+   *********************************
+*/
+
+/* The initial sequence of transversal GT-numbers for progression-length k
+   (as far as there are stored tau-values; the number m of 2's starts with 0).
+   k natural number >= 0.
+*/
+initial_sequence_GTt(k) :=
+  if k > exactk_tau_arithprog_primes then [greentaod1(k)]
+  else create_list(greentaot(m,k),m,0,last(tau_arithprog_primes_seq[k])-1)$
 
 
 /*!
