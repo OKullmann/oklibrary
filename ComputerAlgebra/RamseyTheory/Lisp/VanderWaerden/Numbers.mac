@@ -737,6 +737,14 @@ upper_vanderwaerdend_approxcralpha(m,k) :=
 initial_sequence_vdWt(k) :=
   create_list(vanderwaerdent(m,k),m,0,last(tau_arithprog_seq[k])-1);
 
+/* The subsequence of initial_sequence_vdWt(k) given by the precise
+   LRC-formula, extended as far as possibly correct results seem to
+   be produced, plus one more entry (while the guaranteed entries are
+   those with m <= k-2, where in case of a pair-value this means (as
+   usual) a pair of bounds):
+*/
+initial_sequence_vdWt_lrc(k) :=
+  create_list(vanderwaerdent_lrc(m,k),m,0,if k=3 then 3+1 elseif evenp(k) then k-2+1 else k-1+1);
 
 /*!
 \endhtmlonly
