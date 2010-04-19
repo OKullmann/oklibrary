@@ -90,7 +90,13 @@ License, or any later version. */
    </li>
    <li> n=5050:
     <ol>
-     <li> cutoff=6*10^6: </li>
+     <li> cutoff=6*10^6:
+     \verbatim
+ 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 19 22
+ 2  5  6 11  6 15  5  6 14  6  3  4  6  4  3  2  1  1
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=5100:
