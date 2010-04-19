@@ -878,13 +878,30 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    <li> n=410, gsat-tabu, cutoff=10^8: in 100 runs 36 solutions were found.
    </li>
    <li> n=415, gsat-tabu, cutoff=10^8: in run 3 a solution was found
-   (seed=174271267, osteps=91827849). </li>
-   <li> n=416, gsat-tabu, cutoff=10^8:
+   (seed=174271267, osteps=91827849). Further statistics:
    \verbatim
+ 0   1  2 3 4 5
+17 147 28 5 2 1
+200
+   \endverbatim
+   </li>
+   <li> n=416, gsat-tabu
+    <ol>
+     <li> cutoff=10^7:
+     \verbatim
+  1   2   3   4   5
+405 572  20   2   1
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=10^8:
+     \verbatim
   1  2 3 4
 245 48 6 1
 300
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=420, gsat-tabu, cutoff=10^8:
    \verbatim
