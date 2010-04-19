@@ -940,5 +940,25 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    </li>
   </ul>
 
+
+  \todo vanderwaerden_2(3,22) > 455
+  <ul>
+   <li> The prediction is vanderwaerden_2(3,22) = 465. </li>
+   <li> Experience with k=20 is that gsat-tabu is best, however we should
+   have a look again --- this might change with different k's or with
+   different cutoff's. </li>
+   <li> n=430, gsat-tabu, cutoff=10^8: 12 runs each found a solution. </li>
+   <li> n=435, gsat-tabu, cutoff=10^8: 5 runs each found a solution. </li>
+   <li> n=438, gsat-tabu, cutoff=10^8: 6 runs each found a solution. </li>
+   <li> n=439, gsat-tabu, cutoff=10^8: 5 runs each found a solution. </li>
+   <li> n=440, gsat-tabu, cutoff=10^8: 3 runs each found a solution (while
+   one run apparently didn't find a solution). </li>
+   <li> n=445, gsat-tabu, cutoff=10^8: 5 runs each found a solution. </li>
+   <li> n=450, gsat-tabu, cutoff=10^8: 3 runs each found a solution (while
+   one run possibly didn't find a solution). </li>
+   <li> n=455, gsat-tabu, cutoff=10^8: in 3 runs one solution was found
+   (seed=638321166, osteps=8804984). </li>
+  </ul>
+
 */
 
