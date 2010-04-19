@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -98,9 +98,17 @@ License, or any later version. */
 
   \todo Computing minimum transversals
   <ul>
-   <li> Similar to
+   <li> DONE
+   Similar to
    Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp we
    need MinimumTransversals_GreenTao.cpp. </li>
+   <li> If no additional hyperedge has been added, then we should just transfer
+   the result, without running the solver. </li>
+   <li> Application tests are needed for
+   Applications/RamseyTheory/plans/MinimumTransversals_GreenTao.cpp. </li>
+   <li> The problem is that currently we cannot compile this application
+   automatically, due to the build dependencies not expressible, and thus
+   yet we cannot create application tests. </li>
   </ul>
 
 */
