@@ -16,6 +16,9 @@
 # solved then by Minisat2 (the current default; seems to be strongest on these 
 # problems).
 
+set -o errexit
+set -o nounset
+
 script_name="GTTransversalsInc"
 
 if [[ $# != 5 && $# != 6 ]]; then

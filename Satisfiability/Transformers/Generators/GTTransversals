@@ -13,6 +13,9 @@
 # The clauses are the hyperedges (positively) plus clauses expressing the
 # cardinality constraint v_1 + ... + v_n = b.
 
+set -o errexit
+set -o nounset
+
 script_name="GTTransversals"
 
 if [[ $# != 3 ]]; then
