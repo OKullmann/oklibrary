@@ -88,6 +88,7 @@ License, or any later version. */
      osteps=4944068). </li>
     </ol>
    </li>
+   <li> n=5025, cutoff=6*10^6: </li>
    <li> n=5050:
     <ol>
      <li> cutoff=6*10^6:
@@ -97,6 +98,13 @@ License, or any later version. */
 100
      \endverbatim
      </li>
+     <li> cutoff=8*10^6:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+ 3  5  4  9  9 17 10 10 13  3  4  3  3  4  1  1  1
+100
+     \endverbatim
+     Let's consider this for now as unsatisfiable. </li>
     </ol>
    </li>
    <li> n=5100:
