@@ -1,5 +1,5 @@
 # Oliver Kullmann, 26.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,8 +7,8 @@
 
 # Settings for building and using R
 
-R_recommended_version_number_okl ?= 2.9.2
-R_supported_not_recommended_version_numbers_okl ?= 2.9.1
+R_recommended_version_number_okl ?= 2.10.1
+R_supported_not_recommended_version_numbers_okl ?= 2.9.2
 
 R_prefix_okl ?= R
 
@@ -51,4 +51,4 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
-R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.5-3.tar.gz Rcmdr_1.4-10.tar.gz
+R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz Rcmdr_1.4-10.tar.gz QCA3_0.0-2.tar.gz

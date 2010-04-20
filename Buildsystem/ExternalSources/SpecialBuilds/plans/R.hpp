@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
-  \todo Installing 2.10.0
+  \todo DONE (2.10.1 works again)
+  Installing 2.10.0
   <ul>
    <li> The tests fail:
    \verbatim
@@ -97,7 +98,12 @@ Error: package 'tcltk' could not be loaded
     <ol>
      <li> "SparseM" </li>
      <li> DONE "QCA" (Quine-McCluskey;
-     http://cran.r-project.org/src/contrib/Descriptions/QCA.html) </li>
+     http://cran.r-project.org/web/packages/QCA/index.html) </li>
+     <li> DONE "lpsolve"
+     http://cran.r-project.org/web/packages/lpSolve/index.html </li>
+     <li> DONE
+     "QCA3" (qualitative comparative analysis;
+     http://cran.r-project.org/web/packages/QCA3/index.html) </li>
      <li> "boolean" </li>
      <li> "combinat" </li>
      <li> diagram http://r-forge.r-project.org/R/?group_id=342 </li>
