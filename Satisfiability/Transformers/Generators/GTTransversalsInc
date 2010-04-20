@@ -16,7 +16,6 @@
 # solved then by Minisat2 (the current default; seems to be strongest on these 
 # problems).
 
-set -o errexit
 set -o nounset
 
 script_name="GTTransversalsInc"
@@ -42,10 +41,18 @@ else
 fi
 generator="GTTransversals"
 
+old_nhyp=-1
 echo "k n tau" >> ${output}
 for ((N=${2}; 1; ++N)); do
-  ${generator} ${K} ${N} ${T}
+  new_nhyp="$(${generator} ${K} ${N} ${T})"
   file="gt_trans_${K}_${N}_${T}.cnf"
+  if [[ ${new_nhyp} == ${old_nhyp} ]]; then
+    echo "${K} ${N} ${T}" | tee -a ${output}
+    echo -e "${K} ${N} ${T}\n" >> ${output_solver}
+    rm ${file}
+    continue
+  fi
+  old_nhyp=${new_nhyp}
   echo ${file} >> ${output_solver}
   ${solver} ${file} >> ${output_solver} 2>&1
   res=$(echo $?)
@@ -55,7 +62,7 @@ for ((N=${2}; 1; ++N)); do
     exit 1
   fi
   if [[ ${res} == 20 ]]; then T=$(expr ${T} + 1); fi
-  echo "${K} ${N} ${T}" >> ${output}
+  echo "${K} ${N} ${T}" | tee -a ${output}
   echo -e "${K} ${N} ${T}\n" >> ${output_solver}
   rm ${file}
 done

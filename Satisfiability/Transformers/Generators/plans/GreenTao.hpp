@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,8 @@ License, or any later version. */
   \file Satisfiability/Transformers/Generators/plans/GreenTao.hpp
   \brief Plans for generators for Green-Tao problems
 
-  This covers GreenTaoCNF.cpp and GreenTaoGCNF.cpp
+  This covers GreenTaoCNF.cpp, GreenTaoGCNF.cpp, GTTransversals and
+  GTTransversalsInc.
 
 
   \todo Connections and scope
@@ -42,6 +43,14 @@ License, or any later version. */
    yet the symmetry-breaking clauses have to be added manually. </li>
    <li> DONE (GTdSat)
    Likely we should also provide a wrapper script for the diagonal cases. </li>
+  </ul>
+
+
+  \todo Improving GTTransversalsInc
+  <ul>
+   <li> DONE
+   If no additional hyperedge has been added, then we should just transfer
+   the result, without running the solver. </li>
   </ul>
 
 */

@@ -102,8 +102,6 @@ License, or any later version. */
    Similar to
    Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp we
    need MinimumTransversals_GreenTao.cpp. </li>
-   <li> If no additional hyperedge has been added, then we should just transfer
-   the result, without running the solver. </li>
    <li> Application tests are needed for
    Applications/RamseyTheory/plans/MinimumTransversals_GreenTao.cpp. </li>
    <li> The problem is that currently we cannot compile this application
