@@ -12,6 +12,8 @@
 # prime number.
 # The clauses are the hyperedges (positively) plus clauses expressing the
 # cardinality constraint v_1 + ... + v_n = b.
+# The output is stored in file "gt_trans_${K}_${N}_${B}.cnf".
+# The number of clauses in this CNF is echoed to standard output.
 
 set -o errexit
 set -o nounset
@@ -39,7 +41,7 @@ auxfile2="gt_b_$$"
 resultfile="gt_trans_${K}_${N}_${B}.cnf"
 
 # Creating the Dimacs-file representing the hypergraph as positive clause-set:
-${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions in the prime numbers, k=${K}, n=${N}, bound=${B}\\\",standardise_fcs(arithprog_primes_hg(${K},${N}))[1],\\\"${auxfile1}\\\");\""
+${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions in the prime numbers, k=${K}, n=${N}, bound=${B}\\\",standardise_fcs(arithprog_primes_hg(${K},${N}))[1],\\\"${auxfile1}\\\");\"" > /dev/null
 
 # Adding the linear inequalities:
 ${lin_equal_progr} "${N}" "${B}" "==" "" >> ${auxfile1}
@@ -55,5 +57,7 @@ cat ${auxfile2} | ${dimacs_translation} > ${resultfile}
 
 # Removing the auxiliary files:
 rm ${auxfile1} ${auxfile2}
+
+echo ${c}
 
 exit 0
