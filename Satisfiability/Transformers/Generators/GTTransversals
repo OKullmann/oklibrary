@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 4.4.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,8 +10,8 @@
 # a transversal of size exactly b of the hypergraph of arithmetic progressions
 # of size k for the vertex set {p_1, ..., p_n}, where p_i is the i-th
 # prime number.
-# The clauses are the hyperedges (positively) plus clauses expression the
-# cardinality constraint v_1 + ... + v_n <= b.
+# The clauses are the hyperedges (positively) plus clauses expressing the
+# cardinality constraint v_1 + ... + v_n = b.
 
 script_name="GTTransversals"
 
