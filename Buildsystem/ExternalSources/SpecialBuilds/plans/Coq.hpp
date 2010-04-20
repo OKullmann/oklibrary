@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,8 @@ License, or any later version. */
 
   \todo Improve ocaml installation
   <ul>
+   <li> http://caml.inria.fr/ </li>
+   <li> It should become an independent external source. </li>
    <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
    (The Coq installation claims it's not there, but it should
    have been build by the Ocaml installation.) </li>
