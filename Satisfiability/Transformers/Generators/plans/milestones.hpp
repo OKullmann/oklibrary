@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,14 +32,19 @@ License, or any later version. */
     - Strengthen connection to Maxima/Lisp level
     - Move todos to this file
 
+
+  \par Version 0.0.10
+
   \par
    In Satisfiability/Transformers/Generators/plans/GreenTao.hpp the following 
    topics are handled:
     - Connections and scope
     - The basic generators
+    - Improving GTTransversals
+    - Improving GTTransversalsInc
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -53,7 +58,7 @@ License, or any later version. */
     - Write unit tests
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -67,7 +72,7 @@ License, or any later version. */
     - Add generator to generate general %Ramsey problems
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following
@@ -83,7 +88,7 @@ License, or any later version. */
    Create new milestones.
 
 
-  \par Version 0.0.13
+  \par Version 0.0.14
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -97,7 +102,6 @@ License, or any later version. */
     - Use an CLSAdaptor for output
     - Test.cpp
     - Write docus
-
 
 
 

@@ -46,6 +46,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving GTTransversals
+  <ul>
+   <li> We should use the C++ hypergraph generator GreenTao.cpp instead of
+   the Maxima generator. </li>
+   <li> A little problem is that the C++ program doesn't standardise at all,
+   while the Maxima version standardises the vertex set of the (whole)
+   hypergraph. </li>
+  </ul>
+
+
   \todo Improving GTTransversalsInc
   <ul>
    <li> DONE
