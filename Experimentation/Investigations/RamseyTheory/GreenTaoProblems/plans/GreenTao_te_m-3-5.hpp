@@ -627,7 +627,29 @@ UNSATISFIABLE
      \endverbatim
      (time = 22225.83 m = 370.4306 h = 15.43461 d).
      </li>
-     <li> picosat913 </li>
+     <li> picosat913 aborted (by itself):
+     \verbatim
+s UNKNOWN
+c 0 iterations
+c 1204218 restarts
+c 0 failed literals
+c 1178199461 conflicts
+c 2147483647 decisions
+c 0 fixed variables
+c 2611033505 learned literals
+c 307.8% deleted literals
+c 486216418596 propagations
+c 93.6% variables used
+c 337685.6 seconds in library
+c 1.4 megaprops/second
+c 1 simplifications
+c 5953 reductions
+c 3731.2 MB recycled
+c 117.8 MB maximally allocated
+c 337685.6 seconds total run time
+     \endverbatim
+     </li>
+     <li> picosat913 with minisat2-preprocessing </li>
      <li> precosat236 </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
