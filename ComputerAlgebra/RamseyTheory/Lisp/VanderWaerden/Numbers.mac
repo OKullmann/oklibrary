@@ -502,7 +502,7 @@ tau_arithprog_seq[12] : [
 9,9,9,9,9,9,9,9,9,9,
 10,10,10,10,10,10,10,10,10,10,
 10,10,11,12,13,14,15,15,16,17,
-17,17
+17,17,18,18
 ]$
 /* The following data has been computed by
    "VdWTransversalsInc 13 1 0 OutputFile":
