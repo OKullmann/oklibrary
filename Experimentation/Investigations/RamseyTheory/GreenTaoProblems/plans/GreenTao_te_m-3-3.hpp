@@ -623,7 +623,14 @@ Mean= 14.00792
    <li> n=58, cutoff=10^6: now 30% success. </li>
    <li> n=59, cutoff=10^6: 70% success. </li>
    <li> n=60, cutoff=10^6: 0% success, also with cutoff=10*10^6. </li>
-   <li> Minisat2, weak nested standard translation: </li>
+   <li> Minisat2, weak nested standard translation: After 76088 m
+   \verbatim
+| 1474310763 |     463    11976   105386 |   170462    92053    150 |  1.678 % |
+| -2083501045 |     461    11861   104580 |   187509    43176     91 |  2.093 % |
+| -977767813 |     456    11576   102288 |   206260    42539    156 |  3.125 % |
+   \endverbatim
+   We should upgrade minisat2 so that it uses for counting conflicts a 64-bit
+   type. </li>
   </ul>
 
 
