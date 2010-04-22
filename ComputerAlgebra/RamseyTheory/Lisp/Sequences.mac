@@ -1,0 +1,30 @@
+/* Oliver Kullmann, 22.4.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac
+  \brief Tools for manipulating sequences of numbers as relevant for Ramsey theory
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* For a given Ramsey-number-function N, compute the list
+   N([k,k], N([k-1,k+1]), ..., N([2,2k+2]):
+*/
+deharmonise_eval_2(k,N_) := map(N_, create_list([k-i,k+i],i,0,k-2))$
+
+
+/*!
+\endhtmlonly
+*/
