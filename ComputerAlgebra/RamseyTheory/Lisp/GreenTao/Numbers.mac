@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  6,
+  7,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
@@ -259,6 +259,21 @@ tau_arithprog_primes_seq[6] : [
 15,15,15,15,15,15,15,15,15,15,
 15,15,15,15,15,15,15,15
 ]$
+
+/* Alternative representations using tau-skiplists
+   (the list contains the last entry where tau=0, 1, ...).
+*/
+/* The following data has been computed by
+   "GTTransversalsInc 7 1 0 GT7 GT7_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("GT_7"))))
+*/
+
+tau_steplist_arithprog_primes_seq[7] : [
+154,213,227,231,322,395,569,640,714,795,
+826,871,874,1047,1124,1157
+]$
+
+tau_arithprog_primes_seq[7] : transform_threshold_l(tau_steplist_arithprog_primes_seq[7])$
 
 
 /* For n <= exactv_tau_arithprog_primes(k) we have stored exact values
