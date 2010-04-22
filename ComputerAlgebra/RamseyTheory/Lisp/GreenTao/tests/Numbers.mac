@@ -1,0 +1,42 @@
+/* Oliver Kullmann, 22.4.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/GreenTao/tests/Numbers.mac
+  \brief Tests for functions related to GT-numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/tests/Numbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+/* *********************
+   * Green-Tao numbers *
+   *********************
+*/
+
+okltest_greentao(f) := block([g],
+  g : f([5,7]),
+  assert(g = unknown or listp(g)),
+  g : f([3,4,4]),
+  assert(g = unknown or listp(g)),
+  /* XXX */
+  true)$
+
+/*!
+\endhtmlonly
+*/

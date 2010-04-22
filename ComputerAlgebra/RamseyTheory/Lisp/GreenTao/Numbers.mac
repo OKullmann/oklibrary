@@ -38,9 +38,9 @@ greentao(L) := if emptyp(L) then 1
  elseif greentaot_a(L)#[] then apply(greentaot,greentaot_a(L))
  elseif greentao3k_a(L)#[] then apply(greentao3k,greentao3k_a(L))
  elseif greentao4k_a(L)#[] then apply(greentao4k,greentao4k_a(L))
- elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L))
+ /* elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L)) */
  elseif greentao33k_a(L)#[] then apply(greentao33k,greentao33k_a(L))
- elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L))
+ /* elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L)) */
  else unknown$
 /* Remark: If L is not sorted, use greentao(sort(L)). */
 
