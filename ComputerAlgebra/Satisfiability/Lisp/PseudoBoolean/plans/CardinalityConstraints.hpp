@@ -9,23 +9,6 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
   \brief Plans for translations of cardinality constraints into CNF
 
-
-  \bug Nonsensical documentation
-  <ul>
-   <li> In
-   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
-   two large blocks of text are (exactly??) identical. </li>
-   <li> This makes no sense. </li>
-   <li> OK started to update the documentation, and the requests posed by OK
-   should be answered as soon as possible (both in
-   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
-   and in
-   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac
-   . </li>
-   <li> Also all the bad repetitions need to be removed. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See "Cardinality constraints" in
@@ -161,6 +144,83 @@ is(Csa);
   </ul>
 
 
+  \todo Change specification of variables in cardinality_cl etc.
+  <ul>
+   <li> Currently the variables in cardinality_totalizer_cl, 
+   cardinality_totalizer_cl etc are of the form "ctt(l,i)" where
+   l is a list specifying where in the recursive procedure these variables
+   are introduced. </li>
+   <li> This representation relies heavily on the algorithm, and means
+   that it is essentially impossible to properly define or describe the
+   variables separately from the algorithm. </li>
+   <li> However, these variables are simply the unary representation of
+   the cardinality of a certain sublist L' of the list of input literals L, and
+   therefore a better representation would be "ctt(a,b,i)" where a and b 
+   define the upper and lower bound of the L' in L. </li>
+   <li> Then for example, the initial variables list passed into
+   cardinality_totalizer_cl as S, would be 
+   [ctt(1,length(E),1),...,ctt(1,length(E),length(E))] and then within 
+   cardinality_totalizer_cl, the two new lists of variables produced would be
+   [ctt(1,length(E_1).1),...,ctt(1,length(E_1),length(E_1))] 
+   and 
+   [ctt(length(E_1)+1,length(E),1)...,ctt(length(E_1)+1,length(E),length(E_2))]. 
+   </li>
+  </ul>
+
+
+  \todo Functions such as cardinality_totalizer_cl should take cardinality constraints
+  <ul>
+   <li> Currently functions such as cardinality_totalizer_cl and
+   cardinality_comparator_cl take the parameters given in the
+   boolean constraint [a,L,b] individually. </li>
+   <li> These functions should take them as a single constraint
+   as in other functions such as crd2cl. </li>
+  </ul>
+
+
+  \todo Partial assignments for CNFs with detection of forced assignments via UCP
+  <ul> 
+   <li> The basic definitions and algorithms for CNF representations of
+   boolean cardinality constraints with detection of forced assignments
+   via UCP. </li>
+   <li> However, more precise specifications with respect to the 
+   satisfiability of partial assignments on variables introduced
+   in the algorithm needs to be addressed. </li>
+  </ul>
+
+
+  \todo Ordering for CNFs with detection of forced assignments via UCP
+  <ul>
+   <li> The functions, cardinality_cl etc return clause-lists which
+   introduce an ordering on the clauses they return, however
+   this ordering is not currently specified (explicitly) in the 
+   specification of the algorithm or the function. </li>
+   <li> The clauses are introduced in a recursive manner in
+   cardinality_totalizer_cl, with 2 recursive calls within each call to
+   the function (resulting in a binary recursion tree), and so there are
+   several ways in which we can order the clauses introduced. </li>
+   <li> What is a good order here? </li>
+  </ul>
+
+
+  \todo Representations with detection of forced assignments via r_k reduction
+  <ul>
+   <li> An algorithm is given in 
+   [Efficient CNF Encoding of Boolean Cardinality Constraints] which
+   generates a CNF representation of a boolean cardinality constraint
+   with detection of forced assignments via UCP. </li>
+   <li> The question is, can we generalise this so that there are smaller
+   CNF representations with new variables that detect forced assignments 
+   using r_k reductions for arbitrary k. </li>
+   <li> This would be useful as some solvers such as OKsolver and
+   march_pl use r_2 reductions (although march_pl only to some degree) and if 
+   the number of literals considered in the constraint is large then the CNF 
+   representation with detection via UCP can become rather large as well, and 
+   so a smaller representation allowing for slightly more powerful reductions 
+   might prove useful. </li>
+  </ul>
+
+
   \todo Simplifications
   <ul>
    <li> For crd2scrd we have the following problems:
@@ -259,33 +319,6 @@ is(Csa);
   </ul>
 
 
-  \todo Provide complete specifications (related to unary encoding)
-  <ul>
-   <li> This relates to the algorithm implemented by MG according to
-   [Bailleux, Boufkhad, 2003]. </li>
-   <li> Especially precise information on the added auxiliary variables are
-   needed. </li>
-   <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
-   cardinality_cl *combinatorial* specifications are needed.
-    <ol>
-     <li> Currently there are no specifications (which, of course, must
-     allow to reconstruct the clause-sets(!)). </li>
-     <li> Some properties are mentioned in
-     ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac,
-     but these properties shouldn't be there (but possibly in the docus). </li>
-    </ol>
-   </li>
-   <li> Then two levels of tests are needed: One which checks the
-   (precise) combinatorial specification, and another one which checks
-   the (general) specification as a presentation of some constraint.
-    <ol>
-     <li> Currently the tests are not specified at all. </li>
-     <li> Of course, first the basic functions need to be specified. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Rename functions related to unary encoding
   <ul>
    <li> These functions realise only special implementations, and so a generic
@@ -329,6 +362,66 @@ is(Csa);
    <li> And so does [Sinz, 2005, Towards an Optimal Encoding of Boolean
    Cardinality Constraints]. </li>
   </ul>
+
+
+  \todo DONE Provide complete specifications (related to unary encoding)
+  <ul>
+   <li> This relates to the algorithm implemented by MG according to
+   [Bailleux, Boufkhad, 2003]. </li>
+   <li> For cardinality_totalizer_cs, cardinality_comparator_cs and
+   cardinality_cl *combinatorial* specifications are needed.
+    <ol>
+     <li> Currently there are no specifications (which, of course, must
+     allow to reconstruct the clause-sets(!)). </li>
+     <li> Some properties are mentioned in
+     ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac,
+     but these properties shouldn't be there (but possibly in the docus). </li>
+    </ol>
+   </li>
+   <li> Then two levels of tests are needed: One which checks the
+   (precise) combinatorial specification, and another one which checks
+   the (general) specification as a presentation of some constraint.
+    <ol>
+     <li> Currently the tests are not specified at all. </li>
+     <li> Of course, first the basic functions need to be specified. </li>
+    </ol>
+   </li>
+   <li> This todo has been replaced by
+    <ul>
+     <li> "Partial assignments for CNFs with detection of forced assignments 
+     via UCP" </li>
+     <li> "Ordering for CNFs with detection of forced assignments via UCP" 
+     </li>
+    </ul>
+   </li>
+   <li> DONE Especially precise information on the added auxiliary variables are
+   needed. </li>
+  </ul>
+
+
+  \bug DONE Nonsensical documentation
+  <ul>
+   <li> In
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
+   two large blocks of text are (exactly??) identical. </li>
+   <li> This makes no sense. </li>
+   <li> OK started to update the documentation, and the requests posed by OK
+   should be answered as soon as possible (both in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
+   and in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac
+   . </li>
+   <li> Also all the bad repetitions need to be removed. </li>
+   <li> See 
+    <ul>
+     <li> "Partial assignments for CNFs with detection of forced assignments 
+     via UCP" </li>
+     <li> "Ordering for CNFs with detection of forced assignments via UCP" 
+     </li>
+    </ul>
+   </li>
+  </ul>
+
 
 */
 
