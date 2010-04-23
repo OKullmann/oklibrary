@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  7,
+  8,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
@@ -272,6 +272,14 @@ tau_steplist_arithprog_primes_seq[7] : [
 826,871,874,1047,1124,1157,1179
 ]$
 tau_arithprog_primes_seq[7] : transform_threshold_l(tau_steplist_arithprog_primes_seq[7])$
+/* The following data has been computed by
+   "GTTransversalsInc 8 1 0 GT8 GT8_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("GT_8"))))
+*/
+tau_steplist_arithprog_primes_seq[8] : [
+262,348,664,788,1322,1427,1446,1472,1554
+]$
+tau_arithprog_primes_seq[8] : transform_threshold_l(tau_steplist_arithprog_primes_seq[8])$
 
 
 /* For n <= exactv_tau_arithprog_primes(k) we have stored exact values

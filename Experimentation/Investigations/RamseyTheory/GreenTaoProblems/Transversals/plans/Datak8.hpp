@@ -77,7 +77,10 @@ for n: 7 thru 3000 do block(
    \verbatim
 > GTTransversalsInc 8 1 0 GT8 GT8_SAT
 
-transform_steps_l(map(third,rest(read_nested_list("GT_8"))));
+L : transform_steps_l(map(third,rest(read_nested_list("GT_8"))));
+ [262,348,664,788,1322,1427,1446,1472,1554]
+length(L);
+ 9
    \endverbatim
    </li>
   </ul>
