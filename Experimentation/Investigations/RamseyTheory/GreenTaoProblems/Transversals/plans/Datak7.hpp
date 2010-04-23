@@ -90,9 +90,9 @@ for n: 6 thru 1300 do block(
 > GTTransversalsInc 7 1 0 GT7 GT7_SAT
 
 transform_steps_l(map(third,rest(read_nested_list("GT_7"))));
-  [154,213,227,231,322,395,569,640,714,795,826,871,874,1047,1124,1157]
+  [154,213,227,231,322,395,569,640,714,795,826,871,874,1047,1124,1157,1179]
    \endverbatim
-   </li>
+   Value 17 is attained for 1180 <= n <= 1187. </li>
    <li> The computation for n=1180 seems hard --- one should be able to do
    much better! </li>
   </ul>
