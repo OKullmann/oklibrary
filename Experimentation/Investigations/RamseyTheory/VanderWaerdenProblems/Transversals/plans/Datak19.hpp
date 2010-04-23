@@ -34,10 +34,10 @@ L190_19 : minimum_transversals_mongen(190,A19,[{}])$
    \verbatim
 > VdWTransversalsInc 19 1 0 VDW_19 VDW_19_SAT
 
-transform_steps_l(map(third,rest(read_nested_list("VDW_19"))));
-
+L : transform_steps_l(map(third,rest(read_nested_list("VDW_19"))));
+ [18,37,56,75,94,113,132,151,170,189,208,227,246,265,284,303,322,341,342]
 length(L);
- 
+ 17
    \endverbatim
    </li>
   </ul>
