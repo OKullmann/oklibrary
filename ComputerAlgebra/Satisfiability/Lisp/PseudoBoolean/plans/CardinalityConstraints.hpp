@@ -145,6 +145,93 @@ is(Csa);
   </ul>
 
 
+  \todo Direct realisations
+  <ul>
+   <li> For all types of clause-sets (boolean and non-boolean, CNF and DNF)
+   and all types of (in)equalities provide the direct (combinatorial)
+   realisations. </li>
+   <li> The CNF-representation for boolean literals is given now by
+   direct_crd2cl.
+    <ol>
+     <li> We should also provide statistic-functions (which, of course,
+     compute the statistics directly). </li>
+     <li> We need to prove the assertions regarding prime-implicates
+     (that is, direct_crd2cl_lt and direct_crd2cl_ge compute repetition-free
+     lists of (exactly the) prime implicates; see below). </li>
+    </ol>
+   </li>
+   <li> Let L be a set of boolean literals (of size m).
+    <ol>
+     <li> sum(L) < B has the CNF-realisation consisting of all B-subsets
+     of L, which are (then) complemented. </li>
+     <li> Example L = {1,-2,3} and B=2: {{-1,2},{-1,-3},{2,-3}} </li>
+     <li> The number of clauses is thus binomial(m,B). </li>
+     <li> sum(L) <= B is equivalent to sum(L) < B+1. </li>
+     <li> sum(L) >= B has the DNF-realisation consisting of all B-subsets
+     of L. </li>
+     <li> Example L = {1,-2,3} and B=2: {{1,-2},{1,3},{-2,3}} </li>
+     <li> So the number of clauses is binomial(m,B). </li>
+     <li> sum(L) > B is equivalent to sum(L) >= B+1. </li>
+     <li> sum(L) >= B is equivalent to sum(-L) <= m-B. </li>
+     <li> sum(L) <= B is equivalent to sum(-L) >= m-B. </li>
+     <li> sum(L) = B is equivalent to sum(L) <= B and sum(L) >= B. </li>
+     <li> So the CNF-representation of sum(L) = B is the union of the
+     CNF-representations of sum(L) < B+1 and sum(-L) < m-B+1. </li>
+     <li> That is, we have all (B+1)-subsets of L, complemented, and
+     all (m-B+1)-subsets of L. </li>
+     <li> The number of clauses is thus binomial(m,B+1) + binomial(m,m-B+1) =
+     binomial(m,B+1) + binomial(m,B-1). </li>
+     <li> Example L = {1,-2,3} and B=2: {{-1,2,-3},{1,-2},{1,3},{-2,3}}. </li>
+     <li> And the DNF-representation of sum(L) = B is the product of the
+     DNF-representations of sum(L) >= B and sum(-L) >= m-B. </li>
+     <li> That is, we have of B-subsets of L and all (m-B)-subsets of
+     -L. </li>
+     <li> Example L = {1,-2,3} and B=2:
+     {{1,-2},{1,3},{-2,3}} x {{-1},{2},{-3}} = {{1,-2,-3},{1,2,3},{-1,-2,3}}.
+     </li>
+     <li> One sees that the DNF-representation just lists all total satisfying
+     assignments (no resolution is possible between them). </li>
+     <li> The number of clauses is thus binomial(m,B). </li>
+    </ol>
+   </li>
+   <li> These clause-sets coincide with the sets of all prime implicates resp.
+   prime implicants:
+    <ol>
+     <li> Only for the "="-forms resolutions are possible. </li>
+     <li> For the CNF-representations all clashing clauses overlap
+     in at least two literals, and thus all resolutions are blocked. </li>
+     <li> And above we already realised that no resolution is possible
+     regarding the DNF-realisations. </li>
+    </ol>
+    So without using additional variables these representations are optimal.
+   </li>
+   <li> And also using the DNF-representations seems always nearly to use
+   the same number of clauses, so that translations DNF -> CNF seem fruitless.
+   </li>
+  </ul>
+
+
+  \todo Simplifications
+  <ul>
+   <li> For crd2scrd we have the following problems:
+    <ol>
+     <li> Is sort stable?? </li>
+     <li> Is ">" to be used instead of ">="?? </li>
+    </ol>
+    This problems are of general relevance. </li>
+  </ul>
+
+
+  \todo Application of partial assignments
+  <ul>
+   <li> As a special case of "Application of partial assignments" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp,
+   the result of phi*[a,L,b] = [a',L',b'] is obtained by removing the
+   variables of phi from L, and subtracting the number of satisfied literals
+   in L from a and b. </li>
+  </ul>
+
+
   \todo Change specification of variables in cardinality_cl etc.
   <ul>
    <li> Currently the variables in cardinality_totalizer_cl, 
@@ -226,27 +313,6 @@ is(Csa);
   </ul>
 
 
-  \todo Simplifications
-  <ul>
-   <li> For crd2scrd we have the following problems:
-    <ol>
-     <li> Is sort stable?? </li>
-     <li> Is ">" to be used instead of ">="?? </li>
-    </ol>
-    This problems are of general relevance. </li>
-  </ul>
-
-
-  \todo Application of partial assignments
-  <ul>
-   <li> As a special case of "Application of partial assignments" in
-   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp,
-   the result of phi*[a,L,b] = [a',L',b'] is obtained by removing the
-   variables of phi from L, and subtracting the number of satisfied literals
-   in L from a and b. </li>
-  </ul>
-
-
   \todo Cardinality constraints as active clauses
   <ul>
    <li> As a special case of "Pseudo-boolean constraints as active clauses"
@@ -255,72 +321,6 @@ is(Csa);
    "active clauses". </li>
    <li> Their interface as a set of clauses is given by their prime implicates
    representation (see "Direct realisations" below). </li>
-  </ul>
-
-
-  \todo Direct realisations
-  <ul>
-   <li> For all types of clause-sets (boolean and non-boolean, CNF and DNF)
-   and all types of (in)equalities provide the direct (combinatorial)
-   realisations. </li>
-   <li> The CNF-representation for boolean literals is given now by
-   direct_crd2cl.
-    <ol>
-     <li> We should also provide statistic-functions (which, of course,
-     compute the statistics directly). </li>
-     <li> We need to prove the assertions regarding prime-implicates
-     (that is, direct_crd2cl_lt and direct_crd2cl_ge compute repetition-free
-     lists of (exactly the) prime implicates; see below). </li>
-    </ol>
-   </li>
-   <li> Let L be a set of boolean literals (of size m).
-    <ol>
-     <li> sum(L) < B has the CNF-realisation consisting of all B-subsets
-     of L, which are (then) complemented. </li>
-     <li> Example L = {1,-2,3} and B=2: {{-1,2},{-1,-3},{2,-3}} </li>
-     <li> The number of clauses is thus binomial(m,B). </li>
-     <li> sum(L) <= B is equivalent to sum(L) < B+1. </li>
-     <li> sum(L) >= B has the DNF-realisation consisting of all B-subsets
-     of L. </li>
-     <li> Example L = {1,-2,3} and B=2: {{1,-2},{1,3},{-2,3}} </li>
-     <li> So the number of clauses is binomial(m,B). </li>
-     <li> sum(L) > B is equivalent to sum(L) >= B+1. </li>
-     <li> sum(L) >= B is equivalent to sum(-L) <= m-B. </li>
-     <li> sum(L) <= B is equivalent to sum(-L) >= m-B. </li>
-     <li> sum(L) = B is equivalent to sum(L) <= B and sum(L) >= B. </li>
-     <li> So the CNF-representation of sum(L) = B is the union of the
-     CNF-representations of sum(L) < B+1 and sum(-L) < m-B+1. </li>
-     <li> That is, we have all (B+1)-subsets of L, complemented, and
-     all (m-B+1)-subsets of L. </li>
-     <li> The number of clauses is thus binomial(m,B+1) + binomial(m,m-B+1) =
-     binomial(m,B+1) + binomial(m,B-1). </li>
-     <li> Example L = {1,-2,3} and B=2: {{-1,2,-3},{1,-2},{1,3},{-2,3}}. </li>
-     <li> And the DNF-representation of sum(L) = B is the product of the
-     DNF-representations of sum(L) >= B and sum(-L) >= m-B. </li>
-     <li> That is, we have of B-subsets of L and all (m-B)-subsets of
-     -L. </li>
-     <li> Example L = {1,-2,3} and B=2:
-     {{1,-2},{1,3},{-2,3}} x {{-1},{2},{-3}} = {{1,-2,-3},{1,2,3},{-1,-2,3}}.
-     </li>
-     <li> One sees that the DNF-representation just lists all total satisfying
-     assignments (no resolution is possible between them). </li>
-     <li> The number of clauses is thus binomial(m,B). </li>
-    </ol>
-   </li>
-   <li> These clause-sets coincide with the sets of all prime implicates resp.
-   prime implicants:
-    <ol>
-     <li> Only for the "="-forms resolutions are possible. </li>
-     <li> For the CNF-representations all clashing clauses overlap
-     in at least two literals, and thus all resolutions are blocked. </li>
-     <li> And above we already realised that no resolution is possible
-     regarding the DNF-realisations. </li>
-    </ol>
-    So without using additional variables these representations are optimal.
-   </li>
-   <li> And also using the DNF-representations seems always nearly to use
-   the same number of clauses, so that translations DNF -> CNF seem fruitless.
-   </li>
   </ul>
 
 
