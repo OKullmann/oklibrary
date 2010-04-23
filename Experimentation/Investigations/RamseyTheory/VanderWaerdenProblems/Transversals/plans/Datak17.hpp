@@ -34,10 +34,10 @@ L170_17 : minimum_transversals_mongen(170,A17,[{}])$
    \verbatim
 > VdWTransversalsInc 17 1 0 VDW_17 VDW_17_SAT
 
-transform_steps_l(map(third,rest(read_nested_list("VDW_17"))));
-
+L : transform_steps_l(map(third,rest(read_nested_list("VDW_17"))));
+ [16,33,50,67,84,101,118,135,152,169,186,203,220,237,254,271,272,273,274,275]
 length(L);
- 
+ 20
    \endverbatim
    </li>
   </ul>
