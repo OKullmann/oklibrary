@@ -9,6 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
   \brief Plans for translations of cardinality constraints into CNF
 
+
   \todo Connections
   <ul>
    <li> See "Cardinality constraints" in
@@ -168,7 +169,8 @@ is(Csa);
   </ul>
 
 
-  \todo Functions such as cardinality_totalizer_cl should take cardinality constraints
+  \todo Functions such as cardinality_totalizer_cl should take cardinality
+  constraints
   <ul>
    <li> Currently functions such as cardinality_totalizer_cl and
    cardinality_comparator_cl take the parameters given in the
@@ -178,14 +180,17 @@ is(Csa);
   </ul>
 
 
-  \todo Partial assignments for CNFs with detection of forced assignments via UCP
+  \todo Partial assignments for CNFs with detection of forced assignments via
+  UCP
   <ul> 
-   <li> The basic definitions and algorithms for CNF representations of
+   <li> OK: what shall this sentence say??
+   The basic definitions and algorithms for CNF representations of
    boolean cardinality constraints with detection of forced assignments
    via UCP. </li>
    <li> However, more precise specifications with respect to the 
    satisfiability of partial assignments on variables introduced
-   in the algorithm needs to be addressed. </li>
+   in the algorithm need to be addressed.
+   OK: what is the meaning of this?? </li>
   </ul>
 
 
