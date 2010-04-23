@@ -968,7 +968,17 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    </li>
    <li> n=461, gsat-tabu, cutoff=2*10^8: In 39 runs a solution was found
    (seed=696047484, osteps=20698025). It seems one should less steps. </li>
-   <li> n=462, gsat-tabu, cutoff=5*10^7 </li>
+   <li> n=462, gsat-tabu
+    <ol>
+     <li> cutoff=5*10^7:
+     \verbatim
+ 1  2  3
+81 17  2
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
