@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Numbers.
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac")$
 
 
 kill(f)$
@@ -196,52 +197,6 @@ okltest_vanderwaerdents_a(f) := block([a,b],
    * Transversal numbers of hypergraphs of arithmetic progresssions *
    ******************************************************************
 */
-
-okltest_transform_threshold_l(f) := (
-  assert(f([]) = []),
-  assert(f([0]) = [1]),
-  assert(f([0,1]) = [1,2]),
-  assert(f([1,3]) = [0,1,1,2]),
-  assert(f([1,3,6]) = [0,1,1,2,2,2,3]),
-  assert(f([1,3,6,[],[1]]) = [0,1,1,2,2,2,3]),
-  assert(f([[],1]) = []),
-  for m : 0 thru 6 do
-    assert(f([m]) = endcons(1,create_list(0,i,1,m))),
-  for m : 0 thru 6 do
-    assert(f(create_list(i,i,0,m-1)) = create_list(i,i,1,m)),
-  for m : 1 thru 6 do
-    assert(f(create_list(i,i,1,m)) = create_list(i,i,0,m)),
-  true)$
-
-okltest_transform_steps_l(f) := block([LT],
-  assert(f([]) = []),
-  assert(f([0]) = []),
-  assert(f([0,0]) = []),
-  assert(f([1,1,1]) = []),
-  assert(f([0,0,0,1,1,2]) = [3,5]),
-  assert(f([1,1,1,2,2,3]) = [3,5]),
-  LT : [[],[1],[2],[3],[1,2],[1,3],[1,4],[1,4,6,8,11]],
-  for L in LT do
-    assert(f(transform_threshold_l(L)) = L),
-  LT = [[],[0,1],[0,0,1],[0,0,1,1],[0,1,2,2,2,3],[0,1,2,2,3,3,3,4]],
-  for L in LT do
-    assert(f(transform_threshold_l(L)) = L),
-  true)$
-
-okltest_alphastep2tau(f) := (
-  assert(f([1]) = [0]),
-  assert(f([2]) = [1,1]),
-  assert(f([3]) = [1,2,2]),
-  assert(f([1,2]) = [0,0]),
-  assert(f([1,3]) = [0,1,1]),
-  /* XXX */
-  true)$
-
-okltest_tau2alphastep(f) := (
-  assert(f([0]) = [1]),
-  assert(f([0,1,2]) = [1]),
-  /* XXX */
-  true)$
 
 okltest_alpha_steplist_arithprog_seq(f) := (
   assert(prefix_p(rest(transform_threshold_l(f[3])), alphal_arithprog(3)) = true),

@@ -57,11 +57,6 @@ okltest_vanderwaerdents_a(vanderwaerdents_a);
    ******************************************************************
 */
 
-okltest_transform_threshold_l(transform_threshold_l);
-okltest_transform_steps_l(transform_steps_l);
-okltest_alphastep2tau(alphastep2tau);
-okltest_tau2alphastep(tau2alphastep);
-
 okltest_alpha_steplist_arithprog_seq(alpha_steplist_arithprog_seq);
 
 /* *********************************

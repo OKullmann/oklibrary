@@ -90,7 +90,7 @@ License, or any later version. */
      <li> The associated transformation function, where L is a strictly
      increasing sequence of natural numbers (the indices here start with 0),
      is transform_threshold_l(L) in
-     ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac. </li>
+     ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac. </li>
      <li> Given the sequence tau_arithprog(k,n) (n running), one obtains
      vanderwaerden_{m+1}([2]_m, k) for m=0,1,..., by observing when first the
      value is strictly greater than m --- for this index n we have
@@ -100,7 +100,7 @@ License, or any later version. */
      increases by one. </li>
      <li> The transformer (where L is a non-decreasing sequence of natural
      numbers, and the indices here start with 0), is transform_steps_l(L)
-     (see ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac). </li>
+     (see ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac). </li>
      <li> Given the sequence vanderwaerden_{m+1}([2]_m, k), one obtains
      A065825 by XXX </li>
      <li> Given a sequence L like A065825, which contains the independence

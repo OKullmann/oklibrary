@@ -18,10 +18,16 @@ License, or any later version. */
 
   \todo Transformations
   <ul>
-   <li> The functions transform_threshold_l, transform_steps_l and
+   <li> DONE
+   The functions transform_threshold_l, transform_steps_l and
    alphatau_l, alphastep2tau, tau2alphastep from
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac should be moved
    here. </li>
+   <li> The explanations need update (and a more general framework should be
+   established). </li>
+   <li> Compare
+   Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
+   </li>
   </ul>
 
 */
