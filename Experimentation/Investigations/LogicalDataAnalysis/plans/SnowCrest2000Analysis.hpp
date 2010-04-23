@@ -7,7 +7,10 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/LogicalDataAnalysis/plans/SnowCrest2000Analysis.hpp
-  \brief General plans regarding investigations on the logical analysis of data given in [The Outcomes of Homeless Mobilization; Cress, Snow, The American Journal of Sociology, 2000]
+  \brief Plans regarding investigations a case-study for the logical analysis of data
+
+  The underlying article is [The Outcomes of Homeless Mobilization; Cress,
+  Snow, The American Journal of Sociology, 2000].
   
 
   \todo Create milestones.
@@ -21,7 +24,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo List statistics and types of analysis needed.
+  \todo List statistics and types of analysis needed
   <ul>
    <li> Initially we have a truth table specification of a
    partial boolean function, and we wish to understand the
@@ -29,7 +32,7 @@ License, or any later version. */
    which one would need to make to derive different 
    representations. </li>
    <li> We usually consider size here, looking for shortest
-   DNF or CNF representations, but we might also look for 
+   DNF or CNF representations, but we also look for 
    hitting clause-set representations, or representations 
    as DFAs etc. </li>
    <li> When considering shortest DNF and CNF representations,
@@ -42,16 +45,16 @@ License, or any later version. */
       </ul>
       and for each of these, summary statistics such as:
       <ul>
-       <li> the number of literal occurrences in the clause-set. </li>
+       <li> the number of literal occurrences in the clause-set </li>
        <li> the number of clauses of each size in the clause-set. </li>
       </ul>
      </li>
      <li> A list of 
       <ul>
        <li> which total assignments are assumed satisfying (resp falsfying)
-       by *all* minimum-sized clause-sets. </li>
+       by *all* minimum-sized clause-sets </li>
        <li> which total assignments are assumed satisfying (resp falsifying)
-       by *none* of the minimum-sized clause-sets. </li>
+       by *none* of the minimum-sized clause-sets </li>
        <li> which total assignments are assumed satisfying (resp falsifying)
        by *some but not all* of the minimum-size clause-sets, with 
        additionally information on which minimum-sized clause-sets need which.
@@ -78,23 +81,28 @@ License, or any later version. */
    configuration. </li>   
    <li> Assignments assumptions
     <ul>
-     <li> When considering the assumptions made for each minimum-sized 
-     clause-set (see " List statistics and types of analysis needed."),
+     <li> When considering the assumptions made for each minimum-sized
+     clause-set (see "List statistics and types of analysis needed" above),
      we have the question of how to represent this data in a succinct
      and informative way. </li>
      <li> Simply listing the partitioning as 3 sets or lists does not
      seem a particularly good representation, as at a glance the reader
      learns very little and must delve immediately into the details
      and do a lot of additional computation to learn anything. </li>
-     <li> A Venn diagram or Karnaugh map using 3 different colours would 
+     <li> A Venn diagram or Karnaugh map using 3 different colours would
      illustrate this partitioning in a succinct and reasonable way, and
      would also illustrate the connections and relations between individual
-     total assignments (hamming distances etc). </li>  
+     total assignments (hamming distances etc.). </li>
+     <li> However, this is restricted to only very small cases, and the only
+     interesting thing to do in general is to represent again the boolean
+     functions! MG, please continue. </li>
     </ul>
    </li>
-   <li> Are illustrations such as conflict graphs etc useful here? </li>
-   <li> How do representations such as DFAs, neural networks etc
-   relate to our CNF/DNF representations? </li>
+   <li> Are illustrations such as conflict graphs etc. useful here?
+   OK: What do you mean?? </li>
+   <li> How do representations such as DFAs, neural networks etc.
+   relate to our CNF/DNF representations?
+   OK: What do you mean?? </li>
   </ul>
 
 
