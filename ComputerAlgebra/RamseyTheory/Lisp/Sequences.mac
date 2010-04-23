@@ -19,6 +19,8 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 /* ****************
    * Transformers *
    ****************
