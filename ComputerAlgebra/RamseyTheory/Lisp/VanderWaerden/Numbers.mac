@@ -336,7 +336,7 @@ vanderwaerdents_a(L) :=
 /* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog,
-  15,
+  16,
   fixnum)$
 /* Note that these sequences (for tau_arithprog(k,n)) start with n=1. */
 
@@ -575,6 +575,18 @@ tau_arithprog_seq[15] : [
 13,13,13,14,15,16,16,17
 ]$
 
+/* Alternative representations using tau-skiplists
+   (the list contains the last entry where tau=0, 1, ...).
+*/
+/* The following data has been computed by
+   "VdWTransversalsInc 16 1 0 VDW_16 VDW_16_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_16"))))
+*/
+tau_steplist_arithprog_seq[16] : [
+ 15,30,46,57,70,83,96,109,122,135,
+ 148,161,174,187,196,198,199
+]$
+tau_arithprog_seq[16] : transform_threshold_l(tau_steplist_arithprog_seq[16])$
 
 /* Alternative data for transversal numbers, given as "steplists" of 
    independence numbers, that is, the entry for index i (starting with 1)
