@@ -35,11 +35,14 @@ L160_16 : minimum_transversals_mongen(160,A16,[{}])$
 > VdWTransversalsInc 16 1 0 VDW_16 VDW_16_SAT
 
 transform_steps_l(map(third,rest(read_nested_list("VDW_16"))));
- [15,30,46,57,70,83,96,109,122,135,148,161,174,187,196,198,199]
+ [15,30,46,57,70,83,96,109,122,135,148,161,174,187,196,198,199,201]
 length(L);
- 17
+ 18
+
+> tail -1 VDW_16
+16 203 18
    \endverbatim
-   Values 17 is attained 2 times. </li>
+   </li>
   </ul>
 
 */

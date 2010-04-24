@@ -584,7 +584,7 @@ tau_arithprog_seq[15] : [
 */
 tau_steplist_arithprog_seq[16] : [
  15,30,46,57,70,83,96,109,122,135,
- 148,161,174,187,196,198,199
+ 148,161,174,187,196,198,199,201
 ]$
 tau_arithprog_seq[16] : transform_threshold_l(tau_steplist_arithprog_seq[16])$
 /* The following data has been computed by
