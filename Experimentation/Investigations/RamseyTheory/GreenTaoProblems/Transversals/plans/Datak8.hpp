@@ -78,9 +78,9 @@ for n: 7 thru 3000 do block(
 > GTTransversalsInc 8 1 0 GT8 GT8_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("GT_8"))));
- [262,348,664,788,1322,1427,1446,1472,1554]
+ [262,348,664,788,1322,1427,1446,1472,1554,1800,1880,1934,1978,2116]
 length(L);
- 9
+ 14
    \endverbatim
    </li>
   </ul>
