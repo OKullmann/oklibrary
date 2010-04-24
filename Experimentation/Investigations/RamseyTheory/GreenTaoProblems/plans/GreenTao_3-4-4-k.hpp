@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([4,4,k],n).
 
 
-  \todo greentao_3(4) > 5039
+  \todo greentao_3(4) > 5044
   <ul>
    <li> Let's start with the weak standard nested translation and with
    rnovelty+. </li>
@@ -122,17 +122,23 @@ License, or any later version. */
 100
      \endverbatim
      </li>
-     <li> cutoff=8*10^6:
-     </li>
+     <li> cutoff=8*10^6: In run 73 a solution was found (seed=1520163615,
+     osteps=2557823). </li>
     </ol>
    </li>
-   <li> n=5044, cutoff=6*10^6
-   \verbatim
+   <li> n=5044
+    <ol>
+     <li> cutoff=6*10^6
+     \verbatim
  1  2  3  4  5  6  7  8  9 10 11 12 13 15 16 21 22
  2  1  5  5  9 11  4 14  6 14 11  5  4  3  4  1  1
 100
-   \endverbatim
-   Let's consider this as unsatisfiable for now. </li>
+     \endverbatim
+     </li>
+     <li> cutoff=8*10^6: In run 18 a solution was found (seed=3627982560,
+     osteps=5531534). </li>
+    </ol>
+   </li>
    <li> n=5050:
     <ol>
      <li> cutoff=6*10^6:
