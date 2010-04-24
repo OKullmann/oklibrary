@@ -35,9 +35,9 @@ L180_18 : minimum_transversals_mongen(180,A18,[{}])$
 > VdWTransversalsInc 18 1 0 VDW_18 VDW_18_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("VDW_18"))));
-[17,34,51,68,85,102,119,136,153,170,187,204,221,238,255,272,290,291,292,293]
+[17,34,51,68,85,102,119,136,153,170,187,204,221,238,255,272,290,291,292,293,294]
 length(L);
- 20
+ 21
    \endverbatim
    </li>
   </ul>
