@@ -160,7 +160,7 @@ L130_13 : minimum_transversals_mongen(130,A13,[{}])$
   <ul>
    <li> Just computing the transversal numbers, using minisat2 and the
    direct translation (as provided by
-   "VdWTransversalsInc 13 1 0 OutputFile OutputSAT") we obtain
+   "VdWTransversalsInc 13 1 0 VDW_13 VDW_13_SAT") we obtain
    \verbatim
 k n tau
 13 1 0
@@ -326,6 +326,23 @@ k n tau
 13 161 16
 13 162 17
 13 163 18
+
+> tail -1 VDW_13
+13 163 18
+
+> tail -14 VDW_13_SAT
+| 194147754 |     616     3647    22295 |    31832    19024     58 |  6.519 % |
+| 291221727 |     616     3647    22295 |    35015    28189     47 |  6.519 % |
+| 436832694 |     616     3647    22295 |    38517    18665     56 |  6.519 % |
+
+*** INTERRUPTED ***
+restarts              : 37
+conflicts             : 638066347      (2263 /sec)
+decisions             : 827114968      (1.20 % random) (2933 /sec)
+propagations          : 41101847816    (145745 /sec)
+conflict literals     : 39167538078    (32.76 % deleted)
+Memory used           : 112.89 MB
+CPU time              : 282012 s
    \endverbatim
    </li>
   </ul>

@@ -38,6 +38,9 @@ L : transform_steps_l(map(third,rest(read_nested_list("VDW_17"))));
  [16,33,50,67,84,101,118,135,152,169,186,203,220,237,254,271,272,273,274,275,276]
 length(L);
  21
+
+> tail -1 VDW_17
+17 277 21
    \endverbatim
    </li>
   </ul>

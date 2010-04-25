@@ -649,7 +649,28 @@ c 117.8 MB maximally allocated
 c 337685.6 seconds total run time
      \endverbatim
      </li>
-     <li> picosat913 with minisat2-preprocessing </li>
+     <li> picosat913 with minisat2-preprocessing aborted (by itself):
+     \verbatim
+s UNKNOWN
+c 0 iterations
+c 1195994 restarts
+c 0 failed literals
+c 1172783603 conflicts
+c 2147483647 decisions
+c 0 fixed variables
+c 2080170219 learned literals
+c 51.3% deleted literals
+c 444333049127 propagations
+c 87.0% variables used
+c 286041.0 seconds in library
+c 1.6 megaprops/second
+c 1 simplifications
+c 7140 reductions
+c 1601.8 MB recycled
+c 102.1 MB maximally allocated
+c 286041.0 seconds total run time
+     \endverbatim
+     </li>
      <li> precosat236 </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
