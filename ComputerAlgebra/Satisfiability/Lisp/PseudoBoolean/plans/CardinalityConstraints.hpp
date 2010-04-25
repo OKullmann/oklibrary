@@ -262,7 +262,7 @@ is(Csa);
    <li> Currently functions such as cardinality_totalizer_cl and
    cardinality_comparator_cl take the parameters given in the
    boolean constraint [a,L,b] individually. </li>
-   <li> These functions should take them as a single constraint
+   <li> These functions should take the whole constraint as a single argument
    as in other functions such as crd2cl. </li>
   </ul>
 
@@ -270,14 +270,17 @@ is(Csa);
   \todo Partial assignments for CNFs with detection of forced assignments via
   UCP
   <ul> 
-   <li> OK: what shall this sentence say??
+   <li>
    The basic definitions and algorithms for CNF representations of
    boolean cardinality constraints with detection of forced assignments
-   via UCP. </li>
-   <li> However, more precise specifications with respect to the 
-   satisfiability of partial assignments on variables introduced
-   in the algorithm need to be addressed.
-   OK: what is the meaning of this?? </li>
+   via UCP are provided in CardinalityConstraints.mac. </li>
+   <li> However, one must also explicitly define the satisfying and falsifying
+   partial assignments, even if these assignments are implicitly defined
+   through the description of the algorithm. Such definitions would be obvious 
+   if no new variables were introduced by the translation as the satisfying
+   and falsifying partial assignments would follow from the fact that it is
+   a representation of a boolean cardinality constraint, however 
+   cardinality_cl does introduce new variables. </li>
   </ul>
 
 
