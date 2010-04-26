@@ -270,8 +270,7 @@ is(Csa);
   \todo Partial assignments for CNFs with detection of forced assignments via
   UCP
   <ul> 
-   <li>
-   The basic definitions and algorithms for CNF representations of
+   <li> The basic definitions and algorithms for CNF representations of
    boolean cardinality constraints with detection of forced assignments
    via UCP are provided in CardinalityConstraints.mac. </li>
    <li> However, one must also explicitly define the satisfying and falsifying
