@@ -13,7 +13,8 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
-  \bug Strings cause errors in evaluation of expressions
+  \bug DONE (resolved with version 5.21.1)
+  Strings cause errors in evaluation of expressions
   <ul>
    <li> Once there is anywhere a string, ">" can not be applied anymore:
    \verbatim
