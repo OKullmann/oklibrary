@@ -671,7 +671,9 @@ c 102.1 MB maximally allocated
 c 286041.0 seconds total run time
      \endverbatim
      </li>
-     <li> precosat236 </li>
+     <li> precosat236 aborted (by itself) after 733478.4 seconds, though 279
+     variables have been fixed. We should disable this behaviour (also with
+     picosat). </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
        <li> Progress is achieved, using monitoring-depth 20, but at the last
