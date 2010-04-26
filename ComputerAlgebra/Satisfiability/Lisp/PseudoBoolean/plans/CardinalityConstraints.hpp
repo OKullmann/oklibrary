@@ -232,30 +232,6 @@ is(Csa);
   </ul>
 
 
-  \todo Change specification of variables in cardinality_cl etc.
-  <ul>
-   <li> Currently the variables in cardinality_totalizer_cl, 
-   cardinality_totalizer_cl etc are of the form "ctt(l,i)" where
-   l is a list specifying where in the recursive procedure these variables
-   are introduced. </li>
-   <li> This representation relies heavily on the algorithm, and means
-   that it is essentially impossible to properly define or describe the
-   variables separately from the algorithm. </li>
-   <li> However, these variables are simply the unary representation of
-   the cardinality of a certain sublist L' of the list of input literals L, and
-   therefore a better representation would be "ctt(a,b,i)" where a and b 
-   define the upper and lower bound of the L' in L. </li>
-   <li> Then for example, the initial variables list passed into
-   cardinality_totalizer_cl as S, would be 
-   [ctt(1,length(E),1),...,ctt(1,length(E),length(E))] and then within 
-   cardinality_totalizer_cl, the two new lists of variables produced would be
-   [ctt(1,length(E_1).1),...,ctt(1,length(E_1),length(E_1))] 
-   and 
-   [ctt(length(E_1)+1,length(E),1)...,ctt(length(E_1)+1,length(E),length(E_2))]. 
-   </li>
-  </ul>
-
-
   \todo Functions such as cardinality_totalizer_cl should take cardinality
   constraints
   <ul>
@@ -429,6 +405,29 @@ is(Csa);
    </li>
   </ul>
 
+
+  \todo DONE Change specification of variables in cardinality_cl etc.
+  <ul>
+   <li> Currently the variables in cardinality_totalizer_cl, 
+   cardinality_totalizer_cl etc are of the form "ctt(l,i)" where
+   l is a list specifying where in the recursive procedure these variables
+   are introduced. </li>
+   <li> This representation relies heavily on the algorithm, and means
+   that it is essentially impossible to properly define or describe the
+   variables separately from the algorithm. </li>
+   <li> However, these variables are simply the unary representation of
+   the cardinality of a certain sublist L' of the list of input literals L, and
+   therefore a better representation would be "ctt(a,b,i)" where a and b 
+   define the upper and lower bound of the L' in L. </li>
+   <li> Then for example, the initial variables list passed into
+   cardinality_totalizer_cl as S, would be 
+   [ctt(1,length(E),1),...,ctt(1,length(E),length(E))] and then within 
+   cardinality_totalizer_cl, the two new lists of variables produced would be
+   [ctt(1,length(E_1).1),...,ctt(1,length(E_1),length(E_1))] 
+   and 
+   [ctt(length(E_1)+1,length(E),1)...,ctt(length(E_1)+1,length(E),length(E_2))]. 
+   </li>
+  </ul>
 
 */
 
