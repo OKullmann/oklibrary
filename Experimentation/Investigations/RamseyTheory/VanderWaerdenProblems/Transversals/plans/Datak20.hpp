@@ -35,11 +35,12 @@ L200_20 : minimum_transversals_mongen(200,A20,[{}])$
 > VdWTransversalsInc 20 1 0 VDW_20 VDW_20_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("VDW_20"))));
-
- length(L); 
+ [19,38,57,76,95,114,133,152,171,190,209,228,247,266,285,304,323,342,362,363,364,365,366]
+length(L);
+ 23
 
 > tail -1 VDW_20
-
+20 367 23
    \endverbatim
    </li>
   </ul>
