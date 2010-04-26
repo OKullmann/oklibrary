@@ -158,8 +158,9 @@ gwsat :
   </ul>
 
 
-  \todo greentao_5(2,2,3,3,4) > 471
+  \todo greentao_5(2,2,3,3,4) >= 472
   <ul>
+   <li> The conjecture is greentao_5(2,2,3,3,4) = 472. </li>
    <li> First considering the weak standard nested translation with
    rnovelty+. </li>
    <li> n=460, cutoff=10^7: found a solution in run 100 (seed=689351359,
@@ -308,7 +309,14 @@ gwsat :
  3  4  6  7  8  9 10 11 12 13 14 15
  1  1 10  7 12 14 20 20  6  6  1  2
      \endverbatim
-     So actually rnovelty seems best. </li>
+     So rnovelty seems best. </li>
+     <li> rnovelty, cutoff=4*10^7:
+     \verbatim
+  1   2   3
+ 10 167  11
+188
+     \endverbatim
+     Thus actually rnovelty+ seems better (at least for higher cutoffs). </li>
     </ol>
    </li>
   </ul>
