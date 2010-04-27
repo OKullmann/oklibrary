@@ -16,28 +16,19 @@ License, or any later version. */
 
 #include <string>
 
-#include <OKlib/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
-#include <OKlib/Satisfiability/ProblemInstances/Literals/Literal.hpp>
-#include <OKlib/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
 #include <OKlib/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
 #include <OKlib/Satisfiability/Assignments/PartialAssignments/PartAssign.hpp>
 
 namespace DLL_Algorithms {
 
-  using namespace Variables;
-  using namespace Literals;
-  using namespace Clauses;
-  using namespace Clausesets;
-  using namespace PartAssignments;
-
   struct result {
     bool sat;
-    Pass phi;
+    PartAssignments::Pass phi;
     std::string info;
-    result(bool s, const Pass& p = Pass(), std::string i = "") {sat = s; phi = p; info = i;}
+    result(bool s, const PartAssignments::Pass& p = PartAssignments::Pass(), std::string i = "") {sat = s; phi = p; info = i;}
   };
 
-  typedef result SAT_Algorithms(const Cls&);
+  typedef result SAT_Algorithms(const Clausesets::Cls&);
 
   SAT_Algorithms DLL_1;
 
