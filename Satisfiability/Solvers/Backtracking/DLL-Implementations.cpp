@@ -38,12 +38,11 @@ namespace {
   using namespace Clauses;
   using namespace Clausesets;
   using namespace PartAssignments;
-  using namespace DLL_Algorithms;
 
   const std::string Selbst = "DLL-Implementations";
 
-  const char * const Version = "1.0";
-  const char * const Datum = "6.3.2002";
+  const char * const Version = "1.0.1";
+  const char * const Datum = "27.4.2010";
   const char * const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
   const char * const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
   
@@ -107,7 +106,7 @@ int main (const int argc, const char * const argv[]) {
     if (std::string(argv[1]) == "DLL_1")
       choice = A_DLL_1;
   }
-  SAT_Algorithms * algorithms[] = {DLL_1};
+  DLL_Algorithms::SAT_Algorithms* algorithms[] = {DLL_Algorithms::DLL_1};
 
   Var_Set V;
   Cls F;
@@ -124,7 +123,7 @@ int main (const int argc, const char * const argv[]) {
     std::cout << "n = " << F.n() << ", c = " << F.c() << ", l = " << F.l() << ", pmin = " << F.pmin() << ", pmax = " << F.pmax() << "\n";
 
     time_stored = std::clock();
-    result r = algorithms[choice](F);
+    DLL_Algorithms::Result r = algorithms[choice](F);
     time_new = std::clock();
     
     std::cout << "sat = " << r.sat << "\n";
