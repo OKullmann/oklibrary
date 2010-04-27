@@ -232,17 +232,6 @@ is(Csa);
   </ul>
 
 
-  \todo Functions such as cardinality_totalizer_cl should take cardinality
-  constraints
-  <ul>
-   <li> Currently functions such as cardinality_totalizer_cl and
-   cardinality_comparator_cl take the parameters given in the
-   boolean constraint [a,L,b] individually. </li>
-   <li> These functions should take the whole constraint as a single argument
-   as in other functions such as crd2cl. </li>
-  </ul>
-
-
   \todo Partial assignments for CNFs with detection of forced assignments via
   UCP
   <ul> 
@@ -353,6 +342,17 @@ is(Csa);
    SAT] contains another translation. </li>
    <li> And so does [Sinz, 2005, Towards an Optimal Encoding of Boolean
    Cardinality Constraints]. </li>
+  </ul>
+
+
+  \todo DONE Functions such as cardinality_totalizer_cl should take cardinality
+  constraints
+  <ul>
+   <li> Currently functions such as cardinality_totalizer_cl and
+   cardinality_comparator_cl take the parameters given in the
+   boolean constraint [a,L,b] individually. </li>
+   <li> These functions should take the whole constraint as a single argument
+   as in other functions such as crd2cl. </li>
   </ul>
 
 

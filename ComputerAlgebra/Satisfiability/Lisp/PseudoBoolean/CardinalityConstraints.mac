@@ -209,7 +209,7 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
    which results in E having a cardinality less than a, or greater than b, 
    is a falsifying assignment for F.
 
-   To use this algorithm, currently one needs to use cardinality_cl(L,a,b).
+   To use this algorithm see cardinality_cl.
 
 */
 
@@ -372,8 +372,9 @@ cardinality_comparator_cl(S,p,q) :=
    S = create_list(ctt(1,length(E),i),i,1,length(E)) .
 
 */
-cardinality_cl(E,p,q) := block(
-  [S : create_list(ctt_var(1,length(E),i),i,1,length(E))],
+cardinality_cl(C) := block(
+  [p : C[1], E : C[2], q : C[3],S],
+  S : create_list(ctt_var(1,length(E),i),i,1,length(E)),
   return(
     append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 

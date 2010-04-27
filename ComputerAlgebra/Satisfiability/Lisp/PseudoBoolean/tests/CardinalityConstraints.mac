@@ -207,9 +207,9 @@ okltest_cardinality_comparator_cl_spec(f) := block([F],
 okltest_cardinality_cl_comb(f) := block([F],
   for m : 0 thru 5 do
     for n : 0 thru 5 do
-      assert(f([],0,0) = []),
-  assert(f([1],0,1) = [{-1,ctt(1,1,1)},{1,-ctt(1,1,1)}]),
-  assert(f([1],1,1) = [{-1,ctt(1,1,1)},{1,-ctt(1,1,1)},{ctt(1,1,1)}]),
+      assert(f([0,[],0]) = []),
+  assert(f([0,[1],1]) = [{-1,ctt(1,1,1)},{1,-ctt(1,1,1)}]),
+  assert(f([1,[1],1]) = [{-1,ctt(1,1,1)},{1,-ctt(1,1,1)},{ctt(1,1,1)}]),
   true)$
 
 /* cardinality_cl generates a CNF F
@@ -222,7 +222,7 @@ okltest_cardinality_cl_comb(f) := block([F],
    (i.e., the original partial assignment applied should
     contain new variables). */
 okltest_cardinality_cl_spec(f) := block([F],
-  F : cl2cs(f([1,2,3,4,5],2,4)),
+  F : cl2cs(f([2,[1,2,3,4,5],4])),
   assert(ucp_0_cs(apply_pa({1,2,3,4,5}, F)) = {{}}),
   for i : 1 thru 5 do (
     assert(ucp_0_cs(
