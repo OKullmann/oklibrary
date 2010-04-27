@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.2.2002 (Swansea)
-/* Copyright 2002 - 2007, 2009 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,6 +10,10 @@ License, or any later version. */
   \brief Old, very simple DLL SAT solver (for boolean CNF).
 
   Reads a CNF in Dimacs format from standard input.
+
+  Links with Satisfiability/Algorithms/Backtracking/DLL_Algorithms.cpp (which
+  thus needs to be compiled before).
+
   \deprecated
 */
 

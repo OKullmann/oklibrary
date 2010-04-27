@@ -8,6 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/Backtracking/DLL_Algorithms.cpp
   \brief Old, very simple implementation of a general (boolean) DLL-SAT-algorithms
+    
+  Provides the implementation of function DLL_1.
+
+  For an application see
+  Satisfiability/Solvers/Backtracking/DLL-Implementations.cpp.
+  
   \deprecated
 */
 
@@ -36,9 +42,3 @@ namespace DLL_Algorithms {
 
 }
 
-int main() {
-  Clausesets::Cls F;
-  Variables::Var_Set V;
-  F.read(V);
-  std::cout << DLL_Algorithms::DLL_1(F).sat << "\n";
-}
