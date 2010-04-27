@@ -35,10 +35,10 @@ namespace {
 
   const std::string Selbst = "DLL-Implementations";
 
-  const char * const Version = "1.0.2";
-  const char * const Datum = "27.4.2010";
-  const char * const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
-  const char * const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
+  const char* const Version = "1.0.3";
+  const char* const Datum = "27.4.2010";
+  const char* const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
+  const char* const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
   
 
 
@@ -46,7 +46,7 @@ namespace {
 
   const int NumberLanguages = 2;
 
-  const char * const messages[][NumberLanguages] = {
+  const char* const messages[][NumberLanguages] = {
     {"Es wurde versucht, einen leeren Variablennamen zu benutzen.", // 0
      "There has been an attempt to use an empty variable name."},
     {"Es wurde eine Zuweisung zwischen Variablenmengen versucht.", // 1
@@ -65,15 +65,15 @@ namespace {
      "Running time (in seconds) for reading the input = "},
   };
 
-  const char * message(int i) {
+  const char* message(const int i) {
     return messages[i][Language];
   }
 
   const std::string standarderr = message(5) + Selbst + "]: ";
   
   void output_litset(const Clauses::Litset& L) {
-    for (std::set<Literals::Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
-      Literals::Lit l = *i;
+    for (std::set<Literals::Lit>::const_iterator i = L.ls.begin(); i != L.ls.end(); ++i) {
+      const Literals::Lit l = *i;
       std::cout << " ";
       if (l.val() == true)
 	std::cout << "-";
@@ -83,24 +83,22 @@ namespace {
   }
   
   void output_varset(const std::set<Variables::Var>& V) {
-    for (std::set<Variables::Var>::iterator i = V.begin(); i != V.end(); i++) {
+    for (std::set<Variables::Var>::const_iterator i = V.begin(); i != V.end(); ++i)
       std::cout << " " << i -> get_name();
-    }
     std::cout << "\n";
   }
  
 }
 
 
-int main (const int argc, const char * const argv[]) {
+int main (const int argc, const char* const argv[]) {
 
   enum choices {A_DLL_1};
   choices choice = A_DLL_1; // default
-  if (argc >= 2) {
+  if (argc >= 2)
     if (std::string(argv[1]) == "DLL_1")
       choice = A_DLL_1;
-  }
-  DLL_Algorithms::SAT_Algorithms* algorithms[] = {DLL_Algorithms::DLL_1};
+  DLL_Algorithms::SAT_Algorithms* const algorithms[] = {DLL_Algorithms::DLL_1};
 
   Variables::Var_Set V;
   Clausesets::Cls F;
@@ -117,7 +115,7 @@ int main (const int argc, const char * const argv[]) {
     std::cout << "n = " << F.n() << ", c = " << F.c() << ", l = " << F.l() << ", pmin = " << F.pmin() << ", pmax = " << F.pmax() << "\n";
 
     time_stored = std::clock();
-    DLL_Algorithms::Result r = algorithms[choice](F);
+    const DLL_Algorithms::Result r = algorithms[choice](F);
     time_new = std::clock();
     
     std::cout << "sat = " << r.sat << "\n";
@@ -125,23 +123,23 @@ int main (const int argc, const char * const argv[]) {
   }
 
   catch (Variables::Error::empty_name) {
-    std::cout << standarderr << message(0) << "\n";
+    std::cerr << standarderr << message(0) << "\n";
     return 1;
   }
   catch (Variables::Error::invalid_assignment) {
-    std::cout << standarderr << message(1) << "\n";
+    std::cerr << standarderr << message(1) << "\n";
     return 1;
   }
   catch (Clauses::Error::not_a_clause) {
-    std::cout << standarderr << message(2) << "\n";
+    std::cerr << standarderr << message(2) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::not_in_domain) {
-    std::cout << standarderr << message(3) << "\n";
+    std::cerr << standarderr << message(3) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::inconsistent_extension) {
-    std::cout << standarderr << message(4) << "\n";
+    std::cerr << standarderr << message(4) << "\n";
     return 1;
   }
 }
