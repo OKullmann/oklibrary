@@ -27,7 +27,7 @@ License, or any later version. */
 
 namespace DLL_Algorithms {
 
-  result DLL_1(const Clausesets::Cls& F){
+  DLL_Algorithms::Result DLL_1(const Clausesets::Cls& F){
     if (F.is_empty())
       return true;
     else if (F.empty_clause())
@@ -36,7 +36,7 @@ namespace DLL_Algorithms {
       Variables::Var v = *F.var().begin();
       using PartAssignments::Pass;
       using Literals::Lit;
-      return DLL_Algorithms::result(std::max(DLL_1(Pass(Lit(v, false)) * F).sat, DLL_1(Pass(Lit(v, true)) * F).sat));
+      return DLL_Algorithms::Result(std::max(DLL_1(Pass(Lit(v, false)) * F).sat, DLL_1(Pass(Lit(v, true)) * F).sat));
     }
   }
 

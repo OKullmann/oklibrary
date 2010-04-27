@@ -21,14 +21,14 @@ License, or any later version. */
 
 namespace DLL_Algorithms {
 
-  struct result {
+  struct Result {
     bool sat;
     PartAssignments::Pass phi;
     std::string info;
-    result(bool s, const PartAssignments::Pass& p = PartAssignments::Pass(), std::string i = "") {sat = s; phi = p; info = i;}
+    Result(bool s, const PartAssignments::Pass& p = PartAssignments::Pass(), std::string i = "") {sat = s; phi = p; info = i;}
   };
 
-  typedef result SAT_Algorithms(const Clausesets::Cls&);
+  typedef Result SAT_Algorithms(const Clausesets::Cls&);
 
   SAT_Algorithms DLL_1;
 
