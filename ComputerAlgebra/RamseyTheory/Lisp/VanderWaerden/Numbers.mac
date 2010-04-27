@@ -633,7 +633,7 @@ tau_arithprog_seq[20] : transform_threshold_l(tau_steplist_arithprog_seq[20])$
 */
 tau_steplist_arithprog_seq[21] : [
  20,41,60,79,98,117,136,155,174,193,
- 212,231,250,269,288
+ 212,231,250,269,288,307,326,345,364
 ]$
 tau_arithprog_seq[21] : transform_threshold_l(tau_steplist_arithprog_seq[21])$
 
