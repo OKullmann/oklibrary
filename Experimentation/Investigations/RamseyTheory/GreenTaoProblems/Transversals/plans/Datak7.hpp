@@ -87,7 +87,7 @@ for n: 6 thru 1300 do block(
    <li> Just computing the transversal numbers, using minisat2 and the
    direct translation:
    \verbatim
-> GTTransversalsInc 7 1 0 GT7 GT7_SAT
+> GTTransversalsInc 7 1 0 GT_7 GT_7_SAT
 
 transform_steps_l(map(third,rest(read_nested_list("GT_7"))));
   [154,213,227,231,322,395,569,640,714,795,826,871,874,1047,1124,1157,1179]
