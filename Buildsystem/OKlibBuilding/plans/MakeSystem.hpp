@@ -11,6 +11,20 @@ License, or any later version. */
   make- or make-like engine
 
 
+  \todo Makepp
+  <ul>
+   <li> See http://makepp.sourceforge.net/ . </li>
+   <li> A disadvantage is the use of Perl, but perhaps soon with Git we also
+   get this dependency. </li>
+   <li> However, currently the make-functions "call, error, warning" are
+   not supported, so it seems we can't use it in its current form. </li>
+   <li> Otherwise its features (automatic scanning for include-files, a
+   stronger system for hierarchical builds, handling of conditional
+   compilation) should be very useful. </li>
+   <li> Though it seems to be a rather small project. </li>
+  </ul>
+
+
   \todo CMake
   <ul>
    <li> The following needs a complete update, considering whether CMake gained
