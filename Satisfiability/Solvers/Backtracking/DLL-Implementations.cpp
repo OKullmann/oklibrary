@@ -33,15 +33,9 @@ License, or any later version. */
 
 namespace {
 
-  using namespace Variables;
-  using namespace Literals;
-  using namespace Clauses;
-  using namespace Clausesets;
-  using namespace PartAssignments;
-
   const std::string Selbst = "DLL-Implementations";
 
-  const char * const Version = "1.0.1";
+  const char * const Version = "1.0.2";
   const char * const Datum = "27.4.2010";
   const char * const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
   const char * const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
@@ -77,9 +71,9 @@ namespace {
 
   const std::string standarderr = message(5) + Selbst + "]: ";
   
-  void output_litset(const Litset& L) {
-    for (std::set<Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
-      Lit l = *i;
+  void output_litset(const Clauses::Litset& L) {
+    for (std::set<Literals::Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
+      Literals::Lit l = *i;
       std::cout << " ";
       if (l.val() == true)
 	std::cout << "-";
@@ -88,8 +82,8 @@ namespace {
     std::cout << "\n";
   }
   
-  void output_varset(const std::set<Var>& V) {
-    for (std::set<Var>::iterator i = V.begin(); i != V.end(); i++) {
+  void output_varset(const std::set<Variables::Var>& V) {
+    for (std::set<Variables::Var>::iterator i = V.begin(); i != V.end(); i++) {
       std::cout << " " << i -> get_name();
     }
     std::cout << "\n";
@@ -108,8 +102,8 @@ int main (const int argc, const char * const argv[]) {
   }
   DLL_Algorithms::SAT_Algorithms* algorithms[] = {DLL_Algorithms::DLL_1};
 
-  Var_Set V;
-  Cls F;
+  Variables::Var_Set V;
+  Clausesets::Cls F;
 
   try {
     std::clock_t time_stored, time_new;
