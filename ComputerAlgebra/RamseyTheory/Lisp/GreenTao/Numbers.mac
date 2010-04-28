@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  8,
+  9,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
@@ -264,7 +264,7 @@ tau_arithprog_primes_seq[6] : [
    (the list contains the last entry where tau=0, 1, ...).
 */
 /* The following data has been computed by
-   "GTTransversalsInc 7 1 0 GT7 GT7_SAT", and then using
+   "GTTransversalsInc 7 1 0 GT_7 GT_7_SAT", and then using
    transform_steps_l(map(third,rest(read_nested_list("GT_7"))))
 */
 tau_steplist_arithprog_primes_seq[7] : [
@@ -273,7 +273,7 @@ tau_steplist_arithprog_primes_seq[7] : [
 ]$
 tau_arithprog_primes_seq[7] : transform_threshold_l(tau_steplist_arithprog_primes_seq[7])$
 /* The following data has been computed by
-   "GTTransversalsInc 8 1 0 GT8 GT8_SAT", and then using
+   "GTTransversalsInc 8 1 0 GT_8 GT_8_SAT", and then using
    transform_steps_l(map(third,rest(read_nested_list("GT_8"))))
 */
 tau_steplist_arithprog_primes_seq[8] : [
@@ -281,6 +281,15 @@ tau_steplist_arithprog_primes_seq[8] : [
 1880,1934,1978,2116,2260,2405
 ]$
 tau_arithprog_primes_seq[8] : transform_threshold_l(tau_steplist_arithprog_primes_seq[8])$
+/* The following data has been computed by
+   "GTTransversalsInc 9 1 0 GT_9 GT_9_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("GT_9"))))
+*/
+tau_steplist_arithprog_primes_seq[9] : [
+288,689,1452,1496,1522,2021,2498,2822,2914,3314,
+3601
+]$
+tau_arithprog_primes_seq[9] : transform_threshold_l(tau_steplist_arithprog_primes_seq[9])$
 
 
 /* For n <= exactv_tau_arithprog_primes(k) we have stored exact values

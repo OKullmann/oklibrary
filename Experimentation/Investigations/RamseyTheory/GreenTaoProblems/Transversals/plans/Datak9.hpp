@@ -55,9 +55,12 @@ for n: 8 thru 5000 do block(
 > GTTransversalsInc 9 1 0 GT_9 GT_9_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("GT_9"))));
- 
+ [288,689,1452,1496,1522,2021,2498,2822,2914,3314,3601]
 length(L);
- 
+ 11
+
+> tail -1 GT9
+9 3774 11
    \endverbatim
    </li>
   </ul>
