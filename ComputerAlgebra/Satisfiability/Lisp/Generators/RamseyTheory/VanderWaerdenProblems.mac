@@ -93,7 +93,7 @@ invstandardise_vanderwaerden_aloamo(L,n) := block([m : length(L)],
 
 
 /* Translating the general forms into boolean clause-sets via the
-   standard nested translation:
+   (weak) standard nested translation:
 */
 vanderwaerden_standnest_fcl(L,n) :=
 nbfclud2fcl_standnest(vanderwaerden_nbfclud(L,n))$
