@@ -46,6 +46,8 @@ okltest_direct_crd2cl_ge(direct_crd2cl_ge);
 
 okltest_cardinality_totalizer_cl_comb(cardinality_totalizer_cl);
 okltest_cardinality_totalizer_cl_spec(cardinality_totalizer_cl);
+okltest_cardinality_totalizer_r_cl_comb(cardinality_totalizer_r_cl);
+okltest_cardinality_totalizer_r_cl_spec(cardinality_totalizer_r_cl);
 okltest_cardinality_comparator_cl_comb(cardinality_comparator_cl);
 okltest_cardinality_comparator_cl_spec(cardinality_comparator_cl);
 okltest_cardinality_cl_comb(cardinality_cl);

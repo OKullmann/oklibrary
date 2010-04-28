@@ -1,5 +1,5 @@
 // Matthew Gwynne, 29.7.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,11 +23,13 @@ License, or any later version. */
    \verbatim
 W : {1,2,3,4,5}$
 p : 2$ q : 4$
-F : cardinality_cl(listify(W),p,q);
+F : cardinality_cl([p,listify(W),q]);
    \endverbatim
    </li>
-   <li> New variables of the form ctt(l,i) where l is a list of 1's and 0's
-   and i is a non-negative integer, are included in the generated clause set
+   <li> New variables of the form ctt(a,b,i) are included in the generated 
+   clause list where a and b are integers describing the subset of the 
+   variable list which this variable is used to represent the cardinality of 
+   (in a unary encoding) and i is a non-negative integer, 
    (see
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac 
    for further details), and so care must be taken to avoid clashing variables
@@ -44,7 +46,7 @@ F : cardinality_cl(listify(W),p,q);
    "pick up" any forced assignments. </li> 
    <li> For example:
    \verbatim
-F : cl2cs(cardinality_cl([1,2],1,1));
+F : cl2cs(cardinality_cl([1.[1,2],1]));
 ucp_lpa_0_cs(apply_pa_cs({1},F))[2];
   [{ctt([],1),-ctt([],2)},{-2}]
 ucp_lpa_0_cs(apply_pa_cs({2},F))[2];
