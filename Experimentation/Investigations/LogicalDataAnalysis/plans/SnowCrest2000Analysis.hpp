@@ -174,6 +174,10 @@ License, or any later version. */
     representations are. </li>
    </ul>
    </li>
+   <li> See 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   for some packages for generating different minimum-sized representations.
+   </li>
   </ul>
 
 
