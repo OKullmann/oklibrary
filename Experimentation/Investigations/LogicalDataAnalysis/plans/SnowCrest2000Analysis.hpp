@@ -95,14 +95,89 @@ License, or any later version. */
      total assignments (hamming distances etc.). </li>
      <li> However, this is restricted to only very small cases, and the only
      interesting thing to do in general is to represent again the boolean
-     functions! MG, please continue. </li>
+     functions! </li>
+     <li> In these cases however, we have total boolean functions (i.e.,
+     we know exactly which total assignments are in each of the 3 sets. </li>
+     <li> Therefore, we wish to find an expressive representation 
+     (in the sense that the representation is succinct, easy to understand,
+     offers a lot of information at a glance without a great deal of inference
+     needed) of each of these boolean functions. </li>
+     <li> For a start, we generate the minimal CNF and DNFs for these
+     representations. </li>
     </ul>
    </li>
-   <li> Are illustrations such as conflict graphs etc. useful here?
-   OK: What do you mean?? </li>
-   <li> How do representations such as DFAs, neural networks etc.
-   relate to our CNF/DNF representations?
-   OK: What do you mean?? </li>
+   <li> There are representations in machine learning etc, such as
+   <ul>
+    <li> DFAs
+     <ul>
+      <li> A Deterministic finite automata is a five tuple (Q,A,t,s,F) where
+      <ol>
+       <li> Q is the set of states. </li>
+       <li> A is the alphabet. </li>
+       <li> t : Q x A -> Q is a transition function determining the transitions
+       from one state to another. </li>
+       <li> s is the start state. </li>
+       <li> F is the set of final states. </li>
+      </ol>
+      </li>
+      <li> A DFA defines a (regular) language L a subset of A* where any word
+      for which the path through the transition system given by the word,
+      starting in the state s, ends in a final state. </li>
+      <li> A boolean function can represented by a DFA by considering assignments
+      as tuples of 1s and 0s with a given variable order and then any tuple/word
+      which has an implicant as a prefix is in the language, and any tuple/word
+      that has the negation of an implicate as a prefix is not in the language. We then 
+      look for a DFA which recognises this language. </li>
+     </ul>
+    </li>
+    <li> Decision trees
+     <ul>
+      <li> A decision tree is a rooted tree T with labelling functions
+      l_e : e.E(T) -> D(T,e) and l_v : V(T) -> union(V,{0,1}) where 
+      <ul>
+       <li> A(T,e) is the domain of the variable v which e connects to it's child 
+       in the tree (for instance in boolean problems we have D(T,e)={0,1} for all T 
+       and e). </li>
+       <li> V is a variable list. </li>
+       <li> l_v labels internal nodes in the tree with 
+       elements of V and labels leaves with elements of D where D
+       is the domain of the decision tree itself. </li>
+       <li> A decision tree representation of a boolean function f
+       is a decision tree T where 
+       <ul>
+        <li> V=var(f). </li>
+	<li> D=D(T,e)={0,1} for all e in E(T). </li>
+	<li> l_v is defined such that for any path from the
+	root to a leaf, the partial assignment phi given by taking the
+	variables mapped to (by the nodes on the path), the value 
+	given to the edge leaving that %node (one the path) by l_e is
+	a satisfying partial assignment for f (i.e., all extensions
+	of phi to full total assignment tuples psi for f have f(psi)=true). 
+	</li>
+       </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+    for which those in the machine
+    learning community find minimum length (and other) representations.
+    <ul>
+     <li> Is there a simple relation between these different minimal size
+     representations? </li>
+     <li> What do different properties, both in terms of the ability of
+     the reader to understand the object (DFA, clause-set etc) and in
+     terms of succinctness etc, translate to when moving from one
+     representation to another? </li>
+    </ul>
+    It is important here to consider all different representations, and
+    get a good understanding for what the advantages of each different
+    representations are. </li>
+   </ul>
+   </li>
+   <li> See 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   for some packages for generating different minimum-sized representations.
+   </li>
   </ul>
 
 
