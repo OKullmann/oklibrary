@@ -783,6 +783,55 @@ initial_sequence_vdWt(k) :=
 initial_sequence_vdWt_lrc(k) :=
   create_list(vanderwaerdent_lrc(m,k),m,0,if k=3 then 3+1 elseif evenp(k) then k-2+1 else k-1+1);
 
+
+/* Considering the question, how small the coefficient gamma in
+   vdW_{m+1}(2,...,2,k) <= gamma * (m+1)
+   can be if m is big enough (we know by Szemeredi that gamma can be
+   arbitrarily close to 1 if m is big enough, and the question is about
+   precise numerical knowledge).
+*/
+/* Motivated by [Khodkar, Landman, INTEGERS, 2007], evaluating for each k the
+   best possible gamma given the data we have, when considering only m >= k
+   (returning the list of pairs [k,gamma]):
+*/
+bestgamma_vdWt() := block([res : []],
+ for k : 3 thru exactk_tau_arithprog do block(
+  [L : initial_sequence_vdWt(k)],
+   if length(L) <= k then res : cons([k,unknown], res)
+   else res : cons([k,lmax(rest(L,k)/create_list(m+1,m,k,length(L)-1))], res)
+ ),
+ reverse(res))$
+/* For a list A as returned by bestgamma_vdWt(), plot the values k-1 minus
+   these gamma-values (where pairs with unknown gamma-values are removed):
+*/
+show_bestgamma_vdWt(A) := block(
+ [B : sublist(A,lambda([p],is(second(p)#unknown)))],
+  plot2d(
+   [discrete,
+    map(lambda([p], [first(p), (first(p)-1)-second(p)]), B)],
+   [x,first(first(B))-1,first(last(B))+1],
+   [style,[linespoints,1,5]],
+   [xlabel, "k"],
+   [ylabel, "gamma"]))$
+/* By [Khodkar, Landman, INTEGERS, 2007] it is known that if for
+   3/2*k - 5/2 <= m <= 2*k we have vdw_{m+1}(2,...,2,k) <= (k-1)*(m+1),
+   then this upper bounds actually holds for all m >= k.
+   For all k for which we might have values this condition is now
+   checked, and the list of pairs [k, evaluation_result] is retured:
+*/
+condition_kl_vdWt() := block([res : []],
+ for k : 3 thru exactk_tau_arithprog do block(
+  [begin : ceiling(3/2*(k-1))-1, end : 2*k, eval_res : true],
+   for m : begin thru end unless eval_res#true do block(
+    [t : vanderwaerdent(m,k)],
+     if t=unknown then eval_res : unknown
+     else if t > (k-1)*(m+1) then eval_res : false
+   ),
+   res : cons([k,eval_res],res)
+ ),
+ reverse(res))$ 
+
+
 /*!
 \endhtmlonly
 */

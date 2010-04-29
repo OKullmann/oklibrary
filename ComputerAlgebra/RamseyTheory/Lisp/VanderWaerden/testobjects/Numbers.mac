@@ -67,6 +67,14 @@ okltest_alpha_steplist_arithprog_seq(alpha_steplist_arithprog_seq);
 okltest_alpha_arithprog(alpha_arithprog);
 okltest_alphal_arithprog(alphal_arithprog);
 
+okltest_bestgamma_vdWt(bestgamma_vdWt);
+okltest_condition_kl_vdWt(condition_kl_vdWt);
+
+/* ****************************************
+   * Checking the consistency of the data *
+   ****************************************
+*/
+
 if oklib_test_level >= 1 then okltest_consistency_check_1() else true;
 
 /*!

@@ -238,6 +238,20 @@ okltest_alphal_arithprog(f) := (
    29,30,31,32,32,32,32,32,33,33]), /* A003004 */
   true)$
 
+okltest_bestgamma_vdWt(f) := block([R],
+  if oklib_test_level = 0 then return(true),
+  R : f(),
+  assert(first(R) = [3,15/7]),
+  /* XXX */
+  true)$
+
+okltest_condition_kl_vdWt(f) := block([R],
+  if oklib_test_level = 0 then return(true),
+  R : f(),
+  assert(take_elements(2,R) = [[3,false],[4,true]]),
+  /* XXX */
+  true)$
+
 
 /* ****************************************
    * Checking the consistency of the data *
