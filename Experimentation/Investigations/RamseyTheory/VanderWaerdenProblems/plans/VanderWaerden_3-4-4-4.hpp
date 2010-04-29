@@ -42,8 +42,9 @@ License, or any later version. */
 E = eval_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", params=list(runs=100,cutoff=100000))
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
-
-     </li>
+     Unfortunately with saps and sapsnr we get a segmentation fault on cs-oksvr
+     (however only when calling ubcsat directly, as unfortunately eval_ubcsat
+     does, not when using ubcsat-okl). </li>
     </ol>
    </li>
   </ul>

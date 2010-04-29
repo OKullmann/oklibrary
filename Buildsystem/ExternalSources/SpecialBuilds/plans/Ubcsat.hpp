@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,10 @@ License, or any later version. */
   <ul>
    <li> The post-1.1.0-version should support 64bit machines, so we wait
    for that. </li>
+   <li> It seems that version 2.0 should come out soon (SAT 2010?). </li>
+   <li> With version 1.0 we are experiencing a segmentation fault (see
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_3-4-4-4.hpp),
+   which doesn't seem to occur with the precompiled 1.1-version. </li>
    <li> We should download the available documentation. </li>
    <li> OK and MG must get in contact with the Ubcsat-group. </li>
    <li> See "Contact the developers of Ubcsat" in
