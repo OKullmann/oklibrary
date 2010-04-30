@@ -50,7 +50,8 @@ License, or any later version. */
 
   \todo Building Ubcsat
   <ul>
-   <li> The Ubcsat installation seems pretty up-to-date, but we should
+   <li> DONE
+   The Ubcsat installation seems pretty up-to-date, but we should
    check the details (only concerning 1.0.0).
     <ol>
      <li> Make-variables should be renamed, replacing "-" by "_". </li>
