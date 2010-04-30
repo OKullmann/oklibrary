@@ -63,7 +63,21 @@ License, or any later version. */
   <ul>
    <li> See "Update to version 1.1.0" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
-   <li> Create wish-list for a new Ubcsat-release. </li>
+   <li> Wish-list for a new Ubcsat-release 1.2.0:
+    <ol>
+     <li> Weak performance on 32-bit machines (with version 1.0.0): See
+     "Speed" in Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp.
+     </li>
+     <li> Higher cutoffs: See "Cutoff value etc. should be 64 bits on a
+     64-bit machine" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
+     <li> Input of large numbers: See "More readable large numbers:" in
+     ExperimentSystem/ControllingLocalSearch/plans/Ubcsat-okl.hpp. </li>
+     <li> Use of C99: nowadays every C-compiler is a C99 compiler, and using
+     the C99 possibilities (like the new parts of the library) would enhance
+     the code-quality (and our user-experience). </li>
+    </ol>
+   </li>
   </ul>
 
 
