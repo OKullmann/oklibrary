@@ -37,7 +37,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Investigating the weak performance of Ubcsat on OK's 32-bit machine
+  \todo DONE (this has been transferred to "Speed" below)
+  Investigating the weak performance of Ubcsat on OK's 32-bit machine
   <ul>
    <li> See "Bounds on NR([q,q],2)" in
    Experimentation/Investigations/plans/RamseyProblems.hpp on some data

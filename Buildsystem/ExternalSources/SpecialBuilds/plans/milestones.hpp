@@ -44,8 +44,8 @@ License, or any later version. */
     - Update to newer version
     - ubcsat-okl
     - Cutoff value etc. should be 64 bits on a 64-bit machine
-    - Investigating the weak performance of Ubcsat on OK's 32-bit machine
     - Speed
+    - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
     - Building Ubcsat : DONE
 
   \par
