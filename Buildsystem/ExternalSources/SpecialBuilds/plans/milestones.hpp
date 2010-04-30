@@ -45,8 +45,8 @@ License, or any later version. */
     - ubcsat-okl
     - Cutoff value etc. should be 64 bits on a 64-bit machine
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine
-    - Building Ubcsat
     - Speed
+    - Building Ubcsat : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following

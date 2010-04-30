@@ -48,7 +48,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Building Ubcsat
+  \todo Building Ubcsat : DONE (the topics in
+  Satisfiability/Algorithms/LocalSearch/plans/general.hpp are to be addressed
+  when installing Ubcsat version 1.2.0)
   <ul>
    <li> DONE
    The Ubcsat installation seems pretty up-to-date, but we should
