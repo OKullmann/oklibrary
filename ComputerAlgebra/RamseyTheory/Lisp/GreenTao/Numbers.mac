@@ -287,7 +287,7 @@ tau_arithprog_primes_seq[8] : transform_threshold_l(tau_steplist_arithprog_prime
 */
 tau_steplist_arithprog_primes_seq[9] : [
 288,689,1452,1496,1522,2021,2498,2822,2914,3314,
-3601
+3601,3774,4136,4550
 ]$
 tau_arithprog_primes_seq[9] : transform_threshold_l(tau_steplist_arithprog_primes_seq[9])$
 
