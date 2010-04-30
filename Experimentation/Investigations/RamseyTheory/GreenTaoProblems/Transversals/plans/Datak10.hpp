@@ -41,6 +41,17 @@ block([oldnhyp:0], for n: 100 thru 20000 do block(
 19602 1
    \endverbatim
    </li>
+   <li> These hyperedges are nearly disjoint, only number 4 and number 6 have
+   one element in common:
+   \verbatim
+G : arithprog_primes_ohg(10,20000)$
+non_disjoint_pair(G[2]);
+ [[4,6]]
+intersection(G[2][4], G[2][6]);
+ {69067}
+   \endverbatim
+   All our current hypergraph-transversal approaches should have big problems
+   with disjoint (or nearly disjoint) set-systems. </li>
    <li> At C++ level (showing only the changes):
    \verbatim
 > MinimumTransversals_GreenTao-O3-DNDEBUG 2000 10 | tee GreenTao_Trans_10_2000_OUT
