@@ -60,7 +60,7 @@ length(L);
  14
 
 > tail -1 GT_9
-9 4642 14
+9 4652 14
    \endverbatim
    </li>
   </ul>
