@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-# Copyright 2002-2007, 2008, 2009 Oliver Kullmann
+# Copyright 2002-2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -171,7 +171,8 @@ include $(srcdir)/definitions.mak
 # option "-I-" at the beginning of the source-libraries list, 
 # to prevent the "current" directory to be
 # used (for all directories *before* "-I-" the system-header-files,
-# specified by "<>", are ignored!)).
+# specified by "<>", are ignored!) However this option is deprecated with
+# gcc version 4.2.).
 # ----------------------------------------------------------
 source_libraries += $(OKsystem_include)
 # ----------------------------------------------------------

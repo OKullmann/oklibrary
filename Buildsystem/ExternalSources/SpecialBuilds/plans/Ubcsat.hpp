@@ -48,7 +48,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Building Ubcsat (OK, ML)
+  \todo Building Ubcsat
   <ul>
    <li> The Ubcsat installation seems pretty up-to-date, but we should
    check the details (only concerning 1.0.0).

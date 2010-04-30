@@ -1593,7 +1593,7 @@ Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-el
 
 External libraries are not modified directly (in the installation directories), since these places are not under version control (and the changes go lost after a rebuild).
 
-Assume that an external library (like Boost or UBCSAT) contains some header files which have to be corrected (for example because of non-standard C++ usage). Then in an appropriate module a sub-directory for that external library would be created, and inside a directory \filename{corrected}. For example, for the correction of Ubcsat-code we have created \filename{LocalSearch/Ubcsat/corrected}.
+Assume that an external library (like Boost or UBCSAT) contains some header files which have to be corrected (for example because of non-standard C++ usage). Then in an appropriate module a sub-directory for that external library would be created, and inside a directory \filename{corrected}. For example, for the correction of Ubcsat-code we have created \filename{Algorithms/LocalSearch/Ubcsat/corrected}.
 
 Inside directory \filename{corrected}, the corrected files are placed, with appropriate sub-directory structure to mirror the directory structure of the original source-library directory (so for Boost we would have the subdirectory \filename{corrected/boost}, and all code would go inside, while for Ubcsat, which (unfortunately) has no directory structure (version 1.0.0), the files are placed directly inside \filename{corrected}).
 
