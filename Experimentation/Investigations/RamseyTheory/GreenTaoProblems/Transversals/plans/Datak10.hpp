@@ -27,6 +27,18 @@ block([oldnhyp:0], for n: 100 thru 20000 do block(
 5744 1
 7294 1
 9458 1
+11548 1
+11897 1
+12651 1
+12744 1
+13462 1
+13561 1
+13646 1
+16525 1
+16536 1
+16596 1
+19135 1
+19602 1
    \endverbatim
    </li>
    <li> At C++ level (showing only the changes):
@@ -45,9 +57,9 @@ block([oldnhyp:0], for n: 100 thru 20000 do block(
 > GTTransversalsInc 10 1 0 GT_10 GT_10_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("GT_10"))));
- 
+ [315,5481,5743]
 length(L);
- 
+ 3
 
 > tail -1 GT10
 
