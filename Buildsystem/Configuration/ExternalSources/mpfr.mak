@@ -7,7 +7,7 @@
 
 # Settings for building and using the Mpfr library
 
-mpfr_recommended_version_number_okl ?= 2.4.0
+mpfr_recommended_version_number_okl ?= 2.4.2
 mpfr_supported_not_recommended_version_numbers_okl ?= 2.3.0
 
 mpfr_prefix_okl ?= mpfr
