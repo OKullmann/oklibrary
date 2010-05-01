@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *****************************************
@@ -78,6 +79,33 @@ arithprog_primes(k,n,memo) :=
 arithprog_primes_ohg(k,n) := 
  [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
+
+
+/* An arithmetic progressions of size k  is regarding to the structure of
+   arithmetic progressions of size k' <= k in it isomorphic to the set
+   {1,...,k}, that is, the arithmetic progressions of size k' in it correspond
+   exactly to those in arithprog_hg(k',k).
+   So we gain a better understanding  of arithprog_primes_hg(k,n) if we
+   find out the maximal progressions in the vertex set, and remove the
+   contained progressions.
+   Prerequisite: 0 <= k <= n.
+*/
+arithprog_primes_max_ohg(k,n) := block(
+ [V : primes_first(n), found_empty, A : okl_make_array(any,n)],
+  if k=0 then return([V,[{}]]),
+  A[k] : arithprog_primes(k,n,true),
+  if emptyp(A[k]) then return [V,[]],
+  found_empty : false,
+  for kp : k+1 thru n unless found_empty do (
+    A[kp] : arithprog_primes(kp,n,true),
+    if emptyp(A[kp]) then found_empty : true
+    else block([E : A[kp]],
+      for kpp : kp-1 thru k step -1 do (
+       E : lappend(create_list([rest(P),rest(P,-1)],P,E)),
+       A[kpp] : sublist(A[kpp], lambda([P], not elementp(P,setify(E)))))
+    )
+  ),
+  return([V, map(setify,lappend(delete(false,ary2l(A))))]))$
 
 
 /* **************
