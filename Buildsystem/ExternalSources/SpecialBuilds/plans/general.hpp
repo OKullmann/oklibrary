@@ -108,6 +108,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Logic programming
+  <ul>
+   <li> http://www.mpprogramming.com/cpp/ provides Prolog-functionality for
+   C++; looks interesting. </li>
+  </ul>
+
+
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
