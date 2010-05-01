@@ -17,7 +17,7 @@ License, or any later version. */
     <li> Submit an error report to Gcc: Option "-I-" *cannot* be replaced by
     "-iquote", and there is also no alternative! </li>
     <li> See "Installation of UBCSAT completed" in
-    Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
+    Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
    </ul>  
 
 

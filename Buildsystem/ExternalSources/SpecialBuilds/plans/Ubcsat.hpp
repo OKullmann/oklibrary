@@ -21,7 +21,7 @@ License, or any later version. */
    <li> We should download the available documentation. </li>
    <li> OK and MG must get in contact with the Ubcsat-group. </li>
    <li> See "Contact the developers of Ubcsat" in
-   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
+   Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
    <li> If really needed, one could use the executable provided with 1.1.0:
    We get a segfault when finally analysing the data (and computing the maximum
    number of steps), but this is not such a big problem (the data analysis
@@ -50,8 +50,8 @@ License, or any later version. */
 
 
   \todo Building Ubcsat : DONE (the topics in
-  Satisfiability/Algorithms/LocalSearch/plans/general.hpp are to be addressed
-  when installing Ubcsat version 1.2.0)
+  Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp are to be
+  addressed when installing Ubcsat version 1.2.0)
   <ul>
    <li> DONE
    The Ubcsat installation seems pretty up-to-date, but we should
