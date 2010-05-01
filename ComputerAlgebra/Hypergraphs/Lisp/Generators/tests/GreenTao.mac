@@ -89,9 +89,16 @@ okltest_arithprog_primes_ohg(f) := (
 okltest_arithprog_primes_max_ohg(f) := block(
   assert(f(0,0) = [[],[{}]]),
   assert(f(0,1) = [[2],[{}]]),
+  assert(f(1,1) = [[2],[{2}]]),
+  assert(f(1,2) = [[2,3], [{2,3}]]),
+  assert(f(1,3) = [[2,3,5], [{2,3},{2,5},{3,5}]]),
+  assert(f(1,4) = [[2,3,5,7], [{2,3},{2,5},{2,7},{3,5,7}]]),
+  assert(f(2,2) = [[2,3],[{2,3}]]),
+  assert(f(2,3) = [[2,3,5],[{2,3},{2,5},{3,5}]]),
+  assert(f(2,4) = [[2,3,5,7], [{2,3},{2,5},{2,7},{3,5,7}]]),
   /* XXX */
   if oklib_test_level = 0 then return(true),
-  assert(sum_l(map(lambda([H],nhyp_arithprog_hg(3,length(H))), f(3,100)[2])) = length(arithprog_primes_ohg(3,100)[2])),
+  assert(setify(map(setify,lappend(map(lambda([P],arithmetic_progressions(listify(P),3)), f(3,100)[2])))) = arithprog_primes_hg(3,100)[2]),
   true)$
 
 

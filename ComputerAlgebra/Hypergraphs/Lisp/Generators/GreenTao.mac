@@ -88,6 +88,9 @@ arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
    So we gain a better understanding  of arithprog_primes_hg(k,n) if we
    find out the maximal progressions in the vertex set, and remove the
    contained progressions.
+   The following functions computes the ordered hypergraph of all maximal
+   arithmetic progressions of size at least k within the first n prime numbers.
+   Ordering is first by size, and then alphabetically.
    Prerequisite: 0 <= k <= n.
 */
 arithprog_primes_max_ohg(k,n) := block(
@@ -98,12 +101,10 @@ arithprog_primes_max_ohg(k,n) := block(
   found_empty : false,
   for kp : k+1 thru n unless found_empty do (
     A[kp] : arithprog_primes(kp,n,true),
-    if emptyp(A[kp]) then found_empty : true
-    else block([E : A[kp]],
-      for kpp : kp-1 thru k step -1 do (
-       E : lappend(create_list([rest(P),rest(P,-1)],P,E)),
-       A[kpp] : sublist(A[kpp], lambda([P], not elementp(P,setify(E)))))
-    )
+    if emptyp(A[kp]) then found_empty : true else
+    for kpp : kp-1 thru k step -1 do  block(
+       [E : setify(lappend(map(lambda([P],arithmetic_progressions(P,kpp)), A[kp])))],
+       A[kpp] : sublist(A[kpp], lambda([P], not elementp(P,E)))) 
   ),
   return([V, map(setify,lappend(delete(false,ary2l(A))))]))$
 
