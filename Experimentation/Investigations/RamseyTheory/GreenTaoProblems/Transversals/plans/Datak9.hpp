@@ -39,6 +39,21 @@ for n: 8 thru 5000 do block(
 4774 1
    \endverbatim
    </li>
+   <li> These hyperedges are nearly disjoint, only number 1 and number 2 have
+   some elements in common:
+   \verbatim
+G : arithprog_primes_ohg(9,5000)$
+non_disjoint_pairs(G[2]);
+ [[1,2]]
+intersection(G[2][1], G[2][2]);
+ {409,619,829,1039,1249,1459,1669,1879}
+   \endverbatim
+   These two hyperedges are just the two 9-progressions contained in the one
+   10-progression which exists for n <= 5000 (see
+   RamseyTheory/GreenTaoProblems/Transversals/plans/Datak10.hpp). </li>
+   <li> It follows from the above disjointness-property, that tau always
+   increases by one when a new hyperedge aries in the above list, except for
+   the second hyperedge which is left out. </li>
    <li> At C++ level (showing only the changes):
    \verbatim
 > MinimumTransversals_GreenTao-O3-DNDEBUG 2000 9 | tee GreenTao_Trans_9_2000_OUT
@@ -61,6 +76,21 @@ length(L);
 
 > tail -1 GT_9
 9 4652 14
+
+> tail -40 GT_9_SAT
+|         0 |    8671    38516   128230 |    12838        0    nan |  0.000 % |
+|       101 |    8671    38516   128230 |    14122      101      9 |  8.805 % |
+
+...
+|  17044357 |    8671    38516   128230 |   185146    83508     84 |  8.805 % |
+*** INTERRUPTED ***
+restarts              : 29
+conflicts             : 24608505       (429 /sec)
+decisions             : 46478865       (1.40 % random) (810 /sec)
+propagations          : 4415348685     (76943 /sec)
+conflict literals     : 2107067304     (60.14 % deleted)
+Memory used           : 171.43 MB
+CPU time              : 57384.7 s
    \endverbatim
    </li>
   </ul>
