@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.5 (18.8.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.6 (1.5.2010)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -41,10 +41,9 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
-    - Update to newer version
-    - ubcsat-okl
-    - Cutoff value etc. should be 64 bits on a 64-bit machine
-    - Speed
+    - Update to newer version : DONE
+    - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
+    - Speed : DONE
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
     - Building Ubcsat : DONE
 

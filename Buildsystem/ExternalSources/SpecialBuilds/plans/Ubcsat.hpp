@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
-  \todo Update to newer version
+  \todo Update to newer version : DONE (we wait for version 1.2.0)
   <ul>
    <li> The post-1.1.0-version should support 64bit machines, so we wait
    for that. </li>
@@ -29,7 +29,9 @@ License, or any later version. */
   </ul>
 
 
-  \bug Cutoff value etc. should be 64 bits on a 64-bit machine
+  \bug DONE (transferred to "Contact the developers of Ubcsat" in
+  Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp)
+  Cutoff value etc. should be 64 bits on a 64-bit machine
   <ul>
    <li> Yet "unsigned int" is used for example for the cutoff-value,
    not allowing big experimentation. </li>
@@ -81,7 +83,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Speed
+  \todo Speed : DONE (transferred to "Contact the developers of Ubcsat" in
+  Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp)
   <ul>
    <li> We should find out about the speed of the various versions (1.0.0
    versus 1.1.0, the provided executable versus the one build by our system
