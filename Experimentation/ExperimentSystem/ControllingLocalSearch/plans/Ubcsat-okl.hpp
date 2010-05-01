@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.9.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo More readable large numbers:
   <ul>
+   <li> See "Contact the developers of Ubcsat" in
+   Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
    <li> Especially for the cutoff value it would be good if number
    representations like "100*10^6" (or "55*11^7") could be used. </li>
    <li> It's awkward to count the zeros. </li>
