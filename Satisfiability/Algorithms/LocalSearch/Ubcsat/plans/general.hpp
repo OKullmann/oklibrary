@@ -71,48 +71,6 @@ License, or any later version. */
        (so that on 32-bit machines one can also get 64-bit counters). </li>
       </ol>
      </li>
-     <li> Weak performance on 32-bit machines
-      <ol>
-       <li> An example is given by
-       \verbatim
-> Ramsey-O3-DNDEBUG 5 5 2 40 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_2-5-5-40.cnf
-> ls -l Ramsey_2-5-5-40.cnf
--rw-r--r--  1 kullmann users 60031461 2010-05-01 22:04 Ramsey_2-5-5-40.cnf
-       \endverbatim
-       </li>
-       <li> Considering "FlipsPerSecond" (FPS), on a 32-bit machine the
-       performance is much weaker (nearly a factor of 2) than on 64-bit
-       machines, where experiments are performed by e.g.
-       \verbatim
-> ubcsat-okl -alg samd -i Ramsey_2-5-5-40.cnf -runs 10 -cutoff 5000
-       \endverbatim
-       </li>
-       <li> This is all, as everything here, about version 1.0.0 in our
-       adoptation. </li>
-      </ol>
-     </li>
-     <li> Improved include-directives in the source code
-      <ol>
-       <li> Currently the includes use the quotation-mark-form, however they
-       should use the form
-       \verbatim
-#include <dir/file>
-       \endverbatim
-       </li>
-       <li> Only in this way is it possible just by using an include-option
-       for gcc to replace certain files by others (for example by corrected
-       files in Ubcsat/corrected). </li>
-       <li> Currently one can use option "-I-", but this option is deprecated
-       with gcc version 4.2.0, without a proper replacement. </li>
-      </ol>
-     </li>
-     <li> Input of large numbers
-      <ol>
-       <li> Especially for the cutoff value it would be good if number
-       representations like "100*10^6" (or "55*11^7") could be used. </li>
-       <li> It's awkward to count the zeros. </li>
-      </ol>
-     </li>
      <li> Output in general
       <ol>
        <li> DIMACS return codes should be available (10 for SAT, 0 for
@@ -129,9 +87,6 @@ License, or any later version. */
        into a file). </li>
       </ol>
      </li>
-     <li> It should be possible to specify a partial assignment to start with.
-     Option "-varinit" does it, but it is not clear what happens with *partial*
-     assignments. </li>
      <li> Table output:
       <ol>
        <li> We need some simple output format, which simply outputs all
@@ -144,7 +99,7 @@ License, or any later version. */
        <li> The first line should be a comment-line showing all the parameters
        (for reproduction purposes). </li>
        <li> Then we have a line with the names of the columns (without the
-       first counter column), formatted in such a way that it reads nicely
+       first counter-column), formatted in such a way that it reads nicely
        (if the line-width is sufficient). </li>
        <li> And then comes the data. </li>
        <li> For us it's important to just always get all the data: who knows
@@ -152,9 +107,9 @@ License, or any later version. */
        there is no problem if per runs there are, say, 20 numbers. </li>
        <li> A simple example, using our current wrapper, which chooses the
        data we are most interested in (however the table-format should contain
-       *all* data):
+       all data):
        \verbatim
-> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 12000000 -i GreenTao_N_3-4-4-4_5300.cnf -solve | tee -a GreenTao_N_3-4-4-4_5300.cnf_OUT
+> ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 12000000 -i GreenTao_N_3-4-4-4_5300.cnf -solve | tee GreenTao_N_3-4-4-4_5300.cnf_OUT
 # -alg rnovelty+ -runs 100 -cutoff 12000000 -i GreenTao_N_3-4-4-4_5300.cnf -solve
        sat  min     osteps     msteps       seed
       1 0    26    7723050   12000000 1068430341
@@ -192,6 +147,57 @@ License, or any later version. */
        some discussion, since these names will be used a lot, and it would be
        best if in the OKlibrary we didn't rename them (since that would result
        in some confusion for Ubcsat-users outside of the OKlibrary). </li>
+      </ol>
+     </li>
+     <li> Input and output of assignments
+      <ol>
+       <li> It would be nice, it optionally one could get the best assignment
+       per run. </li>
+       <li> It should be possible to specify a partial assignment to start
+       with. Option "-varinit" does it, but it is not clear what happens with
+       <em>partial</em> assignments. </li>
+      </ol>
+     </li>
+     <li> Improved include-directives in the source code
+      <ol>
+       <li> Currently the includes use the quotation-mark-form, however they
+       should use the form
+       \verbatim
+#include <dir/file>
+       \endverbatim
+       </li>
+       <li> Only in this way is it possible just by using an include-option
+       for gcc to replace certain files by others (for example by corrected
+       files in Ubcsat/corrected). </li>
+       <li> Currently one can use option "-I-", but this option is deprecated
+       with gcc version 4.2.0, without a proper replacement. </li>
+      </ol>
+     </li>
+     <li> Weak performance on 32-bit machines
+      <ol>
+       <li> An example is given by
+       \verbatim
+> Ramsey-O3-DNDEBUG 5 5 2 40 | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_2-5-5-40.cnf
+> ls -l Ramsey_2-5-5-40.cnf
+-rw-r--r--  1 kullmann users 60031461 2010-05-01 22:04 Ramsey_2-5-5-40.cnf
+       \endverbatim
+       </li>
+       <li> Considering "FlipsPerSecond" (FPS), on a 32-bit machine the
+       performance is much weaker (nearly a factor of 2) than on 64-bit
+       machines, where experiments are performed by e.g.
+       \verbatim
+> ubcsat-okl -alg samd -i Ramsey_2-5-5-40.cnf -runs 10 -cutoff 5000
+       \endverbatim
+       </li>
+       <li> This is all, as everything here, about version 1.0.0 in our
+       adoptation. </li>
+      </ol>
+     </li>
+     <li> Input of large numbers
+      <ol>
+       <li> Especially for the cutoff value it would be good if number
+       representations like "100*10^6" (or "55*11^7") could be used. </li>
+       <li> It's awkward to count the zeros. </li>
       </ol>
      </li>
      <li> Usage as library:
