@@ -83,7 +83,7 @@ License, or any later version. */
        the output, and will realise that it was a trap). </li>
        <li> Option "-solve" is important, and shouldn't be coupled with the
        output of a satisfying assignment, but that should be handled by a
-       differerent option (which also should allow to output the assignment
+       different option (which also should allow to output the assignment
        into a file). </li>
       </ol>
      </li>
@@ -190,7 +190,7 @@ License, or any later version. */
        \endverbatim
        </li>
        <li> This is all, as everything here, about version 1.0.0 in our
-       adoptation. </li>
+       adaptation. </li>
       </ol>
      </li>
      <li> Input of large numbers
