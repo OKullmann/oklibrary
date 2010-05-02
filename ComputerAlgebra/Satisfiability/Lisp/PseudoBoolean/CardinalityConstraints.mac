@@ -151,9 +151,11 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
 */
 
 /*
-   The following algorithm, from the above mentioned paper, given a boolean
-   cardinality constraint [a,L,b], computes a CNF representation F of the
-   cardinality constraint with detection of forced assignments via UCP.
+   The following algorithm, from the above mentioned paper, computes a CNF
+   representation F of the cardinality constraint [a,L,b] with detection of
+   forced assignments via UCP.
+OK: which algorithm??? Obviously all the explanation must directly relate
+to the functions implemented here.
 
    The algorithm takes as input a list E of literals, and then introduces
    a list of new (distinct) variables S of the same size as E, which under any
