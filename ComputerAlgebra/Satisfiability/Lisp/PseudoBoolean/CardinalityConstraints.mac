@@ -130,12 +130,8 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
 */
 
 /* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
-   Constraints" by Olivier Bailleux and Yacine Boufkhad.
-   Journal : LNCS
-   Volume : 2833
-   Pages : 102-122
-   Publisher : Springer Berlin
-   Year : 2003
+   Constraints" by Olivier Bailleux and Yacine Boufkhad, LNCS 2833 (Springer),
+   2003, pages 102-122.
 */
 
 /*
