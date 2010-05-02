@@ -91,7 +91,7 @@ License, or any later version. */
        adoptation. </li>
       </ol>
      </li>
-     <li> Improved includes in the source code
+     <li> Improved include-directives in the source code
       <ol>
        <li> Currently the includes use the quotation-mark-form, however they
        should use the form
@@ -113,21 +113,25 @@ License, or any later version. */
        <li> It's awkward to count the zeros. </li>
       </ol>
      </li>
-     <li> DIMACS return codes should be available (10 for SAT, 0 for
-     unknown). </li>
-     <li> Signal SIGINT should be caught, all remaining output should be
-     performed, and only then the computation is aborted. </li>
-     <li> Every output should be flushed (there is no reason not to flush
-     always everything --- a user thinking he doesn't need it will experience
-     the the day where he needs to abort a long computation without access to
-     the output, and will realise that it was a trap). </li>
+     <li> Output in general
+      <ol>
+       <li> DIMACS return codes should be available (10 for SAT, 0 for
+       unknown). </li>
+       <li> Signal SIGINT should be caught, all remaining output should be
+       performed, and only then the computation is aborted. </li>
+       <li> Every output should be flushed (there is no reason not to flush
+       always everything --- a user thinking he doesn't need it will experience
+       the the day where he needs to abort a long computation without access to
+       the output, and will realise that it was a trap). </li>
+       <li> Option "-solve" is important, and shouldn't be coupled with the
+       output of a satisfying assignment, but that should be handled by a
+       differerent option (which also should allow to output the assignment
+       into a file). </li>
+      </ol>
+     </li>
      <li> It should be possible to specify a partial assignment to start with.
      Option "-varinit" does it, but it is not clear what happens with *partial*
      assignments. </li>
-     <li> Option "-solve" is important, and shouldn't be coupled with the
-     output of a satisfying assignment, but that should be handled by a
-     differerent option (which also should allow to output the assignment into
-     a file). </li>
      <li> Table output:
       <ol>
        <li> We need some simple output format, which simply outputs all
