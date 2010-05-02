@@ -58,7 +58,7 @@ License, or any later version. */
    Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
    <li> Wish-list for a new Ubcsat-release 1.2.0:
     <ol>
-     <li> 64 bit:
+     <li> 64 bit
       <ol>
        <li> Native 64-bit compilation should be available. </li>
        <li> It seems that our version (with native 64-bit compilation) is
@@ -71,7 +71,7 @@ License, or any later version. */
        (so that on 32-bit machines one can also get 64-bit counters). </li>
       </ol>
      </li>
-     <li> Weak performance on 32-bit machines:
+     <li> Weak performance on 32-bit machines
       <ol>
        <li> An example is given by
        \verbatim
@@ -91,9 +91,9 @@ License, or any later version. */
        adoptation. </li>
       </ol>
      </li>
-     <li> Improved directory structure:
+     <li> Improved includes in the source code
       <ol>
-       <li> Currently the includes use the " ... " form, however they
+       <li> Currently the includes use the quotation-mark-form, however they
        should use the form
        \verbatim
 #include <dir/file>
@@ -113,7 +113,7 @@ License, or any later version. */
        <li> It's awkward to count the zeros. </li>
       </ol>
      </li>
-     <li> DIMACS return codes should be available (10 for SAT or 0 for
+     <li> DIMACS return codes should be available (10 for SAT, 0 for
      unknown). </li>
      <li> Signal SIGINT should be caught, all remaining output should be
      performed, and only then the computation is aborted. </li>
@@ -122,16 +122,17 @@ License, or any later version. */
      the the day where he needs to abort a long computation without access to
      the output, and will realise that it was a trap). </li>
      <li> It should be possible to specify a partial assignment to start with.
-     </li>
+     Option "-varinit" does it, but it is not clear what happens with *partial*
+     assignments. </li>
      <li> Option "-solve" is important, and shouldn't be coupled with the
      output of a satisfying assignment, but that should be handled by a
-     differerent option (which also should allow to output it into a file).
-     </li>
+     differerent option (which also should allow to output the assignment into
+     a file). </li>
      <li> Table output:
       <ol>
        <li> We need some simple output format, which simply outputs all
        available data per run in table format, while omitting all summary
-       statistics. </li>
+       statistics (this is redundant information). </li>
        <li> One could use an option "--table-output". </li>
        <li> The aim is that from R with a simple read.table-command the whole
        data becomes available. </li>
@@ -139,10 +140,15 @@ License, or any later version. */
        <li> The first line should be a comment-line showing all the parameters
        (for reproduction purposes). </li>
        <li> Then we have a line with the names of the columns (without the
-       first counter column), formatted in such a way that it reads nicely.
-       </li>
+       first counter column), formatted in such a way that it reads nicely
+       (if the line-width is sufficient). </li>
        <li> And then comes the data. </li>
-       <li> A simple example (the table-format should contain *all* data):
+       <li> For us it's important to just always get all the data: who knows
+       in advance which data is useful? And since we handle the data in R,
+       there is no problem if per runs there are, say, 20 numbers. </li>
+       <li> A simple example, using our current wrapper, which chooses the
+       data we are most interested in (however the table-format should contain
+       *all* data):
        \verbatim
 > ubcsat-okl -alg rnovelty+ -runs 100 -cutoff 12000000 -i GreenTao_N_3-4-4-4_5300.cnf -solve | tee -a GreenTao_N_3-4-4-4_5300.cnf_OUT
 # -alg rnovelty+ -runs 100 -cutoff 12000000 -i GreenTao_N_3-4-4-4_5300.cnf -solve
@@ -152,7 +158,36 @@ License, or any later version. */
       3 0    13   11538566   12000000 3234664768
       4 0    13   10518459   12000000 2599548647
        \endverbatim
+       As said, no summary statistics like "BestStep_Mean". </li>
+       <li> "FlipsPerSecond" should be output per run. </li>
        <li> If there is additional output, then in comment-form. </li>
+       <li> Data like input-statistics (the number of clauses etc.) should
+       only come in the form of comments; an additional option would be good,
+       which outputs such data into a file, and that as soon as the formula
+       has been read. </li>
+       <li> Perhaps one has the option that the full table output goes to a
+       file, while selected columns are output to standard output (so that
+       it actually reads nicely if one wants to have a look at the computation
+       "online"). </li>
+       <li> Regarding the various files created by Ubcsat, they should have
+       good names; this likely needs discussion, but the names should start
+       with the input filename. </li>
+       <li> On the other hand, likely Ubcsat doesn't want to create
+       directories (which wouldn't be possible in just standard C), and
+       then it would be good if all files creates by Ubcsat started with
+       a uniform prefix like "ubcsat-", so that these files can be identified
+       more easily. </li>
+       <li> The column-headings shouldn't use "camel-case", and should be
+       succinct strings (without spaces). </li>
+       <li> As can be seen above, we renamed "beststep" (the name in Ubcsat
+       as option, resp. "Best of Steps", the column heading in Ubcsat), to
+       "osteps"; it could be "bsteps", but such names should be
+       succinct, since they are to be used a lot (in R). </li>
+       <li> "best" seems to be better called "min". Whatever the names, it
+       would be good if some thought would be spend on them, and perhaps also
+       some discussion, since these names will be used a lot, and it would be
+       best if in the OKlibrary we didn't rename them (since that would result
+       in some confusion for Ubcsat-users outside of the OKlibrary). </li>
       </ol>
      </li>
      <li> Usage as library:
