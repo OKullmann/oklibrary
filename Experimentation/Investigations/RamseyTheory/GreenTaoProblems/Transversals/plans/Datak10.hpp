@@ -55,6 +55,8 @@ intersection(G[2][4], G[2][6]);
    <li> While it follows from the above disjointness-property, that tau always
    increases by one when a new hyperedge aries in the above list, except for
    the sixth hyperedge which is left out. </li>
+   <li> Starting with the Maxima-level, we must first compute the connected
+   components, and then handle each component separately. </li>
    <li> At C++ level (showing only the changes):
    \verbatim
 > MinimumTransversals_GreenTao-O3-DNDEBUG 2000 10 | tee GreenTao_Trans_10_2000_OUT
