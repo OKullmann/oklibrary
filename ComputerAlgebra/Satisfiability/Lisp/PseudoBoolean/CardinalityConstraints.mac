@@ -135,14 +135,22 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
 */
 
 /*
-   A CNF representation of a boolean cardinality constraint [a,L,b] with
-   detection of forced assignments via UCP is a CNF F with var(L) as a subset
-   of var(F) and the property that for every partial assignment phi, if there
-   is a forced assignment psi on apply_pa(phi,F) then applying unit clause
-   propagation to apply_pa(phi,F) is the same as applying psi to
-   apply_pa(phi,F), (i.e., UCP derives all forced assignments of
-   apply_pa(phi,F)).
+   A "CNF representation of a cardinality constraint [a,L,b]" is a clause-set
+   F with var(L) <= var(F), whose satisfying assignments restricted to var(L)
+   are exactly those of the condition [a,L,b], and such that every satisfying
+   assignment for [a,L,b] has exactly one extension to a satisfying assignment
+   of F.
 
+   A CNF representation of a boolean cardinality constraint [a,L,b] with
+   "detection of forced assignments via UCP" is a CNF representation of [a,L,b]
+   with the property that for every partial assignment phi with
+   var(phi) <= var(L) and every forced assignment <v -> e> for apply_pa(phi,F)
+   with v in var(L), applying unit-clause-propagation to apply_pa(phi,F)
+   includes this forced assignment (i.e., UCP derives all forced assignments
+   for apply_pa(phi,F) which concern the cardinality constraint).
+*/
+
+/*
    The following algorithm, from the above mentioned paper, given a boolean
    cardinality constraint [a,L,b], computes a CNF representation F of the
    cardinality constraint with detection of forced assignments via UCP.
