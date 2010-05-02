@@ -188,7 +188,17 @@ License, or any later version. */
    <li> n=5200, cutoff=12*10^6: In run 70 a solution was found
    (seed=918366649, osteps=10327030). The second lowest min-value was 4
    (attained once). </li>
-   <li> n=5300, cutoff=12*10^6 </li>
+   <li> n=5300
+    <ol>
+     <li> cutoff=12*10^6:
+     \verbatim
+ 5 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 32 35
+ 1  4  3  4  5  4  7  8  3  6  9  3  6  6  6  5  3  5  2  3  2  3  1  1
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
   
 */
