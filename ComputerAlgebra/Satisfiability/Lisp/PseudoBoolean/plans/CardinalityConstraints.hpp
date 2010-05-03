@@ -334,6 +334,73 @@ is(Csa);
    for apply_pa(phi,F) which concern the cardinality constraint).
    \endverbatim
    </li>
+   <li> And so does this text:
+   \verbatim
+   The following algorithm, from the above mentioned paper, computes a CNF
+   representation F of the cardinality constraint [a,L,b] with detection of
+   forced assignments via UCP.
+
+   The algorithm takes as input a list E of literals, and then introduces
+   a list of new (distinct) variables S of the same size as E, which under any
+   assignment will have the unary representation (ones/trues appearing from
+   the left) of the cardinality of E. The remainder of the algorithm consists
+   of two phases, the totalizer and the comparator, and the clauses
+   generated (and variables introduced) by these phases are then appended
+   together to produce the final clause-set. The totalizer enforces that
+   S is the unary representation of the cardinality of L and the comparator
+   enforces that this unary representation represents a number in the range
+   a to b.
+
+   The totalizer takes as input a list E of input variables, and as
+   output a list S of cardinality variables, and returns a list of
+   clauses that enforce that S is a unary representation of E. This
+   is done in a recursive manner, through the introduction of new variables,
+   and clauses enforcing unary addition.
+   
+   In the totalizer, E is split into two sublists E_1 and E_2, where E_1 is
+   the list of the first floor(length(E)/2) elements and E_2 is the remainder
+   of E. The algorithm then introduces two lists of new (distinct) variables
+   S_1 and S_2, where S_1 and S_2 are the same size as E_1 and E_2
+   respectively. Totalizer is then run again for each of these sublists E_1
+   with S_1 and E_2 with S_2 returning (new) variable and clause-lists V_1,C_1
+   and V_2,C_2 respectively, and then the following clauses (C_3) are
+   generated to enforce that in any satisfying assignment of F, we have that S
+   is the unary addition of S_1 and S_2:
+
+
+     for every 
+       0 <= a <= length(E_1) and 
+       0 <= b <= length(E_2) and
+       0 <= c <= length(L) such that
+       a + b = c we add the clauses
+
+         1) {-S_1[a],-S_2[b],S[c]} and
+	 2) {S_1[a+1], S_2[b+1], S[c+1]}
+
+   where (1) ensures (S_1[a] and S_2[b]) => S[a+b]), i.e., the unary
+   addition holds in one direction and (2) ensures
+   (S[a+b+1] => (S_1[a+1] or S_2[b+1]), i.e., the other direction, and we have
+       
+     S_1[0] = S_2[0] = S[0] = 1 and 
+     S_1[length(E_1)+1] = S_2[length(E_2)+1] = S[length(L)+1] = 0
+
+   for the extreme cases for the above clauses.
+
+   In the base case where length(E) = 1, totalizer takes S_1 = E_1, and
+   S_2 = E2, since E_1 and E_2 are their own unary representations.
+
+   The comparator generates a list of unit clauses
+
+       [{S[1]},...,{S[a]},{S[b+1]},...,{S[length(L)]}]
+
+   which ensures that, given that the totalizer ensures that S is the unary
+   representation of the cardinality of E, any satisfying assignment
+   which results in E having a cardinality less than a, or greater than b, 
+   is a falsifying assignment for F.
+
+   To use this algorithm see cardinality_cl.
+   \endverbatim
+   </li>
   </ul>
 
 
