@@ -378,6 +378,7 @@ cardinality_comparator_cl(S,p,q) :=
    S = create_list(ctt(1,length(E),i),i,1,length(E)) .
 
 */
+/* TODO, RENAME: unary_bb_crdl2fcl (thus returned is a formal clause-list) */
 cardinality_cl(C) := block(
   [p : C[1], E : C[2], q : C[3],S],
   S : create_list(ctt_var(1,length(E),i),i,1,length(E)),

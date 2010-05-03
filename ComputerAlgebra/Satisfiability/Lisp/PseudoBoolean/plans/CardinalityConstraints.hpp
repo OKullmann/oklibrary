@@ -305,6 +305,7 @@ is(Csa);
    <li> These functions realise only special implementations, and so a generic
    name like "cardinality_cl" is inappropriate. </li>
    <li> We should also use English spelling, for example "totaliser". </li>
+   <li> "cardinality_cl" should become "unary_bb_crdl2fcl". </li>
   </ul>
 
 
