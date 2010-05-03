@@ -271,35 +271,6 @@ is(Csa);
   </ul>
 
 
-  \todo Representations with detection of forced assignments via r_k reduction
-  <ul>
-   <li> An algorithm is given in 
-   [Efficient CNF Encoding of Boolean Cardinality Constraints] which
-   generates a CNF representation of a boolean cardinality constraint
-   with detection of forced assignments via UCP. </li>
-   <li> The question is, can we generalise this so that there are smaller
-   CNF representations with new variables that detect forced assignments 
-   using r_k reductions for arbitrary k. </li>
-   <li> This would be useful as some solvers such as OKsolver and
-   march_pl use r_2 reductions (although march_pl only to some degree) and if 
-   the number of literals considered in the constraint is large then the CNF 
-   representation with detection via UCP can become rather large as well, and 
-   so a smaller representation allowing for slightly more powerful reductions 
-   might prove useful. </li>
-  </ul>
-
-
-  \todo Cardinality constraints as active clauses
-  <ul>
-   <li> As a special case of "Pseudo-boolean constraints as active clauses"
-   (see ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp),
-   cardinality constraints should yield a very attractive first model of
-   "active clauses". </li>
-   <li> Their interface as a set of clauses is given by their prime implicates
-   representation (see "Direct realisations" below). </li>
-  </ul>
-
-
   \todo Rename functions related to unary encoding
   <ul>
    <li> These functions realise only special implementations, and so a generic
@@ -481,6 +452,33 @@ is(Csa);
    a C++ implementation. </li>
    <li> Joost Warners dissertation also describes such a translation; are
    there differences? </li>
+  </ul>
+
+
+  \todo Representations with detection of forced assignments via r_k reduction
+  <ul>
+   <li> Above we discuss the notion of "detection of forced assignments via
+   UCP". </li>
+   <li> The question is, can we generalise this so that there are smaller
+   CNF representations with new variables that detect forced assignments 
+   using r_k reductions for arbitrary k. </li>
+   <li> This would be useful as some solvers such as OKsolver and
+   march_pl use r_2 reductions (although march_pl only to some degree) and if 
+   the number of literals considered in the constraint is large then the CNF 
+   representation with detection via UCP can become rather large as well, and 
+   so a smaller representation allowing for slightly more powerful reductions 
+   might prove useful. </li>
+  </ul>
+
+
+  \todo Cardinality constraints as active clauses
+  <ul>
+   <li> As a special case of "Pseudo-boolean constraints as active clauses"
+   (see ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/general.hpp),
+   cardinality constraints should yield a very attractive first model of
+   "active clauses". </li>
+   <li> Their interface as a set of clauses is given by their prime implicates
+   representation (see "Direct realisations" below). </li>
   </ul>
 
 
