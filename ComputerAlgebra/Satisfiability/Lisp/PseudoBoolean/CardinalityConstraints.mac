@@ -174,7 +174,9 @@ ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
    Variables in F are those of E and S together with variables ctt(...).
 */
 /* RENAME: cardinality_totaliser_cl, cardinality_totaliser_r_cl */
+/* TODO: make E come first, then S (inputs comes before output) */
 cardinality_totalizer_cl(S,E) := cardinality_totalizer_r_cl(S,E,1,length(E))$
+/* TODO: specify cardinality_totalizer_r_cl */
 cardinality_totalizer_r_cl(S,E, a,b) := 
   if length(E) < 1 then []
   else block(
