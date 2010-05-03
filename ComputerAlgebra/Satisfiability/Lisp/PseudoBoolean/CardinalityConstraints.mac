@@ -158,10 +158,8 @@ cardinality_cl(C) := block(
   return(
     append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
-/* Variables are "ctt(a,b,i)", meaning the i-th new variable in the
-   list of variables which are used for the unary representation of the
-   sublist [S[a],...,S[b]] of S. 
-*/
+/* New variables are "ctt(a,b,i)". */
+/* TODO: what are the values of a, b, i ? */
 kill(ctt)$
 declare(ctt, noun)$
 declare(ctt, posfun)$
