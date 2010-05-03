@@ -217,21 +217,18 @@ cardinality_totalizer_r_cl(S,E, a,b) :=
   )$
 
 
-/* Given a list S of variables together with p, q, produces a clause-list F 
+/* For a list S of variables and natural numbers p, q, compute a clause-list F 
    whose satisfying assignments are those total assignments where the first
    p variables are set to true, and all variables from the (q+1)-th onwards 
-   are set to false.
-
-   The clause-list returned is simply a list of length(S) - (q-p) unit clauses
-   where the first p variables in S occur as the first p (positive) literals in
-   unit clauses and the last (length(S)-q+1) variables occur as negative
-   literals in the later unit clauses.
-
-   No new variables are introduced.
+   are set to false. The clause-list returned is thus the list of
+   length(S) - (q-p) unit-clauses where the first p variables in S occur as
+   the first p (positive) literals in unit-clauses and the last
+   (length(S)-q+1) variables occur as negative literals in the later
+   unit-clauses.
+   Prerequisite: 0 <= p <= q <= length(S).
 */
 cardinality_comparator_cl(S,p,q) := 
-  append(
-    map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
+  append(map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
 
 
 /*!
