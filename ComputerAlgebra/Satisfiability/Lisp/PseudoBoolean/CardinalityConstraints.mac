@@ -185,7 +185,7 @@ to the functions implemented here.
    of E. The algorithm then introduces two lists of new (distinct) variables
    S_1 and S_2, where S_1 and S_2 are the same size as E_1 and E_2
    respectively. Totalizer is then run again for each of these sublists E_1
-   with S_1 and E_2 with S_2 returning (new) variable and clause lists V_1,C_1
+   with S_1 and E_2 with S_2 returning (new) variable and clause-lists V_1,C_1
    and V_2,C_2 respectively, and then the following clauses (C_3) are
    generated to enforce that in any satisfying assignment of F, we have that S
    is the unary addition of S_1 and S_2:
@@ -359,7 +359,7 @@ cardinality_totalizer_r_cl(S,E, a,b) :=
    p variables are set to true, and all variables from the (q+1)-th onwards 
    are set to false.
 
-   The clause list returned is simply a list of length(S) - (q-p) unit clauses
+   The clause-list returned is simply a list of length(S) - (q-p) unit clauses
    where the first p variables in S occur as the first p (positive) literals in
    unit clauses and the last (length(S)-q+1) variables occur as negative
    literals in the later unit clauses.
