@@ -140,15 +140,21 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
    are exactly those of the condition [a,L,b], and such that every satisfying
    assignment for [a,L,b] has exactly one extension to a satisfying assignment
    of F.
-
-   A CNF representation of a boolean cardinality constraint [a,L,b] with
-   "detection of forced assignments via UCP" is a CNF representation of [a,L,b]
-   with the property that for every partial assignment phi with
-   var(phi) <= var(L) and every forced assignment <v -> e> for apply_pa(phi,F)
-   with v in var(L), applying unit-clause-propagation to apply_pa(phi,F)
-   includes this forced assignment (i.e., UCP derives all forced assignments
-   for apply_pa(phi,F) which concern the cardinality constraint).
 */
+
+/* 
+  Computing a CNF representation of cardinality constraint C according
+  to [BB 2003]. The new variables are of the form ctt(...), and come
+  after the original variables in the list of variables.
+  The literals in C must have distinct variables (so neither repetition of
+  literals nor clashing literals are allowed).
+*/
+/* TODO, RENAME: unary_bb_crd2fcl (thus returned is a formal clause-list) */
+cardinality_cl(C) := block(
+  [p : C[1], E : C[2], q : C[3],S],
+  S : create_list(ctt_var(1,length(E),i),i,1,length(E)),
+  return(
+    append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
 /*
    The following algorithm, from the above mentioned paper, computes a CNF
@@ -364,26 +370,6 @@ cardinality_comparator_cl(S,p,q) :=
   append(
     map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
 
-/* Given a list E of literals, and integers p and q returns a clause-list F
-   which is a CNF representation of the boolean cardinality constraint [p,E,q]
-   with detection of forced assignments via UCP.
-
-   The variables V in the output clause-list F are append(E,S,S') where
-   S = [ctt([],1),...,ctt([],length(E))] and S' is the list of new
-   variables introduced by cardinality_totalizer_cl(S,E) (see definition).
-
-   The satisfying partial assignments for F are those assignments which
-   satisfy both cardinality_comparator_cl(S,p,q) and
-   cardinality_totalizer_cl(S,E) where
-   S = create_list(ctt(1,length(E),i),i,1,length(E)) .
-
-*/
-/* TODO, RENAME: unary_bb_crdl2fcl (thus returned is a formal clause-list) */
-cardinality_cl(C) := block(
-  [p : C[1], E : C[2], q : C[3],S],
-  S : create_list(ctt_var(1,length(E),i),i,1,length(E)),
-  return(
-    append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
 /*!
 \endhtmlonly

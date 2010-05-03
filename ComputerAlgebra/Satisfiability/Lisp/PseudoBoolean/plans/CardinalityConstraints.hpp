@@ -323,6 +323,17 @@ is(Csa);
    is inappropriate --- function specifications should be rather short and
    succinct. </li>
    <li> If appropriate, these texts should be moved to the docus. </li>
+   <li> So this text has a place only in the docus:
+   \verbatim
+   A CNF representation of a boolean cardinality constraint [a,L,b] with
+   "detection of forced assignments via UCP" is a CNF representation of [a,L,b]
+   with the property that for every partial assignment phi with
+   var(phi) <= var(L) and every forced assignment <v -> e> for apply_pa(phi,F)
+   with v in var(L), applying unit-clause-propagation to apply_pa(phi,F)
+   includes this forced assignment (i.e., UCP derives all forced assignments
+   for apply_pa(phi,F) which concern the cardinality constraint).
+   \endverbatim
+   </li>
   </ul>
 
 
