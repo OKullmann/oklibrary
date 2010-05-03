@@ -170,8 +170,8 @@ ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
 /* Given a list S of "output" variables and a list E of "input" literals
    of the same length, the result is a clause-list F encoding that S is a 
    unary representation of the cardinality of L, where any forced
-   assignments follow by UCP. Note that S and E should be disjoint, and S
-   should contain distinct variables, although E may contain repetitions.
+   assignments follow by UCP. Note that S and E should be disjoint and
+   must each contain distinct variables.
    
    Here var_cs(F) = append(S,E,V) where variables in V are described
    in the definition of "ctt" above.
