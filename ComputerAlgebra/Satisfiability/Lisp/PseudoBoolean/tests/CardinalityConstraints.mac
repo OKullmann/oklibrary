@@ -13,6 +13,10 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac");
 
+  \bug All tests regarding UCP (and unary encoding) must be removed.
+
+  \todo The text below regarding unary encoding needs a complete update.
+
 */
 
 /*!
