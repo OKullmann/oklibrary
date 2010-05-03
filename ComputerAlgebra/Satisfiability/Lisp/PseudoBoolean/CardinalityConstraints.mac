@@ -159,7 +159,8 @@ cardinality_cl(C) := block(
     append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
 /* New variables are "ctt(a,b,i)". */
-/* TODO: what are the values of a, b, i ? */
+/* TODO: what are the values of a, b, i ? And what does "ctt" stand for? */
+/* TODO: rename to "vru" (like "variable recursive unary") */
 kill(ctt)$
 declare(ctt, noun)$
 declare(ctt, posfun)$
