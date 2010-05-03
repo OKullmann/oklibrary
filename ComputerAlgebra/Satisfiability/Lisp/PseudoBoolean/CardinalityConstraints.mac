@@ -17,6 +17,8 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac");
 
+  \bug unary_bb_crd2fcl doesn't take a cardinalitry constraint
+
 */
 
 /*!
