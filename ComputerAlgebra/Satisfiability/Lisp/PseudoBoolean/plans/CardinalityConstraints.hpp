@@ -488,6 +488,11 @@ is(Csa);
    SAT] contains another translation. </li>
    <li> And so does [Sinz, 2005, Towards an Optimal Encoding of Boolean
    Cardinality Constraints]. </li>
+   <li> The newest article is [Asin et al, SAT 2009, Cardinality networks and
+   their applications]. Perhaps this should be the starting point. </li>
+   <li> In [Bailleux et al, SAT 2009, New encodings for pseudo-boolean
+   constraints into CNF] one finds further remarks regarding the unary
+   encoding. </li>
   </ul>
 
 
