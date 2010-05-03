@@ -257,20 +257,6 @@ is(Csa);
   </ul>
 
 
-  \todo Ordering for CNFs with detection of forced assignments via UCP
-  <ul>
-   <li> The functions, cardinality_cl etc return clause-lists which
-   introduce an ordering on the clauses they return, however
-   this ordering is not currently specified (explicitly) in the 
-   specification of the algorithm or the function. </li>
-   <li> The clauses are introduced in a recursive manner in
-   cardinality_totalizer_cl, with 2 recursive calls within each call to
-   the function (resulting in a binary recursion tree), and so there are
-   several ways in which we can order the clauses introduced. </li>
-   <li> What is a good order here? </li>
-  </ul>
-
-
   \todo Rename functions related to unary encoding
   <ul>
    <li> These functions realise only special implementations, and so a generic
