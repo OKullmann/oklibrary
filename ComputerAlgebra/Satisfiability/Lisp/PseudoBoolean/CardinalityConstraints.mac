@@ -165,9 +165,11 @@ declare(ctt, noun)$
 declare(ctt, posfun)$
 ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
 
-/* For a list S of "output" variables and a list E of "input" literals
+/* For a list E of "input" literals and a list S of "output" variables
    of the same length, compute a clause-list F equivalent to the condition
-   that S is a unary representation of the cardinality of L.
+   that S is a "unary representation" of the count of 1's in E, that is, w.r.t.
+   the given order in S, if a total assignment assigns k 1's to E, then
+   the first k variables in S are true, and the remaining variables are false.
    S and E must be disjoint and must each contain distinct variables.
    Variables in F are those of E and S together with variables ctt(...).
 */
