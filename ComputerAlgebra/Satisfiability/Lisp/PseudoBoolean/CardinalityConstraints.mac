@@ -172,9 +172,6 @@ ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
    that S is a unary representation of the cardinality of L.
    S and E must be disjoint and must each contain distinct variables.
    
-   Here var_cs(F) = append(S,E,V) where variables in V are described
-   in the definition of "ctt" above.
- 
    The list of new variables introduced by this function can therefore be 
    recursively defined using a function vc, where
    V = rest(vc(E,1,length(E)), length(E)):
