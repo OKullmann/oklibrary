@@ -209,12 +209,21 @@ L210_21 : minimum_transversals_mongen(210,A21,[{}])$
 > VdWTransversalsInc 21 1 0 VDW_21 VDW_21_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("VDW_21"))));
- [20,41,60,79,98,117,136,155,174,193,212,231,250,269,288,307,326,345,364]
+ [20,41,60,79,98,117,136,155,174,193,212,231,250,269,288,307,326,345,364,381,382,383,384]
 length(L);
- 19
+ 23
 
 > tail -1 VDW_21
-
+  21 385 23
+> tail VDW_21_SAT
+*** INTERRUPTED ***
+restarts              : 35
+conflicts             : 200202402      (940 /sec)
+decisions             : 269992376      (1.58 % random) (1268 /sec)
+propagations          : 15055602784    (70695 /sec)
+conflict literals     : 25186271183    (23.42 % deleted)
+Memory used           : 263.97 MB
+CPU time              : 212966 s
    \endverbatim
    </li>
   </ul>
