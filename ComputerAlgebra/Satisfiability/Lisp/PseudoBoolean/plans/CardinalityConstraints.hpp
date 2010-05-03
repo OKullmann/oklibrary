@@ -232,6 +232,38 @@ is(Csa);
   </ul>
 
 
+  \todo Improved understanding/implementation of BB-method
+  <ul>
+   <li> The right starting point should be to explicitly use "the tree" alluded
+   to in the paper. </li>
+   <li> Of course, we need a name: "unary addition tree". </li>
+   <li> The simplest structure is that of a labelled tree (recall
+   ComputerAlgebra/Trees/Lisp/Basics.mac), where every inner node has
+   precisely two children, for a natural number n >= 1:
+   \verbatim
+unary_addition_tree_0_lrt(n) := if n=1 then [[1]] else
+ block([a : floor(n/2), b], b : n - a,
+  return([[n], unary_addition_tree_0_lrt(a), unary_addition_tree_0_lrt(b)]))$
+
+draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
+   \endverbatim
+   b could also be defined as ceiling(n/2). </li>
+   <li> Next we provide additional labels, namely the variables used at the
+   leaves for input, the auxiliary variables used at inner non-root nodes for
+   the unary representation, and the list of output variables at the root.
+   </li>
+   <li> n is then implicitly given as the (coinciding) lengths of the lists
+   of input and output variables. </li>
+   <li> What needs here to be reflected, is the nature of the recursion, and,
+   intimately related, how to specify the auxiliary variables. </li>
+   <li> What is used in the BB-paper might not be appropriate (or only
+   appropriate for the presentation in the paper!). </li>
+   <li> Once this is done, then only another function for the clause-set
+   describing the relation between a non-leaf node and its two children is
+   needed, and the totaliser-function is there. </li>
+  </ul>
+
+
   \todo Rename functions related to unary encoding
   <ul>
    <li> These functions realise only special implementations, and so a generic
