@@ -173,6 +173,7 @@ ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
    S and E must be disjoint and must each contain distinct variables.
    Variables in F are those of E and S together with variables ctt(...).
 */
+/* RENAME: cardinality_totaliser_cl, cardinality_totaliser_r_cl */
 cardinality_totalizer_cl(S,E) := cardinality_totalizer_r_cl(S,E,1,length(E))$
 cardinality_totalizer_r_cl(S,E, a,b) := 
   if length(E) < 1 then []
