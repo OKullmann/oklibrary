@@ -131,17 +131,17 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
    ************************
 */
 
-/* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
-   Constraints" by Olivier Bailleux and Yacine Boufkhad, LNCS 2833 (Springer),
-   2003, pages 102-122.
-*/
-
 /*
    A "CNF representation of a cardinality constraint [a,L,b]" is a clause-set
    F with var(L) <= var(F), whose satisfying assignments restricted to var(L)
    are exactly those of the condition [a,L,b], and such that every satisfying
    assignment for [a,L,b] has exactly one extension to a satisfying assignment
    of F.
+*/
+
+/* The representation below is from "Efficient CNF Encoding of Boolean
+   Cardinality Constraints" by Olivier Bailleux and Yacine Boufkhad, CP 2003,
+   LNCS 2833 (Springer), 2003, pages 108-122.
 */
 
 /* 
