@@ -289,18 +289,16 @@ rsubsumption_hg(S1,S2) := block(
    *****************
 */
 
-/* Computes the set system of vertex sets of connnected components: */
-/* RENAME: components_hg(G) */
-components_hypergraph(G) := unify_nondisjoint_elements(G[2])$
-components_hg(G) := components_hypergraph(G)$
-/* RENAME: components_ghg(G) */
-components_general_hypergraph(G) := components_hypergraph(ghg2hg(G))$
-components_ghg(G) := components_general_hypergraph(G)$
+/* Computes the set-system of vertex-sets of connnected components
+(those minimal sets, which are pairwise disjoint while their union is
+the vertex-set, such that every edge is a subset of some of them): */
+components_hg(G) := block([S : unify_nondisjoint_elements(G[2])],
+ union(singletons(setdifference(G[1], lunion(S))), S))$
+components_ghg(G) := components_hg(ghg2hg(G))$
 
-/* Whether a hypergraph is connected: */
-/* RENAME: connected_hg_p(G) */
-is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1)$
-connected_hg_p(G) := is_connected_hypergraph(G)$
+/* Whether a hypergraph is connected (that is, there every two different
+vertices are connected by a path): */
+is_connected_hg_p(G) := is(length(components_hg([G[1],disjoin({},G[2])])) <= 1)$
 
 /*!
 \endhtmlonly
