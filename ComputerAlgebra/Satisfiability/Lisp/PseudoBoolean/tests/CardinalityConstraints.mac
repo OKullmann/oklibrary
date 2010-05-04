@@ -121,13 +121,13 @@ okltest_direct_crd2cl_ge(f) := (
    in the comments for cardinality_totalizer_cl: */
 okltest_cardinality_totalizer_cl_comb(f) := block([F],
   assert(f([],[]) = []),
-  assert(f([1],[2]) = [{-2,1},{-1,2}]),
-  assert(f([1,2],[3,4]) = [{-4,-3,2},{-2,4},{-3,1},{-2,3},{-4,1},{-1,3,4}]),
-  assert(f([1,2,3],[4,5,6]) =
+  assert(f([2],[1]) = [{-2,1},{-1,2}]),
+  assert(f([3,4],[1,2]) = [{-4,-3,2},{-2,4},{-3,1},{-2,3},{-4,1},{-1,3,4}]),
+  /*assert(f([4,5,6],[1,2,3]) =
      [{-6,-5,ctt(2,3,2)},{6,-ctt(2,3,2)},{-5,ctt(2,3,1)},{5,-ctt(2,3,2)},
       {-6,ctt(2,3,1)},{5,6,-ctt(2,3,1)},{-4,3,-ctt(2,3,2)},{-3,ctt(2,3,2)},
       {-4,2,-ctt(2,3,1)},{-2,ctt(2,3,1)},{-4,1},{-3,4},{2,-ctt(2,3,2)},
-      {-2,4,ctt(2,3,2)},{1,-ctt(2,3,1)},{-1,4,ctt(2,3,1)}]),
+      {-2,4,ctt(2,3,2)},{1,-ctt(2,3,1)},{-1,4,ctt(2,3,1)}]),*/
   /* XXX */
   true)$
 
@@ -142,7 +142,7 @@ okltest_cardinality_totalizer_cl_comb(f) := block([F],
    (i.e., the original partial assignment applied should
     contain new variables). */
 okltest_cardinality_totalizer_cl_spec(f) := block([F],
-  F : cl2cs(f([6,7,8,9,10],[1,2,3,4,5])),
+  F : cl2cs(f([1,2,3,4,5],[6,7,8,9,10])),
   assert(ucp_0_cs(apply_pa({1,2,3,4,5,6,7,8,9,10},F)) = {}),
   for i : 1 thru 10 do
     assert(ucp_0_cs(
@@ -160,7 +160,7 @@ okltest_cardinality_totalizer_cl_spec(f) := block([F],
    in the comments for cardinality_totalizer_cl: */
 okltest_cardinality_totalizer_r_cl_comb(f) := block(
   okltest_cardinality_totalizer_cl_comb(
-    buildq([f],lambda([S,E], f(S,E,1,length(E))))),
+    buildq([f],lambda([E,S], f(E,S,1,length(E))))),
   
   true)$
 
@@ -171,7 +171,7 @@ okltest_cardinality_totalizer_r_cl_comb(f) := block(
    match the specification. */
 okltest_cardinality_totalizer_r_cl_spec(f) := block([F],
   okltest_cardinality_totalizer_cl_spec(
-    buildq([f],lambda([S,E], f(S,E,1,length(E))))),
+    buildq([f],lambda([E,S], f(E,S,1,length(E))))),
   F : f([6,7,8,9,10],[1,2,3,4,5],1,5),
   assert(setdifference(var_cs(F),{1,2,3,4,5,6,7,8,9,10}) =
     {ctt(1,2,1),ctt(1,2,2),ctt(3,5,1),ctt(3,5,2),ctt(3,5,3),ctt(4,5,1),
