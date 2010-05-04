@@ -59,10 +59,18 @@ okltest_minimum_transversals_lbbvs_hg(f) := (
   /* XXX */
   true)$
 
-okltest_minimum_transversals_bvs_hg(f) := (
-  assert(f([{},{}]) = [{}]),
+/* Generic test for algorithms which compute the set of minimum transversals
+   of a hypergraph (which does not contain the empty hyperedge):
+*/
+okltest_minimum_transversals_hg(f) := (
+  assert(f([{},{}]) = {{}}),
+  assert(f([{1},{}]) = {{}}),
+  assert(f([{1,2},{}]) = {{}}),
+  assert(f([{1},{{1}}]) = {{1}}),
+  assert(f([{1,2,3,4},{{1,2},{3,4}}]) = {{1,3},{1,4},{2,3},{2,4}}),
+  assert(f([{1,2,3},{{1,2},{2,3}}]) = {{2}}),
   for n : 0 thru 5 do block([N : setn(n)],
-    assert(f([N, singletons(N)]) = [N])),
+    assert(f([N, singletons(N)]) = {N})),
   /* XXX */
   true)$
 

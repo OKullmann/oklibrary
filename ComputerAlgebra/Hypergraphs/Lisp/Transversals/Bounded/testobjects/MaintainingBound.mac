@@ -35,7 +35,9 @@ okltest_transversals_be(transversals_bes);
 */
 
 okltest_minimum_transversals_lbbvs_hg(minimum_transversals_lbbvs_hg);
-okltest_minimum_transversals_bvs_hg(minimum_transversals_bvs_hg);
+
+okltest_minimum_transversals_hg(lambda([G],setify(minimum_transversals_bvs_hg(G))));
+okltest_minimum_transversals_hg(minimum_transversals_bvsdecomp_hg);
 
 /* *********************************
    * Monotone hypergraph sequences *

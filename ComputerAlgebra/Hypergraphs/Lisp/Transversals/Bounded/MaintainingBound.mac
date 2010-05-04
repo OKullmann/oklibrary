@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
 
 
 /* *************************************
@@ -93,6 +94,31 @@ minimum_transversals_lbbvs_hg(G,lb) := block(
   return(M))$
 minimum_transversals_bvs_hg(G) := minimum_transversals_lbbvs_hg(G,0)$
 
+/* The "decomposed list of all minimum transversals" of a hypergraph G is the
+   list L of hypergraphs of minimum transversals of disjoint_union_rep_hg(G).
+   Prerequisite: G does not contain the empty hyperedge.
+*/
+decomp_minimum_transversals_bvs_hg(G) := block([D : disjoint_union_rep_hg(G)],
+ map("[", map(first,D), map(setify,map(minimum_transversals_bvs_hg, D))))$
+/* Extracting the number of minimum transversals of the components: */
+extract_num_minimum_transversals_decomp(L) := map(nhyp_hg,L)$
+/* Extracting the size of minimum transversals of the components: */
+extract_size_minimum_transversals_decomp(L) := 
+ map(lambda([G],length(choose_element(G[2]))), L)$
+/* The size and the total number of minimum transversals, computed using
+   decomposition:
+*/
+stat_minimum_transversals_bvsdecomp_hg(G) := block(
+ [T : decomp_minimum_transversals_bvs_hg(G)],
+  [sum_l(extract_size_minimum_transversals_decomp(T)),
+   prod_l(extract_num_minimum_transversals_decomp(T))])$
+/* Extracting the set of minimum transversals from the decomposed list: */
+extract_minimum_transversals_decomp(L) :=
+ map(lunion,apply(corr_cartesian_product, map(second,L)))$
+/* Computing the set of all minimum transversals, using decomposition: */
+minimum_transversals_bvsdecomp_hg(G) :=
+ extract_minimum_transversals_decomp(decomp_minimum_transversals_bvs_hg(G))$
+   
 
 /* *********************************
    * Monotone hypergraph sequences *
