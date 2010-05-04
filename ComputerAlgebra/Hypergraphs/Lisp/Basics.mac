@@ -296,9 +296,14 @@ components_hg(G) := block([S : unify_nondisjoint_elements(G[2])],
  union(singletons(setdifference(G[1], lunion(S))), S))$
 components_ghg(G) := components_hg(ghg2hg(G))$
 
-/* Whether a hypergraph is connected (that is, there every two different
-vertices are connected by a path): */
-is_connected_hg_p(G) := is(length(components_hg([G[1],disjoin({},G[2])])) <= 1)$
+
+/* Whether a hypergraph is connected (can not be represented as the disjoint
+union of two non-trivial hypergraphs): */
+is_connected_hg_p(G) := is(length(components_hg(G)) <= 1)$
+/* Remark: If G does not contain the empty hyperedge, then G is connected iff
+   every two different vertices are connected by a path, while otherwise G
+   is connected iff the vertex-set is empty.
+*/
 
 /*!
 \endhtmlonly
