@@ -365,11 +365,11 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    vc(E,a,b) = [] if a == b
              else append(
                E, 
-               vc([ctt(a,ceiling((a+b)/2-1),1),...,
-                   ctt(a,ceiling((a+b)/2-1),floor(length(E)/2))],
+               vc([vru(a,ceiling((a+b)/2-1),1),...,
+                   vru(a,ceiling((a+b)/2-1),floor(length(E)/2))],
                  a,floor((a+b)/2)),
-               vc([ctt(ceiling((a+b)/2-1)+1,b,1),...,
-                 ctt(ceiling((a+b)/2-1)+1,ceiling(length(E)/2))],
+               vc([vru(ceiling((a+b)/2-1)+1,b,1),...,
+                 vru(ceiling((a+b)/2-1)+1,ceiling(length(E)/2))],
                  ceiling((a+b)/2-1)+1,b))
 
    Therefore the number of new variables introduced given length(E) = n is
@@ -386,37 +386,37 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
 
    and given m is the cardinality of E[1,...,floor(length(E)/2)] we have
 
-     phi(ctt(1,floor(length(E)/2),i)) = 1 for 1 <= i <= m and
-     phi(ctt(1,floor(length(E)/2),i)) = 0 otherwise
+     phi(vru(1,floor(length(E)/2),i)) = 1 for 1 <= i <= m and
+     phi(vru(1,floor(length(E)/2),i)) = 0 otherwise
 
    and given m' is the cardinality of E[floor(length(E)/2)+1,...,length(E)]
    we have
    
-     phi(ctt(floor(length(E)/2)+1,length(E),i)) = 1 for 1 <= i <= m' and
-     phi(ctt(floor(length(E)/2)+1,length(E),i)) = 0 otherwise
+     phi(vru(floor(length(E)/2)+1,length(E),i)) = 1 for 1 <= i <= m' and
+     phi(vru(floor(length(E)/2)+1,length(E),i)) = 0 otherwise
 
-   and for all a and b such that we have a new variable ctt(a,b,i) for some i,
+   and for all a and b such that we have a new variable vru(a,b,i) for some i,
    if b-a = 2 then we have
 
-     phi(ctt(a,b,1)) = phi(E[a]) xor phi(E[b])
-     phi(ctt(a,b,2)) = phi(E[a]) and phi(E[b])
+     phi(vru(a,b,1)) = phi(E[a]) xor phi(E[b])
+     phi(vru(a,b,2)) = phi(E[a]) and phi(E[b])
 
    if b-a = 3 then we have
 
-     phi(ctt(a,b,1)) = phi(E[a]) or phi(ctt(a+1,b,1))
-     phi(ctt(a,b,2)) = (phi(E[a]) and phi(ctt(a+1,b,1))) or phi(ctt(a+1,b,2))
-     phi(ctt(a,b,3)) = phi(E[a]) and phi(ctt(a+1,b,2))
+     phi(vru(a,b,1)) = phi(E[a]) or phi(vru(a+1,b,1))
+     phi(vru(a,b,2)) = (phi(E[a]) and phi(vru(a+1,b,1))) or phi(vru(a+1,b,2))
+     phi(vru(a,b,3)) = phi(E[a]) and phi(vru(a+1,b,2))
 
    and if b-a > 3 then we have
 
-     phi(ctt(a,b,i)) =
+     phi(vru(a,b,i)) =
        there exist j,k such that j+k=i
-         phi(ctt(a,ceiling(a+b/2-1),j)) and phi(ctt(ceiling(a+b/2-1)+1,b,k))
+         phi(vru(a,ceiling(a+b/2-1),j)) and phi(vru(ceiling(a+b/2-1)+1,b,k))
 
-   i.e., in each case [ctt(a,b,1),...,ctt(a,b,b-a+1)] is the
+   i.e., in each case [vru(a,b,1),...,vru(a,b,b-a+1)] is the
    representation of the unary addition of E[a] and E[b], E[a] and
-   [ctt(a+1,b,1),ctt(a+1,b,2)] or [ctt(a,b',1),...,ctt(a,b',b'-a+1)] and
-   [ctt(b'+1,b,1),...,ctt(b'+1,b,b-b')] respectively depending on
+   [vru(a+1,b,1),vru(a+1,b,2)] or [vru(a,b',1),...,vru(a,b',b'-a+1)] and
+   [vru(b'+1,b,1),...,vru(b'+1,b,b-b')] respectively depending on
    a and b, where b' = ceiling((a+b)/2-1).
 
    unary_bb_totalizer_r_fcl is a function with additional parameters
