@@ -70,6 +70,12 @@ transversals_bes_(L,B) := if emptyp(L) then [{}]
       add_element_l(a,transversals_bes_(remove_with_element_l(L,a),B-1)),
       transversals_bes_(sort_length(setdifference2e(L,a)),B)))))$
 
+
+/* ********************************
+   * Finding minimum transversals *
+   ********************************
+*/
+
 /* Given a hypergraph G without empty hyperedge and a (known) 
    lower bound lb on the size of a minimum transversal, compute the list of
    minimum transversals by using B = lb, B+1, ...

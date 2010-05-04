@@ -29,6 +29,11 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/tests
 okltest_transversals_be(transversals_be);
 okltest_transversals_be(transversals_bes);
 
+/* ********************************
+   * Finding minimum transversals *
+   ********************************
+*/
+
 okltest_minimum_transversals_lbbvs_hg(minimum_transversals_lbbvs_hg);
 okltest_minimum_transversals_bvs_hg(minimum_transversals_bvs_hg);
 
