@@ -264,15 +264,6 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
   </ul>
 
 
-  \todo Rename functions related to unary encoding
-  <ul>
-   <li> These functions realise only special implementations, and so a generic
-   name like "cardinality_cl" is inappropriate. </li>
-   <li> We should also use English spelling, for example "totaliser". </li>
-   <li> "cardinality_cl" should become "unary_bb_crdl2fcl". </li>
-  </ul>
-
-
   \todo Add statistics functions
   <ul>
    <li> These statistics functions rely on precise (combinatorial)
@@ -362,10 +353,10 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    which results in E having a cardinality less than a, or greater than b, 
    is a falsifying assignment for F.
 
-   To use this algorithm see cardinality_cl.
+   To use this algorithm see unary_bb_crd2fcl.
    \endverbatim
    </li>
-   <li> Also the explanations for cardinality_totaliser_cl are misplaced:
+   <li> Also the explanations for unary_bb_totaliser_fcl are misplaced:
    \verbatim
    The list of new variables introduced by this function can therefore be 
    recursively defined using a function vc, where
@@ -428,9 +419,9 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    [ctt(b'+1,b,1),...,ctt(b'+1,b,b-b')] respectively depending on
    a and b, where b' = ceiling((a+b)/2-1).
 
-   cardinality_totalizer_r_cl is a function with additional parameters
+   unary_bb_totalizer_r_fcl is a function with additional parameters
    to keep track of any new variables introduced, and has the same
-   specification as cardinality_totalizer_cl, except
+   specification as unary_bb_totaliser_fcl, except
    V = rest(vc(E,a,b), length(E)).
    \endverbatim
    </li>
@@ -470,6 +461,15 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    <li> In [Bailleux et al, SAT 2009, New encodings for pseudo-boolean
    constraints into CNF] one finds further remarks regarding the unary
    encoding. </li>
+  </ul>
+
+
+  \todo DONE Rename functions related to unary encoding
+  <ul>
+   <li> These functions realise only special implementations, and so a generic
+   name like "cardinality_cl" is inappropriate. </li>
+   <li> We should also use English spelling, for example "totaliser". </li>
+   <li> "cardinality_cl" should become "unary_bb_crdl2fcl". </li>
   </ul>
 
 

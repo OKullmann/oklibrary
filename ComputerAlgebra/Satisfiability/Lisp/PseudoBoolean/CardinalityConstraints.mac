@@ -151,12 +151,12 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
   The literals in C must have distinct variables (so neither repetition of
   literals nor clashing literals are allowed).
 */
-/* TODO, RENAME: unary_bb_crd2fcl (thus returned is a formal clause-list) */
-cardinality_cl(C) := block(
-  [p : C[1], E : C[2], q : C[3],S],
+unary_bb_crd2fcl(C) := block(
+  [p : C[1], E : C[2], q : C[3],S,FF_T,FF_C],
   S : create_list(ctt_var(1,length(E),i),i,1,length(E)),
-  return(
-    append(cardinality_totalizer_cl(E,S),cardinality_comparator_cl(S,p,q))))$
+  FF_T : unary_bb_totaliser_fcl(E,S),
+  FF_C : unary_bb_comparator_fcl(S,p,q),
+  return([FF_T[1],append(FF_T[2],FF_C[2])]))$
 
 /* New variables are "ctt(a,b,i)". */
 /* TODO: what are the values of a, b, i ? And what does "ctt" stand for? */
@@ -174,13 +174,12 @@ ctt_var(a,b,i) := nounify(ctt)(a,b,i)$
    S and E must be disjoint and must each contain distinct variables.
    Variables in F are those of E and S together with variables ctt(...).
 */
-/* RENAME: cardinality_totaliser_cl, cardinality_totaliser_r_cl */
-cardinality_totalizer_cl(E,S) := cardinality_totalizer_r_cl(E,S,1,length(E))$
-/* TODO: specify cardinality_totalizer_r_cl */
-cardinality_totalizer_r_cl(E,S, a,b) := 
-  if length(E) < 1 then []
+unary_bb_totaliser_fcl(E,S) := unary_bb_totaliser_r_fcl(E,S,1,length(E))$
+/* TODO: specify unary_bb_totaliser_r_fcl */
+unary_bb_totaliser_r_fcl(E,S, a,b) := 
+  if length(E) < 1 then [E,[]]
   else block(
-     [subtree_a : [], subtree_b : [], m_a,m_b, level,
+     [subtree_a : [[],[]], subtree_b : [[],[]], m_a,m_b, level,
       cs :[],V_a,V_b,m:length(E)],
     /* work out CNFs for the two children of this node */
     m_a : floor(m / 2), m_b : (m - m_a),
@@ -188,17 +187,17 @@ cardinality_totalizer_r_cl(E,S, a,b) :=
       V_a : map(
         lambda([i],ctt_var(a,ceiling((a+b)/2-1),i)),
         create_list(i,i,1,m_a)),
-      subtree_a : cardinality_totalizer_r_cl(take_elements(m_a,E), V_a,
+      subtree_a : unary_bb_totaliser_r_fcl(take_elements(m_a,E), V_a,
         a,ceiling((a+b)/2-1)))
-    else
+    else 
       V_a : take_elements(m_a,E),
     if m_b > 1 then (
       V_b : map(
         lambda([i],ctt_var(ceiling((a+b)/2-1)+1,b,i)),
         create_list(i,i,1,m_b)),
-      subtree_b : cardinality_totalizer_r_cl(rest(E,m_a),V_b,
+      subtree_b : unary_bb_totaliser_r_fcl(rest(E,m_a),V_b,
         ceiling((a+b)/2-1)+1,b))
-    else
+    else 
       V_b : rest(E,m_a),
     /* generate clauses ensuring correct unary representation for this node */
     for alph : 0 thru m_a do
@@ -215,7 +214,9 @@ cardinality_totalizer_r_cl(E,S, a,b) :=
             {-S[sigma+1]}),
           cs)
       ),
-    return(append(subtree_a, subtree_b, cs))
+    return(
+      [stable_unique(append(E,S,subtree_a[1],subtree_b[1])),
+       append(subtree_a[2], subtree_b[2], cs)])
   )$
 
 
@@ -229,8 +230,8 @@ cardinality_totalizer_r_cl(E,S, a,b) :=
    unit-clauses.
    Prerequisite: 0 <= p <= q <= length(S).
 */
-cardinality_comparator_cl(S,p,q) := 
-  append(map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
+unary_bb_comparator_fcl(S,p,q) := 
+  [S,append(map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))]$
 
 
 /*!
