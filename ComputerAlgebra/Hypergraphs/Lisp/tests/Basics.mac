@@ -265,6 +265,18 @@ okltest_components_ghg(f) := (
   assert(okltest_components_hg(buildq([f], lambda([G], f(hg2ghg(G))))) = true),
   true)$
 
+okltest_disjoint_union_rep_hg(f) := (
+  assert(f([{},{}]) = []),
+  assert(f([{},{{}}]) = [[{},{{}}]]),
+  for n : 1 thru 4 do block(
+   [G : [setn(n),{}], L : create_list([{i},{}],i,1,n)],
+    assert(f(G) = L),
+    assert(f([G[1],adjoin({},G[2])]) = cons([{},{{}}], L))
+  ),
+  assert(f([{1,2},{{1,2}}]) = [[{1,2},{{1,2}}]]),
+  assert(f([{1,2,3,4,5},{{1,2},{2,3},{4},{4,5},{}}]) = [[{},{{}}], [{1,2,3},{{1,2},{2,3}}],[{4,5},{{4},{4,5}}]]),
+  true)$
+
 okltest_is_connected_hg_p(f) := (
   assert(f([{},{}]) = true),
   assert(f([{},{{}}]) = true),

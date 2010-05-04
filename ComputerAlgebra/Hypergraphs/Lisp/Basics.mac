@@ -296,6 +296,20 @@ components_hg(G) := block([S : unify_nondisjoint_elements(G[2])],
  union(singletons(setdifference(G[1], lunion(S))), S))$
 components_ghg(G) := components_hg(ghg2hg(G))$
 
+/* Represent as hypergraph G as the disjoint union of connected hypergraphs,
+   which are given in a lexicographically sorted list (using the vertex-sets):
+*/
+disjoint_union_rep_hg(G) := block([S : components_hg(G), empty_he, A, res],
+ empty_he : elementp({},S),
+ S : disjoin({},S),
+ A : l2ary(map(lambda([s], [s,[]]), listify(S))),
+ for H in disjoin({},G[2]) do block([found : false],
+  for i : 1 thru A[0] unless found do (
+   found : subsetp(H,first(A[i])),
+   if found then A[i] : [first(A[i]), cons(H,second(A[i]))]
+ )),
+ res : map(lambda([G], [first(G),setify(second(G))]), ary2l(A)),
+ if empty_he then cons([{},{{}}], res) else res)$
 
 /* Whether a hypergraph is connected (can not be represented as the disjoint
 union of two non-trivial hypergraphs): */

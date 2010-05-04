@@ -89,6 +89,8 @@ okltest_rsubsumption_hg(rsubsumption_hg);
 okltest_components_hg(components_hg);
 okltest_components_ghg(components_ghg);
 
+okltest_disjoint_union_rep_hg(disjoint_union_rep_hg);
+
 okltest_is_connected_hg_p(is_connected_hg_p);
 
 /*!
