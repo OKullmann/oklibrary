@@ -35,12 +35,12 @@ L190_19 : minimum_transversals_mongen(190,A19,[{}])$
 > VdWTransversalsInc 19 1 0 VDW_19 VDW_19_SAT
 
 L : transform_steps_l(map(third,rest(read_nested_list("VDW_19"))));
- [18,37,56,75,94,113,132,151,170,189,208,227,246,265,284,303,322,341,342,343,344,345]
+ [18,37,56,75,94,113,132,151,170,189,208,227,246,265,284,303,322,341,342,343,344,345,346]
 length(L);
- 22
+ 23
 
 > tail -1 VDW_19
-19 346 22
+19 347 23
    \endverbatim
    </li>
   </ul>
