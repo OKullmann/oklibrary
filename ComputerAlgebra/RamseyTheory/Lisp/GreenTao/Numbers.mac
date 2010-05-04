@@ -260,7 +260,7 @@ tau_arithprog_primes_seq[6] : [
 15,15,15,15,15,15,15,15
 ]$
 
-/* Alternative representations using tau-skiplists
+/* Alternative representations using tau-steplists
    (the list contains the last entry where tau=0, 1, ...).
 */
 /* The following data has been computed by
