@@ -307,7 +307,30 @@ for p in L do print(rank_primes(p));
 220525414079
    \endverbatim
    where starting with k=12 actually "RankPrimes" was used. </li>
-   <li> Plot the data (using R) suggests that (log,log(log))-transformation
+   <li> Additional data (upper bounds):
+    <ol>
+     <li> At http://users.cybercity.dk/~dsl522332/math/aprecords.htm data
+     upper bounds are available also for 22 <= k <= 26:
+     \verbatim
+11410337850553 + 475180·19#·n (108201410428753)
+403185216600637 + 9523·23#·n (449924511422857)
+515486946529943 + 136831·23#·n (1217585417914253)
+6171054912832631 + 366384·23#·n (8132758706802551)
+43142746595714191 + 23681770·23#·n (175223597495211691)
+     \endverbatim
+     (the numbers in brackets are the end-values, in which we are interest;
+     however, it is not known that these are the smallest possible end-values).
+     </li>
+     <li> The task is now to rank these large prime numbers. </li>
+     <li> Running
+     \verbatim
+OKlib/Structures/NumberTheory/PrimeNumbers> ~/OKplatform/bin/RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
+108201410428753
+     \endverbatim
+     would takes a very long time. </li>
+    </ol>
+   </li>
+   <li> Plotting the data (using R) suggests that (log,log(log))-transformation
    for (x,y) might be appropriate (that is, a model y = exp(a * x^b)):
    \verbatim
 y = c(4,9,10,37,155,263,289,316,21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,220525414079)
