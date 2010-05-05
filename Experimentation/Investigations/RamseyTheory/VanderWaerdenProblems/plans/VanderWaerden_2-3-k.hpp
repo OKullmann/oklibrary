@@ -44,9 +44,9 @@ Multiple R-squared: 0.9822,     Adjusted R-squared: 0.9811
 lines(x0,predict(L0))
    \endverbatim
    </li>
-   <li> Using the conjectured values 349, 389, 416 (see below):
+   <li> Using the conjectured values 349, 389, 416, 464 (see below):
    \verbatim
-d = append(d0, c(349, 389, 416))
+d = append(d0, c(349, 389, 416, 464))
 plot(d)
 lines(d)
 lines((1:length(d))^2)
@@ -68,23 +68,24 @@ summary(NL)
 
 Parameters:
   Estimate Std. Error t value Pr(>|t|)
-a  0.90740    0.04635   19.58 4.69e-14 ***
-b  2.01846    0.01776  113.64  < 2e-16 ***
-Residual standard error: 3.224 on 19 degrees of freedom
+a  0.91214    0.04117   22.16 1.52e-15 ***
+b  2.01653    0.01545  130.49  < 2e-16 ***
+Residual standard error: 3.147 on 20 degrees of freedom
 
 Cnl = coefficients(NL)
 Cnl
         a         b
-0.9074047 2.0184632
+0.9121412 2.0165289
 fnl = function(k){Cnl[1] * k^Cnl[2]}
-round(fnl(1:23))
-  1 4 8 15 23 34 46 60 77 95
-  115 137 161 187 215 244 276 310 346 384
-  423 465 509
-d - round(fnl(1:21))
-  2 2 1 3 -1 -2 0 -2 0 2
- -1 -2 -1 -1 3 -6 3  2 3 5
- -7
+round(fnl(1:25))
+ 1 4 8 15 23 34 46 60 77 95
+ 115 137 161 187 215 244 276 310 346 383
+ 423 465 508 554 601
+
+d - round(fnl(1:22))
+ 2 2 1 3 -1 -2 0 -2 0 2
+ -1 -2 -1 -1  3 -6  3  2  3  6
+ -7 -1 
    \endverbatim
    </li>
    <li> Finally using a quadratic model with non-linear regression and
@@ -96,25 +97,25 @@ summary(NLq)
 
 Parameters:
   Estimate Std. Error t value Pr(>|t|)
-a  2.46466    2.32839   1.059    0.304
-b -0.67960    0.48750  -1.394    0.180
-c  0.98738    0.02152  45.880   <2e-16 ***
-Residual standard error: 3.223 on 18 degrees of freedom
+a   2.2727     2.2116   1.028    0.317
+b  -0.6163     0.4430  -1.391    0.180
+c   0.9839     0.0187  52.608   <2e-16 ***
+Residual standard error: 3.148 on 19 degrees of freedom
 
 Cnlq = coefficients(NLq)
 Cnlq
          a          b          c
- 2.4646617 -0.6796012  0.9873845
+ 2.2727273 -0.6163185  0.9839074
 fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
-round(fnlq(1:23))
-  3 5 9 16 24 34 46 60 76 94
-  114 136 160 186 214 244 276 310 346 384
-  424 465 509
+round(fnlq(1:25))
+ 3 5 9 16 24 34 46 60 76 95
+ 115 137 161 186 214 244 276 310 346 384
+ 423 465 509 554 602
 
 d - round(fnlq(X))
-  0 1 0 2 -2 -2 0 -2 1 3
-  0 -1 0 0 4 -6 3 2 3 5
-  -8
+ 0 1 0 2 -2 -2  0 -2 1 2
+ -1 -2 -1 0 4 -6 3 2 3 5
+ -7 -1
    \endverbatim
    Hard to distinguish from the above model. </li>
   </ul>
