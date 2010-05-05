@@ -328,6 +328,9 @@ OKlib/Structures/NumberTheory/PrimeNumbers> ~/OKplatform/bin/RankPrimes-O3-DNDEB
 108201410428753
      \endverbatim
      would takes a very long time. </li>
+     <li> In Structures/NumberTheory/PrimeNumbers/plans/RankPrimes.hpp an
+     implementation is discussed under "Better algorithms" which can compute
+     these ranks relatively easily. </li>
     </ol>
    </li>
    <li> Plotting the data (using R) suggests that (log,log(log))-transformation
