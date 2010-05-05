@@ -236,7 +236,7 @@ tau_arithprog_primes_seq[6] : transform_threshold_l(tau_steplist_arithprog_prime
    and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L7))).
 */
 tau_steplist_arithprog_primes_seq[7] : [
- 154,213,227,231,322,395,569,640,714,795
+ 154,213,227,231,322,395,569,640,714,795,
  826,871,874,1047,1124,1157,1179,1187,1303,1342,
  1372,1397,1423,1451,1507,1541,1555,1563,1571,1687,
  1693,1732,1746,1761,1767,1776,1777,1819,1824,1830,
