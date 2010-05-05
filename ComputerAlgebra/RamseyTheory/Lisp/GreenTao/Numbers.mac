@@ -206,26 +206,6 @@ tau_arithprog_primes_seq[4] : [
 21,21,22
 ]$
 /* The following data has been computed by
-   "MinimumTransversals_GreenTao-O3-DNDEBUG 180 5":
-*/
-tau_arithprog_primes_seq[5] : [
-0,0,0,0,0,0,0,0,0,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-2,3,3,3,3,3,3,3,3,3,
-3,3,3,3,3,3,3,3,4,4,
-4,4,4,4,4,4,4,5,5,5,
-6,7,7,7,7,7,7,7,7,7,
-7,7,7,7,7,7,7,8,8,8,
-8,8,8,8,8,8,9,9,9,9,
-9,9,9,9,9,9,9,10,10,10,
-10,10,10,10,10,10,11,11,11,11,
-11,12,12,12,12,12,12,12,12,12,
-13,13,14,14,14,14,14,14,14,14,
-14,14,14,14,14,14,14,14,14,14,
-14,15,16,16,16,16,16,16
-]$
-/* The following data has been computed by
    "GTTransversalsInc 6 1 0 OutputFile":
 */
 tau_arithprog_primes_seq[6] : [
@@ -263,6 +243,15 @@ tau_arithprog_primes_seq[6] : [
 /* Alternative representations using tau-steplists
    (the list contains the last entry where tau=0, 1, ...).
 */
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(5,n)), 'L5), 
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L5))).
+*/
+tau_steplist_arithprog_primes_seq[5] : [
+ 9,30,31,48,57,60,61,77,86,97,
+ 106,111,120,122,141,142,148,149,153
+]$
+tau_arithprog_primes_seq[5] : transform_threshold_l(tau_steplist_arithprog_primes_seq[5])$
 /* The following data has been computed by
    "GTTransversalsInc 7 1 0 GT_7 GT_7_SAT", and then using
    transform_steps_l(map(third,rest(read_nested_list("GT_7"))))
