@@ -232,12 +232,21 @@ tau_steplist_arithprog_primes_seq[6] : [
 ]$
 tau_arithprog_primes_seq[6] : transform_threshold_l(tau_steplist_arithprog_primes_seq[6])$
 /* The following data has been computed by
-   "GTTransversalsInc 7 1 0 GT_7 GT_7_SAT", and then using
-   transform_steps_l(map(third,rest(read_nested_list("GT_7"))))
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(7,n)),'L7),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L7))).
 */
 tau_steplist_arithprog_primes_seq[7] : [
-154,213,227,231,322,395,569,640,714,795,
-826,871,874,1047,1124,1157,1179
+ 154,213,227,231,322,395,569,640,714,795
+ 826,871,874,1047,1124,1157,1179,1187,1303,1342,
+ 1372,1397,1423,1451,1507,1541,1555,1563,1571,1687,
+ 1693,1732,1746,1761,1767,1776,1777,1819,1824,1830,
+ 1852,1902,1953,1960,1978,1979,2027,2190,2197,2264,
+ 2316,2364,2371,2410,2467,2502,2503,2560,2567,2650,
+ 2663,2666,2683,2787,2819,2828,2944,2968,2985,2988,
+ 3025,3028,3038,3096,3128,3139,3166,3169,3173,3178,
+ 3179,3207,3240,3274,3292,3327,3379,3419,3421,3499,
+ 3506,3521,3522,3524,3525,3555,3602,3632,3642,3651,
+ 3659,3667,3753,3767,3801,3811,3880,3886
 ]$
 tau_arithprog_primes_seq[7] : transform_threshold_l(tau_steplist_arithprog_primes_seq[7])$
 /* The following data has been computed by

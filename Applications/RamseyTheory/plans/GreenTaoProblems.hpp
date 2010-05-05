@@ -102,11 +102,20 @@ License, or any later version. */
    Similar to
    Applications/RamseyTheory/plans/MinimumTransversals_VanderWaerden.cpp we
    need MinimumTransversals_GreenTao.cpp. </li>
+   <li> Decomposition into the connected components is needed for k>=4;
+   see decomp_minimum_transversals_bvs_hg and minimum_transversals_decomp_gen
+   in
+   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Bounded/MaintainingBound.mac
+   for Maxima-specifications and simple algorithms. </li>
+   <li> And the output should report only changes, as with
+   minimum_transversals_decomp_gen. </li>
    <li> Application tests are needed for
    Applications/RamseyTheory/plans/MinimumTransversals_GreenTao.cpp. </li>
    <li> The problem is that currently we cannot compile this application
    automatically, due to the build dependencies not expressible, and thus
    yet we cannot create application tests. </li>
+   <li> It seems that there is some unnecessary copy operation at the end:
+   the numbers are output, but nevertheless memory consumption doubles? </li>
   </ul>
 
 */
