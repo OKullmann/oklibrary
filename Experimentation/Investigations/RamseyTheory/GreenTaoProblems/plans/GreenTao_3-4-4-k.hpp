@@ -204,6 +204,13 @@ License, or any later version. */
 100
      \endverbatim
      </li>
+     <li> cutoff=16*10^6:
+     \verbatim
+ 4  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+ 1  2  2  2  3  3  6  5  4  6  8  9  6  8  5  4  1  3  3  7  6  2  1  2  1
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
