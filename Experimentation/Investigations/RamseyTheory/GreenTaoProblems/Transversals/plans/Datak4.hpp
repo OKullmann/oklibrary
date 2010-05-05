@@ -53,66 +53,63 @@ block([G0 : [{},{}]],
    </li>
    <li> The numbers of minimum hyperedges:
    \verbatim
-A4p(n):=arithprog_primes_hg(4,n)$
-oklib_monitor : true$
-Lp60_4 : minimum_transversals_mongen(60,A4p,[{}])$
-1 0 1
-2 0 1
-3 0 1
-4 0 1
-5 0 1
-6 0 1
-7 0 1
-8 0 1
-9 1 4
-10 1 3
-11 1 3
-12 1 3
-13 1 1
-14 2 4
-15 2 4
-16 2 4
-17 3 16
-18 3 16
-19 3 16
-20 3 16
-21 3 16
-22 4 64
-23 4 16
-24 4 16
-25 4 3
-26 5 48
-27 5 16
-28 5 4
-29 5 4
-30 5 1
-31 5 1
-32 6 6
-33 6 6
-34 6 6
-35 7 116
-36 8 464
-37 9 3248
-38 9 1044
-39 9 171
-40 9 153
-41 9 153
-42 9 85
-43 9 15
-44 9 12
-45 10 132
-46 11 1254
-47 11 1254
-48 11 33
-49 11 12
-50 11 12
-51 12 87
-52 12 62
-53 12 62
-54 12 52
-55 12 1
+L4 : [];
+minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(4,n)), 'L4)$
+
+1 1 0 [0,1,1]
+9 9 1 [1,4,6]
+10 10 2 [1,3,6]
+13 13 3 [1,1,8]
+14 14 4 [2,4,6]
+16 16 5 [2,4,7]
+17 17 7 [3,16,6]
+22 22 8 [4,64,8]
+23 23 9 [4,16,7]
+25 25 11 [4,3,6]
+26 26 12 [5,48,6]
+27 27 13 [5,16,5]
+28 28 14 [5,4,4]
+30 30 15 [5,1,5]
+31 31 16 [5,1,5]
+32 32 19 [6,6,5]
+34 34 20 [6,6,6]
+35 35 21 [7,116,6]
+36 36 22 [8,464,6]
+37 37 24 [9,3248,5]
+38 38 25 [9,1044,5]
+39 39 27 [9,171,5]
+40 40 28 [9,153,5]
+42 42 29 [9,85,6]
+43 43 31 [9,15,5]
+44 44 32 [9,12,5]
+45 45 34 [10,132,5]
+46 46 35 [11,1254,5]
+48 48 38 [11,33,6]
+49 49 41 [11,12,5]
+50 50 42 [11,12,5]
+51 51 44 [12,87,5]
+52 52 45 [12,62,5]
+53 53 46 [12,62,4]
+54 54 47 [12,52,4]
+55 55 50 [12,1,4]
+56 56 51 [13,35,4]
+57 57 52 [13,6,4]
+58 58 53 [14,78,4]
+60 60 55 [14,13,5]
+61 61 59 [15,60,5]
+62 62 62 [16,2280,5]
+63 63 63 [16,912,5]
+64 64 64 [16,840,5]
+65 65 65 [16,315,5]
+66 66 67 [16,252,5]
+67 67 69 [16,224,5]
+69 69 71 [16,152,6]
+70 70 72 [16,38,5]
+71 71 76 [17,58,5]
    \endverbatim
    </li>
+   <li> Using the incremental approach as in minimum_transversals_mongen,
+   and implementing it in C++, should be much faster. </li>
    <li> At C++ level:
    \verbatim
 > MinimumTransversals_GreenTao-O3-DNDEBUG 100 4
@@ -141,36 +138,6 @@ Lp60_4 : minimum_transversals_mongen(60,A4p,[{}])$
 78 20 55
    \endverbatim
    So we are not far off what minisat2 can compute (see below). </li>
-   <li> For orientation, those n-values where no hyperedge has been added
-   (compared to n-1):
-   \verbatim
-for n: 4 thru 200 do block(
- [d:nhyp_arithprog_primes_ohg(4,n)-nhyp_arithprog_primes_ohg(4,n-1)],
-  if d=0 then print(n));
-4
-5
-6
-7
-8
-11
-12
-15
-18
-19
-20
-21
-24
-29
-33
-41
-47
-59
-68
-75
-95
-102
-   \endverbatim
-   So not all phases of stagnation are due to no hyperedge being added. </li>
   </ul>
 
 
