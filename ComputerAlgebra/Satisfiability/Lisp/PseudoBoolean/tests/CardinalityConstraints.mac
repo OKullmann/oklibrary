@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/Cardin
    assertion that any forced assignment follows by UCP (and not just forced
    assignments under partial assignments using only the original
    variables)? </li>
+   <li> All tests: UCP has nothing to do with these functions. </li>
   </ul>
 
   \todo The text below regarding unary encoding needs a complete update.
