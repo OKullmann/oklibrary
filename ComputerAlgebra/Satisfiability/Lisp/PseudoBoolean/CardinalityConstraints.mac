@@ -185,7 +185,16 @@ vru_var(a,b,i) := nounify(vru)(a,b,i)$
    Variables in F are those of E and S together with variables vru(...).
 */
 unary_bb_totaliser_fcl(E,S) := unary_bb_totaliser_r_fcl(E,S,1,length(E))$
-/* TODO: specify unary_bb_totaliser_r_fcl */
+/* For a list E of "input" literals and a list S of "output" variables
+   of the same length, compute a clause-list F equivalent to the condition
+   that S is a "unary representation" of the count of 1's in E where E is
+   assumed to be the sublist [E'[a],...,E'[b]] for some (possibly) larger
+   E' .
+   S and E must be disjoint and must each contain distinct variables.
+   Variables in F are those of E and S together with variables vru(...).
+   The point is that this function is used recursively, and so a and b
+   are used to ensure new variables do not clash.
+*/
 unary_bb_totaliser_r_fcl(E,S, a,b) := 
   if length(E) < 1 then [E,[]]
   else block(
