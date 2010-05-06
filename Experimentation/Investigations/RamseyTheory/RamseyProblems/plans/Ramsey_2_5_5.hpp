@@ -53,7 +53,7 @@ for n : 5 thru 49 do output_ramsey2_symbr3_stdname(n);
 for n : 5 thru 49 do block([n_e : binomial(n,2)],
   output_fcs(
     sconcat("Card ",n),
-    fcl2fcs(standardise_fcl(cl2fcl(cardinality_cl([floor(n_e/2),create_list(i,i,1,n_e),ceiling(n_e/2)])))[1]),
+    fcl2fcs(standardise_fcl(cl2fcl(unary_bb_crd2fcl([floor(n_e/2),create_list(i,i,1,n_e),ceiling(n_e/2)])))[1]),
     sconcat("Card_n",n,".cnf")))$
     \endverbatim
     </li>

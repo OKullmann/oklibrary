@@ -264,15 +264,6 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
   </ul>
 
 
-  \todo Rename functions related to unary encoding
-  <ul>
-   <li> These functions realise only special implementations, and so a generic
-   name like "cardinality_cl" is inappropriate. </li>
-   <li> We should also use English spelling, for example "totaliser". </li>
-   <li> "cardinality_cl" should become "unary_bb_crdl2fcl". </li>
-  </ul>
-
-
   \todo Add statistics functions
   <ul>
    <li> These statistics functions rely on precise (combinatorial)
@@ -362,10 +353,10 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    which results in E having a cardinality less than a, or greater than b, 
    is a falsifying assignment for F.
 
-   To use this algorithm see cardinality_cl.
+   To use this algorithm see unary_bb_crd2fcl.
    \endverbatim
    </li>
-   <li> Also the explanations for cardinality_totaliser_cl are misplaced:
+   <li> Also the explanations for unary_bb_totaliser_fcl are misplaced:
    \verbatim
    The list of new variables introduced by this function can therefore be 
    recursively defined using a function vc, where
@@ -374,11 +365,11 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    vc(E,a,b) = [] if a == b
              else append(
                E, 
-               vc([ctt(a,ceiling((a+b)/2-1),1),...,
-                   ctt(a,ceiling((a+b)/2-1),floor(length(E)/2))],
+               vc([vru(a,ceiling((a+b)/2-1),1),...,
+                   vru(a,ceiling((a+b)/2-1),floor(length(E)/2))],
                  a,floor((a+b)/2)),
-               vc([ctt(ceiling((a+b)/2-1)+1,b,1),...,
-                 ctt(ceiling((a+b)/2-1)+1,ceiling(length(E)/2))],
+               vc([vru(ceiling((a+b)/2-1)+1,b,1),...,
+                 vru(ceiling((a+b)/2-1)+1,ceiling(length(E)/2))],
                  ceiling((a+b)/2-1)+1,b))
 
    Therefore the number of new variables introduced given length(E) = n is
@@ -395,42 +386,42 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
 
    and given m is the cardinality of E[1,...,floor(length(E)/2)] we have
 
-     phi(ctt(1,floor(length(E)/2),i)) = 1 for 1 <= i <= m and
-     phi(ctt(1,floor(length(E)/2),i)) = 0 otherwise
+     phi(vru(1,floor(length(E)/2),i)) = 1 for 1 <= i <= m and
+     phi(vru(1,floor(length(E)/2),i)) = 0 otherwise
 
    and given m' is the cardinality of E[floor(length(E)/2)+1,...,length(E)]
    we have
    
-     phi(ctt(floor(length(E)/2)+1,length(E),i)) = 1 for 1 <= i <= m' and
-     phi(ctt(floor(length(E)/2)+1,length(E),i)) = 0 otherwise
+     phi(vru(floor(length(E)/2)+1,length(E),i)) = 1 for 1 <= i <= m' and
+     phi(vru(floor(length(E)/2)+1,length(E),i)) = 0 otherwise
 
-   and for all a and b such that we have a new variable ctt(a,b,i) for some i,
+   and for all a and b such that we have a new variable vru(a,b,i) for some i,
    if b-a = 2 then we have
 
-     phi(ctt(a,b,1)) = phi(E[a]) xor phi(E[b])
-     phi(ctt(a,b,2)) = phi(E[a]) and phi(E[b])
+     phi(vru(a,b,1)) = phi(E[a]) xor phi(E[b])
+     phi(vru(a,b,2)) = phi(E[a]) and phi(E[b])
 
    if b-a = 3 then we have
 
-     phi(ctt(a,b,1)) = phi(E[a]) or phi(ctt(a+1,b,1))
-     phi(ctt(a,b,2)) = (phi(E[a]) and phi(ctt(a+1,b,1))) or phi(ctt(a+1,b,2))
-     phi(ctt(a,b,3)) = phi(E[a]) and phi(ctt(a+1,b,2))
+     phi(vru(a,b,1)) = phi(E[a]) or phi(vru(a+1,b,1))
+     phi(vru(a,b,2)) = (phi(E[a]) and phi(vru(a+1,b,1))) or phi(vru(a+1,b,2))
+     phi(vru(a,b,3)) = phi(E[a]) and phi(vru(a+1,b,2))
 
    and if b-a > 3 then we have
 
-     phi(ctt(a,b,i)) =
+     phi(vru(a,b,i)) =
        there exist j,k such that j+k=i
-         phi(ctt(a,ceiling(a+b/2-1),j)) and phi(ctt(ceiling(a+b/2-1)+1,b,k))
+         phi(vru(a,ceiling(a+b/2-1),j)) and phi(vru(ceiling(a+b/2-1)+1,b,k))
 
-   i.e., in each case [ctt(a,b,1),...,ctt(a,b,b-a+1)] is the
+   i.e., in each case [vru(a,b,1),...,vru(a,b,b-a+1)] is the
    representation of the unary addition of E[a] and E[b], E[a] and
-   [ctt(a+1,b,1),ctt(a+1,b,2)] or [ctt(a,b',1),...,ctt(a,b',b'-a+1)] and
-   [ctt(b'+1,b,1),...,ctt(b'+1,b,b-b')] respectively depending on
+   [vru(a+1,b,1),vru(a+1,b,2)] or [vru(a,b',1),...,vru(a,b',b'-a+1)] and
+   [vru(b'+1,b,1),...,vru(b'+1,b,b-b')] respectively depending on
    a and b, where b' = ceiling((a+b)/2-1).
 
-   cardinality_totalizer_r_cl is a function with additional parameters
+   unary_bb_totalizer_r_fcl is a function with additional parameters
    to keep track of any new variables introduced, and has the same
-   specification as cardinality_totalizer_cl, except
+   specification as unary_bb_totaliser_fcl, except
    V = rest(vc(E,a,b), length(E)).
    \endverbatim
    </li>
@@ -470,6 +461,15 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    <li> In [Bailleux et al, SAT 2009, New encodings for pseudo-boolean
    constraints into CNF] one finds further remarks regarding the unary
    encoding. </li>
+  </ul>
+
+
+  \todo DONE Rename functions related to unary encoding
+  <ul>
+   <li> These functions realise only special implementations, and so a generic
+   name like "cardinality_cl" is inappropriate. </li>
+   <li> We should also use English spelling, for example "totaliser". </li>
+   <li> "cardinality_cl" should become "unary_bb_crdl2fcl". </li>
   </ul>
 
 

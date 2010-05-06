@@ -44,14 +44,14 @@ okltest_direct_crd2cl_ge(direct_crd2cl_ge);
    ************************
 */
 
-okltest_cardinality_totalizer_cl_comb(cardinality_totalizer_cl);
-okltest_cardinality_totalizer_cl_spec(cardinality_totalizer_cl);
-okltest_cardinality_totalizer_r_cl_comb(cardinality_totalizer_r_cl);
-okltest_cardinality_totalizer_r_cl_spec(cardinality_totalizer_r_cl);
-okltest_cardinality_comparator_cl_comb(cardinality_comparator_cl);
-okltest_cardinality_comparator_cl_spec(cardinality_comparator_cl);
-okltest_cardinality_cl_comb(cardinality_cl);
-okltest_cardinality_cl_spec(cardinality_cl);
+okltest_unary_bb_totaliser_fcl_comb(unary_bb_totaliser_fcl);
+okltest_unary_bb_totaliser_fcl_spec(unary_bb_totaliser_fcl);
+okltest_unary_bb_totaliser_r_fcl_comb(unary_bb_totaliser_r_fcl);
+okltest_unary_bb_totaliser_r_fcl_spec(unary_bb_totaliser_r_fcl);
+okltest_unary_bb_comparator_fcl_comb(unary_bb_comparator_fcl);
+okltest_unary_bb_comparator_fcl_spec(unary_bb_comparator_fcl);
+okltest_unary_bb_crd2fcl_comb(unary_bb_crd2fcl);
+okltest_unary_bb_crd2fcl_spec(unary_bb_crd2fcl);
 
 /*!
 \endhtmlonly
