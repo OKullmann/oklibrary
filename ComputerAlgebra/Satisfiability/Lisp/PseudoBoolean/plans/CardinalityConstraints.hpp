@@ -232,6 +232,29 @@ is(Csa);
   </ul>
 
 
+  \todo At-most-one as a CNF
+  <ul>
+   <li> Of special interest are the representations of the boolean function
+   amo_bf(n) (see "Cardinality constraints" in
+   Satisfiability/Lisp/FiniteFunctions/plans/Thresholds.hpp), that is, of the
+   cardinality constraint [0, [x_1,...,x_n], 1]. </li>
+   <li> The standard CNF-representation by direct_crd2cl uses binomial(n,2)
+   clauses {-x_i,-x_j}. This is also the set of prime implicates (all are
+   essential). </li>
+   <li> There are n+1 prime implicants, namely those full clauses having
+   at most one positive literal, and all these are (again) essential. </li>
+   <li> Using new variables s_1, ..., s_{n-1}, an alternative
+   CNF-representation is given by the clauses
+    <ol>
+     <li> x_i -> s_i for 1 <= i <= n-1 </li>
+     <li> x_n -> -s_{n-1} </li>
+     <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
+     <li> s_i -> -x_{i+1} for 1 <= i <= n-1 </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Improved understanding/implementation of BB-method
   <ul>
    <li> The right starting point should be to explicitly use "the tree" alluded
