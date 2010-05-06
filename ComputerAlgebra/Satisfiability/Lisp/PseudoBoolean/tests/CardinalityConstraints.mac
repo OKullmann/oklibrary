@@ -14,6 +14,12 @@ Use by
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac");
 
   \bug All tests regarding UCP (and unary encoding) must be removed.
+  <ul>
+   <li> MG : All tests? Or just those relating to the unproven
+   assertion that any forced assignment follows by UCP (and not just forced
+   assignments under partial assignments using only the original
+   variables)? </li>
+  </ul>
 
   \todo The text below regarding unary encoding needs a complete update.
 
