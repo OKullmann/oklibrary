@@ -19,11 +19,17 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 
   \bug unary_bb_crd2fcl doesn't take a cardinality constraint
   <ul>
-   <li> We should simply go through the proof in [BB 2003] and check that
+   <li> The first problem is that inf is not handled. </li>
+   <li> Second comes the handling of clashing literals. </li>
+   <li> Finally we have the problem of repeated literals. </li>
+   <li> DONE (there are no properties relevant here --- UCP is just an
+   *additional* nicety, and the rest is just a *construction*)
+   We should simply go through the proof in [BB 2003] and check that
    each of the properties holds when considering lists of literals, and
    reconstruct the proof for (our) cardinality constraints based on this.
    </li>
-   <li> If the input can not contain repetitions, or can not include
+   <li> DONE (of course, complementary literals are handled on their own)
+   If the input can not contain repetitions, or can not include
    complementary literals, then new types of cardinality constraint
    need to be introduced which reflect such restrictions. </li>
   </ul>
