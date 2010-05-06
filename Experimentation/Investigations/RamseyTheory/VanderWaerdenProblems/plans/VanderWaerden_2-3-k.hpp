@@ -984,9 +984,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
     <ol>
      <li> cutoff=5*10^7:
      \verbatim
-  1   2   3   4   5   6
-749 214  30   4   2   1
-1000
+   1   2  3  4 5 6 7
+2019 615 63 12 4 2 1
+2716
      \endverbatim
      </li>
     </ol>

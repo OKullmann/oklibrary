@@ -112,6 +112,13 @@ BestSolution_Max = 19.000000
 370
      \endverbatim
      </li>
+     <li> cutoff=2*10^7 (adaptnovelty+):
+     \verbatim
+ 3  4  5  6  7  8  9 10 12 13
+ 5 15 24 17 15 22 16 11  3  1
+129
+     \endverbatim
+     </li>
      <li> cutoff=10^8 (adaptnovelty+):
      \verbatim
  1  2  3  4  5
