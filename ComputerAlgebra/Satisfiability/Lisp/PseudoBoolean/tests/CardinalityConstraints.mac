@@ -13,6 +13,8 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac");
 
+  \bug okltest_unary_bb_totaliser_r_fcl_comb is a no-op
+
   \bug All tests regarding UCP (and unary encoding) must be removed.
   <ul>
    <li> MG : All tests? Or just those relating to the unproven
