@@ -273,7 +273,8 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
 
   \todo Docus
   <ul>
-   <li> The current amount of text one finds in
+   <li> DONE (these texts have been moved here)
+   The current amount of text one finds in
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
    is inappropriate --- function specifications should be rather short and
    succinct. </li>
