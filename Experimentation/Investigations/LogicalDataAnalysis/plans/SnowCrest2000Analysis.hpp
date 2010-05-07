@@ -54,9 +54,123 @@ License, or any later version. */
       matrix for the basic representation of such truth tables, and then provide
       a simple conversion function such as 
       \verbatim
+Snow_CM : mrc2ocom(matrix(
+ [1,1,1,1,1,1,1,1,1,1],
+ [1,0,1,1,1,1,1,1,1,1],
+ [1,1,1,0,1,1,1,1,1,1],
+ [1,1,1,0,1,1,1,0,1,1],
+ [1,1,1,1,1,1,0,0,1,1],
+ [1,1,1,0,1,1,1,0,1,0],
+ [1,0,0,1,1,1,1,0,1,0],
+ [0,1,0,1,0,1,0,0,0,1],
+ [0,1,0,0,0,1,0,0,0,1],
+ [0,0,1,1,0,0,0,1,0,0],
+ [0,0,0,0,0,1,0,0,0,1],
+ [0,0,0,0,0,1,0,0,0,1],
+ [0,1,0,1,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0,0,0],
+ [0,0,0,0,0,0,0,0,0,0]),
+ ["PUH", "AOS", "OUH", "TUH", "PUEJ", "DtUH", "HCRP", "BUH", "DnUH", "HF", "HUH", "HU", "MUH", "HPU", "MC"],
+ ["Via", "DisT", "SymA", "CSup", "DiagF", "ProgF", "Rep", "Res", "Ri", "Re"])$
+
 ttcom2cvm(M) := subst(-1,0,M)$
+Snow_CVM : ttcom2cvm(Snow_CM)$
       \endverbatim
       to convert one to the other.
+     </li>
+     <li> As is done in [SC 2000], we first want to analyse each of
+     the individual boolean functions, specified by taking the truth table
+     rows from the input for each output variable individually, and considering
+     the boolean function that this gives. </li>
+     <li> One way to represent such partial boolean functions f, where some 
+     total assignments which are left open, is to consider a three
+     tuple [V,F,G] where V is set of input variables, and then F is a full DNF
+     representing the satisfying assignments of f and G is a DNF representing
+     the falsifying assignments of f. </li>
+     <li> Such a representation of a boolean function can be computed as
+     follows 
+     \verbatim
+ocom2pbf(M,il,ov) := block([CVM, FF,V, FF_T,FF_F],
+  CVM : ttcom2cvm(Snow_CM),
+  V : map(gv_var,sublist(M[2],lambda([v],member(v,il)))),
+  FF  : clvar_w_ocom2fcl(CVM, gv_var),
+  FF  : restrict_V_cl(FF[2],cons(gv_var(ov),V)),
+  FF_T : apply_pa_cl({-gv_var(ov)}, FF),
+  FF_F : dnf_dual_cl(apply_pa_cl({gv_var(ov)}, FF)),
+  return([V,FF_T,FF_F]))$
+     \endverbatim
+     and for example to compute the partial boolean function relating to
+     the "Rep" output variable, we use
+     \verbatim
+Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
+Snow_V_out : ["Rep","Re","Res","Ri"]$
+
+ocom2pbf(Snow_CM,Snow_V_in, Snow_V_out);
+     \endverbatim
+     </li>
+     <li> Given such a partial boolean function from such a truth table, we
+     have the possibility that some total assignments may "conflict" or
+     "contradict" each other, i.e. that some total assignments may
+     be both true and false within this partial boolean function
+     and therefore it is not a true partial boolean function. To resolve this
+     we have three (reasonable) options,
+      <ol>
+       <li> Set any contradictory assignment to true
+       \verbatim
+pbf_resolve_conflict_true(PBF) :=
+  [PBF[1],PBF[2], sublist(PBF[3], lambda([C], not member(comp_sl(C),PBF[2])))]$
+       \endverbatim
+       </li>
+       <li> Set any contradictory assignment to false
+       \verbatim
+pbf_resolve_conflict_false(PBF) :=
+  [PBF[1],sublist(PBF[2], lambda([C], not member(comp_sl(C),PBF[3]))), PBF[3]]$
+       \endverbatim
+       </li> 
+       <li> Make any contradictory assignment open (i.e., remove it from the
+       partial boolean function)
+       \verbatim
+pbf_resolve_conflict_ignore(PBF) :=
+  [PBF[1],
+   sublist(PBF[2], lambda([C], not member(comp_sl(C),PBF[3]))),
+   sublist(PBF[3], lambda([C], not member(comp_sl(C),PBF[2])))]$
+       \endverbatim
+       </li>
+      </ol>
+     </li>
+     <li> Given a partial boolean function, we then have a variety of different
+     possibilities of extending it to a total boolean function, namely
+      <ul>
+       <li> Setting all open assignments to true and taking the DNF
+       representation of this function
+       \verbatim
+pbf_extend_all_true_dnf_fcl(PBF) := full_cnf2full_dnf([PBF[1],PBF[3]])$
+       \endverbatim
+       </li>
+       <li> Setting all open assignments to false and taking the DNF
+       representation of this function
+       \verbatim
+pbf_extend_all_false_dnf_fcl(PBF) := [PBF[1],PBF[2]]$
+       \endverbatim
+       </li>
+       <li> Setting all open assignments to true and taking the CNF
+       representation of this function
+       \verbatim
+pbf_extend_all_true_cnf_fcl(PBF) := [PBF[1],PBF[3]]$
+       \endverbatim
+       </li>
+       <li> Setting all open assignments to false and taking the CNF
+       representation of this function
+       \verbatim
+pbf_extend_all_false_cnf_fcl(PBF) := full_cnf2full_dnf([PBF[1],PBF[2]])$
+       \endverbatim
+       </li>
+      </ul>
+      where we have
+      \verbatim
+full_cnf2full_dnf(FF) :=
+  [FF[1], sublist(all_tass_l(FF[1]),lambda([phi],sat_pacs_p(phi,FF[2])))]$
+      \endverbatim
      </li>
     </ul>
    </li>
