@@ -21,5 +21,5 @@ baltimore2008_talk_location ?= $(documents_html_dir)/200803Baltimore.pdf
 
 oklibrary_report2009_location ?= $(documents_html_dir)/CSR1-2009.pdf
 
-greentao_bctcs2010_talk_location ?= $(documents_html_dir)/RamseyTheory/2010_BCTCSEdinburgh.pdf
+greentao_pcv2010_talk_location ?= $(documents_html_dir)/RamseyTheory/2010_Swansea05.pdf
 
