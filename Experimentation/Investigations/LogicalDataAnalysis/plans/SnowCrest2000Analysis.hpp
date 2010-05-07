@@ -24,6 +24,78 @@ License, or any later version. */
   </ul>
 
 
+  \todo Code for analysing such instances
+  <ul>
+   <li> When considering any kind of analysis 
+   (in particular when partially-automatically computed)
+   we have the following questions
+    <ol>
+     <li> What is the input? </li>
+     <li> What types of analysis/computation are needed, that is, what is the 
+     output? </li>
+     <li> What tools do we use? (%e.g., Maxima, R, shell-scripts etc). </li>
+    </ol>
+   </li>
+   <li> In the first case,
+    <ul>
+     <li> we consider several partial boolean functions
+     given by a partial truth table, where we have a list of input variables 
+     VI, a list of output variables VO and a list of total assignments
+     over append(VI,VO) (which will likely not cover all possible
+     total assignments). </li>
+     <li> we consider how to represent this data. We have two options
+      <ul>
+       <li> as a combinatorial matrix </li> 
+       <li> as a conflict-variable matrix </li>
+      </ul>
+      and there are advantages to both, however, due to the better readability
+      of 0,1 for false,true, as well as the fact this relates directly to the
+      original presentation as a truth table, it is best to use the combinatorial
+      matrix for the basic representation of such truth tables, and then provide
+      a simple conversion function such as 
+      \verbatim
+ttcom2cvm(M) := subst(-1,0,M)$
+      \endverbatim
+      to convert one to the other.
+     </li>
+    </ul>
+   </li>
+   <li> In the second case
+    <ul>
+     <li> we have discussions given in 
+     "List statistics and types of analysis needed" and
+     "Representations for data analysis". </li>
+    </ul>
+   </li>
+   <li> In the third case
+    <ul>
+     <li> initially it is reasonable to simply implement each 
+     set of functionality in whichever system "seems" appropriate. </li>
+     <li> initially most functionality will be within the Maxima system
+     or done by hand, as such functionality will be combinatorial 
+     (handling clause-sets, assignments etc). </li>
+     <li> when (later) considering any non-trivial statistics or
+     presentation issues, R should be used, as it is much more suited to
+     such things and offers a greater number of packages to aid in this. </li>
+     <li> when (much later) generating any automated documents, shell
+     scripts can be used to call Maxima, perform any formatting and then
+     to call R and any other tools (LaTeX etc) to generate such documents.
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Move discussions to general
+  <ul>
+   <li> A lot of these discussions are general and will apply to a variety
+   of different data analyses. </li>
+   <li> However, initially we have just a single instance for discussion
+   and so all such discussion is centralised here, and can be moved to
+   the relevant sections once it matures. </li>
+  </ul>
+
+
   \todo List statistics and types of analysis needed
   <ul>
    <li> Initially we have a truth table specification of a
