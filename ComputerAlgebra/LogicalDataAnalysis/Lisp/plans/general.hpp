@@ -143,7 +143,7 @@ fcl_p(clvar_ocom2fcl(CSc));
   <ul>
    <li> Given a set V of variables, a partial boolean function f could be
    represented by a pair [T,F], where T,F are disjoint sets of total
-   assignments over V, representing the true resp. false point of f. </li>
+   assignments over V, representing the true resp. false points of f. </li>
    <li> However, falsifying assignments are the domain of CNF, not DNF,
    and so the proper generalisation, allowing arbitrary clause-sets T,F over
    V, seems to be a triple [V,T,F], such that T,F are clause-sets over V,

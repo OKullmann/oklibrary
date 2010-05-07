@@ -50,9 +50,9 @@ License, or any later version. */
       </ul>
       and there are advantages to both, however, due to the better readability
       of 0,1 for false,true, as well as the fact this relates directly to the
-      original presentation as a truth table, it is best to use the combinatorial
-      matrix for the basic representation of such truth tables, and then provide
-      a simple conversion function such as 
+      original presentation as a truth table, it is best to use the
+      combinatorial matrix for the basic representation of such truth tables,
+      and then provide a simple conversion function such as 
       \verbatim
 Snow_CM : mrc2ocom(matrix(
  [1,1,1,1,1,1,1,1,1,1],
@@ -83,8 +83,8 @@ Snow_CVM : ttcom2cvm(Snow_CM)$
      rows from the input for each output variable individually, and considering
      the boolean function that this gives. </li>
      <li> One way to represent such partial boolean functions f, where some 
-     total assignments which are left open, is to consider a three
-     tuple [V,F,G] where V is set of input variables, and then F is a full DNF
+     total assignments which are left open, is to consider a 3-tuple [V,F,G]
+     where V is set of input variables, and then F is a full DNF
      representing the satisfying assignments of f and G is a DNF representing
      the falsifying assignments of f. </li>
      <li> Such a representation of a boolean function can be computed as
@@ -237,11 +237,11 @@ full_cnf2full_dnf(FF) :=
      </li>
      <li> A list of 
       <ul>
-       <li> which total assignments are assumed satisfying (resp falsfying)
+       <li> which total assignments are assumed satisfying (resp. falsfying)
        by *all* minimum-sized clause-sets </li>
-       <li> which total assignments are assumed satisfying (resp falsifying)
+       <li> which total assignments are assumed satisfying (resp. falsifying)
        by *none* of the minimum-sized clause-sets </li>
-       <li> which total assignments are assumed satisfying (resp falsifying)
+       <li> which total assignments are assumed satisfying (resp. falsifying)
        by *some but not all* of the minimum-size clause-sets, with 
        additionally information on which minimum-sized clause-sets need which.
        </li>
