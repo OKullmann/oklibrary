@@ -17,7 +17,6 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
-#include <cassert>
 
 #include <gmpxx.h>
 
@@ -38,6 +37,20 @@ namespace {
 
   const unsigned long default_binary_digits = 400;
   const unsigned long output_precision = 20;
+
+  inline mpq_class factor_C_gh_fin(const unsigned int k, const mpz_class& p) {
+    mpz_class temp(p);
+    mpz_pow_ui(temp.get_mpz_t(), temp.get_mpz_t(), k-2);
+    mpq_class factor(temp);
+    temp = p-1;
+    mpz_pow_ui(temp.get_mpz_t(), temp.get_mpz_t(), k-1);
+    factor /= temp;
+    return factor;
+  }
+
+  inline mpq_class factor_C_gh_inf(const unsigned int k, const mpz_class& p) {
+    return factor_C_gh_fin(k,p) * (p-k+1);
+  }
 
 }
 
@@ -97,36 +110,23 @@ int main(const int argc, const char* const argv[]) {
 
   mpq_class C_gh_fin(1);
   mpz_class p(2);
-  for (; p <= k; mpz_nextprime(p.get_mpz_t(), p.get_mpz_t())) {
-    mpz_class temp;
-    mpz_pow_ui(temp.get_mpz_t(), p.get_mpz_t(), k-2);
-    C_gh_fin *= temp;
-    temp = p-1;
-    mpz_pow_ui(temp.get_mpz_t(), temp.get_mpz_t(), k-1);
-    C_gh_fin /= temp;
-  }
-  assert(p > k);
+  for (; p <= k; mpz_nextprime(p.get_mpz_t(), p.get_mpz_t()))
+    C_gh_fin *= factor_C_gh_fin(k,p);
 
   mpf_set_default_prec(binary_digits);
 
   mpf_class C_gh_inf(1);
-  // std::cout << "Precision: " << mpf_get_prec(C_gh_inf.get_mpf_t()) << "\n";
   for (; p <= max_p; mpz_nextprime(p.get_mpz_t(), p.get_mpz_t())) {
-    mpz_class temp;
-    mpz_pow_ui(temp.get_mpz_t(), p.get_mpz_t(), k-2);
-    mpq_class factor;
-    factor = temp;
-    factor *= p-k+1;
-    temp = p-1;
-    mpz_pow_ui(temp.get_mpz_t(), temp.get_mpz_t(), k-1);
-    factor /= temp;
-    C_gh_inf *= factor;
+    C_gh_inf *= factor_C_gh_inf(k,p);
   }
 
   std::cout.precision(output_precision);
   const mpf_class C_gh_fin_f(C_gh_fin);
-  // the finite and the infinite part:
-  // std::cout << C_gh_fin_f << ", " << C_gh_inf << "\n";
   std::cout << C_gh_fin_f * C_gh_inf << "\n";
+
+  std::cout << "Precision in bits: " << mpf_get_prec(C_gh_inf.get_mpf_t()) << "\n";
+  std::cout << "The finite and the infinite part: " << C_gh_fin_f << ", " << C_gh_inf << "\n";
+  std::cout << "The first prime number not taken into account: " << p << "\n";
+  std::cout << "1 - corresponding factor: " << mpf_class(1-factor_C_gh_inf(k,p)) << "\n";
 }
 
