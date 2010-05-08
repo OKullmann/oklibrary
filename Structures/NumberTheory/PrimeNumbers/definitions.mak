@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := RankPrimes
+programs := RankPrimes GrosswaldHagisFormula
 
 source_libraries = $(gmp_include_option_okl)
 
