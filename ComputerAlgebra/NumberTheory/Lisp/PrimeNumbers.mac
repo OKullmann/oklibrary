@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -74,10 +74,11 @@ rank_primes(p) := block([i : 1],
 /* Ranking a set or list P of prime numbers: */
 rank_primes_s(P) := map(rank_primes, P)$
 
-/* For a natural number n >= 0 compute the numbers of primes p
+/* For a natural number n >= 0 or inf compute the numbers of primes p
    with p <= n:
 */
 count_primes(n) := if n <= 1 then 0
+ elseif n=inf then inf
  elseif primep(n) then rank_primes(n)
  else rank_primes(prev_prime(n))$
 

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -62,6 +62,7 @@ okltest_rank_primes(f) := (
 
 okltest_count_primes(f) := (
   assert(f(0) = 0),
+  assert(f(inf) = inf),
   assert(f(1) = 0),
   assert(f(2) = 1),
   assert(f(3) = 2),
@@ -70,6 +71,9 @@ okltest_count_primes(f) := (
   assert(f(6) = 3),
   assert(f(7) = 4),
   assert(f(8) = 4),
+  assert(f(9) = 4),
+  assert(f(10) = 4),
+  assert(f(11) = 5),
   true)$
 
 okltest_product_primes(f) := (
