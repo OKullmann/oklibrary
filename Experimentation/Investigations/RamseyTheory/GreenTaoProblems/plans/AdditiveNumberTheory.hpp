@@ -27,11 +27,14 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    but for initial considerations also simple_linear_regression (use
    'load("stats")') can be used. </li>
    <li> There are role models for the regression function in the literature.
-   The main starting point should be [Grosswald, Hagis, 1979, Arithmetic
+   The main starting point is [Grosswald, Hagis, 1979, Arithmetic
    progressions consisting only of primes, Mathematics of Computation,
    33(148):1343-1352]. </li>
-   <li> This is implemented by "fit_greentao" in OKlib/Statistics/R/GreenTao.R.
+   <li> The conjecture is that nhyp_arithprog_primes_hg(k,n) is asymptotically
+   equal to C_k / (2*(k-1)) * n^2 / (log n)^(k-2). This is proven for k <= 4.
    </li>
+   <li> The role model for curve-fitting is implemented by "fit_greentao"
+   in OKlib/Statistics/R/GreenTao.R. </li>
    <li> One can also consider n_arithprog_primes_nc[k,n] (the non-cumulative
    data, i.e., as list the difference list of the above list):
    \verbatim
