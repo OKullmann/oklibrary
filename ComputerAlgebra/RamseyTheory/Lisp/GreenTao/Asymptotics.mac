@@ -35,17 +35,21 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
    C_gh_inf(k,max_p), where only p <= max_p is considered.
  */
 
-C_gh_fin(k) := prod_l(
- create_list(1/p * (p/(p-1))^(k-1), p, primes_first(count_primes(k))))$
+factor_C_gh_fin(k) := buildq([k],lambda([p], p^(k-2)/(p-1)^(k-1)))$
 
-/* Prerequisite: max_p >= 2 */
+C_gh_fin(k) := prod_l(map(factor_C_gh_fin(k), primes_first(count_primes(k))))$
+
+factor_C_gh_inf(k) := buildq([k],lambda([p], p^(k-2)*(p-k+1)/(p-1)^(k-1)))$
+factorbf_C_gh_inf(k) := buildq([k],lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1))))$
+
+/* Prerequisite: max_p >= k. */
 C_gh_inf(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
-  prod_l(map(lambda([p], p^(k-2)*(p-k+1)/(p-1)^(k-1)), L)))$
+  prod_l(map(factor_C_gh_inf(k), L)))$
 /* Using floating-point arithmetic: */
 C_gh_inf_hp(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
-  prod_l(map(lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1))), L)))$
+  prod_l(map(factorbf_C_gh_inf(k), L)))$
 
 C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
 /* Using floating-point arithmetic: */
