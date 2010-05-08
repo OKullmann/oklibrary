@@ -9,7 +9,7 @@
 
 # For the length k of arithmetic progressions and the maximal number n
 # of primes considered, return a function f(n) which approximates
-# the number of hyperedges in arithprog_greentao_ohg(k,n):
+# the number of hyperedges in arithprog_greentao_hg(k,n):
 fit_greentao = function(k, n, N=2, monitor=FALSE) {
   fit_greentao_eval(fit_greentao_create(k, n, monitor), k, N, monitor)
 }
@@ -20,8 +20,8 @@ fit_greentao = function(k, n, N=2, monitor=FALSE) {
 # by n*log(n), using that according to the Prime Number theorem asymptotically
 # the n-th prime number is n*log(n). The formula (7) for the number
 # of arithmetic progresssions of length k with members up to x, but consisting
-# only of prime numbers, is according to this formula:
-# C_k/(2*(k-1)) * x^2/(log(x))^k * (1 + sum_{i=1}^N a_i/(log(x))^i
+# only of prime numbers, then yields:
+# C_k/(2*(k-1)) * n^2/(log(n))^(k-2) * (1 + sum_{i=1}^N a_i/(log(n))^i
 # This is proven now for k<=4, while in general it follows from the
 # Hardy-Littlewood m-tuples conjecture, that for all N>=0 this formula is
 # asymptotically correct (the quotient with the correct value goes to 1
@@ -53,13 +53,12 @@ fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   cat("Number of observations (changes) = ", length(X), "\n")
   cat("Max nhyp = ", Y[length(Y)], "\n")
 
-  P = X*log(X)
-  X0 = P^2/(log(P))^k
+  X0 = X^2/(log(X))^(k-2)
   A = array(dim=c(N,length(X)))
   if (N > 0)
     for (i in 1:N)
-      if (i==1) A[i,] = X0/log(P)
-      else A[i,] = A[i-1,]/log(P)
+      if (i==1) A[i,] = X0/log(X)
+      else A[i,] = A[i-1,]/log(X)
   
   if (N == 0)
     HL = lm(Y ~ X0)
@@ -83,18 +82,18 @@ fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   a = Chl[-(1:2)]
 
   f = function(n) {
-   x = n * log(n)
-   x0 = x^2/(log(x))^k
+   x0 = n^2/(log(n))^(k-2)
    b = array(dim=c(N,length(n)))
    if (N > 0)
      for (i in 1:N)
-      if (i==1) b[i,] = x0/log(x)
-      else b[i,] = b[i-1,]/log(x)
+      if (i==1) b[i,] = x0/log(n)
+      else b[i,] = b[i-1,]/log(n)
    c + m*x0 + rowSums(t(b) %*% a)
   }
   cat("Coefficients:", c, m, a, "\n")
-  cat("Residual range:", range(f(E$n) - E$nhyp), "\n\n")
-
+  cat("Residual range:", range(E$nhyp - f(E$n)), "\n")
+  plot(E$n,E$nhyp)
+  lines(E$n,f(E$n),col="red")
   return(f)
 }
 
