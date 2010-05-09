@@ -194,8 +194,8 @@ int main(const int argc, const char* const argv[]) {
   for (unsigned int k = k_first; k <= k_last; ++k) {
     const mpf_class C_gh_fin_f(C_gh_fin[k-k_first]);
     std::cout << "C_" << k << " = " << C_gh_fin_f * C_gh_inf[k-k_first] << "\n";
-    std::cout << "Finite and the infinite part: " << C_gh_fin_f << ", " << C_gh_inf[k-k_first] << "\n";
-  std::cout << "1 - first remaining factor: " << mpf_class(1-basic_factor(k,p)*(p-k+1)) << "\n";
+    std::cout << "Finite and infinite part: " << C_gh_fin_f << ", " << C_gh_inf[k-k_first] << "\n";
+    std::cout << "1 - first remaining factor: " << mpf_class(1-basic_factor(k,p)*(p-k+1)) << "\n";
   }
 }
 
