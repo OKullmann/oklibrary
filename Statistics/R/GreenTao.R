@@ -10,7 +10,8 @@
 # For the length k of arithmetic progressions and the maximal number n
 # of primes considered, return a function f(n) which approximates
 # the number of hyperedges in arithprog_greentao_hg(k,n):
-fit_greentao = function(k, n, N=2, monitor=FALSE) {
+# Prerequisite: N >= 1.
+fit_greentao = function(k, n, N=3, monitor=FALSE) {
   fit_greentao_eval(fit_greentao_create(k, n, monitor), k, N, monitor)
 }
 # If using "monitor=TRUE", information on the linear regression is printed.
@@ -25,21 +26,16 @@ fit_greentao = function(k, n, N=2, monitor=FALSE) {
 # This is proven now for k<=4, while in general it follows from the
 # Hardy-Littlewood m-tuples conjecture, that for all N>=0 this formula is
 # asymptotically correct (the quotient with the correct value goes to 1
-# with x going to infinity).
+# with n going to infinity).
 # In the paper an explicit formula for C_k is given, and implicit formulas
-# for the a_i (also depending on k), but we approximate these values just
-# by linear regression.
-# However, if monitor is true, and k-1 <= length(GH_coeff), then also
-# the "pure model" is considered, where the main coefficient is fixed to
-# GH_coef[k-1].
+# for the a_i (also depending on k). For C_k we use the numerical values
+# in GH_coeff, while for the a_i we use linear regression; additionally we
+# use also an absolute additive constant.
 
 # The coefficients from [Grosswald, Hagis, 1979], beginning with k=2:
 GH_coeff = c(1, 1.320323632, 2.8582486, 4.1511809, 10.1317950, 17.2986123, 53.9719484, 148.551629, 336.034327,
  511.422283, 1312.31971, 2364.59897, 7820.60006, 22938.9087, 55651.463, 91555.112, 256474.861, 510992.01, 1900972.6
 )
-
-# N >= 1 is needed to get decent precision; higher values are needed for the
-# pure model.
 
 # Helper function for fit_greentao, which creates the dataframe:
 fit_greentao_create = function(k, n, monitor=FALSE) {
@@ -61,65 +57,44 @@ fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   cat("Number of observations (changes) = ", length(X), "\n")
   cat("Max nhyp = ", Y[length(Y)], "\n")
 
-  X0 = X^2/(log(X))^(k-2)
+  Dk = GH_coeff[k-1]/2/(k-1)
+  X0 = Dk*X^2/(log(X))^(k-2)
   A = array(dim=c(N,length(X)))
-  if (N > 0)
-    for (i in 1:N)
-      if (i==1) A[i,] = X0/log(X)
-      else A[i,] = A[i-1,]/log(X)
-  
-  if (N == 0)
-    HL = lm(Y ~ X0)
-  else if (N == 1)
-    HL = lm(Y ~ X0 + A[1,])
+  for (i in 1:N)
+    if (i==1) A[i,] = X0/log(X)
+    else A[i,] = A[i-1,]/log(X)
+  YD = Y - X0
+  if (N == 1)
+    GHL = lm(YD ~ A[1,])
   else if (N == 2)
-    HL = lm(Y ~ X0 + A[1,] + A[2,])
+    GHL = lm(YD ~ A[1,] + A[2,])
   else if (N == 3)
-    HL = lm(Y ~ X0 + A[1,] + A[2,] + A[3,])
+    GHL = lm(YD ~ A[1,] + A[2,] + A[3,])
   else if (N == 4)
-    HL = lm(Y ~ X0 + A[1,] + A[2,] + A[3,] + A[4,])
+    GHL = lm(YD ~ A[1,] + A[2,] + A[3,] + A[4,])
   else return()
 
-  GH = FALSE
   if (monitor) {
-    cat("\nThe adopted Grosswald-Hagis model:")
-    print(summary(HL))
-    GH = k-1 <= length(GH_coeff) & N >= 1
-    if (GH) {
-      cat("\nThe pure Grosswald-Hagis model:")
-      FY = (GH_coeff[k-1]/2/(k-1))*X0
-      YGH = Y - FY
-      if (N == 1)
-        GHL = lm(YGH ~ A[1,])
-      else if (N == 2)
-        GHL = lm(YGH ~ A[1,] + A[2,])
-      else if (N == 3)
-        GHL = lm(YGH ~ A[1,] + A[2,] + A[3,])
-      else if (N == 4)
-        GHL = lm(YGH ~ A[1,] + A[2,] + A[3,] + A[4,])
-      print(summary(GHL))
-    }
+    cat("\nThe pure Grosswald-Hagis model:")
+    print(summary(GHL))
   }
 
-  Chl = coefficients(HL)
+  Chl = coefficients(GHL)
   c = Chl[1]
-  m = Chl[2]
-  a = Chl[-(1:2)]
+  a = Chl[-1]
 
   f = function(n) {
-   x0 = n^2/(log(n))^(k-2)
+   x0 = Dk*n^2/(log(n))^(k-2)
    b = array(dim=c(N,length(n)))
-   if (N > 0)
-     for (i in 1:N)
-      if (i==1) b[i,] = x0/log(n)
-      else b[i,] = b[i-1,]/log(n)
-   c + m*x0 + rowSums(t(b) %*% a)
+   for (i in 1:N)
+    if (i==1) b[i,] = x0/log(n)
+    else b[i,] = b[i-1,]/log(n)
+   c + x0 + rowSums(t(b) %*% a)
   }
-  cat("Coefficients:", c, m, a, "\n")
+  cat("Coefficients:", c, a, "; ", Dk, "\n")
   cat("Residual range:", range(E$nhyp - f(E$n)), "\n")
   plot(E$n,E$nhyp)
   lines(E$n,f(E$n),col="red")
-  if (GH) lines(predict(GHL)+FY,col="blue")
   return(f)
 }
 

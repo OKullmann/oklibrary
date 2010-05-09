@@ -199,37 +199,39 @@ plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
 > f = fit_greentao(3,1000)
 Number of observations (changes) =  995
 Max nhyp =  40510
-Coefficients: -1.578404 0.2714376 0.2161050 -1.089759
-Residual range: -36.29638 46.01975
+Coefficients: 17.11290 -2.962008 21.49815 -57.41431 ;  0.3300809
+Residual range: -37.03781 45.99563
 
 > f(100)
-  578.159
+  578.0767
 
 > f = fit_greentao(3,10000)
 Number of observations (changes) =  9995
 Max nhyp =  3091531
-Coefficients: 196.3070 0.279513 0.2195628 -1.584598
-Residual range: -708.596 915.6607
+Coefficients: 321.6195 -3.338598 30.12935 -101.7892 ;  0.3300809
+Residual range: -715.0495 930.5577
 
 f(100)
-  744.543
+  790.0139
    \endverbatim
    (where the correct value for f(100) is 579). </li>
-   <li> So f_3(n) = 196.3070 + 0.279513*n^2/log(n) + 
-   0.2195628*n^2/log(n)^2 - 1.584598*n^2/log(n)^3 is a good model. </li>
+   <li> So f_3(n) = 321.6195 + 0.3300809*n^2/log(n) * (1 + 
+   -3.338598/log(n) + 30.12935/log(n)^2 - 101.7892/log(n)^3) is a good model.
+   </li>
    <li> For N=30000 we obtain:
    \verbatim
 > f = fit_greentao(3,30000)
 Number of observations (changes) =  29995
 Max nhyp =  25000740
-Coefficients: 402.4138 0.2928001 0.0007483583 -0.6958819
-Residual range: -3255.808 3400.887
+Coefficients: 843.0986 -3.324593 30.58643 -107.2370 ;  0.3300809
+Residual range: -3259.890 3230.183
 
 f(100)
-  967.3217
+  1289.139
    \endverbatim
-   So f_3(n) = 402.4138 + 0.2928001*n^2/log(n) +
-   0.0007483583*n^2/log(n)^2 - 0.6958819*n^2/log(n)^3 is a good model. </li>
+   So f_3(n) = 843.0986 + 0.3300809*n^2/log(n) * (1 +
+   -3.324593/log(n) + 30.58643/log(n)^2 - 107.2370/log(n)^3) is a good model.
+   </li>
    <li> For N=100000 we need a C++ program which doesn't store the
    progressions. </li>
   </ul>
@@ -239,6 +241,7 @@ f(100)
   <ul>
    <li>
    \verbatim
+TO BE UPDATED:
 > f = fit_greentao(4,20000)
 Number of observations (changes) =  19975
 Max nhyp =  1462656
@@ -259,6 +262,7 @@ Residual range: -1115.498 923.5618
   <ul>
    <li>
    \verbatim
+TO BE UPDATED:
 > f = fit_greentao(5,40000)
 Number of observations (changes) =  39347
 Max nhyp =  462282
@@ -279,6 +283,7 @@ Residual range: -448.2709 539.9275
   <ul>
    <li>
    \verbatim
+TO BE UPDATED:
 > f = fit_greentao(6,80000)
 Number of observations (changes) =  70976
 Max nhyp =  234774
@@ -305,6 +310,7 @@ Residual range: -322.2387 365.8506
   <ul>
    <li>
    \verbatim
+TO BE UPDATED:
 > f = fit_greentao(7,160000)
 Number of observations (changes) =  59909
 Max nhyp =  78058
@@ -340,6 +346,7 @@ Residual range: -529.4176 1079.641
   <ul>
    <li>
    \verbatim
+TO BE UPDATED:
 > f = fit_greentao(8,1000000)
 Number of observations (changes) =  230866
 Max nhyp =  268082
