@@ -29,9 +29,15 @@ fit_greentao = function(k, n, N=2, monitor=FALSE) {
 # In the paper an explicit formula for C_k is given, and implicit formulas
 # for the a_i (also depending on k), but we approximate these values just
 # by linear regression.
+# However, if monitor is true, and k-1 <= length(GH_coeff), then also
+# the "pure model" is considered, where the main coefficient is fixed to
+# GH_coef[k-1].
 
-# N >= 1 is needed to get decent precision (while higher values don't seem
-# to make a big difference).
+# The coefficients from [Grosswald, Hagis, 1979], beginning with k=2:
+GH_coeff = c(1, 1.320323632, 2.8582486, 4.1511809)
+
+# N >= 1 is needed to get decent precision; higher values are needed for the
+# pure model.
 
 # Helper function for fit_greentao, which creates the dataframe:
 fit_greentao_create = function(k, n, monitor=FALSE) {
@@ -73,9 +79,24 @@ fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   else return()
 
   if (monitor) {
-    cat("\nThe adopted Hardy-Littlewood model:")
+    cat("\nThe adopted Grosswald-Hagis model:")
     print(summary(HL))
+    GH = k-1 <= length(GH_coeff) & N >= 1
+    if (GH) {
+      cat("\nThe pure Grosswald-Hagis model:")
+      YGH = Y - GH_coeff[k-1]*X0
+      if (N == 1)
+        GHL = lm(YGH ~ A[1,])
+      else if (N == 2)
+        GHL = lm(YGH ~ A[1,] + A[2,])
+      else if (N == 3)
+        GHL = lm(YGH ~ A[1,] + A[2,] + A[3,])
+      else if (N == 4)
+        GHL = lm(YGH ~ A[1,] + A[2,] + A[3,] + A[4,])
+      print(summary(GHL))
+    }
   }
+
   Chl = coefficients(HL)
   c = Chl[1]
   m = Chl[2]
@@ -94,6 +115,7 @@ fit_greentao_eval = function(E, k, N, monitor=FALSE) {
   cat("Residual range:", range(E$nhyp - f(E$n)), "\n")
   plot(E$n,E$nhyp)
   lines(E$n,f(E$n),col="red")
+  if (GH) lines(predict(GHL)+GH_coeff[k-1]*X0,col="blue")
   return(f)
 }
 
