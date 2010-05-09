@@ -21,6 +21,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo Potential bug
+  <ul>
+   <li> For "> time GrosswaldHagisFormula-O3-DNDEBUG 3,20 1000000000"
+   the additional data for C_11 was not printed:
+   \verbatim
+C_10 = 336.034327307194497
+Finite and the infinite part: 2796.2965153468151887, 0.12017120697427801113
+1 - first remaining factor: 3.5999999736000001242e-17
+C_11 = 511.42228312047417728
+C_12 = 1312.3197146277008806
+Finite and the infinite part: 13882.452232084007257, 0.094530828753350440844
+1 - first remaining factor: 5.499999967000000099e-17
+   \endverbatim
+   </li>
+   <li> How could this be? Perhaps just something in the environment? </li>
+  </ul>
+
+
   \todo Information on convergence rate
   <ul>
    <li> In [Grosswald, Hagis, 1979] it is stated that they determined how
