@@ -33,6 +33,7 @@ namespace {
   };
 
   const std::string program = "GrosswaldHagisFormula";
+  const std::string version = "0.1";
   const std::string err = "ERROR[" + program + "]: ";
 
   const unsigned long default_binary_digits = 400;
