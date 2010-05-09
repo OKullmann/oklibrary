@@ -32,6 +32,142 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
    33(148):1343-1352]. </li>
    <li> The conjecture is that nhyp_arithprog_primes_hg(k,n) is asymptotically
    equal to C_k / (2*(k-1)) * n^2 / (log n)^(k-2). This is proven for k <= 4.
+    <ol>
+     <li> We have C_2 = 1. </li>
+     <li> The following data has been computed by
+     \verbatim
+> GrosswaldHagisFormula-O3-DNDEBUG 3,20 1000000000
+Precision in bits: 416
+The first prime number not taken into account: 1000000007
+     \endverbatim
+     </li>
+     <li> Computation of C_3:
+     \verbatim
+C_3 = 1.3203236317546366339
+Finite and the infinite part: 1.5, 0.88021575450309108924
+1 - first remaining factor: 9.99999988000000108e-19
+     \endverbatim
+     while GH give the value 1.32032; a guess is C_3 = 1.320323631... . </li>
+     <li> Computation of C_4:
+     \verbatim
+C_4 = 2.8582485961147147258
+Finite and the infinite part: 4.5, 0.63516635469215882796
+1 - first remaining factor: 2.999999966000000288e-18
+     \endverbatim
+     while GH give the value 2.85825; let's guess C_4 = 2.85824859... .  </li>
+     <li> Computation of C_5:
+     \verbatim
+C_5 = 4.1511808643862090045
+Finite and the infinite part: 6.591796875, 0.62974951187133007712
+1 - first remaining factor: 5.999999936000000507e-18
+     \endverbatim
+     while GH give the value 4.15118; let's guess C_5 = 4.1511808... . </li>
+     <li> Computation of C_6:
+     \verbatim
+C_6 = 10.131794954669182916
+Finite and the infinite part: 24.71923828125, 0.40987488527728368616
+1 - first remaining factor: 9.999999900000000735e-18
+     \endverbatim
+     while GH give the value 10.1318; let's guess C_6 = 10.1317949... . </li>
+     <li> Computation of C_7:
+     \verbatim
+C_7 = 17.298612323552886198
+Finite and the infinite part: 33.392508824666341146, 0.51803871384394953143
+1 - first remaining factor: 1.4999999860000000945e-17
+     \endverbatim
+     while GH give the value 17.2986; let's guess C_7 = 17.2986123... . </li>
+     <li> Computation of C_8:
+     \verbatim
+C_8 = 53.971948352406135059
+Finite and the infinite part: 146.09222610791524251, 0.36943751074433075237
+1 - first remaining factor: 2.0999999818000001113e-17
+     \endverbatim
+     while GH give the value 53.9720; let's guess C_8 = 53.9719483... . </li>
+     <li> Computation of C_9:
+     \verbatim
+C_9 = 148.55162885563210856
+Finite and the infinite part: 639.15348922212918599, 0.23241933488687408369
+1 - first remaining factor: 2.7999999776000001218e-17
+     \endverbatim
+     while GH give the value 148.552; let's guess C_9 = 148.551628... . </li>
+     <li> Computation of C_10:
+     \verbatim
+C_10 = 336.034327307194497
+Finite and the infinite part: 2796.2965153468151887, 0.12017120697427801113
+1 - first remaining factor: 3.5999999736000001242e-17
+     \endverbatim
+     while GH give the value 336.034; let's guess C_10 = 336.034327... . </li>
+     <li> Computation of C_11:
+     \verbatim
+C_11 = 511.42228312047417728
+     \endverbatim
+     while GH give the value 511.422; let's guess C_11 = 511.422283... . </li>
+     <li> Computation of C_12:
+     \verbatim
+C_12 = 1312.3197146277008806
+Finite and the infinite part: 13882.452232084007257, 0.094530828753350440844
+1 - first remaining factor: 5.499999967000000099e-17
+     \endverbatim
+     while GH give the value 1312.32; let's guess C_12 = 1312.31971... . </li>
+     <li> Computation of C_13:
+     \verbatim
+C_13 = 2364.598970504069348
+Finite and the infinite part: 13428.850937459748114, 0.17608349228957677085
+1 - first remaining factor: 6.5999999648000000693e-17
+     \endverbatim
+     while GH give the value 2364.60; let's guess C_13 = 2364.59897... . </li>
+     <li> Computation of C_14:
+     \verbatim
+C_14 = 7820.6000583800047652
+Finite and the infinite part: 70011.873897902124282, 0.11170390996511158496
+1 - first remaining factor: 7.7999999636000000273e-17
+     \endverbatim
+     while GH give the value 7820.61; let's guess C_14 = 7820.60005... .
+     So here we have a descrepancy. </li>
+     <li> Computation of C_15:
+     \verbatim
+C_15 = 22938.908728604769022
+Finite and the infinite part: 365009.82172812513753, 0.062844634207379343627
+1 - first remaining factor: 9.0999999635999999727e-17
+     \endverbatim
+     while GH give the value 22939; let's guess C_15 = 22938.9087... . </li>
+     <li> Computation of C_16:
+     \verbatim
+C_16 = 55651.462823015330355
+Finite and the infinite part: 1902993.9143221524098, 0.029244162266718764193
+1 - first remaining factor: 1.0499999964999999906e-16
+     \endverbatim
+     while GH give the value 55651; let's guess C_16 = 55651.462... . </li>
+     <li> Computation of C_17:
+     \verbatim
+C_17 = 91555.111732881423894
+Finite and the infinite part: 1539516.4947250383578, 0.059470042735224739834
+1 - first remaining factor: 1.1999999967999999826e-16
+     \endverbatim
+     while GH give the value 91555; let's guess C_17 = 91555.111.... </li>
+     <li> Computation of C_18:
+     \verbatim
+C_18 = 256474.86146297656364
+Finite and the infinite part: 8527979.2287552010855, 0.030074517606489678389
+1 - first remaining factor: 1.3599999972799999735e-16
+     \endverbatim
+     while GH give the value 256480; let's guess C_18 = 256474.861... .
+     So here we have a descrepancy. </li>
+     <li> Computation of C_19:
+     \verbatim
+C_19 = 510992.01391519899563
+Finite and the infinite part: 6579820.4950027289514, 0.077660479385917816586
+1 - first remaining factor: 1.5299999979599999633e-16
+     \endverbatim
+     while GH give the value 510990; let's guess C_19 = 510992.01... . </li>
+     <li> Computation of C_20:
+     \verbatim
+C_20 = 1900972.5998672649484
+Finite and the infinite part: 38473077.653099090942, 0.049410463519653916442
+1 - first remaining factor: 1.7099999988599999521e-16
+     \endverbatim
+     while GH give the value 1901000; let's guess C_19 = 1900972.5... . </li>
+    </ol>
    </li>
    <li> The role model for curve-fitting is implemented by "fit_greentao"
    in OKlib/Statistics/R/GreenTao.R. </li>
@@ -63,39 +199,37 @@ plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
 > f = fit_greentao(3,1000)
 Number of observations (changes) =  995
 Max nhyp =  40510
-Coefficients: -1.455676 0.2433109 4.530863 -13.22174
-Residual range: -46.01184 36.11967
+Coefficients: -1.578404 0.2714376 0.2161050 -1.089759
+Residual range: -36.29638 46.01975
 
 > f(100)
-  578.4306
+  578.159
 
 > f = fit_greentao(3,10000)
 Number of observations (changes) =  9995
 Max nhyp =  3091531
-Coefficients: 187.4584 0.2631131 4.522825 -14.97632
-Residual range: -912.0556 707.5263
+Coefficients: 196.3070 0.279513 0.2195628 -1.584598
+Residual range: -708.596 915.6607
 
 f(100)
-  741.4426
+  744.543
    \endverbatim
    (where the correct value for f(100) is 579). </li>
-   <li> So f_3(n) = 187.4584 + 0.2631131*x^2/log(x)^3 * 
-   (1 + 4.522825/log(x) - 14.97632/log(x)^2) is a good model, where
-   x = n*log(n). </li>
+   <li> So f_3(n) = 196.3070 + 0.279513*n^2/log(n) + 
+   0.2195628*n^2/log(n)^2 - 1.584598*n^2/log(n)^3 is a good model. </li>
    <li> For N=30000 we obtain:
    \verbatim
 > f = fit_greentao(3,30000)
 Number of observations (changes) =  29995
 Max nhyp =  25000740
-Coefficients: 393.4117 0.2968310 3.823654 -11.38840
-Residual range: -3423.644 3254.2
+Coefficients: 402.4138 0.2928001 0.0007483583 -0.6958819
+Residual range: -3255.808 3400.887
 
 f(100)
-  961.2944
+  967.3217
    \endverbatim
-   So f_3(n) = 393.4117 + 0.2968310*x^2/log(x)^3 * 
-   (1 + 3.823654/log(x) - 11.38840/log(x)^2) is a good model, where
-   x = n*log(n). </li>
+   So f_3(n) = 402.4138 + 0.2928001*n^2/log(n) +
+   0.0007483583*n^2/log(n)^2 - 0.6958819*n^2/log(n)^3 is a good model. </li>
    <li> For N=100000 we need a C++ program which doesn't store the
    progressions. </li>
   </ul>
@@ -108,14 +242,14 @@ f(100)
 > f = fit_greentao(4,20000)
 Number of observations (changes) =  19975
 Max nhyp =  1462656
-Coefficients: 145.6985 0.2360898 10.58077 -41.45108
-Residual range: -412.8622 501.4584
+Coefficients: 165.4101 0.3400277 0.684767 -4.955831
+Residual range: -499.0341 410.999
 
 > f = fit_greentao(4,40000)
 Number of observations (changes) =  39975
 Max nhyp =  5148933
-Coefficients: -497.1373 0.5891194 2.073577 9.843178
-Residual range: -929.1254 1103.620
+Coefficients: -549.0156 0.4599897 -1.662170 6.5372
+Residual range: -1115.498 923.5618
    \endverbatim
    </li>
   </ul>
@@ -128,14 +262,14 @@ Residual range: -929.1254 1103.620
 > f = fit_greentao(5,40000)
 Number of observations (changes) =  39347
 Max nhyp =  462282
-Coefficients: -212.7657 0.762841 0.06329398 28.88302
-Residual range: -289.5044 227.3657
+Coefficients: -219.7298 0.5031083 -2.683063 10.54289
+Residual range: -230.2833 290.1797
 
 > f = fit_greentao(5,80000)
 Number of observations (changes) =  79347
 Max nhyp =  1545857
-Coefficients: -89.12968 0.4274986 8.573074 -25.10926
-Residual range: -540.5143 447.7293
+Coefficients: -84.72713 0.4143196 -0.8405665 0.9811276
+Residual range: -448.2709 539.9275
    \endverbatim
    </li>
   </ul>
@@ -148,8 +282,8 @@ Residual range: -540.5143 447.7293
 > f = fit_greentao(6,80000)
 Number of observations (changes) =  70976
 Max nhyp =  234774
-Coefficients: -106.7271 1.150551 9.422184 14.64226
-Residual range: -163.4261 167.8231
+Coefficients: -113.8172 0.8496358 -4.188096 14.99478
+Residual range: -168.2007 163.1515
 
 80000 - 70976
   9024
@@ -157,8 +291,8 @@ Residual range: -163.4261 167.8231
 > f = fit_greentao(6,160000)
 Number of observations (changes) =  150810
 Max nhyp =  749499
-Coefficients: -100.9089 0.8658116 16.82488 -33.42583
-Residual range: -366.5206 321.9369
+Coefficients: -102.2112 0.7783336 -2.665443 6.869895
+Residual range: -322.2387 365.8506
 
 160000 - 150810
   9190
@@ -174,8 +308,8 @@ Residual range: -366.5206 321.9369
 > f = fit_greentao(7,160000)
 Number of observations (changes) =  59909
 Max nhyp =  78058
-Coefficients: -5.022792 0.2405188 54.32041 -247.3408
-Residual range: -169.1657 159.1667
+Coefficients: -3.696913 0.8696752 -0.3139054 -13.02317
+Residual range: -159.1105 169.4958
 
 160000 -  59909
   100091
@@ -183,8 +317,8 @@ Residual range: -169.1657 159.1667
 > f = fit_greentao(7,500000)
 Number of observations (changes) =  298388
 Max nhyp =  497046
-Coefficients: 593.3755 -5.288303 225.8332 -1575.388
-Residual range: -473.103 585.1443
+Coefficients: 703.3813 -0.3935023 32.41404 -224.6832
+Residual range: -681.7677 457.4785
 
 500000 - 298388
   201612
@@ -192,8 +326,8 @@ Residual range: -473.103 585.1443
 > f = fit_greentao(7,1000000)
 Number of observations (changes) =  736449
 Max nhyp =  1558942
-Coefficients: -981.546 4.110067 -67.06604 709.1288
-Residual range: -972.0245 518.9356
+Coefficients: -1097.584 1.736234 -23.11872 137.8766
+Residual range: -529.4176 1079.641
 
 1000000 -  736449
   263551
@@ -209,8 +343,8 @@ Residual range: -972.0245 518.9356
 > f = fit_greentao(8,1000000)
 Number of observations (changes) =  230866
 Max nhyp =  268082
-Coefficients: -177.2491 3.526203 53.25977 198.9277
-Residual range: -200.5256 189.2639
+Coefficients: -170.0498 2.566231 -13.61017 54.1059
+Residual range: -189.4731 201.5056
 
 1000000 - 230866
   769134
@@ -218,13 +352,14 @@ Residual range: -200.5256 189.2639
 > f = fit_greentao(8,2000000)
 Number of observations (changes) =  649644
 Max nhyp =  812685
-Coefficients: 239.008 3.78891 61.47959 -7.395578
-Residual range: -534.6951 876.0352
+Coefficients: 186.8815 3.010198 -22.80165 96.40528
+Residual range: -882.6667 537.2372
 
 2000000 - 649644
   1350356
 
 > f = fit_greentao(8,4000000)
+TO BE UPDATED:
 Number of observations (changes) =  1781803
 Max nhyp =  2491439
 Coefficients: -675.2275 6.202912 -31.85938 883.982
