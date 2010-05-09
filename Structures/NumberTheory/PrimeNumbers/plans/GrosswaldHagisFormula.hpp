@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding the Grosswald-Hagis-formula for counting arithmetic progressions in primes
 
 
-  \todo Handle several k-values
+  \todo Handle several k-values : DONE
   <ul>
    <li> An input like
    \verbatim
