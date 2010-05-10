@@ -9,7 +9,7 @@
 
 global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat
 
-sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat
+sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 buildsystem_targets_extsrc_okl ?= git doxygen
 compiler_targets_extsrc_okl ?= gcc
@@ -56,4 +56,4 @@ include $(OKconfiguration)/ExternalSources/boost.mak
 include $(OKconfiguration)/ExternalSources/mhash.mak
 include $(OKconfiguration)/ExternalSources/picosat.mak
 include $(OKconfiguration)/ExternalSources/precosat.mak
-
+include $(OKconfiguration)/ExternalSources/argosat.mak

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -316,7 +316,8 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
   <ul>
    <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
    to offer. </li>
-   <li> Installation of ArgoSat:
+   <li> DONE
+   Installation of ArgoSat:
    \verbatim
 builds/SAT/Argo> tar -xzf ../../../sources/SAT/Argo/argosat-1.0.tar.gz
 builds/SAT/Argo> cd argosat-1.0
