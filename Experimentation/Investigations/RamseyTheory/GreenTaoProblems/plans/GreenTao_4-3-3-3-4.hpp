@@ -629,6 +629,13 @@ gwsat :
  1  1  2  5 12  9 10  7 12 14  8  7  3  5  1  2  1
      \endverbatim
      So also here rnovelty+ is best. </li>
+     <li> cutoff=10^9
+     \verbatim
+ 1  2  3  4
+ 3 32 58  7
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=1055

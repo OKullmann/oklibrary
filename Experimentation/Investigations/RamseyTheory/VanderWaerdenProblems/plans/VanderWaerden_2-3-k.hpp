@@ -990,6 +990,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
 2716
      \endverbatim
      </li>
+     <li> cutoff=10^8:
+     \verbatim
+ 1  2  3  6
+71 25  3  1
+100
+ 1  2  3  5
+79 18  2  1
+100
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
