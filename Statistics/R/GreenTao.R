@@ -33,8 +33,8 @@ fit_greentao = function(k, n, N=3, monitor=FALSE) {
 # use also an absolute additive constant.
 
 # The coefficients for [Grosswald, Hagis, 1979], beginning with k=2
-# (see RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp; using
-# rounding)
+# (see RamseyTheory/GreenTaoProblems/plans/CountingProgressions.hpp; using
+# rounding):
 GH_coeff = c(1, 1.320323632, 2.8582486, 4.1511809, 10.1317950, 17.2986123, 53.9719484, 148.551629, 336.034327,
  511.422282, 1312.31971, 2364.59896, 7820.60004, 22938.9087, 55651.463, 91555.111, 256474.860, 510992.01, 1900972.6
 )

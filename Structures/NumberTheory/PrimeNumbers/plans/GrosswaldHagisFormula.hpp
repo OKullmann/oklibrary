@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans regarding the Grosswald-Hagis-formula for counting arithmetic progressions in primes
 
 
+  \todo Connections
+  <ul>
+   <li> See RamseyTheory/GreenTaoProblems/plans/CountingProgressions.hpp. </li>
+  </ul>
+
+
   \todo Handle several k-values : DONE
   <ul>
    <li> An input like
