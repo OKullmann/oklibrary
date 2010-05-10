@@ -21,7 +21,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Potential bug
+  \todo DONE (when using time, then the output needs to be copied to a file)
+  Potential bug
   <ul>
    <li> For "> time GrosswaldHagisFormula-O3-DNDEBUG 3,20 1000000000"
    the additional data for C_11 was not printed:
@@ -36,7 +37,28 @@ Finite and the infinite part: 13882.452232084007257, 0.094530828753350440844
    \endverbatim
    </li>
    <li> How could this be? Perhaps just something in the environment? </li>
+   <li> Again:
+   \verbatim
+> time GrosswaldHagisFormula-O3-DNDEBUG 11,20 4000000000 | tee GH_1120_4
+Precision in bits: 416
+The first prime number not taken into account: 4000000007
+
+C_11 = 511.42228230839231811
+C_12 = 1312.3197120808120353
+   \endverbatim
+   Also with other max_p, and with other intervals: if 11 is included, then the
+   statistical data is not printed, while everything else is printed?! </li>
+   <li> But the same with k=31; or for the interval from 2-50 with 41 (while
+   the others are printed)?! </li>
+   <li> This disappears if "time" is not used, so it seems to be a bug of
+   "time"! </li>
+   <li> And when copying the output to a file, via "tee", then the output
+   shows up there. So it seems definitely to be a "time"-bug (and we should
+   always copy the output to files). </li>
   </ul>
+
+
+  \todo Copy output to a file
 
 
   \todo Information on convergence rate
