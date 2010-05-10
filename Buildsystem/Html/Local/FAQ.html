@@ -28,17 +28,26 @@ License, or any later version. -->
   <h2> Installation </h2>
   
   <ul>
-   <li> The links in the public bin-directory do not work??
+   <li> The links in the public bin-directory do not work?
     <ol>
      <li> In <code>OKplatform/bin</code> you find links to the main
       executables produced by the OKlibrary. </li>
-     <li> However, some do not work (since they actually point to an
+     <li> However, some may not work (since they actually point to an
       empty target). </li>
      <li> The problem here is, that these programs first need to be built,
       either by compilation from the OKlibrary itself, or by building
       an external source. </li>
      <li> These build-processes then will provide the target for the
       links. </li>
+     <li> Building happens mostly by <code>oklib all</code> (in directory
+      <code>OKplatform/OKsystem</code>, for the programs provided by the
+      OKlibrary itself). </li>
+     <li> Some programs are provided by external sources, and then these
+      external sources need to be built, by the appropriate
+      <code>oklib external-source</code> (in directory
+      <code>OKplatform/ExternalSources</code>). </li>
+     <li> In order to create links which were introduced after the initial
+      building of the OKlibrary, use <code>oklib --prebuild</code>. </li>
     </ol>
   </ul>
 
@@ -106,7 +115,7 @@ OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
   
   <hr />
    <!-- hhmts start -->
-Last modified: Mon May 10 20:27:19 BST 2010
+Last modified: Mon May 10 20:34:41 BST 2010
 <!-- hhmts end -->
    <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
    
