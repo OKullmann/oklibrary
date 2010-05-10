@@ -32,9 +32,11 @@ fit_greentao = function(k, n, N=3, monitor=FALSE) {
 # in GH_coeff, while for the a_i we use linear regression; additionally we
 # use also an absolute additive constant.
 
-# The coefficients from [Grosswald, Hagis, 1979], beginning with k=2:
+# The coefficients for [Grosswald, Hagis, 1979], beginning with k=2
+# (see RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp; using
+# rounding)
 GH_coeff = c(1, 1.320323632, 2.8582486, 4.1511809, 10.1317950, 17.2986123, 53.9719484, 148.551629, 336.034327,
- 511.422283, 1312.31971, 2364.59897, 7820.60006, 22938.9087, 55651.463, 91555.112, 256474.861, 510992.01, 1900972.6
+ 511.422282, 1312.31971, 2364.59896, 7820.60004, 22938.9087, 55651.463, 91555.111, 256474.860, 510992.01, 1900972.6
 )
 
 # Helper function for fit_greentao, which creates the dataframe:
