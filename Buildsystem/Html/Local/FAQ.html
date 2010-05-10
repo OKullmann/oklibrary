@@ -41,6 +41,27 @@ License, or any later version. -->
       links. </li>
     </ol>
   </ul>
+
+
+  <h2> The documentation system </h2>
+
+  <ul>
+   <li> In the <code>plans</code> directories, all the files are
+    <code>.hpp</code>-files, that is, C++ files?
+     <ol>
+      <li> Most parts of the documentation system are created using
+       <em>Doxygen</em>. </li>
+      <li> The .hpp-files in plans-directories do only contain C++
+      <em>comments</em>, but no actual code. </li>
+      <li> And inside the comments the Doxygen-directives are placed, which
+       describe documentation (and plans, discussions, etc.). </li>
+      <li> The Doxygen-system then <em>creates</em> the html-pages. </li>
+      <li> Only some html-pages, like this one, are directly created in the
+       html-format, while otherwise we use the Doxygen-system for formatting,
+      and, perhaps most important, for link creation. </li>
+     </ol>
+    </li>
+  </ul>
   
   
   <h2> How to find something </h2>
@@ -85,7 +106,7 @@ OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
   
   <hr />
    <!-- hhmts start -->
-Last modified: Mon May 10 20:19:23 BST 2010
+Last modified: Mon May 10 20:27:19 BST 2010
 <!-- hhmts end -->
    <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
    
