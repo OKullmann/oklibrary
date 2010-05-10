@@ -23,27 +23,6 @@ License, or any later version. */
    progression of length k ending with p_j. For k <= 5 we can already
    conjecture the smallest such i_k, and this should also be possible for
    k=6, while then it becomes more difficult. </li>
-   <li> One can consider the densities
-   ln_arithprog_primes_c(k,n) / create_list(i,i,1,n). </li>
-   <li> Hard to believe that there is nothing in the literature / on the
-   Internet: We should enter for example ln_arithprog_primes_c(3,30) =
-   [0,0,0,1,2,2,3,5,7,9,11,11,13,16,17,20,23,24,26,30,32,36,40,44,46,49,53,56,59,64]
-   into that database of integer sequences and see whether there is information
-   in it. </li>
-   <li> Yes, this sequence is A125505 in
-   http://www.research.att.com/~njas/sequences/Seis.html (see
-   http://www.research.att.com/~njas/sequences/A125505). </li>
-   <li> There it is only listed for n=64; this we can easily extend, and
-   perhaps we should do so. </li>
-   <li> And apparently for k >= 4 there is nothing entered there --- we
-   should change this.
-    <ol>
-     <li> Say, up to k=10. </li>
-     <li> For k=10 for example the first 315 values are 0, and then
-     at least until index 3000 the value is constant 1; for such sequences
-     we need a compressed representation. </li>
-    </ol>
-   </li>
    <li> Of interest is also
    http://www.research.att.com/~njas/sequences/Sindx_Pri.html#primes_AP
    which gives an overview. It contains for given k the smallest starting

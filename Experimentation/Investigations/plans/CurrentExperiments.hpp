@@ -74,6 +74,11 @@ License, or any later version. */
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-3-3.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-3-4.hpp :
    COMPLETED for now </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/CountingProgressions.hpp
+    <ol>
+     <li> Computing numerical values for C_k. </li>
+    </ol>
+   </li>
   </ul>
 
 

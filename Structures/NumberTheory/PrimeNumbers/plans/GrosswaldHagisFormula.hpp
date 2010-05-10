@@ -16,6 +16,30 @@ License, or any later version. */
   </ul>
 
 
+  \todo Copy output to a file
+
+
+  \todo Information on convergence rate
+  <ul>
+   <li> In [Grosswald, Hagis, 1979] it is stated that they determined how
+   many digits are definitely correct --- what estimation did they use? </li>
+   <li> Are the authors still around, so that we can ask them? </li>
+   <li> And is the paper "[E. Grosswald, Arithmetic progressions of primes,
+   to appear]" available? </li>
+   <li> Optimally, the program would compute the number of definitely correct
+   digits, and also then the most precise rounded value. </li>
+   <li> First one needs to establish whether the factor in the infinite product
+   are always smaller than 1, and whether they are strongly monotonically
+   increasing. </li>
+   <li> However, such considerations are best done at Maxima-level; see
+   "Estimating the factors in the infinite Grosswald-Hagis-product" in
+   ComputerAlgebra/RamseyTheory/Lisp/GreenTao/plans/Asymptotics.hpp. </li>
+  </ul>
+
+
+  \todo Write application tests
+
+
   \todo Handle several k-values : DONE
   <ul>
    <li> An input like
@@ -62,23 +86,5 @@ C_12 = 1312.3197120808120353
    shows up there. So it seems definitely to be a "time"-bug (and we should
    always copy the output to files). </li>
   </ul>
-
-
-  \todo Copy output to a file
-
-
-  \todo Information on convergence rate
-  <ul>
-   <li> In [Grosswald, Hagis, 1979] it is stated that they determined how
-   many digits are definitely correct --- what estimation did they use? </li>
-   <li> Are the authors still around, so that we can ask them? </li>
-   <li> And is the paper "[E. Grosswald, Arithmetic progressions of primes,
-   to appear]" available? </li>
-   <li> Optimally, the program would compute the number of definitely correct
-   digits, and also then the most precise rounded value. </li>
-  </ul>
-
-
-  \todo Write application tests
 
 */
