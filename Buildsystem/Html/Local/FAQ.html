@@ -3,103 +3,103 @@
   PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<!-- Copyright 2007 - 2009 Oliver Kullmann -->
+<!-- Copyright 2007 - 2009, 2010 Oliver Kullmann -->
 <!-- This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the 
 License, or any later version. -->
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
-      
-  <head>
-    <title> OKlibrary </title>
-    <meta name="author" content="Oliver Kullmann" />
-    <meta name="description" content="FAQ for the OKlibrary" />
+ 
+ <head>
+  <title> OKlibrary </title>
+  <meta name="author" content="Oliver Kullmann" />
+   <meta name="description" content="FAQ for the OKlibrary" />
     <meta name="robot" content="all" />
-    <meta http-equiv="content-type" content="text/html" />
-    <meta http-equiv="charset" content="utf-8" />
-  </head>
+     <meta http-equiv="content-type" content="text/html" />
+      <meta http-equiv="charset" content="utf-8" />
+ </head>
+ 
+ <body>
   
-  <body>
+  <h1> FAQ </h1>
   
-    <h1> FAQ </h1>
-
-
-    <h2> Installation </h2>
-
-    <ul>
-      <li> You expect a big installation-process, which takes a lot of times, but following
-        the instructions in the README-file, not much happens??
-        <ol>
-          <li> The OKlibrary is an "active" library, with permanent
-            build-capabilities, not just once at the beginning. </li>
-          <li> So after the initial installation, the OKlibrary is ready for
-            action, and awaits your instruction on what to build. </li>
-          <li> And likely before building anything, some external sources have
-            to be built, and for that perhaps some configuration is needed. </li>
-        </ol>
-      </li>
-      <li> The links in the public bin-directory do not work??
-        <ol>
-          <li> In <code>OKplatform/bin</code> you find links to the main
-            executables produced by the OKlibrary. </li>
-          <li> However, some do not work (since they actually point to an
-            empty target). </li>
-          <li> The problem here is, that these programs first need to be built,
-            either by compilation from the OKlibrary itself, or by building
-            an external source. </li>
-          <li> These build-processes then will provide the target for the
-            links. </li>
-        </ol>
-    </ul>
-
-
-    <h2> How to find something </h2>
-
-    <ul>
-      <li> Perhaps you want to find whether we implemented something from a
-        paper of author XYZ, or you changed the location of file DIR/FILE,
-        and you need to change all references to that file. Just search
-        for TEXT (=XYZ resp. =DIR/FILE) by the tools provided by Linux (and
-        possibly your distribution). Most basic is <code>grep</code>:
-        <pre>
+  
+  <h2> Installation </h2>
+  
+  <ul>
+   <li> You expect a big installation-process, which takes a lot of times, but
+    following the instructions in the README-file, not much happens??
+    <ol>
+     <li> The OKlibrary is an "active" library, with permanent
+      build-capabilities, not just once at the beginning. </li>
+     <li> So after the initial installation, the OKlibrary is ready for
+      action, and awaits your instruction on what to build. </li>
+     <li> And likely before building anything, some external sources have
+      to be built, and for that perhaps some configuration is needed. </li>
+    </ol>
+   </li>
+   <li> The links in the public bin-directory do not work??
+    <ol>
+     <li> In <code>OKplatform/bin</code> you find links to the main
+      executables produced by the OKlibrary. </li>
+     <li> However, some do not work (since they actually point to an
+      empty target). </li>
+     <li> The problem here is, that these programs first need to be built,
+      either by compilation from the OKlibrary itself, or by building
+      an external source. </li>
+     <li> These build-processes then will provide the target for the
+      links. </li>
+    </ol>
+  </ul>
+  
+  
+  <h2> How to find something </h2>
+  
+  <ul>
+   <li> Perhaps you want to find whether we implemented something from a
+    paper of author XYZ, or you changed the location of file DIR/FILE,
+    and you need to change all references to that file. Just search
+    for TEXT (=XYZ resp. =DIR/FILE) by the tools provided by Linux (and
+    possibly your distribution). Most basic is <code>grep</code>:
+    <pre>
 OKplatform> grep -rl "TEXT" *
-        </pre>
-        (where "r" is for "recursive descend" and "l" for "print only
-        file-names", while the filename expansion "*" at the end invokes all
-        files and directories in the working-directory).
-      </li>
-      <li>
-        I (OK) am using for example xemacs, which produces backup-files marked
-        through the suffix "~"; normally you want to exclude such files, and
-        then you can use a <code>find</code>-filter:
-        <pre>
+    </pre>
+    (where "r" is for "recursive descend" and "l" for "print only
+    file-names", while the filename expansion "*" at the end invokes all
+    files and directories in the working-directory).
+   </li>
+   <li>
+    I (OK) am using for example xemacs, which produces backup-files marked
+    through the suffix "~"; normally you want to exclude such files, and
+    then you can use a <code>find</code>-filter:
+    <pre>
 OKplatform> echo $(find * -not -name "*~" -and -type f) | xargs grep -rl "TEXT"
-        </pre>
-        Using <code>find</code> is very powerful, however just for excluding
-        a filename-pattern we can use <code>grep</code>, and the following
-        command has the same effect:
-        <pre>
+    </pre>
+    Using <code>find</code> is very powerful, however just for excluding
+    a filename-pattern we can use <code>grep</code>, and the following
+    command has the same effect:
+    <pre>
 OKplatform> grep -rl --exclude="*~" "TEXT" *
-        </pre>
-        And if you only want to search for plans-files, then you can restrict
-        the search to files with suffix ".hpp" by
-        <pre>
+    </pre>
+    And if you only want to search for plans-files, then you can restrict
+    the search to files with suffix ".hpp" by
+    <pre>
 OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
-        </pre>
-        (but these filename-patterns only work for the basename; if you want
-        to control the full path, then you need to use the more powerful
-        <code>find</code>-filter).
-      </li>
-    </ul>
-
+    </pre>
+    (but these filename-patterns only work for the basename; if you want
+    to control the full path, then you need to use the more powerful
+    <code>find</code>-filter).
+   </li>
+  </ul>
   
-    <hr />
-      <!-- hhmts start -->
-Last modified: Sun Mar  1 21:58:45 GMT 2009
+  
+  <hr />
+   <!-- hhmts start -->
+Last modified: Mon May 10 20:16:30 BST 2010
 <!-- hhmts end -->
-      <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
-
-  </body>
-  
+   <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
+   
+ </body>
+ 
 </html>
