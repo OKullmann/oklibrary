@@ -44,14 +44,10 @@ okltest_direct_crd2cl_ge(direct_crd2cl_ge);
    ************************
 */
 
-okltest_unary_bb_totaliser_fcl_comb(unary_bb_totaliser_fcl);
-okltest_unary_bb_totaliser_fcl_spec(unary_bb_totaliser_fcl);
-okltest_unary_bb_totaliser_r_fcl_comb(unary_bb_totaliser_r_fcl);
-okltest_unary_bb_totaliser_r_fcl_spec(unary_bb_totaliser_r_fcl);
-okltest_unary_bb_comparator_fcl_comb(unary_bb_comparator_fcl);
-okltest_unary_bb_comparator_fcl_spec(unary_bb_comparator_fcl);
-okltest_unary_bb_crd2fcl_comb(unary_bb_crd2fcl);
-okltest_unary_bb_crd2fcl_spec(unary_bb_crd2fcl);
+okltest_unary_bb_totaliser_fcl(unary_bb_totaliser_fcl);
+okltest_unary_bb_totaliser_r_fcl(unary_bb_totaliser_r_fcl);
+okltest_unary_bb_comparator_fcl(unary_bb_comparator_fcl);
+okltest_unary_bb_crd2fcl(unary_bb_crd2fcl);
 
 /*!
 \endhtmlonly

@@ -13,9 +13,7 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac");
 
-  \bug okltest_unary_bb_totaliser_r_fcl_comb is a no-op
-
-  \bug All tests regarding UCP (and unary encoding) must be removed.
+  \bug DONE All tests regarding UCP (and unary encoding) must be removed.
   <ul>
    <li> MG : All tests? Or just those relating to the unproven
    assertion that any forced assignment follows by UCP (and not just forced
@@ -24,7 +22,15 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/Cardin
    <li> All tests: UCP has nothing to do with these functions. </li>
   </ul>
 
-  \todo The text below regarding unary encoding needs a complete update.
+
+  \todo DONE The text below regarding unary encoding needs a complete update.
+  <ul>
+   <li> Tests are now in line with other tests and any specification
+   necessary is done in the main Cardinality.mac file. </li>
+  </ul>
+
+
+  \bug DONE okltest_unary_bb_totaliser_r_fcl_comb is a no-op
 
 */
 
@@ -126,9 +132,7 @@ okltest_direct_crd2cl_ge(f) := (
    ************************
 */
 
-/* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for cardinality_totalizer_cl: */
-okltest_unary_bb_totaliser_fcl_comb(f) := block([F],
+okltest_unary_bb_totaliser_fcl(f) := block([F],
   assert(f([],[]) = [[],[]]),
   assert(f([2],[1]) = [[2,1],[{-2,1},{-1,2}]]),
   assert(f([3,4],[1,2]) =
@@ -142,60 +146,13 @@ okltest_unary_bb_totaliser_fcl_comb(f) := block([F],
   /* XXX */
   true)$
 
-/* cardinality_totalizer_cl generates a CNF F
-   such that the satisfying assignments of F (restricted
-   to S and var(E)) have that S is the unary
-   representation of the cardinality of E, and that
-   any forced assignments on phi * F (for any phi) follow by UCP.
-   These tests test both of these assertions. */
-/* MG: Additional tests should be added which provide
-   assertions on forced assignments including original variables
-   (i.e., the original partial assignment applied should
-    contain new variables). */
-okltest_unary_bb_totaliser_fcl_spec(f) := block([F],
-  F : cl2cs(f([1,2,3,4,5],[6,7,8,9,10])[2]),
-  assert(ucp_0_cs(apply_pa({1,2,3,4,5,6,7,8,9,10},F)) = {}),
-  for i : 1 thru 10 do
-    assert(ucp_0_cs(
-      apply_pa(setify(create_list(if j = i then -j else j,j,1,10)),F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,-6,7,8,9,10},F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,-7,8,9,10},F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,-8,9,10},F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,8,-9,10},F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,2,3,4,5,6,7,8,9,-10},F)) = {}),
-  assert(ucp_0_cs(apply_pa({-1,-2,-3,-4,-5,6,7,8,9,10},F)) = {{}}),
-  assert(ucp_0_cs(apply_pa({-1,-2,-3,-4,-5,-6,-7,-8,-9,-10},F)) = {}),
-  true)$
-
-/* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for unary_bb_totalizer_cl: */
-okltest_unary_bb_totaliser_r_fcl_comb(f) := block(
-  okltest_unary_bb_totalizer_cl_comb(
+okltest_unary_bb_totaliser_r_fcl(f) := block(
+  okltest_unary_bb_totaliser_fcl_comb(
     buildq([f],lambda([E,S], f(E,S,1,length(E))))),
   
   true)$
 
-/* unary_bb_totalizer_r_cl is specified in the same
-   way as unary_bb_totalizer_cl, except for the new variables
-   used, therefore we test that it matches the specification for
-   unary_bb_totalizer_cl and that the new variables introduced
-   match the specification. */
-okltest_unary_bb_totaliser_r_fcl_spec(f) := block([FF],
-  okltest_unary_bb_totalizer_cl_spec(
-    buildq([f],lambda([E,S], f(E,S,1,length(E))))),
-  FF : f([6,7,8,9,10],[1,2,3,4,5],1,5),
-  assert(setdifference(setify(FF[1]),{1,2,3,4,5,6,7,8,9,10}) =
-    {vru(1,2,1),vru(1,2,2),vru(3,5,1),vru(3,5,2),vru(3,5,3),vru(4,5,1),
-     vru(4,5,2)}),
-  FF : f([6,7,8,9,10],[1,2,3,4,5],6,10), 
-  assert(setdifference(setify(FF[1]),{1,2,3,4,5,6,7,8,9,10}) =
-    {vru(6,7,1),vru(6,7,2),vru(8,10,1),vru(8,10,2),vru(8,10,3),vru(9,10,1),
-     vru(9,10,2)}),
-  true)$
-
-/* Tests that the function f returns a clause-set which is exactly as specified
-   in the comments for unary_bb_comparator_cl: */
-okltest_unary_bb_comparator_fcl_comb(f) := block(
+okltest_unary_bb_comparator_fcl(f) := block(
   for m : 0 thru 5 do
     for n : 0 thru 5 do
       assert(f([],0,0) = [[],[]]),
@@ -205,21 +162,7 @@ okltest_unary_bb_comparator_fcl_comb(f) := block(
   assert(f([1,2,3,4,5],2,4) = [[1,2,3,4,5],[{1},{2},{-5}]]),
   true)$
 
-/* unary_bb_comparator_cl generates a CNF F such that
-   the satisfying assignments of F are those that have
-   at least the first a literals in E are set to true, and the
-   last length(E)-b literals set to false. The following
-   tests that the given f matches this specification. */   
-okltest_unary_bb_comparator_fcl_spec(f) := block([F],
-  assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],2,3)[2]))[2][1] = {-4,1,2}),
-  assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],1,3)[2]))[2][1] = {-4,1}),
-  assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],0,3)[2]))[2][1] = {-4}),
-  assert(ucp_lpa_0_cs(cl2cs(f([1,2,3,4],0,4)[2]))[2] = []),
-  true)$
-
-/* Tests that the function f returns a clause-set which is as specified
-   in the comments for unary_bb_cl: */
-okltest_unary_bb_crd2fcl_comb(f) := block([F],
+okltest_unary_bb_crd2fcl(f) := block([F],
   for m : 0 thru 5 do
     for n : 0 thru 5 do
       assert(f([0,[],0]) = [[],[]]),
@@ -228,31 +171,6 @@ okltest_unary_bb_crd2fcl_comb(f) := block([F],
     [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)},{vru(1,1,1)}]]),
   true)$
 
-/* unary_bb_cl generates a CNF F
-   such that the satisfying assignments of F (restricted to
-   var(E)) have that the cardinality of E is between a and
-   b (inclusive) and any forced assignments on phi * F (for any phi) follow by
-   UCP. These tests test both of these assertions. */
-/* MG: Additional tests should be added which provide
-   assertions on forced assignments including original variables
-   (i.e., the original partial assignment applied should
-    contain new variables). */
-okltest_unary_bb_crd2fcl_spec(f) := block([F],
-  F : cl2cs(f([2,[1,2,3,4,5],4])[2]),
-  assert(ucp_0_cs(apply_pa({1,2,3,4,5}, F)) = {{}}),
-  for i : 1 thru 5 do (
-    assert(ucp_0_cs(
-      apply_pa(union(disjoin(i,{1,2,3,4,5}),{-i}), F)) = {}),
-    assert(ucp_0_cs(
-      apply_pa(union(disjoin(-i,{-1,-2,-3,-4,-5}),{i}), F)) = {{}}),
-    for j : 1 thru 5 do (
-      if i # j then (
-        assert(ucp_0_cs(
-          apply_pa(union(setdifference({1,2,3,4,5},{i,j}),{-i,-j}), F)) = {}),
-        assert(ucp_0_cs(apply_pa(
-          union(setdifference({-1,-2,-3,-4,-5},{-i,-j}),{i,j}), F)) = {}))
-    )
-  ),true)$
 
 /*!
 \endhtmlonly
