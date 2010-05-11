@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo Output learned clauses
   <ul>
+   <li> Compare "Output of learned clauses" in
+   Satisfiability/Solvers/Argosat/plans/general.hpp. </li>
    <li> It would be useful, if we could add another option which makes
    minisat2 output (certain) learned clauses. </li>
    <li> Definitely learned unit-clauses are of interest, and perhaps in general
