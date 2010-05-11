@@ -10,17 +10,6 @@ License, or any later version. */
   \brief Plans for building external sources in general
 
 
-  \todo DONE
-  Building "all"
-  <ul>
-   <li> Dependencies have to be taken care of for target "all". </li>
-   <li> gcc is needed often, and so is gmp; also fortran might be needed. </li>
-   <li> Later we should have make-dependencies in place which handle these
-   dependencies automatically; yet perhaps we should declare them in
-   Configuration/ExternalSources/all.mak (in comments). </li>
-  </ul>
-
-
   \todo Downloading sources
   <ul>
    <li> Via
@@ -363,26 +352,6 @@ SAGE_ROOT="....."
    Optionally there should be also local versions of valgrind and
    doxygen (and other tools). This is necessary on systems where the user
    does not have root access. </li>
-  </ul>
-
-
-  \todo DONE (more or less obsolete now)
-  Make-variables for external libraries : UPDATE needed (%w.r.t. the new
-  view of the configuration centre)
-  <ul>
-   <li> Variable "prefix" in ExternalSources/Makefile should be replaced by
-   variable ExternalSources. </li>
-   <li> How to define variables like Boost and Ubcsat in general?
-   We need a nice little method (plus documentation), so that we can add
-   easily as many external libraries as we want. See See Gmp.mak and
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new
-   scheme. </li>
-   <li> And then we have make-variables "gcc_version_number" (for
-   OKlibBuilding/Makefile) and "gcc_version_okl" (for boost.mak) which likely
-   should have the same names. </li>
-   <li> In system_definitions.mak we have a definition of Boost which seems
-   wrong to me (OK) (or at least misleading). DONE (resp. moved to other
-   todos) </li>
   </ul>
 
 

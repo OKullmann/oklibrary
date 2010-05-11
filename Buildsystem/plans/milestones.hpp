@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.2.0.1 (4.9.2008)
+  \module_version Buildsystem 0.2.0.2 (11.5.2010)
 
 
   \par Version 0.2.1 : THEME is "PRE-ALPHA RELEASE"
