@@ -315,7 +315,23 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
   \todo Argo
   <ul>
    <li> It seems that there is no documentation available? </li>
-   <li> At least we should provide a specification of the output. </li>
+   <li> At least we should provide a specification of the output.
+    <ol>
+     <li> How to see whether unit-clauses have been derived? </li>
+    </ol>
+   </li>
+   <li> Documentation of options:
+    <ol>
+     <li> How to eliminate output of "..." etc. ? (What's the meaning of this
+     output?) It makes the output unreadable, especially for harder problems.
+     </li>
+    </ol>
+   </li>
+   <li> Improvements (which should go to Satisfiability/Solvers):
+    <ol>
+     <li> Making it print all information when aborted by SIGINT. </li>
+    </ol>
+   </li>
    <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
    to offer. </li>
    <li> DONE
