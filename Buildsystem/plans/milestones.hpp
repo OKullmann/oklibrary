@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.3.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.2
+  \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.7
@@ -43,7 +43,7 @@ License, or any later version. */
   \par Buildsystem/SourceControl 0.2.4
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.4
+  \par Buildsystem/ExternalSources version 0.1.5
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.8
@@ -71,7 +71,7 @@ License, or any later version. */
 
   \par Version 0.2.3 : THEME is "Build system extensions"
 
-  \par Buildsystem/ExternalSources version 0.1.6
+  \par Buildsystem/ExternalSources version 0.1.7
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/MasterScript version 0.0.7
@@ -80,7 +80,7 @@ License, or any later version. */
 
   \par Version 0.2.4 :
 
-  \par Buildsystem/ExternalSources version 0.1.7
+  \par Buildsystem/ExternalSources version 0.1.8
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par

@@ -18,8 +18,6 @@ License, or any later version. */
 
   \par
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Downloading sources
-    - Update
     - Building "all" : DONE
 
   \par
@@ -29,6 +27,14 @@ License, or any later version. */
 
   \par Version 0.1.3
 
+  \par
+   In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Downloading sources
+    - Update
+
+
+  \par Version 0.1.4
+
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
@@ -37,7 +43,7 @@ License, or any later version. */
     - Interfaces via OKplatform/bin
 
 
-  \par Version 0.1.4
+  \par Version 0.1.5
 
   \par
    In OKlib/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
@@ -47,7 +53,7 @@ License, or any later version. */
     - General
 
 
-  \par Version 0.1.5
+  \par Version 0.1.6
 
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
@@ -59,7 +65,7 @@ License, or any later version. */
 
 
 
-  \par Version 0.1.6
+  \par Version 0.1.7
 
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.7
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
@@ -67,7 +73,7 @@ License, or any later version. */
   \par Update the following milestones.
 
 
-  \par Version 0.1.7
+  \par Version 0.1.8
 
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.9
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
