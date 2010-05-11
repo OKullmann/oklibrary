@@ -13,6 +13,14 @@ License, or any later version. */
   \todo Elementary statistics
   <ul>
    <li> Investigating tr_arithprog_hg(9,n). </li>
+   <li> The numbers of minimum hyperedges:
+   \verbatim
+L9 : [];
+minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(9,n)),'L9)$
+
+T : transform_steps_l(map(lambda([d],d[4][1]),reverse(L9)));
+   \endverbatim
+   </li>
    <li> For orientation, those n-values where at least one hyperedge has been
    added (compared to n-1), and the number of hyperedges added:
    \verbatim
@@ -54,11 +62,6 @@ intersection(G[2][1], G[2][2]);
    <li> It follows from the above disjointness-property, that tau always
    increases by one when a new hyperedge aries in the above list, except for
    the second hyperedge which is left out. </li>
-   <li> At C++ level (showing only the changes):
-   \verbatim
-> MinimumTransversals_GreenTao-O3-DNDEBUG 2000 9 | tee GreenTao_Trans_9_2000_OUT
-   \endverbatim
-   </li>
   </ul>
 
 

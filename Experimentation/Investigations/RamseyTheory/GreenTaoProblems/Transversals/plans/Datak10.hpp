@@ -13,6 +13,14 @@ License, or any later version. */
   \todo Elementary statistics
   <ul>
    <li> Investigating tr_arithprog_hg(10,n). </li>
+   <li> The numbers of minimum hyperedges:
+   \verbatim
+L10 : [];
+minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(10,n)),'L10)$
+
+T : transform_steps_l(map(lambda([d],d[4][1]),reverse(L10)));
+   \endverbatim
+   </li>
    <li> For orientation, those n-values where at least one hyperedge has been
    added (compared to n-1), and the number of hyperedges added:
    \verbatim
