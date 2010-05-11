@@ -57,6 +57,8 @@ License, or any later version. */
    <li> And n=41 needs 163846 nodes (less than a minute) with the OKsolver.
    </li>
    <li> minisat2 needs only less than a second. </li>
+   <li> argosat solves it also in less than a second (however with the
+   standard weak nested translation). </li>
    <li> While satz215 seems to have some bigger problems. </li>
    <li> And also march_pl seems to have some problems. </li>
   </ul>
@@ -98,6 +100,8 @@ License, or any later version. */
      progress-numbers constantly fluctuated between 0.010 % and 0.005 %. </li>
     </ol>
    </li>
+   <li> argosat with the standard weak nested translation uses 15 restarts and
+   110771 conflicts. </li>
    <li> OKsolver_2002:
     <ol>
      <li> Without preprocessing and without symmetry breaking:
@@ -476,6 +480,7 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-3_47.cnf
    </li>
    <li> n=53 with precosat236, weak nested standard translation: solved after
    10m (1573601 conflicts). </li>
+   <li> argosat needs 23 restarts and 3012331 conflicts. </li>
    <li> OKsolver_2002 can solve it in 3.8 days (without preprocessing and
    with symmetry breaking):
    \verbatim
