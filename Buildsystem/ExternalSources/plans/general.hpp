@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,36 +35,15 @@ License, or any later version. */
      "local"? </li>
     </ol>
    </li>
-   <li> Via "make update" the system should download all the packages from
-   the source-directory as provided on the OKlibrary web site.
-    <ol>
-     <li> The name suggests that actually all sources, which are not
-     installed yet, are not only downloaded but installed. </li>
-     <li> But this is potentially troublesome, and we don't have the
-     infrastructure yet to really support this. </li>
-     <li> So perhaps the target is called "download". </li>
-     <li> See "Update instructions" below for really updating the external
-     sources. </li>
-    </ol>
-   </li>
+   <li> Via "make download" the system should download all the packages from
+   the source-directory as provided on the OKlibrary web site. </li>
+   <li> See "Update" below for completely updating the external sources. </li>
    <li> How to know which files to download?
     <ol>
-     <li> For this, additionally to %e.g. "git_source_okl" a variable
-     "git_source_ext_okl" could be used, which for this purpose specifies
-     the extension of git_source_okl (like ".tar.bz2"). </li>
-     <li> In principle it should be possible to first read the
-     directory, and so to determine the missing suffix. </li>
-     <li> This is definitely the case if we would use ftp instead of
-     html, but then something special needed to be done at the server
-     side, I guess? </li>
-     <li> The make-variables in use are (e.g.) bzip2_source_dir_okl for
-     the directory and bzip2_source_package_okl for the package (without
-     extension). </li>
-     <li> Actually, we have all information locally available in
-     Buildsystem/ExternalSources/sources! </li>
-     <li> So there is no need for storing all this information, but the
-     process just runs through this directory, and downloads all those files
-     which are not present currently. </li>
+     <li> We have all information locally available in
+     Buildsystem/ExternalSources/sources. </li>
+     <li> So the process just runs through this directory, and downloads all
+     those files which are not present currently. </li>
      <li> This could be done very simply by just calling wget with
      the complete list of files and using option "-nc". </li>
      <li> Perhaps we should compute first the list of missing files
@@ -74,9 +53,6 @@ License, or any later version. */
      obtain them all. </li>
     </ol>
    </li>
-   <li> DONE (not needed anymore)
-   And every configuration file shall also contain %e.g.
-   "all_extsrc_okl += git" to update the list of all external sources. </li>
    <li> DONE (we only provide a "complete download", plus instructions how
    to get single files)
    Due to the (apparent) impossibility of translating a target
@@ -99,6 +75,117 @@ License, or any later version. */
      file exists, and if so then checks the md5sum. </li>
      <li> So target "download" has sub-targets "check_md5sum", "list_missing"
      and "download_missing" (in this order). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Update
+  <ul>
+   <li> Above in "Downloading sources" the ExternalSources-sources are
+   downloaded. </li>
+   <li> After downloading, one could simple use "oklib cleanall", followed
+   by "oklib all". However, this is very time-consuming. </li>
+   <li> Here now we attempt at a new make-target "reinstall", which will
+   re-install all new software if necessary. </li>
+   <li> The target "update" then first calls "download" and then "reinstall",
+   and finally "oklib --prebuild" is executed. </li>
+   <li> Yet it is not clear what is done by make, and what directly by
+   oklib. </li>
+   <li> A major question is how to find out what to update. We could create a
+   new history file, which contains the git-ID plus the make-target of all
+   installation action. </li>
+   <li> Whenever something new is installed, then an entry is added. </li>
+   <li> This file is likely best placed in Buildsystem/ExternalSources. </li>
+   <li> And for every installation, in the installation directory the git-ID
+   at the time of the installation is stored. </li>
+   <li> "oklib reinstall" then checks for each external source, whether
+   a new installation has happened (if no information is available, then
+   it is installed). </li>
+   <li> If several installations were done meanwhile, then only the latest
+   is performed. </li>
+   <li> This installation process has to obey the dependencies between
+   external sources (which are not yet explicitly expressed); see point
+   "Dependencies" below. </li>
+   <li> DONE (new the informations provided by Git are used)
+   Creating the list of targets:
+    <ol>
+     <li> The list of targets of external sources to be installed is given
+     currently by "all : buildsystem compilers libraries math sat" in
+     ExternalSources/Makefile. </li>
+     <li> One has to go through these external sources now, checking whether
+     the installation exists and has the current version number, and if not,
+     then to issue the install command. </li>
+     <li> See "Dependencies" below. </li>
+     <li> So first "checkext" is to be called, and if then the timestamp-file
+     doesn't exist, then the target is listed for update; see "File with
+     installation data" below. </li>
+     <li> This all should be managed by respective make-rules. </li>
+    </ol>
+   </li>
+   <li> DONE (this proposal seems counterintuitive: "all" should just mean
+   the installation of "everything")
+   Perhaps "reinstall" becomes the new "all"; "all" currently doesn't
+   need to check for existing installations, but if we support other than
+   local installations (internal to the OKlibrary), then this will be
+   needed. </li>
+   <li> One needs to be careful with cleaning-up after the installation:
+    <ol>
+     <li> One should only clean-up after a successful installation. </li>
+     <li> Then perhaps only the build-directory is removed. </li>
+     <li> Perhaps for every external sources ext we have an additional
+     "cleanoldext" target, which removes all other files in Installations/Ext
+     besides the current installation directory. </li>
+     <li> And as an additional general cleaning target we have "cleanold",
+     which calls "cleanoldext" for all ext's. </li>
+     <li> Perhaps when installing, nothing is cleaned before (or after), and
+     it is the responsibility of the user to do so. </li>
+     <li> There is also the need for cleaning-up old source packages (which
+     can, over time, use a lot of disc space); perhaps we have some cleaning
+     command which removes from OKplatform/ExternalSources/sources everything
+     which is not in Buildsystem/ExternalSources/sources. </li>
+    </ol>
+   </li>
+   <li> File with installation data:
+    <ol>
+     <li> Perhaps first the list of external sources to be re-installed is
+     put into a file (with current version number, if existing, and new
+     version numbers), and also printed out to screen, with a request for the
+     user to confirm installation. </li>
+     <li> Perhaps actually at this time the user can edit the file,
+     removing or adding external sources, and changing version numbers. </li>
+     <li> So reinstall has subtargets "installdata" and "install", where
+     installdata creates the file with the installation data (each external
+     source has one line), and install performs line for line the installation.
+     </li>
+     <li> So the user can call install directly, given that he has
+     provided the data in the file. </li>
+     <li> If possible, we should actually let the make-program create that
+     file or its lines (so that all dependencies are managed). </li>
+    </ol>
+   </li>
+   <li> Dependencies:
+    <ol>
+     <li> We now need to make the dependencies between external sources
+     explicit. </li>
+     <li> Then we also need to have a way of checking whether an external
+     source is installed or not. </li>
+     <li> So apparently the old filestamps are needed again. Perhaps they
+     aren't needed anymore, though, given the git-ID-files. </li>
+     <li> For each external source ext, there is a target "checkext", which
+     checks whether ext is installed with the current version number, and
+     in the positive case creates a timestamp-file "ext_installed", and
+     otherwise removes this file (if it exists). </li>
+     <li> Installation then calls "ext_installed" at the end. </li>
+     <li> Better we avoid making dependencies aware of version numbers. </li>
+     <li> We could use the Git-history instead? </li>
+    </ol>
+   </li>
+   <li> Logging:
+    <ol>
+     <li> One needs to make sure that all logs together go into the log-file,
+     not just the log of the last build. </li>
+     <li> Or perhaps we better have a log-file for each external source! </li>
     </ol>
    </li>
   </ul>
@@ -321,93 +408,6 @@ SAGE_ROOT="....."
 
 
   \todo Finish docus for special builds
-
-
-  \todo Update
-  <ul>
-   <li> Above in "Downloading sources" the ExternalSources-sources are
-   downloaded. </li>
-   <li> Here now we attempt at a new make-target "reinstall", which will
-   re-install all new software if necessary. </li>
-   <li> The target "update" then first calls "download" and then "reinstall".
-   </li>
-   <li> Creating the list of targets:
-    <ol>
-     <li> The list of targets of external sources to be installed is given
-     currently by "all : buildsystem compilers libraries math sat" in
-     ExternalSources/Makefile. </li>
-     <li> One has to go through these external sources now, checking whether
-     the installation exists and has the current version number, and if not,
-     then to issue the install command. </li>
-     <li> See "Dependencies" below. </li>
-     <li> So first "checkext" is to be called, and if then the timestamp-file
-     doesn't exist, then the target is listed for update; see "File with
-     installation data" below. </li>
-     <li> This all should be managed by respective make-rules. </li>
-    </ol>
-   </li>
-   <li> Perhaps "reinstall" becomes the new "all"; "all" currently doesn't
-   need to check for existing installations, but if we support other than
-   local installations (internal to the OKlibrary), then this will be
-   needed. </li>
-   <li> One needs to be careful with cleaning-up after the installation:
-    <ol>
-     <li> One should only clean-up after a successful installation. </li>
-     <li> Then perhaps only the build-directory is removed. </li>
-     <li> Perhaps for every external sources ext we have an additional
-     "cleanoldext" target, which removes all other files in Installations/Ext
-     besides the current installation directory. </li>
-     <li> And as an additional general cleaning target we have "cleanold",
-     which calls "cleanoldext" for all ext's. </li>
-     <li> Perhaps when installing, nothing is cleaned before (or after), and
-     it is the responsibility of the user to do so. </li>
-     <li> There is also the need for cleaning-up old source packages (which
-     can, over time, use a lot of disc space); perhaps we have some cleaning
-     command which removes from OKplatform/ExternalSources/sources everything
-     which is not in Buildsystem/ExternalSources/sources. </li>
-    </ol>
-   </li>
-   <li> File with installation data:
-    <ol>
-     <li> Perhaps first the list of external sources to be re-installed is
-     put into a file (with current version number, if existing, and new
-     version numbers), and also printed out to screen, with a request for the
-     user to confirm installation. </li>
-     <li> Perhaps actually at this time the user can edit the file,
-     removing or adding external sources, and changing version numbers. </li>
-     <li> So reinstall has subtargets "installdata" and "install", where
-     installdata creates the file with the installation data (each external
-     source has one line), and install performs line for line the installation.
-     </li>
-     <li> So the user can call install directly, given that he has
-     provided the data in the file. </li>
-     <li> If possible, we should actually let the make-program create that
-     file or its lines (so that all dependencies are managed). </li>
-    </ol>
-   </li>
-   <li> Dependencies:
-    <ol>
-     <li> We now need to make the dependencies between external sources
-     explicit. </li>
-     <li> Then we also need to have a way of checking whether an external
-     source is installed or not. </li>
-     <li> So apparently the old filestamps are needed again. </li>
-     <li> For each external source ext, there is a target "checkext", which
-     checks whether ext is installed with the current version number, and
-     in the positive case creates a timestamp-file "ext_installed", and
-     otherwise removes this file (if it exists). </li>
-     <li> Installation then calls "ext_installed" at the end. </li>
-     <li> Better we avoid making dependencies aware of version numbers. </li>
-    </ol>
-   </li>
-   <li> Logging:
-    <ol>
-     <li> One needs to make sure that all logs together go into the log-file,
-     not just the log of the last build. </li>
-     <li> Or perhaps we better have a log-file for each external source! </li>
-    </ol>
-   </li>
-  </ul>
 
 
   \todo %Tools
