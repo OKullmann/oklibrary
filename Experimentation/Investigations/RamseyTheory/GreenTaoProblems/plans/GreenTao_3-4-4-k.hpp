@@ -188,7 +188,21 @@ License, or any later version. */
    <li> n=5200, cutoff=12*10^6: In run 70 a solution was found
    (seed=918366649, osteps=10327030). The second lowest min-value was 4
    (attained once). </li>
-   <li> n=5250, cutoff=12*10^6 </li>
+   <li> n=5250
+    <ol>
+     <li> cutoff=12*10^6
+     \verbatim
+ 6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 27 28 29 33
+ 1  2  7  3  3  3  9  4 10  3  7  6  7  4  8  7  4  2  1  4  1  2  1  1
+100
+     \endverbatim
+     </li>
+     <li> cutoff=22*10^6
+     \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=5300
     <ol>
      <li> cutoff=12*10^6:
