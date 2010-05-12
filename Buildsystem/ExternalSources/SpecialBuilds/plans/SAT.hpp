@@ -314,19 +314,14 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
 
   \todo Argo
   <ul>
-   <li> See Satisfiability/Solvers/Argosat/plans/general.hpp for special
+   <li> Is this software maintained? It seems that since version 1.0 no further
+   developments took place, while for example documentation is missing? </li>
+   <li> See Satisfiability/Solvers/Argosat/plans/general.hpp for our own
    developments. </li>
    <li> It seems that there is no documentation available? </li>
    <li> At least we should provide a specification of the output.
     <ol>
      <li> How to see whether unit-clauses have been derived? </li>
-    </ol>
-   </li>
-   <li> Documentation of options:
-    <ol>
-     <li> How to eliminate output of "..." etc. ? (What's the meaning of this
-     output?) It makes the output unreadable, especially for harder problems.
-     </li>
     </ol>
    </li>
    <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
