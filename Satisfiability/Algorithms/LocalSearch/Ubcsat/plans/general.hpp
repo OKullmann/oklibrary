@@ -171,6 +171,8 @@ License, or any later version. */
        files in Ubcsat/corrected). </li>
        <li> Currently one can use option "-I-", but this option is deprecated
        with gcc version 4.2.0, without a proper replacement. </li>
+       <li> The dir-part ("ubcsat" seems appropriate) is needed to avoid
+       conflicts. </li>
       </ol>
      </li>
      <li> Weak performance on 32-bit machines
