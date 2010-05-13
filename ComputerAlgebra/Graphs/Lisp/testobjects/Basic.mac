@@ -95,9 +95,15 @@ okltest_gdg2ogdg(gdg2ogdg);
 */
 
 okltest_mug2g(mug2g);
-okltest_mug2g(mugl2gl);
+okltest_mugl2gl(mugl2gl);
 okltest_gg2gl(gg2gl);
 okltest_gg2mugl(gg2mugl);
+
+okltest_omug2og(omug2og);
+okltest_omugl2ogl(omugl2ogl);
+okltest_ogg2ogl(ogg2ogl);
+okltest_ogg2omugl(ogg2omugl);
+
 
 /* ***************
    * Conversions *

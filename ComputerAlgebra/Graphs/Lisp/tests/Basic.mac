@@ -612,6 +612,13 @@ okltest_mug2g(f) := block([k,V,E],
   assert(f([V,E,k]) = [V,E]),
   true)$
 
+okltest_mugl2gl(f) := block([k,V,E],
+  assert(f([{},{},k]) = [{},{}]),
+  assert(f([{1},{{1}},k]) = [{1},{{1}}]),
+  assert(f([V,E,k]) = [V,E]),
+  assert(okltest_mug2g(f) = true),
+  true)$
+
 okltest_gg2gl(f) := block([e],
   assert(f([{},{},e]) = [{},{}]),
   assert(f(cyclegraph_gg(1)) = [{1},{{1}}]),
@@ -626,6 +633,34 @@ okltest_gg2mugl(f) := block([x],
   assert(gr_equalp(f(cyclegraph_gg(2)), [{1,2},{{1,2}}, lambda([e],2)]) = true),
   for n : 1 thru 3 do
     assert(gr_equalp(f(dipole_gg(n)), [{1,2},{{1,2}}, \lambda([e],n)]) = true),
+  true)$
+
+okltest_omug2og(f) := block([k,V,E],
+  assert(f([[],[],k]) = [[],[]]),
+  assert(f([V,E,k]) = [V,E]),
+  true)$
+
+okltest_omugl2ogl(f) := block([k,V,E],
+  assert(f([[],[],k]) = [[],[]]),
+  assert(f([[1],[{1}],k]) = [[1],[{1}]]),
+  assert(f([V,E,k]) = [V,E]),
+  assert(okltest_mug2g(f) = true),
+  true)$
+
+okltest_ogg2ogl(f) := block([e],
+  assert(f([[],[],e]) = [[],[]]),
+  assert(f(cyclegraph_ogg(1)) = [[1],[{1}]]),
+  assert(f(cyclegraph_ogg(2)) = [[1,2],[{1,2}]]),
+  for n : 1 thru 3 do
+    assert(f(dipole_ogg(n)) = [[1,2],[{1,2}]]),
+  true)$
+
+okltest_ogg2omugl(f) := block([e,e2,x],
+  assert(gr_equalp(f([[],[],e]), [[],[],e2]) = true),
+  assert(gr_equalp(f(cyclegraph_ogg(1)), [[1],[{1}], lambda([e],1)]) = true),
+  assert(gr_equalp(f(cyclegraph_ogg(2)), [[1,2],[{1,2}], lambda([e],2)]) = true),
+  for n : 1 thru 3 do
+    assert(gr_equalp(f(dipole_ogg(n)), [[1,2],[{1,2}], lambda([e],n)]) = true),
   true)$
 
 
