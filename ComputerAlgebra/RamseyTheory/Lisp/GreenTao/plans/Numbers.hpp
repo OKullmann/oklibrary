@@ -33,4 +33,14 @@ License, or any later version. */
    <li> And regarding the data. </li>
   </ul>
 
+
+  \todo Computation of initial sequences of transversal GT-numbers
+  <ul>
+   <li> initial_sequence_GTt(k) should proceed until the first result returned
+   by greentaot(m,k) appears which is not an integer. </li>
+   <li> This should also make the case-distinction superfluous. </li>
+   <li> The computation is very slow: vanderwaerdent(m,k) needs a more
+   efficient algorithm. </li>
+  </ul>
+
 */

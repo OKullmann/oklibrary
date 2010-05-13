@@ -46,8 +46,10 @@ exactf_tau_arithprog(1,n);
 
   \todo Improving initial_sequence_vdWt
   <ul>
-   <li> The computation is very slow (and thus likely can be made more
-   intelligent). </li>
+   <li> initial_sequence_vdWt(k) should proceed until the first result returned
+   by greentaot(m,k) appears which is not an integer. </li>
+   <li> The computation is very slow: greentaot(m,k) needs a more efficient
+   algorithm. </li>
   </ul>
 
 
