@@ -15,11 +15,11 @@ License, or any later version. */
   \todo Literature overview
   <ul>
    <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3. </li>
-   <li> The known values with k=1, ..., 18 are available via
+   <li> The known values with k=1, ..., 19 are available via
    vanderwaerden3k(k):
    \verbatim
 create_list(vanderwaerden3k(k),k,1,19);
- [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,unknown]
+ [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,unknown]
    \endverbatim
    </li>
    <li> Log-log regression (in R) does not yield a good model, as can be
@@ -655,6 +655,7 @@ BestSolution_Max = 10.000000
 
   \todo vanderwaerden_2(3,19) >= 349
   <ul>
+   <li> This value has been verified by Tanbir Ahmed. </li>
    <li> Experience with k=18 is that samd is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
