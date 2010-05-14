@@ -172,7 +172,7 @@ greentaottau(m,k) := block([n : 1, t],
 /* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog_primes,
-  9,
+  10,
   fixnum)$
 /* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
 
@@ -323,6 +323,18 @@ tau_steplist_arithprog_primes_seq[9] : [
  46505
 ]$
 tau_arithprog_primes_seq[9] : transform_threshold_l(tau_steplist_arithprog_primes_seq[9])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(10,n)),'L10),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L10))).
+*/
+tau_steplist_arithprog_primes_seq[10] : [
+ 315,5481,5743,7293,9457,11896,12650,12743,13461,13560,
+ 13645,16524,16535,16595,19134,19601,21271,23059,23688,24145,
+ 24255,24351,25006,25326,25348,25491,27020,27790,29149,29618,
+ 30162,30700,30833,31088,34889,34940,35244,36443,38331,38791,
+ 38930,39009,39275,39676,40148,40504,41533,41621,42526,43143
+]$
+tau_arithprog_primes_seq[10] : transform_threshold_l(tau_steplist_arithprog_primes_seq[10])$
 
 
 /* For n <= exactv_tau_arithprog_primes(k) we have stored exact values

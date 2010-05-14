@@ -19,55 +19,10 @@ L10 : [];
 minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(10,n)),'L10)$
 
 T : transform_steps_l(map(lambda([d],d[4][1]),reverse(L10)));
-   \endverbatim
-   </li>
-   <li> For orientation, those n-values where at least one hyperedge has been
-   added (compared to n-1), and the number of hyperedges added:
-   \verbatim
-block([oldnhyp:0], for n: 100 thru 20000 do block(
- [newnhyp : nhyp_arithprog_primes_ohg(10,n), d],
-  d : newnhyp-oldnhyp,
-  if d>0 then print(n, d),
-  oldnhyp : newnhyp))$
-
-316 1
-5482 1
-5744 1
-7294 1
-9458 1
-11548 1
-11897 1
-12651 1
-12744 1
-13462 1
-13561 1
-13646 1
-16525 1
-16536 1
-16596 1
-19135 1
-19602 1
-   \endverbatim
-   </li>
-   <li> These hyperedges are nearly disjoint, only number 4 and number 6 have
-   one element in common:
-   \verbatim
-G : arithprog_primes_ohg(10,20000)$
-non_disjoint_pairs(G[2]);
- [[4,6]]
-intersection(G[2][4], G[2][6]);
- {69067}
-   \endverbatim
-   All our current hypergraph-transversal approaches should have big problems
-   with disjoint (or nearly disjoint) set-systems. </li>
-   <li> While it follows from the above disjointness-property, that tau always
-   increases by one when a new hyperedge aries in the above list, except for
-   the sixth hyperedge which is left out. </li>
-   <li> Starting with the Maxima-level, we must first compute the connected
-   components, and then handle each component separately. </li>
-   <li> At C++ level (showing only the changes):
-   \verbatim
-> MinimumTransversals_GreenTao-O3-DNDEBUG 2000 10 | tee GreenTao_Trans_10_2000_OUT
+ [315,5481,5743,7293,9457,11896,12650,12743,13461,13560,13645,16524,16535,16595,19134,19601,
+       21271,23059,23688,24145,24255,24351,25006,25326,25348,25491,27020,27790,29149,29618,30162,
+       30700,30833,31088,34889,34940,35244,36443,38331,38791,38930,39009,39275,39676,40148,40504,
+       41533,41621,42526,43143]
    \endverbatim
    </li>
   </ul>
