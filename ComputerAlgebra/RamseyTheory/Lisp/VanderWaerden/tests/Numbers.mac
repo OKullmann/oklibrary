@@ -104,6 +104,8 @@ okltest_vanderwaerden(f) := (
   assert(f([3,3,4]) = 51),
   assert(f([3,3,5]) = 80),
   assert(f([3,4,4]) = 89),
+  assert(f([7,7,7]) = [48812,inf]),
+  assert(f([7,7,7,7]) = [420218,inf]),
   true)$
 
 okltest_vanderwaerden_p(f) := (
