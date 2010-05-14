@@ -61,14 +61,17 @@ extvanderwaerden_p(L) := listp(L) and
 */
 
 vanderwaerden3k(k) := 
- if k <= 18 then
-   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312][k]
+ if k <= 23 then
+   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,[389,inf],[416,inf],[464,inf],[513,inf]][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
   if elementp(3,S) then
     if length(S)=1 then [3] else [first(listify(disjoin(3,S)))]
   else [])$
+/* For the precise values see [Ahmed 2009, 2010], and for the lower bounds see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp.
+*/
 
 vanderwaerden4k(k) := 
  if k <= 8 then
