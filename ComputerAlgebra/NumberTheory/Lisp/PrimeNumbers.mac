@@ -62,20 +62,24 @@ unrank_primes(i) := block([p : 2],
   ),
   p)$
 
-/* For a natural number p >= 1 compute the smallest index i >= 1
-   such that unrank_primes(i) >= p:
+/* For a natural number n >= 1 compute the smallest index i >= 1
+   such that unrank_primes(i) >= n:
 */
-rank_primes(p) := block([i : 1],
-  while p > 2 do (
-    p : prev_prime(p),
+rank_primes(n) := block([i : 1],
+  while n > 2 do (
+    n : prev_prime(n),
     i : i + 1
   ),
   i)$
-/* Ranking a set or list P of prime numbers: */
+/* Ranking a set or list P of natural numbers: */
 rank_primes_s(P) := map(rank_primes, P)$
+/* Remark: If n is not a prime number, then we have
+   rank_primes(n) = count_primes(n) + 1, while otherwise we have
+   equality.
+*/
 
 /* For a natural number n >= 0 or inf compute the numbers of primes p
-   with p <= n:
+   with p <= n (in mathematics this is denoted by pi(n):
 */
 count_primes(n) := if n <= 1 then 0
  elseif n=inf then inf
@@ -83,7 +87,8 @@ count_primes(n) := if n <= 1 then 0
  else rank_primes(prev_prime(n))$
 
 
-/* The product of the prime numbers less than or equal to n >= 0: */
+/* The product of the prime numbers less than or equal to n >= 0
+   (in mathematics this is often denoted by Pi(n)): */
 product_primes(n) := block([pr : 1, p : 2],
  while p <= n do (pr : pr * p, p : next_prime(p)),
  return(pr))$
