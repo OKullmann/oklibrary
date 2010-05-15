@@ -93,9 +93,9 @@ Multiple R-squared: 0.983,      Adjusted R-squared: 0.982
 F-statistic: 984.9 on 1 and 17 DF,  p-value: < 2.2e-16
 
 exp(coefficients(m0)[1])
-0.2258395
+ 0.2258395
 coefficients(m0)[2]
-1.545693
+ 1.545693
 s = c(a = 0.2258395, b = 1.545693)
 m = nls(y ~ exp(a * x^b), start = s)
 
@@ -109,9 +109,15 @@ Achieved convergence tolerance: 7.111e-06
 
 plot(x,log(y))
 lines(x,log(predict(m)))
-lines(x,exp(predict(m0)))
+lines(x,exp(predict(m0)),col="blue")
+
+y/predict(m)
+ [1]  2.0522259  2.8563990  1.7419151  3.1481344  5.7470262  3.7987529
+ [7]  1.4561912  0.4981426  9.7285376  2.5797764  1.4869497 11.7370109
+[13]  9.3188835  1.7663568  5.4843977  2.4815698  1.4003467  0.9899872
+[19]  1.0000489
    \endverbatim
-   </li>
+   Explicitly: the model is greentao_1(k) ~ exp(0.084184*k^1.884508). </li>
   </ul>
 
 
@@ -146,6 +152,78 @@ for k : 1 thru 21 do print(k, float(greedtaod1ur[k]/approxgv_grt1ur(k)));
    \endverbatim
    </li>
    <li> What is the corresponding approximation for the ranked numbers? </li>
+   <li> This as model for a linear regression of the ranked data, using
+   rank(p) ~ p/log(p) resp. p/(log(p)-1) (optimising on the factor which in
+   the gv-model is chosen as exp(1-gamma), or using that factor while
+   optimising on an optional outer factor):
+   \verbatim
+y = c(4,9,10,37,155,263,289,316,21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,220525414079)
+x = 3:21
+
+s = c(a = 1.5262)
+mgvr = nls(y ~ (x/2*a)^(x/2) / (x/2*(log(x/2)+log(a))), start = s)
+> summary(mgvr)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  1.58024    0.00225   702.4   <2e-16 ***
+
+y/predict(mgvr)
+ [1] 1.4189310 2.0736544 1.1071981 1.6212498 2.3319017 1.2150958
+ [7] 0.3741266 0.1060549 1.7867252 0.4283643 0.2351793 1.8705521
+[13] 1.5884116 0.3427037 1.2919336 0.7584994 0.5944557 0.6255983
+[19] 1.0094899
+
+s = c(a = 1.5262)
+mgvr2 = nls(y ~ (x/2*a)^(x/2) / (x/2*(log(x/2)+log(a))-1), start = s)
+summary(mgvr2)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  1.57485    0.00227   693.8   <2e-16 ***
+
+y/predict(mgvr2)
+ [1] 0.31887457 1.17447699 0.78879713 1.28351643 1.96101952 1.06252655
+ [7] 0.33622554 0.09726638 1.66467365 0.40417970 0.22422941 1.79925882
+[13] 1.53953065 0.33437827 1.26804070 0.74845611 0.58944254 0.62310082
+[19] 1.00963502
+
+s = c(b = 1)
+mgvr3 = nls(y ~ b*(x/2*1.5262051)^(x/2) / (x/2*(log(x/2)+log(1.5262051))-1), start = s)
+summary(mgvr3)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+b  1.37258    0.02089   65.72   <2e-16 ***
+
+y/predict(mgvr3)
+ [1] 0.20391699 0.86692693 0.60148029 1.00097550 1.55934574 0.86031118
+ [7] 0.27700774 0.08150497 1.41837262 0.35010064 0.19742792 1.61013672
+[13] 1.40015594 0.30904249 1.19092347 0.71428235 0.57158839 0.61394061
+[19] 1.01076035
+   \endverbatim
+   Not too bad for the larger k-values; looks better than the above
+   y ~ exp(a * x^b) model. Perhaps mgvr3 is most sensible. </li>
+   <li> But, as asked in the previous point, one should see to adapt the
+   Greenville-approach directly to the ranked case. </li>
+   <li> Fitting the unranked data:
+   \verbatim
+y = c(7,23,29,157,907,1669,1879,2089,249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,6269243827111)
+x = 3:21
+
+s = c(a = 1.5262)
+mgvu = nls(y ~ (x/2*a)^(x/2), start = s)
+> summary(mgvu)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a 1.574839   0.002108     747   <2e-16 ***
+
+y/predict(mgvu)
+ [1] 1.92799913 2.31843766 0.94288222 1.48876878 2.30697236 1.05991619
+ [7] 0.27983853 0.06900926 1.73568105 0.36936935 0.19713457 1.86255671
+[13] 1.57397090 0.31317862 1.27983584 0.73690120 0.57519747 0.61059163
+[19] 1.00866581
+   \endverbatim
+   </li>
+   <li> None of these fitting-attempts seems to reveal much; so the original
+   model is to be preferred. </li>
   </ul>
 
 
