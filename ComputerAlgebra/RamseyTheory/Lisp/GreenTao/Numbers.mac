@@ -109,7 +109,7 @@ greentaod1_a(L) := if length(L)=1 then L else []$
 /* For k >= 12 these numbers are obtained by ranking via "RankPrimes" from
    sequence A005115 (use "eis_details(A005115)"), available in the following
    list ("ur" for "unranked"): */
-greedtaod1ur : [
+greentaod1ur : [
  2,3,7,23,29,157,907,1669,1879,
  2089,249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,
  6269243827111

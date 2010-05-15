@@ -41,7 +41,7 @@ License, or any later version. */
    follows (showing p_i instead of i, that is, the (unranked) prime numbers
    themselves):
    \verbatim
-greedtaod1ur;
+greentaod1ur;
  [2,3,7,23,29,157,907,1669,1879,2089,
  249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,
  6269243827111]
@@ -126,7 +126,7 @@ y/predict(m)
    <li> The conjecture is implemented by approxgv_grt1ur(k), and it yields
    quite good approximations:
    \verbatim
-for k : 1 thru 21 do print(k, float(greedtaod1ur[k]/approxgv_grt1ur(k)));
+for k : 1 thru 21 do print(k, float(greentaod1ur[k]/approxgv_grt1ur(k)));
 
 1 2.289488896354126
 2 1.965659777448311
