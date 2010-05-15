@@ -121,6 +121,40 @@ lines(x,exp(predict(m0)))
   </ul>
 
 
+  \todo The conjecture from [Granville 2006]
+  <ul>
+   <li> The conjecture is implemented by approxgv_grt1ur(k), and it yields
+   quite good approximations:
+   \verbatim
+for k : 1 thru 21 do print(k, float(greedtaod1ur[k]/approxgv_grt1ur(k)));
+
+1 2.289488896354126
+2 1.965659777448311
+3 2.020885909330544
+4 2.468550619322147
+5 1.019801665249097
+6 1.635675606605423
+7 2.574684204425131
+8 1.201613382006138
+9 0.322264451025868
+10 0.08072794540477299
+11 2.062519736581183
+12 0.445862252087117
+13 0.2417209471089714
+14 2.319918131851896
+15 1.991459630418673
+16 0.4025117578670004
+17 1.670907399187739
+18 0.9772800505078132
+19 0.7748870219193731
+20 0.8355720914865566
+21 1.402142105791055
+   \endverbatim
+   </li>
+   <li> What is the corresponding approximation for the ranked numbers? </li>
+  </ul>
+
+
   \todo The first arithmetic progression allowing a missing number
   <ul>
    <li> greentao_2(2,k) has still a "mostly number theoretical touch". </li>

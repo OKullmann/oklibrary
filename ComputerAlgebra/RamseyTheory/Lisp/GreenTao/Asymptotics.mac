@@ -56,6 +56,18 @@ C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
 C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
   C_gh_fin(k) * C_gh_inf_hp(k,max_p))$
 
+
+/* ********************************************
+   * The approximation from [Granville, 2006] *
+   ********************************************
+*/
+
+/* The approximation of unrank_primes(greentao([k]) from
+   [Granville, 2006] ("ur" stands for "unranked"): */
+approxgv_grt1ur(k) := (k/2*exp(1-%gamma))^(k/2)$
+
+
+
 /*!
 \endhtmlonly
 */
