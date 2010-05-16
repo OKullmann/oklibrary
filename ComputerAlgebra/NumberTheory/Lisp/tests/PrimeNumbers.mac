@@ -90,6 +90,17 @@ okltest_product_primes(f) := (
   true)$
 
 
+/* **********************************
+   * The Prime Number Theorem (PNT) *
+   **********************************
+*/
+
+okltest_Li(f) := (
+  assert(f(0) = 0),
+  /* XXX */
+  true)$
+
+
 /* **************************
    * Additive number theory *
    **************************

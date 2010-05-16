@@ -155,13 +155,13 @@ for k : 1 thru 21 do print(k, float(greentaod1ur[k]/approxgv_grt1ur(k)));
    \verbatim
 for k : 3 thru 21 do print(k, round_fdd(greentaod1(k)/approxgv_grt1Li_hp(k,30), 3));
 
-3 2.641
-4 1.867
-5 0.868
-6 1.312
-7 2.031
-8 1.136
-9 0.371
+3 1.563
+4 1.535
+5 0.796
+6 1.265
+7 2.003
+8 1.131
+9 0.37
 10 0.11
 11 1.924
 12 0.477

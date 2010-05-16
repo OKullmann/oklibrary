@@ -111,7 +111,7 @@ approx_count_primes_1_hp(x,decimal_digits) := block([fpprec : decimal_digits],
 approx_unrank_primes_0(x) := x * log(x)$
 
 /* The approximation of count_primes(x) via the logarithmic integral: */
-Li(x) := integrate(log(t)^(-1),t,2,x)$
+Li(x) := expintegral_li(x)$
 /* The floating point version, using bfloats with decimal digits: */
 Li_hp(x,decimal_digits) := block([fpprec : decimal_digits],
  expand(bfloat(Li(x))))$
