@@ -83,7 +83,11 @@ gh_nhyp_arithprog_primes_hg(k,n) := if k-1 > length(C_gh_values) then unknown
 /* The approximation of unrank_primes(greentao([k]) from
    [Granville, 2006] ("ur" stands for "unranked"): */
 approxgv_grt1ur(k) := (k/2*exp(1-%gamma))^(k/2)$
-
+/* The derived approximation of greentao([k]), using the approximation
+   of count_primes via the logarithmic integral:
+*/
+approxgv_grt1Li_hp(k,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Li(approxgv_grt1ur(k)))))$
 
 
 /*!

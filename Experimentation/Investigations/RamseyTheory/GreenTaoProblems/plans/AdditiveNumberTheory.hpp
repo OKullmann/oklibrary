@@ -151,7 +151,33 @@ for k : 1 thru 21 do print(k, float(greentaod1ur[k]/approxgv_grt1ur(k)));
 21 1.402142105791055
    \endverbatim
    </li>
-   <li> What is the corresponding approximation for the ranked numbers? </li>
+   <li> For ranked data:
+   \verbatim
+for k : 3 thru 21 do print(k, round_fdd(greentaod1(k)/approxgv_grt1Li_hp(k,30), 3));
+
+3 2.641
+4 1.867
+5 0.868
+6 1.312
+7 2.031
+8 1.136
+9 0.371
+10 0.11
+11 1.924
+12 0.477
+13 0.269
+14 2.199
+15 1.914
+16 0.423
+17 1.63
+18 0.978
+19 0.783
+20 0.841
+21 1.385
+   \endverbatim
+   </li>
+   <li> What is the corresponding *direct* approximation for the ranked
+   numbers? </li>
    <li> This as model for a linear regression of the ranked data, using
    rank(p) ~ p/log(p) resp. p/(log(p)-1) (optimising on the factor which in
    the gv-model is chosen as exp(1-gamma), or using that factor while
