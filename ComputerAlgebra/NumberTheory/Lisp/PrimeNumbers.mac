@@ -94,6 +94,33 @@ product_primes(n) := block([pr : 1, p : 2],
  return(pr))$
 
 
+/* **********************************
+   * The Prime Number Theorem (PNT) *
+   **********************************
+*/
+
+/* The simplest approximation of count_primes(x) via the PNT: */
+approx_count_primes_0(x) := x / log(x)$
+approx_count_primes_0_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ bfloat(x / log(x)))$
+approx_count_primes_1(x) := x / (log(x)-1)$
+approx_count_primes_1_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ bfloat(x / (log(x)-1)))$
+
+/* The simplest approximation of unrank_primes(x) via the PNT: */
+approx_unrank_primes_0(x) := x * log(x)$
+
+/* The approximation of count_primes(x) via the logarithmic integral: */
+Li(x) := integrate(log(t)^(-1),t,2,x)$
+/* The floating point version, using bfloats with decimal digits: */
+Li_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Li(x))))$
+/* The higher logarithmic integrals (Li(x) = Lih(x,1)): */
+Lih(x,m) := integrate(log(t)^(-m),t,2,x)$
+Lih_hp(x,m,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Lih(x,m))))$
+
+
 /* **************************
    * Additive number theory *
    **************************
