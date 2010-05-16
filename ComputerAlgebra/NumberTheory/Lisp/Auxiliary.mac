@@ -118,6 +118,14 @@ int2dec(m) := int2polyadicstr(m,10)$
 int2hex(m) := int2polyadicstr(m,16)$
 
 
+/* ************
+   * Rounding *
+   ************
+*/
+
+round_fdd(x,d) := float(round(x*10^d)/10^d)$
+round_bfdd(x,d) := bfloat(round(x*10^d)/10^d)$
+
 /* **********************
    * Integer partitions *
    **********************
