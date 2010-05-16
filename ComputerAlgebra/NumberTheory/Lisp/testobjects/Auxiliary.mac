@@ -26,6 +26,9 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
    **************
 */
 
+okltest_ld(ld);
+okltest_log10(log10);
+
 okltest_fld(fld);
 okltest_floorlog(floorlog);
 

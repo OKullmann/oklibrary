@@ -29,6 +29,16 @@ kill(f)$
    **************
 */
 
+okltest_ld(f) := (
+  for n : 0 thru 10 do
+    assert(f(2^n) = n),
+  true)$
+
+okltest_log10(f) := (
+  for n : 0 thru 10 do
+    assert(f(10^n) = n),
+  true)$
+
 okltest_fld(f) := block(
   assert(f(0) = minf),
   assert(f(1) = 0),

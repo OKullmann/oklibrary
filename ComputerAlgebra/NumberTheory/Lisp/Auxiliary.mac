@@ -27,8 +27,10 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    **************
 */
 
-/* The binary logarithm. */
-ld(x) := log(x) / log(2)$
+/* The binary logarithm: */
+ld(x) := radcan(log(x) / log(2))$
+/* The decimal logarithm: */
+log10(x) := radcan(log(x) / log(10))$
 
 /* The integer binary logarithm for natural numbers n (minf for n=0). */
 /* Given a precise floor, this is just floor(ld(n)) (for n <> 0). */
