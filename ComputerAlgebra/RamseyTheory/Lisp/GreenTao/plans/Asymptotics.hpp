@@ -24,4 +24,13 @@ License, or any later version. */
    remaining factors (with p > max_p) could be. </li>
   </ul>
 
+
+  \todo Improving the Grosswald-Hagis estimation
+  <ul>
+   <li> Using the higher logarithmic integrals Lih(x,m) should result in
+   more precise computation --- it should be possible to replace the log's
+   in the denominator of the formula by such higher logarithmic integrals.
+   </li>
+  </ul>
+
 */

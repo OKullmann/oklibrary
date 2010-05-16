@@ -26,6 +26,10 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
    *********************************************
 */
 
+/* The task is to approximation nhyp_arithprog_primes_hg(k,n), the number
+   of arithmetic progressions of length k in the first n prime numbers.
+*/
+
 /* First computing the coefficients C_k = C_gh(k,inf), defined as
      C_k = (prod_{p <= k} 1/p * (p/(p-1))^(k-1)) *
            (prod_{p > k} (p/(p-1))^(k-1) * (p-k+1)/p)
@@ -42,7 +46,7 @@ C_gh_fin(k) := prod_l(map(factor_C_gh_fin(k), primes_first(count_primes(k))))$
 factor_C_gh_inf(k) := buildq([k],lambda([p], p^(k-2)*(p-k+1)/(p-1)^(k-1)))$
 factorbf_C_gh_inf(k) := buildq([k],lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1))))$
 
-/* Prerequisite: max_p >= k. */
+/* Prerequisite: max_p >= k, k >= 2. */
 C_gh_inf(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
   prod_l(map(factor_C_gh_inf(k), L)))$
@@ -55,6 +59,20 @@ C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
 /* Using floating-point arithmetic: */
 C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
   C_gh_fin(k) * C_gh_inf_hp(k,max_p))$
+
+/* The current approximations of the C_k for k >= 2: */
+C_gh_values : [
+ 1,1.3203236317546366339,2.8582485961147147258,4.1511808643862090045,
+ 10.131794954669182916,17.298612323552886198,53.971948352406135059,148.55162885563210856,336.034327307194497,
+ 511.42228230839231811,1312.3197120808120353,2364.5989649971453789,7820.6000368550459882,22938.908654946451496,
+ 55651.4626168225131,91555.111345203124141,256474.86023216558505,510992.01115644361769,1900972.5883968371188
+]$
+
+/* The resulting estimation of the number of arithmetic progressions of
+   length k in the first n prime numbers:
+*/
+gh_nhyp_arithprog_primes_hg(k,n) := if k-1 > length(C_gh_values) then unknown
+ else float(C_gh_values[k-1]/2/(k-1) * n^2/log(n)^(k-2))$
 
 
 /* ********************************************

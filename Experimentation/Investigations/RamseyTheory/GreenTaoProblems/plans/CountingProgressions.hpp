@@ -61,13 +61,22 @@ plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
 
   \todo The Grosswald-Hagis-formula
   <ul>
-   <li> There are role models for the regression function in the literature.
-   The main starting point is [Grosswald, Hagis, 1979, Arithmetic
-   progressions consisting only of primes, Mathematics of Computation,
-   33(148):1343-1352]. </li>
+   <li> In [Grosswald, Hagis, 1979, Arithmetic progressions consisting only of
+   primes, Mathematics of Computation, 33(148):1343-1352] the Hardy-Littlewood
+   estimations have been specialised for arithmetic progressions. </li>
    <li> The conjecture is that nhyp_arithprog_primes_hg(k,n) is asymptotically
    equal to C_k / (2*(k-1)) * n^2 / (log n)^(k-2). This is proven for k <= 4.
    </li>
+   <li> This estimations is gh_nhyp_arithprog_primes_hg(k,n). </li>
+   <li> As stated in "Improving the Grosswald-Hagis estimation" in
+   ComputerAlgebra/RamseyTheory/Lisp/GreenTao/plans/Asymptotics.hpp, one would
+   expect that using logarithmic integrals should yield a more precise formula.
+   </li>
+  </ul>
+
+
+  \todo Computing the Grosswald-Hagis coefficients C_k
+  <ul>
    <li> We have C_2 = 1. </li>
    <li> The following data has been computed by
    \verbatim
