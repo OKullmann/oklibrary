@@ -19,9 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 
   \bug unary_bb_crd2fcl doesn't take a cardinality constraint
   <ul>
-   <li> The first problem is that inf is not handled. </li>
    <li> Second comes the handling of clashing literals. </li>
    <li> Finally we have the problem of repeated literals. </li>
+   <li> DONE The first problem is that inf is not handled. </li>
    <li> DONE (there are no properties relevant here --- UCP is just an
    *additional* nicety, and the rest is just a *construction*)
    We should simply go through the proof in [BB 2003] and check that
@@ -165,8 +165,7 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
   after the original variables in the list of variables.
   The literals in C must have distinct variables (so neither repetition of
   literals nor clashing literals are allowed).
-  Prerequisites: C does not contain inf, and doesn't have clashing or
-  repeated literals.
+  Prerequisites: C doesn't have clashing or repeated literals.
   REMINDER: see the BUG above!
 */
 unary_bb_crd2fcl(C) := block(
@@ -256,10 +255,14 @@ unary_bb_totaliser_r_fcl(E,S, a,b) :=
    the first p (positive) literals in unit-clauses and the last
    (length(S)-q+1) variables occur as negative literals in the later
    unit-clauses.
-   Prerequisite: 0 <= p <= q <= length(S).
+   Prerequisite: 0 <= p <= q, p and q are integers or inf.
 */
-unary_bb_comparator_fcl(S,p,q) := 
-  [S,append(map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))]$
+unary_bb_comparator_fcl(S,p,q) :=
+  if p > length(S) then [S,[{}]]
+  else
+    [S,append(
+      map(set,take_elements(p,S)),
+      map(set,map("-",rest(S,min(q,length(S))))))]$
 
 
 /*!

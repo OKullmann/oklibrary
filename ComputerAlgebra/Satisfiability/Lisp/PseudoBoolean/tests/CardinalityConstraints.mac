@@ -154,19 +154,29 @@ okltest_unary_bb_totaliser_r_fcl(f) := block(
 
 okltest_unary_bb_comparator_fcl(f) := block(
   for m : 0 thru 5 do
-    for n : 0 thru 5 do
+    for n : 0 thru 5 do (
       assert(f([],0,0) = [[],[]]),
+      assert(f([],0,inf) = [[],[]]),
+      assert(f([],inf,0) = [[],[{}]])),
   assert(f([1],0,1) = [[1],[]]),
+  assert(f([1],inf,1) = [[1],[{}]]),
+  assert(f([1],0,inf) = [[1],[]]),
   assert(f([1],1,1) = [[1],[{1}]]),
   assert(f([1,2,3],1,2) = [[1,2,3],[{1},{-3}]]),
   assert(f([1,2,3,4,5],2,4) = [[1,2,3,4,5],[{1},{2},{-5}]]),
+  assert(f([1,2,3,4,5],2,inf) = [[1,2,3,4,5],[{1},{2}]]),
   true)$
 
 okltest_unary_bb_crd2fcl(f) := block([F],
   for m : 0 thru 5 do
-    for n : 0 thru 5 do
+    for n : 0 thru 5 do (
       assert(f([0,[],0]) = [[],[]]),
+      assert(f([inf,[],0]) = [[],[{}]]),
+      assert(f([0,[],inf]) = [[],[]])),
   assert(f([0,[1],1]) = [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)}]]),
+  assert(f([inf,[1],1]) =
+    [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)},{}]]),
+  assert(f([0,[1],inf]) = [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)}]]),
   assert(f([1,[1],1]) =
     [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)},{vru(1,1,1)}]]),
   true)$
