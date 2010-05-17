@@ -88,6 +88,10 @@ The first prime number not taken into account: 1000000007
 Precision in bits: 416
 The first prime number not taken into account: 4000000007
 
+> GrosswaldHagisFormula-O3-DNDEBUG 3,20 100000000000
+Precision in bits: 448
+The first prime number not taken into account: 100000000003
+
    \endverbatim
    </li>
    <li> Computation of C_3:
@@ -95,6 +99,10 @@ The first prime number not taken into account: 4000000007
 C_3 = 1.3203236317546366339
 Finite and infinite part: 1.5, 0.88021575450309108924
 1 - first remaining factor: 9.99999988000000108e-19
+
+C_3 = 1.3203236316942413054
+Finite and infinite part: 1.5, 0.88021575446282753695
+1 - first remaining factor: 9.9999999996e-23
    \endverbatim
    while GH give the value 1.32032; a guess is C_3 = 1.320323631... . </li>
    <li> Computation of C_4:
@@ -102,6 +110,10 @@ Finite and infinite part: 1.5, 0.88021575450309108924
 C_4 = 2.8582485961147147258
 Finite and infinite part: 4.5, 0.63516635469215882796
 1 - first remaining factor: 2.999999966000000288e-18
+
+C_4 = 2.8582485957224816583
+Finite and infinite part: 4.5, 0.63516635460499592406
+1 - first remaining factor: 2.9999999999e-22
    \endverbatim
    while GH give the value 2.85825; let's guess C_4 = 2.85824859... .  </li>
    <li> Computation of C_5:
@@ -109,13 +121,21 @@ Finite and infinite part: 4.5, 0.63516635469215882796
 C_5 = 4.1511808643862090045
 Finite and infinite part: 6.591796875, 0.62974951187133007712
 1 - first remaining factor: 5.999999936000000507e-18
+
+C_5 = 4.1511808632468886479
+Finite and infinite part: 6.591796875, 0.62974951169849095933
+1 - first remaining factor: 5.99999999984e-22
    \endverbatim
-   while GH give the value 4.15118; let's guess C_5 = 4.1511808... . </li>
+   while GH give the value 4.15118; let's guess C_5 = 4.15118086... . </li>
    <li> Computation of C_6:
    \verbatim
 C_6 = 10.131794954669182916
 Finite and infinite part: 24.71923828125, 0.40987488527728368616
 1 - first remaining factor: 9.999999900000000735e-18
+
+C_6 = 10.131794950034614014
+Finite and infinite part: 24.71923828125, 0.40987488508979534818
+1 - first remaining factor: 9.9999999998e-22
    \endverbatim
    while GH give the value 10.1318; let's guess C_6 = 10.1317949... . </li>
    <li> Computation of C_7:
@@ -123,6 +143,10 @@ Finite and infinite part: 24.71923828125, 0.40987488527728368616
 C_7 = 17.298612323552886198
 Finite and infinite part: 33.392508824666341146, 0.51803871384394953143
 1 - first remaining factor: 1.4999999860000000945e-17
+
+C_7 = 17.298612311683576106
+Finite and infinite part: 33.392508824666341146, 0.5180387134885012435
+1 - first remaining factor: 1.49999999998e-21
    \endverbatim
    while GH give the value 17.2986; let's guess C_7 = 17.2986123... . </li>
    <li> Computation of C_8:
@@ -130,6 +154,10 @@ Finite and infinite part: 33.392508824666341146, 0.51803871384394953143
 C_8 = 53.971948352406135059
 Finite and infinite part: 146.09222610791524251, 0.36943751074433075237
 1 - first remaining factor: 2.0999999818000001113e-17
+
+C_8 = 53.971948300560721615
+Finite and infinite part: 146.09222610791524251, 0.36943751038944935433
+1 - first remaining factor: 2.099999999986e-21
    \endverbatim
    while GH give the value 53.9720; let's guess C_8 = 53.9719483... . </li>
    <li> Computation of C_9:
@@ -137,6 +165,10 @@ Finite and infinite part: 146.09222610791524251, 0.36943751074433075237
 C_9 = 148.55162885563210856
 Finite and infinite part: 639.15348922212918599, 0.23241933488687408369
 1 - first remaining factor: 2.7999999776000001218e-17
+
+C_9 = 148.55162866536732961
+Finite and infinite part: 639.15348922212918599, 0.23241933458919163
+1 - first remaining factor: 2.8e-21
    \endverbatim
    while GH give the value 148.552; let's guess C_9 = 148.551628... . </li>
    <li> Computation of C_10:
@@ -144,14 +176,22 @@ Finite and infinite part: 639.15348922212918599, 0.23241933488687408369
 C_10 = 336.034327307194497
 Finite and infinite part: 2796.2965153468151887, 0.12017120697427801113
 1 - first remaining factor: 3.5999999736000001242e-17
+
+C_10 = 336.03432675383279702
+Finite and infinite part: 2796.2965153468151887, 0.12017120677638708757
+1 - first remaining factor: 3.600000000024e-21
    \endverbatim
-   while GH give the value 336.034; let's guess C_10 = 336.034327... . </li>
+   while GH give the value 336.034; let's guess C_10 = 336.034326... . </li>
    <li> Computation of C_11:
    \verbatim
 C_11 = 511.42228312047417728
 C_11 = 511.42228230839231811
 Finite and the infinite part: 2884.6653988745989106, 0.17728998396414178893
 1 - first remaining factor: 2.8124999953125000046e-18
+
+C_11 = 511.42228206774875224
+Finite and infinite part: 2884.6653988745989106, 0.17728998388072013248
+1 - first remaining factor: 4.50000000006e-21
    \endverbatim
    while GH give the value 511.422; let's guess C_11 = 511.422282... . </li>
    <li> Computation of C_12:
@@ -159,9 +199,14 @@ Finite and the infinite part: 2884.6653988745989106, 0.17728998396414178893
 C_12 = 1312.3197146277008806
 Finite and infinite part: 13882.452232084007257, 0.094530828753350440844
 1 - first remaining factor: 5.499999967000000099e-17
+
 C_12 = 1312.3197120808120353
 Finite and the infinite part: 13882.452232084007257, 0.094530828569889420933
 1 - first remaining factor: 3.4374999948437500039e-18
+
+C_12 = 1312.3197113260945073
+Finite and infinite part: 13882.452232084007257, 0.094530828515524564108
+1 - first remaining factor: 5.50000000011e-21
    \endverbatim
    while GH give the value 1312.32; let's guess C_12 = 1312.31971... . </li>
    <li> Computation of C_13:
@@ -169,9 +214,14 @@ Finite and the infinite part: 13882.452232084007257, 0.094530828569889420933
 C_13 = 2364.598970504069348
 Finite and infinite part: 13428.850937459748114, 0.17608349228957677085
 1 - first remaining factor: 6.5999999648000000693e-17
+
 C_13 = 2364.5989649971453789
 Finite and the infinite part: 13428.850937459748114, 0.17608349187949522368
 1 - first remaining factor: 4.1249999945000000027e-18
+
+C_13 = 2364.5989633652830187
+Finite and infinite part: 13428.850937459748114, 0.17608349175797608791
+1 - first remaining factor: 6.600000000176e-21
    \endverbatim
    while GH give the value 2364.60; let's guess C_13 = 2364.59896... . </li>
    <li> Computation of C_14:
@@ -179,9 +229,14 @@ Finite and the infinite part: 13428.850937459748114, 0.17608349187949522368
 C_14 = 7820.6000583800047652
 Finite and infinite part: 70011.873897902124282, 0.11170390996511158496
 1 - first remaining factor: 7.7999999636000000273e-17
+
 C_14 = 7820.6000368550459882
 Finite and the infinite part: 70011.873897902124282, 0.11170390965766432525
 1 - first remaining factor: 4.8749999943125000011e-18
+
+C_14 = 7820.6000304765722324
+Finite and infinite part: 70011.873897902124282, 0.11170390956655872557
+1 - first remaining factor: 7.80000000026e-21
    \endverbatim
    while GH give the value 7820.61; let's guess C_14 = 7820.60003... .
    So here we have a descrepancy. </li>
@@ -190,9 +245,14 @@ Finite and the infinite part: 70011.873897902124282, 0.11170390965766432525
 C_15 = 22938.908728604769022
 Finite and infinite part: 365009.82172812513753, 0.062844634207379343627
 1 - first remaining factor: 9.0999999635999999727e-17
+
 C_15 = 22938.908654946451496
 Finite and the infinite part: 365009.82172812513753, 0.062844634005581164122
 1 - first remaining factor: 5.6874999943124999989e-18
+
+C_15 = 22938.908633119341404
+Finite and infinite part: 365009.82172812513753, 0.062844633945782471615
+1 - first remaining factor: 9.100000000364e-21
    \endverbatim
    while GH give the value 22939; let's guess C_15 = 22938.9086... . </li>
    <li> Computation of C_16:
@@ -200,9 +260,14 @@ Finite and the infinite part: 365009.82172812513753, 0.062844634005581164122
 C_16 = 55651.462823015330355
 Finite and infinite part: 1902993.9143221524098, 0.029244162266718764193
 1 - first remaining factor: 1.0499999964999999906e-16
+
 C_16 = 55651.4626168225131
 Finite and the infinite part: 1902993.9143221524098, 0.029244162158366963537
 1 - first remaining factor: 6.5624999945312499963e-18
+
+C_16 = 55651.462555721561157
+Finite and infinite part: 1902993.9143221524098, 0.029244162126259161466
+1 - first remaining factor: 1.050000000049e-20
    \endverbatim
    while GH give the value 55651; let's guess C_16 = 55651.462... . </li>
    <li> Computation of C_17:
@@ -210,9 +275,14 @@ Finite and the infinite part: 1902993.9143221524098, 0.029244162158366963537
 C_17 = 91555.111732881423894
 Finite and infinite part: 1539516.4947250383578, 0.059470042735224739834
 1 - first remaining factor: 1.1999999967999999826e-16
+
 C_17 = 91555.111345203124141
 Finite and the infinite part: 1539516.4947250383578, 0.059470042483406522178
 1 - first remaining factor: 7.4999999949999999932e-18
+
+C_17 = 91555.111230322724999
+Finite and infinite part: 1539516.4947250383578, 0.059470042408785432027
+1 - first remaining factor: 1.200000000064e-20
    \endverbatim
    while GH give the value 91555; let's guess C_17 = 91555.111.... </li>
    <li> Computation of C_18:
@@ -220,20 +290,30 @@ Finite and the infinite part: 1539516.4947250383578, 0.059470042483406522178
 C_18 = 256474.86146297656364
 Finite and infinite part: 8527979.2287552010855, 0.030074517606489678389
 1 - first remaining factor: 1.3599999972799999735e-16
+
 C_18 = 256474.86023216558505
 Finite and the infinite part: 8527979.2287552010855, 0.030074517462163461642
 1 - first remaining factor: 8.4999999957499999896e-18
+
+C_18 = 256474.85986744035674
+Finite and infinite part: 8527979.2287552010855, 0.030074517419395389801
+1 - first remaining factor: 1.3600000000816e-20
    \endverbatim
-   while GH give the value 256480; let's guess C_18 = 256474.860... .
+   while GH give the value 256480; let's guess C_18 = 256474.85... .
    So here we have a descrepancy. </li>
    <li> Computation of C_19:
    \verbatim
 C_19 = 510992.01391519899563
 Finite and infinite part: 6579820.4950027289514, 0.077660479385917816586
 1 - first remaining factor: 1.5299999979599999633e-16
+
 C_19 = 510992.01115644361769
 Finite and the infinite part: 6579820.4950027289514, 0.077660478966642643345
 1 - first remaining factor: 9.5624999968124999857e-18
+
+C_19 = 510992.01033894385383
+Finite and infinite part: 6579820.4950027289514, 0.07766047884239916824
+1 - first remaining factor: 1.530000000102e-20
    \endverbatim
    while GH give the value 510990; let's guess C_19 = 510992.01... . </li>
    <li> Computation of C_20:
@@ -241,9 +321,14 @@ Finite and the infinite part: 6579820.4950027289514, 0.077660478966642643345
 C_20 = 1900972.5998672649484
 Finite and infinite part: 38473077.653099090942, 0.049410463519653916442
 1 - first remaining factor: 1.7099999988599999521e-16
+
 C_20 = 1900972.5883968371188
 Finite and the infinite part: 38473077.653099090942, 0.049410463221512241035
 1 - first remaining factor: 1.0687499998218749981e-17
+
+C_20 = 1900972.5849978144616
+Finite and infinite part: 38473077.653099090942, 0.04941046313316415805
+1 - first remaining factor: 1.7100000001254e-20
    \endverbatim
    while GH give the value 1901000; let's guess C_20 = 1900972.5... . </li>
   </ul>
