@@ -1,0 +1,33 @@
+/* Oliver Kullmann, 17.5.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/Order.mac
+  \brief Functions related to the order of elements
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/Order.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+closure_element_sgr(compo_, a) := block([p : compo_(a,a), res : {a}],
+ while not elementp(p,res) do (
+  res : adjoin(p,res),
+  p : compo_(p,a)
+ ),
+ res)$
+
+order_element_sgr(compo_, a) := length(closure_element_sgr(compo_, a))$
+
+/*!
+\endhtmlonly
+*/
