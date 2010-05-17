@@ -255,6 +255,14 @@ is(Csa);
   </ul>
 
 
+  \todo Allow repeating literals for unary_bb_crd2fcl
+  <ul>
+   <li> It seems that the current implementation already can handle arbitrary
+   cardinality-constraints (with repetition of literals), however this needs
+   to be checked. </li>
+  </ul>
+
+
   \todo Improved understanding/implementation of BB-method
   <ul>
    <li> The right starting point should be to explicitly use "the tree" alluded
