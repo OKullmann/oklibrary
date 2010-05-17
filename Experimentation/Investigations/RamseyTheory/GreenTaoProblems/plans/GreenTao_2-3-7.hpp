@@ -127,6 +127,9 @@ BestSolution_Max = 19.000000
 2 3 4
 5 8 7
 20
+ 2  3  4  5  6
+15 49 31  2  3
+100
      \endverbatim
      </li>
     </ol>
