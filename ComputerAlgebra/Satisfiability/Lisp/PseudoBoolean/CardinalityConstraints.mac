@@ -22,7 +22,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
    <li> Finally we have the problem of repeated literals.
     <ul>
      <li> This should already be handled but needs a proof. </li>
-     <li> Is there any other way to handle this in the mean time? </li>
     </ul>
    </li>
    <li> (DONE For now, we just remove them in the same way as with the
