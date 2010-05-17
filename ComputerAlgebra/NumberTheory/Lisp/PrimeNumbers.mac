@@ -116,9 +116,13 @@ Li(x) := expintegral_li(x)$
 Li_hp(x,decimal_digits) := block([fpprec : decimal_digits],
  expand(bfloat(Li(x))))$
 /* The higher logarithmic integrals (Li(x) = Lih(x,1)): */
+/* TODO: the integration should start with 0. */
 Lih(x,m) := integrate(log(t)^(-m),t,2,x)$
 Lih_hp(x,m,decimal_digits) := block([fpprec : decimal_digits],
  expand(bfloat(Lih(x,m))))$
+
+/* Accordingly we provide abbreviations for the exponential integral: */
+Ei(x) := expintegral_ei(x)$
 
 
 /* **************************
