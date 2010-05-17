@@ -57,6 +57,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
   (boolean) literals (allowing repetitions and complementary literals).
   The meaning is "a <= sum(L) <= b", where sum(L) counts the satisfied
   literals.
+
+  A crd is "repetition-free", if no literal in L occurs more than once.
 */
 
 /* ***************************************
@@ -174,9 +176,7 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
   Computing a CNF representation of cardinality constraint C according
   to [BB 2003]. The new variables are of the form vru(...), and come
   after the original variables in the list of variables.
-  The literals in C must have distinct variables (so neither repetition of
-  literals nor clashing literals are allowed).
-  Prerequisites: C doesn't have repeated literals.
+  Prerequisites: C is repetition-free.
   REMINDER: see the BUG above!
 */
 unary_bb_crd2fcl(C) := block(
