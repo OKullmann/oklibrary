@@ -55,6 +55,12 @@ okltest_crd2scrd(f) := block([a,b],
   assert(f([a,[1,2,-1,-2,1,3,2],b]) = [a, [[1,2],[2,2],[-2,1],[-1,1],[3,1]], b]),
   true)$
 
+okltest_scrd2crd(f) := block([a,b],
+  assert(f([a,[],b]) =  [a,[],b]),
+  assert(f([a, [[1,2],[2,2],[-2,1],[-1,1],[3,1]], b]) =
+    [a,[1,1,2,2,-2,-1,3],b]),
+  true)$
+
 okltest_remove_tautologies_scrd(f) := block([a,b],
   assert(f([a,[],b]) = [a,[],b]),
   assert(f([a,[[1,1]],b]) = [a,[[1,1]],b]),
@@ -179,6 +185,8 @@ okltest_unary_bb_crd2fcl(f) := block([F],
   assert(f([0,[1],inf]) = [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)}]]),
   assert(f([1,[1],1]) =
     [[1,vru(1,1,1)],[{-1,vru(1,1,1)},{1,-vru(1,1,1)},{vru(1,1,1)}]]),
+  assert(f([1,[-1,1],2]) = f([0,[],1])),
+  assert(f([1,[-1,1,2],2]) = f([0,[2],1])),
   true)$
 
 

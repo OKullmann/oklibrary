@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/Car
 */
 
 okltest_crd2scrd(crd2scrd);
+okltest_scrd2crd(scrd2crd);
 
 okltest_remove_tautologies_scrd(remove_tautologies_scrd);
 
