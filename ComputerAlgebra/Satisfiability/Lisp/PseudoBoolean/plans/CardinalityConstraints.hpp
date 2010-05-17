@@ -333,43 +333,6 @@ annotate_unary_add_tree_w_crdv_lrt_r(T,E,s) :=
    where we assume T is the labelled rooted tree, E is the list of input 
    literals (of length T[1][1]) and s is used as an accumulator to keep track
    of where in the overall tree the current sub-tree is. </li>
-   <li> Given such an annotated tree as output by 
-   "annotate_unary_add_tree_w_crdv_lrt", we can generate the resulting
-   formal clause-list which is satisfiable iff the literals at each
-   level in the tree are assigned such that unary addition occurs at 
-   each %node. This can be done using the following:
-   \verbatim
-unary_add_w_crdv2fcl(T) :=
-  if length(T) < 3 then [T[1],[]]
-  else block(
-    [F : [], FF_l,FF_r,V : T[1], V_l : T[2][1],V_r : T[3][1]],
-    FF_l : unary_add_w_crdv2fcl(T[2]),
-    FF_r : unary_add_w_crdv2fcl(T[3]),
-    for alph : 0 thru length(V_l) do
-      for beta : 0 thru length(V_r) do block([sigma : alph+beta],
-        if sigma > 0 then
-          F : cons(union(
-              if alph > 0 then {-V_l[alph]} else {},
-              if beta > 0 then {-V_r[beta]} else {},
-              {V[sigma]}), F),
-          if sigma < length(V) then
-          F : cons(union(
-              if alph < length(V_l) then {V_l[alph+1]} else {},
-              if beta < length(V_r) then {V_r[beta+1]} else {},
-              {-V[sigma+1]}),F)
-          ),
-    return(
-      [stable_unique(append(V,FF_l[1],FF_r[1])),
-       append(F,FF_l[2],FF_r[2])]))$
-   \endverbatim
-   </li>
-   <li> Note that "unary_add_w_crdv2fcl" introduces clauses at each
-   %node which enforce unary addition as is done in [BB 2003], however while 
-   all clauses are prime implicates this is NOT the set of
-   ALL prime implicates (for instance, assume length(V_l)=length(V_r)=2
-   and length(V)=4, then{V_l[1],V_r[1],V[3]} would be an implicate of the 
-   clause-list introduced, but it is not subsumed by any of the clauses).
-   </li>
    <li> What is used in the BB-paper might not be appropriate (or only
    appropriate for the presentation in the paper!). </li>
    <li> Once this is done, then only another function for the clause-set
