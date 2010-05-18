@@ -7,7 +7,7 @@
 
 # Settings for building and using R
 
-R_recommended_version_number_okl ?= 2.10.1
+R_recommended_version_number_okl ?= 2.11.0
 R_supported_not_recommended_version_numbers_okl ?= 2.9.2
 
 R_prefix_okl ?= R
@@ -51,4 +51,4 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
-R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz Rcmdr_1.4-10.tar.gz QCA3_0.0-2.tar.gz
+R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz #  Rcmdr_1.5-4.tar.gz

@@ -10,6 +10,44 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \todo DONE (disabled Rcmdr for now)
+  Installing 2.11.0
+  <ul>
+   <li> Build fails:
+   \verbatim
+* DONE (QCA)
+
+* installing *source* package ‘Rcmdr’ ...
+** R
+** inst
+** help
+Warning: ./man/Commander-es.Rd:127: unknown macro '\item'
+...
+*** installing help indices
+** building package indices ...
+** testing if installed package can be loaded
+Error in firstlib(which.lib.loc, package) :
+  Tcl/Tk support is not available on this system
+Error : package 'tcltk' could not be loaded
+ERROR: loading failed
+* removing ‘/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/R/2.11.0/lib64/R/library/Rcmdr’
+   \endverbatim
+   </li>
+   <li> The easiest fix would be to disallow this package, since we don't
+   need it. </li>
+   <li> But let's first try the newer Rcmdr-version 1.5.4. </li>
+   <li> Then we don't get the warnings, but still
+   \verbatim
+** testing if installed package can be loaded
+Error in firstlib(which.lib.loc, package) :
+  Tcl/Tk support is not available on this system
+Error : package 'tcltk' could not be loaded
+   \endverbatim
+   </li>
+   <li> So let's remove this package for now. </li>
+  </ul>
+
+
   \todo DONE (2.10.1 works again)
   Installing 2.10.0
   <ul>
