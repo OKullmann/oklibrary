@@ -77,14 +77,16 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
-   <li> It seems best to proceed in stages, first installing the latest
-   4.2.x and updating our code, and then installing the latest 4.3.x. </li>
-   <li> And then the latest 4.4.x. </li>
-   <li> Building 4.4.3:
+   <li> It seems best to proceed in stages, first installing 4.2.4 and
+   updating our code, then installing 4.3.4, and then 4.4.4. </li>
+   <li> Building 4.4.4:
     <ol>
      <li> Now Gmp and Mpfr is needed. </li>
      <li> For Gmp just use the configure-option
      "--with-gmp=$(gmp_installation_dir_okl)". </li>
+     <li> However, then we have the problem of a circular dependency, since
+     these libraries are built using Gcc! </li>
+     <li> The main question is about the link-library-compatabilities. </li>
     </ol>
    </li>
   </ul>
