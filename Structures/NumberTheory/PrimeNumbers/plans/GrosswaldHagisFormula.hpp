@@ -16,7 +16,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Copy output to a file
+  \todo Improved usage
+  <ul>
+   <li> That automatically the output is copied to a file with some standard
+   name seems useful. </li>
+   <li> As an optional parameter we should allow a start prime, bigger than k,
+   and then just the "infinitary" result is output, with full precision. </li>
+   <li> The application should catch, like the OKsolver_2002, signals SIGINT
+   and SIGUSR1, and print out the current results (before aborting in the
+   former case). </li>
+  </ul>
 
 
   \todo Information on convergence rate
@@ -38,6 +47,24 @@ License, or any later version. */
 
 
   \todo Write application tests
+
+
+  \todo Enable parallelism
+  <ul>
+   <li> The simplest strategy is to just subdivide the set of prime numbers
+   considered into intervals, and then to compute the products independently.
+   </li>
+   <li> For directly jumping to some (big) prime number we have the application
+   PrimeNumbers/RankPrimes.cpp; see
+   Structures/NumberTheory/PrimeNumbers/plans/RankPrimes.hpp for further
+   plans to speed it up. </li>
+   <li> Of course, this can be done in a simple way by just enabling as
+   additional parameter the start-prime (bigger than k), and then outputting
+   only the second ("infinite") product, with full precision. </li>
+   <li> For this we just need to write a simple application, which computes
+   the command-line calls for the subordinated computation, and which reads
+   the result-files and computes the final result. </li>
+  </ul>
 
 
   \todo Handle several k-values : DONE
