@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/Order.mac
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/TransformationMonoids.mac")$
 
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/Order.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/TransformationMonoids.mac")$
 
