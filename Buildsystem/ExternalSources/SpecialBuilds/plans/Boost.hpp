@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -38,7 +38,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Building version 1_38_0 / 1_39_0 / 1_40_0
+  \todo Building version 1_38_0 / 1_39_0 / 1_40_0 / 1_43_0
   <ul>
    <li> DONE (they are all built now)
    Building seems unproblematic, but likely this is due to the fact
