@@ -16,7 +16,7 @@ License, or any later version. */
   k=3.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
   \todo Foundations
@@ -84,11 +84,6 @@ License, or any later version. */
    investigation. </li>
   </ul>
    
-
-
-  \todo Reduction uses already lazy datastructures, and we can also employ
-  watched literals here (which are integrated into the occurrences lists).
-
 
   \todo Local learning
   <ul>
@@ -183,12 +178,19 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::FailedLiteralReduction
+  \namespace OKlib::Satisfiability::Reductions::FailedLiteralReduction
   \brief Components around the r_2-reduction
+
+  Alias "Flr".
 */
 
 namespace OKlib {
-  namespace FailedLiteralReduction {
+  namespace Satisfiability {
+    namespace Reductions {
+      namespace FailedLiteralReduction 
+      }
+      namespace Flr = FailedLiteralReduction;
+    }
   }
 }
 
