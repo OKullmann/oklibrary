@@ -89,6 +89,12 @@ C_gh_values : [
 gh_nhyp_arithprog_primes_hg(k,n) := if k-1 > length(C_gh_values) then unknown
  else float(C_gh_values[k-1]/2/(k-1) * n^2/log(n)^(k-2))$
 
+/* Using the original formula: */
+ghorig_nhyp_arithprog_primes_hg(k,n) :=
+ if k-1 > length(C_gh_values) then unknown
+ else block([p : unrank_primes(n)],
+ float(C_gh_values[k-1]/2/(k-1) * p^2/log(p)^k))$
+
 
 /* ********************************************
    * The approximation from [Granville, 2006] *
