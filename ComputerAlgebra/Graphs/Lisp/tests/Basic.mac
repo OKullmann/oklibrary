@@ -663,6 +663,87 @@ okltest_ogg2omugl(f) := block([e,e2,x],
     assert(gr_equalp(f(dipole_ogg(n)), [[1,2],[{1,2}], lambda([e],n)]) = true),
   true)$
 
+okltest_og2g(f) := (
+  assert(f([[],[]]) = [{},{}]),
+  assert(f([[1],[]]) = [{1},{}]),
+  assert(f([[1,2],[{1,2}]]) = [{1,2},{{1,2}}]),
+  true)$
+
+okltest_ogl2gl(f) := (
+  assert(okltest_og2g(f) = true),
+  assert(f([[1],[{1}]]) = [{1},{{1}}]),
+  true)$
+
+okltest_omug2mug(f) := block([e],
+  assert(f([[],[],e]) = [{},{},e]),
+  assert(f([[1],[],e]) =  [{1},{},e]),
+  assert(f([[1,2],[{1,2}],e]) = [{1,2},{{1,2}},e]),
+  true)$
+
+okltest_omugl2mugl(f) := block([e],
+  assert(okltest_omug2mug(f) = true),
+  assert(f([[1],[{1}],e]) = [{1},{{1}},e]),
+  true)$
+
+okltest_ogg2gg(f) := block([ef,e,e2],
+  assert(f([[],[],ef]) = [{},{},ef]),
+  assert(f([[1],[],ef]) =  [{1},{},ef]),
+  assert(f([[1],[e],ef]) =  [{1},{e},ef]),
+  assert(f([[1,2],[e,e2],ef]) = [{1,2},{e,e2},ef]),
+  true)$
+
+okltest_mudgl2dgl(f) := block([e],
+  assert(f([{},{},e]) = [{},{}]),
+  assert(f([{1},{},e]) = [{1},{}]),
+  assert(f([{1,2},{[1,2]},e]) = [{1,2},{[1,2]}]),
+  assert(f([{1,2},{[1,2],[2,1]},e]) = [{1,2},{[1,2],[2,1]}]),
+  true)$
+
+okltest_gdg2dgl(f) := block([e],
+  assert(f([{},{},e]) = [{},{}]),
+  assert(f([{1,2},{},e]) = [{1,2},{}]),
+  assert(f([{1,2,3},{[1,1],[1,2],[2,3]},identity]) = [{1,2,3},{[1,1],[1,2],[2,3]}]),
+  assert(f([{1},{1},lambda([x],[1,1])]) = [{1},{[1,1]}]),
+  true)$
+
+okltest_gdg2mudgl(f) := block([e],
+  assert(gr_equalp(f([{},{},e]), [{},{},e]) = true),
+  assert(gr_equalp(f([{1},{},e]), [{1},{},e]) = true),
+  assert(gr_equalp(f([{1},{1,2},lambda([x],[1,1])]), [{1},{[1,1]}, lambda([x],2)]) = true),
+  assert(gr_equalp(f([{1,2},{1,2,3,4},lambda([x],[1,2])]), [{1,2},{[1,2]}, lambda([x],4)]) = true),
+  true)$
+
+okltest_omudgl2odgl(f) := block([e],
+  assert(f([[],[],e]) = [[],[]]),
+  assert(okltest_mudgl2dgl(buildq([f], lambda([G], odgl2dgl(f(mudgl2omudgl(G)))))) = true),
+  true)$
+
+okltest_ogdg2odgl(f) := block([e],
+  assert(f([[],[],e]) = [[],[]]),
+  assert(okltest_gdg2dgl(buildq([f], lambda([G], odgl2dgl(f(gdg2ogdg(G)))))) = true),
+  true)$
+
+okltest_ogdg2omudgl(f) := block([e],
+  assert(gr_equalp(f([[],[],e]), [[],[],e]) = true),
+  assert(okltest_gdg2mudgl(buildq([f], lambda([G], omudgl2mudgl(f(gdg2ogdg(G)))))) = true),
+  true)$
+
+okltest_odgl2dgl(f) := (
+  assert(f([[],[]]) = [{},{}]),
+  assert(f([[1],[[1,1]]]) = [{1},{[1,1]}]),
+  assert(f([[1,2],[[1,2],[2,2]]]) = [{1,2},{[1,2],[2,2]}]),
+  true)$
+
+okltest_omudgl2mudgl(f) := block([e],
+  assert(f([[],[],e]) = [{},{},e]),
+  assert(f([[1,2],[[1,2],[2,1],[1,1]],e]) = [{1,2},{[1,2],[2,1],[1,1]},e]),
+  true)$
+
+okltest_ogdg2gdg(f) := block([e],
+  assert(f([[],[],e]) = [{},{},e]),
+  assert(f([[1,2],[1,3,-1],e]) = [{1,2},{1,3,-1},e]),
+  true)$
+
 
 /* ***************
    * Conversions *

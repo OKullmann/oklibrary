@@ -104,6 +104,23 @@ okltest_omugl2ogl(omugl2ogl);
 okltest_ogg2ogl(ogg2ogl);
 okltest_ogg2omugl(ogg2omugl);
 
+okltest_og2g(og2g);
+okltest_ogl2gl(ogl2gl);
+okltest_omug2mug(omug2mug);
+okltest_omugl2mugl(omugl2mugl);
+okltest_ogg2gg(ogg2gg);
+
+okltest_mudgl2dgl(mudgl2dgl);
+okltest_gdg2dgl(gdg2dgl);
+okltest_gdg2mudgl(gdg2mudgl);
+
+okltest_omudgl2odgl(omudgl2odgl);
+okltest_ogdg2odgl(ogdg2odgl);
+okltest_ogdg2omudgl(ogdg2omudgl);
+
+okltest_odgl2dgl(odgl2dgl);
+okltest_omudgl2mudgl(omudgl2mudgl);
+okltest_ogdg2gdg(ogdg2gdg);
 
 /* ***************
    * Conversions *
