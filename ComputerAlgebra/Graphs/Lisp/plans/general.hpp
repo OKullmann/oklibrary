@@ -50,7 +50,7 @@ License, or any later version. */
      <li> Promotions : DONE </li>
      <li> Downcasts : DONE </li>
      <li> Conversions : DONE </li>
-     <li> Basic graph operations </li>
+     <li> Basic graph operations : DONE </li>
      <li> Basic graph constructions </li>
      <li> Tests </li>
      <li> Connections to Maxima-graphs </li>

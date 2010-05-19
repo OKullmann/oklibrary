@@ -299,6 +299,7 @@ neighbours_gg(v,G) := neighbours_gl(v,gg2gl(G))$
 /* RENAME: "remove_vertices_gl". */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
+remove_vertices_gl(V,G) := remove_vertices_graph(V,G)$
 
 
 /* *****************************

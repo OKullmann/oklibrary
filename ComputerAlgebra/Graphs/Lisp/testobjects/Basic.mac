@@ -156,6 +156,8 @@ okltest_neighbours_g(neighbours_g);
 okltest_neighbours_gl(neighbours_gl);
 okltest_neighbours_gg(neighbours_gg);
 
+okltest_remove_vertices_gl(remove_vertices_gl);
+
 /* *****************************
    * Basic graph constructions *
    *****************************
