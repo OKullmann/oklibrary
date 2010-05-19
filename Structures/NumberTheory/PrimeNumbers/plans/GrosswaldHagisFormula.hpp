@@ -16,12 +16,29 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improved organisation
+  <ul>
+   <li> Create proper classes and functions, putting them into
+   PrimeNumbers/GrosswaldHagisFormula.hpp. </li>
+   <li> See the requests below for further functionality. </li>
+  </ul>
+
+
   \todo Improved usage
   <ul>
    <li> That automatically the output is copied to a file with some standard
    name seems useful. </li>
+   <li> And output independent of the computation should be done at once. </li>
+   <li> The number of output digits should be an additional, optional
+   parameter. </li>
+   <li> The number of primes found for both parts should be output. </li>
    <li> As an optional parameter we should allow a start prime, bigger than k,
-   and then just the "infinitary" result is output, with full precision. </li>
+   and then just the "infinitary" result is output, with full precision.
+    <ol>
+     <li> This could be handled like the optional input for k, namely as a pair
+     of numbers, separated by a comma (without spaces). </li>
+    </ol>
+   </li>
    <li> The application should catch, like the OKsolver_2002, signals SIGINT
    and SIGUSR1, and print out the current results (before aborting in the
    former case). </li>
@@ -37,12 +54,28 @@ License, or any later version. */
    to appear]" available? </li>
    <li> Optimally, the program would compute the number of definitely correct
    digits, and also then the most precise rounded value. </li>
-   <li> First one needs to establish whether the factor in the infinite product
-   are always smaller than 1, and whether they are strongly monotonically
-   increasing. </li>
+   <li> This task would consist in proving a lower bound 1-eps for the
+   remaining infinite product (assuming that it is less than 1), and in
+   controlling the error in the computations (see "Controlling the error in
+   the computations" below). </li>
+   <li> First one needs to establish whether the factors in the infinite
+   product are always smaller than 1, and whether they are strongly
+   monotonically increasing. </li>
    <li> However, such considerations are best done at Maxima-level; see
    "Estimating the factors in the infinite Grosswald-Hagis-product" in
    ComputerAlgebra/RamseyTheory/Lisp/GreenTao/plans/Asymptotics.hpp. </li>
+  </ul>
+
+
+  \todo Controlling the error in the computations
+  <ul>
+   <li> Cutting off the infinite product at max_p, we obtain a finite
+   computation; let's call the result of the finite product A_k, and B_{k,N}
+   the result of the infinite product only up to N. </li>
+   <li> We compute A_k precisely, but precise computation of B_{k,N} seems
+   infeasible for larger N. </li>
+   <li> Can we say something interesting about the error in the floating-point
+   computation for B_{k,N} ? </li>
   </ul>
 
 
@@ -64,6 +97,20 @@ License, or any later version. */
    <li> For this we just need to write a simple application, which computes
    the command-line calls for the subordinated computation, and which reads
    the result-files and computes the final result. </li>
+  </ul>
+
+
+  \todo Alternative computation via logarithms
+  <ul>
+   <li> An alternative computations computes the logarithm of the product,
+   and finally uses exponentiation. </li>
+   <li> Then each factor becomes a summand, no multiplication or divisions
+   have to be carried out, and the only costly operation is to compute
+   log(p) and log(p-1). </li>
+   <li> This only for the infinite product. </li>
+   <li> One would expect a loss of precision, which however should be
+   negligible, while the computation might become faster (it depends on how
+   fast logarithms are computed). </li>
   </ul>
 
 
