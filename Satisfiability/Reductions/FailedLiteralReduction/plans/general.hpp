@@ -22,22 +22,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update namespaces : DONE
-
-
-  \todo Foundations : DONE
-  <ul>
-   <li> Clarify the relations to modules
-    <ul>
-     <li> KLevelForcedAssignments: This module considers variations on K=2 and
-     K=3, while KLevelForcedAssignments considers arbitrary K. </li>
-     <li> Resolution </li>
-    </ul>
-   </li>
-   <li> See the ComputerAlgebra-part. </li>
-  </ul>
-
-
   \todo First simple implementation
   <ul>
    <li> Just using Reductions::UnitClausePropagation::CLSAdaptorUcpW. </li>

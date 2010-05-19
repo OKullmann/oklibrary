@@ -8,16 +8,15 @@ License, or any later version. */
 /*!
   \file Reductions/FailedLiteralReduction/plans/milestones.hpp
   
-  \module_version Reductions/FailedLiteralReduction 0.0.4 (22.5.2007)
+  \module_version Reductions/FailedLiteralReduction 0.0.5 (19.5.2010)
 
 
-  \par Version 0.0.5 :
+  \par Version 0.0.6 :
 
   \par
    In FailedLiteralReduction/plans/general.hpp the following topics
    are handled:
-    - Update namespaces : DONE
-    - Foundations : DONE
+    - First simple implementation
 
   \par
    New milestones have been created.
@@ -29,6 +28,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 22.5.2007; initial version number (several plans, and the experience with the (old) OKsolver).
+   - 0.0.5 : 19.5.2010; organisational updates, and plans on first implementation of r_2.
 
 */
 
