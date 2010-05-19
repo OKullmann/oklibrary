@@ -1048,6 +1048,118 @@ okltest_irreflexive_ogg(f) := (
   assert(okltest_irreflexive_gg(buildq([f],lambda([G],f(gg2ogg(G))))) = true),
   true)$
 
+okltest_orientedgraph_dg_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{1},{}]) = true),
+  assert(f([{1,2},{}]) = true),
+  assert(f([{1,2},{[1,2]}]) = true),
+  assert(f([{1,2},{[2,1]}]) = true),
+  assert(f([{1,2},{[1,2],[2,1]}]) = false),
+  true)$
+
+okltest_orientedgraph_dgl_p(f) := (
+  assert(okltest_orientedgraph_dg_p(f) = true),
+  assert(f([{1},{[1,1]}]) = true),
+  true)$
+
+okltest_orientedgraph_odg_p(f) := (
+  assert(okltest_orientedgraph_dg_p(buildq([f], lambda([G],f(dg2odg(G))))) = true),
+  true)$
+
+okltest_orientedgraph_odgl_p(f) := (
+  assert(okltest_orientedgraph_dgl_p(buildq([f], lambda([G],f(dgl2odgl(G))))) = true),
+  true)$
+
+okltest_complete_g_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{3},{}]) = true),
+  assert(f([{3,5},{{3,5}}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{3,5,6},{{3,5},{3,6},{5,6}}]) = true),
+  true)$
+
+okltest_complete_gl_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{3},{}]) = true),
+  assert(f([{3},{{3}}]) = true),
+  assert(f([{3,5},{{3,5}}]) = true),
+  assert(f([{3,5},{{3,5},{5}}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{1,2},{{1}}]) = false),
+  assert(f([{3,5,6},{{3,5},{3,6},{5,6}}]) = true),
+  true)$
+
+okltest_complete_og_p(f) := (
+  assert(f([[],[]]) = true),
+  assert(f([[3],[]]) = true),
+  assert(f([[3,5],[{3,5}]]) = true),
+  assert(f([[1,2],[]]) = false),
+  assert(f([[3,5,6],[{3,5},{3,6},{5,6}]]) = true),
+  true)$
+
+okltest_complete_ogl_p(f) := (
+  assert(f([[],[]]) = true),
+  assert(f([[3],[]]) = true),
+  assert(f([[3],[{3}]]) = true),
+  assert(f([[3,5],[{3,5}]]) = true),
+  assert(f([[3,5],[{3,5},{5}]]) = true),
+  assert(f([[1,2],[]]) = false),
+  assert(f([[1,2],[{1}]]) = false),
+  assert(f([[3,5,6],[{3,5},{3,6},{5,6}]]) = true),
+  true)$
+
+okltest_complete_mug_p(f) := block([e],
+  assert(f([{},{},e]) = true),
+  assert(f([{3},{},e]) = true),
+  assert(f([{3,5},{{3,5}},e]) = true),
+  assert(f([{1,2},{},e]) = false),
+  assert(f([{3,5,6},{{3,5},{3,6},{5,6}},e]) = true),  
+  true)$
+
+okltest_complete_mugl_p(f) := block([e],
+  assert(f([{},{},e]) = true),
+  assert(f([{3},{},e]) = true),
+  assert(f([{3},{{3}},e]) = true),
+  assert(f([{3,5},{{3,5}},e]) = true),
+  assert(f([{3,5},{{3,5},{5}},e]) = true),
+  assert(f([{1,2},{},e]) = false),
+  assert(f([{1,2},{{1}},e]) = false),
+  assert(f([{3,5,6},{{3,5},{3,6},{5,6}},e]) = true),
+  true)$
+
+okltest_complete_omug_p(f) := block([e],
+  assert(f([[],[],e]) = true),
+  assert(f([[3],[],e]) = true),
+  assert(f([[3,5],[{3,5}],e]) = true),
+  assert(f([[1,2],[],e]) = false),
+  assert(f([[3,5,6],[{3,5},{3,6},{5,6}],e]) = true),
+  true)$
+
+okltest_complete_omugl_p(f) := block([e],
+  assert(f([[],[],e]) = true),
+  assert(f([[3],[],e]) = true),
+  assert(f([[3],[{3}],e]) = true),
+  assert(f([[3,5],[{3,5}],e]) = true),
+  assert(f([[3,5],[{3,5},{5}],e]) = true),
+  assert(f([[1,2],[],e]) = false),
+  assert(f([[1,2],[{1}],e]) = false),
+  assert(f([[3,5,6],[{3,5},{3,6},{5,6}],e]) = true),
+  true)$
+
+okltest_complete_gg_p(f) := block([ef],
+  assert(f([{},{},ef]) = true),
+  assert(f([{1},{},ef]) = true),
+  assert(f([{1},{1},lambda([e],{1})]) = true),
+  assert(f([{1,2},{{1,2}},identity]) = true),
+  assert(f([{1,2},{},ef]) = false),
+  assert(f([{1,2},{{1}},identity]) = false),
+  assert(okltest_complete_gl_p(buildq([f], lambda([G], f(gl2gg(G))))) = true),
+  true)$
+
+okltest_complete_ogg_p(f) := (
+  assert(okltest_complete_gg_p(buildq([f], lambda([G], f(gg2ogg(G))))) = true),
+  true)$
+
 okltest_dominating_vertex_g_p(f) := (
   assert(f(1,[{1},{}]) = true),
   assert(f(1,[{1,2},{}]) = false),

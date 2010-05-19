@@ -195,6 +195,22 @@ okltest_irreflexive_ogl(irreflexive_ogl);
 okltest_irreflexive_omugl(irreflexive_omugl);
 okltest_irreflexive_ogg(irreflexive_ogg);
 
+okltest_orientedgraph_dg_p(orientedgraph_dg_p);
+okltest_orientedgraph_dgl_p(orientedgraph_dgl_p);
+okltest_orientedgraph_odg_p(orientedgraph_odg_p);
+okltest_orientedgraph_odgl_p(orientedgraph_odgl_p);
+
+okltest_complete_g_p(complete_g_p);
+okltest_complete_gl_p(complete_gl_p);
+okltest_complete_og_p(complete_og_p);
+okltest_complete_ogl_p(complete_ogl_p);
+okltest_complete_mug_p(complete_mug_p);
+okltest_complete_mugl_p(complete_mugl_p);
+okltest_complete_omug_p(complete_omug_p);
+okltest_complete_omugl_p(complete_omugl_p);
+okltest_complete_gg_p(complete_gg_p);
+okltest_complete_ogg_p(complete_ogg_p);
+
 okltest_dominating_vertex_g_p(dominating_vertex_g_p);
 okltest_dominating_vertex_gl_p(dominating_vertex_gl_p);
 
