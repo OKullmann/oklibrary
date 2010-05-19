@@ -9,17 +9,23 @@ License, or any later version. */
   \file Reductions/FailedLiteralReduction/plans/general.hpp
   \brief Plans for the module FailedLiteralReduction
 
-
-  The general case is handled in module KLevelForcedAssignments (see
-  KLevelForcedAssignments/plans/general.hpp), while this module considers
-  the case K=2 and extensions (with special algorithms etc.), including
-  k=3.
+  Overview:
+  <ul>
+   <li> Reduction r_2 and (close) extensions are handled here (up to r_3).
+   </li>
+   <li> The general case r_k is handled in module KLevelForcedAssignments (see
+   KLevelForcedAssignments/plans/general.hpp). </li>
+   <li> While the case r_1 is handled in module UnitClausePropagation (see
+   UnitClausePropagation/plans/general.hpp). </li>
+   <li> For the Maxima-level see
+   Satisfiability/Lisp/Reductions/plans/FailedLiteralReduction.hpp. </li>
+  </ul>
 
 
   \todo Update namespaces : DONE
 
 
-  \todo Foundations
+  \todo Foundations : DONE
   <ul>
    <li> Clarify the relations to modules
     <ul>

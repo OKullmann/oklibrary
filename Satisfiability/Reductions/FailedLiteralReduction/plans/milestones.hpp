@@ -17,7 +17,7 @@ License, or any later version. */
    In FailedLiteralReduction/plans/general.hpp the following topics
    are handled:
     - Update namespaces : DONE
-    - Foundations
+    - Foundations : DONE
 
   \par
    New milestones have been created.
