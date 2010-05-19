@@ -19,14 +19,13 @@ License, or any later version. */
   \par
    In Reductions/KLevelForcedAssignments/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - First the scope (the (informal) concepts) has to be established
+    - Update namespaces : DONE
     - Create milestones
 
   \par
    In Reductions/UnitClausePropagation/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
+    - Update namespaces : DONE
     - Update the plans
     - Create milestones
 
