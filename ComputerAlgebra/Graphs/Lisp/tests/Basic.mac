@@ -824,7 +824,6 @@ okltest_ogdg2ogg(f) := (
   assert(okltest_gdg2gg(buildq([f],lambda([G],ogg2gg(f(gdg2ogdg(G))))))),
   true)$
 
-
 okltest_g2dg(f) := block(
   assert(f([{},{}]) = [{},{}]),
   assert(f([{1},{}]) = [{1},{}]),
@@ -832,6 +831,7 @@ okltest_g2dg(f) := block(
   for G in okltest_list_g do
     assert(dgl2gl(f(G)) = G),
   true)$
+
 okltest_gl2dgl(f) := block(
   assert(f([{},{}]) = [{},{}]),
   assert(f([{1},{}]) = [{1},{}]),
