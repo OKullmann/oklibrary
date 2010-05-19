@@ -896,7 +896,7 @@ okltest_remove_vertices_gl(f) := (
 */
 
 
-okltest_edge_induced_subgraph_g(f) := block([G],
+okltest_edge_induced_subgraph_g(f) := (
   assert(f({},[{},{}]) = [{},{}]),
   assert(f({},[{1},{}]) = [{},{}]),
   assert(f({{1,2}},[{1,2,3},{{1,2}}]) = [{1,2},{{1,2}}]),
@@ -904,70 +904,80 @@ okltest_edge_induced_subgraph_g(f) := block([G],
   assert(f({{1,2},{2,3}},[{1,2,3},{{1,2},{2,3},{1,3}}]) = [{1,2,3},{{1,2},{2,3}}]),
   true)$
 
-okltest_edge_induced_subgraph_gg(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({1},[{1,2},{1},lambda([e],{1,2})]) = [{1,2},{1},lambda([e],{1,2})]),
-  assert(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = [{1,2},{1},lambda([e],if e=1 then {1,2} else {2,3})]),
-  assert(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]),
-  true)$
-
-okltest_edge_induced_subgraph_gl(f) := block([G],
+okltest_edge_induced_subgraph_gl(f) := (
   assert(f({{1}},[{1},{{1}}]) = [{1},{{1}}]),
   assert(f({{1,2}},[{1,2},{{1,2},{2}}]) = [{1,2},{{1,2}}]),
   assert(f({{1,2}},[{1,2,3},{{1,2},{3}}]) = [{1,2},{{1,2}}]),
   true)$
 
-okltest_edge_induced_subgraph_mug(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({{1,2}},[{1,2},{{1,2}},lambda([e],1)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 1)]),
-  assert(f({{1,2}},[{1,2},{{1,2}},lambda([e],2)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]),
-  assert(f({{1,2}},[{1,2,3},{{1,2},{2,3}},lambda([e],if e={1,2} then 2 elseif e={2,3} then 3)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]),
+okltest_edge_induced_subgraph_mug(f) := block([edgef],
+  assert(gr_equalp(f({},[{},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({},[{1},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({{1,2}},[{1,2},{{1,2}},lambda([e],1)]), [{1,2},{{1,2}},lambda([e],if e={1,2} then 1)]) = true),
+  assert(gr_equalp(f({{1,2}},[{1,2},{{1,2}},lambda([e],2)]), [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]) = true),
+  assert(gr_equalp(f({{1,2}},[{1,2,3},{{1,2},{2,3}},lambda([e],if e={1,2} then 2 elseif e={2,3} then 3)]), [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]) = true),
   true)$
 
-okltest_edge_induced_subgraph_mugl(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({{1}},[{1},{{1}},lambda([e],2)]) = [{1},{1},lambda([e],if e={1} then 2)]),
-  assert(f({{1}},[{1,2},{{1},{1,2}},lambda([e],if e={1} then 2 else 3)]) = [{1},{{1}},lambda([e],if e={1} then 2)]),
+okltest_edge_induced_subgraph_mugl(f) := block([edgef],
+  assert(gr_equalp(f({},[{},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({},[{1},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({{1}},[{1},{{1}},lambda([e],2)]), [{1},{{1}},lambda([e],if e={1} then 2)]) = true),
+  assert(gr_equalp(f({{1}},[{1,2},{{1},{1,2}},lambda([e],if e={1} then 2 else 3)]), [{1},{{1}},lambda([e],if e={1} then 2)]) = true),
+  assert(gr_equalp(f({{1,2},{1,3}}, [{1,2,3,4},{{1,2},{1},{1,3},{2,4}},lambda([e],3)]), [{1,2,3},{{1,2},{1,3}},lambda([e],3)]) = true),
   true)$
 
-okltest_edge_induced_subgraph_dg(f) := block([G],
+okltest_edge_induced_subgraph_gg(f) := block([edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({1},[{1,2},{1},lambda([e],{1,2})]) = [{1,2},{1},lambda([e],{1,2})]),
+  assert(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = [{1,2},{1},lambda([e],if e=1 then {1,2} else {2,3})]),
+  assert(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]),
+  assert(gr_equalp(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]), [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3})]) = true),
+  true)$
+
+okltest_edge_induced_subgraph_dg(f) := (
   assert(f({},[{},{}]) = [{},{}]),
   assert(f({},[{1},{}]) = [{},{}]),
   assert(f({[1,2]},[{1,2,3},{[1,2]}]) = [{1,2},{[1,2]}]),
-  assert(f({[1,2],[3,2]},[{1,2,3},{[1,2],[2,3],[1,3]}]) = [{1,2,3},{[1,2],[2,3]}]),
+  assert(f({[1,2],[3,2]},[{1,2,3},{[1,2],[3,2],[1,3]}]) = [{1,2,3},{[1,2],[3,2]}]),
   true)$
 
-okltest_edge_induced_subgraph_dgl(f) := block([G],
+okltest_edge_induced_subgraph_dgl(f) := (
   assert(f({},[{1},{[1,1]}]) = [{},{}]),
   assert(f({[1,1]},[{1},{[1,1]}]) = [{1},{[1,1]}]),
   assert(f({[1,2],[1,1]},[{1,2},{[1,2],[1,1]}]) = [{1,2},{[1,2],[1,1]}]),
   assert(f({[1,2]},[{1,2},{[2,2],[1,2]}]) = [{1,2},{[1,2]}]),
   true)$
 
-okltest_edge_induced_subgraph_mudg(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({[1,2]},[{1,2},{[1,2]},lambda([e],1)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 1)]),
-  assert(f({[1,2]},[{1,2},{[1,2]},lambda([e],2)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]),
-  assert(f({[1,2]},[{1,2,3},{[1,2],[2,3]},lambda([e],if e=[1,2] then 2 elseif e=[2,3] then 3)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]),
+okltest_edge_induced_subgraph_mudg(f) := block([edgef],
+  assert(gr_equalp(f({},[{},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({},[{1},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({[1,2]},[{1,2},{[1,2]},lambda([e],1)]), [{1,2},{[1,2]},lambda([e],if e=[1,2] then 1)]) = true),
+  assert(gr_equalp(f({[1,2]},[{1,2},{[1,2]},lambda([e],2)]), [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]) = true),
+  assert(gr_equalp(f({[1,2]},[{1,2,3},{[1,2],[2,3]},lambda([e],if e=[1,2] then 2 elseif e=[2,3] then 3)]), [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]) = true),
   true)$
 
-okltest_edge_induced_subgraph_mudgl(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({[1,1]},[{1},{[1,1]},lambda([e],2)]) = [{1},{1},lambda([e],if e=[1,1] then 2)]),
-  assert(f({[1]},[{1,2},{[1,1],[1,2]},lambda([e],if e=[1,1] then 2 else 3)]) = [{1},{[1,1]},lambda([e],if e=[1,1] then 2)]),
+okltest_edge_induced_subgraph_mudgl(f) := block([edgef],
+  assert(gr_equalp(f({},[{},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({},[{1},{},edgef]), [{},{},edgef])),
+  assert(gr_equalp(f({[1,1]},[{1},{[1,1]},lambda([e],2)]), [{1},{[1,1]},lambda([e],if e=[1,1] then 2)]) = true),
+  assert(gr_equalp(f({[1,1]},[{1,2},{[1,1],[1,2]},lambda([e],if e=[1,1] then 2 else 3)]), [{1},{[1,1]},lambda([e],if e=[1,1] then 2)]) = true),
   true)$
 
-okltest_edge_induced_subgraph_gdg(f) := block([G,edgef],
-  assert(f({},[{},{},edgef]) = [{},{},edgef]),
-  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
-  assert(f({1},[{1,2},{1},lambda([e],[1,2])]) = [{1,2},{1},lambda([e],if e=1 then [1,2])]),
-  assert(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then [1,2] else [2,3])]) = [{1,2},{1},lambda([e],if e=1 then [1,2])]),
-  assert(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then [1,2] elseif e=2 then [2,3] else [1,3])]) = [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then [2,3])]),
+okltest_edge_induced_subgraph_gdg(f) := block([edgef],
+  assert(gr_equalp(f({},[{},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({},[{1},{},edgef]), [{},{},edgef]) = true),
+  assert(gr_equalp(f({1},[{1,2},{1},lambda([e],[1,2])]), [{1,2},{1},lambda([e],if e=1 then [1,2])]) = true),
+  assert(gr_equalp(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then [1,2] else [2,3])]), [{1,2},{1},lambda([e],if e=1 then [1,2])]) = true),
+  assert(gr_equalp(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then [1,2] elseif e=2 then [2,3] else [1,3])]), [{1,2,3},{1,2},lambda([e],if e=1 then [1,2] elseif e=2 then [2,3])]) = true),
+  true)$
+
+okltest_complement_g(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1,2},{}]) = [{1,2},{{1,2}}]),
+  assert(f([{1,2},{{1,2}}]) = [{1,2},{}]),
+  assert(f([{1,2,3},{{1,2}}]) = [{1,2,3},{{1,3},{2,3}}]),
   true)$
 
 

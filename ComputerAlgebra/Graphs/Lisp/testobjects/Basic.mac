@@ -163,7 +163,18 @@ okltest_remove_vertices_gl(remove_vertices_gl);
    *****************************
 */
 
+okltest_edge_induced_subgraph_g(edge_induced_subgraph_g);
+okltest_edge_induced_subgraph_gl(edge_induced_subgraph_gl);
+okltest_edge_induced_subgraph_mug(edge_induced_subgraph_mug);
+okltest_edge_induced_subgraph_mugl(edge_induced_subgraph_mugl);
 okltest_edge_induced_subgraph_gg(edge_induced_subgraph_gg);
+okltest_edge_induced_subgraph_dg(edge_induced_subgraph_dg);
+okltest_edge_induced_subgraph_dgl(edge_induced_subgraph_dgl);
+okltest_edge_induced_subgraph_mudg(edge_induced_subgraph_mudg);
+okltest_edge_induced_subgraph_mudgl(edge_induced_subgraph_mudgl);
+okltest_edge_induced_subgraph_gdg(edge_induced_subgraph_gdg);
+
+okltest_complement_g(complement_g);
 
 /* **********
    * Tests  *

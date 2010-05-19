@@ -51,7 +51,7 @@ License, or any later version. */
      <li> Downcasts : DONE </li>
      <li> Conversions : DONE </li>
      <li> Basic graph operations : DONE </li>
-     <li> Basic graph constructions </li>
+     <li> Basic graph constructions : DONE </li>
      <li> Tests </li>
      <li> Connections to Maxima-graphs </li>
     </ol>
