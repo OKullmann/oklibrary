@@ -20,7 +20,7 @@
 set -o errexit
 set -o nounset
 
-script_name="GTSat"
+script_name="GTdSat"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Exactly three parameters m, k, n are needed:

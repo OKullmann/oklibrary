@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-  \par Interfaces/InputOutput version 0.0.11
+  \par Interfaces/InputOutput version 0.0.12
   (see Interfaces/InputOutput/plans/milestones.hpp)
 
   \par
@@ -26,7 +26,7 @@ License, or any later version. */
 
   \par Version 0.0.8
 
-  \par Interfaces/InputOutput version 0.0.13
+  \par Interfaces/InputOutput version 0.0.14
   (see Interfaces/InputOutput/plans/milestones.hpp)
 
   \par

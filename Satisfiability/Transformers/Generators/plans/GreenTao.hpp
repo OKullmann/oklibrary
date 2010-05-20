@@ -46,6 +46,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving SAT translations
+  <ul>
+   <li> See the todos in Generators/GreenTaoGCNF.cpp. </li>
+   <li> It seems better not to have GreenTaoCNF-O3-DNDEBUG and
+   GreenTaoGCNF-O3-DNDEBUG available in the public bin-directory, since the
+   scripts GTSat and GTdSat shall do the job. </li>
+  </ul>
+
+
   \todo Improving GTTransversals
   <ul>
    <li> We should use the C++ hypergraph generator GreenTao.cpp instead of

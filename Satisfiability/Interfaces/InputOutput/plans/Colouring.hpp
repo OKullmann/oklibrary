@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,17 @@ License, or any later version. */
   <ul>
    <li> Transfer the todos from Interfaces/InputOutput/Colouring.hpp here.
    </li>
+  </ul>
+
+
+  \todo Generic translation
+  <ul>
+   <li> We have gcol2sat_ohg2nbfclud in
+   ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac, and then the various
+   translations in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac.
+   </li>
+   <li> This functionality needs to be provided. </li>
   </ul>
 
 */
