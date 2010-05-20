@@ -277,6 +277,7 @@ unary_addition_tree_0_lrt(n) := if n=1 then [[1]] else
   return([[n], unary_addition_tree_0_lrt(a), unary_addition_tree_0_lrt(b)]))$
 
 draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
+/* Should be draw_lrt(unary_addition_tree_0_lrt(5),d:inf); */
    \endverbatim
    b could also be defined as ceiling(n/2). </li>
    <li> Next we provide additional labels, namely the variables used at the
@@ -285,8 +286,45 @@ draw_lrt_dbl(unary_addition_tree_0_lrt(5),d:inf);
    </li>
    <li> n is then implicitly given as the (coinciding) lengths of the lists
    of input and output variables. </li>
+   <li> An important aspect of the unary addition to be performed via binary
+   splitting (as outlined via unary_addition_tree_0_lrt) is, that always
+   literals with indices from an interval [a,b] are added, where for the
+   root we have a=1 and b=n, while for the leaves we have a=b=i for 1 <= i <=
+   n. </li>
+   <li> This is presented by the following tree:
+   \verbatim
+unary_addition_tree_1_lrt(n) := unary_addition_tree_1r_lrt(1,n)$
+/* Prerequisite: a, b natural numbers, a <= b */
+unary_addition_tree_1r_lrt(a,b) := if a=b then [a] else
+ block([d : floor((b-a+1)/2)],
+  [[a,b], 
+   unary_addition_tree_1r_lrt(a,a+d-1), unary_addition_tree_1r_lrt(a+d,b)])$
+
+draw_lrt_dbl(unary_addition_tree_1_lrt(5));
+/* draw_lrt(unary_addition_tree_1_lrt(5),d:inf); */
+   \endverbatim
+   </li>
+   <li> For T = unary_addition_tree_1_lrt(n), the leaves have labels i
+   corresponding to input-literal i, while inner nodes have labels [a,b],
+   corresponding to auxiliary variables vru(a,b,1), ..., vru(a,b,b-a+1). </li>
+   <li> So the tree showing the literals and auxiliary variables used is as
+   follows, where L is an arbitrary list of literals:
+   \verbatim
+unary_addition_tree_2_lrt(L) := unary_addition_tree_2r_lrt(L,1,length(L))$
+unary_addition_tree_2r_lrt(L,a,b) := block([l : b-a+1],
+ if l = 1 then L else
+ block([d : floor(l/2)],
+  [create_list(vru_var(a,b,i),i,1,l),
+   unary_addition_tree_2r_lrt(take_elements(d,L),a,a+d-1),
+   unary_addition_tree_2r_lrt(rest(L,d),a+d,b)]))$
+
+draw_lrt_dbl(unary_addition_tree_2_lrt([a,b,c,d,e]));
+/* draw_lrt(unary_addition_tree_2_lrt(5),d:inf); */
+   \endverbatim
+   </li>
    <li> What needs here to be reflected, is the nature of the recursion, and,
    intimately related, how to specify the auxiliary variables.
+FROM HERE ON OLD (likely is all to be removed)
     <ul>
      <li> One method is to use variables of the form "vru(a,b,i)" where
      the variable "vru(a,b,i)" is then the i-th variable in the list of
