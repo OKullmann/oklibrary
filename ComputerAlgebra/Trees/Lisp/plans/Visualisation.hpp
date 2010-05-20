@@ -1,5 +1,5 @@
 // Rui Wang, 21.10.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,11 +7,13 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Trees/Lisp/plans/Visualisation.hpp
-  \brief Plans regarding visualisation of trees using Gnuplot
+  \brief Plans regarding visualisation of trees
 
 
   \bug False labels at the leaves
   <ul>
+   <li> The following needs to be updated; see also "Specify draw_lrt"
+   below. </li>
    <li> draw_rt creates labels at the leaves, which makes no sense for trees
    where the leaves have no labels. </li>
    <li> So it has no place in "draw_rt" which is about *unlabelled* trees.
@@ -41,6 +43,24 @@ License, or any later version. */
    <li> In order to be able to cope with labels, obviously we also need
    a version reingold_tilford_lrt, which just ignores the labels, but
    *keeps them*. </li>
+  </ul>
+
+
+  \todo Specify draw_lrt
+  <ul>
+   <li> What are the requirements on the node-labels of T? </li>
+   <li> There needs to be a general version which just accepts arbitrary
+   terms as labels. </li>
+   <li> Compare with "False labels at the leaves" above. </li>
+   <li> Likely "draw_lrt" shouldn't make any assumptions on the labels,
+   only more specialised versions perform special drawings. </li>
+  </ul>
+
+
+  \todo Better organisation
+  <ul>
+   <li> Currently, ComputerAlgebra/Trees/Lisp/Visualisation.mac is pretty
+   unorganised, which helper and main functions mixed. </li>
   </ul>
   
   
