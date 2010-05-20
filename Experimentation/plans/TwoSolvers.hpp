@@ -14,7 +14,9 @@ License, or any later version. */
   <ul>
    <li> [Mladen Nikolic, 2010, Statistical Methodology for Comparison of
    SAT Solvers] is to appear in SAT 2010 proceedings. </li>
-   <li> The first stage is to implement the statistical evaluation in R. </li>
+   <li> The first stage is to implement the statistical evaluation in R, as
+   part of the "SAT Evaluation Toolkit" (see
+   Experimentation/Competition/plans/general.hpp). </li>
    <li> It appears that the input is just a data-frame file, which per row
    contains the times for the two solvers A, B to be compared. </li>
    <li> Is the knowledge of the cutoff-time needed for the evaluation? </li>
