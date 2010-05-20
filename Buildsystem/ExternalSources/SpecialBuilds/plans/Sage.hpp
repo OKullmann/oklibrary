@@ -15,15 +15,6 @@ License, or any later version. */
    <li> Likely the failures below indicate missing "-fPIC"-options to gcc
    in the respective sub-builds; and perhaps this is corrected with
    version 4 of Sage. </li>
-   <li> Building sage-4.2.1 from source on cspcmg (64 bit OpenSUSE 11.1) 
-   works perfectly. MG: How is OK building the package? Is this using the 
-   OKlib build system or just the standard Sage makefile for testing? OK:
-   this is an inappropriate question, since building something in the
-   OKlibrary means always using the buildsystem (if it is available, which
-   is the case here). So apparently MG didn't use the buildsystem? Obviously
-   this needs to be used; information on building outside the buildsystem
-   is obviously useful in case of problems, but only for finding out
-   about the problems. </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
@@ -42,6 +33,16 @@ sage: An error occurred while installing libfplll-3.0.12.p0
    </li>
    <li> Let's wait whether over time the situation improves. </li>
    <li> Still not corrected with Sage 4.2.1. </li>
+   <li> Same with version 4.4.1:
+   \verbatim
+/bin/sh ./libtool --tag=CXX --mode=link g++  -fPIC -I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/include/ -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib   -o libfplll.la -rpath /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -version-info 1:0:1 dummy.lo -lgmp -lmpfr -lmpfr -lgmp -lmpfr -lgmp
+g++ -shared -nostdlib /usr/lib/../lib64/crti.o /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtbeginS.o  .libs/dummy.o  -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libmpfr.so /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libgmp.so -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2 -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../x86_64-unknown-linux-gnu/lib -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 /usr/local/lib/../lib/libstdc++.so -lm -lc -lgcc_s /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtendS.o /usr/lib/../lib64/crtn.o  -Wl,-soname -Wl,libfplll.so.0 -o .libs/libfplll.so.0.1.0
+/usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
+collect2: ld returned 1 exit status
+make[4]: *** [libfplll.la] Error 1
+make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/spkg/build/libfplll-3.0.12.p0/src'
+   \endverbatim
+   </li>
    <li> Now it is impossible to contact Sage without becoming
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
