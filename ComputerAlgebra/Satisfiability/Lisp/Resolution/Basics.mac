@@ -32,27 +32,27 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* Checks */
 
-/* checks whether two clauses are resolvable */
+/* Checks whether two clauses are resolvable: */
 resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
 
 /* Checks whether two clauses are resolvable and that the resolvent subsumes 
-   the two parents */
+   the two parents: */
 two_subsumption_resolvable(C,D) := resolvable(C,D) and is(length(symmdifference(C,D)) = 2)$
 
 
 /* Basic resolution operations */
 
-/* the resolution literal of two resolvable clauses */
+/* The resolution literal of two resolvable clauses: */
 resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
 
-/* the resolvent of two resolvable clauses */
+/* The resolvent of two resolvable clauses: */
 resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)))$
 
 
 /* Resolution operations as partial operations, returning either [R]  or []. */
 
 /* If two clauses are resolvable with resolution literal x, then return [x],
-   else return []. */
+   else return []: */
 resolvable_p(C,D) :=  block([clashs : intersection(C, comp_sl(D))],
  if length(clashs) = 1 then [listify(clashs)[1]] else [])$
 
@@ -67,25 +67,27 @@ two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
 
 /* The variations for sets of parent clauses */
 
-/* checks whether a set of clauses is resolvable */
+/* Checks whether a set of clauses is resolvable: */
 resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]))$
 
-/* the resolvent of a resolvable set of clauses */
+/* The resolvent of a resolvable set of clauses: */
 resolvent_s(S) := block([L : listify(S)], resolvent(L[1], L[2]))$
 
 
 /* The variation for a given resolution literal */
 
-/* checks whether two clauses are resolvable on a given resolution literal */
+/* Checks whether two clauses are resolvable on a given resolution literal: */
 resolvable_l(C,D,x) := is(intersection(C, comp_sl(D)) = {x})$
 
-/* checks whether a set of clauses is resolvable on a given resolution literal */
-resolvable_s_l(S,x) := block([L : listify(S)], resolvable_l(L[1], L[2], x) or resolvable_l(L[1], L[2], -x))$
+/* Checks whether a set of clauses is resolvable on a given resolution literal: */
+resolvable_s_l(S,x) := block([L : listify(S)], resolvable_l(L[1], L[2], x) or
+ resolvable_l(L[1], L[2], -x))$
 
-/* the resolvent of two resolvable clauses on a given resolution literal */
+/* The resolvent of two resolvable clauses on a given resolution literal: */
 resolvent_l(C,D,x) := union(disjoin(x, C), disjoin(-x, D))$
 
-/* the resolvent of a resolvable set of clauses on a given resolution literal */
+/* The resolvent of a resolvable set of clauses on a given resolution literal:
+*/
 resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {x,-x}))$
 
 
@@ -94,7 +96,7 @@ resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {
    *************************
 */
 
-/* The resolvable 2-sets of a clause-set. */
+/* The resolvable 2-sets of a clause-set: */
 resolvable_cs(F) := block([LF : l2array(listify(F)), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
@@ -102,7 +104,7 @@ resolvable_cs(F) := block([LF : l2array(listify(F)), l : length(F), R : []],
  return(setify(R)))$
 /* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
 
-/* The 2-subsumption-resolvable 2-sets of a clause-set. */
+/* The 2-subsumption-resolvable 2-sets of a clause-set: */
 two_subsumption_resolvable_cs(F) := block(
  [LF : l2array(listify(F)), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
@@ -110,15 +112,15 @@ two_subsumption_resolvable_cs(F) := block(
    if two_subsumption_resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
  return(setify(R)))$
 
-/* All resolvents of a clause-set. */
+/* All resolvents of a clause-set: */
 resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
 
-/* All 2-subsumption-resolvents of a clause-set. */
+/* All 2-subsumption-resolvents of a clause-set: */
 two_subsumption_resolvents_cs(F) := map(resolvent_s, two_subsumption_resolvable_cs(F))$
 
 /* Returns a pair [res, R], where res is the set of 2-subsumption-resolvents
    of F, while R is the set of remaining clauses of F, i.e., clauses not 
-   subsumed by their 2-subsumption-resolvents. */
+   subsumed by their 2-subsumption-resolvents: */
 two_subsumption_resolvents_rem_cs(F) := block(
  [L : l2array(listify(F)), l : length(F), subsumed, result : {}],
   subsumed : okl_make_array(fixnum, l),
@@ -130,7 +132,7 @@ two_subsumption_resolvents_rem_cs(F) := block(
     if used then subsumed[i] : 1),
   return([result,setify(sublist_indicator(array2l(L),subsumed))]))$
 
-/* Adds all resolvents to a clause-set. */
+/* Adds all resolvents to a clause-set: */
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
 
 

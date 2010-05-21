@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -63,8 +63,8 @@ or_cs([L]) := block([l : length(L)],
 dual_cs(F) := apply(or_cs,
  map(lambda([C],map(set,C)), listify(F)))$
 /* Subsumption elimination applied to the result yields the set of
-   all prime implicants (all minimal satisfying partial assignments). */
-
+   all prime implicants (all minimal satisfying partial assignments).
+*/
 
 /* The natural CNF-representation of DNF-clause-set F via new
    variables, directly exploiting the Tseitin translation.
