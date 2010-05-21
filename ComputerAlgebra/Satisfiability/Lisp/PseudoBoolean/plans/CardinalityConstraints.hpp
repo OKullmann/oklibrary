@@ -326,6 +326,9 @@ draw_lrt_dbl(unary_addition_tree_2_lrt([a,b,c,d,e]));
    between a non-leaf node and its two children is needed, and then the
    totaliser-function is obtained by traversing the tree. </li>
    <li> This relation is that of unary addition. </li>
+   <li> See
+   Experimentation/Investigations/BooleanFunctions/plans/UnaryAddition.hpp
+   for investigations (there might be better choices than in the paper). </li>
   </ul>
 
 
