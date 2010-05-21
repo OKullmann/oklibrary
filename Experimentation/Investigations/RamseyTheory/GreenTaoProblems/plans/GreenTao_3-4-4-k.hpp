@@ -194,7 +194,18 @@ License, or any later version. */
    osteps=14944821). </li>
    <li> n=5221, cutoff=22*10^6: Found a solution in run 18 (seed=2464071714,
    osteps=16846617).</li>
-   <li> n=5222, cutoff=22*10^6: </li>
+   <li> n=5222
+    <ol>
+     <li> Determining the best Ubcsat-algorithm (cutoff=10^6):
+     \verbatim
+> E = eval_ubcsat("GreenTao_N_3-4-4-4_5222.cnf", params=list(cutoff=1000000,runs=100))
+> plot(E$alg,E$best)
+> eval_ubcsat_dataframe(E)
+     \endverbatim
+     </li>
+     <li> cutoff=22*10^6: </li>
+    </ol>
+   </li>
    <li> n=5225, cutoff=22*10^6:
    \verbatim
  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 18 20 21

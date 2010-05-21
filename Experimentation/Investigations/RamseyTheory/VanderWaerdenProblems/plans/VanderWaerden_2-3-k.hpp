@@ -1031,7 +1031,33 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    </li>
    <li> n=515, gsat-tabu, cutoff=10^8: in 23 runs a solution was found
    (seed=4106190469, osteps=73878847). </li>
-   <li> n=516, gsat-tabu, cutoff=10^8: </li>
+   <li> n=516, gsat-tabu
+    <ol>
+     <li> cutoff=10^8: 
+     \verbatim
+ 1  2  3 4 5 6
+65 90 31 9 4 1
+200
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^8: 
+     \verbatim
+ 1  2  3  4  5  8
+32 41 17  7  2  1
+100
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   27750  1668000  6598000 12460000 15130000 77790000
+ 1  2  3  4  5  7
+30 51 14  2  2  1
+100
+> summary(E$osteps)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+   223800   2602000   7126000  13450000  16280000 107900000
+     \endverbatim
+     So the higher cutoff here seems completely uneffective. </li>
+    </ol>
+   </li>
    <li> n=520, gsat-tabu, cutoff=10^8: in 5 runs only min=2 was reached, so
    let's consider this for now as unsatisfiable. </li>
   </ul>
