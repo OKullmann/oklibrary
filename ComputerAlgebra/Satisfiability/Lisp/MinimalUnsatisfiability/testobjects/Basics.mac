@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,7 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    *************************
 */
 
-okltest_impliesp_f(impliesp_f);
+okltest_impliesp_fcs(impliesp_fcs);
+okltest_impliesp_cs(impliesp_cs);
 
 okltest_min_unsat_bydef(min_unsat_bydef);
 okltest_irredundant_bydef(irredundant_bydef);

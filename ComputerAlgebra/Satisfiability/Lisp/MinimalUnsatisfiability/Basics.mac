@@ -37,7 +37,7 @@ impliesp_f(FF,C,S) := not S(apply_pa_f(comp_sl(C),FF))$
 impliesp_fcs(FF,C,S) := impliesp_f(FF,C,S)$
 /* The variation for clause-sets F. */
 /* RENAME: impliesp_cs */
-impliesp(F,C,S) := not S(cs_to_fcs(apply_pa(comp_sl(C),F)))$
+impliesp(F,C,S) := not S(cs2fcs(apply_pa_cs(comp_sl(C),F)))$
 impliesp_cs(F,C,S) := impliesp(F,C,S)$
 
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
