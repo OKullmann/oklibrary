@@ -58,6 +58,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
    topics are handled:
+    - MHash segmentation fault
     - Complete MHash documentation
 
   \par
