@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
-# Copyright 2005-2007, 2008, 2009 Oliver Kullmann
+# Copyright 2005-2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -235,8 +235,9 @@ local gcc).
 
 6) And further computer algebra systems installed are Gap and R.
 
-7) Yet the SAT solver installed by default are Ubcsat, minisat1, minisat2,
-minisat+, march_pl, satz215, survey_propagation and sat-grasp.
+7) The SAT solver installed by default are Ubcsat, minisat1, minisat2,
+ minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
+ precosat236 and the argosat solver (and library).
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 
