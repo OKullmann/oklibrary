@@ -140,6 +140,11 @@ License, or any later version. */
     - System-wide installation
     - Handling of redefined load-function
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - Libffcall not installing on AB's 64-bit Xeon machine
+
 
   \par Version 0.2.5 (completion of general services, and installing SAT)
 
