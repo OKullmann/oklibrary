@@ -77,10 +77,12 @@ okltest_mugl2omugl(mugl2omugl);
 okltest_gg2ogg(gg2ogg);
 
 okltest_dgl2mudgl(dgl2mudgl);
+okltest_dg2gdg(dg2gdg);
 okltest_dgl2gdg(dgl2gdg);
 okltest_mudgl2gdg(mudgl2gdg);
 
 okltest_odgl2omudgl(odgl2omudgl);
+okltest_odg2ogdg(odg2ogdg);
 okltest_odgl2ogdg(odgl2ogdg);
 okltest_omudgl2ogdg(omudgl2ogdg);
 
@@ -118,6 +120,7 @@ okltest_omudgl2odgl(omudgl2odgl);
 okltest_ogdg2odgl(ogdg2odgl);
 okltest_ogdg2omudgl(ogdg2omudgl);
 
+okltest_odg2dg(odg2dg);
 okltest_odgl2dgl(odgl2dgl);
 okltest_omudgl2mudgl(omudgl2mudgl);
 okltest_ogdg2gdg(ogdg2gdg);
@@ -182,6 +185,8 @@ okltest_complement_g(complement_g);
 
 okltest_transposed_dg(transposed_dg);
 okltest_transposed_dgl(transposed_dgl);
+okltest_transposed_odg(transposed_odg);
+okltest_transposed_odgl(transposed_odgl);
 
 /* **********
    * Tests  *

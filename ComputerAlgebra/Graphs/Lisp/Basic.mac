@@ -184,10 +184,12 @@ mugl2omugl(G) := generic_gg2ogg(G)$
 gg2ogg(G) := generic_gg2ogg(G)$
 
 dgl2mudgl(G) := generic_g2mug(G)$
+dg2gdg(G) := generic_g2gg(G)$
 dgl2gdg(G) := generic_g2gg(G)$
 mudgl2gdg(G) := generic_mug2gg(G)$
 
 odgl2omudgl(G) := generic_g2mug(G)$
+odg2ogdg(G) := generic_g2gg(G)$
 odgl2ogdg(G) := generic_g2gg(G)$
 omudgl2ogdg(G) := generic_omug2ogg(G)$
 
@@ -237,6 +239,7 @@ omudgl2odgl(G) := [G[1],G[2]]$
 ogdg2odgl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogdg2omudgl(G) := generic_ogg2omugl(G)$
 
+odg2dg(G) := [setify(G[1]), setify(G[2])]$
 odgl2dgl(G) := [setify(G[1]), setify(G[2])]$
 omudgl2mudgl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
@@ -335,6 +338,8 @@ complement_g(G) := comp_graph(G)$
 /* The transposed of a directed graph: */
 transposed_dg(G) := [G[1], map(reverse,G[2])]$
 transposed_dgl(G) := [G[1], map(reverse,G[2])]$
+transposed_odg(G) := [G[1], map(reverse,G[2])]$
+transposed_odgl(G) := [G[1], map(reverse,G[2])]$
 
 
 /* **********

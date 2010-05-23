@@ -522,10 +522,20 @@ okltest_dgl2mudgl(f) := block ([k],
       assert(mudgl2dgl(f(G)) = G),
   true)$
 
+okltest_dg2gdg(f) := block([k],
+  assert(gr_equalp(f([{},{}]), [{},{},k]) = true),
+  assert(gr_equalp(f([{1},{}]), [{1},{},k]) = true),
+  assert(gr_equalp(f([{1,2},{[1,2],[2,1]}]), [{1,2},{[1,2],[2,1]},identity]) = true),
+  for L in [okltest_list_dg] do
+    for G in L do
+      assert(gdg2dgl(f(G)) = G),
+  true)$
+
 okltest_dgl2gdg(f) := block([k],
   assert(gr_equalp(f([{},{}]), [{},{},k]) = true),
   assert(gr_equalp(f([{1},{}]), [{1},{},k]) = true),
   assert(gr_equalp(f([{1,2},{[1,2],[2,1]}]), [{1,2},{[1,2],[2,1]},identity]) = true),
+  assert(gr_equalp(f([{1,2},{[1,2],[2,1],[1,1]}]), [{1,2},{[1,2],[2,1],[1,1]},identity]) = true),
   for L in [okltest_list_dg,okltest_list_dgl] do
     for G in L do
       assert(gdg2dgl(f(G)) = G),
@@ -547,6 +557,15 @@ okltest_odgl2omudgl(f) := block ([k],
   for L in [okltest_list_odg,okltest_list_odgl] do
     for G in L do
       assert(omudgl2odgl(f(G)) = G),
+  true)$
+
+okltest_odg2ogdg(f) := block([k],
+  assert(gr_equalp(f([[],[]]), [[],[],k]) = true),
+  assert(gr_equalp(f([[1],[]]), [[1],[],k]) = true),
+  assert(gr_equalp(f([[2,1],[[1,2],[2,1]]]), [[2,1],[[1,2],[2,1]],identity]) = true),
+  for L in [okltest_list_odg] do
+    for G in L do
+      assert(ogdg2odgl(f(G)) = G),
   true)$
 
 okltest_odgl2ogdg(f) := block([k],
@@ -728,10 +747,18 @@ okltest_ogdg2omudgl(f) := block([e],
   assert(okltest_gdg2mudgl(buildq([f], lambda([G], omudgl2mudgl(f(gdg2ogdg(G)))))) = true),
   true)$
 
+okltest_odg2dg(f) := (
+  assert(f([[],[]]) = [{},{}]),
+  assert(f([[1],[]]) = [{1},{}]),
+  assert(f([[1,2],[[1,2]]]) = [{1,2},{[1,2]}]),
+  assert(f([[1,3,2,4],[[3,1],[4,2]]]) = [{1,2,3,4},{[3,1],[4,2]}]),
+  true)$
+
 okltest_odgl2dgl(f) := (
   assert(f([[],[]]) = [{},{}]),
   assert(f([[1],[[1,1]]]) = [{1},{[1,1]}]),
   assert(f([[1,2],[[1,2],[2,2]]]) = [{1,2},{[1,2],[2,2]}]),
+  assert(okltest_odg2dg(f) = true),
   true)$
 
 okltest_omudgl2mudgl(f) := block([e],
@@ -1014,6 +1041,17 @@ okltest_transposed_dg(f) := (
 okltest_transposed_dgl(f) := (
   assert(f([{1},{[1,1]}]) = [{1},{[1,1]}]),
   assert(okltest_transposed_dg(f) = true),
+  true)$
+
+okltest_transposed_odg(f) := (
+  assert(f([[],[]]) = [[],[]]),
+  assert(f([[1],[]]) = [[1],[]]),
+  assert(f([[1,2,3],[[1,2],[2,3],[3,1]]]) = [[1,2,3],[[2,1],[3,2],[1,3]]]),
+  true)$
+
+okltest_transposed_odgl(f) := (
+  assert(f([[1],[[1,1]]]) = [[1],[[1,1]]]),
+  assert(okltest_transposed_odg(f) = true),
   true)$
 
 
