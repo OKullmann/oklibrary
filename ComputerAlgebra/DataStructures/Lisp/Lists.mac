@@ -136,13 +136,13 @@ gprod_s(f,S) := apply("*",map(f,listify(S)))$
 /* Computing the first smallest element w.r.t. length of a list
    (or of a set). */
 /* Prerequisite: L is not empty. */
-first_smallest_l(L) := block([s : inf, S],  
-  for x in L do block([l : length(x)],
+first_smallest_l(L) := block([s : inf, S, l],  
+  for x in L do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
 /* Now a lower bound on length is given: */
-first_smallest_lb_l(L,lb) := block([s : inf, S],  
-  for x in L unless s = lb do block([l : length(x)],
+first_smallest_lb_l(L,lb) := block([s : inf, S, l],  
+  for x in L unless s = lb do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
 /* first_smallest_lb_l(L,0) computes the same result as first_smallest_l(L),
@@ -156,14 +156,14 @@ first_smallest_lb_l(L,lb) := block([s : inf, S],
 */
 /* Prerequisite: _fmin(x) < inf for x in L. */
 first_smallest_f_l(_fmin,L) := if emptyp(L) then [inf] else
- block([min_v : inf, opt_x],
-  for x in L do block([v : _fmin(x)],
+ block([min_v : inf, opt_x, v],
+  for x in L do (v : _fmin(x),
     if v < min_v then (opt_x : x, min_v : v)),
   [min_v, opt_x])$
 /* Prerequisite: _fmax(x) > minf for x in L. */
 first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
- block([max_v : minf, opt_x],
-  for x in L do block([v : _fmax(x)],
+ block([max_v : minf, opt_x, v],
+  for x in L do (v : _fmax(x),
     if v > max_v then (opt_x : x, max_v : v)),
   [max_v, opt_x])$
 

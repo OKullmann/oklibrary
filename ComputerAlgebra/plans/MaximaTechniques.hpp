@@ -37,6 +37,20 @@ function(f) := block(local(f), ...)
      <li> However, seems much better than the current practice "kill(f)". </li>
     </ol>
    </li>
+   <li> Regarding time efficiency:
+    <ol>
+     <li> At C++ level, definitely every variable is declared as local as
+     possible. </li>
+     <li> However here, with dynamic scoping, creation of blocks is expensive.
+     </li>
+     <li> Of course, in general we do disregard efficiency consideration w.r.t.
+     implementation issues at Maxima level. </li>
+     <li> Though in case we have a simple loop, which uses some auxiliary
+     local variable, and where the variable can be easily declared just outside
+     of the loop, then we can place the auxiliary variable in the block just
+     outside of the loop. </li>
+    </ol>
+   </li>
   </ul>
 
 
