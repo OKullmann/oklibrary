@@ -269,7 +269,7 @@ is(Csa);
    to in the paper. </li>
    <li> Of course, we need a name: "unary addition tree". </li>
    <li> The simplest structure is that of a labelled tree (recall
-   ComputerAlgebra/Trees/Lisp/Basics.mac), where every inner node has
+   ComputerAlgebra/Trees/Lisp/Basics.mac), where every inner %node has
    precisely two children, for a natural number n >= 1:
    \verbatim
 unary_addition_tree_0_lrt(n) := if n=1 then [[1]] else
@@ -323,7 +323,7 @@ draw_lrt_dbl(unary_addition_tree_2_lrt([a,b,c,d,e]));
    \endverbatim
    </li>
    <li> Now only the function for the clause-set describing the relation
-   between a non-leaf node and its two children is needed, and then the
+   between a non-leaf %node and its two children is needed, and then the
    totaliser-function is obtained by traversing the tree. </li>
    <li> This relation is that of unary addition. </li>
    <li> See
