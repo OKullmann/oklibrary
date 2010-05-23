@@ -84,7 +84,95 @@ License, or any later version. */
      <li> The corresponding boolean function f_BB is neither f_0 nor f_1. </li>
      <li> For example f_BB(1,0,1; 0,0,0,0; 0,0,0,0,0,0,0) = 0, while f_0 yields
      1, and f_BB(1,0,1; 0,0,0,0; 0,0,1,0,0,0,0) = 1, while f_1 yields 0. </li>
-     <li> Is F_BB prime? Maximal prime?? </li>
+     <li> F_BB is prime.
+      <ol>
+       <li> Consider any 3-clause of the form (x_p & y_q -> z_{p+q}) (as above),
+       then if 0 < p, 0 < q then
+        <ul> 
+         <li> x_p -> z_{p+q} doesn't follow, as the total assignment
+       	 that sets 
+	  <ul>
+	   <li> y_{q'} = 0 for all q' with 1 <= q' <= n </li>
+	   <li> x_{p'} = 1 for all 1 <= p' <= p </li>
+	   <li> x_{p''} = 0 for all p'' with p < p'' <= m and </li>
+	   <li> z_{r} = 0 for all p < r <= m + n  </li>
+	   <li> z_{r} = 1 for all 1 <= r <= p  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+         <li> y_q -> z_{p+q} doesn't follow, as the total assignment
+	 that sets
+	  <ul>
+	   <li> x_{p'} = 0 for all p' with 1 <= p' <= m </li>
+	   <li> y_{q'} = 1 for all 1 <= q' <= q </li>
+	   <li> y_{q''} = 0 for all q'' with q < q'' <= n and </li>
+	   <li> z_{r} = 0 for all q < r <= m + n  </li>
+	   <li> z_{r} = 1 for all 1 <= r <= q  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+         <li> x_p & y_p doesn't follow, as the total assignment that
+	 sets
+	  <ul>
+	   <li> x_{p'} = 0 for all p' with 1 <= p' <= m </li>
+	   <li> y_{q'} = 0 for all q' with  1 <= q' <= n </li>
+	   <li> z_{r} = 0 for all r with 1 <= r <= m + n  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+        </ul>
+       otherwise we have p = 0 or q = 0, so the 3-clause is either satisfied
+       (and so disappears from the clause-set) or reduces to a 2-clause, and no
+       unary clause follows from the original clause-set, therefore any 
+       3-clause of the form (x_p & y_q -> z_{p+q}) is prime.
+       </li>
+       <li> In the other case, we consider any 3-clause of the form 
+       (-x_{p+1} & -y_{q+1} -> -z_{p+q+1}) (as above), then if p < m, q < n 
+       then
+        <ul> 
+         <li> -x_{p+1} -> -z_{p+q+1} doesn't follow, as the total assignment
+ 	 that sets 
+	  <ul>
+	   <li> y_{q'} = 1 for all q' with 1 <= q' <= q+1 </li>
+	   <li> x_{p'} = 1 for all 1 <= p' <= p </li>
+	   <li> x_{p''} = 0 for all p < p'' <= m </li>
+	   <li> z_{r} = 1 for all 1 <= r <= p+q+1  </li>
+	   <li> z_{r} = 0 for all p+q+1 < r <= m+n  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+         <li> -y_{q+1} -> -z_{p+q+1} doesn't follow, as the total assignment
+	 that sets 
+	  <ul>
+	   <li> x_{p'} = 1 for all p' with 1 <= p' <= p+1 </li>
+	   <li> y_{q'} = 1 for all 1 <= q' <= q </li>
+	   <li> y_{q''} = 0 for all q < q'' <= n </li>
+	   <li> z_{r} = 1 for all 1 <= r <= p+q+1  </li>
+	   <li> z_{r} = 0 for all p+q+1 < r <= m+n  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+         <li> -x_{p+1} & -y_{q+1} doesn't follow, as the total assignment
+	 that sets
+	  <ul>
+	   <li> x_{p'} = 1 for all p' with 1 <= p' <= m </li>
+	   <li> y_{q'} = 1 for all q' with  1 <= q' <= n </li>
+	   <li> z_{r} = 1 for all r with 1 <= r <= m + n  </li>
+	  </ul>
+	 is falsifying for this clause but is a satisfying assignment for 
+	 the original clause-set. </li>
+        </ul>
+       otherwise we have p = m or q = n, so the 3-clause is either satisfied
+       (and so disappears from the clause-set) or reduces to a 2-clause, and no
+       unary clause follows from the original clause-set, therefore any 
+       3-clause of the form (-x_{p+1} & -y_{q+1} -> -z_{p+q+1}) is prime.
+       </li>
+      </ol>
+     Therefore, FF_BB is prime.
+     </li>
+     <li> FF_BB is not maximally prime (in general) as, for instance
+     (x_p+2 -> z_p) for any p <= m - 2 is an implicate of FF_BB but
+     is not subsumed by any clause in FF_BB. </li>
     </ol>
    </li>
   </ul>
