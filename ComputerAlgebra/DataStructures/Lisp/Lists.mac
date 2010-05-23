@@ -133,7 +133,7 @@ gprod_s(f,S) := apply("*",map(f,listify(S)))$
    *************************************
 */
 
-/* Computing the first smallest element (w.r.t. "length") of a list
+/* Computing the first smallest element w.r.t. length of a list
    (or of a set). */
 /* Prerequisite: L is not empty. */
 first_smallest_l(L) := block([s : inf, S],  
@@ -166,6 +166,18 @@ first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
   for x in L do block([v : _fmax(x)],
     if v > max_v then (opt_x : x, max_v : v)),
   [max_v, opt_x])$
+
+/* Just computing the smallest element of f(x) for x in L: */
+smallest_f_l(_fmin,L) := if length(L) <= 20000 then lmin(map(_fmin,L)) else 
+ block([min_v : inf, v],
+  for x in L do ( v : _fmin(x), if v < min_v then min_v : v ),
+  min_v)$
+/* And computing the largest element of f(x) for x in L: */
+largest_f_l(_fmax,L) := if length(L) <= 20000 then lmax(map(_fmax,L)) else 
+ block([max_v : minf, v],
+  for x in L do ( v : _fmax(x), if v > max_v then max_v : v ),
+  max_v)$
+
 
 /* The index of the first element x in list L with property _pred(x);
    if there is no such x then return inf. */
