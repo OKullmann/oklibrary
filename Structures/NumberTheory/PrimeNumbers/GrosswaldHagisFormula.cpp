@@ -45,7 +45,7 @@ namespace {
   };
 
   const std::string program = "GrosswaldHagisFormula";
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
   const std::string err = "ERROR[" + program + "]: ";
 
   const unsigned long default_binary_digits = 400;
@@ -172,13 +172,20 @@ int main(const int argc, const char* const argv[]) {
   else temp = default_binary_digits;
   const unsigned long binary_digits(temp.get_ui());
 
+  // reporting of parameters:
+  std::cout << "First k: " << k_first << ", last k: " << k_last << "\n";
+  std::cout << "N = " << max_p << "\n";
+
   // COMPUTING
 
   std::vector<mpq_class> C_gh_fin(number_lengths,1);
   mpf_set_default_prec(binary_digits);
   std::vector<mpf_class> C_gh_inf(number_lengths,1);
+  // reporting the real precision:
+  std::cout << "Precision in bits: " << mpf_get_prec(C_gh_inf[0].get_mpf_t()) << "\n";
   mpz_class p(2);
-  for (; p <= max_p; mpz_nextprime(p.get_mpz_t(), p.get_mpz_t())) {
+  mpz_class count(0);
+  for (; p <= max_p; mpz_nextprime(p.get_mpz_t(), p.get_mpz_t()), ++count) {
     mpq_class factor(basic_factor(k_first,p));
     const mpq_class ifac(mpq_class(p)/(p-1));
     for (unsigned int k = k_first; k <= k_last; ++k, factor *= ifac)
@@ -188,9 +195,9 @@ int main(const int argc, const char* const argv[]) {
   
   // OUTPUT
 
-  std::cout.precision(output_precision);
-  std::cout << "Precision in bits: " << mpf_get_prec(C_gh_inf[0].get_mpf_t()) << "\n";
+  std::cout << "\nNumber of primes: " << count << "\n";
   std::cout << "The first prime number not taken into account: " << p << "\n\n";
+  std::cout.precision(output_precision);
   for (unsigned int k = k_first; k <= k_last; ++k) {
     const mpf_class C_gh_fin_f(C_gh_fin[k-k_first]);
     std::cout << "C_" << k << " = " << C_gh_fin_f * C_gh_inf[k-k_first] << "\n";

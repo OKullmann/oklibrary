@@ -28,15 +28,19 @@ License, or any later version. */
   <ul>
    <li> That automatically the output is copied to a file with some standard
    name seems useful. </li>
-   <li> And output independent of the computation should be done at once. </li>
+   <li> DONE
+   And output independent of the computation should be done at once. </li>
    <li> The number of output digits should be an additional, optional
    parameter. </li>
-   <li> The number of primes found for both parts should be output. </li>
+   <li> DONE
+   The number of primes found for both parts should be output. </li>
    <li> As an optional parameter we should allow a start prime, bigger than k,
    and then just the "infinitary" result is output, with full precision.
     <ol>
      <li> This could be handled like the optional input for k, namely as a pair
      of numbers, separated by a comma (without spaces). </li>
+     <li> We need then to adopt the output; definitely we also want here the
+     number of primes considered. </li>
     </ol>
    </li>
    <li> The application should catch, like the OKsolver_2002, signals SIGINT
