@@ -294,6 +294,13 @@ neighbours_gl(v,G) := lunion(
      sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
 neighbours_gg(v,G) := neighbours_gl(v,gg2gl(G))$
 
+outneighbours_dg(v,G) := outneighbours_dgl(v,G)$
+outneighbours_dgl(v,G) :=
+ setify(map(second,sublist(listify(G[2]), lambda([e], is(e[1]=v)))))$
+inneighbours_dg(v,G) := inneighbours_dgl(v,G)$
+inneighbours_dgl(v,G) :=
+ setify(map(first,sublist(listify(G[2]), lambda([e], is(e[2]=v)))))$
+
 
 /* Removes vertex set V from graph G (with loops). */
 /* RENAME: "remove_vertices_gl". */
@@ -324,6 +331,10 @@ edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,buildq([E
 /* RENAME to "complement_g". */
 comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
 complement_g(G) := comp_graph(G)$
+
+/* The transposed of a directed graph: */
+transposed_dg(G) := [G[1], map(reverse,G[2])]$
+transposed_dgl(G) := [G[1], map(reverse,G[2])]$
 
 
 /* **********

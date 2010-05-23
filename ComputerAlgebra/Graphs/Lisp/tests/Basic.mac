@@ -881,6 +881,31 @@ okltest_neighbours_gg(f) := block(
   ),
   true))$
 
+okltest_outneighbours_dg(f) := (
+  assert(f(1,[{1},{}]) = {}),
+  assert(f(1,[{1,2,3},{[1,2],[2,3]}]) = {2}),
+  true)$
+
+okltest_outneighbours_dgl(f) := (
+  assert(f(1,[{1},{}]) = {}),
+  assert(f(1,[{1},{[1,1]}]) = {1}),
+  assert(okltest_outneighbours_dg(f) = true),
+  true)$
+
+okltest_inneighbours_dg(f) := (
+  assert(f(1,[{1},{}]) = {}),
+  assert(f(1,[{1,2,3},{[1,2],[2,3]}]) = {}),
+  assert(f(1,[{1,2,3},{[2,1],[2,3]}]) = {2}),
+  assert(okltest_outneighbours_dg(buildq([f], lambda([v,G],f(v,transposed_dg(G))))) = true),
+  true)$
+
+okltest_inneighbours_dgl(f) := (
+  assert(f(1,[{1},{}]) = {}),
+  assert(f(1,[{1},{[1,1]}]) = {1}),
+  assert(okltest_inneighbours_dg(f) = true),
+  assert(okltest_outneighbours_dgl(buildq([f], lambda([v,G],f(v,transposed_dgl(G))))) = true),
+  true)$
+
 okltest_remove_vertices_gl(f) := (
   assert(f({1,2,3},[{},{}]) = [{},{}]),
   assert(f({},[{},{}]) = [{},{}]),
@@ -978,6 +1003,17 @@ okltest_complement_g(f) := (
   assert(f([{1,2},{}]) = [{1,2},{{1,2}}]),
   assert(f([{1,2},{{1,2}}]) = [{1,2},{}]),
   assert(f([{1,2,3},{{1,2}}]) = [{1,2,3},{{1,3},{2,3}}]),
+  true)$
+
+okltest_transposed_dg(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1,2,3},{[1,2],[2,3],[3,1]}]) = [{1,2,3},{[1,3],[3,2],[2,1]}]),
+  true)$
+
+okltest_transposed_dgl(f) := (
+  assert(f([{1},{[1,1]}]) = [{1},{[1,1]}]),
+  assert(okltest_transposed_dg(f) = true),
   true)$
 
 

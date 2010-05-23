@@ -155,6 +155,10 @@ okltest_expand_edge(expand_edge);
 okltest_neighbours_g(neighbours_g);
 okltest_neighbours_gl(neighbours_gl);
 okltest_neighbours_gg(neighbours_gg);
+okltest_outneighbours_dg(outneighbours_dg);
+okltest_outneighbours_dgl(outneighbours_dgl);
+okltest_inneighbours_dg(inneighbours_dg);
+okltest_inneighbours_dgl(inneighbours_dgl);
 
 okltest_remove_vertices_gl(remove_vertices_gl);
 
@@ -175,6 +179,9 @@ okltest_edge_induced_subgraph_mudgl(edge_induced_subgraph_mudgl);
 okltest_edge_induced_subgraph_gdg(edge_induced_subgraph_gdg);
 
 okltest_complement_g(complement_g);
+
+okltest_transposed_dg(transposed_dg);
+okltest_transposed_dgl(transposed_dgl);
 
 /* **********
    * Tests  *
