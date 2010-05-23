@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 24.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,11 @@ okltest_degree_g(degree_g);
 okltest_degree1_gg(degree1_gg);
 okltest_degree2_gg(degree2_gg);
 
+okltest_outdegree_dg(outdegree_dg);
+okltest_outdegree_dgl(outdegree_dgl);
+okltest_indegree_dg(indegree_dg);
+okltest_indegree_dgl(indegree_dgl);
+
 okltest_vertex_degrees_g(vertex_degrees_g);
 okltest_vertex_degrees_og(vertex_degrees_og);
 okltest_vertex_degrees1_gl(vertex_degrees1_gl);
@@ -41,12 +46,30 @@ okltest_vertex_degrees2_ogl(vertex_degrees2_ogl);
 okltest_vertex_degrees2_gg(vertex_degrees2_gg);
 okltest_vertex_degrees2_ogg(vertex_degrees2_ogg);
 
+okltest_vertex_outdegrees_dg(vertex_outdegrees_dg);
+okltest_vertex_outdegrees_dgl(vertex_outdegrees_dgl);
+okltest_vertex_outdegrees_odg(vertex_outdegrees_odg);
+okltest_vertex_outdegrees_odgl(vertex_outdegrees_odgl);
+okltest_vertex_indegrees_dg(vertex_indegrees_dg);
+okltest_vertex_indegrees_dgl(vertex_indegrees_dgl);
+okltest_vertex_indegrees_odg(vertex_indegrees_odg);
+okltest_vertex_indegrees_odgl(vertex_indegrees_odgl);
+
 okltest_min_vertex_degree_v_og(min_vertex_degree_v_og);
 okltest_min_vertex_degree1_v_ogl(min_vertex_degree1_v_ogl);
 okltest_min_vertex_degree2_v_ogl(min_vertex_degree2_v_ogl);
 okltest_max_vertex_degree_v_og(max_vertex_degree_v_og);
 okltest_max_vertex_degree1_v_ogl(max_vertex_degree1_v_ogl);
 okltest_max_vertex_degree2_v_ogl(max_vertex_degree2_v_ogl);
+
+okltest_min_vertex_outdegree_v_dg(min_vertex_outdegree_v_dg);
+okltest_min_vertex_outdegree_v_dgl(min_vertex_outdegree_v_dgl);
+okltest_min_vertex_indegree_v_dg(min_vertex_indegree_v_dg);
+okltest_min_vertex_indegree_v_dgl(min_vertex_indegree_v_dgl);
+okltest_min_vertex_outdegree_dg(min_vertex_outdegree_dg);
+okltest_min_vertex_outdegree_dgl(min_vertex_outdegree_dgl);
+okltest_min_vertex_indegree_dg(min_vertex_indegree_dg);
+okltest_min_vertex_indegree_dgl(min_vertex_indegree_dgl);
 
 okltest_vertex_degrees_hm_g(vertex_degrees_hm_g);
 
