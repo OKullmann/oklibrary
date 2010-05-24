@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/LogicalDataAnalysis/plans/SnowCrest2000Analysis.hpp
-  \brief Plans regarding investigations a case-study for the logical analysis of data
+  \brief Plans regarding investigations of a case-study for the logical analysis of data
 
   The underlying article is [The Outcomes of Homeless Mobilization; Cress,
   Snow, The American Journal of Sociology, 2000].
