@@ -47,6 +47,8 @@ make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSo
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
    any form. </li>
+   <li> MG has sent a message to the list asking what the problem
+   could be with the above error. </li>
    <li> So it seems best to drop support for Sage; or just use packages
    which install without further efforts.
     <ol>
