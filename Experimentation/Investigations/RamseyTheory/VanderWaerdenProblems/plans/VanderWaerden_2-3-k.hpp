@@ -1006,8 +1006,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,23) > 515
+  \todo vanderwaerden_2(3,23) >= 516
   <ul>
+   <li> The conjecture is vanderwaerden_2(3,23) = 516. </li>
    <li> The predictions are vanderwaerden_2(3,23) in {508,509}. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however we should
    have a look again --- this might change with different k's or with
@@ -1035,9 +1036,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
     <ol>
      <li> cutoff=10^8: 
      \verbatim
- 1  2  3 4 5 6
-65 90 31 9 4 1
-200
+  1   2  3  4  5 6 9 10
+188 276 87 28 14 5 1  1
+600
      \endverbatim
      </li>
      <li> cutoff=2*10^8: 
