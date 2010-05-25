@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \bug Shared library not found when using local Gmp
+  \bug Shared library not found when using local Gmp : DONE
   <ul>
    <li> When building Ecl with the local (OKlibrary) 
    version of Gmp, where Gmp is not otherwise installed on
