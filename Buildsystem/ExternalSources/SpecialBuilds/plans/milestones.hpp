@@ -89,6 +89,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
+    - Shared library not found when using local Gmp
     - Update to newest version : DONE
 
   \par
