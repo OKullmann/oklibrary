@@ -27,10 +27,11 @@ LDFLAGS=-Wl,-rpath=$(ecl_installation_dir_okl)/lib ./configure --prefix=$(ecl_in
    \endverbatim
    to 
    \verbatim
-LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib -Wl,-rpath=$(gmp_install_directory_okl)/lib" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
+LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib $(gmp_link_path_okl)" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
    \endverbatim
    the problem is solved. </li>
-   <li> As one can see in Buildsystem/Configuration/ExternalSources/gmp.mak,
+   <li> DONE
+   As one can see in Buildsystem/Configuration/ExternalSources/gmp.mak,
    a case distinction needs to be made, since we might also use
    system-installation of Gmp. </li>
    <li> It seems to OK that this is a bug of the Ecl-build. It has been

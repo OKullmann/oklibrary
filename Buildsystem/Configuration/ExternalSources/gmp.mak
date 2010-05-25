@@ -28,10 +28,12 @@ gmp_installation_dir_okl ?= $(gmp_base_installation_dir_okl)/$(gcc_recommended_v
 gmp_system_install_directory_okl ?= /usr/local
 ifeq ($(gmp_default_install_okl),local)
   gmp_install_directory_okl ?= $(gmp_installation_dir_okl)
-  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -Wl,-rpath,$(gmp_install_directory_okl)/lib -lgmp
+  gmp_link_path_okl ?= -Wl,-rpath,$(gmp_install_directory_okl)/lib
+  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib $(gmp_link_path_okl) -lgmp
   gmp_install_command_okl ?= make install
 else
   gmp_install_directory_okl ?= $(gmp_system_install_directory)
+  gmp_link_path_okl ?=
   gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -lgmp
   gmp_install_command_okl ?= sudo make install
 endif
