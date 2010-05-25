@@ -218,9 +218,16 @@ rnoveltyp :
   1   1   1   1   2   1   1   1   1   1   1
      \endverbatim
      so the choice of rnovelty+ seems alright. </li>
-     <li> cutoff=22*10^6: </li>
+     <li> cutoff=22*10^6:
+     \verbatim
+ 1  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 22
+ 1  1  2 10  4 12  6  7 14 10  8  6  3  2  6  2  3  1  1  1
+100
+     \endverbatim
+     </li>
      <li> cutoff=30*10^6: in run 55 a solution was found (seed=778376479,
      osteps=21573027). </li>
+     <li> It seems that here rnovelty+ scales very "precisely". </li>
     </ol>
    </li>
    <li> n=5223, cutoff=30*10^6: In 44 runs 3 solutions were found (
