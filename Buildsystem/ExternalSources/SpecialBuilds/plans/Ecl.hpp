@@ -21,29 +21,7 @@ License, or any later version. */
    which doesn't link in the shared library correctly. Running
    "ldd ecl_min" on this executable confirms that libgmp.so.10
    could not be found. </li>
-   <li> To resolve this, it seems that one must heed the warning
-   given during Gmp's build process
-   \verbatim
-----------------------------------------------------------------------
-Libraries have been installed in:
-   /home/aeternus/Work/OKlibrary/OKplatform/ExternalSources/Installations/Gmp/4.1.2/5.0.1/lib
-
-If you ever happen to want to link against installed libraries
-in a given directory, LIBDIR, you must either use libtool, and
-specify the full pathname of the library, or use the `-LLIBDIR'
-flag during linking and do at least one of the following:
-   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
-     during execution
-   - add LIBDIR to the `LD_RUN_PATH' environment variable
-     during linking
-   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
-   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
-
-See any operating system documentation about shared libraries for
-more information, such as the ld(1) and ld.so(8) manual pages.
-----------------------------------------------------------------------
-   \endverbatim
-   by changing the configure line in ecl.mak from
+   <li> By changing the configure line in ecl.mak from
    \verbatim
 LDFLAGS=-Wl,-rpath=$(ecl_installation_dir_okl)/lib ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
    \endverbatim
@@ -51,11 +29,13 @@ LDFLAGS=-Wl,-rpath=$(ecl_installation_dir_okl)/lib ./configure --prefix=$(ecl_in
    \verbatim
 LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib -Wl,-rpath=$(gmp_install_directory_okl)/lib" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
    \endverbatim
-   so that the linker is aware of the location of the shared library.
-   </li>
-   <li> Such changes have been tested by MG, but as this problem
-   hasn't otherwise been noticed, should be tested by other users
-   before being applied. </li>
+   the problem is solved. </li>
+   <li> As one can see in Buildsystem/Configuration/ExternalSources/gmp.mak,
+   a case distinction needs to be made, since we might also use
+   system-installation of Gmp. </li>
+   <li> It seems to OK that this is a bug of the Ecl-build. It has been
+   somewhat discussed on the Ecl mailing list, but best we solve the problem
+   ourselves. </li>
   </ul>
 
 
