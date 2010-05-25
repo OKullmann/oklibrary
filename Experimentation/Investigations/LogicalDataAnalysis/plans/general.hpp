@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Create milestones.
 
 
-  \todo Computing the probability of a contradictory "input configuration"
+  \todo Computing the probability of a "contradictory input matrix"
   <ul>
    <li> Consider n (boolean) "input" variables, one "output" variables,
    and m choices of boolean vectors of length n+1 (with repetition). </li>
@@ -30,21 +30,41 @@ License, or any later version. */
    <li> So the exact number of non-contradictory input matrices and their
    probability is given by
    \verbatim
+nccount_boolmat(n, m) := sum(
+ binomial(2^n,i) * stirling2(m,i)*i! * 2^i,
+ i, 1, m)$
+ncprob_boolmat(n,m) := nccount_boolmat(n, m) / (2^(n+1))^m$
+
 stirling2m[n,m] := stirling2(n,m)$
-nccount_boolmat[n, m] := sum(
+nccountm_boolmat[n, m] := sum(
  binomial(2^n,i) * stirling2m[m,i]*i! * 2^i,
  i, 1, m)$
-ncprob_boolmat(n,m) := nccount_boolmat[n, m] / (2^(n+1))^m$
+ncprobm_boolmat(n,m) := nccountm_boolmat[n, m] / (2^(n+1))^m$
 
-float(ncprob_boolmat(10,50));
+float(ncprobm_boolmat(10,50));
   .5497968110387601
-float(ncprob_boolmat(20,1000));
+float(ncprobm_boolmat(20,1000));
   .7880606667585897
 
 plot_ncprob(n,m) := block([L : create_list(i,i,1,m)],
-  plot2d([discrete, L, map(lambda([i],ncprob_boolmat(n,i)), L)]))$
+  plot2d([discrete, L, map(lambda([i],ncprobm_boolmat(n,i)), L)]))$
+
+plot_ncprob(10,120);
+   \endverbatim
+   Memoisation is used here to help a bit with speed (the computation is
+   quite slow). </li>
+   <li> However for simplification one better doesn't use it:
+   \verbatim
+nccount_boolmat(n,1);
+  2^(n+1)
+
+nccount_boolmat(1,m), simpsum;
+  'sum(binomial(2,i)*2^i*i!*stirling2(m,i),i,1,m)
    \endverbatim
    </li>
+   <li> Since in each summand n is involved only in the binomial coefficient,
+   likely a different organisation of the computation is possible, which might
+   yield a more efficient computation. </li>
    <li> MG has a recursive formula? </li>
    <li> A nice approximative formula should be developed (perhaps based on
    the simple approximation formula regarding the birthday paradoxon).
@@ -56,12 +76,17 @@ plot_ncprob(n,m) := block([L : create_list(i,i,1,m)],
      occur. </li>
      <li> This yields
      \verbatim
-approx_ncprob(n,m) := float(exp(-m^2/2^(n+1)))$
+approx_ncprob_0(n,m) := float(exp(-m^2/2^(n+1)))$
 
-approx_ncprob(10,50);
+approx_ncprob_0(10,50);
   .2950226561744428
-approx_ncprob(20,1000);
+approx_ncprob_0(20,1000);
   .6207436040675001
+
+plot_approx_ncprob_0(n,m_max) := plot2d(approx_ncprob_0(n,m), [m,1,m_max])$
+     \endverbatim
+     How can we keep on old gnuplot-window (so that there we can compare the
+     two plots in a simple way)? </li>
     </ol>
    </li>
   </ul>
