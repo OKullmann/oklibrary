@@ -65,6 +65,22 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
+   <li> There is no reason for the requirement that m>=1 above, rather
+   than m >= 0, as we have stirling2(0,0) = binomial(x,0) = 0! = 2^0 = 1
+   for all x, and also stirling2(m,0) = 0 for all m > 0, therefore
+   simply changing
+   \verbatim
+nccount_boolmat(n, m) := sum(
+ binomial(2^n,i) * stirling2(m,i)*i! * 2^i,
+ i, 1, m)$
+   \endverbatim
+   to
+   \verbatim
+nccount_boolmat(n, m) := sum(
+ binomial(2^n,i) * stirling2(m,i)*i! * 2^i,
+ i, 0, m)$
+   \endverbatim
+   yields a function which works for all m >= 0. </li>
    <li> A recursive formula for the above is (valid for m, n >= 0):
    \verbatim
 nccountm_boolmat_rec(n,m) := nccountm_boolmat_rec_r[n, m, 0]$
