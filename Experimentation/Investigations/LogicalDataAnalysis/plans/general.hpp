@@ -65,7 +65,46 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
-   <li> MG has a recursive formula? </li>
+   <li> MG : There seems to be an error in the above code. As we have
+   \verbatim
+nccount_boolmat(4,0);
+0
+ncprob_boolmat(4,0);
+0
+   \endverbatim
+   however, both should be 1, as
+    <ol>
+     <li> The number of zero length matrices with no conflicts for any number 
+     of variables is one, i.e., the empty matrix. </li>
+     <li> The probability that any zero length matrix has no conflicts is one,
+     the empty matrix has no conflicts. </li>
+    </ol>
+   </li>
+   <li> A simple recursive formula for the above is -
+   \verbatim
+nccount_boolmat_rec(n,m) := nccount_boolmat_rec_r(n, m, 0)$
+nccount_boolmat_rec_r(n,m,c) :=
+  if m = 0 then 1 
+  else 
+    c* nccount_boolmat_rec_r(n,m-1,c) + 
+    2* (2^n - c) * nccount_boolmat_rec_r(n,m-1,c+1)$
+
+ncprob_boolmat_rec(n,m) := nccount_boolmat_rec(n,m) / (2^(n+1))^m$
+   \endverbatim
+where we have the following dynamic programming solution
+   \verbatim
+nccount_boolmat_dyn(n,m) := block(
+  array(marx,m+1),
+  for i : 1 thru m+1 do marx[i] : 1,
+  for i : 2 thru m+1 do (
+    marx[1] : 2^(n+1) * marx[2],
+    for j : 2 thru (m+2-i) do 
+      marx[j] : (j-1) * marx[j] + 2 * (2^n - (j-1)) * marx[j+1]),
+  return(marx[1]))$
+
+ncprob_boolmat_dyn(n,m) := nccount_boolmat_dyn(n,m) / (2^(n+1))^m$
+   \endverbatim
+   </li>
    <li> A nice approximative formula should be developed (perhaps based on
    the simple approximation formula regarding the birthday paradoxon).
     <ol>
