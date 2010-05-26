@@ -65,7 +65,7 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
-   <li> A simple recursive formula for the above is -
+   <li> A recursive formula for the above is
    \verbatim
 nccount_boolmat_rec(n,m) := nccount_boolmat_rec_r(n, m, 0)$
 nccount_boolmat_rec_r(n,m,c) :=
@@ -76,7 +76,7 @@ nccount_boolmat_rec_r(n,m,c) :=
 
 ncprob_boolmat_rec(n,m) := nccount_boolmat_rec(n,m) / (2^(n+1))^m$
    \endverbatim
-where we have the following dynamic programming solution
+   where we have the following dynamic programming solution
    \verbatim
 nccount_boolmat_dyn(n,m) := block(
   array(marx,m+1),
