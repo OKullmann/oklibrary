@@ -199,6 +199,43 @@ fcl_p(clvar_ocom2fcl(CSc));
     </ol>
    </li>
   </ul>
+
+
+  \todo Generalisations
+  <ul>
+   <li> The first step is to consider multi-valued tables. </li>
+   <li> Later we also need to consider "fuzzy sets"; see
+   ComputerAlgebra/FuzzySets/Lisp/plans/general.hpp. </li>
+   <li> Especially for the relational point of view we can make good
+   distinctions:
+    <ol>
+     <li> At the first level we have relations over {0,1}^m (the boolean
+     level). </li>
+     <li> Then we have relations over D^m, where D is some finite set (the
+     multivalued level). </li>
+     <li> Then we have relations over [0,1]^m (where [0,1] is the interval from
+     0 to 1) (the fuzzy level). </li>
+     <li> More generally we could allow relations over S^m, where S is some
+     (structured) set allowing for "boolean operations". </li>
+     <li> Compare "More general notions" in
+     ComputerAlgebra/FuzzySets/Lisp/plans/general.hpp. </li>
+     <li> The general axiomatic framework needs to make sure that the basic
+     operations like representations via CNF/DNF clause-sets are possible
+     (so that minimisation of representation size can be considered, and this
+     in a way similar to the boolean case). </li>
+     <li> In all these cases, every column stands for some "variable" (or
+     "condition"), every row for some (observed) "case" (or "configuration"),
+     and every entry for the "degree" to which in this specific case the
+     "condition" is attained. </li>
+     <li> The notion of a relation is just the standard one (the observation
+     has been made, thus is true, or it is deemed as impossible, thus is
+     false). </li>
+     <li> Finally, one could also allow generalised relations, which map from
+     S^m to some set of truth values. Then the "degree" to which the
+     observation is "in" or "out" allows also variations. </li>
+    </ol>
+   </ol>
+  </ul>
   
 */
 
