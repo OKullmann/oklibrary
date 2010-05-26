@@ -15,8 +15,8 @@ License, or any later version. */
 
   \todo Computing the probability of a "contradictory input matrix"
   <ul>
-   <li> Consider n (boolean) "input" variables, one "output" variables,
-   and m choices of boolean vectors of length n+1 (with repetition). </li>
+   <li> Consider n>=0 (boolean) "input" variables, one "output" variables,
+   and m>=1 choices of boolean vectors of length n+1 (with repetition). </li>
    <li> So there are (2^(n+1))^m possible outcomes. </li>
    <li> The event NC ("no contradiction") is given by the m-tuples
    (a_1, ..., a_m), where a_i, a_j coinciding on the first n bits implies they
@@ -65,21 +65,6 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
-   <li> MG : There seems to be an error in the above code. As we have
-   \verbatim
-nccount_boolmat(4,0);
-0
-ncprob_boolmat(4,0);
-0
-   \endverbatim
-   however, both should be 1, as
-    <ol>
-     <li> The number of zero length matrices with no conflicts for any number 
-     of variables is one, i.e., the empty matrix. </li>
-     <li> The probability that any zero length matrix has no conflicts is one,
-     the empty matrix has no conflicts. </li>
-    </ol>
-   </li>
    <li> A simple recursive formula for the above is -
    \verbatim
 nccount_boolmat_rec(n,m) := nccount_boolmat_rec_r(n, m, 0)$
