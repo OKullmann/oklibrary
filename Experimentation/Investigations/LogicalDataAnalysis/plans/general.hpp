@@ -65,31 +65,18 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
-   <li> A recursive formula for the above is
+   <li> A recursive formula for the above is (valid for m, n >= 0):
    \verbatim
-nccount_boolmat_rec(n,m) := nccount_boolmat_rec_r(n, m, 0)$
-nccount_boolmat_rec_r(n,m,c) :=
-  if m = 0 then 1 
-  else 
-    c* nccount_boolmat_rec_r(n,m-1,c) + 
-    2* (2^n - c) * nccount_boolmat_rec_r(n,m-1,c+1)$
+nccountm_boolmat_rec(n,m) := nccountm_boolmat_rec_r[n, m, 0]$
+nccountm_boolmat_rec_r[n,m,c] := if m = 0 then 1 else 
+    c* nccount_boolmat_rec_r[n,m-1,c] + 
+    2* (2^n - c) * nccount_boolmat_rec_r[n,m-1,c+1]$
 
-ncprob_boolmat_rec(n,m) := nccount_boolmat_rec(n,m) / (2^(n+1))^m$
+ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
    \endverbatim
-   where we have the following dynamic programming solution
-   \verbatim
-nccount_boolmat_dyn(n,m) := block(
-  array(marx,m+1),
-  for i : 1 thru m+1 do marx[i] : 1,
-  for i : 2 thru m+1 do (
-    marx[1] : 2^(n+1) * marx[2],
-    for j : 2 thru (m+2-i) do 
-      marx[j] : (j-1) * marx[j] + 2 * (2^n - (j-1)) * marx[j+1]),
-  return(marx[1]))$
-
-ncprob_boolmat_dyn(n,m) := nccount_boolmat_dyn(n,m) / (2^(n+1))^m$
-   \endverbatim
+OK: what is the meaning of this formula? what is c?
    </li>
+   <li> It seems the direct formula is more efficient to compute. </li>
    <li> A nice approximative formula should be developed (perhaps based on
    the simple approximation formula regarding the birthday paradoxon).
     <ol>
