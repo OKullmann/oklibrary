@@ -55,7 +55,7 @@ cyclegraph_gg(n) := ogg2gg(cyclegraph_ogg(n))$
 
 
 /* **********
-   * Dipols *
+   * Dipoles *
    **********
 */
 
