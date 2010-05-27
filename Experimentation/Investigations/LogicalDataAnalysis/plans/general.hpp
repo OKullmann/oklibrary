@@ -57,7 +57,7 @@ plot_ncprob(n,m) := block([L : create_list(i,i,0,m)],
 plot_ncprob(10,120);
    \endverbatim
    </li>
-   <li> However for simplification one better doesn't use it:
+   <li> However for simplification one better doesn't use memoisation:
    \verbatim
 nccount_boolmat(n,0);
   1
@@ -71,7 +71,23 @@ nccount_boolmat(1,m), simpsum;
    <li> Since in each summand n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
-   <li> A recursive formula for the above is (valid for m, n >= 0):
+   <li> A recursive computation for nccountextm_boolmat(n,m,i) is as follows:
+   \verbatim
+nccountext_rec_boolmat[n,m,i] := 
+ if m=0 then if i=0 then 1 else 0
+ elseif i=0 then 0
+ else i*nccountext_rec_boolmat[n,m-1,i] + 
+      2*(2^n-(i-1)) * nccountext_rec_boolmat[n,m-1,i-1]$
+
+nccount_rec_boolmat[n, m] := sum(nccountext_rec_boolmat[n, m, i], i, 0, m)$
+
+ncprob_rec_boolmat(n,m) := nccount_rec_boolmat[n, m] / (2^(n+1))^m$
+
+float(ncprob_rec_boolmat(10,50));
+  .5497968110387601
+   \endverbatim
+   </li>
+   <li> A different recursive formula is (valid for m, n >= 0):
    \verbatim
 nccountm_boolmat_rec(n,m) := nccountm_boolmat_rec_r[n, m, 0]$
 nccountm_boolmat_rec_r[n,m,c] := if m = 0 then 1 else 
