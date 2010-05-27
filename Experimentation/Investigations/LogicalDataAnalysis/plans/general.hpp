@@ -24,25 +24,30 @@ License, or any later version. */
    <li> NC is the disjoint union of the events NC_i for 0 <= i <= m, where NC_i
    is the subset of NC consisting of outcomes (a_1,...,a_m) such that after
    removal of the final bit we have exactly i (different) vectors. </li>
+   <li> So
+   \verbatim
+nccount_boolmat(n, m) := sum(nccountext_boolmat(n, m, i), i, 0, m)$
+ncprob_boolmat(n,m) := nccount_boolmat(n, m) / (2^(n+1))^m$
+   \endverbatim
+   ("ext" for "exact"). </li>
    <li> |NC_i| = binom(2^n, i) * S_i * 2^i, where S_i is the number of
    surjections from {1,...,m} to {1,...,i}. </li>
    <li> We have S_i = stirling2(m,i) * i!. </li>
-   <li> So the exact number of non-contradictory input matrices and their
-   probability is given by
+   <li> So
    \verbatim
-nccount_boolmat(n, m) := sum(
- binomial(2^n,i) * stirling2(m,i)*i! * 2^i,
- i, 0, m)$
-ncprob_boolmat(n,m) := nccount_boolmat(n, m) / (2^(n+1))^m$
+nccountext_boolmat(n, m, i) := binomial(2^n,i) * stirling2(m,i)*i! * 2^i$
 
-stirling2m[n,m] := stirling2(n,m)$
-nccountm_boolmat[n, m] := sum(
- binomial(2^n,i) * stirling2m[m,i]*i! * 2^i,
- i, 0, m)$
-ncprobm_boolmat(n,m) := nccountm_boolmat[n, m] / (2^(n+1))^m$
-
-float(ncprobm_boolmat(10,50));
+float(ncprob_boolmat(10,50));
   .5497968110387601
+   \endverbatim
+   </li>
+   <li> Memoised versions to speed computations up (for repeated evaluations,
+   while for a single computation it doesn't help):
+   \verbatim
+nccountm_boolmat[n, m] := sum(nccountextm_boolmat[n, m, i], i, 0, m)$
+ncprobm_boolmat(n,m) := nccountm_boolmat[n, m] / (2^(n+1))^m$
+nccountextm_boolmat[n, m, i] := binomial(2^n,i) * stirling2(m,i)*i! * 2^i$
+
 float(ncprobm_boolmat(20,1000));
   .7880606667585897
 
@@ -51,8 +56,7 @@ plot_ncprob(n,m) := block([L : create_list(i,i,0,m)],
 
 plot_ncprob(10,120);
    \endverbatim
-   Memoisation is used here to help a bit with speed (the computation is
-   quite slow). </li>
+   </li>
    <li> However for simplification one better doesn't use it:
    \verbatim
 nccount_boolmat(n,0);
