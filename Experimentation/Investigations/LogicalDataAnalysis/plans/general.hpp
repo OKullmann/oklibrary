@@ -90,7 +90,36 @@ nccountm_boolmat_rec_r[n,m,c] := if m = 0 then 1 else
 
 ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
    \endverbatim
-OK: what is the meaning of this formula? what is c?
+   where nccountm_boolmat_rec_r[n,m,c] computes the number of 
+   non-contradictory input matrices of size o+m which extend any given
+   fixed o-length prefix with c unique vectors (for o > c).
+   </li>
+   <li> Given any matrix M' (over {0,1}) of size m'*(n+1) for m',n >= 0
+   for arbitrary  natural number m' > 0, such that no two rows
+   in M conflict, and the number of different vectors in M is c, then the 
+   number of matrices (over {0,1}) of size (m'+m)*(n+1) for m >= 0, where
+   the first m' rows are the rows of M', is nccountm_boolmat_rec_r(n,m,c).
+   </li>
+   </li>
+   When calculating this, we have two possibilities for the m'+1th row, 
+   either
+   <ol>
+    <li> it repeats one of the vectors in M', of which there are c unique 
+    vectors to repeat and so there are c choices for the m+1th row. Then
+    we must also make choices for the remaining vectors, and so in total, 
+    there are c * nccountm_boolmat_rec_r(n,m-1,c) non-contradictory matrices
+    with M' as the starting block and where the m'+1th row repeats a vector
+    in M'. 
+    </li>
+    <li> it doesn't repeat one of the vectors in M', and nor does it conflict
+    with any vectors in M'. As there are c unique vectors to repeat or 
+    conflict with and so there are 2^(n+1) - 2*c choices for the m+1th row. 
+    Then we must also make choices for the remaining vectors, and so in total, 
+    there are (2^(n+1) - 2*c) * nccountm_boolmat_rec_r(n,m-1,c+1) 
+    non-contradictory matrices with M' as the starting block and where the 
+    m'+1th row neither repeats or conflicts with any vector in M'. 
+    </li>
+   </ol>
    </li>
    <li> It seems the direct formula is more efficient to compute. </li>
    <li> A nice approximative formula should be developed (perhaps based on
