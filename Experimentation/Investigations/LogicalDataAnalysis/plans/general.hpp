@@ -93,13 +93,23 @@ ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
    where nccountm_boolmat_rec_r[n,m,c] computes the number of 
    non-contradictory input matrices of size o+m which extend any given
    fixed o-length prefix with c unique vectors (for o > c).
+OK: This doesn't define anything, since "o" is unspecified: If a variable
+is not a parameter, then it must be a bound variable, that is, it must
+be introduced by "there exists" or "for all".
+So MG needs to make this statement precise, by using formal language.
+Also do NOT use "unique" other in statements like "there exists a unique
+x with the property P(x)" (above it apparently is applied to several
+objects, and then "unique" can mean several things).
    </li>
    <li> Given any matrix M' (over {0,1}) of size m'*(n+1) for m',n >= 0
    for arbitrary  natural number m' > 0, such that no two rows
    in M conflict, and the number of different vectors in M is c, then the 
    number of matrices (over {0,1}) of size (m'+m)*(n+1) for m >= 0, where
    the first m' rows are the rows of M', is nccountm_boolmat_rec_r(n,m,c).
-   </li>
+OK: The first row speaks of "M'", but then M' is not mentioned anymore in
+this paragraph??
+MG, please do NOT use "any" (since the usage of mathematical language
+is too shaky, and "any" can mean "for all" and "there exists".
    </li>
    When calculating this, we have two possibilities for the m'+1th row, 
    either
@@ -109,16 +119,15 @@ ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
     we must also make choices for the remaining vectors, and so in total, 
     there are c * nccountm_boolmat_rec_r(n,m-1,c) non-contradictory matrices
     with M' as the starting block and where the m'+1th row repeats a vector
-    in M'. 
-    </li>
+    in M'. </li>
+OK: Do NOT use "it" --- to what does "it" refer??
     <li> it doesn't repeat one of the vectors in M', and nor does it conflict
     with any vectors in M'. As there are c unique vectors to repeat or 
     conflict with and so there are 2^(n+1) - 2*c choices for the m+1th row. 
     Then we must also make choices for the remaining vectors, and so in total, 
     there are (2^(n+1) - 2*c) * nccountm_boolmat_rec_r(n,m-1,c+1) 
     non-contradictory matrices with M' as the starting block and where the 
-    m'+1th row neither repeats or conflicts with any vector in M'. 
-    </li>
+    m'+1th row neither repeats or conflicts with any vector in M'. </li>
    </ol>
    </li>
    <li> It seems the direct formula is more efficient to compute. </li>
