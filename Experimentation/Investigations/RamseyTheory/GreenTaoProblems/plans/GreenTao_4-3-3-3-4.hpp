@@ -634,6 +634,16 @@ gwsat :
  1  2  3  4
  3 32 58  7
 100
+ 1  2  3  4
+ 5 44 78  6
+133
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^9, rnovelty+:
+     \verbatim
+ 1  2  3
+ 2 20  7
+29
      \endverbatim
      </li>
     </ol>
