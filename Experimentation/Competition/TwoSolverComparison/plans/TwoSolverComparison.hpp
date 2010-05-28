@@ -12,6 +12,14 @@ License, or any later version. */
 
   \todo Improving TwoSolverComparison.R
   <ul>
+   <li> Improve filename:
+    <ol>
+     <li> The submodule carries the generic name, while every file in it
+     should be named according to its *specific* content. </li>
+     <li> So "TwoSolverComparison.R" (and accordingly this plans-file) should
+     be named according to the specific method implemented. </li>
+    </ol>
+   </li>
    <li> Enter file-creation-date. </li>
    <li> Specify functions:
     <ol>
