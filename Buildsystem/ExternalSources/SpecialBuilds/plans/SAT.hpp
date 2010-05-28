@@ -605,6 +605,15 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   </ul>
 
 
+  \todo Sato
+  <ul>
+   <li> http://www.cs.uiowa.edu/~hzhang/sato.html </li>
+   <li> Is not open-source, and thus can't be redistributed. </li>
+   <li> However one could ask the author Hantao Zhang hzhang@cs.uiowa.edu
+   whether he might change the licence. </li>
+  </ul>
+
+
   \todo Boehm solver
   <ul>
    <li> Still on the Internet? </li>
