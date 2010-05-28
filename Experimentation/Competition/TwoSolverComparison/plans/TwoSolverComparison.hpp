@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans regarding the method for comparing two solvers according to [Mladen Nikolic, 2010]
 
 
+  \todo Improving TwoSolverComparison.R
+  <ul>
+   <li> Enter file-creation-date. </li>
+  </ul>
+
+
   \todo Implementing [Mladen Nikolic, 2010]
   <ul>
    <li> [Mladen Nikolic, 2010, Statistical Methodology for Comparison of
