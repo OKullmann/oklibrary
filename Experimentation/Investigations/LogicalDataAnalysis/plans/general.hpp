@@ -68,7 +68,7 @@ nccount_boolmat(1,m), simpsum;
   'sum(binomial(2,i)*2^i*i!*stirling2(m,i),i,0,m)
    \endverbatim
    </li>
-   <li> Since in each summand n is involved only in the binomial coefficient,
+   <li> Since in each addend n is involved only in the binomial coefficient,
    likely a different organisation of the computation is possible, which might
    yield a more efficient computation. </li>
    <li> A recursive computation for nccountextm_boolmat(n,m,i) is as follows:
@@ -138,7 +138,7 @@ OK: Do NOT use "it" --- to what does "it" refer??
    </li>
    <li> It seems the direct formula is more efficient to compute. </li>
    <li> A nice approximative formula should be developed (perhaps based on
-   the simple approximation formula regarding the birthday paradoxon).
+   the simple approximation formula regarding the birthday paradox).
     <ol>
      <li> Choosing p from q with repetition, the chance of no repetition
      is approximately exp(-p^2/(2q)) for p "small" w.r.t. q. </li>
