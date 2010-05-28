@@ -6,35 +6,29 @@
 # License, or any later version.
 
 
-gwtest = function(rts, ids, bootstraps)
-{
+gwtest = function(rts, ids, bootstraps) {
   ps=-0.5*gehanw(rts,ids)+0.5;
   pooledsample=list(ranks=rank(rts),inds=ids);
   rv=rcor(pooledsample$ranks,pooledsample$inds);
   if(bootstraps==0)
-  {
     vr=jackknifevariance(pooledsample);
-  }
   else
     vr=bootstrapvariance(pooledsample,bootstraps);
   return(list(rvalue=rv, variance=vr, superiority=ps));
 }
 
-gehanw = function(rts,ids)
-{
+gehanw = function(rts,ids) {
   w=0;
   rts1=rts[ids==1];
   rts2=rts[ids==-1];
-  for(x in rts1)
-  {
-      w=w-sum(x<rts2);
-      w=w+sum(x>rts2);
+  for(x in rts1) {
+    w=w-sum(x<rts2);
+    w=w+sum(x>rts2);
   }
   return(w/(length(rts1)*length(rts2)));
 }
 
-rcor = function(ranks,inds)
-{
+rcor = function(ranks,inds) {
   rv=cor(ranks,inds);
   if(is.na(rv))
     return(0);
@@ -45,22 +39,19 @@ rcor = function(ranks,inds)
   return(rv);
 }
 
-jackknifevariance = function(sample)
-{
+jackknifevariance = function(sample) {
   rhos=c();
   for(i in 1:length(sample$ranks))
     rhos=c(rhos,rcor(sample$ranks[-i],sample$inds[-i]));
   return(var(rhos)*(length(rhos)-1)^2/length(rhos));
 }
 
-bootstrapvariance = function(sample,bootstraps)
-{
+bootstrapvariance = function(sample,bootstraps) {
   indices=1:length(sample$ranks);
   rhos=c();
-  for(i in 1:bootstraps)
-  {
-      sel=sample(indices,length(indices),replace=TRUE);
-      rhos=c(rhos,rcor(sample$ranks[sel],sample$inds[sel]));  
+  for(i in 1:bootstraps) {
+    sel=sample(indices,length(indices),replace=TRUE);
+    rhos=c(rhos,rcor(sample$ranks[sel],sample$inds[sel]));  
   }
   return(var(rhos));
 }
@@ -68,15 +59,13 @@ bootstrapvariance = function(sample,bootstraps)
 
 
 
-TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps)
-{
+TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
   # (or that both solvers have been tested on same number of formulae).
   # Tables may have different number of columns.
 
-  if(dim(runtimes1)[[1]]!=dim(runtimes2)[[1]])
-  {
+  if(dim(runtimes1)[[1]]!=dim(runtimes2)[[1]]) {
     stop("Dimensions of input tables do not agree!\n");
   }
 
@@ -87,24 +76,21 @@ TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps
   inds1=matrix(1,dim(runtimes1)[1],dim(runtimes1)[2]);
   inds2=matrix(-1,dim(runtimes2)[1],dim(runtimes2)[2]);
 
-
   # Runtime samples are merged to form pooled samples
 
   runtimes=cbind(runtimes1,runtimes2);
   inds=cbind(inds1,inds2);
 
-
   num=0;   # Number of used formulae
   ravg=0;  # Average of r values (point biserial correlation)
-  zsum=0;  # Sum of z values (number of standard deviations that the datum deviates from the mean)
+  zsum=0;  # Sum of z values (number of standard deviations that the datum 
+           # deviates from the mean)
   zvar=0;  # Sum of variances of estimates of z values
   savg=0;  # Average of probabilities of superiority (P(S1<S2))
 
+  ## Statistics calculation:
 
-  ## The statistics are calculated in the loop
-
-  for(i in 1:dim(runtimes1)[1])
-  {
+  for(i in 1:dim(runtimes1)[1]) {
     # If all the runtimes are greater than cutoff time, the data bear no information,
     # so the row is skipped. Also, the row is skipped if all the runtimes are less
     # then some small value "discard".
@@ -115,17 +101,14 @@ TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps
     num=num+1;
     cat(".")
 
-
     # Gehan-Wilcoxon test is performed, and the statistics are calculated
 
     stats=gwtest(runtimes[i,],inds[i,],bootstraps);
     ravg=ravg+stats$rvalue;
-
   
     # r values are transformed using the Fisher transformation
 
     zsum=zsum+0.5*log((1+stats$rvalue)/(1-stats$rvalue));
-
 
     # Variance of transformed r values is computed
   
