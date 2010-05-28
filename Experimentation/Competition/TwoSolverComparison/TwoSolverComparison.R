@@ -1,9 +1,3 @@
-#!/usr/bin/Rscript
-
-
-
-#  Function definitions start here #
-
 gwtest = function(rts, ids, bootstraps)
 {
   ps=-0.5*gehanw(rts,ids)+0.5;
@@ -65,8 +59,6 @@ bootstrapvariance = function(sample,bootstraps)
 
 
 
-
-# Main function starts here #
 
 TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps)
 {
