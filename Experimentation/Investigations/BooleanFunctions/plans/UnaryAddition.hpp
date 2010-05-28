@@ -44,7 +44,7 @@ License, or any later version. */
      {-x_1,-x_2,x_3, -y_1,y_2,y_3,y_4, z_i}
    for 1 <= i <= 3, or using -z_i for 4 <= z_i <= 7. </li>
    <li> In the above example, also {-x_2, -y_1, z_3} or {x_3, y_2, -z_4}
-   *could* be valid, however in general from the standard falsying partial
+   *could* be valid, however in general from the standard falsifying partial
    assignments and the corresponding standard CNF-clauses no literals can be
    removed. </li>
    <li> And the total assignments
