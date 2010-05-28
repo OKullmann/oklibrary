@@ -103,6 +103,7 @@ BestSolution_Max = 19.000000
      <li> So perhaps a cutoff=10^8 is more appropriate here. </li>
     </ol>
    </li>
+   <li> n=13825, cutoff=10^8, adaptnovelty+ </li>
    <li> n=13850
     <ol>
      <li> cutoff=10^7 (adaptnovelty+):
@@ -119,6 +120,13 @@ BestSolution_Max = 19.000000
 129
      \endverbatim
      </li>
+     <li> cutoff=4*10^7 (adaptnovelty+):
+     \verbatim
+ 1  2  3  4  5  6  7  8  9
+ 1 10 38 64 54 22 11  1  1
+202
+     \endverbatim
+     </li>
      <li> cutoff=10^8 (adaptnovelty+):
      \verbatim
  1  2  3  4  5
@@ -132,6 +140,14 @@ BestSolution_Max = 19.000000
 100
      \endverbatim
      </li>
+     <li> cutoff=2*10^8 (adaptnovelty+):
+     \verbatim
+ 1  2  3
+ 1  3 10
+14
+     \endverbatim
+     </li>
+     <li> So lets consider this for now as unsatisfiable. </li>
     </ol>
    </li>
    <li> n=14000
