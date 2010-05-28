@@ -45,7 +45,7 @@ License, or any later version. */
    <li> Implement at R level the methods for evaluating R competitions from
    [Pulina, Empirical Evaluation of Scoring Methods, 2006]. </li>
    <li> Implement at R level the methods from Mladen Nikolic 2010; see
-   Experimentation/plans/TwoSolvers.hpp. </li>
+   Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp. </li>
   </ul>
 
 

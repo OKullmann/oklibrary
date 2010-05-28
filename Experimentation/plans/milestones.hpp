@@ -32,7 +32,8 @@ License, or any later version. */
   \par Version 0.4.2
 
   \par
-   In Experimentation/plans/TwoSolvers.hpp the following topics are handled:
+   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hp the
+   following topics are handled:
     - Implementing [Mladen Nikolic, 2010]
 
 

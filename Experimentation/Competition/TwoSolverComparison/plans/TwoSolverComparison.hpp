@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/plans/TwoSolvers.hpp
-  \brief Plans regarding tools for comparing two solvers
+  \file Experimentation/Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp
+  \brief Plans regarding the method for comparing two solvers according to [Mladen Nikolic, 2010]
 
 
   \todo Implementing [Mladen Nikolic, 2010]
