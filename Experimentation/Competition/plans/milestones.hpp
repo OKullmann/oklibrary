@@ -21,6 +21,9 @@ License, or any later version. */
 
   \par Version 0.5.2 :
 
+  \par Competition/TwoSolverComparison version 0.0.6
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
+
   \par
    In Experimentation/Competition/plans/general.hpp the following topics
    are handled:
