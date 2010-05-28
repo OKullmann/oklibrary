@@ -1034,6 +1034,13 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    (seed=4106190469, osteps=73878847). </li>
    <li> n=516, gsat-tabu
     <ol>
+     <li> cutoff=5*10^7:
+     \verbatim
+  1   2   3   4   5   6   7
+189 351 101  35  10   3   1
+690
+     \endverbatim
+     </li>
      <li> cutoff=10^8: 
      \verbatim
   1   2  3  4  5 6 9 10
