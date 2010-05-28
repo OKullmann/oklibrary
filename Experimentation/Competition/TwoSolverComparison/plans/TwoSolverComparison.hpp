@@ -13,6 +13,16 @@ License, or any later version. */
   \todo Improving TwoSolverComparison.R
   <ul>
    <li> Enter file-creation-date. </li>
+   <li> Specify functions:
+    <ol>
+     <li> gwtest </li>
+     <li> gehanw </li>
+     <li> rcor </li>
+     <li> jackknifevariance </li>
+     <li> bootstrapvariance </li>
+     <li> TwoSolverComparison </li>
+    </ol>
+   </li>
   </ul>
 
 
