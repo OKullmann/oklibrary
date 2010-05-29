@@ -63,7 +63,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling lower bounds
+  \todo Handling bounds
   <ul>
    <li> Currently we use intervals [a,b], meaning a <= N <= b for the
    corresponding Ramsey-type-number N. </li>
@@ -75,8 +75,18 @@ License, or any later version. */
    <li> DONE
    These properties should be put into our test system, since likely
    Maxima doesn't guarantee them? </li>
-   <li> In case we don't conjecture the lower bound ">= b", one could use
-   the lower bound "(b-1)+1", where b-1 is evaluated, but the "+1" not. </li>
+   <li> Handling of strict lower bounds:
+    <ol>
+     <li> In case we don't conjecture the lower bound ">= b", one could use
+     the lower bound "(b-1)+1", where b-1 is evaluated, but the "+1" not. </li>
+     <li> However so the distinction between "just a lower bound" and
+     "conjectured precise bound" is only visible in the source code. </li>
+     <li> Is there a way to enter (conveniently), say, 328+1 in the source
+     code, which under normal circumstances just becomes 329, but if asked
+     explicitly, then we can get back "328+1"? </li>
+     <li> Perhaps this is handled by the annotations discussed below? </li>
+    </ol>
+   </ol>
   </ul>
 
 
