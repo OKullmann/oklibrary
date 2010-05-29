@@ -51,4 +51,4 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
-R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz #  Rcmdr_1.5-4.tar.gz
+R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz # gsl_1.9-3.tar.gz Rcmdr_1.5-4.tar.gz

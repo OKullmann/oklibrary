@@ -134,6 +134,14 @@ Error: package 'tcltk' could not be loaded
    </li>
    <li> Of potential interest:
     <ol>
+     <li> "gsl" http://cran.r-project.org/web/packages/gsl/index.html
+      <ol>
+       <li> With this we would get the exponential integral (and thus also
+       the logarithmic integral). </li>
+       <li> Needs the Gnu Gsl-library installed. </li>
+       <li> Likely we should do this locally. </li>
+      </ol>
+     </li>
      <li> "SparseM" </li>
      <li> DONE "QCA" (Quine-McCluskey;
      http://cran.r-project.org/web/packages/QCA/index.html) </li>
