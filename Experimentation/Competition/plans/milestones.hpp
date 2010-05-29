@@ -13,6 +13,9 @@ License, or any later version. */
 
   \par Version 0.5.1 :
 
+  \par Competition/TwoSolverComparison version 0.0.6
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
+
   \par
    In Experimentation/Competition/plans/general.hpp the following topics
    are handled:
@@ -21,7 +24,7 @@ License, or any later version. */
 
   \par Version 0.5.2 :
 
-  \par Competition/TwoSolverComparison version 0.0.6
+  \par Competition/TwoSolverComparison version 0.0.8
   (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
 
   \par
@@ -31,6 +34,9 @@ License, or any later version. */
 
 
   \par Version 0.5.3 :
+
+  \par Competition/TwoSolverComparison version 0.1
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
 
   \par
    In Experimentation/Competition/plans/general.hpp the following topics

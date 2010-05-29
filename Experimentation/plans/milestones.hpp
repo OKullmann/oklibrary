@@ -29,9 +29,9 @@ License, or any later version. */
    Further milestones are created.
 
 
-  \par Version 0.4.2
+  \par Version 0.4.2 : CLEAN UP
 
-  \par Experimentation/Competition version 0.5.2
+  \par Experimentation/Competition version 0.5.3
   (see Experimentation/Competition/plans/milestones.hpp)
 
 
