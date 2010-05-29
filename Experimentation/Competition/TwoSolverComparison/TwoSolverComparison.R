@@ -58,7 +58,6 @@ bootstrapvariance = function(sample,bootstraps) {
 
 
 
-
 TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
@@ -66,9 +65,8 @@ TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps
   # Tables may have different number of columns (that is, different numbers
   # of shufflings of the same formula).
 
-  if(dim(runtimes1)[[1]]!=dim(runtimes2)[[1]]) {
+  if(dim(runtimes1)[[1]]!=dim(runtimes2)[[1]])
     stop("Dimensions of input tables do not agree!\n")
-  }
 
   # Forming indicator matrices --- data from the first sampel
   # have indicator 1, and data from the second sample have
@@ -85,16 +83,16 @@ TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps
   num=0   # Number of used formulae
   ravg=0  # Average of r values (point biserial correlation)
   zsum=0  # Sum of z values (number of standard deviations that the datum 
-           # deviates from the mean)
+          # deviates from the mean)
   zvar=0  # Sum of variances of estimates of z values
   savg=0  # Average of probabilities of superiority (P(S1<S2))
 
   ## Statistics calculation:
 
   for(i in 1:dim(runtimes1)[1]) {
-    # If all the runtimes are greater than cutoff time, the data bear no information,
-    # so the row is skipped. Also, the row is skipped if all the runtimes are less
-    # then some small value "discard".
+    # If all the runtimes are greater than cutoff time, the data bear no
+    # information, so the row is skipped. Also, the row is skipped if all the
+    # runtimes are less then some small value "discard".
 
     if((sum(runtimes[i,]<cutoff)==0) || (max(runtimes1[i,])<discard))
       next
