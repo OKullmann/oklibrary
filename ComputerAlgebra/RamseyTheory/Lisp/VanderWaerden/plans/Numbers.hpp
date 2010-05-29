@@ -30,16 +30,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling lower bounds
-  <ul>
-   <li> Currently we use intervals [a,b], meaning a <= N <= b for the
-   corresponding vdW-number N. </li>
-   <li> Instead we could use a < N < b, which for the lower bound would
-   correspond to the way they are presented in the literature, and for the
-   upper bound would represent the vdW-theorem. </li>
-  </ul>
-
-
   \todo Improving exactf_tau_arithprog
   <ul>
    <li> DONE (package boolsimp does this job)

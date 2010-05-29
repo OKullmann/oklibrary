@@ -60,6 +60,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Handling lower bounds
+  <ul>
+   <li> Currently we use intervals [a,b], meaning a <= N <= b for the
+   corresponding Ramsey-type-number N. </li>
+   <li> Instead we could use a < N < b, which for the lower bound would
+   correspond to the way they are presented in the literature, and for the
+   upper bound would represent the corresponding Ramsey-type-theorem. </li>
+  </ul>
+
+
   \todo How to annotate numbers with justifications?
   <ul>
    <li> Once the computations get a bit more involved, the need arises to
