@@ -62,8 +62,9 @@ bootstrapvariance = function(sample,bootstraps) {
 TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
-  # (or that both solvers have been tested on same number of formulae).
-  # Tables may have different number of columns.
+  # (that is, both solvers have been tested on same number of formulae).
+  # Tables may have different number of columns (that is, different numbers
+  # of shufflings of the same formula).
 
   if(dim(runtimes1)[[1]]!=dim(runtimes2)[[1]]) {
     stop("Dimensions of input tables do not agree!\n")
