@@ -605,7 +605,9 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   </ul>
 
 
-  \todo Sato
+  \todo DONE (Hantao Zhang considers it as obsolete, and doesn't want it to be
+  included)
+  Sato
   <ul>
    <li> http://www.cs.uiowa.edu/~hzhang/sato.html </li>
    <li> Is not open-source, and thus can't be redistributed. </li>
