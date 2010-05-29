@@ -41,7 +41,8 @@ greentao(L) := if emptyp(L) then 1
  elseif greentao5k_a(L)#[] then apply(greentao5k,greentao5k_a(L))
  /* elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L)) */
  elseif greentao33k_a(L)#[] then apply(greentao33k,greentao33k_a(L))
- /* elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L)) */
+ elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L))
+ elseif greentao44k_a(L)#[] then apply(greentao44k,greentao44k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use greentao(sort(L)). */
 
@@ -83,11 +84,25 @@ greentao5k_a(L) := vanderwaerden5k_a(L)$
 */
 
 greentao33k(k) :=
- if k <= 3 then [
-  23,31,137
+ if k <= 5 then [
+  23,31,137,[434,inf-1],[1989+1,inf-1]
  ][k]
  else unknown$
 greentao33k_a(L) := vanderwaerden33k_a(L)$
+
+greentao34k(k) :=
+ if k <= 5 then [
+  79,117,[434,inf-1],[1662+1,inf-1],[8300+1,inf-1]
+ ][k]
+ else unknown$
+greentao34k_a(L) := vanderwaerden34k_a(L)$
+
+greentao44k(k) :=
+ if k <= 4 then [
+  512,[553,inf-1],[1662+1,inf-1],[5250+1,inf-1]
+ ][k]
+ else unknown$
+greentao44k_a(L) := vanderwaerden44k_a(L)$
 
 
 /* *********************
@@ -153,8 +168,8 @@ greentaod2_a(L) := vanderwaerdend2_a(L)$
 
 
 greentaod3(k) :=
-  if k <= 3 then [
-   1,4,137
+  if k <= 4 then [
+   1,4,137,[5250+1,inf-1]
   ][k]
   else unknown$
 /* Remark: These numbers have been verified/computed by SAT solving
