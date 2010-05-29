@@ -22,41 +22,54 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improving TwoSolverComparison.R
+  \todo Names
   <ul>
+   <li> Enter file-creation-date for TwoSolverComparison.R. </li>
    <li> Improve filename:
     <ol>
      <li> The submodule carries the generic name, while every file in it
      should be named according to its *specific* content. </li>
      <li> So "TwoSolverComparison.R" (and accordingly this plans-file) should
      be named according to the specific method implemented. </li>
+     <li> Also all other instances of "TwoSolverComparison" need to be checked
+     (via grep), and renamed if necessary. </li>
     </ol>
    </li>
-   <li> Enter file-creation-date. </li>
-   <li> Specify functions:
-    <ol>
-     <li> gwtest </li>
-     <li> gehanw </li>
-     <li> rcor </li>
-     <li> jackknifevariance </li>
-     <li> bootstrapvariance </li>
-     <li> TwoSolverComparison: this function also needs to be renamed, so that
-     the specific method becomes clear (and no use of camel-case). </li>
-    </ol>
-   </li>
-   <li> Input and output:
-    <ol>
-     <li> Apparently a helper function is needed, which reads the data files,
-     and a convenience instantiation of the main function, where the inputs
-     are not tables, but filenames. </li>
-     <li> The main function needs to output its result into a suitable
-     structure (apparently a list), so that they are available for further
-     computations. </li>
-     <li> While printing of results only happens if input-variable monitor
-     is TRUE (that shall be the default). </li>
-     <li> 
-    </ol>
-   </li>
+   <li> The main function also needs to be renamed, so that
+   the specific method becomes clear (and no use of camel-case). </li>
+  </ul>
+
+
+  \todo Input
+  <ul>
+   <li> Apparently a helper function is needed, which reads the data files,
+   and a convenience instantiation of the main function, where the inputs
+   are not tables, but filenames. </li>
+   <li> The helper function is called "read_XXX", where XXX stands for the
+   name of the method (see "Names" above). </li>
+   <li> This function needs (of course) specification. </li>
+  </ul>
+
+
+  \todo Output
+  <ul>
+   <li> The main function needs to output its result into a suitable
+   structure (apparently a list), so that they are available for further
+   computations. </li>
+   <li> While printing of results only happens if input-variable monitor
+   is TRUE (that shall be the default). </li>
+  </ul>
+
+
+  \todo Specifications for TwoSolverComparison.R
+  <ul>
+   <li> All functions need to be specified. </li>
+   <li> gwtest </li>
+   <li> gehanw </li>
+   <li> rcor </li>
+   <li> jackknifevariance </li>
+   <li> bootstrapvariance </li>
+   <li> "TwoSolverComparison" (needs a new name; see above). </li>
   </ul>
 
 
@@ -75,6 +88,18 @@ License, or any later version. */
      the rows, in that a block of rows belongs to a single instances and its
      shuffled variations --- however it seems for the computations performed
      this is irrelevant? </li>
+    </ol>
+   </li>
+   <li> Output specification:
+    <ol>
+     <li> Besides the precise specification in computational terms, also the
+     "meaning" needs to be specified. </li>
+     <li> Best if a precise probabilistic semantics can be given. </li>
+     <li> In any case, we need also a good discussion of the "intuitive
+     meaning". </li>
+     <li> What shall be achieved by the comparison? Is the underlying (precise)
+     model, that one solver is better than the other iff the expected run-time
+     over the space of sample inputs is lower? </li>
     </ol>
    </li>
   </ul>
