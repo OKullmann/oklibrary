@@ -62,7 +62,7 @@ extvanderwaerden_p(L) := listp(L) and
 
 vanderwaerden3k(k) := 
  if k <= 23 then
-   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,[389,inf],[416,inf],[464,inf],[516,inf]][k]
+   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,[389,inf-1],[416,inf-1],[464,inf-1],[516,inf-1]][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
@@ -75,7 +75,7 @@ vanderwaerden3k_a(L) := if length(L)#2 then [] else
 
 vanderwaerden4k(k) := 
  if k <= 10 then
-   [4,7,18,35,55,73,109,146,[309,inf],[329,inf]][k]
+   [4,7,18,35,55,73,109,146,[309,inf-1],[329,inf-1]][k]
  else unknown$
 vanderwaerden4k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
@@ -155,7 +155,7 @@ vanderwaerdend_a(L) := if emptyp(L) then [0,unknown]
 
 /* The diagonal cases with two parts: */
 vanderwaerdend2(k) :=
- if k <= 9 then [1,3,9,35,178,1132,[3704,inf],[11496,inf],[41266,inf]][k]
+ if k <= 9 then [1,3,9,35,178,1132,[3704,inf-1],[11496,inf-1],[41266,inf-1]][k]
  else unknown$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods; especially k=6 is from [Kouril, Paul, 2008]. The bounds are in
@@ -166,7 +166,7 @@ vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
 
 /* The diagonal cases with three parts: */
 vanderwaerdend3(k) :=
- if k <= 8 then [1,4,27,[293,inf],[1210,inf],[8887,inf],[48812,inf],[238401,inf]][k]
+ if k <= 8 then [1,4,27,[293,inf-1],[1210,inf-1],[8887,inf-1],[48812,inf-1],[238401,inf-1]][k]
  else unknown$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
@@ -177,7 +177,7 @@ vanderwaerdend3_a(L) := if length(L)=3 and lconstant_p(L) then first(L)
 
 /* The diagonal cases with four parts: */
 vanderwaerdend4(k) :=
- if k <= 7 then [1,5,76,[1049,inf],[17706,inf],[91332,inf],[420218,inf]][k]
+ if k <= 7 then [1,5,76,[1049,inf-1],[17706,inf-1],[91332,inf-1],[420218,inf-1]][k]
  else unknown$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
@@ -188,7 +188,7 @@ vanderwaerdend4_a(L) := if length(L)=4 and lconstant_p(L) then first(L)
 
 /* The diagonal cases with five parts: */
 vanderwaerdend5(k) :=
- if k <= 6 then [1,6,[126,inf],[2255,inf],[24046,inf],[246957,inf]][k]
+ if k <= 6 then [1,6,[126,inf-1],[2255,inf-1],[24046,inf-1],[246957,inf-1]][k]
  else unknown$
 /* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
 */
@@ -197,7 +197,7 @@ vanderwaerdend5_a(L) := if length(L)=5 and lconstant_p(L) then first(L)
 
 /* The diagonal cases with six parts: */
 vanderwaerdend6(k) :=
- if k <= 6 then [1,7,[208,inf],[9779,inf],[63474,inf],[633982,inf]][k]
+ if k <= 6 then [1,7,[208,inf-1],[9779,inf-1],[63474,inf-1],[633982,inf-1]][k]
  else unknown$
 /* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
 */
@@ -280,13 +280,13 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
       or (m=2 and k>=2*r-3) 
       or (m>=3 and k >= count_primes(r)^3*(r-2))
     then return(res)
-    else return([res,inf]))
+    else return([res,inf-1]))
  else
    block([res : r*k-j*(r-2)],
     if (j=2 and k>=2*r-3) 
       or (j>=3 and k>= count_primes(r)^3*(r-2))
     then return(res)
-    else return([res,inf]))
+    else return([res,inf-1]))
  )$
 
 
@@ -782,9 +782,9 @@ approx_cralpha_arithprog(k,q) :=
  elseif k=2 then q+1 else block([L, i],
   L : ralphal_arithprog(k),
   i : find_last_l(lambda([x],is(x >= 1/q)), L),
-  if i=minf then return(inf) else (
+  if i=minf then return(inf-1) else (
     i : i+1,
-    if i>length(L) then return(inf) else return(i)))$
+    if i>length(L) then return(inf-1) else return(i)))$
 
 /* The "approximated" upper bound on vanderwaerdend(m,k) given by
    approx_cralpha_arithprog (if this value is exact, then the upper

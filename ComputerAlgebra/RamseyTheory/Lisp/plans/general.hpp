@@ -31,6 +31,9 @@ License, or any later version. */
      <li> That the underlying number could actually be inf allows the
      possibility, that actually no underlying Ramsey-type theorem holds (while
      still some numbers < inf can be computed). </li>
+     <li> If we however know that the number if finite (i.e., an underlying
+     Ramsey-type theorem holds), then we use the upper bound inf-1 (to express
+     "< inf"; see "Handling lower bounds" below). </li>
      <li> To check that a Maxima-term t is a parameter tuple, the predicate
      N_p(t) is provided which is true is t is a parameter tuple, and false
      otherwise. </li>
@@ -67,6 +70,13 @@ License, or any later version. */
    <li> Instead we could use a < N < b, which for the lower bound would
    correspond to the way they are presented in the literature, and for the
    upper bound would represent the corresponding Ramsey-type-theorem. </li>
+   <li> However, that N is finite can also be represented by the upper bound,
+   inf-1, using inf-1 < inf, while n < inf-1 for all natural n. </li>
+   <li> DONE
+   These properties should be put into our test system, since likely
+   Maxima doesn't guarantee them? </li>
+   <li> In case we don't conjecture the lower bound ">= b", one could use
+   the lower bound "(b-1)+1", where b-1 is evaluated, but the "+1" not. </li>
   </ul>
 
 

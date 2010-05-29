@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/include.mac
 
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac")$
 
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/tests/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/tests/Sequences.mac")$
 
 /*!
