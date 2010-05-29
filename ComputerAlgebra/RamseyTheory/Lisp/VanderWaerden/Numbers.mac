@@ -42,6 +42,7 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerdents_a(L)#[] then apply(vanderwaerdents,vanderwaerdents_a(L))
  elseif vanderwaerden33k_a(L)#[] then apply(vanderwaerden33k,vanderwaerden33k_a(L))
  elseif vanderwaerden34k_a(L)#[] then apply(vanderwaerden34k,vanderwaerden34k_a(L))
+ elseif vanderwaerden44k_a(L)#[] then apply(vanderwaerden44k,vanderwaerden44k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 
@@ -128,6 +129,18 @@ vanderwaerden34k_a(L) := if length(L)#3 then [] else
  elseif L=[2,3,4] then [2]
  elseif L=[3,3,4] then [3]
  elseif rest(L,-1)#[3,4] then []
+ else [last(L)]$
+
+vanderwaerden44k(k) :=
+ if k <= 4 then [
+  35,40,89,[292+1,inf-1]
+ ][k]
+ else unknown$
+vanderwaerden44k_a(L) := if length(L)#3 then [] else
+ if L=[1,4,4] then [1]
+ elseif L=[2,4,4] then [2]
+ elseif L=[3,4,4] then [3]
+ elseif rest(L,-1)#[4,4] then []
  else [last(L)]$
 
 
