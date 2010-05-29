@@ -9,5 +9,12 @@ License, or any later version. */
   \file Experimentation/Competition/TwoSolverComparison/plans/general.hpp
   \brief General plans regarding methods for comparing two solvers
 
+
+  \todo Overview
+  <ul>
+   <li> We need an overview on the methods in the literature to compare two
+   solvers. </li>
+  </ul>
+
 */
 
