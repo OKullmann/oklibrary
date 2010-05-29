@@ -9,6 +9,18 @@ License, or any later version. */
   \file Experimentation/Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp
   \brief Plans regarding the method for comparing two solvers according to [Mladen Nikolic, 2010]
 
+  [Mladen Nikolic, 2010, Statistical Methodology for Comparison of
+  SAT Solvers] is to appear in SAT 2010 proceedings.
+
+
+  \todo The wider framework
+  <ul>
+   <li> See the "SAT Evaluation Toolkit"
+   (Experimentation/Competition/plans/general.hpp). </li>
+   <li> DONE (see TwoSolverComparison.R)
+   The first stage is to implement the statistical evaluation in R. </li>
+  </ul>
+
 
   \todo Improving TwoSolverComparison.R
   <ul>
@@ -35,20 +47,22 @@ License, or any later version. */
   </ul>
 
 
-  \todo Implementing [Mladen Nikolic, 2010]
+  \todo Write docus
   <ul>
-   <li> [Mladen Nikolic, 2010, Statistical Methodology for Comparison of
-   SAT Solvers] is to appear in SAT 2010 proceedings. </li>
-   <li> The first stage is to implement the statistical evaluation in R, as
-   part of the "SAT Evaluation Toolkit" (see
-   Experimentation/Competition/plans/general.hpp). </li>
-   <li> It appears that the input is just a data-frame file, which per row
-   contains the times for the two solvers A, B to be compared. </li>
-   <li> Is the knowledge of the cutoff-time needed for the evaluation? </li>
-   <li> As discussed in the paper, there are actually dependencies between
-   the rows, in that a block of rows belongs to a single instances and its
-   shuffled variations --- however it seems for the computations performed
-   this is irrelevant? </li>
+   <li> Input specification:
+    <ol>
+     <li> DONE (yes, this is the case)
+     It appears that the input is just a data-frame file, which per row
+     contains the times for the two solvers A, B to be compared. </li>
+     <li> DONE (yes, needed)
+     Is the knowledge of the cutoff-time needed for the evaluation? </li>
+     <li> DONE (one row per instance
+     As discussed in the paper, there are actually dependencies between
+     the rows, in that a block of rows belongs to a single instances and its
+     shuffled variations --- however it seems for the computations performed
+     this is irrelevant? </li>
+    </ol>
+   </li>
   </ul>
 
 */
