@@ -44,11 +44,25 @@ License, or any later version. */
      the specific method becomes clear (and no use of camel-case). </li>
     </ol>
    </li>
+   <li> Input and output:
+    <ol>
+     <li> Apparently a helper function is needed, which reads the data files,
+     and a convenience instantiation of the main function, where the inputs
+     are not tables, but filenames. </li>
+     <li> The main function needs to output its result into a suitable
+     structure (apparently a list), so that they are available for further
+     computations. </li>
+     <li> While printing of results only happens if input-variable monitor
+     is TRUE (that shall be the default). </li>
+     <li> 
+    </ol>
+   </li>
   </ul>
 
 
   \todo Write docus
   <ul>
+   <li> How is the main function to be used? Examples? </li>
    <li> Input specification:
     <ol>
      <li> DONE (yes, this is the case)
