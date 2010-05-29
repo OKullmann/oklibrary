@@ -265,7 +265,8 @@ rnoveltyp :
      \endverbatim
      </li>
      <li> cutoff=30*10^6: in 125 runs one solution was found (seed=3082049509,
-     osteps=22913634). </li>
+     osteps=22913634). And in another 68 runs another solution was found
+     (seed=1854998832, osteps=22610568). </li>
     </ol>
    </li>
    <li> n=5300
