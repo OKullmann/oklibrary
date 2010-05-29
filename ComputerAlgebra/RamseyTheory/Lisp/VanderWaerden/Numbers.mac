@@ -62,7 +62,7 @@ extvanderwaerden_p(L) := listp(L) and
 
 vanderwaerden3k(k) := 
  if k <= 23 then
-   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,[389,inf],[416,inf],[464,inf],[513,inf]][k]
+   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,[389,inf],[416,inf],[464,inf],[516,inf]][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
