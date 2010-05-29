@@ -30,6 +30,7 @@ kill(f)$
 */
 
 okltest_greentao(f) := block([g],
+  assert(f([4,4]) = 512),
   g : f([5,7]),
   assert(g = unknown or listp(g)),
   g : f([3,4,4]),

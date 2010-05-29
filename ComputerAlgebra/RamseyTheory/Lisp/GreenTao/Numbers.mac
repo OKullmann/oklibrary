@@ -38,6 +38,7 @@ greentao(L) := if emptyp(L) then 1
  elseif greentaot_a(L)#[] then apply(greentaot,greentaot_a(L))
  elseif greentao3k_a(L)#[] then apply(greentao3k,greentao3k_a(L))
  elseif greentao4k_a(L)#[] then apply(greentao4k,greentao4k_a(L))
+ elseif greentao5k_a(L)#[] then apply(greentao5k,greentao5k_a(L))
  /* elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L)) */
  elseif greentao33k_a(L)#[] then apply(greentao33k,greentao33k_a(L))
  /* elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L)) */
@@ -54,18 +55,26 @@ greentao_p(L) := vanderwaerden_p(L)$
 */
 
 greentao3k(k) := 
- if k <= 5 then [
-  4,7,23,79,528
+ if k <= 7 then [
+  4,7,23,79,528,[2072,inf-1],[13800+1,inf-1]
  ][k]
  else unknown$
 greentao3k_a(L) := vanderwaerden3k_a(L)$
 
 greentao4k(k) := 
- if k <= 4 then [
-  9,14,79,512
+ if k <= 5 then [
+  9,14,79,512,[4231+1,inf-1]
  ][k]
  else unknown$
 greentao4k_a(L) := vanderwaerden4k_a(L)$
+
+greentao5k(k) := 
+ if k <= 5 then [
+  10,31,528,[4231+1,inf-1],[34309,inf-1]
+ ][k]
+ else unknown$
+greentao5k_a(L) := vanderwaerden5k_a(L)$
+
 
 
 /* *****************
@@ -134,7 +143,7 @@ compute_greentaod1(k) := block(
 
 greentaod2(k) :=
   if k <= 5 then [
-   1,3,23,79,528
+   1,3,23,512,[34309,inf-1]
   ][k]
   else unknown$
 /* Remark: These numbers have been verified/computed by SAT solving
