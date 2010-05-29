@@ -28,7 +28,8 @@ License, or any later version. */
      <li> rcor </li>
      <li> jackknifevariance </li>
      <li> bootstrapvariance </li>
-     <li> TwoSolverComparison </li>
+     <li> TwoSolverComparison: this function also needs to be renamed, so that
+     the specific method becomes clear (and no use of camel-case). </li>
     </ol>
    </li>
   </ul>
