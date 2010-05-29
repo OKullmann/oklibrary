@@ -43,6 +43,8 @@ greentao(L) := if emptyp(L) then 1
  elseif greentao33k_a(L)#[] then apply(greentao33k,greentao33k_a(L))
  elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L))
  elseif greentao44k_a(L)#[] then apply(greentao44k,greentao44k_a(L))
+ elseif greentao333k_a(L)#[] then apply(greentao333k,greentao333k_a(L))
+ elseif greentao334k_a(L)#[] then apply(greentao334k,greentao334k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use greentao(sort(L)). */
 
@@ -103,6 +105,34 @@ greentao44k(k) :=
  ][k]
  else unknown$
 greentao44k_a(L) := vanderwaerden44k_a(L)$
+
+
+/* ********************
+   * Quaternary cases *
+   ********************
+*/
+
+greentao333k(k) :=
+ if k <= 4 then [
+  137,151,[384+1,inf-1],[1052+1,inf-1]
+ ][k]
+ else unknown$
+greentao333k_a(L) := if length(L)#4 then []
+ elseif L=[1,3,3,3] then [1]
+ elseif L=[2,3,3,3] then [2]
+ elseif rest(L,-1)#[3,3,3] then []
+ else [last(L)]$
+
+greentao334k(k) :=
+ if k <= 4 then [
+  [434,inf-1],[453,inf-1],[1052+1,inf-1],[2750+1,inf-1]
+ ][k]
+ else unknown$
+greentao334k_a(L) := if length(L)#4 then []
+ elseif L=[1,3,3,4] then [1]
+ elseif L=[2,3,3,4] then [2]
+ elseif rest(L,-1)#[3,3,4] then []
+ else [last(L)]$
 
 
 /* *********************
@@ -177,6 +207,18 @@ greentaod3(k) :=
 */
 greentaod3_a(L) := vanderwaerdend3_a(L)$
 
+greentaodap3(m) :=
+ if m <= 4 then [
+  4,23,137,[384+1,inf-1]
+ ][m]
+ else unknown$
+/* Remark: These numbers have been verified/computed by SAT solving
+   methods.
+*/
+greentaodap3_a(L) := if emptyp(L) then 0
+ elseif not lconstant_p(L) then []
+ elseif first(L)#3 then []
+ else length(L)$
 
 
 /* ************************
