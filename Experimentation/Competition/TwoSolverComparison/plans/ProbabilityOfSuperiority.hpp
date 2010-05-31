@@ -22,26 +22,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE (renamed file to ProbabilityOfSuperiority, and renamed function
-  to probsup_solvcomp)
-  Names
-  <ul>
-   <li> Enter file-creation-date for TwoSolverComparison.R. </li>
-   <li> Improve filename:
-    <ol>
-     <li> The submodule carries the generic name, while every file in it
-     should be named according to its *specific* content. </li>
-     <li> So "TwoSolverComparison.R" (and accordingly this plans-file) should
-     be named according to the specific method implemented. </li>
-     <li> Also all other instances of "TwoSolverComparison" need to be checked
-     (via grep), and renamed if necessary. </li>
-    </ol>
-   </li>
-   <li> The main function also needs to be renamed, so that
-   the specific method becomes clear (and no use of camel-case). </li>
-  </ul>
-
-
   \todo Input
   <ul>
    <li> Apparently a helper function is needed, which reads the data files,
