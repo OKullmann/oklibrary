@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp
+  \file Experimentation/Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp
   \brief Plans regarding the method for comparing two solvers according to [Mladen Nikolic, 2010]
 
   [Mladen Nikolic, 2010, Statistical Methodology for Comparison of
@@ -17,12 +17,12 @@ License, or any later version. */
   <ul>
    <li> See the "SAT Evaluation Toolkit"
    (Experimentation/Competition/plans/general.hpp). </li>
-   <li> DONE (see TwoSolverComparison.R)
+   <li> DONE (see ProbabilityOfSuperiority.R)
    The first stage is to implement the statistical evaluation in R. </li>
   </ul>
 
 
-  \todo Names
+  \todo Names (DONE)
   <ul>
    <li> Enter file-creation-date for TwoSolverComparison.R. </li>
    <li> Improve filename:
@@ -61,7 +61,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Specifications for TwoSolverComparison.R
+  \todo Specifications for ProbabilityOfSuperiority.R
   <ul>
    <li> All functions need to be specified. </li>
    <li> gwtest </li>
@@ -69,7 +69,7 @@ License, or any later version. */
    <li> rcor </li>
    <li> jackknifevariance </li>
    <li> bootstrapvariance </li>
-   <li> "TwoSolverComparison" (needs a new name; see above). </li>
+   <li> ProbabilityOfSuperiority </li>
   </ul>
 
 

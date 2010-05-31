@@ -1,4 +1,4 @@
-# Mladen Nikolic, ?.5.2010 (Swansea)
+# Mladen Nikolic, 15.5.2010 (Swansea)
 # Copyright 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ bootstrapvariance = function(sample,bootstraps) {
 
 
 
-TwoSolverComparison = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
+probabilityofsuperiority = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
   # (that is, both solvers have been tested on same number of formulae).

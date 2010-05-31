@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.0.6 :
 
   \par
-   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp the
+   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
    following topics are handled:
     - Names
 
@@ -22,7 +22,7 @@ License, or any later version. */
   \par Version 0.0.7 :
 
   \par
-   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp the
+   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
    following topics are handled:
     - Input
 
@@ -30,7 +30,7 @@ License, or any later version. */
   \par Version 0.0.8 :
 
   \par
-   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp the
+   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
    following topics are handled:
     - Output
 
@@ -38,15 +38,15 @@ License, or any later version. */
   \par Version 0.0.9 :
 
   \par
-   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp the
+   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
    following topics are handled:
-    - Specifications for TwoSolverComparison.R
+    - Specifications for ProbabilityOfSuperiority.R
 
 
   \par Version 0.1 :
 
   \par
-   In Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp the
+   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
    following topics are handled:
     - Write docus
 
