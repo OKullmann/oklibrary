@@ -22,7 +22,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Names (DONE)
+  \todo DONE (renamed file to ProbabilityOfSuperiority, and renamed function
+  to probabilityofsuperiority)
+  Names
   <ul>
    <li> Enter file-creation-date for TwoSolverComparison.R. </li>
    <li> Improve filename:
