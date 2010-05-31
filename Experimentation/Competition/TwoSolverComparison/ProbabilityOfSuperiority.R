@@ -1,4 +1,4 @@
-# Mladen Nikolic, 15.5.2010 (Swansea)
+# Mladen Nikolic, 15.5.2010 (Belgrade)
 # Copyright 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
