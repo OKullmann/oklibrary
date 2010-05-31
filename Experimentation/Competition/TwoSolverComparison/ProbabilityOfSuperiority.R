@@ -57,8 +57,8 @@ bootstrapvariance = function(sample,bootstraps) {
 }
 
 
-
-probabilityofsuperiority = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
+/* Determining the "probability of superiority", comparing 2 solvers: */
+probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
   # (that is, both solvers have been tested on same number of formulae).

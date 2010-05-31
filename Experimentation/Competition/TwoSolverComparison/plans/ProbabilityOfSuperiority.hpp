@@ -23,7 +23,7 @@ License, or any later version. */
 
 
   \todo DONE (renamed file to ProbabilityOfSuperiority, and renamed function
-  to probabilityofsuperiority)
+  to probsup_solvcomp)
   Names
   <ul>
    <li> Enter file-creation-date for TwoSolverComparison.R. </li>
