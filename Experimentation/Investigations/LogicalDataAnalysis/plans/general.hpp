@@ -111,6 +111,23 @@ ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
     <li> the first m' rows are the rows of M' </li>
    </ul>
    is nccountm_boolmat_rec_r(n,m,c).
+
+OK: This doesn't define anything. The sentence has the structure
+  If A, then B is nccountm_boolmat_rec_r(n,m,c).
+Such a sentence only makes sense if A is some conjecture, the Riemann
+conjecture for example.
+However in this case A itself makes no sense; the fundamental problem is
+a grammatical problem --- it is *completely* ambiguous, what the scope
+of the various quantifiers is (M' is used in A as well as in B !)
+Likely this ambiguity is inherent, since the whole definition-approach
+is misguided.
+If a combinatorial function like nccountm_boolmat_rec_r(n,m,c) is to be
+defined, then first the domains of n,m,c are to be specified, then a set
+C(n,m,c) depending only on n,m,c is to be defined, and finally
+ nccountm_boolmat_rec_r(n,m,c) := |C(n,m,c)|.
+Phrases like "for all" are not to be used in definitions, only in statements
+("definitions" are not true of false, while statements are).
+
    </li>
    <li>
    To derive such a formula, we consider there are two possibilities for the 
