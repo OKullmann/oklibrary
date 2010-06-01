@@ -400,6 +400,16 @@ okltest_gr_equalp(f) := block(
    **************
 */
 
+
+okltest_g2mug(f) := block(
+  assert(gr_equalp(f([{},{}]), [{},{},identity]) = true),
+  assert(gr_equalp(f([{1},{}]), [{1},{},identity]) = true),
+  assert(gr_equalp(f([{1,2},{{1,2}}]), [{1,2},{{1,2}},lambda([e],1)]) = true),
+  for L in [okltest_list_g] do
+    for G in L do
+      assert(mug2g(f(G)) = G),
+  true)$
+
 okltest_gl2mugl(f) := block(
   assert(gr_equalp(f([{},{}]), [{},{},identity]) = true),
   assert(gr_equalp(f([{1},{}]), [{1},{},identity]) = true),
@@ -408,7 +418,6 @@ okltest_gl2mugl(f) := block(
     for G in L do
       assert(mugl2gl(f(G)) = G),
   true)$
-
 
 okltest_g2gg(f) := block(
   assert(gr_equalp(f([{},{}]), [{},{},identity]) = true),
@@ -425,6 +434,15 @@ okltest_gl2gg(f) := block(
   for L in [okltest_list_g,okltest_list_gl] do
     for G in L do
       assert(gg2gl(f(G)) = G),
+  true)$
+
+okltest_mug2gg(f) := block([k1,k2],
+  assert(gr_equalp(f([{},{},k1]), [{},{},k2]) = true),
+  assert(gr_equalp(f([{1},{},k1]), [{1},{},k2]) = true),
+  assert(gr_equalp(f([{1,2},{{1,2}},lambda([e],2)]), [{1,2},{[{1,2},1],[{1,2},2]},first]) = true),
+  for L in [okltest_list_mug] do
+    for G in L do
+      assert(gr_equalp(gg2mugl(f(G)),G) = true),
   true)$
 
 okltest_mugl2gg(f) := block([k1,k2],
@@ -1278,6 +1296,44 @@ okltest_connected_g_p(f) := (
     assert(f(G) = true)),
   for n : 1 thru 4 do block([G : pathgraph_g(n)],
     assert(f(G) = true)),
+  true)$
+
+okltest_connected_og_p(f) := (
+  assert(okltest_connected_g_p(buildq([f], lambda([G], f(g2og(G))))) = true),
+  true)$
+
+okltest_connected_mug_p(f) := (
+  assert(f([{1,2},{{1,2}},lambda([e],2)]) = true),
+  assert(okltest_connected_g_p(buildq([f], lambda([G], f(g2mug(G))))) = true),
+  true)$
+
+okltest_connected_omug_p(f) := (
+  assert(okltest_connected_mug_p(buildq([f], lambda([G], f(mug2omug(G))))) = true),
+  true)$
+
+okltest_connected_gg_p(f) := (
+  assert(f([{1,2},{1,2},lambda([e],{e})]) = false),
+  assert(okltest_connected_mug_p(buildq([f], lambda([G], f(mug2gg(G))))) = true),
+  true)$
+
+okltest_connected_ogg_p(f) := (
+  assert(okltest_connected_gg_p(buildq([f], lambda([G], f(gg2ogg(G))))) = true),
+  true)$
+
+okltest_connected_gl_p(f) := (
+  assert(okltest_connected_gg_p(buildq([f], lambda([G], f(gg2gl(G))))) = true),
+  true)$
+
+okltest_connected_ogl_p(f) := (
+  assert(okltest_connected_gl_p(buildq([f], lambda([G], f(gl2ogl(G))))) = true),
+  true)$
+
+okltest_connected_mugl_p(f) := (
+  assert(okltest_connected_gg_p(buildq([f], lambda([G], f(gg2mugl(G))))) = true),
+  true)$
+
+okltest_connected_omugl_p(f) := (
+  assert(okltest_connected_mugl_p(buildq([f], lambda([G], f(mugl2omugl(G))))) = true),
   true)$
 
 okltest_regular_g_p(f) := (

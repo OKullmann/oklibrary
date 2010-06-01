@@ -167,9 +167,11 @@ generic_g2og(G) := [listify(G[1]), listify(G[2])]$
 /* Works for mug2omug, mugl2omugl, mudg2omudg, mudgl2omudgl, gg2ogg, gdg2ogdg: */
 generic_gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
 
+g2mug(G) := generic_g2mug(G)$
 gl2mugl(G) := generic_g2mug(G)$
 g2gg(G) := generic_g2gg(G)$
 gl2gg(G) := generic_g2gg(G)$
+mug2gg(G) := generic_mug2gg(G)$
 mugl2gg(G) := generic_mug2gg(G)$
 
 ogl2omugl(G) := generic_g2mug(G)$

@@ -60,9 +60,11 @@ okltest_gr_equalp(gr_equalp);
    **************
 */
 
+okltest_g2mug(g2mug);
 okltest_gl2mugl(gl2mugl);
 okltest_g2gg(g2gg);
 okltest_gl2gg(gl2gg);
+okltest_mug2gg(mug2gg);
 okltest_mugl2gg(mugl2gg);
 
 okltest_ogl2omugl(ogl2omugl);
@@ -230,6 +232,15 @@ okltest_has_dominating_vertex_g(has_dominating_vertex_g);
 okltest_has_dominating_vertex_gl(has_dominating_vertex_gl);
 
 okltest_connected_g_p(connected_g_p);
+okltest_connected_og_p(connected_og_p);
+okltest_connected_mug_p(connected_mug_p);
+okltest_connected_omug_p(connected_omug_p);
+okltest_connected_gg_p(connected_gg_p);
+okltest_connected_ogg_p(connected_ogg_p);
+okltest_connected_gl_p(connected_gl_p);
+okltest_connected_ogl_p(connected_ogl_p);
+okltest_connected_mugl_p(connected_mugl_p);
+okltest_connected_omugl_p(connected_omugl_p);
 
 okltest_regular_g_p(regular_g_p);
 okltest_regular1_gg_p(regular1_gg_p);
