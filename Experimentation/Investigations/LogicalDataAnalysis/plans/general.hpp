@@ -91,8 +91,8 @@ float(ncprob_rec_boolmat(10,50));
    \verbatim
 nccountm_boolmat_rec(n,m) := nccountm_boolmat_rec_r[n, m, 0]$
 nccountm_boolmat_rec_r[n,m,c] := if m = 0 then 1 else 
-    c* nccount_boolmat_rec_r[n,m-1,c] + 
-    2* (2^n - c) * nccount_boolmat_rec_r[n,m-1,c+1]$
+    c* nccountm_boolmat_rec_r[n,m-1,c] + 
+    2* (2^n - c) * nccountm_boolmat_rec_r[n,m-1,c+1]$
 
 ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
    \endverbatim
@@ -192,10 +192,49 @@ plot_approx_ncprob_0(n,m_max) := plot2d(approx_ncprob_0(n,m), [m,1,m_max])$
      <li> We can plot both side by side in the following way
      \verbatim
 plot_approx_vs_exact_ncprob_0(n,m_max) := block(
-  [exact_data : create_list([i,float(ncprob_boolmat(n,i))],i,1,m_max)], 
+  [exact_data : create_list([i,float(ncprobm_boolmat(n,i))],i,1,m_max)], 
   plot2d([approx_ncprob_0(n,m),[discrete,exact_data]], [m,1,m_max],
     [legend,"approx","exact"]))$
      \endverbatim
+     </li>
+     <li> We can plot the difference and the ratio of the approximation
+     function to the real value like so
+     \verbatim
+diff_approx2exact_ncprob_0(n,m) := 
+  float(ncprobm_boolmat(n,m)) - approx_ncprob_0(n,m)$
+plot_diff_approx2exact_ncprob_0(n,m_max) := block(
+  [diff_data : 
+     create_list(
+       [m,diff_approx2exact_ncprob_0(n,m)],m,1,m_max)], 
+  plot2d([discrete,diff_data], [legend, "approx - exact"]))$
+
+ratio_approx2exact_ncprob_0(n,m) := 
+  float(ncprobm_boolmat(n,m)) / approx_ncprob_0(n,m)$
+plot_ratio_approx2exact_ncprob_0(n,m_max) := block(
+  [diff_data : 
+     create_list(
+       [m,ratio_approx2exact_ncprob_0(n,m)],m,1,m_max)], 
+  plot2d([discrete,diff_data], [legend, "approx - exact"]))$
+     \endverbatim
+     </li>
+     <li> Looking at plot_diff_approx2exact_ncprob_0(5,20) we seem to
+     get some kind of gaussian distribution, suggesting that perhaps
+     there is an additional exponential term which should 
+     be added for the approximation. </li>
+     <li> The following function, given n will find the first m (for all m > ms)
+     such that f(m+1) is less than f(m) (i.e,. will find the maximum)
+     \verbatim
+find_maxima_2(f,n) := block([result : undef],
+  for m : 1 while result = undef do if f(n,m) > f(n,m+1) then result : m,
+  return(result))$
+     \endverbatim
+     which yields
+     \verbatim
+create_list(find_maxima_2(diff_approx2exact_ncprob_0,1,n),n,1,15);
+[2,3,5,7,9,13,19,27,38,53,75,106,151,213,301]
+     \endverbatim
+     This can be used to gain some understanding of how the difference
+     between the approximation and the exact value changes with n.
      </li>
     </ol>
    </li>
