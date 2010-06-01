@@ -96,45 +96,76 @@ nccountm_boolmat_rec_r[n,m,c] := if m = 0 then 1 else
 
 ncprobm_boolmat_rec(n,m) := nccountm_boolmat_rec(n,m) / (2^(n+1))^m$
    \endverbatim
-   where nccountm_boolmat_rec_r[n,m,c] computes the number of 
-   non-contradictory input matrices of size o+m which extend any given
-   fixed o-length prefix with c unique vectors (for o > c).
-OK: This doesn't define anything, since "o" is unspecified: If a variable
-is not a parameter, then it must be a bound variable, that is, it must
-be introduced by "there exists" or "for all".
-So MG needs to make this statement precise, by using formal language.
-Also do NOT use "unique" other in statements like "there exists a unique
-x with the property P(x)" (above it apparently is applied to several
-objects, and then "unique" can mean several things).
    </li>
-   <li> Given any matrix M' (over {0,1}) of size m'*(n+1) for m',n >= 0
-   for arbitrary  natural number m' > 0, such that no two rows
-   in M conflict, and the number of different vectors in M is c, then the 
-   number of matrices (over {0,1}) of size (m'+m)*(n+1) for m >= 0, where
-   the first m' rows are the rows of M', is nccountm_boolmat_rec_r(n,m,c).
-OK: The first row speaks of "M'", but then M' is not mentioned anymore in
-this paragraph??
-MG, please do NOT use "any" (since the usage of mathematical language
-is too shaky, and "any" can mean "for all" and "there exists".
-   </li>
-   When calculating this, we have two possibilities for the m'+1th row, 
-   either
+   <li> For all natural numbers m', n >= 0, for all 0 <= c <= m' and 
+   for all matrices M' (over {0,1}) of size m'*(n+1), if we have that
    <ol>
-    <li> it repeats one of the vectors in M', of which there are c unique 
-    vectors to repeat and so there are c choices for the m+1th row. Then
-    we must also make choices for the remaining vectors, and so in total, 
-    there are c * nccountm_boolmat_rec_r(n,m-1,c) non-contradictory matrices
-    with M' as the starting block and where the m'+1th row repeats a vector
-    in M'. </li>
-OK: Do NOT use "it" --- to what does "it" refer??
-    <li> it doesn't repeat one of the vectors in M', and nor does it conflict
-    with any vectors in M'. As there are c unique vectors to repeat or 
-    conflict with and so there are 2^(n+1) - 2*c choices for the m+1th row. 
-    Then we must also make choices for the remaining vectors, and so in total, 
-    there are (2^(n+1) - 2*c) * nccountm_boolmat_rec_r(n,m-1,c+1) 
-    non-contradictory matrices with M' as the starting block and where the 
-    m'+1th row neither repeats or conflicts with any vector in M'. </li>
+    <li> no two rows in M' contradict (i.e., are identical except for the last
+    element), and </li>
+    <li> the number of different vectors in M' is c, </li>
    </ol>
+   then for all m >= 0, we have that the number of matrices (over {0,1}) of 
+   size (m'+m)*(n+1) where
+   <ul>
+    <li> no two rows contradict, and </li>
+    <li> the first m' rows are the rows of M' </li>
+   </ul>
+   is nccountm_boolmat_rec_r(n,m,c).
+   </li>
+   <li>
+   To derive such a formula, we consider there are two possibilities for the 
+   (m'+1)-th row, either
+   <ol>
+    <li> the (m'+1)-th row repeats one of the vectors in M', of which there 
+    are c different vectors to repeat, or </li>
+    <li> the (m'+1)-th row neither repeats nor contradicts any row in M', 
+    of which there are c rows to repeat, and c rows to contradict with, and
+    so (2^(n+1)-2*c) such valid vectors for the (m'+1)-th row in this case. 
+    </li>
+   </ol>
+   Therefore, we have that 
+   <ol>
+    <li> in case 1, the number of matrices (over {0,1}) of size (m'+m)*(n+1)
+    where 
+    <ul>
+     <li> no two rows contradict, </li>
+     <li> the first m' rows are the rows of M', and </li>
+     <li> the (m'+1)-th row is a repetition of a row in M' </li>
+    </ul>
+    is c * nccountm_boolmat_rec_r(n,m-1,c). That is, for every one of the
+    c valid vectors V in the (m'+1)-th row, the number of matrices M (over 
+    {0,1}) of size ((m'+1)+(m-1))*(n+1) where 
+    <ul>
+     <li> the first rows m'+1 rows of M are the rows of append(M',V), and 
+     </li>
+     <li> no two rows in M contradict </li>
+    </ul>
+    is nccountm_boolmat_rec_r(n,m-1,c), as V repeats a vector in M', and so 
+    append(M',V) contains c different vectors.
+    </li>  
+    <li> in case 2, the number of matrices (over {0,1}) of size (m'+m)*(n+1)
+    where 
+    <ul>
+     <li> no two rows contradict, </li>
+     <li> the first m' rows are the rows of M', </li>
+     <li> the (m'+1)-th row is not a repetition of a row in M', and </li>
+     <li> the (m'+1)-th row does not contradict with any row in M' </li>
+    </ul>
+    is (2^(n+1) - 2*c) * nccountm_boolmat_rec_r(n,m-1,c+1). That is, for every
+    such vector V in the (m'+1)-th row (of which there are (2^(n+1) - 2*c) 
+    possibilities), the number of matrices M (over {0,1}) of size 
+    ((m'+1)+(m-1))*(n+1) where 
+    <ul>
+     <li> the first rows m'+1 rows of M are the rows of append(M',V), and 
+     </li>
+     <li> no two rows in M contradict </li>
+    </ul>
+    is nccountm_boolmat_rec_r(n,m-1,c+1), as V does not repeat a vector in M', 
+    and so append(M',V) contains c+1 different vectors.
+    </li>
+   </ol>
+   Finally, we take the sum of the two cases to produce the total number
+   of such matrices.
    </li>
    <li> It seems the direct formula is more efficient to compute. </li>
    <li> A nice approximative formula should be developed (perhaps based on
@@ -158,6 +189,14 @@ plot_approx_ncprob_0(n,m_max) := plot2d(approx_ncprob_0(n,m), [m,1,m_max])$
      \endverbatim
      How can we keep on old gnuplot-window (so that there we can compare the
      two plots in a simple way)? </li>
+     <li> We can plot both side by side in the following way
+     \verbatim
+plot_approx_vs_exact_ncprob_0(n,m_max) := block(
+  [exact_data : create_list([i,float(ncprob_boolmat(n,i))],i,1,m_max)], 
+  plot2d([approx_ncprob_0(n,m),[discrete,exact_data]], [m,1,m_max],
+    [legend,"approx","exact"]))$
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
