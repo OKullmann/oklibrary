@@ -188,6 +188,11 @@ all_minequiv_bvs_rsubhg(S) :=
    full clause-set F: */
 all_minequiv_bvsr_cs(F) := all_minequiv_bvs_rsubhg(rsubsumption_hg_full_cs(F))$
 all_minequiv_bvsr_fcs(FF) := all_minequiv_bvsr_cs(fcs2cs(FF))$
+/* Allowing the specification of total assignments which the prime clauses
+   must subsume. */
+all_minequiv_bvsr_sub_cs(F, G_sub) :=
+  all_minequiv_bvs_rsubhg(
+    rsubsumption_hg(min_2resolution_closure_cs(F), G_sub))$
 
 
 /* Dualisation: */

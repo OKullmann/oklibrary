@@ -12,6 +12,18 @@ License, or any later version. */
   This sub-module will be moved to module Satisfiability/Lisp/Primality.
 
 
+  \todo Tests
+  <ul>
+   <li> Add tests for all functions, including
+    <ul>
+     <li> all_minequiv_bvs_rsubhg </li>
+     <li> all_minequiv_bvsr_cs </li>
+     <li> all_minequiv_bvsr_sub_cs </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> DONE (to be moved to
