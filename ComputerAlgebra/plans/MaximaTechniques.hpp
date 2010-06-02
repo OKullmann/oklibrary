@@ -248,20 +248,23 @@ snbl2cdn(x) := block([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x), t, ta],
 
   \todo Bugs of Maxima and their corrections
   <ul>
+   <li> Problems with the empty Maxima-digraph:
+   \verbatim
+is_sconnected(empty_digraph(1));
+  true
+is_sconnected(empty_digraph(2));
+  false
+is_sconnected(empty_digraph(0));
+  false
+   \endverbatim
+   where the last result should be true. We have corrected this in
+   sconnected_dg_p(G), but notify the Maxima mailing-list. </li>
    <li> set_partitions(n,k) produces sets which can not be used further.
    The temporary fix is to use apply "resimplify(expr):=expand(expr,1,1)$"
    to the result. </li>
-    <ol>
-     <li> Consider
-     \verbatim
-fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
-     \endverbatim
-     </li>
-     <li> Both clisp and ecl for n=5000 create a segmentation fault
-     (without computing previous values). </li>
-     <li> So actually recursion cannot be used! </li>
-    </ol>
-   </li>
+   <li> Regarding the combination of memoisation and recursion, see
+   "Weak recursion for memoised functions" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
    <li> apply
     <ol>
      <li> See "Apply-functionality" in

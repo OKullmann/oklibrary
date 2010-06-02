@@ -60,9 +60,11 @@ okltest_gr_equalp(gr_equalp);
    **************
 */
 
+okltest_g2mug(g2mug);
 okltest_gl2mugl(gl2mugl);
 okltest_g2gg(g2gg);
 okltest_gl2gg(gl2gg);
+okltest_mug2gg(mug2gg);
 okltest_mugl2gg(mugl2gg);
 
 okltest_ogl2omugl(ogl2omugl);
@@ -76,6 +78,7 @@ okltest_mug2omug(mug2omug);
 okltest_mugl2omugl(mugl2omugl);
 okltest_gg2ogg(gg2ogg);
 
+okltest_dg2mudg(dg2mudg);
 okltest_dgl2mudgl(dgl2mudgl);
 okltest_dg2gdg(dg2gdg);
 okltest_dgl2gdg(dgl2gdg);
@@ -112,6 +115,7 @@ okltest_omug2mug(omug2mug);
 okltest_omugl2mugl(omugl2mugl);
 okltest_ogg2gg(ogg2gg);
 
+okltest_mudg2dg(mudg2dg);
 okltest_mudgl2dgl(mudgl2dgl);
 okltest_gdg2dgl(gdg2dgl);
 okltest_gdg2mudgl(gdg2mudgl);
@@ -143,10 +147,11 @@ okltest_dgl2gl(dgl2gl);
 okltest_odgl2ogl(odgl2ogl);
 okltest_gdg2gg(gdg2gg);
 okltest_ogdg2ogg(ogdg2ogg);
+okltest_mudg2mug(mudg2mug);
 
 okltest_g2dg(g2dg);
 okltest_gl2dgl(gl2dgl);
-
+okltest_mug2mudg(mug2mudg);
 
 /* **************************
    * Basic graph operations *
@@ -230,6 +235,26 @@ okltest_has_dominating_vertex_g(has_dominating_vertex_g);
 okltest_has_dominating_vertex_gl(has_dominating_vertex_gl);
 
 okltest_connected_g_p(connected_g_p);
+okltest_connected_og_p(connected_og_p);
+okltest_connected_mug_p(connected_mug_p);
+okltest_connected_omug_p(connected_omug_p);
+okltest_connected_gg_p(connected_gg_p);
+okltest_connected_ogg_p(connected_ogg_p);
+okltest_connected_gl_p(connected_gl_p);
+okltest_connected_ogl_p(connected_ogl_p);
+okltest_connected_mugl_p(connected_mugl_p);
+okltest_connected_omugl_p(connected_omugl_p);
+
+okltest_sconnected_dg_p(sconnected_dg_p);
+okltest_sconnected_odg_p(sconnected_odg_p);
+okltest_sconnected_mudg_p(sconnected_mudg_p);
+okltest_sconnected_omudg_p(sconnected_omudg_p);
+okltest_sconnected_gdg_p(sconnected_gdg_p);
+okltest_sconnected_ogdg_p(sconnected_ogdg_p);
+okltest_sconnected_dgl_p(sconnected_dgl_p);
+okltest_sconnected_odgl_p(sconnected_odgl_p);
+okltest_sconnected_mudgl_p(sconnected_mudgl_p);
+okltest_sconnected_omudgl_p(sconnected_omudgl_p);
 
 okltest_regular_g_p(regular_g_p);
 okltest_regular1_gg_p(regular1_gg_p);

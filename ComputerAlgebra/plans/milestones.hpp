@@ -118,7 +118,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - No recursion for memoised functions
+    - Weak recursion for memoised functions
 
 
   \par Version 0.1.4
