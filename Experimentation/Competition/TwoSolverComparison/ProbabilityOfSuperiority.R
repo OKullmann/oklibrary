@@ -57,7 +57,9 @@ bootstrapvariance = function(sample,bootstraps) {
 }
 
 
-# Determining the "probability of superiority", comparing 2 solvers:
+# Determining the "probability of superiority", comparing 2 solvers
+# (see convenience-function probsup_solvcomp_files below, which takes
+# as input two filenames):
 probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
@@ -129,6 +131,9 @@ probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
   cat("Average of probabilites of superiority: ",savg,"\n",sep="")
 }
 
+# Reading two files, each containing a simple data-table, without heading; the
+# files must have the same number of lines, but the number of columns can
+# vary between the two files (though not internally):
 read_probsup_solvcomp = function(file1, file2) {
   t1=read.table(file1);
   t2=read.table(file2);
