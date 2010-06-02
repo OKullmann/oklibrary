@@ -185,6 +185,7 @@ mug2omug(G) := generic_gg2ogg(G)$
 mugl2omugl(G) := generic_gg2ogg(G)$
 gg2ogg(G) := generic_gg2ogg(G)$
 
+dg2mudg(G) := generic_g2mug(G)$
 dgl2mudgl(G) := generic_g2mug(G)$
 dg2gdg(G) := generic_g2gg(G)$
 dgl2gdg(G) := generic_g2gg(G)$
@@ -233,6 +234,7 @@ omug2mug(G) := [setify(G[1]), setify(G[2]), G[3]]$
 omugl2mugl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogg2gg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
+mudg2dg(G) := [first(G),second(G)]$
 mudgl2dgl(G) := [G[1],G[2]]$
 gdg2dgl(G) := [G[1], map(G[3],G[2])]$
 gdg2mudgl(G) := generic_gg2mugl(G)$
@@ -267,6 +269,12 @@ dgl2gl(G) := [G[1], map(setify,G[2])]$
 odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
 gdg2gg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 ogdg2ogg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
+mudg2mug(G) := 
+ endcons(buildq([E:G[2],ef:G[3]], 
+     lambda([e], block([e1:listify(e), e2], e2 : reverse(e1),
+       if elementp(e1,E) then ef(e1) + if elementp(e2,E) then ef(e2) else 0
+       else ef(e2)))), 
+     dg2g(mudg2dg(G)))$
 
 /* Representing graphs by directed graphs: */
 g2dg(G) := [G[1], setify(lappend(
@@ -276,7 +284,8 @@ gl2dgl(G) := [G[1], setify(lappend(
   map(lambda([e], block([d : listify(e)], 
         if length(d)=1 then [append(d,d)] else [d,reverse(d)])),
       listify(G[2]))))]$
-
+mug2mudg(G) := block([DG : g2dg(mug2g(G))], 
+ endcons(buildq([ef:G[3]], lambda([e], ef(setify(e)))), DG))$
 
 
 /* **************************
@@ -409,7 +418,7 @@ has_dominating_vertex_gl(G) :=
 
 
 /* Tests whether a graph is connected: */
-connected_g_p(G) := emptyp(G[1]) or is_connected(g2mg(G))$
+connected_g_p(G) := is_connected(g2mg(G))$
 connected_og_p(G) := is_connected(og2mg(G))$
 connected_mug_p(G) :=  connected_g_p(mug2g(G))$
 connected_omug_p(G) :=  connected_og_p(omug2og(G))$
@@ -421,16 +430,16 @@ connected_mugl_p(G) :=  connected_gl_p(mugl2gl(G))$
 connected_omugl_p(G) :=  connected_ogl_p(omugl2ogl(G))$
 
 /* Tests whether a digraph is strongly connected: */
-sconnected_dg_p(G) := is_sconnected(dg2mdg(G))$
-sconnected_odg_p(G) := is_connected(odg2mdg(G))$
-sconnected_mudg_p(G) :=  sconnected_dg_p(mudg2dg(G))$
-sconnected_omudg_p(G) :=  sconnected_odg_p(omudg2odg(G))$
-sconnected_gdg_p(G) :=  sconnected_dgl_p(gdg2dgl(G))$
-sconnected_ogdg_p(G) :=  sconnected_odgl_p(ogdg2odgl(G))$
+sconnected_dg_p(G) := emptyp(G[1]) or is_sconnected(dg2mdg(G))$
+sconnected_odg_p(G) := emptyp(G[1]) or is_sconnected(odg2mdg(G))$
+sconnected_mudg_p(G) := sconnected_dg_p(mudg2dg(G))$
+sconnected_omudg_p(G) := sconnected_odg_p(omudg2odg(G))$
+sconnected_gdg_p(G) := sconnected_dgl_p(gdg2dgl(G))$
+sconnected_ogdg_p(G) := sconnected_odgl_p(ogdg2odgl(G))$
 sconnected_dgl_p(G) := is_connected(dg2mdg(dgl2dg(G)))$
 sconnected_odgl_p(G) := is_connected(odg2mg(odgl2odg(G)))$
-sconnected_mudgl_p(G) :=  sconnected_dgl_p(mudgl2dgl(G))$
-sconnected_omudg_p(G) :=  sconnected_odgl_p(omudgl2odgl(G))$
+sconnected_mudgl_p(G) := sconnected_dgl_p(mudgl2dgl(G))$
+sconnected_omudgl_p(G) := sconnected_odgl_p(omudgl2odgl(G))$
 
 
 /* Tests whether a graph is a tree: */
@@ -526,6 +535,16 @@ dg2mdg(G) := block(
  ))
 )$
 
+odg2mdg(G) := block(
+ [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
+ for i : 1 thru n do set_hm(h, V[i], i),
+ return(
+   create_graph(
+     create_list([i,V[i]],i,1,n), 
+     create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
+     true
+ ))
+)$
 
 
 /*!

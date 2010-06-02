@@ -531,10 +531,20 @@ okltest_gg2ogg(f) := block([k],
     assert(ogg2gg(f(G)) = G),
   true)$
 
+okltest_dg2mudg(f) := block ([k],
+  assert(gr_equalp(f([{},{}]), [{},{},k]) = true),
+  assert(gr_equalp(f([{1},{}]), [{1},{},k]) = true),
+  assert(f([{1,2},{[1,2],[2,1]}]) = [{1,2},{[1,2],[2,1]},lambda([e],1)]),
+  for L in [okltest_list_dg] do
+    for G in L do
+      assert(mudgl2dgl(f(G)) = G),
+  true)$
+
 okltest_dgl2mudgl(f) := block ([k],
   assert(gr_equalp(f([{},{}]), [{},{},k]) = true),
   assert(gr_equalp(f([{1},{}]), [{1},{},k]) = true),
   assert(f([{1,2},{[1,2],[2,1]}]) = [{1,2},{[1,2],[2,1]},lambda([e],1)]),
+  assert(f([{1,2},{[1,2],[2,1],[1,1]}]) = [{1,2},{[1,2],[2,1],[1,1]},lambda([e],1)]),
   for L in [okltest_list_dg,okltest_list_dgl] do
     for G in L do
       assert(mudgl2dgl(f(G)) = G),
@@ -729,11 +739,19 @@ okltest_ogg2gg(f) := block([ef,e,e2],
   assert(f([[1,2],[e,e2],ef]) = [{1,2},{e,e2},ef]),
   true)$
 
+okltest_mudg2dg(f) := block([e],
+  assert(f([{},{},e]) = [{},{}]),
+  assert(f([{1},{},e]) = [{1},{}]),
+  assert(f([{1,2},{[1,2]},e]) = [{1,2},{[1,2]}]),
+  assert(f([{1,2},{[1,2],[2,1]},e]) = [{1,2},{[1,2],[2,1]}]),
+  true)$
+
 okltest_mudgl2dgl(f) := block([e],
   assert(f([{},{},e]) = [{},{}]),
   assert(f([{1},{},e]) = [{1},{}]),
   assert(f([{1,2},{[1,2]},e]) = [{1,2},{[1,2]}]),
   assert(f([{1,2},{[1,2],[2,1]},e]) = [{1,2},{[1,2],[2,1]}]),
+  assert(f([{1},{[1,1]},e]) = [{1},{[1,1]}]),
   true)$
 
 okltest_gdg2dgl(f) := block([e],
@@ -869,6 +887,15 @@ okltest_ogdg2ogg(f) := (
   assert(okltest_gdg2gg(buildq([f],lambda([G],ogg2gg(f(gdg2ogdg(G))))))),
   true)$
 
+okltest_mudg2mug(f) := block([ef],
+  assert(gr_equalp(f([{},{},ef]), [{},{},ef]) = true),
+  assert(gr_equalp(f([{11},{},ef]), [{11},{},ef]) = true),
+  assert(gr_equalp(f([{1,2},{[1,2]},lambda([e],3)]), [{1,2},{{1,2}},lambda([e],3)]) = true),
+  assert(gr_equalp(f([{1,2},{[2,1]},lambda([e],3)]), [{1,2},{{1,2}},lambda([e],3)]) = true),
+  assert(gr_equalp(f([{1,2},{[1,2],[2,1]},lambda([e],3)]), [{1,2},{{1,2}},lambda([e],6)]) = true),
+  assert(okltest_dg2g(buildq([f], lambda([G], mug2g(f(dg2mudg(G)))))) = true),
+  true)$
+
 okltest_g2dg(f) := block(
   assert(f([{},{}]) = [{},{}]),
   assert(f([{1},{}]) = [{1},{}]),
@@ -884,6 +911,15 @@ okltest_gl2dgl(f) := block(
   assert(f([{1,2},{{1,2}}]) = [{1,2},{[1,2],[2,1]}]),
   for G in append(okltest_list_g,okltest_list_gl) do
     assert(dgl2gl(f(G)) = G),
+  true)$
+
+okltest_mug2mudg(f) := block([e],
+  assert(gr_equalp(f([{},{},e]), [{},{},e]) = true),
+  assert(gr_equalp(f([{1},{},e]), [{1},{},e]) = true),
+  assert(gr_equalp(f([{1,2},{{1,2}},lambda([e],2)]), [{1,2},{[1,2],[2,1]},lambda([e],2)]) = true),
+  for G in okltest_list_mug do block([G2 : mudg2mug(f(G))],
+    assert(gr_equalp([G2[1],G2[2],buildq([G2],lambda([e],G2[3](e)/2))], G) = true)
+  ),
   true)$
 
 
@@ -1334,6 +1370,51 @@ okltest_connected_mugl_p(f) := (
 
 okltest_connected_omugl_p(f) := (
   assert(okltest_connected_mugl_p(buildq([f], lambda([G], f(mugl2omugl(G))))) = true),
+  true)$
+
+okltest_sconnected_dg_p(f) := (
+  assert(f([{1,2},{[1,2]}]) = false),
+  assert(f([{1,2},{[1,2],[2,1]}]) = true),
+  assert(f([{1,2,3},{[1,2],[2,3],[3,1]}]) = true),
+  assert(f([{1,2,3},{[1,2],[2,3],[1,3]}]) = false),
+  assert(okltest_connected_g_p(buildq([f], lambda([G], f(g2dg(G))))) = true),
+  true)$
+
+okltest_sconnected_odg_p(f) := (
+  assert(okltest_sconnected_dg_p(buildq([f], lambda([G], f(dg2odg(G))))) = true),
+  true)$
+
+okltest_sconnected_mudg_p(f) := (
+  assert(okltest_sconnected_dg_p(buildq([f], lambda([G], f(dg2mudg(G))))) = true),
+  assert(okltest_connected_mug_p(buildq([f], lambda([G], f(mug2mudg(G))))) = true),
+  true)$
+
+okltest_sconnected_omudg_p(f) := (
+
+  true)$
+
+okltest_sconnected_gdg_p(f) := (
+
+  true)$
+
+okltest_sconnected_ogdg_p(f) := (
+
+  true)$
+
+okltest_sconnected_dgl_p(f) := (
+
+  true)$
+
+okltest_sconnected_odgl_p(f) := (
+
+  true)$
+
+okltest_sconnected_mudgl_p(f) := (
+
+  true)$
+
+okltest_sconnected_omudgl_p(f) := (
+
   true)$
 
 okltest_regular_g_p(f) := (
