@@ -85,8 +85,8 @@ Snow_CVM : ttcom2cvm(Snow_CM)$
      <li> One way to represent such partial boolean functions f, where some 
      total assignments which are left open, is to consider a 3-tuple [V,F,G]
      where V is set of input variables, and then F is a full DNF
-     representing the satisfying assignments of f and G is a DNF representing
-     the falsifying assignments of f. </li>
+     representing the satisfying assignments of f and G is a full DNF 
+     representing the falsifying assignments of f. </li>
      <li> Such a representation of a boolean function can be computed as
      follows 
      \verbatim
@@ -137,6 +137,26 @@ pbf_resolve_conflict_ignore(PBF) :=
        \endverbatim
        </li>
       </ol>
+     </li>
+     <li> There is the problem here that, above, we have "ocom2pbf", which
+     then does not produce a partial boolean function, as there may
+     be contradictions in the result. There are two ways to overcome this,
+     either
+     <ul>
+      <li> merge ocom2pbf with pbf_resolve_conflict_true etc, so that we have
+      three functions 
+      <ol>
+       <li> ocom2pbf_resolve_true </li>
+       <li> ocom2pbf_resolve_false </li>
+       <li> ocom2pbf_resolve_ignore </li>
+      </ol>
+      and then one simply uses these, or
+      </li>
+      <li> We introduce a different notion other than partial boolean function
+      which allows for contradictions. We would then have ocom2XXX and 
+      XXX_resolve_conflict_(true,false,ignore).
+      </li>
+     </ul>
      </li>
      <li> Given a partial boolean function, we then have a variety of different
      possibilities of extending it to a total boolean function, namely
