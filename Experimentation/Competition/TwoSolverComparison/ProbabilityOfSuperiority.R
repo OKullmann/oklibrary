@@ -57,7 +57,7 @@ bootstrapvariance = function(sample,bootstraps) {
 }
 
 
-/* Determining the "probability of superiority", comparing 2 solvers: */
+# Determining the "probability of superiority", comparing 2 solvers:
 probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   # Checking that both tables have equal number of rows 
@@ -127,4 +127,16 @@ probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
   cat("Average of r values: ",ravg,"\n",sep="")
   cat("p-value of the test: ",2-2*pnorm(abs(zsum/sqrt(zvar))),"\n",sep="")
   cat("Average of probabilites of superiority: ",savg,"\n",sep="")
+}
+
+read_probsup_solvcomp = function(file1, file2) {
+  t1=read.table(file1);
+  t2=read.table(file2);
+  return(list(table1=t1, table2=t2));
+}
+
+
+probsup_solvcomp_files= function(file1, file2, cutoff, discard, bootstraps) {
+  tables=read_probsup_solvcomp(file1,file2);
+  return(probsup_solvcomp(tables$table1,tables$table2,cutoff,discard,bootstraps));
 }
