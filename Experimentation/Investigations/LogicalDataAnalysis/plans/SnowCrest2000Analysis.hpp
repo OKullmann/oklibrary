@@ -91,21 +91,20 @@ Snow_CVM : ttcom2cvm(Snow_CM)$
      follows 
      \verbatim
 ocom2pbf(M,il,ov) := block([CVM, FF,V, FF_T,FF_F],
-  CVM : ttcom2cvm(Snow_CM),
+  CVM : ttcom2cvm(M),
   V : map(gv_var,sublist(M[2],lambda([v],member(v,il)))),
   FF  : clvar_w_ocom2fcl(CVM, gv_var),
   FF  : restrict_V_cl(FF[2],cons(gv_var(ov),V)),
   FF_T : apply_pa_cl({-gv_var(ov)}, FF),
-  FF_F : dnf_dual_cl(apply_pa_cl({gv_var(ov)}, FF)),
+  FF_F : map(comp_sl,apply_pa_cl({gv_var(ov)}, FF)),
   return([V,FF_T,FF_F]))$
      \endverbatim
      and for example to compute the partial boolean function relating to
      the "Rep" output variable, we use
      \verbatim
 Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
-Snow_V_out : ["Rep","Re","Res","Ri"]$
 
-ocom2pbf(Snow_CM,Snow_V_in, Snow_V_out);
+ocom2pbf(Snow_CM,Snow_V_in, "Rep");
      \endverbatim
      </li>
      <li> Given such a partial boolean function from such a truth table, we
@@ -191,6 +190,33 @@ pbf_extend_all_false_cnf_fcl(PBF) := full_cnf2full_dnf([PBF[1],PBF[2]])$
 full_cnf2full_dnf(FF) :=
   [FF[1], sublist(all_tass_l(FF[1]),lambda([phi],sat_pacs_p(phi,FF[2])))]$
       \endverbatim
+     </li>
+     <li> To find all minimum DNF and CNF representations for a given 
+     combinatorial matrix, i.e., Snow_CM, we then have the following
+     examples
+     <ul>
+      <li> Analysing the data with output variable "Representation"
+      setting any conflicts to true, and any making the assumption
+      that all unknown cases may be true
+     \verbatim
+Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
+
+PBF : pbf_resolve_conflict_true(ocom2pbf(Snow_CM, Snow_V_in, "Rep"))$
+Rep_ext_DNF : pbf_extend_all_true_dnf_fcl(PBF)$
+Rep_min_DNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
+Rep_min_CNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
+     \endverbatim
+     </li>
+     <li> Analysing the data with output variable "Representation"
+      setting any conflicts to true, and any making the assumption
+      that all unknown cases may be false
+     \verbatim
+Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
+
+PBF : pbf_resolve_conflict_true(ocom2pbf(Snow_CM, Snow_V_in, "Rep"))$
+Rep_ext_DNF : pbf_extend_all_false_dnf_fcl(PBF)$
+Rep_min_DNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
+     \endverbatim
      </li>
     </ul>
    </li>
