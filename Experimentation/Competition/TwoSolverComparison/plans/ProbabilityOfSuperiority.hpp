@@ -22,17 +22,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Input
-  <ul>
-   <li> Apparently a helper function is needed, which reads the data files,
-   and a convenience instantiation of the main function, where the inputs
-   are not tables, but filenames. </li>
-   <li> The helper function is called "read_XXX", where XXX stands for the
-   name of the method (see "Names" above). </li>
-   <li> This function needs (of course) specification. </li>
-  </ul>
-
-
   \todo Output
   <ul>
    <li> The main function needs to output its result into a suitable
@@ -51,7 +40,9 @@ License, or any later version. */
    <li> rcor </li>
    <li> jackknifevariance </li>
    <li> bootstrapvariance </li>
-   <li> ProbabilityOfSuperiority </li>
+   <li> probsup_solvcmp </li>
+   <li> probsup_solvcmp_files </li>
+   <li> read_probsup_solvcmp </li>
   </ul>
 
 
