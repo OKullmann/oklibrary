@@ -248,6 +248,17 @@ snbl2cdn(x) := block([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x), t, ta],
 
   \todo Bugs of Maxima and their corrections
   <ul>
+   <li> Problems with the empty Maxima-digraph:
+   \verbatim
+is_sconnected(empty_digraph(1));
+  true
+is_sconnected(empty_digraph(2));
+  false
+is_sconnected(empty_digraph(0));
+  false
+   \endverbatim
+   where the last result should be true. We have corrected this in
+   sconnected_dg_p(G), but notify the Maxima mailing-list. </li>
    <li> set_partitions(n,k) produces sets which can not be used further.
    The temporary fix is to use apply "resimplify(expr):=expand(expr,1,1)$"
    to the result. </li>
