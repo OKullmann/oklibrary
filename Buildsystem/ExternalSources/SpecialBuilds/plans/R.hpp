@@ -140,6 +140,13 @@ Error: package 'tcltk' could not be loaded
        the logarithmic integral). </li>
        <li> Needs the Gnu Gsl-library installed. </li>
        <li> Likely we should do this locally. </li>
+       <li> But then, how to tell the R-installation about this local
+       library? </li>
+       <li> Using "oklib --R CMD INSTALL --help" reveals no options for
+       libraries needed by the packages? </li>
+       <li> Perhaps the usual configure-options are to be used, together
+       with "--configure-args=ARGS" and "--configure-vars=VARS" (but unclear
+       what these CMD-options mean)? </li>
       </ol>
      </li>
      <li> "SparseM" </li>
