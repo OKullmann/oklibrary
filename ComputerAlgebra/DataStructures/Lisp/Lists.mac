@@ -253,6 +253,14 @@ partition_list_epo(L,pred_) := block([A : [], B : []],
   for x in L do if pred_(x) then A : cons(x,A) else B : cons(x,B),
   return([reverse(A),reverse(B)]))$
 
+/* Partition a list into lists of elements which have
+   the same value under the mapping eq_. */
+partition_list_eq(L,eq_) := block([H : sm2hm({}),v],
+  for x in L do 
+    if (v : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
+    else set_hm(H,eq_(x),cons(x,v)),
+  return(map(lambda([A],reverse(A[2])),listify(hm2sm(H)))))$
+
 
 /* **********************
    * List constructions *

@@ -406,6 +406,13 @@ okltest_partition_list(f) := block([P],
   ),
   true)$
 
+okltest_partition_list_eq(f) := block(
+  assert(f([],lambda([x],x)) = []),
+  assert(f([1,2,3,4,5],lambda([x],x)) = [[1],[2],[3],[4],[5]]),
+  assert(f([1,2,3,4,5],lambda([x],0)) = [[1,2,3,4,5]]),
+  assert(f([1,2,3,4,5],lambda([x],floor(x/2))) = [[1],[2,3],[4,5]]),
+  assert(f([1,2,3,4,5],lambda([x],ceiling(x/2))) = [[1,2],[3,4],[5]]),
+  true)$
 
 /* **********************
    * List constructions *
