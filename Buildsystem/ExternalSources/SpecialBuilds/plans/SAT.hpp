@@ -130,7 +130,8 @@ CFLAGS='-I$(MTL) -Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(z
      </li>
     </ol>
    </li>
-   <li> Minisat
+   <li> DONE (building minisat2, but not minisat1)
+   Minisat
    \verbatim
 Installations/SAT> unzip ../../sources/SAT/MiniSat/MiniSat_v1.14.2006-Aug-29.src.zip
 Installations/SAT> cd MiniSat_v1.14

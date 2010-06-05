@@ -9,10 +9,9 @@
 # Directory Structure
 # ################################## 
 
-minisat1_directories_okl := $(minisat_base_installation_dir_okl) $(minisat_base_build_dir_okl) $(minisat1_installation_dir_okl)
 minisat2_directories_okl := $(minisat_base_installation_dir_okl) $(minisat_base_build_dir_okl) $(minisat2_installation_dir_okl)
 minisatp_directories_okl := $(minisat_base_installation_dir_okl) $(minisat_base_build_dir_okl) $(minisatp_installation_dir_okl)
-minisat_directories_okl := $(minisat_base_installation_dir_okl) $(minisat_base_build_dir_okl) $(minisat1_installation_dir_okl) $(minisat2_installation_dir_okl) $(minisatp_installation_dir_okl)
+minisat_directories_okl := $(minisat_base_installation_dir_okl) $(minisat_base_build_dir_okl) $(minisat2_installation_dir_okl) $(minisatp_installation_dir_okl)
 
 $(minisat_directories_okl) : % : 
 	mkdir -p $@
@@ -22,16 +21,9 @@ $(minisat_directories_okl) : % :
 # Main Minisat targets
 # #################################
 
-.PHONY : minisat minisat1 minisat2 minisatp cleanminisat cleanallminisat
+.PHONY : minisat minisat2 minisatp cleanminisat cleanallminisat
 
-minisat : minisat1 minisat2 minisatp
-
-minisat1 : $(minisat1_directories_okl)
-	$(call unarchive,$(minisat1_source_okl),$(minisat_base_build_dir_okl)) $(postcondition) \
-	cd $(minisat1_build_dir_okl); $(postcondition) \
-	make rs CFLAGS='-Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl)" CXX=$(gpp_call_okl); $(postcondition) \
-	cp minisat_static $(minisat1_installation_dir_okl); $(postcondition) \
-	ln -s --force $(minisat1_call_okl) $(public_bin_dir_okl)/minisat1; $(postcondition)
+minisat : minisat2 minisatp
 
 minisat2 : $(minisat2_directories_okl)
 	$(call unarchive,$(minisat2_source_okl),$(minisat_base_build_dir_okl)) $(postcondition) \
