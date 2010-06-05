@@ -162,12 +162,6 @@ Remarks:
    (directly reachable from the local home page, see below) should now
    be correct, but updating the information on the specific installation pages
    needs the full "oklib html".
- - If you get error messages with "oklib documentation_index" then likely
-   this means that the binary "PathDifference" (needed to translate paths and 
-   which needs to be compiled by the OKlibrary), which we supply 
-   as a binary (in the optimised version), doesn't run on your system (so likely
-   your system is not a i386-architecture). "oklib all" in OKsystem will compile
-   it (amongst others), but you need gcc and Boost ready for this.
 
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources below and on the local home page.
