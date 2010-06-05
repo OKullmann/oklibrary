@@ -113,6 +113,23 @@ License, or any later version. */
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
+   <li> DONE (installed locally)
+   Minisat needs the library zlib http://www.zlib.net/ ; which we should
+   install locally.
+    <ol>
+     <li> Then the directories for include-library and link-library need to
+     be specified for the makefile. </li>
+     <li> Easiest (in this case for minisat2) to use
+     \verbatim
+CFLAGS='-I$(MTL) -Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl)"
+     \endverbatim
+     </li>
+     <li> Should building of zlib be independent (like for bzip2), or just
+     embedded into building minisat? </li>
+     <li> Simplest we make it independent, just copying the bzip2-approach.
+     </li>
+    </ol>
+   </li>
    <li> Minisat
    \verbatim
 Installations/SAT> unzip ../../sources/SAT/MiniSat/MiniSat_v1.14.2006-Aug-29.src.zip
