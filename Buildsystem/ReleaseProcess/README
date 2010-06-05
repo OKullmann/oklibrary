@@ -222,15 +222,14 @@ OKplatform/ExternalSources.
 
 4) A local gcc is installed (providing a C and a C++ compiler).
 
-5) The C++ libraries Boost and Mhash are installed locally (using the
-local gcc).
+5) The C++ library Boost is installed locally (using the local gcc).
 
 6) The Gmp library is installed locally.
 
 6) And further computer algebra systems installed are Gap and R.
 
-7) The SAT solver installed by default are Ubcsat, minisat1, minisat2,
- minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
+7) The SAT solver installed by default are Ubcsat, minisat2, minisat+, 
+ march_pl, satz215, survey_propagation, sat-grasp. picosat913,
  precosat236 and the argosat solver (and library).
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
