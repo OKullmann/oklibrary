@@ -1,5 +1,5 @@
 // Matthew Henderson, 14.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,7 +24,25 @@ License, or any later version. */
    see "Reference to 10Challenges-directory does not work" in
    Buildsystem/Html/Local/plans/TenChallenges.hpp. </li>
    <li> This has been acknowledged as a Doxygen-bug, and shall be submitted
-   to the Doxygen bug-tracking system. </li>
+   to the Doxygen bug-tracking system. Though we need to check whether with
+   newer doxygen-versions the problem might have been solved. </li>
+   <li> List of such problems (by the make-variables for the addresses):
+    <ol>
+     <li> tenchallenges_doxygen_directory </li>
+     <li> licence_docu_page: The currently stored path starts with
+     "doxygen_html/d9/da9/", however on csltok we have the path
+     "doxygen_html/d2/d59" ? Check on cs-wsok. </li>
+     <li> main_docu_page: This seems to be a different issue --- on csltok
+     the current value, with path
+     "doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html" works for one
+     installation, however for another installation we get
+     "doxygen_html/d0/dfd/docus_2general_8hpp.html" ? </li>
+     <li> main_demo_page: Seems to be the same problem; on csltok the current
+     value, with path "doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html"
+     works, however for a different installation we get the path
+     "doxygen_html/dc/d5b/demos_2general_8hpp.html" ? </li>
+    </ol>
+   </li>
    <li> When introducing the new page
    Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp, then the
    address for Buildsystem/ExternalSources/SpecialBuilds/docus/Ecl.hpp
