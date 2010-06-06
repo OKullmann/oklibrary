@@ -91,6 +91,7 @@ okltest_omudgl2ogdg(omudgl2ogdg);
 
 okltest_dg2odg(dg2odg);
 okltest_dgl2odgl(dgl2odgl);
+okltest_mudg2omudg(mudg2omudg);
 okltest_mudgl2omudgl(mudgl2omudgl);
 okltest_gdg2ogdg(gdg2ogdg);
 
@@ -120,12 +121,14 @@ okltest_mudgl2dgl(mudgl2dgl);
 okltest_gdg2dgl(gdg2dgl);
 okltest_gdg2mudgl(gdg2mudgl);
 
+okltest_omudg2odg(omudg2odg);
 okltest_omudgl2odgl(omudgl2odgl);
 okltest_ogdg2odgl(ogdg2odgl);
 okltest_ogdg2omudgl(ogdg2omudgl);
 
 okltest_odg2dg(odg2dg);
 okltest_odgl2dgl(odgl2dgl);
+okltest_omudg2mudg(omudg2mudg);
 okltest_omudgl2mudgl(omudgl2mudgl);
 okltest_ogdg2gdg(ogdg2gdg);
 

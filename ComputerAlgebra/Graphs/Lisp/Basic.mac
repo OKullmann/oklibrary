@@ -198,6 +198,7 @@ omudgl2ogdg(G) := generic_omug2ogg(G)$
 
 dg2odg(G) := generic_g2og(G)$
 dgl2odgl(G) := generic_g2og(G)$
+mudg2omudg(G) := generic_gg2ogg(G)$
 mudgl2omudgl(G) := generic_gg2ogg(G)$
 gdg2ogdg(G) := generic_gg2ogg(G)$
 
@@ -239,12 +240,14 @@ mudgl2dgl(G) := [G[1],G[2]]$
 gdg2dgl(G) := [G[1], map(G[3],G[2])]$
 gdg2mudgl(G) := generic_gg2mugl(G)$
 
+omudg2odg(G) := [G[1],G[2]]$
 omudgl2odgl(G) := [G[1],G[2]]$
 ogdg2odgl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogdg2omudgl(G) := generic_ogg2omugl(G)$
 
 odg2dg(G) := [setify(G[1]), setify(G[2])]$
 odgl2dgl(G) := [setify(G[1]), setify(G[2])]$
+omudg2mudg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 omudgl2mudgl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
