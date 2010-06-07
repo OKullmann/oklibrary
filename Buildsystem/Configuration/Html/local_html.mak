@@ -76,5 +76,5 @@ usermaxima_docu_page_okl ?= $(doc_dir)/doxygen_html/d0/d69/ComputerAlgebra_2docu
 
 main_demo_page ?= $(doc_dir)/doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html
 
-licence_docu_page ?= $(doc_dir)/doxygen_html/d9/da9/OKlib_2System_2LegalIssues_2docus_2general_8hpp.html
+licence_docu_page ?= $(doc_dir)/doxygen_html/d2/d59/OKlib_2System_2LegalIssues_2docus_2general_8hpp.html
 

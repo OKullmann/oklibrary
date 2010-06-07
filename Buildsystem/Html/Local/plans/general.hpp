@@ -31,7 +31,8 @@ License, or any later version. */
      <li> tenchallenges_doxygen_directory </li>
      <li> licence_docu_page: The currently stored path starts with
      "doxygen_html/d9/da9/", however on csltok we have the path
-     "doxygen_html/d2/d59" ? Check on cs-wsok. </li>
+     "doxygen_html/d2/d59" ? Also on cs-wsok there is the same path, so
+     perhaps here we just update the path. Check now on csltok. </li>
      <li> main_docu_page: This seems to be a different issue --- on csltok
      the current value, with path
      "doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html" works for one
