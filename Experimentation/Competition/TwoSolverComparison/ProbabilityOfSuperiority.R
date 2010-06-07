@@ -60,7 +60,7 @@ bootstrapvariance = function(sample,bootstraps) {
 # Determining the "probability of superiority", comparing 2 solvers
 # (see convenience-function probsup_solvcomp_files below, which takes
 # as input two filenames):
-probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
+probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps=0, monitor=TRUE) {
 
   # Checking that both tables have equal number of rows 
   # (that is, both solvers have been tested on same number of formulae).
@@ -100,7 +100,8 @@ probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
       next
 
     num=num+1
-    cat(".")
+    if(monitor==TRUE)
+      cat(".")
 
     # Gehan-Wilcoxon test is performed, and the statistics are calculated
 
@@ -119,16 +120,23 @@ probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps) {
 
   ravg=ravg/num
   savg=savg/num
-
+  zavg=zsum/sqrt(zvar);
+  pval=2-2*pnorm(abs(zsum/sqrt(zvar)));
+    
   # Output results
 
-  cat("\n")
-
-  cat("Number of used formulae: ",num,"\n",sep="")
-  cat("Average of z values: ",zsum/sqrt(zvar),"\n",sep="")
-  cat("Average of r values: ",ravg,"\n",sep="")
-  cat("p-value of the test: ",2-2*pnorm(abs(zsum/sqrt(zvar))),"\n",sep="")
-  cat("Average of probabilites of superiority: ",savg,"\n",sep="")
+  if(monitor==TRUE)
+  {
+    cat("\n")
+    
+    cat("Number of used formulae: ",num,"\n",sep="")
+    cat("Average of z values: ",zavg,"\n",sep="")
+    cat("p-value of the test: ",pval,"\n",sep="")
+    cat("Average of probabilites of superiority: ",savg,"\n",sep="")
+    cat("Average of r values: ",ravg,"\n",sep="")
+  }
+  
+  return(list(prob_sup=savg,r_value=ravg,z_value=zsum,p_value=pval,num_used=num))
 }
 
 # Reading two files, each containing a simple data-table, without heading; the
@@ -141,7 +149,7 @@ read_probsup_solvcomp = function(file1, file2) {
 }
 
 
-probsup_solvcomp_files= function(file1, file2, cutoff, discard, bootstraps) {
+probsup_solvcomp_files= function(file1, file2, cutoff, discard, bootstraps=0, monitor=TRUE) {
   tables=read_probsup_solvcomp(file1,file2);
-  return(probsup_solvcomp(tables$table1,tables$table2,cutoff,discard,bootstraps));
+  return(probsup_solvcomp(tables$table1,tables$table2,cutoff,discard,bootstraps,monitor));
 }

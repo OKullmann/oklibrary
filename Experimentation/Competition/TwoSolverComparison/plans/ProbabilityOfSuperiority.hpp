@@ -22,16 +22,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Output
-  <ul>
-   <li> The main function needs to output its result into a suitable
-   structure (apparently a list), so that they are available for further
-   computations. </li>
-   <li> While printing of results only happens if input-variable monitor
-   is TRUE (that shall be the default). </li>
-  </ul>
-
-
   \todo Specifications for ProbabilityOfSuperiority.R
   <ul>
    <li> All functions need to be specified. </li>
