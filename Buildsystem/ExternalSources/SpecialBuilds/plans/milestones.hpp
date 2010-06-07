@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.7 (25.5.2010)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.8 (7.6.2010)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -77,6 +77,12 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
+   topics are handled:
+    - Version 1.6.3 : DONE
+    - Version 1.5.8 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -159,12 +165,6 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the
    following topics are handled:
     - Installing SAT solvers
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
-   topics are handled:
-    - Version 1.6.3
-    - Version 1.5.8
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the

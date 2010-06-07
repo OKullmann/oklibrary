@@ -10,13 +10,15 @@ License, or any later version. */
   \brief Plans regarding building of Doxygen
 
 
-  \todo Version 1.6.3
+  \todo DONE
+  Version 1.6.3
   <ul>
    <li> Installation and usage on cs-wsok seems to be without problems. </li>
   </ul>
 
 
-  \todo Version 1.5.8
+  \todo DONE (QT4 seems unproblematic for our systems)
+  Version 1.5.8
   <ul>
    <li> It seems that this version has not much to offer for us. </li>
    <li> On the other hand, it now requires Qt version 4. </li>
