@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp
 
-  \module_version Competition/TwoSolverComparison 0.0.7 (2.6.2010)
-
-
-  \par Version 0.0.8 :
-
-  \par
-   In Competition/TwoSolverComparison/plans/ProbabilityOfSuperiority.hpp the
-   following topics are handled:
-    - Output
+  \module_version Competition/TwoSolverComparison 0.0.8 (7.6.2010)
 
 
   \par Version 0.0.9 :
@@ -54,5 +46,6 @@ License, or any later version. */
    - 0.0.5 : 28.5.2010; initial version number, initial implementation of MN.
    - 0.0.6 : 31.5.2010; improved names and meta-data.
    - 0.0.7 : 2.6.2010; improved input handling.
+   - 0.0.8 : 2.6.2010; improved output.
 
 */
