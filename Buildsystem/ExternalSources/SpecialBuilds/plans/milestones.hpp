@@ -163,6 +163,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
    topics are handled:
+    - Version 1.6.3
     - Version 1.5.8
 
   \par
