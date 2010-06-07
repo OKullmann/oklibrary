@@ -28,8 +28,9 @@ License, or any later version. */
    newer doxygen-versions the problem might have been solved. </li>
    <li> List of such problems (by the make-variables for the addresses):
     <ol>
-     <li> tenchallenges_doxygen_directory </li>
-     <li> licence_docu_page: The currently stored path starts with
+     <li> tenchallenges_doxygen_directory (see above) </li>
+     <li> DONE (works for now)
+     licence_docu_page: The currently stored path starts with
      "doxygen_html/d9/da9/", however on csltok we have the path
      "doxygen_html/d2/d59" ? Also on cs-wsok there is the same path, so
      perhaps here we just update the path. Check now on csltok. </li>

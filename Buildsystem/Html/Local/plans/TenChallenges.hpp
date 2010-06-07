@@ -14,6 +14,8 @@ License, or any later version. */
   <ul>
    <li> Variable "tenchallenges_doxygen_directory" (in local_html.mak)
    has the value from csltok, but on cs-wsok the hash-value is different. </li>
+   <li> With Doxygen 1.6.3 the real address of the page on csltok is
+   doxygen_html/dir_2170196fd6532dac3d4cdce46978808a.html . </li>
    <li> See "Doxygen problems regarding stability of links" in
    Buildsystem/Html/Local/plans/general.hpp, where this problem is handled.
    </li>
