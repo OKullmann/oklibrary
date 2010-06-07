@@ -125,11 +125,8 @@ probsup_solvcomp = function(runtimes1, runtimes2, cutoff, discard, bootstraps=0,
     
   # Output results
 
-  if(monitor==TRUE)
-  {
-    cat("\n")
-    
-    cat("Number of used formulae: ",num,"\n",sep="")
+  if(monitor==TRUE) {
+    cat("\nNumber of used formulae: ",num,"\n",sep="")
     cat("Average of z values: ",zavg,"\n",sep="")
     cat("p-value of the test: ",pval,"\n",sep="")
     cat("Average of probabilites of superiority: ",savg,"\n",sep="")
