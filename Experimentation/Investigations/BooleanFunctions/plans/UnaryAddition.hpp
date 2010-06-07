@@ -36,7 +36,7 @@ License, or any later version. */
    <li> For such f representing unary addition w.r.t. m, n, the extensions of
    the partial assignments given by
      x representing p, y representing q, z_i different from z representing p+q
-   are false, for all i in {0, ..., p+q} and all p, q. </li>
+   are false, for all i in {1, ..., p+q} and all p, q. </li>
    <li> Let's call these partial assignments the "standard falsifying
    partial assignments". </li>
    <li> Examples for m=3, n=4, considering 2+1=3, are the corresponding
@@ -44,9 +44,13 @@ License, or any later version. */
      {-x_1,-x_2,x_3, -y_1,y_2,y_3,y_4, z_i}
    for 1 <= i <= 3, or using -z_i for 4 <= z_i <= 7. </li>
    <li> In the above example, also {-x_2, -y_1, z_3} or {x_3, y_2, -z_4}
-   *could* be valid, however in general from the standard falsifying partial
-   assignments and the corresponding standard CNF-clauses no literals can be
-   removed. </li>
+   *could* be valid, but we use only those that must be included for the
+   "standard". </li>
+   <li> Such clauses are reducible in some cases. For instance, for p=1,
+   q=1, we have {-x_1,z_2} and {-y_1,z_2} as CNF clauses, noting the fact that
+   as both input values are at most 1, then if one of them is 0, then the
+   result can not be 2. If we handle these trivial cases (p=m,q=n), do we
+   get prime clauses? </li>
    <li> And the total assignments
      x representing p, y representing q, z representing p+q
    are all true. </li>
@@ -60,6 +64,47 @@ License, or any later version. */
    <li> Considering the DNF clause-set F_1 corresponding to all standard
    satisfying total assignments, we obtain f_1, which is the smallest w.r.t.
    satisfied points (and thus largest w.r.t. falsified points). </li>
+   <li> To generate the standard satisfying and falsifying total assignments 
+   respectively, for p >= 0 and q >= 0 we have the following
+   \verbatim
+declare(una,noun)$
+declare(una,posfun)$
+una_var(v,i) := apply(nounify(una),[v,i])$
+una_var_l(v,a,b) := create_list(una_var(v,i),i,a,b)$
+
+unary_add_full_dnf_fcl_std(p,q) := 
+  unary_add_full_dnf_fcl(
+    una_var_l('x,1,max(p,1)),una_var_l('y,1,max(q,1)),
+    una_var_l('z,1,max(p+q,2)))$
+unary_add_full_dnf_fcl(X,Y,Z) := 
+  [append(X,Y,Z),create_list(
+    setify(append(
+      create_list(if i > p then -X[i] else X[i], i, 1, length(X)),
+      create_list(if j > q then -Y[j] else Y[j], j, 1, length(Y)),
+      create_list(if k > p+q then -Z[k] else Z[k], k, 1, length(Z)))),
+    p,0,length(X), q, 0, length(Y))]$
+
+unary_add_cnf_fcl_std(p,q) := 
+  unary_add_cnf_fcl(
+    una_var_l('x,1,max(p,1)),una_var_l('y,1,max(q,1)),
+    una_var_l('z,1,max(p,1)+max(q,1)))$
+unary_add_cnf_fcl(X,Y,Z) := 
+  [append(X,Y,Z), create_list(
+    comp_sl(setify(append(
+      create_list(if i > p then -X[i] else X[i], i, 1, length(X)),
+      create_list(if j > q then -Y[j] else Y[j], j, 1, length(Y)),
+      [if r > p+q then Z[r] else -Z[r]]))),
+    p,0,length(X), q, 0, length(Y), r, 1, length(X)+length(Y))]$
+   \endverbatim
+   Using "_std" isn't appropriate to denote that these functions only generate
+   those assignments which must be true, and those which must be false. We have
+   the following options
+   <ul>
+    <li> "unary_add_nec_full_dnf_fcl" where "nec" stands for necessary. 
+    </li>
+    <li> "unary_add_req_full_dnf_fcl" where "req" stands for required. </li>
+   </ul>
+   </li>
   </ul>
 
 
@@ -69,9 +114,10 @@ License, or any later version. */
    m, n is sought which has the smallest number of CNF prime-clauses. </li>
    <li> Or, in other words, which has a maximally prime CNF-representation
    which is minimal w.r.t. the number of clauses. </li>
-   <li> Is the above F_0 a maximal prime clause-set (is identical with the set
-   of its prime clauses)? </li>
-   <li> F_0 has (m+1)*(n+1)*(m+p+1) many clauses. </li>
+   <li> F_0 is not prime (as it stands), and would not be maximal if it was
+   as the 3-clauses introduced by [BB 2003] are prime and are not
+   (in general) included (see below). </li>
+   <li> F_0 has (m+1)*(n+1)*(m+p) many clauses. </li>
    <li> The BB-paper example:
     <ol>
      <li> There are the 3-clauses (x_p & y_q -> z_{p+q}) for p in {0,...,m}
