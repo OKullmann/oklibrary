@@ -45,7 +45,7 @@ License, or any later version. */
 
    - 0.0.5 : 28.5.2010; initial version number, initial implementation of MN.
    - 0.0.6 : 31.5.2010; improved names and meta-data.
-   - 0.0.7 : 2.6.2010; improved input handling.
-   - 0.0.8 : 2.6.2010; improved output.
+   - 0.0.7 : 2.6.2010; improved input handling of main function.
+   - 0.0.8 : 2.6.2010; improved output of main function.
 
 */

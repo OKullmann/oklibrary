@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Experimentation/Competition/plans/milestones.hpp
 
-  \module_version Experimentation/Competition 0.5.0.2 (2.6.2010)
+  \module_version Experimentation/Competition 0.5.0.3 (7.6.2010)
 
 
   \par Version 0.5.1 :
 
-  \par Competition/TwoSolverComparison version 0.0.7 : DONE
+  \par Competition/TwoSolverComparison version 0.0.8 : DONE
   (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
 
   \par
