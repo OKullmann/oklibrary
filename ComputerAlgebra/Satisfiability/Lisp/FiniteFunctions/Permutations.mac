@@ -53,11 +53,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    the CNF-clause-set {{-1,2},{2,1}}.
 */
 
-/* Translating boolean vectors into clauses (using the position as variables):
+/* Translating boolean vectors into clauses (using the position as variables 
+   in bv2c):
 */
-bv2c(v) := setify(map(
+bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
+bv2c_wv(v,V) := setify(map(
   lambda([p], if first(p)=0 then -second(p) else second(p)), 
-  map("[", v, create_list(i,i,1,length(v)))))$
+  map("[", v, V)))$
 
 /* Translating a permutation P (standardised, as list) into a boolean function
    (the predicate of P as a map), and representing this function as a dnf.
