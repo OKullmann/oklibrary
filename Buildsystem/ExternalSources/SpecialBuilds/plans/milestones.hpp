@@ -39,15 +39,6 @@ License, or any later version. */
     - Update our gcc-installation-system to the new standard : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
-   topics are handled:
-    - Update to newer version : DONE
-    - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
-    - Speed : DONE
-    - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
-    - Building Ubcsat : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
     - Installing 2.10.0 : DONE
@@ -77,6 +68,15 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
+   topics are handled:
+    - Update to newer version : DONE
+    - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
+    - Speed : DONE
+    - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
+    - Building Ubcsat : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
