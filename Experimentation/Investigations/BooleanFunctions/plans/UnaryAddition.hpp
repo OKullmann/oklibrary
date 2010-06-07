@@ -72,6 +72,11 @@ declare(una,posfun)$
 una_var(v,i) := apply(nounify(una),[v,i])$
 una_var_l(v,a,b) := create_list(una_var(v,i),i,a,b)$
 
+unary_all_tass_std(p,q) := 
+  all_tass(append(    
+    una_var_l('x,1,max(p,1)),una_var_l('y,1,max(q,1)),
+    una_var_l('z,1,max(p+q,2))))$
+
 unary_add_full_dnf_fcl_std(p,q) := 
   unary_add_full_dnf_fcl(
     una_var_l('x,1,max(p,1)),una_var_l('y,1,max(q,1)),
@@ -221,6 +226,47 @@ unary_add_cnf_fcl(X,Y,Z) :=
      is not subsumed by any clause in FF_BB. </li>
     </ol>
    </li>
+   <li> In some cases the BB example matches up to *the* minimum CNF
+   representation, but only for trivial cases. </li>
+   <li> Considering the number of minimum representations for different
+   m and n, we have
+   \verbatim
+m : 2; n : 2;
+print("p q #min_F_0 stat_min_F #min_F_1 stat_min_F_1 stat_BB_F Eq_0? Eq_1?");
+for p : 0 thru m do 
+  for q : 0 thru n do block([min_F_0_l, BB_F],
+    min_F_0_l : all_minequiv_bvsr_cs(expand_fcs(map(setify,unary_add_cnf_fcl_std(p,q)))[2]),
+    min_F_1_l : all_minequiv_bvsr_cs(
+      map(comp_sl,
+      setdifference(unary_all_tass_std(p,q),
+        setify(unary_add_full_dnf_fcl_std(p,q)[2])))),
+    BB_F : setify(unary_bb_add_fcl(
+             una_var_l('x,1,max(1,p)),una_var_l('y,1,max(1,q)), 
+             una_var_l('z,1,max(p,1)+max(q,1)))[2]),
+    print(p,q,length(min_F_0_l),statistics_cs(min_F_0_l[1]), length(min_F_1_l),statistics_cs(min_F_1_l[1]),statistics_cs(BB_F),
+      is(min_F_0_l[1] = BB_F), is(min_F_1_l[1] = BB_F)))$
+   \endverbatim
+   which produces
+   \verbatim
+p q #min_F_0 stat_min_F #min_F_1 stat_min_F_1 stat_BB_F Eq_0? Eq_1?
+0 0 1 [4,6,14,3,2] 1 [4,6,14,3,2] [4,6,14,3,2] true true
+0 1 1 [4,6,14,3,2] 1 [4,6,14,3,2] [4,6,14,3,2] true true
+0 2 1 [6,10,30,4,2] 1 [5,7,17,3,2] [6,10,24,3,2] false false
+1 0 1 [4,6,14,3,2] 1 [4,6,14,3,2] [4,6,14,3,2] true true
+1 1 1 [4,6,14,3,2] 1 [4,6,14,3,2] [4,6,14,3,2] true true
+1 2 1 [6,10,30,4,2] 1 [6,10,24,3,2] [6,10,24,3,2] false true
+2 0 1 [6,10,30,4,2] 1 [5,7,17,3,2] [6,10,24,3,2] false false
+2 1 1 [6,10,30,4,2] 1 [6,10,24,3,2] [6,10,24,3,2] false true
+*timeout*
+   \endverbatim
+   So the clauses used in [BB 2003] are not simply one of these minimal
+   clause-sets. This is possibly because such clause-sets do not have
+   the required r_1 inference properties. This makes considering 
+   "Smallest r_1-based CNF-representation without new variables" more
+   important. 
+   </li>
+   <li> We should also check the properties of the minimum clause-set
+   representations of F_0 and F_1. </li>
   </ul>
 
 
