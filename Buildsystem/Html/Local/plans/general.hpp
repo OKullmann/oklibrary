@@ -38,10 +38,18 @@ License, or any later version. */
      "doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html" works for one
      installation, however for another installation we get
      "doxygen_html/d0/dfd/docus_2general_8hpp.html" ? </li>
+     <li> Also for a single installation on another 64-bit machine we get
+     "doxygen_html/d0/dfd/docus_2general_8hpp.html" ?! </li>
      <li> main_demo_page: Seems to be the same problem; on csltok the current
      value, with path "doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html"
      works, however for a different installation we get the path
      "doxygen_html/dc/d5b/demos_2general_8hpp.html" ? </li>
+     <li> The same path also on the other 64-bit-machine already mentioned
+     above?! </li>
+     <li> DONE (the problem shouldn't be related to having multiple installations)
+     Since we are using the local doxygen-installation (due to using
+     the variable doxygen_call_okl), there should be no interference between
+     the two installations. </li>
     </ol>
    </li>
    <li> When introducing the new page
