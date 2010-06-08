@@ -24,36 +24,27 @@ License, or any later version. */
   </ul>
 
 
-  \todo Code for analysing such instances
+  \todo Structuring the input of LDA
   <ul>
-   <li> When considering any kind of analysis 
-   (in particular when partially-automatically computed)
-   we have the following questions
-    <ol>
-     <li> What is the input? </li>
-     <li> What types of analysis/computation are needed, that is, what is the 
-     output? </li>
-     <li> What tools do we use? (%e.g., Maxima, R, shell-scripts etc). </li>
-    </ol>
+   <li> When considering any kind of analysis (in particular when
+   partially-automatically computed) the basic question is: What is the input?
    </li>
-   <li> In the first case,
+   <li> We consider several partial boolean functions
+   given by a partial truth table, where we have a list of input variables 
+   VI, a list of output variables VO and a list of total assignments
+   over append(VI,VO) (which will likely not cover all possible
+   total assignments). </li>
+   <li> We consider how to represent this data. We have two options
     <ul>
-     <li> we consider several partial boolean functions
-     given by a partial truth table, where we have a list of input variables 
-     VI, a list of output variables VO and a list of total assignments
-     over append(VI,VO) (which will likely not cover all possible
-     total assignments). </li>
-     <li> we consider how to represent this data. We have two options
-      <ul>
-       <li> as a combinatorial matrix </li> 
-       <li> as a conflict-variable matrix </li>
-      </ul>
-      and there are advantages to both, however, due to the better readability
-      of 0,1 for false,true, as well as the fact this relates directly to the
-      original presentation as a truth table, it is best to use the
-      combinatorial matrix for the basic representation of such truth tables,
-      and then provide a simple conversion function such as 
-      \verbatim
+     <li> as a combinatorial matrix </li> 
+     <li> as a conflict-variable matrix </li>
+    </ul>
+    and there are advantages to both, however, due to the better readability
+    of 0,1 for false,true, as well as the fact this relates directly to the
+    original presentation as a truth table, it is best to use the
+    combinatorial matrix for the basic representation of such truth tables,
+    and then provide a simple conversion function such as 
+    \verbatim
 Snow_CM : mrc2ocom(matrix(
  [1,1,1,1,1,1,1,1,1,1],
  [1,0,1,1,1,1,1,1,1,1],
@@ -75,21 +66,21 @@ Snow_CM : mrc2ocom(matrix(
 
 ttcom2cvm(M) := subst(-1,0,M)$
 Snow_CVM : ttcom2cvm(Snow_CM)$
-      \endverbatim
-      to convert one to the other.
-     </li>
-     <li> As is done in [SC 2000], we first want to analyse each of
-     the individual boolean functions, specified by taking the truth table
-     rows from the input for each output variable individually, and considering
-     the boolean function that this gives. </li>
-     <li> One way to represent such partial boolean functions f, where some 
-     total assignments which are left open, is to consider a 3-tuple [V,F,G]
-     where V is set of input variables, and then F is a full DNF
-     representing the satisfying assignments of f and G is a full DNF 
-     representing the falsifying assignments of f. </li>
-     <li> Such a representation of a boolean function can be computed as
-     follows 
-     \verbatim
+    \endverbatim
+    to convert one to the other.
+   </li>
+   <li> As is done in [SC 2000], we first want to analyse each of
+   the individual boolean functions, specified by taking the truth table
+   rows from the input for each output variable individually, and considering
+   the boolean function that this gives. </li>
+   <li> One way to represent such partial boolean functions f, where some 
+   total assignments which are left open, is to consider a 3-tuple [V,F,G]
+   where V is set of input variables, and then F is a full DNF
+   representing the satisfying assignments of f and G is a full DNF 
+   representing the falsifying assignments of f. </li>
+   <li> Such a representation of a boolean function can be computed as
+   follows 
+   \verbatim
 ocom2pbf(M,il,ov) := block([CVM, FF,V, FF_T,FF_F],
   CVM : ttcom2cvm(M),
   V : map(gv_var,sublist(M[2],lambda([v],member(v,il)))),
@@ -98,151 +89,151 @@ ocom2pbf(M,il,ov) := block([CVM, FF,V, FF_T,FF_F],
   FF_T : apply_pa_cl({-gv_var(ov)}, FF),
   FF_F : map(comp_sl,apply_pa_cl({gv_var(ov)}, FF)),
   return([V,FF_T,FF_F]))$
-     \endverbatim
-     and for example to compute the partial boolean function relating to
-     the "Rep" output variable, we use
-     \verbatim
+   \endverbatim
+   and for example to compute the partial boolean function relating to
+   the "Rep" output variable, we use
+   \verbatim
 Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
 
 ocom2pbf(Snow_CM,Snow_V_in, "Rep");
-     \endverbatim
-     </li>
-     <li> Given such a partial boolean function from such a truth table, we
-     have the possibility that some total assignments may "conflict" or
-     "contradict" each other, i.e. that some total assignments may
-     be both true and false within this partial boolean function
-     and therefore it is not a true partial boolean function. To resolve this
-     we have three (reasonable) options,
-      <ol>
-       <li> Set any contradictory assignment to true
-       \verbatim
+   \endverbatim
+   </li>
+   <li> Given such a partial boolean function from such a truth table, we
+   have the possibility that some total assignments may "conflict" or
+   "contradict" each other, i.e. that some total assignments may
+   be both true and false within this partial boolean function
+   and therefore it is not a true partial boolean function. To resolve this
+   we have three (reasonable) options,
+    <ol>
+     <li> Set any contradictory assignment to true
+     \verbatim
 pbf_resolve_conflict_true(PBF) :=
   [PBF[1],PBF[2], sublist(PBF[3], lambda([C], not member(comp_sl(C),PBF[2])))]$
-       \endverbatim
-       </li>
-       <li> Set any contradictory assignment to false
-       \verbatim
+     \endverbatim
+     </li>
+     <li> Set any contradictory assignment to false
+     \verbatim
 pbf_resolve_conflict_false(PBF) :=
   [PBF[1],sublist(PBF[2], lambda([C], not member(comp_sl(C),PBF[3]))), PBF[3]]$
-       \endverbatim
-       </li> 
-       <li> Make any contradictory assignment open (i.e., remove it from the
-       partial boolean function)
-       \verbatim
+     \endverbatim
+     </li> 
+     <li> Make any contradictory assignment open (i.e., remove it from the
+     partial boolean function)
+     \verbatim
 pbf_resolve_conflict_ignore(PBF) :=
   [PBF[1],
    sublist(PBF[2], lambda([C], not member(comp_sl(C),PBF[3]))),
    sublist(PBF[3], lambda([C], not member(comp_sl(C),PBF[2])))]$
-       \endverbatim
-       </li>
-      </ol>
+     \endverbatim
      </li>
-     <li> There is the problem here that, above, we have "ocom2pbf", which
-     then does not produce a partial boolean function, as there may
-     be contradictions in the result. There are two ways to overcome this,
-     either
-     <ul>
-      <li> merge ocom2pbf with pbf_resolve_conflict_true etc, so that we have
-      three functions 
-      <ol>
-       <li> ocom2pbf_resolve_true </li>
-       <li> ocom2pbf_resolve_false </li>
-       <li> ocom2pbf_resolve_ignore </li>
-      </ol>
-      and then one simply uses these, or
-      </li>
-      <li> We introduce a different notion other than partial boolean function
-      which allows for contradictions. We would then have ocom2XXX and 
-      XXX_resolve_conflict_(true,false,ignore).
-      </li>
-     </ul>
-     </li>
-     <li> Given a partial boolean function, we then have a variety of different
-     possibilities of extending it to a total boolean function, namely
-      <ul>
-       <li> Setting all open assignments to true and taking the DNF
-       representation of this function
-       \verbatim
+    </ol>
+   </li>
+   <li> There is the problem here that, above, we have "ocom2pbf", which
+   then does not produce a partial boolean function, as there may
+   be contradictions in the result. There are two ways to overcome this,
+   either
+   <ul>
+    <li> merge ocom2pbf with pbf_resolve_conflict_true etc, so that we have
+    three functions 
+    <ol>
+     <li> ocom2pbf_resolve_true </li>
+     <li> ocom2pbf_resolve_false </li>
+     <li> ocom2pbf_resolve_ignore </li>
+    </ol>
+    and then one simply uses these, or
+    </li>
+    <li> We introduce a different notion other than partial boolean function
+    which allows for contradictions. We would then have ocom2XXX and 
+    XXX_resolve_conflict_(true,false,ignore).
+    </li>
+   </ul>
+   </li>
+   <li> Given a partial boolean function, we then have a variety of different
+   possibilities of extending it to a total boolean function, namely
+    <ul>
+     <li> Setting all open assignments to true and taking the DNF
+     representation of this function
+     \verbatim
 pbf_extend_all_true_dnf_fcl(PBF) := full_cnf2full_dnf([PBF[1],PBF[3]])$
-       \endverbatim
-       </li>
-       <li> Setting all open assignments to false and taking the DNF
-       representation of this function
-       \verbatim
+     \endverbatim
+     </li>
+     <li> Setting all open assignments to false and taking the DNF
+     representation of this function
+     \verbatim
 pbf_extend_all_false_dnf_fcl(PBF) := [PBF[1],PBF[2]]$
-       \endverbatim
-       </li>
-       <li> Setting all open assignments to true and taking the CNF
-       representation of this function
-       \verbatim
+     \endverbatim
+     </li>
+     <li> Setting all open assignments to true and taking the CNF
+     representation of this function
+     \verbatim
 pbf_extend_all_true_cnf_fcl(PBF) := [PBF[1],PBF[3]]$
-       \endverbatim
-       </li>
-       <li> Setting all open assignments to false and taking the CNF
-       representation of this function
-       \verbatim
+     \endverbatim
+     </li>
+     <li> Setting all open assignments to false and taking the CNF
+     representation of this function
+     \verbatim
 pbf_extend_all_false_cnf_fcl(PBF) := full_cnf2full_dnf([PBF[1],PBF[2]])$
-       \endverbatim
-       </li>
-      </ul>
-      where we have
-      \verbatim
+     \endverbatim
+     </li>
+    </ul>
+    where we have
+    \verbatim
 full_cnf2full_dnf(FF) :=
   [FF[1], sublist(all_tass_l(FF[1]),lambda([phi],sat_pacs_p(phi,FF[2])))]$
-      \endverbatim
-     </li>
-     <li> To find all minimum DNF and CNF representations for a given 
-     combinatorial matrix, i.e., Snow_CM, we then have the following
-     examples
-     <ul>
-      <li> Analysing the data with output variable "Representation"
-      setting any conflicts to true, and any making the assumption
-      that all unknown cases may be true
-     \verbatim
+    \endverbatim
+   </li>
+   <li> To find all minimum DNF and CNF representations for a given 
+   combinatorial matrix, i.e., Snow_CM, we then have the following
+   examples
+   <ul>
+    <li> Analysing the data with output variable "Representation"
+    setting any conflicts to true, and any making the assumption
+    that all unknown cases may be true
+   \verbatim
 Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
 
 PBF : pbf_resolve_conflict_true(ocom2pbf(Snow_CM, Snow_V_in, "Rep"))$
 Rep_ext_DNF : pbf_extend_all_true_dnf_fcl(PBF)$
 Rep_min_DNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
 Rep_min_CNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
-     \endverbatim
-     </li>
-     <li> Analysing the data with output variable "Representation"
-      setting any conflicts to true, and any making the assumption
-      that all unknown cases may be false
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Analysing the data with output variable "Representation"
+    setting any conflicts to true, and any making the assumption
+    that all unknown cases may be false
+   \verbatim
 Snow_V_in : ["Via","DisT","SymA","CSup","DiagF","ProgF"]$
 
 PBF : pbf_resolve_conflict_true(ocom2pbf(Snow_CM, Snow_V_in, "Rep"))$
 Rep_ext_DNF : pbf_extend_all_false_dnf_fcl(PBF)$
 Rep_min_DNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
-     \endverbatim
-     </li>
-    </ul>
+   \endverbatim
    </li>
-   <li> In the second case
-    <ul>
-     <li> we have discussions given in 
-     "List statistics and types of analysis needed" and
-     "Representations for data analysis". </li>
-    </ul>
-   </li>
-   <li> In the third case
-    <ul>
-     <li> initially it is reasonable to simply implement each 
-     set of functionality in whichever system "seems" appropriate. </li>
-     <li> initially most functionality will be within the Maxima system
-     or done by hand, as such functionality will be combinatorial 
-     (handling clause-sets, assignments etc). </li>
-     <li> when (later) considering any non-trivial statistics or
-     presentation issues, R should be used, as it is much more suited to
-     such things and offers a greater number of packages to aid in this. </li>
-     <li> when (much later) generating any automated documents, shell
-     scripts can be used to call Maxima, perform any formatting and then
-     to call R and any other tools (LaTeX etc) to generate such documents.
-     </li>
-    </ul>
-   </li>
+  </ul>
+
+
+  \todo Regarding the output of LDA
+  <ul>
+   <li> After having determined the input, then the question is: What types of
+   analysis/computation are needed, that is, what is the output? </li>
+   <li> We have discussions given in "List statistics and types of analysis
+   needed" and "Representations for data analysis". </li>
+  </ul>
+
+
+  \todo Tool usage
+   <li> What tools do we use? (%e.g., Maxima, R, shell-scripts etc). </li>
+   <li> Initially it is reasonable to simply implement each 
+   set of functionality in whichever system "seems" appropriate. </li>
+   <li> Initially most functionality will be within the Maxima system
+   or done by hand, as such functionality will be combinatorial 
+   (handling clause-sets, assignments etc). </li>
+   <li> When (later) considering any non-trivial statistics or
+   presentation issues, R should be used, as it is much more suited to
+   such things and offers a greater number of packages to aid in this. </li>
+   <li> When (much later) generating any automated documents, shell
+   scripts can be used to call Maxima, perform any formatting and then
+   to call R and any other tools (LaTeX etc) to generate such documents. </li>
   </ul>
 
 
@@ -355,11 +346,12 @@ Rep_min_DNFs : all_minequiv_bvsr_sub_cs(Rep_ext_DNF[2], PBF[2]);
       <li> A DFA defines a (regular) language L a subset of A* where any word
       for which the path through the transition system given by the word,
       starting in the state s, ends in a final state. </li>
-      <li> A boolean function can represented by a DFA by considering assignments
-      as tuples of 1s and 0s with a given variable order and then any tuple/word
-      which has an implicant as a prefix is in the language, and any tuple/word
-      that has the negation of an implicate as a prefix is not in the language. We then 
-      look for a DFA which recognises this language. </li>
+      <li> A boolean function can represented by a DFA by considering a
+      ssignments as tuples of 1s and 0s with a given variable order and then
+      any tuple/word which has an implicant as a prefix is in the language,
+      and any tuple/word that has the negation of an implicate as a prefix is
+      not in the language. We then look for a DFA which recognises this
+      language. </li>
      </ul>
     </li>
     <li> Decision trees
