@@ -56,10 +56,10 @@ License, or any later version. */
      <li> main_demo_page:
       <ol>
        <li> On csltok and cs-wsok we have
-       doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html"
+       doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html
        </li>
        <li> For a different installation on csltok we get
-       doxygen_html/dc/d5b/demos_2general_8hpp.html"
+       doxygen_html/dc/d5b/demos_2general_8hpp.html
        </li>
        <li> The same path also on the other 64-bit-machine already mentioned
        above and on cs-oksvr. </li>
