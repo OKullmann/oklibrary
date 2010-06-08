@@ -34,6 +34,8 @@ License, or any later version. */
    VI, a list of output variables VO and a list of total assignments
    over append(VI,VO) (which will likely not cover all possible
    total assignments). </li>
+OK: Everything must be related to 
+ComputerAlgebra/LogicalDataAnalysis/Lisp/plans/general.hpp !
    <li> We consider how to represent this data. We have two options
     <ul>
      <li> as a combinatorial matrix </li> 
@@ -78,6 +80,7 @@ Snow_CVM : ttcom2cvm(Snow_CM)$
    where V is set of input variables, and then F is a full DNF
    representing the satisfying assignments of f and G is a full DNF 
    representing the falsifying assignments of f. </li>
+OK: As discussed, falsifying assignments are canonically represented by CNF!
    <li> Such a representation of a boolean function can be computed as
    follows 
    \verbatim
