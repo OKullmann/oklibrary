@@ -42,9 +42,34 @@ License, or any later version. */
 E = eval_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", params=list(runs=100,cutoff=100000))
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
-     Unfortunately with saps and sapsnr we get a segmentation fault on cs-oksvr
-     (however only when calling ubcsat directly, as unfortunately eval_ubcsat
-     does, not when using ubcsat-okl). </li>
+     \verbatim
+rnoveltyp :
+ 3  9 26 29 30 31 33 34 35 36 37 38 39 40
+ 1  1  1  1  2  6 16 14 14 20 11 10  2  1
+adaptnoveltyp :
+ 4  8 21 22 24 25 26 27 28 29 30 31
+ 1  1  3  2 14 14 16 14 19  7  6  3
+
+saps :
+31 32 33 34 35 36 37
+ 5 12 16 20 27 17  3
+     \endverbatim
+     So it seems that rnovelty+ is actually better, due to the outliers. </li>
+     <li> rnovelty+ with cutoff=10^6:
+     \verbatim
+ 3  4 10 18 22 25 26 27 28 29 30 31 32 33 34
+14 16  5  1  1  3  3 10 17 21 25 29 27 17 11
+200
+     \endverbatim
+     </li>
+     <li> rnovelty+ with cutoff=10^7:
+     \verbatim
+     \endverbatim
+     </li>
+     <li> adaptnovelty+ with cutoff=10^6:
+     \verbatim
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
