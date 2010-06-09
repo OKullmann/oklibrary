@@ -44,13 +44,24 @@ License, or any later version. */
      {-x_1,-x_2,x_3, -y_1,y_2,y_3,y_4, z_i}
    for 1 <= i <= 3, or using -z_i for 4 <= z_i <= 7. </li>
    <li> In the above example, also {-x_2, -y_1, z_3} or {x_3, y_2, -z_4}
-   *could* be valid, but we use only those that must be included for the
-   "standard". </li>
-   <li> Such clauses are reducible in some cases. For instance, for p=1,
-   q=1, we have {-x_1,z_2} and {-y_1,z_2} as CNF clauses, noting the fact that
+   *could* be valid, however in general from the standard falsifying partial
+   assignments and the corresponding standard CNF clauses no literals can
+   be removed. </li>
+   <li> There are however certain trivial cases (for every p and q) for which 
+   reducible clauses do exist. For instance, for p=1,
+   q=1, we have {x_1,-z_2} and {y_1,-z_2} as CNF clauses, noting the fact that
    as both input values are at most 1, then if one of them is 0, then the
-   result can not be 2. If we handle these trivial cases (p=m,q=n), do we
-   get prime clauses? </li>
+   result can not be 2. </li>
+   <li> Note that, in general, we have that x_2,...,x_m assigned 0 and 
+   y_1,...,y_n assigned to 0 then z_2 must be 0, no matter what x_1 is and no 
+   matter what x_1 is, x_1,...,x_m is a valid unary number (of course the same
+   holds if swap the x's for y's and vice versa). </li>
+   <li> Note also, in general, we have that x_1,...,x_(m-1) assigned 1 and 
+   y_1,...,y_n assigned to 1 then z_i must be 1 for all i < n+m, no matter 
+   what x_m is and no matter what x_m is, x_1,...,x_m is a valid unary number 
+   (of course the same holds if swap the x's for y's and vice versa). </li>
+   <li> If we handle these trivial cases (p=m,q=n), do we get prime clauses? 
+   </li>
    <li> And the total assignments
      x representing p, y representing q, z representing p+q
    are all true. </li>
