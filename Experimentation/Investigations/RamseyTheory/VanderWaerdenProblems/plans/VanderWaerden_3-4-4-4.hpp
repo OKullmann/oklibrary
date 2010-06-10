@@ -64,9 +64,19 @@ saps :
      </li>
      <li> rnovelty+ with cutoff=10^7:
      \verbatim
+ 3  4  8  9 10 14 23 24 25 26 27 28 29
+51 67  7  8 11  2  8  4 11  9 12  8  2
+200
      \endverbatim
      </li>
      <li> adaptnovelty+ with cutoff=10^6:
+     \verbatim
+ 3  4  8  9 10 11 14 15 18 19 20 21 22 23 24 25 26
+ 7 19  5  2  7  2  1  1  1  4  6 16 32 46 33 14  4
+200
+     \endverbatim
+     </li>
+     <li> adaptnovelty+ with cutoff=10^7:
      \verbatim
      \endverbatim
      </li>
