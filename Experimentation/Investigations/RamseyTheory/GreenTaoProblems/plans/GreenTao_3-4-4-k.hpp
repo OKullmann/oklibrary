@@ -17,7 +17,7 @@ License, or any later version. */
   output_greentao_standnest_strong_stdname([4,4,k],n).
 
 
-  \todo greentao_3(4) > 5300
+  \todo greentao_3(4) > 5400
   <ul>
    <li> Let's start with the weak standard nested translation and with
    rnovelty+. </li>
@@ -363,8 +363,11 @@ rnoveltyp :
 198
      \endverbatim
      </li>
+     <li> In 21 runs with cutoff=100*10^6 one solution was found
+     (seed=1345591531, osteps=62329976). </li>
     </ol>
    </li>
+   <li> n=5500 </li>
   </ul>
   
 */
