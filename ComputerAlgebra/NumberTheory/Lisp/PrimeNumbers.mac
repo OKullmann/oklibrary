@@ -166,6 +166,10 @@ n_arithprog_primes_c(k,n) :=
      sum : sum + count
    ),
    sum)$
+/* See ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac
+   for approximations of n_arithprog_primes_c(k,n).
+*/
+
 
 /* The list of the numbers of arithmetic progressions of length k in 
    the set of the first i prime numbers for i from 1 to n ("c" for

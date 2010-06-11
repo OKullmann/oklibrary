@@ -22,12 +22,14 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac");
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 
 /* *********************************************
-   * The formula from [Grosswald. Hagis, 1979] *
+   * The formula from [Grosswald, Hagis, 1979] *
    *********************************************
 */
 
-/* The task is to approximation nhyp_arithprog_primes_hg(k,n), the number
-   of arithmetic progressions of length k in the first n prime numbers.
+/* The task is to approximate
+     nhyp_arithprog_primes_hg(k,n) = n_arithprog_primes_c(k,n),
+   the number of arithmetic progressions of length k in the first n prime
+   numbers.
 */
 
 /* First computing the coefficients C_k = C_gh(k,inf), defined as
