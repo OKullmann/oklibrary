@@ -78,8 +78,45 @@ saps :
      </li>
      <li> adaptnovelty+ with cutoff=10^7:
      \verbatim
+ 3  4  5  8  9 10 11 13 14 15 19 20 21 22
+64 65  1 18 11 16  4  1  2  1  4  6  5  2
+200
      \endverbatim
      </li>
+     <li> Again, best local search algorithm from Ubcsat-suite (now cutoff
+     10^6):
+     \verbatim
+E = eval_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", params=list(runs=100,cutoff=1000000))
+     \endverbatim
+     evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
+     \verbatim
+rnoveltyp :
+ 3  4 19 22 24 25 26 27 28 29 30 31 32 33 34 35
+10  3  1  1  2  1  3  3  7  8 14 20 18  7  1  1
+adaptnoveltyp :
+ 3  4  8  9 10 11 13 20 21 22 23 24 25 26
+ 9  7  1  1  1  1  1  2  4 17 14 26 13  3
+rnovelty :
+ 3  4 24 26 27 28 29 30 31 32 33 34
+ 3  3  3  1 10  8  8 15 25  8 12  4
+novelty :
+ 3  4 34 36 37 38 39 40 41 42 43 44 45
+ 1  2  1  2  4  6  9 12 18 20 16  8  1
+rots :
+ 3  4 10 22 23 24 25 26 27 28 29 30
+ 1  1  1  4  2  4  9 17 31 18  9  3
+gwsat :
+ 4 10 23 25 26 27 28 29 30 31
+ 1  1  2  4  6  9 15 31 23  8
+saps :
+ 5 28 29 30 31 32 33
+ 1  1  6  9 23 39 21
+rsaps :
+ 6 22 28 29 30 31 32 33 34
+ 1  1  3 10 14 19 27 22  3
+     \endverbatim
+     </li>
+     <li> Curious the barrier at min=3. </li>
     </ol>
    </li>
   </ul>
