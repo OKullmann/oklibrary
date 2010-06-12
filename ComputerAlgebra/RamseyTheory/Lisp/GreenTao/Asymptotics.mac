@@ -55,6 +55,7 @@ C_gh_inf(k,max_p) := block(
 /* Using floating-point arithmetic: */
 C_gh_inf_hp(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
+  if emptyp(L) then 1.0b0 else
   prod_l(map(factorbf_C_gh_inf(k), L)))$
 
 C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$

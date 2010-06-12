@@ -47,6 +47,17 @@ okltest_C_gh_inf(f) := (
   /* XXX */
   true)$
 
+okltest_C_gh_inf_hp(f) := block([fpprec : 30],
+  for max_p : 2 thru 7 do
+    assert_bfloat_equal(f(2,max_p), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,3), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,4), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,5), bfloat(5^1*(5-3+1)/4^2), fpprec),
+  assert(f(3,6) = f(3,5)),
+  /* XXX */
+  true)$
+
+
 
 /*!
 \endhtmlonly

@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/tests/Asymptotic
 
 okltest_C_gh_fin(C_gh_fin);
 okltest_C_gh_inf(C_gh_inf);
+okltest_C_gh_inf_hp(C_gh_inf_hp);
 
 /*!
 \endhtmlonly
