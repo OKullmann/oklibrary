@@ -52,16 +52,39 @@ factorbf_C_gh_inf(k) := buildq([k],lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1
 C_gh_inf(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
   prod_l(map(factor_C_gh_inf(k), L)))$
-/* Using floating-point arithmetic: */
+/* Using floating-point arithmetic (with the current value of fpprec): */
 C_gh_inf_hp(k,max_p) := block(
  [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
   if emptyp(L) then 1.0b0 else
   prod_l(map(factorbf_C_gh_inf(k), L)))$
+/* Upper bound on the absolute value of the relative error of 
+   C_gh_inf_hp(k,max_p) (as compared to C_gh_inf(k,max_p)), where num_p
+   is the number of primes considered:
+*/
+relerror_C_gh_inf_hp(k,num_p) := block([eps : 10^(-fpprec+1)],
+  bfloat(eps * (1 + 5*(num_p-1))))$
+/* Returning a pair [a,b], representing an open interval containing the true
+   value:
+*/
+C_gh_inf_hpint(k,max_p) := block(
+ [L : rest(primes_first(count_primes(max_p)), count_primes(k)), res, eps],
+  res : if emptyp(L) then 1.0b0 else
+    prod_l(map(factorbf_C_gh_inf(k), L)),
+  eps : relerror_C_gh_inf_hp(k,length(L)),
+  res*[1-eps,1+eps])$
+
 
 C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
 /* Using floating-point arithmetic: */
 C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
   C_gh_fin(k) * C_gh_inf_hp(k,max_p))$
+/* Returning a pair [a,b], representing an open interval containing the true
+   value: */
+C_gh_hpint(k,max_p,decimal_digits) := block(
+ [fpprec : decimal_digits,
+  eps : 10^(-decimal_digits+1)],
+  5*[-eps,+eps] + C_gh_fin(k) * C_gh_inf_hpint(k,max_p))$
+
 
 /* The current approximations of the C_k for k >= 2: */
 C_gh_values : [

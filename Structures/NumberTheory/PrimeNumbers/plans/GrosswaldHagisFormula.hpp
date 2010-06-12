@@ -80,9 +80,12 @@ License, or any later version. */
    infeasible for larger N. </li>
    <li> Can we say something interesting about the error in the floating-point
    computation for B_{k,N} ? </li>
-   <li> For the Maxima-level see "Controlling the error of
-   C_gh_hp(k,max_p,decimal_digits)" in
-   ComputerAlgebra/RamseyTheory/Lisp/GreenTao/plans/Asymptotics.hpp. </li>
+   <li> For the Maxima-level see C_gh_inf_hpint(k,N) in
+   ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac, which computes
+   an interval [a,b] containing the true value of B_{k,N} (where the number of
+   decimal digits is fpprec). </li>
+   <li> And see C_gh_hpint(k,max_p,decimal_digits) for the interval containing
+   the final result (that is, for fixed N). </li>
   </ul>
 
 

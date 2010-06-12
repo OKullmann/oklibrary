@@ -25,7 +25,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Controlling the error of C_gh_hp(k,max_p,decimal_digits)
+  \todo DONE (providing proven intervals containing the true value)
+  Controlling the error of C_gh_hp(k,max_p,decimal_digits)
   <ul>
    <li> We assume that each rational number is correctly rounded to a bfloat,
    and that the result of a bfloat-product is correctly rounded. </li>
