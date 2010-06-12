@@ -80,6 +80,9 @@ License, or any later version. */
    infeasible for larger N. </li>
    <li> Can we say something interesting about the error in the floating-point
    computation for B_{k,N} ? </li>
+   <li> For the Maxima-level see "Controlling the error of
+   C_gh_hp(k,max_p,decimal_digits)" in
+   ComputerAlgebra/RamseyTheory/Lisp/GreenTao/plans/Asymptotics.hpp. </li>
   </ul>
 
 

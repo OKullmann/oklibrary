@@ -25,6 +25,32 @@ License, or any later version. */
   </ul>
 
 
+  \todo Controlling the error of C_gh_hp(k,max_p,decimal_digits)
+  <ul>
+   <li> We assume that each rational number is correctly rounded to a bfloat,
+   and that the result of a bfloat-product is correctly rounded. </li>
+   <li> Furthermore we assume the "machine-error", eps, is 10^(-fpprec+1).
+   </li>
+   <li> It seems obvious that all multiplications stay within the normalised
+   range (of bfloat). </li>
+   <li> Then a rather generous upper bound on the absolute value of the
+   relative error is, that with each multiplication to the already established
+   relative error we add 5*eps. </li>
+   <li> Thus, since for C_gh_inf_hp(k,max_p) we perform pi(max_p)-1
+   multiplications, the absolute value of the relative error for
+   C_gh_inf_hp(k,max_p) is < eps + (pi(max_p)-1)*5*eps. </li>
+   <li> Altogether the relative error for C_gh_hp(k,max_p,decimal_digits) is
+   then less than
+     teps = 6*eps + (pi(max_p)-1)*5*eps = eps * (6 + 5*(pi(max_p)-1)).
+   </li>
+   <li> So C_gh_hp(k,max_p,decimal_digits) should return a pair [r,int],
+   where r is the bfloat-result, while int = [r*(1-teps), r*(1+teps)]. </li>
+   <li> We can use pi(max_p) here, since we have available the number of primes
+   <= max_p. </li>
+   <li> This pair-computation should be done by C_gh_inf_hp also. </li>
+  </ul>
+
+
   \todo Improving the Grosswald-Hagis estimation
   <ul>
    <li> Using the higher logarithmic integrals Lih(x,m) should result in
