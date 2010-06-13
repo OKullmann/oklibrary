@@ -188,7 +188,7 @@ okltest_round_fdd(f) := (
   true)$
 
 okltest_round_bfdd(f) := block(
- [float2bf : true, fpprec : 16],
+ [fpprec : 16],
    for d : 0 thru 4 do block([r : f(1,d)],
      assert(equal(r,1)),
      assert(bfloatp(r) = true)
