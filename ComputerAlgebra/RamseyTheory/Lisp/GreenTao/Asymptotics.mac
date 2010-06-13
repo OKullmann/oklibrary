@@ -41,9 +41,12 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
    C_gh_inf(k,max_p), where only p <= max_p is considered.
  */
 
+/* The "finite factor": */
 factor_C_gh_fin(k) := buildq([k],lambda([p], p^(k-2)/(p-1)^(k-1)))$
 
 C_gh_fin(k) := prod_l(map(factor_C_gh_fin(k), primes_first(count_primes(k))))$
+
+/* The "infinite factor": */
 
 factor_C_gh_inf(k) := buildq([k],lambda([p], p^(k-2)*(p-k+1)/(p-1)^(k-1)))$
 factorbf_C_gh_inf(k) := buildq([k],lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1))))$
@@ -59,10 +62,14 @@ C_gh_inf_hp(k,max_p) := block(
   prod_l(map(factorbf_C_gh_inf(k), L)))$
 /* Upper bound on the absolute value of the relative error of 
    C_gh_inf_hp(k,max_p) (as compared to C_gh_inf(k,max_p)), where num_p
-   is the number of primes considered:
+   is the number of primes considered.
+   Prerequisite: eps = 10^(-fpprec+1), the "machine epsilon", fulfils
+     eps <= min(2/3, 1/(8*num_p - 6)).
+   (Since fpprec >= 16, for all feasible computations at Maxima-level this
+   is automatically fulfilled.)
 */
 relerror_C_gh_inf_hp(k,num_p) := block([eps : 10^(-fpprec+1)],
-  bfloat(eps * (1 + 5*(num_p-1))))$
+  bfloat(eps * (1 + 4*(num_p-1))))$
 /* Returning a pair [a,b], representing an open interval containing the true
    value:
 */
@@ -74,6 +81,8 @@ C_gh_inf_hpint(k,max_p) := block(
   res*[1-eps,1+eps])$
 
 
+/* The final computations: */
+
 C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
 /* Using floating-point arithmetic: */
 C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
@@ -83,7 +92,7 @@ C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
 C_gh_hpint(k,max_p,decimal_digits) := block(
  [fpprec : decimal_digits,
   eps : 10^(-decimal_digits+1)],
-  5*[-eps,+eps] + C_gh_fin(k) * C_gh_inf_hpint(k,max_p))$
+  4*[-eps,+eps] + C_gh_fin(k) * C_gh_inf_hpint(k,max_p))$
 
 
 /* The current approximations of the C_k for k >= 2: */

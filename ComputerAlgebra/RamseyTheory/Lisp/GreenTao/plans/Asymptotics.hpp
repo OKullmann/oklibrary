@@ -36,13 +36,13 @@ License, or any later version. */
    range (of bfloat). </li>
    <li> Then a rather generous upper bound on the absolute value of the
    relative error is, that with each multiplication to the already established
-   relative error we add 5*eps. </li>
+   relative error we add 4*eps. </li>
    <li> Thus, since for C_gh_inf_hp(k,max_p) we perform pi(max_p)-1
    multiplications, the absolute value of the relative error for
-   C_gh_inf_hp(k,max_p) is < eps + (pi(max_p)-1)*5*eps. </li>
+   C_gh_inf_hp(k,max_p) is < eps + (pi(max_p)-1)*4*eps. </li>
    <li> Altogether the relative error for C_gh_hp(k,max_p,decimal_digits) is
    then less than
-     teps = 6*eps + (pi(max_p)-1)*5*eps = eps * (6 + 5*(pi(max_p)-1)).
+     teps = 5*eps + (pi(max_p)-1)*4*eps = eps * (5 + 4*(pi(max_p)-1)).
    </li>
    <li> So C_gh_hp(k,max_p,decimal_digits) should return a pair [r,int],
    where r is the bfloat-result, while int = [r*(1-teps), r*(1+teps)]. </li>
