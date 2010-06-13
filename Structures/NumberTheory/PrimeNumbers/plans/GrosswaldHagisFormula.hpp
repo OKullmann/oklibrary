@@ -86,6 +86,16 @@ License, or any later version. */
    decimal digits is fpprec). </li>
    <li> And see C_gh_hpint(k,max_p,decimal_digits) for the interval containing
    the final result (that is, for fixed N). </li>
+   <li> Currently the number of digits used for the computation is directly
+   entered. For the improved version, the number of correct decimal digits
+   should be entered, and the program then computes itself the number of
+   binary digits needed. </li>
+   <li> For this from max_p one needs to compute pi(max_p), the number of
+   primes p <= p; see ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac. </li>
+   <li> Perhaps we just use the simple upper bound pi(x) < 2*x/ln(x). </li>
+   <li> Perhaps then the interval is output where the correct values lies,
+   the ends directly below each other so that one can see where the differences
+   begin. </li>
   </ul>
 
 
