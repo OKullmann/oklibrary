@@ -100,6 +100,32 @@ okltest_Li(f) := (
   /* XXX */
   true)$
 
+okltest_count_primes_int_0(f) := (
+  assert(f(0) = [0,0]),
+  assert(f(1) = [0,0]),
+  assert(f(2) = [1,1]),
+  assert(f(3) = [2,2]),
+  assert(f(4) = [2,2]),
+  assert(f(5) = [5/log(5)*log(2), 2*5/log(5)]),
+  true)$
+
+okltest_max_quotient_riemann_error(f) := block(
+  assert(f(2,1) = [minf, undef]),
+  assert(f(2,2) = [float((Li(2)-1)/(sqrt(2)*log(2))),2]),
+  if oklib_test_level=0 then return(true),
+  assert(f(2000,3000) = [float((Li(2656)-383)/(sqrt(2656)*log(2656))),2656]),
+  true)$
+
+okltest_count_primes_int_riemann(f) := (
+  assert(f(0) = [0,0]),
+  assert(f(1) = [0,0]),
+  assert(f(2) = [1,1]),
+  assert(f(3) = [2,2]),
+  assert(f(4) = [2,2]),
+  assert(f(2656) = [383,383]),
+  assert(f(2657) = block([d:1/8/%pi*sqrt(2657)*log(2657)], Li(2657) +[-d,d])),
+  true)$
+
 
 /* **************************
    * Additive number theory *

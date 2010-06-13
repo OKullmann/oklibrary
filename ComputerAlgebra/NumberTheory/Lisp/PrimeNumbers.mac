@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* **********************************
@@ -79,7 +80,7 @@ rank_primes_s(P) := map(rank_primes, P)$
 */
 
 /* For a natural number n >= 0 or inf compute the numbers of primes p
-   with p <= n (in mathematics this is denoted by pi(n):
+   with p <= n (in mathematics this is denoted by pi(n)):
 */
 count_primes(n) := if n <= 1 then 0
  elseif n=inf then inf
@@ -123,6 +124,41 @@ Lih_hp(x,m,decimal_digits) := block([fpprec : decimal_digits],
 
 /* Accordingly we provide abbreviations for the exponential integral: */
 Ei(x) := expintegral_ei(x)$
+
+/* Intervals containing count_primes(x) */
+
+/* Using the most basic bounds around x/log(x) (where x can be real): */
+count_primes_int_0(x) :=
+ if x<2 then [0,0] elseif x<3 then [1,1] elseif x<5 then [2,2]
+ else [x/ld(x), 2*x/log(x)]$
+
+/* From the Riemann-conjecture it follows that the quotient 
+     abs(c - Li(x)) / (sqrt(x) * log(x)
+   is bounded. The following function computes the maximal quotient
+   in the interval from a >= 2 to b (a, b must be integers), together with
+   the x where this maximum is assumed:
+*/
+max_quotient_riemann_error(a,b) := block(
+ [c : count_primes(a-1), maxq : minf, maxx : undef],
+  for x : a thru b do (
+    if primep(x) then c:c+1,
+    q : float(abs(c - Li(x)) / (sqrt(x) * log(x))),
+    if q > maxq then (maxq : q, maxx : x)
+  ),
+  return([maxq, maxx]))$
+/* The Riemann conjecture is equivalent to the assertion that the result of
+     max_quotient_riemann_error(2657,inf)
+   is less then 1/(8 pi) ~ .03978873577297384.
+   The corresponding interval (x here is an integer):
+*/
+count_primes_int_riemann(x) :=
+ if x < 2657 then block([c : count_primes(x)], [c,c])
+ else block([d : 1/(8*%pi) * sqrt(x) * log(x)],
+   Li(x) + [-d,+d])$
+/* In other words, the Riemann conjecture is equivalent to count_primes(x)
+   for all x lying in the (open) intervall computed by 
+   count_primes_int_riemann(x).
+*/
 
 
 /* **************************

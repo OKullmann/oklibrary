@@ -43,6 +43,10 @@ okltest_product_primes(product_primes);
 
 okltest_Li(Li);
 
+okltest_count_primes_int_0(count_primes_int_0);
+okltest_max_quotient_riemann_error(max_quotient_riemann_error);
+okltest_count_primes_int_riemann(count_primes_int_riemann);
+
 /* **************************
    * Additive number theory *
    **************************
