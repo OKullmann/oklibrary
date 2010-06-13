@@ -41,6 +41,8 @@ stardisp : true; /* show multiplications via "*" */
 display2d : false; /* show output as strings (which can be copied!) */
 disp2d(x) := block([display2d:true], disp(x)); /* outputs x in 2d-format */
 set_plot_option([gnuplot_term, x11]);
+ratprint : false; /* no messages informing about conversion of floating point
+numbers to rational numbers */
 
 define_variable(
   oklib_monitor,

@@ -157,7 +157,7 @@ okltest_int2polyadicstr(f) := block(
    ************
 */
 
-okltest_round_fdd(f) := block([ratprint : false],
+okltest_round_fdd(f) := (
   for d : 0 thru 4 do block([r : f(1,d)],
     assert(equal(r,1)),
     assert(floatnump(f(1,d)) = true)
@@ -188,7 +188,7 @@ okltest_round_fdd(f) := block([ratprint : false],
   true)$
 
 okltest_round_bfdd(f) := block(
- [ratprint : false, float2bf : true, fpprec : 16],
+ [float2bf : true, fpprec : 16],
    for d : 0 thru 4 do block([r : f(1,d)],
      assert(equal(r,1)),
      assert(bfloatp(r) = true)
