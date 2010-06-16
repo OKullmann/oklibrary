@@ -95,7 +95,8 @@ OKplatform> grep -rl "TEXT" *
     <pre>
 OKplatform> echo $(find * -not -name "*~" -and -type f) | xargs grep -rl "TEXT"
     </pre>
-    Using <code>find</code> is very powerful, however just for excluding
+   </li>
+   <li> Using <code>find</code> is very powerful, however just for excluding
     a filename-pattern we can use <code>grep</code>, and the following
     command has the same effect:
     <pre>
@@ -110,12 +111,18 @@ OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
     to control the full path, then you need to use the more powerful
     <code>find</code>-filter).
    </li>
+   <li> Another useful option of <code>grep</code> is "i", for example in the
+    form <code>grep -rli</code>, which means that the search pattern matches
+    in a case-insensitive manner (useful if you are not sure about the precise
+    usage of small and capital letters in the pattern, or if you want to
+    capture several such patterns.
+   </li>
   </ul>
   
   
   <hr />
    <!-- hhmts start -->
-Last modified: Mon May 10 20:34:41 BST 2010
+Last modified: Wed Jun 16 21:37:43 BST 2010
 <!-- hhmts end -->
    <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
    
