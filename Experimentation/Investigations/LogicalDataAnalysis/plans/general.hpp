@@ -255,6 +255,26 @@ create_list(find_maxima_2(diff_approx2exact_ncprob_0,1,n),n,1,15);
      </li>
     </ol>
    </li>
+   <li> For such an approximation, we should consider approximations of
+   Stirling numbers of the second kind, given how vital they are in the
+   definition. 
+   <ul>
+    <li> There are several papers
+     <ul>
+     <li> [Asymptotics of Stirling Numbers of the Second Kind,
+     Proceedings of the American Mathematical Society,1974] </li>
+     <li> [Asymptotic Estimates of Stirling Numbers, 
+     Studies in applied mathematics, 1993] </li>
+     </ul>
+    </li>
+    <li> However, these papers seem to suggest using a "saddle point"
+    method to determine certain key values in the approximation and
+    so don't seem suitable for us. </li>
+    <li> There are various references in each of these papers which
+    need to be investigated, as there may be approximations, or
+    conjectured approximations which do not require such methods. </li>
+   </ul>
+   </li>
   </ul>
 
 */

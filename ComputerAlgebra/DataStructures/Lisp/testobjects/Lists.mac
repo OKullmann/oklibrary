@@ -103,6 +103,7 @@ okltest_sublist_indicator(sublist_indicator);
 okltest_partition_elements(partition_elements);
 okltest_partition_list(partition_list);
 okltest_partition_list(partition_list_epo);
+okltest_partition_list_eq(partition_list_eq);
 
 /* **********************
    * List constructions *
