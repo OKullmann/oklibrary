@@ -119,9 +119,9 @@ rsaps :
      <li> Curious the barrier at min=3. </li>
      <li> adaptnovelty+ with cutoff=10^8:
      \verbatim
- 3  4
-55 45
-100
+  3   4  8
+550 548  2
+1100
      \endverbatim
      </li>
     </ol>
