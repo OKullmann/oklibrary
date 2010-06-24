@@ -96,7 +96,7 @@ Marx_CM : mrc2ocom(matrix(
    </li>
   </ul>
  
-  \todo Analysis
+  \todo Functional Analysis
   <ul>
    <li> With this data, we have the following full DNFs and CNFs representing
    the various functional extensions of the data (for the unspecified 
@@ -186,6 +186,167 @@ all_minequiv_bvsr_sub_cs(Marx_ConCNF_FF[2],Marx_LibCNF_FF[2]);
    \endverbatim
    Note here that the conservative DNF and liberal CNF correspond
    to the analysis chosen by Marx in the paper.
+   </li>
+  </ul>
+
+
+  \todo Relational analysis
+  <ul>
+   <li> Other than the basic DNFs and CNFs given in "Functional analysis",
+   we also have the relational viewpoint, where we consider the output
+   variable as a variable like any other, and then we consider all
+   rows in the data table as true. </li>
+   <li> The question is: what to consider false? </li>
+   <li> If we assume nothing is false, then {{}} is the minimal DNF
+   for any such truth table. </li>
+   <li> One method for constructing a non-trivial relational
+   model is to assume that the behaviour is functional on the rows in
+   the truth table (otherwise we would have observed the contradictory
+   rows). </li>
+   <li> In this case we get
+   \verbatim
+Marx_RelLibDNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change"),gv("FLA")],
+   [{-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),gv("Union")}]]$
+
+Marx_RelLibCNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change"),gv("FLA")],
+   [{-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")}]]$
+ 
+
+Marx_RelConDNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change"),gv("FLA")],
+   [{gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")}]]$
+ 
+Marx_RelConCNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change"),gv("FLA")],
+   [{-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")}]]$
+   \endverbatim
+   with minimum representations
+   \verbatim
+/* Minimal representations of the liberal extensions */
+all_minequiv_bvsr_sub_cs(Marx_RelLibDNF_FF[2],Marx_RelConDNF_FF[2]);
+  [{{-gv("Change"),-gv("FLA"),gv("Union")},
+    {-gv("Change"),gv("FLA"),gv("NGO"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public")},
+    {-gv("FLA"),-gv("NGO")},{-gv("FLA"),-gv("Public")}},
+   {{-gv("Change"),-gv("FLA"),gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public")},
+    {-gv("FLA"),-gv("NGO")},{-gv("FLA"),-gv("Public")},
+    {gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")}},
+   {{-gv("Change"),-gv("FLA"),gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Union")},
+    {-gv("FLA"),-gv("NGO")},{-gv("FLA"),-gv("Public")},
+    {gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")}}]
+
+
+all_minequiv_bvsr_sub_cs(Marx_RelLibCNF_FF[2],Marx_RelLibCNF_FF[2]);
+  [{{-gv("Change"),-gv("FLA"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public")},
+    {gv("Change"),-gv("FLA"),gv("NGO")},
+    {gv("Change"),-gv("FLA"),-gv("Public"),-gv("Union")},
+    {-gv("FLA"),gv("NGO"),-gv("Union")},
+    {gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")}}]
+
+
+/* Minimal representations of the conservative extensions */
+all_minequiv_bvsr_sub_cs(Marx_RelConDNF_FF[2],Marx_RelConDNF_FF[2]);
+  [{{-gv("Change"),-gv("FLA"),-gv("NGO")},
+    {-gv("Change"),-gv("FLA"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("FLA"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("FLA"),gv("NGO"),gv("Public")},
+    {-gv("FLA"),-gv("NGO"),gv("Union")},
+    {gv("FLA"),gv("NGO"),gv("Public"),-gv("Union")}}]
+
+
+all_minequiv_bvsr_sub_cs(Marx_RelConCNF_FF[2],Marx_RelLibCNF_FF[2]);
+  [{{-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public")},
+    {gv("Change"),-gv("FLA"),-gv("Union")},
+    {gv("Change"),gv("FLA"),-gv("NGO"),gv("Union")},
+    {-gv("FLA"),gv("NGO")},{-gv("FLA"),gv("Public")}},
+   {{-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Public")},
+    {gv("Change"),-gv("FLA"),-gv("Union")},
+    {-gv("FLA"),gv("NGO")},{-gv("FLA"),gv("Public")},
+    {gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")}},
+   {{-gv("Change"),gv("FLA"),-gv("NGO"),-gv("Union")},
+    {gv("Change"),-gv("FLA"),-gv("Union")},
+    {-gv("FLA"),gv("NGO")},{-gv("FLA"),gv("Public")},
+    {gv("FLA"),-gv("NGO"),-gv("Public"),gv("Union")}}]
+   \endverbatim
    </li>
   </ul>
 
