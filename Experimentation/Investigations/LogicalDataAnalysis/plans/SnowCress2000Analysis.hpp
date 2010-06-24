@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/LogicalDataAnalysis/plans/SnowCrest2000Analysis.hpp
+  \file Experimentation/Investigations/LogicalDataAnalysis/plans/SnowCress2000Analysis.hpp
   \brief Plans regarding investigations of a case-study for the logical analysis of data
 
   The underlying article is [The Outcomes of Homeless Mobilization; Cress,
