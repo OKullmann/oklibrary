@@ -124,16 +124,27 @@ CSc : ttcom2cvm(CS);
      function, for example the generic wrapper "gv":
      \verbatim
 FF : clvar_w_ocom2fcl(CSc, gv);
-fcl_p(clvar_ocom2fcl(CSc));
-  false
+fcl_p(clvar_ocom2fcl(CSc,gv));
+  true
      \endverbatim
-     The error is due to the Maxima-bug when handling strings; so currently we
-     can't have variables like gv("Via"). </li>
+     </li>
      <li> Though in principle it seems that using such variables is reasonable;
      only perhaps we typically avoid the distinction between small and capital
      letters, just using only small letters. </li>
      <li> An alternative would be to introduce dedicated variables
      (like Via), however then we would get easily naming-conflicts. </li>
+     <li> (DONE Bug fixed in Maxima 5.21.1. See 
+     "Strings cause errors in evaluation of expressions" in 
+     ComputerAlgebra/plans/Maxima.hpp)
+     When wrapping variable names using a generic variable wrapper
+     we get
+     \verbatim
+FF : clvar_w_ocom2fcl(CSc, gv);
+fcl_p(clvar_ocom2fcl(CSc,gv));
+  false
+     \endverbatim
+     The error is due to the Maxima-bug when handling strings; so currently we
+     can't have variables like gv("Via"). </li>
     </ol>
    </li>
   </ul>
