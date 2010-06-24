@@ -1249,8 +1249,10 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
      </li>
     </ol>
    </li>
-   <li> n=329, cutoff=4*10^8:
-   \verbatim
+   <li> n=329
+    <ol>
+     <li>cutoff=4*10^8:
+     \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 400000000 -i VanDerWaerden_2-4-10_329.cnf | tee VanDerWaerden_2-4-10_329.cnf_OUT
 > E = read_ubcsat("VanDerWaerden_2-4-10_329.cnf_OUT")
  1  2  3  4  5  6 21 23 24 25 26 27
@@ -1267,7 +1269,16 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
 > summary(E$osteps)
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
   1242000  67280000 164600000 174800000 284900000 394100000
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> cutoff=5*10^8:
+     \verbatim
+  1   2   3   4   5   6  23  24  25  26
+  5 103  59  31  10   3   2   7  12   8
+240
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=330 with adaptnovelty+
     <ol>
