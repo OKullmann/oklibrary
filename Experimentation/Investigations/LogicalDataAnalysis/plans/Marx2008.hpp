@@ -66,6 +66,127 @@ Marx_CM : mrc2ocom(matrix(
    is not given in the paper. This seems be to be due to the fact that
    there is no available data for Spain (the country in which Kelme
    operates). How to treat such "unknown" conditions in our system? </li>
+   <li> It seems that in the analysis done by Marx that Kelme is considered
+   then as two configurations. So we have
+   \verbatim
+Marx_CM : mrc2ocom(matrix(
+ [0,1,1,1,1],
+ [1,1,1,1,1],
+ [1,1,1,1,1],
+ [0,1,1,1,1],
+ [0,1,0,1,0],
+ [1,0,0,0,0],
+ [1,1,1,0,0],
+ [1,0,0,0,0],
+
+ [0,0,0,0,0],
+ [1,0,0,0,0],
+
+ [1,0,1,0,0],
+ [0,0,1,0,0],
+ [1,1,1,1,1],
+ [0,0,0,0,0],
+ [1,0,0,1,0],
+ [1,0,0,0,0],
+ [1,0,1,1,0],
+ [0,1,1,0,1]),
+ ["Nike","Adidas", "Puma", "Reebok", "New balance", "Diadora", "Fila", "Karhu", "Kelme1", "Kelme1", "Mizuno", "Saucony", "Asics", "Brooks", "Decathlon", "Lotto", "Kappa", "Umbro"],
+ ["Union", "NGO", "Public", "Change", "FLA"])$
+   \endverbatim
+   </li>
+  </ul>
+ 
+  \todo Analysis
+  <ul>
+   <li> With this data, we have the following full DNFs and CNFs representing
+   the various functional extensions of the data (for the unspecified 
+   configurations / logical remainders)
+   \verbatim
+/* DNF assuming liberal extension */
+Marx_LibDNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change")],
+   [{-gv("Change"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")}]$
+/* CNF assuming liberal extension */
+Marx_LibCNF_FF:
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change")],
+   [{-gv("Change"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("NGO"),-gv("Public"),-gv("Union")}]]$
+/* DNF assuming conservative extension */
+Marx_ConDNF_FF : 
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change")],
+   [{gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("NGO"),gv("Public"),-gv("Union")}]]$
+/* CNF assuming conservative extension */
+Marx_ConCNF_FF :
+  [[gv("Union"),gv("NGO"),gv("Public"),gv("Change")],
+   [{-gv("Change"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),-gv("NGO"),gv("Public"),gv("Union")},
+    {-gv("Change"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("NGO"),-gv("Public"),gv("Union")},
+    {-gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {-gv("Change"),gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),-gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),-gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),-gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public"),gv("Union")}]]$
+    \endverbatim
+    Note that the data doesn't contain any conflicts.
+   </li>
+   <li> Where for each of the above we get the following 
+   minimum representations
+   \verbatim
+/* Minimal representations of the liberal extensions */
+all_minequiv_bvsr_sub_cs(Marx_LibDNF_FF[2],Marx_ConDNF_FF[2]);
+  [{{-gv("Change"),gv("NGO"),-gv("Union")},
+    {gv("Change"),gv("NGO"),gv("Public")}},
+   {{gv("Change"),gv("NGO"),gv("Public")},
+    {gv("NGO"),gv("Public"),-gv("Union")}},
+   {{gv("Change"),gv("NGO"),gv("Union")},
+    {gv("NGO"),gv("Public"),-gv("Union")}}]
+
+
+all_minequiv_bvsr_sub_cs(Marx_LibCNF_FF[2],Marx_LibCNF_FF[2]);
+  [{{-gv("Change"),-gv("NGO"),gv("Public"),gv("Union")},
+    {gv("Change"),gv("NGO")},
+    {gv("Change"),-gv("Public"),-gv("Union")},
+    {gv("NGO"),-gv("Union")}}]
+
+
+/* Minimal representations of the conservative extensions */
+all_minequiv_bvsr_sub_cs(Marx_ConDNF_FF[2],Marx_ConDNF_FF[2]);
+  [{{gv("Change"),gv("NGO"),gv("Public")},
+    {gv("NGO"),gv("Public"),-gv("Union")}}]
+
+all_minequiv_bvsr_sub_cs(Marx_ConCNF_FF[2],Marx_LibCNF_FF[2]);
+  [{{gv("Change"),-gv("Union")},{gv("NGO")},{gv("Public")}}]
+   \endverbatim
+   Note here that the conservative DNF and liberal CNF correspond
+   to the analysis chosen by Marx in the paper.
+   </li>
   </ul>
 
 */
