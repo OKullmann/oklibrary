@@ -95,7 +95,8 @@ Marx_CM : mrc2ocom(matrix(
    \endverbatim
    </li>
   </ul>
- 
+
+
   \todo Functional analysis
   <ul>
    <li> With this data, we have the following full DNFs and CNFs representing
