@@ -10,6 +10,23 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \bug Gcc 4.1.2 will not link on some 64 bit systems
+  <ul>
+   <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
+   in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. 
+   </li>
+   <li> This is the case for most linux systems following the
+   LSB (Linux Standard Base) conventions however debian-based
+   distributions use the later convention. This results
+   in the linker not finding the libraries during the building
+   of gcc. </li>
+   <li> This has been fixed in later versions of gcc, and there
+   is a patch available (MG: The patch works for me). </li>
+   <li> See http://www.trevorpounds.com/blog/?tag=ubuntu for
+   details and a link to the patch. </li>
+  </ul>
+
+
   \todo DONE
   Update our gcc-installation-system to the new standard
   <ul>
