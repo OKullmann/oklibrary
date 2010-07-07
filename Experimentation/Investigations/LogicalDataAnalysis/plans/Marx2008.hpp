@@ -13,6 +13,15 @@ License, or any later version. */
   qualitative comparative analysis of the international sport footwear 
   industry and the Fair Labor Association, Regulation and Governance , 2008].
 
+
+  \bug Update needed
+  <ul>
+   <li> All entries (and also in other files) need to be updated according
+   to the standards established in Annotations/DataAnalysis.tex. </li>
+   <li> This should be considered a bug, since the implementations and
+   discussions do not follow the specifications anymore. </li>
+  </ul>
+
   
   \todo Create milestones
 
