@@ -26,6 +26,7 @@ License, or any later version. */
     - Representations of the Sbox using additional variables
     - Move notion of AES constraints to separate module/unit
     - Organisation
+    - How to represent elements of arbitrary fields as boolean variables?
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  

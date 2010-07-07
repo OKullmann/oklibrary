@@ -10,6 +10,37 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Small scale translation
+  <ul>
+   <li> This todo provides a gathering point and list of
+   all todos relating to the translation of the small scale
+   AES within the current translation system. </li>
+   <li> Related todos:
+    <ol>
+     <li> How to represent elements of arbitrary fields as boolean variables? 
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+  
+  \todo How to represent elements of arbitrary fields as boolean variables?
+  <ul>
+   <li> In CryptoSystems/Lisp/Rijndael/SmallScaleAdvancedEncryptionStandard.mac,
+   an arbitrary field can be used for the small scale AES word field. </li>
+   <li> However, a GF(3^2) field would have 9 elements, and there is no
+   longer a simple match between polynomial coefficients of the element
+   and variables in the translation. </li>
+   <li> One solution is to translate the problem into a pseudoboolean
+   problem, and then translate from there to a boolean problem using
+   the standard translation. </li>
+   <li> What is the right approach? </li>
+   <li> For now, this is rather a moot point as we do not use this
+   generalisation, but it seems wrong to have different levels of
+   generality within the implementation and translation. </li>
+  </ul>
+
+
   \todo Parameterise inclusion of inverse operation in Mixcolumn translation
   <ul>
    <li> In the initial AES translation, only the encryption direction was
