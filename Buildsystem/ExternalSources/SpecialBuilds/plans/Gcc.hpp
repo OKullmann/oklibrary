@@ -10,23 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \bug Gcc 4.1.2 will not link on some 64 bit systems
-  <ul>
-   <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
-   in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. 
-   </li>
-   <li> This is the case for most linux systems following the
-   LSB (Linux Standard Base) conventions however debian-based
-   distributions use the later convention. This results
-   in the linker not finding the libraries during the building
-   of gcc. </li>
-   <li> This has been fixed in later versions of gcc, and there
-   is a patch available (MG: The patch works for me). </li>
-   <li> See http://www.trevorpounds.com/blog/?tag=ubuntu for
-   details and a link to the patch. </li>
-  </ul>
-
-
   \todo DONE
   Update our gcc-installation-system to the new standard
   <ul>
@@ -87,6 +70,27 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    <li> Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
+   <li> Gcc 4.1.2 will not link on some 64 bit systems
+    <ul>
+     <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
+     in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. </li>
+     <li> This is the case for most linux systems following the
+     LSB (Linux Standard Base) conventions however debian-based
+     distributions use the later convention. This results
+     in the linker not finding the libraries during the building
+     of gcc. </li>
+     <li> This has been fixed in later versions of gcc, and there
+     is a patch available (MG: The patch works for me). </li>
+     <li> See http://www.trevorpounds.com/blog/?tag=ubuntu for
+     details and a link to the patch. </li>
+     <li> Of course, the question is whether this patch is really a general
+     improvement, and whether it creates problems with other systems? </li>
+     <li> Those who are interested in this patch need to test it on other
+     systems. </li>
+     <li> And precise information on how to perform the improvements are
+     needed (note that we are using already an altered gcc!). </li>
+    </ul>
+   </li>
   </ul>
 
 
