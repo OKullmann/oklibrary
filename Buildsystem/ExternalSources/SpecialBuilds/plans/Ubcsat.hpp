@@ -10,6 +10,25 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \todo Make clear the required package for dos2unix
+  <ul>
+   <li> Some linux distributions (such as Ubuntu, and (therefore)
+   presumably Debian) do not include dos2unix by default
+   and the only packaged versions of the utility they have (in 
+   particular the tofrodos package which until recently created
+   dos2unix and unix2dos aliases - 
+   http://www.thefreecountry.com/tofrodos/index.shtml) do not match the 
+   "correct" version, as used by the OKlibrary. </li>
+   <li> As such alternative packages, even when creating aliases oneself,
+   do not have certain options available, as well as the fact that the 
+   "correct" dos2unix package is not clear from a standard google search, 
+   we should provide a link to the package home page somewhere within the 
+   documentation or plans to make it clear where to obtain this package. </li>
+   <li> The correct package is available at 
+   http://www.xs4all.nl/~waterlan/dos2unix.html . </li>
+  </ul>
+
+
   \todo Update to newer version : DONE (we wait for version 1.2.0)
   <ul>
    <li> The post-1.1.0-version should support 64bit machines, so we wait
