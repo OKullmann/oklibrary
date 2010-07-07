@@ -71,36 +71,35 @@ rijn_sbox_vec(v) := rijn_stand_vec(column_m(
    rijn_sbox_matrix . columnvector(rijn_vecinv(v)) +
    columnvector(polybin2vecbin_rijn(rijn_affine_constant)), 1))$
 /* Now representing bytes as natural numbers: */
-/* TODO: The following two functions have bad parameter-names. */
-rijn_sbox_nat(bytei) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(bytei)))$
+rijn_sbox_nat(i) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(i)))$
 /* Now representing bytes as polynomials (the standard representation): */
-rijn_sbox(bytei) := 
+rijn_sbox(p) := 
   rijn_stand(vecbin2polybin(column_m(
     rijn_sbox_matrix .
-    columnvector(polybin2vecbin_rijn(rijn_einv(rijn_stand(bytei)))),1)) + rijn_affine_constant)$
+    columnvector(polybin2vecbin_rijn(rijn_einv(rijn_stand(p)))),1)) + rijn_affine_constant)$
 
 /* Inverse of Sbox: */
 rijn_inv_sbox_vec(v) := rijn_vecinv(rijn_stand_vec(column_m(
   rijn_inv_sbox_matrix . columnvector(v) + 
   columnvector(polybin2vecbin_rijn(rijn_inv_affine_constant)),1)))$
-rijn_inv_sbox_nat(bytei) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(bytei)))$
-rijn_inv_sbox(bytei) :=
+rijn_inv_sbox_nat(i) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(i)))$
+rijn_inv_sbox(p) :=
   rijn_stand(rijn_einv(rijn_stand(
       vecbin2polybin(column_m(
           rijn_inv_sbox_matrix .
-            columnvector(polybin2vecbin_rijn(bytei)),1)) +
+            columnvector(polybin2vecbin_rijn(p)),1)) +
           rijn_inv_affine_constant)))$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation:
 */
-rijn_lookup_sbox_nat(bytei) := sbox_data[bytei+1]$
-rijn_lookup_sbox(bytei) := nat2polybin(sbox_data[polybin2nat(rijn_stand(bytei))+1])$
+rijn_lookup_sbox_nat(i) := sbox_data[i+1]$
+rijn_lookup_sbox(p) := nat2polybin(sbox_data[polybin2nat(rijn_stand(p))+1])$
 
 /* Inverse Sbox implementation that utilises a lookup array to provide 
    fast operation: */
-rijn_lookup_inv_sbox_nat(bytei) := inv_sbox_data[bytei+1]$
-rijn_lookup_inv_sbox(bytei) :=
-  nat2polybin(inv_sbox_data[polybin2nat(rijn_stand(bytei))+1])$
+rijn_lookup_inv_sbox_nat(i) := inv_sbox_data[i+1]$
+rijn_lookup_inv_sbox(p) :=
+  nat2polybin(inv_sbox_data[polybin2nat(rijn_stand(p))+1])$
 
 
 /* *************
