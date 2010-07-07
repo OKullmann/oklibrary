@@ -96,7 +96,7 @@ Marx_CM : mrc2ocom(matrix(
    </li>
   </ul>
  
-  \todo Functional Analysis
+  \todo Functional analysis
   <ul>
    <li> With this data, we have the following full DNFs and CNFs representing
    the various functional extensions of the data (for the unspecified 
