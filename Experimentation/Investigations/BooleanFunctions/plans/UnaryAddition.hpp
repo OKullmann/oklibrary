@@ -53,7 +53,7 @@ License, or any later version. */
    as both input values are at most 1, then if one of them is 0, then the
    result can not be 2. </li>
    <li> Note that, in general, we have that x_2,...,x_m assigned 0 and 
-   y_1,...,y_n assigned to 0 then z_2 must be 0, no matter what x_1 is and no 
+   y_1,...,y_n assigned to 0 then z_2 must be 0, and no 
    matter what x_1 is, x_1,...,x_m is a valid unary number (of course the same
    holds if swap the x's for y's and vice versa). </li>
    <li> Note also, in general, we have that x_1,...,x_(m-1) assigned 1 and 
@@ -278,6 +278,22 @@ p q #min_F_0 stat_min_F #min_F_1 stat_min_F_1 stat_BB_F Eq_0? Eq_1?
    </li>
    <li> We should also check the properties of the minimum clause-set
    representations of F_0 and F_1. </li>
+   <li> We can find the smallest clause-set representation using the
+   same minimisation techniques as used in logical data analysis
+   described in ComputerAlgebra/LogicalDataAnalysis/Lisp/plans/general.hpp. 
+   The following function should compute such a minimum representation for 
+   given m and n.
+   \verbatim
+unary_add_min_reps(m,n) := 
+  all_minequiv_bvsr_sub_cs(
+    unary_add_full_dnf_fcl_std(m,n)[2],
+    setdifference(unary_all_tass_std(m,n),setify(map(comp_sl,unary_add_cnf_fcl_std(m,n)[2]))))$
+
+unary_add_min_reps(1,1);
+   \endverbatim
+   However, given the explosion in the number of prime implicates and the
+   number of variables, this doesn't finish in a short time (MG: hasn't 
+   finished yet). </li>
   </ul>
 
 
