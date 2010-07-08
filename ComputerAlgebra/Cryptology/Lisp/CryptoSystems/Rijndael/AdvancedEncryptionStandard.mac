@@ -62,16 +62,11 @@ rijn_inv_sbox_matrix : apply(matrix,
 
 /* The AES sbox */
 
-/* TODO: polynomials are the basic form, the result should be derived
-   from it.
-*/
 /* Takes a value from the byte field as vector and returns the result
    of applying the Rijndael Sbox operation (as vector): */
-rijn_sbox_vec(v) := rijn_stand_vec(column_m(
-   rijn_sbox_matrix . columnvector(rijn_vecinv(v)) +
-   columnvector(polybin2vecbin_rijn(rijn_affine_constant)), 1))$
+rijn_sbox_vec(v) := polybin2vecbin(rijn_sbox(vecbin2polybin(v)))$
 /* Now representing bytes as natural numbers: */
-rijn_sbox_nat(i) := vecbin2nat(rijn_sbox_vec(nat2vecbin_rijn(i)))$
+rijn_sbox_nat(i) := polybin2nat(rijn_sbox(nat2polybin(i)))$
 /* Now representing bytes as polynomials (the standard representation): */
 rijn_sbox(p) := 
   rijn_stand(vecbin2polybin(column_m(
@@ -79,10 +74,8 @@ rijn_sbox(p) :=
     columnvector(polybin2vecbin_rijn(rijn_einv(rijn_stand(p)))),1)) + rijn_affine_constant)$
 
 /* Inverse of Sbox: */
-rijn_inv_sbox_vec(v) := rijn_vecinv(rijn_stand_vec(column_m(
-  rijn_inv_sbox_matrix . columnvector(v) + 
-  columnvector(polybin2vecbin_rijn(rijn_inv_affine_constant)),1)))$
-rijn_inv_sbox_nat(i) := vecbin2nat(rijn_inv_sbox_vec(nat2vecbin_rijn(i)))$
+rijn_inv_sbox_vec(v) := polybin2vecbin(rijn_inv_sbox(vecbin2polybin(v)))$
+rijn_inv_sbox_nat(i) := polybin2nat(rijn_inv_sbox(nat2polybin(i)))$
 rijn_inv_sbox(p) :=
   rijn_stand(rijn_einv(rijn_stand(
       vecbin2polybin(column_m(
