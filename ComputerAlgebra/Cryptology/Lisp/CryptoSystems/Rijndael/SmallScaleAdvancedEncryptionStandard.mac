@@ -444,7 +444,7 @@ ss_keyschedule(M, r, b, mod_poly, sbox_f) := block(
 ss_key_expansion_gen(M, num_rounds, b, mod_poly, sbox_f) := block(
   [ks : lambda([M,r],
     endcons(ss_keyschedule(last(M),r,b,mod_poly,sbox_f),M))],
-  apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [M])))$
+  lreduce(ks, create_list(i,i,1,num_rounds), [M]))$
 ss_key_expansion(M,num_rounds,b,e) := 
   ss_key_expansion(M,num_rounds,b,ss_polynomial(b,e), ss_sbox(b,e))$
 
@@ -540,11 +540,9 @@ ss_inv_final_round(pl,rkl,inv_sbox_f) :=
 */
 /* WITH final round (_wf) */
 ss_encrypt_wf_gen(pl, kl, num_rounds,b,e,mod_poly,sbox_f,mixcolumns_matrix) :=
-block([n_C : length(pl),
-   partition_m : lambda([M,n], 
-     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+block([n_C : length(pl)],
   /* Initial Rounds */
-  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  ekl : ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([m,n],
@@ -565,11 +563,9 @@ ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
      ss_mixcolumns_matrix(b,e,length(pl)))$
 ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumns_matrix) :=
 block(
-  [n_C : length(pl),
-   partition_m : lambda([M,n], 
-     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+  [n_C : length(pl)],
   /* Initial Rounds */
-  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  ekl : ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),
   initial_rk : first(ekl),
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
     lreduce(lambda([m,n],
@@ -593,11 +589,9 @@ ss_encrypt(pl, kl, num_rounds,b,e) :=
 */
 /* WITH final round (_wf) */
 ss_decrypt_wf_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumns_matrix) := block(
-  [n_C : length(pl),
-   partition_m : lambda([M,n], /* This should be moved somewhere suitable */
-    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+  [n_C : length(pl)],
   /* Initial Rounds */
-  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  ekl : ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   if num_rounds = 10 then
@@ -619,11 +613,9 @@ ss_decrypt_wf(pl, kl, num_rounds, b,e) :=
     ss_inv_mixcolumns_matrix(b,e,length(pl)))$
 /* WITHOUT final round */
 ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumns_matrix) := block(
-  [n_C : length(pl),
-   partition_m : lambda([M,n], /* This should be moved somewhere suitable */
-    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+  [n_C : length(pl)],
   /* Initial Rounds */
-  ekl : partition_m(ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),n_C),
+  ekl : ss_key_expansion_gen(kl,num_rounds,b,mod_poly,sbox_f),
   initial_rk : first(ekl), 
   matrixmap(lambda([a],ss_stand(a,b,mod_poly)),
     rreduce(
