@@ -24,7 +24,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Sbox polynomial implementation
+    - Sbox polynomial implementation : DONE
     - Convert aes_key_expansion to return a list of matrices : DONE
     - Remove addition from AES round : DONE
 

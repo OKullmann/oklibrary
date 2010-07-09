@@ -82,6 +82,14 @@ polybin2vecbin_rijn(p) := block([L : polybin2vecbin(p)],
 
 vecbin2polybin(v) := sum_l(reverse(v) * create_list(('x)^i,i,0,length(v)-1))$
 
+/* Converting between the representation by polynomials and the
+   maxima vector representation:
+*/
+polybin2mvecbin(p) := columnvector(polybin2vecbin(p))$
+polybin2mvecbin_rijn(p) := columnvector(polybin2vecbin_rijn(p))$
+
+mvecbin2polybin(v) := vecbin2polybin(column_m(v,1))$
+
 
 /* **************
    * Operations *
@@ -99,7 +107,7 @@ rijn_matmul(a,b) := matrixmap(rijn_stand, a.b)$
 /* Inversion in the byte-field (yielding a standardised result): */
 rijn_inv(a) := rijn_stand(totaldisrep(gcdex(a,rijn_polynomial)[1]))$
 /* Extended inversion (with 0 -> 0): */
-rijn_einv(a) := if a=0 then 0 else rijn_inv(a)$
+rijn_einv(a) := if rijn_stand(a)=0 then 0 else rijn_inv(a)$
 
 
 /* The field operations with integers as input and output: */

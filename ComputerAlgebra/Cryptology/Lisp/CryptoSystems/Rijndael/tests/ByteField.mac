@@ -135,6 +135,38 @@ okltest_vecbin2polybin(f) := (
     assert(f(cons(1,create_list(0,i,1,e))) = x^e),
   true)$
 
+okltest_polybin2mvecbin(f) := (
+  assert(f(0) = matrix([0])),
+  assert(f(1) = matrix([1])),
+  assert(f(x) = matrix([1],[0])),
+  assert(f(x+1) = matrix([1],[1])),
+  assert(f(x^2) = matrix([1],[0],[0])),
+  for e : 0 thru 10 do
+    assert(f(x^e) = apply(matrix,cons([1],create_list([0],i,1,e)))),
+  true)$
+
+okltest_polybin2mvecbin_rijn(f) := (
+  assert(f(0) = matrix([0],[0],[0],[0],[0],[0],[0],[0])),
+  assert(f(1) = matrix([0],[0],[0],[0],[0],[0],[0],[1])),
+  assert(f(x) = matrix([0],[0],[0],[0],[0],[0],[1],[0])),
+  assert(f(x+1) = matrix([0],[0],[0],[0],[0],[0],[1],[1])),
+  assert(f(x^2) = matrix([0],[0],[0],[0],[0],[1],[0],[0])),
+  for e : 0 thru 7 do
+    assert(f(x^e) = apply(matrix,
+        create_list(if i = 8 - e then [1] else [0], i, 1, 8))),
+  true)$
+
+okltest_mvecbin2polybin(f) := (
+  assert(f(matrix([0])) = 0),
+  assert(f(matrix([1])) = 1),
+  assert(f(matrix([1,0])) = x),
+  assert(f(matrix([1,1])) = x+1),
+  assert(f(matrix([1,0,0])) = x^2),
+  for e : 0 thru 10 do
+    assert(f(apply(matrix,cons(1,create_list(0,i,1,e)))) = x^e),
+  true)$
+
+
 
 /* **************
    * Operations *

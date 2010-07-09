@@ -23,7 +23,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Sbox polynomial implementation
+  \todo DONE Sbox polynomial implementation
   <ul>
    <li> The polynomial representation should use operations
    on polynomials, but the Sbox operation is defined in 
