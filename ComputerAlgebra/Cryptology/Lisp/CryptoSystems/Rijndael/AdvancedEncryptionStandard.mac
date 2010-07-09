@@ -204,15 +204,15 @@ rijn_inv_mixcolumns(inputmatrix,inv_mixcolumn_f) :=
    polynomials and returns the round key for round r+1 as a list
    of polynomials of the same size.
  */
-aes_keyschedule(kl, r, sbox_f) := block(
-  [newcols : matrix(), n_k : length(matrixcolumns(kl)), round_constant : x^(r-1)],
+aes_keyschedule(keymatrix, r, sbox_f) := block(
+  [newcols : matrix(), n_k : length(matrixcolumns(keymatrix)), round_constant : x^(r-1)],
   newcols : addcol(newcols,columnvector(
       create_list(
-        kl[i,1] + sbox_f(kl[mod(i,4)+1,n_k]) + 
+        keymatrix[i,1] + sbox_f(keymatrix[mod(i,4)+1,n_k]) + 
         if i = 1 then round_constant else 0,i,1,4))),
   for j : 2 thru n_k do
     newcols : addcol(newcols,columnvector(
-      create_list(kl[i,j] + newcols[i,j-1],i,1,4))),
+      create_list(keymatrix[i,j] + newcols[i,j-1],i,1,4))),
   return(matrixmap(rijn_stand,newcols)))$
 
 /* Given the AES key as a list of polynomials representing the
@@ -221,10 +221,10 @@ aes_keyschedule(kl, r, sbox_f) := block(
    of the concatenation of the round key blocks for all AES rounds,
    column by column.
  */
- aes_key_expansion(kl, num_rounds, sbox_f) := block(
-  [ks : lambda([kl,r],
-    endcons(aes_keyschedule(last(kl),r,sbox_f),kl))],
-  apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [kl])))$
+ aes_key_expansion(keymatrix, num_rounds, sbox_f) := block(
+  [ks : lambda([keymatrix,r],
+    endcons(aes_keyschedule(last(keymatrix),r,sbox_f),keymatrix))],
+  lreduce(ks, create_list(i,i,1,num_rounds), [keymatrix]))$
 
 
 /* *********************************
@@ -276,7 +276,7 @@ aes_encrypt(pl, kl, num_rounds, sbox_f, mixcolumn_f) := block(
   [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
   /* Initial Rounds */
-  ekl : partition_m(aes_key_expansion(kl,num_rounds,sbox_f),length(pl)),
+  ekl : aes_key_expansion(kl,num_rounds,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([a,b],
@@ -300,7 +300,7 @@ aes_decrypt(pl, kl, num_rounds, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
     map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
   /* Initial Rounds */
-  ekl : partition_m(aes_key_expansion(kl,num_rounds,sbox_f),length(pl)),
+  ekl : aes_key_expansion(kl,num_rounds,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   if num_rounds = 10 then

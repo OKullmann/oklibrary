@@ -40,7 +40,7 @@ License, or any later version. */
   </ul>
 
   
-  \todo Convert aes_key_expansion to return a list of matrices
+  \todo DONE Convert aes_key_expansion to return a list of matrices
   <ul>
    <li> Currently aes_key_expansion returns a 4x(4*(rounds+1)) matrix. </li>
    <li> This was motivated by the fact that it originally returned a list
