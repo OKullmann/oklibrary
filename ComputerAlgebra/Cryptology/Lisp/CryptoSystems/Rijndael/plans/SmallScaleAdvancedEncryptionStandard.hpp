@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
   
+  \todo Tests for implementations
+  <ul>
+   <li> There should be generic tests (as is the case in 
+   the AdvancedEncryptionStandard.mac tests) for the implementation
+   of the small scale AES, such that we can test the implementations
+   (which include the default values for various parameters)
+   as well as the general versions of all the functions. </li>
+   <li> For instance, we should be able to do
+   \verbatim
+okltest_ss_encrypt_generic(ss_encrypt);
+   \endverbatim
+   and so on.
+   </li>
+  </ul>
+
+  
   \todo Use matrix of GF(b) matrices for MixColumn
   <ul>
    <li> To allow the rearrangement of the small scale AES
