@@ -119,7 +119,8 @@ ss_matmul(m,n,b,mod_poly) :=
 ss_inv(p,b,mod_poly) :=
   ss_stand(totaldisrep(gcdex(p,mod_poly)[1]),b,mod_poly)$
 /* Extended inversion (with 0 -> 0): */
-ss_einv(p,b,mod_poly) := if p=0 then 0 else ss_inv(p,b,mod_poly)$
+ss_einv(p,b,mod_poly) :=
+  if ss_stand(p,b,mod_poly)=0 then 0 else ss_inv(p,b,mod_poly)$
 
 
 /* The field operations with integers as input and output: */

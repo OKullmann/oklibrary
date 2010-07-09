@@ -189,10 +189,9 @@ ss_inv_sbox_matrix(b,e) :=
    of the matrix provided to ss_sbox(,_gen) within the GF(b^e) field.   
 */
 ss_sbox_gen(field_element,b,e,mod_poly, sbox_matrix,affine_constant) := block(
-  [inv_elem : ss_einv(ss_stand(field_element,b,mod_poly),b,mod_poly)],
+  [inv_elem : ss_einv(field_element,b,mod_poly)],
   ss_stand(mvec2poly(
-    sbox_matrix . poly2mvec_ss(inv_elem,e) + poly2mvec_ss(affine_constant,e)
-    ),b,mod_poly))$
+    sbox_matrix . poly2mvec_ss(inv_elem,e)) + affine_constant,b,mod_poly))$
 ss_sbox(field_element, b,e) :=
   ss_sbox_gen(field_element,b,e,ss_polynomial(b,e),
     ss_sbox_matrix(b,e),ss_affine_constant(b,e))$
@@ -201,7 +200,7 @@ ss_inv_sbox_gen(field_element,b,e,mod_poly,
   [affine_result : mvec2poly(
       inv_sbox_matrix . poly2mvec_ss(field_element,e) +
           poly2mvec_ss(inv_affine_constant,e))],
-  ss_einv(ss_stand(affine_result,b,mod_poly),b,mod_poly))$
+  ss_einv(affine_result,b,mod_poly))$
 ss_inv_sbox(field_element, b,e) :=
   ss_inv_sbox_gen(field_element,b,e,ss_polynomial(b,e),
     ss_inv_sbox_matrix(b,e),ss_inv_affine_constant(b,e))$
@@ -422,16 +421,16 @@ ss_inv_mixcolumns(M,b,e) :=
    sbox_f.
 */
 /* OK: what is the *mathematical* definition? */
-ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
-  [newcols : matrix(), n_C : length(matrixcolumns(kl)),
-   round_constant : x^(r-1), n_R : length(kl)],
+ss_keyschedule(M, r, b, mod_poly, sbox_f) := block(
+  [newcols : matrix(), n_C : length(matrixcolumns(M)),
+   round_constant : x^(r-1), n_R : length(M)],
   newcols : addcol(newcols,columnvector(
       create_list(
-        (if n_C > 1 then kl[i,1] else 0) + sbox_f(kl[mod(i,n_R)+1,n_C]) + 
+        (if n_C > 1 then M[i,1] else 0) + sbox_f(M[mod(i,n_R)+1,n_C]) + 
         if i = 1 then round_constant else 0,i,1,n_R))),
   for j : 2 thru n_C do
     newcols : addcol(newcols,columnvector(
-      create_list(kl[i,j] + newcols[i,j-1],i,1,n_R))),
+      create_list(M[i,j] + newcols[i,j-1],i,1,n_R))),
   return(matrixmap(lambda([p],ss_stand(p,b,mod_poly)),newcols)))$
 
 /*
@@ -442,12 +441,12 @@ ss_keyschedule(kl, r, b, mod_poly, sbox_f) := block(
    n_C are the number of rows and number of columns in
    the input key matrix (resp).
 */
-ss_key_expansion_gen(kl, num_rounds, b, mod_poly, sbox_f) := block(
-  [ks : lambda([kl,r],
-    endcons(ss_keyschedule(last(kl),r,b,mod_poly,sbox_f),kl))],
-  apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [kl])))$
-ss_key_expansion(kl,num_rounds,b,e) := 
-  ss_key_expansion(kl,num_rounds,b,ss_polynomial(b,e), ss_sbox(b,e))$
+ss_key_expansion_gen(M, num_rounds, b, mod_poly, sbox_f) := block(
+  [ks : lambda([M,r],
+    endcons(ss_keyschedule(last(M),r,b,mod_poly,sbox_f),M))],
+  apply(addcol,lreduce(ks, create_list(i,i,1,num_rounds), [M])))$
+ss_key_expansion(M,num_rounds,b,e) := 
+  ss_key_expansion(M,num_rounds,b,ss_polynomial(b,e), ss_sbox(b,e))$
 
 
 /* *********************************************
