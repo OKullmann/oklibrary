@@ -657,7 +657,6 @@ ss_round_ibc_gen(plain_text, round,b,e,mod_poly, sbox_f,mixcolumns_matrix) :=
 
 /* Small scale AES encryption as ibc (see
    Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac): */
-/* OK: this should just be a helper-function */
 ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
   sbox_f, mixcolumns_matrix) :=
     ibc_0(
@@ -670,6 +669,12 @@ ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
         lambda([m,n],
           matrixmap(lambda([p],ss_stand(p,b,mod_poly)),m+n)))
       )(plaintext,key,num_rounds+1)$
+
+/* Instantiation of AES as an iterated block cipher */
+ss_encrypt_ibc(plaintext,key,num_rounds,b,e) :=
+  ss_encrypt_ibc_gen(plaintext,key,num_rounds,b,e,ss_polynomial(b,e),
+    buildq([b,e],lambda([p],ss_sbox(p,b,e))),
+    ss_mixcolumns_matrix(b,e,length(plaintext)))$
 
 /* OK: Where is the instantiation yielding AES? */
 

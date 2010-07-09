@@ -77,9 +77,9 @@ okltest_aes_key_expansion(aes_key_expansion);
 okltest_aes_round(aes_round);
 okltest_aes_inv_round(aes_inv_round);
 
-okltest_aes_encrypt(aes_encrypt);
-okltest_aes_decrypt(aes_decrypt);
-okltest_aes_encrypt(aes_encrypt_ibc);
+okltest_aes_encrypt_gen(aes_encrypt_gen);
+okltest_aes_decrypt_gen(aes_decrypt_gen);
+okltest_aes_encrypt_gen(aes_encrypt_ibc_gen);
 
 /* *************************************
    * Convenience instantiations of AES *
@@ -87,17 +87,17 @@ okltest_aes_encrypt(aes_encrypt_ibc);
 */
 
 okltest_aes_encrypt_generic(aes_encrypt_l);
-if oklib_test_level >= 1 then okltest_aes_encrypt_generic(aes_encrypt_f)
+if oklib_test_level >= 1 then okltest_aes_encrypt_generic(aes_encrypt)
 else true;
 okltest_aes_encrypt_nat_generic(aes_encrypt_nat_l);
-if oklib_test_level >= 1 then okltest_aes_encrypt_nat_generic(aes_encrypt_nat_f)
+if oklib_test_level >= 1 then okltest_aes_encrypt_nat_generic(aes_encrypt_nat)
 else true;
 
 okltest_aes_decrypt_generic(aes_decrypt_l);
-if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt_f)
+if oklib_test_level >= 1 then okltest_aes_decrypt_generic(aes_decrypt)
 else true;
 okltest_aes_decrypt_nat_generic(aes_decrypt_nat_l);
-if oklib_test_level >= 1 then okltest_aes_decrypt_nat_generic(aes_decrypt_nat_f)
+if oklib_test_level >= 1 then okltest_aes_decrypt_nat_generic(aes_decrypt_nat)
 else true;
 
 okltest_aes_encrypt_hex(aes_encrypt_hex);

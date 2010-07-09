@@ -264,9 +264,7 @@ aes_inv_final_round(pl,rkl,inv_sbox_f) :=
    polynomials and returns the result of applying the AES 
    encryption algorithm:
 */
-aes_encrypt(pl, kl, num_rounds, sbox_f, mixcolumn_f) := block(
-  [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
-    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+aes_encrypt_gen(pl, kl, num_rounds, sbox_f, mixcolumn_f) := (
   /* Initial Rounds */
   ekl : aes_key_expansion(kl,num_rounds,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
@@ -288,9 +286,7 @@ aes_encrypt(pl, kl, num_rounds, sbox_f, mixcolumn_f) := block(
    polynomials and returns the result of applying the AES 
    decryption algorithm:
 */
-aes_decrypt(pl, kl, num_rounds, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
-  [partition_m : lambda([M,n], /* This should be moved somewhere suitable */
-    map(columns2matrix,partition_elements(matrixcolumns(M),n)))],
+aes_decrypt_gen(pl, kl, num_rounds, sbox_f, inv_sbox_f,inv_mixcolumn_f) := (
   /* Initial Rounds */
   ekl : aes_key_expansion(kl,num_rounds,sbox_f),
   initial_rk : first(ekl), final_rk : last(ekl),
@@ -325,7 +321,7 @@ aes_round_ibc(plain_text, round, sbox_f,mixcolumn_f) :=
 /* AES encryption as ibc (see
    Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac): */
 /* OK: this should just be a helper-function */
-aes_encrypt_ibc(plaintext, key, num_rounds, sbox_f, mixcolumn_f) :=
+aes_encrypt_ibc_gen(plaintext, key, num_rounds, sbox_f, mixcolumn_f) :=
     ibc_0(
       buildq([sbox_f],lambda([key,r], aes_keyschedule(key,r,sbox_f))),
       buildq([sbox_f,mixcolumn_f],
@@ -342,45 +338,57 @@ aes_encrypt_ibc(plaintext, key, num_rounds, sbox_f, mixcolumn_f) :=
 
 /* Different forms of computation */
 
+/* AES Encryption using field operations: */
+/* The default AES encryption function. */
+aes_encrypt(p,k,num_rounds) := 
+  aes_encrypt_gen(p,k,num_rounds,rijn_sbox,rijn_mixcolumn)$
+aes_encrypt_std(p,k) := aes_encrypt_f(p,k,10)$
+aes_encrypt_nat(p,k,num_rounds) := 
+  rijn_m2natl(
+    aes_encrypt_gen(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
+      rijn_sbox,rijn_mixcolumn))$
+aes_encrypt_nat_std(p,k) := aes_encrypt_nat_f_std(p,k,10)$
+
 /* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k,num_rounds) := 
-  aes_encrypt(p,k,num_rounds,rijn_lookup_sbox,rijn_mixcolumn)$
+  aes_encrypt_gen(p,k,num_rounds,rijn_lookup_sbox,rijn_mixcolumn)$
 aes_encrypt_l_std(p,k) := aes_encrypt_l(p,k,10)$
 aes_encrypt_nat_l(p,k,num_rounds) := 
   rijn_m2natl(
-    aes_encrypt(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
+    aes_encrypt_gen(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
       rijn_lookup_sbox,rijn_mixcolumn))$
 aes_encrypt_nat_l_std(p,k) := aes_encrypt_nat_l(p,k,10)$
 
-/* AES Encryption using field operations: */
-aes_encrypt_f(p,k,num_rounds) := 
-  aes_encrypt(p,k,num_rounds,rijn_sbox,rijn_mixcolumn)$
-aes_encrypt_f_std(p,k) := aes_encrypt_f(p,k,10)$
-aes_encrypt_nat_f(p,k,num_rounds) := 
+/* AES Encryption as an iterated block cipher */
+aes_encrypt_ibc(p,k,num_rounds) :=
+  aes_encrypt_ibc_gen(p,k,num_rounds,rijn_sbox,rijn_mixcolumn)$
+aes_encrypt_ibc_std(p,k) := aes_encrypt_ibc(p,k,10)$
+aes_encrypt_nat_ibc(p,k,num_rounds) :=
   rijn_m2natl(
-    aes_encrypt(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
+    aes_encrypt_ibc_gen(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
       rijn_sbox,rijn_mixcolumn))$
-aes_encrypt_nat_f_std(p,k) := aes_encrypt_nat_f_std(p,k,10)$
+aes_encrypt_nat_ibc_std(p,k) := aes_encrypt_nat_ibc_std(p,k,10)$
 
+/* AES Decryption using field operations: */
+/* The default AES decryption function. */
+aes_decrypt(c,k,num_rounds) := 
+  aes_decrypt_gen(c,k,num_rounds,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn)$
+aes_decrypt_std(c,k) := aes_decrypt_f(c,k,10)$
+aes_decrypt_nat(c,k,num_rounds) := 
+  rijn_m2natl(
+    aes_decrypt_gen(rijn_natl2m(c),rijn_natl2m(k),num_rounds,
+      rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn))$
+aes_decrypt_nat_std(c,k) := aes_decrypt_nat_f(c,k,10)$
+  
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k,num_rounds) := 
-  aes_decrypt(c,k,num_rounds,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn)$
+  aes_decrypt_gen(c,k,num_rounds,rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn)$
 aes_decrypt_l_std(c,k) := aes_decrypt_l_std(c,k,10)$
 aes_decrypt_nat_l(c,k,num_rounds) := 
   rijn_m2natl(
-    aes_decrypt(rijn_natl2m(c),rijn_natl2m(k),num_rounds,
+    aes_decrypt_gen(rijn_natl2m(c),rijn_natl2m(k),num_rounds,
       rijn_lookup_sbox,rijn_lookup_inv_sbox,rijn_inv_mixcolumn))$
 aes_decrypt_nat_l_std(c,k) := aes_decrypt_nat_l_std(c,k,10)$
-
-/* AES Decryption using field operations: */
-aes_decrypt_f(c,k,num_rounds) := 
-  aes_decrypt(c,k,num_rounds,rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn)$
-aes_decrypt_f_std(c,k) := aes_decrypt_f(c,k,10)$
-aes_decrypt_nat_f(c,k,num_rounds) := 
-  rijn_m2natl(
-    aes_decrypt(rijn_natl2m(c),rijn_natl2m(k),num_rounds,
-      rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn))$
-aes_decrypt_nat_f_std(c,k) := aes_decrypt_nat_f(c,k,10)$
   
 
 

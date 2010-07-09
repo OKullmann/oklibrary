@@ -202,7 +202,7 @@ okltest_aes_inv_round(f) := block(
     rijn_natl2m([72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,231])),
   true)$
 
-okltest_aes_encrypt(f) := block(
+okltest_aes_encrypt_gen(f) := block(
   assert(f(rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),rijn_natl2m([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),10,
     rijn_lookup_sbox,rijn_mixcolumn) = 
     rijn_natl2m([102,233,75,212,239,138,44,59,136,76,250,89,202,52,43,46])),
@@ -213,7 +213,7 @@ okltest_aes_encrypt(f) := block(
     rijn_natl2m([87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6])),
   true)$
 
-okltest_aes_decrypt(f) := block(
+okltest_aes_decrypt_gen(f) := block(
   assert(f(rijn_natl2m(
         [87,22,170,250,44,198,139,155,139,155,229,13,48,227,242,6]),
       rijn_natl2m([43,40,171,9,126,174,247,207,21,210,21,79,22,166,136,60]),10,
