@@ -556,11 +556,6 @@ block([n_C : length(pl)],
       ss_round_gen(
           initial_result,final_rk,b,e,mod_poly, sbox_f, mixcolumns_matrix))
 )$
-/* WITH final round (_wf) */
-ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
-   ss_encrypt_wf_gen(pl,kl,num_rounds,b,e,
-     ss_polynomial(b,e), lambda([a], ss_sbox(a,b,e)),
-     ss_mixcolumns_matrix(b,e,length(pl)))$
 ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumns_matrix) :=
 block(
   [n_C : length(pl)],
@@ -572,11 +567,7 @@ block(
         ss_round_gen(m,n,b,e,mod_poly,sbox_f,mixcolumns_matrix)),
     rest(ekl), pl + initial_rk))
 )$
-ss_encrypt(pl, kl, num_rounds,b,e) :=
-  ss_encrypt_gen(pl,kl,num_rounds,b,e,
-    ss_polynomial(b,e),
-    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
-    ss_mixcolumns_matrix(b,e,length(pl)))$
+
 
 /* Takes a matrix of polynomials, another matrix
    of polynomials representing the round key, and the number of rounds and
@@ -606,11 +597,6 @@ ss_decrypt_wf_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixco
         ss_inv_round_gen(m,n,b,e,mod_poly,inv_sbox_f,inv_mixcolumn_matrix)), 
       rest(rest(ekl), -1), initial_result) + initial_rk)
 )$
-/* WITH final round (_wf) */
-ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
-  ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
-    lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
-    ss_inv_mixcolumns_matrix(b,e,length(pl)))$
 /* WITHOUT final round */
 ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolumns_matrix) := block(
   [n_C : length(pl)],
@@ -623,12 +609,6 @@ ss_decrypt_gen(pl, kl, num_rounds, b,e,mod_poly, sbox_f, inv_sbox_f,inv_mixcolum
         ss_inv_round_gen(m,n,b,e,mod_poly,inv_sbox_f,inv_mixcolumns_matrix)), 
       rest(ekl), pl) + initial_rk)
 )$
-/* WITHOUT final round */
-ss_decrypt(pl, kl, num_rounds, b,e) :=
-  ss_decrypt_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
-    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
-    buildq([b,e],lambda([a], ss_inv_sbox(a,b,e))),
-    ss_inv_mixcolumns_matrix(b,e,length(pl)))$
 
 
 /* **********************************************************
@@ -670,13 +650,41 @@ ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
           matrixmap(lambda([p],ss_stand(p,b,mod_poly)),m+n)))
       )(plaintext,key,num_rounds+1)$
 
+
+/* **********************************************************
+   * Small scale AES instantiations                         *
+   **********************************************************
+*/
+
+/* Default Small Scale AES encryption WITHOUT a final round */
+ss_encrypt(pl, kl, num_rounds,b,e) :=
+  ss_encrypt_gen(pl,kl,num_rounds,b,e,
+    ss_polynomial(b,e),
+    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
+    ss_mixcolumns_matrix(b,e,length(pl)))$
+/* Default Small Scale AES encryption WITH final round (_wf) */
+ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
+   ss_encrypt_wf_gen(pl,kl,num_rounds,b,e,
+     ss_polynomial(b,e), lambda([a], ss_sbox(a,b,e)),
+     ss_mixcolumns_matrix(b,e,length(pl)))$
+/* Default Small Scale AES decryption WITHOUT final round */
+ss_decrypt(pl, kl, num_rounds, b,e) :=
+  ss_decrypt_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
+    buildq([b,e],lambda([a], ss_sbox(a,b,e))),
+    buildq([b,e],lambda([a], ss_inv_sbox(a,b,e))),
+    ss_inv_mixcolumns_matrix(b,e,length(pl)))$
+/* Default Small Scale AES decryption WITH final round (_wf) */
+ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
+  ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
+    lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
+    ss_inv_mixcolumns_matrix(b,e,length(pl)))$
+
 /* Instantiation of AES as an iterated block cipher */
 ss_encrypt_ibc(plaintext,key,num_rounds,b,e) :=
   ss_encrypt_ibc_gen(plaintext,key,num_rounds,b,e,ss_polynomial(b,e),
     buildq([b,e],lambda([p],ss_sbox(p,b,e))),
     ss_mixcolumns_matrix(b,e,length(plaintext)))$
 
-/* OK: Where is the instantiation yielding AES? */
 
 /*!
 \endhtmlonly
