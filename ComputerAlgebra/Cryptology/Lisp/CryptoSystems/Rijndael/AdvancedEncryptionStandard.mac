@@ -121,12 +121,6 @@ rijn_inv_subbytes(inputmatrix,inv_sbox_f) := matrixmap(inv_sbox_f, inputmatrix)$
 */
 
 /*
-   List of shifts left for each row in the block in the  shiftrows
-   operation:
-*/
-aes_shiftrows_shifts : [0,1,2,3]$
-
-/*
    Takes a matrix and performs the shiftrows operation,
    returning a matrix where each row has been shifted
    cyclically by the specified amount (see aes_shiftrows_shifts[i]
@@ -134,7 +128,7 @@ aes_shiftrows_shifts : [0,1,2,3]$
 */
 aes_shiftrows(inputmatrix) := 
   apply(matrix,
-    create_list(rotate(inputmatrix[abs(r)+1],-r), r, aes_shiftrows_shifts))$
+    create_list(rotate(inputmatrix[abs(r)+1],-r), r, 0,3))$
 
 /*
    Takes a matrix and performs the inverse shiftrows operation,
@@ -142,9 +136,9 @@ aes_shiftrows(inputmatrix) :=
    cyclically by the specified amount (see -aes_shiftrows_shifts[i]
    for the shift for the i'th row).
 */
-aes_inv_shiftrows(inputmatrix) := 
-  block([aes_shiftrows_shifts : -aes_shiftrows_shifts],
-  aes_shiftrows(inputmatrix))$
+aes_inv_shiftrows(inputmatrix) :=
+  apply(matrix,
+    create_list(rotate(inputmatrix[abs(r)+1],r), r, 0,3))$
 
 
 /* ***************
