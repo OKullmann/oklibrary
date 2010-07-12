@@ -39,6 +39,45 @@ License, or any later version. */
 
   \todo Write demos.
 
+  \todo Introduce subsumption hypergraph generator
+  <ul>
+   <li> There are several instances where we have hypergraphs
+   with a large number of nodes. For instance, we have
+   <ul>
+    <li> "Minimisation of the Sbox" in 
+    Experimentation/Investigations/Cryptography/plans/SboxInvestigations.hpp
+    </li>
+    <li> "Smallest prime CNF-representation" in 
+    Experimentation/Investigations/BooleanFunctions/plans/UnaryAddition.hpp
+    </li>
+    <li> "Smallest prime CNF-representation" in 
+    Experimentation/Investigations/BooleanFunctions/plans/BinaryAddition.hpp
+    </li>
+   </ul>
+   </li>
+   <li> For all such instances, all such algorithms are available
+   in the Maxima system (see 
+   OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac), however, for such large
+   instances the Maxima system is far too inefficient. </li>
+   <li> Therefore we need a C++ subsumption hypergraph generator. </li>
+   <li> Details
+   <ul>
+    <li> As input we have 2 set-systems S1 and S2, and as output, we have the
+    hypergraph H, where 
+    <ol>
+     <li> V(H) = S1, </li>
+     <li> E(H) = {{a in A | b is a subset of a} | b in B}. </li>
+    </ol>
+    </li>
+    <li> As in Subsumption.hpp, input and output should be handled via 
+    CLSAdapters. </li>
+    <li> The output should be generated as an extended DIMACS
+    file where the variables names express the vertices in the hyperedges
+    from S1 (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
+    example). </li>
+   </ul>
+  </ul>
+
 */
 
 /*!
