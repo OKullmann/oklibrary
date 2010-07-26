@@ -72,7 +72,7 @@ bin_add_full_cnf_fcl_std(m,n) := block(
   bin_add_full_cnf_fcl(X,Y,Z))$
 bin_add_full_cnf_fcl(X,Y,Z) := block([V : append(X,Y,Z)],
   [V,listify(
-      setdifference(all_tass(V),setify(bin_add_full_dnf_fcl(X,Y,Z)[2])))])$
+      map(comp_sl,setdifference(all_tass(V),setify(bin_add_full_dnf_fcl(X,Y,Z)[2]))))])$
    \endverbatim
    </li>
   </ul>
@@ -85,32 +85,43 @@ bin_add_full_cnf_fcl(X,Y,Z) := block([V : append(X,Y,Z)],
     <ol>
      <li> n=1, m=1
      \verbatim
-all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl(1,1)[2]));
-[{{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(y,1),-bna(z,1)},{-bna(x,1),bna(z,2)},
-          {bna(x,1),-bna(y,1),-bna(z,1)},{bna(x,1),bna(y,1),-bna(z,2)},{bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(y,1),-bna(z,1)},{-bna(x,1),bna(z,2)},
-          {bna(x,1),bna(y,1),bna(z,1)},{bna(x,1),-bna(z,1),-bna(z,2)},{-bna(y,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(y,1),-bna(z,1)},
-          {bna(x,1),-bna(y,1),-bna(z,1)},{bna(x,1),bna(y,1),-bna(z,2)},{-bna(y,1),bna(z,2)},
-          {bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(y,1),-bna(z,1)},
-          {bna(x,1),bna(y,1),bna(z,1)},{bna(x,1),-bna(z,1),-bna(z,2)},{-bna(y,1),bna(z,2)},
-          {bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(y,1),-bna(z,1)},
-          {bna(x,1),bna(y,1),-bna(z,2)},{bna(x,1),-bna(z,1),-bna(z,2)},{-bna(y,1),bna(z,2)},
-          {bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(z,2)},{bna(x,1),-bna(y,1),-bna(z,1)},
-          {bna(x,1),bna(y,1),bna(z,1)},{-bna(y,1),bna(z,2)},{bna(y,1),-bna(z,1),-bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(z,2)},{bna(x,1),-bna(y,1),-bna(z,1)},
-          {bna(x,1),bna(y,1),bna(z,1)},{bna(y,1),-bna(z,1),-bna(z,2)},{bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(z,2)},{bna(x,1),-bna(y,1),-bna(z,1)},
-          {bna(x,1),bna(y,1),-bna(z,2)},{bna(y,1),-bna(z,1),-bna(z,2)},{bna(z,1),bna(z,2)}},
-         {{-bna(x,1),-bna(y,1),bna(z,1)},{-bna(x,1),bna(z,2)},{bna(x,1),bna(y,1),bna(z,1)},
-          {bna(x,1),-bna(z,1),-bna(z,2)},{-bna(y,1),bna(z,2)},{bna(y,1),-bna(z,1),-bna(z,2)}}]
+all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl_std(1,1)[2]));
+[{{-bna(x,1),-bna(y,1),-bna(z,1)},{-bna(x,1),bna(y,1),bna(z,1)},
+  {bna(x,1),bna(y,1),-bna(z,1)},{bna(x,1),-bna(z,2)},
+  {-bna(y,1),bna(z,1),bna(z,2)},{bna(y,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),-bna(z,1)},
+  {-bna(x,1),bna(y,1),bna(z,1)},
+  {bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(x,1),-bna(z,2)},{-bna(y,1),bna(z,1),bna(z,2)},
+  {-bna(z,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),-bna(z,1)},
+  {-bna(x,1),bna(z,1),bna(z,2)},
+  {bna(x,1),-bna(y,1),bna(z,1)},
+  {bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(x,1),-bna(z,2)},{bna(y,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),-bna(z,1)},
+  {-bna(x,1),bna(z,1),bna(z,2)},
+  {bna(x,1),-bna(y,1),bna(z,1)},
+  {bna(x,1),bna(y,1),-bna(z,1)},{bna(y,1),-bna(z,2)},{-bna(z,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),-bna(z,1)},{-bna(x,1),bna(z,1),bna(z,2)},
+  {bna(x,1),bna(y,1),-bna(z,1)},{bna(x,1),-bna(z,2)},
+  {-bna(y,1),bna(z,1),bna(z,2)},{bna(y,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),bna(z,2)},{-bna(x,1),bna(y,1),bna(z,1)},
+  {bna(x,1),-bna(y,1),bna(z,1)},{bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(x,1),-bna(z,2)},{-bna(z,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),bna(z,2)},{-bna(x,1),bna(y,1),bna(z,1)},
+  {bna(x,1),-bna(y,1),bna(z,1)},{bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(y,1),-bna(z,2)},{-bna(z,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),bna(z,2)},{-bna(x,1),bna(y,1),bna(z,1)},
+  {bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(x,1),-bna(z,2)},{-bna(y,1),bna(z,1),bna(z,2)},{-bna(z,1),-bna(z,2)}},
+ {{-bna(x,1),-bna(y,1),bna(z,2)},{-bna(x,1),bna(z,1),bna(z,2)},
+  {bna(x,1),-bna(y,1),bna(z,1)},{bna(x,1),bna(y,1),-bna(z,1)},
+  {bna(y,1),-bna(z,2)},{-bna(z,1),-bna(z,2)}}]
      \endverbatim
      with 
      \verbatim
-minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl(1,1)[2]))$
+minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl_std(1,1)[2]))$
 length(minBinCNFs);
 9
 length(minBinCNFs[1]);
@@ -119,23 +130,22 @@ length(minBinCNFs[1]);
      </li>
      <li> n=2, m=1
      \verbatim
-minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl(2,1)[2]));
+minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl_std(2,1)[2]));
 length(minBinCNFs);
 84
 length(minBinCNFs[1]);
 11
-A[1];
-{{-bna(x,1),-bna(x,2),bna(z,2)},{-bna(x,1),bna(x,2),-bna(z,2)},
- {-bna(x,1),-bna(y,1),bna(z,1)},{bna(x,1),-bna(y,1),-bna(z,1)},
- {bna(x,1),bna(y,1),bna(z,1)},{-bna(x,2),-bna(y,1),bna(z,2)},
- {-bna(x,2),bna(y,1),-bna(z,1),-bna(z,2)},{-bna(x,2),bna(z,3)},
- {bna(x,2),-bna(y,1),-bna(z,2)},{bna(x,2),bna(y,1),-bna(z,1),-bna(z,3)},
- {bna(z,2),bna(z,3)}}
+minBinCNFs[1];
+{{-bna(x,1),-bna(y,1),-bna(z,1)},{-bna(x,1),bna(y,1),bna(z,1)},
+        {bna(x,1),-bna(x,2),bna(z,2)},{bna(x,1),bna(x,2),-bna(z,2)},{bna(x,1),bna(y,1),-bna(z,1)},
+        {-bna(x,2),-bna(y,1),bna(z,1),-bna(z,2)},{-bna(x,2),bna(y,1),bna(z,2)},
+        {bna(x,2),bna(y,1),-bna(z,2)},{bna(x,2),-bna(z,3)},{-bna(y,1),bna(z,1),bna(z,2),bna(z,3)},
+        {-bna(z,2),-bna(z,3)}}
      \endverbatim
      </li>
      <li> n=2, m=2 
      \verbatim
-minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl(2,2)[2]));
+minBinCNFs : all_minequiv_bvsr_cs(setify(bin_add_full_cnf_fcl_std(2,2)[2]));
 length(minBinCNFs);
 144
 length(minBinCNFs[1]);
