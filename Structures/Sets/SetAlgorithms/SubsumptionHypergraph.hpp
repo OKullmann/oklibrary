@@ -64,22 +64,22 @@ namespace OKlib {
 
 
       InnerOutputContainerSets all_subsuming(const c_iterator c_begin, const c_iterator c_end, f_iterator f_begin, const f_iterator f_end) {
-	InnerOutputContainerSets subsumes_set;
-	for (; f_begin != f_end; ++f_begin) 
-	  if (std::includes(c_begin, c_end, f_begin -> begin(), f_begin -> end()))
-	    subsumes_set.insert(*f_begin);
-	return(subsumes_set);
+        InnerOutputContainerSets subsumes_set;
+        for (; f_begin != f_end; ++f_begin) 
+          if (std::includes(c_begin, c_end, f_begin -> begin(), f_begin -> end()))
+            subsumes_set.insert(*f_begin);
+        return(subsumes_set);
       }
 
       OutputContainerSets subsumption_hypergraph(const f_iterator f_begin, const f_iterator f_end, g_iterator g_begin, const g_iterator g_end) {
-	OutputContainerSets subsumption_hyperedges;
-	for (; g_begin != g_end; ++g_begin) 
-	  subsumption_hyperedges.insert(all_subsuming(g_begin -> begin(), g_begin -> end(), f_begin, f_end));
-	return(subsumption_hyperedges);
+        OutputContainerSets subsumption_hyperedges;
+        for (; g_begin != g_end; ++g_begin) 
+          subsumption_hyperedges.insert(all_subsuming(g_begin -> begin(), g_begin -> end(), f_begin, f_end));
+        return(subsumption_hyperedges);
       }
 
       OutputContainerSets operator() (const f_iterator f_begin, const f_iterator f_end, g_iterator g_begin, const g_iterator g_end) {
-	return subsumption_hypergraph(f_begin,f_end,g_begin,g_end);
+        return subsumption_hypergraph(f_begin,f_end,g_begin,g_end);
       }
 
     };

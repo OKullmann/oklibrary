@@ -61,27 +61,27 @@ License, or any later version. */
    instances the Maxima system is far too inefficient. </li>
    <li> Details
    <ul>
-    <li> As input we have 2 set-systems S1 and S2, and as output, we have the
+    <li> As input we have 2 set-systems F and G, and as output, we have the
     hypergraph H, where 
     <ol>
-     <li> V(H) = S1, </li>
-     <li> E(H) = {{a in A | b is a subset of a} | b in B}. </li>
+     <li> V(H) = F, </li>
+     <li> E(H) = {{a in F | b is a subset of a} | b in G}. </li>
     </ol>
     </li>
    </ul>
    </li>
    <li> The output should be generated as an extended DIMACS
    file where the variables names express the vertices in the hyperedges
-   from S1 (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
+   from F (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
    example). </li>
-   <li> A subsumption hypergraph generator is implemented now in
-   SubsumptionHypergraph.hpp. All that is needed is the appropriate 
+   <li> A subsumption hypergraph generator is implemented now as a functor
+   in SubsumptionHypergraph.hpp. All that is needed is the appropriate 
    CLSAdaptors to read and write the clause-sets. </li>
    <li> For outputting the subsumption hypergraph, the variables/nodes
    will themselves be hyperedges of the original hypergraph F and so 
    will need to be translated, either to integers or to extended DIMACS
    literals. MG: Is there an CLSAdaptorExtendedDimacsOutput or similar 
-   (there is LiteralExtendedReading but seems to be no support for writing?).
+   (there is LiteralExtendedReading but seems to be no support for writing).
    </li> 
    <li> DONE Therefore we need a C++ subsumption hypergraph generator. </li>
   </ul>
