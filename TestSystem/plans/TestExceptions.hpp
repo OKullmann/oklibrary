@@ -52,6 +52,24 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Offer a generic OKLIB_TEST_EQUAL_W* macro
+  <ul>
+   <li> There are instances where one uses, for instance, sets
+   as vertices in hypergraphs, and hence has sets of sets of
+   sets. Generic test functions are needed to test equality of
+   such objects. </li>
+   <li> The proposed solution is to simply have a recursive definition
+   for OutputWrapper which takes an integer parameter template, with
+   the depth of recursion of the container type, and then this generates
+   the correct type for any level of recursion. </li>
+   <li> There would then be three macros, OKLIB_TEST_EQUAL_W, OKLIB_TEST_EQUAL_W2
+   and OKLIB_TEST_EQUAL_WN, where the first two take two parameters, and the
+   last takes an additional parameter (as the first parameter) which specifies
+   how many levels of sets the containers being compared have. </li>
+  </ul>
+
+
   \todo More error-information
   <ul>
    <li> Shouldn't we allow also at the other places in the call-stack to add a

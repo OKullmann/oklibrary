@@ -217,6 +217,20 @@ namespace OKlib {
       std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<OutputWrapper<typename T::value_type> >(out, "\n"));
       return out;
     }
+    template <typename T>
+    struct OutputWrapper3 {
+      const T& t;
+      OutputWrapper3(const T& t) : t(t) {}
+    };
+    template <typename T>
+    inline OutputWrapper3<T> output_wrapper3(const T& t) {
+      return OutputWrapper3<T>(t);
+    }
+    template <typename T>
+    std::ostream& operator <<(std::ostream& out, const OutputWrapper3<T>& w) {
+      std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<OutputWrapper2<typename T::value_type> >(out, "\n"));
+      return out;
+    }
 
     /*!
       \def OKLIB_TEST_EQUAL_W
@@ -249,6 +263,19 @@ namespace OKlib {
       std::stringstream out; \
       out << "Value is " << ::OKlib::TestSystem::output_wrapper2(v1); \
       out << ", and not " << ::OKlib::TestSystem::output_wrapper2(v2); \
+      OKLIB_THROW(out.str()); \
+    }
+   
+   /*!
+      \def OKLIB_TEST_EQUAL_W3
+      \brief Refining OKLIB_TEST_EQUAL_W for the case of a container of containers of containers.
+   */
+
+#define OKLIB_TEST_EQUAL_W3(v1, v2) \
+    if ( not((v1) == (v2))) {       \
+      std::stringstream out; \
+      out << "Value is " << ::OKlib::TestSystem::output_wrapper3(v1); \
+      out << ", and not " << ::OKlib::TestSystem::output_wrapper3(v2); \
       OKLIB_THROW(out.str()); \
     }
 
