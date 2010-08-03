@@ -19,7 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteFie
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+
 
 
 /* ******************
@@ -81,6 +83,9 @@ polybin2vecbin_rijn(p) := block([L : polybin2vecbin(p)],
  append(create_list(0,i,1,8-length(L)),L))$
 
 vecbin2polybin(v) := sum_l(reverse(v) * create_list(('x)^i,i,0,length(v)-1))$
+
+/* Include for columnvector */
+oklib_plain_include(eigen);
 
 /* Converting between the representation by polynomials and the
    maxima vector representation:
