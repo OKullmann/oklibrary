@@ -35,7 +35,7 @@ License, or any later version. */
     - Use matrix of GF(b) matrices for MixColumn
     - Generating test vectors
     - Datatypes and naming conventions
-    - Small scale AES implementation
+    - Small scale AES implementation : DONE
 
 
   \par Version 0.0.11
