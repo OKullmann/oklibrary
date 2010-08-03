@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,7 +59,6 @@ License, or any later version. */
    in the Maxima system (see 
    OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac), however, for such large
    instances the Maxima system is far too inefficient. </li>
-   <li> Therefore we need a C++ subsumption hypergraph generator. </li>
    <li> Details
    <ul>
     <li> As input we have 2 set-systems S1 and S2, and as output, we have the
@@ -69,13 +68,22 @@ License, or any later version. */
      <li> E(H) = {{a in A | b is a subset of a} | b in B}. </li>
     </ol>
     </li>
-    <li> As in Subsumption.hpp, input and output should be handled via 
-    CLSAdapters. </li>
-    <li> The output should be generated as an extended DIMACS
-    file where the variables names express the vertices in the hyperedges
-    from S1 (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
-    example). </li>
    </ul>
+   </li>
+   <li> The output should be generated as an extended DIMACS
+   file where the variables names express the vertices in the hyperedges
+   from S1 (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
+   example). </li>
+   <li> A subsumption hypergraph generator is implemented now in
+   SubsumptionHypergraph.hpp. All that is needed is the appropriate 
+   CLSAdaptors to read and write the clause-sets. </li>
+   <li> For outputting the subsumption hypergraph, the variables/nodes
+   will themselves be hyperedges of the original hypergraph F and so 
+   will need to be translated, either to integers or to extended DIMACS
+   literals. MG: Is there an CLSAdaptorExtendedDimacsOutput or similar 
+   (there is LiteralExtendedReading but seems to be no support for writing?).
+   </li> 
+   <li> DONE Therefore we need a C++ subsumption hypergraph generator. </li>
   </ul>
 
 */
