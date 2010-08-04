@@ -88,6 +88,7 @@ sr.hex_str(AES_e, typ="vector")
    are there are issues compiling it in our system (see 
    "Update to new Sage" in 
    Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp). </li>
+   <li> This information should be moved to the docus. </li>
   </ul>
 
 

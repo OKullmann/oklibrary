@@ -32,9 +32,8 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Use matrix of GF(b) matrices for MixColumn
-    - Generating test vectors
-    - Tests for implementations : DONE
     - Datatypes and naming conventions
+    - Tests for implementations : DONE
     - Small scale AES implementation : DONE
 
 
@@ -57,6 +56,11 @@ License, or any later version. */
     - Docus and Demos
     - Requirements
     - Coding Standards
+
+  \par 
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Generating test vectors
 
   \par
    By Version 0.1, the original basic implementation of AES should be completed and documented.
