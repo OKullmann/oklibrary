@@ -40,15 +40,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update the following todos
-  <ul>
-   <li> Separate general plans from specific implementation details (which go
-   to
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp.
-   </li>
-  </ul>
-
-
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after
@@ -80,7 +71,50 @@ License, or any later version. */
   </ul>
 
 
-  \todo The Rijndael cipher as an iterated condition system
+  \todo Docus and Demos
+  <ul>
+   <li> Demos are needed of the system. </li>
+   <li> Docus are needed of the system. </li>
+  </ul>
+
+
+  \todo Coding Standards
+  <ul>
+   <li> Most important: Follow the standard coding practice!
+    <ol>
+     <li> Use named constants. </li>
+     <li> Do not use abbreviated names except of well-established cases. </li>
+     <li> Add code documentation for the specification of functions. </li>
+    </ol>
+    Furthermore declarations of local variables are needed.
+   </li>
+   <li> (DONE no longer an issue, as we don't use the gf package now) 
+   The finite field packages function names, along with maximas syntax
+   make things a little verbose and perhaps a little longer than is really
+   necessary although this is more of a nuisance than a real problem.
+   OK : Why is there a nuisance? In general in the OKlibrary "full" names are
+   appreciated; is this somewhat special here?
+   MG : It only arose as an issue due to my wish to keep the code relatively
+   short and concise and so while trying to keep to a fixed line length of say
+   80 characters, this meant that the code become much longer. The syntax when
+   dealing with the binary operations as well doesn't seem to immediately make
+   clear things such as associativity when reading, in my mind, potentially
+   making simplification more difficult. I imagine that this is more my
+   unfamiliarity with the language and more importantly problems occuring
+   due to lack of design, as suggested below.</li>
+  </ul>
+
+
+  \todo DONE Update the following todos
+  <ul>
+   <li> Separate general plans from specific implementation details (which go
+   to
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp.
+   </li>
+  </ul>
+
+
+  \todo DONE The Rijndael cipher as an iterated condition system
   <ul>
    <li> See "AES as an ics" in
    ComputerAlgebra/Satisfiability/Lisp/plans/IteratedConditionSystems.hpp
@@ -88,25 +122,31 @@ License, or any later version. */
   </ul>
 
 
-  \todo Design of round functions
+  \todo (DONE implemented, individual issues should be raised separately,
+  or now addressed in the documentation)
+  Design of round functions
   <ul>
-   <li> The round functions have been implemented as discussed below with the
-   exception that each takes a list of GF(2^8) elements as input rather than
-   GF(2) elements. </li> 
+   <li> DONE The round functions have been implemented as discussed below with
+   the exception that each takes a list of GF(2^8) elements as input rather 
+   than GF(2) elements. </li> 
    <li> How should the implementation of the individual round operations be
    approached?
     <ul>
-     <li> The MixColumn operation, which would then take a list of GF(2) 
+     <li> (DONE we now consider the MixColumn operation to take a column of 
+     word elements, and it acts as a permutation over this space)
+     The MixColumn operation, which would then take a list of GF(2) 
      elements or bits and convert it to a list of elements in the 4-Byte PID, 
      would simply be a mapping of the multiplication by the constant polynomial
      (2x^3 + 3x^2 + x + 1) across the list. </li>
-     <li> There may be a way to represent this
+     <li> (DONE matrix multiplication results in a simple, easy to read 
+     solution and has been implemented) There may be a way to represent this
      multiplication by simple operations over polynomials and so on, or it may 
      have to be represented via a matrix multiplication over GF(2^8). </li>
-     <li> Such a  mapping would be general across AES and Rijndael. </li>
-     <li> The list would then be converted back to GF(2) using the appropriate
-     helper function. </li>
-     <li> The SubBytes operation would take a list of GF(2) elements, convert
+     <li> DONE Such a  mapping would be general across AES and Rijndael. </li>
+     <li> DONE The list would then be converted back to GF(2) using the 
+     appropriate helper function. </li>
+     <li> (DONE we now work at the word level using polynomials) 
+     The SubBytes operation would take a list of GF(2) elements, convert
      this list to a list of GF(2^8) elements, and then map the S_rd operation
      across it. The resultant list would then be converted back to a list of
      GF(2)/bit elements. Such a mapping would be general across AES and
@@ -120,7 +160,8 @@ License, or any later version. */
      appropriate amounts, perhaps determining the amount to shift/rotate by for
      each list/row by looking at the length of the input list. 
      </li>
-     <li> It seems that defining such operations as operations on matrices
+     <li> (DONE see implementation)
+     It seems that defining such operations as operations on matrices
      provides the most clear representation of each round function. The
      question of how to parameterise such an implementation, may be addressed
      by parameterising the round functions or at least their basic operations
@@ -144,72 +185,10 @@ License, or any later version. */
     later if deemed necessary.
    </li>
   </ul>
-
-
-  \todo Docus and Demos
-  <ul>
-   <li> Demos are needed of the system. </li>
-   <li> Docus are needed of the system. </li>
-  </ul>
-
-
-  \todo Requirements
-  <ul>
-   <li> This should be expanded and tidied up with a more formal 
-   specification? </li>
-   <li> What specifically is needed from the maxima implementation?
-    <ul>
-     <li> DONE A function F_AES(p,k) = c and F_AES'(c,k) = p . </li>
-     <li> (DONE Moved to Generalisations) 
-     How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where 
-     the size of p and k is implicit based on the structures used for p and k,
-     and r is given? Is r really needed as it seems this is a function of the 
-     size of p and k? 
-     </li>
-     <li> DONE A separate round function to allow greater flexibility 
-     when investigating reduced round variants. </li>
-     <li> (DONE Moved to Generalisations) What sort of generalisations are
-     needed?
-      <ol>
-       <li> Should the elements of the round such as ShiftRows be
-       interchangable to some arbitrary permutation (perhaps just across
-       rows?)? </li>
-       <li> Should MixColumns be generalised to an arbitrary 4-Byte value
-       multiplication, should it even be viewed in this way? See ??? </li>
-      </ol>
-     </li>
-    </ul>
-   </li>
-  </ul>
-
-
-  \todo Coding Standards
-  <ul>
-   <li> Most important: Follow the standard coding practice!
-    <ol>
-     <li> Use named constants. </li>
-     <li> Do not use abbreviated names except of well-established cases. </li>
-     <li> Add code documentation for the specification of functions. </li>
-    </ol>
-    Furthermore declarations of local variables are needed.
-   </li>
-   <li> The finite field packages function names, along with maximas syntax
-   make things a little verbose and perhaps a little longer than is really
-   necessary although this is more of a nuisance than a real problem.
-   OK : Why is there a nuisance? In general in the OKlibrary "full" names are
-   appreciated; is this somewhat special here?
-   MG : It only arose as an issue due to my wish to keep the code relatively
-   short and concise and so while trying to keep to a fixed line length of say
-   80 characters, this meant that the code become much longer. The syntax when
-   dealing with the binary operations as well doesn't seem to immediately make
-   clear things such as associativity when reading, in my mind, potentially
-   making simplification more difficult. I imagine that this is more my
-   unfamiliarity with the language and more importantly problems occuring
-   due to lack of design, as suggested below.</li>
-  </ul>
   
   
-  \todo Generalisations
+  \todo (DONE handled by SmallScaleAdvancedEncryptionStandard.hpp)
+  Generalisations
   <ul>
    <li> There are several parameters which are considered when generalising 
    the AES in [Algebraic Aspects of the Advanced Encryption Standard].

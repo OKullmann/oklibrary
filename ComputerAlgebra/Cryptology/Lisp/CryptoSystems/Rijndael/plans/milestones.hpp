@@ -17,7 +17,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Notions and notations
-    - Update the following todos
+    - Update the following todos : DONE
     - Alter internal AES functions to use polynomials and matrices : DONE
     - Truncate AES for reduced rounds: DONE
 
@@ -42,7 +42,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - The Rijndael cipher as an iterated condition system
+    - The Rijndael cipher as an iterated condition system : DONE
     - Design of round functions
     - Key schedule : DONE
     - Algebraic aspects DONE
