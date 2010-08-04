@@ -86,6 +86,17 @@ okltest_ss_decrypt_gen(ss_decrypt_gen);
 
 okltest_ss_encrypt_gen(ss_encrypt_ibc_gen);
 
+/* **********************************************************
+   * Small scale AES instantiations                         *
+   **********************************************************
+*/
+
+okltest_ss_encrypt(ss_encrypt);
+okltest_ss_encrypt(ss_encrypt_ibc);
+okltest_ss_encrypt_wf(ss_encrypt_wf);
+okltest_ss_decrypt(ss_decrypt);
+okltest_ss_decrypt_wf(ss_decrypt_wf);
+
 /*!
 \endhtmlonly
 */
