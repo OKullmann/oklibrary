@@ -107,7 +107,7 @@ okltest_ss_encrypt_generic(ss_encrypt);
   </ul>
 
 
-  \todo (DONE Implementation done, remaining issues addressed in other todos)
+  \todo (DONE %Implementation done, remaining issues addressed in other todos)
   Small scale AES implementation
   <ul> 
    <li> The parameters in the small scale
