@@ -9,6 +9,9 @@ License, or any later version. */
   \file Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp
   \brief Module, which mainly provides the class template Subsumption_hypergraph. 
 
+  The Maxima-specification is subsumption_ghg(F,G) (see
+  ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
+
 */
 
 #ifndef SUBSUMPTION_HYPERGRAPH_yhgBBv567
