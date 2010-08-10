@@ -115,48 +115,14 @@ License, or any later version. */
    for the general perspective, where one starts from a CNF and derives
    DNFs from it by partitioning, while we have already given the DNFs (but
    not some original CNF). </li>
-   <li> Defining an "r-based representation":
-    <ol>
-     <li> Consider a boolean condition C on variables V (that is, C(f)
-     is a boolean value for total assignments f, and C depends only on V).
-     </li>
-     <li> A "positive representation" R is an active clause-set on variables
-     V' >= V such that if R(f) is true then also C(f) is true, and for f
-     such that C(f) is true there is a unique f' which differs from f only
-     on V' - V such that C'(f) is true. </li>
-     <li> Let r be a reduction. </li>
-     <li> R now is "r-based" if for a partial assignment phi with var(phi) <= V
-     such that phi * C is unsatisfiable we have that r-reduction applied to
-     R yields a contradiction. </li>
-     <li> Natural examples are r = r_k (k a natural number >= 0). </li>
-     <li> The weaker r the stronger is the representation (w.r.t. inference
-     power). </li>
-     <li> If R is a CNF-clause-set, then being r_0-based is equivalent to R
-     containing all prime implicates of C. </li>
-     <li> Note that we do not consider how the effect of assignments to
-     variables in V' - V. It seems sensible to me (OK) to consider this
-     as the basis, but for further refinements considerations of V' - V
-     might be needed. </li>
-     <li> Another sensible condition here is for f with C(f) true how difficult
-     it is to compute the extension f'. For example one could demand that
-     the additional assignments follow by unit-clause propagation. </li>
-     <li> See "Bases of the set of prime clauses relative to some reduction" in
-     ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp
-     for the case where no additional variables are considered. </li>
-     <li> The function rand_rbase_cs(F,r) in
-     ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac randomply
-     computes an r-base of F. </li>
-     <li> It seems most promising (for now) to consider here r=r_1 and r=r_2,
-     applied to the sets of prime implicates of the various "boxes" involved.
-     </li>
-    </ol>
-   </li>
    <li> Studying the representations of the Sbox
     <ol>
      <li> See
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
      </li>
      <li> That module is not properly maintained: Actions for MG. </li>
+     <li> See "r-based representations" in 
+     Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp . </li>
      <li> A 0-based CNF-representation without additional variables is likely
      infeasible to use. </li>
      <li> What about the Tseitin-translation of the Sbox-DNF? 
@@ -174,6 +140,9 @@ License, or any later version. */
        <li> Most natural should be to use dualts_fcl in
        ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
       </ol>
+     </li>
+     <li> It seems most promising (for now) to consider here r=r_1 and r=r_2,
+     applied to the sets of prime implicates of the various "boxes" involved.
      </li>
      <li> Perhaps actually the hitting-CNFs representing the Sbox might have
      values, since we have special algorithms. So other reductions than just
