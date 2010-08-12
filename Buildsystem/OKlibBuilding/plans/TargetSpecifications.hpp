@@ -168,6 +168,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Target "app_tests"
+  <ul>
+   <li> We should have a general set-up to test SAT solvers w.r.t. the
+   standard SAT functionality. </li>
+   <li> Including various "fuzzing" tools; see "Fuzzing" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+   <li> Of course, we should also involve our own generators. </li>
+  </ul>
+
+
   \todo DONE (likely not needed, since at least for now we don't use cmake)
   Target "reset"
   <ul>

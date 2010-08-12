@@ -67,6 +67,7 @@ License, or any later version. */
    In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the
    following topics are handled:
     - Target "html"
+    - Target "app_tests"
     - Target "reset"
     - Target "new-module"
 

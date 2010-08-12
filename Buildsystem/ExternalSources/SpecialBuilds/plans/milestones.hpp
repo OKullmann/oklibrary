@@ -55,6 +55,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Fuzzing
     - Write docus for March
     - Write docus for Satz
     - Write docus for Minisat

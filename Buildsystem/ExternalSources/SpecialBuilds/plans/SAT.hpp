@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \todo Fuzzing
+  <ul>
+   <li> Install tools by Biere's group, http://fmv.jku.at/software/ . </li>
+   <li> See "Target app_tests" in
+   Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp for the integration
+   into the application-testsystem. </li>
+  </ul>
+
+
   \todo Write docus for March
   <ul>
    <li> Currently we build march_pl with the (local) gcc version 4.1.2. </li>
