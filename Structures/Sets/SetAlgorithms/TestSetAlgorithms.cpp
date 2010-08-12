@@ -13,7 +13,7 @@ License, or any later version. */
 #include <OKlib/Structures/Sets/SetAlgorithms/BasicMapOperations_Testobjects.hpp>
 #include <OKlib/Structures/Sets/SetAlgorithms/SequenceOperations_Testobjects.hpp>
 #include <OKlib/Structures/Sets/SetAlgorithms/Subsumption_Testobjects.hpp>
-#include <OKlib/Structures/Sets/SetAlgorithms/SubsumptionHypergraph_Testobjects.hpp>
+
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
