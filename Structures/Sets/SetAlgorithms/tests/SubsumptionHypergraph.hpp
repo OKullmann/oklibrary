@@ -38,89 +38,55 @@ namespace OKlib {
         \brief Testing the subsumption hypergraph generator
       */
 
-      OKLIB_TEST_CLASS(Tests_Subsumption_hypergraph) {
-        OKLIB_TEST_CLASS_C(Tests_Subsumption_hypergraph) {}
+      template
+        <template <class ContainerSetsF,
+                   class ContainerSetsG,
+                   class OutputContainerSets,
+                   class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
+                   class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
+                   class SizeTag = typename boost::mpl::if_<
+                     boost::mpl::and_<
+                       typename OKlib::traits::has_size_function<typename ContainerSetsF::value_type>::type,
+                       typename OKlib::traits::has_size_function<typename ContainerSetsG::value_type>::type 
+                       >, 
+                         SubsumptionsTags::use_size_of_hyperedges, 
+                         SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
+         class Subsumption_hypergraph>
+      OKLIB_TEST_CLASS(Test_Subsumption_hypergraph) {
+        OKLIB_TEST_CLASS_C(Test_Subsumption_hypergraph) {}
       private :
-
-        template
-          <template <class ContainerSetsF,
-              class ContainerSetsG,
-              class OutputContainerSets,
-              class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
-              class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
-              class SizeTag = typename boost::mpl::if_<
-                boost::mpl::and_<
-                  typename OKlib::traits::has_size_function<typename ContainerSetsF::value_type>::type,
-                  typename OKlib::traits::has_size_function<typename ContainerSetsG::value_type>::type 
-                  >, 
-                SubsumptionsTags::use_size_of_hyperedges, 
-                SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
-          class Subsumption_hypergraph>
-        OKLIB_TEST_CLASS(Test_Subsumption_hypergraph) {
-          OKLIB_TEST_CLASS_C(Test_Subsumption_hypergraph) {}
-        private :
-          void test(::OKlib::TestSystem::Basic) {
-            typedef int value_type;
-            typedef std::set<std::set<value_type> > hypergraph_F_type;
-            typedef std::set<std::set<value_type> > hypergraph_G_type;
-            typedef std::set<hypergraph_F_type > hypergraph_output_type;
-            typedef hypergraph_output_type::iterator output_iterator;
-            typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type, hypergraph_output_type > hypergraph_type;
-            hypergraph_type sub_hyp;
-            
-            { // empty sequence
-              hypergraph_F_type empty_F;
-              hypergraph_output_type empty_output;
-              empty_output = sub_hyp.subsumption_hypergraph(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
-              OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
-              empty_output = sub_hyp(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
-              OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
-            }
-            { // example sequence
-              hypergraph_G_type hg_F = boost::assign::list_of
-                (boost::assign::list_of(1)(2)(3))
-                (boost::assign::list_of(1)(2)(4))
-                (boost::assign::list_of(1)(3)(5));
-              hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
-              hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of
-                                                                              (boost::assign::list_of(1)(2)(3))
-                                                                              (boost::assign::list_of(1)(2)(4)));
-              hypergraph_output_type example_output;
-              example_output = sub_hyp.subsumption_hypergraph(hg_F.begin(),hg_F.end(), hg_G.begin(), hg_G.end());
-              OKLIB_TEST_EQUAL_W3(example_output, intended_output);
-            }
-          }
-        };
-        
         void test(::OKlib::TestSystem::Basic) {
-          typedef ::OKlib::TestSystem::RunTest::container_type container_type;
-          ::OKlib::TestSystem::TestLevel& test_level(::OKlib::TestSystem::test_level(::OKlib::TestSystem::Basic()));
-          container_type test_objects;
-
-          using OKlib::Messages::Utilities::trivial_message;
-          OKLIB_FULL_LOG(trivial_message("\nFIRST TEST\n"));
-          {
-            std::stringstream test_err, test_messages, test_log;
-            OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::level(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::language(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::level(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::language(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::level(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::language(log_stream()));
-            test_objects.push_back(new Test_Subsumption_hypergraph<OKlib::SetAlgorithms::Subsumption_hypergraph>());
-
-            ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
-
-            if (not test_err.str().empty())
-              OKLIB_THROW("Error thrown!");
-            if (test_messages.str().empty())
-              OKLIB_THROW("No messages!");
-            if (test_log.str().empty())
-              OKLIB_THROW("No log!");
+          typedef int value_type;
+          typedef std::set<std::set<value_type> > hypergraph_F_type;
+          typedef std::set<std::set<value_type> > hypergraph_G_type;
+          typedef std::set<hypergraph_F_type > hypergraph_output_type;
+          typedef hypergraph_output_type::iterator output_iterator;
+          typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type, hypergraph_output_type > hypergraph_type;
+          hypergraph_type sub_hyp;
+          
+          { // empty sequence
+            hypergraph_F_type empty_F;
+            hypergraph_output_type empty_output;
+            empty_output = sub_hyp.subsumption_hypergraph(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
+            OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
+            empty_output = sub_hyp(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
+            OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
+          }
+          { // example sequence
+            hypergraph_G_type hg_F = boost::assign::list_of
+              (boost::assign::list_of(1)(2)(3))
+              (boost::assign::list_of(1)(2)(4))
+              (boost::assign::list_of(1)(3)(5));
+            hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
+            hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of
+                                                                            (boost::assign::list_of(1)(2)(3))
+                                                                            (boost::assign::list_of(1)(2)(4)));
+            hypergraph_output_type example_output;
+            example_output = sub_hyp.subsumption_hypergraph(hg_F.begin(),hg_F.end(), hg_G.begin(), hg_G.end());
+            OKLIB_TEST_EQUAL_W3(example_output, intended_output);
           }
         }
       };
-
     }
   }
 }

@@ -11,7 +11,7 @@ License, or any later version. */
 
 namespace {
 
-  ::OKlib::TestSystem::RunTest test_Subsumption_hypergraph(new ::OKlib::SetAlgorithms::tests::Tests_Subsumption_hypergraph());
+  ::OKlib::TestSystem::RunTest test_Subsumption_hypergraph(new ::OKlib::SetAlgorithms::tests::Test_Subsumption_hypergraph< OKlib::SetAlgorithms::Subsumption_hypergraph>());
 
 }
 
