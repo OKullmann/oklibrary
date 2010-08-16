@@ -41,16 +41,7 @@ namespace OKlib {
       template
         <template <class ContainerSetsF,
                    class ContainerSetsG,
-                   class OutputContainerSets,
-                   class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
-                   class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
-                   class SizeTag = typename boost::mpl::if_<
-                     boost::mpl::and_<
-                       typename OKlib::traits::has_size_function<typename ContainerSetsF::value_type>::type,
-                       typename OKlib::traits::has_size_function<typename ContainerSetsG::value_type>::type 
-                       >, 
-                         SubsumptionsTags::use_size_of_hyperedges, 
-                         SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
+                   class OutputContainerSets>
          class Subsumption_hypergraph>
       OKLIB_TEST_CLASS(Test_Subsumption_hypergraph) {
         OKLIB_TEST_CLASS_C(Test_Subsumption_hypergraph) {}
