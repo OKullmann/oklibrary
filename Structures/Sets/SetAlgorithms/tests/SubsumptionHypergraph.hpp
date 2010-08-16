@@ -39,9 +39,9 @@ namespace OKlib {
       */
 
       template
-        <template <class ContainerSetsF,
-                   class ContainerSetsG,
-                   class OutputContainerSets>
+        <template <class RangeF,
+                   class RangeG,
+                   class OutputContainerSets = std::list<std::list<std::list<int> > > >
          class Subsumption_hypergraph>
       OKLIB_TEST_CLASS(Test_Subsumption_hypergraph) {
         OKLIB_TEST_CLASS_C(Test_Subsumption_hypergraph) {}
@@ -51,16 +51,15 @@ namespace OKlib {
           typedef std::set<std::set<value_type> > hypergraph_F_type;
           typedef std::set<std::set<value_type> > hypergraph_G_type;
           typedef std::set<hypergraph_F_type > hypergraph_output_type;
-          typedef hypergraph_output_type::iterator output_iterator;
           typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type, hypergraph_output_type > hypergraph_type;
           hypergraph_type sub_hyp;
           
           { // empty sequence
             hypergraph_F_type empty_F;
             hypergraph_output_type empty_output;
-            empty_output = sub_hyp.subsumption_hypergraph(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
+            empty_output = sub_hyp.subsumption_hypergraph(empty_F, empty_F);
             OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
-            empty_output = sub_hyp(empty_F.begin(), empty_F.end(), empty_F.begin(), empty_F.end());
+            empty_output = sub_hyp(empty_F, empty_F);
             OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
           }
           { // example sequence
@@ -73,7 +72,7 @@ namespace OKlib {
                                                                             (boost::assign::list_of(1)(2)(3))
                                                                             (boost::assign::list_of(1)(2)(4)));
             hypergraph_output_type example_output;
-            example_output = sub_hyp.subsumption_hypergraph(hg_F.begin(),hg_F.end(), hg_G.begin(), hg_G.end());
+            example_output = sub_hyp.subsumption_hypergraph(hg_F, hg_G);
             OKLIB_TEST_EQUAL_W3(example_output, intended_output);
           }
         }

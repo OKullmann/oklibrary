@@ -22,6 +22,7 @@ License, or any later version. */
 #include <cassert>
 #include <set>
 
+#include<boost/range.hpp>
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
@@ -43,34 +44,37 @@ namespace OKlib {
       \brief Functor: Generates the subsumption hypergraph of set system F w.r.t. G.
     */
 
-    template <class ContainerSetsF,
-	      class ContainerSetsG,
-              class OutputContainerSets>
+    template <class RangeF,
+	      class RangeG,
+              class OutputContainerSets = std::list<std::list<std::list<int> > > >
     struct Subsumption_hypergraph {
 
-      typedef typename ContainerSetsF::iterator f_iterator;
-      typedef typename ContainerSetsF::value_type::iterator c_iterator;
-      typedef typename ContainerSetsG::iterator g_iterator;
+      typedef typename boost::range_iterator<RangeF>::type f_iterator;
+      typedef typename boost::range_iterator<RangeG>::type g_iterator;
       typedef typename OutputContainerSets::value_type InnerOutputContainerSets;
 
 
-      InnerOutputContainerSets all_subsuming(const c_iterator c_begin, const c_iterator c_end, f_iterator f_begin, const f_iterator f_end) {
+      template <class range_c>
+      InnerOutputContainerSets all_subsuming(const range_c c_range, RangeF f_range) {
         InnerOutputContainerSets subsumes_set;
-        for (; f_begin != f_end; ++f_begin) 
-          if (std::includes(c_begin, c_end, f_begin -> begin(), f_begin -> end()))
+        f_iterator f_begin = boost::begin(f_range);
+        for (; f_begin != boost::end(f_range); ++f_begin) 
+          if (std::includes(boost::begin(c_range), boost::end(c_range), boost::begin(*f_begin),boost::end(*f_begin)))
             subsumes_set.insert(*f_begin);
         return(subsumes_set);
       }
 
-      OutputContainerSets subsumption_hypergraph(const f_iterator f_begin, const f_iterator f_end, g_iterator g_begin, const g_iterator g_end) {
+      OutputContainerSets subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
         OutputContainerSets subsumption_hyperedges;
-        for (; g_begin != g_end; ++g_begin) 
-          subsumption_hyperedges.insert(all_subsuming(g_begin -> begin(), g_begin -> end(), f_begin, f_end));
+        g_iterator g_begin = boost::begin(g_range);
+        for (; g_begin != boost::end(g_range); ++g_begin) {
+          subsumption_hyperedges.insert(all_subsuming(*g_begin, f_range));
+        }
         return(subsumption_hyperedges);
       }
 
-      OutputContainerSets operator() (const f_iterator f_begin, const f_iterator f_end, g_iterator g_begin, const g_iterator g_end) {
-        return subsumption_hypergraph(f_begin,f_end,g_begin,g_end);
+      OutputContainerSets operator() (const RangeF f_range, const RangeG g_range) {
+        return subsumption_hypergraph(f_range,g_range);
       }
 
     };
