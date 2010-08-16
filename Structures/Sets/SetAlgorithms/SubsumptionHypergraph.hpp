@@ -21,6 +21,7 @@ License, or any later version. */
 #include <iterator>
 #include <cassert>
 #include <set>
+#include <list>
 
 #include<boost/range.hpp>
 #include <boost/utility.hpp>
@@ -46,7 +47,7 @@ namespace OKlib {
 
     template <class RangeF,
 	      class RangeG,
-              class OutputContainerSets = std::list<std::list<std::list<int> > > >
+              class OutputContainerSets = std::list<std::list<typename boost::range_iterator<RangeF>::type::value_type > > >
     struct Subsumption_hypergraph {
 
       typedef typename boost::range_iterator<RangeF>::type f_iterator;
@@ -60,7 +61,7 @@ namespace OKlib {
         f_iterator f_begin = boost::begin(f_range);
         for (; f_begin != boost::end(f_range); ++f_begin) 
           if (std::includes(boost::begin(c_range), boost::end(c_range), boost::begin(*f_begin),boost::end(*f_begin)))
-            subsumes_set.insert(*f_begin);
+            subsumes_set.push_back(*f_begin);
         return(subsumes_set);
       }
 
@@ -68,7 +69,7 @@ namespace OKlib {
         OutputContainerSets subsumption_hyperedges;
         g_iterator g_begin = boost::begin(g_range);
         for (; g_begin != boost::end(g_range); ++g_begin) {
-          subsumption_hyperedges.insert(all_subsuming(*g_begin, f_range));
+          subsumption_hyperedges.push_back(all_subsuming(*g_begin, f_range));
         }
         return(subsumption_hyperedges);
       }
@@ -78,6 +79,14 @@ namespace OKlib {
       }
 
     };
+
+    template<class RangeF, class RangeG>
+    typename std::list<std::list<typename boost::range_iterator<RangeF>::type::value_type> > 
+    subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
+      Subsumption_hypergraph<RangeF, RangeG> sub_hyp;
+      return sub_hyp(f_range,g_range);
+    }
+    
       
   }
 

@@ -50,7 +50,7 @@ namespace OKlib {
           typedef int value_type;
           typedef std::set<std::set<value_type> > hypergraph_F_type;
           typedef std::set<std::set<value_type> > hypergraph_G_type;
-          typedef std::set<hypergraph_F_type > hypergraph_output_type;
+          typedef std::list<std::list<std::set<int> > > hypergraph_output_type;
           typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type, hypergraph_output_type > hypergraph_type;
           hypergraph_type sub_hyp;
           
