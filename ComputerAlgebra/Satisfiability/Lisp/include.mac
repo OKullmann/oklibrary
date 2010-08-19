@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/include.mac");
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
