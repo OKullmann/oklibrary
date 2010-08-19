@@ -1,0 +1,100 @@
+/* Oliver Kullmann, 19.8.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Categories/ClauseSets.mac
+  \brief The basic category of clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/ClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/LiteralStructures.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/*
+  The "category of boolean clause-sets" has
+
+   - objects [L,F], where L is a boolean literal structure, and F is a set
+     of (finite) subsets of L;
+   - morphisms f: [L,F] -> [L',F'] are literal structure morphisms
+     f: L -> L' such that for all C in F we have f(C) in F'.
+
+  Abbreviations for the objects: "flcls" ("f" like "formal", "l" like
+  "literal").
+*/
+
+flcls_p(F) := listp(F) and is(length(F)=2) and
+  blitstr_p(first(F)) and
+  setp(second(F)) and
+  every_s(lambda([C], subsetp(C,first(first(F)))), second(F))$
+
+morphism_flcls_p(f,F1,F2) :=
+  morphism_blitstr_p(f,first(F1),first(F2)) and
+  every_s(lambda([C], elementp(map(f,C),second(F2))), second(F1))$
+
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+initial_flcls : [initial_blitstr, {}]$
+terminal_flcls : [terminal_blitstr, {{},{[]}}]$
+
+free_flcls(L) := [L,{}]$
+cofree_flcls(L) := [L,powerset(first(L))]$
+
+product_flcls(FL) := block([
+ L : product_blitstr(map(first,FL)),
+ P : apply(corr_cartesian_product, map(second,FL))],
+  [L, 
+   lunion(map(
+           lambda([CL],
+             subset(powerset(apply(corr_cartesian_product,CL)),
+                    lambda([C], 
+                      every_s(
+                       lambda([i],
+                        elementp(map(projection_product_blitstr(i),C),
+                                 second(FL[i]))),
+                       create_list(i,i,1,length(FL))
+                      )
+                    )
+                   )
+                 ),
+           P))])$
+projection_product_flcls(i) := projection_product_blitstr(i)$
+
+
+/* ****************
+   * Translations *
+   ****************
+*/
+
+/* Prerequisite: F has no selfcomplementary literals
+   "und" is not a literal */
+flcls2fcls(F) := block([h : sm2hm({}), n : 0],
+  for x in first(first(F)) do
+    if ev_hm_d(h,x,und) = und then (
+      n : n + 1,
+      set_hm(h,x,n), set_hm(h,second(first(F))(x),-n)
+    ),
+  [setn(n), map(lambda([C], map(lambda([x], ev_hm(h,x)), C)), second(F))])$
+      
+
+/*!
+\endhtmlonly
+*/
