@@ -52,12 +52,13 @@ namespace OKlib {
 
       typedef typename boost::range_iterator<RangeF>::type f_iterator;
       typedef typename boost::range_iterator<RangeG>::type g_iterator;
-      typedef typename OutputContainerSets::value_type InnerOutputContainerSets;
+      typedef typename OutputContainerSets::value_type hyperedge_type;
+      typedef OutputContainerSets set_system_type;
 
 
       template <class range_c>
-      InnerOutputContainerSets all_subsuming(const range_c c_range, RangeF f_range) {
-        InnerOutputContainerSets subsumes_set;
+      hyperedge_type all_subsuming(const range_c c_range, RangeF f_range) {
+        hyperedge_type subsumes_set;
         f_iterator f_begin = boost::begin(f_range);
         for (; f_begin != boost::end(f_range); ++f_begin) 
           if (std::includes(boost::begin(c_range), boost::end(c_range), boost::begin(*f_begin),boost::end(*f_begin)))
