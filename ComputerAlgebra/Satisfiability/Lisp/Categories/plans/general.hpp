@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -61,7 +61,7 @@ License, or any later version. */
   <ul>
    <li> Variable-based: Objects are pairs [V,F], where V is a (finite) set
    of variables, while F: TASS(V) -> {0,1}, where TASS(V) = {0,1}^V. </li>
-   <li> Literal-based: Objects ae pairs [[L,opr], F], where [L,opr] is a
+   <li> Literal-based: Objects are pairs [[L,opr], F], where [L,opr] is a
    literal-system (see above), while F: TASS(L) -> {0,1}, where TASS(L)
    is the set of maps f: L -> {0,1} which preserve the ZZ_2-operation
    (that is, we have ZZ_2-morphisms). </li>
