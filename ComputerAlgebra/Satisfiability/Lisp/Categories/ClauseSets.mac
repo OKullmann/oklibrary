@@ -43,6 +43,10 @@ flcls_p(F) := listp(F) and is(length(F)=2) and
   setp(second(F)) and
   every_s(lambda([C], subsetp(C,first(first(F)))), second(F))$
 
+/* Checking whether the flcls's F1, F2 are equal: */
+flcls_equalp(F1,F2) := blitstr_equalp(first(F1), first(F2)) and
+ is(second(F1) = second(F2))$
+
 /* Checking whether f is an flcls-morphism from F1 to F2: */
 morphism_flcls_p(f,F1,F2) :=
   morphism_blitstr_p(f,first(F1),first(F2)) and
