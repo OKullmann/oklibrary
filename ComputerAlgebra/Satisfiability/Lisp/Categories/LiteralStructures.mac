@@ -46,6 +46,9 @@ blitstr_p(L) :=
   is(map(second(L),first(L)) = first(L)) and
   every_s(lambda([x], is(second(L)(second(L)(x)) = x)), first(L))$
 
+/* Checking whether the blitstr L has a self-complementary literal: */
+has_scl_blitstr_p(L) := some_s(lambda([x], is(second(L)(x) = x)), first(L))$
+
 
 /* *********************
    * Checking equality *

@@ -48,6 +48,9 @@ morphism_flcls_p(f,F1,F2) :=
   morphism_blitstr_p(f,first(F1),first(F2)) and
   every_s(lambda([C], elementp(map(f,C),second(F2))), second(F1))$
 
+/* Checking whether the flcls F has self-complementary literals: */
+has_scl_flcls_p(F) := has_scl_blitstr_p(first(F))$
+
 
 /* *****************
    * Constructions *
