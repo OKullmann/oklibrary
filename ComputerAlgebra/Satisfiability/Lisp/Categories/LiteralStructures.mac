@@ -39,6 +39,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
   f(inv(x)) = inv'(f(x)) for all x in L.
 */
 
+/* Checking whether L is a blitstr: */
 blitstr_p(L) := 
   listp(L) and is(length(L)=2) and 
   setp(first(L)) and
@@ -51,6 +52,7 @@ blitstr_p(L) :=
    *********************
 */
 
+/* Checking whether the blitstr's L1 and L2 are equal: */
 blitstr_equalp(L1,L2) :=
   is(first(L1) = first(L2)) and
   every_s(lambda([x], is(second(L1)(x) = second(L2)(x))), first(L1))$
@@ -61,6 +63,7 @@ blitstr_equalp(L1,L2) :=
    *************
 */
 
+/* Checking whether f is a blitstr-morphism from L1 to L2: */
 morphism_blitstr_p(f,L1,L2) :=
   every_s(lambda([x], elementp(f(x), first(L2)) and
             is(f(second(L1)(x)) = second(L2)(f(x)))),
@@ -72,24 +75,34 @@ morphism_blitstr_p(f,L1,L2) :=
    *****************
 */
 
+/* The (unique) initial object (the empty blitstr): */
 initial_blitstr : [{},identity]$
+
+/* The terminal object, using the (self-complementary) literal []: */
 terminal_blitstr : [{[]},identity]$
 
+/* The boolean blitstr, with two literal 0, 1: */
 bool_blitstr : [{0,1},lambda([x],1-x)]$
 
+/* The free blitstr over the set X, with literal-set X x {0,1}: */
 free_blitstr(X) := [cartesian_product(X,{0,1}), lambda([x], [first(x),1-second(x)])]$
 
+/* The cofree blitstr over the set X, with literal-set X x X: */
 cofree_blitstr(X) := [cartesian_product(X,X), lambda([x], reverse(x))]$
 
+/* The product-blitstr of the list LL of blitstr's: */
 product_blitstr(LL) := 
   [apply(corr_cartesian_product,map('first,LL)),
    buildq([I : map('second,LL)], lambda([x], map('apply, I, map("[",x))))]$
+/* The projections belonging to component i: */
 projection_product_blitstr(i) :=
   buildq([i],lambda([x],x[i]))$
 
+/* The coproduct-blitstr of the list LL of blitstr's: */
 coproduct_blitstr(LL) :=
   [set_sum(map(first,LL)),
    buildq([I : map('second,LL)], lambda([x], [I[second(x)](first(x)), second(x)]))]$
+/* The injections belonging to component i: */
 injection_coproduct_blitstr(i) :=
   buildq([i],lambda([x],[x,i]))$
 

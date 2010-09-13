@@ -37,11 +37,13 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
   "literal").
 */
 
+/* Checking whether F is an flcls: */
 flcls_p(F) := listp(F) and is(length(F)=2) and
   blitstr_p(first(F)) and
   setp(second(F)) and
   every_s(lambda([C], subsetp(C,first(first(F)))), second(F))$
 
+/* Checking whether f is an flcls-morphism from F1 to F2: */
 morphism_flcls_p(f,F1,F2) :=
   morphism_blitstr_p(f,first(F1),first(F2)) and
   every_s(lambda([C], elementp(map(f,C),second(F2))), second(F1))$
@@ -52,12 +54,21 @@ morphism_flcls_p(f,F1,F2) :=
    *****************
 */
 
+/* The (unique) initial object (the empty flcls): */
 initial_flcls : [initial_blitstr, {}]$
+
+/* The terminal object, based on the terminal literal-structure (which has
+   [] as the single literal, and all possible clauses):
+*/
 terminal_flcls : [terminal_blitstr, {{},{[]}}]$
 
+/* The free flcls over literal-structure L (no clauses): */
 free_flcls(L) := [L,{}]$
+
+/* The cofree flcls over literal-structure L (all possible clauses): */
 cofree_flcls(L) := [L,powerset(first(L))]$
 
+/* The product-flcls of the list FL of flcls's: */
 product_flcls(FL) := block([
  L : product_blitstr(map(first,FL)),
  P : apply(corr_cartesian_product, map(second,FL))],
@@ -76,6 +87,7 @@ product_flcls(FL) := block([
                    )
                  ),
            P))])$
+/* The projections belonging to component i: */
 projection_product_flcls(i) := projection_product_blitstr(i)$
 
 
