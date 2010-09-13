@@ -99,8 +99,12 @@ projection_product_flcls(i) := projection_product_blitstr(i)$
    ****************
 */
 
-/* Prerequisite: F has no selfcomplementary literals
-   "und" is not a literal */
+/* Converting a flcls to a boolean formal clause-set, by translating the
+   literals from F in their natural order into boolean literals, taking
+   the first occurrence of a complementary pair as the variable.
+   Prerequisite: F has no selfcomplementary literals, and
+   the term "und" is not a literal.
+*/
 flcls2fcls(F) := block([h : sm2hm({}), n : 0],
   for x in first(first(F)) do
     if ev_hm_d(h,x,und) = und then (
@@ -108,7 +112,9 @@ flcls2fcls(F) := block([h : sm2hm({}), n : 0],
       set_hm(h,x,n), set_hm(h,second(first(F))(x),-n)
     ),
   [setn(n), map(lambda([C], map(lambda([x], ev_hm(h,x)), C)), second(F))])$
-      
+
+/* Converting a boolean formal clause-set to a flcls: */
+fcls2flcls(F) := [sl2blitstr(first(F)), second(F)]$
 
 /*!
 \endhtmlonly
