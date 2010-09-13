@@ -110,6 +110,16 @@ injection_coproduct_blitstr(i) :=
   buildq([i],lambda([x],[x,i]))$
 
 
+/* ****************
+   * Translations *
+   ****************
+*/
+
+/* Converting a set of boolean literals into a blitstr (if 0 is in L,
+   then we obtain the self-complementary literal 0):
+*/
+sl2blitstr(L) := [union(L,map("-",L)), lambda([x],-x)]$
+
 /*!
 \endhtmlonly
 */
