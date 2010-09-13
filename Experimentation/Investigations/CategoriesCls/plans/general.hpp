@@ -63,7 +63,7 @@ testl(3,3);
 testl([2,2,2]);
   false;
 testl([2,2,3]);
-  ?
+  false;
    \endverbatim
    </li>
    <li> The failure for testl([0,1]) was expected, however not that for
