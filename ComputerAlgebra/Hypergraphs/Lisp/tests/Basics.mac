@@ -222,6 +222,15 @@ okltest_subsumption_ghg(f) := block([E],
   /* XXX */
   true)$
 
+okltest_subsumption_oghg(f) := block([E],
+  assert(ghg_equalp(f([],[]), [[],[],E]) = true),
+  assert(ghg_equalp(f([],[{}]), [[],[{}], lambda([H],{})]) = true),
+  assert(ghg_equalp(f([{}],[]), [[{}],[], E]) = true),
+  assert(ghg_equalp(f([{}],[{}]), [[{}],[{}], lambda([H],{{}})]) = true),
+  assert(ghg_equalp(f([{1},{1,2}],[{3},{1,3},{1,2,3}]), [[{1},{1,2}], [{3},{1,3},{1,2,3}], lambda([H], if H={3} then {} elseif H={1,3} then {{1}} else {{1},{1,2}})]) = true),
+  /* XXX */
+  true)$
+
 okltest_rsubsumption_hg(f) := (
   assert(f({},{}) = [[{},{}], {}]),
   assert(f({},{{}}) = [[{},{{}}], {}]),
