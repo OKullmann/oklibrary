@@ -99,7 +99,15 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
    <li> It seems best to proceed in stages, first installing 4.2.4 and
-   updating our code, then installing 4.3.4, and then 4.4.4. </li>
+   updating our code, then installing 4.3.5, and then 4.4.4. </li>
+  </ul>
+
+
+  \todo Install GCC 4.3.5
+
+
+  \todo Install GCC 4.4.4
+  <ul>
    <li> Building 4.4.4:
     <ol>
      <li> Now Gmp and Mpfr is needed. </li>
@@ -111,6 +119,9 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
     </ol>
    </li>
   </ul>
+
+
+  \todo Install GCC 4.5.1
   
 
   \todo Installation in general

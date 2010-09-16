@@ -223,6 +223,11 @@ License, or any later version. */
    the following topics are handled:
     - Software by Aaron Robertson
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Install GCC 4.3.5
+
 
   \par Version 0.2.8
 
@@ -250,6 +255,12 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Games.hpp the following
    topics are handled:
     - Parity games
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Install GCC 4.4.4
+    - Install GCC 4.5.1
 
 
 
