@@ -56,7 +56,7 @@ gcc_targets_prefix_okl := $(gcc_prefix_okl)-
 gcc_recommended_okl := $(gcc_targets_prefix_okl)$(gcc_recommended_version_number_okl)
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
 
-gcc_enable_languages_okl ?= c,c++
+gcc_enable_languages_okl ?= c,c++,fortran
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared
 

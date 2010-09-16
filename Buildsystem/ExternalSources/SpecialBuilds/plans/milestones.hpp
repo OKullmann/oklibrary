@@ -41,9 +41,9 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
-    - Installing 2.10.0 : DONE
     - Local installation of gfortran
     - Can't output graphics
+    - Installing 2.10.0 : DONE
     - Installing 2.9.0 : DONE
 
   \par

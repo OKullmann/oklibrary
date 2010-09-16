@@ -89,7 +89,7 @@ Execution halted
    <li> Often gfortran is not installed. </li>
    <li> While it shouldn't be a problem to install gfortran locally.
     <ol>
-     <li> Just add "fortran" to gcc_enable_languages_okl. </li>
+     <li> DONE Just add "fortran" to gcc_enable_languages_okl. </li>
     </ol>
    </li>
    <li> And also employing it for building R shouldn't be a problem. </li>
