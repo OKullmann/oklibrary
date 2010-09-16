@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestSetAlgorithms
 
-programs :=
+programs := SubsumptionHypergraph
 
 source_libraries =  $(boost_include_option_okl)
 
