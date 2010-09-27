@@ -246,10 +246,8 @@ with_stdout("Sbox.pla", block(
    minimisation including "exact" and "signature" options representing
    algorithms discussed in [BraytonMcGeerSanghaviVincentelli 1993], which can
    be run by using the "-Dexact" and "-Dsignature" options. </li>
-   <li> Using the "exact" algorithm, espresso-ab runs out of memory on an 
-   8GB machine (it is killed by the linux OOM killer). </li>
-   <li> MG is currently running espresso-ab with the "signature" algorithm
-   to determine whether this is any better. </li>   
+   <li> Using the "exact" and "signature" algorithms, espresso-ab runs out of 
+   memory on an 8GB machine (it is killed by the linux OOM killer). </li>
   </ul>
   </li>
   <li> Scherzo (see "Logic synthesis" in
