@@ -85,6 +85,14 @@ ExternalSources/Installations/R> oklib --R
     <ol>
      <li> http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm
      </li>
+     <li> Espresso-ab, a fork of Espresso tidying and fixing Espresso to work
+     with modern gcc versions, is available at - 
+     http://code.google.com/p/eqntott/downloads/detail?name=espresso-ab-1.0.tar.gz&can=2&q=
+     %- It doesn't appear to have a well established website and so offering 
+     this for download within the OKlibrary could be beneficial. </li>
+     <li> Espresso-ab doesn't appear to have a well known open-source license,
+     although it does come with a license which allows copying,
+     redistribution and derivative works. </li>
     </ol>
    </li>
    <li> Scherzo
