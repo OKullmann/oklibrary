@@ -87,6 +87,22 @@ ExternalSources/Installations/R> oklib --R
      </li>
     </ol>
    </li>
+   <li> Scherzo
+    <ol>
+     <li> Developed by Olivier Coudert (http://www.ocoudert.com/). </li>
+     <li> Uses implicit BDD representation for primes and reduction
+     techniques to avoid blow up in size of problem due to large
+     numbers of prime implicates. </li>
+     <li> Coudert has provided the code to MG, although it is not
+     clear whether he would be willing to make it open-source. </li>
+     <li> The source builds with some minor Makefile changes but
+     segfaults. This seems likely to be an issue with how MG is building
+     it and the difference in architectures (Scherzo seems to have been
+     developed for systems other than standard x86 / x86_64). </li>
+     <li> MG needs to e-mail Coudert again to check whether he would
+     be willing to open-source the application. </li>
+    </ol>
+   </li>
    <li> Using genetic programming:
     <ol>
      <li> There are quite a few papes on finding (digital) circuits via
