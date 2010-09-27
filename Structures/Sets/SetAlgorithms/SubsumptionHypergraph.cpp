@@ -43,9 +43,9 @@ int main(int argc, char** argv) {
   
 
   if (argc != 3) {
-    std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are"
-      " required, the  name of the file containing the subsuming set system"
-      "and the name of the file containing the subsumed set system\n with the clause-set in"
+    std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are "
+      "required, the  name of the file containing the subsuming set system "
+      "and the name of the file containing the subsumed set system\n with the clause-set in "
       "DIMACS-format.\n However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
