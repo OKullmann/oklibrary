@@ -93,6 +93,18 @@ License, or any later version. */
    <li> Once such issues are handled the OKlibrary appears to build perfectly
    with boost-1_44_0 and all tests run to completion at the extensive test 
    level. </li>
+   <li> With regard to run and test times, to build boost, build OKlib and run
+   full all tests ("oklib test new_test"), 
+   <ol>
+    <li> boost with 1_34_1 takes 10m 4s, 4m 56s and 31s (first) and 
+    then 8s subsequently (tests build once), and </li>
+    <li> boost with 1_44_0 takes 15m 32s, 5m 36s, 34s and 8s respectively. 
+    </li>
+   </ol>
+   There seems to be no discernable difference in speed with the current tests
+   and build process, although with larger, more extensive tests (not 
+   written), differences may emerge due to alterations like "boost::size" ->
+   "boost::distance". </li>
   </ul>
 
 
