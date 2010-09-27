@@ -597,6 +597,33 @@ aes_rewrite_mapping_std :
    ********************************************
 */
 
+/* MG : Need to rewrite below so that cst is replaced by args
+   and therefore we do not get the exponential blow up in
+   the size of the namespaces. */
+
+/* The idea is that the args should uniquely identify a given constraint
+   within the context of it's parent constraint and therefore, as it's
+   parent constraint is uniquely identified above, we have inductively
+   that any variable is uniquely identified. */
+
+/* Make namespace function take simply the constraint and handle everything else */
+
+/* Write descriptions of each of the datatypes */
+
+/* Add "aes_const_match()" function */
+
+/* Expand names like  pBits etc for clarity */
+
+/* Contract long names like generate_aes_constraint_vars to something like trans_aes_gen_vars and
+   use subst to give default block level scoping to turn this into something like gv :) 
+
+   This will allow default of a variety of variables that can then be used throughout as the
+   standard variables of that type.
+
+   Such a construction should also take parameters such as the namespace and so on and construct
+   all the defaults. 
+*/
+
 /* Given a parent namespace namespace_p, a new namespace template
    namespace, and a constraint, returns a new namespace, which
    consists of namespace_p composed with namespace, where namespace has
