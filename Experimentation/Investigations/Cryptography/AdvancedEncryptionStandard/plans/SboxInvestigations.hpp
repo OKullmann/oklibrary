@@ -173,11 +173,13 @@ SATISFIABLE
   \todo Minimisation of the Sbox
   <ul>
    <li> See "Minimisation" in 
-   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li>
-   <li> We can use the QCA package, given in 
-   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
-   the minimum sized CNF or DNF clause-set representation. </li>
-   <li> This should be possible using the following code:
+   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li> 
+   <li> R QCA packages 
+   <ul>
+    <li> We can use the QCA package, given in 
+    Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
+    the minimum sized CNF or DNF clause-set representation. </li>
+    <li> This should be possible using the following code:
     \verbatim
 ######## In Maxima #######
 generate_full_aes_sbox_tt() :=  
@@ -206,5 +208,62 @@ eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
    although currently there are issues with memory (see "Minimisation in
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp). </li>  
   </ul>
+  </li>
+  <li> Espresso-ab (see Logic "synthesis" in
+  Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp)
+  <ul>
+   <li> Espresso-ab takes as input a truth table in PLA format. </li>
+   <li> We can generate a truth table in PLA format for the Sbox in the
+   following way:
+   \verbatim
+generate_full_aes_sbox_tt() :=  
+  map(
+     lambda([ce],
+       append(
+         int2polyadic_padd(ce[1],2,8),
+         int2polyadic_padd(ce[2],2,8),
+         if rijn_lookup_sbox_nat(ce[1]) = ce[2] then [1] else [0]))
+     ,cartesian_product(setmn(0,255),setmn(0,255)))$
+
+with_stdout("Sbox.pla", block(
+  print(".i 16"),
+  print(".o 1"),
+  for tt_line in generate_full_aes_sbox_tt() do
+    print(apply(sconcat,rest(tt_line,-1)),1-last(tt_line))
+  ))$
+   \endverbatim
+   where the PLA file will be called "Sbox.pla", and will be represented
+   as a DNF representing the negation of the Sbox (as by default Espresso
+   minimises DNF formulas.
+   </li>
+   <li> Running espresso-ab with the standard options yielded a minimal DNF 
+   representing the negation of the Sbox with 354 clauses. This is much 
+   smaller than the Sbox found in XXX with 529 clauses. </li>
+   <li> Espresso-ab by default uses heuristical methods however, and so it
+   is not clear how close to the minimum size clause-set 354 clauses is. 
+   </li>
+   <li> Espresso-ab does however have additional options to allow exact
+   minimisation including "exact" and "signature" options representing
+   algorithms discussed in [BraytonMcGeerSanghaviVincentelli 1993], which can
+   be run by using the "-Dexact" and "-Dsignature" options. </li>
+   <li> Using the "exact" algorithm, espresso-ab runs out of memory on an 
+   8GB machine (it is killed by the linux OOM killer). </li>
+   <li> MG is currently running espresso-ab with the "signature" algorithm
+   to determine whether this is any better. </li>   
+  </ul>
+  </li>
+  <li> Scherzo (see "Logic synthesis" in
+  Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp)
+  <ul>
+   <li> Scherzo uses implicit BDD representations for sets of prime implicates
+   and therefore offers the opportunity to minimise the Sbox without running 
+   out of memory. </li>
+   <li> See "Logic synthesis" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp for 
+   issues relating to the building and running of Scherzo. 
+   </li>
+  </ul>
+  </li>
+ </ul>
 
 */
