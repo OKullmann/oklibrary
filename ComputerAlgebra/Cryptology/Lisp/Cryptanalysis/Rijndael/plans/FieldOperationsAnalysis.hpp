@@ -9,13 +9,6 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
 
-
-  \bug What's the purpose of rijnmult_cnfp
-  <ul>
-   <li> There is exactly one "full" CNF clause-set for a field multiplication,
-   so what is the point of this function? </li>
-  </ul>
-  
   
   \todo Generate good CNF hitting clause-sets for the AES Field Operations
   <ul>
@@ -56,7 +49,6 @@ statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(14),dll_heuristics_max_lit)
    \endverbatim
    </li>
   </ul>
-
   
   
   \todo Extracting prime implicate representations from the hitting-cls-representations
@@ -225,6 +217,15 @@ true
   
  
   \todo Find the symmetries of the AES Field Operations
+
+
+  \bug DONE What's the purpose of rijnmult_cnfp 
+  <ul>
+   <li> There is exactly one "full" CNF clause-set for a field multiplication,
+   so what is the point of this function? </li>
+   <li> rijnmult_cnfp tests whether any CNF (not necessarily full) represents
+   multiplication by the given AES field element. </li>
+  </ul>
 
   
   \todo DONE Provide tests for all functions
