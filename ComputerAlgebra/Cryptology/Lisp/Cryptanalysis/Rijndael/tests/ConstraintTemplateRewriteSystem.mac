@@ -1,0 +1,86 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac
+  \brief Tests for the AES constraint template rewrite system.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_aes_constraint_vars(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
+  for i : 0 thru 5 do
+    assert(f(i,i, lambda([a],a),nounify(id)) = [aes_v(i,nounify(id))]),
+ for i : 0 thru 5 do
+    assert(f(i,i, nounify(n),nounify(id)) =
+      [nounify(n)(aes_v(i,nounify(id)))]),
+  assert(f(1,2, nounify(n),nounify(id)) =
+    [nounify(n)(aes_v(1,nounify(id))),nounify(n)(aes_v(2,nounify(id)))]),
+  true)$
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(f) := block(
+  assert(f(lambda([a],a),lambda([[a]],a),[])(0) = [0,[]]),
+  assert(f(lambda([a],a),nounify(f),[])(0) = nounify(f)(0,[])),
+  assert(f(nounify(f1),lambda([[a]],a),[])(0) = nounify(f1)([0,[]])),
+  assert(f(nounify(f1),nounify(f2),[])(0) = nounify(f1)(nounify(f2)(0,[]))),
+  assert(f(nounify(f1),nounify(f2),[1,2])(0) =
+    nounify(f1)(nounify(f2)(0,[1,2]))),
+  true)$
+
+okltest_construct_constraint(f) := block(
+  assert(f("f",[],[], lambda([a],a)) = ["f",[],lambda([a],a)]),
+  for i : 0 thru 5 do
+    assert(f("f",[i],[],lambda([a],a)) = ["f",[i],lambda([a],a)]),
+  for i : 0 thru 5 do
+    assert(f("f",[],[i],lambda([a],a)) = ["f",[],i,lambda([a],a)]),
+  assert(f("f", [1,2,3],[],'n) = ["f",[1,2,3],'n]),
+  assert(f("f", [1,2],[3,4],'n) = ["f",[1,2],3,4,'n]),
+  true)$
+
+okltest_rewrite_all_cstl(f) := block([test_ctrb],
+  assert(f([],[]) = []),
+  assert(f([["f",[],'n],["g",[],'m]],[]) = [["g",[],'m],["f",[],'n]]),
+  test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
+               lambda([a],a),lambda([a],a)],
+  assert(f([["x",[1,2,3],'n]], [["x",test_ctrb]]) =
+    [["f1",[1,2,3],'n]]),
+  true)$
+
+okltest_rewrite_all_vars_l(f) := block([test_ctrb,cst_t],
+  assert(f([],[]) = []),
+  assert(f([["f",[],'n],["g",[],'m]],[]) = []),
+  test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
+               lambda([a],a),lambda([a],
+                 if a = cst_t then [1] else assert(false))],
+  cst_t : ["x",[1,2,3],'n],
+  assert(f([cst_t], [["x",test_ctrb]]) =
+    [1]),  
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

@@ -1,0 +1,46 @@
+/* Matthew Gwynne, 28.9.2008 (Swansea) */
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateRewriteSystem.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateRewriteSystem.mac");
+
+*/
+
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac")$
+
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_construct_constraint_namespace(construct_constraint_namespace);
+okltest_construct_constraint(construct_constraint);
+okltest_rewrite_all_cstl(rewrite_all_cstl);
+okltest_rewrite_all_vars_l(rewrite_all_vars_l);
+
+
+/*!
+\endhtmlonly
+*/

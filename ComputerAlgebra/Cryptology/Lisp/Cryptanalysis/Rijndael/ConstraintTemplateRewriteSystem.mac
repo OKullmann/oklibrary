@@ -1,0 +1,128 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac
+  \brief System for iteratively translating a system of constraint templates into another representation system (CNF etc).
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
+  
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+/* MG : Need to rewrite below so that cst is replaced by args
+   and therefore we do not get the exponential blow up in
+   the size of the namespaces. */
+
+/* The idea is that the args should uniquely identify a given constraint
+   within the context of it's parent constraint and therefore, as it's
+   parent constraint is uniquely identified above, we have inductively
+   that any variable is uniquely identified. */
+
+/* Make namespace function take simply the constraint and handle everything else */
+
+/* Write descriptions of each of the datatypes */
+
+/* Add "aes_const_match()" function */
+
+/* Expand names like  pBits etc for clarity */
+
+/* Contract long names like generate_aes_constraint_vars to something like trans_aes_gen_vars and
+   use subst to give default block level scoping to turn this into something like gv :) 
+
+   This will allow default of a variety of variables that can then be used throughout as the
+   standard variables of that type.
+
+   Such a construction should also take parameters such as the namespace and so on and construct
+   all the defaults. 
+*/
+
+
+
+/****************************
+ * Namespaces               *
+ ****************************
+*/
+
+/* Given a parent namespace namespace_p, a new namespace template
+   namespace, and a constraint, returns a new namespace, which
+   consists of namespace_p composed with namespace, where namespace has
+    the constraint as an additional argument. */
+construct_constraint_namespace(namespace_p,namespace,cst) :=
+  buildq([cst,namespace,namespace_p],
+      lambda([a],namespace_p(namespace(a,cst))))$
+
+
+/****************************
+ * Constraints              *
+ ****************************
+*/
+
+/* Given a constraint name, a list of variables in the constraint, a list
+   of constraint parameters and a namespace,
+   returns a constraint constructed from these parameters. */
+construct_constraint(cst_n,vars,arg_l,namespace) :=
+  append([cst_n,vars],arg_l,[namespace])$
+
+
+/********************************
+ * Rewrite functions            *
+ ********************************
+*/
+
+/* Given a list of constraints, and a rewrite map, returns a new list of
+   constraints after applying the given rewrite map. */
+rewrite_all_cstl(cstl,rewrite_map) := block(
+  [rewrite_hash : osm2hm(rewrite_map),cstl_new : []],
+  for cst in cstl do block([cstr],
+    cstr : ev_hm(rewrite_hash,cst[1]),
+    if cstr # false then
+      cstl_new : cons(rewrite_all_cstl(cstr[1](cst),rewrite_map),cstl_new)
+    else 
+      cstl_new : cons([first(cstl)],cstl_new),
+    cstl : rest(cstl)),
+  return(lappend(cstl_new)))$
+
+/* Given a list of constraints, and a rewrite map, returns a list of
+   new variables which would be introduced when calling rewrite_all
+   with the same parameters. */
+rewrite_all_vars_l(cstl,rewrite_map) := block(
+  [rewrite_hash : osm2hm(rewrite_map),lookup_var_lf,varl : []],
+  lookup_var_lf : lambda([cst], block(
+      [rwf : ev_hm_d(rewrite_hash,cst[1],zero_cstrb)],
+      append(
+        rwf[3](cst),
+        rewrite_all_vars_l(rwf[1](cst),rewrite_map)))),
+  return(lappend(map(lookup_var_lf,cstl))))$
+
+
+/****************************************
+ * Rewrite bundles                      *
+ ****************************************
+*/
+
+/* Constraint rewrite bundle which does nothing
+   (i.e the rewrite function it represents has the identity
+   as it's namespace, and no variables are introduced by it's
+   rewrite function). */
+zero_cstrb : [lambda([[a]],[]), lambda([a],a),lambda([[a]],[])]$
+
+/*!
+\endhtmlonly
+*/
