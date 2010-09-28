@@ -26,7 +26,6 @@ License, or any later version. */
     - Representations of the Sbox using additional variables
     - Move notion of AES constraints to separate module/unit
     - Organisation
-    - How to represent elements of arbitrary fields as boolean variables?
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
@@ -45,6 +44,10 @@ License, or any later version. */
     - Generate good CNF hitting clause-sets for the AES Sbox
     - Extracting prime implicate representations from the hitting-cls-representations
     - Compute *all* prime implicates (for the purpose of analysis)
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - How to represent elements of arbitrary fields as boolean variables?
   
 
   \par Version 0.0.9
