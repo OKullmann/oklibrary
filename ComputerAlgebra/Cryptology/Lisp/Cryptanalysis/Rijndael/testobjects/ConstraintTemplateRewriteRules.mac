@@ -25,6 +25,14 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 
 
 /* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+
+
+/* ***********************************************
    * Constraint template rewrite functions       *
    ***********************************************
 */

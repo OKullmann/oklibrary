@@ -19,22 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/C
 \htmlonly
 */
 
-/* ***********************************************
-   * Constraint template rewrite translation     *
-   ***********************************************
-*/
 
-oktest_generate_aes_constraint_vars(f) := block(
-  for i : 0 thru 5 do
-    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
-  for i : 0 thru 5 do
-    assert(f(i,i, lambda([a],a),nounify(id)) = [aes_v(i,nounify(id))]),
- for i : 0 thru 5 do
-    assert(f(i,i, nounify(n),nounify(id)) =
-      [nounify(n)(aes_v(i,nounify(id)))]),
-  assert(f(1,2, nounify(n),nounify(id)) =
-    [nounify(n)(aes_v(1,nounify(id))),nounify(n)(aes_v(2,nounify(id)))]),
-  true)$
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
 
 /* ********************************************
    * Rewrite system functions                 *
@@ -50,6 +37,11 @@ okltest_construct_constraint_namespace(f) := block(
     nounify(f1)(nounify(f2)(0,[1,2]))),
   true)$
 
+/****************************
+ * Constraints              *
+ ****************************
+*/
+
 okltest_construct_constraint(f) := block(
   assert(f("f",[],[], lambda([a],a)) = ["f",[],lambda([a],a)]),
   for i : 0 thru 5 do
@@ -59,6 +51,42 @@ okltest_construct_constraint(f) := block(
   assert(f("f", [1,2,3],[],'n) = ["f",[1,2,3],'n]),
   assert(f("f", [1,2],[3,4],'n) = ["f",[1,2],3,4,'n]),
   true)$
+
+okltest_cst_name(f) := block(
+  assert(f([""]) = ""),
+  assert(f(["test"]) = "test"),
+  assert(f(["test1","test2"]) = "test1"),
+  true)$
+
+okltest_cst_vars_l(f) := block(
+  assert(f([]) = []),
+  assert(f([1]) = []),
+  assert(f(["",[]]) = []),
+  assert(f(["",""]) = []),
+  assert(f(["",['a,'b]]) = ['a,'b]),
+  true)$
+
+okltest_cst_args_l(f) := block(
+  assert(f([]) = []),
+  assert(f([1,2]) = []),
+  assert(f(["",[]]) = []),
+  assert(f(["","",""]) = []),
+  assert(f(["",[],['a,'b]]) = ['a,'b]),
+  true)$
+
+okltest_cst_namespace_f(f) := block(
+  assert(f([])(0) = 0),
+  assert(f([1,2])(0) = 0),
+  assert(f([1,2,3])(0) = 0),
+  assert(f(["",[]])(0) = 0),
+  assert(f(["","",""])(0) = 0),
+  assert(f(["",[],['a,'b],lambda([a],2)])(0) = 2),
+  true)$
+
+/********************************
+ * Rewrite functions            *
+ ********************************
+*/
 
 okltest_rewrite_all_cstl(f) := block([test_ctrb],
   assert(f([],[]) = []),

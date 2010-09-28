@@ -23,20 +23,29 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac")$
 
 
-/* ***********************************************
-   * Constraint template rewrite translation     *
-   ***********************************************
-*/
-
-oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
-
 /* ********************************************
    * Rewrite system functions                 *
    ********************************************
 */
 
 okltest_construct_constraint_namespace(construct_constraint_namespace);
+
+/****************************
+ * Constraints              *
+ ****************************
+*/
+
 okltest_construct_constraint(construct_constraint);
+okltest_cst_name(cst_name);
+okltest_cst_vars_l(cst_vars_l);
+okltest_cst_args_l(cst_args_l);
+okltest_cst_namespace_f(cst_namespace_f);
+
+/********************************
+ * Rewrite functions            *
+ ********************************
+*/
+
 okltest_rewrite_all_cstl(rewrite_all_cstl);
 okltest_rewrite_all_vars_l(rewrite_all_vars_l);
 

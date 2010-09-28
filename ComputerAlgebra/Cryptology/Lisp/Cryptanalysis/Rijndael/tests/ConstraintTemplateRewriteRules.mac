@@ -21,6 +21,23 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/C
 
 
 /* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_aes_constraint_vars(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
+  for i : 0 thru 5 do
+    assert(f(i,i, lambda([a],a),nounify(id)) = [aes_v(i,nounify(id))]),
+ for i : 0 thru 5 do
+    assert(f(i,i, nounify(n),nounify(id)) =
+      [nounify(n)(aes_v(i,nounify(id)))]),
+  assert(f(1,2, nounify(n),nounify(id)) =
+    [nounify(n)(aes_v(1,nounify(id))),nounify(n)(aes_v(2,nounify(id)))]),
+  true)$
+
+/* ***********************************************
    * Constraint template rewrite functions       *
    ***********************************************
 */

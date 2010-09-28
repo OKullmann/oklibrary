@@ -53,7 +53,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    all the defaults. 
 */
 
+/* TODO: Explain namespace */
 
+/* TODO: Explain constraint */
 
 /****************************
  * Namespaces               *
@@ -79,6 +81,24 @@ construct_constraint_namespace(namespace_p,namespace,cst) :=
    returns a constraint constructed from these parameters. */
 construct_constraint(cst_n,vars,arg_l,namespace) :=
   append([cst_n,vars],arg_l,[namespace])$
+
+/* Given a constraint template returns the constraint template name. */
+cst_name(cst) := first(cst)$
+
+/* Given a constraint template returns the variables in the constraint
+   template */
+cst_vars_l(cst) :=
+  if listp(cst) and length(cst) > 1 and listp(cst[2]) then second(cst) else []$
+
+/* Given a constraint template returns the constraint template
+   auxiliary arguments. */
+cst_args_l(cst) :=
+  if listp(cst) and length(cst) > 2 and listp(cst[3]) then cst[3] else []$
+
+/* Given a constraint template returns the namespace of the constraint
+   template. */
+cst_namespace_f(cst) :=
+  if listp(cst) and length(cst) > 3 then last(cst) else lambda([a],a)$
 
 
 /********************************
