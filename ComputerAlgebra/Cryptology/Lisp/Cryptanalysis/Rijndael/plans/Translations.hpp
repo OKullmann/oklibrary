@@ -71,13 +71,6 @@ License, or any later version. */
    </li>
   </ul>
 
-
-  \todo Rewrite the following todos
-  <ul>
-   <li> Split the following todos, especially "Fix translation system"
-   and mark off any todos already done. </li>
-  </ul>
-
   
   \todo Provide additional translation into CSP-solver format
   <ul>
@@ -597,6 +590,12 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
 
 
   \todo Write Docus
+  <ul>
+   <li> Documentation should be written explaining the way the translation
+   system works, as well as pointing out the standard functions to use. </li>
+   <li> Much of this information can be moved from "Fix translation system".
+   </li>
+  </ul>
   
 
   \todo Partitioning into active clauses
@@ -725,6 +724,13 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
    introducing distinct variables for each pair of plaintext/ciphertext, but 
    using the same key variables in each translation. The union of all such 
    translations is then the required result. </li>
+  </ul>
+
+
+  \todo Rewrite the following todos (DONE Reconsidered in Write Docus)
+  <ul>
+   <li> Split the following todos, especially "Fix translation system"
+   and mark off any todos already done. </li>
   </ul>
 
 
