@@ -35,23 +35,14 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    parent constraint is uniquely identified above, we have inductively
    that any variable is uniquely identified. */
 
-/* Make namespace function take simply the constraint and handle everything else */
-
 /* Write descriptions of each of the datatypes */
 
-/* Add "aes_const_match()" function */
+/* Add "aes_cst_match()" function which checks whether a given object
+   is a constraint with the correct name.  */
 
 /* Expand names like  pBits etc for clarity */
 
-/* Contract long names like generate_aes_constraint_vars to something like trans_aes_gen_vars and
-   use subst to give default block level scoping to turn this into something like gv :) 
 
-   This will allow default of a variety of variables that can then be used throughout as the
-   standard variables of that type.
-
-   Such a construction should also take parameters such as the namespace and so on and construct
-   all the defaults. 
-*/
 
 /* TODO: Explain namespace */
 
@@ -66,9 +57,11 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    namespace, and a constraint, returns a new namespace, which
    consists of namespace_p composed with namespace, where namespace has
     the constraint as an additional argument. */
-construct_constraint_namespace(namespace_p,namespace,cst) :=
-  buildq([cst,namespace,namespace_p],
-      lambda([a],namespace_p(namespace(a,cst))))$
+construct_constraint_namespace(namespace,cst_p) := block([namespace_p],
+  namespace_p :
+    if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
+  return(buildq([cst_p,namespace,namespace_p],
+        lambda([a],namespace_p(namespace(a,cst_p))))))$
 
 
 /****************************

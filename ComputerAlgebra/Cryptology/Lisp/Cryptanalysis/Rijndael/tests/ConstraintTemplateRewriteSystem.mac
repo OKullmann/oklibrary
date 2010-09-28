@@ -29,12 +29,13 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 */
 
 okltest_construct_constraint_namespace(f) := block(
-  assert(f(lambda([a],a),lambda([[a]],a),[])(0) = [0,[]]),
-  assert(f(lambda([a],a),nounify(f),[])(0) = nounify(f)(0,[])),
-  assert(f(nounify(f1),lambda([[a]],a),[])(0) = nounify(f1)([0,[]])),
-  assert(f(nounify(f1),nounify(f2),[])(0) = nounify(f1)(nounify(f2)(0,[]))),
-  assert(f(nounify(f1),nounify(f2),[1,2])(0) =
-    nounify(f1)(nounify(f2)(0,[1,2]))),
+  assert(
+    f(lambda([[a]],a),["",[],[],lambda([a],a)])(0) = [0,["",[],[],lambda([a],a)]]),
+  assert(f(nounify(f),["",[],[],lambda([a],a)])(0) = nounify(f)(0,["",[],[],lambda([a],a)])),
+  assert(f(lambda([[a]],a),["",[],[],nounify(f1)])(0) = nounify(f1)([0,["",[],[],nounify(f1)]])),
+  assert(f(nounify(f2),["",[],[],nounify(f1)])(0) = nounify(f1)(nounify(f2)(0,["",[],[],nounify(f1)]))),
+  assert(f(nounify(f2),[1,[],[],nounify(f1)])(0) =
+    nounify(f1)(nounify(f2)(0,[1,[],[],nounify(f1)]))),
   true)$
 
 /****************************
