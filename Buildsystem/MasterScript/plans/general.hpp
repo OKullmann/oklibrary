@@ -106,7 +106,7 @@ License, or any later version. */
      <li> linking dependencies to external libraries </li>
      <li> dependencies from executables (for example for application tests)
      </li>
-     <li> dpendencies from tools </li>
+     <li> dependencies from tools </li>
     </ol>
     The goal is that the build system knows about all dependencies and all
     rules to resolve these dependencies, and if called at a level
@@ -204,6 +204,22 @@ oklib maxima_recommended_version_number_okl=5.16.3 maxima_lisp_name_okl=ecl --ma
    But perhaps in case everything went through, then a success report
    with date and time should be printed (totgether with the targets),
    so that one can see what's done. </li>
+  </ul>
+
+
+  \todo Add file template generation option
+  <ul>
+   <li> A command to generate the default files for a maxima file, C++ file
+   etc would be very useful. </li>
+   <li> For instance, when creating a new ".mac" file at the Maxima level,
+   the file itself must be creator with the correct author, copyright notice,
+   load and doxygen commands for that file, as well as the appropriate test
+   and testobjects files again with the appropriate data inside. Much of
+   these files could be automatically generated with a single command. </li>
+   <li> There is also the possibility that information (such as the location
+   of the author) or the inclusion of the files in the "include.mac" file,
+   although not automatically generated, could be suggested to the user of
+   the command as the command completes. </li>
   </ul>
 
 */
