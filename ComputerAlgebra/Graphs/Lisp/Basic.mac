@@ -472,6 +472,8 @@ regular2_gg_p(k,G) := block([h : hm2osm(vertex_degrees2_gg(G))],
 /* Tests whether a graph is a cycle graph: */
 cycle_gg_p(G) := not emptyp(G[1]) and connected_gg_p(G) and regular2_gg_p(2,G)$
 
+/* Tests whether a graph is bipartite: */
+bipartite_g_p(G) := is_bipartite(g2mg(G))$
 
 /* Tests whether a graph is complete bipartite: */
 completebipartite_g_p(G) := if emptyp(G[1]) then true

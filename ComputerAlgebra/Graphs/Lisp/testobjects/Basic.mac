@@ -265,6 +265,8 @@ okltest_regular2_gg_p(regular2_gg_p);
 
 okltest_cycle_gg_p(cycle_gg_p);
 
+okltest_bipartite_g_p(bipartite_g_p);
+
 okltest_completebipartite_g_p(completebipartite_g_p);
 okltest_completebipartite_gl_p(completebipartite_gl_p);
 okltest_completebipartite_gg_p(completebipartite_gg_p);

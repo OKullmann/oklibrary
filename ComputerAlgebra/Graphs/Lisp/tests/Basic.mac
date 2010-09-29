@@ -1463,6 +1463,14 @@ okltest_cycle_gg_p(f) := block([ef],
   /* *** */
   true)$
 
+okltest_bipartite_g_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{1,2,3},{}]) = true),
+  assert(f([{1,2,3},{{1,2}}]) = true),
+  assert(f([{1,2,3},{{1,2},{2,3}}]) = true),
+  assert(f([{1,2,3},{{1,2},{2,3},{3,1}}]) = false)
+)$
+
 okltest_completebipartite_g_p(f) := block(
   assert(f([{},{}])=true),
   assert(f([{1},{}]) = true),
