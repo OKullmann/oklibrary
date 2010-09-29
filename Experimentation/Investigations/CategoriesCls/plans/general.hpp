@@ -166,6 +166,20 @@ testl([2,2,2,2]);
 
    \endverbatim
    </li>
+   <li> Investigation of prl([1,n]):
+    <ol>
+     <li> "Also number of Sperner systems with 2 blocks." means the number of
+     subsumption-free hypergraphs with n+1 vertices not containing the empty hyperedge:
+     \verbatim
+all_Sp_2bl(n) := subset(powerset(powerset(setn(n)), 2), lambda([S], 
+    is(length(S)=2) and not elementp({},S) and is_antichain(S)))$
+    
+map(lambda([n], length(all_Sp_2bl(n))), create_list(i,i,1,6));
+  [0,1,9,55,285,1351]
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> So perhaps unit-clauses are also problematic, not just
    empty clauses? </li>
    <li> For the special case of products of full clauses, the conjecture is
