@@ -22,10 +22,11 @@ License, or any later version. */
    <li> The first form of the conjecture (falsified below) is that for a 
    finite family of unsatisfiable flcls's, none of them containing the empty
    clause, their product is unsatisfiable as well. </li>
-   <li> Considering the product of full clause-sets:
+   <li> Considering the product of full clause-sets V_n:
    \verbatim
 prl(L) := product_flcls(map(fcls2flcls, map(full_fcs,L)))$
-testl(L) := current_satsolver(flcls2fcls(prl(L)))$
+prlfcs(L) := flcls2fcls(prl(L))$
+testl(L) := current_satsolver(prlfcs(L))$
 
 testl([0,0]);
   false;
@@ -168,15 +169,54 @@ testl([2,2,2,2]);
    </li>
    <li> Investigation of prl([1,n]):
     <ol>
-     <li> "Also number of Sperner systems with 2 blocks." means the number of
-     subsumption-free hypergraphs with n+1 vertices not containing the empty hyperedge:
+     <li> Let F_n := prl([1,n]) = V_1 x V_n and s_n := 
+     length(all_sat_fcs(flcls2fcls(prl([1,n])))) the number of satisfying
+     assignments of F_n. </li>
+     <li> And let a(n) be sequence A016269, and thus s_n = 2*a(n-1). </li>
+     <li> F_n is complementation-invariant (as a product of complementation-
+     invariant clause-sets) and bipartite (as every product V_1 x V is: one
+     part is given by {1} x V_n, the other by {-1} x V_n):
      \verbatim
+map(bipartite_fcs_p,create_list(prlfcs([1,n]),n,1,5));
+  [true,true,true,true,true]
+
+map(lambda([FF], is(comp_fcs(FF) = FF)), create_list(prlfcs([1,n]),n,1,5));
+  [true,true,true,true,true]
+     \endverbatim
+     </li>
+     <li> Thus we actually have a hypergraph 2-colouring problem, namely the
+     problem of 2-colouring the hypergraph G_n := cls2hg(V_n) (with the 2n
+     literals as vertices).
+     \verbatim
+is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(1))), prlfcs([1,1]));
+  true
+is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(2))), prlfcs([1,2]));
+  true
+is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(3))), prlfcs([1,3]));
+  true
+is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(4))), prlfcs([1,4]));
+  true
+is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(5))), prlfcs([1,5]));
+  true
+     \endverbatim
+     </li>
+     <li> Now it is easy to see that F_n for n >= 2 is satisfiable, since
+     G_n is obviously 2-colourable: Give the vertices -1,+1 colour 1, and
+     give vertices -2,+2 colour 2 --- every hyperedge contains -1 or +1,
+     and every hyperedge contains -2 or +2. </li>
+     <li> It remains to determine s_n, the number of 2-colourings of G_n. </li>
+     <li> "Also number of Sperner systems with 2 blocks." in A016269 means the
+     number of subsumption-free hypergraphs with n+1 vertices not containing
+     the empty hyperedge:
+     \verbatim 
 all_Sp_2bl(n) := subset(powerset(powerset(setn(n)), 2), lambda([S], 
     is(length(S)=2) and not elementp({},S) and is_antichain(S)))$
     
 map(lambda([n], length(all_Sp_2bl(n))), create_list(i,i,1,6));
   [0,1,9,55,285,1351]
      \endverbatim
+     </li>
+     <li> So s_n = number of Sperner systems with n vertices and 2 blocks.
      </li>
     </ol>
    </li>
