@@ -120,6 +120,11 @@ flcls2fcls(F) := block([h : sm2hm({}), n : 0],
 /* Converting a boolean formal clause-set to a flcls: */
 fcls2flcls(F) := [sl2blitstr(first(F)), second(F)]$
 
+/* Converting a flcls to a hypergraph, by forgetting the complementation
+   and using the literals as vertices:
+*/
+flcls2hg(F) := [first(first(F)),second(F)]$
+
 /*!
 \endhtmlonly
 */
