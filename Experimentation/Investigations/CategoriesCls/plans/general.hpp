@@ -166,7 +166,8 @@ testl([2,2,3]);
 testl([2,2,2,2]);
 
    \endverbatim
-   </li>
+   Below we will see that a(n) should start with 0 (for n=1), that is, the
+   sequence should be right-shifted, with a 0 added at the beginning. </li>
    <li> Investigation of prl([1,n]):
     <ol>
      <li> Let F_n := prl([1,n]) = V_1 x V_n and s_n := 
@@ -205,18 +206,71 @@ is_isomorphic_btr_fcs(tcol2sat_hg2fcs(fcs2hg(full_fcs(5))), prlfcs([1,5]));
      give vertices -2,+2 colour 2 --- every hyperedge contains -1 or +1,
      and every hyperedge contains -2 or +2. </li>
      <li> It remains to determine s_n, the number of 2-colourings of G_n. </li>
+     <li> The 2-colourings of G_n are the partitions of {-n,...,n} - {0} such
+     that no part contains a hyperedge of G_n; these are exactly the partitions
+     such that each part contains both i,-i for some i. </li>
+     <li> So the 2-colourings of G_n correspond to triples (A,B,x), where A,B
+     are disjoint subsets of {1,...,n}, while x is a vector with entries -1,+1
+     of length n - |A| - |B| : for i in A the vertices i,-i get colour 1, for
+     i in B the vertices i,-i get colour 2, and x determines for the remaining
+     vertices whether the positive or the negative vertex gets colour 1 resp.
+     colour 2.
+     \verbatim
+alldisjnepairs(n) := second(kneser_g_hg(ses2hg(disjoin({},powerset(setn(n))))));
+an_v1(n) := sum_l(map(
+  lambda([P], 2^(n-length(first(P))-length(second(P)))),
+  listify(alldisjnepairs(n))));
+
+create_list(an_v1(n),n,1,6);
+  [0,1,9,55,285,1351]
+     \endverbatim
+     an_v1(n) = a(n-1) = 1/2 s_n; note that an_v1(n) computes only half of the
+     assignments, since only one form of a pair (A,B) is considered. </li>
      <li> "Also number of Sperner systems with 2 blocks." in A016269 means the
      number of subsumption-free hypergraphs with n+1 vertices not containing
      the empty hyperedge:
      \verbatim 
 all_Sp_2bl(n) := subset(powerset(powerset(setn(n)), 2), lambda([S], 
     is(length(S)=2) and not elementp({},S) and is_antichain(S)))$
-    
-map(lambda([n], length(all_Sp_2bl(n))), create_list(i,i,1,6));
+an_v2(n) := length(all_Sp_2bl(n))$
+
+create_list(an_v2(n),n,1,6);
   [0,1,9,55,285,1351]
      \endverbatim
      </li>
-     <li> So s_n = number of Sperner systems with n vertices and 2 blocks.
+     <li> So s_n = 1/2 * number of Sperner systems with n vertices and 2
+     blocks. </li>
+     <li> This is proven as follows:
+      <ol>
+       <li> We have to show an_v2(n) = an_v1(n). </li>
+       <li> This is done be constructing a bijection between all triples
+       (A,B,x) as specified above and the two-element subsumption-free pairs
+       (X,Y) of the powerset of {1,..,n}. </li>
+       <li> To (A,B,X) we assign (X,Y), where X := A + C, Y := B + C, and where
+       C is the set of i in X - (A+B) with value +1 at the corresponding
+       position in x. </li>
+      </ol>
+     </li>
+     <li> A formula for s_n/2 is as follows:
+     \verbatim
+an_v3(n) := binomial(2^n,1) + binomial(2^n,2) - 3^n;
+create_list(an_v3(n),n,1,10);
+  [0,1,9,55,285,1351,6069,26335,111645,465751]
+     \endverbatim
+     which is shown as follows:
+      <ol>
+       <li> The number of all anti-chains {A,B}, where A,B are subsets of
+       {1,...,n}, is to be computed. </li>
+       <li> The number of all subsets {A,B} (possibly A=B) is
+       binomial(2^n,1) + binomial(2^n,2). </li>
+       <li> From this we have to subtract the number of all {A,B} where
+       A <= B or B <= A. </li>
+       <li> These sets can be mapped bijectively to all pairs (A,B) with
+       A <= B <= {1,...,n} by sorting. </li>
+       <li> Now these pairs exactly represent the partial assignment over
+       {1,...,n}, where elements in A are unassigned, elements in B-A are
+       positive, elements in {1,...,n}-B are negative. </li>
+      </ol>
      </li>
     </ol>
    </li>
