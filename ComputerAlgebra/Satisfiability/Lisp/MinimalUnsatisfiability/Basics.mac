@@ -109,6 +109,10 @@ max_min_var_degree_def_rec[k] :=
    and accordingly we have 
    max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
 max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
+/* A natural lower bound: */
+max_min_var_degree_def_lb(k) := k + fld(k+1)$
+/* A natural upper bound: */
+max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
 
 /* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
    for the treatmeant of hitting clause-sets.
