@@ -111,6 +111,19 @@ ExternalSources/Installations/R> oklib --R
      be willing to open-source the application. </li>
     </ol>
    </li>
+   <li> BOOM
+    <ol> 
+     <li> Developed by Petr Fiser 
+     (http://service.felk.cvut.cz/vlsi/prj/BOOM/). </li>
+     <li> Non-exact boolean minimisation, but allows iterative
+     minimisation. </li>
+     <li> According to experimental results on the project site,
+     the software is highly competitive. </li>
+     <li> License requires authors reference particular papers if
+     one uses the software, and one must provide details to download
+     the software (MG hasn't done this). </li>
+    </ol>
+   </li>
    <li> Using genetic programming:
     <ol>
      <li> There are quite a few papes on finding (digital) circuits via
