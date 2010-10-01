@@ -261,10 +261,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo Input and output
   <ul>
-   <li> Components from Satisfiability/Interfaces/InputOutput should be
-   used. </li>
-   <li> Correct Dimacs output should be generated: currently the parameter
-   line is missing. </li>
    <li> Also options like "--version" or "--help" should be available. </li>
    <li> See Programming/ProgramOptions/plans/general.hpp. </li>
    <li> At a higher verbosity-level the program should forecast its
@@ -281,6 +277,10 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    <li> Perhaps the used value of NUMBER_VARIABLES should be part of
    the name of the executable? Or at least it should be possible to
    obtain this number from the program. </li>
+   <li> DONE Correct Dimacs output should be generated: currently the parameter
+   line is missing. </li>
+   <li> DONE Components from Satisfiability/Interfaces/InputOutput should be
+   used. </li>
   </ul>
 
 
