@@ -14,10 +14,11 @@ License, or any later version. */
   The result is printed to standard output (again a clause-set in DIMACS format).
 */
 
-#include<iostream>
-#include<fstream>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-#include<boost/range.hpp>
+#include <boost/range.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
@@ -77,6 +78,10 @@ int main(int argc, char** argv) {
                                                  set_system_F_atr.clause_set,
                                                  set_system_G_atr.clause_set);
 
-  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,"Test");
+  std::string comment("Subsumption hypergraph for ");
+  comment = comment + std::string(argv[1]) + std::string(" ");
+  comment = comment + std::string(argv[2]);
+
+  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg, std::cout, comment.c_str());
 
 }
