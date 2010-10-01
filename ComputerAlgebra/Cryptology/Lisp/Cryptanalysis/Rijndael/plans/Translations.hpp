@@ -275,39 +275,39 @@ lambda([a],some_namespace_x(a,1,2,3))
 	 rounds rather difficult. </li>
 	 <li> One solution would be to have every rewrite function take 
 	 the namespace to use, rather than using a namespace specific
-	 to that rewrite function. Then the rewrite_all_cstl function
+	 to that rewrite function. Then the rewrite_all_csttl function
 	 would use the namespace associated given in the constraint
 	 rewrite bundle. </li>
-	 <li> If rewrite_all_cstl used the namespace in the constraint
+	 <li> If rewrite_all_csttl used the namespace in the constraint
 	 rewrite bundle, then for efficient generation of the AES 
 	 translation, one could simply use a different constraint
 	 rewrite bundle which would specify namespaces which drop, hash, or
 	 canonically map the constraint variables to a much smaller
 	 object. </li>
 	 <li> Another solution is to simply include additional wrapper 
-	 functions for rewrite_all_cstl, rewrite_all_vars_l etc, which
+	 functions for rewrite_all_csttl, rewrite_all_cstt_vars_l etc, which
 	 avoid this explosion by keeping track of constraints individually
 	 and only introducing an identifier when a new constraint appears.
 	 </li>
 	 <li> For example:
 	 \verbatim
-rewrite_all_cstl_fast(cstl,rewrite_map) := block(
+rewrite_all_csttl_fast(cstl,rewrite_map) := block(
   [cst_hash : sm2hm({}), cst_count : 0],
   local(construct_constraint_namespace),
   construct_constraint_namespace(namespace_p,namespace,cst) := block(
     if ev_hm(cst_hash, [namespace_p,namespace,cst]) = false then
       set_hm(cst_hash, [namespace_p,namespace,cst], cst_count : cst_count + 1),
     lambda([a], namespace_p(a,cst[1],ev_hm(cst_hash, [namespace_p,namespace,cst])))),
-  rewrite_all_cstl(cstl,rewrite_map))$
+  rewrite_all_csttl(cstl,rewrite_map))$
 	 \endverbatim
 	 </li>
 	 <li> Such a system would only affect the actual variable 
 	 representations, but not the order of the variables, or anything
 	 else about the translation, and so there would be an exact 
-	 one to one mapping between the variables returned by rewrite_all_vars_l
-	 and rewrite_all_vars_l_fast. Therefore, one could use the fast 
-	 translation, and simply map back to the full variable representations
-	 if needed. </li>
+	 one to one mapping between the variables returned by 
+         rewrite_all_cstt_vars_l and rewrite_all_vars_l_fast. Therefore, one 
+         could use the fast translation, and simply map back to the full 
+         variable representations if needed. </li>
 	 <li> The namespace here should not include the entire constraint,
 	 but just additional information which uniquely identifies the 
 	 namespace, specific to an individual constraint. </li>
@@ -490,7 +490,7 @@ rewrite_all_cstl_fast(cstl,rewrite_map) := block(
      <li> Overview of system:
      <ul>
       <li> To translate AES one would call a rewrite all constraint
-      function called "rewrite_all_cstl", which would take as an argument a
+      function called "rewrite_all_csttl", which would take as an argument a
       list containing only a constraint called "aes_cst", where 
       arguments for the constraint are the variables of AES 
       (plaintext, key and ciphertext), along with a list of arguments, which 
@@ -500,10 +500,10 @@ rewrite_all_cstl_fast(cstl,rewrite_map) := block(
       mixcolumn inverse operation etc. </li>
       <li> So for example:
       \verbatim
-rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
+rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
       \endverbatim
       </li>
-      <li> "rewrite_all_cstl" would then call constraint rewrite 
+      <li> "rewrite_all_csttl" would then call constraint rewrite 
       function, called for instance, "aes_cstr_cstl", which would take as an 
       argument, the constraint, along with a rewrite mapping. </li>
       <li> aes_cstr_cstl would then translate this into a list of constraints,
@@ -518,7 +518,7 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
       produced constraints, and existing constraints
       until all constraint rewrite functions have been applied
       in the order specified by the given rewrite mapping. </li>
-      <li> The result of "rewrite_all_cstl" is then a set of constraints 
+      <li> The result of "rewrite_all_csttl" is then a set of constraints 
       which can no longer be rewritten into smaller
       constraints. </li>
       <li> At this point one can then call a "translate to CNF" function
@@ -570,22 +570,6 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
     </ul>
    </li>
    <li> This todo should be split up, as it is getting rather large. </li>
-  </ul>
-
-
-  \todo Move notion of AES constraints to separate module/unit
-  <ul>
-   <li> The representation of components of the AES as constraints
-   and the evaluation of these constraints is separate from the 
-   rewriting of these constraints (constraints, plus additional information).
-   </li>
-   <li> The AES implementation at 
-   Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac 
-   should be updated to take the same arguments as each of the constraints 
-   used within this system (no global variables like aes_num_rounds), so one 
-   can evaluate the constraints generated by the rewrite functions. </li>
-   <li> Doing this also allows various todos to be moved into a separate
-   todo file. </li>
   </ul>
 
 
@@ -731,6 +715,22 @@ rewrite_all_cstl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)
   <ul>
    <li> Split the following todos, especially "Fix translation system"
    and mark off any todos already done. </li>
+  </ul>
+
+
+  \todo DONE Move notion of AES constraints to separate module/unit
+  <ul>
+   <li> The representation of components of the AES as constraints
+   and the evaluation of these constraints is separate from the 
+   rewriting of these constraints (constraints, plus additional information).
+   </li>
+   <li> The AES implementation at 
+   Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac 
+   should be updated to take the same arguments as each of the constraints 
+   used within this system (no global variables like aes_num_rounds), so one 
+   can evaluate the constraints generated by the rewrite functions. </li>
+   <li> Doing this also allows various todos to be moved into a separate
+   todo file. </li>
   </ul>
 
 

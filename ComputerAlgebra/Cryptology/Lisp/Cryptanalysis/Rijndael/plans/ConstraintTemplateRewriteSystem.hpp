@@ -10,15 +10,6 @@ License, or any later version. */
   \brief Plans for the development of constraint template rewrite systems.
 
 
-  \todo Standardise names for constraint template rewrite system
-  <ul>
-   <li> Currently the names within the rewrite system use the term
-   "constraint" or "cst" and are far from consistent. </li>
-   <li> The system should use the term "cst" for "ConStraint Template"
-   as a prefix for all the functions. </li>
-  </ul>
-
-
   \todo Placement
   <ul>
    <li> Should this constraint template translation system be moved
@@ -29,5 +20,14 @@ License, or any later version. */
 
   
   \todo Move appropriate todos here
+
+
+  \todo DONE Standardise names for constraint template rewrite system
+  <ul>
+   <li> Currently the names within the rewrite system use the term
+   "constraint" or "cst" and are far from consistent. </li>
+   <li> The system should use the term "cst" for "ConStraint Template"
+   as a prefix for all the functions. </li>
+  </ul>
 
 */

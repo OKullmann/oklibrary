@@ -28,18 +28,18 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
    ********************************************
 */
 
-okltest_construct_constraint_namespace(construct_constraint_namespace);
+okltest_cstt_namespace_new(cstt_namespace_new);
 
 /****************************
  * Constraints              *
  ****************************
 */
 
-okltest_construct_constraint(construct_constraint);
-okltest_cst_name(cst_name);
-okltest_cst_vars_l(cst_vars_l);
-okltest_cst_args_l(cst_args_l);
-okltest_cst_namespace_f(cst_namespace_f);
+okltest_cstt_new(cstt_new);
+okltest_cstt_name(cstt_name);
+okltest_cstt_vars_l(cstt_vars_l);
+okltest_cstt_args_l(cstt_args_l);
+okltest_cstt_namespace_f(cstt_namespace_f);
 okltest_cstt_p(cstt_p);
 okltest_cstt_named_p(cstt_named_p);
 
@@ -48,8 +48,8 @@ okltest_cstt_named_p(cstt_named_p);
  ********************************
 */
 
-okltest_rewrite_all_cstl(rewrite_all_cstl);
-okltest_rewrite_all_vars_l(rewrite_all_vars_l);
+okltest_rewrite_all_csttl(rewrite_all_csttl);
+okltest_rewrite_all_cstt_vars_l(rewrite_all_cstt_vars_l);
 
 
 /*!

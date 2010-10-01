@@ -28,7 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
    ********************************************
 */
 
-okltest_construct_constraint_namespace(f) := block(
+okltest_cstt_namespace_new(f) := block(
   assert(
     f(lambda([[a]],a),["",[],[],lambda([a],a)])(0) = [0,["",[],[],lambda([a],a)]]),
   assert(f(nounify(f),["",[],[],lambda([a],a)])(0) = nounify(f)(0,["",[],[],lambda([a],a)])),
@@ -43,7 +43,7 @@ okltest_construct_constraint_namespace(f) := block(
  ****************************
 */
 
-okltest_construct_constraint(f) := block(
+okltest_cstt_new(f) := block(
   assert(f("f",[],[], lambda([a],a)) = ["f",[],lambda([a],a)]),
   for i : 0 thru 5 do
     assert(f("f",[i],[],lambda([a],a)) = ["f",[i],lambda([a],a)]),
@@ -53,13 +53,13 @@ okltest_construct_constraint(f) := block(
   assert(f("f", [1,2],[3,4],'n) = ["f",[1,2],3,4,'n]),
   true)$
 
-okltest_cst_name(f) := block(
+okltest_cstt_name(f) := block(
   assert(f([""]) = ""),
   assert(f(["test"]) = "test"),
   assert(f(["test1","test2"]) = "test1"),
   true)$
 
-okltest_cst_vars_l(f) := block(
+okltest_cstt_vars_l(f) := block(
   assert(f([]) = []),
   assert(f([1]) = []),
   assert(f(["",[]]) = []),
@@ -67,7 +67,7 @@ okltest_cst_vars_l(f) := block(
   assert(f(["",['a,'b]]) = ['a,'b]),
   true)$
 
-okltest_cst_args_l(f) := block(
+okltest_cstt_args_l(f) := block(
   assert(f([]) = []),
   assert(f([1,2]) = []),
   assert(f(["",[]]) = []),
@@ -75,7 +75,7 @@ okltest_cst_args_l(f) := block(
   assert(f(["",[],['a,'b]]) = ['a,'b]),
   true)$
 
-okltest_cst_namespace_f(f) := block(
+okltest_cstt_namespace_f(f) := block(
   assert(f([])(0) = 0),
   assert(f([1,2])(0) = 0),
   assert(f([1,2,3])(0) = 0),
@@ -104,7 +104,7 @@ okltest_cstt_named_p(f) := block(
  ********************************
 */
 
-okltest_rewrite_all_cstl(f) := block([test_ctrb],
+okltest_rewrite_all_csttl(f) := block([test_ctrb],
   assert(f([],[]) = []),
   assert(f([["f",[],'n],["g",[],'m]],[]) = [["g",[],'m],["f",[],'n]]),
   test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
@@ -113,7 +113,7 @@ okltest_rewrite_all_cstl(f) := block([test_ctrb],
     [["f1",[1,2,3],'n]]),
   true)$
 
-okltest_rewrite_all_vars_l(f) := block([test_ctrb,cst_t],
+okltest_rewrite_all_cstt_vars_l(f) := block([test_ctrb,cst_t],
   assert(f([],[]) = []),
   assert(f([["f",[],'n],["g",[],'m]],[]) = []),
   test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
