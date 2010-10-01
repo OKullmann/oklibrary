@@ -40,6 +40,8 @@ okltest_cst_name(cst_name);
 okltest_cst_vars_l(cst_vars_l);
 okltest_cst_args_l(cst_args_l);
 okltest_cst_namespace_f(cst_namespace_f);
+okltest_cstt_p(cstt_p);
+okltest_cstt_named_p(cstt_named_p);
 
 /********************************
  * Rewrite functions            *

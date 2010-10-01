@@ -126,10 +126,9 @@ aes_ns_var_l(cst) := block(
    The result of this function is a list of constraint template instances
    representing the AES constraint template instance being rewritten.
 */
-aes_cstr_cstl(cst) := block(
+aes_cstr_cstl(cst) := if not cstt_named_p(cst,"aes_cst") then [cst] else block(
   [bits, pBits, kBits, cBits, ekBits, ib, ob, rs : [],namespace,
   aes_num_rounds],
-  if not listp(cst) or length(cst) < 2 or cst[1] # "aes_cst" then return([cst]),
   aes_num_rounds : cst[3],
   bits : cst[2],
   namespace : construct_constraint_namespace(aes_namespace,cst),

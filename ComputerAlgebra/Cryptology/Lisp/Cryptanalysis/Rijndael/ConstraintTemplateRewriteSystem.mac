@@ -93,6 +93,13 @@ cst_args_l(cst) :=
 cst_namespace_f(cst) :=
   if listp(cst) and length(cst) > 3 then last(cst) else lambda([a],a)$
 
+/* Check whether a given object is a constraint template */
+cstt_p(cstt) := is(listp(cstt) and length(cstt) >= 2)$
+
+/* Check whether a given object is a constraint template with
+   the given name */
+cstt_named_p(cstt,name) := is(cstt_p(cstt) and cstt[1] = name)$
+
 
 /********************************
  * Rewrite functions            *

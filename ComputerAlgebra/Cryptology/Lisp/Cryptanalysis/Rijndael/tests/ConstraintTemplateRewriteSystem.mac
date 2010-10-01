@@ -84,6 +84,21 @@ okltest_cst_namespace_f(f) := block(
   assert(f(["",[],['a,'b],lambda([a],2)])(0) = 2),
   true)$
 
+okltest_cstt_p(f) := block(
+  assert(not(f([]))),
+  assert(not(f([[]]))),
+  assert(not(f(["test"]))),
+  assert(f(["test",[]])),
+  true)$
+
+okltest_cstt_named_p(f) := block(
+  assert(not(f([],""))),
+  assert(not(f([[]],""))),
+  assert(not(f(["test"],""))),
+  assert(not(f(["test",[]],"test2"))),
+  assert(f(["test",[]],"test")),
+  true)$
+
 /********************************
  * Rewrite functions            *
  ********************************
