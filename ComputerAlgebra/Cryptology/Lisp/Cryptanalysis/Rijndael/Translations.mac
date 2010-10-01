@@ -30,8 +30,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul14CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul9CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
-oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac");
-oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
+
 
 /* NOTE : 
 
@@ -564,6 +563,23 @@ aes_hex2pa(hexStr, variableList) := block(
  * Constraint template rewrite-based translations            *
  *************************************************************
 */
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac");
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
+
+/* Constraint rewrite translations */
+
+/* Given the number of rounds, produces a list of constraint templates
+   which model AES using standard parameters. */
+/* TODO: Add the full version that allows all parameters */
+aes_cstt_std_l(r) :=
+  rewrite_all_csttl(
+    [cstt_new("aes_cst",
+              generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
+              [1],lambda([a],a))],
+    aes_rewrite_mapping_std)$
+
+/* CNF translations */
 
 /* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
    returns a list of clauses representing these constraints.

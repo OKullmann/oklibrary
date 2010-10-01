@@ -37,8 +37,6 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Write descriptions of each of the datatypes */
 
-/* Expand names like  pBits etc for clarity */
-
 
 
 /* TODO: Explain namespace */
@@ -54,11 +52,12 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    namespace, and a constraint, returns a new namespace, which
    consists of namespace_p composed with namespace, where namespace has
     the constraint as an additional argument. */
-cstt_namespace_new(namespace,cst_p) := block([namespace_p],
+cstt_namespace_new(namespace,cst_p) := block([namespace_p,res_cstt_p],
   namespace_p :
     if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
-  return(buildq([cst_p,namespace,namespace_p],
-        lambda([a],namespace_p(namespace(a,cst_p))))))$
+  res_cstt_p : [cstt_name(cst_p),cstt_args_l(cst_p), cstt_namespace_f(cst_p)],
+  return(buildq([res_cstt_p,namespace,namespace_p],
+        lambda([a],namespace_p(namespace(a,res_cstt_p))))))$
 
 
 /****************************
@@ -120,13 +119,13 @@ rewrite_all_csttl(cstl,rewrite_map) := block(
    new variables which would be introduced when calling rewrite_all
    with the same parameters. */
 rewrite_all_cstt_vars_l(cstl,rewrite_map) := block(
-  [rewrite_hash : osm2hm(rewrite_map),lookup_var_lf,varl : []],
-  lookup_var_lf : lambda([cst], block(
-      [rwf : ev_hm_d(rewrite_hash,cst[1],zero_cstrb)],
-      append(
-        rwf[3](cst),
-        rewrite_all_cstt_vars_l(rwf[1](cst),rewrite_map)))),
-  return(lappend(map(lookup_var_lf,cstl))))$
+    [rewrite_hash : osm2hm(rewrite_map),lookup_var_lf,varl : []],
+    lookup_var_lf : lambda([cst], block(
+        [rwf : ev_hm_d(rewrite_hash,cst[1],zero_csttrb)],
+        append(
+          rwf[3](cst),
+          rewrite_all_cstt_vars_l(rwf[1](cst),rewrite_map)))),
+    return(lappend(map(lookup_var_lf,cstl))))$
 
 
 /****************************************
