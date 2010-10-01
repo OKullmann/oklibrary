@@ -37,9 +37,6 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Write descriptions of each of the datatypes */
 
-/* Add "aes_cst_match()" function which checks whether a given object
-   is a constraint with the correct name.  */
-
 /* Expand names like  pBits etc for clarity */
 
 

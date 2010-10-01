@@ -31,7 +31,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    standard variables of that type.
 
    Such a construction should also take parameters such as the namespace and so on and construct
-   all the defaults. 
+   all the defaults.
+
+   Expand names like  pBits etc for clarity 
 */
 
 /* ***********************************************
