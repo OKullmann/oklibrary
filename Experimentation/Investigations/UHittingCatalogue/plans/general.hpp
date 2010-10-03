@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.9.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,14 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/UHittingCatalogue/plans/general.hpp
   \brief Plans regarding building the catalogue of unsatisfiable non-singular hitting clause-sets of low deficiency
+
+
+  \todo Connections
+  <ul>
+   <li> W.r.t. general investigations into minimal unsatisfiability see
+   Experimentation/Investigations/MinimalUnsatisfiability/plans/general.hpp.
+   </li>
+  </ul>
   
   
   \todo Deficiency = 3, n = 5
