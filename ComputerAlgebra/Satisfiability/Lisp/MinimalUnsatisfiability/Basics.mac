@@ -118,6 +118,22 @@ max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
    for the treatmeant of hitting clause-sets.
 */
 
+/* Analysis of the recurrence behaviour: */
+analyse_max_min_var_degree_def_rec(k) := 
+ if k=1 then []
+ else block([res : [], maxv : minf],
+  for i : 2 thru k do block(
+   [a : 2 * i, b : max_min_var_degree_def_rec[k-i+1]+i, minv],
+    minv : min(a,b),
+    if minv >= maxv then (
+      if minv > maxv then(maxv : minv,  res : []),
+      if a < b then res : cons([i,"a"], res)
+      elseif a = b then res : cons([i,k-i+1,"ab"], res)
+      else res : cons([i,k-i+1,"b"], res)
+    )
+  ),
+  return(reverse(res)))$
+
 /*!
 \endhtmlonly
 */
