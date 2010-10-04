@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,6 +33,13 @@ namespace {
 
 }
 
+// Move this elsewhere      
+#ifdef NUMBER_VARIABLES
+        const int num_vars = NUMBER_VARIABLES;
+#else
+        const int num_vars = 4;
+#endif
+
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
@@ -60,6 +67,6 @@ int main(const int argc, const char* const argv[]) {
 
   using namespace OKlib::Satisfiability::FiniteFunctions;
   OKlib::InputOutput::List2DIMACSOutput(
-    quine_mccluskey(cls_F.clause_set),std::cout,comment.c_str());
+    quine_mccluskey<num_vars>(cls_F.clause_set),std::cout,comment.c_str());
 
 }
