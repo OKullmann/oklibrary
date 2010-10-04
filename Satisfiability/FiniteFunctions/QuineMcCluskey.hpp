@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,6 +13,7 @@ License, or any later version. */
 #ifndef QUINEMCCLUSKEY_jdbVce4
 #define QUINEMCCLUSKEY_jdbVce4
 
+#include <boost/range.hpp>
 #include <set>
 #include <vector>
 #include <set>
@@ -33,18 +34,26 @@ namespace OKlib {
         Input/Output Specification: min_2resolution_closure_cs in 
         ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac .
       */
-      template<int num_vars = 4>
+      template<int num_vars = 4,
+               typename ClauseContainer = std::vector<std::vector<int> > >
       struct QuineMcCluskey {
       
-     
-        //! Boolean variables as integers
-        typedef int Variables;
         //! Boolean literals as integers
-        typedef int Literals;
+        typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type  literal_type;
+        //! Boolean variables as integers
+        typedef literal_type variable_type;
         //! Boolean clauses as vectors of literals
-        typedef std::vector<Literals> Clauses;
+        typedef typename boost::range_value<ClauseContainer>::type clause_type;
         //! Boolean clause-sets as vectors of clauses
-        typedef std::vector<Clauses> ClauseSets;
+        typedef ClauseContainer clause_set_type;
+        //! Iterator for clauses
+        typedef typename boost::range_iterator<clause_type>::type clause_iterator_type;
+        //! Iterator for clauses
+        typedef typename boost::range_iterator<const clause_type>::type const_clause_iterator_type;
+        //! Iterator for clause-sets
+        typedef typename boost::range_iterator<clause_set_type>::type clause_set_iterator_type;
+        //! Iterator for const clause-sets
+        typedef typename boost::range_iterator<const clause_set_type>::type const_clause_set_iterator_type;
         /*!
           \brief Hash-table structure used to store and lookup clauses in a
           clause-set.
@@ -86,9 +95,10 @@ namespace OKlib {
           </ul>
           
         */
-        hash_index hash_clause(const Clauses& clause) {
+        hash_index hash_clause(const clause_type& clause) {
           long return_value = 0;
-          for (Clauses::const_iterator iter = clause.begin(); iter != clause.end(); ++iter)
+          const_clause_iterator_type iter = boost::begin(clause);
+          for (; iter != boost::end(clause); ++iter)
             if (*iter < 0)
               return_value += ipow(3, abs(*iter) - 1);
             else if (*iter > 0)
@@ -103,7 +113,7 @@ namespace OKlib {
           The key point here is that the given literal occurs in the Clause 
           represented by the input hash.
         */
-        hash_index flip_literal_sign_in_hash(hash_index hash, const Literals literal) {
+        hash_index flip_literal_sign_in_hash(hash_index hash, const literal_type literal) {
           if (literal < 0)
             hash += ipow(3, abs(literal) - 1);
           else if (literal > 0)
@@ -118,7 +128,7 @@ namespace OKlib {
           The key point here is that the given literal is assumed to occur within
           the clause associated with the input hash.
         */
-        hash_index remove_literal_in_hash(hash_index  hash, const Literals literal) {
+        hash_index remove_literal_in_hash(hash_index  hash, const literal_type literal) {
           if (literal < 0)
             hash -= ipow(3, abs(literal) - 1);
           else if (literal > 0)
@@ -131,7 +141,7 @@ namespace OKlib {
         */
         unsigned int hash2clause(hash_index hash, int clause[]) {
           hash_index var_value = 1;
-          Literals num_lit = 0;
+          literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
             var_value = ipow(3, abs(lit) - 1);
             // work out whether the literal is in the hash:
@@ -153,7 +163,7 @@ namespace OKlib {
           Running time and space requirements are exponential (powers of 3) in 
           the number of variables.
         */
-        ClauseSets quine_mccluskey(const ClauseSets& input_cs) {
+        clause_set_type quine_mccluskey(const clause_set_type& input_cs) {
           int clause[num_vars];
           hash_index num_partial_assignments = ipow(3, num_vars);
           // marked is used to keep track of all found clauses:
@@ -161,24 +171,25 @@ namespace OKlib {
           // marked_in is used to keep track of all clauses that are still in the
           // result set:
           HashTable marked_in(num_partial_assignments, 0);
-          Variables clause_size = 0;
+          variable_type clause_size = 0;
           hash_index hash = 0;
           hash_index partner_hash = 0;
           // first mark clauses:
-          for (ClauseSets::const_iterator citer = input_cs.begin(); citer != input_cs.end(); ++citer) {
-            hash = hash_clause(*citer);
+          const_clause_set_iterator_type iter = boost::begin(input_cs);
+          for (; iter != boost::end(input_cs); ++iter) {
+            hash = hash_clause(*iter);
             marked[hash] = true;
             marked_in[hash] = true;
           }
           // perform algorithm:
-          for (Variables level = num_vars; level > 0; --level) {
+          for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
             for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
               // go through literals in clause:
               if (marked[citer]) {
                 clause_size = hash2clause(citer, clause);
                 if (clause_size == level) {
-                  for (Variables liter = 0; liter < clause_size; ++liter) {
+                  for (variable_type liter = 0; liter < clause_size; ++liter) {
                     // if it's partner clause exists:
                     partner_hash =
                       flip_literal_sign_in_hash(citer, clause[liter]);
@@ -198,28 +209,28 @@ namespace OKlib {
             for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
               marked[citer] = marked_in[citer];
           }
-          ClauseSets result_cs;
+          clause_set_type result_cs;
           for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
             if (marked_in[citer]) {
               clause_size = hash2clause(citer, clause);
-              Clauses s_clause(clause, clause + clause_size);
+              clause_type s_clause(clause, clause + clause_size);
               result_cs.push_back(s_clause);
             }
           return result_cs;
         }
 
-        ClauseSets operator() (const ClauseSets& input_cs) {
+        clause_set_type operator() (const clause_set_type& input_cs) {
           return quine_mccluskey(input_cs);
         } 
       };
 
       //! Function ready for when we add template parameters.
-      template<int num_vars>
-      typename QuineMcCluskey<num_vars>::ClauseSets
-      quine_mccluskey(const typename QuineMcCluskey<num_vars>::ClauseSets& input_cs) {
-        QuineMcCluskey<num_vars> qmc;
+      template<int num_vars, typename ClauseContainer>
+      ClauseContainer quine_mccluskey(const ClauseContainer& input_cs) {
+        QuineMcCluskey<num_vars, ClauseContainer> qmc;
         return(qmc(input_cs));
       }
+
     }
   }
 }
