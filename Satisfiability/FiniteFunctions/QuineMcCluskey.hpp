@@ -52,27 +52,7 @@ namespace OKlib {
       
       /* XXX : Asserts that size types are sufficient are needed here */
       
-      /*!
-        \brief Taking a clause and printing the clause in Dimacs format to
-        stdout.
-      */
-      void print_clause(const Clauses& clause) {
-        for (Clauses::const_iterator iter = clause.begin(); iter != clause.end(); ++iter) {
-          std::cout << (int) *iter;
-          std::cout << " ";
-        }
-        std::cout << "0" << std::endl;
-      }
-      
-      /*!
-        \brief Taking a clause-set and printing the clause-set in Dimacs format
-        to stdout.
-      */
-      void print_clauseset(const ClauseSets& clause_set) {
-        for (ClauseSets::const_iterator iter = clause_set.begin(); iter != clause_set.end(); ++iter)
-          print_clause(*iter);
-      }
-      
+
       /*!
         \brief Given the base b and power e, computes b raised to the power of
         e. The key feature of this function is it provides integer computation
