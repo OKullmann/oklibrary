@@ -14,6 +14,7 @@ License, or any later version. */
 #define QUINEMCCLUSKEY_jdbVce4
 
 #include <boost/range.hpp>
+#include <boost/static_assert.hpp>
 #include <set>
 #include <vector>
 #include <set>
@@ -64,10 +65,15 @@ namespace OKlib {
         */
         typedef std::vector<bool> HashTable;
         //! Hashes used as index for HashTables
-        typedef HashTable::size_type hash_index;
+        typedef HashTable::size_type hash_index_type;
       
       
-        /* XXX : Asserts that size types are sufficient are needed here */
+        /* Asserts that size types are sufficient are needed here */
+        /* 2^size >?= 3^num_vars */
+        /* log(2^size) >?= log(3^num_vars) */
+        /* size * log(2) >?= num_vars * log(3) */
+        /* ~=~ size * 70 >?= num_vars * 101 */
+        BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
       
 
         /*!
@@ -76,7 +82,7 @@ namespace OKlib {
           whereas the standard library works with doubles.
         
         */
-        hash_index ipow(const int b, int e) {
+        hash_index_type ipow(const int b, int e) {
           long result = 1;
           while (e-- > 0) result *= b;
           return result;
@@ -95,7 +101,7 @@ namespace OKlib {
           </ul>
           
         */
-        hash_index hash_clause(const clause_type& clause) {
+        hash_index_type hash_clause(const clause_type& clause) {
           long return_value = 0;
           const_clause_iterator_type iter = boost::begin(clause);
           for (; iter != boost::end(clause); ++iter)
@@ -113,7 +119,7 @@ namespace OKlib {
           The key point here is that the given literal occurs in the Clause 
           represented by the input hash.
         */
-        hash_index flip_literal_sign_in_hash(hash_index hash, const literal_type literal) {
+        hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
           if (literal < 0)
             hash += ipow(3, abs(literal) - 1);
           else if (literal > 0)
@@ -128,7 +134,7 @@ namespace OKlib {
           The key point here is that the given literal is assumed to occur within
           the clause associated with the input hash.
         */
-        hash_index remove_literal_in_hash(hash_index  hash, const literal_type literal) {
+        hash_index_type remove_literal_in_hash(hash_index_type  hash, const literal_type literal) {
           if (literal < 0)
             hash -= ipow(3, abs(literal) - 1);
           else if (literal > 0)
@@ -139,8 +145,8 @@ namespace OKlib {
         /*!
           \brief Computes the clause represented by a given hash.
         */
-        unsigned int hash2clause(hash_index hash, int clause[]) {
-          hash_index var_value = 1;
+        unsigned int hash2clause(hash_index_type hash, int clause[]) {
+          hash_index_type var_value = 1;
           literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
             var_value = ipow(3, abs(lit) - 1);
@@ -165,15 +171,15 @@ namespace OKlib {
         */
         clause_set_type quine_mccluskey(const clause_set_type& input_cs) {
           int clause[num_vars];
-          hash_index num_partial_assignments = ipow(3, num_vars);
+          hash_index_type num_partial_assignments = ipow(3, num_vars);
           // marked is used to keep track of all found clauses:
           HashTable marked(num_partial_assignments, 0);
           // marked_in is used to keep track of all clauses that are still in the
           // result set:
           HashTable marked_in(num_partial_assignments, 0);
           variable_type clause_size = 0;
-          hash_index hash = 0;
-          hash_index partner_hash = 0;
+          hash_index_type hash = 0;
+          hash_index_type partner_hash = 0;
           // first mark clauses:
           const_clause_set_iterator_type iter = boost::begin(input_cs);
           for (; iter != boost::end(input_cs); ++iter) {
@@ -184,7 +190,7 @@ namespace OKlib {
           // perform algorithm:
           for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
-            for (hash_index citer = 0; citer < num_partial_assignments; ++citer) {
+            for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer) {
               // go through literals in clause:
               if (marked[citer]) {
                 clause_size = hash2clause(citer, clause);
@@ -206,13 +212,14 @@ namespace OKlib {
             }
             // at the end of each level, we only need those clauses that are in 
             // marked_in:
-            for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
+            for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer)
               marked[citer] = marked_in[citer];
           }
           clause_set_type result_cs;
-          for (hash_index citer = 0; citer < num_partial_assignments; ++citer)
+          for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer)
             if (marked_in[citer]) {
               clause_size = hash2clause(citer, clause);
+              std::reverse(clause, clause + clause_size);
               clause_type s_clause(clause, clause + clause_size);
               result_cs.push_back(s_clause);
             }

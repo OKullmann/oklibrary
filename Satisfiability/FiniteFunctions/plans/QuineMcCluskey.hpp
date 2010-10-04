@@ -247,18 +247,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
-  \todo Precise definitions, and basic types
-  <ul>
-   <li> Use asserts for example to check for assumptions on function
-   arguments. </li>
-   <li> std::vector<bool>::size_type is a central integral type here,
-   determining the limits of the computation; starting from this a
-   (small) resource management (at compile-time!) has to be created. </li>
-   <li> Of course, at least typedefs for the basic types of variables,
-   literals, clauses and clause-sets need to be provided. </li>
-  </ul>
-
-
   \todo Input and output
   <ul>
    <li> Also options like "--version" or "--help" should be available. </li>
@@ -432,6 +420,18 @@ struct ipow3_s<0,c> {
    <li> Usage of Mpi (now supported by gcc) or of threads (according to
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
+  </ul>
+
+
+  \todo DONE Precise definitions, and basic types
+  <ul>
+   <li> DONE Use asserts for example to check for assumptions on function
+   arguments. </li>
+   <li> DONE std::vector<bool>::size_type is a central integral type here,
+   determining the limits of the computation; starting from this a
+   (small) resource management (at compile-time!) has to be created. </li>
+   <li> DONE Of course, at least typedefs for the basic types of variables,
+   literals, clauses and clause-sets need to be provided. </li>
   </ul>
 
 */
