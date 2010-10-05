@@ -576,7 +576,7 @@ aes_cstt_std_l(r) :=
   rewrite_all_csttl(
     [cstt_new("aes_cst",
               generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
-              [1],lambda([a],a))],
+              [r],lambda([a],a))],
     aes_rewrite_mapping_std)$
 
 /* CNF translations */
