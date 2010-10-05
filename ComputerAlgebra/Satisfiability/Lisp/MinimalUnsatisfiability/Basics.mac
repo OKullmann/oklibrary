@@ -133,6 +133,29 @@ analyse_max_min_var_degree_def_rec(k) :=
     )
   ),
   return(reverse(res)))$
+/* Computation of the "primary recursion index", that i in {2,...,k}
+   such that
+     max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k-i+1] + i.
+   Prerequisite: k >= 2.
+*/
+index_max_min_var_degree_def_rec(k) :=
+  block([i : 2],
+    while i < max_min_var_degree_def_rec[k-i+1] do i : i + 1,
+  return(i))$
+/* The alternative recursive formula for max_min_var_degree_def_rec[k]: */
+max_min_var_degree_def_rec2(k) := block(
+ [i : index_max_min_var_degree_def_rec(k)],
+  max_min_var_degree_def_rec[k-i+1]+i)$
+/* Analysis of the various steps, for k >= 2: */
+step_max_min_var_degree_def_rec(k) := block(
+ [i : index_max_min_var_degree_def_rec(k),
+  ip : index_max_min_var_degree_def_rec(k+1)],
+  [
+   max_min_var_degree_def_rec[k+1] - max_min_var_degree_def_rec[k],
+   max_min_var_degree_def_rec[(k+1)-ip+1] - max_min_var_degree_def_rec[k-i+1],
+   ip-i,
+   i - max_min_var_degree_def_rec[k-i+1]
+  ])$
 
 /*!
 \endhtmlonly
