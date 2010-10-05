@@ -50,11 +50,11 @@ namespace OKlib {
         //! Iterator for clauses
         typedef typename boost::range_iterator<clause_type>::type clause_iterator_type;
         //! Iterator for clauses
-        typedef typename boost::range_iterator<const clause_type>::type const_clause_iterator_type;
+        typedef typename boost::range_const_iterator<const clause_type>::type const_clause_iterator_type;
         //! Iterator for clause-sets
         typedef typename boost::range_iterator<clause_set_type>::type clause_set_iterator_type;
         //! Iterator for const clause-sets
-        typedef typename boost::range_iterator<const clause_set_type>::type const_clause_set_iterator_type;
+        typedef typename boost::range_const_iterator<const clause_set_type>::type const_clause_set_iterator_type;
         /*!
           \brief Hash-table structure used to store and lookup clauses in a
           clause-set.
@@ -102,13 +102,14 @@ namespace OKlib {
           
         */
         hash_index_type hash_clause(const clause_type& clause) {
-          long return_value = 0;
-          const_clause_iterator_type iter = boost::begin(clause);
-          for (; iter != boost::end(clause); ++iter)
+          hash_index_type return_value = 0;
+          const_clause_iterator_type iter = boost::const_begin(clause);
+          for (; iter != boost::const_end(clause); ++iter) {
             if (*iter < 0)
               return_value += ipow(3, abs(*iter) - 1);
             else if (*iter > 0)
               return_value += 2 * ipow(3, abs(*iter) - 1);
+          }
           return return_value;
         }
       
@@ -181,8 +182,8 @@ namespace OKlib {
           hash_index_type hash = 0;
           hash_index_type partner_hash = 0;
           // first mark clauses:
-          const_clause_set_iterator_type iter = boost::begin(input_cs);
-          for (; iter != boost::end(input_cs); ++iter) {
+          const_clause_set_iterator_type iter = boost::const_begin(input_cs);
+          for (; iter != boost::const_end(input_cs); ++iter) {
             hash = hash_clause(*iter);
             marked[hash] = true;
             marked_in[hash] = true;

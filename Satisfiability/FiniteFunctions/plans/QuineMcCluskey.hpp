@@ -151,6 +151,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Make QuineMcCluskey read from standard input
+  <ul>
+   <li> If it is possible (i.e. an application only takes a single
+   file), then all applications should read from stdin, as then
+   one can pipe the output from one application to the next, 
+   allowing for in-memory transfer of the result. </li>
+  </ul>
+
+
   \todo Various versions for different values of NUMBER_VARIABLES
   <ul>
    <li> Yet to use a number of variables different than 4, 16 (the current
@@ -269,12 +278,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    line is missing. </li>
    <li> DONE Components from Satisfiability/Interfaces/InputOutput should be
    used. </li>
-  </ul>
-
-
-  \todo Unit tests
-  <ul>
-   <li> Use the (new) higher-order unit test framework. </li>
   </ul>
 
 
@@ -420,6 +423,12 @@ struct ipow3_s<0,c> {
    <li> Usage of Mpi (now supported by gcc) or of threads (according to
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
+  </ul>
+
+
+  \todo DONE Unit tests
+  <ul>
+   <li> Use the (new) higher-order unit test framework. </li>
   </ul>
 
 
