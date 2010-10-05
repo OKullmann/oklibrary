@@ -55,20 +55,9 @@ License, or any later version. */
    for different translations of the encryption and inverse/decryption only
    versions of the Mixcolumns, there should be a parameter to control whether
    this inverse Mixcolumn is included in the translation. </li>
-  </ul>
-
-
-  \todo Rewrite tests based on rewritten translation system
-  <ul>
-   <li> After the translation system is rewritten (see "Fix translation system")
-   the tests must be rewritten to take account of this. </li>
-   <li> Also additionally tests for the following functions are necessary:
-    <ul>
-     <li> aes_cp </li>
-     <li> aes_cnf_cs </li>
-     <li> aes_cnf_fcs </li>
-    </ul>
-   </li>
+   <li> This should be done by introducing a rewrite rules for the inverse
+   mixcolumn, along with a replacement rewrite rule for MixColumn which
+   rewrites MixColumn using both and returns the appended result. </li>
   </ul>
 
   
@@ -589,7 +578,7 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    <li> An overview on the possibilities of anatomising the AES-process into
    active clauses has to be gained. </li>
    <li> The roughest subdivision presents just the input-output relation (this
-   shouldn't not be considered as an active clause). </li>
+   should not be considered as an active clause). </li>
    <li> At the finest level we have represented the whole of AES as a boolean
    CNF. </li>
    <li> Inbetween there are many possibilities to handle the
@@ -708,6 +697,21 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    introducing distinct variables for each pair of plaintext/ciphertext, but 
    using the same key variables in each translation. The union of all such 
    translations is then the required result. </li>
+  </ul>
+
+
+  \todo (DONE There are tests for all functions in the new system) 
+  Rewrite tests based on rewritten translation system
+  <ul>
+   <li> After the translation system is rewritten (see "Fix translation system")
+   the tests must be rewritten to take account of this. </li>
+   <li> Also additionally tests for the following functions are necessary:
+    <ul>
+     <li> aes_cp </li>
+     <li> aes_cnf_cs </li>
+     <li> aes_cnf_fcs </li>
+    </ul>
+   </li>
   </ul>
 
 
