@@ -18,8 +18,12 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Constra
 /*!
 \htmlonly
 */
+
+
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 
@@ -456,10 +460,6 @@ aes_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
       generate_aes_constraint_vars(1,32,namespace,nounify(mc2)),vars),
   vars : cons(
       generate_aes_constraint_vars(1,32,namespace,nounify(mc3)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad23)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad11)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the AES Mixcolumn operation (the 
    individual operation applied to a single column in AES Mixcolumns) given
@@ -487,24 +487,11 @@ aes_mixcolumn_cstr_cstl(cst) := block(
         append(iBits[mod(1 + i,4) + 1],mulBVars),
         [],namespace),
       rs),
-    addAVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad23)),
     rs : cons(
       cstt_new("aes_add_cst",
-        append(mulAVars,mulBVars, addAVars),
-        [],namespace),
-      rs),
-    addBVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad11)),
-    rs : cons(
-      cstt_new("aes_add_cst", 
-        append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars),
-        [],namespace),
-      rs),
-    rs : cons(
-      cstt_new("aes_add_cst",
-        append(addAVars,addBVars, oBits[i+1]),
-        [],namespace),
+        append(
+          mulAVars,mulBVars,iBits[mod(2 + i,4) + 1],
+          iBits[mod(3 + i,4) + 1],oBits[i+1]),[], namespace),
       rs)
   ),
   return(rs)
@@ -537,10 +524,6 @@ aes_inv_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
       generate_aes_constraint_vars(1,32,namespace,nounify(mc13)),vars),
   vars : cons(
       generate_aes_constraint_vars(1,32,namespace,nounify(mc9)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad1411)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad139)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the AES Inverse Mixcolumn operation (the 
    individual operation applied to a single column in AES Inverse Mixcolumns) given
@@ -583,23 +566,9 @@ aes_inv_mixcolumn_cstr_cstl(cst) := block(
         append(oBits[mod(3 + i,4) + 1],mulDVars),
         [],namespace),
       rs),
-    addAVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad1411)),
     rs : cons(
       cstt_new("aes_add_cst",
-        append(mulAVars,mulBVars, addAVars),
-        [],namespace),
-      rs),
-    addBVars :
-      generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(ad139)),
-    rs : cons(
-      cstt_new("aes_add_cst", 
-        append(mulCVars,mulDVars, addBVars),
-        [],namespace),
-      rs),
-    rs : cons(
-      cstt_new("aes_add_cst",
-        append(addAVars,addBVars, iBits[i+1]),
+        append(mulAVars, mulBVars, mulCVars, mulDVars, iBits[i+1]),
         [],namespace),
       rs)
   ),
@@ -736,12 +705,22 @@ aes_key_expansion_cstr_cstl(cst) := block(
 */
 
 /* Returns a list of CNF clauses representing addition within GF(2^n) given
-   an "aes_add_cst" constraint with 2 * n input variables (n bits to be added
-   to the next n bits) and n output variables. */
-aes_add_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 3)],
-  lappend(map(lambda([a,b,c], [{-a,-b,-c},{-a,b,c},{a,-b,c},{a,b,-c}]), 
-    take_elements(nb,cst[2]),
-    take_elements(nb, rest(cst[2],nb)), rest(cst[2],nb*2))))$
+   an "aes_add_cst" constraint with m * n input variables (n lots of
+   m bits to be summed) and m output variables where n is the first
+   argument to the constraint. */
+aes_add_cst_cl(cst) := block(
+  [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
+  nb : floor(length(cst[2]) / (n+1)),
+  parity_f : lambda([[a]],
+    append(
+      map(lambda([C],union(C,{last(a)})),
+        rename_fcl(even_parity_fcl(length(a)-1),rest(a,-1))[2]),
+      map(lambda([C],union(C,{-last(a)})),
+        rename_fcl(odd_parity_fcl(length(a)-1),rest(a,-1))[2]))),
+  lappend(
+    apply(map,
+      append([parity_f],
+        partition_elements(cst[2],floor(length(cst[2])/(n+1)))))))$
 
 /* Returns a list of CNF clauses representing equivalence between the first
    half of the list of variables and the second half in the constraint.

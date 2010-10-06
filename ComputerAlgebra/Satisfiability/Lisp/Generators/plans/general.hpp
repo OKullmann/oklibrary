@@ -35,6 +35,9 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add tests for parity generators
+
+
   \todo Update milestones
   <ul>
    <li> Some general development strategies are to be developed. </li>

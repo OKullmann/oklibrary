@@ -188,23 +188,11 @@ okltest_aes_bi_mixcolumn_ns_var_l(f) := block([cst],
     f(cstt) =
     append(
       map(
-        lambda([a],namespace_mc(aes_var(a,nounify(ad11)))),
-        create_list(i,i,1,32)),
-      map(
-        lambda([a],namespace_mc(aes_var(a,nounify(ad23)))),
-        create_list(i,i,1,32)),
-      map(
         lambda([a],namespace_mc(aes_var(a,nounify(mc3)))),
         create_list(i,i,1,32)),
       map(
         lambda([a],namespace_mc(aes_var(a,nounify(mc2)))),
         create_list(i,i,1,32)),
-      map(
-        lambda([a],namespace_invmc(aes_var(a,nounify(ad139)))),
-        create_list(i,i,1,32)),      
-      map(
-        lambda([a],namespace_invmc(aes_var(a,nounify(ad1411)))),
-        create_list(i,i,1,32)),      
       map(
         lambda([a],namespace_invmc(aes_var(a,nounify(mc9)))),
         create_list(i,i,1,32)),      
@@ -226,12 +214,6 @@ okltest_aes_mixcolumn_ns_var_l(f) := block([cst],
     f(cst) =
     append(
       map(
-        lambda([a],namespace(aes_var(a,nounify(ad11)))),
-        create_list(i,i,1,32)),
-      map(
-        lambda([a],namespace(aes_var(a,nounify(ad23)))),
-        create_list(i,i,1,32)),
-      map(
         lambda([a],namespace(aes_var(a,nounify(mc3)))),
         create_list(i,i,1,32)),
       map(
@@ -246,12 +228,6 @@ okltest_aes_inv_mixcolumn_ns_var_l(f) := block([cst],
   assert(
     f(cst) =
     append(
-      map(
-        lambda([a],namespace(aes_var(a,nounify(ad139)))),
-        create_list(i,i,1,32)),      
-      map(
-        lambda([a],namespace(aes_var(a,nounify(ad1411)))),
-        create_list(i,i,1,32)),      
       map(
         lambda([a],namespace(aes_var(a,nounify(mc9)))),
         create_list(i,i,1,32)),      
@@ -274,23 +250,19 @@ okltest_aes_bi_mixcolumn_cstr_cstl(f) := block([cst],
   namespace_invmc : cstt_namespace_new(aes_inv_mixcolumn_namespace,cstt_new),
   ctl : f(cst),
   assert(map(first,ctl) =
-    ["aes_add_cst","aes_add_cst", "aes_add_cst","aes_mul3_cst","aes_mul2_cst",
-     "aes_add_cst","aes_add_cst",
-     "aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_add_cst",
-     "aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_add_cst",
+    ["aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_mul3_cst",
+     "aes_mul2_cst","aes_add_cst","aes_mul3_cst","aes_mul2_cst",
      "aes_add_cst","aes_mul3_cst","aes_mul2_cst",
-     "aes_add_cst","aes_add_cst","aes_add_cst","aes_mul9_cst","aes_mul13_cst",
-     "aes_mul11_cst","aes_mul14_cst","aes_add_cst","aes_add_cst",
+     "aes_add_cst","aes_mul9_cst","aes_mul13_cst",
+     "aes_mul11_cst","aes_mul14_cst",
      "aes_add_cst","aes_mul9_cst","aes_mul13_cst","aes_mul11_cst",
-     "aes_mul14_cst","aes_add_cst","aes_add_cst","aes_add_cst","aes_mul9_cst",
+     "aes_mul14_cst","aes_add_cst","aes_mul9_cst",
      "aes_mul13_cst","aes_mul11_cst","aes_mul14_cst","aes_add_cst",
-     "aes_add_cst","aes_add_cst","aes_mul9_cst","aes_mul13_cst",
+     "aes_mul9_cst","aes_mul13_cst",
      "aes_mul11_cst","aes_mul14_cst"]),
   assert(map(lambda([a],length(a[2])), ctl) =
-    [24,24,24,16,16,24,24,24,16,16,24,24,24,16,16,24,
-     24,24,16,16,
-     24,24,24,16,16,16,16,24,24,24,16,16,16,16,24,24,24,16,16,16,16,24,24,24,
-     16,16,16,16]),
+    [40,16,16,40,16,16,40,16,16,40,16,16,40,16,16,16,16,40,16,
+     16,16,16,40,16,16,16,16,40,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace_mc) or
         is(last(a) = namespace_invmc)),ctl)),
   true)$
@@ -300,13 +272,11 @@ okltest_aes_mixcolumn_cstr_cstl(f) := block([cst],
   namespace : cstt_namespace_new(aes_mixcolumn_namespace, cst),
   ctl : f(cst),
   assert(map(first,ctl) =
-    ["aes_add_cst","aes_add_cst",
-     "aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_add_cst",
-     "aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_add_cst",
-     "aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_add_cst",
+    ["aes_add_cst","aes_mul3_cst","aes_mul2_cst","aes_add_cst","aes_mul3_cst",
+     "aes_mul2_cst","aes_add_cst","aes_mul3_cst","aes_mul2_cst",
      "aes_add_cst","aes_mul3_cst","aes_mul2_cst"]),
   assert(map(lambda([a],length(a[2])), ctl) =
-    [24,24,24,16,16,24,24,24,16,16,24,24,24,16,16,24,24,24,16,16]),
+    [40,16,16,40,16,16,40,16,16,40,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
   true)$
 
@@ -355,10 +325,10 @@ okltest_aes_key_expansion_cstr_cstl(f) := block([cst],
 
 okltest_aes_add_cst_cl(f) := block(
   assert(f(["aes_add_cst", create_list(i,i,1,3)]) =
-    [{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}]),
+    [{-1,2,3},{-2,1,3},{-3,-2,-1},{-3,1,2}]),
   assert(f(["aes_add_cst", create_list(i,i,1,6)]) =
-    [{-1,-3,-5},{-1,3,5},{1,-3,5},{1,3,-5},
-     {-2,-4,-6},{-2,4,6},{2,-4,6},{2,4,-6}]),
+    [{-1,3,5},{-3,1,5},{-5,-3,-1},{-5,1,3},{-2,4,6},
+     {-4,2,6},{-6,-4,-2},{-6,2,4}]),
   true)$
 
 okltest_aes_eq_cst_cl(f) := block(
@@ -710,7 +680,7 @@ okltest_aes_constraints2cnf_pi_cl(f) := block(
   okltest_aes_sbox_pi_cst_cl(buildq([f:f],lambda([a],f([a])))),
   okltest_aes_mul2_pi_cst_cl(buildq([f:f],lambda([a],f([a])))),
   assert(f([["aes_eq_cst", [1,2]],["aes_add_cst", [1,2,3]]]) =
-    [{-1,2},{1,-2},{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}]),
+    [{-1,2},{-2,1},{-1,2,3},{-2,1,3},{-3,-2,-1},{-3,1,2}]),
   true)$
 
 okltest_aes_constraints2cnf_ts_cl(f) := block(
@@ -719,7 +689,7 @@ okltest_aes_constraints2cnf_ts_cl(f) := block(
   okltest_aes_sbox_ts_cst_cl(buildq([f:f],lambda([a],f([a])))),
   okltest_aes_mul2_ts_cst_cl(buildq([f:f],lambda([a],f([a])))),
   assert(f([["aes_eq_cst", [1,2]],["aes_add_cst", [1,2,3]]]) =
-    [{-1,2},{1,-2},{-1,-2,-3},{-1,2,3},{1,-2,3},{1,2,-3}]),
+    [{-1,2},{-2,1},{-1,2,3},{-2,1,3},{-3,-2,-1},{-3,1,2}]),
   true)$
 
 
