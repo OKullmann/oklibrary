@@ -93,8 +93,15 @@ cstt_namespace_new(namespace_name,cst_p) := block([namespace_p,res_cstt_p],
   namespace_p :
     if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
   res_cstt_p : [cstt_name(cst_p),cstt_args_l(cst_p), cstt_namespace_f(cst_p)],
-  return(buildq([res_cstt_p,namespace,namespace_p],
-        lambda([a],namespace_p(namespace(a,res_cstt_p))))))$
+  return(buildq([res_cstt_p,namespace_name,namespace_p],
+        lambda([a],namespace_p(namespace_name(a,res_cstt_p))))))$
+
+
+/* Given a constraint and a namespace, returns a new constraint
+   with all the same properties of the input constraint except
+   the namespace has been composed with the input namespace. */
+cstt_namespace_replace(cstt, namespace) :=
+  append(rest(cstt,-1), [namespace])$
 
 
 /****************************

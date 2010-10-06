@@ -18,8 +18,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Constra
 /*!
 \htmlonly
 */
-
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 
 /* TODO:
@@ -401,6 +402,39 @@ aes_mixcolumns_cstr_cstl(cst) := block(
 
 
 /*
+   Bidirectional Mixcolumn
+
+*/
+
+aes_bi_mixcolumn_cstrb :
+ [aes_bi_mixcolumn_cstr_cstl,aes_bi_mixcolumn_namespace,aes_bi_mixcolumn_ns_var_l]$
+
+
+/* AES bi_mixcolumn namespace */
+kill(aes_bi_mixcolumn_ns)$
+declare(aes_bi_mixcolumn_ns,noun)$
+declare(aes_bi_mixcolumn_ns,posfun)$
+aes_bi_mixcolumn_namespace([args]) := apply(nounify(aes_bi_mixcolumn_ns),args)$
+
+aes_bi_mixcolumn_ns_var_l(cstt) := block(
+  [cstt_new : cstt_namespace_replace(cstt,
+    cstt_namespace_new(aes_bi_mixcolumn_namespace,cstt))],
+  append(
+    aes_mixcolumn_ns_var_l(cstt_new),
+    aes_inv_mixcolumn_ns_var_l(cstt_new)))$
+/* Returns a set of conditions representing the AES bidirectional
+   mixcolumn operation (the individual operation applied to a single column in
+   AES bi_mixcolumns) given 128 plaintext variables and 128 output variables.
+ */
+aes_bi_mixcolumn_cstr_cstl(cstt) := block(
+  [cstt_new : cstt_namespace_replace(cstt,
+    cstt_namespace_new(aes_bi_mixcolumn_namespace,cstt))],
+  append(
+    aes_mixcolumn_cstr_cstl(cstt_new),
+    aes_inv_mixcolumn_cstr_cstl(cstt_new)))$
+
+
+/*
    Mixcolumn
 
 */
@@ -426,18 +460,6 @@ aes_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
       generate_aes_constraint_vars(1,32,namespace,nounify(ad23)),vars),
   vars : cons(
       generate_aes_constraint_vars(1,32,namespace,nounify(ad11)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(mc14)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(mc11)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(mc13)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(mc9)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad1411)),vars),
-  vars : cons(
-      generate_aes_constraint_vars(1,32,namespace,nounify(ad139)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the AES Mixcolumn operation (the 
    individual operation applied to a single column in AES Mixcolumns) given
@@ -485,6 +507,52 @@ aes_mixcolumn_cstr_cstl(cst) := block(
         [],namespace),
       rs)
   ),
+  return(rs)
+)$
+
+
+/*
+   Inverse Mixcolumn
+
+*/
+
+aes_inv_mixcolumn_cstrb :
+ [aes_inv_mixcolumn_cstr_cstl,aes_inv_mixcolumn_namespace,aes_inv_mixcolumn_ns_var_l]$
+
+
+/* AES inv_mixcolumn namespace */
+kill(aes_inv_mixcolumn_ns)$
+declare(aes_inv_mixcolumn_ns,noun)$
+declare(aes_inv_mixcolumn_ns,posfun)$
+aes_inv_mixcolumn_namespace([args]) := apply(nounify(aes_inv_mixcolumn_ns),args)$
+
+aes_inv_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
+  namespace :
+    cstt_namespace_new(aes_inv_mixcolumn_namespace,cst),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc14)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc11)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc13)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(mc9)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad1411)),vars),
+  vars : cons(
+      generate_aes_constraint_vars(1,32,namespace,nounify(ad139)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the AES Inverse Mixcolumn operation (the 
+   individual operation applied to a single column in AES Inverse Mixcolumns) given
+   128 plaintext variables and 128 output variables. */
+aes_inv_mixcolumn_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits, nc,rs : []],
+  bits : cst[2],
+  namespace :
+    cstt_namespace_new(aes_inv_mixcolumn_namespace,cst),
+  iBits : partition_elements(take_elements(32, bits),8),
+  oBits : partition_elements(rest(bits, 32), 8),
+  /* Perform matrix multiplication */
   for i : 0 thru 3 do block(
     [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
     mulAVars :

@@ -29,6 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 */
 
 okltest_cstt_namespace_new(cstt_namespace_new);
+okltest_cstt_namespace_replace(cstt_namespace_replace);
 
 /****************************
  * Constraints              *

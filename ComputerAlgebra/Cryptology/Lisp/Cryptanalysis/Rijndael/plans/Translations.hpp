@@ -40,26 +40,6 @@ License, or any later version. */
    generality within the implementation and translation. </li>
   </ul>
 
-
-  \todo Parameterise inclusion of inverse operation in Mixcolumn translation
-  <ul>
-   <li> In the initial AES translation, only the encryption direction was
-   included in the translation for the Mixcolumn, however, as this operation
-   involves the use of multiple xors, decryption does not follow from simple
-   UCP. </li>
-   <li> Therefore, to both allow decryption to follow solely via UCP and to 
-   generally increase the decision power of the translation (i.e. increase the
-   likelyhood of cracking certain round AES variants), the inverse of the 
-   Mixcolumn operation was included. </li>
-   <li> To compare and contrast the different approaches, as well as to allow 
-   for different translations of the encryption and inverse/decryption only
-   versions of the Mixcolumns, there should be a parameter to control whether
-   this inverse Mixcolumn is included in the translation. </li>
-   <li> This should be done by introducing a rewrite rules for the inverse
-   mixcolumn, along with a replacement rewrite rule for MixColumn which
-   rewrites MixColumn using both and returns the appended result. </li>
-  </ul>
-
   
   \todo Provide additional translation into CSP-solver format
   <ul>
@@ -697,6 +677,27 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    introducing distinct variables for each pair of plaintext/ciphertext, but 
    using the same key variables in each translation. The union of all such 
    translations is then the required result. </li>
+  </ul>
+
+
+  \todo DONE 
+  Parameterise inclusion of inverse operation in Mixcolumn translation
+  <ul>
+   <li> In the initial AES translation, only the encryption direction was
+   included in the translation for the Mixcolumn, however, as this operation
+   involves the use of multiple xors, decryption does not follow from simple
+   UCP. </li>
+   <li> Therefore, to both allow decryption to follow solely via UCP and to 
+   generally increase the decision power of the translation (i.e. increase the
+   likelyhood of cracking certain round AES variants), the inverse of the 
+   Mixcolumn operation was included. </li>
+   <li> To compare and contrast the different approaches, as well as to allow 
+   for different translations of the encryption and inverse/decryption only
+   versions of the Mixcolumns, there should be a parameter to control whether
+   this inverse Mixcolumn is included in the translation. </li>
+   <li> This should be done by introducing a rewrite rules for the inverse
+   mixcolumn, along with a replacement rewrite rule for MixColumn which
+   rewrites MixColumn using both and returns the appended result. </li>
   </ul>
 
 

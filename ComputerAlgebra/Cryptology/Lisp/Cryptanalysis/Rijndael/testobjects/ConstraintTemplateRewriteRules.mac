@@ -56,7 +56,10 @@ okltest_aes_mixcolumns_ns_var_l(aes_mixcolumns_ns_var_l);
 okltest_aes_mixcolumns_cstr_cstl(aes_mixcolumns_cstr_cstl);
 
 
+okltest_aes_bi_mixcolumn_ns_var_l(aes_bi_mixcolumn_ns_var_l);
 okltest_aes_mixcolumn_ns_var_l(aes_mixcolumn_ns_var_l);
+okltest_aes_inv_mixcolumn_ns_var_l(aes_inv_mixcolumn_ns_var_l);
+okltest_aes_bi_mixcolumn_cstr_cstl(aes_bi_mixcolumn_cstr_cstl);
 okltest_aes_mixcolumn_cstr_cstl(aes_mixcolumn_cstr_cstl);
 
 okltest_aes_key_expansion_ns_var_l(aes_key_expansion_ns_var_l);
