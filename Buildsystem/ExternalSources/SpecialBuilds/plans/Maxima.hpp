@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,15 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp
   \brief Plans regarding installation of Maxima
+
+
+  \todo Installation of version 5.22.1
+  <ul>
+   <li> We get a test failure:
+   variable_heuristics_tau([{1,2,3},{1,2,3,4}],identity) in
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/ConstraintSatisfaction.mac
+   should yield [1,[1,2,3]]), however it yields (now) [2,[1,2,3,4]] ? </li>
+  </ul>
 
 
   \todo DONE (solved with Ecl 9.8.3)
