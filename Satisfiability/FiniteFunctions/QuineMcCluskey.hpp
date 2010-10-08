@@ -220,7 +220,7 @@ namespace OKlib {
           for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer)
             if (marked_in[citer]) {
               clause_size = hash2clause(citer, clause);
-              std::reverse(clause, clause + clause_size);
+              std::sort(clause, clause + clause_size);
               clause_type s_clause(clause, clause + clause_size);
               result_cs.push_back(s_clause);
             }
