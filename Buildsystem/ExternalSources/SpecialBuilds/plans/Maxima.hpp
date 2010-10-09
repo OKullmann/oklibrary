@@ -12,10 +12,101 @@ License, or any later version. */
 
   \todo Installation of version 5.22.1
   <ul>
-   <li> We get a test failure:
-   variable_heuristics_tau([{1,2,3},{1,2,3,4}],identity) in
-   ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/ConstraintSatisfaction.mac
-   should yield [1,[1,2,3]]), however it yields (now) [2,[1,2,3,4]] ? </li>
+   <li> Floating-point problem:
+    <ol>
+     <li> We get a test failure:
+     variable_heuristics_tau([{1,2,3},{1,2,3,4}],identity) in
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/ConstraintSatisfaction.mac
+     should yield [1,[1,2,3]]), however it yields (now) [2,[1,2,3,4]] ? </li>
+     <li> It seems that this is due to a changed behaviour of "sort". </li>
+     <li> No, this is not the problem, but that with 5.22.1 two equal
+     tau-values now compare as "strictly less". </li>
+     \verbatim
+> oklib --maxima
+
+m0 : log(3*4);
+t1 : tau(m0 - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0 - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+m0p : log(3) + log(4);
+t1 : tau(m0p - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0p - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+> maxima_recommended_version_number_okl=5.22.1 oklib --maxima
+m0 : log(3*4);
+t1 : tau(m0 - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0 - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+m0p : log(3) + log(4);
+t1 : tau(m0p - [log(4),log(4),log(4)]);
+  2.718281828459046
+t2 : tau(m0p - [log(3),log(3),log(3),log(3)]);
+  2.718281828459046
+is (t1 < t2);
+  false
+is (t2 < t1);
+  true
+is (t1 = t2);
+  false
+
+     \endverbatim
+     </li>
+     <li> Actually, 5.22.1 seems to computes with more precision here:
+     \verbatim
+> oklib --maxima
+t1 : tau([log(3),log(3),log(3)]);
+  2.718281828459045
+t2 : tau([log(4),log(4),log(4),log(4)]);
+  2.718281828459045
+is (t1 = t2);
+  true
+tau_hp([log(3),log(3),log(3)], 15);
+  2.71828182845905b0
+tau_hp([log(3),log(3),log(3)], 30);
+  2.71828182845904523536028747135b0
+
+> maxima_recommended_version_number_okl=5.22.1 oklib --maxima
+t1 : tau([log(3),log(3),log(3)]);
+  2.718281828459046
+t2 : tau([log(4),log(4),log(4),log(4)]);
+  2.718281828459046
+is (t2 < t1);
+  true
+tau_hp([log(3),log(3),log(3)], 15);
+  2.71828182845905b0
+tau_hp([log(3),log(3),log(3)], 30);
+  2.71828182845904523536028747135b0
+     \endverbatim
+     </li>
+     <li> I think a reasonable solution is to compute more precise at
+     Maxima-level, and so to use now for variable_heuristics_tau instead of
+     sum_log_dom_size(dom) the value log_prod_dom_size(dom). </li>
+    </ol>
+   </li>
   </ul>
 
 
