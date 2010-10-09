@@ -137,6 +137,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Stable sorting
     - Argument-length restriction
     - How to use function-parameters reliably??
     - Problems with errcatch

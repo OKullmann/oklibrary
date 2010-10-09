@@ -218,7 +218,8 @@ is(Csa);
      <li> Is sort stable?? </li>
      <li> Is ">" to be used instead of ">="?? </li>
     </ol>
-    This problems are of general relevance. </li>
+    This problems are of general relevance. See "Stable sorting" in
+    ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 

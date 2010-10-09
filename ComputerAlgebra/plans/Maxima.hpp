@@ -13,6 +13,30 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo Stable sorting
+  <ul>
+   <li> The documentation of "sort" doesn't say anything about the behaviour
+   in case of equal items. </li>
+   <li> So it could even not work at all in case of equal items! </li>
+   <li> The documentation is also faulty w.r.t. whether the supplied predicate
+   should be reflexive or irreflexive.
+    <ol>
+     <li> Actually from the documentation it should follow that equal elements
+     can not be handled, since the predicate for subsequent elements shall
+     be true, while the key example "orderlessp" is an irreflexive order! </li>
+     <li> So it is not clear whether "<" or "<=" should be used. </li>
+    </ol>
+   </li>
+   <li> Supposing that it works (it absolutely should!), without the
+   specification one is in the worst situation: one has to assume that the
+   order of equal elements is changed, without being able to rely on faster
+   sorting. </li>
+   <li> See "Simplifications" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+   for an example of this problem. </li>
+  </ul>
+
+
   \bug DONE (resolved with version 5.21.1)
   Strings cause errors in evaluation of expressions
   <ul>
