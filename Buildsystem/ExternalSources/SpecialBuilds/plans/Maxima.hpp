@@ -12,7 +12,16 @@ License, or any later version. */
 
   \todo Installation of version 5.22.1
   <ul>
-   <li> Floating-point problem:
+   <li> DONE Set problem:
+    <ol>
+     <li> The correct way of referring to the underlying order of a set is by
+     orderlessp, not by <. </li>
+     <li> This problem occurs likely at several places, but it's hard to search
+     for them. </li>
+     <li> So we just handle these errors as they come. </li>
+    </ol>
+   </li>
+   <li> DONE Floating-point problem:
     <ol>
      <li> We get a test failure:
      variable_heuristics_tau([{1,2,3},{1,2,3,4}],identity) in

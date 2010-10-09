@@ -168,9 +168,17 @@ xreduce(nounify(union), [a,b,c,d]);
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp. </li>
    <li> The Maxima function "makeset" creates only trouble, since it cannot
    handle "subscripts", and thus we do not use it. </li>
-   <li> Is it guaranteed that the underlying order of at least "simple
-   sets" is lexicographical ordering? "Simple sets" are sets of integers,
-   sets of sets of integers, sets of lists of integers and so on. </li>
+   <li> Regarding the underlying ordering:
+    <ol>
+     <li> The underlying ordering of sets is given by "orderlessp" (and the
+     transposed, "ordergreatp"). </li>
+     <li> It seems that "<" (resp. ">") realises only a subset of these
+     relations, and thus shouldn't be used in this context. </li>
+     <li> Is it guaranteed that the underlying order of at least "simple
+     sets" is lexicographical ordering? "Simple sets" are sets of integers,
+     sets of sets of integers, sets of lists of integers and so on. </li>
+    </ol>
+   </li>
   </ul>
 
 

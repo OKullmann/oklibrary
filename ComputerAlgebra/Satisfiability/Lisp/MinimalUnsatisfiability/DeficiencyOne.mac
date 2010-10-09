@@ -100,7 +100,7 @@ find_removable_remlitocc(L,x,k) := block(
 remlitocc_greedy(F,k,r) := if F = {} or F = {{}} then [F, minf]
  elseif r <= 1 then [false,inf] else block([res : false],
  while res = false do (
-   res : block([degv : max_variable_degree_v_cs(F), 
+   res : block([degv : max_variable_degree_v_cs(F),
       deg,v,dif, L, pocc,lp, nocc,ln, occ],
     [deg,v] : degv,
     if deg <= r then return([F, deg]),
@@ -110,7 +110,7 @@ remlitocc_greedy(F,k,r) := if F = {} or F = {{}} then [F, minf]
     [nocc, ln] : find_removable_remlitocc(L,-v,k),
     if lp + ln < dif then return([false,deg]),
     occ : append(pocc,nocc),
-    occ : take_elements(dif, sort(occ, lambda([i,j],is(L[i]>L[j])))),
+    occ : take_elements(dif, sort(occ, lambda([i,j],ordergreatp(L[i],L[j])))),
     for i in occ do
       L[i] : setdifference(L[i], {v,-v}),
     F : setify(L), return(false))),
