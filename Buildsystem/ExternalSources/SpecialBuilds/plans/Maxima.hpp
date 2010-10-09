@@ -12,6 +12,38 @@ License, or any later version. */
 
   \todo Installation of version 5.22.1
   <ul>
+   <li> Floating-point problem:
+    <ol>
+     <li> Failure of okltest_probsatrand(probsatrand) due to less precise
+     computation:
+     \verbatim
+F : weak_php(2,3)$
+p : probsatrand(F);
+  1953/2048
+float(p);
+  0.95361328125
+pa : exp(logprobrand(F));
+  0.9536132812500007
+assert_float_equal(p, pa);
+  ASSERT: Expression " 6.661338147750939e-16 < 1/5000000000000000 " does not 
+    evaluate to true.
+float(1/5000000000000000);
+  2.e-16
+     \endverbatim
+     </li>
+     <li> Already below we experienced the diminished precision. How does this
+     come? </li>
+     <li> With version 5.21.1 (the current version) exp(logprobrand(F)) has
+     the value 0.95361328125. This is quite a difference. </li>
+     <li> Ask on the Maxima mailing list whether this is expected. </li>
+     <li> A simple solution would be to raise the error-tolerance for comparing
+     floating-point numbers from 2*10^-16 to 10^-15. </li>
+     <li> This problem as well as the problem below has to do with logarithms
+     and exponentials; is there some special problem here? </li>
+     <li> With this change to assert_float_equal then we get no further
+     test-failures with 5.22.1. </li>
+    </ol>
+   </li>
    <li> DONE Set problem:
     <ol>
      <li> The correct way of referring to the underlying order of a set is by
@@ -84,7 +116,7 @@ is (t1 = t2);
 
      \endverbatim
      </li>
-     <li> Actually, 5.22.1 seems to computes with more precision here:
+     <li> 5.22.1 computes with less precision here:
      \verbatim
 > oklib --maxima
 t1 : tau([log(3),log(3),log(3)]);
