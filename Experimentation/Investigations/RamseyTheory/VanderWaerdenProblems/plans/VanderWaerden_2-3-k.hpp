@@ -10,7 +10,8 @@ License, or any later version. */
   \brief On investigations into vdW-numbers vdw_2(3,k)
 
   Instances created by output_vanderwaerden2nd_stdname(3,k,n).
-  
+  An experiment is run by "RunVdW3k k n0 alg runs cutoff".
+
   
   \todo Literature overview
   <ul>
@@ -1108,6 +1109,11 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
       6 1     0   21657900   21657900 2077294880 
       7 0     2    6943316  100000000 2830567231 
       8 0     1    2073902  100000000 3486000509 
+   \endverbatim
+   </li>
+   <li> Running experiment starting with n=561:
+   \verbatim
+OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000
    \endverbatim
    </li>
   </ul>

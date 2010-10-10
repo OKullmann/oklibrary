@@ -1,0 +1,63 @@
+#!/bin/bash
+# Oliver Kullmann, 10.10.2010 (Swansea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "RunVdW3k k n0 alg runs cutoff" creates a directory
+# "Exp_VanderWaerden_2-3-k_date", where the SAT instances
+# VanDerWaerden_2-3-k_n.cnf for n = n_0, n_0+1, ... are created
+# and ubcsat-okl with parameters alg, runs, cutoff is executed on
+# these instances, storing the output in VanDerWaerden_2-3-k_n.cnf_OUT.
+# Running ubcsat stops either with a solution found, and then n is increased,
+# and the process is repeated, or when no solution was found, and then the
+# script stops with exit value 20.
+
+set -o errexit
+set -o nounset
+
+script_name="RunVdW3k"
+
+if [[ $# != 5 ]]; then
+  echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
+  are needed: The progression-length k, the starting number n0 of vertices,
+  the ubcsat-algorithm, the number of runs, and the cutoff."
+  exit 1
+fi
+
+k=$1
+n0=$2
+alg=$3
+runs=$4
+cutoff=$5
+
+ExpDir="Exp_VanderWaerden_2-3-${k}_"$(date | tr -d " ")
+echo "Creating directory ${ExpDir}."
+mkdir ${ExpDir}
+cd ${ExpDir}
+
+echo "${script_name} k=${k} n0=${n0} alg=${alg} runs=${runs} cutoff=${cutoff}" > Parameters
+
+maxima_call="oklib --maxima"
+
+for ((n=${n0}; 1; ++n)); do
+ 
+  # Creating the Dimacs-file:
+  ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
+
+  SATinstance="VanDerWaerden_2-3-${k}_${n}.cnf"
+  Ausgabe="${SATinstance}_OUT"
+
+  ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Ausgabe}
+
+  #  Finding out whether a satisfying assignment was found (searching for
+  # the line "PercentSuccess = x" and determining whether x > 0):
+  success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Ausgabe})
+  if [[ ${success} == 0 ]]; then exit 20; fi
+
+done
+
+exit 1
+
