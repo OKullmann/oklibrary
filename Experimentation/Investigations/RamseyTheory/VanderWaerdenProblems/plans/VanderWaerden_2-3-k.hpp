@@ -1070,5 +1070,47 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    let's consider this for now as unsatisfiable. </li>
   </ul>
 
+
+  \todo vanderwaerden_2(3,24) > 560
+  <ul>
+   <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
+   <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
+   <li> Experience with k=20 is that gsat-tabu is best, however we should
+   have a look again --- this might change with different k's or with
+   different cutoff's. </li>
+   <li> n=530, gsat-tabu, cutoff=10^8: A solution was easily found. </li>
+   <li> n=540, gsat-tabu, cutoff=10^8:
+   \verbatim
+> ubcsat-okl -alg gsat-tabu -runs 100 -cutoff 100000000 -i VanDerWaerden_2-3-24_540.cnf | tee VanDerWaerden_2-3-24_540.cnf_OUT
+# -alg gsat-tabu -runs 100 -cutoff 100000000 -i VanDerWaerden_2-3-24_540.cnf
+       sat  min     osteps     msteps       seed
+      1 0     1   22497477  100000000 1352939123 
+      2 0     2    1782874  100000000 1502390071 
+      3 1     0   16984061   16984061 2901963531 
+   \endverbatim
+   </li>
+   <li> n=557, gsat-tabu, cutoff=10^8: found satisfiable (seed=1050785257).
+   </li>
+   <li> n=558, gsat-tabu, cutoff=10^8: found satisfiable (seed=3904367479).
+   </li>
+   <li> n=559, gsat-tabu, cutoff=10^8: found satisfiable (seed=1689825937).
+   </li>
+   <li> n=560, gsat-tabu, cutoff=10^8:
+   \verbatim
+> ubcsat-okl -alg gsat-tabu -runs 100 -cutoff 100000000 -i VanDerWaerden_2-3-24_560.cnf | tee VanDerWaerden_2-3-24_560.cnf_OUT
+# -alg gsat-tabu -runs 100 -cutoff 100000000 -i VanDerWaerden_2-3-24_560.cnf
+       sat  min     osteps     msteps       seed
+      1 0     1   17750621  100000000 1956429616 
+      2 0     5    2138624  100000000  291337957 
+      3 0     2     516286  100000000  890207100 
+      4 0     2    6874501  100000000 1078823928 
+      5 1     0   59397520   59397520 2277207974 
+      6 1     0   21657900   21657900 2077294880 
+      7 0     2    6943316  100000000 2830567231 
+      8 0     1    2073902  100000000 3486000509 
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
