@@ -1118,5 +1118,17 @@ OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000
    </li>
   </ul>
 
+
+  \todo vanderwaerden_2(3,25)
+  <ul>
+   <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
+   <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
+   <li> Running experiment starting with n=590:
+   \verbatim
+OKplatform> RunVdW3k 25 590 gsat-tabu 100 100000000
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
