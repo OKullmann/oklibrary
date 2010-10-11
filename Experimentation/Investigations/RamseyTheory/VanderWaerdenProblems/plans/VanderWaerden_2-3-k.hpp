@@ -15,7 +15,11 @@ License, or any later version. */
   
   \todo Literature overview
   <ul>
-   <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3. </li>
+   <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3.
+    <ol>
+     <li> The first counterexample is vdw_2(3,24) > 576.
+    </ol>
+   </li>
    <li> The known values with k=1, ..., 19 are available via
    vanderwaerden3k(k):
    \verbatim
@@ -1072,7 +1076,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 560
+  \todo vanderwaerden_2(3,24) > 578
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
@@ -1089,12 +1093,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
       2 0     2    1782874  100000000 1502390071 
       3 1     0   16984061   16984061 2901963531 
    \endverbatim
-   </li>
-   <li> n=557, gsat-tabu, cutoff=10^8: found satisfiable (seed=1050785257).
-   </li>
-   <li> n=558, gsat-tabu, cutoff=10^8: found satisfiable (seed=3904367479).
-   </li>
-   <li> n=559, gsat-tabu, cutoff=10^8: found satisfiable (seed=1689825937).
    </li>
    <li> n=560, gsat-tabu, cutoff=10^8:
    \verbatim
@@ -1114,6 +1112,46 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
    <li> Running experiment starting with n=561:
    \verbatim
 OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000
+   \endverbatim:
+    <ol>
+     <li> n=578 found satisfiable (seed=3813501165, osteps=1602760) in run 6.
+     </li>
+     <li> The elements of the k=3-partition of the solution are
+     \verbatim
+[
+ 3,22,43,44,61,72,80,89,111,118,
+ 126,130,140,152,155,177,181,189,196,218,
+ 227,235,239,246,254,263,264,268,276,283,
+ 285,292,300,304,305,322,333,341,350,372,
+ 379,387,391,401,413,416,438,442,450,457,
+ 479,488,496,500,503,507,515,524,537,546,
+ 553,561
+]
+     \endverbatim
+     (62 elements). </li>
+    </ol>
+   </li>
+   <li> Evaluating
+   \verbatim
+E = eval_ubcsat("VanDerWaerden_2-3-24_561.cnf", params=list(runs=100,cutoff=1000000))
+   \endverbatim
+   by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
+   \verbatim
+gsat_tabu : 
+ 0  1  2  3  4  5  6  7  8  9 10 
+ 4  4 13  6 18 20 17 12  3  1  2 
+samd : 
+ 0  1  2  3  4  5  6  7  8  9 10 
+ 3  4  8 10 17 12 22 12  7  4  1 
+rots : 
+ 0  1  2  3  4  5  6  7  8  9 10 
+ 1  5  2  8  4 10 15 15 21 17  2 
+   \endverbatim
+   Now only these best three algorithms:
+   \verbatim
+E = eval_ubcsat("VanDerWaerden_2-3-24_575.cnf", algs=list(gsat_tabu="gsat-tabu",samd="samd",rots="rots"), params=list(runs=500,cutoff=10000000))
+plot(E$alg,E$best)
+eval_ubcsat_dataframe(E)
    \endverbatim
    </li>
   </ul>
@@ -1131,4 +1169,3 @@ OKplatform> RunVdW3k 25 590 gsat-tabu 100 100000000
   </ul>
 
 */
-
