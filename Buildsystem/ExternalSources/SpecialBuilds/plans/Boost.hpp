@@ -105,6 +105,45 @@ License, or any later version. */
    and build process, although with larger, more extensive tests (not 
    written), differences may emerge due to alterations like "boost::size" ->
    "boost::distance". </li>
+   <li> Using a specially designed C++ program to test the speed difference
+   between using s.size() and std::distance(s) for sets, shows that there
+   is a considerable difference. For instance, consider
+   \verbatim
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <boost/range.hpp>
+#include <set>
+
+#ifdef USE_SIZE
+#define SIZE(A) A.size()
+#else
+#define SIZE(A) boost::distance(A)
+#endif
+
+const long size = 10000000;
+
+int main(const int argc, const char* const argv[]) {
+  std::set<long> s;
+
+  for (long i = 0; i < size; i++) {
+    s.insert(i);
+  }
+
+  long x = 0;
+  for (long i = 0; i < 1000000; i++) {
+    x += SIZE(s);
+  }
+
+  std::cout << "Output = " << x << std::endl;
+}
+   \endverbatim
+   Setting "size" to 10000000 and defining "USE_SIZE" results in a run
+   time of "1.57s" on my machine, however with a size of only "10000", leaving
+   USE_SIZE undefined, results in a run time of more than 2 minutes. 
+   This is a clear demonstration that there may be potential issues with
+   using boost::distance instead of boost:size. MG has sent an e-mail
+   to the boost-users mailing list regarding this issue. </li>
   </ul>
 
 
