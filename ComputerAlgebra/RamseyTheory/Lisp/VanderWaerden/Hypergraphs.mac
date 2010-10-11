@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,12 +21,24 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.ma
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 
-/* Van der Waerden hypergraphs are computed by arithprog_(o)hg(k,n) (from
-   Hypergraphs/Lisp/Generators.mac).
+/* Van der Waerden hypergraphs are computed by
+
+   arithprog_(o)hg(k,n)
+
+   (from Hypergraphs/Lisp/Generators.mac).
 */
 
-/* The satisfiability problems for 2 parts are created by 
-   vanderwaerden2_fcs(k,n) (from
+/* The satisfiability problems for diagonal resp. mixed problems with 2 parts
+   are created by
+
+   vanderwaerden2_fcs(k,n) 
+   vanderwaerden2nd_fcs(k1,k2,n)
+
+   and the general mixed problems by
+
+   vanderwaerden_nbfclud(L,n)
+
+   (from
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac).
 */
 
