@@ -19,9 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/MaximaInternals/include.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.lisp")$
-
 oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac")$
+
 
 /*!
 \endhtmlonly
