@@ -1076,7 +1076,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 578
+  \todo vanderwaerden_2(3,24) > 580
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
@@ -1129,6 +1129,55 @@ OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000
 ]
      \endverbatim
      (62 elements). </li>
+     <li> Checking:
+     \verbatim
+default_memory_ecl();
+S : [
+ 3,22,43,44,61,72,80,89,111,118,
+ 126,130,140,152,155,177,181,189,196,218,
+ 227,235,239,246,254,263,264,268,276,283,
+ 285,292,300,304,305,322,333,341,350,372,
+ 379,387,391,401,413,416,438,442,450,457,
+ 479,488,496,500,503,507,515,524,537,546,
+ 553,561
+]$
+P : create_certificate2_vdw(S,578);
+check_certificate_vdw([3,24],578,P);
+  true
+     \endverbatim
+     </li>
+     <li> n=579 found satisfiable (seed=1409510574 , osteps=5706287) in run 33.
+     The elements of the k=3-partition of the solution are
+     \verbatim
+[
+ 15,34,51,56,64,73,88,92,93,102,
+ 110,114,117,138,139,143,151,167,175,179,
+ 180,201,204,208,216,226,245,247,254,276,
+ 284,295,303,325,332,334,353,363,371,375,
+ 378,399,400,404,412,428,436,440,441,462,
+ 469,477,486,487,491,506,508,515,523,528,
+ 545,564
+]
+     \endverbatim
+     (62 elements). </li>
+     <li> n=580 found satisfiable (seed=3723870221 , osteps=366990) in run 11.
+     The elements of the k=3-partition of the solution are
+     \verbatim
+default_memory_ecl();
+S : [
+ 10,29,46,51,59,66,68,83,87,88,
+ 97,105,112,133,134,138,146,162,170,174,
+ 175,196,199,203,211,221,240,242,249,271,
+ 279,290,298,320,327,329,348,358,366,370,
+ 373,394,395,399,407,423,431,435,436,457,
+ 460,464,472,481,482,486,501,503,510,518,
+ 523,540,559
+]$
+P : create_certificate2_vdw(S,580);
+check_certificate_vdw([3,24],580,P);
+  true
+     \endverbatim
+     (63 elements). </li>
     </ol>
    </li>
    <li> Evaluating
