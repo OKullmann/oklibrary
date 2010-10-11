@@ -1217,4 +1217,24 @@ OKplatform> RunVdW3k 25 590 gsat-tabu 100 100000000
    </li>
   </ul>
 
+
+  \todo vanderwaerden_2(3,26)
+  <ul>
+   <li> Running experiment starting with n=600:
+   \verbatim
+OKplatform> RunVdW3k 26 600 gsat-tabu 100 100000000
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo vanderwaerden_2(3,27)
+  <ul>
+   <li> Running experiment starting with n=610:
+   \verbatim
+OKplatform> RunVdW3k 27 610 gsat-tabu 100 100000000
+   \endverbatim
+   </li>
+  </ul>
+
 */
