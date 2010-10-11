@@ -135,7 +135,7 @@ namespace OKlib {
         void tautological_clause(int_type) const {}
         template <class Range>
         void clause(const Range& clause, int_type) {
-          const size_type s = boost::size(clause);
+          const size_type s = boost::distance(clause);
           if (s == 0) { empty_cl = true; return; }
           if (s == 1) {
             const int_type x = *boost::const_begin(clause);
@@ -345,7 +345,7 @@ namespace OKlib {
           void tautological_clause(int_type) const {}
           template <class Range>
           void clause(const Range& clause, int_type) {
-            const size_type s = boost::size(clause);
+            const size_type s = boost::distance(clause);
             if (s == 0) { empty_cl = true; return; }
             typedef typename boost::range_const_iterator<Range>::type range_iterator;
             const range_iterator bc = boost::const_begin(clause);
