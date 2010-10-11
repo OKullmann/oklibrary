@@ -20,6 +20,9 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.ma
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* Van der Waerden hypergraphs are computed by
 
@@ -42,6 +45,27 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac"
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac).
 */
 
+
+/* ****************
+   * Certificates *
+   ****************
+*/
+
+/* L is a vdW-parameter-tuple, n a natural number, P a list of subsets of
+   {1,...,n}, yielding a partition of this set (with possibly empty subsets).
+*/
+check_certificate_vdw(L,n,P) := block([N : setn(n)],
+  is(apply(union,P) = N) and sum_l(map(length,P)) = n and
+  every(lambda([k,b], emptyp(arithmetic_progressions(listify(b),k))), L, P))$
+/* See "Certificates" in 
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/general.hpp.
+*/
+
+/* Creates a certificate from a list of elements constituting one part
+   of a binary partitioning:
+*/
+create_certificate2_vdw(S,n) := block([s : setify(S)],
+  [s, setdifference(setn(n),s)])$
 
 /*!
 \endhtmlonly

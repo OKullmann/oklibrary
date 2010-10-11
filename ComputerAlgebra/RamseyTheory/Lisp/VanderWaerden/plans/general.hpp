@@ -37,6 +37,18 @@ License, or any later version. */
    <li> More precisely these are "vdW-certificates". </li>
    <li> certificate_vdW_p(Z,L,n) checks whether Z is indeed a certificate.
    </li>
+   <li> Implementation check_certificate_vdw(L,n,P) in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac:
+    <ol>
+     <li> Perhaps we should have a dedicated file "Certificates.mac". </li>
+     <li> The current check is extremely slow:
+     check_certificate_vdw([3,24],578,P) in
+     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+     needed 920 seconds on csltok (the new laptop, not slow). </li>
+     <li> We should also use "every_s" (once it can handle multiple lists).
+     </li>
+    </ol>
+   </li>
    <li> We need translations from satisfying assignments of
    vanderwaerden_nbfclud(L,n) to certificates and back.
     <ol>
