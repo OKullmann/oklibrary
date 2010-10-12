@@ -1232,7 +1232,7 @@ eval_ubcsat_dataframe(E)
   </ul>
 
 
-  \todo vanderwaerden_2(3,25) > 604
+  \todo vanderwaerden_2(3,25) > 609
   <ul>
    <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
@@ -1241,25 +1241,73 @@ eval_ubcsat_dataframe(E)
 OKplatform> RunVdW3k 25 590 gsat-tabu 200 50000000
    \endverbatim
    </li>
+   <li> Perhaps also here the cutoff-value is too large:
+   \verbatim
+OKplatform> RunVdW3k 25 609 gsat-tabu 1000 10000000
+   \endverbatim
+   </li>
+   <li> n=609 found satisfiable with certificate
+   \verbatim
+18,19,31,49,53,55,68,90,93,102,
+106,123,129,132,138,143,160,164,175,176,
+187,201,206,224,234,243,249,253,254,277,
+278,286,287,290,315,317,324,328,335,351,
+364,382,386,388,389,401,409,426,435,439,
+456,462,465,471,476,493,497,508,509,520,
+534,539,557,567,576,586,587
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,26) > 652
+  \todo vanderwaerden_2(3,26) > 659
   <ul>
    <li> Running experiment starting with n=600:
    \verbatim
 OKplatform> RunVdW3k 26 600 gsat-tabu 100 100000000
    \endverbatim
    </li>
+   <li> Perhaps also here the cutoff-value is too large:
+   \verbatim
+OKplatform> RunVdW3k 26 655 gsat-tabu 1000 10000000
+   \endverbatim
+   </li>
+   <li> n=659 found satisfiable with certificate
+   \verbatim
+13,26,27,46,51,64,80,91,113,116,
+120,128,138,142,157,159,166,179,188,207,
+215,224,237,244,246,265,275,283,290,311,
+316,324,340,348,352,353,374,377,381,389,
+399,418,420,427,440,449,457,468,476,485,
+505,507,522,526,536,544,548,551,572,573,
+585,607,614,627,651
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,27) > 676
+  \todo vanderwaerden_2(3,27) > 682
   <ul>
    <li> Running experiment starting with n=610:
    \verbatim
 OKplatform> RunVdW3k 27 610 gsat-tabu 100 100000000
    \endverbatim
+   </li>
+   <li> Perhaps also here the cutoff-value is too large:
+   \verbatim
+OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
+   \endverbatim
+   </li>
+   <li> n=682 found satisfiable with certificate
+    \verbatim
+10,25,42,53,58,68,71,86,102,115,
+116,129,139,145,158,182,184,197,198,202,
+213,227,231,240,247,269,276,284,290,313,
+314,319,327,334,361,363,372,377,387,405,
+406,419,445,448,458,459,463,474,488,492,
+501,506,508,530,537,545,551,574,588,595,
+617,619,622,633,648,666
+    \endverbatim
    </li>
   </ul>
 
