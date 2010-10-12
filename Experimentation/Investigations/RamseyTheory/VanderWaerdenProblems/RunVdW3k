@@ -33,7 +33,9 @@ alg=$3
 runs=$4
 cutoff=$5
 
-ExpDir="Exp_VanderWaerden_2-3-${k}_"$(date | tr -d " ")_"${n0}"
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+ExpDir="Exp_VanderWaerden_2-3-${k}_${timestamp}_${n0}"
 echo "Creating directory ${ExpDir}."
 mkdir ${ExpDir}
 cd ${ExpDir}
