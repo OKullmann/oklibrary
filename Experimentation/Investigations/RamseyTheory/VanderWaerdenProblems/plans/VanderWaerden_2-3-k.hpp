@@ -1076,7 +1076,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 580
+  \todo vanderwaerden_2(3,24) > 587
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
@@ -1109,10 +1109,12 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
       8 0     1    2073902  100000000 3486000509 
    \endverbatim
    </li>
-   <li> Running experiment starting with n=561:
+   <li> Running an experiment:
    \verbatim
-OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000
-   \endverbatim:
+OKplatform> RunVdW3k 24 583 gsat-tabu 1000 10000000
+   \endverbatim
+   (first "OKplatform> RunVdW3k 24 561 gsat-tabu 100 100000000" was used,
+   but the lower cutoff seems more efficient):
     <ol>
      <li> n=578 found satisfiable (seed=3813501165, osteps=1602760) in run 6.
      </li>
@@ -1178,6 +1180,30 @@ check_certificate_vdw([3,24],580,P);
   true
      \endverbatim
      (63 elements). </li>
+     <li> n=586 found satisfiable (seed=3343037665, osteps=1598927, run=12),
+     where the elements of the k=3-partition of the solution are
+     \verbatim
+18,37,54,59,67,74,76,91,95,96,
+105,113,120,141,142,146,154,170,178,182,
+183,204,207,211,219,229,248,250,257,279,
+287,298,306,328,335,337,356,366,374,378,
+381,402,403,407,415,431,439,443,444,465,
+472,480,489,490,494,509,511,518,526,531,
+548,567
+     \endverbatim
+     </li>
+     <li> n=587 found satisfiable (seed=410357823, osteps=7862929, run=39),
+     where the elements of the k=3-partition of the solution are
+     \verbatim
+18,37,54,59,67,74,76,91,95,96,
+105,113,120,141,142,146,154,170,178,182,
+183,204,207,211,219,229,248,250,257,279,
+287,298,306,328,335,337,356,366,374,378,
+381,402,403,407,415,431,439,443,444,465,
+472,480,489,490,494,509,511,518,526,531,
+548,567
+     \endverbatim
+     This is the same as for n=586 ! </li>
     </ol>
    </li>
    <li> Evaluating
@@ -1236,5 +1262,16 @@ OKplatform> RunVdW3k 27 610 gsat-tabu 100 100000000
    \endverbatim
    </li>
   </ul>
+
+
+  \todo vanderwaerden_2(3,28) > 694
+  <ul>
+   <li> Running experiment starting with n=620:
+   \verbatim
+OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
+   \endverbatim
+   </li>
+  </ul>
+
 
 */
