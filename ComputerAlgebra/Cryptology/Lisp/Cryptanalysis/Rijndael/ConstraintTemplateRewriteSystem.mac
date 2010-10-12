@@ -1,0 +1,188 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac
+  \brief System for iteratively translating a system of constraint templates into another representation system (CNF etc).
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
+  
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+/* The idea is that the args should uniquely identify a given constraint
+   within the context of it's parent constraint and therefore, as it's
+   parent constraint is uniquely identified above, we have inductively
+   that any variable is uniquely identified. */
+
+/*
+   The four main data types represented below are "namespaces", "constraint
+   templates", "rewrite bundles", "rewrite maps" and
+   "constraint template rewrite rules".
+
+   A namespace is simply a function which takes a variable and returns a
+   variable. This function need not actually evaluate, and in fact, this
+   is precisely the point in the majority of cases. For the standard 
+   namespaces constructed in this system see cstt_namespace_new.
+
+   As the output type of any namespace function is a variable, the function
+   should be declared posfun and noun if it is not evaluated.
+
+   A constraint template is a list of at least three elements, where the first
+   element is the name of the constraint template, the second element is the
+   list of variables associated with the constraint template and the last
+   (note, not the third) is the namespace of the function. A constraint template
+   may optionally have any number of arguments situated in between it's
+   2nd and last elements which will relate to the working of each constraint
+   template.
+
+   A constraint template rewrite rule is a function which takes a constraint
+   template and returns a list of constraint templates which model the input
+   constraint template. Note here that new variables can be introduced using
+   the namespace of the original constraint template composed with a new
+   namespace constructed for the new constraint templates. 
+
+   A rewrite bundle is a list with two elements, where the first element
+   is a constraint template rewrite rule f, and the second element is a 
+   function which, given a constraint template, returns a list of
+   variables introduced by f. 
+
+   A constraint rewrite map is a an ordered (i.e. list) set map which maps
+   a given constraint template name to a rewrite bundle.
+ 
+   For examples see docus/Translations.hpp
+*/
+
+/****************************
+ * Namespaces               *
+ ****************************
+*/
+
+/* Given a parent namespace namespace_p, a new unevaluated function
+   namespace_name, and a constraint cst_p, returns a new namespace, which
+   consists of namespace_p composed with the namespace_name, where elements
+   of cst_p are used as additional arguments to namespace_p to create a
+   unique namespace in the context of the given constraint template.
+
+   Note here all elements of the constraint template *except the variables*
+   are used to uniquely identify the namespace. The variables are not used
+   as in any non-trivial system where there are multiple levels of namespaces,
+   and many variables at each level, one would (and experimentally does)
+   encounter exponential blow-up in the size of the namespace terms. Therefore
+   any constraint template given should be uniquely identifiable using only
+   it's name, arguments and namespace, and should not require the variables to
+   be unique.
+*/
+cstt_namespace_new(namespace_name,cst_p) := block([namespace_p,res_cstt_p],
+  namespace_p :
+    if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
+  res_cstt_p : [cstt_name(cst_p),cstt_args_l(cst_p), cstt_namespace_f(cst_p)],
+  return(buildq([res_cstt_p,namespace_name,namespace_p],
+        lambda([a],namespace_p(namespace_name(a,res_cstt_p))))))$
+
+
+/* Given a constraint and a namespace, returns a new constraint
+   with all the same properties of the input constraint except
+   the namespace has been composed with the input namespace. */
+cstt_namespace_replace(cstt, namespace) :=
+  append(rest(cstt,-1), [namespace])$
+
+
+/****************************
+ * Constraints              *
+ ****************************
+*/
+
+/* Given a constraint name, a list of variables in the constraint, a list
+   of constraint parameters and a namespace,
+   returns a constraint template constructed from these parameters. */
+cstt_new(cst_n,vars,arg_l,namespace) :=
+  append([cst_n,vars],arg_l,[namespace])$
+
+/* Given a constraint template returns the constraint template name. */
+cstt_name(cst) := first(cst)$
+
+/* Given a constraint template returns the variables in the constraint
+   template */
+cstt_vars_l(cst) :=
+  if listp(cst) and length(cst) > 1 and listp(cst[2]) then second(cst) else []$
+
+/* Given a constraint template returns the constraint template
+   auxiliary arguments. */
+cstt_args_l(cst) :=
+  if listp(cst) and length(cst) > 2 and listp(cst[3]) then cst[3] else []$
+
+/* Given a constraint template returns the namespace of the constraint
+   template. */
+cstt_namespace_f(cst) :=
+  if listp(cst) and length(cst) > 3 then last(cst) else lambda([a],a)$
+
+/* Check whether a given object is a constraint template */
+cstt_p(cstt) := is(listp(cstt) and length(cstt) >= 2)$
+
+/* Check whether a given object is a constraint template with
+   the given name */
+cstt_named_p(cstt,name) := is(cstt_p(cstt) and cstt[1] = name)$
+
+
+/********************************
+ * Rewrite functions            *
+ ********************************
+*/
+
+/* Given a list of constraint templates, and a rewrite map, returns a new list
+   of constraint templates after applying the given rewrite map. */
+rewrite_all_csttl(cstl,rewrite_map) := block(
+  [rewrite_hash : osm2hm(rewrite_map),cstl_new : []],
+  for cst in cstl do block([cstr],
+    cstr : ev_hm(rewrite_hash,cst[1]),
+    if cstr # false then
+      cstl_new : cons(rewrite_all_csttl(cstr[1](cst),rewrite_map),cstl_new)
+    else 
+      cstl_new : cons([first(cstl)],cstl_new),
+    cstl : rest(cstl)),
+  return(lappend(cstl_new)))$
+
+/* Given a list of constraint templates, and a rewrite map, returns a list of
+   new variables which would be introduced when calling rewrite_all
+   with the same parameters. */
+rewrite_all_cstt_vars_l(cstl,rewrite_map) := block(
+    [rewrite_hash : osm2hm(rewrite_map),lookup_var_lf,varl : []],
+    lookup_var_lf : lambda([cst], block(
+        [rwf : ev_hm_d(rewrite_hash,cst[1],zero_csttrb)],
+        append(
+          rwf[3](cst),
+          rewrite_all_cstt_vars_l(rwf[1](cst),rewrite_map)))),
+    return(lappend(map(lookup_var_lf,cstl))))$
+
+
+/****************************************
+ * Rewrite bundles                      *
+ ****************************************
+*/
+
+/* Constraint template rewrite bundle which does nothing
+   (i.e the rewrite function it represents has the identity
+   as it's namespace, and no variables are introduced by it's
+   rewrite function). */
+zero_csttrb : [lambda([[a]],[]), lambda([a],a),lambda([[a]],[])]$
+
+/*!
+\endhtmlonly
+*/

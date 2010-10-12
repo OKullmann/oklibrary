@@ -151,6 +151,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Make QuineMcCluskey read from standard input
+  <ul>
+   <li> If it is possible (i.e. an application only takes a single
+   file), then all applications should read from stdin, as then
+   one can pipe the output from one application to the next, 
+   allowing for in-memory transfer of the result. </li>
+  </ul>
+
+
   \todo Various versions for different values of NUMBER_VARIABLES
   <ul>
    <li> Yet to use a number of variables different than 4, 16 (the current
@@ -247,24 +256,8 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
-  \todo Precise definitions, and basic types
-  <ul>
-   <li> Use asserts for example to check for assumptions on function
-   arguments. </li>
-   <li> std::vector<bool>::size_type is a central integral type here,
-   determining the limits of the computation; starting from this a
-   (small) resource management (at compile-time!) has to be created. </li>
-   <li> Of course, at least typedefs for the basic types of variables,
-   literals, clauses and clause-sets need to be provided. </li>
-  </ul>
-
-
   \todo Input and output
   <ul>
-   <li> Components from Satisfiability/Interfaces/InputOutput should be
-   used. </li>
-   <li> Correct Dimacs output should be generated: currently the parameter
-   line is missing. </li>
    <li> Also options like "--version" or "--help" should be available. </li>
    <li> See Programming/ProgramOptions/plans/general.hpp. </li>
    <li> At a higher verbosity-level the program should forecast its
@@ -281,12 +274,10 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    <li> Perhaps the used value of NUMBER_VARIABLES should be part of
    the name of the executable? Or at least it should be possible to
    obtain this number from the program. </li>
-  </ul>
-
-
-  \todo Unit tests
-  <ul>
-   <li> Use the (new) higher-order unit test framework. </li>
+   <li> DONE Correct Dimacs output should be generated: currently the parameter
+   line is missing. </li>
+   <li> DONE Components from Satisfiability/Interfaces/InputOutput should be
+   used. </li>
   </ul>
 
 
@@ -432,6 +423,24 @@ struct ipow3_s<0,c> {
    <li> Usage of Mpi (now supported by gcc) or of threads (according to
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
+  </ul>
+
+
+  \todo DONE Unit tests
+  <ul>
+   <li> Use the (new) higher-order unit test framework. </li>
+  </ul>
+
+
+  \todo DONE Precise definitions, and basic types
+  <ul>
+   <li> DONE Use asserts for example to check for assumptions on function
+   arguments. </li>
+   <li> DONE std::vector<bool>::size_type is a central integral type here,
+   determining the limits of the computation; starting from this a
+   (small) resource management (at compile-time!) has to be created. </li>
+   <li> DONE Of course, at least typedefs for the basic types of variables,
+   literals, clauses and clause-sets need to be provided. </li>
   </ul>
 
 */

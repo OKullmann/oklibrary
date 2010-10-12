@@ -262,6 +262,20 @@ subsumption_ghg(S1,S2) :=
    of S1.
 */
 
+/* For ordered set-systems (L1,L2) the "ordered general subsumption hypergraph"
+   has the elements of L1, hyperedge-labels the elements of S2, while for H
+   in S2 the vertex list is given by the elements of L1 contained in H:
+*/
+subsumption_oghg(L1,L2) :=
+  [L1, L2,
+   buildq([L1], lambda([H], subset(setify(L1),lambda([S],subsetp(S,H)))))]$
+subsumption_ohg(L1,L2) :=
+  ghg2hg(subsumption_ohg(L1,L2))$
+/* MG: Should we have ordered edges here? As there is currently a loss of
+   information when L1 is setified, but in general the oghg notion
+   doesn't have ordered edges (i.e., an edge is a list rather than set). */
+  
+
 /* The "reduced subsumption hypergraph" for set-systems (S1,S2) is constructed
    as follows from subsumption_ghg(S1,S2):
     - let G := subsumption_ghg(S1,S2);

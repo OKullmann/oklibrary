@@ -41,24 +41,22 @@ namespace OKlib {
       template
         <template <class RangeF,
                    class RangeG,
-                   class OutputContainerSets = std::list<std::list<std::list<int> > > >
+                   typename Int = typename boost::range_difference<RangeF>::type>
          class Subsumption_hypergraph>
       OKLIB_TEST_CLASS(Test_Subsumption_hypergraph) {
         OKLIB_TEST_CLASS_C(Test_Subsumption_hypergraph) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
           typedef int value_type;
-          typedef std::set<std::set<value_type> > hypergraph_F_type;
-          typedef std::set<std::set<value_type> > hypergraph_G_type;
-          typedef std::list<std::list<std::set<int> > > hypergraph_output_type;
-          typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type, hypergraph_output_type > hypergraph_type;
+          typedef std::list<std::list<value_type> > hypergraph_F_type;
+          typedef std::list<std::list<value_type> > hypergraph_G_type;
+          typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type> hypergraph_type;
+          typedef typename hypergraph_type::set_system_type hypergraph_output_type;
           hypergraph_type sub_hyp;
           
           { // empty sequence
             hypergraph_F_type empty_F;
             hypergraph_output_type empty_output;
-            empty_output = sub_hyp.subsumption_hypergraph(empty_F, empty_F);
-            OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
             empty_output = sub_hyp(empty_F, empty_F);
             OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
           }
@@ -68,12 +66,10 @@ namespace OKlib {
               (boost::assign::list_of(1)(2)(4))
               (boost::assign::list_of(1)(3)(5));
             hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
-            hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of
-                                                                            (boost::assign::list_of(1)(2)(3))
-                                                                            (boost::assign::list_of(1)(2)(4)));
+            hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of(1)(2));
             hypergraph_output_type example_output;
-            example_output = sub_hyp.subsumption_hypergraph(hg_F, hg_G);
-            OKLIB_TEST_EQUAL_W3(example_output, intended_output);
+            example_output = sub_hyp(hg_F, hg_G);
+            OKLIB_TEST_EQUAL_W2(example_output, intended_output);
           }
         }
       };

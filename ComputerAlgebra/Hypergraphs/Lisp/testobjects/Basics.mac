@@ -79,6 +79,7 @@ okltest_kneser_g_hg(kneser_g_hg);
 */
 
 okltest_subsumption_ghg(subsumption_ghg);
+okltest_subsumption_oghg(subsumption_oghg);
 okltest_rsubsumption_hg(rsubsumption_hg);
 
 /* *****************

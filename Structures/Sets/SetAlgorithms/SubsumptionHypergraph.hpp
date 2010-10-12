@@ -20,7 +20,7 @@ License, or any later version. */
 #include <algorithm>
 #include <iterator>
 #include <cassert>
-#include <set>
+#include <map>
 #include <list>
 
 #include<boost/range.hpp>
@@ -43,49 +43,73 @@ namespace OKlib {
     /*!
       \class Subsumption_hypergraph
       \brief Functor: Generates the subsumption hypergraph of set system F w.r.t. G.
+
+      Specification: Standardised form (using standardise_ohg of 
+      subsumption_ohg in ComputerAlgebra/Hypergraphs/Lisp/Basics.mac .
     */
 
     template <class RangeF,
 	      class RangeG,
-              class OutputContainerSets = std::list<std::list<typename boost::range_iterator<RangeF>::type::value_type > > >
+              typename Int = typename boost::range_difference<RangeF>::type>
     struct Subsumption_hypergraph {
 
-      typedef typename boost::range_iterator<RangeF>::type f_iterator;
-      typedef typename boost::range_iterator<RangeG>::type g_iterator;
-      typedef typename OutputContainerSets::value_type InnerOutputContainerSets;
+      typedef typename boost::range_iterator<RangeF>::type f_iterator_type;
+      typedef typename boost::range_iterator<RangeG>::type g_iterator_type;
+      typedef typename boost::range_value<RangeF>::type f_value_type;
+      typedef typename std::list<Int> hyperedge_type;
+      typedef Int vertex_type;
+      typedef std::list<hyperedge_type> set_system_type;
 
+      
+      RangeF vertex_set;
+      set_system_type hyperedges;
+      std::map<f_value_type,Int> hyperedge_map;
 
+      
       template <class range_c>
-      InnerOutputContainerSets all_subsuming(const range_c c_range, RangeF f_range) {
-        InnerOutputContainerSets subsumes_set;
-        f_iterator f_begin = boost::begin(f_range);
+      hyperedge_type all_subsuming(const range_c c_range, RangeF f_range) {
+        hyperedge_type subsumes_set;
+        f_iterator_type f_begin = boost::begin(f_range);
         for (; f_begin != boost::end(f_range); ++f_begin) 
           if (std::includes(boost::begin(c_range), boost::end(c_range), boost::begin(*f_begin),boost::end(*f_begin)))
-            subsumes_set.push_back(*f_begin);
+            subsumes_set.push_back(hyperedge_map[*f_begin]);
         return(subsumes_set);
       }
 
-      OutputContainerSets subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
-        OutputContainerSets subsumption_hyperedges;
-        g_iterator g_begin = boost::begin(g_range);
-        for (; g_begin != boost::end(g_range); ++g_begin) {
-          subsumption_hyperedges.push_back(all_subsuming(*g_begin, f_range));
+      void fill_hyperedge_map(RangeF f_range) {
+        f_iterator_type f_begin = boost::begin(f_range);
+        for(Int count = 1; f_begin != boost::end(f_range); ++f_begin) {
+          hyperedge_map[*f_begin] = count++;
         }
-        return(subsumption_hyperedges);
       }
 
-      OutputContainerSets operator() (const RangeF f_range, const RangeG g_range) {
-        return subsumption_hypergraph(f_range,g_range);
+      void subsumption_hypergraph(const RangeF f_range, RangeG g_range) {
+        hyperedges.clear(); // We might be dealing with a different set system.
+        hyperedge_map.clear();
+        fill_hyperedge_map(f_range);
+
+        g_iterator_type g_begin = boost::begin(g_range);
+        for (; g_begin != boost::end(g_range); ++g_begin) {
+          hyperedges.push_back(all_subsuming(*g_begin, f_range));
+        }
+      }
+
+      set_system_type operator() (const RangeF f_range, const RangeG g_range) {
+        vertex_set = f_range;
+        subsumption_hypergraph(f_range, g_range);
+        return hyperedges;
       }
 
     };
 
     template<class RangeF, class RangeG>
-    typename std::list<std::list<typename boost::range_iterator<RangeF>::type::value_type> > 
+    typename std::list<std::list<typename boost::range_difference<RangeF>::type> >  
     subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
       Subsumption_hypergraph<RangeF, RangeG> sub_hyp;
-      return sub_hyp(f_range,g_range);
+      sub_hyp(f_range,g_range);
+      return sub_hyp.hyperedges;
     }
+
     
       
   }

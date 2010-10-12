@@ -1,0 +1,111 @@
+/* Matthew Gwynne, 28.9.2008 (Swansea) */
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateRewriteRules.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateRewriteRules.mac");
+
+*/
+
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteRules.mac")$
+
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_aes_constraint_vars(generate_aes_constraint_vars);
+
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_aes_ns_var_l(aes_ns_var_l);
+okltest_aes_cstr_cstl(aes_cstr_cstl);
+
+okltest_aes_round_ns_var_l(aes_round_ns_var_l);
+okltest_aes_round_cstr_cstl(aes_round_cstr_cstl);
+
+okltest_aes_final_round_ns_var_l(aes_final_round_ns_var_l);
+okltest_aes_final_round_cstr_cstl(aes_final_round_cstr_cstl);
+
+okltest_aes_subbytes_ns_var_l(aes_subbytes_ns_var_l);
+okltest_aes_subbytes_cstr_cstl(aes_subbytes_cstr_cstl);
+
+okltest_aes_shiftrows_ns_var_l(aes_shiftrows_ns_var_l);
+okltest_aes_shiftrows_cstr_cstl(aes_shiftrows_cstr_cstl);
+
+okltest_aes_mixcolumns_ns_var_l(aes_mixcolumns_ns_var_l);
+okltest_aes_mixcolumns_cstr_cstl(aes_mixcolumns_cstr_cstl);
+
+
+okltest_aes_bi_mixcolumn_ns_var_l(aes_bi_mixcolumn_ns_var_l);
+okltest_aes_mixcolumn_ns_var_l(aes_mixcolumn_ns_var_l);
+okltest_aes_inv_mixcolumn_ns_var_l(aes_inv_mixcolumn_ns_var_l);
+okltest_aes_bi_mixcolumn_cstr_cstl(aes_bi_mixcolumn_cstr_cstl);
+okltest_aes_mixcolumn_cstr_cstl(aes_mixcolumn_cstr_cstl);
+
+okltest_aes_key_expansion_ns_var_l(aes_key_expansion_ns_var_l);
+okltest_aes_key_expansion_cstr_cstl(aes_key_expansion_cstr_cstl);
+
+
+/* ****************************************
+   * Translation functions                *
+   ****************************************
+*/
+
+okltest_aes_add_cst_cl(aes_add_cst_cl);
+okltest_aes_eq_cst_cl(aes_eq_cst_cl);
+
+okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl);
+okltest_aes_sbox_ts_var_l(aes_sbox_ts_var_l);
+okltest_aes_sbox_ts_cst_cl(aes_sbox_ts_cst_cl);
+
+okltest_aes_mul2_pi_cst_cl(aes_mul2_pi_cst_cl);
+okltest_aes_mul2_ts_var_l(aes_mul2_ts_var_l);
+okltest_aes_mul2_ts_cst_cl(aes_mul2_ts_cst_cl);
+
+okltest_aes_mul3_pi_cst_cl(aes_mul3_pi_cst_cl);
+okltest_aes_mul3_ts_var_l(aes_mul3_ts_var_l);
+okltest_aes_mul3_ts_cst_cl(aes_mul3_ts_cst_cl);
+
+okltest_aes_mul14_pi_cst_cl(aes_mul14_pi_cst_cl);
+okltest_aes_mul14_ts_var_l(aes_mul14_ts_var_l);
+okltest_aes_mul14_ts_cst_cl(aes_mul14_ts_cst_cl);
+
+okltest_aes_mul11_pi_cst_cl(aes_mul11_pi_cst_cl);
+okltest_aes_mul11_ts_var_l(aes_mul11_ts_var_l);
+okltest_aes_mul11_ts_cst_cl(aes_mul11_ts_cst_cl);
+
+okltest_aes_mul13_pi_cst_cl(aes_mul13_pi_cst_cl);
+okltest_aes_mul13_ts_var_l(aes_mul13_ts_var_l);
+okltest_aes_mul13_ts_cst_cl(aes_mul13_ts_cst_cl);
+
+okltest_aes_mul9_pi_cst_cl(aes_mul9_pi_cst_cl);
+okltest_aes_mul9_ts_var_l(aes_mul9_ts_var_l);
+okltest_aes_mul9_ts_cst_cl(aes_mul9_ts_cst_cl);
+
+okltest_aes_constraints2cnf_pi_cl(aes_constraints2cnf_pi_cl);
+okltest_aes_constraints2cnf_ts_cl(aes_constraints2cnf_ts_cl);
+
+
+/*!
+\endhtmlonly
+*/

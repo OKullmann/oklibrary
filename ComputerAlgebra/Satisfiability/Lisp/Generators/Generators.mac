@@ -19,10 +19,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac"
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 
 /* ********************
@@ -137,6 +140,29 @@ deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 
 /* The probability that a random assignment is satisfiable: */
 satprob_weak_php(m,n) := sum(binomial(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
+
+
+/* ************************
+   * Parity formulas      *
+   ************************
+*/
+
+/* Returns the formal CNF clause-set without new variables which is
+   satisfiable if the variables 1 to n are assigned values such that they have
+   even parity. */
+even_parity_fcl(n) :=
+  [create_list(i,i,1,n),
+   map(lambda([D], bv2c_wv(D,create_list(i,i,1,n))),
+     sublist(
+       listify(apply(cartesian_product, create_list({0,1},i,1,n))),
+       lambda([C], is(mod(sum_l(C),2) # 0))))]$
+
+/* Returns the formal CNF clause-set without new variables which is
+   satisfiable if the variables 1 to n are assigned values such that they have
+   odd parity. */
+odd_parity_fcl(n) :=
+ [create_list(i,i,1,n),
+  remove_elements(even_parity_fcl(n)[2],all_tass_l(setn(n)))]$
 
 
 /*!
