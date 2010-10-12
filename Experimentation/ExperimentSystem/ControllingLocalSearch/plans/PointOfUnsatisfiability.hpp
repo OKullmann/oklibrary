@@ -219,6 +219,9 @@ License, or any later version. */
        solution. So restarting just repeats the current n. </li>
       </ol>
      </li>
+     <li> A first simple example, with hard-coded generator, is RunVdW3k
+     in Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/.
+     </li>
     </ol>
    </li>
    <li> Find the first point where finding a satisfying assignment isn't that
