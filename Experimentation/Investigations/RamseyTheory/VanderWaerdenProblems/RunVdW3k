@@ -7,7 +7,7 @@
 # License, or any later version.
 
 # "RunVdW3k k n0 alg runs cutoff" creates a directory
-# "Exp_VanderWaerden_2-3-k_date", where the SAT instances
+# "Exp_VanderWaerden_2-3-k_date_n0", where the SAT instances
 # VanDerWaerden_2-3-k_n.cnf for n = n_0, n_0+1, ... are created
 # and ubcsat-okl with parameters alg, runs, cutoff is executed on
 # these instances, storing the output in VanDerWaerden_2-3-k_n.cnf_OUT.
@@ -33,7 +33,7 @@ alg=$3
 runs=$4
 cutoff=$5
 
-ExpDir="Exp_VanderWaerden_2-3-${k}_"$(date | tr -d " ")
+ExpDir="Exp_VanderWaerden_2-3-${k}_"$(date | tr -d " ")_"${n0}"
 echo "Creating directory ${ExpDir}."
 mkdir ${ExpDir}
 cd ${ExpDir}
@@ -45,6 +45,7 @@ maxima_call="oklib --maxima"
 for ((n=${n0}; 1; ++n)); do
  
   # Creating the Dimacs-file:
+  echo "Creating the instance for n = ${n}."
   ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
 
   SATinstance="VanDerWaerden_2-3-${k}_${n}.cnf"
@@ -56,6 +57,11 @@ for ((n=${n0}; 1; ++n)); do
   # the line "PercentSuccess = x" and determining whether x > 0):
   success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Ausgabe})
   if [[ ${success} == 0 ]]; then exit 20; fi
+
+  # Printing the solution
+  echo "Solution found for n = ${n} : "
+  ExtractCertificate_vdW2 ${Ausgabe}
+  echo
 
 done
 
