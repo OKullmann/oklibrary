@@ -9,7 +9,7 @@
 # Typical use (for example):
 # ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
-# Is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
+# This script is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
 # (this is automatically performed when building ubcsat).
 
 echo "# $*"

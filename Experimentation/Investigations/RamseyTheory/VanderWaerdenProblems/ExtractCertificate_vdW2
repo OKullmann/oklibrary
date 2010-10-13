@@ -6,7 +6,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# "ExtractCertificate_vdW2 file" assumes that file contains the output of
+# "ExtractCertificate_vdW2 file" assumes that "file" contains the output of
 # ubcsat-okl when using option -solve, and this for a boolean vdW-Problem
 # where a solution was found.
 # It extracts then the variables assigned a positive value, that is, the
