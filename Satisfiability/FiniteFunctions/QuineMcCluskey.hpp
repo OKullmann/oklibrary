@@ -31,10 +31,10 @@ namespace OKlib {
 
       /*!
         \class QuineMcCluskey
-        \brief Functor: Computes the clause-set containing all prime implicates of the given full clause-set.
+        \brief Functor: Computes the clause-set containing all prime implicates of the given full clause-set. ???
 
         Input/Output Specification: min_2resolution_closure_cs in 
-        ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac .
+        ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac . ???
       */
       template<int num_vars = 4,
                typename ClauseContainer = std::vector<std::vector<int> > >
