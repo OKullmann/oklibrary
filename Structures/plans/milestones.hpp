@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,23 +13,28 @@ License, or any later version. */
 
   \par Version 0.0.6 :
 
-  \par Structures/Cryptology version 0.0.9
-  (see Structures/Cryptology/plans/milestones.hpp)
-
-  \par NumberTheory/BigIntegers 0.0.3
-  (see BigIntegers/plans/milestones.hpp)
-
-  \par LinearAlgebra/Matrices 0.1.2
-  (see LinearAlgebra/Matrices/plans/milestones.hpp)
+  \par Structures/Sets/SetAlgorithms version 0.3.2
 
 
   \par Version 0.0.7 :
+
+  \par Structures/Cryptology version 0.0.9
+  (see Structures/Cryptology/plans/milestones.hpp)
+
+  \par NumberTheory/BigIntegers version 0.0.3
+  (see BigIntegers/plans/milestones.hpp)
+
+  \par LinearAlgebra/Matrices version 0.1.2
+  (see LinearAlgebra/Matrices/plans/milestones.hpp)
+
+
+  \par Version 0.0.8 :
 
   \par Structures/Cryptology version 0.1
   (see Structures/Cryptology/plans/milestones.hpp)
 
   \par NumberTheory/BigIntegers 0.0.4
-  (see BigIntegers/plans/milestones.hpp
+  (see BigIntegers/plans/milestones.hpp)
 
 
 

@@ -28,6 +28,8 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
+  \par Structures version 0.0.6
+  (see Structures/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK) : DONE
   (see LegalIssues/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.1 (OK) : DONE
@@ -109,7 +111,7 @@ License, or any later version. */
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
-  \par Structures version 0.0.6
+  \par Structures version 0.0.7
   (see Structures/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)

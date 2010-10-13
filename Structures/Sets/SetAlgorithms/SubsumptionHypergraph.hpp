@@ -7,10 +7,28 @@ License, or any later version. */
 
 /*!
   \file Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp
-  \brief Module, which mainly provides the class template Subsumption_hypergraph. 
+  \brief Module, which mainly provides the class template Subsumption_hypergraph.
 
   The Maxima-specification is subsumption_ghg(F,G) (see
   ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
+
+
+  \bug Test failure
+
+
+  \todo Improve code quality
+  <ul>
+   <li> "Brief" should speak in intuitive words about the functionality
+   provided. </li>
+   <li> Then the paragraph must specify it more precisely, *in words*. </li>
+   <li> So the reference to the Maxima-level is misplaced there. </li>
+   <li> And it needs more precision. </li>
+   <li> Specification of Subsumption_hypergraph needs more explanations, and
+   it needs the concept! </li>
+   <li> All member functions need a specification. </li>
+   <li> Everything not used by the user must be private. </li>
+   <li> Every class and function needs documentation! </li>
+  </ul>
 
 */
 
@@ -23,7 +41,7 @@ License, or any later version. */
 #include <map>
 #include <list>
 
-#include<boost/range.hpp>
+#include <boost/range.hpp>
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
@@ -34,6 +52,7 @@ License, or any later version. */
 
 #include <OKlib/Structures/Sets/SetAlgorithms/Subsumption.hpp>
 
+
 namespace OKlib {
   namespace SetAlgorithms {
 
@@ -42,10 +61,10 @@ namespace OKlib {
 
     /*!
       \class Subsumption_hypergraph
-      \brief Functor: Generates the subsumption hypergraph of set system F w.r.t. G.
+      \brief Generating the subsumption hypergraph
 
-      Specification: Standardised form (using standardise_ohg of 
-      subsumption_ohg in ComputerAlgebra/Hypergraphs/Lisp/Basics.mac .
+      Standardised form (using standardise_ohg of
+      subsumption_ohg in ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
     */
 
     template <class RangeF,
@@ -59,13 +78,11 @@ namespace OKlib {
       typedef typename std::list<Int> hyperedge_type;
       typedef Int vertex_type;
       typedef std::list<hyperedge_type> set_system_type;
-
       
       RangeF vertex_set;
       set_system_type hyperedges;
       std::map<f_value_type,Int> hyperedge_map;
 
-      
       template <class range_c>
       hyperedge_type all_subsuming(const range_c c_range, RangeF f_range) {
         hyperedge_type subsumes_set;
@@ -78,9 +95,8 @@ namespace OKlib {
 
       void fill_hyperedge_map(RangeF f_range) {
         f_iterator_type f_begin = boost::begin(f_range);
-        for(Int count = 1; f_begin != boost::end(f_range); ++f_begin) {
-          hyperedge_map[*f_begin] = count++;
-        }
+        for(Int count = 1; f_begin != boost::end(f_range); ++f_begin)
+          hyperedge_map[*f_begin] = ++count;
       }
 
       void subsumption_hypergraph(const RangeF f_range, RangeG g_range) {
@@ -89,9 +105,8 @@ namespace OKlib {
         fill_hyperedge_map(f_range);
 
         g_iterator_type g_begin = boost::begin(g_range);
-        for (; g_begin != boost::end(g_range); ++g_begin) {
+        for (; g_begin != boost::end(g_range); ++g_begin)
           hyperedges.push_back(all_subsuming(*g_begin, f_range));
-        }
       }
 
       set_system_type operator() (const RangeF f_range, const RangeG g_range) {
@@ -102,6 +117,7 @@ namespace OKlib {
 
     };
 
+
     template<class RangeF, class RangeG>
     typename std::list<std::list<typename boost::range_difference<RangeF>::type> >  
     subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
@@ -110,8 +126,6 @@ namespace OKlib {
       return sub_hyp.hyperedges;
     }
 
-    
-      
   }
 
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,10 +14,22 @@ License, or any later version. */
   \par Version 0.3.2 :
 
   \par
-   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are
+   handled:
     - Update namespace
     - Update namespace-usage
     - Update doxygen-documentation
+
+  \par
+   In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
+   following items are handled:
+    - Write tests for the generator application
+
+  \par
+   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
+   following items are handled:
+    - Test failure
+    - Improve code quality
 
 
   \par Version 0.3.3 :
