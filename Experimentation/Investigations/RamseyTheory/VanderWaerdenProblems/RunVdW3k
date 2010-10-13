@@ -12,20 +12,29 @@
 # and ubcsat-okl with parameters alg, runs, cutoff is executed on
 # these instances, storing the output in VanDerWaerden_2-3-k_n.cnf_OUT.
 # If a solution was found, then it is stored in VanDerWaerden_2-3-k_n.cnf_sol.
-# Running ubcsat stops either with a solution found, and then n is increased,
+# The solution found for n-1 is used as the initial assignment (for ubcsat)
+# for n; for n=n0 either a random assignment is used as initial assignment, or
+# it is provided in a file given as an optional sixth parameter (in the
+# ubcsat-format, that is, as a space-symbol separated list of literals which
+# are assigned to true).
+# Running ubcsat stops either with a solution found, and then n is increased
 # and the process is repeated, or when no solution was found, and then the
 # script stops with exit value 20.
+# The parameters of the script can be found in file "Parameters" within the
+# experiment-directory.
 
 set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.2.3"
+version_number="0.3"
 
-if [[ $# != 5 ]]; then
-  echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
+if [[ $# != 5 && $# != 6 ]]; then
+  echo "ERROR[${script_name}]: Five parameters k, n0, alg, runs, cutoff
   are needed: The progression-length k, the starting number n0 of vertices,
-  the ubcsat-algorithm, the number of runs, and the cutoff."
+  the ubcsat-algorithm, the number of runs, and the cutoff.
+  An optional sixth parameter is a path for the file containing an
+  initial assignment for the first ubcsat-run."
   exit 1
 fi
 
@@ -35,14 +44,31 @@ alg=$3
 runs=$4
 cutoff=$5
 
+if [[ $# == 5 ]]; then
+  initial_assignment=0
+else
+  initial_assignment=$6
+fi
+
+if [[ ${initial_assignment} != 0 ]]; then
+  if [[ !(-f ${initial_assignment}) ]]; then
+    echo -e "ERROR[${script_name}]: The file specified for the initial assignment is not valid:
+    \"${initial_assignment}\""
+    exit 1
+  else
+    initial_assignment="../"${initial_assignment}
+  fi
+fi
+
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
 ExpDir="Exp_VanderWaerden_2-3-${k}_${timestamp}_${n0}_${alg}-${runs}-${cutoff}"
-echo "Creating directory ${ExpDir}."
+echo -e "Running \"${script_name}\" in version ${version_number}."
+echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
-echo "${script_name} k=${k} n0=${n0} alg=${alg} runs=${runs} cutoff=${cutoff}" > Parameters
+echo -e "${script_name}:\n k=${k}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > Parameters
 
 maxima_call="oklib --maxima"
 
@@ -56,7 +82,12 @@ for ((n=${n0}; 1; ++n)); do
   Output="${SATinstance}_OUT"
   Solution="${SATinstance}_sol"
 
-  ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Output}
+  parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
+  if [[ ${initial_assignment} != 0 ]]; then
+    parameter_line+=" -varinit ${initial_assignment}"
+  fi
+
+  ubcsat-okl ${parameter_line} | tee ${Output}
 
   #  Finding out whether a satisfying assignment was found (searching for
   # the line "PercentSuccess = x" and determining whether x > 0):
@@ -65,6 +96,7 @@ for ((n=${n0}; 1; ++n)); do
 
   # Extracting the solution
   cat ${Output} | extract_solution_ubcsat > ${Solution}
+  initial_assignment=${Solution}
 
   # Printing the solution
   echo "Certificate (the vertices for k=3) for n = ${n} : "
