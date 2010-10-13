@@ -109,34 +109,34 @@ cstt_namespace_replace(cstt, namespace) :=
 */
 
 /* Given a constraint name, a list of variables in the constraint, a list
-   of constraint parameters and a namespace,
+   of constraint parameters and a namespace, ???
    returns a constraint template constructed from these parameters. */
 cstt_new(cst_n,vars,arg_l,namespace) :=
   append([cst_n,vars],arg_l,[namespace])$
 
-/* Given a constraint template returns the constraint template name. */
+/* Given a constraint template returns the constraint template name. ??? */
 cstt_name(cst) := first(cst)$
 
 /* Given a constraint template returns the variables in the constraint
-   template */
+   template ??? */
 cstt_vars_l(cst) :=
   if listp(cst) and length(cst) > 1 and listp(cst[2]) then second(cst) else []$
 
 /* Given a constraint template returns the constraint template
-   auxiliary arguments. */
+   auxiliary arguments. ??? */
 cstt_args_l(cst) :=
   if listp(cst) and length(cst) > 2 and listp(cst[3]) then cst[3] else []$
 
 /* Given a constraint template returns the namespace of the constraint
-   template. */
+   template. ??? */
 cstt_namespace_f(cst) :=
   if listp(cst) and length(cst) > 3 then last(cst) else lambda([a],a)$
 
-/* Check whether a given object is a constraint template */
+/* Check whether a given object is a constraint template ??? */
 cstt_p(cstt) := is(listp(cstt) and length(cstt) >= 2)$
 
 /* Check whether a given object is a constraint template with
-   the given name */
+   the given name ??? */
 cstt_named_p(cstt,name) := is(cstt_p(cstt) and cstt[1] = name)$
 
 
