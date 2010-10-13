@@ -1076,7 +1076,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 587
+  \todo vanderwaerden_2(3,24) > 590
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
@@ -1204,6 +1204,18 @@ check_certificate_vdw([3,24],580,P);
 548,567
      \endverbatim
      This is the same as for n=586 ! </li>
+     <li> n=590 found satisfiable (seed=1242463204, osteps=2333499, run=48),
+     with solution
+     \verbatim
+21,40,57,62,70,77,79,94,98,99,
+108,116,120,123,144,145,149,157,173,181,
+185,186,207,210,214,222,232,251,253,260,
+282,290,301,309,331,338,340,359,369,377,
+381,384,405,406,410,418,434,442,446,447,
+468,471,475,483,492,493,497,512,514,521,
+529,534,551,570
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Evaluating
@@ -1227,6 +1239,25 @@ rots :
 E = eval_ubcsat("VanDerWaerden_2-3-24_575.cnf", algs=list(gsat_tabu="gsat-tabu",samd="samd",rots="rots"), params=list(runs=500,cutoff=10000000))
 plot(E$alg,E$best)
 eval_ubcsat_dataframe(E)
+rots : 
+  0   1   2   3   4   5   6   7   8 
+ 35  90  94 110  94  45  19   9   4
+FlipsPerSecond = 67637
+samd : 
+  0   1   2   3   4   5   6   7   8  10  11  12  14  16  17 
+ 27  49  78 137  87  64  41   7   2   1   3   1   1   1   1
+FlipsPerSecond = 118920
+gsat_tabu : 
+  0   1   2   3   4   5   6   7   8   9  15 
+ 23  62  98 131  98  41  34   7   4   1   1 
+FlipsPerSecond = 121030
+   \endverbatim
+   Not clear whether the increased search-power of rots is worth double the
+   time.
+   </li>
+   <li> Running an experiment:
+   \verbatim
+OKplatform> RunVdW3k 24 591 rots 1000 5000000
    \endverbatim
    </li>
   </ul>
@@ -1312,13 +1343,39 @@ OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,28) > 694
+  \todo vanderwaerden_2(3,28) > 742
   <ul>
    <li> Running experiment starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
    \endverbatim
    </li>
+   <li> n=733 found satisfiable (seed=1020588263, osteps=2293839, run=1),
+   with solution
+   \verbatim
+22,40,49,59,72,75,77,81,88,89,
+94,108,112,118,123,133,146,151,168,170,
+182,183,200,205,219,234,236,257,271,274,
+293,297,303,310,334,336,340,347,355,382,
+385,390,392,405,408,414,421,422,427,441,
+445,447,451,456,466,479,484,501,503,515,
+516,533,538,552,569,590,604,607,626,630,
+636,643,667,669,673,680,706,718,723
+   \endverbatim
+   </li>
+   <li> n=742 found satisfiable (seed=1162005655, osteps=1152687, run=3),
+   with solution
+   \verbatim
+   \endverbatim
+   </li>
+12,22,26,41,65,74,75,78,103,111,
+112,116,123,137,140,152,170,174,176,179,
+185,186,189,190,213,214,216,222,223,244,
+251,271,281,285,290,301,324,327,338,345,
+355,382,398,408,411,436,444,448,449,456,
+470,473,481,503,507,509,512,523,546,547,
+549,555,556,559,577,584,596,614,618,623,
+634,657,660,667,671,692,715
   </ul>
 
 
