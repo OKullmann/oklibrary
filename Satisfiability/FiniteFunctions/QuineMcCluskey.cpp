@@ -59,11 +59,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   CLSAdaptor cls_F;
-  CLSInput input_F(inputfile, cls_F); inputfile.close();
+  const CLSInput input_F(inputfile, cls_F); inputfile.close();
 
   
-  std::string comment("Prime implicants for ");
-  comment = comment + std::string(filename);
+  const std::string comment("Prime implicants for " + filename);
 
   using namespace OKlib::Satisfiability::FiniteFunctions;
   OKlib::InputOutput::List2DIMACSOutput(
