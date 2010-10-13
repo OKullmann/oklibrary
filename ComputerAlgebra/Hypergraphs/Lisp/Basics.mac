@@ -259,11 +259,6 @@ subset_closure_hg(G) := subset_closure_hyp(G)$
 subsumption_ghg(S1,S2) :=
  [S1, S2, buildq([S1], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
 
-/* For the ordering of subsumption_ghg(S1,S2) one uses the given ordering
-   on sets S1, S2, that is, the lexicographical ordering.
-   Standardisation (of the vertex set) thus uses the lexicographical ordering
-   of S1.
-*/
 /* For ordered two set-systems L1, L2 the "ordered general subsumption
    hypergraph" has the elements of L1 as vertices and the elements of L2
    as hyperedge-labels, while for H in S2 the vertex set is given by the
@@ -274,9 +269,6 @@ subsumption_oghg(L1,L2) :=
    buildq([L1], lambda([H], subset(setify(L1),lambda([S],subsetp(S,H)))))]$
 subsumption_ohg(L1,L2) :=
   oghg2ohg(subsumption_oghg(L1,L2))$
-/* MG: Should we have ordered edges here? As there is currently a loss of
-   information when L1 is setified, but in general the oghg notion
-   doesn't have ordered edges (i.e., an edge is a list rather than set). */
   
 
 /* The "reduced subsumption hypergraph" for set-systems (S1,S2) is constructed
