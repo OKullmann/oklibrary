@@ -104,13 +104,12 @@ namespace OKlib {
         */
         hash_index_type hash_clause(const clause_type& clause) {
           hash_index_type return_value = 0;
-          const_clause_iterator_type iter = boost::const_begin(clause);
-          for (; iter != boost::const_end(clause); ++iter) {
+          const const_clause_iterator_type cend(boost::const_end(clause));
+          for (const_clause_iterator_type iter = boost::const_begin(clause); iter != cend; ++iter)
             if (*iter < 0)
               return_value += ipow(3, abs(*iter) - 1);
             else if (*iter > 0)
               return_value += 2 * ipow(3, abs(*iter) - 1);
-          }
           return return_value;
         }
       
