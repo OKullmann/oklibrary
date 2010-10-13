@@ -19,6 +19,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
+version_number="0.2"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
@@ -51,18 +52,18 @@ for ((n=${n0}; 1; ++n)); do
   ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
 
   SATinstance="VanDerWaerden_2-3-${k}_${n}.cnf"
-  Ausgabe="${SATinstance}_OUT"
+  Output="${SATinstance}_OUT"
 
-  ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Ausgabe}
+  ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Output}
 
   #  Finding out whether a satisfying assignment was found (searching for
   # the line "PercentSuccess = x" and determining whether x > 0):
-  success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Ausgabe})
+  success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
   if [[ ${success} == 0 ]]; then exit 20; fi
 
   # Printing the solution
   echo "Solution found for n = ${n} : "
-  ExtractCertificate_vdW2 ${Ausgabe}
+  ExtractCertificate_vdW2 ${Output}
   echo
 
 done
