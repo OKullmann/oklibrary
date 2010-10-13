@@ -1,0 +1,19 @@
+#!/bin/bash
+# Oliver Kullmann, 13.10.2010 (Swansea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# extract_solution_ubcsat reads output of ubcsat from standard input, and
+# copies those lines to standard output which start with one space followed
+# by either n or -n, where n is a sequence of decimal digits.
+# This extracts the solution (as a list of literals which are assigned to 1).
+
+set -o errexit
+set -o nounset
+
+script_name="extract_solution_ubcsat"
+
+awk '/^ -[0-9]+/ || /^ [0-9]+/ {print}'
