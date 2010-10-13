@@ -19,7 +19,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.2.1"
+version_number="0.2.2"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
@@ -46,12 +46,12 @@ echo "${script_name} k=${k} n0=${n0} alg=${alg} runs=${runs} cutoff=${cutoff}" >
 maxima_call="oklib --maxima"
 
 for ((n=${n0}; 1; ++n)); do
- 
-  # Creating the Dimacs-file:
-  echo "Creating the instance for n = ${n}."
-  ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
 
   SATinstance="VanDerWaerden_2-3-${k}_${n}.cnf"
+  # Creating the Dimacs-file:
+  echo -e "Creating the instance \"${SATinstance}\" for n = ${n}."
+  ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
+
   Output="${SATinstance}_OUT"
 
   ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Output}
@@ -62,7 +62,7 @@ for ((n=${n0}; 1; ++n)); do
   if [[ ${success} == 0 ]]; then exit 20; fi
 
   # Printing the solution
-  echo "Solution found for n = ${n} : "
+  echo "Certificate (the vertices for k=3) for n = ${n} : "
   ExtractCertificate_vdW2 ${Output}
   echo
 
