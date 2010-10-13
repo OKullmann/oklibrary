@@ -7,7 +7,7 @@
 # License, or any later version.
 
 # "RunVdW3k k n0 alg runs cutoff" creates a directory
-# "Exp_VanderWaerden_2-3-k_date_n0", where the SAT instances
+# "Exp_VanderWaerden_2-3-k_date_n0_alg-runs-cutoff", where the SAT instances
 # VanDerWaerden_2-3-k_n.cnf for n = n_0, n_0+1, ... are created
 # and ubcsat-okl with parameters alg, runs, cutoff is executed on
 # these instances, storing the output in VanDerWaerden_2-3-k_n.cnf_OUT.
@@ -19,7 +19,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.2"
+version_number="0.2.1"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
@@ -36,7 +36,7 @@ cutoff=$5
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-ExpDir="Exp_VanderWaerden_2-3-${k}_${timestamp}_${n0}"
+ExpDir="Exp_VanderWaerden_2-3-${k}_${timestamp}_${n0}_${alg}-${runs}-${cutoff}"
 echo "Creating directory ${ExpDir}."
 mkdir ${ExpDir}
 cd ${ExpDir}
