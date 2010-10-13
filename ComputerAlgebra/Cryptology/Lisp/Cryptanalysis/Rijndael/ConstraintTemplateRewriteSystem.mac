@@ -29,9 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 /* The idea is that the args should uniquely identify a given constraint
    within the context of it's parent constraint and therefore, as it's
    parent constraint is uniquely identified above, we have inductively
-   that any variable is uniquely identified. */
+   that any variable is uniquely identified.
 
-/*
    The four main data types represented below are "namespaces", "constraint
    templates", "rewrite bundles", "rewrite maps" and
    "constraint template rewrite rules".
@@ -47,10 +46,10 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    A constraint template is a list of at least three elements, where the first
    element is the name of the constraint template, the second element is the
    list of variables associated with the constraint template and the last
-   (note, not the third) is the namespace of the function. A constraint template
-   may optionally have any number of arguments situated in between it's
-   2nd and last elements which will relate to the working of each constraint
-   template.
+   (note, not the third) is the namespace of the function. A constraint
+   template may optionally have any number of arguments situated in between
+   it's 2nd and last elements which will relate to the working of each
+   constraint template.
 
    A constraint template rewrite rule is a function which takes a constraint
    template and returns a list of constraint templates which model the input
@@ -66,7 +65,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    A constraint rewrite map is a an ordered (i.e. list) set map which maps
    a given constraint template name to a rewrite bundle.
  
-   For examples see docus/Translations.hpp
+   For examples see docus/Translations.hpp.
 */
 
 /****************************
