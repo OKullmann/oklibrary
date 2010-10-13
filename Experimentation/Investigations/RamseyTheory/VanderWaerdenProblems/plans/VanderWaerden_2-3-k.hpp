@@ -1280,7 +1280,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   </ul>
 
 
-  \todo vanderwaerden_2(3,25) > 609
+  \todo vanderwaerden_2(3,25) > 622
   <ul>
    <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
@@ -1305,10 +1305,29 @@ OKplatform> RunVdW3k 25 609 gsat-tabu 1000 10000000
 534,539,557,567,576,586,587
    \endverbatim
    </li>
+   <li> n=622 found satisfiable with certificate
+   \verbatim
+7,12,18,27,37,60,74,82,85,86,
+97,101,123,129,132,138,155,159,166,168,
+185,196,205,206,208,212,229,230,243,259,
+266,270,277,279,304,308,316,317,340,341,
+345,351,360,370,393,407,415,418,419,430,
+434,456,462,465,471,488,492,499,501,504,
+518,539,541,545,562,575,576,599,603,610,
+612
+   \endverbatim
+   </li>
+   <li> Restarting the experiment, now using the solution found for n=622
+   as initial assignment:
+   \verbatim
+OKplatform> cat Exp_VanderWaerden_2-3-25_2010-10-12-161927_609/VanDerWaerden_2-3-25_622.cnf_OUT | extract_solution_ubcsat > Solution_n622
+OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,26) > 659
+  \todo vanderwaerden_2(3,26) > 677
   <ul>
    <li> Running experiment starting with n=600:
    \verbatim
@@ -1331,10 +1350,29 @@ OKplatform> RunVdW3k 26 655 gsat-tabu 1000 10000000
 585,607,614,627,651
    \endverbatim
    </li>
+   <li> n=677 found satisfiable with certificate
+   \verbatim
+5,12,14,38,39,58,68,76,79,91,
+105,117,123,125,128,132,150,162,163,179,
+191,197,200,202,216,223,243,260,264,273,
+274,280,301,302,308,311,334,339,345,347,
+350,371,372,391,401,409,412,424,438,450,
+456,458,461,465,483,486,495,496,512,520,
+524,530,533,535,549,556,576,593,606,607,
+613,634,635,641,644,667,672
+   \endverbatim
+   </li>
+   <li> Restarting the experiment, now using the solution found for n=677
+   as initial assignment:
+   \verbatim
+OKplatform> cat Exp_VanderWaerden_2-3-26_2010-10-12-161754_655/VanDerWaerden_2-3-26_677.cnf_OUT | extract_solution_ubcsat > Solution_n677
+OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,27) > 682
+  \todo vanderwaerden_2(3,27) > 725
   <ul>
    <li> Running experiment starting with n=610:
    \verbatim
@@ -1356,6 +1394,25 @@ OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
 501,506,508,530,537,545,551,574,588,595,
 617,619,622,633,648,666
     \endverbatim
+   </li>
+   <li> n=725 found satisfiable with certificate
+    \verbatim
+18,23,36,55,57,75,88,98,110,117,
+125,129,134,149,155,166,168,171,172,186,
+191,192,194,199,205,231,236,258,282,283,
+305,316,320,332,334,339,342,351,369,377,
+388,408,413,414,421,431,443,450,458,462,
+467,488,499,501,504,505,525,527,532,538,
+556,564,569,591,598,612,615,616,638,649,
+653,665,672,675,689,710
+    \endverbatim
+   </li>
+   <li> Restarting the experiment, now using the solution found for n=725
+   as initial assignment:
+   \verbatim
+OKplatform> cat Exp_VanderWaerden_2-3-27_2010-10-12-161406_678/VanDerWaerden_2-3-27_725.cnf_OUT | extract_solution_ubcsat > Solution_n725
+OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
+   \endverbatim
    </li>
   </ul>
 
