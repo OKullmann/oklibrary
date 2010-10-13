@@ -68,19 +68,17 @@ int main(const int argc, const char* const argv[]) {
     return error_openfile;
   }
 
-  CLSInput input_F(f_in, set_system_F_atr);
-  CLSInput input_G(g_in, set_system_G_atr);
+  const CLSInput input_F(f_in, set_system_F_atr);
+  const CLSInput input_G(g_in, set_system_G_atr);
 
   f_in.close(); g_in.close();
 
-  subsumption_hg_type subsumption_hg = 
+  const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(
                                                  set_system_F_atr.clause_set,
                                                  set_system_G_atr.clause_set);
 
-  std::string comment("Subsumption hypergraph for ");
-  comment = comment + std::string(argv[1]) + std::string(" ");
-  comment = comment + std::string(argv[2]);
+  const std::string comment(std::string("Subsumption hypergraph for ") + argv[1] + " " + argv[2]);
 
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg, std::cout, comment.c_str());
 
