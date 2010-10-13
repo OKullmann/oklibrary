@@ -27,7 +27,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.3.1"
+version_number="0.3.2"
 
 if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: Five parameters k, n0, alg, runs, cutoff
@@ -49,6 +49,8 @@ if [[ $# == 5 ]]; then
 else
   initial_assignment=$6
 fi
+
+repeats_prevassign=3
 
 if [[ ${initial_assignment} != 0 ]]; then
   if [[ !(-f ${initial_assignment}) ]]; then
@@ -82,17 +84,29 @@ for ((n=${n0}; 1; ++n)); do
   Output="${SATinstance}_OUT"
   Solution="${SATinstance}_sol"
 
-  parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
+  success="unknown"
+
+  # Using the previous assignment as initial assignment:
   if [[ ${initial_assignment} != 0 ]]; then
-    parameter_line+=" -varinit ${initial_assignment}"
+    Output_init="${Output}_init"
+    parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinit ${initial_assignment}"
+    ubcsat-okl ${parameter_line} | tee ${Output_init}
+    # Finding out whether a satisfying assignment was found (searching for
+    # the line "PercentSuccess = x" and determining whether x > 0):
+    success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output_init})
+    if [[ ${success} == 1 ]]; then
+      Output=${Output_init}
+    fi
   fi
 
-  ubcsat-okl ${parameter_line} | tee ${Output}
-
-  #  Finding out whether a satisfying assignment was found (searching for
-  # the line "PercentSuccess = x" and determining whether x > 0):
-  success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
-  if [[ ${success} == 0 ]]; then exit 20; fi
+  # Using random initial assignments:
+  if [[ ${success} != 1 ]]; then
+    parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
+    ubcsat-okl ${parameter_line} | tee ${Output}
+    # Finding out whether a satisfying assignment was found:
+    success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
+    if [[ ${success} == 0 ]]; then exit 20; fi
+  fi
 
   # Extracting the solution
   cat ${Output} | extract_solution_ubcsat > ${Solution}
