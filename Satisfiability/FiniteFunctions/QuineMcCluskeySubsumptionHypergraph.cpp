@@ -53,9 +53,11 @@ int main(const int argc, const char* const argv[]) {
   typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
 
 
-  if (argc != 2) {
-    std::cerr << "ERROR[QuineMcCluskey]: Exactly one input is required, the "
-      "name of the file\n with the clause-set in DIMACS-format.\n"
+  if (argc < 2 || argc > 3) {
+    std::cerr << "ERROR[QuineMcCluskey]: Either exactly one input is required,\n"
+      "the name of the file with the clause-set in DIMACS-format, or\n"
+      "exactly two inputs, the name of the file and the name of the file to\n"
+      "output the intermediate prime computation.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
@@ -86,5 +88,18 @@ int main(const int argc, const char* const argv[]) {
 
   // Output
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment.c_str());
+
+  // Output primes if necessary
+  if (argc > 2) {
+      const std::string filename_primes = argv[2];
+      std::ofstream outputfile(filename_primes.c_str());
+      if (not outputfile) {
+        std::cerr << "ERROR[QuineMcCluskey]: Failure opening file " << filename_primes << ".\n";
+        return error_openfile;
+      }
+      
+      OKlib::InputOutput::List2DIMACSOutput(
+                                      prime_imp_F,outputfile,comment.c_str());
+  }
 
 }
