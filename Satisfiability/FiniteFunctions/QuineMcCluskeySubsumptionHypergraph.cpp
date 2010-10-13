@@ -68,22 +68,21 @@ int main(const int argc, const char* const argv[]) {
   }
 
   CLSAdaptor cls_F;
-  CLSInput input_F(inputfile, cls_F); inputfile.close();
+  const CLSInput input_F(inputfile, cls_F); inputfile.close();
 
   
   // Compute the prime clauses
   using namespace OKlib::Satisfiability::FiniteFunctions;
-  clause_set_type prime_imp_F = quine_mccluskey<num_vars>(cls_F.clause_set);
+  const clause_set_type prime_imp_F = quine_mccluskey<num_vars>(cls_F.clause_set);
   
   // Compute the subsumption hypergraph
-  subsumption_hg_type subsumption_hg = 
+  const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(
                                                  prime_imp_F,
                                                  cls_F.clause_set);
 
   
-  std::string comment("Subsumption hypergraph for the minimisation problem for ");
-  comment = comment + std::string(filename);
+  const std::string comment("Subsumption hypergraph for the minimisation problem for " + filename);
 
   // Output
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment.c_str());
