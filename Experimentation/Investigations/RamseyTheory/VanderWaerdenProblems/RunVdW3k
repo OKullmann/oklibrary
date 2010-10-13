@@ -11,6 +11,7 @@
 # VanDerWaerden_2-3-k_n.cnf for n = n_0, n_0+1, ... are created
 # and ubcsat-okl with parameters alg, runs, cutoff is executed on
 # these instances, storing the output in VanDerWaerden_2-3-k_n.cnf_OUT.
+# If a solution was found, then it is stored in VanDerWaerden_2-3-k_n.cnf_sol.
 # Running ubcsat stops either with a solution found, and then n is increased,
 # and the process is repeated, or when no solution was found, and then the
 # script stops with exit value 20.
@@ -19,7 +20,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.2.2"
+version_number="0.2.3"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Exactly five parameters k, n0, alg, runs, cutoff
@@ -53,6 +54,7 @@ for ((n=${n0}; 1; ++n)); do
   ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac\\\");output_vanderwaerden2nd_stdname(3,${k},${n});\"" > /dev/null
 
   Output="${SATinstance}_OUT"
+  Solution="${SATinstance}_sol"
 
   ubcsat-okl -alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve | tee ${Output}
 
@@ -60,6 +62,9 @@ for ((n=${n0}; 1; ++n)); do
   # the line "PercentSuccess = x" and determining whether x > 0):
   success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
   if [[ ${success} == 0 ]]; then exit 20; fi
+
+  # Extracting the solution
+  cat ${Output} | extract_solution_ubcsat > ${Solution}
 
   # Printing the solution
   echo "Certificate (the vertices for k=3) for n = ${n} : "
