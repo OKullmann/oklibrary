@@ -27,7 +27,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.3"
+version_number="0.3.1"
 
 if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: Five parameters k, n0, alg, runs, cutoff
@@ -99,6 +99,9 @@ for ((n=${n0}; 1; ++n)); do
   initial_assignment=${Solution}
 
   # Printing the solution
+  echo "Solution ubcsat-parameters are:"
+  awk '/^ *[0-9]+ 1/ {\
+    print " run=",$1, "osteps=",$4, "msteps=",$5, "seed=",$6}' ${Output}
   echo "Certificate (the vertices for k=3) for n = ${n} : "
   ExtractCertificate_vdW2 ${Output}
   echo
