@@ -27,18 +27,18 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 
 
 
-/* TODO:
-
-   Contract long names like generate_aes_constraint_vars to something like trans_aes_gen_vars and
-   use subst to give default block level scoping to turn this into something like gv :) 
-
-   This will allow defaulting of a variety of variables that can then be used throughout as the
-   standard variables of that type.
-
-   Such a construction should also take parameters such as the namespace and so on and construct
-   all the defaults.
-
-   Expand names like  pBits etc for clarity 
+/*!
+  \todo Editorial improvements
+  <ul>
+   <li> Contract long names like generate_aes_constraint_vars to something like
+   trans_aes_gen_vars and use subst to give default block level scoping to turn
+   this into something like gv. </li>
+   <li> This will allow defaulting of a variety of variables that can then be
+   used throughout as the standard variables of that type. </li>
+   <li> Such a construction should also take parameters such as the namespace
+   and so on and construct all the defaults. </li>
+   <li> Expand names like  pBits etc for clarity. </li>
+  </ul>
 */
 
 /* ***********************************************
