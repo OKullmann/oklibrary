@@ -69,7 +69,7 @@ namespace OKlib {
         typedef HashTable::size_type hash_index_type;
       
       
-        /* Asserts that size types are sufficient are needed here */
+        /* Asserts that size types are sufficient are needed here: */
         /* 2^size >?= 3^num_vars */
         /* log(2^size) >?= log(3^num_vars) */
         /* size * log(2) >?= num_vars * log(3) */
@@ -78,9 +78,9 @@ namespace OKlib {
       
 
         /*!
-          \brief Given the base b and power e, computes b raised to the power of
-          e. The key feature of this function is it provides integer computation
-          whereas the standard library works with doubles.
+          \brief Given the base b and power e, computes b raised to the power
+          of e. The key feature of this function is it provides integer
+          computation whereas the standard library works with doubles.
         
         */
         hash_index_type ipow(const int b, int e) {
