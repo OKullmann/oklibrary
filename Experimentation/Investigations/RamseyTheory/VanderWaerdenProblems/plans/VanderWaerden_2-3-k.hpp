@@ -1076,13 +1076,12 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 590
+  \todo vanderwaerden_2(3,24) > 592
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
-   <li> Experience with k=20 is that gsat-tabu is best, however we should
-   have a look again --- this might change with different k's or with
-   different cutoff's. </li>
+   <li> Experience with k=20 is that gsat-tabu is best, however now it seems
+   that rots is best (using half of the cutoff of gsat-tabu). </li>
    <li> n=530, gsat-tabu, cutoff=10^8: A solution was easily found. </li>
    <li> n=540, gsat-tabu, cutoff=10^8:
    \verbatim
@@ -1252,14 +1251,32 @@ gsat_tabu :
  23  62  98 131  98  41  34   7   4   1   1 
 FlipsPerSecond = 121030
    \endverbatim
-   Not clear whether the increased search-power of rots is worth double the
-   time.
-   </li>
+   It seems that rots with half of the cutoff of gsat-tabu is better than
+   gsat-tabu. </li>
    <li> Running an experiment:
    \verbatim
 OKplatform> RunVdW3k 24 591 rots 1000 5000000
    \endverbatim
    </li>
+   <li> n=592 found satisfiable (rots, seed=1337569052, osteps=2845761,
+   run=398), with solution
+   \verbatim
+22,41,58,63,71,78,80,95,99,100,
+109,117,121,124,145,146,150,158,174,182,
+186,187,208,211,215,223,233,252,254,261,
+283,291,302,310,332,339,341,360,370,378,
+382,385,406,407,411,419,435,443,447,448,
+469,472,476,484,493,494,498,513,515,522,
+530,535,552,571
+   \endverbatim
+   </li>
+   <li> Restarting the experiment, now using the solution found for n=592
+   as initial assignment:
+   \verbatim
+OKplatform> cat Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf_OUT | extract_solution_ubcsat > Solution_n592
+OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
+   \endverbatim
+   (this solution didn't help here). </li>
   </ul>
 
 
@@ -1343,7 +1360,7 @@ OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,28) > 742
+  \todo vanderwaerden_2(3,28) > 800
   <ul>
    <li> Running experiment starting with n=620:
    \verbatim
@@ -1366,8 +1383,6 @@ OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
    <li> n=742 found satisfiable (seed=1162005655, osteps=1152687, run=3),
    with solution
    \verbatim
-   \endverbatim
-   </li>
 12,22,26,41,65,74,75,78,103,111,
 112,116,123,137,140,152,170,174,176,179,
 185,186,189,190,213,214,216,222,223,244,
@@ -1376,7 +1391,73 @@ OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
 470,473,481,503,507,509,512,523,546,547,
 549,555,556,559,577,584,596,614,618,623,
 634,657,660,667,671,692,715
+   \endverbatim
+   </li>
+   <li> n=750 found satisfiable (seed=2611554683, osteps=5411045, run=5),
+   with certificate
+   \verbatim
+10,36,47,56,59,85,93,110,118,128,
+133,137,159,165,170,191,192,205,211,221,
+244,258,265,269,270,276,302,303,306,307,
+315,322,340,350,359,369,376,380,390,417,
+418,426,443,451,461,463,464,466,470,492,
+501,503,524,525,544,554,577,591,598,603,
+609,635,636,639,640,648,649,673,676,683,
+686,692,709,720,722,725
+   \endverbatim
+   </li>
+   <li> Now with the new version of RunVdW3k, which uses the old solution as
+   initial assignment, and with rots:
+   \verbatim
+OKplatform> RunVdW3k 28 750 gsat-tabu 1000 50000000
+   \endverbatim
+   </li>
+   <li> n=763 found satisfiable with certificate
+   \verbatim
+4,24,29,41,42,56,61,62,79,99,
+106,110,112,115,130,135,138,152,173,180,
+184,186,210,217,223,239,249,264,278,297,
+301,323,332,337,350,352,374,375,387,389,
+395,402,406,412,431,439,443,448,463,468,
+471,485,498,506,513,517,519,543,545,550,
+556,572,582,597,611,616,634,654,656,665,
+667,683,685,690,704,720,735,739
+   \endverbatim
+   </li>
+   <li> n=800 found satisfiable with certificate
+   \verbatim
+10,34,47,68,72,92,94,99,109,121,
+140,166,168,173,197,202,203,205,219,234,
+239,256,269,284,290,294,313,321,325,327,
+330,331,343,345,350,362,380,388,390,401,
+419,427,432,436,438,442,454,473,499,501,
+506,530,535,536,538,552,567,589,602,617,
+623,627,646,654,658,660,663,664,678,683,
+695,700,721,738,752,769,771,794
+   \endverbatim
+   </li>
   </ul>
 
+
+  \todo vanderwaerden_2(3,29) > 808
+  <ul>
+   <li> Running experiment starting with n=620:
+   \verbatim
+OKplatform> RunVdW3k 29 750 rots 1000 5000000
+   \endverbatim
+   </li>
+   <li> n=808 found satisfiable with certificate
+   \verbatim
+7,30,50,61,87,103,104,123,126,135,
+155,161,172,174,190,198,205,214,227,229,
+242,248,271,285,288,301,311,316,338,345,
+348,353,359,363,377,394,399,400,414,420,
+422,431,456,457,474,488,493,505,507,511,
+531,538,542,547,568,575,581,604,618,621,
+634,636,644,649,658,671,678,681,686,692,
+710,732,733,745,755,764,782,792
+   \endverbatim
+   </li>
+  </ul>
 
 */
