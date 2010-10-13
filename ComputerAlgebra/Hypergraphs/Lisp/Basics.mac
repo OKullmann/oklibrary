@@ -250,18 +250,19 @@ dual_ghg(G) := dual_general_hypergraph(G)$
 subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
 subset_closure_hg(G) := subset_closure_hyp(G)$
 
-/* For set-systems (S1, S2) the "general subsumption hypergraph" has vertices
-   the elements of S1, hyperedge-labels the elements of S2, while for H in S2
-   the vertex set is given by the elements of S1 contained in H:
+/* For two set-systems S1, S2 the "general subsumption hypergraph" is the
+   general hypergraph (S1,S2,E), which has as vertices the elements of S1 and
+   as hyperedge-labels the elements of S2, while for (hyperedge-label) H in S2
+   its vertex set E(H) is given by the elements of S1 contained in H:
 */
 subsumption_ghg(S1,S2) :=
  [S1, S2, buildq([S1], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
+
 /* For the ordering of subsumption_ghg(S1,S2) one uses the given ordering
    on sets S1, S2, that is, the lexicographical ordering.
    Standardisation (of the vertex set) thus uses the lexicographical ordering
    of S1.
 */
-
 /* For ordered set-systems (L1,L2) the "ordered general subsumption hypergraph"
    has the elements of L1, hyperedge-labels the elements of S2, while for H
    in S2 the vertex list is given by the elements of L1 contained in H:
