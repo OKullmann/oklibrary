@@ -12,6 +12,11 @@
 # This script is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
 # (this is automatically performed when building ubcsat).
 
+set -o errexit
+set -o nounset
+
+script_name="ubcsat-okl"
+
 echo "# $*"
 echo "       sat  min     osteps     msteps       seed"
 ubcsat m4_SHELL(ubcsat_defaults_okl) $*
