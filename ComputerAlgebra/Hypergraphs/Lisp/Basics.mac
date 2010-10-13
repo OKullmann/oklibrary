@@ -263,9 +263,10 @@ subsumption_ghg(S1,S2) :=
    Standardisation (of the vertex set) thus uses the lexicographical ordering
    of S1.
 */
-/* For ordered set-systems (L1,L2) the "ordered general subsumption hypergraph"
-   has the elements of L1, hyperedge-labels the elements of S2, while for H
-   in S2 the vertex list is given by the elements of L1 contained in H:
+/* For ordered two set-systems L1, L2 the "ordered general subsumption
+   hypergraph" has the elements of L1 as vertices and the elements of L2
+   as hyperedge-labels, while for H in S2 the vertex set is given by the
+   elements of L1 contained in H:
 */
 subsumption_oghg(L1,L2) :=
   [L1, L2,
