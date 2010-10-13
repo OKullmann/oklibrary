@@ -108,6 +108,7 @@ hg2ghg(G) := [G[1], G[2], identity]$
 ohg2hg(G) := map(setify,G)$
 
 ghg2hg(G) := [G[1], map(G[3],G[2])]$
+oghg2ohg(G) := [first(G), map(third(G),second(G))]$
 
 
 /* ************* **
@@ -272,7 +273,7 @@ subsumption_oghg(L1,L2) :=
   [L1, L2,
    buildq([L1], lambda([H], subset(setify(L1),lambda([S],subsetp(S,H)))))]$
 subsumption_ohg(L1,L2) :=
-  ghg2hg(subsumption_ohg(L1,L2))$
+  oghg2ohg(subsumption_oghg(L1,L2))$
 /* MG: Should we have ordered edges here? As there is currently a loss of
    information when L1 is setified, but in general the oghg notion
    doesn't have ordered edges (i.e., an edge is a list rather than set). */
