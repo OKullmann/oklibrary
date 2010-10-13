@@ -37,7 +37,7 @@ namespace {
 
 }
 
-int main(int argc, char** argv) {
+int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
   typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
