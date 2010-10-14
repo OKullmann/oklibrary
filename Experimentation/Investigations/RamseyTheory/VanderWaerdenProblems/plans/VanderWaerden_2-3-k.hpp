@@ -1289,7 +1289,7 @@ RunVdW3k 24 593 rots 500 10000000 Solution_n592
 
   \todo vanderwaerden_2(3,25) > 654
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
+   <li> The conjecture is vanderwaerden_2(3,25) = 655. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
    <li> Search starting with n=590:
    \verbatim
@@ -1348,6 +1348,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 
   \todo vanderwaerden_2(3,26) > 726
   <ul>
+   <li> The conjecture is vanderwaerden_2(3,26) = 727. </li>
    <li> Search starting with n=600:
    \verbatim
 OKplatform> RunVdW3k 26 600 gsat-tabu 100 100000000
@@ -1405,6 +1406,7 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 
   \todo vanderwaerden_2(3,27) > 769
   <ul>
+   <li> The conjecture is vanderwaerden_2(3,27) = 770. </li>
    <li> Search starting with n=610:
    \verbatim
 OKplatform> RunVdW3k 27 610 gsat-tabu 100 100000000
