@@ -28,8 +28,8 @@ License, or any later version. */
   \par
    In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
    following items are handled:
-    - Test failure
     - Improve code quality
+    - Test failure : DONE
 
 
   \par Version 0.3.3 :

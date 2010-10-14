@@ -13,9 +13,6 @@ License, or any later version. */
   ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
 
 
-  \bug Test failure
-
-
   \todo Improve code quality
   <ul>
    <li> "Brief" should speak in intuitive words about the functionality
@@ -28,6 +25,15 @@ License, or any later version. */
    <li> All member functions need a specification. </li>
    <li> Everything not used by the user must be private. </li>
    <li> Every class and function needs documentation! </li>
+  </ul>
+
+
+  \bug DONE Test failure
+  <ul>
+   <li> Bug was introduced by OK during cleanup of code, as 
+   "count++" -> "++count" was not equivalent in the place it
+   was changed. </li>
+   <li> MG's use of "count++" *was* intentional but misguided. </li>
   </ul>
 
 */
@@ -95,7 +101,7 @@ namespace OKlib {
 
       void fill_hyperedge_map(RangeF f_range) {
         f_iterator_type f_begin = boost::begin(f_range);
-        for(Int count = 1; f_begin != boost::end(f_range); ++f_begin)
+        for(Int count = 0; f_begin != boost::end(f_range); ++f_begin)
           hyperedge_map[*f_begin] = ++count;
       }
 
