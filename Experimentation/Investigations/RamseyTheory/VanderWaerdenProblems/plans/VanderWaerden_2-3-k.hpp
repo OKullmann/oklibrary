@@ -1078,7 +1078,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
 
   \todo vanderwaerden_2(3,24) > 592
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,24) = ???. </li>
+   <li> The conjecture is vanderwaerden_2(3,24) = 593. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however now it seems
    that rots is best (using half of the cutoff of gsat-tabu). </li>
@@ -1108,7 +1108,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
       8 0     1    2073902  100000000 3486000509 
    \endverbatim
    </li>
-   <li> Running an experiment:
+   <li> Running the search-tool:
    \verbatim
 OKplatform> RunVdW3k 24 583 gsat-tabu 1000 10000000
    \endverbatim
@@ -1253,7 +1253,7 @@ FlipsPerSecond = 121030
    \endverbatim
    It seems that rots with half of the cutoff of gsat-tabu is better than
    gsat-tabu. </li>
-   <li> Running an experiment:
+   <li> Running an search:
    \verbatim
 OKplatform> RunVdW3k 24 591 rots 1000 5000000
    \endverbatim
@@ -1270,13 +1270,20 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
 530,535,552,571
    \endverbatim
    </li>
-   <li> Restarting the experiment, now using the solution found for n=592
+   <li> Restarting the search, now using the solution found for n=592
    as initial assignment:
    \verbatim
 OKplatform> cat Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf_OUT | extract_solution_ubcsat > Solution_n592
 OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    \endverbatim
    (this solution didn't help here). </li>
+   <li> n=593:
+    <ol>
+     <li> Increasing the cutoff:
+     \verbatim
+RunVdW3k 24 593 rots 500 10000000 Solution_n592
+    </ol>
+   </li>
   </ul>
 
 
@@ -1284,7 +1291,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   <ul>
    <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
-   <li> Running experiment starting with n=590:
+   <li> Search starting with n=590:
    \verbatim
 OKplatform> RunVdW3k 25 590 gsat-tabu 200 50000000
    \endverbatim
@@ -1317,7 +1324,7 @@ OKplatform> RunVdW3k 25 609 gsat-tabu 1000 10000000
 612
    \endverbatim
    </li>
-   <li> Restarting the experiment, now using the solution found for n=622
+   <li> Restarting the search, now using the solution found for n=622
    as initial assignment:
    \verbatim
 OKplatform> cat Exp_VanderWaerden_2-3-25_2010-10-12-161927_609/VanDerWaerden_2-3-25_622.cnf_OUT | extract_solution_ubcsat > Solution_n622
@@ -1329,7 +1336,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 
   \todo vanderwaerden_2(3,26) > 677
   <ul>
-   <li> Running experiment starting with n=600:
+   <li> Search starting with n=600:
    \verbatim
 OKplatform> RunVdW3k 26 600 gsat-tabu 100 100000000
    \endverbatim
@@ -1374,7 +1381,7 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 
   \todo vanderwaerden_2(3,27) > 725
   <ul>
-   <li> Running experiment starting with n=610:
+   <li> Search starting with n=610:
    \verbatim
 OKplatform> RunVdW3k 27 610 gsat-tabu 100 100000000
    \endverbatim
@@ -1407,7 +1414,7 @@ OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
 653,665,672,675,689,710
     \endverbatim
    </li>
-   <li> Restarting the experiment, now using the solution found for n=725
+   <li> Restarting the search, now using the solution found for n=725
    as initial assignment:
    \verbatim
 OKplatform> cat Exp_VanderWaerden_2-3-27_2010-10-12-161406_678/VanDerWaerden_2-3-27_725.cnf_OUT | extract_solution_ubcsat > Solution_n725
@@ -1417,9 +1424,10 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   </ul>
 
 
-  \todo vanderwaerden_2(3,28) > 800
+  \todo vanderwaerden_2(3,28) > 826
   <ul>
-   <li> Running experiment starting with n=620:
+   <li> The conjecture is vanderwaerden_2(3,28) = 827. </li>
+   <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
    \endverbatim
@@ -1466,7 +1474,7 @@ OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
    <li> Now with the new version of RunVdW3k, which uses the old solution as
    initial assignment, and with rots:
    \verbatim
-OKplatform> RunVdW3k 28 750 gsat-tabu 1000 50000000
+OKplatform> RunVdW3k 28 750 rots 1000 50000000
    \endverbatim
    </li>
    <li> n=763 found satisfiable with certificate
@@ -1493,12 +1501,41 @@ OKplatform> RunVdW3k 28 750 gsat-tabu 1000 50000000
 695,700,721,738,752,769,771,794
    \endverbatim
    </li>
+   <li> n=826 found satisfiable with certificate
+   \verbatim
+28,39,62,64,81,95,112,133,138,155,
+157,169,170,173,175,179,186,187,206,210,
+216,231,244,266,281,295,297,298,303,327,
+332,334,360,379,391,395,397,401,406,414,
+432,443,445,453,471,483,488,502,503,506,
+508,512,520,539,543,549,564,577,594,599,
+614,628,630,631,650,660,665,667,693,712,
+724,734,739,741,765,776,786,799,816
+   \endverbatim
+   </li>
+   <li> n=827:
+    <ol>
+     <li> cutoff=5*10^7, rots:
+     \verbatim
+ 1  2 
+ 7 14 
+21 
+     \endverbatim
+     </li>
+     <li> New search with smaller cutoff:
+     \verbatim
+OKplatform> RunVdW3k 28 827 rots 1000 5000000 Exp_VanderWaerden_2-3-28_2010-10-13-114235_763_rots-1000-50000000/VanDerWaerden_2-3-28_826.cnf_sol
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,29) > 808
+  \todo vanderwaerden_2(3,29) > 852
   <ul>
-   <li> Running experiment starting with n=620:
+   <li> The conjecture is vanderwaerden_2(3,29) = 853. </li>
+   <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 29 750 rots 1000 5000000
    \endverbatim
@@ -1513,6 +1550,18 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 531,538,542,547,568,575,581,604,618,621,
 634,636,644,649,658,671,678,681,686,692,
 710,732,733,745,755,764,782,792
+   \endverbatim
+   </li>
+   <li> n=852 found satisfiable with certificate
+   \verbatim
+18,37,59,64,75,92,98,119,136,144,
+145,149,173,181,186,207,222,240,246,256,
+259,260,277,281,286,292,304,318,320,323,
+330,333,341,358,366,395,397,408,415,431,
+434,441,452,477,478,482,499,506,514,519,
+540,555,573,579,589,592,593,610,614,619,
+625,637,651,653,656,663,666,674,691,699,
+725,728,748,767,774,795,801,802,814,832
    \endverbatim
    </li>
   </ul>
