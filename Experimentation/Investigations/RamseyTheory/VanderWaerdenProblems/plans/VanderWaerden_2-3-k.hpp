@@ -1287,7 +1287,7 @@ RunVdW3k 24 593 rots 500 10000000 Solution_n592
   </ul>
 
 
-  \todo vanderwaerden_2(3,25) > 622
+  \todo vanderwaerden_2(3,25) > 654
   <ul>
    <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
@@ -1331,10 +1331,22 @@ OKplatform> cat Exp_VanderWaerden_2-3-25_2010-10-12-161927_609/VanDerWaerden_2-3
 OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    \endverbatim
    </li>
+   <li> n=654 found satisfiable with certificate
+   \verbatim
+1,16,19,39,48,56,76,85,90,92,
+98,116,127,149,150,153,155,166,174,187,
+192,196,203,211,223,227,241,246,264,266,
+270,277,278,285,303,312,320,334,349,352,
+357,371,372,381,389,409,418,423,425,433,
+449,460,470,482,483,486,488,499,505,520,
+525,529,536,544,556,560,574,579,597,599,
+603,610,611,636,645
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,26) > 677
+  \todo vanderwaerden_2(3,26) > 726
   <ul>
    <li> Search starting with n=600:
    \verbatim
@@ -1376,10 +1388,22 @@ OKplatform> cat Exp_VanderWaerden_2-3-26_2010-10-12-161754_655/VanDerWaerden_2-3
 OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    \endverbatim
    </li>
+   <li> n=726 found satisfiable with certificate
+   \verbatim
+11,35,46,48,69,74,86,93,105,106,
+109,115,122,128,152,157,159,167,185,202,
+204,216,217,220,222,226,231,234,253,257,
+263,278,291,308,313,333,342,344,345,350,
+364,379,381,402,407,426,438,439,442,448,
+455,461,485,490,492,500,516,518,535,537,
+549,550,553,555,559,564,567,586,596,611,
+624,641,646,666,675,678,697,701
+   \endverbatim
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,27) > 725
+  \todo vanderwaerden_2(3,27) > 769
   <ul>
    <li> Search starting with n=610:
    \verbatim
@@ -1420,6 +1444,18 @@ OKplatform> RunVdW3k 27 678 gsat-tabu 1000 10000000
 OKplatform> cat Exp_VanderWaerden_2-3-27_2010-10-12-161406_678/VanDerWaerden_2-3-27_725.cnf_OUT | extract_solution_ubcsat > Solution_n725
 OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
    \endverbatim
+   </li>
+   <li> n=769 found satisfiable with certificate
+    \verbatim
+25,29,35,54,72,74,77,99,103,111,
+114,135,136,149,165,176,188,192,202,209,
+223,246,250,251,260,266,287,294,296,313,
+321,325,331,333,334,336,358,361,362,377,
+387,405,407,410,414,432,436,442,444,447,
+468,469,482,498,521,525,535,542,556,579,
+583,584,593,599,620,629,646,654,658,664,
+666,667,669,694,701,710,731,747,764
+    \endverbatim
    </li>
   </ul>
 
