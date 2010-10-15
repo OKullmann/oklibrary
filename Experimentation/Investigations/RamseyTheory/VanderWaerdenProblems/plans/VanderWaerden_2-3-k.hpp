@@ -1258,9 +1258,11 @@ FlipsPerSecond = 121030
 OKplatform> RunVdW3k 24 591 rots 1000 5000000
    \endverbatim
    </li>
-   <li> n=592 found satisfiable (rots, seed=1337569052, osteps=2845761,
-   run=398), with solution
-   \verbatim
+   <li> n=592
+    <ol>
+     <li> Found satisfiable (rots, seed=1337569052, osteps=2845761,
+     run=398), with solution
+     \verbatim
 22,41,58,63,71,78,80,95,99,100,
 109,117,121,124,145,146,150,158,174,182,
 186,187,208,211,215,223,233,252,254,261,
@@ -1268,7 +1270,9 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
 382,385,406,407,411,419,435,443,447,448,
 469,472,476,484,493,494,498,513,515,522,
 530,535,552,571
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> Restarting the search, now using the solution found for n=592
    as initial assignment:
@@ -1279,6 +1283,16 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    (this solution didn't help here). </li>
    <li> n=593:
     <ol>
+     <li> Cutoff=5*10^6, rots:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11 
+ 19 165 260 275 142  64  35  23  11   5   1 
+1000 
+ 1  2  3  4  5  6  7  8  9 10 
+ 4 45 73 84 35 16 11 12  6  4 
+290 
+    \endverbatim
+     </li>
      <li> Increasing the cutoff:
      \verbatim
 RunVdW3k 24 593 rots 500 10000000 Solution_n592
@@ -1570,9 +1584,9 @@ OKplatform> RunVdW3k 28 827 rots 1000 5000000 Exp_VanderWaerden_2-3-28_2010-10-1
   </ul>
 
 
-  \todo vanderwaerden_2(3,29) > 852
+  \todo vanderwaerden_2(3,29) > 854
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = 853. </li>
+   <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 29 750 rots 1000 5000000
@@ -1600,6 +1614,19 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 540,555,573,579,589,592,593,610,614,619,
 625,637,651,653,656,663,666,674,691,699,
 725,728,748,767,774,795,801,802,814,832
+   \endverbatim
+   </li>
+   <li> n=854 found satisfiable with certificate
+   \verbatim
+26,39,61,66,77,94,100,121,131,138,
+146,147,151,175,183,188,209,224,242,248,
+258,261,262,279,283,288,294,306,320,322,
+325,332,335,343,360,368,397,399,410,417,
+433,436,443,454,471,479,480,484,501,508,
+516,521,542,557,575,581,591,594,595,612,
+616,621,627,639,653,655,658,665,668,676,
+693,701,727,730,750,769,776,797,803,816,
+834
    \endverbatim
    </li>
   </ul>
