@@ -1301,9 +1301,9 @@ RunVdW3k 24 593 rots 500 10000000 Solution_n592
   </ul>
 
 
-  \todo vanderwaerden_2(3,25) > 654
+  \todo vanderwaerden_2(3,25) > 655
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,25) = 655. </li>
+   <li> The conjecture is vanderwaerden_2(3,25) = ???. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
    <li> Search starting with n=590:
    \verbatim
@@ -1355,6 +1355,18 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 449,460,470,482,483,486,488,499,505,520,
 525,529,536,544,556,560,574,579,597,599,
 603,610,611,636,645
+   \endverbatim
+   </li>
+   <li> n=655 found satisfiable with certificate
+   \verbatim
+17,20,40,49,57,77,86,91,93,99,
+117,128,150,151,154,156,167,175,188,193,
+197,204,212,224,228,242,247,265,267,271,
+278,279,286,304,313,321,335,350,353,358,
+372,373,382,390,410,419,424,426,434,450,
+461,471,483,484,487,489,500,506,521,526,
+530,537,545,557,561,575,580,598,600,604,
+611,612,637,646
    \endverbatim
    </li>
   </ul>
@@ -1632,7 +1644,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,30) > 883
+  \todo vanderwaerden_2(3,30) > 889
   <ul>
    <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
    <li> Search starting with n=852:
@@ -1653,6 +1665,19 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 828,848,857
    \endverbatim
    </li>
+   <li> n=889 found satisfiable with certificate
+   \verbatim
+30,31,45,71,84,85,92,108,110,127,
+156,158,159,178,179,188,193,201,203,216,
+240,262,263,270,289,290,293,295,299,304,
+332,344,349,351,363,373,380,404,406,417,
+423,438,443,460,474,491,511,521,526,528,
+534,536,552,566,573,589,595,600,622,632,
+647,663,665,677,682,684,706,711,714,734,
+739,756,785,799,807,808,825,848,850,861
+   \endverbatim
+   </li>
+
   </ul>
 
 */
