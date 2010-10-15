@@ -98,39 +98,42 @@ namespace OKlib {
 
     private:
 
-      typedef typename boost::range_iterator<RangeF>::type f_iterator_type;
-      typedef typename boost::range_iterator<RangeG>::type g_iterator_type;
+      typedef typename boost::range_const_iterator<RangeF>::type f_iterator_type;
+      typedef typename boost::range_const_iterator<RangeG>::type g_iterator_type;
       typedef typename boost::range_value<RangeF>::type f_value_type;
       typedef std::map<f_value_type, Int> hyperedge_map_type;
       typedef std::list<f_value_type> hyperedge_nonstd_type;
 
-      static inline hyperedge_map_type fill_hyperedge_map(RangeF f_range) {
+      static inline hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
         hyperedge_map_type hyperedge_map;
         
         Int count = 0;
+        const f_iterator_type f_end = boost::end(f_range);
         for(f_iterator_type f_begin = boost::begin(f_range); 
-            f_begin != boost::end(f_range); ++f_begin)
+            f_begin != f_end; ++f_begin)
           hyperedge_map[*f_begin] = ++count;
         return(hyperedge_map);
       }
 
       static inline 
-      hyperedge_type standardise_hyperedge(hyperedge_nonstd_type edge, 
-                                           hyperedge_map_type hmap) {
-        typedef typename boost::range_iterator<hyperedge_nonstd_type>::type 
+      hyperedge_type standardise_hyperedge(const hyperedge_nonstd_type edge, 
+                                           const hyperedge_map_type hmap) {
+        typedef typename boost::range_const_iterator<hyperedge_nonstd_type>::type
           hyperedge_nonstd_const_iterator_type;
 
         hyperedge_type new_edge;
+        const hyperedge_nonstd_const_iterator_type end = boost::end(edge);
         for(hyperedge_nonstd_const_iterator_type iter = boost::begin(edge);
-            iter != boost::end(edge); ++iter) {
-          new_edge.push_back(hmap[*iter]);
+            iter != end; ++iter) {
+          new_edge.push_back(hmap.find(*iter)->second);
         }
         return(new_edge);
       }
 
       template <class RangeC>
       static inline 
-      hyperedge_nonstd_type all_subsuming(const RangeC c_range, RangeF f_range) {
+      hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
+                                          const RangeF f_range) {
         hyperedge_nonstd_type subsumes_set;
         
         for (f_iterator_type f_begin = boost::begin(f_range); 
@@ -141,11 +144,13 @@ namespace OKlib {
         return(subsumes_set);
       }
 
-      void subsumption_hypergraph(const RangeF f_range, RangeG g_range) {
+      void subsumption_hypergraph(const RangeF f_range, 
+                                  const RangeG g_range) {
         hyperedge_map_type hmap = fill_hyperedge_map(f_range);
-
+        
+        const g_iterator_type g_end = boost::end(g_range);
         for (g_iterator_type g_begin = boost::begin(g_range); 
-             g_begin != boost::end(g_range); ++g_begin) {
+             g_begin != g_end; ++g_begin) {
           const hyperedge_type edge = 
             standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap);
           hyperedges.push_back(edge);
