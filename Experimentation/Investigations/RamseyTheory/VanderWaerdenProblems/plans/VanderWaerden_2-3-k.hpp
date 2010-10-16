@@ -1292,10 +1292,14 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
  4 45 73 84 35 16 11 12  6  4 
 290 
     \endverbatim
-     </li>
-     <li> Increasing the cutoff:
+     </li> Cutoff=10^7, rots:
      \verbatim
-RunVdW3k 24 593 rots 500 10000000 Solution_n592
+  1   2   3   4   5   6   7   8 
+ 13 148 181 124  29   3   1   1 
+500 
+     \endverbatim
+     <li> 
+     </li>
     </ol>
    </li>
   </ul>
@@ -1576,8 +1580,10 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 695,700,721,738,752,769,771,794
    \endverbatim
    </li>
-   <li> n=826 found satisfiable with certificate
-   \verbatim
+   <li> n=826:
+    <ol>
+     <li> Found satisfiable with certificate
+     \verbatim
 28,39,62,64,81,95,112,133,138,155,
 157,169,170,173,175,179,186,187,206,210,
 216,231,244,266,281,295,297,298,303,327,
@@ -1586,10 +1592,19 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 508,512,520,539,543,549,564,577,594,599,
 614,628,630,631,650,660,665,667,693,712,
 724,734,739,741,765,776,786,799,816
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=827:
     <ol>
+     <li> cutoff=5*10^6, rots:
+     \verbatim
+  1   2   3   4   5   6   7   9  10  12  13  14  15  16  17  18  19 
+ 29 502 313  44   7   3   2   1   1   5  10  24  26  18   7   7   1 
+1000 
+     \endverbatim
+     </li>
      <li> cutoff=5*10^7, rots:
      \verbatim
  1  2 
@@ -1597,17 +1612,12 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 21 
      \endverbatim
      </li>
-     <li> New search with smaller cutoff:
-     \verbatim
-OKplatform> RunVdW3k 28 827 rots 1000 5000000 Exp_VanderWaerden_2-3-28_2010-10-13-114235_763_rots-1000-50000000/VanDerWaerden_2-3-28_826.cnf_sol
-     \endverbatim
-     </li>
     </ol>
    </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,29) > 854
+  \todo vanderwaerden_2(3,29) > 867
   <ul>
    <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
    <li> Search starting with n=620:
@@ -1651,6 +1661,32 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 693,701,727,730,750,769,776,797,803,816,
 834
    \endverbatim
+   </li>
+   <li> n=859 found satisfiable with certificate
+   \verbatim
+28,35,61,74,81,98,102,111,128,136,
+139,165,183,186,188,209,214,222,229,239,
+247,257,260,262,276,283,294,296,297,303,
+321,324,325,340,361,368,371,373,394,399,
+410,414,431,432,435,461,472,498,510,516,
+519,521,542,547,555,572,590,593,595,609,
+616,627,629,630,636,654,657,658,666,673,
+691,704,706,732,740,743,765,784,802,821,
+843
+   \endverbatim
+   </li>
+   <li> n=867 found satisfiable with certificate
+   \verbatim
+   \endverbatim
+16,38,57,75,94,116,119,127,153,155,
+168,186,193,201,202,205,223,229,230,232,
+243,250,264,266,269,287,304,312,317,338,
+340,343,349,361,387,398,424,427,428,445,
+449,460,465,486,488,491,498,519,534,535,
+538,556,562,563,565,576,583,597,599,602,
+612,620,630,637,645,650,671,673,676,694,
+720,723,731,757,761,778,785,798,824,831,
+859
    </li>
   </ul>
 
