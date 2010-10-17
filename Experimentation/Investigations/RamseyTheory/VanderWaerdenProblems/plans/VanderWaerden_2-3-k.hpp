@@ -1480,6 +1480,15 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 1000
      \endverbatim
      </li>
+     <li> gsat-tabu, cutoff=10*10^6:
+     \verbatim
+  1   2   3   4   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21
+ 13  25  21   6   2   5  36  92 208 184 124  67  43  49  32  19  25  15   8   4
+ 22  23  24  25  26  27  28  29  30  33
+  8   3   2   2   1   1   1   1   1   2
+1000
+     \endverbatim
+     (so it seems rots is definitely better). </li>
     </ol>
    </li>
   </ul>
