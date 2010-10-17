@@ -1272,6 +1272,31 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
 530,535,552,571
      \endverbatim
      </li>
+     <li> 1000 runs with rots, cutoff=5*10^6 found only one solution:
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-3-24_592.cnf_OUT",nrows=1000)
+  0   1   2   3   4   5   6   7   8   9  10  11 
+  1  25 167 265 267 132  60  35  20  17   8   3 
+1000
+> E[E$sat==1,]
+    sat min  osteps  msteps       seed
+168   1   0 2119635 2119635 1621341392
+     \endverbatim
+     where the solution is
+     \verbatim
+> ubcsat-okl -alg rots -seed 1621341392 -cutoff 2119635 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT2
+>
+> ExtractCertificate_vdW2 VanDerWaerden_2-3-24_592.cnf_OUT2
+22,41,58,63,71,78,80,95,99,100,
+109,117,124,145,146,150,158,174,182,186,
+187,208,211,215,223,233,252,254,261,283,
+291,302,310,332,339,341,360,370,378,382,
+385,406,407,411,419,435,443,447,448,469,
+472,476,484,493,494,498,513,515,522,530,
+535,552,571
+     \endverbatim
+     This is the same solution as above, only vertex 121 here was left
+     out. </li>
     </ol>
    </li>
    <li> Restarting the search, now using the solution found for n=592
