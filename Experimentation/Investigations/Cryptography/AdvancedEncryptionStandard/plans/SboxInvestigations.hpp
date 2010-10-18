@@ -392,6 +392,12 @@ sbox_mean_eval[order(sbox_mean_eval$avg_falsified),]
    MG is currently running experiments for other values of M, and using gsat
    with large cutoffs (4000000).
    </li>
+   <li> With 46/100 runs with UBCSAT using "gsat" and a cutoff of 4000000,
+   UBCSAT seem to yield on average a minimum of 21500 falsified clauses
+   with little difference (around 100-200) between these minimum numbers and
+   every run reaching the maximum cutoff. This suggests we need to increase 
+   the cutoff, but we are currently unable to do so due to UBCSATs 32 bit 
+   limit on the cutoff. </li>
  </ul>
 
 */
