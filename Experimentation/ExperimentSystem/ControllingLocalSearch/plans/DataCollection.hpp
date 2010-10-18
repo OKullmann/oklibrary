@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,17 +80,24 @@ plot(E$alg,E$best)
    which plots per algorithm the boxplots of the min-distribution. </li>
    <li> One only needs to make sure that on the x-axis all algorithms are
    listed. </li>
-   <li> Considering single algorithms by e.g.
-   \verbatim
+   <li> Sorting the algorithms
+    <ol>
+     <li> Considering single algorithms by e.g.
+     \verbatim
 > table(E$best[E$alg=="adaptnoveltyp"])
-   \endverbatim
-   (note that currently algorithm names are inappropriately handled). </li>
-   <li> These tables can be put into a linear order by sorting first according
-   to min-value reached (the lower the better), and second by count obtained
-   (the higher the better). A function should be written which prints out the
-   sorted tables in a nice way. </li>
-   <li> Perhaps then the (first) evaluation tool just uses plot(E$alg,E$best),
-   followed by printing those sorted tables. </li>
+     \endverbatim
+     (note that currently algorithm names are inappropriately handled). </li>
+     <li> These tables can be put into a linear order by sorting first
+     according to min-value reached (the lower the better), and second by
+     count obtained (the higher the better). </li>
+     <li> A function should be written which prints out the
+     sorted tables in a nice way. </li>
+     <li> As a first attempt we have eval_ubcsat_dataframe, which just shows
+     all results in table form. </li>
+     <li> Perhaps then the (first) evaluation tool just uses
+     plot(E$alg,E$best), followed by printing those sorted tables. </li>
+    </ol>
+   </li>
   </ul>
 
 
