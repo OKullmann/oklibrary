@@ -1606,7 +1606,47 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 583,584,593,599,620,629,646,654,658,664,
 666,667,669,694,701,710,731,747,764
       \endverbatim
-      </li>
+     </li>
+     <li> 1000 runs with rots and cutoff=5000000 found 4 solutions:
+     \verbatim
+  0   1   2   3   4   5   6   7   9  11  12  13  14  15  16  17  18  19
+  4 473 315  71   7   4   2   1   2   2   8  13  15  32  26  14   9   2
+1000
+> E[E$sat==1,]
+    sat min  osteps  msteps       seed
+107   1   0 2782015 2782015 2990676734
+435   1   0 1430527 1430527 1209355894
+467   1   0 3552707 3552707 3160209839
+656   1   0 3273460 3273460  813836620
+
+> ubcsat-okl -alg rots -cutoff 2782015 -seed 2990676734 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf | tee VanDerWaerden_2-3-27_769.cnf_OUT2
+       sat  min     osteps     msteps       seed
+      1 0     2    1215331    5000000 2990676734
+???
+
+> ubcsat-okl -alg rots -cutoff 1430527 -seed 1209355894 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT3
+> ExtractCertificate_vdW2 VanDerWaerden_2-3-27_769.cnf_OUT3
+6,23,39,60,69,76,101,103,104,106,
+112,116,124,141,150,171,177,186,187,191,
+214,228,235,245,249,272,288,301,302,323,
+326,328,334,338,339,356,360,363,365,383,
+393,408,409,412,434,436,437,439,445,449,
+457,474,476,483,504,510,519,520,524,547,
+561,568,578,582,594,605,621,634,635,656,
+659,667,671,693,696,698,716,741,745
+
+> ubcsat-okl -alg rots -cutoff 3552707 -seed 3160209839 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT4
+       sat  min     osteps     msteps       seed
+      1 0     3    3039793    3552707 3160209839
+???
+
+> ubcsat-okl -alg rots -cutoff 3273460 -seed 813836620 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT5
+       sat  min     osteps     msteps       seed
+      1 0     2    2038976    3273460  813836620
+???
+     \endverbatim
+     AGAIN, reproduction fails (except of one case)! This time on cs-oksvr.
+     </li>
     </ol>
    </li>
    <li> n=770:
