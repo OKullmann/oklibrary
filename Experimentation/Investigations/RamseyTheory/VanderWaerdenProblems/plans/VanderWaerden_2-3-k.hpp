@@ -1456,6 +1456,13 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 611,612,637,646
      \endverbatim
      </li>
+     <li> 1000 runs with rots and cutoff=5*10^6 don't find a solution:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14
+216 309 149 112  17  21  32  43  40  34  18   6   1   2
+1000
+     \endverbatim
+     </li>
     </ol>
    <li>
    <li> n=656
