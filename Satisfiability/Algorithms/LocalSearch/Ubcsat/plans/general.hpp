@@ -24,17 +24,19 @@ License, or any later version. */
    re-running it yields only a min=3 (with osteps=3207318). </li>
    <li> This on the same (64-bit) machine, csltok (just a few hours later the
    rerun). </li>
-   <li> Contact the Ubcsat-group! </li>
+   <li> DONE (Dave Tompkins thinks he can quickly fix the bug)
+   Contact the Ubcsat-group! </li>
    <li> This threatens many experimental results we have (relying on
    reproducibility, so that only the seed needs to be stored to represent
    a solution found). Until now we never had problems with reproductions. </li>
-   <li> I (OK) would guess that the problem is caused by floating-point arithmetic
-   running under different conditions: the original run-environment computed with
-   a different precision (caching etc.) than the single reproduction runs (these single
-   runs all yield the same results). </li>
-   <li> Perhaps the new Ubcsat should be compiled by default in "safe mode", where
-   optimisations potentially resulting in different floating-point computations are
-   disabled, while all these optimisations are enabled in "aggressive mode". </li>
+   <li> I (OK) would guess that the problem is caused by floating-point
+   arithmetic running under different conditions: the original run-environment
+   computed with a different precision (caching etc.) than the single
+   reproduction runs (these single runs all yield the same results). </li>
+   <li> Perhaps the new Ubcsat should be compiled by default in "safe mode",
+   where optimisations potentially resulting in different floating-point
+   computations are disabled, while all these optimisations are enabled in
+   "aggressive mode". </li>
    <li> Perhaps also a 32-bit compatability mode is required. </li>
   </ul>
 
