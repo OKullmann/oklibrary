@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp
-  \brief User documentation for the Maxima computer algebra system implementation of a constraint template rewrite system..
+  \brief User documentation for the Maxima computer algebra system implementation of a constraint template rewrite system.
 
   
   \todo General idea
