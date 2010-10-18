@@ -93,6 +93,36 @@ ExternalSources/Installations/R> oklib --R
      <li> Espresso-ab doesn't appear to have a well known open-source license,
      although it does come with a license which allows copying,
      redistribution and derivative works. </li>
+     <li> To install espresso-ab, one can download it from the site 
+     (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
+     and use the standard make-style compilation procedure, so
+     \verbatim
+wget http://eqntott.googlecode.com/files/espresso-ab-1.0.tar.gz
+tar zxvf espresso-ab-1.0.tar.gz
+cd espresso-ab-1.0
+./configure
+make
+./src/espresso --help
+     \endverbatim
+     and then one can use the following "test.pla" file
+     with espresso 
+     \verbatim
+.i 3
+.o 1
+110 1
+111 1
+010 1
+001 0
+000 0
+100 1
+011 0
+101 0
+     \endverbatim
+     by calling 
+     \verbatim
+./src/espresso test.pla
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Scherzo
