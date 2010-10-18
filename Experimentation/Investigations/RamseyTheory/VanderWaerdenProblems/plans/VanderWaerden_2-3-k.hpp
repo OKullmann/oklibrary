@@ -1297,6 +1297,42 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
      \endverbatim
      This is the same solution as above, only vertex 121 here was left
      out. </li>
+     <li> 500 runs with rots, cutoff=10^7 found only one solution:
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-3-24_592.cnf_OUT3",nrows=1000)
+  0   1   2   3   4   5   6   7   8   9 
+  1  23 143 181 107  31   5   5   2   2 
+500 
+> E[E$sat==1,]
+   sat min  osteps  msteps      seed
+83   1   0 4774592 4774592 312702649
+     \endverbatim
+     where the solution is
+     \verbatim
+> ubcsat-okl -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
+# -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
+       sat  min     osteps     msteps       seed
+      1 0     3    3207318    4774592  312702649 
+???
+
+> ubcsat-okl -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
+# -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
+       sat  min     osteps     msteps       seed
+      1 0     3    3207318   10000000  312702649 
+???
+     \endverbatim
+     This looks like a serious BUG in Ubcsat --- the run is not reproducible!
+     To be sure, here is the copy of the original run:
+     \verbatim
+# -alg rots -runs 500 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf
+     83 1     0    4774592    4774592  312702649 
+     \endverbatim
+     And the same result when running ubcsat directly (without involving ubcsat-okl).
+     </li>
+     <li> See "Run not reproducible" in
+     Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
+     <li> So if we are interested in a solution, from now on we need to use "-solve",
+     where we then extract the solution. </li>
     </ol>
    </li>
    <li> Restarting the search, now using the solution found for n=592
@@ -1317,13 +1353,20 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
  4 45 73 84 35 16 11 12  6  4 
 290 
     \endverbatim
-     </li> Cutoff=10^7, rots:
+     </li>
+     <li> Cutoff=10^7, gsat-tabu:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 
+  9  65  73 202 232 216 126  42   7   7   4   3   3   8   1   1   1 
+1000 
+     \endverbatim
+     (it seems clear that rots is better). </li>
+     <li> Cutoff=10^7, rots:
      \verbatim
   1   2   3   4   5   6   7   8 
  13 148 181 124  29   3   1   1 
-500 
+500
      \endverbatim
-     <li> 
      </li>
     </ol>
    </li>

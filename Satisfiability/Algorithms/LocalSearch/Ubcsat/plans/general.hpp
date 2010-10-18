@@ -10,6 +10,35 @@ License, or any later version. */
   \brief Plans regarding Ubcsat
 
 
+  \bug Run not reproducible
+  <ul>
+   <li> See
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+   k=24, n=592. </li>
+   <li> On the instance VanDerWaerden_2-3-24_592.cnf, computed by
+   output_vanderwaerden2nd_stdname(3,24,592) (Maxima), one run with parameters
+   \verbatim
+# -alg rots -cutoff 10000000 -runs 500
+   \endverbatim
+   reported a solution with seed=312702649 (and "Step of Best" = 4774592), but
+   re-running it yields only a min=3 (with osteps=3207318). </li>
+   <li> This on the same (64-bit) machine, csltok (just a few hours later the
+   rerun). </li>
+   <li> Contact the Ubcsat-group! </li>
+   <li> This threatens many experimental results we have (relying on
+   reproducibility, so that only the seed needs to be stored to represent
+   a solution found). Until now we never had problems with reproductions. </li>
+   <li> I (OK) would guess that the problem is caused by floating-point arithmetic
+   running under different conditions: the original run-environment computed with
+   a different precision (caching etc.) than the single reproduction runs (these single
+   runs all yield the same results). </li>
+   <li> Perhaps the new Ubcsat should be compiled by default in "safe mode", where
+   optimisations potentially resulting in different floating-point computations are
+   disabled, while all these optimisations are enabled in "aggressive mode". </li>
+   <li> Perhaps also a 32-bit compatability mode is required. </li>
+  </ul>
+
+
   \todo Using Ubcsat as a library
   <ul>
    <li> Once the successor of version 1.1.0 is out (and we successfully
