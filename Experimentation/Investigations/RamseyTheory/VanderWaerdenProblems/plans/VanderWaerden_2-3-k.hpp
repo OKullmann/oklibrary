@@ -1297,6 +1297,55 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
      \endverbatim
      This is the same solution as above, only vertex 121 here was left
      out. </li>
+     <li> 500 runs with rots, cutoff=10^7 found only one solution:
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-3-24_592.cnf_OUT3",nrows=1000)
+  0   1   2   3   4   5   6   7   8   9 
+  1  23 143 181 107  31   5   5   2   2 
+500 
+> E[E$sat==1,]
+   sat min  osteps  msteps      seed
+83   1   0 4774592 4774592 312702649
+     \endverbatim
+     where the solution is
+     \verbatim
+> ubcsat-okl -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
+# -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
+       sat  min     osteps     msteps       seed
+      1 0     3    3207318    4774592  312702649 
+???
+
+> ubcsat-okl -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
+# -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
+       sat  min     osteps     msteps       seed
+      1 0     3    3207318   10000000  312702649 
+???
+     \endverbatim
+     This looks like a serious BUG in Ubcsat --- the run is not reproducible!
+     To be sure, here is the copy of the original run:
+     \verbatim
+# -alg rots -runs 500 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf
+     83 1     0    4774592    4774592  312702649 
+     \endverbatim
+     And the same result when running ubcsat directly (without involving ubcsat-okl).
+     </li>
+     <li> See "Run not reproducible" in
+     Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
+     <li> So if we are interested in a solution, from now on we need to use "-solve",
+     where we then extract the solution. </li>
+     <li> rots, cutoff=10^7, finds a solution in run 23 (osteps=1273935,
+     seed=2153150186):
+     \verbatim
+22,41,58,63,71,78,80,95,99,100,
+109,117,121,124,145,146,150,158,174,182,
+186,187,208,211,215,223,233,252,254,261,
+283,291,302,310,332,339,341,360,370,378,
+382,385,406,407,411,419,435,443,447,448,
+469,476,484,493,494,498,513,515,522,530,
+535,552,571
+     \endverbatim
+     The same solution as above (last version), but with vertex 121 replacing vertex 472.
+     </li>
     </ol>
    </li>
    <li> Restarting the search, now using the solution found for n=592
@@ -1317,13 +1366,20 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
  4 45 73 84 35 16 11 12  6  4 
 290 
     \endverbatim
-     </li> Cutoff=10^7, rots:
+     </li>
+     <li> Cutoff=10^7, gsat-tabu:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 
+  9  65  73 202 232 216 126  42   7   7   4   3   3   8   1   1   1 
+1000 
+     \endverbatim
+     (it seems clear that rots is better). </li>
+     <li> Cutoff=10^7, rots:
      \verbatim
   1   2   3   4   5   6   7   8 
  13 148 181 124  29   3   1   1 
-500 
+500
      \endverbatim
-     <li> 
      </li>
     </ol>
    </li>
@@ -1685,7 +1741,7 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 
   \todo vanderwaerden_2(3,29) > 867
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
+   <li> The conjecture is vanderwaerden_2(3,29) = 868. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 29 750 rots 1000 5000000
@@ -1741,9 +1797,10 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 843
    \endverbatim
    </li>
-   <li> n=867 found satisfiable with certificate
-   \verbatim
-   \endverbatim
+   <li> n=867:
+    <ol>
+     <li> Found satisfiable with certificate
+     \verbatim
 16,38,57,75,94,116,119,127,153,155,
 168,186,193,201,202,205,223,229,230,232,
 243,250,264,266,269,287,304,312,317,338,
@@ -1753,6 +1810,20 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 612,620,630,637,645,650,671,673,676,694,
 720,723,731,757,761,778,785,798,824,831,
 859
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=868:
+    <ol>
+     <li> cutoff=5*10^6, rots:
+     \verbatim
+  1   2   3   4   5   6   7   8  10  11  12  13  14  15  16  17  18  19  20 
+ 21 336 294  67  13   7   2   2   3   9  18  27  50  46  55  37   9   2   2 
+1000 
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
