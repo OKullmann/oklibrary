@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
+  \todo Rename QuineMcCluskey to QuineMcCluskeyPrimes
+  <ul>
+   <li> The QuineMcCluskey algorithm includes the prime implicates/
+   set covering step, therefore, as the current QuineMcCluskey application
+   only generates the prime implicates, the name is not correct and
+   may lead to confusion. </li>
+  </ul>
+
 
   \todo Quine/McCluskey in general
   <ul>

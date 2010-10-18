@@ -52,13 +52,12 @@ namespace OKlib {
           typedef std::list<std::list<value_type> > hypergraph_G_type;
           typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type> hypergraph_type;
           typedef typename hypergraph_type::set_system_type hypergraph_output_type;
-          hypergraph_type sub_hyp;
           
           { // empty sequence
             hypergraph_F_type empty_F;
-            hypergraph_output_type empty_output;
-            empty_output = sub_hyp(empty_F, empty_F);
-            OKLIB_TEST_EQUAL_RANGES(empty_output, hypergraph_output_type());
+            hypergraph_output_type intended_output;
+            hypergraph_type example_output = hypergraph_type(empty_F, empty_F);
+            OKLIB_TEST_EQUAL_RANGES(example_output.hyperedges, intended_output);
           }
           { // example sequence
             hypergraph_G_type hg_F = boost::assign::list_of
@@ -67,9 +66,8 @@ namespace OKlib {
               (boost::assign::list_of(1)(3)(5));
             hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
             hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of(1)(2));
-            hypergraph_output_type example_output;
-            example_output = sub_hyp(hg_F, hg_G);
-            OKLIB_TEST_EQUAL_W2(example_output, intended_output);
+            hypergraph_type example_output = hypergraph_type(hg_F, hg_G);
+            OKLIB_TEST_EQUAL_W2(example_output.hyperedges, intended_output);
           }
         }
       };

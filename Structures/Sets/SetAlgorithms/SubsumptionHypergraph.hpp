@@ -13,9 +13,6 @@ License, or any later version. */
   ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
 
 
-  \bug Test failure
-
-
   \todo Improve code quality
   <ul>
    <li> "Brief" should speak in intuitive words about the functionality
@@ -28,6 +25,15 @@ License, or any later version. */
    <li> All member functions need a specification. </li>
    <li> Everything not used by the user must be private. </li>
    <li> Every class and function needs documentation! </li>
+  </ul>
+
+
+  \bug DONE Test failure
+  <ul>
+   <li> Bug was introduced by OK during cleanup of code, as 
+   "count++" -> "++count" was not equivalent in the place it
+   was changed. </li>
+   <li> MG's use of "count++" *was* intentional but misguided. </li>
   </ul>
 
 */
@@ -44,6 +50,7 @@ License, or any later version. */
 #include <boost/range.hpp>
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
+#include <boost/iterator/counting_iterator.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/and.hpp>
 
@@ -61,7 +68,7 @@ namespace OKlib {
 
     /*!
       \class Subsumption_hypergraph
-      \brief Generating the subsumption hypergraph
+      \brief Constructing the subsumption hypergraph
 
       Standardised form (using standardise_ohg of
       subsumption_ohg in ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
@@ -70,59 +77,92 @@ namespace OKlib {
     template <class RangeF,
 	      class RangeG,
               typename Int = typename boost::range_difference<RangeF>::type>
-    struct Subsumption_hypergraph {
+    class Subsumption_hypergraph {
 
-      typedef typename boost::range_iterator<RangeF>::type f_iterator_type;
-      typedef typename boost::range_iterator<RangeG>::type g_iterator_type;
-      typedef typename boost::range_value<RangeF>::type f_value_type;
+    public :
+
       typedef typename std::list<Int> hyperedge_type;
       typedef Int vertex_type;
       typedef std::list<hyperedge_type> set_system_type;
       
-      RangeF vertex_set;
+      hyperedge_type vertex_set;
       set_system_type hyperedges;
-      std::map<f_value_type,Int> hyperedge_map;
 
-      template <class range_c>
-      hyperedge_type all_subsuming(const range_c c_range, RangeF f_range) {
-        hyperedge_type subsumes_set;
-        f_iterator_type f_begin = boost::begin(f_range);
-        for (; f_begin != boost::end(f_range); ++f_begin) 
-          if (std::includes(boost::begin(c_range), boost::end(c_range), boost::begin(*f_begin),boost::end(*f_begin)))
-            subsumes_set.push_back(hyperedge_map[*f_begin]);
+      Subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
+        const boost::counting_iterator<Int> v_begin(0);
+        const boost::counting_iterator<Int> v_end(boost::size(f_range));
+        std::copy(v_begin, v_end, boost::begin(vertex_set));
+        
+        subsumption_hypergraph(f_range, g_range);
+      }
+
+    private:
+
+      typedef typename boost::range_const_iterator<RangeF>::type f_iterator_type;
+      typedef typename boost::range_const_iterator<RangeG>::type g_iterator_type;
+      typedef typename boost::range_value<RangeF>::type f_value_type;
+      typedef std::map<f_value_type, Int> hyperedge_map_type;
+      typedef std::list<f_value_type> hyperedge_nonstd_type;
+
+      static inline hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
+        hyperedge_map_type hyperedge_map;
+        
+        Int count = 0;
+        const f_iterator_type f_end = boost::end(f_range);
+        for(f_iterator_type f_begin = boost::begin(f_range); 
+            f_begin != f_end; ++f_begin)
+          hyperedge_map[*f_begin] = ++count;
+        return(hyperedge_map);
+      }
+
+      static inline 
+      hyperedge_type standardise_hyperedge(const hyperedge_nonstd_type edge, 
+                                           const hyperedge_map_type hmap) {
+        typedef typename boost::range_const_iterator<hyperedge_nonstd_type>::type
+          hyperedge_nonstd_const_iterator_type;
+
+        hyperedge_type new_edge;
+        const hyperedge_nonstd_const_iterator_type end = boost::end(edge);
+        for(hyperedge_nonstd_const_iterator_type iter = boost::begin(edge);
+            iter != end; ++iter) {
+          new_edge.push_back(hmap.find(*iter)->second);
+        }
+        return(new_edge);
+      }
+
+      template <class RangeC>
+      static inline 
+      hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
+                                          const RangeF f_range) {
+        hyperedge_nonstd_type subsumes_set;
+        
+        for (f_iterator_type f_begin = boost::begin(f_range); 
+             f_begin != boost::end(f_range); ++f_begin) 
+          if (std::includes(boost::begin(c_range), boost::end(c_range), 
+                            boost::begin(*f_begin),boost::end(*f_begin)))
+            subsumes_set.push_back(*f_begin);
         return(subsumes_set);
       }
 
-      void fill_hyperedge_map(RangeF f_range) {
-        f_iterator_type f_begin = boost::begin(f_range);
-        for(Int count = 1; f_begin != boost::end(f_range); ++f_begin)
-          hyperedge_map[*f_begin] = ++count;
+      void subsumption_hypergraph(const RangeF f_range, 
+                                  const RangeG g_range) {
+        hyperedge_map_type hmap = fill_hyperedge_map(f_range);
+        
+        const g_iterator_type g_end = boost::end(g_range);
+        for (g_iterator_type g_begin = boost::begin(g_range); 
+             g_begin != g_end; ++g_begin) {
+          const hyperedge_type edge = 
+            standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap);
+          hyperedges.push_back(edge);
+        }
       }
-
-      void subsumption_hypergraph(const RangeF f_range, RangeG g_range) {
-        hyperedges.clear(); // We might be dealing with a different set system.
-        hyperedge_map.clear();
-        fill_hyperedge_map(f_range);
-
-        g_iterator_type g_begin = boost::begin(g_range);
-        for (; g_begin != boost::end(g_range); ++g_begin)
-          hyperedges.push_back(all_subsuming(*g_begin, f_range));
-      }
-
-      set_system_type operator() (const RangeF f_range, const RangeG g_range) {
-        vertex_set = f_range;
-        subsumption_hypergraph(f_range, g_range);
-        return hyperedges;
-      }
-
     };
 
 
     template<class RangeF, class RangeG>
     typename std::list<std::list<typename boost::range_difference<RangeF>::type> >  
     subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
-      Subsumption_hypergraph<RangeF, RangeG> sub_hyp;
-      sub_hyp(f_range,g_range);
+      Subsumption_hypergraph<RangeF, RangeG> sub_hyp(f_range,g_range);
       return sub_hyp.hyperedges;
     }
 

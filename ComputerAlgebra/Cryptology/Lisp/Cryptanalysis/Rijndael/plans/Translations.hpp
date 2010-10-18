@@ -548,6 +548,7 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    system works, as well as pointing out the standard functions to use. </li>
    <li> Much of this information can be moved from "Fix translation system".
    </li>
+   <li> This has been started but needs to be extended significantly. </li>
   </ul>
   
 

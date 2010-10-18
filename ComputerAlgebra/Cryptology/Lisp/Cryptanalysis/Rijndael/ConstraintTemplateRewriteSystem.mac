@@ -65,7 +65,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    A constraint rewrite map is a an ordered (i.e. list) set map which maps
    a given constraint template name to a rewrite bundle.
  
-   For examples see docus/Translations.hpp. ??? where is this ???
+   For examples see docus/ConstraintTemplateRewriteSystem.hpp.
 */
 
 /****************************

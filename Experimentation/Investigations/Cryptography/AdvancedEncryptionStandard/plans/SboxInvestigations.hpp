@@ -357,9 +357,47 @@ ExtendedToStrictDimacs-O3-DNDEBUG < sbox_hgt.ecnf > sbox_hgt.cnf;
    <li> Note that the subsumption hypergraph for the Sbox prime implicates
    doesn't contain any unit hyperedges and aside from basic subsumption 
    elimination on the subsumption hypergraph, there are no simple reductions 
-   such as those performed in the QuineMcCluskey algorithm. </li>
+   such as those performed in the %QuineMcCluskey algorithm. </li>
    <li> MG is currently running experiments using the SAT solvers available in
    the OKlibrary. </li>
+   <li> Running the standard "eval_ubcsat" on the sbox_hgt.cnf instance with
+   M=600 yields the following :
+   \verbatim
+sbox_eval = eval_ubcsat("sbox_hgt.cnf")
+sbox_mean_eval = aggregate(list(avg_beststep=sbox_eval$beststep,avg_cputime_mean=sbox_eval$CPUTime_Mean, avg_falsified = sbox_eval$best), list(alg=sbox_eval$alg), mean)
+sbox_mean_eval[order(sbox_mean_eval$avg_falsified),]
+
+                   alg avg_beststep avg_cputime_mean avg_falsified
+3          gsat_simple    100000.00          85.9505      109121.2
+2                 gsat    100000.00           6.5574      109139.0
+13                rots    100000.00         158.2928      109145.1
+16                saps    100000.00         346.6715      109150.9
+6                 hsat    100000.00          92.1264      109151.1
+15                samd    100000.00         114.0423      109164.1
+14               rsaps    100000.00         327.8084      109188.2
+8                irots    100000.00         199.0409      109202.0
+4            gsat_tabu    100000.00         115.6767      109202.9
+17              sapsnr    100000.00         282.5468      109594.9
+7                hwsat     99999.83          79.7637      117324.8
+1        adaptnoveltyp     99999.33           0.1970      160964.4
+19        walksat_tabu     99999.43           0.1898      172123.7
+20 walksat_tabu_nonull     99999.50           0.1900      172223.0
+12           rnoveltyp     99999.48           0.1976      172608.5
+11            rnovelty     99999.06           0.1969      172637.7
+5                gwsat     99999.06          52.7133      178657.5
+18             walksat     99998.96           0.1841      180616.5
+9              novelty     99999.31           0.1975      180622.4
+10            noveltyp     99999.57           0.1970      181339.2
+   \endverbatim
+   MG is currently running experiments for other values of M, and using gsat
+   with large cutoffs (4000000).
+   </li>
+   <li> With 46/100 runs with UBCSAT using "gsat" and a cutoff of 4000000,
+   UBCSAT seem to yield on average a minimum of 21500 falsified clauses
+   with little difference (around 100-200) between these minimum numbers and
+   every run reaching the maximum cutoff. This suggests we need to increase 
+   the cutoff, but we are currently unable to do so due to UBCSATs 32 bit 
+   limit on the cutoff. </li>
  </ul>
 
 */
