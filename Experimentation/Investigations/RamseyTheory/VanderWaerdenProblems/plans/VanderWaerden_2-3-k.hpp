@@ -1346,6 +1346,10 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
      \endverbatim
      The same solution as above (last version), but with vertex 121 replacing vertex 472.
      </li>
+     <li> rots, cutoff=10^7, finds a solution in run 215 (osteps=1898408,
+     seed=4066830458), the same as the first one found. </li>
+     <li> So one could conjecture that this solution with small variations is
+     the only solution for n=592 (which would show that vdw_2(3,24)=593). </li>
     </ol>
    </li>
    <li> Restarting the search, now using the solution found for n=592
@@ -1379,6 +1383,13 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   1   2   3   4   5   6   7   8 
  13 148 181 124  29   3   1   1 
 500
+     \endverbatim
+     </li>
+     <li> Cutoff=5*10^7, rots:
+     \verbatim
+ 1  2  3 
+16 67 17 
+100 
      \endverbatim
      </li>
     </ol>
@@ -1762,6 +1773,17 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 614,628,630,631,650,660,665,667,693,712,
 724,734,739,741,765,776,786,799,816
      \endverbatim
+     </li>
+     <li> 1000 runs with rots and cutoff=5*10^6 found 2 solutions:
+     \verbatim
+  0   1   2   3   4   5   6   7   8  10  11  13  14  15  16  17  18  20 
+  2  31 530 272  36   7   1   1   2   1   1  16  18  32  32  15   2   1 
+1000 
+    sat min  osteps  msteps       seed
+400   1   0 3527090 3527090  249146123
+751   1   0 4364843 4364843 2199943925
+     \endverbatim
+     Again none of the solution could be reproduced (due to the Ubcsat bug).
      </li>
     </ol>
    </li>
