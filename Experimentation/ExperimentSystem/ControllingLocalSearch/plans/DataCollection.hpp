@@ -12,16 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Misplaced eval_ubcsat
-  <ul>
-   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
-   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
-   </li>
-   <li> After moving this function (and accompanying code), the todos below
-   needs to be updated. </li>
-  </ul>
-
-
   \bug Bad documentation for eval_ubcsat
   <ul>
    <li> When examples are given, then they need to be reproducible (as much
@@ -372,6 +362,16 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    might yield an improvement, while if not then the algorithm wanders
    randomly around without achieving something (so increasing the cutoff
    seems of little value). </li>
+  </ul>
+
+
+  \bug (DONE Moved to DataCollection.R) Misplaced eval_ubcsat
+  <ul>
+   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
+   </li>
+   <li> After moving this function (and accompanying code), the todos below
+   needs to be updated. </li>
   </ul>
 
 
