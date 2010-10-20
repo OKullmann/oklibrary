@@ -41,7 +41,6 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
   typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
-  
 
   if (argc != 3) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are "
@@ -53,10 +52,8 @@ int main(const int argc, const char* const argv[]) {
 
   CLSAdaptor set_system_F_atr;
   CLSAdaptor set_system_G_atr;
-
   std::ifstream f_in;
   std::ifstream g_in;
-
   f_in.open(argv[1], std::ios::in); 
   if (not f_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[1] << ".\n";
@@ -67,19 +64,15 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[2] << ".\n";
     return error_openfile;
   }
-
   const CLSInput input_F(f_in, set_system_F_atr);
   const CLSInput input_G(g_in, set_system_G_atr);
-
   f_in.close(); g_in.close();
 
   const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(
                                                  set_system_F_atr.clause_set,
                                                  set_system_G_atr.clause_set);
-
   const std::string comment(std::string("Subsumption hypergraph for ") + argv[1] + " " + argv[2]);
-
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg, std::cout, comment.c_str());
 
 }
