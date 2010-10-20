@@ -10,6 +10,30 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \bug UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
+  <ul>
+   <li> Given the input file ("test.wcnf")
+   \verbatim
+p wcnf 2 4
+200 1 2 0
+200 1 -2 0
+1 1 0
+1 2 0 
+   \endverbatim
+   and running
+   \verbatim
+ubcsat-okl -alg gsat -w -i test.wcnf
+   \endverbatim
+   or
+   \verbatim
+ubcsat -alg gsat -w -i test.wcnf
+   \endverbatim
+   segfaults on MG's machine.
+   </li>
+   <li> Using ubcsat 1.1.0 doesn't segfault. </li>
+  </ul>
+
+
   \todo Make clear the required package for dos2unix
   <ul>
    <li> Some linux distributions (such as Ubuntu, and (therefore)

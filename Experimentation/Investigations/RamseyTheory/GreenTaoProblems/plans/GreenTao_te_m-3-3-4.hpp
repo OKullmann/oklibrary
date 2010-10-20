@@ -111,7 +111,7 @@ License, or any later version. */
      </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_4-2-3-3-4_453.cnf", params=list(runs=100,cutoff=1000000))
+> E = eval_ubcsat("GreenTao_N_4-2-3-3-4_453.cnf", runs=100,cutoff=1000000)
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -286,7 +286,7 @@ gwsat :
      </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_5-2-2-3-3-4_472.cnf", params=list(runs=100,cutoff=500000))
+> E = eval_ubcsat("GreenTao_N_5-2-2-3-3-4_472.cnf", runs=100,cutoff=500000)
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim

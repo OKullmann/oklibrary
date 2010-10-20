@@ -12,16 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Misplaced eval_ubcsat
-  <ul>
-   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
-   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
-   </li>
-   <li> After moving this function (and accompanying code), the todos below
-   needs to be updated. </li>
-  </ul>
-
-
   \bug Bad documentation for eval_ubcsat
   <ul>
    <li> When examples are given, then they need to be reproducible (as much
@@ -47,12 +37,9 @@ License, or any later version. */
 
   \bug Bad columns produced by eval_ubcsat
   <ul>
-   <li> The column-names should be identical to the names used by ubcsat (in
-   the output!). </li>
-   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
-   msteps". </li>
    <li> "Clauses", "Variables" and other constant measures should not show up
-   in such dataframes. </li>
+   in such dataframes. (MG: This could be done by just adding a field to the 
+   dataframe.) </li>
    <li> For the data which is constant per algorithm, a second dataframe
    should be returned. </li>
    <li> There is no need to have more or less of these parameters --- we need
@@ -65,6 +52,10 @@ License, or any later version. */
    <li> Access to the factor levels should be possible through the variable
    eval_ubcsat_cnf_algs, however this is not possible. </li>
    <li> It seems that MG didn't understand the nature of dataframes. </li>
+   <li> DONE The column-names should be identical to the names used by ubcsat (in
+   the output!). </li>
+   <li> DONE So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
+   msteps". </li>
   </ul>
 
 
@@ -98,16 +89,6 @@ plot(E$alg,E$best)
      plot(E$alg,E$best), followed by printing those sorted tables. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \bug Bad parameter of eval_ubcsat
-  <ul>
-   <li> Collecting the parameters in a list is inappropriate, but just the
-   standard R-handling should be used, so that for example one can just
-   specify "cutoff=1000000" as additional parameter, without, of course,
-   changing anything else --- currently parameter "runs" is overwritten in
-   this case. </li>
   </ul>
 
 
@@ -372,6 +353,26 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    might yield an improvement, while if not then the algorithm wanders
    randomly around without achieving something (so increasing the cutoff
    seems of little value). </li>
+  </ul>
+
+
+  \bug (DONE Moved to DataCollection.R) Misplaced eval_ubcsat
+  <ul>
+   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
+   </li>
+   <li> After moving this function (and accompanying code), the todos below
+   needs to be updated. </li>
+  </ul>
+
+
+  \bug DONE Bad parameter of eval_ubcsat
+  <ul>
+   <li> Collecting the parameters in a list is inappropriate, but just the
+   standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
   </ul>
 
 

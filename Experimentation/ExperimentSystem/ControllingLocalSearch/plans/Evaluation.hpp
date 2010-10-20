@@ -10,7 +10,8 @@ License, or any later version. */
   \brief %Tools for evaluating local search algorithms
 
 
-  \bug The functions for running Ubcsat are misplaced here
+  \bug (DONE Moved to DataCollection.R)
+  The functions for running Ubcsat are misplaced here
   <ul>
    <li> See ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp.
    </li>

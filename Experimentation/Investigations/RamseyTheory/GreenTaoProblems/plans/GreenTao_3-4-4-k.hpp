@@ -198,7 +198,7 @@ License, or any later version. */
     <ol>
      <li> Determining the best Ubcsat-algorithm (cutoff=10^6):
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-4-4-4_5222.cnf", params=list(cutoff=1000000,runs=100))
+> E = eval_ubcsat("GreenTao_N_3-4-4-4_5222.cnf", cutoff=1000000,runs=100)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 

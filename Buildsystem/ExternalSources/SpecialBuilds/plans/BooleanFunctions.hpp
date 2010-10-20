@@ -97,6 +97,9 @@ ExternalSources/Installations/R> oklib --R
      (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
      and use the standard make-style compilation procedure, so
      \verbatim
+cd $OKPLATFORM/ExternalSources/builds/
+mkdir Espresso
+cd Espresso
 wget http://eqntott.googlecode.com/files/espresso-ab-1.0.tar.gz
 tar zxvf espresso-ab-1.0.tar.gz
 cd espresso-ab-1.0
@@ -120,8 +123,29 @@ make
      \endverbatim
      by calling 
      \verbatim
-./src/espresso test.pla
+$OKPLATFORM/ExternalSources/builds/Espresso/espresso-ab-1.0/src/espresso test.pla
+.i 3
+.o 1
+.p 3
+1-0 1
+-10 1
+11- 1
+.e
      \endverbatim
+     </li>
+     <li> Note here that the PLA file is a format for describing boolean 
+     functions. For simple usage one can assume that the ".i" line specifies
+     the number of input variables, the ".o" line, the number of output 
+     variables, and then each line specifies the entry in a truth table 
+     describing the associated boolean function. If an entry is marked with
+     a "-", this is simply shorthand for the expansion into multiple truth
+     table entries where the "-" values take every possibily but the rest
+     of the values remain unchanged. For more details, see 
+     http://people.ee.duke.edu/~jab/ece151/espresso.5.html .
+     </li>
+     <li> Note that espresso-ab provides no documentation but 
+     the original documentation applies and is available at
+     http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm .
      </li>
     </ol>
    </li>

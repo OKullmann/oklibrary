@@ -194,7 +194,7 @@ License, or any later version. */
      (seed=3892552022, osteps=16215921). </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", runs=200,cutoff=1000000)
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
@@ -536,7 +536,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> Finding best algorithm from Ubcsat:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",params=list(runs=100,cutoff=1000000))
+> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
      \endverbatim
