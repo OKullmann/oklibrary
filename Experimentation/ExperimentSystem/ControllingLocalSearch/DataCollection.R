@@ -99,12 +99,12 @@ eval_ubcsat = function(
  input,
  algs=eval_ubcsat_cnf_algs,
  output_params=eval_ubcsat_output_params, 
- params = eval_ubcsat_std_params,
- monitor=TRUE) {
+ monitor=TRUE,...) {
 
   eval_ubcsat_df = NULL
   # Setup parameter string
   std_params = ""
+  params = list(...)
   for (param_name in names(params)) {
     std_params = paste(std_params," -",param_name, " ",
       format(params[[param_name]],scientific=5000),sep="")
@@ -119,7 +119,7 @@ eval_ubcsat = function(
       "ubcsat -r out '", output_file, "' ",
       do.call(paste,c(output_params,list(sep=","))),
       " -r stats '", stats_output_file, "' ",
-      "numclauses,numvars,numlits,fps,totaltime,time ",
+      "numclauses,numvars,numlits,fps,totaltime,time,steps ",
       std_params," -alg ", algs[alg], " -i ",input, " > ",
       input,"-",alg_names[alg],".eval_ubcsat_log",sep="")
     if (monitor) print(eval_ubcsat_command)
@@ -142,7 +142,7 @@ eval_ubcsat = function(
 
 # For example, running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1))
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1)
 #
 # for an example cnf, results in the data.frame E with the following values:
 #
@@ -161,7 +161,7 @@ eval_ubcsat = function(
 #
 # whereas running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),params=list(runs=1,cutoff=1),output_params=list("run","found","best","beststep","steps"))
+# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1,output_params=list("run","found","best","beststep","steps"))
 #
 # produces:
 #

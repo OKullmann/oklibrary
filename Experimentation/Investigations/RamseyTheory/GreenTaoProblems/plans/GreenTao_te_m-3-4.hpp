@@ -308,7 +308,7 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
      </li>
      <li> Determining the best Ubcsat-algorithm (cutoff=10^6):
      \verbatim
-> E = eval_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf", params=list(cutoff=1000000,runs=100))
+> E = eval_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf", cutoff=1000000,runs=100)
 > plot(E$alg,E$best)
 > table(E$best[E$alg=="adaptnoveltyp"])
   1

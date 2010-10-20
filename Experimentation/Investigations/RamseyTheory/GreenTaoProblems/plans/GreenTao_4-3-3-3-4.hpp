@@ -23,14 +23,14 @@ License, or any later version. */
    <li>
    Evaluating
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-3-4_800.cnf", params=list(runs=100,cutoff=10000),monitor=TRUE)
+E = eval_ubcsat("GreenTao_4-3-3-3-4_800.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), the best algorithms seems sapsnr. </li>
    <li> However, considering n=1000, now gsat-tabu, adaptnovelty+, rots and
    samd seem best (for cutoff=10000), while sapsnr became rather weak! </li>
    <li> Testing these four algorithms with cutoff=10^6:
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE, algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
+E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", runs=100,cutoff=1000000,monitor=TRUE, algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
    \endverbatim
    (currently algorithms-names are inappropriately handled by eval_ubcsat):
    adaptnovelty+ is clearly best: the best min(=6), and a very small spread;
@@ -133,7 +133,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      </li>
      <li> Checking all algorithms with cutoff=10^6:
      \verbatim
-> E = eval_ubcsat("GreenTao_4-3-3-3-4_994.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE)
+> E = eval_ubcsat("GreenTao_4-3-3-3-4_994.cnf", runs=100,cutoff=1000000,monitor=TRUE)
      \endverbatim
      The best algorithms seem to be gwsat, gsat_tabu, adaptnoveltyp and samd,
      with adaptnoveltyp clearly best (reaching also the best min=6). </li>
@@ -281,7 +281,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
        </li>
        <li> Best local search algorithm, evaluating
        \verbatim
-E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", runs=200,cutoff=1000000)
        \endverbatim
        by plot(E$alg,E$best):
        \verbatim
@@ -328,7 +328,7 @@ E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=100
        </li>
        <li> Best local search algorithm, evaluating
        \verbatim
-E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", runs=200,cutoff=1000000)
        \endverbatim
        by plot(E$alg,E$best):
        \verbatim
@@ -402,7 +402,7 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
      a solution in run 29 (seed=927551785, osteps=14114027). </li>
      <li> Strong nested standard translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      by plot(E$alg,E$best):
      \verbatim
 > table(E$best[E$alg=="rnoveltyp"])
@@ -437,7 +437,7 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=10
      Thus the weak nested translation seems better than the strong. </li>
      <li> Logarithmic translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best):
      \verbatim
@@ -493,7 +493,7 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=100
      <li> So definitely the weak standard nested translation is superior. </li>
      <li> Weak standard reduced translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -507,7 +507,7 @@ gwsat :
      </li>
      <li> Strong standard reduced translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_SR_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = eval_ubcsat("GreenTao_SR_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -605,7 +605,7 @@ rnovelty :
      </li>
      <li>  Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1053.cnf", params=list(runs=100,cutoff=1000000))
+E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1053.cnf", runs=100,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim

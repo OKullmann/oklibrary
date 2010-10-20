@@ -153,7 +153,7 @@ BestSolution_Max = 7.000000
      <li> One needs to consider whether other algorithms might be better on
      this instance:
      \verbatim
-> E = eval_ubcsat("Gasarch_4-16-17-m2pp.cnf", params=list(cutoff=1000000,runs=100))
+> E = eval_ubcsat("Gasarch_4-16-17-m2pp.cnf", cutoff=1000000,runs=100)
 plot(E$alg,E$best)
 > table(E$best[E$alg=="adaptnoveltyp"])
  5  6  7  8  9 10

@@ -375,7 +375,7 @@ CPU time              : 2.23859e+06 s
      </li>
      <li> Evaluation of all ubcsat-algorithms:
      \verbatim
-> E = eval_ubcsat("GreenTao_3-2-3-5_562.cnf", params=list(cutoff=1000000,runs=100))
+> E = eval_ubcsat("GreenTao_3-2-3-5_562.cnf", cutoff=1000000,runs=100)
 plot(E$alg,E$best)
 min(E$best)
  1
@@ -846,7 +846,7 @@ plot(E$alg,E$best)
      </li>
      <li> Finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_4-2-2-3-5_581.cnf", params=list(runs=100,cutoff=1000000))
+> E = eval_ubcsat("GreenTao_N_4-2-2-3-5_581.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -892,7 +892,7 @@ hwsat :
       <ol>
        <li> Finding the best Ubcsat-algorithm:
        \verbatim
-> E = eval_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", params=list(runs=100,cutoff=1000000))
+> E = eval_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 

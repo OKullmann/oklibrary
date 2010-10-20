@@ -91,16 +91,6 @@ plot(E$alg,E$best)
   </ul>
 
 
-  \bug Bad parameter of eval_ubcsat
-  <ul>
-   <li> Collecting the parameters in a list is inappropriate, but just the
-   standard R-handling should be used, so that for example one can just
-   specify "cutoff=1000000" as additional parameter, without, of course,
-   changing anything else --- currently parameter "runs" is overwritten in
-   this case. </li>
-  </ul>
-
-
   \todo Collecting data
   <ul>
    <li> Steps to be taken:
@@ -372,6 +362,16 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    </li>
    <li> After moving this function (and accompanying code), the todos below
    needs to be updated. </li>
+  </ul>
+
+
+  \bug DONE Bad parameter of eval_ubcsat
+  <ul>
+   <li> Collecting the parameters in a list is inappropriate, but just the
+   standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
   </ul>
 
 

@@ -1128,7 +1128,7 @@ sapsnr :
      </li>
      <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", params=list(runs=100,cutoff=1000000))
+> E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
