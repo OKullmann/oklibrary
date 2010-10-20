@@ -52,14 +52,12 @@ int main(const int argc, const char* const argv[]) {
 
   CLSAdaptor set_system_F_atr;
   CLSAdaptor set_system_G_atr;
-  std::ifstream f_in;
-  std::ifstream g_in;
-  f_in.open(argv[1], std::ios::in); 
+  std::ifstream f_in(argv[1]);
+  std::ifstream g_in(argv[2]);
   if (not f_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[1] << ".\n";
     return error_openfile;
   }
-  g_in.open(argv[2], std::ios::in);
   if (not g_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[2] << ".\n";
     return error_openfile;
