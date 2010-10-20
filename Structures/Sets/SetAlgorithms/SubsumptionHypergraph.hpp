@@ -126,9 +126,8 @@ namespace OKlib {
         hyperedge_type new_edge;
         const hyperedge_nonstd_const_iterator_type end = boost::end(edge);
         for(hyperedge_nonstd_const_iterator_type iter = boost::begin(edge);
-            iter != end; ++iter) {
+            iter != end; ++iter)
           new_edge.push_back(hmap.find(*iter)->second);
-        }
         return(new_edge);
       }
 
@@ -148,7 +147,6 @@ namespace OKlib {
       void subsumption_hypergraph(const RangeF f_range, 
                                   const RangeG g_range) {
         hyperedge_map_type hmap = fill_hyperedge_map(f_range);
-        
         const g_iterator_type g_end = boost::end(g_range);
         for (g_iterator_type g_begin = boost::begin(g_range); 
              g_begin != g_end; ++g_begin) {
