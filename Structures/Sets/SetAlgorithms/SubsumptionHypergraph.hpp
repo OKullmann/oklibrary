@@ -47,22 +47,11 @@ License, or any later version. */
 #define SUBSUMPTION_HYPERGRAPH_yhgBBv567
 
 #include <algorithm>
-#include <iterator>
-#include <cassert>
 #include <map>
 #include <list>
 
 #include <boost/range.hpp>
-#include <boost/utility.hpp>
-#include <boost/iterator/reverse_iterator.hpp>
 #include <boost/iterator/counting_iterator.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/and.hpp>
-
-#include <OKlib/traits/TypeTraitsContainer.hpp>
-#include <OKlib/Programming/MetaProgramming/TaggingPolymorphism.hpp>
-
-#include <OKlib/Structures/Sets/SetAlgorithms/Subsumption.hpp>
 
 
 namespace OKlib {
