@@ -24,7 +24,6 @@ License, or any later version. */
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 #include <OKlib/Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp>
 
-
 namespace {
 
   enum {
@@ -33,7 +32,7 @@ namespace {
     error_readfile = 3
   };
 
-  const std::string version = "0.1.10";
+  const std::string version = "0.1.11";
 
 }
 
