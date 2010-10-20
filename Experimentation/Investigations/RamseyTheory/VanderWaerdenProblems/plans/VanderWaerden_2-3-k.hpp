@@ -13,11 +13,13 @@ License, or any later version. */
   An experiment is run by "RunVdW3k k n0 alg runs cutoff".
 
   
-  \todo Literature overview
+  \todo Predictions of vdw_2(3,k)
   <ul>
    <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3.
     <ol>
-     <li> The first counterexample is vdw_2(3,24) > 576.
+     <li> The first counterexample is vdw_2(3,24) > 592. </li>
+     <li> It seems that this is not just an outlier, but that growth is
+     more than quadratic. </li>
     </ol>
    </li>
    <li> The known values with k=1, ..., 19 are available via
