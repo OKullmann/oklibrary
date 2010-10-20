@@ -50,21 +50,22 @@ int main(const int argc, const char* const argv[]) {
     return error_parameters;
   }
 
-  CLSAdaptor set_system_F_atr;
-  CLSAdaptor set_system_G_atr;
   std::ifstream f_in(argv[1]);
-  std::ifstream g_in(argv[2]);
   if (not f_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[1] << ".\n";
     return error_openfile;
   }
+  CLSAdaptor set_system_F_atr;
+  const CLSInput input_F(f_in, set_system_F_atr);
+  f_in.close();
+  std::ifstream g_in(argv[2]);
   if (not g_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[2] << ".\n";
     return error_openfile;
   }
-  const CLSInput input_F(f_in, set_system_F_atr);
+  CLSAdaptor set_system_G_atr;
   const CLSInput input_G(g_in, set_system_G_atr);
-  f_in.close(); g_in.close();
+  g_in.close();
 
   const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(
