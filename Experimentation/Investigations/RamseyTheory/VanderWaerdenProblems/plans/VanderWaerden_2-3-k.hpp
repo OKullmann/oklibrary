@@ -1076,7 +1076,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", params=list(runs=100,cutoff=1000
   </ul>
 
 
-  \todo vanderwaerden_2(3,24) > 592
+  \todo vanderwaerden_2(3,24) >= 593
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = 593. </li>
    <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
@@ -1348,6 +1348,8 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
      </li>
      <li> rots, cutoff=10^7, finds a solution in run 215 (osteps=1898408,
      seed=4066830458), the same as the first one found. </li>
+     <li> rots, cutoff=5*10^7, finds a solution in run 14 (osteps=19500171,
+     seed=1877893773), which was already found. </li>
      <li> So one could conjecture that this solution with small variations is
      the only solution for n=592 (which would show that vdw_2(3,24)=593). </li>
     </ol>
@@ -1383,6 +1385,9 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   1   2   3   4   5   6   7   8 
  13 148 181 124  29   3   1   1 
 500
+  1   2   3   4   5   6   7 
+ 14 155 163 129  29   7   3 
+500 
      \endverbatim
      </li>
      <li> Cutoff=5*10^7, rots:
@@ -1392,6 +1397,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
 100 
      \endverbatim
      </li>
+     <li> Let's consider this as unsatisfiable. </li>
     </ol>
    </li>
   </ul>
