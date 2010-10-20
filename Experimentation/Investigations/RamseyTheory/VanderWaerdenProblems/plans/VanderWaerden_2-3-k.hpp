@@ -1496,6 +1496,13 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 1000
      \endverbatim
      </li>
+     <li> Another 1000 runs with rots and cutoff=5*10^6 don't find a solution:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12
+232 292 163 112  31  14  48  39  36  19   6   8
+1000
+     \endverbatim
+     </li>
     </ol>
    <li>
    <li> n=656
@@ -1512,7 +1519,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
   </ul>
 
 
-  \todo vanderwaerden_2(3,26) > 726
+  \todo vanderwaerden_2(3,26) >= 727
   <ul>
    <li> The conjecture is vanderwaerden_2(3,26) = 727. </li>
    <li> Search starting with n=600:
@@ -1585,12 +1592,19 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 1000
      \endverbatim
      (so it seems rots is definitely better). </li>
+     <li> rots, cutoff=10^7:
+     \verbatim
+  1   2   3   4   8   9  10  11
+284 171  18   2   4  15   3   3
+500
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,27) > 769
+  \todo vanderwaerden_2(3,27) >= 770
   <ul>
    <li> The conjecture is vanderwaerden_2(3,27) = 770. </li>
    <li> Search starting with n=610:
@@ -1697,6 +1711,13 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 451 349  80   9   2   1   1   1   1   1   4   4  11  13  27  17  13   9   3   1
  21  22
   1   1
+1000
+     \endverbatim
+     </li>
+     <li> Cutoff=5*10^6, rots:
+     \verbatim
+  1   2   3   4   5   6   8   9  12  13  14  15  16  17  18  19
+452 361  72   8   2   1   1   1   7   4  18  31  11  16  13   2
 1000
      \endverbatim
      </li>
@@ -1921,7 +1942,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 
   \todo vanderwaerden_2(3,30) > 897
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
+   <li> The conjecture is vanderwaerden_2(3,29) = 898. </li>
    <li> Search starting with n=852:
    \verbatim
 OKplatform> RunVdW3k 30 852 rots 1000 5000000
@@ -1990,6 +2011,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 728,745,751,771,778,782,800,815,821,839,
 847,858,884
    \endverbatim
+   </li>
+   <li> n=898:
+    <ol>
+     <li> rots with cutoff=5*10^6 didn't find a solution:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+ 37 222 170  58  13   8   4   8  16  40  92 120 121  61  24   5   1
+1000
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
