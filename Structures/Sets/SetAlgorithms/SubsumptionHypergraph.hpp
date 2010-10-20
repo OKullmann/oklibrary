@@ -92,7 +92,6 @@ namespace OKlib {
         const boost::counting_iterator<Int> v_begin(0);
         const boost::counting_iterator<Int> v_end(boost::size(f_range));
         std::copy(v_begin, v_end, boost::begin(vertex_set));
-        
         subsumption_hypergraph(f_range, g_range);
       }
 
@@ -106,7 +105,6 @@ namespace OKlib {
 
       static hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
         hyperedge_map_type hyperedge_map;
-        
         for(
             struct {
               f_iterator_type f_begin;
@@ -139,7 +137,6 @@ namespace OKlib {
       hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
                                           const RangeF f_range) {
         hyperedge_nonstd_type subsumes_set;
-        
         for (f_iterator_type f_begin = boost::begin(f_range); 
              f_begin != boost::end(f_range); ++f_begin) 
           if (std::includes(boost::begin(c_range), boost::end(c_range), 
