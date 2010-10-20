@@ -104,7 +104,7 @@ namespace OKlib {
       typedef std::map<f_value_type, Int> hyperedge_map_type;
       typedef std::list<f_value_type> hyperedge_nonstd_type;
 
-      static inline hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
+      static hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
         hyperedge_map_type hyperedge_map;
         
         for(
@@ -119,7 +119,7 @@ namespace OKlib {
         return(hyperedge_map);
       }
 
-      static inline 
+      static
       hyperedge_type standardise_hyperedge(const hyperedge_nonstd_type edge, 
                                            const hyperedge_map_type hmap) {
         typedef typename boost::range_const_iterator<hyperedge_nonstd_type>::type
@@ -135,7 +135,7 @@ namespace OKlib {
       }
 
       template <class RangeC>
-      static inline 
+      static
       hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
                                           const RangeF f_range) {
         hyperedge_nonstd_type subsumes_set;
