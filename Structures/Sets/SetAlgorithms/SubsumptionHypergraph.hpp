@@ -153,11 +153,8 @@ namespace OKlib {
         hyperedge_map_type hmap = fill_hyperedge_map(f_range);
         const g_iterator_type g_end = boost::end(g_range);
         for (g_iterator_type g_begin = boost::begin(g_range); 
-             g_begin != g_end; ++g_begin) {
-          const hyperedge_type edge = 
-            standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap);
-          hyperedges.push_back(edge);
-        }
+             g_begin != g_end; ++g_begin)
+          hyperedges.push_back(standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap));
       }
     };
 
