@@ -107,11 +107,15 @@ namespace OKlib {
       static inline hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
         hyperedge_map_type hyperedge_map;
         
-        Int count = 0;
-        const f_iterator_type f_end = boost::end(f_range);
-        for(f_iterator_type f_begin = boost::begin(f_range); 
-            f_begin != f_end; ++f_begin)
-          hyperedge_map[*f_begin] = ++count;
+        for(
+            struct {
+              f_iterator_type f_begin;
+              Int count;
+              const f_iterator_type f_end;
+            } l = {boost::begin(f_range), 0, boost::end(f_range)};
+            l.f_begin != l.f_end;
+            ++l.f_begin)
+          hyperedge_map[*l.f_begin] = ++l.count;
         return(hyperedge_map);
       }
 
