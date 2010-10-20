@@ -120,8 +120,8 @@ namespace OKlib {
       }
 
       static
-      hyperedge_type standardise_hyperedge(const hyperedge_nonstd_type edge, 
-                                           const hyperedge_map_type hmap) {
+      hyperedge_type standardise_hyperedge(const hyperedge_nonstd_type& edge, 
+                                           const hyperedge_map_type& hmap) {
         typedef typename boost::range_const_iterator<hyperedge_nonstd_type>::type
           hyperedge_nonstd_const_iterator_type;
 
