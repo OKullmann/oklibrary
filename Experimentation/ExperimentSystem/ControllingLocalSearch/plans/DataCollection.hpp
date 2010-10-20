@@ -37,12 +37,9 @@ License, or any later version. */
 
   \bug Bad columns produced by eval_ubcsat
   <ul>
-   <li> The column-names should be identical to the names used by ubcsat (in
-   the output!). </li>
-   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
-   msteps". </li>
    <li> "Clauses", "Variables" and other constant measures should not show up
-   in such dataframes. </li>
+   in such dataframes. (MG: This could be done by just adding a field to the 
+   dataframe.) </li>
    <li> For the data which is constant per algorithm, a second dataframe
    should be returned. </li>
    <li> There is no need to have more or less of these parameters --- we need
@@ -55,6 +52,10 @@ License, or any later version. */
    <li> Access to the factor levels should be possible through the variable
    eval_ubcsat_cnf_algs, however this is not possible. </li>
    <li> It seems that MG didn't understand the nature of dataframes. </li>
+   <li> DONE The column-names should be identical to the names used by ubcsat (in
+   the output!). </li>
+   <li> DONE So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
+   msteps". </li>
   </ul>
 
 

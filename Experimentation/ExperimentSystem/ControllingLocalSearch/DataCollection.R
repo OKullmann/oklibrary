@@ -13,7 +13,8 @@
 # This default list is that used by ubcsat-okl.
 # Use the output_params parameter of eval_ubcsat to specify
 # a different list of output parameters (ubcsat output parameters).
-eval_ubcsat_output_params = list("run","found","best","beststep","steps","seed")
+eval_ubcsat_output_params = list(run="run",found="sat",best="min",
+  beststep="osteps",steps="msteps",seed="seed")
 
 # Default list of ubcsat algorithms eval_ubcsat evaluates, given
 # as a named list, where the name of each item is a reference for the
@@ -117,7 +118,7 @@ eval_ubcsat = function(
       paste(input,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
     eval_ubcsat_command = paste(
       "ubcsat -r out '", output_file, "' ",
-      do.call(paste,c(output_params,list(sep=","))),
+      do.call(paste,c(names(output_params),list(sep=","))),
       " -r stats '", stats_output_file, "' ",
       "numclauses,numvars,numlits,fps,totaltime,time,steps ",
       std_params," -alg ", algs[alg], " -i ",input, " > ",
