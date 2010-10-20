@@ -25,6 +25,9 @@ License, or any later version. */
    <li> All member functions need a specification. </li>
    <li> Everything not used by the user must be private. </li>
    <li> Every class and function needs documentation! </li>
+   <li> Adopt the new for-loop-style. </li>
+   <li> In cases of larger arguments the argument-types of functions should be
+   const-references. </li>
   </ul>
 
 
@@ -62,7 +65,6 @@ License, or any later version. */
 
 namespace OKlib {
   namespace SetAlgorithms {
-
 
     // ############################################
 
