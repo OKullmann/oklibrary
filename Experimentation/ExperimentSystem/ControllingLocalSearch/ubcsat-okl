@@ -9,6 +9,9 @@
 # Typical use (for example):
 # ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
+# The (full) list of parameters passed to ubcsat is output as a first
+# comment-line.
+
 # This script is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
 # (this is automatically performed when building ubcsat).
 
@@ -16,7 +19,9 @@ set -o errexit
 set -o nounset
 
 script_name="ubcsat-okl"
+version="0.2"
 
-echo "# $*"
+parameters="m4_SHELL(ubcsat_defaults_okl) $*"
+echo "# ${parameters}"
 echo "       sat  min     osteps     msteps       seed"
-ubcsat m4_SHELL(ubcsat_defaults_okl) $*
+ubcsat ${parameters}
