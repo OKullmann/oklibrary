@@ -1400,6 +1400,9 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
  1  2  3 
 16 67 17 
 100 
+ 1  2  3 
+14 73 13 
+100 
      \endverbatim
      </li>
      <li> Let's consider this as unsatisfiable. </li>
