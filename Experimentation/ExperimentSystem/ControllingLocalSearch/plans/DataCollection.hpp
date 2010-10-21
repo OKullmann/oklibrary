@@ -30,6 +30,7 @@ License, or any later version. */
    changing anything else --- currently parameter "runs" is overwritten in
    this case. </li>
    <li> It needs to be specified what are the defaults. </li>
+   <li> A *concept* for the input handling is needed, not just a hack. </li>
   </ul>
 
 
@@ -388,8 +389,9 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
   </ul>
 
 
-  \bug DONE Specification of eval_ubcsat is badly written
+  \bug Specification of eval_ubcsat is badly written
   <ul>
+   <li> The specification doesn't specify much. </li>
    <li> DONE Commas are needed (and semicolons, and full-stops). </li>
    <li> (DONE See Evaluation.R comments) 
    At its most basic the eval_ubcsat function can be run on
