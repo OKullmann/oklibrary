@@ -9,6 +9,7 @@
 # # Running Ubcsat #
 # ##################
 
+# XXX WHAT IS THE MEANING OF THIS? XXX
 # Default list of output parameters which ubcsat outputs.
 # This default list is that used by ubcsat-okl.
 # Use the output_params parameter of eval_ubcsat to specify
@@ -43,6 +44,7 @@ eval_ubcsat_cnf_algs = list(
    walksat_tabu_nonull="walksat-tabu -v nonull"
 )
 
+# XXX WHAT IS THE MEANING OF THIS? XXX
 # Default labelled list "arg=val" of argument-value pairs of arguments to the
 # ubcsat command. 
 eval_ubcsat_std_params = list(runs=100,cutoff=100000)
@@ -94,6 +96,7 @@ add_constant_column = function(df,const_var, name) {
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
 
+# XXX WHAT IS THE STATUS OF THIS? XXX
 # RENAME: run_ubcsat (also elsewhere (including plans-files))
 
 eval_ubcsat = function(
@@ -175,6 +178,7 @@ eval_ubcsat = function(
 #
 # where seed is no longer included in the results.
 
+# XXX WHY IS THIS IN HERE? XXX
 # First attempt, just showing all results in table form:
 eval_ubcsat_dataframe = function(E) {
   for (A in names(eval_ubcsat_cnf_algs)) {
