@@ -12,6 +12,16 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug Dangerious handling of filenames
+  <ul>
+   <li> Currently the input-path is just copied, which is false and dangerous,
+   since the output-files as a result will be placed in the same directory
+   where this input-file is located. </li>
+   <li> Obviously correct handling of the output-directory, which is created,
+   of course, from scratch and in the current directory, is needed. </li>
+  </ul>
+
+
   \bug Bad parameter of eval_ubcsat
   <ul>
    <li> Collecting the parameters in a list is inappropriate, but just the
