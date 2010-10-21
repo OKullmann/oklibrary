@@ -266,7 +266,7 @@ namespace OKlib {
            OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp),
            to read in a clause-set. </li>
            <li> No standardisation on variables is performed, and so it is
-           recommended that this done is before transfer. </li>
+           recommended that this is done before transfer. </li>
            <li> The original comment is available via U.orig_comment(). </li>
            <li> Then via U.perform_ucp() unit-clause propagation is performed;
            the return value is true iff a contradiction was found. </li>
