@@ -58,8 +58,8 @@ add_constant_column = function(df,const_var, name) {
   data.frame(df, temp_df)
 }
 
-# Runs a selection of ubcsat algorithms on the given input file, and
-# returns the results of these runs as a data.frame.
+# Runs a selection of ubcsat algorithms on the given input file, via
+# ubcsat-okl, and returns the results of these runs as a data-frame.
 #
 # Parameters:
 #     input
@@ -117,7 +117,7 @@ eval_ubcsat = function(
     stats_output_file =
       paste(input,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
     eval_ubcsat_command = paste(
-      "ubcsat -r out '", output_file, "' ",
+      "ubcsat-okl -r out '", output_file, "' ",
       do.call(paste,c(names(output_params),list(sep=","))),
       " -r stats '", stats_output_file, "' ",
       "numclauses,numvars,numlits,fps,totaltime,time,steps ",
