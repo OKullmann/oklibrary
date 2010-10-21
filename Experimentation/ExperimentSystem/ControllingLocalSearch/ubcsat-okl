@@ -10,7 +10,10 @@
 # ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
 # The (full) list of parameters passed to ubcsat is output as a first
-# comment-line.
+# comment-line. Note that parameter-settings can be specified several
+# times, and ubcsat will use the last setting.
+# For the default parameters see make-variable ubcsat_defaults_okl in
+# OKlib/Buildsystem/Configuration/ExternalSources/ubcsat.mak.
 
 # This script is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
 # (this is automatically performed when building ubcsat).
