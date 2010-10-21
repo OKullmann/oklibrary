@@ -31,6 +31,9 @@ ubcsat -alg gsat -w -i test.wcnf
    segfaults on MG's machine.
    </li>
    <li> Using ubcsat 1.1.0 doesn't segfault. </li>
+   <li> Typically this behaviour depends on the algorithms, so gsat can't be
+   used, but hopefully other algorithms. </li>
+   <li> With ubcsat version 1.2 we hope that this problem disappears. </li>
   </ul>
 
 
