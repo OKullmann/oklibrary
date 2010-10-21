@@ -22,6 +22,7 @@
 
 #include "ubcsat.h"
 
+UINT32 iTabuTenureMedian;
 UINT32 iTabuTenureInterval;
 UINT32 iTabuTenureLow;
 UINT32 iTabuTenureHigh;
@@ -41,10 +42,10 @@ void AddRoTS() {
     "DefaultProcedures,Flip+VarScore",
     "default","default");
   
-  AddParmUInt(&pCurAlg->parmList,"-tabu","target tabu tenure","median tabu tenure length","",&iTabuTenure,10);
+  AddParmUInt(&pCurAlg->parmList,"-tabu","target tabu tenure","median tabu tenure length","",&iTabuTenureMedian,10);
   AddParmUInt(&pCurAlg->parmList,"-tabuinterval","tabu interval","tabu +/- interval size as a percent of tabu tenure","",&iTabuTenureInterval,25);
 
-  CreateTrigger("InitRoTS",PostParameters,InitRoTS,"","");
+  CreateTrigger("InitRoTS",PreRun,InitRoTS,"","");
   CreateTrigger("PickRoTS",ChooseCandidate,PickRoTS,"InitRoTS,VarLastChange,BestFalse","");
 
   pCurAlg = CreateAlgorithm("rots","",1,
@@ -62,7 +63,7 @@ void AddRoTS() {
 void InitRoTS() {
 
   /* use the iTabuTenureInterval to set the low & high range for the tabu tenure */
-
+  iTabuTenure = iTabuTenureMedian;
   iTabuTenureLow = iTabuTenure - (iTabuTenureInterval * iTabuTenure) / 100;
   iTabuTenureHigh = iTabuTenure + (iTabuTenureInterval * iTabuTenure) / 100;
 }

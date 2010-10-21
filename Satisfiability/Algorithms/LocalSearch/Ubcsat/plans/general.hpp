@@ -33,11 +33,21 @@ License, or any later version. */
    arithmetic running under different conditions: the original run-environment
    computed with a different precision (caching etc.) than the single
    reproduction runs (these single runs all yield the same results). </li>
-   <li> Perhaps the new Ubcsat should be compiled by default in "safe mode",
+   <li> Dave Tompkins sent a fix: "rots randomly changes the tabu tenure
+   every "n" steps... but the way it was implemented previously, for the very
+   first ~(n-2) steps of a run, it was using whatever tabu tenure the
+   _previous_ run happened to be at when it ended". </li>
+   <li> So it seems that the old runs in
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+   are simply not reproducible, except by running the whole set (with the
+   initial seed). </li>
+   <li> DONE (at least here floating-point was not an issue)
+   Perhaps the new Ubcsat should be compiled by default in "safe mode",
    where optimisations potentially resulting in different floating-point
    computations are disabled, while all these optimisations are enabled in
    "aggressive mode". </li>
-   <li> Perhaps also a 32-bit compatability mode is required. </li>
+   <li> DONE (at least here not an issue)
+   Perhaps also a 32-bit compatability mode is required. </li>
   </ul>
 
 
