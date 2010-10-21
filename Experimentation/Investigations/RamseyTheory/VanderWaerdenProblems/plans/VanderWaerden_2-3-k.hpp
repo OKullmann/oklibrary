@@ -1704,6 +1704,13 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
      \endverbatim
      AGAIN, reproduction fails (except of one case)! This time on cs-oksvr.
      </li>
+     <li> Cutoff=10^6, rots:
+     \verbatim
+ 1  2  3  4  5  6  9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 
+26 58 51 12  6  6  1  2  3  9  9 21 27 38 50 57 30 35 32 18  6  3 
+500 
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=770:
