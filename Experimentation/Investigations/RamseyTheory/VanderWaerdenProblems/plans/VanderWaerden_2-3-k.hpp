@@ -1302,42 +1302,7 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
      \endverbatim
      This is the same solution as above, only vertex 121 here was left
      out. </li>
-     <li> 500 runs with rots, cutoff=10^7 found only one solution:
-     \verbatim
-> E=read_ubcsat("VanDerWaerden_2-3-24_592.cnf_OUT3",nrows=1000)
-  0   1   2   3   4   5   6   7   8   9 
-  1  23 143 181 107  31   5   5   2   2 
-500 
-> E[E$sat==1,]
-   sat min  osteps  msteps      seed
-83   1   0 4774592 4774592 312702649
-     \endverbatim
-     where the solution is
-     \verbatim
-> ubcsat-okl -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
-# -alg rots -seed 312702649 -cutoff 4774592 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
-       sat  min     osteps     msteps       seed
-      1 0     3    3207318    4774592  312702649 
-???
-
-> ubcsat-okl -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve | tee VanDerWaerden_2-3-24_592.cnf_OUT4
-# -alg rots -seed 312702649 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf -solve
-       sat  min     osteps     msteps       seed
-      1 0     3    3207318   10000000  312702649 
-???
-     \endverbatim
-     This looks like a serious BUG in Ubcsat --- the run is not reproducible!
-     To be sure, here is the copy of the original run:
-     \verbatim
-# -alg rots -runs 500 -cutoff 10000000 -i Exp_VanderWaerden_2-3-24_2010-10-12-214502_591/VanDerWaerden_2-3-24_592.cnf
-     83 1     0    4774592    4774592  312702649 
-     \endverbatim
-     And the same result when running ubcsat directly (without involving ubcsat-okl).
-     </li>
-     <li> See "Run not reproducible" in
-     Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
-     <li> So if we are interested in a solution, from now on we need to use "-solve",
-     where we then extract the solution. </li>
+     <li> 500 runs with rots, cutoff=10^7 found only one solution. </li>
      <li> rots, cutoff=10^7, finds a solution in run 23 (osteps=1273935,
      seed=2153150186):
      \verbatim
@@ -1349,8 +1314,8 @@ OKplatform> RunVdW3k 24 591 rots 1000 5000000
 469,476,484,493,494,498,513,515,522,530,
 535,552,571
      \endverbatim
-     The same solution as above (last version), but with vertex 121 replacing vertex 472.
-     </li>
+     The same solution as above (last version), but with vertex 121 replacing
+    vertex 472. </li>
      <li> rots, cutoff=10^7, finds a solution in run 215 (osteps=1898408,
      seed=4066830458), the same as the first one found. </li>
      <li> rots, cutoff=5*10^7, finds a solution in run 14 (osteps=19500171,
@@ -1664,7 +1629,8 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 666,667,669,694,701,710,731,747,764
       \endverbatim
      </li>
-     <li> 1000 runs with rots and cutoff=5000000 found 4 solutions:
+     <li> 1000 runs with rots and cutoff=5000000 found 4 solutions, from which
+     (only) one is reproducible (due to a bug in Ubcsat, now resolved):
      \verbatim
   0   1   2   3   4   5   6   7   9  11  12  13  14  15  16  17  18  19
   4 473 315  71   7   4   2   1   2   2   8  13  15  32  26  14   9   2
@@ -1676,11 +1642,6 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 467   1   0 3552707 3552707 3160209839
 656   1   0 3273460 3273460  813836620
 
-> ubcsat-okl -alg rots -cutoff 2782015 -seed 2990676734 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf | tee VanDerWaerden_2-3-27_769.cnf_OUT2
-       sat  min     osteps     msteps       seed
-      1 0     2    1215331    5000000 2990676734
-???
-
 > ubcsat-okl -alg rots -cutoff 1430527 -seed 1209355894 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT3
 > ExtractCertificate_vdW2 VanDerWaerden_2-3-27_769.cnf_OUT3
 6,23,39,60,69,76,101,103,104,106,
@@ -1691,18 +1652,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 457,474,476,483,504,510,519,520,524,547,
 561,568,578,582,594,605,621,634,635,656,
 659,667,671,693,696,698,716,741,745
-
-> ubcsat-okl -alg rots -cutoff 3552707 -seed 3160209839 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT4
-       sat  min     osteps     msteps       seed
-      1 0     3    3039793    3552707 3160209839
-???
-
-> ubcsat-okl -alg rots -cutoff 3273460 -seed 813836620 -i Exp_VanderWaerden_2-3-27_2010-10-13-184057_726_rots-1000-5000000/VanDerWaerden_2-3-27_769.cnf -solve | tee VanDerWaerden_2-3-27_769.cnf_OUT5
-       sat  min     osteps     msteps       seed
-      1 0     2    2038976    3273460  813836620
-???
      \endverbatim
-     AGAIN, reproduction fails (except of one case)! This time on cs-oksvr.
      </li>
      <li> Cutoff=10^6, rots:
      \verbatim
