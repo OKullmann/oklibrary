@@ -97,15 +97,15 @@ ExternalSources/Installations/R> oklib --R
      (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
      and use the standard make-style compilation procedure, so
      \verbatim
-cd $OKPLATFORM/ExternalSources/builds/
-mkdir Espresso
-cd Espresso
-wget http://eqntott.googlecode.com/files/espresso-ab-1.0.tar.gz
-tar zxvf espresso-ab-1.0.tar.gz
-cd espresso-ab-1.0
-./configure
-make
-./src/espresso --help
+> cd $OKPLATFORM/ExternalSources/builds/
+builds> mkdir Espresso
+Espresso> cd Espresso
+Espresso> wget http://eqntott.googlecode.com/files/espresso-ab-1.0.tar.gz
+Espresso> tar zxvf espresso-ab-1.0.tar.gz
+Espresso> cd espresso-ab-1.0
+espresso-ab-1.0> ./configure
+espresso-ab-1.0> make
+espresso-ab-1.0> ./src/espresso --help
      \endverbatim
      and then one can use the following "test.pla" file
      with espresso 
@@ -123,7 +123,7 @@ make
      \endverbatim
      by calling 
      \verbatim
-$OKPLATFORM/ExternalSources/builds/Espresso/espresso-ab-1.0/src/espresso test.pla
+builds> Espresso/espresso-ab-1.0/src/espresso test.pla
 .i 3
 .o 1
 .p 3
