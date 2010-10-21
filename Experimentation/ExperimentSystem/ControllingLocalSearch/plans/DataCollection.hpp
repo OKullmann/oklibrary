@@ -65,8 +65,9 @@ License, or any later version. */
    <li> It seems that MG didn't understand the nature of dataframes. </li>
    <li> DONE The column-names should be identical to the names used by ubcsat (in
    the output!). </li>
-   <li> DONE So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
-   msteps". </li>
+   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
+   msteps". And references to these columns must be replaced in all files
+   (typically these references use e.g. E$best). </li>
   </ul>
 
 
