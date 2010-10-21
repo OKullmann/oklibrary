@@ -12,6 +12,17 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug Bad parameter of eval_ubcsat
+  <ul>
+   <li> Collecting the parameters in a list is inappropriate, but just the
+   standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
+   <li> It needs to be specified what are the defaults. </li>
+  </ul>
+
+
   \bug Bad documentation for eval_ubcsat
   <ul>
    <li> When examples are given, then they need to be reproducible (as much
@@ -363,16 +374,6 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
    </li>
    <li> After moving this function (and accompanying code), the todos below
    needs to be updated. </li>
-  </ul>
-
-
-  \bug DONE Bad parameter of eval_ubcsat
-  <ul>
-   <li> Collecting the parameters in a list is inappropriate, but just the
-   standard R-handling should be used, so that for example one can just
-   specify "cutoff=1000000" as additional parameter, without, of course,
-   changing anything else --- currently parameter "runs" is overwritten in
-   this case. </li>
   </ul>
 
 
