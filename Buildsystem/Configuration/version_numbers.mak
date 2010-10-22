@@ -8,8 +8,8 @@
 # Version numbers regarding the OKlibrary, and related information
 
 # Current version of OKlib:
-oklib_version := 0.2.1.3
-oklib_version_full := 0.2.1.3 (24.1.2010)
+oklib_version := 0.2.1.4
+oklib_version_full := 0.2.1.4 (22.10.2010)
 
 # Deadlines for next versions of OKlib
 deadline_022 ?= 30.11.2010

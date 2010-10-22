@@ -176,7 +176,7 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "Applications" ("App")
         <ol>
-         <li> CrA ("Cryptanalysis") </li>
+         <li> DONE CrA ("Cryptanalysis") </li>
          <li> Col ("Colouring")
           <ol>
            <li> FrA ("FrequencyAssignment") </li>
