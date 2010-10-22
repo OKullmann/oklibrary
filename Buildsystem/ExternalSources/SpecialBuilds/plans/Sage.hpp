@@ -27,6 +27,12 @@ sys     0m0.003s
 sage: An error occurred while installing sqlite-3.6.22
      \endverbatim
      </li>
+     <li> On cs-wsok (Suse 10.0, 64bit AMD) we get the usual error
+     \verbatim
+make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.5.3/spkg/build/libfplll-3.0.12.p1/src'
+Error building libfplll
+     \endverbatim
+     </li>
      <li> It is quite unbelievable what a bad software this is --- on no
      system since version 2.7.2 was a build succesful! </li>
     </ol>
