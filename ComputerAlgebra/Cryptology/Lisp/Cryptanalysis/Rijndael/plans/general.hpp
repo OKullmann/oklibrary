@@ -19,6 +19,20 @@ License, or any later version. */
    for investigations. </li>
   </ul>
 
+
+  \todo Update
+  <ul>
+   <li> It seems that these todos as well as the milestones are out-of-date.
+   </li>
+   <li> Especially the small-scale generalisation is not mentioned. </li>
+   <li> Likely the version number should be advanced. </li>
+   <li> The todos "Review and tidy todos" and "Create / update milestones"
+   are not mentioned in the milestones, which must not happen! MG must
+   look up these todos in this history, and either remove them (potentially
+   adding to the milestones-history), or add them to the current milestones.
+   </li>
+  </ul>
+
   
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic
   Aspects of the AES]
