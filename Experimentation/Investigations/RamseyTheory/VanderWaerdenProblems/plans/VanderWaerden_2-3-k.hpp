@@ -1378,7 +1378,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
 
   \todo vanderwaerden_2(3,25) > 655
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,25) = 656. </li>
+   <li> The (weak) conjecture is vanderwaerden_2(3,25) = 656. </li>
    <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
    <li> Search starting with n=590:
    \verbatim
@@ -1442,7 +1442,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 525,529,536,544,556,560,574,579,597,599,
 603,610,611,636
    \endverbatim
-   Are there essentially different solutions? </li>
+   </li>
    <li> n=655
     <ol>
      <li> Found satisfiable with certificate
@@ -1456,7 +1456,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 530,537,545,557,561,575,580,598,600,604,
 611,612,637,646
      \endverbatim
-     </li>
+     This is essentially different from the above solution. </li>
      <li> 1000 runs with rots and cutoff=5*10^6 don't find a solution:
      \verbatim
   1   2   3   4   5   6   7   8   9  10  11  12  13  14
@@ -1471,6 +1471,30 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 1000
      \endverbatim
      </li>
+     <li> 500 runs with rots and cutoff=10^7 don't find a solution:
+     \verbatim
+  1   2   3   4   5   6   7   8  10  11 
+191 183  62  35   5   5   6  10   2   1 
+500 
+     \endverbatim
+     </li>
+     <li> So n=655 seems to be quite difficult, and so unsatisfiability for
+     n=656 is hard to judge. </li>
+     <li> Rots with cutoff=20*10^7 found in run 3 a solution for n=654
+     (seed=3127361270, osteps=7949973), and this solution worked also for
+     n=655:
+     \verbatim
+2,17,20,40,49,57,77,86,91,93,
+99,117,128,150,151,154,156,167,175,188,
+193,197,204,212,224,228,242,247,265,267,
+271,278,279,286,304,313,321,335,350,353,
+358,372,373,382,390,410,419,424,426,434,
+450,461,471,483,484,487,489,500,506,521,
+526,530,537,545,557,561,575,580,598,600,
+604,611,612,637,646
+     \endverbatim
+     </li>
+     <li> Are there essentially different solutions? </li>
     </ol>
    <li>
    <li> n=656
@@ -1661,6 +1685,8 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 500 
      \endverbatim
      </li>
+     <li> Cutoff=10^7, rots, finds a solution in run 209, the same as last one
+     above, but without vertex 339. </li>
     </ol>
    </li>
    <li> n=770:

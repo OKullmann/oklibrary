@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,25 @@ License, or any later version. */
 
   \todo Update to new Sage
   <ul>
+   <li> Version 4.5.3:
+    <ol>
+     <li> On csltok (Suse 11.3, 64bit Intel i5) we get the error
+     \verbatim
+Thread model: posix
+gcc version 4.5.0 20100604 [gcc-4_5-branch revision 160292] (SUSE Linux) 
+****************************************************
+bash: symbol lookup error: bash: undefined symbol: rl_filename_rewrite_hook
+
+real    0m0.015s
+user    0m0.001s
+sys     0m0.003s
+sage: An error occurred while installing sqlite-3.6.22
+     \endverbatim
+     </li>
+     <li> It is quite unbelievable what a bad software this is --- on no
+     system since version 2.7.2 was a build succesful! </li>
+    </ol>
+   </li>
    <li> Likely the failures below indicate missing "-fPIC"-options to gcc
    in the respective sub-builds; and perhaps this is corrected with
    version 4 of Sage. </li>

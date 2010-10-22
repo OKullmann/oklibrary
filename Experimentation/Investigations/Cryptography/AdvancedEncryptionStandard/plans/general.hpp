@@ -1,5 +1,5 @@
 // Matthew Gwynne, 27.3.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,19 @@ License, or any later version. */
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
   \brief On investigations into the Advanced Encryption Standard
+
+
+  \todo Connections
+  <ul>
+   See
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   for the Maxima-level. </li>
+   <li> See
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   for an AES translation into SAT. </li>
+   <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
+   </li>
+  </ul>
 
 
   \todo Improve formulations: MG (as soon as possible!)
@@ -41,17 +54,6 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
-  </ul>
-
-
-  \todo Connections
-  <ul>
-   <li> See
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   for an AES implementation in Maxima. </li>
-   <li> See
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   for an AES translation into SAT. </li>
   </ul>
 
 

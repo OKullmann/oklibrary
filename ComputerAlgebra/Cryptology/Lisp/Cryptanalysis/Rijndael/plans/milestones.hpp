@@ -15,6 +15,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Update
     - Fix translation system
     - Parameterise inclusion of inverse operation in Mixcolumn translation 
     - Standardise block ordering: DONE
