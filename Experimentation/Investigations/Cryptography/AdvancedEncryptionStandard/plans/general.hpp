@@ -15,6 +15,9 @@ License, or any later version. */
    See
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    for the Maxima-level. </li>
+   <li> See
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   for an AES translation into SAT. </li>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
    </li>
   </ul>
@@ -51,17 +54,6 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
    <li> DONE No "is useful". </li>
    <li> DONE No "may be used". </li>
-  </ul>
-
-
-  \todo Connections
-  <ul>
-   <li> See
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   for an AES implementation in Maxima. </li>
-   <li> See
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   for an AES translation into SAT. </li>
   </ul>
 
 
