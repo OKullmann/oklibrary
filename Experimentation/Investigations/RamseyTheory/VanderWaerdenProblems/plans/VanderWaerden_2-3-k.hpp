@@ -1972,7 +1972,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,30) > 898
+  \todo vanderwaerden_2(3,30) > 901
   <ul>
    <li> The conjecture is vanderwaerden_2(3,29) = 898. </li>
    <li> Search starting with n=852:
@@ -2067,6 +2067,20 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=901: rots with cutoff=10^7 found a solution (in run 316, for n=898,
+   with small changes then) with certificate
+   \verbatim
+24,47,61,77,84,102,122,124,133,135,
+158,170,175,176,190,195,225,233,240,264,
+270,272,277,281,287,299,318,323,324,346,
+351,360,381,383,388,412,417,434,447,455,
+457,484,486,505,509,523,528,540,558,566,
+579,583,597,602,610,614,616,619,620,647,
+651,656,679,706,713,714,716,721,745,758,
+764,767,768,780,805,819,827,836,838,841,
+864,873
+   \endverbatim
    </li>
   </ul>
 
