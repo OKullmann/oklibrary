@@ -1494,6 +1494,19 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 604,611,612,637,646
      \endverbatim
      </li>
+     <li> A variation was found with rots, cutoff=10^7, as the solution for
+     n=654:
+     \verbatim
+2,17,20,25,39,40,49,57,77,86,
+91,93,99,117,128,150,151,154,156,167,
+175,188,193,197,204,212,224,228,242,247,
+265,267,271,278,279,286,304,313,321,335,
+350,353,358,372,373,382,390,410,419,424,
+426,434,450,461,471,483,484,487,489,500,
+506,521,526,530,537,545,557,561,575,580,
+598,600,604,611,612,637
+     \endverbatim
+     </li>
      <li> Are there essentially different solutions? </li>
     </ol>
    <li>
@@ -1506,6 +1519,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 1000
      \endverbatim
      </li>
+     <li> Cutoff=10^7 found in 500 runs no solution. </li>
     </ol>
    </li>
   </ul>
@@ -1554,8 +1568,10 @@ OKplatform> cat Exp_VanderWaerden_2-3-26_2010-10-12-161754_655/VanDerWaerden_2-3
 OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    \endverbatim
    </li>
-   <li> n=726 found satisfiable with certificate
-   \verbatim
+   <li> n=726:
+    <ol>
+     <li> Found satisfiable with certificate
+     \verbatim
 11,35,46,48,69,74,86,93,105,106,
 109,115,122,128,152,157,159,167,185,202,
 204,216,217,220,222,226,231,234,253,257,
@@ -1564,7 +1580,21 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 455,461,485,490,492,500,516,518,535,537,
 549,550,553,555,559,564,567,586,596,611,
 624,641,646,666,675,678,697,701
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> rots with cutoff=10^7 found another solution in run 27:
+     \verbatim
+26,31,49,51,68,82,86,99,120,125,
+144,156,157,160,162,173,174,193,197,203,
+208,211,218,231,253,268,277,282,284,285,
+290,314,319,321,329,347,364,366,378,382,
+384,388,393,401,415,419,432,453,458,470,
+477,489,490,493,495,506,507,526,530,536,
+541,551,564,581,586,601,610,615,617,618,
+623,647,652,654,680,699,711,721,726
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=727
     <ol>
@@ -1588,6 +1618,9 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
      \verbatim
   1   2   3   4   8   9  10  11
 284 171  18   2   4  15   3   3
+500
+  1   2   3   5   7   8   9  10  11  12
+286 183  10   3   2   2   5   3   2   4
 500
      \endverbatim
      </li>
