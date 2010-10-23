@@ -29,6 +29,22 @@ namespace OKlib {
   namespace Transformers {
    namespace Generators {
 
+   /*!
+     \brief Computing the number of arithmetic progressions of length k in
+     {1,...,n}
+
+     The Maxima-specification is nhyp_arithprog_ohg(k,n) in
+     ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
+   */
+   template <typename UInt>
+   inline UInt nhyp_arithprog_hg(const UInt k, const UInt n) {
+     if (k == 0) return 1;
+     if (k == 1) return n;
+     if (n < k) return 0;
+     const UInt q = (n-1) / (k-1);
+     return q * (n - ((k - 1) * (q + 1)) / 2);
+   }
+
     /*!
       \class Arithmetical_progressions
       \brief All arithmetical progressions in {1,...,n}, in lexicographical order
@@ -76,7 +92,16 @@ namespace OKlib {
 
     public :
 
-      Arithmetical_progressions(const Index k, const Index n) : n(n), k(k), max_element(n-k+1), count(h()), current_element(1), current_distance(1) {}
+      Arithmetical_progressions(const Index k, const Index n) :
+          n(n), k(k),
+          max_element(n-k+1),
+          count(nhyp_arithprog_hg(k,n)),
+          current_element(1),
+          current_distance(1) {
+        assert(k >= 1);
+        assert(n >= 2);
+        assert(n >= k);
+      }
 
       typedef std::vector<Index> Arithmetical_progression;
 
@@ -91,18 +116,6 @@ namespace OKlib {
 	  ++current_element; current_distance = 1;
         }
         return ap;
-      }
-
-    private :
-
-      //! auxiliary function to compute the number of arithmetic progressions
-      Index h() const {
-        assert(k >= 1);
-        assert(n >= 2);
-        assert(n >= k);
-        if (k == 1) return n;
-        const Index q = (n-1) / (k-1);
-        return q * (n - ((k - 1) * (q + 1)) / 2);
       }
     };
 
