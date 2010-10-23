@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.5.2004 (Swansea)
-/* Copyright 2004 - 2007, 2009 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,8 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/Transformers/Generators/VanderWaerden.hpp
-  \brief Components for creating SAT instances expressing van-der-Waerden problems
+  \brief Old components for creating SAT instances expressing van-der-Waerden problems
+  \deprecated Needs a complete update.
 
   \todo Update according to new hypergraph generator
 */
