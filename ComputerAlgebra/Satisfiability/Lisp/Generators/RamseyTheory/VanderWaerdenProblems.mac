@@ -162,18 +162,18 @@ ncl_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
 */
 
 output_vanderwaerden2(k,n,filename) := 
-  output_fcs_v(
+  output_fcl_v(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", and ", n, " elements."), 
-    vanderwaerden2_fcs(k,n),
+    vanderwaerden2_fcl(k,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k-k_n.cnf": */
 output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
   sconcat("VanDerWaerden_2-",k,"-",k,"_",n,".cnf"))$
 
 output_vanderwaerden2nd(k1,k2,n,filename) := 
-  output_fcs_v(
+  output_fcl_v(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements."), 
-    vanderwaerden2nd_fcs(k1,k2,n),
+    vanderwaerden2nd_fcl(k1,k2,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k1-k2_n.cnf": */
 output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
