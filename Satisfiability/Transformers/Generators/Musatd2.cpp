@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/Musatd2.hpp
+  \file Satisfiability/Transformers/Generators/Musatd2.cpp
   \brief Application for creating the saturated minimally unsatisfiable clause-sets of deficiency 2 (in Dimacs format)
 
   The Maxima-specification is musatd2_fcl(n) (see
