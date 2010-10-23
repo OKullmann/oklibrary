@@ -99,6 +99,9 @@ namespace OKlib {
         assert(n >= 2);
         assert(n >= k);
       }
+      std::string static message() {
+        return "Iterating through the arithmetic progressions in lexicographical order.";
+      }
 
       typedef std::vector<Index> Arithmetical_progression;
 
@@ -171,6 +174,9 @@ namespace OKlib {
         assert(k >= 1);
         assert(n >= 2);
         assert(n >= k);
+      }
+      std::string static message() {
+        return "Iterating through the arithmetic progressions in colexicographical order.";
       }
 
       typedef std::vector<Index> Arithmetical_progression;
@@ -257,6 +263,7 @@ namespace OKlib {
         else
           out << "c Arithmetical progression sizes k1 = " << boost::lexical_cast<std::string>(k) << ", k2 = " << boost::lexical_cast<std::string>(k2) << ".\n";
         out << "c Number of elements n = " << boost::lexical_cast<std::string>(n) << ".\n";
+        out << "c " << ArithProg::message() << "\n";
         out << "p cnf " << boost::lexical_cast<std::string>(n) << " " << boost::lexical_cast<std::string>(c) << "\n";
       }
       void clauses() {
