@@ -42,7 +42,7 @@ namespace OKlib {
      if (k == 1) return n;
      if (n < k) return 0;
      const UInt q = (n-1) / (k-1);
-     return q * (n - ((k - 1) * (q + 1)) / 2);
+     return q*n - (q*(k - 1)*(q + 1)) / 2;
    }
 
     /*!
