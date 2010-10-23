@@ -272,13 +272,13 @@ namespace OKlib {
         for (Index i = 0; i < number_ap; ++i) {
 	  const ap_type p = ap.next();
 	  for (ap_iterator i = p.begin(); i != p.end(); ++i)
-	    out << " " << var(*i);
+	    out << var(*i) << " ";
 	  out << eoc();
         }
         for (Index i = 0; i < number_ap2; ++i) {
 	  const ap_type p = ap2.next();
 	  for (ap_iterator i = p.begin(); i != p.end(); ++i)
-	    out << " " << neg(var(*i));
+	    out << neg(var(*i)) << " ";
 	  out << eoc();
         }
       }
@@ -296,7 +296,7 @@ namespace OKlib {
       }
       //! end-of-clause
       virtual std::string eoc() const {
-        return " 0\n";
+        return "0\n";
       }
 
     };

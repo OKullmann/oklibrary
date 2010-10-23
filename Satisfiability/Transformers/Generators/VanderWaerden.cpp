@@ -41,7 +41,7 @@ namespace {
     error_num_vert = 3
   };
 
-  const std::string version = "0.3.2";
+  const std::string version = "0.3.3";
 
 }
 
