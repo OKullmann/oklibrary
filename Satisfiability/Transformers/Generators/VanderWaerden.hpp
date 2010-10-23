@@ -107,25 +107,43 @@ namespace OKlib {
     };
 
 
+    /*!
+      \class VanderWaerden_TwoParts_1
+      \brief Creation of vdW-SAT-problems for mixed binary problems
+      \deprecated Old style
+
+      \detail
+
+      The Maxima-specification should be
+      output_vanderwaerden2nd_stdname(k1,k2,n) in
+      ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac,
+      however currently lexicographical order of the clauses is used here
+      instead of colexicographical order.
+
+      Usage:
+      <ul>
+       <li> Create an object <code>VanderWaerden_TwoParts_1 F(k1,k2,n,out).
+       </li>
+       <li> Via F() then the clause-set is output to stream out. </li>
+      </ul>
+    */
     class VanderWaerden_TwoParts_1 {
-
-      // Clause-sets \FvdW(2,m,n) according to "BuchKombinatorik"
-
     public :
-
       typedef unsigned int Index;
-
-    public :
-      const Index k; // first size of arithmetical progression
-      const Index k2; // second size of arithmetical progression
-      const Index n; // size of counter example and number of variables
+      //! first size of arithmetic progression
+      const Index k;
+      //! second size of arithmetic progression
+      const Index k2;
+      //! number of vertices (size of counter-example)
+      const Index n;
     private :
       std::ostream& out;
       typedef Arithmetical_progressions<Index> AP;
       AP ap, ap2;
       const Index number_ap, number_ap2;
     public :
-      const Index c; // number clauses
+      //! total number of clauses
+      const Index c;
 
     public :
   
@@ -140,6 +158,7 @@ namespace OKlib {
           assert(n >= 2);
           }
 
+      //! output of clause-set to out
       void operator() () {
         comment();
         clauses();
@@ -175,13 +194,16 @@ namespace OKlib {
 
     protected :
 
+      //! index to variable
       std::string var(const Index v) const {
         assert(v != 0);
         return boost::lexical_cast<std::string>(v);
       }
+      //! negated variable
       virtual std::string neg(const std::string& var) const {
         return "-" + var;
       }
+      //! end-of-clause
       virtual std::string eoc() const {
         return " 0\n";
       }
