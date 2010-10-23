@@ -1760,7 +1760,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 
   \todo vanderwaerden_2(3,28) > 826
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,28) = 827. </li>
+   <li> The (weak) conjecture is vanderwaerden_2(3,28) = 827. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
@@ -1860,6 +1860,8 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
      \endverbatim
      Again none of the solution could be reproduced (due to the Ubcsat bug).
      </li>
+     <li> With small modifications from a solution for n=825 a solution for
+     n=826 was produced, the same as above but with vertex 823 added. </li>
     </ol>
    </li>
    <li> n=827:
@@ -1868,6 +1870,13 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
      \verbatim
   1   2   3   4   5   6   7   9  10  12  13  14  15  16  17  18  19 
  29 502 313  44   7   3   2   1   1   5  10  24  26  18   7   7   1 
+1000 
+     \endverbatim
+     </li>
+     <li> cutoff=10^7, rots:
+     \verbatim
+  1   2   3   4  13  14  15 
+ 58 763 151  14   4   7   3 
 1000 
      \endverbatim
      </li>
@@ -1885,7 +1894,7 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 
   \todo vanderwaerden_2(3,29) > 867
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = 868. </li>
+   <li> The (weak) conjecture is vanderwaerden_2(3,29) = 868. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 29 750 rots 1000 5000000
@@ -1964,6 +1973,13 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
      \verbatim
   1   2   3   4   5   6   7   8  10  11  12  13  14  15  16  17  18  19  20 
  21 336 294  67  13   7   2   2   3   9  18  27  50  46  55  37   9   2   2 
+1000 
+     \endverbatim
+     </li>
+     <li> cutoff=10^7, rots:
+     \verbatim
+  1   2   3   4   5   6   7   9  11  12  13  14  15  16  17  18 
+ 67 609 210  24   9   2   2   1   3  13  13  21  15   8   2   1 
 1000 
      \endverbatim
      </li>
