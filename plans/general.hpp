@@ -129,6 +129,8 @@ namespace SatAlg = Satisfiability::Algorithms;
        Programming/declarations.hpp for an example. </li>
       </ol>
      </li>
+     <li> The standard-indentation for C++ in the OKlibrary is two spaces,
+     however for namespaces it should only be one space. </li>
     </ol>
    </li>
    <li> Perhaps the following "parts" of the OKlibrary (containing the
