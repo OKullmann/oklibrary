@@ -118,6 +118,78 @@ namespace OKlib {
 
 
     /*!
+      \class Arithmetical_progressions_colex
+      \brief All arithmetical progressions in {1,...,n}, in colexicographical order
+      \deprecated To be improved (via using a standard output interface).
+
+      \detail
+
+      Usage:
+      <ul>
+       <li> Construct an object
+       <code>Arithmetical_progressions_colex ap(k,n)</code>, where k is the
+       length of the arithmetic progressions, to be considered in {1,...,n}.
+       </li>
+       <li> In ap.count the total number of ap's is to be found. </li>
+       <li> Via calling ap.next() one then obtains the ap's, as vectors, in
+       colexicographical order. </li>
+       <li> ap.next() can be called arbitrarily often, and runs through all
+       arithmetic progressions of length k in {1,...}. </li>
+      </ul>
+
+      \todo Integration
+      <ul>
+       <li> See classes in
+       Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and
+       General/IteratorHandling.hpp. </li>
+      </ul>
+    */
+
+    template <typename Int>
+    class Arithmetical_progressions_colex {
+    public :
+      typedef Int Index;
+      const Index n;
+      //! size of arithmetic progression
+      const Index k;
+      //! total number of arithmetic progressions
+      const Index count;
+
+    private :
+      //! last element in current arithmetic progression
+      Index current_element;
+      //! slope of current arithmetic progression
+      Index current_distance;
+
+    public :
+
+      Arithmetical_progressions_colex(const Index k, const Index n) :
+          n(n), k(k),
+          count(nhyp_arithprog_hg(k,n)),
+          current_element(k),
+          current_distance(1) {
+        assert(k >= 1);
+        assert(n >= 2);
+        assert(n >= k);
+      }
+
+      typedef std::vector<Index> Arithmetical_progression;
+
+      Arithmetical_progression next() {
+        Arithmetical_progression ap;
+        ap.reserve(k);
+        const Index first_element = current_element - (k-1) * current_distance;
+        for (Index i = 0; i < k; ++i)
+	  ap.push_back(first_element + i * current_distance);
+        if (current_distance > 1) --current_distance;
+        else
+          current_distance = current_element++ / (k-1);
+        return ap;
+      }
+    };
+
+
+    /*!
       \class VanderWaerden_TwoParts_1
       \brief Creation of vdW-SAT-problems for mixed binary problems
       \deprecated Old style
