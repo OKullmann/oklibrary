@@ -29,20 +29,49 @@ namespace OKlib {
   namespace Transformers {
    namespace Generators {
 
-    // "Quick and dirty" --- to be improved later (via using a standard output interface)
+    /*!
+      \class Arithmetical_progressions
+      \brief All arithmetical progressions in {1,...,n}, in lexicographical order
+      \deprecated Old, "quick and dirty" implementation, to be improved (via using a standard output interface).
+
+      \detail
+
+      Usage:
+      <ul>
+       <li> Construct an object
+       <code>Arithmetical_progressions ap(k,n)</code>, where k is the length
+       of the arithmetic progressions, to be considered in {1,...,n}. </li>
+       <li> In ap.count the total number of ap's is to be found. </li>
+       <li> Via calling ap.next() one then obtains the ap's, as vectors, in
+       lexicographical order. </li>
+       <li> It is an error if ap.next() is called more than ap.count many
+       times. </li>
+      </ul>
+
+      \todo Integration
+      <ul>
+       <li> See classes in
+       Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and
+       General/IteratorHandling.hpp. </li>
+      </ul>
+    */
 
     template <typename Int>
     class Arithmetical_progressions {
-      // ToDo: Integration with classes in Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and General/IteratorHandling.hpp
     public :
       typedef Int Index;
       const Index n;
-      const Index m; // size of arithmetical progression in {1, ..., n}
+      //! size of arithmetic progression in {1, ..., n}
+      const Index m;
+      //! maximal possible element of an arithmetic progression
       const Index max_element;
-      const Index count; // total number of arithmetical progressions
+      //! total number of arithmetic progressions
+      const Index count;
 
     private :
+      //! first element in current arithmetic progression
       Index current_element;
+      //! slope of current arithmetic progression
       Index current_distance;
 
     public :
@@ -62,10 +91,11 @@ namespace OKlib {
 	  ++current_element; current_distance = 1;
         }
         return ap;
-      } // shall be called only count many times
+      }
 
     private :
 
+      //! auxiliary function to compute the number of arithmetic progressions
       Index h() const {
         assert(m >= 1);
         assert(n >= 2);
