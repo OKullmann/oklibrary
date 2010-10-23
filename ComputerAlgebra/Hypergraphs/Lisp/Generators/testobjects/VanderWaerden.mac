@@ -47,6 +47,15 @@ okltest_nver_arithprog_ohg(nver_arithprog_ohg);
 okltest_nhyp_arithprog_hg(nhyp_arithprog_hg);
 okltest_nhyp_arithprog_ohg(nhyp_arithprog_ohg);
 
+okltest_arithprog_ohg(lambda([k,n],
+ block([V:create_list(i,i,1,n),E:[],H:first_colex_arithprog(k)],
+  if k=0 then E : cons(H,E)
+  else while last(H) <= n do (
+    E : cons(H,E),
+    H : next_colex_arithprog(H)
+  ),
+  return([V,map(setify,reverse(E))]))));
+
 /* ******************************************************
    * Generalised hypergraphs of arithmetic progressions *
    ******************************************************

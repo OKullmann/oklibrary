@@ -80,6 +80,22 @@ nhyp_arithprog_hg(k,n) :=
 nhyp_arithprog_ohg(k,n) := nhyp_arithprog_hg(k,n)$
 
 
+/* Statefree iteration through all arithmetic progressions of length k
+   in the natural numbers, in colexicographical order.
+*/
+/* Prerequisite: k natural number >= 0: */
+first_colex_arithprog(k) := create_list(i,i,1,k)$
+/* Prerequisite: P ascending arithmetic progression of natural numbers >= 1: */
+next_colex_arithprog(P) := block([k : length(P)],
+ if k=0 then done
+ elseif k=1 then [first(P)+1]
+ else block([d : second(P) - first(P), l : last(P)],
+  if d>1 then d : d-1
+  else (d : floor(l/(k-1)), l : l+1),
+  reverse(create_list(l-i*d,i,0,k-1))
+ ))$
+
+
 /* ******************************************************
    * Generalised hypergraphs of arithmetic progressions *
    ******************************************************
