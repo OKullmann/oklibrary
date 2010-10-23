@@ -41,7 +41,7 @@ namespace {
     error_num_vert = 3
   };
 
-  const std::string version = "0.3.1";
+  const std::string version = "0.3.2";
 
 }
 
@@ -55,8 +55,8 @@ int main(const int argc, const char* const argv[]) {
     typedef unsigned int Index;
     const Index k = boost::lexical_cast<unsigned int>(argv[1]);
     const Index k2 = (argc == 4) ? boost::lexical_cast<unsigned int>(argv[2]) : k;
-    if (k < 1 or k2 < 1) {
-      std::cerr << "ERROR[VanderWaerden]: Arithmetic progression lengths must be at least 1.\n";
+    if (k < 2 or k2 < 2) {
+      std::cerr << "ERROR[VanderWaerden]: Arithmetic progression lengths must be at least 2.\n";
       return error_length_ap;
     }
     const Index n = (argc == 3) ? boost::lexical_cast<unsigned int>(argv[2]) : boost::lexical_cast<unsigned int>(argv[3]);

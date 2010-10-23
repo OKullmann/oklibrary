@@ -171,7 +171,7 @@ namespace OKlib {
           count(nhyp_arithprog_hg(k,n)),
           current_element(k),
           current_distance(1) {
-        assert(k >= 1);
+        assert(k >= 2);
         assert(n >= 2);
         assert(n >= k);
       }
