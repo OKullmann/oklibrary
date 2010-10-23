@@ -45,6 +45,16 @@ License, or any later version. */
      check_certificate_vdw([3,24],578,P) in
      Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
      needed 920 seconds on csltok (the new laptop, not slow). </li>
+     <li> An alternative algorithm is to create all possible arithmetic
+     progressions of the given lengths and to check whether each of them is
+     not contained in the corresponding blocks of the partition. </li>
+     <li> Or the current algorithm could use an array, which yields for each
+     possible vertex its block (colour); this depends on having a linear order
+     and "all vertices", but for that situation it is faster. </li>
+     <li> At the Maxima-level we consider only the fundamental algorithmic
+     possibilities; this issue seems also very much a data-structure issue,
+     and this can be handled properly only at C++ level. See "Checking
+     certificates" in Applications/RamseyTheory/plans/VanderWaerden.hpp. </li>
      <li> We should also use "every_s" (once it can handle multiple lists).
      </li>
     </ol>
