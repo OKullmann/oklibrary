@@ -58,13 +58,16 @@ arpr(k,a,d) := create_list(a + i*d, i,0,k-1)$
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
 /* Prerequisites: n,k are natural numbers >= 0. */
 /* The order of hyperedges: Sorted by increasing last vertex, inside such
-   a segment first slope 1, then 2, ... .
+   a segment with decreasing slope. This amounts to colexicographical
+   ordering.
 */
+
 /* First the list of arithmetic progressions of length ending in vertex n
    for n, k >= 1: */
 arithprog_finish(k,n) :=
  if k=1 then [{n}] else
-  create_list(setify(create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))$
+  reverse(create_list(setify(create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1))))$
+
 arithprog_ohg(k,n) := if k=0 then [create_list(i,i,1,n),[{}]]
  elseif n=0 then [[],[]] else
  [create_list(i,i,1,n),
