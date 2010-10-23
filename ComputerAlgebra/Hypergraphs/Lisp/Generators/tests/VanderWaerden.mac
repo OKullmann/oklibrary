@@ -106,13 +106,10 @@ okltest_arithprog_ohg(f) := (
   true)$
 
 okltest_arithprog_hg(f) := (
-  assert(f(0,-1) = [{},{{}}]),
-  assert(f(1,-1) = [{},{}]),
   assert(f(0,0) = [{},{{}}]),
   assert(f(1,0) = [{},{}]),
-  assert(f(-1,-1) = [{},{}]),
-  assert(f(-1,0) = [{},{}]),
-  assert(f(-1,1) = [{1},{}]),
+  assert(f(0,1) = [{1},{{}}]),
+  assert(f(1,1) = [{1},{{1}}]),
   assert(f(2,1) = [{1},{}]),
   for n : 0 thru 4 do block([N : setn(n)],
     for k in [0,1,2,n] do
