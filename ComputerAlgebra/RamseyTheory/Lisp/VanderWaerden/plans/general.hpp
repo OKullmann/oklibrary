@@ -70,6 +70,10 @@ License, or any later version. */
    <li> It would also be useful to translate certificates to partitions and
    back. This can be done in general (every map induces a canonical partition
    on its domain). </li>
+   <li> We need a function to compute the Hamming-distance between two
+   certificates. </li>
+   <li> Given one certificate, we need a function to find all other
+   certificates which have at most a specified distance to the given one. </li>
   </ul>
 
 
