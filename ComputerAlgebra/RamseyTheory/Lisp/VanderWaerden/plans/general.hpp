@@ -40,6 +40,9 @@ License, or any later version. */
    <li> Implementation check_certificate_vdw(L,n,P) in
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac:
     <ol>
+     <li> This function uses an alternative representation of a certificate for
+     [L,n] as a list P of the same size as L, with elements subsets of
+     {1,...,n} representing a partitioning. </li>
      <li> Perhaps we should have a dedicated file "Certificates.mac". </li>
      <li> The current check is extremely slow:
      check_certificate_vdw([3,24],578,P) in
