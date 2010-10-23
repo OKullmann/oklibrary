@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/VanderWaerden.hpp
+  \file Satisfiability/Transformers/Generators/VanderWaerden.cpp
   \brief Application for creating SAT instances expressing van-der-Waerden problems
   \deprecated Needs a complete update.
 
