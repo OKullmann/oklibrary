@@ -130,13 +130,13 @@ namespace VanderWaerden {
       for (Index i = 0; i < number_ap; ++i) {
 	const AP::Arithmetical_progression p = ap.next();
 	for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
-	  out << " " << neg(var(*i));
+	  out << " " << var(*i);
 	out << eoc();
       }
       for (Index i = 0; i < number_ap2; ++i) {
 	const AP::Arithmetical_progression p = ap2.next();
 	for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
-	  out << " " << var(*i);
+	  out << " " << neg(var(*i));
 	out << eoc();
       }
     }
