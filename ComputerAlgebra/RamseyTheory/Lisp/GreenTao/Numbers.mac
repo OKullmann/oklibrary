@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Numbers.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 
 
 /* *********************

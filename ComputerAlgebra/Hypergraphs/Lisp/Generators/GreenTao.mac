@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
