@@ -12,9 +12,9 @@ License, or any later version. */
 
   \details
   <ul>
-   <li> Yet only binary diagonal vdW-problems can be generated. </li>
-   <li> The two command-line parameters are the progression size and the
-   number of vertices. </li>
+   <li> Either two command-line parameters "k n" or three "k1 k2 n",
+   where the first case is the diagonal case, the second case is the mixed
+   case, "k" denotes progression size and "n" the number of vertices. </li>
   </ul>
 
   \todo Complete update needed
@@ -25,6 +25,7 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <string>
 
 #include <boost/lexical_cast.hpp>
 
@@ -32,17 +33,38 @@ License, or any later version. */
 
 #include <OKlib/Satisfiability/Transformers/Generators/VanderWaerden.hpp>
 
+namespace {
+
+  enum {
+    error_parameters = 1,
+    error_length_ap = 2,
+    error_num_vert = 3
+  };
+
+  const std::string version = "0.2";
+
+}
+
 int main(const int argc, const char* const argv[]) {
-    if (argc <= 2) {
-    std::cerr << "ERROR[VanderWaerden]: Two arguments are needed: The size of the arithmetic progression, and the number of elements.\n";
-    return 1;
+  if (argc != 3 and argc != 4) {
+    std::cerr << "ERROR[VanderWaerden]: Either two or three arguments are needed:\n"
+    " One or two arithmetic progression sizes (diagonal or mixed case), and the number of elements.\n";
+    return error_parameters;
   }
   try {
     typedef unsigned int Index;
-    const Index m = boost::lexical_cast<unsigned int>(argv[1]);
-    const Index n = boost::lexical_cast<unsigned int>(argv[2]);
-    VanderWaerden::VanderWaerden_TwoParts_1 vdW(m,n, std::cout);
-    vdW();
+    const Index k = boost::lexical_cast<unsigned int>(argv[1]);
+    const Index k2 = (argc == 4) ? boost::lexical_cast<unsigned int>(argv[2]) : k;
+    if (k < 1 or k2 < 1) {
+      std::cerr << "ERROR[VanderWaerden]: Arithmetic progression lengths must be at least 1.\n";
+      return error_length_ap;
+    }
+    const Index n = (argc == 3) ? boost::lexical_cast<unsigned int>(argv[2]) : boost::lexical_cast<unsigned int>(argv[3]);
+    if (n < 2) {
+      std::cerr << "ERROR[VanderWaerden]: At least two vertices are required.\n";
+      return error_num_vert;
+    }
+    VanderWaerden::VanderWaerden_TwoParts_1(k,k2, n, std::cout)();
   }
   catch (const std::exception& e) {
     std::cerr << ErrorHandling::Error2string(e);

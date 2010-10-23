@@ -84,19 +84,29 @@ namespace VanderWaerden {
     typedef unsigned int Index;
 
   public :
-    const Index k; // size of arithmetical progression
+    const Index k; // first size of arithmetical progression
+    const Index k2; // second size of arithmetical progression
     const Index n; // size of counter example and number of variables
   private :
     std::ostream& out;
     typedef Arithmetical_progressions<Index> AP;
-    AP ap;
-    const Index number_ap;
+    AP ap, ap2;
+    const Index number_ap, number_ap2;
   public :
     const Index c; // number clauses
 
   public :
   
-    VanderWaerden_TwoParts_1(const Index k, const Index n, std::ostream& out) : k(k), n(n), out(out), ap(k, n), number_ap(ap.count), c(number_ap * 2) {}
+    VanderWaerden_TwoParts_1(
+      const Index k,
+      const Index k2,
+      const Index n,
+      std::ostream& out) :
+        k(k), k2(k2), n(n), out(out), ap(k,n), ap2(k2,n), number_ap(ap.count), number_ap2(ap2.count), c(number_ap+number_ap2) {
+        assert(k >= 1);
+        assert(k2 >= 1);
+        assert(n >= 2);
+        }
   
     void operator() () {
       comment();
@@ -108,19 +118,25 @@ namespace VanderWaerden {
   private :
 
     void virtual comment() const {
-      out << "c Van der Waerden numbers with partitioning into k = 2 parts; generator written by Oliver Kullmann, Swansea, May 2004\n";
-      out << "c Arithmetical progression size k = " << boost::lexical_cast<std::string>(k) << "\n";
-      out << "c Number of elements n = " << boost::lexical_cast<std::string>(n) << "\n";
+      out << "c Van der Waerden numbers with partitioning into 2 parts; SAT generator written by Oliver Kullmann, Swansea, May 2004, October 2010.\n";
+      if (k == k2)
+        out << "c Arithmetical progression size k = " << boost::lexical_cast<std::string>(k) << ".\n";
+      else
+        out << "c Arithmetical progression sizes k1 = " << boost::lexical_cast<std::string>(k) << ", k2 = " << boost::lexical_cast<std::string>(k2) << ".\n";
+      out << "c Number of elements n = " << boost::lexical_cast<std::string>(n) << ".\n";
       out << "p cnf " << boost::lexical_cast<std::string>(n) << " " << boost::lexical_cast<std::string>(c) << "\n";
     }
     void clauses() {
       for (Index i = 0; i < number_ap; ++i) {
 	const AP::Arithmetical_progression p = ap.next();
 	for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
-	  out << " " << var(*i);
-	out << eoc();
-	for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
 	  out << " " << neg(var(*i));
+	out << eoc();
+      }
+      for (Index i = 0; i < number_ap2; ++i) {
+	const AP::Arithmetical_progression p = ap2.next();
+	for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
+	  out << " " << var(*i);
 	out << eoc();
       }
     }
