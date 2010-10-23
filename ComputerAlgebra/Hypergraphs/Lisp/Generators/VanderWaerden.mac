@@ -23,34 +23,48 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
-/* *****************************
-   * Van der Waerden's theorem *
-   *****************************
+
+/* ***************************
+   * Arithmetic progressions *
+   ***************************
 */
 
 /* The arithmetic progression of length k and slope d, starting with a: */
 arpr(k,a,d) := create_list(a + i*d, i,0,k-1)$
 /* If d = 0, then the progression is degenerated. */
 
-/* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
-/* Prerequisites: n,k are natural numbers >= 0. */
-/* The order of hyperedges: Sorted by increasing last vertex, inside such
-   a segment with decreasing slope. This amounts to colexicographical
-   ordering.
+/* Testing whether the list L represents an arithmetic progression: */
+arithmetic_progression_p(L) := if length(L) <= 1 then true
+  else arithmetic_progression_d_p(rest(L),L[2] - L[1])$
+/* Testing whether the list L represents an arithmetic progression with
+   (constant) difference d: */
+arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
+  else is(second(L) - first(L) = d) and arithmetic_progression_d_p(rest(L),d)$
+
+
+/* ******************************************
+   * Hypergraphs of arithmetic progressions *
+   ******************************************
 */
 
-/* First the list of arithmetic progressions of length ending in vertex n
-   for n, k >= 1: */
+/* The list of arithmetic progressions of length k, ending in vertex n
+   for n, k >= 1, smallest started-vertex first: */
 arithprog_finish(k,n) :=
  if k=1 then [{n}] else
   reverse(create_list(setify(create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1))))$
 
+
+/* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
+/* The order of hyperedges: Sorted by increasing last vertex, inside such
+   a segment with decreasing slope. This amounts to colexicographical
+   ordering.
+   Prerequisites: n,k are natural numbers >= 0.
+*/
 arithprog_ohg(k,n) := if k=0 then [create_list(i,i,1,n),[{}]]
  elseif n=0 then [[],[]] else
  [create_list(i,i,1,n),
   lappend(create_list(arithprog_finish(k,i),i,1,n))]$
 arithprog_hg(k,n) := ohg2hg(arithprog_ohg(k,n))$
-
 
 /* Statistics functions: */
 
@@ -65,18 +79,12 @@ nhyp_arithprog_hg(k,n) :=
 nhyp_arithprog_ohg(k,n) := nhyp_arithprog_hg(k,n)$
 
 
-/* Testing whether the list L represents an arithmetic progression: */
-arithmetic_progression_p(L) := if length(L) <= 1 then true
-  else arithmetic_progression_d_p(rest(L),L[2] - L[1])$
-/* Testing whether the list L represents an arithmetic progression with
-   (constant) difference d: */
-arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
-  else is(second(L) - first(L) = d) and arithmetic_progression_d_p(rest(L),d)$
-
 /* The list of all arithmetic progressions of length k for the sorted list L
    (following the order of L, first all progressions starting with the
-   first vertex, then with the second, ...). */
-/* Prerequisites: k natural number >= 0, L ascending. */
+   first vertex, then with the second, ...). This amounts to lexicographical
+   ordering.
+   Prerequisites: k natural number >= 0, L ascending w.r.t. ">".
+*/
 arithmetic_progressions(L,k) :=
  if k = 0 then [[]]
  elseif k = 1 then map("[",L)

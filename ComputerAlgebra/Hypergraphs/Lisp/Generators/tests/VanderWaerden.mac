@@ -27,9 +27,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.m
 kill(f)$
 
 
-/* *****************************
-   * Van der Waerden's theorem *
-   *****************************
+/* ***************************
+   * Arithmetic progressions *
+   ***************************
 */
 
 okltest_arpr(f) := block([a,d],
@@ -40,6 +40,34 @@ okltest_arpr(f) := block([a,d],
   assert(f(4,a,d) = [a,a+d,a+2*d,a+3*d]),
   assert(f(2,a,-1) = [a,a-1]),
   true)$
+
+okltest_arithmetic_progression_p(f) := (
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,3]) = true),
+  assert(f([1,2,3]) = true),
+  assert(f([1,2,4]) = false),
+  assert(f([1,3,5,7]) = true),
+  assert(f([1,3,4,6]) = false),
+  true)$
+
+okltest_arithmetic_progression_d_p(f) := block([x,y],
+  assert(f([],x) = true),
+  assert(f([x],y) = true),
+  assert(f([x,y],y-x) = true),
+  assert(f([x,x,x],0) = true),
+  assert(f([x,y],0) = false),
+  assert(f([1,2,3,4],1) = true),
+  assert(f([1,2,3,4,6],1) = false),
+  for k : 0 thru 4 do
+    assert(f(arpr(k,x,y),y) = true),
+  true)$
+
+
+/* ******************************************
+   * Hypergraphs of arithmetic progressions *
+   ******************************************
+*/
 
 okltest_arithprog_finish(f) := (
   assert(f(1,1) = [{1}]),
@@ -117,21 +145,7 @@ okltest_nhyp_arithprog_ohg(f) := (
       assert(f(k,n) = length(arithprog_ohg(k,n)[2])),
   true)$
 
-okltest_arithmetic_progression_p(f) := (
-  assert(f([]) = true),
-  assert(f([1]) = true),
-  assert(f([1,3]) = true),
-  assert(f([1,2,3]) = true),
-  assert(f([1,2,4]) = false),
-  assert(f([1,3,5,7]) = true),
-  assert(f([1,3,4,6]) = false),
-  true)$
-
-okltest_arithmetic_progression_d_p(f) := (
-  /* XXX */
-  true)$
-
-okltest_arithmetic_progressions(f) := (
+okltest_arithmetic_progressions(f) := block([x,y,z],
   assert(f([],0) = [[]]),
   assert(f([1],0) = [[]]),
   assert(f([],1) = []),
@@ -147,11 +161,19 @@ okltest_arithmetic_progressions(f) := (
   assert(f([1,3,4,5,6],3) = [[1,3,5],[3,4,5],[4,5,6]]),
   assert(f([1,3,5,6,8,9,10,12],3) = [[1,3,5],[1,5,9],[3,6,9],[6,8,10],[6,9,12],[8,9,10],[8,10,12]]),
   assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg([create_list(i,i,1,n),map(setify,f(create_list(i,i,1,n),k))]))))),
+  assert(f([x,y,z],2) = [[x,y],[x,z],[y,z]]),
   true)$
 
 okltest_arithprog_list_ohg(f) := (
-
+  assert(f(3,[1,2,3,4,5]) = [[1,2,3,4,5], [{1,2,3},{1,3,5},{2,3,4},{3,4,5}]]),
+  assert(f(3,[3,5,8]) = [[3,5,8],[]]),
   true)$
+
+okltest_arithprog_list_hg(f) := (
+  assert(okltest_arithprog_hg(buildq([f], lambda([k,n], f(k,create_list(i,i,1,n))))) = true).
+  assert(f(3,[3,5,8]) = [{3,5,8},{}]),
+  true)$
+
 
 /*!
 \endhtmlonly

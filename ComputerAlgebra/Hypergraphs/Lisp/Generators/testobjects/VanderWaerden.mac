@@ -21,14 +21,24 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Vander
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/VanderWaerden.mac")$
 
-/* *****************************
-   * Van der Waerden's theorem *
-   *****************************
+/* ***************************
+   * Arithmetic progressions *
+   ***************************
 */
 
 okltest_arpr(arpr);
 
+okltest_arithmetic_progression_p(arithmetic_progression_p);
+okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
+
+
+/* ******************************************
+   * Hypergraphs of arithmetic progressions *
+   ******************************************
+*/
+
 okltest_arithprog_finish(arithprog_finish);
+
 okltest_arithprog_ohg(arithprog_ohg);
 okltest_arithprog_hg(arithprog_hg);
 
@@ -37,11 +47,10 @@ okltest_nver_arithprog_ohg(nver_arithprog_ohg);
 okltest_nhyp_arithprog_hg(nhyp_arithprog_hg);
 okltest_nhyp_arithprog_ohg(nhyp_arithprog_ohg);
 
-okltest_arithmetic_progression_p(arithmetic_progression_p);
-okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
-
 okltest_arithmetic_progressions(arithmetic_progressions);
+
 okltest_arithprog_list_ohg(arithprog_list_ohg);
+okltest_arithprog_list_hg(arithprog_list_hg);
 
 /*!
 \endhtmlonly
