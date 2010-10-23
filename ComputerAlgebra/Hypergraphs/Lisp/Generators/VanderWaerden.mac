@@ -42,20 +42,21 @@ arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
   else is(second(L) - first(L) = d) and arithmetic_progression_d_p(rest(L),d)$
 
 
-/* ******************************************
-   * Hypergraphs of arithmetic progressions *
-   ******************************************
+/* ***************************************************
+   * Standard hypergraphs of arithmetic progressions *
+   ***************************************************
 */
 
 /* The list of arithmetic progressions of length k, ending in vertex n
-   for n, k >= 1, smallest started-vertex first: */
+   for n, k >= 1, smallest started-vertex first:
+*/
 arithprog_finish(k,n) :=
  if k=1 then [{n}] else
   reverse(create_list(setify(create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1))))$
 
 
-/* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
-/* The order of hyperedges: Sorted by increasing last vertex, inside such
+/* The hypergraph of all arithmetic progressions of size k in {1,...,n}.
+   The order of hyperedges: Sorted by increasing last vertex, inside such
    a segment with decreasing slope. This amounts to colexicographical
    ordering.
    Prerequisites: n,k are natural numbers >= 0.
@@ -78,6 +79,11 @@ nhyp_arithprog_hg(k,n) :=
  else block([q : floor((n-1)/(k-1))], q * (n - 1/2*(k-1)*(q+1)))$
 nhyp_arithprog_ohg(k,n) := nhyp_arithprog_hg(k,n)$
 
+
+/* ******************************************************
+   * Generalised hypergraphs of arithmetic progressions *
+   ******************************************************
+*/
 
 /* The list of all arithmetic progressions of length k for the sorted list L
    (following the order of L, first all progressions starting with the

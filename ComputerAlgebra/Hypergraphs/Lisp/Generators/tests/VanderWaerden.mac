@@ -64,9 +64,9 @@ okltest_arithmetic_progression_d_p(f) := block([x,y],
   true)$
 
 
-/* ******************************************
-   * Hypergraphs of arithmetic progressions *
-   ******************************************
+/* ***************************************************
+   * Standard hypergraphs of arithmetic progressions *
+   ***************************************************
 */
 
 okltest_arithprog_finish(f) := (
@@ -144,6 +144,12 @@ okltest_nhyp_arithprog_ohg(f) := (
     for n : 0 thru if oklib_test_level=0 then 6 else 10 do
       assert(f(k,n) = length(arithprog_ohg(k,n)[2])),
   true)$
+
+
+/* ******************************************************
+   * Generalised hypergraphs of arithmetic progressions *
+   ******************************************************
+*/
 
 okltest_arithmetic_progressions(f) := block([x,y,z],
   assert(f([],0) = [[]]),

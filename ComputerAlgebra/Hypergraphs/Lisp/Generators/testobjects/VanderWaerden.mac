@@ -32,9 +32,9 @@ okltest_arithmetic_progression_p(arithmetic_progression_p);
 okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
 
 
-/* ******************************************
-   * Hypergraphs of arithmetic progressions *
-   ******************************************
+/* ***************************************************
+   * Standard hypergraphs of arithmetic progressions *
+   ***************************************************
 */
 
 okltest_arithprog_finish(arithprog_finish);
@@ -46,6 +46,11 @@ okltest_nver_arithprog_hg(nver_arithprog_hg);
 okltest_nver_arithprog_ohg(nver_arithprog_ohg);
 okltest_nhyp_arithprog_hg(nhyp_arithprog_hg);
 okltest_nhyp_arithprog_ohg(nhyp_arithprog_ohg);
+
+/* ******************************************************
+   * Generalised hypergraphs of arithmetic progressions *
+   ******************************************************
+*/
 
 okltest_arithmetic_progressions(arithmetic_progressions);
 
