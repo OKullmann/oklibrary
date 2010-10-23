@@ -80,8 +80,6 @@ namespace OKlib {
       //! size of arithmetic progression in {1, ..., n}
       const Index k;
       //! maximal possible element of an arithmetic progression
-      const Index max_element;
-      //! total number of arithmetic progressions
       const Index count;
 
     private :
@@ -94,7 +92,6 @@ namespace OKlib {
 
       Arithmetical_progressions(const Index k, const Index n) :
           n(n), k(k),
-          max_element(n-k+1),
           count(nhyp_arithprog_hg(k,n)),
           current_element(1),
           current_distance(1) {
