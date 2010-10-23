@@ -62,7 +62,7 @@ namespace OKlib {
       typedef Int Index;
       const Index n;
       //! size of arithmetic progression in {1, ..., n}
-      const Index m;
+      const Index k;
       //! maximal possible element of an arithmetic progression
       const Index max_element;
       //! total number of arithmetic progressions
@@ -76,16 +76,16 @@ namespace OKlib {
 
     public :
 
-      Arithmetical_progressions(const Index m, const Index n) : n(n), m(m), max_element(n-m+1), count(h()), current_element(1), current_distance(1) {}
+      Arithmetical_progressions(const Index k, const Index n) : n(n), k(k), max_element(n-k+1), count(h()), current_element(1), current_distance(1) {}
 
       typedef std::vector<Index> Arithmetical_progression;
 
       Arithmetical_progression next() {
           Arithmetical_progression ap;
-        ap.reserve(m);
-        for (Index i = 0; i < m; ++i)
+        ap.reserve(k);
+        for (Index i = 0; i < k; ++i)
 	  ap.push_back(current_element + i * current_distance);
-        if (current_element + (m-1) * (current_distance + 1) <= n and m >= 2)
+        if (current_element + (k-1) * (current_distance + 1) <= n and k >= 2)
 	  ++current_distance;
         else {
 	  ++current_element; current_distance = 1;
@@ -97,12 +97,12 @@ namespace OKlib {
 
       //! auxiliary function to compute the number of arithmetic progressions
       Index h() const {
-        assert(m >= 1);
+        assert(k >= 1);
         assert(n >= 2);
-        assert(n >= m);
-        if (m == 1) return n;
-        const Index q = (n-1) / (m-1);
-        return q * (n - ((m - 1) * (q + 1)) / 2);
+        assert(n >= k);
+        if (k == 1) return n;
+        const Index q = (n-1) / (k-1);
+        return q * (n - ((k - 1) * (q + 1)) / 2);
       }
     };
 
