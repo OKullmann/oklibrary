@@ -84,7 +84,7 @@ namespace VanderWaerden {
     typedef unsigned int Index;
 
   public :
-    const Index m; // size of arithmetical progression
+    const Index k; // size of arithmetical progression
     const Index n; // size of counter example and number of variables
   private :
     std::ostream& out;
@@ -96,7 +96,7 @@ namespace VanderWaerden {
 
   public :
   
-    VanderWaerden_TwoParts_1(const Index m, const Index n, std::ostream& out) : m(m), n(n), out(out), ap(m, n), number_ap(ap.count), c(number_ap * 2) {}
+    VanderWaerden_TwoParts_1(const Index k, const Index n, std::ostream& out) : k(k), n(n), out(out), ap(k, n), number_ap(ap.count), c(number_ap * 2) {}
   
     void operator() () {
       comment();
@@ -109,7 +109,7 @@ namespace VanderWaerden {
 
     void virtual comment() const {
       out << "c Van der Waerden numbers with partitioning into k = 2 parts; generator written by Oliver Kullmann, Swansea, May 2004\n";
-      out << "c Arithmetical progression size m = " << boost::lexical_cast<std::string>(m) << "\n";
+      out << "c Arithmetical progression size k = " << boost::lexical_cast<std::string>(k) << "\n";
       out << "c Number of elements n = " << boost::lexical_cast<std::string>(n) << "\n";
       out << "p cnf " << boost::lexical_cast<std::string>(n) << " " << boost::lexical_cast<std::string>(c) << "\n";
     }
