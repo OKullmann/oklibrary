@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac).
 
   If a second parameter is given, then this must be a literal, and this literal
-  is added as a unit-clause; in case x=0 actually nothing as added.
+  is added as a unit-clause; in case x=0 actually nothing is added.
 
   \todo Write application tests
 
