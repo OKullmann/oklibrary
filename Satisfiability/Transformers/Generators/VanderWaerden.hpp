@@ -196,11 +196,10 @@ namespace OKlib {
 
       \detail
 
-      The Maxima-specification should be
+      The Maxima-specification is
       output_vanderwaerden2nd_stdname(k1,k2,n) in
       ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac,
-      however currently lexicographical order of the clauses is used here
-      instead of colexicographical order.
+      when using APit = Arithmetical_progressions_colex.
 
       Usage:
       <ul>
@@ -209,9 +208,11 @@ namespace OKlib {
        <li> Via F() then the clause-set is output to stream out. </li>
       </ul>
     */
+    template <typename UInt, template <typename> class APit>
     class VanderWaerden_TwoParts_1 {
     public :
-      typedef unsigned int Index;
+      typedef UInt Index;
+      typedef APit<Index> ArithProg;
       //! first size of arithmetic progression
       const Index k;
       //! second size of arithmetic progression
@@ -220,8 +221,7 @@ namespace OKlib {
       const Index n;
     private :
       std::ostream& out;
-      typedef Arithmetical_progressions<Index> AP;
-      AP ap, ap2;
+      ArithProg ap, ap2;
       const Index number_ap, number_ap2;
     public :
       //! total number of clauses
@@ -260,15 +260,17 @@ namespace OKlib {
         out << "p cnf " << boost::lexical_cast<std::string>(n) << " " << boost::lexical_cast<std::string>(c) << "\n";
       }
       void clauses() {
+        typedef typename ArithProg::Arithmetical_progression ap_type;
+        typedef typename ap_type::const_iterator ap_iterator;
         for (Index i = 0; i < number_ap; ++i) {
-	  const AP::Arithmetical_progression p = ap.next();
-	  for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
+	  const ap_type p = ap.next();
+	  for (ap_iterator i = p.begin(); i != p.end(); ++i)
 	    out << " " << var(*i);
 	  out << eoc();
         }
         for (Index i = 0; i < number_ap2; ++i) {
-	  const AP::Arithmetical_progression p = ap2.next();
-	  for (AP::Arithmetical_progression::const_iterator i = p.begin(); i != p.end(); ++i)
+	  const ap_type p = ap2.next();
+	  for (ap_iterator i = p.begin(); i != p.end(); ++i)
 	    out << " " << neg(var(*i));
 	  out << eoc();
         }

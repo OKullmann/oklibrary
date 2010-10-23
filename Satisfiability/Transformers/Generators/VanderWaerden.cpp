@@ -41,7 +41,7 @@ namespace {
     error_num_vert = 3
   };
 
-  const std::string version = "0.2.2";
+  const std::string version = "0.3";
 
 }
 
@@ -64,7 +64,10 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << "ERROR[VanderWaerden]: At least two vertices are required.\n";
       return error_num_vert;
     }
-    OKlib::Satisfiability::Transformers::Generators::VanderWaerden_TwoParts_1(k,k2, n, std::cout)();
+    OKlib::Satisfiability::Transformers::Generators::VanderWaerden_TwoParts_1
+      <Index,
+       OKlib::Satisfiability::Transformers::Generators::Arithmetical_progressions_colex>
+     (k,k2, n, std::cout)();
   }
   catch (const std::exception& e) {
     std::cerr << ErrorHandling::Error2string(e);
