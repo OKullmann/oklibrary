@@ -74,7 +74,8 @@ arithprog_primes(k,n,memo) :=
    The order of the ordered version is first by increasing end-value, second
    by increasing start-value of the arithmetic progressions (in this
    way increasing (just) n means that the new hyperedges can just be
-   appended at the end).
+   appended at the end). In other words, the sorting of hyperedges is
+   colexicographical.
 */
 arithprog_primes_ohg(k,n) := 
  [primes_first(n), map(setify,arithprog_primes(k,n,true))]$
