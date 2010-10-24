@@ -1766,13 +1766,16 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
  21  22
   1   1
 1000
-     \endverbatim
-     </li>
-     <li> Cutoff=5*10^6, rots:
-     \verbatim
   1   2   3   4   5   6   8   9  12  13  14  15  16  17  18  19
 452 361  72   8   2   1   1   1   7   4  18  31  11  16  13   2
 1000
+     \endverbatim
+     </li>
+     <li> Cutoff=10^7, rots:
+     \verbatim
+  1   2   3   4  10  13  14  15  17 
+369 117   5   1   1   2   3   1   1 
+500 
      \endverbatim
      </li>
     </ol>
