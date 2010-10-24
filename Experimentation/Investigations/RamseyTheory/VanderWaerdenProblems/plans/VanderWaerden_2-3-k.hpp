@@ -749,6 +749,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
      (seed=3063820134). </li>
     </ol>
    </li>
+   <li> n=386: gsat-tabu finds a solution (modified stepwise from n=379), with
+   certificate:
+   \verbatim
+18,30,35,43,45,50,64,74,79,81,
+96,97,101,102,104,114,133,143,148,150,
+156,160,171,188,197,214,225,229,235,237,
+242,252,271,281,283,284,288,289,304,306,
+311,321,335,340,342,350,355,367
+   \endverbatim
+   </li>
    <li> n=387:
     <ol>
      <li> cutoff=2*10^6 with gsat-tabu:
@@ -794,12 +804,22 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
  193900 1162000 2486000 2976000 4207000 7925000
      \endverbatim
      Unclear; but it seems the cutoff has to be increased to 8*10^6. </li>
+     <li> Using RunVdW3k with gsat-tabu, runs=100 and cutoff=8*10^6 finds a
+     solution for n=386, but not for n=387:
+     \verbatim
+ 1  2  3  4 
+ 1 41 55  3 
+100 
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=388
     <ol>
      <li> rnovelty with cutoff=8*10^6: found a solution in run 33
-     (seed=2441787444, osteps=4412722). </li>
+     (seed=2441787444, osteps=4412722). Reproduction does not succeed (new
+     order of clauses etc.), but we just see whether we can find just new
+     solutions. </li>
      <li> gsat-tabu with cutoff=8*10^6:
      \verbatim
  1  2  3  4
