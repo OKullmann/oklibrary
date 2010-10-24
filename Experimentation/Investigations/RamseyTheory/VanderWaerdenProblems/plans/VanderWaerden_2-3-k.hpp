@@ -9,7 +9,9 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
   \brief On investigations into vdW-numbers vdw_2(3,k)
 
-  Instances created by output_vanderwaerden2nd_stdname(3,k,n).
+  Instances created by output_vanderwaerden2nd_stdname(3,k,n) at Maxima-level,
+  or by "VanderWaerden-O3-DNDEBUG 3 k n" at C++ level (instances differ by
+  the order of negated literals in clauses).
   An experiment is run by "RunVdW3k k n0 alg runs cutoff".
 
   

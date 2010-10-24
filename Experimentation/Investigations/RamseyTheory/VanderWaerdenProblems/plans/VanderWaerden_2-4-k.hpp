@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,9 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp
   \brief On investigations into vdW-numbers vdw_2(4,k)
 
-  Instances created by output_vanderwaerden2nd_stdname(4,k,n).
+  Instances created by output_vanderwaerden2nd_stdname(4,k,n) at Maxima-level,
+  or by "VanderWaerden-O3-DNDEBUG 4 k n" at C++ level (instances differ by
+  the order of negated literals in clauses).
   
   
   \todo Literature overview
