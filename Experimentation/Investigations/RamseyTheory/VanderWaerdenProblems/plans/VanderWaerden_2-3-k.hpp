@@ -1106,7 +1106,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
   \todo vanderwaerden_2(3,24) >= 593
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = 593. </li>
-   <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however now it seems
    that rots is best (using half of the cutoff of gsat-tabu). </li>
    <li> n=530, gsat-tabu, cutoff=10^8: A solution was easily found. </li>
