@@ -20,7 +20,8 @@ License, or any later version. */
    machine is 32 or 64 bit and determine the paths to libraries etc
    based on this variable, and hence BuildSystem/Configuration/build_data.mak
    should appear before files such as 
-   BuildSystem/Configuration/ExternalSources/all.mak. </li>
+   BuildSystem/Configuration/ExternalSources/all.mak (see commit
+   97faa95da174bd79aec9ab3ce1ae75023d993665 ). </li>
   </ul>
 
   \todo Configuration data overview :
