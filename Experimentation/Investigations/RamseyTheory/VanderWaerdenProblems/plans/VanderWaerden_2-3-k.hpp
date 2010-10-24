@@ -1540,7 +1540,13 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 1000
      \endverbatim
      </li>
-     <li> Cutoff=10^7 found in 500 runs no solution. </li>
+     <li> Cutoff=10^7 found in 500 runs no solution. Another 500 runs:
+     \verbatim
+  1   2   3   4   5   6   7   8   9
+187 194  56  39   4   6   7   3   4
+500
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
@@ -1655,6 +1661,9 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 500
   1   2   3   5   7   8   9  10  11  12
 286 183  10   3   2   2   5   3   2   4
+500
+  1   2   3   7   8   9  10  11  12
+281 176  19   1   3   6   5   4   5
 500
      \endverbatim
      </li>
