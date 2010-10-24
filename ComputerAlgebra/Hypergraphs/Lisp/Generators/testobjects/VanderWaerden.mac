@@ -1,0 +1,71 @@
+/* Oliver Kullmann, 23.10.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/VanderWaerden.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/VanderWaerden.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/VanderWaerden.mac")$
+
+/* ***************************
+   * Arithmetic progressions *
+   ***************************
+*/
+
+okltest_arpr(arpr);
+
+okltest_arithmetic_progression_p(arithmetic_progression_p);
+okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
+
+
+/* ***************************************************
+   * Standard hypergraphs of arithmetic progressions *
+   ***************************************************
+*/
+
+okltest_arithprog_finish(arithprog_finish);
+
+okltest_arithprog_ohg(arithprog_ohg);
+okltest_arithprog_hg(arithprog_hg);
+
+okltest_nver_arithprog_hg(nver_arithprog_hg);
+okltest_nver_arithprog_ohg(nver_arithprog_ohg);
+okltest_nhyp_arithprog_hg(nhyp_arithprog_hg);
+okltest_nhyp_arithprog_ohg(nhyp_arithprog_ohg);
+
+okltest_arithprog_ohg(lambda([k,n],
+ block([V:create_list(i,i,1,n),E:[],H:first_colex_arithprog(k)],
+  if k=0 then E : cons(H,E)
+  else while last(H) <= n do (
+    E : cons(H,E),
+    H : next_colex_arithprog(H)
+  ),
+  return([V,map(setify,reverse(E))]))));
+
+/* ******************************************************
+   * Generalised hypergraphs of arithmetic progressions *
+   ******************************************************
+*/
+
+okltest_arithmetic_progressions(arithmetic_progressions);
+
+okltest_arithprog_list_ohg(arithprog_list_ohg);
+okltest_arithprog_list_hg(arithprog_list_hg);
+
+/*!
+\endhtmlonly
+*/

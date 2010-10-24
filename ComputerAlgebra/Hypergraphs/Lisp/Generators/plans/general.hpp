@@ -31,7 +31,7 @@ License, or any later version. */
    files:
     <ol>
      <li> Basics.mac </li>
-     <li> VanderWaerden.mac </li>
+     <li> VanderWaerden.mac : DONE</li>
      <li> GreenTao.mac : DONE </li>
      <li> Schur.mac </li>
      <li> Rado.mac DONE </li>
@@ -51,7 +51,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Hypergraphs of arithmetic progressions
+  \todo DONE (now the implementation is non-recursive, and in case more
+  memory is needed, use default_memory_ecl())
+  Hypergraphs of arithmetic progressions
   <ul>
    <li> The current implementation of arithprog_ohg/arithprog_hg can only
    handle small values of n --- otherwise we get a stack-size error!

@@ -9,7 +9,7 @@
 # "ExtractCertificate_vdW2 file" assumes that "file" contains the output of
 # ubcsat-okl when using option -solve, and this for a boolean vdW-Problem
 # where a solution was found.
-# It extracts then the variables assigned a positive value, that is, the
+# It extracts then the variables assigned a negative value, that is, the
 # vertices belonging to the first block of the 2-partitioning.
 # The output-format is that of a (Maxima-)list, that is, the numbers are
 # separated by commas.
@@ -29,12 +29,12 @@ file=$1
 
 # Five steps:
 # 1. extract solution
-# 2. select positive assignments
+# 2. select negative assignments
 # 3. split into lines with 10 comma-separated entries
 # 4. remove a trailing empty line
 # 5. remove the trailing ","
 cat ${file} | extract_solution_ubcsat |\
-  awk '{for (i=1; i <= NF; ++i) if ($i > 0) printf "%d ", $i}' |\
+  awk '{for (i=1; i <= NF; ++i) if ($i < 0) printf "%d ", -$i}' |\
   awk '{for (i=1; i <= NF; ++i) {printf "%d,", $i; if (i % 10 == 0) printf "\n"}} END {printf "\n"}' |\
   awk 'NF > 0 {print}' |\
   awk '{if (NR != 1) print prev; prev=$0} END {if (NR != 0) print substr(prev,1,length(prev)-1)}'

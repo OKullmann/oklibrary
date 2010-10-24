@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.5.2005 (Swansea)
-/* Copyright 2005 - 2007, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -99,7 +99,7 @@ namespace OKlib {
     given length k in {1, ..., n} finishing in n.
 
     Specified by function arithprog_finish(k,n) in
-    ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac.
+    ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
   */
 
   template <class Hyperedges, class SetSystem, typename Int = unsigned int>

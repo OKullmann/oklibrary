@@ -40,11 +40,24 @@ License, or any later version. */
    <li> Implementation check_certificate_vdw(L,n,P) in
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac:
     <ol>
+     <li> This function uses an alternative representation of a certificate for
+     [L,n] as a list P of the same size as L, with elements subsets of
+     {1,...,n} representing a partitioning. </li>
      <li> Perhaps we should have a dedicated file "Certificates.mac". </li>
      <li> The current check is extremely slow:
      check_certificate_vdw([3,24],578,P) in
      Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
      needed 920 seconds on csltok (the new laptop, not slow). </li>
+     <li> An alternative algorithm is to create all possible arithmetic
+     progressions of the given lengths and to check whether each of them is
+     not contained in the corresponding blocks of the partition. </li>
+     <li> Or the current algorithm could use an array, which yields for each
+     possible vertex its block (colour); this depends on having a linear order
+     and "all vertices", but for that situation it is faster. </li>
+     <li> At the Maxima-level we consider only the fundamental algorithmic
+     possibilities; this issue seems also very much a data-structure issue,
+     and this can be handled properly only at C++ level. See "Checking
+     certificates" in Applications/RamseyTheory/plans/VanderWaerden.hpp. </li>
      <li> We should also use "every_s" (once it can handle multiple lists).
      </li>
     </ol>
@@ -60,6 +73,10 @@ License, or any later version. */
    <li> It would also be useful to translate certificates to partitions and
    back. This can be done in general (every map induces a canonical partition
    on its domain). </li>
+   <li> We need a function to compute the Hamming-distance between two
+   certificates. </li>
+   <li> Given one certificate, we need a function to find all other
+   certificates which have at most a specified distance to the given one. </li>
   </ul>
 
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.10.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,6 +37,17 @@ License, or any later version. */
    <li> The problem is that currently we cannot compile this application
    automatically, due to the build dependencies not expressible, and thus
    yet we cannot create application tests. </li>
+  </ul>
+
+
+  \todo Checking certificates
+  <ul>
+   <li> An interesting algorithmic problem is how to check with highest
+   efficiency a vdW-certificate. </li>
+   <li> See "Certificates" in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/general.hpp. </li>
+   <li> Checking seems also require quite a bit of time, and thus it cannot
+   be done fully properly at Maxima-level. </li>
   </ul>
 
 */

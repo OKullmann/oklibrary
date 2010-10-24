@@ -32,12 +32,16 @@ License, or any later version. */
   <ul>
    <li> Via
    \verbatim
-VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
+> VanderWaerden-O3-DNDEBUG k n > VanDerWaerden_2-k-k_n.cnf
    \endverbatim
-   diagonal boolean problems can be generated quickly. </li>
+   diagonal boolean problems can be generated, and via
+   \verbatim
+> VanderWaerden-O3-DNDEBUG k1 k2 n > VanDerWaerden_2-k1-k2_n.cnf
+   \endverbatim
+   non-diagonal problems. </li>
    <li> In Maxima we have "output_vanderwaerden2_stdname(k,n)" (in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac)
-   as well as "output_vanderwaerden2nd_stdname(k1,k2,n)"
+   as well as "output_vanderwaerden2nd_stdname(k1,k2,n)".
    </li>
    <li> vanderwaerden_2(3) = 9 (density = 3.6) </li>
    <li> vanderwaerden_2(4) = 35 (density = 10.7) </li>
@@ -77,6 +81,8 @@ VanderWaerden-O3-DNDEBUG k n > VanderWaerden_2-k-k_n.cnf
      solver. </li>
     </ol>
    </li>
+   <li> The script RunVdW3k is a first very simple tool, just using a fixed
+   number of runs and a fixed cutoff. </li>
   </ul>
 
 

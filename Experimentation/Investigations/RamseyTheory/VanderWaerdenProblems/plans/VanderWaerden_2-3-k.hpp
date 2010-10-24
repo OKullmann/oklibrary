@@ -9,7 +9,9 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
   \brief On investigations into vdW-numbers vdw_2(3,k)
 
-  Instances created by output_vanderwaerden2nd_stdname(3,k,n).
+  Instances created by output_vanderwaerden2nd_stdname(3,k,n) at Maxima-level,
+  or by "VanderWaerden-O3-DNDEBUG 3 k n" at C++ level (instances differ by
+  the order of negated literals in clauses).
   An experiment is run by "RunVdW3k k n0 alg runs cutoff".
 
   
@@ -747,6 +749,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
      (seed=3063820134). </li>
     </ol>
    </li>
+   <li> n=386: gsat-tabu finds a solution (modified stepwise from n=379), with
+   certificate:
+   \verbatim
+18,30,35,43,45,50,64,74,79,81,
+96,97,101,102,104,114,133,143,148,150,
+156,160,171,188,197,214,225,229,235,237,
+242,252,271,281,283,284,288,289,304,306,
+311,321,335,340,342,350,355,367
+   \endverbatim
+   </li>
    <li> n=387:
     <ol>
      <li> cutoff=2*10^6 with gsat-tabu:
@@ -792,12 +804,22 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
  193900 1162000 2486000 2976000 4207000 7925000
      \endverbatim
      Unclear; but it seems the cutoff has to be increased to 8*10^6. </li>
+     <li> Using RunVdW3k with gsat-tabu, runs=100 and cutoff=8*10^6 finds a
+     solution for n=386, but not for n=387:
+     \verbatim
+ 1  2  3  4 
+ 1 41 55  3 
+100 
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=388
     <ol>
      <li> rnovelty with cutoff=8*10^6: found a solution in run 33
-     (seed=2441787444, osteps=4412722). </li>
+     (seed=2441787444, osteps=4412722). Reproduction does not succeed (new
+     order of clauses etc.), but we just see whether we can find just new
+     solutions. </li>
      <li> gsat-tabu with cutoff=8*10^6:
      \verbatim
  1  2  3  4
@@ -1084,7 +1106,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
   \todo vanderwaerden_2(3,24) >= 593
   <ul>
    <li> The conjecture is vanderwaerden_2(3,24) = 593. </li>
-   <li> The predictions are vanderwaerden_2(3,24) = 557. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however now it seems
    that rots is best (using half of the cutoff of gsat-tabu). </li>
    <li> n=530, gsat-tabu, cutoff=10^8: A solution was easily found. </li>
@@ -1744,10 +1765,6 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
  21  22
   1   1
 1000
-     \endverbatim
-     </li>
-     <li> Cutoff=5*10^6, rots:
-     \verbatim
   1   2   3   4   5   6   8   9  12  13  14  15  16  17  18  19
 452 361  72   8   2   1   1   1   7   4  18  31  11  16  13   2
 1000
@@ -1758,6 +1775,9 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   1   2   3  14  15  16
 354 138   5   1   1   1
 500
+  1   2   3   4  10  13  14  15  17 
+369 117   5   1   1   2   3   1   1 
+500 
      \endverbatim
      </li>
     </ol>
@@ -1767,7 +1787,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 
   \todo vanderwaerden_2(3,28) > 826
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,28) = 827. </li>
+   <li> The (weak) conjecture is vanderwaerden_2(3,28) = 827. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
@@ -1867,6 +1887,8 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
      \endverbatim
      Again none of the solution could be reproduced (due to the Ubcsat bug).
      </li>
+     <li> With small modifications from a solution for n=825 a solution for
+     n=826 was produced, the same as above but with vertex 823 added. </li>
     </ol>
    </li>
    <li> n=827:
@@ -1875,6 +1897,13 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
      \verbatim
   1   2   3   4   5   6   7   9  10  12  13  14  15  16  17  18  19 
  29 502 313  44   7   3   2   1   1   5  10  24  26  18   7   7   1 
+1000 
+     \endverbatim
+     </li>
+     <li> cutoff=10^7, rots:
+     \verbatim
+  1   2   3   4  13  14  15 
+ 58 763 151  14   4   7   3 
 1000 
      \endverbatim
      </li>
@@ -1892,7 +1921,7 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 
   \todo vanderwaerden_2(3,29) > 867
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = 868. </li>
+   <li> The (weak) conjecture is vanderwaerden_2(3,29) = 868. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 29 750 rots 1000 5000000
@@ -1971,6 +2000,13 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
      \verbatim
   1   2   3   4   5   6   7   8  10  11  12  13  14  15  16  17  18  19  20 
  21 336 294  67  13   7   2   2   3   9  18  27  50  46  55  37   9   2   2 
+1000 
+     \endverbatim
+     </li>
+     <li> cutoff=10^7, rots:
+     \verbatim
+  1   2   3   4   5   6   7   9  11  12  13  14  15  16  17  18 
+ 67 609 210  24   9   2   2   1   3  13  13  21  15   8   2   1 
 1000 
      \endverbatim
      </li>

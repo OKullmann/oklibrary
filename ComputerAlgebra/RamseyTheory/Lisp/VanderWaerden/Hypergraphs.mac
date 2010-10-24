@@ -19,7 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.ma
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
@@ -28,7 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
    arithprog_(o)hg(k,n)
 
-   (from Hypergraphs/Lisp/Generators.mac).
+   (from Hypergraphs/Lisp/Generators/VanderWaerden.mac).
 */
 
 /* The satisfiability problems for diagonal resp. mixed problems with 2 parts
@@ -55,8 +55,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    {1,...,n}, yielding a partition of this set (with possibly empty subsets).
 */
 check_certificate_vdw(L,n,P) := block([N : setn(n)],
-  is(apply(union,P) = N) and sum_l(map(length,P)) = n and
-  every(lambda([k,b], emptyp(arithmetic_progressions(listify(b),k))), L, P))$
+  is(length(L) = length(P)) and is(apply(union,P) = N) and
+    sum_l(map(length,P)) = n and
+    every(lambda([k,b], emptyp(arithmetic_progressions(listify(b),k))), L, P))$
 /* See "Certificates" in 
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/general.hpp.
 */

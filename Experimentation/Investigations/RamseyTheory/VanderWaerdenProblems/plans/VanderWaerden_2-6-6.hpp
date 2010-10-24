@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.2.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,10 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-6-6.hpp
   \brief On investigations into vanderwaerden_2(6) = 1132
+
+  Instance created by output_vanderwaerden2nd_stdname(6,6,1132) at
+  Maxima-level, or by "VanderWaerden-O3-DNDEBUG 6 6 1132" at C++ level
+  (instances differ by the order of negated literals in clauses).
 
 
   \todo Basic statistics for n=1132

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.7.2004 (Turin)
-/* Copyright 2004 - 2007, 2009 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,9 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/Ramsey.hpp
   \brief Fundamental components for creating Ramsey instances
+   \deprecated Needs a complete update.
 
+  \details
   Currently the code in here is rather outdated.
 
 */

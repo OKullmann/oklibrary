@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,17 +39,25 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    progression of size k.
    (We are using "trivially generalised partitionings" here, where the
     parts can be empty.)
+   For the list-form the order of clauses is as given by arithprog_ohg, where
+   the positive clauses are associated to the first block of the partition
+   (the first "colour").
 */
 /* Prerequisites: k, n natural numbers >= 0. */
-vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(arithprog_hg(k,n))$
+vanderwaerden2_fcl(k,n) := tcol2sat_stdohg2stdfcl(arithprog_ohg(k,n))$
+vanderwaerden2_fcs(k,n) := fcl2fcs(vanderwaerden2_fcl(k,n))$
 /* The general non-diagonal form (the above case has k=k1=k2). */
 /* Prerequisites: k1, k2, n natural numbers >= 0. */
-vanderwaerden2nd_fcs(k1,k2,n) := union_hg(comp_fcs(arithprog_hg(k1,n)),arithprog_hg(k2,n))$
+vanderwaerden2nd_fcl(k1,k2,n) := block(
+ [G1 : arithprog_ohg(k1,n), G2 : arithprog_ohg(k2,n)],
+  [G1[1], append(G1[2], comp_cl(G2[2]))])$
+vanderwaerden2nd_fcs(k1,k2,n) := fcl2fcs(vanderwaerden2nd_fcl(k1,k2,n))$
 
 /* Now the general form, where L is a vdW-parameter-tuple.
    Prerequisite: vanderwaerden_p(L) is true, n natural number >= 0
    (see ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac).
 */
+/* TODO: needs update, and order needs specification! */
 vanderwaerden_nbfclud(L,n) :=
  if emptyp(L) then [create_list(i,i,1,n),[],[]] else
   gcol2sat_stdohg2stdnbfclud(
@@ -154,18 +162,18 @@ ncl_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
 */
 
 output_vanderwaerden2(k,n,filename) := 
-  output_fcs_v(
+  output_fcl_v(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", and ", n, " elements."), 
-    vanderwaerden2_fcs(k,n),
+    vanderwaerden2_fcl(k,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k-k_n.cnf": */
 output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
   sconcat("VanDerWaerden_2-",k,"-",k,"_",n,".cnf"))$
 
 output_vanderwaerden2nd(k1,k2,n,filename) := 
-  output_fcs_v(
+  output_fcl_v(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements."), 
-    vanderwaerden2nd_fcs(k1,k2,n),
+    vanderwaerden2nd_fcl(k1,k2,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k1-k2_n.cnf": */
 output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
