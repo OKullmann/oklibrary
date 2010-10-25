@@ -9,13 +9,8 @@
 # # Running Ubcsat #
 # ##################
 
-# XXX WHAT IS THE MEANING OF THIS? XXX
-# Default list of output parameters which ubcsat outputs.
-# This default list is that used by ubcsat-okl.
-# Use the output_params parameter of eval_ubcsat to specify
-# a different list of output parameters (ubcsat output parameters).
-eval_ubcsat_output_params = list(run="run",found="sat",best="min",
-  beststep="osteps",steps="msteps",seed="seed")
+# List of output columns which ubcsat-okl outputs (CONSTANT).
+eval_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 
 # Default list of ubcsat algorithms eval_ubcsat evaluates, given
 # as a named list, where the name of each item is a reference for the
@@ -44,11 +39,6 @@ eval_ubcsat_cnf_algs = list(
    walksat_tabu_nonull="walksat-tabu -v nonull"
 )
 
-# XXX WHAT IS THE MEANING OF THIS? XXX
-# Default labelled list "arg=val" of argument-value pairs of arguments to the
-# ubcsat command. 
-eval_ubcsat_std_params = list(runs=100,cutoff=100000)
-
 # Takes a dataframe, a constant value C and returns a new data frame with
 # an additional column where that column has value C for every row in the
 # data.frame.
@@ -71,28 +61,26 @@ add_constant_column = function(df,const_var, name) {
 #       where the name of each item is a reference for the
 #       algorithm, and the value of each item is the algorithm parameter
 #       as given to ubcsat.
-#     output_params
-#       A list of ubcsat parameters/values that is included as
-#       columns in the output data.frame. For example "run" or "found".
-#     params
-#       A labelled list of the form "list(arg1=val1,arg2=val2,...)"
-#       specifying the command-line arguments to provide to "ubcsat"
-#       when it is called. That is, "-arg1 val1 -arg2 val2" etc. is
-#       appended to the ubcsat command in the appropriate place.
 #     monitor
 #       Boolean variable, indicating whether or not to print the
 #       system commands issued (for ubcsat); default is TRUE.
+#     ...
+#       Additional to ubcsat-okl can be specified as additional
+#       parameters to this function, so adding "runs=1", would
+#       result in each call to ubcsat-okl including "-runs=1"
+#       in it's command.
 #
 # Result:
 #     The result data.frame has as columns the output parameters
-#     given by output_params from each run of ubcsat, with
-#     additional columns added specifying the algorithm a particular
-#     run used, as well as columns for each of the statistics variables
-#     that ubcsat outputs for that run.
+#     output by ubcsat-okl from each run of ubcsat, with
+#     additional columns added specifying the algorithm, the run,
+#     as well as columns for each of the statistics variables
+#     that ubcsat outputs for that invocation of ubcsat-okl.
 #
 #     Every algorithm is evaluated using a single run of ubcsat, where
-#     the number of runs of the algorithm is determined by the output
-#     parameters, given in output_params (see eval_ubcsat_output_params).
+#     the number of runs of the algorithm is either the default for
+#     ubcsat-okl or the value of the optional "runs" parameter for
+#     eval_ubcsat.
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
 
@@ -101,8 +89,7 @@ add_constant_column = function(df,const_var, name) {
 
 eval_ubcsat = function(
  input,
- algs=eval_ubcsat_cnf_algs,
- output_params=eval_ubcsat_output_params, 
+ algs = eval_ubcsat_cnf_algs,
  monitor=TRUE,...) {
 
   eval_ubcsat_df = NULL
@@ -121,15 +108,14 @@ eval_ubcsat = function(
       paste(input,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
     eval_ubcsat_command = paste(
       "ubcsat-okl -r out '", output_file, "' ",
-      do.call(paste,c(names(output_params),list(sep=","))),
       " -r stats '", stats_output_file, "' ",
-      "numclauses,numvars,numlits,fps,totaltime,time,steps ",
       std_params," -alg ", algs[alg], " -i ",input, " > ",
       input,"-",alg_names[alg],".eval_ubcsat_log",sep="")
     if (monitor) print(eval_ubcsat_command)
     system(eval_ubcsat_command)
     # Read in output from respective files.
-    result_df = read.table(output_file,col.names=as.vector(output_params))
+    result_df = read.table(output_file,
+                           col.names = as.vector(eval_ubcsat_column_names))
     result_df = add_constant_column(result_df,alg_names[alg], "alg")
     # Add statistics data
     stats_df = read.table(stats_output_file,

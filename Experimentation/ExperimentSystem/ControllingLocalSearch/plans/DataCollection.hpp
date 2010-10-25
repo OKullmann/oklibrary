@@ -24,13 +24,13 @@ License, or any later version. */
 
   \bug Bad parameter of eval_ubcsat
   <ul>
-   <li> Collecting the parameters in a list is inappropriate, but just the
+   <li> It needs to be specified what are the defaults. </li>
+   <li> A *concept* for the input handling is needed, not just a hack. </li>
+   <li> DONE Collecting the parameters in a list is inappropriate, but just the
    standard R-handling should be used, so that for example one can just
    specify "cutoff=1000000" as additional parameter, without, of course,
    changing anything else --- currently parameter "runs" is overwritten in
    this case. </li>
-   <li> It needs to be specified what are the defaults. </li>
-   <li> A *concept* for the input handling is needed, not just a hack. </li>
   </ul>
 
 
