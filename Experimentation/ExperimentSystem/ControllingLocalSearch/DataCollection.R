@@ -92,6 +92,8 @@ eval_ubcsat = function(
  algs = eval_ubcsat_cnf_algs,
  monitor=TRUE,...) {
 
+  filename = basename(input)
+
   eval_ubcsat_df = NULL
   # Setup parameter string
   std_params = ""
@@ -103,14 +105,14 @@ eval_ubcsat = function(
   # Run ubcsat-okl with each algorithm
   alg_names = names(algs)
   for (alg in 1:length(algs)) {
-    output_file = paste(input,"-",alg_names[alg],".eval_ubcsat_result",sep="")
+    output_file = paste(filename,"-",alg_names[alg],".eval_ubcsat_result",sep="")
     stats_output_file =
-      paste(input,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
+      paste(filename,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
     eval_ubcsat_command = paste(
       "ubcsat-okl -r out '", output_file, "' ",
       " -r stats '", stats_output_file, "' ",
       std_params," -alg ", algs[alg], " -i ",input, " > ",
-      input,"-",alg_names[alg],".eval_ubcsat_log",sep="")
+      filename,"-",alg_names[alg],".eval_ubcsat_log",sep="")
     if (monitor) print(eval_ubcsat_command)
     system(eval_ubcsat_command)
     # Read in output from respective files.
