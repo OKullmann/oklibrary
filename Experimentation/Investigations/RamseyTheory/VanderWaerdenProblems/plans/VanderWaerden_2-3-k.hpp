@@ -675,33 +675,33 @@ BestSolution_Max = 10.000000
    different cutoff's. </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-19_345.cnf", runs=100,cutoff=10000,monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-3-19_345.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), the best algorithms seem gsat_tabu, rnovelty and
    rsaps (all three found solutions). </li>
    </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-19_347.cnf", runs=100,cutoff=10000,monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-3-19_347.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), now the best algorithms seem gsat_tabu, rnovelty,
    rnoveltyp, saps, rsaps and samd. </li>
    <li> Using cutoff=100000:
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-19_347.cnf", runs=100,cutoff=100000,monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-3-19_347.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), now the best algorithms seem gsat_tabu,
    adaptnoveltyp, rnoveltyp, rsaps, rots and samd (all found a solution).
    gsat_tabu seems the best, followed by samd. </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    now only two algorithms found a solution, gsat_tabu and samd, and these
    two seem to be best (hard to distinguish between them). </li>
    <li> Evaluating
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_2-3-19_349.cnf", runs=100,cutoff=100000,monitor=TRUE)
+> E = run_ubcsat("VanDerWaerden_2-3-19_349.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    adaptnoveltyp, rnovelty, rnoveltyp hard to distinguish, gsat_tabu has higher
    variance, the bulk of rsaps' results are far worse, but outliers reach also
@@ -737,7 +737,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
    true here too. </li>
    <li> Evaluating
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_2-3-20_385.cnf", runs=100,cutoff=100000,monitor=TRUE)
+> E = run_ubcsat("VanDerWaerden_2-3-20_385.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    gsat-tabu, adaptnovelty+ and rnoveltyp seem best (all reaching min=2). </li>
    </li>
@@ -1409,7 +1409,7 @@ check_certificate_vdw([3,24],580,P);
    </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-24_561.cnf", runs=100,cutoff=1000000)
+E = run_ubcsat("VanDerWaerden_2-3-24_561.cnf", runs=100,cutoff=1000000)
    \endverbatim
    by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
    \verbatim
@@ -1425,7 +1425,7 @@ rots :
    \endverbatim
    Now only these best three algorithms:
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-3-24_575.cnf", algs=list(gsat_tabu="gsat-tabu",samd="samd",rots="rots"), runs=500,cutoff=10000000)
+E = run_ubcsat("VanDerWaerden_2-3-24_575.cnf", algs=list(gsat_tabu="gsat-tabu",samd="samd",rots="rots"), runs=500,cutoff=10000000)
 plot(E$alg,E$best)
 eval_ubcsat_dataframe(E)
 rots : 

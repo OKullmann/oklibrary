@@ -23,7 +23,7 @@ License, or any later version. */
    <li>
    Evaluating
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-4-4_1200.cnf", runs=100,cutoff=10000,monitor=TRUE)
+E = run_ubcsat("GreenTao_4-3-3-4-4_1200.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), there is not enough discrimination (many algorithms
    found solutions in every run). It *seems* however, one can *exclude* gsat,
@@ -31,7 +31,7 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_1200.cnf", runs=100,cutoff=10000,monitor=TRU
    <li>
    Evaluating
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-4-4_2000.cnf", runs=100,cutoff=10000,monitor=TRUE)
+E = run_ubcsat("GreenTao_4-3-3-4-4_2000.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), the three best algorithms are saps, rsaps and
    sapsnr, with sapsnr as the best (each of the three found solutions,
@@ -42,7 +42,7 @@ E = eval_ubcsat("GreenTao_4-3-3-4-4_2000.cnf", runs=100,cutoff=10000,monitor=TRU
    <li>
    Evaluating
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", runs=100,cutoff=100000,monitor=TRUE)
+E = run_ubcsat("GreenTao_4-3-3-4-4_2500.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), now adaptnoveltyp is best (reaching min=36). At least
    on our problems, for low cutoff alorithms from the saps-family might be

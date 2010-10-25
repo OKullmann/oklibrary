@@ -9,18 +9,18 @@
 # # Running Ubcsat #
 # ##################
 
-# Relative path to directory to store eval_ubcsat intermediate files
+# Relative path to directory to store run_ubcsat intermediate files
 # (CONSTANT)
-eval_ubcsat_temp_dir = "ubcsat_tmp"
+run_ubcsat_temp_dir = "ubcsat_tmp"
 
 # List of output columns which ubcsat-okl outputs (CONSTANT).
-eval_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
+run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 
-# Default list of ubcsat algorithms eval_ubcsat evaluates, given
+# Default list of ubcsat algorithms run_ubcsat evaluates, given
 # as a named list, where the name of each item is a reference for the
 # algorithm, and the value of each item is the algorithm parameter
 # as given to ubcsat.
-eval_ubcsat_cnf_algs = list(
+run_ubcsat_cnf_algs = list(
    gsat="gsat", 
    gsat_simple="gsat -v simple",
    gwsat="gwsat", 
@@ -56,54 +56,54 @@ add_constant_column = function(df,const_var, name) {
 
 # Takes the input file *name*, the algorithm name (as a filepath safe
 # single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for eval_ubcsat intermediate
+# optionally the temporary directory used for run_ubcsat intermediate
 # files and returns the file path for the log file for this ubcsat-okl run
 # for that algorithm on that file.
-eval_ubcsat_log_path = function(
-  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+run_ubcsat_log_path = function(
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
   return (paste(tmp_directory, "/",
-                filename,"-",alg_safe_name,".eval_ubcsat_log",
+                filename,"-",alg_safe_name,".run_ubcsat_log",
                 sep = ""))
 }
 
 # Takes the input file *name*, the algorithm name (as a filepath safe
 # single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for eval_ubcsat intermediate
+# optionally the temporary directory used for run_ubcsat intermediate
 # files and returns the file path for the result file for this ubcsat-okl run
 # for that algorithm on that file.
-eval_ubcsat_result_path = function(
-  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+run_ubcsat_result_path = function(
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
   return(paste(tmp_directory, "/",
-               filename,"-",alg_safe_name,".eval_ubcsat_result",
+               filename,"-",alg_safe_name,".run_ubcsat_result",
                sep=""))
 }
 
 # Takes the input file *name*, the algorithm name (as a filepath safe
 # single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for eval_ubcsat intermediate
+# optionally the temporary directory used for run_ubcsat intermediate
 # files and returns the file path for the statistics file for this ubcsat-okl
 # run for that algorithm on that file.
-eval_ubcsat_stats_path = function(
-  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+run_ubcsat_stats_path = function(
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
   return(paste(tmp_directory, "/",
-               filename,"-",alg_safe_name,".eval_ubcsat_stats",
+               filename,"-",alg_safe_name,".run_ubcsat_stats",
                sep=""))
 }
 
 # Takes the input file *name*, the algorithm name (as a filepath safe
 # single word which is simply a "nickname" for the algorithm), the
 # algorithm name (full name as given to ubcsat), the temporary directory
-# used for eval_ubcsat intermediate files, along with any parameters to be
+# used for run_ubcsat intermediate files, along with any parameters to be
 # passed to ubcsat (for instance "runs=100" results in "-runs=100" being
 # passed to the ubcsat command), and returns the ubcsat-okl command
 # to run this algorithm with this set of parameters on this file.
-eval_ubcsat_command = function(
-  input, alg_safe_name, alg_name, tmp_directory=eval_ubcsat_temp_dir,...) {
+run_ubcsat_command = function(
+  input, alg_safe_name, alg_name, tmp_directory=run_ubcsat_temp_dir,...) {
 
   filename = basename(input)
-  output_file = eval_ubcsat_result_path(filename,alg_safe_name,tmp_directory)
+  output_file = run_ubcsat_result_path(filename,alg_safe_name,tmp_directory)
   stats_output_file =
-      eval_ubcsat_stats_path(filename,alg_safe_name,tmp_directory)
+      run_ubcsat_stats_path(filename,alg_safe_name,tmp_directory)
   
   # Setup parameter string
   std_params = ""
@@ -117,7 +117,7 @@ eval_ubcsat_command = function(
                 "ubcsat-okl -r out '", output_file, "' ",
                 " -r stats '", stats_output_file, "' ",
                 std_params," -alg ", alg_name, " -i ",input, " > ",
-                eval_ubcsat_log_path(input, alg_safe_name, tmp_directory),
+                run_ubcsat_log_path(filename, alg_safe_name, tmp_directory),
                 sep="") )
 }
 
@@ -151,39 +151,39 @@ eval_ubcsat_command = function(
 #     Every algorithm is evaluated using a single run of ubcsat, where
 #     the number of runs of the algorithm is either the default for
 #     ubcsat-okl or the value of the optional "runs" parameter for
-#     eval_ubcsat.
+#     run_ubcsat.
 #
 #     Each row in the result dataframe then represents a run in ubcsat.
 
 # XXX WHAT IS THE STATUS OF THIS? XXX
 # RENAME: run_ubcsat (also elsewhere (including plans-files))
 
-eval_ubcsat = function(
+run_ubcsat = function(
  input,
- algs = eval_ubcsat_cnf_algs,
- tmp_directory=eval_ubcsat_temp_dir,
+ algs = run_ubcsat_cnf_algs,
+ tmp_directory=run_ubcsat_temp_dir,
  monitor=TRUE,...) {
 
   filename = basename(input)
 
   if ( ! file.exists(tmp_directory)) 
     if (!dir.create(tmp_directory, showWarnings=FALSE)) {
-      print(paste("ERROR[eval_ubcsat]: Unable to create directory '",
+      print(paste("ERROR[run_ubcsat]: Unable to create directory '",
                   tmp_directory, "'."))
       return(FALSE)
     }
  
-  eval_ubcsat_df = NULL
+  run_ubcsat_df = NULL
   # Run ubcsat-okl with each algorithm
   alg_names = names(algs)
   for (alg in 1:length(algs)) {
     output_file =
-      eval_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
     stats_output_file =
-      eval_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
     
     command =
-      eval_ubcsat_command(filename, alg_names[alg],algs[alg],
+      run_ubcsat_command(input, alg_names[alg],algs[alg],
                           tmp_directory,...)
     if (monitor) print(command)
     system(command)
@@ -191,7 +191,7 @@ eval_ubcsat = function(
     
     # Read in output from respective files.
     result_df = read.table(output_file,
-                           col.names = as.vector(eval_ubcsat_column_names))
+                           col.names = as.vector(run_ubcsat_column_names))
     result_df = add_constant_column(result_df,alg_names[alg], "alg")
     
     # Add statistics data
@@ -202,14 +202,14 @@ eval_ubcsat = function(
         stats_df[[3]][[i]], stats_df[[1]][[i]])
     }
     # Add rows from this ubcsat result to the result data.frame
-    eval_ubcsat_df = rbind(eval_ubcsat_df, result_df) 
+    run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
   }
-  eval_ubcsat_df
+  run_ubcsat_df
 }
 
 # For example, running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1)
+# E = run_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1)
 #
 # for an example cnf, results in the data.frame E with the following values:
 #
@@ -228,7 +228,7 @@ eval_ubcsat = function(
 #
 # whereas running:
 #
-# E = eval_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1,output_params=list("run","found","best","beststep","steps"))
+# E = run_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1,output_params=list("run","found","best","beststep","steps"))
 #
 # produces:
 #

@@ -1052,7 +1052,7 @@ BestSolution_Max = 59.000000
    equal) than 309. </li>
    <li> Evaluating
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_2-4-10_350.cnf", runs=100,cutoff=100000,monitor=TRUE)
+> E = run_ubcsat("VanDerWaerden_2-4-10_350.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best): It seems that gsat_tabu, rots and samd are best,
    where samd reached the best min=37, but this might be just an outlier, and
@@ -1063,7 +1063,7 @@ BestSolution_Max = 59.000000
    here. </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    again rots seems best (reaching min=26). </li>
    <li> The same, but with cutoff=10^6: three algorithms, each with one run,
@@ -1093,7 +1093,7 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=T
    </li>
    <li> Evaluating (cutoff=10^5)
    \verbatim
->  E = eval_ubcsat("VanDerWaerden_2-4-10_320.cnf", runs=100,cutoff=100000,monitor=TRUE)
+>  E = run_ubcsat("VanDerWaerden_2-4-10_320.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    gsat-tabu and samd appear best (both reaching min=23).
    </li>
