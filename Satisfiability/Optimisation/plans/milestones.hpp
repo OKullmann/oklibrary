@@ -18,8 +18,8 @@ License, or any later version. */
    following topics are handled:
     - Update namespaces
     - Create module MinOnes
-    - Create module MinSAT
     - Create module MaxSat
+    - Create module MinSAT : DONE
 
   \par
    Create further milestones.

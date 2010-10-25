@@ -1,0 +1,74 @@
+#!/bin/bash
+# Matthew Gwynne, 24.10.2010 (Swansea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "CNF2WeightedMaxSATOptimVars" computes the DIMACS weighted MaxSAT 
+# clause-set on STDOUT which is satisfiable if the original SAT problem
+# given on STDIN is satisfied by the assignment of all variables to 0, 
+# otherwise, the maximum weighting of satisfied clauses in output are 
+# satisfied when the minimum number of variables are set to 1 such that the 
+# original problem is satisfied. 
+#
+# This is achieved by adding unit clauses for each variable from STDOUT (in the 
+# lexicographical order) which are weighted 1, and weighting all original
+# clauses numvars+1 (ensuring it is never profitable to falsify an original
+# clause from STDIN over new clauses).
+
+script_name="CNF2WeightedMaxSATOptimVars"
+
+if [[ $# != 0 ]]; then
+    echo "ERROR[${script_name}]:
+    No parameters are necessary.
+    A DIMACS CNF is taken on STDIN and a DIMACS weighted MaxSAT
+    CNF is output on STDOUT, such that the assignments which
+    satisfy the weighted MaxSAT CNF with maximum weight are
+    those that satisfy the input CNF with the minimal number
+    of variables set to 1 (true)."
+    exit 1
+fi
+
+# The number of variables etc are initially unknown and set
+# when we find the p-line.
+NUMVARS=''
+NUMCLAUSES=''
+NUMWCLAUSES=''
+HARDWEIGHT=''
+
+LAST_LINE_ZERO=1 # Check whether we have finished a clause
+# Add weights to original clauses
+while read LINE; do 
+    # Beginning of clause
+    if [[ (${LAST_LINE_ZERO} == "1") && 
+	  (`echo "${LINE}" | grep -v '^\(p\|c\)'` != '') ]]; then
+	# Clause
+	echo ${HARDWEIGHT} "${LINE}"
+    else 
+	# P Line
+	if [[ `echo "${LINE}" | grep "^p"` != '' ]]; then
+	    NUMVARS=`echo "${LINE}" | awk '{ print $3 }'`
+	    NUMCLAUSES=`echo "${LINE}" | awk '{ print $4 }'`
+	    NUMWCLAUSES=`expr ${NUMCLAUSES} + ${NUMVARS}`
+	    HARDWEIGHT=`expr ${NUMVARS} + 1`
+	    echo p wcnf ${NUMVARS} ${NUMWCLAUSES}
+	else
+            # Comment line or continuation of clause
+	    # Check we have a p-line
+	    echo ${LINE}
+	fi
+    fi
+    # Work out whether this line closed the clause
+    if [[ `echo "${LINE}" | grep " +0 *$"` != '' ]]; then
+	LAST_LINE_ZERO=0
+    else
+	LAST_LINE_ZERO=1
+    fi
+done
+
+# Print new minimisation clauses
+for i in `seq 1 ${NUMVARS}`; do
+    echo 1 $i 0
+done

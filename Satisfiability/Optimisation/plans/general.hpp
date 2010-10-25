@@ -16,29 +16,16 @@ License, or any later version. */
   \todo Create module MinOnes (or "WeightedSAT" ?)
 
 
-  \todo Create module MinSAT.
+  \todo Create module MaxSat.
+
+
+  \todo DONE Create module MinSAT.
   <ul>
    <li> This is about finding a satisfying partial assignment
    using a minimal number of variables, a natural
    generalisation of finding a minimum size transversal
    of a hypergraph. </li>
-   <li> The parameterised case is discussed in
-   AllSolutions/plans/MinimalAssignments.hpp ---
-   should this move to this new module? </li>
-   <li> Or does this module actually belong to
-   Satisfiability/Algorithms/AllSolutions ? </li>
-   <li> It seems that the minimisation problem is different
-   also from the parameterised version, and thus
-   perhaps the two different modules are justifed:
-   Though the minimisation problem can be solved by running
-   through the parameter levels, there are many other
-   possibilities (for example regarding approximation). </li>
-   <li> So perhaps also for finding a transversal of minimum
-   size we need a module? </li>
   </ul>
-
-
-  \todo Create module MaxSat.
 
 */
 
