@@ -731,9 +731,8 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 
   \todo vanderwaerden_2(3,20) >= 389
   <ul>
-   <li> Experience with k=19 is that gsat-tabu is best, however we should
-   have a look again --- this might change with different k's or with
-   different cutoff's. </li>
+   <li> Experience with k=19 is that gsat-tabu is best, and that seems to be
+   true here too. </li>
    <li> Evaluating
    \verbatim
 > E = eval_ubcsat("VanDerWaerden_2-3-20_385.cnf", runs=100,cutoff=100000,monitor=TRUE)
@@ -758,7 +757,8 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 242,252,271,281,283,284,288,289,304,306,
 311,321,335,340,342,350,355,367
    \endverbatim
-   </li>
+   Another run with gsat-tabu found also this solution, this time modified
+   stepwise from n=383. </li>
    <li> n=387:
     <ol>
      <li> cutoff=2*10^6 with gsat-tabu:
@@ -811,7 +811,8 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
  1 41 55  3 
 100 
      \endverbatim
-     </li>
+     rnovelty with the same parameters has bigger problems, and finds only
+     solutions up to n=381. </li>
     </ol>
    </li>
    <li> n=388
@@ -828,6 +829,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 > summary(E$osteps)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   25570  924300 2283000 2818000 4242000 7901000
+     \endverbatim
+     </li>
+     <li> RunVdW3k with gsat-tabu, cut=2*10^7 finds a solution in run 1, with
+     certificate
+     \verbatim
+20,32,37,45,47,52,66,76,81,83,
+98,99,103,104,106,116,135,145,150,152,
+158,162,173,190,199,216,227,231,237,239,
+244,254,273,283,285,286,290,291,306,308,
+313,323,337,342,344,352,357,369
      \endverbatim
      </li>
     </ol>
@@ -911,13 +922,29 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
     </li>
    <li> n=410, gsat-tabu, cutoff=10^8: in 100 runs 36 solutions were found.
    </li>
-   <li> n=415, gsat-tabu, cutoff=10^8: in run 3 a solution was found
-   (seed=174271267, osteps=91827849). Further statistics:
-   \verbatim
+   <li> n=415
+    <ol>
+     <li> gsat-tabu, cutoff=10^8: in run 3 a solution was found
+     (seed=174271267, osteps=91827849). Further statistics:
+     \verbatim
  0   1  2 3 4 5
 17 147 28 5 2 1
 200
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> RunVdWk3 with cutoff=10^7 and 100 runs finds a solution (run 69),
+     with certificate
+     \verbatim
+9,27,29,36,38,48,61,62,82,101,
+105,107,110,123,124,130,131,133,144,163,
+167,169,170,179,192,213,232,236,238,246,
+255,268,269,271,289,308,312,314,315,324,
+330,337,338,351,358,374,376,381,383,395
+     \endverbatim
+     </li>
+     <li> RunVdWk3 with cutoff=2*10^7 finds a solution (run 73), same as
+     above, but with vertex 133 removed. </li>
+    </ol>
    </li>
    <li> n=416, gsat-tabu
     <ol>
@@ -926,6 +953,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
   1   2   3   4   5
 405 572  20   2   1
 1000
+ 1  2 
+39 61 
+100
      \endverbatim
      </li>
      <li> cutoff=10^8:
