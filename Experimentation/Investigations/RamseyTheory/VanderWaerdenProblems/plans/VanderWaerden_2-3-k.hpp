@@ -1033,14 +1033,30 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
    </li>
    <li> n=461, gsat-tabu, cutoff=2*10^8: In 39 runs a solution was found
    (seed=696047484, osteps=20698025). It seems one should less steps. </li>
-   <li> n=462, gsat-tabu, cutoff=5*10^7:
-   \verbatim
+   <li> n=462
+    <ol>
+     <li> gsat-tabu, cutoff=5*10^7:
+     \verbatim
  1  2  3
 81 17  2
 100
-   \endverbatim
-   In further 313 runs one solution was found (seed=270943421,
-   osteps=11236258). </li>
+     \endverbatim
+     In further 313 runs one solution was found (seed=270943421,
+     osteps=11236258). </li>
+     </li>
+     <li> gsat-tabu, cutoff=5*10^7, finds a solution, adapted from n=458
+     (run 31), with certificate:
+     \verbatim
+6,19,25,38,48,54,63,67,69,79,
+92,98,106,111,122,125,141,154,156,169,
+179,180,198,199,209,222,224,237,253,256,
+267,272,280,286,299,309,311,315,324,328,
+330,340,353,359,367,372,383,386,402,415,
+417,430,440,459,460
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=463, gsat-tabu, cutoff=5*10^7: in 140 runs one solution was found
    (seed=552382418, osteps=1894212) (while 74 runs with cutoff=10^8 didn't
    find a solution). </li>
@@ -1080,8 +1096,23 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
    run (seed=1387406527, osteps=43902628). </li>
    <li> n=511, gsat-tabu, cutoff=10^8: in 31 runs two solutions were found
    (seed=2372840954, osteps=16960676). </li>
-   <li> n=512, gsat-tabu, cutoff=10^8: in 75 runs one solution was found
-   (seed=216008612, osteps=49163297). </li>
+   <li> n=512:
+    <ol>
+     <li> gsat-tabu, cutoff=10^8: in 75 runs one solution was found
+     (seed=216008612, osteps=49163297). </li>
+     <li> cutoff=5*10^7, gsat-tabu finds a solution, taken over from n=511 
+     (run 35), with certificate
+     \verbatim
+8,10,28,33,49,51,59,62,79,83,
+95,97,105,106,118,120,142,144,149,152,
+171,172,175,197,218,234,240,241,243,258,
+266,281,286,303,312,327,346,347,349,355,
+356,369,378,379,393,404,416,422,425,441,
+443,448,450,468,487,491
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=513, gsat-tabu, cutoff=10^8: in 187 runs one solution was found
    (seed=1657670235,osteps=4640848). </li>
    <li> n=514, gsat-tabu
@@ -2176,6 +2207,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 764,767,768,780,805,819,827,836,838,841,
 864,873
    \endverbatim
+   </li>
+   <li> n=902:
+    <ol>
+     <li> rots found no solution in 500 runs with cutoff=10^7:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+ 25 175 148  32  11   6   1   1   2   1   2  14  30  27  17   3   4   1
+500
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
