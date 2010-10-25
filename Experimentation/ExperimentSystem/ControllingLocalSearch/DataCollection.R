@@ -9,6 +9,10 @@
 # # Running Ubcsat #
 # ##################
 
+# Relative path to directory to store eval_ubcsat intermediate files
+# (CONSTANT)
+eval_ubcsat_temp_dir = "ubcsat_tmp"
+
 # List of output columns which ubcsat-okl outputs (CONSTANT).
 eval_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 
@@ -48,6 +52,73 @@ add_constant_column = function(df,const_var, name) {
   temp_df = data.frame(do.call(c,lapply(df[[1]],function(a){const_var})))
   colnames(temp_df) = c(name)
   data.frame(df, temp_df)
+}
+
+# Takes the input file *name*, the algorithm name (as a filepath safe
+# single word which is simply a "nickname" for the algorithm) and
+# optionally the temporary directory used for eval_ubcsat intermediate
+# files and returns the file path for the log file for this ubcsat-okl run
+# for that algorithm on that file.
+eval_ubcsat_log_path = function(
+  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+  return (paste(tmp_directory, "/",
+                filename,"-",alg_safe_name,".eval_ubcsat_log",
+                sep = ""))
+}
+
+# Takes the input file *name*, the algorithm name (as a filepath safe
+# single word which is simply a "nickname" for the algorithm) and
+# optionally the temporary directory used for eval_ubcsat intermediate
+# files and returns the file path for the result file for this ubcsat-okl run
+# for that algorithm on that file.
+eval_ubcsat_result_path = function(
+  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+  return(paste(tmp_directory, "/",
+               filename,"-",alg_safe_name,".eval_ubcsat_result",
+               sep=""))
+}
+
+# Takes the input file *name*, the algorithm name (as a filepath safe
+# single word which is simply a "nickname" for the algorithm) and
+# optionally the temporary directory used for eval_ubcsat intermediate
+# files and returns the file path for the statistics file for this ubcsat-okl
+# run for that algorithm on that file.
+eval_ubcsat_stats_path = function(
+  filename, alg_safe_name, tmp_directory=eval_ubcsat_temp_dir) {
+  return(paste(tmp_directory, "/",
+               filename,"-",alg_safe_name,".eval_ubcsat_stats",
+               sep=""))
+}
+
+# Takes the input file *name*, the algorithm name (as a filepath safe
+# single word which is simply a "nickname" for the algorithm), the
+# algorithm name (full name as given to ubcsat), the temporary directory
+# used for eval_ubcsat intermediate files, along with any parameters to be
+# passed to ubcsat (for instance "runs=100" results in "-runs=100" being
+# passed to the ubcsat command), and returns the ubcsat-okl command
+# to run this algorithm with this set of parameters on this file.
+eval_ubcsat_command = function(
+  input, alg_safe_name, alg_name, tmp_directory=eval_ubcsat_temp_dir,...) {
+
+  filename = basename(input)
+  output_file = eval_ubcsat_result_path(filename,alg_safe_name,tmp_directory)
+  stats_output_file =
+      eval_ubcsat_stats_path(filename,alg_safe_name,tmp_directory)
+  
+  # Setup parameter string
+  std_params = ""
+  params = list(...)
+  for (param_name in names(params)) {
+    std_params = paste(std_params," -",param_name, " ",
+      format(params[[param_name]],scientific=5000),sep="")
+  }
+
+  return( paste(
+                "ubcsat-okl -r out '", output_file, "' ",
+                " -r stats '", stats_output_file, "' ",
+                std_params," -alg ", alg_name, " -i ",input, " > ",
+                eval_ubcsat_log_path(input, alg_safe_name, tmp_directory),
+                sep="") )
 }
 
 # Runs a selection of ubcsat algorithms on the given input file, via
@@ -90,35 +161,39 @@ add_constant_column = function(df,const_var, name) {
 eval_ubcsat = function(
  input,
  algs = eval_ubcsat_cnf_algs,
+ tmp_directory=eval_ubcsat_temp_dir,
  monitor=TRUE,...) {
 
   filename = basename(input)
 
+  if ( ! file.exists(tmp_directory)) 
+    if (!dir.create(tmp_directory, showWarnings=FALSE)) {
+      print(paste("ERROR[eval_ubcsat]: Unable to create directory '",
+                  tmp_directory, "'."))
+      return(FALSE)
+    }
+ 
   eval_ubcsat_df = NULL
-  # Setup parameter string
-  std_params = ""
-  params = list(...)
-  for (param_name in names(params)) {
-    std_params = paste(std_params," -",param_name, " ",
-      format(params[[param_name]],scientific=5000),sep="")
-  }
   # Run ubcsat-okl with each algorithm
   alg_names = names(algs)
   for (alg in 1:length(algs)) {
-    output_file = paste(filename,"-",alg_names[alg],".eval_ubcsat_result",sep="")
+    output_file =
+      eval_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
     stats_output_file =
-      paste(filename,"-",alg_names[alg],".eval_ubcsat_stats",sep="")
-    eval_ubcsat_command = paste(
-      "ubcsat-okl -r out '", output_file, "' ",
-      " -r stats '", stats_output_file, "' ",
-      std_params," -alg ", algs[alg], " -i ",input, " > ",
-      filename,"-",alg_names[alg],".eval_ubcsat_log",sep="")
-    if (monitor) print(eval_ubcsat_command)
-    system(eval_ubcsat_command)
+      eval_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+    
+    command =
+      eval_ubcsat_command(filename, alg_names[alg],algs[alg],
+                          tmp_directory,...)
+    if (monitor) print(command)
+    system(command)
+
+    
     # Read in output from respective files.
     result_df = read.table(output_file,
                            col.names = as.vector(eval_ubcsat_column_names))
     result_df = add_constant_column(result_df,alg_names[alg], "alg")
+    
     # Add statistics data
     stats_df = read.table(stats_output_file,
       colClasses=c("character","character","real"))

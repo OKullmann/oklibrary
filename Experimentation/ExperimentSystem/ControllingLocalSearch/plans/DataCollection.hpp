@@ -12,16 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Dangerious handling of filenames
-  <ul>
-   <li> Currently the input-path is just copied, which is false and dangerous,
-   since the output-files as a result will be placed in the same directory
-   where this input-file is located. </li>
-   <li> Obviously correct handling of the output-directory, which is created,
-   of course, from scratch and in the current directory, is needed. </li>
-  </ul>
-
-
   \bug Bad parameter of eval_ubcsat
   <ul>
    <li> It needs to be specified what are the defaults. </li>
@@ -320,6 +310,18 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    <li> DONE For the "scientific" parameter, perhaps ".Machine$integer.max/2"
    is a better option? Just ".Machine$integer.max" obviously results in
    overflow and so doesn't work. </li>
+  </ul>
+
+
+  \bug DONE Dangerious handling of filenames
+  <ul>
+   <li> (DONE Added temporary directory option)
+   Obviously correct handling of the output-directory, which is 
+   created, of course, from scratch and in the current directory, is needed. 
+   </li>
+   <li> DONE Currently the input-path is just copied, which is false and 
+   dangerous, since the output-files as a result will be placed in the same 
+   directory where this input-file is located. </li>
   </ul>
 
 
