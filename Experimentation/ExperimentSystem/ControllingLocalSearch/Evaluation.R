@@ -5,6 +5,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# Required for eval_ubcsat_cnf_algs in eval_ubcsat_dataframe
+oklib_load("OKlib/Experimentation/ExperimentSystem/ControllingLocalSearch/DataCollection.R")
+
 # ################
 # # Reading data #
 # ################
@@ -29,3 +32,11 @@ read_ubcsat = function(filename, ...) {
 # "row.names=NULL". If m leading lines are to be ignored, use
 # "skip=m". If trailing lines are to be ignored, use "nrows=n" for the
 # number of rows to be selected.
+
+# First attempt, just showing all results in table form:
+eval_ubcsat_dataframe = function(E) {
+  for (A in names(eval_ubcsat_cnf_algs)) {
+    cat(A,": ")
+    print(table(E$best[E$alg==A]))
+  }
+}
