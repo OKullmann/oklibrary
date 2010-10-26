@@ -1017,7 +1017,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
   \todo vanderwaerden_2(3,22) >= 464
   <ul>
    <li> The conjecture is vanderwaerden_2(3,22) = 464. </li>
-   <li> The prediction is vanderwaerden_2(3,22) = 465. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
@@ -1096,7 +1095,6 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
   \todo vanderwaerden_2(3,23) >= 516
   <ul>
    <li> The conjecture is vanderwaerden_2(3,23) = 516. </li>
-   <li> The predictions are vanderwaerden_2(3,23) in {508,509}. </li>
    <li> Experience with k=20 is that gsat-tabu is best, however we should
    have a look again --- this might change with different k's or with
    different cutoff's. </li>
@@ -1470,7 +1468,6 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   \todo vanderwaerden_2(3,25) > 655
   <ul>
    <li> The (weak) conjecture is vanderwaerden_2(3,25) = 656. </li>
-   <li> The predictions are vanderwaerden_2(3,25) = 605. </li>
    <li> Search starting with n=590:
    \verbatim
 OKplatform> RunVdW3k 25 590 gsat-tabu 200 50000000
