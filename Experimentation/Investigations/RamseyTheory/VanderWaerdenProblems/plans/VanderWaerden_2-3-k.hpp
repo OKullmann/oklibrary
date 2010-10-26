@@ -944,6 +944,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
      </li>
      <li> RunVdWk3 with cutoff=2*10^7 finds a solution (run 73), same as
      above, but with vertex 133 removed. </li>
+     <li> Is this the only solution (up to small variations)? </li>
     </ol>
    </li>
    <li> n=416, gsat-tabu
@@ -956,6 +957,13 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
  1  2 
 39 61 
 100
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7:
+     \verbatim
+  1   2   3   4 
+123  70   5   2 
+200 
      \endverbatim
      </li>
      <li> cutoff=10^8:
