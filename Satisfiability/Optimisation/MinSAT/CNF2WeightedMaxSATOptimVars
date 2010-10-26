@@ -44,11 +44,19 @@ num_weighted_clauses=''
 hard_weight=''
 
 last_line_was_zero=1 # Check whether we have finished a clause
+found_p_line=0
 # Add weights to original clauses
 while read line; do 
   # Beginning of clause
   if [[ (${last_line_was_zero} == "1") && 
 	(`echo "${line}" | grep -v '^\(p\|c\)'` != '') ]]; then
+
+    if [[ ${found_p_line} != 1 ]]; then
+	echo "ERROR[${script_name}]:
+        No p-line found before first clause : \"${line}\""
+	exit 1
+    fi
+
     # Clause
     echo ${hard_weight} "${line}"
   else 
@@ -57,16 +65,37 @@ while read line; do
       num_vars=`echo "${line}" | awk '{ print $3 }'`
       num_clauses=`echo "${line}" | awk '{ print $4 }'`
       num_weighted_clauses=`expr ${num_clauses} + ${num_vars}`
+
+      # Strip away any unnecessary characters and ensure we have integers
+      num_vars=`echo ${num_vars} | sed 's/ *\(\[0-9\]\+\) */\1/g'`
+      num_clauses=`echo ${num_clauses} | sed 's/ *\(\[0-9\]\+\) */\1/g'`
+      num_weighted_clauses=`echo ${num_weighted_clauses} | sed 's/ *\(\[0-9\]\+\) */\1/g'`
+      if [[ (${num_vars} == '') || (${num_clauses} == '') || 
+	     (${num_weighted_clauses} == '' ) ]]; then
+	echo "ERROR[${script_name}]:
+        Invalid p-line : \"${line}\""
+        exit 1
+      fi
+      found_p_line=1
       hard_weight=`expr ${num_vars} + 1`
+      
       echo p wcnf ${num_vars} ${num_weighted_clauses}
     else
+      # Check we have had a p-line
+      if [[ (`echo ${line} | grep '^c'` == '') &&
+	    (${found_p_line} != 1) ]]; then
+        echo "ERROR[${script_name}]:
+        No p-line found before first clause : \"${line}\""
+	exit 1
+      fi
+
       # Comment line or continuation of clause
-      # Check we have a p-line
       echo ${line}
     fi
   fi
+
   # Work out whether this line closed the clause
-  if [[ `echo "${line}" | grep " +0 *$"` != '' ]]; then
+  if [[ `echo "${line}" | grep -v "^p" | grep " +0 *$"` != '' ]]; then
     last_line_was_zero=0
   else
     last_line_was_zero=1
