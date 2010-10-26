@@ -2106,7 +2106,8 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 
   \todo vanderwaerden_2(3,30) > 901
   <ul>
-   <li> The conjecture is vanderwaerden_2(3,29) = 898. </li>
+   <li> The predictions are 948, 954. </li>
+   <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
    <li> Search starting with n=852:
    \verbatim
 OKplatform> RunVdW3k 30 852 rots 1000 5000000
