@@ -53,9 +53,9 @@ Multiple R-squared: 0.9822,     Adjusted R-squared: 0.9811
 lines(x0,predict(L0))
    \endverbatim
    </li>
-   <li> Using the conjectured values 349, 389, 416, 464, 516, 593 (see below):
+   <li> Using the conjectured values 349, 389, 416, 464, 516, 593, 656, 727, 770, 827, 868 (see below):
    \verbatim
-d = append(d0, c(349, 389, 416, 464, 516, 593))
+d = append(d0, c(349,389,416,464,516,593,656,727,770,827,868))
 plot(d)
 lines(d)
 lines((1:length(d))^2)
@@ -78,25 +78,26 @@ lines(predict(NL))
 summary(NL)
 
 Parameters:
-  Estimate Std. Error t value Pr(>|t|)
-a  0.74904    0.06332   11.83 5.23e-11 ***
-b  2.08743    0.02808   74.35  < 2e-16 ***
-Residual standard error: 7.002 on 22 degrees of freedom
+  Estimate Std. Error t value Pr(>|t|)    
+a  0.58471    0.05241   11.16 1.29e-11 ***
+b  2.17488    0.02799   77.70  < 2e-16 ***
+Residual standard error: 11.28 on 27 degrees of freedom
 
 Cnl = coefficients(NL)
 Cnl
         a         b 
-0.7490448 2.0874265 
+0.5847057 2.1748818 
 fnl = function(k){Cnl[1] * k^Cnl[2]}
-round(fnl(1:26))
- 1 3 7 14 22 32 44 57 74 92
- 112 134 158 185 214 244 277 312 350 389
- 431 475 521 570 620 673
+round(fnl(1:31))
+ 1 3 6 12 19 29 40 54 70 87
+ 108 130 155 182 211 243 277 314 353 395
+ 439 486 535 587 642 699 759 821 886 954
+ 1024
 
-d - round(fnl(1:24))
- 2 3 2 4 0 0 2 1 3 5
- 2 1 2 1 4 -6 2 0 -1 0
- -15 -11 -5 23
+d - round(fnl(1:29))
+ 2 3 3 6 3 3 6 4 7 10
+ 6 5 5 4 7 -5 2 -2 -4 -6
+ -23 -22 -19 6 14 28 11 6 -18
    \endverbatim
    </li>
    <li> Finally using a quadratic model with non-linear regression and
@@ -107,29 +108,29 @@ lines(predict(NLq))
 summary(NLq)
 
 Parameters:
-  Estimate Std. Error t value Pr(>|t|)
-a   7.7258     4.8340   1.598   0.1249    
-b  -2.2891     0.8909  -2.569   0.0179 *  
-c   1.0690     0.0346  30.899   <2e-16 ***
-Residual standard error: 7.245 on 21 degrees of freedom
+  Estimate Std. Error t value Pr(>|t|)    
+a 17.38095    7.21230   2.410   0.0233 *  
+b -5.09519    1.10817  -4.598 9.72e-05 ***
+c  1.20367    0.03584  33.580  < 2e-16 ***
+Residual standard error: 12.06 on 26 degrees of freedom
 
 Cnlq = coefficients(NLq)
 Cnlq
         a         b         c 
- 7.725791 -2.289062  1.069041 
+17.380952 -5.095185  1.203665 
 fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
-round(fnlq(1:26))
- 7 7 10 16 23 32 44 58 74 92
- 112 134 159 185 214 245 278 313 350 390
- 431 475 521 569 619 671
+round(fnlq(1:31))
+ 13 12 13 16 22 30 41 54 69 87
+ 107 130 155 182 212 244 279 316 355 397
+ 441 488 537 588 642 699 757 818 882 948
+ 1016
 
 d - round(fnlq(X))
- -4 -1 -1 2 -1 0 2 0 3 5
-  2 1 1 1 4 -7 1 -1 -1 -1
- -15 -11  -5  24
+ -10 -6 -4 2 0 2 5 4 8 10
+ 7 5 5 4 6 -6 0 -4 -6 -8
+ -25 -24 -21 5 14 28 13 9 -14
    \endverbatim
    Hard to distinguish from the above model. </li>
-   <li> Both models don't look good, and their predictions are far off. </li>
   </ul>
 
 
