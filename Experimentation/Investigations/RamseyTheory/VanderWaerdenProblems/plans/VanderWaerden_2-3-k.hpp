@@ -1066,9 +1066,20 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
      </li>
     </ol>
    </li>
-   <li> n=463, gsat-tabu, cutoff=5*10^7: in 140 runs one solution was found
-   (seed=552382418, osteps=1894212) (while 74 runs with cutoff=10^8 didn't
-   find a solution). </li>
+   <li> n=463
+    <ol>
+     <li> gsat-tabu, cutoff=5*10^7: in 140 runs one solution was found
+    (seed=552382418, osteps=1894212) (while 74 runs with cutoff=10^8 didn't
+    find a solution). </li>
+     <li> gsat-tabu, cutoff=5*10^7 doesn't find a solution in 200 runs:
+     \verbatim
+  1   2   3   4
+150  45   4   1
+200
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=464, gsat-tabu:
     <ol>
      <li> cutoff=5*10^7:
@@ -1121,8 +1132,19 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
      </li>
     </ol>
    </li>
-   <li> n=513, gsat-tabu, cutoff=10^8: in 187 runs one solution was found
-   (seed=1657670235,osteps=4640848). </li>
+   <li> n=513
+    <ol>
+     <li> gsat-tabu, cutoff=10^8: in 187 runs one solution was found
+     (seed=1657670235,osteps=4640848). </li>
+     <li> gsat-tabu, cutoff=5*10^7 doesn't find a solution in 200 runs:
+     \verbatim
+  1   2   3   4   5   6   9
+101  78  12   5   2   1   1
+200
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=514, gsat-tabu
     <ol>
      <li> cutoff=10^8: in 116 runs one solution was found (seed=1685669740,
@@ -1888,7 +1910,10 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 500
   1   2   3   4  10  13  14  15  17 
 369 117   5   1   1   2   3   1   1 
-500 
+500
+  1   2   3   5  13  14  15  16  18
+711 253  16   3   4   4   6   2   1
+1000
      \endverbatim
      </li>
     </ol>
