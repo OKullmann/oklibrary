@@ -53,7 +53,8 @@ Multiple R-squared: 0.9822,     Adjusted R-squared: 0.9811
 lines(x0,predict(L0))
    \endverbatim
    </li>
-   <li> Using the conjectured values 349, 389, 416, 464, 516, 593, 656, 727, 770, 827, 868 (see below):
+   <li> Using the conjectured values 349,389,416,464,516,593,656,727,770,827,
+   868 (see below):
    \verbatim
 d = append(d0, c(349,389,416,464,516,593,656,727,770,827,868))
 plot(d)
