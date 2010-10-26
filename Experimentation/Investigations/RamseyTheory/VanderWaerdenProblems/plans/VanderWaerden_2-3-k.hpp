@@ -1596,6 +1596,20 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 598,600,604,611,612,637
      \endverbatim
      </li>
+     <li> Another solution was found with rots, cutoff=2*10^7, again as the
+     solution for n=654:
+     \verbatim
+2,17,20,40,49,57,77,86,91,93,
+99,117,128,150,151,154,156,167,175,188,
+193,197,204,212,224,228,242,247,265,267,
+271,278,279,286,304,313,321,335,350,353,
+358,372,373,382,390,410,419,424,426,434,
+450,461,471,483,484,487,489,500,506,521,
+526,530,537,545,557,561,575,580,598,600,
+604,611,612,637,646
+     \endverbatim
+     This has a larger distance to the above solution (analysis is needed!).
+     </li>
      <li> Are there essentially different solutions? </li>
     </ol>
    <li>
@@ -1613,6 +1627,13 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
   1   2   3   4   5   6   7   8   9
 187 194  56  39   4   6   7   3   4
 500
+     \endverbatim
+     </li>
+     <li> Cutoff=2*10^7, rots:
+     \verbatim
+  1   2   3   4 
+333 146  20   1 
+500 
      \endverbatim
      </li>
     </ol>
