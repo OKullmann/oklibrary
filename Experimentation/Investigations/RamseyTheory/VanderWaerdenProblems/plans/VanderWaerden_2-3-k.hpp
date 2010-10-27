@@ -862,7 +862,15 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   18300  631700 1531000 2300000 3661000 7883000
      \endverbatim
-     It seems rnovelty is a bit better. </li>
+     It seems rnovelty might be a bit better, however this doesn't seem to
+     be true (see below). </li>
+     <li> gsat-tabu, cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5 
+ 13 315 164   6   2 
+500 
+     \endverbatim
+     </li>
      <li> cutoff = 10^8:
      \verbatim
 > nohup ubcsat-okl -alg rnovelty -runs 1000 -cutoff 100000000 -i VanDerWaerden_2-3-20_389.cnf -solve > VanDerWaerden_2-3-20_389.cnf_AUS
