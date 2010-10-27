@@ -63,12 +63,14 @@ p wcnf num_vars num_clauses
    and the beginning of each clause (before any literals) is a non-negative
    integer weight between 1 and 2^31.
    </li>
+   <li> Further investigations and links need to be made here to 
+   other modules and ExternalSources. </li>
    <li> See Satisfiability/Optimisation/MinSAT/CNF2WeightedMaxSATOptimVars . 
    </li>
   </ul>
 
 
-  \todo Rename CNF2WeihtedMaxSATOptimVars
+  \todo Rename CNF2WeightedMaxSATOptimVars
   <ul>
    <li> CNF2WeightedMaxSATOptimVars is an overly long and unintelligible name,
    and therefore a more appropriate, understandable name should be chosen. 

@@ -21,6 +21,9 @@ License, or any later version. */
     - Create module MaxSat
     - Create module MinSAT : DONE
 
+  \par Satisfiability/Optimisation/MinSAT 0.0.4
+  (see Satisfiability/Optimisation/MinSAT/plans/milestones.hpp)
+
   \par
    Create further milestones.
 
