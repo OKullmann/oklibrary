@@ -1086,6 +1086,17 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 200
      \endverbatim
      </li>
+     <li> gsat-tabu finds a solution, adapted from n=458 (run=20,
+     osteps=8086906, cutoff=10^8):
+     \verbatim
+22,23,33,46,61,77,80,91,96,104,
+110,123,133,135,139,148,152,154,164,177,
+183,191,196,207,210,226,239,241,254,264,
+265,283,284,294,307,309,322,338,341,352,
+357,365,371,384,394,396,400,409,413,415,
+425,444,452,457
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> n=464, gsat-tabu:
@@ -1895,6 +1906,8 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
      </li>
      <li> Cutoff=10^7, rots, finds a solution in run 209, the same as last one
      above, but without vertex 339. </li>
+     <li> Cutoff=2*10^7, rots, finds a solution in run 211 (osteps=7295133),
+     the same as last one above. </li>
     </ol>
    </li>
    <li> n=770:
