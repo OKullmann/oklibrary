@@ -1116,6 +1116,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
  1  2  3  5
 79 18  2  1
 100
+ 1  2  3 
+77 23  1 
+101 
      \endverbatim
      </li>
     </ol>
@@ -1937,6 +1940,13 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 1000
      \endverbatim
      </li>
+     <li> Cutoff=2*10^7, rots:
+     \verbatim
+  1   2   3                                 
+131  11   1
+143                            
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
@@ -2064,6 +2074,13 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 1000 
      \endverbatim
      </li>
+     <li> cutoff=2*10^7, rots:
+     \verbatim
+  1   2   3   7
+ 57 430   9   1
+497
+     \endverbatim
+     </li>
      <li> cutoff=5*10^7, rots:
      \verbatim
  1  2 
@@ -2147,6 +2164,13 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 612,620,630,637,645,650,671,673,676,694,
 720,723,731,757,761,778,785,798,824,831,
 859
+     \endverbatim
+     </li>
+     <li> 416 runs with rots and cutoff=2*10^7 didn't find a solution:
+     \verbatim
+  1   2   3   4   5  11  14
+ 74 303  35   1   1   1   1
+416 
      \endverbatim
      </li>
     </ol>
