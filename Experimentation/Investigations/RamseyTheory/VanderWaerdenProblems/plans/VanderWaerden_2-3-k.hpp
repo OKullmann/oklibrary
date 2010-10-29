@@ -1952,9 +1952,9 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   </ul>
 
 
-  \todo vanderwaerden_2(3,28) > 826
+  \todo vanderwaerden_2(3,28) >= 827
   <ul>
-   <li> The (weak) conjecture is vanderwaerden_2(3,28) = 827. </li>
+   <li> The conjecture is vanderwaerden_2(3,28) = 827. </li>
    <li> Search starting with n=620:
    \verbatim
 OKplatform> RunVdW3k 28 620 gsat-tabu 1000 10000000
