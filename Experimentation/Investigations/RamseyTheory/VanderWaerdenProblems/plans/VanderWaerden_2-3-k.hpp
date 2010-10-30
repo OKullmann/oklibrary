@@ -2293,9 +2293,11 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      </li>
     </ol>
    </li>
-   <li> n=901: rots with cutoff=10^7 found a solution (in run 316, for n=898,
-   with small changes then) with certificate
-   \verbatim
+   <li> n=901
+    <ol>
+     <li> rots with cutoff=10^7 found a solution (in run 316, for n=898,
+     with small changes then) with certificate
+     \verbatim
 24,47,61,77,84,102,122,124,133,135,
 158,170,175,176,190,195,225,233,240,264,
 270,272,277,281,287,299,318,323,324,346,
@@ -2305,7 +2307,23 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 651,656,679,706,713,714,716,721,745,758,
 764,767,768,780,805,819,827,836,838,841,
 864,873
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> rots with cutoff=10^8 found another solution (in run 6, for n=900,
+     with small changes then) with certificate
+     \verbatim
+25,48,53,56,80,85,102,103,130,139,
+152,167,173,177,196,199,208,210,213,214,
+228,245,270,271,284,288,302,310,315,319,
+337,356,361,374,384,413,419,426,432,435,
+448,450,472,485,493,495,506,529,530,532,
+546,561,566,578,584,604,611,615,617,635,
+640,643,648,658,670,677,694,707,717,726,
+747,752,759,763,765,769,781,806,826,828,
+829,833,863,876
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=902:
     <ol>
