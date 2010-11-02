@@ -14,6 +14,8 @@ License, or any later version. */
 #ifndef PARSINGSINGLERESULT_jzRtL77Yq1
 #define PARSINGSINGLERESULT_jzRtL77Yq1
 
+#define BOOST_SPIRIT_USE_OLD_NAMESPACE
+
 #include <string>
 #include <stdexcept>
 

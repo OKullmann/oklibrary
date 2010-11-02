@@ -22,7 +22,7 @@ License, or any later version. */
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
-#include <boost/dynamic_property_map.hpp>
+#include <boost/property_map/dynamic_property_map.hpp>
 #include <boost/graph/isomorphism.hpp>
 
 int main(const int argc, const char* const argv[]) {

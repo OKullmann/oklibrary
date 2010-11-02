@@ -38,7 +38,65 @@ License, or any later version. */
   </ul>
 
 
-  \todo Building version 1_38_0 / 1_39_0 / 1_40_0 / 1_43_0
+  \todo Documentation
+  <ul>
+   <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp.
+   </li>
+   <li> DONE (we don't use them anymore)
+   Mention that the mcp-tools (mln, mmv) need to be installed (available 
+   in all distributions). </li>
+  </ul>
+
+
+  \todo DONE Building version 1_44_0 
+  <ul> 
+   <li> There are numerous renamings and other changes required to make the 
+   OKlibrary compatible with boost-1_44_0, namely:
+   <ul>
+    <li> Boost libraries such as datetime, filesystem, system, graph etc must
+    be linked where needed, and using the standard 1_44_0 there seems no need
+    for -gcc or -gcc-mt. If such suffixes are needed, then perhaps a variable
+    or flag can be added to the buildsystem so it can be added only if 
+    necessary. </li>
+    <li> The boost include directory has moved, and this needs to be 
+    reflected in the build system. </li>
+    <li> Within the graph libraries, the functions which use dynamic properties
+    have been replaced by new functions which use other structures 
+    (VertexPropertys etc), and the old functions now have the suffix "_dp", 
+    so need renaming. </li>
+    <li> The boost::size function does not support STL sets, as the iterator 
+    associated with sets doesn't support the "-" operator. One should use the
+    boost::distance function instead, which computes the same thing using
+    a linear count but will use boost::size if possible for improved
+    complexity. </li>
+    <li> Numerous header files need to be updated such as those concerning
+    dynamic_property_maps, as they have been moved in recent versions. </li>
+    <li> The old boost::spirit functionality now occurs in 
+    boost::spirit::classic, and so one must update the includes, and all the 
+    namespaces for the functions used from boost::spirit. For the time being
+    one can #define BOOST_SPIRIT_USE_OLD_NAMESPACE wherever boost::spirit is
+    used to bring the old functions back into the old namespace, replacing the
+    new functions. </li>
+    <li> By default the boost library doesn't appear to build 32-bit static
+    libraries, and so "-m32" with PathDifference will not work. We either need
+    to find out how to get boost to build the 32-bit versions as well or
+    simply drop "-m32" for PathDifferences (MG: Why is this needed?). </li>
+    <li> The boost threading library seems to have removed the "locked" 
+    method from the unique_lock (which scoped_lock derives from), making
+    it private. Therefore it seems one should now use something like 
+    "owns_lock" instead. </li>
+    <li> When using filtered_ostreams, it seems one should use the strict_sync
+    method to make sure all filters have flushed to all devices before
+    checking any output. </li>
+   </ul>
+   </li>
+   <li> Once such issues are handled the OKlibrary appears to build perfectly
+   with boost-1_44_0 and all tests run to completion at the extensive test 
+   level. </li>
+  </ul>
+
+
+  \todo DONE Building version 1_38_0 / 1_39_0 / 1_40_0 / 1_43_0
   <ul>
    <li> DONE (they are all built now)
    Building seems unproblematic, but likely this is due to the fact
@@ -136,7 +194,7 @@ bo = static_cast<bool>(a != y);
   </ul>
 
 
-  \todo Problems with building Boost
+  \todo DONE Problems with building Boost
   <ul>
    <li> 1_40 is out, and we need to investigate the changes:
     <ol>
@@ -196,16 +254,6 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    This seems not to be of urgent concern for now (but the problem must be
    fixed in the future).
    </li>
-  </ul>
-
-
-  \todo Documentation
-  <ul>
-   <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp.
-   </li>
-   <li> DONE (we don't use them anymore)
-   Mention that the mcp-tools (mln, mmv) need to be installed (available 
-   in all distributions). </li>
   </ul>
 
 

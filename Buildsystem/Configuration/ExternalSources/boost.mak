@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-boost_recommended_version_number_okl ?= 1_34_1
+boost_recommended_version_number_okl ?= 1_44_0
 boost_supported_not_recommended_version_numbers_okl ?= 
 boost_supported_version_numbers ?= $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
@@ -25,7 +25,7 @@ boost_documentation_url_okl := http://www.boost.org/libs/libraries.htm
 
 boost_source_dir_okl := $(ExternalSources)/sources/Boost/boost_$(boost_recommended_version_number_okl)
 
-boost_source_library_okl ?= $(boost_installation_dir_okl)/include/boost-$(boost_recommended_version_number_okl)
+boost_source_library_okl ?= $(boost_installation_dir_okl)/include
 boost_include_option_okl ?= -I$(boost_source_library_okl)
 boost_link_library_okl ?= $(boost_installation_dir_okl)/lib
 boost_link_option_okl ?= -L$(boost_link_library_okl) -Wl,-rpath,$(boost_link_library_okl)

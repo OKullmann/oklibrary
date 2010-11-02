@@ -22,7 +22,7 @@ License, or any later version. */
 #include <sstream>
 #include <cassert>
 
-#include <boost/spirit.hpp>
+#include <boost/spirit/include/classic.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>

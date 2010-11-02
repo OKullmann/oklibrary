@@ -90,31 +90,31 @@ namespace OKlib {
         assert(not c.lock.get());
         assert(locked);
         assert(lock.get());
-        assert(lock -> locked());
+        assert(lock -> owns_lock());
       }
       
       void operator() () const {
         assert(locked);
         assert(lock.get());
-        assert(lock -> locked());
+        assert(lock -> owns_lock());
 
         Counter<N>::operator()();
 
         assert(locked);
         assert(lock.get());
-        assert(lock -> locked());
+        assert(lock -> owns_lock());
 
         lock -> unlock();
 
         assert(locked);
         assert(lock.get());
-        assert(not (lock -> locked()));
+        assert(not (lock -> owns_lock()));
       }
 
     private :
 
       void check(const CounterWithMutex& c) const {
-        if (c.locked)
+        if (c.owns_lock)
           assert(c.lock.get());
       }
 

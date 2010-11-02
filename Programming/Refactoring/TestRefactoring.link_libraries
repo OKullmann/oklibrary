@@ -1,1 +1,1 @@
-echo ${boost_link_option_okl} -lboost_filesystem-gcc -lboost_regex-gcc
+echo ${boost_link_option_okl} -lboost_filesystem -lboost_regex

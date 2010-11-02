@@ -13,8 +13,11 @@ License, or any later version. */
 
 #ifndef PARSERBASE_9Hhn67u
 #define PARSERBASE_9Hhn67u
+#define BOOST_SPIRIT_USE_OLD_NAMESPACE
 
 #include <boost/spirit/include/classic_core.hpp>
+
+
 
 namespace OKlib {
   namespace Parser {

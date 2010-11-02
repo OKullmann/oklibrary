@@ -131,9 +131,11 @@ namespace OKlib {
               typedef line_collection_type::const_iterator line_iterator;
               const line_iterator& end(i -> end());
               std::copy(i -> begin(), end, std::ostream_iterator<std::string>(out, "\n"));
+              out.strict_sync();
               std::ostringstream ref;
-              for (line_iterator j(i -> begin()); j != end; ++j)
+              for (line_iterator j(i -> begin()); j != end; ++j) {
                 ref << std::string(indentation, ch) + *j + "\n";
+              }
               out.flush();
               OKLIB_TEST_EQUAL(ss.str(), ref.str());
             }

@@ -25,6 +25,8 @@ License, or any later version. */
 #ifndef INCLUDEHANDLING_9yhNbv
 #define INCLUDEHANDLING_9yhNbv
 
+#define BOOST_SPIRIT_USE_OLD_NAMESPACE
+
 #include <string>
 #include <cassert>
 #include <ostream>
@@ -40,9 +42,12 @@ License, or any later version. */
 #include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_confix.hpp>
 #include <boost/spirit/include/classic_chset.hpp>
+#include <boost/spirit/include/classic_primitives.hpp>
 #include <boost/spirit/include/classic_regex.hpp>
 #include <boost/spirit/include/classic_escape_char.hpp>
 #include <boost/spirit/include/classic_multi_pass.hpp>
+#include <boost/spirit/include/classic_parser.hpp>
+#include <boost/spirit/include/classic_grammar.hpp>
 
 #include <boost/iterator/reverse_iterator.hpp>
 
