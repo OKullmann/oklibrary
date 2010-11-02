@@ -7,6 +7,7 @@
 
 boost_recommended_version_number_okl ?= 1_34_1
 boost_supported_not_recommended_version_numbers_okl ?= 
+boost_supported_version_numbers ?= $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
 boost_base_build_dir_okl ?= $(ExternalSources_builds)/Boost
 boost_extracted_package_okl ?= $(boost_base_build_dir_okl)/boost_$(boost_recommended_version_number_okl)
