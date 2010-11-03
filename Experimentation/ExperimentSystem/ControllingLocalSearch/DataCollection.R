@@ -11,7 +11,9 @@
 
 # Relative path to directory to store run_ubcsat intermediate files
 # (CONSTANT)
-run_ubcsat_temp_dir = "ubcsat_tmp"
+run_ubcsat_temp_dir = function(filename) {
+  return ( paste("ubcsat_tmp_",filename, sep="") )
+}
 
 # List of output columns which ubcsat-okl outputs (CONSTANT).
 run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
@@ -60,9 +62,9 @@ add_constant_column = function(df,const_var, name) {
 # files and returns the file path for the log file for this ubcsat-okl run
 # for that algorithm on that file.
 run_ubcsat_log_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return (paste(tmp_directory, "/",
-                filename,"-",alg_safe_name,".run_ubcsat_log",
+                alg_safe_name,".run_ubcsat_log",
                 sep = ""))
 }
 
@@ -72,9 +74,9 @@ run_ubcsat_log_path = function(
 # files and returns the file path for the result file for this ubcsat-okl run
 # for that algorithm on that file.
 run_ubcsat_result_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
-               filename,"-",alg_safe_name,".run_ubcsat_result",
+               alg_safe_name, ".run_ubcsat_result",
                sep=""))
 }
 
@@ -84,10 +86,71 @@ run_ubcsat_result_path = function(
 # files and returns the file path for the statistics file for this ubcsat-okl
 # run for that algorithm on that file.
 run_ubcsat_stats_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir) {
+  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
-               filename,"-",alg_safe_name,".run_ubcsat_stats",
+               alg_safe_name,"-",filename,".run_ubcsat_stats",
                sep=""))
+}
+
+# Takes the following parameters for which "run_ubcsat" must already
+# been run and then returns the result of the corresponding
+# "run_ubcsat" command, reading the results from the previously
+# generated files.
+#
+# Parameters :
+#   input
+#     The path to the Dimacs CNF file on which run_ubcsat has already
+#     been run.
+#   algs
+#     A list of ubcsat-algorithms to evaluate on the given input file,
+#     where the name of each item is a reference for the
+#     algorithm, and the value of each item is the algorithm parameter
+#     as given to ubcsat (Optional).
+#   tmp_directory
+#     Path to the directory "run_ubcsat" stored it's temporary files in,
+#     that is, the tmp_directory argument which was passed to "run_ubcsat"
+#     when it was run before this command (Optional).
+#
+read_ubcsat_dir = function(
+  input,
+  algs = run_ubcsat_cnf_algs,
+  tmp_directory=run_ubcsat_temp_dir(basename(input))) {
+  
+  # Create the temporary directory (error if it doesn't exist)
+  if ( ! file.exists(tmp_directory)) {
+      print(paste("ERROR[read_ubcsat_dir]: Unable to open directory '",
+                  tmp_directory, "'."))
+      return(FALSE)
+  }
+
+  filename = basename(input)
+
+  run_ubcsat_df = NULL
+  alg_names = names(algs)
+  for (alg in 1:length(algs) ) {
+    output_file =
+      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
+    stats_output_file =
+      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+    
+    # Read in output from respective temporary files.
+    result_df = read.table(output_file,
+                           col.names = as.vector(run_ubcsat_column_names))
+    result_df = add_constant_column(result_df,alg_names[alg], "alg")
+    
+    # Add statistics data
+    stats_df = read.table(stats_output_file,
+      colClasses=c("character","character","real"))
+    for (i in 1:length(stats_df[[1]])) {
+      result_df = add_constant_column(result_df, 
+        stats_df[[3]][[i]], stats_df[[1]][[i]])
+    }
+    
+    # Add rows from this ubcsat result to the result data.frame
+    run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
+  }
+  
+  run_ubcsat_df
 }
 
 # Takes the input file *name*, the algorithm name (as a filepath safe
@@ -98,7 +161,8 @@ run_ubcsat_stats_path = function(
 # passed to the ubcsat command), and returns the ubcsat-okl command
 # to run this algorithm with this set of parameters on this file.
 run_ubcsat_command = function(
-  input, alg_safe_name, alg_name, tmp_directory=run_ubcsat_temp_dir,...) {
+  input, alg_safe_name, alg_name,
+  tmp_directory=run_ubcsat_temp_dir(basename(input)),...) {
 
   filename = basename(input)
   output_file = run_ubcsat_result_path(filename,alg_safe_name,tmp_directory)
@@ -161,7 +225,7 @@ run_ubcsat_command = function(
 run_ubcsat = function(
  input,
  algs = run_ubcsat_cnf_algs,
- tmp_directory=run_ubcsat_temp_dir,
+ tmp_directory=run_ubcsat_temp_dir(basename(input)),
  monitor=TRUE,...) {
 
   filename = basename(input)
@@ -190,23 +254,9 @@ run_ubcsat = function(
     if (monitor) print(command)
     system(command)
     
-    # Read in output from respective temporary files.
-    result_df = read.table(output_file,
-                           col.names = as.vector(run_ubcsat_column_names))
-    result_df = add_constant_column(result_df,alg_names[alg], "alg")
-    
-    # Add statistics data
-    stats_df = read.table(stats_output_file,
-      colClasses=c("character","character","real"))
-    for (i in 1:length(stats_df[[1]])) {
-      result_df = add_constant_column(result_df, 
-        stats_df[[3]][[i]], stats_df[[1]][[i]])
-    }
-    
-    # Add rows from this ubcsat result to the result data.frame
-    run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
   }
-  run_ubcsat_df
+
+  read_ubcsat_dir(filename, algs=algs, tmp_directory=tmp_directory)
 }
 
 # For example, running:
