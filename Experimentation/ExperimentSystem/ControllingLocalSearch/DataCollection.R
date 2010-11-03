@@ -166,30 +166,31 @@ run_ubcsat = function(
 
   filename = basename(input)
 
+  # Create the temporary directory (error if it doesn't exist)
   if ( ! file.exists(tmp_directory)) 
     if (!dir.create(tmp_directory, showWarnings=FALSE)) {
       print(paste("ERROR[run_ubcsat]: Unable to create directory '",
                   tmp_directory, "'."))
       return(FALSE)
     }
- 
-  run_ubcsat_df = NULL
+
   # Run ubcsat-okl with each algorithm
+  run_ubcsat_df = NULL
   alg_names = names(algs)
   for (alg in 1:length(algs)) {
     output_file =
       run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
     stats_output_file =
       run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
-    
     command =
       run_ubcsat_command(input, alg_names[alg],algs[alg],
                           tmp_directory,...)
+
+    # Run the ubcsat-okl command
     if (monitor) print(command)
     system(command)
-
     
-    # Read in output from respective files.
+    # Read in output from respective temporary files.
     result_df = read.table(output_file,
                            col.names = as.vector(run_ubcsat_column_names))
     result_df = add_constant_column(result_df,alg_names[alg], "alg")
@@ -201,6 +202,7 @@ run_ubcsat = function(
       result_df = add_constant_column(result_df, 
         stats_df[[3]][[i]], stats_df[[1]][[i]])
     }
+    
     # Add rows from this ubcsat result to the result data.frame
     run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
   }
