@@ -24,6 +24,7 @@ define install-boost_32_libs
 endef
 else
 define install-boost_32_libs
+       :
 endef
 endif
 
