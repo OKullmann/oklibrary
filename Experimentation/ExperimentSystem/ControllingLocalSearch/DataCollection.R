@@ -9,19 +9,61 @@
 # # Running Ubcsat #
 # ##################
 
-# Relative path to directory to store run_ubcsat intermediate files
-# (CONSTANT)
+# Path to directory to store run_ubcsat intermediate files.
+#
+# Parameters :
+#     filename
+#       The filename (basename, not path) for the Dimacs CNF
+#       file being investigated.
+#
+# Result :
+#     The default path (string) to store "run_ubcsat"
+#     temporary files in for the given input file name.
+#
 run_ubcsat_temp_dir = function(filename) {
   return ( paste("ubcsat_tmp_",filename, sep="") )
 }
 
-# List of output columns which ubcsat-okl outputs (CONSTANT).
+# List of output column names (as we would like them to be called
+# in the output dataframe) which ubcsat-okl outputs (CONSTANT).
+#
+# The default list is:
+#     run (positive integer)
+#       The index (1-number of runs) of the ubcsat-okl run that
+#       the particular output row corresponds with.
+#     sat (boolean (0 or 1))
+#       Whether or not the given run of ubcsat-okl found a satisfying
+#       assignment for the input formula (1 indicates it found
+#       a satisfying assignment, 0 indicates it didn't).
+#     min (positive integer)
+#       The minimum number of falsified clauses which occurred during
+#       all of the assignments that ubcsat-okl tried in the current
+#       run.
+#     osteps (positive integer)
+#       The number of steps (i.e. total assignments considered by
+#       ubcsat-okl) in the current run before the minimum was reached.
+#     msteps (positive integer)
+#       Number of steps (i.e. total assignments considered by ubcsat-okl)
+#       in the current run in total.
+#     seed (positive integer)
+#       Seed value for the random number generator. This can then be used
+#       later to reproduce the same run and retrieve the solution using
+#       ubcsat-okl.       
+# 
+# NOTE: This should match up with the columns output by ubcsat-okl.
 run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 
 # Default list of ubcsat algorithms run_ubcsat evaluates, given
-# as a named list, where the name of each item is a reference for the
-# algorithm, and the value of each item is the algorithm parameter
-# as given to ubcsat.
+# as a named list, where
+#
+#   - the name of each item is a reference (with only alphanumeric
+#     characters and "_") for the  algorithm, used by run_ubcsat wherever
+#     "safe" names are needed (without spaces etc), and
+#   - the value of each item is the algorithm parameter as given to
+#     ubcsat-okl.
+#
+# NOTE: This list should match the full range of UBCSAT algorithms for the
+#       default version of UBCSAT as provided in the OKlibrary.
 run_ubcsat_cnf_algs = list(
    gsat="gsat", 
    gsat_simple="gsat -v simple",
@@ -45,9 +87,20 @@ run_ubcsat_cnf_algs = list(
    walksat_tabu_nonull="walksat-tabu -v nonull"
 )
 
-# Takes a dataframe, a constant value C and returns a new data frame with
-# an additional column where that column has value C for every row in the
-# data.frame.
+# Construct a new dataframe which is the original dataframe with
+# an additional constant column with value const_var.
+#
+# Parameters :
+#     df
+#       The dataframe to add the column to.
+#     const_var
+#       the constant value to use in the new column.
+#     name
+#       the name to assign the new column in the result data.frame.
+#
+# Result:
+#     New data.frame with same data as df but with an additional column
+#     with "name" as the name, and const_var as the data for every row.
 #
 # MG: This helper function should be moved to a more appropriate location.
 add_constant_column = function(df,const_var, name) {
@@ -56,11 +109,23 @@ add_constant_column = function(df,const_var, name) {
   data.frame(df, temp_df)
 }
 
-# Takes the input file *name*, the algorithm name (as a filepath safe
-# single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for run_ubcsat intermediate
-# files and returns the file path for the log file for this ubcsat-okl run
-# for that algorithm on that file.
+# Returns the path to the log file run_ubcsat generates for the given
+# parameters.
+#
+# Parameters :
+#     filename
+#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files for the given input filename.
+#
+# Result :
+#     The path (string) to the log file run_ubcsat generates for the
+#     given parameters.
+#
 run_ubcsat_log_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return (paste(tmp_directory, "/",
@@ -68,11 +133,25 @@ run_ubcsat_log_path = function(
                 sep = ""))
 }
 
-# Takes the input file *name*, the algorithm name (as a filepath safe
-# single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for run_ubcsat intermediate
-# files and returns the file path for the result file for this ubcsat-okl run
-# for that algorithm on that file.
+# Returns the path to the result file run_ubcsat generates for the given
+# parameters.
+#
+# Parameters :
+#     filename
+#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files for the given input filename.
+#
+# Result :
+#     The path (string) to the result file run_ubcsat generates for the
+#     given parameters. The word "result" here simply means the output
+#     from ubcsat-okl generated when run_ubcsat ran the problem for the
+#     given algorithm.
+#
 run_ubcsat_result_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
@@ -80,11 +159,23 @@ run_ubcsat_result_path = function(
                sep=""))
 }
 
-# Takes the input file *name*, the algorithm name (as a filepath safe
-# single word which is simply a "nickname" for the algorithm) and
-# optionally the temporary directory used for run_ubcsat intermediate
-# files and returns the file path for the statistics file for this ubcsat-okl
-# run for that algorithm on that file.
+# Returns the path to the statistics file run_ubcsat generates for the given
+# parameters.
+#
+# Parameters :
+#     filename
+#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files for the given input filename.
+#
+# Result :
+#     The path (string) to the statistics file run_ubcsat generates for the
+#     given parameters.
+#
 run_ubcsat_stats_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
@@ -105,11 +196,16 @@ run_ubcsat_stats_path = function(
 #     A list of ubcsat-algorithms to evaluate on the given input file,
 #     where the name of each item is a reference for the
 #     algorithm, and the value of each item is the algorithm parameter
-#     as given to ubcsat (Optional).
+#     as given to ubcsat-okl (Optional).
 #   tmp_directory
 #     Path to the directory "run_ubcsat" stored it's temporary files in,
 #     that is, the tmp_directory argument which was passed to "run_ubcsat"
 #     when it was run before this command (Optional).
+#
+# Result:
+#  The results returned by "run_ubcsat" in it's last invocation with
+#  the input parameters (in the current directory / environment etc
+#  if relative file paths are used).
 #
 read_ubcsat_dir = function(
   input,
@@ -153,13 +249,32 @@ read_ubcsat_dir = function(
   run_ubcsat_df
 }
 
-# Takes the input file *name*, the algorithm name (as a filepath safe
-# single word which is simply a "nickname" for the algorithm), the
-# algorithm name (full name as given to ubcsat), the temporary directory
-# used for run_ubcsat intermediate files, along with any parameters to be
-# passed to ubcsat (for instance "runs=100" results in "-runs=100" being
-# passed to the ubcsat command), and returns the ubcsat-okl command
-# to run this algorithm with this set of parameters on this file.
+# Returns the ubcsat-okl command run by run_ubcsat for the given
+# parameters.
+#
+# Parameters :
+#     input
+#       The path to the Dimacs CNF input file.
+#     alg_safe_name
+#       An alphanumeric string (possibly including "_") used as a reference
+#       for ubcsat-okl algorithm. For example for "gsat -v simple" one might
+#       use "gsat_simple".
+#     alg_name
+#       The name of the ubcsat-okl algorithm for the result ubcsat-okl
+#       to use.
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files (log files etc) (Optional).
+#     ...
+#       Additional parameters to ubcsat-okl can be specified as additional
+#       parameters to this function, so adding "runs=1", would
+#       result in the result command including "-runs=1" (Optional).
+#
+# Result :
+#     The ubcsat-okl command (string) running on the given input, using
+#     the given algorithm, outputting to the standard output files in
+#     the given temporary directory, with the given additional parameters.
+#
 run_ubcsat_command = function(
   input, alg_safe_name, alg_name,
   tmp_directory=run_ubcsat_temp_dir(basename(input)),...) {
@@ -196,32 +311,35 @@ run_ubcsat_command = function(
 #       where the name of each item is a reference for the
 #       algorithm, and the value of each item is the algorithm parameter
 #       as given to ubcsat.
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files (log files etc) (Optional).
 #     monitor
 #       Boolean variable, indicating whether or not to print the
-#       system commands issued (for ubcsat); default is TRUE.
+#       system commands issued (for ubcsat); default is TRUE (Optional).
 #     ...
-#       Additional to ubcsat-okl can be specified as additional
-#       parameters to this function, so adding "runs=1", would
+#       Additional parameters to ubcsat-okl can be specified as additional
+#       parameters to this function. So adding "runs=1", would
 #       result in each call to ubcsat-okl including "-runs=1"
-#       in it's command.
+#       in it's command string (Optional).
 #
 # Result:
-#     The result data.frame has as columns the output parameters
-#     output by ubcsat-okl from each run of ubcsat, with
+#     The result data.frame has as columns the output parameters,
+#     output by ubcsat-okl (see run_ubcsat_column_names above for
+#     more information), from each run of ubcsat, with
 #     additional columns added specifying the algorithm, the run,
 #     as well as columns for each of the statistics variables
-#     that ubcsat outputs for that invocation of ubcsat-okl.
+#     that ubcsat-okl outputs for each invocation.
 #
-#     Every algorithm is evaluated using a single run of ubcsat, where
+#     Every algorithm is evaluated using a single call to ubcsat-okl, where
 #     the number of runs of the algorithm is either the default for
 #     ubcsat-okl or the value of the optional "runs" parameter for
-#     run_ubcsat.
+#     run_ubcsat. Likewise, all parameters for ubcsat-okl other than
+#     -alg, -i, -r stats and -r out, if not specified as arguments to
+#     run_ubcsat, take on the default value assigned by ubcsat-okl.
 #
-#     Each row in the result dataframe then represents a run in ubcsat.
-
-# XXX WHAT IS THE STATUS OF THIS? XXX
-# RENAME: run_ubcsat (also elsewhere (including plans-files))
-
+#     Each row in the result dataframe then represents a run in ubcsat-okl
+#     (note that a run is not the same as one invocation of ubcsat-okl).
 run_ubcsat = function(
  input,
  algs = run_ubcsat_cnf_algs,
@@ -259,36 +377,184 @@ run_ubcsat = function(
   read_ubcsat_dir(filename, algs=algs, tmp_directory=tmp_directory)
 }
 
-# For example, running:
+# As an example, generating the SAT problem relating to testing whether
+# the diagonal Van der Waerden number VDW(5,5) > 200 using
 #
-# E = run_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1)
+# > output_vanderwaerden2_stdname(5,200);
 #
-# for an example cnf, results in the data.frame E with the following values:
+# in Maxima (oklib --maxima), and then running
 #
-#   run found   best beststep steps      seed                 alg Clauses
-# 1   1     0 510109        0     1 931021056                gsat  510108
-# 2   1     0 510109        0     1 931350014 walksat_tabu_nonull  510108
-#   Variables TotalLiterals FlipsPerSecond TotalCPUTimeElapsed CPUTime_Mean
-# 1     32176       1499752            100                0.01         0.01
-# 2     32176       1499752            100                0.01         0.01
-#   CPUTime_Median
-# 1           0.01
-# 2           0.01
+# > E = run_ubcsat("VanDerWaerden_2-5-5_200.cnf")
 #
-# Note that there are only 2 runs (one for each algorithm), and the cutoff is
-# 1 for each of these runs.
+# in R (oklib --R), results in something similar to (ubcsat-okl makes
+# random choices, see XXX):
 #
-# whereas running:
+#    run sat min osteps msteps       seed                 alg Clauses Variables
+# 1    1   0 115     58 100000 1255465118                gsat    9800       200
+# 2    1   0 114    114 100000 1255716183         gsat_simple    9800       200
+# 3    1   0  83  66954 100000 1255875199               gwsat    9800       200
+# 4    1   0  83  18027 100000 1256245045           gsat_tabu    9800       200
+# 5    1   0 117    139 100000 1256522994                hsat    9800       200
+# 6    1   0 108   9514 100000 1256682510               hwsat    9800       200
+# 7    1   0 174  42839 100000 1257104571             walksat    9800       200
+# 8    1   0 149  21426 100000 1257321352        walksat_tabu    9800       200
+# 9    1   0  22  63217 100000 1257520853             novelty    9800       200
+# 10   1   0  21  10863 100000 1257801927            noveltyp    9800       200
+# 11   1   0  22  10886 100000 1258063146       adaptnoveltyp    9800       200
+# 12   1   0  67  12799 100000 1258315948            rnovelty    9800       200
+# 13   1   0  68  24649 100000 1258595755           rnoveltyp    9800       200
+# 14   1   0  22   3905 100000 1258904684                saps    9800       200
+# 15   1   0  21  12835 100000 1259352347               rsaps    9800       200
+# 16   1   0  21  46556 100000 1259801333              sapsnr    9800       200
+# 17   1   0  64  65556 100000 1260280969                rots    9800       200
+# 18   1   0  21   8102 100000 1260583021               irots    9800       200
+# 19   1   0  96  60290 100000 1260918141                samd    9800       200
+# 20   1   0  24  88250 100000 1261205059 walksat_tabu_nonull    9800       200
+#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
+# 1          49000         434783            58      1e+05     1e+05
+# 2          49000         769231           114      1e+05     1e+05
+# 3          49000         294118         66954      1e+05     1e+05
+# 4          49000         384615         18027      1e+05     1e+05
+# 5          49000         714286           139      1e+05     1e+05
+# 6          49000         243902          9514      1e+05     1e+05
+# 7          49000         526316         42839      1e+05     1e+05
+# 8          49000         555556         21426      1e+05     1e+05
+# 9          49000         370370         63217      1e+05     1e+05
+# 10         49000         400000         10863      1e+05     1e+05
+# 11         49000         416667         10886      1e+05     1e+05
+# 12         49000         384615         12799      1e+05     1e+05
+# 13         49000         344828         24649      1e+05     1e+05
+# 14         49000         232558          3905      1e+05     1e+05
+# 15         49000         232558         12835      1e+05     1e+05
+# 16         49000         217391         46556      1e+05     1e+05
+# 17         49000         344828         65556      1e+05     1e+05
+# 18         49000         312500          8102      1e+05     1e+05
+# 19         49000         370370         60290      1e+05     1e+05
+# 20         49000         625000         88250      1e+05     1e+05
+#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
+# 1               0               115                 115              115
+# 2               0               114                 114              114
+# 3               0                83                  83               83
+# 4               0                83                  83               83
+# 5               0               117                 117              117
+# 6               0               108                 108              108
+# 7               0               174                 174              174
+# 8               0               149                 149              149
+# 9               0                22                  22               22
+# 10              0                21                  21               21
+# 11              0                22                  22               22
+# 12              0                67                  67               67
+# 13              0                68                  68               68
+# 14              0                22                  22               22
+# 15              0                21                  21               21
+# 16              0                21                  21               21
+# 17              0                64                  64               64
+# 18              0                21                  21               21
+# 19              0                96                  96               96
+# 20              0                24                  24               24
+#    BestSolution_Max
+# 1               115
+# 2               114
+# 3                83
+# 4                83
+# 5               117
+# 6               108
+# 7               174
+# 8               149
+# 9                22
+# 10               21
+# 11               22
+# 12               67
+# 13               68
+# 14               22
+# 15               21
+# 16               21
+# 17               64
+# 18               21
+# 19               96
+# 20               24
 #
-# E = run_ubcsat("Test.cnf",algs=list(gsat="gsat",walksat_tabu_nonull="walksat-tabu -v nonull"),runs=1,cutoff=1,output_params=list("run","found","best","beststep","steps"))
+# One can then, for instance, restrict oneself to only using the
+# algorithms which performed best (for a particular metric). So, for example,
+# one might restrict oneself to novelty+, rsaps and sapsnr above, and allow
+# more runs and a higher cutoff, like so
 #
-# produces:
+# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
 #
-#   run found   best beststep steps                 alg Clauses Variables
-# 1   1     0 510109        0     1                gsat  510108     32176
-# 2   1     0 510109        0     1 walksat_tabu_nonull  510108     32176
-#   TotalLiterals FlipsPerSecond TotalCPUTimeElapsed CPUTime_Mean CPUTime_Median
-# 1       1499752            100                0.01         0.01           0.01
-# 2       1499752            100                0.01         0.01           0.01
+#    run sat min osteps  msteps       seed      alg Clauses Variables
+# 1    1   0  22  43382 1000000 1694350974 noveltyp    9800       200
+# 2    2   0  21  25031 1000000 2212095318 noveltyp    9800       200
+# 3    3   0  21  30920 1000000  718683817 noveltyp    9800       200
+# 4    4   0  22 165095 1000000  919974690 noveltyp    9800       200
+# 5    5   0  21  39981 1000000 3421966001 noveltyp    9800       200
+# 6    1   0  21   1347 1000000 1722378942    rsaps    9800       200
+# 7    2   0  21   1168 1000000  816551823    rsaps    9800       200
+# 8    3   0  21  35542 1000000 2428062255    rsaps    9800       200
+# 9    4   0  21  44524 1000000 3429666798    rsaps    9800       200
+# 10   5   0  21  29640 1000000 2001159883    rsaps    9800       200
+# 11   1   0  21  14472 1000000 1769745035   sapsnr    9800       200
+# 12   2   0  21 180056 1000000 3960436902   sapsnr    9800       200
+# 13   3   0  21   4050 1000000 4068325161   sapsnr    9800       200
+# 14   4   0  21  35297 1000000 2486223150   sapsnr    9800       200
+# 15   5   0  21  33255 1000000 3128418692   sapsnr    9800       200
+#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
+# 1          49000         393082       60881.8      1e+06     1e+06
+# 2          49000         393082       60881.8      1e+06     1e+06
+# 3          49000         393082       60881.8      1e+06     1e+06
+# 4          49000         393082       60881.8      1e+06     1e+06
+# 5          49000         393082       60881.8      1e+06     1e+06
+# 6          49000         229253       22444.2      1e+06     1e+06
+# 7          49000         229253       22444.2      1e+06     1e+06
+# 8          49000         229253       22444.2      1e+06     1e+06
+# 9          49000         229253       22444.2      1e+06     1e+06
+# 10         49000         229253       22444.2      1e+06     1e+06
+# 11         49000         245821       53426.0      1e+06     1e+06
+# 12         49000         245821       53426.0      1e+06     1e+06
+# 13         49000         245821       53426.0      1e+06     1e+06
+# 14         49000         245821       53426.0      1e+06     1e+06
+# 15         49000         245821       53426.0      1e+06     1e+06
+#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
+# 1               0              21.4                  21               21
+# 2               0              21.4                  21               21
+# 3               0              21.4                  21               21
+# 4               0              21.4                  21               21
+# 5               0              21.4                  21               21
+# 6               0              21.0                  21               21
+# 7               0              21.0                  21               21
+# 8               0              21.0                  21               21
+# 9               0              21.0                  21               21
+# 10              0              21.0                  21               21
+# 11              0              21.0                  21               21
+# 12              0              21.0                  21               21
+# 13              0              21.0                  21               21
+# 14              0              21.0                  21               21
+# 15              0              21.0                  21               21
+#    BestSolution_Max
+# 1                22
+# 2                22
+# 3                22
+# 4                22
+# 5                22
+# 6                21
+# 7                21
+# 8                21
+# 9                21
+# 10               21
+# 11               21
+# 12               21
+# 13               21
+# 14               21
+# 15               21
 #
-# where seed is no longer included in the results.
+# One can see that only 3 algorithms have been run, and each has had 5 runs.
+#
+#
+# One can then store the resulting data.frame using write.table
+#
+# > write.table(E2, file="VDW-ubcsat-result.dat")
+#
+# where the above command writes the previous run_ubcsat results
+# to "VDW-ubcsat-result.dat". For specification of the file
+# format see the R documentation for write.table ("help(write.table)" in R).
+#
+

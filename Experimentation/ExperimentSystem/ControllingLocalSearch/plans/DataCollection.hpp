@@ -16,34 +16,27 @@ License, or any later version. */
   <ul>
    <li> It needs to be specified what are the defaults. </li>
    <li> A *concept* for the input handling is needed, not just a hack. </li>
-   <li> DONE Collecting the parameters in a list is inappropriate, but just the
-   standard R-handling should be used, so that for example one can just
+   <li> DONE Collecting the parameters in a list is inappropriate, but just 
+   the standard R-handling should be used, so that for example one can just
    specify "cutoff=1000000" as additional parameter, without, of course,
    changing anything else --- currently parameter "runs" is overwritten in
    this case. </li>
   </ul>
 
 
-  \bug Bad documentation for run_ubcsat
+  \todo Handling of temporary files
   <ul>
-   <li> When examples are given, then they need to be reproducible (as much
-   as possible). </li>
-   <li> A cutoff=1 is nonsense. </li>
-   <li> The attributes of the resulting dataframe need to be specified more
-   precisely; what are their data types? </li>
-   <li> DONE
-   Reference to "standard output" is wrong here, since the output appears
-   in the R-terminal. It is also not explained what that output is. </li>
-   <li> Nowhere are the created files mentioned?? One needs the specification
-   of their names and their contents. And it should be possible to disable them
-   (likely this should be the default); that is, if these files are needed,
-   then by default they should be "temporary" files. </li>
-   <li> These files must also not pollute the user-directory; so they should
-   all be placed in some created directory. </li>
-   <li> And obviously, it needs to be possible just to evaluate the files,
-   without generating them --- so *two* functions are needed. </li>
-   <li> The examples don't show the important step that the computed dataframe
-   MUST BE STORED. </li>
+   <li> Nowhere are the created files mentioned?? One needs the 
+   specification of their names and their contents. And it should be possible 
+   to disable them (likely this should be the default); that is, if these 
+   files are needed, then by default they should be "temporary" files. </li>
+   <li> The temporary files are current placed in a directory created by 
+   run_ubcsat, specified by the tmp_directory parameter, which defaults
+   to run_ubcsat_temp_dir, taking the filename (not path) as an argument. 
+   </li>
+   <li> The directory is not currently deleted after run_ubcsat is complete,
+   allowing the data to be reread again using read_ubcsat_dir, or for
+   the user to evaluate the statistics and log files. </li>
   </ul>
 
 
@@ -310,6 +303,25 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    <li> DONE For the "scientific" parameter, perhaps ".Machine$integer.max/2"
    is a better option? Just ".Machine$integer.max" obviously results in
    overflow and so doesn't work. </li>
+  </ul>
+
+
+  \bug DONE Bad documentation for run_ubcsat
+  <ul>
+   <li> DONE When examples are given, then they need to be reproducible (as 
+   much as possible). </li>
+   <li> DONE A cutoff=1 is nonsense. </li>
+   <li> DONE The attributes of the resulting dataframe need to be specified 
+   more precisely; what are their data types? </li>
+   <li> DONE
+   Reference to "standard output" is wrong here, since the output appears
+   in the R-terminal. It is also not explained what that output is. </li>
+   <li> DONE These files must also not pollute the user-directory; so they 
+   should all be placed in some created directory. </li>
+   <li> DONE And obviously, it needs to be possible just to evaluate the files,
+   without generating them --- so *two* functions are needed. </li>
+   <li> DONE The examples don't show the important step that the computed 
+   dataframe MUST BE STORED. </li>
   </ul>
 
 
