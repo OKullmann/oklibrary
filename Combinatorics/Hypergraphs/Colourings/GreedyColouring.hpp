@@ -25,7 +25,7 @@ License, or any later version. */
 
 #include <boost/graph/sequential_vertex_coloring.hpp>
 #include <boost/iterator/counting_iterator.hpp>
-#include <boost/property_map.hpp>
+#include <boost/property_map/property_map.hpp>
 
 #include <OKlib/General/Combinatorics.hpp>
 
