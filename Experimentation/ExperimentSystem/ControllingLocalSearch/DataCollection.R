@@ -189,27 +189,32 @@ run_ubcsat_stats_path = function(
 # generated files.
 #
 # Parameters :
-#   input
-#     The path to the Dimacs CNF file on which run_ubcsat has already
-#     been run.
-#   algs
-#     A list of ubcsat-algorithms to evaluate on the given input file,
-#     where the name of each item is a reference for the
-#     algorithm, and the value of each item is the algorithm parameter
-#     as given to ubcsat-okl (Optional).
-#   tmp_directory
-#     Path to the directory "run_ubcsat" stored it's temporary files in,
-#     that is, the tmp_directory argument which was passed to "run_ubcsat"
-#     when it was run before this command (Optional).
+#     input
+#       The path to the Dimacs CNF file on which run_ubcsat has already
+#       been run.
+#     include_algs
+#       A list of ubcsat-okl algorithms to evaluate on the given input file,
+#       where the name of each item is a reference for the
+#       algorithm, and the value of each item is the algorithm parameter
+#       as given to ubcsat (Optional).
+#     exclude_algs
+#       A list of ubcsat-okl algorithms not to evaluate on the given input
+#       file. The list of algorithms evaluated are exactly those in
+#       include_algs which are not in exclude_algs, ignoring names (Optional).
+#     tmp_directory
+#       Path to the directory "run_ubcsat" stored it's temporary files in,
+#       that is, the tmp_directory argument which was passed to "run_ubcsat"
+#       when it was run before this command (Optional).
 #
 # Result:
-#  The results returned by "run_ubcsat" in it's last invocation with
-#  the input parameters (in the current directory / environment etc
-#  if relative file paths are used).
+#     The results returned by "run_ubcsat" in it's last invocation with
+#     the input parameters (in the current directory / environment etc
+#     if relative file paths are used).
 #
 read_ubcsat_dir = function(
   input,
-  algs = run_ubcsat_cnf_algs,
+  include_algs = run_ubcsat_cnf_algs,
+  exclude_algs = list(),
   tmp_directory=run_ubcsat_temp_dir(basename(input))) {
   
   # Create the temporary directory (error if it doesn't exist)
@@ -220,6 +225,10 @@ read_ubcsat_dir = function(
   }
 
   filename = basename(input)
+
+  # Get only those algorithms in the included list which
+  # are not excluded.
+  algs = include_algs[!(include_algs %in% exclude_algs)]
 
   run_ubcsat_df = NULL
   alg_names = names(algs)
@@ -306,11 +315,15 @@ run_ubcsat_command = function(
 # Parameters:
 #     input
 #       The path to the file to evaluate the ubcsat algorithms on.
-#     algs
-#       A list of ubcsat-algorithms to evaluate on the given input file,
+#     include_algs
+#       A list of ubcsat-okl algorithms to evaluate on the given input file,
 #       where the name of each item is a reference for the
 #       algorithm, and the value of each item is the algorithm parameter
-#       as given to ubcsat.
+#       as given to ubcsat (Optional).
+#     exclude_algs
+#       A list of ubcsat-okl algorithms not to evaluate on the given input
+#       file. The list of algorithms evaluated are exactly those in
+#       include_algs which are not in exclude_algs, ignoring names (Optional).
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
 #       stores it's temporary files (log files etc) (Optional).
@@ -342,11 +355,16 @@ run_ubcsat_command = function(
 #     (note that a run is not the same as one invocation of ubcsat-okl).
 run_ubcsat = function(
  input,
- algs = run_ubcsat_cnf_algs,
+ include_algs = run_ubcsat_cnf_algs,
+ exclude_algs = list(),
  tmp_directory=run_ubcsat_temp_dir(basename(input)),
  monitor=TRUE,...) {
 
   filename = basename(input)
+
+  # Get only those algorithms in the included list which
+  # are not excluded.
+  algs = include_algs[!(include_algs %in% exclude_algs)]
 
   # Create the temporary directory (error if it doesn't exist)
   if ( ! file.exists(tmp_directory)) 
@@ -374,7 +392,7 @@ run_ubcsat = function(
     
   }
 
-  read_ubcsat_dir(filename, algs=algs, tmp_directory=tmp_directory)
+  read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
 }
 
 # As an example, generating the SAT problem relating to testing whether
@@ -479,7 +497,7 @@ run_ubcsat = function(
 # one might restrict oneself to novelty+, rsaps and sapsnr above, and allow
 # more runs and a higher cutoff, like so
 #
-# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
+# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
 #
 #    run sat min osteps  msteps       seed      alg Clauses Variables
 # 1    1   0  22  43382 1000000 1694350974 noveltyp    9800       200
