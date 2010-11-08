@@ -2365,6 +2365,13 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 500
      \endverbatim
      </li>
+     <li> rots, cutoff=10^8:
+     \verbatim
+ 1  2
+32 61
+93
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
@@ -2433,6 +2440,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 900
    \endverbatim
    </li>
+   <li> n=917:
+    <ol>
+     <li> rots, cutoff=2*10^7:
+     \verbatim
+ 1  2  3   4  5  6 
+ 4 18 50 124 82  2 
+280
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -2494,10 +2512,24 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 913,926,927,959
    \endverbatim
    </li>
+   <li> n=983:
+    <ol>
+     <li> rots, cutoff=2*10^7:
+     \verbatim
+ 1  2  3  4  5  6  7  8 10 11 13 14 15 16 
+ 9 41 41 15  3  1  1  1  3  1  3  4  8 10 
+141
+ 1  2  3  4  5  6 12 13 14 15 16 
+ 3 17 17  6  1  1  1  1  3  3  1 
+54
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,33) > 1022
+  \todo vanderwaerden_2(3,33) > 1025
   <ul>
    <li> n=997: rots found a solution, with certificate
    \verbatim
@@ -2565,6 +2597,32 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 806,812,813,817,843,863,864,888,891,898,
 925,928,929,944,961,972,1002,1014
    \endverbatim
+   </li>
+   <li> n=1025: rots found a solution (cutoff=2*10^7), adapted from n=1023,
+   with certificate
+   \verbatim
+31,44,48,54,68,87,113,122,127,148,
+155,161,165,198,214,216,221,222,224,251,
+259,261,270,295,303,312,313,332,346,349,
+362,377,383,399,414,424,455,460,480,481,
+483,498,517,518,520,529,549,566,591,592,
+623,629,631,636,642,658,660,668,695,714,
+716,719,720,747,751,753,756,757,769,776,
+808,825,827,830,845,851,868,890,905,919,
+924,932,964,975,998,1006,1015
+   \endverbatim
+   </li>
+   <li> n=1026:
+    <ol>
+     <li> rots, cutoff=2*10^7:
+     \verbatim
+ 1  2  3  4  5  6  9 12 13 14 15 16 
+ 1 11 11  1  1  2  1  1  3  2  4  3 
+41 
+ 1  2  3  4  8 12 13 14 15 16 
+ 6  8 15  5  1  1  3  4  3  5 
+51 
+  </ol>
    </li>
   </ul>
 
