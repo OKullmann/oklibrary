@@ -1086,6 +1086,16 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 200
      \endverbatim
      </li>
+     <li> gsat-tabu, cutoff=5*10^7, finds a solution, adapted from n=462:
+     \verbatim
+3,22,23,33,46,61,77,80,91,96,
+104,110,123,133,135,139,148,152,154,164,
+177,183,191,196,207,210,226,239,241,254,
+264,265,283,284,294,307,309,322,338,341,
+352,357,365,371,384,394,396,400,409,415,
+425,438,442,452
+     \endverbatim
+     </li>
      <li> gsat-tabu finds a solution, adapted from n=458 (run=20,
      osteps=8086906, cutoff=10^8):
      \verbatim
@@ -1096,7 +1106,7 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 357,365,371,384,394,396,400,409,413,415,
 425,444,452,457
      \endverbatim
-     </li>
+     (close to the above solution). </li>
     </ol>
    </li>
    <li> n=464, gsat-tabu:
@@ -1106,6 +1116,9 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
    1   2  3  4 5 6 7
 2019 615 63 12 4 2 1
 2716
+  1   2   3   4   5   7
+357 133   7   1   1   1
+500
      \endverbatim
      </li>
      <li> cutoff=10^8:
@@ -1152,7 +1165,14 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 443,448,450,468,487,491
      \endverbatim
      </li>
-     <li> cutoff=10^8, gsat-tabu finds the same solution in run 36
+     <li> rots with cutoff=5*10^7 doesn't find a solution in 400 runs:
+     \verbatim
+  1   2   3
+ 86 256  58
+400
+     \endverbatim
+     </li>
+     <li> cutoff=10^8, gsat-tabu finds the same solution as above in run 36
      (osteps=15901276). </li>
     </ol>
    </li>
@@ -1167,6 +1187,13 @@ E = eval_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=T
 200
      \endverbatim
      </li>
+     <li> rots, cutoff=5*10^7 doesn't find a solution in 164 runs:
+     \verbatim
+ 1  2  3  4
+24 82 57  1
+164
+     \endverbatim
+     (it seems for this k-value gsat-tabu is still better than rots). </li>
     </ol>
    </li>
    <li> n=514, gsat-tabu
@@ -1678,6 +1705,18 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      \endverbatim
      This has a larger distance to the above solution (analysis is needed!).
      </li>
+     <li> Another variation is
+     \verbatim
+17,40,49,57,77,86,91,93,99,117,
+128,150,151,154,156,167,175,188,193,197,
+204,212,224,228,242,247,265,267,271,278,
+279,286,304,313,321,335,350,353,358,372,
+373,382,390,410,419,424,426,434,450,461,
+471,483,484,487,489,500,521,526,530,537,
+545,557,561,575,580,598,600,604,611,612,
+637
+     \endverbatim
+     </li>
      <li> Are there essentially different solutions? </li>
     </ol>
    <li>
@@ -1702,6 +1741,9 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
   1   2   3   4 
 333 146  20   1 
 500 
+  1   2   3   4
+329 147  22   2
+500
      \endverbatim
      </li>
     </ol>
@@ -2362,6 +2404,13 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      \verbatim
   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
  25 175 148  32  11   6   1   1   2   1   2  14  30  27  17   3   4   1
+500
+     \endverbatim
+     </li>
+     <li> rots found no solution in 500 runs with cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  12  13  14  15
+ 46 285 124  19   3   1   1   1   1   1   6   8   3   1
 500
      \endverbatim
      </li>
