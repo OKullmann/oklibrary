@@ -7,19 +7,29 @@ License, or any later version. */
 
 /*!
   \file Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp
-  \brief Module, which mainly provides the class template Subsumption_hypergraph.
+  \brief Module, which implements a subsumption hypergraph generator.
 
-  The Maxima-specification is subsumption_ghg(F,G) (see
-  ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
+  Given two set systems F and G, the subsumption hypergraph of F with
+  respect to G is the hypergraph with F as the vertex set and a hyperedge H
+  for every set S in G, where H is the largest subset of F where every T in H 
+  subsumes (i.e. is a subset of) S.
 
+  In reality, one typically doesn't need the original sets from G and simply
+  wants a standardised version, and also wants an ordered version rather than
+  using sets.
+
+  Therefore assuming an order on F and G, one considers the standardised 
+  ordered subsumption hypergraph of F and G with vertex list [1,..,|F|] and
+  hyperedge list [H_1,...,H_|G|] where for all 1 <= j <= |G|, we have H[j]
+  is the sublist of [1,...,|F|] and i is in H[j] if F[i] subsumes
+  G[j].
+
+  The class implemented here implements the generation of such an ordered
+  subsumption hypergraph given (ordered) set systems F and G.
+  
 
   \todo Improve code quality
   <ul>
-   <li> "Brief" should speak in intuitive words about the functionality
-   provided. </li>
-   <li> Then the paragraph must specify it more precisely, *in words*. </li>
-   <li> So the reference to the Maxima-level is misplaced there. </li>
-   <li> And it needs more precision. </li>
    <li> Specification of Subsumption_hypergraph needs more explanations, and
    it needs the concept! </li>
    <li> All member functions need a specification. </li>
@@ -30,6 +40,11 @@ License, or any later version. */
    const-references. </li>
    <li> Proper constructor: The two data members should be const, and so their
    construction must take place in the initialiser list. </li>
+   <li> DONE "Brief" should speak in intuitive words about the functionality
+   provided. </li>
+   <li> DONE Then the paragraph must specify it more precisely, *in words*. </li>
+   <li> DONE So the reference to the Maxima-level is misplaced there. </li>
+   <li> DONE And it needs more precision. </li>
   </ul>
 
   \todo Organisation
@@ -69,8 +84,18 @@ namespace OKlib {
       \class Subsumption_hypergraph
       \brief Constructing the subsumption hypergraph
 
-      Standardised form (using standardise_ohg of
-      subsumption_ohg in ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
+      Given two set systems F and G, as ranges of ranges (of type RangeF
+      and RangeG respectively) of type Int, constructs the 
+      standardised ordered subsumption hypergraph.
+
+      The subsumption hypergraph is available as the object constructed
+      by this class, with the vertex set (vertex_set) as the list 
+      [1,...,length(F)] and the hyperedge set as the list [H_1,...,H_|G|] 
+      where for all 1 <= j <= |G|, we have H[j] is the sublist of [1,...,|F|],
+      i is in H[j] if F[i] subsumes G[j] and H[j] is a list of Int.
+
+      The Maxima-specification is subsumption_std_ohg(F,G) (see
+      ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
     */
 
     template <class RangeF,
