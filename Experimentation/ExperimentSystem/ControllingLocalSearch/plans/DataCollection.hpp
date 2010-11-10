@@ -12,6 +12,23 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug Incomplete evaluation
+  <ul>
+   <li> When running the example as given in DataCollection.R, then we get
+   \verbatim
+OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
+adaptnoveltyp.run_ubcsat_log
+adaptnoveltyp.run_ubcsat_result
+adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats
+gsat.run_ubcsat_log
+gsat.run_ubcsat_result
+gsat_simple.run_ubcsat_log
+   \endverbatim
+   </li>
+   <li> Thus the evaluation of gsat is incomplete. </li>
+  </ul>
+
+
   \bug Bad parameter of run_ubcsat XXX STATUS ???
   <ul>
    <li> It needs to be specified what are the defaults. </li>
