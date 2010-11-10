@@ -29,6 +29,18 @@ gsat_simple.run_ubcsat_log
   </ul>
 
 
+  \bug run_ubcsat can't handle segmentation faults
+  <ul>
+   <li> The given example in DataCollection.R produces segmentation faults
+   on csltok for saps and rsaps. </li>
+   <li> The other algorithms are still evaluated, but then an error occurs,
+   and no dataframe is created. </li>
+   <li> The dataframe should likely just not contain anything on these two
+   algorithms (while otherwise being usable). </li>
+   <li> And warnings should be issued on the faulty algorithms. </li>
+  </ul>
+
+
   \bug Bad parameter of run_ubcsat XXX STATUS ???
   <ul>
    <li> It needs to be specified what are the defaults. </li>
