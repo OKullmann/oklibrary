@@ -13,6 +13,25 @@ License, or any later version. */
   \todo Write tests for the generator application
 
   
+  \todo Test performance of Subsumption_Hypergraph generator with const fields
+  <ul>
+   <li> Currently fields (vertex_set and hyperedges) in the 
+   Subsumption_hypergraph generator are public but const . </li>
+   <li> To achieve this, C++ initialiser lists are used and functions
+   generate and return the vertex_set and hyperedges and are used
+   in the initialiser list. </li>
+   <li> The problem lies in the fact that the C++ standard doesn't guarantee
+   that such functions will be optimised away (Return Value Optimisation
+   - RVO), only that such an optimisation is allowed. </li>
+   <li> Due to this, it is possible that one creates these very large 
+   structures (the hyperedges of some subsumption hypergraphs we consider are
+   multiple gigabyte) twice, once in the function, and then again as
+   the field object. </li>
+   <li> We should experiment with gcc, at least, and ensure that the standard
+   environment (with optimisations) performs RVO. </li>
+  </ul>
+
+  
   \todo Offering live subsumption hypergraph generation
   <ul>
    <li> The subsumption hypergraph for some inputs will be very large,

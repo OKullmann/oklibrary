@@ -38,8 +38,8 @@ License, or any later version. */
    <li> Adopt the new for-loop-style. </li>
    <li> In cases of larger arguments the argument-types of functions should be
    const-references. </li>
-   <li> Proper constructor: The two data members should be const, and so their
-   construction must take place in the initialiser list. </li>
+   <li> DONE Proper constructor: The two data members should be const, and so 
+   their construction must take place in the initialiser list. </li>
    <li> DONE "Brief" should speak in intuitive words about the functionality
    provided. </li>
    <li> DONE Then the paragraph must specify it more precisely, *in words*. </li>
@@ -109,15 +109,12 @@ namespace OKlib {
       typedef Int vertex_type;
       typedef std::list<hyperedge_type> set_system_type;
       
-      hyperedge_type vertex_set;
-      set_system_type hyperedges;
+      const hyperedge_type vertex_set;
+      const set_system_type hyperedges;
 
-      Subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
-        const boost::counting_iterator<Int> v_begin(0);
-        const boost::counting_iterator<Int> v_end(boost::distance(f_range));
-        std::copy(v_begin, v_end, boost::begin(vertex_set));
-        subsumption_hypergraph(f_range, g_range);
-      }
+      Subsumption_hypergraph(const RangeF f_range, const RangeG g_range):
+        vertex_set(fill_vertex_set(boost::size(f_range))), 
+        hyperedges(subsumption_hypergraph(f_range, g_range)) {}
 
     private:
 
@@ -126,6 +123,15 @@ namespace OKlib {
       typedef typename boost::range_value<RangeF>::type f_value_type;
       typedef std::map<f_value_type, Int> hyperedge_map_type;
       typedef std::list<f_value_type> hyperedge_nonstd_type;
+      typedef typename boost::range_size<RangeF>::type f_size_type;
+
+      static const hyperedge_type fill_vertex_set(const f_size_type size_f) {
+        hyperedge_type vertex_set;
+        const boost::counting_iterator<Int> v_begin(0);
+        const boost::counting_iterator<Int> v_end(size_f);
+        std::copy(v_begin, v_end, boost::begin(vertex_set));
+        return(vertex_set);
+      }
 
       static hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
         hyperedge_map_type hyperedge_map;
@@ -168,13 +174,15 @@ namespace OKlib {
         return(subsumes_set);
       }
 
-      void subsumption_hypergraph(const RangeF f_range, 
+      static const set_system_type subsumption_hypergraph(const RangeF f_range, 
                                   const RangeG g_range) {
+        set_system_type hyperedges;
         hyperedge_map_type hmap = fill_hyperedge_map(f_range);
         const g_iterator_type g_end = boost::end(g_range);
         for (g_iterator_type g_begin = boost::begin(g_range); 
              g_begin != g_end; ++g_begin)
           hyperedges.push_back(standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap));
+        return hyperedges;
       }
     };
 
