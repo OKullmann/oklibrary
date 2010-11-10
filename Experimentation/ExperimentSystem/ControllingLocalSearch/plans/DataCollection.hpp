@@ -12,7 +12,7 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Bad parameter of run_ubcsat
+  \bug Bad parameter of run_ubcsat XXX STATUS ???
   <ul>
    <li> It needs to be specified what are the defaults. </li>
    <li> A *concept* for the input handling is needed, not just a hack. </li>
@@ -24,7 +24,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling of temporary files
+  \todo Handling of temporary files XXX STATUS ???
   <ul>
    <li> Nowhere are the created files mentioned?? One needs the 
    specification of their names and their contents. And it should be possible 
@@ -40,7 +40,7 @@ License, or any later version. */
   </ul>
 
 
-  \bug Bad columns produced by run_ubcsat
+  \bug Bad columns produced by run_ubcsat XXX STATUS ???
   <ul>
    <li> "Clauses", "Variables" and other constant measures should not show up
    in such dataframes. (MG: This could be done by just adding a field to the 
