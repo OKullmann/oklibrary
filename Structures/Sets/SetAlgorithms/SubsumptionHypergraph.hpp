@@ -34,8 +34,8 @@ License, or any later version. */
    it needs the concept! </li>
    <li> All member functions need a specification. </li>
    <li> Every class and function needs documentation! </li>
-   <li> In cases of larger arguments the argument-types of functions should be
-   const-references. </li>
+   <li> DONE In cases of larger arguments the argument-types of functions 
+   should be const-references. </li>
    <li> DONE Everything not used by the user must be private. </li>
    <li> DONE Adopt the new for-loop-style. </li>
    <li> DONE Proper constructor: The two data members should be const, and so 
@@ -112,7 +112,8 @@ namespace OKlib {
       const hyperedge_type vertex_set;
       const set_system_type hyperedges;
 
-      Subsumption_hypergraph(const RangeF f_range, const RangeG g_range):
+      Subsumption_hypergraph(const RangeF& f_range, 
+                             const RangeG& g_range):
         vertex_set(fill_vertex_set(boost::size(f_range))), 
         hyperedges(subsumption_hypergraph(f_range, g_range)) {}
 
@@ -133,7 +134,7 @@ namespace OKlib {
         return(vertex_set);
       }
 
-      static hyperedge_map_type fill_hyperedge_map(const RangeF f_range) {
+      static hyperedge_map_type fill_hyperedge_map(const RangeF& f_range) {
         hyperedge_map_type hyperedge_map;
         for(
             struct {
@@ -168,7 +169,7 @@ namespace OKlib {
       template <class RangeC>
       static
       hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
-                                          const RangeF f_range) {
+                                          const RangeF& f_range) {
         hyperedge_nonstd_type subsumes_set;
         for (
              struct {
@@ -182,8 +183,8 @@ namespace OKlib {
         return(subsumes_set);
       }
 
-      static const set_system_type subsumption_hypergraph(const RangeF f_range, 
-                                  const RangeG g_range) {
+      static const set_system_type subsumption_hypergraph(const RangeF& f_range,
+                                                          const RangeG& g_range) {
         set_system_type hyperedges;
         for (
              struct {
@@ -201,7 +202,7 @@ namespace OKlib {
 
     template<class RangeF, class RangeG>
     typename std::list<std::list<typename boost::range_difference<RangeF>::type> >  
-    subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
+    subsumption_hypergraph(const RangeF& f_range, const RangeG& g_range) {
       Subsumption_hypergraph<RangeF, RangeG> sub_hyp(f_range,g_range);
       return sub_hyp.hyperedges;
     }
