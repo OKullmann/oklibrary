@@ -154,10 +154,14 @@ namespace OKlib {
           hyperedge_nonstd_const_iterator_type;
 
         hyperedge_type new_edge;
-        const hyperedge_nonstd_const_iterator_type end = boost::end(edge);
-        for(hyperedge_nonstd_const_iterator_type iter = boost::begin(edge);
-            iter != end; ++iter)
-          new_edge.push_back(hmap.find(*iter)->second);
+        for(
+            struct {
+              hyperedge_nonstd_const_iterator_type it;
+              const hyperedge_nonstd_const_iterator_type end;
+            } l = {boost::begin(edge),boost::end(edge)};
+            l.it != l.end; 
+            ++l.it)
+          new_edge.push_back(hmap.find(*l.it)->second);
         return(new_edge);
       }
 
@@ -166,22 +170,30 @@ namespace OKlib {
       hyperedge_nonstd_type all_subsuming(const RangeC c_range, 
                                           const RangeF f_range) {
         hyperedge_nonstd_type subsumes_set;
-        for (f_iterator_type f_begin = boost::begin(f_range); 
-             f_begin != boost::end(f_range); ++f_begin) 
+        for (
+             struct {
+               f_iterator_type it;
+               const f_iterator_type end;
+             } f = { boost::begin(f_range), boost::end(f_range) };
+             f.it != f.end; ++f.it) 
           if (std::includes(boost::begin(c_range), boost::end(c_range), 
-                            boost::begin(*f_begin),boost::end(*f_begin)))
-            subsumes_set.push_back(*f_begin);
+                            boost::begin(*f.it),boost::end(*f.it)))
+            subsumes_set.push_back(*f.it);
         return(subsumes_set);
       }
 
       static const set_system_type subsumption_hypergraph(const RangeF f_range, 
                                   const RangeG g_range) {
         set_system_type hyperedges;
-        hyperedge_map_type hmap = fill_hyperedge_map(f_range);
-        const g_iterator_type g_end = boost::end(g_range);
-        for (g_iterator_type g_begin = boost::begin(g_range); 
-             g_begin != g_end; ++g_begin)
-          hyperedges.push_back(standardise_hyperedge(all_subsuming(*g_begin, f_range), hmap));
+        for (
+             struct {
+               g_iterator_type it;
+               const g_iterator_type end;
+               const hyperedge_map_type map;
+             } g = {boost::begin(g_range), boost::end(g_range), 
+                    fill_hyperedge_map(f_range)};
+             g.it != g.end; ++g.it)
+          hyperedges.push_back(standardise_hyperedge(all_subsuming(*g.it, f_range), g.map));
         return hyperedges;
       }
     };
