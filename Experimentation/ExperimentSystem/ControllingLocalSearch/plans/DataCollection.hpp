@@ -124,7 +124,7 @@ plot(E$alg,E$best)
   </ul>
 
 
-  \todo Collecting data
+  \todo Collecting data : NEEDS CLEANUP
   <ul>
    <li> Steps to be taken:
     <ol>
