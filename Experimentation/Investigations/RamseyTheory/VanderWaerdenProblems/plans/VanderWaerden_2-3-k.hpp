@@ -2503,7 +2503,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,32) > 982
+  \todo vanderwaerden_2(3,32) > 985
   <ul>
    <li> n=951: rots found as solution, adapted from n=939 (run 15), with
    certificate:
@@ -2573,7 +2573,23 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 54
      \endverbatim
      </li>
+     <li> In run 223 with cutoff=2*10^7 a solution was found, which with
+     small modifications yielded a solution for n=985 (see below). </li>
     </ol>
+   </li>
+   <li> n=985: rots with cutoff=2*10^7 found a solution (modifified from
+   m=983), with certificate:
+   \verbatim
+16,36,53,68,71,82,110,114,129,145,
+164,179,182,193,195,196,215,230,232,258,
+277,289,295,306,307,326,330,336,341,351,
+364,381,388,400,410,423,441,454,462,475,
+492,497,517,526,528,529,534,548,563,565,
+591,608,623,626,628,632,637,639,640,659,
+669,674,702,721,733,743,756,758,774,780,
+787,808,825,844,845,848,850,867,869,885,
+906,919,936,959,965
+   \endverbatim
    </li>
   </ul>
 
