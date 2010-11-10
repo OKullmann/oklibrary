@@ -33,11 +33,11 @@ License, or any later version. */
    <li> Specification of Subsumption_hypergraph needs more explanations, and
    it needs the concept! </li>
    <li> All member functions need a specification. </li>
-   <li> Everything not used by the user must be private. </li>
    <li> Every class and function needs documentation! </li>
-   <li> Adopt the new for-loop-style. </li>
    <li> In cases of larger arguments the argument-types of functions should be
    const-references. </li>
+   <li> DONE Everything not used by the user must be private. </li>
+   <li> DONE Adopt the new for-loop-style. </li>
    <li> DONE Proper constructor: The two data members should be const, and so 
    their construction must take place in the initialiser list. </li>
    <li> DONE "Brief" should speak in intuitive words about the functionality
