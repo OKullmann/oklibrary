@@ -346,6 +346,12 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
 
   \bug Bad documentation for run_ubcsat
   <ul>
+   <li> The organisation of DataCollection.R is user-unfriendly:
+    <ol>
+     <li> The main function needs to stand out. </li>
+     <li> The helper functions should be in the "background". </li>
+    </ol>
+   </li>
    <li> When examples are given, then they need to be reproducible (as 
    much as possible). </li>
    <li> DONE A cutoff=1 is nonsense. </li>
