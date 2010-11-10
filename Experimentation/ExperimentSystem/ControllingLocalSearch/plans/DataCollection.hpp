@@ -325,7 +325,7 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
   </ul>
 
 
-  \bug DONE Dangerious handling of filenames
+  \bug DONE Dangerous handling of filenames
   <ul>
    <li> (DONE Added temporary directory option)
    Obviously correct handling of the output-directory, which is 
