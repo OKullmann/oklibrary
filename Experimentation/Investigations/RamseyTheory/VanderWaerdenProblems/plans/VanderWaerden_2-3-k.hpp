@@ -2677,7 +2677,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      n=1033. </li>
     </ol>
    </li>
-   <li> n=1025: rots found a solution (cutoff=2*10^7), adapted from n=1026
+   <li> n=1033: rots found a solution (cutoff=2*10^7), adapted from n=1026
    (with considerable modifications), with certificate
    \verbatim
 3,34,45,67,68,90,104,119,129,142,
