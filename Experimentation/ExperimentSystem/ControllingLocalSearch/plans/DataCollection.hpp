@@ -33,6 +33,15 @@ gsat_simple.run_ubcsat_log
   <ul>
    <li> It needs to be specified what are the defaults. </li>
    <li> A *concept* for the input handling is needed, not just a hack. </li>
+   <li> Bad algorithms specification:
+    <ol>
+     <li> The algorithms-specification via e.g.,
+     include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
+     is awkward: the doubling of names must be eliminated. </li>
+     <li> As discussed, standard abbreviations need to be introduced for
+     the algorithms. </li>
+    </ol>
+   </li>
    <li> DONE Collecting the parameters in a list is inappropriate, but just 
    the standard R-handling should be used, so that for example one can just
    specify "cutoff=1000000" as additional parameter, without, of course,
