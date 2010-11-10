@@ -689,7 +689,7 @@ BestSolution_Max = 1.000000
     <ol>
      <li> n=70, first finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_12-2-2-2-2-2-2-2-2-2-2-3-3_70.cnf")
+> E = run_ubcsat("GreenTao_L_12-2-2-2-2-2-2-2-2-2-2-3-3_70.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 gsat_tabu :
@@ -790,7 +790,7 @@ cutoff 10^6:
    min=1 except of 6 times min=2. </li>
    <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
    \verbatim
-> E = eval_ubcsat("GreenTao_L_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> E = run_ubcsat("GreenTao_L_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 rsaps :
@@ -825,7 +825,7 @@ gsat_tabu :
    <li> Finding the best Ubcsat-algorithm for the weak standard nested
    translation:
    \verbatim
-> E = eval_ubcsat("GreenTao_N_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> E = run_ubcsat("GreenTao_N_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -995,7 +995,7 @@ gsat :
      </li>
      <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_15-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_83.cnf")
+> E = run_ubcsat("GreenTao_L_15-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_83.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -1128,7 +1128,7 @@ sapsnr :
      </li>
      <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", runs=100,cutoff=1000000)
+> E = run_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 

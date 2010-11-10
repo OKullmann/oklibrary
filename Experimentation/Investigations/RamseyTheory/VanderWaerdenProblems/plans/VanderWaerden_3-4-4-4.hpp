@@ -39,7 +39,7 @@ License, or any later version. */
      <li> saps with cutoff=10^6 seems much stronger. </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-E = eval_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", runs=100,cutoff=100000)
+E = run_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", runs=100,cutoff=100000)
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -86,7 +86,7 @@ saps :
      <li> Again, best local search algorithm from Ubcsat-suite (now cutoff
      10^6):
      \verbatim
-E = eval_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", runs=100,cutoff=1000000)
+E = run_ubcsat("VanDerWaerden_N_3-4-4-4_200.cnf", runs=100,cutoff=1000000)
      \endverbatim
      evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim

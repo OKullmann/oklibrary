@@ -180,7 +180,7 @@ c file_name                             GreenTao_N_4-2-3-3-3_151.cnf
    <li> Best local search algorithm from Ubcsat-suite for the weak nested
    standard translation:
    \verbatim
-> E = eval_ubcsat("GreenTao_N_5-2-2-3-3-3_155.cnf")
+> E = run_ubcsat("GreenTao_N_5-2-2-3-3-3_155.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
    \verbatim

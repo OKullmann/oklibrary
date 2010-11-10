@@ -360,10 +360,10 @@ ExtendedToStrictDimacs-O3-DNDEBUG < sbox_hgt.ecnf > sbox_hgt.cnf;
    such as those performed in the %QuineMcCluskey algorithm. </li>
    <li> MG is currently running experiments using the SAT solvers available in
    the OKlibrary. </li>
-   <li> Running the standard "eval_ubcsat" on the sbox_hgt.cnf instance with
+   <li> Running the standard "run_ubcsat" on the sbox_hgt.cnf instance with
    M=600 yields the following :
    \verbatim
-sbox_eval = eval_ubcsat("sbox_hgt.cnf")
+sbox_eval = run_ubcsat("sbox_hgt.cnf")
 sbox_mean_eval = aggregate(list(avg_beststep=sbox_eval$beststep,avg_cputime_mean=sbox_eval$CPUTime_Mean, avg_falsified = sbox_eval$best), list(alg=sbox_eval$alg), mean)
 sbox_mean_eval[order(sbox_mean_eval$avg_falsified),]
 

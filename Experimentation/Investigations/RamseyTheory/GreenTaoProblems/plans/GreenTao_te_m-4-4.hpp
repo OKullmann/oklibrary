@@ -29,7 +29,7 @@ License, or any later version. */
    <li> The conjecture is greentao_3(2,4,4) = 553. </li>
    <li> Best local search algorithm from Ubcsat-suite:
    \verbatim
-> E = eval_ubcsat("GreenTao_3-2-4-4_530.cnf")
+> E = run_ubcsat("GreenTao_3-2-4-4_530.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best): Again novelty+ seems best (the only
    solver who found a solution):
@@ -109,7 +109,7 @@ License, or any later version. */
      </li>
      <li> Finding a best algorithm for the strong standard nested translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_SN_3-2-4-4_553.cnf")
+> E = run_ubcsat("GreenTao_SN_3-2-4-4_553.cnf")
      \endverbatim
      using plot(E$alg,E$best):
      \verbatim
@@ -126,7 +126,7 @@ License, or any later version. */
      Clearly rnoveltyp and rnovelty seem best. </li>
      <li> Finding a best algorithm for the weak standard nested translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-2-4-4_553.cnf")
+> E = run_ubcsat("GreenTao_N_3-2-4-4_553.cnf")
      \endverbatim
      using plot(E$alg,E$best):
      \verbatim
@@ -504,7 +504,7 @@ License, or any later version. */
      <li> Best local search algorithm from Ubcsat-suite for the standard
      nested translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_4-2-2-4-4_584.cnf")
+> E = run_ubcsat("GreenTao_N_4-2-2-4-4_584.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best): Only one algorithm reached min=1,
      namely saps:
@@ -593,7 +593,7 @@ License, or any later version. */
      <li> Best local search algorithm from Ubcsat-suite for the (weak) standard
      nested translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_4-2-2-4-4_585.cnf")
+> E = run_ubcsat("GreenTao_N_4-2-2-4-4_585.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
@@ -673,7 +673,7 @@ License, or any later version. */
      \endverbatim
      <li> Finding a best algorithm for the strong standard nested translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_SN_4-2-2-4-4_585.cnf")
+> E = run_ubcsat("GreenTao_SN_4-2-2-4-4_585.cnf")
      \endverbatim
      using plot(E$alg,E$best):
      \verbatim
@@ -761,7 +761,7 @@ License, or any later version. */
      <li> Best local search algorithm from Ubcsat-suite for logarithmic
      translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_4-2-2-4-4_588.cnf")
+> E = run_ubcsat("GreenTao_L_4-2-2-4-4_588.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
@@ -819,7 +819,7 @@ License, or any later version. */
      <li> Now we consider the weak standard reduced translation. </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-> E = eval_ubcsat("GreenTao_R_4-2-2-4-4_588.cnf")
+> E = run_ubcsat("GreenTao_R_4-2-2-4-4_588.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
@@ -858,7 +858,7 @@ License, or any later version. */
      <li> Next we consider the strong standard reduced translation. </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-> E = eval_ubcsat("GreenTao_SR_4-2-2-4-4_588.cnf")
+> E = run_ubcsat("GreenTao_SR_4-2-2-4-4_588.cnf")
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim

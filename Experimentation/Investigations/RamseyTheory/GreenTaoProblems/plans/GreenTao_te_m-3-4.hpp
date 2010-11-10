@@ -149,7 +149,7 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
   <ul>
    <li> Best local search solver:
    \verbatim
-> E = eval_ubcsat("GreenTao_5-2-2-2-3-4_125.cnf")
+> E = run_ubcsat("GreenTao_5-2-2-2-3-4_125.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best): hard to say, since many algorithms
    determined satisfiability, but saps is best, followed perhaps by gwsat,
@@ -168,7 +168,7 @@ c file_name                             GreenTao_4-2-2-3-4_130.cnf
   <ul>
    <li> Best local search solver:
    \verbatim
-> E = eval_ubcsat("GreenTao_6-2-2-2-2-3-4_135.cnf")
+> E = run_ubcsat("GreenTao_6-2-2-2-2-3-4_135.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best): the following four solvers seem best:
    \verbatim
@@ -308,7 +308,7 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-4_136.cnf
      </li>
      <li> Determining the best Ubcsat-algorithm (cutoff=10^6):
      \verbatim
-> E = eval_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf", cutoff=1000000,runs=100)
+> E = run_ubcsat("GreenTao_7-2-2-2-2-2-3-4_142.cnf", cutoff=1000000,runs=100)
 > plot(E$alg,E$best)
 > table(E$best[E$alg=="adaptnoveltyp"])
   1

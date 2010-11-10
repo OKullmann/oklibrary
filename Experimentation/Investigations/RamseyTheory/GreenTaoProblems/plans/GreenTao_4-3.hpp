@@ -480,7 +480,7 @@ BestSolution_Max = 4.000000
      </li>
      <li> Logarithmic translation: Finding best ubcsat-solver by
      \verbatim
-E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", runs=200,cutoff=1000000)
+E = run_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", runs=200,cutoff=1000000)
      \endverbatim
      evaluating it by plot(E$alg,E$best):
      \verbatim

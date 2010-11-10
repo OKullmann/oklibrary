@@ -71,7 +71,7 @@ create_list(vanderwaerden33k(k),k,1,6);
    <li> First let's consider n=79 in the standard translation. </li>
    <li> Best Ubcsat-solver for cutoff=10^5:
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_3-3-3-5_79.cnf")
+> E = run_ubcsat("VanDerWaerden_3-3-3-5_79.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best): No solver found a solution, best is saps:
    \verbatim
@@ -126,7 +126,7 @@ table(E$best[E$alg=="novelty"])
    <li> Now let's consider n=79 in the standard nested translation. </li>
    <li> Best Ubcsat-solver for cutoff=10^5:
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_N_3-3-3-5_79.cnf")
+> E = run_ubcsat("VanDerWaerden_N_3-3-3-5_79.cnf")
    \endverbatim
    evaluated by plot(E$alg,E$best), shows again saps as best: still no solution
    found, but this translation seems clearly superior:

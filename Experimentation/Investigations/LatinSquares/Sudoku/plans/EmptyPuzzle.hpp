@@ -841,7 +841,7 @@ c 1.2 seconds total run time
      from the ubcsat-suite. </li>
      <li> Best Ubcsat-solver:
      \verbatim
-> E = eval_ubcsat("WeakPl_Sudoku_Box_dim_5.cnf", runs=100, cutoff=100000)
+> E = run_ubcsat("WeakPl_Sudoku_Box_dim_5.cnf", runs=100, cutoff=100000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 rsaps :
