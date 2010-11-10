@@ -306,9 +306,9 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
   </ul>
 
 
-  \bug DONE Bad documentation for run_ubcsat
+  \bug Bad documentation for run_ubcsat
   <ul>
-   <li> DONE When examples are given, then they need to be reproducible (as 
+   <li> When examples are given, then they need to be reproducible (as 
    much as possible). </li>
    <li> DONE A cutoff=1 is nonsense. </li>
    <li> DONE The attributes of the resulting dataframe need to be specified 

@@ -396,15 +396,15 @@ run_ubcsat = function(
 }
 
 # As an example, generating the SAT problem relating to testing whether
-# the diagonal Van der Waerden number VDW(5,5) > 200 using
+# the (diagonal) van der Waerden number vdw_2(5,5) > 200 using
 #
 # > output_vanderwaerden2_stdname(5,200);
 #
 # in Maxima (oklib --maxima), and then running
 #
-# > E = run_ubcsat("VanDerWaerden_2-5-5_200.cnf")
+# > E = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", seed=1255465118)
 #
-# in R (oklib --R), results in something similar to (ubcsat-okl makes
+# in R (oklib --R), results in something similar to ??? (ubcsat-okl makes
 # random choices, see XXX):
 #
 #    run sat min osteps msteps       seed                 alg Clauses Variables
