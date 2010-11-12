@@ -2693,9 +2693,11 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      n=1033. </li>
     </ol>
    </li>
-   <li> n=1033: rots found a solution (cutoff=2*10^7), adapted from n=1026
-   (with considerable modifications), with certificate
-   \verbatim
+   <li> n=1033:
+    <ol>
+     <li> rots found a solution (cutoff=2*10^7), adapted from n=1026
+     (with considerable modifications), with certificate
+     \verbatim
 3,34,45,67,68,90,104,119,129,142,
 147,151,164,166,182,195,225,230,233,256,
 258,269,270,289,290,293,304,327,336,344,
@@ -2705,7 +2707,23 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 706,711,734,737,739,743,748,770,774,793,
 796,813,845,850,862,867,896,898,899,918,
 922,933,943,965,972,973,998,1007
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Another solution was found by rots (cutoff=5*10^7), adapted from
+     n=1030 (without modifications), with certificate:
+     \verbatim
+9,28,38,45,46,69,71,82,112,117,
+127,143,145,156,157,164,180,191,213,214,
+231,250,251,260,293,297,302,328,347,349,
+362,378,379,386,415,421,435,436,458,460,
+478,497,519,524,532,546,547,550,552,561,
+564,589,593,624,630,635,637,638,661,675,
+694,695,704,731,737,754,774,783,805,809,
+822,823,828,846,848,852,860,865,894,904,
+917,933,939,941,970,990,991,1015
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
