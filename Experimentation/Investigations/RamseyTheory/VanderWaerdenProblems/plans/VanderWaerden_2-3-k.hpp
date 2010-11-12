@@ -2269,7 +2269,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,30) > 901
+  \todo vanderwaerden_2(3,30) > 902
   <ul>
    <li> The predictions are 948, 954. </li>
    <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
@@ -2419,6 +2419,20 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
  1  2
 32 61
 93
+     \endverbatim
+     </li>
+     <li> rots found in run 90 a solution with cutoff=10^8 (osteps=87469691),
+     with certificate:
+     \verbatim
+23,40,63,90,98,100,109,111,134,147,
+164,172,179,189,201,208,209,225,226,240,
+248,257,259,283,290,319,327,331,336,359,
+368,370,373,374,386,388,411,423,438,442,
+462,467,484,485,497,499,505,534,541,542,
+544,555,558,573,581,592,616,623,652,660,
+666,669,670,689,692,701,703,707,719,721,
+738,764,766,771,795,812,817,818,832,845,
+849,877,888
      \endverbatim
      </li>
     </ol>
