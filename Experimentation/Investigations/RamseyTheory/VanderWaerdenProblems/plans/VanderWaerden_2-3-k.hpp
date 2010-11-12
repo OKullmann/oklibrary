@@ -135,6 +135,17 @@ d - round(fnlq(X))
   </ul>
 
 
+  \todo Analysing certificates
+  <ul>
+   <li> See "Analysing certificates" in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
+   </li>
+   <li> It seems that solutions at least for the harder problems come in
+   small clusters, where the clusters have large Hamming distances, while
+   within the clusters we have rather small Hamming distances. </li>
+  </ul>
+
+
   \todo Performance of OKsolver-2002
   <ul>
    <li> k=4, n=17,18: 7 resp. 9 nodes. </li>
