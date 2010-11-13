@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,20 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
   \brief Plans for Maxima-components regarding computation of prime implicates/implicants of boolean functions and clause-sets
+
+  This sub-module will be moved to module Satisfiability/Lisp/Primality.
+
+
+  \todo Tests
+  <ul>
+   <li> Add tests for all functions, including
+    <ul>
+     <li> all_minequiv_bvs_rsubhg </li>
+     <li> all_minequiv_bvsr_cs </li>
+     <li> all_minequiv_bvsr_sub_cs </li>
+    </ul>
+   </li>
+  </ul>
 
 
   \todo Organisation

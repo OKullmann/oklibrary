@@ -52,6 +52,11 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
   return([V,reverse(F)]))$
 random_fcs(n,k,c) := fcl2fcs(random_fcl(n,k,c))$
 
+output_random_fcl(n,k,c,filename) := output_fcl_v(
+ "Pseudo-random clause-list created by Maxima::output_random_fcl.",
+ random_fcl(n,k,c),filename,[])$
+output_random_fcl_stdname(n,k,c) := output_random_fcl(n,k,c,sconcat("Random_",n,"_",k,"_",c,".cnf"))$
+
 
 /* **********************************
    * The random clause-length model *

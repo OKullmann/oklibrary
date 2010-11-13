@@ -57,19 +57,28 @@ License, or any later version. */
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-7.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-3-k.hpp
     <ol>
-     <li> greentao_3(3,3,5) </li>
+     <li> greentao_3(3,3,5) : COMPLETED for now </li>
     </ol>
    </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_3-3-4-k.hpp
     <ol>
-     <li> greentao_3(3,4,4) </li>
+     <li> greentao_3(3,4,4) : COMPLETED for now </li>
      <li> greentao_3(3,4,5) </li>
     </ol>
    </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_4-3.hpp : COMPLETED for
+   now </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-4.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-5.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-4-4.hpp </li>
    <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-3-3.hpp </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/GreenTao_te_m-3-3-4.hpp :
+   COMPLETED for now </li>
+   <li> RamseyTheory/GreenTaoProblems/plans/CountingProgressions.hpp
+    <ol>
+     <li> Computing numerical values for C_k. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -118,6 +127,7 @@ License, or any later version. */
   <h2> Van der Waerden problems </h2>
 
   <ul>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp </li>
    <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp </li>
    <li> (Postponed for now until the full Ramsey-theory-project starts)
    RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_3-3-3-k.hpp </li>

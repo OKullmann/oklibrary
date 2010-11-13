@@ -375,7 +375,7 @@ CPU time              : 2.23859e+06 s
      </li>
      <li> Evaluation of all ubcsat-algorithms:
      \verbatim
-> E = eval_ubcsat("GreenTao_3-2-3-5_562.cnf", params=list(cutoff=1000000,runs=100))
+> E = run_ubcsat("GreenTao_3-2-3-5_562.cnf", cutoff=1000000,runs=100)
 plot(E$alg,E$best)
 min(E$best)
  1
@@ -586,7 +586,7 @@ E$alg[E$best==1]
      now we consider the weak standard nested translation. </li>
      <li> Finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-2-3-5_581.cnf")
+> E = run_ubcsat("GreenTao_N_3-2-3-5_581.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -627,18 +627,99 @@ UNSATISFIABLE
      \endverbatim
      (time = 22225.83 m = 370.4306 h = 15.43461 d).
      </li>
+     <li> picosat913 aborted (by itself):
+     \verbatim
+s UNKNOWN
+c 0 iterations
+c 1204218 restarts
+c 0 failed literals
+c 1178199461 conflicts
+c 2147483647 decisions
+c 0 fixed variables
+c 2611033505 learned literals
+c 307.8% deleted literals
+c 486216418596 propagations
+c 93.6% variables used
+c 337685.6 seconds in library
+c 1.4 megaprops/second
+c 1 simplifications
+c 5953 reductions
+c 3731.2 MB recycled
+c 117.8 MB maximally allocated
+c 337685.6 seconds total run time
+     \endverbatim
+     </li>
+     <li> picosat913 with minisat2-preprocessing aborted (by itself):
+     \verbatim
+s UNKNOWN
+c 0 iterations
+c 1195994 restarts
+c 0 failed literals
+c 1172783603 conflicts
+c 2147483647 decisions
+c 0 fixed variables
+c 2080170219 learned literals
+c 51.3% deleted literals
+c 444333049127 propagations
+c 87.0% variables used
+c 286041.0 seconds in library
+c 1.6 megaprops/second
+c 1 simplifications
+c 7140 reductions
+c 1601.8 MB recycled
+c 102.1 MB maximally allocated
+c 286041.0 seconds total run time
+     \endverbatim
+     </li>
+     <li> precosat236 aborted (by itself) after 733478.4 seconds, though 279
+     variables have been fixed. We should disable this behaviour (also with
+     picosat). </li>
      <li> OKsolver_2002 (without preprocessing):
       <ol>
-       <li> Progress is achieved, using monitoring-depth 20, but at the very
-       end of the list of monitoring nodes the sub-problems get increasingly
-       difficult. Not clear yet whether the problem gets solved; after 6000 m
-       nearly the end of the monitoring-list was reached:
+       <li> Progress is achieved, using monitoring-depth 20, but at the last
+       monitoring node the solver felt into a hole:
        \verbatim
-> tail GreenTao_N_3-2-3-5_581.cnf.mo
-  1048571 188987    35.695  2099.240     0.342      7     0    63     9.80
-  1048572 109535    35.800  1161.550     0.343     14     0    63    10.19
+> OKsolver_2002-O3-DNDEBUG -M -D20 -F GreenTao_N_3-2-3-5_581.cnf
+
+>  tail GreenTao_N_3-2-3-5_581.cnf.mo
+  1048566  32735    33.468   302.120     0.297      0     0    63     9.80
+  1048567  67514    33.532   603.040     0.297      8     0    63     9.99
+  1048568  38657    33.569   342.890     0.298      0     0    63    10.14
+  1048569 763553    34.297  6611.470     0.304   8883     0    63    10.16
+  1048570 1277518    35.515  8391.060     0.312  22593     0    63    10.05
+  1048571 188987    35.695  1239.420     0.313      7     0    63     9.80
+  1048572 109535    35.800   684.820     0.314     14     0    63    10.19
+  1048573 2491404    38.176 16524.260     0.329  50479     0    64     9.88
+  1048574 246079    38.410  1660.240     0.331     16     0    64     9.90
+  1048575 1828763    40.154 12126.630     0.343  26943     0    64     9.98
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         10
+c initial_number_of_variables           1161
+c initial_number_of_clauses             183634
+c initial_number_of_literal_occurrences 429344
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   168490
+c running_time(sec)                     1016841.0
+c number_of_nodes                       136369397
+c number_of_single_nodes                2445793
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1359006383
+c number_of_pure_literals               47933615
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         3394
+c max_tree_depth                        112
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 6633673123
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_3-2-3-5_581.cnf
        \endverbatim
-       however then the computer crashed. Better to repeat it on cs-oksvr.
        </li>
        <li> Single nodes seemed to play an important node, but no autarkies
        were found. </li>
@@ -658,6 +739,8 @@ UNSATISFIABLE
 119  17   2   1   1   1   1
        \endverbatim
        </li>
+       <li> With m2-preprocessing the problem seems to get harder for
+       OKsolver_2002. </li>
       </ol>
      </li>
     </ol>
@@ -689,7 +772,7 @@ UNSATISFIABLE
      </li>
      <li> Checking all ubcsat-algorithms via
      \verbatim
-> E = eval_ubcsat("GreenTao_3-2-3-5_600.cnf")
+> E = run_ubcsat("GreenTao_3-2-3-5_600.cnf")
 plot(E$alg,E$best)
 > min(E$best)
 [1] 3
@@ -763,7 +846,7 @@ plot(E$alg,E$best)
      </li>
      <li> Finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_4-2-2-3-5_581.cnf", params=list(runs=100,cutoff=1000000))
+> E = run_ubcsat("GreenTao_N_4-2-2-3-5_581.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -809,7 +892,7 @@ hwsat :
       <ol>
        <li> Finding the best Ubcsat-algorithm:
        \verbatim
-> E = eval_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", params=list(runs=100,cutoff=1000000))
+> E = run_ubcsat("GreenTao_L_4-2-2-3-5_582.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -855,13 +938,50 @@ rnoveltyp :
        </li>
       </ol>
      </li>
+     <li> OKsolver_2002:
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D20 GreenTao_N_4-2-2-3-5_582.cnf
+
+524287:2000514     71.86  7.54E+07 20504.79s     0.63s     0y   3d 20h 18m 19s 48216     0   69
+
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         15
+c initial_number_of_variables           1745
+c initial_number_of_clauses             353339
+c initial_number_of_literal_occurrences 1153461
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   169071
+c running_time(sec)                     1560686.8
+c number_of_nodes                       188207805
+c number_of_single_nodes                3194685
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1866485094
+c number_of_pure_literals               65236419
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         15526
+c max_tree_depth                        140
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 9082462499
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             GreenTao_N_4-2-2-3-5_582.cnf
+     \endverbatim
+     So at the node for the completion of the left subtree the solver felt into
+     a hole (18 days spent). Also here a strong regularity w.r.t. the counts
+     of single-nodes was observed (strong preference of multiples of 7). </li>
     </ol>
    </li>
   </ul>
 
 
-  \todo greentao_5(2,2,2,3,5) > 602
+  \todo greentao_5(2,2,2,3,5) >= 610
   <ul>
+  <li> The conjecture is greentao_5(2,2,2,3,5) = 610. </li>
    <li> Using weak standard nested translation with saps. </li>
    <li> n=582
     <ol>
@@ -875,7 +995,7 @@ rnoveltyp :
      <li>
      <li> Finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_5-2-2-2-3-5_582.cnf")
+> E = run_ubcsat("GreenTao_N_5-2-2-2-3-5_582.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -999,7 +1119,73 @@ rots :
    (seed=4169526379, osteps=735193). </li>
    <li> n=602, walksat, cutoff=10^6: In run 46 a solution was found
    (seed=4270496857, osteps=105307). </li>
-   <li> n=603, walksat, cutoff=10^6 </li>
+   <li> n=603, walksat, cutoff=10^6: In run 155 a solution was found
+   (seed=2616932593, osteps=144966). </li>
+   <li> n=604, walksat, cutoff=10^6: In run 7 a solution was found
+   (seed=2000091215, osteps=41846). </li>
+   <li> n=605, walksat, cutoff=10^6: In run 21 a solution was found
+   (seed=3901374280, osteps=332675). </li>
+   <li> n=606, walksat, cutoff=10^6: In run 38 a solution was found
+   (seed=2868885090, osteps=699872). </li>
+   <li> n=607, walksat, cutoff=10^6:
+   \verbatim
+  1   2   3
+105  92   3
+200
+   \endverbatim
+   In another 151 runs a solution was found (seed=3961377519, osteps=158435).
+   </li>
+   <li> n=608, walksat
+    <ol>
+     <li> cutoff=10^5: In run 2937 a solution was found (seed=3990638596,
+     osteps=95877). </li>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2   3
+209 179  12
+400
+  1   2   3
+179 173   6
+358
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=609, walksat: cutoff=10^5 finds a solution in run 4561
+   (seed=886206866, osteps=78635), while cutoff=10^6 finds a solution in run
+   51 (seed=456485295, osteps=928598). </li>
+   <li> n=610, walksat
+    <ol>
+     <li> cutoff=10^5:
+     \verbatim
+   1    2    3    4    5    6    7    8    9
+ 191 1292 2864 3095 1818  617  110   10    3
+10000
+     \endverbatim
+     </li>
+     li> cutoff=2*10^5:
+     \verbatim
+   1    2    3    4    5    6    7
+ 752 3053 3828 1966  367   32    2
+10000
+     \endverbatim
+     </li>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2   3
+486 482  32
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=10^6:
+     \verbatim
+  1   2
+794 206
+1000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */

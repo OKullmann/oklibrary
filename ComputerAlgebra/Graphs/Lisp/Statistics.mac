@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 21.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/Statistics.mac
-  \brief Graph Statistics
+  \brief Graph statistics
 
 Use by
 
@@ -29,7 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ******************
 */
 
-/* The degree of a vertex: */
+/* The degree of a vertex in a graph: */
 degree_g(v,G) := length(neighbours_g(v,G))$
 /* For general graphs, counting loops once: */
 degree1_gg(v,G) := length(subset(G[2],lambda([e],elementp(v,G[3](e)))))$
@@ -39,6 +39,16 @@ degree2_gg(v,G) := gsum_s(
    if elementp(v,e) then if length(e) = 1 then 2 else 1
    else 0)),
   G[2])$
+
+/* Out- and in-degrees in digraphs: */
+outdegree_dg(v,G) := outdegree_dgl(v,G)$
+outdegree_dgl(v,G) := 
+ length(sublist(listify(G[2]), lambda([e], is(e[1]=v))))$
+indegree_dg(v,G) := indegree_dgl(v,G)$
+indegree_dgl(v,G) := 
+ length(sublist(listify(G[2]), lambda([e], is(e[2]=v))))$
+
+
 /* Remark: If degrees for several vertices are needed, then better the 
    following functions are used.
 */
@@ -60,7 +70,7 @@ vertex_degrees1_gg(G) := vertex_degrees1_genericg(G)$
 vertex_degrees1_ogg(G) := vertex_degrees1_genericg(G)$
 
 /* The generic version, counting loops twice (again for
-   general graphs (ordered or unordered): */
+   general graphs (ordered or unordered)): */
 vertex_degrees2_genericg(G) := block([h : sm2hm({})],
  for e in G[2] do
    for v in expand_edge(G[3](e)) do enter_new_occurrence(h,v),
@@ -71,6 +81,27 @@ vertex_degrees2_gl(G) := vertex_degrees2_genericg(gl2gg(G))$
 vertex_degrees2_ogl(G) := vertex_degrees2_genericg(ogl2ogg(G))$
 vertex_degrees2_gg(G) := vertex_degrees2_genericg(G)$
 vertex_degrees2_ogg(G) := vertex_degrees2_genericg(G)$
+
+/* The vertex out-/in-degrees of a general directed graph as hash-map, as a
+  generic function, applicable to gdg and ogdg: */
+vertex_outdegrees_genericdg(G) := block([h : sm2hm({})],
+ for e in G[2] do enter_new_occurrence(h,G[3](first(e))),
+ for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
+ return(h))$
+vertex_indegrees_genericdg(G) := block([h : sm2hm({})],
+ for e in G[2] do enter_new_occurrence(h,G[3](second(e))),
+ for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
+ return(h))$
+
+vertex_outdegrees_dg(G) := vertex_outdegrees_genericdg(dg2gdg(G))$
+vertex_outdegrees_dgl(G) := vertex_outdegrees_genericdg(dgl2gdg(G))$
+vertex_outdegrees_odg(G) := vertex_outdegrees_genericdg(odg2ogdg(G))$
+vertex_outdegrees_odgl(G) := vertex_outdegrees_genericdg(odgl2ogdg(G))$
+
+vertex_indegrees_dg(G) := vertex_indegrees_genericdg(dg2gdg(G))$
+vertex_indegrees_dgl(G) := vertex_indegrees_genericdg(dgl2gdg(G))$
+vertex_indegrees_odg(G) := vertex_indegrees_genericdg(odg2ogdg(G))$
+vertex_indegrees_odgl(G) := vertex_indegrees_genericdg(odgl2ogdg(G))$
 
 
 /* Returns the pair [min-degree, vertex_of_minimum_degree], using
@@ -91,8 +122,36 @@ max_vertex_degree1_v_ogl(G) := block([vd : vertex_degrees1_ogl(G)],
 max_vertex_degree2_v_ogl(G) := block([vd : vertex_degrees2_ogl(G)],
   first_largest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
 
+/* Out- and in-degrees, accepting gdg and ogdg: */
+min_vertex_outdegree_v_genericdg(G) := block(
+ [vd : vertex_outdegrees_genericdg(G)],
+  first_smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+min_vertex_indegree_v_genericdg(G) := block(
+ [vd : vertex_indegrees_genericdg(G)],
+  first_smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
 
-/* The hashmap of [vertex degree, frequency] pairs for a graph: */
+min_vertex_outdegree_v_dg(G) := min_vertex_outdegree_v_genericdg(dg2gdg(G))$
+min_vertex_outdegree_v_dgl(G) := min_vertex_outdegree_v_genericdg(dgl2gdg(G))$
+min_vertex_indegree_v_dg(G) := min_vertex_indegree_v_genericdg(dg2gdg(G))$
+min_vertex_indegree_v_dgl(G) := min_vertex_indegree_v_genericdg(dgl2gdg(G))$
+
+/* Only computing the degrees: */
+min_vertex_outdegree_genericdg(G) := block(
+ [vd : vertex_outdegrees_genericdg(G)],
+  smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+min_vertex_indegree_genericdg(G) := block(
+ [vd : vertex_indegrees_genericdg(G)],
+  smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+
+
+min_vertex_outdegree_dg(G) := min_vertex_outdegree_genericdg(dg2gdg(G))$
+min_vertex_outdegree_dgl(G) := min_vertex_outdegree_genericdg(dgl2gdg(G))$
+min_vertex_indegree_dg(G) := min_vertex_indegree_genericdg(dg2gdg(G))$
+min_vertex_indegree_dgl(G) := min_vertex_indegree_genericdg(dgl2gdg(G))$
+
+
+/* The hashmap of [vertex degree, frequency] pairs for a graph (that is,
+   given a vertex degree, return its frequency): */
 vertex_degrees_hm_g(G) := block(
   [degrees : hm2sm(vertex_degrees_g(G)), deg_freq : sm2hm({})],
   for vd in degrees do

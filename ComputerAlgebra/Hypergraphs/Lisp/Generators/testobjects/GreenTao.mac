@@ -33,6 +33,8 @@ okltest_arithprog_primes_finish_nm(arithprog_primes_finish_nm);
 okltest_arithprog_primes(arithprog_primes);
 okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 
+okltest_arithprog_primes_max_ohg(arithprog_primes_max_ohg);
+
 /* **************
    * Statistics *
    **************

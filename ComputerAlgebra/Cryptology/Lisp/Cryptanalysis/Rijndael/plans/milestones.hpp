@@ -15,6 +15,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Update
     - Fix translation system
     - Parameterise inclusion of inverse operation in Mixcolumn translation 
     - Standardise block ordering: DONE
@@ -44,6 +45,10 @@ License, or any later version. */
     - Generate good CNF hitting clause-sets for the AES Sbox
     - Extracting prime implicate representations from the hitting-cls-representations
     - Compute *all* prime implicates (for the purpose of analysis)
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - How to represent elements of arbitrary fields as boolean variables?
   
 
   \par Version 0.0.9

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.5.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Numbers.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 
 
 /* *********************
@@ -29,7 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac"
    *********************
 */
 
-/* The main function, which handles all parameter-values. */
+/* The main function, which handles all parameter-values (gathering all
+   knowledge from all our sources). */
 /* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
 greentao(L) := if emptyp(L) then 1
  elseif first(L) = 1 then greentao(rest(L))
@@ -37,9 +37,13 @@ greentao(L) := if emptyp(L) then 1
  elseif greentaot_a(L)#[] then apply(greentaot,greentaot_a(L))
  elseif greentao3k_a(L)#[] then apply(greentao3k,greentao3k_a(L))
  elseif greentao4k_a(L)#[] then apply(greentao4k,greentao4k_a(L))
- elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L))
+ elseif greentao5k_a(L)#[] then apply(greentao5k,greentao5k_a(L))
+ /* elseif greentaots_a(L)#[] then apply(greentaots,greentaots_a(L)) */
  elseif greentao33k_a(L)#[] then apply(greentao33k,greentao33k_a(L))
  elseif greentao34k_a(L)#[] then apply(greentao34k,greentao34k_a(L))
+ elseif greentao44k_a(L)#[] then apply(greentao44k,greentao44k_a(L))
+ elseif greentao333k_a(L)#[] then apply(greentao333k,greentao333k_a(L))
+ elseif greentao334k_a(L)#[] then apply(greentao334k,greentao334k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use greentao(sort(L)). */
 
@@ -53,16 +57,26 @@ greentao_p(L) := vanderwaerden_p(L)$
 */
 
 greentao3k(k) := 
- if k <= 5 then 
-   [4,7,23,79,528][k]
+ if k <= 7 then [
+  4,7,23,79,528,[2072,inf-1],[13800+1,inf-1]
+ ][k]
  else unknown$
 greentao3k_a(L) := vanderwaerden3k_a(L)$
 
 greentao4k(k) := 
- if k <= 4 then 
-   [9,14,79,512][k]
+ if k <= 5 then [
+  9,14,79,512,[4231+1,inf-1]
+ ][k]
  else unknown$
 greentao4k_a(L) := vanderwaerden4k_a(L)$
+
+greentao5k(k) := 
+ if k <= 5 then [
+  10,31,528,[4231+1,inf-1],[34309,inf-1]
+ ][k]
+ else unknown$
+greentao5k_a(L) := vanderwaerden5k_a(L)$
+
 
 
 /* *****************
@@ -71,10 +85,53 @@ greentao4k_a(L) := vanderwaerden4k_a(L)$
 */
 
 greentao33k(k) :=
- if k <= 3 then
-   [23,31,137][k]
+ if k <= 5 then [
+  23,31,137,[434,inf-1],[1989+1,inf-1]
+ ][k]
  else unknown$
 greentao33k_a(L) := vanderwaerden33k_a(L)$
+
+greentao34k(k) :=
+ if k <= 5 then [
+  79,117,[434,inf-1],[1662+1,inf-1],[8300+1,inf-1]
+ ][k]
+ else unknown$
+greentao34k_a(L) := vanderwaerden34k_a(L)$
+
+greentao44k(k) :=
+ if k <= 4 then [
+  512,[553,inf-1],[1662+1,inf-1],[5500+1,inf-1]
+ ][k]
+ else unknown$
+greentao44k_a(L) := vanderwaerden44k_a(L)$
+
+
+/* ********************
+   * Quaternary cases *
+   ********************
+*/
+
+greentao333k(k) :=
+ if k <= 4 then [
+  137,151,[384+1,inf-1],[1052+1,inf-1]
+ ][k]
+ else unknown$
+greentao333k_a(L) := if length(L)#4 then []
+ elseif L=[1,3,3,3] then [1]
+ elseif L=[2,3,3,3] then [2]
+ elseif rest(L,-1)#[3,3,3] then []
+ else [last(L)]$
+
+greentao334k(k) :=
+ if k <= 4 then [
+  [434,inf-1],[453,inf-1],[1052+1,inf-1],[2750+1,inf-1]
+ ][k]
+ else unknown$
+greentao334k_a(L) := if length(L)#4 then []
+ elseif L=[1,3,3,4] then [1]
+ elseif L=[2,3,3,4] then [2]
+ elseif rest(L,-1)#[3,3,4] then []
+ else [last(L)]$
 
 
 /* *********************
@@ -105,7 +162,14 @@ greentaod1(k) :=
  ][k]
  else unknown$
 greentaod1_a(L) := if length(L)=1 then L else []$
-/* For k >= 12 these numbers are obtained by ranking from A005115. */
+/* For k >= 12 these numbers are obtained by ranking via "RankPrimes" from
+   sequence A005115 (use "eis_details(A005115)"), available in the following
+   list ("ur" for "unranked"): */
+greentaod1ur : [
+ 2,3,7,23,29,157,907,1669,1879,
+ 2089,249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,
+ 6269243827111
+]$
 /* greentaod1(k) is the smallest n such that
    arithprog_primes_ohg(k,n)[2] is not empty, i.e., such that
    {p_1, ..., p_n} contains an arithmetic progression of length k:
@@ -122,7 +186,9 @@ compute_greentaod1(k) := block(
 */
 
 greentaod2(k) :=
-  if k <= 5 then [1,3,23,79,528][k]
+  if k <= 5 then [
+   1,3,23,512,[34309,inf-1]
+  ][k]
   else unknown$
 /* Remark: These numbers have been verified/computed by SAT solving
    methods.
@@ -130,13 +196,278 @@ greentaod2(k) :=
 greentaod2_a(L) := vanderwaerdend2_a(L)$
 
 
+greentaod3(k) :=
+  if k <= 4 then [
+   1,4,137,[5250+1,inf-1]
+  ][k]
+  else unknown$
+/* Remark: These numbers have been verified/computed by SAT solving
+   methods.
+*/
+greentaod3_a(L) := vanderwaerdend3_a(L)$
+
+greentaodap3(m) :=
+ if m <= 4 then [
+  4,23,137,[384+1,inf-1]
+ ][m]
+ else unknown$
+/* Remark: These numbers have been verified/computed by SAT solving
+   methods.
+*/
+greentaodap3_a(L) := if emptyp(L) then 0
+ elseif not lconstant_p(L) then []
+ elseif first(L)#3 then []
+ else length(L)$
+
+
 /* ************************
    * The transversal case *
    ************************
 */
 
-greentaot(m,k) := 0$
+/* Prerequisites: m >= 0, k >= 1: */
+greentaot(m,k) := if m=0 then greentaod1(k)
+ elseif k=1 then m+1
+ elseif k=2 then m+2
+ else block([res : greentaottau(m,k)],
+  if res#unknown then return(res)
+  else return(unknown))$
 greentaot_a(L) := vanderwaerdent_a(L)$
+
+/* Only using the list of transversal numbers: */
+greentaottau(m,k) := block([n : 1, t],
+  t : tau_arithprog_primes(k,n),
+  while not listp(t) and t <= m do (
+    n : n+1, t : tau_arithprog_primes(k,n)
+  ),
+  if listp(t) then return(unknown) else return(n))$
+
+
+/* ******************************************************************
+   * Transversal numbers of hypergraphs of arithmetic progresssions *
+   ******************************************************************
+*/
+
+/* For 3 <= k <= exactk_tau_arithprog_primes we provide initial sequences: */
+define_variable(
+  exactk_tau_arithprog_primes,
+  10,
+  fixnum)$
+/* Note that these sequences (for tau_arithprog_primes(k,n)) start with n=1. */
+
+/* The following data has been computed by
+   "GTTransversalsInc 3 1 0 OutputFile" (i.e.,
+   using SAT solvers):
+*/
+tau_arithprog_primes_seq[3] : [
+0,0,0,1,1,1,2,2,3,3,
+3,3,4,5,5,6,6,7,7,7,
+8,9,10,10,10,10,10,11,12,13,
+13,14,15,15,15,16,16,17,18,19,
+19,20,21,21,21,21,22,23,24,25,
+25,26,26,26,27,28,29,29,30,30,
+31,32,32,32,33,33,33,34,35,36,
+37,38,39,39,40,41,41,42,42,43,
+44
+]$
+/* The following data has been computed by
+   "GTTransversalsInc 4 1 0 OutputFile":
+*/
+tau_arithprog_primes_seq[4] : [
+0,0,0,0,0,0,0,0,1,1,
+1,1,1,2,2,2,3,3,3,3,
+3,4,4,4,4,5,5,5,5,5,
+5,6,6,6,7,8,9,9,9,9,
+9,9,9,9,10,11,11,11,11,11,
+12,12,12,12,12,13,13,14,14,14,
+15,16,16,16,16,16,16,16,16,16,
+17,18,19,19,19,19,19,20,21,21,
+21,21,22
+]$
+
+/* Alternative representations using tau-steplists
+   (the list contains the last entry where tau=0, 1, ...).
+*/
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(5,n)), 'L5), 
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L5))).
+*/
+tau_steplist_arithprog_primes_seq[5] : [
+ 9,30,31,48,57,60,61,77,86,97,
+ 106,111,120,122,141,142,148,149,153
+]$
+tau_arithprog_primes_seq[5] : transform_threshold_l(tau_steplist_arithprog_primes_seq[5])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(6,n)), 'L6), 
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L6))).
+*/
+tau_steplist_arithprog_primes_seq[6] : [
+ 36,54,63,70,89,96,124,151,161,178,
+ 200,203,210,211,249,291,292,314,322,326,
+ 340,350,351,359,373,407,423,434,443,470,
+ 478,486,516,518,551,589,592,610,611,642,
+ 646,649,652,665,674,731,743,749,753,754,
+ 777,780,782
+]$
+tau_arithprog_primes_seq[6] : transform_threshold_l(tau_steplist_arithprog_primes_seq[6])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(7,n)),'L7),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L7))).
+*/
+tau_steplist_arithprog_primes_seq[7] : [
+ 154,213,227,231,322,395,569,640,714,795,
+ 826,871,874,1047,1124,1157,1179,1187,1303,1342,
+ 1372,1397,1423,1451,1507,1541,1555,1563,1571,1687,
+ 1693,1732,1746,1761,1767,1776,1777,1819,1824,1830,
+ 1852,1902,1953,1960,1978,1979,2027,2190,2197,2264,
+ 2316,2364,2371,2410,2467,2502,2503,2560,2567,2650,
+ 2663,2666,2683,2787,2819,2828,2944,2968,2985,2988,
+ 3025,3028,3038,3096,3128,3139,3166,3169,3173,3178,
+ 3179,3207,3240,3274,3292,3327,3379,3419,3421,3499,
+ 3506,3521,3522,3524,3525,3555,3602,3632,3642,3651,
+ 3659,3667,3753,3767,3801,3811,3880,3886
+]$
+tau_arithprog_primes_seq[7] : transform_threshold_l(tau_steplist_arithprog_primes_seq[7])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(8,n)),'L8),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L8))).
+*/
+tau_steplist_arithprog_primes_seq[8] : [
+ 262,348,664,788,1322,1427,1446,1472,1554,1800,
+ 1880,1934,1978,2116,2260,2405,2436,2567,2572,2650,
+ 2815,2869,3139,3214,3240,3246,3252,3323,3396,3457,
+ 3482,3488,3492,3543,3698,3771,3772,3899,3993,4180,
+ 4218,4305,4310,4317,4384,4404,4432,4502,4503,4516,
+ 4817,4991,5011,5023,5156,5260,5439,5442,5507,5578,
+ 5646,5664,5674,5682,5791,5832,5856,5985,6052,6089,
+ 6140,6142,6245,6259,6326,6341,6456,6483,6492,6604,
+ 6624,6702,6748,6805,6809,6867,7038,7042,7046,7201,
+ 7329,7358,7523,7676,7692,7792,7825,7920,7944,8010,
+ 8023,8048,8075,8275,8276,8307,8415,8432,8465,8471,
+ 8657,8712,8715,8752,8779,8807,8895,8958,8976,9031,
+ 9086,9095,9214,9245,9268,9279,9287,9329,9352,9356,
+ 9388,9426,9453,9459,9491,9721,9766,9856,9870,9872,
+ 9875,9888,9896,9917,10001,10003,10118,10137,10200,10243,
+ 10264,10560,10627,10801,10807,10858,10867,10886,10937,10971,
+ 10990,11093,11103,11109,11153,11160,11173,11184,11222,11309,
+ 11358,11488,11495,11509,11577,11637,11646,11678,11704,11724,
+ 11741,11925,12020,12178,12240,12252,12260,12285,12301,12332,
+ 12426,12436,12701,12736,12798,12805,12813,12889,12938,12944,
+ 13051,13109,13171,13192,13199,13221,13241,13340,13445,13451,
+ 13461,13478,13521,13524,13588,13591,13632,13660,13666,13759,
+ 13841,13842,13872,13946,14041,14054,14065,14109,14171,14253,
+ 14255,14272,14389,14440,14547,14553,14565,14598,14608,14685,
+ 14836,15003,15065,15138,15196,15224,15255,15338,15356,15405,
+ 15406,15424,15458,15514,15543,15545,15592,15624,15661,15683,
+ 15749,15763,15767
+]$
+tau_arithprog_primes_seq[8] : transform_threshold_l(tau_steplist_arithprog_primes_seq[8])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(9,n)),'L9),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L9))).
+*/
+tau_steplist_arithprog_primes_seq[9] : [
+ 288,689,1452,1496,1522,2021,2498,2822,2914,3314,
+ 3601,3774,4136,4550,4652,4710,4773,5121,5629,5704,
+ 6026,6282,6411,6492,6530,6764,6829,6848,6860,7380,
+ 7728,8330,8377,8504,8519,8530,8572,8700,8877,9043,
+ 9153,9180,9341,9396,9457,9526,9681,9755,10129,10424,
+ 10492,10664,10683,11268,11506,11605,11695,11948,12311,12475,
+ 12959,12980,13336,13414,13541,13667,13895,14068,14205,14270,
+ 14279,14736,14836,15088,15431,15433,15789,15861,15900,15966,
+ 16250,16380,16499,16962,17036,17050,17053,17208,17404,17600,
+ 17612,17620,17650,17936,18073,18219,18384,18463,18481,18559,
+ 18580,18596,18680,18736,18853,18959,19452,19560,19717,20020,
+ 20244,20283,20358,20382,20406,20440,20441,20473,20732,20991,
+ 21003,21144,21456,21627,21659,21732,21747,21753,21851,21913,
+ 21965,22198,22387,22761,22771,22796,22819,22882,23133,23214,
+ 23597,23801,23809,23815,24109,24128,24709,24836,24853,25116,
+ 25338,25722,25771,25846,26015,26183,26327,26605,26691,27237,
+ 27276,27485,27631,28081,28159,28247,28410,28830,28957,29109,
+ 29385,29398,29601,29674,29880,30121,30182,30226,30415,30938,
+ 30962,31023,31024,31080,31110,31161,31299,31760,31817,31952,
+ 31969,32051,32235,32412,32475,32623,32930,33098,33118,33258,
+ 33418,33496,33499,33659,33777,33857,34019,34259,34295,34329,
+ 34585,34997,35020,35319,35466,35487,35527,35656,35774,36000,
+ 36014,36279,36284,36323,36400,36877,37066,37361,37666,37702,
+ 37759,37885,38132,38450,38595,38633,38873,38994,39088,39249,
+ 39521,39525,39560,39620,39676,39681,39683,39699,39883,39926,
+ 40012,40109,40334,40378,40618,40635,40691,41024,41047,41215,
+ 41318,41330,41514,41527,41636,41664,41811,41812,41814,42030,
+ 42102,42200,42324,42409,42639,42766,42776,42872,42911,42957,
+ 43059,43360,43368,43488,43584,43821,43951,44121,44122,44148,
+ 44155,44167,44192,44248,44300,44358,44423,44443,44450,44523,
+ 44620,44698,44718,44740,44918,44927,44979,45100,45143,45272,
+ 45333,45412,45784,45874,46059,46100,46160,46271,46305,46482,
+ 46505
+]$
+tau_arithprog_primes_seq[9] : transform_threshold_l(tau_steplist_arithprog_primes_seq[9])$
+/* The following data has been computed by
+   minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(10,n)),'L10),
+   and then using transform_steps_l(map(lambda([d],d[4][1]),reverse(L10))).
+*/
+tau_steplist_arithprog_primes_seq[10] : [
+ 315,5481,5743,7293,9457,11896,12650,12743,13461,13560,
+ 13645,16524,16535,16595,19134,19601,21271,23059,23688,24145,
+ 24255,24351,25006,25326,25348,25491,27020,27790,29149,29618,
+ 30162,30700,30833,31088,34889,34940,35244,36443,38331,38791,
+ 38930,39009,39275,39676,40148,40504,41533,41621,42526,43143
+]$
+tau_arithprog_primes_seq[10] : transform_threshold_l(tau_steplist_arithprog_primes_seq[10])$
+
+
+/* For n <= exactv_tau_arithprog_primes(k) we have stored exact values
+   in tau_arithprog_primes_seq[k]: */
+exactv_tau_arithprog_primes(k) := 
+ if k<=2 or k > exactk_tau_arithprog_primes then 0
+ else length(tau_arithprog_primes_seq[k])$
+
+/* Exact (trivial) formulas (returns unknown if no exact formula applies;
+   for natural numbers k, n): */
+exactf_tau_arithprog_primes(k,n) :=
+ if n < k then 0
+ elseif k=1 then n
+ elseif k=2 then n-1
+ else unknown$
+/* The following inclusion enables simplification of for example
+    exactf_tau_arithprog_primes(k,n):
+*/
+oklib_plain_include(boolsimp)$
+
+/* The pair of nearest n-value downward and its transversal-value where we have
+   exact values stored (using only stored *transversal-values* besides the
+   trivial formulas).
+   Prerequisite: The exact formulas don't apply (directly).
+*/
+nearest_tau_arithprog_primes(k,n) := block(
+ [maxn : exactv_tau_arithprog_primes(k)],
+  if n <= maxn then return([n, tau_arithprog_primes_seq[k][n]])
+  elseif maxn > 0 then return([maxn, tau_arithprog_primes_seq[k][maxn]])
+  else return([k-1,0]))$
+
+/* The best known values (using only stored transversal-values): */
+/* Prerequisites: k, n natural numbers >= 1 */
+tau_arithprog_primes(k,n) := block([e : exactf_tau_arithprog_primes(k,n)],
+ if e#unknown then return(e),
+ block([nn,v],
+   [nn,v] : nearest_tau_arithprog_primes(k,n),
+   if nn=n then return(v)
+   else return([v, (n - nn) + v])))$
+
+
+/* *********************************
+   * Analysing transversal numbers *
+   *********************************
+*/
+
+/* The initial sequence of transversal GT-numbers for progression-length k
+   (as far as there are stored tau-values; the number m of 2's starts with 0).
+   k natural number >= 0.
+*/
+initial_sequence_GTt(k) :=
+  if k > exactk_tau_arithprog_primes then [greentaod1(k)]
+  else create_list(greentaot(m,k),m,0,last(tau_arithprog_primes_seq[k])-1)$
+
 
 /*!
 \endhtmlonly

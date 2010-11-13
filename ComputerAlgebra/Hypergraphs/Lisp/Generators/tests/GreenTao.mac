@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/GreenTao.mac
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
 
 kill(f)$
@@ -84,6 +84,21 @@ okltest_arithprog_primes_ohg(f) := (
   assert(f(3,5) = [[2,3,5,7,11],[{3,5,7},{3,7,11}]]),
   assert(f(3,6) = [[2,3,5,7,11,13],[{3,5,7},{3,7,11}]]),
   assert(f(3,8) = [[2,3,5,7,11,13,17,19],[{3,5,7},{3,7,11},{5,11,17},{3,11,19},{7,13,19}]]),
+  true)$
+
+okltest_arithprog_primes_max_ohg(f) := block(
+  assert(f(0,0) = [[],[{}]]),
+  assert(f(0,1) = [[2],[{}]]),
+  assert(f(1,1) = [[2],[{2}]]),
+  assert(f(1,2) = [[2,3], [{2,3}]]),
+  assert(f(1,3) = [[2,3,5], [{2,3},{2,5},{3,5}]]),
+  assert(f(1,4) = [[2,3,5,7], [{2,3},{2,5},{2,7},{3,5,7}]]),
+  assert(f(2,2) = [[2,3],[{2,3}]]),
+  assert(f(2,3) = [[2,3,5],[{2,3},{2,5},{3,5}]]),
+  assert(f(2,4) = [[2,3,5,7], [{2,3},{2,5},{2,7},{3,5,7}]]),
+  /* XXX */
+  if oklib_test_level = 0 then return(true),
+  assert(setify(map(setify,lappend(map(lambda([P],arithmetic_progressions(listify(P),3)), f(3,100)[2])))) = arithprog_primes_hg(3,100)[2]),
   true)$
 
 

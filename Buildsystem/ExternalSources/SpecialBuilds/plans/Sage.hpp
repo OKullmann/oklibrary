@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,18 +12,34 @@ License, or any later version. */
 
   \todo Update to new Sage
   <ul>
+   <li> Version 4.5.3:
+    <ol>
+     <li> On csltok (Suse 11.3, 64bit Intel i5) we get the error
+     \verbatim
+Thread model: posix
+gcc version 4.5.0 20100604 [gcc-4_5-branch revision 160292] (SUSE Linux) 
+****************************************************
+bash: symbol lookup error: bash: undefined symbol: rl_filename_rewrite_hook
+
+real    0m0.015s
+user    0m0.001s
+sys     0m0.003s
+sage: An error occurred while installing sqlite-3.6.22
+     \endverbatim
+     </li>
+     <li> On cs-wsok (Suse 10.0, 64bit AMD) we get the usual error
+     \verbatim
+make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.5.3/spkg/build/libfplll-3.0.12.p1/src'
+Error building libfplll
+     \endverbatim
+     </li>
+     <li> It is quite unbelievable what a bad software this is --- on no
+     system since version 2.7.2 was a build succesful! </li>
+    </ol>
+   </li>
    <li> Likely the failures below indicate missing "-fPIC"-options to gcc
    in the respective sub-builds; and perhaps this is corrected with
    version 4 of Sage. </li>
-   <li> Building sage-4.2.1 from source on cspcmg (64 bit OpenSUSE 11.1) 
-   works perfectly. MG: How is OK building the package? Is this using the 
-   OKlib build system or just the standard Sage makefile for testing? OK:
-   this is an inappropriate question, since building something in the
-   OKlibrary means always using the buildsystem (if it is available, which
-   is the case here). So apparently MG didn't use the buildsystem? Obviously
-   this needs to be used; information on building outside the buildsystem
-   is obviously useful in case of problems, but only for finding out
-   about the problems. </li>
    <li> On cs-wsok we get a build-error:
    \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
@@ -42,10 +58,22 @@ sage: An error occurred while installing libfplll-3.0.12.p0
    </li>
    <li> Let's wait whether over time the situation improves. </li>
    <li> Still not corrected with Sage 4.2.1. </li>
+   <li> Same with version 4.4.1:
+   \verbatim
+/bin/sh ./libtool --tag=CXX --mode=link g++  -fPIC -I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/include/ -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib   -o libfplll.la -rpath /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -version-info 1:0:1 dummy.lo -lgmp -lmpfr -lmpfr -lgmp -lmpfr -lgmp
+g++ -shared -nostdlib /usr/lib/../lib64/crti.o /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtbeginS.o  .libs/dummy.o  -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libmpfr.so /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libgmp.so -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2 -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../x86_64-unknown-linux-gnu/lib -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 /usr/local/lib/../lib/libstdc++.so -lm -lc -lgcc_s /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtendS.o /usr/lib/../lib64/crtn.o  -Wl,-soname -Wl,libfplll.so.0 -o .libs/libfplll.so.0.1.0
+/usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
+collect2: ld returned 1 exit status
+make[4]: *** [libfplll.la] Error 1
+make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/spkg/build/libfplll-3.0.12.p0/src'
+   \endverbatim
+   </li>
    <li> Now it is impossible to contact Sage without becoming
    a member of "google" --- since this is the same (likely worse) as
    "microsoft", I (OK) don't want to be a "member" of this organisation in
    any form. </li>
+   <li> MG has sent a message to the list asking what the problem
+   could be with the above error. </li>
    <li> So it seems best to drop support for Sage; or just use packages
    which install without further efforts.
     <ol>

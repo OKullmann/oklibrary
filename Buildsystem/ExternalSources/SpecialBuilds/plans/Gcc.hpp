@@ -70,6 +70,27 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    <li> Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
+   <li> Gcc 4.1.2 will not link on some 64 bit systems
+    <ul>
+     <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
+     in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. </li>
+     <li> This is the case for most linux systems following the
+     LSB (Linux Standard Base) conventions however debian-based
+     distributions use the later convention. This results
+     in the linker not finding the libraries during the building
+     of gcc. </li>
+     <li> This has been fixed in later versions of gcc, and there
+     is a patch available (MG: The patch works for me). </li>
+     <li> See http://www.trevorpounds.com/blog/?tag=ubuntu for
+     details and a link to the patch. </li>
+     <li> Of course, the question is whether this patch is really a general
+     improvement, and whether it creates problems with other systems? </li>
+     <li> Those who are interested in this patch need to test it on other
+     systems. </li>
+     <li> And precise information on how to perform the improvements are
+     needed (note that we are using already an altered gcc!). </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -77,17 +98,30 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
-   <li> It seems best to proceed in stages, first installing the latest
-   4.2.x and updating our code, and then installing the latest 4.3.x. </li>
-   <li> And then the latest 4.4.x. </li>
-   <li> Building 4.4.3:
+   <li> It seems best to proceed in stages, first installing 4.2.4 and
+   updating our code, then installing 4.3.5, and then 4.4.4. </li>
+  </ul>
+
+
+  \todo Install GCC 4.3.5
+
+
+  \todo Install GCC 4.4.4
+  <ul>
+   <li> Building 4.4.4:
     <ol>
      <li> Now Gmp and Mpfr is needed. </li>
      <li> For Gmp just use the configure-option
      "--with-gmp=$(gmp_installation_dir_okl)". </li>
+     <li> However, then we have the problem of a circular dependency, since
+     these libraries are built using Gcc! </li>
+     <li> The main question is about the link-library-compatabilities. </li>
     </ol>
    </li>
   </ul>
+
+
+  \todo Install GCC 4.5.1
   
 
   \todo Installation in general

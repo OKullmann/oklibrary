@@ -1,0 +1,125 @@
+/* Oliver Kullmann, 19.8.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Categories/LiteralStructures.mac
+  \brief Literal structures for categories of clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/LiteralStructures.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* ******************************
+   * Boolean literal structures *
+   ******************************
+*/
+
+/*
+  A "boolean literal structure" is a pair [L,inv], where L is a set (the set
+  of "literals") and inv a self-inverse bijection of L (the involution or
+  "complementation").
+
+  Abbreviation: "blitstr".
+
+  Morphisms f: [L,inv] -> [L',inv'] are maps f: L -> L' such that
+  f(inv(x)) = inv'(f(x)) for all x in L.
+*/
+
+/* Checking whether L is a blitstr: */
+blitstr_p(L) := 
+  listp(L) and is(length(L)=2) and 
+  setp(first(L)) and
+  is(map(second(L),first(L)) = first(L)) and
+  every_s(lambda([x], is(second(L)(second(L)(x)) = x)), first(L))$
+
+/* Checking whether the blitstr L has a self-complementary literal: */
+has_scl_blitstr_p(L) := some_s(lambda([x], is(second(L)(x) = x)), first(L))$
+
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+/* Checking whether the blitstr's L1 and L2 are equal: */
+blitstr_equalp(L1,L2) :=
+  is(first(L1) = first(L2)) and
+  every_s(lambda([x], is(second(L1)(x) = second(L2)(x))), first(L1))$
+
+
+/* *************
+   * Morphisms *
+   *************
+*/
+
+/* Checking whether f is a blitstr-morphism from L1 to L2: */
+morphism_blitstr_p(f,L1,L2) :=
+  every_s(lambda([x], elementp(f(x), first(L2)) and
+            is(f(second(L1)(x)) = second(L2)(f(x)))),
+          first(L1))$
+
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+/* The (unique) initial object (the empty blitstr): */
+initial_blitstr : [{},identity]$
+
+/* The terminal object, using the (self-complementary) literal []: */
+terminal_blitstr : [{[]},identity]$
+
+/* The boolean blitstr, with two literal 0, 1: */
+bool_blitstr : [{0,1},lambda([x],1-x)]$
+
+/* The free blitstr over the set X, with literal-set X x {0,1}: */
+free_blitstr(X) := [cartesian_product(X,{0,1}), lambda([x], [first(x),1-second(x)])]$
+
+/* The cofree blitstr over the set X, with literal-set X x X: */
+cofree_blitstr(X) := [cartesian_product(X,X), lambda([x], reverse(x))]$
+
+/* The product-blitstr of the list LL of blitstr's: */
+product_blitstr(LL) := 
+  [apply(corr_cartesian_product,map('first,LL)),
+   buildq([I : map('second,LL)], lambda([x], map('apply, I, map("[",x))))]$
+/* The projections belonging to component i: */
+projection_product_blitstr(i) :=
+  buildq([i],lambda([x],x[i]))$
+
+/* The coproduct-blitstr of the list LL of blitstr's: */
+coproduct_blitstr(LL) :=
+  [set_sum(map(first,LL)),
+   buildq([I : map('second,LL)], lambda([x], [I[second(x)](first(x)), second(x)]))]$
+/* The injections belonging to component i: */
+injection_coproduct_blitstr(i) :=
+  buildq([i],lambda([x],[x,i]))$
+
+
+/* ****************
+   * Translations *
+   ****************
+*/
+
+/* Converting a set of boolean literals into a blitstr (if 0 is in L,
+   then we obtain the self-complementary literal 0):
+*/
+sl2blitstr(L) := [union(L,map("-",L)), lambda([x],-x)]$
+
+/*!
+\endhtmlonly
+*/

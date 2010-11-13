@@ -454,7 +454,7 @@ for bits_to_remove : 0 thru 128 do block([PA],
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
-   tested by "eval_ubcsat" (see 
+   tested by "run_ubcsat" (see 
    Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R) </li>
    <li> Presumably local search will not do well on AES instances compared to 
    DPLL/CDCL solvers, as often local search solvers perform

@@ -1,0 +1,64 @@
+/* Oliver Kullmann, 8.5.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/GreenTao/tests/Asymptotics.mac
+  \brief Tests for functions related to asymptotic estimations
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/tests/Asymptotics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+/* *********************************************
+   * The formula from [Grosswald. Hagis, 1979] *
+   *********************************************
+*/
+
+okltest_C_gh_fin(f) := (
+  assert(f(2) = 1),
+  assert(f(3) = 3/2),
+  assert(f(4) = 9/2),
+  assert(f(5) = 3375/512),
+  /* XXX */
+  true)$
+
+okltest_C_gh_inf(f) := (
+  for max_p : 2 thru 7 do
+    assert(f(2,max_p) = 1),
+  assert(f(3,3) = 1),
+  assert(f(3,4) = 1),
+  assert(f(3,5) = 5^1*(5-3+1)/4^2),
+  assert(f(3,6) = f(3,5)),
+  /* XXX */
+  true)$
+
+okltest_C_gh_inf_hp(f) := block([fpprec : 30],
+  for max_p : 2 thru 7 do
+    assert_bfloat_equal(f(2,max_p), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,3), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,4), bfloat(1), fpprec),
+  assert_bfloat_equal(f(3,5), bfloat(5^1*(5-3+1)/4^2), fpprec),
+  assert(f(3,6) = f(3,5)),
+  /* XXX */
+  true)$
+
+
+
+/*!
+\endhtmlonly
+*/

@@ -7,8 +7,9 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Competition/plans/general.hpp
-  \brief Plans for the module on the evaluation of the SAT-2005 competition
-  (and its general useage)
+  \brief Plans for the module on evaluations of SAT competitions (in general, including "competitions" in articles)
+
+  Especially we have code to evaluate according to the SAT-2005 rules.
 
 
   \todo Update namespaces
@@ -42,8 +43,9 @@ License, or any later version. */
    module. </li>
    <li> Implement at R level the methods for evaluating R competitions from
    [Pulina, Empirical Evaluation of Scoring Methods, 2006]. </li>
-   <li> Implement at R level the methods from Mladen Nikolic 2010. </li>
-   <li> The SET-project shall start end of April 2010. </li>
+   <li> DONE (moved to Experimentation/Competition/TwoSolverComparison)
+   Implement at R level the methods from Mladen Nikolic 2010; see
+   Competition/TwoSolverComparison/plans/TwoSolverComparison.hpp. </li>
   </ul>
 
 

@@ -9,26 +9,16 @@ License, or any later version. */
   \file Reductions/FailedLiteralReduction/plans/general.hpp
   \brief Plans for the module FailedLiteralReduction
 
-
-  The general case is handled in module KLevelForcedAssignments (see
-  KLevelForcedAssignments/plans/general.hpp), while this module considers
-  the case K=2 and extensions (with special algorithms etc.), including
-  k=3.
-
-
-  \todo Update namespaces.
-
-
-  \todo Foundations
+  Overview:
   <ul>
-   <li> Clarify the relations to modules
-    <ul>
-     <li> KLevelForcedAssignments: This module considers variations on K=2 and
-     K=3, while KLevelForcedAssignments considers arbitrary K. </li>
-     <li> Resolution </li>
-    </ul>
+   <li> Reduction r_2 and (close) extensions are handled here (up to r_3).
    </li>
-   <li> See the ComputerAlgebra-part. </li>
+   <li> The general case r_k is handled in module KLevelForcedAssignments (see
+   KLevelForcedAssignments/plans/general.hpp). </li>
+   <li> While the case r_1 is handled in module UnitClausePropagation (see
+   UnitClausePropagation/plans/general.hpp). </li>
+   <li> For the Maxima-level see
+   Satisfiability/Lisp/Reductions/plans/FailedLiteralReduction.hpp. </li>
   </ul>
 
 
@@ -84,11 +74,6 @@ License, or any later version. */
    investigation. </li>
   </ul>
    
-
-
-  \todo Reduction uses already lazy datastructures, and we can also employ
-  watched literals here (which are integrated into the occurrences lists).
-
 
   \todo Local learning
   <ul>
@@ -183,12 +168,19 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::FailedLiteralReduction
+  \namespace OKlib::Satisfiability::Reductions::FailedLiteralReduction
   \brief Components around the r_2-reduction
+
+  Alias "Flr".
 */
 
 namespace OKlib {
-  namespace FailedLiteralReduction {
+  namespace Satisfiability {
+    namespace Reductions {
+      namespace FailedLiteralReduction 
+      }
+      namespace Flr = FailedLiteralReduction;
+    }
   }
 }
 

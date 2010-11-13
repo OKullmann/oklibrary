@@ -1,0 +1,134 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac
+  \brief Tests for the AES constraint template rewrite system.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+/* ********************************************
+   * Rewrite system functions                 *
+   ********************************************
+*/
+
+okltest_cstt_namespace_new(f) := block(
+  assert(
+    f(lambda([[a]],a),["",[],[],lambda([a],a)])(0) = [0,["",[],lambda([a],a)]]),
+  assert(f(nounify(f),["",[],[],lambda([a],a)])(0) = nounify(f)(0,["",[],lambda([a],a)])),
+  assert(f(lambda([[a]],a),["",[],[],nounify(f1)])(0) = nounify(f1)([0,["",[],nounify(f1)]])),
+  assert(f(nounify(f2),["",[],[],nounify(f1)])(0) = nounify(f1)(nounify(f2)(0,["",[],nounify(f1)]))),
+  assert(f(nounify(f2),[1,[],[],nounify(f1)])(0) =
+    nounify(f1)(nounify(f2)(0,[1,[],nounify(f1)]))),
+  true)$
+
+okltest_cstt_replace_namespace(f) := block(
+  assert(f([1,2,'m],'n)  = [1,2,'n]),
+  true)$
+
+/****************************
+ * Constraints              *
+ ****************************
+*/
+
+okltest_cstt_new(f) := block(
+  assert(f("f",[],[], lambda([a],a)) = ["f",[],lambda([a],a)]),
+  for i : 0 thru 5 do
+    assert(f("f",[i],[],lambda([a],a)) = ["f",[i],lambda([a],a)]),
+  for i : 0 thru 5 do
+    assert(f("f",[],[i],lambda([a],a)) = ["f",[],i,lambda([a],a)]),
+  assert(f("f", [1,2,3],[],'n) = ["f",[1,2,3],'n]),
+  assert(f("f", [1,2],[3,4],'n) = ["f",[1,2],3,4,'n]),
+  true)$
+
+okltest_cstt_name(f) := block(
+  assert(f([""]) = ""),
+  assert(f(["test"]) = "test"),
+  assert(f(["test1","test2"]) = "test1"),
+  true)$
+
+okltest_cstt_vars_l(f) := block(
+  assert(f([]) = []),
+  assert(f([1]) = []),
+  assert(f(["",[]]) = []),
+  assert(f(["",""]) = []),
+  assert(f(["",['a,'b]]) = ['a,'b]),
+  true)$
+
+okltest_cstt_args_l(f) := block(
+  assert(f([]) = []),
+  assert(f([1,2]) = []),
+  assert(f(["",[]]) = []),
+  assert(f(["","",""]) = []),
+  assert(f(["",[],['a,'b]]) = ['a,'b]),
+  true)$
+
+okltest_cstt_namespace_f(f) := block(
+  assert(f([])(0) = 0),
+  assert(f([1,2])(0) = 0),
+  assert(f([1,2,3])(0) = 0),
+  assert(f(["",[]])(0) = 0),
+  assert(f(["","",""])(0) = 0),
+  assert(f(["",[],['a,'b],lambda([a],2)])(0) = 2),
+  true)$
+
+okltest_cstt_p(f) := block(
+  assert(not(f([]))),
+  assert(not(f([[]]))),
+  assert(not(f(["test"]))),
+  assert(f(["test",[]])),
+  true)$
+
+okltest_cstt_named_p(f) := block(
+  assert(not(f([],""))),
+  assert(not(f([[]],""))),
+  assert(not(f(["test"],""))),
+  assert(not(f(["test",[]],"test2"))),
+  assert(f(["test",[]],"test")),
+  true)$
+
+/********************************
+ * Rewrite functions            *
+ ********************************
+*/
+
+okltest_rewrite_all_csttl(f) := block([test_ctrb],
+  assert(f([],[]) = []),
+  assert(f([["f",[],'n],["g",[],'m]],[]) = [["g",[],'m],["f",[],'n]]),
+  test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
+               lambda([a],a),lambda([a],a)],
+  assert(f([["x",[1,2,3],'n]], [["x",test_ctrb]]) =
+    [["f1",[1,2,3],'n]]),
+  true)$
+
+okltest_rewrite_all_cstt_vars_l(f) := block([test_ctrb,cst_t],
+  assert(f([],[]) = []),
+  assert(f([["f",[],'n],["g",[],'m]],[]) = []),
+  test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
+               lambda([a],a),lambda([a],
+                 if a = cst_t then [1] else assert(false))],
+  cst_t : ["x",[1,2,3],'n],
+  assert(f([cst_t], [["x",test_ctrb]]) =
+    [1]),  
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

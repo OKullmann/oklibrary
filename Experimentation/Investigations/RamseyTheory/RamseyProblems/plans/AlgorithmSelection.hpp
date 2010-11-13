@@ -25,14 +25,14 @@ License, or any later version. */
    <li> This "lumped together" approach also makes it easy to make quick 
    comparisons across different "n" to see how each algorithm scales and to 
    make quick plots to analyse this. </li>
-   <li> Some initial testing, using the "eval_ubcsat" 
+   <li> Some initial testing, using the "run_ubcsat" 
    (see Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R),
    investigating parameter tuple [5,5;2] for 30 <= n <= 33,
    with runs=3, cutoff=1000:
    \verbatim
 ramsey_cnfs <- list.files(".","Ramsey.*\\.cnf$")
 for (ramsey_cnf in ramsey_cnfs) {
-  result_df <- eval_ubcsat(ramsey_cnf)
+  result_df <- run_ubcsat(ramsey_cnf)
   result_df <- add_constant_column(result_df, ramsey_cnf, "input")
   if (exists("ramsey_df")) {
     ramsey_df <- rbind(ramsey_df, result_df)

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.6.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,7 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Basics.mac");
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
 
 
 /* *************************************
@@ -70,11 +71,101 @@ transversals_bes_(L,B) := if emptyp(L) then [{}]
       add_element_l(a,transversals_bes_(remove_with_element_l(L,a),B-1)),
       transversals_bes_(sort_length(setdifference2e(L,a)),B)))))$
 
-/* Application: Given a monoton hypergraph generator mongen(n) (monoton w.r.t.
+
+/* ********************************
+   * Finding minimum transversals *
+   ********************************
+*/
+
+/* Here we consider the applications of the the previous algorithms. */
+
+/* Given a hypergraph G without empty hyperedge and a (known) 
+   lower bound lb on the size of a minimum transversal, compute the list of
+   minimum transversals by using B = lb, B+1, ...
+*/
+minimum_transversals_lbbvs_hg(G,lb) := block(
+ [L : sort_length(listify(G[2])), M],
+  if oklib_monitor then 
+    print("minimum_transversals_lbbvs_hg: ", length(lunion(L)), length(L), lb),
+  M : transversals_bes(L,lb),
+  while emptyp(M) do (
+    if oklib_monitor then printf(true,"~d ",lb),
+    lb : lb + 1, M : transversals_bes(L,lb)
+  ),
+  if oklib_monitor then printf(true,"~%"),
+  return(M))$
+minimum_transversals_bvs_hg(G) := minimum_transversals_lbbvs_hg(G,0)$
+
+/* The "decomposed list of all minimum transversals" of a hypergraph G is the
+   list L of hypergraphs of minimum transversals of disjoint_union_rep_hg(G).
+   Prerequisite: G does not contain the empty hyperedge.
+*/
+decomp_minimum_transversals_bvs_hg(G) := block([D : disjoint_union_rep_hg(G)],
+ map("[", map(first,D), map(setify,map(minimum_transversals_bvs_hg, D))))$
+/* Extracting the number of minimum transversals of the components: */
+extract_num_minimum_transversals_decomp(L) := map(nhyp_hg,L)$
+/* Extracting the size of minimum transversals of the components: */
+extract_size_minimum_transversals_decomp(L) := 
+ map(lambda([G],length(choose_element(G[2]))), L)$
+/* The size, total number of minimum transversals, and the number of
+   connected components, computed using decomposition:
+*/
+stat_minimum_transversals_bvsdecomp_hg(G) := block(
+ [T : decomp_minimum_transversals_bvs_hg(G)],
+  [sum_l(extract_size_minimum_transversals_decomp(T)),
+   prod_l(extract_num_minimum_transversals_decomp(T)),
+   length(T)])$
+/* Extracting the set of minimum transversals from the decomposed list: */
+extract_minimum_transversals_decomp(L) :=
+ map(lunion,apply(corr_cartesian_product, map(second,L)))$
+/* Computing the set of all minimum transversals, using decomposition: */
+minimum_transversals_bvsdecomp_hg(G) :=
+ extract_minimum_transversals_decomp(decomp_minimum_transversals_bvs_hg(G))$
+   
+/* For the hypergraph generator gen_(n), applied to n = 1, ..., N, compute
+   via stat_minimum_transversals_bvsdecomp_hg the transversal number, the
+   number of minimum transversals, and the number of connected components, and
+   store them together with n, the number of vertices and the number of
+   hyperedges in the list L (which needs to be passed unevaluated).
+   In case the hyperedge-set changes from n to n+1, these numbers are also
+   printed out. L is not initialised, and results are appended to the
+   beginning. So L should be normally be initialised to [], and reading off
+   the results happens via reverse(L).
+   For the correct computation of the number of connected components it is
+   assumed, that the vertex-sets weakly monotonically increase with n.
+*/
+minimum_transversals_decomp_gen(N,gen_, _L) := block(
+ [G0 : [false,false], nver, nhyp, s, add],
+  for n : 1 thru N do block([G1 : gen_(n)],
+    if G1[2] # G0[2] then (
+      s : stat_minimum_transversals_bvsdecomp_hg(G1),
+      nver : nver_hg(G1), nhyp : nhyp_hg(G1), add : 0,
+      print(n, nver, nhyp, s)
+    )
+    else block([new_nver : nver_hg(G1)],
+      add : add + new_nver - nver, nver : new_nver
+    ),
+    _L :: cons([n, nver, nhyp, [s[1],s[2],s[3]+add]], ev(_L)),
+    G0 : G1
+  ),
+  N)$
+/* Remark: This form of computation is especially appropriate if the
+   hypergraphs are "sparse", and decompose into relatively small components.
+*/
+
+
+/* *********************************
+   * Monotone hypergraph sequences *
+   *********************************
+*/
+
+/* Given a monoton hypergraph generator mongen(n) (monoton w.r.t.
    the hyperedge sets), such that MT0 is a non-empty list of (all) the minimum
    transversals of mongen(0), and where mongen(n+1) has (exactly) one node
    more than mongen(n), and this node occurs in all new edges, compute the
    list of lists of (all) minimum transversals for n = 0, ..., N.
+   The algorithm uses the set of (all) minimum transversals from the previous
+   step in the obvious way.
 */
 minimum_transversals_mongen(N,mongen_,MT0) := 
  block([L : [MT0], t : length(first(MT0)), G0 : mongen_(0)],
@@ -94,8 +185,14 @@ minimum_transversals_mongen(N,mongen_,MT0) :=
   ),
   return(reverse(L)))$
 
-/* The special case where the set of minimum transversals of a hypergraph
-   G is computed through stratification via the list L of vertices.
+
+/* *********************************
+   * Stratification of hypergraphs *
+   *********************************
+*/
+
+/* Computing the set of minimum transversals of a hypergraph G through
+   stratification via the list L of vertices.
    Note that an empty hyperedge in G is ignored.
 */
 minimum_transversals_stratabvs_hg(G,L) :=
@@ -123,24 +220,6 @@ minimum_transversals_stratavdegbvs_hg(G) :=
  minimum_transversals_stratabvs_hg(G, map(first,sorted_vertex_degrees_hg(G)))$
 minimum_transversals_stratavdegbvs_ohg(G) :=
  minimum_transversals_stratabvs_hg(G, map(first,sorted_vertex_degrees_ohg(G)))$
-
-
-/* Application: Given a hypergraph G without empty hyperedge and a (known) 
-   lower bound lb on the size of a minimum transversal, compute the list of
-   minimum transversals by using B = lb, B+1, ...
-*/
-minimum_transversals_lbbvs_hg(G,lb) := block(
- [L : sort_length(listify(G[2])), M],
-  if oklib_monitor then 
-    print("minimum_transversals_lbbvs_hg: ", length(lunion(L)), length(L), lb),
-  M : transversals_bes(L,lb),
-  while emptyp(M) do (
-    if oklib_monitor then printf(true,"~d ",lb),
-    lb : lb + 1, M : transversals_bes(L,lb)
-  ),
-  if oklib_monitor then printf(true,"~%"),
-  return(M))$
-minimum_transversals_bvs_hg(G) := minimum_transversals_lbbvs_hg(G,0)$
 
 
 /*!

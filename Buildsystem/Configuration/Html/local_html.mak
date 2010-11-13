@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -52,6 +52,9 @@ developers_output ?= $(local_html_dir)/Developers.html
 
 tenchallenges_page_template ?= $(OKbuildsystem)/Html/Local/TenChallenges.html
 tenchallenges_page_output ?= $(local_html_dir)/TenChallenges.html
+ramseytheory_page_template ?= $(OKbuildsystem)/Html/Local/RamseyTheory.html
+ramseytheory_page_output ?= $(local_html_dir)/RamseyTheory.html
+
 
 tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_b55738ceb3ad8c72f043b1e52bad8405.html
 
@@ -73,5 +76,5 @@ usermaxima_docu_page_okl ?= $(doc_dir)/doxygen_html/d0/d69/ComputerAlgebra_2docu
 
 main_demo_page ?= $(doc_dir)/doxygen_html/de/d71/OKlib_2demos_2general_8hpp.html
 
-licence_docu_page ?= $(doc_dir)/doxygen_html/d9/da9/OKlib_2System_2LegalIssues_2docus_2general_8hpp.html
+licence_docu_page ?= $(doc_dir)/doxygen_html/d2/d59/OKlib_2System_2LegalIssues_2docus_2general_8hpp.html
 

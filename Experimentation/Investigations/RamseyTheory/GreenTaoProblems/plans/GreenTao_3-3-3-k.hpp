@@ -282,7 +282,7 @@ CPU time              : 2.89452e+06 s
      weak standard nested translation. </li>
      <li> Best Ubcsat-solver:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-3-3-4_434.cnf", params=list(runs=100,cutoff=1000000))
+> E = run_ubcsat("GreenTao_N_3-3-3-4_434.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -621,7 +621,7 @@ E = read_ubcsat("GreenTao_3-3-3-5_1930.cnf_OUT3")
      (seed=2316712870, osteps=1698213). </li>
      <li> Best ubcsat-solver: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best):
      \verbatim
@@ -764,6 +764,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
   1   2   3   4   5   6   7
   6  63 163 178  80   9   1
 500
+  1   2   3   4   5   6   7
+ 10  76 201 250 104   9   1
+651
      \endverbatim
      </li>
      <li> rnovelty+, cutoff=2*10^8:
@@ -778,6 +781,9 @@ E = eval_ubcsat("GreenTao_N_3-3-3-5_1940.cnf", params=list(runs=200,cutoff=10000
  1  2  3  4
  9 53 79 15
 156
+ 1  2  3  4
+ 8 63 83 10
+164
      \endverbatim
      </li>
     </ol>

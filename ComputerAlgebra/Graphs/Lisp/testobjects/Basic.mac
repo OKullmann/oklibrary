@@ -60,9 +60,11 @@ okltest_gr_equalp(gr_equalp);
    **************
 */
 
+okltest_g2mug(g2mug);
 okltest_gl2mugl(gl2mugl);
 okltest_g2gg(g2gg);
 okltest_gl2gg(gl2gg);
+okltest_mug2gg(mug2gg);
 okltest_mugl2gg(mugl2gg);
 
 okltest_ogl2omugl(ogl2omugl);
@@ -76,16 +78,20 @@ okltest_mug2omug(mug2omug);
 okltest_mugl2omugl(mugl2omugl);
 okltest_gg2ogg(gg2ogg);
 
+okltest_dg2mudg(dg2mudg);
 okltest_dgl2mudgl(dgl2mudgl);
+okltest_dg2gdg(dg2gdg);
 okltest_dgl2gdg(dgl2gdg);
 okltest_mudgl2gdg(mudgl2gdg);
 
 okltest_odgl2omudgl(odgl2omudgl);
+okltest_odg2ogdg(odg2ogdg);
 okltest_odgl2ogdg(odgl2ogdg);
 okltest_omudgl2ogdg(omudgl2ogdg);
 
 okltest_dg2odg(dg2odg);
 okltest_dgl2odgl(dgl2odgl);
+okltest_mudg2omudg(mudg2omudg);
 okltest_mudgl2omudgl(mudgl2omudgl);
 okltest_gdg2ogdg(gdg2ogdg);
 
@@ -94,6 +100,37 @@ okltest_gdg2ogdg(gdg2ogdg);
    *************
 */
 
+okltest_mug2g(mug2g);
+okltest_mugl2gl(mugl2gl);
+okltest_gg2gl(gg2gl);
+okltest_gg2mugl(gg2mugl);
+
+okltest_omug2og(omug2og);
+okltest_omugl2ogl(omugl2ogl);
+okltest_ogg2ogl(ogg2ogl);
+okltest_ogg2omugl(ogg2omugl);
+
+okltest_og2g(og2g);
+okltest_ogl2gl(ogl2gl);
+okltest_omug2mug(omug2mug);
+okltest_omugl2mugl(omugl2mugl);
+okltest_ogg2gg(ogg2gg);
+
+okltest_mudg2dg(mudg2dg);
+okltest_mudgl2dgl(mudgl2dgl);
+okltest_gdg2dgl(gdg2dgl);
+okltest_gdg2mudgl(gdg2mudgl);
+
+okltest_omudg2odg(omudg2odg);
+okltest_omudgl2odgl(omudgl2odgl);
+okltest_ogdg2odgl(ogdg2odgl);
+okltest_ogdg2omudgl(ogdg2omudgl);
+
+okltest_odg2dg(odg2dg);
+okltest_odgl2dgl(odgl2dgl);
+okltest_omudg2mudg(omudg2mudg);
+okltest_omudgl2mudgl(omudgl2mudgl);
+okltest_ogdg2gdg(ogdg2gdg);
 
 /* ***************
    * Conversions *
@@ -113,10 +150,11 @@ okltest_dgl2gl(dgl2gl);
 okltest_odgl2ogl(odgl2ogl);
 okltest_gdg2gg(gdg2gg);
 okltest_ogdg2ogg(ogdg2ogg);
+okltest_mudg2mug(mudg2mug);
 
 okltest_g2dg(g2dg);
 okltest_gl2dgl(gl2dgl);
-
+okltest_mug2mudg(mug2mudg);
 
 /* **************************
    * Basic graph operations *
@@ -128,13 +166,35 @@ okltest_expand_edge(expand_edge);
 okltest_neighbours_g(neighbours_g);
 okltest_neighbours_gl(neighbours_gl);
 okltest_neighbours_gg(neighbours_gg);
+okltest_outneighbours_dg(outneighbours_dg);
+okltest_outneighbours_dgl(outneighbours_dgl);
+okltest_inneighbours_dg(inneighbours_dg);
+okltest_inneighbours_dgl(inneighbours_dgl);
+
+okltest_remove_vertices_gl(remove_vertices_gl);
 
 /* *****************************
    * Basic graph constructions *
    *****************************
 */
 
+okltest_edge_induced_subgraph_g(edge_induced_subgraph_g);
+okltest_edge_induced_subgraph_gl(edge_induced_subgraph_gl);
+okltest_edge_induced_subgraph_mug(edge_induced_subgraph_mug);
+okltest_edge_induced_subgraph_mugl(edge_induced_subgraph_mugl);
 okltest_edge_induced_subgraph_gg(edge_induced_subgraph_gg);
+okltest_edge_induced_subgraph_dg(edge_induced_subgraph_dg);
+okltest_edge_induced_subgraph_dgl(edge_induced_subgraph_dgl);
+okltest_edge_induced_subgraph_mudg(edge_induced_subgraph_mudg);
+okltest_edge_induced_subgraph_mudgl(edge_induced_subgraph_mudgl);
+okltest_edge_induced_subgraph_gdg(edge_induced_subgraph_gdg);
+
+okltest_complement_g(complement_g);
+
+okltest_transposed_dg(transposed_dg);
+okltest_transposed_dgl(transposed_dgl);
+okltest_transposed_odg(transposed_odg);
+okltest_transposed_odgl(transposed_odgl);
 
 /* **********
    * Tests  *
@@ -155,6 +215,22 @@ okltest_irreflexive_ogl(irreflexive_ogl);
 okltest_irreflexive_omugl(irreflexive_omugl);
 okltest_irreflexive_ogg(irreflexive_ogg);
 
+okltest_orientedgraph_dg_p(orientedgraph_dg_p);
+okltest_orientedgraph_dgl_p(orientedgraph_dgl_p);
+okltest_orientedgraph_odg_p(orientedgraph_odg_p);
+okltest_orientedgraph_odgl_p(orientedgraph_odgl_p);
+
+okltest_complete_g_p(complete_g_p);
+okltest_complete_gl_p(complete_gl_p);
+okltest_complete_og_p(complete_og_p);
+okltest_complete_ogl_p(complete_ogl_p);
+okltest_complete_mug_p(complete_mug_p);
+okltest_complete_mugl_p(complete_mugl_p);
+okltest_complete_omug_p(complete_omug_p);
+okltest_complete_omugl_p(complete_omugl_p);
+okltest_complete_gg_p(complete_gg_p);
+okltest_complete_ogg_p(complete_ogg_p);
+
 okltest_dominating_vertex_g_p(dominating_vertex_g_p);
 okltest_dominating_vertex_gl_p(dominating_vertex_gl_p);
 
@@ -162,12 +238,34 @@ okltest_has_dominating_vertex_g(has_dominating_vertex_g);
 okltest_has_dominating_vertex_gl(has_dominating_vertex_gl);
 
 okltest_connected_g_p(connected_g_p);
+okltest_connected_og_p(connected_og_p);
+okltest_connected_mug_p(connected_mug_p);
+okltest_connected_omug_p(connected_omug_p);
+okltest_connected_gg_p(connected_gg_p);
+okltest_connected_ogg_p(connected_ogg_p);
+okltest_connected_gl_p(connected_gl_p);
+okltest_connected_ogl_p(connected_ogl_p);
+okltest_connected_mugl_p(connected_mugl_p);
+okltest_connected_omugl_p(connected_omugl_p);
+
+okltest_sconnected_dg_p(sconnected_dg_p);
+okltest_sconnected_odg_p(sconnected_odg_p);
+okltest_sconnected_mudg_p(sconnected_mudg_p);
+okltest_sconnected_omudg_p(sconnected_omudg_p);
+okltest_sconnected_gdg_p(sconnected_gdg_p);
+okltest_sconnected_ogdg_p(sconnected_ogdg_p);
+okltest_sconnected_dgl_p(sconnected_dgl_p);
+okltest_sconnected_odgl_p(sconnected_odgl_p);
+okltest_sconnected_mudgl_p(sconnected_mudgl_p);
+okltest_sconnected_omudgl_p(sconnected_omudgl_p);
 
 okltest_regular_g_p(regular_g_p);
 okltest_regular1_gg_p(regular1_gg_p);
 okltest_regular2_gg_p(regular2_gg_p);
 
 okltest_cycle_gg_p(cycle_gg_p);
+
+okltest_bipartite_g_p(bipartite_g_p);
 
 okltest_completebipartite_g_p(completebipartite_g_p);
 okltest_completebipartite_gl_p(completebipartite_gl_p);

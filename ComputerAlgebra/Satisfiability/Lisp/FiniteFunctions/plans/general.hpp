@@ -108,6 +108,32 @@ License, or any later version. */
   </ul>
 
 
+  \todo And-inverter graphs (AIGs)
+  <ul>
+   <li> AIG's represent boolean functions; they are directed graphs with two
+   types of nodes, terminal vertices, with outdegree zero and labelled by
+   variables, and and-nodes, with out-degree one and arbitrary in-degree. </li>
+   <li> Additionally edges can be labelled as "negations". </li>
+   <li> So these are just general circuits, only using negation and binary
+   conjunction. </li>
+   <li> The computation starts at the terminal nodes, and moves backwards.
+   </li>
+   <li> How to represent such digraphs?
+    <ol>
+     <li> One possibility is the straight-line format, that is, we do not use
+     explicit digraphs, but just "node-lists". </li>
+     <li> Or we use general digraphs, where the vertices are either variables
+     or otherwise and-nodes, and where edges are either "positive" or
+     "negative". </li>
+    </ol>
+   </li>
+   <li> See http://en.wikipedia.org/wiki/And-inverter_graph for general
+   information. </li>
+   <li> Regarding external sources, see (at least) "Aiger" and "ABC" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp. </li>
+  </ul>
+
+
   \todo DONE (we just use full clause-sets)
   Boolean functions represented by sets of satisfied/falsified inputs
   <ul>

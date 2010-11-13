@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,47 +12,77 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Misplaced eval_ubcsat
+  \bug Incomplete evaluation
   <ul>
-   <li> eval_ubcsat is misplaced in Evaluation.R. </li>
-   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
+   <li> When running the example as given in DataCollection.R, then we get
+   \verbatim
+OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
+adaptnoveltyp.run_ubcsat_log
+adaptnoveltyp.run_ubcsat_result
+adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats
+gsat.run_ubcsat_log
+gsat.run_ubcsat_result
+gsat_simple.run_ubcsat_log
+   \endverbatim
    </li>
-   <li> After moving this function (and accompanying code), the todos below
-   needs to be updated. </li>
+   <li> Thus the evaluation of gsat is incomplete. </li>
   </ul>
 
 
-  \bug Bad documentation for eval_ubcsat
+  \bug run_ubcsat can't handle segmentation faults
   <ul>
-   <li> When examples are given, then they need to be reproducible (as much
-   as possible). </li>
-   <li> A cutoff=1 is nonsense. </li>
-   <li> The attributes of the resulting dataframe need to be specified more
-   precisely; what are their data types? </li>
-   <li> DONE
-   Reference to "standard output" is wrong here, since the output appears
-   in the R-terminal. It is also not explained what that output is. </li>
-   <li> Nowhere are the created files mentioned?? One needs the specification
-   of their names and their contents. And it should be possible to disable them
-   (likely this should be the default); that is, if these files are needed,
-   then by default they should be "temporary" files. </li>
-   <li> These files must also not pollute the user-directory; so they should
-   all be placed in some created directory. </li>
-   <li> And obviously, it needs to be possible just to evaluate the files,
-   without generating them --- so *two* functions are needed. </li>
-   <li> The examples don't show the important step that the computed dataframe
-   MUST BE STORED. </li>
+   <li> The given example in DataCollection.R produces segmentation faults
+   on csltok for saps and rsaps. </li>
+   <li> The other algorithms are still evaluated, but then an error occurs,
+   and no dataframe is created. </li>
+   <li> The dataframe should likely just not contain anything on these two
+   algorithms (while otherwise being usable). </li>
+   <li> And warnings should be issued on the faulty algorithms. </li>
   </ul>
 
 
-  \bug Bad columns produced by eval_ubcsat
+  \bug Bad parameter of run_ubcsat XXX STATUS ???
   <ul>
-   <li> The column-names should be identical to the names used by ubcsat (in
-   the output!). </li>
-   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
-   msteps". </li>
+   <li> It needs to be specified what are the defaults. </li>
+   <li> A *concept* for the input handling is needed, not just a hack. </li>
+   <li> Bad algorithms specification:
+    <ol>
+     <li> The algorithms-specification via e.g.,
+     include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
+     is awkward: the doubling of names must be eliminated. </li>
+     <li> As discussed, standard abbreviations need to be introduced for
+     the algorithms. </li>
+    </ol>
+   </li>
+   <li> DONE Collecting the parameters in a list is inappropriate, but just 
+   the standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
+  </ul>
+
+
+  \todo Handling of temporary files XXX STATUS ???
+  <ul>
+   <li> Nowhere are the created files mentioned?? One needs the 
+   specification of their names and their contents. And it should be possible 
+   to disable them (likely this should be the default); that is, if these 
+   files are needed, then by default they should be "temporary" files. </li>
+   <li> The temporary files are current placed in a directory created by 
+   run_ubcsat, specified by the tmp_directory parameter, which defaults
+   to run_ubcsat_temp_dir, taking the filename (not path) as an argument. 
+   </li>
+   <li> The directory is not currently deleted after run_ubcsat is complete,
+   allowing the data to be reread again using read_ubcsat_dir, or for
+   the user to evaluate the statistics and log files. </li>
+  </ul>
+
+
+  \bug Bad columns produced by run_ubcsat XXX STATUS ???
+  <ul>
    <li> "Clauses", "Variables" and other constant measures should not show up
-   in such dataframes. </li>
+   in such dataframes. (MG: This could be done by just adding a field to the 
+   dataframe.) </li>
    <li> For the data which is constant per algorithm, a second dataframe
    should be returned. </li>
    <li> There is no need to have more or less of these parameters --- we need
@@ -63,14 +93,19 @@ License, or any later version. */
    *factor*, with values given by strings? In any case, its use must be
    documented. </li>
    <li> Access to the factor levels should be possible through the variable
-   eval_ubcsat_cnf_algs, however this is not possible. </li>
+   run_ubcsat_cnf_algs, however this is not possible. </li>
    <li> It seems that MG didn't understand the nature of dataframes. </li>
+   <li> DONE The column-names should be identical to the names used by ubcsat (in
+   the output!). </li>
+   <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
+   msteps". And references to these columns must be replaced in all files
+   (typically these references use e.g. E$best). </li>
   </ul>
 
 
   \bug Missing evaluation tools
   <ul>
-   <li> When producing a function like eval_ubcsat, then it is a must to
+   <li> When producing a function like run_ubcsat, then it is a must to
    produce at the same time basic evaluation tools for the dataframe. </li>
    <li> Given the dataframe in E, the best algorithms seems best graphed
    by
@@ -80,40 +115,37 @@ plot(E$alg,E$best)
    which plots per algorithm the boxplots of the min-distribution. </li>
    <li> One only needs to make sure that on the x-axis all algorithms are
    listed. </li>
-   <li> Considering single algorithms by e.g.
-   \verbatim
+   <li> Sorting the algorithms
+    <ol>
+     <li> Considering single algorithms by e.g.
+     \verbatim
 > table(E$best[E$alg=="adaptnoveltyp"])
-   \endverbatim
-   (note that currently algorithm names are inappropriately handled). </li>
-   <li> These tables can be put into a linear order by sorting first according
-   to min-value reached (the lower the better), and second by count obtained
-   (the higher the better). A function should be written which prints out the
-   sorted tables in a nice way. </li>
-   <li> Perhaps then the (first) evaluation tool just uses plot(E$alg,E$best),
-   followed by printing those sorted tables. </li>
+     \endverbatim
+     (note that currently algorithm names are inappropriately handled). </li>
+     <li> These tables can be put into a linear order by sorting first
+     according to min-value reached (the lower the better), and second by
+     count obtained (the higher the better). </li>
+     <li> A function should be written which prints out the
+     sorted tables in a nice way. </li>
+     <li> As a first attempt we have eval_ubcsat_dataframe, which just shows
+     all results in table form. </li>
+     <li> Perhaps then the (first) evaluation tool just uses
+     plot(E$alg,E$best), followed by printing those sorted tables. </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \bug Bad parameter of eval_ubcsat
-  <ul>
-   <li> Collecting the parameters in a list is inappropriate, but just the
-   standard R-handling should be used, so that for example one can just
-   specify "cutoff=1000000" as additional parameter, without, of course,
-   changing anything else --- currently parameter "runs" is overwritten in
-   this case. </li>
-  </ul>
-
-
-  \todo Collecting data
+  \todo Collecting data : NEEDS CLEANUP
   <ul>
    <li> Steps to be taken:
     <ol>
-     <li> DONE A function "eval_ubcsat" is to be written which runs Ubcsat for
+     <li> DONE A function "run_ubcsat" is to be written which runs Ubcsat for
      a list of algorithms on a specific instance, and computes a data frame.
      </li>
      <li> DONE This has now been basically achieved, and the functions written
      have to be made available. </li>
-     <li> The function eval_ubcsat is now available in 
+     <li> The function run_ubcsat is now available in 
      Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R. 
      </li>
      <li> After that, the whole todo needs to be completely updated, so that
@@ -164,7 +196,7 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
      might be integrated into ubcsat-okl. </li>
     </ol>
    </li>
-   <li> DONE One parameter of eval_ubcsat is the list of algorithms, which are
+   <li> DONE One parameter of run_ubcsat is the list of algorithms, which are
    strings using the Ubcsat abbreviations.
     <ol>
      <li> Default is all cnf-algorithms. </li>
@@ -312,6 +344,43 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
   </ul>
 
 
+  \bug Bad documentation for run_ubcsat
+  <ul>
+   <li> The organisation of DataCollection.R is user-unfriendly:
+    <ol>
+     <li> The main function needs to stand out. </li>
+     <li> The helper functions should be in the "background". </li>
+    </ol>
+   </li>
+   <li> When examples are given, then they need to be reproducible (as 
+   much as possible). </li>
+   <li> DONE A cutoff=1 is nonsense. </li>
+   <li> DONE The attributes of the resulting dataframe need to be specified 
+   more precisely; what are their data types? </li>
+   <li> DONE
+   Reference to "standard output" is wrong here, since the output appears
+   in the R-terminal. It is also not explained what that output is. </li>
+   <li> DONE These files must also not pollute the user-directory; so they 
+   should all be placed in some created directory. </li>
+   <li> DONE And obviously, it needs to be possible just to evaluate the files,
+   without generating them --- so *two* functions are needed. </li>
+   <li> DONE The examples don't show the important step that the computed 
+   dataframe MUST BE STORED. </li>
+  </ul>
+
+
+  \bug DONE Dangerous handling of filenames
+  <ul>
+   <li> (DONE Added temporary directory option)
+   Obviously correct handling of the output-directory, which is 
+   created, of course, from scratch and in the current directory, is needed. 
+   </li>
+   <li> DONE Currently the input-path is just copied, which is false and 
+   dangerous, since the output-files as a result will be placed in the same 
+   directory where this input-file is located. </li>
+  </ul>
+
+
   \todo Evaluating the data frames
   <ul>
    <li> Functions are needed for standard evaluations.
@@ -368,14 +437,25 @@ awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 
   </ul>
 
 
-  \bug DONE Specification of eval_ubcsat is badly written
+  \bug (DONE Moved to DataCollection.R) Misplaced run_ubcsat
   <ul>
+   <li> run_ubcsat is misplaced in Evaluation.R. </li>
+   <li> See ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp.
+   </li>
+   <li> After moving this function (and accompanying code), the todos below
+   needs to be updated. </li>
+  </ul>
+
+
+  \bug Specification of run_ubcsat is badly written
+  <ul>
+   <li> The specification doesn't specify much. </li>
    <li> DONE Commas are needed (and semicolons, and full-stops). </li>
    <li> (DONE See Evaluation.R comments) 
-   At its most basic the eval_ubcsat function can be run on
+   At its most basic the run_ubcsat function can be run on
    a given DIMACS file ("test.cnf" in this case), by running:
    \verbatim
-df = eval_ubcsat("test.cnf")
+df = run_ubcsat("test.cnf")
    \endverbatim
    </li>
    <li> DONE Many nonsensical uses of quotation marks. </li>
@@ -383,7 +463,7 @@ df = eval_ubcsat("test.cnf")
    the function!). </li>
    <li> DONE What is "and returns a new adds data frame" ?? </li>
    <li> (DONE These are defaults only, and are taken
-   as optional arguments for eval_ubcsat) Are environment variables to be used
+   as optional arguments for run_ubcsat) Are environment variables to be used
    by the user?? (Obviously this shouldn't be the case.) </li>
    <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
    later extensions?) ?? </li>

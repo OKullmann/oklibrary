@@ -57,7 +57,7 @@ greentao2_fcs(k,n) := fcl2fcs(greentao2_fcl(k,n))$
 */
 greentao2nd_fcl(k1,k2,n) := block(
  [G1 : arithprog_primes_ohg(k1,n), G2 : arithprog_primes_ohg(k2,n)],
-  [G1[1], append(G1[2], comp_cs(G2[2]))])$
+  [G1[1], append(G1[2], comp_cl(G2[2]))])$
 greentao2nd_fcs(k1,k2,n) := fcl2fcs(greentao2nd_fcl(k1,k2,n))$
 
 

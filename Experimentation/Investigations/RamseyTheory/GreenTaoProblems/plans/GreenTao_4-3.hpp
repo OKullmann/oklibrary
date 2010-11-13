@@ -480,7 +480,7 @@ BestSolution_Max = 4.000000
      </li>
      <li> Logarithmic translation: Finding best ubcsat-solver by
      \verbatim
-E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", runs=200,cutoff=1000000)
      \endverbatim
      evaluating it by plot(E$alg,E$best):
      \verbatim
@@ -602,7 +602,23 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-3_380.cnf", params=list(runs=200,cutoff=1000
      osteps=112033518). </li>
     </ol>
    </li>
-   <li> n=385: weak nested standard translation, rnovelty+, cutoff=32*10^7
+   <li> n=385: weak nested standard translation, rnovelty+
+    <ol>
+     <li> cutoff=32*10^7:
+     \verbatim
+  1   2   3   4
+ 96 538 431   5
+1070
+     \endverbatim
+     </li>
+     <li> cutoff=64*10^7:
+     \verbatim
+  1   2   3
+135 338  86
+559
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=387, cutoff=10^9 yields in 22 runs only min=2,3,4; if this is to be
    re-examined, then cutoff=4*10^9 should be used. </li>

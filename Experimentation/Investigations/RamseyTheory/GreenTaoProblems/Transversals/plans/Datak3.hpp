@@ -120,6 +120,38 @@ Lp60_3 : minimum_transversals_mongen(60,A3p,[{}])$
 67 33 1
   \endverbatim
    </li>
+   <li> Information on the number of hyperedges and the number of connected
+   components:
+   \verbatim
+L3 : [];
+minimum_transversals_decomp_gen(inf,lambda([n],arithprog_primes_hg(3,n)), 'L3)$
+
+1 1 0 [0,1,1]
+4 4 1 [1,3,2]
+5 5 2 [1,2,2]
+7 7 3 [2,7,3]
+8 8 5 [2,1,2]
+9 9 7 [3,9,2]
+10 10 9 [3,3,2]
+11 11 11 [3,2,2]
+13 13 13 [4,8,3]
+14 14 16 [5,24,2]
+15 15 17 [5,3,2]
+16 16 20 [6,20,2]
+17 17 23 [6,3,2]
+18 18 24 [7,51,2]
+19 19 26 [7,18,2]
+20 20 30 [7,6,2]
+21 21 32 [8,18,2]
+22 22 36 [9,84,2]
+23 23 40 [10,356,2]
+24 24 44 [10,29,2]
+25 25 46 [10,8,2]
+26 26 49 [10,4,2]
+27 27 53 [10,2,2]
+28 28 56 [11,19,2]
+   \endverbatim
+   </li>
   </ul>
 
 

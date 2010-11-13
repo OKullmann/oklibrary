@@ -1,24 +1,26 @@
 // Oliver Kullmann, 16.12.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Cryptanalysis/plans/Factorisation.hpp
+  \file Applications/Cryptanalysis/plans/Factorisation.hpp
   \brief Plans for the module on factorisation of natural numbers
 
   %Tools for finding factorisations n = a * b.
 
 
-  \todo Literature review:
-   - Literature on factorisation via SAT and CSP
-   - Literature on factorisation in general.
-   - Literature on efficient multiplication.
+  \todo Literature review
+  <ul>
+   <li> Literature on factorisation via SAT and CSP. </li>
+   <li> Literature on factorisation in general. </li>
+   <li> Literature on efficient multiplication. </li>
+  </ul>
 
 
-  \todo Interesting good constraint representations:
+  \todo Interesting good constraint representations
   <ul>
    <li> Boolean CNF:
     <ol>

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 18.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,8 +7,8 @@
 
 # Settings for building and using the Gmp library
 
-gmp_recommended_version_number_okl ?= 4.3.1
-gmp_supported_not_recommended_version_numbers_okl ?= 4.2.4
+gmp_recommended_version_number_okl ?= 5.0.1
+gmp_supported_not_recommended_version_numbers_okl ?= 4.3.1
 
 gmp_prefix_okl ?= gmp
 
@@ -28,10 +28,12 @@ gmp_installation_dir_okl ?= $(gmp_base_installation_dir_okl)/$(gcc_recommended_v
 gmp_system_install_directory_okl ?= /usr/local
 ifeq ($(gmp_default_install_okl),local)
   gmp_install_directory_okl ?= $(gmp_installation_dir_okl)
-  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -Wl,-rpath,$(gmp_install_directory_okl)/lib -lgmp
+  gmp_link_path_okl ?= -Wl,-rpath,$(gmp_install_directory_okl)/lib
+  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib $(gmp_link_path_okl) -lgmp
   gmp_install_command_okl ?= make install
 else
   gmp_install_directory_okl ?= $(gmp_system_install_directory)
+  gmp_link_path_okl ?=
   gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -lgmp
   gmp_install_command_okl ?= sudo make install
 endif

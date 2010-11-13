@@ -194,7 +194,7 @@ License, or any later version. */
      (seed=3892552022, osteps=16215921). </li>
      <li> Best local search algorithm from Ubcsat-suite:
      \verbatim
-E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", runs=200,cutoff=1000000)
      \endverbatim
      evaluated by plot(E$alg,E$best):
      \verbatim
@@ -243,7 +243,26 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
    </li>
    <li> n=1662: weak standard nested translation, rnovelty+, cutoff=64*10^7
    found a solution in 38 runs (seed=1319314469, seed=298802296). </li>
-   <li> n=1663: weak standard nested translation, rnovelty+, cutoff=64*10^7
+   <li> n=1663: weak standard nested translation, rnovelty+
+    <ol>
+     <li> cutoff=64*10^7
+     \verbatim
+  1   2   3   4   5
+  9  63 131  50   5
+258
+  1   2   3   4   5
+  4  61 150  74   2
+291
+     \endverbatim
+     </li>
+     <li> cutoff=10^9
+     \verbatim
+ 1  2  3  4
+ 3 19 20  1
+43
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=1665: weak standard nested translation, rnovelty+
     <ol>
@@ -332,7 +351,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
   </ul>
 
 
-  \todo greentao_3(3,4,5) > 8200
+  \todo greentao_3(3,4,5) > 8300
   <ul>
    <li> n=1000 trivial for adaptnovelty+. </li>
    <li> n=2000 trivial for adaptnovelty+ (70% success with cutoff=10^4). </li>
@@ -464,6 +483,7 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      cutoff=20180202). </li>
     </ol>
    </li>
+   <li> n=8250, weak standard nested translation, rnovelty, cutoff=2*10^8 </li>
    <li> n=8300, weak standard nested translation, rnovelty+
     <ol>
      <li> cutoff=32*10^6:
@@ -503,8 +523,8 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> cutoff=2*10^8
      \verbatim
-3 4 5 6 8 9 12
-2 2 3 1 2 2  1
+ 3 4 5 6 8 9 12
+ 2 2 3 1 2 2  1
 13
  2  3  4  5  6  7  8  9 12
  1  2  4  3  4  1  4  3  1
@@ -516,12 +536,34 @@ E = eval_ubcsat("GreenTao_N_3-3-4-4_1650.cnf", params=list(runs=200,cutoff=10000
      </li>
      <li> Finding best algorithm from Ubcsat:
      \verbatim
-> E = eval_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",params=list(runs=100,cutoff=1000000))
+> E = run_ubcsat("GreenTao_N_3-3-4-5_8300.cnf",runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
      \endverbatim
      rnovelty and rnovelty+ seem clearly best. </li>
-     <li> cutoff=2*10^8, rnovelty </li>
+     <li> cutoff=2*10^8, rnovelty 
+     \verbatim
+ 1  2  3  4  5  6  7  8  9 10 11 12 15
+ 2  3  5  7  3  5 13  8  3  1  2  2  1
+55
+ 1  2  3  4  5  6  7  8  9 10 11 12
+ 2  3  6  5  8 12  3  7  4  1  2  2
+55
+     \endverbatim
+     So rnovelty seems better than rnovelty+. </li>
+     <li> cutoff=4*10^8, rnovelty: in run 68 a solution was found
+     (seed=4131142001, osteps=350760305). </li>
+    </ol>
+   </li>
+   <li> n=8350, weak standard nested translation, rnovelty
+    <ol>
+     <li> cutoff=10^9:
+     \verbatim
+ 1  2  3  4  5  6  7  8  9
+ 2  6 17 18 17  8  3  1  1
+73
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>

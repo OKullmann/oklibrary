@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,12 @@ License, or any later version. */
 
   \par
    Further milestones are created.
+
+
+  \par Version 0.4.2 : CLEAN UP
+
+  \par Experimentation/Competition version 0.5.3
+  (see Experimentation/Competition/plans/milestones.hpp)
 
 
 

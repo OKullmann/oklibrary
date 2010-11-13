@@ -8,10 +8,13 @@ License, or any later version. */
 /*!
   \file Experimentation/Competition/plans/milestones.hpp
 
-  \module_version Experimentation/Competition 0.5 (18.11.2006)
+  \module_version Experimentation/Competition 0.5.0.3 (7.6.2010)
 
 
   \par Version 0.5.1 :
+
+  \par Competition/TwoSolverComparison version 0.0.8 : DONE
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
 
   \par
    In Experimentation/Competition/plans/general.hpp the following topics
@@ -21,6 +24,9 @@ License, or any later version. */
 
   \par Version 0.5.2 :
 
+  \par Competition/TwoSolverComparison version 0.0.9
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
+
   \par
    In Experimentation/Competition/plans/general.hpp the following topics
    are handled:
@@ -28,6 +34,9 @@ License, or any later version. */
 
 
   \par Version 0.5.3 :
+
+  \par Competition/TwoSolverComparison version 0.1
+  (see Experimentation/Competition/TwoSolverComparison/plans/milestones.hpp)
 
   \par
    In Experimentation/Competition/plans/general.hpp the following topics

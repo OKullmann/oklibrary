@@ -117,11 +117,13 @@ N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x 
   <ul>
    <li> See "Minimisation" in 
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li>
-  <li> We can use the QCA package, given in 
-   Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
-   the minimum sized CNF or DNF clause-set representation. </li>
-   <li> This should be possible using the following code:
-    \verbatim
+   <li> R QCA Packages
+   <ul>
+    <li> We can use the QCA package, given in 
+    Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
+    the minimum sized CNF or DNF clause-set representation. </li>
+    <li> This should be possible using the following code:
+     \verbatim
 ######## In Maxima #######
 generate_full_byteop_tt(byteop) :=  
   map(
@@ -151,28 +153,28 @@ library(QCA)
 mulConstant = 2
 mul_tt = read.table(paste("RijndaelMul",mulConstant,".tt",sep=""),header=TRUE)
 eqmcc(mul_tt, outcome="O", expl.0=TRUE)
-   \endverbatim
-   where mulConstant can be set in each case to one of 2,3 for the 
-   multiplication in the encryption direction, and 9,11,13 or 14 for
-   the multiplications used when the decryption of MixColumn is
-   included in the translation. </li>  
-   <li> Even with multiplication by 02, the R/QCA system still runs out of
-   memory (see "Minimisation" in 
-   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp for details). </li>
-   <li> Another possibility is to minimise the field multiplications by 02
-   using the minimum transversal functions present in the Maxima subsystem. 
-   Assuming the prime implicates for multiplication by 02 have been generated
-   like so:
-   \verbatim
+    \endverbatim
+    where mulConstant can be set in each case to one of 2,3 for the 
+    multiplication in the encryption direction, and 9,11,13 or 14 for
+    the multiplications used when the decryption of MixColumn is
+    included in the translation. </li>  
+    <li> Even with multiplication by 02, the R/QCA system still runs out of
+    memory (see "Minimisation" in 
+    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp for details). </li>
+    <li> Another possibility is to minimise the field multiplications by 02
+    using the minimum transversal functions present in the Maxima subsystem. 
+    Assuming the prime implicates for multiplication by 02 have been generated
+    like so:
+    \verbatim
 output_rijnmult_fullcnf_stdname(2);
-   \endverbatim
-   in Maxima, and then from the shell
-   \verbatim
+    \endverbatim
+    in Maxima, and then from the shell
+    \verbatim
 QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_Mul2_PI.cnf
-   \endverbatim
-   the following, in Maxima, should produce a set of all minimum 
-   representations
-   \verbatim 
+    \endverbatim
+    the following, in Maxima, should produce a set of all minimum 
+    representations
+    \verbatim 
 oklib_plain_include("stringproc")$
 
 read_fcs_f(n) := block([fh, line, ll, cs : [], l,b,c],
@@ -189,23 +191,58 @@ read_fcs_f(n) := block([fh, line, ll, cs : [], l,b,c],
 
 Mul2PI : read_fcs("AES_Mul2_PI.cnf")$
 MTHG2 : minimum_transversals_bvs_hg(ghg2hg(subsumption_ghg(Mul2[2], rijnmult_fullcnf_fcs(2)[2])))$
-   \endverbatim
-   </li>
-   <li> For multiplication by 02, the above Maxima function returns 102 
-   minimum CNF representations of size 20 in 2190.1490 seconds. </li>
-   <li> An example of such a minimum representation is:
-   \verbatim
+    \endverbatim
+    </li>
+    <li> For multiplication by 02, the above Maxima function returns 102 
+    minimum CNF representations of size 20 in 2190.1490 seconds. </li>
+    <li> An example of such a minimum representation is:
+    \verbatim
 {{-16,-15,-8},{-16,-13,-6},{-16,6,13},{-16,8,15},{-15,1,8},{-14,7},{-13,1,6},
 {-12,-5,-1},{-12,5,16},{-11,4},{-10,3},{-9,2},{-8,1,15},{-7,14},{-6,1,13},
 {-5,12,16},{-4,11},{-3,10},{-2,9},{-1,5,12}}
-   \endverbatim
+    \endverbatim
+    </li>
+    <li> Most (90) of the minimum representations contain 8 clauses of size 2, 
+    and 12 clauses of size 3. There are then a further twelve clause-sets 
+    where there are only 8 clause of size 3, but then 4 clauses of size 4. 
+    </li>
+    <li> MG is currently running experiments with the other field 
+    multiplications. </li>
+   </ul>
    </li>
-   <li> Most (90) of the minimum representations contain 8 clauses of size 2, 
-   and 12 clauses of size 3. There are then a further twelve clause-sets 
-   where there are only 8 clause of size 3, but then 4 clauses of size 4. 
+   <li> Espresso-ab (see Logic "synthesis" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp)
+   <ul>
+    <li> Espresso-ab takes as input a truth table in PLA format. </li>
+    <li> We can generate a truth table in PLA format for the Sbox in the
+    following way:
+    \verbatim
+generate_full_aes_mul_tt(elem) :=  
+  map(
+     lambda([ce],
+       append(
+         int2polyadic_padd(ce[1],2,8),
+         int2polyadic_padd(ce[2],2,8),
+         if rijn_natmul(elem,ce[1]) = ce[2] then [1] else [0]))
+     ,cartesian_product(setmn(0,255),setmn(0,255)))$
+
+elem : 3;
+with_stdout(sconcat("Mul",elem,".pla"), block(
+  print(".i 16"),
+  print(".o 1"),
+  for tt_line in generate_full_aes_mul_tt(elem) do
+    print(apply(sconcat,rest(tt_line,-1)),1-last(tt_line))
+  ))$
+    \endverbatim
+    where the PLA file will be called "Sbox.pla", and will be represented
+    as a DNF representing the negation of the Sbox (as by default Espresso
+    minimises DNF formulas.
+    </li>
+    <li> Using espresso-ab with the "exact" option for 02, espresso
+    yields a minimum size clause-set of size 10, however
+    for 03, espresso-ab runs out of memory on an 8GB machine. </li>
+   </ul>
    </li>
-   <li> MG is currently running experiments with the other field 
-   multiplications. </li>
   </ul>
 
 */

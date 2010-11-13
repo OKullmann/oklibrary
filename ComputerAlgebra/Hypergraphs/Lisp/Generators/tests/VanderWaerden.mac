@@ -1,0 +1,183 @@
+/* Oliver Kullmann, 23.10.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/VanderWaerden.mac
+  \brief Tests for generation tools related to hypergraphs of arithmetic progressions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/VanderWaerden.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
+
+kill(f)$
+
+
+/* ***************************
+   * Arithmetic progressions *
+   ***************************
+*/
+
+okltest_arpr(f) := block([a,d],
+  assert(f(0,a,d) = []),
+  assert(f(1,a,d) = [a]),
+  assert(f(2,a,d) = [a,a+d]),
+  assert(f(3,a,d) = [a,a+d,a+2*d]),
+  assert(f(4,a,d) = [a,a+d,a+2*d,a+3*d]),
+  assert(f(2,a,-1) = [a,a-1]),
+  true)$
+
+okltest_arithmetic_progression_p(f) := (
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,3]) = true),
+  assert(f([1,2,3]) = true),
+  assert(f([1,2,4]) = false),
+  assert(f([1,3,5,7]) = true),
+  assert(f([1,3,4,6]) = false),
+  true)$
+
+okltest_arithmetic_progression_d_p(f) := block([x,y],
+  assert(f([],x) = true),
+  assert(f([x],y) = true),
+  assert(f([x,y],y-x) = true),
+  assert(f([x,x,x],0) = true),
+  assert(f([x,y],0) = false),
+  assert(f([1,2,3,4],1) = true),
+  assert(f([1,2,3,4,6],1) = false),
+  for k : 0 thru 4 do
+    assert(f(arpr(k,x,y),y) = true),
+  true)$
+
+
+/* ***************************************************
+   * Standard hypergraphs of arithmetic progressions *
+   ***************************************************
+*/
+
+okltest_arithprog_finish(f) := (
+  assert(f(1,1) = [{1}]),
+  assert(f(1,2) = [{2}]),
+  assert(f(2,1) = []),
+  assert(f(2,2) = [{1,2}]),
+  assert(f(2,3) = [{1,3},{2,3}]).
+  assert(f(3,1) = []),
+  assert(f(3,2) = []),
+  assert(f(3,3) = [{1,2,3}]),
+  assert(f(3,4) = [{2,3,4}]),
+  assert(f(3,5) = [{1,3,5},{3,4,5}]),
+  assert(f(3,6) = [{2,4,6},{4,5,6}]),
+  true)$
+
+okltest_arithprog_ohg(f) := (
+  assert(f(0,0) = [[],[{}]]),
+  assert(f(0,1) = [[1],[{}]]),
+  assert(f(1,0) = [[],[]]),
+  assert(f(1,1) = [[1],[{1}]]),
+  assert(f(1,2) = [[1,2],[{1},{2}]]),
+  assert(f(2,0) = [[],[]]),
+  assert(f(2,1) = [[1],[]]),
+  assert(f(2,2) = [[1,2],[{1,2}]]),
+  assert(f(2,3) = [[1,2,3],[{1,2},{1,3},{2,3}]]),
+  assert(f(3,0) = [[],[]]),
+  assert(f(3,1) = [[1],[]]),
+  assert(f(3,2) = [[1,2],[]]),
+  assert(f(3,3) = [[1,2,3],[{1,2,3}]]),
+  assert(f(3,4) = [[1,2,3,4],[{1,2,3},{2,3,4}]]),
+  assert(f(3,5) = [[1,2,3,4,5],[{1,2,3},{2,3,4},{1,3,5},{3,4,5}]]),
+  for k : 0 thru 4 do
+    for n : 0 thru 4 do
+      assert(ohg_p(f(k,n))),
+  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg(f(k,n)))))),
+  true)$
+
+okltest_arithprog_hg(f) := (
+  assert(f(0,0) = [{},{{}}]),
+  assert(f(1,0) = [{},{}]),
+  assert(f(0,1) = [{1},{{}}]),
+  assert(f(1,1) = [{1},{{1}}]),
+  assert(f(2,1) = [{1},{}]),
+  for n : 0 thru 4 do block([N : setn(n)],
+    for k in [0,1,2,n] do
+      assert(f(k,n) = [N,powerset(N,k)])
+  ),
+  assert(f(3,4) = [{1,2,3,4},{{1,2,3},{2,3,4}}]),
+  true)$
+
+okltest_nver_arithprog_hg(f) := (
+  for k : 0 thru 4 do
+    for n : 0 thru 5 do
+      assert(f(k,n) = length(arithprog_hg(k,n)[1])),
+  true)$
+
+okltest_nver_arithprog_ohg(f) := (
+  for k : 0 thru 4 do
+    for n : 0 thru 5 do
+      assert(f(k,n) = length(arithprog_ohg(k,n)[1])),
+  true)$
+
+okltest_nhyp_arithprog_hg(f) := (
+  for k : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for n : 0 thru if oklib_test_level=0 then 6 else 10 do
+      assert(f(k,n) = length(arithprog_hg(k,n)[2])),
+  true)$
+
+okltest_nhyp_arithprog_ohg(f) := (
+  for k : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for n : 0 thru if oklib_test_level=0 then 6 else 10 do
+      assert(f(k,n) = length(arithprog_ohg(k,n)[2])),
+  true)$
+
+
+/* ******************************************************
+   * Generalised hypergraphs of arithmetic progressions *
+   ******************************************************
+*/
+
+okltest_arithmetic_progressions(f) := block([x,y,z],
+  assert(f([],0) = [[]]),
+  assert(f([1],0) = [[]]),
+  assert(f([],1) = []),
+  assert(f([1],1) = [[1]]),
+  assert(f([2,4],1) = [[2],[4]]),
+  assert(f([],2) = []),
+  assert(f([1],2) = []),
+  assert(f([1,3],2) = [[1,3]]),
+  assert(f([1,2,3],2) = [[1,2],[1,3],[2,3]]),
+  assert(f([1,3,4,6],2) = [[1,3],[1,4],[1,6],[3,4],[3,6],[4,6]]),
+  assert(f([1,2,3],3) = [[1,2,3]]),
+  assert(f([1,3,4,6],3) = []),
+  assert(f([1,3,4,5,6],3) = [[1,3,5],[3,4,5],[4,5,6]]),
+  assert(f([1,3,5,6,8,9,10,12],3) = [[1,3,5],[1,5,9],[3,6,9],[6,8,10],[6,9,12],[8,9,10],[8,10,12]]),
+  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg([create_list(i,i,1,n),map(setify,f(create_list(i,i,1,n),k))]))))),
+  assert(f([x,y,z],2) = [[x,y],[x,z],[y,z]]),
+  true)$
+
+okltest_arithprog_list_ohg(f) := (
+  assert(f(3,[1,2,3,4,5]) = [[1,2,3,4,5], [{1,2,3},{1,3,5},{2,3,4},{3,4,5}]]),
+  assert(f(3,[3,5,8]) = [[3,5,8],[]]),
+  true)$
+
+okltest_arithprog_list_hg(f) := (
+  assert(okltest_arithprog_hg(buildq([f], lambda([k,n], f(k,create_list(i,i,1,n))))) = true).
+  assert(f(3,[3,5,8]) = [{3,5,8},{}]),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

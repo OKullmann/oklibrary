@@ -1,5 +1,5 @@
 # Oliver Kullmann, 25.3.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,20 +9,6 @@
 
 minisat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Minisat
 minisat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Minisat
-
-# The "old" Minisat
-
-minisat1_recommended_version_number_okl ?= v1.14
-minisat1_extracted_archive_okl ?= MiniSat_$(minisat1_recommended_version_number_okl)
-
-minisat1_build_dir_okl ?= $(minisat_base_build_dir_okl)/$(minisat1_extracted_archive_okl)
-minisat1_installation_dir_okl ?= $(minisat_base_installation_dir_okl)/$(minisat1_recommended_version_number_okl)
-
-minisat1_call_okl ?= $(minisat1_installation_dir_okl)/minisat_static
-
-minisat1_docu_page_okl ?= $(doc_dir)/doxygen_html/
-
-minisat1_source_okl := $(ExternalSources)/sources/SAT/MiniSat/$(minisat1_extracted_archive_okl).2006-Aug-29
 
 # The "new" Minisat
 

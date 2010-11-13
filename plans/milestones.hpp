@@ -28,10 +28,14 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
+  \par Structures version 0.0.6
+  (see Structures/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK) : DONE
   (see LegalIssues/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.1 (OK) : DONE
   (see OKlib/Satisfiability/plans/milestones.hpp)
+  \par Applications/Cryptanalysis version 0.0.4 (OK) : DONE
+  (see Applications/Cryptanalysis/plans/milestones.hpp)
   \par Plans
   All parts have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
@@ -109,7 +113,7 @@ License, or any later version. */
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
-  \par Structures version 0.0.6
+  \par Structures version 0.0.7
   (see Structures/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
@@ -135,8 +139,6 @@ License, or any later version. */
   (see ComplexitySystem/plans/milestones.hpp)
   \par Concepts version 0.1.4 (OK (MH))
   (see Concepts/plans/milestones.hpp)
-  \par Cryptanalysis version 0.0.3 (OK)
-  (see Cryptanalysis/plans/milestones.hpp)
   \par Structures version 0.0.7
   (see Structures/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.4 (OK)

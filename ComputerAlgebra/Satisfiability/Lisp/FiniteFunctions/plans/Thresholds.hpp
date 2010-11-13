@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.12.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,9 @@ License, or any later version. */
    by allowing "<=" instead of ">=". How to call them? The above as "upper"
    threshold functions, while these as "lower" threshold functions? </li>
    <li> Naming: threshold_bf(W), lthreshold_bf(W). </li>
+   <li> However, likely the CNF/DNF-representations should be handled in
+   module PseudoBoolean; see
+   Satisfiability/Lisp/PseudoBoolean/plans/general.hpp. </li>
   </ul>
 
 
@@ -33,14 +36,10 @@ License, or any later version. */
    <li> So the conditions are x_1 + ... + x_n >= t resp. <= t. </li>
    <li> Naming: cardinality_bf(n,t) resp. lcardinality_bf(n,t). </li>
    <li> For the special case t=1 we use alo_bf(n) resp. amo_bf(n). </li>
-   <li> Clause-set realisations are called cardinality_cnf_cs(L,t) resp.
-   cardinality_dnf_cs(L,t) etc., where now L is an arbitrary set of literals.
-   </li>
+   <li> Clause-set realisations are considered in
+   Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp. </li>
    <li> The condition x_1 + ... + x_n = t is expressed by ecardinality_bf(n,t).
    See "The basic symmetric functions" below. </li>
-   <li> For an application see "Systematisation" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
-   regarding the CNF-realisations. </li>
   </ul>
 
 
@@ -82,26 +81,6 @@ License, or any later version. */
      program with n+1 output nodes (for the possible count-values), using a
      staircase-grid-structure. </li>
      </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo At-most-one as a CNF
-  <ul>
-   <li> Of special interest are the representations of amo_bf(n), that is,
-   that at most one of x_1, ..., x_n is 1. </li>
-   <li> The standard CNF-representation uses binomial(n,2) clauses {-x_i,-x_j}.
-   This is also the set of prime implicates (all are essential). </li>
-   <li> There are n+1 prime implicants, namely those full clauses having
-   at most one positive literal, and all these are (again) essential. </li>
-   <li> Using new variables s_1, ..., s_{n-1}, an alternative
-   CNF-representation is given by the clauses
-    <ol>
-     <li> x_i -> s_i for 1 <= i <= n-1 </li>
-     <li> x_n -> -s_{n-1} </li>
-     <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
-     <li> s_i -> -x_{i+1} for 1 <= i <= n-1 </li>
     </ol>
    </li>
   </ul>

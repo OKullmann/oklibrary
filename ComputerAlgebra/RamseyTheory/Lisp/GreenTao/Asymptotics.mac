@@ -1,0 +1,151 @@
+/* Oliver Kullmann, 8.5.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac
+  \brief Asymptotic computations in the context of Green-Tao numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+
+/* *********************************************
+   * The formula from [Grosswald, Hagis, 1979] *
+   *********************************************
+*/
+
+/* The task is to approximate
+     nhyp_arithprog_primes_hg(k,n) = n_arithprog_primes_c(k,n),
+   the number of arithmetic progressions of length k in the first n prime
+   numbers.
+*/
+
+/* First computing the coefficients C_k = C_gh(k,inf), defined as
+     C_k = (prod_{p <= k} 1/p * (p/(p-1))^(k-1)) *
+           (prod_{p > k} (p/(p-1))^(k-1) * (p-k+1)/p)
+   where p ranges over the prime numbers.
+
+   The first factor is computed by C_gh_fin(k), the second by
+   C_gh_inf(k,max_p), where only p <= max_p is considered.
+ */
+
+/* The "finite factor": */
+factor_C_gh_fin(k) := buildq([k],lambda([p], p^(k-2)/(p-1)^(k-1)))$
+
+C_gh_fin(k) := prod_l(map(factor_C_gh_fin(k), primes_first(count_primes(k))))$
+
+/* The "infinite factor": */
+
+factor_C_gh_inf(k) := buildq([k],lambda([p], p^(k-2)*(p-k+1)/(p-1)^(k-1)))$
+factorbf_C_gh_inf(k) := buildq([k],lambda([p], bfloat(p^(k-2)*(p-k+1)/(p-1)^(k-1))))$
+
+/* Prerequisite: max_p >= k, k >= 2. */
+C_gh_inf(k,max_p) := block(
+ [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
+  prod_l(map(factor_C_gh_inf(k), L)))$
+/* Using floating-point arithmetic (with the current value of fpprec): */
+C_gh_inf_hp(k,max_p) := block(
+ [L : rest(primes_first(count_primes(max_p)), count_primes(k))],
+  if emptyp(L) then 1.0b0 else
+  prod_l(map(factorbf_C_gh_inf(k), L)))$
+/* Upper bound on the absolute value of the relative error of 
+   C_gh_inf_hp(k,max_p) (as compared to C_gh_inf(k,max_p)), where num_p
+   is the number of primes considered.
+   Prerequisite: eps = 10^(-fpprec+1), the "machine epsilon", fulfils
+     eps <= min(2/3, 1/(8*num_p - 6)).
+   (Since fpprec >= 16, for all feasible computations at Maxima-level this
+   is automatically fulfilled.)
+*/
+relerror_C_gh_inf_hp(k,num_p) := block([eps : 10^(-fpprec+1)],
+  bfloat(eps * (1 + 4*(num_p-1))))$
+/* Returning a pair [a,b], representing an open interval containing the true
+   value:
+*/
+C_gh_inf_hpint(k,max_p) := block(
+ [L : rest(primes_first(count_primes(max_p)), count_primes(k)), res, eps],
+  res : if emptyp(L) then 1.0b0 else
+    prod_l(map(factorbf_C_gh_inf(k), L)),
+  eps : relerror_C_gh_inf_hp(k,length(L)),
+  res*[1-eps,1+eps])$
+
+
+/* The final computations: */
+
+C_gh(k,max_p) := C_gh_fin(k) * C_gh_inf(k,max_p)$
+/* Using floating-point arithmetic: */
+C_gh_hp(k,max_p,decimal_digits) := block([fpprec : decimal_digits],
+  C_gh_fin(k) * C_gh_inf_hp(k,max_p))$
+/* Returning a pair [a,b], representing an open interval containing the true
+   value: */
+C_gh_hpint(k,max_p,decimal_digits) := block(
+ [fpprec : decimal_digits,
+  eps : 10^(-decimal_digits+1)],
+  4*[-eps,+eps] + C_gh_fin(k) * C_gh_inf_hpint(k,max_p))$
+
+
+/* The current approximations of the C_k for k >= 2: */
+C_gh_values : [
+ 1,
+ 1.3203236316942413054,
+ 2.8582485957224816583,
+ 4.1511808632468886479,
+ 10.131794950034614014,
+ 17.298612311683576106,
+ 53.971948300560721615,
+ 148.55162866536732961,
+ 336.03432675383279702,
+ 511.42228206774875224,
+ 1312.3197113260945073,
+ 2364.5989633652830187,
+ 7820.6000304765722324,
+ 22938.908633119341404,
+ 55651.462555721561157,
+ 91555.111230322724999,
+ 256474.85986744035674,
+ 510992.01033894385383,
+ 1900972.5849978144616
+]$
+
+/* The resulting estimation of the number of arithmetic progressions of
+   length k in the first n prime numbers:
+*/
+gh_nhyp_arithprog_primes_hg(k,n) := if k-1 > length(C_gh_values) then unknown
+ else float(C_gh_values[k-1]/2/(k-1) * n^2/log(n)^(k-2))$
+
+/* Using the original formula: */
+ghorig_nhyp_arithprog_primes_hg(k,n) :=
+ if k-1 > length(C_gh_values) then unknown
+ else block([p : unrank_primes(n)],
+ float(C_gh_values[k-1]/2/(k-1) * p^2/log(p)^k))$
+
+
+/* ********************************************
+   * The approximation from [Granville, 2006] *
+   ********************************************
+*/
+
+/* The approximation of unrank_primes(greentao([k]) from
+   [Granville, 2006] ("ur" stands for "unranked"): */
+approxgv_grt1ur(k) := (k/2*exp(1-%gamma))^(k/2)$
+/* The derived approximation of greentao([k]), using the approximation
+   of count_primes via the logarithmic integral:
+*/
+approxgv_grt1Li_hp(k,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Li(approxgv_grt1ur(k)))))$
+
+
+/*!
+\endhtmlonly
+*/

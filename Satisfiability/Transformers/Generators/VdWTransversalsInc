@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 15.3.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -13,7 +13,7 @@
 # on.
 # The method is by adding the equality "transversal size = t" to
 # the clauses representing the hyperedges, thus obtaining a SAT problem,
-# solved then by Minisat (the current default; seems to be strongest on these 
+# solved then by Minisat2 (the current default; seems to be strongest on these 
 # problems).
 
 script_name="VdWTransversalsInc"

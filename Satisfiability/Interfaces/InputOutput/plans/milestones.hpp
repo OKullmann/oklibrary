@@ -14,6 +14,15 @@ License, or any later version. */
   \par Version 0.0.10 :
 
   \par
+   In Interfaces/InputOutput/plans/Colouring.hpp the following topics
+   are handled:
+    - Improve implementations
+    - Generic translation
+
+
+  \par Version 0.0.11 :
+
+  \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - Elementary file-surgery
@@ -21,7 +30,7 @@ License, or any later version. */
     - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
 
-  \par Version 0.0.11 :
+  \par Version 0.0.12 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -33,7 +42,7 @@ License, or any later version. */
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.0.12 :
+  \par Version 0.0.13 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -44,7 +53,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.0.13 :
+  \par Version 0.0.14 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -57,7 +66,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.0.14:
+  \par Version 0.0.15:
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -147,7 +156,6 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
    are handled:
     - Improve design
-    - Improve implementations
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics

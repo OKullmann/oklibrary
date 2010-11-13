@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,6 +48,8 @@ okltest_strictdescending_p(strictdescending_p);
 okltest_ascending_p(ascending_p);
 okltest_descending_p(descending_p);
 
+okltest_prefix_p(prefix_p);
+
 /* *******************************************
    * Summations and products over lists/sets *
    *******************************************
@@ -73,6 +75,9 @@ okltest_first_smallest_lb_l(first_smallest_lb_l);
 okltest_first_smallest_f_l(first_smallest_f_l);
 okltest_first_largest_f_l(first_largest_f_l);
 
+okltest_smallest_f_l(smallest_f_l);
+okltest_largest_f_l(largest_f_l);
+
 okltest_find_first_l(find_first_l);
 okltest_find_last_l(find_last_l);
 
@@ -86,6 +91,7 @@ okltest_take_elements(take_elements);
 okltest_sublist_indices_el(sublist_indices_el);
 
 okltest_remove_element(remove_element);
+okltest_remove_elements(remove_elements);
 
 okltest_sublist_indicator(sublist_indicator);
 
@@ -97,6 +103,7 @@ okltest_sublist_indicator(sublist_indicator);
 okltest_partition_elements(partition_elements);
 okltest_partition_list(partition_list);
 okltest_partition_list(partition_list_epo);
+okltest_partition_list_eq(partition_list_eq);
 
 /* **********************
    * List constructions *

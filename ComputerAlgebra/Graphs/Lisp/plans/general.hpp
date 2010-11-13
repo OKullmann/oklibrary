@@ -48,10 +48,10 @@ License, or any later version. */
      <li> Checking the defining properties : DONE</li>
      <li> Checking equality : DONE </li>
      <li> Promotions : DONE </li>
-     <li> Downcasts </li>
-     <li> Conversions </li>
-     <li> Basic graph operations </li>
-     <li> Basic graph constructions </li>
+     <li> Downcasts : DONE </li>
+     <li> Conversions : DONE </li>
+     <li> Basic graph operations : DONE </li>
+     <li> Basic graph constructions : DONE </li>
      <li> Tests </li>
      <li> Connections to Maxima-graphs </li>
     </ol>

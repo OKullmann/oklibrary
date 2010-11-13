@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,7 +23,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Packages history
+  \todo Packages history : DONE
   <ul>
    <li> DONE With every new package a summary about the progress is added to a
    subpage of Local/History.html. See "Package history" in
@@ -31,9 +31,8 @@ License, or any later version. */
    <li> DONE
    Compare "Backups and archives" in OKlib/plans/general.hpp
    for the "official history". </li>
-   <li> DONE (exactly the packages which represent an advance at least in
-   the third digit of the overall version are kept, and this in the
-   minimal form)
+   <li> DONE (no packages are kept --- they can be recreated via the Git
+   history)
    A policy is needed which packages to be kept.
     <ol>
      <li> Somewhere there should be already some discussion on

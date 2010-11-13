@@ -43,6 +43,10 @@ okltest_polybin2vecbin(polybin2vecbin);
 okltest_polybin2vecbin_rijn(polybin2vecbin_rijn);
 okltest_vecbin2polybin(vecbin2polybin);
 
+okltest_polybin2mvecbin(polybin2mvecbin);
+okltest_polybin2mvecbin_rijn(polybin2mvecbin_rijn);
+okltest_mvecbin2polybin(mvecbin2polybin);
+
 /* **************
    * Operations *
    **************

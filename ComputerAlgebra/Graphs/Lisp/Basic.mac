@@ -167,9 +167,11 @@ generic_g2og(G) := [listify(G[1]), listify(G[2])]$
 /* Works for mug2omug, mugl2omugl, mudg2omudg, mudgl2omudgl, gg2ogg, gdg2ogdg: */
 generic_gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
 
+g2mug(G) := generic_g2mug(G)$
 gl2mugl(G) := generic_g2mug(G)$
 g2gg(G) := generic_g2gg(G)$
 gl2gg(G) := generic_g2gg(G)$
+mug2gg(G) := generic_mug2gg(G)$
 mugl2gg(G) := generic_mug2gg(G)$
 
 ogl2omugl(G) := generic_g2mug(G)$
@@ -183,16 +185,20 @@ mug2omug(G) := generic_gg2ogg(G)$
 mugl2omugl(G) := generic_gg2ogg(G)$
 gg2ogg(G) := generic_gg2ogg(G)$
 
+dg2mudg(G) := generic_g2mug(G)$
 dgl2mudgl(G) := generic_g2mug(G)$
+dg2gdg(G) := generic_g2gg(G)$
 dgl2gdg(G) := generic_g2gg(G)$
 mudgl2gdg(G) := generic_mug2gg(G)$
 
 odgl2omudgl(G) := generic_g2mug(G)$
+odg2ogdg(G) := generic_g2gg(G)$
 odgl2ogdg(G) := generic_g2gg(G)$
 omudgl2ogdg(G) := generic_omug2ogg(G)$
 
 dg2odg(G) := generic_g2og(G)$
 dgl2odgl(G) := generic_g2og(G)$
+mudg2omudg(G) := generic_gg2ogg(G)$
 mudgl2omudgl(G) := generic_gg2ogg(G)$
 gdg2ogdg(G) := generic_gg2ogg(G)$
 
@@ -229,15 +235,19 @@ omug2mug(G) := [setify(G[1]), setify(G[2]), G[3]]$
 omugl2mugl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogg2gg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
+mudg2dg(G) := [first(G),second(G)]$
 mudgl2dgl(G) := [G[1],G[2]]$
 gdg2dgl(G) := [G[1], map(G[3],G[2])]$
 gdg2mudgl(G) := generic_gg2mugl(G)$
 
+omudg2odg(G) := [G[1],G[2]]$
 omudgl2odgl(G) := [G[1],G[2]]$
 ogdg2odgl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogdg2omudgl(G) := generic_ogg2omugl(G)$
 
+odg2dg(G) := [setify(G[1]), setify(G[2])]$
 odgl2dgl(G) := [setify(G[1]), setify(G[2])]$
+omudg2mudg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 omudgl2mudgl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
@@ -262,6 +272,12 @@ dgl2gl(G) := [G[1], map(setify,G[2])]$
 odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
 gdg2gg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 ogdg2ogg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
+mudg2mug(G) := 
+ endcons(buildq([E:G[2],ef:G[3]], 
+     lambda([e], block([e1:listify(e), e2], e2 : reverse(e1),
+       if elementp(e1,E) then ef(e1) + if elementp(e2,E) then ef(e2) else 0
+       else ef(e2)))), 
+     dg2g(mudg2dg(G)))$
 
 /* Representing graphs by directed graphs: */
 g2dg(G) := [G[1], setify(lappend(
@@ -271,7 +287,8 @@ gl2dgl(G) := [G[1], setify(lappend(
   map(lambda([e], block([d : listify(e)], 
         if length(d)=1 then [append(d,d)] else [d,reverse(d)])),
       listify(G[2]))))]$
-
+mug2mudg(G) := block([DG : g2dg(mug2g(G))], 
+ endcons(buildq([ef:G[3]], lambda([e], ef(setify(e)))), DG))$
 
 
 /* **************************
@@ -294,11 +311,19 @@ neighbours_gl(v,G) := lunion(
      sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
 neighbours_gg(v,G) := neighbours_gl(v,gg2gl(G))$
 
+outneighbours_dg(v,G) := outneighbours_dgl(v,G)$
+outneighbours_dgl(v,G) :=
+ setify(map(second,sublist(listify(G[2]), lambda([e], is(e[1]=v)))))$
+inneighbours_dg(v,G) := inneighbours_dgl(v,G)$
+inneighbours_dgl(v,G) :=
+ setify(map(first,sublist(listify(G[2]), lambda([e], is(e[2]=v)))))$
+
 
 /* Removes vertex set V from graph G (with loops). */
 /* RENAME: "remove_vertices_gl". */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
+remove_vertices_gl(V,G) := remove_vertices_graph(V,G)$
 
 
 /* *****************************
@@ -306,23 +331,29 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
    *****************************
 */
 
-/* The induced (general) subgraph of a general graph, given by
-   an edge-label set: */
+/* The induced subgraph of a graph, given by an edge-set: */
 
 edge_induced_subgraph_g(E,G) := [lunion(E),E]$
 edge_induced_subgraph_gl(E,G) := edge_induced_subgraph_g(E,G)$
-edge_induced_subgraph_mug(E,G) := [lunion(subset(E,lambda([e],is(G[3](e) > 0)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
+edge_induced_subgraph_mug(E,G) := [lunion(subset(E,lambda([e],is(G[3](e) > 0)))),E,buildq([E,G3:G[3]], lambda([e],if elementp(e,E) then G3(e)))]$
 edge_induced_subgraph_mugl(E,G) := edge_induced_subgraph_mug(E,G)$
 edge_induced_subgraph_gg(E,G) := [lunion(map(G[3],E)),E,G[3]]$
 edge_induced_subgraph_dg(E,G) := [lunion(map(setify,E)),E]$
 edge_induced_subgraph_dgl(E,G) := edge_induced_subgraph_dg(E,G)$
-edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,lambda([e],if elementp(e,E) then G[3](e))]$
+edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,buildq([E,G3:G[3]],lambda([e],if elementp(e,E) then G3(e)))]$
 edge_induced_subgraph_mudgl(E,G) := edge_induced_subgraph_mudg(E,G)$
-edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
+edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,buildq([E,G3:G[3]],lambda([e],if elementp(e,E) then G3(e)))]$
 
-/* The complement graph of a graph */
-/* RENAME it to "complement_g". */
+/* The complement-graph of a graph: */
+/* RENAME to "complement_g". */
 comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
+complement_g(G) := comp_graph(G)$
+
+/* The transposed of a directed graph: */
+transposed_dg(G) := [G[1], map(reverse,G[2])]$
+transposed_dgl(G) := [G[1], map(reverse,G[2])]$
+transposed_odg(G) := [G[1], map(reverse,G[2])]$
+transposed_odgl(G) := [G[1], map(reverse,G[2])]$
 
 
 /* **********
@@ -390,7 +421,7 @@ has_dominating_vertex_gl(G) :=
 
 
 /* Tests whether a graph is connected: */
-connected_g_p(G) := emptyp(G[1]) or is_connected(g2mg(G))$
+connected_g_p(G) := is_connected(g2mg(G))$
 connected_og_p(G) := is_connected(og2mg(G))$
 connected_mug_p(G) :=  connected_g_p(mug2g(G))$
 connected_omug_p(G) :=  connected_og_p(omug2og(G))$
@@ -402,16 +433,16 @@ connected_mugl_p(G) :=  connected_gl_p(mugl2gl(G))$
 connected_omugl_p(G) :=  connected_ogl_p(omugl2ogl(G))$
 
 /* Tests whether a digraph is strongly connected: */
-sconnected_dg_p(G) := is_sconnected(dg2mdg(G))$
-sconnected_odg_p(G) := is_connected(odg2mdg(G))$
-sconnected_mudg_p(G) :=  sconnected_dg_p(mudg2dg(G))$
-sconnected_omudg_p(G) :=  sconnected_odg_p(omudg2odg(G))$
-sconnected_gdg_p(G) :=  sconnected_dgl_p(gdg2dgl(G))$
-sconnected_ogdg_p(G) :=  sconnected_odgl_p(ogdg2odgl(G))$
+sconnected_dg_p(G) := emptyp(G[1]) or is_sconnected(dg2mdg(G))$
+sconnected_odg_p(G) := emptyp(G[1]) or is_sconnected(odg2mdg(G))$
+sconnected_mudg_p(G) := sconnected_dg_p(mudg2dg(G))$
+sconnected_omudg_p(G) := sconnected_odg_p(omudg2odg(G))$
+sconnected_gdg_p(G) := sconnected_dgl_p(gdg2dgl(G))$
+sconnected_ogdg_p(G) := sconnected_odgl_p(ogdg2odgl(G))$
 sconnected_dgl_p(G) := is_connected(dg2mdg(dgl2dg(G)))$
 sconnected_odgl_p(G) := is_connected(odg2mg(odgl2odg(G)))$
-sconnected_mudgl_p(G) :=  sconnected_dgl_p(mudgl2dgl(G))$
-sconnected_omudg_p(G) :=  sconnected_odgl_p(omudgl2odgl(G))$
+sconnected_mudgl_p(G) := sconnected_dgl_p(mudgl2dgl(G))$
+sconnected_omudgl_p(G) := sconnected_odgl_p(omudgl2odgl(G))$
 
 
 /* Tests whether a graph is a tree: */
@@ -441,6 +472,8 @@ regular2_gg_p(k,G) := block([h : hm2osm(vertex_degrees2_gg(G))],
 /* Tests whether a graph is a cycle graph: */
 cycle_gg_p(G) := not emptyp(G[1]) and connected_gg_p(G) and regular2_gg_p(2,G)$
 
+/* Tests whether a graph is bipartite: */
+bipartite_g_p(G) := is_bipartite(g2mg(G))$
 
 /* Tests whether a graph is complete bipartite: */
 completebipartite_g_p(G) := if emptyp(G[1]) then true
@@ -507,6 +540,16 @@ dg2mdg(G) := block(
  ))
 )$
 
+odg2mdg(G) := block(
+ [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
+ for i : 1 thru n do set_hm(h, V[i], i),
+ return(
+   create_graph(
+     create_list([i,V[i]],i,1,n), 
+     create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
+     true
+ ))
+)$
 
 
 /*!

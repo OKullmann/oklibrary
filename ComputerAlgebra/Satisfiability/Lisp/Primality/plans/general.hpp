@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,12 +21,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Connections
-
-
-  \todo Create milestones.
-
-
   \todo Organisation
   <ul>
    <li> Move
@@ -39,6 +33,45 @@ License, or any later version. */
    But except of the splitting-tree methods all other methods are closely
    related to finding dual prime clauses. </li>
   </ul>
+
+
+  \todo Notions
+  <ul>
+   <li> For a clause-set F we simply speak of "prime clauses", which are
+   the minimal clauses derivable by resolution from F. </li>
+   <li> For F as CNF, these are the minimal clauses following from F,
+   while for F as DNF these are the minimal clauses implying F. </li>
+   <li> For boolean functions f we use "CNF prime clauses" for
+   "prime implicates", and "DNF prime clauses" for "prime implicantes". </li>
+   <li> Note that the CNF prime-clauses for f are exactly the prime clauses
+   for any CNF-representation F of f, while the DNF prime clauses for f are
+   exactly the prime clauses for any DNF-representation F for f. </li>
+   <li> A clause-set F is "prime" if all C in F are prime clauses for F,
+   while F is "maximal prime" if F is prime, and actually contains all
+   its prime-clauses. </li>
+   <li> A "dual prime clause" of a clause-set F is a prime clause of the
+   combinatorial dualisation dual_cs(F), which at the boolean function level
+   corresponds to dualisation of "the" boolean function (negation of inputs
+   and outputs; whether CNF- or DNF-representation is used, does not
+   matter(!)), which is the same as considering F as CNF instead of DNF or
+   vice versa. </li>
+   <li> That is, a clause C is a dual prime clause of F iff C is a minimal
+   transversal of F, considered as hypergraph over its literals. </li>
+   <li> Considering F as CNF, the dual prime clauses are exactly the minimal
+   satisfying partial assignments, representing partial assignments as sets
+   of literals set to true. </li>
+   <li> And considering F as DNF, the dual prime clauses are exactly the
+   minimal falsifying partial assignments, representing partial assignments
+   as sets of literals set to false. </li>
+   <li> The prime clauses of F are exactly the dual prime clauses of the
+   set of dual prime clauses of F. </li>
+  </ul>
+
+
+  \todo Connections / Relations
+
+
+  \todo Create milestones.
 
 
   \todo Extract the methods related to splitting trees

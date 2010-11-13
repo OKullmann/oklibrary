@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.10.2002 (Swansea)
-/* Copyright 2002 - 2007, 2009 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,9 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/LinInequal.hpp
   \brief Tools for encoding linear inequalities as CNF
+  \deprecated Needs a complete update.
 
+  \details
   This (old) code does not (currently) fulfill our coding standards,
   but it is functional.
 */

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExample
 \htmlonly
 */
 
+
 /* ********************
    * Small semigroups *
    ********************
@@ -30,6 +31,7 @@ empty_sgr : [{},lambda([x,y],unknown)]$
 /* The (standardised) 1-element semigroup: */
 singleton_sgr : [{1}, lambda([x,y],1)]$
 singleton_mon : [{1}, lambda([x,y],1), 1]$
+
 
 /* *******************
    * Null semigroups *
@@ -46,6 +48,18 @@ leftnull_sgr(X) := [X,leftnull_compo]$
 rightnull_sgr(X) := [X,rightnull_compo]$
 
 
+/* *********************
+   * Cyclic semigroups *
+   *********************
+*/
+
+/* Prerequisite: index, period natural numbers >= 1. */
+cyclic_sgr(index,period) := block([n : index+period-1, V],
+ V : setn(n),
+ buildq([V,index,period],
+        [V, lambda([a,b], block([s:a+b],
+          if s <= index then s
+          else index + mod(s - index, period)))]))$
 
 /*!
 \endhtmlonly

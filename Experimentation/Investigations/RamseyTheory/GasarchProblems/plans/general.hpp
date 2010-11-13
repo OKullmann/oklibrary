@@ -26,7 +26,7 @@ License, or any later version. */
   <ul>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("Gasarch_4-17-17.cnf")
+E = run_ubcsat("Gasarch_4-17-17.cnf")
    \endverbatim
    by plot(E$alg,E$best) shows that adaptnovelty+ is clearly strongest
    (default values, that is, cutoff=10^5). </li>
@@ -153,7 +153,7 @@ BestSolution_Max = 7.000000
      <li> One needs to consider whether other algorithms might be better on
      this instance:
      \verbatim
-> E = eval_ubcsat("Gasarch_4-16-17-m2pp.cnf", params=list(cutoff=1000000,runs=100))
+> E = run_ubcsat("Gasarch_4-16-17-m2pp.cnf", cutoff=1000000,runs=100)
 plot(E$alg,E$best)
 > table(E$best[E$alg=="adaptnoveltyp"])
  5  6  7  8  9 10

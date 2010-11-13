@@ -29,291 +29,41 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
-/* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
-   a satisfying assignments yields a 2-colouring of the hypergraph with
-   vertices all r-subsets of {1,...,n}, while the hyperedges are all
-   obtained from the q-subsets of {1,...,n} by taking the set of all 
-   r-subsets.
+/* The Ramsey-number ramsey_s^r(q_1, ..., q_s) is the smallest n >= 0 such
+   that however the set of r-subsets of {1, ..., n} is divided into s
+   (possibly empty) parts, there exists one part 1 <= i <= s containing
+   all the possible r-subsets of some q-element subset of {1,...,n}.
+
+   If q_1 = ... = q_s = q, then we have a hypergraph colouring problem, where
+   the question is whether ramsey_ohg(q,r,n) is s-colourable (see
+   ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac; this hypergraph
+   has as vertices the r-subsets of {1,...,n}, while the hyperedges are the
+   sets of all r-subset-vertices within all possible q-subsets of {1,...,n}).
+*/
+
+/* The boolean ordered formal clause-sets expressing that ramsey_2^r(q,q) > n; 
+   a satisfying assignments yields a 2-colouring of the binom(q,r)-hypergraph
+   with vertices all r-subsets of {1,...,n}, while the set of hyperedges is the
+   set of the sets of all r-subsets obtained from the q-subsets of {1,...,n}.
    In other words, the clause-set is satisfiable iff one can assign 0 and
    1 to the r-element subsets (the "vertices") of {1,...,n} such that for 
-   every q-element subset of {1,...,n} there are two vertices which are
-   subsets and which have different values assigned.
+   every q-element subset of {1,...,n} there are two such vertices which are
+   subsets (of the q-element set) and which have different values assigned.
    For r=2 we have the interpretation, that the clause-set is satisfiable
    iff there exists an edge-labelling of the K_n with "colours" 1,2  such
    that no q-clique is monochromatic (w.r.t. the edges involved).
    For arbitrary r, instead of K_n^r one considers the K_n^r, the r-graph
    consisting of all r-element subsets of {1,...,n}; satisfying assignments
-   are those labellings of the r-element subsets with "colours 1,2" such
-   that every q-element subset of {1,...,n} contains one r-element subset
-   for each colour.
+   are those labellings of the r-element subsets with "colours" 1,2 such
+   that every q-element subset of {1,...,n} contains some r-element subset
+   for each of the two colours.
+
+   Variables are the colouring-variables colv(s) for the r-subsets of
+   {1,...,n}, ordered lexicographically. The clause-list contains first
+   the positive clauses, then the negative clauses, each sublist ordered
+   lexicographically.
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
-
-/* Ramsey translation using colexicographic ordering for the edges -> variable
-   translation. */
-ramsey2_stdofcs(q,r,n) := tcol2sat_stdohg2stdfcl(ramsey_stdohg(q,r,n))$
-
-output_ramsey2(q,r,n,filename) := block(
- [FFR : ramsey2_stdofcs(q,r,n)],
-  output_fcl_v(
-    sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
-    FFR[1],
-    filename,
-    FFR[2]))$
-
-output_ramsey2_stdname(q,r,n) := 
- output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
-
-/* The non-boolean formal clause-list of uniform domain [V,F,D] expressing that 
-   ramsey_k^r(q_1,...,q_s) < n; where q_i come from q a satisfying assignment 
-   yields an s-colouring of the hypergraph with vertices all r-subsets of 
-   {1,...,n}, while the hyperedges are all obtained from the q_i-subsets of 
-   {1,...,n} by taking the set of all r-subsets. Colourings are restricted
-   to those which are colourable such that only vertices which are connected
-   with hyperedges of size q_i are prevented being "monochromatic" (i.e
-   all vertices involved have the same colour) in colour i.
-
-   In other words, the clause-set is satisfiable iff one can from values in 
-   D to the r-element subsets (the "vertices") of {1,...,n} such that for 
-   every q_i-element subset of {1,...,n} there are two vertices which are
-   subsets and which have different values assigned.
-   For r=2 we have the interpretation, that the clause-set is satisfiable
-   iff there exists an edge-labelling of the K_n with "colours" in D  such
-   that no q_i-clique is monochromatic (w.r.t. the edges involved).
-   For arbitrary r, instead of K_n^r one considers the K_n^r, the r-graph
-   consisting of all r-element subsets of {1,...,n}; satisfying assignments
-   are those labellings of the r-element subsets with "colours" in D such
-   that every q_i-element subset of {1,...,n} contains one r-element subset
-   for each colour.
-*/
-ramsey_nbfclud(q,r,n) := block(
-  [dis_q : map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), q)],
-  return([listify(powerset(setn(n),r)),
-   lappend(create_list(
-     col2sat_stdohg2stdnbfclud(ramsey_ohg(q_i[1],r,n),q_i[2])[2], q_i, dis_q)),
-   create_list(i,i,1,length(q))
-   ]))$
-
-/* Standardised version of the non-boolean Ramsey generator, using
-   colexicographical ordering for the hyperedges.
- */
-ramsey_stdnbfclud(q,r,n) := block(
-  [dis_q : listify(
-    map(lambda([a],[a,sublist_indices(q,lambda([b],is(a=b)))]), setify(q)))],
-  return([create_list(i,i,1,binomial(n,r)),
-   lappend(create_list(
-     col2sat_stdohg2stdnbfclud(ramsey_stdohg(q_i[1],r,n),q_i[2])[2], q_i, dis_q)),
-   create_list(i,i,1,length(q))
-   ]))$
-
-ramsey_ofcs(q,r,n) := nbfclud2fcl_alo(ramsey_nbfclud(q,r,n))$
-ramsey_stdofcs(q,r,n) := 
-  standardise_fcl(nbfclud2fcl_alo(ramsey_stdnbfclud(q,r,n)))[1]$
-
-output_ramsey(q,r,n,filename) := block(
- [FFR : standardise_fcl(ramsey_ofcs(q,r,n))],
-  output_fcl_v(
-    sconcat("Ramsey problem: ",length(q),
-      " colours, hypergraph edges of size ", r, 
-      ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
-    FFR[1],
-    filename,
-    FFR[2]))$
-output_ramsey_stdname(q,r,n) := 
-  output_ramsey(q,r,n,sconcat("Ramsey_",simplode(q,"_"),"_",r,"_",n,".cnf"))$
-  
-
-/* ***********************************
-   * Symmetry breaking, first method *
-   ***********************************
-*/
-
-/* XXX preliminary */
-/* Yet only r=2 handled; prerequisite q >= 3. */
-ramsey_symbr1_pass(q,n) := block([d : divide(n,q)[1]],
-  lunion(create_list(
-      block([j:(i-1)*q+1],{colv_var({j,j+1}),-colv_var({j,j+2})}),
-      i,1,d)))$
-ramsey_symbr1_stdpass(q,n) :=
-  ev(ramsey_symbr1_pass(q,n), colv(S) := rank_colex_ksubsets(S),colv)$
-output_ramsey_symbr1(q,n,filename) := block(
- [PA : ramsey_symbr1_pass(q,n)],
-  output_fcsext(
-    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
-      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
-      q, ", and ", n, " elements."), 
-    cs2fcs(map(set,PA)),
-    filename,
-    colv_string))$
-output_ramsey_symbr1_stdname(q,n) :=
-  output_ramsey_symbr1(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".ecnf"))$
-output_ramsey_symbr1_std(q,n,filename) :=
-  output_fcs(
-    sconcat("Symmetry breaking by fixing colours for Ramsey problem: ",
-      "2 colours, hypergraph edges of size 2 (monochromatic) subsets of size ",
-      q, ", and ", n, " elements. Variables are given their rank in the",
-      "standard colexicographical ordering."),
-    cs2fcs(map(set,ramsey_symbr1_stdpass(q,n))),
-    filename)$
-output_ramsey_symbr1_std_stdname(q,n) :=
-  output_ramsey_symbr1_std(q,n,sconcat("Ramsey_SB_FC_",q,"_",n,".cnf"))$
-      
-
-/* XXX preliminary */
-/* r=2, q >= 3, n >= 4 */
-ramsey_symbr1e_pass(q,n) := adjoin(colv_var({1,4}), ramsey_symbr1_pass(q,n))$
-ramsey_symbr1e_stdpass(q,n) :=
-  ev(ramsey_symbr1e_pass(q,n), colv(S) := rank_colex_ksubsets(S),colv)$
-
-
-/* ************************************
-   * Symmetry breaking, second method *
-   ************************************
-*/
-
-/* XXX preliminary */
-/* Yet only s=2 handled */
-ramsey2_symbr2_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
-  clique_l : ramsey_symbr2_eqs(2,2,n), 
-  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
-    edge_pairs : powerset(eq_edges,2),
-    for edge in edge_pairs do block(
-      el : map(lambda([e], colv_var(e)),listify(edge)),
-      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
-    )
-  ),
-  return(lunion(rl)))$
-output_ramsey2_symbr2(n,f) := output_fcsext(
-  sconcat(
-    "Ramsey symmetry breaking through use of monochromatic cliques for ",
-    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
-    cs2fcs(ramsey2_symbr2_cs(n)),
-    f,
-    colv_string)$
-output_ramsey2_symbr2_stdname(n) :=
-  output_ramsey2_symbr2(n, sconcat("Ramsey_SB_MC_",n,".ecnf"))$
-
-ramsey2_symbr2_stdcs(n) := 
-  ev(ramsey2_symbr2_cs(n), colv(L) := rank_colex_ksubsets(L), colv)$
-output_ramsey2_symbr2_std(n,f) := output_fcs(
-  sconcat(
-    "Ramsey symmetry breaking through use of monochromatic cliques for ",
-    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
-    cs2fcs(ramsey2_symbr2_stdcs(n)),
-    f)$
-output_ramsey2_symbr2_std_stdname(n) :=
-  output_ramsey2_symbr2_std(n,sconcat("Ramsey_SB_MC_", n,".cnf"))$
-
-/* Arbitrary r */
-ramsey_symbr2_nbfclud(s,r,n) := block(
- [eq_edges : [], clique_l : [], rl : [], cliq],
-  clique_l : ramsey_symbr2_eqs(s,r,n),
-  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
-    edge_pairs : powerset(eq_edges,2),
-    for edge in edge_pairs do 
-      for c in powerset(setn(s),2) do block([cl : listify(c)],
-        el : listify(edge),
-        rl : cons([
-          {[el[1],cl[1]],[el[2],cl[2]]},
-          {[el[1],cl[2]],[el[2],cl[1]]}], rl)
-      )
-  ),
-  return([listify(powerset(setn(n),2)),lappend(rl),create_list(i,i,1,s)]))$
-
-/* Arbitrary r */
-ramsey_symbr2_stdnbfclud(s,r,n) := block(
- [eq_edges : [], clique_l : [], rl : [], cliq],
-  clique_l : ramsey_symbr2_eqs(s,r,n),
-  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
-    edge_pairs : powerset(map(rank_colex_ksubsets,eq_edges),2),
-    for edge in edge_pairs do 
-      for c in powerset(setn(s),2) do block([cl : listify(c)],
-        el : listify(edge),
-        rl : cons([
-          {[el[1],cl[1]],[el[2],cl[2]]},
-          {[el[1],cl[2]],[el[2],cl[1]]}], rl)
-      )
-  ),
-  return([
-    map(rank_colex_ksubsets,listify(powerset(setn(n),2))),
-    lappend(rl),create_list(i,i,1,s)]))$
-
-
-ramsey_symbr2_fcl(s,r,n) :=
-  nbfclud2fcl_alo(ramsey_symbr2_nbfclud(s,r,n))$
-
-ramsey_symbr2_stdfcl(s,r,n) := block([NFF],
-  NFF : ramsey_symbr2_stdnbfclud(s,r,n),
-  return(standardise_fcl(nbfclud2fcl_alo([sort(NFF[1]), NFF[2],NFF[3]]))[1]))$
-
-
-/* Given a natural number n, gives a set of sets of edges in the r-complete hypergraph
-   with n vertices which can be given equivalent labels (from the label set
-   {1,..,s} in any ram_s^r(p) < m problem for n <= m. */
-ramsey_symbr2_eqs(s,r,n) := block([m : n, clique_l : [], p : 2, rl : [], cliq],
-  while n >= ramsey_ub_s(ramsey([r,create_list(p+1,i,1,s)])) do p : p + 1,
-  while m >= ramsey_ub_s(ramsey([r,create_list(3,i,1,s)])) do 
-    if ramsey_ub_s(ramsey([r,create_list(p,i,1,s)])) <= m then block(
-      clique_l : cons(setmn((n-m) + 1, (n-m) + p), clique_l),
-      m : m - p
-    ) else p : p - 1,
-  if oklib_monitor then print("Cliques chosen : ", clique_l),
-  return(map(lambda([a],powerset(a,r)),setify(clique_l))))$
-
-
-/* Given a natural number n, gives a clause-set F which represents that all
-   edges are labelled/coloured with the same colour for each edge-set in
-   ramsey2_symbr3_eqs(n). */
-ramsey2_symbr3_cs(n) := block([eq_edges : [], clique_l : [], rl : [], cliq],
-  clique_l : ramsey2_symbr3_eqs(n), 
-  for eq_edges in clique_l do block ([edges, edge, el, edge_pairs],
-    edge_pairs : powerset(eq_edges,2),
-    for edge in edge_pairs do block(
-      el : map(lambda([e], colv_var(e)),listify(edge)),
-      rl : cons({{el[1],-el[2]},{-el[1], el[2]}}, rl)
-    )
-  ),
-  return(lunion(rl)))$
-output_ramsey2_symbr3(n,f) := output_fcsext(
-  sconcat(
-    "Ramsey symmetry breaking through recursive application of the PHP for ",
-    "problems of the form ramsey_r^2(q_1,q_2) < n?"),
-    cs2fcs(ramsey2_symbr3_cs(n)),
-    f,
-    colv_string)$
-output_ramsey2_symbr3_stdname(n) :=
-  output_ramsey2_symbr3(n, sconcat("Ramsey_SB_PHP_",n,".ecnf"))$
-
-
-/* Given a natural number n, gives a set of sets of edges in the graph with n
-   vertices which can be given equivalent labels (from {1,2}) in any Ramsey
-   problem of the form "ramsey_2^2(q,q) < n?".
-
-   The idea here is that by fixing a single vertex V in the graph G on n
-   vertices and then considering all edges leaving it, by the pigeon hole
-   principle, at least floor(n/2) of those edges must have the same colour, and
-   so W.L.O.G we fix floor(n/2) edges (call this edge set E) which must have the
-   same colour.
-
-   However, intuitively, if we consider V(E) \ {V}, that is, the vertices
-   "at the end" of the edges from V, then we have the complete induced sub-graph
-   and this sub-graph may again have the same principle of fixing a vertex
-   and then fixing edges based on the PHP, applied to it. The same
-   consideration may also be applied to the V(E(G) \ E(V)) \ {V}, that is, the
-   edges from V, not fixed. In such a way, we may recursively apply the pigeon
-   hole principle to fix edges for smaller and smaller sub-graphs.
-*/
-ramsey2_symbr3_eqs(n) := ramsey2_symbr3_eqs_m(1,n)$
-ramsey2_symbr3_eqs_m(m,n) := block([mid_p,rs : {},edge_equivs],
-    mid_p : ceiling(((n-1) - (m+1)) / 2) + (m + 1),
-    edge_equivs : map(lambda([i],{m,i}),setmn(m+1,mid_p)),
-    if oklib_monitor then
-      print("Length = ", mid_p - m, "Edges = ", m, " to ", setmn(m+1,mid_p)),
-    rs : adjoin(edge_equivs,
-      union(
-        if (mid_p - (m+1)) > 2 then ramsey2_symbr3_eqs_m(m+1, mid_p) else {}, 
-        if (n - (mid_p+1)) > 2 then ramsey2_symbr3_eqs_m(mid_p+1, n) else {})),
-    return(rs))$
 
 
 /*!

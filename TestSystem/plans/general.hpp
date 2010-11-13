@@ -41,7 +41,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Compiler warnings
+  \todo %Compiler warnings
   <ul>
    <li> Somewhere else there should be something on the problem of how
    to eliminate all compiler warnings? </li>

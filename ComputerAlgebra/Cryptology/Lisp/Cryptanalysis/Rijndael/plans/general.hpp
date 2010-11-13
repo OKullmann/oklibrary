@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.2.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,30 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
+
+
+  \todo Connections
+  <ul>
+   <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
+   </li>
+   <li> See
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
+   for investigations. </li>
+  </ul>
+
+
+  \todo Update
+  <ul>
+   <li> It seems that these todos as well as the milestones are out-of-date.
+   </li>
+   <li> Especially the small-scale generalisation is not mentioned. </li>
+   <li> Likely the version number should be advanced. </li>
+   <li> The todos "Review and tidy todos" and "Create / update milestones"
+   are not mentioned in the milestones, which must not happen! MG must
+   look up these todos in this history, and either remove them (potentially
+   adding to the milestones-history), or add them to the current milestones.
+   </li>
+  </ul>
 
   
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic

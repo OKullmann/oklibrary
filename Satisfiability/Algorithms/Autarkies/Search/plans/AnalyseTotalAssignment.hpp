@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.8.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,15 +16,15 @@ License, or any later version. */
    <ul>
     <li> Submit an error report to Gcc: Option "-I-" *cannot* be replaced by
     "-iquote", and there is also no alternative! </li>
-    <li> We need it because XXX </li>
-    <li> I (OK) recall that there was somewhere else (likely in module Buildsystem)
-    another todo on this? </li>
+    <li> See "Installation of UBCSAT completed" in
+    Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
    </ul>  
 
 
   \todo Connections with other modules and parts
   <ul>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/general.hpp. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/general.hpp.
+   </li>
    <li> Development in this module (C++) is postponed until all basic
    implementations are done at the Maxima/Lisp level. </li>
    <li> Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
@@ -71,14 +71,19 @@ License, or any later version. */
   It seems reasonable to use e.g. include <ubcsat/reports.h>.
 
 
-  \todo Complete autarky search:
-  Via the appropriate components from the combinatorics module for enumeration of total
-  assignments, we obtain complete algorithms for autarky search.
+  \todo Complete autarky search
+  <ul>
+   <li> Via the appropriate components from the combinatorics module for
+   enumeration of total assignments, we obtain complete algorithms for autarky
+   search. </li>
+  </ul>
 
 
-  \todo New file structure:
-  Likely we need more files (for the analysis of total assignments in general, for the
-  methods exploiting Ubcsat, for the complete search).
+  \todo New file structure
+  <ul>
+   <li> Likely we need more files (for the analysis of total assignments in
+   general, for the methods exploiting Ubcsat, for the complete search). </li>
+  </ul>
 
 
   \todo Changing UBCSAT

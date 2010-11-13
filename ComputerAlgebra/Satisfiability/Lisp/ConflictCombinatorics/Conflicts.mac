@@ -42,6 +42,7 @@ cm_cs(F) := [F, lambda([C,D], length(intersection(C,comp_sl(D))))]$
 cg_cs(F) := [F, subset(powerset(F,2),lambda([S], 
   block([L:listify(S)], return(clashp(L[1],L[2])))))]$
 /* cg_cs(F) = com2g(cm_cs(F)) */
+cg_fcs(F) := cg_cs(fcs2cs(F))$
 
 /* The hypergraph of maximal conflict-independent subsets of a 
    clause-set; i.e., all maximal conflict-free subsets. */
@@ -105,6 +106,11 @@ partition_number_m_cs(F) := partition_number_cs(F, partition_number_gr_m)$
 /* Whether a clause-set is graphic (the conflict multigraph
    is a graph) */
 graphiccsp(F) := is(max_com(scom2com(cm_cs(F))) <= 1)$
+
+/* Whether a clause-set is bipartite (the conflict-graph is bipartite):
+*/
+bipartite_cs_p(F) := bipartite_g_p(cg_cs(F))$
+bipartite_fcs_p(FF) := bipartite_g_p(cg_fcs(FF))$
 
 /* The Alon-Saks-conjecture for graphs states that the chromatic number
    is at most the biclique-partion number + 1.

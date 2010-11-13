@@ -17,23 +17,24 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Notions and notations
-    - Update the following todos
+    - Update the following todos : DONE
     - Alter internal AES functions to use polynomials and matrices : DONE
     - Truncate AES for reduced rounds: DONE
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Sbox polynomial implementation
-    - Convert aes_key_expansion to return a list of matrices
-    - Remove addition from AES round
+    - Sbox polynomial implementation : DONE
+    - Convert aes_key_expansion to return a list of matrices : DONE
+    - Remove addition from AES round : DONE
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Generating test vectors
+    - Use matrix of GF(b) matrices for MixColumn
     - Datatypes and naming conventions
-    - Small scale AES implementation
+    - Tests for implementations : DONE
+    - Small scale AES implementation : DONE
 
 
   \par Version 0.0.11
@@ -41,7 +42,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - The Rijndael cipher as an iterated condition system
+    - The Rijndael cipher as an iterated condition system : DONE
     - Design of round functions
     - Key schedule : DONE
     - Algebraic aspects DONE
@@ -55,6 +56,11 @@ License, or any later version. */
     - Docus and Demos
     - Requirements
     - Coding Standards
+
+  \par 
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Generating test vectors
 
   \par
    By Version 0.1, the original basic implementation of AES should be completed and documented.

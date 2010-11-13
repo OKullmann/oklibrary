@@ -6,11 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/LogicalDataAnalysis/plans/general.hpp
+  \file ComputerAlgebra/LogicalDataAnalysis/Lisp/plans/general.hpp
   \brief General plans regarding the logical analysis of data
 
 
-  \todo Matrices
+  \todo %Matrices
   <ul>
    <li> We need various functions for handling matrices, which generalise
    the "truth tables" found in the literature. </li>
@@ -124,16 +124,27 @@ CSc : ttcom2cvm(CS);
      function, for example the generic wrapper "gv":
      \verbatim
 FF : clvar_w_ocom2fcl(CSc, gv);
-fcl_p(clvar_ocom2fcl(CSc));
-  false
+fcl_p(clvar_ocom2fcl(CSc,gv));
+  true
      \endverbatim
-     The error is due to the Maxima-bug when handling strings; so currently we
-     can't have variables like gv("Via"). </li>
+     </li>
      <li> Though in principle it seems that using such variables is reasonable;
      only perhaps we typically avoid the distinction between small and capital
      letters, just using only small letters. </li>
      <li> An alternative would be to introduce dedicated variables
      (like Via), however then we would get easily naming-conflicts. </li>
+     <li> (DONE Bug fixed in Maxima 5.21.1. See 
+     "Strings cause errors in evaluation of expressions" in 
+     ComputerAlgebra/plans/Maxima.hpp)
+     When wrapping variable names using a generic variable wrapper
+     we get
+     \verbatim
+FF : clvar_w_ocom2fcl(CSc, gv);
+fcl_p(clvar_ocom2fcl(CSc,gv));
+  false
+     \endverbatim
+     The error is due to the Maxima-bug when handling strings; so currently we
+     can't have variables like gv("Via"). </li>
     </ol>
    </li>
   </ul>
@@ -143,7 +154,7 @@ fcl_p(clvar_ocom2fcl(CSc));
   <ul>
    <li> Given a set V of variables, a partial boolean function f could be
    represented by a pair [T,F], where T,F are disjoint sets of total
-   assignments over V, representing the true resp. false point of f. </li>
+   assignments over V, representing the true resp. false points of f. </li>
    <li> However, falsifying assignments are the domain of CNF, not DNF,
    and so the proper generalisation, allowing arbitrary clause-sets T,F over
    V, seems to be a triple [V,T,F], such that T,F are clause-sets over V,
@@ -198,6 +209,43 @@ fcl_p(clvar_ocom2fcl(CSc));
      boolean functions). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Generalisations
+  <ul>
+   <li> The first step is to consider multi-valued tables. </li>
+   <li> Later we also need to consider "fuzzy sets"; see
+   ComputerAlgebra/FuzzySets/Lisp/plans/general.hpp. </li>
+   <li> Especially for the relational point of view we can make good
+   distinctions:
+    <ol>
+     <li> At the first level we have relations over {0,1}^m (the boolean
+     level). </li>
+     <li> Then we have relations over D^m, where D is some finite set (the
+     multivalued level). </li>
+     <li> Then we have relations over [0,1]^m (where [0,1] is the interval from
+     0 to 1) (the fuzzy level). </li>
+     <li> More generally we could allow relations over S^m, where S is some
+     (structured) set allowing for "boolean operations". </li>
+     <li> Compare "More general notions" in
+     ComputerAlgebra/FuzzySets/Lisp/plans/general.hpp. </li>
+     <li> The general axiomatic framework needs to make sure that the basic
+     operations like representations via CNF/DNF clause-sets are possible
+     (so that minimisation of representation size can be considered, and this
+     in a way similar to the boolean case). </li>
+     <li> In all these cases, every column stands for some "variable" (or
+     "condition"), every row for some (observed) "case" (or "configuration"),
+     and every entry for the "degree" to which in this specific case the
+     "condition" is attained. </li>
+     <li> The notion of a relation is just the standard one (the observation
+     has been made, thus is true, or it is deemed as impossible, thus is
+     false). </li>
+     <li> Finally, one could also allow generalised relations, which map from
+     S^m to some set of truth values. Then the "degree" to which the
+     observation is "in" or "out" allows also variations. </li>
+    </ol>
+   </ol>
   </ul>
   
 */

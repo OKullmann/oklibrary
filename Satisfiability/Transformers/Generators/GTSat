@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 6.12.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -16,7 +16,8 @@
 # n is the number of vertices (i.e., prime numbers).
 
 # For s=2 the problem is directly expressed as a boolean SAT problem,
-# for s>2  the problem is translated into boolean SAT via the direct encoding.
+# for s>2  the problem is translated into boolean SAT via the strong
+# direct translation.
 
 # The resulting file is called "GreenTao_2-k_1-...k_2_n.cnf".
 # If however the environment defines variable "resultfile", then this
@@ -25,7 +26,7 @@
 # output_greentao_stdname for s>2.
 
 # For diagonal problems (all k_i are equal) better use "GTdSat" (since
-# the filename is abbreviated here).
+# the filename is abbreviated there).
 
 set -o nounset
 

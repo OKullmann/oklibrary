@@ -6,6 +6,8 @@
 # local installations of GMP:
 GMP_INCLUDE_OPTION =
 GMP_LINK_OPTION = -lgmp
+# And also introduced LFLAGS and ZLIB_INCLUDE_OPTION in order to use the
+# local zlib-library.
 
 CSRCS     = $(wildcard *.C)
 CHDRS     = $(wildcard *.h)
@@ -58,39 +60,39 @@ clean:
 ## Build rule
 %.o %.op %.od %.or %.ox: %.C
 	@echo Compiling: $<
-	@$(CXX) $(CFLAGS) $(GMP_INCLUDE_OPTION) -c -o $@ $<
+	@$(CXX) $(CFLAGS) $(ZLIB_INCLUDE_OPTION) $(GMP_INCLUDE_OPTION) -c -o $@ $<
 
 ## Linking rules (standard/profile/debug/release)
 $(EXEC): $(COBJS)
 	@echo Linking $(EXEC)
-	@$(CXX) $(COBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@ 
+	@$(CXX) $(LFLAGS) $(COBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@ 
 
 $(EXEC)_profile: $(PCOBJS)
 	@echo Linking $@
-	@$(CXX) $(PCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -pg -o $@
+	@$(CXX) $(LFLAGS) $(PCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -pg -o $@
 
 $(EXEC)_debug:	$(DCOBJS)
 	@echo Linking $@
-	@$(CXX) $(DCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@
+	@$(CXX) $(LFLAGS) $(DCOBJS) -lz $(GMP_LINK_OPTION) -ggdb -Wall -o $@
 
 $(EXEC)_release: $(RCOBJS)
 	@echo Linking $@
-	@$(CXX) $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
+	@$(CXX) $(LFLAGS) $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
 
 $(EXEC)_bignum_static: $(RCOBJS)
 	@echo Linking $@
-	@$(CXX) --static $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
+	@$(CXX) $(LFLAGS) --static $(RCOBJS) -lz $(GMP_LINK_OPTION) -Wall -o $@
 
 $(EXEC)_64-bit_static: $(R64COBJS)
 	@echo Linking $@
-	@$(CXX) --static $(R64COBJS) -lz -Wall -o $@
+	@$(CXX) $(LFLAGS) --static $(R64COBJS) -lz -Wall -o $@
 
 
 ## Make dependencies
 depend:	depend.mak
 depend.mak:	$(CSRCS) $(CHDRS)
 	@echo Making dependencies...
-	@$(CXX) -MM $(CSRCS) $(CFLAGS) > depend.mak
+	@$(CXX) -MM $(CSRCS) $(CFLAGS) $(ZLIB_INCLUDE_OPTION) > depend.mak
 	@cp depend.mak /tmp/depend.mak.tmp
 	@sed "s/o:/op:/" /tmp/depend.mak.tmp >> depend.mak
 	@sed "s/o:/od:/" /tmp/depend.mak.tmp >> depend.mak

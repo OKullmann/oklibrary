@@ -1,12 +1,12 @@
 // Oliver Kullmann, 15.11.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/GreenTaoGCNF.hpp
+  \file Satisfiability/Transformers/Generators/GreenTaoGCNF.cpp
   \brief Application for creating SAT instances expressing Green-Tao problems with more than 2 colours
 
   For the specification see output_greentao in
@@ -14,9 +14,22 @@ License, or any later version. */
 
   \todo Compare with specification
   <ul>
-   <li> Once the Maxima-function output_greentao uses ordered clause-sets,
-   make sure that the order of clauses really coincide. </li>
+   <li> Make sure that the order of clauses coincides with the Maxima-function
+   output_greentao. </li>
    <li> Provide similar comments as output_greentao is doing. </li>
+  </ul>
+
+  \todo Provide other translations
+  <ul>
+   <li> Currently we need at least output_greentao_standnest_stdname and
+   output_greentao_logarithmic_stdname. </li>
+   <li> This shall be controlled by a string as additional parameter,
+   "standnest" and "log". </li>
+   <li> We need to think in general about naming schemes for the translations,
+   and their abbreviations, including what to do with the value-orderings.
+   </li>
+   <li> Once this extended functionality is available, it needs to be
+   incorporated into the script GTSat and GTdSat. </li>
   </ul>
 
 */

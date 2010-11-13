@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -31,6 +31,10 @@ rel_history_release_history_output := $(shell $(rel_path_tool) $(release_history
 # From the Ten-Challenges-page:
 rel_tenchallenges_baltimore2008_talk_location := $(shell $(rel_path_tool) $(baltimore2008_talk_location) $(tenchallenges_page_output))
 rel_tenchallenges_tenchallenges_doxygen_directory := $(shell $(rel_path_tool) $(tenchallenges_doxygen_directory) $(tenchallenges_page_output))
+
+# From the Ramsey-Theory-page:
+rel_greenTao_pcv2010_talk_location := $(shell $(rel_path_tool) $(greentao_pcv2010_talk_location) $(ramseytheory_page_output))
+
 
 # From the external sources page: ("les" for local external sources)
 rel_les_boost_docu_page_okl := $(shell $(rel_path_tool) $(boost_docu_page_okl) $(externalsources_page_output))

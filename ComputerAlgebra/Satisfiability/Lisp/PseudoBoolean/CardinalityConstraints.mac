@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.7.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityConstraints.mac
   \brief Translating cardinality constraints into CNF
 
-  Encoding p <= v_1 + ... + v_k <= q for given boolean variables v_1, ..., v_k
+  Encoding p <= x_1 + ... + x_k <= q for given boolean literals x_1, ..., x_k
   and natural numbers p, q.
 
 
@@ -25,7 +25,61 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
+
+/*
+  A "(boolean) cardinality-constraint" ("crd") is a triple [a,L,b],
+  where a, b are natural numbers >= 0 or inf, while L is a list of
+  (boolean) literals (allowing repetitions and complementary literals).
+  The meaning is "a <= sum(L) <= b", where sum(L) counts the satisfied
+  literals.
+
+  A crd is "repetition-free", if no literal in L occurs more than once.
+*/
+
+/* ***************************************
+   * Simplifying cardinality constraints *
+   ***************************************
+*/
+
+/*
+  A "sorted cardinality constraint" ("scrd") is a triple [lb,C0,ub] similar
+  to above, but where C0 now is an ordered set-map, sorted by descending
+  values, which assigns to the occurring literals their counts (natural
+  numbers >= 1).
+*/
+
+/* Translating a cardinality constraint into a sorted cardinality constraint,
+   sorting literals with equal counts in the build-in order:
+*/
+crd2scrd(C) := [C[1], sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))), C[3]]$
+
+/* Translating a sorted cardinality constraint into a cardinality constraint:
+*/
+scrd2crd(C) :=
+  [C[1],lappend(map(lambda([a],create_list(a[1],i,1,a[2])),C[2])),C[3]]$
+
+/* Removing tautologies from a sorted cardinality constraint.
+   Returned is the equivalent sorted cardinality constraint, where for
+   every clashing pair of literals the literal(s) attaining the min-count
+   are removed, while the bounds are reduced by the min-count.
+*/
+remove_tautologies_scrd(C) := block(
+[a : C[1], b : C[3], h : osm2hm(C[2]), NC],
+ NC : map(
+  lambda([P], block([cneg : ev_hm(h,-P[1])],
+    if cneg=false then P
+    else block([cpos : ev_hm(h,P[1])],
+      if cpos=0 then 0
+      else (
+        set_hm(h,-P[1],0),
+        [a,b] : [a,b] - cneg,
+        if cpos=cneg then 0
+        else [P[1],cpos-cneg]
+      )))),
+  C[2]),
+ [a,delete(0,NC),b])$
 
 
 /* **********************
@@ -33,43 +87,35 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    **********************
 */
 
-/* Translating a cardinality constraint into a CNF-clause-list: */
-/* PROBLEM: Is sort stable?? And is ">" to be used instead of ">="?? */
-direct_crd2cl(C) := block(
- [a : C[1], 
-  D : sort(list_distribution(C[2]), lambda([p1,p2], is(second(p1)>=second(p2)))),
-  b : C[3]],
-  append(
-   direct_crd2cl_ge(D, a),
-   direct_crd2cl_lt(D, b+1)
- )
-)$
+/* Translating a cardinality constraint into a CNF-clause-list (which has
+   first the clauses for the lower bound, and then the clauses for the
+   upper bound):
+*/
+direct_crd2cl(C) := block([R : remove_tautologies_scrd(crd2scrd(C)), a, b, D],
+ [a : R[1], D : R[2], b : R[3]],
+  append(direct_crd2cl_ge(D, a), direct_crd2cl_lt(D, b+1)))$
 
-/*  Given a list D of literals together with counts (as a list of pairs [x,c],
-    where x is a literal and c >= 1 the count; no repetition w.r.t. literals),
-    sorted in descending order w.r.t. the counts, and a strict upper bound ub,
-    compute the equivalent clause-list.
+/*  Given a sorted cardinality constraint [0,D,ub-1] without tautological
+    literal-pairs, compute the equivalent clause-list.
     The order of the clause-list is as follows:
  1. The major sorting is given by the order of D (regarding the literals).
  2. For a given literal x, first the clauses containing -x and then the clauses
     not containing the underlying variable are taken.
-*/
-/* QUESTION: This list should be the repetition-free list of prime implicates?
 */
 direct_crd2cl_lt(D,ub) := if ub <= 0 then [{}]
  elseif emptyp(D) then []
  else block([p : first(D), x, c, with_x, without_x],
   x : first(p),
   c : second(p),
-  with_x : add_element_l(-x,direct_crd2cl_lt(rest(D), ub-c)),
+  with_x : direct_crd2cl_lt(rest(D), ub-c),
   without_x : direct_crd2cl_lt(rest(D), ub),
+  with_x : remove_elements(without_x,with_x),
+  with_x : add_element_l(-x,with_x),
   append(with_x, without_x)
 )$
 
-/* A list D as above for direct_crd2cl_lt and a (non-strict) lower bound lb,
-   compute the equivalent clause-list: */
-/* QUESTION: This list should be the repetition-free list of prime implicates?
-*/
+/* Given a sorted cardinality constraint [lb,D,inf] without tautological
+   literal-pairs, compute the equivalent clause-list: */
 direct_crd2cl_ge(D,lb) := if lb <= 0 then [] else
  block([s : sum_l(map(second,D))],
   if lb > s then [{}]
@@ -90,152 +136,84 @@ direct_fccrdl2fcl(FF) := [FF[1], append(FF[2], direct_crdl2cl(FF[3]))]$
    ************************
 */
 
-/* The algorithm below is from "Efficient CNF Encoding of Boolean Cardinality 
-   Constraints" by Olivier Bailleux and Yacine Boufkhad.
-   Journal : LNCS
-   Volume : 2833
-   Pages : 102-122
-   Publisher : Springer Berlin
-   Year : 2003
+/*
+   A "CNF representation of a cardinality constraint [a,L,b]" is a clause-set
+   F with var(L) <= var(F), whose satisfying assignments restricted to var(L)
+   are exactly those of the condition [a,L,b], and such that every satisfying
+   assignment for [a,L,b] has exactly one extension to a satisfying assignment
+   of F.
+*/
+
+/* The representation below is from "Efficient CNF Encoding of Boolean
+   Cardinality Constraints" by Olivier Bailleux and Yacine Boufkhad, CP 2003,
+   LNCS 2833 (Springer), 2003, pages 108-122.
 */
 
 /* 
-OK: missing is what is computed!! and about what is this text talking (i.e.,
-which of our functions)??
-
-   The cardinality constraint algorithm, given in the above paper, generates
-   its translation by starting with the list E of input variables, and then
-   generating a tree by splitting E into two sublists, the first of length
-   floor(length(E)/2). The algorithm is recursively applied to these two
-   lists. A binary tree is built by taking the two sub-trees from the
-   recursive calls. This recursive procedure terminates when there is
-   only one variable left, in which case the node is a leaf.
-
-   At each internal node
-OK: "internal node" of what??
-, additional variables are introduced to represent the
-   base 1 representation of the number of variables (of those that generated
-   this sub-tree) which are set to true. The leaves are simply the input
-   variables (on their own).
-
-   The CNF clause-set translation of the cardinality constraint,
-   which is satisfied iff between p and q (inclusive) variables are set to
-   true, is generated by adding clauses for each node which translate that
-   the new variables at each node are a base-1 representation of the addition
-   of the variables present for each of it's child, resulting in the set of
-   new variables at the root node, representing the base-1 representation of
-   the number of input variables set to true. Finally, an additional clause is
-   introduced which enforces that the first p variables at the root are true,
-   and the last length(E)-q variables are false, such that the constraint
-   is only true if at least p and at most q input variables are set to true.
+  Computing a CNF representation of cardinality constraint C according
+  to [BB 2003]. The new variables are of the form vru(...), and come
+  after the original variables in the list of variables.
+  Prerequisites: C is repetition-free.
 */
+unary_bb_crd2fcl(C) := block(
+  [C_n : scrd2crd(remove_tautologies_scrd(crd2scrd(C))),
+   p,E,q,S,FF_T,FF_C],
+  p : C_n[1], E : C_n[2], q : C_n[3],
+  S : create_list(vru_var(1,length(E),i),i,1,length(E)),
+  FF_T : unary_bb_totaliser_fcl(E,S),
+  FF_C : unary_bb_comparator_fcl(S,p,q),
+  return([FF_T[1],append(FF_T[2],FF_C[2])]))$
 
-/* Variables are "ctt(L,i)", meaning the i-th new variable at the node whose 
-   position is denoted by L in the tree generated by the algorithm, where L is
-   a list of 0s and 1s, denoting a path from the root of a tree to a node in
-   the tree, where each 0 or 1 from the left of the list, refers to taking the
-   left or right path resp. from each node in the tree, starting from the
-   root. That is L = [] denotes the root, L = [0] is the node directly left of
-   the root etc.
+/* New variables are "vru(a,b,i)". (variable recursive unary)
+   where vru(a,b,i) is the i-th variable in list of variables
+   representing the unary representation of the cardinality of
+   [E[a],...,E[b]]. */
+kill(vru)$
+declare(vru, noun)$
+declare(vru, posfun)$
+vru_var(a,b,i) := nounify(vru)(a,b,i)$
+
+/* For a list E of "input" literals and a list S of "output" variables
+   of the same length, compute a clause-list F equivalent to the condition
+   that S is a "unary representation" of the count of 1's in E, that is, w.r.t.
+   the given order in S, if a total assignment assigns k 1's to E, then
+   the first k variables in S are true, and the remaining variables are false.
+   S and E must be disjoint and must each contain distinct variables.
+   Variables in F are those of E and S together with variables vru(...).
 */
-kill(ctt)$
-declare(ctt, noun)$
-declare(ctt, posfun)$
-ctt_var(L,i) := nounify(ctt)(L,i)$
-
-/* Given a list S of "output" variables and a list E of "input" variables
-   of the same length, the result is a clause-list F encoding that S is a 
-   unary representation of the number of variables set to true in E.
-   Here var_cs(F) = union(S,E,V) where variables in V are of the form ctt(L,i)
-   for lists L of 1s and 0s and integers i > 0.
-   Now the total satisfying assignments phi of F are those assignments phi
-   which are arbitrary on E, and, letting p be the number of variables set
-   to 1 from E, where the first p variables in S are set to 1 and the rest to 
-   0; finally the values of the auxiliary variables from V are determined
-   as indicated above.
-OK: What are the prerequisites: Can S, E overlap?
-    And what precisely are the conditions for phi on V??
-
-   The clause-list is built from a tree, where each node has a list of 
-   variables associated with it:
-   - S is associated with the root node.
-   - [E[i]] is associated with the i-th leaf node (in the standard inorder
-     traversal).
-   - The list of variables associated with the left child of the root is
-     [ctt([0],1),...,ctt([0],floor(length(E)/2))].
-   - The list of variables associated with the right child of the root is
-     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))].
-   - The list of variables associated with left child of any other node, 
-     assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,n)], is
-     [ctt(cons(0,l),1),...,ctt(cons(0,l),floor(n/2))].
-   - The set of variables associated with right child of any other node, 
-     assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,n)], is
-     [ctt(cons(1,l),1),...,ctt(cons(1,l),ceiling(n/2))].
-OK: The above is completely unclear, since unspecified.
-    What follows is not understandable.
-
-   For every internal node, there are then clauses expressing that that 
-   variables associated with that node must be assigned the unary
-   representation of the sum of the variables from the two child nodes. 
-   That is, for an internal node P with associated list R, and children 
-   PL and PR with associated lists RL and RR, we have the clauses 
-   {-RL[a],-RL[b],RL[c]} and {RL[a+1],RR[b+1],-R[c+1]} in the resulting
-   clause-list for all 
-   
-   - 0 <= a <= length(RL)
-   - 0 <= b <= length(RR)
-   - 0 <= c <= length(R)
-   - a+b = c.
-
-   where RL[0] := RR[0] := R[0] := true and RL[length(RL)+1] := 
-   RR[length(RR)+1] := R[length(R)+1] := false, and clauses are reduced or 
-   removed based on the presence of true or false.
-
-   The set of new variables introduced can therefore be 
-   recursively defined using a function vc, where V = vc(E,[]) \ E:
-
-   vc(E,l) = {} if length(E) <= 1
-             otherwise 
-             union(
-               E, 
-               vc({ctt(cons(l,0),1),...,ctt(cons(l,0),floor(length(E)/2))}),
-               vc({ctt(cons(l,1),1),...,ctt(cons(l,1),ceiling(length(E)/2))}))
-
-   Therefore the number of new variables needed given length(E) = n is
-   nvc(n) - n where nvc is defined recursively in the following way:
-
-   nvc(n) = 0 if n < 1
-            n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise
+unary_bb_totaliser_fcl(E,S) := unary_bb_totaliser_r_fcl(E,S,1,length(E))$
+/* For a list E of "input" literals and a list S of "output" variables
+   of the same length, compute a clause-list F equivalent to the condition
+   that S is a "unary representation" of the count of 1's in E where E is
+   assumed to be the sublist [E'[a],...,E'[b]] for some (possibly) larger
+   E' .
+   S and E must be disjoint and must each contain distinct variables.
+   Variables in F are those of E and S together with variables vru(...).
+   The point is that this function is used recursively, and so a and b
+   are used to ensure new variables do not clash.
 */
-cardinality_totalizer_cl(S,E) := cardinality_totalizer_r_cl(S,E,[])$
-cardinality_totalizer_r_cl(S,E, tree_pos) := 
-  if length(E) < 1 then []
+unary_bb_totaliser_r_fcl(E,S, a,b) := 
+  if length(E) < 1 then [E,[]]
   else block(
-     [subtree_a : [], subtree_b : [], m_a,m_b, S_x, level,
+     [subtree_a : [[],[]], subtree_b : [[],[]], m_a,m_b, level,
       cs :[],V_a,V_b,m:length(E)],
-    /* work out the temporary variables for the current level */
-    if length(tree_pos) = 0 then
-      S_x : S
-    else
-      S_x : map(lambda([a], ctt_var(tree_pos,a)),create_list(i,i,1,m)),
-    /* work out variable lists for the two children of this node */
+    /* work out CNFs for the two children of this node */
     m_a : floor(m / 2), m_b : (m - m_a),
     if m_a > 1 then (
       V_a : map(
-        lambda([a],ctt_var(cons(0,tree_pos),a)),
+        lambda([i],vru_var(a,ceiling((a+b)/2-1),i)),
         create_list(i,i,1,m_a)),
-      subtree_a : cardinality_totalizer_r_cl([],take_elements(m_a,E), 
-        cons(0,tree_pos)))
-    else
+      subtree_a : unary_bb_totaliser_r_fcl(take_elements(m_a,E), V_a,
+        a,ceiling((a+b)/2-1)))
+    else 
       V_a : take_elements(m_a,E),
     if m_b > 1 then (
       V_b : map(
-        lambda([a],ctt_var(cons(1,tree_pos),a)),
+        lambda([i],vru_var(ceiling((a+b)/2-1)+1,b,i)),
         create_list(i,i,1,m_b)),
-      subtree_b : cardinality_totalizer_r_cl([],rest(E,m_a), cons(1,tree_pos)))
-    else
+      subtree_b : unary_bb_totaliser_r_fcl(rest(E,m_a),V_b,
+        ceiling((a+b)/2-1)+1,b))
+    else 
       V_b : rest(E,m_a),
     /* generate clauses ensuring correct unary representation for this node */
     for alph : 0 thru m_a do
@@ -244,108 +222,37 @@ cardinality_totalizer_r_cl(S,E, tree_pos) :=
         cs : cons(union(
             if alph > 0 then {-V_a[alph]} else {},
             if beta > 0 then {-V_b[beta]} else {},
-            {S_x[sigma]}), cs),
+            {S[sigma]}), cs),
         if sigma < m then
         cs : cons(union(
             if alph < m_a then {V_a[alph+1]} else {},
             if beta < m_b then {V_b[beta+1]} else {},
-            {-S_x[sigma+1]}),
+            {-S[sigma+1]}),
           cs)
       ),
-    if oklib_monitoring then print("Finished level ", tree_pos),
-    return(append(subtree_a, subtree_b, cs))
+    return(
+      [stable_unique(append(E,S,subtree_a[1],subtree_b[1])),
+       append(subtree_a[2], subtree_b[2], cs)])
   )$
 
 
-/* Given a list S of variables together with p, q, produces a clause-list F 
+/* For a list S of variables and natural numbers p, q, compute a clause-list F 
    whose satisfying assignments are those total assignments where the first
    p variables are set to true, and all variables from the (q+1)-th onwards 
-   are set to false.
-
-   The clause set returned is simply a set of length(S) - (q-p) unit clauses
-   where the first p variables in S occur as positive literals in unit clauses
-   and the last (length(S)-q+1) variables occur as negative literals in unit
-   clauses.
-
-   In the resulting clause-list F, var_cs(F) = S.
+   are set to false. The clause-list returned is thus the list of
+   length(S) - (q-p) unit-clauses where the first p variables in S occur as
+   the first p (positive) literals in unit-clauses and the last
+   (length(S)-q+1) variables occur as negative literals in the later
+   unit-clauses.
+   Prerequisite: 0 <= p <= q, p and q are integers or inf.
 */
-cardinality_comparator_cl(S,p,q) := 
-  append(
-    map(set,take_elements(p,S)),map(set,map("-",rest(S,q))))$
+unary_bb_comparator_fcl(S,p,q) :=
+  if p > length(S) then [S,[{}]]
+  else
+    [S,append(
+      map(set,take_elements(p,S)),
+      map(set,map("-",rest(S,min(q,length(S))))))]$
 
-/* Given a list E of variables, returns a clause-list F which is satisfied by a
-   given partial assignment phi iff between m and n variables of E are set to 
-   true by phi.
-   
-   In the resulting clause-list F, var_cs(F) = union(S,E,V) where variables 
-   in V are of the form ctt(l,i) for a list l of 1s and 0s and an
-   integer i > 0, and variables in S are of the form ctt([],i) for
-   integer i > 0.
-   
-   The clause-list is built from a tree, where each node has a list of variables
-   associated with it. 
-   
-   - {ctt([],1),...,ctt([],length(E))} is associated with the root node
-   - [E[i]] is associated with the i-th leaf node (in the standard "inorder" 
-     traversal)
-   - The list of variables associated with the left child of the root is
-     [ctt([0],1),...,ctt([0],floor(length(E)/2))]
-   - The list of variables associated with the right child of the root is
-     [ctt([1],1),...,ctt([1],ceiling(length(E)/2))]
-   - The list of variables associated with left child of any other node, 
-     assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,q)] is
-     [ctt(cons(0,l),1),...,ctt(cons(0,l),floor(q/2))].
-   - The set of variables associated with right child of any other node, 
-     assuming the set of variables associated with the parent node is
-     [ctt(l,1),...,ctt(l,q)] is
-     [ctt(cons(1,l),1),...,ctt(cons(1,l),ceiling(q/2))].
-
-   For every internal node, there are then clauses expressing that that 
-   variables associated with that node must be assigned the unary 
-   representation of the sum of the variables from the two child nodes. 
-   That is, for an internal node P with associated list R, and children 
-   PL and PR with associated lists RL and RR, we have the clauses 
-   {-RL[a],-RL[b],RL[c]} and {RL[a+1],RR[b+1],-R[c+1]} in the result 
-   clause-list for all 
-   
-   - 0 <= a <= length(RL)
-   - 0 <= b <= length(RR)
-   - 0 <= c <= length(R)
-   - a+b = c.
-
-   where RL[0] := RR[0] := R[0] := true and RL[length(RL)+1] := 
-   RR[length(RR)+1] := R[length(R)+1] := false, and clauses are reduced or 
-   removed based on the presence of true or false.
-
-   The result clause-list additionally has (length(S) - (q-p)) unit clauses
-   where the first m variables in S occur as positive literals in unit clauses
-   and the last (length(S)-q+1) variables occur as negative literals in unit
-   clauses.
-   
-   The set of new variables introduced can therefore be 
-   recursively defined using a function vc, where V = vc(S,[])
-   and S = {ctt([],1),...,ctt([],length(E))}:
-
-   vc(S,l) = {} if length(E) <= 1
-             otherwise 
-             union(
-               E, 
-               vc({ctt(cons(l,0),1),...,ctt(cons(l,0),floor(length(E)/2))}),
-               vc({ctt(cons(l,1),1),...,ctt(cons(l,1),ceiling(length(E)/2))})).
-
-   The number of variables in union(V,S) given length(E) = n is
-   nvc(n) where nvc is defined recursively in the following 
-   way:
-
-   nvc(n) = 0 if n < 1
-            n + nvc(floor(n/2)) + nvc(ceiling(n/2)) otherwise.
-
-*/
-cardinality_cl(E,p,q) := block(
-  [S : map(lambda([a],ctt_var([],a)),create_list(i,i,1,length(E)))],
-  return(
-    append(cardinality_totalizer_cl(S,E),cardinality_comparator_cl(S,p,q))))$
 
 /*!
 \endhtmlonly

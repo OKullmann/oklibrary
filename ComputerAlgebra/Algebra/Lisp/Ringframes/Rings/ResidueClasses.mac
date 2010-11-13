@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,8 @@ mod_mul(n) := buildq([n],lambda([x,y],mod(x*y,n)))$
 /* These functions can also be used "modulo n", i.e., their inputs
 can be arbitrary integers. */
 
-/* The standard representation of the residue class ring (modulo n): */
+/* The ring of residue classes modulo n, using the standard representation
+   of the elements by 0, ..., n-1: */
 residues_rng(n) := [setmn(0,n-1), mod_add(n), mod_mul(n), [0], [mod(1,n)]]$
 
 /* The additive inverse: */

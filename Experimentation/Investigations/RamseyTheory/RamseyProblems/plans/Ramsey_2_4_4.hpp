@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.8.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,7 +53,7 @@ for n : 5 thru 18 do output_ramsey2_symbr3_stdname(n);
 for n : 5 thru 18 do block([n_e : binomial(n,2)],
   output_fcs(
     sconcat("Card ",n),
-    fcl2fcs(standardise_fcl(cl2fcl(cardinality_cl(create_list(i,i,1,n_e),floor(n_e/2),ceiling(n_e/2))))[1]),
+    fcl2fcs(standardise_fcl(cl2fcl(unary_bb_crd2fcl([floor(n_e/2),create_list(i,i,1,n_e),ceiling(n_e/2)])))[1]),
     sconcat("Card_n",n,".cnf")))$
     \endverbatim
     </li>

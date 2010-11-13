@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,10 @@ License, or any later version. */
   <ul>
    <li> Rewrite Satisfiability/Transformers/Generators/VanderWaerden.hpp
    using OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp. </li>
+   <li> See the todos in
+   Satisfiability/Transformers/Generators/VanderWaerden.hpp. </li>
+   <li> See the todos in
+   Satisfiability/Transformers/Generators/VanderWaerden.hpp. </li>
    <li> Then also Satisfiability/Transformers/Generators/VanderWaerden.hpp
    should be enhanced to produce the full ranges of instances. </li>
   </ul>

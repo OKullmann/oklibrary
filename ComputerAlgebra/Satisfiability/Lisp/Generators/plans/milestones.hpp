@@ -14,10 +14,9 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-    In Lisp/Generators/plans/Sudoku.hpp
-    the following topics are handled:
-    - Implement the four mixed cases for the direct translation
-    - Further improve implementation
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Update milestones
 
 
   \par Version 0.0.10
@@ -26,10 +25,42 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - Split Generators/Generators.mac
-    - Update milestones
 
 
   \par Version 0.0.11
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Accompanying statistics
+
+
+  \par Version 0.0.12
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - Write basic docus
+
+
+  \par Version 0.1
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   the following topics are handled:
+    - %Variables
+
+
+  \par Version 0.1.1
+
+  \par
+    In Lisp/Generators/plans/Sudoku.hpp
+    the following topics are handled:
+    - Implement the four mixed cases for the direct translation
+    - Further improve implementation
+
+
+  \par Version 0.1.2
 
   \par Lisp/Generators/RamseyTheory version 0.0.9
   (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
@@ -38,6 +69,7 @@ License, or any later version. */
    In Lisp/Generators/plans/NonBooleanTranslations.hpp
    the following topics are handled:
     - Add standardised translations
+    - Translating non-boolean clause-sets into boolean clause-sets : DONE
     - Add translations for non-boolean clause-lists with uniform domain DONE 
 
   \par
@@ -46,7 +78,7 @@ License, or any later version. */
     - Specifying the AES random generator
 
 
-  \par Version 0.0.12
+  \par Version 0.1.3
 
   \par
    In Lisp/Generators/plans/LatinSquares.hpp
@@ -56,7 +88,7 @@ License, or any later version. */
     - Extensions
 
 
-  \par Version 0.0.13
+  \par Version 0.1.4
 
   \par Lisp/Generators/RamseyTheory version 0.0.10
   (see Lisp/Generators/RamseyTheory/plans/milestones.hpp)
@@ -72,13 +104,7 @@ License, or any later version. */
     - Implementing the AES random generator
 
 
-  \par Version 0.0.14
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - Split Generators/Generators.mac
-    - Accompanying statistics
+  \par Version 0.1.5
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
@@ -86,12 +112,7 @@ License, or any later version. */
     - Random subsets, sublists etc.
 
 
-  \par Version 0.0.15
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - %Variables
+  \par Version 0.1.6
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
@@ -99,31 +120,14 @@ License, or any later version. */
     - Filtering out
 
 
-  \par Version 0.0.16
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - Write basic docus
-
-
-   \par Version 0.1
+   \par Version 0.2
    We have rudimentary documentation for all generators, and for %Ramsey
    problems we have translations available for all (standard) forms,
    including some initial symmetry-breaking encodings. And the basic
    methodology for writing generators is in place.
    
 
-  \par Version 0.1.1
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
-   the following topics are handled:
-    - Colouring problems
-    - Generalised colouring problems
-
-
-  \par Version 0.1.2
+  \par Version 0.2.1
 
   \par Lisp/Generators/RamseyTheory version 0.1.1
   (see 

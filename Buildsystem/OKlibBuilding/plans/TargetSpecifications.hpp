@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.6.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,10 +27,26 @@ License, or any later version. */
 
   \todo New target for main action
   <ul>
-   <li> Yet very often "make all check new_check app_tests html" is called.
+   <li> Yet very often "oklib all check new_check app_tests html" is called.
    </li>
    <li> The should be a super-target for that; how to call it? "update" ??
    </li>
+   <li> Perhaps "build_test_docu". </li>
+   <li> Perhaps better "buildtestdocu": shorter to write, and we use such
+   names for targets in general. </li>
+   <li> Then however the order of processing is changed, due to the recursive
+   makefiles: in every part all of "all check new_check app_tests html" is
+   performed, before going to another part! </li>
+   <li> Yet, we can not express dependencies directly, but they are somehow
+   handled by the global order; now there could be interferences? </li>
+   <li> Likely "check" and/or "new_check" needs "all" to be completed? </li>
+   <li> So perhaps this new target is only to be used in "non-critical"
+   contexts? </li>
+   <li> So perhaps we postpone the introduction of this new target, until
+   we have a better grasp on the dependency problems. </li>
+   <li> Compare "Test system" in Buildsystem/OKlibBuilding/plans/general.hpp
+   for a similar problem; don't we have a global todo regarding the
+   consideration of all dependencies? </li>
   </ul>
 
 
@@ -149,6 +165,16 @@ License, or any later version. */
   <ul>
    <li> See "Definitions for doxygen" in Buildsystem/plans/Configuration.hpp
    for the dependency on the doxyfile. </li>
+  </ul>
+
+
+  \todo Target "app_tests"
+  <ul>
+   <li> We should have a general set-up to test SAT solvers w.r.t. the
+   standard SAT functionality. </li>
+   <li> Including various "fuzzing" tools; see "Fuzzing" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+   <li> Of course, we should also involve our own generators. </li>
   </ul>
 
 

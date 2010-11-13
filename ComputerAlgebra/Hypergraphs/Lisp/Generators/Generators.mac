@@ -46,86 +46,6 @@ nver_complete_hg(n,r) := n$
 nhyp_complete_hg(n,r) := binomial(n,r)$
 
 
-/* *****************************
-   * Van der Waerden's theorem *
-   *****************************
-*/
-
-/* The arithmetic progression of length k and slope d, starting with a: */
-arpr(k,a,d) := create_list(a + i*d, i,0,k-1)$
-/* If d = 0, then the progression is degenerated. */
-
-/* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
-/* Prerequisites: n,k are natural numbers >= 0. */
-/* The order of hyperedges: Sorted by increasing last vertex, inside such
-   a segment first slope 1, then 2, ... .
-*/
-/* First the list of arithmetic progressions of length ending in vertex n
-   for n, k >= 1: */
-arithprog_finish(k,n) :=
- if k=1 then [{n}] else
-  create_list(setify(create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))$
-arithprog_ohg(k,n) := if k=0 then [create_list(i,i,1,n),[{}]]
- elseif n=0 then [[],[]] else
- [create_list(i,i,1,n),
-  lappend(create_list(arithprog_finish(k,i),i,1,n))]$
-arithprog_hg(k,n) := ohg2hg(arithprog_ohg(k,n))$
-
-
-/* Statistics functions: */
-
-nver_arithprog_hg(k,n) := n$
-nver_arithprog_ohg(k,n) := n$
-
-nhyp_arithprog_hg(k,n) := 
- if k=0 then 1
- elseif k=1 then n
- elseif n < k then 0
- else block([q : floor((n-1)/(k-1))], q * (n - 1/2*(k-1)*(q+1)))$
-nhyp_arithprog_ohg(k,n) := nhyp_arithprog_hg(k,n)$
-
-
-/* Testing whether the list L represents an arithmetic progression: */
-arithmetic_progression_p(L) := if length(L) <= 1 then true
-  else arithmetic_progression_d_p(rest(L),L[2] - L[1])$
-/* Testing whether the list L represents an arithmetic progression with
-   (constant) difference d: */
-arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
-  else is(second(L) - first(L) = d) and arithmetic_progression_d_p(rest(L),d)$
-
-/* The list of all arithmetic progressions of length k for the sorted list L
-   (following the order of L, first all progressions starting with the
-   first vertex, then with the second, ...). */
-/* Prerequisites: k natural number >= 0, L ascending. */
-arithmetic_progressions(L,k) :=
- if k = 0 then [[]]
- elseif k = 1 then map("[",L)
- else block([l : length(L)],
-   if l <= 1 then return([]),
-   block([x : first(L), res_without, res_with : []],
-     L : rest(L), l : l - 1,
-     res_without : arithmetic_progressions(L,k),
-     /* Computing all arithmetic progressions starting with x: */
-     while l > 0 do block([y : first(L), d, P, lp],
-       L : rest(L), l : l - 1,
-       d : y - x,
-       P : [x,y], lp : 2,
-       block([prev_el : y],
-         for z in L unless lp = k or z - prev_el > d do
-           if z - prev_el = d then (
-             P : endcons(z,P), lp : lp + 1, prev_el : z
-           )
-       ),
-       if lp = k then res_with : cons(P,res_with)
-     ),
-     return(append(reverse(res_with),res_without))))$
-
-/* The hypergraph of all arithmetic progressions of size k in the
-   list L of different integers: */
-arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
-arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
-
-
 /* *******************
    * Schur's theorem *
    *******************
@@ -152,8 +72,8 @@ linequations_ohg(k,n) := block([V : setn(n)],
 
 /* We now consider the underlying hypergraphs for Ramsey problems, that is,
    for r-graphs with n vertices we consider q-cliques, and a counter-example
-   showing that NR([q,q,...,q],r) > n, where the list of q's has length s, is
-   a hypergraph colouring using s colours of the following hypergraph.
+   showing that ramsey_s^r(q,q,...,q) > n, where the list of q's has length s,
+   is a hypergraph colouring using s colours of the following hypergraph.
    In other words, ramsey_hg(q,r,n) has as vertices the r-subsets
    of {1,...,n}, while a hyperedge is given by the set of r-subsets
    of any q-subset of {1,...,n}.
@@ -165,6 +85,9 @@ ramsey_hg(q,r,n) := block([V0 : setn(n), V],
  elseif r>q then [V,{}]
  else
   [V, map(lambda([T],powerset(T,r)),powerset(V0,q))])$
+/* The ordered version, using lexicographical ordering on the vertices
+   as well as on the hyperedges (considered as q-subsets):
+*/
 ramsey_ohg(q,r,n) := block([V0 : setn(n), V],
  V : listify(powerset(V0,r)),
  if q>n then [V,[]]
@@ -173,7 +96,7 @@ ramsey_ohg(q,r,n) := block([V0 : setn(n), V],
  else
   [V, map(lambda([T],powerset(T,r)), listify(powerset(V0,q)))])$
 
-/* The same, but using vertices e.g. "rv(1,2,3)" instead of "{1,2,3}" */
+/* Now using vertices e.g. "rv(1,2,3)" instead of "{1,2,3}". */
 
 kill(rv)$
 declare(rv,noun)$
@@ -188,12 +111,17 @@ ramseyrv_ohg(q,r,n) := block([V0 : setn(n), V],
  else
   [V, map(lambda([T],map(set_rv,powerset(T,r))), listify(powerset(V0,q)))])$
 
-/* Standardised Ramsey hypergraphs, using colexicographical ordering of
+/* Standardised Ramsey hypergraphs, now using colexicographical ordering of
    the vertices (as r-subsets of {1,...,n}) to convert them into natural
-   numbers (while keeping the lexicographical order of ramsey_stdohg):
+   numbers (while keeping the lexicographical order of hyperedges, as in
+   ramseyrv_ohg):
 */
 ramsey_stdohg(q,r,n) :=
  ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_ksubsets(setify(L)), rv)$
+/* Note that the vertex list is ordered in such a way to keep the
+   correspondence to the lexicographical ordering of the vertices.
+*/
+
 
 /* Statistics functions: */
 

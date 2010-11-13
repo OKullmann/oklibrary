@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.11.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems (including Green-Tao numbers)
 
 
-  \todo Standardisation on notation
+  \todo Standardisation on notation : DONE
   <ul>
    <li> For Green-Tao and for Van-der-Waerden numbers we use the following
    notation from now on. </li>
@@ -18,14 +18,15 @@ License, or any later version. */
    or "vanderwaerden"). </li>
    <li> We always write out this index. </li>
    <li> For diagonal problems, we have then exactly one argument, the length
-   of the arithmetic progression in each part. </li>
+   of the arithmetic progression in each part, and we add "d" to the
+   function-name. </li>
    <li> While for non-diagonal problems we have as many arguments as the
    index, each the length of the arithmetic progression in the corresponding
    part. </li>
   </ul>
 
 
-  \todo Trivial Green-Tao numbers
+  \todo Trivial Green-Tao numbers : DONE (handling this elsewhere)
   <ul>
    <li> greentao_p(k) for natural numbers p,k >= 0 is the smallest natural
    number n >= 0 such that partitioning the first n prime numbers into p
@@ -90,7 +91,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Best local search solver
+  \todo Best local search solver : DONE (there is no general best algorithm)
   <ul>
    <li> From the ubcsat-suite rnovelty+ seems best. </li>
    <li> See what's in ubcsat-1.1.0. </li>
@@ -158,8 +159,9 @@ License, or any later version. */
    </li>
    <li> Via local search we might even investigate greentao_2(6), but here
    n might go into the millions, and we need a much faster generator. </li>
-   <li> In Satisfiability/Transformers/Generators/plans/GreenTao.hpp a
-   C++ generator is being created. </li>
+   <li> In Satisfiability/Transformers/Generators/GTSat and GTdSat we have
+   C++ generators for boolean problems and for the direct translation for
+   non-boolean problems. </li>
    <li> And also the sequences length(arithprog_primes_finish[k,n]) for fixed k
    and length(arithprog_primes(k,n)) for fixed k should be of interest.
     <ol>

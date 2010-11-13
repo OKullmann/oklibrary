@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -86,18 +86,17 @@ License, or any later version. */
   </ul>
 
 
-  \todo Representing counter examples
+  \todo Representing counter-examples
   <ul>
    <li> See '"Visualising" solutions' in 
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp
    . </li>
    <li> One should be able to translate a solution to a given Ramsey SAT 
-   problem (that is, "ramsey_r^s(q_1,...,q_s) > n?"), given as a set of literals
-   using the standard variable naming, to a graph labelling (see 
+   problem (that is, "ramsey_r^s(q_1,...,q_s) > n?"), given as a set of
+   literals using the standard variable naming, to a graph labelling (see 
    "Representing edge and vertex labellings" in 
-   ComputerAlgebra/Graphs/Lisp/plans/general.hpp ). </li>
-   <li> (DONE See ComputerAlgebra/Graphs/Lisp/Generators.mac) 
-   For r=2, s=2, one should also be able to translate a solution to the
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp). </li>
+   <li> For r=2, s=2, one should also be able to translate a solution to the
    graph representing the solution (where the 2 labels represent an edge being
    either in or out of the graph). </li>
   </ul>

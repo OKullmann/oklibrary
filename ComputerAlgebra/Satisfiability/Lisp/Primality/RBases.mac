@@ -15,13 +15,17 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac");
 
 */
 
-
 /*!
 \htmlonly
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+
+/*
+  See "Bases of the set of prime clauses relative to some reduction" in
+  Satisfiability/Lisp/Primality/plans/general.hpp for the definitions.
+*/
 
 /* ************
    * Sampling *

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 18.12.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,7 +7,7 @@
 
 # Settings for building and using Maxima
 
-maxima_recommended_version_number_okl ?= 5.20.1
+maxima_recommended_version_number_okl ?= 5.21.1
 maxima_supported_not_recommended_version_numbers_okl ?= 5.20.0
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 

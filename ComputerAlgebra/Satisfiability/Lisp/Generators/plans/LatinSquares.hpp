@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.12.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,20 +33,15 @@ License, or any later version. */
   <ul>
    <li> We do very similar things for latin squares, Sudoku problems and
    %e.g., pigeonhole formulas. </li>
-   <li> alo_cnf_cs(L) and amo_cnf_cs(L):
+   <li> Cardinality constraints [1,L,inf] and [0,L,1]:
     <ol>
      <li> The simplest way of making the similarities more visible is to use
-     "at most one" and "at least one" functions, which express, for a given set
-     L of literals, the boolean function on the variables involved that at most
-     one resp. at least one of the literals is true. </li>
-     <li> Such functions obviously are connected to
-     Satisfiability/FiniteFunctions; shall we place them there or here? </li>
-     <li> Perhaps best in this module only to put "real" generators, that is,
-     real satisfiability problems, while more basic functions like alo_cs and
-     amo_cs go to FiniteFunctions. </li>
-     <li> See "Cardinality constraints" in
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Thresholds.hpp
-     for the implementation. </li>
+     "at most one" and "at least one" cardinality constraints, which express,
+     for a given set L of literals, the boolean function on the variables
+     involved that at most one resp. at least one of the literals is true.
+     </li>
+     <li> See
+     Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp. </li>
     </ol>
    </li>
    <li> Strong hypergraph colouring </li>

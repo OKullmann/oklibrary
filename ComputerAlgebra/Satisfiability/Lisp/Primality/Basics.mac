@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 21.5.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Primality/Basics.mac
+  \brief The basic functions regarding prime clauses
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/*
+  See "Notions" in Satisfiability/Lisp/Primality/plans/general.hpp for
+  the definitions.
+*/
+
+prime_clause_p(C,F) := impliesp_cs(F,C,current_satsolver) and
+ every_s(lambda([x], not impliesp_cs(F,disjoin(x,C),current_satsolver)), C)$
+
+dual_prime_clause_p(C,F) := sat_pacs_p(C,F) and 
+ every_s(lambda([x], not sat_pacs_p(disjoin(x,C),F)), C)$
+
+prime_cs_p(F) := every_s(lambda([C], prime_clause_p(C,F)), F)$
+
+maximal_prime_cs_p(F) := prime_cs_p(F) and 
+ min_elements(union(F,resolvents_cs(F))) = F$
+
+/*!
+\endhtmlonly
+*/

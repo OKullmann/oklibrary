@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.5 (18.8.2009)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.8 (7.6.2010)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -39,31 +39,23 @@ License, or any later version. */
     - Update our gcc-installation-system to the new standard : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
-   topics are handled:
-    - Update to newer version
-    - ubcsat-okl
-    - Cutoff value etc. should be 64 bits on a 64-bit machine
-    - Investigating the weak performance of Ubcsat on OK's 32-bit machine
-    - Building Ubcsat
-    - Speed
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
-    - Installing 2.10.0
     - Local installation of gfortran
     - Can't output graphics
+    - Installing 2.10.0 : DONE
     - Installing 2.9.0 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
    topics are handled:
+    - MHash segmentation fault
     - Complete MHash documentation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Fuzzing
     - Write docus for March
     - Write docus for Satz
     - Write docus for Minisat
@@ -79,6 +71,22 @@ License, or any later version. */
     - Belief and Survey propagation
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
+   topics are handled:
+    - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
+    - Update to newer version : DONE
+    - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
+    - Speed : DONE
+    - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
+    - Building Ubcsat : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
+   topics are handled:
+    - Version 1.6.3 : DONE
+    - Version 1.5.8 : DONE
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Communicate with Maxima/Ecl to fix load behaviour with symlinks on 
@@ -89,6 +97,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
+    - Shared library not found when using local Gmp : DONE
     - Update to newest version : DONE
 
   \par
@@ -140,6 +149,11 @@ License, or any later version. */
     - System-wide installation
     - Handling of redefined load-function
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - Libffcall not installing on AB's 64-bit Xeon machine
+
 
   \par Version 0.2.5 (completion of general services, and installing SAT)
 
@@ -153,11 +167,6 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the
    following topics are handled:
     - Installing SAT solvers
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
-   topics are handled:
-    - Version 1.5.8
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
@@ -210,6 +219,16 @@ License, or any later version. */
     - Graph colouring
     - Cliques
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/RamseyTheory.hpp
+   the following topics are handled:
+    - Software by Aaron Robertson
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Install GCC 4.3.5
+
 
   \par Version 0.2.8
 
@@ -232,6 +251,17 @@ License, or any later version. */
     - Info- and man-pages
     - Git book
     - Installation process
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Games.hpp the following
+   topics are handled:
+    - Parity games
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Install GCC 4.4.4
+    - Install GCC 4.5.1
 
 
 

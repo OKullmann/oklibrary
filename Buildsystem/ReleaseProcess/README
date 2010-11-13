@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
-# Copyright 2005-2007, 2008, 2009 Oliver Kullmann
+# Copyright 2005-2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -162,12 +162,6 @@ Remarks:
    (directly reachable from the local home page, see below) should now
    be correct, but updating the information on the specific installation pages
    needs the full "oklib html".
- - If you get error messages with "oklib documentation_index" then likely
-   this means that the binary "PathDifference" (needed to translate paths and 
-   which needs to be compiled by the OKlibrary), which we supply 
-   as a binary (in the optimised version), doesn't run on your system (so likely
-   your system is not a i386-architecture). "oklib all" in OKsystem will compile
-   it (amongst others), but you need gcc and Boost ready for this.
 
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources below and on the local home page.
@@ -228,15 +222,15 @@ OKplatform/ExternalSources.
 
 4) A local gcc is installed (providing a C and a C++ compiler).
 
-5) The C++ libraries Boost and Mhash are installed locally (using the
-local gcc).
+5) The C++ library Boost is installed locally (using the local gcc).
 
 6) The Gmp library is installed locally.
 
 6) And further computer algebra systems installed are Gap and R.
 
-7) Yet the SAT solver installed by default are Ubcsat, minisat1, minisat2,
-minisat+, march_pl, satz215, survey_propagation and sat-grasp.
+7) The SAT solver installed by default are Ubcsat, minisat2, minisat+, 
+ march_pl, satz215, survey_propagation, sat-grasp. picosat913,
+ precosat236 and the argosat solver (and library).
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 

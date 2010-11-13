@@ -57,6 +57,8 @@ License, or any later version. */
    <li> And n=41 needs 163846 nodes (less than a minute) with the OKsolver.
    </li>
    <li> minisat2 needs only less than a second. </li>
+   <li> argosat solves it also in less than a second (however with the
+   standard weak nested translation). </li>
    <li> While satz215 seems to have some bigger problems. </li>
    <li> And also march_pl seems to have some problems. </li>
   </ul>
@@ -98,6 +100,8 @@ License, or any later version. */
      progress-numbers constantly fluctuated between 0.010 % and 0.005 %. </li>
     </ol>
    </li>
+   <li> argosat with the standard weak nested translation uses 15 restarts and
+   110771 conflicts. </li>
    <li> OKsolver_2002:
     <ol>
      <li> Without preprocessing and without symmetry breaking:
@@ -476,6 +480,7 @@ c file_name                             GreenTao_N_6-2-2-2-2-3-3_47.cnf
    </li>
    <li> n=53 with precosat236, weak nested standard translation: solved after
    10m (1573601 conflicts). </li>
+   <li> argosat needs 23 restarts and 3012331 conflicts. </li>
    <li> OKsolver_2002 can solve it in 3.8 days (without preprocessing and
    with symmetry breaking):
    \verbatim
@@ -623,7 +628,17 @@ Mean= 14.00792
    <li> n=58, cutoff=10^6: now 30% success. </li>
    <li> n=59, cutoff=10^6: 70% success. </li>
    <li> n=60, cutoff=10^6: 0% success, also with cutoff=10*10^6. </li>
-   <li> Minisat2, weak nested standard translation: </li>
+   <li> Minisat2, weak nested standard translation: After 76088 m (~ 52.8 days)
+   \verbatim
+| 1474310763 |     463    11976   105386 |   170462    92053    150 |  1.678 % |
+| -2083501045 |     461    11861   104580 |   187509    43176     91 |  2.093 % |
+| -977767813 |     456    11576   102288 |   206260    42539    156 |  3.125 % |
+   \endverbatim
+   We should upgrade minisat2 so that it uses for counting conflicts a 64-bit
+   type (and we need the output of learned clauses, at least unit-clauses).
+   </li>
+   <li> After 35 further days apparently no further progress had been
+   achieved, and the computation was aborted. </li>
   </ul>
 
 
@@ -674,7 +689,7 @@ BestSolution_Max = 1.000000
     <ol>
      <li> n=70, first finding the best Ubcsat-algorithm:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_12-2-2-2-2-2-2-2-2-2-2-3-3_70.cnf")
+> E = run_ubcsat("GreenTao_L_12-2-2-2-2-2-2-2-2-2-2-3-3_70.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 gsat_tabu :
@@ -775,7 +790,7 @@ cutoff 10^6:
    min=1 except of 6 times min=2. </li>
    <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
    \verbatim
-> E = eval_ubcsat("GreenTao_L_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> E = run_ubcsat("GreenTao_L_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 rsaps :
@@ -810,7 +825,7 @@ gsat_tabu :
    <li> Finding the best Ubcsat-algorithm for the weak standard nested
    translation:
    \verbatim
-> E = eval_ubcsat("GreenTao_N_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
+> E = run_ubcsat("GreenTao_N_13-2-2-2-2-2-2-2-2-2-2-2-3-3_73.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -980,7 +995,7 @@ gsat :
      </li>
      <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_15-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_83.cnf")
+> E = run_ubcsat("GreenTao_L_15-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_83.cnf")
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 
@@ -1113,7 +1128,7 @@ sapsnr :
      </li>
      <li> Finding the best Ubcsat-algorithm for the logarithmic translation:
      \verbatim
-> E = eval_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", params=list(runs=100,cutoff=1000000))
+> E = run_ubcsat("GreenTao_L_16-2-2-2-2-2-2-2-2-2-2-2-2-2-2-3-3_86.cnf", runs=100,cutoff=1000000)
 > plot(E$alg,E$best)
 > eval_ubcsat_dataframe(E)
 

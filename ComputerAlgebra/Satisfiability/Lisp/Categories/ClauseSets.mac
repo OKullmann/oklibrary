@@ -1,0 +1,130 @@
+/* Oliver Kullmann, 19.8.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Categories/ClauseSets.mac
+  \brief The basic category of clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/ClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Categories/LiteralStructures.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/*
+  The "category of boolean clause-sets" has
+
+   - objects [L,F], where L is a boolean literal structure, and F is a set
+     of (finite) subsets of L;
+   - morphisms f: [L,F] -> [L',F'] are literal structure morphisms
+     f: L -> L' such that for all C in F we have f(C) in F'.
+
+  Abbreviations for the objects: "flcls" ("f" like "formal", "l" like
+  "literal").
+*/
+
+/* Checking whether F is an flcls: */
+flcls_p(F) := listp(F) and is(length(F)=2) and
+  blitstr_p(first(F)) and
+  setp(second(F)) and
+  every_s(lambda([C], subsetp(C,first(first(F)))), second(F))$
+
+/* Checking whether the flcls's F1, F2 are equal: */
+flcls_equalp(F1,F2) := blitstr_equalp(first(F1), first(F2)) and
+ is(second(F1) = second(F2))$
+
+/* Checking whether f is an flcls-morphism from F1 to F2: */
+morphism_flcls_p(f,F1,F2) :=
+  morphism_blitstr_p(f,first(F1),first(F2)) and
+  every_s(lambda([C], elementp(map(f,C),second(F2))), second(F1))$
+
+/* Checking whether the flcls F has self-complementary literals: */
+has_scl_flcls_p(F) := has_scl_blitstr_p(first(F))$
+
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+/* The (unique) initial object (the empty flcls): */
+initial_flcls : [initial_blitstr, {}]$
+
+/* The terminal object, based on the terminal literal-structure (which has
+   [] as the single literal, and all possible clauses):
+*/
+terminal_flcls : [terminal_blitstr, {{},{[]}}]$
+
+/* The free flcls over literal-structure L (no clauses): */
+free_flcls(L) := [L,{}]$
+
+/* The cofree flcls over literal-structure L (all possible clauses): */
+cofree_flcls(L) := [L,powerset(first(L))]$
+
+/* The product-flcls of the list FL of flcls's: */
+product_flcls(FL) := block([
+ L : product_blitstr(map(first,FL)),
+ P : apply(corr_cartesian_product, map(second,FL))],
+  [L, 
+   lunion(map(
+           lambda([CL],
+             subset(powerset(apply(corr_cartesian_product,CL)),
+                    lambda([C], 
+                      every_s(
+                       lambda([i],
+                        elementp(map(projection_product_blitstr(i),C),
+                                 second(FL[i]))),
+                       create_list(i,i,1,length(FL))
+                      )
+                    )
+                   )
+                 ),
+           P))])$
+/* The projections belonging to component i: */
+projection_product_flcls(i) := projection_product_blitstr(i)$
+
+
+/* ****************
+   * Translations *
+   ****************
+*/
+
+/* Converting a flcls to a boolean formal clause-set, by translating the
+   literals from F in their natural order into boolean literals, taking
+   the first occurrence of a complementary pair as the variable.
+   Prerequisite: F has no selfcomplementary literals, and
+   the term "und" is not a literal.
+*/
+flcls2fcls(F) := block([h : sm2hm({}), n : 0],
+  for x in first(first(F)) do
+    if ev_hm_d(h,x,und) = und then (
+      n : n + 1,
+      set_hm(h,x,n), set_hm(h,second(first(F))(x),-n)
+    ),
+  [setn(n), map(lambda([C], map(lambda([x], ev_hm(h,x)), C)), second(F))])$
+
+/* Converting a boolean formal clause-set to a flcls: */
+fcls2flcls(F) := [sl2blitstr(first(F)), second(F)]$
+
+/* Converting a flcls to a hypergraph, by forgetting the complementation
+   and using the literals as vertices:
+*/
+flcls2hg(F) := [first(first(F)),second(F)]$
+
+/*!
+\endhtmlonly
+*/

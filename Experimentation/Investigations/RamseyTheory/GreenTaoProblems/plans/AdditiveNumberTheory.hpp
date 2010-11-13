@@ -8,239 +8,11 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/RamseyTheory/GreenTaoProblems/plans/AdditiveNumberTheory.hpp
   \brief On investigations into additive number theory
-  
-  
-  \todo The distribution of arithmetic progressions amongst primes
+
+
+  \todo Connections
   <ul>
-   <li> The task is to find a nice (thus very likely approximated) law for
-   the values in the list ln_arithprog_primes_c(k,n) (see
-   ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac) for fixed k >= 1. </li>
-   <li> Ploted via %e.g.
-   \verbatim
-plot2d([discrete,create_list(i,i,1,1000),ln_arithprog_primes_c(3,1000)]);
-   \endverbatim
-   </li>
-   <li> For k = 1,2 this is trivial. </li>
-   <li> For k >= 3 regression is to be performed; most powerful is using R,
-   but for initial considerations also simple_linear_regression (use
-   'load("stats")') can be used. </li>
-   <li> There are role models for the regression function in the literature.
-   The main starting point should be [Grosswald, Hagis, 1979, Arithmetic
-   progressions consisting only of primes, Mathematics of Computation,
-   33(148):1343-1352]. </li>
-   <li> This is implemented by "fit_greentao" in OKlib/Statistics/R/GreenTao.R.
-   </li>
-   <li> One can also consider n_arithprog_primes_nc[k,n] (the non-cumulative
-   data, i.e., as list the difference list of the above list):
-   \verbatim
-plot2d([discrete,create_list(i,i,1,1000),create_list(n_arithprog_primes_nc[3,n],n,1,1000)]);
-   \endverbatim
-   Though it seems that the accumulated data is easier to handle (since being
-   smoother). </li>
-   <li> Perhaps it is more appropriate to consider only changes here, that
-   is, skipping n-values where no new arithmetic progression is added).
-   This is plotted in non-cumulative resp. cumulative form by
-   \verbatim
-plot2d([discrete, sizes_strata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
-plot2d([discrete, sizes_cstrata_indmon_ohg(arithprog_primes_ohg(3,1000))]);
-   \endverbatim
-   </li>
-   <li> At the C++-level we have
-   Applications/RamseyTheory/CountProgressions_GreenTao.cpp. </li>
-  </ul>
-
-
-  \todo k=3
-  <ul>
-   <li> Using Applications/RamseyTheory/CountProgressions_GreenTao.cpp
-   and linear regression in R:
-   \verbatim
-> f = fit_greentao(3,1000)
-Number of observations (changes) =  995
-Max nhyp =  40510
-Coefficients: -1.455676 0.2433109 4.530863 -13.22174
-Residual range: -46.01184 36.11967
-
-> f(100)
-  578.4306
-
-> f = fit_greentao(3,10000)
-Number of observations (changes) =  9995
-Max nhyp =  3091531
-Coefficients: 187.4584 0.2631131 4.522825 -14.97632
-Residual range: -912.0556 707.5263
-
-f(100)
-  741.4426
-   \endverbatim
-   (where the correct value for f(100) is 579). </li>
-   <li> So f_3(n) = 187.4584 + 0.2631131*x^2/log(x)^3 * 
-   (1 + 4.522825/log(x) - 14.97632/log(x)^2) is a good model, where
-   x = n*log(n). </li>
-   <li> For N=30000 we obtain:
-   \verbatim
-> f = fit_greentao(3,30000)
-Number of observations (changes) =  29995
-Max nhyp =  25000740
-Coefficients: 393.4117 0.2968310 3.823654 -11.38840
-Residual range: -3423.644 3254.2
-
-f(100)
-  961.2944
-   \endverbatim
-   So f_3(n) = 393.4117 + 0.2968310*x^2/log(x)^3 * 
-   (1 + 3.823654/log(x) - 11.38840/log(x)^2) is a good model, where
-   x = n*log(n). </li>
-   <li> For N=100000 we need a C++ program which doesn't store the
-   progressions. </li>
-  </ul>
-
-
-  \todo k=4
-  <ul>
-   <li>
-   \verbatim
-> f = fit_greentao(4,20000)
-Number of observations (changes) =  19975
-Max nhyp =  1462656
-Coefficients: 145.6985 0.2360898 10.58077 -41.45108
-Residual range: -412.8622 501.4584
-
-> f = fit_greentao(4,40000)
-Number of observations (changes) =  39975
-Max nhyp =  5148933
-Coefficients: -497.1373 0.5891194 2.073577 9.843178
-Residual range: -929.1254 1103.620
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \todo k=5
-  <ul>
-   <li>
-   \verbatim
-> f = fit_greentao(5,40000)
-Number of observations (changes) =  39347
-Max nhyp =  462282
-Coefficients: -212.7657 0.762841 0.06329398 28.88302
-Residual range: -289.5044 227.3657
-
-> f = fit_greentao(5,80000)
-Number of observations (changes) =  79347
-Max nhyp =  1545857
-Coefficients: -89.12968 0.4274986 8.573074 -25.10926
-Residual range: -540.5143 447.7293
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \todo k=6
-  <ul>
-   <li>
-   \verbatim
-> f = fit_greentao(6,80000)
-Number of observations (changes) =  70976
-Max nhyp =  234774
-Coefficients: -106.7271 1.150551 9.422184 14.64226
-Residual range: -163.4261 167.8231
-
-80000 - 70976
-  9024
-
-> f = fit_greentao(6,160000)
-Number of observations (changes) =  150810
-Max nhyp =  749499
-Coefficients: -100.9089 0.8658116 16.82488 -33.42583
-Residual range: -366.5206 321.9369
-
-160000 - 150810
-  9190
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \todo k=7
-  <ul>
-   <li>
-   \verbatim
-> f = fit_greentao(7,160000)
-Number of observations (changes) =  59909
-Max nhyp =  78058
-Coefficients: -5.022792 0.2405188 54.32041 -247.3408
-Residual range: -169.1657 159.1667
-
-160000 -  59909
-  100091
-
-> f = fit_greentao(7,500000)
-Number of observations (changes) =  298388
-Max nhyp =  497046
-Coefficients: 593.3755 -5.288303 225.8332 -1575.388
-Residual range: -473.103 585.1443
-
-500000 - 298388
-  201612
-
-> f = fit_greentao(7,1000000)
-Number of observations (changes) =  736449
-Max nhyp =  1558942
-Coefficients: -981.546 4.110067 -67.06604 709.1288
-Residual range: -972.0245 518.9356
-
-1000000 -  736449
-  263551
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \todo k=8
-  <ul>
-   <li>
-   \verbatim
-> f = fit_greentao(8,1000000)
-Number of observations (changes) =  230866
-Max nhyp =  268082
-Coefficients: -177.2491 3.526203 53.25977 198.9277
-Residual range: -200.5256 189.2639
-
-1000000 - 230866
-  769134
-
-> f = fit_greentao(8,2000000)
-Number of observations (changes) =  649644
-Max nhyp =  812685
-Coefficients: 239.008 3.78891 61.47959 -7.395578
-Residual range: -534.6951 876.0352
-
-2000000 - 649644
-  1350356
-
-> f = fit_greentao(8,4000000)
-Number of observations (changes) =  1781803
-Max nhyp =  2491439
-Coefficients: -675.2275 6.202912 -31.85938 883.982
-Residual range: -863.7256 977.2554
-
-4000000 -  1781803
-  2218197
-
-> f = fit_greentao(8,8000000)
-TO BE UPDATED:
-Number of observations (changes) =  4688545
-Max nhyp =  7728990
-Non-linear model nhyp = a * n^b:
-           a            b
-4.218958e-05 1.631506e+00
-Residual range:  -10123.48 6262.802
-
-8000000 - 4688545
-  3311455
-   \endverbatim
-   </li>
+   <li> See RamseyTheory/GreenTaoProblems/plans/CountingProgressions.hpp. </li>
   </ul>
 
 
@@ -251,27 +23,6 @@ Residual range:  -10123.48 6262.802
    progression of length k ending with p_j. For k <= 5 we can already
    conjecture the smallest such i_k, and this should also be possible for
    k=6, while then it becomes more difficult. </li>
-   <li> One can consider the densities
-   ln_arithprog_primes_c(k,n) / create_list(i,i,1,n). </li>
-   <li> Hard to believe that there is nothing in the literature / on the
-   Internet: We should enter for example ln_arithprog_primes_c(3,30) =
-   [0,0,0,1,2,2,3,5,7,9,11,11,13,16,17,20,23,24,26,30,32,36,40,44,46,49,53,56,59,64]
-   into that database of integer sequences and see whether there is information
-   in it. </li>
-   <li> Yes, this sequence is A125505 in
-   http://www.research.att.com/~njas/sequences/Seis.html (see
-   http://www.research.att.com/~njas/sequences/A125505). </li>
-   <li> There it is only listed for n=64; this we can easily extend, and
-   perhaps we should do so. </li>
-   <li> And apparently for k >= 4 there is nothing entered there --- we
-   should change this.
-    <ol>
-     <li> Say, up to k=10. </li>
-     <li> For k=10 for example the first 315 values are 0, and then
-     at least until index 3000 the value is constant 1; for such sequences
-     we need a compressed representation. </li>
-    </ol>
-   </li>
    <li> Of interest is also
    http://www.research.att.com/~njas/sequences/Sindx_Pri.html#primes_AP
    which gives an overview. It contains for given k the smallest starting
@@ -283,30 +34,50 @@ Residual range:  -10123.48 6262.802
 
   \todo Finding the first arithmetic progression
   <ul>
-   <li> What seems very natural to me is k -> how many first primes are
-   needed to get an progression of length k; this is greentao_1(k). </li>
+   <li> Fundamental is to consider k -> how many first primes are needed to
+   get an progression of length k; this is greentao_1(k). </li>
    <li> See http://users.cybercity.dk/~dsl522332/math/aprecords.htm for
-   current information around this subject; the related sequence is (now
-   showing p_i instead of i):
+   current information around this subject; the sequence is available as
+   follows (showing p_i instead of i, that is, the (unranked) prime numbers
+   themselves):
    \verbatim
-L : [
-2, 3, 7, 23, 29, 157, 907, 1669, 1879, 2089, 
-249037, 262897, 725663, 36850999, 173471351, 198793279, 4827507229, 17010526363, 83547839407, 572945039351,
-6269243827111
-];
+greentaod1ur;
+ [2,3,7,23,29,157,907,1669,1879,2089,
+ 249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,
+ 6269243827111]
    \endverbatim
    </li>
-   <li> This is available as A005115. </li>
-   <li> From this sequence S via map(rank_primes,S) we obtain the sequence:
+   <li> The ranked data is available via:
    \verbatim
-for p in L do print(rank_primes(p));
-1,2,4,9,10,37,155,263,289,316,
-21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,
-220525414079
+block([L:[]],for k:1 thru inf unless not integerp(greentao([k])) do L : endcons(greentao([k]),L), L);
+ [1,2,4,9,10,37,155,263,289,316,
+  21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,
+  220525414079]
    \endverbatim
-   where starting with k=12 actually "RankPrimes" was used. </li>
-   <li> Plot the data (using R) suggests that (log,log(log))-transformation
-   for (x,y) might be appropriate (that is, a model y = exp(a * x^b)):
+   </li>
+   <li> Additional data (upper bounds):
+    <ol>
+     <li> At http://users.cybercity.dk/~dsl522332/math/aprecords.htm data
+     upper bounds are available also for 22 <= k <= 26 (again, this is the
+     unranked data):
+     \verbatim
+11410337850553 + 475180·19#·n (108201410428753)
+403185216600637 + 9523·23#·n (449924511422857)
+515486946529943 + 136831·23#·n (1217585417914253)
+6171054912832631 + 366384·23#·n (8132758706802551)
+43142746595714191 + 23681770·23#·n (175223597495211691)
+     \endverbatim
+     (the numbers in brackets are the end-values, in which we are interest;
+     however, it is not known that these are the smallest possible end-values).
+     </li>
+     <li> See "Better algorithms" in
+     Structures/NumberTheory/PrimeNumbers/plans/RankPrimes.hpp for thoughts on
+     a better algorithm, and on the ranked data. </li>
+    </ol>
+   </li>
+   <li> Plotting the (ranked, precise) data (using R) suggests that
+   (log,log(log))-transformation for (x,y) might be appropriate (that is, a
+   model y = exp(a * x^b)):
    \verbatim
 y = c(4,9,10,37,155,263,289,316,21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,220525414079)
 x = 3:21
@@ -322,9 +93,9 @@ Multiple R-squared: 0.983,      Adjusted R-squared: 0.982
 F-statistic: 984.9 on 1 and 17 DF,  p-value: < 2.2e-16
 
 exp(coefficients(m0)[1])
-0.2258395
+ 0.2258395
 coefficients(m0)[2]
-1.545693
+ 1.545693
 s = c(a = 0.2258395, b = 1.545693)
 m = nls(y ~ exp(a * x^b), start = s)
 
@@ -338,9 +109,147 @@ Achieved convergence tolerance: 7.111e-06
 
 plot(x,log(y))
 lines(x,log(predict(m)))
-lines(x,exp(predict(m0)))
+lines(x,exp(predict(m0)),col="blue")
+
+y/predict(m)
+ [1]  2.0522259  2.8563990  1.7419151  3.1481344  5.7470262  3.7987529
+ [7]  1.4561912  0.4981426  9.7285376  2.5797764  1.4869497 11.7370109
+[13]  9.3188835  1.7663568  5.4843977  2.4815698  1.4003467  0.9899872
+[19]  1.0000489
+   \endverbatim
+   Explicitly: the model is greentao_1(k) ~ exp(0.084184*k^1.884508). </li>
+  </ul>
+
+
+  \todo The conjecture from [Granville 2006]
+  <ul>
+   <li> The conjecture is implemented by approxgv_grt1ur(k), and it yields
+   quite good approximations:
+   \verbatim
+for k : 1 thru 21 do print(k, float(greentaod1ur[k]/approxgv_grt1ur(k)));
+
+1 2.289488896354126
+2 1.965659777448311
+3 2.020885909330544
+4 2.468550619322147
+5 1.019801665249097
+6 1.635675606605423
+7 2.574684204425131
+8 1.201613382006138
+9 0.322264451025868
+10 0.08072794540477299
+11 2.062519736581183
+12 0.445862252087117
+13 0.2417209471089714
+14 2.319918131851896
+15 1.991459630418673
+16 0.4025117578670004
+17 1.670907399187739
+18 0.9772800505078132
+19 0.7748870219193731
+20 0.8355720914865566
+21 1.402142105791055
    \endverbatim
    </li>
+   <li> For ranked data:
+   \verbatim
+for k : 3 thru 21 do print(k, round_fdd(greentaod1(k)/approxgv_grt1Li_hp(k,30), 3));
+
+3 1.563
+4 1.535
+5 0.796
+6 1.265
+7 2.003
+8 1.131
+9 0.37
+10 0.11
+11 1.924
+12 0.477
+13 0.269
+14 2.199
+15 1.914
+16 0.423
+17 1.63
+18 0.978
+19 0.783
+20 0.841
+21 1.385
+   \endverbatim
+   </li>
+   <li> What is the corresponding *direct* approximation for the ranked
+   numbers? </li>
+   <li> This as model for a linear regression of the ranked data, using
+   rank(p) ~ p/log(p) resp. p/(log(p)-1) (optimising on the factor which in
+   the gv-model is chosen as exp(1-gamma), or using that factor while
+   optimising on an optional outer factor):
+   \verbatim
+y = c(4,9,10,37,155,263,289,316,21966,23060,58464,2253121,9686320,11015837,227225515,755752809,3466256932,22009064470,220525414079)
+x = 3:21
+
+s = c(a = 1.5262)
+mgvr = nls(y ~ (x/2*a)^(x/2) / (x/2*(log(x/2)+log(a))), start = s)
+> summary(mgvr)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  1.58024    0.00225   702.4   <2e-16 ***
+
+y/predict(mgvr)
+ [1] 1.4189310 2.0736544 1.1071981 1.6212498 2.3319017 1.2150958
+ [7] 0.3741266 0.1060549 1.7867252 0.4283643 0.2351793 1.8705521
+[13] 1.5884116 0.3427037 1.2919336 0.7584994 0.5944557 0.6255983
+[19] 1.0094899
+
+s = c(a = 1.5262)
+mgvr2 = nls(y ~ (x/2*a)^(x/2) / (x/2*(log(x/2)+log(a))-1), start = s)
+summary(mgvr2)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a  1.57485    0.00227   693.8   <2e-16 ***
+
+y/predict(mgvr2)
+ [1] 0.31887457 1.17447699 0.78879713 1.28351643 1.96101952 1.06252655
+ [7] 0.33622554 0.09726638 1.66467365 0.40417970 0.22422941 1.79925882
+[13] 1.53953065 0.33437827 1.26804070 0.74845611 0.58944254 0.62310082
+[19] 1.00963502
+
+s = c(b = 1)
+mgvr3 = nls(y ~ b*(x/2*1.5262051)^(x/2) / (x/2*(log(x/2)+log(1.5262051))-1), start = s)
+summary(mgvr3)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+b  1.37258    0.02089   65.72   <2e-16 ***
+
+y/predict(mgvr3)
+ [1] 0.20391699 0.86692693 0.60148029 1.00097550 1.55934574 0.86031118
+ [7] 0.27700774 0.08150497 1.41837262 0.35010064 0.19742792 1.61013672
+[13] 1.40015594 0.30904249 1.19092347 0.71428235 0.57158839 0.61394061
+[19] 1.01076035
+   \endverbatim
+   Not too bad for the larger k-values; looks better than the above
+   y ~ exp(a * x^b) model. Perhaps mgvr3 is most sensible. </li>
+   <li> But, as asked in the previous point, one should see to adapt the
+   Greenville-approach directly to the ranked case. </li>
+   <li> Fitting the unranked data:
+   \verbatim
+y = c(7,23,29,157,907,1669,1879,2089,249037,262897,725663,36850999,173471351,198793279,4827507229,17010526363,83547839407,572945039351,6269243827111)
+x = 3:21
+
+s = c(a = 1.5262)
+mgvu = nls(y ~ (x/2*a)^(x/2), start = s)
+> summary(mgvu)
+Parameters:
+  Estimate Std. Error t value Pr(>|t|)
+a 1.574839   0.002108     747   <2e-16 ***
+
+y/predict(mgvu)
+ [1] 1.92799913 2.31843766 0.94288222 1.48876878 2.30697236 1.05991619
+ [7] 0.27983853 0.06900926 1.73568105 0.36936935 0.19713457 1.86255671
+[13] 1.57397090 0.31317862 1.27983584 0.73690120 0.57519747 0.61059163
+[19] 1.00866581
+   \endverbatim
+   </li>
+   <li> None of these fitting-attempts seems to reveal much; so the original
+   model is to be preferred. </li>
   </ul>
 
 

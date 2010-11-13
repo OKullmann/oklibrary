@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,19 +8,9 @@ License, or any later version. */
 /*!
   \file Applications/Cryptanalysis/plans/milestones.hpp
 
-  \module_version Applications/Cryptanalysis 0.0.3 (5.7.2007)
+  \module_version Applications/Cryptanalysis 0.0.4 (25.7.2007)
 
 
-  \par Version 0.0.4
-
-  \par
-   In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
-    - Computer algebra implementation : DONE
-    - Rijndael : DONE
-    - Encoding AES : DONE
-    - Partitioning into active clauses : DONE
-
-  
   \par Version 0.0.5
 
   \par

@@ -544,6 +544,23 @@ locallemmasum_satapprox(F) := if F = {} then inf else
     else return(1/S))$
 
 
+/* ******************************************
+   * Current (best) solvers at Maxima level *
+   ******************************************
+*/
+
+/*
+  "Best" here means only that for the small(!) tasks at Maxima-level
+  it currently seems most appropriate.
+
+  When a SAT solver is needed, but is just instrumental, then the "current"
+  solvers provided here shall be used (using dynamic scoping when for
+  special circumstances a different solver shall be used).
+*/
+
+/* Standard solver (input a formal clause-set, output true or false): */
+current_satsolver : dll_simplest_first_shortest_clause$
+
 /*!
 \endhtmlonly
 */

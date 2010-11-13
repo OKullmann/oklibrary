@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac")$
 
 
 /* ***************************
@@ -28,7 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
    ***************************
 */
 
-/* The main function, which handles all parameter-values. */
+/* The main function, which handles all parameter-values (gathering all
+   knowledge from all our sources). */
 /* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
 vanderwaerden(L) := if emptyp(L) then 1
  elseif first(L) = 1 then vanderwaerden(rest(L))
@@ -40,6 +42,7 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerdents_a(L)#[] then apply(vanderwaerdents,vanderwaerdents_a(L))
  elseif vanderwaerden33k_a(L)#[] then apply(vanderwaerden33k,vanderwaerden33k_a(L))
  elseif vanderwaerden34k_a(L)#[] then apply(vanderwaerden34k,vanderwaerden34k_a(L))
+ elseif vanderwaerden44k_a(L)#[] then apply(vanderwaerden44k,vanderwaerden44k_a(L))
  else unknown$
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 
@@ -59,28 +62,39 @@ extvanderwaerden_p(L) := listp(L) and
 */
 
 vanderwaerden3k(k) := 
- if k <= 16 then
-   [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238][k]
+ if k <= 29 then [
+  3,6,9,18,22,32,46,58,77,97,
+  114,135,160,186,218,238,279,312,349,[389,inf-1],
+  [416,inf-1],[464,inf-1],[516,inf-1],[593,inf-1],[656,inf-1],[727,inf-1],[770,inf-1],[827,inf-1],[868,inf-1]
+ ][k]
  else unknown$
 vanderwaerden3k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
   if elementp(3,S) then
     if length(S)=1 then [3] else [first(listify(disjoin(3,S)))]
   else [])$
+/* For the precise values see [Ahmed 2009, 2010], and for the lower bounds see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp.
+*/
 
 vanderwaerden4k(k) := 
- if k <= 8 then
-   [4,7,18,35,55,73,109,146][k]
+ if k <= 10 then [
+  4,7,18,35,55,73,109,146,[309,inf-1],[328+1,inf-1]
+ ][k]
  else unknown$
 vanderwaerden4k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
   if elementp(4,S) then
     if length(S)=1 then [4] else [first(listify(disjoin(4,S)))]
   else [])$
+/* For the precise values see [Ahmed 2009], and for the lower bounds see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp.
+*/
 
 vanderwaerden5k(k) := 
- if k <= 6 then
-   [5,10,22,55,178,206][k]
+ if k <= 6 then [
+  5,10,22,55,178,206
+ ][k]
  else unknown$
 vanderwaerden5k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
@@ -95,8 +109,9 @@ vanderwaerden5k_a(L) := if length(L)#2 then [] else
 */
 
 vanderwaerden33k(k) :=
- if k <= 5 then
-   [9,14,27,51,80][k]
+ if k <= 5 then [
+  9,14,27,51,80
+ ][k]
  else unknown$
 vanderwaerden33k_a(L) := if length(L)#3 then [] else
  if L=[1,3,3] then [1]
@@ -105,14 +120,27 @@ vanderwaerden33k_a(L) := if length(L)#3 then [] else
  else [last(L)]$
 
 vanderwaerden34k(k) :=
- if k <= 4 then
-   [18,21,51,89][k]
+ if k <= 4 then [
+  18,21,51,89
+ ][k]
  else unknown$
 vanderwaerden34k_a(L) := if length(L)#3 then [] else
  if L=[1,3,4] then [1]
  elseif L=[2,3,4] then [2]
  elseif L=[3,3,4] then [3]
  elseif rest(L,-1)#[3,4] then []
+ else [last(L)]$
+
+vanderwaerden44k(k) :=
+ if k <= 4 then [
+  35,40,89,[292+1,inf-1]
+ ][k]
+ else unknown$
+vanderwaerden44k_a(L) := if length(L)#3 then [] else
+ if L=[1,4,4] then [1]
+ elseif L=[2,4,4] then [2]
+ elseif L=[3,4,4] then [3]
+ elseif rest(L,-1)#[4,4] then []
  else [last(L)]$
 
 
@@ -128,8 +156,9 @@ vanderwaerdend(m,k) := if m=0 then 1
  elseif k=2 then m+1
  elseif m=2 then vanderwaerdend2(k)
  elseif m=3 then vanderwaerdend3(k)
- elseif k=3 then vanderwaerdendap3(m)
- elseif k=4 then vanderwaerdendap4(m)
+ elseif m=4 then vanderwaerdend4(k)
+ elseif m=5 then vanderwaerdend5(k)
+ elseif m=6 then vanderwaerdend6(k)
  else unknown$
 /* vanderwaerdend(m,k) = vanderwaerden(create_list(k,i,1,m)) */
 
@@ -146,38 +175,63 @@ vanderwaerdend_a(L) := if emptyp(L) then [0,unknown]
 
 /* The diagonal cases with two parts: */
 vanderwaerdend2(k) :=
- if k <= 6 then [1,3,9,35,178,1132][k]
+ if k <= 9 then [
+  1,3,9,35,178,1132,[3703+1,inf-1],[11495+1,inf-1],[41265+1,inf-1]
+ ][k]
  else unknown$
-/* Remark: These numbers have been verified/computed by SAT solving
-   methods.
+/* Remark: The precise numbers have been verified/computed by SAT solving
+   methods; especially k=6 is from [Kouril, Paul, 2008]. The bounds are in
+   [Herwig, Heule, Lambalgen, Maaren, 2005].
 */
 vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
  else []$
 
 /* The diagonal cases with three parts: */
 vanderwaerdend3(k) :=
- if k <= 3 then [1,4,27][k]
+ if k <= 8 then [
+  1,4,27,[292+1,inf-1],[1209+1,inf-1],[8886+1,inf-1],[48811+1,inf-1],[238400+1,inf-1]
+ ][k]
  else unknown$
-/* Remark: These numbers have been verified/computed by SAT solving
-   methods.
+/* Remark: The precise numbers have been verified/computed by SAT solving
+   methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
+   except for k=7, which is in [Heule, Walsh, 2010].
 */
 vanderwaerdend3_a(L) := if length(L)=3 and lconstant_p(L) then first(L)
  else []$
 
-/* The diagonal cases with ap's of size 3: */
-vanderwaerdendap3(m) := 
- if m=0 then 1
- elseif m <= 4 then [3,9,27,76][m]
+/* The diagonal cases with four parts: */
+vanderwaerdend4(k) :=
+ if k <= 7 then [
+  1,5,76,[1048+1,inf-1],[17705+1,inf-1],[91331+1,inf-1],[420217+1,inf-1]
+ ][k]
  else unknown$
-vanderwaerdendap3_a(L) := if every_s(lambda([x],is(x=3)),L) then length(L) 
+/* Remark: The precise numbers have been verified/computed by SAT solving
+   methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
+   except for k=7, which is in [Heule, Walsh, 2010].
+*/
+vanderwaerdend4_a(L) := if length(L)=4 and lconstant_p(L) then first(L)
  else []$
 
-/* The diagonal cases with ap's of size 4: */
-vanderwaerdendap4(m) := 
- if m=0 then 1
- elseif m <= 2 then [35][m]
+/* The diagonal cases with five parts: */
+vanderwaerdend5(k) :=
+ if k <= 6 then [
+  1,6,[125+1,inf-1],[2254+1,inf-1],[24045+1,inf-1],[246956+1,inf-1]
+ ][k]
  else unknown$
-vanderwaerdendap4_a(L) := if every_s(lambda([x],is(x=4)),L) then length(L) 
+/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
+*/
+vanderwaerdend5_a(L) := if length(L)=5 and lconstant_p(L) then first(L)
+ else []$
+
+/* The diagonal cases with six parts: */
+vanderwaerdend6(k) :=
+ if k <= 6 then [
+  1,7,[207+1,inf-1],[9778+1,inf-1],[63473+1,inf-1],[633981+1,inf-1]
+ ][k]
+ else unknown$
+/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
+*/
+vanderwaerdend6_a(L) := if length(L)=6 and lconstant_p(L) then first(L)
  else []$
 
 
@@ -187,7 +241,8 @@ vanderwaerdendap4_a(L) := if every_s(lambda([x],is(x=4)),L) then length(L)
 */
 
 /* The "transversal case", i.e., m parts with arithmetic progressions of 
-   length 2, one part with length k.
+   length 2, one part with length k (gathering all our knowledge regarding
+   transversal vdW-numbers).
    Prerequisites: m >= 0, k >= 1: */
 vanderwaerdent(m,k) := if m=0 then k
  elseif k=1 then m+1
@@ -209,7 +264,7 @@ vanderwaerdent_a(L) := block([l : length(L)],
  else [l-1,last(L)])$
 /* Remark: Note that for vanderwaerdent(m,k) we have altogether m+1 parts. */
 
-/* Using the list of transversal numbers: */
+/* Only using the list of transversal numbers: */
 vanderwaerdenttau(m,k) := block([n : 1, t],
   t : tau_arithprog(k,n),
   while not listp(t) and t <= m do (
@@ -255,13 +310,13 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
       or (m=2 and k>=2*r-3) 
       or (m>=3 and k >= count_primes(r)^3*(r-2))
     then return(res)
-    else return([res,inf]))
+    else return([res,inf-1]))
  else
    block([res : r*k-j*(r-2)],
     if (j=2 and k>=2*r-3) 
       or (j>=3 and k>= count_primes(r)^3*(r-2))
     then return(res)
-    else return([res,inf]))
+    else return([res,inf-1]))
  )$
 
 
@@ -277,43 +332,81 @@ vanderwaerdent_lrc(m,k) := block([r : m+1, j],
 */
 vanderwaerdents(m,S,k) :=
  if S=[3] and k=3 then
-   if m <= 7 then [14,17,20,21,24,25,28][m] else unknown
+   if m <= 7 then [
+    14,17,20,21,24,25,28
+   ][m] else unknown
  elseif S=[3] and k=4 then
-   if m <= 5 then [21,25,29,33,36][m] else unknown
+   if m <= 5 then [
+    21,25,29,33,36
+   ][m] else unknown
  elseif S=[3] and k=5 then
-   if m <= 4 then [32,43,44,50][m] else unknown
+   if m <= 4 then [
+    32,43,44,50
+   ][m] else unknown
  elseif S=[3] and k=6 then
-   if m <= 4 then [40,48,56,60][m] else unknown
+   if m <= 4 then [
+    40,48,56,60
+   ][m] else unknown
  elseif S=[3] and k=7 then
-   if m <= 3 then [55,65,72][m] else unknown
+   if m <= 3 then [
+    55,65,72
+   ][m] else unknown
  elseif S=[3] and k=8 then
-   if m <= 3 then [72,83,88][m] else unknown
+   if m <= 3 then [
+    72,83,88
+   ][m] else unknown
  elseif S=[3] and k=9 then
-   if m <= 2 then [90,99][m] else unknown
+   if m <= 2 then [
+    90,99
+   ][m] else unknown
  elseif S=[3] and k=10 then
-   if m <= 2 then [108,119][m] else unknown
+   if m <= 2 then [
+    108,119
+   ][m] else unknown
  elseif S=[3] and k=11 then
-   if m <= 1 then [129][m] else unknown
+   if m <= 1 then [
+    129
+   ][m] else unknown
  elseif S=[3] and k=12 then
-   if m <= 1 then [150][m] else unknown
+   if m <= 1 then [
+    150
+   ][m] else unknown
  elseif S=[3] and k=13 then
-   if m <= 1 then [171][m] else unknown
+   if m <= 1 then [
+    171
+   ][m] else unknown
   elseif S=[4] and k=4 then
-   if m <= 4 then [40,53,54,56][m] else unknown
+   if m <= 4 then [
+    40,53,54,56
+   ][m] else unknown
   elseif S=[4] and k=5 then
-   if m <= 3 then [71,75,79][m] else unknown
+   if m <= 3 then [
+    71,75,79
+   ][m] else unknown
   elseif S=[4] and k=6 then
-   if m <= 2 then [83,93][m] else unknown
+   if m <= 2 then [
+    83,93
+   ][m] else unknown
   elseif S=[4] and k=7 then
-   if m <= 1 then [119][m] else unknown
+   if m <= 1 then [
+    119
+   ][m] else unknown
   elseif S=[5] and k=5 then
-   if m <= 1 then [180][m] else unknown
+   if m <= 1 then [
+    180
+   ][m] else unknown
   elseif S=[3,3] and k=3 then
-   if m <= 3 then [40,41,42][m] else unknown
+   if m <= 3 then [
+    40,41,42
+   ][m] else unknown
   elseif S=[3,3] and k=4 then
-   if m <= 2 then [60,63][m] else unknown
+   if m <= 2 then [
+    60,63
+  ][m] else unknown
   elseif S=[3,3] and k=5 then
-   if m <= 1 then [86][m] else unknown
+   if m <= 1 then [
+    86
+   ][m] else unknown
  else unknown$
 vanderwaerdents_a(L) := 
  if length(L) <= 2 or first(L)#2 or last(L)=2 then [] else
@@ -333,9 +426,9 @@ vanderwaerdents_a(L) :=
 /* For 3 <= k <= exactk_tau_arithprog we provide initial sequences: */
 define_variable(
   exactk_tau_arithprog,
-  12,
+  22,
   fixnum)$
-/* Note that these sequences start with n=1. */
+/* Note that these sequences (for tau_arithprog(k,n)) start with n=1. */
 
 /* The following data has been computed by
    "VdWTransversalsInc 3 1 0 OutputFile" (i.e.,
@@ -495,8 +588,180 @@ tau_arithprog_seq[12] : [
 4,4,4,4,4,5,5,5,5,5,
 5,5,5,5,5,5,6,6,6,6,
 6,6,6,6,6,6,6,7,7,7,
-7,7,7,7,7,7,7,7
+7,7,7,7,7,7,7,7,8,8,
+8,8,8,8,8,8,8,8,8,9,
+9,9,9,9,9,9,9,9,9,9,
+10,10,10,10,10,10,10,10,10,10,
+10,10,11,12,13,14,15,15,16,17,
+17,17,18,18
 ]$
+/* The following data has been computed by
+   "VdWTransversalsInc 13 1 0 OutputFile":
+*/
+tau_arithprog_seq[13] : [
+0,0,0,0,0,0,0,0,0,0,
+0,0,1,1,1,1,1,1,1,1,
+1,1,1,1,1,2,2,2,2,2,
+2,2,2,2,2,2,2,2,3,3,
+3,3,3,3,3,3,3,3,3,3,
+3,4,4,4,4,4,4,4,4,4,
+4,4,4,4,5,5,5,5,5,5,
+5,5,5,5,5,5,5,6,6,6,
+6,6,6,6,6,6,6,6,6,6,
+7,7,7,7,7,7,7,7,7,7,
+7,7,7,8,8,8,8,8,8,8,
+8,8,8,8,8,8,9,9,9,9,
+9,9,9,9,9,9,9,9,9,10,
+10,10,10,10,10,10,10,10,10,10,
+10,10,11,11,11,11,11,11,11,11,
+11,11,11,11,11,12,13,14,15,16,
+16,17,18
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 14 1 0 OutputFile":
+*/
+tau_arithprog_seq[14] : [
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,1,1,1,1,1,1,1,
+1,1,1,1,1,1,2,2,2,2,
+2,2,2,2,2,2,2,2,2,3,
+3,3,3,3,3,3,3,3,3,3,
+3,3,4,4,4,4,4,4,4,4,
+4,4,4,4,4,5,5,5,5,5,
+5,5,5,5,5,5,5,5,6,6,
+6,6,6,6,6,6,6,6,6,6,
+6,7,7,7,7,7,7,7,7,7,
+7,7,7,7,8,8,8,8,8,8,
+8,8,8,8,8,8,8,9,9,9,
+9,9,9,9,9,9,9,9,9,9,
+10,10,10,10,10,10,10,10,10,10,
+10,10,10,11,11,11,11,11,11,11,
+11,11,11,11,11,11,12,12,12,12,
+12,12,12,12,12,12,12,12,12,12,
+13,14,15,16,17,18,18
+]$
+/* The following data has been computed by
+   "VdWTransversalsInc 15 1 0 OutputFile":
+*/
+tau_arithprog_seq[15] : [
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,3,3,3,3,3,3,3,3,
+3,3,3,3,3,4,4,4,4,4,
+4,4,4,4,4,4,4,4,5,5,
+5,5,5,5,5,5,5,5,5,5,
+5,6,6,6,6,6,6,6,6,6,
+6,6,6,6,7,7,7,7,7,7,
+7,7,7,7,7,7,7,8,8,8,
+8,8,8,8,8,8,8,8,8,8,
+9,9,9,9,9,9,9,9,9,9,
+9,9,9,10,10,10,10,10,10,10,
+10,10,10,10,10,10,11,11,11,11,
+11,11,11,11,11,11,11,11,11,12,
+12,12,12,12,12,12,12,12,12,12,
+12,12,13,13,13,13,13,13,13,13,
+13,13,13,14,15,16,16,17,18
+]$
+
+/* Alternative representations using tau-skiplists
+   (the list contains the last entry where tau=0, 1, ...).
+*/
+/* The following data has been computed by
+   "VdWTransversalsInc 16 1 0 VDW_16 VDW_16_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_16"))))
+*/
+tau_steplist_arithprog_seq[16] : [
+ 15,30,46,57,70,83,96,109,122,135,
+ 148,161,174,187,196,198,199,201
+]$
+tau_arithprog_seq[16] : transform_threshold_l(tau_steplist_arithprog_seq[16])$
+/* The following data has been computed by
+   "VdWTransversalsInc 17 1 0 VDW_17 VDW_17_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_17"))))
+*/
+tau_steplist_arithprog_seq[17] : [
+ 16,33,50,67,84,101,118,135,152,169,
+ 186,203,220,237,254,271,272,273,274,275,
+ 276
+]$
+tau_arithprog_seq[17] : transform_threshold_l(tau_steplist_arithprog_seq[17])$
+/* The following data has been computed by
+   "VdWTransversalsInc 18 1 0 VDW_18 VDW_18_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_18"))))
+*/
+tau_steplist_arithprog_seq[18] : [
+ 17,34,51,68,85,102,119,136,153,170,
+ 187,204,221,238,255,272,290,291,292,293,
+ 294
+]$
+tau_arithprog_seq[18] : transform_threshold_l(tau_steplist_arithprog_seq[18])$
+/* The following data has been computed by
+   "VdWTransversalsInc 19 1 0 VDW_19 VDW_19_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_19"))))
+*/
+tau_steplist_arithprog_seq[19] : [
+ 18,37,56,75,94,113,132,151,170,189,
+ 208,227,246,265,284,303,322,341,342,343,
+ 344,345,346
+]$
+tau_arithprog_seq[19] : transform_threshold_l(tau_steplist_arithprog_seq[19])$
+/* The following data has been computed by
+   "VdWTransversalsInc 20 1 0 VDW_20 VDW_20_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_20"))))
+*/
+tau_steplist_arithprog_seq[20] : [
+ 19,38,57,76,95,114,133,152,171,190,
+ 209,228,247,266,285,304,323,342,362,363,
+ 364,365,366
+]$
+tau_arithprog_seq[20] : transform_threshold_l(tau_steplist_arithprog_seq[20])$
+/* The following data has been computed by
+   "VdWTransversalsInc 21 1 0 VDW_21 VDW_21_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_21"))))
+*/
+tau_steplist_arithprog_seq[21] : [
+ 20,41,60,79,98,117,136,155,174,193,
+ 212,231,250,269,288,307,326,345,364,381,
+ 382,383,384
+]$
+tau_arithprog_seq[21] : transform_threshold_l(tau_steplist_arithprog_seq[21])$
+/* The following data has been computed by
+   "VdWTransversalsInc 22 1 0 VDW_22 VDW_22_SAT", and then using
+   transform_steps_l(map(third,rest(read_nested_list("VDW_22"))))
+*/
+tau_steplist_arithprog_seq[22] : [
+ 21,42,64,81,100,119,138,157,176,195,
+ 214,233,252,271,290,309,328,347,366,385,
+ 400,401,403
+]$
+tau_arithprog_seq[22] : transform_threshold_l(tau_steplist_arithprog_seq[22])$
+
+
+/* Alternative data for transversal numbers, given as "steplists" of 
+   independence numbers, that is, the entry for index i (starting with 1)
+   is the first n such that the independence number is i.
+   From such a steplist L one obtains the initial list of independence numbers,
+   starting with n=0, via transform_threshold_l(L).
+*/
+
+/* Data from Bestk3.txt, taken from 
+   http://www.math.uni.wroc.pl/~jwr/non-ave.htm:
+*/
+alpha_steplist_arithprog_seq[3] : [
+1,2,4,5,9,11,13,14,20,24,
+26,30,32,36,40,41,51,54,58,63,
+71,74,82,84,92,95,100,104,111,114,
+121,122,137,145,150,157,163,165,169,174,
+194
+]$
+
+/* Letting tau_arithprog_seq[k] be the larger of the two alternatives: */
+block([A : alphastep2tau(alpha_steplist_arithprog_seq[3])],
+ if length(A) > length(tau_arithprog_seq[3]) then
+   tau_arithprog_seq[3] : A)$
+
 
 /* For n <= exactv_tau_arithprog(k) we have stored exact values
    in tau_arithprog_seq[k]: */
@@ -505,7 +770,8 @@ exactv_tau_arithprog(k) :=
  else length(tau_arithprog_seq[k])$
 
 
-/* Exact formulas (returns unknown if no exact formula applies): */
+/* Exact (trivial) formulas (returns unknown if no exact formula applies;
+   for natural numbers k, n): */
 exactf_tau_arithprog(k,n) :=
  if n < k then 0
  elseif k=1 then n
@@ -515,10 +781,16 @@ exactf_tau_arithprog(k,n) :=
  elseif n <= 2*k and oddp(k) then
    if n = 2*k then 2 else 1
  else unknown$
+/* The following inclusion enables simplification of for example
+    exactf_tau_arithprog(k,n):
+*/
+oklib_plain_include(boolsimp)$
 
-/* The nearest n-value downward and its transversal-value where we have
-   exact values stored.
-   Prerequisite: The exact formulas don't apply.
+
+/* The pair of nearest n-value downward and its transversal-value where we have
+   exact values stored (using only stored *transversal-values* besides the
+   trivial formulas).
+   Prerequisite: The exact formulas don't apply (directly).
 */
 nearest_tau_arithprog(k,n) := block([maxn : exactv_tau_arithprog(k)],
   if n <= maxn then return([n, tau_arithprog_seq[k][n]])
@@ -526,7 +798,7 @@ nearest_tau_arithprog(k,n) := block([maxn : exactv_tau_arithprog(k)],
   elseif evenp(k) then return([2*k-1,2])
   else return([2*k,2]))$
 
-/* The best known values: */
+/* The best known values (using only stored transversal-values): */
 /* Prerequisites: k, n natural numbers >= 1 */
 tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
  if e#unknown then return(e),
@@ -541,11 +813,21 @@ tau_arithprog(k,n) := block([e : exactf_tau_arithprog(k,n)],
    *********************************
 */
 
+/* The independence numbers (for natural numbers k, n; also known as r_k(n)):
+*/
 alpha_arithprog(k,n) := block([t : tau_arithprog(k,n)],
  if listp(t) then return(reverse(n-t)) else return(n-t))$
+/* The list of all known values (from n=1, as long as there are no gaps, and
+   using only the stored transversal-numbers) for k >= 3: */
+alphal_arithprog(k) := if k > exactk_tau_arithprog then []
+ else alphatau_l(tau_arithprog_seq[k])$
+
+/* The relative transversal number (for natural numbers k, n): */
 rtau_arithprog(k,n) := tau_arithprog(k,n) / n$
+/* The relative independence number (for natural numbers k, n): */
 ralpha_arithprog(k,n) := alpha_arithprog(k,n) / n$
-/* The list of all known values (from n=1 not allowing gaps) for k >= 3: */
+/* The list of all known values (from n=1, as long as there are no gaps, and
+   using only the stored transversal-numbers) for k >= 3: */
 ralphal_arithprog(k) := if k > exactk_tau_arithprog then []
  else block([L : tau_arithprog_seq[k], N],
   N : create_list(i,i,1,length(L)),
@@ -568,9 +850,9 @@ approx_cralpha_arithprog(k,q) :=
  elseif k=2 then q+1 else block([L, i],
   L : ralphal_arithprog(k),
   i : find_last_l(lambda([x],is(x >= 1/q)), L),
-  if i=minf then return(inf) else (
+  if i=minf then return(inf-1) else (
     i : i+1,
-    if i>length(L) then return(inf) else return(i)))$
+    if i>length(L) then return(inf-1) else return(i)))$
 
 /* The "approximated" upper bound on vanderwaerdend(m,k) given by
    approx_cralpha_arithprog (if this value is exact, then the upper
@@ -585,50 +867,71 @@ upper_vanderwaerdend_approxcralpha(m,k) :=
    sequences of numbers
 */
 
-/* The initial sequence of transversal vdW-numbers (as far as it is
-   stored).
+/* The initial sequence of transversal vdW-numbers for progression-length k
+   (as far as there are stored tau-values; the number m of 2's starts with 0).
    If no sequence is stored, then m <= k-1 is considered.
    k natural number >= 0.
 */
 initial_sequence_vdWt(k) :=
   create_list(vanderwaerdent(m,k),m,0,last(tau_arithprog_seq[k])-1);
 
-/* 
-  From a list T of transversal numbers of vdW-hypergraphs
-  to transversal vdw-numbers.
-  If T contains non-integer values, then the list is cutoff at
-  the first such occurrence.
-  The list of transversal vdw-numbers starts with n=0.
-
-  Given the sequence T for fixed k (where m=0, ...), one obtains
-  tau_arithprog(k,n) for n=0, ... by running through m=0,1,..., and observing
-  when first the value x=T[m+1] is strictly greater than n --- for this m we
-  have tau_arithprog(k,n) = m.
-
-  So transform_threshold_l(T) is the list [t_0,t_1, ..., t_p]
-  of non-decreasing natural numbers t_i >= 0 where t_i is the smallest
-  0 <= m <= length(T) such that T'[m+1] > i, where T' is obtained from
-  T by adding an element to the end which is bigger by one than the last
-  element of T (this yields one more correct value in the result list, since
-  the numbers of T are strictly increasing).
-  So p = -1 if T is empty, while otherwise p = last(T).
-  And we have t_i <= t_{i+1} <= t_i + 1.
-  Prerequisite: L is a sequence of strictly increasing natural numbers >= 0,
-  with a possible suffix of non-integers.
+/* The subsequence of initial_sequence_vdWt(k) given by the precise
+   LRC-formula, extended as far as possibly correct results seem to
+   be produced, plus one more entry (while the guaranteed entries are
+   those with m <= k-2, where in case of a pair-value this means (as
+   usual) a pair of bounds):
 */
-transform_threshold_l(T) :=  block(
- block([noti : find_first_l(lambda([x], not integerp(x)), T)],
-  if noti#inf then T : take_l(noti-1,T)),
- if emptyp(T) then return([]),
- block([n : 0, m : 0, R : []],
-  for x in endcons(last(T)+1,T) do (
-    if x > n then (
-      R : append(R,create_list(m,i,1,x-n)), 
-      n : x
-    ),
-    m : m+1
-  ),
-  return(R)))$
+initial_sequence_vdWt_lrc(k) :=
+  create_list(vanderwaerdent_lrc(m,k),m,0,if k=3 then 3+1 elseif evenp(k) then k-2+1 else k-1+1);
+
+
+/* Considering the question, how small the coefficient gamma in
+   vdW_{m+1}(2,...,2,k) <= gamma * (m+1)
+   can be if m is big enough (we know by Szemeredi that gamma can be
+   arbitrarily close to 1 if m is big enough, and the question is about
+   precise numerical knowledge).
+*/
+/* Motivated by [Khodkar, Landman, INTEGERS, 2007], evaluating for each k the
+   best possible gamma given the data we have, when considering only m >= k
+   (returning the list of pairs [k,gamma]):
+*/
+bestgamma_vdWt() := block([res : []],
+ for k : 3 thru exactk_tau_arithprog do block(
+  [L : initial_sequence_vdWt(k)],
+   if length(L) <= k then res : cons([k,unknown], res)
+   else res : cons([k,lmax(rest(L,k)/create_list(m+1,m,k,length(L)-1))], res)
+ ),
+ reverse(res))$
+/* For a list A as returned by bestgamma_vdWt(), plot the values k-1 minus
+   these gamma-values (where pairs with unknown gamma-values are removed):
+*/
+show_bestgamma_vdWt(A) := block(
+ [B : sublist(A,lambda([p],is(second(p)#unknown)))],
+  plot2d(
+   [discrete,
+    map(lambda([p], [first(p), (first(p)-1)-second(p)]), B)],
+   [x,first(first(B))-1,first(last(B))+1],
+   [style,[linespoints,1,5]],
+   [xlabel, "k"],
+   [ylabel, "gamma"]))$
+/* By [Khodkar, Landman, INTEGERS, 2007] it is known that if for
+   3/2*k - 5/2 <= m <= 2*k we have vdw_{m+1}(2,...,2,k) <= (k-1)*(m+1),
+   then this upper bounds actually holds for all m >= k.
+   For all k for which we might have values this condition is now
+   checked, and the list of pairs [k, evaluation_result] is retured:
+*/
+condition_kl_vdWt() := block([res : []],
+ for k : 3 thru exactk_tau_arithprog do block(
+  [begin : ceiling(3/2*(k-1))-1, end : 2*k, eval_res : true],
+   for m : begin thru end unless eval_res#true do block(
+    [t : vanderwaerdent(m,k)],
+     if t=unknown then eval_res : unknown
+     else if t > (k-1)*(m+1) then eval_res : false
+   ),
+   res : cons([k,eval_res],res)
+ ),
+ reverse(res))$ 
+
 
 /*!
 \endhtmlonly

@@ -25,8 +25,8 @@ License, or any later version. */
      <li> Generators/FaronsPuzzle.cpp: </li>
      <li> Tests_Ramsey: </li>
      <li> Test_Transformations.cpp: </li>
-     <li> VanderWaerden.cpp: </li>
-     <li> VanderWaerden.hpp: </li>
+     <li> VanderWaerden.cpp: DONE (basic updates) </li>
+     <li> VanderWaerden.hpp: DONE (basic updates) </li>
      <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp:
      </li>
      <li> makefile: This old makefile should be replaced by the standard

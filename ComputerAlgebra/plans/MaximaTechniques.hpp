@@ -37,6 +37,20 @@ function(f) := block(local(f), ...)
      <li> However, seems much better than the current practice "kill(f)". </li>
     </ol>
    </li>
+   <li> Regarding time efficiency:
+    <ol>
+     <li> At C++ level, definitely every variable is declared as local as
+     possible. </li>
+     <li> However here, with dynamic scoping, creation of blocks is expensive.
+     </li>
+     <li> Of course, in general we do disregard efficiency consideration w.r.t.
+     implementation issues at Maxima level. </li>
+     <li> Though in case we have a simple loop, which uses some auxiliary
+     local variable, and where the variable can be easily declared just outside
+     of the loop, then we can place the auxiliary variable in the block just
+     outside of the loop. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -154,9 +168,17 @@ xreduce(nounify(union), [a,b,c,d]);
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp. </li>
    <li> The Maxima function "makeset" creates only trouble, since it cannot
    handle "subscripts", and thus we do not use it. </li>
-   <li> Is it guaranteed that the underlying order of at least "simple
-   sets" is lexicographical ordering? "Simple sets" are sets of integers,
-   sets of sets of integers, sets of lists of integers and so on. </li>
+   <li> Regarding the underlying ordering:
+    <ol>
+     <li> The underlying ordering of sets is given by "orderlessp" (and the
+     transposed, "ordergreatp"). </li>
+     <li> It seems that "<" (resp. ">") realises only a subset of these
+     relations, and thus shouldn't be used in this context. </li>
+     <li> Is it guaranteed that the underlying order of at least "simple
+     sets" is lexicographical ordering? "Simple sets" are sets of integers,
+     sets of sets of integers, sets of lists of integers and so on. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -234,20 +256,23 @@ snbl2cdn(x) := block([v:var_snbl(x), e:val_snbl(x), s:sgn_snbl(x), t, ta],
 
   \todo Bugs of Maxima and their corrections
   <ul>
+   <li> Problems with the empty Maxima-digraph:
+   \verbatim
+is_sconnected(empty_digraph(1));
+  true
+is_sconnected(empty_digraph(2));
+  false
+is_sconnected(empty_digraph(0));
+  false
+   \endverbatim
+   where the last result should be true. We have corrected this in
+   sconnected_dg_p(G), but notify the Maxima mailing-list. </li>
    <li> set_partitions(n,k) produces sets which can not be used further.
    The temporary fix is to use apply "resimplify(expr):=expand(expr,1,1)$"
    to the result. </li>
-    <ol>
-     <li> Consider
-     \verbatim
-fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
-     \endverbatim
-     </li>
-     <li> Both clisp and ecl for n=5000 create a segmentation fault
-     (without computing previous values). </li>
-     <li> So actually recursion cannot be used! </li>
-    </ol>
-   </li>
+   <li> Regarding the combination of memoisation and recursion, see
+   "Weak recursion for memoised functions" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
    <li> apply
     <ol>
      <li> See "Apply-functionality" in

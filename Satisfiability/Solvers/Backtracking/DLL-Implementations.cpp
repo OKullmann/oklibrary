@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.2.2002 (Swansea)
-/* Copyright 2002 - 2007, 2009 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,6 +10,10 @@ License, or any later version. */
   \brief Old, very simple DLL SAT solver (for boolean CNF).
 
   Reads a CNF in Dimacs format from standard input.
+
+  Links with Satisfiability/Algorithms/Backtracking/DLL_Algorithms.cpp (which
+  thus needs to be compiled before).
+
   \deprecated
 */
 
@@ -29,19 +33,12 @@ License, or any later version. */
 
 namespace {
 
-  using namespace Variables;
-  using namespace Literals;
-  using namespace Clauses;
-  using namespace Clausesets;
-  using namespace PartAssignments;
-  using namespace DLL_Algorithms;
-
   const std::string Selbst = "DLL-Implementations";
 
-  const char * const Version = "1.0";
-  const char * const Datum = "6.3.2002";
-  const char * const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
-  const char * const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
+  const char* const Version = "1.0.3";
+  const char* const Datum = "27.4.2010";
+  const char* const Autor = "Oliver Kullmann (Swansea); O.Kullmann@Swansea.ac.uk";
+  const char* const Uebersetzungsdatum = __DATE__ " " __TIME__; // Gnu-Uebersetzung  
   
 
 
@@ -49,7 +46,7 @@ namespace {
 
   const int NumberLanguages = 2;
 
-  const char * const messages[][NumberLanguages] = {
+  const char* const messages[][NumberLanguages] = {
     {"Es wurde versucht, einen leeren Variablennamen zu benutzen.", // 0
      "There has been an attempt to use an empty variable name."},
     {"Es wurde eine Zuweisung zwischen Variablenmengen versucht.", // 1
@@ -68,15 +65,15 @@ namespace {
      "Running time (in seconds) for reading the input = "},
   };
 
-  const char * message(int i) {
+  const char* message(const int i) {
     return messages[i][Language];
   }
 
   const std::string standarderr = message(5) + Selbst + "]: ";
   
-  void output_litset(const Litset& L) {
-    for (std::set<Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
-      Lit l = *i;
+  void output_litset(const Clauses::Litset& L) {
+    for (std::set<Literals::Lit>::const_iterator i = L.ls.begin(); i != L.ls.end(); ++i) {
+      const Literals::Lit l = *i;
       std::cout << " ";
       if (l.val() == true)
 	std::cout << "-";
@@ -85,28 +82,26 @@ namespace {
     std::cout << "\n";
   }
   
-  void output_varset(const std::set<Var>& V) {
-    for (std::set<Var>::iterator i = V.begin(); i != V.end(); i++) {
+  void output_varset(const std::set<Variables::Var>& V) {
+    for (std::set<Variables::Var>::const_iterator i = V.begin(); i != V.end(); ++i)
       std::cout << " " << i -> get_name();
-    }
     std::cout << "\n";
   }
  
 }
 
 
-int main (const int argc, const char * const argv[]) {
+int main (const int argc, const char* const argv[]) {
 
   enum choices {A_DLL_1};
   choices choice = A_DLL_1; // default
-  if (argc >= 2) {
+  if (argc >= 2)
     if (std::string(argv[1]) == "DLL_1")
       choice = A_DLL_1;
-  }
-  SAT_Algorithms * algorithms[] = {DLL_1};
+  DLL_Algorithms::SAT_Algorithms* const algorithms[] = {DLL_Algorithms::DLL_1};
 
-  Var_Set V;
-  Cls F;
+  Variables::Var_Set V;
+  Clausesets::Cls F;
 
   try {
     std::clock_t time_stored, time_new;
@@ -120,7 +115,7 @@ int main (const int argc, const char * const argv[]) {
     std::cout << "n = " << F.n() << ", c = " << F.c() << ", l = " << F.l() << ", pmin = " << F.pmin() << ", pmax = " << F.pmax() << "\n";
 
     time_stored = std::clock();
-    result r = algorithms[choice](F);
+    const DLL_Algorithms::Result r = algorithms[choice](F);
     time_new = std::clock();
     
     std::cout << "sat = " << r.sat << "\n";
@@ -128,23 +123,23 @@ int main (const int argc, const char * const argv[]) {
   }
 
   catch (Variables::Error::empty_name) {
-    std::cout << standarderr << message(0) << "\n";
+    std::cerr << standarderr << message(0) << "\n";
     return 1;
   }
   catch (Variables::Error::invalid_assignment) {
-    std::cout << standarderr << message(1) << "\n";
+    std::cerr << standarderr << message(1) << "\n";
     return 1;
   }
   catch (Clauses::Error::not_a_clause) {
-    std::cout << standarderr << message(2) << "\n";
+    std::cerr << standarderr << message(2) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::not_in_domain) {
-    std::cout << standarderr << message(3) << "\n";
+    std::cerr << standarderr << message(3) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::inconsistent_extension) {
-    std::cout << standarderr << message(4) << "\n";
+    std::cerr << standarderr << message(4) << "\n";
     return 1;
   }
 }

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,147 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp
   \brief Plans regarding installation of Maxima
+
+
+  \todo Installation of version 5.22.1
+  <ul>
+   <li> Floating-point problem:
+    <ol>
+     <li> Failure of okltest_probsatrand(probsatrand) due to less precise
+     computation:
+     \verbatim
+F : weak_php(2,3)$
+p : probsatrand(F);
+  1953/2048
+float(p);
+  0.95361328125
+pa : exp(logprobrand(F));
+  0.9536132812500007
+assert_float_equal(p, pa);
+  ASSERT: Expression " 6.661338147750939e-16 < 1/5000000000000000 " does not 
+    evaluate to true.
+float(1/5000000000000000);
+  2.e-16
+     \endverbatim
+     </li>
+     <li> Already below we experienced the diminished precision. How does this
+     come? </li>
+     <li> With version 5.21.1 (the current version) exp(logprobrand(F)) has
+     the value 0.95361328125. This is quite a difference. </li>
+     <li> Ask on the Maxima mailing list whether this is expected. </li>
+     <li> A simple solution would be to raise the error-tolerance for comparing
+     floating-point numbers from 2*10^-16 to 10^-15. </li>
+     <li> This problem as well as the problem below has to do with logarithms
+     and exponentials; is there some special problem here? </li>
+     <li> With this change to assert_float_equal then we get no further
+     test-failures with 5.22.1. </li>
+    </ol>
+   </li>
+   <li> DONE Set problem:
+    <ol>
+     <li> The correct way of referring to the underlying order of a set is by
+     orderlessp, not by <. </li>
+     <li> This problem occurs likely at several places, but it's hard to search
+     for them. </li>
+     <li> So we just handle these errors as they come. </li>
+    </ol>
+   </li>
+   <li> DONE Floating-point problem:
+    <ol>
+     <li> We get a test failure:
+     variable_heuristics_tau([{1,2,3},{1,2,3,4}],identity) in
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/ConstraintSatisfaction.mac
+     should yield [1,[1,2,3]]), however it yields (now) [2,[1,2,3,4]] ? </li>
+     <li> It seems that this is due to a changed behaviour of "sort". </li>
+     <li> No, this is not the problem, but that with 5.22.1 two equal
+     tau-values now compare as "strictly less". </li>
+     \verbatim
+> oklib --maxima
+
+m0 : log(3*4);
+t1 : tau(m0 - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0 - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+m0p : log(3) + log(4);
+t1 : tau(m0p - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0p - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+> maxima_recommended_version_number_okl=5.22.1 oklib --maxima
+m0 : log(3*4);
+t1 : tau(m0 - [log(4),log(4),log(4)]);
+  2.718281828459045
+t2 : tau(m0 - [log(3),log(3),log(3),log(3)]);
+  2.718281828459045
+is (t1 < t2);
+  false
+is (t2 < t1);
+  false
+is (t1 = t2);
+  true
+
+m0p : log(3) + log(4);
+t1 : tau(m0p - [log(4),log(4),log(4)]);
+  2.718281828459046
+t2 : tau(m0p - [log(3),log(3),log(3),log(3)]);
+  2.718281828459046
+is (t1 < t2);
+  false
+is (t2 < t1);
+  true
+is (t1 = t2);
+  false
+
+     \endverbatim
+     </li>
+     <li> 5.22.1 computes with less precision here:
+     \verbatim
+> oklib --maxima
+t1 : tau([log(3),log(3),log(3)]);
+  2.718281828459045
+t2 : tau([log(4),log(4),log(4),log(4)]);
+  2.718281828459045
+is (t1 = t2);
+  true
+tau_hp([log(3),log(3),log(3)], 15);
+  2.71828182845905b0
+tau_hp([log(3),log(3),log(3)], 30);
+  2.71828182845904523536028747135b0
+
+> maxima_recommended_version_number_okl=5.22.1 oklib --maxima
+t1 : tau([log(3),log(3),log(3)]);
+  2.718281828459046
+t2 : tau([log(4),log(4),log(4),log(4)]);
+  2.718281828459046
+is (t2 < t1);
+  true
+tau_hp([log(3),log(3),log(3)], 15);
+  2.71828182845905b0
+tau_hp([log(3),log(3),log(3)], 30);
+  2.71828182845904523536028747135b0
+     \endverbatim
+     </li>
+     <li> I think a reasonable solution is to compute more precise at
+     Maxima-level, and so to use now for variable_heuristics_tau instead of
+     sum_log_dom_size(dom) the value log_prod_dom_size(dom). </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo DONE (solved with Ecl 9.8.3)

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2004 (Turin)
-/* Copyright 2004 - 2007, 2009 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,8 +8,10 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/Ramsey.cpp
   \brief Application for creating 2-colour non-diagonal Ramsey instances
-  (arbitrary hypergraph size).
+  (arbitrary hypergraph size)
+  \deprecated Needs a complete update.
 
+  \details
   For the diagonal case (q1=q2=q) this corresponds to
   output_ramsey2_stdname(q,r,N) in
   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/RamseyProblems.mac.

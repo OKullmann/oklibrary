@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,6 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* For a domain association returns the list of domain sizes: */
 dom_lengths(dom) := map(length,dom)$
+
 /* For a domain association returns the list of logs of domain sizes.
    Prerequisite: No empty domains. */
 log_dom_lengths(dom) := float(map(log,dom_lengths(dom)))$
@@ -50,8 +51,13 @@ min_dom_size(dom) := lmin(dom_lengths(dom))$
 /* For a domain association returns the maximal domain size: */
 max_dom_size(dom) := lmax(dom_lengths(dom))$
 
-/* For a domain association returns the sum of logarithms of domain sizes: */
+/* For a domain association returns the sum of logarithms of domain sizes
+   (all domains must be non-empty): */
 sum_log_dom_size(dom) := sum_l(log_dom_lengths(dom))$
+/* The underlying "precise" value (equal, and numerically more precise, but
+   numerically computable only for small domains):
+*/
+log_prod_dom_size(dom) := log(prod_l(dom_lengths(dom)))$
 
 /*!
 \endhtmlonly

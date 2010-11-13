@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,11 +33,17 @@ kill(f)$
    *************************
 */
 
-okltest_impliesp_f(f) := block([S : dll_simplest_trivial1],
+okltest_impliesp_fcs(f) := block([S : dll_simplest_trivial1],
   assert(f([{},{}],{1},S) = false),
   assert(f([{},{{}}],{1},S) = true),
   assert(f([{},{{}}],{},S) = true),
   assert(f([{1,2},{{1}}],{1,2},S) = true),
+  true)$
+
+okltest_impliesp_cs(f) := block([S : dll_simplest_trivial1],
+  assert(f({},{},S) = false),
+  assert(f({{}},{},S) = true),
+  /* XXX */
   true)$
 
 okltest_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],

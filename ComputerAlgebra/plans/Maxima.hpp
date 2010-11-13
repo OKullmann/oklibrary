@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,32 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
-  \bug Strings cause errors in evaluation of expressions
+  \todo Stable sorting
+  <ul>
+   <li> The documentation of "sort" doesn't say anything about the behaviour
+   in case of equal items. </li>
+   <li> So it could even not work at all in case of equal items! </li>
+   <li> The documentation is also faulty w.r.t. whether the supplied predicate
+   should be reflexive or irreflexive.
+    <ol>
+     <li> Actually from the documentation it should follow that equal elements
+     can not be handled, since the predicate for subsequent elements shall
+     be true, while the key example "orderlessp" is an irreflexive order! </li>
+     <li> So it is not clear whether "<" or "<=" should be used. </li>
+    </ol>
+   </li>
+   <li> Supposing that it works (it absolutely should!), without the
+   specification one is in the worst situation: one has to assume that the
+   order of equal elements is changed, without being able to rely on faster
+   sorting. </li>
+   <li> See "Simplifications" in
+   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+   for an example of this problem. </li>
+  </ul>
+
+
+  \bug DONE (resolved with version 5.21.1)
+  Strings cause errors in evaluation of expressions
   <ul>
    <li> Once there is anywhere a string, ">" can not be applied anymore:
    \verbatim
@@ -35,21 +60,48 @@ Maxima encountered a Lisp error:
   </ul>
 
 
-  \todo No recursion for memoised functions
+  \todo Weak recursion for memoised functions
   <ul>
-   <li> See "There are severe restrictions for memoised recursive functions"
-   in ComputerAlgebra/plans/MaximaTechniques.hpp. </li>
-   <li> It seems that ulimit doesn't help here. </li>
-   <li> Then the only (general) possibility seems to write for memoised
+   <li> Consider
+   \verbatim
+fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
+
+fib_mem[1000];
+Maxima encountered a Lisp error:
+ C-STACK overflow at size 557056. Stack can probably be resized.
+   \endverbatim
+   </li>
+   <li> What precisely is the problem here? </li>
+   <li> In Ecl we can resize the c-stack, and we have also to resize the
+   binding-stack:
+   \verbatim
+get_c_stack_ecl();
+  557056
+set_c_stack_ecl(2^22);
+  4194304
+
+get_binding_stack_ecl();
+  8448
+set_binding_stack_ecl(2^16);
+
+fib_mem[1000];
+  43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875
+fib(1000);
+  43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875
+   \endverbatim
+   </li>
+   <li> Another (general) possibility is to write for memoised
    recursive functions a wrapper which calls the function bottom-up. </li>
    <li>
    \verbatim
-_fib_mem[n] := if n <= 1 then n else _fib_mem[n-1] + _fib_mem[n-2];
+_fib_mem[n] := if n <= 1 then n else _fib_mem[n-1] + _fib_mem[n-2]$
 fib_mem(n) := (for i : 0 thru n-1 do _fib_mem[i], _fib_mem[n])$
+fib_mem(1000);
+  43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875
    \endverbatim
    </li>
-   <li> It would be better if one could find out whether _fib_mem[n] is already
-   defined. </li>
+   <li> It would be better if one could find out whether the value _fib_mem[n]
+   is already defined. </li>
   </ul>
 
 

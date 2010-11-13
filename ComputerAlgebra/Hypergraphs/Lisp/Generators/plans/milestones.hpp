@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/milestones.hpp
 
-  \module_version Hypergraphs/Lisp/Generators 0.1 (23.1.2010)
+  \module_version Hypergraphs/Lisp/Generators 0.1.0.1 (23.10.2010)
 
 
   \par Version 0.1.1
@@ -20,13 +20,13 @@ License, or any later version. */
     - ramseyrv_ohg handles r=0 incorrectly
     - %Ramsey hypergraphs
 
-
-  \par Version 0.1.2
-
   \par
    In ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
    the following topics are handled:
-    - Hypergraphs of arithmetic progressions
+    - Hypergraphs of arithmetic progressions : DONE
+
+
+  \par Version 0.1.2
 
   \par
    In ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/GreenTao.hpp

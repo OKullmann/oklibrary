@@ -108,6 +108,10 @@ ascending_p(L) := if length(L) <= 1 then true
 descending_p(L) := if length(L) <= 1 then true
  else everynary_s(">=",rest(L,-1),rest(L))$
 
+/* Checks whether L1 is an initial part of L2: */
+prefix_p(L1,L2) := if length(L1) > length(L2) then false
+ else is(L1 = take_l(length(L1),L2))$
+
 
 /* *******************************************
    * Summations and products over lists/sets *
@@ -129,16 +133,16 @@ gprod_s(f,S) := apply("*",map(f,listify(S)))$
    *************************************
 */
 
-/* Computing the first smallest element (w.r.t. "length") of a list
+/* Computing the first smallest element w.r.t. length of a list
    (or of a set). */
 /* Prerequisite: L is not empty. */
-first_smallest_l(L) := block([s : inf, S],  
-  for x in L do block([l : length(x)],
+first_smallest_l(L) := block([s : inf, S, l],  
+  for x in L do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
 /* Now a lower bound on length is given: */
-first_smallest_lb_l(L,lb) := block([s : inf, S],  
-  for x in L unless s = lb do block([l : length(x)],
+first_smallest_lb_l(L,lb) := block([s : inf, S, l],  
+  for x in L unless s = lb do (l : length(x),
     if l < s then (s : l, S : x)),
   S)$
 /* first_smallest_lb_l(L,0) computes the same result as first_smallest_l(L),
@@ -152,16 +156,28 @@ first_smallest_lb_l(L,lb) := block([s : inf, S],
 */
 /* Prerequisite: _fmin(x) < inf for x in L. */
 first_smallest_f_l(_fmin,L) := if emptyp(L) then [inf] else
- block([min_v : inf, opt_x],
-  for x in L do block([v : _fmin(x)],
+ block([min_v : inf, opt_x, v],
+  for x in L do (v : _fmin(x),
     if v < min_v then (opt_x : x, min_v : v)),
   [min_v, opt_x])$
 /* Prerequisite: _fmax(x) > minf for x in L. */
 first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
- block([max_v : minf, opt_x],
-  for x in L do block([v : _fmax(x)],
+ block([max_v : minf, opt_x, v],
+  for x in L do (v : _fmax(x),
     if v > max_v then (opt_x : x, max_v : v)),
   [max_v, opt_x])$
+
+/* Just computing the smallest element of f(x) for x in L: */
+smallest_f_l(_fmin,L) := if length(L) <= 20000 then lmin(map(_fmin,L)) else 
+ block([min_v : inf, v],
+  for x in L do ( v : _fmin(x), if v < min_v then min_v : v ),
+  min_v)$
+/* And computing the largest element of f(x) for x in L: */
+largest_f_l(_fmax,L) := if length(L) <= 20000 then lmax(map(_fmax,L)) else 
+ block([max_v : minf, v],
+  for x in L do ( v : _fmax(x), if v > max_v then max_v : v ),
+  max_v)$
+
 
 /* The index of the first element x in list L with property _pred(x);
    if there is no such x then return inf. */
@@ -202,6 +218,9 @@ sublist_indices_el(L,x) := sublist_indices(L,lambda([e],is(e=x)))$
    i > length(L). */
 /* Returns a shallow copy of L. */
 remove_element(i,L) := append(take_elements(i-1,L), rest(L,i))$
+/* Removes all elements in list E from list L (returing a shallow copy of L):
+*/
+remove_elements(E,L) := (for x in E do L : delete(x,L), L)$
 
 /* Return the sublist of list L for which the corresponding entry in
    okl-array I is 0. Returns a shallow copy. */
@@ -233,6 +252,14 @@ partition_list(L,pred_) := [sublist(L,'pred_),sublist(L,lambda([x],not pred_(x))
 partition_list_epo(L,pred_) := block([A : [], B : []],
   for x in L do if pred_(x) then A : cons(x,A) else B : cons(x,B),
   return([reverse(A),reverse(B)]))$
+
+/* Partition a list into lists of elements which have
+   the same value under the mapping eq_. */
+partition_list_eq(L,eq_) := block([H : sm2hm({}),v],
+  for x in L do 
+    if (v : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
+    else set_hm(H,eq_(x),cons(x,v)),
+  return(map(lambda([A],reverse(A[2])),listify(hm2sm(H)))))$
 
 
 /* **********************

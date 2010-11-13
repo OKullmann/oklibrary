@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,9 @@ License, or any later version. */
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp
   \brief On investigations into vdW-numbers vdw_2(4,k)
 
-  Instances created by output_vanderwaerden2nd_stdname(4,k,n).
+  Instances created by output_vanderwaerden2nd_stdname(4,k,n) at Maxima-level,
+  or by "VanderWaerden-O3-DNDEBUG 4 k n" at C++ level (instances differ by
+  the order of negated literals in clauses).
   
   
   \todo Literature overview
@@ -1050,7 +1052,7 @@ BestSolution_Max = 59.000000
    equal) than 309. </li>
    <li> Evaluating
    \verbatim
-> E = eval_ubcsat("VanDerWaerden_2-4-10_350.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+> E = run_ubcsat("VanDerWaerden_2-4-10_350.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best): It seems that gsat_tabu, rots and samd are best,
    where samd reached the best min=37, but this might be just an outlier, and
@@ -1061,7 +1063,7 @@ BestSolution_Max = 59.000000
    here. </li>
    <li> Evaluating
    \verbatim
-E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    again rots seems best (reaching min=26). </li>
    <li> The same, but with cutoff=10^6: three algorithms, each with one run,
@@ -1091,7 +1093,7 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
    </li>
    <li> Evaluating (cutoff=10^5)
    \verbatim
->  E = eval_ubcsat("VanDerWaerden_2-4-10_320.cnf", params=list(runs=100,cutoff=100000),monitor=TRUE)
+>  E = run_ubcsat("VanDerWaerden_2-4-10_320.cnf", runs=100,cutoff=100000,monitor=TRUE)
    \endverbatim
    gsat-tabu and samd appear best (both reaching min=23).
    </li>
@@ -1249,8 +1251,10 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
      </li>
     </ol>
    </li>
-   <li> n=329, cutoff=4*10^8:
-   \verbatim
+   <li> n=329
+    <ol>
+     <li>cutoff=4*10^8:
+     \verbatim
 > ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 400000000 -i VanDerWaerden_2-4-10_329.cnf | tee VanDerWaerden_2-4-10_329.cnf_OUT
 > E = read_ubcsat("VanDerWaerden_2-4-10_329.cnf_OUT")
  1  2  3  4  5  6 21 23 24 25 26 27
@@ -1267,7 +1271,16 @@ E = eval_ubcsat("VanDerWaerden_2-4-10_330.cnf", params=list(runs=100,cutoff=1000
 > summary(E$osteps)
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
   1242000  67280000 164600000 174800000 284900000 394100000
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> cutoff=5*10^8:
+     \verbatim
+  1   2   3   4   5   6  23  24  25  26
+  5 103  59  31  10   3   2   7  12   8
+240
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=330 with adaptnovelty+
     <ol>

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,15 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
   \brief Plans regarding building of SAT solvers and libraries
+
+
+  \todo Fuzzing
+  <ul>
+   <li> Install tools by Biere's group, http://fmv.jku.at/software/ . </li>
+   <li> See "Target app_tests" in
+   Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp for the integration
+   into the application-testsystem. </li>
+  </ul>
 
 
   \todo Write docus for March
@@ -113,7 +122,25 @@ License, or any later version. */
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
-   <li> Minisat
+   <li> DONE (installed locally)
+   Minisat needs the library zlib http://www.zlib.net/ ; which we should
+   install locally.
+    <ol>
+     <li> Then the directories for include-library and link-library need to
+     be specified for the makefile. </li>
+     <li> Easiest (in this case for minisat2) to use
+     \verbatim
+CFLAGS='-I$(MTL) -Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl)"
+     \endverbatim
+     </li>
+     <li> Should building of zlib be independent (like for bzip2), or just
+     embedded into building minisat? </li>
+     <li> Simplest we make it independent, just copying the bzip2-approach.
+     </li>
+    </ol>
+   </li>
+   <li> DONE (building minisat2, but not minisat1)
+   Minisat
    \verbatim
 Installations/SAT> unzip ../../sources/SAT/MiniSat/MiniSat_v1.14.2006-Aug-29.src.zip
 Installations/SAT> cd MiniSat_v1.14
@@ -314,9 +341,20 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
 
   \todo Argo
   <ul>
+   <li> Is this software maintained? It seems that since version 1.0 no further
+   developments took place, while for example documentation is missing? </li>
+   <li> See Satisfiability/Solvers/Argosat/plans/general.hpp for our own
+   developments. </li>
+   <li> It seems that there is no documentation available? </li>
+   <li> At least we should provide a specification of the output.
+    <ol>
+     <li> How to see whether unit-clauses have been derived? </li>
+    </ol>
+   </li>
    <li> http://argo.matf.bg.ac.yu/index.html has some interesting packages
    to offer. </li>
-   <li> Installation of ArgoSat:
+   <li> DONE
+   Installation of ArgoSat:
    \verbatim
 builds/SAT/Argo> tar -xzf ../../../sources/SAT/Argo/argosat-1.0.tar.gz
 builds/SAT/Argo> cd argosat-1.0
@@ -591,6 +629,17 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   \todo Modoc
   <ul>
    <li> ftp://ftp.cse.ucsc.edu/pub/avg/Modoc/ </li>
+  </ul>
+
+
+  \todo DONE (Hantao Zhang considers it as obsolete, and doesn't want it to be
+  included)
+  Sato
+  <ul>
+   <li> http://www.cs.uiowa.edu/~hzhang/sato.html </li>
+   <li> Is not open-source, and thus can't be redistributed. </li>
+   <li> However one could ask the author Hantao Zhang hzhang@cs.uiowa.edu
+   whether he might change the licence. </li>
   </ul>
 
 

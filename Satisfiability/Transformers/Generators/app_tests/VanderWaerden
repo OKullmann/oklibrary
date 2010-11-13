@@ -1,0 +1,45 @@
+#!/bin/bash
+# Oliver Kullmann, 24.10.2010 (Swansea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories
+set -o nounset
+
+list_programs="${bin_dir}/VanderWaerden ${bin_dir}/VanderWaerden-O3-DNDEBUG"
+app_test_dir=${OKlib}/Satisfiability/Transformers/Generators/app_tests
+
+cd ${app_test_dir}
+
+program_tested="VanderWaerden"
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/${program_tested} -mindepth 1 -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find test_cases/basic/${program_tested} -mindepth 1 -name '*.cnf') $(find test_cases/full/${program_tested} -mindepth 1 -name '*.cnf')"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/${program_tested} -mindepth 1 -name '*.cnf') $(find test_cases/full/${program_tested} -mindepth 1 -name '*.cnf') $(find test_cases/extensive/${program_tested} -mindepth 1 -name '*.cnf')"
+    ;;
+esac
+
+echo -e "\nTEST PROBLEMS FOUND:"
+echo "${list_test_cases}"
+
+echo "PROCESSING:"
+
+for prog in ${list_programs}; do
+  echo "${prog}"
+  for P in ${list_test_cases}; do
+    echo "Filename:" "${P}"
+    parameter_line=$(basename ${P})
+    parameter_line=${parameter_line#VanDerWaerden_*-}
+    parameter_line=${parameter_line%.cnf}
+    parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
+    output=$(${program_tested}-O3-DNDEBUG ${parameter_line})
+    echo "${output}" | tail +5 | diff - "${P}"
+    if [[ $? -ne 0 ]]; then exit 1; fi
+  done
+done

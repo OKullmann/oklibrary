@@ -23,16 +23,16 @@ License, or any later version. */
    <li>
    Evaluating
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-3-4_800.cnf", params=list(runs=100,cutoff=10000),monitor=TRUE)
+E = run_ubcsat("GreenTao_4-3-3-3-4_800.cnf", runs=100,cutoff=10000,monitor=TRUE)
    \endverbatim
    by plot(E$alg,E$best), the best algorithms seems sapsnr. </li>
    <li> However, considering n=1000, now gsat-tabu, adaptnovelty+, rots and
    samd seem best (for cutoff=10000), while sapsnr became rather weak! </li>
    <li> Testing these four algorithms with cutoff=10^6:
    \verbatim
-E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE, algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
+E = run_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", runs=100,cutoff=1000000,monitor=TRUE, include_algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
    \endverbatim
-   (currently algorithms-names are inappropriately handled by eval_ubcsat):
+   (currently algorithms-names are inappropriately handled by run_ubcsat):
    adaptnovelty+ is clearly best: the best min(=6), and a very small spread;
    the second is samd, but with worst min, and a far larger spread. </li>
   </ul>
@@ -133,7 +133,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
      </li>
      <li> Checking all algorithms with cutoff=10^6:
      \verbatim
-> E = eval_ubcsat("GreenTao_4-3-3-3-4_994.cnf", params=list(runs=100,cutoff=1000000),monitor=TRUE)
+> E = run_ubcsat("GreenTao_4-3-3-3-4_994.cnf", runs=100,cutoff=1000000,monitor=TRUE)
      \endverbatim
      The best algorithms seem to be gwsat, gsat_tabu, adaptnoveltyp and samd,
      with adaptnoveltyp clearly best (reaching also the best min=6). </li>
@@ -281,7 +281,7 @@ E = eval_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", params=list(runs=100,cutoff=10000
        </li>
        <li> Best local search algorithm, evaluating
        \verbatim
-E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", runs=200,cutoff=1000000)
        \endverbatim
        by plot(E$alg,E$best):
        \verbatim
@@ -328,7 +328,7 @@ E = eval_ubcsat("GreenTao_N_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=100
        </li>
        <li> Best local search algorithm, evaluating
        \verbatim
-E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", runs=200,cutoff=1000000)
        \endverbatim
        by plot(E$alg,E$best):
        \verbatim
@@ -402,7 +402,7 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1020.cnf", params=list(runs=200,cutoff=10
      a solution in run 29 (seed=927551785, osteps=14114027). </li>
      <li> Strong nested standard translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      by plot(E$alg,E$best):
      \verbatim
 > table(E$best[E$alg=="rnoveltyp"])
@@ -437,7 +437,7 @@ E = eval_ubcsat("GreenTao_SN_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=10
      Thus the weak nested translation seems better than the strong. </li>
      <li> Logarithmic translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best):
      \verbatim
@@ -493,7 +493,7 @@ E = eval_ubcsat("GreenTao_L_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=100
      <li> So definitely the weak standard nested translation is superior. </li>
      <li> Weak standard reduced translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_R_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -507,7 +507,7 @@ gwsat :
      </li>
      <li> Strong standard reduced translation: Evaluating
      \verbatim
-E = eval_ubcsat("GreenTao_SR_4-3-3-3-4_1030.cnf", params=list(runs=200,cutoff=1000000))
+E = run_ubcsat("GreenTao_SR_4-3-3-3-4_1030.cnf", runs=200,cutoff=1000000)
      \endverbatim
      by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
      \verbatim
@@ -580,8 +580,74 @@ rnovelty :
     </ol>
    </li>
    <li> n=1052, rnovelty+, cutoff=64*10^7: In run 62 a solution was found
-   (seed=990282986, osteps=230887851). </li>
-   <li> n=1053, rnovelty+, cutoff=64*10^7 </li>
+   (seed=990282986, osteps=230887851); further runs:
+   \verbatim
+  1   2   3   4
+ 11  71 121  13
+216
+   \endverbatim
+   </li>
+   <li> n=1053, rnovelty+
+    <ol>
+     <li> cutoff=10^7:
+     \verbatim
+  3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+  2   6  25  60  81 146 160 146 142 110  62  39  14   5   2
+1000
+     \endverbatim
+     </li>
+     <li> cutoff=64*10^7:
+     \verbatim
+ 1  2  3  4
+ 4 19 56 15
+94
+     \endverbatim
+     </li>
+     <li>  Evaluating
+     \verbatim
+E = run_ubcsat("GreenTao_N_4-3-3-3-4_1053.cnf", runs=100,cutoff=1000000)
+     \endverbatim
+     by plot(E$alg,E$best) and eval_ubcsat_dataframe(E):
+     \verbatim
+rnoveltyp :
+ 8  9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 26 27 28 29 30 33
+ 1  2  1  2  5  6  3 10  9 10  7  7  8  3  6  6  3  3  1  4  2  1
+walksat_tabu_nonull :
+10 11 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+ 1  1  2  5  4  4 17 11  8 10  9  7  9  6  4  1  1
+rnovelty :
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+ 2  4  7  3  4  7  7  7 12  6  7  7  5  9  2  1  4  3  3
+walksat_tabu :
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+ 1  1  1  2  6  8 15 12 14 11  6  9  3  3  2  3  2  1
+adaptnoveltyp :
+13 14 15 16 17 18 19 20 21 22 23 24 25 26 28
+ 1  3  3  5  8 12 19 16 13  6  2  6  2  3  1
+gwsat :
+16 19 20 21 22 23 24 25 26 27 28 29 30 31 32 34 36
+ 1  1  2  5 12  9 10  7 12 14  8  7  3  5  1  2  1
+     \endverbatim
+     So also here rnovelty+ is best. </li>
+     <li> cutoff=10^9
+     \verbatim
+ 1  2  3  4
+ 3 32 58  7
+100
+ 1  2  3  4
+ 5 44 78  6
+133
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^9, rnovelty+:
+     \verbatim
+ 1  2  3
+ 2 20  7
+29
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> n=1055
     <ol>
      <li> rnovelty+, cutoff=16*10^7:

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,9 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
    **************
 */
 
+okltest_ld(ld);
+okltest_log10(log10);
+
 okltest_fld(fld);
 okltest_floorlog(floorlog);
 
@@ -45,6 +48,14 @@ okltest_polyadicstr2int(polyadicstr2int);
 okltest_int2polyadic(int2polyadic);
 okltest_int2polyadic_padd(int2polyadic_padd);
 okltest_int2polyadicstr(int2polyadicstr);
+
+/* ************
+   * Rounding *
+   ************
+*/
+
+okltest_round_fdd(round_fdd);
+okltest_round_bfdd(round_bfdd);
 
 /* **********************
    * Integer partitions *

@@ -1,0 +1,47 @@
+/* Oliver Kullmann, 18.5.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/testobjects/BasicExamples.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/testobjects/BasicExamples.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/BasicExamples.mac")$
+
+/* ********************
+   * Small semigroups *
+   ********************
+*/
+
+
+
+/* *******************
+   * Null semigroups *
+   *******************
+*/
+
+
+
+/* *********************
+   * Cyclic semigroups *
+   *********************
+*/
+
+okltest_cyclic_sgr(cyclic_sgr);
+
+/*!
+\endhtmlonly
+*/

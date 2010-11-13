@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -129,6 +129,8 @@ namespace SatAlg = Satisfiability::Algorithms;
        Programming/declarations.hpp for an example. </li>
       </ol>
      </li>
+     <li> The standard-indentation for C++ in the OKlibrary is two spaces,
+     however for namespaces it should only be one space. </li>
     </ol>
    </li>
    <li> Perhaps the following "parts" of the OKlibrary (containing the
@@ -176,7 +178,7 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "Applications" ("App")
         <ol>
-         <li> CrA ("Cryptanalysis") </li>
+         <li> DONE CrA ("Cryptanalysis") </li>
          <li> Col ("Colouring")
           <ol>
            <li> FrA ("FrequencyAssignment") </li>
@@ -444,7 +446,8 @@ namespace SatAlg = Satisfiability::Algorithms;
      </li>
      <li> The external sources: We have the checksums and version numbers,
      this should be enough. </li>
-     <li> The packages archive: backed up on the departmental server, which
+     <li> DONE (no package-history needed)
+     The packages archive: backed up on the departmental server, which
      should suffice for the local backup (see also below). </li>
      <li> Current packages: Can be recreated if needed, and a backed up
      on the departmental server, which should suffice. </li>

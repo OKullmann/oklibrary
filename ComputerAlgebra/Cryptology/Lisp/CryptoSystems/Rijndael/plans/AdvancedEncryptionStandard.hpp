@@ -23,7 +23,38 @@ License, or any later version. */
   </ul>
 
 
-  \todo Sbox polynomial implementation
+  \todo Requirements
+  <ul>
+   <li> This should be expanded and tidied up with a more formal 
+   specification? </li>
+   <li> This specification should then be moved to the docus. </li>
+   <li> What specifically is needed from the maxima implementation?
+    <ul>
+     <li> DONE A function F_AES(p,k) = c and F_AES'(c,k) = p . </li>
+     <li> (DONE Moved to Generalisations) 
+     How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where 
+     the size of p and k is implicit based on the structures used for p and k,
+     and r is given? Is r really needed as it seems this is a function of the 
+     size of p and k? 
+     </li>
+     <li> DONE A separate round function to allow greater flexibility 
+     when investigating reduced round variants. </li>
+     <li> (DONE Moved to Generalisations) What sort of generalisations are
+     needed?
+      <ol>
+       <li> Should the elements of the round such as ShiftRows be
+       interchangable to some arbitrary permutation (perhaps just across
+       rows?)? </li>
+       <li> Should MixColumns be generalised to an arbitrary 4-Byte value
+       multiplication, should it even be viewed in this way? See ??? </li>
+      </ol>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo DONE Sbox polynomial implementation
   <ul>
    <li> The polynomial representation should use operations
    on polynomials, but the Sbox operation is defined in 
@@ -40,7 +71,7 @@ License, or any later version. */
   </ul>
 
   
-  \todo Convert aes_key_expansion to return a list of matrices
+  \todo DONE Convert aes_key_expansion to return a list of matrices
   <ul>
    <li> Currently aes_key_expansion returns a 4x(4*(rounds+1)) matrix. </li>
    <li> This was motivated by the fact that it originally returned a list

@@ -3,234 +3,234 @@
   PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<!-- Copyright 2007 - 2009 Oliver Kullmann -->
+<!-- Copyright 2007 - 2009, 2010 Oliver Kullmann -->
 <!-- This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the 
 License, or any later version. -->
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
-      
-  <head>
-    <title> OKlibrary </title>
-    <meta name="author" content="Oliver Kullmann" />
-    <meta name="description" content="WWW home page of the OKlibrary" />
+ 
+ <head>
+  <title> OKlibrary </title>
+  <meta name="author" content="Oliver Kullmann" />
+   <meta name="description" content="WWW home page of the OKlibrary" />
     <meta name="robot" content="all" />
-    <meta http-equiv="content-type" content="text/html" />
-    <meta http-equiv="charset" content="utf-8" />
-  </head>
+     <meta http-equiv="content-type" content="text/html" />
+      <meta http-equiv="charset" content="utf-8" />
+ </head>
+ 
+ <body>
   
-  <body>
-
-    <h1> The OKlibrary </h1>
-
-    <p>
-      The OKlibrary is an open-source research platform and generative
-      library for generalised SAT solving (released under GPLv3).
-    </p>
-
+  <h1> The OKlibrary </h1>
+  
+  <p>
+   The OKlibrary is an open-source research platform and generative
+   library for generalised SAT solving (released under GPLv3).
+  </p>
+  
+  <ul>
+   <li> It contains tools to tackle "intractable problems". </li>
+   <li> The "SAT problem" (satisfiability of propositional formulas) is
+    at its centre, but the whole world of problems in "NP" is targeted.
+   </li>
+   <li> The core library provides new abstractions for "generalised
+    satisfiability  problems", together with efficient algorithms and
+    implementations. </li>
+   <li> A further aim is to make available all (open source) tools
     <ul>
-      <li> It contains tools to tackle "intractable problems". </li>
-      <li> The "SAT problem" (satisfiability of propositional formulas) is
-        at its centre, but the whole world of problems in "NP" is targeted.
-      </li>
-      <li> The core library provides new abstractions for "generalised
-        satisfiability  problems", together with efficient algorithms and
-        implementations. </li>
-      <li> A further aim is to make available all (open source) tools
-        <ul>
-          <li> in the direct context (other solvers and libraries for example,
-            also for graph colouring etc.) </li>
-          <li> as well as in the wider context (statistics tools and computer
-            algebra for example). </li>
-        </ul>
-      </li>
+     <li> in the direct context (other solvers and libraries for example,
+      also for graph colouring etc.) </li>
+     <li> as well as in the wider context (statistics tools and computer
+      algebra for example). </li>
     </ul>
-
-
-    <h2> Current status </h2>
-
-    <ul>
-      <li> The current version is m4_SHELL(oklib_version). </li>
-      <li> The PRE-ALPHA RELEASE is planned with version 0.2.2 (anticipated
-       m4_SHELL(deadline_022)). </li>
-      <li> The ALPHA RELEASE is planned with version 0.2.3 (anticipated
-       m4_SHELL(deadline_023)). </li>
-      <li> The BETA RELEASE is planned with version 0.2.4 (anticipated
-       m4_SHELL(deadline_024)). </li>
-      <li> The RELEASE is planned with version 0.3 (anticipated
-       m4_SHELL(deadline_030)). </li>
-    </ul>
-
-
-    <h2> On-line documentation </h2>
-
-    <p>
-      <a href="m4_SHELL(rel_ihp_local_home_page_output)"> The local
-        documentation </a> gives access to the "local home page", the index
-      page for the documentation as on your system.
-    </p>
-    <ul>
-      <li> This is a copy of the documentation on one of the developers
-        machines. </li>
-      <li> It shall show you the documentation on a real working system. </li>
-      <li> So information about the state of installed external sources
-        is only there to show an example (on every installed system it
-        might look different). </li>
-      <li> And links from doxygen-created pages to external html-pages won't
-        work, since the link is an absolute path-name (on the developers
-        machine). </li>
-      <li> These absolute path-names are required by the build system, and they
-        are also informative --- to show you where what is located (that is,
-        on a real system, not on the Internet-mirror). </li>
-    </ul>
-    <p>
-      Communication happens via the following mailing lists:
-    </p>
+   </li>
+  </ul>
+  
+  
+  <h2> Current status </h2>
+  
+  <ul>
+   <li> The current version is m4_SHELL(oklib_version). </li>
+   <li> The PRE-ALPHA RELEASE is planned with version 0.2.2 (anticipated
+    m4_SHELL(deadline_022)). </li>
+   <li> The ALPHA RELEASE is planned with version 0.2.3 (anticipated
+    m4_SHELL(deadline_023)). </li>
+   <li> The BETA RELEASE is planned with version 0.2.4 (anticipated
+    m4_SHELL(deadline_024)). </li>
+   <li> The RELEASE is planned with version 0.3 (anticipated
+    m4_SHELL(deadline_030)). </li>
+  </ul>
+  
+  
+  <h2> On-line documentation </h2>
+  
+  <p>
+   <a href="m4_SHELL(rel_ihp_local_home_page_output)"> The local
+    documentation </a> gives access to the "local home page", the index
+   page for the documentation as on your system.
+  </p>
+  <ul>
+   <li> This is a copy of the documentation on one of the developers
+    machines. </li>
+   <li> It shall show you the documentation on a real working system. </li>
+   <li> So information about the state of installed external sources
+    is only there to show an example (on every installed system it
+    might look different). </li>
+   <li> And links from doxygen-created pages to external html-pages won't
+    work, since the link is an absolute path-name (on the developers
+    machine). </li>
+   <li> These absolute path-names are required by the build system, and they
+    are also informative --- to show you where what is located (that is,
+    on a real system, not on the Internet-mirror). </li>
+  </ul>
+  <p>
+   Communication happens via the following mailing lists:
+  </p>
+  <ol>
+   <li> <a href="m4_SHELL(oklibrary_mailinglist_devel)">
+     developers </a>
+   </li>
+  </ol>
+  
+  
+  <h2> Download </h2>
+  
+  <p>
+   The <a href="../packages">download directory</a> contains three kind of
+   packages:
+  </p>
+  <ol>
+   <li> Minimal packages, with just the repository (also checked out)
+    and the directory scaffolding. </li>
+   <li> Standard packages, which contain additionally the
+    pre-created documentation (so that is doesn't need to be
+    built). </li>
+   <li> Full packages, which additionally contain also all
+    sources for external sources used by the library. </li>
+  </ol>
+  <p>
+   If in doubt, then download the full package.
+  </p>
+  <ul>
+   <li> Every package yields (directly!) a directory "OKplatform". </li>
+   <li> This is actually the directory to work with, and all build
+    processes happen <em>inside</em> this directory. </li>
+   <li> To extract this directory from the package, use
+    <code>tar -xjf package-name</code>. </li>
+   <li> For building the OKlibrary, change into directory OKplatform, and
+    read the README file. </li>
+   <li> For the release history see the history page of the local
+    documentation (use the link above). </li>
+  </ul>
+  <p>
+   For downloading single external sources, go to the
+   <a href="../OKplatform">OKplatform directory</a>.
+  </p>
+  
+  
+  <h3> The public source-code repository </h3>
+  
+  <p>
+   As an open-source library, you can participate in the development
+   process, and/or clone/fork the platform:
+  </p>
+  <ul>
+   <li> "Git" is the (distributed) source-control system we are using. </li>
+   <li> At the <a href="m4_SHELL(git_http_address_okl)"> public git
+     repository </a> the repository can be inspected. </li>
+   <li> Normally, downloading from there won't be needed since the above
+    packages contain a clone of this public git repository. </li>
+   <li> The git-address to clone from is
+    "m4_SHELL(git_http_repository)". This is the default when pulling from
+    a package. </li>
+   <li> Collaboration happens at <a href="http://github.com">Github</a>,
+    via creating a "fork" of the OKlibrary there, changing this clone,
+    and then inviting to pull the changes. </li>
+  </ul>
+  
+  
+  <h3> Remarks on the release process </h3>
+  
+  <p>
+   Some remarks regarding the packages (aspects which might be unusual):
+  </p>
+  <ul>
+   <li> Due to the character of the OKlibrary as an "active library",
+    there is no such thing as "building it" (once), but the library
+    comes with the ability of "permanent building" of the many
+    parts of the library. For further discussions of such aspects
+    see the aims-page of the local documentation.
+   </li>
+   <li> Due to the active character of the library, and
+    also due to its research character, the library always
+    comes with the (git) repository.
+   </li>
+   <li> Due to the extensive amount of external sources, the full
+    package is quite big. We do not provide an "external sources only"
+    package, since the other parts in the full package are
+    "negligible" from the size perspective.
+   </li>
+   <li> Packages are permanently updated, reflected by running
+    numbers, while the version number (with four digits) is
+    only advanced from time to time (according to the milestones).
+   </li>
+   <li> The four digit version number has the following meaning:
     <ol>
-      <li> <a href="m4_SHELL(oklibrary_mailinglist_devel)">
-        developers </a>
-      </li>
+     <li> An advance in the first digit is a "big public event"
+      (watch the news). </li>
+     <li> Advancing the second digit gets a short public announcement
+      at places like "SatLive".
+     </li>
+     <li> Advancing the third digit is an internal event, to be documented
+      on the mailing lists.
+     </li>
+     <li> Advancing the fourth digit is an automatic event, which
+      happens when some subgoal is reached (as can be seen
+      in the plans).
+     </li>
     </ol>
-
-
-    <h2> Download </h2>
-
-    <p>
-      The <a href="../packages">download directory</a> contains three kind of
-      packages:
-    </p>
+    As mentioned above, the running number is needed, since we might
+    release several packages a day, while advancing the version number
+    might take weeks.
+   </li>
+   <li> Updating your already existing OKlibrary-installation can happen
+    (at least) in the following ways:
     <ol>
-      <li> Minimal packages, with just the repository (also checked out)
-        and the directory scaffolding. </li>
-      <li> Standard packages, which contain additionally the
-        pre-created documentation (so that is doesn't need to be
-        built). </li>
-      <li> Full packages, which additionally contain also all
-        sources for external sources used by the library. </li>
+     <li> You can pull over the Internet from the central
+      public OKlibrary-clone, just by using <strong>git pull</strong>
+      (this needs git installed).
+     </li>
+     <li> If you didn't do anything inside your old installation, then
+      you can also just replace it altogether by a new one. </li>
+     <li> If you installed some external sources, but you didn't change
+      the OKlibrary itself (inside directory "OKlib"), then
+      you can also just replace directory OKlib (which is provided
+      already with the minimal package). </li>
+     <li> In any case, if you have downloaded the (new) full package, then
+      at least you should replace the old
+      OKplatform/ExternalSources/sources by the new directory (if you
+      don't have special reasons to keep old packages). </li>
     </ol>
-    <p>
-      If in doubt, then download the full package.
-    </p>
-    <ul>
-      <li> Every package yields (directly!) a directory "OKplatform". </li>
-      <li> This is actually the directory to work with, and all build
-        processes happen <em>inside</em> this directory. </li>
-      <li> To extract this directory from the package, use
-        <code>tar -xjf package-name</code>. </li>
-      <li> For the release history see the history page of the local
-        documentation (use the link above). </li>
-    </ul>
-    <p>
-      For downloading single external sources, go to the
-      <a href="../OKplatform">OKplatform directory</a>.
-    </p>
-
-
-    <h3> The public source-code repository </h3>
-
-    <p>
-      As an open-source library, you can participate in the development
-      process, and/or clone/fork the platform:
-    </p>
-    <ul>
-      <li> "Git" is the (distributed) source-control system we are using. </li>
-      <li> At the <a href="m4_SHELL(git_http_address_okl)"> public git
-          repository </a> the repository can be inspected. </li>
-      <li> Normally, downloading from there won't be needed since the above
-        packages contain a clone of this public git repository. </li>
-      <li> The git-address to clone from is
-        "m4_SHELL(git_http_repository)". This is the default when pulling from
-        a package. </li>
-      <li> Collaboration happens at <a href="http://github.com">Github</a>,
-        via creating a "fork" of the OKlibrary there, changing this clone,
-        and then inviting to pull the changes. </li>
-    </ul>
-    
-
-    <h3> Remarks on the release process </h3>
-
-    <p>
-      Some remarks regarding the packages (aspects which might be unusual):
-    </p>
-    <ul>
-      <li> Due to the character of the OKlibrary as an "active library",
-        there is no such thing as "building it" (once), but the library
-        comes with the ability of "permanent building" of the many
-        parts of the library. For further discussions of such aspects
-        see the aims-page of the local documentation.
-      </li>
-      <li> Due to the active character of the library, and
-        also due to its research character, the library always
-        comes with the (git) repository.
-      </li>
-      <li> Due to the extensive amount of external sources, the full
-        package is quite big. We do not provide an "external sources only"
-        package, since the other parts in the full package are
-        "negligible" from the size perspective.
-      </li>
-      <li> Packages are permanently updated, reflected by running
-        numbers, while the version number (with four digits) is
-        only advanced from time to time (according to the milestones).
-      </li>
-      <li> The four digit version number has the following meaning:
-        <ol>
-          <li> An advance in the first digit is a "big public event"
-            (watch the news). </li>
-          <li> Advancing the second digit gets a short public announcement
-            at places like "SatLive".
-          </li>
-          <li> Advancing the third digit is an internal event, to be documented
-            on the mailing lists.
-          </li>
-          <li> Advancing the fourth digit is an automatic event, which
-            happens when some subgoal is reached (as can be seen
-            in the plans).
-          </li>
-        </ol>
-        As mentioned above, the running number is needed, since we might
-        release several packages a day, while advancing the version number
-        might take weeks.
-      </li>
-      <li> Updating your already existing OKlibrary-installation can happen
-        (at least) in the following ways:
-        <ol>
-          <li> You can pull over the Internet from the central
-            public OKlibrary-clone, just by using <strong>git pull</strong>
-            (this needs git installed).
-          </li>
-          <li> If you didn't do anything inside your old installation, then
-            you can also just replace it altogether by a new one. </li>
-          <li> If you installed some external sources, but you didn't change
-            the OKlibrary itself (inside directory "OKlib"), then
-            you can also just replace directory OKlib (which is provided
-            already with the minimal package). </li>
-          <li> In any case, if you have downloaded the (new) full package, then
-            at least you should replace the old
-            OKplatform/ExternalSources/sources by the new directory (if you
-            don't have special reasons to keep old packages). </li>
-        </ol>
-      </li>
-      <li> Packages are <a href="../archive">archived</a>, but ignoring
-        advances in the fourth digit and in the running number (only). </li>
-      <li> Due to the research character and its continuous process, there is
-        no distinction between "stable" and "unstable" releases. If you wish
-        start using the OKlibrary, download the latest package, and later
-        perform updates as explained before.
-      </li>
-    </ul>
-
-    
-    <hr />
-      <p>
-      <!-- hhmts start -->
-Last modified: Thu Oct 15 18:17:21 BST 2009
+   </li>
+   <li> Due to the research character and its continuous process, there is
+    no distinction between "stable" and "unstable" releases. If you wish
+    start using the OKlibrary, download the latest package, and later
+    perform updates as explained before.
+   </li>
+  </ul>
+  
+  
+  <hr />
+   <p>
+    <!-- hhmts start -->
+Last modified: Sat May 22 13:59:41 BST 2010
 <!-- hhmts end -->
-      </p>
-      <address>
-        <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a>
-      </address>
-
-  </body>
-  
+   </p>
+   <address>
+    <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a>
+   </address>
+   
+ </body>
+ 
 </html>

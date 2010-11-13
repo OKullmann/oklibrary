@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.2.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,40 +37,41 @@ License, or any later version. */
   </ul>
 
 
-  \todo Relations to vanderwaerden_k(n_1, ..., n_k)
+  \todo Relations to vanderwaerden_m(k_1, ..., k_m)
   <ul>
-   <li> Let [2]_k denotes the list of k 2's. </li>
-   <li> Then we have vanderwaerden_{k+1}([2]_k, m) > n iff
-   tau_arithprog(m,n) <= k. </li>
-   <li> vanderwaerden_{k+1}([2]_k, m) is the smallest n such that
-   however k numbers are picked, an arithmetic progression of size m
+   <li> Let [2]_m denotes the list of m 2's. </li>
+   <li> Then we have vanderwaerden_{m+1}([2]_m, k) > n iff
+   tau_arithprog(k,n) <= m. </li>
+   <li> vanderwaerden_{m+1}([2]_m, k) is the smallest n such that
+   however m numbers are picked, an arithmetic progression of size k
    must be contained. </li>
-   <li> In other words, vanderwaerden_{k+1}([2]_k, m) is the smallest n such
-   that tau_arithprog(m,n) > k. </li>
-   <li> It seems that for computing vanderwaerden_{k+1}([2]_k, m), we best
-   search for the smallest n with tau_arithprog(m,n) >= k+1 --- in this way
-   we have only to decide whether or not a transversal of size at most k
+   <li> In other words, vanderwaerden_{m+1}([2]_m, k) is the smallest n such
+   that tau_arithprog(k,n) > m. </li>
+   <li> It seems that for computing vanderwaerden_{m+1}([2]_m, k), we best
+   search for the smallest n with tau_arithprog(k,n) >= m+1 --- in this way
+   we have only to decide whether or not a transversal of size at most m
    exists. This amounts to the same as computing the numbers
-   tau_arithprog(m,n) in succession, just using that these numbers are
+   tau_arithprog(k,n) in succession, just using that these numbers are
    non-decreasing and each step is at most 1. </li>
-   <li> A related sequence is A065825, which for given k is the smallest
-   n such that alpha_arithprog(3,n) = k.
+   <li> A related sequence is A065825, which for given m is the smallest
+   n such that alpha_arithprog(3,n) = m.
     <ol>
      <li> The known values are
      1, 2, 4, 5, 9, 11, 13, 14, 20, 24, 26, 30, 32, 36, 40, 41, 51, 54, 58, 63,
      71, 74, 82, 84, 92, 95, 100, 104, 111, 114, 121, 122, 137, 145, 150, 157,
-     starting with k=1. </li>
+     163, 165, 169, 174, 194;
+     starting with m=1 (added data from Bestk3.txt). </li>
      <li> This sequence is the same as obtained by computing the sequence of
      transversal numbers via VdWTransversalsInc and listing those n for which
      we obtained a satisfiable instance. </li>
-     <li> Why is this? The independence number always increases by one at
+     <li> This is because the independence number always increases by one at
      the satisfiable instances, while for the unsatisfiable instances the
      transversal numbe increases, i.e., the independence number stays the
      same. </li>
      <li> The satisfying assignments yield the complements of the minimum
      independent sets here. </li>
      <li> From this sequence we obtain values for alpha_arithprog(3,n) for
-     n <= 157, quite a bit more what A003002 contains. </li>
+     n <= 194, quite a bit more what A003002 contains. </li>
      <li> We need to have a look at
      http://www.math.uni.wroc.pl/~jwr/non-ave.htm , where perhaps we obtain
      more information on how these numbers where obtained. </li>
@@ -78,53 +79,35 @@ License, or any later version. */
      n in {1,2,5,14,30,41}. </li>
     </ol>
    </li>
-   <li> For given m, the sequences vanderwaerden_{k+1}([2]_k, m),
-   tau_arithprog(m,n), alpha_arithprog(3,n), A065825 are related as
+   <li> For given k, the four sequences vanderwaerden_{m+1}([2]_m, k),
+   tau_arithprog(k,n), alpha_arithprog(k,n), A065825 are related as
    follows:
     <ol>
-     <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
-     tau_arithprog(m,n) by running through k=0,1,..., and observing
-     when first the value is strictly greater than n --- for this k we
-     have tau_arithprog(m,n) = k. </li>
+     <li> Given the sequence vanderwaerden_{m+1}([2]_m, k), one obtains
+     tau_arithprog(k,n) by running through m=0,1,..., and observing
+     when first the value is strictly greater than n --- for this m we
+     have tau_arithprog(k,n) = m. </li>
      <li> The associated transformation function, where L is a strictly
-     increasing sequence of natural numbers (the indices here start with 0):
-     \verbatim
-transform_threshold_l(L) := 
-if emptyp(L) then [] else block(
- [n : 0, k : 0, R : []],
-  for x in endcons(last(L)+1,L) do (
-    if x > n then (
-      R : append(R,create_list(k,i,1,x-n)), 
-      n : x
-    ),
-    k : k+1
-  ),
-  return(R))$
-     \endverbatim
-     See transform_threshold_l(T) in
-     ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac.
-     </li>
-     <li> Given the sequence tau_arithprog(m,n), one obtains
-     vanderwaerden_{k+1}([2]_k, m) by running through n=0,1,..., and observing
-     when first the value is strictly greater than k --- for this n we have
-     vanderwaerden_{k+1}([2]_k, m) = n. </li>
-     <li> In other words, the values of vanderwaerden_{k+1}([2]_k, m) are
-     exactly the step-indices, where the value of tau_arithprog(m,n)
+     increasing sequence of natural numbers (the indices here start with 0),
+     is transform_threshold_l(L) in
+     ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac. </li>
+     <li> Given the sequence tau_arithprog(k,n) (n running), one obtains
+     vanderwaerden_{m+1}([2]_m, k) for m=0,1,..., by observing when first the
+     value is strictly greater than m --- for this index n we have
+     vanderwaerden_{m+1}([2]_m, k) = n. </li>
+     <li> In other words, the values of vanderwaerden_{m+1}([2]_m, k) are
+     exactly the step-indices, where the value of tau_arithprog(k,n)
      increases by one. </li>
      <li> The transformer (where L is a non-decreasing sequence of natural
-     numbers, and the indices here start with 0):
-     \verbatim
-transform_steps_l(L) := if length(L) <= 1 then [] else
- block([a : first(L), i : 1, R : []],
-  for b in rest(L) do (
-    if b > a then (R : endcons(i,R), a : b),
-    i : i + 1
-  ),
-  return(R))$
-     \endverbatim
-     </li>
-     <li> Given the sequence vanderwaerden_{k+1}([2]_k, m), one obtains
-     A065825 XXX </li>
+     numbers, and the indices here start with 0), is transform_steps_l(L)
+     (see ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac). </li>
+     <li> Given the sequence vanderwaerden_{m+1}([2]_m, k), one obtains
+     A065825 by XXX </li>
+     <li> Given a sequence L like A065825, which contains the independence
+     numbers in compressed form, only containing the changes (a "steplist"),
+     one obtains alpha_arithprog(k,n) by returning the first k where
+     L[k] >= n --- this is already achieved by transform_threshold_l(L),
+     starting with n=0. </li>
     </ol>
    </li>
   </ul>

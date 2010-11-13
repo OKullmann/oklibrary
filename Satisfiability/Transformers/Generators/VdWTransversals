@@ -35,7 +35,7 @@ auxfile2="vdw_b_$$"
 resultfile="vdw_trans_${K}_${N}_${B}.cnf"
 
 # Creating the Dimacs-file representing the hypergraph as positive clause-set:
-${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions, k=${K}, n=${N}, bound=${B}\\\",arithprog_hg(${K},${N}),\\\"${auxfile1}\\\");\""
+${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac\\\"); output_fcs(\\\"Hypergraph of arithmetic progressions, k=${K}, n=${N}, bound=${B}\\\",arithprog_hg(${K},${N}),\\\"${auxfile1}\\\");\""
 
 # Adding the linear inequalities:
 ${lin_equal_progr} "${N}" "${B}" "==" "" >> ${auxfile1}

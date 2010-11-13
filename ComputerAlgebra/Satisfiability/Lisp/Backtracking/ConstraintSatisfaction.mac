@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -128,17 +128,18 @@ constraint_backtracking_counting(dom,prop,heur) := (
    The ordering of values is by increasing distance.
 */
 variable_heuristics_tau(dom,prop) := block(
-[mu : sum_log_dom_size(dom), opt_tau:inf, opt_v, opt_dist, opt_dom],
+[mu : log_prod_dom_size(dom), opt_tau:inf, opt_v, opt_dist, opt_dom],
  block([v:1], /* dom_v = dom[v] */
   for dom_v in dom do block([dist : []],
     if length(dom_v) > 1 then (
       for e in dom_v do block([new_dom : copylist(dom), tau_value],
         new_dom[v] : {e}, prop(new_dom), 
-        dist : cons(mu - sum_log_dom_size(new_dom), dist)
+        dist : cons(mu - log_prod_dom_size(new_dom), dist)
       ),
       tau_value : tau(dist),
       if tau_value < opt_tau then
-        (opt_tau : tau_value, opt_v : v, opt_dist : dist, opt_dom : dom_v)),
+        (opt_tau : tau_value, opt_v : v, opt_dist : dist, opt_dom : dom_v)
+    ),
     v : v+1
   )
  ),

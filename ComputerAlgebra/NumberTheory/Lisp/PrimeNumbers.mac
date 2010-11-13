@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/GreenTao.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* **********************************
@@ -62,30 +63,102 @@ unrank_primes(i) := block([p : 2],
   ),
   p)$
 
-/* For a natural number p >= 1 compute the smallest index i >= 1
-   such that unrank_primes(i) >= p:
+/* For a natural number n >= 1 compute the smallest index i >= 1
+   such that unrank_primes(i) >= n:
 */
-rank_primes(p) := block([i : 1],
-  while p > 2 do (
-    p : prev_prime(p),
+rank_primes(n) := block([i : 1],
+  while n > 2 do (
+    n : prev_prime(n),
     i : i + 1
   ),
   i)$
-/* Ranking a set or list P of prime numbers: */
+/* Ranking a set or list P of natural numbers: */
 rank_primes_s(P) := map(rank_primes, P)$
+/* Remark: If n is not a prime number, then we have
+   rank_primes(n) = count_primes(n) + 1, while otherwise we have
+   equality.
+*/
 
-/* For a natural number n >= 0 compute the numbers of primes p
-   with p <= n:
+/* For a natural number n >= 0 or inf compute the numbers of primes p
+   with p <= n (in mathematics this is denoted by pi(n)):
 */
 count_primes(n) := if n <= 1 then 0
+ elseif n=inf then inf
  elseif primep(n) then rank_primes(n)
  else rank_primes(prev_prime(n))$
 
 
-/* The product of the prime numbers less than or equal to n >= 0: */
+/* The product of the prime numbers less than or equal to n >= 0
+   (in mathematics this is often denoted by Pi(n)): */
 product_primes(n) := block([pr : 1, p : 2],
  while p <= n do (pr : pr * p, p : next_prime(p)),
  return(pr))$
+
+
+/* **********************************
+   * The Prime Number Theorem (PNT) *
+   **********************************
+*/
+
+/* The simplest approximation of count_primes(x) via the PNT: */
+approx_count_primes_0(x) := x / log(x)$
+approx_count_primes_0_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ bfloat(x / log(x)))$
+approx_count_primes_1(x) := x / (log(x)-1)$
+approx_count_primes_1_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ bfloat(x / (log(x)-1)))$
+
+/* The simplest approximation of unrank_primes(x) via the PNT: */
+approx_unrank_primes_0(x) := x * log(x)$
+
+/* The approximation of count_primes(x) via the logarithmic integral: */
+Li(x) := expintegral_li(x)$
+/* The floating point version, using bfloats with decimal digits: */
+Li_hp(x,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Li(x))))$
+/* The higher logarithmic integrals (Li(x) = Lih(x,1)): */
+/* TODO: the integration should start with 0. */
+Lih(x,m) := integrate(log(t)^(-m),t,2,x)$
+Lih_hp(x,m,decimal_digits) := block([fpprec : decimal_digits],
+ expand(bfloat(Lih(x,m))))$
+
+/* Accordingly we provide abbreviations for the exponential integral: */
+Ei(x) := expintegral_ei(x)$
+
+/* Intervals containing count_primes(x) */
+
+/* Using the most basic bounds around x/log(x) (where x can be real): */
+count_primes_int_0(x) :=
+ if x<2 then [0,0] elseif x<3 then [1,1] elseif x<5 then [2,2]
+ else [x/ld(x), 2*x/log(x)]$
+
+/* From the Riemann-conjecture it follows that the quotient 
+     abs(c - Li(x)) / (sqrt(x) * log(x)
+   is bounded. The following function computes the maximal quotient
+   in the interval from a >= 2 to b (a, b must be integers), together with
+   the x where this maximum is assumed:
+*/
+max_quotient_riemann_error(a,b) := block(
+ [c : count_primes(a-1), maxq : minf, maxx : undef],
+  for x : a thru b do (
+    if primep(x) then c:c+1,
+    q : float(abs(c - Li(x)) / (sqrt(x) * log(x))),
+    if q > maxq then (maxq : q, maxx : x)
+  ),
+  return([maxq, maxx]))$
+/* The Riemann conjecture is equivalent to the assertion that the result of
+     max_quotient_riemann_error(2657,inf)
+   is less then 1/(8 pi) ~ .03978873577297384.
+   The corresponding interval (x here is an integer):
+*/
+count_primes_int_riemann(x) :=
+ if x < 2657 then block([c : count_primes(x)], [c,c])
+ else block([d : 1/(8*%pi) * sqrt(x) * log(x)],
+   Li(x) + [-d,+d])$
+/* In other words, the Riemann conjecture is equivalent to count_primes(x)
+   for all x lying in the (open) intervall computed by 
+   count_primes_int_riemann(x).
+*/
 
 
 /* **************************
@@ -129,6 +202,10 @@ n_arithprog_primes_c(k,n) :=
      sum : sum + count
    ),
    sum)$
+/* See ComputerAlgebra/RamseyTheory/Lisp/GreenTao/Asymptotics.mac
+   for approximations of n_arithprog_primes_c(k,n).
+*/
+
 
 /* The list of the numbers of arithmetic progressions of length k in 
    the set of the first i prime numbers for i from 1 to n ("c" for

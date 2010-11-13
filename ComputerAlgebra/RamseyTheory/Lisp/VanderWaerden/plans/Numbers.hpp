@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,10 +14,11 @@ License, or any later version. */
   <ul>
    <li> In RamseyTheory/Lisp/VanderWaerden/Numbers.mac we need to provide
    everything known about van-der-Waerden numbers. </li>
-   <li> See "Systematic notations for the numbers in %Ramsey theory" in
-   ComputerAlgebra/RamseyTheory/plans/general.hpp. </li>
+   <li> See
+   "Architectures of the systems for showing/computing Ramsey-type numbers" in
+   ComputerAlgebra/RamseyTheory/Lisp/plans/general.hpp. </li>
    <li> And see
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/general.hpp.
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp.
    </li>
   </ul>
 
@@ -26,6 +27,29 @@ License, or any later version. */
   <ul>
    <li> We have several, redundant sources for vdW-numbers: it seems best to
    actually use them, since they provide additional certificates. </li>
+  </ul>
+
+
+  \todo Improving exactf_tau_arithprog
+  <ul>
+   <li> DONE (package boolsimp does this job)
+   How do we get Maxima to evaluate simple terms?
+   \verbatim
+exactf_tau_arithprog(1,n);
+ if n < 1 then 0 elseif 1 = 1 then n elseif 1 = 2 then n-1 elseif n <= 1 and evenp(1)
+           then (if n = 1 then 2 else 1) elseif n <= 2 and oddp(1) then (if n = 2 then 2 else 1)
+           else unknown
+   \endverbatim
+   --- this should yield "if n < 1 then 0 else n" ?! </li>
+  </ul>
+
+
+  \todo Improving initial_sequence_vdWt
+  <ul>
+   <li> initial_sequence_vdWt(k) should proceed until the first result returned
+   by greentaot(m,k) appears which is not an integer. </li>
+   <li> The computation is very slow: greentaot(m,k) needs a more efficient
+   algorithm. </li>
   </ul>
 
 

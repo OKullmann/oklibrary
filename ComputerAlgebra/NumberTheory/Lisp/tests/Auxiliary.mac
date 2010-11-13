@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,6 +28,16 @@ kill(f)$
    * Logarithms *
    **************
 */
+
+okltest_ld(f) := (
+  for n : 0 thru 10 do
+    assert(f(2^n) = n),
+  true)$
+
+okltest_log10(f) := (
+  for n : 0 thru 10 do
+    assert(f(10^n) = n),
+  true)$
 
 okltest_fld(f) := block(
   assert(f(0) = minf),
@@ -139,6 +149,73 @@ okltest_int2polyadicstr(f) := block(
   assert(f(-15633412,16) = "-EE8C04"),
   assert(f(63631769456211,36) = "MK014LZDF"), 
   assert(f(-63631769456211,36) = "-MK014LZDF"),
+  true)$
+
+
+/* ************
+   * Rounding *
+   ************
+*/
+
+okltest_round_fdd(f) := (
+  for d : 0 thru 4 do block([r : f(1,d)],
+    assert(equal(r,1)),
+    assert(floatnump(f(1,d)) = true)
+  ),
+  assert(equal(f(10.0,0), 10)),
+  assert(equal(f(10.1,0), 10)),
+  assert(equal(f(10.2,0), 10)),
+  assert(equal(f(10.3,0), 10)),
+  assert(equal(f(10.4,0), 10)),
+  assert(equal(f(10.5,0), 10)),
+  assert(equal(f(10.6,0), 11)),
+  assert(equal(f(10.7,0), 11)),
+  assert(equal(f(10.8,0), 11)),
+  assert(equal(f(10.9,0), 11)),
+  assert(equal(f(11.5,0), 12)),
+  assert(equal(f(10.50,1), 10.5)),
+  assert(equal(f(10.51,1), 10.5)),
+  assert(equal(f(10.52,1), 10.5)),
+  assert(equal(f(10.53,1), 10.5)),
+  assert(equal(f(10.54,1), 10.5)),
+  assert(equal(f(10.55,1), 10.6)),
+  assert(equal(f(10.56,1), 10.6)),
+  assert(equal(f(10.57,1), 10.6)),
+  assert(equal(f(10.58,1), 10.6)),
+  assert(equal(f(10.59,1), 10.6)),
+  assert(equal(f(10.65,1), 10.6)),
+  assert(equal(f(10.66,1), 10.7)),
+  true)$
+
+okltest_round_bfdd(f) := block(
+ [fpprec : 16],
+   for d : 0 thru 4 do block([r : f(1,d)],
+     assert(equal(r,1)),
+     assert(bfloatp(r) = true)
+  ),
+  assert(equal(f(10.0,0), 10)),
+  assert(equal(f(10.1,0), 10)),
+  assert(equal(f(10.2,0), 10)),
+  assert(equal(f(10.3,0), 10)),
+  assert(equal(f(10.4,0), 10)),
+  assert(equal(f(10.5,0), 10)),
+  assert(equal(f(10.6,0), 11)),
+  assert(equal(f(10.7,0), 11)),
+  assert(equal(f(10.8,0), 11)),
+  assert(equal(f(10.9,0), 11)),
+  assert(equal(f(11.5,0), 12)),
+  assert(equal(f(10.50,1), 10.5)),
+  assert(equal(f(10.51,1), 10.5)),
+  assert(equal(f(10.52,1), 10.5)),
+  assert(equal(f(10.53,1), 10.5)),
+  assert(equal(f(10.54,1), 10.5)),
+  assert_bfloat_equal(f(10.55,1), 10.6, 16),
+  assert_bfloat_equal(f(10.56,1), 10.6, 16),
+  assert_bfloat_equal(f(10.57,1), 10.6, 16),
+  assert_bfloat_equal(f(10.58,1), 10.6, 16),
+  assert_bfloat_equal(f(10.59,1), 10.6, 16),
+  assert_bfloat_equal(f(10.65,1), 10.6, 16),
+  assert_bfloat_equal(f(10.66,1), 10.7, 16),
   true)$
 
 

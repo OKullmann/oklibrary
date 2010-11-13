@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.9.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,9 +14,14 @@ License, or any later version. */
   <ul>
    <li> We should enhance the various limits, appropriate for the minimum
    memory size we require for our machines (2 GB). </li>
+   <li> We now have default_memory_ecl() in
+   ComputerAlgebra/MaximaInternals/MemoryManagement.mac. </li>
+   <li> See ComputerAlgebra/MaximaInternals/plans/MemoryManagement.hpp. </li>
+   <li> So if enhanced memory is needed, then this function is to be called.
+   It seems difficult to do this directly at initialisation-time. </li>
    <li> Compare "Hypergraphs of arithmetic progressions" in
    ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp. </li>
-   <li>
+   <li> DONE
    \verbatim
 :lisp (ext:set-limit 'ext:frame-stack 8192)
 :lisp (ext:set-limit 'ext:binding-stack 65536)
@@ -28,16 +33,19 @@ License, or any later version. */
    apparently with Ecl version 9.12.3 heap-size is already 2^30. </li>
    <li> DONE (apparently these commands are Ecl-specific)
    These commands are for Ecl --- do they also work for CLisp? </li>
-   <li> How to use Maxima variables in this context?
+   <li> DONE
+   How to use Maxima variables in this context?
    \verbatim
 frame_stack : 2^13;
 :lisp (ext:set-limit 'ext:frame-stack $frame_stack)
    \endverbatim
    seems to work. </li>
-   <li> So we should use variables "frame_stack, binding_stack, c_stack,
+   <li> DONE
+   So we should use variables "frame_stack, binding_stack, c_stack,
    heap_size, lisp_stack". Since they only work for Ecl, then we should add
    the suffix "_ecl". </li>
-   <li> This yields
+   <li> DONE
+   This yields
    \verbatim
 frame_stack_ecl : 2^13;
 binding_stack_ecl : 2^16;

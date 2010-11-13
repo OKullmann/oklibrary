@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -85,6 +85,97 @@ ExternalSources/Installations/R> oklib --R
     <ol>
      <li> http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm
      </li>
+     <li> Espresso-ab, a fork of Espresso tidying and fixing Espresso to work
+     with modern gcc versions, is available at - 
+     http://code.google.com/p/eqntott/downloads/detail?name=espresso-ab-1.0.tar.gz&can=2&q=
+     %- It doesn't appear to have a well established website and so offering 
+     this for download within the OKlibrary could be beneficial. </li>
+     <li> Espresso-ab doesn't appear to have a well known open-source license,
+     although it does come with a license which allows copying,
+     redistribution and derivative works. </li>
+     <li> To install espresso-ab, one can download it from the site 
+     (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
+     and use the standard make-style compilation procedure, so
+     \verbatim
+> cd $OKPLATFORM/ExternalSources/builds/
+builds> mkdir Espresso
+Espresso> cd Espresso
+Espresso> wget http://eqntott.googlecode.com/files/espresso-ab-1.0.tar.gz
+Espresso> tar zxvf espresso-ab-1.0.tar.gz
+Espresso> cd espresso-ab-1.0
+espresso-ab-1.0> ./configure
+espresso-ab-1.0> make
+espresso-ab-1.0> ./src/espresso --help
+     \endverbatim
+     and then one can use the following "test.pla" file
+     with espresso 
+     \verbatim
+.i 3
+.o 1
+110 1
+111 1
+010 1
+001 0
+000 0
+100 1
+011 0
+101 0
+     \endverbatim
+     by calling 
+     \verbatim
+builds> Espresso/espresso-ab-1.0/src/espresso test.pla
+.i 3
+.o 1
+.p 3
+1-0 1
+-10 1
+11- 1
+.e
+     \endverbatim
+     </li>
+     <li> Note here that the PLA file is a format for describing boolean 
+     functions. For simple usage one can assume that the ".i" line specifies
+     the number of input variables, the ".o" line, the number of output 
+     variables, and then each line specifies the entry in a truth table 
+     describing the associated boolean function. If an entry is marked with
+     a "-", this is simply shorthand for the expansion into multiple truth
+     table entries where the "-" values take every possibily but the rest
+     of the values remain unchanged. For more details, see 
+     http://people.ee.duke.edu/~jab/ece151/espresso.5.html .
+     </li>
+     <li> Note that espresso-ab provides no documentation but 
+     the original documentation applies and is available at
+     http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm .
+     </li>
+    </ol>
+   </li>
+   <li> Scherzo
+    <ol>
+     <li> Developed by Olivier Coudert (http://www.ocoudert.com/). </li>
+     <li> Uses implicit BDD representation for primes and reduction
+     techniques to avoid blow up in size of problem due to large
+     numbers of prime implicates. </li>
+     <li> Coudert has provided the code to MG, although it is not
+     clear whether he would be willing to make it open-source. </li>
+     <li> The source builds with some minor Makefile changes but
+     segfaults. This seems likely to be an issue with how MG is building
+     it and the difference in architectures (Scherzo seems to have been
+     developed for systems other than standard x86 / x86_64). </li>
+     <li> MG needs to e-mail Coudert again to check whether he would
+     be willing to open-source the application. </li>
+    </ol>
+   </li>
+   <li> BOOM
+    <ol> 
+     <li> Developed by Petr Fiser 
+     (http://service.felk.cvut.cz/vlsi/prj/BOOM/). </li>
+     <li> Non-exact boolean minimisation, but allows iterative
+     minimisation. </li>
+     <li> According to experimental results on the project site,
+     the software is highly competitive. </li>
+     <li> License requires authors reference particular papers if
+     one uses the software, and one must provide details to download
+     the software (MG hasn't done this). </li>
     </ol>
    </li>
    <li> Using genetic programming:

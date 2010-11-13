@@ -1,0 +1,143 @@
+/* Oliver Kullmann, 22.4.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac
+  \brief Tools for manipulating sequences of numbers as relevant for Ramsey theory
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Sequences.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* ****************
+   * Transformers *
+   ****************
+*/
+
+/* 
+  Transforming an initial list T of transversal vdW-numbers to transversal
+  vdw-numbers, or transforming a "steplist" of independence numbers into a
+  list of independence numbers.
+  If T contains non-integer values, then the list is cut off at
+  the first such occurrence.
+  The list of transversal vdw-numbers starts with n=0.
+
+  Given a sequence T for fixed k, containing vanderwaerden_{m+1}([2]_m, k) for
+  m = 0, ..., (or the steplist as explained below), one obtains
+  tau_arithprog(k,n) for n=0, ... by running through m=0,1,..., and observing
+  when first the value x=T[m+1] is strictly greater than n --- for this m we
+  have tau_arithprog(k,n) = m.
+
+  So transform_threshold_l(T) is the list [t_0,t_1, ..., t_p]
+  of non-decreasing natural numbers t_i >= 0, where t_i is the smallest
+  0 <= m <= length(T) such that T'[m+1] > i, and where T' is obtained from
+  T by adding an element to the end which is bigger by one than the last
+  element of T (this yields one more correct value in the result list, since
+  the numbers of T are strictly increasing).
+  In other words, transform_threshold_l(T) contains T[1] 0's, T[2]-T[1] 1's,
+  T[3]-T[2] 2's, and so on, and concluded by length(T) if T is not empty.
+  So p = -1 if T is empty, while otherwise p = last(T).
+  And we have t_i <= t_{i+1} <= t_i + 1.
+  Prerequisite: T is a sequence of strictly increasing natural numbers >= 0,
+  with a possible suffix of non-integers.
+*/
+transform_threshold_l(T) :=  block(
+ block([noti : find_first_l(lambda([x], not integerp(x)), T)],
+  if noti#inf then T : take_l(noti-1,T)),
+ if emptyp(T) then return([]),
+ block([n : 0, m : 0, R : []],
+  for x in endcons(last(T)+1,T) do (
+    if x > n then (
+      R : append(R,create_list(m,i,1,x-n)), 
+      n : x
+    ),
+    m : m+1
+  ),
+  return(R)))$
+
+/* The inverse, which in general, where L is a non-decreasing list of natural
+   numbers >= 0, computes the indices i in L (i >= 1) where L[i+1] > L[i],
+   and appends them to the result: */
+transform_steps_l(L) := if length(L) <= 1 then [] else
+ block([a : first(L), i : 1, R : []],
+  for b in rest(L) do (
+    if b > a then (R : endcons(i,R), a : b),
+    i : i + 1
+  ),
+  return(R))$
+
+/* The inversion-relation more precisely:
+   Consider the following two sets of finite sequences of natural numbers:
+   - the set M of finite, strictly increasing sequences
+     (possibly empty) of natural numbers >= 1,
+   - and the set N of finite,
+     non-decreasing sequences (possibly empty) of natural numbers >= 0, which
+     for a non-empty list after removal of repeated elements are the sequences
+     0,1,2,...,m for m >= 1, and where the last element is strictly greater
+     than the penultimate element.
+   Now transform_threshold_l is a bijection from M to N with inverse
+   transform_steps_l.
+   To understand the definitions of M and N, the sequences in M are 1-based,
+   while the sequences in N are 0-based.
+   transform_threshold_l([k]) thus is k 0's, followed by 1, while
+   transform_steps_l([0,0,1]) is [2].
+
+   The sequences in N are given by vanderwaerden_{m+1}([2]_m, k), for
+   m = 0, 1, ... (though the index is 1-based, thus considering in a sense
+   the length of the whole list), where k >= 1, while the sequences in M are
+   given by tau_arithprog(k,n), for n = 0, 1, ... .
+   Alternatively, the sequences in N are given by alpha_arithprog(k,n),
+   for n = 0, 1, ..., while the sequences in M yield a "compressed"
+   presentation (called "steplists" below) of these lists.
+*/
+
+/* Treating L as a list of transversal- or independence-numbers, and computing
+   the complementary numbers, using the index (n=1, ...) as the number of
+   elements:
+*/
+alphatau_l(L) := create_list(i,i,1,length(L)) - L$
+
+/* Given an "alpha-steplist", compute the associated list of
+   transversal-numbers (of the hypergraphs; starting with n=1).
+   S is a non-empty list of strictly increasing natural numbers >= 1.
+*/
+alphastep2tau(S) := alphatau_l(rest(transform_threshold_l(S)))$
+/* The inverse, i.e., given a list of transversal-numbers (starting with n=1),
+   compute the associated "alpha-steplist".
+   T is a non-empty list of non-decreasing natural numbers >= 0, where every
+   step is +1.
+*/
+tau2alphastep(T) := transform_steps_l(cons(0,alphatau_l(T)))$
+/* Note that we always have
+     tau2alphastep(alphastep2tau(S)) = S,
+   however alphastep2tau(tau2alphastep(T)) will a tail of T leading to a
+   constant tail of alpha-values will be reduced to length 1.
+*/
+
+
+/* ************
+   * Analysis *
+   ************
+*/
+
+/* For a given Ramsey-number-function N, compute the list
+   N([k,k], N([k-1,k+1]), ..., N([2,2k+2]):
+*/
+deharmonise_eval_2(k,N_) := map(N_, create_list([k-i,k+i],i,0,k-2))$
+
+
+/*!
+\endhtmlonly
+*/

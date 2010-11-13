@@ -10,7 +10,46 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
-  \todo Installing 2.10.0
+  \todo DONE (disabled Rcmdr for now)
+  Installing 2.11.0
+  <ul>
+   <li> Build fails:
+   \verbatim
+* DONE (QCA)
+
+* installing *source* package ‘Rcmdr’ ...
+** R
+** inst
+** help
+Warning: ./man/Commander-es.Rd:127: unknown macro '\item'
+...
+*** installing help indices
+** building package indices ...
+** testing if installed package can be loaded
+Error in firstlib(which.lib.loc, package) :
+  Tcl/Tk support is not available on this system
+Error : package 'tcltk' could not be loaded
+ERROR: loading failed
+* removing ‘/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/R/2.11.0/lib64/R/library/Rcmdr’
+   \endverbatim
+   </li>
+   <li> The easiest fix would be to disallow this package, since we don't
+   need it. </li>
+   <li> But let's first try the newer Rcmdr-version 1.5.4. </li>
+   <li> Then we don't get the warnings, but still
+   \verbatim
+** testing if installed package can be loaded
+Error in firstlib(which.lib.loc, package) :
+  Tcl/Tk support is not available on this system
+Error : package 'tcltk' could not be loaded
+   \endverbatim
+   </li>
+   <li> So let's remove this package for now. </li>
+  </ul>
+
+
+  \todo DONE (2.10.1 works again)
+  Installing 2.10.0
   <ul>
    <li> The tests fail:
    \verbatim
@@ -50,7 +89,7 @@ Execution halted
    <li> Often gfortran is not installed. </li>
    <li> While it shouldn't be a problem to install gfortran locally.
     <ol>
-     <li> Just add "fortran" to gcc_enable_languages_okl. </li>
+     <li> DONE Just add "fortran" to gcc_enable_languages_okl. </li>
     </ol>
    </li>
    <li> And also employing it for building R shouldn't be a problem. </li>
@@ -95,9 +134,29 @@ Error: package 'tcltk' could not be loaded
    </li>
    <li> Of potential interest:
     <ol>
+     <li> "gsl" http://cran.r-project.org/web/packages/gsl/index.html
+      <ol>
+       <li> With this we would get the exponential integral (and thus also
+       the logarithmic integral). </li>
+       <li> Needs the Gnu Gsl-library installed. </li>
+       <li> Likely we should do this locally. </li>
+       <li> But then, how to tell the R-installation about this local
+       library? </li>
+       <li> Using "oklib --R CMD INSTALL --help" reveals no options for
+       libraries needed by the packages? </li>
+       <li> Perhaps the usual configure-options are to be used, together
+       with "--configure-args=ARGS" and "--configure-vars=VARS" (but unclear
+       what these CMD-options mean)? </li>
+      </ol>
+     </li>
      <li> "SparseM" </li>
      <li> DONE "QCA" (Quine-McCluskey;
-     http://cran.r-project.org/src/contrib/Descriptions/QCA.html) </li>
+     http://cran.r-project.org/web/packages/QCA/index.html) </li>
+     <li> DONE "lpsolve"
+     http://cran.r-project.org/web/packages/lpSolve/index.html </li>
+     <li> DONE
+     "QCA3" (qualitative comparative analysis;
+     http://cran.r-project.org/web/packages/QCA3/index.html) </li>
      <li> "boolean" </li>
      <li> "combinat" </li>
      <li> diagram http://r-forge.r-project.org/R/?group_id=342 </li>

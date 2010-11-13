@@ -1,5 +1,5 @@
 # Oliver Kullmann, 1.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -282,7 +282,7 @@ postgresql_html_documentation_index_location_tag ?= <a href="$(postgresql_html_d
 # New variables for the configuration of building R (to be designed 
 # and implemented):
 
-R_version_number_extraction_okl := awk '/ [0-9]\.[0-9]\.[0-9]/{print $$3}'
+R_version_number_extraction_okl := awk '/ [0-9]\.[0-9]+\.[0-9]/{print $$3}'
 # assumes that the output of "R --version" contains a line of the form
 # (for example) "R version 2.5.0 (2007-04-23)"
 

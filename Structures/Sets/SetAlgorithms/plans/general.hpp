@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -38,6 +38,53 @@ License, or any later version. */
 
 
   \todo Write demos.
+
+  \todo Introduce subsumption hypergraph generator
+  <ul>
+   <li> There are several instances where we have hypergraphs
+   with a large number of nodes. For instance, we have
+   <ul>
+    <li> "Minimisation of the Sbox" in 
+    Experimentation/Investigations/Cryptography/plans/SboxInvestigations.hpp
+    </li>
+    <li> "Smallest prime CNF-representation" in 
+    Experimentation/Investigations/BooleanFunctions/plans/UnaryAddition.hpp
+    </li>
+    <li> "Smallest prime CNF-representation" in 
+    Experimentation/Investigations/BooleanFunctions/plans/BinaryAddition.hpp
+    </li>
+   </ul>
+   </li>
+   <li> For all such instances, all such algorithms are available
+   in the Maxima system (see 
+   OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac), however, for such large
+   instances the Maxima system is far too inefficient. </li>
+   <li> Details
+   <ul>
+    <li> As input we have 2 set-systems F and G, and as output, we have the
+    hypergraph H, where 
+    <ol>
+     <li> V(H) = F, </li>
+     <li> E(H) = {{a in F | b is a subset of a} | b in G}. </li>
+    </ol>
+    </li>
+   </ul>
+   </li>
+   <li> The output should be generated as an extended DIMACS
+   file where the variables names express the vertices in the hyperedges
+   from F (see Satisfiability/Transformers/Generators/Ramsey.hpp for an
+   example). </li>
+   <li> A subsumption hypergraph generator is implemented now as a functor
+   in SubsumptionHypergraph.hpp. All that is needed is the appropriate 
+   CLSAdaptors to read and write the clause-sets. </li>
+   <li> For outputting the subsumption hypergraph, the variables/nodes
+   will themselves be hyperedges of the original hypergraph F and so 
+   will need to be translated, either to integers or to extended DIMACS
+   literals. MG: Is there an CLSAdaptorExtendedDimacsOutput or similar 
+   (there is LiteralExtendedReading but seems to be no support for writing).
+   </li> 
+   <li> DONE Therefore we need a C++ subsumption hypergraph generator. </li>
+  </ul>
 
 */
 
