@@ -135,6 +135,17 @@ d - round(fnlq(X))
   </ul>
 
 
+  \todo Analysing certificates
+  <ul>
+   <li> See "Analysing certificates" in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
+   </li>
+   <li> It seems that solutions at least for the harder problems come in
+   small clusters, where the clusters have large Hamming distances, while
+   within the clusters we have rather small Hamming distances. </li>
+  </ul>
+
+
   \todo Performance of OKsolver-2002
   <ul>
    <li> k=4, n=17,18: 7 resp. 9 nodes. </li>
@@ -2269,7 +2280,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
   </ul>
 
 
-  \todo vanderwaerden_2(3,30) > 901
+  \todo vanderwaerden_2(3,30) > 902
   <ul>
    <li> The predictions are 948, 954. </li>
    <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
@@ -2421,12 +2432,26 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 93
      \endverbatim
      </li>
+     <li> rots found in run 90 a solution with cutoff=10^8 (osteps=87469691),
+     with certificate:
+     \verbatim
+23,40,63,90,98,100,109,111,134,147,
+164,172,179,189,201,208,209,225,226,240,
+248,257,259,283,290,319,327,331,336,359,
+368,370,373,374,386,388,411,423,438,442,
+462,467,484,485,497,499,505,534,541,542,
+544,555,558,573,581,592,616,623,652,660,
+666,669,670,689,692,701,703,707,719,721,
+738,764,766,771,795,812,817,818,832,845,
+849,877,888
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
 
 
-  \todo vanderwaerden_2(3,31) > 916
+  \todo vanderwaerden_2(3,31) > 918
   <ul>
    <li> n=900
     <ol>
@@ -2499,6 +2524,20 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=918: rots found a solution, adapted from n=917, cutoff=5*10^7,
+   with certificate:
+   \verbatim
+10,40,59,67,84,98,104,115,120,121,
+133,148,177,185,191,194,209,214,231,252,
+254,283,288,289,305,306,318,325,337,343,
+363,370,376,392,394,402,407,411,417,429,
+448,476,481,487,510,513,518,522,524,542,
+547,564,585,587,616,617,621,638,639,653,
+658,688,696,703,709,733,735,740,746,762,
+787,809,816,820,844,846,855,860,873,898,
+910
+   \endverbatim
    </li>
   </ul>
 

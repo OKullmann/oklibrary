@@ -21,13 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/Hy
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Hypergraphs.mac")$
 
-/* ****************
-   * Certificates *
-   ****************
-*/
-
-okltest_check_certificate_vdw(check_certificate_vdw);
-okltest_create_certificate2_vdw(create_certificate2_vdw);
 
 /*!
 \endhtmlonly

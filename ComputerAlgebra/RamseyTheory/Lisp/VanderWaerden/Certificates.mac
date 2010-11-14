@@ -1,0 +1,57 @@
+/* Oliver Kullmann, 12.11.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac
+  \brief Basic functions for investigating Van der Waerden hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+/* L is a vdW-parameter-tuple, n a natural number, P a list of subsets of
+   {1,...,n}, yielding a partition of this set (with possibly empty subsets).
+*/
+check_certificate_vdw(L,n,P) := block([N : setn(n)],
+  is(length(L) = length(P)) and is(apply(union,P) = N) and
+    sum_l(map(length,P)) = n and
+    every(lambda([k,b], emptyp(arithmetic_progressions(listify(b),k))), L, P))$
+/* See "The notion of a certificate" in 
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
+*/
+
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+/* Creates a certificate from a list of elements constituting one part
+   of a binary partitioning:
+*/
+create_certificate2_vdw(S,n) := block([s : setify(S)],
+  [s, setdifference(setn(n),s)])$
+
+/*!
+\endhtmlonly
+*/
