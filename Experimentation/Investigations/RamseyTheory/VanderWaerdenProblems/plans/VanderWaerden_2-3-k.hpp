@@ -28,13 +28,13 @@ License, or any later version. */
    vanderwaerden3k(k):
    \verbatim
 create_list(vanderwaerden3k(k),k,1,19);
- [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349,unknown]
+ [3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349]
    \endverbatim
    </li>
    <li> Log-log regression (in R) does not yield a good model, as can be
    seen inspecting the plot:
    \verbatim
-d0 = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312)
+d0 = c(3,6,9,18,22,32,46,58,77,97,114,135,160,186,218,238,279,312,349)
 plot(d0)
 lines(d0)
 x0 = log((1:length(d0)))
@@ -44,19 +44,19 @@ L0 = lm(y0 ~ x0)
 summary(L0)
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)
-(Intercept)   0.6000     0.1257   4.773 0.000207 ***
-x0            1.7232     0.0580  29.708    2e-15 ***
-Residual standard error: 0.1918 on 16 degrees of freedom
-Multiple R-squared: 0.9822,     Adjusted R-squared: 0.9811
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.58155    0.12319   4.721 0.000197 ***
+x0           1.73669    0.05563  31.220  < 2e-16 ***
+Residual standard error: 0.1906 on 17 degrees of freedom
+Multiple R-squared: 0.9829,     Adjusted R-squared: 0.9818 
 
 lines(x0,predict(L0))
    \endverbatim
    </li>
-   <li> Using the conjectured values 349,389,416,464,516,593,656,727,770,827,
+   <li> Using the conjectured values 389,416,464,516,593,656,727,770,827,
    868 (see below):
    \verbatim
-d = append(d0, c(349,389,416,464,516,593,656,727,770,827,868))
+d = append(d0, c(389,416,464,516,593,656,727,770,827,868))
 plot(d)
 lines(d)
 lines((1:length(d))^2)
@@ -89,11 +89,11 @@ Cnl
         a         b 
 0.5847057 2.1748818 
 fnl = function(k){Cnl[1] * k^Cnl[2]}
-round(fnl(1:31))
+round(fnl(1:35))
  1 3 6 12 19 29 40 54 70 87
  108 130 155 182 211 243 277 314 353 395
  439 486 535 587 642 699 759 821 886 954
- 1024
+ 1024 1098 1174 1252 1334
 
 d - round(fnl(1:29))
  2 3 3 6 3 3 6 4 7 10
@@ -120,11 +120,11 @@ Cnlq
         a         b         c 
 17.380952 -5.095185  1.203665 
 fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
-round(fnlq(1:31))
+round(fnlq(1:35))
  13 12 13 16 22 30 41 54 69 87
  107 130 155 182 212 244 279 316 355 397
  441 488 537 588 642 699 757 818 882 948
- 1016
+ 1016 1087 1160 1236 1314
 
 d - round(fnlq(X))
  -10 -6 -4 2 0 2 5 4 8 10
@@ -132,6 +132,15 @@ d - round(fnlq(X))
  -25 -24 -21 5 14 28 13 9 -14
    \endverbatim
    Hard to distinguish from the above model. </li>
+   <li> Refined models:
+    <ol>
+     <li> It seems that vdw_2(3,30) is quite below the predicted value. </li>
+     <li> Looking at the plots, there seems to be an oscillation around some
+     core curve, and with k=29 it seems a down-phase (with negative
+     differences in the above "d - predicted" tables) is entered. </li>
+     <li> How to model that? </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -2282,8 +2291,8 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 
   \todo vanderwaerden_2(3,30) > 902
   <ul>
-   <li> The predictions are 948, 954. </li>
-   <li> The conjecture is vanderwaerden_2(3,29) = ???. </li>
+   <li> The predictions are 954, 948. </li>
+   <li> The conjecture is vanderwaerden_2(3,30) = ???. </li>
    <li> Search starting with n=852:
    \verbatim
 OKplatform> RunVdW3k 30 852 rots 1000 5000000
