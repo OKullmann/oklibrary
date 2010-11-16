@@ -226,9 +226,9 @@ remove_elements(E,L) := (for x in E do L : delete(x,L), L)$
    okl-array I is 0. Returns a shallow copy. */
 sublist_indicator(L,I) := block([res : [], l : length(L), i : 1],
  for x in L do (
-   if I[i] = 0 then res : endcons(x,res),
+   if I[i] = 0 then res : cons(x,res),
    i : i + 1),
- return(res))$
+ return(reverse(res)))$
 
 
 /* *********************
