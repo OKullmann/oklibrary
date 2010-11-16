@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 2.6.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,6 +36,16 @@ okltest_lex_lessp_l(f) := (
   assert(f([1,2],[1,2]) = false),
   assert(f([1,2],[2,2]) = true),
   assert(f([1,2],[2,1]) = true),
+  assert(f([],[0]) = true),
+  assert(f([],[-1]) = true),
+  assert(f([],[0,0,0]) = true),
+  assert(f([0],[0,0]) = true),
+  assert(f([0,0],[0,0]) = false),
+  assert(f([0,0,0],[0,0]) = false),
+  assert(f([0,1,2],[0,1,1,4]) = false),
+  assert(f([0,1,2],[0,1,2,0]) = true),
+  assert(f([0,-1,-2],[0,-2,0]) = false),
+  assert(f([0,-1,-2],[0,-1,-1]) = true),
   true)$
 
 okltest_colex_lessp_l(f) := (
@@ -50,6 +60,16 @@ okltest_colex_lessp_l(f) := (
   assert(f([1,2],[1,2]) = false),
   assert(f([1,2],[2,2]) = true),
   assert(f([1,2],[2,1]) = false),
+  assert(f([],[0]) = true),
+  assert(f([],[0,0]) = true),
+  assert(f([0],[0,0]) = true),
+  assert(f([0,1],[0,2,3]) = true),
+  assert(f([0,5],[0,4,5]) = true),
+  assert(f([3,0,2],[3,2]) = true),
+  assert(f([2,4,6],[3,7]) = true),
+  assert(f([2,4,6],[1,2,3,4,5]) = false),
+  assert(f([2],[1,1,1,1,1,1]) = false),
+  assert(f([1,1,1,1,1,1],[2]) = true),
   true)$
 
 

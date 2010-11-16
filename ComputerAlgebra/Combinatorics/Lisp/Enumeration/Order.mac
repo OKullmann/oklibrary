@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 2.6.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,20 +19,27 @@ oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Order.mac");
 \htmlonly
 */
 
-/* Lexicographical comparison of lists of equal length; return true
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* Lexicographical comparison of lists; returns true
    if A is (strictly) less than B lexicographically, and false otherwise.
+   The elements of A and B must pairwise be comparable by "<".
 */
-/* Prerequisite: A, B are lists with length(A) = length(B). */
+/* Prerequisite: A, B are lists. */
 lex_lessp_l(A,B) := orderlessp(A,B)$
 /* The same, but explicitly: */
-lex_lessp_l_bydef(A,B) := block([res : false],
-  for p in map("[",A,B) do
+lex_lessp_l_bydef(A,B) := block([a : length(A), b : length(B), m, res : und],
+  m : min(a,b),
+  for p in map("[",take_elements(m,A),take_elements(m,B)) do
     if first(p) # second(p) then (
-      res : is(first(p) < second(p)), return()),
-  return(res))$
+      res : is(first(p) < second(p)), return()
+  ),
+  if res = und then is(a < b) else res)$
 
-/* Colexicographical comparison of lists of equal length; return true
+/* Colexicographical comparison of lists; returns true
    if A is (strictly) less than B colexicographically, and false otherwise.
+   The elements of A and B must pairwise be comparable by "<".
 */
 /* Prerequisite: A, B are lists with length(A) = length(B). */
 colex_lessp_l(A,B) := lex_lessp_l(reverse(A),reverse(B))$
