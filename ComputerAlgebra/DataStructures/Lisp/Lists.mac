@@ -286,8 +286,8 @@ stable_unique(L) := block([h : sm2hm({}), res : []],
  for x in L do
    if not ev_hm(h,x) then (
      set_hm(h,x,true),
-     res : endcons(x,res)),
- return(res))$
+     res : cons(x,res)),
+ return(reverse(res)))$
 
 
 /* *************************

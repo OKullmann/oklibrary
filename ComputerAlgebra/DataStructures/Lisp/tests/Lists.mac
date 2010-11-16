@@ -450,6 +450,7 @@ okltest_stable_unique(f) := (
   assert(f([3,1,1]) = [3,1]),
   assert(f([1,1,3]) = [1,3]),
   assert(f([1,1,1]) = [1]),
+  assert(f([1,2,3,4,1,5,2,6,3,7,4,8,5]) = [1,2,3,4,5,6,7,8]),
   true)$
 
 okltest_m2l_r(f) := (
