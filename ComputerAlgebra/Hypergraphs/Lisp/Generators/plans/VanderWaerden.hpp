@@ -10,6 +10,28 @@ License, or any later version. */
   \brief Plans regarding generators for vdW-hypergraphs
 
 
+  \todo palindromise_vdw_ohg
+  <ul>
+   <li> Order of hyperedges:
+    <ol>
+     <li> Currently the order is directly derived from the colexicographical
+     ordering on the original hyperedges. </li>
+     <li> For example palindromise_vdw_ohg(arithprog_ohg(3,7)) =
+     [[1,2,3,4],[{1,2,3},{2,3,4},{1,3},{3,4},{2,4},{1,4}]]. </li>
+     <li> Perhaps colexicographical ordering would be better, which would be
+     here [{1,3},{1,2,3},{1,4},{2,4},{3,4},{2,3,4}]. </li>
+     <li> In ComputerAlgebra/Combinatorics/Lisp/Enumeration/Order.mac we have
+     colex_lessp_l, however this functions needs to be generalised to handle
+     lists of different lengths. </li>
+    </ol>
+   </li>
+   <li> Perhaps subsumption-elimination should be performed. For the above
+   example we would get  [{1,3},{1,4},{2,4},{3,4}]. </li>
+   <li> Counting the number of hyperedges: a formula for the number of
+   hyperedges should be developed. </li>
+  </ul>
+
+
   \todo DONE (now the implementation is non-recursive, and in case more
   memory is needed, use default_memory_ecl())
   Hypergraphs of arithmetic progressions
