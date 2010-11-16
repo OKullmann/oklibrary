@@ -137,7 +137,9 @@ okltest_unify_nondisjoint_elements(unify_nondisjoint_elements);
    *****************************************
 */
 
+okltest_min_elements_l(min_elements_l);
 okltest_min_elements(min_elements);
+okltest_max_elements_l(max_elements_l);
 okltest_max_elements(max_elements);
 
 /*!

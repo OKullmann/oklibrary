@@ -273,25 +273,35 @@ sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
 */
 
 
-/* Eliminates all subsumed elements from a set system (that is, computes
-   the set of all minimal elements w.r.t. the subset-relation): */
-min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not_subsumed],
+/* Eliminates all subsumed elements from a list of sets or set system
+  (that is,  computes the list/set of all minimal elements w.r.t. the
+  subset-relation).
+  Regarding the list, the sets are ordered in increasing length, while
+  otherwise the given order is kept.
+*/
+min_elements_l(S) := block(
+ [remains : sort_length(S), result : [], A, not_subsumed],
  while not emptyp(remains) do (
   A : first(remains), remains : rest(remains),
-  result : append(result, [A]),
+  result : cons(A,result),
   not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
   remains : create_list(remains[j], j, not_subsumed)),
- setify(result)
-)$
-/* Eliminates all contained elements from a set system: */
-max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A, not_contained],
+ reverse(result))$
+min_elements(S) := setify(min_elements_l(listify(S)))$
+
+/* Eliminates all contained elements from a list / set system (where for
+   the list the elements are ordered in decreasing length, and otherwise
+   the given order is maintained): */
+max_elements_l(S) := block(
+ [remains : sort_length_desc(S), result : [], A, not_contained],
  while not emptyp(remains) do (
   A : first(remains), remains : rest(remains),
-  result : append(result, [A]),
+  result : cons(A,result),
   not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
   remains : create_list(remains[j], j, not_contained)),
- setify(result)
+ reverse(result)
 )$
+max_elements(S) := setify(max_elements_l(listify(S)))$
 
 
 /*!

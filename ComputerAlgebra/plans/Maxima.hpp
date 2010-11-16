@@ -34,6 +34,9 @@ License, or any later version. */
    <li> See "Simplifications" in
    ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
    for an example of this problem. </li>
+   <li> Also min_elements_l and max_elements_l in
+   ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac rely on sort being stable.
+   </li>
   </ul>
 
 
