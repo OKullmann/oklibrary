@@ -28,6 +28,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Organisation
+  <ul>
+   <li> We should create a sub-directory "3-k" for investigations into
+   vdw_2(3,k). </li>
+   <li> There we have file "k.hpp" for special k-values (for example in 30.hpp
+   the problems related to vdw_2(3,30) are investigated). </li>
+  </ul>
+
+
   \todo Boolean van der Waerden numbers
   <ul>
    <li> Via
