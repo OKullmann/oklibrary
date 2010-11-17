@@ -30,6 +30,19 @@ License, or any later version. */
   </ul>
 
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> As discussed in "Palindromic versions" in
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
+   we should provide pd_vanderwaerden(t), the largest n such that a
+   palindromic solution exists. </li>
+   <li> Or perhaps we should provide g_vanderwaerden(t,p), where p is some
+   parameter, perhaps a string, which selects which form of a generalised
+   vdW-number is considered. </li>
+  </ul>
+
+
   \todo Improving exactf_tau_arithprog
   <ul>
    <li> DONE (package boolsimp does this job)
