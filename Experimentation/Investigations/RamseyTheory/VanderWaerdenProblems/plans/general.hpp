@@ -143,6 +143,21 @@ for n : 1 thru 9 do print(n,current_satsolver(pd_vanderwaerden2nd_fcs(3,3,n)));
    <li> Transversal extensions are not interesting in their palindromic
    versions, since for k=2 for even n>= 2 there is no solution, while for odd
    n exactly the central vertex has to be chosen. </li>
+   <li> Version of RunVdW3k for palindromic problems:
+    <ol>
+     <li> Let's call it "RunPdVdW33k". </li>
+     <li> An upper bound on the unsat-gap is given; say unsat_gap is 2 or 3.
+     </li>
+     <li> That is, if unsat_gap consecutive "unsatisfiable" problems
+     (according to the current settings) are found, then the first
+     unsatisfiable problem is revisited. </li>
+     <li> Later, one could increate cutoff or rounds, however in the first
+     version we just stop. </li>
+     <li> So RunPdVdW33k is very similar to RunVdW33k, except that it only
+     stops after unsat-gap many unsatisfiable problems in a row, and that
+     a different generator is used. </li>
+    </ol>
+   </li>
   </ul>
 
 
