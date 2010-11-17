@@ -40,8 +40,15 @@ License, or any later version. */
     - Strengthen connection to Maxima/Lisp level
     - Move todos to this file
 
-
   \par Version 0.0.11
+
+  \par
+   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
+   following topics are handled:
+    - Palindromic versions
+
+
+  \par Version 0.0.12
 
   \par
    In Satisfiability/Transformers/Generators/plans/GreenTao.hpp the following 
@@ -52,7 +59,7 @@ License, or any later version. */
     - Improving GTTransversalsInc
 
 
-  \par Version 0.0.12
+  \par Version 0.0.13
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -66,7 +73,7 @@ License, or any later version. */
     - Write unit tests
 
 
-  \par Version 0.0.13
+  \par Version 0.0.14
 
   \par
    In Transformers/Generators/LinInequal.hpp the following topics are handled:
@@ -80,7 +87,7 @@ License, or any later version. */
     - Add generator to generate general %Ramsey problems
 
 
-  \par Version 0.0.14
+  \par Version 0.0.15
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following
@@ -96,7 +103,7 @@ License, or any later version. */
    Create new milestones.
 
 
-  \par Version 0.0.15
+  \par Version 0.0.16
 
   \par
    In Transformers/Generators/plans/general.hpp the following
