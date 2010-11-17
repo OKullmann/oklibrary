@@ -52,6 +52,18 @@ vanderwaerden2nd_fcl(k1,k2,n) := block(
  [G1 : arithprog_ohg(k1,n), G2 : arithprog_ohg(k2,n)],
   [G1[1], append(G1[2], comp_cl(G2[2]))])$
 vanderwaerden2nd_fcs(k1,k2,n) := fcl2fcs(vanderwaerden2nd_fcl(k1,k2,n))$
+/* The palindromic versions: */
+pd_vanderwaerden2nd_fcl(k1,k2,n) := block(
+ [G1 : palindromise_vdw_ohg(arithprog_ohg(k1,n)),
+  G2 : palindromise_vdw_ohg(arithprog_ohg(k2,n))],
+  [G1[1], append(G1[2], comp_cl(G2[2]))])$
+pd_vanderwaerden2nd_fcs(k1,k2,n) := block(
+ [G1 : palindromise_vdw_hg(arithprog_hg(k1,n)),
+  G2 : palindromise_vdw_hg(arithprog_hg(k2,n))],
+  [G1[1], union(G1[2], comp_cs(G2[2]))])$
+/*
+ pd_vanderwaerden2nd_fcs(k1,k2,n) = fcl2fcs(pd_vanderwaerden2nd_fcl(k1,k2,n).
+*/
 
 /* Now the general form, where L is a vdW-parameter-tuple.
    Prerequisite: vanderwaerden_p(L) is true, n natural number >= 0
@@ -178,6 +190,16 @@ output_vanderwaerden2nd(k1,k2,n,filename) :=
 /* Providing a standard name: "VanDerWaerden_2-k1-k2_n.cnf": */
 output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
   sconcat("VanDerWaerden_2-",k1,"-",k2,"_",n,".cnf"))$
+
+output_pd_vanderwaerden2nd(k1,k2,n,filename) := 
+  output_fcl_v(
+    sconcat("Palindromic van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements, yielding ", ceiling(n/2), " variables."), 
+    pd_vanderwaerden2nd_fcl(k1,k2,n),
+    filename, [])$
+/* Providing a standard name: "VanDerWaerden_pd__2-k1-k2_n.cnf": */
+output_pd_vanderwaerden2nd_stdname(k1,k2,n) := output_pd_vanderwaerden2nd(k1,k2,n,
+  sconcat("VanDerWaerden_pd_2-",k1,"-",k2,"_",n,".cnf"))$
+
 
 /* Standardising the variables according to lexicographical order 
    nbv(1,1),...,nbv(1,m),nbv(2,1), ..., nbv(n,m):

@@ -31,6 +31,9 @@ okltest_vanderwaerden2_fcs(vanderwaerden2_fcs);
 okltest_vanderwaerden2nd_fcl(vanderwaerden2nd_fcl);
 okltest_vanderwaerden2nd_fcs(vanderwaerden2nd_fcs);
 
+okltest_pd_vanderwaerden2nd_fcl(pd_vanderwaerden2nd_fcl);
+okltest_pd_vanderwaerden2nd_fcs(pd_vanderwaerden2nd_fcs);
+
 okltest_vanderwaerden_nbfclud(vanderwaerden_nbfclud);
 okltest_vanderwaerden_nbfcsud(vanderwaerden_nbfcsud);
 
