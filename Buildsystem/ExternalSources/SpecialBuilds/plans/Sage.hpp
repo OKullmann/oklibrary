@@ -10,8 +10,32 @@ License, or any later version. */
   \brief Plans regarding installation of Sage
 
 
-  \todo Update to new Sage
+  \todo Update to newer Sage
   <ul>
+   <li> Version 4.6: On cs-wsok (Suse 10.0):
+   \verbatim
+/usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
+collect2: ld returned 1 exit status
+make[4]: *** [libfplll.la] Error 1
+make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.6/spkg/build/libfplll-3.0.12.p1/src'
+make[3]: *** [all-recursive] Error 1
+make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.6/spkg/build/libfplll-3.0.12.p1/src'
+Error building libfplll
+   \endverbatim
+   while on cs-oksvr (Suse 11.2) we get
+   \verbatim
+Deleting old readline headers and libs
+OpenSuSE detected
+OpenSuSE 11 detected
+The development version of libreadline is installed -> copying
+cp: cannot stat `/lib64/libreadline.so.6*': No such file or directory
+Error copying the system's libreadline
+
+sys     0m0.028s
+sage: An error occurred while installing readline-6.0.p4
+   \endverbatim
+   So still no progress.
+   </li>
    <li> Version 4.5.3:
     <ol>
      <li> On csltok (Suse 11.3, 64bit Intel i5) we get the error
