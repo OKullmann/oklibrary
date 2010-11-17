@@ -28,6 +28,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Create milestones
+  <ul>
+   <li> Perhaps the initial version number is 0.2. </li>
+   <li> Next milestones concentrate on vdw_2(3,k). </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> We should create a sub-directory "3-k" for investigations into
