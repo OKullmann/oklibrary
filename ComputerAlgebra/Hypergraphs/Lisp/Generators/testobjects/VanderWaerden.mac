@@ -66,6 +66,14 @@ okltest_arithmetic_progressions(arithmetic_progressions);
 okltest_arithprog_list_ohg(arithprog_list_ohg);
 okltest_arithprog_list_hg(arithprog_list_hg);
 
+/* ************
+   * Symmetry *
+   ************
+*/
+
+okltest_palindromise_vdw_ohg(palindromise_vdw_ohg);
+okltest_palindromise_vdw_hg(palindromise_vdw_hg);
+
 /*!
 \endhtmlonly
 */

@@ -178,6 +178,38 @@ okltest_arithprog_list_hg(f) := (
   true)$
 
 
+/* ************
+   * Symmetry *
+   ************
+*/
+
+okltest_palindromise_vdw_ohg(f) := block([x],
+  assert(f([[],[x]]) = [[],[x]]),
+  assert(f([[x],[]]) = [[x],[]]),
+  assert(f([[x],[{}]]) = [[x],[{}]]),
+  assert(f([[1],[{1}]]) = [[1],[{1}]]),
+  assert(f([[1,2],[{1},{1,2},{2}]]) = [[1],[{1}]]),
+  assert(f([[1,2,3],[{1}]]) = [[1,2],[{1}]]),
+  assert(f([[1,2,3],[{1},{1,2,3},{2,3}]]) = [[1,2],[{1}]]),
+  assert(f([[1,2,3,4],[{2,4},{1,3},{2,3},{1,4}]]) = [[1,2],[{1},{2}]]),
+  assert(f(arithprog_ohg(3,7)) = [[1,2,3,4],[{1,3},{1,4},{2,4},{3,4}]]),
+  assert(f(arithprog_ohg(3,8)) = [[1,2,3,4],[{1,2,3},{1,2,4},{3,4}]]),
+  assert(f(arithprog_ohg(3,9)) = [[1,2,3,4,5],[{1,2,3},{2,4},{1,3,4},{1,5},{2,5},{3,5},{4,5}]]),
+  assert(okltest_palindromise_vdw_hg(buildq([f],lambda([G], ohg2hg(f(hg2ohg(G)))))) = true),
+  true)$
+
+okltest_palindromise_vdw_hg(f) := block([x],
+  assert(f([{},{x}]) = [{},{x}]),
+  assert(f([{x},{}]) = [{x},{}]),
+  assert(f([{x},{{}}]) = [{x},{{}}]),
+  for n : 0 thru 6 do
+    assert(f(arithprog_hg(2,n)) = block([V:setn(ceiling(n/2))],
+      [V, if n<=1 then {} else singletons(disjoin((n+1)/2,V))])),
+  assert(f(arithprog_hg(4,7)) = [{1,2,3,4},{{1,3},{2,3,4}}]),
+  assert(f(arithprog_hg(4,8)) = [{1,2,3,4},{{3,4}}]),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

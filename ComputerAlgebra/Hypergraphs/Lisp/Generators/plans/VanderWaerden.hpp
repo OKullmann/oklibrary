@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo palindromise_vdw_ohg
   <ul>
-   <li> Order of hyperedges:
+   <li> DONE
+   Order of hyperedges:
     <ol>
      <li> Currently the order is directly derived from the colexicographical
      ordering on the original hyperedges. </li>
@@ -25,7 +26,8 @@ License, or any later version. */
      lists of different lengths. </li>
     </ol>
    </li>
-   <li> Perhaps subsumption-elimination should be performed. For the above
+   <li> DONE
+   Perhaps subsumption-elimination should be performed. For the above
    example we would get  [{1,3},{1,4},{2,4},{3,4}]. </li>
    <li> Counting the number of hyperedges: a formula for the number of
    hyperedges should be developed. </li>
