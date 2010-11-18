@@ -30,7 +30,7 @@ E = run_ubcsat("GreenTao_4-3-3-3-4_800.cnf", runs=100,cutoff=10000,monitor=TRUE)
    samd seem best (for cutoff=10000), while sapsnr became rather weak! </li>
    <li> Testing these four algorithms with cutoff=10^6:
    \verbatim
-E = run_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", runs=100,cutoff=1000000,monitor=TRUE, include_algs=list(gsat_tabu="gsat-tabu", adaptnoveltyp="adaptnovelty+", rots="rots", samd="samd"))
+E = run_ubcsat("GreenTao_4-3-3-3-4_1000.cnf", runs=100,cutoff=1000000,monitor=TRUE, include_algs=list("gsat-tabu", "adaptnovelty+", "rots", "samd"))
    \endverbatim
    (currently algorithms-names are inappropriately handled by run_ubcsat):
    adaptnovelty+ is clearly best: the best min(=6), and a very small spread;

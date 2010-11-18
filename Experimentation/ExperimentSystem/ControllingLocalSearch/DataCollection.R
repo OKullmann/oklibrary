@@ -79,11 +79,11 @@ run_ubcsat = function(
   alg_names = names(algs)
   for (alg in 1:length(algs)) {
     output_file =
-      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_result_path(filename,alg,tmp_directory)
     stats_output_file =
-      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_stats_path(filename,alg,tmp_directory)
     command =
-      run_ubcsat_command(input, alg_names[alg],algs[alg],
+      run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
                           tmp_directory,...)
 
     # Run the ubcsat-okl command
@@ -484,7 +484,7 @@ run_ubcsat_stats_path = function(
 #
 read_ubcsat_dir = function(
   input,
-  include_algs = run_ubcsat_cnf_algs,
+  include_algs = names(run_ubcsat_cnf_algs),
   exclude_algs = list(),
   tmp_directory=run_ubcsat_temp_dir(basename(input))) {
   
@@ -502,17 +502,16 @@ read_ubcsat_dir = function(
   algs = include_algs[!(include_algs %in% exclude_algs)]
 
   run_ubcsat_df = NULL
-  alg_names = names(algs)
   for (alg in 1:length(algs) ) {
     output_file =
-      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_result_path(filename,alg,tmp_directory)
     stats_output_file =
-      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+      run_ubcsat_stats_path(filename,alg,tmp_directory)
     
     # Read in output from respective temporary files.
     result_df = read.table(output_file,
                            col.names = as.vector(run_ubcsat_column_names))
-    result_df = add_constant_column(result_df,alg_names[alg], "alg")
+    result_df = add_constant_column(result_df,alg, "alg")
     
     # Add statistics data
     stats_df = read.table(stats_output_file,
