@@ -88,10 +88,10 @@ run_ubcsat = function(
 
     # Run the ubcsat-okl command
     if (monitor) print(command)
-    system(command)
+    system(command, intern=FALSE)    
     
   }
-
+  
   read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
 }
 
