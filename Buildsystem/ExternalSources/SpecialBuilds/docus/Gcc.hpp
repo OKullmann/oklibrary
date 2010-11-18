@@ -45,8 +45,8 @@ License, or any later version. */
      <li> the C compiler <code>gcc</code> </li>
     </ol>
    </li>
-   <li> Link libraries (mostly not explicitely used) </li>
-   <li> Source libraries (mostly not explicitely used) </li>
+   <li> Link libraries (mostly not explicitly used) </li>
+   <li> Source libraries (mostly not explicitly used) </li>
    <li> Documentation. </li>
   </ul>
   Since different compiler versions might have different trade-offs, the

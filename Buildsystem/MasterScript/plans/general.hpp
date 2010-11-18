@@ -33,7 +33,7 @@ License, or any later version. */
    targets to be compiled and on dependencies.
     <ol>
      <li> The problems with variable srcdir can easily be solved now ---
-     simplest is perhaps to set this variable explicitely when calling a
+     simplest is perhaps to set this variable explicitly when calling a
      makefile. </li>
      <li> Yet the recursive makefile doesn't enter a directory if it doesn't
      contain a makefile; perhaps we get rid off the different forms of recursive

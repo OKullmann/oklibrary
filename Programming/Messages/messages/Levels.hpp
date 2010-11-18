@@ -58,7 +58,7 @@ namespace OKlib {
           case Basic :
             out << "basic level (short, but still complete)"; break;
           case Full :
-            out << "full level (explicitely stating everything relevant)"; break;
+            out << "full level (explicitly stating everything relevant)"; break;
           case Extensive :
             out << "extensive level (adding to the full level examples and further explanations, considering also more special cases)"; break;
           default :

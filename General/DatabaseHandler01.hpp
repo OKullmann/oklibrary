@@ -787,7 +787,7 @@ namespace DatabaseHandler01 {
 
     Command command;
 
-    bool change; // changes to the values (must be reset explicitely)
+    bool change; // changes to the values (must be reset explicitly)
 
     int nresults; // number of results of last completion call;
     // value is 0 at the beginning and after clear (either used globally

@@ -26,7 +26,7 @@ namespace OKlib {
       Id<T> is nearly the same as std::equal_to<T> (with the only differences,
       that we are precise about the argument type (which is const T&), that the
       bracket-operator member function is const, and that the default constructor
-      is explicitely defined so that const objects of type Id can be defined).
+      is explicitly defined so that const objects of type Id can be defined).
     */
 
     template <typename T>

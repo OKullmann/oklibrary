@@ -35,7 +35,7 @@ License, or any later version. */
 
 
   \todo We also need the determination of the automorphism group of a clause-set,
-  either explicitely listing all elements or giving a more compact representation
+  either explicitly listing all elements or giving a more compact representation
   (using some group theory software).
 
 

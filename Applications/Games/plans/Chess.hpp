@@ -39,7 +39,7 @@ License, or any later version. */
      figure on e1 is a bishop or a knight.
      </li>
      <li> For the rochade one needs to express that certain fields are not
-     under attack of the other party; this could be expressed by explicitely
+     under attack of the other party; this could be expressed by explicitly
      stating all attacking scenarios (for example, that f1 is not under attack
      could be stated as a long list like "no black king an g1", "no black rook
      on f8, while the rest of the column is free" etc.

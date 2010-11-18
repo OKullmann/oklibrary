@@ -52,7 +52,7 @@ License, or any later version. */
   <ul>
    <li> One could define a macro for the common code-block; this would be ugly. </li>
    <li> The problem appears to be just the different overload resolution for the boost-range
-   operations; one should parameterise and explicitely control this. </li>
+   operations; one should parameterise and explicitly control this. </li>
   </ul>
   
 */

@@ -86,7 +86,7 @@ License, or any later version. */
    the lower bound, while also the complement of S is a progression, which
    yields a lower bound on the size of the complement, and thus an upper
    bound on the size of S. </li>
-   <li> A question is whether one needs to have T explicitely represented?
+   <li> A question is whether one needs to have T explicitly represented?
     <ol>
      <li> The only places where S, T are needed is when all of S-T needs
      to be included resp. excluded. </li>

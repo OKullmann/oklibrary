@@ -114,7 +114,7 @@ License, or any later version. */
      <li> So phi*P in general is just the pair (P,phi) explained above as
      "problem". The fact, that a variable v has been eliminated, since phi
      assigned a specific value to v (in general phi might only restrict v to
-     a subset of its domain), can be recorded explicitely; forgetting this
+     a subset of its domain), can be recorded explicitly; forgetting this
      explicit recording, we arrive at the usual notion of the application of
      a partial assignment to a generalised clause-set. </li>
      <li> For clause-sets we can forget the variables which already have been

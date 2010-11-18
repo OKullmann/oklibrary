@@ -138,7 +138,7 @@ License, or any later version. */
      least one neighbour of v has been reached at round r-1 and the initial
      colouring f_0(v) is equal to the value of m_r. </li>
      <li> (1,1) and neighbours of (1,1) are best handled separately. </li>
-     <li> And likely one should explicitely state that once a node has been
+     <li> And likely one should explicitly state that once a node has been
      reached, it stays reached; this needs new variables (see the
      b-variables below). </li>
      <li> The domain of the condition C(v,r) is {m_r,a_v} plus a_w for the

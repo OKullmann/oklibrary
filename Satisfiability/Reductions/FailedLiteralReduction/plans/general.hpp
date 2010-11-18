@@ -95,7 +95,7 @@ License, or any later version. */
    <li> Independent of the implementation, the interface should be that
    for each literal the list of "obtainable" implied other literals is
    available (this handles the 2-clauses and more) ---  either, as discussed
-   before, all implications are explicitely stored, or they are computed. </li>
+   before, all implications are explicitly stored, or they are computed. </li>
    <li> The two extremes are either only r_2, or with full local learning.
    </li>
   </ul>

@@ -121,7 +121,7 @@ License, or any later version. */
      209 clauses, and (k=5,r=11) with 3986 clauses. </li>
      <li> [Hoory, Szeider] realise (k=4,r=5) (optimal) and (k=5,r=7), and
      other values, but one has to investigate the underlying clause-sets
-     (which are not discussed there explicitely). </li>
+     (which are not discussed there explicitly). </li>
      <li> We should exhibit such examples. </li>
      <li> We should implement [Hoory, Szeider]; perhaps also [Dubois, DAM 1990]
      contains some constructions. </li>
