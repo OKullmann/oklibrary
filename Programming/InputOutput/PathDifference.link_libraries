@@ -1,2 +1,2 @@
-echo ${boost_link_m32_option_okl} -lboost_system -static
+echo ${boost_link_option_okl} -lboost_system -static
 

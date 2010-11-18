@@ -29,11 +29,3 @@ boost_source_library_okl ?= $(boost_installation_dir_okl)/include
 boost_include_option_okl ?= -I$(boost_source_library_okl)
 boost_link_library_okl ?= $(boost_installation_dir_okl)/lib
 boost_link_option_okl ?= -L$(boost_link_library_okl) -Wl,-rpath,$(boost_link_library_okl)
-
-ifeq ($(machine_bits_okl),64)
-     boost_link_m32_library_okl ?= $(boost_installation_dir_okl)/lib32 
-     boost_link_m32_option_okl ?= -L$(boost_link_m32_library_okl) -Wl,-rpath,$(boost_link_m32_library_okl)
-else
-     boost_link_m32_library_okl ?= $(boost_link_library_okl)
-     boost_link_m32_option_okl ?= $(boost_link_option_okl)
-endif
