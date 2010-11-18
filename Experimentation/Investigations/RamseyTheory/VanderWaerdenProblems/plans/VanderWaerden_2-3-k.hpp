@@ -2457,6 +2457,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      </li>
     </ol>
    </li>
+   <li> n=903:
+    <ol>
+     <li> rots with cutoff=10^8:
+     \verbatim
+ 1  2 
+29 48 
+77 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -2530,6 +2541,9 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
  1  2  3   4  5  6 
  4 18 50 124 82  2 
 280
+  1   2   3   4   5   6 
+ 21  55 148 391 246  10 
+871 
      \endverbatim
      </li>
     </ol>
@@ -2653,8 +2667,15 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 889,891,911,928,929,949,966,991
    \endverbatim
    </li>
+   <li> n=994: rots with cutoff=2*10^7 yielded
+   \verbatim
+  1   2   3   4   5   6   7   8   9  10  13  14  15  16  17  18  19 
+  7 110 184  70  12   6   3   1   1   1   2   5   8   9  17   9   4 
+449 
+   \endverbatim
+   </li>
    <li> n=999: rots with cutoff=5*10^7 found a solution (modifified from
-   m=991, run 79, osteps=8284852), with certificate:
+   n=991, run 79, osteps=8284852), with certificate:
    \verbatim
 7,20,49,57,66,93,103,104,116,131,
 155,161,172,174,178,209,214,226,237,264,
@@ -2827,6 +2848,12 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 691,693,694,701,728,731,738,756,787,791,
 793,797,805,810,839,861,862,865,867,878,
 884,902,904,915,936,949,973,990,995,1009
+   \endverbatim
+   while cutoff=2*10^7 yielded
+   \verbatim
+ 1  2  3  4  5  6  7  8 10 11 12 13 14 15 16 17 18 
+ 3 45 41 18  2  3  1  2  1  1  1  7  6  3  8  6  1 
+149 
    \endverbatim
    </li>
    <li> n=1061: a solution was found by rots (cutoff=5*10^7), adapted from
