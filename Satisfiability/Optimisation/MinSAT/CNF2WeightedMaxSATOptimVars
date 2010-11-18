@@ -24,6 +24,7 @@
 # 2^31).
 
 script_name="CNF2WeightedMaxSATOptimVars"
+version="0.4"
 
 if [[ $# != 0 ]]; then
   echo "ERROR[${script_name}]:
