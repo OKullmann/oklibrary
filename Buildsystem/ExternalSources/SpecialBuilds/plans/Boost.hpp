@@ -16,7 +16,7 @@ License, or any later version. */
    our "generic" installation method, however there are also relations
    to the (at least in the past) rather strange boost build-system;
    see "Problems with building Boost" below. </li>
-   <li> Done
+   <li> DONE
    We only provide installation by local gcc. </li>
    <li> DONE
    And no combinations, just the "recommended" boost
