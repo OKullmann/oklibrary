@@ -2434,6 +2434,13 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 500
      \endverbatim
      </li>
+     <li> rots found no solution in 1000 runs with cutoff=5*10^7:
+     \verbatim
+  1   2   3   4
+210 708  81   1
+1000
+     \endverbatim
+     </li>
      <li> rots, cutoff=10^8:
      \verbatim
  1  2
