@@ -99,10 +99,37 @@ namespace OKlib {
     /*!
       \class Arithprog_finish
       \brief Functor which produces the list of arithmetic progressions of
-      given length k in {1, ..., n} finishing in n.
-  
+      length k in {1, ..., n} finishing in n.
+
       Specified by function arithprog_finish(k,n) in
       ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
+
+      Usage:
+      <ul>
+       <li> Produce an object "Arithprog_finish ap(k);" or
+       "Arithprog_finish ap;". </li>
+       <li> The length k of the arithmetic progressions can be re-set by
+       ap.set(k) (k >= 1); this is necessary in case of default-construction.
+       </li>
+       <li> ap(n) returns the set-system of arithmetic progressions pf length
+       (the current) k in {1, ..., n} (for n >= 1). </li>
+       <li> The requirements on template-parameter SetSystem are
+        <ol>
+         <li> copyable; </li>
+         <li> construction SetSystem(begin,end) through a sequence given by
+         two iterators, where the value-type of the iterators is Hyperedges.
+         </li>
+        </ol>
+       </li>
+       <li> The requirements on template-parameter Hyperedges are
+        <ol>
+         <li> copyable; </li>
+         <li> construction Hyperedges(begin,end) through a sequence given by
+         two iterators, where the value-type of the iterators is Int.
+         </li>
+        </ol>
+       </li>
+      </ul>
     */
   
     template <class Hyperedges, class SetSystem, typename Int = unsigned int>
