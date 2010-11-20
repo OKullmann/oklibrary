@@ -11,6 +11,8 @@ License, or any later version. */
   \deprecated Needs a complete update.
 
   \todo Update according to new hypergraph generator
+
+  \todo Use InputOutput::CLSAdaptorDIMACSOutput
 */
 
 #ifndef VANDERWAERDENWAECHTER_3199GeQa
