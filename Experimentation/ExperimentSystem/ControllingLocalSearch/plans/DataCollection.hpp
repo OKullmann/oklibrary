@@ -12,24 +12,12 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Bad parameter of run_ubcsat XXX STATUS ???
+  \todo Introduce small abbreviations for algorithm names
   <ul>
-   <li> It needs to be specified what are the defaults. </li>
-   <li> A *concept* for the input handling is needed, not just a hack. </li>
-   <li> Bad algorithms specification:
-    <ol>
-     <li> The algorithms-specification via e.g.,
-     include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
-     is awkward: the doubling of names must be eliminated. </li>
-     <li> As discussed, standard abbreviations need to be introduced for
-     the algorithms. </li>
-    </ol>
+   <li> The algorithm names for run_ubcsat are currently rather long
+   and this makes them hard to type out and hard to view on chart plots.
    </li>
-   <li> DONE Collecting the parameters in a list is inappropriate, but just 
-   the standard R-handling should be used, so that for example one can just
-   specify "cutoff=1000000" as additional parameter, without, of course,
-   changing anything else --- currently parameter "runs" is overwritten in
-   this case. </li>
+   <li> Four or five character abbreviations should be introduced. </li>
   </ul>
 
 
@@ -377,6 +365,31 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    without generating them --- so *two* functions are needed. </li>
    <li> DONE The examples don't show the important step that the computed 
    dataframe MUST BE STORED. </li>
+  </ul>
+
+
+  \bug DONE Bad parameter of run_ubcsat
+  <ul>
+   <li> (DONE Defaults are now specified or precisely those
+   of ubcsat-okl)
+   It needs to be specified what are the defaults. </li>
+   <li> (DONE Experiment directories, log files for each aspect,
+   parameters using R optional parameter system etc addresses this issue)
+   A *concept* for the input handling is needed, not just a hack. </li>
+   <li> DONE Bad algorithms specification:
+    <ol>
+     <li> The algorithms-specification via e.g.,
+     include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
+     is awkward: the doubling of names must be eliminated. </li>
+     <li> As discussed, standard abbreviations need to be introduced for
+     the algorithms. </li>
+    </ol>
+   </li>
+   <li> DONE Collecting the parameters in a list is inappropriate, but just 
+   the standard R-handling should be used, so that for example one can just
+   specify "cutoff=1000000" as additional parameter, without, of course,
+   changing anything else --- currently parameter "runs" is overwritten in
+   this case. </li>
   </ul>
 
 
