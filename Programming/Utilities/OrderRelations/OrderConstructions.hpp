@@ -14,6 +14,7 @@ License, or any later version. */
 #define ORDERCONSTRUCTIONS_jdjJn6
 
 #include <functional>
+#include <algorithm>
 
 #include <boost/functional.hpp>
 
@@ -48,6 +49,26 @@ namespace OKlib {
          return size1 < size2 or (size1 == size2 and LessThanRelation()(arg1, arg2));
        }
      };
+
+     /*!
+       \class Colexicographical_comparison
+       \brief Predicate-functor for colexicographical comparison of containers
+
+       The Maxima-specification is colex_lessp_l in
+       ComputerAlgebra/Combinatorics/Lisp/Enumeration/Order.mac.
+
+       \todo Generalise to Ranges
+       \todo Write tests
+     */
+
+     template <class Container>
+     struct Colexicographical_comparison : std::binary_function<
+       const Container&, const Container&, bool> {
+       bool operator() (const Container& A, const Container& B) const {
+         return std::lexicographical_compare(A.rbegin(),A.rend(),B.rbegin(),B.rend());
+       }
+     };
+
     }
    }
   }
