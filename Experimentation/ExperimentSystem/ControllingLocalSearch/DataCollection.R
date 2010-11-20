@@ -55,7 +55,7 @@
 #     (note that a run is not the same as one invocation of ubcsat-okl).
 run_ubcsat = function(
  input,
- include_algs = run_ubcsat_cnf_algs,
+ include_algs = names(run_ubcsat_cnf_algs),
  exclude_algs = list(),
  tmp_directory=run_ubcsat_temp_dir(basename(input)),
  monitor=TRUE,...) {
@@ -76,8 +76,7 @@ run_ubcsat = function(
 
   # Run ubcsat-okl with each algorithm
   run_ubcsat_df = NULL
-  alg_names = names(algs)
-  for (alg in 1:length(algs)) {
+  for (alg in algs) {
     output_file =
       run_ubcsat_result_path(filename,alg,tmp_directory)
     stats_output_file =
@@ -502,7 +501,7 @@ read_ubcsat_dir = function(
   algs = include_algs[!(include_algs %in% exclude_algs)]
 
   run_ubcsat_df = NULL
-  for (alg in 1:length(algs) ) {
+  for (alg in algs ) {
     output_file =
       run_ubcsat_result_path(filename,alg,tmp_directory)
     stats_output_file =
