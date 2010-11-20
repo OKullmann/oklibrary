@@ -202,7 +202,7 @@ namespace OKlib {
       const Index n;
       //! size of arithmetic progression in {1, ..., n}
       const Index k;
-      //! maximal possible element of an arithmetic progression
+      //! number of arithmetic progressions of length k in {1, ..., n}
       const Index count;
 
     private :
@@ -276,9 +276,9 @@ namespace OKlib {
     public :
       typedef Int Index;
       const Index n;
-      //! size of arithmetic progression
+      //! size of arithmetic progression in {1, ..., n}
       const Index k;
-      //! total number of arithmetic progressions
+      //! number of arithmetic progressions of length k in {1, ..., n}
       const Index count;
 
     private :
