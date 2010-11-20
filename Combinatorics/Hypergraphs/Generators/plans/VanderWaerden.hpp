@@ -38,9 +38,6 @@ License, or any later version. */
 
   \todo Update
   <ul>
-   <li> Transfer the todo's from
-   ypergraphs/Generators/plans/VanderWaerden.hpp to here (thereby updating
-   them). </li>
    <li> See class IteratorHandling::Arithmetical_progression in
    General/IteratorHandling.hpp. </li>
    <li> DONE

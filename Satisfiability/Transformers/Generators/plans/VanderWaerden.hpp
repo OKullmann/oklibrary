@@ -22,10 +22,6 @@ License, or any later version. */
 
   \todo Update
   <ul>
-   <li> Rewrite Satisfiability/Transformers/Generators/VanderWaerden.hpp
-   using OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp. </li>
-   <li> See the todos in
-   Satisfiability/Transformers/Generators/VanderWaerden.hpp. </li>
    <li> See the todos in
    Satisfiability/Transformers/Generators/VanderWaerden.hpp. </li>
    <li> Then also Satisfiability/Transformers/Generators/VanderWaerden.hpp

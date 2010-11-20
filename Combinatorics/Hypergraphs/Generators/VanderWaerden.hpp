@@ -190,8 +190,7 @@ namespace OKlib {
 
       \todo Integration
       <ul>
-       <li> See classes in
-       Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and
+       <li> See IteratorHandling::Arithmetical_progression in
        General/IteratorHandling.hpp. </li>
       </ul>
     */
