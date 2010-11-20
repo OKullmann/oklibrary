@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,10 +10,14 @@ License, or any later version. */
   \brief Plans for the module on order relations
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
-  \todo Update namespace usage.
+  \todo Update namespace usage
+  <ul>
+   <li> OrderRelations/OrderConstructions.hpp : DONE </li>
+   <li> OrderRelations/DerivedRelations.hpp </li>
+  </ul>
 
 
   \todo Write doxygen documentation
@@ -51,12 +55,21 @@ struct string_compare : std::binary_function<const char*, const char*, bool> {
 */
 
 /*!
-  \namespace OKlib::OrderRelations
+  \namespace OKlib::Programming::Utilities::OrderRelations
   \brief Components for handling order relations
+
+  Alias "OrR".
+
 */
 
 namespace OKlib {
-  namespace OrderRelations {
+  namespace Programming {
+    namespace Utilities {
+      namespace OrderRelations
+      }
+      namespace OrR = OrderRelations;
+    }
   }
 }
+
 

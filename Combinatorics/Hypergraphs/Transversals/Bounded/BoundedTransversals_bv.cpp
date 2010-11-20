@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -101,7 +101,7 @@ int main(const int argc, const char* const argv[]) {
   }
   const bool iterated(iterated_); const size_type B(B_);
 
-  typedef OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
+  typedef OKlib::Programming::Utilities::OrderRelations::SizeLessThan<std::less<hyperedge_type> > hyperedge_ordering_type;
   typedef std::set<hyperedge_type, hyperedge_ordering_type> set_system_type;
   typedef OKlib::InputOutput::RawDimacsCLSAdaptorSets<literal_type, set_system_type> dimacs_adaptor_type;
   typedef OKlib::InputOutput::StandardDIMACSInput<dimacs_adaptor_type> dimacs_input_type;

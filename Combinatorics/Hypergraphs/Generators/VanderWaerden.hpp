@@ -472,9 +472,10 @@ namespace OKlib {
         set_system_type g;
         g.reserve(ap.count);
         for (vertex_type i = 0; i < ap.count; ++i) g.push_back(ap.next());
-        sort(g.begin(),g.end(),OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> >());
+        sort(g.begin(),g.end(),OKlib::Programming::Utilities::OrderRelations::SizeLessThan<std::less<hyperedge_type> >());
         g.resize(std::unique(g.begin(),g.end()) - g.begin());
         OKlib::SetAlgorithms::Subsumption_elimination<set_system_type, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_are_unique, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_sorted_by_size>()(g);
+        
         return g;
       }
     

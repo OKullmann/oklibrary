@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.2.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,7 +12,7 @@ License, or any later version. */
   Components for various purposes, which do not find a "systematic" place.
 
 
-  \todo Update namespace
+  \todo Update namespace : DONE
 
 
   \todo Write milestones
@@ -20,12 +20,18 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::Utilities
-  \brief Various utilities
+  \namespace OKlib::Programming::Utilities
+  \brief Utilities for general programming
+
+  Alias "Utl".
+
 */
 
 namespace OKlib {
-  namespace Utilities {
+  namespace Programming {
+    namespace Utilities {
+    }
+    namespace Utl = Utilities;
   }
-}  
+}
 

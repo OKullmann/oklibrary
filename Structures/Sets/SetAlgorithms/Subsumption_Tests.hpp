@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -100,7 +100,7 @@ namespace OKlib {
               typedef std::list<set_type> container_type;
               container_type seq2(orig.begin(), orig.end());
               seq2.insert(seq2.end(), orig.begin(), orig.end());
-              seq2.sort(OKlib::OrderRelations::SizeLessThan<std::less<set_type> >());
+              seq2.sort(OKlib::Programming::Utilities::OrderRelations::SizeLessThan<std::less<set_type> >());
               seq2.erase(std::unique(seq2.begin(), seq2.end()), seq2.end());
               typedef Subsumption_elimination<container_type, SubsumptionsTags::hyperedges_are_unique, SubsumptionsTags::hyperedges_sorted_by_size> elimination_type;
               elimination_type sub_elim;
