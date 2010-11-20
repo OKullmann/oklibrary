@@ -1,0 +1,4 @@
+c Palindromised hypergraph with arithmetic-progression length 2 and 5 vertices.
+p cnf 3 2
+1 0
+2 0
