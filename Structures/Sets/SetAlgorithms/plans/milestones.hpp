@@ -29,6 +29,7 @@ License, or any later version. */
    In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
    following items are handled:
     - Improve code quality
+    - Organisation
     - Test failure : DONE
 
 

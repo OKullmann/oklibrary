@@ -32,6 +32,12 @@ License, or any later version. */
    construction must take place in the initialiser list. </li>
   </ul>
 
+  \todo Organisation
+  <ul>
+   <li> This submodule must go to Combinatorics/Hypergraphs, since it does not
+   provide general set-operations. </li>
+  </ul>
+
 
   \bug DONE Test failure
   <ul>
