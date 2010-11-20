@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.11.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,6 +54,8 @@ namespace {
         
   const std::string program = "GreenTaoCNF";
   const std::string err = "ERROR[" + program + "]: ";
+
+  const std::string version = "0.2";
 
   struct NameMap {
     typedef std::map<uint_type, int_type> map_type;
