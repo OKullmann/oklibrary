@@ -159,25 +159,31 @@ arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
    colourings, which are read forward and backward the same.
 */
 palindromise_vdw_ohg(G) := 
- if emptyp(first(G)) or emptyp(second(G)) or emptyp(first(second(G))) then G 
- else block([n : last(first(G)), div],
+ if emptyp(first(G)) then G
+ else block([n : last(first(G)), div, V],
   div : ceiling(n/2),
-  [create_list(i,i,1,div),
+  V : create_list(i,i,1,div),
+  if emptyp(second(G)) or emptyp(first(second(G))) then return([V,second(G)])
+  else return(
+  [V,
    map(setify,sort(map(listify,
     min_elements_l(unique(
      map(
        lambda([H], map(lambda([v], if v >= div+1 then n-v+1 else v), H)),
        sublist(second(G), lambda([H], is(first(H) < div+1))))))),
-   colex_lessp_l))])$
-palindromise_vdw_hg(G) := 
- if emptyp(first(G)) or emptyp(second(G)) or emptyp(first(second(G))) then G 
- else block([n : last(first(G)), div],
+   colex_lessp_l))]))$
+palindromise_vdw_hg(G) :=
+ if emptyp(first(G)) then G
+ else block([n : last(first(G)), div, V],
   div : ceiling(n/2),
-  [setn(div),
+  V : setn(div),
+  if emptyp(second(G)) or emptyp(first(second(G))) then return([V,second(G)])
+  else return(
+  [V,
    min_elements(
     map(
       lambda([H], map(lambda([v], if v >= div+1 then n-v+1 else v), H)),
-      subset(second(G), lambda([H], is(first(H) < div+1)))))])$
+      subset(second(G), lambda([H], is(first(H) < div+1)))))]))$
 /* Comment: both functions use that first(X), last(X) is the smallest/largest
    element of set X. */
 
