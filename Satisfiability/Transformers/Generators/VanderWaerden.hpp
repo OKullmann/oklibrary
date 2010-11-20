@@ -49,7 +49,7 @@ namespace OKlib {
 
     /*!
       \class Arithmetical_progressions
-      \brief All arithmetical progressions in {1,...,n}, in lexicographical order
+      \brief All arithmetical progressions in {1,...,n}, in lexicographical order (in iterator-fashion, without storage)
       \deprecated Old, "quick and dirty" implementation, to be improved (via using a standard output interface).
 
       \detail
@@ -124,7 +124,7 @@ namespace OKlib {
 
     /*!
       \class Arithmetical_progressions_colex
-      \brief All arithmetical progressions in {1,...,n}, in colexicographical order
+      \brief All arithmetical progressions in {1,...,n}, in colexicographical order (in iterator-fashion, without storage)
       \deprecated To be improved (via using a standard output interface).
 
       \detail
