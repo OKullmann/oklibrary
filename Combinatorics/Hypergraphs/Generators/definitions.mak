@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestHypergraphGenerators
 
-programs := GreenTao
+programs := GreenTao PdVanderWaerden
 
 source_libraries =  $(boost_include_option_okl)
 
