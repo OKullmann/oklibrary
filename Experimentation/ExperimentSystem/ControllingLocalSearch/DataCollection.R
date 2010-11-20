@@ -451,7 +451,7 @@ run_ubcsat_result_path = function(
 run_ubcsat_stats_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
-               alg_safe_name,"-",filename,".run_ubcsat_stats",
+               alg_safe_name,".run_ubcsat_stats",
                sep=""))
 }
 

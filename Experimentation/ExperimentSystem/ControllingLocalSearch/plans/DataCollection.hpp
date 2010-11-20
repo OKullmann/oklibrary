@@ -12,24 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug Incomplete evaluation
-  <ul>
-   <li> When running the example as givenr in DataCollection.R, then we get
-   \verbatim
-OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
-adaptnoveltyp.run_ubcsat_log
-adaptnoveltyp.run_ubcsat_result
-adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats
-gsat.run_ubcsat_log
-gsat.run_ubcsat_result
-gsat_simple.run_ubcsat_log
-   \endverbatim
-   </li>
-   <li> Thus the evaluation of gsat is incomplete. </li>
-  </ul>
-
-
-
   \bug Bad parameter of run_ubcsat XXX STATUS ???
   <ul>
    <li> It needs to be specified what are the defaults. </li>
@@ -395,6 +377,29 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    without generating them --- so *two* functions are needed. </li>
    <li> DONE The examples don't show the important step that the computed 
    dataframe MUST BE STORED. </li>
+  </ul>
+
+
+  \bug DONE Incomplete evaluation
+  <ul>
+   <li> When running the example as given in DataCollection.R, then we get
+   \verbatim
+OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
+adaptnoveltyp.run_ubcsat_log
+adaptnoveltyp.run_ubcsat_result
+adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats
+gsat.run_ubcsat_log
+gsat.run_ubcsat_result
+gsat_simple.run_ubcsat_log
+   \endverbatim
+   </li>
+   <li> Thus the evaluation of gsat is incomplete. </li>
+   <li> The evaluation was complete, the name for the stats file had
+   a different format 
+   (see adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats).
+   Therefore, the file appears later in the listing. </li>
+   <li> The names of the stats files have now been brought into line
+   with the rest of the log and results files to avoid confusion. </li>
   </ul>
 
 
