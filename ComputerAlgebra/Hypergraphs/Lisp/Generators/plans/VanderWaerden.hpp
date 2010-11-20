@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo palindromise_vdw_ohg
   <ul>
+   <li> See OKlib::Combinatorics::Hypergraphs::Generators::Pd_arithprog_ohg
+   for the C++ implementation. </li>
    <li> DONE
    Order of hyperedges:
     <ol>

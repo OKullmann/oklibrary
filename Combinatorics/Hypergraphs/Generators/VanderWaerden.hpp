@@ -18,8 +18,11 @@ License, or any later version. */
 #include <cstdlib>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include <OKlib/Concepts/Iterators.hpp>
+#include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
+#include <OKlib/Structures/Sets/SetAlgorithms/Subsumption.hpp>
 
 namespace OKlib {
  namespace Combinatorics {
@@ -426,20 +429,55 @@ namespace OKlib {
         assert(v <= n);
         return n-v+1;
       }
-      typedef typename AP::Arithmetical_progression Arithmetical_progression;
-      Arithmetical_progression next() {
-        Arithmetical_progression ap(ap_.next());
-        {typedef typename Arithmetical_progression::iterator iterator;
+      typedef typename AP::Arithmetical_progression sequence_type;
+      sequence_type next() {
+        sequence_type ap(ap_.next());
+        {typedef typename sequence_type::iterator iterator;
          const iterator begin(ap.begin()), end(ap.end());
          for (iterator i = begin; i != end; ++i)
            if (*i > mp) *i = mirror_image(*i);
          std::sort(begin, end);
-         const iterator new_end = std::unique(begin, end);
-         ap.resize(new_end - begin);
+         ap.resize(std::unique(begin, end) - begin);
         }
         return ap;
       }
 
+    };
+
+    /*!
+      \class Pd_arithprog_ohg
+      \brief Functor for creating palindromic vdW-hypergraphs
+
+      Pd_arithprog_ohg()(k,n) computes the colexicographically sorted
+      hypergraph of palindromised arithmetic progressions of size k over
+      n vertices, as vector of vectors.
+
+      The Maxima-specification is palindromise_vdw_ohg(arithprog_ohg(k,n)) in
+      ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
+    */
+
+    template <typename Int = unsigned int>
+    class Pd_arithprog_ohg {
+    public :
+      typedef Int vertex_type;
+    private :
+      typedef Pd_arithmetical_progressions<vertex_type> Pd_ap;
+    public :
+      typedef typename Pd_ap::sequence_type hyperedge_type;
+      typedef std::vector<hyperedge_type> set_system_type;
+      typedef typename set_system_type::size_type size_type;
+
+      set_system_type operator()(const vertex_type k, const vertex_type n) const {
+        Pd_ap ap(k,n);
+        set_system_type g;
+        g.reserve(ap.count);
+        for (vertex_type i = 0; i < ap.count; ++i) g.push_back(ap.next());
+        sort(g.begin(),g.end(),OKlib::OrderRelations::SizeLessThan<std::less<hyperedge_type> >());
+        g.resize(std::unique(g.begin(),g.end()) - g.begin());
+        OKlib::SetAlgorithms::Subsumption_elimination<set_system_type, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_are_unique, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_sorted_by_size>()(g);
+        return g;
+      }
+    
     };
     
    }
