@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.10.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,7 @@ License, or any later version. */
   Called with parameters k and n, outputs the Green-Tao hypergraph
   in Dimacs format.
 
+  \todo Use InputOutput::CLSAdaptorDIMACSOutput
   \todo Use Messages
 */
 
@@ -34,6 +35,8 @@ namespace {
         
   const std::string program = "GreenTao";
   const std::string err = "ERROR[" + program + "]: ";
+
+  const std::string version = "0.2";
 
 }
 
