@@ -41,7 +41,7 @@ namespace OKlib {
    namespace Transversals {
     namespace Bounded {
 
-      OKlib::Arithprog_finish<hyperedge_type, hyperedge_list_type, vertex_type> prog_gen;
+      OKlib::Combinatorics::Hypergraphs::Generators::Arithprog_finish<hyperedge_type, hyperedge_list_type, vertex_type> prog_gen;
 
       void initialise(const vertex_type, const parameter_type& P) {
         if (P.empty())

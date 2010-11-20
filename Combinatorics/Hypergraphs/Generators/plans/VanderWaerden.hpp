@@ -26,7 +26,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update namespace usage
+  \todo DONE Update namespace usage
 
 
   \todo New test system
