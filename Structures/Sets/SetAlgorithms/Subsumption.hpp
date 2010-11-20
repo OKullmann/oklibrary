@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -74,6 +74,21 @@ namespace OKlib {
 
     // ###############
 
+    /*!
+      \class Erase
+      \brief Functor template for (generically) erasing an element from a container while maintaining the element-specifying iterator
+
+      Usage is Erase<Container_type>()(C,i), where C is the container, and
+      i is the iterator to the element to be erased. Returns an iterator
+      to the element replacing *i (or an end-iterator).
+      
+      \todo Organisation
+      <ul>
+       <li> These functors should move to the iterator tools ?! </li>
+       <li> On the other hand they should be adaptable to the *special*
+       situation at hand. </li>
+      </ul>
+    */
 
     template <class Container>
     struct Erase {
@@ -103,27 +118,37 @@ namespace OKlib {
       }
     };
 
-    /*!
-      \class Erase
-      \todo These functors should move to the iterator tools ?! (On the other hand they
-      should be adaptable to the *special* situation at hand.)
-    */
-
 
     // ############################################
 
     /*!
       \class Subsumption_elimination
-      \brief Functor: Eliminates all inclusions from a container.
-    */
+      \brief Functor template for eliminating all inclusions from a container
 
-    /*!
-      \class Subsumption_elimination
-      \todo ContainerSets is conceptually a hypergraph; if ContainerSets actually is equipped
-      with a (the) vertex-hyperedge graph, then for every hyperedge H we can run (efficiently) through
-      all hyperedges H' with non-empty intersection with H and compute the size of H - H': if the size
-      is 0, then H' <= H, if the size is |H'| - |H|, then H <= H'.
-      \todo Create the concept; the requirement must include that ContainerSets supports erase without invalidating iterators.
+      Usage:
+      <ul>
+       <li> Default is Subsumption_elimination<Container_type>()(C),
+       which changes C in-place. </li>
+       <li> Type-tags can be provided to specify that hyperedges are unique
+       and/or that hyperedges are sorted by size (so that only
+       forward-subsumption needs to be considered). </li>
+      </ul>
+
+      \todo Improve implementation
+      <ul>
+       <li> ContainerSets is conceptually a hypergraph; if ContainerSets
+       actually is equipped with a (the) vertex-hyperedge graph, then for
+       every hyperedge H we can run (efficiently) through all hyperedges H'
+       with non-empty intersection with H and compute the size of H - H':
+       if the size is 0, then H' <= H, if the size is |H'| - |H|, then H <= H'.
+       </li>
+      </ul>
+
+      \todo Create the concept
+      <ul>
+       <li> The requirement must include that ContainerSets supports erase
+       without invalidating iterators. </li>
+      </ul>
     */
 
     template <class ContainerSets,
