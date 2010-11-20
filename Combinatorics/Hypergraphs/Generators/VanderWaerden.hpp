@@ -60,7 +60,7 @@ namespace OKlib {
   
   /*!
     \class Arithmetic_progression
-    \brief An arithmetic progressions as a container.
+    \brief An arithmetic progression as a container
 
     \todo Add the concept tag (a special case of a "const collection with begin, end and size; not default-constructible, but copyable, assignable, equality comparable").
 
