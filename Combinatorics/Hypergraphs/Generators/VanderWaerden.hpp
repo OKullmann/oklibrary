@@ -59,7 +59,7 @@ namespace OKlib {
       return not (lhs == rhs);
     }
     
-    // -----------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------
     
     /*!
       \class Arithmetic_progression
@@ -94,7 +94,7 @@ namespace OKlib {
       value_type slope() const { return slope_; }
     };
     
-    // -----------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------
   
     /*!
       \class Arithprog_finish
@@ -111,7 +111,7 @@ namespace OKlib {
        <li> The length k of the arithmetic progressions can be re-set by
        ap.set(k) (k >= 1); this is necessary in case of default-construction.
        </li>
-       <li> ap(n) returns the set-system of arithmetic progressions pf length
+       <li> ap(n) returns the set-system of arithmetic progressions of length
        (the current) k in {1, ..., n} (for n >= 1). </li>
        <li> The requirements on template-parameter SetSystem are
         <ol>
@@ -179,7 +179,7 @@ namespace OKlib {
       }
     };
   
-    // -----------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------
 
    /*!
      \brief Computing the number of arithmetic progressions of length k in
