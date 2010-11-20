@@ -229,7 +229,7 @@ namespace OKlib {
       typedef std::vector<Index> Arithmetical_progression;
 
       Arithmetical_progression next() {
-          Arithmetical_progression ap;
+        Arithmetical_progression ap;
         ap.reserve(k);
         for (Index i = 0; i < k; ++i)
 	  ap.push_back(current_element + i * current_distance);
