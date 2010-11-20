@@ -9,12 +9,12 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories
 set -o nounset
 
-list_programs="${bin_dir}/VanderWaerden ${bin_dir}/VanderWaerden-O3-DNDEBUG"
+list_programs="${bin_dir}/VanderWaerdenCNF ${bin_dir}/VanderWaerdenCNF-O3-DNDEBUG"
 app_test_dir=${OKlib}/Satisfiability/Transformers/Generators/app_tests
 
 cd ${app_test_dir}
 
-program_tested="VanderWaerden"
+program_tested="VanderWaerdenCNF"
 
 case ${test_level} in
 basic) list_test_cases="$(find test_cases/basic/${program_tested} -mindepth 1 -name '*.cnf')"

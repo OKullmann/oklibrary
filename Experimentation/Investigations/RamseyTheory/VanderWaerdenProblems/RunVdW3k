@@ -72,7 +72,7 @@ cd ${ExpDir}
 
 echo -e "${script_name}:\n k=${k}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > Parameters
 
-generator="VanderWaerden-O3-DNDEBUG"
+generator="VanderWaerdenCNF-O3-DNDEBUG"
 
 for ((n=${n0}; 1; ++n)); do
 

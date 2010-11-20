@@ -15,7 +15,7 @@ ucp_okl ?= $(bin_dir)/UnitClausePropagation-O3-DNDEBUG
 ucpw_okl ?= $(bin_dir)/UnitClausePropagationW-O3-DNDEBUG
 
 ramsey_generator_okl ?= $(bin_dir)/Ramsey-O3-DNDEBUG
-vanderwaerden_generator_okl ?= $(bin_dir)/VanderWaerden-O3-DNDEBUG
+vanderwaerden_generator_okl ?= $(bin_dir)/VanderWaerdenCNF-O3-DNDEBUG
 
 vdw_minimumtransversals_okl ?= $(bin_dir)/MinimumTransversals_VanderWaerden-O3-DNDEBUG
 gt_minimumtransversals_okl ?= $(bin_dir)/MinimumTransversals_GreenTao-O3-DNDEBUG

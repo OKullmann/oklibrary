@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/VanderWaerden.cpp
+  \file Satisfiability/Transformers/Generators/VanderWaerdenCNF.cpp
   \brief Application for creating SAT instances expressing van-der-Waerden problems
   \deprecated Needs a complete update.
 
@@ -32,7 +32,7 @@ License, or any later version. */
 #include <OKlib/General/ErrorHandling.hpp>
 
 #include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp>
-#include <OKlib/Satisfiability/Transformers/Generators/VanderWaerden.hpp>
+#include <OKlib/Satisfiability/Transformers/Generators/VanderWaerdenCNF.hpp>
 
 namespace {
 
@@ -42,7 +42,7 @@ namespace {
     error_num_vert = 3
   };
 
-  const std::string version = "0.3.3";
+  const std::string version = "0.3.4";
 
 }
 
