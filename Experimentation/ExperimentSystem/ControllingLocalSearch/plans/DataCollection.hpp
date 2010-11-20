@@ -14,7 +14,7 @@ License, or any later version. */
 
   \bug Incomplete evaluation
   <ul>
-   <li> When running the example as given in DataCollection.R, then we get
+   <li> When running the example as givenr in DataCollection.R, then we get
    \verbatim
 OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
 adaptnoveltyp.run_ubcsat_log
@@ -132,6 +132,36 @@ gsat_simple.run_ubcsat_log
    produce at the same time basic evaluation tools for the dataframe. </li>
    <li> See "Evaluation tools for run-ubcsat" in
    ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp. </li>
+  </ul>
+
+
+  \todo Reconsider handling of segfaults and errors in run_ubcsat_dir
+  <ul>
+   <li> Currently run_ubcsat_dir reads in files generated during the
+   evaluation of run_ubcsat (which uses read_ubcsat_dir as a last step)
+   and if a particular file is incorrectly formatted or there is some
+   other error, the error is printed but ignored and the resultant
+   data.frame will not contain rows for the algorithms with which
+   errors occurred. </li>
+   <li> This is not ideal as it is then not immediately obvious with
+   all the other information that is printed whether there has been an error. 
+   If the user isn't aware of the number of algorithms, then the user
+   may think all algorithms have been run. </li>
+   <li> It should be made more clear that there has been an error by, for
+   example, 
+    <ul>
+     <li> checking at the end that the final data.frame contains all
+     algorithms and list on STDOUT any that are missing. </li>
+     <li> writing any errors to a separate file and then reading these
+     errors into an "errors" object for the data.frame. This then
+     ensures the fact there are missing algorithms, or other errors
+     is always kept with the data and the user is always aware. On the
+     other hand, such a field is not easily visible. </li>
+     <li> adding a NULL row with NULL for all columns except algorithm for 
+     any rows with an error, however, this is potentially a problem once
+     one tries to calculate statistics for the data.frame. </li>
+    </ul>
+   </li>    
   </ul>
 
 

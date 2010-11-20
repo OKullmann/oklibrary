@@ -77,18 +77,20 @@ run_ubcsat = function(
   # Run ubcsat-okl with each algorithm
   run_ubcsat_df = NULL
   for (alg in algs) {
-    output_file =
-      run_ubcsat_result_path(filename,alg,tmp_directory)
-    stats_output_file =
-      run_ubcsat_stats_path(filename,alg,tmp_directory)
-    command =
-      run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
-                          tmp_directory,...)
+    try({
+      output_file =
+        run_ubcsat_result_path(filename,alg,tmp_directory)
+      stats_output_file =
+        run_ubcsat_stats_path(filename,alg,tmp_directory)
+      command =
+        run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
+                            tmp_directory,...)
 
-    # Run the ubcsat-okl command
-    if (monitor) print(command)
-    system(command, intern=FALSE)    
+      # Run the ubcsat-okl command
+      if (monitor) print(command)
+      system(command, intern=FALSE)    
     
+    })
   }
   
   read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
@@ -502,28 +504,35 @@ read_ubcsat_dir = function(
 
   run_ubcsat_df = NULL
   for (alg in algs ) {
-    output_file =
-      run_ubcsat_result_path(filename,alg,tmp_directory)
-    stats_output_file =
-      run_ubcsat_stats_path(filename,alg,tmp_directory)
+    try({
+      output_file =
+        run_ubcsat_result_path(filename,alg,tmp_directory)
+      stats_output_file =
+        run_ubcsat_stats_path(filename,alg,tmp_directory)
     
-    # Read in output from respective temporary files.
-    result_df = read.table(output_file,
-                           col.names = as.vector(run_ubcsat_column_names))
-    result_df = add_constant_column(result_df,alg, "alg")
+      # Read in output from respective temporary files.
+      result_df = read.table(output_file,
+                             col.names = as.vector(run_ubcsat_column_names))
+
+      # Check we have rows before trying to reference them and add columns etc.
+      # Otherwise segfaults will crash the program.
+      if (length(row.names(result_df)) > 0) {
+        result_df = add_constant_column(result_df,alg, "alg")
     
-    # Add statistics data
-    stats_df = read.table(stats_output_file,
-      colClasses=c("character","character","real"))
-    for (i in 1:length(stats_df[[1]])) {
-      result_df = add_constant_column(result_df, 
-        stats_df[[3]][[i]], stats_df[[1]][[i]])
-    }
+        # Add statistics data
+        stats_df = read.table(stats_output_file,
+          colClasses=c("character","character","real"))
+        for (i in 1:length(stats_df[[1]])) {
+          result_df = add_constant_column(result_df, 
+            stats_df[[3]][[i]], stats_df[[1]][[i]])
+
+        }
     
-    # Add rows from this ubcsat result to the result data.frame
-    run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
+        # Add rows from this ubcsat result to the result data.frame
+        run_ubcsat_df = rbind(run_ubcsat_df, result_df) 
+      }
+    })
   }
-  
   run_ubcsat_df
 }
 
