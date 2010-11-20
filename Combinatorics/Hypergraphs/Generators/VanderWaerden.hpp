@@ -126,6 +126,7 @@ namespace OKlib {
       }
   
       set_system_type operator()(const int_type n) const {
+        assert(k >= 1);
         assert(n >= 1);
         typedef std::vector<vertex_type> vector_t;
         vector_t H;
