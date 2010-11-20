@@ -31,6 +31,7 @@ License, or any later version. */
 
 #include <OKlib/General/ErrorHandling.hpp>
 
+#include <OKlib/Combinatorics/Hypergraphs/Generators/VanderWaerden.hpp>
 #include <OKlib/Satisfiability/Transformers/Generators/VanderWaerden.hpp>
 
 namespace {
@@ -66,7 +67,7 @@ int main(const int argc, const char* const argv[]) {
     }
     OKlib::Satisfiability::Transformers::Generators::VanderWaerden_TwoParts_1
       <Index,
-       OKlib::Satisfiability::Transformers::Generators::Arithmetical_progressions_colex>
+       OKlib::Combinatorics::Hypergraphs::Generators::Arithmetical_progressions_colex>
      (k,k2, n, std::cout)();
   }
   catch (const std::exception& e) {

@@ -149,8 +149,175 @@ namespace OKlib {
         assert(S.size() == q);
         return set_system_type(S.begin(),S.end());
       }
-  
     };
+  
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+   /*!
+     \brief Computing the number of arithmetic progressions of length k in
+     {1,...,n}
+
+     The Maxima-specification is nhyp_arithprog_ohg(k,n) in
+     ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
+   */
+   template <typename UInt>
+   inline UInt nhyp_arithprog_hg(const UInt k, const UInt n) {
+     if (k == 0) return 1;
+     if (k == 1) return n;
+     if (n < k) return 0;
+     const UInt q = (n-1) / (k-1);
+     return q*n - (q*(k - 1)*(q + 1)) / 2;
+   }
+
+    /*!
+      \class Arithmetical_progressions
+      \brief All arithmetical progressions in {1,...,n}, in lexicographical order (in iterator-fashion, without storage)
+      \deprecated Old, "quick and dirty" implementation, to be improved (via using a standard output interface).
+
+      \detail
+
+      Usage:
+      <ul>
+       <li> Construct an object
+       <code>Arithmetical_progressions ap(k,n)</code>, where k is the length
+       of the arithmetic progressions, to be considered in {1,...,n}. </li>
+       <li> In ap.count the total number of ap's is to be found. </li>
+       <li> Via calling ap.next() one then obtains the ap's, as vectors, in
+       lexicographical order. </li>
+       <li> It is an error if ap.next() is called more than ap.count many
+       times. </li>
+      </ul>
+
+      \todo Integration
+      <ul>
+       <li> See classes in
+       Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and
+       General/IteratorHandling.hpp. </li>
+      </ul>
+    */
+
+    template <typename Int>
+    class Arithmetical_progressions {
+    public :
+      typedef Int Index;
+      const Index n;
+      //! size of arithmetic progression in {1, ..., n}
+      const Index k;
+      //! maximal possible element of an arithmetic progression
+      const Index count;
+
+    private :
+      //! first element in current arithmetic progression
+      Index current_element;
+      //! slope of current arithmetic progression
+      Index current_distance;
+
+    public :
+
+      Arithmetical_progressions(const Index k, const Index n) :
+          n(n), k(k),
+          count(nhyp_arithprog_hg(k,n)),
+          current_element(1),
+          current_distance(1) {
+        assert(k >= 1);
+        assert(n >= 2);
+        assert(n >= k);
+      }
+      std::string static message() {
+        return "Iterating through the arithmetic progressions in lexicographical order.";
+      }
+
+      typedef std::vector<Index> Arithmetical_progression;
+
+      Arithmetical_progression next() {
+          Arithmetical_progression ap;
+        ap.reserve(k);
+        for (Index i = 0; i < k; ++i)
+	  ap.push_back(current_element + i * current_distance);
+        if (current_element + (k-1) * (current_distance + 1) <= n and k >= 2)
+	  ++current_distance;
+        else {
+	  ++current_element; current_distance = 1;
+        }
+        return ap;
+      }
+    };
+
+
+    /*!
+      \class Arithmetical_progressions_colex
+      \brief All arithmetical progressions in {1,...,n}, in colexicographical order (in iterator-fashion, without storage)
+      \deprecated To be improved (via using a standard output interface).
+
+      \detail
+
+      Usage:
+      <ul>
+       <li> Construct an object
+       <code>Arithmetical_progressions_colex ap(k,n)</code>, where k is the
+       length of the arithmetic progressions, to be considered in {1,...,n}.
+       </li>
+       <li> In ap.count the total number of ap's is to be found. </li>
+       <li> Via calling ap.next() one then obtains the ap's, as vectors, in
+       colexicographical order. </li>
+       <li> ap.next() can be called arbitrarily often, and runs through all
+       arithmetic progressions of length k in {1,...}. </li>
+      </ul>
+
+      \todo Integration
+      <ul>
+       <li> See classes in
+       Combinatorics/Hypergraphs/Generators/plans/VanderWaerden.hpp and
+       General/IteratorHandling.hpp. </li>
+      </ul>
+    */
+
+    template <typename Int>
+    class Arithmetical_progressions_colex {
+    public :
+      typedef Int Index;
+      const Index n;
+      //! size of arithmetic progression
+      const Index k;
+      //! total number of arithmetic progressions
+      const Index count;
+
+    private :
+      //! last element in current arithmetic progression
+      Index current_element;
+      //! slope of current arithmetic progression
+      Index current_distance;
+
+    public :
+
+      Arithmetical_progressions_colex(const Index k, const Index n) :
+          n(n), k(k),
+          count(nhyp_arithprog_hg(k,n)),
+          current_element(k),
+          current_distance(1) {
+        assert(k >= 2);
+        assert(n >= 2);
+        assert(n >= k);
+      }
+      std::string static message() {
+        return "Iterating through the arithmetic progressions in colexicographical order.";
+      }
+
+      typedef std::vector<Index> Arithmetical_progression;
+
+      Arithmetical_progression next() {
+        Arithmetical_progression ap;
+        ap.reserve(k);
+        const Index first_element = current_element - (k-1) * current_distance;
+        for (Index i = 0; i < k; ++i)
+	  ap.push_back(first_element + i * current_distance);
+        if (current_distance > 1) --current_distance;
+        else
+          current_distance = current_element++ / (k-1);
+        return ap;
+      }
+    };
+
    }
   }
  }
