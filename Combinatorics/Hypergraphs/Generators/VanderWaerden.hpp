@@ -17,6 +17,7 @@ License, or any later version. */
 #include <cassert>
 #include <cstdlib>
 #include <vector>
+#include <algorithm>
 
 #include <OKlib/Concepts/Iterators.hpp>
 
@@ -345,6 +346,102 @@ namespace OKlib {
       }
     };
 
+    // -----------------------------------------------------------
+
+    /*!
+      \class Pd_arithmetical_progressions
+      \brief All palindromised arithmetical progressions in {1,...,n} (in iterator-fashion, without storage)
+      \deprecated Old, "quick and dirty" implementation, to be improved (via using a standard output interface).
+
+      \detail
+
+      Usage:
+      <ul>
+       <li> Construct an object
+       <code>Pd_arithmetical_progressions ap(k,n)</code>, where k is the length
+       of the arithmetic progressions, to be considered in {1,...,n}. </li>
+       <li> In ap.count the total number of ap's is to be found. </li>
+       <li> Via calling ap.next() one then obtains the ap's, as vectors, in
+       lexicographical order. </li>
+       <li> It is an error if ap.next() is called more than ap.count many
+       times. </li>
+       <li> "Palindromised" means that elements v > (n+1)/2 are mapped to their
+       "mirror image" n-v+1. </li>
+       <li> The order is lexicographical order, however regarding the order on
+       the original arithmetic progressions, before transformation. </li>
+       <li> Arithmetic progressions where all elements would be mapped are
+       ignored (since they have been already obtained). </li>
+       <li> Nevertheless, in general the sequence of vectors contains
+       duplicates (and subsumed elements). </li>
+       <li> All palindromised progressions are ascendingly sorted and without
+       duplicates. </li>
+       <li> For example for k=3, n=6 from
+         (1,2,3),(1,3,5),(2,3,4),(2,4,6),(3,4,5),(4,5,6)
+       we obtain
+         (1,2,3),(1,2,3),(2,3),  (1,2,3),(2,3).
+       </li>
+      </ul>
+
+      \todo Integration
+      <ul>
+       <li> Compare Arithmetical_progressions above. </li>
+      </ul>
+    */
+
+    template <typename Int>
+    class Pd_arithmetical_progressions {
+    public :
+      typedef Int Index;
+      const Index n;
+      //! size of arithmetic progression in {1, ..., n}
+      const Index k;
+      //! midpoint of {1, ..., n}
+      const Index mp;
+
+    private :
+      typedef Arithmetical_progressions<Index> AP;
+      //! object for ordinary arithmetic progressions
+      AP ap_;
+
+    public :
+      //! number of palindromised arithmetic progressions of length k in {1, ..., n}
+      const Index count;
+
+    public :
+
+      Pd_arithmetical_progressions(const Index k, const Index n) :
+          n(n), k(k), mp((n+1)/2),
+          ap_(k,n),
+          count(ap_.count - nhyp_arithprog_hg(k,n-mp)) {
+        assert(k >= 1);
+        assert(n >= 2);
+        assert(n >= k);
+      }
+      static std::string message() {
+        return "Iterating through the palindromised arithmetic progressions in lexicographical order.";
+      }
+
+      Index mirror_image(const Index v) {
+        assert(1 <= v);
+        assert(v <= n);
+        return n-v+1;
+      }
+      typedef typename AP::Arithmetical_progression Arithmetical_progression;
+      Arithmetical_progression next() {
+        Arithmetical_progression ap(ap_.next());
+        {typedef typename Arithmetical_progression::iterator iterator;
+         const iterator begin(ap.begin()), end(ap.end());
+         for (iterator i = begin; i != end; ++i)
+           if (*i > mp) *i = mirror_image(*i);
+         std::sort(begin, end);
+         const iterator new_end = std::unique(begin, end);
+         ap.resize(new_end - begin);
+        }
+        return ap;
+      }
+
+    };
+    
    }
   }
  }
