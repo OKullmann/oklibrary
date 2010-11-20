@@ -130,8 +130,8 @@ namespace OKlib {
        <li> Default is Subsumption_elimination<Container_type>()(C),
        which changes C in-place. </li>
        <li> Type-tags can be provided to specify that hyperedges are unique
-       and/or that hyperedges are sorted by size (so that only
-       forward-subsumption needs to be considered). </li>
+       and/or that hyperedges are sorted by size (in increasing size; so that
+       only forward-subsumption needs to be considered). </li>
       </ul>
 
       \todo Improve implementation
