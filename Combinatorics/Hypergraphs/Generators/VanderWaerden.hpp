@@ -19,6 +19,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <list>
 
 #include <OKlib/Concepts/Iterators.hpp>
 #include <OKlib/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
@@ -454,6 +455,10 @@ namespace OKlib {
 
       The Maxima-specification is palindromise_vdw_ohg(arithprog_ohg(k,n)) in
       ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac.
+
+      \todo Update concepts
+      \todo Write tests
+      \todo Improve implementation
     */
 
     template <typename Int = unsigned int>
@@ -472,10 +477,15 @@ namespace OKlib {
         set_system_type g;
         g.reserve(ap.count);
         for (vertex_type i = 0; i < ap.count; ++i) g.push_back(ap.next());
-        sort(g.begin(),g.end(),OKlib::Programming::Utilities::OrderRelations::SizeLessThan<std::less<hyperedge_type> >());
+        std::sort(g.begin(),g.end(),OKlib::Programming::Utilities::OrderRelations::SizeLessThan<std::less<hyperedge_type> >());
         g.resize(std::unique(g.begin(),g.end()) - g.begin());
-        OKlib::SetAlgorithms::Subsumption_elimination<set_system_type, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_are_unique, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_sorted_by_size>()(g);
-        
+        {
+         typedef std::list<hyperedge_type> list_type;
+         list_type gl(g.begin(),g.end());
+         OKlib::SetAlgorithms::Subsumption_elimination<list_type, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_are_unique, OKlib::SetAlgorithms::SubsumptionsTags::hyperedges_sorted_by_size>()(gl);
+         g.assign(gl.begin(),gl.end());
+        }
+        std::sort(g.begin(),g.end(),OKlib::Programming::Utilities::OrderRelations::Colexicographical_comparison<hyperedge_type>());
         return g;
       }
     
