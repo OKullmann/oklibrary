@@ -14,6 +14,10 @@ License, or any later version. */
   the order of negated literals in clauses).
   An experiment is run by "RunVdW3k k n0 alg runs cutoff".
 
+  The palindromic versions are created by
+  output_pd_vanderwaerden2nd_stdname(3,k,n) at Maxima-level, or by
+  "PdVanderWaerdenCNF-O3-DNDEBUG 3 k n" at C++ level (instances differ by
+  the order of negated literals in clauses).
   
   \todo Predictions of vdw_2(3,k)
   <ul>
@@ -2475,6 +2479,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      </li>
     </ol>
    </li>
+   <li> Palindromic version:
+    <ol>
+     <li> Best ubcsat-algorithm:
+     \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903 > VanDerWaerden_pd_2-3-30_903.cnf
+
+> E=run_ubcsat("VanDerWaerden_pd_2-3-30_903.cnf",runs=100,cutoff=1000000)
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -2568,6 +2583,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 787,809,816,820,844,846,855,860,873,898,
 910
    \endverbatim
+   </li>
+   <li> Palindromic version:
+    <ol>
+     <li> Best ubcsat-algorithm:
+     \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 31 919 > VanDerWaerden_pd_2-3-31_919.cnf
+
+> E=run_ubcsat("VanDerWaerden_pd_2-3-31_919.cnf",runs=100,cutoff=1000000)
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
@@ -2708,6 +2734,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 783,789,806,820,824,835,858,861,874,882,
 911,932,935,941,946,969,978
    \endverbatim
+   </li>
+   <li> Palindromic version:
+    <ol>
+     <li> Best ubcsat-algorithm:
+     \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007 > VanDerWaerden_pd_2-3-32_1007.cnf
+
+> E=run_ubcsat("VanDerWaerden_pd_2-3-32_1007.cnf",runs=100,cutoff=1000000)
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
@@ -2905,6 +2942,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 809,813,828,858,877,878,881,892,895,915,
 918,929,957,976,989,994,1015,1025,1050
    \endverbatim
+   </li>
+   <li> Palindromic version:
+    <ol>
+     <li> Best ubcsat-algorithm:
+     \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 33 1064 > VanDerWaerden_pd_2-3-33_1064.cnf
+
+> E=run_ubcsat("VanDerWaerden_pd_2-3-33_1064.cnf",runs=100,cutoff=1000000)
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
