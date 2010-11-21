@@ -457,7 +457,7 @@ run_ubcsat_stats_path = function(
 # Takes the following parameters for which "run_ubcsat" must already
 # been run and then returns the result of the corresponding
 # "run_ubcsat" command, reading the results from the previously
-# generated files.
+# generated files. ??? what does this mean ??? for what is this useful ???
 #
 # Parameters :
 #     input
