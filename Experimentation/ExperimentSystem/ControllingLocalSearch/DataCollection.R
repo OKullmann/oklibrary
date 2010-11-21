@@ -9,6 +9,277 @@
 # # Running Ubcsat #
 # ##################
 
+# Runs a selection of ubcsat algorithms on the given input file, via
+# ubcsat-okl, and returns the results of these runs as a data-frame.
+#
+# Parameters:
+#     input
+#       The path to the file to evaluate the ubcsat algorithms on.
+#     include_algs
+#       A list of ubcsat-okl algorithms to evaluate on the given input file,
+#       where the name of each item is a reference for the
+#       algorithm, and the value of each item is the algorithm parameter
+#       as given to ubcsat (Optional).
+#     exclude_algs
+#       A list of ubcsat-okl algorithms not to evaluate on the given input
+#       file. The list of algorithms evaluated are exactly those in
+#       include_algs which are not in exclude_algs, ignoring names (Optional).
+#     tmp_directory
+#       The path (string) to the temporary directory where run_ubcsat
+#       stores it's temporary files (log files etc) (Optional).
+#     monitor
+#       Boolean variable, indicating whether or not to print the
+#       system commands issued (for ubcsat); default is TRUE (Optional).
+#     ...
+#       Additional parameters to ubcsat-okl can be specified as additional
+#       parameters to this function. So adding "runs=1", would
+#       result in each call to ubcsat-okl including "-runs=1"
+#       in it's command string (Optional).
+#
+# Result:
+#     The result data.frame has as columns the output parameters,
+#     output by ubcsat-okl (see run_ubcsat_column_names above for
+#     more information), from each run of ubcsat, with
+#     additional columns added specifying the algorithm, the run,
+#     as well as columns for each of the statistics variables
+#     that ubcsat-okl outputs for each invocation.
+#
+#     Every algorithm is evaluated using a single call to ubcsat-okl, where
+#     the number of runs of the algorithm is either the default for
+#     ubcsat-okl or the value of the optional "runs" parameter for
+#     run_ubcsat. Likewise, all parameters for ubcsat-okl other than
+#     -alg, -i, -r stats and -r out, if not specified as arguments to
+#     run_ubcsat, take on the default value assigned by ubcsat-okl.
+#
+#     Each row in the result dataframe then represents a run in ubcsat-okl
+#     (note that a run is not the same as one invocation of ubcsat-okl).
+run_ubcsat = function(
+ input,
+ include_algs = run_ubcsat_cnf_algs,
+ exclude_algs = list(),
+ tmp_directory=run_ubcsat_temp_dir(basename(input)),
+ monitor=TRUE,...) {
+
+  filename = basename(input)
+
+  # Get only those algorithms in the included list which
+  # are not excluded.
+  algs = include_algs[!(include_algs %in% exclude_algs)]
+
+  # Create the temporary directory (error if it doesn't exist)
+  if ( ! file.exists(tmp_directory)) 
+    if (!dir.create(tmp_directory, showWarnings=FALSE)) {
+      print(paste("ERROR[run_ubcsat]: Unable to create directory '",
+                  tmp_directory, "'."))
+      return(FALSE)
+    }
+
+  # Run ubcsat-okl with each algorithm
+  run_ubcsat_df = NULL
+  alg_names = names(algs)
+  for (alg in 1:length(algs)) {
+    output_file =
+      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
+    stats_output_file =
+      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
+    command =
+      run_ubcsat_command(input, alg_names[alg],algs[alg],
+                          tmp_directory,...)
+
+    # Run the ubcsat-okl command
+    if (monitor) print(command)
+    system(command)
+    
+  }
+
+  read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
+}
+
+# As an example, generating the SAT problem relating to testing whether
+# the (diagonal) van der Waerden number vdw_2(5,5) > 200 using
+#
+# > output_vanderwaerden2_stdname(5,200);
+#
+# in Maxima (oklib --maxima), and then running
+#
+# > E = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", seed=1255465118)
+#
+# in R (oklib --R), results in something similar to ??? (ubcsat-okl makes
+# random choices, see XXX):
+#
+#    run sat min osteps msteps       seed                 alg Clauses Variables
+# 1    1   0 115     58 100000 1255465118                gsat    9800       200
+# 2    1   0 114    114 100000 1255716183         gsat_simple    9800       200
+# 3    1   0  83  66954 100000 1255875199               gwsat    9800       200
+# 4    1   0  83  18027 100000 1256245045           gsat_tabu    9800       200
+# 5    1   0 117    139 100000 1256522994                hsat    9800       200
+# 6    1   0 108   9514 100000 1256682510               hwsat    9800       200
+# 7    1   0 174  42839 100000 1257104571             walksat    9800       200
+# 8    1   0 149  21426 100000 1257321352        walksat_tabu    9800       200
+# 9    1   0  22  63217 100000 1257520853             novelty    9800       200
+# 10   1   0  21  10863 100000 1257801927            noveltyp    9800       200
+# 11   1   0  22  10886 100000 1258063146       adaptnoveltyp    9800       200
+# 12   1   0  67  12799 100000 1258315948            rnovelty    9800       200
+# 13   1   0  68  24649 100000 1258595755           rnoveltyp    9800       200
+# 14   1   0  22   3905 100000 1258904684                saps    9800       200
+# 15   1   0  21  12835 100000 1259352347               rsaps    9800       200
+# 16   1   0  21  46556 100000 1259801333              sapsnr    9800       200
+# 17   1   0  64  65556 100000 1260280969                rots    9800       200
+# 18   1   0  21   8102 100000 1260583021               irots    9800       200
+# 19   1   0  96  60290 100000 1260918141                samd    9800       200
+# 20   1   0  24  88250 100000 1261205059 walksat_tabu_nonull    9800       200
+#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
+# 1          49000         434783            58      1e+05     1e+05
+# 2          49000         769231           114      1e+05     1e+05
+# 3          49000         294118         66954      1e+05     1e+05
+# 4          49000         384615         18027      1e+05     1e+05
+# 5          49000         714286           139      1e+05     1e+05
+# 6          49000         243902          9514      1e+05     1e+05
+# 7          49000         526316         42839      1e+05     1e+05
+# 8          49000         555556         21426      1e+05     1e+05
+# 9          49000         370370         63217      1e+05     1e+05
+# 10         49000         400000         10863      1e+05     1e+05
+# 11         49000         416667         10886      1e+05     1e+05
+# 12         49000         384615         12799      1e+05     1e+05
+# 13         49000         344828         24649      1e+05     1e+05
+# 14         49000         232558          3905      1e+05     1e+05
+# 15         49000         232558         12835      1e+05     1e+05
+# 16         49000         217391         46556      1e+05     1e+05
+# 17         49000         344828         65556      1e+05     1e+05
+# 18         49000         312500          8102      1e+05     1e+05
+# 19         49000         370370         60290      1e+05     1e+05
+# 20         49000         625000         88250      1e+05     1e+05
+#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
+# 1               0               115                 115              115
+# 2               0               114                 114              114
+# 3               0                83                  83               83
+# 4               0                83                  83               83
+# 5               0               117                 117              117
+# 6               0               108                 108              108
+# 7               0               174                 174              174
+# 8               0               149                 149              149
+# 9               0                22                  22               22
+# 10              0                21                  21               21
+# 11              0                22                  22               22
+# 12              0                67                  67               67
+# 13              0                68                  68               68
+# 14              0                22                  22               22
+# 15              0                21                  21               21
+# 16              0                21                  21               21
+# 17              0                64                  64               64
+# 18              0                21                  21               21
+# 19              0                96                  96               96
+# 20              0                24                  24               24
+#    BestSolution_Max
+# 1               115
+# 2               114
+# 3                83
+# 4                83
+# 5               117
+# 6               108
+# 7               174
+# 8               149
+# 9                22
+# 10               21
+# 11               22
+# 12               67
+# 13               68
+# 14               22
+# 15               21
+# 16               21
+# 17               64
+# 18               21
+# 19               96
+# 20               24
+#
+# One can then, for instance, restrict oneself to only using the
+# algorithms which performed best (for a particular metric). So, for example,
+# one might restrict oneself to novelty+, rsaps and sapsnr above, and allow
+# more runs and a higher cutoff, like so
+#
+# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
+#
+#    run sat min osteps  msteps       seed      alg Clauses Variables
+# 1    1   0  22  43382 1000000 1694350974 noveltyp    9800       200
+# 2    2   0  21  25031 1000000 2212095318 noveltyp    9800       200
+# 3    3   0  21  30920 1000000  718683817 noveltyp    9800       200
+# 4    4   0  22 165095 1000000  919974690 noveltyp    9800       200
+# 5    5   0  21  39981 1000000 3421966001 noveltyp    9800       200
+# 6    1   0  21   1347 1000000 1722378942    rsaps    9800       200
+# 7    2   0  21   1168 1000000  816551823    rsaps    9800       200
+# 8    3   0  21  35542 1000000 2428062255    rsaps    9800       200
+# 9    4   0  21  44524 1000000 3429666798    rsaps    9800       200
+# 10   5   0  21  29640 1000000 2001159883    rsaps    9800       200
+# 11   1   0  21  14472 1000000 1769745035   sapsnr    9800       200
+# 12   2   0  21 180056 1000000 3960436902   sapsnr    9800       200
+# 13   3   0  21   4050 1000000 4068325161   sapsnr    9800       200
+# 14   4   0  21  35297 1000000 2486223150   sapsnr    9800       200
+# 15   5   0  21  33255 1000000 3128418692   sapsnr    9800       200
+#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
+# 1          49000         393082       60881.8      1e+06     1e+06
+# 2          49000         393082       60881.8      1e+06     1e+06
+# 3          49000         393082       60881.8      1e+06     1e+06
+# 4          49000         393082       60881.8      1e+06     1e+06
+# 5          49000         393082       60881.8      1e+06     1e+06
+# 6          49000         229253       22444.2      1e+06     1e+06
+# 7          49000         229253       22444.2      1e+06     1e+06
+# 8          49000         229253       22444.2      1e+06     1e+06
+# 9          49000         229253       22444.2      1e+06     1e+06
+# 10         49000         229253       22444.2      1e+06     1e+06
+# 11         49000         245821       53426.0      1e+06     1e+06
+# 12         49000         245821       53426.0      1e+06     1e+06
+# 13         49000         245821       53426.0      1e+06     1e+06
+# 14         49000         245821       53426.0      1e+06     1e+06
+# 15         49000         245821       53426.0      1e+06     1e+06
+#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
+# 1               0              21.4                  21               21
+# 2               0              21.4                  21               21
+# 3               0              21.4                  21               21
+# 4               0              21.4                  21               21
+# 5               0              21.4                  21               21
+# 6               0              21.0                  21               21
+# 7               0              21.0                  21               21
+# 8               0              21.0                  21               21
+# 9               0              21.0                  21               21
+# 10              0              21.0                  21               21
+# 11              0              21.0                  21               21
+# 12              0              21.0                  21               21
+# 13              0              21.0                  21               21
+# 14              0              21.0                  21               21
+# 15              0              21.0                  21               21
+#    BestSolution_Max
+# 1                22
+# 2                22
+# 3                22
+# 4                22
+# 5                22
+# 6                21
+# 7                21
+# 8                21
+# 9                21
+# 10               21
+# 11               21
+# 12               21
+# 13               21
+# 14               21
+# 15               21
+#
+# One can see that only 3 algorithms have been run, and each has had 5 runs.
+#
+#
+# One can then store the resulting data.frame using write.table
+#
+# > write.table(E2, file="VDW-ubcsat-result.dat")
+#
+# where the above command writes the previous run_ubcsat results
+# to "VDW-ubcsat-result.dat". For specification of the file
+# format see the R documentation for write.table ("help(write.table)" in R).
+#
+
+# #####################
+# Auxiliary functions #
+# #####################
+
 # Path to directory to store run_ubcsat intermediate files.
 #
 # Parameters :
@@ -308,271 +579,4 @@ run_ubcsat_command = function(
                 run_ubcsat_log_path(filename, alg_safe_name, tmp_directory),
                 sep="") )
 }
-
-# Runs a selection of ubcsat algorithms on the given input file, via
-# ubcsat-okl, and returns the results of these runs as a data-frame.
-#
-# Parameters:
-#     input
-#       The path to the file to evaluate the ubcsat algorithms on.
-#     include_algs
-#       A list of ubcsat-okl algorithms to evaluate on the given input file,
-#       where the name of each item is a reference for the
-#       algorithm, and the value of each item is the algorithm parameter
-#       as given to ubcsat (Optional).
-#     exclude_algs
-#       A list of ubcsat-okl algorithms not to evaluate on the given input
-#       file. The list of algorithms evaluated are exactly those in
-#       include_algs which are not in exclude_algs, ignoring names (Optional).
-#     tmp_directory
-#       The path (string) to the temporary directory where run_ubcsat
-#       stores it's temporary files (log files etc) (Optional).
-#     monitor
-#       Boolean variable, indicating whether or not to print the
-#       system commands issued (for ubcsat); default is TRUE (Optional).
-#     ...
-#       Additional parameters to ubcsat-okl can be specified as additional
-#       parameters to this function. So adding "runs=1", would
-#       result in each call to ubcsat-okl including "-runs=1"
-#       in it's command string (Optional).
-#
-# Result:
-#     The result data.frame has as columns the output parameters,
-#     output by ubcsat-okl (see run_ubcsat_column_names above for
-#     more information), from each run of ubcsat, with
-#     additional columns added specifying the algorithm, the run,
-#     as well as columns for each of the statistics variables
-#     that ubcsat-okl outputs for each invocation.
-#
-#     Every algorithm is evaluated using a single call to ubcsat-okl, where
-#     the number of runs of the algorithm is either the default for
-#     ubcsat-okl or the value of the optional "runs" parameter for
-#     run_ubcsat. Likewise, all parameters for ubcsat-okl other than
-#     -alg, -i, -r stats and -r out, if not specified as arguments to
-#     run_ubcsat, take on the default value assigned by ubcsat-okl.
-#
-#     Each row in the result dataframe then represents a run in ubcsat-okl
-#     (note that a run is not the same as one invocation of ubcsat-okl).
-run_ubcsat = function(
- input,
- include_algs = run_ubcsat_cnf_algs,
- exclude_algs = list(),
- tmp_directory=run_ubcsat_temp_dir(basename(input)),
- monitor=TRUE,...) {
-
-  filename = basename(input)
-
-  # Get only those algorithms in the included list which
-  # are not excluded.
-  algs = include_algs[!(include_algs %in% exclude_algs)]
-
-  # Create the temporary directory (error if it doesn't exist)
-  if ( ! file.exists(tmp_directory)) 
-    if (!dir.create(tmp_directory, showWarnings=FALSE)) {
-      print(paste("ERROR[run_ubcsat]: Unable to create directory '",
-                  tmp_directory, "'."))
-      return(FALSE)
-    }
-
-  # Run ubcsat-okl with each algorithm
-  run_ubcsat_df = NULL
-  alg_names = names(algs)
-  for (alg in 1:length(algs)) {
-    output_file =
-      run_ubcsat_result_path(filename,alg_names[alg],tmp_directory)
-    stats_output_file =
-      run_ubcsat_stats_path(filename,alg_names[alg],tmp_directory)
-    command =
-      run_ubcsat_command(input, alg_names[alg],algs[alg],
-                          tmp_directory,...)
-
-    # Run the ubcsat-okl command
-    if (monitor) print(command)
-    system(command)
-    
-  }
-
-  read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
-}
-
-# As an example, generating the SAT problem relating to testing whether
-# the (diagonal) van der Waerden number vdw_2(5,5) > 200 using
-#
-# > output_vanderwaerden2_stdname(5,200);
-#
-# in Maxima (oklib --maxima), and then running
-#
-# > E = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", seed=1255465118)
-#
-# in R (oklib --R), results in something similar to ??? (ubcsat-okl makes
-# random choices, see XXX):
-#
-#    run sat min osteps msteps       seed                 alg Clauses Variables
-# 1    1   0 115     58 100000 1255465118                gsat    9800       200
-# 2    1   0 114    114 100000 1255716183         gsat_simple    9800       200
-# 3    1   0  83  66954 100000 1255875199               gwsat    9800       200
-# 4    1   0  83  18027 100000 1256245045           gsat_tabu    9800       200
-# 5    1   0 117    139 100000 1256522994                hsat    9800       200
-# 6    1   0 108   9514 100000 1256682510               hwsat    9800       200
-# 7    1   0 174  42839 100000 1257104571             walksat    9800       200
-# 8    1   0 149  21426 100000 1257321352        walksat_tabu    9800       200
-# 9    1   0  22  63217 100000 1257520853             novelty    9800       200
-# 10   1   0  21  10863 100000 1257801927            noveltyp    9800       200
-# 11   1   0  22  10886 100000 1258063146       adaptnoveltyp    9800       200
-# 12   1   0  67  12799 100000 1258315948            rnovelty    9800       200
-# 13   1   0  68  24649 100000 1258595755           rnoveltyp    9800       200
-# 14   1   0  22   3905 100000 1258904684                saps    9800       200
-# 15   1   0  21  12835 100000 1259352347               rsaps    9800       200
-# 16   1   0  21  46556 100000 1259801333              sapsnr    9800       200
-# 17   1   0  64  65556 100000 1260280969                rots    9800       200
-# 18   1   0  21   8102 100000 1260583021               irots    9800       200
-# 19   1   0  96  60290 100000 1260918141                samd    9800       200
-# 20   1   0  24  88250 100000 1261205059 walksat_tabu_nonull    9800       200
-#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
-# 1          49000         434783            58      1e+05     1e+05
-# 2          49000         769231           114      1e+05     1e+05
-# 3          49000         294118         66954      1e+05     1e+05
-# 4          49000         384615         18027      1e+05     1e+05
-# 5          49000         714286           139      1e+05     1e+05
-# 6          49000         243902          9514      1e+05     1e+05
-# 7          49000         526316         42839      1e+05     1e+05
-# 8          49000         555556         21426      1e+05     1e+05
-# 9          49000         370370         63217      1e+05     1e+05
-# 10         49000         400000         10863      1e+05     1e+05
-# 11         49000         416667         10886      1e+05     1e+05
-# 12         49000         384615         12799      1e+05     1e+05
-# 13         49000         344828         24649      1e+05     1e+05
-# 14         49000         232558          3905      1e+05     1e+05
-# 15         49000         232558         12835      1e+05     1e+05
-# 16         49000         217391         46556      1e+05     1e+05
-# 17         49000         344828         65556      1e+05     1e+05
-# 18         49000         312500          8102      1e+05     1e+05
-# 19         49000         370370         60290      1e+05     1e+05
-# 20         49000         625000         88250      1e+05     1e+05
-#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
-# 1               0               115                 115              115
-# 2               0               114                 114              114
-# 3               0                83                  83               83
-# 4               0                83                  83               83
-# 5               0               117                 117              117
-# 6               0               108                 108              108
-# 7               0               174                 174              174
-# 8               0               149                 149              149
-# 9               0                22                  22               22
-# 10              0                21                  21               21
-# 11              0                22                  22               22
-# 12              0                67                  67               67
-# 13              0                68                  68               68
-# 14              0                22                  22               22
-# 15              0                21                  21               21
-# 16              0                21                  21               21
-# 17              0                64                  64               64
-# 18              0                21                  21               21
-# 19              0                96                  96               96
-# 20              0                24                  24               24
-#    BestSolution_Max
-# 1               115
-# 2               114
-# 3                83
-# 4                83
-# 5               117
-# 6               108
-# 7               174
-# 8               149
-# 9                22
-# 10               21
-# 11               22
-# 12               67
-# 13               68
-# 14               22
-# 15               21
-# 16               21
-# 17               64
-# 18               21
-# 19               96
-# 20               24
-#
-# One can then, for instance, restrict oneself to only using the
-# algorithms which performed best (for a particular metric). So, for example,
-# one might restrict oneself to novelty+, rsaps and sapsnr above, and allow
-# more runs and a higher cutoff, like so
-#
-# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
-#
-#    run sat min osteps  msteps       seed      alg Clauses Variables
-# 1    1   0  22  43382 1000000 1694350974 noveltyp    9800       200
-# 2    2   0  21  25031 1000000 2212095318 noveltyp    9800       200
-# 3    3   0  21  30920 1000000  718683817 noveltyp    9800       200
-# 4    4   0  22 165095 1000000  919974690 noveltyp    9800       200
-# 5    5   0  21  39981 1000000 3421966001 noveltyp    9800       200
-# 6    1   0  21   1347 1000000 1722378942    rsaps    9800       200
-# 7    2   0  21   1168 1000000  816551823    rsaps    9800       200
-# 8    3   0  21  35542 1000000 2428062255    rsaps    9800       200
-# 9    4   0  21  44524 1000000 3429666798    rsaps    9800       200
-# 10   5   0  21  29640 1000000 2001159883    rsaps    9800       200
-# 11   1   0  21  14472 1000000 1769745035   sapsnr    9800       200
-# 12   2   0  21 180056 1000000 3960436902   sapsnr    9800       200
-# 13   3   0  21   4050 1000000 4068325161   sapsnr    9800       200
-# 14   4   0  21  35297 1000000 2486223150   sapsnr    9800       200
-# 15   5   0  21  33255 1000000 3128418692   sapsnr    9800       200
-#    TotalLiterals FlipsPerSecond BestStep_Mean Steps_Mean Steps_Max
-# 1          49000         393082       60881.8      1e+06     1e+06
-# 2          49000         393082       60881.8      1e+06     1e+06
-# 3          49000         393082       60881.8      1e+06     1e+06
-# 4          49000         393082       60881.8      1e+06     1e+06
-# 5          49000         393082       60881.8      1e+06     1e+06
-# 6          49000         229253       22444.2      1e+06     1e+06
-# 7          49000         229253       22444.2      1e+06     1e+06
-# 8          49000         229253       22444.2      1e+06     1e+06
-# 9          49000         229253       22444.2      1e+06     1e+06
-# 10         49000         229253       22444.2      1e+06     1e+06
-# 11         49000         245821       53426.0      1e+06     1e+06
-# 12         49000         245821       53426.0      1e+06     1e+06
-# 13         49000         245821       53426.0      1e+06     1e+06
-# 14         49000         245821       53426.0      1e+06     1e+06
-# 15         49000         245821       53426.0      1e+06     1e+06
-#    PercentSuccess BestSolution_Mean BestSolution_Median BestSolution_Min
-# 1               0              21.4                  21               21
-# 2               0              21.4                  21               21
-# 3               0              21.4                  21               21
-# 4               0              21.4                  21               21
-# 5               0              21.4                  21               21
-# 6               0              21.0                  21               21
-# 7               0              21.0                  21               21
-# 8               0              21.0                  21               21
-# 9               0              21.0                  21               21
-# 10              0              21.0                  21               21
-# 11              0              21.0                  21               21
-# 12              0              21.0                  21               21
-# 13              0              21.0                  21               21
-# 14              0              21.0                  21               21
-# 15              0              21.0                  21               21
-#    BestSolution_Max
-# 1                22
-# 2                22
-# 3                22
-# 4                22
-# 5                22
-# 6                21
-# 7                21
-# 8                21
-# 9                21
-# 10               21
-# 11               21
-# 12               21
-# 13               21
-# 14               21
-# 15               21
-#
-# One can see that only 3 algorithms have been run, and each has had 5 runs.
-#
-#
-# One can then store the resulting data.frame using write.table
-#
-# > write.table(E2, file="VDW-ubcsat-result.dat")
-#
-# where the above command writes the previous run_ubcsat results
-# to "VDW-ubcsat-result.dat". For specification of the file
-# format see the R documentation for write.table ("help(write.table)" in R).
-#
 
