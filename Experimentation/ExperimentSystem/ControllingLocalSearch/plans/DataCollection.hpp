@@ -95,7 +95,8 @@ gsat_simple.run_ubcsat_log
    <li> Access to the factor levels should be possible through the variable
    run_ubcsat_cnf_algs, however this is not possible. </li>
    <li> It seems that MG didn't understand the nature of dataframes. </li>
-   <li> DONE The column-names should be identical to the names used by ubcsat (in
+   <li> DONE
+   The column-names should be identical to the names used by ubcsat (in
    the output!). </li>
    <li> So "found -> sat", "best -> min", "beststep -> osteps", "steps ->
    msteps". And references to these columns must be replaced in all files
@@ -110,7 +111,7 @@ gsat_simple.run_ubcsat_log
    <li> Given the dataframe in E, the best algorithms seems best graphed
    by
    \verbatim
-plot(E$alg,E$best)
+plot(E$alg,E$min)
    \endverbatim
    which plots per algorithm the boxplots of the min-distribution. </li>
    <li> One only needs to make sure that on the x-axis all algorithms are
@@ -119,7 +120,7 @@ plot(E$alg,E$best)
     <ol>
      <li> Considering single algorithms by e.g.
      \verbatim
-> table(E$best[E$alg=="adaptnoveltyp"])
+> table(E$min[E$alg=="adaptnoveltyp"])
      \endverbatim
      (note that currently algorithm names are inappropriately handled). </li>
      <li> These tables can be put into a linear order by sorting first
@@ -130,7 +131,7 @@ plot(E$alg,E$best)
      <li> As a first attempt we have eval_ubcsat_dataframe, which just shows
      all results in table form. </li>
      <li> Perhaps then the (first) evaluation tool just uses
-     plot(E$alg,E$best), followed by printing those sorted tables. </li>
+     plot(E$alg,E$min), followed by printing those sorted tables. </li>
     </ol>
    </li>
   </ul>
