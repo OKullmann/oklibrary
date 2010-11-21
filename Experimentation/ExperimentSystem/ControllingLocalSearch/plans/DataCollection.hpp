@@ -62,6 +62,39 @@ gsat_simple.run_ubcsat_log
   </ul>
 
 
+  \todo Better output of run_ubcsat
+  <ul>
+   <li> An obvious problem with run_ubcsat is that it doesn't give intermediate
+   results: runs in general take quite a time, and one needs to wait until
+   the end. </li>
+   <li> So a summary for each run should be printed out. </li>
+  </ul>
+
+
+  \todo Make run_ubcsat interruptible
+  <ul>
+   <li> Since it takes a long time to finish a computation, it should be
+   possible to stop the current computation and just use the results obtained
+   so far. </li>
+   <li> No documentation exists on this issue: is this already possible? Or are
+   certain clean-up steps required? </li>
+   <li> It would also be needed to be able to complete a computation later:
+    <ol>
+     <li> First the currently processed algorithm needs to be represented in
+     a file, so that a continuation just can pick up where the computation was
+     aborted. </li>
+     <li> Perhaps manual deletion of the files related to the currently
+     processed algorithm is needed: For that it must be clear which files
+     are these. </li>
+    </ol>
+   </li>
+   <li> Perhaps for these things we wait for the new version 2.0 of ubcsat,
+   since then our ubcsat-tools need to be rewritten anyway, and at this time
+   then perhaps the pure running-experiments-functionality of run_ubcsat is
+   handled by a shell-script. </li>
+  </ul>
+
+
   \todo Handling of temporary files XXX STATUS ???
   <ul>
    <li> Nowhere are the created files mentioned?? One needs the 
