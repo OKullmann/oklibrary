@@ -33,10 +33,16 @@ read_ubcsat = function(filename, ...) {
 # "skip=m". If trailing lines are to be ignored, use "nrows=n" for the
 # number of rows to be selected.
 
+# #######################################
+# # Evaluation functions for run_ubcsat #
+# #######################################
+
+# See DataCollection.R.
+
 # First attempt, just showing all results in table form:
 eval_ubcsat_dataframe = function(E) {
   for (A in names(run_ubcsat_cnf_algs)) {
     cat(A,": ")
-    print(table(E$best[E$alg==A]))
+    print(table(E$min[E$alg==A]))
   }
 }
