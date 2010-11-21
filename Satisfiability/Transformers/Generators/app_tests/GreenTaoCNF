@@ -38,7 +38,7 @@ for prog in ${list_programs}; do
     parameter_line=${parameter_line#GreenTao_2-}
     parameter_line=${parameter_line%.cnf}
     parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
-    output=$(${program_tested}-O3-DNDEBUG ${parameter_line})
+    output=$(${prog} ${parameter_line})
     echo "${output}" | diff - "${P}"
     if [[ $? -ne 0 ]]; then exit 1; fi
   done
