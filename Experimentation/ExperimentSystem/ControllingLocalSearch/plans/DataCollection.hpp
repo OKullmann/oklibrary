@@ -394,7 +394,8 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
      serious of plots, showing the data from different angles. </li>
     </ol>
    </li>
-   <li> Given a file Data produced by ubcsat-okl (with first line naming
+   <li> STATUS ??? how is this different from what ubcsat-okl does ???
+   Given a file Data produced by ubcsat-okl (with first line naming
    the column headers), one could create a nicer formatting by e.g.
    \verbatim
 awk 'NR == 1 {printf("%8s %8s %8s %8s %11s\n", $1,$2,$3,$4,$5)} NR != 1 && NF > 0 {printf("%5u %2u %8u %8u %8u %11u\n", $1,$2,$3,$4,$5,$6)}' Data
