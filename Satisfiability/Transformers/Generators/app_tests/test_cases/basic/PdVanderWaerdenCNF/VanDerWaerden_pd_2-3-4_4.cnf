@@ -1,0 +1,4 @@
+c Palindromic van der Waerden problem: 2 parts, arithmetic progressions of size 3 and 4, and 4 elements, yielding 2 variables.
+p cnf 2 2
+1 2 0
+-1 -2 0
