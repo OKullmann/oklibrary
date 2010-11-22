@@ -33,23 +33,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug Incomplete evaluation
-  <ul>
-   <li> When running the example as given in DataCollection.R, then we get
-   \verbatim
-OKplatform> ls ubcsat_tmp_VanDerWaerden_2-5-5_200.cnf/
-adaptnoveltyp.run_ubcsat_log
-adaptnoveltyp.run_ubcsat_result
-adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats
-gsat.run_ubcsat_log
-gsat.run_ubcsat_result
-gsat_simple.run_ubcsat_log
-   \endverbatim
-   </li>
-   <li> Thus the evaluation of gsat is incomplete. </li>
-  </ul>
-
-
   \bug run_ubcsat can't handle segmentation faults XXX STATUS ???
   <ul>
    <li> The given example in DataCollection.R produces segmentation faults
@@ -453,7 +436,9 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
   </ul>
 
 
-  \bug DONE Incomplete evaluation
+  \bug DONE (evaluation was complete, only not directly visible due to the
+  file order; changed naming of files to avoid confusion)
+  Incomplete evaluation
   <ul>
    <li> When running the example as given in DataCollection.R, then we get
    \verbatim
@@ -471,8 +456,6 @@ gsat_simple.run_ubcsat_log
    a different format 
    (see adaptnoveltyp-VanDerWaerden_2-5-5_200.cnf.run_ubcsat_stats).
    Therefore, the file appears later in the listing. </li>
-   <li> The names of the stats files have now been brought into line
-   with the rest of the log and results files to avoid confusion. </li>
   </ul>
 
 
