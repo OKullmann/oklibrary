@@ -185,9 +185,6 @@ s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 initial_number_of_clauses=7308 initial_number_of_literal_occurrences=31804 running_time(s)=7514.8 number_of_nodes=2970721 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=25434723 number_of_pure_literals=706 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=24074 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_160.cnf
    \endverbatim
    </li>
-   <li> k=16, n=238: Running it with monitoring level 20 appears hopeless.
-   And using the m2pp-variant doesn't make a difference, since the
-   preprocessor has no effect. </li>
   </ul>
 
 
@@ -217,23 +214,12 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
    \endverbatim
    So satz215 seems best-performing here.
    </li>
-   <li> k=16, n=238:
-   \verbatim
-****the instance is unsatisfiable *****
-NB_MONO= 62751, NB_UNIT= 17632939133, NB_BRANCHE= 600383827, NB_BACK= 304409259
-Program terminated in 990144.910 seconds.
-satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 3501709276 0 238 15812 0 3305729737 824297599
-   \endverbatim
-   Stably a factor of 10. So with some parallelisation k=17 should be feasible
-   (the unsatisfiable case; around 3 months on a single processor). </li>
   </ul>
 
 
   \todo Performance of minisat2
   <ul>
    <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
-   <li> k=16, n=238: Apparently after 30 restarts and 36906145 conflicts
-   no progress was made. </li>
   </ul>
 
 
