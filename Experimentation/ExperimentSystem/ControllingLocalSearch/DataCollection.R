@@ -38,7 +38,7 @@
 #
 # Result:
 #     The result data.frame has as columns the output parameters,
-#     output by ubcsat-okl (see run_ubcsat_column_names above for
+#     output by ubcsat-okl (see run_ubcsat_column_names below for
 #     more information), from each run of ubcsat, with
 #     additional columns added specifying the algorithm, the run,
 #     as well as columns for each of the statistics variables
