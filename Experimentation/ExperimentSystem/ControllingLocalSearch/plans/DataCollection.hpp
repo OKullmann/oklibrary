@@ -61,6 +61,54 @@ License, or any later version. */
   </ul>
 
 
+  \bug run_ubcsat can't handle segmentation faults
+  <ul>
+   <li> The given example in DataCollection.R produces segmentation faults
+   on csltok for saps and rsaps. </li>
+   <li> DONE (now the dataframe is created; partially created files will
+   be used, but if the summary-statistics-file can't be read, then the data
+   for this algorithm will be ignored)
+   The other algorithms are still evaluated, but then an error occurs,
+   and no dataframe is created. </li>
+   <li> DONE (data will be ignored except in cases a readable
+   summary-statistics-file was created)
+   The dataframe should likely just not contain anything on these two
+   algorithms (while otherwise being usable). </li>
+   <li> And warnings should be issued on the faulty algorithms.
+    <ul>
+     <li> Algorithms with error are stored in a list. </li>
+     <li> For the running output we should get clear messages. </li>
+     <li> And also a final statement, that there have been errors, and which
+     algorithms were concerned. </li>
+    </ul>
+   </li> 
+  </ul>
+
+
+  \bug Specification of run_ubcsat is badly written
+  <ul>
+   <li> The specification doesn't specify much. </li>
+   <li> DONE Commas are needed (and semicolons, and full-stops). </li>
+   <li> (DONE See Evaluation.R comments) 
+   At its most basic the run_ubcsat function can be run on
+   a given DIMACS file ("test.cnf" in this case), by running:
+   \verbatim
+df = run_ubcsat("test.cnf")
+   \endverbatim
+   </li>
+   <li> DONE Many nonsensical uses of quotation marks. </li>
+   <li> DONE Also "should" is mis-used (since this likely is not an option for
+   the function!). </li>
+   <li> DONE What is "and returns a new adds data frame" ?? </li>
+   <li> (DONE These are defaults only, and are taken
+   as optional arguments for run_ubcsat) Are environment variables to be used
+   by the user?? (Obviously this shouldn't be the case.) </li>
+   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
+   later extensions?) ?? </li>
+   <li> DONE How to use this function? </li>
+  </ul>
+
+
   \todo Better output of run_ubcsat
   <ul>
    <li> An obvious problem with run_ubcsat is that it doesn't give intermediate
@@ -441,30 +489,6 @@ gsat_simple.run_ubcsat_log
   </ul>
 
 
-  \bug run_ubcsat can't handle segmentation faults
-  <ul>
-   <li> The given example in DataCollection.R produces segmentation faults
-   on csltok for saps and rsaps. </li>
-   <li> DONE (now the dataframe is created; partially created files will
-   be used, but if the summary-statistics-file can't be read, then the data
-   for this algorithm will be ignored)
-   The other algorithms are still evaluated, but then an error occurs,
-   and no dataframe is created. </li>
-   <li> DONE (data will be ignored except in cases a readable
-   summary-statistics-file was created)
-   The dataframe should likely just not contain anything on these two
-   algorithms (while otherwise being usable). </li>
-   <li> And warnings should be issued on the faulty algorithms.
-    <ul>
-     <li> Algorithms with error are stored in a list. </li>
-     <li> For the running output we should get clear messages. </li>
-     <li> And also a final statement, that there have been errors, and which
-     algorithms were concerned. </li>
-    </ul>
-   </li> 
-  </ul>
-
-
   \bug DONE Dangerous handling of filenames
   <ul>
    <li> (DONE Added temporary directory option)
@@ -487,29 +511,6 @@ gsat_simple.run_ubcsat_log
    needs to be updated. </li>
   </ul>
 
-
-  \bug Specification of run_ubcsat is badly written
-  <ul>
-   <li> The specification doesn't specify much. </li>
-   <li> DONE Commas are needed (and semicolons, and full-stops). </li>
-   <li> (DONE See Evaluation.R comments) 
-   At its most basic the run_ubcsat function can be run on
-   a given DIMACS file ("test.cnf" in this case), by running:
-   \verbatim
-df = run_ubcsat("test.cnf")
-   \endverbatim
-   </li>
-   <li> DONE Many nonsensical uses of quotation marks. </li>
-   <li> DONE Also "should" is mis-used (since this likely is not an option for
-   the function!). </li>
-   <li> DONE What is "and returns a new adds data frame" ?? </li>
-   <li> (DONE These are defaults only, and are taken
-   as optional arguments for run_ubcsat) Are environment variables to be used
-   by the user?? (Obviously this shouldn't be the case.) </li>
-   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
-   later extensions?) ?? </li>
-   <li> DONE How to use this function? </li>
-  </ul>
 
 */
 
