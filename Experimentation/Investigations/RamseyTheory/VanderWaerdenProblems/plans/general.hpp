@@ -35,7 +35,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Organisation
+  \todo DONE (as stated)
+  Organisation
   <ul>
    <li> We should create a sub-directory "3-k" for investigations into
    vdw_2(3,k). </li>
