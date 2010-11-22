@@ -23,6 +23,13 @@ License, or any later version. */
   </ul>
 
 
+  \bug Incomplete data collection
+  <ul>
+   <li> run_ubcsat, as every such tool, must collect *all* the data available
+   from ubcsat. </li>
+  </ul>
+
+
   \bug Incomplete evaluation
   <ul>
    <li> When running the example as given in DataCollection.R, then we get
