@@ -203,17 +203,20 @@ License, or any later version. */
 918,929,957,976,989,994,1015,1025,1050
    \endverbatim
    </li>
-   <li> Palindromic version:
-    <ol>
-     <li> Best ubcsat-algorithm:
-     \verbatim
+  </ul>
+
+
+  \todo Palindromic version:
+  <ul>
+   <li> Best ubcsat-algorithm:
+   \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 33 1064 > VanDerWaerden_pd_2-3-33_1064.cnf
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-33_1064.cnf",runs=100,cutoff=1000000)
-     \endverbatim
-     </li>
-    </ol>
-   </li>
+   \endverbatim
+   saps and sapsnr yield segmentation faults, and so no evaluation was
+   possible (easily), however it seems that again gsat-tabu and samd are
+   best. </li>
   </ul>
 
 */

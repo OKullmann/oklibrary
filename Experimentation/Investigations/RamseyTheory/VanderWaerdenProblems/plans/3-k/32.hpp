@@ -146,17 +146,39 @@ License, or any later version. */
 911,932,935,941,946,969,978
    \endverbatim
    </li>
-   <li> Palindromic version:
-    <ol>
-     <li> Best ubcsat-algorithm:
-     \verbatim
+  </ul>
+
+
+  \todo Palindromic version:
+  <ul>
+   <li> Best ubcsat-algorithm:
+   \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007 > VanDerWaerden_pd_2-3-32_1007.cnf
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-32_1007.cnf",runs=100,cutoff=1000000)
-     \endverbatim
-     </li>
-    </ol>
-   </li>
+
+> plot(E$alg,E$min)
+> table(E$min[E$alg=="gsat_tabu"])
+ 4  5  6  7  8 10 
+ 1 10 38 35 15  1 
+> table(E$FlipsPerSecond[E$alg=="gsat_tabu"])
+55618 
+  100 
+> table(E$min[E$alg=="samd"])
+ 5  6  7  8  9 11 
+ 6 37 39 14  3  1 
+> table(E$FlipsPerSecond[E$alg=="samd"])
+55488 
+  100 
+> table(E$min[E$alg=="rots"])
+ 5  6  7  8  9 10 11 
+ 1  1  7 22 31 27 11 
+> table(E$FlipsPerSecond[E$alg=="rots"])
+46627 
+  100 
+   \endverbatim
+   shows clearly that gsat-tabu is best, followed by samd. (Currently
+   eval_ubcsat_dataframe(E) is not usable due to a bug in run_ubcsat.) </li>
   </ul>
 
 */
