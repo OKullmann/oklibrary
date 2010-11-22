@@ -38,7 +38,7 @@ License, or any later version. */
    Perhaps we should have a dedicated file "Certificates.mac". </li>
    <li> The current check is extremely slow:
    check_certificate_vdw([3,24],578,P) in
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp
    needed 920 seconds on csltok (the new laptop, not slow). </li>
    <li> An alternative algorithm is to create all possible arithmetic
    progressions of the given lengths and to check whether each of them is
@@ -79,7 +79,7 @@ License, or any later version. */
    certificates which have at most a specified distance to the given one. </li>
    <li> At least with vdw_2(3,k) it seems common that in the neighbourhoods of
    certificates you find other certificates; see "Analysing certificates" in
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
    </li>
   </ul>
 

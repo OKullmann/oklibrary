@@ -75,7 +75,7 @@ vanderwaerden3k_a(L) := if length(L)#2 then [] else
     if length(S)=1 then [3] else [first(listify(disjoin(3,S)))]
   else [])$
 /* For the precise values see [Ahmed 2009, 2010], and for the lower bounds see
-   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp.
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/.
 */
 
 vanderwaerden4k(k) := 
@@ -89,7 +89,7 @@ vanderwaerden4k_a(L) := if length(L)#2 then [] else
     if length(S)=1 then [4] else [first(listify(disjoin(4,S)))]
   else [])$
 /* For the precise values see [Ahmed 2009], and for the lower bounds see
-   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp.
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp.
 */
 
 vanderwaerden5k(k) := 

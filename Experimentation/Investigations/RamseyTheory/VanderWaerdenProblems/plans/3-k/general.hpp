@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
   \brief On investigations into vdW-numbers vdw_2(3,k)
 
   Instances created by output_vanderwaerden2nd_stdname(3,k,n) at Maxima-level,

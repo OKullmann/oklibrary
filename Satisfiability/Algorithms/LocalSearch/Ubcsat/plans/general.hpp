@@ -13,8 +13,8 @@ License, or any later version. */
   \bug Run not reproducible
   <ul>
    <li> See
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
-   k=24, n=592. </li>
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp
+   n=592. </li>
    <li> On the instance VanDerWaerden_2-3-24_592.cnf, computed by
    output_vanderwaerden2nd_stdname(3,24,592) (Maxima), one run with parameters
    \verbatim
@@ -38,7 +38,7 @@ License, or any later version. */
    first ~(n-2) steps of a run, it was using whatever tabu tenure the
    _previous_ run happened to be at when it ended". </li>
    <li> So it seems that the old runs in
-   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-3-k.hpp
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/
    are simply not reproducible, except by running the whole set (with the
    initial seed). </li>
    <li> DONE (at least here floating-point was not an issue)
