@@ -35,11 +35,26 @@ License, or any later version. */
   <ul>
    <li> As discussed in "Palindromic versions" in
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
-   we should provide pd_vanderwaerden(t), the largest n such that a
-   palindromic solution exists. </li>
-   <li> Or perhaps we should provide g_vanderwaerden(t,p), where p is some
-   parameter, perhaps a string, which selects which form of a generalised
-   vdW-number is considered. </li>
+   we should provide the smallest n such that for n' >= n no palindromic
+   solution exists. </li>
+   <li> Naming:
+    <ol>
+     <li> pd_vanderwaerden(t) </li>
+     <li> Or perhaps we should provide g_vanderwaerden(t,p), where p is some
+     parameter, perhaps a string, which selects which form of a generalised
+     vdW-number is considered. </li>
+     <li> Or perhaps vanderwaerden_g(t,p), in this case
+     vanderwaerden_g(t,"pd"). This seems best. </li>
+    </ol>
+   </li>
+   <li> How to name this quantity in mathematical formulas?
+    <ol>
+     <li> "pdvdw_m(t)" </li>
+     <li> "vdw_m^{pd}(t)": this seems better, since it is a variation on
+     vdW-numbers; and in general variations of Ramsey-type numbers are
+     indicated by an upper index. </li>
+    </ol>
+   </li>
   </ul>
 
 
