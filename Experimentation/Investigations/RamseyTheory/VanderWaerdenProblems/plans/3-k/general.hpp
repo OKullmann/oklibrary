@@ -414,11 +414,12 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
    <li> For k=16, n=237 a local minimum of 1 is easily found (even with just
    100000 steps), while to find a solution one should use, say, 10^7 steps
    (and then solutions seem to be found often, e.g., seed=370833091). </li>
-   <li> But with vanderwaerden_2(3,17) (below) we see that adaptnovelty+
+   <li> But with vanderwaerden_2(3,17) we see that adaptnovelty+
    is better; perhaps, as with vdw_2(4,k), getting stronger with higher
    cutoff. </li>
-   <li> However, for vanderwaerden_2(3,18) samd again seems clearly better
-   --- this needs to be investigated more thoroughly. </li>
+   <li> However, for vanderwaerden_2(3,18) samd again seems clearly better,
+   while for 19 <= k <= 23 gsat-tabu seems best, and for k >= 24 rots
+   seems best --- this needs to be investigated more thoroughly. </li>
   </ul>
 
 
