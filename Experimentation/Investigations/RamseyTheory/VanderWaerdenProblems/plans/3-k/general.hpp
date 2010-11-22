@@ -19,6 +19,7 @@ License, or any later version. */
   "PdVanderWaerdenCNF-O3-DNDEBUG 3 k n" at C++ level (instances differ by
   the order of negated literals in clauses).
   
+
   \todo Predictions of vdw_2(3,k)
   <ul>
    <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3.
@@ -184,99 +185,6 @@ s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 initial_number_of_clauses=7308 initial_number_of_literal_occurrences=31804 running_time(s)=7514.8 number_of_nodes=2970721 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=25434723 number_of_pure_literals=706 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=24074 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_160.cnf
    \endverbatim
    </li>
-   <li> k=14, n=185,186:
-   \verbatim
-> OKsolver_2002-O3-DNDEBUG -M -D21 -F VanDerWaerden_2-3-14_185.cnf
-  1029:   1111   1896.56  3.98E+09     4.16s     8.55s     0y 207d  8h  0m 42s     0     0   52
-
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         14
-c initial_number_of_variables           185
-c initial_number_of_clauses             9689
-c initial_number_of_literal_occurrences 42542
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     8812.1
-c number_of_nodes                       1956023
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                17875997
-c number_of_pure_literals               185
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        52
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 4074
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_185.cnf
-
-> OKsolver_2002-O3-DNDEBUG -M -D21 -F VanDerWaerden_2-3-14_186.cnf
-s UNSATISFIABLE
-c sat_status                            0
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     103496.6
-c number_of_nodes                       22469535
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                210989012
-c number_of_pure_literals               2150
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         8
-c max_tree_depth                        52
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 60129
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-
-> E = read_oksolver_mon("VanDerWaerden_2-3-14_186.cnf.mo")
-450700
-> plot_oksolver_mon_nodes(E)
-ldstep= 18 step= 262144 left= 128 right= 2097152
-obs/count= 4.654129 nodes-range= 1 70632 ave-nodes-range= 10.713 2631.656
-> summary_oksolver(E)
-Nodes:
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
-    1.00     2.00     3.00    49.85     7.00 70630.00
-2-reductions:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-   0.20    7.50    9.92   11.76   13.46   70.00
-Single nodes:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-      0       0       0       0       0       0
-Autarkies:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-      0       0       0       0       0       0
-Time ~ nodes:
-[1] 0.9735288
- (Intercept)      E$nodes
--0.011336484  0.004833474
-> hist_oksolver_mon_nodes(E)
-Median= 1.584963
-Mean= 5.639659
-> hist_oksolver_mon_nodes(E,breaks="st")
-Median= 1.584963
-Mean= 5.639659
-   \endverbatim
-   The node-average continously decreases, and the initially very hard-looking
-   problem turned out to be relatively easy. Since it ran on csltok, perhaps
-   performance is actually not so much worse than that of satz215.
-   Here it seems very interesting to optimise the heuristics! </li>
    <li> k=15, n=217, 218:
    \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D26 -F VanDerWaerden_2-3-15_217.cnf
@@ -371,14 +279,6 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
    \endverbatim
    So satz215 seems best-performing here.
    </li>
-   <li> k=14, n=186:
-   \verbatim
-****the instance is unsatisfiable *****
-NB_MONO= 1011, NB_UNIT= 275097539, NB_BRANCHE= 10842443, NB_BACK= 5511751
-Program terminated in 11507.900 seconds.
-satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
-   \endverbatim
-   </li>
    <li> k=15, n=218:
    \verbatim
 ****the instance is unsatisfiable *****
@@ -402,7 +302,6 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
   \todo Performance of minisat2
   <ul>
    <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
-   <li> k=14 </li>
    <li> k=16, n=238: Apparently after 30 restarts and 36906145 conflicts
    no progress was made. </li>
   </ul>
