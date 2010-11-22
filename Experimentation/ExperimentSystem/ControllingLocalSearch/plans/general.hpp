@@ -13,7 +13,7 @@ License, or any later version. */
   are to be written in R.
 
 
-  \todo Create milestones
+  \todo Create milestones : DONE
   <ul>
    <li> This is now urgently needed (also quite something has been
    established). </li>

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,14 +11,20 @@ License, or any later version. */
   \module_version Experimentation/ExperimentSystem 0.1.1 (23.8.2007)
 
 
-  \par Version 0.1.2 :
+  \par Version 0.1.2
+
+  \par ExperimentSystem/ControllingLocalSearch version 0.3
+  (see ExperimentSystem/ControllingLocalSearch/plans/milestones.hpp)
+
+
+  \par Version 0.1.3 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Simple script for monitoring remote processes
 
 
-  \par Version 0.1.3 :
+  \par Version 0.1.4 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
@@ -26,14 +32,14 @@ License, or any later version. */
     - Transfer
 
 
-  \par Version 0.1.4 :
+  \par Version 0.1.5 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Working again
 
 
-  \par Version 0.1.5 :
+  \par Version 0.1.6 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
