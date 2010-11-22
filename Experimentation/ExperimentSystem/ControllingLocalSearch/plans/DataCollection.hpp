@@ -20,6 +20,9 @@ License, or any later version. */
    <li> Accordingly eval_ubcsat_dataframe fails! </li>
    <li> As discussed many times, the nonsensic doubling of algorithm-names
    must be eliminated. </li>
+   <li> As discussed, just strings are to be used (throughout) to identify
+   algorithms, and a rational system of either only 3-letter or only 4-letter
+   words needs to be developed. </li>
   </ul>
 
 
