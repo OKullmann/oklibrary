@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.1.2
 
-  \par ExperimentSystem/ControllingLocalSearch version 0.3
+  \par ExperimentSystem/ControllingLocalSearch version 0.3 : DONE
   (see ExperimentSystem/ControllingLocalSearch/plans/milestones.hpp)
 
 

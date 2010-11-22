@@ -13,17 +13,6 @@ License, or any later version. */
   are to be written in R.
 
 
-  \todo Create milestones : DONE
-  <ul>
-   <li> This is now urgently needed (also quite something has been
-   established). </li>
-   <li> The current version should be 0.2 (some tools have been established).
-   </li>
-   <li> For 0.3 concentration on finishing run_ubcsat and related evaluation
-   tools. </li>
-  </ul>
-
-
   \todo Meta heuristics
   <ul>
    <li> See "Faster local search" in

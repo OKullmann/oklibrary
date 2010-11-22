@@ -10,14 +10,6 @@ License, or any later version. */
   \brief %Tools for evaluating local search algorithms
 
 
-  \bug DONE (moved to DataCollection.R)
-  The functions for running Ubcsat are misplaced here
-  <ul>
-   <li> See ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp.
-   </li>
-  </ul>
-
-
   \todo Evaluation tools for run_ubcsat
   <ul>
    <li> Functions are needed for standard evaluations.
