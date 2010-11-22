@@ -12,6 +12,17 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \bug False algorithm names
+  <ul>
+   <li> The algorithm-names were always defect, but now they become completely
+   unusable: the table contains now not the strings, but something else,
+   where one doesn't have access to! </li>
+   <li> Accordingly eval_ubcsat_dataframe fails! </li>
+   <li> As discussed many times, the nonsensic doubling of algorithm-names
+   must be eliminated. </li>
+  </ul>
+
+
   \bug Incomplete evaluation
   <ul>
    <li> When running the example as given in DataCollection.R, then we get
