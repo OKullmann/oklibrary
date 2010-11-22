@@ -220,9 +220,9 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 58474
   100
    \endverbatim
-   shows that clearly gsat_tabu and samd are best, while samd is somewhat
-   faster (currently eval_ubcsat_dataframe(E) is not usable due to a bug in
-   run_ubcsat). </li>
+   shows that clearly gsat_tabu and samd are best, where gsat_tabu is
+   faster. (Currently eval_ubcsat_dataframe(E) is not usable due to a bug in
+   run_ubcsat.) </li>
   </ul>
 
 */

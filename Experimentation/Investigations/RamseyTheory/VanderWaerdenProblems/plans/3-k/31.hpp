@@ -125,9 +125,9 @@ License, or any later version. */
 60536
   100
    \endverbatim
-   shows clearly that gsat-tabu is best, followed by samd (which is faster)
-   (currently eval_ubcsat_dataframe(E) is not usable due to a bug in
-   run_ubcsat). </li>
+   shows clearly that gsat-tabu is best, followed by samd (which is also
+   slower). (Currently eval_ubcsat_dataframe(E) is not usable due to a bug in
+   run_ubcsat.) </li>
   </ul>
 
 */
