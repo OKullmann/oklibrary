@@ -10,55 +10,46 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \todo DONE
-  Update our gcc-installation-system to the new standard
+  \todo GCC 4.1.2 will not build on systems without GMP with MPFR support
   <ul>
-   <li> OK: was this done? has this to do with "stubs-32.h not found"?
-   As only extension, we install the patch for 4.1.2 as provided
-   by MG. </li>
-   <li> Regarding this "stubs-32.h"-nonsense (the internet is full
-   of noise regarding that, but nobody has a clue): perhaps glibc
-   has to be installed (the development library) --- more precisely,
-   for a 64-bit machine also the glibc-32-bit version! </li>
-   <li> DONE
-   Likely it's best for now only to support local installation. </li>
-   <li> DONE
-   As it is standard now, existing documentation is always overwritten.
+   <li> GCC 4.1.2 fails to build on some machines (notably the Swansea 
+   University Computer Science Linux lab machines), with the following error:
+   \verbatim
+checking whether the C compiler (gcc  ) is a cross-compiler... no
+checking whether we are using GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gnatbind... gnatbind
+checking whether compiler driver understands Ada... no
+checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+checking for correct version of gmp.h... yes
+checking for MPFR... no
+configure: error: GMP with MPFR support is required to build fortran
+make: *** [gcc] Error 1
+make: Leaving directory `/tmp/OKlib/OKplatform/ExternalSources'
+   \endverbatim
    </li>
-   <li> DONE
-   A problem is how to handle these two lists for the two installation
-   modes.
-    <ol>
-     <li> We need to extend the usual "iseq"-macro. </li>
-     <li> Use
-     \verbatim
-ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installation_okl)),)
-     \endverbatim
-     to test whether the version to be installed is an old installation. </li>
-    </ol>
+   <li> Ideally we could just build GMP and MPFR as part of the OKlibrary
+   build process, however, these libraries would then build using a newer
+   version of GCC and we run the risk of there being incompatibilities
+   with the version we are building when we start to compile anything in
+   the library which might somehow link to standard libraries. </li>
+   <li> The GCC website (http://gcc.gnu.org/install/prerequisites.html) 
+   suggests it should be possible to simply drop GMP and MPFR source
+   directories in the GCC source directory and build as normal :
+   \verbatim
+GNU Multiple Precision Library (GMP) version 4.3.2 (or later)
+    Necessary to build GCC. If you do not have it installed in your library search path, you will have to configure with the --with-gmp configure option. See also --with-gmp-lib and --with-gmp-include. Alternatively, if a GMP source distribution is found in a subdirectory of your GCC sources named gmp, it will be built together with GCC.
+MPFR Library version 2.4.2 (or later)
+    Necessary to build GCC. It can be downloaded from http://www.mpfr.org/. The --with-mpfr configure option should be used if your MPFR Library is not installed in your default library search path. See also --with-mpfr-lib and --with-mpfr-include. Alternatively, if a MPFR source distribution is found in a subdirectory of your GCC sources named mpfr, it will be built together with GCC. 
+   \endverbatim
    </li>
-   <li> DONE
-   Another problem is the target "gcc_all":
-    <ol>
-     <li> In this way all support versions of gcc are installed. </li>
-     <li> In the new model, where always (only) the "recommended version" is
-     installed, this needs several calls of make (from oklib). </li>
-     <li> So well, seems alright to me. </li>
-    </ol>
+   <li> However, building GCC with GMP and MPFR source directories "in-tree"
+   (as such a method is called) with GCC 4.1.2 doesn't work yielding the same 
+   error. </li>
+   <li> Either additional configure options are needed, or GCC 4.1.2 doesn't
+   support this. Perhaps such functionality has only been introduced in later
+   GCC versions?
    </li>
-   <li> DONE
-   The current installation creates timestamps: Shall we take over
-   this, or shall we first drop it?
-    <ol>
-     <li> Doesn't seem to be a big problem to keep it. </li>
-     <li> On the other hand, is it really useful? </li>
-     <li> It might create trouble, and for all recent installations
-     it was not done (forgotten; but likely also not needed?). </li>
-     <li> So we drop it (at least for now). </li>
-    </ol>
-   </li>
-   <li> DONE
-   We should introduce make-variables for the configuration options. </li>
   </ul>
 
 
@@ -175,6 +166,58 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
   gcc_recommended_version_number_okl)
    Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
    building Boost to also have "make gcc gcc-version=4.1.2" ? </li>
+  </ul>
+
+
+  \todo DONE
+  Update our gcc-installation-system to the new standard
+  <ul>
+   <li> OK: was this done? has this to do with "stubs-32.h not found"?
+   As only extension, we install the patch for 4.1.2 as provided
+   by MG. </li>
+   <li> Regarding this "stubs-32.h"-nonsense (the internet is full
+   of noise regarding that, but nobody has a clue): perhaps glibc
+   has to be installed (the development library) --- more precisely,
+   for a 64-bit machine also the glibc-32-bit version! </li>
+   <li> DONE
+   Likely it's best for now only to support local installation. </li>
+   <li> DONE
+   As it is standard now, existing documentation is always overwritten.
+   </li>
+   <li> DONE
+   A problem is how to handle these two lists for the two installation
+   modes.
+    <ol>
+     <li> We need to extend the usual "iseq"-macro. </li>
+     <li> Use
+     \verbatim
+ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installation_okl)),)
+     \endverbatim
+     to test whether the version to be installed is an old installation. </li>
+    </ol>
+   </li>
+   <li> DONE
+   Another problem is the target "gcc_all":
+    <ol>
+     <li> In this way all support versions of gcc are installed. </li>
+     <li> In the new model, where always (only) the "recommended version" is
+     installed, this needs several calls of make (from oklib). </li>
+     <li> So well, seems alright to me. </li>
+    </ol>
+   </li>
+   <li> DONE
+   The current installation creates timestamps: Shall we take over
+   this, or shall we first drop it?
+    <ol>
+     <li> Doesn't seem to be a big problem to keep it. </li>
+     <li> On the other hand, is it really useful? </li>
+     <li> It might create trouble, and for all recent installations
+     it was not done (forgotten; but likely also not needed?). </li>
+     <li> So we drop it (at least for now). </li>
+    </ol>
+   </li>
+   <li> DONE
+   We should introduce make-variables for the configuration options. </li>
   </ul>
 
 */
