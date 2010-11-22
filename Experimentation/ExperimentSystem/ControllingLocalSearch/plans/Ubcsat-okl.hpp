@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans on the wrapper for Ubcsat
 
 
-  \todo More readable large numbers:
+  \todo More readable large numbers
   <ul>
    <li> See "Contact the developers of Ubcsat" in
    Satisfiability/Algorithms/LocalSearch/Ubcsat/plans/general.hpp. </li>
