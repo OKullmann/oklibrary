@@ -56,6 +56,8 @@ License, or any later version. */
   <ul>
    <li> run_ubcsat, as every such tool, must collect *all* the data available
    from ubcsat. </li>
+   <li> This shall be achieved by using "fubcsat_okl"; see "Better output" in
+   ExperimentSystem/ControllingLocalSearch/plans/Ubcsat-okl.hpp. </li>
   </ul>
 
 

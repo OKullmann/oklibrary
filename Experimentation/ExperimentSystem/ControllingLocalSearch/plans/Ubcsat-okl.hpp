@@ -37,17 +37,21 @@ License, or any later version. */
 
   \todo Better output
   <ul>
-   <li> See ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
+   <li> DONE (completed plans for improved output)
+   See ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
    for plans on extending resp. using the output-functionality. </li>
    <li> The idea is that ubcsat-okl creates some form of complete output,
    which is directly readable by R (into a dataframe, without further
    processing). </li>
    <li> By appropriate formatting one also might make it better readable
    for the human reader. </li>
-   <li> Since we reformat the output, the wrapper should likely reformat
+   <li> DONE (we don't do this; ubcsat version 2.0 will be rather different,
+   so we do only simple things for now)
+   Since we reformat the output, the wrapper should likely reformat
    every single output line individually (as it comes, so that one can
    read into R also partial results (from the intermediate file)). </li>
-   <li> The following seems reasonable as a "ubcsat-okl" script:
+   <li> DONE (don't need the algorithm-names here)
+   The following seems reasonable as a "ubcsat-okl" script:
    \verbatim
 # Work out algorithm argument
 ALG_ARG_P=1; for arg_p in `seq 1 $#`; do 
@@ -58,14 +62,32 @@ echo "       sat  min     osteps     msteps       seed                          
 ubcsat -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] $* | sed -e "s/^\\(\\( \\+[0-9]\\+\\)\\{6\\} *\\)$/\\1${ALG}/"
    \endverbatim
    This appends the algorithm as a column to the data, line by line. </li>
-   <li> Should this script also take into account that the user may want to
-   specify different output parameters, and then provide different headers for
-   when this is the case, or is this functionality beyond the scope of
-   ubcsat-okl, and the output parameters are fixed? </li>
+   <li> Various output parameters:
+    <ol>
+     <li> Should this script also take into account that the user may want to
+     specify different output parameters, and then provide different headers
+     for when this is the case? </li>
+     <li> No, we just provide the current, "default" version, and an additional
+     full version (which provides all data). </li>
+     <li> The name of the additional script shall be "fubcsat_okl". </li>
+    </ol>
+   </li>
    <li> We also need the DIMACS output codes (10 for satisfying assignment
-   found, 0 for unknown).
+   found, 0 for unknown):
+    <ol>
+     <li> If it can be done easily, then we modify the ubcsat-source. </li>
+     <li> Otherwise we wait for version 2.0. </li>
+    </ol>
+   </li>
    <li> Another point is how to handle statistics as they are only printed
-   at the end (and this in a form incompatible with the R-format). </li>
+   at the end (and this in a form incompatible with the R-format).
+    <ol>
+     <li> It should be easy to patch the ubcsat-code, so that these statistics
+     are printed out with an additional "# " in front (so they are
+     commented-out for R). </li>
+     <li> Also run_ubcsat then needs to be adapted. </li>
+    </ol>
+   </li>
    <li> DONE
    A problem appending columns line by line to ubcsat output is that 
    ubcsat version 1.0.0 doesn't flush data, and so one would have to wait until
