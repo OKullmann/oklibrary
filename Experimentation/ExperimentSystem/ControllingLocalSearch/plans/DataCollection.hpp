@@ -50,7 +50,7 @@ gsat_simple.run_ubcsat_log
   </ul>
 
 
-  \bug run_ubcsat can't handle segmentation faults
+  \bug run_ubcsat can't handle segmentation faults XXX STATUS ???
   <ul>
    <li> The given example in DataCollection.R produces segmentation faults
    on csltok for saps and rsaps. </li>
@@ -88,7 +88,9 @@ gsat_simple.run_ubcsat_log
    <li> An obvious problem with run_ubcsat is that it doesn't give intermediate
    results: runs in general take quite a time, and one needs to wait until
    the end. </li>
-   <li> So a summary for each run should be printed out. </li>
+   <li> So a summary for each (single) run should be printed out. </li>
+   <li> Segmentation faults should be very visible (currently they aren't).
+   And they should be summarised at the end of all runs. </li>
   </ul>
 
 
