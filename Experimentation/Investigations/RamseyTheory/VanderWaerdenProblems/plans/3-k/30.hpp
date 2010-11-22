@@ -195,17 +195,34 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      </li>
     </ol>
    </li>
-   <li> Palindromic version:
-    <ol>
-     <li> Best ubcsat-algorithm:
-     \verbatim
+  </ul>
+
+
+  \todo Palindromic version
+  <ul>
+   <li> Best ubcsat-algorithm:
+   \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903 > VanDerWaerden_pd_2-3-30_903.cnf
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-30_903.cnf",runs=100,cutoff=1000000)
-     \endverbatim
-     </li>
-    </ol>
-   </li>
+
+> plot(E$alg,E$min)
+> table(E$min[E$alg=="gsat_tabu"])
+ 3  4  5  6  7
+ 4  2 35 47 12
+> table(E$FlipsPerSecond[E$alg=="gsat_tabu"])
+65609 
+  100
+> table(E$min[E$alg=="samd"])
+ 3  4  5  6  7
+ 4  1 34 47 14
+> table(E$FlipsPerSecond[E$alg=="samd"])
+58474
+  100
+   \endverbatim
+   shows that clearly gsat_tabu and samd are best, while samd is somewhat
+   faster (currently eval_ubcsat_dataframe(E) is not usable due to a bug in
+   run_ubcsat). </li>
   </ul>
 
 */
