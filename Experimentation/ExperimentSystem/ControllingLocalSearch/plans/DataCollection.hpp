@@ -61,23 +61,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug Bad parameter of run_ubcsat XXX STATUS ???
-  <ul>
-   <li> It needs to be specified what are the defaults. </li>
-   <li> A *concept* for the input handling is needed, not just a hack. </li>
-   <li> Bad algorithms specification:
-    <ol>
-     <li> The algorithms-specification via e.g.,
-     include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
-     is awkward: the doubling of names must be eliminated. </li>
-     <li> As discussed, standard abbreviations need to be introduced for
-     the algorithms. </li>
-    </ol>
-   </li>
-   <li> Four or five character abbreviations should be introduced. </li>
-  </ul>
-
-
   \todo Better output of run_ubcsat
   <ul>
    <li> An obvious problem with run_ubcsat is that it doesn't give intermediate
@@ -161,11 +144,6 @@ License, or any later version. */
    produce at the same time basic evaluation tools for the dataframe. </li>
    <li> See "Evaluation tools for run-ubcsat" in
    ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp. </li>
-  </ul>
-
-
-  \todo Reconsider handling of segfaults and errors in run_ubcsat_dir
-  <ul>
   </ul>
 
 
@@ -410,7 +388,8 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    <li> (DONE Experiment directories, log files for each aspect,
    parameters using R optional parameter system etc addresses this issue)
    A *concept* for the input handling is needed, not just a hack. </li>
-   <li> DONE Bad algorithms specification:
+   <li> DONE (see "False algorithm names")
+   Bad algorithms specification:
     <ol>
      <li> The algorithms-specification via e.g.,
      include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr"),
