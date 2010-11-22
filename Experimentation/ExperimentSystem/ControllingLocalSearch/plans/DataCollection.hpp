@@ -97,39 +97,49 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling of temporary files XXX STATUS ???
+  \todo DONE (now an experiment-directory is available)
+  Handling of temporary files
   <ul>
-   <li> Nowhere are the created files mentioned?? One needs the 
-   specification of their names and their contents. And it should be possible 
-   to disable them (likely this should be the default); that is, if these 
-   files are needed, then by default they should be "temporary" files. </li>
    <li> The temporary files are current placed in a directory created by 
    run_ubcsat, specified by the tmp_directory parameter, which defaults
    to run_ubcsat_temp_dir, taking the filename (not path) as an argument. 
    </li>
-   <li> The directory is not currently deleted after run_ubcsat is complete,
+   <li> The directory is not deleted after run_ubcsat is complete,
    allowing the data to be reread again using read_ubcsat_dir, or for
    the user to evaluate the statistics and log files. </li>
   </ul>
 
 
-  \bug Bad columns produced by run_ubcsat XXX STATUS ???
+  \bug Bad columns produced by run_ubcsat
   <ul>
    <li> "Clauses", "Variables" and other constant measures should not show up
-   in such dataframes. (MG: This could be done by just adding a field to the 
-   dataframe.) </li>
-   <li> For the data which is constant per algorithm, a second dataframe
+   in such dataframes. </li>
+   <li> For the data which is independent of the algorithm, a second dataframe
    should be returned. </li>
-   <li> There is no need to have more or less of these parameters --- we need
+   <li> Actually, three dataframes are needed:
+    <ol>
+     <li> One with data regarding only the instance. </li>
+     <li> One with statistics regarding the algorithms (not the runs), e.g.,
+     flips-per-second. </li>
+     <li> One containing all run-information. </li>
+    </ol>
+   </li>
+   <li> DONE (see "Incomplete data collection")
+   There is no need to have more or less of these parameters --- we need
    them all, in suitable packaging! </li>
-   <li> The point of ubcsat_eval and such tools must be to give convenient
+   <li> DONE
+   The point of ubcsat_eval and such tools must be to give convenient
    access to *all* the data. </li>
-   <li> And what is the type of the algorithm-column? Shouldn't it be a
-   *factor*, with values given by strings? In any case, its use must be
-   documented. </li>
-   <li> Access to the factor levels should be possible through the variable
-   run_ubcsat_cnf_algs, however this is not possible. </li>
-   <li> It seems that MG didn't understand the nature of dataframes. </li>
+   <li> How to represent algorithms:
+    <ol>
+     <li> And what is the type of the algorithm-column? Shouldn't it be a
+     *factor*, with values given by strings? In any case, its use must be
+     documented. </li>
+     <li> Access to the factor levels should be possible through the variable
+     run_ubcsat_cnf_algs, however this is not possible. </li>
+     <li> The "nature" of dataframes needs to be investigated. </li>
+    </ol>
+   </li>
    <li> DONE
    The column-names should be identical to the names used by ubcsat (in
    the output!). </li>
@@ -366,11 +376,12 @@ function(input, output="$TARGET-$ALG.result", command=ubcsat_command,
    </li>
    <li> When examples are given, then they need to be reproducible (as 
    much as possible). </li>
+   <li> Nowhere are the created files mentioned? One needs the 
+   specification of their names and their contents. </li>
    <li> DONE A cutoff=1 is nonsense. </li>
-   <li> DONE The attributes of the resulting dataframe need to be specified 
+   <li> The attributes of the resulting dataframe need to be specified 
    more precisely; what are their data types? </li>
-   <li> DONE
-   Reference to "standard output" is wrong here, since the output appears
+   <li> Reference to "standard output" is wrong here, since the output appears
    in the R-terminal. It is also not explained what that output is. </li>
    <li> DONE These files must also not pollute the user-directory; so they 
    should all be placed in some created directory. </li>
