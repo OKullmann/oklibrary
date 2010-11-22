@@ -69,6 +69,7 @@ License, or any later version. */
    <li> So a summary for each (single) run should be printed out. </li>
    <li> Segmentation faults should be very visible (currently they aren't).
    And they should be summarised at the end of all runs. </li>
+   <li> The directory should have a timestamp; compare RunVdW3k. </li>
   </ul>
 
 
