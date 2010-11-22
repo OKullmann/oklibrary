@@ -137,6 +137,7 @@ BestSolution_Max = 2.000000
 
   \todo Palindromic numbers
   <ul>
+   <li> vanderwaerden_g([3,17],"pd") = 279 = vanderwaerden([3,17]). </li>
    <li> OKsolver_2002 determines n=278 as satisfiable (3m) and
    n=279 as unsatisfiable (30s). </li>
    <li> So does satz215 (1m,20s), march_pl (8s,1m) and minisat2 (27s,16s).

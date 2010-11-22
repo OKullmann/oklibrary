@@ -122,6 +122,7 @@ satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724
 
   \todo Palindromic numbers
   <ul>
+   <li> vanderwaerden_g([3,14],"pd") = 183 = vanderwaerden([3,14])-3 . </li>
    <li> OKsolver_2002 easily determines n=182 as satisfiable and n=183,...,186
    as unsatisfiable. </li>
    <li> So does satz215, march_pl and minisat2. </li>
