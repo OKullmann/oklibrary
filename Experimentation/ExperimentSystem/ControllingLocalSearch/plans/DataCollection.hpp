@@ -129,6 +129,8 @@ df = run_ubcsat("test.cnf")
    <li> Segmentation faults should be very visible (currently they aren't).
    And they should be summarised at the end of all runs. </li>
    <li> The directory should have a timestamp; compare RunVdW3k. </li>
+   <li> The result-files should be directly readable by read_ubcsat, and thus
+   they should include the leading row with the column names. </li>
   </ul>
 
 
