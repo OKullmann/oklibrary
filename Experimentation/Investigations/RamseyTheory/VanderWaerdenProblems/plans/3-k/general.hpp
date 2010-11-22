@@ -185,68 +185,6 @@ s UNSATISFIABLE
 c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 initial_number_of_clauses=7308 initial_number_of_literal_occurrences=31804 running_time(s)=7514.8 number_of_nodes=2970721 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=25434723 number_of_pure_literals=706 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=24074 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_160.cnf
    \endverbatim
    </li>
-   <li> k=15, n=217, 218:
-   \verbatim
-> OKsolver_2002-O3-DNDEBUG -M -D26 -F VanDerWaerden_2-3-15_217.cnf
-  4597:  12803   1046.97  7.03E+10   225.36s    18.37s    39y  35d 13h  0m 53s     0     0   60
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         15
-c initial_number_of_variables           217
-c initial_number_of_clauses             13239
-c initial_number_of_literal_occurrences 58617
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     84676.4
-c number_of_nodes                       4830513
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                47307023
-c number_of_pure_literals               2275
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         3
-c max_tree_depth                        60
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 40863
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-15_217.cnf
-
-> E = read_oksolver_mon("VanDerWaerden_2-3-15_217.cnf.mo")
-4012
-> plot_oksolver_mon_nodes(E)
-ldstep= 9 step= 512 left= 128 right= 4597
-obs/count= 1.150283 nodes-range= 1 64636 ave-nodes-range= 727.307 2436.24
-> summary_oksolver(E)
-Nodes:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-      1       5      22    1200     167   64640
-2-reductions:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-   0.96    9.53   10.27   11.32   11.65   56.00
-Single nodes:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-      0       0       0       0       0       0
-Autarkies:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-      0       0       0       0       0       0
-Time ~ nodes:
-[1] 0.9664525
-(Intercept)     E$nodes
- 0.33440742  0.01727101
-> hist_oksolver_mon_nodes(E,breaks="st")
-Median= 4.459432
-Mean= 10.22837
-   \endverbatim
-   </li>
-   Node counts show typical quasi-periodic patterns, distribution with
-   two peaks, one close to 1, the other at around 12. Here it seems satz215
-   is definitely better, which should be either due to the heuristics (by
-   chance?!), or the partial r_3-reduction, or both. </li>
    <li> k=16, n=238: Running it with monitoring level 20 appears hopeless.
    And using the m2pp-variant doesn't make a difference, since the
    preprocessor has no effect. </li>
@@ -278,14 +216,6 @@ Program terminated in 1308.930 seconds.
 satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0 160 7308 0 3878431 1563013
    \endverbatim
    So satz215 seems best-performing here.
-   </li>
-   <li> k=15, n=218:
-   \verbatim
-****the instance is unsatisfiable *****
-NB_MONO= 2544, NB_UNIT= 1879235364, NB_BRANCHE= 66642611, NB_BACK= 33796681
-Program terminated in 99407.850 seconds.
-satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373672422 0 218 13362 0 305553394 82352337
-   \endverbatim
    </li>
    <li> k=16, n=238:
    \verbatim
