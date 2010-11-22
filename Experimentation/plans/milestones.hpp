@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/plans/milestones.hpp
 
-  \module_version Experimentation 0.4.0.1 (4.12.2008)
+  \module_version Experimentation 0.4.0.2 (22.11.2010)
 
 
   \par Version 0.4.1 : BASIC UPDATE
@@ -19,7 +19,7 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.2
   (see Experimentation/Database/plans/milestones.hpp)
 
-  \par Experimentation/ExperimentSystem version 0.1.2
+  \par Experimentation/ExperimentSystem version 0.1.2 : DONE
   (see ExperimentSystem/plans/milestones.hpp)
 
   \par Experimentation/RandomGenerator version 0.5.1 : DONE

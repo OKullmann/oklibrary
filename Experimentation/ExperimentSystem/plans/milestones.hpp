@@ -8,13 +8,7 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/plans/milestones.hpp
 
-  \module_version Experimentation/ExperimentSystem 0.1.1 (23.8.2007)
-
-
-  \par Version 0.1.2
-
-  \par ExperimentSystem/ControllingLocalSearch version 0.3 : DONE
-  (see ExperimentSystem/ControllingLocalSearch/plans/milestones.hpp)
+  \module_version Experimentation/ExperimentSystem 0.1.2 (22.11.2010)
 
 
   \par Version 0.1.3 :
@@ -22,6 +16,9 @@ License, or any later version. */
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Simple script for monitoring remote processes
+
+  \par
+   All submodules have milestones.
 
 
   \par Version 0.1.4 :
@@ -58,5 +55,6 @@ License, or any later version. */
 
    - 0.1   : 6.11.2006; initial version number (a working system exists, but not integrated into the OKlibrary).
    - 0.1.1 : 23.8.2007; reorganisation and extended planning.
+   - 0.1.2 : 22.11.2010; various tools for controlling local search and for monitoring complete SAT solvers.
 
 */
