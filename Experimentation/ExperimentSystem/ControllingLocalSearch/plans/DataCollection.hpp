@@ -58,6 +58,17 @@ License, or any later version. */
    from ubcsat. </li>
    <li> This shall be achieved by using "fubcsat_okl"; see "Better output" in
    ExperimentSystem/ControllingLocalSearch/plans/Ubcsat-okl.hpp. </li>
+   <li> Also the time needs to be recorded.
+    <ol>
+     <li> However, adding "time" to the list of parameters to be reported
+     yields always "0.000000" ? </li>
+     <li> Apparently this is for "rtd" only. </li>
+     <li> So it seems not available? Ask on the Ubcsat mailing list. </li>
+     <li> It seems, some form of runtime-info is only available through the
+     statistics, namely "fps" (flips per second), and "totaltime". </li>
+     <li> We wait for version 2.0. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -206,9 +217,11 @@ df = run_ubcsat("test.cnf")
   </ul>
 
 
-  \todo Collecting data : NEEDS CLEANUP
+  \todo DONE (basic implementation completed via run_ubcsat)
+  Collecting data
   <ul>
-   <li> Steps to be taken:
+   <li> DONE
+   Steps to be taken:
     <ol>
      <li> DONE A function "run_ubcsat" is to be written which runs Ubcsat for
      a list of algorithms on a specific instance, and computes a data frame.
@@ -226,7 +239,8 @@ df = run_ubcsat("test.cnf")
    Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> And see Experimentation/Investigations/plans/VanderWaerdenProblems.hpp
    for further examples. </li>
-   <li> How to name data frames, and how to keep a collection of them,
+   <li> DONE (higher-order statistics need dedicated case-based treatmeant)
+   How to name data frames, and how to keep a collection of them,
    for different problem instances?
     <ol>
      <li> Main parameters for a data frame are the name of the instance,
@@ -293,17 +307,8 @@ ubcsat -r out stdout run,found,best,beststep,steps -rclean -r stats null -runs 3
    <li> DONE Optionally the results of ubcsat are appended to a file. </li>
    <li> DONE There are some other parameters (like "-tabu 10"), which one
    can optionally append. </li>
-   <li> DONE Also the time needs to be recorded.
-    <ol>
-     <li> However, adding "time" to the list of parameters to be reported
-     yields always "0.000000" ? </li>
-     <li> Apparently this is for "rtd" only. </li>
-     <li> So it seems not available? Ask on the Ubcsat mailing list. </li>
-     <li> It seems, some form of runtime-info is only available through the
-     statistics, namely "fps" (flips per second), and "totaltime". </li>
-    </ol>
-   </li>
-   <li> DONE Other parameter to report:
+   <li> DONE (see "Incomplete data collection")
+   Other parameter to report:
     <ol>
      <li> As a kind of "hidden" parameter we should also record the seed. </li>
      <li> From the parameters reported by "ubcsat -hc" we can use
@@ -330,7 +335,8 @@ ubcsat -rclean \
      instead of "-r stats stdout"), so that parsing is easier? </li>
     </ol>
    </li>
-   <li> (DONE Moved into R-subsystem) Something like the following seems 
+   <li> DONE (moved into R-subsystem)
+   Something like the following seems 
    reasonable: (as discussed, one needs to specify what this should achieve,
    and furthermore, all text-formatting etc. should be handled by the wrapper
    ubcsat-okl):
