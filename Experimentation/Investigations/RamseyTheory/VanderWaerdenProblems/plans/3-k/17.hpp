@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/17.hpp
-  \brief On investigations into vdw_2(3,17)
+  \brief On investigations into vdw_2(3,17) = 279
 
 
   \todo vanderwaerden_2(3,17) >= 279
@@ -132,6 +132,16 @@ BestSolution_Max = 2.000000
 14 86
    \endverbatim
    So actually also here adaptnovelty+ seems best. </li>
+  </ul>
+
+
+  \todo Palindromic numbers
+  <ul>
+   <li> OKsolver_2002 determines n=278 as satisfiable (3m) and
+   n=279 as unsatisfiable (30s). </li>
+   <li> So does satz215 (1m,20s), march_pl (8s,1m) and minisat2 (27s,16s).
+   </li>
+   <li> So minisat2 seems best here. </li>
   </ul>
 
 */
