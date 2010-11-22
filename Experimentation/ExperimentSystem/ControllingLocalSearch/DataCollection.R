@@ -336,7 +336,7 @@ run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 #
 # NOTE: This list should match the full range of UBCSAT algorithms for the
 #       default version of UBCSAT as provided in the OKlibrary.
-run_ubcsat_cnf_algs = list(E
+run_ubcsat_cnf_algs = list(
    gsat="gsat",
    gsat_simple="gsat -v simple",
    gwsat="gwsat",
