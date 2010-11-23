@@ -100,6 +100,17 @@ License, or any later version. */
 910
    \endverbatim
    </li>
+   <li> n=919:
+    <ol>
+     <li> rots with cutoff=5*10^7 found in 500 rounds no solution:
+     \verbatim
+  1   2   3   4   5
+ 28  63 162 215  32
+500
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
