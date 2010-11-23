@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/18.hpp
-  \brief On investigations into vdw_2(3,18)
+  \brief On investigations into vdw_2(3,18) = 312
 
 
   \todo vanderwaerden_2(3,18) >= 312
@@ -151,6 +151,24 @@ BestSolution_Max = 10.000000
      appears to be faster. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Palindromic numbers
+  <ul>
+   <li> vanderwaerden_g([3,18],"pd") = 312 = vanderwaerden([3,18]). </li>
+   <li> minisat2 determines n=311 as satisfiable (42s) and
+   n=312 as unsatisfiable (228s). </li>
+   <li> Other running times:
+    <ol>
+     <li> picosat913 (22s, 74s) </li>
+     <li> precosat236 (24s, 72s) </li>
+     <li> march_pl (427s,768s) </li>
+     <li> satz215 (5s, 434s,) </i>
+     <li> OKsolver_2002 (110s, 2064s) </li>
+    </ol>
+   </li>
+   <li> So actually picosat913 seems best. </li>
   </ul>
 
 */
