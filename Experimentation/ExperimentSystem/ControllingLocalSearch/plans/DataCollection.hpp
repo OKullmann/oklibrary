@@ -146,6 +146,12 @@ df = run_ubcsat("test.cnf")
      <li> Access to the factor levels should be possible through the variable
      run_ubcsat_cnf_algs, however this is not possible. </li>
      <li> The "nature" of dataframes needs to be investigated. </li>
+     <li> At present the "algs" column is a factor, even those the algorithm
+     is given to the dataframe as a string. This is due to the 
+     "stringsAsFactors" of the data.frame constructor. </li>
+     <li> By default any string columns in a data.frame are converted to 
+     factors. To keep these strings as strings, we should set 
+     "stringsAsFactors" to FALSE. </li>
     </ol>
    </li>
    <li> DONE
