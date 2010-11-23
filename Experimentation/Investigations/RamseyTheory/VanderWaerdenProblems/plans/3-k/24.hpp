@@ -167,7 +167,7 @@ rots :
    \endverbatim
    Now only these best three algorithms:
    \verbatim
-E = run_ubcsat("VanDerWaerden_2-3-24_575.cnf", include_algs=list(gsat_tabu="gsat-tabu",samd="samd",rots="rots"), runs=500,cutoff=10000000)
+E = run_ubcsat("VanDerWaerden_2-3-24_575.cnf", include_algs=list("gsatt","samd","rots"), runs=500,cutoff=10000000)
 plot(E$alg,E$best)
 eval_ubcsat_dataframe(E)
 rots : 
