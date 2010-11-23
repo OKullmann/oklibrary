@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/19.hpp
-  \brief On investigations into vdw_2(3,19)
+  \brief On investigations into vdw_2(3,19) = 349
 
 
   \todo vanderwaerden_2(3,19) >= 349
@@ -72,5 +72,28 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
     </ol>
    </li>
   </ul>
+
+
+  \todo Palindromic numbers
+  <ul>
+   <li> vanderwaerden_g([3,19],"pd") = 347 = vanderwaerden([3,19])-2. </li>
+   <li> picosat913:
+    <ol>
+     <li> n=348: unsat, 707s. </li>
+     <li> n=347: unsat, 85s. </li>
+     <li> n=346: sat, 524s. </li>
+    </ol>
+   </li>
+   <li> Other running times (for n=348,347,346):
+    <ol>
+     <li> minisat2 (960s, 243s, 932s) </li>
+     <li> precosat236 (s, s, s) </li>
+     <li> march_pl (s, s, s) </li>
+     <li> satz215 (s, s, s) </i>
+     <li> OKsolver_2002 (s, s, s) </li>
+    </ol>
+   </li>
+  </ul>
+
 
 */
