@@ -23,9 +23,61 @@ License, or any later version. */
    without new variables. </li>
    <li> First to study the set of prime implicates.
     <ol>
-     <li> Basic statistics? </li>
-     <li> Necessary clauses? </li>
-     <li> Minimum representations? </li>
+     <li> We can generate the prime implicates for the Sbox by first
+     generating the full CNF for the Sbox (in Maxima)
+     \verbatim
+>  output_rijnsbox_fullcnf_stdname();
+     \endverbatim
+     and then generating the prime implicates using the QuineMcCluskey 
+     procedure
+     \verbatim
+> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_pi.cnf
+     \endverbatim
+     </li>
+     <li> Basic statistics
+      <ul>
+       <li> We have the following basic statistics for the prime implicates
+       for the AES Sbox
+       \verbatim
+> OKsolver_2002-O3-DNDEBUG -P AES_Sbox_pi.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           16
+c initial_number_of_clauses             136253
+c initial_number_of_literal_occurrences 999896
+       \endverbatim
+       and also
+       \verbatim
+> # Calculate the number of each length clause
+> for n in `seq 1 16`; do echo -n $n ": " && C=`echo -n '^' && perl -e "print \"[^ ]+ +\" x $n" && echo '0$'` && cat AES_Sbox_pi.cnf | grep -v "^p" | grep -E "$C" | wc -l; done
+1 : 0
+2 : 0
+3 : 0
+4 : 0
+5 : 1
+6 : 4148
+7 : 82659
+8 : 48615
+9 : 830
+10 : 0
+11 : 0
+12 : 0
+13 : 0
+14 : 0
+15 : 0
+16 : 0
+       \endverbatim
+      </ul>
+     </li>
+     <li> There are no necessary clauses in the AES Sbox prime implicates,
+     as can be seen by generating the subsumption hypergraph
+     \verbatim
+> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
+     \endverbatim
+     and observing that there are no unit hyperedges.
+     </li>
+     <li> For minimum representations see "Minimisation of the Sbox". </li>
      <li> r-bases for r in {r_1,r_2}? (See rand_rbase_cs(F,r) in
      ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac.) </li>
     </ol>
