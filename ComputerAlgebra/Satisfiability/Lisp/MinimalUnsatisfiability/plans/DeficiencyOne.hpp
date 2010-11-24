@@ -89,6 +89,8 @@ License, or any later version. */
    all Horn claus-sets? It seems not, since apparently smusat_horn_cs(k) can't
    be obtained in this way. Definitely we always have at least one positive
    and one negative unit-clause. </li>
+   <li> The general question arises here about the characterisation of all
+   Horn clause-sets in MU(1). </li>
   </ul>
 
 

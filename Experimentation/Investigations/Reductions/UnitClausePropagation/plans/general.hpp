@@ -242,6 +242,17 @@ n=2000000: 21.5s
 
   \todo Further test-cases
   <ul>
+   <li> Horn clause-sets:
+    <ol>
+     <li> See "Pebbling contradictions" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp
+     for special Horn clause-sets in MU(1). </li>
+     <li> We should consider also all other Horn-elements of MU(1) (see above
+     for the saturated cases). </li>
+     <li> Likely we should also consider Horn clause-sets which are not in MU.
+     </li>
+    </ol>
+   </li>
    <li> We should also consider random clause-sets with some added
    unit-clause(s). </li>
    <li> Sudoku puzzles can also be used. </li>
