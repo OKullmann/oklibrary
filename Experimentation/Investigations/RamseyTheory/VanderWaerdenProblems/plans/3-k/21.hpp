@@ -111,4 +111,16 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> vanderwaerden_g([3,21],"pd") < 416 =(conj) vanderwaerden([3,21]). </li>
+   <li> precosat236:
+    <ol>
+     <li> n=415: unsat, 1452s. </li>
+     <li> n=414: ?sat, s. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
