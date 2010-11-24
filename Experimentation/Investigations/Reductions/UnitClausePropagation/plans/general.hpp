@@ -25,6 +25,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Experimentation tools
+  <ul>
+   <li> Experiments on 32-bit machines as well as on 64-bit machines. </li>
+   <li> We need some tools for time-measurement, recording and evaluation
+   (the last of course by R) of applications. </li>
+   <li> Perhaps in this context we concentrate on "one-off" applications of
+   UCP, that is, just reading a file, computing the simplification, and
+   outputting it (as in UnitClausePropagation.cpp). </li>
+   <li> Then we don't need to worry about reversing information stored in
+   clauses (since pure UCP itself does not involve any form of backtracking).
+   </li>
+  </ul>
+
+
   \todo Saturated Horn clause-sets
   <ul>
    <li> Generation by

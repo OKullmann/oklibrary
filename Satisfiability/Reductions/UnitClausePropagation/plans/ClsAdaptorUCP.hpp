@@ -25,7 +25,7 @@ License, or any later version. */
   \todo Move todos from UnitClausePropagation/ClsAdaptorUCP.hpp here.
 
 
-  \todo Improve efficiency of UnitClausePropagation.cpp
+  \todo Improve efficiency of UnitClausePropagation(W).cpp
   <ul>
    <li> See
    Experimentation/Investigations/Reductions/UnitClausePropagation/plans/general.hpp
@@ -53,21 +53,8 @@ License, or any later version. */
      simplifying assumptions. </li>
     </ol>
    </li>
-   <li> Systematic experimentation:
-    <ol>
-     <li> Experiments on 32-bit machines as well as on 64-bit machines. </li>
-     <li> We need some tools for time-measurement, recording and evaluation
-     (the last of course by R) of applications. </li>
-     <li> Perhaps in this context we concentrate on "one-off" applications of
-     UCP, that is, just reading a file, computing the simplification, and
-     outputting it (as in UnitClausePropagation.cpp). </li>
-     <li> Then we don't need to worry about reversing information stored in
-     clauses (since pure UCP itself does not involve any form of backtracking).
-     </li>
-    </ol>
-   </li>
    <li> One would assume that the head-tail structure of watched literals
-   in this special case, where no assignment has to be undone, is
+   in the special case of pure UCP, where no assignment has to be undone, is
    superior (since here once the watched literals meet, there are no further
    literals to be considered!). </li>
    <li> At some time for the user there should be exactly one UCP-preprocessing
