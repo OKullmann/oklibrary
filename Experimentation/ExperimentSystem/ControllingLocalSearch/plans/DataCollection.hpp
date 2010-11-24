@@ -149,21 +149,23 @@ df = run_ubcsat("test.cnf")
 
   \bug Bad documentation for run_ubcsat
   <ul>
-   <li> The organisation of DataCollection.R is user-unfriendly:
+   <li> Nowhere are the created files mentioned? One needs the 
+   specification of their names and their contents. </li>
+   <li> The attributes of the resulting dataframe need to be specified 
+   more precisely; what are their data types? </li>
+   <li> Reference to "standard output" is wrong here, since the output appears
+   in the R-terminal. It is also not explained what that output is. </li>
+   <li> DONE (added the seed)
+   When examples are given, then they need to be reproducible (as 
+   much as possible). </li>
+   <li> DONE (run_ubcsat function is now at top)
+   The organisation of DataCollection.R is user-unfriendly:
     <ol>
      <li> The main function needs to stand out. </li>
      <li> The helper functions should be in the "background". </li>
     </ol>
    </li>
-   <li> When examples are given, then they need to be reproducible (as 
-   much as possible). </li>
-   <li> Nowhere are the created files mentioned? One needs the 
-   specification of their names and their contents. </li>
    <li> DONE A cutoff=1 is nonsense. </li>
-   <li> The attributes of the resulting dataframe need to be specified 
-   more precisely; what are their data types? </li>
-   <li> Reference to "standard output" is wrong here, since the output appears
-   in the R-terminal. It is also not explained what that output is. </li>
    <li> DONE These files must also not pollute the user-directory; so they 
    should all be placed in some created directory. </li>
    <li> DONE And obviously, it needs to be possible just to evaluate the files,
