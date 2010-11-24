@@ -198,7 +198,7 @@ run_ubcsat = function(
 # one might restrict oneself to novelty+, rsaps and sapsnr above, and allow
 # more runs and a higher cutoff, like so
 #
-# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, include_algs=list(noveltyp="novelty+",rsaps="rsaps",sapsnr="sapsnr")))
+# > E2 = run_ubcsat("VanDerWaerden_2-5-5_200.cnf", cutoff=1000000, runs=200, include_algs=list("novp","rsaps","sapsnr")))
 #
 #    run sat min osteps  msteps       seed      alg Clauses Variables
 # 1    1   0  22  43382 1000000 1694350974 noveltyp    9800       200
@@ -338,25 +338,25 @@ run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 #       default version of UBCSAT as provided in the OKlibrary.
 run_ubcsat_cnf_algs = list(
    gsat="gsat",
-   gsat_simple="gsat -v simple",
+   gsats="gsat -v simple",
    gwsat="gwsat",
-   gsat_tabu="gsat-tabu",
+   gsatt="gsat-tabu",
    hsat="hsat",
    hwsat="hwsat",
-   walksat="walksat",
-   walksat_tabu="walksat-tabu",
-   novelty="novelty",
-   noveltyp="novelty+",
-   adaptnoveltyp="adaptnovelty+",
-   rnovelty="rnovelty",
-   rnoveltyp="rnovelty+",
+   wsat="walksat",
+   wsatt="walksat-tabu",
+   nov="novelty",
+   novp="novelty+",
+   anovp="adaptnovelty+",
+   rnov="rnovelty",
+   rnovp="rnovelty+",
    saps="saps",
    rsaps="rsaps",
    sapsnr="sapsnr",
    rots="rots",
    irots="irots",
    samd="samd",
-   walksat_tabu_nonull="walksat-tabu -v nonull"
+   wsattn="walksat-tabu -v nonull"
 )
 
 # Construct a new dataframe which is the original dataframe with

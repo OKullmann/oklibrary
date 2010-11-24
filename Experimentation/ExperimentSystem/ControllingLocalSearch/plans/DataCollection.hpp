@@ -12,46 +12,6 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
-  \bug False algorithm names
-  <ul>
-   <li> DONE (the names appeared in the alg-column again)
-   The algorithm-names were always defect, but now they become completely
-   unusable: the table contains now not the strings, but something else,
-   where one doesn't have access to! </li>
-   <li> DONE
-   Accordingly eval_ubcsat_dataframe fails! </li>
-   <li> DONE (the tags in run_ubcsat_cnf_algs can be treated as "real thing")
-   As discussed many times, the nonsensic doubling of algorithm-names
-   must be eliminated. </li>
-   <li> As discussed, just strings are to be used (throughout) to identify
-   algorithms, and a rational system of either only 3-letter or only 4-letter
-   words needs to be developed.
-    <ol>
-     <li> "gsat" : gsat </li>
-     <li> "gsat -v simple" : gsats </li>
-     <li> "gwsat" : gwsat </li>
-     <li> "gsat-tabu" : gsatt </li>
-     <li> "hsat" : hsat </li>
-     <li> "hwsat" : hwsat </li>
-     <li> "walksat" : wsat </li>
-     <li> "walksat-tabu" : wsatt </li>
-     <li> "novelty" : nov </li>
-     <li> "novelty+" : novp </li>
-     <li> "adaptnovelty+" : anovp </li>
-     <li> "rnovelty" : rnov </li>
-     <li> "rnovelty+" : rnovp </li>
-     <li> "saps" : saps </li>
-     <li> "rsaps" : rsaps </li>
-     <li> "sapsnr" : sapsnr </li>
-     <li> "rots" : rots </li>
-     <li> "irots" : irots </li>
-     <li> "samd" : samd </li>
-     <li> "walksat-tabu -v nonull" : wsattn </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \bug Incomplete data collection
   <ul>
    <li> run_ubcsat, as every such tool, must collect *all* the data available
@@ -186,6 +146,12 @@ df = run_ubcsat("test.cnf")
      <li> Access to the factor levels should be possible through the variable
      run_ubcsat_cnf_algs, however this is not possible. </li>
      <li> The "nature" of dataframes needs to be investigated. </li>
+     <li> At present the "algs" column is a factor, even those the algorithm
+     is given to the dataframe as a string. This is due to the 
+     "stringsAsFactors" of the data.frame constructor. </li>
+     <li> By default any string columns in a data.frame are converted to 
+     factors. To keep these strings as strings, we should set 
+     "stringsAsFactors" to FALSE. </li>
     </ol>
    </li>
    <li> DONE
@@ -229,6 +195,48 @@ df = run_ubcsat("test.cnf")
    without generating them --- so *two* functions are needed. </li>
    <li> DONE The examples don't show the important step that the computed 
    dataframe MUST BE STORED. </li>
+  </ul>
+
+
+  \bug DONE (Issue with eval_ubcsat_dataframe went away; only new abbreviated 
+  algorithm names are now used) 
+  False algorithm names
+  <ul>
+   <li> DONE (the names appeared in the alg-column again)
+   The algorithm-names were always defect, but now they become completely
+   unusable: the table contains now not the strings, but something else,
+   where one doesn't have access to! </li>
+   <li> DONE
+   Accordingly eval_ubcsat_dataframe fails! </li>
+   <li> DONE (the tags in run_ubcsat_cnf_algs can be treated as "real thing")
+   As discussed many times, the nonsensic doubling of algorithm-names
+   must be eliminated. </li>
+   <li> DONE As discussed, just strings are to be used (throughout) to 
+   identify algorithms, and a rational system of either only 3-letter or only 
+   4-letter words needs to be developed.
+    <ol>
+     <li> "gsat" : gsat </li>
+     <li> "gsat -v simple" : gsats </li>
+     <li> "gwsat" : gwsat </li>
+     <li> "gsat-tabu" : gsatt </li>
+     <li> "hsat" : hsat </li>
+     <li> "hwsat" : hwsat </li>
+     <li> "walksat" : wsat </li>
+     <li> "walksat-tabu" : wsatt </li>
+     <li> "novelty" : nov </li>
+     <li> "novelty+" : novp </li>
+     <li> "adaptnovelty+" : anovp </li>
+     <li> "rnovelty" : rnov </li>
+     <li> "rnovelty+" : rnovp </li>
+     <li> "saps" : saps </li>
+     <li> "rsaps" : rsaps </li>
+     <li> "sapsnr" : sapsnr </li>
+     <li> "rots" : rots </li>
+     <li> "irots" : irots </li>
+     <li> "samd" : samd </li>
+     <li> "walksat-tabu -v nonull" : wsattn </li>
+    </ol>
+   </li>
   </ul>
 
 */
