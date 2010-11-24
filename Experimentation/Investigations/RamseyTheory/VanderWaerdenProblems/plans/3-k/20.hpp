@@ -197,4 +197,21 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> vanderwaerden_g([3,20],"pd") = 389 = vanderwaerden([3,20]). </li>
+   <li> precosat236:
+    <ol>
+     <li> n=388: sat, 149s. </li>
+    </ol>
+   </li>
+   <li> Other running times (for n=388):
+    <ol>
+     <li> minisat2 (2370s) </li>
+     <li> picosat913 (455s) </li>
+    </ol>
+   </li>
+  </ul>
+
 */
