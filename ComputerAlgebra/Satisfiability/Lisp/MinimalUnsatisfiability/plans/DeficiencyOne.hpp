@@ -78,6 +78,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Pebbling contradictions
+  <ul>
+   <li> Consider a directed acyclic graph G, where the set of source vertices
+   is S, and where G has exactly one sink z. Then we get a clause-set in MU(1)
+   by considering the vertices of G as variables, taking all vertices as S
+   as positive unit-clause, for all other vertices v Horn clauses of the form
+   "conjunction of predecessors implies v", plus additionally {-z}. </li>
+   <li> In this way we represent some Horn clause-sets in MU(1). Get we also
+   all Horn claus-sets? It seems not, since apparently smusat_horn_cs(k) can't
+   be obtained in this way. Definitely we always have at least one positive
+   and one negative unit-clause. </li>
+  </ul>
+
+
   \todo Small variable-degrees in MU(1)
   <ul>
    <li> Motivated by [Hoory, Szeider, TCS 2005] we consider the
