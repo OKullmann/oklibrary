@@ -22,14 +22,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Move todos from UnitClausePropagation/ClsAdaptorUCP.hpp here.
-
-
   \todo Improve efficiency of UnitClausePropagation(W).cpp
   <ul>
    <li> See
    Experimentation/Investigations/Reductions/UnitClausePropagation/plans/general.hpp
    for investigations. </li>
+   <li> See ProblemInstances/Clauses/plans/general.hpp for the main underlying
+   data structures. </li>
    <li> Apparently C++ input/output (at least with gcc 4.1.2) is very slow: 
     <ol>
      <li> Just the execution of "Smusat_Horn-O3-DNDEBUG 20000" takes 70s,

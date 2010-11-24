@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.9.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,19 +7,35 @@ License, or any later version. */
 
 /*!
   \file ProblemInstances/Clauses/plans/general.hpp
-  \brief General plans on clauses, their concepts and
-  implementations.
+  \brief General plans on clauses, their concepts and implementations
 
 
-  \todo Update namespaces. DONE
+  \todo Update namespaces: DONE
 
 
-  \todo Move the related concepts and plans from OKlib/Concepts
-  here.
+  \todo Create milestones
 
 
-  \todo Update ProblemInstances/Clauses/Clause.hpp, so that it becomes
-  a very simple implementation of the generic concepts.
+  \todo Connections
+  <ul>
+   <li> See
+   Satisfiability/Reductions/UnitClausePropagation/plans/ClsAdaptorUCP.hpp
+   for classes which read clause-sets and then perform unit-clause propagation.
+   </li>
+  </ul>
+
+
+  \todo Organisation
+  <ul>
+   <li> Move the related concepts and plans from OKlib/Concepts here. </li>
+  </ul>
+
+
+  \todo Updates
+  <ul>
+   <li> Update ProblemInstances/Clauses/Clause.hpp, so that it becomes
+   a very simple implementation of the generic concepts. </li>
+  </ul>
 
 
   \todo Head-tail clauses
