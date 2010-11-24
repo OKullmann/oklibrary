@@ -217,6 +217,17 @@ License, or any later version. */
    saps and sapsnr yield segmentation faults, and so no evaluation was
    possible (easily), however it seems that again gsat-tabu and samd are
    best. </li>
+   <li> n=1064:
+    <ol>
+     <li> gsat-tabu with cutoff=10^7:
+     \verbatim
+  2   3   4   5   6   7  10  11  13 
+  1  53 272  53   3   1   1   1   1 
+386 
+     \endverbatim
+     doesn't look promising. </li>
+    <ol>
+   </li>
   </ul>
 
 */

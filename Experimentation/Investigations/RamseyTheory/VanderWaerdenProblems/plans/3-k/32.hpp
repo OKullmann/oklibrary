@@ -179,6 +179,17 @@ License, or any later version. */
    \endverbatim
    shows clearly that gsat-tabu is best, followed by samd. (Currently
    eval_ubcsat_dataframe(E) is not usable due to a bug in run_ubcsat.) </li>
+   <li> n=1007:
+    <ol>
+     <li> gsat-tabu with cutoff=10^7:
+     \verbatim
+  4   5   6   7   8  10 
+110 180  71   3   3   1 
+368 
+     \endverbatim
+     doesn't look promising. </li>
+    </ol>
+   </li>
   </ul>
 
 */

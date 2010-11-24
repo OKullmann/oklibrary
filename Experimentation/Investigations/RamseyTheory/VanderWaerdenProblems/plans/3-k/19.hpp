@@ -90,7 +90,7 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
      <li> precosat236 (408s, 68s, 202s) </li>
      <li> march_pl (3600s, 1384s, 2598s) </li>
      <li> satz215 (1476s, 407s, 869s) </i>
-     <li> OKsolver_2002 (s, s, s) </li>
+     <li> OKsolver_2002 (11757s, 2295s, 963s) </li>
     </ol>
    </li>
    <li> So apparently actually precosat236 is best. </li>

@@ -223,6 +223,17 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
    shows that clearly gsat_tabu and samd are best, where gsat_tabu is
    faster. (Currently eval_ubcsat_dataframe(E) is not usable due to a bug in
    run_ubcsat.) </li>
+   <li> n=903
+    <ol>
+     <li> gsat-tabu with cutoff=10^7:
+     \verbatim
+  3   4   5   6   7   9 
+199  40 178   2   2   1 
+422 
+     \endverbatim
+     doesn't look promising. </li>
+    </ol>
+   </li>
   </ul>
 
 */
