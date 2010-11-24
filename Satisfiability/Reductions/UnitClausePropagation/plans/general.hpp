@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,9 @@ License, or any later version. */
    OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp. </li>
    <li> See Satisfiability/Lisp/Reductions/plans/UnitClausePropagation.hpp
    for the Maxima/Lisp level. </li>
+   <li> See
+   Experimentation/Investigations/Reductions/UnitClausePropagation/plans/general.hpp
+   for investigations. </li>
   </ul>
 
 
