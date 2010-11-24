@@ -16,9 +16,9 @@ License, or any later version. */
   \par
    In ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
    the following topics are handled:
-    - run_ubcsat can't handle segmentation faults
     - Specification of run_ubcsat is badly written
     - Bad documentation for run_ubcsat
+    - run_ubcsat can't handle segmentation faults : DONE
     - False algorithm names : DONE
 
 

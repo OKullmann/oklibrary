@@ -61,6 +61,7 @@ run_ubcsat = function(
  monitor=TRUE,...) {
 
   filename = basename(input)
+  error_directory = paste(tmp_directory,"/corrupt/",sep="")
 
   # Get only those algorithms in the included list which
   # are not excluded.
@@ -73,10 +74,20 @@ run_ubcsat = function(
                   tmp_directory, "'."))
       return(FALSE)
     }
-
+  
+  # Create directory for potentially corrupt data
+  if ( ! file.exists(error_directory))
+    if (!dir.create(error_directory,showWarnings=FALSE)) {
+      print(paste("ERROR[run_ubcsat]: Unable to create directory '",
+                  error_directory, "'."))
+      return(FALSE)
+    }
+  
   # Run ubcsat-okl with each algorithm
   run_ubcsat_df = NULL
+  errors_l = list()
   for (alg in algs) {
+    error = TRUE
     try({
       output_file =
         run_ubcsat_result_path(filename,alg,tmp_directory)
@@ -88,12 +99,46 @@ run_ubcsat = function(
 
       # Run the ubcsat-okl command
       if (monitor) print(command)
-      system(command, intern=FALSE)    
-    
+      error_code = system(command, intern=FALSE, ignore.stderr=TRUE)
+
+      # If the exit code is non-0, then there has been an error
+      if (error_code == 0) 
+        error = FALSE
     })
+
+    # Check if there has been an error and inform the user
+    if (error) {
+      errors_l = c(errors_l, list(alg))
+      # Clean up files (move them to a special errors directory)
+      try({
+        system(paste("mv", output_file,
+                     paste(error_directory, output_file),
+                     "2>&1 > /dev/null"), ignore.stderr=TRUE)
+      })
+      try({
+        system(paste("mv", output_file,
+                     paste(error_directory, stats_output_file),
+                     "2>&1 > /dev/null"), ignore.stderr=TRUE)
+      })
+      # Tell the user
+      print(paste("WARNING[run_ubcsat] There has been an error generating",
+                  "data for the", alg,"algorithm."))
+    }
   }
   
-  read_ubcsat_dir(filename, include_algs=algs, tmp_directory=tmp_directory)
+  result = read_ubcsat_dir(filename, include_algs=algs,
+                           tmp_directory=tmp_directory)
+
+  # If there are errors, inform the user.
+  if (length(errors_l) > 0) {
+    print(paste("WARNING[run_ubcsat] There have been", length(errors_l),
+                "errors with the following algoriths -",
+                do.call(paste,c(errors_l,list(sep=", "))),".",
+                "See the corresponding log file and (potentially corrupt)",
+                "result files in", error_directory, "for details."))
+  }
+
+  result
 }
 
 # As an example, generating the SAT problem relating to testing whether
@@ -582,7 +627,7 @@ run_ubcsat_command = function(
   return( paste(
                 "ubcsat-okl -r out '", output_file, "' ",
                 " -r stats '", stats_output_file, "' ",
-                std_params," -alg ", alg_name, " -i ",input, " > ",
+                std_params," -alg ", alg_name, " -i ",input, " 2>&1 > ",
                 run_ubcsat_log_path(filename, alg_safe_name, tmp_directory),
                 sep="") )
 }

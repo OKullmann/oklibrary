@@ -31,31 +31,6 @@ License, or any later version. */
    </li>
   </ul>
 
-
-  \bug run_ubcsat can't handle segmentation faults
-  <ul>
-   <li> The given example in DataCollection.R produces segmentation faults
-   on csltok for saps and rsaps. </li>
-   <li> DONE (now the dataframe is created; partially created files will
-   be used, but if the summary-statistics-file can't be read, then the data
-   for this algorithm will be ignored)
-   The other algorithms are still evaluated, but then an error occurs,
-   and no dataframe is created. </li>
-   <li> DONE (data will be ignored except in cases a readable
-   summary-statistics-file was created)
-   The dataframe should likely just not contain anything on these two
-   algorithms (while otherwise being usable). </li>
-   <li> And warnings should be issued on the faulty algorithms.
-    <ul>
-     <li> Algorithms with error are stored in a list. </li>
-     <li> For the running output we should get clear messages. </li>
-     <li> And also a final statement, that there have been errors, and which
-     algorithms were concerned. </li>
-    </ul>
-   </li> 
-  </ul>
-
-
   \bug Specification of run_ubcsat is badly written
   <ul>
    <li> The specification doesn't specify much. </li>
@@ -195,6 +170,33 @@ df = run_ubcsat("test.cnf")
    without generating them --- so *two* functions are needed. </li>
    <li> DONE The examples don't show the important step that the computed 
    dataframe MUST BE STORED. </li>
+  </ul>
+
+
+  \bug DONE run_ubcsat can't handle segmentation faults
+  <ul>
+   <li> DONE (wait for ubcsat 1.2.0 for fix for the segfault issues)
+   The given example in DataCollection.R produces segmentation faults
+   on csltok for saps and rsaps. </li>
+   <li> DONE (now the dataframe is created; partially created files will
+   be used, but if the summary-statistics-file can't be read, then the data
+   for this algorithm will be ignored)
+   The other algorithms are still evaluated, but then an error occurs,
+   and no dataframe is created. </li>
+   <li> DONE (data will be ignored except in cases a readable
+   summary-statistics-file was created)
+   The dataframe should likely just not contain anything on these two
+   algorithms (while otherwise being usable). </li>
+   <li> DONE (now outputs a warning for each algorithm and a list
+   at the end)   
+   And warnings should be issued on the faulty algorithms.
+    <ul>
+     <li> Algorithms with error are stored in a list. </li>
+     <li> For the running output we should get clear messages. </li>
+     <li> And also a final statement, that there have been errors, and which
+     algorithms were concerned. </li>
+    </ul>
+   </li> 
   </ul>
 
 
