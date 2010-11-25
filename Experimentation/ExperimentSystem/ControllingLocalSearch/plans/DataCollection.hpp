@@ -32,30 +32,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug Specification of run_ubcsat is badly written
-  <ul>
-   <li> The specification doesn't specify much. </li>
-   <li> DONE Commas are needed (and semicolons, and full-stops). </li>
-   <li> (DONE See Evaluation.R comments) 
-   At its most basic the run_ubcsat function can be run on
-   a given DIMACS file ("test.cnf" in this case), by running:
-   \verbatim
-df = run_ubcsat("test.cnf")
-   \endverbatim
-   </li>
-   <li> DONE Many nonsensical uses of quotation marks. </li>
-   <li> DONE Also "should" is mis-used (since this likely is not an option for
-   the function!). </li>
-   <li> DONE What is "and returns a new adds data frame" ?? </li>
-   <li> (DONE These are defaults only, and are taken
-   as optional arguments for run_ubcsat) Are environment variables to be used
-   by the user?? (Obviously this shouldn't be the case.) </li>
-   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
-   later extensions?) ?? </li>
-   <li> DONE How to use this function? </li>
-  </ul>
-
-
   \todo Better output of run_ubcsat
   <ul>
    <li> So a summary for each (single) run should be printed out. </li>
@@ -148,6 +124,32 @@ df = run_ubcsat("test.cnf")
    produce at the same time basic evaluation tools for the dataframe. </li>
    <li> See "Evaluation tools for run-ubcsat" in
    ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp. </li>
+  </ul>
+
+
+  \bug DONE Specification of run_ubcsat is badly written
+  <ul>
+   <li> DONE (filenames, datatypes, parameters, results etc are all now
+   specified)
+   The specification doesn't specify much. </li>
+   <li> DONE Commas are needed (and semicolons, and full-stops). </li>
+   <li> (DONE See Evaluation.R comments) 
+   At its most basic the run_ubcsat function can be run on
+   a given DIMACS file ("test.cnf" in this case), by running:
+   \verbatim
+df = run_ubcsat("test.cnf")
+   \endverbatim
+   </li>
+   <li> DONE Many nonsensical uses of quotation marks. </li>
+   <li> DONE Also "should" is mis-used (since this likely is not an option for
+   the function!). </li>
+   <li> DONE What is "and returns a new adds data frame" ?? </li>
+   <li> (DONE These are defaults only, and are taken
+   as optional arguments for run_ubcsat) Are environment variables to be used
+   by the user?? (Obviously this shouldn't be the case.) </li>
+   <li> DONE Often a (non-sensical) "will be" is used (does this refer to 
+   later extensions?) ?? </li>
+   <li> DONE How to use this function? </li>
   </ul>
 
 
