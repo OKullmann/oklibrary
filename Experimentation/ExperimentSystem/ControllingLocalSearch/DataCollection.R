@@ -44,6 +44,13 @@
 #     as well as columns for each of the statistics variables
 #     that ubcsat-okl outputs for each invocation.
 #
+#     All columns as given by ubcsat-okl are integer types (except
+#     in the case of an "inf" value, in which case they are double).
+#     The "alg" (algorithm) column is an R factor (see "? factor" in R),
+#     as strings are by default converted to factors in R dataframes.
+#     For full details of each field, please see the "ubcsat-okl" and the
+#     ubcsat documentation.
+#
 #     Every algorithm is evaluated using a single call to ubcsat-okl, where
 #     the number of runs of the algorithm is either the default for
 #     ubcsat-okl or the value of the optional "runs" parameter for
@@ -53,6 +60,30 @@
 #
 #     Each row in the result dataframe then represents a run in ubcsat-okl
 #     (note that a run is not the same as one invocation of ubcsat-okl).
+#
+# Files:
+#     Additional to this output, various log files are created in a temporary
+#     directory, with files for each invocation of ubcsat (with each
+#     algorithm), namely the ubcsat result file (see the ubcsat documentation
+#     for "-r out"), ubcsat statistics file (see the ubcsat documentation for
+#     "-r stats") and any errors and output from ubcsat-okl stored in this
+#     directory (in the same file). The directory and various files have the
+#     following paths relative to the current directory (resp.) :
+#
+#     ubcsat_tmp_${FILENAME}
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_result
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_stats
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_log
+#
+#     where ${FILENAME} is the basename of the given input filename, and
+#     ${ALG} is the algorithm run with the corresponding invocation of
+#     ubcsat-okl on the file.
+#
+#     Any errors during the computation may result in corrupt files (for
+#     example if any ubcsat-okl runs crash/segfault. In this case, any
+#     results already created before the crash for that invocation of
+#     ubcsat-okl are moved to ubcsat_tmp_${FILENAME}/corrupt/ to ensure
+#     ubcsat_tmp_${FILENAME} is readable by read_ubcsat_dir.
 run_ubcsat = function(
  input,
  include_algs = names(run_ubcsat_cnf_algs),
@@ -354,6 +385,10 @@ run_ubcsat = function(
 #     The default path (string) to store "run_ubcsat"
 #     temporary files in for the given input file name.
 #
+#     By default this is
+#       ubcsat_tmp_${FILENAME}
+#     where ${FILENAME} is the given filename.
+#
 run_ubcsat_temp_dir = function(filename) {
   return ( paste("ubcsat_tmp_",filename, sep="") )
 }
@@ -460,6 +495,13 @@ add_constant_column = function(df,const_var, name) {
 #     The path (string) to the log file run_ubcsat generates for the
 #     given parameters.
 #
+#     By default this is
+#
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_log
+#
+#     where ${FILENAME} is the given filename, and ${ALG} is the algorithm
+#     run with the corresponding invocation of ubcsat-okl on the file.
+#
 run_ubcsat_log_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return (paste(tmp_directory, "/",
@@ -486,6 +528,13 @@ run_ubcsat_log_path = function(
 #     from ubcsat-okl generated when run_ubcsat ran the problem for the
 #     given algorithm.
 #
+#     By default this is
+#
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_result
+#
+#     where ${FILENAME} is the given filename, and ${ALG} is the algorithm run
+#     with the corresponding invocation of ubcsat-okl on the file.
+#
 run_ubcsat_result_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
@@ -510,6 +559,13 @@ run_ubcsat_result_path = function(
 #     The path (string) to the statistics file run_ubcsat generates for the
 #     given parameters.
 #
+#     By default this is
+#
+#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_stats
+#
+#     where ${FILENAME} is the the given filename, and ${ALG} is the algorithm
+#     run with the corresponding invocation of ubcsat-okl on the file.
+
 run_ubcsat_stats_path = function(
   filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
   return(paste(tmp_directory, "/",
@@ -520,7 +576,23 @@ run_ubcsat_stats_path = function(
 # Takes the following parameters for which "run_ubcsat" must already
 # been run and then returns the result of the corresponding
 # "run_ubcsat" command, reading the results from the previously
-# generated files. ??? what does this mean ??? for what is this useful ???
+# generated files.
+# 
+# For example, if one has run run_ubcsat on a file X generating
+# result files in the ubcsat_X/ directory then one can run
+#
+# > read_ubcsat_dir(X, ...)
+#
+# where "..." simply assumes you provide all the arguments (for
+# include_algs, exclude_algs, and tmp_directory) as were provided
+# to the run_ubcsat when ubcsat_X/ was created.
+#
+# The result is then simply the data.frame as original produced by
+# run_ubcsat when ubcsat_X was created.
+#
+# This is useful for reading in experiment data which has been created
+# before but the original R session is no longer running.
+#
 #
 # Parameters :
 #     input
@@ -621,8 +693,10 @@ read_ubcsat_dir = function(
 #
 # Result :
 #     The ubcsat-okl command (string) running on the given input, using
-#     the given algorithm, outputting to the standard output files in
-#     the given temporary directory, with the given additional parameters.
+#     the given algorithm, outputting to the default output files in
+#     the given temporary directory (see run_ubcsat_result_path,
+#     run_ubcsat_stats_path and run_ubcsat_temp_dir), with the given
+#     additional parameters.
 #
 run_ubcsat_command = function(
   input, alg_safe_name, alg_name,

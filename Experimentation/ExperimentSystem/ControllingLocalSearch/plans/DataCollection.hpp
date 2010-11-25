@@ -149,14 +149,19 @@ df = run_ubcsat("test.cnf")
   </ul>
 
 
-  \bug Bad documentation for run_ubcsat
+  \bug DONE Bad documentation for run_ubcsat
   <ul>
-   <li> Nowhere are the created files mentioned? One needs the 
+   <li> DONE
+   Nowhere are the created files mentioned? One needs the 
    specification of their names and their contents. </li>
-   <li> The attributes of the resulting dataframe need to be specified 
-   more precisely; what are their data types? </li>
-   <li> Reference to "standard output" is wrong here, since the output appears
+   <li> DONE (in context "standard output files" was said; changed to
+   "default output files" and added additional explanation to avoid
+   confusion)
+   Reference to "standard output" is wrong here, since the output appears
    in the R-terminal. It is also not explained what that output is. </li>
+   <li> DONE (specified data types and referenced ubcsat documentation)
+   The attributes of the resulting dataframe need to be specified 
+   more precisely; what are their data types? </li>
    <li> DONE (added the seed)
    When examples are given, then they need to be reproducible (as 
    much as possible). </li>
