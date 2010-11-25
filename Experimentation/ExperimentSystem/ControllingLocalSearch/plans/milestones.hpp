@@ -8,18 +8,7 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/ControllingLocalSearch/plans/milestones.hpp
 
-  \module_version ExperimentSystem/ControllingLocalSearch 0.3 (22.11.2010)
-
-
-  \par Version 0.3.1 :
-
-  \par
-   In ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
-   the following topics are handled:
-    - Specification of run_ubcsat is badly written : DONE
-    - Bad documentation for run_ubcsat : DONE
-    - run_ubcsat can't handle segmentation faults : DONE
-    - False algorithm names : DONE
+  \module_version ExperimentSystem/ControllingLocalSearch 0.3.1 (25.11.2010)
 
 
   \par Version 0.3.2 :
@@ -105,5 +94,6 @@ License, or any later version. */
   \par Version history
 
    - 0.3   : 22.11.2010; initial version number (established tools for processing ubcsat-created data, running ubcsat and evaluating ubcsat-algorithms; plans for meta-heuristics).
+   - 0.3.1 : 25.11.2010; improved output and documentation for run_ubcsat.
 
 */
