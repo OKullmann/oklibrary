@@ -14,16 +14,17 @@
 #
 # Parameters:
 #     input
-#       The path to the file to evaluate the ubcsat algorithms on.
+#       The path to the file to evaluate the ubcsat algorithms on
+#       (a DIMACS CNF file).
 #     include_algs
 #       A list of ubcsat-okl algorithms to evaluate on the given input file,
-#       where the name of each item is a reference for the
-#       algorithm, and the value of each item is the algorithm parameter
-#       as given to ubcsat (Optional).
+#       where the names of the algorithms are abbreviations for the names
+#       given in ubcsat. For a list of such abbreviations, see
+#       "names(run_ubcsat_cnf_algs)" in R. (Optional).
 #     exclude_algs
 #       A list of ubcsat-okl algorithms not to evaluate on the given input
 #       file. The list of algorithms evaluated are exactly those in
-#       include_algs which are not in exclude_algs, ignoring names (Optional).
+#       include_algs which are not in exclude_algs (Optional).
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
 #       stores it's temporary files (log files etc) (Optional).
@@ -42,7 +43,8 @@
 #     more information), from each run of ubcsat, with
 #     additional columns added specifying the algorithm, the run,
 #     as well as columns for each of the statistics variables
-#     that ubcsat-okl outputs for each invocation.
+#     that ubcsat-okl outputs for each invocation. For a specification
+#     of such columns as used in run_ubcsat, see run_ubcsat_column_names.
 #
 #     All columns as given by ubcsat-okl are integer types (except
 #     in the case of an "inf" value, in which case they are double).
@@ -70,14 +72,15 @@
 #     directory (in the same file). The directory and various files have the
 #     following paths relative to the current directory (resp.) :
 #
-#     ubcsat_tmp_${FILENAME}
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_result
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_stats
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_log
+#     ubcsat_tmp_${FILENAME}_${DATE}
+#     ubcsat_tmp_${FILENAME}_${DATE}/${ALG}.run_ubcsat_result
+#     ubcsat_tmp_${FILENAME}_${DATE}/${ALG}.run_ubcsat_stats
+#     ubcsat_tmp_${FILENAME}_${DATE}/${ALG}.run_ubcsat_log
 #
 #     where ${FILENAME} is the basename of the given input filename, and
 #     ${ALG} is the algorithm run with the corresponding invocation of
-#     ubcsat-okl on the file.
+#     ubcsat-okl on the file. ${DATE} is simply the current date in
+#     the format specified by "%Y-%m-%d-%H%M%S".
 #
 #     Any errors during the computation may result in corrupt files (for
 #     example if any ubcsat-okl runs crash/segfault. In this case, any
@@ -121,9 +124,9 @@ run_ubcsat = function(
     error = TRUE
     try({
       output_file =
-        run_ubcsat_result_path(filename,alg,tmp_directory)
+        run_ubcsat_result_path(tmp_directory,alg)
       stats_output_file =
-        run_ubcsat_stats_path(filename,alg,tmp_directory)
+        run_ubcsat_stats_path(tmp_directory,alg)
       command =
         run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
                             tmp_directory,...)
@@ -167,8 +170,7 @@ run_ubcsat = function(
     }
   }
   
-  result = read_ubcsat_dir(filename, include_algs=algs,
-                           tmp_directory=tmp_directory)
+  result = read_ubcsat_dir(directory=tmp_directory, include_algs=algs)
 
   # If there are errors, inform the user.
   if (length(errors_l) > 0) {
@@ -390,7 +392,8 @@ run_ubcsat = function(
 #     where ${FILENAME} is the given filename.
 #
 run_ubcsat_temp_dir = function(filename) {
-  return ( paste("ubcsat_tmp_",filename, sep="") )
+  return ( paste("ubcsat_tmp_",filename,"_",
+                 format(Sys.time(), "%Y-%m-%d-%H%M%S"), sep="") )
 }
 
 # List of output column names (as we would like them to be called
@@ -482,14 +485,12 @@ add_constant_column = function(df,const_var, name) {
 # parameters.
 #
 # Parameters :
-#     filename
-#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
-#     alg_safe_name
-#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
-#       For example for "gsat -v simple" one might use "gsat_simple".
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
 #       stores it's temporary files for the given input filename.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
 #
 # Result :
 #     The path (string) to the log file run_ubcsat generates for the
@@ -497,13 +498,14 @@ add_constant_column = function(df,const_var, name) {
 #
 #     By default this is
 #
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_log
+#     ${TMP}/${ALG}.run_ubcsat_log
 #
-#     where ${FILENAME} is the given filename, and ${ALG} is the algorithm
-#     run with the corresponding invocation of ubcsat-okl on the file.
+#     where ${TMP} is the given temporary directory, and ${ALG} is the
+#     algorithm run with the corresponding invocation of ubcsat-okl on the
+#     file.
 #
 run_ubcsat_log_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
+  tmp_directory, alg_safe_name) {
   return (paste(tmp_directory, "/",
                 alg_safe_name,".run_ubcsat_log",
                 sep = ""))
@@ -513,14 +515,12 @@ run_ubcsat_log_path = function(
 # parameters.
 #
 # Parameters :
-#     filename
-#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
-#     alg_safe_name
-#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
-#       For example for "gsat -v simple" one might use "gsat_simple".
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
 #       stores it's temporary files for the given input filename.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
 #
 # Result :
 #     The path (string) to the result file run_ubcsat generates for the
@@ -530,13 +530,13 @@ run_ubcsat_log_path = function(
 #
 #     By default this is
 #
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_result
+#     ${TMP}/${ALG}.run_ubcsat_result
 #
-#     where ${FILENAME} is the given filename, and ${ALG} is the algorithm run
-#     with the corresponding invocation of ubcsat-okl on the file.
+#     where ${TMP} is the given temporary directory, and ${ALG} is the
+#     algorithm run with the corresponding invocation of ubcsat-okl on the
+#     file.
 #
-run_ubcsat_result_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
+run_ubcsat_result_path = function(tmp_directory, alg_safe_name) {
   return(paste(tmp_directory, "/",
                alg_safe_name, ".run_ubcsat_result",
                sep=""))
@@ -546,14 +546,12 @@ run_ubcsat_result_path = function(
 # parameters.
 #
 # Parameters :
-#     filename
-#       The name (not path) of the Dimacs CNF input file for run_ubcsat.
-#     alg_safe_name
-#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
-#       For example for "gsat -v simple" one might use "gsat_simple".
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
 #       stores it's temporary files for the given input filename.
+#     alg_safe_name
+#       An alphanumeric string used as a reference for ubcsat-okl algorithm.
+#       For example for "gsat -v simple" one might use "gsat_simple".
 #
 # Result :
 #     The path (string) to the statistics file run_ubcsat generates for the
@@ -561,13 +559,12 @@ run_ubcsat_result_path = function(
 #
 #     By default this is
 #
-#     ubcsat_tmp_${FILENAME}/${ALG}.run_ubcsat_stats
+#     ${TMP}/${ALG}.run_ubcsat_stats
 #
-#     where ${FILENAME} is the the given filename, and ${ALG} is the algorithm
-#     run with the corresponding invocation of ubcsat-okl on the file.
-
-run_ubcsat_stats_path = function(
-  filename, alg_safe_name, tmp_directory=run_ubcsat_temp_dir(filename)) {
+#     where ${TMP} is the given temporary directory, and ${ALG} is the
+#     algorithm run with the corresponding invocation of ubcsat-okl on the
+#     file.
+run_ubcsat_stats_path = function(tmp_directory, alg_safe_name) {
   return(paste(tmp_directory, "/",
                alg_safe_name,".run_ubcsat_stats",
                sep=""))
@@ -618,19 +615,16 @@ run_ubcsat_stats_path = function(
 #     if relative file paths are used).
 #
 read_ubcsat_dir = function(
-  input,
+  directory,
   include_algs = names(run_ubcsat_cnf_algs),
-  exclude_algs = list(),
-  tmp_directory=run_ubcsat_temp_dir(basename(input))) {
+  exclude_algs = list()) {
   
   # Create the temporary directory (error if it doesn't exist)
-  if ( ! file.exists(tmp_directory)) {
+  if ( ! file.exists(directory)) {
       print(paste("ERROR[read_ubcsat_dir]: Unable to open directory '",
-                  tmp_directory, "'."))
+                  directory, "'."))
       return(FALSE)
   }
-
-  filename = basename(input)
 
   # Get only those algorithms in the included list which
   # are not excluded.
@@ -640,9 +634,9 @@ read_ubcsat_dir = function(
   for (alg in algs ) {
     try({
       output_file =
-        run_ubcsat_result_path(filename,alg,tmp_directory)
+        run_ubcsat_result_path(directory, alg)
       stats_output_file =
-        run_ubcsat_stats_path(filename,alg,tmp_directory)
+        run_ubcsat_stats_path(directory, alg)
     
       # Read in output from respective temporary files.
       result_df = read.table(output_file,
@@ -685,7 +679,7 @@ read_ubcsat_dir = function(
 #       to use.
 #     tmp_directory
 #       The path (string) to the temporary directory where run_ubcsat
-#       stores it's temporary files (log files etc) (Optional).
+#       stores it's temporary files (log files etc).
 #     ...
 #       Additional parameters to ubcsat-okl can be specified as additional
 #       parameters to this function, so adding "runs=1", would
@@ -700,12 +694,12 @@ read_ubcsat_dir = function(
 #
 run_ubcsat_command = function(
   input, alg_safe_name, alg_name,
-  tmp_directory=run_ubcsat_temp_dir(basename(input)),...) {
+  tmp_directory,...) {
 
   filename = basename(input)
-  output_file = run_ubcsat_result_path(filename,alg_safe_name,tmp_directory)
+  output_file = run_ubcsat_result_path(tmp_directory, alg_safe_name)
   stats_output_file =
-      run_ubcsat_stats_path(filename,alg_safe_name,tmp_directory)
+      run_ubcsat_stats_path(tmp_directory, alg_safe_name)
   
   # Setup parameter string
   std_params = ""
@@ -719,7 +713,7 @@ run_ubcsat_command = function(
                 "ubcsat-okl -r out '", output_file, "' ",
                 " -r stats '", stats_output_file, "' ",
                 std_params," -alg ", alg_name, " -i ",input, " 2>&1 > ",
-                run_ubcsat_log_path(filename, alg_safe_name, tmp_directory),
+                run_ubcsat_log_path(tmp_directory, alg_safe_name),
                 sep="") )
 }
 

@@ -59,11 +59,13 @@ df = run_ubcsat("test.cnf")
   \todo Better output of run_ubcsat
   <ul>
    <li> So a summary for each (single) run should be printed out. </li>
-   <li> Segmentation faults should be very visible (currently they aren't).
-   And they should be summarised at the end of all runs. </li>
-   <li> The directory should have a timestamp; compare RunVdW3k. </li>
    <li> The result-files should be directly readable by read_ubcsat, and thus
    they should include the leading row with the column names. </li>
+   <li> DONE (a warning is shown for any errors for each algorithm now
+   and a summary of all algorithms with warnings is given at the end)
+   Segmentation faults should be very visible (currently they aren't).
+   And they should be summarised at the end of all runs. </li>
+   <li> DONE The directory should have a timestamp; compare RunVdW3k. </li>
    <li> DONE (now prints algorithm name and summary of min column)
    An obvious problem with run_ubcsat is that it doesn't give intermediate
    results: runs in general take quite a time, and one needs to wait until
