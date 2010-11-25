@@ -97,13 +97,23 @@ run_ubcsat = function(
         run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
                             tmp_directory,...)
 
+      # If monitor is set, tell the user which algorithm is running
+      if (monitor) print(paste("Running", alg, " on ", filename))
+      
       # Run the ubcsat-okl command
-      if (monitor) print(command)
       error_code = system(command, intern=FALSE, ignore.stderr=TRUE)
 
       # If the exit code is non-0, then there has been an error
       if (error_code == 0) 
         error = FALSE
+
+      # Check whether we are monitoring and should print statistics
+      if (monitor && !error) {
+        # Read in output from respective temporary files.
+        result_df = read.table(output_file,
+                               col.names = as.vector(run_ubcsat_column_names))
+        print(table(result_df$min))
+      }
     })
 
     # Check if there has been an error and inform the user
@@ -132,7 +142,7 @@ run_ubcsat = function(
   # If there are errors, inform the user.
   if (length(errors_l) > 0) {
     print(paste("WARNING[run_ubcsat] There have been", length(errors_l),
-                "errors with the following algoriths -",
+                "errors with the following algorithms -",
                 do.call(paste,c(errors_l,list(sep=", "))),".",
                 "See the corresponding log file and (potentially corrupt)",
                 "result files in", error_directory, "for details."))
