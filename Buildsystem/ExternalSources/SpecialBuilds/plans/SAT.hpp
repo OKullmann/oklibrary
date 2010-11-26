@@ -289,6 +289,12 @@ double Solver::progressEstimate() const {
   \todo Precosat
   <ul>
    <li> At least the installation page is needed. </li>
+   <li> Is there some documentation? </li>
+   <li> It seems it has many command-line options, and we need to document
+   them. </li>
+   <li> What is the meaning of the output? </li>
+   <li> We need the option that it outputs learned clauses up to a certain
+   length to a file. </li>
   </ul>
 
 
