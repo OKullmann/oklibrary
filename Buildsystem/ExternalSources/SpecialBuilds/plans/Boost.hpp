@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \bug Missing documentation for Boost
+  <ul>
+   <li> The link to the local documentation on the ExternalSources page does
+   not work. </li>
+   <li> The installation page needs to be updated ("XXX" should be eliminated).
+   </li>
+  </ul>
+
+
   \todo Update Boost installation
   <ul>
    <li> Many of the following points to be improved relate only to
