@@ -22,8 +22,12 @@ make[3]: *** [all-recursive] Error 1
 make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.6/spkg/build/libfplll-3.0.12.p1/src'
 Error building libfplll
    \endverbatim
-   while on cs-oksvr (Suse 11.2) we get
+   while on cs-oksvr (Suse 11.0) we get
    \verbatim
+gcc version 4.3.1 20080507 (prerelease) [gcc-4_3-branch revision 135036] (SUSE Linux)
+****************************************************
+Building a 32-bit version of Readline
+
 Deleting old readline headers and libs
 OpenSuSE detected
 OpenSuSE 11 detected
@@ -34,6 +38,9 @@ Error copying the system's libreadline
 sys     0m0.028s
 sage: An error occurred while installing readline-6.0.p4
    \endverbatim
+   (/lib64/libreadline.so.5 and /lib64/libreadline.so.5.2 is available;
+   it says it will install readline, but then wants a very specific version
+   already installed?)
    So still no progress.
    </li>
    <li> Version 4.5.3:
