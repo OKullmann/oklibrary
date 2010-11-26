@@ -9,7 +9,7 @@
 
 global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat
 
-buildsystem_targets_extsrc_okl ?= git doxygen
+buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc
 library_targets_extsrc_okl ?= bzip2 boost gmp zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage

@@ -33,7 +33,7 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : buildsystem compilers libraries math sat
+all : compilers libraries math sat buildsystem 
 	echo "PRELIMINARY!"
 buildsystem : $(buildsystem_targets_extsrc_okl)
 compilers : $(compiler_targets_extsrc_okl)
