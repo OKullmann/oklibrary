@@ -21,6 +21,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
+    - Runtime linking error
+    - Missing documentation for Boost
     - Update Boost installation
     - Documentation
     - Building version 1_44_0 : DONE

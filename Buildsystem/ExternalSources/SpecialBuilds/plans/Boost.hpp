@@ -10,6 +10,38 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \bug Runtime linking error
+  <ul>
+   <li> On csltok (Suse 11.3) we get
+   \verbatim
+/home/kullmann/OKplatform/system_directories/bin/tests/BoostSupport: error while loading shared libraries: libboost_regex.so.1.44.0: cannot open shared object file: No such file or directory
+   \endverbatim
+   </li>
+   <li> We have
+   \verbatim
+> ldd /home/kullmann/OKplatform/system_directories/bin/tests/BoostSupport
+        linux-vdso.so.1 =>  (0x00007fff3e57c000)
+        libboost_graph.so.1.44.0 => /home/kullmann/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0 (0x00007fb5e2c64000)
+        libstdc++.so.6 => /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib64/libstdc++.so.6 (0x00007fb5e2955000)
+        libm.so.6 => /lib64/libm.so.6 (0x00007fb5e26fe000)
+        libgcc_s.so.1 => /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib64/libgcc_s.so.1 (0x00007fb5e24f0000)
+        libc.so.6 => /lib64/libc.so.6 (0x00007fb5e2190000)
+        libboost_regex.so.1.44.0 => not found
+        librt.so.1 => /lib64/librt.so.1 (0x00007fb5e1f87000)
+        libpthread.so.0 => /lib64/libpthread.so.0 (0x00007fb5e1d6a000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007fb5e2ed1000)
+   \endverbatim
+   while libboost_regex.so.1.44.0 does exist. </li>
+   <li> The linker has version number
+   \verbatim
+> ld --version
+GNU ld (GNU Binutils; openSUSE 11.3) 2.20.0.20100122-6
+   \endverbatim
+   </li>
+   <li> One should try to install the newest binutils-package. </li>
+  </ul>
+
+
   \bug Missing documentation for Boost
   <ul>
    <li> The link to the local documentation on the ExternalSources page does
