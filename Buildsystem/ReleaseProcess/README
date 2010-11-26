@@ -46,7 +46,8 @@ The following software needs to be installed:
  - glibc (development library).
  - X libraries (development libraries; needed by gnuplot).
  - postgresql development library ("postgresql-devel").
- - binutils development library ("binutils-devel").
+ - binutils development library ("binutils-devel"),
+   version 2.19.1 or higher (check: "ld --version").
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
