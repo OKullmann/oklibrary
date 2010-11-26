@@ -12,5 +12,5 @@ source_libraries = $(boost_include_option_okl)
 boost_filesystem := -lboost_filesystem
 boost_date_time := -lboost_date_time
 
-link_libraries := $(boost_link_option_okl) $(boost_date_time) $(boost_filesystem)
+link_libraries := $(boost_link_option_okl) $(boost_date_time)
 
