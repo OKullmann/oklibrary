@@ -139,6 +139,17 @@ License, or any later version. */
    shows clearly that gsat-tabu is best, followed by samd (which is also
    slower). (Currently eval_ubcsat_dataframe(E) is not usable due to a bug in
    run_ubcsat.) </li>
+   <li> n=919:
+    <ol>
+     <li> gsat-tabu with cutoff 10^7:
+     \verbatim
+  1   2 
+603 194 
+797 
+     \endverbatim
+     </li>
+    </ol>
+   </ul>
   </ul>
 
 */
