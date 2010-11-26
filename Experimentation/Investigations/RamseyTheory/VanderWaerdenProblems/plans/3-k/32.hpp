@@ -188,6 +188,13 @@ License, or any later version. */
 368 
      \endverbatim
      doesn't look promising. </li>
+     <li> gsat-tabu with cutoff=10^8:
+     \verbatim
+ 4  5  6  7  8 
+34  9  2  2  1 
+48 
+     \endverbatim
+     seems unsatisfiable. </li>
     </ol>
    </li>
   </ul>

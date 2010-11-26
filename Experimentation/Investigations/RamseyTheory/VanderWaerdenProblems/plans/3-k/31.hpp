@@ -148,6 +148,13 @@ License, or any later version. */
 797 
      \endverbatim
      </li>
+     <li> gsat-tabu with cutoff=10^8:
+     \verbatim
+ 1  2 
+14  1 
+15 
+    \endverbatim
+     seems unsatisfiable. </li>
     </ol>
    </ul>
   </ul>

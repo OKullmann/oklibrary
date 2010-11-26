@@ -232,6 +232,13 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 422 
      \endverbatim
      doesn't look promising. </li>
+     <li> gsat-tabu with cutoff=10^8:
+     \verbatim
+ 3  4  5  6 
+47  2  1  1 
+51 
+     \endverbatim
+     seems unsatisfiable. </li>
     </ol>
    </li>
   </ul>

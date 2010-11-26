@@ -226,6 +226,13 @@ License, or any later version. */
 386 
      \endverbatim
      doesn't look promising. </li>
+     <li> gsat-tabu with cutoff=10^8:
+     \verbatim
+ 3  4  5  6 
+27 14  4  1 
+46 
+     \endverbatim
+     seems unsatisfiable. </li>
     <ol>
    </li>
   </ul>
