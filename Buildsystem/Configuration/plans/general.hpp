@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans regarding configuration management
 
 
+  \todo Configuration include order
+  <ul>
+   <li> Configuration files such as those included in 
+   BuildSystem/Configuration/configuration_data.mak should
+   be ordered in such a way that definitions that are likely to
+   be useful can be used in subsequent configuration files. </li>
+   <li> For example, one might wish to check whether a particular
+   machine is 32 or 64 bit and determine the paths to libraries etc
+   based on this variable, and hence BuildSystem/Configuration/build_data.mak
+   should appear before files such as 
+   BuildSystem/Configuration/ExternalSources/all.mak (see commit
+   97faa95da174bd79aec9ab3ce1ae75023d993665 ). </li>
+  </ul>
+
   \todo Configuration data overview :
   We need to get an overview on the different types of configuration data.
   <ul>

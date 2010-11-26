@@ -23,9 +23,9 @@ endif
 
 include $(OKconfiguration)/main_directories.mak
 include $(OKconfiguration)/version_numbers.mak
-include $(OKconfiguration)/ExternalSources/all.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/build_data.mak
+include $(OKconfiguration)/ExternalSources/all.mak # Must be lower than build_data (requires machine_bits_okl)
 include $(OKconfiguration)/macro_replacement.mak
 include $(OKconfiguration)/ReleaseProcess/data.mak
 include $(OKconfiguration)/SourceControl/data.mak

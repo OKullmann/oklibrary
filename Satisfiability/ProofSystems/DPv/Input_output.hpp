@@ -16,6 +16,8 @@ License, or any later version. */
 #ifndef INPUTOUTPUT_ah9s8ty332
 #define INPUTOUTPUT_ah9s8ty332
 
+#define BOOST_SPIRIT_USE_OLD_NAMESPACE
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -27,7 +29,7 @@ License, or any later version. */
 #include <limits>
 
 #include <boost/lexical_cast.hpp>
-#include <boost/spirit/core.hpp>
+#include <boost/spirit/include/classic_core.hpp>
 
 #include <OKlib/Programming/Parsing/ParserBase.hpp>
 

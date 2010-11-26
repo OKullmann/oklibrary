@@ -97,10 +97,10 @@ namespace OKlib {
 #define OKLIB_TEST_EQUAL_RANGES(c1, c2) { \
       using boost::begin; \
       using boost::end; \
-      using boost::size; \
-      if (size(c1) != size(c2)) { \
+      using boost::distance; \
+      if (distance(c1) != distance(c2)) { \
         std::stringstream out; \
-        out << "Size of first range is " << size(c1) << ", size of second range is " << size(c2); \
+        out << "Size of first range is " << distance(c1) << ", size of second range is " << distance(c2); \
         OKLIB_THROW(out.str()); \
       } \
       else if (not std::equal(begin(c1), end(c1), begin(c2))) \

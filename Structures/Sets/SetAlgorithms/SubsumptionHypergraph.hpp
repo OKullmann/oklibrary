@@ -89,7 +89,7 @@ namespace OKlib {
 
       Subsumption_hypergraph(const RangeF f_range, const RangeG g_range) {
         const boost::counting_iterator<Int> v_begin(0);
-        const boost::counting_iterator<Int> v_end(boost::size(f_range));
+        const boost::counting_iterator<Int> v_end(boost::distance(f_range));
         std::copy(v_begin, v_end, boost::begin(vertex_set));
         subsumption_hypergraph(f_range, g_range);
       }

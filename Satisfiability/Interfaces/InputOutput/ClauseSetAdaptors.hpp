@@ -61,7 +61,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #include <set>
 
 #include<boost/lexical_cast.hpp>
-#include <boost/range/size.hpp>
+#include <boost/range/distance.hpp>
 #include <boost/range/value_type.hpp>
 #include <boost/range/const_iterator.hpp>
 #include <boost/range/begin.hpp>
@@ -158,7 +158,7 @@ namespace OKlib {
       void clause(const ForwardRange& r, const int_type t) {
         ++stat.non_tautological_clauses_count;
         stat.total_number_literals += t;
-        stat.reduced_number_literals += boost::size(r);
+        stat.reduced_number_literals += boost::distance(r);
       }
       
     };

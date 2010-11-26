@@ -31,8 +31,8 @@ namespace OKlib {
     template <class Range>
     struct Size : std::unary_function<const Range&, typename boost::range_size<Range>::type> {
       typename boost::range_size<Range>::type operator() (const Range& r) const {
-        using boost::size;
-        return size(r);
+        using boost::distance;
+        return distance(r);
       }
     };
     // ToDo: moving to a module for function objects?

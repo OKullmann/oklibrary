@@ -102,7 +102,7 @@ namespace OKlib {
         const iterator& end(prefix_set.end());
         if (lower_bound == end)
           return end;
-        if (boost::size(r) > boost::size(*lower_bound))
+        if (boost::distance(r) > boost::distance(*lower_bound))
           return end;
         if (std::equal(boost::begin(r), boost::end(r), boost::begin(*lower_bound)))
           return lower_bound;
@@ -118,7 +118,7 @@ namespace OKlib {
         const iterator& next(boost::next(first));
         if (next == end)
           return checked_iterator_type(first, true);
-        if (boost::size(r) > boost::size(*next))
+        if (boost::distance(r) > boost::distance(*next))
           return checked_iterator_type(first, true);
         if (std::equal(boost::begin(r), boost::end(r), boost::begin(*next)))
           return checked_iterator_type(first, false);

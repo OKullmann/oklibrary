@@ -22,9 +22,10 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Update Boost installation
-    - Building version 1_38_0 / 1_39_0
-    - Problems with building Boost
     - Documentation
+    - Building version 1_44_0 : DONE
+    - Building version 1_38_0 / 1_39_0 : DONE
+    - Problems with building Boost : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following

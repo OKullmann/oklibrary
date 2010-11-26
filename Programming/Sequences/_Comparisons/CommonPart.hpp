@@ -67,7 +67,7 @@ License, or any later version. */
 
 #include <boost/range/iterator.hpp>
 #include <boost/range/size_type.hpp>
-#include <boost/range/size.hpp>
+#include <boost/range/distance.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 
@@ -111,7 +111,7 @@ namespace OKlib {
         typedef typename boost::range_size<Range1>::type size_type;
 
         std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(Range1& r1, Range2& r2) const {
-          if (boost::size(r1) <= boost::size(r2)) {
+          if (boost::distance(r1) <= boost::distance(r2)) {
             const iterator1_type b1(boost::begin(r1));
             typedef std::pair<iterator1_type, iterator2_type> pair_type;
             const pair_type res(std::mismatch(b1, boost::end(r1), boost::begin(r2)));
@@ -135,7 +135,7 @@ namespace OKlib {
         typedef typename boost::range_size<Range1>::type size_type;
 
         std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(const Range1& r1, const Range2& r2) const {
-          if (boost::size(r1) <= boost::size(r2)) {
+          if (boost::distance(r1) <= boost::distance(r2)) {
             const iterator1_type b1(boost::begin(r1));
             typedef std::pair<iterator1_type, iterator2_type> pair_type;
             const pair_type res(std::mismatch(b1, boost::end(r1), boost::begin(r2)));

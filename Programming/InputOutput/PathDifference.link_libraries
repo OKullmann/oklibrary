@@ -1,1 +1,2 @@
-echo -static
+echo ${boost_link_option_okl} -lboost_system -static
+

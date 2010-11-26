@@ -27,7 +27,7 @@ License, or any later version. */
 #include <tr1/array>
 
 #include <boost/rational.hpp>
-#include <boost/range/size.hpp>
+#include <boost/range/distance.hpp>
 #include <boost/range/size_type.hpp>
 #include <boost/range/const_iterator.hpp>
 #include <boost/range/begin.hpp>
@@ -37,7 +37,7 @@ License, or any later version. */
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/adjacency_matrix.hpp>
-#include <boost/property_map.hpp>
+#include <boost/property_map/property_map.hpp>
 
 // Some linear algebra #################################
 
@@ -204,8 +204,8 @@ inline Graph orthogonality_relation(const Range& r) {
       if (orthogonal(*ip, *jp)) ev.push_back(edge_type(i, j));
     }
   }
-  Graph g(ev.begin(), ev.end(), boost::size(r));
-  assert(num_vertices(g) == boost::size(r));
+  Graph g(ev.begin(), ev.end(), boost::distance(r));
+  assert(num_vertices(g) == boost::distance(r));
   assert(num_edges(g) == ev.size());
   return g;
 }

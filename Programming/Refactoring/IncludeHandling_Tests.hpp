@@ -22,7 +22,7 @@ License, or any later version. */
 #include <sstream>
 #include <cassert>
 
-#include <boost/spirit.hpp>
+#include <boost/spirit/include/classic.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -377,8 +377,8 @@ namespace OKlib {
       void perform_test_trivial() {
         const boost::filesystem::path& test_path_001("/");
         const boost::filesystem::path& test_path_002("/dir0/dir1/file.hpp");
-        OKLIB_TEST_EQUAL(boost::size(test_path_001),1);
-        OKLIB_TEST_EQUAL(boost::size(test_path_002),4);
+        OKLIB_TEST_EQUAL(boost::distance(test_path_001),1);
+        OKLIB_TEST_EQUAL(boost::distance(test_path_002),4);
       }
     };
 

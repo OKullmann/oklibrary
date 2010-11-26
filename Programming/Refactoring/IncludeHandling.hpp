@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.8.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,8 @@ License, or any later version. */
 #ifndef INCLUDEHANDLING_9yhNbv
 #define INCLUDEHANDLING_9yhNbv
 
+#define BOOST_SPIRIT_USE_OLD_NAMESPACE
+
 #include <string>
 #include <cassert>
 #include <ostream>
@@ -37,12 +39,15 @@ License, or any later version. */
 #include <stdexcept>
 #include <sstream>
 
-#include <boost/spirit/core.hpp>
-#include <boost/spirit/utility/confix.hpp>
-#include <boost/spirit/utility/chset.hpp>
-#include <boost/spirit/utility/regex.hpp>
-#include <boost/spirit/utility/escape_char.hpp>
-#include <boost/spirit/iterator/multi_pass.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_chset.hpp>
+#include <boost/spirit/include/classic_primitives.hpp>
+#include <boost/spirit/include/classic_regex.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_multi_pass.hpp>
+#include <boost/spirit/include/classic_parser.hpp>
+#include <boost/spirit/include/classic_grammar.hpp>
 
 #include <boost/iterator/reverse_iterator.hpp>
 

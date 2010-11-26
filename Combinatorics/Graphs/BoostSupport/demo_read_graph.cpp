@@ -30,7 +30,7 @@ License, or any later version. */
 
 #include <boost/graph/graphviz.hpp>
 #include <boost/graph/adjacency_list.hpp>
-#include <boost/dynamic_property_map.hpp>
+#include <boost/property_map/dynamic_property_map.hpp>
 
 namespace {
 
@@ -42,7 +42,7 @@ namespace {
       p.property("node_id", get(boost::vertex_name, g));
       boost::read_graphviz(std::cin, g, p);
       std::cout << num_vertices(g) << ", " << num_edges(g) << "\n";
-      boost::write_graphviz(std::cout, g, p); 
+      boost::write_graphviz_dp(std::cout, g, p); 
     }
   };
 }

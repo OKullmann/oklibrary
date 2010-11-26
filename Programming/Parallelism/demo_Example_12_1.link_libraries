@@ -1,1 +1,2 @@
-echo ${boost_link_option_okl} -lboost_filesystem-gcc-mt -lboost_thread-gcc-mt
+echo ${boost_link_option_okl} -lboost_filesystem -lboost_thread
+

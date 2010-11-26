@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,19 +24,8 @@ License, or any later version. */
   <ul>
    <li> The %boost header files and the corresponding link libraries XXX </li>
    <li> Documentation XXX </li>
-   <li> Corrections:
-    <ol>
-     <li> At this time (May 2009) we are stuck with version 1_34_1 due to
-     changes in the Boost behaviour causing build-failures for our programs.
-     </li>
-     <li> The package provided, "boost_1_34_1.tar.bz2", is actually patched
-     w.r.t. known defective files. </li>
-     <li> There are known errors with the serialisation library, but yet
-     we don't use this library. </li>
-    </ol>
-   </li>
    <li> The bzip2-library is needed to build Boost; we provide a (patched)
-   local installation by using <code>oklib bzip2</code>. This isinstalled by
+   local installation by using <code>oklib bzip2</code>. This is installed by
    default when installing the full package, while otherwise it needs to
    be installed before installing Boost. </li>
   </ul>
@@ -57,7 +46,7 @@ License, or any later version. */
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> Recommended version = <code>$(boost_recommended_version_number)</code> </li>
+   <li> Recommended version = <code>$(boost_recommended_version_number_okl)</code> </li>
    <li> %boost include option = <code>$(boost_include_option_okl)</code> XXX </li>
    <li> %boost link option = <code>$(boost_link_option_okl)</code> XXX </li>
    <li> ready: $(boost_ready)
