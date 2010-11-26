@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Fuzzing
   <ul>
-   <li> Install tools by Biere's group, http://fmv.jku.at/software/ . </li>
+   <li> Install tools by Biere's group, http://fmv.jku.at/software/ ,
+   especially http://fmv.jku.at/fuzzddtools/. </li>
    <li> See "Target app_tests" in
    Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp for the integration
    into the application-testsystem. </li>
@@ -289,12 +290,28 @@ double Solver::progressEstimate() const {
   \todo Precosat
   <ul>
    <li> At least the installation page is needed. </li>
-   <li> Is there some documentation? </li>
-   <li> It seems it has many command-line options, and we need to document
-   them. </li>
+   <li> Is there some documentation?
+    <ol>
+     <li> We have two pdf-files in sources/SAT/Precosat. </li>
+    </ol>
+   </li>
+   <li> Install (additionally) new version 570. </li>
+   <li> Install (additionally) versions "lingeling" and "plingeling". </li>
+   <li> How to manage several versions at the same time:
+    <ol>
+     <li> Perhaps target precosat calls targets precosat236 and precosat570,
+     which just set precosat_recommended_version_number_okl. </li>
+     <li> However, there is the problem that make-variables can not be set
+     in the body of rules. </li>
+     <li> So the setting of the version-number needed to happen at
+     script-level, which is ugly. </li>
+    </ol>
+   </li>
+   <li> It seems Precosat has many command-line options, and we need to
+   document them. </li>
    <li> What is the meaning of the output? </li>
-   <li> We need the option that it outputs learned clauses up to a certain
-   length to a file. </li>
+   <li> We need the option that Precosat outputs learned clauses up to a
+   certain length to a file. </li>
   </ul>
 
 
