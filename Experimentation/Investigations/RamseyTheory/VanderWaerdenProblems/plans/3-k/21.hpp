@@ -114,13 +114,49 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,21],"pd") < 416 =(conj) vanderwaerden([3,21]). </li>
+   <li> vanderwaerden_g([3,21],"pd") = 405 =(conj) vanderwaerden([3,21])-11.
+   </li>
    <li> precosat236:
     <ol>
+     <li> n=416: unsat, 14336s. </li>
      <li> n=415: unsat, 1452s. </li>
-     <li> n=414: ?sat, s. </li>
+     <li> n=414: unsat, 12765s. </li>
+     <li> n=413: unsat, 1398s. </li>
+     <li> n=412: unsat, 14829s. </li>
+     <li> n=411: unsat, 1549s. </li>
+     <li> n=410: unsat, 13377s. </li>
+     <li> n=409: unsat, 1425s. </li>
+     <li> n=408: unsat, 12879s. </li>
+     <li> n=407: unsat, 1409s. </li>
+     <li> n=406: unsat, 19780s. </li>
+     <li> n=405: unsat, 1455s. </li>
+     <li> n=404: sat, 7s. </li>
     </ol>
    </li>
+   <li> For odd n very quickly in all runs one variable is set --- which is
+   this? </li>
+   <li> ubcsat:gsat-tabu:
+    <ol>
+     <li> n=404: cutoff=10^6 yields
+     \verbatim
+  0   1 
+ 33 121 
+154 
+     \endverbatim
+     </li>
+     <li> n=405: cutoff=10^6 yields
+     \verbatim
+  1   2 
+165 140 
+305 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> So it seems that there is a clear distinction between satisfiable and
+   unsatisfiable instances, already with quite low cutoffs. </li>
+   <li> The simplest strategy to exploit this would be the screening of an
+   interval of n values, with relatively low cutoff and, say, run=100. </li>
   </ul>
 
 */
