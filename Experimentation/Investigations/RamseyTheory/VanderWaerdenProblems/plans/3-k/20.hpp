@@ -200,17 +200,41 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,20],"pd") = 389 = vanderwaerden([3,20]). </li>
+   <li> vanderwaerden_g([3,20],"pd") = 389 = vanderwaerden([3,20])
+   (assuming that all n>388 are unsolvable). </li>
    <li> precosat236:
     <ol>
+     <li> n=389: unsat, 332s. </li>
      <li> n=388: sat, 149s. </li>
+     <li> n=387: unsat, 361s. </li>
+     <li> n=386: sat, 1112s. </li>
+     <li> n=385: unsat, 332s. </li>
+     <li> n=384: sat, 320s. </li>
+     <li> n=383: unsat, 325s. </li>
+     <li> n=382: sat, 237s. </li>
+     <li> n=381: unsat, 333s. </li>
     </ol>
    </li>
+   <li> Again, for all odd n very soon one variable is fixed --- which? </li>
    <li> Other running times (for n=388):
     <ol>
      <li> minisat2 (2370s) </li>
      <li> picosat913 (455s) </li>
     </ol>
+   </li>
+   <li> "RunPdVdW3k 20 20 389 gsat-tabu 100 1000000": all 1<=n<=380 sat,
+   and then
+   \verbatim
+381 0
+382 1
+383 0
+384 1
+385 0
+386 1
+387 0
+388 1
+389 0
+   \endverbatim
    </li>
   </ul>
 
