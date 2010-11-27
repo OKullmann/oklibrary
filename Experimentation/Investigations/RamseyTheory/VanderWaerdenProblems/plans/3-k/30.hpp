@@ -191,6 +191,9 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
  1  2 
 29 48 
 77 
+  1   2   3
+ 57 148   1
+206
      \endverbatim
      </li>
     </ol>
@@ -236,7 +239,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      \verbatim
  3  4  5  6 
 47  2  1  1 
-51 
+51
      \endverbatim
      seems unsatisfiable. </li>
     </ol>

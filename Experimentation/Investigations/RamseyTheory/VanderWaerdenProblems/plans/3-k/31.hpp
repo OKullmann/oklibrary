@@ -109,6 +109,13 @@ License, or any later version. */
 500
      \endverbatim
      </li>
+     <li> rots with cutoff=10^8:
+     \verbatim
+ 1  2  3  4
+ 9 25 50 20
+104
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>

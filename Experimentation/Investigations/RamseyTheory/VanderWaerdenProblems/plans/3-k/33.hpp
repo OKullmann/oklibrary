@@ -203,6 +203,17 @@ License, or any later version. */
 918,929,957,976,989,994,1015,1025,1050
    \endverbatim
    </li>
+   <li> n=1064:
+    <ol>
+     <li> rots with cutoff=5*10^7:
+     \verbatim
+  1   2   3   4   5  18
+ 12  99 183  28   2   1
+325
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 

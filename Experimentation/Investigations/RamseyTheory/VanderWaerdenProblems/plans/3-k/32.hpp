@@ -146,6 +146,17 @@ License, or any later version. */
 911,932,935,941,946,969,978
    \endverbatim
    </li>
+   <li> n=1007:
+    <ol>
+     <li> rots with cutoff=5*10^7:
+     \verbatim
+  1   2   3   4   5   6
+  2 120 240  32   2   1
+397
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
