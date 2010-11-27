@@ -1,0 +1,131 @@
+#!/bin/bash
+# Oliver Kullmann, 26.11.2010 (Swansea)
+# Copyright 2010 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "RunPdVdW3k k a b alg runs cutoff" creates a directory
+# "Exp_PdVanderWaerden_2-3-k_date_a-b_alg-runs-cutoff", where the SAT instances
+# VanDerWaerden_pd_2-3-k_n.cnf for n = a, a+1, ... b are created
+# and ubcsat-okl with parameters alg, runs, cutoff is executed on
+# these instances, storing the output in VanDerWaerden_pd_2-3-k_n.cnf_OUT.
+# If a solution was found, then it is stored in 
+# VanDerWaerden_pd_2-3-k_n.cnf_sol.
+# A solution found for n-1 is used as the initial assignment (for ubcsat)
+# for n; for n=a either a random assignment is used as initial assignment, or
+# it is provided in a file given as an optional seventh parameter (in the
+# ubcsat-format, that is, as a space-symbol separated list of literals which
+# are assigned to true).
+# The parameters of the script can be found in file "Parameters" within the
+# experiment-directory, and ther results are in file "Results".
+
+set -o errexit
+set -o nounset
+
+script_name="RunPdVdW3k"
+version_number="0.1"
+
+if [[ $# != 6 && $# != 7 ]]; then
+  echo "ERROR[${script_name}]: Six parameters k, a,b, alg, runs, cutoff
+  are needed: The progression-length k, the interval [a,b] of vertex-numbers,
+  the ubcsat-algorithm, the number of runs, and the cutoff.
+  An optional seventh parameter is a path for the file containing an
+  initial assignment for the first ubcsat-run."
+  exit 1
+fi
+
+k=$1
+a=$2
+b=$3
+alg=$4
+runs=$5
+cutoff=$6
+
+if [[ $# == 6 ]]; then
+  initial_assignment=0
+else
+  initial_assignment=$7
+fi
+
+repeats_prevassign=3
+
+if [[ ${initial_assignment} != 0 ]]; then
+  if [[ !(-f ${initial_assignment}) ]]; then
+    echo -e "ERROR[${script_name}]: The file specified for the initial assignment is not valid:
+    \"${initial_assignment}\""
+    exit 1
+  else
+    initial_assignment="../"${initial_assignment}
+  fi
+fi
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+ExpDir="Exp_PdVanderWaerden_2-3-${k}_${timestamp}_${a}-${b}_${alg}-${runs}-${cutoff}"
+echo -e "Running \"${script_name}\" in version ${version_number}."
+echo -e "Creating directory ${ExpDir}.\n"
+mkdir ${ExpDir}
+cd ${ExpDir}
+
+result_file=Results
+
+echo -e "${script_name}:\n k=${k}\n a=${a}\n b=${b}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > Parameters
+
+generator="PdVanderWaerdenCNF-O3-DNDEBUG"
+
+success=0
+
+for ((n=${a}; n<=${b}; ++n)); do
+
+  SATinstance="VanDerWaerden_pd_2-3-${k}_${n}.cnf"
+  # Creating the Dimacs-file:
+  ${generator} 3 ${k} ${n} > ${SATinstance}
+
+  Output="${SATinstance}_OUT"
+  Solution="${SATinstance}_sol"
+
+  # Using the previous assignment as initial assignment:
+  if [[ ${initial_assignment} != 0 ]]; then
+    Output_init="${Output}_init"
+    parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinit ${initial_assignment}"
+    ubcsat-okl ${parameter_line} | tee ${Output_init}
+    # Finding out whether a satisfying assignment was found (searching for
+    # the line "PercentSuccess = x" and determining whether x > 0):
+    success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output_init})
+    if [[ ${success} == 1 ]]; then
+      Output=${Output_init}
+    fi
+  fi
+
+  # Using random initial assignments:
+  if [[ ${success} != 1 ]]; then
+    parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
+    ubcsat-okl ${parameter_line} | tee ${Output}
+    # Finding out whether a satisfying assignment was found:
+    success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
+  fi
+
+  echo "${n} ${success}" >> ${result_file}
+
+  if [[ ${success} == 1 ]]; then
+    # Extracting the solution
+    cat ${Output} | extract_solution_ubcsat > ${Solution}
+    initial_assignment=${Solution}
+    # Printing the solution
+    echo "Solution ubcsat-parameters are:"
+    awk '/^  +[0-9]+ 1/ {\
+      print " run=",$1, "osteps=",$4, "msteps=",$5, "seed=",$6}' ${Output}
+    echo "Certificate (the vertices for k=3) for n = ${n} : "
+    ExtractCertificate_vdW2 ${Output}
+  else
+    initial_assignment=0
+    echo "UNSAT"
+  fi
+  echo
+
+done
+
+exit 0
+

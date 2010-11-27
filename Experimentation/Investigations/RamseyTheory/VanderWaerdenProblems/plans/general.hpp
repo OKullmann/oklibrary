@@ -78,31 +78,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Script for searching for a vdW-number
-  <ul>
-   <li> Input is the vdW-parameter-tuple, and the start value for n. </li>
-   <li> Then the script runs through n, n+1, ..., until the instance
-   is unsatisfiable. </li>
-   <li> See
-   ExperimentSystem/ControllingLocalSearch/plans/PointOfUnsatisfiability.hpp.
-   </li>
-   <li> For problems with two parts only the SAT solver is needed as
-   parameter, while for more parts also the translation method is needed. </li>
-   <li> A complication arises when using incomplete algorithms for finding a
-   satisfying assignment.
-    <ol>
-     <li> The main problem then is the number of runs and the cutoff. </li>
-     <li> And at a certain point one has to try a complete solver. </li>
-     <li> Perhaps all this needs a second script; so we have one script for
-     running one complete solver, and one script for running one incomplete
-     solver. </li>
-    </ol>
-   </li>
-   <li> The script RunVdW3k is a first very simple tool, just using a fixed
-   number of runs and a fixed cutoff. </li>
-  </ul>
-
-
   \todo Symmetry breaking for van der Waerden numbers
   <ul>
    <li> As for any hypergraph colouring problems, one can choose any variable
@@ -160,21 +135,6 @@ for n : 1 thru 9 do print(n,current_satsolver(pd_vanderwaerden2nd_fcs(3,3,n)));
    <li> Transversal extensions are not interesting in their palindromic
    versions, since for k=2 for even n>= 2 there is no solution, while for odd
    n exactly the central vertex has to be chosen. </li>
-   <li> Version of RunVdW3k for palindromic problems:
-    <ol>
-     <li> Let's call it "RunPdVdW33k". </li>
-     <li> An upper bound on the unsat-gap is given; say unsat_gap is 2 or 3.
-     </li>
-     <li> That is, if unsat_gap consecutive "unsatisfiable" problems
-     (according to the current settings) are found, then the first
-     unsatisfiable problem is revisited. </li>
-     <li> Later, one could increate cutoff or rounds, however in the first
-     version we just stop. </li>
-     <li> So RunPdVdW33k is very similar to RunVdW33k, except that it only
-     stops after unsat-gap many unsatisfiable problems in a row, and that
-     a different generator is used. </li>
-    </ol>
-   </li>
   </ul>
 
 
