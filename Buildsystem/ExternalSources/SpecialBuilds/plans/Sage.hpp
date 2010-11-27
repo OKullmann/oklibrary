@@ -12,8 +12,10 @@ License, or any later version. */
 
   \todo Update to newer Sage
   <ul>
-   <li> Version 4.6: On cs-wsok (Suse 10.0):
-   \verbatim
+   <li> Version 4.6:
+    <ol>
+     <li> On cs-wsok (Suse 10.0):
+     \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
 collect2: ld returned 1 exit status
 make[4]: *** [libfplll.la] Error 1
@@ -21,9 +23,9 @@ make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSo
 make[3]: *** [all-recursive] Error 1
 make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.6/spkg/build/libfplll-3.0.12.p1/src'
 Error building libfplll
-   \endverbatim
-   while on cs-oksvr (Suse 11.0) we get
-   \verbatim
+     \endverbatim
+     <li> On cs-oksvr (Suse 11.0) we get
+     \verbatim
 gcc version 4.3.1 20080507 (prerelease) [gcc-4_3-branch revision 135036] (SUSE Linux)
 ****************************************************
 Building a 32-bit version of Readline
@@ -37,11 +39,17 @@ Error copying the system's libreadline
 
 sys     0m0.028s
 sage: An error occurred while installing readline-6.0.p4
-   \endverbatim
-   (/lib64/libreadline.so.5 and /lib64/libreadline.so.5.2 is available;
-   it says it will install readline, but then wants a very specific version
-   already installed?)
-   So still no progress.
+     \endverbatim
+     (/lib64/libreadline.so.5 and /lib64/libreadline.so.5.2 is available;
+     it says it will install readline, but then wants a very specific version
+     already installed?).
+     </li>
+     <li> On csltok (Suse 11.3): Here finally the installation succeeds,
+     however Sage installs a directory .sage in the home directory, and
+     this we must avoid! We need to move this data-directory to the
+     installation directory. (One could redefine HOME for the installation.)
+     </li>
+    </ol>
    </li>
    <li> Version 4.5.3:
     <ol>
