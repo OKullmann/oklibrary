@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Runtime linking error
+    - Runtime linking error : DONE
     - Missing documentation for Boost
     - Update Boost installation
     - Documentation

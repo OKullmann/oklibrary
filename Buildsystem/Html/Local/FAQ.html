@@ -53,6 +53,24 @@ License, or any later version. -->
   </ul>
 
 
+  <h2> Problems running programs </h2>
+
+  <ul>
+   <li> Runtime linking problems ("libraries not found"):
+    <ol>
+     <li> We experienced problems with Suse (Linux) distributions, and we
+      found that system-wide installation of the package
+      <code>binutils-2.20.tar.bz2</code> (available in
+      <code>ExternalSources/sources/LinuxTools</code>) solved the problems
+      (although the Suse-installed linker had in one case the same major
+      version number, nevertheless it produced unnecessary runtime-links which
+      caused problems).
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   <h2> The documentation system </h2>
 
   <ul>
@@ -123,7 +141,7 @@ OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
   
   <hr />
    <!-- hhmts start -->
-Last modified: Sat Nov 27 21:04:16 GMT 2010
+Last modified: Sat Nov 27 21:14:30 GMT 2010
 <!-- hhmts end -->
    <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
    

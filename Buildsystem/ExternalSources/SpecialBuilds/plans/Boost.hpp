@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
-  \bug Runtime linking error
+  \bug DONE (installation of binutils-2.20-package (system-wide) solved the
+  problem)
+  Runtime linking error
   <ul>
    <li> On csltok (Suse 11.3) we get
    \verbatim
