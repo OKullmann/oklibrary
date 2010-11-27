@@ -79,9 +79,17 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
    <li> vanderwaerden_g([3,19],"pd") = 347 = vanderwaerden([3,19])-2. </li>
    <li> picosat913:
     <ol>
+     <li> n=349: unsat, 68s. </li>
      <li> n=348: unsat, 707s. </li>
      <li> n=347: unsat, 85s. </li>
      <li> n=346: sat, 524s. </li>
+     <li> n=345: unsat, 75s. </li>
+     <li> n=344: sat, 6s. </li>
+     <li> n=343: unsat, 57s. </li>
+     <li> n=342: sat, 1s. </li>
+     <li> n=341: unsat, 67s. </li>
+     <li> n=340: sat, 5s. </li>
+     <li> n=339: unsat, 74s. </li>
     </ol>
    </li>
    <li> Other running times (for n=348,347,346):
@@ -94,6 +102,22 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
     </ol>
    </li>
    <li> So apparently actually precosat236 is best. </li>
+   <li> "RunPdVdW3k 19 19 349 gsat-tabu 100 1000000": all 1<=n<=338 sat,
+   and then
+   \verbatim
+339 0
+340 1
+341 0
+342 1
+343 0
+344 1
+345 0
+346 1
+347 0
+348 0
+349 0
+   \endverbatim
+   </li>
   </ul>
 
 */
