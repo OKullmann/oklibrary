@@ -292,12 +292,15 @@ double Solver::progressEstimate() const {
    <li> At least the installation page is needed. </li>
    <li> Is there some documentation?
     <ol>
-     <li> We have two pdf-files in sources/SAT/Precosat. </li>
+     <li> DONE (installed)
+     We have two pdf-files in sources/SAT/Precosat. </li>
     </ol>
    </li>
-   <li> Install (additionally) new version 570. </li>
+   <li> DONE
+   Install (additionally) new version 570. </li>
    <li> Install (additionally) versions "lingeling" and "plingeling". </li>
-   <li> How to manage several versions at the same time:
+   <li> DONE (make call's make)
+   How to manage several versions at the same time:
     <ol>
      <li> Perhaps target precosat calls targets precosat236 and precosat570,
      which just set precosat_recommended_version_number_okl. </li>

@@ -7,11 +7,12 @@
 
 # Settings for building and using Precosat
 
-precosat_recommended_version_number_okl ?= 236
-precosat_supported_not_recommended_version_numbers_okl ?= 
+precosat_recommended_version_number_okl ?= -570-239dbbe-100801
+precosat_other_version_numbers_okl ?= 236
 
 precosat_recommended_okl := precosat$(precosat_recommended_version_number_okl)
-precosat_source_okl := $(ExternalSources)/sources/SAT/Precosat/$(precosat_recommended_okl)
+precosat_base_source_okl := $(ExternalSources)/sources/SAT/Precosat
+precosat_source_okl := $(precosat_base_source_okl)/$(precosat_recommended_okl)
 
 precosat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Precosat
 precosat_build_dir_okl ?= $(precosat_base_build_dir_okl)/$(precosat_recommended_okl)
