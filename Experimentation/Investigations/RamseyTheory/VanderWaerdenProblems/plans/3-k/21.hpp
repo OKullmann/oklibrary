@@ -136,7 +136,10 @@ License, or any later version. */
      <li> n=401: unsat, 1303s. </li>
     </ol>
    </li>
-   <li> For odd n very quickly in all runs one variable is set --- which is
+   <li> DONE (the middle point; see
+   "Palindromic versions with arithmetic progressions of length 3" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp)
+   For odd n very quickly in all runs one variable is set --- which is
    this? </li>
    <li> ubcsat:gsat-tabu:
     <ol>

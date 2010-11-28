@@ -217,10 +217,14 @@ License, or any later version. */
     It doesn't look as if there would be an incentive to use version 570
     instead of 236.
    </li>
-   <li> Again, for all odd n very soon one variable is fixed --- which?
-   However this only happens with version 236, not with version 570 (there it
-   mostly takes about 23s to find this forced assignment (sometimes less,
-   sometimes considerably more)! </li>
+   <li> DONE (the middle point; see
+   "Palindromic versions with arithmetic progressions of length 3" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp)
+   Again, for all odd n very soon one variable is fixed --- which? </li>
+   <li> However this only happens with version 236, not with version 570
+   (there it mostly takes about 23s to find this forced assignment (sometimes
+   less, sometimes considerably more)! One should try whether adding this
+   unit-clause makes a difference for version 570. </li>
    <li> Other running times (for n=388):
     <ol>
      <li> minisat2 (2370s) </li>

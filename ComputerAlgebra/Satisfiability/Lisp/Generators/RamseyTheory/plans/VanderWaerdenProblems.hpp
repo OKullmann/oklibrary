@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.9.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -74,6 +74,16 @@ License, or any later version. */
    be placed at the very end. </li>
    <li> The output-function should use the clause-list-forms, not the
    clause-set-forms. </li>
+  </ul>
+
+
+  \todo Palindromic versions with arithmetic progressions of length 3
+  <ul>
+   <li> For progression length k=3 and odd n, if the middle point is
+   included, then all other points must be excluded (otherwise one gets
+   an arithmetic progression). </li>
+   <li> This follows by r_2-reduction, but might pose a problem for some
+   solver, so perhaps should be supplied by the translation. </li>
   </ul>
 
 
