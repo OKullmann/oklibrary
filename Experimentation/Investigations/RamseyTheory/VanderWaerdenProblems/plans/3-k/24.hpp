@@ -302,4 +302,43 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> 592 < vanderwaerden_g([3,24],"pd") =(conj) 593 =(conj)
+   vanderwaerden([3,24]).
+   </li>
+   <li> "RunPdVdW3k 24 25 593 gsat-tabu 100 6000000": all 1<=n<=568 sat,
+   and then
+   \verbatim
+569 0
+570 1
+571 0
+572 1
+573 0
+574 1
+575 0
+576 1
+577 0
+578 1
+579 0
+580 1
+581 0
+582 1
+583 0
+584 1
+585 0
+586 1
+587 0
+588 1
+589 0
+590 1
+591 0
+592 1
+593 0
+   \endverbatim
+   All solutions found in the first run.
+   </li>
+  </ul>
+
 */
