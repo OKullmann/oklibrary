@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/Generators/PdVanderWaerdenCNF.hpp
+  \file Satisfiability/Transformers/Generators/PdVanderWaerdenCNF.cpp
   \brief Application for creating SAT instances expressing 2-coloured palindromised van der Waerden problems
 
   <ul>
