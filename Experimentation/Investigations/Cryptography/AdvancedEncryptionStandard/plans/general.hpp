@@ -20,6 +20,9 @@ License, or any later version. */
    for an AES translation into SAT. </li>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
    </li>
+   <li> See Experimentation/Investigations/plans/CurrentExperiments.hpp for
+   current experiments (todo "Add section on AES experiments to be run" in
+   Experimentation/Investigations/plans/general.hpp needs urgent update). </li>
   </ul>
 
 
