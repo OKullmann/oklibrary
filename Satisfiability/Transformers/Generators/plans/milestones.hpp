@@ -18,6 +18,11 @@ License, or any later version. */
    topics are handled:
     - Improving SAT translations
 
+  \par
+   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
+   following topics are handled:
+    - Speed of PdVanderWaerdenCNF.cpp
+
 
   \par Version 0.0.10
 
