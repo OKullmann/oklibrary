@@ -124,4 +124,42 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> 462 < vanderwaerden_g([3,22],"pd") =(conj) 463 =(conj)
+   vanderwaerden([3,22])-1.
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> n=464: ?sat, s. </li>
+    </ol>
+   </li>
+   <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
+   and then
+     \verbatim
+445 0
+446 1
+447 0
+448 1
+449 0
+450 1
+451 0
+452 1
+453 0
+454 1
+455 0
+456 1
+457 0
+458 1
+459 0
+460 1
+461 0
+462 1
+463 0
+464 0
+   \endverbatim
+   </li>
+  </ul>
+
 */
