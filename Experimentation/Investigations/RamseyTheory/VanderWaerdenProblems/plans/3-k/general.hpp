@@ -238,7 +238,39 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
   </ul>
 
 
-
+  \todo Conjectures on solvability of palindromic problems
+  <ul>
+   <li> See "Palindromic versions" in
+   RamseyTheory/VanderWaerdenProblems/plans/general.hpp for the general
+   context (and for "unsat gap" and "sat gap"). </li>
+   <li> See "Palindromic numbers" in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Numbers.hpp for
+   notions and notations. </li>
+   <li> Consider a fixed k >= 3. </li>
+   <li> Palindromic instances are considered for parameter tuple (3,k) w.r.t.
+   the number n of vertices. </li>
+   <li> First conjecture: If n_0 is unsatisfiable, and n_1 > n_0 is
+   satisfiable, then n_1 + 1 is unsatisfiable. In other words, after a
+   satisfiable instance must come an unsatisfiable instance, if already
+   unsatisfiable instances were encountered. This is equivalent to the
+   sat-gap be at most 2. </li>
+   <li> Second conjecture: If n_0 is satisfiable, and n_1 < n_0 is
+   unsatisfiable, then n_1 + 1 is satisfiable. In other words, after an
+   unsatisfiable instance must come a satisfiable instance, if later there are
+   still unsatisfiable instances. This is equivalent to the unsat-gap be at
+   most 2. </li>
+   <li> From these two conjectures follows that solvability of palindromic
+   instances is determined by two parameters:
+    <ol>
+     <li> vdw_2^pd(3,k), the minimal n such that all n' >= n are unsatisfiable.
+     </li>
+     <li> and svdw_2^pd(3,k), the maximal n such that all n' <= n are
+     satisfiable. </li>
+    </ol>
+    Then svdw_2^pd(3,k) is sat, the next unsat, the next sat, etc., until
+    from vdw_2^pd(3,k) all instances are unsat.
+   </li>
+  </ul>
 
 
 */

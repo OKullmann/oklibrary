@@ -106,7 +106,7 @@ License, or any later version. */
    for all n' >= n no palindromic solution w.r.t. t exists. </li>
    <li> Compare "Palindromic numbers" in
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Numbers.hpp. </li>
-   <li> Unsat gaps:
+   <li> Sat and unsat gaps:
     <ol>
      <li> It can happen that for some n the problem is solvable, while it is
      unsolvable for some n' < n. </li>
@@ -125,11 +125,25 @@ for n : 1 thru 9 do print(n,current_satsolver(pd_vanderwaerden2nd_fcs(3,3,n)));
 9 false 
      \endverbatim
      </li>
-     <li> So the "unsat gap", the largest difference n_2 - n_1, such that
-     (for the given t) the problem is solvable for n_2 and n_1 with n_2 > n_1,
-     while for all n_1 < n < n_2 the problem is unsolvable. </li>
+     <li> So the "unsat gap" is relevant, the largest difference n_2 - n_1,
+     such that (for the given t) the problem is solvable for n_2 and n_1 with
+     n_2 > n_1, while for all n_1 < n < n_2 the problem is unsolvable. </li>
+     <li> In other words, the unsat-gap minus 1 is the longest length of a
+     contiguous sequence of unsatisfiable instances with satisfiable instances
+     at both ends. </li>
      <li> The above example shows an unsat-gap of 2. </li>
      <li> Is an unsat-gap larger than 2 possible? </li>
+     <li> Analogously one could consider "sat gaps", the largest difference
+     n_2 - n_1, such that for all n_1 < n < n_2 the problems are solvable,
+     while n_1, n_2 are unsolvable. In other words, the sat-gap minus 1 is the
+     longest length of a contiguous sequence of satisfiable instances with
+     unsatisfiable instances at both ends.</li>
+    </ol>
+   </li>
+   <li> Conjectures on solvability of palindromic problems:
+    <ol>
+     <li> See "Conjectures on solvability of palindromic problems" in
+     RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp. </li>
     </ol>
    </li>
    <li> Transversal extensions are not interesting in their palindromic

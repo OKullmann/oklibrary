@@ -55,6 +55,18 @@ License, or any later version. */
      indicated by an upper index. </li>
     </ol>
    </li>
+   <li> Dual versions (regarding satisfiability):
+    <ol>
+     <li> As discussed in "Conjectures on solvability of palindromic problems"
+     in
+     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
+     we also need to consider the largest n such that all n' <= n yield
+     satisfiable problems. </li>
+     <li> At the Maximap-level we could name that
+     vanderwaerden_g(t,"pdsat"). </li>
+     <li> In mathematical formulas we could use "svdw_m^{pd}(t)". </li>
+    </ol>
+   </li>
   </ul>
 
 
