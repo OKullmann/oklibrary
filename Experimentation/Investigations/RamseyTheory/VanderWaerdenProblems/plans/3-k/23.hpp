@@ -136,4 +136,19 @@ License, or any later version. */
    let's consider this for now as unsatisfiable. </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> 506 < vanderwaerden_g([3,22],"pd") =(conj) 507 =(conj)
+   vanderwaerden([3,22])-9.
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> n=516: ?sat, s. </li>
+    </ol>
+   </li>
+   <li> "RunPdVdW3k 23 460 516 gsat-tabu 100 4000000": all 1<=n<=506 sat,
+   all 507<=n<=516 unsat. </li>
+  </ul>
+
 */
