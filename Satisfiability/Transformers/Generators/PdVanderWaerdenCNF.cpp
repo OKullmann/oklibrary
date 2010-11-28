@@ -20,8 +20,6 @@ License, or any later version. */
    </li>
   </ul>
 
-  \todo Write application tests : DONE
-
 */
 
 #include <string>

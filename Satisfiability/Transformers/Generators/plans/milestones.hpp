@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Transformers/Generators 0.0.7 (6.12.2009)
-
-
-  \par Version 0.0.8
-
-  \par
-   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
-   following topics are handled:
-    - Palindromic versions : DONE
+  \module_version Transformers/Generators 0.0.8 (28.11.2010)
 
 
   \par Version 0.0.9
@@ -128,6 +120,7 @@ License, or any later version. */
    - 0.0.5 : 11.6.2007; initial version number (several plans, and two (old) implementations in OKsolver/Experimental/Transformationen).
    - 0.0.6 : 10.11.2007; update of plans and restructuring.
    - 0.0.7 : 6.12.2009; tools for computing transversal numbers for Green-Tao and van-der-Waerden problems, tools for cardinality constraints, SAT generators for Hindman- and GreenTao-problems.
+   - 0.0.8 : 28.11.2010; generator for UCP-testing, various corrections and improvements, extensions of existing generators, new generator for palindromic vdW-problems.
 
 */
 
