@@ -202,20 +202,25 @@ License, or any later version. */
   <ul>
    <li> vanderwaerden_g([3,20],"pd") = 389 = vanderwaerden([3,20])
    (assuming that all n>388 are unsolvable). </li>
-   <li> precosat236:
+   <li> precosat236 (precosat570):
     <ol>
-     <li> n=389: unsat, 332s. </li>
-     <li> n=388: sat, 149s. </li>
-     <li> n=387: unsat, 361s. </li>
-     <li> n=386: sat, 1112s. </li>
-     <li> n=385: unsat, 332s. </li>
-     <li> n=384: sat, 320s. </li>
-     <li> n=383: unsat, 325s. </li>
-     <li> n=382: sat, 237s. </li>
-     <li> n=381: unsat, 333s. </li>
+     <li> n=389: unsat, 332s (337s). </li>
+     <li> n=388: sat, 149s (781s). </li>
+     <li> n=387: unsat, 361s (307s). </li>
+     <li> n=386: sat, 1112s (1215s). </li>
+     <li> n=385: unsat, 332s (319s). </li>
+     <li> n=384: sat, 320s (659s). </li>
+     <li> n=383: unsat, 325s (310s). </li>
+     <li> n=382: sat, 237s (989s). </li>
+     <li> n=381: unsat, 333s (322s). </li>
     </ol>
+    It doesn't look as if there would be an incentive to use version 570
+    instead of 236.
    </li>
-   <li> Again, for all odd n very soon one variable is fixed --- which? </li>
+   <li> Again, for all odd n very soon one variable is fixed --- which?
+   However this only happens with version 236, not with version 570 (there it
+   mostly takes about 23s to find this forced assignment (sometimes less,
+   sometimes considerably more)! </li>
    <li> Other running times (for n=388):
     <ol>
      <li> minisat2 (2370s) </li>
