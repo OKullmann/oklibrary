@@ -29,7 +29,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic versions
+  \todo Palindromic versions : DONE
   <ul>
    <li> The Maxima-specification for the boolean problems is
    output_pd_vanderwaerden2nd_stdname(k1,k2,n). </li>

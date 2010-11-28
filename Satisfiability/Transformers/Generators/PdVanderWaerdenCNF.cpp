@@ -20,7 +20,7 @@ License, or any later version. */
    </li>
   </ul>
 
-  \todo Write application tests
+  \todo Write application tests : DONE
 
 */
 

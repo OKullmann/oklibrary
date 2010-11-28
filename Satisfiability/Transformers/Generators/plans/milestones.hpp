@@ -14,12 +14,20 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
+   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
+   following topics are handled:
+    - Palindromic versions : DONE
+
+
+  \par Version 0.0.9
+
+  \par
    In Satisfiability/Transformers/Generators/plans/GreenTao.hpp the following 
    topics are handled:
     - Improving SAT translations
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In Transformers/Generators/plans/general.hpp the following
@@ -27,7 +35,7 @@ License, or any later version. */
     - Update
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
@@ -39,13 +47,6 @@ License, or any later version. */
    topics are handled:
     - Strengthen connection to Maxima/Lisp level
     - Move todos to this file
-
-  \par Version 0.0.11
-
-  \par
-   In Satisfiability/Transformers/Generators/plans/VanderWaerden.hpp the
-   following topics are handled:
-    - Palindromic versions
 
 
   \par Version 0.0.12
