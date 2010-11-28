@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations into Green-Tao problems (including Green-Tao numbers)
 
 
+  \todo Prepare benchmarks for SAT 2011
+  <ul>
+   <li> See "Benchmarks for SAT 2011" in
+   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+  </ul>
+
+
   \todo Standardisation on notation : DONE
   <ul>
    <li> For Green-Tao and for Van-der-Waerden numbers we use the following

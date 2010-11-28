@@ -28,6 +28,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Prepare benchmarks for SAT 2011
+  <ul>
+   <li> See "Benchmarks for SAT 2011" in
+   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+  </ul>
+
+
   \todo Create milestones
   <ul>
    <li> Perhaps the initial version number is 0.2. </li>

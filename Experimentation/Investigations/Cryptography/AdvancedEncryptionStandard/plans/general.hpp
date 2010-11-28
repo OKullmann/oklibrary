@@ -26,6 +26,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Prepare benchmarks for SAT 2011
+  <ul>
+   <li> See "Benchmarks for SAT 2011" in
+   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+  </ul>
+
+
   \todo Improve formulations: MG (as soon as possible!)
   <ul>
    <li> The general naming conventions must be followed:
