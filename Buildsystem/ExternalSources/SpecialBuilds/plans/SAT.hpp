@@ -96,6 +96,48 @@ License, or any later version. */
   \todo SAT4J
   <ul>
    <li> http://www.sat4j.org/ </li>
+   <li> For documentation on building Sat4J from source, see 
+   http://forge.ow2.org/project/showfiles.php?group_id=228 and
+   http://download.forge.objectweb.org/sat4j/getting-started-sat4j-0.3.pdf .
+   </li>
+   <li> Sat4j builds with gcj, however, a library from Eclipse is 
+   apparently needed during the build, as otherwise we get
+   \verbatim
+builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
+builds/SAT/Sat4J> ant
+BUILD FAILED
+/home/csmg/Apps/trunk/build.xml:186: The following error occurred while executing this line:
+/home/csmg/Apps/trunk/build.xml:291: Class not found: org.eclipse.jdt.core.JDTCompilerAdapter
+
+Total time: 1 second
+   \endverbatim
+   However, using the "ecj-3.6.1.jar" (the Eclipse compiler library - 
+   http://download.eclipse.org/eclipse/downloads/drops/R-3.6.1-201009090800/index.php), 
+   we can then compile this like so - 
+   \verbatim
+builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
+builds/SAT/Sat4J> wget "http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.6.1-201009090800/ecj-3.6.1.jar&url=http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.6.1-201009090800/ecj-3.6.1.jar&mirror_id=96" -O ecj-3.6.1.jar
+builds/SAT/Sat4J> ant -lib ecj-3.6.1.jar
+   \endverbatim
+   </li>
+   <li> However, we then need to build ecj. The sources are available on the 
+   site, but Java 1.6 is required to build it and gcj only supports up to
+   Java 1.5 - 
+   \verbatim
+builds/SAT/Sat4J> mkdir ecj; cd ecj
+builds/SAT/Sat4J/ecj> wget "http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.6.1-201009090800/ecjsrc-3.6.1.zip&url=http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.6.1-201009090800/ecjsrc-3.6.1.zip&mirror_id=96" -O ecjsrc-3.6.1.zip
+builds/SAT/Sat4J/ecj> unzip ecjsrc-3.6.1.zip
+builds/SAT/Sat4J/ecj> ant
+    [javac] Compiling 53 source files to /home/csmg/Apps/trunk/ecj/bin
+    [javac] Compliance level '1.5' is incompatible with source level '1.6'. A compliance level '1.6' or better is required
+
+BUILD FAILED
+/home/csmg/Apps/trunk/ecj/build.xml:35: Compile failed; see the compiler error output for details.
+
+   \endverbatim 
+   </li>
+   <li> Older versions of ecj are available, so we should try one of these. 
+   </li>
   </ul>
 
 
