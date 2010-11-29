@@ -52,9 +52,24 @@ sys     0m0.076s
    <li> Could this be caused by the Boost upgrade?
     <ol>
      <li> We need to rebuild the application at commit
-     5bb52740ad8a3394d2713d61a2c1c74df4d6a22e (before update to new Boost).
+     5bb52740ad8a3394d2713d61a2c1c74df4d6a22e (before update to new Boost):
+     \verbatim
+Generators> git checkout 5bb52740ad8a3394d2713d61a2c1c74df4d6a22e
+Generators> oklib cleanall
+Generators> oklib all
+
+kullmann-0:OKplatform> time PdVanderWaerden-O3-DNDEBUG 3 1000 > Test02
+user    2m47.409s
+sys     0m0.107s
+user    2m47.883s
+sys     0m0.099s
+
+Generators> git checkout master
+     \endverbatim
      </li>
-     <li> Then we check the speed of the hypergraph creation. </li>
+     <li> So it seems the hypergraph-generation was a bit faster (but not
+     much). </li>
+     <li> We need to find out whether this difference is real or not. </li>
     </ol>
    </li>
   </ul>
