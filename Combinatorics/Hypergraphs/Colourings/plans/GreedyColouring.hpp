@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,7 +52,7 @@ License, or any later version. */
    <li> Complete doxygen documentation. </li>
    <li> Write docus. </li>
    <li> Test it. </li>
-   <li> Transfer todos here : DONE </li>
+   <li> Transfer todos here. </li>
   </ul>
 
 
@@ -138,14 +138,15 @@ License, or any later version. */
   <ul>
    <li> The direct approach is to consider it just as a standard optimisation
    problem, where the search space is the space of all vertex permutations, and
-   where the goal function is the number of colours obtained by the permutation,
-   to be minimised. </li>
+   where the goal function is the number of colours obtained by the
+   permutation, to be minimised. </li>
    <li> The natural notion of a move would be a transposition (possibly
    restricted to a neighbour swap). </li>
    <li> A more restricted approach would consider the decision problem with
-   bound k, and would only construct the colouring corresponding to a permutation
-   until it gets larger than k, in which case the current "problematic"
-   vertex could simply be swapped with one of its coloured neighbours. </li>
+   bound k, and would only construct the colouring corresponding to a
+   permutation until it gets larger than k, in which case the current
+   "problematic" vertex could simply be swapped with one of its coloured
+   neighbours. </li>
    <li> See Optimisation/LocalSearch/plans/general.hpp for a generic local
    search algorithm. </li>
   </ul>

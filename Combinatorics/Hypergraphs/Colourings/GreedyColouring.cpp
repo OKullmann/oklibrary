@@ -1,21 +1,24 @@
 // Oliver Kullmann, 24.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Hypergraphs/Colourings/GreedyColouring.cpp
+  \file Combinatorics/Hypergraphs/Colourings/GreedyColouring.cpp
   \brief Application for performing greedy graph colouring (prototype)
 
   The program reads from standard input an undirected graph in dot-format.
-  It prints the number of vertices, the number of edges, and all vertex degrees,
-  followed by an analysis of the generic colouring algorithm for the input graph.
+  It prints the number of vertices, the number of edges, and all vertex
+  degrees, followed by an analysis of the generic colouring algorithm for the
+  input graph.
 
   If no command-line argument is given, then only the lexicographical order and
   the max- and min-degree order are evaluated, while otherwise all orders are
   evaluated.
+
+  \todo Specify the lexicographical order
 
 */
 
