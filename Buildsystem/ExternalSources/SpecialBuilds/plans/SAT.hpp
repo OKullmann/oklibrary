@@ -456,6 +456,15 @@ Satz> cp ../../../sources/SAT/Satz/my_compact.c .
 Satz> gcc -O3 -o compact my_compact.c
    \endverbatim
    </li>
+   <li> wmaxsatz (see http://www.laria.u-picardie.fr/~cli/maxsatz2009.c)
+   \verbatim
+Satz> wget http://www.laria.u-picardie.fr/~cli/maxsatz2009.c -O wmaxsatz2009.c
+Satz> sed -i 's/CLK_TCK/CLOCKS_PER_SEC/g' wmaxsatz2009.c
+Satz> gcc -O3 -o wmaxsatz2009 wmaxsatz2009.c
+   \endverbatim
+   Note that wmaxsatz is not currently in ExternalSources but once moved
+   there can simply be copied rather than using wget.
+   </li>
    <li> DONE
    Satz 214 and 215
     <ol>
@@ -475,6 +484,15 @@ Satz> gcc -O3 -o satz215 satz215.2.c
      10 (sat) resp. 20 (unsat). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo MiniMaxSAT
+  <ul>
+   <li> http://www.lsi.upc.edu/~fheras/p6.html </li>
+   <li> The source does not seem to be available on the site for this solver. 
+   </li>
+   <li> We should send an e-mail to the developers. </li>
   </ul>
 
 
