@@ -198,4 +198,38 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> 606 < vanderwaerden_g([3,25],"pd") =(conj) 607 =(conj)
+   vanderwaerden([3,25])-49.
+   </li>
+   <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000": all 1<=n<=586 sat,
+   then
+   \verbatim
+587 0
+588 1
+589 0
+590 1
+591 0
+592 1
+593 0
+594 1
+595 0
+596 1
+597 0
+598 1
+599 0
+600 1
+601 0
+602 1
+603 0
+604 1
+605 0
+606 1
+   \endverbatim
+   and all n>=607 "unsat". All solutions found in the first run.
+   </li>
+  </ul>
+
 */
