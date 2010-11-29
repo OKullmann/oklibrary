@@ -246,6 +246,15 @@ License, or any later version. */
      seems unsatisfiable. </li>
     <ol>
    </li>
+   <li> "RunPdVdW3k 33 34 999 gsat-tabu 100 10000000" finds 1<=n<=996 sat,
+   and then
+   \verbatim
+997 0
+998 1
+999 0
+   \endverbatim
+   where the solutions have been found within at most the first 30 runs.
+   </li>
   </ul>
 
 */

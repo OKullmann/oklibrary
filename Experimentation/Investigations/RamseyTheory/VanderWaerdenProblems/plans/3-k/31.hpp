@@ -163,7 +163,16 @@ License, or any later version. */
     \endverbatim
      seems unsatisfiable. </li>
     </ol>
-   </ul>
+   </li>
+   <li> "RunPdVdW3k 31 32 919 gsat-tabu 100 10000000" finds 1<=n<=916 sat,
+   and then
+   \verbatim
+917 0
+918 1
+919 0
+   \endverbatim
+   where the solutions have been found within at most the first 10 runs.
+   </li>
   </ul>
 
 */
