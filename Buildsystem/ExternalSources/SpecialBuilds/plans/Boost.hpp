@@ -46,10 +46,12 @@ GNU ld (GNU Binutils; openSUSE 11.3) 2.20.0.20100122-6
 
   \bug Missing documentation for Boost
   <ul>
-   <li> The link to the local documentation on the ExternalSources page does
-   not work. </li>
    <li> The installation page needs to be updated ("XXX" should be eliminated).
    </li>
+   <li> DONE (Included new "index.html" file in copy operation during
+   boost build)
+   The link to the local documentation on the ExternalSources page does
+   not work. </li>
   </ul>
 
 
