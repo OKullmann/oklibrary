@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers 0.0.4.1 (6.12.2009)
+  \module_version Satisfiability/Transformers 0.0.4.2 (28.11.2010)
 
 
   \par Version 0.0.5

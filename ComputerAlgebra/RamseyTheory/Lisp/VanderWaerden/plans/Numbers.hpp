@@ -55,16 +55,20 @@ License, or any later version. */
      indicated by an upper index. </li>
     </ol>
    </li>
+   <li> From a solution for n a solution for n-2 can be derived by removing
+   vertices n and 1, and then subtracting 1 from the remaining vertices. </li>
+   <li> Thus the sequence of bits for n=1,... (always for a given tuple t)
+   is first all 1's, then 0 and 1 strictly alternating, and then all 0,s
+   (where the lenght of the alternating sequence could be zero). </li>
    <li> Dual versions (regarding satisfiability):
     <ol>
-     <li> As discussed in "Conjectures on solvability of palindromic problems"
-     in
-     Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
-     we also need to consider the largest n such that all n' <= n yield
+     <li> So we also need to consider the largest n such that all n' <= n yield
      satisfiable problems. </li>
      <li> At the Maximap-level we could name that
      vanderwaerden_g(t,"pdsat"). </li>
      <li> In mathematical formulas we could use "svdw_m^{pd}(t)". </li>
+     <li> The two numbers svdw_m^{pd}(t), vdw_m^{pd}(t) completely determine
+     satisfiability for all n (for this t). </li>
     </ol>
    </li>
   </ul>

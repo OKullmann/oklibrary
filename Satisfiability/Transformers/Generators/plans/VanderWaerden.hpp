@@ -29,10 +29,49 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic versions
+  \todo Speed of PdVanderWaerdenCNF.cpp
   <ul>
-   <li> The Maxima-specification for the boolean problems is
-   output_pd_vanderwaerden2nd_stdname(k1,k2,n). </li>
+   <li> On csltok, for k=30 and n=1000 it took once a bit more than one minute.
+   However on cs-wsok it now takes about five minutes? </li>
+   <li> Timings on csltok:
+   \verbatim
+> time PdVanderWaerden-O3-DNDEBUG 3 1000 > Test01
+user    3m3.253s
+sys     0m0.152s
+user    2m51.189s
+sys     0m0.183s
+
+> time PdVanderWaerdenCNF-O3-DNDEBUG 3 30 1000 > Test01
+user    2m54.118s
+sys     0m0.092s
+user    2m51.469s
+sys     0m0.076s
+
+   \endverbatim
+   </li>
+   <li> Could this be caused by the Boost upgrade?
+    <ol>
+     <li> We need to rebuild the application at commit
+     5bb52740ad8a3394d2713d61a2c1c74df4d6a22e (before update to new Boost):
+     \verbatim
+Generators> git checkout 5bb52740ad8a3394d2713d61a2c1c74df4d6a22e
+Generators> oklib cleanall
+Generators> oklib all
+
+kullmann-0:OKplatform> time PdVanderWaerden-O3-DNDEBUG 3 1000 > Test02
+user    2m47.409s
+sys     0m0.107s
+user    2m47.883s
+sys     0m0.099s
+
+Generators> git checkout master
+     \endverbatim
+     </li>
+     <li> So it seems the hypergraph-generation was a bit faster (but not
+     much). </li>
+     <li> We need to find out whether this difference is real or not. </li>
+    </ol>
+   </li>
   </ul>
 
 */
