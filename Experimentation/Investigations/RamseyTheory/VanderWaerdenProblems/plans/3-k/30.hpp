@@ -244,6 +244,22 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      seems unsatisfiable. </li>
     </ol>
    </li>
+   <li> The old "RunPdVdW3k 30 31 903 gsat-tabu 100 10000000" yields that all
+   1<=n<=844 are sat, then
+   \verbatim
+845 0
+846 1
+847 0
+848 1
+849 0
+850 1
+851 0
+852 1
+853 0
+854 1
+855 0
+   \endverbatim
+   while everything from 856 on seems unsat. </li>
    <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" </li>
   </ul>
 

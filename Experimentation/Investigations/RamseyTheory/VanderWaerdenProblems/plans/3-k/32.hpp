@@ -208,6 +208,16 @@ License, or any later version. */
      seems unsatisfiable. </li>
     </ol>
    </li>
+   <li> Running "RunPdVdW3k 32 33 1007 gsat-tabu 100 10000000" shows that
+   all 1<=n<=958 are sat, then we have
+   \verbatim
+959 0
+960 1
+961 0
+962 1
+963 0
+   \endverbatim
+   while everything above 964 on seems unsat. </li>
   </ul>
 
 */
