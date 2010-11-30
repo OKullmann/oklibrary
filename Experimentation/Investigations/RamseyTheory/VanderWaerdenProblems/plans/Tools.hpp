@@ -37,6 +37,15 @@ License, or any later version. */
 
   \todo Version of RunVdW3k for palindromic problems
     <ol>
+     <li> Use of solution for n-2:
+      <ol>
+       <li> Likely this solution should be translated, that is, interpreted
+       as concerning now the vertices 2, ..., n-1, while vertices 1 and n
+       are left open. </li>
+      </ol>
+     </li>
+     <li> Later, one could increase cutoff or rounds, however in the first
+     version we just stop. </li>
      <li> DONE
      Let's call it "RunPdVdW33k". </li>
      <li> DONE (we don't impose such restrictions, since we need to explore
@@ -47,8 +56,6 @@ License, or any later version. */
      That is, if unsat_gap consecutive "unsatisfiable" problems
      (according to the current settings) are found, then the first
      unsatisfiable problem is revisited. </li>
-     <li> Later, one could increase cutoff or rounds, however in the first
-     version we just stop. </li>
      <li> DONE (different from RunVdW33k, here solution-inheritance happens
      for n -> n+2)
      So RunPdVdW33k is very similar to RunVdW33k, except that it only
