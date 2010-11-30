@@ -118,6 +118,7 @@ ExternalSources/Installations/R> oklib --R
    </li>
    <li> Grigory Yaroslavtsev and Alexander Kulikov have written some software
    to find short circuits (over the full binary base for example). </li>
+   <li> egntott http://code.google.com/p/eqntott/ </li>
   </ul>
 
 
