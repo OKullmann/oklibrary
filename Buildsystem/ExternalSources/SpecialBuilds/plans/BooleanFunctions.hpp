@@ -130,12 +130,16 @@ ExternalSources/Installations/R> oklib --R
    with newer gcc versions, is available at
    http://code.google.com/p/eqntott/downloads/detail?name=espresso-ab-1.0.tar.gz
    </li>
-   <li> It doesn't appear to have a well established website and so offering 
+   <li> Documentation at the ExternalSources page needs to be provided. </li>
+   <li> DONE (we install it)
+   It doesn't appear to have a well established website and so offering 
    this for download within the OKlibrary could be beneficial. </li>
-   <li> Espresso-ab doesn't appear to have a well known open-source license,
+   <li> DONE (seems alright)
+   Espresso-ab doesn't appear to have a well known open-source license,
    although it does come with a license which allows copying,
    redistribution and derivative works. </li>
-   <li> To install espresso-ab, one downloads it from the site 
+   <li> DONE (provided basic installation)
+   To install espresso-ab, one downloads it from the site 
    (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
    and uses the standard make-style compilation procedure:
    \verbatim
@@ -148,7 +152,8 @@ espresso-ab-1.0> ./configure
 espresso-ab-1.0> make
 espresso-ab-1.0> ./src/espresso --help
    \endverbatim
-   and then one can use the following "test.pla" file (see below)
+   </li>
+   <li> Then one can use the following "test.pla" file (see below)
    with espresso 
    \verbatim
 .i 3

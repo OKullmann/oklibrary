@@ -110,6 +110,8 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/picosat.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/precosat.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/argosat.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/zlib.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/espresso.mak
+
 
 # #################################
 # Cleaning

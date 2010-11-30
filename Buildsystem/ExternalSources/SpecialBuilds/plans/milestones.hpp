@@ -74,6 +74,11 @@ License, or any later version. */
     - Belief and Survey propagation
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   the following topics are handled:
+    - Espresso
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
