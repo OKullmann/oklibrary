@@ -9,7 +9,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,31)
 
 
-  \todo vanderwaerden_2(3,31) > 918
+  \todo vanderwaerden_2(3,31) > 922
   <ul>
    <li> n=900
     <ol>
@@ -172,6 +172,15 @@ License, or any later version. */
 919 0
    \endverbatim
    where the solutions have been found within at most the first 10 runs.
+   </li>
+   <li> "RunPdVdW3k 31 920 922 gsat-tabu 100 10000000" found solutions for
+   n=920 and 922, where the certificate for the latter is
+   \verbatim
+20,29,50,57,60,82,103,106,119,129,
+153,160,165,174,205,212,220,231,243,258,
+262,267,269,282,289,313,331,336,362,375,
+377,386,391,398,401,417,424,444,453
+   \endverbatim
    </li>
    <li> "RunPdVdW3k 31 gsat-tabu 100 10000000" </li>
   </ul>
