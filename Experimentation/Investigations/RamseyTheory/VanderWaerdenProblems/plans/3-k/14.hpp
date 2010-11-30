@@ -126,6 +126,12 @@ satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724
    <li> OKsolver_2002 easily determines n=182 as satisfiable and n=183,...,186
    as unsatisfiable. </li>
    <li> So does satz215, march_pl and minisat2. </li>
+   <li> "RunPdVdW3k 14 gsat-tabu 100 100000" yields
+   \verbatim
+Break point 1: 174
+Break point 2: 183
+   \endverbatim
+   and so vanderwaerden_g([3,14],"pdsat") = 174. </li>
   </ul>
 
 */
