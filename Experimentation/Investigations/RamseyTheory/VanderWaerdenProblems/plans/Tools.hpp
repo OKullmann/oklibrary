@@ -43,13 +43,14 @@ License, or any later version. */
      the whole range)
      An upper bound on the unsat-gap is given; say unsat_gap is 2 or 3.
      </li>
-     <li> DONE
+     <li> DONE (there are no sat- or unsat-gaps)
      That is, if unsat_gap consecutive "unsatisfiable" problems
      (according to the current settings) are found, then the first
      unsatisfiable problem is revisited. </li>
      <li> Later, one could increase cutoff or rounds, however in the first
      version we just stop. </li>
-     <li> DONE
+     <li> DONE (different from RunVdW33k, here solution-inheritance happens
+     for n -> n+2)
      So RunPdVdW33k is very similar to RunVdW33k, except that it only
      stops after unsat-gap many unsatisfiable problems in a row, and that
      a different generator is used. </li>
