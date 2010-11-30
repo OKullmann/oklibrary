@@ -173,6 +173,7 @@ License, or any later version. */
    \endverbatim
    where the solutions have been found within at most the first 10 runs.
    </li>
+   <li> "RunPdVdW3k 31 gsat-tabu 100 10000000" </li>
   </ul>
 
 */

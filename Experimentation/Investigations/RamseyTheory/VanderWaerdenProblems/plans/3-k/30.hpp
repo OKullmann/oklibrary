@@ -244,6 +244,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
      seems unsatisfiable. </li>
     </ol>
    </li>
+   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" </li>
   </ul>
 
 */
