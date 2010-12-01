@@ -132,7 +132,7 @@ License, or any later version. */
    </li>
    <li> precosat236:
     <ol>
-     <li> n=464: ?sat, s. </li>
+     <li> n=464: unsat, 217593s. </li>
     </ol>
    </li>
    <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
