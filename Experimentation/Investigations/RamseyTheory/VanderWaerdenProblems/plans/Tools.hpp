@@ -44,6 +44,8 @@ License, or any later version. */
        are left open. </li>
       </ol>
      </li>
+     <li> We should have a statistics file, where at least for each n the
+     run where a solution was found is shown. </li>
      <li> Later, one could increase cutoff or rounds, however in the first
      version we just stop. </li>
      <li> DONE
