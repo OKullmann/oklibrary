@@ -12,7 +12,7 @@ License, or any later version. */
   \todo vanderwaerden_2(3,30) > 902
   <ul>
    <li> The predictions are 954, 948. </li>
-   <li> The conjecture is vanderwaerden_2(3,30) = ???. </li>
+   <li> The weak conjecture is vanderwaerden_2(3,30) = 903. </li>
    <li> Search starting with n=852:
    \verbatim
 OKplatform> RunVdW3k 30 852 rots 1000 5000000
@@ -203,6 +203,9 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 
   \todo Palindromic version
   <ul>
+   <li> 854 < vanderwaerden_g([3,30],"pd") =(conj) 855 =(conj)
+   vanderwaerden([3,30])-48. </li>
+   <li> vanderwaerden_g([3,30],"pdsat") =(conj) 844. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903 > VanDerWaerden_pd_2-3-30_903.cnf
@@ -260,7 +263,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 855 0
    \endverbatim
    while everything from 856 on seems unsat. </li>
-   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" </li>
+   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" confirms this. </li>
   </ul>
 
 */
