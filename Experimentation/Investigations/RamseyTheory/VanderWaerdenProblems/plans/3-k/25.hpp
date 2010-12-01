@@ -202,8 +202,8 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
   \todo Palindromic numbers
   <ul>
    <li> 606 < vanderwaerden_g([3,25],"pd") =(conj) 607 =(conj)
-   vanderwaerden([3,25])-49.
-   </li>
+   vanderwaerden([3,25])-49. </li>
+   <li> vanderwaerden_g([3,25],"pdsat") =(conj) 586. </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000": all 1<=n<=586 sat,
    then
    \verbatim

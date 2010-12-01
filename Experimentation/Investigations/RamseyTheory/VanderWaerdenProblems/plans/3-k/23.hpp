@@ -140,8 +140,8 @@ License, or any later version. */
   \todo Palindromic numbers
   <ul>
    <li> 506 < vanderwaerden_g([3,23],"pd") =(conj) 507 =(conj)
-   vanderwaerden([3,23])-9.
-   </li>
+   vanderwaerden([3,23])-9. </li>
+   <li> vanderwaerden_g([3,23],"pdsat") =(conj) 506. </li>
    <li> precosat236:
     <ol>
      <li> n=516: ?sat, s. </li>
