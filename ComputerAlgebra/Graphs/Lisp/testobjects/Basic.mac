@@ -164,6 +164,7 @@ okltest_mug2mudg(mug2mudg);
 okltest_expand_edge(expand_edge);
 
 okltest_neighbours_g(neighbours_g);
+okltest_neighbours_og(neighbours_og);
 okltest_neighbours_gl(neighbours_gl);
 okltest_neighbours_gg(neighbours_gg);
 okltest_outneighbours_dg(outneighbours_dg);

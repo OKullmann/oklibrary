@@ -306,6 +306,8 @@ expand_edge(ue) := block([de : listify(ue)],
 neighbours(v,G) := disjoin(v, lunion(
  subset(G[2], lambda([e],elementp(v,e)))))$
 neighbours_g(v,G) := neighbours(v,G)$
+neighbours_og(v,G) := disjoin(v, lunion(
+ sublist(G[2], lambda([e],elementp(v,e)))))$
 neighbours_gl(v,G) := lunion( 
  map(lambda([e], if e={v} then e else disjoin(v,e)),
      sublist(listify(G[2]), lambda([e],elementp(v,e)))))$

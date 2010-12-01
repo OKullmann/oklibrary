@@ -960,6 +960,12 @@ okltest_neighbours_g(f) := block([G],
     assert(f(1,complete_g(setn(n))) = setmn(2,n)),
   true)$
 
+okltest_neighbours_og(f) := block([G],
+  assert(f(1,[[1],[]]) = {}),
+  assert(f(1,[[1,2],[{1,2}]]) = {2}),
+  assert(okltest_neighbours_g(buildq([f], lambda([v,G], f(v,g2og(G))))) = true),
+  true)$
+
 okltest_neighbours_gl(f) := block([G],
   assert(f(1,[{1},{{1}}]) = {1}),
   assert(okltest_neighbours_g(buildq([f],lambda([v,G],f(v,G))))),
