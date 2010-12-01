@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.2.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,11 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
+/* ***************************
+   * Using Maxima facilities *
+   ***************************
+*/
+
 okltest_chromatic_number_gr(f) := block(
   assert(f([{},{}]) = 0),
   assert(f([{1},{}]) = 1),
@@ -37,6 +42,26 @@ okltest_chromatic_number_gr(f) := block(
   for n : 3 thru 6 do
    for m : 2 thru (n+1)/2 do
     assert(f(kneser_g(n,m)) = n - 2 * m + 2),
+  true);
+
+
+/* ********************
+   * Greedy colouring *
+   ********************
+*/
+
+okltest_greedy_colouring_og(f) := (
+  assert(f([[],[]]) = [0,[]]),
+  assert(f([[1],[]]) = [1,[1]]),
+  assert(f([[1,2],[]]) = [1,[1,1]]),
+  assert(f([[1,2],[{1,2}]]) = [2,[1,2]]),
+  assert(f([[1,2,3],[]]) = [1,[1,1,1]]),
+  assert(f([[1,2,3],[{1,2}]]) = [2,[1,2,1]]),
+  assert(f([[1,2,3],[{1,2},{2,3}]]) = [2,[1,2,1]]),
+  assert(f([[1,2,3],[{1,2},{2,3},{1,3}]]) = [3,[1,2,3]]),
+  assert(f([[1,2,3,4,5,6],[{1,3},{2,4},{2,5},{3,6},{2,6},{4,5}]]) = [3, [1,1,2,2,3,3]]),
+  for n : 0 thru 6 do block([G : g2og(complete_g(setn(n)))],
+    assert(f(G) = [n, create_list(i,i,1,n)])),
   true);
 
 /*!

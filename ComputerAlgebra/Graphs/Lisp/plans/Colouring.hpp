@@ -31,7 +31,8 @@ License, or any later version. */
    for a C++ implementation. </li>
    <li> DONE (yes, special algorithms are of interest)
    Should we also provide special functionality for graphs? </li>
-   <li> Specifying input and output:
+   <li> DONE (implemented greedy_colouring_og)
+   Specifying input and output:
     <ol>
      <li> Input a graph and a vertex ordering, output the derived colouring,
      as a map. </li>

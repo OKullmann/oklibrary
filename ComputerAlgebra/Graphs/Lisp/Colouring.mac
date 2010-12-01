@@ -19,7 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
 
 /* ***************************
    * Using Maxima facilities *
@@ -42,7 +44,15 @@ chromaticnumber_m_g(G) := chromatic_number_gr_m(G)$
    and obtain [n,C], where n is the number of colours used, and C
    is the list of colours for the vertices (in the given order):
 */
-greedy_colouring_og(G) := 0$
+greedy_colouring_og(G) := block([h : sm2hm({}), C : []],
+  for v in G[1] do block([N : neighbours_og(v,G), CN, c:1],
+    CN : disjoin(false, map(lambda([w], ev_hm(h,w)), N)),
+    while elementp(c,CN) do c:c+1,
+    C : cons(c,C),
+    set_hm(h,v,c)
+  ),
+  return([if emptyp(C) then 0 else lmax(C),reverse(C)])
+)$
 
 /*!
 \endhtmlonly
