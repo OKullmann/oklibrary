@@ -127,12 +127,14 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> 462 < vanderwaerden_g([3,22],"pd") =(conj) 463 =(conj)
-   vanderwaerden([3,22])-1.
-   </li>
+   <li> vanderwaerden_g([3,22],"pd") = 463 =(conj)
+   vanderwaerden([3,22])-1. </li>
+   <li> vanderwaerden_g([3,22],"pdsat") =(conj) 444. </li>
    <li> precosat236:
     <ol>
      <li> n=464: unsat, 217593s. </li>
+     <li> n=463: unsat, 15421s. </li>
+     <li> n=445: ?sat,  ?s</li>
     </ol>
    </li>
    <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
