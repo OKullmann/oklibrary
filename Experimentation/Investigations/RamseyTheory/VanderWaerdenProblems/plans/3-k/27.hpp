@@ -142,4 +142,13 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> ??? < vanderwaerden_g([3,27],"pd") =(conj) ??? =(conj)
+   vanderwaerden([3,27]) - ???. </li>
+   <li> vanderwaerden_g([3,27],"pdsat") =(conj) ??? </li>
+   <li> "RunPdVdW3k 27 gsat-tabu 100 6000000" </li>
+  </ul>
+
 */
