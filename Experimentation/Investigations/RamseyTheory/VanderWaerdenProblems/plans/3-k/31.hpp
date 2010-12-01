@@ -11,6 +11,8 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,31) > 922
   <ul>
+   <li> The highest n come from palindromic solutions (see below). We should
+   restart search for general solutions using these special solutions. </li>
    <li> n=900
     <ol>
      <li> rots, cutoff=10^7:
