@@ -148,4 +148,24 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> 642 < vanderwaerden_g([3,26],"pd") =(conj) 643 =(conj)
+   vanderwaerden([3,26]) - 84. </li>
+   <li> vanderwaerden_g([3,26],"pdsat") =(conj) 634 </li>
+   <li> "RunPdVdW3k 26 gsat-tabu 100 4000000":
+   \verbatim
+Break point 1: 634
+Break point 2: 643
+   \endverbatim
+   All solutions found within the first 30 runs. </li>
+   <li> Further checking unsatisfiability for n=644:
+   \verbatim
+ubcsat-okl -alg gsat-tabu -runs 100 -cutoff 10000000 -i Exp_PdVanderWaerden_2-3-26_gsat-tabu-100-4000000_2010-12-01-003724/VanDerWaerden_pd_2-3-26_644.cnf
+
+   \endverbatim
+   </li>
+  </ul>
+
 */
