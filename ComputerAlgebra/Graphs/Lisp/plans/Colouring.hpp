@@ -31,8 +31,21 @@ License, or any later version. */
    for a C++ implementation. </li>
    <li> DONE (yes, special algorithms are of interest)
    Should we also provide special functionality for graphs? </li>
-   <li> Input a graph and a vertex ordering, output the derived colouring,
-   as a map. </li>
+   <li> Specifying input and output:
+    <ol>
+     <li> Input a graph and a vertex ordering, output the derived colouring,
+     as a map. </li>
+     <li> More precisely, input is an ordered graph. </li>
+     <li> The output is a pair [n,M], where n is the number of colours used,
+     while M is the colouring itself as a map. </li>
+     <li> Actually, it seems better to produce just the list of colours,
+     using the given order of the vertices. </li>
+     <li> Colours are natural numbers from 1 to n. </li>
+     <li> To summarise: Input is an og G, output is a pair [n,C], where C
+     is a list of numbers from 1 to n. </li>
+     <li> Calling it greedy_colouring_og(G). </li>
+    </ol>
+   </li>
   </ul>
 
 */

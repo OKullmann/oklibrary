@@ -21,12 +21,28 @@ oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
+/* ***************************
+   * Using Maxima facilities *
+   ***************************
+*/
+
 /* Computing the chromatic number of a graph via the Maxima function: */
 /* RENAME: chromaticnumber_m_g */
 chromatic_number_gr_m(G) := if emptyp(G[2]) then if emptyp(G[1]) then 0 else 1
  else chromatic_number(g2mg(G))$
 chromaticnumber_m_g(G) := chromatic_number_gr_m(G)$
 
+
+/* ********************
+   * Greedy colouring *
+   ********************
+*/
+
+/* Apply the greedy colouring algorithm to the ordered graph G,
+   and obtain [n,C], where n is the number of colours used, and C
+   is the list of colours for the vertices (in the given order):
+*/
+greedy_colouring_og(G) := 0$
 
 /*!
 \endhtmlonly
