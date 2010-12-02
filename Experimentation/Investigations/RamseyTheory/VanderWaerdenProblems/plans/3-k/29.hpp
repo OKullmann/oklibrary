@@ -111,4 +111,16 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
    </li>
   </ul>
 
+
+  \todo Palindromic numbers
+  <ul>
+   <li> ??? < vanderwaerden_g([3,29],"pd") =(conj) ??? =(conj)
+   vanderwaerden([3,29]) - ??. </li>
+   <li> vanderwaerden_g([3,29],"pdsat") =(conj) ???. </li>
+   <li> "RunPdVdW3k 29 gsat-tabu 100 10000000" yields
+   \verbatim
+   \endverbatim
+   </li>
+  </ul>
+
 */
