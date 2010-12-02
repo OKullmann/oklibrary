@@ -163,9 +163,8 @@ Break point 2: 643
    <li> Further checking unsatisfiability for n=644:
    \verbatim
 ubcsat-okl -alg gsat-tabu -runs 100 -cutoff 10000000 -i Exp_PdVanderWaerden_2-3-26_gsat-tabu-100-4000000_2010-12-01-003724/VanDerWaerden_pd_2-3-26_644.cnf
-
    \endverbatim
-   </li>
+   reaches constantly min=1. </li>
   </ul>
 
 */
