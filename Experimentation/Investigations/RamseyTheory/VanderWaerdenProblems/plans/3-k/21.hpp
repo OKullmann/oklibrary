@@ -114,8 +114,9 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,21],"pd") = 405 =(conj) vanderwaerden([3,21])-11
-   (assuming that all n>417 are unsolvable). </li>
+   <li> vanderwaerden_g([3,21],"pd") = 405 =(conj) vanderwaerden([3,21])-11.
+   </li>
+   <li> vanderwaerden_g([3,21],"pdsat") = 400. </li>
    <li> precosat236:
     <ol>
      <li> n=416: unsat, 14336s. </li>
@@ -165,8 +166,8 @@ License, or any later version. */
    interval of n values, with relatively low cutoff and, say, run=100. </li>
    <li> RunPdVdW3k
     <ol>
-     <li> "RunPdVdW3k 21 380 416 gsat-tabu 100 1000000": alle 380<=n<=400 sat,
-     and then
+     <li> "RunPdVdW3k 21 380 416 gsat-tabu 100 1000000" (old version):
+     alle 380<=n<=400 sat, and then
      \verbatim
 401 0
 402 1
@@ -177,6 +178,10 @@ License, or any later version. */
      <li> Also all 1 <= n <= 380 are sat. </li>
     </ol>
    </li>
+   <li> "RunPdVdW3k 21 gsat-tabu 100 1000000" confirms this (?) by
+   \verbatim
+   \endverbatim
+   where all solutions were found in the ??? runs. </li>
   </ul>
 
 */
