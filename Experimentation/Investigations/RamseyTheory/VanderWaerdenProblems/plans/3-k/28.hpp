@@ -152,13 +152,15 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
 
   \todo Palindromic numbers
   <ul>
-   <li> ??? < vanderwaerden_g([3,28],"pd") =(conj) ??? =(conj)
-   vanderwaerden([3,28]) - ???. </li>
+   <li> 742 < vanderwaerden_g([3,28],"pd") =(conj) 743 =(conj)
+   vanderwaerden([3,28]) - 84. </li>
    <li> vanderwaerden_g([3,28],"pdsat") =(conj) ??? </li>
    <li> "RunPdVdW3k 28 gsat-tabu 100 8000000":
    \verbatim
+Break point 1: 728
+Break point 2: 743
    \endverbatim
-   All solutions found within the first ?? runs. </li>
+   All solutions found within the first 3 runs. </li>
   </ul>
 
 */
