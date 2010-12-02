@@ -11,6 +11,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,33) > 1063
   <ul>
+   <li> The very weak current conjecture is vanderwaerden_2(3,33) = 1064. </li>
    <li> n=997: rots found a solution, with certificate
    \verbatim
 16,39,41,68,78,90,96,100,107,127,
@@ -219,6 +220,9 @@ License, or any later version. */
 
   \todo Palindromic version:
   <ul>
+   <li> 1002 < vanderwaerden_g([3,33],"pd") =(conj) 1003 =(conj)
+   vanderwaerden([3,31]) - 61. </li>
+   <li> vanderwaerden_g([3,33],"pdsat") =(conj) 992. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 33 1064 > VanDerWaerden_pd_2-3-33_1064.cnf
@@ -255,6 +259,12 @@ License, or any later version. */
    \endverbatim
    where the solutions have been found within at most the first 30 runs.
    </li>
+   <li> "RunPdVdW3k 33 gsat-tabu 100 10000000" yields
+   \verbatim
+Break point 1: 992
+Break point 2: 1003
+   \endverbatim
+   where all solutions were found within in the first 7 runs. </li>
   </ul>
 
 */
