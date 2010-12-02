@@ -157,6 +157,7 @@ BestSolution_Max = 10.000000
   \todo Palindromic numbers
   <ul>
    <li> vanderwaerden_g([3,18],"pd") = 312 = vanderwaerden([3,18]). </li>
+   <li> vanderwaerden_g([3,18],"pdsat") = 299. </li>
    <li> minisat2 determines n=311 as satisfiable (42s) and
    n=312 as unsatisfiable (228s). </li>
    <li> Other running times:
@@ -168,7 +169,14 @@ BestSolution_Max = 10.000000
      <li> OKsolver_2002 (110s, 2064s) </li>
     </ol>
    </li>
-   <li> So actually picosat913 seems best. </li>
+   <li> So actually picosat913 seems best. Determines also n=300, 313 as
+   unsat (81s, 23s). </li>
+   <li> "RunPdVdW3k 18 gsat-tabu 100 500000" yields
+   \verbatim
+Break point 1: 299
+Break point 2: 312
+   \endverbatim
+   where all solutions were found in the first 14 runs. </li>
   </ul>
 
 */

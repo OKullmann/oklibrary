@@ -77,6 +77,7 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
   \todo Palindromic numbers
   <ul>
    <li> vanderwaerden_g([3,19],"pd") = 347 = vanderwaerden([3,19])-2. </li>
+   <li> vanderwaerden_g([3,19],"pdsat") = 338. </li>
    <li> picosat913:
     <ol>
      <li> n=349: unsat, 68s. </li>
@@ -102,8 +103,8 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
     </ol>
    </li>
    <li> So apparently actually precosat236 is best. </li>
-   <li> "RunPdVdW3k 19 19 349 gsat-tabu 100 1000000": all 1<=n<=338 sat,
-   and then
+   <li> "RunPdVdW3k 19 19 349 gsat-tabu 100 1000000" (old version):
+   all 1<=n<=338 sat, and then
    \verbatim
 339 0
 340 1
@@ -118,6 +119,12 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
 349 0
    \endverbatim
    </li>
+   <li> "RunPdVdW3k 19 gsat-tabu 100 800000" confirms this by
+   \verbatim
+Break point 1: 338
+Break point 2: 347
+   \endverbatim
+   where all solutions were found in the first run. </li>
   </ul>
 
 */

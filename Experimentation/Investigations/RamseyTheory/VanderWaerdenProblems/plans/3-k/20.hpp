@@ -200,10 +200,11 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,20],"pd") = 389 = vanderwaerden([3,20])
-   (assuming that all n>388 are unsolvable). </li>
+   <li> vanderwaerden_g([3,20],"pd") = 389 =(conj) vanderwaerden([3,20]). </li>
+   <li> vanderwaerden_g([3,20],"pdsat") = 380. </li>
    <li> precosat236 (precosat570):
     <ol>
+     <li> n=390: unsat, 1809s (1274s). </li>
      <li> n=389: unsat, 332s (337s). </li>
      <li> n=388: sat, 149s (781s). </li>
      <li> n=387: unsat, 361s (307s). </li>
@@ -231,8 +232,8 @@ License, or any later version. */
      <li> picosat913 (455s) </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 20 20 389 gsat-tabu 100 1000000": all 1<=n<=380 sat,
-   and then
+   <li> "RunPdVdW3k 20 20 389 gsat-tabu 100 1000000" (old version):
+   all 1<=n<=380 sat, and then
    \verbatim
 381 0
 382 1
@@ -245,6 +246,12 @@ License, or any later version. */
 389 0
    \endverbatim
    </li>
+   <li> "RunPdVdW3k 20 gsat-tabu 100 900000" confirms this by
+   \verbatim
+Break point 1: 380
+Break point 2: 389
+   \endverbatim
+   where all solutions were found in the first 3 runs. </li>
   </ul>
 
 */

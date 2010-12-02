@@ -43,10 +43,17 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
   \todo Palindromic numbers
   <ul>
    <li> vanderwaerden_g([3,16],"pd") = 237 = vanderwaerden([3,16])-1 . </li>
+   <li> vanderwaerden_g([3,16],"pdsat") = 232. </li>
    <li> OKsolver_2002 rather easily determines n=236 as satisfiable and
-   n=237,238 as unsatisfiable. </li>
+   n=233, 237,238 as unsatisfiable. </li>
    <li> So does satz215 (somewhat faster), march_pl and minisat2 (somewhat
    faster). </li>
+   <li> "RunPdVdW3k 16 gsat-tabu 100 300000" yields
+   \verbatim
+Break point 1: 232
+Break point 2: 237
+   \endverbatim
+   where all solutions were found in the first 5 runs. </li>
   </ul>
 
 */
