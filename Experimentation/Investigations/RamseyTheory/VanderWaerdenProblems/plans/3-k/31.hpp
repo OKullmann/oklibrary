@@ -169,8 +169,8 @@ License, or any later version. */
      seems unsatisfiable. </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 31 32 919 gsat-tabu 100 10000000" finds 1<=n<=916 sat,
-   and then
+   <li> "RunPdVdW3k 31 32 919 gsat-tabu 100 10000000" old version:
+   finds 1<=n<=916 sat, and then
    \verbatim
 917 0
 918 1
@@ -178,8 +178,8 @@ License, or any later version. */
    \endverbatim
    where the solutions have been found within at most the first 10 runs.
    </li>
-   <li> "RunPdVdW3k 31 920 922 gsat-tabu 100 10000000" found solutions for
-   n=920 and 922, where the certificate for the latter is
+   <li> "RunPdVdW3k 31 920 922 gsat-tabu 100 10000000" (old version) found
+   solutions for n=920 and 922, where the certificate for the latter is
    \verbatim
 20,29,50,57,60,82,103,106,119,129,
 153,160,165,174,205,212,220,231,243,258,
