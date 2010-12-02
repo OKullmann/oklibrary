@@ -9,7 +9,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,31)
 
 
-  \todo vanderwaerden_2(3,31) > 922
+  \todo vanderwaerden_2(3,31) > 930
   <ul>
    <li> The highest n come from palindromic solutions (see below). We should
    restart search for general solutions using these special solutions. </li>
@@ -125,6 +125,9 @@ License, or any later version. */
 
   \todo Palindromic version
   <ul>
+   <li> 930 < vanderwaerden_g([3,31],"pd") =(conj) 931 =(conj)
+   vanderwaerden([3,31]) - ??. </li>
+   <li> vanderwaerden_g([3,31],"pdsat") =(conj) 916. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 31 919 > VanDerWaerden_pd_2-3-31_919.cnf
@@ -184,7 +187,26 @@ License, or any later version. */
 377,386,391,398,401,417,424,444,453
    \endverbatim
    </li>
-   <li> "RunPdVdW3k 31 gsat-tabu 100 10000000" </li>
+   <li> "RunPdVdW3k 31 gsat-tabu 100 10000000" yields
+   \verbatim
+Break point 1: 916
+Break point 2: 931
+   \endverbatim
+   where the certificate for n=930 is
+   \verbatim
+13,33,50,61,71,75,80,95,108,123,
+142,143,154,159,173,182,188,190,201,219,
+235,252,261,267,276,278,283,292,312,329,
+335,354,359,385,400,417,421,431,438,452,
+464
+   \endverbatim
+   and finding the solution needed up to 48 runs. </li>
+   <li> Checking the unsatisfiability for n=932:
+   \verbatim
+> ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i Exp_PdVanderWaerden_2-3-31_gsat-tabu-100-10000000_2010-11-30-010719/VanDerWaerden_pd_2-3-31_932.cnf | tee VanDerWaerden_pd_2-3-31_932.cnf_OUT
+
+   \endverbatim
+   </li>
   </ul>
 
 */
