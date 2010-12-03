@@ -114,11 +114,18 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
 
   \todo Palindromic numbers
   <ul>
-   <li> ??? < vanderwaerden_g([3,29],"pd") =(conj) ??? =(conj)
-   vanderwaerden([3,29]) - ??. </li>
-   <li> vanderwaerden_g([3,29],"pdsat") =(conj) ???. </li>
+   <li> 820 < vanderwaerden_g([3,29],"pd") =(conj) 821 =(conj)
+   vanderwaerden([3,29]) - 46. </li>
+   <li> vanderwaerden_g([3,29],"pdsat") =(conj) 810. </li>
    <li> "RunPdVdW3k 29 gsat-tabu 100 10000000" yields
    \verbatim
+Break point 1: 810
+Break point 2: 821
+   \endverbatim
+   where all solutions were found in the first 22 runs.  </li>
+   <li> Further testing unsatisfiability for n=822:
+   \verbatim
+ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i AltExp/Exp_PdVanderWaerden_2-3-29_gsat-tabu-100-10000000_2010-12-02-002800/VanDerWaerden_pd_2-3-29_822.cnf | tee VanDerWaerden_pd_2-3-29_822.cnf_OUT
    \endverbatim
    </li>
   </ul>
