@@ -29,6 +29,7 @@ espresso : $(espresso_directories_okl)
 	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) all; $(postcondition) \
 	cp -f src/$(espresso_exec_okl) $(espresso_call_okl); $(postcondition) \
 	cp -f README $(espresso_doc_dir_okl); $(postcondition) \
+	cp $(espresso_base_source_okl)/*.html $(espresso_doc_dir_okl); $(postcondition) \
 	ln -s --force $(espresso_call_okl) $(public_bin_dir_okl)/$(espresso_public_call_okl); $(postcondition)
 
 espresso_doc :

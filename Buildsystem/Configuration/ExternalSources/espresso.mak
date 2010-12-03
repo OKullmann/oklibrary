@@ -27,7 +27,7 @@ espresso_public_call_okl ?= $(espresso_exec_okl)$(espresso_recommended_version_n
 
 espresso_base_doc_dir_okl ?= $(ExternalSources_doc)/Boolean/Espresso
 espresso_doc_dir_okl ?= $(espresso_base_doc_dir_okl)/$(espresso_recommended_okl)
-espresso_docu_page_okl ?= $(doc_dir)/doxygen_html/
+espresso_docu_page_okl ?= $(doc_dir)/doxygen_html/da/dd1/Espresso_8hpp.html
 
 espresso_homepage_url_okl := http://en.wikipedia.org/wiki/Espresso_heuristic_logic_minimizer
 espresso_documentation_url_okl := http://bear.cwru.edu/eecs_cad/man_octtools_espresso.html

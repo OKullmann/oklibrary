@@ -122,77 +122,11 @@ ExternalSources/Installations/R> oklib --R
   </ul>
 
 
-  \todo Espresso
+  \todo Improve documentation for Espresso
   <ul>
-   <li> http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm
-   </li>
-   <li> Espresso-ab, a fork of Espresso, tidying and fixing Espresso to work
-   with newer gcc versions, is available at
-   http://code.google.com/p/eqntott/downloads/detail?name=espresso-ab-1.0.tar.gz
-   </li>
-   <li> Documentation at the ExternalSources page needs to be provided. </li>
-   <li> DONE (we install it)
-   It doesn't appear to have a well established website and so offering 
-   this for download within the OKlibrary could be beneficial. </li>
-   <li> DONE (seems alright)
-   Espresso-ab doesn't appear to have a well known open-source license,
-   although it does come with a license which allows copying,
-   redistribution and derivative works. </li>
-   <li> DONE (provided basic installation)
-   To install espresso-ab, one downloads it from the site 
-   (MD5SUM : 1c60ac344779dc8753f8e0785eafd8ac  espresso-ab-1.0.tar.gz) 
-   and uses the standard make-style compilation procedure:
-   \verbatim
-> cd $OKPLATFORM/ExternalSources/builds/
-builds> mkdir Espresso
-Espresso> cd Espresso
-Espresso> tar -xzf ../../sources/Boolean/Espresso/espresso-ab-1.0.tar.gz
-Espresso> cd espresso-ab-1.0
-espresso-ab-1.0> ./configure
-espresso-ab-1.0> make
-espresso-ab-1.0> ./src/espresso --help
-   \endverbatim
-   </li>
-   <li> Then one can use the following "test.pla" file (see below)
-   with espresso 
-   \verbatim
-.i 3
-.o 1
-110 1
-111 1
-010 1
-001 0
-000 0
-100 1
-011 0
-101 0
-   \endverbatim
-   by calling 
-   \verbatim
-builds> Espresso/espresso-ab-1.0/src/espresso test.pla
-.i 3
-.o 1
-.p 3
-1-0 1
--10 1
-11- 1
-.e
-  \endverbatim
-   </li>
-   <li> The PLA file is a format for describing boolean functions. </li>
-   <li> For simple usage one can assume that the ".i" line specifies the
-   number of input variables, the ".o" line, the number of output variables,
-   and then each line specifies the entry in a truth table describing the
-   associated boolean function. </li>
-   <li> If an entry is marked with a "-", this is simply shorthand for the
-   expansion into multiple truth table entries where the "-" values take every
-   possibily but the rest of the values remain unchanged. </li>
-   <li> For more details, see 
-   http://people.ee.duke.edu/~jab/ece151/espresso.5.html . </li>
-   <li> Note that espresso-ab provides no documentation but 
-   the original documentation applies and is available at
-   http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm .
-   </li>
+   <li> At the ExternalSources page we need an index-page for the various
+   pieces of documentation we have. </li>
+   <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
   </ul>
 
 */

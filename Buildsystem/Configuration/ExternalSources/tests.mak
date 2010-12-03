@@ -518,7 +518,7 @@ mhash_html_documentation_index_location_tag_okl ?= <a href="$(mhash_html_documen
 # New variables for the configuration of building espresso (to be designed 
 # and implemented):
 
-espresso_version_number_extraction_okl := awk '{/UC Berkeley, Espresso Version/print $$5}' | sed 's/[#,]//'
+espresso_version_number_extraction_okl := awk '/UC Berkeley, Espresso Version/ {print $$5}' | sed 's/[#,]//g'
 # assumes that the output of "espresso --version" contains a line of the form
 # (for example) "UC Berkeley, Espresso Version #2.3, Release date 01/31/88"
 
@@ -526,7 +526,7 @@ location_espresso_call_okl ?= $(shell (type -P $(espresso_call_okl)))
 ifeq ($(location_espresso_call_okl),)
   espresso_call_ready_okl ?= NO
 else
-  version_espresso_call_okl ?= $(shell $(espresso_call_okl) --version | $(espresso_version_number_extraction_okl))
+  version_espresso_call_okl ?= $(shell $(espresso_call_okl) --version | awk '/UC Berkeley, Espresso Version/ {print $$5}' | sed 's/[\#,]//g')
   ifeq ($(version_espresso_call_okl),$(espresso_recommended_version_number_okl))
     espresso_call_ready_okl ?= YES
   else
