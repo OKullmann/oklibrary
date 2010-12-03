@@ -205,6 +205,10 @@ Break point 2: 931
    \verbatim
 > ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i Exp_PdVanderWaerden_2-3-31_gsat-tabu-100-10000000_2010-11-30-010719/VanDerWaerden_pd_2-3-31_932.cnf | tee VanDerWaerden_pd_2-3-31_932.cnf_OUT
 
+> E = read_ubcsat("VanDerWaerden_pd_2-3-31_932.cnf_OUT",nrows=200)
+  1   2   3   9
+178  20   1   1
+200
    \endverbatim
    </li>
   </ul>
