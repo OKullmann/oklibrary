@@ -58,6 +58,7 @@ rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(ext
 rel_les_grasp_docu_page_okl := $(shell $(rel_path_tool) $(grasp_docu_page_okl) $(externalsources_page_output))
 rel_les_picosat_docu_page_okl := $(shell $(rel_path_tool) $(picosat_docu_page_okl) $(externalsources_page_output))
 rel_les_cmake_docu_page_okl := $(shell $(rel_path_tool) $(cmake_docu_page_okl) $(externalsources_page_output))
+rel_les_espresso_docu_page_okl := $(shell $(rel_path_tool) $(espresso_docu_page_okl) $(externalsources_page_output))
 
 ifeq ($(extsrc_relative),)
   rel_les_boost_html_documentation_index_location_okl := $(boost_html_documentation_index_location_okl)
