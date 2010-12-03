@@ -145,10 +145,12 @@ License, or any later version. */
    <li> precosat236:
     <ol>
      <li> n=516: ?sat, s. </li>
+     <li> n=508: ?sat, s. </li>
+     <li> n=507: ?sat, s. </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 23 24 516 gsat-tabu 100 4000000": all 1<=n<=506 sat,
-   all 507<=n<=516 unsat. </li>
+   <li> "RunPdVdW3k 23 24 516 gsat-tabu 100 4000000" (old version):
+   all 1<=n<=506 sat, all 507<=n<=516 unsat. </li>
   </ul>
 
 */
