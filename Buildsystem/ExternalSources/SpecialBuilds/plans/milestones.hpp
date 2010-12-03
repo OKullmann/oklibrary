@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.8 (7.6.2010)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.9 (3.12.2010)
 
 
   \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
@@ -74,11 +74,6 @@ License, or any later version. */
     - Belief and Survey propagation
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
-   the following topics are handled:
-    - Espresso
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
@@ -87,6 +82,11 @@ License, or any later version. */
     - Speed : DONE
     - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
     - Building Ubcsat : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   the following topics are handled:
+    - Espresso : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
@@ -161,6 +161,12 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - Libffcall not installing on AB's 64-bit Xeon machine
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   the following topics are handled:
+    - Improve documentation for Espresso
+
 
 
   \par Version 0.2.5 (completion of general services, and installing SAT)
