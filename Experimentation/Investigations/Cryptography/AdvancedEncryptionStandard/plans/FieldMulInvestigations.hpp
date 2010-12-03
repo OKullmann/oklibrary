@@ -53,11 +53,10 @@ output_rijnmult_fullcnf_stdname(n);
    \verbatim
 QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_n.cnf > AES_byte_field_mul_full_n.pi
    \endverbatim
-   and getting the minimum and maximum prime-clause lengths:
-USE a general tool here! For example the OKsolver_2002. ACTION required from 
-MG.
+   and getting a histogram of clause lengths
    \verbatim
-N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x | wc -w`; echo `expr $CLAUSECOUNT - 1`; done | sort > AES_byte_field_mul_full_${N}.stats; cat AES_byte_field_mul_full_${N}.stats | head -n 1; cat AES_byte_field_mul_full_${N}.stats | tail -n 1
+> # Calculate the number of each length clause
+> for n in `seq 1 16`; do echo -n $n ": " && C=`echo -n '^' && perl -e "print \"[^ ]+ +\" x $n" && echo '0$'` && cat AES_Sbox_pi.cnf | grep -v "^p" | grep -E "$C" | wc -l; done
    \endverbatim
    </li>
    <li> Multiplication by 1: </li>
@@ -66,8 +65,8 @@ N=2;cat AES_byte_field_mul_full_${N}.pi | while read x; do CLAUSECOUNT=`echo $x 
     <li> There are 58 prime implicates for multiplication by 2. </li>
     <li> The minimal size of a prime clause is 2. </li>
     <li> The maximal size of a prime clause is 4. </li>
-    <li> This is to be expected (???) as multiplication by 2 is a very simple
-    operation. </li>
+    <li> Multiplication by 2 is a very simple operation, which is essentially
+    a shift operation, hence the small number of prime implicates. </li>
     <li> In this case, representing multiplication by 02 by all it's prime
     implicates seems the only real solution, given such a small number. </li>
    </ul>
@@ -246,5 +245,80 @@ with_stdout(sconcat("Mul",elem,".pla"), block(
    </ul>
    </li>
   </ul>
+
+  \todo Finding small solutions
+  <ul>
+                                                    <li> For all but the non-trivial (01 and 02) multiplications, finding the minimum representation, whether it be using espresso, or using branch and bound methods, very little progresses is made by the solvers. This is presumably due to the large number of prime implicates, and sheer combinatorial explosion. </li>
+                                                    <li> Therefore, we must also consider only small minimal solutions, which might not be the minimum but we hope are close. </li>
+   <li> Finding small CNF representations via weighted MaxSAT
+   <ul>
+    <li> To find the minimum representation for the full clause-set
+                                                    of a given field multiplication, generated like so
+    \verbatim
+output_rijnmult_fullcnf_stdname(2);
+    \endverbatim
+    we can consider the translation of this to the subsumption hypergraph
+    for the clause-set and it's prime implicates (see XXX) and then
+    translate this subsumption hypergraph to a weighted MaxSAT problem
+    where the minimum weight solutions to this problem correspond exactly
+    to the minimum sized clause-set representations of the original clause-set.
+    </li>
+    <li> To do this, we construct the subsumption hypergraph like so
+    \verbatim
+QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf AES_byte_field_mul_2_pi.cnf > AES_byte_field_mul_2_shg.cnf
+    \endverbatim
+    where the prime implicates for the "AES_byte_field_mul_full_2.cnf" are 
+    placed in "AES_byte_field_mul_2_pi.cnf" and the subsumption hypergraph 
+    relating the prime implicates to the original total clauses is placed in
+    "AES_byte_field_mul_2_shg.cnf". 
+    </li>
+    <li> Then the subsumption hypergraph must be converted to a weight MaxSAT
+    problem, which can be accomplished using a simple AWK script, like so
+    \verbatim
+cat AES_byte_field_mul_2_shg.cnf | 
+awk 'BEGIN    { VARS=0; CLAUSES=0 }
+     /^p/     { VARS=$3; CLAUSES=$4; print "p wcnf " $3 " " ($3+$4) }
+     /^[^cp]/ { print (VARS + 1) " " $0 }
+     /^c/     { print }
+     END      { for (i = 1; i <= VARS; i++) print "1 " "-" i " 0" }' > AES_byte_field_mul_2_shg.wcnf 
+    \end
+    (The above translation needs to be further specified).
+    </li>
+    <li> Given such a weighted maxsat problem, one can then use ubcsat to
+    search for small solutions, like so
+    \verbatim
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.wcnf
+    \endverbatim
+    </li>
+    <li> Given a solution of weight 20 with seed 1402276559 we can then 
+    generate the clause set of that weight like so
+    \verbatim
+function shg_assignment2clause_set() {
+  PI_FILE=$1 
+  # Grab lines out
+  LINES=`cat - | xargs echo | sed -e 's/v//g' | sed -e 's/ *\(-[0-9]\+\|v\)//g'`;
+  echo ${LINES}
+  NUM_CLAUSES=`echo "${LINES}" | wc -w`
+  # Grab out specifically those lines, ignoring p and c lines and combining 
+  # clauses onto one line with ExtendedToStrictDimacs-O3-DNDEBUG
+  AWK_LINES=`echo ${LINES} | sed -e 's/ \+/||(NR - 1) == /g'`; 
+  cat ${PI_FILE} | grep -v "^c" | 
+  awk "(NR-1) == ${AWK_LINES} { print  }
+       /^p/ { print \"p cnf \" \$3 \" \" ${NUM_CLAUSES} }"
+}
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf >  AES_byte_field_mul_2_m20.result; 
+cat AES_byte_field_mul_2_m20.result |
+awk "BEGIN {READ=0}
+/^Variables/ {READ=0}
+READ == 1 { print }
+/^# Solution found for -wtarget/ {READ=1}" | shg_assignment2clause_set AES_byte_field_mul_2_pi.cnf
+    \endverbatim
+    Note here, the above should be reimplemented as a proper shell script
+    or C++ program
+    </li>
+   </ul>
+   </li>
+  </ul>
+
 
 */

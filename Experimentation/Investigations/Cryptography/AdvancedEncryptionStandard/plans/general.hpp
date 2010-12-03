@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   See
+   <li> See
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    for the Maxima-level. </li>
    <li> See
