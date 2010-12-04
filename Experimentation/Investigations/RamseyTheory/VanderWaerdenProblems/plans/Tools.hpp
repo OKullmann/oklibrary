@@ -37,17 +37,18 @@ License, or any later version. */
 
   \todo Version of RunVdW3k for palindromic problems
     <ol>
-     <li> Use of solution for n-2:
+     <li> We should have a statistics file, where at least for each n the
+     run where a solution was found is shown. </li>
+     <li> Later, one could increase cutoff or rounds, however in the first
+     version we just stop. </li>
+     <li> DONE (most solutions are now just small modifications)
+     Use of solution for n-2:
       <ol>
        <li> Likely this solution should be translated, that is, interpreted
        as concerning now the vertices 2, ..., n-1, while vertices 1 and n
        are left open. </li>
       </ol>
      </li>
-     <li> We should have a statistics file, where at least for each n the
-     run where a solution was found is shown. </li>
-     <li> Later, one could increase cutoff or rounds, however in the first
-     version we just stop. </li>
      <li> DONE
      Let's call it "RunPdVdW33k". </li>
      <li> DONE (we don't impose such restrictions, since we need to explore
