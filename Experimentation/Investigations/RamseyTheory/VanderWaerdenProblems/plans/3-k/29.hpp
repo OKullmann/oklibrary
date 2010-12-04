@@ -125,7 +125,12 @@ Break point 2: 821
    where all solutions were found in the first 22 runs.  </li>
    <li> Further testing unsatisfiability for n=822:
    \verbatim
-ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i AltExp/Exp_PdVanderWaerden_2-3-29_gsat-tabu-100-10000000_2010-12-02-002800/VanDerWaerden_pd_2-3-29_822.cnf | tee VanDerWaerden_pd_2-3-29_822.cnf_OUT
+> ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i AltExp/Exp_PdVanderWaerden_2-3-29_gsat-tabu-100-10000000_2010-12-02-002800/VanDerWaerden_pd_2-3-29_822.cnf | tee VanDerWaerden_pd_2-3-29_822.cnf_OUT
+
+> E = read_ubcsat("VanDerWaerden_pd_2-3-29_822.cnf_OUT",nrows=200)
+  1   2
+161  39
+200
    \endverbatim
    </li>
   </ul>
