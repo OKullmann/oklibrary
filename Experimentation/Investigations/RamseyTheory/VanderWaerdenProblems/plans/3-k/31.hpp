@@ -11,7 +11,9 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,31) > 930
   <ul>
-   <li> The highest n come from palindromic solutions (see below). We should
+   <li> The very weak conjecture is vanderwaerden_2(3,31) = 931. </li>
+   <li> DONE (doesn't seem to help)
+   The highest n come from palindromic solutions (see below). We should
    restart search for general solutions using these special solutions. </li>
    <li> n=900
     <ol>
@@ -120,13 +122,31 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Starting search with the best palindromic solution:
+   \verbatim
+> cat Exp_PdVanderWaerden_2-3-31_gsat-tabu-100-10000000_2010-11-30-010719/VanDerWaerden_pd_2-3-31_930.cnf_sol | PdExtend-O3-DNDEBUG 930 > solution
+> RunVdW3k 31 930 rots 100 100000000 solution
+
+Certificate (the vertices for k=3) for n = 930 :
+13,33,50,61,71,75,80,95,108,123,
+142,143,154,159,173,182,188,190,201,219,
+235,252,261,267,276,278,283,292,312,329,
+335,354,359,385,400,417,421,431,438,452,
+464,467,479,493,500,510,514,531,546,572,
+577,596,602,619,639,648,653,655,664,670,
+679,696,712,730,741,743,749,758,772,777,
+788,789,808,823,836,851,856,860,870,881,
+898,918
+
+   \endverbatim
+   </li>
   </ul>
 
 
   \todo Palindromic version
   <ul>
    <li> 930 < vanderwaerden_g([3,31],"pd") =(conj) 931 =(conj)
-   vanderwaerden([3,31]) - ??. </li>
+   vanderwaerden([3,31]) - 0. </li>
    <li> vanderwaerden_g([3,31],"pdsat") =(conj) 916. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
