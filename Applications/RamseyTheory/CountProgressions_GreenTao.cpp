@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.10.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,7 +29,7 @@ License, or any later version. */
 namespace {
 
 #  ifndef UINT_TYPE_GT
-#    define UINT_TYPE_GT unsigned long  
+#    define UINT_TYPE_GT unsigned long
 #  endif
 
   typedef UINT_TYPE_GT uint_type;
@@ -70,14 +70,13 @@ int main(const int argc, const char* const argv[]) {
 
     std::cout << "n nhyp\n";
     for (statistics_vector_t::const_iterator i = cumulative.begin();
-      i != cumulative.end(); ++i) {
+        i != cumulative.end(); ++i)
       std::cout << i -> first << " " << i -> second << "\n";
-    }
 
   }
   catch (boost::bad_lexical_cast&) {
     std::cerr << err << "Both parameters must be non-negative integers\n"
-    "in the range given by UINT_TYPE_GT (default = unsigned long).\n";
+      "in the range given by UINT_TYPE_GT (default = unsigned long).\n";
     return(errcode_parameter_values);
   }
 
