@@ -196,19 +196,33 @@ Some specific installations are as follows (all included with "oklib all",
 so if this has been (successfully) executed then there is no need for further 
 actions):
 
-1) The OKlibrary provides a local installation of doxygen. 
-This installation can be executed by calling "oklib doxygen" in directory 
-OKplatform/ExternalSources.
+1) A local gcc is installed (providing a C and a C++ compiler).
+
+2) The C++ library Boost is installed locally (using the local gcc).
+
+3) The Gmp library is installed locally.
+
+4) The Maxima/Lisp computer-algebra-system is installed (by "oklib allmaxima",
+which installs further software needed).
+
+5) Further computer algebra systems installed are Gap and R.
+
+6) The SAT solver installed by default are Ubcsat, minisat2, minisat+, 
+ march_pl, satz215, survey_propagation, sat-grasp. picosat913,
+ precosat236, precosat-570 and the argosat solver (and library).
+(The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
+
+7) The only tool installed yet for handling boolean functions is Espresso.
+
+8) The OKlibrary provides a local installation of doxygen. 
 After this installation is finished, "oklib html" should then run successfully
 (recall, this call to "oklib" must happen in OKplatform/OKsystem (or below)).
 
-A link to the (locally installed) doxygen is planted in the public bin-directory 
-OKplatform/bin, so that you can use doxygen yourself (by just calling
-"doxygen" somewhere; try "doxygen --version").
+A link to the (locally installed) doxygen is planted in the
+public bin-directory OKplatform/bin, so that you can use doxygen yourself
+(by just calling "doxygen" somewhere; try "doxygen --version").
 
-2) In order to use the version control system, we recommend to install git
-via the OKlibrary, again by running "oklib git" in directory 
-OKplatform/ExternalSources.
+9) In order to use the version control system, we install git (locally).
 
 Again, after installation a link is planted in the public bin-directory 
 OKplatform/bin.
@@ -216,23 +230,6 @@ OKplatform/bin.
 Git comes with modern Linux distributions, but the OKlibrary should provide
 the most suitable version (either the newest one, or in case of some trouble
 an appropriate earlier version).
-
-3) The most convenient way to install the Maxima/Lisp computer-algebra-system 
-for SAT experimentation is by running "oklib allmaxima" in directory 
-OKplatform/ExternalSources.
-
-4) A local gcc is installed (providing a C and a C++ compiler).
-
-5) The C++ library Boost is installed locally (using the local gcc).
-
-6) The Gmp library is installed locally.
-
-6) And further computer algebra systems installed are Gap and R.
-
-7) The SAT solver installed by default are Ubcsat, minisat2, minisat+, 
- march_pl, satz215, survey_propagation, sat-grasp. picosat913,
- precosat236 and the argosat solver (and library).
-(The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 
 After having installed these tools, via
