@@ -63,19 +63,16 @@ int main(const int argc, const char* const argv[]) {
     typedef std::vector<int_type> v_type;
     v_type solution;
 
-    { // reading of palindromic solution:
-     int_type x;
-     while (std::cin >> x) {
-       if (x == 0) {
-         std::cerr << err << "Illegal literal 0.\n";
-         return(errcode_null_literal);
-       }
-       if (std::abs(x) > middle) {
-         std::cerr << err << "Variable too big: " << x << ".\n";
-         return(errcode_too_big_var);
-       }
-       solution.push_back(x);
-     }
+    // reading of palindromic solution:
+    for (int_type x; std::cin >> x; solution.push_back(x)) {
+      if (x == 0) {
+        std::cerr << err << "Illegal literal 0.\n";
+        return(errcode_null_literal);
+      }
+      if (std::abs(x) > middle) {
+        std::cerr << err << "Variable too big: " << x << ".\n";
+        return(errcode_too_big_var);
+      }
     }
 
     // output of extended solution:
@@ -86,18 +83,14 @@ int main(const int argc, const char* const argv[]) {
     }
     {typedef v_type::const_reverse_iterator iterator;
      const iterator end = solution.rend();
-     for (iterator i = solution.rbegin(); i != end; ++i) {
-       const int_type x = *i;
-       if (x > 0) std::cout << N-*i+1;
-       else std::cout << -(N-(-*i)+1);
-       std::cout << " ";
-     }
+     for (iterator i = solution.rbegin(); i != end; ++i)
+       std::cout << ((*i > 0) ? N-*i+1 : -(N-(-*i)+1)) << " ";
     }
     std::cout << std::endl;
   }
   catch (boost::bad_lexical_cast&) {
     std::cerr << err << "The parameter must be an integer\n"
-      "in the range given by INT_TYPE_GT (default = int).\n";
+      "in the range given by INT_TYPE_VDW (default = int).\n";
     return(errcode_parameter_values);
   }
 
