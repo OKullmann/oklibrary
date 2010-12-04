@@ -42,6 +42,7 @@ grosswaldhagisformula_okl ?= $(bin_dir)/GrosswaldHagisFormula-O3-DNDEBUG
 greentao_okl ?= $(bin_dir)/GreenTao-O3-DNDEBUG
 pdvanderwaerden_okl ?= $(bin_dir)/PdVanderWaerden-O3-DNDEBUG
 countprogressionsgreentao_okl ?= $(bin_dir)/CountProgressions_GreenTao-O3-DNDEBUG
+pdextend_okl ?= $(bin_dir)/PdExtend-O3-DNDEBUG
 
 greentaocnf_okl ?= $(bin_dir)/GreenTaoCNF-O3-DNDEBUG
 greentaogcnf_okl ?= $(bin_dir)/GreenTaoGCNF-O3-DNDEBUG
@@ -61,5 +62,5 @@ runpdvdw3k_okl ?=  $(OKlib)/Experimentation/Investigations/RamseyTheory/VanderWa
 
 extractsolutionubcsat_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/extract_solution_ubcsat
 
-public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ucpw_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(grosswaldhagisformula_okl) $(greentao_okl) $(pdvanderwaerden_okl) $(countprogressionsgreentao_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(pdvanderwaerdencnf_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call) $(runvdw3k_okl) $(runpdvdw3k_okl) $(extractcertificatevdW2_okl) $(extractsolutionubcsat_okl)
+public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ucpw_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(grosswaldhagisformula_okl) $(greentao_okl) $(pdvanderwaerden_okl) $(countprogressionsgreentao_okl) $(pdextend_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(pdvanderwaerdencnf_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call) $(runvdw3k_okl) $(runpdvdw3k_okl) $(extractcertificatevdW2_okl) $(extractsolutionubcsat_okl)
 
