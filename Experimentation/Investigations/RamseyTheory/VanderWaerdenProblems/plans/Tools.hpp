@@ -39,6 +39,12 @@ License, or any later version. */
     <ol>
      <li> We should have a statistics file, where at least for each n the
      run where a solution was found is shown. </li>
+     <li> It could be that in case the solution for n-2 does not work, then
+     the solution for n-1 still is a better starting point than just complete
+     random initialisation. So we could have, in case solutions for n-2 and
+     n-1 are available (that is, we are in the first phase), after a failed
+     attempt at using the solution for n-2, another similar round (with 3
+     trials) for using the solution for n-1. </li>
      <li> Later, one could increase cutoff or rounds, however in the first
      version we just stop. </li>
      <li> DONE (most solutions are now just small modifications)
