@@ -207,6 +207,34 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
    <li> 854 < vanderwaerden_g([3,30],"pd") =(conj) 855 =(conj)
    vanderwaerden([3,30])-48. </li>
    <li> vanderwaerden_g([3,30],"pdsat") =(conj) 844. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=843:
+     \verbatim
+30,56,57,75,85,91,92,115,123,134,
+144,149,159,160,178,192,201,230,236,247,
+249,260,266,275,295,308,333,347,352,363,
+366,382,392,394,395,411
+     \endverbatim
+     </li>
+     <li> n=844:
+     \verbatim
+28,33,34,58,60,71,91,116,117,120,
+129,134,136,150,165,192,202,203,218,236,
+237,245,261,265,274,276,295,308,310,323,
+339,347,366,377,382,392,395,397,411
+     \endverbatim
+     </li>
+     <li> n=854:
+     \verbatim
+30,32,35,37,45,50,67,86,101,123,
+124,132,136,139,153,168,173,190,194,206,
+231,236,247,255,281,292,293,298,317,318,
+334,346,352,354,359,363,385,404,414
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903 > VanDerWaerden_pd_2-3-30_903.cnf
@@ -264,7 +292,8 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 855 0
    \endverbatim
    while everything from 856 on seems unsat. </li>
-   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" confirms this. </li>
+   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" confirms this (run with old
+   and new scheme for using old solutions as initial assignments). </li>
   </ul>
 
 */
