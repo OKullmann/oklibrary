@@ -156,6 +156,12 @@ License, or any later version. */
 397
      \endverbatim
      </li>
+     <li> Trying to establish again the best ubcsat-algorith:
+     \verbatim
+E = run_ubcsat("VanDerWaerden_2-3-32_1007.cnf",runs=100, cutoff=2000000)
+
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
