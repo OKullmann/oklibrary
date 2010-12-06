@@ -222,7 +222,7 @@ License, or any later version. */
   \todo Palindromic version:
   <ul>
    <li> 1002 < vanderwaerden_g([3,33],"pd") =(conj) 1003 =(conj)
-   vanderwaerden([3,31]) - 61. </li>
+   vanderwaerden([3,33]) - 61. </li>
    <li> vanderwaerden_g([3,33],"pdsat") =(conj) 992. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
