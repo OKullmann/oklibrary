@@ -172,7 +172,7 @@ run_ubcsat = function(
                      "2>&1 > /dev/null"), ignore.stderr=TRUE)
       })
       # Tell the user
-      print(paste("WARNING[run_ubcsat] There has been an error generating",
+      print(paste("WARNING[run_ubcsat]: There has been an error generating",
                   "data for the", alg,"algorithm."))
     }
   }
