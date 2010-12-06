@@ -100,6 +100,7 @@ run_ubcsat = function(
   # Get only those algorithms in the included list which
   # are not excluded.
   algs = include_algs[!(include_algs %in% exclude_algs)]
+  num_algs = length(algs)
 
   # Create the temporary directory (error if it doesn't exist)
   if ( ! file.exists(tmp_directory)) 
@@ -120,6 +121,7 @@ run_ubcsat = function(
   # Run ubcsat-okl with each algorithm
   run_ubcsat_df = NULL
   errors_l = list()
+  counter_algs = 0
   for (alg in algs) {
     error = TRUE
     try({
@@ -131,10 +133,12 @@ run_ubcsat = function(
         run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
                             tmp_directory,...)
 
+      counter_algs=counter_algs+1;
       # If monitor is set, tell the user which algorithm is running
       if (monitor) {
-        print(paste("Running", alg, " on ", filename))
-        print(command)
+        cat("[",counter_algs, "/", num_algs, "]: Running ", alg, " on ",
+            filename, ".\n", sep="")
+        cat(command,"\n")
       }
       
       # Run the ubcsat-okl command
