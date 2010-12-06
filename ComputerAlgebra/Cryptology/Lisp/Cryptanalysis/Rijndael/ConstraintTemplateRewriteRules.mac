@@ -491,7 +491,7 @@ aes_mixcolumn_cstr_cstl(cst) := block(
       cstt_new("aes_add_cst",
         append(
           mulAVars,mulBVars,iBits[mod(2 + i,4) + 1],
-          iBits[mod(3 + i,4) + 1],oBits[i+1]),[], namespace),
+          iBits[mod(3 + i,4) + 1],oBits[i+1]),[4], namespace),
       rs)
   ),
   return(rs)
@@ -569,7 +569,7 @@ aes_inv_mixcolumn_cstr_cstl(cst) := block(
     rs : cons(
       cstt_new("aes_add_cst",
         append(mulAVars, mulBVars, mulCVars, mulDVars, iBits[i+1]),
-        [],namespace),
+        [4],namespace),
       rs)
   ),
   return(rs)

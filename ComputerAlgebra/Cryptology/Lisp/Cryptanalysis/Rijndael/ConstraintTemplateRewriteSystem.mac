@@ -125,7 +125,7 @@ cstt_vars_l(cst) :=
 /* Given a constraint template returns the constraint template
    auxiliary arguments. ??? */
 cstt_args_l(cst) :=
-  if listp(cst) and length(cst) > 2 and listp(cst[3]) then cst[3] else []$
+  if listp(cst) and length(cst) > 3 then rest(rest(cst,2),-1) else []$
 
 /* Given a constraint template returns the namespace of the constraint
    template. ??? */
