@@ -1,3 +1,8 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-limits.h
+  \brief Some constants have too small default values; also added include-guard.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -20,6 +25,9 @@
 
 */
 
+#ifndef UBCSATLIMITS_hasvc31er2
+#define UBCSATLIMITS_hasvc31er2
+
 #define DEFAULTHEAPSIZE 4194304
 #define MAXHEAPS 1024
 
@@ -30,12 +38,12 @@
 
 #define MAXFXNLIST 32
 
-#define MAXCNFLINELEN 4096
+#define MAXCNFLINELEN 8192
 
 #define MAXREPORTS 64
 #define MAXREPORTPARMS 8
 
-#define MAXPARMLINELEN 4096
+#define MAXPARMLINELEN 8192
 #define MAXTOTALPARMS 128
 
 #define MAXITEMLIST 256
@@ -43,3 +51,4 @@
 
 #define MAXREPORTHEADERSTRING 256
 
+#endif
