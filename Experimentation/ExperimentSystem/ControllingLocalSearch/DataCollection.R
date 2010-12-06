@@ -180,13 +180,12 @@ run_ubcsat = function(
   result = read_ubcsat_dir(directory=tmp_directory, include_algs=algs)
 
   # If there are errors, inform the user.
-  if (length(errors_l) > 0) {
-    print(paste("WARNING[run_ubcsat] There have been", length(errors_l),
-                "errors with the following algorithms -",
-                do.call(paste,c(errors_l,list(sep=", "))),".",
+  if (length(errors_l) > 0)
+    cat("\nWARNING[run_ubcsat]: There have been", length(errors_l),
+                "errors with the following algorithms:\n",
+                do.call(paste,c(errors_l,list(sep=", "))),".\n",
                 "See the corresponding log file and (potentially corrupt)",
-                "result files in", error_directory, "for details."))
-  }
+                "result files in\n  ", error_directory, "\n for details.\n")
 
   result
 }
