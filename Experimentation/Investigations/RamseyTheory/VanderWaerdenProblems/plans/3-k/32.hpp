@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,32) > 1006
   <ul>
+   <li> The very weak current conjecture is vanderwaerden_2(3,32) = 1007. </li>
    <li> n=951: rots found as solution, adapted from n=939 (run 15), with
    certificate:
    \verbatim
@@ -169,6 +170,9 @@ E = run_ubcsat("VanDerWaerden_2-3-32_1007.cnf",runs=100, cutoff=2000000)
 
   \todo Palindromic version:
   <ul>
+   <li> 962 < vanderwaerden_g([3,32],"pd") =(conj) 963 =(conj)
+   vanderwaerden([3,32]) - 44. </li>
+   <li> vanderwaerden_g([3,32],"pdsat") =(conj) 958. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007 > VanDerWaerden_pd_2-3-32_1007.cnf
@@ -215,8 +219,8 @@ E = run_ubcsat("VanDerWaerden_2-3-32_1007.cnf",runs=100, cutoff=2000000)
      seems unsatisfiable. </li>
     </ol>
    </li>
-   <li> Running "RunPdVdW3k 32 33 1007 gsat-tabu 100 10000000" shows that
-   all 1<=n<=958 are sat, then we have
+   <li> Running "RunPdVdW3k 32 33 1007 gsat-tabu 100 10000000" (old version)
+   shows that all 1<=n<=958 are sat, then we have
    \verbatim
 959 0
 960 1
@@ -225,6 +229,8 @@ E = run_ubcsat("VanDerWaerden_2-3-32_1007.cnf",runs=100, cutoff=2000000)
 963 0
    \endverbatim
    while everything above 964 on seems unsat. </li>
+   <li> Rerunning it with doubled cutoff, and using the previous solutions
+   properly. We also need the ability to start late. </li>
   </ul>
 
 */
