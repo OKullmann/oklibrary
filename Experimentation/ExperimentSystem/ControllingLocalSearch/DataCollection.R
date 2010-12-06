@@ -132,7 +132,10 @@ run_ubcsat = function(
                             tmp_directory,...)
 
       # If monitor is set, tell the user which algorithm is running
-      if (monitor) print(paste("Running", alg, " on ", filename))
+      if (monitor) {
+        print(paste("Running", alg, " on ", filename))
+        print(command)
+      }
       
       # Run the ubcsat-okl command
       error_code = system(command, intern=FALSE, ignore.stderr=TRUE)
