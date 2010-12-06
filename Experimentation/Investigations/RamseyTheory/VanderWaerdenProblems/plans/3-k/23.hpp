@@ -142,12 +142,12 @@ License, or any later version. */
   <ul>
    <li> 506 < vanderwaerden_g([3,23],"pd") =(conj) 507 =(conj)
    vanderwaerden([3,23])-9. </li>
-   <li> vanderwaerden_g([3,23],"pdsat") =(conj) 506. </li>
+   <li> vanderwaerden_g([3,23],"pdsat") = 506. </li>
    <li> precosat236:
     <ol>
      <li> n=516: ?sat, s. </li>
      <li> n=508: ?sat, s. </li>
-     <li> n=507: ?sat, s. </li>
+     <li> n=507: unsat, 128628s. </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 23 24 516 gsat-tabu 100 4000000" (old version):
