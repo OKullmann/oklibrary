@@ -468,7 +468,7 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
   </ul>
 
 
-  \todo Combining different repositories:
+  \todo Combining different repositories
   <ul>
    <li> Accidentally, from the OKlib-repository I pulled the
    Annotations-repository --- and it worked: It merged the complete history of
@@ -536,6 +536,47 @@ git pull -s subtree path_to_repository_B master
      place (just ignoring the directory-name of B), while here the directory
      name of B is used, and it is placed directly at the root of this
      repository A. </li>
+    </ol>
+   </li>
+   <li> Submodules:
+    <ol>
+     <li> Via "git submodule ..." independent repositories inside the main
+     repository are created and managed. </li>
+     <li> These submodule-repositories have their own .git-directory, thus
+     their own (completely independent) history, and one can use "git pull"
+     for them to update them, and one can pull from them and clone them. </li>
+     <li> However changing them directly seems not possible (or advisable),
+     and for work on them another independent repository is needed. </li>
+     <li> So submodules are good when independent repositories exist for
+     collaborations (like now with Tanbir Ahmed), but where one also wants
+     them in the main repository (for example to carry them around in one
+     go). </li>
+     <li> Creation happens via
+     "git submodule add other_repo path/local_repo_name", where the other
+     repository is cloned into path/local_repo_name. </li>
+     <li> A list of submodules is maintained in main_directory/.gitmodules.
+     </li>
+     <li> Via "git submodule init" the content of .gitmodules is also entered
+     into the main config-file. </li>
+     <li> If another repository pulls from the main repository, then the
+     content of the submodule is also available, however not checked out; this
+     is done by "git submodule update" (there, in the other repository). </li>
+     <li> Pulling for all submodules of the main repository happens via
+     "git submodule foreach git pull". </li>
+     <li> After a change to a submodule, a change-log has to be committed to
+     the main repository. Here one has to enter some log-message, which likely
+     is just "Update." </li>
+     <li> Via "git submodule status" one can see the ID's of the submodules,
+     prefixed with "-" if no initialisation took place yet (needs to be done),
+     and indexed with "+" if a "git submodule update" has to be performed.
+     </li>
+     <li> In .gitmodules the url of the sub-repo-origin is stored, and that
+     might have been changed (directly), and then "git submodule sync"
+     installs this url as the origin of the sub-repo (in
+     local_repo_name/.git/config). </li>
+     <li> I (OK) don't understand what "git submodule summary" is good for:
+     It shouldn't be possible to work directly in the submodule, so what is
+     summarised? </li>
     </ol>
    </li>
   </ul>
