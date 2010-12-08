@@ -12,6 +12,9 @@ ubcsat_other_version_numbers_okl ?=
 
 ubcsat_prefix_okl ?= ubcsat
 
+ubcsat_recommended_okl := $(ubcsat_prefix_okl)-$(ubcsat_recommended_version_number_okl)
+ubcsat_source_okl := $(ExternalSources)/sources/SAT/Ubcsat/$(ubcsat_recommended_okl)
+
 ubcsat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Ubcsat
 ubcsat_installation_dir_okl ?= $(ubcsat_base_installation_dir_okl)/$(ubcsat_recommended_version_number_okl)
 ubcsat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Ubcsat
@@ -31,10 +34,6 @@ ubcsat_documentation_url_okl := http://www.satlib.org/ubcsat/\#documentation
 
 ubcsat_corrected_dir_okl := $(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected
 ubcsat_corrected_files_okl := $(wildcard $(ubcsat_corrected_dir_okl)/*.h $(ubcsat_corrected_dir_okl)/*.c)
-
-ubcsat_targets_prefix_okl := $(ubcsat_prefix_okl)-
-ubcsat_recommended_okl := $(ubcsat_targets_prefix_okl)$(ubcsat_recommended_version_number_okl)
-ubcsat_source_okl := $(ExternalSources)/sources/SAT/Ubcsat/$(ubcsat_recommended_okl)
 
 ubcsat_wrapper_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/ubcsat-okl
 ubcsat_defaults_okl ?= -rclean -r out stdout run,found,best,beststep,steps,seed  -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] -runs 10 -cutoff 100000
