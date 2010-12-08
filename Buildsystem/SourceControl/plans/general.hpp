@@ -747,6 +747,7 @@ git pull -s subtree path_to_repository_B master
      <li> 10.11.2010: 15.0 MB; OKlib total 34.2 MB (on new laptop, where the
      OKlib-directory was cloned, and thus doesn't contain the old
      backup-files). </li>
+      <li> 8.12.2010: 15.4 MB; OKlib total 35.1 MB </li>
     </ol>
    </li>
   </ul>
