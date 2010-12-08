@@ -8,7 +8,7 @@
 # Settings for building and using the Ubcsat package
 
 ubcsat_recommended_version_number_okl ?= 1-0-0
-ubcsat_other_version_numbers_okl ?= 
+ubcsat_other_version_numbers_okl ?= 1-2-0-beta
 
 ubcsat_prefix_okl ?= ubcsat
 
@@ -19,6 +19,7 @@ ubcsat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Ubcsat
 ubcsat_installation_dir_okl ?= $(ubcsat_base_installation_dir_okl)/$(ubcsat_recommended_version_number_okl)
 ubcsat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Ubcsat
 ubcsat_build_dir_okl ?= $(ubcsat_base_build_dir_okl)/$(ubcsat_recommended_version_number_okl)
+# ubcsat_build_dir_okl needs update to the usual setting
 
 ubcsat_installsrc_okl ?= $(ubcsat_installation_dir_okl)/src
 ubcsat_include_option_okl ?= -I- -I$(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected -I$(ubcsat_installsrc_okl)
@@ -38,3 +39,6 @@ ubcsat_corrected_files_okl := $(wildcard $(ubcsat_corrected_dir_okl)/*.h $(ubcsa
 ubcsat_wrapper_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/ubcsat-okl
 ubcsat_defaults_okl ?= -rclean -r out stdout run,found,best,beststep,steps,seed  -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] -runs 10 -cutoff 100000
 
+script_name_ubcsat_okl ?= new-ubcsat-okl
+new_ubcsat_wrapper_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/$(script_name_ubcsat_okl)
+new_ubcsat_defaults_okl ?= -rclean -r out stdout run,found,best,beststep,steps,seed  -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] -runs 10 -cutoff 100000 -rflush

@@ -76,6 +76,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
+    - Update to version 1.2.0
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
     - Update to newer version : DONE
     - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE

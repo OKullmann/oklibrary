@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \todo Update to version 1.2.0
+  <ul>
+   <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
+   https://github.com/dtompkins/ubcsat.git, branch beta. </li>
+   <li> We also changed "#define MAXPARMLINELEN 4096" to
+   "#define MAXPARMLINELEN 16384". </li>
+   <li> "new-ubcsat-okl" is the wrapper-script to access the new version
+   (besides the old version). </li>
+   <li> The current version is not usable at all; e-mail sent to
+   ubcsat-developers. </li>
+  </ul>
+
+
   \bug UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
   <ul>
    <li> Given the input file ("test.wcnf")
