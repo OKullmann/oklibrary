@@ -9,7 +9,6 @@
 
 ubcsat_recommended_version_number_okl ?= 1-0-0
 ubcsat_supported_but_not_recommended_version_numbers_okl ?= 
-ubcsat_supported_version_numbers_okl ?= $(ubcsat_recommended_version_number_okl) $(ubcsat_supported_but_not_recommended_version_numbers_okl)
 
 ubcsat_prefix_okl ?= ubcsat
 
