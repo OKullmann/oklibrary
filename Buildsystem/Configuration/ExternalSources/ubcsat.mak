@@ -8,7 +8,7 @@
 # Settings for building and using the Ubcsat package
 
 ubcsat_recommended_version_number_okl ?= 1-0-0
-ubcsat_supported_but_not_recommended_version_numbers_okl ?= 
+ubcsat_other_version_numbers_okl ?= 
 
 ubcsat_prefix_okl ?= ubcsat
 
