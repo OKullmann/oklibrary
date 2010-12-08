@@ -44,11 +44,22 @@ sage: An error occurred while installing readline-6.0.p4
      it says it will install readline, but then wants a very specific version
      already installed?).
      </li>
+     <li> According to the sage-devel mailing list, there have been similar 
+     issues related to newer versions of readline (see 
+     http://trac.sagemath.org/sage_trac/ticket/9523) and we should try the
+     development version of Sage at 
+     http://sage.math.washington.edu/home/release/sage-4.6.1.alpha3/sage-4.6.1.alpha3.tar .
+     </li>
      <li> On csltok (Suse 11.3): Here finally the installation succeeds,
      however Sage installs a directory .sage in the home directory, and
      this we must avoid! We need to move this data-directory to the
      installation directory. (One could redefine HOME for the installation.)
      </li>
+     <li> Sage allows one to change the ".sage" directory using the "DOT_SAGE"
+     environment variable either during the build process (setting the 
+     default) or when running Sage. See "DOT_SAGE" on 
+     http://www.sagemath.org/doc/installation/source.html for information on
+     building Sage using this variable. </li>
     </ol>
    </li>
    <li> Version 4.5.3:
