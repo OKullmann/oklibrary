@@ -22,9 +22,9 @@ set -o errexit
 set -o nounset
 
 script_name="ubcsat-okl"
-version="0.2"
+version="0.2.1"
 
 parameters="m4_SHELL(ubcsat_defaults_okl) $*"
 echo "# ${parameters}"
 echo "       sat  min     osteps     msteps       seed"
-ubcsat ${parameters}
+m4_SHELL(ubcsat_call_okl) ${parameters}

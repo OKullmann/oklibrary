@@ -33,14 +33,13 @@ ubcsat : $(ubcsat_directories) ubcsat-okl
 	dos2unix --quiet *
 	cp $(ubcsat_src_directory)/* $(ubcsat_tmp_src_directory)
 	cp -f $(ubcsat_corrected_files_okl) $(ubcsat_tmp_src_directory)
-	gcc -Wall -O3 -o $(ubcsat_bin_directory)/ubcsat -DNDEBUG $(ubcsat_tmp_src_directory)/*.c -lm
+	gcc -Wall -O3 -o $(ubcsat_bin_directory)/$(ubcsat_recommended_okl) -DNDEBUG $(ubcsat_tmp_src_directory)/*.c -lm
 	cd $(ubcsat_tmp_src_directory); gcc -Wall -O3 -c -DNDEBUG -DALTERNATEMAIN *.c
 	cp $(ubcsat_tmp_src_directory)/*.o $(ubcsat_lib_directory)
 	$(AR) $(ARFLAGS) $(ubcsat_lib_directory)/libubcsat.a $(ubcsat_lib_directory)/*.o
 	cp -r $(ubcsat_lib_directory) $(ubcsat_installation_dir_okl)
 	cp -r $(ubcsat_bin_directory) $(ubcsat_installation_dir_okl)
 	cp -r $(ubcsat_src_directory) $(ubcsat_installation_dir_okl)
-	ln -s --force $(ubcsat_call_okl) $(public_bin_dir_okl)/ubcsat
 
 ubcsat-okl :
 	$(preprocessing_call) $(ubcsat_wrapper_okl) > $(public_bin_dir_okl)/ubcsat-okl

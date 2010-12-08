@@ -25,7 +25,7 @@ ubcsat_include_option_okl ?= -I- -I$(OKsystem)/OKlib/Satisfiability/Algorithms/L
 ubcsat_link_okl ?= $(ubcsat_installation_dir_okl)/lib
 ubcsat_link_option_okl ?= -L$(ubcsat_link_okl) -lubcsat
 
-ubcsat_call_okl ?= $(ubcsat_installation_dir_okl)/bin/ubcsat
+ubcsat_call_okl ?= $(ubcsat_installation_dir_okl)/bin/$(ubcsat_recommended_okl)
 
 ubcsat_docu_page_okl ?= $(doc_dir)/doxygen_html/d6/d0c/docus_2Ubcsat_8hpp.html
 
