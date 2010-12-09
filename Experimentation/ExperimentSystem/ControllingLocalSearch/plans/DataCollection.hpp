@@ -34,7 +34,15 @@ License, or any later version. */
 
   \todo Better output of run_ubcsat
   <ul>
-   <li> So a summary for each (single) run should be printed out. </li>
+   <li> So a summary for each (single) run should be printed out.
+    <ol>
+     <li> DONE We need the tabulation of the min-values. </li>
+     <li> Perhaps it's better not to have an empty line between the playback
+     of the command and the min-tabulation. </li>
+     <li> Since there are big differences in running times, we also need
+     timing information. </li>
+    </ol>
+   </li>
    <li> The result-files should be directly readable by read_ubcsat, and thus
    they should include the leading row with the column names. </li>
    <li> DONE (a warning is shown for any errors for each algorithm now
