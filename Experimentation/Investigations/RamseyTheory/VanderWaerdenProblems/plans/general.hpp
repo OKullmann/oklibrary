@@ -32,6 +32,9 @@ License, or any later version. */
   <ul>
    <li> See "Benchmarks for SAT 2011" in
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+   <li> VanDerWaerden_pd_2-3-31_930.cnf is a hard satisfiable instance,
+   VanDerWaerden_2-3-31_931.cnf a hard unknown instance (see
+   RamseyTheory/VanderWaerdenProblems/plans/3-k/31.hpp). </li>
   </ul>
 
 

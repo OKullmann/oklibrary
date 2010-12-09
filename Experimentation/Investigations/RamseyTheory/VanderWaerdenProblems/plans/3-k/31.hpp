@@ -139,8 +139,12 @@ Certificate (the vertices for k=3) for n = 930 :
 788,789,808,823,836,851,856,860,870,881,
 898,918
 
+> E = read_ubcsat("Exp_VanderWaerden_2-3-31_930_rots-100-100000000_2010-12-03-235537/VanDerWaerden_2-3-31_931.cnf_OUT",nrows=100)
+ 1  2  3  4  5
+ 5 23 24 31 17
+100
    \endverbatim
-   </li>
+   So n=931 seems are hard instance. </li>
   </ul>
 
 
