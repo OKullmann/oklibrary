@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.4.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,16 @@ okltest_rijnsbox_fulldnf_fcs(rijnsbox_fulldnf_fcs);
 okltest_rijnsbox_fullcnf_fcs(rijnsbox_fullcnf_fcs);
 
 okltest_rijnsbox_cnfp(rijnsbox_cnfp);
+
+/* ******************************************************
+   * Small Scale Sbox Analysis                          *
+   ******************************************************
+*/
+
+okltest_ss_sbox_fulldnf_gen_fcl(ss_sbox_fulldnf_gen_fcl);
+
+okltest_ss_sbox_fullcnf_gen_fcs(ss_sbox_fullcnf_gen_fcs);
+okltest_ss_sbox_gen_cnfp(ss_sbox_gen_cnfp);
 
 /* ******************************************
    * Representations by hitting clause-sets *
