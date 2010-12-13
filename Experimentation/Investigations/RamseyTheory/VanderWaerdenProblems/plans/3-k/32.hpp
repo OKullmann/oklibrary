@@ -161,8 +161,27 @@ License, or any later version. */
      \verbatim
 E = run_ubcsat("VanDerWaerden_2-3-32_1007.cnf",runs=100, cutoff=2000000)
 
+rots : 
+ 2  3  4  5  6  7  8 14 16 17 19 20 21 22 23 24 26 
+ 1  2 10  4  5  2  1  1  1  1  5 10 16 21 12  7  1 
+samd : 
+ 2  3  5 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 31 
+ 1  1  1  2  7 10  6 14 18 13  7  7  4  1  3  1  2  1  1 
+gsatt : 
+ 4 13 14 15 16 17 18 19 20 21 22 23 24 25 26 28 31 
+ 2  3  3  4  6 15  9  8 15 14  6  5  6  1  1  1  1 
+hwsat : 
+ 7 15 16 18 19 20 21 22 23 24 25 26 27 28 30 
+ 1  1  2  2  3  6  6 12 13 22 16  9  4  2  1 
+saps : 
+ 8  9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 28 29 30 31 32 33 
+ 1  1  1  3  3  9  7  9  9  8  4  3  1  1  3  1  4  7  7 12  3  3 
+wsattn : 
+ 8 10 11 12 13 14 15 16 
+ 1  1 17 28 25 17  9  2
      \endverbatim
-     </li>
+     which confirms that rots seems best (rots is also only a bit slower than
+     samd). </li>
     </ol>
    </li>
   </ul>
