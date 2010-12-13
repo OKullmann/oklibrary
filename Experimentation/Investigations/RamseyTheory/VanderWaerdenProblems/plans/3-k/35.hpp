@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,35)
 
 
-  \todo vanderwaerden_2(3,35) > 1142
+  \todo vanderwaerden_2(3,35) > 1165
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,35) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -19,6 +19,20 @@ License, or any later version. */
 
 > RunVdW3k 35 1142 rots 100 100000000 solution
 
+   \endverbatim
+   </li>
+   <li> n=1165 found satisfiable (rots, cutoff=10^8) with certificate
+   \verbatim
+21,36,65,66,82,103,105,132,134,142,
+147,151,157,176,184,206,225,251,264,268,
+282,290,301,319,325,341,354,364,393,412,
+428,435,443,447,452,484,486,512,517,526,
+527,539,558,564,583,595,620,621,634,665,
+674,675,689,695,697,712,732,748,761,763,
+768,771,776,785,798,808,819,842,854,859,
+874,879,880,893,911,924,930,934,954,956,
+961,993,1002,1008,1020,1022,1027,1045,1067,1076,
+1081,1102,1119,1131
    \endverbatim
    </li>
   </ul>
