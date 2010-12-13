@@ -166,7 +166,7 @@ aes_cstr_cstl(cst) := block(
     rs : cons(
       cstt_new("aes_round_cst",
         append(ib,take_elements(128,rest(ekBits,j*128)),ob),
-        [], namespace),
+        [i], namespace),
       rs),
     ib : ob
   ),
@@ -183,7 +183,7 @@ aes_cstr_cstl(cst) := block(
     rs : cons(
       cstt_new("aes_round_cst",
         append(ib,take_elements(128,rest(ekBits,aes_num_rounds*128)),ob),
-        [],namespace),
+        [aes_num_rounds],namespace),
       rs),
   return(rs)
 )$
@@ -331,7 +331,7 @@ aes_subbytes_cstr_cstl(cst) := block(
         append(
           take_elements(8, rest(iBits,i*8)),
           take_elements(8, rest(oBits,i*8))),
-        [], namespace),
+        [i], namespace),
       rs),
   return(rs)
 )$
@@ -363,7 +363,7 @@ aes_shiftrows_cstr_cstl(cst) := block(
   oBits : take_elements(128,rest(bits,128)),
   map(
     lambda([a,b],
-      cstt_new("aes_eq_cst",[a,b],
+      cstt_new("eq_cst",[a,b],
         [],namespace)), oBits,
     lappend(
       rijn_m2l(aes_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
@@ -389,7 +389,7 @@ aes_mixcolumns_ns_var_l([a]) := []$
 /* Returns a set of conditions representing the AES Mixcolumns operation given
    128 plaintext variables and 128 output variables. */
 aes_mixcolumns_cstr_cstl(cst) := block(
-  [namespace, bits,iBits, oBits, nc],
+  [namespace, bits,iBits, oBits, nc, mc_i : 0],
   bits : cst[2],
   namespace : cstt_namespace_new(aes_mixcolumns_namespace,cst),
   iBits : take_elements(128,bits),
@@ -398,7 +398,7 @@ aes_mixcolumns_cstr_cstl(cst) := block(
   map(lambda([a,b,column], 
     cstt_new("aes_mixcolumn_cst",
       append(lappend(a),lappend(b)),
-      [],namespace)),
+      [mc_i : mc_i + 1],namespace)),
     partition_elements(partition_elements(iBits,8),nc),
     partition_elements(partition_elements(oBits,8),nc),
     create_list(i,i,1,4))
@@ -478,14 +478,14 @@ aes_mixcolumn_cstr_cstl(cst) := block(
     rs : cons(
       cstt_new("aes_mul2_cst",
         append(iBits[mod(0 + i,4) + 1],mulAVars),
-        [],namespace),
+        [i],namespace),
       rs),
     mulBVars :
       generate_aes_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc3)),
     rs : cons(
       cstt_new("aes_mul3_cst",
         append(iBits[mod(1 + i,4) + 1],mulBVars),
-        [],namespace),
+        [i],namespace),
       rs),
     rs : cons(
       cstt_new("aes_add_cst",
@@ -543,28 +543,28 @@ aes_inv_mixcolumn_cstr_cstl(cst) := block(
     rs : cons(
       cstt_new("aes_mul14_cst",
         append(oBits[mod(0 + i,4) + 1],mulAVars),
-        [],namespace),
+        [i],namespace),
       rs),
     mulBVars :
       generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc11)),
     rs : cons(
       cstt_new("aes_mul11_cst",
         append(oBits[mod(1 + i,4) + 1],mulBVars),
-        [],namespace),
+        [i],namespace),
       rs),
     mulCVars :
       generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc13)),
     rs : cons(
       cstt_new("aes_mul13_cst",
         append(oBits[mod(2 + i,4) + 1],mulCVars),
-        [],namespace),
+        [i],namespace),
       rs),
     mulDVars :
       generate_aes_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc9)),
     rs : cons(
       cstt_new("aes_mul9_cst",
         append(oBits[mod(3 + i,4) + 1],mulDVars),
-        [],namespace),
+        [i],namespace),
       rs),
     rs : cons(
       cstt_new("aes_add_cst",
@@ -589,11 +589,11 @@ aes_key_expansion_cstrb :
 /* Generates a set of unit clauses (initially simpler than simplifying constants
    or making partial assignments) to set the given vars (representing the bits
    of AES round constants) to the round constant for round n */
-aes_round_constant_l(ivars, n) := block([rc_el,rc_l],
+aes_round_constant_l( n) := block([rc_el,rc_l],
   rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
                create_list(2,i,1,(n -1)),1),
   rc_l : egf_coeffs(rijn_bit_field,egf_num2poly(rijn_byte_field,rc_el),7),
-  return(map(lambda([a,b], if b = 0 then -a else a),ivars, rc_l))
+  return(rc_l)
 )$
 
 /* AES key expansion namespace */
@@ -624,7 +624,7 @@ aes_key_expansion_ns_var_l(cst) := block(
    */
 aes_key_expansion_cstr_cstl(cst) := block(
   [namespace,bits, n_k : 4,n_b : 4, n_r,kBits, rkBits, nc,rs : [],
-   sboxVars, addVars,fMat, kMat],
+   sboxVars, addVars,fMat, kMat, sbox_i : 0, rc_i : 0],
   bits : cst[2],
   namespace : cstt_namespace_new(aes_key_expansion_namespace,cst),
   n_r : cst[3],
@@ -640,7 +640,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
   for j : 1 thru n_k do
     for i : 1 thru n_b do
       rs : cons(
-        cstt_new("aes_eq_cst",
+        cstt_new("eq_cst",
           append(kMat[j][i], fMat[j][i]),
           [],namespace),
         rs),
@@ -652,7 +652,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
       rs : cons(
         cstt_new("aes_sbox_cst",
           append(cols[j][2], sboxVars),
-          [],namespace),
+          [sbox_i : sbox_i + 1],namespace),
         rs),
       addVars : generate_aes_constraint_vars(
         (j-n_k)*(8/n_k) +1,(j-n_k)*(8/n_k) +8,namespace,nounify(ke)),
@@ -664,10 +664,10 @@ aes_key_expansion_cstr_cstl(cst) := block(
       rcVars : generate_aes_constraint_vars(
         (j-n_k)*(8/n_k) + 1,(j-n_k)*(8/n_k) + 8,namespace,nounify(rc)),
       rs : cons(
-        cstt_new("aes_eq_cst",
-            append(aes_round_constant_l(rcVars,floor(j/n_k)),
-              create_list(true,i,1,8)),
-            [],namespace),
+        cstt_new("const_cst",
+            rcVars,
+            cons(rc_i : rc_i + 1,aes_round_constant_l(floor(j/n_k))),
+            namespace),
         rs),
       rs : cons(
         cstt_new("aes_add_cst", 
@@ -680,7 +680,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
         rs : cons(
           cstt_new("aes_sbox_cst", 
             append(cols[j][mod(i+1,4)+1], sboxVars),
-            [],namespace),
+            [sbox_i : sbox_i + 1],namespace),
           rs),
         rs : cons(
           cstt_new("aes_add_cst", 
@@ -706,7 +706,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
 
 /* Returns a list of CNF clauses representing addition within GF(2^n) given
    an "aes_add_cst" constraint with m * n input variables (n lots of
-   m bits to be summed) and m output variables where n is the first
+   m bits to be summed) and output variables where n is the first
    argument to the constraint. */
 aes_add_cst_cl(cst) := block(
   [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
@@ -732,6 +732,12 @@ aes_eq_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 2)],
   lappend(
     map(lambda([a,b], if b = true then [{a}] else [{-a,b},{a,-b}]), 
     take_elements(nb,cst[2]), rest(cst[2],nb))))$
+
+/* Constants */
+aes_const_cst_cl(cst) := block(
+  print(cst),
+  map(lambda([a,b], if b = 1 then {a} else {-a}), cst[2],
+    rest(cstt_args_l(cst))))$
 
 /* Returns a list of CNF clauses representing the sbox relation
    given the appropriate sbox constraint ("aes_sbox_cst" with 16 variables

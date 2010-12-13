@@ -486,7 +486,7 @@ rewrite_condition(con_set, con_name, con_rewrite_f) := block(
   [num_con : 0, total : length(con_set)], 
   setify(uaapply(append,map(
     lambda([b], block(
-      if (oklib_monitoring and (mod(num_con,100) = 0)) then block(
+      if (oklib_monitor and (mod(num_con,100) = 0)) then block(
         print(con_name, " = ", num_con,"/",total)),
       num_con : num_con + 1,
       if not (op(b) = con_name) then [b] 
@@ -559,6 +559,8 @@ aes_hex2pa(hexStr, variableList) := block(
   ))
 )$
 
+
+
 /*************************************************************
  * Constraint template rewrite-based translations            *
  *************************************************************
@@ -579,55 +581,64 @@ aes_cstt_std_l(r) :=
               [r],lambda([a],a))],
     aes_rewrite_mapping_std)$
 
-/* CNF translations */
+aes_cstt_std_vars_l(r) :=
+  append(
+    generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
+    rewrite_all_cstt_vars_l(
+      [cstt_new("aes_cst",
+        generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
+        [r],lambda([a],a))],
+      aes_rewrite_mapping_std))$
 
-/* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
-   returns a list of clauses representing these constraints.
+aes_std_ts_fcl(r) := block([aes_csttl : aes_cstt_std_l(r)],
+  csttl2fcl(prop_eq_csttl(aes_csttl),
+            prop_eq_rep_vars_l(aes_csttl,aes_cstt_std_vars_l(r)),
+            aes_ts_translation_mapping))$
 
-   In particular, in the case of Sbox and field multiplication constraints,
-   this translation uses the non-canonical representation of these constraints,
-   generated through heuristic experimentation (see FieldMul2CNF etc). */
-aes_constraints2cnf_pi_cl(rs) := block([prog_l : 0, rs_len : length(rs)],
-  lappend(map(
-    lambda([a],block(
-      if oklib_monitoring then
-        print("Rewriting '", first(a), "(",
-          prog_l : prog_l + 1,"/",rs_len,")"),
-      if first(a) = "aes_add_cst" then aes_add_cst_cl(a)
-      else if first(a) = "aes_eq_cst" then aes_eq_cst_cl(a)
-      else if first(a) = "aes_mul2_cst" then aes_mul2_pi_cst_cl(a)
-      else if first(a) = "aes_mul3_cst" then aes_mul3_pi_cst_cl(a)
-      else if first(a) = "aes_mul14_cst" then aes_mul14_pi_cst_cl(a)
-      else if first(a) = "aes_mul13_cst" then aes_mul13_pi_cst_cl(a)
-      else if first(a) = "aes_mul11_cst" then aes_mul11_pi_cst_cl(a)
-      else if first(a) = "aes_mul9_cst" then aes_mul9_pi_cst_cl(a)
-      else if first(a) = "aes_sbox_cst" then aes_sbox_pi_cst_cl(a)
-      else a)),
-  rs)))$
+aes_std_ts_wop_fcl(r) := block([aes_csttl : aes_cstt_std_l(r)],
+  csttl2fcl(aes_csttl,
+            aes_cstt_std_vars_l(r),
+            aes_ts_translation_mapping))$
 
-/* Given a list of AES constraints ("aes_cst", "aes_round_cst" etc),
-   returns a list of clauses representing these constraints.
 
-   In particular, in the case of Sbox and field multiplication constraints,
-   this translation uses the canonical representations of these constraints
-   using new variables. */
-aes_constraints2cnf_ts_cl(rs) := block([prog_l : 0,rs_len : length(rs)],
-  lappend(map(
-    lambda([a],block(
-      if oklib_monitoring then
-        print("Rewriting '", first(a), "(",
-          prog_l : prog_l + 1,"/",rs_len,")"),
-      if first(a) = "aes_add_cst" then aes_add_cst_cl(a)
-      else if first(a) = "aes_eq_cst" then aes_eq_cst_cl(a)
-      else if first(a) = "aes_mul2_cst" then aes_mul2_ts_cst_cl(a)
-      else if first(a) = "aes_mul3_cst" then aes_mul3_ts_cst_cl(a)
-      else if first(a) = "aes_mul14_cst" then aes_mul14_ts_cst_cl(a)
-      else if first(a) = "aes_mul13_cst" then aes_mul13_ts_cst_cl(a)
-      else if first(a) = "aes_mul11_cst" then aes_mul11_ts_cst_cl(a)
-      else if first(a) = "aes_mul9_cst" then aes_mul9_ts_cst_cl(a)
-      else if first(a) = "aes_sbox_cst" then aes_sbox_ts_cst_cl(a)
-      else a)),
-  rs)))$
+/******************************************************************************
+ * Global propagation                                                         *
+ ******************************************************************************
+*/
+
+
+/******************************************************************************
+ * CNF translations                                                           *
+ ******************************************************************************
+*/
+
+/* Translation mapping, mapping constraint templates to the corresponding
+   translation functions where constraints are translated to CNF clause-set
+   representations using subsets of the prime implicates. */
+aes_pi_translation_mapping : [
+  ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
+  ["aes_mul2_cst", [aes_mul2_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_mul3_cst", [aes_mul3_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_mul14_cst", [aes_mul14_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_mul13_cst", [aes_mul13_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_mul11_cst", [aes_mul11_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_mul9_cst", [aes_mul9_pi_cst_cl, lambda([[a]],[])]],
+  ["aes_sbox_cst", [aes_sbox_pi_cst_cl, lambda([[a]],[])]]]$
+
+/* Translation mapping, mapping constraint templates to the corresponding
+   translation functions where constraints are translated to representations
+   using subsets of the prime implicates. */
+aes_ts_translation_mapping : [
+  ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
+  ["aes_mul2_cst", [aes_mul2_ts_cst_cl, aes_mul2_ts_var_l]],
+  ["aes_mul3_cst", [aes_mul3_ts_cst_cl, aes_mul3_ts_var_l]],
+  ["aes_mul14_cst", [aes_mul14_ts_cst_cl, aes_mul14_ts_var_l]],
+  ["aes_mul13_cst", [aes_mul13_ts_cst_cl, aes_mul13_ts_var_l]],
+  ["aes_mul11_cst", [aes_mul11_ts_cst_cl, aes_mul11_ts_var_l]],
+  ["aes_mul9_cst", [aes_mul9_ts_cst_cl, aes_mul9_ts_var_l]],
+  ["aes_sbox_cst", [aes_sbox_ts_cst_cl, aes_sbox_ts_var_l]]]$
 
 /*!
 \endhtmlonly

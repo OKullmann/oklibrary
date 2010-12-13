@@ -91,7 +91,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 cstt_namespace_new(namespace_name,cst_p) := block([namespace_p,res_cstt_p],
   namespace_p :
     if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
-  res_cstt_p : [cstt_name(cst_p),cstt_args_l(cst_p), cstt_namespace_f(cst_p)],
+  res_cstt_p : append([cstt_name(cst_p)],cstt_args_l(cst_p), [cstt_namespace_f(cst_p)]),
   return(buildq([res_cstt_p,namespace_name,namespace_p],
         lambda([a],namespace_p(namespace_name(a,res_cstt_p))))))$
 
@@ -138,6 +138,26 @@ cstt_p(cstt) := is(listp(cstt) and length(cstt) >= 2)$
 /* Check whether a given object is a constraint template with
    the given name ??? */
 cstt_named_p(cstt,name) := is(cstt_p(cstt) and cstt[1] = name)$
+
+
+/* Given a constraint template, a list of variables from the constraint
+   and another list of variables, returns the new constraint where
+   the variables in the first list have been replaced with the second. */
+cstt_rename_vars(cstt, old_var_l, new_var_l) := if not(cstt_p(cstt)) then []
+  else block([var_map : sm2hm(setify(map("[",old_var_l, new_var_l)))],
+    append([cstt[1]],
+           [map(lambda([a], if ev_hm(var_map,a) # false then
+                 ev_hm(var_map,a) else a), cstt[2])],
+           rest(cstt,2)))$
+cstt_rename_wsm_vars(cstt, var_map) :=
+  if not(cstt_p(cstt)) then [] else
+  append(
+    [cstt[1], map(lambda([a], ev_hm_d(var_map,a,a)), cstt[2])],
+           rest(cstt,2))$
+
+csttl_rename_vars(csttl, old_var_l, new_var_l) := block(
+  [var_map : sm2hm(map("[",old_var_l, new_var_l))],
+  map(lambda([cstt], cstt_rename_wsm_vars(cstt, var_map)), csttl))$
 
 
 /********************************

@@ -1,0 +1,78 @@
+/* Matthew Gwynne, 6.12.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateTranslation.mac
+  \brief System for iteratively translating a system of constraint templates into another representation system (CNF etc).
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateTranslation.mac");
+  
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac")$
+
+/********************************
+ * Translation functions            *
+ ********************************
+*/
+
+/* Takes a list of constraint templates and a rewrite mapping and returns a
+   clause-list where each constraint has been mapped to clauses by the
+   function given in the rewrite mapping. */
+csttl2cl(csttl, rewrite_map) := block(
+  [prog_l : 0, csttl_len : length(csttl),
+   rewrite_hash : osm2hm(rewrite_map),cstr],
+  lappend(map(
+    lambda([a],block(
+      if oklib_monitor then
+        print("Translating '", first(a), "(",
+          prog_l : prog_l + 1,"/",csttl_len,")"),
+        cstrb : ev_hm(rewrite_hash, cstt_name(a)),
+        if cstrb # false then cstrb[1](a) else (
+          print("Warning: \"", cstt_name(a),
+                "\" does not match any rewrite mapping! Mapped to []."),
+          []))),
+  csttl)))$
+
+csttl2fcl(csttl, var_list, rewrite_map) := block(
+  [prog_l : 0, csttl_len : length(csttl),
+   rewrite_hash : osm2hm(rewrite_map),cstr, new_var_list : var_list, cl],
+  cl : lappend(map(
+    lambda([a],block(
+      if oklib_monitor then
+        print("Translating '", first(a), "(",
+          prog_l : prog_l + 1,"/",csttl_len,")"),
+        cstrb : ev_hm(rewrite_hash, cstt_name(a)),
+        if cstrb # false then block(
+          new_var_list : append(new_var_list, cstrb[2](a)),
+          cstrb[1](a)) else (
+          print("Warning: \"", cstt_name(a),
+                "\" does not match any rewrite mapping! Mapped to []."),
+          []))),
+  csttl)),
+  return([new_var_list, cl]))$
+
+/****************************************
+ * Translation bundles                      *
+ ****************************************
+*/
+
+/* Constraint template translation bundle which does nothing
+   (i.e no variables are introduced by it's
+   rewrite function). */
+zero_cstttb : [lambda([[a]],[]), lambda([[a]],[])]$
+
+/*!
+\endhtmlonly
+*/

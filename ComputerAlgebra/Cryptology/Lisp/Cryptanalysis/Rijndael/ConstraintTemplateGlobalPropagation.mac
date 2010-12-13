@@ -1,0 +1,139 @@
+/* Matthew Gwynne, 6.12.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateGlobalPropagation.mac
+  \brief System for taking a set of constraints and propagating the effect of certain constraints across the set.
+
+   As an example, consider systems with equality constraints where the
+   equivalence constraints can then be rewrited to replace the two
+   sets of variables with a single set (representing the two
+   equivalent variables).
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateGlobalPropagation.mac");
+  
+*/
+
+/* TODO : Update specification below */
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac")$
+
+/* Propagation function XXX
+   Propagation bundles XXX
+   XXX */
+
+
+/********************************
+ * Propagation functions            *
+ ********************************
+*/
+
+/* Given a list of constraint templates, and a list of propagation bundles,
+   returns a new list of constraint templates after applying each propagation
+   function to the list of constraint templates. */
+prop_all_csttl(csttl,rewrite_l) :=
+  lreduce(lambda([csttl_new,csttpb], csttpb[1](csttl_new)), rewrite_l, csttl)$
+  
+/* Given a list of constraint templates, and a list of propagation bundles,
+   returns the variables introduced by prop_all_csttl with the same arguments.
+*/
+prop_all_csttl_vars_l(csttl,rewrite_l) :=
+  lreduce(lambda([csttl_new,csttpb], csttpb[2](csttl_new)), rewrite_l, csttl)$
+
+/**************************************************
+ * Standard propagation bundles                   *
+ **************************************************
+*/
+
+/* Propagation bundles useful in many situations */
+
+
+
+/* Equivalence propagation */
+
+declare(veq, noun)$
+declare(veq, posfun)$
+new_veq([a]) := apply(veq, a)$
+
+/* Given a constraint template list, returns the list of new variables
+   introduced by prop_eq_csttl.
+
+   XXX
+*/
+prop_eq_vars_l(csttl) := block([cstt_eq_l,new_var_l : []],
+  cstt_eq_l : sublist(csttl, lambda([a], cstt_named_p(a, "eq_cst"))),
+  while cstt_eq_l # [] do block([cstt_eq_vars_l],
+    cstt_eq : first(cstt_eq_l),
+    cstt_eq_l : rest(cstt_eq_l),
+    cstt_eq_var_l : cstt_vars_l(cstt_eq),
+    eq_var_l : 
+      partition_elements(cstt_eq_var_l, ceiling(length(cstt_eq_var_l)/2)),
+    new_var_l : remove_elements(eq_var_l[1], new_var_l),
+    new_var_l : remove_elements(eq_var_l[2], new_var_l),
+    new_var_temp_l : map(new_veq, eq_var_l[1], eq_var_l[2]),
+    new_var_l : append(new_var_l, new_var_temp_l),
+    cstt_eq_l : csttl_rename_vars(cstt_eq_l, eq_var_l[1], new_var_temp_l),
+    cstt_eq_l : csttl_rename_vars(cstt_eq_l, eq_var_l[2], new_var_temp_l)),
+  return(new_var_l))$
+
+prop_eq_rep_vars_l(csttl, var_list) := stable_unique(
+  prop_eq_csttl(cons(["fake_var_cst", var_list, lambda([a],a)],
+                sublist(csttl, lambda([a], cstt_named_p(a, "eq_cst")))))[1][2])$
+
+/* Given a constraint template list, returns the list of constraint templates
+   where equality constraints (named "eq_cst") have been removed and the pairs
+   of equivalent variables in each "eq_cst" constraint replaced with new
+   variables (see prop_eq_csttl_vars_l).
+
+   XXX
+*/
+prop_eq_csttl(csttl) := 
+block([csttl_eq,csttl_neq, cstt_eq_i,cstt_eq, csttl_new],
+    csttl_new : csttl,
+    cstt_eq_i : find_first_l(lambda([a],cstt_named_p(a,"eq_cst")),csttl_new),
+    while cstt_eq_i # inf do (
+      if oklib_monitor then print(
+        length(sublist(csttl_new, lambda([a],cstt_named_p(a,"eq_cst")))),
+        "Some equality constraints left to process!"),
+      cstt_eq : csttl_new[cstt_eq_i],
+      csttl_new : remove_element(cstt_eq_i, csttl_new),
+      cstt_eq_var_l : cstt_vars_l(cstt_eq),
+      new_var_l : prop_eq_vars_l([cstt_eq]),
+      csttl_new :  csttl_rename_vars(csttl_new,cstt_eq_var_l,
+        append(new_var_l,new_var_l)),
+      cstt_eq_i : find_first_l(
+        lambda([a],cstt_named_p(a,"eq_cst")),csttl_new)),
+    csttl_new)$
+
+
+/****************************************
+ * Rewrite bundles                      *
+ ****************************************
+*/
+
+/* Functions, vars added, vars removed */
+
+/* Constraint template propagation bundle which does nothing
+   (i.e the rewrite function it represents has the identity
+   as it's namespace, and no variables are introduced by it's
+   rewrite function). */
+zero_csttpb : [lambda([[a]],[]), lambda([[a]],[]),lambda([[a]],[])]$
+
+/* Constraint template propagation bundle which maps the "eq_cstt"
+   constraint template to the equivalence propagation function. */
+eq_csttpb : [prop_eq_csttl, lambda([[a]],[]), lambda([[a]], a)]$ /* XXX */
+
+/*!
+\endhtmlonly
+*/
