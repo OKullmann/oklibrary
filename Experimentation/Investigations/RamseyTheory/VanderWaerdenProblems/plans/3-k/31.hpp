@@ -144,6 +144,13 @@ Certificate (the vertices for k=3) for n = 930 :
  5 23 24 31 17
 100
    \endverbatim
+   And, as expected, gsat-tabu performs worse:
+   \verbatim
+> E = read_ubcsat("Exp_VanderWaerden_2-3-31_930_gsat-tabu-100-100000000_2010-12-09-134121/VanDerWaerden_2-3-31_931.cnf_OUT",nrows=100)
+ 2  3  4  5  6  7  8 10 11 12 13 14 15 16 
+ 4 20 25 13  7  3  6  2  4  2  6  4  3  1 
+100 
+   \endverbatim
    So n=931 seems are hard instance. </li>
   </ul>
 
