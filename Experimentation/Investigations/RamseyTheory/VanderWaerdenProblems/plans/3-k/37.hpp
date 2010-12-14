@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,37)
 
 
-  \todo vanderwaerden_2(3,37) > 1294
+  \todo vanderwaerden_2(3,37) > 1334
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,37) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -18,6 +18,21 @@ License, or any later version. */
 > cat AltExp/Exp_PdVanderWaerden_2-3-37_gsat-tabu-100-20000000_2010-12-02-144008/VanDerWaerden_pd_2-3-37_1294.cnf_sol | PdExtend-O3-DNDEBUG 1294 > solution
 
 > RunVdW3k 37 1294 rots 100 100000000 solution
+   \endverbatim
+   </li>
+   <li> n=1334 found satisfiable with certificate
+   \verbatim
+10,26,49,60,63,78,83,101,138,157,
+160,169,189,194,204,211,212,245,261,263,
+280,306,317,350,360,372,374,379,387,409,
+411,416,417,419,428,454,467,490,493,502,
+507,520,530,535,545,578,594,596,609,646,
+655,676,692,693,715,726,752,761,763,767,
+787,794,798,804,840,855,860,861,863,889,
+890,892,909,914,934,964,966,971,983,1001,
+1022,1045,1048,1062,1083,1090,1100,1131,1133,1137,
+1149,1151,1159,1164,1170,1193,1194,1211,1225,1231,
+1262,1267,1275,1312
    \endverbatim
    </li>
   </ul>
