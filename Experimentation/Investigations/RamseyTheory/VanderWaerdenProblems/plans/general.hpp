@@ -35,6 +35,9 @@ License, or any later version. */
    <li> VanDerWaerden_pd_2-3-31_930.cnf is a hard satisfiable instance,
    VanDerWaerden_2-3-31_931.cnf a hard unknown instance (see
    RamseyTheory/VanderWaerdenProblems/plans/3-k/31.hpp). </li>
+   <li> For complete solvers very hard but solved unsatisfiable instances are
+   VanDerWaerden_pd_2-3-23_507.cnf and VanDerWaerden_pd_2-3-23_508.cnf
+   (see RamseyTheory/VanderWaerdenProblems/plans/3-k/23.hpp). </li>
   </ul>
 
 
