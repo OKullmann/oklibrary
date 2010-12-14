@@ -140,13 +140,32 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> 506 < vanderwaerden_g([3,23],"pd") =(conj) 507 =(conj)
-   vanderwaerden([3,23])-9. </li>
+   <li> vanderwaerden_g([3,23],"pd") = 507 =(conj) vanderwaerden([3,23])-9.
+   </li>
    <li> vanderwaerden_g([3,23],"pdsat") = 506. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=505:
+     \verbatim
+12,35,56,57,67,72,81,82,89,112,
+113,117,118,125,136,148,151,163,174,181,
+182,186,187,210,217,227,232,243
+     \endverbatim
+     </li>
+     <li> n=506:
+     \verbatim
+23,24,43,46,66,70,73,82,83,102,
+112,125,128,129,139,159,162,164,171,182,
+187,198,218,220,221,228,243
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> precosat236:
     <ol>
-     <li> n=516: ?sat, s. </li>
-     <li> n=508: ?sat, s. </li>
+     <li> n=516: unsat, ?s (this experiment was launched very early, and serves
+     now just as a datapoint regarding the performance of SAT solvers). </li>
+     <li> n=508: unsat, 802148s. </li>
      <li> n=507: unsat, 128628s. </li>
     </ol>
    </li>
