@@ -74,6 +74,15 @@ aes_rewrite_mapping_std :
   ["aes_mixcolumns_cst",aes_mixcolumns_cstrb],
   ["aes_mixcolumn_cst",aes_mixcolumn_cstrb]]$
 
+aes_bimc_rewrite_mapping_std :
+  [["aes_cst",aes_cstrb],["aes_key_expansion_cst",aes_key_expansion_cstrb],
+  ["aes_round_cst",aes_round_cstrb],
+  ["aes_final_round_cst",aes_final_round_cstrb],
+  ["aes_subbytes_cst",aes_subbytes_cstrb],
+  ["aes_shiftrows_cst",aes_shiftrows_cstrb],
+  ["aes_mixcolumns_cst",aes_mixcolumns_cstrb],
+  ["aes_mixcolumn_cst",aes_bi_mixcolumn_cstrb]]$
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *

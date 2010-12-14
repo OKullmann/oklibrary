@@ -569,42 +569,79 @@ aes_hex2pa(hexStr, variableList) := block(
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac");
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
 
+
+/* Translations
+
+         Boxes -
+             For each box we have the following translation
+
+             aes_small_box - Each box is represented by the smallest known cnf
+             aes_ts_box    - Each box is represented by the canonical
+                             translation using new variables.
+
+         MixColumns -
+             For the translation of the MixColumns component, we may either
+             add additional constraints translating the inversion as well
+             or simply translate the component in the forward direction.
+
+             aes_mc_forward
+             aes_mc_bidirectional
+
+*/
+
+declare(aes_small_box, noun)$
+declare(aes_ts_box, noun)$
+declare(aes_mc_forward, noun)$
+declare(aes_mc_bidrectional, noun)$
+
+
 /* Constraint rewrite translations */
 
 /* Given the number of rounds, produces a list of constraint templates
    which model AES using standard parameters. */
 /* TODO: Add the full version that allows all parameters */
-aes_cstt_std_l(r) :=
+aes_csttl(r, mc_tran) :=
   rewrite_all_csttl(
     [cstt_new("aes_cst",
               generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
               [r],lambda([a],a))],
-    aes_rewrite_mapping_std)$
+    if mc_tran = aes_mc_bidirectional then aes_bimc_rewrite_mapping_std
+    else aes_rewrite_mapping_std)$
+aes_cstt_std_l(r) := aes_csttl(r, aes_mc_forward)$
 
-aes_cstt_std_vars_l(r) :=
+
+aes_cstt_vars_l(r, mc_tran) :=
   append(
     generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
     rewrite_all_cstt_vars_l(
       [cstt_new("aes_cst",
         generate_aes_constraint_vars(1,3*128,lambda([a],a),"aes_cst"),
         [r],lambda([a],a))],
-      aes_rewrite_mapping_std))$
+      if mc_tran = aes_mc_bidirectional then aes_bimc_rewrite_mapping_std
+      else aes_rewrite_mapping_std))$
+aes_cstt_vars_std_l(r) := aes_cstt_vars_l(r,aes_mc_forward)$
 
-aes_std_ts_fcl(r) := block([aes_csttl : aes_cstt_std_l(r)],
-  csttl2fcl(prop_eq_csttl(aes_csttl),
-            prop_eq_rep_vars_l(aes_csttl,aes_cstt_std_vars_l(r)),
-            aes_ts_translation_mapping))$
 
-aes_std_ts_wop_fcl(r) := block([aes_csttl : aes_cstt_std_l(r)],
-  csttl2fcl(aes_csttl,
-            aes_cstt_std_vars_l(r),
-            aes_ts_translation_mapping))$
+aes_fcl(r, box_tran, mc_tran) := block(
+  [aes_csttl : aes_csttl(r,mc_tran),aes_vars_l, prop_csttl],
+  aes_vars_l : aes_cstt_vars_l(r,mc_tran),
+  prop_csttl : prop_all_csttl(aes_csttl, aes_vars_l, aes_propagations),
+  csttl2fcl(prop_csttl[1],prop_csttl[2],
+    if box_tran = aes_small_box then
+      aes_pi_translation_mapping
+    else
+      aes_ts_translation_mapping))$
+
+aes_std_fcl(r) := aes_fcl(r, aes_small_box, aes_ts_box)$
+
 
 
 /******************************************************************************
  * Global propagation                                                         *
  ******************************************************************************
 */
+
+aes_propagations : [prop_eq_csttl]$
 
 
 /******************************************************************************

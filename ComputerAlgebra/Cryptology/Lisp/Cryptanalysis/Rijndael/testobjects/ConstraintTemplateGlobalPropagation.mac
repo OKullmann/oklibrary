@@ -30,7 +30,6 @@ kill(f);
 */
 
 okltest_prop_all_csttl(prop_all_csttl);
-okltest_prop_all_csttl_vars_l(prop_all_csttl_vars_l)$
 
 
 /****************************************
@@ -40,7 +39,7 @@ okltest_prop_all_csttl_vars_l(prop_all_csttl_vars_l)$
 
 okltest_prop_eq_vars_l(prop_eq_vars_l);
 okltest_prop_eq_rep_vars_l(prop_eq_rep_vars_l);
-okltest_prop_eq_csttl(prop_eq_csttl);
+okltest_prop_eq_naive_csttl(prop_eq_naive_csttl);
 
 /*!
 \endhtmlonly

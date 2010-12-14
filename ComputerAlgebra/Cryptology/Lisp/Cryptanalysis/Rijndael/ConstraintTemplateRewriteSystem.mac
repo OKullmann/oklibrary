@@ -154,10 +154,17 @@ cstt_rename_wsm_vars(cstt, var_map) :=
   append(
     [cstt[1], map(lambda([a], ev_hm_d(var_map,a,a)), cstt[2])],
            rest(cstt,2))$
+cstt_rename_wsm_vars_ip(cstt, var_map) :=
+  if not(cstt_p(cstt)) then [] else
+  cstt[2] : map(lambda([a], ev_hm_d(var_map,a,a)), cstt[2])$
 
 csttl_rename_vars(csttl, old_var_l, new_var_l) := block(
   [var_map : sm2hm(map("[",old_var_l, new_var_l))],
   map(lambda([cstt], cstt_rename_wsm_vars(cstt, var_map)), csttl))$
+
+csttl_rename_vars_ip(csttl, old_var_l, new_var_l) := block(
+  [var_map : sm2hm(map("[",old_var_l, new_var_l))],
+  for i : 1 thru length(csttl) do cstt_rename_wsm_vars_ip(csttl[i],var_map))$
 
 
 /********************************

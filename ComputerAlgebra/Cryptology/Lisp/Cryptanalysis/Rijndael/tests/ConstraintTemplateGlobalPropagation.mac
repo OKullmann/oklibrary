@@ -30,19 +30,11 @@ kill(f)$
 */
 
 okltest_prop_all_csttl(f) := block(
-  assert(f([],[]) = []),
-  assert(f([],[[lambda([a],[1]),lambda([a],a)]]) = [1]),
-  assert(f([["test_cst",[1,2,3]]],
-           [[lambda([a],[["new_test",[1,2,3,4]]]),lambda([a],[4])]]) =
-         [["new_test",[1,2,3,4]]]),
-  true)$
-
-okltest_prop_all_csttl_vars_l(f) := block(
-  assert(f([],[]) = []),
-  assert(f([],[[lambda([a],[1]),lambda([a],a)]]) = []),
-  assert(f([["test_cst",[1,2,3]]],
-           [[lambda([a],[["new_test",[1,2,3,4]]]),lambda([a],[4])]]) =
-         [4]),
+  assert(f([],[],[]) = [[],[]]),
+  assert(f([],[],[lambda([a,b],[[1],[]])]) = [[1],[]]),
+  assert(f([["test_cst",[1,2,3]]],[],
+           [lambda([a,b],[[["new_test",[1,2,3,4]]],[]])]) =
+         [[["new_test",[1,2,3,4]]],[]]),
   true)$
 
 
@@ -63,7 +55,7 @@ okltest_prop_eq_rep_vars_l(f) := block(
   assert(f([["eq_cst",[1,2,3,4]]],[1,2]) = [veq(1,3),veq(2,4)]),
   true)$
 
-okltest_prop_eq_csttl(f) := block(
+okltest_prop_eq_naive_csttl(f) := block(
   assert(f([]) = []),
   assert(f([["eq_cst",[1,2,3,4]]]) = []),
   assert(f([["eq_cst",[1,2,3,4]], ["test",[4,5,6]]]) =
