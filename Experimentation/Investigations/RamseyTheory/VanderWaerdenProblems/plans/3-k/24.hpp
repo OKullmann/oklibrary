@@ -308,8 +308,33 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
   <ul>
    <li> 592 < vanderwaerden_g([3,24],"pd") =(conj) 593 =(conj)
    vanderwaerden([3,24]). </li>
-   <li> vanderwaerden_g([3,24],"pd") =(conj) 568 </li>
-   <li> 
+   <li> vanderwaerden_g([3,24],"pdsat") =(conj) 568 </li>
+   <li> Certificates:
+    <ol>
+     <li> n=568:
+     \verbatim
+10,29,46,51,59,66,68,83,87,88,
+97,105,112,133,134,138,146,162,170,174,
+175,196,199,203,211,221,240,242,249,271,
+279
+     \endverbatim
+     </li>
+     <li> n=592:
+     \verbatim
+22,41,58,63,71,78,80,95,99,100,
+109,117,121,124,145,146,150,158,174,182,
+186,187,208,211,215,223,233,252,254,261,
+283,291
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> n=593: ?sat, ?s. </li>
+     <li> n=569: ?sat, ?s. </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 24 25 593 gsat-tabu 100 6000000": all 1<=n<=568 sat,
    and then
    \verbatim
