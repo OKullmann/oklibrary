@@ -16,6 +16,24 @@ License, or any later version. */
    general investigations on permutations of {0,1}^n. </li>
   </ul>
 
+  \todo Minimum size small scale AES operations
+  <ul>
+   <li> See ss_sbox_fullcnf_fcs() in
+   OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/SboxAnalysis.mac . </li>
+   <li> In the small scale AES, the size of the field and the size of the 
+   block may vary and therefore, rather than simplying having the standard 8 
+   bit "byte" field in AES, the "word" (a generalisation of byte) field
+   may now be of arbitrary size. </li>
+   <li> In reality, in the literature (see [Small Scale Variants of the AES; 
+   Cid, Murphy and Robshaw]), only one field of size 4 is considered. </li>
+   <li> So we are considering the following minisation problems
+   (given as maxima code to generate their minimum CNF representations) :
+   \verbatim
+min_sbox_cnfs : all_minequiv_bvs_cs(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4)[2]);
+   \endverbatim
+   </li>
+  </ul>
+
 
   \todo Investigate CNF representations
   <ul>
