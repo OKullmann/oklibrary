@@ -163,8 +163,9 @@ License, or any later version. */
    </li>
    <li> precosat236:
     <ol>
-     <li> n=516: unsat, ?s (this experiment was launched very early, and serves
-     now just as a datapoint regarding the performance of SAT solvers). </li>
+     <li> n=516: unsat, 1260650s (this experiment was launched very early,
+     and serves now just as a datapoint regarding the performance of SAT
+     solvers). </li>
      <li> n=508: unsat, 802148s. </li>
      <li> n=507: unsat, 128628s. </li>
     </ol>
