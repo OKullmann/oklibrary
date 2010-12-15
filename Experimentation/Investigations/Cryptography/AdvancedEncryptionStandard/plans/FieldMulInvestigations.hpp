@@ -56,7 +56,7 @@ min_3_cnfs : all_minequiv_bvs_cs(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_4)[2])
   \todo Number of prime implicates for field multiplications
   <ul>
    <li> Currently, within the SAT translation, the most powerful representation
-   of the Field operations used within the AES SAT translation (such as 
+   of the field operations used within the AES SAT translation (such as 
    multiplication by 02, 03 etc within Rijndael's byte field, see 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp)
    is the canonical translation using new variables (see "dualts_fcl" in 
@@ -87,12 +87,12 @@ output_rijnmult_fullcnf_stdname(n);
    \endverbatim
    and the prime implicates can then be generated using:
    \verbatim
-QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_n.cnf > AES_byte_field_mul_full_n.pi
+n=2; QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_${n}.cnf > AES_byte_field_mul_full_${n}.pi
    \endverbatim
    and getting a histogram of clause lengths
    \verbatim
 > # Calculate the number of each length clause
-> for n in `seq 1 16`; do echo -n $n ": " && C=`echo -n '^' && perl -e "print \"[^ ]+ +\" x $n" && echo '0$'` && cat AES_Sbox_pi.cnf | grep -v "^p" | grep -E "$C" | wc -l; done
+> n=2; for m in `seq 1 16`; do echo -n $m ": " && C=`echo -n '^' && perl -e "print \"[^ ]+ +\" x $m" && echo '0$'` && cat AES_byte_field_mul_full_${n}.pi | grep -v "^p" | grep -E "$C" | wc -l; done
    \endverbatim
    </li>
    <li> Multiplication by 1: </li>
@@ -150,7 +150,7 @@ QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_n.cnf > AES_byte_field_mul
   </ul>
 
   
-  \todo Minimisation of the field operations
+  \todo Minimisation of the representations of field operations
   <ul>
    <li> See "Minimisation" in 
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li>
@@ -282,14 +282,20 @@ with_stdout(sconcat("Mul",elem,".pla"), block(
    </li>
   </ul>
 
-  \todo Finding small solutions
+
+  \todo Finding small representations
   <ul>
-                                                    <li> For all but the non-trivial (01 and 02) multiplications, finding the minimum representation, whether it be using espresso, or using branch and bound methods, very little progresses is made by the solvers. This is presumably due to the large number of prime implicates, and sheer combinatorial explosion. </li>
-                                                    <li> Therefore, we must also consider only small minimal solutions, which might not be the minimum but we hope are close. </li>
+   <li> For all but the non-trivial (01 and 02) multiplications, finding the
+   minimum representation, whether it be using espresso, or using branch and
+   bound methods, very little progresses is made by the solvers. This is
+   presumably due to the large number of prime implicates, and sheer
+   combinatorial explosion. </li>
+   <li> Therefore, we must also consider only small minimal solutions, which
+   might not be the minimum but we hope are close. </li>
    <li> Finding small CNF representations via weighted MaxSAT
    <ul>
     <li> To find the minimum representation for the full clause-set
-                                                    of a given field multiplication, generated like so
+    of a given field multiplication, generated like so
     \verbatim
 output_rijnmult_fullcnf_stdname(2);
     \endverbatim

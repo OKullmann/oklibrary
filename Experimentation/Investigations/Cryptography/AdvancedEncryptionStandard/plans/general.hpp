@@ -37,26 +37,26 @@ License, or any later version. */
   <ul>
    <li> We model a generalised AES system (see 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
-   which supports the following different translations
+   which supports the following different translations:
    <ul>
-    <li> Mix columns variants with translations using
+    <li> Mix columns variants with translations using:
      <ul>
-      <li> the boxes in the encryption direction. </li>
+      <li> the boxes in the encryption direction </li>
       <li> both encryption and decryption directions. </li>
      </ul>
     </li>
-    <li> Box translations for the Sbox and field multiplications using
+    <li> Box translations for the Sbox and field multiplications using:
      <ul>
-      <li> small CNF representations (see 
+      <li> Small CNF representations (see 
       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
       and 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp). 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
       </li>
-      <li> the canonical DNF translation (see 
+      <li> The canonical DNF translation (see 
       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
       <li> r_k-reduced representation (see 
       OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac). </li>
-      <li> small hitting clause-set representations (see 
+      <li> Small hitting clause-set representations (see 
       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
       </li>
      </ul>
@@ -72,7 +72,7 @@ License, or any later version. */
       the byte level, leaving only the non-linear inversion and addition of 
       the affine constant as part of the Sbox operation. </li>
       <li> Splitting the two types of operation like this will hopefully
-      yield Sbox translations which are more compact and more ameniable to
+      yield Sbox translations which are more compact and more amenable to
       SAT solvers as the affine transformation is specifically designed to 
       increase equation size, and make the Sbox harder to model. </li>
      </ul>
@@ -80,13 +80,13 @@ License, or any later version. */
     <li> Generalised small scale parameters (see 
     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
      <ul>
-      <li> n_R - number of rows in the AES block (default 4, can be
+      <li> n_R: number of rows in the AES block (default 4, can be
       1, 2 or 4). </li>
-      <li> n_C - number of columns in the AES block (default 4, can be
+      <li> n_C: number of columns in the AES block (default 4, can be
       1, 2 or 4). </li>
-      <li> e - size of word field in bits in the AES (default 8, can be
+      <li> e: size of word field in bits in the AES (default 8, can be
       1, 2 or 4 or 8) - in general we might consider arbitrary fields. </li>
-      <li> r - number of rounds (default 10, can be any positive integer).
+      <li> r: number of rounds (default 10, can be any positive integer).
       </li>
      </ul>
     </li>
@@ -202,8 +202,8 @@ License, or any later version. */
     bit. </li>
    </ul>
    </li>
-   <li> Does AES have any key which acts as the identity on one or plaintext
-   blocks?
+   <li> Does AES have any key which acts as the identity on one or all
+   plaintext blocks?
    <ul>
     <li> This can be translated as "AES(P,K,P)". </li>
     <li> This can also be expanded trivially to find keys where AES algorithm
