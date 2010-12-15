@@ -154,7 +154,7 @@ namespace OKlib {
       */
       Subsumption_hypergraph(const RangeF& f_range, 
                              const RangeG& g_range):
-        vertex_set(fill_vertex_set(boost::size(f_range))), 
+        vertex_set(fill_vertex_set(boost::distance(f_range))), 
         hyperedges(subsumption_hypergraph(f_range, g_range)) {}
 
     private:
