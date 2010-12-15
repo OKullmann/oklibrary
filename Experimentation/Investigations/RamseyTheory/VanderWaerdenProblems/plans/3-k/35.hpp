@@ -21,7 +21,8 @@ License, or any later version. */
 
    \endverbatim
    </li>
-   <li> n=1165 found satisfiable (rots, cutoff=10^8) with certificate
+   <li> n=1165 found satisfiable (rots, cutoff=10^8, adopted from n=1148,
+   where a solution was found in run 9, osteps=8936284) with certificate
    \verbatim
 21,36,65,66,82,103,105,132,134,142,
 147,151,157,176,184,206,225,251,264,268,
@@ -33,6 +34,13 @@ License, or any later version. */
 874,879,880,893,911,924,930,934,954,956,
 961,993,1002,1008,1020,1022,1027,1045,1067,1076,
 1081,1102,1119,1131
+   \endverbatim
+   </li>
+   <li> n=1166 (rots, cutoff=10^8):
+   \verbatim
+ 1  2  3  4  8  9 11
+23 59 12  2  2  1  1
+100
    \endverbatim
    </li>
   </ul>
