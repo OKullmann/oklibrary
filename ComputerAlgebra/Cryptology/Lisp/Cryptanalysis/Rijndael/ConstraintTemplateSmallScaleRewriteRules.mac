@@ -1,0 +1,1044 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
+  \brief Functions for translating AES constraint templates into further AES constraint templates and CNF representations.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac");
+  
+*/
+
+/*!
+\htmlonly
+*/
+
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac");
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+
+
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+/* The translation system given below is designed to replace the above
+   translation system in it's entirety but must be introduced piecewise,
+   with appropriate tests. */
+
+/* AES variables - aes_v(i,id) */
+/* id here is used as an identifier such as "ks" for key schedule bits, "o"
+   for output bits etc. */
+/* These are used throughout for all AES constraint templates */
+kill(ss_v)$
+declare(ss_v, noun)$
+declare(ss_v, posfun)$
+ss_var(i,id) := nounify(ss_v)(i,id)$
+
+/* Given two integers n and m, a namespace, and
+   a noun identifier, returns a list of AES variables of the form
+   ss_v(i,id) for n <= i <= m. */
+generate_ss_constraint_vars(n,m,namespace, id) :=
+  create_list(namespace(ss_var(i,id)),i,n,m)$
+
+ss_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
+  ["ss_mixcolumn_cst",ss_mixcolumn_cstrb]]$
+
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+/* AES constraint rewrite bundle */
+ss_cstrb : [ss_cstr_cstl,ss_namespace,ss_ns_var_l]$
+
+/* Namespace */
+kill(ss_ctr_ns)$
+declare(ss_ctr_ns,noun)$
+declare(ss_ctr_ns,posfun)$
+ss_namespace([args]) := apply(nounify(ss_ctr_ns),args)$
+
+
+/* Returns a list of the variables introduced when
+   applying ss_ctr_ctl given the auxiliary parameter
+   list arg_l, under the given rewrite_mapping.
+
+   For example, given the constraint template instance
+
+   ss_ct(1,...,384,arg_l)
+
+   is rewritten using ss_ctr_ctl, under
+   rewrite_mapping, the list of variables
+   returned by this function are exactly those
+   variables introduced by ss_ctr_ctl and
+   any rewritten-subconstraints it introduces
+   (mapped to the corresponding rewrite functions
+   by variable mapping, that is, this function
+   recursively generates such a variable list,
+   based on sub-constraints it uses).
+*/
+ss_ns_var_l(cst) := block(
+  [ss_num_rounds,vars : [],namespace, ss_args_l,
+  ss_num_columns, ss_num_rows, ss_base, ss_exp,
+  num_block_bits],
+  namespace : cstt_namespace_new (ss_namespace,cst),
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  vars : cons(
+    generate_ss_constraint_vars(1,(ss_num_rounds+1)*num_block_bits,
+      namespace,nounify(k)),vars),
+  vars : cons(
+    generate_ss_constraint_vars(1,ss_num_rounds*num_block_bits,
+      namespace,nounify(o)),vars),
+  return(lappend(vars)))$
+/* Rewrite function designed to rewrite the AES constraint template "ss_ct".
+
+   Takes as arguments 385 variables, which are the arguments of the "aes_ct"
+   instance being rewritten.
+
+   The first 384 of these are 128 plaintext, 128 key and 128 ciphertext
+   variables respectively. The final argument is a pair (list) of auxiliary
+   arguments, the first being the namespace to place all variables introduced
+   by this function within, and the second being the integer number of rounds
+   which specifies which round-variant of AES is being rewritten.
+
+   The result of this function is a list of constraint template instances
+   representing the AES constraint template instance being rewritten.
+*/
+ss_cstr_cstl(cst) := block(
+  [bits, pBits, kBits, cBits, ekBits, ib, ob, rs : [],namespace,
+  ss_num_rounds, ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly,
+  ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix, ss_arg_l,
+  final_round_b,num_block_bits ],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  ss_poly : ss_arg_l[6],
+  ss_sbox_matrix : ss_arg_l[7],
+  ss_affine_constant : ss_arg_l[8],
+  ss_mixcolumns_matrix : ss_arg_l[9],
+  final_round_b : ss_arg_l[10],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_namespace,cst),
+  pBits : take_elements(num_block_bits,bits),
+  kBits : take_elements(num_block_bits,rest(bits,num_block_bits)),
+  cBits : rest(bits,num_block_bits*2),
+  ekBits :
+    generate_ss_constraint_vars(
+      1,(ss_num_rounds+1)*num_block_bits,namespace,nounify(k)),
+  /* Key Expansion */
+  rs : cons(
+    cstt_new(
+      "ss_key_expansion_cst",append(kBits,ekBits),
+      [ss_num_rounds, ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant],namespace),
+    rs),
+  ib : pBits,
+  all_ob :
+    generate_ss_constraint_vars(1,(ss_num_rounds)*num_block_bits,
+      namespace,nounify(o)),
+  ob : take_elements(num_block_bits,all_ob),
+  /* Initial Round Key Addition */
+  rs : cons(
+    cstt_new(
+      "ss_add_cst",append(ib,take_elements(num_block_bits,ekBits),ob),
+      [ss_base, ss_exp,ss_poly], namespace),
+    rs),
+  ib : ob,
+  /* Rounds */
+  for j : 1 thru (ss_num_rounds - 1) do block(
+    ob : take_elements(num_block_bits,rest(all_ob,j*num_block_bits)),
+    rs : cons(
+      cstt_new("ss_round_cst",
+        append(ib,take_elements(num_block_bits,rest(ekBits,j*num_block_bits)),
+          ob),
+        [i, ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix],
+       namespace),rs),
+    ib : ob
+  ),
+  /* Final Round */
+  /* If we have a reduced round variant, truncate rather than generalise */
+  ob : cBits,
+  if final_round_b then 
+    rs : cons(
+      cstt_new("ss_final_round_cst",
+        append(ib,take_elements(num_block_bits,
+            rest(ekBits,ss_num_rounds*num_block_bits)),ob),
+        [ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix],
+       namespace),rs)
+  else
+    rs : cons(
+      cstt_new("ss_round_cst",
+        append(ib,take_elements(num_block_bits,
+            rest(ekBits,ss_num_rounds*num_block_bits)),ob),
+        [ss_num_rounds, ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix],
+       namespace),rs),
+  return(rs)
+)$
+
+/*
+   SS Round
+
+*/
+
+ss_round_cstrb :
+ [ss_round_cstr_cstl, ss_round_namespace, ss_round_ns_var_l]$
+
+/* SS round namespace */
+kill(ss_round_ns)$
+declare(ss_round_ns,noun)$
+declare(ss_round_ns,posfun)$
+ss_round_namespace([args]) := apply(nounify(ss_round_ns),args)$
+
+ss_round_ns_var_l(cst) := block([vars : [],namespace,
+  ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly,
+  ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix, ss_arg_l,
+  num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_exp : ss_arg_l[5],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  namespace : cstt_namespace_new(ss_round_namespace,cst),
+  vars : cons(generate_ss_constraint_vars(1,num_block_bits,
+      namespace,nounify(so)),vars),
+  vars : cons(generate_ss_constraint_vars(1,num_block_bits,
+      namespace,nounify(ro)),vars),
+  vars : cons(generate_ss_constraint_vars(1,num_block_bits,
+      namespace,nounify(mo)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing SS round given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+ss_round_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[],
+  ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly,
+  ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix, ss_arg_l,
+  num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  ss_poly : ss_arg_l[6],
+  ss_sbox_matrix : ss_arg_l[7],
+  ss_affine_constant : ss_arg_l[8],
+  ss_mixcolumns_matrix : ss_arg_l[9],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_round_namespace,cst),
+  iBits : take_elements(num_block_bits,bits),
+  rkBits : take_elements(num_block_bits,rest(bits,num_block_bits)),
+  oBits : rest(bits,num_block_bits*2),
+  tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(so)),
+  rs : cons(
+    cstt_new("ss_subbytes_cst",
+        append(iBits,tBits),
+        [ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant],namespace),
+    rs),
+  iBits : tBits,
+  tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(ro)),
+  rs : cons(
+    cstt_new("ss_shiftrows_cst",
+        append(iBits,tBits),
+        [ss_num_rounds, ss_num_columns, ss_num_rows, ss_exp],namespace),
+    rs),
+  iBits : tBits,
+  tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(mo)),
+  rs : cons(
+    cstt_new("ss_mixcolumns_cst",
+      append(iBits, tBits),
+      [ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_mixcolumns_matrix],namespace),
+    rs),
+  iBits : tBits,
+  tBits : oBits,
+  rs : cons(
+    cstt_new("ss_add_cst",
+      append(iBits, rkBits, tBits),
+      [ss_base, ss_exp, ss_poly],namespace),
+    rs),
+  return(rs)
+)$
+
+/* TODO: Update below with small scale generalisations. */
+
+/*
+   SS Final round
+   
+*/
+
+ss_final_round_cstrb :
+ [ss_final_round_cstr_cstl, ss_final_round_namespace,ss_final_round_ns_var_l]$
+
+/* SS final round namespace */
+kill(ss_final_round_ns)$
+declare(ss_final_round_ns,noun)$
+declare(ss_final_round_ns,posfun)$
+ss_final_round_namespace([args]) := apply(nounify(ss_final_round_ns),args)$
+
+ss_final_round_ns_var_l(cst) := block(
+  [vars : [],namespace],
+  namespace : cstt_namespace_new(ss_final_round_namespace,cst),
+  vars : cons(generate_ss_constraint_vars(1,128,namespace,nounify(so)),vars),
+  vars : cons(generate_ss_constraint_vars(1,128,namespace,nounify(ro)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing SS round given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+ss_final_round_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_final_round_namespace,cst),
+  iBits : take_elements(128,bits),
+  rkBits : take_elements(128,rest(bits,128)),
+  oBits : rest(bits,256),
+  tBits : generate_ss_constraint_vars(1,128,namespace,nounify(so)),
+  rs : cons(
+    cstt_new("ss_subbytes_cst",
+        append(iBits,tBits),
+        [],namespace),
+    rs),
+  iBits : tBits,
+  tBits : generate_ss_constraint_vars(1,128,namespace,nounify(ro)),
+  rs : cons(
+    cstt_new("ss_shiftrows_cst",
+        append(iBits,tBits),
+        [],namespace),
+    rs),
+  iBits : tBits,
+  tBits : oBits,
+  rs : cons(
+    cstt_new("ss_add_cst",
+      append(iBits, rkBits, tBits),
+      [],namespace),
+    rs),
+  return(rs)
+)$
+
+/*
+   Subbytes
+   
+*/
+
+ss_subbytes_cstrb :
+ [ss_subbytes_cstr_cstl,ss_subbytes_namespace,ss_subbytes_ns_var_l]$
+
+
+/* SS subbytes namespace */
+kill(ss_subbytes_ns)$
+declare(ss_subbytes_ns,noun)$
+declare(ss_subbytes_ns,posfun)$
+ss_subbytes_namespace([args]) := apply(nounify(ss_subbytes_ns),args)$
+
+ss_subbytes_ns_var_l([a]) := []$
+/* Returns a set of conditions representing the SS Subbytes operation given
+   128 plaintext variables and 128 output variables. */
+ss_subbytes_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_subbytes_namespace,cst),
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  for i : 0 thru 15 do
+    rs : cons(
+      cstt_new("ss_sbox_cst",
+        append(
+          take_elements(8, rest(iBits,i*8)),
+          take_elements(8, rest(oBits,i*8))),
+        [i], namespace),
+      rs),
+  return(rs)
+)$
+
+
+/*
+   Shiftrows
+
+*/
+
+ss_shiftrows_cstrb :
+ [ss_shiftrows_cstr_cstl,ss_shiftrows_namespace,ss_shiftrows_ns_var_l]$
+
+/* SS shiftrows namespace */
+kill(ss_shiftrows_ns)$
+declare(ss_shiftrows_ns,noun)$
+declare(ss_shiftrows_ns,posfun)$
+ss_shiftrows_namespace(arg_l) := apply(nounify(ss_shiftrows_ns),arg_l)$
+
+
+ss_shiftrows_ns_var_l([a]) := []$
+/* Returns a set of conditions representing the SS Shiftrows operation given
+   128 plaintext variables and 128 output variables. */
+ss_shiftrows_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits,count : 0],
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_shiftrows_namespace,cst),
+  iBits : take_elements(128,bits),
+  oBits : take_elements(128,rest(bits,128)),
+  map(
+    lambda([a,b],
+      cstt_new("eq_cst",[a,b],
+        [],namespace)), oBits,
+    lappend(
+      rijn_m2l(ss_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
+)$
+
+
+/*
+   Mixcolumns
+
+*/
+
+ss_mixcolumns_cstrb :
+ [ss_mixcolumns_cstr_cstl,ss_mixcolumns_namespace,ss_mixcolumns_ns_var_l]$
+
+/* SS mixcolumns namespace */
+kill(ss_mixcolumns_ns)$
+declare(ss_mixcolumns_ns,noun)$
+declare(ss_mixcolumns_ns,posfun)$
+ss_mixcolumns_namespace([arg_l]) := apply(nounify(ss_mixcolumns_ns),arg_l)$
+
+
+ss_mixcolumns_ns_var_l([a]) := []$
+/* Returns a set of conditions representing the SS Mixcolumns operation given
+   128 plaintext variables and 128 output variables. */
+ss_mixcolumns_cstr_cstl(cst) := block(
+  [namespace, bits,iBits, oBits, nc, mc_i : 0],
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_mixcolumns_namespace,cst),
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  nc : length(iBits)/32,
+  map(lambda([a,b,column], 
+    cstt_new("ss_mixcolumn_cst",
+      append(lappend(a),lappend(b)),
+      [mc_i : mc_i + 1],namespace)),
+    partition_elements(partition_elements(iBits,8),nc),
+    partition_elements(partition_elements(oBits,8),nc),
+    create_list(i,i,1,4))
+)$
+
+
+/*
+   Bidirectional Mixcolumn
+
+*/
+
+ss_bi_mixcolumn_cstrb :
+ [ss_bi_mixcolumn_cstr_cstl,ss_bi_mixcolumn_namespace,ss_bi_mixcolumn_ns_var_l]$
+
+
+/* SS bi_mixcolumn namespace */
+kill(ss_bi_mixcolumn_ns)$
+declare(ss_bi_mixcolumn_ns,noun)$
+declare(ss_bi_mixcolumn_ns,posfun)$
+ss_bi_mixcolumn_namespace([args]) := apply(nounify(ss_bi_mixcolumn_ns),args)$
+
+ss_bi_mixcolumn_ns_var_l(cstt) := block(
+  [cstt_new : cstt_namespace_replace(cstt,
+    cstt_namespace_new(ss_bi_mixcolumn_namespace,cstt))],
+  append(
+    ss_mixcolumn_ns_var_l(cstt_new),
+    ss_inv_mixcolumn_ns_var_l(cstt_new)))$
+/* Returns a set of conditions representing the SS bidirectional
+   mixcolumn operation (the individual operation applied to a single column in
+   SS bi_mixcolumns) given 128 plaintext variables and 128 output variables.
+ */
+ss_bi_mixcolumn_cstr_cstl(cstt) := block(
+  [cstt_new : cstt_namespace_replace(cstt,
+    cstt_namespace_new(ss_bi_mixcolumn_namespace,cstt))],
+  append(
+    ss_mixcolumn_cstr_cstl(cstt_new),
+    ss_inv_mixcolumn_cstr_cstl(cstt_new)))$
+
+
+/*
+   Mixcolumn
+
+*/
+
+ss_mixcolumn_cstrb :
+ [ss_mixcolumn_cstr_cstl,ss_mixcolumn_namespace,ss_mixcolumn_ns_var_l]$
+
+
+/* SS mixcolumn namespace */
+kill(ss_mixcolumn_ns)$
+declare(ss_mixcolumn_ns,noun)$
+declare(ss_mixcolumn_ns,posfun)$
+ss_mixcolumn_namespace([args]) := apply(nounify(ss_mixcolumn_ns),args)$
+
+ss_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
+  namespace :
+    cstt_namespace_new(ss_mixcolumn_namespace,cst),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc2)),vars),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc3)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the SS Mixcolumn operation (the 
+   individual operation applied to a single column in SS Mixcolumns) given
+   128 plaintext variables and 128 output variables. */
+ss_mixcolumn_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits, nc,rs : []],
+  bits : cst[2],
+  namespace :
+    cstt_namespace_new(ss_mixcolumn_namespace,cst),
+  iBits : partition_elements(take_elements(32, bits),8),
+  oBits : partition_elements(rest(bits, 32), 8),
+  /* First element */
+  for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
+    mulAVars :
+      generate_ss_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc2)),
+    rs : cons(
+      cstt_new("ss_mul2_cst",
+        append(iBits[mod(0 + i,4) + 1],mulAVars),
+        [i],namespace),
+      rs),
+    mulBVars :
+      generate_ss_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc3)),
+    rs : cons(
+      cstt_new("ss_mul3_cst",
+        append(iBits[mod(1 + i,4) + 1],mulBVars),
+        [i],namespace),
+      rs),
+    rs : cons(
+      cstt_new("ss_add_cst",
+        append(
+          mulAVars,mulBVars,iBits[mod(2 + i,4) + 1],
+          iBits[mod(3 + i,4) + 1],oBits[i+1]),[4], namespace),
+      rs)
+  ),
+  return(rs)
+)$
+
+
+/*
+   Inverse Mixcolumn
+
+*/
+
+ss_inv_mixcolumn_cstrb :
+ [ss_inv_mixcolumn_cstr_cstl,ss_inv_mixcolumn_namespace,ss_inv_mixcolumn_ns_var_l]$
+
+
+/* SS inv_mixcolumn namespace */
+kill(ss_inv_mixcolumn_ns)$
+declare(ss_inv_mixcolumn_ns,noun)$
+declare(ss_inv_mixcolumn_ns,posfun)$
+ss_inv_mixcolumn_namespace([args]) := apply(nounify(ss_inv_mixcolumn_ns),args)$
+
+ss_inv_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
+  namespace :
+    cstt_namespace_new(ss_inv_mixcolumn_namespace,cst),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc14)),vars),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc11)),vars),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc13)),vars),
+  vars : cons(
+      generate_ss_constraint_vars(1,32,namespace,nounify(mc9)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the SS Inverse Mixcolumn operation (the 
+   individual operation applied to a single column in SS Inverse Mixcolumns) given
+   128 plaintext variables and 128 output variables. */
+ss_inv_mixcolumn_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits, nc,rs : []],
+  bits : cst[2],
+  namespace :
+    cstt_namespace_new(ss_inv_mixcolumn_namespace,cst),
+  iBits : partition_elements(take_elements(32, bits),8),
+  oBits : partition_elements(rest(bits, 32), 8),
+  /* Perform matrix multiplication */
+  for i : 0 thru 3 do block(
+    [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
+    mulAVars :
+      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc14)),
+    rs : cons(
+      cstt_new("ss_mul14_cst",
+        append(oBits[mod(0 + i,4) + 1],mulAVars),
+        [i],namespace),
+      rs),
+    mulBVars :
+      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc11)),
+    rs : cons(
+      cstt_new("ss_mul11_cst",
+        append(oBits[mod(1 + i,4) + 1],mulBVars),
+        [i],namespace),
+      rs),
+    mulCVars :
+      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc13)),
+    rs : cons(
+      cstt_new("ss_mul13_cst",
+        append(oBits[mod(2 + i,4) + 1],mulCVars),
+        [i],namespace),
+      rs),
+    mulDVars :
+      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc9)),
+    rs : cons(
+      cstt_new("ss_mul9_cst",
+        append(oBits[mod(3 + i,4) + 1],mulDVars),
+        [i],namespace),
+      rs),
+    rs : cons(
+      cstt_new("ss_add_cst",
+        append(mulAVars, mulBVars, mulCVars, mulDVars, iBits[i+1]),
+        [4],namespace),
+      rs)
+  ),
+  return(rs)
+)$
+
+
+/*
+   Key expansion
+
+*/
+
+
+ss_key_expansion_cstrb :
+ [ss_key_expansion_cstr_cstl,ss_key_expansion_namespace,
+  ss_key_expansion_ns_var_l]$
+
+/* Generates a set of unit clauses (initially simpler than simplifying constants
+   or making partial assignments) to set the given vars (representing the bits
+   of SS round constants) to the round constant for round n */
+ss_round_constant_l( n) := block([rc_el,rc_l],
+  rc_el : xreduce(lambda([a,b],ss_field_mul_data[b,a+1]),
+               create_list(2,i,1,(n -1)),1),
+  rc_l : egf_coeffs(rijn_bit_field,egf_num2poly(rijn_byte_field,rc_el),7),
+  return(rc_l)
+)$
+
+/* SS key expansion namespace */
+kill(ss_key_expansion_ns)$
+declare(ss_key_expansion_ns,noun)$
+declare(ss_key_expansion_ns,posfun)$
+ss_key_expansion_namespace([args]) :=
+  apply(nounify(ss_key_expansion_ns),args)$
+
+ss_key_expansion_ns_var_l(cst) := block(
+  [n_r : cst[3],vars : [],namespace],
+  namespace : cstt_namespace_new(ss_key_expansion_namespace,cst),
+  vars : cons(
+    generate_ss_constraint_vars(1,4*8*n_r,namespace,nounify(sb)),vars),
+  vars : cons(
+    generate_ss_constraint_vars(1,8*n_r,namespace,nounify(ke)),vars),
+  vars : cons(
+    generate_ss_constraint_vars(1,8*n_r,namespace,nounify(rc)),vars),
+  return(lappend(vars)))$
+/* Returns a set of conditions representing the SS keyschedule operation given
+   128 key variables and 128 * (ss_num_rounds + 1) output variables
+   (consecutive lots of 128 bits representing the individual round keys).
+   
+   The first 128 variables in the list "bits" represent the key block for the 
+   cipher, and then the (i+1)'th consecutive 128 variables in "bits" represents
+   the round key block for the i'th round. 
+   
+   */
+ss_key_expansion_cstr_cstl(cst) := block(
+  [namespace,bits, n_k : 4,n_b : 4, n_r,kBits, rkBits, nc,rs : [],
+   sboxVars, addVars,fMat, kMat, sbox_i : 0, rc_i : 0],
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_key_expansion_namespace,cst),
+  n_r : cst[3],
+  /* Primary Variables */
+  kBits : take_elements(128,bits),
+  rkBits : rest(bits,128),
+  fBits : take_elements(128,rkBits),
+  /* Split into columns */
+  cols :  partition_elements(partition_elements(rkBits,8),4),
+  kMat : partition_elements(partition_elements(kBits,8),4),
+  fMat : partition_elements(partition_elements(fBits,8),4),
+  /* Make first round key equal */
+  for j : 1 thru n_k do
+    for i : 1 thru n_b do
+      rs : cons(
+        cstt_new("eq_cst",
+          append(kMat[j][i], fMat[j][i]),
+          [],namespace),
+        rs),
+  /* Setup output bits */
+  for j : n_k thru (n_b * (n_r +1)) - 1 do block(
+    if mod(j, n_k) = 0 then block (
+      sboxVars : generate_ss_constraint_vars(
+        (j-n_k)*8*(4/n_k) +1,(j-n_k)*8*(4/n_k) +8,namespace,nounify(sb)),
+      rs : cons(
+        cstt_new("ss_sbox_cst",
+          append(cols[j][2], sboxVars),
+          [sbox_i : sbox_i + 1],namespace),
+        rs),
+      addVars : generate_ss_constraint_vars(
+        (j-n_k)*(8/n_k) +1,(j-n_k)*(8/n_k) +8,namespace,nounify(ke)),
+      rs : cons(
+        cstt_new("ss_add_cst",
+          append(cols[j-n_k+1][1],sboxVars,addVars),
+          [],namespace),
+        rs),
+      rcVars : generate_ss_constraint_vars(
+        (j-n_k)*(8/n_k) + 1,(j-n_k)*(8/n_k) + 8,namespace,nounify(rc)),
+      rs : cons(
+        cstt_new("const_cst",
+            rcVars,
+            cons(rc_i : rc_i + 1,ss_round_constant_l(floor(j/n_k))),
+            namespace),
+        rs),
+      rs : cons(
+        cstt_new("ss_add_cst", 
+          append(rcVars,addVars, cols[j+1][1]),
+          [],namespace),
+        rs),
+      for i : 1 thru 3 do block([offset: ((j-n_k)*(4/n_k) + i)*8],
+        sboxVars : generate_ss_constraint_vars(
+          offset + 1,offset + 8,namespace,nounify(sb)),
+        rs : cons(
+          cstt_new("ss_sbox_cst", 
+            append(cols[j][mod(i+1,4)+1], sboxVars),
+            [sbox_i : sbox_i + 1],namespace),
+          rs),
+        rs : cons(
+          cstt_new("ss_add_cst", 
+            append(cols[j-n_k+1][i+1],sboxVars, cols[j+1][i+1]),
+            [],namespace),
+          rs)
+      )
+    )
+    else for i : 1 thru 4 do 
+      rs : cons(
+        cstt_new("ss_add_cst",
+          append(cols[j][i], cols[j-n_k+1][i],cols[j+1][i]),
+          [],namespace),
+        rs)
+  ),
+  return(rs)
+)$
+
+/* ****************************************
+   * CNF Translation functions            *
+   ****************************************
+*/
+
+/* Returns a list of CNF clauses representing addition within GF(2^n) given
+   an "ss_add_cst" constraint with m * n input variables (n lots of
+   m bits to be summed) and output variables where n is the first
+   argument to the constraint. */
+ss_add_cst_cl(cst) := block(
+  [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
+  nb : floor(length(cst[2]) / (n+1)),
+  parity_f : lambda([[a]],
+    append(
+      map(lambda([C],union(C,{last(a)})),
+        rename_fcl(even_parity_fcl(length(a)-1),rest(a,-1))[2]),
+      map(lambda([C],union(C,{-last(a)})),
+        rename_fcl(odd_parity_fcl(length(a)-1),rest(a,-1))[2]))),
+  lappend(
+    apply(map,
+      append([parity_f],
+        partition_elements(cst[2],floor(length(cst[2])/(n+1)))))))$
+
+/* Returns a list of CNF clauses representing equivalence between the first
+   half of the list of variables and the second half in the constraint.
+
+   Variables in the second half may also be "true", in which case, unit
+   clauses will be introduced.
+*/
+ss_eq_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 2)],
+  lappend(
+    map(lambda([a,b], if b = true then [{a}] else [{-a,b},{a,-b}]), 
+    take_elements(nb,cst[2]), rest(cst[2],nb))))$
+
+/* Constants */
+ss_const_cst_cl(cst) := 
+  map(lambda([a,b], if b = 1 then {a} else {-a}), cst[2],
+    rest(cstt_args_l(cst)))$
+
+/* Returns a list of CNF clauses representing the sbox relation
+   given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and Sbox44ICCNF).
+*/
+ss_sbox_pi_cst_cl(cst) := rename_fcl(map(listify,Sbox44ICCNF),cst[2])[2]$
+
+
+/* SS sbox namespace */
+kill(ss_sbox_ts_ns)$
+declare(ss_sbox_ts_ns,noun)$
+declare(ss_sbox_ts_ns,posfun)$
+ss_sbox_ts_namespace([args]) :=
+  apply(nounify(ss_sbox_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_sbox_ts_var_l(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(sbox_ts)))$
+
+/* Given an "ss_sbox_cst" constraint, returns a clause list
+   generated by taking the canonical translation from DNF to CNF
+   of the SS Sbox.
+*/
+ss_sbox_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace,cst),
+    sbox : ss_sbox_ts_gen(),
+    vars : append(bits,
+      generate_ss_constraint_vars(1,256, namespace,nounify(sbox_ts))),
+    cnf : rename_fcl(sbox,vars),
+    cnf[2])$
+
+/* Returns a list of CNF clauses representing the multiplication by 02
+   given the appropriate constraint ("ss_mul2_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul2CNF).
+*/
+ss_mul2_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul2CNF),cst[2])[2]$
+
+/* SS mul2 namespace */
+kill(ss_mul2_ts_ns)$
+declare(ss_mul2_ts_ns,noun)$
+declare(ss_mul2_ts_ns,posfun)$
+ss_mul2_ts_namespace([args]) :=
+  apply(nounify(ss_mul2_ts_ns),args)$
+
+/* Given an "ss_mul2_cst" constraint, returns the new variables
+   introduced by "ss_mul2_ts_cst_cl" when given this constraint. */
+ss_mul2_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul2_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul2_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 02
+   given the appropriate constraint ("ss_mul2_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul2_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul2_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(2),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul2_ts))))[2])$
+
+/* Returns a list of CNF clauses representing the multiplication by 03
+   given the appropriate constraint ("ss_mul3_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul3CNF).
+*/
+ss_mul3_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul3CNF),cst[2])[2]$
+
+/* SS mul3 namespace */
+kill(ss_mul3_ts_ns)$
+declare(ss_mul3_ts_ns,noun)$
+declare(ss_mul3_ts_ns,posfun)$
+ss_mul3_ts_namespace([args]) :=
+  apply(nounify(ss_mul3_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_mul3_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul3_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul3_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 03
+   given the appropriate constraint ("ss_mul3_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul3_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul3_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(3),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul3_ts))))[2])$
+
+
+/* Returns a list of CNF clauses representing the multiplication by 14
+   given the appropriate constraint ("ss_mul14_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul14CNF).
+*/
+ss_mul14_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul14CNF),cst[2])[2]$
+
+/* SS mul14 namespace */
+kill(ss_mul14_ts_ns)$
+declare(ss_mul14_ts_ns,noun)$
+declare(ss_mul14_ts_ns,posfun)$
+ss_mul14_ts_namespace([args]) :=
+  apply(nounify(ss_mul14_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_mul14_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul14_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul14_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 14
+   given the appropriate constraint ("ss_mul14_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul14_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul14_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(14),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul14_ts))))[2])$
+
+/* Returns a list of CNF clauses representing the multiplication by 11
+   given the appropriate constraint ("ss_mul11_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul11CNF).
+*/
+ss_mul11_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul11CNF),cst[2])[2]$
+
+/* SS mul11 namespace */
+kill(ss_mul11_ts_ns)$
+declare(ss_mul11_ts_ns,noun)$
+declare(ss_mul11_ts_ns,posfun)$
+ss_mul11_ts_namespace([args]) :=
+  apply(nounify(ss_mul11_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_mul11_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul11_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul11_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 11
+   given the appropriate constraint ("ss_mul11_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul11_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul11_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(11),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul11_ts))))[2])$
+
+/* Returns a list of CNF clauses representing the multiplication by 13
+   given the appropriate constraint ("ss_mul13_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul13CNF).
+*/
+ss_mul13_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul13CNF),cst[2])[2]$
+
+/* SS mul13 namespace */
+kill(ss_mul13_ts_ns)$
+declare(ss_mul13_ts_ns,noun)$
+declare(ss_mul13_ts_ns,posfun)$
+ss_mul13_ts_namespace([args]) :=
+  apply(nounify(ss_mul13_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_mul13_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul13_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul13_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 13
+   given the appropriate constraint ("ss_mul13_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul13_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul13_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(13),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul13_ts))))[2])$
+
+/* Returns a list of CNF clauses representing the multiplication by 09
+   given the appropriate constraint ("ss_mul9_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those originally produced manually through
+   experimentation into finding small Sbox representations (see plans
+   and FieldMul9CNF).
+*/
+ss_mul9_pi_cst_cl(cst) := rename_fcl(map(listify,FieldMul9CNF),cst[2])[2]$
+
+/* SS mul9 namespace */
+kill(ss_mul9_ts_ns)$
+declare(ss_mul9_ts_ns,noun)$
+declare(ss_mul9_ts_ns,posfun)$
+ss_mul9_ts_namespace([args]) :=
+  apply(nounify(ss_mul9_ts_ns),args)$
+
+/* Given an "ss_sbox_cst" constraint, returns the new variables
+   introduced by "ss_sbox_ts_cst_cl" when given this constraint. */
+ss_mul9_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul9_ts_namespace,cst),
+  generate_ss_constraint_vars(1,256, namespace,nounify(mul9_ts)))$
+
+/* Returns a list of CNF clauses representing the multiplication by 09
+   given the appropriate constraint ("ss_mul9_cst" with 16 variables
+   in the constraint).
+
+   The clauses returned are those given by the canonical translation
+   using new variables. */
+ss_mul9_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mul9_ts_namespace,cst),
+    rename_fcl(ss_mul_ts_gen(9),
+      append(bits,
+        generate_ss_constraint_vars(1,256, namespace,nounify(mul9_ts))))[2])$
+
+/*!
+\endhtmlonly
+*/

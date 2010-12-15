@@ -1,0 +1,111 @@
+/* Matthew Gwynne, 28.9.2008 (Swansea) */
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateSmallScaleRewriteRules.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/ConstraintTemplateSmallScaleRewriteRules.mac");
+
+*/
+
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac")$
+
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_ss_constraint_vars(generate_ss_constraint_vars);
+
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_ss_ns_var_l(ss_ns_var_l);
+okltest_ss_cstr_cstl(ss_cstr_cstl);
+
+okltest_ss_round_ns_var_l(ss_round_ns_var_l);
+okltest_ss_round_cstr_cstl(ss_round_cstr_cstl);
+
+/* TODO: Update below with small scale generalisations. */
+
+okltest_ss_final_round_ns_var_l(ss_final_round_ns_var_l);
+okltest_ss_final_round_cstr_cstl(ss_final_round_cstr_cstl);
+
+okltest_ss_subbytes_ns_var_l(ss_subbytes_ns_var_l);
+okltest_ss_subbytes_cstr_cstl(ss_subbytes_cstr_cstl);
+
+okltest_ss_shiftrows_ns_var_l(ss_shiftrows_ns_var_l);
+okltest_ss_shiftrows_cstr_cstl(ss_shiftrows_cstr_cstl);
+
+okltest_ss_mixcolumns_ns_var_l(ss_mixcolumns_ns_var_l);
+okltest_ss_mixcolumns_cstr_cstl(ss_mixcolumns_cstr_cstl);
+
+
+okltest_ss_bi_mixcolumn_ns_var_l(ss_bi_mixcolumn_ns_var_l);
+okltest_ss_mixcolumn_ns_var_l(ss_mixcolumn_ns_var_l);
+okltest_ss_inv_mixcolumn_ns_var_l(ss_inv_mixcolumn_ns_var_l);
+okltest_ss_bi_mixcolumn_cstr_cstl(ss_bi_mixcolumn_cstr_cstl);
+okltest_ss_mixcolumn_cstr_cstl(ss_mixcolumn_cstr_cstl);
+
+okltest_ss_key_expansion_ns_var_l(ss_key_expansion_ns_var_l);
+okltest_ss_key_expansion_cstr_cstl(ss_key_expansion_cstr_cstl);
+
+
+/* ****************************************
+   * Translation functions                *
+   ****************************************
+*/
+
+okltest_ss_add_cst_cl(ss_add_cst_cl);
+okltest_ss_eq_cst_cl(ss_eq_cst_cl);
+okltest_ss_const_cst_cl(ss_const_cst_cl);
+
+/*okltest_ss_sbox_pi_cst_cl(ss_sbox_pi_cst_cl);
+okltest_ss_sbox_ts_var_l(ss_sbox_ts_var_l);
+okltest_ss_sbox_ts_cst_cl(ss_sbox_ts_cst_cl);
+
+okltest_ss_mul2_pi_cst_cl(ss_mul2_pi_cst_cl);
+okltest_ss_mul2_ts_var_l(ss_mul2_ts_var_l);
+okltest_ss_mul2_ts_cst_cl(ss_mul2_ts_cst_cl);
+
+okltest_ss_mul3_pi_cst_cl(ss_mul3_pi_cst_cl);
+okltest_ss_mul3_ts_var_l(ss_mul3_ts_var_l);
+okltest_ss_mul3_ts_cst_cl(ss_mul3_ts_cst_cl);
+
+okltest_ss_mul14_pi_cst_cl(ss_mul14_pi_cst_cl);
+okltest_ss_mul14_ts_var_l(ss_mul14_ts_var_l);
+okltest_ss_mul14_ts_cst_cl(ss_mul14_ts_cst_cl);
+
+okltest_ss_mul11_pi_cst_cl(ss_mul11_pi_cst_cl);
+okltest_ss_mul11_ts_var_l(ss_mul11_ts_var_l);
+okltest_ss_mul11_ts_cst_cl(ss_mul11_ts_cst_cl);
+
+okltest_ss_mul13_pi_cst_cl(ss_mul13_pi_cst_cl);
+okltest_ss_mul13_ts_var_l(ss_mul13_ts_var_l);
+okltest_ss_mul13_ts_cst_cl(ss_mul13_ts_cst_cl);
+
+okltest_ss_mul9_pi_cst_cl(ss_mul9_pi_cst_cl);
+okltest_ss_mul9_ts_var_l(ss_mul9_ts_var_l);
+okltest_ss_mul9_ts_cst_cl(ss_mul9_ts_cst_cl);*/
+
+
+/*!
+\endhtmlonly
+*/
