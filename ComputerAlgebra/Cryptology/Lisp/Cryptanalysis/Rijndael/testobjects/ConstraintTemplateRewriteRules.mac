@@ -73,6 +73,7 @@ okltest_aes_key_expansion_cstr_cstl(aes_key_expansion_cstr_cstl);
 
 okltest_aes_add_cst_cl(aes_add_cst_cl);
 okltest_aes_eq_cst_cl(aes_eq_cst_cl);
+okltest_aes_const_cst_cl(aes_const_cst_cl);
 
 okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl);
 okltest_aes_sbox_ts_var_l(aes_sbox_ts_var_l);
@@ -101,9 +102,6 @@ okltest_aes_mul13_ts_cst_cl(aes_mul13_ts_cst_cl);
 okltest_aes_mul9_pi_cst_cl(aes_mul9_pi_cst_cl);
 okltest_aes_mul9_ts_var_l(aes_mul9_ts_var_l);
 okltest_aes_mul9_ts_cst_cl(aes_mul9_ts_cst_cl);
-
-okltest_aes_constraints2cnf_pi_cl(aes_constraints2cnf_pi_cl);
-okltest_aes_constraints2cnf_ts_cl(aes_constraints2cnf_ts_cl);
 
 
 /*!

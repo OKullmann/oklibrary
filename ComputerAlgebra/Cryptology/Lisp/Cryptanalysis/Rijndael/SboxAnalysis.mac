@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac")$
@@ -61,6 +62,65 @@ output_rijnsbox_fullcnf_stdname() :=
 */
 rijnsbox_cnfp(FF) := 
  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
+
+/* ******************************************************
+   * Small Scale Sbox Analysis                          *
+   ******************************************************
+*/
+
+
+/* Generation of the full DNF clause-set representing the small scale AES Sbox
+   given the base of the small scale byte field, the exponent of the field,
+   the modulo polynomial defining the field, as well as the sbox matrix and
+   affine constant required for the sbox definition: */
+ss_sbox_fulldnf_gen_fcl(b,e,mod_poly, sbox_matrix,affine_constant) :=
+  perm2dnffcl(1+map(lambda([ap],
+        poly2nat(ss_sbox_gen(nat2poly(ap,b),
+            b,e,mod_poly, sbox_matrix,affine_constant),b)),
+      create_list(i,i,0,b^e-1)))$
+ss_sbox_fulldnf_fcl(b,e,mod_poly) :=
+  ss_sbox_fulldnf_gen_fcl(b,e,mod_poly,
+                          ss_sbox_matrix(b,e),ss_affine_constant(b,e))$
+ss_sbox_fulldnf_gen_fcs(b,e,mod_poly, sbox_matrix,affine_constant) :=
+  fcl2fcs(ss_sbox_fulldnf_gen_fcl(b,e,mod_poly, sbox_matrix,affine_constant))$
+ss_sbox_fulldnf_fcs(b,e,mod_poly) := fcl2fcs(ss_sbox_fulldnf_fcl(b,e,mod_poly))$
+
+/* Generation of the full CNF clause-set representing the small scale AES
+   sbox: */
+ss_sbox_fullcnf_gen_fcs(b,e,mod_poly,sbox_matrix,sbox_affine_constant) :=
+ cs2fcs(setdifference(full_cs(2*e), 
+             map(comp_sl,fcs2cs(ss_sbox_fulldnf_fcs(b,e,mod_poly)))))$
+ss_sbox_fullcnf_fcs(b,e,mod_poly) :=
+  ss_sbox_fullcnf_gen_fcs(b,e,mod_poly,
+    ss_sbox_matrix(b,e), ss_affine_constant(b,e))$
+
+/* Output the full CNF clause-set of the permutation given by the small scale
+   AES Sbox:
+*/
+output_ss_sbox_fullcnf_gen_stdname(b,e,mod_poly,sbox_matrix,sbox_affine_constant) :=
+  output_fcs(
+    sconcat("AES Sbox function given the full CNF representation."),
+    sssbox_fullcnf_fcs(b,e,mod_poly, sbox_matrix, sbox_affine_constant),
+    sconcat("AES_Sbox_full.cnf"))$
+output_ss_sbox_fullcnf_stdname(b,e,mod_poly) :=
+  output_fcs(
+    sconcat("AES Sbox function given the full CNF representation."),
+    sssbox_fullcnf_fcs(b,e,mod_poly),
+    sconcat("AES_Sbox_full.cnf"))$
+
+/* Tests whether a formal CNF clause-set represents the small scale AES sbox
+   given the appropriate parameters:
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
+*/
+ss_sbox_gen_cnfp(FF,b,e,mod_poly,sbox_matrix,sbox_affine_constant) := 
+  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
+    ss_sbox_fulldnf_gen_fcs(b,e,mod_poly,sbox_matrix,sbox_affine_constant))$
+ss_sbox_cnfp(FF,b,e,mod_poly) := 
+  ss_sbox_gen_cnfp(FF,b,e,mod_poly, ss_sbox_matrix(b,e),
+    ss_affine_constant(b,e))$
 
 
 /* ******************************************

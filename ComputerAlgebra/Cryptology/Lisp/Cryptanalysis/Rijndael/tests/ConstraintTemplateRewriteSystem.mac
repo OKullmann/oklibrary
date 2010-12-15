@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/C
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
+kill(f);
 
 /* ********************************************
    * Rewrite system functions                 *
@@ -76,7 +77,7 @@ okltest_cstt_args_l(f) := block(
   assert(f([1,2]) = []),
   assert(f(["",[]]) = []),
   assert(f(["","",""]) = []),
-  assert(f(["",[],['a,'b]]) = ['a,'b]),
+  assert(f(["",[],'a,'b,f]) = ['a,'b]),
   true)$
 
 okltest_cstt_namespace_f(f) := block(

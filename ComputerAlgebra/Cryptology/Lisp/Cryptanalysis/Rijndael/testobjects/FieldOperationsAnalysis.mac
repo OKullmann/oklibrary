@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 28.4.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,6 +29,15 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 okltest_rijnmult_fulldnf_fcs(rijnmult_fulldnf_fcs);
 okltest_rijnmult_fullcnf_fcs(rijnmult_fullcnf_fcs);
 okltest_rijnmult_cnfp(rijnmult_cnfp);
+
+/* *********************************************
+   * Small Scale Field multiplication analysis *
+   *********************************************
+*/
+
+okltest_ssmult_fulldnf_fcl(ssmult_fulldnf_fcl);
+okltest_ssmult_fullcnf_fcs(ssmult_fullcnf_fcs);
+okltest_ssmult_cnfp(ssmult_cnfp);
 
 
 /* ******************************************

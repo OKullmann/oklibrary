@@ -155,7 +155,7 @@ okltest_aes_shiftrows_cstr_cstl(f) := block([cst],
   cst : ["aes_shiftrows_cst",create_list(i,i,1,256),nounify(n)],
   namespace : cstt_namespace_new(aes_shiftrows_namespace, cst),
   ctl : f(cst),
-  assert(map(first,ctl) = create_list("aes_eq_cst",i,1,128)),
+  assert(map(first,ctl) = create_list("eq_cst",i,1,128)),
   assert(map(lambda([a],length(a[2])), ctl) = create_list(2,i,1,128)),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
@@ -306,13 +306,13 @@ okltest_aes_key_expansion_cstr_cstl(f) := block([cst],
     ["aes_add_cst","aes_add_cst","aes_add_cst","aes_add_cst","aes_add_cst",
      "aes_add_cst","aes_add_cst","aes_add_cst","aes_add_cst","aes_add_cst",
      "aes_add_cst","aes_add_cst","aes_add_cst","aes_sbox_cst","aes_add_cst",
-     "aes_sbox_cst","aes_add_cst","aes_sbox_cst","aes_add_cst","aes_eq_cst",
-     "aes_add_cst","aes_sbox_cst","aes_eq_cst","aes_eq_cst","aes_eq_cst",
-     "aes_eq_cst","aes_eq_cst","aes_eq_cst","aes_eq_cst","aes_eq_cst",
-     "aes_eq_cst","aes_eq_cst","aes_eq_cst","aes_eq_cst","aes_eq_cst",
-     "aes_eq_cst","aes_eq_cst","aes_eq_cst"]),
+     "aes_sbox_cst","aes_add_cst","aes_sbox_cst","aes_add_cst","const_cst",
+     "aes_add_cst","aes_sbox_cst","eq_cst","eq_cst","eq_cst",
+     "eq_cst","eq_cst","eq_cst","eq_cst","eq_cst",
+     "eq_cst","eq_cst","eq_cst","eq_cst","eq_cst",
+     "eq_cst","eq_cst","eq_cst"]),
   assert(map(lambda([a],length(a[2])), ctl) =
-    [24,24,24,24,24,24,24,24,24,24,24,24,24,16,24,16,24,16,24,16,24,16,16,16,
+    [24,24,24,24,24,24,24,24,24,24,24,24,24,16,24,16,24,16,24,8,24,16,16,16,
      16,16,16,16,16,16,16,16,16,16,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
   true)$
@@ -338,6 +338,12 @@ okltest_aes_eq_cst_cl(f) := block(
     [{-1,3},{1,-3},{-2,4},{2,-4}]),
   assert(f(["aes_eq_cst", [1,true]]) = [{1}]),
   assert(f(["aes_eq_cst", [1,-2,true,true]]) = [{1},{-2}]),
+  true)$
+
+okltest_aes_const_cst_cl(f) := block(
+  assert(f(["const_cst",[],1,nounify(g)]) = []),
+  assert(f(["const_cst",[1],1,1, nounify(g)]) = [{1}]),
+  assert(f(["const_cst",[1,2],1,1,0, nounify(g)]) = [{1},{-2}]),
   true)$
 
 okltest_aes_sbox_pi_cst_cl(f) := block([cl],
@@ -673,7 +679,7 @@ okltest_aes_mul9_ts_cst_cl(f) := block([cl,cst],
          -namespace(aes_v(256,nounify(mul9_ts)))}),
   assert(length(last(cl)) = 256),
   true)$
-
+/*
 okltest_aes_constraints2cnf_pi_cl(f) := block(
   assert(f([]) = []),
   okltest_aes_eq_cst_cl(buildq([f:f],lambda([a],f([a])))),
@@ -690,7 +696,7 @@ okltest_aes_constraints2cnf_ts_cl(f) := block(
   okltest_aes_mul2_ts_cst_cl(buildq([f:f],lambda([a],f([a])))),
   assert(f([["aes_eq_cst", [1,2]],["aes_add_cst", [1,2,3]]]) =
     [{-1,2},{-2,1},{-1,2,3},{-2,1,3},{-3,-2,-1},{-3,1,2}]),
-  true)$
+  true)$*/
 
 
 /*!

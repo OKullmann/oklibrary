@@ -259,7 +259,7 @@ subset_closure_hg(G) := subset_closure_hyp(G)$
 subsumption_ghg(S1,S2) :=
  [S1, S2, buildq([S1], lambda([H], subset(S1, lambda([S], subsetp(S,H)))))]$
 
-/* For ordered two set-systems L1, L2 the "ordered general subsumption
+/* For two ordered set-systems L1, L2 the "ordered general subsumption
    hypergraph" has the elements of L1 as vertices and the elements of L2
    as hyperedge-labels, while for H in S2 the vertex set is given by the
    elements of L1 contained in H:
@@ -269,6 +269,10 @@ subsumption_oghg(L1,L2) :=
    buildq([L1], lambda([H], subset(setify(L1),lambda([S],subsetp(S,H)))))]$
 subsumption_ohg(L1,L2) :=
   oghg2ohg(subsumption_oghg(L1,L2))$
+/* The standardised ordered subsumption hypergraph of two ordered set systems
+   L1 and L2 is the ordered hypergraph (given by subsumption_ohg) where each
+   vertex is mapped to it's position in L1. */
+subsumption_std_ohg(L1,L2) := standardise_ohg(subsumption_ohg(L1,L2))$
   
 
 /* The "reduced subsumption hypergraph" for set-systems (S1,S2) is constructed
