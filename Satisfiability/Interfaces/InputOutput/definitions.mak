@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestInputOutput
 
-programs := ExtendedToStrictDimacs ExtendedDimacsStatistics
+programs := ExtendedToStrictDimacs ExtendedDimacsStatistics ExtendedDimacsFullStatistics
 
 source_libraries = $(boost_include_option_okl)
 

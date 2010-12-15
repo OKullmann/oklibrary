@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,13 +25,29 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write concept for Statistics class
+  \todo Write concept for InputOutput::Statistics class
   <ul>
    <li> See Interfaces/InputOutput/ClauseSetAdaptors.hpp. </li>
+   <li> InputOutput::FullStatistics:
+    <ol>
+     <li> Should this fall under the same concept? </li>
+     <li> Or should here the design pose more restrictions on the use
+     (becoming a "proper class", not just a POD). </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo Write tests!
+
+
+  \todo CLSAdaptorFullStatistics
+  <ul>
+   <li> Perhaps it is better that InputOutput::FullStatistics uses std::map
+   instead of std::vector. </li>
+   <li> Should there be a more direct relation to
+   InputOutput::CLSAdaptorStatistics ? </li>
+  </ul>
 
 
   \todo RawDimacsCLSAdaptor

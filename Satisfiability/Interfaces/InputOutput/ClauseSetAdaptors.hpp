@@ -130,11 +130,57 @@ namespace OKlib {
 
     };
 
+
+    enum output_options { full_output=1, no_zeros=2, no_initfinal_zeros=3 };
+
+    /*!
+      \class FullStatistics
+      \brief Class for gathering "all" statistics about input/output (especially in DIMCAS format).
+    */
+
+    template <typename Int = int>
+    struct FullStatistics {
+
+      typedef Statistics<Int> stat_type;
+      typedef typename stat_type::int_type int_type;
+      stat_type stat;
+      typedef std::vector<int_type> map_type;
+      map_type clause_lengths;
+      output_options option;
+      static const output_options default_option = full_output;
+
+
+      FullStatistics() : option(default_option) {}
+      FullStatistics(int_type cc, int_type pn, int_type pc, int_type tc, int_type ntc, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,tc,ntc,nl,rnl), option(opt) {}
+
+      friend bool operator ==(const FullStatistics& lhs, const FullStatistics& rhs) {
+        return lhs.stat == rhs.stat and lhs.clause_lengths == rhs.clause_lengths;
+      }
+
+      friend std::ostream& operator <<(std::ostream& out, const FullStatistics& s) {
+        out << s.stat << "\n";
+        typedef typename map_type::const_iterator iterator;
+        iterator begin = s.clause_lengths.begin();
+        iterator end = s.clause_lengths.end();
+        if (s.option == no_initfinal_zeros) {
+          while (begin != end and *begin == 0) ++begin;
+          while (end != begin and *(end-1) == 0) --end;
+        }
+        for (iterator i = begin; i != end; ++i)
+          if (s.option != no_zeros or *i != 0)
+            out << i-s.clause_lengths.begin() << " : " << *i << "\n";
+        return out;
+      }
+    };
+
+
     // #####################################################
 
     /*!
       \class CLSAdaptorStatistics
-      \brief Adaptor for clause-sets which only gathers statistics.
+      \brief Adaptor for clause-sets which only gathers (basic) statistics
+
+      The data member stat contains the statistical information.
     */
 
     template <typename Int = int, class String = std::string>
@@ -146,7 +192,7 @@ namespace OKlib {
 
       statistics_type stat;
 
-      void comment(const string_type&) { ++ stat.comment_count; }
+      void comment(const string_type&) { ++stat.comment_count; }
       void n(const int_type pn) { stat.parameter_n = pn; }
       void c(const int_type pc) { stat.parameter_c = pc; }
       void finish() { stat.finished = true; }
@@ -159,6 +205,46 @@ namespace OKlib {
         ++stat.non_tautological_clauses_count;
         stat.total_number_literals += t;
         stat.reduced_number_literals += boost::distance(r);
+      }
+      
+    };
+
+    /*!
+      \class CLSAdaptorFullStatistics
+      \brief Adaptor for clause-sets which gathers "all" statistics
+
+      Additional to CLSAdaptorStatistics, now the clause-lengths of
+      non-tautological clauses are determined in the data member stat.
+    */
+
+    template <typename Int = int, class String = std::string>
+    struct CLSAdaptorFullStatistics {
+
+      typedef String string_type;
+      typedef FullStatistics<Int> statistics_type;
+      typedef typename statistics_type::int_type int_type;
+      typedef typename statistics_type::map_type::size_type size_type;
+
+      statistics_type stat;
+
+      void comment(const string_type&) { ++stat.stat.comment_count; }
+      void n(const int_type pn) {
+        stat.stat.parameter_n = pn;
+        stat.clause_lengths.assign((size_type)pn+1,0);
+      }
+      void c(const int_type pc) { stat.stat.parameter_c = pc; }
+      void finish() { stat.stat.finished = true; }
+      void tautological_clause(const int_type t) {
+        ++stat.stat.tautological_clauses_count;
+        stat.stat.total_number_literals += t;
+      }
+      template <class ForwardRange>
+      void clause(const ForwardRange& r, const int_type t) {
+        ++stat.stat.non_tautological_clauses_count;
+        stat.stat.total_number_literals += t;
+        const size_type clause_length = boost::distance(r);
+        stat.stat.reduced_number_literals += clause_length;
+        ++stat.clause_lengths[clause_length];
       }
       
     };

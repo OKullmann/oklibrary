@@ -66,7 +66,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.0.15:
+  \par Version 0.0.15 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -78,6 +78,27 @@ License, or any later version. */
     - What happens if the integers from the file are too big?
     - It must also be tested, whether the integers can be safely negated
     - Consider the code-comments regarding checking
+
+
+  \par Version 0.0.16 :
+
+  \par
+   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
+   are handled:
+    - Document the basic concept CLSAdaptor
+    - Discussing the basic concept CLSAdaptor
+    - Write concept for InputOutput::Statistics class
+
+
+  \par Version 0.0.17 :
+
+  \par
+   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
+   are handled:
+    - Write tests!
+    - CLSAdaptorFullStatistics
+    - RawDimacsCLSAdaptor
+    - Create "base class" for "raw adaptors"
 
 
   \par Version 0.1 :
