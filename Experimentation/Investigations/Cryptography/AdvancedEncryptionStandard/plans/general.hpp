@@ -33,6 +33,40 @@ License, or any later version. */
   </ul>
 
 
+  \todo Prepare experiments for the SAT 2011 paper
+  <ul>
+   <li> Milestones are needed. </li>
+   <li> A full update of the existing investigations-reports is needed. </li>
+   <li> First experiment-running script:
+    <ol>
+     <li> Using three steps: experiment-creation, experiment-running,
+     experiment-evaluation. </li>
+     <li> An experiment is representing via a directory with a good descriptive
+     name, where inside all information is found for reproduction and
+     restarting. </li>
+     <li> It seems best to have first a script which takes as parameters
+     the generalised AES-parameters plus optionally a seed (default=1),
+     so that these parameters fully specify a sequence of generalised
+     AES problems, and then all combinations of SAT solvers and translations
+     are executed. </li>
+     <li> The problems are created by computing the key by the Maxima
+     random-number generator, encrypting the all-0 plaintext, and then
+     taking the problem of guessing the key from given plain- and ciphertext.
+     </li>
+     <li> The major problem here is running Maxima in parallel:
+      <ol>
+       <li> See "Improve locality" in
+       Buildsystem/MasterScript/SpecialProcessing/plans/Call_Maxima.hpp,
+       especially point "No interference of different invocations". </li>
+       <li> Until now it was not a major issue, however now running, say, 30
+       experiments in parallel won't work out without a solution. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Experiments
   <ul>
    <li> We model a generalised AES system (see 
