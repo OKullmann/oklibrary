@@ -316,6 +316,27 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
     else und
   else und$
 
+ss_mixcolumns_matrix2inv_mixcolumns_matrix(b,e, mixcolumns_matrix) :=
+  if b = 2 then
+    if e = 8 then
+      if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_4 then
+        ss_inv_mixcolumns_matrix_2_8_4
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_2 then
+        ss_inv_mixcolumns_matrix_2_8_2
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_1 then
+        ss_inv_mixcolumns_matrix_2_8_1
+      else und
+    else if e = 4 then
+      if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_4 then
+        ss_inv_mixcolumns_matrix_2_4_4
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_2 then
+        ss_inv_mixcolumns_matrix_2_4_2
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_1 then
+        ss_inv_mixcolumns_matrix_2_4_1
+      else und
+    else und
+  else und$
+      
 
 /* Takes a (maxima) vector of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix

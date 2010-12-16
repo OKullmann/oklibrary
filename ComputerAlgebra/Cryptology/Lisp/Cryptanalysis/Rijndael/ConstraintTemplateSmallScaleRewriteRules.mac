@@ -60,6 +60,15 @@ ss_rewrite_mapping_std :
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_mixcolumn_cstrb]]$
 
+ss_bimc_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
+  ["ss_mixcolumn_cst",ss_bi_mixcolumn_cstrb]]$
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -272,7 +281,7 @@ ss_round_cstr_cstl(cst) := block(
   rs : cons(
     cstt_new("ss_shiftrows_cst",
         append(iBits,tBits),
-        [ss_num_rounds, ss_num_columns, ss_num_rows, ss_exp],namespace),
+        [ss_num_columns, ss_num_rows],namespace),
     rs),
   iBits : tBits,
   tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(mo)),
@@ -309,40 +318,64 @@ declare(ss_final_round_ns,posfun)$
 ss_final_round_namespace([args]) := apply(nounify(ss_final_round_ns),args)$
 
 ss_final_round_ns_var_l(cst) := block(
-  [vars : [],namespace],
+  [vars : [],namespace,
+  ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly,
+  ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix, ss_arg_l,
+  num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[1],
+  ss_num_rows : ss_arg_l[2],
+  ss_exp : ss_arg_l[4],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
   namespace : cstt_namespace_new(ss_final_round_namespace,cst),
-  vars : cons(generate_ss_constraint_vars(1,128,namespace,nounify(so)),vars),
-  vars : cons(generate_ss_constraint_vars(1,128,namespace,nounify(ro)),vars),
+  vars : cons(generate_ss_constraint_vars(1,num_block_bits,namespace,
+      nounify(so)),vars),
+  vars : cons(generate_ss_constraint_vars(1,num_block_bits,namespace,
+      nounify(ro)),vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing SS round given
    128 plaintext variables, 128 key variables and 128 output
    variables. */
 ss_final_round_cstr_cstl(cst) := block(
-  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[],
+  ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly,
+  ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix, ss_arg_l,
+  num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[1],
+  ss_num_rows : ss_arg_l[2],
+  ss_base : ss_arg_l[3],
+  ss_exp : ss_arg_l[4],
+  ss_poly : ss_arg_l[5],
+  ss_sbox_matrix : ss_arg_l[6],
+  ss_affine_constant : ss_arg_l[7],
+  ss_mixcolumns_matrix : ss_arg_l[8],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
   bits : cst[2],
   namespace : cstt_namespace_new(ss_final_round_namespace,cst),
-  iBits : take_elements(128,bits),
-  rkBits : take_elements(128,rest(bits,128)),
-  oBits : rest(bits,256),
-  tBits : generate_ss_constraint_vars(1,128,namespace,nounify(so)),
+  iBits : take_elements(num_block_bits,bits),
+  rkBits : take_elements(num_block_bits,rest(bits,num_block_bits)),
+  oBits : rest(bits,num_block_bits*2),
+  tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(so)),
   rs : cons(
     cstt_new("ss_subbytes_cst",
         append(iBits,tBits),
-        [],namespace),
+        [ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant],namespace),
     rs),
   iBits : tBits,
   tBits : generate_ss_constraint_vars(1,128,namespace,nounify(ro)),
   rs : cons(
     cstt_new("ss_shiftrows_cst",
         append(iBits,tBits),
-        [],namespace),
+        [ss_num_columns, ss_num_rows],namespace),
     rs),
   iBits : tBits,
   tBits : oBits,
   rs : cons(
     cstt_new("ss_add_cst",
       append(iBits, rkBits, tBits),
-      [],namespace),
+      [ss_base, ss_exp, ss_poly],namespace),
     rs),
   return(rs)
 )$
@@ -366,18 +399,28 @@ ss_subbytes_ns_var_l([a]) := []$
 /* Returns a set of conditions representing the SS Subbytes operation given
    128 plaintext variables and 128 output variables. */
 ss_subbytes_cstr_cstl(cst) := block(
-  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[]],
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[],ss_arg_l, num_block_bits,
+  num_words,ss_base, ss_exp,ss_poly, ss_sbox_matrix, ss_affine_constant],
+  ss_arg_l : cstt_args_l(cst),
+  ss_base : ss_arg_l[1],
+  ss_exp : ss_arg_l[2],
+  ss_poly : ss_arg_l[3],
+  ss_sbox_matrix : ss_arg_l[4],
+  ss_affine_constant : ss_arg_l[5],
   bits : cst[2],
+  num_block_bits : floor(length(bits) / 2),
+  num_words : floor(num_block_bits / ss_exp),
   namespace : cstt_namespace_new(ss_subbytes_namespace,cst),
-  iBits : take_elements(128,bits),
-  oBits : rest(bits,128),
-  for i : 0 thru 15 do
+  iBits : take_elements(num_block_bits,bits),
+  oBits : rest(bits,num_block_bits),
+  for i : 0 thru num_words - 1 do
     rs : cons(
       cstt_new("ss_sbox_cst",
         append(
-          take_elements(8, rest(iBits,i*8)),
-          take_elements(8, rest(oBits,i*8))),
-        [i], namespace),
+          take_elements(ss_exp, rest(iBits,i*ss_exp)),
+          take_elements(ss_exp, rest(oBits,i*ss_exp))),
+        [ss_base, ss_exp,ss_poly, ss_sbox_matrix, ss_affine_constant, i],
+        namespace),
       rs),
   return(rs)
 )$
@@ -402,17 +445,24 @@ ss_shiftrows_ns_var_l([a]) := []$
 /* Returns a set of conditions representing the SS Shiftrows operation given
    128 plaintext variables and 128 output variables. */
 ss_shiftrows_cstr_cstl(cst) := block(
-  [namespace,bits,iBits, oBits,count : 0],
+  [namespace,bits,iBits, oBits,count : 0, ss_arg_l, num_block_bits,
+  ss_num_columns, ss_num_rows, ss_exp],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[1],
+  ss_num_rows : ss_arg_l[2],
   bits : cst[2],
+  num_block_bits : floor(length(bits)/2),
+  ss_exp : floor(num_block_bits / (ss_num_rows * ss_num_columns)),
   namespace : cstt_namespace_new(ss_shiftrows_namespace,cst),
-  iBits : take_elements(128,bits),
-  oBits : take_elements(128,rest(bits,128)),
+  iBits : take_elements(num_block_bits,bits),
+  oBits : take_elements(num_block_bits,rest(bits,num_block_bits)),
   map(
     lambda([a,b],
       cstt_new("eq_cst",[a,b],
         [],namespace)), oBits,
     lappend(
-      rijn_m2l(ss_shiftrows(rijn_l2m(partition_elements(iBits,8))))))
+      rijn_m2l(ss_shiftrows(ss_l2m(
+            partition_elements(iBits,ss_exp),ss_num_rows)))))
 )$
 
 
@@ -435,19 +485,31 @@ ss_mixcolumns_ns_var_l([a]) := []$
 /* Returns a set of conditions representing the SS Mixcolumns operation given
    128 plaintext variables and 128 output variables. */
 ss_mixcolumns_cstr_cstl(cst) := block(
-  [namespace, bits,iBits, oBits, nc, mc_i : 0],
+  [namespace, bits,iBits, oBits, nc, mc_i : 0,ss_arg_l,
+  ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_column_size,
+       ss_poly, ss_mixcolumns_matrix, num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[1],
+  ss_num_rows : ss_arg_l[2],
+  ss_base : ss_arg_l[3],
+  ss_exp : ss_arg_l[4],
+  ss_poly : ss_arg_l[5],
+  ss_mixcolumns_matrix : ss_arg_l[6],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  ss_column_size : ss_num_rows * ss_exp,
   bits : cst[2],
   namespace : cstt_namespace_new(ss_mixcolumns_namespace,cst),
-  iBits : take_elements(128,bits),
-  oBits : rest(bits,128),
-  nc : length(iBits)/32,
+  iBits : take_elements(num_block_bits,bits),
+  oBits : rest(bits,num_block_bits),
+  nc : length(iBits)/ss_column_size,
   map(lambda([a,b,column], 
     cstt_new("ss_mixcolumn_cst",
       append(lappend(a),lappend(b)),
-      [mc_i : mc_i + 1],namespace)),
-    partition_elements(partition_elements(iBits,8),nc),
-    partition_elements(partition_elements(oBits,8),nc),
-    create_list(i,i,1,4))
+      [ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_mixcolumns_matrix, mc_i : mc_i + 1],namespace)),
+    partition_elements(partition_elements(iBits,ss_exp),nc),
+    partition_elements(partition_elements(oBits,ss_exp),nc),
+    create_list(i,i,1,nc))
 )$
 
 
@@ -499,45 +561,66 @@ declare(ss_mixcolumn_ns,noun)$
 declare(ss_mixcolumn_ns,posfun)$
 ss_mixcolumn_namespace([args]) := apply(nounify(ss_mixcolumn_ns),args)$
 
-ss_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
+ss_mixcolumn_ns_var_l(cst) := block([vars : [],namespace,ss_arg_l,
+  ss_column_size,ss_num_rows, ss_base, ss_exp, ss_column_size,ss_poly,
+  ss_mixcolumns_matrix],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  ss_column_size : ss_exp * ss_num_rows,
   namespace :
     cstt_namespace_new(ss_mixcolumn_namespace,cst),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc2)),vars),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc3)),vars),
+  for i : 1 thru ss_num_rows do
+    for j : 1 thru ss_num_rows do block([var_block],
+      var_block : ss_column_size * (i-1) + ss_exp * (j-1),
+      if ss_mixcolumns_matrix[i,j] # 1 then
+        vars : cons(
+          generate_ss_constraint_vars(
+            var_block+1,var_block+ss_exp,namespace,nounify(mc)),vars)),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the SS Mixcolumn operation (the 
    individual operation applied to a single column in SS Mixcolumns) given
    128 plaintext variables and 128 output variables. */
 ss_mixcolumn_cstr_cstl(cst) := block(
-  [namespace,bits,iBits, oBits, nc,rs : []],
+  [namespace,bits,iBits, oBits, nc,rs : [],ss_arg_l, ss_column_size,
+  ss_num_rows, ss_base, ss_exp, ss_column_size,
+       ss_poly, ss_mixcolumns_matrix],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  ss_column_size : ss_exp * ss_num_rows,
   bits : cst[2],
   namespace :
     cstt_namespace_new(ss_mixcolumn_namespace,cst),
-  iBits : partition_elements(take_elements(32, bits),8),
-  oBits : partition_elements(rest(bits, 32), 8),
+  iBits : partition_elements(take_elements(ss_column_size, bits),ss_exp),
+  oBits : partition_elements(rest(bits, ss_column_size), ss_exp),
   /* First element */
-  for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
-    mulAVars :
-      generate_ss_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc2)),
-    rs : cons(
-      cstt_new("ss_mul2_cst",
-        append(iBits[mod(0 + i,4) + 1],mulAVars),
-        [i],namespace),
-      rs),
-    mulBVars :
-      generate_ss_constraint_vars(8*i + 1,8*i + 8,namespace,nounify(mc3)),
-    rs : cons(
-      cstt_new("ss_mul3_cst",
-        append(iBits[mod(1 + i,4) + 1],mulBVars),
-        [i],namespace),
-      rs),
+  for i : 1 thru ss_num_rows do block([mul_vars, mul_vars_l : []],
+    for j : ss_num_rows thru 1 step -1 do block([var_block],
+      var_block : ss_column_size * (i-1) + ss_exp * (j-1),
+      if ss_mixcolumns_matrix[i,j] = 1 then
+        mul_vars : iBits[j]
+      else block(
+        mul_vars :
+          generate_ss_constraint_vars(var_block + 1,var_block + ss_exp,
+            namespace,nounify(mc)),
+        rs : cons(
+              cstt_new("ss_mult_cst", append(iBits[j],mul_vars),
+                  [ss_mixcolumns_matrix[i,j],ss_base,ss_exp, ss_poly,i,j],
+                  namespace),
+                rs)),
+      mul_vars_l : cons(mul_vars, mul_vars_l)
+    ),
     rs : cons(
       cstt_new("ss_add_cst",
         append(
-          mulAVars,mulBVars,iBits[mod(2 + i,4) + 1],
-          iBits[mod(3 + i,4) + 1],oBits[i+1]),[4], namespace),
+          lappend(mul_vars_l),oBits[i]),[ss_num_rows], namespace),
       rs)
   ),
   return(rs)
@@ -559,68 +642,73 @@ declare(ss_inv_mixcolumn_ns,noun)$
 declare(ss_inv_mixcolumn_ns,posfun)$
 ss_inv_mixcolumn_namespace([args]) := apply(nounify(ss_inv_mixcolumn_ns),args)$
 
-ss_inv_mixcolumn_ns_var_l(cst) := block([vars : [],namespace],
+
+ss_inv_mixcolumn_ns_var_l(cst) := block([vars : [],namespace,ss_arg_l,
+  ss_column_size,ss_num_rows, ss_base, ss_exp, ss_column_size,ss_poly,
+  ss_mixcolumns_matrix],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix :
+    ss_mixcolumns_matrix2inv_mixcolumns_matrix(ss_base,ss_exp,ss_arg_l[5]),
+  ss_column_size : ss_exp * ss_num_rows,
   namespace :
     cstt_namespace_new(ss_inv_mixcolumn_namespace,cst),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc14)),vars),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc11)),vars),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc13)),vars),
-  vars : cons(
-      generate_ss_constraint_vars(1,32,namespace,nounify(mc9)),vars),
+  for i : 1 thru ss_num_rows do
+    for j : 1 thru ss_num_rows do block([var_block],
+      var_block : ss_column_size * (i-1) + ss_exp * (j-1),
+      if ss_mixcolumns_matrix[i,j] # 1 then
+        vars : cons(
+          generate_ss_constraint_vars(
+            var_block+1,var_block+ss_exp,namespace,nounify(mc)),vars)),
   return(lappend(vars)))$
-/* Returns a set of conditions representing the SS Inverse Mixcolumn operation (the 
-   individual operation applied to a single column in SS Inverse Mixcolumns) given
+/* Returns a set of conditions representing the SS Mixcolumn operation (the 
+   individual operation applied to a single column in SS Mixcolumns) given
    128 plaintext variables and 128 output variables. */
 ss_inv_mixcolumn_cstr_cstl(cst) := block(
-  [namespace,bits,iBits, oBits, nc,rs : []],
+  [namespace,bits,iBits, oBits, nc,rs : [],ss_arg_l, ss_column_size,
+  ss_num_rows, ss_base, ss_exp, ss_column_size,
+       ss_poly, ss_mixcolumns_matrix],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix :
+    ss_mixcolumns_matrix2inv_mixcolumns_matrix(ss_base,ss_exp,ss_arg_l[5]),
+  ss_column_size : ss_exp * ss_num_rows,
   bits : cst[2],
   namespace :
     cstt_namespace_new(ss_inv_mixcolumn_namespace,cst),
-  iBits : partition_elements(take_elements(32, bits),8),
-  oBits : partition_elements(rest(bits, 32), 8),
-  /* Perform matrix multiplication */
-  for i : 0 thru 3 do block(
-    [mulAVars, mulBVars, mulCVars, mulDVars, addAVars, addBVars],
-    mulAVars :
-      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc14)),
-    rs : cons(
-      cstt_new("ss_mul14_cst",
-        append(oBits[mod(0 + i,4) + 1],mulAVars),
-        [i],namespace),
-      rs),
-    mulBVars :
-      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc11)),
-    rs : cons(
-      cstt_new("ss_mul11_cst",
-        append(oBits[mod(1 + i,4) + 1],mulBVars),
-        [i],namespace),
-      rs),
-    mulCVars :
-      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc13)),
-    rs : cons(
-      cstt_new("ss_mul13_cst",
-        append(oBits[mod(2 + i,4) + 1],mulCVars),
-        [i],namespace),
-      rs),
-    mulDVars :
-      generate_ss_constraint_vars(8*i+1,8*i+8,namespace,nounify(mc9)),
-    rs : cons(
-      cstt_new("ss_mul9_cst",
-        append(oBits[mod(3 + i,4) + 1],mulDVars),
-        [i],namespace),
-      rs),
+  iBits : partition_elements(take_elements(ss_column_size, bits),ss_exp),
+  oBits : partition_elements(rest(bits, ss_column_size), ss_exp),
+  /* First element */
+  for i : 1 thru ss_num_rows do block([mul_vars, mul_vars_l : []],
+    for j : ss_num_rows thru 1 step -1 do block([var_block],
+      var_block : ss_column_size * (i-1) + ss_exp * (j-1),
+      if ss_mixcolumns_matrix[i,j] = 1 then
+        mul_vars : iBits[j]
+      else block(
+        mul_vars :
+          generate_ss_constraint_vars(var_block + 1,var_block + ss_exp,
+            namespace,nounify(mc)),
+        rs : cons(
+              cstt_new("ss_mult_cst", append(iBits[j],mul_vars),
+                  [ss_mixcolumns_matrix[i,j],ss_base,ss_exp, ss_poly,i,j],
+                  namespace),
+                rs)),
+      mul_vars_l : cons(mul_vars, mul_vars_l)
+    ),
     rs : cons(
       cstt_new("ss_add_cst",
-        append(mulAVars, mulBVars, mulCVars, mulDVars, iBits[i+1]),
-        [4],namespace),
+        append(
+          lappend(mul_vars_l),oBits[i]),[ss_num_rows], namespace),
       rs)
   ),
   return(rs)
 )$
-
 
 /*
    Key expansion
@@ -635,11 +723,10 @@ ss_key_expansion_cstrb :
 /* Generates a set of unit clauses (initially simpler than simplifying constants
    or making partial assignments) to set the given vars (representing the bits
    of SS round constants) to the round constant for round n */
-ss_round_constant_l( n) := block([rc_el,rc_l],
-  rc_el : xreduce(lambda([a,b],ss_field_mul_data[b,a+1]),
+ss_round_constant_l(n, b, e, mod_poly) := block([rc_el,rc_l],
+  rc_el : xreduce(lambda([a,c],ss_natmul(c,a+1,b,mod_poly)),
                create_list(2,i,1,(n -1)),1),
-  rc_l : egf_coeffs(rijn_bit_field,egf_num2poly(rijn_byte_field,rc_el),7),
-  return(rc_l)
+  return(nat2vec_ss(rc_el,b,e))
 )$
 
 /* SS key expansion namespace */
@@ -650,14 +737,28 @@ ss_key_expansion_namespace([args]) :=
   apply(nounify(ss_key_expansion_ns),args)$
 
 ss_key_expansion_ns_var_l(cst) := block(
-  [n_r : cst[3],vars : [],namespace],
+  [vars : [],namespace,ss_arg_l,num_block_bits,
+   ss_num_rounds, ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  ss_poly : ss_arg_l[6],
+  ss_sbox_matrix : ss_arg_l[7],
+  ss_affine_constant : ss_arg_l[8],
   namespace : cstt_namespace_new(ss_key_expansion_namespace,cst),
   vars : cons(
-    generate_ss_constraint_vars(1,4*8*n_r,namespace,nounify(sb)),vars),
+    generate_ss_constraint_vars(1,ss_num_rows*ss_exp*ss_num_rounds,
+      namespace,nounify(sb)),vars),
   vars : cons(
-    generate_ss_constraint_vars(1,8*n_r,namespace,nounify(ke)),vars),
+    generate_ss_constraint_vars(1,ss_exp*ss_num_rounds,namespace,nounify(ke)),
+    vars),
   vars : cons(
-    generate_ss_constraint_vars(1,8*n_r,namespace,nounify(rc)),vars),
+    generate_ss_constraint_vars(1,ss_exp*ss_num_rounds,namespace,nounify(rc)),
+    vars),
   return(lappend(vars)))$
 /* Returns a set of conditions representing the SS keyschedule operation given
    128 key variables and 128 * (ss_num_rounds + 1) output variables
@@ -670,49 +771,65 @@ ss_key_expansion_ns_var_l(cst) := block(
    */
 ss_key_expansion_cstr_cstl(cst) := block(
   [namespace,bits, n_k : 4,n_b : 4, n_r,kBits, rkBits, nc,rs : [],
-   sboxVars, addVars,fMat, kMat, sbox_i : 0, rc_i : 0],
+   sboxVars, addVars,fMat, kMat, sbox_i : 0, rc_i : 0,ss_arg_l,num_block_bits,
+   ss_num_rounds, ss_num_columns, ss_num_rows, ss_base, ss_exp,
+       ss_poly, ss_sbox_matrix, ss_affine_constant],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  ss_poly : ss_arg_l[6],
+  ss_sbox_matrix : ss_arg_l[7],
+  ss_affine_constant : ss_arg_l[8],
+  num_block_bits : ss_exp * ss_num_columns * ss_num_rows,
   bits : cst[2],
   namespace : cstt_namespace_new(ss_key_expansion_namespace,cst),
-  n_r : cst[3],
   /* Primary Variables */
-  kBits : take_elements(128,bits),
-  rkBits : rest(bits,128),
-  fBits : take_elements(128,rkBits),
+  kBits : take_elements(num_block_bits,bits),
+  rkBits : rest(bits,num_block_bits),
+  fBits : take_elements(num_block_bits,rkBits),
   /* Split into columns */
-  cols :  partition_elements(partition_elements(rkBits,8),4),
-  kMat : partition_elements(partition_elements(kBits,8),4),
-  fMat : partition_elements(partition_elements(fBits,8),4),
+  cols :  partition_elements(partition_elements(rkBits,ss_exp),ss_num_rows),
+  kMat : partition_elements(partition_elements(kBits,ss_exp),ss_num_rows),
+  fMat : partition_elements(partition_elements(fBits,ss_exp),ss_num_rows),
   /* Make first round key equal */
-  for j : 1 thru n_k do
-    for i : 1 thru n_b do
+  for j : 1 thru ss_num_rows do
+    for i : 1 thru ss_num_columns do
       rs : cons(
         cstt_new("eq_cst",
           append(kMat[j][i], fMat[j][i]),
           [],namespace),
         rs),
   /* Setup output bits */
-  for j : n_k thru (n_b * (n_r +1)) - 1 do block(
-    if mod(j, n_k) = 0 then block (
+  for j : ss_num_columns thru (ss_num_columns * (ss_num_rounds +1)) - 1 do block(
+    [var_offset],
+    if mod(j, ss_num_columns) = 0 then block (
+      var_offset : (j-ss_num_columns)*(ss_num_rows/ss_num_columns)*ss_exp,
       sboxVars : generate_ss_constraint_vars(
-        (j-n_k)*8*(4/n_k) +1,(j-n_k)*8*(4/n_k) +8,namespace,nounify(sb)),
+        var_offset +1,var_offset+8,namespace,nounify(sb)),
       rs : cons(
         cstt_new("ss_sbox_cst",
           append(cols[j][2], sboxVars),
           [sbox_i : sbox_i + 1],namespace),
         rs),
+      var_offset : (j-ss_num_rows)*(8/ss_num_columns), 
       addVars : generate_ss_constraint_vars(
-        (j-n_k)*(8/n_k) +1,(j-n_k)*(8/n_k) +8,namespace,nounify(ke)),
+        var_offset +1,var_offset +ss_exp,namespace,nounify(ke)),
       rs : cons(
         cstt_new("ss_add_cst",
-          append(cols[j-n_k+1][1],sboxVars,addVars),
+          append(cols[j-ss_num_rows+1][1],sboxVars,addVars),
           [],namespace),
         rs),
+      var_offset : (j-ss_num_rows)*(8/ss_num_columns), 
       rcVars : generate_ss_constraint_vars(
-        (j-n_k)*(8/n_k) + 1,(j-n_k)*(8/n_k) + 8,namespace,nounify(rc)),
+        var_offset + 1,var_offset + ss_exp,namespace,nounify(rc)),
       rs : cons(
         cstt_new("const_cst",
             rcVars,
-            cons(rc_i : rc_i + 1,ss_round_constant_l(floor(j/n_k))),
+            cons(rc_i : rc_i + 1,
+              ss_round_constant_l(floor(j/n_k),ss_base, ss_exp,ss_mod_poly)),
             namespace),
         rs),
       rs : cons(
@@ -720,25 +837,26 @@ ss_key_expansion_cstr_cstl(cst) := block(
           append(rcVars,addVars, cols[j+1][1]),
           [],namespace),
         rs),
-      for i : 1 thru 3 do block([offset: ((j-n_k)*(4/n_k) + i)*8],
+      for i : 1 thru ss_num_rows-1 do block(
+        [offset: ((j-ss_num_rows)*(ss_num_rows/ss_num_columns) + i)*ss_exp],
         sboxVars : generate_ss_constraint_vars(
-          offset + 1,offset + 8,namespace,nounify(sb)),
+          offset + 1,offset + ss_exp,namespace,nounify(sb)),
         rs : cons(
           cstt_new("ss_sbox_cst", 
-            append(cols[j][mod(i+1,4)+1], sboxVars),
+            append(cols[j][mod(i+1,ss_num_rows)+1], sboxVars),
             [sbox_i : sbox_i + 1],namespace),
           rs),
         rs : cons(
           cstt_new("ss_add_cst", 
-            append(cols[j-n_k+1][i+1],sboxVars, cols[j+1][i+1]),
+            append(cols[j-ss_num_rows+1][i+1],sboxVars, cols[j+1][i+1]),
             [],namespace),
           rs)
       )
     )
-    else for i : 1 thru 4 do 
+    else for i : 1 thru ss_num_rows do 
       rs : cons(
         cstt_new("ss_add_cst",
-          append(cols[j][i], cols[j-n_k+1][i],cols[j+1][i]),
+          append(cols[j][i], cols[j-ss_num_rows+1][i],cols[j+1][i]),
           [],namespace),
         rs)
   ),
