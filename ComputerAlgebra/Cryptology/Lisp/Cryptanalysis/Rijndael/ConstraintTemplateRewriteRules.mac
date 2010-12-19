@@ -744,7 +744,6 @@ aes_eq_cst_cl(cst) := block([ nb : floor(length(cst[2]) / 2)],
 
 /* Constants */
 aes_const_cst_cl(cst) := block(
-  print(cst),
   map(lambda([a,b], if b = 1 then {a} else {-a}), cst[2],
     rest(cstt_args_l(cst))))$
 
