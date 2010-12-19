@@ -9,33 +9,39 @@ License, or any later version. */
   \file Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp
   \brief On investigations into boolean function representations with different inference properties
 
-  \todo r-based representations
+
+  \todo Connections
   <ul>
-   <li> Defining an "r-based representation":
-    <ol>
-     <li> Let r be a reduction and F be an active clause-set. </li>
-     <li> F now is "r-based" if for a partial assignment phi with 
-     var(phi) <= var(F) such that phi * F is unsatisfiable we have that 
-     r-reduction applied to F yields a contradiction. </li>
-     <li> F is "partially r-based" if F is r-based with respect
-     to partial assignments on some subset V of var(F), and F is totally
-     r-based if V = var(F). </li>
-     <li> F is "strongly r-based" if F is r-based and for all partial 
-     assignments phi, we have that the r-reduction applied to F has
-     no forced assignments. </li>
-     <li> Natural examples are r = r_k (k a natural number >= 0). </li>
-     <li> The weaker r the stronger is the representation (w.r.t. inference
-     power). </li>
-     <li> If F is a CNF-clause-set, then being r_0-based is equivalent to F
-     containing all prime implicates of C. </li>
-     <li> See "Bases of the set of prime clauses relative to some reduction" in
-     ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp
-     for the case where no additional variables are considered. </li>
-     <li> The function rand_rbase_cs(F,r) in
-     ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac randomply
-     computes an r-base of F. </li>
-    </ol>
-   </li>
+   <li> See "Investigating conditions and their representations" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
+   for applications to the cryptoanalysis of AES. </li>
+  </ul>
+
+
+  \todo r-based clause-sets
+  <ul>
+   <li> Let r be a reduction and F be an active clause-set. </li>
+   <li> F now is "r-based" if for a partial assignment phi such that
+   phi * F is unsatisfiable we have that r-reduction applied to F yields a
+   contradiction. </li>
+   <li> F is "r-based w.r.t. V" for some set V of variables, if F is r-based
+   with respect to partial assignments in V, and F is "totally r-based" if we
+   can use V = var(F). </li>
+   <li> F is "strongly r-based" if F is r-based and for all partial 
+   assignments phi we have that the r(phi*F) has no forced
+   assignments, that is, there is no variable v in var(F) and e in {0,1}
+   such that <v -> e> * phi*F is unsatisfiable. </li>
+   <li> Natural examples for r are r = r_k (k a natural number >= 0). </li>
+   <li> The weaker r the stronger is the representation (w.r.t. inference
+   power). </li>
+   <li> If F is a CNF-clause-set, then being r_0-based is equivalent to F
+   containing all prime implicates of C. </li>
+   <li> See "Bases of the set of prime clauses relative to some reduction" in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/RBases.hpp
+   for the case where no additional variables are considered. </li>
+   <li> The function rand_rbase_cs(F,r) in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac randomply
+   computes an r-base of F. </li>
   </ul>
 
 
@@ -46,26 +52,32 @@ License, or any later version. */
      <li> Consider a boolean condition C on variables V (that is, C(f)
      is a boolean value for total assignments f, and C depends only on V).
      </li>
-     <li> A "positive representation" R is an active clause-set on variables
-     V' >= V such that if R(f) is true then also C(f) is true, and for f
-     such that C(f) is true there is a unique f' which differs from f only
-     on V' - V such that C'(f) is true. </li>
+     <li> A "positive representation" R of C is an active clause-set on
+     variables V' >= V such that if R(f) is true then also C(f) is true, and
+     for f such that C(f) is true there is a unique f' which differs from f
+     only on V' - V such that C'(f) is true. </li>
+     <li> Perhaps this should better be called a "unique positive
+     representation", while in general we demand only the existence of some
+     f'. This is equivalently to saying that the projection of the satisfying
+     assignments for R to V yield exactly the satisfying assignments for C.
+     </li>
     </ol>
    </li>
    <li> r-based positive representations 
    <ol>
-     <li> See "r-based representations". </li>
+     <li> See "r-based representations" above. </li>
      <li> In general, if we say a positive representation R of a condition
-     C is r-based, then R is *partially* r-based with respect to
-     V. If R is r-based with respect to V', then we make this explicit by
+     C is r-based, then R is r-based w.r.t. V (where V is the underlying set
+     of original variables, while the representation uses V' >= V). </li>
+     <li> If R is r-based with respect to V', then we make this explicit by
      calling R "totally r-based". </li>
-     <li> Note that, in general, we do not consider how the effect of 
+     <li> Note that, in general, we do not consider the effect of 
      assignments to variables in V' - V. It seems sensible to me (OK) to 
      consider this as the basis, but for further refinements considerations of
      V' - V might be needed. </li>
-     <li> Another sensible condition here is for f with C(f) true how difficult
-     it is to compute the extension f'. For example one could demand that
-     the additional assignments follow by unit-clause propagation. </li>
+     <li> Another sensible condition here is for satisfying f for C(f) how
+     difficult it is to compute the extension f'. For example one could demand
+     that the additional assignments follow by unit-clause propagation. </li>
    </ol>
    </li>
   </ul>

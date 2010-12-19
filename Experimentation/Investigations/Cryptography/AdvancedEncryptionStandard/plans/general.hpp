@@ -192,7 +192,8 @@ License, or any later version. */
      </li>
      <li> That module is not properly maintained: Actions for MG. </li>
      <li> See "r-based representations" in 
-     Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp . </li>
+     Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp.
+     </li>
      <li> A 0-based CNF-representation without additional variables is likely
      infeasible to use. </li>
      <li> What about the Tseitin-translation of the Sbox-DNF? 
