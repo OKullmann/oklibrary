@@ -22,7 +22,7 @@ License, or any later version. */
   \section StartingVersion Future milestones
 
 
-  \subsection VersionOKlib022 0.2.2 : PRE-ALPHA RELEASE
+  \subsection VersionOKlib022 0.2.2 : BETA RELEASE
   TO BE REACHED $(deadline_022)
   \par Buildsystem version 0.2.1 (OK, MG)
   (see Buildsystem/plans/milestones.hpp)
@@ -53,7 +53,7 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionOKlib023 0.2.3 : ALPHA RELEASE (BASIC FUNCTIONALITY MAXIMA)
+  \subsection VersionOKlib023 0.2.3 : PRE-ALPHA RELEASE (BASIC FUNCTIONALITY MAXIMA)
   TO BE REACHED $(deadline_023)
   \par ComputerAlgebra version 0.2 (OK, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
@@ -84,7 +84,7 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionOKlib024 0.2.4 BETA RELEASE
+  \subsection VersionOKlib024 0.2.4 ALPHA RELEASE
   TO BE REACHED $(deadline_024)
   \par OKlib/Satisfiability version 0.1.3 (OK)
   \par Literals version 0.0.4 (OK)
