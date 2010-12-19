@@ -48,6 +48,17 @@ License, or any later version. */
 975,977,994,1018,1033,1036,1046,1062,1083,1100
    \endverbatim
    </li>
+   <li> n=1129
+    <ol>
+     <li> rots, cutoff=10^8:
+     \verbatim
+ 1  2  3
+ 6 72 22
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
