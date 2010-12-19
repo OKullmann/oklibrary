@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,8 +45,8 @@ License, or any later version. */
    <li> Compare with
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Constructions.hpp.
    </li>
-   <li> And see ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp.
-   </li>
+   <li> And see dual prime clauses in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp. </li>
    <li> For a clause-set F, let's call the set of minimal satisfying
    partial assignment also "Tr(F)" (as for hypergraphs). </li>
    <li> Or, perhaps better, Tr(F) is again a set of clauses?! </li>
