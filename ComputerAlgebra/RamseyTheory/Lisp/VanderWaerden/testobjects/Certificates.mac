@@ -35,6 +35,9 @@ okltest_check_certificate_vdw(check_certificate_vdw);
 
 okltest_create_certificate2_vdw(create_certificate2_vdw);
 
+okltest_certificatevdw2list(certificatevdw2list);
+okltest_certificatevdw2string(certificatevdw2string);
+
 /*!
 \endhtmlonly
 */
