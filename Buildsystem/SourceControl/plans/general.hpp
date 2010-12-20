@@ -560,8 +560,10 @@ git pull -s subtree path_to_repository_B master
      <li> Via "git submodule init" the content of .gitmodules is also entered
      into the main config-file. </li>
      <li> If another repository pulls from the main repository, then the
-     content of the submodule is also available, however not checked out; this
-     is done by "git submodule update" (there, in the other repository). </li>
+     content of the submodule is NOT available: this has do be done by
+     "git submodule foreach git pull" (with appropriate urls; see below). </li>
+     <li> Checking out submodules where the content is available happens by
+     "git submodule update". </li>
      <li> Pulling for all submodules of the main repository happens via
      "git submodule foreach git pull". </li>
      <li> After a change to a submodule, a change-log has to be committed to
@@ -569,8 +571,10 @@ git pull -s subtree path_to_repository_B master
      is just "Update." </li>
      <li> Via "git submodule status" one can see the ID's of the submodules,
      prefixed with "-" if no initialisation took place yet (needs to be done),
-     and indexed with "+" if a "git submodule update" has to be performed.
-     </li>
+     and indexed with "+" if the main repository's idea of what is in the
+     submodule is different from what is actually there (so typically one
+     did a pull for the submodule, and now has to make a
+     submodule-change-commit. </li>
      <li> In .gitmodules the url of the sub-repo-origin is stored, and that
      might have been changed (directly), and then "git submodule sync"
      installs this url as the origin of the sub-repo (in
