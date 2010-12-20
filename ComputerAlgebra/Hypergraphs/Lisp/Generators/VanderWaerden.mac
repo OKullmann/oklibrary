@@ -142,22 +142,30 @@ arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
    ************
 */
 
-/* VdW-hypergraphs G have the mirror symmetry m. Now for an ordered 
-   vdW-hypergraph G enforce that all colourings f are symmetric w.r.t. m,
-   that is, f(v) = f(m(v)).
+/* VdW-hypergraphs G have the mirror symmetry m, defined as reflection on the
+   middle point of the vertex-set. Now for an ordered  vdW-hypergraph G
+   enforce that all colourings f are symmetric w.r.t. m, that is,
+     f(v) = f(m(v)).
    More precisely:
-   Let n be the number of vertices in n (so the vertices are 1, ..., n).
-   Then m(v) = n-v+1. m is a bijection from {1,...,floor(n/2)} to 
+   Let n be the number of vertices in G (so the vertices are 1, ..., n).
+   Then m_n(v) = n-v+1. m is a bijection from {1,...,floor(n/2)} to 
    {ceil(n/2)+1,...,n}, while for odd n the vertex floor(n/2)+1=ceil(n/2)
-   is fixed.
-   Now the function replaces every vertex v >= n/2+1 by its mirror image m(v).
-   The new vertices are 1, ..., ceil(n/2).
+   is fixed by m.
+   Now the function palindromise_vdw_(o)hg(G) replaces every vertex v >= n/2+1
+   by its mirror image m(v). The new vertices are 1, ..., ceil(n/2).
    Removes all subsumed clauses from the obtained list of hyperedges, sorting
-   the clauses in colexicographical order.
+   the clauses then in colexicographical order.
 
    This amounts to considering for colourings of G only the palindromic
-   colourings, which are read forward and backward the same.
+   colourings (those colourings which read forward and backward the same).
 */
+/* First the function which creates that choice function which w.r.t. the
+   equivalence relation created by a~b iff m_n(a) = b chooses as representative
+   of {a,b} the smaller element:
+*/
+mirrorfold_vdw(n) := buildq([n,div:ceiling(n/2)],
+  lambda([v], if v >= div+1 then n-v+1 else v))$
+/* Now the palindromisation of vdW-hypergraphs: */
 palindromise_vdw_ohg(G) := 
  if emptyp(first(G)) then G
  else block([n : last(first(G)), div, V],
@@ -169,7 +177,7 @@ palindromise_vdw_ohg(G) :=
    map(setify,sort(map(listify,
     min_elements_l(unique(
      map(
-       lambda([H], map(lambda([v], if v >= div+1 then n-v+1 else v), H)),
+       lambda([H], map(mirrorfold_vdw(n), H)),
        sublist(second(G), lambda([H], is(first(H) < div+1))))))),
    colex_lessp_l))]))$
 palindromise_vdw_hg(G) :=
@@ -182,7 +190,7 @@ palindromise_vdw_hg(G) :=
   [V,
    min_elements(
     map(
-      lambda([H], map(lambda([v], if v >= div+1 then n-v+1 else v), H)),
+      lambda([H], map(mirrorfold_vdw(n), H)),
       subset(second(G), lambda([H], is(first(H) < div+1)))))]))$
 /* Comment: both functions use that first(X), last(X) is the smallest/largest
    element of set X. */
