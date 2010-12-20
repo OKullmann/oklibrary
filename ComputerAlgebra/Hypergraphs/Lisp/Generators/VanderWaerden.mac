@@ -49,7 +49,7 @@ arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
 */
 
 /* The list of arithmetic progressions of length k, ending in vertex n
-   for n, k >= 1, smallest started-vertex first:
+   for n, k >= 1, smallest start-vertex first:
 */
 arithprog_finish(k,n) :=
  if k=1 then [{n}] else
@@ -57,8 +57,8 @@ arithprog_finish(k,n) :=
 
 
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}.
-   The order of hyperedges: Sorted by increasing last vertex, inside such
-   a segment with decreasing slope. This amounts to colexicographical
+   The order of hyperedges: Sorted by increasing last vertex, and inside such
+   a segment by decreasing slope. This amounts to colexicographical
    ordering.
    Prerequisites: n,k are natural numbers >= 0.
 */
