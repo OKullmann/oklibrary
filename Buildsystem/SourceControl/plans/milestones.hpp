@@ -18,6 +18,7 @@ License, or any later version. */
    are handled:
     - Clean-up regarding shared repositories
     - Documentation
+    - Notification-e-mails : DONE
 
   \par
    In Buildsystem/SourceControl/plans/Branching.hpp the following topics

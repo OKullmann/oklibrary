@@ -117,7 +117,8 @@ spellingprogram = /usr/bin/ispell
   </ul>
 
 
-  \todo Notification-e-mails
+  \todo DONE (no longer relevant to us)
+  Notification-e-mails
   <ul>
    <li> Improvements of the automatic e-mail:
      <ol>
