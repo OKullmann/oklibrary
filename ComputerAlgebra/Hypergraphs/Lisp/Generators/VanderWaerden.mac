@@ -159,12 +159,14 @@ arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
    This amounts to considering for colourings of G only the palindromic
    colourings (those colourings which read forward and backward the same).
 */
+
 /* First the function which creates that choice function which w.r.t. the
    equivalence relation created by a~b iff m_n(a) = b chooses as representative
    of {a,b} the smaller element:
 */
 mirrorfold_vdw(n) := buildq([n,div:ceiling(n/2)],
   lambda([v], if v >= div+1 then n-v+1 else v))$
+
 /* Now the palindromisation of vdW-hypergraphs: */
 palindromise_vdw_ohg(G) := 
  if emptyp(first(G)) then G
@@ -174,12 +176,12 @@ palindromise_vdw_ohg(G) :=
   if emptyp(second(G)) or emptyp(first(second(G))) then return([V,second(G)])
   else return(
   [V,
-   map(setify,sort(map(listify,
-    min_elements_l(unique(
-     map(
-       lambda([H], map(mirrorfold_vdw(n), H)),
-       sublist(second(G), lambda([H], is(first(H) < div+1))))))),
-   colex_lessp_l))]))$
+   map(setify,
+       sort(map(listify,
+              min_elements_l(unique(
+                map(lambda([H], map(mirrorfold_vdw(n), H)),
+                    sublist(second(G), lambda([H], is(first(H) < div+1))))))),
+            colex_lessp_l))]))$
 palindromise_vdw_hg(G) :=
  if emptyp(first(G)) then G
  else block([n : last(first(G)), div, V],
@@ -195,7 +197,23 @@ palindromise_vdw_hg(G) :=
 /* Comment: both functions use that first(X), last(X) is the smallest/largest
    element of set X. */
 
-
+/* Now the direct computation of palindromise_vdw_ohg(arithprog_ohg(k,n))
+   and palindromise_vdw_hg(arithprog_hg(k,n)):
+*/
+arithprog_pd_hg(k,n) := block([div:ceiling(n/2),V,p1,G,mf,A],
+  V : setn(div),
+  if n<k then return([V,{}])
+  elseif n=k then return([V,{V}])
+  elseif k=0 then return([V,{{}}])
+  elseif k=1 then return([V,singletons(V)])
+  elseif k=2 then return([V,singletons(setn(floor(n/2)))]),
+  p1 : lambda([x],x+1),
+  G : map(lambda([H],map(p1,H)),listify(second(arithprog_pd_hg(k,n-2)))),
+  mf : mirrorfold_vdw(n),
+  A : sublist(map(lambda([H],map(mf,H)),arithprog_finish(k,n)), 
+             lambda([H], every_s(lambda([E], not subsetp(E,H)), G))),
+  A : min_elements_l(A),
+  return([V, setify(append(G,A))]))$
 
 /*!
 \endhtmlonly

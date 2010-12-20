@@ -211,6 +211,12 @@ okltest_palindromise_vdw_hg(f) := block([x],
   assert(f(arithprog_hg(4,8)) = [{1,2,3,4},{{3,4}}]),
   true)$
 
+okltest_arithprog_pd_hg(f) := (
+  for k : 0 thru if oklib_test_level=0 then 7 else 10 do
+    for n : 0 thru if oklib_test_level=0 then 9 else 20 do (
+      assert(f(k,n) = palindromise_vdw_hg(arithprog_hg(k,n)))),
+  true)$
+
 
 /*!
 \endhtmlonly
