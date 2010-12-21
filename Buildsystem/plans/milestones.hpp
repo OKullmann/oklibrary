@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Buildsystem 0.2.0.2 (11.5.2010)
 
 
-  \par Version 0.2.1 : THEME is "PRE-ALPHA RELEASE"
+  \par Version 0.2.1 : THEME is "BETA RELEASE"
 
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
@@ -29,7 +29,7 @@ License, or any later version. */
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
 
-  \par Version 0.2.2 : THEME is "ALPHA RELEASE (CONSOLIDATION)"
+  \par Version 0.2.2 : THEME is "PRE-ALPHA RELEASE (CONSOLIDATION)"
 
   \par Buildsystem/Configuration version 0.0.6
   (see Buildsystem/Configuration/plans/milestones.hpp)
@@ -69,7 +69,7 @@ License, or any later version. */
    Update the following milestones.
 
 
-  \par Version 0.2.3 : THEME is "Build system extensions"
+  \par Version 0.2.3 : THEME is "ALPHA RELEASE - Build system extensions"
 
   \par Buildsystem/ExternalSources version 0.1.7
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
