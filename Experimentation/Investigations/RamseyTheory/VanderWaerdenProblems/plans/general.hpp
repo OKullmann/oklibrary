@@ -123,8 +123,21 @@ License, or any later version. */
    <li> Compare "Palindromic numbers" in
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Numbers.hpp. </li>
    <li> Transversal extensions are not interesting in their palindromic
-   versions, since for k=2 for even n>= 2 there is no solution, while for odd
-   n exactly the central vertex has to be chosen. </li>
+   versions, since for k=2 for even n>= 2 no vertex may be chosen, while for
+   odd n exactly the central vertex has to be chosen. </li>
+   <li> However the transversal numbers of the hypergraphs are likely of
+   interest. </li>
+   <li> The palindromic versions of vdW-problems seem to be of great interest,
+   and so perhaps they should have its own submodule here. </li>
+   <li> There for as many core-tuples as possible numbers should be determined.
+   </li>
+   <li> Likely it should have a submodule "Hypergraphs", where the transversal
+   hypergraph is studied, but also already the determination of the number
+   of hyperedges in arithprog_pd_hg(k,n) seems non-trivial. </li>
+   <li> Due to the importance of palindromic numbers, perhaps they deserve
+   a designated system, like pdvanderwaerden(t), parallel to vanderwaerden(t),
+   where we have now pairs (for the above vanderwaerden_g(t,"pdsat") and
+   vanderwaerden_g(t,"pd")). </li>
   </ul>
 
 

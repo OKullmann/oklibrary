@@ -74,6 +74,8 @@ okltest_arithprog_list_hg(arithprog_list_hg);
 okltest_palindromise_vdw_ohg(palindromise_vdw_ohg);
 okltest_palindromise_vdw_hg(palindromise_vdw_hg);
 
+okltest_arithprog_pd_hg(arithprog_pd_hg);
+
 /*!
 \endhtmlonly
 */
