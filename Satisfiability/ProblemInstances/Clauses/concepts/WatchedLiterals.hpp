@@ -23,6 +23,9 @@ License, or any later version. */
    responsibility of the clause (not some higher-level mechanism). </li>
    <li> For a first usage, see "First implementation, based on watched
    literals" in Reductions/KLevelForcedAssignments/plans/general.hpp. </li>
+   <li> And for its use in an UCP-application see
+   Satisfiability/Reductions/UnitClausePropagation/UnitClausePropagationW.cpp.
+   </li>
    <li> "Head-tail clauses" perhaps don't need a different concept? See
    "Head-tail clauses" in ProblemInstances/Clauses/plans/general.hpp for
    plans for a first implementation. </li>
