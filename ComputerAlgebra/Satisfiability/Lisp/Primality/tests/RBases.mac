@@ -34,23 +34,29 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    ************
 */
 
-okltest_rand_rbase_cs(f) := block([S, R, fr, F0,res0,core0,add0],
+okltest_rand_rbase_cs(f) := block(
+ [S, R, fr, F0,res0,core0,add0, s : make_random_state(false)],
   assert(f({},ucp_0_cs) = {}),
   assert(f({{}},ucp_0_cs) = {{}}),
   for n : 0 thru 5 do block([F : setify(create_list({i},i,1,n))],
     assert(f(F,ucp_0_cs) = F)),
   assert(f({{},{1}},ucp_0_cs) = {{}}),
   assert(f({{1},{-1},{2}},ucp_0_cs) = {{1},{-1}}),
-  assert(elementp(f({{1},{-1},{2},{-2}},ucp_0_cs), {{{1},{-1}},{{2},{-2}}}) = true),
+  set_random(0),
+  assert(f({{1},{-1},{2},{-2}},ucp_0_cs) =  {{1},{-1}}),
+  set_random(1),
+  assert(f({{1},{-1},{2},{-2}},ucp_0_cs) =  {{2},{-2}}),
   assert(f({{1,2,3},{-1,3,4},{2,3,4}},ucp_0_cs) = {{1,2,3},{-1,3,4}}),
   assert(f({{1,2,3},{-1,3,4},{2,3,4},{3,-4,5},{2,3,5}},ucp_0_cs) = {{1,2,3},{-1,3,4},{3,-4,5}}),
   assert(f({{1,2,3},{2,-3,4},{1,2,4},{5,-6,7},{-4,5,6},{-4,5,7},{1,2,5,7}},ucp_0_cs) = {{1,2,3},{2,-3,4},{5,-6,7},{-4,5,6}}),
   core0 : {{1,2,-3,7},{1,2,3,7},{-1,7},{4,5,-6,-7},{4,5,6,-7},{-5,-7}},
   add0 : {{2,7,8},{4,-7,8},{2,4,8}},
   F0 : union(core0,add0),
-  block([res0 : f(F0,ucp_0_cs)],
+  for n : 0 thru 15 do block([res0],
+    set_random(n),
+    res0 : f(F0,ucp_0_cs),
     assert(subsetp(core0,res0) = true),
-    assert(elementp(setdifference(res0,core0), singletons(add0)) = true)
+    assert(setdifference(res0,core0) = if elementp(n,{0,2,3,10}) then {{2,4,8}} elseif elementp(n,{1,4,5,6,7,9,11,12,13,14}) then {{4,-7,8}} elseif elementp(n,{8,15}) then {{2,7,8}})
   ),
   assert(f(F0,weakest_reduction_cs) = F0),
   assert(okltest_subsumption_elimination_cs(buildq([f], lambda([F], f(F,weakest_reduction_cs)))) = true),
@@ -61,6 +67,7 @@ okltest_rand_rbase_cs(f) := block([S, R, fr, F0,res0,core0,add0],
   fr : buildq([f,R],lambda([F], f(F,R))),
   assert(okltest_some_irr_cs(fr) = true),
   /* XXX */
+  set_random_state(s),
   true)$
 
 /*!
