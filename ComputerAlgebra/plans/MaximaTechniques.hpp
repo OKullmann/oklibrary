@@ -460,6 +460,18 @@ B : map(lambda([x],x+1),B)$
      <li> This is achieved by the OKlibrary-function "set_random"
      (in ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
      <li> Randomised functions are "random", "random_permutation". </li>
+     <li> A copy of the current random state is obtained by
+     make_random_state(false). </li>
+     <li> So for example to compute a random_permutation from seed n, without
+     disturbing the global random state, use
+     \verbatim
+block([s : make_random_state(false)],
+  set_random(n),
+  ... use random_permutation ...
+  set_random_state(s)
+)
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Shallow copy of list arguments for functions:
