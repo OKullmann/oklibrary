@@ -37,22 +37,19 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
    we have {} in red_(phi_D * F).
    The only assumption on red_ (besides always red_(F) sat-equivalent to F)
    is that if {} in red_(F) then also {} in red_(F') for any super-set F'
-   of F (so that in the algorithm below in G unremovable clauses can be
-   collected).
+   of F (so that once a clause is classified as unremovable, then this
+   doesn't change after further removals).
 */
-rand_rbase_cs(F,red_) := block([S : F, G : {}, found : true],
- while found = true do (
-  found : false,
-  for C in random_permutation(setdifference(S,G)) unless found#false do
-   block([S2 : disjoin(C,S)],
+
+rand_rbase_cs(F,red_) := block([F0 : F], 
+  for C in random_permutation(F0) do
+   block([S : disjoin(C,F)],
     if every_s(
-      lambda([D], elementp({}, red_(apply_pa_cs(comp_sl(D), S2)))),
-      setdifference(F,S2))
-    then found : S2
-    else G : adjoin(C,G)),
-  if found#false then (S : found, found : true)
+      lambda([D], elementp({}, red_(apply_pa_cs(comp_sl(D), S)))),
+      setdifference(F0,S))
+    then F : S
  ),
- return(S))$
+ return(F))$
 
 /* Remarks:
    If red_(F) = F then rand_rbase_cs(F,red_) is subsumption elimination for F.
