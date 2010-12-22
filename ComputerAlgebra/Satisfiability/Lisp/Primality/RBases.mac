@@ -32,6 +32,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
    ************
 */
 
+/* Computing some red_-base of clause-set F according to the definition,
+   that is, a minimal subset S of F such that for all clauses D in F - S
+   we have {} in red_(phi_D * F).
+   The only assumption on red_ (besides always red_(F) sat-equivalent to F)
+   is that if {} in red_(F) then also {} in red_(F') for any super-set F'
+   of F (so that in the algorithm below in G unremovable clauses can be
+   collected).
+*/
 rand_rbase_cs(F,red_) := block([S : F, G : {}, found : true],
  while found = true do (
   found : false,

@@ -278,6 +278,14 @@ namespace OKlib {
            computed is returned. </li>
           </ul>
 
+          On the algorithm:
+          <ul>
+           <li> Binary clauses are handled on their own (for them we just
+           use clause-literal graphs). </li>
+           <li> The order of the assignments for propagation is given by the
+           Assignment-class. </li>
+          </ul>
+
           Requirements:
           <ul>
            <li> the literal type is a signed integral type </li>

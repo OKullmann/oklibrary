@@ -15,6 +15,17 @@ License, or any later version. */
    <li> See
    Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp
    for considerations regarding representing boolean functions. </li>
+   <li> See
+   Satisfiability/Reductions/Bases/plans/general.hpp for the C++ level. </li>
+  </ul>
+
+
+  \todo Organisation
+  <ul>
+   <li> The concept of r-bases is independent of prime-clauses. </li>
+   <li> So likely this module should be moved to module Lisp/Reductions. </li>
+   <li> What remains here is the application to compute "interesting" subsets
+   of the set of all prime-clauses. </li>
   </ul>
 
 
