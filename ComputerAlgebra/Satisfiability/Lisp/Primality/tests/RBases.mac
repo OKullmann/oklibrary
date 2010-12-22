@@ -49,7 +49,6 @@ okltest_rand_rbase_cs(f) := block([S, R, fr, F0,res0,core0,add0],
   add0 : {{2,7,8},{4,-7,8},{2,4,8}},
   F0 : union(core0,add0),
   block([res0 : f(F0,ucp_0_cs)],
-print(res0),
     assert(subsetp(core0,res0) = true),
     assert(elementp(setdifference(res0,core0), singletons(add0)) = true)
   ),
