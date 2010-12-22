@@ -15,7 +15,7 @@ License, or any later version. */
    <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
-> k=38 n=1368 cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-30000000_???/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
+> k=38 n=1368 expdate="2010-12-14-225335"; export k n expdate; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-30000000_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
 
 > RunVdW3k ${k} ${n} rots 100 100000000 solution
    \endverbatim
