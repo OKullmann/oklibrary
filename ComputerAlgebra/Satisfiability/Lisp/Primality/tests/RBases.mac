@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Basics
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Cores.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* ************
@@ -33,7 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    ************
 */
 
-okltest_rand_rbase_cs(f) := block([S, R, fr],
+okltest_rand_rbase_cs(f) := block([S, R, fr, F0,res0,core0,add0],
   assert(f({},ucp_0_cs) = {}),
   assert(f({{}},ucp_0_cs) = {{}}),
   for n : 0 thru 5 do block([F : setify(create_list({i},i,1,n))],
@@ -44,10 +45,20 @@ okltest_rand_rbase_cs(f) := block([S, R, fr],
   assert(f({{1,2,3},{-1,3,4},{2,3,4}},ucp_0_cs) = {{1,2,3},{-1,3,4}}),
   assert(f({{1,2,3},{-1,3,4},{2,3,4},{3,-4,5},{2,3,5}},ucp_0_cs) = {{1,2,3},{-1,3,4},{3,-4,5}}),
   assert(f({{1,2,3},{2,-3,4},{1,2,4},{5,-6,7},{-4,5,6},{-4,5,7},{1,2,5,7}},ucp_0_cs) = {{1,2,3},{2,-3,4},{5,-6,7},{-4,5,6}}),
+  core0 : {{1,2,-3,7},{1,2,3,7},{-1,7},{4,5,-6,-7},{4,5,6,-7},{-5,-7}},
+  add0 : {{2,7,8},{4,-7,8},{2,4,8}},
+  F0 : union(core0,add0),
+  block([res0 : f(F0,ucp_0_cs)],
+print(res0),
+    assert(subsetp(core0,res0) = true),
+    assert(elementp(setdifference(res0,core0), singletons(add0)) = true)
+  ),
+  assert(f(F0,weakest_reduction_cs) = F0),
   assert(okltest_subsumption_elimination_cs(buildq([f], lambda([F], f(F,weakest_reduction_cs)))) = true),
   assert(okltest_subsumption_elimination_cs(buildq([f], lambda([F], f(F,generalised_ucp0_cs)))) = true),
   S : dll_simplest_first_shortest_clause,
   R : buildq([S],lambda([F], strongest_reduction_cs(F,S))),
+  assert(f(F0,R) = core0),
   fr : buildq([f,R],lambda([F], f(F,R))),
   assert(okltest_some_irr_cs(fr) = true),
   /* XXX */
