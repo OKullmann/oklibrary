@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
 /* *************************************************
@@ -60,6 +61,8 @@ all_irr_cores_bydef(FF,S) := block(
  [counter_irr : 0, potentially_unusable_clauses : false], 
   monitor_message_all_irr_cores_bydef(),
   all_forced_irr_cores_bydef({}, FF[2], S))$
+all_irr_cores_bydef_fcs(FF) := all_irr_cores_bydef(FF,current_satsolver)$
+all_irr_cores_bydef_cs(F) := all_irr_cores_bydef_fcs(cs2fcs(F))$
 
 /* All minimally unsatisfiable cores of an unsatisfiable clause-set: */
 all_min_usat_cores_bydef(F,S) := all_irr_cores_bydef(cs_to_fcs(F),S)$

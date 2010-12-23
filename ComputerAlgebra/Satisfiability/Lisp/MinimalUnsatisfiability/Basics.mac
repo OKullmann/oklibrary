@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
 /* *************************
@@ -54,6 +55,8 @@ irredundant_bydef(FF, solver) :=
   for C in F unless redundancy do
    redundancy : impliesp_f([V,disjoin(C,F)],C,solver),
   return(not redundancy))$
+irredundant_bydef_fcs(FF) := irredundant_bydef(FF, current_satsolver)$
+irredundant_bydef_cs(F) := irredundant_bydef_fcs(cs2fcs(F))$
 
 
 /* *****************************
@@ -67,6 +70,8 @@ all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
   for C in F do 
     if not impliesp_f([V,disjoin(C,F)],C,S) then I : adjoin(C,I),
   return(I))$
+all_irrcl_bydef_fcs(FF) := all_irrcl_bydef(FF,current_satsolver)$
+all_irrcl_bydef_cs(F) := all_irrcl_bydef_fcs(cs2fcs(F))$
 
 /* Returns true iff input FF is saturated minimally unsatisfiable: */
 saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
