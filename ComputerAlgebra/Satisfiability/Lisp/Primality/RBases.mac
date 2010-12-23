@@ -39,6 +39,9 @@ rgen_p_cs(G,F,red_) := subsetp(G,F) and rgen0_p_cs(G,F,red_)$
 rbase_p_cs(G,F,red_) := rgen_p_cs(G,F,red_) and
   every_s(lambda([C], not rgen0_p_cs(disjoin(C,G),F,red_)), G)$
 
+/* Computes the set of all r-bases of clause-set F "by definition": */
+all_rbases_bydef(F,red_) := subset(powerset(F), lambda([G], rbase_p_cs(G,F,red_)))$
+    
 
 /* ************
    * Sampling *
