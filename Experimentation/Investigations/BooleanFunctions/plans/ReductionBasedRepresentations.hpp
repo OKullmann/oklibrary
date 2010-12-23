@@ -40,7 +40,7 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
    for the case where no additional variables are considered. </li>
    <li> The function rand_rbase_cs(F,r) in
-   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac randomply
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac randomly
    computes an r-base of F. </li>
   </ul>
 
