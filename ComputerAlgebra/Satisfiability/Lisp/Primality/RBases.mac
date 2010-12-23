@@ -27,6 +27,19 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
   Satisfiability/Lisp/Primality/plans/general.hpp for the definitions.
 */
 
+/* Predicate for deciding whether G is r-generating for F: */
+/* First without subsumption-check: */
+rgen0_p_cs(G,F,red_) :=
+  every_s(lambda([C], elementp({}, red_(apply_pa_cs(comp_sl(C), G)))),
+          setdifference(F,G))$
+/* Now the complete test: */
+rgen_p_cs(G,F,red_) := subsetp(G,F) and rgen0_p_cs(G,F,red_)$
+
+/* Now the predicate whether G is an r-base for F: */
+rbase_p_cs(G,F,red_) := rgen_p_cs(G,F,red_) and
+  every_s(lambda([C], not rgen0_p_cs(disjoin(C,G),F,red_)), G)$
+
+
 /* ************
    * Sampling *
    ************
@@ -39,16 +52,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
    is that if {} in red_(F) then also {} in red_(F') for any super-set F'
    of F (so that once a clause is classified as unremovable, then this
    doesn't change after further removals).
+   Any possible red_-base will be chosen if its clauses come first in the
+   order; so given that random_permutation is really random, all possible
+   bases have non-zero probability of being chosen.
 */
 
 rand_rbase_cs(F,red_) := block([F0 : F], 
   for C in random_permutation(F0) do
-   block([S : disjoin(C,F)],
-    if every_s(
-      lambda([D], elementp({}, red_(apply_pa_cs(comp_sl(D), S)))),
-      setdifference(F0,S))
-    then F : S
- ),
+    if rgen0_p_cs(disjoin(C,F),F0,red_) then F : disjoin(C,F),
  return(F))$
 
 /* Remarks:
