@@ -21,6 +21,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/Basics.mac
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
+kill(f)$
+
+
 okltest_prime_clause_p(f) := (
   assert(f({},{}) = false),
   assert(f({},{{}}) = true),

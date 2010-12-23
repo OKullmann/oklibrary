@@ -28,6 +28,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solver
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Cores.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+kill(f)$
+
+
 
 /* ************
    * Sampling *
