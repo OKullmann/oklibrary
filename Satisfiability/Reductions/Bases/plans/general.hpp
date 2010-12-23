@@ -41,7 +41,48 @@ License, or any later version. */
    <li> A strong additional assumption on r is transitivity, that is,
    if F' is r-generating for F, and if F'' is r-generating for F', then F'' is
    r-generating for F. </li>
-   <li> However r_1 doesn't have this property: XXX </li>
+   <li> For transitive r one just needs to test at a time whether a single
+   clause can be removed, and doesn't need to check whether previously removed
+   clauses follows from the current clause-set via r. </li>
+   <li> However r_1 doesn't have this property, where an example is as
+   follows:
+    <ol>
+     <li> Let the core F0 be defined as
+     \verbatim
+F0 : {{1,2,-3,7},{1,2,3,7},{-1,7},{4,5,-6,-7},{4,5,6,-7},{-5,-7}}$
+irredundant_bydef_cs(F0);
+  true
+     \endverbatim
+     </li>
+     <li> Three implied clauses:
+     \verbatim
+A0 : {{2,7,8},{4,-7,8},{2,4,8}}$
+F1 : union(F0,A0)$
+is(all_irr_cores_bydef_cs(F1) = {F0});
+  true
+     \endverbatim
+     (note that the third clause is the resolvent of the first two clauses).
+     </li>
+     <li> {2,7,8} follows by input-resolution from {1,2,-3,7},{1,2,3,7},{-1,7},
+     {4,-7,8} follows by input-resolution from {4,5,-6,-7},{4,5,6,-7},{-5,-7},
+     but when both {2,7,8},{4,-7,8} are removed, then {2,4,8} no longer follows
+     by input resolution. </li>
+     <li> The three r_1-bases of F1 are
+     \verbatim
+rbase_p_cs(union(F0,{{2,7,8}}),F1,ucp_0_cs);
+  true
+rbase_p_cs(union(F0,{{4,-7,8}}),F1,ucp_0_cs);
+  true
+rbase_p_cs(union(F0,{{2,4,8}}),F1,ucp_0_cs);
+  true
+all_rbases_bydef_cs(F1,ucp_0_cs);
+ {{{-7,-6,4,5},{-7,-5},{-7,4,5,6},{-7,4,8},{-3,1,2,7},{-1,7},{1,2,3,7}},
+  {{-7,-6,4,5},{-7,-5},{-7,4,5,6},{-3,1,2,7},{-1,7},{1,2,3,7},{2,4,8}},
+  {{-7,-6,4,5},{-7,-5},{-7,4,5,6},{-3,1,2,7},{-1,7},{1,2,3,7},{2,7,8}}}
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -49,6 +90,7 @@ License, or any later version. */
   <ul>
    <li> Every clause-set F has exactly one r_0-base, namely the result of
    subsumption-elimination. </li>
+   <li> r_0 is transitiv (see above). </li>
    <li> Perhaps the perspective of applying partial assignments is interesting
    here --- just being able to apply partial assignments and detecting the
    empty clause we are able to perform subsumption-elimination. </li>
@@ -59,11 +101,12 @@ License, or any later version. */
   <ul>
    <li> The first task is to compute r_1-bases (one could also speak of
    "UCP-bases"). </li>
-   <li> The r_1_bases of a clause-set F are exactly those F' <= F such that
-   all C in F-F' can be derived from F' modulo subsumption by input-resolution.
-   </li>
+   <li> The r_1_bases of a clause-set F are exactly those minimal F' <= F such
+   that all C in F-F' can be derived from F' modulo subsumption by
+   input-resolution. </li>
    <li> Important for efficiency, that elimination of clauses and moving to
-   a different clause can be done without much overhead. </li>
+   a different clause (as partial assignment) can be done without much
+   overhead. </li>
    <li> It seems that UnitClausePropagation::CLSAdaptorUcpW basically fulfills
    these requirements:
     <ol>
@@ -74,8 +117,8 @@ License, or any later version. */
      <li> For removing a clause the interface has to be changed, but
      otherwise it should be a simple operation, just removing the two
      watched literals. </li>
-     <li> Perhaps we have to just use the underlying clause-class
-     Clauses::WatchedLiterals_mono. </li>
+     <li> Perhaps we have to use the underlying clause-class
+     Clauses::WatchedLiterals_mono? </li>
     </ol>
    </li>
    <li> The problem with the Maxima-specification rand_rbase_cs is how to
@@ -87,6 +130,8 @@ License, or any later version. */
      <li> This should all be possible without too much effort. </li>
      <li> However perhaps for now we just use examples with a unique base.
      </li>
+     <li> Though we need to take these considerations into account for the
+     design. </li>
     </ol>
    </li>
   </ul>
