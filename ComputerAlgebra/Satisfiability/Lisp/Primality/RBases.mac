@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac
-  \brief Removing redundancies from the set of prime implicates by reductions
+  \brief Removing redundancies from clause-sets by reductions
 
 Use by
 
@@ -21,11 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
-
-/*
-  See "Bases of the set of prime clauses relative to some reduction" in
-  Satisfiability/Lisp/Primality/plans/general.hpp for the definitions.
-*/
 
 /*
  Consider a function r: CLS -> CLS; the meaning is that r is a "reduction",
