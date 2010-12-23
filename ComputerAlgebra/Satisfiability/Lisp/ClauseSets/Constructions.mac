@@ -109,8 +109,10 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */
 
-/* Extended version, using value d (for "distinguish") as second parameter
-   of dts_var:
+/* The variation which uses value d (for "distinguish") as second parameter
+   of dts_var (producing the same formal clause-list otherwise; this is
+   needed to have distinct auxiliary variables for different applications
+   of dualts_fcl):
 */
 dualtsext_fcl(FF,d) := block([c : length(FF[2]), NV, G1, G2],
   NV : create_list(dtsext_var(i,d),i,1,c),
