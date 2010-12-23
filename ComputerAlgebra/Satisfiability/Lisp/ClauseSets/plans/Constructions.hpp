@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.2.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -75,11 +75,13 @@ License, or any later version. */
    are not derived by unit propagation (while if phi * dualts(F) is 
    unsatisfiable, then {} is in r_1(phi * dualts(F)) --- so it needs r_2 to
    compute all forced assignments). </li>
-   <li> For example [[1,2,3},[{1,2},{1,3}]] has {1} as a forced
+   <li> For example the formal DNF [[1,2,3],[{1,2},{1,3}]] has {1} as a forced
    assignment, however
    \verbatim
 F : [[1,2,3],[{1,2},{1,3}]]$
-G : fcs2cs(fcl2fcs(dualts_fcl(F)))$
+G : fcs2cs(fcl2fcs(dualts_fcl(F)));
+  {{-3,-1,dts(2)},{-2,-1,dts(1)},{1,-dts(1)},{1,-dts(2)},{2,-dts(1)},
+   {3,-dts(2)},{dts(1),dts(2)}}
 ucp_lpa_0_cs(G)[2];
    \endverbatim 
    yields [], not [{1}]. </li>
@@ -93,10 +95,8 @@ ucp_lpa_0_cs(G)[2];
    which have empty intersection with D, then for partial assignments phi
    such that D follows from phi * F, D is subsumed by one of the clauses
    of r_1(phi * F). Moreover, the added clause follows from dualts(F). </li>
-   <li> Using the same example
+   <li> Continuing the above example:
    \verbatim
-F : [[1,2,3],[{1,2},{1,3}]]$
-G : fcs2cs(fcl2fcs(dualts_fcl(F)));
 G2 : union(G,
  {{dts(1),dts(2),-1},{1},{dts(1),dts(2),-2},{dts(2),2},{dts(1),dts(2),-3},{dts(1),3}})$
 ucp_lpa_0_cs(G2)[2];
