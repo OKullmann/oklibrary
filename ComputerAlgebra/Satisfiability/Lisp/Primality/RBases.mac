@@ -27,7 +27,20 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
   Satisfiability/Lisp/Primality/plans/general.hpp for the definitions.
 */
 
-/* Predicate for deciding whether G is r-generating for F: */
+/*
+ Consider a function r: CLS -> CLS; the meaning is that r is a "reduction",
+ which means that r(F) is sat-equivalent to F, but for the general definitions
+ actually no requirements are needed for r.
+ Consider a clause-set F (regarding as CNF).
+ An "r-generating subset of F" is a subset F' <= F such that for all
+ clauses C in F we have {} in r(vp_C * F').
+ An "r-base of F" is a minimal r-generating subset of F.
+*/
+
+/* Predicate for deciding whether G is r-generating for F (assuming only
+   that if {} in F, then {} in red_(F)):
+*/
+
 /* First without subsumption-check: */
 rgen0_p_cs(G,F,red_) :=
   every_s(lambda([C], elementp({}, red_(apply_pa_cs(comp_sl(C), G)))),
@@ -40,7 +53,8 @@ rbase_p_cs(G,F,red_) := rgen_p_cs(G,F,red_) and
   every_s(lambda([C], not rgen0_p_cs(disjoin(C,G),F,red_)), G)$
 
 /* Computes the set of all r-bases of clause-set F "by definition": */
-all_rbases_bydef(F,red_) := subset(powerset(F), lambda([G], rbase_p_cs(G,F,red_)))$
+all_rbases_bydef(F,red_) :=
+  subset(powerset(F), lambda([G], rbase_p_cs(G,F,red_)))$
     
 
 /* ************
@@ -51,8 +65,8 @@ all_rbases_bydef(F,red_) := subset(powerset(F), lambda([G], rbase_p_cs(G,F,red_)
 /* Computing some red_-base of clause-set F according to the definition,
    that is, a minimal subset S of F such that for all clauses D in F - S
    we have {} in red_(phi_D * F).
-   The only assumption on red_ (besides always red_(F) sat-equivalent to F)
-   is that if {} in red_(F) then also {} in red_(F') for any super-set F'
+   The only assumption on red_ (besides {} in F => {} in red_(F)) is that
+   if {} in red_(F) then also {} in red_(F') for any super-set F'
    of F (so that once a clause is classified as unremovable, then this
    doesn't change after further removals).
    Any possible red_-base will be chosen if its clauses come first in the
