@@ -37,10 +37,10 @@ License, or any later version. */
    <li> If F is a CNF-clause-set, then being r_0-based is equivalent to F
    containing all prime implicates of C. </li>
    <li> See "Bases of the set of prime clauses relative to some reduction" in
-   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/RBases.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
    for the case where no additional variables are considered. </li>
    <li> The function rand_rbase_cs(F,r) in
-   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac randomply
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac randomply
    computes an r-base of F. </li>
   </ul>
 

@@ -20,10 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/include.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/Basics.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/Basics.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/RBases.mac")$
 
 /*!
 \endhtmlonly

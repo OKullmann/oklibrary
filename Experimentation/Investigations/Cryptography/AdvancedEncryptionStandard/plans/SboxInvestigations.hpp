@@ -97,7 +97,7 @@ c initial_number_of_literal_occurrences 999896
      </li>
      <li> For minimum representations see "Minimisation of the Sbox". </li>
      <li> r-bases for r in {r_1,r_2}? (See rand_rbase_cs(F,r) in
-     ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac.) </li>
+     ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.) </li>
     </ol>
    </li>
   </ul>

@@ -89,7 +89,7 @@ License, or any later version. */
       <li> The canonical DNF translation (see 
       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
       <li> r_k-reduced representation (see 
-      OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac). </li>
+      OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
       <li> Small hitting clause-set representations (see 
       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
       </li>

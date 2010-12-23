@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/RBases.hpp
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
    for the specifications at Maxima-level. </li>
   </ul>
 
@@ -26,7 +26,7 @@ License, or any later version. */
    "r found F unsatisfiable" is visible via r(F) = {{}}. </li>
    <li> The assumption "{} in r(F) <=> r(F) = {{}}" is not used at the
    Maxima-level (see
-   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/RBases.hpp), but it
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp), but it
    seems appropriate for the "computational" C++ level. </li>
    <li> Consider now a clause-set F. An "r-base" for F is a sub-clause-set F'
    with the property that every clause C in F-F' follows from F' "via r", that
@@ -34,7 +34,7 @@ License, or any later version. */
    sets every literal in C to false), and where furthermore no clause from F'
    can be removed without destroying this property. </li>
    <li> See rand_rbase_cs(F,red_) in
-   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac for a randomised
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac for a randomised
    computation at Maxima-level of some base. </li>
    <li> With the assumption of minimality we call F' an "r-generating subset
    of F". So the r-bases of F are the minimal r-generating subsets of F. </li>

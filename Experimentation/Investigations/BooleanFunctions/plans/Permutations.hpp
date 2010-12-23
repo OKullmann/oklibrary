@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,7 +80,7 @@ License, or any later version. */
    <li> Shortest r_k-compressions of the set of prime implicates are of
    high interest (since we expect them to be most useful for their use
    in SAT-translations). See rand_rbase_cs(F,r) in
-   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac. </li>
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac. </li>
    <li> Also OBDD-representations are to be studied. </li>
    <li> And shortest circuit-representations. </li>
   </ul>

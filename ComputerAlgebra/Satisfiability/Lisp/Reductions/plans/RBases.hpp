@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/Primality/plans/RBases.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
   \brief Plans for removing redundancies from the set of prime implicates
 
 
@@ -22,9 +22,10 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> The concept of r-bases is independent of prime-clauses. </li>
-   <li> So likely this module should be moved to module Lisp/Reductions. </li>
-   <li> What remains here is the application to compute "interesting" subsets
+   <li> DONE The concept of r-bases is independent of prime-clauses. </li>
+   <li> DONE
+   So likely this module should be moved to module Lisp/Reductions. </li>
+   <li> What remains there is the application to compute "interesting" subsets
    of the set of all prime-clauses. </li>
   </ul>
 
@@ -55,7 +56,7 @@ License, or any later version. */
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp)
    of the underlying boolean function. </li>
    <li> DONE (we have rand_rbase_cs in
-   ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac)
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac)
    First we just need the natural randomised algorithm for producing some
    r-base.
     <ol>
