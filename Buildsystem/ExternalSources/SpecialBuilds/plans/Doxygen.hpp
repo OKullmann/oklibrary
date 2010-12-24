@@ -12,23 +12,5 @@ License, or any later version. */
 
   \todo Install version 1.7.2
 
-
-  \todo DONE
-  Version 1.6.3
-  <ul>
-   <li> Installation and usage on cs-wsok seems to be without problems. </li>
-  </ul>
-
-
-  \todo DONE (QT4 seems unproblematic for our systems)
-  Version 1.5.8
-  <ul>
-   <li> It seems that this version has not much to offer for us. </li>
-   <li> On the other hand, it now requires Qt version 4. </li>
-   <li> So it seems better to me to wait at least for the next version
-   of Doxygen, which perhaps has something more interesting to offer,
-   while the availability of Qt4 will have increased. </li>
-  </ul>
-  
 */
 

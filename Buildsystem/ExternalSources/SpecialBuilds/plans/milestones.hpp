@@ -8,79 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.9 (3.12.2010)
-
-
-  \par Version 0.2.3 (various updates, especiall Boost, Maxima, Ubcsat and R)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Runtime linking error : DONE
-    - Building version 1_44_0 : DONE
-    - Building version 1_38_0 / 1_39_0 : DONE
-    - Problems with building Boost : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
-   topics are handled:
-    - Update our gcc-installation-system to the new standard : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
-   topics are handled:
-    - Installing 2.11.0 : DONE
-    - Installing 2.10.0 : DONE
-    - Installing 2.9.0 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
-   topics are handled:
-    - Update to newer version : DONE
-    - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
-    - Speed : DONE
-    - Investigating the weak performance of Ubcsat on OK's 32-bit machine : DONE
-    - Building Ubcsat : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
-   the following topics are handled:
-    - Espresso : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
-   topics are handled:
-    - Version 1.6.3 : DONE
-    - Version 1.5.8 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Communicate with Maxima/Ecl to fix load behaviour with symlinks on 
-      path : DONE
-    - Test failures of Maxima 5.19.0 with Ecl 9.8.2 : DONE
-    - Install Maxima with Ecl version 9.7.1 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
-   topics are handled:
-    - Shared library not found when using local Gmp : DONE
-    - Update to newest version : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Inappropriate command-extension : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Gnuplot not working anymore : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
-   topics are handled:
-    - bug CLisp doesn't use libsigsegv (though specified) : DONE
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3 (24.12.2010)
 
 
   \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
@@ -96,6 +24,7 @@ License, or any later version. */
     - Missing documentation for Boost
     - Update Boost installation
     - Documentation
+    - distance versus size
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
@@ -322,5 +251,6 @@ License, or any later version. */
    - 0.2   : 16.7.2007; initial version, several special systems can be build (the special builds are the stronger parts of module ExternalSources, while the general structure is lagging behind).
    - 0.2.1 : 10.8.2007; built Sage and Coq (and Boost 1_34_1), and extended substantially the documentation system (docus pages, functionality checks, and linking).
    - 0.2.2 : 21.5.2009; complete updates for many packages (Gmp, R, CMake, MHash), especially much work on installing Maxima and related software (CLisp, Ecl, gnuplot, etc.), making Boost 1_34_1 installing and working on all platforms, some smaller updates (continously Git; attempts with Sage), working out the new general style of build-makefiles (just providing one version "at at time") and update of documentation; several SAT-solvers installed and updated/patched (Ubcsat, Grasp, Satz215, Minsat+, March, SP).
+   - 0.2.3 : 24.12.2010; update to newest Boost version, updates, corrections and improvements regarding Maxima (and ECL), update of Gcc-building, updates and extensions for R-building, various improvements to Ubcsat, and various other new installation or updates (Espresso, Doxygen).
 
 */

@@ -10,45 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \bug Shared library not found when using local Gmp : DONE
-  <ul>
-   <li> When building Ecl with the local (OKlibrary) 
-   version of Gmp, where Gmp is not otherwise installed on
-   the system, "oklib ecl" fails complaining that libgmp.so.10 
-   can not be found. </li>
-   <li> This is due to the fact that within the Ecl build
-   process an executable "ecl_min" is built which uses Gmp, but 
-   which doesn't link in the shared library correctly. Running
-   "ldd ecl_min" on this executable confirms that libgmp.so.10
-   could not be found. </li>
-   <li> By changing the configure line in ecl.mak from
-   \verbatim
-LDFLAGS=-Wl,-rpath=$(ecl_installation_dir_okl)/lib ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
-   \endverbatim
-   to 
-   \verbatim
-LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib $(gmp_link_path_okl)" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
-   \endverbatim
-   the problem is solved. </li>
-   <li> DONE
-   As one can see in Buildsystem/Configuration/ExternalSources/gmp.mak,
-   a case distinction needs to be made, since we might also use
-   system-installation of Gmp. </li>
-   <li> It seems to OK that this is a bug of the Ecl-build. It has been
-   somewhat discussed on the Ecl mailing list, but best we solve the problem
-   ourselves. </li>
-  </ul>
-
-
-  \todo DONE (now only the usual Bessel-problem)
-  Update to newest version
-  <ul>
-   <li> The newest version is 9.8.2. </li>
-   <li> It builds, and also Maxima builds with it, but showing quite a few
-   failing tests. It seems the tests of not of relevance to us. </li>
-  </ul>
-
-
   \todo Documentation
   <ul>
    <li> Documentation is not included in the package, so we need
