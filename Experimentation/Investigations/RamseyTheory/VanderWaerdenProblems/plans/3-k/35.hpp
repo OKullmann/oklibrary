@@ -15,9 +15,9 @@ License, or any later version. */
    <li> The very weak current conjecture is vanderwaerden_2(3,35) = ???. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
-> cat AltExp/Exp_PdVanderWaerden_2-3-35_gsat-tabu-100-10000000_2010-11-30-182053/VanDerWaerden_pd_2-3-35_1142.cnf_sol | PdExtend-O3-DNDEBUG 1142 > solution
+> k=35 n=1142 cutoff=10000000 expdate="2010-11-30-182053"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
 
-> RunVdW3k 35 1142 rots 100 100000000 solution
+> RunVdW3k ${k} ${n} rots 100 100000000 solution
 
    \endverbatim
    </li>
