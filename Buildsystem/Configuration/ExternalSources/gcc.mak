@@ -43,6 +43,7 @@ gcc_libiberty_index_okl ?= $(gcc_doc_dir_okl)/html/libiberty.html
 
 gcc_call_okl ?= $(gcc_installation_dir_okl)/bin/gcc
 gpp_call_okl ?= $(gcc_installation_dir_okl)/bin/g++
+gfortran_call_okl ?= $(gcc_installation_dir_okl)/bin/gfortran
 gcc_lib_okl ?= $(gcc_installation_dir_okl)/lib
 gcc_lib64_okl ?= $(gcc_installation_dir_okl)/lib64
 
