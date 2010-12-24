@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,16 +7,16 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
-  \brief Plans for Maxima-components translations from propositional logic to CNF/DNF via the Tseitin translations (and variations)
+  \brief Plans for Maxima-components translating from propositional logic to CNF via the Tseitin translation (and variations)
 
 
   \todo Connections to other modules
   <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
+   </li>
    <li> Compare with
    Satisfiability/Transformers/Generators/plans/TseitinTransformation.hpp.
-   </li>
-   <li> See "Translation of boolean circuits into boolean CNF-clause-sets" in
-   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/StraightLinePrograms.hpp.
    </li>
    <li> Likely most developments should take place in module
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions, while in this module

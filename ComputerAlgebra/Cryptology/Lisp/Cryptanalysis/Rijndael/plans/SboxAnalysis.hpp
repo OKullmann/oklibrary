@@ -202,7 +202,7 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    <li> The question is how small can we get a CNF representation? We need
    also to investigate the size of a CNF obtained from the DNF via Tseitin
    translation (and optimisation); see
-   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
    </li>
   </ul>
 
@@ -297,7 +297,7 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    DNF-representation.
     <ol>
      <li> See
-    ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
      </li>
      <li> Most natural should be to use dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
