@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,38)
 
 
-  \todo vanderwaerden_2(3,38) > ?
+  \todo vanderwaerden_2(3,38) > 1374
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -18,6 +18,21 @@ License, or any later version. */
 > k=38 n=1368 cutoff=30000000 expdate="2010-12-14-225335"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
 
 > RunVdW3k ${k} ${n} rots 100 100000000 solution
+   \endverbatim
+   </li>
+   <li> n=1374 found satisfiable with certificate
+   \verbatim
+8,35,40,41,69,100,115,144,146,150,
+153,157,178,183,186,193,218,227,230,238,
+254,264,289,291,294,300,312,329,341,349,
+359,363,368,374,412,415,433,449,453,470,
+476,477,490,526,534,551,563,564,601,622,
+624,645,659,670,692,729,735,738,770,781,
+786,809,818,819,844,847,877,893,904,920,
+921,923,929,930,934,960,970,992,1003,1007,
+1015,1032,1034,1068,1071,1081,1089,1103,1106,1114,
+1115,1136,1152,1156,1173,1200,1230,1237,1247,1254,
+1263,1266,1288,1303,1328,1341,1373
    \endverbatim
    </li>
   </ul>
