@@ -34,6 +34,37 @@ License, or any later version. */
   </ul>
 
 
+  \todo Understanding dualts_fcl
+  <ul>
+   <li> Consider a DNF F. The task is to understand the CNF G := dualts_cl(F).
+   </li>
+   <li> Let n be the number of variables of F, and let c be the number of
+   clauses of F. </li>
+   <li> Then the variables of G are the n variables of F plus the variables
+   dts(1), ..., dts(c). </li>
+   <li> The boolean function of G is the conjunction of the equivalences
+   (dts(i) <-> C_i) for F = (C_1 or ... or C_c) and the clause
+   D := (dts(1) or ... or dts(c)). </li>
+   <li> For simplicity we assume that none of the clauses C_i is empty. </li>
+   <li> Now the natural CNF for an equivalence (a <-> (b_1 and ... and b_k)),
+   given by the clauses {-a,b_1},...,{-a,b_k},{a,-b_1,...,-b_k} is exactly
+   the set of all prime-CNF-clauses for this boolean function. </li>
+   <li> These clauses are also prime-CNF-clauses of G. </li>
+   <li> That the clause D is a prime-clause of G is equivalent to F being
+   irredundant. </li>
+   <li> For the applications we have in mind we can assume that F is
+   irredundant (in all our cases it is actually a hitting clause-set (i.e.,
+   a disjoint DNF)). </li>
+   <li> So G is prime (consists only of prime-clauses). </li>
+   <li> G is also irredundant. </li>
+   <li> The other prime-CNF-clauses of G are exactly the prime-CNF-clauses
+   of F. </li>
+   <li> It is G thus (totally) properly r_1-based (see "r-based clause-sets" in
+   Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp).
+   </li>
+  </ul>
+
+
   \todo Strengthening dualts_fcl by adding some redundant clauses
   <ul>
    <li> Given a formal clause-list F as DNF, and a partial assignment
