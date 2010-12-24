@@ -66,7 +66,8 @@ MPFR Library version 2.4.2 (or later)
    <li> Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
-   <li> Gcc 4.1.2 will not link on some 64 bit systems
+   <li> STATUS UPDATE URGENTLY NEEDED --- MG SHOULD HAVE COMPLETED THIS!
+   Gcc 4.1.2 will not link on some 64 bit systems
     <ul>
      <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
      in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. </li>
