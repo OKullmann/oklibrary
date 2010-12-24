@@ -18,6 +18,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Style-files
+  <ul>
+   <li> Perhaps srcltx.sty should be provided by Annotations? </li>
+  </ul>
+
+
   \todo Partially moving repository Annotations:
   <ul>
    <li> Some parts should move to OKlib, namely
@@ -53,6 +59,7 @@ License, or any later version. */
    </li>
    <li> What to do with Latex_macros/Basis.tex and
    Latex_macros/Definitionen.tex ? </li>
+   <li> See also "Style-files" above. </li>
   </ul>
 
 

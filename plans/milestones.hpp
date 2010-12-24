@@ -74,6 +74,8 @@ License, or any later version. */
     - Promoting the OKlibrary
   \par
    In OKlib/plans/Annotations.hpp the following topics are handled:
+    - Bibtex-problem
+    - Style-files
     - Partially moving repository Annotations
     - Latex macros
     - Bibtex-database
