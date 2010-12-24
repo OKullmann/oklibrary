@@ -22,14 +22,14 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/RBases.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/UnitClausePropagation.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/RBases.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/RBases.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/UnitClausePropagation.mac")$
 
