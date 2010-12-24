@@ -60,16 +60,20 @@ user    0m26.546s
 
   \todo Installation of Mpfr
   <ul>
-   <li> Since apparently mpfr belongs to gmp, could it be automatically
+   <li> DONE (we install it separately)
+   Since apparently mpfr belongs to gmp, could it be automatically
    installed with gmp? </li>
    <li> Update mpfr-version. </li>
-   <li> Update the mpfr-installation to the new standard. </li>
+   <li> Install documentation-pages. </li>
+   <li> DONE
+   Update the mpfr-installation to the new standard. </li>
    <li> We should now by default provide local installation:
     <ol>
      <li> First we need to find out who needs mpfr. </li>
-     <li> R needs it (see "Prerequisites" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp). </li>
-     <li> Also the gcc Fortran compiler need it (see "Installation in general"
+     <li> R needed it (see "Prerequisites" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp), however unclear
+     whether this is still the case? </li>
+     <li> The gcc Fortran compiler needs it (see "Installation in general"
      in Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp). </li>
     </ol>
    </li>
