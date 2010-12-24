@@ -19,9 +19,10 @@ $(gcc_directories_okl) : % :
 # The main targets for making gcc
 # ####################################
 
-.PHONY : gcc cleangcc cleanallgcc
+.PHONY : gcc cleangcc cleanallgcc gfortran
 
 ifeq ($(gcc_recommended_version_number_okl),4.1.2)
+
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc_unarchived_source_okl)/configure
@@ -33,7 +34,17 @@ gcc : $(gcc_directories_okl)
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition) \
 	rm -rf $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -r gcc/HTML/$(gcc_recommended_okl) $(gcc_doc_dir_okl)/html; $(postcondition)
+
+gfortran : cleangcc $(gcc_directories_okl)
+	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
+	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc_unarchived_source_okl)/configure
+	cd $(gcc_build_dir_okl); $(postcondition) \
+	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=fortran --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl) --with-gmp=$(gmp_installation_dir_okl) --with-mpfr=$(mpfr_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
+	make; $(postcondition) \
+	make install; $(postcondition)
+
 else
+
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	cd $(gcc_build_dir_okl); $(postcondition) \

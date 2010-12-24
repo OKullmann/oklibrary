@@ -43,6 +43,7 @@ gcc_libiberty_index_okl ?= $(gcc_doc_dir_okl)/html/libiberty.html
 
 gcc_call_okl ?= $(gcc_installation_dir_okl)/bin/gcc
 gpp_call_okl ?= $(gcc_installation_dir_okl)/bin/g++
+gcj_call_okl ?= $(gcc_installation_dir_okl)/bin/gcj
 gfortran_call_okl ?= $(gcc_installation_dir_okl)/bin/gfortran
 gcc_lib_okl ?= $(gcc_installation_dir_okl)/lib
 gcc_lib64_okl ?= $(gcc_installation_dir_okl)/lib64
@@ -56,7 +57,9 @@ gcc_targets_prefix_okl := $(gcc_prefix_okl)-
 gcc_recommended_okl := $(gcc_targets_prefix_okl)$(gcc_recommended_version_number_okl)
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
 
-gcc_enable_languages_okl ?= c,c++,fortran
+gcc_enable_languages_okl ?= c,c++,java
+# Remark: fortran is currently treated on its own, due to its dependency on
+# gmp and mpfr.
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared
 

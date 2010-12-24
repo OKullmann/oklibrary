@@ -7,11 +7,12 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean
+global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers1 compilers2 sat boolean
 
 buildsystem_targets_extsrc_okl ?= doxygen git
-compiler_targets_extsrc_okl ?= gcc
-library_targets_extsrc_okl ?= bzip2 boost gmp zlib # mhash
+compiler1_targets_extsrc_okl ?= gcc
+compiler2_targets_extsrc_okl ?= gfortran
+library_targets_extsrc_okl ?= bzip2 boost gmp mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat
 boolean_targets_extsrc_okl ?= espresso
@@ -20,6 +21,8 @@ boolean_targets_extsrc_okl ?= espresso
 # march, grasp need gcc-4.1.2
 # boost needs bzip2
 # bzip2, boost, mhash, gmp need gcc
+# gfortran needs gmp and mpfr
+# R needs gfortran
 
 
 ExternalSources_sources ?= $(ExternalSources)/sources
@@ -60,3 +63,4 @@ include $(OKconfiguration)/ExternalSources/precosat.mak
 include $(OKconfiguration)/ExternalSources/argosat.mak
 include $(OKconfiguration)/ExternalSources/zlib.mak
 include $(OKconfiguration)/ExternalSources/espresso.mak
+include $(OKconfiguration)/ExternalSources/mpfr.mak

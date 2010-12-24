@@ -12,7 +12,9 @@ License, or any later version. */
 
   \todo GCC 4.1.2 will not build on systems without GMP with MPFR support
   <ul>
-   <li> GCC 4.1.2 fails to build on some machines (notably the Swansea 
+   <li> DONE (we built gmp and mpfr locally, and compile Fortran then; needs
+   to be checked though)
+   GCC 4.1.2 fails to build on some machines (notably the Swansea 
    University Computer Science Linux lab machines), with the following error:
    \verbatim
 checking whether the C compiler (gcc  ) is a cross-compiler... no
@@ -28,7 +30,10 @@ make: *** [gcc] Error 1
 make: Leaving directory `/tmp/OKlib/OKplatform/ExternalSources'
    \endverbatim
    </li>
-   <li> Ideally we could just build GMP and MPFR as part of the OKlibrary
+   <li> DONE (at the moment we just have everything built with "our" gcc
+   version 4.1.2; later we will have this and the builds with our newest
+   version)
+   Ideally we could just build GMP and MPFR as part of the OKlibrary
    build process, however, these libraries would then build using a newer
    version of GCC and we run the risk of there being incompatibilities
    with the version we are building when we start to compile anything in
