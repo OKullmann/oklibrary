@@ -209,7 +209,8 @@ License, or any later version. */
        <li> Is there a simple example of a clause-set which is 2-based but not
        1-based? </li>
        <li> Most natural should be to use dualts_fcl in
-       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
+       ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+       </li>
       </ol>
      </li>
      <li> It seems most promising (for now) to consider here r=r_1 and r=r_2,

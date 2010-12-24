@@ -1,0 +1,90 @@
+/* Oliver Kullmann, 24.12.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
+  \brief The Tseitin translation (boolean circuits into CNF)
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+
+/* ****************************
+   * Translating DNF into CNF *
+   ****************************
+*/
+
+/* The natural CNF-representation of DNF-clause-set F via new
+   variables, directly exploiting the Tseitin translation.
+*/
+kill(dts)$ /* "dual Tseitin" */
+declare(dts, noun)$
+declare(dts, posfun)$
+dts_var(v) := nounify(dts)(v)$
+dtsext_var(v,d) := nounify(dts)(v,d)$
+
+/* dualts_fcl(FF) has the variables FF[1] from FF plus the dts(i) for i from
+   1 to c = length(FF[2]) = number of clauses in FF.
+   The clauses of dualts_fcl(FF) are given by the clauses C of FF with index i
+   as the canonical translations of (C <-> dts(i)), plus the disjunction
+   of all the dts(i).
+   Thus we obtain one clause of length |C|+1, |C| clauses of length 2, and
+   one clause of length |FF|.
+   The order is that we first get all those mirror-clauses and then all those
+   binary clauses (with the natural order on them, given by the order of
+   clauses in FF and the order of the literals in C in FF), and finally
+   the (very) long clause.
+*/
+dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
+  NV : create_list(dts_var(i),i,1,c),
+  G1 : map(lambda([C,i], adjoin(dts_var(i),comp_sl(C))), 
+        FF[2], create_list(i,i,1,c)),
+  G2 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
+/* Characteristic properties:
+   Given a total assignment to the variables in FF, by unit-clause 
+   propagation all additional variables in dualts_fcl(FF) are determined
+   where dts(i) is true iff FF[2][i] is true.
+   dualts_fcl(FF) as CNF is equivalent to FF as DNF on the common variables 
+   (that is, on FF[1]) via the unique extension.
+   Thus if m=0 then dualts_fcl(FF) is unsatisfiable, while otherwise
+   dualts_fcl(FF) is satisfiable.
+   Given any partial assignment phi using variables from FF such that
+   phi cannot be extended to a satisfying assignment of FF, phi * F yields
+   the empty clause via unit-clause propagation.
+   (However, even if all extension of phi make FF true, this cannot be
+   seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
+*/
+
+/* The variation which uses value d (for "distinguish") as second parameter
+   of dts_var (producing the same formal clause-list otherwise; this is
+   needed to have distinct auxiliary variables for different applications
+   of dualts_fcl):
+*/
+dualtsext_fcl(FF,d) := block([c : length(FF[2]), NV, G1, G2],
+  NV : create_list(dtsext_var(i,d),i,1,c),
+  G1 : map(lambda([C,i], adjoin(dtsext_var(i,d),comp_sl(C))), 
+        FF[2], create_list(i,i,1,c)),
+  G2 : lappend(map(lambda([C,i], create_list({-dtsext_var(i,d),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
+
+
+/*!
+\endhtmlonly
+*/
+

@@ -300,7 +300,8 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
      </li>
      <li> Most natural should be to use dualts_fcl in
-     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac. </li>
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
     </ol>
    </li>
   </ul>

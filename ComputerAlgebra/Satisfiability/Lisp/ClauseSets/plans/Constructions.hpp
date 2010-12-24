@@ -67,45 +67,5 @@ License, or any later version. */
    some operation to make F, G variable-disjoint. </li>
   </ul>
 
-
-  \todo Strengthening dualts_fcl by adding some redundant clauses
-  <ul>
-   <li> Given a formal clause-list F as DNF, and a partial assignment
-   phi, there are (of course) forced assignments on phi * dualts(F) which 
-   are not derived by unit propagation (while if phi * dualts(F) is 
-   unsatisfiable, then {} is in r_1(phi * dualts(F)) --- so it needs r_2 to
-   compute all forced assignments). </li>
-   <li> For example the formal DNF [[1,2,3],[{1,2},{1,3}]] has {1} as a forced
-   assignment, however
-   \verbatim
-F : [[1,2,3],[{1,2},{1,3}]]$
-G : fcs2cs(fcl2fcs(dualts_fcl(F)));
-  {{-3,-1,dts(2)},{-2,-1,dts(1)},{1,-dts(1)},{1,-dts(2)},{2,-dts(1)},
-   {3,-dts(2)},{dts(1),dts(2)}}
-ucp_lpa_0_cs(G)[2];
-   \endverbatim 
-   yields [], not [{1}]. </li>
-   <li> Adding for every literal x the clause (C -> x) to dualts(F), where C 
-   is the conjunction of -dts(i) for every i where x does not occur in the 
-   i-th clause in F, gives a representation which has that under any partial 
-   assignment phi using only variables from F, all forced assignments on 
-   phi * F follow by unit-clause propagation on dualts_fcl(F). </li>
-   <li> More generally, adding for some (CNF-)clause D the clause (C -> D), 
-   where C is the conjunction C of all negated indicator variables for clauses
-   which have empty intersection with D, then for partial assignments phi
-   such that D follows from phi * F, D is subsumed by one of the clauses
-   of r_1(phi * F). Moreover, the added clause follows from dualts(F). </li>
-   <li> Continuing the above example:
-   \verbatim
-G2 : union(G,
- {{dts(1),dts(2),-1},{1},{dts(1),dts(2),-2},{dts(2),2},{dts(1),dts(2),-3},{dts(1),3}})$
-ucp_lpa_0_cs(G2)[2];
-   \endverbatim
-   correctly yields [{1}]. One sees here that only additional clauses are
-   interesting where the literal x (as above) occurs in some clause; there are
-   also other strong redundancies. </li>
-   </li>
-  </ul>
-
 */
 

@@ -30,16 +30,17 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul14CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul9CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
 
 
 /* NOTE : 
 
   In several functions such as aes_round_cp, and aes_key_expansion_cp "blocks"
-  are mentioned, which are matrices (4x4 as standard) of bytes (8 bits / boolean
+  are mentioned, which are matrices (4x4 as standard) of bytes (8 bits) boolean
   variables used as a unit of computation within the AES.
 
-  In this translation, currently, when given as a list of variables, each block 
-  is considered column by column as is standard in the literature.
+  In this translation, currently, when given as a list of variables, each
+  block is considered column by column as is standard in the literature.
 
 */
 

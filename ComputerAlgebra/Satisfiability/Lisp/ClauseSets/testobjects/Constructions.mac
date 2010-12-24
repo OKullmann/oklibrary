@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,8 +34,6 @@ okltest_or_cs2(or_cs2);
 okltest_or_cs(or_cs);
 
 okltest_dual_cs(dual_cs);
-okltest_dualts_fcl(dualts_fcl);
-okltest_dualtsext_fcl(dualtsext_fcl);
 
 okltest_comp_cs(comp_cs);
 okltest_comp_fcs(comp_fcs);

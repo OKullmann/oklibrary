@@ -60,7 +60,7 @@ min_3_cnfs : all_minequiv_bvs_cs(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_4)[2])
    multiplication by 02, 03 etc within Rijndael's byte field, see 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp)
    is the canonical translation using new variables (see "dualts_fcl" in 
-   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac).
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac).
    </li>
    <li> However, the most powerful representation of any boolean function, not 
    considering size of the translation is always the set of prime implicates. 
