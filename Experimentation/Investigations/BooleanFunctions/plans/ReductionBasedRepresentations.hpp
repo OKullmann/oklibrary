@@ -21,12 +21,16 @@ License, or any later version. */
   \todo r-based clause-sets
   <ul>
    <li> Let r be a reduction and F be an active clause-set. </li>
-   <li> F now is "r-based" if for a partial assignment phi such that
+   <li> F is called "r-based" if for a partial assignment phi such that
    phi * F is unsatisfiable we have that r-reduction applied to F yields a
    contradiction. </li>
+   <li> Furthermore we speak of "properly r-based" if removal of a clause
+   or removal of some literal-occurrence either creates a clause-set not
+   equivalent to F or which is no longer r-based. </li>
    <li> F is "r-based w.r.t. V" for some set V of variables, if F is r-based
-   with respect to partial assignments in V, and F is "totally r-based" if we
-   can use V = var(F). </li>
+   with respect to all partial assignments in V, and F is "totally r-based" if
+   we can use V = var(F). </li>
+   <li> If nothing is said, then "totally" is always implied. </li>
    <li> F is "strongly r-based" if F is r-based and for all partial 
    assignments phi we have that the r(phi*F) has no forced
    assignments, that is, there is no variable v in var(F) and e in {0,1}
@@ -34,11 +38,24 @@ License, or any later version. */
    <li> Natural examples for r are r = r_k (k a natural number >= 0). </li>
    <li> The weaker r the stronger is the representation (w.r.t. inference
    power). </li>
+   <li> The property of being (totally) (properly) r-based implicitly compares
+   F with the underlying boolean function; we can also speak of an r-based
+   representation of a boolean function. </li>
    <li> If F is a CNF-clause-set, then being r_0-based is equivalent to F
-   containing all prime implicates of C. </li>
-   <li> See "Bases of the set of prime clauses relative to some reduction" in
-   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
-   for the case where no additional variables are considered. </li>
+   containing all prime implicates of C, while being properly r_0-based
+   is equivalent to being maximally prime (consisting exactly of the set
+   of all prime-CNF-clauses). </li>
+   <li> See "The notion of a base of a clause-set relative to some reduction"
+   in ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp
+   for the case where no additional variables are considered:
+    <ol>
+     <li> We make the natural assumption that if F' is a strengthening of F,
+     i.e., adding clauses and/or shortening clauses, then {} in r(F) implies
+     {} in r(F'). </li>
+     <li> That F  (totally) properly r-based is now equivalent to F being an
+     r-base of the set of prime-CNF-clauses of F. </li>
+    </ol>
+   </li>
    <li> The function rand_rbase_cs(F,r) in
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac randomly
    computes an r-base of F. </li>
