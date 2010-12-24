@@ -41,12 +41,12 @@ dtsext_var(v,d) := nounify(dts)(v,d)$
    The clauses of dualts_fcl(FF) are given by the clauses C of FF with index i
    as the canonical translations of (C <-> dts(i)), plus the disjunction
    of all the dts(i).
-   Thus we obtain one clause of length |C|+1, |C| clauses of length 2, and
-   one clause of length |FF|.
+   Thus we obtain per C one clause of length |C|+1, |C| clauses of length 2,
+   and finally one clause of length |FF|.
    The order is that we first get all those mirror-clauses and then all those
    binary clauses (with the natural order on them, given by the order of
    clauses in FF and the order of the literals in C in FF), and finally
-   the (very) long clause.
+   the long clause.
 */
 dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
   NV : create_list(dts_var(i),i,1,c),
@@ -63,9 +63,10 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
    (that is, on FF[1]) via the unique extension.
    Thus if m=0 then dualts_fcl(FF) is unsatisfiable, while otherwise
    dualts_fcl(FF) is satisfiable.
-   Given any partial assignment phi using variables from FF such that
-   phi cannot be extended to a satisfying assignment of FF, phi * F yields
-   the empty clause via unit-clause propagation.
+   Given any partial assignment phi such that phi cannot be extended to a
+   satisfying assignment of FF, phi * F yields the empty clause via
+   unit-clause propagation (since dualts_fcl(FF) is "r_1-based"; see
+   "Understanding dualts_fcl" in FiniteFunctions/plans/TseitinTranslation.hpp).
    (However, even if all extension of phi make FF true, this cannot be
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */

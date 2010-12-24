@@ -196,23 +196,11 @@ License, or any later version. */
      </li>
      <li> A 0-based CNF-representation without additional variables is likely
      infeasible to use. </li>
-     <li> What about the Tseitin-translation of the Sbox-DNF? 
-      <ol>
-       <li> Could it be 0-based? Since the DNF-representation is hitting, it
-       is 0-based. </li>
-       <li> MG: Is it not 1-based but not 0-based, as every clause has at least
-       one of the new variables in it and therefore applying a full falsifying
-       assignment, will not yield the empty clause. The empty clause will only
-       occur after unit clause propagation. </li>
-       <li> MG: Isn't the only 0-based clause-set representation, precisely the
-       prime implicates? </li>
-       <li> Is there a simple example of a clause-set which is 2-based but not
-       1-based? </li>
-       <li> Most natural should be to use dualts_fcl in
-       ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
-       </li>
-      </ol>
-     </li>
+     <li> Via dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
+     we obtain a (totally) properly r_1-based representation of every box
+     (see "Understanding dualts_fcl" in
+     Lisp/FiniteFunctions/plans/TseitinTranslation.hpp). </li>
      <li> It seems most promising (for now) to consider here r=r_1 and r=r_2,
      applied to the sets of prime implicates of the various "boxes" involved.
      </li>

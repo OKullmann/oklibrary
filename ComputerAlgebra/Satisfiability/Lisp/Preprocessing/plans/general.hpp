@@ -175,8 +175,10 @@ License, or any later version. */
    </li>
    <li> A natural candidate for the translation G_i -> F_i' is dualts_fcl:
     <ol>
-     <li> For partial assignments phi on the primary variables via
-     r_1(phi * F_i') an inconsistent problem F_i is detected. </li>
+     <li> For partial assignments phi via r_1(phi * F_i') an inconsistent
+     problem F_i is detected. </li>
+     <li> See "Understanding dualts_fcl" in
+     Lisp/FiniteFunctions/plans/TseitinTranslation.hpp. </li>
      <li> The always-true case (i.e., whether phi * F is a tautology) would be
      detected by checking whether phi * F_i = {} holds. This could be called
      "tautology monitoring". The point is that F_i' can not yield any
@@ -184,7 +186,7 @@ License, or any later version. */
      of F_i' are local, and thus restrictions on them don't matter. Thus
      once phi * F_i = {} holds, one can safely remove F_i' (i.e., its
      current residuum). </li>
-     <li> For permutations like the Sbox, dualts_fcl should be optimal
+     <li> For permutations like the Sbox, dualts_fcl should be good
      (and no tautology monitoring is needed, since instantiation can not
      yield tautologies), but in general "sharing" should be important. </li>
     </ol>

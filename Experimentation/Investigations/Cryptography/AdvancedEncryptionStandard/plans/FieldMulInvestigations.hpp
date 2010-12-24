@@ -55,7 +55,7 @@ min_3_cnfs : all_minequiv_bvs_cs(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_4)[2])
 
   \todo Number of prime implicates for field multiplications
   <ul>
-   <li> Currently, within the SAT translation, the most powerful representation
+   <li> Currently, within the SAT translation, a powerful representation
    of the field operations used within the AES SAT translation (such as 
    multiplication by 02, 03 etc within Rijndael's byte field, see 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp)
@@ -71,10 +71,10 @@ min_3_cnfs : all_minequiv_bvs_cs(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_4)[2])
    <li> This is not always the case though, as the size and structure of the 
    set of prime implicates for each of the field multiplication functions must
    be checked. </li>
-   <li> Small set of prime implicates would provide much better representations
-   than "dualts_fcl" produces, as then there is no problem that the SAT solver
-   might somehow get "lost" branching or basing it's heuristics on the new 
-   variables, and if the set of prime implicates is small enough, it might
+   <li> Small set of prime implicates would provide possibly better
+   representations than "dualts_fcl" produces, since we save the 256 new
+   variables introduced with every single box-representation. </li>
+   <li> And if the set of prime implicates is small enough, it might
    even be smaller than the "dualts_fcl" translation. </li>
    <li> The full CNF representation of the boolean function for multiplication
    by a constant factor n (where n is the integer representation for
@@ -104,7 +104,7 @@ n=2; QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_${n}.cnf > AES_byte_f
     <li> Multiplication by 2 is a very simple operation, which is essentially
     a shift operation, hence the small number of prime implicates. </li>
     <li> In this case, representing multiplication by 02 by all it's prime
-    implicates seems the only real solution, given such a small number. </li>
+    implicates seems the best solution, given such a small number. </li>
    </ul>
    </li>
    <li> Multiplication by 3:
