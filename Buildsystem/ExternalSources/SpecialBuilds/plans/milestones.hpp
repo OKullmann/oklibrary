@@ -11,73 +11,30 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.9 (3.12.2010)
 
 
-  \par Version 0.2.3 (updating Boost, Gcc, the existing SAT solvers, R)
-
-  \par
-   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
-   the following topics are handled:
-    - Complete documentation
+  \par Version 0.2.3 (various updates)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Runtime linking error : DONE
-    - Missing documentation for Boost
-    - Update Boost installation
-    - Documentation
     - Building version 1_44_0 : DONE
     - Building version 1_38_0 / 1_39_0 : DONE
     - Problems with building Boost : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
-   topics are handled:
-    - Application RankPrimes is slower with version 4.3.0
-    - Installation of Mpfr
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
-    - Providing gcc 4.1.2
     - Update our gcc-installation-system to the new standard : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
-    - Local installation of gfortran
-    - Can't output graphics
     - Installing 2.10.0 : DONE
     - Installing 2.9.0 : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
-   topics are handled:
-    - MHash segmentation fault
-    - Complete MHash documentation
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
-    - Fuzzing
-    - Write docus for March
-    - Write docus for Satz
-    - Write docus for Minisat
-    - Update of GRASP
-    - Installation in general
-    - SAT4J
-    - Minisat
-    - Picosat
-    - Precosat
-    - March solvers
-    - Argo
-    - Satz
-    - Belief and Survey propagation
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
-    - Update to version 1.2.0
-    - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
     - Update to newer version : DONE
     - Cutoff value etc. should be 64 bits on a 64-bit machine : DONE
     - Speed : DONE
@@ -125,7 +82,69 @@ License, or any later version. */
     - bug CLisp doesn't use libsigsegv (though specified) : DONE
 
 
-  \par Version 0.2.4 (installing computer algebra)
+  \par Version 0.2.4 (updating espeically Gcc and the existing SAT solvers)
+
+  \par
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
+    - Complete documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Missing documentation for Boost
+    - Update Boost installation
+    - Documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Application RankPrimes is slower with version 4.3.0
+    - Installation of Mpfr
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Providing gcc 4.1.2
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
+   topics are handled:
+    - Local installation of gfortran
+    - Can't output graphics
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
+   topics are handled:
+    - MHash segmentation fault
+    - Complete MHash documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - Fuzzing
+    - Write docus for March
+    - Write docus for Satz
+    - Write docus for Minisat
+    - Update of GRASP
+    - Installation in general
+    - SAT4J
+    - Minisat
+    - Picosat
+    - Precosat
+    - March solvers
+    - Argo
+    - Satz
+    - Belief and Survey propagation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
+   topics are handled:
+    - Update to version 1.2.0
+    - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
+
+
+  \par Version 0.2.5 (installing computer algebra)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Aldor.hpp the following
@@ -170,7 +189,7 @@ License, or any later version. */
 
 
 
-  \par Version 0.2.5 (completion of general services, and installing SAT)
+  \par Version 0.2.6 (completion of general services, and installing SAT)
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -189,7 +208,7 @@ License, or any later version. */
     - Update
 
 
-  \par Version 0.2.6 (cleaning up installations)
+  \par Version 0.2.7 (cleaning up installations)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
@@ -216,7 +235,7 @@ License, or any later version. */
     - Improve installation
 
 
-  \par Version 0.2.7 (new external sources for computer algebra and graphs)
+  \par Version 0.2.8 (new external sources for computer algebra and graphs)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the
@@ -245,7 +264,7 @@ License, or any later version. */
     - Install GCC 4.3.5
 
 
-  \par Version 0.2.8
+  \par Version 0.2.9
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
