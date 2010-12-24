@@ -331,7 +331,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    </li>
    <li> precosat236:
     <ol>
-     <li> n=593: ?sat, ?s. </li>
+     <li> n=593: unsat, 824141s. </li>
      <li> n=569: ?sat, ?s. </li>
     </ol>
    </li>
