@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Installation of version 5.23.0
+  <ul>
+   <li> Are the problems below with 5.22.1 somehow solved with this version?
+   </li>
+  </ul>
+
+
   \todo Installation of version 5.22.1
   <ul>
    <li> Floating-point problem:

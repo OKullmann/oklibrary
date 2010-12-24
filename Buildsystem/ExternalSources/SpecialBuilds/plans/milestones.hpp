@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.2.9 (3.12.2010)
 
 
-  \par Version 0.2.3 (various updates)
+  \par Version 0.2.3 (various updates, especiall Boost, Maxima, Ubcsat and R)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -29,6 +29,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
+    - Installing 2.11.0 : DONE
     - Installing 2.10.0 : DONE
     - Installing 2.9.0 : DONE
 
@@ -82,7 +83,7 @@ License, or any later version. */
     - bug CLisp doesn't use libsigsegv (though specified) : DONE
 
 
-  \par Version 0.2.4 (updating espeically Gcc and the existing SAT solvers)
+  \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -105,11 +106,13 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
+    - GCC 4.1.2 will not build on systems without GMP with MPFR support
     - Providing gcc 4.1.2
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
+    - Installing 2.12.1
     - Local installation of gfortran
     - Can't output graphics
 
@@ -142,6 +145,18 @@ License, or any later version. */
    topics are handled:
     - Update to version 1.2.0
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
+    - Make clear the required package for dos2unix
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Installation of version 5.23.0
+    - Installation of version 5.22.1
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
+   topics are handled:
+    - Install version 1.7.2
 
 
   \par Version 0.2.5 (installing computer algebra)
@@ -205,6 +220,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
    following topics are handled:
+    - Install version 3.6.0
     - Update
 
 

@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \todo Installing 2.12.1
+
+
   \todo DONE (disabled Rcmdr for now)
   Installing 2.11.0
   <ul>

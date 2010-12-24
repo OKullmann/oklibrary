@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding building of Doxygen
 
 
+  \todo Install version 1.7.2
+
+
   \todo DONE
   Version 1.6.3
   <ul>
