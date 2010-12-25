@@ -43,7 +43,9 @@ License, or any later version. */
    topics are handled:
     - Installing 2.12.1
     - Local installation of gfortran
-    - Can't output graphics
+    - Can't output graphics : DONE
+    - Improving the docus-page
+    - Building dvi,pdf,info-documentation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp the following
@@ -171,8 +173,6 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
     - Packages
-    - Improving the docus-page
-    - Building dvi,pdf,info-documentation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
