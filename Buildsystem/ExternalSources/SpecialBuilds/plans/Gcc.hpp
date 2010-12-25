@@ -32,6 +32,15 @@ make[2]: *** [all-target-libgfortran] Error 2
    use gmp and mpfr (which are build with (our) gcc 4.1.2.) ? </li>
    <li> We need to find out what are the precise requirements when building
    gfortran (version 4.1.2). </li>
+   <li> An alternative procedure would be to first build gcc-4.1.2 (only C and
+   C++ compiler) with the system-compiler, building then gmp amd mpfr with the
+   system-compiler as "system"-versions, and then building gfortran-4.1.2
+   (as well as the current full gcc-suite) with the system-compiler, using
+   these gmp and mpfr. </li>
+   <li> Then for gmp,mpfr we would need three versions: the system-version,
+   the 4.1.2-version, the current version. So well, seems appropriate. </li>
+   <li> Then actually gmp and mpfr should be build first, and then all of
+   gcc can be build at once --- no need to separate the fortran-build! </li>
   </ul>
 
 
