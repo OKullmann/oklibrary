@@ -39,7 +39,7 @@ gfortran : cleangcc $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc_unarchived_source_okl)/configure
 	cd $(gcc_build_dir_okl); $(postcondition) \
-	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=fortran --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl) --with-gmp=$(gmp_installation_dir_okl) --with-mpfr=$(mpfr_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
+	CC=$(gcc_call_okl) $(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=fortran --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl) --with-gmp=$(gmp_installation_dir_okl) --with-mpfr=$(mpfr_installation_dir_okl); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
 
