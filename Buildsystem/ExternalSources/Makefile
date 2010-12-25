@@ -33,15 +33,15 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : compilers1 libraries compilers2 math sat boolean buildsystem 
+all : syslib compilers libraries math sat boolean buildsystem 
 	echo "YET INCOMPLETE."
-buildsystem : $(buildsystem_targets_extsrc_okl)
-compilers1 : $(compiler1_targets_extsrc_okl)
-compilers2 : $(compiler2_targets_extsrc_okl)
+syslib : $(syslib_targets_extsrc_okl)
+compilers : $(compiler_targets_extsrc_okl)
 libraries : $(library_targets_extsrc_okl)
 math : $(math_targets_extsrc_okl)
 sat : $(sat_targets_extsrc_okl)
 boolean : $(boolean_targets_extsrc_okl)
+buildsystem : $(buildsystem_targets_extsrc_okl)
 
 # #################################
 # Functions
