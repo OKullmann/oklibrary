@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-mpfr_directories_okl := $(mpfr_base_installation_dir_okl) $(mpfr_base_build_dir_okl) $(mpfr_gccbuild_dir_okl) $(mpfr_base_doc_dir_okl) $(mpfr_doc_dir_okl)
+mpfr_directories_okl := $(mpfr_base_installation_dir_okl) $(mpfr_base_build_dir_okl) $(mpfr_gccbuild_dir_okl) $(mpfr_locsys_base_build_dir_okl) $(mpfr_base_doc_dir_okl) $(mpfr_doc_dir_okl)
 
 $(mpfr_directories_okl) : % : 
 	mkdir -p $@
@@ -18,7 +18,7 @@ $(mpfr_directories_okl) : % :
 # Main mpfr targets
 # #################################
 
-.PHONY : mpfr cleanmpfr cleanallmpfr
+.PHONY : mpfr cleanmpfr cleanallmpfr mpfrlocsys
 
 mpfr : $(mpfr_directories_okl)
 	$(call unarchive,$(mpfr_source_dir_okl),$(mpfr_gccbuild_dir_okl)) $(postcondition) \
@@ -29,6 +29,15 @@ mpfr : $(mpfr_directories_okl)
 	make html; $(postcondition) \
 	cp -r mpfr.html $(mpfr_doc_dir_okl); $(postcondition) \
 	$(mpfr_install_command_okl)
+
+mpfrlocsys : $(mpfr_directories_okl)
+	$(call unarchive,$(mpfr_source_dir_okl),$(mpfr_locsys_base_build_dir_okl)) $(postcondition) \
+	cd $(mpfr_locsys_build_dir_okl); $(postcondition) \
+	./configure --prefix=$(mpfr_locsys_install_directory_okl) --enable-cxx; $(postcondition) \
+	make; $(postcondition) \
+	make check; $(postcondition) \
+	make install
+
 
 # #################################
 # Cleaning
