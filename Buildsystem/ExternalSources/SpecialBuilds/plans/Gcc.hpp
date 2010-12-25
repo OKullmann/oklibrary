@@ -45,7 +45,18 @@ libgfortran> /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2_buil
 gfortran: error trying to exec 'f951': execvp: No such file or directory
    \endverbatim
    and thus largest_ctype is not re-set. </li>
-   <li> An Internet-search is needed. </li>
+   <li> We get the same error on cs-wsok (Suse 10.0). </li>
+   <li> An Internet-search is needed: It seems that the build has linking
+   problems with Mpfr (see
+   http://lists.linuxtogo.org/pipermail/openembedded-issues/2007-November/006519.html
+   ). There is other noise denying (as usual) any fault on the side of gcc,
+   and blaming Gmp, recommending to use
+     --host=none --target=none --build=none
+   to disable platform-specific optimization (which wouldn't matter much here,
+   since these libraries are only used at compile-time), however this doesn't
+   seem likely here to me. </li>
+   <li> Let's try later gcc-versions --- perhaps the problem has been solved
+   there (we could use later gcc-versions for Fortran (only)). </li>
    <li> Also without the library-settings for gmp-/mpfr we get the same
    error (on csltok; must have gone unnoticed before), so it seems it is
    not related to these additional settings. </li>
