@@ -241,8 +241,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
-    - Install GCC 4.4.4
-    - Install GCC 4.5.1
+    - Install GCC 4.4.5
+    - Install GCC 4.5.2
 
 
 

@@ -272,7 +272,7 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   \todo Install GCC 4.3.5
 
 
-  \todo Install GCC 4.4.4
+  \todo Install GCC 4.4.5
   <ul>
    <li> Building 4.4.4:
     <ol>
@@ -287,7 +287,7 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   </ul>
 
 
-  \todo Install GCC 4.5.1
+  \todo Install GCC 4.5.2
   
 
   \todo Installation in general
