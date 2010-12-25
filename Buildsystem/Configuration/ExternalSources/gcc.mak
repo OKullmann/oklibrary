@@ -57,7 +57,9 @@ gcc_targets_prefix_okl := $(gcc_prefix_okl)-
 gcc_recommended_okl := $(gcc_targets_prefix_okl)$(gcc_recommended_version_number_okl)
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
 
-gcc_enable_languages_okl ?= c,c++,java
+gcc_enable_languages_okl ?= c,c++#,java
+# Java disabled due to problems with version 4.1.2; should be enabled again
+# for higher versions.
 # Remark: fortran is currently treated on its own, due to its dependency on
 # gmp and mpfr.
 gcc_threads_okl ?= posix
