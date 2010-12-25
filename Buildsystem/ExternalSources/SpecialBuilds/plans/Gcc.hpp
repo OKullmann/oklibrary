@@ -12,7 +12,7 @@ License, or any later version. */
 
   \bug Local build of Fortran fails
   <ul>
-   <li> We get (for "oklib gfortran") apparently an error when building
+   <li> We get (for "oklib gcc") an error when building
    libgfortran:
    \verbatim
 /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/libgfortran/mk-kinds-h.sh: Unknown type
@@ -23,23 +23,51 @@ make[3]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/Gcc
 make[2]: *** [all-target-libgfortran] Error 2
    \endverbatim
    </li>
-   <li> When building gfortran together with the rest of the gcc-suite the
-   build succeeded. </li>
-   <li> Perhaps a link-failure: Now we compile gfortran with 4.1.2, while
+   <li> The error message "unknown type" is from the script
+   libgfortran/mk-kinds-h.sh. This is an example of a bad error-message:
+    <ol>
+     <li> There are two possible places for this output, without a possibility
+     to distinguish them. </li>
+     <li> They do not show the bad value (some size) under consideration. </li>
+    </ol>
+   </li>
+   <li> Inserting output, it seems it comes from "case $largest_ctype",
+   where apparently the value of largest_ctype is the empty string. </li>
+   <li> When compiling
+   \verbatim
+libgfortran> more tmp17093.f90 
+  real (kind=16) :: x
+  end
+   \endverbatim
+   one gets apparently an error (where there shouldn't be one):
+   \verbatim
+libgfortran> /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2_build/./gcc/gfortran -c tmp17093.f90 
+gfortran: error trying to exec 'f951': execvp: No such file or directory
+   \endverbatim
+   and thus largest_ctype is not re-set. </li>
+   <li> An Internet-search is needed. </li>
+   <li> Also without the library-settings for gmp-/mpfr we get the same
+   error (on csltok; must have gone unnoticed before), so it seems it is
+   not related to these additional settings. </li>
+   <li> DONE (everything is now built with the system-gcc)
+   Perhaps a link-failure: Now we compile gfortran with 4.1.2, while
    the system-compiler is 4.5.0 --- perhaps building gfortran links to
    something compiled with 4.5.0 ? </li>
-   <li> However it seems we need to build with (our) 4.1.2, since we need to
+   <li> DONE (we have now system-versions of gmp and mpfr)
+   However it seems we need to build with (our) 4.1.2, since we need to
    use gmp and mpfr (which are build with (our) gcc 4.1.2.) ? </li>
    <li> We need to find out what are the precise requirements when building
    gfortran (version 4.1.2). </li>
-   <li> An alternative procedure would be to first build gcc-4.1.2 (only C and
+   <li> DONE (handled now in this way)
+   An alternative procedure would be to first build gcc-4.1.2 (only C and
    C++ compiler) with the system-compiler, building then gmp amd mpfr with the
    system-compiler as "system"-versions, and then building gfortran-4.1.2
    (as well as the current full gcc-suite) with the system-compiler, using
    these gmp and mpfr. </li>
    <li> Then for gmp,mpfr we would need three versions: the system-version,
    the 4.1.2-version, the current version. So well, seems appropriate. </li>
-   <li> Then actually gmp and mpfr should be build first, and then all of
+   <li> DONE
+   Then actually gmp and mpfr should be build first, and then all of
    gcc can be build at once --- no need to separate the fortran-build! </li>
   </ul>
 

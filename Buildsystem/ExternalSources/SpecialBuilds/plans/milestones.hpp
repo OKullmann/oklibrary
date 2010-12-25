@@ -35,6 +35,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
+    - Local build of Fortran fails
+    - Putting "configure" under our version control
     - GCC 4.1.2 will not build on systems without GMP with MPFR support
     - Providing gcc 4.1.2
 
