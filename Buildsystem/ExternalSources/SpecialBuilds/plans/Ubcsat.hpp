@@ -13,12 +13,15 @@ License, or any later version. */
   \todo Update to version 1.2.0
   <ul>
    <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
-   https://github.com/dtompkins/ubcsat.git, branch beta. </li>
+   https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
    <li> We also changed "#define MAXPARMLINELEN 4096" to
    "#define MAXPARMLINELEN 16384". </li>
    <li> "new-ubcsat-okl" is the wrapper-script to access the new version
    (besides the old version). </li>
-   <li> The current version is not usable at all; e-mail sent to
+   <li> DONE (we didn't check out the beta-version)
+   The current version is not usable at all; e-mail sent to
+   ubcsat-developers. </li>
+   <li> The new version still seems not usable; bug report sent to
    ubcsat-developers. </li>
   </ul>
 
