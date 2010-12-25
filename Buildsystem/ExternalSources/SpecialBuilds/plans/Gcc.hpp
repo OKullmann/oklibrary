@@ -66,7 +66,27 @@ MPFR Library version 2.4.2 (or later)
    <li> Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
+   <li> Changed configuration file sources/Gcc/configure-4.1.2.gz:
+    <ol>
+     <li> On 18.6.2008 this changed file was introduced according to MG;
+     ID 4494618f9a8b506adc41934941c81a7554e0c3f6. </li>
+     <li> Documentation needs to be added by MG on these changes. </li>
+     <li> If we compare it with the most recent gcc-4.1.2.tar.bz2 (with
+     md5sum fad77c542b5f467255435ffbeed5ef51; this is the package as
+     introduced by MG), then we get
+     \verbatim
+> diff configure gcc-4.1.2/configure
+3552c3552
+<        | egrep 'texinfo[^0-9]*(4\.([4-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
+---
+>        | egrep 'texinfo[^0-9]*([1-3][0-9]|4\.[2-9]|[5-9])' >/dev/null 2>&1; then
+     \endverbatim
+     What is the meaning of these changes? </li>
+    </ol>
+   </li>
    <li> STATUS UPDATE URGENTLY NEEDED --- MG SHOULD HAVE COMPLETED THIS!
+   ALSO sources/Gcc/configure-4.1.2.gz MUST BE TAKEN INTO ACCOUNT!
+   MG MUST SPECIFY HOW HIS PACKAGE WAS CREATED.
    Gcc 4.1.2 will not link on some 64 bit systems
     <ul>
      <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
