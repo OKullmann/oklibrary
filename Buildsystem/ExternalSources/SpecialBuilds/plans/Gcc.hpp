@@ -10,6 +10,31 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \bug Local build of Fortran fails
+  <ul>
+   <li> We get (for "oklib gfortran") apparently an error when building
+   libgfortran:
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/libgfortran/mk-kinds-h.sh: Unknown type
+grep '^#' < kinds.h > kinds.inc
+/bin/sh: kinds.h: No such file or directory
+make[3]: *** [kinds.inc] Error 1
+make[3]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2_build/x86_64-unknown-linux-gnu/libgfortran'
+make[2]: *** [all-target-libgfortran] Error 2
+   \endverbatim
+   </li>
+   <li> When building gfortran together with the rest of the gcc-suite the
+   build succeeded. </li>
+   <li> Perhaps a link-failure: Now we compile gfortran with 4.1.2, while
+   the system-compiler is 4.5.0 --- perhaps building gfortran links to
+   something compiled with 4.5.0 ? </li>
+   <li> However it seems we need to build with (our) 4.1.2, since we need to
+   use gmp and mpfr (which are build with (our) gcc 4.1.2.) ? </li>
+   <li> We need to find out what are the precise requirements when building
+   gfortran (version 4.1.2). </li>
+  </ul>
+
+
   \todo GCC 4.1.2 will not build on systems without GMP with MPFR support
   <ul>
    <li> DONE (we built gmp and mpfr locally, and compile Fortran then; needs
