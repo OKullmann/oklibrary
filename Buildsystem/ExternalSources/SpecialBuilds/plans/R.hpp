@@ -19,13 +19,36 @@ License, or any later version. */
    <li> While it shouldn't be a problem to install gfortran locally.
     <ol>
      <li> DONE Just add "fortran" to gcc_enable_languages_okl. </li>
+     <li> Yet we have a build-error; see "Local build of Fortran fails" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
     </ol>
    </li>
-   <li> And also employing it for building R shouldn't be a problem. </li>
+   <li> DONE (prefixing the configure-call with "F77=$(gfortran_call_okl)";
+   disabled for now since we don't have a local gfortan at the moment)
+   And also employing it for building R shouldn't be a problem. </li>
+   <li> DONE (we have one full gcc-4.1.2-installation now, and later we
+   will have one full current-gcc-installation)
+   Since we build gcc twice, there seem to be considerable overlaps;
+   however once we move to newer gcc-versions, this will vanish: first we
+   install gcc,g++ (only) with version 4.1.2, then with these gcc's we build
+   (special) gmp, mpfr, and then using these gcc and these libraries we
+   build the new gcc (in full, with java and fortran) and everything else.
+   </li>
+   <li> DONE (since we have the system-library-versions of gmp and mpfr now,
+   no need that gcc builds it again)
+   Better, of course, if we could just let the newer versions of gcc
+   build their own gmp+mpfr (see "GCC 4.1.2 will not build on systems without
+   GMP with MPFR support" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp) --- then we could
+   use the system-compiler to build the newest gcc (in full), while gcc in
+   version 4.1.2 (with gmp) would only be there for backward-support of old
+   C++-packages. </li>
   </ul>
 
 
-  \bug Can't output graphics
+  \bug DONE (doesn't show up on new laptop; might be language-related, since
+  currently on the laptop also English is used, but so well)
+  Can't output graphics
   <ul>
    <li> For example
    \verbatim
@@ -113,8 +136,8 @@ Error: package 'tcltk' could not be loaded
    <li> Prerequisites:
     <ol>
      <li> What precisely is needed from the gcc-suite? </li>
-     <li> What is mpfr? We should also add installation-help
-     (there is already some installation-make-code). </li>
+     <li> What is mpfr? Is it needed still? In version 2.11.0 I can't find
+     something on it anymore? </li>
     </ol>
    </li>
   </ul>
