@@ -63,7 +63,8 @@ user    0m26.546s
    <li> DONE (we install it separately)
    Since apparently mpfr belongs to gmp, could it be automatically
    installed with gmp? </li>
-   <li> Update mpfr-version. </li>
+   <li> DONE
+   Update mpfr-version. </li>
    <li> Install documentation-pages. </li>
    <li> DONE
    Update the mpfr-installation to the new standard. </li>
