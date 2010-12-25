@@ -35,6 +35,24 @@ make[2]: *** [all-target-libgfortran] Error 2
   </ul>
 
 
+  \todo Putting "configure" under our version control
+  <ul>
+   <li> Since there are now various changes to various gcc-configuration files,
+   we should put them under our version control. </li>
+   <li> Starting with the files in the original gcc-4.1.2-package. </li>
+   <li> It seems that the md5sum-value of the gcc-package is for the original
+   package, then the new general configure-file was introduced, and then
+   the special configuration-file as discussed below. (It seems these were
+   the only changes.) </li>
+   <li> We handle it then as with for example Ubcsat: the package is the
+   original, and during the build the new files are placed. </li>
+   <li> The appropriate place for the gcc-replacement files seems
+   Programming/SystemSpecifics/Gcc. </li>
+   <li> At this time Programming/SystemSpecifics/plans/milestones.hpp
+   should be updated. </li>
+  </ul>
+
+
   \todo GCC 4.1.2 will not build on systems without GMP with MPFR support
   <ul>
    <li> DONE (we built gmp and mpfr locally, and compile Fortran then; needs
