@@ -28,8 +28,18 @@ make[2]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSo
 make[1]: *** [all-recursive] Error 1
    \endverbatim
    </li>
-   <li> Are the problems below with 5.22.1 somehow solved with this version?
+   <li> This happens on cs-wsok, where command-lines can't be very long; on
+   cs-oksvr the build succeeds, however then no loading works:
+   \verbatim
+cs-oksvr:~/OKplatform> maxima_recommended_version_number_okl=5.23.0 oklib --maxima
+Maxima 5.23.0 http://maxima.sourceforge.net
+using Lisp ECL 10.4.1
+(%i1) load(graphs);
+file_search1: "grcommon.lisp" not found in file_search_maxima,file_search_lisp.
+   \endverbatim
    </li>
+   <li> According to Raymond Toy the precison-problems below are likely not
+   solved with this new version. </li>
   </ul>
 
 
