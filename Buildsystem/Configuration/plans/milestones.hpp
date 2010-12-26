@@ -8,13 +8,14 @@ License, or any later version. */
 /*!
   \file Buildsystem/Configuration/plans/milestones.hpp
   
-  \module_version Buildsystem/Configuration 0.0.4 (3.7.2007)
+  \module_version Buildsystem/Configuration 0.0.4.1 (16.9.2007)
 
   \par Version 0.0.5
 
   \par
    In Buildsystem/Configuration/plans/general.hpp the following topics are
    handled:
+    - Configuration include order
     - Configuration data overview
     - Configuration data format
     - Primary versus derived configurations
