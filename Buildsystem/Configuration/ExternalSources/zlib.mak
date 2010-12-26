@@ -8,7 +8,7 @@
 # The zlib library (needed by Minisat)
 
 zlib_recommended_version_number_okl ?= 1.2.5
-zlib_supported_not_recommended_version_numbers_okl ?= 
+zlib_other_versions_okl ?= 
 
 zlib_base_build_dir_okl ?= $(ExternalSources_builds)/Zlib
 zlib_extracted_package_okl ?= $(zlib_base_build_dir_okl)/zlib-$(zlib_recommended_version_number_okl)

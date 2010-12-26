@@ -12,7 +12,7 @@ argosat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Argosa
 ecl_base_doc_dir_okl ?= $(ExternalSources_doc)/SAT/Argosat
 
 argosat_recommended_version_number_okl ?= 1.0
-argosat_supported_but_not_recommended_version_numbers_okl ?= 
+argosat_other_versions_okl ?= 
 
 argosat_prefix_okl ?= argosat-
 argosat_extracted_archive_okl ?= $(argosat_prefix_okl)$(argosat_recommended_version_number_okl)

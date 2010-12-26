@@ -1,5 +1,5 @@
 # Oliver Kullmann, 20.5.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # The bzip2 library (needed by the iostream-library)
 
 bzip2_recommended_version_number_okl ?= 1.0.5
-bzip2_supported_not_recommended_version_numbers_okl ?= 
+bzip2_other_versions_okl ?= 
 
 bzip2_base_build_dir_okl ?= $(ExternalSources_builds)/Bzip2
 bzip2_extracted_package_okl ?= $(bzip2_base_build_dir_okl)/bzip2-$(bzip2_recommended_version_number_okl)

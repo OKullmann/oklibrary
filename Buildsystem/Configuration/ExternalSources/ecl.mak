@@ -8,7 +8,7 @@
 # Settings for building and using Ecl
 
 ecl_recommended_version_number_okl ?= 10.4.1
-ecl_supported_not_recommended_version_numbers_okl ?= 9.12.3
+ecl_other_versions_okl ?= 9.12.3
 
 ecl_prefix_okl ?= ecl
 
@@ -45,7 +45,7 @@ ecl_source_okl := $(ExternalSources)/sources/Ecl/$(ecl_recommended_okl)
 # Tool: rlwrap
 
 rlwrap_recommended_version_number_okl ?= 0.30
-rlwrap_supported_not_recommended_version_numbers_okl ?= 
+rlwrap_other_versions_okl ?= 
 
 rlwrap_prefix_okl ?= rlwrap
 

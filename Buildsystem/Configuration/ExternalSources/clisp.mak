@@ -1,5 +1,5 @@
 # Oliver Kullmann, 19.12.2007 (Swansea)
-# Copyright 2007, 2008 Oliver Kullmann
+# Copyright 2007, 2008, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,7 +9,7 @@
 
 clisp_recommended_version_number_okl ?= 2.48
 # on 64-bit machines this needs libffcall
-clisp_supported_not_recommended_version_numbers_okl ?= 2.47
+clisp_other_versions_okl ?= 2.47
 
 clisp_prefix_okl ?= clisp
 
@@ -47,7 +47,7 @@ clisp_source_okl := $(ExternalSources)/sources/CLisp/$(clisp_recommended_okl)
 # Tool: libsigsegv
 
 libsigsegv_recommended_version_number_okl ?= 2.6
-libsigsegv_supported_not_recommended_version_numbers_okl ?= 2.5
+libsigsegv_other_versions_okl ?= 2.5
 
 libsigsegv_prefix_okl ?= libsigsegv
 
@@ -67,7 +67,7 @@ libsigsegv_source_okl := $(ExternalSources)/sources/CLisp/$(libsigsegv_recommend
 # Tool: libffcall
 
 libffcall_recommended_version_number_okl ?= 1.10
-libffcall_supported_not_recommended_version_numbers_okl ?= 
+libffcall_other_versions_okl ?= 
 
 libffcall_prefix_okl ?= ffcall
 

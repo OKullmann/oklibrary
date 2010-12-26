@@ -8,7 +8,7 @@
 # Settings for building and using the Gmp library
 
 gmp_recommended_version_number_okl ?= 5.0.1
-gmp_supported_not_recommended_version_numbers_okl ?= 4.3.1
+gmp_other_versions_okl ?= 4.3.1
 
 gmp_prefix_okl ?= gmp
 

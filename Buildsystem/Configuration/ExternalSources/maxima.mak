@@ -8,8 +8,7 @@
 # Settings for building and using Maxima
 
 maxima_recommended_version_number_okl ?= 5.21.1
-maxima_supported_not_recommended_version_numbers_okl ?= 5.20.0
-maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
+maxima_other_versions_okl ?= 5.20.0
 
 maxima_prefix_okl ?= maxima
 
@@ -78,7 +77,7 @@ maxima_eis_url_okl := http://beshenov.ru/maxima/eis/
 # Tool : gnuplot
 
 gnuplot_recommended_version_number_okl ?= 4.2.5
-gnuplot_supported_not_recommended_version_numbers_okl ?= 4.2.4
+gnuplot_other_versions_okl ?= 4.2.4
 
 gnuplot_prefix_okl ?= gnuplot
 

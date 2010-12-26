@@ -1,5 +1,5 @@
 # Matthew Gwynne, 31.7.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # Settings for building and using Picosat
 
 picosat_recommended_version_number_okl ?= 913
-picosat_supported_not_recommended_version_numbers_okl ?= 535 632 846
+picosat_other_versions_okl ?= 535 632 846
 
 picosat_recommended_okl := picosat-$(picosat_recommended_version_number_okl)
 picosat_source_okl := $(ExternalSources)/sources/SAT/Picosat/$(picosat_recommended_okl)

@@ -13,8 +13,7 @@ minisat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Minisa
 # The "new" Minisat
 
 minisat2_recommended_version_number_okl ?= 070721
-minisat2_supported_but_not_recommended_version_numbers_okl ?= 
-minisat2_supported_version_numbers_okl ?= $(minisat2_recommended_version_number_okl) $(minisat2_supported_but_not_recommended_version_numbers_okl)
+minisat2_other_versions_okl ?= 
 
 minisat2_extracted_archive_okl ?= minisat
 
@@ -31,7 +30,7 @@ minisat2_source_okl := $(ExternalSources)/sources/SAT/MiniSat/$(minisat2_extract
 # The pseudo-boolean solver
 
 minisatp_recommended_version_number_okl ?= 2007-Jan-05
-minisatp_supported_but_not_recommended_version_numbers_okl ?= 
+minisatp_other_versions_okl ?= 
 minisatp_supported_version_numbers_okl ?= $(minisatp_recommended_version_number_okl) $(minisatp_supported_but_not_recommended_version_numbers_okl)
 
 minisatp_extracted_archive_okl ?= minisat+

@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Handling of version numbers
   <ul>
-   <li> Names like
+   <li> DONE
+   Names like
    <code> doxygen_supported_not_recommended_version_numbers_okl </code>
    are misleading (these versions are not "not recommended"), and
    they are too long. Proposal: <code> doxygen_other_versions_okl </code>

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.9.2007 (Swansea)
-# Copyright 2007, 2009 Oliver Kullmann
+# Copyright 2007, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # Settings for building and using the Mhash library
 
 mhash_recommended_version_number_okl ?= 0.9.9.9
-mhash_supported_not_recommended_version_numbers_okl ?= 0.9.9
+mhash_other_versions_okl ?= 0.9.9
 
 mhash_prefix_okl ?= mhash
 

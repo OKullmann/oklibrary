@@ -1,17 +1,19 @@
 # Oliver Kullmann, 6.9.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# NEEDS UPDATE TO NEW SYSTEM
 
 # #################################
 # Postgresql
 # #################################
 
 postgresql_recommended_version_number ?= 8.2.4
-postgresql_supported_not_recommended_version_numbers ?= 
-postgresql_supported_version_numbers ?= $(postgresql_supported_not_recommended_version_numbers) $(postgresql_recommended_version_number)
+postgresql_other_versions_okl ?= 
+postgresql_supported_version_numbers ?= $(postgresql_other_versions_okl) $(postgresql_recommended_version_number)
 
 postgresql_prefix ?= postgresql
 pgsql_html_documentation_index_location ?= $(ExternalSources_doc)/Postgresql/doc/postgresql/html/index.html

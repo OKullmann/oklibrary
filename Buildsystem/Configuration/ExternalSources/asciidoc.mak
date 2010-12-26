@@ -1,5 +1,5 @@
 # Oliver Kullmann, 23.6.2008 (Swansea)
-# Copyright 2008 Oliver Kullmann
+# Copyright 2008. 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # Settings for building and using Asciidoc
 
 asciidoc_recommended_version_number_okl ?= 8.2.5
-asciidoc_supported_not_recommended_version_numbers_okl ?=
+asciidoc_other_versions_okl ?=
 # Remark: version 8.2.6 leads to strange errors about "unsafe" files to be included, and thus can't be used
 
 asciidoc_prefix_okl ?= asciidoc

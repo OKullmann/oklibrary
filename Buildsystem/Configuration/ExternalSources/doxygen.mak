@@ -8,7 +8,7 @@
 # Settings for building and using doxygen
 
 doxygen_recommended_version_number_okl ?= 1.7.1
-doxygen_supported_not_recommended_version_numbers_okl ?= 1.7.0
+doxygen_other_versions_okl ?= 1.7.0
 
 doxygen_prefix_okl ?= doxygen
 

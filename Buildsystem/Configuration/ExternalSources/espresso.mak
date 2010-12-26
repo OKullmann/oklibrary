@@ -8,7 +8,7 @@
 # Settings for building and using Espresso
 
 espresso_recommended_version_number_okl ?= 2.3
-espresso_other_version_numbers_okl ?= 
+espresso_other_versions_okl ?= 
 
 espresso_base_name_okl := espresso-ab-1.0
 espresso_recommended_okl := $(espresso_base_name_okl)-$(espresso_recommended_version_number_okl)
