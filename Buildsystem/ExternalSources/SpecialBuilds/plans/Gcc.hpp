@@ -10,7 +10,16 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \bug Local build of Fortran fails
+  \bug Local Gmp/Mpfr are not used (appropriately)
+  <ul>
+   <li> The system-subdirectories of Gmp/Mpfr installation directories
+   should not sit inside the directory with the gcc-version on the path ---
+   the access to the system-version must be independent of the recommended
+   gcc-version. </li>
+  </ul>
+
+
+  \bug Local build of Fortran fails (for 4.1.2)
   <ul>
    <li> We get (for "oklib gcc") an error when building
    libgfortran:
