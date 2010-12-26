@@ -12,6 +12,22 @@ License, or any later version. */
 
   \todo Installation of version 5.23.0
   <ul>
+   <li> Installation fails:
+   \verbatim
+;;;   Invoking external command:
+;;;   /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gcc/4.1.2/bin/gcc "-I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/10.4.1/include/"  -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -g -O2 -fPIC -I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.1.2/5.0.1/include -Dlinux -O -w -c "/tmp/ECLINITyBHG4P.c" -o "/tmp/ECLINITyBHG4P.o"
+;;; 
+;;; Note:
+;;;   Invoking external command:
+
+XXX this line has 36861 characters XXX -Wl,-rpath=/home/csoliver/SAT-AlgorithmAn error occurred during initialization:
+(SYSTEM "/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gcc/4.1.2/bin/gcc -o XXX this line has 37734 characters XXX -lecl  -lgmp -ldl  -lm ") returned non-zero value 127.
+en/OKplatform/ExternalSources/Installations/Ecl/10.4.1/lib -Wl,-rpath,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.1.2/5.0.1/lib -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.1.2/5.0.1/lib -lecl  -lgmp -ldl  -lm 
+;;; make[2]: *** [binary-ecl/maxima] Error 1
+make[2]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.23.0/src'
+make[1]: *** [all-recursive] Error 1
+   \endverbatim
+   </li>
    <li> Are the problems below with 5.22.1 somehow solved with this version?
    </li>
   </ul>

@@ -8,7 +8,7 @@
 # Settings for building and using Maxima
 
 maxima_recommended_version_number_okl ?= 5.21.1
-maxima_other_versions_okl ?= 5.20.0
+maxima_other_versions_okl ?= 5.20.0 5.22.1 5.23.0
 
 maxima_prefix_okl ?= maxima
 
