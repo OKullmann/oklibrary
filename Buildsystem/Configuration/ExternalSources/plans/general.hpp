@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,16 +10,19 @@ License, or any later version. */
   \brief Plans for handling of configuration data regarding external sources
 
 
-  \todo Software management:
-  All information about whether software (like doxygen, cmake, gcc etc.)
-  needed is installed locally or system-wide, and where to find it,
-  must be found in the configuration directory (in an easily accesible
-  way). It must be possible to update the system (installing a new
-  cmake, for example, or a new gcc), perhaps by setting variables
-  about supported and recommended versions.
+  \todo Software management
+  <ul>
+   <li> All information about whether software (like doxygen, cmake, gcc etc.)
+   needed is installed locally or system-wide, and where to find it,
+   must be found in the configuration directory (in an easily accesible
+   way). </li>
+   <li> It must be possible to update the system (installing a new
+   cmake, for example, or a new gcc), perhaps by setting variables
+   about supported and recommended versions. </li>
+  </ul>
 
 
-  \todo Configuration/ExternalSources/all.mak:
+  \todo Configuration/ExternalSources/all.mak
   <ul>
    <li> All definitions for one external source go to for example
    Buildsystem/ExternalSources/gcc.mak, while ExternalSources/all.mak includes
@@ -27,7 +30,8 @@ License, or any later version. */
    <li> Names like
    <code> doxygen_supported_not_recommended_version_numbers </code>
    are misleading (these versions are not "not recommended"), and
-   they are too long. Proposal: <code> doxygen_other_version_numbers </code> </li>
+   they are too long. Proposal: <code> doxygen_other_version_numbers </code>
+   </li>
    <li> How we call our internal targets must be decoupled from
    how packages are called etc. </li>
    <li> There are several inline-comments in ExternalSources/all.mak,

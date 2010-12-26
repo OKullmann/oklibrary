@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,9 +24,11 @@ License, or any later version. */
    97faa95da174bd79aec9ab3ce1ae75023d993665 ). </li>
   </ul>
 
-  \todo Configuration data overview :
-  We need to get an overview on the different types of configuration data.
+
+  \todo Configuration data overview
   <ul>
+   <li> We need to get an overview on the different types of configuration
+   data. </li>
    <li> Build-related </li>
    <li> External sources:
     <ol>
@@ -179,7 +181,7 @@ SET(CONFIGVAR2 value2)
   </ul>
 
 
-  \todo Definitions for doxygen:
+  \todo Definitions for doxygen
   <ul>
    <li> General make-functions are needed to overcome the restrictions on using
    configuration-variables in doxygen-documentation (see for example the
