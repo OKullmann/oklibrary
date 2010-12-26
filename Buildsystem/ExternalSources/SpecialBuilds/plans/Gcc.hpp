@@ -56,7 +56,15 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
    since these libraries are only used at compile-time), however this doesn't
    seem likely here to me. </li>
    <li> Let's try later gcc-versions --- perhaps the problem has been solved
-   there (we could use later gcc-versions for Fortran (only)). </li>
+   there (we could use later gcc-versions for Fortran (only)).
+    <ol>
+     <li> Version 4.2.4 seems to install without problems (including gfortran).
+     </li>
+     <li> However yet we can't use it; see "Local installation of gfortran"
+     in Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp. </li>
+     <li> It is likely an R-build-problem, but we need to check. </li>
+    </ol>
+   </li>
    <li> The newest version 3.0.0 of Mpfr doesn't seem to make a difference.
    </li>
    <li> Also without the library-settings for gmp-/mpfr we get the same
@@ -266,8 +274,7 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
-   <li> It seems best to proceed in stages, first installing 4.2.4 and
-   updating our code, then installing 4.3.5, and then 4.4.4. </li>
+   <li> Installation seems to work, also for gfortran. </li>
   </ul>
 
 

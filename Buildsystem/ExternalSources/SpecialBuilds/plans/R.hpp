@@ -23,9 +23,69 @@ License, or any later version. */
      Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
     </ol>
    </li>
-   <li> DONE (prefixing the configure-call with "F77=$(gfortran_call_okl)";
-   disabled for now since we don't have a local gfortan at the moment)
-   And also employing it for building R shouldn't be a problem. </li>
+   <li> Employing the local gfortran:
+    <ol>
+     <li> Prefixing the configure-call with "F77=$(gfortran_call_okl)",
+     we get the R-build-error
+     \verbatim
+checking whether mixed C/Fortran code can be run... configure: WARNING: cannot run mixed C/Fortran code
+configure: error: Maybe check LDFLAGS for paths to Fortran libraries?
+make: *** [R_base] Error 1
+     \endverbatim
+     <li>
+     <li> The R-installation also uses gcc, so also "CC=$(gcc_call_okl)"
+     is needed; however this doesn't solve the problem. </li>
+     <li> And apparently also C++ is used, so "CXX=$(gpp_call_okl)" is also
+     needed; doesn't solve the problem. </li>
+     <li> Using LDFLAGS="-Wl,-rpath=$(gcc_installation_dir_okl)/lib" should
+     be appropriate, but doesn't solve the problem. We get
+     \verbatim
+checking for Fortran 77 libraries of /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/bin/gfortran...  -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../.. -lgfortranbegin -lgfortran -lm
+     \endverbatim
+     </li>
+     <li> The configure-help gives as an example for using LDFLAGS
+     "e.g. -L<lib dir>", so using LDFLAGS="-L $(gcc_installation_dir_okl)/lib"
+     which yields
+     \verbatim
+checking for Fortran 77 libraries of /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/bin/gfortran...  -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../.. -lgfortranbegin -lgfortran -lm /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/libgfortran.a
+     \endverbatim
+     which looks okay, but the error stays the same. </li>
+     <li> There are examples using also "FC=${F77}", so well, not well
+     specified, but can't hurt, so we also use it. </li>
+     <li> The configure-call should be
+     \verbatim
+	F77=$(gfortran_call_okl) FC=$${F77} CC=$(gcc_call_okl) CXX=$(gpp_call_okl) LDFLAGS="-L $(gcc_installation_dir_okl)/lib" ./configure --prefix=$(R_install_directory_okl); $(postcondition) \
+     \endverbatim
+     </li>
+     <li> The documentation says "However, if CC is gcc, the matching FORTRAN
+     compiler (g77 for gcc 3 and gfortran for gcc 4) is used if available.".
+     Does this mean F77 should not be specified? However then it doesn't
+     find the Fortran-compiler; this is an error in the R-documentation (or
+     in the R-build --- a *local* gcc is not recognised). </li>
+     <li> The documentation speaks also about LD_LIBRARY_PATH "or your
+     system's equivalent" ? However this is not mentioned in the
+     configure-help-output, so it should be LDFLAGS. </li>
+     <li> Ask on the R mailing list.
+     System information:
+     \verbatim
+> version
+platform       x86_64-unknown-linux-gnu     
+arch           x86_64                       
+os             linux-gnu                    
+system         x86_64, linux-gnu            
+status                                      
+major          2                            
+minor          11.0                         
+year           2010                         
+month          04                           
+day            22                           
+svn rev        51801                        
+language       R                            
+version.string R version 2.11.0 (2010-04-22)
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> DONE (we have one full gcc-4.1.2-installation now, and later we
    will have one full current-gcc-installation)
    Since we build gcc twice, there seem to be considerable overlaps;
