@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \bug Local Gmp/Mpfr are not used (appropriately)
+  \bug DONE (now for example Gmp/system/5.0.1 is the installation directory)
+  Local Gmp/Mpfr are not used (appropriately)
   <ul>
    <li> The system-subdirectories of Gmp/Mpfr installation directories
    should not sit inside the directory with the gcc-version on the path ---

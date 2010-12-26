@@ -43,9 +43,9 @@ gmp_include_option_okl ?= -I $(gmp_source_library_okl)
 
 
 # the local installation with system-compiler:
-gmp_locsys_base_build_dir_okl ?= $(gmp_gccbuild_dir_okl)/system
+gmp_locsys_base_build_dir_okl ?= $(gmp_base_build_dir_okl)/system
 gmp_locsys_build_dir_okl ?= $(gmp_locsys_base_build_dir_okl)/$(gmp_recommended_okl)
-gmp_locsys_install_directory_okl ?= $(gmp_installation_dir_okl)/system
+gmp_locsys_install_directory_okl ?= $(gmp_base_installation_dir_okl)/system/$(gmp_recommended_version_number_okl)
 gmp_locsys_link_path_okl ?= -Wl,-rpath,$(gmp_locsys_install_directory_okl)/lib
 gmp_locsys_link_option_okl ?= -L $(gmp_locsys_install_directory_okl)/lib $(gmp_locsys_link_path_okl) -lgmp
 gmp_locsys_source_library_okl ?= $(gmp_locsys_install_directory_okl)/include
