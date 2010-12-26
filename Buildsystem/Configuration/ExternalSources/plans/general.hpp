@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans for handling of configuration data regarding external sources
 
 
+  \todo Handling of version numbers
+  <ul>
+   <li> Names like
+   <code> doxygen_supported_not_recommended_version_numbers_okl </code>
+   are misleading (these versions are not "not recommended"), and
+   they are too long. Proposal: <code> doxygen_other_versions_okl </code>
+   </li>
+   <li> And e.g. "gcc_recommended_version_number_okl" should become
+   "gcc_version_okl". </li>
+   <li> E.g. "gcc_recommended_package_name_okl" should become
+   "gcc_package_name_okl". </li>
+   <li> And all other uses of "recommended" should be eliminated. </li>
+  </ul>
+
+
   \todo Software management
   <ul>
    <li> All information about whether software (like doxygen, cmake, gcc etc.)
@@ -27,11 +42,6 @@ License, or any later version. */
    <li> All definitions for one external source go to for example
    Buildsystem/ExternalSources/gcc.mak, while ExternalSources/all.mak includes
    all these files. </li>
-   <li> Names like
-   <code> doxygen_supported_not_recommended_version_numbers </code>
-   are misleading (these versions are not "not recommended"), and
-   they are too long. Proposal: <code> doxygen_other_version_numbers </code>
-   </li>
    <li> How we call our internal targets must be decoupled from
    how packages are called etc. </li>
    <li> There are several inline-comments in ExternalSources/all.mak,
