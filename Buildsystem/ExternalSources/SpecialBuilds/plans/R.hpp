@@ -32,7 +32,7 @@ checking whether mixed C/Fortran code can be run... configure: WARNING: cannot r
 configure: error: Maybe check LDFLAGS for paths to Fortran libraries?
 make: *** [R_base] Error 1
      \endverbatim
-     <li>
+     (on csltok (Suse 11.3) and cs-wsok (Suse 10.0)). </li>
      <li> The R-installation also uses gcc, so also "CC=$(gcc_call_okl)"
      is needed; however this doesn't solve the problem. </li>
      <li> And apparently also C++ is used, so "CXX=$(gpp_call_okl)" is also
@@ -49,7 +49,8 @@ checking for Fortran 77 libraries of /home/kullmann/OKplatform/ExternalSources/I
      \verbatim
 checking for Fortran 77 libraries of /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/bin/gfortran...  -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/gcc/x86_64-unknown-linux-gnu/4.2.4/../../.. -lgfortranbegin -lgfortran -lm /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.2.4/lib/libgfortran.a
      \endverbatim
-     which looks okay, but the error stays the same. </li>
+     which looks okay, but the error stays the same. Same also when using
+     "lib64" instead. </li>
      <li> There are examples using also "FC=${F77}", so well, not well
      specified, but can't hurt, so we also use it. </li>
      <li> The configure-call should be
