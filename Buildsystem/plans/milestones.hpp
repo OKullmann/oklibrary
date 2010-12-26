@@ -25,13 +25,16 @@ License, or any later version. */
   \par Buildsystem/SourceControl 0.2.2
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
+  \par Buildsystem/Configuration version 0.0.5
+  (see Buildsystem/Configuration/plans/milestones.hpp)
+
   \par Buildsystem/MasterScript version 0.0.5 : DONE
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
 
   \par Version 0.2.2 : THEME is "PRE-ALPHA RELEASE (CONSOLIDATION)"
 
-  \par Buildsystem/Configuration version 0.0.6
+  \par Buildsystem/Configuration version 0.0.7
   (see Buildsystem/Configuration/plans/milestones.hpp)
 
   \par Buildsystem/OKlibBuilding 0.2.4

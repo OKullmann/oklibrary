@@ -13,6 +13,19 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par
+   In Buildsystem/Configuration/ExternalSources/plans/general.hpp the
+   following topics are handled:
+    - Handling of version numbers
+
+  \par
+   In Buildsystem/Configuration/plans/Persons.hpp the following topics are
+   handled:
+    - Developers information : DONE
+
+
+   \par Version 0.0.6
+
+  \par
    In Buildsystem/Configuration/plans/general.hpp the following topics are
    handled:
     - Configuration include order
@@ -25,13 +38,8 @@ License, or any later version. */
    following topics are handled:
     - Software management
 
-  \par
-   In Buildsystem/Configuration/plans/Persons.hpp the following topics are
-   handled:
-    - Developers information : DONE
 
-
-  \par Version 0.0.6
+ \par Version 0.0.7
 
   \par
    In Buildsystem/Configuration/plans/general.hpp the following topics are
