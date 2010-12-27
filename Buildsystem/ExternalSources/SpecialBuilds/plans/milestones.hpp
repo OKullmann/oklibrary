@@ -36,6 +36,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Local Gmp/Mpfr are not used (appropriately) : DONE
+    - How to use local Gmp + Mpfr?
     - Local build of Fortran fails (for 4.1.2)
     - Putting "configure" under our version control
     - GCC 4.1.2 will not build on systems without GMP with MPFR support

@@ -20,9 +20,55 @@ License, or any later version. */
   </ul>
 
 
+  \bug How to use local Gmp + Mpfr?
+  <ul>
+   <li> Just using "--with-gmp" and "--with-mpfr" is not enough, but some
+   linking information is needed --- only which? </li>
+   <li> Apparently LD_LIBRARY_PATH is to be used?
+   \verbatim
+checking whether the GNU Fortran compiler is working... no
+configure: error: GNU Fortran is not working; the most common reason for that is that you might have linked it to shared GMP and/or MPFR libraries, and not set LD_LIBRARY_PATH accordingly. If you suspect any other reason, please report a bug in http://gcc.gnu.org/bugzilla, attaching /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.2.4_build/x86_64-unknown-linux-gnu/libgfortran/config.log
+   \endverbatim
+   </li>
+   <li> However prefixing the configure-call by
+   LD_LIBRARY_PATH="$(gmp_locsys_install_directory_okl)/lib:$(mpfr_locsys_install_directory_okl)/lib"
+   has apparently no effect? </li>
+   <li> In gcc-4.2.4_build/x86_64-unknown-linux-gnu/libgfortran/config.log
+   we find the usual f951-problem:
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.2.4_build/./gcc/f951: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
+   \endverbatim
+   </li>
+   <li> The library-file libmpfr.so.4 is in the Mpfr-lib-directory:
+   \verbatim
+kullmann-0:lib> pwd
+/home/kullmann/OKplatform/ExternalSources/Installations/Mpfr/system/3.0.0/lib
+kullmann-0:lib> ls -l
+total 1256
+-rw-r--r-- 1 kullmann users 896598 2010-12-26 21:56 libmpfr.a
+-rwxr-xr-x 1 kullmann users   1165 2010-12-26 21:56 libmpfr.la
+lrwxrwxrwx 1 kullmann users     16 2010-12-26 21:56 libmpfr.so -> libmpfr.so.4.0.0
+lrwxrwxrwx 1 kullmann users     16 2010-12-26 21:56 libmpfr.so.4 -> libmpfr.so.4.0.0
+-rwxr-xr-x 1 kullmann users 381897 2010-12-26 21:56 libmpfr.so.4.0.0
+   \endverbatim
+   So apparently LD_LIBRARY_PATH is just ignored. </li>
+   <li> Tryin
+   \verbatim
+LDFLAGS="-L $(gmp_locsys_install_directory_okl)/lib -L $(mpfr_locsys_install_directory_okl)/lib"
+   \endverbatim
+   instead. But again this is just ignored. </li>
+   <li> Finally trying
+   \verbatim
+LDFLAGS="$(gmp_locsys_link_path_okl) $(mpfr_locsys_link_path_okl)"
+   \endverbatim
+   </li>
+  </ul>
+
+
   \bug Local build of Fortran fails (for 4.1.2)
   <ul>
-   <li> We get (for "oklib gcc") an error when building
+   <li> DONE (we don't build Fortran with 4.1.2)
+   We get (for "oklib gcc") an error when building
    libgfortran:
    \verbatim
 /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/libgfortran/mk-kinds-h.sh: Unknown type
@@ -68,7 +114,9 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
    <li> Let's try later gcc-versions --- perhaps the problem has been solved
    there (we could use later gcc-versions for Fortran (only)).
     <ol>
-     <li> Version 4.2.4 seems to install without problems (including gfortran).
+     <li> DONE (actually this was only due to not using local Gmp/Mpfr; see
+     above)
+     Version 4.2.4 seems to install without problems (including gfortran).
      </li>
      <li> However yet we can't use it; see "Local installation of gfortran"
      in Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp. </li>
