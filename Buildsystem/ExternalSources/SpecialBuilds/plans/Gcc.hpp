@@ -61,7 +61,10 @@ LDFLAGS="-L $(gmp_locsys_install_directory_okl)/lib -L $(mpfr_locsys_install_dir
    \verbatim
 LDFLAGS="$(gmp_locsys_link_path_okl) $(mpfr_locsys_link_path_okl)"
    \endverbatim
-   </li>
+   And again, this is just ignored. Exactly the same f951-error as above. The
+   configure script continued with some reports, and contains the line
+   "LDFLAGS=''", which seems a clear indication of a error in the
+   build-script. </li>
   </ul>
 
 
@@ -332,7 +335,8 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
-   <li> Installation seems to work, also for gfortran. </li>
+   <li> Installation seems to work, however not for gfortran with local
+   Gmp+Mpfr (see above). </li>
   </ul>
 
 
@@ -341,7 +345,8 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
 
   \todo Install GCC 4.4.5
   <ul>
-   <li> Building 4.4.4:
+   <li> DONE (we use 4.4.5, and we build local Gmp+Mpfr using system-gcc)
+   Building 4.4.4:
     <ol>
      <li> Now Gmp and Mpfr is needed. </li>
      <li> For Gmp just use the configure-option
@@ -351,6 +356,53 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
      <li> The main question is about the link-library-compatabilities. </li>
     </ol>
    </li>
+   <li> Building error (on csltok):
+    <ol>
+     <li> We get
+     \verbatim
+ExternalSources> oklib gcc gcc_enable_languages_okl="c,c++,fortran" gcc_recommended_version_number_okl=4.4.5
+
+rm gcc.pod gfortran.pod
+make[4]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/gcc'
+mkdir -p -- x86_64-unknown-linux-gnu/libgcc
+Checking multilib configuration for libgcc...
+Configuring stage 2 in x86_64-unknown-linux-gnu/libgcc
+configure: creating cache ./config.cache
+checking for --enable-version-specific-runtime-libs... no
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gawk... gawk
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking for x86_64-unknown-linux-gnu-ar... ar
+checking for x86_64-unknown-linux-gnu-lipo... lipo
+checking for x86_64-unknown-linux-gnu-nm... /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/./gcc/nm
+checking for x86_64-unknown-linux-gnu-ranlib... ranlib
+checking for x86_64-unknown-linux-gnu-strip... strip
+checking whether ln -s works... yes
+checking for x86_64-unknown-linux-gnu-gcc... /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/./gcc/xgcc -B/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/./gcc/ -B/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.4.5/x86_64-unknown-linux-gnu/bin/ -B/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.4.5/x86_64-unknown-linux-gnu/lib/ -isystem /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.4.5/x86_64-unknown-linux-gnu/include -isystem /home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.4.5/x86_64-unknown-linux-gnu/sys-include
+checking for suffix of object files... configure: error: in `/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/x86_64-unknown-linux-gnu/libgcc':
+configure: error: cannot compute suffix of object files: cannot compile
+See `config.log' for more details.
+make[3]: *** [configure-stage2-target-libgcc] Error 1
+     \endverbatim
+     </li>
+     <li> So here already with libgcc (not with libgfortran) we get an error??
+     </li>
+     <li> In gcc-4.4.5_build/x86_64-unknown-linux-gnu/libgcc/config.log we find
+     \verbatim
+/home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.4.5_build/./gcc/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
+     \endverbatim
+     so, as usual, the linking-specifications are ignored. Later one finds
+     (again) "LDFLAGS=''". </li>
+    </ol>
+   </li>
+   <li> The installation-documentation doesn't say anything on this. </li>
+   <li> It seems that now also libraries "PPL" ("Parma Polyhedra Library")
+   and "CLooG" are needed? Not needed, both are only for loop-optimisation.
+   </li>
+   <li> Since we need the system-versions of Gmp and Mpfr apparently only
+   for Gcc, we should try to put source-directories "gmp" and "mpfr" into
+   the extracted gcc-source. </li>
   </ul>
 
 
