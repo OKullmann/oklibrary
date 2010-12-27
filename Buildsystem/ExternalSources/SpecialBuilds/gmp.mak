@@ -21,7 +21,7 @@ $(gmp_directories_okl) : % :
 .PHONY : gmp cleangmp cleanallgmp gmplocsys
 
 gmp : $(gmp_directories_okl)
-	$(call unarchive,$(gmp_source_dir_okl),$(gmp_gccbuild_dir_okl)) $(postcondition) \
+	$(call unarchive,$(gmp_source_okl),$(gmp_gccbuild_dir_okl)) $(postcondition) \
 	cd $(gmp_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(gmp_install_directory_okl) --enable-cxx CC=$(gcc_call_okl) CXX=$(gpp_call_okl); $(postcondition) \
 	make; $(postcondition) \
@@ -34,7 +34,7 @@ gmp : $(gmp_directories_okl)
 	$(gmp_install_command_okl)
 
 gmplocsys : $(gmp_directories_okl)
-	$(call unarchive,$(gmp_source_dir_okl),$(gmp_locsys_base_build_dir_okl)) $(postcondition) \
+	$(call unarchive,$(gmp_source_okl),$(gmp_locsys_base_build_dir_okl)) $(postcondition) \
 	cd $(gmp_locsys_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(gmp_locsys_install_directory_okl) --enable-cxx; $(postcondition) \
 	make; $(postcondition) \

@@ -21,7 +21,7 @@ $(mpfr_directories_okl) : % :
 .PHONY : mpfr cleanmpfr cleanallmpfr mpfrlocsys
 
 mpfr : $(mpfr_directories_okl)
-	$(call unarchive,$(mpfr_source_dir_okl),$(mpfr_gccbuild_dir_okl)) $(postcondition) \
+	$(call unarchive,$(mpfr_source_okl),$(mpfr_gccbuild_dir_okl)) $(postcondition) \
 	cd $(mpfr_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(mpfr_install_directory_okl) --with-gmp=$(gmp_install_directory_okl) CC=$(gcc_call_okl); $(postcondition) \
 	make; $(postcondition) \
@@ -31,7 +31,7 @@ mpfr : $(mpfr_directories_okl)
 	$(mpfr_install_command_okl)
 
 mpfrlocsys : $(mpfr_directories_okl)
-	$(call unarchive,$(mpfr_source_dir_okl),$(mpfr_locsys_base_build_dir_okl)) $(postcondition) \
+	$(call unarchive,$(mpfr_source_okl),$(mpfr_locsys_base_build_dir_okl)) $(postcondition) \
 	cd $(mpfr_locsys_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(mpfr_locsys_install_directory_okl) --with-gmp=$(gmp_locsys_install_directory_okl); $(postcondition) \
 	make; $(postcondition) \

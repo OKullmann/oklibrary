@@ -14,7 +14,7 @@ gmp_prefix_okl ?= gmp
 
 gmp_targets_prefix_okl := $(gmp_prefix_okl)-
 gmp_recommended_okl := $(gmp_targets_prefix_okl)$(gmp_recommended_version_number_okl)
-gmp_source_dir_okl := $(ExternalSources)/sources/Gmp/$(gmp_recommended_okl)
+gmp_source_okl := $(ExternalSources)/sources/Gmp/$(gmp_recommended_okl)
 
 gmp_base_build_dir_okl ?= $(ExternalSources_builds)/Gmp
 gmp_gccbuild_dir_okl ?= $(gmp_base_build_dir_okl)/$(gcc_recommended_version_number_okl)
