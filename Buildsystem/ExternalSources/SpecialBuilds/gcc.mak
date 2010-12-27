@@ -43,8 +43,10 @@ gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gmp_source_okl),$(gcc_unarchived_source_okl)/gmp)
 	mkdir $(gcc_unarchived_source_okl)/mpfr
 	$(call unarchive,$(mpfr_source_okl),$(gcc_unarchived_source_okl)/mpfr)
+	mkdir $(gcc_unarchived_source_okl)/mpc
+	$(call unarchive,$(mpc_source_okl),$(gcc_unarchived_source_okl)/mpc)
 	cd $(gcc_build_dir_okl); $(postcondition) \
-	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl); $(postcondition) \
+	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl) --disable-multilib; $(postcondition) \
 	make; $(postcondition) \
 	make html dvi pdf; $(postcondition) \
 	make install install-html; $(postcondition) \

@@ -59,3 +59,16 @@ mpfr_docu_page_okl ?= $(doc_dir)/doxygen_html/???
 mpfr_homepage_url_okl := http://www.mpfr.org/
 mpfr_documentation_url_okl := http://www.mpfr.org/mpfr-current/mpfr.html
 
+# Mpc
+
+mpc_recommended_version_number_okl ?= 0.8.2
+mpc_other_versions_okl ?= 
+
+mpc_prefix_okl ?= mpc
+
+mpc_targets_prefix_okl := $(mpc_prefix_okl)-
+mpc_recommended_okl := $(mpc_targets_prefix_okl)$(mpc_recommended_version_number_okl)
+mpc_source_okl := $(ExternalSources)/sources/Gmp/$(mpc_recommended_okl)
+
+mpc_homepage_url_okl := http://www.multiprecision.org/
+mpc_documentation_url_okl := http://www.multiprecision.org/index.php?prog=mpc&page=documentation
