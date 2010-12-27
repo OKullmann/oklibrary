@@ -75,6 +75,78 @@ float(1/5000000000000000);
      and exponentials; is there some special problem here? </li>
      <li> With this change to assert_float_equal then we get no further
      test-failures with 5.22.1. </li>
+     <li> Examples, contrasting 5.21.1 with 5.22.1:
+     \verbatim
+
+testf1(n) := float(apply("+",create_list(log(i)*(-1)^i,i,1,n)));
+testf1c(n):=block([fpprec:30],bfloat(apply("+",create_list(log(i)*(-1)^i,i,1,n))));
+testf1f(n) := apply("+",create_list(float(log(i))*(-1)^i,i,1,n));
+
+21:
+
+(%i24) testf1(10000);
+Evaluation took 79.0520 seconds (125.7410 elapsed)
+(%o24) 4.830986538632788
+(%i25) testf1c(10000);
+Evaluation took 75.6320 seconds (141.3070 elapsed)
+(%o25) 4.8309865386327771337329138576b0
+(%i31) testf1f(10000);
+Evaluation took 0.3380 seconds (0.4770 elapsed)
+(%o31) 4.830986538632788
+
+(%i26) testf1(20000);
+Evaluation took 301.3270 seconds (546.0920 elapsed)
+(%o26) 5.177547628912792
+(%i27) testf1c(20000);
+Evaluation took 326.1730 seconds (542.8570 elapsed)
+(%o27) 5.17754762891278624677437887665b0
+(%i32) testf1f(20000);
+Evaluation took 0.6810 seconds (1.0060 elapsed)
+(%o32) 5.177547628912792
+
+(%i28) testf1(40000);
+Evaluation took 1244.4280 seconds (2258.0720 elapsed)
+(%o28) 5.524114969192852
+(%i29) testf1c(40000);
+Evaluation took 1256.1750 seconds (2077.7460 elapsed)
+(%o29) 5.52411496919276345877464646714b0
+(%i33) testf1f(40000);
+Evaluation took 1.3840 seconds (2.1210 elapsed)
+(%o33) 5.524114969192852
+
+22:
+(%i19) testf1(10000);
+Evaluation took 68.2900 seconds (123.3390 elapsed)
+(%o19) 4.83098653863282
+(%i20) testf1c(10000);
+Evaluation took 76.8890 seconds (123.0450 elapsed)
+(%o20) 4.8309865386327771337329138576b0
+(%i26) testf1f(10000);
+Evaluation took 0.3280 seconds (0.6130 elapsed)
+(%o26) 4.83098653863282
+
+(%i21) testf1(20000);
+Evaluation took 289.1520 seconds (468.5160 elapsed)
+(%o21) 5.17754762891287
+(%i22) testf1c(20000);
+Evaluation took 286.7340 seconds (559.2420 elapsed)
+(%o22) 5.17754762891278624677437887665b0
+(%i27) testf1f(20000);
+Evaluation took 0.7100 seconds (1.2810 elapsed)
+(%o27) 5.17754762891287
+
+(%i23) testf1(40000);
+Evaluation took 1175.0270 seconds (2232.6280 elapsed)
+(%o23) 5.524114969192786
+(%i24) testf1c(40000);
+Evaluation took 1206.8040 seconds (1911.2210 elapsed)
+(%o24) 5.52411496919276345877464646714b0
+(%i28) testf1f(40000);
+Evaluation took 1.3790 seconds (2.1250 elapsed)
+(%o28) 5.524114969192786
+
+     \endverbatim
+     There are differences, but no clear picture. </li>
     </ol>
    </li>
    <li> DONE Set problem:
