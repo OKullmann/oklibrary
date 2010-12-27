@@ -115,6 +115,7 @@ Evaluation took 1.3840 seconds (2.1210 elapsed)
 (%o33) 5.524114969192852
 
 22:
+
 (%i19) testf1(10000);
 Evaluation took 68.2900 seconds (123.3390 elapsed)
 (%o19) 4.83098653863282
