@@ -1,5 +1,5 @@
 # Oliver Kullmann, 31.3.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -27,7 +27,7 @@ march : marchpl
 marchpl : $(marchpl_directories_okl)
 	$(call unarchive,$(marchpl_source_okl),$(march_base_build_dir_okl)) $(postcondition) \
 	cd $(marchpl_build_dir_okl); $(postcondition) \
-	make CC=$(gcc_call_okl); $(postcondition) \
+	make CC=$(gcc412_call_okl); $(postcondition) \
 	cp march_pl $(marchpl_installation_dir_okl); $(postcondition) \
 	ln -s --force $(marchpl_call_okl) $(public_bin_dir_okl)/march_pl; $(postcondition)
 

@@ -1,5 +1,5 @@
 # Matthew Henderson, 6.3.2006 (Swansea)
-# Copyright 2006-2007, 2008, 2009 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -23,7 +23,7 @@ $(mhash_directories_okl) : % :
 mhash : $(mhash_directories_okl)
 	$(call unarchive,$(mhash_source_dir_okl),$(mhash_gccbuild_dir_okl)) $(postcondition) \
 	cd $(mhash_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc_call_okl); $(postcondition) \
+	./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition) \

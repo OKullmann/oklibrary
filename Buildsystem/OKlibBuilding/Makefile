@@ -596,8 +596,8 @@ testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # VARIABLES FOR GCC VERSIONS, INCLUDES AND LINKING
 # ################################################################
 
-CXX = $(gpp_call_okl)
-CC = $(gcc_call_okl)
+CXX = $(gpp412_call_okl)
+CC = $(gcc412_call_okl)
 
 # ----------------------------------------------------------
 #
@@ -611,7 +611,7 @@ CC = $(gcc_call_okl)
 #  run-time-libraries.
 #
 
-alternative_library_path:= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl)
+alternative_library_path:= -L$(gcc412_lib64_okl) -Wl,-rpath,$(gcc412_lib64_okl) -L$(gcc412_lib_okl) -Wl,-rpath,$(gcc412_lib_okl)
 
 
 
