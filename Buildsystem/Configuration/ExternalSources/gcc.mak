@@ -59,3 +59,13 @@ gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared --disable-multilib
 
+# Special handling for gcc-4.1.2
+
+gcc412_unarchived_source_okl ?= $(gcc_base_build_dir_okl)/gcc-4.1.2
+gcc412_installation_dir_okl ?= $(gcc_base_installation_dir_okl)/4.1.2
+gcc412_build_dir_okl ?= $(gcc_base_build_dir_okl)/gcc-4.1.2_build
+gcc412_doc_dir_okl ?= $(gcc_base_doc_dir_okl)/4.1.2
+gcc412_source_okl := $(ExternalSources)/sources/Gcc/gcc-4.1.2
+gcc412_enable_languages_okl ?= c,c++
+gcc412_threads_okl ?= posix
+gcc412_other_options_okl ?= --enable-shared
