@@ -51,7 +51,8 @@ oklib_plain_include(eigen)$ /* (for function columnvector) */
    of the AES]) allow arbitrary finite fields rather than just fields of size
    2^e for the block elements and therefore we also introduce an integer
    parameter b for the base, and a parameter mod_poly for the
-   modulo-polynomial to standardise the result of any operations in this field.
+   modulo-polynomial to define (and standardise) the result of any operations
+   in this field.
 
    Given this variety of parameters, functions are needed to define
    different Sbox and MixColumn operations based on the new dimensions of the
@@ -64,24 +65,22 @@ oklib_plain_include(eigen)$ /* (for function columnvector) */
    in each case.
 
    In [Small Scale Variants of the AES], there are two major variations, apart
-   from the minor variations described above, those denoted by AES (the
+   from the minor variations described above, namely those denoted by AES (the
    default variation in [Small Scale Variants of the AES]) and AES*, where AES
    is defined without a specialised final round (contrary to the standard AES
    definition), while AES* is defined in the same way as the standard AES with
    a specialised final round which does not contain MixColumns.
 
    For some functions two variants are provided, the standard version (without
-   any special ending) and a generalised version (postfixed with "_gen").
-
-   The standard versions take (in addition to any other arguments) the base b
-   and exponent e for the field, and then all other parameters (mod_poly, the
-   sbox function, mixcolumn function etc) are derived using functions such as
-   ss_polynomial, ss_sbox etc which provide the default constants and
-   implementations.
-
-   The generalised version then take all parameters necessary for their
-   function (from the list of parameters described above) without
-   assuming any defaults.
+   any special ending) and a generalised version (postfixed with "_gen"):
+    - The standard versions take (in addition to any other arguments) only the
+      base b and exponent e for the field, and then all other parameters
+      (mod_poly, the sbox function, mixcolumn function etc) are derived using
+      functions such as ss_polynomial, ss_sbox etc which provide the default
+      constants and implementations.
+    - The generalised version then take all parameters necessary for their
+      function (from the list of parameters described above) without
+      assuming any defaults.
    
 */
 
@@ -656,30 +655,30 @@ ss_encrypt_ibc_gen(plaintext, key, num_rounds, b,e,mod_poly,
    **********************************************************
 */
 
-/* Default Small Scale AES encryption WITHOUT a final round */
+/* Default small scale AES encryption WITHOUT a final round: */
 ss_encrypt(pl, kl, num_rounds,b,e) :=
   ss_encrypt_gen(pl,kl,num_rounds,b,e,
     ss_polynomial(b,e),
     buildq([b,e],lambda([a], ss_sbox(a,b,e))),
     ss_mixcolumns_matrix(b,e,length(pl)))$
-/* Default Small Scale AES encryption WITH final round (_wf) */
+/* Default small scale AES encryption WITH final round (_wf): */
 ss_encrypt_wf(pl, kl, num_rounds,b,e) :=
    ss_encrypt_wf_gen(pl,kl,num_rounds,b,e,
      ss_polynomial(b,e), lambda([a], ss_sbox(a,b,e)),
      ss_mixcolumns_matrix(b,e,length(pl)))$
-/* Default Small Scale AES decryption WITHOUT final round */
+/* Default small scale AES decryption WITHOUT final round: */
 ss_decrypt(pl, kl, num_rounds, b,e) :=
   ss_decrypt_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
     buildq([b,e],lambda([a], ss_sbox(a,b,e))),
     buildq([b,e],lambda([a], ss_inv_sbox(a,b,e))),
     ss_inv_mixcolumns_matrix(b,e,length(pl)))$
-/* Default Small Scale AES decryption WITH final round (_wf) */
+/* Default small scale AES decryption WITH final round (_wf): */
 ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
   ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
     lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
     ss_inv_mixcolumns_matrix(b,e,length(pl)))$
 
-/* Instantiation of AES as an iterated block cipher */
+/* Instantiation of AES as an iterated block cipher: */
 ss_encrypt_ibc(plaintext,key,num_rounds,b,e) :=
   ss_encrypt_ibc_gen(plaintext,key,num_rounds,b,e,ss_polynomial(b,e),
     buildq([b,e],lambda([p],ss_sbox(p,b,e))),

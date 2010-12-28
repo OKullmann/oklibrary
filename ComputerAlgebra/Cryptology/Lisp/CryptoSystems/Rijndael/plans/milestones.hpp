@@ -63,7 +63,8 @@ License, or any later version. */
     - Generating test vectors
 
   \par
-   By Version 0.1, the original basic implementation of AES should be completed and documented.
+   By Version 0.1, the original basic implementation of AES should be
+   completed and documented.
 
   \par
    Update the following milestones.
@@ -78,7 +79,10 @@ License, or any later version. */
     - Generalisations
 
   \par
-   By Version 0.2, a more general AES implementation (including field generalisations etc) should have been produced.
+   By Version 0.2, a more general AES implementation (including field
+   generalisations etc) should have been produced.
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

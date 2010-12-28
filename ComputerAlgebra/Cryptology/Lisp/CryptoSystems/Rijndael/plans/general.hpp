@@ -24,7 +24,7 @@ License, or any later version. */
    so we have
     <ul>
      <li> "Word" - signified by "_w". </li>
-     <li> List of "Word"s - signified by "_lw". </li> 
+     <li> List of "Word"s - signified by "_lw". </li>
     </ul>
    </li>
    <li> There is still the issue of some functions that use different, more 

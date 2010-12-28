@@ -117,23 +117,23 @@ okltest_ss_encrypt_generic(ss_encrypt);
    key and message blocks (e), along with the number of rounds (r). </li>
    <li> The small scale AES implementation is implemented in a separate
    file with it's own prefix ("ss") because
-    <ul> 
+    <ul>
      <li> the nature of the OKlibrary dictates that code should act as a 
      specification, and therefore should be readable in it's own right, without
      unnecessary generalisations, </li>
-     <li> the small scale variations can both include or not the final round and
-     so this would add unnecessary generalisations to the existing AES code, and 
-     </li>
+     <li> the small scale variations can both include or not the final round
+     and so this would add unnecessary generalisations to the existing AES
+     code, and </li>
      <li> the code for both should be as simple as possible. </li>
     </ul>
-    Therefore, it is better to simply write the code again (using the standard AES code
-    as a template). </li>
-    <li> Rather than just implement the standard small scale variations as given
-    in [Algebraic Aspects of the Advanced Encryption Standard], several natural 
-    generalisations should be made.
+    Therefore, it is better to simply write the code again (using the standard
+    AES code as a template). </li>
+    <li> Rather than just implement the standard small scale variations as
+    given in [Algebraic Aspects of the Advanced Encryption Standard], several
+    natural generalisations should be made.
     <ul>
-     <li> Rather than just allowing n_C and n_R to be 1, 2 or 4, we should allow
-     the matrix to be an arbitrary size between 1 and 4, where
+     <li> Rather than just allowing n_C and n_R to be 1, 2 or 4, we should
+     allow the matrix to be an arbitrary size between 1 and 4, where
      <ul>
       <li> Shiftrows is generalised in the natural way. </li>
       <li> MixColumns will lookup the correct matrix for multiplication but
@@ -227,4 +227,5 @@ okltest_ss_encrypt_generic(ss_encrypt);
     </ul>
    </li>
   </ul>
+
 */
