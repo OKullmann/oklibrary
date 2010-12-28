@@ -27,7 +27,7 @@ gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc_unarchived_source_okl)/configure
 	cd $(gcc_build_dir_okl); $(postcondition) \
-	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl) --with-gmp=$(gmp_locsys_install_directory_okl) --with-mpfr=$(mpfr_locsys_install_directory_okl); $(postcondition) \
+	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages="c,c++" --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl); $(postcondition) \
 	make; $(postcondition) \
 	make html; $(postcondition) \
 	make install; $(postcondition) \
