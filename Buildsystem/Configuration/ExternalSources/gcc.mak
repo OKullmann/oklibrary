@@ -55,10 +55,7 @@ gcc_targets_prefix_okl := $(gcc_prefix_okl)-
 gcc_recommended_okl := $(gcc_targets_prefix_okl)$(gcc_recommended_version_number_okl)
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
 
-gcc_enable_languages_okl ?= c,c++#,fortran#,java
-# Fortran disabled due to build-error.
-# Java disabled due to problems with version 4.1.2; should be enabled again
-# for higher versions.
+gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared
 
