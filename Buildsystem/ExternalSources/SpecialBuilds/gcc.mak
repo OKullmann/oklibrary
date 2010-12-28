@@ -19,11 +19,9 @@ $(gcc_directories_okl) : % :
 # The main targets for making gcc
 # ####################################
 
-.PHONY : gcc cleangcc cleanallgcc
+.PHONY : gcc gcc412 cleangcc cleanallgcc
 
-ifeq ($(gcc_recommended_version_number_okl),4.1.2)
-
-gcc : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_okl)
+gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_okl)
 	$(call unarchive,$(gcc412_source_okl),$(gcc_base_build_dir_okl))
 	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc412_unarchived_source_okl)/configure
 	cd $(gcc412_build_dir_okl); $(postcondition) \
@@ -35,7 +33,6 @@ gcc : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_
 	rm -rf $(gcc412_doc_dir_okl)/html; $(postcondition) \
 	cp -r gcc/HTML/gcc-4.1.2 $(gcc412_doc_dir_okl)/html; $(postcondition)
 
-else
 
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
