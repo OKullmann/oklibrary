@@ -10,7 +10,7 @@
 global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean syslib
 
 buildsystem_targets_extsrc_okl ?= doxygen git
-compiler_targets_extsrc_okl ?= gcc412 # gcc
+compiler_targets_extsrc_okl ?= gcc412 gcc
 syslib_targets_extsrc_okl ?= gmplocsys mpfrlocsys
 library_targets_extsrc_okl ?= bzip2 boost gmp mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
@@ -21,7 +21,6 @@ boolean_targets_extsrc_okl ?= espresso
 # march, grasp need gcc-4.1.2
 # boost needs bzip2
 # bzip2, boost, mhash, gmp need gcc
-# gfortran needs gmp and mpfr
 # R needs gfortran
 
 
