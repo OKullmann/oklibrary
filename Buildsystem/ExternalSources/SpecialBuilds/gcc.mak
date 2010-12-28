@@ -51,7 +51,6 @@ gcc : $(gcc_directories_okl)
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)
 
-endif
 
 # ####################################
 # Cleaning
