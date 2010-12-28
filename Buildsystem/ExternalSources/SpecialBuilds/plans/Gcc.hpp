@@ -331,7 +331,8 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   </ul>
 
 
-  \todo Install GCC 4.2.4
+  \todo DONE (we go directly to 4.5.2, to minimise problems with additional libraries)
+  Install GCC 4.2.4
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
@@ -340,10 +341,12 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   </ul>
 
 
-  \todo Install GCC 4.3.5
+  \todo DONE (we go directly to 4.5.2, to minimise problems with additional libraries)
+  Install GCC 4.3.5
 
 
-  \todo Install GCC 4.4.5
+  \todo DONE (we go directly to 4.5.2, to minimise problems with additional libraries)
+  Install GCC 4.4.5
   <ul>
    <li> DONE (we use 4.4.5, and we build local Gmp+Mpfr using system-gcc)
    Building 4.4.4:
@@ -407,6 +410,10 @@ make[3]: *** [configure-stage2-target-libgcc] Error 1
 
 
   \todo Install GCC 4.5.2
+  <ul>
+   <li> We should also install these additional libraries "PPL" ("Parma
+   Polyhedra Library") and "CLooG" for loop-optimisation. </li>
+  </ul>
   
 
   \todo Installation in general

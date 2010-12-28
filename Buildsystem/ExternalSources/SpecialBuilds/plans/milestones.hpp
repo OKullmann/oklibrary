@@ -41,9 +41,9 @@ License, or any later version. */
     - Putting "configure" under our version control
     - GCC 4.1.2 will not build on systems without GMP with MPFR support
     - Providing gcc 4.1.2
-    - Install GCC 4.2.4
-    - Install GCC 4.3.5
-    - Install GCC 4.4.5
+    - Install GCC 4.2.4 : DONE
+    - Install GCC 4.3.5 : DONE
+    - Install GCC 4.4.5 : DONE
     - Install GCC 4.5.2
 
   \par
