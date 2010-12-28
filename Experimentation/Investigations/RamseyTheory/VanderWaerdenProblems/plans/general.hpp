@@ -38,6 +38,9 @@ License, or any later version. */
    <li> For complete solvers very hard but solved unsatisfiable instances are
    VanDerWaerden_pd_2-3-23_507.cnf and VanDerWaerden_pd_2-3-23_508.cnf
    (see RamseyTheory/VanderWaerdenProblems/plans/3-k/23.hpp). </li>
+   <li> Harder but still solved unsatisfiable instances are
+   VanDerWaerden_pd_2-3-24_569.cnf and VanDerWaerden_pd_2-3-24_593.cnf
+   (see RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp). </li>
   </ul>
 
 

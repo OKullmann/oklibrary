@@ -306,9 +306,9 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
 
   \todo Palindromic numbers
   <ul>
-   <li> 592 < vanderwaerden_g([3,24],"pd") =(conj) 593 =(conj)
+   <li> vanderwaerden_g([3,24],"pd") = 593 =(conj)
    vanderwaerden([3,24]). </li>
-   <li> vanderwaerden_g([3,24],"pdsat") =(conj) 568 </li>
+   <li> vanderwaerden_g([3,24],"pdsat") = 568 </li>
    <li> Certificates:
     <ol>
      <li> n=568:
@@ -329,11 +329,13 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
      </li>
     </ol>
    </li>
-   <li> precosat236:
+   <li> precosat:
     <ol>
-     <li> n=593: unsat, 824141s. </li>
-     <li> n=569: ?sat, ?s. </li>
+     <li> n=593: unsat, 824141s with precosat236. </li>
+     <li> n=569: unsat, 275640.6s with precosat570, while precosat236
+     after 1125645s made only some progress (2 variables fixed). </li>
     </ol>
+    So perhaps for the larger instances precosat570 is better.
    </li>
    <li> "RunPdVdW3k 24 25 593 gsat-tabu 100 6000000": all 1<=n<=568 sat,
    and then

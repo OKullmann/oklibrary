@@ -41,6 +41,10 @@ License, or any later version. */
     - Putting "configure" under our version control
     - GCC 4.1.2 will not build on systems without GMP with MPFR support
     - Providing gcc 4.1.2
+    - Install GCC 4.2.4 : DONE
+    - Install GCC 4.3.5 : DONE
+    - Install GCC 4.4.5 : DONE
+    - Install GCC 4.5.2
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
@@ -164,7 +168,6 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
-    - Install GCC 4.2.4
     - Installation in general
 
   \par
@@ -207,11 +210,6 @@ License, or any later version. */
    the following topics are handled:
     - Software by Aaron Robertson
 
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
-   topics are handled:
-    - Install GCC 4.3.5
-
 
   \par Version 0.2.9
 
@@ -239,12 +237,6 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Games.hpp the following
    topics are handled:
     - Parity games
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
-   topics are handled:
-    - Install GCC 4.4.5
-    - Install GCC 4.5.2
 
 
 
