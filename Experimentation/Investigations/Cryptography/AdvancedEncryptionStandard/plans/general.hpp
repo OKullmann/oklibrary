@@ -37,6 +37,24 @@ License, or any later version. */
   <ul>
    <li> Milestones are needed. </li>
    <li> A full update of the existing investigations-reports is needed. </li>
+   <li> Systematic variations on the various boxes:
+    <ol>
+     <li> In order to find out about the effects of box-translations, a good
+     method should be to "turn off" all other boxes, i.e., making them the
+     identity. </li>
+     <li> This could perhaps distinguish between the various occurrences of the
+     box under consideration. </li>
+     <li> For this to be well-tested, we should have reasonable possibilities
+     to create also the corresponding crypto-system, so that we can check
+     encryption/decryption. </li>
+     <li> The translation system shouldn't have any variables regarding the
+     identities created by those identity-boxes. </li>
+     <li> Perhaps for version 1.0 of the Maxima module Cryptology we plan to
+     have a fully integrated system, which from a very general specification
+     creates the cryptosystems as well as the various SAT or CSP translations.
+     </li>
+    </ol>
+   </li>
    <li> First experiment-running script:
     <ol>
      <li> Using three steps: experiment-creation, experiment-running,
