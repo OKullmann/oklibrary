@@ -57,5 +57,5 @@ gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
 
 gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
-gcc_other_options_okl ?= --enable-shared
+gcc_other_options_okl ?= --enable-shared --disable-multilib
 
