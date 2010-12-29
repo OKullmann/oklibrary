@@ -18,7 +18,7 @@ $(gmp_directories_okl) : % :
 # Main gmp targets
 # #################################
 
-.PHONY : gmp cleangmp cleanallgmp gmplocsys
+.PHONY : gmp cleangmp cleanallgmp
 
 gmp : $(gmp_directories_okl)
 	$(call unarchive,$(gmp_source_okl),$(gmp_gccbuild_dir_okl)) $(postcondition) \
@@ -32,14 +32,6 @@ gmp : $(gmp_directories_okl)
 	cp gmp.dvi $(gmp_doc_dir_okl); $(postcondition) \
 	cd ..; $(postcondition) \
 	$(gmp_install_command_okl)
-
-gmplocsys : $(gmp_directories_okl)
-	$(call unarchive,$(gmp_source_okl),$(gmp_locsys_base_build_dir_okl)) $(postcondition) \
-	cd $(gmp_locsys_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(gmp_locsys_install_directory_okl) --enable-cxx; $(postcondition) \
-	make; $(postcondition) \
-	make check; $(postcondition) \
-	make install
 
 
 # #################################

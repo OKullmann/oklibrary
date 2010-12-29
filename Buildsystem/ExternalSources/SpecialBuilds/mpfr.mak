@@ -18,7 +18,7 @@ $(mpfr_directories_okl) : % :
 # Main mpfr targets
 # #################################
 
-.PHONY : mpfr cleanmpfr cleanallmpfr mpfrlocsys
+.PHONY : mpfr cleanmpfr cleanallmpfr
 
 mpfr : $(mpfr_directories_okl)
 	$(call unarchive,$(mpfr_source_okl),$(mpfr_gccbuild_dir_okl)) $(postcondition) \
@@ -29,14 +29,6 @@ mpfr : $(mpfr_directories_okl)
 	make html; $(postcondition) \
 	cp -r mpfr.html $(mpfr_doc_dir_okl); $(postcondition) \
 	$(mpfr_install_command_okl)
-
-mpfrlocsys : $(mpfr_directories_okl)
-	$(call unarchive,$(mpfr_source_okl),$(mpfr_locsys_base_build_dir_okl)) $(postcondition) \
-	cd $(mpfr_locsys_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(mpfr_locsys_install_directory_okl) --with-gmp=$(gmp_locsys_install_directory_okl); $(postcondition) \
-	make; $(postcondition) \
-	make check; $(postcondition) \
-	make install
 
 
 # #################################

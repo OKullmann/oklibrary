@@ -7,11 +7,10 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean syslib
+global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean
 
 buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc412 gcc
-syslib_targets_extsrc_okl ?= gmplocsys mpfrlocsys
 library_targets_extsrc_okl ?= bzip2 boost gmp mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat

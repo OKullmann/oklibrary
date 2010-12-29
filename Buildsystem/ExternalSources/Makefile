@@ -33,9 +33,8 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : syslib compilers libraries math sat boolean buildsystem 
+all : compilers libraries math sat boolean buildsystem 
 	echo "YET INCOMPLETE."
-syslib : $(syslib_targets_extsrc_okl)
 compilers : $(compiler_targets_extsrc_okl)
 libraries : $(library_targets_extsrc_okl)
 math : $(math_targets_extsrc_okl)
