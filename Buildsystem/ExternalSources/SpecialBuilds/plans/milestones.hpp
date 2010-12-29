@@ -36,10 +36,10 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Local Gmp/Mpfr are not used (appropriately) : DONE
-    - How to use local Gmp + Mpfr?
-    - Local build of Fortran fails (for 4.1.2)
+    - How to use local Gmp + Mpfr? : DONE
+    - Local build of Fortran fails (for 4.1.2) : DONE
     - Putting "configure" under our version control
-    - GCC 4.1.2 will not build on systems without GMP with MPFR support
+    - GCC 4.1.2 will not build on systems without GMP with MPFR support : DONE
     - Providing gcc 4.1.2
     - Install GCC 4.2.4 : DONE
     - Install GCC 4.3.5 : DONE
@@ -50,7 +50,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
     - Installing 2.12.1
-    - Local installation of gfortran
+    - Local installation of gfortran : DONE
     - Can't output graphics : DONE
     - Improving the docus-page
     - Building dvi,pdf,info-documentation

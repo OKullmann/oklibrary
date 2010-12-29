@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \bug DONE (now for example Gmp/system/5.0.1 is the installation directory)
+  \bug DONE (no system-libraries needed anymore)
   Local Gmp/Mpfr are not used (appropriately)
   <ul>
    <li> The system-subdirectories of Gmp/Mpfr installation directories
@@ -20,7 +20,10 @@ License, or any later version. */
   </ul>
 
 
-  \bug How to use local Gmp + Mpfr?
+  \bug DONE (the internal build of Gmp+Mpfr does static linking; dynamic
+  linking would be possible using the additional information from the gcc
+  mailing list)
+  How to use local Gmp + Mpfr?
   <ul>
    <li> Just using "--with-gmp" and "--with-mpfr" is not enough, but some
    linking information is needed --- only which? </li>
@@ -68,7 +71,8 @@ LDFLAGS="$(gmp_locsys_link_path_okl) $(mpfr_locsys_link_path_okl)"
   </ul>
 
 
-  \bug Local build of Fortran fails (for 4.1.2)
+  \bug DONE (works now; problems where Gmp,Mpfr related)
+  Local build of Fortran fails (for 4.1.2)
   <ul>
    <li> DONE (we don't build Fortran with 4.1.2)
    We get (for "oklib gcc") an error when building
@@ -172,7 +176,8 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
   </ul>
 
 
-  \todo GCC 4.1.2 will not build on systems without GMP with MPFR support
+  \todo DONE (solved now --- with build 4.1.2 only for C,C++)
+  GCC 4.1.2 will not build on systems without GMP with MPFR support
   <ul>
    <li> DONE (we built gmp and mpfr locally, and compile Fortran then; needs
    to be checked though)
@@ -222,10 +227,12 @@ MPFR Library version 2.4.2 (or later)
 
   \todo Providing gcc 4.1.2
   <ul>
-   <li> Motivated by "GRASP cannot be compiled with gcc version 4.3" (see
+   <li> DONE
+   Motivated by "GRASP cannot be compiled with gcc version 4.3" (see
    Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp), we should provide
    a permanent installation of version 4.1.2. </li>
-   <li> Perhaps we should provide in general build-variables supporting
+   <li> DONE
+   Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
    <li> Changed configuration file sources/Gcc/configure-4.1.2.gz:
@@ -331,7 +338,8 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
   </ul>
 
 
-  \todo DONE (we go directly to 4.5.2, to minimise problems with additional libraries)
+  \todo DONE (we go directly to 4.5.2, to minimise problems with additional
+  libraries)
   Install GCC 4.2.4
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
