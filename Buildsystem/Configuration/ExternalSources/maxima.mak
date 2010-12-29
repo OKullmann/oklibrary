@@ -55,8 +55,7 @@ maxima_docu_page_okl ?= $(doc_dir)/doxygen_html/df/d26/Buildsystem_2ExternalSour
 maxima_homepage_url_okl := http://maxima.sourceforge.net/
 maxima_documentation_url_okl := http://maxima.sourceforge.net/docs.shtml
 
-maxima_targets_prefix_okl := $(maxima_prefix_okl)-
-maxima_recommended_okl := $(maxima_targets_prefix_okl)$(maxima_recommended_version_number_okl)
+maxima_recommended_okl := $(maxima_prefix_okl)-$(maxima_recommended_version_number_okl)
 maxima_source_dir_okl := $(ExternalSources)/sources/Maxima
 maxima_source_okl := $(maxima_source_dir_okl)/$(maxima_recommended_okl)
 
@@ -90,8 +89,7 @@ gnuplot_build_dir_okl ?= $(gnuplot_base_build_dir_okl)/$(gnuplot_recommended_pac
 
 gnuplot_homepage_url_okl := http://gnuplot.sourceforge.net
 
-gnuplot_targets_prefix_okl := $(gnuplot_prefix_okl)-
-gnuplot_recommended_okl := $(gnuplot_targets_prefix_okl)$(gnuplot_recommended_version_number_okl)
+gnuplot_recommended_okl := $(gnuplot_prefix_okl)-$(gnuplot_recommended_version_number_okl)
 gnuplot_source_okl := $(ExternalSources)/sources/Maxima/$(gnuplot_recommended_okl)
 
 gnuplot_call_okl ?= $(gnuplot_installation_dir_okl)/bin/gnuplot

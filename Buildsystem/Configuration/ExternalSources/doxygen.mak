@@ -12,8 +12,7 @@ doxygen_other_versions_okl ?= 1.7.0
 
 doxygen_prefix_okl ?= doxygen
 
-doxygen_targets_prefix_okl := $(doxygen_prefix_okl)-
-doxygen_recommended_okl := $(doxygen_targets_prefix_okl)$(doxygen_recommended_version_number_okl)
+doxygen_recommended_okl := $(doxygen_prefix_okl)-$(doxygen_recommended_version_number_okl)
 doxygen_source_okl := $(ExternalSources)/sources/Doxygen/$(doxygen_recommended_okl).src
 
 doxygen_base_build_dir_okl ?= $(ExternalSources_builds)/Doxygen

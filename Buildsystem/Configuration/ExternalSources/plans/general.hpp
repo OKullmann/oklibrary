@@ -26,6 +26,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Remove usage of xxx_targets_prefix_okl : DONE
+  <ul>
+   <li> This is a relict of the old system, to be removed. </li>
+   <li> Except where still the old system is used. </li>
+  </ul>
+
+
+  \todo Update to the new system
+  <ul>
+   <li> Coq </li>
+   <li> Ocaml </li>
+   <li> Postgresql </li>
+  </ul>
+
+
   \todo Software management
   <ul>
    <li> All information about whether software (like doxygen, cmake, gcc etc.)

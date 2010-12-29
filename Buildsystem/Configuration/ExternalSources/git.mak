@@ -14,8 +14,7 @@ git_other_versions_okl ?= 1.7.1
 
 git_prefix_okl ?= git
 
-git_targets_prefix_okl := $(git_prefix_okl)-
-git_recommended_okl := $(git_targets_prefix_okl)$(git_recommended_version_number_okl)
+git_recommended_okl := $(git_prefix_okl)-(git_recommended_version_number_okl)
 git_source_okl := $(ExternalSources)/sources/Git/$(git_recommended_okl)
 git_source_ext_okl ?= .tar.bz2
 

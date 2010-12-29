@@ -38,8 +38,7 @@ ecl_docu_page_okl ?= $(doc_dir)/doxygen_html/d1/d31/docus_2Ecl_8hpp.html
 ecl_homepage_url_okl := http://ecls.sourceforge.net/
 ecl_documentation_url_okl := http://ecls.sourceforge.net/resources.html
 
-ecl_targets_prefix_okl := $(ecl_prefix_okl)-
-ecl_recommended_okl := $(ecl_targets_prefix_okl)$(ecl_recommended_version_number_okl)
+ecl_recommended_okl := $(ecl_prefix_okl)-$(ecl_recommended_version_number_okl)
 ecl_source_okl := $(ExternalSources)/sources/Ecl/$(ecl_recommended_okl)
 
 # Tool: rlwrap
@@ -60,7 +59,6 @@ rlwrap_call_okl ?= $(rlwrap_installation_dir_okl)/bin/rlwrap
 
 rlwrap_homepage_url_okl := http://utopia.knoware.nl/~hlub/uck/rlwrap/
 
-rlwrap_targets_prefix_okl := $(rlwrap_prefix_okl)-
-rlwrap_recommended_okl := $(rlwrap_targets_prefix_okl)$(rlwrap_recommended_version_number_okl)
+rlwrap_recommended_okl := $(rlwrap_prefix_okl)-$(rlwrap_recommended_version_number_okl)
 rlwrap_source_okl := $(ExternalSources)/sources/Ecl/$(rlwrap_recommended_okl)
 

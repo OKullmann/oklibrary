@@ -16,6 +16,7 @@ License, or any later version. */
    In Buildsystem/Configuration/ExternalSources/plans/general.hpp the
    following topics are handled:
     - Handling of version numbers
+    - Remove usage of xxx_targets_prefix_okl : DONE
 
   \par
    In Buildsystem/Configuration/plans/Persons.hpp the following topics are
@@ -36,6 +37,7 @@ License, or any later version. */
   \par
    In Buildsystem/Configuration/ExternalSources/plans/general.hpp the
    following topics are handled:
+    - Update to the new system
     - Software management
 
 

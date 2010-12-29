@@ -25,7 +25,6 @@ sage_docu_page_okl ?= $(doc_dir)/doxygen_html/d9/dc3/docus_2Sage_8hpp.html
 sage_homepage_url_okl := http://www.sagemath.org/
 sage_documentation_url_okl := http://sage.math.washington.edu/sage/doc/
 
-sage_targets_prefix_okl := $(sage_prefix_okl)-
-sage_recommended_okl := $(sage_targets_prefix_okl)$(sage_recommended_version_number_okl)
+sage_recommended_okl := $(sage_prefix_okl)-$(sage_recommended_version_number_okl)
 sage_source_okl := $(ExternalSources)/sources/Sage/$(sage_recommended_okl)
 

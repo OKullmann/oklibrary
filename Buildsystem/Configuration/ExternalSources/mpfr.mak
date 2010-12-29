@@ -12,8 +12,7 @@ mpfr_other_versions_okl ?= 2.4.2
 
 mpfr_prefix_okl ?= mpfr
 
-mpfr_targets_prefix_okl := $(mpfr_prefix_okl)-
-mpfr_recommended_okl := $(mpfr_targets_prefix_okl)$(mpfr_recommended_version_number_okl)
+mpfr_recommended_okl := $(mpfr_prefix_okl)-$(mpfr_recommended_version_number_okl)
 mpfr_source_okl := $(ExternalSources)/sources/Gmp/$(mpfr_recommended_okl)
 
 mpfr_base_build_dir_okl ?= $(ExternalSources_builds)/Mpfr

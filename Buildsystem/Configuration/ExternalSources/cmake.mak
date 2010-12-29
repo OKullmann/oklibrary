@@ -14,8 +14,7 @@ cmake_other_versions_okl ?=
 
 cmake_prefix_okl ?= cmake
 
-cmake_targets_prefix_okl := $(cmake_prefix_okl)-
-cmake_recommended_okl := $(cmake_targets_prefix_okl)$(cmake_recommended_version_number_okl)
+cmake_recommended_okl := $(cmake_prefix_okl)-$(cmake_recommended_version_number_okl)
 cmake_source_okl := $(ExternalSources)/sources/Cmake/$(cmake_recommended_okl)
 cmake_source_ext_okl ?= .tar.gz
 

@@ -12,8 +12,7 @@ R_other_versions_okl ?= 2.9.2
 
 R_prefix_okl ?= R
 
-R_targets_prefix_okl := $(R_prefix_okl)-
-R_recommended_okl := $(R_targets_prefix_okl)$(R_recommended_version_number_okl)
+R_recommended_okl := $(R_prefix_okl)-$(R_recommended_version_number_okl)
 R_source_dir_okl := $(ExternalSources)/sources/R
 R_source_package_okl := $(R_source_dir_okl)/$(R_recommended_okl)
 

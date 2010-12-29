@@ -13,8 +13,7 @@ asciidoc_other_versions_okl ?=
 
 asciidoc_prefix_okl ?= asciidoc
 
-asciidoc_targets_prefix_okl := $(asciidoc_prefix_okl)-
-asciidoc_recommended_okl := $(asciidoc_targets_prefix_okl)$(asciidoc_recommended_version_number_okl)
+asciidoc_recommended_okl := $(asciidoc_prefix_okl)-$(asciidoc_recommended_version_number_okl)
 asciidoc_source_okl := $(ExternalSources)/sources/Asciidoc/$(asciidoc_recommended_okl)
 
 asciidoc_base_build_dir_okl ?= $(ExternalSources_builds)/Asciidoc

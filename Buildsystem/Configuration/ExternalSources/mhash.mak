@@ -12,8 +12,7 @@ mhash_other_versions_okl ?= 0.9.9
 
 mhash_prefix_okl ?= mhash
 
-mhash_targets_prefix_okl := $(mhash_prefix_okl)-
-mhash_recommended_okl := $(mhash_targets_prefix_okl)$(mhash_recommended_version_number_okl)
+mhash_recommended_okl := $(mhash_prefix_okl)-$(mhash_recommended_version_number_okl)
 mhash_source_dir_okl := $(ExternalSources)/sources/Mhash/$(mhash_recommended_okl)
 mhash_source_doc_okl := $(ExternalSources)/sources/Mhash/mhash.3.html
 

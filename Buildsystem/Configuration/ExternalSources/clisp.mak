@@ -40,8 +40,7 @@ clisp_docu_page_okl ?= $(doc_dir)/doxygen_html/df/dfc/CLisp_8hpp.html
 clisp_homepage_url_okl := http://www.clisp.org/
 clisp_documentation_url_okl := http://clisp.sourceforge.net/resources.html
 
-clisp_targets_prefix_okl := $(clisp_prefix_okl)-
-clisp_recommended_okl := $(clisp_targets_prefix_okl)$(clisp_recommended_version_number_okl)
+clisp_recommended_okl := $(clisp_prefix_okl)-$(clisp_recommended_version_number_okl)
 clisp_source_okl := $(ExternalSources)/sources/CLisp/$(clisp_recommended_okl)
 
 # Tool: libsigsegv
@@ -60,8 +59,7 @@ libsigsegv_build_dir_okl ?= $(libsigsegv_base_build_dir_okl)/$(libsigsegv_recomm
 
 libsigsegv_homepage_url_okl := http://libsigsegv.sourceforge.net/
 
-libsigsegv_targets_prefix_okl := $(libsigsegv_prefix_okl)-
-libsigsegv_recommended_okl := $(libsigsegv_targets_prefix_okl)$(libsigsegv_recommended_version_number_okl)
+libsigsegv_recommended_okl := $(libsigsegv_prefix_okl)-$(libsigsegv_recommended_version_number_okl)
 libsigsegv_source_okl := $(ExternalSources)/sources/CLisp/$(libsigsegv_recommended_okl)
 
 # Tool: libffcall
@@ -80,7 +78,6 @@ libffcall_build_dir_okl ?= $(libffcall_base_build_dir_okl)/$(libffcall_recommend
 
 libffcall_homepage_url_okl := http://www.haible.de/bruno/packages-ffcall.html
 
-libffcall_targets_prefix_okl := $(libffcall_prefix_okl)-
-libffcall_recommended_okl := $(libffcall_targets_prefix_okl)$(libffcall_recommended_version_number_okl)
+libffcall_recommended_okl := $(libffcall_prefix_okl)-$(libffcall_recommended_version_number_okl)
 libffcall_source_okl := $(ExternalSources)/sources/CLisp/$(libffcall_recommended_okl)
 
