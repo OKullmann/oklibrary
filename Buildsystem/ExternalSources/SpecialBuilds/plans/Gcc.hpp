@@ -251,12 +251,17 @@ MPFR Library version 2.4.2 (or later)
 >        | egrep 'texinfo[^0-9]*([1-3][0-9]|4\.[2-9]|[5-9])' >/dev/null 2>&1; then
      \endverbatim
      What is the meaning of these changes? </li>
+     <li> From a certain version of texinfo (makeinfo etc) onwards, the precise
+     format of the version number altered, and even though I had a 
+     new enough version of texinfo, without this patch, GCC will error during
+     it's configuration step, complaining that I did not have a new enough
+     version of texinfo. Applying the patch fixes this issue. See
+     http://www.mail-archive.com/bug-binutils@gnu.org/msg04179.html and
+     http://code.google.com/p/buildroot/source/browse/branches/john-avr32-buildroot/toolchain/binutils/2.18/100-makeinfo-version.patch?spec=svn705&r=705 .
+     </li>
     </ol>
    </li>
-   <li> STATUS UPDATE URGENTLY NEEDED --- MG SHOULD HAVE COMPLETED THIS!
-   ALSO sources/Gcc/configure-4.1.2.gz MUST BE TAKEN INTO ACCOUNT!
-   MG MUST SPECIFY HOW HIS PACKAGE WAS CREATED.
-   Gcc 4.1.2 will not link on some 64 bit systems
+   <li> Gcc 4.1.2 will not link on some 64 bit systems
     <ul>
      <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
      in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. </li>
