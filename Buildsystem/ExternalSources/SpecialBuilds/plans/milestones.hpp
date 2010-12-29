@@ -30,7 +30,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Application RankPrimes is slower with version 4.3.0
-    - Installation of Mpfr
+    - Installation of Mpfr : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following

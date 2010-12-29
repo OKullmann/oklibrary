@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -58,7 +58,8 @@ user    0m26.546s
   </ul>
 
 
-  \todo Installation of Mpfr
+  \todo DONE (provided installation using current gcc)
+  Installation of Mpfr
   <ul>
    <li> DONE (we install it separately)
    Since apparently mpfr belongs to gmp, could it be automatically
@@ -68,10 +69,12 @@ user    0m26.546s
    <li> Install documentation-pages. </li>
    <li> DONE
    Update the mpfr-installation to the new standard. </li>
-   <li> We should now by default provide local installation:
+   <li> DONE
+   We should now by default provide local installation:
     <ol>
      <li> First we need to find out who needs mpfr. </li>
-     <li> R needed it (see "Prerequisites" in
+     <li> DONE (doesn't need it)
+     R needed it (see "Prerequisites" in
      Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp), however unclear
      whether this is still the case? </li>
      <li> The gcc Fortran compiler needs it (see "Installation in general"
