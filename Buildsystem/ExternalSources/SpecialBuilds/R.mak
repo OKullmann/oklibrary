@@ -27,7 +27,7 @@ R_base : $(R_directories_okl)
 	$(call unarchive,$(R_source_package_okl),$(R_base_build_dir_okl)) $(postcondition) \
 	cd $(R_build_dir_okl); $(postcondition) \
 	echo > $(R_site_profile_okl); $(postcondition) \
-	./configure --prefix=$(R_install_directory_okl); $(postcondition) \
+	F77=$(gfortran_call_okl) FC=$${F77} CC=$(gcc_call_okl) CXX=$(gpp_call_okl) LDFLAGS="-L $(gcc_lib_okl)" ./configure --prefix=$(R_install_directory_okl); $(postcondition) \
 	R_PROFILE=$(R_site_profile_okl) make; $(postcondition) \
 	R_PROFILE=$(R_site_profile_okl) make check; $(postcondition) \
 	make info; $(postcondition) \

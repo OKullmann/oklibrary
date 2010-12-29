@@ -13,17 +13,21 @@ License, or any later version. */
   \todo Installing 2.12.1
 
 
-  \todo Local installation of gfortran
+  \todo DONE (building now with current gcc, that is, version 4.5.2, which
+  has Gmp and Mpfr statically linked)
+  Local installation of gfortran
   <ul>
    <li> Often gfortran is not installed. </li>
-   <li> While it shouldn't be a problem to install gfortran locally.
+   <li> DONE (problems solved now)
+   While it shouldn't be a problem to install gfortran locally.
     <ol>
      <li> DONE Just add "fortran" to gcc_enable_languages_okl. </li>
      <li> Yet we have a build-error; see "Local build of Fortran fails" in
      Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
     </ol>
    </li>
-   <li> Employing the local gfortran:
+   <li> DONE (the final solution below seems alright)
+   Employing the local gfortran:
     <ol>
      <li> Prefixing the configure-call with "F77=$(gfortran_call_okl)",
      we get the R-build-error
