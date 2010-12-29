@@ -561,7 +561,6 @@ aes_hex2pa(hexStr, variableList) := block(
 )$
 
 
-
 /*************************************************************
  * Constraint template rewrite-based translations            *
  *************************************************************
@@ -654,12 +653,140 @@ ss_csttl(r,ss_num_columns, ss_num_rows, ss_exp, final_round_b, mc_tran) :=
     else ss_rewrite_mapping_std))$
 /*aes_cstt_std_l(r) := aes_csttl(r, aes_mc_forward)$*/
 
+ss_cstt_vars_l(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, mc_tran) :=
+  append(
+    generate_aes_constraint_vars(1,3*(ss_num_columns*ss_num_rows*ss_exp),
+        lambda([a],a),"ss_cst"),
+    rewrite_all_cstt_vars_l(
+      [cstt_new("ss_cst",
+        generate_aes_constraint_vars(1,3*(ss_num_columns*ss_num_rows*ss_exp),
+          lambda([a],a),"ss_cst"),
+        [r,ss_num_columns, ss_num_rows,2, ss_exp,
+           ss_polynomial(2,ss_exp),ss_sbox_matrix(2,ss_exp),
+           ss_affine_constant(2,ss_exp),
+           ss_mixcolumns_matrix(2,ss_exp,ss_num_rows),final_round_b],
+           lambda([a],a))],
+      if mc_tran = aes_mc_bidirectional then ss_bimc_rewrite_mapping_std
+      else ss_rewrite_mapping_std))$
+
+ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) := block(
+  [ss_csttl : ss_csttl(r,ss_num_columns, ss_num_rows, ss_exp, final_round_b,mc_tran),
+  ss_vars_l, prop_csttl],
+  ss_vars_l : ss_cstt_vars_l(r,ss_num_columns,
+      ss_num_rows, ss_exp, final_round_b,mc_tran),
+  prop_csttl : prop_all_csttl(ss_csttl, ss_vars_l, ss_propagations),
+  csttl2fcl(prop_csttl[1],prop_csttl[2],
+    if box_tran = aes_small_box then
+      ss_pi_translation_mapping
+    else
+      ss_ts_translation_mapping))$
+
+output_ss_fcl(n,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
+  block([FF, FF_std],
+    FF : ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran),
+    FF_std : standardise_fcl(FF),
+    output_fcl_v("Small Scale AES XXX", FF_std[1],n,
+      FF_std[2]))$
+
+output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
+  output_ss_fcl(
+    sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
+      "_f",if final_round_b then 1 else 0, ".cnf"),
+    r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
+    
+
+ss_trans_fcl(cst, box_tran, mc_tran) := block(
+  [ss_csttl : rewrite_all_csttl([cst],ss_rewrite_mapping_std),
+  ss_vars_l, prop_csttl],
+  ss_vars_l : append(cstt_vars_l(cst),rewrite_all_cstt_vars_l([cst], ss_rewrite_mapping_std)),
+  prop_csttl : prop_all_csttl(ss_csttl, ss_vars_l, ss_propagations),
+  csttl2fcl(prop_csttl[1],prop_csttl[2],
+    if box_tran = aes_small_box then
+      ss_pi_translation_mapping
+    else
+      ss_ts_translation_mapping))$
+
+
+/******************************************************************
+ * Data translation                                               *
+ ******************************************************************
+*/
+
+/* AES data translation */
+
+/* TODO: Move such constants to constants (i.e. AES row size, column size etc). */
+
+output_aes_random_pc_pair(seed, num_rounds) :=
+ /* Constants: AES uses the GF(2^8) field and has 4 columns and 4 rows.  */
+ output_ss_random_pc_pair(seed, 2,8, ss_polynomial_2_8, 4, 4, num_rounds)$
+ 
+
+/* Small scale data translation */
+
+ss_random_matrix(b,e,mod_poly, num_rows, num_cols) :=
+    genmatrix(lambda([x,y], ss_stand(nat2poly(random(b^e),b),b,mod_poly)),
+      num_rows, num_cols)$
+
+ss_matrix2pa(m,var_list,b,e,mod_poly) := block([nl, bits],
+  nl : ss_m2natl(m,b),
+  bits : lappend(map(lambda([a],int2polyadic_padd(a,b,e)), nl)),
+  return(
+    map(lambda([bit_,var_], if bit_ > 0 then var_ else -var_), bits,var_list))
+  )$
+
+/* Assumes all of var_list occur as vars in lit_set in some form */
+ss_pa2matrix(lit_set, var_list,b,e,mod_poly, num_rows) := block([nl, bits],
+  bits : map(lambda([a], if member(a,lit_set) then 1 else 0), var_list),
+  nl : map(lambda([a], polyadic2int(a,b)),partition_elements(bits,e)),
+  return(ss_natl2m(nl,b,num_rows)))$
+
+ss_pa2matrix_std(lit_set, e,num_rows, num_cols) :=
+  ss_pa2matrix(lit_set,
+    create_list(i,i,e*num_rows*num_cols+1,2*e*num_rows*num_cols),
+    2,e,ss_polynomial(2,e),num_rows)$
+
+/* Given the name of a file and the small scale parameters,
+   writes out a clause-set with unit clauses for the parameters
+   with a random key XXX */
+output_ss_random_pc_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_round_b) :=
+  block(
+    [s, plaintext, key, ciphertext, comment, filename, plaintext_vars,
+     ciphertext_vars, pc_phi, pc_unit_fcs, b : 2,
+     mod_poly : ss_polynomial(2,ss_exp)],
+    s : make_random_state(seed),
+    set_random_state(s),
+    plaintext : ss_random_matrix(b,ss_exp,mod_poly,num_rows,num_cols),
+    key : ss_random_matrix(b,ss_exp,mod_poly,num_rows, num_cols),
+    if final_round_b then
+      ciphertext : ss_encrypt_wf(plaintext, key, num_rounds, b,ss_exp)
+    else
+      ciphertext : ss_encrypt(plaintext, key, num_rounds, b,ss_exp),
+    comment : sconcat(
+      "S : ", seed, " ",
+      "P : ", ss_matrix2hex(plaintext, b,ss_exp,mod_poly), " ",
+      "K : ", ss_matrix2hex(key, b,ss_exp,mod_poly)," ",
+      "C : ", ss_matrix2hex(ciphertext, b,ss_exp,mod_poly), " ",
+      "A : ", [b,ss_exp,mod_poly,num_rows,num_cols, num_rounds]),
+    filename : sconcat(
+      "ssaes_pcpair_r", num_rounds , "_c", num_cols, "_rw", num_rows, "_e",
+      ss_exp,"_f", if final_round_b then 1 else 0,"_s", seed, ".cnf"),
+    plaintext_vars : create_list(i,i,1, ss_exp * num_rows * num_cols),
+    ciphertext_vars : create_list(i,i,
+      2*ss_exp * num_rows * num_cols+1, 3*ss_exp * num_rows * num_cols),
+    pc_phi : append(
+      ss_matrix2pa(plaintext, plaintext_vars, b, ss_exp, mod_poly),
+      ss_matrix2pa(ciphertext, ciphertext_vars, b, ss_exp, mod_poly)),
+    pc_unit_fcs : cs2fcs(setify(map(set, pc_phi))),
+    output_fcs(comment, pc_unit_fcs, filename))$
+
+
 /******************************************************************************
  * Global propagation                                                         *
  ******************************************************************************
 */
 
 aes_propagations : [prop_eq_csttl]$
+ss_propagations : [prop_eq_csttl]$
 
 
 /******************************************************************************
@@ -703,29 +830,19 @@ aes_ts_translation_mapping : [
    translation functions where constraints are translated to CNF clause-set
    representations using subsets of the prime implicates. */
 ss_pi_translation_mapping : [
-  ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
-  ["aes_mul2_cst", [aes_mul2_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_mul3_cst", [aes_mul3_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_mul14_cst", [aes_mul14_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_mul13_cst", [aes_mul13_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_mul11_cst", [aes_mul11_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_mul9_cst", [aes_mul9_pi_cst_cl, lambda([[a]],[])]],
-  ["aes_sbox_cst", [aes_sbox_pi_cst_cl, lambda([[a]],[])]]]$
+  ["ss_mul_cst", [ss_mul_pi_cst_cl, lambda([[a]],[])]],
+  ["ss_sbox_cst", [ss_sbox_pi_cst_cl, lambda([[a]],[])]]]$
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to representations
    using subsets of the prime implicates. */
 ss_ts_translation_mapping : [
-  ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
-  ["aes_mul2_cst", [aes_mul2_ts_cst_cl, aes_mul2_ts_var_l]],
-  ["aes_mul3_cst", [aes_mul3_ts_cst_cl, aes_mul3_ts_var_l]],
-  ["aes_mul14_cst", [aes_mul14_ts_cst_cl, aes_mul14_ts_var_l]],
-  ["aes_mul13_cst", [aes_mul13_ts_cst_cl, aes_mul13_ts_var_l]],
-  ["aes_mul11_cst", [aes_mul11_ts_cst_cl, aes_mul11_ts_var_l]],
-  ["aes_mul9_cst", [aes_mul9_ts_cst_cl, aes_mul9_ts_var_l]],
-  ["aes_sbox_cst", [aes_sbox_ts_cst_cl, aes_sbox_ts_var_l]]]$
+  ["ss_mul_cst", [ss_mul_ts_cst_cl, ss_mul_ts_var_l]],
+  ["ss_sbox_cst", [ss_sbox_ts_cst_cl, ss_sbox_ts_var_l]]]$
 
 /*!
 \endhtmlonly

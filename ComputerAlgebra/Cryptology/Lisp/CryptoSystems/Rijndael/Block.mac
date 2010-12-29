@@ -65,6 +65,25 @@ ss_natl2m(L,b,n_R) :=
 ss_m2natl(M,b) := 
   ss_m2l(matrixmap(lambda([p],poly2nat(p,b)),M))$
 
+/* Converting small scale matrices of polynomials to the standard hexidecimal
+   notation based on [Design of Rijndael] and used in [Small Scale Advanced
+   Encryption Standard]. */
+ss_matrix2hex(m, b,e,mod_poly) := block([nl],
+  nl : ss_m2natl(m,b),
+  return(
+    apply(sconcat,map(
+        lambda([a],lpad(int2polyadicstr(a,16),"0", ceiling(fld(b^e)/fld(16)))),
+        nl))
+    ))$
+
+ss_hex2matrix(hex_str,b,e,mod_poly, num_rows) := block([hex_bits, hexl, nl],
+  hex_bits : ceiling(fld(b^e)/fld(16)),
+  hexl : map(lambda([a],apply(sconcat,a)),
+    partition_elements(str2chrl(hex_str),hex_bits)),
+  nl : map(lambda([a], polyadicstr2int(a,16)), hexl),
+  return(ss_natl2m(nl, b, num_rows))
+  )$
+
 /*!
 \endhtmlonly
 */

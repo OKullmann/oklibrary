@@ -57,6 +57,14 @@ okltest_aes_round_cp(aes_round_cp);
 okltest_aes_cp(aes_cp);
 okltest_aes_hex2pa(aes_hex2pa);
 
+/******************************************************************
+ * Data translation                                               *
+ ******************************************************************
+*/
+
+okltest_ss_random_matrix(ss_random_matrix);
+okltest_ss_matrix2pa(ss_matrix2pa);
+okltest_ss_pa2matrix(ss_pa2matrix);
 
 /*!
 \endhtmlonly

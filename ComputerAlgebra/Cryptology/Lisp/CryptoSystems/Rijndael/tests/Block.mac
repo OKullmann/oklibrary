@@ -71,6 +71,22 @@ okltest_ss_m2natl(f) := (
   assert(okltest_rijn_m2natl(buildq([f], lambda([L], f(L,2))))),
   true)$
 
+okltest_ss_matrix2hex(f) := block(
+  assert(f(matrix([1]), 2, 4, ss_polynomial_2_4) = "1"),
+  assert(f(matrix([1],[0]), 2, 4, ss_polynomial_2_4) = "10"),
+  assert(f(matrix([1,x],[0,x^3]), 2, 4, ss_polynomial_2_4) = "1028"),
+  assert(f(matrix([x^6+x^5+x^2+x,x^7+x^6+x^5+x^3+x^2+x+1,x^7+x^3,x^7+x^6+x^3+x],
+        [x^7+x^6+x^5+x^3+1,x^7+x^3+x,x^6+x^3+x^2,x^5+x^4+x^2],
+        [x^6+x^3+x+1,x^5+x^3+x^2,x^7+x^6+x^5+x^4+x^3+x,x^5+x^3+x+1],
+        [x^7+x^6+x^4+x^2,x^5+x^4+x^3+x+1,x^6+x^4+x^3+1,x^5+x^3+x^2+x]),2,8,
+    ss_polynomial_2_8) = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
+  true)$
+
+okltest_ss_hex2matrix(f) := block(
+  assert(f("1", 2, 4, ss_polynomial_2_4, 1) = matrix([1])),
+  assert(f("10",  2, 4, ss_polynomial_2_4, 2) = matrix([1],[0])),
+  true)$
+
 /*!
 \endhtmlonly
 */
