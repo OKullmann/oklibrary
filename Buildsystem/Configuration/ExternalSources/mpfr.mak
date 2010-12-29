@@ -40,16 +40,6 @@ mpfr_source_library_okl ?= $(mpfr_install_directory_okl)/include
 mpfr_include_option_okl ?= -I $(mpfr_source_library_okl)
 
 
-# the local installation with system-compiler:
-mpfr_locsys_base_build_dir_okl ?= $(mpfr_base_build_dir_okl)/system
-mpfr_locsys_build_dir_okl ?= $(mpfr_locsys_base_build_dir_okl)/$(mpfr_recommended_okl)
-mpfr_locsys_install_directory_okl ?= $(mpfr_base_installation_dir_okl)/system/$(mpfr_recommended_version_number_okl)
-mpfr_locsys_link_path_okl ?= -Wl,-rpath,$(mpfr_locsys_install_directory_okl)/lib
-mpfr_locsys_link_option_okl ?= -L $(mpfr_locsys_install_directory_okl)/lib $(mpfr_locsys_link_path_okl) -lmpfr
-mpfr_locsys_source_library_okl ?= $(mpfr_locsys_install_directory_okl)/include
-mpfr_locsys_include_option_okl ?= -I $(mpfr_locsys_source_library_okl)
-
-
 mpfr_base_doc_dir_okl ?= $(ExternalSources_doc)/Mpfr
 mpfr_doc_dir_okl ?= $(mpfr_base_doc_dir_okl)/$(mpfr_recommended_version_number_okl)
 mpfr_html_documentation_index_location_okl ?= $(mpfr_doc_dir_okl)/mpfr.html/index.html

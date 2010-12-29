@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-mpfr_directories_okl := $(mpfr_base_installation_dir_okl) $(mpfr_base_build_dir_okl) $(mpfr_gccbuild_dir_okl) $(mpfr_locsys_base_build_dir_okl) $(mpfr_base_doc_dir_okl) $(mpfr_doc_dir_okl)
+mpfr_directories_okl := $(mpfr_base_installation_dir_okl) $(mpfr_base_build_dir_okl) $(mpfr_gccbuild_dir_okl) $(mpfr_base_doc_dir_okl) $(mpfr_doc_dir_okl)
 
 $(mpfr_directories_okl) : % : 
 	mkdir -p $@
