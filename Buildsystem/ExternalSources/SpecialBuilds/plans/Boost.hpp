@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \bug Stale renaming instructions
+  <ul>
+   <li> The renaming of the link-libraries is likely not needed anymore.
+   </li>
+  </ul>
+
+
   \bug Missing documentation for Boost
   <ul>
    <li> The installation page needs to be updated ("XXX" should be eliminated).
