@@ -148,6 +148,35 @@ Evaluation took 1.3790 seconds (2.1250 elapsed)
 
      \endverbatim
      There are differences, but no clear picture. </li>
+     <li> For comparison, a C++ implementation:
+     \verbatim
+// File SumLog.cpp
+#include <iostream>
+#include <sstream>
+#include <cmath>
+#include <iomanip>
+int main(const int argc, const char* const argv[]) {
+  if (argc != 2) return 1;
+  std::stringstream s;
+  s << argv[1];
+  unsigned int n;
+  s >> n;
+  if (not s) return 2;
+  double sum = 0;
+  for (struct {unsigned int i; int e;} l = {0,-1}; l.i < n; ++l.i, l.e*=-1)
+    sum += std::log(l.i+1) * l.e;
+  std::cout << "n=" << n << ": " << std::setprecision(16) << sum << "\n";
+}
+
+> g++ -O3 SumLog.cpp -o SumLog
+> ./SumLog 10000
+n=10000: 4.830986538632788
+> ./SumLog 20000
+n=20000: 5.177547628912792
+> ./SumLog 40000
+n=40000: 5.524114969192852
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> DONE Set problem:
