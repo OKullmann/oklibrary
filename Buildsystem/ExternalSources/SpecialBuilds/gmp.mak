@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-gmp_directories_okl := $(gmp_base_installation_dir_okl) $(gmp_base_build_dir_okl) $(gmp_gccbuild_dir_okl) $(gmp_locsys_base_build_dir_okl) $(gmp_base_doc_dir_okl) $(gmp_doc_dir_okl)
+gmp_directories_okl := $(gmp_base_installation_dir_okl) $(gmp_base_build_dir_okl) $(gmp_gccbuild_dir_okl) $(gmp_base_doc_dir_okl) $(gmp_doc_dir_okl) $(gmp_base_build_dir_okl)/4.1.2 $(gmp_base_doc_dir_okl)/4.1.2
 
 $(gmp_directories_okl) : % : 
 	mkdir -p $@
@@ -18,7 +18,7 @@ $(gmp_directories_okl) : % :
 # Main gmp targets
 # #################################
 
-.PHONY : gmp cleangmp cleanallgmp
+.PHONY : gmp cleangmp cleanallgmp gmp412
 
 gmp : $(gmp_directories_okl)
 	$(call unarchive,$(gmp_source_okl),$(gmp_gccbuild_dir_okl)) $(postcondition) \
@@ -32,6 +32,15 @@ gmp : $(gmp_directories_okl)
 	cp gmp.dvi $(gmp_doc_dir_okl); $(postcondition) \
 	cd ..; $(postcondition) \
 	$(gmp_install_command_okl)
+
+# as long as the OKlibrary is built using gcc-4.1.2 (to be removed after that):
+gmp412 : $(gmp_directories_okl)
+	$(call unarchive,$(gmp_source_okl),$(gmp_base_build_dir_okl)/4.1.2) $(postcondition) \
+	cd $(gmp_base_build_dir_okl)/4.1.2/$(gmp_recommended_okl); $(postcondition) \
+	./configure --prefix=$(gmp_base_installation_dir_okl)/4.1.2/$(gmp_recommended_version_number_okl) --enable-cxx CC=$(gcc412_call_okl) CXX=$(gpp412_call_okl); $(postcondition) \
+	make; $(postcondition) \
+	make check; $(postcondition) \
+	make install; $(postcondition)
 
 
 # #################################

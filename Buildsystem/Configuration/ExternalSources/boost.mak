@@ -28,3 +28,7 @@ boost_source_library_okl ?= $(boost_installation_dir_okl)/include
 boost_include_option_okl ?= -I$(boost_source_library_okl)
 boost_link_library_okl ?= $(boost_installation_dir_okl)/lib
 boost_link_option_okl ?= -L$(boost_link_library_okl) -Wl,-rpath,$(boost_link_library_okl)
+
+# as long as the OKlibrary is built using gcc-4.1.2 (to be removed after that):
+boost_include_option_okl := -I $(boost_base_installation_dir_okl)/4.1.2/$(boost_recommended_version_number_okl)/include
+boost_link_option_okl := -L $(boost_base_installation_dir_okl)/4.1.2/$(boost_recommended_version_number_okl)/lib -Wl,-rpath,$(boost_base_installation_dir_okl)/4.1.2/$(boost_recommended_version_number_okl)/lib
