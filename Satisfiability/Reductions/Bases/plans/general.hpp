@@ -36,7 +36,7 @@ License, or any later version. */
    <li> See rand_rbase_cs(F,red_) in
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac for a randomised
    computation at Maxima-level of some base. </li>
-   <li> With the assumption of minimality we call F' an "r-generating subset
+   <li> Without the assumption of minimality we call F' an "r-generating subset
    of F". So the r-bases of F are the minimal r-generating subsets of F. </li>
    <li> A strong additional assumption on r is transitivity, that is,
    if F' is r-generating for F, and if F'' is r-generating for F', then F'' is
@@ -107,18 +107,20 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
    <li> Important for efficiency, that elimination of clauses and moving to
    a different clause (as partial assignment) can be done without much
    overhead. </li>
-   <li> It seems that UnitClausePropagation::CLSAdaptorUcpW basically fulfills
-   these requirements:
+   <li> It seems that
+   OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW
+   basically fulfills these requirements:
     <ol>
      <li> The assignment can be just placed into the partial assignment,
-     without the need to further actions. </li>
+     without the need for further actions. </li>
      <li> Once a propagation has been performed, then nothing needs to be
      reset, since the watched literals per clause are always valid. </li>
      <li> For removing a clause the interface has to be changed, but
      otherwise it should be a simple operation, just removing the two
      watched literals. </li>
      <li> Perhaps we have to use the underlying clause-class
-     Clauses::WatchedLiterals_mono? </li>
+     OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono ?
+     </li>
     </ol>
    </li>
    <li> The problem with the Maxima-specification rand_rbase_cs is how to
