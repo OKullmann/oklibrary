@@ -21,11 +21,11 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Stale renaming instructions
     - Missing documentation for Boost
     - Update Boost installation
     - Documentation
     - distance versus size
+    - Stale renaming instructions : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
