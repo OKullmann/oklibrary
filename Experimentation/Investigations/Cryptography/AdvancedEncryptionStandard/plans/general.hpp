@@ -218,6 +218,22 @@ License, or any later version. */
    </li>
   </ul>
 
+  
+  \todo Explain how to replace various AES boxes with identity or random
+  boxes
+  <ul>
+   <li> As part of our investigations, we wish to make various parts of
+   the AES sbox the identity, and then introduce the various boxes (Sbox,
+   field multiplications etc), to determine which combinations of boxes
+   "make AES difficult". </li>
+   <li> To do this, we need to be able to generate AES translations which
+   "make sense" (i.e. are permutations, given the key). </li>
+   <li> These translations are possible with the current translation system
+   without writing additional rewrite functions, however instructions
+   and/or additional helper functions are necessary to make sure things
+   easy to experiment with. </li>
+  </ul>
+
 
   \todo Summary of previous experimental results
   <ul>
