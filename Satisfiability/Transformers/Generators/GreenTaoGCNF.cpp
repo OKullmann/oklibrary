@@ -56,6 +56,8 @@ namespace {
   const std::string program = "GreenTaoGCNF";
   const std::string err = "ERROR[" + program + "]: ";
 
+  const std::string version = "0.2";
+
 }
 
 int main(const int argc, const char* const argv[]) {
