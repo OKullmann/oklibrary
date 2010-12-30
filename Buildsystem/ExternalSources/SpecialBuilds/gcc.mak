@@ -23,7 +23,8 @@ $(gcc_directories_okl) : % :
 
 gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_okl)
 	$(call unarchive,$(gcc412_source_okl),$(gcc_base_build_dir_okl))
-	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc412_unarchived_source_okl)/configure
+	cp -rf $(gcc412_corrected_dir_okl)/* $(gcc412_unarchived_source_okl)/.
+	cd $(gcc412_unarchived_source_okl)/; for P in $$(ls $(gcc412_patched_dir_okl)/*.patch); do patch < $${P}; done
 	cd $(gcc412_build_dir_okl); $(postcondition) \
 	$(gcc412_unarchived_source_okl)/configure --prefix=$(gcc412_installation_dir_okl) --enable-languages=$(gcc412_enable_languages_okl) --enable-threads=$(gcc412_threads_okl) $(gcc412_other_options_okl); $(postcondition) \
 	make; $(postcondition) \

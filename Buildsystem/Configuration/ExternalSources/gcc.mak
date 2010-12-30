@@ -67,6 +67,8 @@ gcc412_source_okl := $(ExternalSources)/sources/Gcc/gcc-4.1.2
 gcc412_enable_languages_okl ?= c,c++
 gcc412_threads_okl ?= posix
 gcc412_other_options_okl ?= --enable-shared
+gcc412_corrected_dir_okl := $(OKsystem)/OKlib/Programming/SystemSpecifics/Gcc/412/corrected/
+gcc412_patched_dir_okl := $(OKsystem)/OKlib/Programming/SystemSpecifics/Gcc/412/patched/
 
 gcc412_call_okl ?= $(gcc412_installation_dir_okl)/bin/gcc
 gpp412_call_okl ?= $(gcc412_installation_dir_okl)/bin/g++
