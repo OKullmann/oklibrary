@@ -23,6 +23,77 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Rearranging linear components of Sbox and MixColumns
+  <ul>
+   <li> Due to the linearity of the Sboxes affine transform and the MixColumns
+   operation, as well as the fact that the Shiftrows only permutes bytes,
+   the linear/affine aspects of the Sbox can be moved out and combined with
+   the MixColumns. </li>
+   <li> The Sbox is essentially an operation (M . (s^(-1)) + Ac) where
+   M is a bit matrix, A a bit vector and s^(-1) is inversion within the byte
+   field. </li>
+   <li> For each column [A,B,C,D] in the matrix, the MixColumns (for AES) is
+   [M3 . A + M2 . B + C + D, A + M3 . B + M2 . C + D, A + B + M3 . C + M2 . D,
+   M2 . A + B + C + M3 . D], where M3 and M2 are the bit matrices representing
+   multiplication by 03 (x^2+1) and 02 (x) in the byte field respectively. 
+   </li>
+   <li> We therefore have two additional possibilities other than the 
+   default AES translation:
+   <ol>
+    <li> The Sboxes affine constant addition becomes a separate operation 
+    giving:
+    <ol>
+     <li> Sbox: M . s^(-1)
+     <li> MixColumns is the same as standard. </li>
+     <li> Affine constant operation: + 
+     [M3 . Ac + M2 . Ac + Ac + Ac, ...,  M3 . Ac + M2 . Ac + Ac + Ac]
+     performed after MixColumns and AddRoundKey. </li>
+    </ol>
+    </li>
+    <li> The Sboxes affine constant addition becomes a separate operation and
+    the linear matrix multiplication joins with the MixColumn:
+    <ol>
+     <li> Sbox: s^(-1)
+     <li> MixColumns: Each column becomes: 
+     \verbatim
+[(M. M3) . A + (M . M2) . B + M . C + M . D, 
+ M . A + (M . M3) . B + (M . M2) . C + M . D, 
+ M . A + M . B + (M . M3) . C + (M . M2) . D, 
+ (M . M2) . A + M . B + M . C + (M . M3) . D]
+     \endverbatim
+     </li>
+     <li> Affine constant operation (same as without moving the linear matrix)
+     : + [M3 . Ac + M2 . Ac + Ac + Ac, ...,  M3 . Ac + M2 . Ac + Ac + Ac]
+     performed after MixColumns and AddRoundKey (all values are just 
+     constants).
+     </li>
+    </ol>
+   </ol>
+   </li>
+   <li> Such rearrangements mean there need to be several additional
+   functions written:
+   <ul>
+    <li> Each of the new boxes need minimum representations and generation
+    functions, including (see SboxAnalysis.mac, FieldOperationsAnalysis.mac):
+    <ul>
+     <li> The combination of linear maps (i.e. M . M3, M . M2 etc for AES
+     and small scale, including the multiplications for the inverse 
+     mixcolumns).
+     </li>
+     <li> The inverse map (i.e. s^(-1)). </li>
+     <li> The inverse map with the linear matrix multiplication (i.e. 
+     M . s^(-1)). </li>
+    </ul>
+    </li>
+    <li> Additional rewrite functions for the AES round which includes the 
+    affine constant addition as a separate constraint. </li>
+    <li> Rewrite functions for the constraint denoting the affine constant
+    addition. </li>
+   </ul>
+   </li>
+  </ul>
+
   
   \todo How to represent elements of arbitrary fields as boolean variables?
   <ul>
