@@ -7,8 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxPrimeImplicates.hpp
-  \brief On investigating the prime implicates of the AES and small scale boxes.
-
+  \brief On investigating the prime implicates of the AES and small scale boxes
 
 
   \todo Overview

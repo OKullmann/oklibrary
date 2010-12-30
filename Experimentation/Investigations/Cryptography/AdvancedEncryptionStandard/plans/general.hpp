@@ -85,7 +85,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Open problems 
+  \todo Open problems
   <ul>
    <li> Here is a list of experiments which still need to be run, or
    questions for which we still do not know the answer. 
@@ -96,28 +96,27 @@ License, or any later version. */
   </ul>
 
 
-  \todo Experiments
+  \todo Experiments : COMBINE WIT ABOVE
   <ul>
    <li> For the main experimental investigations, see:
     <ul>
      <li> See 
      Investigations/Cryptography/AdvancedEncryptionStandard/plans/AESKeyDiscovery.hpp
      for 
-     experiments regarding breaking AES (i.e. finding the key given the plaintext
-     and ciphertext. </li>
+     experiments regarding breaking AES (i.e. finding the key given the
+     plaintext and ciphertext. </li>
      <li> See 
      Investigations/Cryptography/AdvancedEncryptionStandard/plans/SmallScaleKeyDiscovery.hpp
-     for 
-     experiments regarding breaking small scale AES (i.e. finding the key given the plaintext
-     and ciphertext. </li>
+     for experiments regarding breaking small scale AES (i.e. finding the key
+     given the plaintext and ciphertext. </li>
      <li> See 
      Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
-     for experiments regarding computing encryption and decryption using the AES 
-     SAT translation. </li>
+     for experiments regarding computing encryption and decryption using the
+     AES SAT translation. </li>
      <li> See 
      Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxRepresentations.hpp
-     for experiments regarding representations of the AES and small scale boxes.
-     </li>
+     for experiments regarding representations of the AES and small scale
+     boxes. </li>
     </ul>
    </li>
    <li> We model a generalised AES system (see 
@@ -198,7 +197,7 @@ License, or any later version. */
   </ul>
 
   
-  \todo Solvers to be used for experimentation
+  \todo Solvers to be used for experimentation : NEEDS UPDATE
   <ul>
    <li> We need a list of the solvers we will use for all experiments. </li>
    <li> As time goes on, some solvers might not be used for later experiments

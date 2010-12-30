@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxMinimisation.hpp
-  \brief On investigating the generation of minimum size CNFs for the AES boxes.
+  \brief On investigating the generation of minimum size CNFs for the AES boxes
 
 
   \todo Overview

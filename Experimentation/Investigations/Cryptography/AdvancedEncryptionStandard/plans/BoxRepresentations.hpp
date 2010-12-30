@@ -34,7 +34,7 @@ License, or any later version. */
 
   \todo R-based representations
   <ul>
-   <li> r-bases for r in {r_1,r_2}? (See rand_rbase_cs(F,r) in
+   <li> r-bases for r in {r_1,r_2}? (see rand_rbase_cs(F,r) in
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.) </li>
   </ul>
 
