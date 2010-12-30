@@ -30,6 +30,9 @@ License, or any later version. */
   <ul>
    <li> See "Benchmarks for SAT 2011" in
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+   <li> Other than the standard AES and small scale translations, the 
+   minimisation problems for the AES boxes (Sbox and field multiplications) 
+   should yield good benchmarks for weighted MaxSAT solvers. </li>
   </ul>
 
 
