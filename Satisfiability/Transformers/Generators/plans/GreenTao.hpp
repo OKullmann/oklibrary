@@ -48,6 +48,7 @@ License, or any later version. */
 
   \todo Improving SAT translations
   <ul>
+   <li> See the todos in Generators/GreenTaoCNF.cpp. </li>
    <li> See the todos in Generators/GreenTaoGCNF.cpp. </li>
    <li> It seems better not to have GreenTaoCNF-O3-DNDEBUG and
    GreenTaoGCNF-O3-DNDEBUG available in the public bin-directory, since the

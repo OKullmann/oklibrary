@@ -22,6 +22,8 @@ License, or any later version. */
 
   \todo Improve implementation
   <ul>
+   <li> The error-message in case of failing int-conversion should print out
+   the error-message of the exception. </li> 
    <li> The name-map likely can be implemented much faster using a hash-map
    (in C++0x). </li>
    <li> Make the comments the same as with output_greentao2nd_stdname(k1,k2,n).

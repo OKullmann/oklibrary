@@ -12,6 +12,12 @@ License, or any later version. */
   For the specification see output_greentao in
   Satisfiability/Lisp/Generators/RamseyTheory/GreenTaoProblems.mac.
 
+  \todo Improve implementation
+  <ul>
+   <li> The error-message in case of failing int-conversion should print out
+   the error-message of the exception. </li> 
+  </ul>
+
   \todo Compare with specification
   <ul>
    <li> Make sure that the order of clauses coincides with the Maxima-function
