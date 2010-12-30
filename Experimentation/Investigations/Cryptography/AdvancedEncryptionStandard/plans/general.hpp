@@ -85,6 +85,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Open problems 
+  <ul>
+   <li> Here is a list of experiments which still need to be run, or
+   questions for which we still do not know the answer. 
+   <ol>
+    <li> XXX </li>
+   </ol>
+   </li>
+  </ul>
+
+
   \todo Experiments
   <ul>
    <li> For the main experimental investigations, see:
@@ -95,17 +106,18 @@ License, or any later version. */
      experiments regarding breaking AES (i.e. finding the key given the plaintext
      and ciphertext. </li>
      <li> See 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SmallScaleKeyDiscovery.hpp
+     for 
+     experiments regarding breaking small scale AES (i.e. finding the key given the plaintext
+     and ciphertext. </li>
+     <li> See 
      Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
      for experiments regarding computing encryption and decryption using the AES 
      SAT translation. </li>
      <li> See 
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
-     for experiments regarding the Sbox, it's representations and possible 
-     replacements. </li>
-     <li> See 
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
-     for experiments regarding multiplication by constants in GF(2^8),
-     their representations, and possible replacements. </li>
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxRepresentations.hpp
+     for experiments regarding representations of the AES and small scale boxes.
+     </li>
     </ul>
    </li>
    <li> We model a generalised AES system (see 
@@ -165,17 +177,6 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> Solvers to be used: 
-    <ul>
-     <li> OKsolver_2002 </li>
-     <li> minisat2 </li>
-     <li> ubcsat (1-0-0) </li>
-     <li> picosat913 </li>
-     <li> Satz215 </li>
-     <li> sp </li>
-     <li> march_pl </li>
-    </ul>
-   </li>
    <li> DONE (subsumed by newer list)
     The following are the main areas requiring experiments:
     <ul>
@@ -193,6 +194,28 @@ License, or any later version. */
      ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp).
      </li>
     </ul>
+   </li>
+  </ul>
+
+  
+  \todo Solvers to be used for experimentation
+  <ul>
+   <li> We need a list of the solvers we will use for all experiments. </li>
+   <li> As time goes on, some solvers might not be used for later experiments
+   based on earlier results, and this can be recorded here. </li>
+   <li> Solvers to be used: 
+    <ul>
+     <li> OKsolver_2002 </li>
+     <li> minisat2 </li>
+     <li> ubcsat (1-0-0) </li>
+     <li> picosat913 </li>
+     <li> Satz215 </li>
+     <li> sp </li>
+     <li> march_pl </li>
+    </ul>
+   </li>
+   <li> Any solvers to be used which are not currently in the library, need
+   to be added to BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
    </li>
   </ul>
 
@@ -231,52 +254,6 @@ License, or any later version. */
      values, since we have special algorithms. So other reductions than just
      the r_k-reductions are useful to consider in general. </li>
     </ol>
-   </li>
-  </ul>
-
-
-  \todo Cryptographic properties of AES
-  <ul>
-   <li> Given a correct translation of the AES into a SAT problem, represented
-   by the predicate "AES(P,K,C)" where P, K, and C are lists of 128 variables,
-   several questions regarding certain cryptographic properties of the AES can
-   be formulated as SAT problems. </li>
-   <li> Does AES have two distinct keys which map the same plaintext blocks 
-   to the same ciphertext block?
-   <ul>
-    <li> This can be translated as "AES(P,K1,C) and AES(P,K2,C) and 
-    NEQ(K1,K2)" where "NEQ" specifies that K1 differs form K2 in at least one 
-    bit. </li>
-   </ul>
-   </li>
-   <li> Does AES have any key which acts as the identity on one or all
-   plaintext blocks?
-   <ul>
-    <li> This can be translated as "AES(P,K,P)". </li>
-    <li> This can also be expanded trivially to find keys where AES algorithm
-    acts as the identity on "k" or more plaintext blocks (for reasonable k) 
-    by simply considering "AES(P1,K,P1) and AES(P2,K,P2) and ... and 
-    AES(Pk,K,Pk) and NEQ(P1,P2,...,Pk)" where here "NEQ" specifies that every 
-    argument differs in at least one variable from every other. </li>
-    <li> This may also be made more damaging to the AES by considering 
-    specifically plaintexts of a particular form (plaintext blocks
-    representing particular common ASCII sequences). </li>
-   </ul>
-   <li> Does AES have any key which is the inverse of any other for some 
-   plaintext/ciphertext pair?
-   <ul>
-    <li> Considering only a single piece of plaintext (that there are two
-    keys K1 and K2 for which AES with that K1 maps some plaintext P to 
-    ciphertext C and AES with K2 maps C to P) can be translated simply as 
-    "AES(P,K1,C) and AES(C,K2,P)". </li>
-    <li> This can be expanded to find keys K1 and K2 where AES using K2 is
-    the inverse of AES with K1 for at least "k" plaintext blocks in the 
-    following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
-    AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
-    <li> There is obviously then the question of whether there is key which 
-    acts as it's own inverse for at least "k" plaintext blocks, where
-    K1=K2 etc. </li>
-   </ul>
    </li>
   </ul>
 
