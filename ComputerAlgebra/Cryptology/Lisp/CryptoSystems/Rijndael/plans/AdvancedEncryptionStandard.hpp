@@ -10,6 +10,30 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Provide function for generating AES term
+  <ul>
+   <li> Running something like
+   \verbatim
+maxima> aes_encrypt_ibc_gen(p,k,1,s,mc);
+   \endverbatim
+   should result in a term representing AES which we can then rewrite
+   and utilise in our explanation of the AES system.
+   </li>
+   <li> Currently however, we get the following error:
+   \verbatim
+fullmapl: argument must be a list or matrix; found: "+"
+#0: lambda([a,b],matrixmap(rijn_stand,a+b))(a=p,b=k)
+#1: ibc_0(buildq([sbox_f],lambda([key,r],aes_keyschedule(key,r,sbox_f))),buildq([sbox_f,mixcolumn_f],lambda([p,r],aes_round_ibc(p,r,sbox_f,mixcolumn_f))),lambda([a,b],matrixmap(rijn_stand,a+b)))(plain_text=p,key=k,n=2)
+#2: aes_encrypt_ibc_gen(plaintext=p,key=k,num_rounds=1,sbox_f=s,mixcolumn_f=mc)
+ -- an error. To debug this try: debugmode(true);
+   \endverbatim
+   </li>
+   <li> One needs to make sure that each of the functions in the AES 
+   implementation is written carefully to ensure it collapses correctly
+   to a term when all relevant details are provided. </li>
+  </ul>
+
+
   \todo Standardise data types and documentation
   <ul>
    <li> Currently the specifications (in comments) and docus
