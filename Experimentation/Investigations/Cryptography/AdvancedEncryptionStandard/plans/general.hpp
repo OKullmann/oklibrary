@@ -87,6 +87,27 @@ License, or any later version. */
 
   \todo Experiments
   <ul>
+   <li> For the main experimental investigations, see:
+    <ul>
+     <li> See 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/AESKeyDiscovery.hpp
+     for 
+     experiments regarding breaking AES (i.e. finding the key given the plaintext
+     and ciphertext. </li>
+     <li> See 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
+     for experiments regarding computing encryption and decryption using the AES 
+     SAT translation. </li>
+     <li> See 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
+     for experiments regarding the Sbox, it's representations and possible 
+     replacements. </li>
+     <li> See 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
+     for experiments regarding multiplication by constants in GF(2^8),
+     their representations, and possible replacements. </li>
+    </ul>
+   </li>
    <li> We model a generalised AES system (see 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
    which supports the following different translations:
@@ -144,22 +165,6 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/BreakingAES.hpp
-   for 
-   experiments regarding breaking AES. </li>
-   <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
-   for experiments regarding the Sbox, it's representations and possible 
-   replacements. </li>
-   <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp 
-   for experiments regarding multiplication by constants in GF(2^8),
-   their representations, and possible replacements. </li>
-   <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
-   for experiments regarding computing encryption and decryption using the AES 
-   SAT translation. </li>
    <li> Solvers to be used: 
     <ul>
      <li> OKsolver_2002 </li>

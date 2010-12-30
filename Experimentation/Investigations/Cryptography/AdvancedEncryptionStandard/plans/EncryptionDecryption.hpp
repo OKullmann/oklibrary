@@ -10,6 +10,17 @@ License, or any later version. */
   \brief On investigating encryption and decryption using AES SAT-translation
 
 
+  \todo Overview
+  <ul>
+   <li> Question here is: Given the current translation, how well can a SAT
+   solver perform a simple AES computation (encryption/decryption)? </li>
+   <li> It should be that through unit clause propagation etc, the SAT solver
+   should be very quick, as there should be no decisions, just simple
+   computation. </li>
+   <li> See "Encryption" and "Decryption". </li>
+  </ul>
+
+
   \todo Encryption
   <ul>
    <li> Given a CNF representing AES over "n" rounds called "AES_rn.cnf", a CNF
