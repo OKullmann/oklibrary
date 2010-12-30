@@ -158,7 +158,8 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
   </ul>
 
 
-  \todo Putting "configure" under our version control
+  \todo DONE (moved files into Programming/Specifics/Gcc/412)
+  Putting "configure" under our version control
   <ul>
    <li> Since there are now various changes to various gcc-configuration files,
    we should put them under our version control. </li>
@@ -173,6 +174,8 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
    Programming/SystemSpecifics/Gcc. </li>
    <li> At this time Programming/SystemSpecifics/plans/milestones.hpp
    should be updated. </li>
+   <li> The Externalsources/sources/gcc-4.1.2.tar.bz2 is now the original
+   from the Gcc site with md5sum a4a3eb15c96030906d8494959eeda23c. </li>
   </ul>
 
 
@@ -235,7 +238,8 @@ MPFR Library version 2.4.2 (or later)
    Perhaps we should provide in general build-variables supporting
    usage of gcc (i.e., calling the compiler, and providing the instructions
    for fixing the shared libraries in the binaries. </li>
-   <li> Changed configuration file sources/Gcc/configure-4.1.2.gz:
+   <li> DONE (see 'Putting "configure" under our version control')
+   Changed configuration file sources/Gcc/configure-4.1.2.gz:
     <ol>
      <li> On 18.6.2008 this changed file was introduced according to MG;
      ID 4494618f9a8b506adc41934941c81a7554e0c3f6. </li>
@@ -261,7 +265,8 @@ MPFR Library version 2.4.2 (or later)
      </li>
     </ol>
    </li>
-   <li> Gcc 4.1.2 will not link on some 64 bit systems
+   <li> DONE (see 'Putting "configure" under our version control')
+   Gcc 4.1.2 will not link on some 64 bit systems
     <ul>
      <li> Gcc 4.1.2 assumes that 32 bit libraries are stored
      in /usr/lib /lib etc rather than /usr/lib32 /lib32 etc. </li>

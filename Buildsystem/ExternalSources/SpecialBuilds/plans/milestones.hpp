@@ -39,7 +39,7 @@ License, or any later version. */
     - Local Gmp/Mpfr are not used (appropriately) : DONE
     - How to use local Gmp + Mpfr? : DONE
     - Local build of Fortran fails (for 4.1.2) : DONE
-    - Putting "configure" under our version control
+    - Putting "configure" under our version control : DONE
     - GCC 4.1.2 will not build on systems without GMP with MPFR support : DONE
     - Providing gcc 4.1.2
     - Install GCC 4.2.4 : DONE
