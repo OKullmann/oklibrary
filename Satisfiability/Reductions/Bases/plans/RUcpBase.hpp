@@ -6,17 +6,17 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Reductions/Bases/plans/RUcpBase.hpp
+  \file Satisfiability/Reductions/Bases/plans/UcpBase.hpp
   \brief Plans regarding the computation of r_1-bases of clause-sets
 
+  r_1-bases (or "UCP-bases") of a clause-set F are those minimal F' <= F such
+  that all C in F-F' can be derived from F' modulo subsumption by
+  input-resolution.
 
-  \todo r_1-bases
+
+  \todo Random r_1-bases
   <ul>
-   <li> The first task is to compute r_1-bases (one could also speak of
-   "UCP-bases"). </li>
-   <li> The r_1_bases of a clause-set F are exactly those minimal F' <= F such
-   that all C in F-F' can be derived from F' modulo subsumption by
-   input-resolution. </li>
+   <li> The application is Reductions/Bases/RUcpBase.cpp. </li>
    <li> Important for efficiency, that elimination of clauses and moving to
    a different clause (as partial assignment) can be done without much
    overhead. </li>
@@ -36,7 +36,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> The problem with the Maxima-specification rand_rbase_cs is how to
+   <li> The problem with the Maxima-specification rand_rbase_cs in
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac is how to
    reproduce the Maxima-function random_permutation:
     <ol>
      <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
