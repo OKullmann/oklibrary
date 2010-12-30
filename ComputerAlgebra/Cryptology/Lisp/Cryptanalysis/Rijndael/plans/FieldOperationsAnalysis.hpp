@@ -9,6 +9,22 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
   \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
 
+
+  \todo Add XOR translations for field multiplications
+  <ul>
+   <li> The AES field multiplications are simply multiplications by an 8x8 bit
+   matrix (this is the same even for the small scale, it simply becomes a 4x4
+   or e * e bit matrix), and therefore, we could simply translate this 
+   function as a series of XOR (+ possibly negating variables) constraints. 
+   </li>
+   <li> Such translations might benefit solvers which make use of XOR 
+   constraints. </li>
+   <li> This should also be useful when considering rearranging linear 
+   components of the AES (see "Rearranging linear components of Sbox and 
+   MixColumns" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp) . </li>
+  </ul>
+
   
   \todo Generate good CNF hitting clause-sets for the AES Field Operations
   <ul>
