@@ -124,6 +124,8 @@ ExternalSources/Installations/R> oklib --R
 
   \todo Improve documentation for Espresso
   <ul>
+   <li> We should improve the source-code, so that the option "--version"
+   is recognised. </li>
    <li> At the ExternalSources page we need an index-page for the various
    pieces of documentation we have. </li>
    <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
