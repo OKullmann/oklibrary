@@ -37,8 +37,6 @@ The following software needs to be installed:
    (check: run "awk --version")
  - gcc
    (check: run "gcc --version")
- - A Fortran compiler (e.g. gfortan or F77)
-   (check: run "gfortran --version")
  - GNU texinfo 
    (check: run "makeinfo --version")
 
