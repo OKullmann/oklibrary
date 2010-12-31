@@ -230,6 +230,15 @@ MPFR Library version 2.4.2 (or later)
 
   \todo Providing gcc 4.1.2
   <ul>
+   <li> Special 412-targets:
+    <ol>
+     <li> Programs needing gcc version 4.1.2 might also need the libraries,
+     and so actually we might better keep the newly introduced 412-targets
+     (which yet are flagged as "to be removed"). </li>
+     <li> These targets are boost412, bzip2412, gmp412. </li>
+     <li> We should also add mpfr412, and mhash412 (once updated). </li>
+    </ol>
+   </li>
    <li> DONE
    Motivated by "GRASP cannot be compiled with gcc version 4.3" (see
    Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp), we should provide
