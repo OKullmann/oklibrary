@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
+   topics are handled:
+    - Update to newer Sage
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Complete documentation
@@ -113,11 +118,6 @@ License, or any later version. */
     - Install Axiom
     - Install OpenAxiom
     - FriCAS
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
-   topics are handled:
-    - Update to new Sage
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
