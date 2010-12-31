@@ -34,7 +34,7 @@ bzip2412 : $(bzip2_directories_okl)
 	cp $(bzip2_source_dir_okl)/Makefile_bzip2-$(bzip2_recommended_version_number_okl)_corrected $(bzip2_extracted_package_okl)/Makefile
 	cd $(bzip2_extracted_package_okl); $(postcondition) \
 	make CC=$(gcc412_call_okl); $(postcondition) \
-	make install PREFIX=$(bzip2_installation_dir_okl); $(postcondition) \
+	make install PREFIX=$(bzip2_base_installation_dir_okl)/4.1.2/$(bzip2_recommended_version_number_okl); $(postcondition) \
 	cp manual.html manual.pdf $(bzip2_doc_dir_okl); $(postcondition)
 
 # ####################################
