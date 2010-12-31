@@ -156,8 +156,9 @@ in directory OKsystem (or below it).
 
 Remarks:
 
- - "oklib html" would fully re-install the documentation, however it needs an
-   appropriate version of doxygen installed for this. See Step 4).
+ - "oklib html" (which has documentation_index as sub-target) would fully
+   re-install the documentation, however it needs an appropriate version of
+   doxygen installed for this. See Step 4.
  - Information on installation status at the main page for "external sources"
    (directly reachable from the local home page, see below) should now
    be correct, but updating the information on the specific installation pages
