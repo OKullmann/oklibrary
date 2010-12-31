@@ -157,6 +157,16 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
 
   \todo Install GCC 4.5.2
   <ul>
+   <li> Regarding gcj on csoberon we get the error
+   \verbatim
+checking for unzip... /usr/bin/unzip
+Illegal option: @
+Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+   \endverbatim
+   with configure for gcj. No zip is available on this machine, which perhaps
+   makes the difference (on the other machines we have it). Looks like a
+   gcc-bug; contacted the gcc mailing-list. For now we disable gcj (don't need
+   it now). </li>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>

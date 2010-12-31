@@ -53,7 +53,8 @@ gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
 
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_package_name_okl)
 
-gcc_enable_languages_okl ?= c,c++,fortran,java
+gcc_enable_languages_okl ?= c,c++,fortran#,java
+# disabled java due to build-problems with 4.5.2
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared --disable-multilib
 
