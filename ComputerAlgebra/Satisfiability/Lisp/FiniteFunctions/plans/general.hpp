@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.11.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -80,6 +80,30 @@ License, or any later version. */
    </li>
    <li> An especially important case, realised for example by signed
    clause-sets, is that of a "finite relation", a map f: D^n -> {0,1}. </li>
+  </ul>
+
+
+  \todo Finite functions with full application of partial assignments
+  <ul>
+   <li> Consider a set D of values. </li>
+   <li> A "finite function with full application", for short "fffa", is either
+   an element of D (for a constant function, without variables), or some object
+   f, where the operations are
+    <ol>
+     <li> var_fffa(f) for the set of variables of f on which f really depends,
+     </li>
+     <li> apply_pa_fffa(phi,f) for the application of a partial assignment phi
+     to f, yielding again a fffa. </li>
+    </ol>
+   </li>
+   <li> f is a constant iff var(f) = {} iff f is semantically a constant. </li>
+   <li> Variables v in phi with v notin var(F) have no influence on phi * F.
+   </li>
+   <li> We have (psi * phi) * F = psi * (phi * F), where psi * phi is the
+   composition of partial assignments. </li>
+   <li> For hitting CNF and hitting DNF we can implement models. </li>
+   <li> Even more efficient for permutations of {0,1}^n as boolean conditions
+   {0,1}^2n -> {0,1}. </li>
   </ul>
 
 
