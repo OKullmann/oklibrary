@@ -231,6 +231,10 @@ Git comes with modern Linux distributions, but the OKlibrary should provide
 the most suitable version (either the newest one, or in case of some trouble
 an appropriate earlier version).
 
+(In case you don't want this git replacing your system-git (which likely
+happens if OKplatform/bin is on your PATH), then you can just delete that
+link on OKplatform/bin (together with the other git-prefixed links).)
+
 
 After having installed these tools, via
 
