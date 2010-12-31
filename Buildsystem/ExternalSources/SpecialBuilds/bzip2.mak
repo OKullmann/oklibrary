@@ -18,16 +18,24 @@ $(bzip2_directories_okl) : % :
 # Main bzip2 targets
 # #################################
 
-.PHONY : bzip2 cleanbzip2 cleanallbzip2
+.PHONY : bzip2 cleanbzip2 cleanallbzip2 bzip412
 
 bzip2 : $(bzip2_directories_okl)
+	$(call unarchive,$(bzip2_source_package_okl),$(bzip2_base_build_dir_okl)) $(postcondition)
+	cp $(bzip2_source_dir_okl)/Makefile_bzip2-$(bzip2_recommended_version_number_okl)_corrected $(bzip2_extracted_package_okl)/Makefile
+	cd $(bzip2_extracted_package_okl); $(postcondition) \
+	make CC=$(gcc_call_okl); $(postcondition) \
+	make install PREFIX=$(bzip2_installation_dir_okl); $(postcondition) \
+	cp manual.html manual.pdf $(bzip2_doc_dir_okl); $(postcondition)
+
+# as long as the OKlibrary is built using gcc-4.1.2 (to be removed after that):
+bzip2412 : $(bzip2_directories_okl)
 	$(call unarchive,$(bzip2_source_package_okl),$(bzip2_base_build_dir_okl)) $(postcondition)
 	cp $(bzip2_source_dir_okl)/Makefile_bzip2-$(bzip2_recommended_version_number_okl)_corrected $(bzip2_extracted_package_okl)/Makefile
 	cd $(bzip2_extracted_package_okl); $(postcondition) \
 	make CC=$(gcc412_call_okl); $(postcondition) \
 	make install PREFIX=$(bzip2_installation_dir_okl); $(postcondition) \
 	cp manual.html manual.pdf $(bzip2_doc_dir_okl); $(postcondition)
-
 
 # ####################################
 # Cleaning

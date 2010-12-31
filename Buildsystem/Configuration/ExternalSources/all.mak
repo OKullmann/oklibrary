@@ -11,7 +11,7 @@ global_targets_extsrc_okl ?= all clean cleanall update math buildsystem librarie
 
 buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc412 gcc
-library_targets_extsrc_okl ?= bzip2 boost gmp gmp412 mpfr zlib # mhash
+library_targets_extsrc_okl ?= bzip2 boost gmp bzip2412 boost412 gmp412 mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
 sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat
 boolean_targets_extsrc_okl ?= espresso
