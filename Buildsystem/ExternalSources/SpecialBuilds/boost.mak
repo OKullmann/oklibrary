@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-boost_directories_okl := $(boost_base_installation_dir_okl) $(boost_base_build_dir_okl) $(boost_base_doc_dir_okl) $(boost_doc_dir_okl) $(boost_build_dir_okl)
+boost_directories_okl := $(boost_base_installation_dir_okl) $(boost_base_build_dir_okl) $(boost_base_doc_dir_okl) $(boost_doc_dir_okl) $(boost_build_dir_okl) $(boost_base_build_dir_okl)/4.1.2/$(boost_recommended_version_number_okl)
 
 $(boost_directories_okl) : % : 
 	mkdir -p $@
@@ -34,7 +34,7 @@ boost : $(boost_directories_okl)
 
 
 # as long as the OKlibrary is built using gcc-4.1.2 (to be removed after that):
-boost412 : $(boost_directories_okl)
+boost412 : $(boost_base_build_dir_okl)/4.1.2/$(boost_recommended_version_number_okl) $(boost_base_installation_dir_okl)
 	$(call unarchive,$(boost_source_dir_okl),$(boost_base_build_dir_okl)) $(postcondition) \
 	cd $(boost_extracted_package_okl); $(postcondition) \
 	cd tools/jam/src; $(postcondition) \
