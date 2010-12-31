@@ -30,6 +30,9 @@ License, or any later version. */
   <ul>
    <li> See "Benchmarks for SAT 2011" in
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+   <li> Other than the standard AES and small scale translations, the 
+   minimisation problems for the AES boxes (Sbox and field multiplications) 
+   should yield good benchmarks for weighted MaxSAT solvers. </li>
   </ul>
 
 
@@ -215,6 +218,63 @@ License, or any later version. */
    </li>
    <li> Any solvers to be used which are not currently in the library, need
    to be added to BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
+   </li>
+  </ul>
+
+  
+  \todo Explain how to replace various AES boxes with identity or random
+  boxes
+  <ul>
+   <li> As part of our investigations, we wish to make various parts of
+   the AES sbox the identity, and then introduce the various boxes (Sbox,
+   field multiplications etc), to determine which combinations of boxes
+   "make AES difficult". </li>
+   <li> To do this, we need to be able to generate AES translations which
+   "make sense" (i.e. are permutations, given the key). </li>
+   <li> These translations are possible with the current translation system
+   without writing additional rewrite functions, however instructions
+   and/or additional helper functions are necessary to make sure things
+   easy to experiment with. </li>
+  </ul>
+
+
+  \todo Summary of previous experimental results
+  <ul>
+   <li> Before various improvements were made to the AES translation,
+   experiments were run for 1-4 rounds translations of the AES
+   and on the various boxes. </li>
+   <li> A basic summary (even if not reproducible due to the new state of the
+   system), should be made available here. </li>
+  </ul>
+
+
+  \todo Combining linear components
+  <ul>
+   <li> A full description of all of the possibilities for recombining
+   AES and small scale linear components (from the Sbox and MixColumns)
+   needs to be provided. </li>
+   <li> The idea here is that, due to the linearity of the Sbox's affine
+   transformation, and the MixColumns operations, as well as the
+   fact the Shiftrows simply permutes bytes, the linear aspects of the Sbox
+   can be moved out, and seperated (in the case of the affine addition),
+   or merged into the boxes for the MixColumn. </li>
+   <li> For the Sbox, we have 3 possibilities:
+    <ul>
+     <li> Full Sbox (M . s^(-1) + A) . </li>
+     <li> Sbox minus addition of the affine constant (M . s^(-1)). </li>
+     <li> Sbox minus affine transform entirely (s^(-1)). </li>
+    </ul>
+   </li>
+   <li> For the MixColumn multiplications, we have 2 possibilities:
+   <ul>
+    <li> Standard byte-field multiplications. </li>
+    <li> Sbox linear component (M) and Standard byte-field multiplications
+    together. </li>
+   </ul>
+   </li>
+   <li> A description of how to generate such translation is needed. </li>
+   <li> See also "Rearranging linear components of Sbox and MixColumns" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. 
    </li>
   </ul>
 

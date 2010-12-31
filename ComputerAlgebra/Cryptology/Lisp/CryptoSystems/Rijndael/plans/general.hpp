@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
 
+  \todo Tidy todos and update milestones
+  <ul>
+   <li> Milestone 0.0.10 should be marked as done and remaining issues
+   moved to 0.0.11. </li>
+   <li> Otherwise, there are only minor issues, including basic
+   documentation remaining, which should make up the todos for
+   0.0.11 and 0.0.12, after which point we should read 0.1. </li>
+   <li> Other todos which we do not intend to do in the immediate
+   future should then be moved to after 0.1. </li>
+  </ul>
+
+
   \todo Notions and notations
   <ul>
    <li> Introduce systematic notations and abbreviations for basic
