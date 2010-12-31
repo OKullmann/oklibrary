@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \bug Defect boost-installation for fixed gcc-4.1.2
+  <ul>
+   <li> The installation for gcc-4.1.2 (falsely) uses some general
+   gcc-variables, which relate to the current gcc-version. </li>
+  </ul>
+
+
   \bug Missing documentation for Boost
   <ul>
    <li> The installation page needs to be updated ("XXX" should be eliminated).
