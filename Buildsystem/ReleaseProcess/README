@@ -120,8 +120,9 @@ This creates links and directories.
    have to call it always with its full path):
 
  - One symbolic link is already planted in the base directory OKplatform
-   (you have used that in Step 1)), but this is only for the purpose of setting 
-   up the OKlibrary, and is otherwise of restricted use.
+   (you have used that in Step 1), but this is only for the purpose of 
+   setting up the OKlibrary, and otherwise its use is inconvenient
+   (though possible, and sufficient for all tasks).
 
  - The public bin-directory "OKplatform/bin" (in this directory) contains
    links to the main executables supplied by the OKlibrary, 
