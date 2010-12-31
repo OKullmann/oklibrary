@@ -32,3 +32,7 @@ bzip2_include_option_okl ?= -I$(bzip2_source_library_okl)
 bzip2_link_library_okl ?= $(bzip2_installation_dir_okl)/lib
 bzip2_link_option_okl ?= -L$(bzip2_link_library_okl) -Wl,-rpath,$(bzip2_link_library_okl)
 bzip2_call_okl ?= $(bzip2_installation_dir_okl)/bin/bzip2
+
+# as long as the OKlibrary is built using gcc-4.1.2 (to be removed after that):
+bzip2412_source_library_okl ?= $(bzip2_base_installation_dir_okl)/4.1.2/$(bzip2_recommended_version_number_okl)/include
+bzip2412_link_library_okl ?= $(bzip2_base_installation_dir_okl)/4.1.2/$(bzip2_recommended_version_number_okl)/lib
