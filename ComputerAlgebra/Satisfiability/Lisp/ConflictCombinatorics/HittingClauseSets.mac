@@ -66,12 +66,12 @@ hitting_cls_rep_st(T) := [treehittingcls_st(T), dualtreehittingcls_st(T)]$
 
 /* Convenience functions, which generate splitting trees by backtracking
    solvers (without backtracking); the heuristics needs to be
-   supplied). */
+   supplied): */
 treehittingcls_fcs(FF,h) := treehittingcls_st(dll_simplest_st(FF,h))$
 dualtreehittingcls_fcs(FF,h) := dualtreehittingcls_st(dll_simplest_st(FF,h))$
 hitting_cls_rep_fcs(FF,h) := hitting_cls_rep_st(dll_simplest_st(FF,h))$
 /* The variations where the splitting trees first are condensed (this
-   is sensible for analysing boolean functions). */
+   is sensible for analysing boolean functions): */
 treehittingcls_condensed_fcs(FF,h) := treehittingcls_st(condense_st(dll_simplest_st(FF,h)))$
 dualtreehittingcls_condensed_fcs(FF,h) := dualtreehittingcls_st(condense_st(dll_simplest_st(FF,h)))$
 hitting_cls_rep_condensed_fcs(FF,h) := hitting_cls_rep_st(condense_st(dll_simplest_st(FF,h)))$
