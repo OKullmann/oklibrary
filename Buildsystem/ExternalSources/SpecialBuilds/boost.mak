@@ -42,7 +42,7 @@ boost412 : $(boost_directories_okl)
 	cp bin.*/bjam $(boost_base_build_dir_okl); $(postcondition) \
 	cd ../../..; $(postcondition) \
 	echo "using gcc : 4.1.2 : $(gcc412_call_okl) : ;" > $(boost_base_build_dir_okl)/bjam_config; $(postcondition) \
-	$(boost_base_build_dir_okl)/bjam --user-config=$(boost_base_build_dir_okl)/bjam_config --prefix=$(boost_installation_dir_okl) --build-dir=$(boost_build_dir_okl) install $(boost_configuration_okl) -sBZIP2_INCLUDE=$(bzip2412_source_library_okl) -sBZIP2_LIBPATH=$(bzip2412_link_library_okl); $(postcondition) \
+	$(boost_base_build_dir_okl)/bjam --user-config=$(boost_base_build_dir_okl)/bjam_config --prefix=$(boost_base_installation_dir_okl)/4.1.2/$(boost_recommended_version_number_okl) --build-dir=$(boost_base_build_dir_okl)/4.1.2/$(boost_recommended_version_number_okl) install $(boost_configuration_okl) -sBZIP2_INCLUDE=$(bzip2412_source_library_okl) -sBZIP2_LIBPATH=$(bzip2412_link_library_okl); $(postcondition) \
 	cp -r boost.png boost.css index.htm index.html more libs doc tools $(boost_doc_dir_okl); $(postcondition)
 
 
