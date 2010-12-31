@@ -24,6 +24,8 @@ boost_documentation_url_okl := http://www.boost.org/libs/libraries.htm
 
 boost_source_dir_okl := $(ExternalSources)/sources/Boost/boost_$(boost_recommended_version_number_okl)
 
+boost_configuration_okl ?= --without-python --without-wave
+
 boost_source_library_okl ?= $(boost_installation_dir_okl)/include
 boost_include_option_okl ?= -I$(boost_source_library_okl)
 boost_link_library_okl ?= $(boost_installation_dir_okl)/lib
