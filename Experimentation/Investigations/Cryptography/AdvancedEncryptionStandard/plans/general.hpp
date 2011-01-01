@@ -10,16 +10,6 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Cleanup : DONE
-  <ul>
-   <li> DONE
-   Remove all completed todos (after inspection and possible transfers).
-   </li>
-   <li> DONE Update all external links into
-   Investigations/Cryptography/AdvancedEncryptionStandard. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See
@@ -33,36 +23,6 @@ License, or any later version. */
    <li> See Experimentation/Investigations/plans/CurrentExperiments.hpp for
    current experiments (todo "Add section on AES experiments to be run" in
    Experimentation/Investigations/plans/general.hpp needs urgent update). </li>
-  </ul>
-
-
-  \todo DONE (transferred content)
-  General organisation
-  <ul>
-   <li> All the experiments must be fully reproducible. Thus *only* tools
-   as provided by the OKlibrary are to be used, *NO* private code or private
-   schemes in any form. </li>
-   <li> Besides reproducibility, the point is to strengthen the OKlibrary,
-   by continuous improvement, not to weaken it by hiding. </li>
-   <li> DONE Directory structure:
-    <ol>
-     <li> DONE
-     The main topic here is not investigation of certain solvers, but to
-     investigate the interaction of cryptography and (generalised) SAT
-     solving. </li>
-     <li> DONE Thus solver-names as file-names should only occur, if at all, in
-     sub-directories associated with specific investigations. </li>
-     <li> The general standards for naming in the OKlibrary have to be
-     observed:
-      <ul>
-       <li> DONE Non-generic filenames start always with a capital letter.
-       </li>
-       <li> No file- (or directory-)name consists only of capital letters.
-       </li>
-      </ul>
-     </li>
-    </ol>
-   </li>
   </ul>
 
 

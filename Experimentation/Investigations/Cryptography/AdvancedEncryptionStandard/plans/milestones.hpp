@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.1 (1.1.2011)
-
-
-  \par Version 0.1.2 :
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the following
-   topics are handled:
-    - Cleanup : DONE
-
-  \par
-   In Experimentation/Investigations/Cryptography/plans/general.hpp the
-   following topics are handled:
-    - Weak state of the whole module : DONE
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.2 (1.1.2011)
 
 
   \par Version 0.1.3 :
@@ -67,7 +54,8 @@ License, or any later version. */
   \par Version history
 
    - 0.1   : 1.1.2011; initial version number (various plans and first results regarding AES "box" representations).
-   - 0.1.1 : 1.1.2001; started serious planning for the SAT2011 contributions.
+   - 0.1.1 : 1.1.2011; started serious planning for the SAT2011 contributions.
+   - 0.1.2 : 1.1.2011; removed/transferred completed todos, updates links.
 
 */
 

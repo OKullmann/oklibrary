@@ -10,20 +10,6 @@ License, or any later version. */
   \brief General plans regarding investigations into cryptographic systems.
 
 
-  \bug DONE
-  Weak state of the whole module
-  <ul>
-   <li> DONE
-   See "General organisation" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
-   <li> DONE (completed and removed)
-   See "Improve formulations" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
-   <li> And all connections to other modules have to be updated. </li>
-   <li> DONE Starting with the inappropriate file- and directory-names. </li>
-  </ul>
-
-  
   \todo Create milestones.
 
 */
