@@ -30,7 +30,7 @@ License, or any later version. */
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Structures version 0.0.6
   (see OKlib/Structures/plans/milestones.hpp)
-  \par Experimentation version 0.4.1
+  \par Experimentation version 0.4.1 : DONE
   (see Experimentation/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK) : DONE
   (see LegalIssues/plans/milestones.hpp)

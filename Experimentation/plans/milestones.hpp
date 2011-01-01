@@ -8,22 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/plans/milestones.hpp
 
-  \module_version Experimentation 0.4.0.3 (1.11.2011)
-
-
-  \par Version 0.4.1 : BASIC UPDATE I
-
-  \par Experimentation/Investigations version 0.3 : DONE
-  (see  Experimentation/Investigations/plans/milestones.hpp)
-
-  \par Experimentation/ExperimentSystem version 0.1.2 : DONE
-  (see ExperimentSystem/plans/milestones.hpp)
-
-  \par Experimentation/RandomGenerator version 0.5.1 : DONE
-  (see RandomGenerator/plans/milestones.hpp)
-
-  \par
-   Further milestones are created.
+  \module_version Experimentation 0.4.1 (1.11.2011)
 
 
   \par Version 0.4.2 : BASIC UPDATE II
@@ -71,6 +56,7 @@ License, or any later version. */
   \par Version history
 
    - 0.4   : 23.8.2007; initial version number (basic, basically running system for competition evaluation, and creating, running and storing experiments with random formulas).
+   - 0.4.1 : 1.11.2011; many investigations, some tools for local search and complete SAT solvers, started with the renewal of the OKgenerator.
 
 */
 
