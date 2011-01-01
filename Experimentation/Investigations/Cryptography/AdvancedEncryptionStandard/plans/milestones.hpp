@@ -41,6 +41,12 @@ License, or any later version. */
   \par Version 0.1.6 :
 
   \par
+   Create an outline of the experiments.
+
+
+  \par Version 0.1.7 :
+
+  \par
    In Experimentation/Investigations/plans/CurrentExperiments.hpp the section
    on AES is updated.
 
