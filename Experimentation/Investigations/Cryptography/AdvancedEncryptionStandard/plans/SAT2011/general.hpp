@@ -25,7 +25,9 @@ License, or any later version. */
   \todo Create submodule "Representations"
   <ul>
    <li> All files "Box*", "Field*", "Sbox*" shall go there. </li>
-   <li> Of course, with general plans there in "general.hpp".
+   <li> Of course, with general plans there in "general.hpp". </li>
+   <li> The general structure of the investigations (from arbitrary boolean
+   functions to permutations and linear maps) needs to be expressed. </li>
   </ul>
 
 
