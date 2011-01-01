@@ -10,7 +10,8 @@ License, or any later version. */
   \brief General plans regarding investigations into cryptographic systems.
 
 
-  \bug Weak state of the whole module
+  \bug DONE
+  Weak state of the whole module
   <ul>
    <li> DONE
    See "General organisation" in

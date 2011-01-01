@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In Experimentation/Investigations/Cryptography/plans/general.hpp the
    following topics are handled:
-    - Weak state of the whole module
+    - Weak state of the whole module : DONE
 
 
   \par Version 0.1.3 :
