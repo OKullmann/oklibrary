@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -409,8 +409,35 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
 
   \todo Argo
   <ul>
-   <li> Is this software maintained? It seems that since version 1.0 no further
-   developments took place, while for example documentation is missing? </li>
+   <li> DONE (as stated)
+   Create new release:
+    <ol>
+     <li> Using the repository-state 5ecd673e20cfd35a85012b1a7c25b8c73b36c93c
+     (branch bcs) from http://github.com/bsilverthorn/argosat.git (author
+     Bryan Silverthorn), create a release with version-number 1.0.1. </li>
+     <li> So the new package argosat-1.0.1.tar.gz is to be created from
+     a clone, by renaming the directory to "argosat-1.0.1". </li>
+    </ol>
+   </li>
+   <li> The old homepage http://argo.matf.bg.ac.yu/index.html seems no longer
+   available, so perhaps for argosat_homepage_url_okl we should use
+   http://argo.matf.bg.ac.rs/downloads/software/argosat-1.0.tar.gz ? </li>
+   <li> Development:
+    <ol>
+     <li> Is this software maintained? It seems that since version 1.0 no
+     further developments took place, while for example documentation is
+     missing? </li>
+     <li> There are missing includes of cstdlib and cstring, and "rand"
+     and "strcmp" are used without "std::" qualifier. </li>
+     <li> At http://github.com/bsilverthorn/argosat one finds the Git
+     repository http://github.com/bsilverthorn/argosat.git. </li>
+     <li> This contains the addition of the missing includes. </li>
+     <li> The (incorrect) use of the unqualified names "rand, strcmp" is
+     not detected by gcc 4.5.2, so we ignore this problem for now. </li>
+     <li> But at some point we should create a fork on Github and a submodule
+     in the OKlibrary, and make further improvements to the code. </li>
+    </ol>
+   </li>
    <li> See Satisfiability/Solvers/Argosat/plans/general.hpp for our own
    developments. </li>
    <li> It seems that there is no documentation available? </li>
