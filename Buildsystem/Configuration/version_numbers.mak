@@ -12,7 +12,7 @@ oklib_version := 0.2.1.5
 oklib_version_full := 0.2.1.5 (1.1.2011)
 
 # Deadlines for next versions of OKlib
-deadline_022 ?= 31.12.2010
+deadline_022 ?= 31.1.2011
 deadline_023 ?= 31.3.2011
 deadline_024 ?= 31.5.2011
 deadline_025 ?= 31.8.2011
