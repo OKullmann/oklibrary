@@ -92,6 +92,10 @@
 \chapter{General principles}
 \label{cha:GenPrinciples}
 
+
+\section{Programming}
+\label{sec:GenPrinciplesProgramming}
+
 Programming in the context of the \OKlibrary{} shall be guided by the following general principles:
 \begin{itemize}
 \item We ``trust the language'' (especially C++, our main language): We use all elements provided by the language standard, and we do not simulate other languages.
@@ -101,11 +105,19 @@ Programming in the context of the \OKlibrary{} shall be guided by the following 
 
 For guidelines on documentation see Chapter \ref{cha:DocumentationGeneral}.
 
+\subsection{No ``javaisms''}
+\label{sec:nojavaisms}
+
+no \name{get} no \name{set} (see XXX)
+
+variables are not called ``my'' (see XXX)
+
+in general no camel-case except for class-names and related constructions XXX
 
 
 
 
-\section{Literature discussion}
+\subsection{Literature discussion}
 \label{sec:generalprinciplesliterature}
 
 (what to do with other libraries?! \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:1 ``adhere to the style of the original'' ?! We have a clear separation: Either our library (fully consistent), or their (unchanged). Our environment: Not the maintenence programmer, but the ``mad scientist''.)
@@ -124,14 +136,6 @@ For guidelines on documentation see Chapter \ref{cha:DocumentationGeneral}.
 \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[4] Document any Deviations. If stepping away from standard for some reason, e.g. compiler issues, this should be well documented both external to the customers and internally to the developers.
 
 
-\section{No ``javaisms''}
-\label{sec:nojavaisms}
-
-no \name{get} no \name{set} (see XXX)
-
-variables are not called ``my'' (see XXX)
-
-in general no camel-case except for class-names and related constructions XXX
 
 
 \chapter{Concepts}
