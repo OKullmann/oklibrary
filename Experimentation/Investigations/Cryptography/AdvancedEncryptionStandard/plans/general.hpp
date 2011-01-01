@@ -36,7 +36,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo General organisation
+  \todo DONE (transferred content)
+  General organisation
   <ul>
    <li> All the experiments must be fully reproducible. Thus *only* tools
    as provided by the OKlibrary are to be used, *NO* private code or private
