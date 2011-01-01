@@ -19,6 +19,9 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.2
   (see Experimentation/Database/plans/milestones.hpp)
 
+  \par Experimentation/Investigations version 0.3 : DONE
+  (see  Experimentation/Investigations/plans/milestones.hpp)
+
   \par Experimentation/ExperimentSystem version 0.1.2 : DONE
   (see ExperimentSystem/plans/milestones.hpp)
 
