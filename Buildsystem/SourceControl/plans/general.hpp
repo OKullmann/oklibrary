@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -582,6 +582,8 @@ git pull -s subtree path_to_repository_B master
      <li> I (OK) don't understand what "git submodule summary" is good for:
      It shouldn't be possible to work directly in the submodule, so what is
      summarised? </li>
+     <li> At https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial we
+     find some information. </li>
     </ol>
    </li>
   </ul>
