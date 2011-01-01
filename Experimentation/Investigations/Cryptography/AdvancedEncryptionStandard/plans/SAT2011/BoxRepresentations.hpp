@@ -15,9 +15,9 @@ License, or any later version. */
    <li> One needs to systematically explore CNF representations, with and
    without new variables. </li>
    <li> First to study the set of prime implicates (see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxPrimeImplicates.hpp). </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxPrimeImplicates.hpp). </li>
    <li> For minimum and "small" representations, see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxMinimisation.hpp. </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxMinimisation.hpp. </li>
    <li> For R-based representations see "R-based representations". </li>
    <li> One could consider certain prime implicates more important than others;
    for example ensuring that at least given a full input and/or a full output

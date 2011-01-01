@@ -119,15 +119,15 @@ License, or any later version. */
      experiments regarding breaking AES (i.e. finding the key given the
      plaintext and ciphertext. </li>
      <li> See 
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SmallScaleKeyDiscovery.hpp
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SmallScaleKeyDiscovery.hpp
      for experiments regarding breaking small scale AES (i.e. finding the key
      given the plaintext and ciphertext. </li>
      <li> See 
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp 
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp 
      for experiments regarding computing encryption and decryption using the
      AES SAT translation. </li>
      <li> See 
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/BoxRepresentations.hpp
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxRepresentations.hpp
      for experiments regarding representations of the AES and small scale
      boxes. </li>
     </ul>

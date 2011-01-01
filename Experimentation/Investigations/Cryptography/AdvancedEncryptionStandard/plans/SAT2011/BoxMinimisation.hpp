@@ -25,8 +25,11 @@ License, or any later version. */
    </ul>
    </li>
    <li> Investigations into minimal size Sbox representations can be found in
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxMinimisation.hpp. </li>
-   <li> Investigations into minimal size field multiplication representations can be found in Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/FieldMulMinimisation.hpp. </li>
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SboxMinimisation.hpp.
+    </li>
+   <li> Investigations into minimal size field multiplication representations can be found in
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/FieldMulMinimisation.hpp.
+   </li>
    <li> Futher information on generating CNFs and DNFs for the Sbox and field
    multiplications can be found at
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac and

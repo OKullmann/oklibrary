@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.12.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -195,9 +195,9 @@ XXX
   \todo The case n=8
   <ul>
    <li> This case is especially interesting because of AES; see
-   Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/FieldMulInvestigations.hpp
    and
-   Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SboxInvestigations.hpp.
    </li>
    <li> Here we have (2^8)! ~ 8.578*10^506 permutations altogether (while
    there are ~ 2.003*10^19728 boolean functions (in 16 variables). </li>
