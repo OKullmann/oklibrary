@@ -8,16 +8,10 @@ License, or any later version. */
 /*!
   \file Experimentation/plans/milestones.hpp
 
-  \module_version Experimentation 0.4.0.2 (22.11.2010)
+  \module_version Experimentation 0.4.0.3 (1.11.2011)
 
 
-  \par Version 0.4.1 : BASIC UPDATE
-
-  \par Experimentation/Competition version 0.5.1
-  (see Experimentation/Competition/plans/milestones.hpp)
-
-  \par Experimentation/Database version 0.3.2
-  (see Experimentation/Database/plans/milestones.hpp)
+  \par Version 0.4.1 : BASIC UPDATE I
 
   \par Experimentation/Investigations version 0.3 : DONE
   (see  Experimentation/Investigations/plans/milestones.hpp)
@@ -32,10 +26,43 @@ License, or any later version. */
    Further milestones are created.
 
 
-  \par Version 0.4.2 : CLEAN UP
+  \par Version 0.4.2 : BASIC UPDATE II
+
+  \par Experimentation/Competition version 0.5.1
+  (see Experimentation/Competition/plans/milestones.hpp)
+
+  \par Experimentation/Database version 0.3.2
+  (see Experimentation/Database/plans/milestones.hpp)
+
+  \par Experimentation/Investigations version 0.3.1
+  (see  Experimentation/Investigations/plans/milestones.hpp)
+
+  \par Experimentation/ExperimentSystem version 0.1.4
+  (see ExperimentSystem/plans/milestones.hpp)
+
+  \par Experimentation/RandomGenerator version 0.5.3
+  (see RandomGenerator/plans/milestones.hpp)
+
+  \par
+   Further milestones are created.
+
+
+  \par Version 0.4.3 : CLEAN UP
 
   \par Experimentation/Competition version 0.5.3
   (see Experimentation/Competition/plans/milestones.hpp)
+
+  \par Experimentation/Database version 0.3.3
+  (see Experimentation/Database/plans/milestones.hpp)
+
+  \par Experimentation/Investigations version 0.3.2
+  (see  Experimentation/Investigations/plans/milestones.hpp)
+
+  \par Experimentation/ExperimentSystem version 0.1.5
+  (see ExperimentSystem/plans/milestones.hpp)
+
+  \par Experimentation/RandomGenerator version 0.6
+  (see RandomGenerator/plans/milestones.hpp)
 
 
 

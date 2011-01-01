@@ -30,6 +30,8 @@ License, or any later version. */
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
   \par Structures version 0.0.6
   (see OKlib/Structures/plans/milestones.hpp)
+  \par Experimentation version 0.4.1
+  (see Experimentation/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK) : DONE
   (see LegalIssues/plans/milestones.hpp)
   \par OKlib/Satisfiability version 0.1.1 (OK) : DONE
@@ -65,7 +67,7 @@ License, or any later version. */
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Experimentation version 0.4.1
+  \par Experimentation version 0.4.2
   (see Experimentation/plans/milestones.hpp)
   \par
    In OKlib/plans/general.hpp the following topics are handled:
@@ -123,6 +125,8 @@ License, or any later version. */
   (see Combinatorics/plans/milestones.hpp)
   \par General version 0.6
   (see General/plans/milestones.hpp)
+  \par Experimentation version 0.4.3
+  (see Experimentation/plans/milestones.hpp)
   \par
    In OKlib/plans/general.hpp the following topics are handled:
     - Upgrade to gcc-4.2.2
