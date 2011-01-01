@@ -18,6 +18,11 @@ License, or any later version. */
    topics are handled:
     - Cleanup
 
+  \par
+   In Experimentation/Investigations/Cryptography/plans/general.hpp the
+   following topics are handled:
+    - Weak state of the whole module
+
 
   \par Version 0.1.3 :
 
@@ -44,6 +49,13 @@ License, or any later version. */
 
   \par
    Create further milestones.
+
+
+  \par Version 0.1.6 :
+
+  \par
+   In Experimentation/Investigations/plans/CurrentExperiments.hpp the section
+   on AES is updated.
 
 
   \par Version 0.2 : PLANNING SAT2011 COMPLETED
