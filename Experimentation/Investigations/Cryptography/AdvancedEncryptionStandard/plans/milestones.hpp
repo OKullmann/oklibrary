@@ -20,6 +20,41 @@ License, or any later version. */
    Create further milestones.
 
 
+  \par Version 0.1.2 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the following
+   topics are handled:
+    - Cleanup
+
+
+  \par Version 0.1.3 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   following topics are handled:
+    - Cleanup of todos in this file
+
+
+  \par Version 0.1.4 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   following topics are handled:
+    - Create submodule "Representations"
+
+
+  \par Version 0.1.5 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   following topics are handled:
+    - Connection with the plans one level above
+
+  \par
+   Create further milestones.
+
+
   \par Version 0.2 : PLANNING SAT2011 COMPLETED
 
 

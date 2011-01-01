@@ -10,6 +10,32 @@ License, or any later version. */
   \brief Investigations into AES related to the SAT 2011 paper
 
 
+  \todo Cleanup of todos in this file
+  <ul>
+   <li> "Prepare experiments for the SAT 2011 paper", "Open problems" and
+   "Experiments" all belong together. </li>
+   <li> Likely this should go all into a new file "Experimentation.hpp".
+   </li>
+   <li> "Solvers to be used for experimentation" needs update. </li>
+   <li> "More experiments" shall be removed (possible after entering it
+   into the summary). </li>
+  </ul>
+
+
+  \todo Create submodule "Representations"
+  <ul>
+   <li> All files "Box*", "Field*", "Sbox*" shall go there. </li>
+   <li> Of course, with general plans there in "general.hpp".
+  </ul>
+
+
+  \todo Connection with the plans one level above
+  <ul>
+   <li> A full integration of plans SAT2011 with those one level above needs
+   to be achieved. </li>
+  </ul>
+
+
   \todo Prepare benchmarks for SAT 2011
   <ul>
    <li> See "Benchmarks for SAT 2011" in

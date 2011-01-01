@@ -10,6 +10,15 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
+  \todo Cleanup
+  <ul>
+   <li> Remove all completed todos (after inspection and possible transfers).
+   </li>
+   <li> Update all external links into
+   Investigations/Cryptography/AdvancedEncryptionStandard. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See
