@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the following
    topics are handled:
-    - Cleanup
+    - Cleanup : DONE
 
   \par
    In Experimentation/Investigations/Cryptography/plans/general.hpp the
