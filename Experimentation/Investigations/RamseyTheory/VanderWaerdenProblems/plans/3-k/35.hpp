@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,35)
 
 
-  \todo vanderwaerden_2(3,35) > 1168
+  \todo vanderwaerden_2(3,35) > 1180
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,35) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -68,6 +68,21 @@ License, or any later version. */
 850,857,861,877,887,908,936,942,951,979,
 981,1010,1018,1021,1042,1043,1056,1079,1089,1090,
 1095,1121,1154,1164,1167
+   \endverbatim
+   </li>
+   <li> n=1180 found satisfiable (adapted from n=1169, run 118,
+   osteps=11416401) with certificate
+   \verbatim
+19,32,63,71,100,106,108,124,125,143,
+157,163,175,194,198,204,209,217,246,248,
+249,269,278,311,315,320,322,342,343,357,
+380,383,385,416,420,422,439,453,454,463,
+494,496,508,531,545,552,587,601,602,618,
+624,626,653,655,676,690,693,698,713,729,
+730,737,759,764,766,774,787,792,804,823,
+833,866,870,883,901,912,920,934,951,959,
+971,975,994,1012,1014,1018,1025,1026,1051,1070,
+1082,1092,1107,1125,1129,1160,1174
    \endverbatim
    </li>
   </ul>
