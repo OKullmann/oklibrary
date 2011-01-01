@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1 (1.1.2011)
-
-
-  \par Version 0.1.1 : PLANNING SAT2011 opened
-
-  \par
-   Create subdirectory for SAT2011, and move related files there.
-
-  \par
-   Create further milestones.
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.1 (1.1.2011)
 
 
   \par Version 0.1.2 :
@@ -64,6 +55,7 @@ License, or any later version. */
   \par Version history
 
    - 0.1   : 1.1.2011; initial version number (various plans and first results regarding AES "box" representations).
+   - 0.1.1 : 1.1.2001; started serious planning for the SAT2011 contributions.
 
 */
 
