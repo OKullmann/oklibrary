@@ -212,16 +212,14 @@ XXX
   <ul>
    <li> The identity function 
    <ul>
-    <li> For the identity function f over from over {0,1}^n, we have the prime
-    implicates for f^* are exactly those clauses {v_{1,i},-v_{2,i}} and
-    {-v_{1,i},v_{2,i}} for all 1 <= i <= n, that encode the equality
-    of the variables in the input set with those of the output set using
-    binary constraints. </li>
-    <li> Each of these clauses follows trivially from the boolean function.
-    </li>
-    <li> No unit clause follows from this boolean function and so
-    these clauses are minimal. </li>
-    <li> Any CNF clause C follows from f iff there is some i such that
+    <li> For the identity function id over {0,1}^n the prime implicates of
+    id^* are exactly the clauses {v_{1,i},-v_{2,i}} and
+    {-v_{1,i},v_{2,i}} for all 1 <= i <= n. </li>
+    <li> These clauses encode the equality of the variables in the input set
+    with those of the output set using binary constraints. </li>
+    <li> Each of these clauses follows trivially from id. </li>
+    <li> No unit clause follows from id and so these clauses are minimal. </li>
+    <li> Any CNF clause C follows from id iff there is some i such that
     v_{1,i} and -v_{2,i} or -v_{1,i} and v_{2,i} are in the clause, and 
     therefore such a clause C is subsumed by one of the binary clauses
     mentioned above, meaning such binary clauses are the only prime implicates.
