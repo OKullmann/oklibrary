@@ -210,14 +210,27 @@ XXX
 
   \todo Prime implicates of simple permutations
   <ul>
-   <li> The identity function 
+   <li> The identity function: 
    <ul>
     <li> For the identity function id over {0,1}^n the prime implicates of
     id^* are exactly the clauses {v_{1,i},-v_{2,i}} and
     {-v_{1,i},v_{2,i}} for all 1 <= i <= n. </li>
     <li> These clauses encode the equality of the variables in the input set
     with those of the output set using binary constraints. </li>
+    <li> We have here the case of a parallel and independent composition of
+    n boolean functions, namely v_{1,i} = v_{2,i}. </li>
+    <li> In general, for such independent parallel compositions the prime
+    clauses are just taken alltogether. </li>
    </ul>
+   </li>
+   <li> The negation:
+    <ol>
+     <li> x -> neg x componentwise. </li>
+     <li> Here we have parallel independent composition of
+     v_{i,1} = not v_{i,2}, and so the prime implicates are exactly the
+     clauses {v_{1,i},v_{2,i}} and {-v_{1,i},-v_{2,i}} for all 1 <= i <= n.
+     </li>
+    </ol>
    </li>
   </ul>
 
