@@ -1,5 +1,5 @@
 // Matthew Henderson, 14.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,7 +50,7 @@ License, or any later version. */
        </li>
        <li> Also for a single installation on another 64-bit machine and
        on cs-oksvr we get the same address. </li>
-       </li>
+       <li> Still the same problem with doxygen 1.7.1. </li>
       </ol>
      </li>
      <li> main_demo_page:
@@ -63,9 +63,13 @@ License, or any later version. */
        </li>
        <li> The same path also on the other 64-bit-machine already mentioned
        above and on cs-oksvr. </li>
+       <li> Still the same problem with doxygen 1.7.1. </li>
       </ol>
      </li>
-     <li> DONE (the problem shouldn't be related to having multiple installations)
+     <li> Interesting that these two variations seem to be stable (there seem
+     to be *only* these two possibilities)?! </li>
+     <li> DONE (the problem shouldn't be related to having multiple
+     installations)
      Since we are using the local doxygen-installation (due to using
      the variable doxygen_call_okl), there should be no interference between
      the two installations. </li>

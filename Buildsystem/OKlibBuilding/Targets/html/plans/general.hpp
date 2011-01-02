@@ -76,6 +76,9 @@ License, or any later version. */
      is referenced (as here: x.t)! </li>
     </ol>
    </li>
+   <li> There are errors regarding stability of links; see "Doxygen problems
+   regarding stability of links" in Buildsystem/Html/Local/plans/general.hpp.
+   </li>
   </ul>
   
 
