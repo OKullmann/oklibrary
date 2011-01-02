@@ -217,14 +217,6 @@ XXX
     {-v_{1,i},v_{2,i}} for all 1 <= i <= n. </li>
     <li> These clauses encode the equality of the variables in the input set
     with those of the output set using binary constraints. </li>
-    <li> Each of these clauses follows trivially from id. </li>
-    <li> No unit clause follows from id and so these clauses are minimal. </li>
-    <li> Any CNF clause C follows from id iff there is some i such that
-    v_{1,i} and -v_{2,i} or -v_{1,i} and v_{2,i} are in the clause, and 
-    therefore such a clause C is subsumed by one of the binary clauses
-    mentioned above, meaning such binary clauses are the only prime implicates.
-    </li>
-    <li> This set of prime implicates is trivially irredundant. </li>
    </ul>
    </li>
   </ul>
