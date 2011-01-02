@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -157,16 +157,23 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
 
   \todo Install GCC 4.5.2
   <ul>
-   <li> Regarding gcj on csoberon we get the error
-   \verbatim
+   <li> DONE (building it, requiring zip)
+   gcj
+    <ol>
+     <li> Regarding gcj on csoberon we get the error
+     \verbatim
 checking for unzip... /usr/bin/unzip
 Illegal option: @
 Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
-   \endverbatim
-   with configure for gcj. No zip is available on this machine, which perhaps
-   makes the difference (on the other machines we have it). Looks like a
-   gcc-bug; contacted the gcc mailing-list. For now we disable gcj (don't need
-   it now). </li>
+     \endverbatim
+     with configure for gcj. No zip is available on this machine, which perhaps
+     makes the difference (on the other machines we have it). Looks like a
+     gcc-bug; contacted the gcc mailing-list. </li>
+     <li> For now we disable gcj (don't need it now). </li>
+     <li> But we can simply add "zip" to the requirement. </li>
+    </ol>
+   </li>
+   <li> We need to install zip locally, and provide it to the gcc-build. </li>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 26.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -53,8 +53,7 @@ gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
 
 gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_package_name_okl)
 
-gcc_enable_languages_okl ?= c,c++,fortran#,java
-# disabled java due to build-problems with 4.5.2
+gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared --enable-multilib
 
