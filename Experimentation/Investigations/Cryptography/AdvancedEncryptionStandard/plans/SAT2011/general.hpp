@@ -10,15 +10,6 @@ License, or any later version. */
   \brief Investigations into AES related to the SAT 2011 paper
 
 
-  \todo Create submodule "Representations"
-  <ul>
-   <li> All files "Box*", "Field*", "Sbox*" shall go there. </li>
-   <li> Of course, with general plans there in "general.hpp". </li>
-   <li> The general structure of the investigations (from arbitrary boolean
-   functions to permutations and linear maps) needs to be expressed. </li>
-  </ul>
-
-
   \todo Connection with the plans one level above
   <ul>
    <li> A full integration of plans SAT2011 with those one level above needs
@@ -128,6 +119,13 @@ License, or any later version. */
    and on the various boxes. </li>
    <li> A basic summary (even if not reproducible due to the new state of the
    system), should be made available here. </li>
+  </ul>
+
+
+  \todo DONE Create submodule "Representations"
+  <ul>
+   <li> DONE All files "Box*", "Field*", "Sbox*" shall go there. </li>
+   <li> DONE Of course, with general plans there in "general.hpp". </li>
   </ul>
 
 */

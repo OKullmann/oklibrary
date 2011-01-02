@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxMinimisation.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp
   \brief On investigating the generation of minimum size CNFs for the AES boxes
 
 
@@ -25,10 +25,10 @@ License, or any later version. */
    </ul>
    </li>
    <li> Investigations into minimal size Sbox representations can be found in
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SboxMinimisation.hpp.
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/SboxMinimisation.hpp.
     </li>
    <li> Investigations into minimal size field multiplication representations can be found in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/FieldMulMinimisation.hpp.
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/FieldMulMinimisation.hpp.
    </li>
    <li> Futher information on generating CNFs and DNFs for the Sbox and field
    multiplications can be found at

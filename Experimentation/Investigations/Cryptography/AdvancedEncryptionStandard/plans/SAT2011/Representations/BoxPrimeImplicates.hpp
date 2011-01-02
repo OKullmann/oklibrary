@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxPrimeImplicates.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp
   \brief On investigating the prime implicates of the AES and small scale boxes
 
 

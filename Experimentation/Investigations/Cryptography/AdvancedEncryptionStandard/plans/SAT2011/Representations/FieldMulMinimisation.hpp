@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/FieldMulMinimisation.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/FieldMulMinimisation.hpp
   \brief On investigations into the AES field multiplications
 
 

@@ -16,7 +16,12 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
-    - Create submodule "Representations"
+    - Create submodule "Representations" : DONE
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp 
+   the following topics are handled:
+    - Add links and update module structure
 
 
   \par Version 0.1.5 :
