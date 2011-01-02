@@ -230,6 +230,15 @@ XXX
    </ul>
    </li>
   </ul>
+
+
+  \todo Affine bijections over ZZ_2
+  <ul>
+   <li> We need to find out all about the representations of boolean functions
+   x -> a+x, i.e., translations by vector a. </li>
+   <li> More complicated are linear bijections x -> M*x for invertible matrices
+   M. </li>
+   <li> Finally we need to consider x -> a + M*x. </li>
   
 */
 
