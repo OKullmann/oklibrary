@@ -173,7 +173,16 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      <li> But we can simply add "zip" to the requirement. </li>
     </ol>
    </li>
-   <li> We need to install zip locally, and provide it to the gcc-build. </li>
+   <li> We need to install zip locally, and provide it to the gcc-build.
+    <ol>
+     <li> Building it shouldn't be a problem. </li>
+     <li> Gcc doesn't make provisions for that. </li>
+     <li> So apparently one has to modify the path when installing gcc? </li>
+     <li> Alternatively we could put it into OKplatform/bin. </li>
+     <li> However this wouldn't solve the provision-problem, since (at least
+     yet) we say that putting OKplatform/bin on PATH isn't required. </li>
+    </ol>
+   </li>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>
