@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.2 (1.1.2011)
-
-
-  \par Version 0.1.3 :
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
-   following topics are handled:
-    - Cleanup of todos in this file : DONE
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.3 (2.1.2011)
 
 
   \par Version 0.1.4 :
@@ -62,6 +54,7 @@ License, or any later version. */
    - 0.1   : 1.1.2011; initial version number (various plans and first results regarding AES "box" representations).
    - 0.1.1 : 1.1.2011; started serious planning for the SAT2011 contributions.
    - 0.1.2 : 1.1.2011; removed/transferred completed todos, updates links.
+   - 0.1.3 : 2.1.2011; Tidied general todos and updated SAT2011 sub-module.
 
 */
 
