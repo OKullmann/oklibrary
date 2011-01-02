@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
-    - Cleanup of todos in this file
+    - Cleanup of todos in this file : DONE
 
 
   \par Version 0.1.4 :

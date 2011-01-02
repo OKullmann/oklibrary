@@ -10,20 +10,6 @@ License, or any later version. */
   \brief Investigations into AES related to the SAT 2011 paper
 
 
-  \todo Cleanup of todos in this file
-  <ul>
-   <li> "Solvers to be used for experimentation" needs update. </li>
-   <li> "More experiments" shall be removed (possible after entering it
-   into the summary). </li>
-   <li> (DONE moved into Experimentation.hpp and moved some description
-   to todos on documenting the translation)
-   "Prepare experiments for the SAT 2011 paper", "Open problems" and
-   "Experiments" all belong together. </li>
-   <li> DONE Likely this should go all into a new file "Experimentation.hpp".
-   </li>
-  </ul>
-
-
   \todo Create submodule "Representations"
   <ul>
    <li> All files "Box*", "Field*", "Sbox*" shall go there. </li>
@@ -180,6 +166,22 @@ License, or any later version. */
     </ol>
    </li>
    <li> DONE Plan for more experiments! </li>
+  </ul>
+
+
+  \todo DONE Cleanup of todos in this file
+  <ul>
+   <li> "Solvers to be used for experimentation" needs update. </li>
+   <li> DONE (Removed, summarising previous results is already (better)
+   handled by "Summary of previous experimental results")
+   "More experiments" shall be removed (possible after entering it
+   into the summary). </li>
+   <li> DONE (moved into Experimentation.hpp and moved some description
+   to todos on documenting the translation)
+   "Prepare experiments for the SAT 2011 paper", "Open problems" and
+   "Experiments" all belong together. </li>
+   <li> DONE Likely this should go all into a new file "Experimentation.hpp".
+   </li>
   </ul>
 
 */

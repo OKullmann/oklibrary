@@ -94,24 +94,54 @@ License, or any later version. */
   </ul>
 
 
-  \todo Solvers to be used for experimentation : NEEDS UPDATE
+  \todo Solvers to be used for experimentation
   <ul>
    <li> We need a list of the solvers we will use for all experiments. </li>
    <li> As time goes on, some solvers might not be used for later experiments
    based on earlier results, and this can be recorded here. </li>
    <li> Solvers to be used: 
     <ul>
+     <li> ArgoSAT </li>
      <li> OKsolver_2002 </li>
      <li> minisat2 </li>
      <li> ubcsat (1-0-0) </li>
      <li> picosat913 </li>
+     <li> precosat236 </li>
      <li> Satz215 </li>
+     <li> Grasp </li>
+     <li> clasp </li>
+     <li> kcnfs </li>
      <li> sp </li>
      <li> march_pl </li>
     </ul>
    </li>
+   <li> The following solvers (from the SAT 2010 race) are not in the library,
+   but should be added to the library (see 
+   BuildSystem/ExternalSources/plans/SAT.hpp):
+   <ul>
+    <li> Barcelogic </li>
+    <li> borg-sat </li>
+    <li> CircleSAT </li>
+    <li> CirCUs </li>
+    <li> CryptoMiniSAT </li>
+    <li> glucose </li>
+    <li> glucoER </li>
+    <li> kw </li>
+    <li> lingeling </li>
+    <li> LySAT </li>
+    <li> oprailleur </li>
+    <li> riss </li>
+    <li> rcl </li>
+    <li> SApperloT </li>
+    <li> SAT-Power </li>
+    <li> SATHYS </li>
+   </ul>   
+   </li>
+   <li> Is it possible in the time constraints to run ALL of these solvers
+   for every experiment? </li>
    <li> Any solvers to be used which are not currently in the library, need
-   to be added to BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
+   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT 
+   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp) .
    </li>
   </ul>
 
