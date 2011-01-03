@@ -17,6 +17,50 @@ License, or any later version. */
    structure, and therefore it is important to investigate these clause-sets
    to determine whether in some cases one can simply use the prime implicates
    as the best possible box translation. </li>
+   <li> To generate the prime implicates for a given box, there are two 
+   options, depending on the predicted size of the set.
+   <ol>
+    <li> If there are likely to be very few prime implicates, then we can 
+    generate them in the maxima system like so:
+    \verbatim
+> ss_box_pi : min_2resolution_closure_cs( 
+                 fcs2cs(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4)) )$
+    \endverbatim
+    where "ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4)" generates the *full* 
+    CNF (note min_2resolution_closure_cs should only be given full CNFs) for
+    the small scale 4-bit Sbox (see 
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac)
+    and then from this min_2resolution_closure_cs computes the prime 
+    implicates. The same can be done for the field operations using similar
+    CNF generation functions (see
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac).
+    </li>
+    <li> Another method is to use the C++ QuineMcCluskey implementation, by
+    generating the full CNF as a DIMACS file:
+    \verbatim
+maxima> output_rijnsbox_fullcnf_stdname();
+    \endverbatim
+    which generates the file "AES_Sbox_full.cnf" and then using 
+    "QuineMcCluskey-n16-O3-DNDEBUG" to generate the prime implicates:
+    \verbatim
+shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > sbox_pi.cnf
+    \endverbatim
+    Again, see 
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
+    and
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac 
+    for information on how to generate these Dimacs files.
+    </li>
+   </ol>
+   </li>
+  </ul>
+
+  
+  \todo Move individual investigations to sub-modules
+  <ul>
+   <li> We should have a sub-module "PrimeImplicates" which then has files
+   for the Sbox and each Field multiplication etc, where the statistics and
+   regularities of each set of prime implicates can be discussed. </li>
   </ul>
 
   

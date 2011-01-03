@@ -28,9 +28,7 @@ License, or any later version. */
     each type of experiment (including separately methods of experimentation):
     <ul>
      <li> BoxMinimisation. </li>
-     <li> BoxPrimeImplicates. </li>
-     <li> FieldMulMinimisation. </li>
-     <li> SboxMinimisation. </li>
+     <li> BoxPrimeImplicates : DONE </li>
     </ul>
     </li>
    </ul>
