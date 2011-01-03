@@ -226,8 +226,10 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    </li>
    <li> precosat570:
     <ol>
-     <li> n=607: ?sat, ?s. </li>
-     <li> n=587: ?sat, ?s. </li>
+     <li> n=607: ?sat, ?s (had to be interrupted after 408250.5, without
+     visible progress (except of the one fixed variable)). </li>
+     <li> n=587: ?sat, ?s (had to be interrupted after 408284.6, without
+     visible progress (except of the one fixed variable)). </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
