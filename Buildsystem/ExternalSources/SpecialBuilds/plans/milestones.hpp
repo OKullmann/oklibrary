@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -71,6 +71,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Add todos for SAT-Race 2010 SAT solvers
     - Fuzzing
     - Write docus for March
     - Write docus for Satz
@@ -90,6 +91,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - Update to version 1.2.0
+    - UBCSAT 1.0.0 reports wrong minimum number of falsified clauses
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
     - Make clear the required package for dos2unix
 

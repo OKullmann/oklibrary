@@ -1,5 +1,5 @@
 // Matthew Gwynne, 28.1.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,25 +9,6 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
   \brief Plans on the AES implementation
 
-  
-  \todo Use matrix of GF(b) matrices for MixColumn
-  <ul>
-   <li> To allow the rearrangement of the small scale AES
-   such that the linear component of the Sbox is moved into
-   MixColumns, the MixColumn matrix should be a matrix with elements
-   in the range {1,...,b} where b is the characteristic of the  
-   small scale word field. </li>
-   <li> Not every square e-dimensional matrix over {1,...,b}
-   can be represented as a multiplication by an element in 
-   GF(b^e), as there are two many elements, and so for
-   such a generalisation, the MixColumns should be changed
-   so that the collection of Sbox matrices can be integrated with it. 
-   </li>
-   <li> Note that because of the nature of the ShiftRows and addition,
-   the ShiftRows and Subbytes commute, allowing such an alternative
-   representation. </li>
-  </ul>
-
 
   \todo Datatypes and naming conventions
   <ul> 
@@ -36,6 +17,18 @@ License, or any later version. */
    devised. </li>
    <li> For now, functions are prefixed with "ss_"  for "small-scale".
    </li>
+  </ul>
+
+
+  \todo Docus
+  <ul>
+   <li> Add docus on small scale implementation, discussing the parameters,
+   design decisions etc. </li>
+   <li> Included in the design decisions should be mention of the fact
+   we choose to stick to a byte-matrix representation of the MixColumn
+   rather than generalising this to a large bit-matrix to avoid generalising
+   too far from the original AES and overcomplicating the code, which
+   should be very easy to read. </li>
   </ul>
 
 
@@ -226,6 +219,28 @@ okltest_ss_encrypt_generic(ss_encrypt);
      part of their structure/representation). </li>
     </ul>
    </li>
+  </ul>
+
+
+  \todo DONE (This yields too much of a generalisation at this level and 
+  is better done at the translation level; we maintain the current simpler
+  readable code)
+  Use matrix of GF(b) matrices for MixColumn
+  <ul>
+   <li> To allow the rearrangement of the small scale AES
+   such that the linear component of the Sbox is moved into
+   MixColumns, the MixColumn matrix should be a matrix with elements
+   in the range {1,...,b} where b is the characteristic of the  
+   small scale word field. </li>
+   <li> Not every square e-dimensional matrix over {1,...,b}
+   can be represented as a multiplication by an element in 
+   GF(b^e), as there are two many elements, and so for
+   such a generalisation, the MixColumns should be changed
+   so that the collection of Sbox matrices can be integrated with it. 
+   </li>
+   <li> Note that because of the nature of the ShiftRows and addition,
+   the ShiftRows and Subbytes commute, allowing such an alternative
+   representation. </li>
   </ul>
 
 */

@@ -635,6 +635,67 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    <li> Much of this information can be moved from "Fix translation system".
    </li>
    <li> This has been started but needs to be extended significantly. </li>
+   <li> The following information on the different possible translations
+   should also be included and linked to 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
+  <ul>
+   <li> We model a generalised AES system (see 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
+   which supports the following different translations:
+   <ul>
+    <li> Mix columns variants with translations using:
+     <ul>
+      <li> the boxes in the encryption direction </li>
+      <li> both encryption and decryption directions. </li>
+     </ul>
+    </li>
+    <li> Box translations for the Sbox and field multiplications using:
+     <ul>
+      <li> Small CNF representations (see 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
+      and 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
+      </li>
+      <li> The canonical DNF translation (see 
+      ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
+      <li> r_k-reduced representation (see 
+      OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
+      <li> Small hitting clause-set representations (see 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
+      </li>
+     </ul>
+    </li>
+    <li> Combining affine components
+     <ul>
+      <li> We have the standard AES which has the Sbox made up of the
+      word (byte) level inversion of block elements, following by the
+      application of an affine transformation. </li>
+      <li> On the other hand, the affine portion of the Sbox can be moved 
+      through the Shiftrows operation such that it can be combined with the 
+      MixColumns component, yielding a component which is entirely linear at 
+      the byte level, leaving only the non-linear inversion and addition of 
+      the affine constant as part of the Sbox operation. </li>
+      <li> Splitting the two types of operation like this will hopefully
+      yield Sbox translations which are more compact and more amenable to
+      SAT solvers as the affine transformation is specifically designed to 
+      increase equation size, and make the Sbox harder to model. </li>
+     </ul>
+    </li>
+    <li> Generalised small scale parameters (see 
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+     <ul>
+      <li> n_R: number of rows in the AES block (default 4, can be
+      1, 2 or 4). </li>
+      <li> n_C: number of columns in the AES block (default 4, can be
+      1, 2 or 4). </li>
+      <li> e: size of word field in bits in the AES (default 8, can be
+      1, 2 or 4 or 8) - in general we might consider arbitrary fields. </li>
+      <li> r: number of rounds (default 10, can be any positive integer).
+      </li>
+     </ul>
+    </li>
+   </ul>
+   </li>
   </ul>
   
 
