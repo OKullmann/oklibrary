@@ -23,6 +23,11 @@ License, or any later version. */
    the following topics are handled:
     - Add links and update module structure
 
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp
+   the following topics are handled:
+    - Update method todos
+
 
   \par Version 0.1.5 :
 
