@@ -91,6 +91,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - Update to version 1.2.0
+    - UBCSAT 1.0.0 reports wrong minimum number of falsified clauses
     - UBCSAT 1.0.0 segfaults with weighted MaxSAT instances
     - Make clear the required package for dos2unix
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,52 @@ License, or any later version. */
    ubcsat-developers. </li>
    <li> The new version still seems not usable; bug report sent to
    ubcsat-developers. </li>
+  </ul>
+
+
+  \bug UBCSAT 1.0.0 reports wrong minimum number of falsified clauses
+  <ul>
+   <li> Using the test file:
+   \verbatim
+> cat test.cnf 
+p cnf 2 2
+1 2 0
+1 -2 0
+   \endverbatim
+   and running UBCSAT with "gsat", "rnovelty+" or possibly other
+   solvers, yields 3 falsified clauses as the "best" or "min" 
+   despite the fact that there are only 2 clauses in the clause
+   set AND those runs are said to have found a satisfying assignment:
+   \verbatim
+> ubcsat-okl -alg gsat -i test.cnf -seed 1845608494
+# -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] -runs 10 -cutoff 100000 -alg gsat -i test.cnf -seed 1845608494
+       sat  min     osteps     msteps       seed
+      1 1     0          2          2 1845608494 
+      2 1     3          0          1 2475891066 
+      3 1     3          0          1 1321093004 
+      4 1     3          0          1 3320110952 
+      5 1     0          2          2 3736165511 
+      6 1     0          2          2 2062463429 
+      7 1     3          0          1 3199736854 
+      8 1     0          2          2 3920935571 
+      9 1     3          0          1  495225504 
+     10 1     0          2          2 3620363783 
+
+
+Clauses = 2
+Variables = 2
+TotalLiterals = 4
+FlipsPerSecond = inf    
+BestStep_Mean = 1.000000
+Steps_Mean = 1.500000
+Steps_Max = 2.000000
+PercentSuccess = 100.00
+BestSolution_Mean = 1.500000
+BestSolution_Median = 1.500000
+BestSolution_Min = 0.000000
+BestSolution_Max = 3.000000
+   \endverbatim
+   </li>
   </ul>
 
 
