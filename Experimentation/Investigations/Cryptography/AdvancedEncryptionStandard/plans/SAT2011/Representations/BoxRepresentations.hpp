@@ -34,16 +34,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Overview
-  <ul>
-   <li> Some of the AES and small scale boxes have small sets of prime 
-   implicates, and some have sets of prime implicates with a regular
-   structure, and therefore it is important to investigate these clause-sets
-   to determine whether in some cases one can simply use the prime implicates
-   as the best possible box translation. </li>
-  </ul>
-
-
   \todo R-based representations
   <ul>
    <li> r-bases for r in {r_1,r_2}? (see rand_rbase_cs(F,r) in
