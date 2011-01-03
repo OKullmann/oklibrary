@@ -29,32 +29,42 @@ License, or any later version. */
    <li> There are several helper functions which allow one to use the AES
    encryption and decryption functions with preset parameter functions:
    <ul>
-    <li> "aes_encrypt_l(p,k)" and "aes_decrypt_l(c,k)" are the functions used
-    to encrypt a plaintext block p of size 16 with a key block k of size 16,
-    using <em>lookup</em> functions for all relevant field operations.
-    This method is relatively fast. </li>
-    <li> "aes_encrypt_f(p,k)" and "aes_decrypt_f(c,k)" are the functions used
-    to encrypt a plaintext block p with a key block k using functions which
-    use the available <em>field operations</em> within the maxima systems,
-    namely those in the "gf" package. This method is generally much more
-    computationally expensive, and can take a considerable amount of time.
-    </li>
+    <li> "aes_encrypt(p,k,r)" and "aes_decrypt(c,k,r)" are the functions used
+    to encrypt/decrypt a plaintext 4xn (for n = 4,5 or 6) matrix p with a key 
+    matrix k of the same dimension, where the elements of the matrices are 
+    given as polynomials (see "Data Types"). Here, r is the number of rounds 
+    to apply during encryption/decryption. </li>
+    <li> "aes_encrypt_nat" and "aes_decrypt_nat" are the same as "aes_encrypt"
+    and "aes_decrypt", except they take lists of integers, which represent
+    the matrices polynomials column by column from "aes_encrypt" etc via 
+    int2poly(n,2) where n is the integer (see "Examples"). </li>
    </ul>
    </li>
+   <li> For each of the above functions, there are versions suffixed with
+   "_std" which fix the number of rounds to the standard 10 for AES. </li>
   </ul>  
 
 
   <h2> Data Types </h2>
 
   <ul>
-   <li>AES bytes are represented as integers between 0 and 255, with the byte 
-   being interpreted in a "big endian" manner (most significant bit to the 
-   left). </li>
-   <li> AES blocks are then simply lists of bytes (where each set of 4 
-   consequtive integers forms a row in the AES block matrix). </li>
+   <li> AES bytes are represented as arbitrary polynomials and then are 
+   "brought into range" or "standardised" using the Rijndael modulo
+   polynomial (see rijn_polynomial in 
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac). 
+   </li>
+   <li> AES blocks are then matrices of polynomials, where the 4 row, n column
+   nature of the AES block is given by the dimension of the matrix. </li>
    <li> There is no interface within this implementation to the bit-level of
-   the AES (even though the Sbox does implement certain AES functionality at
-   this level). </li>
+   the AES, although one can access this level if one standardises
+   a polynomial (representing a byte) using rijn_stand (see
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac)
+   and then considers the coefficient of the polynomial using the same
+   correspondence of coefficients to "bits of a byte" as occurs in
+   the definition of Rijndael (i.e., the coefficient of x^7 becomes
+   the most significant bit of the byte and the coefficient of 1 becomes
+   the least - see [Design of Rijndael;John Daemen and Vincent Rijmen]).
+   </li>
   </ul>
 
 
@@ -63,14 +73,27 @@ License, or any later version. */
   <ul>
    <li> Encrypting a 128-bit word represented as a list of integers :
    \verbatim
-key :  [202,200,168,53,202,187,250,252,46,206,107,75,12,120,233,226]$
-plaintext : create_list(i,i,0,15)$
-ciphertext : aes_encrypt_l(plaintext,key);
-[244,189,246,179,85,160,222,126,158,248,201,206,115,222,96,177]
-aes_decrypt_l(ciphertext,key);
+> key :  [202,200,168,53,202,187,250,252,46,206,107,75,12,120,233,226]$
+> plaintext : create_list(i,i,0,15)$
+> ciphertext : aes_encrypt_nat_std(plaintext,key);
+[223,7,143,218,18,249,134,153,203,218,50,237,88,69,163,149]
+> aes_decrypt_nat_std(ciphertext,key);
 [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
    \endverbatim
    </li>
+   <li> There are also helper functions which allow the encryption or 
+   decryption using the hexidecimal notation used for AES/Rijndael:
+   \verbatim
+> plaintext : "3243F6A8885A308D313198A2E0370734"$
+> key       : "2B7E151628AED2A6ABF7158809CF4F3C"$
+> aes_encrypt_hex_std(plaintext,key);
+"3925841D02DC09FBDC118597196A0B32"
+> aes_decrypt_hex_std("3925841D02DC09FBDC118597196A0B32", key);
+"2B7E151628AED2A6ABF7158809CF4F3C"
+   \endverbatim
+   This test vector is taken from [Design of Rijndael;John Daemen and
+   Vincent Rijmen].
+   </li>   
    <li> A general remark:
     <ol>
      <li> AES is a cryptographic primitive, and should not be used directly
