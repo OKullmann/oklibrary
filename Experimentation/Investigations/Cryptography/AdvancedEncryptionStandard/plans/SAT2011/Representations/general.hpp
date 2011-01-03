@@ -17,6 +17,26 @@ License, or any later version. */
    to make each of the todos accessible. </li>
    <li> The general structure of the investigations (from arbitrary boolean
    functions to permutations and linear maps) needs to be expressed. </li>
+   <li> The tasks are (at least):
+   <ul>
+    <li> Add links in this file to each of the individual files, and links
+    from the level above to this level. </li>
+    <li> Add links to external modules for each file for relevant information.
+    </li>
+    <li> For each of the following files, add information on how to generate
+    each of the experiments, as well as a todo on creating submodules for
+    each type of experiment (including separately methods of experimentation):
+    <ul>
+     <li> BoxMinimisation. </li>
+     <li> BoxPrimeImplicates. </li>
+     <li> FieldMulMinimisation. </li>
+     <li> SboxMinimisation. </li>
+    </ul>
+    </li>
+   </ul>
+   </li>
+   <li> Move todos from BoxRepresentations into this file (as this module is
+   precisely about box representations). </li>
   </ul>
 
 */
