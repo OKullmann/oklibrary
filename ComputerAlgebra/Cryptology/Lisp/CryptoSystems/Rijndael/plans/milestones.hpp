@@ -16,10 +16,12 @@ License, or any later version. */
  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Notions and notations
     - Update the following todos : DONE
     - Alter internal AES functions to use polynomials and matrices : DONE
     - Truncate AES for reduced rounds: DONE
+    - The Rijndael cipher as an iterated condition system : DONE
+    - Key schedule : DONE
+    - Algebraic aspects DONE
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
@@ -31,7 +33,6 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Datatypes and naming conventions
     - Use matrix of GF(b) matrices for MixColumn : DONE
     - Tests for implementations : DONE
     - Small scale AES implementation : DONE
@@ -42,14 +43,13 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - The Rijndael cipher as an iterated condition system : DONE
+    - Notions and notations
     - Design of round functions
-    - Key schedule : DONE
-    - Algebraic aspects DONE
 
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - Datatypes and naming conventions
     - Docus
 
 
