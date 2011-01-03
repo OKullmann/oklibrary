@@ -25,7 +25,7 @@ License, or any later version. */
    for experiments regarding computing encryption and decryption using the
    AES SAT translation. </li>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/BoxRepresentations.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    for experiments regarding representations of the AES and small scale boxes.
    </li>
   </ul>

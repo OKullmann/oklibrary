@@ -35,8 +35,42 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> Move todos from BoxRepresentations into this file (as this module is
+   <li> DONE
+   Move todos from BoxRepresentations into this file (as this module is
    precisely about box representations). </li>
+  </ul>
+
+
+  \todo Overview
+  <ul>
+   <li> One needs to systematically explore CNF representations, with and
+   without new variables. </li>
+   <li> First to study the set of prime implicates (see
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp). </li>
+   <li> For minimum and "small" representations, see
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp. </li>
+   <li> For R-based representations see "R-based representations". </li>
+  </ul>
+
+
+  \todo R-based representations
+  <ul>
+   <li> r-bases for r in {r_1,r_2}? (see rand_rbase_cs(F,r) in
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.) </li>
+   <li> One could consider certain prime implicates more important than others;
+   for example ensuring that at least given a full input and/or a full output
+   to one permutation the output resp. input can be inferred.
+    <ol>
+     <li> Can one formulate (relatively efficiently) the minimisation target
+     that these inferences are "easily" available while otherwise using the
+     smallest representation? </li>
+     <li> We could generalise the notion of r-base w.r.t. specific clauses
+     which have to be deducible via r, while all (other) removed clauses just
+     need to follow logically, or perhaps using some stronger reduction. </li>
+    </ol>
+   </li>
+   <li> When investigations begin fully in this area, this todo should be
+   moved to a new file, and most likely a new sub-module. </li>
   </ul>
 
 */
