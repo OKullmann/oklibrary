@@ -27,16 +27,29 @@ License, or any later version. */
    <li> Introduce systematic notations and abbreviations for basic
    "data types". </li>
    <li> At present there are several data types within the AES implementation, 
-   namely
+   namely:
     <ul>
-     <li> Byte (represented as an integer) </li> 
-     <li> List of Bytes (represented as a list of integers) </li>
+     <li> Byte (represented as a polynomial or as an integer). </li> 
+     <li> %Matrices of polynomials representing blocks. </li>
+     <li> List of integers representing blocks.
     </ul>
-   Given future generalisations, it seems best to consider bytes as "words" and
-   so we have
+   </li>
+   <li> There are also other representations including:
+   <ul>
+    <li> Representing the whole AES block as an integer (see aes_int). </li>
+    <li> Representing the whole AES block as a hexidecimal string (see 
+    aes_encrypt_hex). </li>
+   </ul>
+   </li>
+   <li>
+   Given future generalisations, it seems best to consider 
     <ul>
-     <li> "Word" - signified by "_w". </li>
-     <li> List of "Word"s - signified by "_lw". </li>
+     <li> polynomials - signified by "_p". </li>
+     <li> integers - signified by "_i". </li>
+     <li> %Matrices of polynomials - signified by "_pm" (i.e. polynomial 
+     matrix). </li>
+     <li> List of integers - signified by "_il" (i.e. integer list). </li>
+     <li> Hexidecimal strings - signified by "_hex". </li>
     </ul>
    </li>
    <li> There is still the issue of some functions that use different, more 
