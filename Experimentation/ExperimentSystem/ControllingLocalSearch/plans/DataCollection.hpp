@@ -57,6 +57,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add new-ubcsat-okl as an option for run_ubcsat
+  <ul>
+   <li> We will likely need to run experiments using new-ubcsat-okl
+   before ubcsat-1-2-0 is released, but ubcsat-okl segfaults in 
+   various ways using weighted algorithms. </li>
+   <li> As we need weighted algorithms, for example in the case of
+   minimising CNF representations (see 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp)
+   we need an option to specify that we wish to use "new-ubcsat-okl"
+   instead of "ubcsat-okl". </li>
+   <li> In this case, we also need to ensure that all the weighted
+   versions of each algorithm are listed in the algorithms list,
+   as well as new versions. </li>
+  </ul>
+
+
   \todo Make run_ubcsat interruptible
   <ul>
    <li> Since it takes a long time to finish a computation, it should be

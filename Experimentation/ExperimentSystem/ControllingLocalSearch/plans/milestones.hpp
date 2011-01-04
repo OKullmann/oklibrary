@@ -17,6 +17,7 @@ License, or any later version. */
    In ExperimentSystem/ControllingLocalSearch/plans/DataCollection.hpp
    the following topics are handled:
     - Incomplete data collection
+    - Add new-ubcsat-okl as an option for run_ubcsat
 
   \par
    In ExperimentSystem/ControllingLocalSearch/plans/Ubcsat-okl.hpp
