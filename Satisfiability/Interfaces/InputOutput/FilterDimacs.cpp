@@ -20,6 +20,9 @@ License, or any later version. */
    input. </li>
    <li> The result, given on standard output is a Dimacs file containing 
    the i-th clauses for all i occurring in the clause positions file. </li>
+   <li> Any non-integer characters (including "-") in the clause positions 
+   file will be ignored. This allows v-lines from SAT solvers put to a file
+   and used directly without removing any characters. </li>
   </ul>
 
 
@@ -161,9 +164,16 @@ int main(const int argc, const char* const argv[]) {
 
   clause_numbers_container_type clause_numbers;
   while (not f_in.eof()) {
-    int_type i;
-    f_in >> i;    
-    clause_numbers.insert(i);
+    while ( (((char)f_in.peek() > '9') or 
+            ((char)f_in.peek() < '0')) and 
+            not f_in.eof()) {
+      f_in.seekg(1,f_in.cur);
+    }
+    int_type i; 
+    f_in >> i; 
+    if (not f_in.fail()) {
+      clause_numbers.insert(i);
+    }
   }
   f_in.close();
 
