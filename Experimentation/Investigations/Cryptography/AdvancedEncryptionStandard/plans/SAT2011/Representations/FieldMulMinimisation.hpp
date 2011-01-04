@@ -220,12 +220,7 @@ QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf
     <li> Then the subsumption hypergraph must be converted to a weight MaxSAT
     problem, which can be accomplished using a simple AWK script, like so
     \verbatim
-cat AES_byte_field_mul_2_shg.cnf | 
-awk 'BEGIN    { VARS=0; CLAUSES=0 }
-     /^p/     { VARS=$3; CLAUSES=$4; print "p wcnf " $3 " " ($3+$4) }
-     /^[^cp]/ { print (VARS + 1) " " $0 }
-     /^c/     { print }
-     END      { for (i = 1; i <= VARS; i++) print "1 " "-" i " 0" }' > AES_byte_field_mul_2_shg.wcnf 
+cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
     \end
     (The above translation needs to be further specified).
     </li>
@@ -238,28 +233,9 @@ ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.w
     <li> Given a solution of weight 20 with seed 1402276559 we can then 
     generate the clause set of that weight like so
     \verbatim
-function shg_assignment2clause_set() {
-  PI_FILE=$1 
-  # Grab lines out
-  LINES=`cat - | xargs echo | sed -e 's/v//g' | sed -e 's/ *\(-[0-9]\+\|v\)//g'`;
-  echo ${LINES}
-  NUM_CLAUSES=`echo "${LINES}" | wc -w`
-  # Grab out specifically those lines, ignoring p and c lines and combining 
-  # clauses onto one line with ExtendedToStrictDimacs-O3-DNDEBUG
-  AWK_LINES=`echo ${LINES} | sed -e 's/ \+/||(NR - 1) == /g'`; 
-  cat ${PI_FILE} | grep -v "^c" | 
-  awk "(NR-1) == ${AWK_LINES} { print  }
-       /^p/ { print \"p cnf \" \$3 \" \" ${NUM_CLAUSES} }"
-}
-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf >  AES_byte_field_mul_2_m20.result; 
-cat AES_byte_field_mul_2_m20.result |
-awk "BEGIN {READ=0}
-/^Variables/ {READ=0}
-READ == 1 { print }
-/^# Solution found for -wtarget/ {READ=1}" | shg_assignment2clause_set AES_byte_field_mul_2_pi.cnf
+new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf -r model AES_byte_field_mul_2_m20.result; 
+cat AES_byte_field_mul_2_pi.cnf | FilterDimacs AES_byte_field_mul_2_m20.result
     \endverbatim
-    Note here, the above should be reimplemented as a proper shell script
-    or C++ program
     </li>
    </ul>
    </li>
