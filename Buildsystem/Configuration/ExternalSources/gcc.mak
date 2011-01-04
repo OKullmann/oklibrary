@@ -56,6 +56,7 @@ gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_package_name_
 gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared --enable-multilib
+gcc_user_options_okl ?= 
 
 # Special handling for gcc-4.1.2
 
