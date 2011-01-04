@@ -183,6 +183,20 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      yet) we say that putting OKplatform/bin on PATH isn't required. </li>
     </ol>
    </li>
+   <li> Build error on cs-oksvr:
+    <ol>
+     <li> We get (for "oklib gcc")
+     \verbatim
+checking dynamic linker characteristics... configure: error: Link tests are not allowed after GCC_NO_EXECUTABLES.
+make[3]: *** [configure-stage1-zlib] Error 1
+     \endverbatim
+     </li>
+     <li> It seems that is a bug in the gcc build (fixed hopefully in the next
+     version). </li>
+     <li> A proposal on the gcc mailing-list is to use --with-system-zlib.
+     </li>
+    </ol>
+   </li>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>
