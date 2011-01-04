@@ -21,8 +21,10 @@ License, or any later version. */
    <li> The result, given on standard output is a Dimacs file containing 
    the i-th clauses for all i occurring in the clause positions file. </li>
    <li> Any non-integer characters (including "-") in the clause positions 
-   file will be ignored. This allows v-lines from SAT solvers put to a file
-   and used directly without removing any characters. </li>
+   file will be ignored. </li>
+   <li> Negative integers are also ignored. This allows v-lines from SAT 
+   solvers put to a file and used directly without removing any characters. 
+   </li>
   </ul>
 
 
@@ -103,7 +105,7 @@ namespace OKlib {
                                           boost::begin(clause_numbers)),
                             std::bind2nd(std::less<int_type>(), 1));
         
-        cls_adaptor.c(pc - clause_numbers.size());
+        cls_adaptor.c(clause_numbers.size());
       }
       void finish() {
         cls_adaptor.finish();
@@ -165,13 +167,14 @@ int main(const int argc, const char* const argv[]) {
   clause_numbers_container_type clause_numbers;
   while (not f_in.eof()) {
     while ( (((char)f_in.peek() > '9') or 
-            ((char)f_in.peek() < '0')) and 
+            ((char)f_in.peek() < '0')) and
+            ((char)f_in.peek() != '-') and 
             not f_in.eof()) {
       f_in.seekg(1,f_in.cur);
     }
     int_type i; 
     f_in >> i; 
-    if (not f_in.fail()) {
+    if (not f_in.fail() and (i > 0)) {
       clause_numbers.insert(i);
     }
   }
