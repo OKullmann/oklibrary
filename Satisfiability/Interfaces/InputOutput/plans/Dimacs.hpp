@@ -123,6 +123,32 @@ n,v
   </ul>
 
 
+  \todo Write Dimacs-parser for weighted (partial) MaxSAT formats
+  <ul>
+   <li> The basic weighted Dimacs format for weighted partial
+   MaxSAT problems is simply
+   \verbatim
+c comment line
+p wcnf num_vars num_clauses maximum_weight
+weight l1 l2 l3 ...
+weight l4 l5 l6 ...
+   \endverbatim
+   where the standard Dimacs p-line has been extended to use the
+   "wcnf" type and the maximum_weight parameter is the maximum weight
+   that one will use as a clause-weight. Hard clauses have the maximum
+   weight and soft clauses have a weight less than top. </li>
+   <li> If one fails to specify a maximum_weight then you have a
+   weighted MaxSAT problem. </li>
+   <li> If one has the maximum weight but uses only the maximum weight
+   and 1 for hard and soft clauses, then you have a partial MaxSAT
+   problem. </li>
+   <li> See http://www.maxsat.udl.cat/08/index.php?disp=requirements for
+   more details. </li>
+   <li> We need notions of how to handle this, and consideration of the
+   way to store weights in datastructures. </li>
+  </ul>
+
+
   \todo Write higher level modules
   <ul>
    <li> Like ReadClauseCollection<DimacsParser, ClauseCollection> and

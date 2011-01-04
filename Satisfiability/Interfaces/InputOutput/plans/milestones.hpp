@@ -162,6 +162,7 @@ License, or any later version. */
    are handled:
     - Move InputOutput/ExtendedToStrictDimacs.cpp
     - Input and output of partial assignments
+    - Write Dimacs-parser for weighted (partial) MaxSAT formats
 
 
   \par Version 0.3 :
