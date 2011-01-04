@@ -100,12 +100,12 @@ ss_sbox_fullcnf_fcs(b,e,mod_poly) :=
 output_ss_sbox_fullcnf_gen_stdname(b,e,mod_poly,sbox_matrix,sbox_affine_constant) :=
   output_fcs(
     sconcat("AES Sbox function given the full CNF representation."),
-    sssbox_fullcnf_fcs(b,e,mod_poly, sbox_matrix, sbox_affine_constant),
+    ss_sbox_fullcnf_fcs(b,e,mod_poly, sbox_matrix, sbox_affine_constant),
     sconcat("AES_Sbox_full.cnf"))$
 output_ss_sbox_fullcnf_stdname(b,e,mod_poly) :=
   output_fcs(
     sconcat("AES Sbox function given the full CNF representation."),
-    sssbox_fullcnf_fcs(b,e,mod_poly),
+    ss_sbox_fullcnf_fcs(b,e,mod_poly),
     sconcat("AES_Sbox_full.cnf"))$
 
 /* Tests whether a formal CNF clause-set represents the small scale AES sbox
