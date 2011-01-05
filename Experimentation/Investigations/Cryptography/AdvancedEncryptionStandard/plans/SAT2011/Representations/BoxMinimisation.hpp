@@ -73,6 +73,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add instructions for using Pseudo-boolean SAT solvers for minimisation
+  <ul>
+   <li> Pseudoboolean or PB SAT solvers offer the ability to encode linear
+   constraints such as cardinality constraints into a specialised CNF format. 
+   </li>
+   <li> Such solvers might better handle cardinality constraints
+   compared to the translations used in "Iterative SAT solving", and so we#
+   should investigate their use. </li>
+  </ul>
+
+
   \todo Espresso
   <ul>
    <li> Espresso is a popular logic minimisation tool with a variety
