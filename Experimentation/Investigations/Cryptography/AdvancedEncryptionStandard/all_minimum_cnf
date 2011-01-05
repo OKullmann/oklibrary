@@ -1,0 +1,37 @@
+#! /bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+
+# Script which given the path to a full Dimacs CNF file "strict_file"
+# computes all minimum CNF representations of this file
+# and then generates files with the names ${strict_file}.trans_$i containing 
+# the i-th minimum size CNF representation for all i.
+
+if [[ $# != 1 ]]; then
+  echo "Error[all_minimum_cnf]: Takes exactly one argument, the path to the full Dimacs CNF file of which the minimum CNF representations should be generated."
+  exit 1;
+fi
+
+input_file=$1
+shg_file=$(mktemp)
+pi_file=$(mktemp)
+transversal_file=$(mktemp)
+files="${shg_file} ${pi_file} ${transversal_file}"
+
+
+# Compute subsumption hypergraph and prime implicates
+QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} ${pi_file} > ${shg_file}
+
+# Compute transversals and then extract the CNFs from the prime clauses using the result.
+count=0
+BoundedTransversals_bv < ${shg_file}  | grep -v "^[pc]" | 
+  while read transversal; do
+      count=$(expr ${count} + 1)
+      echo ${transversal} > ${transversal_file}
+      cat ${pi_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "${input_file}.trans_${count}"
+  done
+rm ${files}
