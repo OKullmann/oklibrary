@@ -125,8 +125,53 @@ shell> espresso2.3 -Dexact Sbox.pla
 
   \todo Iterative SAT solving
   <ul>
-   <li> </li>
+   <li> Optimising the size of CNF representations for a given clause-set
+   using standard SAT solvers can be approached by generating the 
+   subsumption hypergraph for the original (full) CNF and it's prime 
+   implicates and then adding additional cardinality clauses to the 
+   subsumption hypergraph restricting the number of variables set to true
+   and hence the number of clauses in our representation. </li>
+   <li> By continuing to reduce the cardinality of the result until
+   the subsumption hypergraph clause-set is unsatisfiable (i.e., there
+   is no CNF representation with a number of clauses less than the 
+   cardinality), we can iteratively search for the solution. </li>
+   <li> So, for example, we generate the subsumption hypergraph
+   for the 4-bit small scale Sbox like so:
+   \verbatim
+maxima> output_ss_sbox_fullcnf_stdname(2);
+   \endverbatim
+   and then 
+   \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver ss_byte2_4_field_mul_full_2.cnf
+c Starting level  14
+c Starting level  13
+c Starting level  12
+c Starting level  11
+c Starting level  10
+c Starting level  9
+c Starting level  8
+c Found (a) minimum size representation for " ss_byte2_4_field_mul_full_2.cnf " of size 9
+c Subsumption hypergraph for the minimisation problem for ss_byte2_4_field_mul_full_2.cnf
+p cnf 8 9
+-5 2 0
+-2 5 0
+-6 3 0
+-3 6 0
+-7 1 4 0
+-4 1 7 0
+-8 -7 -4 0
+-8 4 7 0
+-1 8 0
+   \endverbatim
+   </li>
+   <li> Note the above uses the OKsolver to check for satisfiability of each
+   clause-set. Further scripts should be written to check using other solvers.
+   See "Solvers to be used for experimentation" in 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp . </li>
   </ul>
+
+
+  \todo Minimising using Hypergraph Transversal tools
 
   
   \todo Translating to a weighted MaxSAT problem
@@ -144,7 +189,7 @@ maxima> output_rijnmult_fullcnf_stdname(2);
    variables to true:
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf AES_byte_field_mul_2_pi.cnf > AES_byte_field_mul_2_shg.cnf
-shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
+shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKSystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    </li>
    <li> We can then use both complete and incomplete weighted partial
@@ -182,6 +227,7 @@ ss_mul3_min_cnfs : all_minequiv_bvs_cs(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_
 
 
   \todo Minimisation using the R QCA package
+  <ul>
    <li> The R QCA package is written to deal with problems arising from
    sociology, derives small CNF/DNF representations for (partial) truth
    tables (see "Packages" in 
@@ -240,7 +286,8 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    <li> The todos "Iterative SAT solving" and
    "Translating to a weighted MaxSAT problem" need to be filled out. 
    </li>
-   <li> Iterative SAT solving. </li>
+   <li> Minimising using Hypergraph Transversal tools. </li>
+   <li> Iterative SAT solving : DONE. </li>
    <li> Minimisation at the maxima level : DONE. </li>
    <li> Minimisation using the R QCA package : DONE. </li>
    <li> Translating to a weighted MaxSAT problem : DONE. </li>
