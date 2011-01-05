@@ -109,8 +109,6 @@ License, or any later version. */
      <li> precosat236 </li>
      <li> Satz215 </li>
      <li> Grasp </li>
-     <li> clasp </li>
-     <li> kcnfs </li>
      <li> sp </li>
      <li> march_pl </li>
     </ul>
