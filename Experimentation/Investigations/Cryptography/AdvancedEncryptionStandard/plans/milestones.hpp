@@ -37,21 +37,35 @@ License, or any later version. */
     - Connection with the plans one level above
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp the
    following topics are handled:
-    - Update scripts
+    - Move individual investigations to sub-modules
 
   \par
-   Create further milestones.
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp the
+   following topics are handled:
+    - Move individual investigations to sub-modules
 
 
   \par Version 0.1.6 :
 
   \par
-   Create an outline of the experiments.
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
+   following topics are handled:
+    - Update scripts
+    
+
+  \par
+   Create further milestones.
 
 
   \par Version 0.1.7 :
+
+  \par
+   Create an outline of the experiments.
+
+
+  \par Version 0.1.8 :
 
   \par
    In Experimentation/Investigations/plans/CurrentExperiments.hpp the section
