@@ -107,6 +107,7 @@ License, or any later version. */
      <li> ubcsat (1-0-0) </li>
      <li> picosat913 </li>
      <li> precosat236 </li>
+     <li> precosat570 </li>
      <li> Satz215 </li>
      <li> Grasp </li>
      <li> sp </li>
