@@ -41,8 +41,7 @@ License, or any later version. */
     aes_encrypt_hex). </li>
    </ul>
    </li>
-   <li>
-   Given future generalisations, it seems best to consider 
+   <li> Given future generalisations, it seems best to consider 
     <ul>
      <li> polynomials - signified by "_p". </li>
      <li> integers - signified by "_i". </li>

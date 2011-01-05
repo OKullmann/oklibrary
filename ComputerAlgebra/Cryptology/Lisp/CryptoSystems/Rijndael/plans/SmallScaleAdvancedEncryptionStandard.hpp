@@ -10,16 +10,6 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo Datatypes and naming conventions
-  <ul> 
-   <li> A naming scheme for each of the datatypes used, as well
-   as for the whole class of small scale AES functions must be
-   devised. </li>
-   <li> For now, functions are prefixed with "ss_"  for "small-scale".
-   </li>
-  </ul>
-
-
   \todo Docus
   <ul>
    <li> Add docus on small scale implementation, discussing the parameters,
@@ -82,6 +72,19 @@ sr.hex_str(AES_e, typ="vector")
    "Update to new Sage" in 
    Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp). </li>
    <li> This information should be moved to the docus. </li>
+  </ul>
+
+
+  \todo DONE (Handled in "Notions and notations" in
+  ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp)
+  Datatypes and naming conventions
+  <ul> 
+   <li> A naming scheme for each of the datatypes used, as well
+   as for the whole class of small scale AES functions must be
+   devised. </li>
+   <li> DONE 
+   For now, functions are prefixed with "ss_"  for "small-scale".
+   </li>
   </ul>
 
 */

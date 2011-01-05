@@ -13,17 +13,33 @@ License, or any later version. */
 
   \par Version 0.0.11
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Notions and notations
-    - Design of round functions
-
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Datatypes and naming conventions
     - Docus
+    - Datatypes and naming conventions : DONE
+
+
+  \par Version 0.0.12
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - Docus and Demos
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Requirements
+
+
+  \par Version 0.0.13
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Provide function for generating AES term
+    - Standardise data types and documentation
 
 
   \par Version 0.1
@@ -31,7 +47,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Docus and Demos
+    - Notions and notations 
     - Requirements
     - Coding Standards
 
