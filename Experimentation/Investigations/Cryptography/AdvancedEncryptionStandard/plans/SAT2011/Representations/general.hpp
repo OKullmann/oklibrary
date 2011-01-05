@@ -21,7 +21,8 @@ License, or any later version. */
    <ul>
     <li> Add links in this file to each of the individual files, and links
     from the level above to this level. </li>
-    <li> Add links to external modules for each file for relevant information.
+    <li> DONE
+    Add links to external modules for each file for relevant information.
     </li>
     <li> DONE For each of the following files, add information on how to generate
     each of the experiments, as well as a todo on creating submodules for

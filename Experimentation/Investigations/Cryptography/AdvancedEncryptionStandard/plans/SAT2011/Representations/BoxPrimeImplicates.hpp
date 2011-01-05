@@ -55,6 +55,17 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > sbox_pi.cnf
    </li>
   </ul>
 
+
+  \todo Links
+  <ul>
+   <li> See 
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+   and "min_2resolution_closure_cs" for computing the prime implicates at the 
+   Maxima level. </li>
+   <li> See Satisfiability/FiniteFunctions/QuineMcCluskey.cpp for information
+   on generating prime implicates at the C++ level. </li>
+  </ul>
+
   
   \todo Move individual investigations to sub-modules
   <ul>

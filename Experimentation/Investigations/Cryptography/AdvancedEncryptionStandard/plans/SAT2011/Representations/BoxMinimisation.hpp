@@ -44,6 +44,26 @@ License, or any later version. */
   </ul>
 
 
+  \todo Links
+  <ul>
+   <li> For information on generation of the CNFs for the AES boxes (Sbox, 
+   Field multiplications etc), see:
+   <ul>
+    <li> Sbox and small scale sbox is at
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac .
+    </li>
+    <li> Field multiplications and small scale multiplication at
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac .
+    </li>
+   </ul>
+   </li>
+   <li> See also 
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+   and "all_minequiv_bvs_cs" for computing minimum representations in Maxima.
+   </li>
+  </ul>
+
+
   \todo Move individual investigations to sub-modules
   <ul>
    <li> Sub-modules need to be created for each of the investigations topics
