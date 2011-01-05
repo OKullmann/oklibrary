@@ -130,11 +130,4 @@ License, or any later version. */
    system), should be made available here. </li>
   </ul>
 
-
-  \todo DONE Create submodule "Representations"
-  <ul>
-   <li> DONE All files "Box*", "Field*", "Sbox*" shall go there. </li>
-   <li> DONE Of course, with general plans there in "general.hpp". </li>
-  </ul>
-
 */

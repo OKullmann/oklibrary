@@ -42,36 +42,4 @@ License, or any later version. */
    moved to a new file, and most likely a new sub-module. </li>
   </ul>
 
-
-  \todo DONE Add links and update module structure
-  <ul>
-   <li> DONE Todos and files in this module have been moved from the level
-   above, links must be added here and the module updated in general
-   to make each of the todos accessible. </li>
-   <li> DONE (Now handled by todos by "Move individual investigations to 
-   sub-modules" todos in BoxMinimisation.hpp and BoxPrimeImplicates.hpp)
-   The general structure of the investigations (from arbitrary boolean
-   functions to permutations and linear maps) needs to be expressed. </li>
-   <li> DONE The tasks are (at least):
-   <ul>
-    <li> DONE Add links in this file to each of the individual files, and links
-    from the level above to this level. </li>
-    <li> DONE
-    Add links to external modules for each file for relevant information.
-    </li>
-    <li> DONE For each of the following files, add information on how to generate
-    each of the experiments, as well as a todo on creating submodules for
-    each type of experiment (including separately methods of experimentation):
-    <ul>
-     <li> BoxMinimisation : DONE. </li>
-     <li> BoxPrimeImplicates : DONE </li>
-    </ul>
-    </li>
-   </ul>
-   </li>
-   <li> DONE
-   Move todos from BoxRepresentations into this file (as this module is
-   precisely about box representations). </li>
-  </ul>
-
 */

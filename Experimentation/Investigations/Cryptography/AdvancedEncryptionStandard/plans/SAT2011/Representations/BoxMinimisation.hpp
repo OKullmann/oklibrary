@@ -369,17 +369,4 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    </li>
   </ul>
 
-  
-  \todo DONE Update method todos
-  <ul>
-   <li> The todos "Iterative SAT solving" and
-   "Translating to a weighted MaxSAT problem" need to be filled out. 
-   </li>
-   <li> Minimising using Hypergraph Transversal tools : DONE. </li>
-   <li> Iterative SAT solving : DONE. </li>
-   <li> Minimisation at the maxima level : DONE. </li>
-   <li> Minimisation using the R QCA package : DONE. </li>
-   <li> Translating to a weighted MaxSAT problem : DONE. </li>
-   <li> Espresso : DONE. </li>
-  </ul>
 */
