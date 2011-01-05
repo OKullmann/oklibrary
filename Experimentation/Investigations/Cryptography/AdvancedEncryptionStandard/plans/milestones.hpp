@@ -59,7 +59,7 @@ License, or any later version. */
    - 0.1   : 1.1.2011; initial version number (various plans and first results regarding AES "box" representations).
    - 0.1.1 : 1.1.2011; started serious planning for the SAT2011 contributions.
    - 0.1.2 : 1.1.2011; removed/transferred completed todos, updates links.
-   - 0.1.3 : 2.1.2011; Tidied general todos and updated SAT2011 sub-module.
+   - 0.1.3 : 2.1.2011; tidied general todos and updated SAT2011 sub-module.
 
 */
 
