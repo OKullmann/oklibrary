@@ -16,6 +16,15 @@ License, or any later version. */
    to be achieved. </li>
   </ul>
 
+  
+  \todo Links
+  <ul>
+   <li> For investigations into the various representations (CNF and otherwise)
+   of the AES boxes (Sbox, field multiplications etc) see
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp .
+   </li>
+  </ul>
+
 
   \todo Prepare benchmarks for SAT 2011
   <ul>

@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp 
    the following topics are handled:
-    - Add links and update module structure
+    - Add links and update module structure : DONE
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp
