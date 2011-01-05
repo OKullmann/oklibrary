@@ -26,6 +26,8 @@ License, or any later version. */
     <li> c - ciphertext block. </li>
    </ul>
    </li>
+   <li> In all functions the plaintext, key and ciphertext blocks are
+   assumed to be the same dimension. </li>
    <li> There are several helper functions which allow one to use the AES
    encryption and decryption functions with preset parameter functions:
    <ul>
@@ -53,8 +55,9 @@ License, or any later version. */
    polynomial (see rijn_polynomial in 
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac). 
    </li>
-   <li> AES blocks are then matrices of polynomials, where the 4 row, n column
-   nature of the AES block is given by the dimension of the matrix. </li>
+   <li> AES blocks are then matrices of polynomials, where the four row, n 
+   column nature of the AES block is given by the dimension of the matrix. 
+   </li>
    <li> There is no interface within this implementation to the bit-level of
    the AES, although one can access this level if one standardises
    a polynomial (representing a byte) using rijn_stand (see
