@@ -55,12 +55,14 @@ License, or any later version. */
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver . </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf . </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended . </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf . </li>
   </ul>
   need the following changes:
   <ul>
    <li> Error checking code. </li>
    <li> Merging with other scripts in other investigations into general tools.
    </li>
+   <li> Add version numbers. </li>
   </ul>
   </li>
 

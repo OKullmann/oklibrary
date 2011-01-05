@@ -23,11 +23,11 @@ License, or any later version. */
     from the level above to this level. </li>
     <li> Add links to external modules for each file for relevant information.
     </li>
-    <li> For each of the following files, add information on how to generate
+    <li> DONE For each of the following files, add information on how to generate
     each of the experiments, as well as a todo on creating submodules for
     each type of experiment (including separately methods of experimentation):
     <ul>
-     <li> BoxMinimisation. </li>
+     <li> BoxMinimisation : DONE. </li>
      <li> BoxPrimeImplicates : DONE </li>
     </ul>
     </li>

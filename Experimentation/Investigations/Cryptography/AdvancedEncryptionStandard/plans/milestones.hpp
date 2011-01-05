@@ -26,7 +26,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp
    the following topics are handled:
-    - Update method todos
+    - Update method todos : DONE
 
 
   \par Version 0.1.5 :
