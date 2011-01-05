@@ -1,0 +1,81 @@
+#! /bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Script which given a full Dimacs CNF file as an argument
+# computes a minimum clause-set representation of the clause-set
+# outputting this minimum size clause-set on STDOUT in Dimacs 
+# format.
+#
+# As an optional second assignment, one may provide an upper bound
+# on the size of the minimum size clause-set representation of
+# the first argument.
+#
+# This script uses the OKsolver and iteratively computes the minimum
+# representation using subsumption hypergraphs and cardinality constraints.
+
+# Programs
+shg_program=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
+solver_program="OKsolver_2002-O3-DNDEBUG -O" # Must output assignment and return UNSAT
+
+# Files
+exec_dir=$(dirname $0)
+temp_dir=$(mktemp --tmpdir=./ --directory tmp_minimise_$(basename $1 | sed -e  's/[^a-zA-Z_0-9\.-]//g')_$(date +"%Y-%m-%d-%H%M%S")_XXXXXX)
+temp_shg_file=${temp_dir}/shg.cnf
+temp_pi_file=${temp_dir}/pi.cnf
+temp_strict_min_file=${temp_dir}/strict_min.cnf
+result_file=${temp_dir}/result
+
+
+# Run program to generate SHG
+${shg_program} $1 ${temp_pi_file} > ${temp_shg_file}
+
+# Find number of variables and clauses
+num_primes=$(cat ${temp_shg_file} | awk '/^p/ { print $3 }')
+num_total_clauses=$(cat ${temp_shg_file} | awk '/^p/ { print $4 }')
+
+# First check if we've been given a bound on the number of clauses
+if [[ $# > 1 ]]; then
+  current_num_clauses=$2
+else
+  if [[ ${num_primes} > ${num_total_clauses} ]]; then
+    current_num_clauses=${num_total_clauses}
+  else 
+    current_num_clauses=${num_primes}
+  fi
+fi
+
+${exec_dir}/cardinality_bounded_cnf ${temp_shg_file} ${current_num_clauses} > ${temp_strict_min_file}
+# Run the SAT solver
+echo "c Starting level " ${current_num_clauses}
+solver_result=$(${solver_program} ${temp_strict_min_file})
+old_solver_result="${solver_result}"
+solution_found=0
+while [[ $(echo "${solver_result}" | grep UNSATISFIABLE) == "" ]]; do
+    solution_found=1
+    current_num_clauses=$(expr ${current_num_clauses} - 1)
+    echo "c Starting level " ${current_num_clauses}
+    # Generate problem with cardinality constraints
+    ${exec_dir}/cardinality_bounded_cnf ${temp_shg_file} ${current_num_clauses} > ${temp_strict_min_file}
+    #
+    # TODO: Should find the size of the actual result in here, so we converge more quickly.
+    #
+    old_solver_result="${solver_result}"
+    solver_result=$(${solver_program} ${temp_strict_min_file})
+done
+
+if [[ ${solution_found} == 1 ]]; then
+    size=$(expr ${current_num_clauses} + 1)
+    echo "c Found (a) minimum size representation for \"" $1 "\" of size ${size}" 
+    # Found a minimal at the previous level
+    echo "${old_solver_result}" | grep "^v" > ${result_file}
+    cat ${temp_pi_file} | FilterDimacs ${result_file}
+    # Remove temporary directory
+    rm -r ${temp_dir}
+else
+    echo "No solution found!"
+fi
+  

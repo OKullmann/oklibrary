@@ -37,6 +37,11 @@ License, or any later version. */
     - Connection with the plans one level above
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
+   following topics are handled:
+    - Update scripts
+
+  \par
    Create further milestones.
 
 

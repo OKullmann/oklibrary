@@ -1,0 +1,35 @@
+#!/bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Script which given a CNF file and a positive integer bound
+# as arguments, returns the CNF extended with cardinality
+# constraint bounding the number of variables set to true
+# in the any satisfying assignment for the result to the
+# bound given in the second argument.
+
+
+# Programs
+card_gen=LinInequal-O3-DNDEBUG
+
+# Arguments
+cnf_file=$1
+num_vars=$(cat ${cnf_file} | awk '/^p/ { print $3 }')
+bound=$2
+
+# Files
+temp_card_file=$(mktemp --tmpdir=./ tmp_card_$(basename ${cnf_file} | sed -e  's/[^a-zA-Z_0-9\.-]//g')_$(date +"%Y-%m-%d-%H%M%S")_XXXXXX)
+exec_dir=`dirname $0`
+
+# Generate cardinality constraint command
+function card_constraint_gen {
+    ${card_gen} $1 $2 "<=" | sed 's/V//g'
+}
+
+# Generate full minimisation file
+card_constraint_gen ${num_vars} ${bound} >> ${temp_card_file}
+${exec_dir}/extend_strict_dimacs_with_extended ${cnf_file} ${temp_card_file}
+rm ${temp_card_file}

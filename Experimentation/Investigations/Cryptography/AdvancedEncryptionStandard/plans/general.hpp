@@ -46,4 +46,22 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Update scripts
+  <ul>
+  <li> The following scripts:
+  <ul>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh . </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver . </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf . </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended . </li>
+  </ul>
+  need the following changes:
+  <ul>
+   <li> Error checking code. </li>
+   <li> Merging with other scripts in other investigations into general tools.
+   </li>
+  </ul>
+  </li>
+
 */
