@@ -15,7 +15,7 @@ License, or any later version. */
    <li> One needs to systematically explore CNF representations, with and
    without new variables. </li>
    <li> First to study the set of prime implicates (see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp). </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/PrimeImplicates/general.hpp). </li>
    <li> For minimum and "small" representations, see
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/general.hpp. </li>
    <li> For R-based representations see "R-based representations". </li>

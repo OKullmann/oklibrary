@@ -21,10 +21,10 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/general.hpp
    the following topics are handled:
-    - Move individual investigations to sub-modules : DONE
+    - Move individual investigations to sub-modules
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp 
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/PrimeImplicates/general.hpp 
    the following topics are handled:
     - Move individual investigations to sub-modules
 

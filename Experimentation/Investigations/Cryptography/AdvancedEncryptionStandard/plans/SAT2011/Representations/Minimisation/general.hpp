@@ -87,7 +87,7 @@ License, or any later version. */
    </ul>
 
 
-  \todo DONE Move individual investigations to sub-modules
+  \todo Move individual investigations to sub-modules
   <ul>
    <li> DONE
    Sub-modules need to be created for each of the investigations topics
@@ -106,8 +106,7 @@ License, or any later version. */
     <li> RQCA (Minimisation using the R QCA package) : DONE. </li>
    </ul>
    </li>
-   <li> DONE (To be handled in each sub-module)
-   Each of these modules would then have a file per box using names
+   <li> Each of these modules would then have a file per box using names
    related to the small scale notation, so such as:
    <ul>
     <li> ss_sbox_4.hpp (4-bit Sbox). </li>

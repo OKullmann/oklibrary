@@ -10,71 +10,10 @@ License, or any later version. */
   \brief On investigations into the AES Sbox
 
 
-  \todo Connections
-  <ul>
-   <li> See Investigations/BooleanFunctions/plans/Permutations.hpp for
-   general investigations on permutations of {0,1}^n. </li>
-  </ul>
-
-
-  \todo Minimum size small scale AES operations
-  <ul>
-   <li> See ss_sbox_fullcnf_fcs() in
-   OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/SboxAnalysis.mac . </li>
-   <li> In the small scale AES, the size of the field and the size of the 
-   block may vary and therefore, rather than simply having the standard 8 
-   bit "byte" field in AES, the "word" (a generalisation of byte) field
-   may now be of arbitrary size. </li>
-   <li> In reality, in the literature (see [Small Scale Variants of the AES; 
-   Cid, Murphy and Robshaw]), only one field of size 4 is considered. </li>
-   <li> So we are considering the following minisation problems
-   (given as maxima code to generate their minimum CNF representations) :
-   \verbatim
-min_sbox_cnfs : all_minequiv_bvs_cs(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4)[2]);
-   \endverbatim
-   </li>
-  </ul>
-
-
   \todo Minimisation of the Sbox
   <ul>
    <li> See "Minimisation" in 
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp . </li> 
-   <li> R QCA packages 
-   <ul>
-    <li> We can use the QCA package, given in 
-    Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp to compute
-    the minimum sized CNF or DNF clause-set representation. </li>
-    <li> This should be possible using the following code:
-    \verbatim
-######## In Maxima #######
-generate_full_aes_sbox_tt() :=  
-  map(
-     lambda([ce],
-       append(
-         int2polyadic_padd(ce[1],2,8),
-         int2polyadic_padd(ce[2],2,8),
-         if rijn_lookup_sbox(ce[1]) = ce[2] then [1] else [0]))
-     ,cartesian_product(setmn(0,255),setmn(0,255)))$
-
-with_stdout("Sbox.tt", block(
-  apply(print, endcons("O",create_list(i,i,1,16))),
-  for tt_line in generate_full_aes_sbox_tt() do
-    apply(print,tt_line)
-  ))$
-
-######## In R ###########
-
-oklib_load_all()
-library(QCA)
-
-sbox_tt = read.table("Sbox.tt",header=TRUE)
-eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
-   \endverbatim
-   although currently there are issues with memory (see "Minimisation in
-   OKlib/Satisfiability/FiniteFunctions/plans/general.hpp). </li>  
-  </ul>
-  </li>
   <li> Espresso-ab (see Logic "synthesis" in
   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp)
   <ul>
