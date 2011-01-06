@@ -1,5 +1,5 @@
 # Oliver Kullmann, 14.8.2009 (Swansea)
-# Copyright 2009, 2010 Oliver Kullmann
+# Copyright 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -24,10 +24,10 @@ $(precosat_directories_okl) : % :
 precosat : precosat236 precosat570 precosat_doc
 
 precosat236 :
-	env -i PATH=${PATH} make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) precosat_recommended_version_number_okl="236" precosat_gen
+	env -i PATH=$${PATH} gcc_recommended_version_number_okl=$(gcc_recommended_version_number_okl) make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) precosat_recommended_version_number_okl="236" precosat_gen
 
 precosat570 :
-	env -i PATH=${PATH} make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) precosat_recommended_version_number_okl="-570-239dbbe-100801" precosat_gen
+	env -i PATH=$${PATH} gcc_recommended_version_number_okl=$(gcc_recommended_version_number_okl) make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) precosat_recommended_version_number_okl="-570-239dbbe-100801" precosat_gen
 
 precosat_gen : $(precosat_directories_okl)
 	$(call unarchive,$(precosat_source_okl),$(precosat_base_build_dir_okl)) $(postcondition) \
