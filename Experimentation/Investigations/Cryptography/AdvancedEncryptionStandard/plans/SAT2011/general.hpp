@@ -16,6 +16,15 @@ License, or any later version. */
    to be achieved. </li>
   </ul>
 
+  
+  \todo Links
+  <ul>
+   <li> For investigations into the various representations (CNF and otherwise)
+   of the AES boxes (Sbox, field multiplications etc) see
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp .
+   </li>
+  </ul>
+
 
   \todo Prepare benchmarks for SAT 2011
   <ul>
@@ -119,13 +128,6 @@ License, or any later version. */
    and on the various boxes. </li>
    <li> A basic summary (even if not reproducible due to the new state of the
    system), should be made available here. </li>
-  </ul>
-
-
-  \todo DONE Create submodule "Representations"
-  <ul>
-   <li> DONE All files "Box*", "Field*", "Sbox*" shall go there. </li>
-   <li> DONE Of course, with general plans there in "general.hpp". </li>
   </ul>
 
 */

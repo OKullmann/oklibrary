@@ -33,6 +33,9 @@ okltest_rijn_m2natl(rijn_m2natl);
 okltest_ss_natl2m(ss_natl2m);
 okltest_ss_m2natl(ss_m2natl);
 
+okltest_ss_matrix2hex(ss_matrix2hex);
+okltest_ss_hex2matrix(ss_hex2matrix);
+
 /*!
 \endhtmlonly
 */

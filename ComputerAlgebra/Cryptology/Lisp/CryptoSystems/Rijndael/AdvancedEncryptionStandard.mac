@@ -347,7 +347,7 @@ aes_encrypt_nat(p,k,num_rounds) :=
   rijn_m2natl(
     aes_encrypt_gen(rijn_natl2m(p),rijn_natl2m(k),num_rounds,
       rijn_sbox,rijn_mixcolumn))$
-aes_encrypt_nat_std(p,k) := aes_encrypt_nat_f_std(p,k,10)$
+aes_encrypt_nat_std(p,k) := aes_encrypt_nat(p,k,10)$
 
 /* AES Encryption using lookup tables: */
 aes_encrypt_l(p,k,num_rounds) := 
@@ -360,6 +360,7 @@ aes_encrypt_nat_l(p,k,num_rounds) :=
 aes_encrypt_nat_l_std(p,k) := aes_encrypt_nat_l(p,k,10)$
 
 /* AES Encryption as an iterated block cipher */
+/* NOTE: This is equivalent to aes_encrypt */
 aes_encrypt_ibc(p,k,num_rounds) :=
   aes_encrypt_ibc_gen(p,k,num_rounds,rijn_sbox,rijn_mixcolumn)$
 aes_encrypt_ibc_std(p,k) := aes_encrypt_ibc(p,k,10)$
@@ -378,7 +379,7 @@ aes_decrypt_nat(c,k,num_rounds) :=
   rijn_m2natl(
     aes_decrypt_gen(rijn_natl2m(c),rijn_natl2m(k),num_rounds,
       rijn_sbox,rijn_inv_sbox,rijn_inv_mixcolumn))$
-aes_decrypt_nat_std(c,k) := aes_decrypt_nat_f(c,k,10)$
+aes_decrypt_nat_std(c,k) := aes_decrypt_nat(c,k,10)$
   
 /* AES Decryption using lookup tables: */
 aes_decrypt_l(c,k,num_rounds) := 

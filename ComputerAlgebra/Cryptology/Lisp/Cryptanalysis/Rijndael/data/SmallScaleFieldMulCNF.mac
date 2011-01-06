@@ -1,0 +1,38 @@
+/* Matthew Gwynne, 16.12.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software$ you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library$ either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+  \brief Example CNF for the Rijndael byte field multiplication by 02 or "x".
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac")$
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul2CNF.mac")$
+
+
+
+/* Takes the exponent and the element in the field to multiply with */
+ss_field_cnfs : sm2hm({})$
+
+set_hm(ss_field_cnfs, [4,2], fcs2fcl(ssmult_fullcnf_fcs(2,2,4,ss_polynomial_2_4)))$
+set_hm(ss_field_cnfs, [4,3], fcs2fcl(ssmult_fullcnf_fcs(3,2,4,ss_polynomial_2_4)))$
+set_hm(ss_field_cnfs, [8,2], FieldMul2CNF)$
+set_hm(ss_field_cnfs, [8,3], FieldMul3CNF)$
+/* ... */
+
+/*!
+\endhtmlonly
+*/

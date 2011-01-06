@@ -316,6 +316,27 @@ ss_inv_mixcolumns_matrix(b,e,n_R) :=
     else und
   else und$
 
+ss_mixcolumns_matrix2inv_mixcolumns_matrix(b,e, mixcolumns_matrix) :=
+  if b = 2 then
+    if e = 8 then
+      if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_4 then
+        ss_inv_mixcolumns_matrix_2_8_4
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_2 then
+        ss_inv_mixcolumns_matrix_2_8_2
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_8_1 then
+        ss_inv_mixcolumns_matrix_2_8_1
+      else und
+    else if e = 4 then
+      if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_4 then
+        ss_inv_mixcolumns_matrix_2_4_4
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_2 then
+        ss_inv_mixcolumns_matrix_2_4_2
+      else if mixcolumns_matrix = ss_mixcolumns_matrix_2_4_1 then
+        ss_inv_mixcolumns_matrix_2_4_1
+      else und
+    else und
+  else und$
+      
 
 /* Takes a (maxima) vector of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
@@ -445,7 +466,7 @@ ss_key_expansion_gen(M, num_rounds, b, mod_poly, sbox_f) := block(
     endcons(ss_keyschedule(last(M),r,b,mod_poly,sbox_f),M))],
   lreduce(ks, create_list(i,i,1,num_rounds), [M]))$
 ss_key_expansion(M,num_rounds,b,e) := 
-  ss_key_expansion(M,num_rounds,b,ss_polynomial(b,e), ss_sbox(b,e))$
+  ss_key_expansion_gen(M,num_rounds,b,ss_polynomial(b,e), lambda([a],ss_sbox(a,b,e)))$
 
 
 /* *********************************************
@@ -467,7 +488,7 @@ ss_round_wa_gen(pl,b,e,mod_poly,sbox_f,mixcolumns_matrix) :=
         ss_subbytes(pl,sbox_f)),b,e,mod_poly,mixcolumns_matrix)$
 ss_round_wa(pl,b,e) := 
     ss_mixcolumns(ss_shiftrows(
-        ss_subbytes(pl,sbox_f)),b,e)$
+        ss_subbytes(pl,lambda([a],ss_sbox(a,b,e)))),b,e)$
 ss_round_gen(pl, rkl,b,e,mod_poly,sbox_f,mixcolumns_matrix) := 
   matrixmap(lambda([p], ss_stand(p,b,mod_poly)),
     ss_round_wa_gen(pl,b,e,mod_poly,sbox_f,mixcolumns_matrix)+rkl)$

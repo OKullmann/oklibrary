@@ -1,0 +1,407 @@
+/* Matthew Gwynne, 28.9.2010 (Swansea) */
+/* Copyright 2010 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac
+  \brief Tests for the AES constraint template translation functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+
+/* ***********************************************
+   * Constraint template rewrite translation     *
+   ***********************************************
+*/
+
+oktest_generate_ss_constraint_vars(f) := block(
+  for i : 0 thru 5 do
+    assert(f(i,i-1,lambda([a],a),nounify(id)) = []),
+  for i : 0 thru 5 do
+    assert(f(i,i, lambda([a],a),nounify(id)) = [ss_v(i,nounify(id))]),
+ for i : 0 thru 5 do
+    assert(f(i,i, nounify(n),nounify(id)) =
+      [nounify(n)(ss_v(i,nounify(id)))]),
+  assert(f(1,2, nounify(n),nounify(id)) =
+    [nounify(n)(ss_v(1,nounify(id))),nounify(n)(ss_v(2,nounify(id)))]),
+  true)$
+
+/* ***********************************************
+   * Constraint template rewrite functions       *
+   ***********************************************
+*/
+
+okltest_ss_ns_var_l(f) := block([cst],
+  cst : ["ss_cst",create_list(i,i,1,384),1,
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4,false,lambda([a],a)],
+  namespace : cstt_namespace_new(ss_namespace, cst),
+  assert(
+    f(cst) =
+    append(
+      map(
+        lambda([a],namespace(ss_var(a,nounify(o)))),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],namespace(ss_var(a,nounify(k)))),
+        create_list(i,i,1,256)))),
+  true)$
+
+okltest_ss_cstr_cstl(f) := block([ctl,ct],
+  cst : ["ss_cst",create_list(i,i,1,384),1,
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4,false,nounify(n)],
+  namespace : cstt_namespace_new(ss_namespace, cst),
+  ctl : f(cst),
+  assert(map(cstt_name,ctl) =
+    ["ss_round_cst","ss_add_cst","ss_key_expansion_cst"]),
+  assert(map(lambda([a],length(a[2])), ctl) = [384,384,384]),
+  assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  assert(ctl[1][2][50] =
+    namespace(ss_v(50,nounify(o)))),
+  assert(ctl[2][2][200] =
+    namespace(ss_v(72,nounify(k)))),
+  true)$
+
+okltest_ss_round_ns_var_l(f) := block([cst],
+  cst : ["ss_round_cst",create_list(i,i,1,384),1,
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4, lambda([a],a)],
+  namespace : cstt_namespace_new(ss_round_namespace, cst),
+  assert(
+    f(cst) =
+    append(
+      map(
+        lambda([a],namespace(ss_var(a,nounify(mo)))),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],namespace(ss_var(a,nounify(ro)))),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],namespace(ss_var(a,nounify(so)))),
+        create_list(i,i,1,128)))),
+  true)$
+
+okltest_ss_round_cstr_cstl(f) := block([cst],
+  cst : ["ss_round_cst",create_list(i,i,1,384),1,
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4,nounify(n)],
+  namespace : cstt_namespace_new(ss_round_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) =
+    ["ss_add_cst","ss_mixcolumns_cst","ss_shiftrows_cst",
+     "ss_subbytes_cst"]),
+  assert(map(lambda([a],length(a[2])), ctl) = [384,256,256,256]),
+    assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  true)$
+
+/* TODO: Update below with small scale generalisations. */
+
+okltest_ss_final_round_ns_var_l(f) := block([cst],
+  cst : ["ss_final_round_cst",create_list(i,i,1,384),
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4, lambda([a],a)],
+  namespace : cstt_namespace_new(ss_final_round_namespace, cst),
+  assert(
+    f(cst) =
+    append(
+      map(
+        lambda([a],namespace(ss_var(a,nounify(ro)))),
+        create_list(i,i,1,128)),
+      map(
+        lambda([a],namespace(ss_var(a,nounify(so)))),
+        create_list(i,i,1,128)))),
+  true)$
+
+
+okltest_ss_final_round_cstr_cstl(f) := block([cst],
+  cst : ["ss_final_round_cst",create_list(i,i,1,384),
+  4,4,2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  ss_mixcolumns_matrix_2_8_4, nounify(n)],
+  namespace : cstt_namespace_new(ss_final_round_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) =
+    ["ss_add_cst","ss_shiftrows_cst","ss_subbytes_cst"]),
+  assert(map(lambda([a],length(a[2])), ctl) = [384,256,256]),
+  assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  true)$
+
+
+okltest_ss_subbytes_ns_var_l(f) := block([cst],
+  cst : ["ss_subbytes_cst",create_list(i,i,1,384),nounify(n)],
+  assert(f(cst) = []),
+  true)$
+
+
+okltest_ss_subbytes_cstr_cstl(f) := block([cst],
+  cst : ["ss_subbytes_cst",create_list(i,i,1,256),
+  2, 8, ss_polynomial_2_8, ss_sbox_matrix_2_8, ss_affine_constant_2_8,
+  nounify(n)],
+  namespace : cstt_namespace_new(ss_subbytes_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) = create_list("ss_sbox_cst",i,1,16)),
+  assert(map(lambda([a],length(a[2])), ctl) = create_list(16,i,1,16)),
+  assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  true)$
+
+
+okltest_ss_shiftrows_ns_var_l(f) := block([cst],
+  cst : ["ss_shiftrows_cst",create_list(i,i,1,384),nounify(n)],
+  assert(f(cst) = []),
+  true)$
+
+
+okltest_ss_shiftrows_cstr_cstl(f) := block([cst],
+  cst : ["ss_shiftrows_cst",create_list(i,i,1,256),4,4,nounify(n)],
+  namespace : cstt_namespace_new(ss_shiftrows_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) = create_list("eq_cst",i,1,128)),
+  assert(map(lambda([a],length(a[2])), ctl) = create_list(2,i,1,128)),
+  assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  true)$
+
+
+okltest_ss_mixcolumns_ns_var_l(f) := block([cst],
+  cst : ["ss_mixcolumns_cst",create_list(i,i,1,384),nounify(n)],
+  assert(f(cst) = []),
+  true)$
+
+okltest_ss_mixcolumns_cstr_cstl(f) := block([cst],
+  cst : ["ss_mixcolumns_cst",create_list(i,i,1,256),
+  4, 4,2, 8, ss_polynomial_2_8, ss_mixcolumns_matrix_2_8_4,nounify(n)],
+  namespace : cstt_namespace_new(ss_mixcolumns_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) = create_list("ss_mixcolumn_cst",i,1,4)),
+  assert(map(lambda([a],length(a[2])), ctl) = create_list(64,i,1,4)),
+  assert(every_s(lambda([a], is(last(a) =
+          namespace)),ctl)),
+  true)$
+
+
+okltest_ss_bi_mixcolumn_ns_var_l(f) := block([cst],
+  cstt : ["ss_mixcolumn_cst",create_list(i,i,1,64),
+  4,2,8,ss_polynomial_2_8, ss_mixcolumns_matrix_2_8_4,lambda([a],a)],
+  cstt_new : cstt_namespace_replace(cstt,
+    cstt_namespace_new(ss_bi_mixcolumn_namespace,cstt)),
+  namespace_mc : cstt_namespace_new(ss_mixcolumn_namespace,cstt_new),
+  namespace_invmc : cstt_namespace_new(ss_inv_mixcolumn_namespace,cstt_new),
+  assert(
+    length(f(cstt)) = 6*32),
+  true)$
+
+okltest_ss_mixcolumn_ns_var_l(f) := block([cst],
+  cst : ["ss_mixcolumn_cst",create_list(i,i,1,64),
+  4,2, 8, ss_polynomial_2_8, ss_mixcolumns_matrix_2_8_4,lambda([a],a)],
+  namespace : cstt_namespace_new(ss_mixcolumn_namespace, cst),
+  assert(
+    length(f(cst)) = 64),
+  true)$
+
+
+okltest_ss_inv_mixcolumn_ns_var_l(f) := block([cst],
+  cst : ["ss_mixcolumn_cst",create_list(i,i,1,64),
+  4,2,8,ss_polynomial_2_8, ss_mixcolumns_2_8_4,lambda([a],a)],
+  namespace : cstt_namespace_new(ss_inv_mixcolumn_namespace, cst),
+  assert(
+    length(f(cst)) = 128),
+  true)$
+
+okltest_ss_bi_mixcolumn_cstr_cstl(f) := block([cst],
+  cst : ["ss_mixcolumn_cst",create_list(i,i,1,64),
+  4,2,8,ss_polynomial_2_8, ss_mixcolumns_matrix_2_8_4,nounify(n)],
+  cstt_new : cstt_namespace_replace(cst,
+    cstt_namespace_new(ss_bi_mixcolumn_namespace,cst)),
+  namespace_mc : cstt_namespace_new(ss_mixcolumn_namespace,cstt_new),
+  namespace_invmc : cstt_namespace_new(ss_inv_mixcolumn_namespace,cstt_new),
+  ctl : f(cst),
+  assert(map(lambda([a],[first(a),third(a)]),ctl) =
+    [["ss_add_cst",4],["ss_mul_cst",x+1],["ss_mul_cst",x],["ss_add_cst",4],
+    ["ss_mul_cst",x],["ss_mul_cst",x+1],["ss_add_cst",4],["ss_mul_cst",x],
+    ["ss_mul_cst",x+1],["ss_add_cst",4],["ss_mul_cst",x],["ss_mul_cst",x+1],
+    ["ss_add_cst",4],["ss_mul_cst",x^3+x+1],["ss_mul_cst",x^3+x^2+1],
+    ["ss_mul_cst",x^3+1],["ss_mul_cst",x^3+x^2+x],["ss_add_cst",4],
+    ["ss_mul_cst",x^3+x^2+1],["ss_mul_cst",x^3+1],["ss_mul_cst",x^3+x^2+x],
+    ["ss_mul_cst",x^3+x+1],["ss_add_cst",4],["ss_mul_cst",x^3+1],
+    ["ss_mul_cst",x^3+x^2+x],["ss_mul_cst",x^3+x+1],
+    ["ss_mul_cst",x^3+x^2+1],["ss_add_cst",4],["ss_mul_cst",x^3+x^2+x],
+    ["ss_mul_cst",x^3+x+1],["ss_mul_cst",x^3+x^2+1],["ss_mul_cst",x^3+1]]),
+  assert(map(lambda([a],length(a[2])), ctl) =
+    [40,16,16,40,16,16,40,16,16,40,16,16,40,16,16,16,16,40,16,
+     16,16,16,40,16,16,16,16,40,16,16,16,16]),
+  assert(every_s(lambda([a], is(last(a) = namespace_mc) or
+        is(last(a) = namespace_invmc)),ctl)),
+  true)$
+
+okltest_ss_mixcolumn_cstr_cstl(f) := block([cst],
+  cst : ["ss_mixcolumn_cst",create_list(i,i,1,64),
+  4,2, 8, ss_polynomial_2_8, ss_mixcolumns_matrix_2_8_4,nounify(n)],
+  namespace : cstt_namespace_new(ss_mixcolumn_namespace, cst),
+  ctl : f(cst),
+  assert(map(lambda([a],[first(a),third(a)]),ctl) =
+    [["ss_add_cst",4],["ss_mul_cst",x+1],["ss_mul_cst",x],
+     ["ss_add_cst",4],["ss_mul_cst",x],["ss_mul_cst",x+1],["ss_add_cst",4],
+     ["ss_mul_cst",x],["ss_mul_cst",x+1],["ss_add_cst",4],["ss_mul_cst",x],
+     ["ss_mul_cst",x+1]]),
+  assert(map(lambda([a],length(a[2])), ctl) =
+    [40,16,16,40,16,16,40,16,16,40,16,16]),
+  assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  true)$
+
+okltest_ss_key_expansion_ns_var_l(f) := block([cst],
+  cst : ["ss_key_expansion_cst",create_list(i,i,1,384),1,
+  4,4,2,8,ss_polynomial_2_8,ss_sbox_matrix_2_8,ss_affine_constant_2_8,
+  lambda([a],a)],
+  namespace : cstt_namespace_new(ss_key_expansion_namespace, cst),
+  assert(
+    f(cst) =
+    append(
+      map(
+        lambda([a],namespace(ss_var(a,nounify(rc)))),
+        create_list(i,i,1,8)),
+      map(
+        lambda([a],namespace(ss_var(a,nounify(sb)))),
+        create_list(i,i,1,32)))),
+  true)$
+
+
+okltest_ss_key_expansion_cstr_cstl(f) := block([cst],
+  cst : ["ss_key_expansion_cst",create_list(i,i,1,384),1,
+  4,4,2,8,ss_polynomial_2_8,ss_sbox_matrix_2_8,ss_affine_constant_2_8,
+  nounify(n)],
+  namespace : cstt_namespace_new(ss_key_expansion_namespace, cst),
+  ctl : f(cst),
+  assert(map(first,ctl) =
+    ["ss_add_cst","ss_add_cst","ss_add_cst","ss_add_cst","ss_add_cst",
+     "ss_add_cst","ss_add_cst","ss_add_cst","ss_add_cst","ss_add_cst",
+     "ss_add_cst","ss_add_cst","ss_add_cst","ss_sbox_cst","ss_add_cst",
+     "ss_sbox_cst","ss_add_cst","ss_sbox_cst","ss_add_cst","const_cst",
+     "ss_sbox_cst","eq_cst","eq_cst","eq_cst","eq_cst","eq_cst","eq_cst",
+     "eq_cst","eq_cst","eq_cst","eq_cst","eq_cst","eq_cst","eq_cst","eq_cst",
+     "eq_cst","eq_cst"]),
+  assert(map(lambda([a],length(a[2])), ctl) =
+    [24,24,24,24,24,24,24,24,24,24,24,24,24,16,24,16,24,16,32,8,16,16,16,16,
+     16,16,16,16,16,16,16,16,16,16,16,16,16]),
+  assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  true)$
+
+
+/* ****************************************
+   * Translation functions                *
+   ****************************************
+*/
+
+okltest_ss_sbox_pi_cst_cl(f) := block([cl],
+  cl : f(["ss_sbox_cst", create_list(i,i,1,8),2,4,ss_polynomial_2_4]),
+  assert(first(cl) = {-8,-7,-6,-5,-4,-3,-2,-1}),
+  assert(last(cl) = {1,2,3,4,5,6,7,8}),
+  assert(length(cl) = 240),
+  cl : f(["ss_sbox_cst", create_list(i,i,1,16),2,8,ss_polynomial_2_8]),
+  assert(first(cl) = {-16,-15,-14,-13,4,11,12}),
+  assert(last(cl) = {5,7,10,11,13,14,15,16}),
+  assert(length(cl) = 559),
+  true)$
+
+okltest_ss_sbox_ts_var_l(f) := block([cst],
+  cst : ["ss_sbox_cst", create_list(i,i,1,8),2,4,ss_polynomial_2_4,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace, cst),
+  assert(f(cst) = create_list(
+      namespace(ss_v(i,nounify(sbox_ts))),i,1,16)),
+  cst : ["ss_sbox_cst", create_list(i,i,1,16),2,8,ss_polynomial_2_8,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace, cst),
+  assert(f(cst) = create_list(
+      namespace(ss_v(i,nounify(sbox_ts))),i,1,256)),
+  true)$
+
+okltest_ss_sbox_ts_cst_cl(f) := block([cl,cst],
+  cst : ["ss_sbox_cst", create_list(i,i,1,8),2,4,ss_polynomial_2_4,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace, cst),
+  cl : f(cst),
+  assert(first(cl) =
+    {-3,-2,-1,4,5,6,7,8,namespace(ss_v(1,nounify(sbox_ts)))}),
+  assert(last(rest(cl,-1)) = {8,-namespace(ss_v(16,nounify(sbox_ts)))}),
+  assert(length(last(cl)) = 16),
+  if oklib_test_level = 0 then return(true),
+  cst : ["ss_sbox_cst", create_list(i,i,1,16),2,8,ss_polynomial_2_8,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_sbox_ts_namespace, cst),
+  cl : f(cst),
+  assert(first(cl) =
+    {-7,-4,-2,1,3,5,6,8,9,10,11,12,13,14,15,16,
+         namespace(ss_v(1,nounify(sbox_ts)))}),
+  assert(last(rest(cl,-1)) =
+    {16,
+         -namespace(ss_v(256,nounify(sbox_ts)))}),
+  assert(length(last(cl)) = 256),
+  true)$
+
+okltest_ss_mul_pi_cst_cl(f) := block([cl],
+  assert(length(f(["ss_mul_cst",create_list(i,i,1,8),x,2,4,ss_polynomial_2_4,
+        'n])) = 240),
+  assert(f(["ss_mul_cst",create_list(i,i,1,16),x,2,8,ss_polynomial_2_8,'n]) =
+    [{-16,-15,-8},{-16,1},{-15,8,16},{-14,7},{-13,-6,-1},{-13,6,16},
+     {-12,-5,-1},{-12,5,16},{-11,4},{-10,3},{-9,2},{-8,15,16},{-7,14},
+     {-6,13,16},{-5,12,16},{-4,11},{-3,10},{-2,9},{-1,5,12},{-1,6,13},
+     {-1,8,15}]),
+  true)$
+
+okltest_ss_mul_ts_var_l(f) := block([cst],
+  cst : ["ss_mul_cst",create_list(i,i,1,8),x,2,4,ss_polynomial_2_4,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_mul_ts_namespace, cst),
+  assert(f(cst) = create_list(
+      namespace(ss_v(i,nounify(mul_ts))),i,1,16)),
+  cst : ["ss_mul_cst",create_list(i,i,1,16),x,2,8,ss_polynomial_2_8,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_mul_ts_namespace, cst),
+  assert(f(cst) = create_list(
+      namespace(ss_v(i,nounify(mul_ts))),i,1,256)),
+  true)$
+
+okltest_ss_mul_ts_cst_cl(f) := block([cl,cst],
+  if oklib_test_level = 0 then return(true),
+  cst : ["ss_mul_cst",create_list(i,i,1,8),x,2,4,ss_polynomial_2_4,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_mul_ts_namespace, cst),
+  cl : f(cst),
+  assert(first(cl) =
+    {1,2,3,4,5,6,7,8,namespace(ss_v(1,nounify(mul_ts)))}),
+  assert(last(rest(cl,-1)) =
+    {8,-namespace(ss_v(16,nounify(mul_ts)))}),
+  assert(length(last(cl)) = 16),
+  if oklib_test_level = 0 then return(true),
+  cst : ["ss_mul_cst",create_list(i,i,1,16),x,2,8,ss_polynomial_2_8,
+         nounify(n)],
+  namespace : cstt_namespace_new(ss_mul_ts_namespace, cst),
+  cl : f(cst),
+  assert(first(cl) =
+    {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
+         namespace(ss_v(1,nounify(mul2_ts)))}),
+  assert(last(rest(cl,-1)) =
+    {16,
+         -namespace(ss_v(256,nounify(mul2_ts)))}),
+  assert(length(last(cl)) = 256),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

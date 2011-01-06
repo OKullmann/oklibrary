@@ -1,0 +1,44 @@
+#!/bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Script which given a standard Dimacs file strict_file and  an extended 
+# Dimacs file extended_file where extended_file uses variables from strict_file
+# plus additional variables, returns a new Dimacs file on standard output
+# containing all the clauses from strict_file, followed by standardised
+# (i.e., non-integer variables replaced by integer variables) clauses from 
+# extended_file where the variables from strict_file appearing in 
+# extended_file maintain their value.
+
+strict_file=$1
+extended_file=$2
+
+# Programs
+strict_dimacs=ExtendedToStrictDimacs-O3-DNDEBUG
+
+# Files
+temp_dir=$(mktemp --tmpdir=./ --directory tmp_extend_$(basename $1 | sed -e  's/[^a-zA-Z_0-9\.-]//g')_$(date +"%Y-%m-%d-%H%M%S")_XXXXXX)
+temp_min_file=${temp_dir}/min.cnf
+new_strict_file=${temp_dir}/strict.cnf
+
+num_vars=`cat ${strict_file} | awk '/^p/ { print $3 }'`
+
+# Functions 
+function add_dimacs_line {
+    oksolver_num_vars_line='initial_number_of_variables'
+    oksolver_num_clauses_line='initial_number_of_clauses'
+    oksolver_output=`OKsolver_2002-O3-DNDEBUG -P $1 | grep "\(${oksolver_num_vars_line}\|${oksolver_num_clauses_line}\)"`;
+    num_vars=`echo "${oksolver_output}" | grep "${oksolver_num_vars_line}" | awk '{ print \$NF}'`;
+    num_clauses=`echo "${oksolver_output}" | grep "${oksolver_num_clauses_line}" | awk '{ print \$NF}'`;
+    sed -i "1s/^/p cnf ${num_vars} ${num_clauses}\n/" $1;
+}
+echo `seq 1 ${num_vars}` 0 | cat - ${strict_file} | grep -v "^[pc]" > ${temp_min_file}
+cat ${extended_file} | grep -v "^[pc]" >> ${temp_min_file}
+add_dimacs_line ${temp_min_file}
+cat ${temp_min_file} | ${strict_dimacs} | tail -n +3 > ${new_strict_file}
+add_dimacs_line ${new_strict_file}
+cat ${new_strict_file}
+rm -rf ${temp_dir}

@@ -24,6 +24,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Standardise output files names
+  <ul>
+   <li> Currently the filenames output by functions such as 
+   "output_ssmult_fullcnf_stdname" and so on in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac. 
+   have not been well thought out. </li>
+   <li> Therefore some thought needs to be taken and a simple scheme developed.
+   </li>
+  </ul>
+
+
   \todo Remove hard-coding of multiplication by 01 in small scale MixColumn
   <ul>
    <li> In the current of the small scale MixColumn rewrite function, if the

@@ -8,49 +8,38 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/CryptoSystems/Rijndael 0.0.9 (3.6.2009)
-
-
-  \par Version 0.0.10
-
- \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Notions and notations
-    - Update the following todos : DONE
-    - Alter internal AES functions to use polynomials and matrices : DONE
-    - Truncate AES for reduced rounds: DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
-   the following topics are handled:
-    - Sbox polynomial implementation : DONE
-    - Convert aes_key_expansion to return a list of matrices : DONE
-    - Remove addition from AES round : DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
-   the following topics are handled:
-    - Datatypes and naming conventions
-    - Use matrix of GF(b) matrices for MixColumn : DONE
-    - Tests for implementations : DONE
-    - Small scale AES implementation : DONE
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.10 (3.1.2010)
 
 
   \par Version 0.0.11
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - The Rijndael cipher as an iterated condition system : DONE
-    - Design of round functions
-    - Key schedule : DONE
-    - Algebraic aspects DONE
 
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Docus
+    - Datatypes and naming conventions : DONE
+
+
+  \par Version 0.0.12
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - Docus and Demos
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Requirements
+
+
+  \par Version 0.0.13
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Provide function for generating AES term
+    - Standardise data types and documentation
 
 
   \par Version 0.1
@@ -58,7 +47,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Docus and Demos
+    - Notions and notations 
     - Requirements
     - Coding Standards
 
@@ -96,5 +85,6 @@ License, or any later version. */
    - 0.0.7 : 15.3.2008; some bugs in tests fixed, as well as sbox lookup data added and integrated with AES implementation.
    - 0.0.8 : 16.6.2008; restructuring and redesign.#
    - 0.0.9 : 3.6.2009; tidied implementation by using good naming conventions and removing unnecessary functions.
+   - 0.0.10 : 3.1.2011; tidied up and switched to polynomial+matrix representation, as well as adding the small scale implementation.
 
 */

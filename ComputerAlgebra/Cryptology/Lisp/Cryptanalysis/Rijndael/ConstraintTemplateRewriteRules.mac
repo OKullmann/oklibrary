@@ -722,9 +722,9 @@ aes_add_cst_cl(cst) := block(
   nb : floor(length(cst[2]) / (n+1)),
   parity_f : lambda([[a]],
     append(
-      map(lambda([C],union(C,{last(a)})),
+      map(lambda([C],union(C,{if evenp(n) then last(a) else -last(a)})),
         rename_fcl(even_parity_fcl(length(a)-1),rest(a,-1))[2]),
-      map(lambda([C],union(C,{-last(a)})),
+      map(lambda([C],union(C,{if evenp(n) then -last(a) else last(a)})),
         rename_fcl(odd_parity_fcl(length(a)-1),rest(a,-1))[2]))),
   lappend(
     apply(map,

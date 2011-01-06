@@ -1,4 +1,10 @@
 #!/bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
 # Script which given two DIMACS CNF files A and B as arguments
 # returns on STDOUT, file A, followed by B, where the p-line
 # of A has been updated to add the number of clauses in B

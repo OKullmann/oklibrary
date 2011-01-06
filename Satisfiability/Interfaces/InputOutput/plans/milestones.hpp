@@ -19,6 +19,11 @@ License, or any later version. */
     - Improve implementations
     - Generic translation
 
+  \par
+   In Interfaces/InputOutput/FilterDimacs.cpp the following topics
+   are handled:
+    - Add application tests
+    - Move CLSAdaptorFilter
 
   \par Version 0.0.11 :
 
@@ -162,6 +167,7 @@ License, or any later version. */
    are handled:
     - Move InputOutput/ExtendedToStrictDimacs.cpp
     - Input and output of partial assignments
+    - Write Dimacs-parser for weighted (partial) MaxSAT formats
 
 
   \par Version 0.3 :
