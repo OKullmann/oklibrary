@@ -52,7 +52,7 @@ maxima> output_tt2table(fcl2tt(SboxCNF),"Sbox.dat")$
    \verbatim
 R> oklib_load_all()
 R> library(QCA)
-R> sbox_tt = read.table("Sbox.tt",header=TRUE)
+R> sbox_tt = read.table("Sbox.dat",header=TRUE)
 R> eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
    \endverbatim
    </li>
