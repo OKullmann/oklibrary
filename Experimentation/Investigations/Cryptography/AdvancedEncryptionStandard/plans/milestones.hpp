@@ -19,13 +19,13 @@ License, or any later version. */
     - Connection with the plans one level above
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp the
-   following topics are handled:
-    - Move individual investigations to sub-modules
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/general.hpp
+   the following topics are handled:
+    - Move individual investigations to sub-modules : DONE
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp the
-   following topics are handled:
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp 
+   the following topics are handled:
     - Move individual investigations to sub-modules
 
 
@@ -35,6 +35,36 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
     - Update scripts
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Espresso/general.hpp 
+   the following topics are handled:
+    - Add todos
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Maxima/general.hpp 
+   the following topics are handled:
+    - Add todos
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/IterativeSAT/general.hpp 
+   the following topics are handled:
+    - Add todos
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/general.hpp 
+   the following topics are handled:
+    - Add todos
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/HypergraphTransversal/general.hpp 
+   the following topics are handled:
+    - Add todos
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/WeightedMaxSAT/general.hpp 
+   the following topics are handled:
+    - Add todos
     
 
   \par

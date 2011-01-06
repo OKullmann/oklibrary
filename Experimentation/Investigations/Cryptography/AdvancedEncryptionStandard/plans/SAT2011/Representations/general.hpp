@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
   \brief Investigations into representations for components of the AES related to the SAT 2011 paper
 
 
@@ -17,7 +17,7 @@ License, or any later version. */
    <li> First to study the set of prime implicates (see
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp). </li>
    <li> For minimum and "small" representations, see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp. </li>
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/general.hpp. </li>
    <li> For R-based representations see "R-based representations". </li>
   </ul>
 
