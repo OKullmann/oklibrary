@@ -87,6 +87,16 @@ License, or any later version. */
        especially point "No interference of different invocations". </li>
        <li> Until now it was not a major issue, however now running, say, 30
        experiments in parallel won't work out without a solution. </li>
+       <li> For what is Maxima needed?
+        <ol>
+         <li> Creation of the template-SAT-problems should be possible in
+         advance. </li>
+         <li> If a key is computed, we should check whether this key is
+         correct. </li>
+         <li> At least for the small-scale system the could be done using Sage;
+         hopefully Sage is more amenable to script-usage. </li>
+        </ol>
+       </li>
       </ol>
      </li>
     </ol>
