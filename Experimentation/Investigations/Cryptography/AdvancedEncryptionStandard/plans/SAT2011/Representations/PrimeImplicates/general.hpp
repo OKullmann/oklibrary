@@ -1,12 +1,12 @@
-// Matthew Gwynne, 30.12.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+// Matthew Gwynne, 6.1.2011 (Swansea)
+/* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxPrimeImplicates.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/PrimeImplicates/general.hpp
   \brief On investigating the prime implicates of the AES and small scale boxes
 
 
