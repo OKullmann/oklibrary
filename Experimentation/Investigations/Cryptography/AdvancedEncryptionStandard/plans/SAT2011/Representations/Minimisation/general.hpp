@@ -22,16 +22,16 @@ License, or any later version. */
     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac). 
     </li>
     <li> Small scale variations of the Sbox and field multiplications. </li>
-    <li> Affine multiplications (see 
+    <li> Affine transformations (see
     "Affine bijections over ZZ_2" in 
-    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp). 
+    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
     </li>
    </ul>
    </li>
    <li> In some cases, it may seem infeasible to generate the *minimum* size
    representation and so we generate only "small" representations (i.e.
    as small as we can get). </li>
-   <li> When generating minimum or small representations, we have the 
+   <li> When generating minimum or small representations, we have the
    following tools, discussed in todos of the same name:
    <ul>
     <li> Espresso (see

@@ -96,7 +96,7 @@ License, or any later version. */
    - 0.1.1 : 1.1.2011; started serious planning for the SAT2011 contributions.
    - 0.1.2 : 1.1.2011; removed/transferred completed todos, updates links.
    - 0.1.3 : 2.1.2011; tidied general todos and updated SAT2011 sub-module.
-   - 0.1.4 : 5.1.2011; Created "Representations" sub-module with associated information.
+   - 0.1.4 : 5.1.2011; created "Representations" sub-module with associated information.
 
 */
 
