@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Various versions for different values of NUMBER_VARIABLES
+    - Rename QuineMcCluskey to QuineMcCluskeyPrimes
 
 
   \par Version 0.0.8
@@ -24,7 +24,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Docus
+    - Understanding the costs of the current implementation
 
 
   \par Version 0.0.9
@@ -32,7 +32,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Application tests
+    - Running only through the levels (via new hash function)
 
 
   \par Version 0.0.10
@@ -40,7 +40,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Maxima level
+    - Various versions for different values of NUMBER_VARIABLES
 
 
   \par Version 0.0.11
@@ -48,7 +48,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Precise definitions, and basic types
+    - Docus
 
 
   \par Version 0.0.12
@@ -56,7 +56,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Input and output
+    - Application tests
 
 
   \par Version 0.0.13
@@ -64,10 +64,34 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Unit tests
+    - Maxima level
 
 
   \par Version 0.0.14
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Precise definitions, and basic types
+
+
+  \par Version 0.0.15
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Input and output
+
+
+  \par Version 0.0.16
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Unit tests
+
+
+  \par Version 0.0.17
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the

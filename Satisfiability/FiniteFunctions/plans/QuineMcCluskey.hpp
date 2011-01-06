@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,6 +16,33 @@ License, or any later version. */
    set covering step, therefore, as the current QuineMcCluskey application
    only generates the prime implicates, the name is not correct and
    may lead to confusion. </li>
+  </ul>
+
+
+  \todo Understanding the costs of the current implementation
+  <ul>
+   <li> What is the difference between the empty clause-set and the
+   clause-set containing all clauses (both for the same number n of variables)
+   in running-time for the current implementation? </li>
+   <li> Understanding this shows us how much time is spent on merely running
+   n times through all 3^n clauses (for 0 clauses we never have to
+   rank/unrank, while otherwhise we do it for all clauses). </li>
+   <li> We should find out empirical functions f_0(n) and f_1(n) for these
+   run-times (depending on one computer-dependend constant). </li>
+  </ul>
+
+
+  \todo Running only through the levels
+  <ul>
+   <li> Yet the implementatin runs for every k = n, ..., 0 through all 3^n
+   indices. </li>
+   <li> Now for every k we only want to run through the clauses of length k.
+   </li>
+   <li> This should be faster (though that depends on how it is handled). </li>
+   <li> One could use a new hash function, with contiguous intervals for
+   clauses of the same length, or one could use a more complicated jump to
+   the next index-value. </li>
+   <li> This needs to be done first at Maxima-level. </li>
   </ul>
 
 
