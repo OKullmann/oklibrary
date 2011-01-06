@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallStcaleWordFields.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac");
 
 */
 
