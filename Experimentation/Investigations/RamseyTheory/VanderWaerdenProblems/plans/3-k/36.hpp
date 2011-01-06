@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,36)
 
 
-  \todo vanderwaerden_2(3,36) > 1255
+  \todo vanderwaerden_2(3,36) > 1257
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,36) = 1256. </li>
    <li> Starting search with the best palindromic solution:
@@ -117,7 +117,38 @@ License, or any later version. */
 100
      \endverbatim
      </li>
+     <li> Found satisfiable in run 156 (osteps=30357188) with certificate
+     \verbatim
+11,45,62,75,82,94,120,122,127,133,
+136,149,156,186,188,193,211,238,260,262,
+275,279,281,284,285,299,305,322,355,358,
+378,379,381,386,390,416,427,460,466,469,
+484,492,503,521,538,543,564,581,595,601,
+614,618,630,632,667,677,688,719,723,729,
+756,766,778,785,788,822,825,836,839,860,
+867,871,896,913,933,934,936,941,945,963,
+971,988,1010,1037,1039,1045,1062,1089,1093,1098,
+1099,1113,1118,1121,1130,1132,1155,1172,1193,1222,
+1224
+     \endverbatim
+     </li>
     </ol>
+   </li>
+   <li> n=1257 found satisfiable (adapted from n=1256) with certificate
+   \verbatim
+11,45,62,75,82,94,120,122,127,133,
+136,149,156,186,188,193,211,238,260,262,
+275,279,281,284,285,299,305,322,355,358,
+378,379,381,386,390,416,427,460,466,469,
+484,492,503,521,538,543,564,581,595,601,
+614,618,630,632,667,677,688,719,723,729,
+756,766,778,785,788,822,825,836,839,860,
+867,871,896,913,933,934,936,941,945,963,
+971,988,1010,1037,1039,1045,1062,1089,1093,1098,
+1099,1113,1118,1121,1130,1132,1155,1172,1193,1222,
+1224
+   \endverbatim
+   (the same as above, although we have osteps=msteps=2 ?).
    </li>
   </ul>
 
