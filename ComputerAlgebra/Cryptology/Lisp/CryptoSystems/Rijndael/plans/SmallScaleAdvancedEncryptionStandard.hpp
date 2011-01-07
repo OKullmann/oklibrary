@@ -10,6 +10,24 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \todo Add decomposed Sbox boxes
+  <ul>
+   <li> In XXX we wish to translate the AES by splitting
+   the various parts of the Sbox (inversion, linear multiplication)
+   and moving them into the MixColumns by combining them with
+   the field multiplications. </li>
+   <li> Therefore we need implementations of each of the following
+   functions:
+   <ol>
+    <li> Inversion with the field. </li>
+    <li> Linear multiplication by a GF(b) matrix. </li>
+    <li> Linear multiplication by a GF(b) matrix followed by
+    multiplication in the field. </li>
+   </ol>
+   </li>
+  </ul>
+
+
   \todo Docus
   <ul>
    <li> Add docus on small scale implementation, discussing the parameters,
