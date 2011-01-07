@@ -50,6 +50,17 @@ License, or any later version. */
 1330,1342,1347,1374
    \endverbatim
    </li>
+   <li> n=1376, with rots:
+    <ol>
+     <li> cutoff=2*10^6:
+     \verbatim
+ 3  4  5  6  7  8 10 15 16 22 24 26 27 28 
+ 3 16 32 22 10  4  1  1  2  2  2  2  2  1 
+100 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
