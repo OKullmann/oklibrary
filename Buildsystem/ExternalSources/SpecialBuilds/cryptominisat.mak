@@ -19,7 +19,7 @@ $(cryptominisat_directories_okl) : % :
 # Main cryptominisat targets
 # #################################
 
-.PHONY : cryptominisat cryptominisat_doc cleancryptominisat cleanallcryptominisat
+.PHONY : cryptominisat cryptominisat_doc cleancryptominisat cleanallcryptominisat cryptominisat_git
 
 
 cryptominisat : $(cryptominisat_directories_okl)
@@ -29,6 +29,15 @@ cryptominisat : $(cryptominisat_directories_okl)
 	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) all; $(postcondition) \
 	cp -f $(cryptominisat_exec_okl) $(cryptominisat_call_okl); $(postcondition) \
 	ln -s --force $(cryptominisat_call_okl) $(public_bin_dir_okl)/$(cryptominisat_public_call_okl); $(postcondition)
+
+
+cryptominisat_git : $(cryptominisat_directories_okl)
+	$(call unarchive,$(cryptominisat_source_okl),$(cryptominisat_base_build_dir_okl)) $(postcondition) \
+	cd $(cryptominisat_build_dir_okl); $(postcondition) \
+	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) -f Makefile.cvs; $(postcondition) \
+	cp -f $(cryptominisat_exec_okl) $(cryptominisat_call_okl); $(postcondition) \
+	ln -s --force $(cryptominisat_call_okl) $(public_bin_dir_okl)/$(cryptominisat_public_call_okl); $(postcondition)
+
 
 cryptominisat_doc :
 
