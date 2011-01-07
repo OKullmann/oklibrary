@@ -257,6 +257,18 @@ XXX
    <li> More complicated are linear bijections x -> M*x for invertible matrices
    M. </li>
   </ul>
+
+
+  \todo Sampling random permutations
+  <ul>
+   <li> A script is to be written, which generates random permutations
+   (simplest via Maxima), computes then (by our C++ program) the set of all
+   prime implicates, computes basic measurements and puts it into a file,
+   for evaluation by R. </li>
+   <li> The data should be at least the total number of clauses, the number
+   of clauses of each size, and the number of irredundant clauses (easy to
+   compute in this case, since the truth table is given). </li>
+  </ul>
   
 */
 
