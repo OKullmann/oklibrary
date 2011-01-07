@@ -106,10 +106,31 @@ License, or any later version. */
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
    of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
    </li>
-   <li> We currently install version 2.7.0 of CryptoMiniSat, despite
-   the existance of 2.7.1, as CryptoMiniSat 2.7.1 reports the wrong
-   version number (2.7.0 instead of 2.7.1). We should report this
-   to the author (Mate Soos). </li>
+   <li> The Git-repository is
+   http://gitorious.org/cryptominisat/cryptominisat/. </li>
+   <li> Wrong version number reporting:
+    <ol>
+     <li> We still get "This is CryptoMiniSat 2.7.0". </li>
+     <li> We should report this to the author. </li>
+    </ol>
+   </li>
+   <li> Installing newer versions, directly from the Git repository:
+    <ol>
+     <li> We have version 2.7.1.1 created, however building fails:
+     \verbatim
+ExternalSources> oklib cryptominisat_git cryptominisat_recommended_version_number_okl=2.7.1.1 gcc_recommended_version_number_okl=4.1.2
+
+automake
+autoconf
+configure.in:36: error: possibly undefined macro: AC_OPENMP
+      If this token and others are legitimate, please use m4_pattern_allow.
+      See the Autoconf documentation.
+make[1]: *** [all] Error 1
+     \endverbatim
+     </li>
+     <li> Contact the author. </li>
+    </ol>
+   </li>
    <li> DONE Can be installed like so:
    \verbatim
 builds/CryptoMiniSat> tar xvf ../../sources/SAT/CryptoMiniSat/cryptominisat-2.7.1.tar.gz
