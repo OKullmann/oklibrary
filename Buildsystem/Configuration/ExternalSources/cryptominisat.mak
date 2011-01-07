@@ -7,8 +7,8 @@
 
 # Settings for building and using CryptoMinisat
 
-cryptominisat_recommended_version_number_okl ?= 2.7.0
-cryptominisat_other_versions_okl ?=
+cryptominisat_recommended_version_number_okl ?= 2.7.1
+cryptominisat_other_versions_okl ?= 2.7.0 2.7.1.1
 
 cryptominisat_base_name_okl := cryptominisat
 cryptominisat_recommended_okl := $(cryptominisat_base_name_okl)-$(cryptominisat_recommended_version_number_okl)
