@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.11.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp
   \brief Plans regarding boolean functions and generalisations
+
+
+  \todo Create milestones
 
 
   \todo Connections to other modules
@@ -203,6 +206,8 @@ License, or any later version. */
      <li> Perhaps by "fftz" instead of "fft" we use zero-based values, i.e.,
      D = {0, ..., p-1}. So fftz for p=2 is exactly the case bft. </li>
     </ol>
+   </li>
+   <li> The Espresso-program uses some file format. MG, please provide links.
    </li>
   </ul>
 
