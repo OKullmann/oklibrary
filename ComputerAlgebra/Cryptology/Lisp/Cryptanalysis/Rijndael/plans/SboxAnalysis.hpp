@@ -27,10 +27,16 @@ License, or any later version. */
    <li> Therefore we need CNF translations for each of the following
    functions:
    <ol>
-    <li> Inversion with the field. </li>
-    <li> Linear multiplication by a GF(b) matrix. </li>
+    <li> Inversion with the field - tseitin translation as translation 
+    function. </li>
+    <li> Linear multiplication by a GF(b) matrix - CNF translation. </li>
+    <li> Linear multiplication by a GF(b) matrix - tseitin translation as 
+    translation function. </li>
     <li> Linear multiplication by a GF(b) matrix followed by multiplication in
-    the field. </li>
+    the field - CNF translation. </li>
+    <li> Linear multiplication by a GF(b) matrix followed by multiplication in
+    the field - tseitin translation as translation function. </li>
+    <li> DONE Inversion with the field - CNF translation. </li>
    </ol>
    </li>
   </ul>
