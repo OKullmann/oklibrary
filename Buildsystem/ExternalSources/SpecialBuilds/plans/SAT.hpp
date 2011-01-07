@@ -129,6 +129,8 @@ make[1]: *** [all] Error 1
      \endverbatim
      </li>
      <li> Contact the author. </li>
+     <li> We also need to be able to specify the location of our Boost
+     installation. </li>
     </ol>
    </li>
    <li> DONE Can be installed like so:
