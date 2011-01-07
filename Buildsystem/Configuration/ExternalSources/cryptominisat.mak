@@ -15,7 +15,7 @@ cryptominisat_recommended_okl := $(cryptominisat_base_name_okl)-$(cryptominisat_
 cryptominisat_base_source_okl := $(ExternalSources)/sources/SAT/CryptoMiniSat
 cryptominisat_source_okl := $(cryptominisat_base_source_okl)/$(cryptominisat_recommended_okl)
 
-cryptominisat_base_build_dir_okl ?= $(ExternalSources_builds)/Boolean/CryptoMiniSat
+cryptominisat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/CryptoMiniSat
 cryptominisat_build_dir_okl ?= $(cryptominisat_base_build_dir_okl)/$(cryptominisat_recommended_okl)
 
 cryptominisat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/CryptoMiniSat
