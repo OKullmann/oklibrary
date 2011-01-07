@@ -86,6 +86,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Isomorphism types
+  <ul>
+   <li> See "Considering special boolean functions" in
+   Satisfiability/Lisp/FiniteFunctions/plans/IsomorphismTypes.hpp. </li>
+  </ul>
+
+
   \todo Trivial cases
   <ul>
    <li> The case n=0: investigate_permutations(0) yields "1 1 1 1". </li>
