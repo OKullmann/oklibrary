@@ -29,6 +29,29 @@ License, or any later version. */
    rank/unrank, while otherwhise we do it for all clauses). </li>
    <li> We should find out empirical functions f_0(n) and f_1(n) for these
    run-times (depending on one computer-dependend constant). </li>
+   <li> For the current implementation, using both empty clause-sets
+   and full clause-sets with n variables for each n, we get:
+   \verbatim
+   n  empty    full
+1  1 0.0000  0.0000
+2  2 0.0000  0.0000
+3  3 0.0000  0.0000
+4  4 0.0000  0.0000
+5  5 0.0000  0.0000
+6  6 0.0000  0.0000
+7  7 0.0000  0.0000
+8  8 0.0000  0.0000
+9  9 0.0000  0.0000
+10 10 0.0000  0.0205
+11 11 0.0100  0.0955
+12 12 0.0525  0.3175
+13 13 0.1780  1.0510
+14 14 0.5705  3.4200
+15 15 1.8275 11.2480
+16 16 5.7935 36.3640
+   \endverbatim
+   </li>
+   <li> MG needs to add instructions on how to reproduce this. </li>
   </ul>
 
 
