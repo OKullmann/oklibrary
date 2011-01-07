@@ -1,5 +1,5 @@
 # Matthew Henderson, 30.10.2006 (Swansea)
-# Copyright 2006-2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -13,7 +13,7 @@ buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc412 gcc
 library_targets_extsrc_okl ?= bzip2 boost gmp bzip2412 boost412 gmp412 mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
-sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat
+sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat cryptominisat
 boolean_targets_extsrc_okl ?= espresso
 # Dependencies between these external sources:
 # minisat needs gmp and zlib
@@ -60,5 +60,6 @@ include $(OKconfiguration)/ExternalSources/picosat.mak
 include $(OKconfiguration)/ExternalSources/precosat.mak
 include $(OKconfiguration)/ExternalSources/argosat.mak
 include $(OKconfiguration)/ExternalSources/zlib.mak
+include $(OKconfiguration)/ExternalSources/cryptominisat.mak
 include $(OKconfiguration)/ExternalSources/espresso.mak
 include $(OKconfiguration)/ExternalSources/mpfr.mak

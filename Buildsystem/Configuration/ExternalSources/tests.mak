@@ -1,5 +1,5 @@
 # Oliver Kullmann, 1.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -531,5 +531,24 @@ else
     espresso_call_ready_okl ?= YES
   else
     espresso_call_ready_okl ?= ERROR
+  endif
+endif
+
+# New variables for the configuration of building cryptominisat (to be designed 
+# and implemented):
+
+cryptominisat_version_number_extraction_okl ?= awk '/c This is CryptoMiniSat/ { print $$5 }'
+# assumes that the output of "espresso --version" contains a line of the form
+# (for example) "UC Berkeley, Espresso Version #2.3, Release date 01/31/88"
+
+location_cryptominisat_call_okl ?= $(shell (type -P $(cryptominisat_call_okl)))
+ifeq ($(location_cryptominisat_call_okl),)
+  cryptominisat_call_ready_okl ?= NO
+else
+  version_cryptominisat_call_okl ?= $(shell echo '' | $(cryptominisat_call_okl) | $(cryptominisat_version_number_extraction_okl))
+  ifeq ($(version_cryptominisat_call_okl),$(cryptominisat_recommended_version_number_okl))
+    cryptominisat_call_ready_okl ?= YES
+  else
+    cryptominisat_call_ready_okl ?= $(version_cryptominisat_call_okl) $(cryptominisat_recommended_version_number_okl)
   endif
 endif

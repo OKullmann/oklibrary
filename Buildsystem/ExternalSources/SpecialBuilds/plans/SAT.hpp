@@ -106,7 +106,11 @@ License, or any later version. */
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
    of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
    </li>
-   <li> Can be installed like so:
+   <li> We currently install version 2.7.0 of CryptoMiniSat, despite
+   the existance of 2.7.1, as CryptoMiniSat 2.7.1 reports the wrong
+   version number (2.7.0 instead of 2.7.1). We should report this
+   to the author (Mate Soos). </li>
+   <li> DONE Can be installed like so:
    \verbatim
 builds/CryptoMiniSat> tar xvf ../../sources/SAT/CryptoMiniSat/cryptominisat-2.7.1.tar.gz
 builds/CryptoMiniSat> cd cryptominisat-2.7.1/
