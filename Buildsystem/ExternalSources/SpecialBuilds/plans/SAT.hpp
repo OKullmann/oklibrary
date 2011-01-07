@@ -100,6 +100,23 @@ License, or any later version. */
     is not included on request of the authors. </li>
   </ul>
 
+
+  \todo CryptoMiniSat
+  <ul>
+   <li> Available at http://www.msoos.org/cryptominisat2 and the winner
+   of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
+   </li>
+   <li> Can be installed like so:
+   \verbatim
+builds/CryptoMiniSat> tar xvf ../../sources/SAT/CryptoMiniSat/cryptominisat-2.7.1.tar.gz
+builds/CryptoMiniSat> cd cryptominisat-2.7.1/
+builds/CryptoMiniSat> ./configure
+builds/CryptoMiniSat> make
+   \endverbatim
+   yielding a binary "cryptominisat" in the same directory.
+   </li>
+  </ul>
+
   
   \todo SAT4J
   <ul>
