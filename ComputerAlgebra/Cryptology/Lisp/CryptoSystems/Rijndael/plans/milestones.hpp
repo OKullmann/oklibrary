@@ -17,6 +17,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Docus
+    - Add decomposed Sbox boxes : DONE
     - Datatypes and naming conventions : DONE
 
 

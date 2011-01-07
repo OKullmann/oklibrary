@@ -33,6 +33,12 @@ kill(f)$
    *********
 */
 
+okltest_ss_sbox_linmap_gen(f) := block(
+  assert(f(0,2,4,ss_polynomial_2_4,ss_sbox_matrix(2,4)) = 0),
+  assert(f(1,2,4,ss_polynomial_2_4,ss_sbox_matrix(2,4)) = x^3+x^2+1),
+  assert(f(x,2,4,ss_polynomial_2_4,ss_sbox_matrix(2,4)) = x^3+x+1),
+  true)$
+
 okltest_ss_sbox_gen(f) := block(
   /* Test vector for b=2 e=4 generated using "Small Scale Variants of the AES
   (SR) Polynomial System Generator" in Sage */

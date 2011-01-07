@@ -1,5 +1,5 @@
 // Matthew Gwynne, 27.2.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,7 @@ License, or any later version. */
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Add decomposed Sbox operations
     - Representations of the Sbox using additional variables
     - Move notion of AES constraints to separate module/unit
     - Organisation
