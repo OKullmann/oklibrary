@@ -6,8 +6,37 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/Ss_sbox_8.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Ss_sbox_8.hpp
   \brief Experiments using the R QCA package to minimise the AES 8-bit Sbox.
+
+
+  \todo Overview
+  <ul>
+   <li> Here we should have an overview of the current state of this 
+   investigation and open problems. </li>
+  </ul>
+
+
+  \todo Minimum using exact espresso algorithms
+  <ul>
+   <li> See    
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Espresso/Ss_sbox_8.hpp .
+   </li>
+   <li> Computing the minimum CNF:
+   \verbatim
+maxima> SboxCNF: fcs2fcl(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4))$
+maxima> output_tt2pla(fcl2tt( SboxCNF ),"Sbox.pla")$
+   \endverbatim
+   and then:
+   \verbatim
+shell> espresso2.3 -Dexact Sbox.pla
+   \endverbatim
+   causes espresso to run out of memory on an 8GB machine.
+   </li>
+   <li> The same occurs using the espresso "signature" algorithm. 
+   </li>
+   <li> Machines with more memory should be found. </li>
+  </ul>
 
   
   \todo Using R QCA package
