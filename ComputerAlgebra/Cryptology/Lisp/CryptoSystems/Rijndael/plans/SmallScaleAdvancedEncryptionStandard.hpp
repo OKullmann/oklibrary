@@ -10,24 +10,6 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \todo Add decomposed Sbox boxes
-  <ul>
-   <li> In XXX we wish to translate the AES by splitting
-   the various parts of the Sbox (inversion, linear multiplication)
-   and moving them into the MixColumns by combining them with
-   the field multiplications. </li>
-   <li> Therefore we need implementations of each of the following
-   functions:
-   <ol>
-    <li> Inversion with the field. </li>
-    <li> Linear multiplication by a GF(b) matrix. </li>
-    <li> Linear multiplication by a GF(b) matrix followed by
-    multiplication in the field. </li>
-   </ol>
-   </li>
-  </ul>
-
-
   \todo Docus
   <ul>
    <li> Add docus on small scale implementation, discussing the parameters,
@@ -102,6 +84,33 @@ sr.hex_str(AES_e, typ="vector")
    devised. </li>
    <li> DONE 
    For now, functions are prefixed with "ss_"  for "small-scale".
+   </li>
+  </ul>
+
+
+  \todo DONE Add decomposed Sbox boxes
+  <ul>
+   <li> In "Rearranging linear components of Sbox and MixColumns " in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   we wish to translate the AES by splitting the various parts of the Sbox
+   (inversion, linear multiplication) and moving them into the MixColumns by
+   combining them with the field multiplications. </li>
+   <li> Therefore we need implementations of each of the following
+   functions:
+   <ol>
+    <li> DONE (see ss_inv in 
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac)
+    Inversion with the field. </li>
+    <li> DONE (see ss_sbox_linmap in
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+    Linear multiplication by a GF(b) matrix. </li>
+    <li> DONE (composition of ss_mul and ss_sbox_linmap in 
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac
+    and
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+    Linear multiplication by a GF(b) matrix followed by
+    multiplication in the field. </li>
+   </ol>
    </li>
   </ul>
 

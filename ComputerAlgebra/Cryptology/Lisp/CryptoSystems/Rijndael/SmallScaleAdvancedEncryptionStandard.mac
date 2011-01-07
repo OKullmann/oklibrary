@@ -130,8 +130,6 @@ ss_inv_affine_constant(b,e) :=
     else und
   else und$
 
-
-
 /* Matrix used in the affine transformation within ss_sbox: */
 ss_sbox_matrix_2_4 : apply(matrix,
   create_list(rotate([1,0,1,1],i),i,0,3))$
@@ -156,6 +154,13 @@ ss_inv_sbox_matrix(b,e) :=
     else if e = 8 then ss_inv_sbox_matrix_2_8
     else und
   else und$
+
+/* Returns the result of applying the sboxes linear map to the given
+   word (as a polynomial). */
+ss_sbox_linmap_gen(field_element,b,e,mod_poly, sbox_matrix) :=
+  ss_stand(mvec2poly(sbox_matrix . poly2mvec_ss(field_element,e)),b,mod_poly)$
+ss_sbox_linmap(field_element,b,e) :=
+  ss_sbox_linmap_gen(field_element,b,e,ss_polynomial(b,e),ss_sbox_matrix(b,e))$
 
 /* The small scale AES sbox takes an individual small scale
    field element (an element of the block) and returns

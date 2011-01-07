@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,25 @@ License, or any later version. */
   <ul>
    <li> See Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp
    for experimental investigations. </li>
+  </ul>
+
+
+  \todo Add decomposed Sbox operations
+  <ul>
+   <li> In "Rearranging linear components of Sbox and MixColumns " in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   we wish to translate the AES by splitting the various parts of the Sbox
+   (inversion, linear multiplication) and moving them into the MixColumns by
+   combining them with the field multiplications. </li>
+   <li> Therefore we need CNF translations for each of the following
+   functions:
+   <ol>
+    <li> Inversion with the field. </li>
+    <li> Linear multiplication by a GF(b) matrix. </li>
+    <li> Linear multiplication by a GF(b) matrix followed by multiplication in
+    the field. </li>
+   </ol>
+   </li>
   </ul>
 
   

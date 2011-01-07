@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
    *********
 */
 
+okltest_ss_sbox_linmap_gen(ss_sbox_linmap_gen);
 okltest_ss_sbox_gen(ss_sbox_gen);
 okltest_ss_inv_sbox_gen(ss_inv_sbox_gen);
 
