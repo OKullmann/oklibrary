@@ -150,15 +150,14 @@ namespace OKlib {
         */
         unsigned int hash2clause(hash_index_type hash, int clause[]) {
           literal_type num_lit = 0;
-          for (int lit = num_vars; lit > 0; --lit) {
-            const hash_index_type var_value = pow3(std::abs(lit) - 1);
+          for (struct {int lit; hash_index_type var_val;} l = {num_vars, pow3(num_vars - 1)}; l.lit > 0; --l.lit, l.var_val /= 3) {
             // whether the literal is in the clause represented by hash:
-            if (hash >= (2 * var_value)) {
-              clause[num_lit++] = lit;
-              hash -= (2 * var_value);
-            } else if (hash >= var_value) {
-              clause[num_lit++] = -lit;
-              hash -= var_value;
+            if (hash >= (2 * l.var_val)) {
+              clause[num_lit++] = l.lit;
+              hash -= (2 * l.var_val);
+            } else if (hash >= l.var_val) {
+              clause[num_lit++] = -l.lit;
+              hash -= l.var_val;
             }
           }
           return num_lit;
