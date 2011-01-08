@@ -212,13 +212,13 @@ namespace OKlib {
             for (hash_index_type citer = 0; citer < num_clauses; ++citer)
               marked[citer] = marked_in[citer];
           }
+          // extraction of the result:
           clause_set_type result_cs;
           for (hash_index_type citer = 0; citer < num_clauses; ++citer)
             if (marked_in[citer]) {
               const variable_type clause_size = hash2clause(citer, clause);
               std::sort(clause, clause + clause_size);
-              clause_type s_clause(clause, clause + clause_size);
-              result_cs.push_back(s_clause);
+              result_cs.push_back(clause_type(clause, clause + clause_size));
             }
           return result_cs;
         }
