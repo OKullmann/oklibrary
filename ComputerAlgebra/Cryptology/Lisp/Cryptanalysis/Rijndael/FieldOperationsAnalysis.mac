@@ -29,7 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 
 
 /* ******************************************
-   * Rijndael Field multiplication analysis *
+   * Rijndael field multiplication analysis *
    ******************************************
 */
 
@@ -70,7 +70,7 @@ rijnmult_cnfp(field_element,FF) :=
    rijnmult_fulldnf_fcs(field_element))$
 
 /* *********************************************
-   * Small Scale Field multiplication analysis *
+   * Small scale field multiplication analysis *
    *********************************************
 */
 
@@ -117,7 +117,7 @@ ssmult_cnfp(field_element, FF, b, e, mod_poly) :=
 
 
 /* *********************************************
-   * Small Scale Field multiplication analysis *
+   * Small scale field inversion analysis *
    *********************************************
 */
 
