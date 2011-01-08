@@ -49,6 +49,9 @@ namespace {
     error_openfile = 2
   };
 
+  const std::string program = "QuineMcCluskeySubsumptionHypergraph";
+  const std::string err = "ERROR[" + program + "]: ";
+
   const std::string version = "0.1.10";
 
 }
@@ -56,7 +59,7 @@ namespace {
 int main(const int argc, const char* const argv[]) {
 
   if (argc < 2 || argc > 3) {
-    std::cerr << "ERROR[QuineMcCluskey]: Either exactly one input is required,\n"
+    std::cerr << err << "Either exactly one input is required,\n"
       " the name of the file with the clause-set in DIMACS-format, or\n"
       " exactly two inputs, the name of the input file and the name of the\n"
       " file to output the prime clauses.\n"
@@ -67,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string filename = argv[1];
   std::ifstream inputfile(filename.c_str());
   if (not inputfile) {
-    std::cerr << "ERROR[QuineMcCluskey]: Failure opening input file " << filename << ".\n";
+    std::cerr << err << "Failure opening input file " << filename << ".\n";
     return error_openfile;
   }
 
@@ -94,7 +97,7 @@ int main(const int argc, const char* const argv[]) {
       const std::string filename_primes = argv[2];
       std::ofstream outputfile(filename_primes.c_str());
       if (not outputfile) {
-        std::cerr << "ERROR[QuineMcCluskey]: Failure opening output file " << filename_primes << ".\n";
+        std::cerr << err << "Failure opening output file " << filename_primes << ".\n";
         return error_openfile;
       }
       OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment.c_str());
