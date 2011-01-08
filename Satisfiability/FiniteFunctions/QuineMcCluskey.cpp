@@ -62,7 +62,7 @@ int main(const int argc, const char* const argv[]) {
   const CLSInput input_F(inputfile, cls_F); inputfile.close();
 
   
-  const std::string comment("Prime implicants for " + filename);
+  const std::string comment("All prime implicates for " + filename);
 
   using namespace OKlib::Satisfiability::FiniteFunctions;
   OKlib::InputOutput::List2DIMACSOutput(
