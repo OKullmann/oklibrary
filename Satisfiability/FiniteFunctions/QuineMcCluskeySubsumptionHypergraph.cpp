@@ -1,5 +1,5 @@
 // Matthew Gwynne, 5.10.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/FiniteFunctions/QuineMcCluskeySubsumptionHypergraph.cpp
-  \brief Application for computing all minimal resolvents from a given full clause-set
+  \brief Application for computing the subsumption hypergraph of the prime clauses of a full clause-set
 
   One parameter is needed, the file containing the clause-set in DIMACS format.
   The result is printed to standard output (a hypergraph in DIMACS format).
