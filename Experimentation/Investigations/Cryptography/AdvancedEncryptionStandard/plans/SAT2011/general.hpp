@@ -10,13 +10,6 @@ License, or any later version. */
   \brief Investigations into AES related to the SAT 2011 paper
 
 
-  \todo Connection with the plans one level above
-  <ul>
-   <li> A full integration of plans SAT2011 with those one level above needs
-   to be achieved. </li>
-  </ul>
-
-  
   \todo Links
   <ul>
    <li> For investigations into the various representations (CNF and otherwise)
@@ -97,6 +90,13 @@ License, or any later version. */
    and on the various boxes. </li>
    <li> A basic summary (even if not reproducible due to the new state of the
    system), should be made available here. </li>
+  </ul>
+
+
+  \todo DONE Connection with the plans one level above
+  <ul>
+   <li> A full integration of plans SAT2011 with those one level above needs
+   to be achieved. </li>
   </ul>
 
 */

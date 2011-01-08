@@ -23,6 +23,20 @@ License, or any later version. */
    <li> See Experimentation/Investigations/plans/CurrentExperiments.hpp for
    current experiments (todo "Add section on AES experiments to be run" in
    Experimentation/Investigations/plans/general.hpp needs urgent update). </li>
+   <li> See "SAT 2011". </li>
+  </ul>
+
+
+  \todo SAT 2011
+  <ul>
+   <li> We intend to submit a paper investigating the various translations of
+   the AES and small scale AES given in XXX to the SAT 2011 conference (see
+   http://www.lri.fr/SAT2011/). </li>
+   <li> For investigations and open problems in this area see
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp .
+   </li>
+   <li> This should also link in with 
+   Experimentation/Investigations/plans/CurrentExperiments.hpp . </li>
   </ul>
 
 

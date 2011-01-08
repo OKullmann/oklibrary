@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
-    - Connection with the plans one level above
+    - Connection with the plans one level above : DONE
 
 
   \par Version 0.1.6 :
@@ -30,6 +30,7 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
     - Explain how to replace various AES boxes with identity or random boxes
+    - Summary of previous experimental results
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
@@ -54,6 +55,11 @@ License, or any later version. */
 
 
   \par Version 0.2 : PLANNING SAT2011 COMPLETED
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   following topics are handled:
+    - SAT 2011
 
 
 
