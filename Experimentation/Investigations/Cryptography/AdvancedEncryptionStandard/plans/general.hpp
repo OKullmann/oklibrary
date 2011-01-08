@@ -59,6 +59,7 @@ License, or any later version. */
   </ul>
   need the following changes:
   <ul>
+   <li> Tests (URGENT). </li>
    <li> Error checking code. </li>
    <li> Merging with other scripts in other investigations into general tools.
    </li>
