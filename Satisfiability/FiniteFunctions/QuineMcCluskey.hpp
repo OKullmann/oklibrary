@@ -85,17 +85,18 @@ namespace OKlib {
         /* ~=~ size * 70 >?= num_vars * 101 */
         BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
 
-        /*!
-          \brief For integer e >= 0, computes 3^e
-
-          Providing integer computation whereas the standard library works
-          with doubles. Inefficient for larger exponents.
-        */
-        hash_index_type pow3(const int e) {
-          hash_index_type result = 1;
-          for (int i = 0; i < e; ++i) result *= 3;
-          return result;
+        //! pow3[i] = 3^i for 0 <= i <= num_vars
+        const hash_index_type* const pow3;
+        const hash_index_type* fill_pow3() {
+          hash_index_type* const pow3 = new hash_index_type[num_vars+1];
+          hash_index_type pow = 1;
+          for (int i = 0; i < num_vars; ++i, pow *= 3) pow3[i] = pow;
+          pow3[num_vars] = pow;
+          return pow3;
         }
+
+        QuineMcCluskey() : pow3(fill_pow3()) {}
+        ~QuineMcCluskey() { delete[] pow3; }
       
         /*!
           \brief Computes the hash-value of a clause
@@ -109,8 +110,8 @@ namespace OKlib {
           hash_index_type return_value = 0;
           const const_clause_iterator_type cend(boost::const_end(clause));
           for (const_clause_iterator_type iter = boost::const_begin(clause); iter != cend; ++iter)
-            if (*iter < 0) return_value += pow3(std::abs(*iter) - 1);
-            else if (*iter > 0) return_value += 2 * pow3(std::abs(*iter) - 1);
+            if (*iter < 0) return_value += pow3[std::abs(*iter) - 1];
+            else if (*iter > 0) return_value += 2 * pow3[std::abs(*iter) - 1];
           return return_value;
         }
       
@@ -123,8 +124,8 @@ namespace OKlib {
         */
         hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
-          if (literal < 0) hash += pow3(std::abs(literal) - 1);
-          else hash -= pow3(std::abs(literal) - 1);
+          if (literal < 0) hash += pow3[std::abs(literal) - 1];
+          else hash -= pow3[std::abs(literal) - 1];
           return hash;
         }
       
@@ -137,8 +138,8 @@ namespace OKlib {
         */
         hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
-          if (literal < 0) hash -= pow3(std::abs(literal) - 1);
-          else hash -= 2 * pow3(std::abs(literal) - 1);
+          if (literal < 0) hash -= pow3[std::abs(literal) - 1];
+          else hash -= 2 * pow3[std::abs(literal) - 1];
           return hash;
         }
       
@@ -154,14 +155,14 @@ namespace OKlib {
         */
         unsigned int hash2clause(hash_index_type hash, int clause[]) {
           literal_type num_lit = 0;
-          for (struct {int lit; hash_index_type var_val;} l = {num_vars, pow3(num_vars - 1)}; l.lit > 0; --l.lit, l.var_val /= 3) {
-            // whether the literal is in the clause represented by hash:
-            if (hash >= (2 * l.var_val)) {
-              clause[num_lit++] = l.lit;
-              hash -= (2 * l.var_val);
-            } else if (hash >= l.var_val) {
-              clause[num_lit++] = -l.lit;
-              hash -= l.var_val;
+          for (int lit = num_vars; lit > 0; --lit) {
+            const hash_index_type var_val = pow3[lit-1];
+            if (hash >= (2 * var_val)) {
+              clause[num_lit++] = lit;
+              hash -= (2 * var_val);
+            } else if (hash >= var_val) {
+              clause[num_lit++] = -lit;
+              hash -= var_val;
             }
           }
           return num_lit;
@@ -175,7 +176,7 @@ namespace OKlib {
           but exponential in num_vars.
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
-          hash_index_type num_clauses = pow3(num_vars);
+          hash_index_type num_clauses = pow3[num_vars];
           // "marked" is used to keep track of the original clauses
           // (initially) and the resolvents:
           HashTable marked(num_clauses, 0);
