@@ -86,14 +86,14 @@ namespace OKlib {
       
 
         /*!
-          \brief Given the base b and power e, computes b raised to the power
-          of e. The key feature of this function is it provides integer
-          computation whereas the standard library works with doubles.
-        
+          \brief For integer base b and integer power e >= 0, computes b^e
+
+          Providing integer computation whereas the standard library works
+          with doubles. Inefficient for larger exponents.
         */
-        hash_index_type ipow(const int b, int e) {
+        hash_index_type ipow(const int b, const int e) {
           hash_index_type result = 1;
-          while (e-- > 0) result *= b;
+          for (int i = 0; i < e; ++i) result *= b;
           return result;
         }
       
