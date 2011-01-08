@@ -62,6 +62,8 @@ int main(const int argc, const char* const argv[]) {
   inputfile.close();
   const std::string comment("All prime implicates for " + filename);
   OKlib::InputOutput::List2DIMACSOutput(
-    OKlib::Satisfiability::FiniteFunctions::quine_mccluskey<num_vars>(cls_F.clause_set),std::cout,comment.c_str());
+    OKlib::Satisfiability::FiniteFunctions::quine_mccluskey<num_vars>(cls_F.clause_set),
+    std::cout,
+    comment.c_str());
 
 }
