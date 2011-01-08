@@ -42,9 +42,6 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
-  typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-
   if (argc != 2) {
     std::cerr << err << "Exactly one input is required, the "
       "name of the file\n with the clause-set in DIMACS-format.\n"
@@ -59,14 +56,12 @@ int main(const int argc, const char* const argv[]) {
     return error_openfile;
   }
 
+  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   CLSAdaptor cls_F;
-  const CLSInput input_F(inputfile, cls_F); inputfile.close();
-
-  
+  const OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> input_F(inputfile, cls_F);
+  inputfile.close();
   const std::string comment("All prime implicates for " + filename);
-
-  using namespace OKlib::Satisfiability::FiniteFunctions;
   OKlib::InputOutput::List2DIMACSOutput(
-    quine_mccluskey<num_vars>(cls_F.clause_set),std::cout,comment.c_str());
+    OKlib::Satisfiability::FiniteFunctions::quine_mccluskey<num_vars>(cls_F.clause_set),std::cout,comment.c_str());
 
 }
