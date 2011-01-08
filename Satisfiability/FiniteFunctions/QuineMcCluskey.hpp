@@ -33,9 +33,6 @@ namespace OKlib {
   namespace Satisfiability {
     namespace FiniteFunctions {
 
-
-      // ############################################
-
       /*!
         \class QuineMcCluskey
         \brief Functor, computing all prime implicates of a full clause-set
