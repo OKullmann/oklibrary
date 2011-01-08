@@ -15,7 +15,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Fix translation system
+    - Fix translation system : DONE
     - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
     - Standardise block ordering: DONE
     - Truncate AES for reduced rounds: DONE
@@ -42,6 +42,7 @@ License, or any later version. */
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Complete small scale helper functions
     - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Standardise output files names
     - Rearranging linear components of Sbox and MixColumns
@@ -87,6 +88,7 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Provide additional translation into CSP-solver format 
     - Active clauses for field operations
     - Partitioning into active clauses
     - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)

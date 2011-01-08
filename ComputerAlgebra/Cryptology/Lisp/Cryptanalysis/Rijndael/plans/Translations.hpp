@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Complete small scale helper functions
+  <ul>
+   <li> We need generation and output functions for the small
+   scale translation. </li>
+   <li> Some exist (see 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translation.mac), 
+   but these need to be checked and some thought given to whether they cover 
+   all experimental instances we wish to generate. </li>
+   <li> For example, can we integrate "Rearranging linear components of Sbox 
+   and MixColumns". </li>
+  </ul>
+
+  
   \todo Standardise output files names
   <ul>
    <li> Currently the filenames output by functions such as 
@@ -145,7 +158,211 @@ License, or any later version. */
   </ul>
 
 
-  \todo Fix translation system
+  \todo Write Docus
+  <ul>
+   <li> Documentation should be written explaining the way the translation
+   system works, as well as pointing out the standard functions to use. </li>
+   <li> Much of this information can be moved from "Fix translation system".
+   </li>
+   <li> This has been started but needs to be extended significantly. </li>
+   <li> The following information on the different possible translations
+   should also be included and linked to 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
+   <ul>
+    <li> We model a generalised AES system (see 
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
+    which supports the following different translations:
+    <ul>
+     <li> Mix columns variants with translations using:
+     <ul>
+      <li> the boxes in the encryption direction </li>
+      <li> both encryption and decryption directions. </li>
+     </ul>
+     </li>
+     <li> Box translations for the Sbox and field multiplications using:
+     <ul>
+      <li> Small CNF representations (see 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
+      and 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
+      </li>
+      <li> The canonical DNF translation (see 
+      ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
+      <li> r_k-reduced representation (see 
+      OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
+      <li> Small hitting clause-set representations (see 
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
+      </li>
+     </ul>
+     </li>
+     <li> Combining affine components
+     <ul>
+      <li> We have the standard AES which has the Sbox made up of the
+      word (byte) level inversion of block elements, following by the
+      application of an affine transformation. </li>
+      <li> On the other hand, the affine portion of the Sbox can be moved 
+      through the Shiftrows operation such that it can be combined with the 
+      MixColumns component, yielding a component which is entirely linear at 
+      the byte level, leaving only the non-linear inversion and addition of 
+      the affine constant as part of the Sbox operation. </li>
+      <li> Splitting the two types of operation like this will hopefully
+      yield Sbox translations which are more compact and more amenable to
+      SAT solvers as the affine transformation is specifically designed to 
+      increase equation size, and make the Sbox harder to model. </li>
+     </ul>
+     </li>
+     <li> Generalised small scale parameters (see 
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+     <ul>
+      <li> n_R: number of rows in the AES block (default 4, can be
+      1, 2 or 4). </li>
+      <li> n_C: number of columns in the AES block (default 4, can be
+      1, 2 or 4). </li>
+      <li> e: size of word field in bits in the AES (default 8, can be
+      1, 2 or 4 or 8) - in general we might consider arbitrary fields. </li>
+      <li> r: number of rounds (default 10, can be any positive integer).
+      </li>
+     </ul>
+     </li>
+    </ul>
+    </li>
+   </ul>
+   </li>
+  </ul>
+  
+
+  \todo Partitioning into active clauses
+  <ul>
+   <li> This todo has to be updated according to
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
+   <li> An overview on the possibilities of anatomising the AES-process into
+   active clauses has to be gained. </li>
+   <li> The roughest subdivision presents just the input-output relation (this
+   should not be considered as an active clause). </li>
+   <li> At the finest level we have represented the whole of AES as a boolean
+   CNF. </li>
+   <li> Inbetween there are many possibilities to handle the
+   round-computations. </li>
+  </ul>
+
+
+  \todo Active clauses for field operations
+  <ul>
+   <li> Likely the two best first candidates for active clauses
+   are the S-box (as map GF(2^8) -> GF(2^8)) and multiplication with
+   some constant a in GF(2^8)^* (again, as map GF(2^8) -> GF(2^8)). </li>
+   <li> Both types of functions yield boolean functions in 16 variables. </li>
+   <li> As bijections, they all have trivial DNF representations (with 256
+   satisfying assignments). </li>
+   <li> For CNF representations see "Generate good CNF clause-sets for the AES
+   Sbox" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   (obviously all the algorithmic techniques can be generalised to any function
+   given by truth tables. </li>
+   <li> Obviously also of interest are OBDD representations of these boolean
+   functions.
+    <ol>
+     <li> One should come pretty close to finding an optimal variable
+     ordering. </li>
+    </ol>
+   </li>
+   <li> These allow efficient handling of all basic tasks for active clauses
+   (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp).
+   </li>
+   <li> Of course, special algorithms should be investigated. </li>
+   <li> It seems, that actually the DNF representation we have, which actually
+   is a full DNF, and just having 256 clauses, yields an unbeatable active
+   clause:
+    <ol>
+     <li> Given any DNF representation D of a boolean function F,
+     satisfiability of phi * F is just checked by testing whether phi * D is
+     not the empty clause-set. </li>
+     <li> In general, for a clause-set F, considered as CNF or DNF, the
+     opposite representation is just obtained by the transversal hypergraph,
+     from which non-clauses are eliminated, and which then is complemented.
+     </li>
+     <li> So forced literals for phi * D are literals which occur in every
+     clause. This can be checked by just checking the literal degrees. </li>
+     <li> And the number of satisfying assignments for a hitting D can be
+     computed by the standard counting arguments. The given case is even
+     simpler, since we have a full clause-set (where full clause-sets are
+     stable under application of partial assignments), and so we just need
+     to count the remaining clauses. </li>
+     <li> Nevertheless we need to compute the prime-implicate representation,
+     since the minimal size of a prime implicate tells us how many variables
+     have to be set until we may obtain a contradiction --- this is important
+     information for the analysis, and furthermore for the active clause it
+     can be used as threshold which triggers some action (before, we are
+     just lazy and don't do anything (w.r.t. updating the counters)). </li>
+     <li> All these generalisations are very general, and should go to
+     supermodule Satisfiability/ProblemInstances. </li>
+    </ol>
+    Using these active clauses should give us a good advantage over any CNF
+    translation!
+   </li>
+   <li> We should aim at "high integration":
+    <ol>
+     <li> The more active clauses can manage the better. </li>
+     <li> So we should have the full S-box an active clause, and not
+     dividing it further. </li>
+     <li> Perhaps in combination with the various permutations we can combine
+     several "micro-steps" into one. Perhaps the ShiftRows step doesn't need
+     to be made explicit at all. And also MixColumns operates on the bytes.
+     </li>
+     <li> Perhaps we create "generic active clauses" for these cases, and
+     instantiate them appropriately (so that many variations of the same basic
+     active clause appear). </li>
+     <li> Identifying transformations of GF(2^8) seems most promising, since
+     this yield active clauses with 16 bits, which can be thoroughly
+     analysed. 32 bits likely is too much (since we won't have much
+     exploitable structure(?)). </li>
+    </ol>
+   </li>
+   <li> We have also the field addition, which can be broken down into binary
+   xor, and perhaps a dedicated active clause(-set) handles all these equations
+   over GF(2) (via Gaussian elimination). </li>
+   <li> The main underlying theoretical question is whether the conditions
+   "x * y = 1" and "a * x = y" are active clauses (for arbitrary GF(2^n).
+    <ol>
+     <li> This depends on the choice of literals (i.e., which partial
+     assignments are allowed). </li>
+     <li> A coarse choice is to use byte-valued variables (x, y here are just
+     elements of the byte-field) and standard literals: Here we have active
+     clauses, since the field operations as well as inversions can be
+     performed in polynomial time. </li>
+     <li> The next level (perhaps our preferred level) is the boolean level
+     (now the bits of x and y can be queried). Using the natural representation
+     of elements of GF(2^n) as vectors in the canonical base, we obtain
+     one quadratic equation in both cases. If quadratic equations in GF(2^n)
+     can be solved in polynomial time, then we are done, if not then we have
+     to investigate whether the special form of equations we have matters or
+     not. </li>
+     <li> A fine level considers again byte-valued variables, but signed
+     literals. It seems rather unlikely that this can be solved in polynomial
+     time. However for n=8 perhaps we can perform heavy preprocessing? </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Generate translation that allows multiple plaintext/ciphertext pairs
+  <ul>
+   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with AES 
+   using a key K, might not be enough, on it's own, to deduce K (as there may
+   be some K' which performs the same mapping for this specific (P,C)), for
+   genuine experiments and understanding of AES, translations allowing
+   multiple plaintext/ciphertext pairs but sharing the key variables are 
+   needed. </li>
+   <li> A simple method here is to perform the translation multiple times, 
+   introducing distinct variables for each pair of plaintext/ciphertext, but 
+   using the same key variables in each translation. The union of all such 
+   translations is then the required result. </li>
+  </ul>
+
+
+  \todo DONE (fixed; remaining issues handled by "Write Docus" and 
+  "Complete small scale helper functions")
+  Fix translation system
   <ul>
    <li> The current translation system works in the following way: 
    <ul>
@@ -622,208 +839,6 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
     </ul>
    </li>
    <li> This todo should be split up, as it is getting rather large. </li>
-  </ul>
-
-
-  \todo Write Docus
-  <ul>
-   <li> Documentation should be written explaining the way the translation
-   system works, as well as pointing out the standard functions to use. </li>
-   <li> Much of this information can be moved from "Fix translation system".
-   </li>
-   <li> This has been started but needs to be extended significantly. </li>
-   <li> The following information on the different possible translations
-   should also be included and linked to 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
-   <ul>
-    <li> We model a generalised AES system (see 
-    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
-    which supports the following different translations:
-    <ul>
-     <li> Mix columns variants with translations using:
-     <ul>
-      <li> the boxes in the encryption direction </li>
-      <li> both encryption and decryption directions. </li>
-     </ul>
-     </li>
-     <li> Box translations for the Sbox and field multiplications using:
-     <ul>
-      <li> Small CNF representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
-      and 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
-      </li>
-      <li> The canonical DNF translation (see 
-      ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
-      <li> r_k-reduced representation (see 
-      OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
-      <li> Small hitting clause-set representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
-      </li>
-     </ul>
-     </li>
-     <li> Combining affine components
-     <ul>
-      <li> We have the standard AES which has the Sbox made up of the
-      word (byte) level inversion of block elements, following by the
-      application of an affine transformation. </li>
-      <li> On the other hand, the affine portion of the Sbox can be moved 
-      through the Shiftrows operation such that it can be combined with the 
-      MixColumns component, yielding a component which is entirely linear at 
-      the byte level, leaving only the non-linear inversion and addition of 
-      the affine constant as part of the Sbox operation. </li>
-      <li> Splitting the two types of operation like this will hopefully
-      yield Sbox translations which are more compact and more amenable to
-      SAT solvers as the affine transformation is specifically designed to 
-      increase equation size, and make the Sbox harder to model. </li>
-     </ul>
-     </li>
-     <li> Generalised small scale parameters (see 
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
-     <ul>
-      <li> n_R: number of rows in the AES block (default 4, can be
-      1, 2 or 4). </li>
-      <li> n_C: number of columns in the AES block (default 4, can be
-      1, 2 or 4). </li>
-      <li> e: size of word field in bits in the AES (default 8, can be
-      1, 2 or 4 or 8) - in general we might consider arbitrary fields. </li>
-      <li> r: number of rounds (default 10, can be any positive integer).
-      </li>
-     </ul>
-     </li>
-    </ul>
-    </li>
-   </ul>
-   </li>
-  </ul>
-  
-
-  \todo Partitioning into active clauses
-  <ul>
-   <li> This todo has to be updated according to
-   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
-   <li> An overview on the possibilities of anatomising the AES-process into
-   active clauses has to be gained. </li>
-   <li> The roughest subdivision presents just the input-output relation (this
-   should not be considered as an active clause). </li>
-   <li> At the finest level we have represented the whole of AES as a boolean
-   CNF. </li>
-   <li> Inbetween there are many possibilities to handle the
-   round-computations. </li>
-  </ul>
-
-
-  \todo Active clauses for field operations
-  <ul>
-   <li> Likely the two best first candidates for active clauses
-   are the S-box (as map GF(2^8) -> GF(2^8)) and multiplication with
-   some constant a in GF(2^8)^* (again, as map GF(2^8) -> GF(2^8)). </li>
-   <li> Both types of functions yield boolean functions in 16 variables. </li>
-   <li> As bijections, they all have trivial DNF representations (with 256
-   satisfying assignments). </li>
-   <li> For CNF representations see "Generate good CNF clause-sets for the AES
-   Sbox" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   (obviously all the algorithmic techniques can be generalised to any function
-   given by truth tables. </li>
-   <li> Obviously also of interest are OBDD representations of these boolean
-   functions.
-    <ol>
-     <li> One should come pretty close to finding an optimal variable
-     ordering. </li>
-    </ol>
-   </li>
-   <li> These allow efficient handling of all basic tasks for active clauses
-   (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp).
-   </li>
-   <li> Of course, special algorithms should be investigated. </li>
-   <li> It seems, that actually the DNF representation we have, which actually
-   is a full DNF, and just having 256 clauses, yields an unbeatable active
-   clause:
-    <ol>
-     <li> Given any DNF representation D of a boolean function F,
-     satisfiability of phi * F is just checked by testing whether phi * D is
-     not the empty clause-set. </li>
-     <li> In general, for a clause-set F, considered as CNF or DNF, the
-     opposite representation is just obtained by the transversal hypergraph,
-     from which non-clauses are eliminated, and which then is complemented.
-     </li>
-     <li> So forced literals for phi * D are literals which occur in every
-     clause. This can be checked by just checking the literal degrees. </li>
-     <li> And the number of satisfying assignments for a hitting D can be
-     computed by the standard counting arguments. The given case is even
-     simpler, since we have a full clause-set (where full clause-sets are
-     stable under application of partial assignments), and so we just need
-     to count the remaining clauses. </li>
-     <li> Nevertheless we need to compute the prime-implicate representation,
-     since the minimal size of a prime implicate tells us how many variables
-     have to be set until we may obtain a contradiction --- this is important
-     information for the analysis, and furthermore for the active clause it
-     can be used as threshold which triggers some action (before, we are
-     just lazy and don't do anything (w.r.t. updating the counters)). </li>
-     <li> All these generalisations are very general, and should go to
-     supermodule Satisfiability/ProblemInstances. </li>
-    </ol>
-    Using these active clauses should give us a good advantage over any CNF
-    translation!
-   </li>
-   <li> We should aim at "high integration":
-    <ol>
-     <li> The more active clauses can manage the better. </li>
-     <li> So we should have the full S-box an active clause, and not
-     dividing it further. </li>
-     <li> Perhaps in combination with the various permutations we can combine
-     several "micro-steps" into one. Perhaps the ShiftRows step doesn't need
-     to be made explicit at all. And also MixColumns operates on the bytes.
-     </li>
-     <li> Perhaps we create "generic active clauses" for these cases, and
-     instantiate them appropriately (so that many variations of the same basic
-     active clause appear). </li>
-     <li> Identifying transformations of GF(2^8) seems most promising, since
-     this yield active clauses with 16 bits, which can be thoroughly
-     analysed. 32 bits likely is too much (since we won't have much
-     exploitable structure(?)). </li>
-    </ol>
-   </li>
-   <li> We have also the field addition, which can be broken down into binary
-   xor, and perhaps a dedicated active clause(-set) handles all these equations
-   over GF(2) (via Gaussian elimination). </li>
-   <li> The main underlying theoretical question is whether the conditions
-   "x * y = 1" and "a * x = y" are active clauses (for arbitrary GF(2^n).
-    <ol>
-     <li> This depends on the choice of literals (i.e., which partial
-     assignments are allowed). </li>
-     <li> A coarse choice is to use byte-valued variables (x, y here are just
-     elements of the byte-field) and standard literals: Here we have active
-     clauses, since the field operations as well as inversions can be
-     performed in polynomial time. </li>
-     <li> The next level (perhaps our preferred level) is the boolean level
-     (now the bits of x and y can be queried). Using the natural representation
-     of elements of GF(2^n) as vectors in the canonical base, we obtain
-     one quadratic equation in both cases. If quadratic equations in GF(2^n)
-     can be solved in polynomial time, then we are done, if not then we have
-     to investigate whether the special form of equations we have matters or
-     not. </li>
-     <li> A fine level considers again byte-valued variables, but signed
-     literals. It seems rather unlikely that this can be solved in polynomial
-     time. However for n=8 perhaps we can perform heavy preprocessing? </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Generate translation that allows multiple plaintext/ciphertext pairs
-  <ul>
-   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with AES 
-   using a key K, might not be enough, on it's own, to deduce K (as there may
-   be some K' which performs the same mapping for this specific (P,C)), for
-   genuine experiments and understanding of AES, translations allowing
-   multiple plaintext/ciphertext pairs but sharing the key variables are 
-   needed. </li>
-   <li> A simple method here is to perform the translation multiple times, 
-   introducing distinct variables for each pair of plaintext/ciphertext, but 
-   using the same key variables in each translation. The union of all such 
-   translations is then the required result. </li>
   </ul>
 
 
