@@ -75,15 +75,13 @@ namespace OKlib {
         typedef std::vector<bool> HashTable;
         //! Hashes used as index for HashTables
         typedef HashTable::size_type hash_index_type;
-      
-      
+
         /* Asserts that size types are sufficient are needed here: */
         /* 2^size >?= 3^num_vars */
         /* log(2^size) >?= log(3^num_vars) */
         /* size * log(2) >?= num_vars * log(3) */
         /* ~=~ size * 70 >?= num_vars * 101 */
         BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
-      
 
         /*!
           \brief For integer base b and integer power e >= 0, computes b^e
@@ -108,7 +106,6 @@ namespace OKlib {
            <li> 1 if variable i occurs negated in the given clause </li>
            <li> 2 if variable i occurs positively in the given clause. </li>
           </ul>
-          
         */
         hash_index_type hash_clause(const clause_type& clause) {
           hash_index_type return_value = 0;
