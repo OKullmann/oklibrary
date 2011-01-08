@@ -177,18 +177,18 @@ namespace OKlib {
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
           hash_index_type num_clauses = pow3[num_vars];
-          // "marked" is used to keep track of the original clauses
-          // (initially) and the resolvents:
-          HashTable marked(num_clauses, 0);
-          // "marked_new" is used to keep track of all clauses that are still
-          // in the result set (subsumed clauses get removed):
-          HashTable marked_new(num_clauses, 0);
+          // "curcls" contains (as hash-table) the current clauses, to be
+          // processed:
+          HashTable curcls(num_clauses, 0);
+          // "rescls" contains the clauses of the final result (completed
+          // once a level is finished):
+          HashTable rescls(num_clauses, 0);
           // first mark input clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
            for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
              const hash_index_type hash = hash_clause(*iter);
-             marked[hash] = true;
-             marked_new[hash] = true;
+             curcls[hash] = true;
+             rescls[hash] = true;
            }
           }
           // perform algorithm:
@@ -196,7 +196,7 @@ namespace OKlib {
           for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
             for (hash_index_type citer = 0; citer < num_clauses; ++citer)
-              if (marked[citer]) {
+              if (curcls[citer]) {
                 const variable_type clause_size = hash2clause(citer, clause);
                 if (clause_size == level) {
                   // go through literals in clause:
@@ -204,22 +204,22 @@ namespace OKlib {
                     // if it's partner clause exists:
                     const hash_index_type partner_hash =
                       flip_literal_sign_in_hash(citer, clause[liter]);
-                    if (marked[partner_hash]) {
+                    if (curcls[partner_hash]) {
                       long new_hash = remove_literal_in_hash(citer, clause[liter]);
-                      marked[new_hash] = true;
-                      marked_new[new_hash] = true;
-                      marked_new[citer] = false;
-                      marked_new[partner_hash] = false;
+                      curcls[new_hash] = true;
+                      rescls[new_hash] = true;
+                      rescls[citer] = false;
+                      rescls[partner_hash] = false;
                     }
                   }
-                  marked[citer] = false;
+                  curcls[citer] = false;
                 }
               }
           }
           // extraction of the result:
           clause_set_type result_cs;
           for (hash_index_type citer = 0; citer < num_clauses; ++citer)
-            if (marked_new[citer]) {
+            if (rescls[citer]) {
               const variable_type clause_size = hash2clause(citer, clause);
               std::sort(clause, clause + clause_size);
               result_cs.push_back(clause_type(clause, clause + clause_size));
