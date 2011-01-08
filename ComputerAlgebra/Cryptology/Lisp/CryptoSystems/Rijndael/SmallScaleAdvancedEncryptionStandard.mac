@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 27.1.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -102,6 +102,30 @@ oklib_plain_include(eigen)$ /* (for function columnvector) */
 
 /* OK: I thought this file would have been completed? */
 
+/* **************************************
+   * Special bit-linear byte operations *
+   **************************************
+*/
+
+/* Here we provide special operations at the byte level involving linear
+   transformations at the bit level. */
+
+/* Returns the result of applying the sboxes linear map to the given
+   word (as a polynomial). */
+ss_sbox_linmap_gen(field_element,b,e,mod_poly, sbox_matrix) :=
+  ss_stand(mvec2poly(sbox_matrix . poly2mvec_ss(field_element,e)),b,mod_poly)$
+ss_sbox_linmap(field_element,b,e) :=
+  ss_sbox_linmap_gen(field_element,b,e,ss_polynomial(b,e),ss_sbox_matrix(b,e))$
+
+/* Returns the result of applying the sboxes linear map and then multiplication
+   by a to the given word (as a polynomial). */
+ss_mul_w_sbox_linmap_gen(field_element,a,b,e,mod_poly, sbox_matrix) :=
+  ss_mul(
+    ss_sbox_linmap_gen(field_element,b,e,mod_poly,sbox_matrix),a,b,mod_poly)$
+ss_mul_w_sbox_linmap(field_element,a,b,e) :=
+  ss_mult_w_sbox_linmap_gen(
+    field_element,a,b,e,ss_polynomial(b,e),ss_sbox_matrix(b,e))$
+
 /* *********
    * S box *
    *********
@@ -154,13 +178,6 @@ ss_inv_sbox_matrix(b,e) :=
     else if e = 8 then ss_inv_sbox_matrix_2_8
     else und
   else und$
-
-/* Returns the result of applying the sboxes linear map to the given
-   word (as a polynomial). */
-ss_sbox_linmap_gen(field_element,b,e,mod_poly, sbox_matrix) :=
-  ss_stand(mvec2poly(sbox_matrix . poly2mvec_ss(field_element,e)),b,mod_poly)$
-ss_sbox_linmap(field_element,b,e) :=
-  ss_sbox_linmap_gen(field_element,b,e,ss_polynomial(b,e),ss_sbox_matrix(b,e))$
 
 /* The small scale AES sbox takes an individual small scale
    field element (an element of the block) and returns

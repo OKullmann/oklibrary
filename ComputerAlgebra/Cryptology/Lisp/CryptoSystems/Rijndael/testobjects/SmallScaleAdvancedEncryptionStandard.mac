@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 28.1.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,12 +22,19 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/SmallScaleAdvancedEncryptionStandard.mac")$
 
 
+/* **************************************
+   * Special bit-linear byte operations *
+   **************************************
+*/
+
+okltest_ss_sbox_linmap_gen(ss_sbox_linmap_gen);
+okltest_ss_mul_w_sbox_linmap_gen(ss_mul_w_sbox_linmap_gen);
+
 /* *********
    * S box *
    *********
 */
 
-okltest_ss_sbox_linmap_gen(ss_sbox_linmap_gen);
 okltest_ss_sbox_gen(ss_sbox_gen);
 okltest_ss_inv_sbox_gen(ss_inv_sbox_gen);
 
