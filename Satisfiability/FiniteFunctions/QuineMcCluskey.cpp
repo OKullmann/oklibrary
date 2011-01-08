@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/FiniteFunctions/QuineMcCluskey.cpp
-  \brief Application for computing all minimal resolvents from a given full clause-set
+  \brief Application for computing all minimal resolvents for a full clause-set
 
   One parameter is needed, the file containing the clause-set in DIMACS format.
   The result is printed to standard output (again a clause-set in DIMACS format).
