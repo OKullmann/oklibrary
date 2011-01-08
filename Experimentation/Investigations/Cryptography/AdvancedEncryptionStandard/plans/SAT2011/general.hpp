@@ -92,11 +92,4 @@ License, or any later version. */
    system), should be made available here. </li>
   </ul>
 
-
-  \todo DONE Connection with the plans one level above
-  <ul>
-   <li> A full integration of plans SAT2011 with those one level above needs
-   to be achieved. </li>
-  </ul>
-
 */

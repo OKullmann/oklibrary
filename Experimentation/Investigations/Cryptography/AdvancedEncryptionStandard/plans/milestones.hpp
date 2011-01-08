@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.4 (5.1.2011)
-
-
-  \par Version 0.1.5 :
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
-   following topics are handled:
-    - Connection with the plans one level above : DONE
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5 (8.1.2011)
 
 
   \par Version 0.1.6 :
@@ -72,6 +64,7 @@ License, or any later version. */
    - 0.1.2 : 1.1.2011; removed/transferred completed todos, updates links.
    - 0.1.3 : 2.1.2011; tidied general todos and updated SAT2011 sub-module.
    - 0.1.4 : 5.1.2011; created "Representations" sub-module with associated information.
+   - 0.1.5 : 8.1.2011; tidied plans, introduced method descriptions and started experiment plans files.
 
 */
 
