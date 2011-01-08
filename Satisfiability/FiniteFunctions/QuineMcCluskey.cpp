@@ -31,8 +31,7 @@ namespace {
 
   enum {
     error_parameters = 1,
-    error_openfile = 2,
-    error_readfile = 3
+    error_openfile = 2
   };
 
   const std::string program = "QuineMcCluskey";
