@@ -189,11 +189,11 @@ namespace OKlib {
           int clause[num_vars];
           for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
-            for (hash_index_type citer = 0; citer < num_clauses; ++citer) {
+            for (hash_index_type citer = 0; citer < num_clauses; ++citer)
               // go through literals in clause:
               if (marked[citer]) {
                 const variable_type clause_size = hash2clause(citer, clause);
-                if (clause_size == level) {
+                if (clause_size == level)
                   for (variable_type liter = 0; liter < clause_size; ++liter) {
                     // if it's partner clause exists:
                     const hash_index_type partner_hash =
@@ -206,9 +206,7 @@ namespace OKlib {
                       marked_in[partner_hash] = false;
                     }
                   }
-                }
               }
-            }
             // at the end of each level, we only need those clauses that are 
             // in marked_in:
             for (hash_index_type citer = 0; citer < num_clauses; ++citer)
