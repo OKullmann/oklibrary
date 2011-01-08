@@ -16,7 +16,12 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Rename QuineMcCluskey to QuineMcCluskeyPrimes
+    - Rename QuineMcCluskey to QuineMcCluskeyPrimes : DONE
+    - Unit tests : DONE
+    - Basic type improvements : DONE
+
+  \par Basic overhaul of the implementation, to bring it up to standard:
+  DONE
 
 
   \par Version 0.0.8
@@ -88,7 +93,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Unit tests
+    - Extend unit tests
 
 
   \par Version 0.0.17
@@ -97,6 +102,14 @@ License, or any later version. */
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Preparations for optimisation
+
+
+  \par Version 0.0.18
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Make QuineMcCluskey read from standard input
 
 
   \par Version 0.1

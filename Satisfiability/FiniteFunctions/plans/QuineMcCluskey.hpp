@@ -10,12 +10,24 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
-  \todo Rename QuineMcCluskey to QuineMcCluskeyPrimes
+  \todo DONE (we keep the name at least for now, since more components might be
+  integrated, and the minimisation step is not a defined algorithm
+  Rename QuineMcCluskey to QuineMcCluskeyPrimes
   <ul>
    <li> The QuineMcCluskey algorithm includes the prime implicates/
    set covering step, therefore, as the current QuineMcCluskey application
    only generates the prime implicates, the name is not correct and
    may lead to confusion. </li>
+  </ul>
+
+
+  \todo Basic type improvements : DONE
+  <ul>
+   <li> DONE std::vector<bool>::size_type is a central integral type here,
+   determining the limits of the computation; starting from this a
+   (small) resource management (at compile-time!) has to be created. </li>
+   <li> DONE Of course, at least typedefs for the basic types of variables,
+   literals, clauses and clause-sets need to be provided. </li>
   </ul>
 
 
@@ -372,6 +384,13 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
+  \todo Extend unit tests
+  <ul>
+   <li> Many more unit tests are needed. </li>
+   <li> Also for the various member functions. </li>
+  </ul>
+
+
   \todo Improvements of the implementation
   <ul>
    <li> Likely we keep the following basic structure:
@@ -490,15 +509,13 @@ struct ipow3_s<0,c> {
   </ul>
 
 
-  \todo DONE Precise definitions, and basic types
+  \todo Precise definitions, and basic types
   <ul>
-   <li> DONE Use asserts for example to check for assumptions on function
+   <li> Use asserts for example to check for assumptions on function
    arguments. </li>
-   <li> DONE std::vector<bool>::size_type is a central integral type here,
-   determining the limits of the computation; starting from this a
-   (small) resource management (at compile-time!) has to be created. </li>
-   <li> DONE Of course, at least typedefs for the basic types of variables,
-   literals, clauses and clause-sets need to be provided. </li>
+   <li> It needs to be determined whether the current checks against
+   improper prerequisites (domains of types etc.) are sufficient. </li>
+   <li> Perhaps more compile-time checks are needed? </li>
   </ul>
 
 */
