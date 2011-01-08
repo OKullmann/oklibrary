@@ -184,7 +184,6 @@ namespace OKlib {
           // marked_in is used to keep track of all clauses that are still in the
           // result set:
           HashTable marked_in(num_partial_assignments, 0);
-          hash_index_type partner_hash = 0;
           // first mark clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
            for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
@@ -203,7 +202,7 @@ namespace OKlib {
                 if (clause_size == level) {
                   for (variable_type liter = 0; liter < clause_size; ++liter) {
                     // if it's partner clause exists:
-                    partner_hash =
+                    const hash_index_type partner_hash =
                       flip_literal_sign_in_hash(citer, clause[liter]);
                     if (marked[partner_hash]) {
                       long new_hash = remove_literal_in_hash(citer, clause[liter]);
