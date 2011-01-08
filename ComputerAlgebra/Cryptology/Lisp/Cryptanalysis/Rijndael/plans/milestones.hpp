@@ -15,9 +15,8 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Update
     - Fix translation system
-    - Parameterise inclusion of inverse operation in Mixcolumn translation 
+    - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
     - Standardise block ordering: DONE
     - Truncate AES for reduced rounds: DONE
 
@@ -26,7 +25,6 @@ License, or any later version. */
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Add decomposed Sbox operations
     - Representations of the Sbox using additional variables
-    - Move notion of AES constraints to separate module/unit
     - Organisation
 
   \par
@@ -49,7 +47,9 @@ License, or any later version. */
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - How to represent elements of arbitrary fields as boolean variables?
+    - Remove hard-coding of multiplication by 01 in small scale MixColumn
+    - Standardise output files names
+    - Rearranging linear components of Sbox and MixColumns
   
 
   \par Version 0.0.9
@@ -57,6 +57,10 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
     - Compute *all* prime implicates (for the purpose of analysis)
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - How to represent elements of arbitrary fields as boolean variables?
 
 
   \par Version 0.1

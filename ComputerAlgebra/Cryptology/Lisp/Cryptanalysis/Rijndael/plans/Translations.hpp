@@ -128,7 +128,7 @@ License, or any later version. */
    <li> However, a GF(3^2) field would have 9 elements, and there is no
    longer a simple match between polynomial coefficients of the element
    and variables in the translation. </li>
-   <li> One solution is to translate the problem into a pseudoboolean
+   <li> One solution is to translate the problem into a non-boolean
    problem, and then translate from there to a boolean problem using
    the standard translation. </li>
    <li> What is the right approach? </li>
@@ -649,18 +649,18 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    <li> The following information on the different possible translations
    should also be included and linked to 
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
-  <ul>
-   <li> We model a generalised AES system (see 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
-   which supports the following different translations:
    <ul>
-    <li> Mix columns variants with translations using:
+    <li> We model a generalised AES system (see 
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
+    which supports the following different translations:
+    <ul>
+     <li> Mix columns variants with translations using:
      <ul>
       <li> the boxes in the encryption direction </li>
       <li> both encryption and decryption directions. </li>
      </ul>
-    </li>
-    <li> Box translations for the Sbox and field multiplications using:
+     </li>
+     <li> Box translations for the Sbox and field multiplications using:
      <ul>
       <li> Small CNF representations (see 
       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
@@ -675,8 +675,8 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
       </li>
      </ul>
-    </li>
-    <li> Combining affine components
+     </li>
+     <li> Combining affine components
      <ul>
       <li> We have the standard AES which has the Sbox made up of the
       word (byte) level inversion of block elements, following by the
@@ -691,9 +691,9 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       SAT solvers as the affine transformation is specifically designed to 
       increase equation size, and make the Sbox harder to model. </li>
      </ul>
-    </li>
-    <li> Generalised small scale parameters (see 
-    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+     </li>
+     <li> Generalised small scale parameters (see 
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
      <ul>
       <li> n_R: number of rows in the AES block (default 4, can be
       1, 2 or 4). </li>
@@ -704,6 +704,8 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       <li> r: number of rounds (default 10, can be any positive integer).
       </li>
      </ul>
+     </li>
+    </ul>
     </li>
    </ul>
    </li>
