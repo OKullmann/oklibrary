@@ -121,10 +121,8 @@ namespace OKlib {
           the input hash.
         */
         hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
-          if (literal < 0)
-            hash += pow3(std::abs(literal) - 1);
-          else if (literal > 0)
-            hash -= pow3(std::abs(literal) - 1);
+          if (literal < 0) hash += pow3(std::abs(literal) - 1);
+          else if (literal > 0) hash -= pow3(std::abs(literal) - 1);
           return hash;
         }
       
@@ -136,10 +134,8 @@ namespace OKlib {
           the input hash.
         */
         hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
-          if (literal < 0)
-            hash -= pow3(std::abs(literal) - 1);
-          else if (literal > 0)
-            hash -= 2 * pow3(std::abs(literal) - 1);
+          if (literal < 0) hash -= pow3(std::abs(literal) - 1);
+          else if (literal > 0) hash -= 2 * pow3(std::abs(literal) - 1);
           return hash;
         }
       
