@@ -45,6 +45,11 @@ License, or any later version. */
     - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Standardise output files names
     - Rearranging linear components of Sbox and MixColumns
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
+    - Move experimental todos to investigations
+    - Add XOR translations for field multiplications
   
 
   \par Version 0.0.9
