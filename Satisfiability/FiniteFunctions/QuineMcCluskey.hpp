@@ -105,26 +105,16 @@ namespace OKlib {
           return return_value;
         }
       
-        /*!
-          \brief From a hash-value "hash" for a clause compute the new
-          hash-value where the given literal is negated.
-          
-          Prerequisite is that the literal occurs in the clause represented by
-          the input hash.
-        */
+        //! From a hash-value for a clause compute the new hash-value where a
+        // literal (which must occur in the clause) is negated.
         hash_index_type flip_literal(const hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
           if (literal < 0) return hash + pow3[std::abs(literal) - 1];
           else return hash - pow3[std::abs(literal) - 1];
         }
       
-        /*!
-          \brief From a hash-value "hash" for a clause computes the new
-          hash-value for the clause where the given literal has been removed.
-          
-          Prerequisite is that the literal occurs in the clause represented by
-          the input hash.
-        */
+        //! From a hash-value for a clause compute the new hash-value where
+        // a literal (which must occur in the clause) has been removed.
         hash_index_type remove_literal(const hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
           if (literal < 0) return hash - pow3[std::abs(literal) - 1];
@@ -132,10 +122,10 @@ namespace OKlib {
         }
       
         /*!
-          \brief Computes the clause represented by a given hash-value
+          \brief Computes the clause represented by a hash-value
 
           The return-value is the number of literals in the clause, while
-          the reference-parameter clause contains the clause itself.
+          the reference-parameter "clause" contains the clause itself.
 
           Here a clause is an array of integers, where the length k of the
           clause must be known (so that only clause[0], ..., clause[k-1] are
@@ -157,11 +147,10 @@ namespace OKlib {
         }
       
         /*!
-          \brief For a clause-set containing only variables v <= num_vars,
-          all prime implicates are returned.
-          
-          Time and space complexity is polynomial in the full truth table,
-          but exponential in num_vars.
+          \brief Compute all prime clauses of a clause-set
+
+          Only variables v <= num_vars are allowed. Time and space complexity
+          are polynomial in the full truth table, but exponential in num_vars.
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
           hash_index_type num_clauses = pow3[num_vars];
