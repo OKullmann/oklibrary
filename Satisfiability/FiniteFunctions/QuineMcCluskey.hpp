@@ -180,12 +180,12 @@ namespace OKlib {
           but exponential in num_vars.
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
-          hash_index_type num_partial_assignments = pow3(num_vars);
+          hash_index_type num_clauses = pow3(num_vars);
           // marked is used to keep track of all found clauses:
-          HashTable marked(num_partial_assignments, 0);
+          HashTable marked(num_clauses, 0);
           // marked_in is used to keep track of all clauses that are still in the
           // result set:
-          HashTable marked_in(num_partial_assignments, 0);
+          HashTable marked_in(num_clauses, 0);
           // first mark clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
            for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
@@ -198,7 +198,7 @@ namespace OKlib {
           int clause[num_vars];
           for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
-            for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer) {
+            for (hash_index_type citer = 0; citer < num_clauses; ++citer) {
               // go through literals in clause:
               if (marked[citer]) {
                 const variable_type clause_size = hash2clause(citer, clause);
@@ -220,11 +220,11 @@ namespace OKlib {
             }
             // at the end of each level, we only need those clauses that are in 
             // marked_in:
-            for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer)
+            for (hash_index_type citer = 0; citer < num_clauses; ++citer)
               marked[citer] = marked_in[citer];
           }
           clause_set_type result_cs;
-          for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer)
+          for (hash_index_type citer = 0; citer < num_clauses; ++citer)
             if (marked_in[citer]) {
               const variable_type clause_size = hash2clause(citer, clause);
               std::sort(clause, clause + clause_size);
