@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,7 +29,7 @@ namespace {
     error_readfile = 3
   };
 
-  const std::string version = "0.1.10";
+  const std::string version = "0.1.11";
 
 }
 
