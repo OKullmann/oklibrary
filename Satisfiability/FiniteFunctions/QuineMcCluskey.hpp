@@ -65,15 +65,10 @@ namespace OKlib {
         typedef typename boost::range_const_iterator<const clause_type>::type const_clause_iterator_type;
         //! iterator for clause-sets
         typedef typename boost::range_const_iterator<const clause_set_type>::type const_clause_set_iterator_type;
-        /*!
-          \brief Hash-table structure used to store and lookup clauses in a
-          clause-set
-          
-          Such a structure provides constant-time elementship tests and inserts
-          for clauses in a clause-set, using space 3^n for n variables.
-        */
+        //! hash-table to represent an arbitrary clause-set over n variables
+        // (using 3^n bits, for each possible clause)
         typedef std::vector<bool> HashTable;
-        //! Hashes used as index for HashTables
+        //! hash-values used as indices for hash-tables
         typedef HashTable::size_type hash_index_type;
 
         //! pow3[i] = 3^i for 0 <= i <= num_vars
