@@ -45,7 +45,7 @@ namespace OKlib {
         For ease of use the helper-function quine_mccluskey is provided below.
       */
       template<int num_vars = 4,
-               typename ClauseContainer = std::vector<std::vector<int> > >
+               class ClauseContainer = std::vector<std::vector<int> > >
       struct QuineMcCluskey {
       
         //! Boolean literals as integers
@@ -238,7 +238,7 @@ namespace OKlib {
       };
 
       //! Helper function to ease usage of class QuineMcCluskey
-      template<int num_vars, typename ClauseContainer>
+      template<int num_vars, class ClauseContainer>
       ClauseContainer quine_mccluskey(const ClauseContainer& input_cs) {
         QuineMcCluskey<num_vars, ClauseContainer> qmc;
         return(qmc(input_cs));
