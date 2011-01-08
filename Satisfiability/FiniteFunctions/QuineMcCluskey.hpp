@@ -136,7 +136,7 @@ namespace OKlib {
           Prerequisite is that the literal occurs in the clause represented by
           the input hash.
         */
-        hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
+        hash_index_type remove_literal(hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
           if (literal < 0) hash -= pow3[std::abs(literal) - 1];
           else hash -= 2 * pow3[std::abs(literal) - 1];
@@ -205,7 +205,7 @@ namespace OKlib {
                     const hash_index_type partner_hash =
                       flip_literal(citer, clause[liter]);
                     if (curcls[partner_hash]) {
-                      long new_hash = remove_literal_in_hash(citer, clause[liter]);
+                      long new_hash = remove_literal(citer, clause[liter]);
                       curcls[new_hash] = true;
                       rescls[new_hash] = true;
                       rescls[citer] = false;
