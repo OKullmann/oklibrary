@@ -27,6 +27,13 @@ License, or any later version. */
     - Running only through the levels (via new hash function)
 
 
+  \par
+   In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
+   following topics are handled:
+    - Write application tests
+    - Preparations for computing optimum representations
+
+
   \par Version 0.1.3
 
   \par
@@ -153,14 +160,6 @@ License, or any later version. */
 
 
   \par Version 0.3.1
-
-  \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
-   following topics are handled:
-    - Preparations for computing optimum representations
-
-
-  \par Version 0.3.2
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the

@@ -48,7 +48,7 @@ License, or any later version. */
 
   \todo Running only through the levels
   <ul>
-   <li> Yet the implementatin runs for every k = n, ..., 0 through all 3^n
+   <li> Yet the implementation runs for every k = n, ..., 0 through all 3^n
    indices. </li>
    <li> Now for every k we only want to run through the clauses of length k.
    </li>
@@ -405,7 +405,7 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    of the variable degrees). One would guess that trying to avoid creating
    many new clauses is preferable. For this all to work, the algorithm must
    only look at the clauses actually present. </li>
-   <li> ipow should be replaced by an array computed at compile-time.
+   <li> pow3 should be replaced by an array computed at compile-time.
     <ol>
      <li> How to dynamically initialise an array at compile time? Something
      like:
@@ -445,30 +445,6 @@ struct ipow3_s<0,c> {
      though this depends on the context, since the aim must be to organise
      the computation in such a way as to make handling of hash values as
      efficient as possible. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Preparations for computing optimum representations
-  <ul>
-   <li> Optionally the necessary prime clauses should be output (in Dimacs
-   format). </li>
-   <li> Also optionally, the hypergraph as computed by subsumption_ghg
-   (see
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
-   ) should be created (the minimum transversals of this hypergraph yield the
-   minimum representations), in strict Dimacs format, where the meaning of
-   variables is explained in the comments. </li>
-   <li> The ordering of the prime clauses likely should be lexicographical.
-   </li>
-   <li> For that hypergraph, the unit-clause-propagation should have
-   been performed already (just involving the necessary clauses, which just
-   correspond to unit-hyperedges).
-    <ol>
-     <li> See rsubsumption_hg_full_cs(F) in
-     ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
-     for the Maxima-specification. </li>
     </ol>
    </li>
   </ul>
