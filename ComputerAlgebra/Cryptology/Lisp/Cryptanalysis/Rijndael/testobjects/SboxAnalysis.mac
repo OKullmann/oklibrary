@@ -41,6 +41,16 @@ okltest_ss_sbox_fulldnf_gen_fcl(ss_sbox_fulldnf_gen_fcl);
 okltest_ss_sbox_fullcnf_gen_fcs(ss_sbox_fullcnf_gen_fcs);
 okltest_ss_sbox_gen_cnfp(ss_sbox_gen_cnfp);
 
+/* *****************************************************************
+   * Small Scale Sbox linear map Analysis                          *
+   *****************************************************************
+*/
+
+okltest_ss_sbox_linmap_fulldnf_fcl(ss_sbox_linmap_fulldnf_fcl);
+okltest_ss_sbox_linmap_fullcnf_fcs(ss_sbox_linmap_fullcnf_fcs);
+okltest_ss_matrix2str(ss_matrix2str);
+okltest_ss_sbox_linmap_cnfp(ss_sbox_linmap_cnfp);
+
 /* ******************************************
    * Representations by hitting clause-sets *
    ******************************************
