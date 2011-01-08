@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.2.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,20 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
+
+
+  \bug Test failure at level "full"
+  <ul>
+   <li> For Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac we get
+   \verbatim
+okltest_ss_mul_ts_var_l(ss_mul_ts_var_l)
+Evaluation took 0.0900 seconds (0.1800 elapsed)
+true
+okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl)
+map: arguments must be the same length.
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo Connections

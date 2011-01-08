@@ -12,6 +12,11 @@ License, or any later version. */
 
 
   \par Version 0.0.7
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+  the following topics are handled:
+    - Test failure at level "full"
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
