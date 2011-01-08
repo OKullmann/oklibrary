@@ -172,10 +172,10 @@ namespace OKlib {
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
           hash_index_type num_clauses = pow3(num_vars);
-          // marked is used to keep track of all found clauses:
+          // "marked" is used to keep track of all found clauses:
           HashTable marked(num_clauses, 0);
-          // marked_in is used to keep track of all clauses that are still in the
-          // result set:
+          // "marked_in" is used to keep track of all clauses that are still in
+          // the result set:
           HashTable marked_in(num_clauses, 0);
           // first mark clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
@@ -209,8 +209,8 @@ namespace OKlib {
                 }
               }
             }
-            // at the end of each level, we only need those clauses that are in 
-            // marked_in:
+            // at the end of each level, we only need those clauses that are 
+            // in marked_in:
             for (hash_index_type citer = 0; citer < num_clauses; ++citer)
               marked[citer] = marked_in[citer];
           }
