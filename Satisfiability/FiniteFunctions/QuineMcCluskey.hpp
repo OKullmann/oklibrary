@@ -92,7 +92,7 @@ namespace OKlib {
         
         */
         hash_index_type ipow(const int b, int e) {
-          long result = 1;
+          hash_index_type result = 1;
           while (e-- > 0) result *= b;
           return result;
         }
