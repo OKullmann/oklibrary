@@ -43,7 +43,8 @@ namespace OKlib {
         The Maxima input/output specification is min_2resolution_closure_cs in 
         ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
 
-        For ease of use the helper-function quine_mccluskey is provided below.
+        For ease of use the helper-function FiniteFunctions::quine_mccluskey
+        is provided below.
       */
       template<int num_vars = 4,
                class ClauseContainer = std::vector<std::vector<int> > >
@@ -84,7 +85,7 @@ namespace OKlib {
         BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
 
         /*!
-          \brief For integer power e >= 0, computes 3^e
+          \brief For integer e >= 0, computes 3^e
 
           Providing integer computation whereas the standard library works
           with doubles. Inefficient for larger exponents.
@@ -175,7 +176,7 @@ namespace OKlib {
           Running time and space requirements are exponential (powers of 3) in 
           the number of variables.
         */
-        clause_set_type quine_mccluskey(const clause_set_type& input_cs) {
+        clause_set_type  operator() (const clause_set_type& input_cs) {
           int clause[num_vars];
           hash_index_type num_partial_assignments = pow3(num_vars);
           // marked is used to keep track of all found clauses:
@@ -232,9 +233,6 @@ namespace OKlib {
           return result_cs;
         }
 
-        clause_set_type operator() (const clause_set_type& input_cs) {
-          return quine_mccluskey(input_cs);
-        } 
       };
 
       //! Helper function to ease usage of class QuineMcCluskey
