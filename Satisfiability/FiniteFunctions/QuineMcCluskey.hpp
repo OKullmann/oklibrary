@@ -155,9 +155,9 @@ namespace OKlib {
           literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
             const hash_index_type var_val = pow3[lit-1];
-            if (hash >= (2 * var_val)) {
+            if (hash >= 2 * var_val) {
               clause[num_lit++] = lit;
-              hash -= (2 * var_val);
+              hash -= 2 * var_val;
             } else if (hash >= var_val) {
               clause[num_lit++] = -lit;
               hash -= var_val;
