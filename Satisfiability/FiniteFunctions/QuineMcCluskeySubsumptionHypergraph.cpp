@@ -28,6 +28,12 @@ License, or any later version. */
 #include <OKlib/Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp>
 
 namespace {
+  
+#ifdef NUMBER_VARIABLES
+  const int num_vars = NUMBER_VARIABLES;
+#else
+  const int num_vars = 4;
+#endif
 
   enum {
     error_parameters = 1,
@@ -38,13 +44,6 @@ namespace {
   const std::string version = "0.1.10";
 
 }
-
-// Move this elsewhere      
-#ifdef NUMBER_VARIABLES
-        const int num_vars = NUMBER_VARIABLES;
-#else
-        const int num_vars = 4;
-#endif
 
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
