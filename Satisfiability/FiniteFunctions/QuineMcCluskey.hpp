@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,16 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/FiniteFunctions/QuineMcCluskey.hpp
-  \brief Definitions for computing all minimal resolvents from a given full clause-set
+  \brief Components for computing all minimal resolvents of a full clause-set
+
+  A "full" clause-sets contains only full clauses, which in turn are
+  characterised as containing all variables. The minimal resolvents are the
+  prime implicates / implicants of the underlying boolean function when
+  interpreting the clause-set as CNF resp. DNF. Considering clause-sets F as
+  combinatorial structures, we speak of the "prime clauses" of F.
+
+  The function template FiniteFunctions::quine_mccluskey(F) returns the
+  prime-clauses of F, using the same clause-set-type as F.
 */
 
 #ifndef QUINEMCCLUSKEY_jdbVce4
