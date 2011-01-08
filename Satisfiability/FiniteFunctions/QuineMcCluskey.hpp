@@ -179,10 +179,10 @@ namespace OKlib {
           hash_index_type num_clauses = pow3[num_vars];
           // "curcls" contains (as hash-table) the current clauses, to be
           // processed:
-          HashTable curcls(num_clauses, 0);
+          HashTable curcls(num_clauses);
           // "rescls" contains the clauses of the final result (completed
           // once a level is finished):
-          HashTable rescls(num_clauses, 0);
+          HashTable rescls(num_clauses);
           // first mark input clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
            for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
