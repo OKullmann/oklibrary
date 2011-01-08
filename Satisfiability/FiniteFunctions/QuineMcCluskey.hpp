@@ -116,31 +116,29 @@ namespace OKlib {
         }
       
         /*!
-          \brief From a hash-value hash for a clause compute the new
+          \brief From a hash-value "hash" for a clause compute the new
           hash-value where the given literal is negated.
           
           Prerequisite is that the literal occurs in the clause represented by
           the input hash.
         */
-        hash_index_type flip_literal(hash_index_type hash, const literal_type literal) {
+        hash_index_type flip_literal(const hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
-          if (literal < 0) hash += pow3[std::abs(literal) - 1];
-          else hash -= pow3[std::abs(literal) - 1];
-          return hash;
+          if (literal < 0) return hash + pow3[std::abs(literal) - 1];
+          else return hash - pow3[std::abs(literal) - 1];
         }
       
         /*!
-          \brief From a hash-value hash for a clause computes the new
+          \brief From a hash-value "hash" for a clause computes the new
           hash-value for the clause where the given literal has been removed.
           
           Prerequisite is that the literal occurs in the clause represented by
           the input hash.
         */
-        hash_index_type remove_literal(hash_index_type hash, const literal_type literal) {
+        hash_index_type remove_literal(const hash_index_type hash, const literal_type literal) {
           assert(literal != 0);
-          if (literal < 0) hash -= pow3[std::abs(literal) - 1];
-          else hash -= 2 * pow3[std::abs(literal) - 1];
-          return hash;
+          if (literal < 0) return hash - pow3[std::abs(literal) - 1];
+          else return hash - 2 * pow3[std::abs(literal) - 1];
         }
       
         /*!
