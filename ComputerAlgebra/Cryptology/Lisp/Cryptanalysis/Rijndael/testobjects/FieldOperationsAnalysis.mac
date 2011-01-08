@@ -21,6 +21,16 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobj
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac")$
 
+
+/* ************************************************************
+   * General small scale field analysis                       *
+   ************************************************************
+*/
+
+okltest_ss_field_op_fulldnf_gen_fcl(ss_field_op_fulldnf_gen_fcl);
+okltest_ss_field_op_fullcnf_gen_fcs(ss_field_op_fullcnf_gen_fcs);
+okltest_ss_field_op_gen_cnfp(ss_field_op_gen_cnfp);
+
 /* ******************************************
    * Field Multiplication Analysis          *
    ******************************************
@@ -35,19 +45,18 @@ okltest_rijnmult_cnfp(rijnmult_cnfp);
    *********************************************
 */
 
-okltest_ssinv_fulldnf_fcl(ssinv_fulldnf_fcl);
-okltest_ssinv_fullcnf_fcs(ssinv_fullcnf_fcs);
-okltest_ssinv_cnfp(ssinv_cnfp);
-
+okltest_ssmult_fulldnf_fcl(ssmult_fulldnf_fcl);
+okltest_ssmult_fullcnf_fcs(ssmult_fullcnf_fcs);
+okltest_ssmult_gen_cnfp(ssmult_gen_cnfp);
 
 /* *********************************************
-   * Small Scale Field multiplication analysis *
+   * Small Scale Field inversion analysis *
    *********************************************
 */
 
-okltest_ssmult_fulldnf_fcl(ssmult_fulldnf_fcl);
-okltest_ssmult_fullcnf_fcs(ssmult_fullcnf_fcs);
-okltest_ssmult_cnfp(ssmult_cnfp);
+okltest_ssinv_fulldnf_fcl(ssinv_fulldnf_fcl);
+okltest_ssinv_fullcnf_fcs(ssinv_fullcnf_fcs);
+okltest_ssinv_cnfp(ssinv_cnfp);
 
 
 /* ******************************************

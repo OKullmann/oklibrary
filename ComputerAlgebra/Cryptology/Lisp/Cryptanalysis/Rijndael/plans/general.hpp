@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.2.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,14 @@ License, or any later version. */
    are not mentioned in the milestones, which must not happen! MG must
    look up these todos in this history, and either remove them (potentially
    adding to the milestones-history), or add them to the current milestones.
+   </li>
+  </ul>
+
+
+  \todo Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
+  <ul>
+   <li> Functions such as ss_sbox_fulldnf_gen_fcl should be rewritten using
+   ss_field_op_fulldnf_gen_fcl and passing in the appropriate operations.
    </li>
   </ul>
 

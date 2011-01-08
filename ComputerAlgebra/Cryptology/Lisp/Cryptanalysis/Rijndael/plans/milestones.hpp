@@ -34,6 +34,7 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Update
     - Randomly choosing "unknown" block bits: DONE
 
     
@@ -57,6 +58,10 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - How to represent elements of arbitrary fields as boolean variables?
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
 
 
   \par Version 0.1

@@ -39,6 +39,10 @@ License, or any later version. */
     <li> DONE Inversion with the field - CNF translation. </li>
    </ol>
    </li>
+   <li> All operations are now available in theory using 
+   ss_field_op_fulldnf_gen_fcl etc in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac .
+   </li>
   </ul>
 
   

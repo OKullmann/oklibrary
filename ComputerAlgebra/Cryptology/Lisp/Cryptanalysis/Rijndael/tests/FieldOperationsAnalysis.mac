@@ -61,6 +61,30 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 kill(f)$
 
 
+/* ************************************************************
+   * General small scale field analysis                       *
+   ************************************************************
+*/
+
+okltest_ss_field_op_fulldnf_gen_fcl(f) := block(
+  assert(okltest_ssmult_fulldnf_fcl(buildq([f],
+        lambda([a,b,e,mod_poly],
+          f(lambda([ap],ss_mul(nat2poly(a,b),ap,b,mod_poly)), b,e))))),    
+  true)$
+
+okltest_ss_field_op_fullcnf_gen_fcs(f) := block(
+  assert(okltest_ssmult_fullcnf_fcs(buildq([f],
+        lambda([a,b,e,mod_poly],
+          f(lambda([ap],ss_mul(nat2poly(a,b),ap,b,mod_poly)), b,e))))),    
+  true)$
+
+okltest_ss_field_op_gen_cnfp(f) := block(
+  assert(okltest_ssmult_gen_cnfp(buildq([f],
+        lambda([a,FF,b,e,mod_poly],
+          f(FF,lambda([ap],ss_mul(nat2poly(a,b),ap,b,mod_poly)), b,e))))),    
+  true)$
+
+
 /* ******************************************
    * Field Multiplication Analysis          *
    ******************************************
@@ -153,7 +177,7 @@ okltest_ssmult_fullcnf_fcs(f) := block(
   assert(f(3,2,8,ss_polynomial_2_8) = rijnmult_fullcnf_fcs(3)),
   true)$
 
-okltest_ssmult_cnfp(f) := block(
+okltest_ssmult_gen_cnfp(f) := block(
   assert(f(1, [{1,2},{{-2,1},{-1,2}}],2,1,ss_polynomial_2_1)),
   assert(not(f(1,[{1,2},{{-2,1},{1,2}}],2,1,ss_polynomial_2_1))),
   if oklib_test_level = 0 then return(true),
