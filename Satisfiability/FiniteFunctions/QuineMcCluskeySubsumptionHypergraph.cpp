@@ -45,11 +45,6 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
-  typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-  typedef OKlib::Satisfiability::FiniteFunctions::QuineMcCluskey<num_vars>::clause_set_type clause_set_type;
-  typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
-
 
   if (argc < 2 || argc > 3) {
     std::cerr << "ERROR[QuineMcCluskey]: Either exactly one input is required,\n"
@@ -67,26 +62,24 @@ int main(const int argc, const char* const argv[]) {
     return error_openfile;
   }
 
+  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   CLSAdaptor cls_F;
-  const CLSInput input_F(inputfile, cls_F); inputfile.close();
+  typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
+  const CLSInput input_F(inputfile, cls_F);
+  inputfile.close();
 
-  
   // Compute the prime clauses
-  using namespace OKlib::Satisfiability::FiniteFunctions;
-  const clause_set_type prime_imp_F = quine_mccluskey<num_vars>(cls_F.clause_set);
-  
-  // Compute the subsumption hypergraph
-  const subsumption_hg_type subsumption_hg = 
-    OKlib::SetAlgorithms::subsumption_hypergraph(
-                                                 prime_imp_F,
-                                                 cls_F.clause_set);
+  typedef OKlib::Satisfiability::FiniteFunctions::QuineMcCluskey<num_vars>::clause_set_type clause_set_type;
+  const clause_set_type prime_imp_F = OKlib::Satisfiability::FiniteFunctions::quine_mccluskey<num_vars>(cls_F.clause_set);
 
-  
-  const std::string comment("Subsumption hypergraph for the minimisation problem for " + filename);
+  // Compute the subsumption hypergraph
+  typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
+  const subsumption_hg_type subsumption_hg = 
+    OKlib::SetAlgorithms::subsumption_hypergraph(prime_imp_F, cls_F.clause_set);
 
   // Output
+  const std::string comment("Subsumption hypergraph for the minimisation problem for " + filename);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment.c_str());
-
   // Output primes if necessary
   if (argc > 2) {
       const std::string filename_primes = argv[2];
@@ -95,9 +88,6 @@ int main(const int argc, const char* const argv[]) {
         std::cerr << "ERROR[QuineMcCluskey]: Failure opening file " << filename_primes << ".\n";
         return error_openfile;
       }
-      
-      OKlib::InputOutput::List2DIMACSOutput(
-                                      prime_imp_F,outputfile,comment.c_str());
+      OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment.c_str());
   }
-
 }
