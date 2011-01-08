@@ -185,12 +185,11 @@ namespace OKlib {
           // result set:
           HashTable marked_in(num_partial_assignments, 0);
           variable_type clause_size = 0;
-          hash_index_type hash = 0;
           hash_index_type partner_hash = 0;
           // first mark clauses:
           {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
            for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
-             hash = hash_clause(*iter);
+             const hash_index_type hash = hash_clause(*iter);
              marked[hash] = true;
              marked_in[hash] = true;
            }
