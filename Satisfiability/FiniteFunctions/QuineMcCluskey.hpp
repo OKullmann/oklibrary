@@ -26,6 +26,7 @@ License, or any later version. */
 #include <algorithm>
 #include <cstdlib>
 #include <cassert>
+#include <limits>
 
 #include <boost/range.hpp>
 #include <boost/static_assert.hpp>
@@ -50,6 +51,7 @@ namespace OKlib {
 
         //! the number of variables
         static const int num_vars = n;
+        BOOST_STATIC_ASSERT(num_vars >= 1);
       
         //! boolean literals as integers
         typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type literal_type;
@@ -78,19 +80,16 @@ namespace OKlib {
         //! Hashes used as index for HashTables
         typedef HashTable::size_type hash_index_type;
 
-        /* Asserts that size types are sufficient are needed here: */
-        /* 2^size >?= 3^num_vars */
-        /* log(2^size) >?= log(3^num_vars) */
-        /* size * log(2) >?= num_vars * log(3) */
-        /* ~=~ size * 70 >?= num_vars * 101 */
-        BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
-
         //! pow3[i] = 3^i for 0 <= i <= num_vars
         const hash_index_type* const pow3;
         const hash_index_type* fill_pow3() {
           hash_index_type* const pow3 = new hash_index_type[num_vars+1];
           hash_index_type pow = 1;
-          for (int i = 0; i < num_vars; ++i, pow *= 3) pow3[i] = pow;
+          for (int i = 0; i < num_vars; ++i, pow *= 3) {
+            pow3[i] = pow;
+            assert(std::numeric_limits<hash_index_type>::max() - pow >= pow);
+            assert(std::numeric_limits<hash_index_type>::max() - pow >= 2*pow);
+          }
           pow3[num_vars] = pow;
           return pow3;
         }
