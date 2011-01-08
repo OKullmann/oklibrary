@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/FiniteFunctions/plans/milestones.hpp
 
-  \module_version Satisfiability/FiniteFunctions 0.0.6 (19.8.2009)
-
-
-  \par Version 0.1
-
-  \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
-   following topics are handled:
-    - Rename QuineMcCluskey to QuineMcCluskeyPrimes : DONE
-    - Unit tests : DONE
-    - Basic type improvements : DONE
-
-  \par Basic overhaul of the implementation, to bring it up to standard:
-  DONE
+  \module_version Satisfiability/FiniteFunctions 0.1 (8.1.2011)
 
 
   \par Version 0.1.1
@@ -198,6 +185,7 @@ License, or any later version. */
    - 0.0.4 : 22.5.2009; established working version of QuineMcCluskey algorithm, and some further plans.
    - 0.0.5 : 1.6.2009; tidied code further and added doxygen documentation.
    - 0.0.6 : 19.8.2009; further planning, further improvement in code quality, improved documentation, further improvements regardings the build system.
+   - 0.1  : 8.1.2011; first overhaul of Quine-McCluskey-implementation, computation of subsumption-hypergraph, and further plans.
 
 */
 

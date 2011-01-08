@@ -10,27 +10,6 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
-  \todo DONE (we keep the name at least for now, since more components might be
-  integrated, and the minimisation step is not a defined algorithm
-  Rename QuineMcCluskey to QuineMcCluskeyPrimes
-  <ul>
-   <li> The QuineMcCluskey algorithm includes the prime implicates/
-   set covering step, therefore, as the current QuineMcCluskey application
-   only generates the prime implicates, the name is not correct and
-   may lead to confusion. </li>
-  </ul>
-
-
-  \todo Basic type improvements : DONE
-  <ul>
-   <li> DONE std::vector<bool>::size_type is a central integral type here,
-   determining the limits of the computation; starting from this a
-   (small) resource management (at compile-time!) has to be created. </li>
-   <li> DONE Of course, at least typedefs for the basic types of variables,
-   literals, clauses and clause-sets need to be provided. </li>
-  </ul>
-
-
   \todo Understanding the costs of the current implementation
   <ul>
    <li> What is the difference between the empty clause-set and the
@@ -500,12 +479,6 @@ struct ipow3_s<0,c> {
    <li> Usage of Mpi (now supported by gcc) or of threads (according to
    C++09) is to be studied. </li>
    <li> So that tackling really big tasks becomes possible. </li>
-  </ul>
-
-
-  \todo DONE Unit tests
-  <ul>
-   <li> Use the (new) higher-order unit test framework. </li>
   </ul>
 
 
