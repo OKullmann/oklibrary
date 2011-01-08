@@ -22,11 +22,8 @@ License, or any later version. */
 #ifndef QUINEMCCLUSKEY_jdbVce4
 #define QUINEMCCLUSKEY_jdbVce4
 
-#include <set>
 #include <vector>
-#include <set>
 #include <algorithm>
-#include <cmath>
 
 #include <boost/range.hpp>
 #include <boost/static_assert.hpp>
