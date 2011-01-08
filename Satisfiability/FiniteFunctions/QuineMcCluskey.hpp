@@ -54,9 +54,9 @@ namespace OKlib {
         typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type literal_type;
         //! boolean variables as integers
         typedef literal_type variable_type;
-        //! boolean clauses as vectors of literals
+        //! clauses as given by the clause-container
         typedef typename boost::range_value<ClauseContainer>::type clause_type;
-        //! boolean clause-sets as vectors of clauses
+        //! clause-sets as given by the template parameter
         typedef ClauseContainer clause_set_type;
         //! iterator for clauses
         typedef typename boost::range_iterator<clause_type>::type clause_iterator_type;
