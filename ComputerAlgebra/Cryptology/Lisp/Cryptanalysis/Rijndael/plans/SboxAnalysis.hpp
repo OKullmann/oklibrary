@@ -42,13 +42,6 @@ License, or any later version. */
   </ul>
 
   
-  \todo Organisation
-  <ul>
-   <li> Perhaps we should provide a constant for
-   rijnsbox_fullcnf_fcs(). </li>
-  </ul>
-
-
   \todo Representations of the Sbox using additional variables
   <ul>
    <li> Compare with "Investigating conditions and their representations"
@@ -112,6 +105,13 @@ OK: What is the "direct translation"? What does this mean for our cases?
    Advanced Encryption Standard], see 
    http://www.sagemath.org/doc/reference/sage/crypto/mq/sr.html#module-sage.crypto.mq.sr).
    </li>
+  </ul>
+
+
+  \todo DONE Organisation
+  <ul>
+   <li> DONE (no, this is too large)
+   Perhaps we should provide a constant for rijnsbox_fullcnf_fcs(). </li>
   </ul>
 
 

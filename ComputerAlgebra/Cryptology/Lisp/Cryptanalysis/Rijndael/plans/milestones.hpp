@@ -24,8 +24,7 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Add decomposed Sbox operations
-    - Representations of the Sbox using additional variables
-    - Organisation
+    - Organisation : DONE
     - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
   \par
@@ -78,6 +77,10 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Discussion on Generalisation/Parameterisation
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Representations of the Sbox using additional variables
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
