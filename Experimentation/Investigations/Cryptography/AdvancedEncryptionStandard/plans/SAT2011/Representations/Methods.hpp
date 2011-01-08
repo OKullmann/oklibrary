@@ -34,6 +34,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Connections
+  <ul>
+   <li> See Investigations/BooleanFunctions/plans/Permutations.hpp for
+   general investigations on permutations of {0,1}^n. </li>
+  </ul>
+
+
   \todo Add instructions for using Pseudo-boolean SAT solvers for minimisation
   <ul>
    <li> Pseudoboolean or PB SAT solvers offer the ability to encode linear
@@ -118,6 +125,9 @@ shell> espresso2.3 -Dexact Sbox.pla
    Note that "espresso2.3 -Dsignature Sbox.pla" should yield the same
    result, but may have different complexity depending on the input.
    </li>
+   <li> The exact and signature algorithms are discussed in
+   [ESPRESSO-SIGNATURE: A New Exact Minimizer for Logic Functions;
+   Mcgeer,Sanghavi,Brayton,Vincentelli]. </li>
    <li> We need a conversion function from the PLA format back to a CNF
    file. </li>
    <li> The above code on PLA generation should be moved into the appropriate
@@ -132,7 +142,7 @@ shell> espresso2.3 -Dexact Sbox.pla
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac
    etc), for example:
    \verbatim
-maxima> output_rijnmult_fullcnf_stdname(2);
+maxima> output_ssmult_fullcnf_stdname(2,2,4,ss_polynomial_2_4);
    \endverbatim
    we can generate the subsumption hypergraph for this clause-set and it's
    prime implicates, and then use tools within the OKlibrary to compute
@@ -293,14 +303,14 @@ maxima> output_rijnmult_fullcnf_stdname(2);
    variables to true:
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf AES_byte_field_mul_2_pi.cnf > AES_byte_field_mul_2_shg.cnf
-shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKSystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
+shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    </li>
    <li> We can then use both complete and incomplete weighted partial
    MaxSAT solvers to find minimum and small (minimal) solutions. </li>
    <li> We can use new-ubcsat-okl to find small solutions like so:
    \verbatim
-shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.wcnf
+shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    and then assuming we find a good solution, we can then extract the solution
    as a CNF file of the small size clause-set:

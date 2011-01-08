@@ -52,37 +52,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Combining linear components
-  <ul>
-   <li> A full description of all of the possibilities for recombining
-   AES and small scale linear components (from the Sbox and MixColumns)
-   needs to be provided. </li>
-   <li> The idea here is that, due to the linearity of the Sbox's affine
-   transformation, and the MixColumns operations, as well as the
-   fact the Shiftrows simply permutes bytes, the linear aspects of the Sbox
-   can be moved out, and seperated (in the case of the affine addition),
-   or merged into the boxes for the MixColumn. </li>
-   <li> For the Sbox, we have 3 possibilities:
-    <ul>
-     <li> Full Sbox (M . s^(-1) + A) . </li>
-     <li> Sbox minus addition of the affine constant (M . s^(-1)). </li>
-     <li> Sbox minus affine transform entirely (s^(-1)). </li>
-    </ul>
-   </li>
-   <li> For the MixColumn multiplications, we have 2 possibilities:
-   <ul>
-    <li> Standard byte-field multiplications. </li>
-    <li> Sbox linear component (M) and Standard byte-field multiplications
-    together. </li>
-   </ul>
-   </li>
-   <li> A description of how to generate such translation is needed. </li>
-   <li> See also "Rearranging linear components of Sbox and MixColumns" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. 
-   </li>
-  </ul>
-
-
   \todo Investigating conditions and their representations
   <ul>
    <li> A first central research question is how to choose appropriate

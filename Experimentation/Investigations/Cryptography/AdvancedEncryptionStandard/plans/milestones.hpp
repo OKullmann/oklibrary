@@ -18,16 +18,6 @@ License, or any later version. */
    following topics are handled:
     - Connection with the plans one level above
 
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/general.hpp
-   the following topics are handled:
-    - Move individual investigations to sub-modules
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/PrimeImplicates/general.hpp 
-   the following topics are handled:
-    - Move individual investigations to sub-modules
-
 
   \par Version 0.1.6 :
 
@@ -37,35 +27,14 @@ License, or any later version. */
     - Update scripts
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Espresso/general.hpp 
-   the following topics are handled:
-    - Add todos
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   following topics are handled:
+    - Explain how to replace various AES boxes with identity or random boxes
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Maxima/general.hpp 
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    the following topics are handled:
-    - Add todos
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/IterativeSAT/general.hpp 
-   the following topics are handled:
-    - Add todos
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/general.hpp 
-   the following topics are handled:
-    - Add todos
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/HypergraphTransversal/general.hpp 
-   the following topics are handled:
-    - Add todos
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/WeightedMaxSAT/general.hpp 
-   the following topics are handled:
-    - Add todos
-    
+    - Standard naming scheme for experiment files 
 
   \par
    Create further milestones.
