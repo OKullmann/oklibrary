@@ -50,21 +50,21 @@ namespace OKlib {
         //! the number of variables
         static const int num_vars = n;
       
-        //! Boolean literals as integers
-        typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type  literal_type;
-        //! Boolean variables as integers
+        //! boolean literals as integers
+        typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type literal_type;
+        //! boolean variables as integers
         typedef literal_type variable_type;
-        //! Boolean clauses as vectors of literals
+        //! boolean clauses as vectors of literals
         typedef typename boost::range_value<ClauseContainer>::type clause_type;
-        //! Boolean clause-sets as vectors of clauses
+        //! boolean clause-sets as vectors of clauses
         typedef ClauseContainer clause_set_type;
-        //! Iterator for clauses
+        //! iterator for clauses
         typedef typename boost::range_iterator<clause_type>::type clause_iterator_type;
-        //! Iterator for clauses
+        //! iterator for clauses
         typedef typename boost::range_const_iterator<const clause_type>::type const_clause_iterator_type;
-        //! Iterator for clause-sets
+        //! iterator for clause-sets
         typedef typename boost::range_iterator<clause_set_type>::type clause_set_iterator_type;
-        //! Iterator for const clause-sets
+        //! iterator for const clause-sets
         typedef typename boost::range_const_iterator<const clause_set_type>::type const_clause_set_iterator_type;
         /*!
           \brief Hash-table structure used to store and lookup clauses in a
@@ -101,21 +101,15 @@ namespace OKlib {
           
           The clause-hash is the sum of c * 3^(i-1) over all variables i
           in the clause (recall that variables are natural numbers > 0), where
-          c is:
-          <ul>
-           <li> 0 if variable i does not occur in the given clause </li>
-           <li> 1 if variable i occurs negated in the given clause </li>
-           <li> 2 if variable i occurs positively in the given clause. </li>
-          </ul>
+          c is 0, 1 or 2 respectively if variable i does not occur or occurs
+          negatively resp. positively in the clause.
         */
         hash_index_type hash_clause(const clause_type& clause) {
           hash_index_type return_value = 0;
           const const_clause_iterator_type cend(boost::const_end(clause));
           for (const_clause_iterator_type iter = boost::const_begin(clause); iter != cend; ++iter)
-            if (*iter < 0)
-              return_value += pow3(std::abs(*iter) - 1);
-            else if (*iter > 0)
-              return_value += 2 * pow3(std::abs(*iter) - 1);
+            if (*iter < 0) return_value += pow3(std::abs(*iter) - 1);
+            else if (*iter > 0) return_value += 2 * pow3(std::abs(*iter) - 1);
           return return_value;
         }
       
