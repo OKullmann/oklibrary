@@ -10,20 +10,6 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
-  \todo Small scale translation
-  <ul>
-   <li> This todo provides a gathering point and list of
-   all todos relating to the translation of the small scale
-   AES within the current translation system. </li>
-   <li> Related todos:
-    <ol>
-     <li> How to represent elements of arbitrary fields as boolean variables? 
-     </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Standardise output files names
   <ul>
    <li> Currently the filenames output by functions such as 
