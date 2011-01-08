@@ -11,8 +11,8 @@
 # and then generates files with the names ${strict_file}.trans_$i containing 
 # the i-th minimum size CNF representation for all i.
 
-if [[ $# != 1 ]]; then
-  echo "Error[all_minimum_cnf]: Takes exactly one argument, the path to the full Dimacs CNF file of which the minimum CNF representations should be generated."
+if [[ $# > 2 ]]; then
+  echo "Error[all_minimum_cnf]: Takes two arguments, the path to the full Dimacs CNF file of which the minimum CNF representations should be generated and optionally a lower bound on the size of the minimum CNF representations."
   exit 1;
 fi
 
@@ -21,6 +21,11 @@ shg_file=$(mktemp)
 pi_file=$(mktemp)
 transversal_file=$(mktemp)
 files="${shg_file} ${pi_file} ${transversal_file}"
+if [[ $# == 1 ]]; then
+  lower_bound=$2
+else
+  lower_bound=0
+fi
 
 
 # Compute subsumption hypergraph and prime implicates
@@ -28,7 +33,7 @@ QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} ${pi_file} > ${
 
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 count=0
-BoundedTransversals_bv < ${shg_file}  | grep -v "^[pc]" | 
+BoundedTransversals_bv ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" | 
   while read transversal; do
       count=$(expr ${count} + 1)
       echo ${transversal} > ${transversal_file}
