@@ -188,11 +188,12 @@ namespace OKlib {
           hash_index_type hash = 0;
           hash_index_type partner_hash = 0;
           // first mark clauses:
-          const_clause_set_iterator_type iter = boost::const_begin(input_cs);
-          for (; iter != boost::const_end(input_cs); ++iter) {
-            hash = hash_clause(*iter);
-            marked[hash] = true;
-            marked_in[hash] = true;
+          {const const_clause_set_iterator_type csend = boost::const_end(input_cs);
+           for (const_clause_set_iterator_type iter = boost::const_begin(input_cs); iter != csend; ++iter) {
+             hash = hash_clause(*iter);
+             marked[hash] = true;
+             marked_in[hash] = true;
+           }
           }
           // perform algorithm:
           for (variable_type level = num_vars; level > 0; --level) {
