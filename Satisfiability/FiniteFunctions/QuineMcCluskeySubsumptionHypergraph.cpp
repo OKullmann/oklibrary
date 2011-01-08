@@ -21,6 +21,9 @@ License, or any later version. */
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <list>
+
+#include <boost/range/difference_type.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
