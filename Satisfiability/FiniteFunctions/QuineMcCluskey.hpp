@@ -149,10 +149,9 @@ namespace OKlib {
           the reference-parameter clause contains the clause itself.
         */
         unsigned int hash2clause(hash_index_type hash, int clause[]) {
-          hash_index_type var_value = 1;
           literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
-            var_value = pow3(std::abs(lit) - 1);
+            const hash_index_type var_value = pow3(std::abs(lit) - 1);
             // whether the literal is in the clause represented by hash:
             if (hash >= (2 * var_value)) {
               clause[num_lit++] = lit;
