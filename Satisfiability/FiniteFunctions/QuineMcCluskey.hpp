@@ -177,7 +177,6 @@ namespace OKlib {
           but exponential in num_vars.
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
-          int clause[num_vars];
           hash_index_type num_partial_assignments = pow3(num_vars);
           // marked is used to keep track of all found clauses:
           HashTable marked(num_partial_assignments, 0);
@@ -193,6 +192,7 @@ namespace OKlib {
            }
           }
           // perform algorithm:
+          int clause[num_vars];
           for (variable_type level = num_vars; level > 0; --level) {
             // run through all clauses:
             for (hash_index_type citer = 0; citer < num_partial_assignments; ++citer) {
