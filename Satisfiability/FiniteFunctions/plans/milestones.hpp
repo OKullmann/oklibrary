@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Satisfiability/FiniteFunctions 0.0.6 (19.8.2009)
 
 
-  \par Version 0.0.7
+  \par Version 0.1
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -24,7 +24,7 @@ License, or any later version. */
   DONE
 
 
-  \par Version 0.0.8
+  \par Version 0.1.1
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -32,7 +32,7 @@ License, or any later version. */
     - Understanding the costs of the current implementation
 
 
-  \par Version 0.0.9
+  \par Version 0.1.2
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -40,7 +40,7 @@ License, or any later version. */
     - Running only through the levels (via new hash function)
 
 
-  \par Version 0.0.10
+  \par Version 0.1.3
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -48,7 +48,7 @@ License, or any later version. */
     - Various versions for different values of NUMBER_VARIABLES
 
 
-  \par Version 0.0.11
+  \par Version 0.1.4
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -56,7 +56,7 @@ License, or any later version. */
     - Docus
 
 
-  \par Version 0.0.12
+  \par Version 0.1.5
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -64,7 +64,7 @@ License, or any later version. */
     - Application tests
 
 
-  \par Version 0.0.13
+  \par Version 0.1.6
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -72,7 +72,7 @@ License, or any later version. */
     - Maxima level
 
 
-  \par Version 0.0.14
+  \par Version 0.1.7
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -80,7 +80,7 @@ License, or any later version. */
     - Precise definitions, and basic types
 
 
-  \par Version 0.0.15
+  \par Version 0.1.8
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -88,7 +88,7 @@ License, or any later version. */
     - Input and output
 
 
-  \par Version 0.0.16
+  \par Version 0.1.9
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -96,7 +96,7 @@ License, or any later version. */
     - Extend unit tests
 
 
-  \par Version 0.0.17
+  \par Version 0.1.10
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -104,7 +104,7 @@ License, or any later version. */
     - Preparations for optimisation
 
 
-  \par Version 0.0.18
+  \par Version 0.1.11
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -112,14 +112,14 @@ License, or any later version. */
     - Make QuineMcCluskey read from standard input
 
 
-  \par Version 0.1
+  \par Version 0.2
 
   \par
    Version 1.0 of QuineMcCluskey, fully specified, fully functional, fully
    tested.
 
 
-  \par Version 0.1.1
+  \par Version 0.2.1
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
@@ -133,7 +133,7 @@ License, or any later version. */
     - Quine/McCluskey in general
 
 
-  \par Version 0.1.2
+  \par Version 0.2.2
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -141,7 +141,7 @@ License, or any later version. */
     - Performance analysis and code analysis
 
 
-  \par Version 0.1.3
+  \par Version 0.2.3
 
   
   \par
@@ -150,7 +150,7 @@ License, or any later version. */
     - Fixed number of variables
 
 
-  \par Version 0.1.4
+  \par Version 0.2.4
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -158,14 +158,14 @@ License, or any later version. */
     - Improvements of the implementation
 
 
-  \par Version 0.2
+  \par Version 0.3
 
   \par
    Version 2.0 of QuineMcCluskey.cpp is reached, establishing an optimised
    and highly efficient tool.
 
 
-  \par Version 0.2.1
+  \par Version 0.3.1
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the
@@ -173,7 +173,7 @@ License, or any later version. */
     - Preparations for computing optimum representations
 
 
-  \par Version 0.2.2
+  \par Version 0.3.2
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
@@ -181,7 +181,7 @@ License, or any later version. */
     - Parallelisation
 
 
-  \par Version 0.3
+  \par Version 0.4
 
   \par
    Tools for finding minimum CNF/DNF representations have been established,
