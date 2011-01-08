@@ -35,6 +35,9 @@ namespace {
     error_readfile = 3
   };
 
+  const std::string program = "QuineMcCluskey";
+  const std::string err = "ERROR[" + program + "]: ";
+
   const std::string version = "0.1.14";
 
 }
@@ -44,7 +47,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
 
   if (argc != 2) {
-    std::cerr << "ERROR[QuineMcCluskey]: Exactly one input is required, the "
+    std::cerr << err << "Exactly one input is required, the "
       "name of the file\n with the clause-set in DIMACS-format.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
@@ -53,7 +56,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string filename = argv[1];
   std::ifstream inputfile(filename.c_str());
   if (not inputfile) {
-    std::cerr << "ERROR[QuineMcCluskey]: Failure opening file " << filename << ".\n";
+    std::cerr << err << "Failure opening file " << filename << ".\n";
     return error_openfile;
   }
 
