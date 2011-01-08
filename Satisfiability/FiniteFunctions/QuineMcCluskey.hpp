@@ -97,7 +97,7 @@ namespace OKlib {
         }
       
         /*!
-          \brief Computes the hash value of a clause
+          \brief Computes the hash-value of a clause
           
           The clause-hash is the sum of c * 3^(i-1) over all variables i
           in the clause (recall that variables are natural numbers > 0), where
@@ -129,8 +129,8 @@ namespace OKlib {
         }
       
         /*!
-          \brief Given a hash value for a clause, computes a new hash for the 
-          clause where the given literal has been removed.
+          \brief Given a hash-value for a clause, computes a new hash-value
+          for the clause where the given literal has been removed.
           
           The key point here is that the given literal is assumed to occur within
           the clause associated with the input hash.
@@ -154,7 +154,7 @@ namespace OKlib {
           literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
             var_value = pow3(std::abs(lit) - 1);
-            // work out whether the literal is in the hash:
+            // whether the literal is in the clause represented by hash:
             if (hash >= (2 * var_value)) {
               clause[num_lit++] = lit;
               hash -= (2 * var_value);
