@@ -129,11 +129,11 @@ namespace OKlib {
         }
       
         /*!
-          \brief Given a hash-value for a clause, computes a new hash-value
-          for the clause where the given literal has been removed.
+          \brief From a hash-value hash for a clause computes the new
+          hash-value for the clause where the given literal has been removed.
           
-          The key point here is that the given literal is assumed to occur within
-          the clause associated with the input hash.
+          Prerequisite is that the literal occurs in the clause represented by
+          the input hash.
         */
         hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
           if (literal < 0)
