@@ -37,10 +37,10 @@ namespace OKlib {
 
       /*!
         \class QuineMcCluskey
-        \brief Functor: Computes the clause-set containing all prime implicates of the given full clause-set. ???
+        \brief Functor, computing all prime implicates of a full clause-set
 
-        Input/Output Specification: min_2resolution_closure_cs in 
-        ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac . ???
+        The Maxima input/output specification is min_2resolution_closure_cs in 
+        ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
 
         For ease of use the helper-function quine_mccluskey is provided below.
       */
