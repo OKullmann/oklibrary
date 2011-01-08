@@ -29,11 +29,16 @@ License, or any later version. */
    the following topics are handled:
     - Standard naming scheme for experiment files 
 
+  \par Version 0.1.7 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp the
+   following topics are handled:
+    - Tidy hitting-clause-set todos and move method here
+    - Add instructions for using Pseudo-boolean SAT solvers for minimisation
+
   \par
    Create further milestones.
-
-
-  \par Version 0.1.7 :
 
   \par
    Create an outline of the experiments.
@@ -52,6 +57,13 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
     - SAT 2011
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
+   the following topics are handled:
+    - Generate good CNF hitting clause-sets
+    - Extracting prime implicate representations from the hitting-cls-representations
+    - Find the symmetries of the AES Sbox DNF
 
 
 

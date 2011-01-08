@@ -26,6 +26,7 @@ License, or any later version. */
     - Add decomposed Sbox operations
     - Representations of the Sbox using additional variables
     - Organisation
+    - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
@@ -40,12 +41,6 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Generate good CNF hitting clause-sets for the AES Sbox
-    - Extracting prime implicate representations from the hitting-cls-representations
-    - Compute *all* prime implicates (for the purpose of analysis)
-
-  \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Standardise output files names
@@ -53,10 +48,6 @@ License, or any later version. */
   
 
   \par Version 0.0.9
-
-  \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
-    - Compute *all* prime implicates (for the purpose of analysis)
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
@@ -88,11 +79,6 @@ License, or any later version. */
     - Discussion on Generalisation/Parameterisation
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Find the symmetries of the AES Sbox DNF
-    - Related 8-bit bijections
-
-  \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
     - Find the symmetries of the AES Field Operations
 
@@ -103,7 +89,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Active clauses for field operations
     - Partitioning into active clauses
-    - Algebraic aspects DONE (Moved to CryptoSystems/Rijndael)
+    - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
   
   \par
    Update the following milestones.

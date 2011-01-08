@@ -40,6 +40,17 @@ License, or any later version. */
    general investigations on permutations of {0,1}^n. </li>
   </ul>
 
+  
+  \todo Tidy hitting-clause-set todos and move method here
+  <ul>
+   <li> Both "Generate good CNF hitting clause-sets" and
+   "Extracting prime implicate representations from the
+   hitting-cls-representations" need to be tidied and the
+   method extracted and placed here, leaving the results in
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
+   </li>
+  </ul>
+
 
   \todo Add instructions for using Pseudo-boolean SAT solvers for minimisation
   <ul>
