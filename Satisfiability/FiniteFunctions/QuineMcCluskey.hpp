@@ -84,14 +84,14 @@ namespace OKlib {
         BOOST_STATIC_ASSERT((sizeof(hash_index_type)*8-1) * 70 >= num_vars * 101);
 
         /*!
-          \brief For integer base b and integer power e >= 0, computes b^e
+          \brief For integer power e >= 0, computes 3^e
 
           Providing integer computation whereas the standard library works
           with doubles. Inefficient for larger exponents.
         */
-        hash_index_type ipow(const int b, const int e) {
+        hash_index_type pow3(const int e) {
           hash_index_type result = 1;
-          for (int i = 0; i < e; ++i) result *= b;
+          for (int i = 0; i < e; ++i) result *= 3;
           return result;
         }
       
@@ -112,9 +112,9 @@ namespace OKlib {
           const const_clause_iterator_type cend(boost::const_end(clause));
           for (const_clause_iterator_type iter = boost::const_begin(clause); iter != cend; ++iter)
             if (*iter < 0)
-              return_value += ipow(3, std::abs(*iter) - 1);
+              return_value += pow3(std::abs(*iter) - 1);
             else if (*iter > 0)
-              return_value += 2 * ipow(3, std::abs(*iter) - 1);
+              return_value += 2 * pow3(std::abs(*iter) - 1);
           return return_value;
         }
       
@@ -127,9 +127,9 @@ namespace OKlib {
         */
         hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
           if (literal < 0)
-            hash += ipow(3, std::abs(literal) - 1);
+            hash += pow3(std::abs(literal) - 1);
           else if (literal > 0)
-            hash -= ipow(3, std::abs(literal) - 1);
+            hash -= pow3(std::abs(literal) - 1);
           return hash;
         }
       
@@ -142,9 +142,9 @@ namespace OKlib {
         */
         hash_index_type remove_literal_in_hash(hash_index_type  hash, const literal_type literal) {
           if (literal < 0)
-            hash -= ipow(3, std::abs(literal) - 1);
+            hash -= pow3(std::abs(literal) - 1);
           else if (literal > 0)
-            hash -= 2 * ipow(3, std::abs(literal) - 1);
+            hash -= 2 * pow3(std::abs(literal) - 1);
           return hash;
         }
       
@@ -155,7 +155,7 @@ namespace OKlib {
           hash_index_type var_value = 1;
           literal_type num_lit = 0;
           for (int lit = num_vars; lit > 0; --lit) {
-            var_value = ipow(3, std::abs(lit) - 1);
+            var_value = pow3(std::abs(lit) - 1);
             // work out whether the literal is in the hash:
             if (hash >= (2 * var_value)) {
               clause[num_lit++] = lit;
@@ -177,7 +177,7 @@ namespace OKlib {
         */
         clause_set_type quine_mccluskey(const clause_set_type& input_cs) {
           int clause[num_vars];
-          hash_index_type num_partial_assignments = ipow(3, num_vars);
+          hash_index_type num_partial_assignments = pow3(num_vars);
           // marked is used to keep track of all found clauses:
           HashTable marked(num_partial_assignments, 0);
           // marked_in is used to keep track of all clauses that are still in the
