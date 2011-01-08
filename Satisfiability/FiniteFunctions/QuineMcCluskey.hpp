@@ -170,11 +170,11 @@ namespace OKlib {
         }
       
         /*!
-          \brief Given a clause-set with only variables of size m where m < n,
-          all prime implicates of the given clause-set are returned.
+          \brief For a clause-set containing only variables v <= num_vars,
+          all prime implicates are returned.
           
-          Running time and space requirements are exponential (powers of 3) in 
-          the number of variables.
+          Time and space complexity is polynomial in the full truth table,
+          but exponential in num_vars.
         */
         clause_set_type  operator() (const clause_set_type& input_cs) {
           int clause[num_vars];
