@@ -15,7 +15,7 @@ License, or any later version. */
   interpreting the clause-set as CNF resp. DNF. Considering clause-sets F as
   combinatorial structures, we speak of the "prime clauses" of F.
 
-  The function template FiniteFunctions::quine_mccluskey(F) returns the
+  The function-template call FiniteFunctions::quine_mccluskey<n>(F) returns the
   prime-clauses of F, using the same clause-set-type as F.
 */
 
