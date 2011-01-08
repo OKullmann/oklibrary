@@ -25,6 +25,22 @@ License, or any later version. */
    These are described in 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp .
    </li>
+   <li> There are currently open investigations in the following files:
+   <ul>
+    <li> 8-bit Sbox:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp </li>
+    <li> 8-bit Multiplication by 3:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp </li>
+    <li> 8-bit Multiplication by 9:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_9_8.hpp </li>
+    <li> 8-bit Multiplication by 11:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_11_8.hpp </li>
+    <li> 8-bit Multiplication by 13:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_13_8.hpp </li>
+    <li> 8-bit Multiplication by 14:
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp </li>
+   </ul>
+   </li>
    <li> For R-based representations see "R-based representations". </li>
   </ul>
 
