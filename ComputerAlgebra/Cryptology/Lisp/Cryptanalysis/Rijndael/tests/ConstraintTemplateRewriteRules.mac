@@ -19,6 +19,8 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/C
 \htmlonly
 */
 
+kill(f)$
+
 
 /* ***********************************************
    * Constraint template rewrite translation     *
