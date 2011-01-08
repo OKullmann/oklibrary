@@ -147,6 +147,10 @@ namespace OKlib {
 
           The return-value is the number of literals in the clause, while
           the reference-parameter clause contains the clause itself.
+
+          Here a clause is an array of integers, where the length k of the
+          clause must be known (so that only clause[0], ..., clause[k-1] are
+          to be used).
         */
         unsigned int hash2clause(hash_index_type hash, int clause[]) {
           literal_type num_lit = 0;
