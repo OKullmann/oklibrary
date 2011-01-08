@@ -41,6 +41,8 @@ namespace OKlib {
 
         Input/Output Specification: min_2resolution_closure_cs in 
         ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac . ???
+
+        For ease of use the helper-function quine_mccluskey is provided below.
       */
       template<int num_vars = 4,
                typename ClauseContainer = std::vector<std::vector<int> > >
@@ -238,7 +240,7 @@ namespace OKlib {
         } 
       };
 
-      //! Function ready for when we add template parameters.
+      //! Helper function to ease usage of class QuineMcCluskey
       template<int num_vars, typename ClauseContainer>
       ClauseContainer quine_mccluskey(const ClauseContainer& input_cs) {
         QuineMcCluskey<num_vars, ClauseContainer> qmc;
