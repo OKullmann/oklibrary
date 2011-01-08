@@ -29,7 +29,7 @@ namespace {
     error_readfile = 3
   };
 
-  const std::string version = "0.1.12";
+  const std::string version = "0.1.13";
 
 }
 

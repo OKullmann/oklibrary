@@ -198,7 +198,7 @@ namespace OKlib {
             for (hash_index_type citer = 0; citer < num_clauses; ++citer)
               if (marked[citer]) {
                 const variable_type clause_size = hash2clause(citer, clause);
-                if (clause_size == level)
+                if (clause_size == level) {
                   // go through literals in clause:
                   for (variable_type liter = 0; liter < clause_size; ++liter) {
                     // if it's partner clause exists:
@@ -212,10 +212,9 @@ namespace OKlib {
                       marked_new[partner_hash] = false;
                     }
                   }
+                  marked[citer] = false;
+                }
               }
-            // update marked to marked_new:
-            for (hash_index_type citer = 0; citer < num_clauses; ++citer)
-              marked[citer] = marked_new[citer];
           }
           // extraction of the result:
           clause_set_type result_cs;
