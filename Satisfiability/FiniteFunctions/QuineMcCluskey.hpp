@@ -25,6 +25,7 @@ License, or any later version. */
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <cassert>
 
 #include <boost/range.hpp>
 #include <boost/static_assert.hpp>
@@ -121,8 +122,9 @@ namespace OKlib {
           the input hash.
         */
         hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
+          assert(literal != 0);
           if (literal < 0) hash += pow3(std::abs(literal) - 1);
-          else if (literal > 0) hash -= pow3(std::abs(literal) - 1);
+          else hash -= pow3(std::abs(literal) - 1);
           return hash;
         }
       
@@ -134,8 +136,9 @@ namespace OKlib {
           the input hash.
         */
         hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
+          assert(literal != 0);
           if (literal < 0) hash -= pow3(std::abs(literal) - 1);
-          else if (literal > 0) hash -= 2 * pow3(std::abs(literal) - 1);
+          else hash -= 2 * pow3(std::abs(literal) - 1);
           return hash;
         }
       
