@@ -232,8 +232,7 @@ namespace OKlib {
       //! Helper function to ease usage of class QuineMcCluskey
       template<int num_vars, class ClauseContainer>
       ClauseContainer quine_mccluskey(const ClauseContainer& input_cs) {
-        QuineMcCluskey<num_vars, ClauseContainer> qmc;
-        return(qmc(input_cs));
+        return QuineMcCluskey<num_vars, ClauseContainer>()(input_cs);
       }
 
     }
