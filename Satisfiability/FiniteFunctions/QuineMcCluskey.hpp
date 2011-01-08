@@ -114,11 +114,11 @@ namespace OKlib {
         }
       
         /*!
-          \brief Given a hash value for a clause, computes the new hash value 
-          where the given literal is negated.
+          \brief From a hash-value hash for a clause compute the new
+          hash-value where the given literal is negated.
           
-          The key point here is that the given literal occurs in the Clause 
-          represented by the input hash.
+          Prerequisite is that the literal occurs in the clause represented by
+          the input hash.
         */
         hash_index_type flip_literal_sign_in_hash(hash_index_type hash, const literal_type literal) {
           if (literal < 0)
