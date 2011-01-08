@@ -46,9 +46,12 @@ namespace OKlib {
         For ease of use the helper-function FiniteFunctions::quine_mccluskey
         is provided below.
       */
-      template<int num_vars = 4,
+      template<int n = 4,
                class ClauseContainer = std::vector<std::vector<int> > >
       struct QuineMcCluskey {
+
+        //! the number of variables
+        static const int num_vars = n;
       
         //! Boolean literals as integers
         typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type  literal_type;
