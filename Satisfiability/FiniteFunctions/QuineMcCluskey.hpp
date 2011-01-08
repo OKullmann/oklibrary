@@ -141,7 +141,7 @@ namespace OKlib {
           The key point here is that the given literal is assumed to occur within
           the clause associated with the input hash.
         */
-        hash_index_type remove_literal_in_hash(hash_index_type  hash, const literal_type literal) {
+        hash_index_type remove_literal_in_hash(hash_index_type hash, const literal_type literal) {
           if (literal < 0)
             hash -= pow3(std::abs(literal) - 1);
           else if (literal > 0)
@@ -150,7 +150,10 @@ namespace OKlib {
         }
       
         /*!
-          \brief Computes the clause represented by a given hash.
+          \brief Computes the clause represented by a given hash-value
+
+          The return-value is the number of literals in the clause, while
+          the reference-parameter clause contains the clause itself.
         */
         unsigned int hash2clause(hash_index_type hash, int clause[]) {
           hash_index_type var_value = 1;
