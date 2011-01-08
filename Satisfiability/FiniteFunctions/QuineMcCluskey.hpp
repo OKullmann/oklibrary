@@ -52,7 +52,7 @@ namespace OKlib {
         //! the number of variables
         static const int num_vars = n;
         BOOST_STATIC_ASSERT(num_vars >= 1);
-      
+
         //! boolean literals as integers
         typedef typename boost::range_value<typename boost::range_value<ClauseContainer>::type >::type literal_type;
         //! boolean variables as integers
@@ -62,12 +62,8 @@ namespace OKlib {
         //! clause-sets as given by the template parameter
         typedef ClauseContainer clause_set_type;
         //! iterator for clauses
-        typedef typename boost::range_iterator<clause_type>::type clause_iterator_type;
-        //! iterator for clauses
         typedef typename boost::range_const_iterator<const clause_type>::type const_clause_iterator_type;
         //! iterator for clause-sets
-        typedef typename boost::range_iterator<clause_set_type>::type clause_set_iterator_type;
-        //! iterator for const clause-sets
         typedef typename boost::range_const_iterator<const clause_set_type>::type const_clause_set_iterator_type;
         /*!
           \brief Hash-table structure used to store and lookup clauses in a
