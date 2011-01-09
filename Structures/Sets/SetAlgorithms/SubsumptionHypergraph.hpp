@@ -238,7 +238,6 @@ namespace OKlib {
 
 
     /*!
-      \function subsumption_hypergraph
       \brief Computes the subsumption hypergraph.
 
       Given two ordered set system as ranges f_range and g_range (of type 
