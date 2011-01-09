@@ -721,11 +721,7 @@ aes_add_cst_cl(cst) := block(
   [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
   nb : floor(length(cst[2]) / (n+1)),
   parity_f : lambda([[a]],
-    append(
-      map(lambda([C],union(C,{if evenp(n) then last(a) else -last(a)})),
-        rename_fcl(even_parity_fcl(length(a)-1),rest(a,-1))[2]),
-      map(lambda([C],union(C,{if evenp(n) then -last(a) else last(a)})),
-        rename_fcl(odd_parity_fcl(length(a)-1),rest(a,-1))[2]))),
+    fcl2cl(boolm_mul2cnf_wv_fcl(genmatrix(lambda([a,b],1), 1,length(a)-1),a))),
   lappend(
     apply(map,
       append([parity_f],

@@ -329,10 +329,10 @@ okltest_aes_key_expansion_cstr_cstl(f) := block([cst],
 
 okltest_aes_add_cst_cl(f) := block(
   assert(f(["aes_add_cst", create_list(i,i,1,3)]) =
-    [{-1,2,3},{-2,1,3},{-3,-2,-1},{-3,1,2}]),
+    [{-3,1,2},{-2,1,3},{-1,2,3},{-3,-2,-1}]),
   assert(f(["aes_add_cst", create_list(i,i,1,6)]) =
-    [{-1,3,5},{-3,1,5},{-5,-3,-1},{-5,1,3},{-2,4,6},
-     {-4,2,6},{-6,-4,-2},{-6,2,4}]),
+   [{-5,1,3},{-3,1,5},{-1,3,5},{-5,-3,-1},{-6,2,4},{-4,2,6},{-2,4,6},
+    {-6,-4,-2}]),
   true)$
 
 okltest_aes_eq_cst_cl(f) := block(
