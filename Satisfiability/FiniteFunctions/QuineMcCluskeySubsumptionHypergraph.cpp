@@ -16,6 +16,8 @@ License, or any later version. */
    format). </li>
    <li> A second optional parameter is the file for outputting the clause-set
    of prime clauses of F. </li>
+   <li> The subsumption hypergraph is output in lexicographical order, without
+   duplicate clauses. </li>
   </ul>
 
 */
@@ -23,6 +25,7 @@ License, or any later version. */
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
@@ -79,8 +82,10 @@ int main(const int argc, const char* const argv[]) {
 
   // Compute the subsumption hypergraph:
   typedef OKlib::SetAlgorithms::Subsumption_hypergraph<clause_set_type, CLSAdaptor::clause_set_type>::set_system_type subsumption_hg_type;
-  const subsumption_hg_type subsumption_hg = 
+  subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(prime_imp_F, cls_F.clause_set);
+  std::sort(subsumption_hg.begin(), subsumption_hg.end());
+  subsumption_hg.erase(std::unique(subsumption_hg.begin(), subsumption_hg.end()), subsumption_hg.end());
 
   // Output:
   const std::string comment1("Subsumption hypergraph for the minimisation problem for " + filename);
