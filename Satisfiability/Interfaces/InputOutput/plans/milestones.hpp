@@ -35,6 +35,12 @@ License, or any later version. */
     - Update
     - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
+  \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - Better output for InputOutput/ExtendedDimacsStatistics.cpp
+    - Improving output
+
 
   \par Version 0.0.12 :
 
@@ -42,6 +48,12 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - Rewrite code for the new namespaces.
+
+  \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - More convenient input
+    - Improving efficiency
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
@@ -53,6 +65,11 @@ License, or any later version. */
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
     - Write docus.
+
+  \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - Generalising the computation
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
