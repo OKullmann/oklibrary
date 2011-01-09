@@ -103,6 +103,98 @@ License, or any later version. */
 
   \todo CryptoMiniSat
   <ul>
+   <li> The solver runs immediately out of memory:
+    <ol>
+     <li> For example:
+     \verbatim
+> cryptominisat VanDerWaerden_pd_2-3-24_593.cnf
+c This is CryptoMiniSat 2.7.1
+c WARNING: for repeatability, setting FPU to use double precision
+c Reading file 'VanDerWaerden_pd_2-3-24_593.cnf'
+c -- header says num vars:            297
+c -- header says num clauses:       46881
+c -- clauses added:            0 learnts,        46881 normals,            0 xors
+c -- vars added        297
+c Parsing time:  0.03 s
+c Ouptutting solution to console
+c asymm  cl-useful: 13/46487/46487 lits-rem:13 time: 0.81
+c Time to fill non-learnt binary watchlists: 0.00 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.01 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:    297 time:  0.01 s
+c lits-rem:         0  cl-subs:        0  v-elim:      0  v-fix:    0  time:  0.88 s
+c Finding binary XORs:         0.00 s (found:       0, avg size: -nan)
+c Finding non-binary XORs:     0.04 s (found:       0, avg size: -nan)
+c watched sorting time: 0.00
+c Calc default polars -  time:   0.00 s pos:     297 undec:       0 neg:       0
+c =========================================================================================
+c types(t): F = full restart, N = normal restart
+c types(t): S = simplification begin/end, E = solution found
+c restart types(rt): st = static, dy = dynamic
+c  t rt  Rest     Confl      Vars   NormCls    BinCls   Learnts    ClLits    LtLits
+c  B st     0         0       297     46487       394         0    209779         0  no matrixes
+c  N dy    17      4129       297     46487       394      3951    209779     99564  no matrixes
+c  N dy    20      9304       297     46487       394      5144    209779    104566  no matrixes
+c  N dy    37     13866       297     46487       394      9504    209779    207845  no matrixes
+c  N dy    59     17960       297     46487       394      7376    209779    150338  no matrixes
+c  N dy    84     22015       297     46487       394     11258    209779    242791  no matrixes
+c  F st    98     25000       297     46487       394     14158    209779    312293  no matrixes
+c  N st   101     26191       297     46487       394     15295    209779    341078  no matrixes
+c  N dy   104     30194       297     46487       394     11343    209779    225664  no matrixes
+c  S st   104     30194       297     46487       394     11343    209779    225664  no matrixes
+c  S st   104     30699       297     46487       394     11838    209779    238150  no matrixes
+c x-sub:     0 x-cut:      0 vfix:      0 v-elim:      0 locsubst:     0 time:   0.01
+c binary deg approx. time:  0.00 s num checked:    457 i:     891 props:   64k
+c Flit:     1 Blit:      0 bXBeca:    0 bXProp:    0 Bins:      0 P:  0.4M T:  0.02
+c Time to fill non-learnt binary watchlists: 0.00 s
+c subs with bin:        0  lits-rem:         0  v-fix:    0  time:  0.02 s
+c Subs w/ non-existent bins:      0 l-rem:      0 v-fix:     0 done:    296 time:  0.02 s
+c Removed useless bin:       0  fixed:     0  props:   0.00M  time:  0.00 s
+c lits-rem:         0  cl-subs:       11  v-elim:      0  v-fix:    0  time:  0.93 s
+c lits-rem:        75  cl-subs:      937  v-elim:      0  v-fix:    0  time:  1.64 s
+c asymm  cl-useful: 2/46476/46476 lits-rem:2 time: 1.35
+c watched sorting time: 0.00
+c  N dy   104     30699       296     46476        98     10901    208910    225861  no matrixes
+c  N dy   121     34868       296     46476        98     14898    208910    318032  no matrixes
+Cannot allocate enough memory!
+     \endverbatim
+     This happens reproducibly on csltok (a 64-bit machine with 4 GB). </li>
+     <li> We need to contact the author (then we can also mention that it is
+     "matrices" not "matrixes"). </li>
+     <li> "valgrind --track-origins=yes cryptominisat VanDerWaerden_pd_2-3-24_593.cnf" shows errors:
+     \verbatim
+==23882== Conditional jump or move depends on uninitialised value(s)
+==23882==    at 0x435246: ClauseAllocator::consolidate(Solver*) (ClauseAllocator.cpp:381)
+==23882==    by 0x4129CA: Solver::new_decision(int const&, int const&, int&) (Solver.cpp:1915)
+==23882==    by 0x412C93: Solver::search(int, int, bool) (Solver.cpp:1844)
+==23882==    by 0x413B89: Solver::solve(vec<Lit> const&) (Solver.cpp:2403)
+==23882==    by 0x4067D4: main (Solver.h:683)
+==23882==  Uninitialised value was created by a heap allocation
+==23882==    at 0x4C26C3A: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23882==    by 0x4C26CB4: realloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23882==    by 0x435053: ClauseAllocator::consolidate(Solver*) (Vec.h:89)
+==23882==    by 0x4129CA: Solver::new_decision(int const&, int const&, int&) (Solver.cpp:1915)
+==23882==    by 0x412C93: Solver::search(int, int, bool) (Solver.cpp:1844)
+==23882==    by 0x413B89: Solver::solve(vec<Lit> const&) (Solver.cpp:2403)
+==23882==    by 0x4067D4: main (Solver.h:683)
+==23882== 
+==23882== Conditional jump or move depends on uninitialised value(s)
+==23882==    at 0x43569F: ClauseAllocator::consolidate(Solver*) (ClauseAllocator.cpp:430)
+==23882==    by 0x4129CA: Solver::new_decision(int const&, int const&, int&) (Solver.cpp:1915)
+==23882==    by 0x412C93: Solver::search(int, int, bool) (Solver.cpp:1844)
+==23882==    by 0x413B89: Solver::solve(vec<Lit> const&) (Solver.cpp:2403)
+==23882==    by 0x4067D4: main (Solver.h:683)
+==23882==  Uninitialised value was created by a heap allocation
+==23882==    at 0x4C26C3A: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23882==    by 0x4C26CB4: realloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==23882==    by 0x435053: ClauseAllocator::consolidate(Solver*) (Vec.h:89)
+==23882==    by 0x4129CA: Solver::new_decision(int const&, int const&, int&) (Solver.cpp:1915)
+==23882==    by 0x412C93: Solver::search(int, int, bool) (Solver.cpp:1844)
+==23882==    by 0x413B89: Solver::solve(vec<Lit> const&) (Solver.cpp:2403)
+==23882==    by 0x4067D4: main (Solver.h:683)
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
    of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
    </li>
