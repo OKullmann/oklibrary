@@ -29,6 +29,9 @@ namespace {
     error_openfile = 2
   };
 
+  const std::string program = "SubsumptionHypergraph";
+  const std::string err = "ERROR[" + program + "]: ";
+
   const std::string version = "0.1.11";
 
 }
@@ -36,7 +39,7 @@ namespace {
 int main(const int argc, const char* const argv[]) {
 
   if (argc != 3) {
-    std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are required,\n"
+    std::cerr << err << "Exactly two inputs are required,\n"
       " the  name of the file containing the subsuming set system,\n"
       " and the name of the file containing the subsumed set system,\n"
       " both as clause-sets in DIMACS-format.\n"
@@ -46,7 +49,7 @@ int main(const int argc, const char* const argv[]) {
 
   std::ifstream f_in(argv[1]);
   if (not f_in) {
-    std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[1] << ".\n";
+    std::cerr << err << "Failure opening first file " << argv[1] << ".\n";
     return error_openfile;
   }
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
@@ -57,7 +60,7 @@ int main(const int argc, const char* const argv[]) {
 
   std::ifstream g_in(argv[2]);
   if (not g_in) {
-    std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[2] << ".\n";
+    std::cerr << err << "Failure opening second file " << argv[2] << ".\n";
     return error_openfile;
   }
   CLSAdaptor set_system_G_atr;
