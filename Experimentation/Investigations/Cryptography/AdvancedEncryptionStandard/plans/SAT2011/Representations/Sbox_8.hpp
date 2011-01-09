@@ -10,6 +10,59 @@ License, or any later version. */
   \brief Investigations into the AES S-box
 
 
+  \todo Basic data
+  <ul>
+   <li> The CNF is created by the Maxima-function
+   output_rijnsbox_fullcnf_stdname(), which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses. </li>
+   <li> Prime implicates:
+    <ol>
+     <li> There are 136253 prime implicates, with 999896 literals in total, and
+     with clause-length-distribution
+     \verbatim
+5 1
+6 4148
+7 82659
+8 48615
+9 830
+     \endverbatim
+     </li>
+     <li> What is the clause of length 5? What is its meaning?! </li>
+    </ol>
+   </li>
+   <li> The subsumption-hypergraph of the prime-clauses:
+    <ol>
+     <li> Creation:
+     \verbatim
+> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_S.cnf
+> time cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
+     \endverbatim
+     </li>
+     <li> All original prime-clauses occur as 136253 variables, and all
+     original clauses occur as 65280 clauses (no contractions). </li>
+     <li> Curve k -> nr (clause-length to number of occurrences) looks like a
+     nice relatively symmetric curve, with maximum around 950, and konvex on
+     both sides. </li>
+     <li> R-summary:
+     \verbatim
+       k                nr        
+ Min.   : 170.0   Min.   :  1.00  
+ 1st Qu.: 555.2   1st Qu.: 11.25  
+ Median : 846.5   Median : 38.00  
+ Mean   : 845.8   Mean   : 55.99  
+ 3rd Qu.:1137.8   3rd Qu.:102.00  
+ Max.   :1517.0   Max.   :173.00  
+     \endverbatim
+     </li>
+     <li> One should try to fit this curve. </li>
+     <li> As the single shortest clause (of length 170) as special meaning?
+     What is its original clause? </li>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Overview
   <ul>
    <li> We do *not* currently know the minimum CNF size for the 8-bit Sbox.
@@ -36,66 +89,6 @@ License, or any later version. */
   </ul>
 
   
-  \todo Prime implicates
-  <ul>
-    <li> We can generate the prime implicates for the Sbox by first
-    generating the full CNF for the Sbox (in Maxima)
-    \verbatim
->  output_rijnsbox_fullcnf_stdname();
-    \endverbatim
-    and then generating the prime implicates using the QuineMcCluskey 
-    procedure
-    \verbatim
-> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_pi.cnf
-    \endverbatim
-    </li>
-    <li> Basic statistics
-    <ul>
-    <li> We have the following basic statistics for the prime implicates
-    for the AES Sbox
-    \verbatim
-> OKsolver_2002-O3-DNDEBUG -P AES_Sbox_pi.cnf
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         9
-c initial_number_of_variables           16
-c initial_number_of_clauses             136253
-c initial_number_of_literal_occurrences 999896
-    \endverbatim
-    and also
-    \verbatim
-> # Calculate the number of each length clause
-> for n in `seq 1 16`; do echo -n $n ": " && C=`echo -n '^' && perl -e "print \"[^ ]+ +\" x $n" && echo '0$'` && cat AES_Sbox_pi.cnf | grep -v "^p" | grep -E "$C" | wc -l; done
-1 : 0
-2 : 0
-3 : 0
-4 : 0
-5 : 1
-6 : 4148
-7 : 82659
-8 : 48615
-9 : 830
-10 : 0
-11 : 0
-12 : 0
-13 : 0
-14 : 0
-15 : 0
-16 : 0
-    \endverbatim
-    </li>
-    </ul>
-    </li>
-    <li> There are no necessary clauses in the AES Sbox prime implicates,
-    as can be seen by generating the subsumption hypergraph
-    \verbatim
-> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
-   \endverbatim
-   and observing that there are no unit hyperedges.
-   </li>
-  </ul>
-
-
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
    <li> Computing the weighted MaxSAT problem:
