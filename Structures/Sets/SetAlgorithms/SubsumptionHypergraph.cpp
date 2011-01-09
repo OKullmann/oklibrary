@@ -32,7 +32,7 @@ namespace {
   const std::string program = "SubsumptionHypergraph";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.11";
+  const std::string version = "0.1";
 
 }
 
