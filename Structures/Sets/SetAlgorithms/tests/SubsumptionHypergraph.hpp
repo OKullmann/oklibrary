@@ -1,5 +1,5 @@
 // Matthew Gwynne, 12.8.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,6 @@ License, or any later version. */
 #define TESTSUBSUMPTIONHYPERGRAPH_aaJNraVt3
 
 #include <sstream>
-#include <set>
 
 #include <boost/assign/list_of.hpp>
 
@@ -24,6 +23,7 @@ License, or any later version. */
 
 #include <OKlib/TestSystem/TestBaseClass_DesignStudy.hpp>
 #include <OKlib/TestSystem/TestExceptions_DesignStudy.hpp>
+
 #include <OKlib/Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp>
 
 namespace OKlib {
