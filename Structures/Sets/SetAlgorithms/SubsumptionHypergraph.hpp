@@ -89,9 +89,9 @@ namespace OKlib {
 
       The subsumption hypergraph is available as the object constructed
       by this class, with the vertex set (vertex_set) as the list 
-      [1,...,length(F)] and the hyperedge set as the list [H_1,...,H_|G|] 
-      where for all 1 <= j <= |G|, we have H[j] is the sublist of [1,...,|F|],
-      i is in H[j] if F[i] subsumes G[j] and H[j] is a list of Int.
+      (1,...,length(F)) and the hyperedge set as the list (H_1,...,H_|G|)
+      where for all 1 <= j <= |G| we have that H_j is the sublist of
+      (1,...,|F|), i is in H_j if F_i subsumes G_j and H_j is a list of Int.
 
       The Maxima-specification is subsumption_std_ohg(F,G) (see
       ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
