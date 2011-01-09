@@ -35,9 +35,6 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
-  typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-  typedef OKlib::SetAlgorithms::Subsumption_hypergraph<CLSAdaptor::clause_set_type, CLSAdaptor::clause_set_type>::set_system_type subsumption_hg_type;
 
   if (argc != 3) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are required,\n"
@@ -53,9 +50,12 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[1] << ".\n";
     return error_openfile;
   }
+  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   CLSAdaptor set_system_F_atr;
+  typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
   const CLSInput input_F(f_in, set_system_F_atr);
   f_in.close();
+
   std::ifstream g_in(argv[2]);
   if (not g_in) {
     std::cerr << "ERROR[SubsumptionHypergraph]: Failure opening file " << argv[2] << ".\n";
@@ -65,6 +65,7 @@ int main(const int argc, const char* const argv[]) {
   const CLSInput input_G(g_in, set_system_G_atr);
   g_in.close();
 
+  typedef OKlib::SetAlgorithms::Subsumption_hypergraph<CLSAdaptor::clause_set_type, CLSAdaptor::clause_set_type>::set_system_type subsumption_hg_type;
   const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(
                                                  set_system_F_atr.clause_set,
