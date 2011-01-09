@@ -45,6 +45,15 @@ License, or any later version. */
   </ul>
 
 
-
+  \todo Improving efficiency
+  <ul>
+   <li> For the AES Sbox (created by output_rijnsbox_fullcnf_stdname()) the
+   computation takes 7m36s on csltok. </li>
+   <li> One needs a better understanding where this time is going. </li>
+   <li> Hopefully speed can be improved. </li>
+   <li> Another aspect is memory usage: it seems that short before the end
+   of the computation an unnecessary duplication of the data structure takes
+   place. </li>
+  </ul>
 
 */

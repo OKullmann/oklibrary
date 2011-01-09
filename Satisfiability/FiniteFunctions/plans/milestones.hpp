@@ -36,6 +36,11 @@ License, or any later version. */
    following topics are handled:
     - Running only through the levels (via new hash function)
 
+  \par
+   In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
+   following topics are handled:
+    - Improving efficiency
+
 
   \par Version 0.1.4
 
