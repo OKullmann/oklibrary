@@ -51,6 +51,7 @@ License, or any later version. */
    provide general set-operations. </li>
   </ul>
 
+  \todo More unit tests
 
   \bug DONE Test failure
   <ul>

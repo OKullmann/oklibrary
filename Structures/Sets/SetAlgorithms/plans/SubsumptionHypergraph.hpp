@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for subsumption hypergraph generator
   
   
-  \todo Write tests for the generator application
+  \todo Write application tests for SubsumptionHypergraph.cpp
 
   
   \todo Test performance of Subsumption_Hypergraph generator with const fields
