@@ -157,6 +157,14 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
+    - pow3 should be replaced by an array computed at compile-time
+
+
+  \par Version 0.2.5
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
     - Improvements of the implementation
 
 

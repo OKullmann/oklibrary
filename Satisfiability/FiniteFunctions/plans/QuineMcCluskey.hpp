@@ -370,6 +370,32 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
   </ul>
 
 
+  \todo pow3 should be replaced by an array computed at compile-time
+  <ul>
+   <li> How to dynamically initialise an array at compile time? Something
+   like:
+   \verbatim
+ClauseHash powers[nVars+1];
+
+template<int p, int c>
+struct ipow3_s {
+  static inline void ipow3_c() {
+    powers[nVars-p] = c;
+    ipow3_s<p-1,c*3>::ipow3_c();
+  }
+};
+
+template<int c>
+struct ipow3_s<0,c> {
+  static inline void ipow3_c() {
+    powers[nVars] = c;
+  }
+};
+   \endverbatim
+   although then, the question is where to call ipow3_s::ipow3_c()? </li>
+  </ul>
+
+
   \todo Improvements of the implementation
   <ul>
    <li> Likely we keep the following basic structure:
@@ -405,31 +431,6 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
    of the variable degrees). One would guess that trying to avoid creating
    many new clauses is preferable. For this all to work, the algorithm must
    only look at the clauses actually present. </li>
-   <li> pow3 should be replaced by an array computed at compile-time.
-    <ol>
-     <li> How to dynamically initialise an array at compile time? Something
-     like:
-     \verbatim
-ClauseHash powers[nVars+1];
-
-template<int p, int c>
-struct ipow3_s {
-  static inline void ipow3_c() {
-    powers[nVars-p] = c;
-    ipow3_s<p-1,c*3>::ipow3_c();
-  }
-};
-
-template<int c>
-struct ipow3_s<0,c> {
-  static inline void ipow3_c() {
-    powers[nVars] = c;
-  }
-};
-     \endverbatim
-     although then, the question is where to call ipow3_s::ipow3_c()? </li>
-    </ol>
-   </li>
    <li> Likely we should have a dedicated clause-type here, based on
    an array of length 16 and a size-member. </li>
    <li> One needs to connect to the general concepts of variables, literals,
