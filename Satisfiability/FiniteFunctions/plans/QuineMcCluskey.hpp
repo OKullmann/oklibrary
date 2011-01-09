@@ -372,27 +372,55 @@ FiniteFunctions> oklib all CXXFLAGS="-DNUMBER_VARIABLES=15" programs=QuineMcClus
 
   \todo pow3 should be replaced by an array computed at compile-time
   <ul>
-   <li> How to dynamically initialise an array at compile time? Something
-   like:
-   \verbatim
-ClauseHash powers[nVars+1];
-
-template<int p, int c>
-struct ipow3_s {
-  static inline void ipow3_c() {
-    powers[nVars-p] = c;
-    ipow3_s<p-1,c*3>::ipow3_c();
-  }
-};
-
-template<int c>
-struct ipow3_s<0,c> {
-  static inline void ipow3_c() {
-    powers[nVars] = c;
-  }
-};
-   \endverbatim
-   although then, the question is where to call ipow3_s::ipow3_c()? </li>
+   <li> Once we use gcc version 4.5.2 with option "-std=c++0x", then we can
+   simply using the following instead of the current initialisation of pow3:
+   \code
+...
+struct QuineMcCluskey {
+  ...
+  const int max_num_vars = 24;
+  BOOST_STATIC_ASSERT(num_vars <= max_num_vars);
+  const hash_index_type pow3[max_num_vars+1];
+  ...
+  QuineMcCluskey() : pow3({1,3,9,27,81,243,729,2187,6561,19683,59049,
+  177147,531441,1594323,4782969,14348907,43046721,129140163,387420489,1162261467,3486784401,
+  10460353203,31381059609,94143178827,282429536481}) {}
+   \endcode
+   </li>
+   <li> This is by far easiest, and the appropriateness of type hash_index_type
+   is checked at compile-time (whether 3^n fits into it). </li>
+   <li> Value of max_num_vars:
+    <ol>
+     <li> If needed, max_num_vars is increased (but much won't be needed).
+     </li>
+     <li> Perhaps a macro MAX_NUM_VARS is needed for the value of max_num_vars,
+     so that max_num_vars could also be decreased if hash_index_type has only
+     32 bits. </li>
+     <li> Using the new macro facilities, it should be easy to write a macro
+     for the initialiser-expression for pow3 (depending on max_num_vars). </li>
+     <li> If MAX_NUM_VARS is not defined, then compute max_num_vars at
+     compile-time such that it is maximal w.r.t. fitting into hash_index_type.
+     </li>
+    </ol>
+   </li>
+   <li> Const-ness of pow3(x):
+    <ol>
+     <li> The above seems to be the most "const" version of access to a
+     function like pow3(x), where x might be a run-time variable. </li>
+     <li> Though it might still be that e.g. pow3[5] is not recognised as
+     a compile-time constant? </li>
+     <li> One needs to check the C++0x-standard, what it says about constant
+     expression (there are new possibilities). </li>
+    </ol>
+   </li>
+   <li> Should pow3 be static?
+    <ol>
+     <li> One could also make pow3 static; then the definition of pow3
+     (out-of-class) would become a bit more clumsy. </li>
+     <li> By making pow3 static, one could make all member functions static;
+     seems appropriate. </li>
+    </ol>
+   </li>
   </ul>
 
 
