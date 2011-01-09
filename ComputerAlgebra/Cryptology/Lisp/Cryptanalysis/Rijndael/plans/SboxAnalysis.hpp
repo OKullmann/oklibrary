@@ -32,9 +32,9 @@ License, or any later version. */
     <li> Linear multiplication by a GF(b) matrix - tseitin translation as 
     translation function. </li>
     <li> Linear multiplication by a GF(b) matrix followed by multiplication in
-    the field - CNF translation. </li>
-    <li> Linear multiplication by a GF(b) matrix followed by multiplication in
     the field - tseitin translation as translation function. </li>
+    <li> Linear multiplication by a GF(b) matrix followed by multiplication in
+    the field - CNF translation : DONE. </li>
     <li> Linear multiplication by a GF(b) matrix - CNF translation : DONE. 
     </li>
     <li> DONE Inversion with the field - CNF translation. </li>

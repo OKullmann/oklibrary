@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 2.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,6 +50,15 @@ okltest_ss_sbox_linmap_fulldnf_fcl(ss_sbox_linmap_fulldnf_fcl);
 okltest_ss_sbox_linmap_fullcnf_fcs(ss_sbox_linmap_fullcnf_fcs);
 okltest_ss_matrix2str(ss_matrix2str);
 okltest_ss_sbox_linmap_cnfp(ss_sbox_linmap_cnfp);
+
+/* *****************************************************************
+   * Small scale multiplication then Sbox linear map analysis      *
+   *****************************************************************
+*/
+
+okltest_ss_mul_w_sbox_linmap_fulldnf_fcl(ss_mul_w_sbox_linmap_fulldnf_fcl);
+okltest_ss_mul_w_sbox_linmap_fullcnf_fcs(ss_mul_w_sbox_linmap_fullcnf_fcs);
+okltest_ss_mul_w_sbox_linmap_cnfp(ss_mul_w_sbox_linmap_cnfp);
 
 /* ******************************************
    * Representations by hitting clause-sets *
