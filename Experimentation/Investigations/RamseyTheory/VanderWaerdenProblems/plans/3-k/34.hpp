@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,34)
 
 
-  \todo vanderwaerden_2(3,34) > 1128
+  \todo vanderwaerden_2(3,34) > 1133
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,34) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -57,7 +57,35 @@ License, or any later version. */
 100
      \endverbatim
      </li>
+     <li> A solution was found in 164 runs (osteps=172017857, cutoff=2*10^8):
+     \verbatim
+29,36,52,77,86,87,121,123,130,163,
+177,184,188,198,204,222,241,258,259,263,
+271,295,300,311,333,336,345,369,373,380,
+382,389,417,422,426,447,448,457,485,491,
+494,496,500,510,528,530,555,559,584,592,
+621,628,642,665,666,679,685,695,703,718,
+743,744,752,753,755,780,781,787,813,824,
+826,833,850,863,866,891,892,903,907,917,
+924,928,938,966,972,975,1009,1011,1028,1036,
+1055,1085,1092,1102
+     \endverbatim
+     </li>
     </ol>
+   </li>
+   <li> n=1133: solution was found, adapted from n=1129:
+   \verbatim
+3,36,37,52,77,86,87,103,121,124,
+130,163,177,184,188,198,204,222,241,258,
+259,263,288,295,300,311,333,336,345,369,
+370,380,382,389,417,422,426,447,448,457,
+485,491,493,494,496,500,528,530,555,559,
+584,592,621,628,632,642,665,666,679,685,
+695,718,743,744,752,753,755,780,781,787,
+813,824,826,833,843,850,863,866,892,907,
+917,924,938,966,972,975,1002,1009,1028,1036,
+1048,1051,1055,1085,1092,1109
+   \endverbatim
    </li>
   </ul>
 
