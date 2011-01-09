@@ -15,6 +15,8 @@ License, or any later version. */
 #define TESTSUBSUMPTIONHYPERGRAPH_aaJNraVt3
 
 #include <sstream>
+#include <list>
+#include <vector>
 
 #include <boost/assign/list_of.hpp>
 
@@ -31,7 +33,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2010/08/12 12:08:08 $", "$Revision: 0.8 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2011/09/01 01:38:00 $", "$Revision: 1.2 $")
 
       /*!
         \class Subsumption_hypergraph
@@ -52,21 +54,23 @@ namespace OKlib {
           typedef std::list<std::list<value_type> > hypergraph_G_type;
           typedef Subsumption_hypergraph<hypergraph_F_type, hypergraph_G_type> hypergraph_type;
           typedef typename hypergraph_type::set_system_type hypergraph_output_type;
+          typedef typename hypergraph_type::vertex_type vertex_type;
           
           { // empty sequence
-            hypergraph_F_type empty_F;
-            hypergraph_output_type intended_output;
-            hypergraph_type example_output = hypergraph_type(empty_F, empty_F);
+            const hypergraph_F_type empty_F;
+            const hypergraph_output_type intended_output;
+            const hypergraph_type example_output = hypergraph_type(empty_F, empty_F);
             OKLIB_TEST_EQUAL_RANGES(example_output.hyperedges, intended_output);
           }
           { // example sequence
-            hypergraph_G_type hg_F = boost::assign::list_of
+            const hypergraph_G_type hg_F = boost::assign::list_of
               (boost::assign::list_of(1)(2)(3))
               (boost::assign::list_of(1)(2)(4))
               (boost::assign::list_of(1)(3)(5));
-            hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
-            hypergraph_output_type intended_output = boost::assign::list_of(boost::assign::list_of(1)(2));
-            hypergraph_type example_output = hypergraph_type(hg_F, hg_G);
+            const hypergraph_F_type hg_G = boost::assign::list_of(boost::assign::list_of(1)(2)(3)(4));
+            const std::vector<vertex_type> H = boost::assign::list_of(1)(2);
+            const hypergraph_output_type intended_output = boost::assign::list_of(H);
+            const hypergraph_type example_output = hypergraph_type(hg_F, hg_G);
             OKLIB_TEST_EQUAL_W2(example_output.hyperedges, intended_output);
           }
         }
