@@ -17,9 +17,9 @@ License, or any later version. */
    in running-time for the current implementation? </li>
    <li> Understanding this shows us how much time is spent on merely running
    n times through all 3^n clauses (for 0 clauses we never have to
-   rank/unrank, while otherwhise we do it for all clauses). </li>
+   rank/unrank, while otherwise we do it for all clauses). </li>
    <li> We should find out empirical functions f_0(n) and f_1(n) for these
-   run-times (depending on one computer-dependend constant). </li>
+   run-times (depending on one computer-dependent constant). </li>
    <li> For the current implementation, using both empty clause-sets
    and full clause-sets with n variables for each n, we get:
    \verbatim
