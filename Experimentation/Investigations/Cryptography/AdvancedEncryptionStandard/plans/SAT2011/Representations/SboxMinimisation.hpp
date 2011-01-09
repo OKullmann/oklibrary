@@ -10,6 +10,59 @@ License, or any later version. */
   \brief On investigations into the AES Sbox
 
 
+  \todo Basic data
+  <ul>
+   <li> The CNF is created by the Maxima-function
+   output_rijnsbox_fullcnf_stdname(), which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses. </li>
+   <li> Prime implicates:
+    <ol>
+     <li> There are 136253 prime implicates, with 999896 literals in total, and
+     with clause-length-distribution
+     \verbatim
+5 1
+6 4148
+7 82659
+8 48615
+9 830
+     \endverbatim
+     </li>
+     <li> What is the clause of length 5? What is its meaning?! </li>
+    </ol>
+   </li>
+   <li> The subsumption-hypergraph of the prime-clauses:
+    <ol>
+     <li> Creation:
+     \verbatim
+> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_S.cnf
+> time cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
+     \endverbatim
+     </li>
+     <li> All original prime-clauses occur as 136253 variables, and all
+     original clauses occur as 65280 clauses (no contractions). </li>
+     <li> Curve k -> nr (clause-length to number of occurrences) looks like a
+     nice relatively symmetric curve, with maximum around 950, and konvex on
+     both sides. </li>
+     <li> R-summary:
+     \verbatim
+       k                nr        
+ Min.   : 170.0   Min.   :  1.00  
+ 1st Qu.: 555.2   1st Qu.: 11.25  
+ Median : 846.5   Median : 38.00  
+ Mean   : 845.8   Mean   : 55.99  
+ 3rd Qu.:1137.8   3rd Qu.:102.00  
+ Max.   :1517.0   Max.   :173.00  
+     \endverbatim
+     </li>
+     <li> One should try to fit this curve. </li>
+     <li> As the single shortest clause (of length 170) as special meaning?
+     What is its original clause? </li>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Minimisation of the Sbox
   <ul>
    <li> See "Minimisation" in 
