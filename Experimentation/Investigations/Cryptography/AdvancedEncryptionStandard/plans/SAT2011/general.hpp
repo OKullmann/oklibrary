@@ -10,13 +10,6 @@ License, or any later version. */
   \brief Investigations into AES related to the SAT 2011 paper
 
 
-  \todo Connection with the plans one level above
-  <ul>
-   <li> A full integration of plans SAT2011 with those one level above needs
-   to be achieved. </li>
-  </ul>
-
-  
   \todo Links
   <ul>
    <li> For investigations into the various representations (CNF and otherwise)
@@ -49,37 +42,6 @@ License, or any later version. */
    without writing additional rewrite functions, however instructions
    and/or additional helper functions are necessary to make sure things
    easy to experiment with. </li>
-  </ul>
-
-
-  \todo Combining linear components
-  <ul>
-   <li> A full description of all of the possibilities for recombining
-   AES and small scale linear components (from the Sbox and MixColumns)
-   needs to be provided. </li>
-   <li> The idea here is that, due to the linearity of the Sbox's affine
-   transformation, and the MixColumns operations, as well as the
-   fact the Shiftrows simply permutes bytes, the linear aspects of the Sbox
-   can be moved out, and seperated (in the case of the affine addition),
-   or merged into the boxes for the MixColumn. </li>
-   <li> For the Sbox, we have 3 possibilities:
-    <ul>
-     <li> Full Sbox (M . s^(-1) + A) . </li>
-     <li> Sbox minus addition of the affine constant (M . s^(-1)). </li>
-     <li> Sbox minus affine transform entirely (s^(-1)). </li>
-    </ul>
-   </li>
-   <li> For the MixColumn multiplications, we have 2 possibilities:
-   <ul>
-    <li> Standard byte-field multiplications. </li>
-    <li> Sbox linear component (M) and Standard byte-field multiplications
-    together. </li>
-   </ul>
-   </li>
-   <li> A description of how to generate such translation is needed. </li>
-   <li> See also "Rearranging linear components of Sbox and MixColumns" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. 
-   </li>
   </ul>
 
 

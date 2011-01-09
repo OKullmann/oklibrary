@@ -26,6 +26,21 @@ License, or any later version. */
   </ul>
 
   
+  \todo Move experimental todos to investigations
+  <ul>
+   <li> The following todos need to be split and moved to 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/ :
+   <ul>
+    <li> Generate good CNF hitting clause-sets for the AES Field Operations.
+    </li>
+    <li> Extracting prime implicate representations from the 
+    hitting-cls-representations . </li>
+    <li> Find the symmetries of the AES Field Operations . </li>
+   </ul>
+   </li>
+  </ul>
+
+  
   \todo Generate good CNF hitting clause-sets for the AES Field Operations
   <ul>
    <li> Multiplication by 2 in Rijndael's byte field (GF(2^8)).
@@ -229,9 +244,6 @@ true
   </ul>
   
 
-  \todo Compute *all* prime implicates (for the purpose of analysis):
-  
- 
   \todo Find the symmetries of the AES Field Operations
 
 
@@ -242,6 +254,10 @@ true
    <li> rijnmult_cnfp tests whether any CNF (not necessarily full) represents
    multiplication by the given AES field element. </li>
   </ul>
+
+
+  \todo DONE (see Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp)
+  Compute *all* prime implicates (for the purpose of analysis):
 
   
   \todo DONE Provide tests for all functions

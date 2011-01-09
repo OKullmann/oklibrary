@@ -20,9 +20,8 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - Update
-    - Fix translation system
-    - Parameterise inclusion of inverse operation in Mixcolumn translation 
+    - Fix translation system : DONE
+    - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
     - Standardise block ordering: DONE
     - Truncate AES for reduced rounds: DONE
 
@@ -30,9 +29,8 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Add decomposed Sbox operations
-    - Representations of the Sbox using additional variables
-    - Move notion of AES constraints to separate module/unit
-    - Organisation
+    - Organisation : DONE
+    - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:  
@@ -41,27 +39,34 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Update
     - Randomly choosing "unknown" block bits: DONE
 
     
   \par Version 0.0.8
 
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Generate good CNF hitting clause-sets for the AES Sbox
-    - Extracting prime implicate representations from the hitting-cls-representations
-    - Compute *all* prime implicates (for the purpose of analysis)
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Complete small scale helper functions
+    - Remove hard-coding of multiplication by 01 in small scale MixColumn
+    - Standardise output files names
+    - Rearranging linear components of Sbox and MixColumns
 
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
-    - How to represent elements of arbitrary fields as boolean variables?
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
+    - Move experimental todos to investigations
+    - Add XOR translations for field multiplications
   
 
   \par Version 0.0.9
 
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
-    - Compute *all* prime implicates (for the purpose of analysis)
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - How to represent elements of arbitrary fields as boolean variables?
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
 
 
   \par Version 0.1
@@ -89,9 +94,8 @@ License, or any later version. */
     - Discussion on Generalisation/Parameterisation
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Find the symmetries of the AES Sbox DNF
-    - Related 8-bit bijections
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Representations of the Sbox using additional variables
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp the following topics are handled:
@@ -102,9 +106,10 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Provide additional translation into CSP-solver format 
     - Active clauses for field operations
     - Partitioning into active clauses
-    - Algebraic aspects DONE (Moved to CryptoSystems/Rijndael)
+    - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
   
   \par
    Update the following milestones.

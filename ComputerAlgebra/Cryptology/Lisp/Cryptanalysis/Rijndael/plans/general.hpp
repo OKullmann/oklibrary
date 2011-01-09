@@ -47,6 +47,14 @@ map: arguments must be the same length.
    </li>
   </ul>
 
+
+  \todo Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
+  <ul>
+   <li> Functions such as ss_sbox_fulldnf_gen_fcl should be rewritten using
+   ss_field_op_fulldnf_gen_fcl and passing in the appropriate operations.
+   </li>
+  </ul>
+
   
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic
   Aspects of the AES]

@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac");
 
 
 /* ******************************************
@@ -121,6 +122,73 @@ ss_sbox_gen_cnfp(FF,b,e,mod_poly,sbox_matrix,sbox_affine_constant) :=
 ss_sbox_cnfp(FF,b,e,mod_poly) := 
   ss_sbox_gen_cnfp(FF,b,e,mod_poly, ss_sbox_matrix(b,e),
     ss_affine_constant(b,e))$
+
+
+/* *****************************************************************
+   * Small Scale Sbox linear map Analysis                          *
+   *****************************************************************
+*/
+
+
+/* Generation of the full DNF clause-set representing the small scale AES Sbox
+   linear map the base of the small scale byte field, the exponent of the
+   field, the modulo polynomial defining the field, as well as the sbox
+   matrix: */
+ss_sbox_linmap_fulldnf_gen_fcl(b,e,mod_poly, sbox_matrix) :=
+  ss_field_op_fulldnf_gen_fcl(
+    lambda([a], ss_sbox_linmap_gen(a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_sbox_linmap_fulldnf_fcl(b,e,mod_poly) :=
+  ss_sbox_linmap_fulldnf_gen_fcl(b,e,mod_poly,
+                          ss_sbox_matrix(b,e))$
+ss_sbox_linmap_fulldnf_gen_fcs(b,e,mod_poly, sbox_matrix) :=
+  fcl2fcs(ss_sbox_linmap_fulldnf_gen_fcl(b,e,mod_poly, sbox_matrix))$
+ss_sbox_linmap_fulldnf_fcs(b,e,mod_poly) :=
+  fcl2fcs(ss_sbox_linmap_fulldnf_fcl(b,e,mod_poly))$
+
+/* Generation of the full CNF clause-set representing the small scale AES
+   sbox linear map: */
+ss_sbox_linmap_fullcnf_gen_fcs(b,e,mod_poly,sbox_matrix) :=
+  ss_field_op_fullcnf_gen_fcs(
+    lambda([a], ss_sbox_linmap_gen(a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_sbox_linmap_fullcnf_fcs(b,e) :=
+  ss_sbox_linmap_fullcnf_gen_fcs(b,e,ss_polynomial(b,e),ss_sbox_matrix(b,e))$
+
+/* Converts a matrix to a "_" separated string, row by row: */
+ss_matrix2str(m) :=
+  if length(m) > 0 then block([l : m2l_r(m)],
+    lreduce(lambda([a,b], sconcat(a,"_",b)), rest(l), sconcat(first(l))))$
+
+/* Output the full CNF clause-set of the permutation given by the small scale
+   AES Sbox linear map:
+*/
+output_ss_sbox_linmap_fullcnf_gen_stdname(b,e,mod_poly,sbox_matrix) :=
+  output_fcs(
+    sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
+      "CNF representation."),
+    ss_sbox_fullcnf_fcs(b,e,mod_poly, sbox_matrix),
+    sconcat("AES_sbox_lin_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
+      "_full.cnf"))$
+output_ss_sbox_linmap_fullcnf_stdname(b,e) := block(
+  [sbox_matrix : ss_sbox_matrix(b,e)],
+  output_fcs(
+    sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
+      "CNF representation."),
+    ss_sbox_linmap_fullcnf_fcs(b,e),
+    sconcat("AES_sbox_lin_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
+      "_full.cnf")))$
+
+/* Tests whether a formal CNF clause-set represents the small scale AES sbox
+   linear map given the appropriate parameters.
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
+*/
+ss_sbox_linmap_gen_cnfp(FF,b,e,mod_poly,sbox_matrix) :=
+  ss_field_op_gen_cnfp(FF,
+    lambda([a], ss_sbox_linmap_gen(a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_sbox_linmap_cnfp(FF,b,e) := 
+  ss_sbox_linmap_gen_cnfp(FF,b,e,ss_polynomial(b,e), ss_sbox_matrix(b,e))$
 
 
 /* ******************************************

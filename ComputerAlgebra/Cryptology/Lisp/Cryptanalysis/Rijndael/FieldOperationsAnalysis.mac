@@ -27,9 +27,40 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
+/* ************************************************************
+   * General small scale field analysis                       *
+   ************************************************************
+*/
+
+
+/* Generation of the full DNF clause-set representing the small scale AES
+   field operation given by f over some small scale field with
+   base b and exponent e: */
+ss_field_op_fulldnf_gen_fcl(f,b,e) :=
+  perm2dnffcl(1+map(lambda([ap], poly2nat(f(nat2poly(ap,b)),b)),
+      create_list(i,i,0,b^e-1)))$
+
+/* Generation of the full CNF clause-set representing the small scale AES
+   field operation f: */
+ss_field_op_fullcnf_gen_fcs(f,b,e) :=
+ cs2fcs(setdifference(full_cs(2*e), 
+             map(comp_sl,fcs2cs(fcl2fcs(
+                   ss_field_op_fulldnf_gen_fcl(f,b,e))))))$
+
+/* Tests whether a formal CNF clause-set represents the small scale AES sbox
+   field operation f given the appropriate parameters.
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
+*/
+ss_field_op_gen_cnfp(FF,f,b,e) := 
+  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
+    fcl2fcs(ss_field_op_fulldnf_gen_fcl(f,b,e)))$
+
 
 /* ******************************************
-   * Rijndael Field multiplication analysis *
+   * Rijndael field multiplication analysis *
    ******************************************
 */
 
@@ -70,7 +101,7 @@ rijnmult_cnfp(field_element,FF) :=
    rijnmult_fulldnf_fcs(field_element))$
 
 /* *********************************************
-   * Small Scale Field multiplication analysis *
+   * Small scale field multiplication analysis *
    *********************************************
 */
 
@@ -80,7 +111,7 @@ rijnmult_cnfp(field_element,FF) :=
    Prerequisite: 0 <= a <= b^e-1 (integer).
 */
 ssmult_fulldnf_fcl(a,b,e,mod_poly) :=
-perm2dnffcl(1+map(lambda([ap], ss_natmul(a,ap,b,mod_poly)),
+  perm2dnffcl(1+map(lambda([ap], ss_natmul(a,ap,b,mod_poly)),
     create_list(i,i,0,b^e-1)))$
 ssmult_fulldnf_fcs(a,b,e,mod_poly) := fcl2fcs(ssmult_fulldnf_fcl(a,b,e,mod_poly))$
 
@@ -111,13 +142,15 @@ output_ssmult_fullcnf_stdname(field_element, b,e, mod_poly) :=
 
 /* Tests whether a formal CNF clause-set FF represents an small scale AES
    field multiplication: */
-ssmult_cnfp(field_element, FF, b, e, mod_poly) := 
+ssmult_gen_cnfp(field_element, FF, b, e, mod_poly) := 
  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    ssmult_fulldnf_fcs(field_element, b, e, mod_poly))$
+ssmult_cnfp(field_element, FF, b, e) :=
+  ssmult_gen_cnfp(field_element, FF, b, e, ss_polynomial(b,e))$
 
 
 /* *********************************************
-   * Small Scale Field multiplication analysis *
+   * Small scale field inversion analysis *
    *********************************************
 */
 
