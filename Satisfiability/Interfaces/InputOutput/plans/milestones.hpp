@@ -6,12 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Interfaces/InputOutput/plans/milestones.hpp
+  \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.0.9 (5.2.2008)
+  \module_version Interfaces/InputOutput 0.1 (9.1.2011)
 
 
-  \par Version 0.0.10 :
+  \par Version 0.1.1 :
 
   \par
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
@@ -26,7 +26,7 @@ License, or any later version. */
     - Move CLSAdaptorFilter
 
 
-  \par Version 0.0.11 :
+  \par Version 0.1.2 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -42,7 +42,7 @@ License, or any later version. */
     - Improving output
 
 
-  \par Version 0.0.12 :
+  \par Version 0.1.3 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -60,7 +60,7 @@ License, or any later version. */
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.0.13 :
+  \par Version 0.1.4 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -76,7 +76,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.0.14 :
+  \par Version 0.1.5 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -89,7 +89,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.0.15 :
+  \par Version 0.1.6 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -103,7 +103,7 @@ License, or any later version. */
     - Consider the code-comments regarding checking
 
 
-  \par Version 0.0.16 :
+  \par Version 0.1.7 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -113,7 +113,7 @@ License, or any later version. */
     - Write concept for InputOutput::Statistics class
 
 
-  \par Version 0.0.17 :
+  \par Version 0.1.8 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -124,7 +124,7 @@ License, or any later version. */
     - Create "base class" for "raw adaptors"
 
 
-  \par Version 0.1 :
+  \par Version 0.2 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -143,7 +143,7 @@ License, or any later version. */
    Update milestones.
 
 
-  \par Version 0.1.1 :
+  \par Version 0.2.1 :
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
@@ -156,14 +156,14 @@ License, or any later version. */
     - Permutations
     
 
-  \par Version 0.1.2 :
+  \par Version 0.2.2 :
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
     - Exceptions
 
 
-  \par Version 0.1.3 :
+  \par Version 0.2.3 :
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
@@ -171,14 +171,14 @@ License, or any later version. */
     - Error handling
 
 
-   \par Version 0.1.4 :
+   \par Version 0.2.4 :
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
     - ListTransfer
 
 
-  \par Version 0.2 :
+  \par Version 0.3 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -188,14 +188,14 @@ License, or any later version. */
     - Write Dimacs-parser for weighted (partial) MaxSAT formats
 
 
-  \par Version 0.3 :
+  \par Version 0.4 :
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
     - Write extended Dimacs-parser for clause-sets with non-boolean variables
 
 
-  \par Version 0.4 :
+  \par Version 0.5 :
 
   \par
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
@@ -216,6 +216,7 @@ License, or any later version. */
    - 0.0.7 : 7.11.2006; initial version number (several implementations).
    - 0.0.8 : 26.9.2007; moved to new place in part Satisfiability, and related updates.
    - 0.0.9 : 5.2.2008; created facilities to read extended Dimacs, and to translate it to standard Dimacs, and extensions and updates of plans.
+   - 0.1   : 9.1.2011; systemic updates and improvements, extended existing adaptors (especially regarding statistics and transfers), hypergraph colouring (boolean and non-boolean).
 
 */
 
