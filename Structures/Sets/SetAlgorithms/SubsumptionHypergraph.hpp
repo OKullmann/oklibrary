@@ -128,30 +128,6 @@ namespace OKlib {
       //! set in G corresponding to H.
       const set_system_type hyperedges;
 
-      /*!
-        \function subsumption_hypergraph
-        \brief Computes the subsumption hypergraph.
-        
-        Given two ordered set system as ranges f_range and g_range (of type 
-        RangeF and RangeG respectively) containing elements of type
-        arbitrary type, constructs the standardised ordered subsumption 
-        hypergraph.
-        
-        The subsumption hypergraph is returned as the hyperedge list 
-        [H_1,...,H_|G|] where for all 1 <= j <= |G|, we have H[j] is the sublist
-        of [1,...,|F|], i is in H[j] if F[i] subsumes G[j] and H[j] is a list of
-        Ints where Int is the size type of f_range.
-        
-        The Maxima-specification is subsumption_std_ohg(F,G) (see
-        ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
-        
-        @param f_range the conceptual vertices of the subsumption hypergraph, 
-        i.e., the list of sets which subsumes elements of g_range.
-        @param g_range the list of sets which are mapped to hyperedges, i.e., 
-               the sets which are subsumed by elements of f_range.
-        @return the std::list of hyperedges in the subsumption hypergraph of 
-                f_range (subsuming sets) w.r.t g_range (subsumed sets).
-      */
       Subsumption_hypergraph(const RangeF& f_range, 
                              const RangeG& g_range):
         vertex_set(fill_vertex_set(boost::distance(f_range))), 
