@@ -1,5 +1,5 @@
 // Matthew Gwynne, 29.7.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -238,17 +238,16 @@ namespace OKlib {
 
 
     /*!
-      \brief Computes the subsumption hypergraph.
+      \brief Computes the subsumption hypergraph
 
       Given two ordered set system as ranges f_range and g_range (of type 
-      RangeF and RangeG respectively) containing elements of type
-      arbitrary type, constructs the standardised ordered subsumption 
-      hypergraph.
+      RangeF and RangeG respectively), yielding hypergraphs F and G,
+      constructs the standardised ordered subsumption hypergraph.
 
       The subsumption hypergraph is returned as the hyperedge list 
-      [H_1,...,H_|G|] where for all 1 <= j <= |G|, we have H[j] is the sublist
-      of [1,...,|F|], i is in H[j] if F[i] subsumes G[j] and H[j] is a list of
-      Ints where Int is the size type of f_range.
+      (H_1,...,H_|G|) where for all 1 <= j <= |G| we have that H_j is the
+      sublist of (1,...,|F|) of those i where F_i contained in G_j, while H_j
+      is a list of Ints where Int is the size type of f_range.
 
       The Maxima-specification is subsumption_std_ohg(F,G) (see
       ComputerAlgebra/Hypergraphs/Lisp/Basics.mac).
