@@ -48,7 +48,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraph";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
 
 }
 
@@ -86,8 +86,8 @@ int main(const int argc, const char* const argv[]) {
     OKlib::SetAlgorithms::subsumption_hypergraph(prime_imp_F, cls_F.clause_set);
 
   // Output:
-  const std::string comment("Subsumption hypergraph for the minimisation problem for " + filename);
-  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment.c_str());
+  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + filename);
+  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment1.c_str());
   // Output of prime clauses if needed:
   if (argc > 2) {
       const std::string filename_primes = argv[2];
@@ -96,6 +96,7 @@ int main(const int argc, const char* const argv[]) {
         std::cerr << err << "Failure opening output file " << filename_primes << ".\n";
         return error_openfile;
       }
-      OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment.c_str());
+      const std::string comment2("All prime implicates for " + filename);
+      OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
   }
 }
