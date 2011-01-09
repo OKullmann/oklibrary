@@ -152,7 +152,7 @@ namespace OKlib {
         hyperedge_type vertex_set;
         const boost::counting_iterator<Int> v_begin(0);
         const boost::counting_iterator<Int> v_end(size_f);
-        std::copy(v_begin, v_end, boost::begin(vertex_set));
+        vertex_set.assign(v_begin, v_end);
         return(vertex_set);
       }
 
