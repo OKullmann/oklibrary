@@ -24,8 +24,6 @@ License, or any later version. */
 #include <iostream>
 #include <string>
 
-#include <boost/range/difference_type.hpp>
-
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 #include <OKlib/Satisfiability/FiniteFunctions/QuineMcCluskey.hpp>
