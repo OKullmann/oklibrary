@@ -46,13 +46,13 @@ rijnsbox_fullcnf_fcs() :=
              map(comp_sl,fcs2cs(rijnsbox_fulldnf_fcs()))))$
 
 /* Output the full CNF clause-set of the permutation given by the AES
-   S-box:
+   S-box to the file "AES_Sbox_full.cnf":
 */
 output_rijnsbox_fullcnf_stdname() :=
   output_fcs(
-    sconcat("AES Sbox function given the full CNF representation."),
+    sconcat("The AES Sbox in full CNF representation."),
     rijnsbox_fullcnf_fcs(),
-    sconcat("AES_Sbox_full.cnf"))$
+    "AES_Sbox_full.cnf")$
 
 /* Tests whether a formal CNF clause-set represents the AES sbox:
 
