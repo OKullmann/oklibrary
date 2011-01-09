@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
-  \brief Experiments using the R QCA package to minimise the AES 8-bit Sbox.
+  \brief Investigations into the AES S-box
 
 
   \todo Overview
