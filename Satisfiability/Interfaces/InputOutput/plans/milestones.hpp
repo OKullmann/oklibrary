@@ -64,7 +64,7 @@ License, or any later version. */
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
-    - Write docus.
+    - Write docus
 
   \par
    In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
@@ -205,7 +205,8 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
-    - General propositional formulas and circuits
+    - Input and output of propositional formulas
+    - Circuits
 
 
 
