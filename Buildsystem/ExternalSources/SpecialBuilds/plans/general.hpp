@@ -125,5 +125,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Suspending running processes
+  <ul>
+   <li> It would be useful to be able to suspend running processes
+   during experimentation, and then wrap scripts in such a way that SIGTERM
+   is caught and running experiments suspended. </li>
+   <li> In such a way, we don't lose experiments if a machine is accidentally
+   shut down. </li>
+   <li> Cryopid at http://cryopid.berlios.de/ seems to offer this. </li>
+  </ul>
+
+
 */
 
