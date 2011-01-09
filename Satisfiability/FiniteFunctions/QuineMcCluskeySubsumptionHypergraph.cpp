@@ -18,10 +18,6 @@ License, or any later version. */
    of prime clauses of F. </li>
   </ul>
 
-  \todo Fully specify the hypergraph that is output
-
-  \todo Provide maxima specification.
-  
 */
 
 #include <fstream>

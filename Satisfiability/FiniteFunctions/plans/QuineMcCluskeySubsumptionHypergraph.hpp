@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the subsumption hypergraph for computing minimal representations of full boolean clause-sets
 
 
+  \todo Specification
+  <ul>
+   <li> A precise specification of QuineMcCluskeySubsumptionHypergraph.cpp is
+   needed. </li>
+   <li> Of course, with precise recourse to the Maxima specification. </li>
+  </ul>
+
+
   \todo Write application tests
 
 

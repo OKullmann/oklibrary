@@ -14,9 +14,11 @@ License, or any later version. */
   \par Version 0.1.1
 
   \par
-   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
    following topics are handled:
-    - Understanding the costs of the current implementation
+    - Specification
+    - Write application tests
+    - Preparations for computing optimum representations
 
 
   \par Version 0.1.2
@@ -24,14 +26,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Running only through the levels (via new hash function)
-
-
-  \par
-   In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
-   following topics are handled:
-    - Write application tests
-    - Preparations for computing optimum representations
+    - Understanding the costs of the current implementation
 
 
   \par Version 0.1.3
@@ -39,7 +34,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Various versions for different values of NUMBER_VARIABLES
+    - Running only through the levels (via new hash function)
 
 
   \par Version 0.1.4
@@ -47,7 +42,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Docus
+    - Various versions for different values of NUMBER_VARIABLES
 
 
   \par Version 0.1.5
@@ -55,7 +50,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Application tests
+    - Docus
 
 
   \par Version 0.1.6
@@ -63,7 +58,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Maxima level
+    - Application tests
 
 
   \par Version 0.1.7
@@ -71,7 +66,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Precise definitions, and basic types
+    - Maxima level
 
 
   \par Version 0.1.8
@@ -79,7 +74,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Input and output
+    - Precise definitions, and basic types
 
 
   \par Version 0.1.9
@@ -87,7 +82,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Extend unit tests
+    - Input and output
 
 
   \par Version 0.1.10
@@ -95,10 +90,18 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
-    - Preparations for optimisation
+    - Extend unit tests
 
 
   \par Version 0.1.11
+
+  \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
+   following topics are handled:
+    - Preparations for optimisation
+
+
+  \par Version 0.1.12
 
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
