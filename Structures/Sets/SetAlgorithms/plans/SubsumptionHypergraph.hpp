@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Write application tests for SubsumptionHypergraph.cpp
 
   
-  \todo Test performance of Subsumption_Hypergraph generator with const fields
+  \todo Test performance of Subsumption_Hypergraph generator
   <ul>
    <li> Currently fields (vertex_set and hyperedges) in the 
    Subsumption_hypergraph generator are public but const . </li>

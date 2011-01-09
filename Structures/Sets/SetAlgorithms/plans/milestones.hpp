@@ -43,7 +43,7 @@ License, or any later version. */
   \par
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
    following items are handled:
-    - Test performance of Subsumption_Hypergraph generator with const fields
+    - Test performance of Subsumption_Hypergraph generator
 
   \par
    In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
