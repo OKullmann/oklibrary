@@ -261,7 +261,7 @@ namespace OKlib {
     */
 
     template<class RangeF, class RangeG>
-    typename std::list<std::list<typename boost::range_difference<RangeF>::type> >  
+    typename Subsumption_hypergraph<RangeF, RangeG>::set_system_type
     subsumption_hypergraph(const RangeF& f_range, const RangeG& g_range) {
       Subsumption_hypergraph<RangeF, RangeG> sub_hyp(f_range,g_range);
       return sub_hyp.hyperedges;

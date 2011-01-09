@@ -23,7 +23,6 @@ License, or any later version. */
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <list>
 
 #include <boost/range/difference_type.hpp>
 
@@ -81,7 +80,7 @@ int main(const int argc, const char* const argv[]) {
   const clause_set_type prime_imp_F = OKlib::Satisfiability::FiniteFunctions::quine_mccluskey<num_vars>(cls_F.clause_set);
 
   // Compute the subsumption hypergraph:
-  typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
+  typedef OKlib::SetAlgorithms::Subsumption_hypergraph<clause_set_type, CLSAdaptor::clause_set_type>::set_system_type subsumption_hg_type;
   const subsumption_hg_type subsumption_hg = 
     OKlib::SetAlgorithms::subsumption_hypergraph(prime_imp_F, cls_F.clause_set);
 
