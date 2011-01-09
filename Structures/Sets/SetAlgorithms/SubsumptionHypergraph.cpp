@@ -40,7 +40,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != 3) {
     std::cerr << err << "Exactly two inputs are required,\n"
-      " the  name of the file containing the subsuming set system,\n"
+      " the name of the file containing the subsuming set system,\n"
       " and the name of the file containing the subsumed set system,\n"
       " both as clause-sets in DIMACS-format.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
@@ -72,7 +72,7 @@ int main(const int argc, const char* const argv[]) {
     OKlib::SetAlgorithms::subsumption_hypergraph(
                                                  set_system_F_atr.clause_set,
                                                  set_system_G_atr.clause_set);
-  const std::string comment(std::string("Subsumption hypergraph for ") + argv[1] + " " + argv[2]);
+  const std::string comment(std::string("Subsumption hypergraph for ") + argv[1] + " and " + argv[2]);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg, std::cout, comment.c_str());
 
 }
