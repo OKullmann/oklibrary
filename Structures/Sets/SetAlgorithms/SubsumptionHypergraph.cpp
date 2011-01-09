@@ -1,5 +1,5 @@
 // Matthew Gwynne, 15.9.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,8 +17,6 @@ License, or any later version. */
 #include <iostream>
 #include <fstream>
 #include <string>
-
-#include <boost/range.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
@@ -39,13 +37,14 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-  typedef std::list<std::list<boost::range_difference<CLSAdaptor::clause_set_type>::type> > subsumption_hg_type;
+  typedef OKlib::SetAlgorithms::Subsumption_hypergraph<CLSAdaptor::clause_set_type, CLSAdaptor::clause_set_type>::set_system_type subsumption_hg_type;
 
   if (argc != 3) {
-    std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are "
-      "required, the  name of the file containing the subsuming set system "
-      "and the name of the file containing the subsumed set system\n with the clause-set in "
-      "DIMACS-format.\n However, the actual number of input parameters was " << argc-1 << ".\n";
+    std::cerr << "ERROR[SubsumptionHypergraph]: Exactly two inputs are required,\n"
+      " the  name of the file containing the subsuming set system,\n"
+      " and the name of the file containing the subsumed set system,\n"
+      " both as clause-sets in DIMACS-format.\n"
+      "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
 
