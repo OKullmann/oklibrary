@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,7 +31,7 @@ namespace {
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
 
   using namespace OKlib::InputOutput;
 

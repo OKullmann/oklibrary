@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.10.2005 (Swansea)
-/* Copyright 2005 - 2007, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -168,7 +168,7 @@ namespace OKlib {
         }
         for (iterator i = begin; i != end; ++i)
           if (s.option != no_zeros or *i != 0)
-            out << i-s.clause_lengths.begin() << " : " << *i << "\n";
+            out << i-s.clause_lengths.begin() << " " << *i << "\n";
         return out;
       }
     };
