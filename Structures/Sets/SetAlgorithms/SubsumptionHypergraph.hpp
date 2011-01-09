@@ -67,7 +67,7 @@ License, or any later version. */
 
 #include <algorithm>
 #include <map>
-#include <list>
+#include <vector>
 
 #include <boost/range.hpp>
 #include <boost/iterator/counting_iterator.hpp>
@@ -105,7 +105,7 @@ namespace OKlib {
 
       //! The type of container for hyperedges associated with the subsumption
       //! hypergraph.
-      typedef typename std::list<Int> hyperedge_type;
+      typedef typename std::vector<Int> hyperedge_type;
       //! The type of vertices associated with the subsumption hypergraph.
       //! Note here that these are index/integral types as the hypergraph
       //! is standardised.
@@ -113,7 +113,7 @@ namespace OKlib {
       //! The type of the set system corresponding to the subsumption 
       //! hypergraph itself, and specifically the container of it's
       //! hyperedges (see Subsumption_hypergraph::hyperedges).
-      typedef std::list<hyperedge_type> set_system_type;
+      typedef std::vector<hyperedge_type> set_system_type;
       
       //! The list of vertices in the subsumption hypergraph, one for
       //! every set in F.
@@ -142,7 +142,7 @@ namespace OKlib {
       typedef std::map<f_value_type, Int> hyperedge_map_type;
       //! Type of a non-standardised hyperedge in the subsumption hypergraph, 
       //! i.e., a set system with with subsumed sets as elements of each set.
-      typedef std::list<f_value_type> hyperedge_nonstd_type;
+      typedef std::vector<f_value_type> hyperedge_nonstd_type;
       //! Size type of F.
       typedef typename boost::range_size<RangeF>::type f_size_type;
 
@@ -253,7 +253,7 @@ namespace OKlib {
                      i.e., the list of sets which subsumes elements of g_range.
       @param g_range the list of sets which are mapped to hyperedges, i.e., 
                       the sets which are subsumed by elements of f_range.
-      @return the std::list of hyperedges in the subsumption hypergraph of 
+      @return the std::vector of hyperedges in the subsumption hypergraph of 
               f_range (subsuming sets) w.r.t g_range (subsumed sets).
     */
 
