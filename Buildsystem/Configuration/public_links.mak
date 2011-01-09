@@ -1,5 +1,5 @@
 # Oliver Kullmann, 16.1.2008 (Swansea)
-# Copyright 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -57,6 +57,7 @@ smusathorn_okl ?= $(bin_dir)/Smusat_Horn-O3-DNDEBUG
 musatd2_okl ?= $(bin_dir)/Musatd2-O3-DNDEBUG
 
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
+quinemccluskeysubsumptionhypergraph_okl ?= $(bin_dir)/QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
 
 runvdw3k_okl ?=  $(OKlib)/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/RunVdW3k
 extractcertificatevdW2_okl ?=  $(OKlib)/Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/ExtractCertificate_vdW2
@@ -64,5 +65,5 @@ runpdvdw3k_okl ?=  $(OKlib)/Experimentation/Investigations/RamseyTheory/VanderWa
 
 extractsolutionubcsat_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/extract_solution_ubcsat
 
-public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ucpw_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(extdimacsfullstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(grosswaldhagisformula_okl) $(greentao_okl) $(pdvanderwaerden_okl) $(countprogressionsgreentao_okl) $(pdextend_okl) $(solutionshift_okl) $(quinemccluskey_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(pdvanderwaerdencnf_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call) $(runvdw3k_okl) $(runpdvdw3k_okl) $(extractcertificatevdW2_okl) $(extractsolutionubcsat_okl)
+public_link_list_okl ?= $(oksolver2002_okl) $(oksolver2002outputxml_okl) $(oksolver2002_xml2maxima_okl) $(ucp_okl) $(ucpw_okl) $(ramsey_generator_okl) $(vanderwaerden_generator_okl) $(lininequal_trans_okl) $(boundones_okl) $(vdwtransversals_okl) $(vdwtransversalspb_okl) $(vdwtransversalsinc_okl) $(vdwtransversalsincpb_okl) $(gttransversals_okl) $(gttransversalsinc_okl) $(oksolver_2002_m2pp_okl) $(satz215_m2pp_okl) $(extdimacs2dimacs_okl) $(extdimacsstatistics_okl) $(extdimacsfullstatistics_okl) $(boundedtransversalsbv_okl) $(rankprimes_okl) $(grosswaldhagisformula_okl) $(greentao_okl) $(pdvanderwaerden_okl) $(countprogressionsgreentao_okl) $(pdextend_okl) $(solutionshift_okl) $(quinemccluskey_okl) $(quinemccluskeysubsumptionhypergraph_okl) $(vdw_minimumtransversals_okl) $(gt_minimumtransversals_okl) $(greentaocnf_okl) $(greentaogcnf_okl) $(greentaogen_okl) $(greentaodgen_okl) $(pdvanderwaerdencnf_okl) $(smusathorn_okl) $(musatd2_okl) $(oklib_call) $(runvdw3k_okl) $(runpdvdw3k_okl) $(extractcertificatevdW2_okl) $(extractsolutionubcsat_okl)
 
