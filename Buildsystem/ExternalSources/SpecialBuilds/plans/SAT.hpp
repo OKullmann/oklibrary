@@ -112,6 +112,9 @@ License, or any later version. */
     <ol>
      <li> We still get "This is CryptoMiniSat 2.7.0". </li>
      <li> We should report this to the author. </li>
+     <li> Actually, on csltok we get "This is CryptoMiniSat 2.7.1". </li>
+     <li> Was there an update (without changing the version number)? </li>
+     <li> Or has this to do with the versions of the build tools? </li>
     </ol>
    </li>
    <li> Installing newer versions, directly from the Git repository:
