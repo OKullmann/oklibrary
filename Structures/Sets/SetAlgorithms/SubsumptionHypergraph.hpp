@@ -7,22 +7,20 @@ License, or any later version. */
 
 /*!
   \file Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp
-  \brief Module, which implements a subsumption hypergraph generator.
+  \brief Module, which implements a subsumption hypergraph generator
 
   Given two set systems F and G, the subsumption hypergraph of F with
   respect to G is the hypergraph with F as the vertex set and a hyperedge H
   for every set S in G, where H is the largest subset of F where every T in H 
   subsumes (i.e. is a subset of) S.
 
-  In reality, one typically doesn't need the original sets from G and simply
-  wants a standardised version, and also wants an ordered version rather than
-  using sets.
+  One typically doesn't need the original sets from G and wants a standardised
+  version, and also wants an ordered version rather than using sets.
 
   Therefore assuming an order on F and G, one considers the standardised 
-  ordered subsumption hypergraph of F and G with vertex list [1,..,|F|] and
-  hyperedge list [H_1,...,H_|G|] where for all 1 <= j <= |G|, we have H[j]
-  is the sublist of [1,...,|F|] and i is in H[j] if F[i] subsumes
-  G[j].
+  ordered subsumption hypergraph of F and G with vertex list (1,..,|F|) and
+  hyperedge list (H_1,...,H_|G|) where for all 1 <= j <= |G|, we have that H_j
+  is the sublist of (1,...,|F|) and i is in H_j if F_i subsumes G_j.
 
   The class implemented here implements the generation of such an ordered
   subsumption hypergraph given (ordered) set systems F and G.
@@ -119,7 +117,6 @@ namespace OKlib {
       
       //! The list of vertices in the subsumption hypergraph, one for
       //! every set in F.
-      //!
       //! Note here that these are index/integral types as the hypergraph
       //! is standardised. 
       const hyperedge_type vertex_set;
@@ -268,8 +265,6 @@ namespace OKlib {
     }
 
   }
-
 }
-
 
 #endif
