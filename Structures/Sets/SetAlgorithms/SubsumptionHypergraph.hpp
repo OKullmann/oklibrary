@@ -104,13 +104,13 @@ namespace OKlib {
 
     public :
 
-      //! The type of container for hyperedges associated with the subsumption
-      //! hypergraph.
-      typedef std::vector<Int> hyperedge_type;
       //! The type of vertices associated with the subsumption hypergraph.
       //! Note here that these are index/integral types as the hypergraph
       //! is standardised.
       typedef Int vertex_type;
+      //! The type of container for hyperedges associated with the subsumption
+      //! hypergraph.
+      typedef std::vector<vertex_type> hyperedge_type;
       //! The type of the set system corresponding to the subsumption 
       //! hypergraph itself, and specifically the container of it's
       //! hyperedges (see Subsumption_hypergraph::hyperedges).
