@@ -55,11 +55,14 @@ License, or any later version. */
      \endverbatim
      </li>
      <li> One should try to fit this curve. </li>
-     <li> As the single shortest clause (of length 170) as special meaning?
+     <li> Has the single shortest clause (of length 170) a special meaning?
      What is its original clause? </li>
      </li>
     </ol>
    </li>
+   <li> See "First considerations of random permutation" in
+   Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for
+   random permutations. </li>
   </ul>
 
 
