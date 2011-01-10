@@ -193,11 +193,35 @@ Cannot allocate enough memory!
 ==23882==    by 0x4067D4: main (Solver.h:683)
      \endverbatim
      </li>
+     <li> Also with a newer version (from the Git repository, ID
+     50b2e0dbffb980d3b802a2ceb694aad06e324919) we get an error:
+     \verbatim
+> valgrind --track-origins=yes cryptominisat VanDerWaerden_pd_2-3-24_593.cnf
+...
+==9178== Conditional jump or move depends on uninitialised value(s)
+==9178==    at 0x446DC5: Subsumer::blockedClauseRemoval() (Subsumer.cpp:2097)
+==9178==    by 0x44BFB2: Subsumer::simplifyBySubsumption(bool) (Subsumer.cpp:1296)
+==9178==    by 0x4237E5: Solver::performStepsBeforeSolve() (Solver.cpp:2616)
+==9178==    by 0x42DE0A: Solver::solve(vec<Lit> const&, int, int) (Solver.cpp:2713)
+==9178==    by 0x468616: _ZN8MTSolver5solveERK3vecI3LitE.omp_fn.0 (MTSolver.cpp:93)
+==9178==    by 0x4688D0: MTSolver::solve(vec<Lit> const&) (MTSolver.cpp:86)
+==9178==    by 0x405FA4: Main::solve() (MTSolver.h:201)
+==9178==    by 0x4064CC: main (Main.cpp:771)
+==9178==  Uninitialised value was created by a heap allocation
+==9178==    at 0x4C267D0: operator new(unsigned long) (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==9178==    by 0x42918C: Solver::Solver(SolverConf const&, GaussConf const&, SharedData*) (Solver.cpp:117)
+==9178==    by 0x467B49: MTSolver::setupOneSolver(int) (MTSolver.cpp:73)
+==9178==    by 0x4684D1: MTSolver::MTSolver(int, SolverConf const&, GaussConf const&) (MTSolver.cpp:44)
+==9178==    by 0x405E90: Main::solve() (Main.cpp:699)
+==9178==    by 0x4064CC: main (Main.cpp:771)
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
    of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
    </li>
+   <li> The newer versions don't use Boost anymore. </li>
    <li> The Git-repository is
    http://gitorious.org/cryptominisat/cryptominisat/. </li>
    <li> Wrong version number reporting:
@@ -211,21 +235,19 @@ Cannot allocate enough memory!
    </li>
    <li> Installing newer versions, directly from the Git repository:
     <ol>
-     <li> We have version 2.7.1.1 created, however building fails:
+     <li> To create the package, newer versions of the auto-tools are needed.
+     </li>
+     <li> Creation of e.g. version 2.7.1.1:
      \verbatim
-ExternalSources> oklib cryptominisat_git cryptominisat_recommended_version_number_okl=2.7.1.1 gcc_recommended_version_number_okl=4.1.2
-
-automake
-autoconf
-configure.in:36: error: possibly undefined macro: AC_OPENMP
-      If this token and others are legitimate, please use m4_pattern_allow.
-      See the Autoconf documentation.
-make[1]: *** [all] Error 1
+> cd OKplatform/ExternalSources/sources/SAT/CryptoMiniSat
+> git clone $(cryptominisat_git_url_okl)
+> cd cryptominisat
+> make -f Makefile.cvs
+> cd ..
+> mv cryptominisat cryptominisat-2.7.1.1
+> tar -cjf cryptominisat-2.7.1.1.tar.bz2 cryptominisat-2.7.1.1
      \endverbatim
      </li>
-     <li> Contact the author. </li>
-     <li> We also need to be able to specify the location of our Boost
-     installation. </li>
     </ol>
    </li>
    <li> DONE Can be installed like so:
