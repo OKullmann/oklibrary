@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -165,9 +165,26 @@ License, or any later version. */
    <li> Otherwise all output is copied to <code>log/OKlibBuilding</code>. </li>
   </ul>
 
-  If configuration is needed, for example using Maxima with a different
-  Lisp), then specify the corresponding make-variables <em>before</em>
-  the <code>oklib</code> call.
+  Setting of configuration variables:
+  <ul>
+   <li> If configuration is needed, for example using Maxima with a different
+   Lisp, then specify the corresponding make-variables <em>before</em>
+   the <code>oklib</code> call (on the command-line), e.g.
+   \code
+OKplatform> maxima_lisp_name_okl=clisp oklib --maxima
+   \endcode
+   </li>
+   <li> In case <code>oklib</code> invokes a make-file, and thus all parameters
+   are passed to the make-process, in principle configuration-variables can be
+   also placed as arguments of <code>oklib</code>, however if the string has
+   spaces in it, then the quotes will break if not doing tricky things. So
+   also here specifying the configuration-variable(s) as environment-variable
+   before the <code>oklib</code>-call is needed, e.g.:
+   \code
+OKsystem> Test_tool="valgrind --quiet" oklib all check new_check app_tests html test_level=full
+   \endcode
+   </li>
+  </ul>
 
 */
 

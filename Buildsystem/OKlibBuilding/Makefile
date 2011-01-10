@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-# Copyright 2002-2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2002-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -501,7 +501,7 @@ Warning_options := -Wall
 # the process time and the system time used in total for 
 # the execution)
 # ----------------------------------------------------------
-Compile_tool := time -p
+Compile_tool ?= time -p
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -514,7 +514,7 @@ Compile_tool := time -p
 # the process time and the system time used in total for 
 # the execution)
 # ----------------------------------------------------------
-Link_tool := time -p
+Link_tool ?= time -p
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -529,7 +529,7 @@ Link_tool := time -p
 # Setting Test_tool="valgrind --quiet" runs all tests with 
 # memory check.
 # ----------------------------------------------------------
-Test_tool := time -p
+Test_tool ?= time -p
 # ----------------------------------------------------------
 
 # ######################################################################
