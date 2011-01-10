@@ -28,6 +28,23 @@ License, or any later version. */
    ubcsat-developers. </li>
    <li> The new version still seems not usable; bug report sent to
    ubcsat-developers. </li>
+   <li> After update the problem looks like that:
+   \verbatim
+ubcsat-1-2-0-beta> make ubcsat_debug
+ubcsat-1-2-0-beta> valgrind --track-origins=yes ./ubcsat_debug -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
+==32044== Conditional jump or move depends on uninitialised value(s)
+==32044==    at 0x40AAFD: PickRoTS (rots.c:123)
+==32044==    by 0x454A38: ubcsatmain (ubcsat.c:95)
+==32044==    by 0x454EBA: main (ubcsat.c:149)
+==32044==  Uninitialised value was created by a heap allocation
+==32044==    at 0x4B1B16E: malloc (vg_replace_malloc.c:236)
+==32044==    by 0x41D60D: AllocateRAM (ubcsat-mem.c:71)
+==32044==    by 0x41D949: SetString (ubcsat-mem.c:98)
+==32044==    by 0x41BD51: SetupUBCSAT (ubcsat-internal.c:1847)
+==32044==    by 0x4544B2: ubcsatmain (ubcsat.c:33)
+==32044==    by 0x454EBA: main (ubcsat.c:149)
+   \endverbatim
+   </li>
   </ul>
 
 
