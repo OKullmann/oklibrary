@@ -207,7 +207,8 @@ License, or any later version. */
      D = {0, ..., p-1}. So fftz for p=2 is exactly the case bft. </li>
     </ol>
    </li>
-   <li> The Espresso-program uses some file format. MG, please provide links.
+   <li> For information on how to use Espresso and the file format involved
+   see Buildsystem/ExternalSources/SpecialBuilds/docus/Espresso.hpp . </li>
    </li>
   </ul>
 
