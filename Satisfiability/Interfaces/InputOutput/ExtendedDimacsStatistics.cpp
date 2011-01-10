@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,9 +15,18 @@ License, or any later version. */
 */
 
 #include <iostream>
+#include <string>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
+
+namespace {
+
+  const std::string program = "ExtendedDimacsStatistics";
+
+  const std::string version = "0.1.1";
+
+}
 
 int main() {
   typedef OKlib::InputOutput::CLSAdaptorStatistics<> CLSAdaptor;

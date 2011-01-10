@@ -1,4 +1,4 @@
-/ Oliver Kullmann, 6.6.2009 (Swansea)
+// Oliver Kullmann, 6.6.2009 (Swansea)
 /* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -12,10 +12,14 @@ License, or any later version. */
 
   \todo Better output for InputOutput/ExtendedDimacsStatistics.cpp
   <ul>
-   <li> The output description should be more descriptive. </li>
+   <li> DONE
+   The output description should be more descriptive. </li>
    <li> Also the maximal index and the real number of variables is needed.
    </li>
-   <li> And via a command-line parameter "raw output" (just the numbers,
+   <li> DONE
+   The output should be in a R-table-like form. </li>
+   <li> DONE (not needed; if needed, just remove the first line)
+   And via a command-line parameter "raw output" (just the numbers,
    separated by spaces) are output. </li>
    <li> Compare with InputOutput/ExtendedDimacsFullStatistics.cpp. </li>
    <li> Likely Messages should be used. </li>
