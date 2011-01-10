@@ -163,7 +163,7 @@ shell> espresso2.3 -Dexact Sbox.pla
 
   \todo Small CNFs with espresso
   <ul>
-   <li> Computing the minimum CNF:
+   <li> Computing some small CNF:
    \verbatim
 maxima> SboxCNF: fcs2fcl(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4))$
 maxima> output_tt2pla(fcl2tt( SboxCNF ),"Sbox.pla")$
@@ -182,7 +182,7 @@ shell> espresso2.3 Sbox.pla
    <li> See    
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/general.hpp .
    </li>
-   <li> Computing the minimum CNF:
+   <li> Computing a minimum CNF:
    \verbatim
 maxima> SboxCNF: fcs2fcl(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4))$
 maxima> output_tt2table(fcl2tt(SboxCNF),"Sbox.dat")$

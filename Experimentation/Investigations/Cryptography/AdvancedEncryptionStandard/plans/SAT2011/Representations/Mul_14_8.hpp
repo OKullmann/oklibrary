@@ -9,8 +9,6 @@ License, or any later version. */
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp
   \brief Investigations into AES field multiplication by 14 for the 8-bit field.
 
-
-
   \todo Overview
   <ul>
    <li> XXX </li>
@@ -29,7 +27,6 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_14.cnf > AES_byte_f
    \endverbatim
    yields a CNF with:
    \verbatim
-   \endverbatim
 shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_14.cnf
 ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_14.cnf
 c's = 1, n = 16, c = 14300, tc = 0, ntc = 14300, tl = 114252, l = 114252, finished = 1
@@ -40,6 +37,7 @@ c's = 1, n = 16, c = 14300, tc = 0, ntc = 14300, tl = 114252, l = 114252, finish
 7 : 2496
 8 : 5120
 9 : 5376
+   \endverbatim
    </li>
   </ul>
 
