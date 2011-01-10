@@ -135,6 +135,10 @@ License, or any later version. */
    <li> Cryopid at http://cryopid.berlios.de/ seems to offer this.
     <ol>
      <li> The web page was last updated 2005? </li>
+     <li> However, the mailing list seems to have continual
+     activity (see 
+     https://lists.berlios.de/pipermail/cryopid-devel/2009-May/thread.html ).
+     </li>
     </ol>
    </li>
   </ul>
