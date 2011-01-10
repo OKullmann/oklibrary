@@ -221,7 +221,8 @@ Cannot allocate enough memory!
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
    of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
    </li>
-   <li> The newer versions don't use Boost anymore. </li>
+   <li> DONE
+   The newer versions don't use Boost anymore. </li>
    <li> The Git-repository is
    http://gitorious.org/cryptominisat/cryptominisat/. </li>
    <li> Wrong version number reporting:

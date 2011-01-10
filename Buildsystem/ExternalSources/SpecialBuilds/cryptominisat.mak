@@ -25,7 +25,7 @@ $(cryptominisat_directories_okl) : % :
 cryptominisat : $(cryptominisat_directories_okl)
 	$(call unarchive,$(cryptominisat_source_okl),$(cryptominisat_base_build_dir_okl)) $(postcondition) \
 	cd $(cryptominisat_build_dir_okl); $(postcondition) \
-	./configure --with-boost=$(boost_installation_dir_okl); $(postcondition) \
+	./configure; $(postcondition) \
 	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) all; $(postcondition) \
 	cp -f $(cryptominisat_exec_okl) $(cryptominisat_call_okl); $(postcondition) \
 	ln -s --force $(cryptominisat_call_okl) $(public_bin_dir_okl)/$(cryptominisat_public_call_okl); $(postcondition)
