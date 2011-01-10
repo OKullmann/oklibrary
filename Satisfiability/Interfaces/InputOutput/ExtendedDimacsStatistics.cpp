@@ -24,7 +24,7 @@ namespace {
 
   const std::string program = "ExtendedDimacsStatistics";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 
 }
 

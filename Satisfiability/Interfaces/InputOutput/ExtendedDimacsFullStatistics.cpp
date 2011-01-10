@@ -31,7 +31,7 @@ namespace {
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.2";
+  const std::string version = "0.1.3";
 
   using namespace OKlib::InputOutput;
 
