@@ -43,6 +43,9 @@ License, or any later version. */
    \endverbatim
    </li>
    <li> MG needs to add instructions on how to reproduce this. </li>
+   <li> Also information is needed on the computer and on the version of
+   Quine-McCluskey. At least in the Git-history we want to see how
+   running-times evolve over time. </li>
   </ul>
 
 
@@ -426,6 +429,9 @@ struct QuineMcCluskey {
 
   \todo Improvements of the implementation
   <ul>
+   <li> See "Computing all prime clauses for a full clause-set" in
+   Experimentation/Investigations/BooleanFunctions/plans/QuineMcCluskey.hpp
+   for investigations. </li>
    <li> Likely we keep the following basic structure:
     <ol>
      <li> k runs from n to 1. </li>
