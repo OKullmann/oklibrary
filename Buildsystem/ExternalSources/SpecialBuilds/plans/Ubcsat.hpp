@@ -18,6 +18,11 @@ License, or any later version. */
    "#define MAXPARMLINELEN 16384". </li>
    <li> "new-ubcsat-okl" is the wrapper-script to access the new version
    (besides the old version). </li>
+   <li> Update to a newer version via
+   \verbatim
+> ubcsat-1-2-0-beta> git pull https://github.com/dtompkins/ubcsat.git beta
+   \endverbatim
+   inside the extracted archive (then archiving it again). </li>
    <li> DONE (we didn't check out the beta-version)
    The current version is not usable at all; e-mail sent to
    ubcsat-developers. </li>
