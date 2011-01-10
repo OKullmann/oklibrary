@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -126,7 +126,9 @@ int main() {
     s2 << d << "\n";
     s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
     s2 << d << "\n";
+    std::stringstream s2alt; s2alt << s2.str();
     s2 << "\nElapsed: 0s\n2 testobjects.\n";
-    assert(s.str() == s2.str());
+    s2alt << "\nElapsed: 0.01s\n2 testobjects.\n";
+    assert(s.str() == s2.str() or s.str() == s2alt.str());
   }
 }
