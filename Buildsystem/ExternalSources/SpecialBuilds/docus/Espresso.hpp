@@ -129,6 +129,8 @@ License, or any later version. */
    <li> If an entry is marked with a "-", this is simply shorthand for the
    expansion into multiple truth table entries where the "-" values take every
    possibility but the rest of the values remain unchanged. </li>
+   <li> For more information on the PLA format, see
+   ExternalSources/sources/Boolean/Espresso/espresso.5.html . </li>
   </ul>
 
 */

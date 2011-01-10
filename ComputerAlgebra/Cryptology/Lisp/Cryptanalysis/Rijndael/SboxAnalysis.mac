@@ -191,6 +191,70 @@ ss_sbox_linmap_cnfp(FF,b,e) :=
   ss_sbox_linmap_gen_cnfp(FF,b,e,ss_polynomial(b,e), ss_sbox_matrix(b,e))$
 
 
+
+/* ******************************************************************
+   * Small scale multiplication then Sbox linear map analysis       *
+   ******************************************************************
+*/
+
+
+/* Generation of the full DNF clause-set representing the small scale AES Sbox
+   linear map the base of the small scale byte field, the exponent of the
+   field, the modulo polynomial defining the field, as well as the sbox
+   matrix: */
+ss_mul_w_sbox_linmap_fulldnf_gen_fcl(a,b,e,mod_poly, sbox_matrix) :=
+  ss_field_op_fulldnf_gen_fcl(
+    lambda([fe], ss_mul_w_sbox_linmap_gen(fe,a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_mul_w_sbox_linmap_fulldnf_fcl(a,b,e,mod_poly) :=
+  ss_mul_w_sbox_linmap_fulldnf_gen_fcl(a,b,e,mod_poly,ss_sbox_matrix(b,e))$
+ss_mul_w_sbox_linmap_fulldnf_gen_fcs(a,b,e,mod_poly, sbox_matrix) :=
+  fcl2fcs(ss_mul_w_sbox_linmap_fulldnf_gen_fcl(a,b,e,mod_poly, sbox_matrix))$
+ss_mul_w_sbox_linmap_fulldnf_fcs(a,b,e,mod_poly) :=
+  fcl2fcs(ss_mul_w_sbox_linmap_fulldnf_fcl(a,b,e,mod_poly))$
+
+/* Generation of the full CNF clause-set representing the small scale AES
+   sbox linear map: */
+ss_mul_w_sbox_linmap_fullcnf_gen_fcs(a,b,e,mod_poly,sbox_matrix) :=
+  ss_field_op_fullcnf_gen_fcs(
+    lambda([fe], ss_mul_w_sbox_linmap_gen(fe,a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_mul_w_sbox_linmap_fullcnf_fcs(a,b,e) :=
+  ss_mul_w_sbox_linmap_fullcnf_gen_fcs(a,b,e,ss_polynomial(b,e),
+    ss_sbox_matrix(b,e))$
+
+/* Output the full CNF clause-set of the permutation given by the small scale
+   AES Sbox linear map:
+*/
+output_ss_mul_w_sbox_linmap_fullcnf_gen_stdname(a,b,e,mod_poly,sbox_matrix) :=
+  output_fcs(
+    sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
+      "CNF representation."),
+    ss_sbox_fullcnf_fcs(a,b,e,mod_poly, sbox_matrix),
+    sconcat("AES_sbox_lin_",a,"_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
+      "_full.cnf"))$
+output_ss_mul_w_sbox_linmap_fullcnf_stdname(a,b,e) := block(
+  [sbox_matrix : ss_sbox_matrix(b,e)],
+  output_fcs(
+    sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
+      "CNF representation."),
+    ss_mul_w_sbox_linmap_fullcnf_fcs(a,b,e),
+    sconcat("AES_sbox_lin_",a,"_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
+      "_full.cnf")))$
+
+/* Tests whether a formal CNF clause-set represents the small scale AES sbox
+   linear map given the appropriate parameters.
+
+   This function is useful when generating Sbox representations as
+   one can then test whether such representations are equivalent
+   to the Sbox. See plans/SboxAnalysis.hpp .
+*/
+ss_mul_w_sbox_linmap_gen_cnfp(FF,a,b,e,mod_poly,sbox_matrix) :=
+  ss_field_op_gen_cnfp(FF,
+    lambda([fe], ss_mul_w_sbox_linmap_gen(fe,a,b,e,mod_poly,sbox_matrix)),b,e)$
+ss_mul_w_sbox_linmap_cnfp(FF,a,b,e) := 
+  ss_mul_w_sbox_linmap_gen_cnfp(FF,a,b,e,ss_polynomial(b,e),
+    ss_sbox_matrix(b,e))$
+
+
 /* ******************************************
    * Representations by hitting clause-sets *
    ******************************************

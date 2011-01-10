@@ -16,7 +16,8 @@ License, or any later version. */
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
   the following topics are handled:
-    - Test failure at level "full"
+    - Functions should not cache return values
+    - Test failure at level "full" : DONE
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
