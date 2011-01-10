@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -77,6 +77,13 @@ perm2dnffcs(P) := fcl2fcs(perm2dnffcl(P))$
 perm2cnffcs(P) := block([m : length(P), FF : perm2dnffcs(P), k],
   k : fld(m),
   return([FF[1], setdifference(all_tass(setn(2*k)), FF[2])]))$
+
+/* Output of clause-set perm2cnffcs(P) to file "Permutation_full.cnf": */
+output_perm_fullcnf_stdname(P) :=
+  output_fcs(
+    sconcat("The permutation", P, "in full CNF representation."),
+    perm2cnffcs(P),
+    "Permutation_full.cnf")$
 
 /*!
 \endhtmlonly
