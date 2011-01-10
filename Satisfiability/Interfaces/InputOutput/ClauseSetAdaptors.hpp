@@ -158,7 +158,7 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const FullStatistics& s) {
-        out << s.stat << "\n";
+        out << s.stat << "\n length count\n";
         typedef typename map_type::const_iterator iterator;
         iterator begin = s.clause_lengths.begin();
         iterator end = s.clause_lengths.end();

@@ -62,12 +62,15 @@ License, or any later version. */
   <ul>
    <li> See "Better output for InputOutput/ExtendedDimacsStatistics.cpp"
    above. </li>
-   <li> Additionally we now have the problem that we have two types of output,
+   <li> DONE (lines need to be removed if needed)
+   Additionally we now have the problem that we have two types of output,
    and that seems not directly handable by R. </li>
-   <li> Though one could handle it by skipping initial and trailing parts of
+   <li> DONE (that's how we handle it)
+   Though one could handle it by skipping initial and trailing parts of
    the file. </li>
    <li> We should write a little R helper function. </li>
-   <li> Likely in general our output shot be easily R-readable, at least by
+   <li> DONE
+   Likely in general our output shot be easily R-readable, at least by
    some option. </li>
    <li> We should standardise this option: perhaps "--R-friendly". </li>
   </ul>
