@@ -10,20 +10,6 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
 
-  \bug Test failure at level "full"
-  <ul>
-   <li> For Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac we get
-   \verbatim
-okltest_ss_mul_ts_var_l(ss_mul_ts_var_l)
-Evaluation took 0.0900 seconds (0.1800 elapsed)
-true
-okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl)
-map: arguments must be the same length.
-   \endverbatim
-   </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
@@ -31,6 +17,22 @@ map: arguments must be the same length.
    <li> See
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
    for investigations. </li>
+  </ul>
+
+
+  \todo Functions should not cache return values
+  <ul>
+   <li> Functions such as ss_mul_ts_gen and ss_sbox_ts_gen should
+   not cache their result (see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac). 
+   </li>
+   <li> While this may save a considerable amount of time in
+   some computations, it is poor practice as it causes these functions
+   to have unintended side-effects. We should try to make as many functions as
+   possible side-effect free. </li>
+   <li> Instead, we should use functionality that allows us to cache the 
+   results of arbitrary function calls. See "Introduce memoise function 
+   wrapper" in ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp . </li>
   </ul>
 
 
@@ -166,6 +168,20 @@ map: arguments must be the same length.
   </ul>
 
 
+  \bug DONE (caused by lack of uniqueness of hash keys used to
+  cache the values)
+  Test failure at level "full"
+  <ul>
+   <li> For Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac we get
+   \verbatim
+okltest_ss_mul_ts_var_l(ss_mul_ts_var_l)
+Evaluation took 0.0900 seconds (0.1800 elapsed)
+true
+okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl)
+map: arguments must be the same length.
+   \endverbatim
+   </li>
+  </ul>
 
 */
 

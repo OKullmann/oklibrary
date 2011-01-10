@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,11 @@ License, or any later version. */
 
   \par ComputerAlgebra/Combinatorics version 0.0.4 : DONE
   (see ComputerAlgebra/Combinatorics/plans/milestones.hpp)
+
+  \par
+   In ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp the following 
+   topics are handled:
+    - Introduce memoise function wrapper
 
   \par ComputerAlgebra/Hypergraphs version 0.0.8 : DONE
   (see ComputerAlgebra/Hypergraphs/Lisp/plans/milestones.hpp)

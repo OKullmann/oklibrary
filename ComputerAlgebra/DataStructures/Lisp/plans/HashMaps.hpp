@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.5.2008 (Guangzhou)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,25 +10,31 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding maps
 
 
-  \bug DONE (removed the additional assumptions and tests)
-  False assumption for testing hash-maps
+  \todo Introduce memoise function wrapper
   <ul>
-   <li> The test-functions eq_ohmsm_p and eq_hmsm_p assume that two hash-maps,
-   which are equal as set-maps, yield the same strings, but this is not true
-   for ecl, where the strings are not, as with clisp, a translation of the
-   set-maps, but just contain (apparently) a memory address. </li>
-   <li> More precisely, with clisp the hash-maps as strings contains the
-   list of assignments as well as the annotation-string (if present), while
-   with ecl none of this information is contained, but a reference to the
-   underlying object. </li>
-   <li> DONE (we drop the tests --- they were created when we didn't fully
-   understand the issues, and thus became overly cautious)
-   The simplest solution is to abandon these extra tests.
-   Or one could distinguish here between clisp and ecl. </li>
-   <li> DONE (we don't make assumptions on the order of entries in a
-   hash-map)
-   Apparently one must treat the order of the pairs in the hash-map as
-   implementation-defined (so that one shouldn't use it). </li>
+   <li> Often we wish to call the same function many times in
+   many different places with the same arguments, and the result
+   takes a considerable amount of time to compute. </li>
+   <li> A solution to this is to store the result in a hash table
+   where the key is the arguments to the function. </li>
+   <li> Such a solution can easily be written into a single function
+   (say memoise_f) which given a function name, and arguments to that 
+   function:
+   <ul>
+    <li> returns the result of that function from a global hash_table if the 
+    hash key occurs. </li>
+    <li> computes the result and then stores the value with the hash key
+    for later re-use otherwise. </li>
+   </ul>
+   where the hash key is the list with the function name  and arguments.
+   </li>
+   <li> It seems better to take an empty hash table as an argument to 
+   memoise_f rather than keeping a global hash_table, so that any other 
+   function memoise_f has this hash_table properly scoped and can destroy
+   it is no longer needed. </li>
+   <li> See "Functions should not cache return values" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp .
+   </li>
   </ul>
 
 
@@ -157,6 +163,28 @@ allinj_sm(A,B) := if length(A) > length(B) then {}
    form to choose. </li>
    <li> Compare "Conversions" in
    ComputerAlgebra/CombinatorialMatrices/Lisp/plans/Basics.hpp. </li>
+  </ul>
+
+
+  \bug DONE (removed the additional assumptions and tests)
+  False assumption for testing hash-maps
+  <ul>
+   <li> The test-functions eq_ohmsm_p and eq_hmsm_p assume that two hash-maps,
+   which are equal as set-maps, yield the same strings, but this is not true
+   for ecl, where the strings are not, as with clisp, a translation of the
+   set-maps, but just contain (apparently) a memory address. </li>
+   <li> More precisely, with clisp the hash-maps as strings contains the
+   list of assignments as well as the annotation-string (if present), while
+   with ecl none of this information is contained, but a reference to the
+   underlying object. </li>
+   <li> DONE (we drop the tests --- they were created when we didn't fully
+   understand the issues, and thus became overly cautious)
+   The simplest solution is to abandon these extra tests.
+   Or one could distinguish here between clisp and ecl. </li>
+   <li> DONE (we don't make assumptions on the order of entries in a
+   hash-map)
+   Apparently one must treat the order of the pairs in the hash-map as
+   implementation-defined (so that one shouldn't use it). </li>
   </ul>
 
 */

@@ -880,11 +880,11 @@ ss_key_expansion_cstr_cstl(cst) := block(
 */
 
 ss_mul_ts_CNF : sm2hm({})$
-ss_mul_ts_gen(p, b,e,mod_poly) := 
-  if ev_hm_d(ss_mul_ts_CNF,p+1,false) = false then
+ss_mul_ts_gen(p, b,e,mod_poly) := block([hash_key : [p+1,b,e,mod_poly]],
+  if ev_hm_d(ss_mul_ts_CNF,hash_key,false) = false then
     block([plus16 : lambda([x],x+2*e),
       mul_dnf : ssmult_fulldnf_fcs(p,b,e,mod_poly)],
-      set_hm(ss_mul_ts_CNF,p+1,
+      set_hm(ss_mul_ts_CNF,hash_key,
         dualts_fcl(
           [listify(mul_dnf[1]),
           sort(
@@ -894,24 +894,26 @@ ss_mul_ts_gen(p, b,e,mod_poly) :=
                 rank_lex_ksubsets(map(plus16,d),e*4)))
             )]
           )),
-      return(ev_hm(ss_mul_ts_CNF,p+1))
-      ) else ev_hm(ss_mul_ts_CNF,p+1)$
+      return(ev_hm(ss_mul_ts_CNF,hash_key))
+      ) else ev_hm(ss_mul_ts_CNF,hash_key))$
 
-ss_sbox_ts_CNF : false;
-ss_sbox_ts_gen(b,e,mod_poly) := 
-  if aes_sbox_ts_CNF = false then block([plus16 : lambda([x],x+e*2),
+ss_sbox_ts_CNF : sm2hm({})$
+ss_sbox_ts_gen(b,e,mod_poly) := block([hash_key : [b,e,mod_poly]],
+  if ev_hm_d(ss_sbox_ts_CNF,hash_key,false) = false then
+    block([plus16 : lambda([x],x+e*2),
       sbox_dnf : ss_sbox_fulldnf_fcs(b,e,mod_poly)],
-    ss_sbox_ts_CNF : dualts_fcl(
-      [listify(sbox_dnf[1]),
-       sort(
-         listify(sbox_dnf[2]),
-         lambda([c,d], is(
-           rank_lex_ksubsets(map(plus16,c),e*4) < 
-             rank_lex_ksubsets(map(plus16,d),e*4)))
-        )]
-     ), 
-     return(ss_sbox_ts_CNF)
-  ) else ss_sbox_ts_CNF$
+      set_hm(ss_sbox_ts_CNF,hash_key,
+        dualts_fcl(
+          [listify(sbox_dnf[1]),
+          sort(
+            listify(sbox_dnf[2]),
+            lambda([c,d], is(
+                rank_lex_ksubsets(map(plus16,c),e*4) < 
+                rank_lex_ksubsets(map(plus16,d),e*4)))
+            )]
+          )), 
+        return(ev_hm(ss_sbox_ts_CNF,hash_key))
+        ) else ev_hm(ss_sbox_ts_CNF,hash_key))$
 
 /* Returns a list of CNF clauses representing the sbox relation
    given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
