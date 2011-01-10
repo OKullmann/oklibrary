@@ -18,8 +18,12 @@ License, or any later version. */
    <li> Prime implicates:
     <ol>
      <li> There are 136253 prime implicates, with 999896 literals in total, and
-     with clause-length-distribution
+     with clause-length-distribution as follows:
      \verbatim
+> cat AES_PK.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 136253 999896 0 999896 1 1
+ length count
 5 1
 6 4148
 7 82659
@@ -35,7 +39,11 @@ License, or any later version. */
      <li> Creation:
      \verbatim
 > QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_S.cnf
-> time cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
+> cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
+
+> head -2 AES_S_stat
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+136253 65280 59122688 0 59122688 1 1
      \endverbatim
      </li>
      <li> All original prime-clauses occur as 136253 variables, and all
@@ -45,13 +53,15 @@ License, or any later version. */
      both sides. </li>
      <li> R-summary:
      \verbatim
-       k                nr        
+> E=read.table("AES_S_stat",skip=2,header=TRUE)
+     length           count       
  Min.   : 170.0   Min.   :  1.00  
  1st Qu.: 555.2   1st Qu.: 11.25  
  Median : 846.5   Median : 38.00  
  Mean   : 845.8   Mean   : 55.99  
  3rd Qu.:1137.8   3rd Qu.:102.00  
  Max.   :1517.0   Max.   :173.00  
+> plot(E)
      \endverbatim
      </li>
      <li> One should try to fit this curve. </li>

@@ -282,7 +282,9 @@ output_perm_fullcnf_stdname(P)$
 > QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG Permutation_full.cnf PrimeP.cnf > SP.cnf
 
 > cat PrimeP.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
-c's = 1, n = 16, c = 140925, tc = 0, ntc = 140925, tl = 1035782, l = 1035782, finished = 1
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 140925 1035782 0 1035782 1 1
+ length count
 5 2
 6 3556
 7 85110
@@ -291,16 +293,20 @@ c's = 1, n = 16, c = 140925, tc = 0, ntc = 140925, tl = 1035782, l = 1035782, fi
 
 > cat SP.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > SP_stat
 
-> E=read.table("SP_stat",skip=1)
+> head -2 SP_stat
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+140925 65280 60521472 0 60521472 1 1
+
+> E=read.table("SP_stat",skip=2,header=TRUE)
 > summary(E)
-       V1             V2        
+     length           count       
  Min.   : 177.0   Min.   :  1.00  
  1st Qu.: 575.8   1st Qu.:  9.00  
  Median : 876.5   Median : 34.00  
  Mean   : 876.9   Mean   : 54.22  
  3rd Qu.:1177.2   3rd Qu.:100.00  
  Max.   :1593.0   Max.   :175.00  
-plot(E)
+> plot(E)
    \endverbatim
    </li>
    <li> Looks similar to the AES Sbox (see "Basic data" in
