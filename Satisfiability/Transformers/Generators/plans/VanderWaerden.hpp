@@ -20,6 +20,36 @@ License, or any later version. */
   </ul>
 
 
+  \bug App tests use obsolete tail syntax.
+  <ul>
+   <li> The VanderWaerdenCNF application tests yield the following error on some
+   systems:
+   \verbatim
+TEST PROBLEMS FOUND:
+test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-2-2_2.cnf
+test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-3-3_3.cnf
+test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-3-3_6.cnf
+test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-2-2_5.cnf
+test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-3-4_7.cnf
+PROCESSING:
+/home/csmg/Work/OKlibrary/OKplatform/system_directories/bin/VanderWaerdenCNF
+Filename: test_cases/basic/VanderWaerdenCNF/VanDerWaerden_2-2-2_2.cnf
+tail: cannot open `+5' for reading: No such file or directory
+0a1,3
+> p cnf 2 2
+> 1 2 0
+> -1 -2 0
+make: *** [app_tests] Error 1
+make: Leaving directory `/home/csmg/Work/OKlibrary/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators'
+   \endverbatim
+   </li>
+   <li> This is because the "tail +5" syntax is obsolete, and should now be
+   "tail -n +5". See
+   http://www.gnu.org/software/coreutils/manual/html_node/tail-invocation.html .
+   </li>
+  </ul>
+
+
   \todo Update
   <ul>
    <li> See the todos in
