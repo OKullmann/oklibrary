@@ -122,6 +122,11 @@ Break point 2: 1411
    \endverbatim
    where all solutions were found within in the first 10 runs for phase 1, and
    within the first 37 runs for phase 2. </li>
+   <li> Trying to determine best ubcsat-1.2-algorithm:
+   \verbatim
+E=run_ubcsat("VanDerWaerden_pd_2-3-39_1410.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+   \endverbatim
+   </li>
   </ul>
 
 */
