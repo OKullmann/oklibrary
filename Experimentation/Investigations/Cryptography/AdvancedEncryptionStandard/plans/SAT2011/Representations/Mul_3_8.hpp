@@ -32,7 +32,6 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_fi
    \endverbatim
    yields a CNF with:
    \verbatim
-   \endverbatim
 shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
 c's = 1, n = 16, c = 5048, tc = 0, ntc = 5048, tl = 39592, l = 39592, finished = 1
 3 : 24
@@ -42,6 +41,7 @@ c's = 1, n = 16, c = 5048, tc = 0, ntc = 5048, tl = 39592, l = 39592, finished =
 7 : 768
 8 : 1408
 9 : 2048
+   \endverbatim
    </li>
   </ul>
 
