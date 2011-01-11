@@ -92,6 +92,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Generating polynomial representations of field operations
+  <ul>
+   <li> Any small scale field operation can be represented as a 
+   polynomial of degree at most (b^e)-1. </li>
+   <li> There are at most b^e points and it forms a field, therefore
+   we find this polynomial via linear interpolation. </li>
+   <li> We need to implement linear interpolation over the field
+   for arbitrary fields. </li>
+  </ul>
+
+
   \todo Update
   <ul>
    <li> It seems that these todos as well as the milestones are out-of-date.
