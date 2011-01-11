@@ -18,31 +18,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add option to generate statistics files
-  <ul>
-   <li> A popular use case (see 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp) 
-   for this program is to examine the statistics for the prime implicates and 
-   subsumption hypergraph. </li>
-   <li> Currently one must output the various clause-sets and then
-   read them into the statistics program, which given the size of
-   the output is often very time consuming. </li>
-   <li> Therefore we need options to:
-   <ul>
-    <li> generate the statistics for the prime implicates and
-    subsumption hypergraph and output them to files, and also
-    output the subsumption hypergraph (and prime implicates). </li>
-    <li> generate just the statistics for the prime implicates and
-    subsumption hypergraph. </li>
-    <li> generate just the subsumption hypergraph (and prime implicates).
-    </li>
-   </ul>
-   </li>
-   <li> As in "Standardise name of prime implicates file", standard
-   names should be used for these files. </li>
-  </ul>
-
-
   \todo Standardise name of prime implicates file
   <ul>
    <li> Currently the prime implicates calculated during the computation
@@ -87,6 +62,33 @@ License, or any later version. */
    <li> Another aspect is memory usage: it seems that short before the end
    of the computation an unnecessary duplication of the data structure takes
    place. </li>
+  </ul>
+
+
+  \todo DONE (see QuineMcCluskeySubsumptionHypergraphWithFullStatistics.cpp
+  and QuineMcCluskeySubsumptionHypergraphFullStatistics.cpp)
+  Add option to generate statistics files
+  <ul>
+   <li> A popular use case (see 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp) 
+   for this program is to examine the statistics for the prime implicates and 
+   subsumption hypergraph. </li>
+   <li> Currently one must output the various clause-sets and then
+   read them into the statistics program, which given the size of
+   the output is often very time consuming. </li>
+   <li> Therefore we need options to:
+   <ul>
+    <li> generate the statistics for the prime implicates and
+    subsumption hypergraph and output them to files, and also
+    output the subsumption hypergraph (and prime implicates). </li>
+    <li> generate just the statistics for the prime implicates and
+    subsumption hypergraph. </li>
+    <li> generate just the subsumption hypergraph (and prime implicates).
+    </li>
+   </ul>
+   </li>
+   <li> As in "Standardise name of prime implicates file", standard
+   names should be used for these files. </li>
   </ul>
 
 
