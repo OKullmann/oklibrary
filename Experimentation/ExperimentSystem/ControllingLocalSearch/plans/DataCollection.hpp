@@ -153,5 +153,18 @@ License, or any later version. */
    ExperimentSystem/ControllingLocalSearch/plans/Evaluation.hpp. </li>
   </ul>
 
+
+  \todo Parallelisation
+  <ul>
+   <li> There should be an additional parameter "threads", with default-value
+   1, which specifies the number of threads used. </li>
+   <li> The runs of the algorithms are then simply distributed over the
+   spreads. </li>
+   <li> This should be a fairly easy task. </li>
+   <li> And it would be useful, since the running time can be substantial,
+   while one wants to the results as quick as possible, to start the real
+   experiments. </li>
+  </ul>
+
 */
 
