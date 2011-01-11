@@ -36,6 +36,62 @@ License, or any later version. */
   </ul>
 
 
+  \todo Generating defaults constant for small scale
+  <ul>
+   <li> At present, we only have Sbox matrices, affine constants,
+   modulo polynomials and so on defined when the field exponent is 
+   1, 4 or 8, as these are either trivial or given in 
+   [Small scale variants of the AES; Cid, Murphy and Robshaw]. </li>
+   <li> We would like to extend this to arbitrary exponents (although
+   we still restrict ourselves to binary bases for simplicity), and
+   therefore we need defaults for the following values for each 
+   exponent:
+   <ul>
+    <li> sbox linear transformation matrix:
+    <ul>
+     <li> This bit-level matrix must be a invertible matrix which
+     is a linear operation over the GF(b^e) field. </li>
+     <li> There are also other properties involving correlation
+     coefficients and so on (regarding security against linear
+     and differential cryptanalysis) that need to be considered
+     here (see [Design of Rijndael; Daemen and Rijmen]).
+     </li>
+    </ul>
+    </li>
+    <li> sbox affine constant:
+    <ul>
+     <li> It seems this can be arbitrary but shouldn't be completely
+     trivial (0,01 etc). </li>
+     <li> We need more information on the choice of this. </li>
+    </ul>
+    </li>
+    <li> Field polynomial:
+    <ul>
+     <li> We aren't concerned with efficient circuit implementation,
+     so presumably this can be arbitrary, as long as it defines
+     a genuine GF(b^e) field. </li>
+    </ul>
+    </li>
+    <li> MixColumn matrix:
+    <ul>
+     <li> This byte/word-level matrix operation must be
+     invertible (else we don't have a cipher). </li>
+     <li> [Design of Rijndael; Daemen and Rijmen] also suggest that
+     the matrix should be maximal distance separate. A matrix is MDS
+     iff every square sub-matrix is non-singular. See section 9 and
+     specifically 9.6 in [Design of Rijndael; Daemen and Rijmen], as
+     well as [Small scale variants of the AES; Cid, Murphy and Robshaw].
+     </li>
+    </ul>
+    </li>
+   </ul>
+   </li>
+   <li> We would also like to be able to calculate all the various 
+   measurements considered in the AES literature on these components,
+   so as to compare any that we introduce against such metrics. </li>
+  </ul>
+
+
   \todo Update
   <ul>
    <li> It seems that these todos as well as the milestones are out-of-date.
