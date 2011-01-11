@@ -25,13 +25,13 @@ solver_program="OKsolver_2002-O3-DNDEBUG -O" # Must output assignment and return
 exec_dir=$(dirname $0)
 temp_dir=$(mktemp --tmpdir=./ --directory tmp_minimise_$(basename $1 | sed -e  's/[^a-zA-Z_0-9\.-]//g')_$(date +"%Y-%m-%d-%H%M%S")_XXXXXX)
 temp_shg_file=${temp_dir}/shg.cnf
-temp_pi_file=${temp_dir}/pi.cnf
+temp_pi_file=${1}_primes
 temp_strict_min_file=${temp_dir}/strict_min.cnf
 result_file=${temp_dir}/result
 
 
 # Run program to generate SHG
-${shg_program} $1 ${temp_pi_file} > ${temp_shg_file}
+${shg_program} $1 > ${temp_shg_file}
 
 # Find number of variables and clauses
 num_primes=$(cat ${temp_shg_file} | awk '/^p/ { print $3 }')
@@ -74,7 +74,7 @@ if [[ ${solution_found} == 1 ]]; then
     echo "${old_solver_result}" | grep "^v" > ${result_file}
     cat ${temp_pi_file} | FilterDimacs ${result_file}
     # Remove temporary directory
-    rm -r ${temp_dir}
+    rm -r ${temp_dir} $temp_pi_file
 else
     echo "No solution found!"
 fi

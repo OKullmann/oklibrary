@@ -279,9 +279,9 @@ set_random(1)$
 P : random_permutation(create_list(i,i,1,256))$
 output_perm_fullcnf_stdname(P)$
 
-> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG Permutation_full.cnf PrimeP.cnf > SP.cnf
+> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG Permutation_full.cnf > SP.cnf
 
-> cat PrimeP.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> cat Permutation_full.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 140925 1035782 0 1035782 1 1
  length count
