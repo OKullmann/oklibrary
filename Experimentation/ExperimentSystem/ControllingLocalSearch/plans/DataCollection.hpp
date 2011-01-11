@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.5.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -62,7 +62,8 @@ License, or any later version. */
    <li> We will likely need to run experiments using new-ubcsat-okl
    before ubcsat-1-2-0 is released, but ubcsat-okl segfaults in 
    various ways using weighted algorithms. </li>
-   <li> As we need weighted algorithms, for example in the case of
+   <li> DONE (use ubcsat_wrapper = "new-ubcsat-okl")
+   As we need weighted algorithms, for example in the case of
    minimising CNF representations (see 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp)
    we need an option to specify that we wish to use "new-ubcsat-okl"
@@ -70,6 +71,8 @@ License, or any later version. */
    <li> In this case, we also need to ensure that all the weighted
    versions of each algorithm are listed in the algorithms list,
    as well as new versions. </li>
+   <li> For some time we still want to be able to use (conveniently) version
+   1-0-0. </li>
   </ul>
 
 
