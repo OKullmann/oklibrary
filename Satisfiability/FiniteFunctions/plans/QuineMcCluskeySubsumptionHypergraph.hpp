@@ -31,8 +31,6 @@ License, or any later version. */
    ) should be created (the minimum transversals of this hypergraph yield the
    minimum representations), in strict Dimacs format, where the meaning of
    variables is explained in the comments. </li>
-   <li> The ordering of the prime clauses likely should be lexicographical.
-   </li>
    <li> For that hypergraph, the unit-clause-propagation should have
    been performed already (just involving the necessary clauses, which just
    correspond to unit-hyperedges).
@@ -42,6 +40,8 @@ License, or any later version. */
      for the Maxima-specification. </li>
     </ol>
    </li>
+   <li> DONE The ordering of the prime clauses likely should be 
+   lexicographical. </li>
   </ul>
 
 

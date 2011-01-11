@@ -10,12 +10,12 @@ list_programs="${bin_dir}/QuineMcCluskey-n4*"
 
 
 case ${test_level} in
-basic) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf')"
+basic) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf')"
     ;;
-full) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf')"
+full) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskey/ -name '*.cnf')"
       list_programs="${list_programs} ${bin_dir}/QuineMcCluskey-n16*"
     ;;
-extensive) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf') $(find app_tests/test_cases/extensive -name '*.cnf')"
+extensive) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/extensive/QuineMcCluskey/ -name '*.cnf')"
 	   list_programs="${list_programs} ${bin_dir}/QuineMcCluskey-n16*"
     ;;
 esac
