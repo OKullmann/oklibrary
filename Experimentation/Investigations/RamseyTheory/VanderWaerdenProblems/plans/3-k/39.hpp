@@ -78,6 +78,11 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Trying to determine best ubcsat-1.2-algorithm:
+   \verbatim
+E=run_ubcsat("VanDerWaerden_2-3-39_1415.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+   \endverbatim
+   </li>
   </ul>
 
 
