@@ -1,5 +1,5 @@
 # Matthew Lewsey, 9.11.2006 (Swansea)
-# Copyright 2006-2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -54,8 +54,9 @@ ubcsat-new :
 ubcsat-beta : $(ubcsat_directories)
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_base_build_dir_okl))
 	cd $(ubcsat_build_dir_okl); $(postcondition) \
-	make; $(postcondition) \
-	mv ubcsat bin/$(ubcsat_recommended_okl)
+	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) ubcsat ubcsat_cpp ubcsat_debug; $(postcondition) \
+	mv ubcsat bin/$(ubcsat_recommended_okl); $(postcondition) \
+	mv ubcsat_cpp ubcsat_debug bin; $(postcondition)
 	cp -r $(ubcsat_bin_directory) $(ubcsat_installation_dir_okl)
 	cp -r $(ubcsat_src_directory) $(ubcsat_installation_dir_okl)
 
