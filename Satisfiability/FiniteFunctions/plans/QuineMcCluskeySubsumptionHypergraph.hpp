@@ -18,6 +18,42 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add option to generate statistics files
+  <ul>
+   <li> A popular use case (see 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp) 
+   for this program is to examine the statistics for the prime implicates and 
+   subsumption hypergraph. </li>
+   <li> Currently one must output the various clause-sets and then
+   read them into the statistics program, which given the size of
+   the output is often very time consuming. </li>
+   <li> Therefore we need options to:
+   <ul>
+    <li> generate the statistics for the prime implicates and
+    subsumption hypergraph and output them to files, and also
+    output the subsumption hypergraph (and prime implicates). </li>
+    <li> generate just the statistics for the prime implicates and
+    subsumption hypergraph. </li>
+    <li> generate just the subsumption hypergraph (and prime implicates).
+    </li>
+   </ul>
+   </li>
+   <li> As in "Standardise name of prime implicates file", standard
+   names should be used for these files. </li>
+  </ul>
+
+
+  \todo Standardise name of prime implicates file
+  <ul>
+   <li> Currently the prime implicates calculated during the computation
+   of the subsumption hypergraph can optionally be output, if one specifies
+   the filename to output them to as an argument. </li>
+   <li> In general, it is better if we simply generate a file with a 
+   standard name based on the input file, and then we do not have
+   different names being used all over the library. </li>
+  </ul>
+
+
   \todo Preparations for computing optimum representations
   <ul>
    <li> Optionally the necessary prime clauses should be output (in Dimacs

@@ -18,6 +18,8 @@ License, or any later version. */
    following topics are handled:
     - Specification
     - Preparations for computing optimum representations
+    - Add option to generate statistics files
+    - Standardise name of prime implicates file
     - Write application tests : DONE
 
 
