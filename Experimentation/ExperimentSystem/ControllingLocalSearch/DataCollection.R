@@ -1,5 +1,5 @@
 # Matthew Gwynne, 20.10.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -92,7 +92,9 @@ run_ubcsat = function(
  include_algs = names(run_ubcsat_cnf_algs),
  exclude_algs = list(),
  tmp_directory=run_ubcsat_temp_dir(basename(input)),
- monitor=TRUE,...) {
+ monitor=TRUE,
+ ubcsat_wrapper = "ubcsat-okl",
+ ...) {
 
   filename = basename(input)
   error_directory = paste(tmp_directory,"/corrupt/",sep="")
@@ -130,8 +132,8 @@ run_ubcsat = function(
       stats_output_file =
         run_ubcsat_stats_path(tmp_directory,alg)
       command =
-        run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
-                            tmp_directory,...)
+        run_ubcsat_command(ubcsat_wrapper, input, alg,run_ubcsat_cnf_algs[alg],
+                           tmp_directory,...)
 
       counter_algs=counter_algs+1;
       # If monitor is set, tell the user which algorithm is running
@@ -700,7 +702,7 @@ read_ubcsat_dir = function(
 #
 run_ubcsat_command = function(
   input, alg_safe_name, alg_name,
-  tmp_directory,...) {
+  tmp_directory, ubcsat_wrapper, ...) {
 
   filename = basename(input)
   output_file = run_ubcsat_result_path(tmp_directory, alg_safe_name)
@@ -715,8 +717,8 @@ run_ubcsat_command = function(
       format(params[[param_name]],scientific=5000),sep="")
   }
 
-  return( paste(
-                "ubcsat-okl -r out '", output_file, "' ",
+  return( paste(ubcsat_wrapper,
+                " -r out '", output_file, "' ",
                 " -r stats '", stats_output_file, "' ",
                 std_params," -alg ", alg_name, " -i ",input, " 2>&1 > ",
                 run_ubcsat_log_path(tmp_directory, alg_safe_name),
