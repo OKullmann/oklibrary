@@ -14,7 +14,8 @@ License, or any later version. */
   <ul>
    <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
    https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
-   <li> We also changed "#define MAXPARMLINELEN 4096" to
+   <li> DONE
+   We also changed "#define MAXPARMLINELEN 4096" to
    "#define MAXPARMLINELEN 16384". </li>
    <li> "new-ubcsat-okl" is the wrapper-script to access the new version
    (besides the old version). </li>
