@@ -132,7 +132,7 @@ run_ubcsat = function(
       stats_output_file =
         run_ubcsat_stats_path(tmp_directory,alg)
       command =
-        run_ubcsat_command(ubcsat_wrapper, input, alg,run_ubcsat_cnf_algs[alg],
+        run_ubcsat_command(ubcsat_wrapper, input, alg,new_run_ubcsat_cnf_algs[alg],
                            tmp_directory,...)
 
       counter_algs=counter_algs+1;
@@ -445,27 +445,45 @@ run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 # NOTE: This list should match the full range of UBCSAT algorithms for the
 #       default version of UBCSAT as provided in the OKlibrary.
 run_ubcsat_cnf_algs = list(
-   gsat="gsat",
-   gsats="gsat -v simple",
-   gwsat="gwsat",
-   gsatt="gsat-tabu",
-   hsat="hsat",
-   hwsat="hwsat",
-   wsat="walksat",
-   wsatt="walksat-tabu",
-   nov="novelty",
-   novp="novelty+",
-   anovp="adaptnovelty+",
-   rnov="rnovelty",
-   rnovp="rnovelty+",
-   saps="saps",
-   rsaps="rsaps",
-   sapsnr="sapsnr",
-   rots="rots",
-   irots="irots",
-   samd="samd",
-   wsattn="walksat-tabu -v nonull"
+  gsat="gsat",
+  gsats="gsat -v simple",
+  gwsat="gwsat",
+  gsatt="gsat-tabu",
+  hsat="hsat",
+  hwsat="hwsat",
+  wsat="walksat",
+  wsatt="walksat-tabu",
+  nov="novelty",
+  novp="novelty+",
+  anovp="adaptnovelty+",
+  rnov="rnovelty",
+  rnovp="rnovelty+",
+  saps="saps",
+  rsaps="rsaps",
+  sapsnr="sapsnr",
+  rots="rots",
+  irots="irots",
+  samd="samd",
+  wsattn="walksat-tabu -v nonull"
 )
+new_run_ubcsat_cnf_algs = append(run_ubcsat_cnf_algs, list(
+  novpc="novelty+ -v cache",
+  novpp="novelty++",
+  novp_p="novelty+p",
+  anovpp="adaptnovelty+ -v params",
+  paws="paws",
+  ddfw="ddfw",
+  g2wsat="g2wsat",
+  ag2wsat="adaptg2wsat",
+  vw1="vw1",
+  vw2="vw2",
+  uwalk="urwalk",
+  cwalk="crwalk",
+  cwalks="crwalk -v schoening",
+  dwalk="dcrwalk",
+  dano="danov+",
+  rgsat="rgsat"
+))
 
 # Construct a new dataframe which is the original dataframe with
 # an additional constant column with value const_var.
