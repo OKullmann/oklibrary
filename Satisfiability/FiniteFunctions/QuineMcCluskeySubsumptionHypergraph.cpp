@@ -63,10 +63,11 @@ int main(const int argc, const char* const argv[]) {
     return error_parameters;
   }
 
-  const std::string filename = argv[1];
-  std::ifstream inputfile(filename.c_str());
+  const std::string shg_input_filename = argv[1];
+  const std::string primes_output_filepath = argv[2];
+  std::ifstream inputfile(shg_input_filename.c_str());
   if (not inputfile) {
-    std::cerr << err << "Failure opening input file " << filename << ".\n";
+    std::cerr << err << "Failure opening input file " << shg_input_filename << ".\n";
     return error_openfile;
   }
 
@@ -88,17 +89,17 @@ int main(const int argc, const char* const argv[]) {
   subsumption_hg.erase(std::unique(subsumption_hg.begin(), subsumption_hg.end()), subsumption_hg.end());
 
   // Output:
-  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + filename);
+  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filename);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment1.c_str());
   // Output of prime clauses if needed:
   if (argc > 2) {
-      const std::string filename_primes = argv[2];
+      const std::string filename_primes = primes_output_filepath;
       std::ofstream outputfile(filename_primes.c_str());
       if (not outputfile) {
         std::cerr << err << "Failure opening output file " << filename_primes << ".\n";
         return error_openfile;
       }
-      const std::string comment2("All prime implicates for " + filename);
+      const std::string comment2("All prime implicates for " + shg_input_filename);
       OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
   }
 }
