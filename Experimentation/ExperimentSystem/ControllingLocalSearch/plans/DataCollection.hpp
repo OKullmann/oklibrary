@@ -34,12 +34,15 @@ License, or any later version. */
 
   \todo Better output of run_ubcsat
   <ul>
-   <li> So a summary for each (single) run should be printed out.
+   <li> DONE
+   So a summary for each (single) run should be printed out.
     <ol>
      <li> DONE We need the tabulation of the min-values. </li>
-     <li> Perhaps it's better not to have an empty line between the playback
+     <li> DONE
+     Perhaps it's better not to have an empty line between the playback
      of the command and the min-tabulation. </li>
-     <li> Since there are big differences in running times, we also need
+     <li> DONE
+     Since there are big differences in running times, we also need
      timing information. </li>
     </ol>
    </li>

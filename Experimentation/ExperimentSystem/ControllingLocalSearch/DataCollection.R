@@ -138,9 +138,9 @@ run_ubcsat = function(
       counter_algs=counter_algs+1;
       # If monitor is set, tell the user which algorithm is running
       if (monitor) {
-        cat("[",counter_algs, "/", num_algs, "]: Running ", alg, " on ",
+        cat("\n", "[",counter_algs, "/", num_algs, "]: Running ", alg, " on ",
             filename, ".\n", sep="")
-        cat(command,"\n")
+        cat(command)
       }
       
       # Run the ubcsat-okl command
@@ -156,6 +156,7 @@ run_ubcsat = function(
         result_df = read.table(output_file,
                                col.names = as.vector(run_ubcsat_column_names))
         print(table(result_df$min))
+        cat(system(paste("grep Flips", stats_output_file), intern=TRUE), "\n")
       }
     })
 
