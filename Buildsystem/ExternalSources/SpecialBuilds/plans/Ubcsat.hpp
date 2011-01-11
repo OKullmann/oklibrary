@@ -26,9 +26,11 @@ License, or any later version. */
    <li> DONE (we didn't check out the beta-version)
    The current version is not usable at all; e-mail sent to
    ubcsat-developers. </li>
-   <li> The new version still seems not usable; bug report sent to
+   <li>  DONE (corrected the bug)
+   The new version still seems not usable; bug report sent to
    ubcsat-developers. </li>
-   <li> After update the problem looks like that:
+   <li> DONE (32-bit types were defined as "long", which is 64 bits)
+   After update the problem looks like that:
    \verbatim
 ubcsat-1-2-0-beta> make ubcsat_debug
 ubcsat-1-2-0-beta> valgrind --track-origins=yes ./ubcsat_debug -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
