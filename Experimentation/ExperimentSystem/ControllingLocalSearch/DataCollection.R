@@ -136,23 +136,16 @@ run_ubcsat = function(
                            tmp_directory, wrapper=ubcsat_wrapper, ...)
 
       counter_algs=counter_algs+1;
-      # If monitor is set, tell the user which algorithm is running
       if (monitor) {
         cat("\n", "[",counter_algs, "/", num_algs, "]: Running ", alg, " on ",
             filename, ".\n", sep="")
         cat(command)
       }
       
-      # Run the ubcsat-okl command
       error_code = system(command, intern=FALSE, ignore.stderr=TRUE)
+      if (error_code == 0) error = FALSE
 
-      # If the exit code is non-0, then there has been an error
-      if (error_code == 0) 
-        error = FALSE
-
-      # Check whether we are monitoring and should print statistics
       if (monitor && !error) {
-        # Read in output from respective temporary files.
         result_df = read.table(output_file,
                                col.names = as.vector(run_ubcsat_column_names))
         print(table(result_df$min))
