@@ -18,9 +18,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write application tests
-
-
   \todo Preparations for computing optimum representations
   <ul>
    <li> Optionally the necessary prime clauses should be output (in Dimacs
@@ -55,5 +52,8 @@ License, or any later version. */
    of the computation an unnecessary duplication of the data structure takes
    place. </li>
   </ul>
+
+
+  \todo DONE Write application tests
 
 */

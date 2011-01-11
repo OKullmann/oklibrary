@@ -17,8 +17,8 @@ License, or any later version. */
    In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
    following topics are handled:
     - Specification
-    - Write application tests
     - Preparations for computing optimum representations
+    - Write application tests : DONE
 
 
   \par Version 0.1.2
