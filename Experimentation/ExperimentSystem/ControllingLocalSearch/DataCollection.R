@@ -132,8 +132,8 @@ run_ubcsat = function(
       stats_output_file =
         run_ubcsat_stats_path(tmp_directory,alg)
       command =
-        run_ubcsat_command(ubcsat_wrapper, input, alg,new_run_ubcsat_cnf_algs[alg],
-                           tmp_directory,...)
+        run_ubcsat_command(input, alg,new_run_ubcsat_cnf_algs[alg],
+                           tmp_directory, wrapper=ubcsat_wrapper, ...)
 
       counter_algs=counter_algs+1;
       # If monitor is set, tell the user which algorithm is running
@@ -720,7 +720,7 @@ read_ubcsat_dir = function(
 #
 run_ubcsat_command = function(
   input, alg_safe_name, alg_name,
-  tmp_directory, ubcsat_wrapper, ...) {
+  tmp_directory, wrapper, ...) {
 
   filename = basename(input)
   output_file = run_ubcsat_result_path(tmp_directory, alg_safe_name)
@@ -735,7 +735,7 @@ run_ubcsat_command = function(
       format(params[[param_name]],scientific=5000),sep="")
   }
 
-  return( paste(ubcsat_wrapper,
+  return( paste(wrapper,
                 " -r out '", output_file, "' ",
                 " -r stats '", stats_output_file, "' ",
                 std_params," -alg ", alg_name, " -i ",input, " 2>&1 > ",
