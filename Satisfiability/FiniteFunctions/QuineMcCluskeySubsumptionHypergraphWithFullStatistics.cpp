@@ -103,15 +103,13 @@ int main(const int argc, const char* const argv[]) {
   std::ofstream shg_stats_outputfile(shg_stats_filename.c_str());
   shg_stats_outputfile << shg_stats.stat << "\n";   
     
-  if (argc > 2) {
-    StatsCLSAdaptor prime_stats;
-    List2Statistics(prime_imp_F, prime_stats, "");
-    
-    const std::string primes_stats_filename = 
-      shg_input_filename + "_primes_stats";
-    std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
-    primes_stats_outputfile << prime_stats.stat << "\n";
-  }
+  StatsCLSAdaptor prime_stats;
+  List2Statistics(prime_imp_F, prime_stats, "");
+  
+  const std::string primes_stats_filename = 
+    shg_input_filename + "_primes_stats";
+  std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
+  primes_stats_outputfile << prime_stats.stat << "\n";
 
   // Output:
   const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
