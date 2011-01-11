@@ -14,8 +14,6 @@ License, or any later version. */
    format. </li>
    <li> The result is printed to standard output (a hypergraph in DIMACS
    format). </li>
-   <li> A second optional parameter is the file for outputting the clause-set
-   of prime clauses of F. </li>
    <li> The subsumption hypergraph is output in lexicographical order, without
    duplicate clauses. </li>
   </ul>
@@ -26,6 +24,8 @@ License, or any later version. */
 #include <iostream>
 #include <string>
 #include <algorithm>
+
+#include <boost/filesystem/path.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
@@ -54,17 +54,16 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc < 2 || argc > 3) {
-    std::cerr << err << "Either exactly one input is required,\n"
-      " the name of the file with the clause-set in DIMACS-format, or\n"
-      " exactly two inputs, the name of the input file and the name of the\n"
-      " file to output the prime clauses.\n"
+  if (argc != 2) {
+    std::cerr << err << "Exactly one input is required,\n"
+      " the name of the file with the clause-set in DIMACS-format.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
 
+  typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
   const std::string shg_input_filename = argv[1];
-  const std::string primes_output_filepath = argv[2];
+  const std::string primes_output_filepath = Path(argv[1]).filename() + "_primes";
   std::ifstream inputfile(shg_input_filename.c_str());
   if (not inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filename << ".\n";
@@ -92,14 +91,11 @@ int main(const int argc, const char* const argv[]) {
   const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filename);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment1.c_str());
   // Output of prime clauses if needed:
-  if (argc > 2) {
-      const std::string filename_primes = primes_output_filepath;
-      std::ofstream outputfile(filename_primes.c_str());
-      if (not outputfile) {
-        std::cerr << err << "Failure opening output file " << filename_primes << ".\n";
-        return error_openfile;
-      }
-      const std::string comment2("All prime implicates for " + shg_input_filename);
-      OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
+  std::ofstream outputfile(primes_output_filepath.c_str());
+  if (not outputfile) {
+    std::cerr << err << "Failure opening output file " << primes_output_filepath << ".\n";
+    return error_openfile;
   }
+  const std::string comment2("All prime implicates for " + shg_input_filename);
+  OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
 }

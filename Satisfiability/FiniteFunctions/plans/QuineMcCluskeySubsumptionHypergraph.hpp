@@ -18,17 +18,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Standardise name of prime implicates file
-  <ul>
-   <li> Currently the prime implicates calculated during the computation
-   of the subsumption hypergraph can optionally be output, if one specifies
-   the filename to output them to as an argument. </li>
-   <li> In general, it is better if we simply generate a file with a 
-   standard name based on the input file, and then we do not have
-   different names being used all over the library. </li>
-  </ul>
-
-
   \todo Preparations for computing optimum representations
   <ul>
    <li> Optionally the necessary prime clauses should be output (in Dimacs
@@ -93,5 +82,16 @@ License, or any later version. */
 
 
   \todo DONE Write application tests
+
+
+  \todo DONE Standardise name of prime implicates file
+  <ul>
+   <li> Currently the prime implicates calculated during the computation
+   of the subsumption hypergraph can optionally be output, if one specifies
+   the filename to output them to as an argument. </li>
+   <li> In general, it is better if we simply generate a file with a 
+   standard name based on the input file, and then we do not have
+   different names being used all over the library. </li>
+  </ul>
 
 */

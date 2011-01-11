@@ -19,7 +19,7 @@ License, or any later version. */
     - Specification
     - Preparations for computing optimum representations
     - Add option to generate statistics files
-    - Standardise name of prime implicates file
+    - Standardise name of prime implicates file : DONE
     - Write application tests : DONE
 
 

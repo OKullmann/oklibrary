@@ -34,23 +34,22 @@ for S in ${list_programs}; do
   echo
   for P in ${list_test_cases}; do
     echo ${S} ${P}
-    tmp_primes=$(mktemp)
-    output="$(${S} ${P} ${tmp_primes})"
+    output="$(${S} ${P})"
     template="$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)"
-    template_primes="$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)_primes"
+    template_primes="$(dirname ${P})/dimacs_output/$(basename ${P})_primes"
     echo "${output}" | ${match_tool} "${template}"
     result=$?
     if [[ ${result} != 0 ]]; then
       echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
       cat ${template}; echo; exit 1
     fi
-    cat ${tmp_primes} | ${match_tool} "${template_primes}"
+    cat $(basename ${P})_primes | ${match_tool} "${template_primes}"
     result=$?
     if [[ ${result} != 0 ]]; then
-      echo -e "ERROR: AUXILLIARY OUTPUT of solver is\n$(cat ${tmp_primes})\n, while TEMPLATE is"
+      echo -e "ERROR: AUXILLIARY OUTPUT of solver is\n$(cat $(basename ${P})_primes)\n, while TEMPLATE is"
       cat ${template_primes}; echo; exit 1
     fi
-    rm -f ${tmp_primes}
+    rm -f $(basename ${P})_primes
   done
 done
 

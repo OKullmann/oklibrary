@@ -12,13 +12,9 @@ License, or any later version. */
   <ul>
    <li> One parameter is needed, the file containing the clause-set F in DIMACS
    format. </li>
-   <li> The result is printed to standard output (a hypergraph in DIMACS
-   format). </li>
-   <li> A second optional parameter is the file for outputting the clause-set
-   of prime clauses of F. </li>
    <li> The clause-set statistics for the prime implicates and the subsumption
    hypergraph (with duplicate clauses removed) are output to 
-   basename(input_filename)_all_primes_stats and 
+   basename(input_filename)_primes_stats and 
    basename(input_filename)_shg_stats. </li>
   </ul>
 
@@ -58,11 +54,9 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc < 2 || argc > 3) {
-    std::cerr << err << "Either exactly one input is required,\n"
-      " the name of the file with the clause-set in DIMACS-format, or\n"
-      " exactly two inputs, the name of the input file and the name of the\n"
-      " file to output the prime clauses.\n"
+  if (argc != 2) {
+    std::cerr << err << "Exactly one input is required,\n"
+      " the name of the file with the clause-set in DIMACS-format.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
@@ -70,7 +64,6 @@ int main(const int argc, const char* const argv[]) {
   const std::string shg_input_filepath = argv[1];
   typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
   const std::string shg_input_filename = Path(shg_input_filepath).filename();
-  const std::string primes_output_filepath = argv[2];
   std::ifstream inputfile(shg_input_filepath.c_str());
   if (not inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filepath << ".\n";
@@ -105,13 +98,13 @@ int main(const int argc, const char* const argv[]) {
   std::ofstream shg_stats_outputfile(shg_stats_filename.c_str());
   shg_stats_outputfile << shg_stats.stat << "\n";   
     
-  if (argc > 2) {
-    StatsCLSAdaptor prime_stats;
-    List2Statistics(prime_imp_F, prime_stats, "");
-    
-    const std::string primes_stats_filename = 
-      shg_input_filename + "_primes_stats";
-    std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
-    primes_stats_outputfile << prime_stats.stat << "\n";
-  }
+
+  StatsCLSAdaptor prime_stats;
+  List2Statistics(prime_imp_F, prime_stats, "");
+  
+  const std::string primes_stats_filename = 
+    shg_input_filename + "_primes_stats";
+  std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
+  primes_stats_outputfile << prime_stats.stat << "\n";
+
 }
