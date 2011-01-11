@@ -24,6 +24,17 @@ License, or any later version. */
 > ubcsat-1-2-0-beta> git pull https://github.com/dtompkins/ubcsat.git beta
    \endverbatim
    inside the extracted archive (then archiving it again). </li>
+   <li> Version 1-2-0 is slower than our version 1-0-0:
+   \verbatim
+> ubcsat-okl -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
+...
+FlipsPerSecond = 15225
+
+> new-ubcsat-okl -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
+...
+FlipsPerSecond = 14102
+   \endverbatim
+   </li>
    <li> DONE (we didn't check out the beta-version)
    The current version is not usable at all; e-mail sent to
    ubcsat-developers. </li>
