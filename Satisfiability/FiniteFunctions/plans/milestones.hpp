@@ -15,10 +15,12 @@ License, or any later version. */
 
   \par
    In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
-   following topics are handled:
+   following topics are handled
     - Specification
-    - Write application tests
     - Preparations for computing optimum representations
+    - Add option to generate statistics files
+    - Standardise name of prime implicates file : DONE
+    - Write application tests : DONE
 
 
   \par Version 0.1.2
@@ -27,6 +29,11 @@ License, or any later version. */
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Understanding the costs of the current implementation
+
+  \par
+   In FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp the
+   following topics are handled
+    - Tests for statistics levels
 
 
   \par Version 0.1.3

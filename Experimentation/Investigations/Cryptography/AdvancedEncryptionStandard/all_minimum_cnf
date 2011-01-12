@@ -18,7 +18,7 @@ fi
 
 input_file=$1
 shg_file=$(mktemp)
-pi_file=$(mktemp)
+pi_file=${1}_primes
 transversal_file=$(mktemp)
 files="${shg_file} ${pi_file} ${transversal_file}"
 if [[ $# == 1 ]]; then
@@ -29,7 +29,7 @@ fi
 
 
 # Compute subsumption hypergraph and prime implicates
-QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} ${pi_file} > ${shg_file}
+QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} > ${shg_file}
 
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 count=0

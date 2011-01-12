@@ -162,7 +162,7 @@ maxima> output_ssmult_fullcnf_stdname(2,2,4,ss_polynomial_2_4);
    </li>
    <li> This can be done like so:
    \verbatim
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_2.cnf ss_byte2_4_field_mul_pi_2.cnf > ss_byte2_4_field_mul_shg_2.cnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_2.cnf > ss_byte2_4_field_mul_shg_2.cnf
 shell> BoundedTransversals_bv < ss_byte2_4_field_mul_shg_2.cnf > ss_byte2_4_field_mul_transversals_2.cnf
    \endverbatim
    </li>
@@ -313,7 +313,7 @@ maxima> output_rijnmult_fullcnf_stdname(2);
    encodes that we wish to find an assignment setting the minimum number of 
    variables to true:
    \verbatim
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf AES_byte_field_mul_2_pi.cnf > AES_byte_field_mul_2_shg.cnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf> AES_byte_field_mul_2_shg.cnf
 shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    </li>
@@ -327,7 +327,7 @@ shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_
    as a CNF file of the small size clause-set:
    \verbatim
 shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf -r model AES_byte_field_mul_2_m20.result; 
-shell> cat AES_byte_field_mul_2_pi.cnf | FilterDimacs AES_byte_field_mul_2_m20.result
+shell> cat AES_byte_field_mul_full_2.cnf_primes | FilterDimacs AES_byte_field_mul_2_m20.result
    \endverbatim
    </li>
    <li> See "Add new-ubcsat-okl as an option for run_ubcsat" in

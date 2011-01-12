@@ -261,13 +261,18 @@ XXX
 
   \todo Sampling random permutations
   <ul>
-   <li> A script is to be written, which generates random permutations
-   (simplest via Maxima), computes then (by our C++ program) the set of all
-   prime implicates, computes basic measurements and puts it into a file,
-   for evaluation by R. </li>
    <li> The data should be at least the total number of clauses, the number
    of clauses of each size, and the number of irredundant clauses (easy to
    compute in this case, since the truth table is given). </li>
+   <li> See "Preparations for computing optimum representations" in
+   OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp 
+   for discussion of adding output of necessary clauses to the subsumption
+   hypergraph generator. </li>
+   <li> DONE (see analyse_random_permutations)
+   A script is to be written, which generates random permutations
+   (simplest via Maxima), computes then (by our C++ program) the set of all
+   prime implicates, computes basic measurements and puts it into a file,
+   for evaluation by R. </li>
   </ul>
 
 
@@ -279,9 +284,9 @@ set_random(1)$
 P : random_permutation(create_list(i,i,1,256))$
 output_perm_fullcnf_stdname(P)$
 
-> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG Permutation_full.cnf PrimeP.cnf > SP.cnf
+> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG Permutation_full.cnf > SP.cnf
 
-> cat PrimeP.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> cat Permutation_full.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 140925 1035782 0 1035782 1 1
  length count

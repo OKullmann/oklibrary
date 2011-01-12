@@ -110,14 +110,14 @@ maxima> output_rijnsbox_fullcnf_stdname();
    \endverbatim
    and then 
    \verbatim
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf AES_emSbox_pi.cnf > AES_Sbox_shg.cnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
 shell> cat AES_Sbox_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_Sbox_shg.wcnf
    \endverbatim
    <li>
    <li> Running then:
    \verbatim
 shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
-shell> cat  AES_Sbox_pi.cnf | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
+shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
    \endverbatim
    yields a CNF of size 294 with the following statistics:
    \verbatim

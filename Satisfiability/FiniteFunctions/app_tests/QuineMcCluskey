@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 22.5.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,12 +10,12 @@ list_programs="${bin_dir}/QuineMcCluskey-n4*"
 
 
 case ${test_level} in
-basic) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf')"
+basic) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf')"
     ;;
-full) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf')"
+full) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskey/ -name '*.cnf')"
       list_programs="${list_programs} ${bin_dir}/QuineMcCluskey-n16*"
     ;;
-extensive) list_test_cases="$(find app_tests/test_cases/basic -name '*.cnf') $(find app_tests/test_cases/full -name '*.cnf') $(find app_tests/test_cases/extensive -name '*.cnf')"
+extensive) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskey/ -name '*.cnf') $(find app_tests/test_cases/extensive/QuineMcCluskey/ -name '*.cnf')"
 	   list_programs="${list_programs} ${bin_dir}/QuineMcCluskey-n16*"
     ;;
 esac

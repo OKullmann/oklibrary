@@ -47,6 +47,11 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Generating defaults constant for small scale
+    - Generating polynomial representations of field operations
+
+  \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Complete small scale helper functions
     - Remove hard-coding of multiplication by 01 in small scale MixColumn

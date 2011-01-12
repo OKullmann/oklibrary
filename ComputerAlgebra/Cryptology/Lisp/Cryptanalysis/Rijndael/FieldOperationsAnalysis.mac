@@ -181,7 +181,7 @@ output_ssinv_fullcnf_stdname(b,e, mod_poly) :=
   output_fcs(
     sconcat("Full CNF representation of the Small scale AES byte-field inversion."),
     ssinv_fullcnf_fcs(b,e, mod_poly),
-    sconcat("ss_byte",b,"_",e,"_field_mul_full_.cnf"))$
+    sconcat("ss_byte",b,"_",e,"_field_inv_full.cnf"))$
           
 
 /* Tests whether a formal CNF clause-set FF represents an AES field
