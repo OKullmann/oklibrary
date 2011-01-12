@@ -1,2 +1,2 @@
-c Subsumption hypergraph for the minimisation problem for app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ZeroClauses.cnf
+c Subsumption hypergraph for the minimisation problem for test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ZeroClauses.cnf
 p cnf 0 0

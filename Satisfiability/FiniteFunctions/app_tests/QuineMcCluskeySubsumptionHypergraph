@@ -6,22 +6,27 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
 list_programs="${bin_dir}/QuineMcCluskeySubsumptionHypergraph-n4*"
-
-
-case ${test_level} in
-basic) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
-    ;;
-full) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
-      list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraph-n16*"
-    ;;
-extensive) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find app_tests/test_cases/extensive/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
-	   list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraph-n16*"
-    ;;
-esac
+app_test_dir=${OKlib}/Satisfiability/FiniteFunctions/app_tests
 
 echo "PROGRAMS FOUND:"
 for P in ${list_programs}; do echo ${P}; done
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find test_cases/full/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
+      list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraph-n16*"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find test_cases/full/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf') $(find test_cases/extensive/QuineMcCluskeySubsumptionHypergraph/ -name '*.cnf')"
+	   list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraph-n16*"
+    ;;
+esac
 
 echo "TEST FORMULAS FOUND:" 
 for T in ${list_test_cases}; do echo ${T}; done
@@ -43,13 +48,13 @@ for S in ${list_programs}; do
       echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
       cat ${template}; echo; exit 1
     fi
-    cat $(basename ${P})_primes | ${match_tool} "${template_primes}"
-    result=$?
+    output_file="$(basename ${P})_primes"
+    cat ${output_file} | ${match_tool} "${template_primes}"; result=$?
     if [[ ${result} != 0 ]]; then
-      echo -e "ERROR: AUXILLIARY OUTPUT of solver is\n$(cat $(basename ${P})_primes)\n, while TEMPLATE is"
+      echo -e "ERROR: AUXILIARY OUTPUT of solver is\n$(cat ${output_file})\n, while TEMPLATE is"
       cat ${template_primes}; echo; exit 1
     fi
-    rm -f $(basename ${P})_primes
+    rm -f ${output_file}
   done
 done
 
