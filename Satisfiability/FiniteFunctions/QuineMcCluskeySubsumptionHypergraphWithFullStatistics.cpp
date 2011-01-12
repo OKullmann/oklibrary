@@ -54,13 +54,26 @@ namespace {
 
   const std::string version = "0.2.0";
 
+  using namespace OKlib::InputOutput;
+
+  inline output_options translate_option(const std::string& opt) {
+    if (opt == "n") return no_zeros;
+    if (opt == "ni") return no_initfinal_zeros;
+    if (opt == "f") return full_output;
+    return (output_options) 0;
+  }
+  const output_options default_option = no_initfinal_zeros;
+
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc != 2) {
+  if (argc != 2 and argc != 3) {
     std::cerr << err << "Exactly one input is required,\n"
       " the name of the file with the clause-set in DIMACS-format.\n"
+     "One may also specify additionally \"n\", \"ni\" or \"f\" to force \n"
+      "removal of all zeroes, leading and trailing zeroes or no removal of\n"
+      "zeroes from statistics output.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
@@ -97,13 +110,30 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFullStatistics<> StatsCLSAdaptor;
   typedef OKlib::InputOutput::ListTransfer<StatsCLSAdaptor > List2Statistics;
   
+  // Do we want full output or to remove leading and trailing zeroes.
   StatsCLSAdaptor shg_stats;
+  StatsCLSAdaptor prime_stats;
+  if (argc > 2) {
+    const output_options opt = translate_option(argv[2]);
+    if (opt != (output_options) 0) {
+      shg_stats.stat.option = opt;
+      prime_stats.stat.option = opt;
+    }
+    else {
+      std::cerr << err << "If an option is given, it must be one of \"n\", \"ni\" or \"f\".\n";
+      return(error_parameters);
+    }
+  }
+  else {
+    shg_stats.stat.option = default_option;
+    prime_stats.stat.option = default_option;
+  }
+
   List2Statistics(subsumption_hg, shg_stats, "");
   const std::string shg_stats_filename = shg_input_filename + "_shg_stats";
   std::ofstream shg_stats_outputfile(shg_stats_filename.c_str());
   shg_stats_outputfile << shg_stats.stat << "\n";   
     
-  StatsCLSAdaptor prime_stats;
   List2Statistics(prime_imp_F, prime_stats, "");
   
   const std::string primes_stats_filename = 

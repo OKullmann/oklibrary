@@ -18,6 +18,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Tests for statistics levels
+  <ul>
+   <li> QuineMcCluskeySubsumptionHypergraphWithFullStatistics and
+   QuineMcCluskeySubsumptionHypergraphFullStatistics allow the options
+   "ni", "n" and "f" as optional options, which set different handling
+   of clause-lengths with zero occurrences in the statistics output. 
+   </li>
+   <li> At present we test only the default ("ni"), but not specifying
+   the options. </li>
+   <li> We need tests for all options. </li>
+  </ul>
+
+
   \todo Preparations for computing optimum representations
   <ul>
    <li> Optionally the necessary prime clauses should be output (in Dimacs
