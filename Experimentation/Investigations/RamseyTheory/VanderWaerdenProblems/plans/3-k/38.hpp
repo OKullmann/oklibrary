@@ -67,9 +67,54 @@ License, or any later version. */
     </ol>
    </li>
    <li> Trying to determine best ubcsat-1.2-algorithm:
-   \verbatim
+    <ol>
+     <li>
+     \verbatim
 E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Regarding the algorithms mentioned below, most successful are
+     \verbatim
+wsatt
+11 12 13 14 15 16 17 18 19 20 21 22 23 25 26 30 31 32 33 34 35 36 37 38 39 40 
+ 1  1  4  2  5  9  9 17  4 10  6  3  3  1  1  1  1  1  2  1  1  3  2  2  1  1 
+41 42 44 45 47 53 61 63 
+ 1  1  1  1  1  1  1  1 
+wsattn
+12 13 14 15 16 17 18 19 20 21 22 23 24 25 28 29 31 32 33 34 35 37 38 39 40 41 
+ 1  1  7  3 10 10 11 11  3  4  3  3  2  1  1  1  1  1  1  2  3  2  2  3  3  1 
+45 50 51 55 60 64 65 72 
+ 2  1  1  1  1  1  1  1 
+rots
+12 24 25 27 28 29 30 31 32 33 34 35 36 37 38 40 41 42 43 
+ 1  1  3  1  1  5  4  7  8  9  6 19  6 11 10  2  3  1  2 
+     \endverbatim
+     The first two are very slow. </li>
+     <li> It seems very slow?:
+     \verbatim
+> OKplatform> for F in ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+anovp   FlipsPerSecond = 2130   
+gsat    FlipsPerSecond = 36277  
+gsats   FlipsPerSecond = 40042  
+gsatt   FlipsPerSecond = 14703  
+gwsat   FlipsPerSecond = 9346   
+hsat    FlipsPerSecond = 34954  
+hwsat   FlipsPerSecond = 15282  
+irots   FlipsPerSecond = 10805  
+novp    FlipsPerSecond = 2160   
+nov     FlipsPerSecond = 2129   
+rnovp   FlipsPerSecond = 2188   
+rnov    FlipsPerSecond = 2193   
+rots    FlipsPerSecond = 12589  
+samd    FlipsPerSecond = 14706  
+wsat    FlipsPerSecond = 2583   
+wsattn  FlipsPerSecond = 2595   
+wsatt   FlipsPerSecond = 2537   
+     \endverbatim
+     (there have been segmentation faults; need to rerun it with our newest
+     version of ubcsat-1-2-0).
+     </li>
+    </ol>
    </li>
   </ul>
 
