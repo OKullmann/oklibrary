@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.10.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -135,6 +135,20 @@ arithmetic_progressions(L,k) :=
    list L of different integers: */
 arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
 arithprog_list_hg(k,L) := ohg2hg(arithprog_list_ohg(k,L))$
+
+/* Testing whether the set S contains an arithmetic progressions of size k.
+   The only assumptions on the elements of S is that via operations +,- they
+   are part of an abelian group.
+*/
+has_arithprog(S,k) :=
+ if k<0 then false
+ elseif k=0 then true
+ elseif length(S) < k then false
+ elseif k<=2 then true
+ else block([x : choose_element(S)],
+   S : disjoin(x,S),
+   some_s(lambda([y], subsetp(setify(rest(arpr(k,x,y-x),2)), S)), S)
+   or has_arithprog(S,k))$
 
 
 /* ************
