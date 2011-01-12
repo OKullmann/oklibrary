@@ -229,16 +229,16 @@ output_ss_mul_w_sbox_linmap_fullcnf_gen_stdname(a,b,e,mod_poly,sbox_matrix) :=
     sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
       "CNF representation."),
     ss_sbox_fullcnf_fcs(a,b,e,mod_poly, sbox_matrix),
-    sconcat("AES_sbox_lin_",a,"_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
-      "_full.cnf"))$
+    sconcat("AES_sbox_mul_w_lin_",a,"_",b,"_",e,"_",
+      ss_matrix2str(sbox_matrix),"_full.cnf"))$
 output_ss_mul_w_sbox_linmap_fullcnf_stdname(a,b,e) := block(
   [sbox_matrix : ss_sbox_matrix(b,e)],
   output_fcs(
     sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
       "CNF representation."),
     ss_mul_w_sbox_linmap_fullcnf_fcs(a,b,e),
-    sconcat("AES_sbox_lin_",a,"_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
-      "_full.cnf")))$
+    sconcat("AES_sbox_mul_w_lin_",a,"_",b,"_",e,"_",
+      ss_matrix2str(sbox_matrix),"_full.cnf")))$
 
 /* Tests whether a formal CNF clause-set represents the small scale AES sbox
    linear map given the appropriate parameters.
