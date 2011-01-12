@@ -70,6 +70,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> See "Basic data" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.
+   </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for
    random permutations. </li>
