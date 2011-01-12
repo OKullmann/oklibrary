@@ -103,7 +103,8 @@ License, or any later version. */
 
   \todo CryptoMiniSat
   <ul>
-   <li> The solver runs immediately out of memory:
+   <li> DONE (the author corrected this; branch "cluster129-fixed")
+   The solver runs immediately out of memory:
     <ol>
      <li> For example:
      \verbatim
