@@ -36,13 +36,18 @@ License, or any later version. */
    {1,...,n} representing a partitioning. </li>
    <li> DONE
    Perhaps we should have a dedicated file "Certificates.mac". </li>
-   <li> The current check is extremely slow:
+   <li> The current check is rather slow:
    check_certificate_vdw([3,24],578,P) in
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp
-   needed 920 seconds on csltok (the new laptop, not slow). </li>
+   needed 82 seconds on csltok (the new laptop, not slow). </li>
    <li> An alternative algorithm is to create all possible arithmetic
    progressions of the given lengths and to check whether each of them is
-   not contained in the corresponding blocks of the partition. </li>
+   not contained in the corresponding blocks of the partition.
+    <ol>
+     <li> This should be faster if the block contains many elements. </li>
+     <li> However otherwise it should be slower. </li>
+    </ol>
+   </li>
    <li> Or the current algorithm could use an array, which yields for each
    possible vertex its block (colour); this depends on having a linear order
    and "all vertices", but for that situation it is faster. </li>
