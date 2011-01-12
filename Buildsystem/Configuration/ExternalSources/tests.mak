@@ -549,6 +549,6 @@ else
   ifeq ($(version_cryptominisat_call_okl),$(cryptominisat_recommended_version_number_okl))
     cryptominisat_call_ready_okl ?= YES
   else
-    cryptominisat_call_ready_okl ?= $(version_cryptominisat_call_okl) $(cryptominisat_recommended_version_number_okl)
+    cryptominisat_call_ready_okl ?= $(version_cryptominisat_call_okl)
   endif
 endif
