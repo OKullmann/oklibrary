@@ -92,7 +92,7 @@ rots
      The first two are very slow. </li>
      <li> It seems very slow?:
      \verbatim
-> OKplatform> for F in ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
 anovp   FlipsPerSecond = 2130   
 gsat    FlipsPerSecond = 36277  
 gsats   FlipsPerSecond = 40042  
