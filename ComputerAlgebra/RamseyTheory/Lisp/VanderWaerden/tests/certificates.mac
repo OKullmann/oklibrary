@@ -1,0 +1,55 @@
+/* Oliver Kullmann, 12.1.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/certificates.mac
+  \brief Tests of certificates for vdW-problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/certificates.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
+oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac");
+
+kill(f)$
+
+
+okltest_certificates_vdw_3k(f) := block([maxk : length(f)],
+  for k : 1 thru maxk do block([C : f[k]],
+    if not emptyp(C) then block([v : vanderwaerden3k(k)],
+      assert(listp(v) or integerp(v)),
+      if listp(v) then (
+        assert(length(v) = 2),
+        assert(integerp(first(v)) = true)
+    )
+  )),
+  if oklib_test_level=0 then return(true),
+  default_memory_ecl(),
+  for k : 1 thru maxk do block([C : f[k]],
+    if not emptyp(C) then block(
+     [n : vanderwaerden3k(k)],
+      if listp(n) then n : first(n),
+      n : n-1,
+      for c in C do block([P : create_certificate2_vdw(c,n)],
+        assert(check_certificate_vdw([3,k],n,P) = true)
+      ) 
+    )
+  ),
+  true)$
+
+/*!
+\endhtmlonly
+*/
