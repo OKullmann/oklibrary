@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 19.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,6 +8,9 @@
 
 # Run through all forms of executables for the OKsolver and
 # through all available test formulas, and check the output.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and there is the fundamental problem with the match-tool
+set -o nounset
 
 list_solvers=${bin_dir}/OKsolver_2002*
 app_test_dir=${OKlib}/Satisfiability/Solvers/OKsolver/SAT2002/app_tests
