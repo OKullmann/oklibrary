@@ -81,7 +81,67 @@ License, or any later version. */
    <li> Trying to determine best ubcsat-1.2-algorithm:
    \verbatim
 E=run_ubcsat("VanDerWaerden_2-3-39_1415.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+ag2wsat
+ 3  4  5  6  7  8  9 11 24 26 28 29 30 31 32 33 34 35 36 37 38 39 40
+ 1  9 11 12  2  3  1  1  2  1  1  7  5  4 11  9  3  6  3  4  2  1  1
+ddfw
+ 3  4  5  6  7  8  9 10 11 13 16 17 20 21 22 23 25 26 27 28 29 30 31 32
+ 1  1  6 13  8  9  2  1  3  1  1  1  1  3  1  2  6 11  9  8  7  3  1  1
+anovp
+ 4 46 48 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+ 1  1  1  1  2  1  1  4  3  7  4  3  2  7  4  5  7  6  4 12  6  4  3  4  1  4
+75 76
+ 1  1
+paws
+ 6  7  8  9 10 11 12 13 14 15 18 23 28 29 30 31 32 33 34 35 36 37 38 40
+ 2  3  3  7  2  2  3  1  2  1  1  1  1  2  4  4  5 11  9  8 15  8  4  1
+saps
+ 9 12 13 15 16 21 26 32 33 34 35 36 37 38 39 40 41 43 44
+ 2  2  1  1  1  1  1  4  3  3  4  8 18 10 14 17  8  1  1
+sapsnr
+11 12 13 14 15 16 17 18 19 21 29 31 33 34 35 36 37 38 39 40 41 42 43
+ 1  1  2  1  2  1  5  2  2  1  2  3  3  7  2  9 10 12 14 12  6  1  1
+
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-39_1415.cnf_2011-01-11-173950"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 158103
+anovpp  FlipsPerSecond = 168805
+anovp   FlipsPerSecond = 167842
+cwalk   FlipsPerSecond = 154083
+cwalks  FlipsPerSecond = 153728
+dano    FlipsPerSecond = 171116
+ddfw    FlipsPerSecond = 231374
+dwalk   FlipsPerSecond = 164745
+g2wsat  FlipsPerSecond = 160026
+gsat    FlipsPerSecond = 156079
+gsats   FlipsPerSecond = 154250
+gsatt   FlipsPerSecond = 154178
+gwsat   FlipsPerSecond = 158781
+hsat    FlipsPerSecond = 157085
+hwsat   FlipsPerSecond = 158328
+irots   FlipsPerSecond = 154967
+novpc   FlipsPerSecond = 161681
+novp_p  FlipsPerSecond = 158303
+novpp   FlipsPerSecond = 153988
+novp    FlipsPerSecond = 168606
+nov     FlipsPerSecond = 167757
+paws    FlipsPerSecond = 161577
+rgsat   FlipsPerSecond = 162575
+rnovp   FlipsPerSecond = 170358
+rnov    FlipsPerSecond = 171145
+rots    FlipsPerSecond = 154679
+rsaps   FlipsPerSecond = 156838
+samd    FlipsPerSecond = 154488
+sapsnr  FlipsPerSecond = 162522
+saps    FlipsPerSecond = 163479
+uwalk   FlipsPerSecond = 154226
+vw1     FlipsPerSecond = 163693
+vw2     FlipsPerSecond = 163079
+wsat    FlipsPerSecond = 163586
+wsattn  FlipsPerSecond = 154703
+wsatt   FlipsPerSecond = 154823
    \endverbatim
+   We need to consider cutoff=10^6.
    </li>
   </ul>
 
