@@ -261,13 +261,18 @@ XXX
 
   \todo Sampling random permutations
   <ul>
-   <li> A script is to be written, which generates random permutations
-   (simplest via Maxima), computes then (by our C++ program) the set of all
-   prime implicates, computes basic measurements and puts it into a file,
-   for evaluation by R. </li>
    <li> The data should be at least the total number of clauses, the number
    of clauses of each size, and the number of irredundant clauses (easy to
    compute in this case, since the truth table is given). </li>
+   <li> See "Preparations for computing optimum representations" in
+   OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskeySubsumptionHypergraph.hpp 
+   for discussion of adding output of necessary clauses to the subsumption
+   hypergraph generator. </li>
+   <li> DONE (see analyse_random_permutations)
+   A script is to be written, which generates random permutations
+   (simplest via Maxima), computes then (by our C++ program) the set of all
+   prime implicates, computes basic measurements and puts it into a file,
+   for evaluation by R. </li>
   </ul>
 
 

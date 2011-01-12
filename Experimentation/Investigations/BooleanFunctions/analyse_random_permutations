@@ -1,0 +1,98 @@
+#! /bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+
+# Script which given the size of the set and a 32-bit integer seed, computes a 
+# random permutation over the set, and then computes the statistics for
+# the prime implicates and subsumption hypergraph for this permutation's
+# representation as a CNF (using the standard binary representation of
+# integers as variables).
+#
+# Files are output to 
+#   random_perm_${set_size}_${seed}/Permutation_full.cnf
+#     The CNF file for the generated permutation
+#   random_perm_${set_size}_${seed}/Permutation_full.cnf_primes_stats
+#     The prime implicate statistics for the generated CNF file.
+#   random_perm_${set_size}_${seed}/Permutation_full.cnf_shg_stats
+#     The subsumption hypergraph statistics for the generated CNF file.
+#
+# This process continues picking random permutations until it is quit
+# manually.
+# 
+
+script_name="analyse_random_permutations"
+version_number="0.1"
+
+err="Error[analyse_random_permutations]:"
+qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
+cnf_filename=Permutation_full.cnf
+exp_dir_prefix=random_perm_
+
+if [[ $# -ne 2 ]]; then
+  echo "${err} Takes two arguments, the size of the set and the 32-bit seed."
+  exit 1;
+fi
+
+set_size=$1
+seed=$2
+
+# Calculate log
+exp_val=4
+exp_power=2
+while [[ $exp_val -lt $set_size ]]; do
+  exp_val=$(expr 2 "*" ${exp_val})
+  exp_power=$(expr ${exp_power} + 1)
+done
+
+# It's a permutation so we need also the output bits
+exp_power=$(expr ${exp_power} "*" 2)
+
+type -P ${qmc_scriptname}${exp_power}-O3-DNDEBUG
+if [[ $? -ne 0 ]]; then
+    echo "${err} ${qmc_scriptname}${exp_power}-O3-DNDEBUG doesn't exist."
+    echo "Please compile this executable and rerun the script."
+    exit 1
+fi
+
+# Loop
+while true; do
+
+# Create new experiment directory and cd to it
+exp_dir=${exp_dir_prefix}${set_size}_${seed}
+if [[ -e ${exp_dir} ]]; then 
+  echo "Skipping seed=" ${seed} ". It already exists!"
+  echo "If this is not the case, please delete '${exp_dir}'."
+fi
+mkdir ${exp_dir} && cd ${exp_dir}
+
+if [[ $? -ne 0 ]]; then
+  echo "${err} Unable to create or enter '${exp_dir}'."
+  exit 1
+fi
+
+# Generate random permutation as CNF file.
+oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac\"); set_random('${seed}'); P : random_permutation(create_list(i,i,1,'${set_size}')); output_perm_fullcnf_stdname(P);"'
+
+if [[ $? -ne 0 ]]; then
+  echo "${err} Error running maxima. See output."
+  exit 1
+fi
+
+# Compute statistics
+${qmc_scriptname}${exp_power}-O3-DNDEBUG ${cnf_filename}
+
+if [[ $? -ne 0 ]]; then
+  echo "${err} Error running ${qmc_scriptname}${exp_power}-O3-DNDEBUG. See output."
+  exit 1
+fi
+
+seed=$(expr ${seed} + 1)
+
+# Go back to the level above
+cd ../
+
+done
