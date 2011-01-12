@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.9.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,14 +12,19 @@ License, or any later version. */
 
   \todo Reasonable memory and stack limits
   <ul>
-   <li> We should enhance the various limits, appropriate for the minimum
-   memory size we require for our machines (2 GB). </li>
-   <li> We now have default_memory_ecl() in
+   <li> DONE (we assume that the current default values are appropriate)
+   We should enhance the various limits, appropriate for the minimum
+   memory size we require for our machines (4 GB). </li>
+   <li> DONE
+   We now have default_memory_ecl() in
    ComputerAlgebra/MaximaInternals/MemoryManagement.mac. </li>
-   <li> See ComputerAlgebra/MaximaInternals/plans/MemoryManagement.hpp. </li>
-   <li> So if enhanced memory is needed, then this function is to be called.
+   <li> DONE
+   See ComputerAlgebra/MaximaInternals/plans/MemoryManagement.hpp. </li>
+   <li> DONE
+   So if enhanced memory is needed, then this function is to be called.
    It seems difficult to do this directly at initialisation-time. </li>
-   <li> Compare "Hypergraphs of arithmetic progressions" in
+   <li> DONE
+   Compare "Hypergraphs of arithmetic progressions" in
    ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp. </li>
    <li> DONE
    \verbatim

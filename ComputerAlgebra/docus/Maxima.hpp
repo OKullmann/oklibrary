@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.1.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -180,6 +180,14 @@ oklib --maxima --batch=FILE
      <li> With new Maxima versions one needs to check whether the corresponding
      functions in nparse.lisp and mload.lisp have changed, and accordingly
      must update the redefining functions. </li>
+    </ol>
+   </li>
+   <li> Problems with insufficient memory:
+    <ol>
+     <li> For our current standard lisp, ECL, via
+     <code>show_memory_ecl()</code> the current memory settings are displayed,
+     while by <code>default_memory_ecl()</code> they are set to higher default
+     values. </li>
     </ol>
    </li>
   </ul>
