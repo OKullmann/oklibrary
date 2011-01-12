@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
@@ -24,8 +24,11 @@
 # manually.
 # 
 
+set -o errexit
+set -o nounset
+
 script_name="analyse_random_permutations"
-version_number="0.1"
+version_number="0.1.1"
 
 err="Error[analyse_random_permutations]:"
 qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
