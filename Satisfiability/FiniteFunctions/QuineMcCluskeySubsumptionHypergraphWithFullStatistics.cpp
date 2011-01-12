@@ -52,7 +52,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraphWithFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.2.0";
 
 }
 
@@ -69,8 +69,8 @@ int main(const int argc, const char* const argv[]) {
   typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
   const std::string shg_input_filename = Path(shg_input_filepath).filename();
   const std::string primes_output_filepath = Path(argv[1]).filename() + "_primes";
-  std::ifstream inputfile(shg_input_filepath.c_str());
-  if (not inputfile) {
+  std::ifstream shg_inputfile(shg_input_filepath.c_str());
+  if (not shg_inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filepath << ".\n";
     return error_openfile;
   }
@@ -78,8 +78,8 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   CLSAdaptor cls_F;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-  const CLSInput input_F(inputfile, cls_F);
-  inputfile.close();
+  const CLSInput input_F(shg_inputfile, cls_F);
+  shg_inputfile.close();
 
   // Compute the prime clauses:
   typedef OKlib::Satisfiability::FiniteFunctions::QuineMcCluskey<num_vars>::clause_set_type clause_set_type;
@@ -111,17 +111,17 @@ int main(const int argc, const char* const argv[]) {
   std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
   primes_stats_outputfile << prime_stats.stat << "\n";
 
-  // Output:
-  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
-  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment1.c_str());
-  // Output of prime clauses if needed:
-  std::ofstream outputfile(primes_output_filepath.c_str());
-  if (not outputfile) {
+  // Output subsumption hypergraph to STDOUT.
+  const std::string shg_comment("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
+  OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,shg_comment.c_str());
+  // Output of prime clauses if needed to the correct file.
+  std::ofstream primes_outputfile(primes_output_filepath.c_str());
+  if (not primes_outputfile) {
     std::cerr << err << "Failure opening output file " << 
       primes_output_filepath  << ".\n";
     return error_openfile;
   }
-  const std::string comment2("All prime implicates for " + shg_input_filepath);
-  OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
+  const std::string primes_comment("All prime implicates for " + shg_input_filepath);
+  OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,primes_outputfile,primes_comment.c_str());
 
 }

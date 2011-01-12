@@ -48,7 +48,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraph";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.2.0";
 
 }
 
@@ -64,8 +64,8 @@ int main(const int argc, const char* const argv[]) {
   typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
   const std::string shg_input_filename = argv[1];
   const std::string primes_output_filepath = Path(argv[1]).filename() + "_primes";
-  std::ifstream inputfile(shg_input_filename.c_str());
-  if (not inputfile) {
+  std::ifstream shg_inputfile(shg_input_filename.c_str());
+  if (not shg_inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filename << ".\n";
     return error_openfile;
   }
@@ -73,8 +73,8 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> CLSAdaptor;
   CLSAdaptor cls_F;
   typedef OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor> CLSInput;
-  const CLSInput input_F(inputfile, cls_F);
-  inputfile.close();
+  const CLSInput input_F(shg_inputfile, cls_F);
+  shg_inputfile.close();
 
   // Compute the prime clauses:
   typedef OKlib::Satisfiability::FiniteFunctions::QuineMcCluskey<num_vars>::clause_set_type clause_set_type;
