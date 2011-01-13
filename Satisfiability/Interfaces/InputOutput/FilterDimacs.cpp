@@ -80,7 +80,7 @@ namespace OKlib {
     public :
 
       template <typename Range>
-      CLSAdaptorFilter(const Range& clause_numbers_arg, cls_adaptor_type cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
+      CLSAdaptorFilter(const Range& clause_numbers_arg, cls_adaptor_type& cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
         boost::copy(clause_numbers_arg, 
                     std::inserter(clause_numbers, 
                                   boost::begin(clause_numbers)));
