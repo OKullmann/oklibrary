@@ -78,31 +78,39 @@ bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
 */
 bv2c_wv(v,V) := setify(map(lambda([x,y], if x=0 then -y else y), v, V))$
 
-/* Translating a permutation P (standardised, as list) into a boolean function
-   representing this function as a dnf.
-   Prerequisite: P is a permutation of {1,...,2^k} for k >= 0.
+/* Translating a transformation T (standardised, as list) into a boolean
+   function representing this function as a dnf.
+   Prerequisite: T is a transformation of {1,...,2^k} for k >= 0.
 */
-perm2dnffcl(P) := block([m : length(P), k, V, F, R],
+trans2dnffcl(T) := block([m : length(T), k, V, F, R],
   k : fld(m),
   V : create_list(i,i,1,2*k),
   R : lambda([i],unrank_lex_bv(i,k)),
-  F : map(append, map(R,create_list(i,i,1,m)), map(R,P)),
+  F : map(append, map(R,create_list(i,i,1,m)), map(R,T)),
   return([V, map(bv2c,F)]))$
+trans2dnffcs(P) := fcl2fcs(trans2dnffcl(P))$
+
+/* The special case of a permutation: */
+perm2dnffcl(P) := trans2dnffcl(P)$
 perm2dnffcs(P) := fcl2fcs(perm2dnffcl(P))$
 
-/* Now representing the function as cnf: */
-perm2cnffcs(P) := block([m : length(P), FF : perm2dnffcs(P), k],
+/* Now representing the transformation as cnf: */
+trans2cnffcs(T) := block([m : length(T), FF : trans2dnffcs(T), k],
   k : fld(m),
   return([FF[1], setdifference(all_tass(setn(2*k)), FF[2])]))$
 
-/* Output of clause-set perm2cnffcs(P) to a file: */
-output_perm_fullcnf(P,filename) :=
-  output_fcs(
-    sconcat("The permutation ", P, " in full CNF representation."),
-    perm2cnffcs(P),
-    filename)$
-output_perm_fullcnf_stdname(P) :=output_perm_fullcnf(P,"Permutation_full.cnf")$
+perm2cnffcs(P) := trans2cnffcs(P)$
 
+/* Output of clause-set trans2cnffcs(T) to a file: */
+output_trans_fullcnf(T,filename) :=
+  output_fcs(
+    sconcat("The transformation ", T, " in full CNF representation."),
+    trans2cnffcs(T),
+    filename)$
+output_trans_fullcnf_stdname(T) := output_trans_fullcnf(T,"Transformation_full.cnf")$
+/* The special case of a permutation: */
+output_perm_fullcnf(P,filename) := output_trans_fullcnf(P,filename)$
+output_perm_fullcnf_stdname(P) := output_perm_fullcnf(P,"Permutation_full.cnf")$
 
 /* A linear transformation, given as a square 0-1-matrix M of order n, as a
    boolean function in 2n variables, represented as DNF resp CNF:

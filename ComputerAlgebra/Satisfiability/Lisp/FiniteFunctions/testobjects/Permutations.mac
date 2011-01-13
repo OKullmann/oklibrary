@@ -33,8 +33,13 @@ okltest_rank_lex_bv(rank_lex_bv);
 okltest_bv2c(bv2c);
 okltest_bv2c_wv(bv2c_wv);
 
+okltest_trans2dnffcl(trans2dnffcl);
+okltest_trans2dnffcs(trans2dnffcs);
+
 okltest_perm2dnffcl(perm2dnffcl);
 okltest_perm2dnffcs(perm2dnffcs);
+
+okltest_trans2cnffcs(trans2cnffcs);
 okltest_perm2cnffcs(perm2cnffcs);
 
 okltest_m2dnffcl(m2dnffcl);
