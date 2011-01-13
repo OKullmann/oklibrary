@@ -47,7 +47,6 @@ License, or any later version. */
 */
 
 #include <string>
-#include <ostream>
 #include <fstream>
 #include <set>
 #include <iostream>
