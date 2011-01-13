@@ -148,7 +148,6 @@ int main(const int argc, const char* const argv[]) {
   typedef int int_type;
   typedef std::set<int_type> clause_numbers_container_type;
 
-  // Read in list of line numbers
   if (argc != 2) {
     std::cerr << "ERROR[FilterDimacs]: Exactly one inputs is "
       "required, the  name of the file containing the list of "
@@ -180,7 +179,6 @@ int main(const int argc, const char* const argv[]) {
   }
   f_in.close();
 
-  // Filter clause set and output only those clauses which are numbered.
   CLSAdaptor output(std::cout);
   CLSAdaptorFilter filter(clause_numbers, output);
   OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorFilter>(std::cin, filter);
