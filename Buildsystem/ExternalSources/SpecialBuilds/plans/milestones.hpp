@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3 (24.12.2010)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.1 (12.1.2011)
 
 
   \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
@@ -106,6 +106,11 @@ License, or any later version. */
    topics are handled:
     - Install version 1.7.2
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
+   following topics are handled:
+    - Install version 3.6.0 : DONE
+
 
   \par Version 0.2.5 (installing computer algebra)
 
@@ -163,7 +168,6 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
    following topics are handled:
-    - Install version 3.6.0
     - Update
 
 
