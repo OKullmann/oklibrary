@@ -138,6 +138,9 @@ namespace {
     error_readfile = 3
   };
 
+  const std::string program = "FilterDimacs";
+  const std::string err = "ERROR[" + program + "]: ";
+
   const std::string version = "0.0.4";
 
 }
@@ -149,7 +152,7 @@ int main(const int argc, const char* const argv[]) {
   typedef std::set<int_type> clause_numbers_container_type;
 
   if (argc != 2) {
-    std::cerr << "ERROR[FilterDimacs]: Exactly one inputs is "
+    std::cerr << err << "Exactly one inputs is "
       "required, the  name of the file containing the list of "
       "clause positions. The Dimacs file should be given on "
       "standard input.\n";
@@ -158,7 +161,7 @@ int main(const int argc, const char* const argv[]) {
 
   std::ifstream f_in(argv[1]);
   if (not f_in) {
-    std::cerr << "ERROR[FilterDimacs]: Failure opening file " << 
+    std::cerr << err << "Failure opening file " << 
       argv[1] << ".\n";
     return error_openfile;
   }
