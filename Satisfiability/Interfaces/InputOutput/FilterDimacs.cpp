@@ -7,20 +7,19 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/FilterDimacs.cpp
-  \brief Application to filter out the given numbered clauses in a clause-set.
+  \brief Application to select clauses from a clause-set
 
   <ul>
    <li> Reads a Dimacs clause-set from standard input, and writes to standard 
    output (and standard error). </li>
-   <li> The only argument is the path to a file containing integer clause 
-   positions in the clause-set. </li>
-   <li> The file containing clause positions should simply be a list of 
-   positive integers between 1 and the number of clauses given on standard
-   input. </li>
-   <li> The result, given on standard output is a Dimacs file containing 
-   the i-th clauses for all i occurring in the clause positions file. </li>
-   <li> Any non-integer characters (including "-") in the clause positions 
-   file will be ignored. </li>
+   <li> The only argument is a path to the file containing integer clause 
+   indices in the clause-set. </li>
+   <li> These indices should be positive integers up to the total number of
+   clauses given on standard input. </li>
+   <li> The result, given on standard output, is a Dimacs file containing 
+   the i-th clauses for all i occurring in the clause-positions-file. </li>
+   <li> Any non-integer characters (including "-") in the
+   clause-positions-file will be ignored. </li>
    <li> Negative integers are also ignored. This allows v-lines from SAT 
    solvers put to a file and used directly without removing any characters. 
    </li>
