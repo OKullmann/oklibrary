@@ -147,7 +147,7 @@ namespace {
   const std::string program = "FilterDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.4";
+  const std::string version = "0.0.5";
 
 }
 
