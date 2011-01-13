@@ -23,7 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 
 
 kill(f)$
@@ -34,9 +34,19 @@ kill(f)$
 */
 
 okltest_lex_bv_l(f) := (
+  assert(f(0) = [[]]),
+  assert(f(1) = [[0],[1]]),
+  assert(f(2) = [[0,0],[0,1],[1,0],[1,1]]),
+  true)$
+
+okltest_unrank_lex_bv(f) := (
   for k : 0 thru 5 do
-    assert(f(k) = if k=0 then [[]] else
-      create_list(int2polyadic_padd(x-1,2,k),x,1,2^k)),
+    assert(lex_bv_l(k) = create_list(f(i,k),i,1,2^k)),
+  true)$
+
+okltest_rank_lex_bv(f) := (
+  for k : 0 thru 5 do
+    assert(map(f,lex_bv_l(k)) = create_list(i,i,1,2^k)),
   true)$
 
 okltest_bv2c(f) := (

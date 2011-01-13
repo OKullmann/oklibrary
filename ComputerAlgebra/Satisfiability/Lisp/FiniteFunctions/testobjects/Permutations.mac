@@ -27,6 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/P
 */
 
 okltest_lex_bv_l(lex_bv_l);
+okltest_unrank_lex_bv(unrank_lex_bv);
+okltest_rank_lex_bv(rank_lex_bv);
 
 okltest_bv2c(bv2c);
 okltest_bv2c_wv(bv2c_wv);
