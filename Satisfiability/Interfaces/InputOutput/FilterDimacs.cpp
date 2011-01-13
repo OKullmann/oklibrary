@@ -29,7 +29,11 @@ License, or any later version. */
 
   \todo Weak implementation
   <ul>
-   <li> The clause-index-container obviously shouldn't be copied. </li>
+   <li> The clause-index-container passed to the constructor obviously
+   shouldn't be copied. </li>
+   <li> Clause-indices should use an unsigned type. </li>
+   <li> All indices passed to the constructor are assumed to be at least 1.
+   </li>
    <li> Reading in of the clause-indices is awkward. </li>
   </ul>
 
