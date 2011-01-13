@@ -34,6 +34,8 @@ License, or any later version. */
 
   \todo Better output of run_ubcsat
   <ul>
+   <li> A paramater-file is needed, so that the experiment can be reproduced.
+   </li>
    <li> DONE
    So a summary for each (single) run should be printed out.
     <ol>
