@@ -29,8 +29,8 @@ License, or any later version. */
 
   \todo Weak implementation
   <ul>
-   <li> The clause-number-container obviously shouldn't be copied. </li>
-   <li> Reading in of the clause-numbers is awkward. </li>
+   <li> The clause-index-container obviously shouldn't be copied. </li>
+   <li> Reading in of the clause-indices is awkward. </li>
   </ul>
 
   \todo Move CLSAdaptorFilter
@@ -74,21 +74,21 @@ namespace OKlib {
       typedef String string_type;
       typedef CLSAdaptor cls_adaptor_type;
 
-      typedef std::set<int_type> clause_numbers_container_type;
+      typedef std::set<int_type> clause_index_container_type;
 
     private :
 
       cls_adaptor_type cls_adaptor;
-      clause_numbers_container_type clause_numbers;
+      clause_index_container_type clause_index;
       int_type current_clause;
 
     public :
 
       template <typename Range>
-      CLSAdaptorFilter(const Range& clause_numbers_arg, cls_adaptor_type& cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
-        boost::copy(clause_numbers_arg, 
-                    std::inserter(clause_numbers, 
-                                  boost::begin(clause_numbers)));
+      CLSAdaptorFilter(const Range& clause_index_arg, cls_adaptor_type& cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
+        boost::copy(clause_index_arg, 
+                    std::inserter(clause_index, 
+                                  boost::begin(clause_index)));
       }
  
       void comment(const string_type& s) {
@@ -98,35 +98,35 @@ namespace OKlib {
         cls_adaptor.n(pn);
       }
       void c(const int_type pc) {
-        // Remove any line numbers which are too large
-        clause_numbers_container_type temp_clause_numbers;
-        std::remove_copy_if(boost::begin(clause_numbers),
-                            boost::end(clause_numbers),
-                            std::inserter(temp_clause_numbers, 
-                                          boost::begin(temp_clause_numbers)),
+        // Remove any clause-indices which are too large
+        clause_index_container_type temp_clause_index;
+        std::remove_copy_if(boost::begin(clause_index),
+                            boost::end(clause_index),
+                            std::inserter(temp_clause_index, 
+                                          boost::begin(temp_clause_index)),
                             std::bind2nd(std::greater<int_type>(), pc));
-        clause_numbers.clear();
-        std::remove_copy_if(boost::begin(temp_clause_numbers),
-                            boost::end(temp_clause_numbers),
-                            std::inserter(clause_numbers, 
-                                          boost::begin(clause_numbers)),
+        clause_index.clear();
+        std::remove_copy_if(boost::begin(temp_clause_index),
+                            boost::end(temp_clause_index),
+                            std::inserter(clause_index, 
+                                          boost::begin(clause_index)),
                             std::bind2nd(std::less<int_type>(), 1));
         
-        cls_adaptor.c(clause_numbers.size());
+        cls_adaptor.c(clause_index.size());
       }
       void finish() {
         cls_adaptor.finish();
       }
       void tautological_clause(const int_type t) {
         ++current_clause;
-        if (clause_numbers.find(current_clause) != clause_numbers.end()) {
+        if (clause_index.find(current_clause) != clause_index.end()) {
           cls_adaptor.tautological_clause(t);
         }
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         ++current_clause;
-        if (clause_numbers.find(current_clause) != clause_numbers.end()) {
+        if (clause_index.find(current_clause) != clause_index.end()) {
           cls_adaptor.clause(r,t);
         }
       }
@@ -168,7 +168,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
 
-  CLSAdaptorFilter::clause_numbers_container_type clause_numbers;
+  CLSAdaptorFilter::clause_index_container_type clause_index;
   while (not f_in.eof()) {
     while ( (((char)f_in.peek() > '9') or 
             ((char)f_in.peek() < '0')) and
@@ -179,12 +179,12 @@ int main(const int argc, const char* const argv[]) {
     CLSAdaptorFilter::int_type i; 
     f_in >> i; 
     if (not f_in.fail() and (i > 0)) {
-      clause_numbers.insert(i);
+      clause_index.insert(i);
     }
   }
   f_in.close();
 
   CLSAdaptorFilter::cls_adaptor_type output(std::cout);
-  CLSAdaptorFilter filter(clause_numbers, output);
+  CLSAdaptorFilter filter(clause_index, output);
   OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorFilter>(std::cin, filter);
 }
