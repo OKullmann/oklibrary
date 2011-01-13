@@ -27,6 +27,11 @@ License, or any later version. */
    topics are handled:
     - Introduce memoise function wrapper
 
+  \par
+   In ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp the 
+   following topics are handled:
+    - Random invertible matrix
+
   \par ComputerAlgebra/Hypergraphs version 0.0.8 : DONE
   (see ComputerAlgebra/Hypergraphs/Lisp/plans/milestones.hpp)
   

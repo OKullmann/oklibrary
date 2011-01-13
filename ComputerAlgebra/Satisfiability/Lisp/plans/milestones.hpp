@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -17,6 +17,12 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
     - Relations to other modules
     - Update plans
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp the following topics are handled:
+    - Random boolean function
+
+Random boolean function
 
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.8 : DONE
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
