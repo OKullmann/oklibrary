@@ -246,8 +246,7 @@ Cannot allocate enough memory!
 > cd cryptominisat
 > make -f Makefile.cvs
 > cd ..
-> mv cryptominisat cryptominisat-2.7.1.1
-> tar -cjf cryptominisat-2.7.1.1.tar.bz2 cryptominisat-2.7.1.1
+> new_version="2.7.1.1"; mv cryptominisat cryptominisat-${new_version}; tar -cjf cryptominisat-${new_version}.tar.bz2 cryptominisat-${new_version}
      \endverbatim
      </li>
     </ol>
