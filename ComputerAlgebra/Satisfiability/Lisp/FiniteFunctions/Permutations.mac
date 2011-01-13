@@ -30,21 +30,20 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 */
 
 /* We consider only permutations of {1,...,m}, where for permutations
-   we just the list representations (so that the set of all such
+   we use the list representations (so that the set of all such
    representations is permutations(setn(m))).
    See ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac for
    the symmetric group.
-*/
 
-/* Furthermore we only consider m = 2^k for natural k >= 1, so that the set
+   Furthermore we only consider m = 2^k for natural k >= 1, so that the set
    {1,...,m} is in one-to-one correspondence to {0,1}^k. Using the bijection
    R for such a presentation, the mapping x -> y of the permutation f
    yields then the boolean list append(R(x), R(y)) of length 2k.
    These lists are considered as the satisfying assignments of the
    corresponding boolean functions.
-*/
 
-/* However, the generality provided by using (arbitrary) R seems only to lead 
+
+   However, the generality provided by using (arbitrary) R seems only to lead 
    to confusion, and so we fix R: {1,...,m} -> {0,1}^k, x -> R(x) as the
    standard representation of x-1 in binary, with (left-)padded zeros.
    This is computed by int2polyadic_padd(x-1,2,k).
@@ -57,6 +56,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    in bv2c):
 */
 bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
+/* More generally, supplying a vector V of boolean variables (of the same
+   length as v):
+*/
 bv2c_wv(v,V) := setify(map(
   lambda([p], if first(p)=0 then -second(p) else second(p)), 
   map("[", v, V)))$
