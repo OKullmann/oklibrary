@@ -153,9 +153,6 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
-  typedef CLSAdaptorFilter::cls_adaptor_type cls_adaptor_type;
-  typedef CLSAdaptorFilter::clause_numbers_container_type clause_numbers_container_type;
 
   if (argc != 2) {
     std::cerr << err << "Exactly one inputs is "
@@ -172,7 +169,9 @@ int main(const int argc, const char* const argv[]) {
     return error_openfile;
   }
 
-  clause_numbers_container_type clause_numbers;
+  typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
+
+  CLSAdaptorFilter::clause_numbers_container_type clause_numbers;
   while (not f_in.eof()) {
     while ( (((char)f_in.peek() > '9') or 
             ((char)f_in.peek() < '0')) and
@@ -188,7 +187,7 @@ int main(const int argc, const char* const argv[]) {
   }
   f_in.close();
 
-  cls_adaptor_type output(std::cout);
+  CLSAdaptorFilter::cls_adaptor_type output(std::cout);
   CLSAdaptorFilter filter(clause_numbers, output);
   OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorFilter>(std::cin, filter);
 }
