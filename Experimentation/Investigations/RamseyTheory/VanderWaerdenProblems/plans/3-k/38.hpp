@@ -90,29 +90,69 @@ rots
  1  1  3  1  1  5  4  7  8  9  6 19  6 11 10  2  3  1  2 
      \endverbatim
      The first two are very slow. </li>
-     <li> It seems very slow?:
+     <li> It seems very slow? (times on csltok):
      \verbatim
 > exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
-anovp   FlipsPerSecond = 2130   
-gsat    FlipsPerSecond = 36277  
-gsats   FlipsPerSecond = 40042  
-gsatt   FlipsPerSecond = 14703  
-gwsat   FlipsPerSecond = 9346   
-hsat    FlipsPerSecond = 34954  
-hwsat   FlipsPerSecond = 15282  
-irots   FlipsPerSecond = 10805  
-novp    FlipsPerSecond = 2160   
-nov     FlipsPerSecond = 2129   
-rnovp   FlipsPerSecond = 2188   
-rnov    FlipsPerSecond = 2193   
-rots    FlipsPerSecond = 12589  
-samd    FlipsPerSecond = 14706  
-wsat    FlipsPerSecond = 2583   
-wsattn  FlipsPerSecond = 2595   
-wsatt   FlipsPerSecond = 2537   
+anovp   FlipsPerSecond = 2130
+gsat    FlipsPerSecond = 36277
+gsats   FlipsPerSecond = 40042
+gsatt   FlipsPerSecond = 14703
+gwsat   FlipsPerSecond = 9346
+hsat    FlipsPerSecond = 34954
+hwsat   FlipsPerSecond = 15282
+irots   FlipsPerSecond = 10805
+novp    FlipsPerSecond = 2160
+nov     FlipsPerSecond = 2129
+rnovp   FlipsPerSecond = 2188
+rnov    FlipsPerSecond = 2193
+rots    FlipsPerSecond = 12589
+samd    FlipsPerSecond = 14706
+wsat    FlipsPerSecond = 2583
+wsattn  FlipsPerSecond = 2595
+wsatt   FlipsPerSecond = 2537
+
+> cat VanDerWaerden_2-3-38_1376.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+1376 497557 2364206 0 2364206 4 1
+ length count
+3 472656
+38 24901
      \endverbatim
      (there have been segmentation faults; need to rerun it with our newest
      version of ubcsat-1-2-0).
+     </li>
+     <li> Compared with the flips per second in plans/3-k/39.hpp these times
+     are completely out of order. </li>
+     <li> Run version 1-0-0 on csltok:
+     \verbatim
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-13-005548"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done 
+gsat    FlipsPerSecond = 36547  
+gsats   FlipsPerSecond = 38438  
+gwsat   FlipsPerSecond = 9654
+     \endverbatim
+     Very similar. </li>
+     <li> We have on csltok a quadcore Intel i5 CPU with info
+     \verbatim
+67: None 00.0: 10103 CPU
+  [Created at cpu.301]
+  Unique ID: rdCR.j8NaKXDZtZ6
+  Hardware Class: cpu
+  Arch: X86-64
+  Vendor: "GenuineIntel"
+  Model: 6.37.5 "Intel(R) Core(TM) i5 CPU       M 520  @ 2.40GHz"
+  Features: fpu,vme,de,pse,tsc,msr,pae,mce,cx8,apic,sep,mtrr,pge,mca,cmov,pat,pse36,clflush,dts,acpi,mmx,fxsr,sse,sse2,ss,ht,tm,pbe,syscall,nx,rdtscp,lm,constant_tsc,arch_perfmon,pebs,bts,rep_good,xtopology,nonstop_tsc,aperfmperf,pni,pclmulqdq,dtes64,monitor,ds_cpl,vmx,smx,est,tm2,ssse3,cx16,xtpr,pdcm,sse4_1,sse4_2,popcnt,aes,lahf_lm,ida,arat,tpr_shadow,vnmi,flexpriority,ept,vpid
+  Clock: 2400 MHz
+  BogoMips: 4787.23
+  Cache: 3072 kb
+  Units/Processor: 16
+  Config Status: cfg=no, avail=yes, need=no, active=unknown
+
+68: None 01.0: 10103 CPU
+
+69: None 02.0: 10103 CPU
+
+70: None 03.0: 10103 CPU
+     \endverbatim
      </li>
     </ol>
    </li>

@@ -140,7 +140,14 @@ vw2     FlipsPerSecond = 163079
 wsat    FlipsPerSecond = 163586
 wsattn  FlipsPerSecond = 154703
 wsatt   FlipsPerSecond = 154823
-   \endverbatim
+
+> cat VanDerWaerden_2-3-39_1415.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+1415 525490 2499546 0 2499546 4 1
+ length count
+3 499849
+39 25641
+  \endverbatim
    We need to consider cutoff=10^6.
    </li>
   </ul>

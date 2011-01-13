@@ -14,6 +14,30 @@ License, or any later version. */
   <ul>
    <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
    https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
+   <li> Segmentation faults for saps, rsaps, sapsnr:
+    <ol>
+     <li>
+     \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 3 38 1376 > VanDerWaerden_2-3-38_1376.cnf
+
+> valgrind ExternalSources/Installations/SAT/Ubcsat/1-2-0-beta/bin/ubcsat-1-2-0-beta -alg saps -i VanDerWaerden_2-3-38_1376.cnf
+...
+#       F  Best                 Step                Total 
+#   Run N Sol'n                   of               Search 
+#   No. D Found                 Best                Steps 
+# 
+==25749== 
+==25749== Process terminating with default action of signal 11 (SIGSEGV): dumping core
+==25749==  General Protection Fault
+==25749==    at 0x4390B3: InitClausePenaltyFL (in /home/kullmann/OKplatform/ExternalSources/Installations/SAT/Ubcsat/1-2-0-beta/bin/ubcsat-1-2-0-beta)
+==25749==    by 0x441AFA: ubcsatmain (in /home/kullmann/OKplatform/ExternalSources/Installations/SAT/Ubcsat/1-2-0-beta/bin/ubcsat-1-2-0-beta)
+==25749==    by 0x50A2B7C: (below main) (in /lib64/libc-2.11.2.so)
+     \endverbatim
+     Same with rsaps and sapsnr (but not for any other algorithm).
+     </li>
+     <li> The error doesn't occur with the debug-version. </li>
+    </ol>
+   </li>
    <li> DONE
    We also changed "#define MAXPARMLINELEN 4096" to
    "#define MAXPARMLINELEN 16384". </li>
@@ -24,8 +48,12 @@ License, or any later version. */
 > ubcsat-1-2-0-beta> git pull https://github.com/dtompkins/ubcsat.git beta
    \endverbatim
    inside the extracted archive (then archiving it again). </li>
-   <li> Version 1-2-0 is slower than our version 1-0-0:
-   \verbatim
+   <li> Speed issues:
+    <ol>
+     <li> Version 1-2-0 is slower than our version 1-0-0:
+     \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 3 36 1256 > VanDerWaerden_2-3-36_1256.cnf
+
 > ubcsat-okl -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
 ...
 FlipsPerSecond = 15225
@@ -33,7 +61,14 @@ FlipsPerSecond = 15225
 > new-ubcsat-okl -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
 ...
 FlipsPerSecond = 14102
-   \endverbatim
+     \endverbatim
+     This needs to be checked with our newest version, and on different
+     machines. </li>
+     <li> There are enormous differences (a factor up to 80) on different
+     machines; see
+     Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/38.hpp.
+     </li>
+    </ol>
    </li>
    <li> DONE (we didn't check out the beta-version)
    The current version is not usable at all; e-mail sent to
