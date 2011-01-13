@@ -146,8 +146,8 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> CLSAdaptor;
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
+  typedef CLSAdaptorFilter::cls_adaptor_type cls_adaptor_type;
   typedef int int_type;
   typedef std::set<int_type> clause_numbers_container_type;
 
@@ -182,7 +182,7 @@ int main(const int argc, const char* const argv[]) {
   }
   f_in.close();
 
-  CLSAdaptor output(std::cout);
+  cls_adaptor_type output(std::cout);
   CLSAdaptorFilter filter(clause_numbers, output);
   OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorFilter>(std::cin, filter);
 }
