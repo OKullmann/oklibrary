@@ -192,7 +192,80 @@ Break point 2: 1411
    <li> Trying to determine best ubcsat-1.2-algorithm:
    \verbatim
 E=run_ubcsat("VanDerWaerden_pd_2-3-39_1410.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+samd
+ 1  2  3  4  5  6  7
+ 9 16 30 26 12  5  2
+gsatt
+ 1  2  3  4  5  6
+ 8 25 34 19 10  4
+ddfw
+ 2  3  4  5  6  7
+ 1  4 15 39 28 13
+anovpp
+ 3  4  5  6  7  8  9 10 11 12 13 14 17
+ 1  3  2  9  9 11 17 19 10  9  6  3  1
+anovp
+ 3  4  5  6  7  8  9 10 11 12 13 14 15
+ 1  2  5  7  6 12 13 15 17 12  8  1  1
+rots
+ 4  5  6  7  8  9
+ 5  6 15 46 18 10
+ag2wsat
+ 4  5  6  7  8  9 10
+ 4 11 17 41 12 10  5
+hwsat
+ 4  5  6  7  8  9 10 11 12
+ 4  4 11 15 20 19 17  6  4
+dano
+ 4  6  7  8  9 10 11 12 13 14 15
+ 2  5  7 17 17 11 13 11 12  2  3
+wsattn
+ 4 10 11 12 13 14 15 16 17 18 19 20 21 22
+ 1  4  6  5  6  6 22 14  7 12  8  5  3  1
+paws
+ 5  6  7  8  9 10 11
+ 2  6 24 26 26 14  2
+
+> exp_dir="ubcsat_tmp_VanDerWaerden_pd_2-3-39_1410.cnf_2011-01-11-191236"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 1600512
+anovpp  FlipsPerSecond = 1602821
+anovp   FlipsPerSecond = 7961783
+cwalk   FlipsPerSecond = 1685204
+cwalks  FlipsPerSecond = 1680108
+dano    FlipsPerSecond = 5015045
+ddfw    FlipsPerSecond = 12484395
+dwalk   FlipsPerSecond = 1895016
+g2wsat  FlipsPerSecond = 1603849
+gsat    FlipsPerSecond = 1637197
+gsats   FlipsPerSecond = 1552072
+gsatt   FlipsPerSecond = 1753463
+gwsat   FlipsPerSecond = 1898614
+hsat    FlipsPerSecond = 1561280
+hwsat   FlipsPerSecond = 1819505
+irots   FlipsPerSecond = 1614466
+novpc   FlipsPerSecond = 2929974
+novp_p  FlipsPerSecond = 1679825
+novpp   FlipsPerSecond = 8216927
+novp    FlipsPerSecond = 5260389
+nov     FlipsPerSecond = 5321980
+paws    FlipsPerSecond = 2770851
+rgsat   FlipsPerSecond = 2708559
+rnovp   FlipsPerSecond = 6365372
+rnov    FlipsPerSecond = 8000000
+rots    FlipsPerSecond = 2084636
+rsaps   FlipsPerSecond = 2283105
+samd    FlipsPerSecond = 1785077
+sapsnr  FlipsPerSecond = 1804077
+saps    FlipsPerSecond = 1829157
+uwalk   FlipsPerSecond = 1666111
+vw1     FlipsPerSecond = 2314279
+vw2     FlipsPerSecond = 2251745
+wsat    FlipsPerSecond = 2296211
+wsattn  FlipsPerSecond = 2321802
+wsatt   FlipsPerSecond = 2322880
    \endverbatim
+   Are these FPS'values correct?
    </li>
   </ul>
 
