@@ -84,7 +84,7 @@ bv2c_wv(v,V) := setify(map(lambda([x,y], if x=0 then -y else y), v, V))$
 perm2dnffcl(P) := block([m : length(P), k, V, F, R],
   k : fld(m),
   V : create_list(i,i,1,2*k),
-  R : lambda([x],int2polyadic_padd(x-1,2,k)),
+  R : lambda([i],unrank_lex_bv(i,k)),
   F : map(append, map(R,create_list(i,i,1,m)), map(R,P)),
   return([V, map(bv2c,F)]))$
 perm2dnffcs(P) := fcl2fcs(perm2dnffcl(P))$
