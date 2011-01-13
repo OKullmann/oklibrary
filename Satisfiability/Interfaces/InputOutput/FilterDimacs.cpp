@@ -76,10 +76,11 @@ namespace OKlib {
       typedef String string_type;
       typedef CLSAdaptor cls_adaptor_type;
 
+      typedef std::set<int_type> clause_numbers_container_type;
+
     private :
 
       cls_adaptor_type cls_adaptor;
-      typedef std::set<int_type> clause_numbers_container_type;
       clause_numbers_container_type clause_numbers;
       int_type current_clause;
 
@@ -155,7 +156,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
   typedef CLSAdaptorFilter::cls_adaptor_type cls_adaptor_type;
   typedef CLSAdaptorFilter::int_type int_type;
-  typedef std::set<int_type> clause_numbers_container_type;
+  typedef CLSAdaptorFilter::clause_numbers_container_type clause_numbers_container_type;
 
   if (argc != 2) {
     std::cerr << err << "Exactly one inputs is "
