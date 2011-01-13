@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordFields.mac")$
 
 
 kill(f)$
@@ -358,6 +359,35 @@ okltest_random_cpermutation_m(f) := (
 
 okltest_random_spolar_m(f) := (
 
+  true)$
+
+okltest_extend_linear_hull(f) := block([H],
+  H : {},
+  H : f([1,0,0],H,{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))),
+  assert(H = {[1,0,0]}),
+  H : f([1,0,0],H,{0,1},
+    lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))),
+  assert(H = {[1,0,0]}),
+  H : f([0,1,0],H,{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))),
+  assert(H = {[0,1,0],[1,0,0],[1,1,0]}),
+  H : f([0,0,1],H,{0,1},
+    lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))),
+  assert(H = {[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]}),
+  true)$
+
+okltest_linear_hull(f) := (
+  assert(f({},{0,1}, 'f, 'g) = {}),
+  assert(f({[0,0,1]},{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))) =
+    {[0,0,1]}),
+  assert(f({[1,0,0],[0,0,1]},{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))) =
+    {[0,0,1],[1,0,0],[1,0,1]}),
+  assert(f({[0,1,0],[1,0,0],[0,0,1]},{0,1}, lambda([a,b],ss_add(a,b,2,x)),
+      lambda([a,b],ss_mul(a,b,2,x))) =
+    {[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]}),
   true)$
 
 /* *******************

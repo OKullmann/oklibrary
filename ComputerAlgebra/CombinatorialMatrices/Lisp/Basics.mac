@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -259,6 +259,27 @@ random_cpermutation_m(M) := block([s : matrix_size(M)],
 /* A random self-polar matrix : */
 random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
 
+/* Takes list of field elements, a set of lists of elements over the field,
+   a function implementing the field addition, a set of field elements,
+   a function implementing the field multiplication and returns the linear
+   hull of adjoin(L,H).
+
+   H is assumed to be a linear hull itself, i.e., all lists in H  must be of
+   the same size and for any list in H, H contains all linearly dependent
+   lists of that list.
+*/
+extend_linear_hull(V,H,F,add_f, mul_f) := block([lin_dep_V],
+  lin_dep_V : create_list(map(lambda([ve], mul_f(ve,e)),V), e, listify(F)),
+  return(disjoin(create_list(0,i,1,length(V)),
+      setify(append(lin_dep_V,
+          create_list(map(add_f,Vl,Vh), Vl, lin_dep_V, Vh, listify(H)))))))$
+/* Computes the linear hull of a given set of vectors over the field
+   defined by the field elements F along with additiona and multiplication
+   functions. */
+linear_hull(L,F,add_f, mul_f) :=
+  lreduce(lambda([H,V], extend_linear_hull(V,H,F,add_f,mul_f)),
+    listify(L), {})$
+  
 
 /* *******************
    * Transformations *
