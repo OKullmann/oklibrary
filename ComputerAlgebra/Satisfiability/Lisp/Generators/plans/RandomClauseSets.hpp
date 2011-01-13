@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,10 @@ License, or any later version. */
    we have "random_sublist_l". </li>
    <li> Likely these functions should go to DataStructures/Lists.mac.
    </li>
+   <li> DONE (see random_full_fcs)
+   We need also a true random clause-set generator, at least for
+   full clause-sets, i.e., one which doesn't require us to specify the number 
+   of clauses. </li>
   </ul>
   
   

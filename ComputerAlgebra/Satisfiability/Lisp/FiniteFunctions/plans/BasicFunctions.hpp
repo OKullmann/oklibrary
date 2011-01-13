@@ -38,7 +38,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Random boolean function
+  \todo DONE (Moved to 
+  ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp)
+  Random boolean function
   <ul>
    <li> We need a script to generate a random boolean function
    in n variables. </li>
