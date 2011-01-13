@@ -97,12 +97,8 @@ namespace OKlib {
                                   boost::begin(clause_index)));
       }
  
-      void comment(const string_type& s) {
-        cls_adaptor.comment(s);
-      }
-      void n(const int_type pn) {
-        cls_adaptor.n(pn);
-      }
+      void comment(const string_type& s) { cls_adaptor.comment(s); }
+      void n(const int_type pn) { cls_adaptor.n(pn); }
       void c(const int_type pc) {
         // Remove any clause-indices which are too large
         clause_index_container_type temp_clause_index;
@@ -120,21 +116,17 @@ namespace OKlib {
         
         cls_adaptor.c(clause_index.size());
       }
-      void finish() {
-        cls_adaptor.finish();
-      }
+      void finish() { cls_adaptor.finish(); }
       void tautological_clause(const int_type t) {
         ++current_clause;
-        if (clause_index.find(current_clause) != clause_index.end()) {
+        if (clause_index.find(current_clause) != clause_index.end())
           cls_adaptor.tautological_clause(t);
-        }
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         ++current_clause;
-        if (clause_index.find(current_clause) != clause_index.end()) {
+        if (clause_index.find(current_clause) != clause_index.end())
           cls_adaptor.clause(r,t);
-        }
       }
     };
   }
@@ -160,15 +152,13 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 2) {
     std::cerr << err << "Exactly one inputs is "
       "required, the  name of the file containing the list of "
-      "clause positions. The Dimacs file should be given on "
-      "standard input.\n";
+      "clause positions. The Dimacs file should be given on standard input.\n";
     return error_parameters;
   }
 
   std::ifstream f_in(argv[1]);
   if (not f_in) {
-    std::cerr << err << "Failure opening file " << 
-      argv[1] << ".\n";
+    std::cerr << err << "Failure opening file " << argv[1] << ".\n";
     return error_openfile;
   }
 
@@ -184,9 +174,7 @@ int main(const int argc, const char* const argv[]) {
     }
     CLSAdaptorFilter::int_type i; 
     f_in >> i; 
-    if (not f_in.fail() and (i > 0)) {
-      clause_index.insert(i);
-    }
+    if (not f_in.fail() and (i > 0)) clause_index.insert(i);
   }
   f_in.close();
 
