@@ -155,7 +155,6 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
   typedef CLSAdaptorFilter::cls_adaptor_type cls_adaptor_type;
-  typedef CLSAdaptorFilter::int_type int_type;
   typedef CLSAdaptorFilter::clause_numbers_container_type clause_numbers_container_type;
 
   if (argc != 2) {
@@ -181,7 +180,7 @@ int main(const int argc, const char* const argv[]) {
             not f_in.eof()) {
       f_in.seekg(1,f_in.cur);
     }
-    int_type i; 
+    CLSAdaptorFilter::int_type i; 
     f_in >> i; 
     if (not f_in.fail() and (i > 0)) {
       clause_numbers.insert(i);
