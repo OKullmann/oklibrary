@@ -37,6 +37,10 @@ okltest_perm2dnffcl(perm2dnffcl);
 okltest_perm2dnffcs(perm2dnffcs);
 okltest_perm2cnffcs(perm2cnffcs);
 
+okltest_m2dnffcl(m2dnffcl);
+okltest_m2dnffcs(m2dnffcs);
+okltest_m2cnffcs(m2cnffcs);
+
 /*!
 \endhtmlonly
 */

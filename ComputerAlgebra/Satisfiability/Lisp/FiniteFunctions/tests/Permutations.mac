@@ -100,6 +100,25 @@ okltest_perm2cnffcs(f) := block(
   /* XXX */
   true)$
 
+okltest_m2dnffcl(f) := (
+  assert(f(matrix()) = [[],[{}]]),
+  assert(f(matrix([0])) = [[1,2],[{-1,-2},{1,-2}]]),
+  assert(f(matrix([1])) = [[1,2],[{-1,-2},{1,2}]]),
+  assert(f(matrix([0,0],[0,0])) = [[1,2,3,4],[{-1,-2,-3,-4},{-1,2,-3,-4},{1,-2,-3,-4},{1,2,-3,-4}]]),
+assert(f(matrix([1,0],[0,1])) = [[1,2,3,4],[{-1,-2,-3,-4},{-1,2,-3,4},{1,-2,3,-4},{1,2,3,4}]]),
+  assert(okltest_m2dnffcs(buildq([f], lambda([M], fcl2fcs(f(M))))) = true),
+  true)$
+
+okltest_m2dnffcs(f) := (
+  assert(f(matrix()) = [{},{{}}]),
+assert(f(matrix([1,1],[1,1])) = [{1,2,3,4},{{-1,-2,-3,-4},{-1,2,3,4},{1,-2,3,4},{1,2,-3,-4}}]),
+  true)$
+
+okltest_m2cnffcs(f) := (
+  assert(f(matrix()) = [{},{}]),
+  /* XXX */
+  true)$
+
 /*!
 \endhtmlonly
 */

@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutatio
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
 /* *************************************
@@ -97,9 +98,33 @@ perm2cnffcs(P) := block([m : length(P), FF : perm2dnffcs(P), k],
 /* Output of clause-set perm2cnffcs(P) to file "Permutation_full.cnf": */
 output_perm_fullcnf_stdname(P) :=
   output_fcs(
-    sconcat("The permutation", P, "in full CNF representation."),
+    sconcat("The permutation ", P, " in full CNF representation."),
     perm2cnffcs(P),
     "Permutation_full.cnf")$
+
+
+/* A linear transformation, given as a square 0-1-matrix M of order n, as a
+   boolean function in 2n variables, represented as DNF resp CNF:
+*/
+m2dnffcl(M) := block([n : matrix_size(M)[1], L],
+  if n = 0 then return([[],[{}]]), /* needed since Maxima doesn't have matrices with 0 rows and 1 column */
+  L : lex_bv_l(n),
+  [create_list(i,i,1,2*n),
+   map(bv2c, 
+       map(append, 
+           L, 
+           map(lambda([x], mod(column_m(M.columnvector(x),1),2)), L)))])$
+m2dnffcs(M) := fcl2fcs(m2dnffcl(M))$
+m2cnffcs(M) := block([n : matrix_size(M)[1], FF : m2dnffcs(M)],
+  [FF[1], setdifference(all_tass(setn(2*n)), FF[2])])$
+
+/* Output of clause-set m2cnffcs(M) to a file: */
+output_m_fullcnf(M,filename) :=
+  output_fcs(
+    sconcat("The linear transformation ", M, " in full CNF representation."),
+    m2cnffcs(M),
+    filename)$
+output_m_fullcnf_stdname(M) := output_m_fullcnf(M,"LinearTransformation_full.cnf")$
 
 /*!
 \endhtmlonly
