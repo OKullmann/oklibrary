@@ -28,6 +28,12 @@ License, or any later version. */
 
   \todo Add application tests
 
+  \todo Weak implementation
+  <ul>
+   <li> The clause-number-container obviously shouldn't be copied. </li>
+   <li> Reading in of the clause-numbers is awkward. </li>
+  </ul>
+
   \todo Move CLSAdaptorFilter
   <ul>
    <li> CLSAdaptorFilter should likely go to 

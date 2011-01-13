@@ -23,6 +23,7 @@ License, or any later version. */
    In Interfaces/InputOutput/FilterDimacs.cpp the following topics
    are handled:
     - Add application tests
+    - Weak implementation
     - Move CLSAdaptorFilter
 
 
