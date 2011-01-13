@@ -14,8 +14,8 @@ License, or any later version. */
    output (and standard error). </li>
    <li> The only argument is a path to the file containing integer clause 
    indices in the clause-set. </li>
-   <li> These indices should be positive integers up to the total number of
-   clauses given on standard input. </li>
+   <li> These indices are positive integers; if they are too big then they
+   are ignored. </li>
    <li> The result, given on standard output, is a Dimacs file containing 
    the i-th clauses for all i occurring in the clause-positions-file. </li>
    <li> Any non-integer characters (including "-") in the
