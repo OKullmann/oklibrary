@@ -29,27 +29,36 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    *************************************
 */
 
-/* We consider only permutations of {1,...,m}, where for permutations
+/* 
+   We consider permutations f of {1,...,m}, where for permutations
    we use the list representations (so that the set of all such
    representations is permutations(setn(m))).
    See ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac for
    the symmetric group.
+   We represent f as a boolean function, considering f as a relation.
 
-   Furthermore we only consider m = 2^k for natural k >= 1, so that the set
-   {1,...,m} is in one-to-one correspondence to {0,1}^k. Using the bijection
-   R for such a presentation, the mapping x -> y of the permutation f
-   yields then the boolean list append(R(x), R(y)) of length 2k.
+   We assume m = 2^k for natural k >= 1, so that the set {1,...,m} has the
+   same cardinality as {0,1}^k. Using a bijection R{1,...,m} -> {0,1}^k for a
+   representation, the mapping x -> y represented by the permutation f yields
+   the boolean list append(R(x), R(y)) of length 2k.
    These lists are considered as the satisfying assignments of the
-   corresponding boolean functions.
+   corresponding boolean function.
 
+   We fix R: {1,...,m} -> {0,1}^k, i -> R(i) as the standard representation of
+   i-1 in binary, with (left-)padded zeros; in other words, R(i) is the
+   unranking of i w.r.t. the lexicographical ordering of binary vectors of
+   length k.
 
-   However, the generality provided by using (arbitrary) R seems only to lead 
-   to confusion, and so we fix R: {1,...,m} -> {0,1}^k, x -> R(x) as the
-   standard representation of x-1 in binary, with (left-)padded zeros.
-   This is computed by int2polyadic_padd(x-1,2,k).
-   So the example for m=2 (k=1) the transposition [2,1], that is, the
-   map 1->2, 2->1, yields the satisfied vectors {[0,1],[1,0]}, and thus
-   the CNF-clause-set {{-1,2},{2,1}}.
+   So the transposition [2,1] (here m=2 and k=1), that is, the
+   map 1->2, 2->1, yields the satisfying vectors {[0,1],[1,0]}, and thus
+   the DNF-clause-set {{-1,2},{1,-2}}.
+   And [2,4,1,3] yields the satisfying vectors
+   {[0,0,0,1],[0,1,1,1],[1,0,0,0],[1,1,1,0]} and the DNF-clause-set
+   {{-1,-2,-3,4},{-1,2,3,4},{1,-2,-3,-4},{1,2,3,-4}}.
+   This is computed by the functions below as
+     perm2dnffcl([2,1]) = [[1,2],[{-1,2},{-2,1}]]
+     perm2dnffcl([2,4,1,3]) =
+       [[1,2,3,4],[{-3,-2,-1,4},{-1,2,3,4},{-4,-3,-2,1},{-4,1,2,3}]].
 */
 
 /* The boolean vectors of length k in lexicographical order: */
