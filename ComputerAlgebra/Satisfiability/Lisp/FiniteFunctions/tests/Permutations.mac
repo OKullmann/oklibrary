@@ -63,7 +63,8 @@ okltest_bv2c_wv(f) := block([a,b,c],
   assert(okltest_bv2c(buildq([f], lambda([v],f(v,create_list(i,i,1,length(v)))))) = true),
   true)$
 
-okltest_perm2dnffcl(f) := block(
+okltest_perm2dnffcl(f) := (
+  assert(f([1]) = [[],[{}]]),
   assert(f([1,2]) = [[1,2],[{-2,-1},{1,2}]]),
   assert(f([2,1]) = [[1,2],[{-1,2},{1,-2}]]),
   assert(f([1,2,3,4]) = [[1,2,3,4],[{-4,-3,-2,-1},{-3,-1,2,4},{-4,-2,1,3},
@@ -81,7 +82,8 @@ okltest_perm2dnffcl(f) := block(
   assert(okltest_perm2dnffcs(buildq([f], lambda([P], fcl2fcs(f(P))))) = true),
   true)$
 
-okltest_perm2dnffcs(f) := block(
+okltest_perm2dnffcs(f) := (
+  assert(f([1]) = [{},{{}}]),
   assert(f([1,2]) = [{1,2},{{-2,-1},{1,2}}]),
   assert(f([2,1]) = [{1,2},{{-1,2},{-2,1}}]),
   assert(f([1,2,3,4]) = [{1,2,3,4},{{-4,-3,-2,-1},{-3,-1,2,4},{-4,-2,1,3},
@@ -91,7 +93,8 @@ okltest_perm2dnffcs(f) := block(
   /* XXX */
   true)$
 
-okltest_perm2cnffcs(f) := block(
+okltest_perm2cnffcs(f) := (
+  assert(f([1]) = [{},{}]),
   assert(f([1,2]) = [{1,2},{{-2,1},{-1,2}}]),
   assert(f([2,1]) = [{1,2},{{-2,-1},{1,2}}]),
   assert(f([1,2,3,4]) = [{1,2,3,4},{{-4,-3,-2,1},{-4,-3,-1,2},{-4,-3,1,2},

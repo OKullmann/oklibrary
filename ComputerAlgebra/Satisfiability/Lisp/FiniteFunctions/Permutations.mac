@@ -79,8 +79,8 @@ bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
 bv2c_wv(v,V) := setify(map(lambda([x,y], if x=0 then -y else y), v, V))$
 
 /* Translating a permutation P (standardised, as list) into a boolean function
-   (the predicate of P as a map), and representing this function as a dnf.
-   Prerequisite: P is a permutation of {1,...,2^k} for k >= 1.
+   representing this function as a dnf.
+   Prerequisite: P is a permutation of {1,...,2^k} for k >= 0.
 */
 perm2dnffcl(P) := block([m : length(P), k, V, F, R],
   k : fld(m),
@@ -95,12 +95,13 @@ perm2cnffcs(P) := block([m : length(P), FF : perm2dnffcs(P), k],
   k : fld(m),
   return([FF[1], setdifference(all_tass(setn(2*k)), FF[2])]))$
 
-/* Output of clause-set perm2cnffcs(P) to file "Permutation_full.cnf": */
-output_perm_fullcnf_stdname(P) :=
+/* Output of clause-set perm2cnffcs(P) to a file: */
+output_perm_fullcnf(P,filename) :=
   output_fcs(
     sconcat("The permutation ", P, " in full CNF representation."),
     perm2cnffcs(P),
-    "Permutation_full.cnf")$
+    filename)$
+output_perm_fullcnf_stdname(P) :=output_perm_fullcnf(P,"Permutation_full.cnf")$
 
 
 /* A linear transformation, given as a square 0-1-matrix M of order n, as a
