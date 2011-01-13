@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 kill(f)$
@@ -31,6 +32,12 @@ kill(f)$
    * Permutations as boolean functions *
    *************************************
 */
+
+okltest_lex_bv_l(f) := (
+  for k : 0 thru 5 do
+    assert(f(k) = if k=0 then [[]] else
+      create_list(int2polyadic_padd(x-1,2,k),x,1,2^k)),
+  true)$
 
 okltest_bv2c(f) := (
   assert(f([]) = {}),

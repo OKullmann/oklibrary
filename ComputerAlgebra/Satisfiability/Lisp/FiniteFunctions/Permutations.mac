@@ -52,6 +52,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    the CNF-clause-set {{-1,2},{2,1}}.
 */
 
+/* The boolean vectors of length k in lexicographical order: */
+lex_bv_l(k) := cartesian_product_l(create_list([0,1],i,1,k))$
+
+
 /* Translating boolean vectors into clauses (using the position as variables 
    in bv2c):
 */
