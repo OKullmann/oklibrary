@@ -115,6 +115,7 @@ okltest_random_spolar_m(random_spolar_m);
 
 okltest_extend_linear_hull(extend_linear_hull);
 okltest_linear_hull(linear_hull);
+okltest_random_inv_m(random_inv_m);
 
 /* *******************
    * Transformations *

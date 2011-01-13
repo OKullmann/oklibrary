@@ -13,7 +13,9 @@ License, or any later version. */
   \todo Write tests
 
 
-  \todo Random invertible matrix
+  \todo DONE (see random_inv_m in 
+  ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac)
+  Random invertible matrix
   <ul>
    <li> We need a function which given the matrix dimensions,
    the elements of the field, and functions for the field operations

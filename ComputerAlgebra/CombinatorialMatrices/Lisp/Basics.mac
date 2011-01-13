@@ -279,6 +279,19 @@ extend_linear_hull(V,H,F,add_f, mul_f) := block([lin_dep_V],
 linear_hull(L,F,add_f, mul_f) :=
   lreduce(lambda([H,V], extend_linear_hull(V,H,F,add_f,mul_f)),
     listify(L), {})$
+
+/* Generates a random invertible matrix with r rows and c columns over
+   the field with element set F and addition and multiplication functions
+   add_f and mul_f. */
+random_inv_m(r,c,F,add_f,mul_f) := block([avail_rows, rows : [], hull : {}],
+  avail_rows : listify(disjoin(create_list(0,i,1,c),
+    apply(cartesian_product, create_list(F,i,1,c)))),
+  for rp : 1 thru r do block([row],
+    row : random_element(avail_rows),
+    rows : cons(row,rows),
+    hull : extend_linear_hull(row,hull,F,add_f,mul_f),
+    avail_rows : remove_elements(hull, avail_rows)),
+  return(apply(matrix, rows)))$
   
 
 /* *******************

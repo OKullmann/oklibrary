@@ -390,6 +390,16 @@ okltest_linear_hull(f) := (
     {[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]}),
   true)$
 
+okltest_random_inv_m(f) := (
+  set_random(1),
+  assert(f(2,2,{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))) =
+    matrix([1,1],[1,0])),
+  assert(f(2,2,{0,1},
+      lambda([a,b],ss_add(a,b,2,x)), lambda([a,b],ss_mul(a,b,2,x))) =
+    matrix([1,0],[0,1])),
+  true)$
+
 /* *******************
    * Transformations *
    *******************
