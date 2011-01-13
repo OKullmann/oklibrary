@@ -23,7 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
-
+oklib_plain_include(eigen)$
 
 /* *************************************
    * Permutations as boolean functions *
