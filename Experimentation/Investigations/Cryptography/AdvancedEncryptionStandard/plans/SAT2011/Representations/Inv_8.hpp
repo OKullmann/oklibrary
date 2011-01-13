@@ -1,4 +1,4 @@
-// Matthew Gwynne, 6.1.2011 (Swansea)
+// Matthew Gwynne, 12.1.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ License, or any later version. */
      <li> As with 
      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp 
      what are these small number of clauses of length 5?</li>
+     <li> Also, what are these 2 clauses of size 10? </li>
     </ol>
    </li>
    <li> The subsumption-hypergraph of the prime-clauses:
@@ -57,8 +58,8 @@ License, or any later version. */
      <li> This is very similar to the full 8-bit Sbox. </li>
      <li> R-summary:
      \verbatim
-> E=read.table("ss_byte2_8_field_mul_full.cnf_shg_stats",skip=2,header=TRUE)
-> summary(E[E["count"]!=0,])
+R> E=read.table("ss_byte2_8_field_mul_full.cnf_shg_stats",skip=2,header=TRUE)
+R> summary(E[E["count"]!=0,])
      length           count       
  Min.   : 172.0   Min.   :  1.00  
  1st Qu.: 563.8   1st Qu.: 12.00  
@@ -75,12 +76,60 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> So far, we have the following smallest representation:
+   \verbatim
+R> subset(E, min == 359)
+   sat min osteps  msteps       seed
+80   0 359 970714 1000000 3833417812
+   \endverbatim
+   </li>
    <li> See "Basic data" in 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for
    random permutations. </li>
+  </ul>
+
+
+  \todo Using weighted MaxSAT to compute small CNFs
+  <ul>
+   <li> Computing the weighted MaxSAT problem:
+   \verbatim
+maxima> output_ssinv_fullcnf_stdname(2,8);
+   \endverbatim
+   and then 
+   \verbatim
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full.cnf > ss_byte2_8_field_mul_shg.cnf
+shell> cat ss_byte2_8_field_mul_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > ss_byte2_8_field_mul_shg.wcnf
+   \endverbatim
+   <li>
+   <li> Running then:
+   \verbatim
+shell> new-ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_mul_full_.cnf_shg.wcnf > ubcsat_agsat_r100_c1000000.runs
+   \endverbatim
+   yields:
+   \verbatim
+R> E = read.table("ubcsat_agsat_r100_c1000000.runs", header=TRUE)
+R> summary(E)
+      sat         min            osteps           msteps     
+ Min.   :0   Min.   :359.0   Min.   :884154   Min.   :1e+06  
+ 1st Qu.:0   1st Qu.:368.8   1st Qu.:957724   1st Qu.:1e+06  
+ Median :0   Median :372.5   Median :975228   Median :1e+06  
+ Mean   :0   Mean   :372.0   Mean   :970125   Mean   :1e+06  
+ 3rd Qu.:0   3rd Qu.:375.0   3rd Qu.:989484   3rd Qu.:1e+06  
+ Max.   :0   Max.   :383.0   Max.   :999082   Max.   :1e+06  
+      seed          
+ Min.   :5.025e+07  
+ 1st Qu.:1.371e+09  
+ Median :2.106e+09  
+ Mean   :2.169e+09  
+ 3rd Qu.:2.975e+09  
+ Max.   :4.280e+09
+   \endverbatim
+   which seems similar in size to the currently known minimum size for the 
+   Sbox.
+   </li>
   </ul>
 
 
