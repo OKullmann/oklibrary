@@ -30,7 +30,7 @@ License, or any later version. */
 
   \todo Add application tests
 
-  
+
   \todo Move CLSAdaptorFilter
   <ul>
    <li> CLSAdaptorFilter should likely go to 
@@ -136,7 +136,7 @@ namespace {
     error_readfile = 3
   };
 
-  const std::string version = "0.0.1";
+  const std::string version = "0.0.4";
 
 }
 
