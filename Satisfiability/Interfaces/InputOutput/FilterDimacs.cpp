@@ -9,7 +9,6 @@ License, or any later version. */
   \file Interfaces/InputOutput/FilterDimacs.cpp
   \brief Application to filter out the given numbered clauses in a clause-set.
 
-
   <ul>
    <li> Reads a Dimacs clause-set from standard input, and writes to standard 
    output (and standard error). </li>
@@ -27,9 +26,7 @@ License, or any later version. */
    </li>
   </ul>
 
-
   \todo Add application tests
-
 
   \todo Move CLSAdaptorFilter
   <ul>
@@ -145,8 +142,6 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
   typedef int int_type;
   typedef std::set<int_type> clause_numbers_container_type;
-
-  
 
   // Read in list of line numbers
   if (argc != 2) {
