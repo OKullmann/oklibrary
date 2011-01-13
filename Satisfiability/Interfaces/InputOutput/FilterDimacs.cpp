@@ -148,7 +148,7 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFilter<> CLSAdaptorFilter;
   typedef CLSAdaptorFilter::cls_adaptor_type cls_adaptor_type;
-  typedef int int_type;
+  typedef CLSAdaptorFilter::int_type int_type;
   typedef std::set<int_type> clause_numbers_container_type;
 
   if (argc != 2) {
