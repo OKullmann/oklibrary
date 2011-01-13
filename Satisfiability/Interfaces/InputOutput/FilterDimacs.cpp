@@ -64,18 +64,23 @@ namespace OKlib {
               class CLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
     class CLSAdaptorFilter {
       
-      typedef std::set<Int> clause_numbers_container_type;
-      
-      CLSAdaptor cls_adaptor;
-      clause_numbers_container_type clause_numbers;
-      Int current_clause;
-
     public :
       
       typedef Int int_type;
       typedef String string_type;
+      typedef CLSAdaptor cls_adaptor_type;
+
+    private :
+
+      cls_adaptor_type cls_adaptor;
+      typedef std::set<int_type> clause_numbers_container_type;
+      clause_numbers_container_type clause_numbers;
+      int_type current_clause;
+
+    public :
+
       template <typename Range>
-      CLSAdaptorFilter(Range clause_numbers_arg, CLSAdaptor cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
+      CLSAdaptorFilter(Range clause_numbers_arg, cls_adaptor_type cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
         boost::copy(clause_numbers_arg, 
                     std::inserter(clause_numbers, 
                                   boost::begin(clause_numbers)));
