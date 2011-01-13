@@ -103,6 +103,14 @@ License, or any later version. */
 
   \todo CryptoMiniSat
   <ul>
+   <li> Version 2.9.0.1 asserts:
+   \verbatim
+OKplatform> cryptominisat VanDerWaerden_pd_2-3-24_569.cnf
+...
+cryptominisat: Solver.cpp:1103: Clause* Solver::analyze(PropBy, vec<Lit>&, int&, uint32_t&, bool): Assertion `level[my_var] <= (int)decisionLevel()' failed.
+Aborted (core dumped)
+   \endverbatim
+   valgrind doesn't find an error. </li>
    <li> DONE (the author corrected this; branch "cluster129-fixed")
    The solver runs immediately out of memory:
     <ol>
