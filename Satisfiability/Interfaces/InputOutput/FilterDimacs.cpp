@@ -45,6 +45,8 @@ License, or any later version. */
    filter, but a very specific one. </li>
    <li> On the other hand, a general filter which takes a predicate, similar
    to functions like std::remove_if etc might in fact be better. </li>
+   <li> It is also not a "filter" (which would remove clauses) but a
+   "selector". </li>
   </ul>
 
 */
