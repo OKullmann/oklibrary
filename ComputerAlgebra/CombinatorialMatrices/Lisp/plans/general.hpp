@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.5.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,6 +11,21 @@ License, or any later version. */
 
 
   \todo Write tests
+
+
+  \todo DONE (see random_inv_m in 
+  ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac)
+  Random invertible matrix
+  <ul>
+   <li> We need a function which given the matrix dimensions,
+   the elements of the field, and functions for the field operations
+   yields a random matrix over this field. </li>
+   <li> A simple algorithm which picks a random non-zero row and then
+   computes the linear hull, and next picks only rows not in the
+   linear hull, and so on, should work. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
+  </ul>
 
 
   \todo Memoisation

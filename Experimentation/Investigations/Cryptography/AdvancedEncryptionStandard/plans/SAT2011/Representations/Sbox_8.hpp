@@ -31,7 +31,12 @@ License, or any later version. */
 9 830
      \endverbatim
      </li>
-     <li> What is the clause of length 5? What is its meaning?! </li>
+     <li> What is the clause of length 5? What is its meaning?!
+     <ul>
+      <li> The clause is {2,-5,6,11,-13}. That is three input variables and
+      two output. </li>
+     </ul>
+     </li>
     </ol>
    </li>
    <li> The subsumption-hypergraph of the prime-clauses:
@@ -69,6 +74,9 @@ License, or any later version. */
      What is its original clause? </li>
      </li>
     </ol>
+   </li>
+   <li> See "Basic data" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for

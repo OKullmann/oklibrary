@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.12.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,17 @@ License, or any later version. */
    <li> Shouldn't these names coincide with those in
    ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/Formulas.hpp ?
    </li>
+  </ul>
+
+
+  \todo DONE (Moved to 
+  ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp)
+  Random boolean function
+  <ul>
+   <li> We need a script to generate a random boolean function
+   in n variables. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
   </ul>
 
 */

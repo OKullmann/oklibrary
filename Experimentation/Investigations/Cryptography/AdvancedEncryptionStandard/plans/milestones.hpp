@@ -25,11 +25,21 @@ License, or any later version. */
     - Summary of previous experimental results
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp the
+   following topics are handled:
+    - Update instructions
+
+  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    the following topics are handled:
     - Standard naming scheme for experiment files 
 
   \par Version 0.1.7 :
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   the following topics are handled:
+    - Find "best" solver(s) and local search algorithms for minimisation
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp the

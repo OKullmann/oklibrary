@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Random
 */
 
 okltest_random_sublist_l(random_sublist_l);
+okltest_random_full_fcs(random_full_fcs);
+okltest_random_bal_full_fcs(random_bal_full_fcs);
+
+okltest_random_k_sublist_l(random_k_sublist_l);
 
 okltest_random_fcl(random_fcl);
 

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.7.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Adva
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 /* *********************************
@@ -31,11 +32,28 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *********************************
 */
 
+
+/* Given a set returns a random repetition-free sublist of this list. */
+random_sublist_l(L) :=
+  sublist(
+    map(lambda([a,b], if b = 1 then a else und),
+      L,create_list(random(2),i,1,length(L))),
+      lambda([a], a # und));
+
+/* Computes a random clause-set in n variables. */
+random_full_fcs(n) := [setn(n),setify(random_sublist_l(listify(full_cs(n))))]$
+
+/* Computes a random balanced clause-set.
+   Note, this doesn't make sense for n=0.
+*/
+random_bal_full_fcs(n) :=
+  [setn(n),setify(random_k_sublist_l(listify(full_cs(n)),2^(n-1)))]$
+
 /* Computing a random repetition-free sublist of a given length k;
    V is a list, repetitions determine the chance of being elected, but the
    result is repetition-free. */
 /* Prerequisites: 0 <= k <= length(unique(V)). */
-random_sublist_l(V,k) := block([res : []],
+random_k_sublist_l(V,k) := block([res : []],
   thru k do block([x : random_element(V)],
     res : cons(x,res),
     V : delete(x,V)),
@@ -45,7 +63,7 @@ random_sublist_l(V,k) := block([res : []],
    with n variables, clause-length k and c clauses: */
 /* Prerequisites: n,k,c >= 0, k <= n. */
 random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
-  thru c do block([C : random_sublist_l(V,k)],
+  thru c do block([C : random_k_sublist_l(V,k)],
     for i : 1 thru k do
       if random(2) = 1 then C[i] : -C[i],
     F : cons(setify(C),F)),

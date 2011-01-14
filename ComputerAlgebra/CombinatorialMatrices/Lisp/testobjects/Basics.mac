@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -112,6 +112,10 @@ okltest_random_rpermutation_m(random_rpermutation_m);
 okltest_random_cpermutation_m(random_cpermutation_m);
 
 okltest_random_spolar_m(random_spolar_m);
+
+okltest_extend_linear_hull(extend_linear_hull);
+okltest_linear_hull(linear_hull);
+okltest_random_inv_m(random_inv_m);
 
 /* *******************
    * Transformations *
