@@ -200,6 +200,22 @@ gwsat   FlipsPerSecond = 9654
 70: None 03.0: 10103 CPU
      \endverbatim
      </li>
+     <li> cutoff=10^6:
+     \verbatim
+E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+saps
+ 5  7  8  9 10 11 12 13 14 15 16 19
+ 4  4 13 17 19 16 13  7  3  2  1  1
+anovp
+ 5  6  7 23 42 43 44 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65
+ 3  2  1  1  3  1  1  1  5  2  3  2  3  6  2  1  3  4  6  5  3 10  6  8  6  5
+66 67 68 69
+ 4  1  1  1
+
+interrupted; the FlipsPerSecond are likely corrupted.
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>

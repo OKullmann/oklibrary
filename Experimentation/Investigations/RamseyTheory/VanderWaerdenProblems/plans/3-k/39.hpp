@@ -150,6 +150,30 @@ wsatt   FlipsPerSecond = 154823
   \endverbatim
    We need to consider cutoff=10^6.
    </li>
+   <li>
+   \verbatim
+On csoberon:
+
+E=run_ubcsat("~/AltExp/Exp_VanderWaerden_2-3-39_1415_rots-100-100000000_2011-01-06-203740/VanDerWaerden_2-3-39_1415.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+ddfw
+ 1  2  3  4  5  6  7
+ 3  7 29 29 24  6  2
+paws
+ 1  2  3  4  5  6  7  8  9 10 12 13 15 28 30
+ 1  1  3  7 22 16 23  9  9  2  2  2  1  1  1
+rots
+ 3  4  5  6  7  9 10 11 19 21 22 23 24 25 26 27 28 29 30 31
+ 1  1  5  7  4  3  1  1  1  2  5 10 14 12 13 10  3  4  2  1
+anovpp
+ 4  5 22 33 34 36 39 41 43 44 45 46 48 49 50 51 52 53 54 55 56 57 58 59 60 61
+ 1  1  1  1  1  1  1  1  1  2  1  4  4  4  5  3  5  6  6  5  6  5 12  6  6  1
+62 63 65
+ 5  4  1
+
+The FlipsPerSecond are likely corrupted.
+   \endverbatim
+   </li>
   </ul>
 
 

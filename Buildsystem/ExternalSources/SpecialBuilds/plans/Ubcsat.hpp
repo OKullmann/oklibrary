@@ -38,6 +38,7 @@ License, or any later version. */
      <li> The error doesn't occur with the debug-version. </li>
      <li> After further type-corrections it seems these errors have been
      resolved. </li>
+     <li> But on cs-oksvr we still have a segmentation-fault for saps. </li>
     </ol>
    </li>
    <li> DONE
@@ -69,6 +70,208 @@ FlipsPerSecond = 14102
      <li> There are enormous differences (a factor up to 80) on different
      machines; see
      Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/38.hpp.
+     </li>
+     <li> With the newest ubcsat-version, on cs-oksvr we get
+     \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569 > VanDerWaerden_pd_2-3-24_569.cnf
+> cat VanDerWaerden_pd_2-3-24_569.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+285 43132 192671 0 192671 1 1
+ length count
+2 378
+3 39704
+12 12
+13 23
+24 3015
+
+
+> E=run_ubcsat("VanDerWaerden_pd_2-3-24_569.cnf", cutoff=50000,runs=10, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+OKplatform> exp_dir="ubcsat_tmp_VanDerWaerden_pd_2-3-24_569.cnf_2011-01-14-203622/"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 62735
+anovpp  FlipsPerSecond = 37936
+anovp   FlipsPerSecond = 39277
+cwalk   FlipsPerSecond = 294118
+cwalks  FlipsPerSecond = 265957
+dano    FlipsPerSecond = 36075
+ddfw    FlipsPerSecond = 22624
+dwalk   FlipsPerSecond = 156740
+g2wsat  FlipsPerSecond = 60024
+gsat    FlipsPerSecond = 134409
+gsats   FlipsPerSecond = 137363
+gsatt   FlipsPerSecond = 92593
+gwsat   FlipsPerSecond = 65963
+hsat    FlipsPerSecond = 143266
+hwsat   FlipsPerSecond = 100402
+irots   FlipsPerSecond = 68213
+novpc   FlipsPerSecond = 51867
+novp_p  FlipsPerSecond = 35137
+novpp   FlipsPerSecond = 36311
+novp    FlipsPerSecond = 36657
+nov     FlipsPerSecond = 36819
+paws    FlipsPerSecond = 57737
+rgsat   FlipsPerSecond = 43403
+rnovp   FlipsPerSecond = 36049
+rnov    FlipsPerSecond = 39277
+rots    FlipsPerSecond = 83472
+rsaps   FlipsPerSecond = 49751
+samd    FlipsPerSecond = 90253
+sapsnr  FlipsPerSecond = 51282
+saps    uwalk   FlipsPerSecond = 211864
+vw1     FlipsPerSecond = 55928
+vw2     FlipsPerSecond = 56497
+wsat    FlipsPerSecond = 56306
+wsattn  FlipsPerSecond = 53996
+wsatt   FlipsPerSecond = 55804
+
+> cat /proc/cpuinfo
+processor       : 0
+vendor_id       : AuthenticAMD
+cpu family      : 15
+model           : 5
+model name      : AMD Opteron(tm) Processor 250
+stepping        : 10
+cpu MHz         : 2400.000
+cache size      : 1024 KB
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 1
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx mmxext lm 3dnowext 3dnow rep_good
+bogomips        : 4782.32
+TLB size        : 1024 4K pages
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 40 bits physical, 48 bits virtual
+power management: ts fid vid ttp
+
+processor       : 1
+vendor_id       : AuthenticAMD
+cpu family      : 15
+model           : 5
+model name      : AMD Opteron(tm) Processor 250
+stepping        : 10
+cpu MHz         : 2400.000
+cache size      : 1024 KB
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 1
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx mmxext lm 3dnowext 3dnow rep_good
+bogomips        : 4782.32
+TLB size        : 1024 4K pages
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 40 bits physical, 48 bits virtual
+power management: ts fid vid ttp
+     \verbatim
+     segmentation fault with saps; these flips-per-second seem roughly to
+     correspond to the run-times. </li>
+     <li> On csoberon we get
+     \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-3-24_569.cnf", cutoff=50000,runs=10, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+
+ag2wsat FlipsPerSecond = 114155
+anovpp  FlipsPerSecond = 74627
+anovp   FlipsPerSecond = 74405
+cwalk   FlipsPerSecond = 396825
+cwalks  FlipsPerSecond = 393701
+dano    FlipsPerSecond = 74850
+ddfw    FlipsPerSecond = 36232
+dwalk   FlipsPerSecond = 119904
+g2wsat  FlipsPerSecond = 122549
+gsat    FlipsPerSecond = 154799
+gsats   FlipsPerSecond = 193050
+gsatt   FlipsPerSecond = 168350
+gwsat   FlipsPerSecond = 146199
+hsat    FlipsPerSecond = 213675
+hwsat   FlipsPerSecond = 151515
+irots   FlipsPerSecond = 134771
+novpc   FlipsPerSecond = 114679
+novp_p  FlipsPerSecond = 60024
+novpp   FlipsPerSecond = 75415
+novp    FlipsPerSecond = 73206
+nov     FlipsPerSecond = 72569
+paws    FlipsPerSecond = 124688
+rgsat   FlipsPerSecond = 86505
+rnovp   FlipsPerSecond = 74627
+rnov    FlipsPerSecond = 74963
+rots    FlipsPerSecond = 144092
+rsaps   FlipsPerSecond = 130890
+samd    FlipsPerSecond = 170068
+sapsnr  FlipsPerSecond = 123457
+saps    FlipsPerSecond = 95238
+uwalk   FlipsPerSecond = 423729
+vw1     FlipsPerSecond = 105263
+vw2     FlipsPerSecond = 104603
+wsat    FlipsPerSecond = 106383
+wsattn  FlipsPerSecond = 106610
+wsatt   FlipsPerSecond = 106610
+
+> cat /proc/cpuinfo
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 23
+model name      : Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
+stepping        : 10
+cpu MHz         : 2003.000
+cache size      : 6144 KB
+physical id     : 0
+siblings        : 2
+core id         : 0
+cpu cores       : 2
+apicid          : 0
+initial apicid  : 0
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 13
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx lm constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm tpr_shadow vnmi flexpriority
+bogomips        : 6000.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+
+processor       : 1
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 23
+model name      : Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
+stepping        : 10
+cpu MHz         : 3003.000
+cache size      : 6144 KB
+physical id     : 0
+siblings        : 2
+core id         : 1
+cpu cores       : 2
+apicid          : 1
+initial apicid  : 1
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 13
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe nx lm constant_tsc arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1 xsave lahf_lm tpr_shadow vnmi flexpriority
+bogomips        : 5999.64
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+     \endverbatim
+     Again, the flips-per-second seem correct measurements. Apparently the
+     bigger cache makes it quite a bit faster. </li>
+     <li> While the above numbers seem reasonable, for the computations
+     w.r.t VanDerWaerden_2-3-39_1415.cnf and VanDerWaerden_2-3-38_1376.cnf we
+     get values well over a million (cscharon, csoberon) which can't be right.
      </li>
     </ol>
    </li>
