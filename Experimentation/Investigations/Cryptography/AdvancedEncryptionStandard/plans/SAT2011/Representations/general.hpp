@@ -76,6 +76,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo Find "best" solver(s) and local search algorithms for minimisation
+  <ul>
+   <li> There are currently a considerable number of problems in our
+   investigation which require the solving of minimisation problems 
+   and finding transversals of subsumption hypergraphs when looking for 
+   minimum CNF representations
+   (see 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp)
+   </li>
+   <li> We need a survey of the various solvers and local search algorithms
+   that we can use with these problems, along with their performance on
+   small instances, so that we can apply the best methods we have given
+   limited resources. </li>
+  </ul>
+
+
   \todo Standard naming scheme for experiment files
   <ul>
    <li> We need to think of a naming scheme for the AES boxes so

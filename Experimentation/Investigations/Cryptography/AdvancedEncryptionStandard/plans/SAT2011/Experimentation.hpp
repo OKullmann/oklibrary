@@ -33,11 +33,86 @@ License, or any later version. */
 
   \todo Open problems
   <ul>
+   <li> For a description of the investigation, please see
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp .
+   </li>
    <li> Here is a list of experiments which still need to be run, or
    questions for which we still do not know the answer. 
-   <ol>
-    <li> XXX </li>
-   </ol>
+   <ul>
+    <li> We need to find out which solvers and local search algorithms
+    perform best on different minimisation problems, see 
+    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+    </li>
+    <li> We need basic data on the prime implicates and subsumption 
+    hypergraphs for the following:
+    <ul>
+     <li> Small scale Sbox (no plans file yet). </li>
+     <li> Small scale field multiplications (no plans file yet). </li>
+     <li> Small scale field inversion (no plans file yet). </li>
+     <li> Small scale linear map (no plans file yet). </li>
+     <li> Small scale linear map with field multiplications (no plans file 
+     yet). </li>
+     <li> 
+     <li> AES field multiplications (255):
+     <ul>
+      <li> 00, 01, 02, 03, 09, 11, 13, 14 : DONE. </li>
+      <li> The other 247. </li>
+     </ul>
+     </li>
+     <li> AES Sbox linear map with field multiplications (no plans file yet). 
+     </li>
+     <li> AES Sbox (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp) : DONE. </li>
+     <li> AES field inversion (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp) : DONE. </li>
+     <li> AES Sbox linear map (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp) : DONE. </li>
+    </ul>
+    </li>
+    <li> We need to find minimum CNF representations for the following
+    functions:
+    <ul>
+     <li> AES Sbox; no minimum yet, smallest 294 (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp). </li>
+     <li> AES field inversion (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp). </li>
+     <li> AES Sbox linear map (see 
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp). </li>
+     <li> AES Sbox linear map with field multiplications (no plans file yet). 
+     </li>
+     <li> Small scale Sbox (no plans file yet). </li>
+     <li> Small scale field multiplications (no plans file yet). </li>
+     <li> Small scale field inversion (no plans file yet). </li>
+     <li> Small scale linear map (no plans file yet). </li>
+     <li> Small scale linear map with field multiplications (no plans file 
+     yet). </li>
+     <li> 
+     <li> AES field multiplications (255):
+     <ul>
+      <li> The remaining 251. </li>
+      <li> 03, see 
+      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp. </li>
+      <li> 02, minimum size 20 (see XXX) : DONE. </li>
+      <li> 00, 01 : DONE (trivial) </li>
+     </ul>
+     </li>
+    </ul>
+    </li>
+    <li> Investigations into the prime implicates, subsumption hypergraphs
+    and minimum representations of:
+    <ul>
+     <li> Random permutations (see 
+     "First considerations of random permutation" in 
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp). 
+     </li>
+     <li> Random linear maps (see 
+     "Affine bijections over ZZ_2" in
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp). </li>
+     <li> Random boolean functions (see 
+     Experimentation/Investigations/BooleanFunctions/plans/general.hpp). </li>
+    </ul>
+    </li>
+   </ul>
    </li>
   </ul>
 

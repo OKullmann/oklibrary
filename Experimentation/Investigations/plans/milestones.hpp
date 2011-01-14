@@ -16,6 +16,12 @@ License, or any later version. */
   \par Cryptography/AdvancedEncryptionStandard version 0.2
 
   \par
+   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
+   following topics are handled:
+    - Add milestones
+    - Plans for investigating random boolean functions
+
+  \par
    Further milestones are created.
 
 

@@ -37,6 +37,11 @@ License, or any later version. */
   \par Version 0.1.7 :
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   the following topics are handled:
+    - Find "best" solver(s) and local search algorithms for minimisation
+
+  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp the
    following topics are handled:
     - Tidy hitting-clause-set todos and move method here
