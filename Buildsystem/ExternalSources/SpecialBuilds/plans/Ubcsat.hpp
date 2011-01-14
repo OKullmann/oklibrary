@@ -36,6 +36,8 @@ License, or any later version. */
      Same with rsaps and sapsnr (but not for any other algorithm).
      </li>
      <li> The error doesn't occur with the debug-version. </li>
+     <li> After further type-corrections it seems these errors have been
+     resolved. </li>
     </ol>
    </li>
    <li> DONE
