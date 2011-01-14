@@ -195,6 +195,11 @@ make[3]: *** [configure-stage1-zlib] Error 1
      version). </li>
      <li> A proposal on the gcc mailing-list is to use --with-system-zlib.
      </li>
+     <li> This can be done by
+     \verbatim
+ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> We should also install these additional libraries "PPL" ("Parma
