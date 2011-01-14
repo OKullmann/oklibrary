@@ -75,6 +75,23 @@ E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100, include_al
      </li>
      <li> Regarding the algorithms mentioned below, most successful are
      \verbatim
+ag2wsat
+ 3  4  5  6  7  8  9 27 28 31 32 33 34 35 36 37 38 42 
+ 3 14 33 19  5  7  1  1  1  2  2  3  1  1  1  3  1  2 
+ddfw
+ 3  4  5  6  7  8  9 10 11 12 13 24 25 26 27 28 30 31 32 34 
+ 1  3 13  9 20 14  9  9  2  3  1  2  2  3  1  2  1  2  2  1 
+paws
+ 5  6  7  8  9 10 11 12 13 14 15 29 30 33 34 35 36 37 38 39 40 41 
+ 1  4  2  9 10  8  6  5  1  3  2  2  1  3  3  7  7  7  7  6  4  2 
+anovpp
+ 7 51 53 54 55 57 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 
+ 1  1  2  2  1  3  3  3  1  3  1  4  4  2  5  7  3  7 10  7  6  7  6  4  3  2 
+79 
+ 2
+rots
+ 8 15 22 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 
+ 1  1  1  1  1  1  5 10  9  7  5 14 14  8  3  7  4  4  2  2 
 wsatt
 11 12 13 14 15 16 17 18 19 20 21 22 23 25 26 30 31 32 33 34 35 36 37 38 39 40 
  1  1  4  2  5  9  9 17  4 10  6  3  3  1  1  1  1  1  2  1  1  3  2  2  1  1 
@@ -117,6 +134,35 @@ wsatt   FlipsPerSecond = 2537
  length count
 3 472656
 38 24901
+
+ exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-12-233649"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done 
+ag2wsat FlipsPerSecond = 9408   
+anovpp  FlipsPerSecond = 2127   
+anovp   FlipsPerSecond = 2144   
+ddfw    FlipsPerSecond = 1556   
+g2wsat  FlipsPerSecond = 9120   
+gsat    FlipsPerSecond = 36228  
+gsats   FlipsPerSecond = 40717  
+gsatt   FlipsPerSecond = 14945  
+gwsat   FlipsPerSecond = 9495   
+hsat    FlipsPerSecond = 38178  
+hwsat   FlipsPerSecond = 15226  
+irots   FlipsPerSecond = 10668  
+novpc   FlipsPerSecond = 7061   
+novp_p  FlipsPerSecond = 4481   
+novpp   FlipsPerSecond = 2256   
+novp    FlipsPerSecond = 2156   
+nov     FlipsPerSecond = 2118   
+paws    FlipsPerSecond = 7686   
+rnovp   FlipsPerSecond = 2164   
+rnov    FlipsPerSecond = 2137   
+rots    FlipsPerSecond = 12731  
+samd    FlipsPerSecond = 14908  
+vw1     FlipsPerSecond = 2488   
+wsat    FlipsPerSecond = 2556   
+wsattn  FlipsPerSecond = 2597   
+wsatt   FlipsPerSecond = 2535   
+
      \endverbatim
      (there have been segmentation faults; need to rerun it with our newest
      version of ubcsat-1-2-0).
