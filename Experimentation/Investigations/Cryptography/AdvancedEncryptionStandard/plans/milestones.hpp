@@ -25,6 +25,11 @@ License, or any later version. */
     - Summary of previous experimental results
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp the
+   following topics are handled:
+    - Update instructions
+
+  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    the following topics are handled:
     - Standard naming scheme for experiment files 
