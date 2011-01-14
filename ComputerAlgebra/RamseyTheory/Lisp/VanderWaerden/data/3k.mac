@@ -19,6 +19,10 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/data/3k.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
+
+
 /* For k >= 1 the list of lists of certificates for best lower bounds
    on vdw_2(3,k). Each certificate c is to be translated into a full
    certificate by create_certificate2_vdw(c,n), where n+1 is the current lower
@@ -214,6 +218,14 @@ certificates_vdw_3k : [
 1323,1356,1371,1381]]
 ]$
 
+/* The "full certificate" (as partition) for vdw_2(3,k): */
+full_certificate_vdw_3k(k) := block([lb : vanderwaerden3k(k)],
+ if listp(lb) then lb : first(lb),
+ map(lambda([S], create_certificate2_vdw(S,lb)), certificates_vdw_3k[k]))$
+
+/* The certificate as bit-string: */
+full_certificate_string_vdw_3k(k) :=
+  map(certificatevdw2string, full_certificate_vdw_3k(k))$
 
 
 /*!
