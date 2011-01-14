@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,37)
 
 
-  \todo vanderwaerden_2(3,37) > 1336
+  \todo vanderwaerden_2(3,37) > 1337
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,37) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -75,6 +75,22 @@ License, or any later version. */
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=1337: In run 164 (osteps=49571450, cutoff=5*10^7) a solution was
+   found:
+   \verbatim
+3,12,25,28,42,65,98,99,115,116,
+123,141,150,160,172,209,215,219,232,250,
+264,283,284,287,301,321,326,330,337,367,
+380,398,409,432,448,478,483,485,491,493,
+520,523,542,552,567,579,585,594,596,597,
+634,659,670,676,690,691,708,713,715,752,
+764,787,802,805,807,811,842,848,856,876,
+881,918,922,927,929,959,966,987,990,1009,
+1023,1024,1040,1041,1048,1064,1074,1075,1085,1112,
+1134,1135,1140,1157,1181,1186,1209,1214,1233,1249,
+1263,1268,1299,1325
+   \endverbatim
    </li>
   </ul>
 
