@@ -35,7 +35,37 @@ License, or any later version. */
      <li> As with 
      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp 
      what are these small number of clauses of length 5?</li>
-     <li> Also, what are these 2 clauses of size 10? </li>
+     <li> We have the following clauses of size 5:
+     \verbatim
+-11 -6 -1 9 10 0
+-12 -8 5 10 11 0
+-10 6 8 9 12 0
+-14 -9 -3 1 2 0
+-14 -6 1 2 10 0
+-14 -6 2 9 10 0
+-14 -9 1 7 11 0
+-15 -10 -2 1 8 0
+-15 -4 1 7 11 0
+-15 -5 1 8 11 0
+-15 -10 6 8 12 0
+-6 -1 3 9 15 0
+-1 3 8 9 15 0
+-12 -7 3 9 15 0
+-16 -4 2 3 13 0
+-10 -7 -2 9 16 0
+-9 1 7 11 16 0
+-13 -7 3 9 16 0
+-2 1 4 14 16 0
+-7 -2 4 14 16 0
+     \endverbatim
+     All of which are 3 input variables and 2 output, or vice versa.
+     </li>
+     <li> Also, what are these 2 clauses of size 10? 
+     \verbatim
+-15 -12 -11 -9 -8 -6 -3 -2 1 10 0
+-16 -14 -11 -10 -7 -4 -3 -1 2 9 0
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> The subsumption-hypergraph of the prime-clauses:
