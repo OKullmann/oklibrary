@@ -124,7 +124,7 @@ shell> cat AES_Sbox_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experiment
    <li>
    <li> Running then:
    \verbatim
-shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
 shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
    \endverbatim
    yields a CNF of size 294 with the following statistics:

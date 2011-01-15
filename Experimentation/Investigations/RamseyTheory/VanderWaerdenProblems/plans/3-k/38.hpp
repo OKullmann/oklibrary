@@ -130,7 +130,7 @@ License, or any later version. */
     <ol>
      <li>
      \verbatim
-E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100)
      \endverbatim
      </li>
      <li> Regarding the algorithms mentioned below, most successful are
