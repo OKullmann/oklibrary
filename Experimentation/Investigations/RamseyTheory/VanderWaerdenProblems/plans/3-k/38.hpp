@@ -287,7 +287,48 @@ wsat    FlipsPerSecond = 2570
 wsattn  FlipsPerSecond = 2541   
 wsatt   FlipsPerSecond = 2596   
 
-These numbers seem correct.
+These numbers seem correct. They were produced under full load of the
+quadcore-processor on csltok (see below for data). Running just a
+single process yields much better performance, and thus it seems
+a cache-problem:
+E=run_ubcsat("AltExp/Exp_VanderWaerden_2-3-38_1376_rots-10000-1000000_2011-01-06-111944/VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=10)
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-15-105402/"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 26008  
+anovpp  FlipsPerSecond = 6741   
+anovp   FlipsPerSecond = 6996   
+cwalk   FlipsPerSecond = 91575  
+cwalks  FlipsPerSecond = 90090  
+dano    FlipsPerSecond = 6865   
+ddfw    FlipsPerSecond = 3782   
+dwalk   FlipsPerSecond = 13428  
+g2wsat  FlipsPerSecond = 20429  
+gsat    FlipsPerSecond = 77640  
+gsats   FlipsPerSecond = 71736  
+gsatt   FlipsPerSecond = 49603  
+gwsat   FlipsPerSecond = 21580  
+hsat    FlipsPerSecond = 65789  
+hwsat   FlipsPerSecond = 40258  
+irots   FlipsPerSecond = 22826  
+novpc   FlipsPerSecond = 16537  
+novp_p  FlipsPerSecond = 10361  
+novpp   FlipsPerSecond = 7013   
+novp    FlipsPerSecond = 6850   
+nov     FlipsPerSecond = 6718   
+paws    FlipsPerSecond = 17458  
+rgsat   FlipsPerSecond = 14296  
+rnovp   FlipsPerSecond = 6666   
+rnov    FlipsPerSecond = 6871   
+rots    FlipsPerSecond = 35765  
+rsaps   FlipsPerSecond = 15557  
+samd    FlipsPerSecond = 50075  
+sapsnr  FlipsPerSecond = 14881  
+saps    FlipsPerSecond = 14999  
+uwalk   FlipsPerSecond = 94697  
+vw1     FlipsPerSecond = 9359   
+vw2     FlipsPerSecond = 9698   
+wsat    FlipsPerSecond = 9905   
+wsattn  FlipsPerSecond = 9731   
+wsatt   FlipsPerSecond = 10515  
 
 > cat VanDerWaerden_2-3-38_1376.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
