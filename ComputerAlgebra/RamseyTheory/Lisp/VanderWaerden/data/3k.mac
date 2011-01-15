@@ -19,6 +19,10 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/data/3k.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
+
+
 /* For k >= 1 the list of lists of certificates for best lower bounds
    on vdw_2(3,k). Each certificate c is to be translated into a full
    certificate by create_certificate2_vdw(c,n), where n+1 is the current lower
@@ -177,17 +181,17 @@ certificates_vdw_3k : [
 1099,1113,1118,1121,1130,1132,1155,1172,1193,1222,
 1224]],
 /* k=37: */
-[[8,32,45,66,89,99,103,115,136,149,
-151,152,179,180,182,194,225,226,229,230,
-262,263,288,321,327,348,358,362,364,385,
-399,402,410,438,459,469,476,478,484,485,
-488,513,521,525,552,559,584,586,589,596,
-599,600,637,660,663,691,698,718,755,765,
-771,781,784,785,809,822,843,854,866,895,
-896,917,932,940,954,957,959,987,1002,1028,
-1030,1031,1033,1039,1067,1068,1081,1098,1113,1114,
-1117,1118,1135,1151,1154,1176,1186,1199,1225,1228,
-1236,1261,1262,1292,1320,1326,1335]],
+[[3,12,25,28,42,65,98,99,115,116,
+123,141,150,160,172,209,215,219,232,250,
+264,283,284,287,301,321,326,330,337,367,
+380,398,409,432,448,478,483,485,491,493,
+520,523,542,552,567,579,585,594,596,597,
+634,659,670,676,690,691,708,713,715,752,
+764,787,802,805,807,811,842,848,856,876,
+881,918,922,927,929,959,966,987,990,1009,
+1023,1024,1040,1041,1048,1064,1074,1075,1085,1112,
+1134,1135,1140,1157,1181,1186,1209,1214,1233,1249,
+1263,1268,1299,1325]],
 /* k=38: */
 [[6,30,49,78,80,90,110,123,127,141,
 146,149,184,213,225,260,271,274,275,287,
@@ -214,6 +218,14 @@ certificates_vdw_3k : [
 1323,1356,1371,1381]]
 ]$
 
+/* The "full certificate" (as partition) for vdw_2(3,k): */
+full_certificate_vdw_3k(k) := block([lb : vanderwaerden3k(k)],
+ if listp(lb) then lb : first(lb),
+ map(lambda([S], create_certificate2_vdw(S,lb)), certificates_vdw_3k[k]))$
+
+/* The certificate as bit-string: */
+full_certificate_string_vdw_3k(k) :=
+  map(certificatevdw2string, full_certificate_vdw_3k(k))$
 
 
 /*!

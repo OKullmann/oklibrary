@@ -136,7 +136,7 @@ shell> cat ss_byte2_8_field_mul_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem
    <li>
    <li> Running then:
    \verbatim
-shell> new-ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_mul_full_.cnf_shg.wcnf > ubcsat_agsat_r100_c1000000.runs
+shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_mul_full_.cnf_shg.wcnf > ubcsat_agsat_r100_c1000000.runs
    \endverbatim
    yields:
    \verbatim

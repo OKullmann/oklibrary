@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.12.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -156,8 +156,8 @@ namespace OKlib {
         void finish() const {}
         bool empty_clause() const { return empty_cl; }
 
-        // Perform unit-clause propagation; the clause-sequence is usable
-        // afterwords iff the return-value is "open".
+        //! Perform unit-clause propagation; the clause-sequence is usable
+        //! afterwords iff the return-value is "open".
         OKlib::Satisfiability::Values::Sat_status perform_ucp() {
           using namespace OKlib::Satisfiability::Values;
           add_com << "\nc Additional comments regarding the unit-clause propagation:";
@@ -352,6 +352,10 @@ namespace OKlib {
           }
           void tautological_clause(int_type) const {}
           template <class Range>
+          //! returns immediately when an empty clause was found, unit-clauses
+          //! are transferred into the assignment f, binary clauses are
+          //! transferred to F2, all other clauses are transferred to F and
+          //! watched via FW
           void clause(const Range& clause, int_type) {
             const size_type s = boost::distance(clause);
             if (s == 0) { empty_cl = true; return; }
@@ -378,15 +382,14 @@ namespace OKlib {
           }
           void finish() {
             num_2cl = 0;
-            for (size_type i = 0; i < F2.size(); ++i)
-              num_2cl += F2[i].size();
+            for (size_type i = 0; i < F2.size(); ++i) num_2cl += F2[i].size();
             num_2cl /= 2;
             num_ge3cl = F.size();
           }
           bool empty_clause() const { return empty_cl; }
 
 
-          // output to cls-adaptor
+          //! output to cls-adaptor
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
             if (contradiction_ucp and not empty_cl and not contradicting_ucl)
@@ -489,7 +492,7 @@ namespace OKlib {
           }
 
 
-          // return true iff a contradiction was found
+          //! return true iff a contradiction was found
           bool perform_ucp() {
             add_com << "\nc Additional comments regarding trivial preprocessing and unit-clause propagation:";
             add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";
@@ -512,9 +515,7 @@ namespace OKlib {
               {
                 const iterator_bclauses end = F2[x_i].end();
                 for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
-                  if (not f.push(*i)) {
-                    return contradiction_ucp = true;
-                  }
+                  if (not f.push(*i)) return contradiction_ucp = true;
               }
               const iterator_wclauses end = FW[x_i].end();
               for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
@@ -531,8 +532,11 @@ namespace OKlib {
           }
 
         private :
+          //! the clauses of length >= 3 from the input
           clause_set_type F;
+          //! F2[index(x)] is the list of binary clauses for literal x
           bclause_set_type F2;
+          //! FW[index(x)] is the list of watched clauses (in F) for literal x
           wclause_set_type FW;
           assignment_type f;
           int_type num_var;
@@ -544,8 +548,8 @@ namespace OKlib {
           bool contradiction_ucp;
           std::stringstream add_com;
 
-          // translate a literal lit into an index from 0 to max_lit_index
-          // (inclusive; index num_var is not used):
+          //! translate a literal lit into an index from 0 to max_lit_index
+          //! (inclusive; index num_var is not used):
           int_type index(const int_type lit) const {
             assert(lit >= - num_var);
             assert(lit != 0);

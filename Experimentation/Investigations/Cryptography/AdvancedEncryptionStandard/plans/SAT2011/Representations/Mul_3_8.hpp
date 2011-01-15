@@ -60,7 +60,7 @@ shell> cat AES_byte_field_mul_shg_3.cnf | awk --file ${OKPLATFORM}/OKsystem/OKli
    <li>
    <li> Running then:
    \verbatim
-shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_3_shg.wcnf
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_3_shg.wcnf
    \endverbatim
    so far yields:
    \verbatim

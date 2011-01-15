@@ -319,14 +319,14 @@ shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKli
    </li>
    <li> We can then use both complete and incomplete weighted partial
    MaxSAT solvers to find minimum and small (minimal) solutions. </li>
-   <li> We can use new-ubcsat-okl to find small solutions like so:
+   <li> We can use ubcsat-okl to find small solutions like so:
    \verbatim
-shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.wcnf
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -i AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    and then assuming we find a good solution, we can then extract the solution
    as a CNF file of the small size clause-set:
    \verbatim
-shell> new-ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf -r model AES_byte_field_mul_2_m20.result; 
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 1000000 -wtarget 20 -solve 1 -seed 1402276559 -i AES_byte_field_mul_2_shg.wcnf -r model AES_byte_field_mul_2_m20.result; 
 shell> cat AES_byte_field_mul_full_2.cnf_primes | FilterDimacs AES_byte_field_mul_2_m20.result
    \endverbatim
    </li>

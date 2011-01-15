@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,38) > 1375
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,38) = 1376. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 > k=38 n=1368 cutoff=30000000 expdate="2010-12-14-225335"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -52,6 +52,17 @@ License, or any later version. */
    </li>
    <li> n=1376, with rots:
     <ol>
+     <li> cutoff=1*10^6:
+     \verbatim
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16
+   1   13  131  496 1063 1391 1059  558  287  139   80   46   23   11   15   24
+  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32
+  31   33   60  101  123  179  305  412  451  594  623  504  362  202   84   34
+  33   34 
+   6    3 
+9444 
+     \endverbatim
+     </li>
      <li> cutoff=2*10^6:
      \verbatim
  3  4  5  6  7  8 10 15 16 22 24 26 27 28 
@@ -61,7 +72,56 @@ License, or any later version. */
   1  11  48 155 243 206  91  43  18   9   1   3   1   3   1   2   5   6   7   8
  22  23  24  25  26  27  28  29 
  20  17  16  36  19  20   9   1 
-1000 
+1000
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   1 
+   4   41  216  728 1133  909  488  207   79   25   15   12    7    4    4    4
+  17   18   19   20   21   22   23   24   25   26   27   28   29   30 
+  10   12   24   36   47   68   81   97   95  116   75   38    9    1 
+4585 
+     \endverbatim
+     </li>
+     <li> cutoff=5*10^6:
+     \verbatim
+ 2  3  4  5  6  7 15 18 26 
+10 56 92 88 22  8  1  1  1 
+279 
+     \endverbatim
+     </li>
+     <li> cutoff=1*10^7:
+     \verbatim
+  2   3   4   5   6 
+ 15  82 114  49   5 
+265 
+ 1  2  3  4  5 
+ 1  8 16 36 17 
+78 
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6 
+  8  77 210 149  16   1 
+461
+ 1  2  3  4  5 
+ 1 20 69 39  4 
+133 
+ 1  2  3  4  5 
+ 1 12 23 13  7 
+56 
+     \endverbatim
+     </li>
+     <li> cutoff=1*10^8:
+     \verbatim
+ 1  2  3  4 
+ 6 49 31  1 
+87 
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^8:
+     \verbatim
+ 1  2  3 
+ 5 18  9 
+32 
      \endverbatim
      </li>
     </ol>
@@ -70,7 +130,7 @@ License, or any later version. */
     <ol>
      <li>
      \verbatim
-E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100)
      \endverbatim
      </li>
      <li> Regarding the algorithms mentioned below, most successful are
@@ -78,35 +138,70 @@ E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=100, include_al
 ag2wsat
  3  4  5  6  7  8  9 27 28 31 32 33 34 35 36 37 38 42 
  3 14 33 19  5  7  1  1  1  2  2  3  1  1  1  3  1  2 
+ 3  4  5  6  7  8  9 10 18 21 22 28 29 30 31 32 34 35 36 37 38 39 40 41 
+ 4 15 28 10  4  4  3  1  1  1  1  1  2  1  2  2  1  2  7  4  1  2  1  2 
+FlipsPerSecond = 9909    
 ddfw
  3  4  5  6  7  8  9 10 11 12 13 24 25 26 27 28 30 31 32 34 
  1  3 13  9 20 14  9  9  2  3  1  2  2  3  1  2  1  2  2  1 
+ 3  4  5  6  7  8  9 10 11 12 17 21 24 25 26 27 28 29 32 33 
+ 1  5  8  6 15 18 10  6  3  3  1  1  4  1  4  5  2  4  1  2 
+FlipsPerSecond = 1578    
 paws
  5  6  7  8  9 10 11 12 13 14 15 29 30 33 34 35 36 37 38 39 40 41 
  1  4  2  9 10  8  6  5  1  3  2  2  1  3  3  7  7  7  7  6  4  2 
+ 6  7  8  9 10 11 12 13 14 16 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 
+ 2  2 10 11  7  9  6  1  2  1  1  1  2  2  2  4  6  3  6  5  9  3  2  1  2 
+FlipsPerSecond = 8229  
+sapsnr
+ 6 10 12 14 15 16 17 19 21 22 32 34 35 36 37 38 39 40 41 42 43 44 45 46 
+ 1  2  5  3  4  4  3  2  2  1  1  1  1  5  3  3  6  7 17 10  5  7  6  1 
+FlipsPerSecond = 7212
 anovpp
  7 51 53 54 55 57 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 
  1  1  2  2  1  3  3  3  1  3  1  4  4  2  5  7  3  7 10  7  6  7  6  4  3  2 
 79 
  2
+ 5 19 26 38 50 53 55 56 57 58 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 
+ 1  1  1  1  1  2  3  2  4  2  5  2  6  3  4  5  4  4  6  7  5  9  6  2  5  2 
+76 77 78 
+ 2  4  1 
+FlipsPerSecond = 2147
+dano
+ 7 54 55 56 59 60 61 62 63 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 81 82 
+ 1  1  1  2  5  3  4  2  2  2  3  4  4  9  7 10  4  6 13  3  4  2  2  4  1  1 
+FlipsPerSecond = 2137
 rots
  8 15 22 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 
  1  1  1  1  1  1  5 10  9  7  5 14 14  8  3  7  4  4  2  2 
+12 24 25 27 28 29 30 31 32 33 34 35 36 37 38 40 41 42 43 
+ 1  1  3  1  1  5  4  7  8  9  6 19  6 11 10  2  3  1  2 
+19 25 26 28 29 30 31 32 33 34 35 36 37 38 39 40 41 
+ 1  2  1  2  8  4  6  7 12  8  9 12 10  6  6  4  2 
+FlipsPerSecond = 13596
 wsatt
 11 12 13 14 15 16 17 18 19 20 21 22 23 25 26 30 31 32 33 34 35 36 37 38 39 40 
  1  1  4  2  5  9  9 17  4 10  6  3  3  1  1  1  1  1  2  1  1  3  2  2  1  1 
 41 42 44 45 47 53 61 63 
  1  1  1  1  1  1  1  1 
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 26 28 29 31 32 34 35 36 37 38 39 42 
+ 1  1  3  4  3 11 10  9  7  1  6  3  2  2  1  1  2  1  2  3  1  2  1  4  5  2 
+43 45 47 52 54 58 59 67 71 76 
+ 2  1  2  1  1  1  1  1  1  1 
+FlipsPerSecond = 2596    
 wsattn
 12 13 14 15 16 17 18 19 20 21 22 23 24 25 28 29 31 32 33 34 35 37 38 39 40 41 
  1  1  7  3 10 10 11 11  3  4  3  3  2  1  1  1  1  1  1  2  3  2  2  3  3  1 
 45 50 51 55 60 64 65 72 
  2  1  1  1  1  1  1  1 
-rots
-12 24 25 27 28 29 30 31 32 33 34 35 36 37 38 40 41 42 43 
- 1  1  3  1  1  5  4  7  8  9  6 19  6 11 10  2  3  1  2 
+10 13 14 15 16 17 18 19 20 21 22 23 25 27 28 32 33 34 35 36 37 39 41 42 43 46 
+ 1  1  3  7  7 11 11  9  6  6  5  3  1  2  1  1  2  1  6  1  2  2  1  2  1  1 
+47 55 56 58 63 66 
+ 1  1  1  1  1  1 
+FlipsPerSecond = 2541    
      \endverbatim
-     The first two are very slow. </li>
+     So ag2wsat seems the clear winner.
+     </li>
      <li> It seems very slow? (times on csltok):
      \verbatim
 > exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
@@ -127,15 +222,7 @@ samd    FlipsPerSecond = 14706
 wsat    FlipsPerSecond = 2583
 wsattn  FlipsPerSecond = 2595
 wsatt   FlipsPerSecond = 2537
-
-> cat VanDerWaerden_2-3-38_1376.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-1376 497557 2364206 0 2364206 4 1
- length count
-3 472656
-38 24901
-
- exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-12-233649"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done 
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-12-233649"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done 
 ag2wsat FlipsPerSecond = 9408   
 anovpp  FlipsPerSecond = 2127   
 anovp   FlipsPerSecond = 2144   
@@ -162,10 +249,94 @@ vw1     FlipsPerSecond = 2488
 wsat    FlipsPerSecond = 2556   
 wsattn  FlipsPerSecond = 2597   
 wsatt   FlipsPerSecond = 2535   
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-14-003347/"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 9909   
+anovpp  FlipsPerSecond = 2147   
+anovp   FlipsPerSecond = 2170   
+cwalk   FlipsPerSecond = 26665  
+cwalks  FlipsPerSecond = 26579  
+dano    FlipsPerSecond = 2137   
+ddfw    FlipsPerSecond = 1578   
+dwalk   FlipsPerSecond = 6655   
+g2wsat  FlipsPerSecond = 9963   
+gsat    FlipsPerSecond = 37281  
+gsats   FlipsPerSecond = 43914  
+gsatt   FlipsPerSecond = 16241  
+gwsat   FlipsPerSecond = 10212  
+hsat    FlipsPerSecond = 38755  
+hwsat   FlipsPerSecond = 16592  
+irots   FlipsPerSecond = 11416  
+novpc   FlipsPerSecond = 7761   
+novp_p  FlipsPerSecond = 4934   
+novpp   FlipsPerSecond = 2240   
+novp    FlipsPerSecond = 2187   
+nov     FlipsPerSecond = 2171   
+paws    FlipsPerSecond = 8229   
+rgsat   FlipsPerSecond = 7059   
+rnovp   FlipsPerSecond = 2154   
+rnov    FlipsPerSecond = 2163   
+rots    FlipsPerSecond = 13596  
+rsaps   FlipsPerSecond = 7461   
+samd    FlipsPerSecond = 15867  
+sapsnr  FlipsPerSecond = 7212   
+saps    FlipsPerSecond = 7246   
+uwalk   FlipsPerSecond = 29621  
+vw1     FlipsPerSecond = 2519   
+vw2     FlipsPerSecond = 2534   
+wsat    FlipsPerSecond = 2570   
+wsattn  FlipsPerSecond = 2541   
+wsatt   FlipsPerSecond = 2596   
 
+These numbers seem correct. They were produced under full load of the
+quadcore-processor on csltok (see below for data). Running just a
+single process yields much better performance, and thus it seems
+a cache-problem:
+E=run_ubcsat("AltExp/Exp_VanderWaerden_2-3-38_1376_rots-10000-1000000_2011-01-06-111944/VanDerWaerden_2-3-38_1376.cnf", cutoff=100000,runs=10)
+> exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-15-105402/"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
+ag2wsat FlipsPerSecond = 26008  
+anovpp  FlipsPerSecond = 6741   
+anovp   FlipsPerSecond = 6996   
+cwalk   FlipsPerSecond = 91575  
+cwalks  FlipsPerSecond = 90090  
+dano    FlipsPerSecond = 6865   
+ddfw    FlipsPerSecond = 3782   
+dwalk   FlipsPerSecond = 13428  
+g2wsat  FlipsPerSecond = 20429  
+gsat    FlipsPerSecond = 77640  
+gsats   FlipsPerSecond = 71736  
+gsatt   FlipsPerSecond = 49603  
+gwsat   FlipsPerSecond = 21580  
+hsat    FlipsPerSecond = 65789  
+hwsat   FlipsPerSecond = 40258  
+irots   FlipsPerSecond = 22826  
+novpc   FlipsPerSecond = 16537  
+novp_p  FlipsPerSecond = 10361  
+novpp   FlipsPerSecond = 7013   
+novp    FlipsPerSecond = 6850   
+nov     FlipsPerSecond = 6718   
+paws    FlipsPerSecond = 17458  
+rgsat   FlipsPerSecond = 14296  
+rnovp   FlipsPerSecond = 6666   
+rnov    FlipsPerSecond = 6871   
+rots    FlipsPerSecond = 35765  
+rsaps   FlipsPerSecond = 15557  
+samd    FlipsPerSecond = 50075  
+sapsnr  FlipsPerSecond = 14881  
+saps    FlipsPerSecond = 14999  
+uwalk   FlipsPerSecond = 94697  
+vw1     FlipsPerSecond = 9359   
+vw2     FlipsPerSecond = 9698   
+wsat    FlipsPerSecond = 9905   
+wsattn  FlipsPerSecond = 9731   
+wsatt   FlipsPerSecond = 10515  
+
+> cat VanDerWaerden_2-3-38_1376.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+1376 497557 2364206 0 2364206 4 1
+ length count
+3 472656
+38 24901
      \endverbatim
-     (there have been segmentation faults; need to rerun it with our newest
-     version of ubcsat-1-2-0).
      </li>
      <li> Compared with the flips per second in plans/3-k/39.hpp these times
      are completely out of order. </li>

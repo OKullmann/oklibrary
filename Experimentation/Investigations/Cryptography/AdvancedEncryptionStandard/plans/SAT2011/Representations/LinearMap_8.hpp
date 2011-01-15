@@ -98,7 +98,7 @@ shell> cat shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Inv
    <li>
    <li> Running then:
    \verbatim
-shell> new-ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i shg.wcnf > ubcsat_agsat_r100_c1000000.runs
+shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i shg.wcnf > ubcsat_agsat_r100_c1000000.runs
    \endverbatim
    yields:
    \verbatim

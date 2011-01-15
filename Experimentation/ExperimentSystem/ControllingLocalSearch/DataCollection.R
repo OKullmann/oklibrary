@@ -132,7 +132,7 @@ run_ubcsat = function(
       stats_output_file =
         run_ubcsat_stats_path(tmp_directory,alg)
       command =
-        run_ubcsat_command(input, alg,new_run_ubcsat_cnf_algs[alg],
+        run_ubcsat_command(input, alg,run_ubcsat_cnf_algs[alg],
                            tmp_directory, wrapper=ubcsat_wrapper, ...)
 
       counter_algs=counter_algs+1;
@@ -438,7 +438,7 @@ run_ubcsat_column_names = list("run","sat","min","osteps","msteps","seed")
 #
 # NOTE: This list should match the full range of UBCSAT algorithms for the
 #       default version of UBCSAT as provided in the OKlibrary.
-run_ubcsat_cnf_algs = list(
+old_run_ubcsat_cnf_algs = list(
   gsat="gsat",
   gsats="gsat -v simple",
   gwsat="gwsat",
@@ -460,7 +460,7 @@ run_ubcsat_cnf_algs = list(
   samd="samd",
   wsattn="walksat-tabu -v nonull"
 )
-new_run_ubcsat_cnf_algs = append(run_ubcsat_cnf_algs, list(
+run_ubcsat_cnf_algs = append(old_run_ubcsat_cnf_algs, list(
   novpc="novelty+ -v cache",
   novpp="novelty++",
   novp_p="novelty+p",

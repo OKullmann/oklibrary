@@ -80,7 +80,7 @@ License, or any later version. */
    </li>
    <li> Trying to determine best ubcsat-1.2-algorithm:
    \verbatim
-E=run_ubcsat("VanDerWaerden_2-3-39_1415.cnf", cutoff=100000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+E=run_ubcsat("VanDerWaerden_2-3-39_1415.cnf", cutoff=100000,runs=100)
 
 ag2wsat
  3  4  5  6  7  8  9 11 24 26 28 29 30 31 32 33 34 35 36 37 38 39 40
@@ -215,7 +215,7 @@ Break point 2: 1411
    within the first 37 runs for phase 2. </li>
    <li> Trying to determine best ubcsat-1.2-algorithm:
    \verbatim
-E=run_ubcsat("VanDerWaerden_pd_2-3-39_1410.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+E=run_ubcsat("VanDerWaerden_pd_2-3-39_1410.cnf", cutoff=1000000,runs=100)
 
 samd
  1  2  3  4  5  6  7
