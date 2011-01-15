@@ -156,8 +156,8 @@ namespace OKlib {
         void finish() const {}
         bool empty_clause() const { return empty_cl; }
 
-        // Perform unit-clause propagation; the clause-sequence is usable
-        // afterwords iff the return-value is "open".
+        //! Perform unit-clause propagation; the clause-sequence is usable
+        //! afterwords iff the return-value is "open".
         OKlib::Satisfiability::Values::Sat_status perform_ucp() {
           using namespace OKlib::Satisfiability::Values;
           add_com << "\nc Additional comments regarding the unit-clause propagation:";
@@ -386,7 +386,7 @@ namespace OKlib {
           bool empty_clause() const { return empty_cl; }
 
 
-          // output to cls-adaptor
+          //! output to cls-adaptor
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
             if (contradiction_ucp and not empty_cl and not contradicting_ucl)
@@ -489,7 +489,7 @@ namespace OKlib {
           }
 
 
-          // return true iff a contradiction was found
+          //! return true iff a contradiction was found
           bool perform_ucp() {
             add_com << "\nc Additional comments regarding trivial preprocessing and unit-clause propagation:";
             add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";
@@ -544,8 +544,8 @@ namespace OKlib {
           bool contradiction_ucp;
           std::stringstream add_com;
 
-          // translate a literal lit into an index from 0 to max_lit_index
-          // (inclusive; index num_var is not used):
+          //! translate a literal lit into an index from 0 to max_lit_index
+          //! (inclusive; index num_var is not used):
           int_type index(const int_type lit) const {
             assert(lit >= - num_var);
             assert(lit != 0);
