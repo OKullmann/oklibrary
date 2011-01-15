@@ -39,8 +39,8 @@ old-ubcsat-core : $(ubcsat_directories)
 	dos2unix --quiet *
 	cp $(ubcsat_src_directory)/* $(ubcsat_tmp_src_directory)
 	cp -f $(ubcsat_corrected_files_okl) $(ubcsat_tmp_src_directory)
-	gcc -Wall -O3 -o $(ubcsat_bin_directory)/$(ubcsat_recommended_okl) -DNDEBUG $(ubcsat_tmp_src_directory)/*.c -lm
-	cd $(ubcsat_tmp_src_directory); gcc -Wall -O3 -c -DNDEBUG -DALTERNATEMAIN *.c
+	$(gcc412_call_okl) -Wall -O3 -o $(ubcsat_bin_directory)/$(ubcsat_recommended_okl) -DNDEBUG $(ubcsat_tmp_src_directory)/*.c -lm
+	cd $(ubcsat_tmp_src_directory); $(gcc412_call_okl) -Wall -O3 -c -DNDEBUG -DALTERNATEMAIN *.c
 	cp $(ubcsat_tmp_src_directory)/*.o $(ubcsat_lib_directory)
 	$(AR) $(ARFLAGS) $(ubcsat_lib_directory)/libubcsat.a $(ubcsat_lib_directory)/*.o
 	cp -r $(ubcsat_lib_directory) $(ubcsat_installation_dir_okl)
