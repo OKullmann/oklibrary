@@ -10,9 +10,9 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,38)
 
 
-  \todo vanderwaerden_2(3,38) > 1375
+  \todo vanderwaerden_2(3,38) > 1377
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,38) = 1376. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 > k=38 n=1368 cutoff=30000000 expdate="2010-12-14-225335"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -388,6 +388,22 @@ interrupted; the FlipsPerSecond are likely corrupted.
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=1377: adaptg2wsat finds a solution (adapted from n=1376,
+   osteps=18215068, using "RunVdW3k 38 1376 adaptg2wsat 1000 20000000"):
+   \verbatim
+3,27,30,38,60,61,64,78,97,106,
+124,149,154,175,177,180,198,208,212,217,
+223,227,251,265,288,309,326,334,339,365,
+371,372,400,437,449,450,467,473,476,482,
+487,510,531,541,556,584,585,594,598,619,
+634,659,661,668,672,696,705,716,745,763,
+782,783,790,804,827,841,852,853,883,890,
+893,911,915,920,948,954,975,994,1000,1007,
+1012,1029,1031,1037,1065,1078,1086,1096,1100,1111,
+1137,1139,1170,1189,1214,1226,1248,1253,1259,1260,
+1264,1296,1297,1305,1322,1338,1360,1361,1375,1376
+   \endverbatim
    </li>
   </ul>
 
