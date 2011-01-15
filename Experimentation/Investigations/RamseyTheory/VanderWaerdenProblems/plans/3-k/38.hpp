@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,38) > 1375
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,38) = 1376. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 > k=38 n=1368 cutoff=30000000 expdate="2010-12-14-225335"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -52,6 +52,17 @@ License, or any later version. */
    </li>
    <li> n=1376, with rots:
     <ol>
+     <li> cutoff=1*10^6:
+     \verbatim
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16
+   1   13  131  496 1063 1391 1059  558  287  139   80   46   23   11   15   24
+  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32
+  31   33   60  101  123  179  305  412  451  594  623  504  362  202   84   34
+  33   34 
+   6    3 
+9444 
+     \endverbatim
+     </li>
      <li> cutoff=2*10^6:
      \verbatim
  3  4  5  6  7  8 10 15 16 22 24 26 27 28 
@@ -61,7 +72,56 @@ License, or any later version. */
   1  11  48 155 243 206  91  43  18   9   1   3   1   3   1   2   5   6   7   8
  22  23  24  25  26  27  28  29 
  20  17  16  36  19  20   9   1 
-1000 
+1000
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   1 
+   4   41  216  728 1133  909  488  207   79   25   15   12    7    4    4    4
+  17   18   19   20   21   22   23   24   25   26   27   28   29   30 
+  10   12   24   36   47   68   81   97   95  116   75   38    9    1 
+4585 
+     \endverbatim
+     </li>
+     <li> cutoff=5*10^6:
+     \verbatim
+ 2  3  4  5  6  7 15 18 26 
+10 56 92 88 22  8  1  1  1 
+279 
+     \endverbatim
+     </li>
+     <li> cutoff=1*10^7:
+     \verbatim
+  2   3   4   5   6 
+ 15  82 114  49   5 
+265 
+ 1  2  3  4  5 
+ 1  8 16 36 17 
+78 
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6 
+  8  77 210 149  16   1 
+461
+ 1  2  3  4  5 
+ 1 20 69 39  4 
+133 
+ 1  2  3  4  5 
+ 1 12 23 13  7 
+56 
+     \endverbatim
+     </li>
+     <li> cutoff=1*10^8:
+     \verbatim
+ 1  2  3  4 
+ 6 49 31  1 
+87 
+     \endverbatim
+     </li>
+     <li> cutoff=2*10^8:
+     \verbatim
+ 1  2  3 
+ 5 18  9 
+32 
      \endverbatim
      </li>
     </ol>
