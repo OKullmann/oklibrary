@@ -150,6 +150,17 @@ License, or any later version. */
    \endverbatim
    (the same as above, although we have osteps=msteps=2 ?).
    </li>
+   <li> n=1258:
+    <ol>
+     <li> rots, cutoff=5*10^7:
+     \verbatim
+  1   2   3   4
+ 19 198  87   1
+305
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
