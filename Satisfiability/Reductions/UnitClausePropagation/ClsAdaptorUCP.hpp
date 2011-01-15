@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.12.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -382,8 +382,7 @@ namespace OKlib {
           }
           void finish() {
             num_2cl = 0;
-            for (size_type i = 0; i < F2.size(); ++i)
-              num_2cl += F2[i].size();
+            for (size_type i = 0; i < F2.size(); ++i) num_2cl += F2[i].size();
             num_2cl /= 2;
             num_ge3cl = F.size();
           }
@@ -516,9 +515,7 @@ namespace OKlib {
               {
                 const iterator_bclauses end = F2[x_i].end();
                 for (iterator_bclauses i = F2[x_i].begin(); i != end; ++i)
-                  if (not f.push(*i)) {
-                    return contradiction_ucp = true;
-                  }
+                  if (not f.push(*i)) return contradiction_ucp = true;
               }
               const iterator_wclauses end = FW[x_i].end();
               for (iterator_wclauses i = FW[x_i].begin(); i != end;) {
