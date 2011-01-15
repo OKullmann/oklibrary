@@ -64,19 +64,21 @@ License, or any later version. */
 
   \todo Add new-ubcsat-okl as an option for run_ubcsat
   <ul>
-   <li> We will likely need to run experiments using new-ubcsat-okl
+   <li> DONE (the new version is now the default)
+   We will likely need to run experiments using new-ubcsat-okl
    before ubcsat-1-2-0 is released, but ubcsat-okl segfaults in 
    various ways using weighted algorithms. </li>
-   <li> DONE (use ubcsat_wrapper = "new-ubcsat-okl")
+   <li> DONE (new version is now the default)
    As we need weighted algorithms, for example in the case of
    minimising CNF representations (see 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp)
    we need an option to specify that we wish to use "new-ubcsat-okl"
    instead of "ubcsat-okl". </li>
-   <li> In this case, we also need to ensure that all the weighted
-   versions of each algorithm are listed in the algorithms list,
-   as well as new versions. </li>
-   <li> For some time we still want to be able to use (conveniently) version
+   <li> "e also need to ensure that all the weighted
+   versions of each algorithm are listed in the algorithms list, as well as
+   new versions. </li>
+   <li> DONE (use ubcsat_wrapper = "old-ubcsat-okl")
+   For some time we still want to be able to use (conveniently) version
    1-0-0. </li>
   </ul>
 
