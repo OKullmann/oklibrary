@@ -1,15 +1,13 @@
 #!/bin/bash
-# Oliver Kullmann, 8.12.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Oliver Kullmann, 1.8.2008 (Swansea)
+# Copyright 2008, 2010 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Temporary script, to try out the new Ubcsat
-
 # Typical use (for example):
-# new-ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
+# ubcsat-okl -i filename -runs 10 -cutoff 10000 -noimprove 1000 -alg rsaps
 
 # The (full) list of parameters passed to ubcsat is output as a first
 # comment-line. Note that parameter-settings can be specified several
@@ -17,17 +15,16 @@
 # For the default parameters see make-variable ubcsat_defaults_okl in
 # OKlib/Buildsystem/Configuration/ExternalSources/ubcsat.mak.
 
-# This script is built via "oklib ubcsat-okl-beta" in
-# OKplatform/ExternalSources (this is automatically performed when 
-# building ubcsat).
+# This script is built via "oklib ubcsat-okl" in OKplatform/ExternalSources
+# (this is automatically performed when building ubcsat).
 
 set -o errexit
 set -o nounset
 
-script_name="new-ubcsat-okl"
-version="0.2.2"
+script_name="ubcsat-okl"
+version="0.2.1"
 
-parameters="m4_SHELL(new_ubcsat_defaults_okl) $*"
+parameters="m4_SHELL(ubcsat_defaults_okl) $*"
 echo "# ${parameters}"
 echo "       sat  min     osteps     msteps       seed"
 m4_SHELL(ubcsat_call_okl) ${parameters}
