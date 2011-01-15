@@ -352,6 +352,10 @@ namespace OKlib {
           }
           void tautological_clause(int_type) const {}
           template <class Range>
+          //! returns immediately when an empty clause was found, unit-clauses
+          //! are transferred into the assignment f, binary clauses are
+          //! transferred to F2, all other clauses are transferred to F and
+          //! watched via FW
           void clause(const Range& clause, int_type) {
             const size_type s = boost::distance(clause);
             if (s == 0) { empty_cl = true; return; }
@@ -531,8 +535,11 @@ namespace OKlib {
           }
 
         private :
+          //! the clauses of length >= 3 from the input
           clause_set_type F;
+          //! F2[index(x)] is the list of binary clauses for literal x
           bclause_set_type F2;
+          //! FW[index(x)] is the list of watched clauses (in F) for literal x
           wclause_set_type FW;
           assignment_type f;
           int_type num_var;
