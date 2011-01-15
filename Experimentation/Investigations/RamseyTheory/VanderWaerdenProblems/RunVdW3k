@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 10.10.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -27,7 +27,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.3.6"
+version_number="0.3.7"
 
 if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: Five parameters k, n0, alg, runs, cutoff
@@ -88,7 +88,7 @@ for ((n=n0; 1; ++n)); do
   # Using the previous assignment as initial assignment:
   if [[ ${initial_assignment} != 0 ]]; then
     Output_init="${Output}_init"
-    parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinit ${initial_assignment}"
+    parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinitfile ${initial_assignment}"
     ubcsat-okl ${parameter_line} | tee ${Output_init}
     # Finding out whether a satisfying assignment was found (searching for
     # the line "PercentSuccess = x" and determining whether x > 0):

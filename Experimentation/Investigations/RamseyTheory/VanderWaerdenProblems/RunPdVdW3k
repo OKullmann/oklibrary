@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 26.11.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -32,7 +32,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunPdVdW3k"
-version_number="0.2.1"
+version_number="0.2.2"
 
 if [[ $# != 4 ]]; then
   echo "ERROR[${script_name}]: Four parameters k, alg, runs, cutoff
@@ -93,7 +93,7 @@ for ((n=k+2; phase<=2; ++n, ++n0)); do
 
   # Using the assignment two steps before as initial assignment:
   Output_init="${Output}_init"
-  parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinit ${initial_assignment}"
+  parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinitfile ${initial_assignment}"
   ubcsat-okl ${parameter_line} | tee ${Output_init}
   # Finding out whether a satisfying assignment was found (searching for
   # the line "PercentSuccess = x" and determining whether x > 0):
