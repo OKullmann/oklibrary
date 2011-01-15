@@ -9,6 +9,7 @@
 # Directory Structure
 # ##################################
 
+# Old settings, to be removed once 1-0-0 is removed:
 ubcsat_lib_directory := $(ubcsat_build_dir_okl)/lib
 ubcsat_bin_directory := $(ubcsat_build_dir_okl)/bin
 ubcsat_src_directory := $(ubcsat_build_dir_okl)/src
@@ -24,11 +25,14 @@ $(ubcsat_directories) : % :
 # The Targets
 # #################################
 
-.PHONY : ubcsat ubcsat-okl ubcsat-core ubcsat-new ubcsat-beta ubcsat-okl-beta
+.PHONY : ubcsat ubcsat-old old-ubcsat-core old-ubcsat-okl ubcsat-new ubcsat-beta ubcsat-okl-beta
 
-ubcsat : ubcsat-core ubcsat-okl ubcsat-new
+ubcsat : ubcsat-old ubcsat-new
 
-ubcsat-core : $(ubcsat_directories)
+ubcsat-old :
+	env -i PATH=${PATH} make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) ubcsat_recommended_version_number_okl="1-0-0" ubcsat_build_dir_okl="$(ubcsat_base_build_dir_okl)/ubcsat-1-0-0" old-ubcsat-core old-ubcsat-okl
+
+old-ubcsat-core : $(ubcsat_directories)
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_build_dir_okl),src)
 	cd $(ubcsat_src_directory); $(postcondition) \
 	chmod u+w *; $(postcondition) \
@@ -43,13 +47,12 @@ ubcsat-core : $(ubcsat_directories)
 	cp -r $(ubcsat_bin_directory) $(ubcsat_installation_dir_okl)
 	cp -r $(ubcsat_src_directory) $(ubcsat_installation_dir_okl)
 
-ubcsat-okl :
-	$(preprocessing_call) $(ubcsat_wrapper_okl) > $(public_bin_dir_okl)/ubcsat-okl
-	chmod u+x $(public_bin_dir_okl)/ubcsat-okl
+old-ubcsat-okl :
+	$(preprocessing_call) $(old_ubcsat_wrapper_okl) > $(public_bin_dir_okl)/old-ubcsat-okl
+	chmod u+x $(public_bin_dir_okl)/old-ubcsat-okl
 
 
-ubcsat-new :
-	env -i PATH=${PATH} make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) ubcsat_recommended_version_number_okl="1-2-0-beta" ubcsat_build_dir_okl="$(ubcsat_base_build_dir_okl)/ubcsat-1-2-0-beta" ubcsat-beta ubcsat-okl-beta
+ubcsat-new : ubcsat-beta ubcsat-okl-beta
 
 ubcsat-beta : $(ubcsat_directories)
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_base_build_dir_okl))
@@ -61,7 +64,7 @@ ubcsat-beta : $(ubcsat_directories)
 	cp -r $(ubcsat_src_directory) $(ubcsat_installation_dir_okl)
 
 ubcsat-okl-beta :
-	$(preprocessing_call) $(new_ubcsat_wrapper_okl) > $(public_bin_dir_okl)/$(script_name_ubcsat_okl)
+	$(preprocessing_call) $(ubcsat_wrapper_okl) > $(public_bin_dir_okl)/$(script_name_ubcsat_okl)
 	chmod u+x $(public_bin_dir_okl)/$(script_name_ubcsat_okl)
 
 
