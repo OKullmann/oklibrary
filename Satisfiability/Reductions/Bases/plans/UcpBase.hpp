@@ -41,9 +41,36 @@ License, or any later version. */
    reproduce the Maxima-function random_permutation:
     <ol>
      <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
-     is used. </li>
+     is used. This seems to be the following
+     \verbatim
+rand_perm(L) := block([n : length(L)],
+ if n <= 1 then return(L),
+ for i : 1 thru n-1 do block([r : random(n-i+1), s],
+   if oklib_monitor then print(r),
+   s : L[i],
+   L[i] : L[i+r],
+   L[i+r] : s
+ ),
+ L)$
+N : 20;
+L : create_list(i,i,1,N)$
+set_random(1);
+random_permutation(L);
+set_random(1);
+rand_perm(L);
+     \endverbatim
+     In both cases we get [6,14,3,12,20,19,2,10,5,8,1,15,17,11,16,4,7,18,13,9],
+     while for N=10 in both cases we get [6,7,2,3,1,9,10,4,8,5]. In the latter
+     case the sequence of random numbers is (5,5,4,3,1,3,3,2,1). </li>
      <li> While the C++ standard doesn't say anything about how the shuffling
-     is performed? </li>
+     is performed?
+      <ol>
+       <li> The above algorithm rand_perm is implemented as ::random_shuffle in
+       Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+       <li> It differs from the result of std::random_shuffle. </li>
+       <li> Ask on the Boost mailing list. </li>
+      </ol>
+     </li>
      <li> And then we need to simulate the Maxima random-generator.
       <ol>
        <li> The Boost documentation doesn't say anything how to construct the
