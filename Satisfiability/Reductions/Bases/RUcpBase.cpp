@@ -65,7 +65,7 @@ namespace {
   const std::string program = "RUcpBase";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.0.7";
 
   inline int convert_seed(const char* const arg) {
     int seed;
@@ -118,16 +118,32 @@ int main(const int argc, const char* const argv[]) {
   typedef std::list<clause_type> clause_set2_type;
   clause_set2_type F2(F1.clause_set.begin(), F1.clause_set.end());
   F1.clause_set.clear();
-  {
-   clause_set2_type F_removed;
-   typedef OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW<
-       OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono<literal_type>,
-       OKlib::Satisfiability::Assignments::TotalAssignments::BAssignmentWithQueue<literal_type> >
-     Ucp;
-   Ucp U;
-   // XXX
-   typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
-   TransferClsadaptor(F2, U);
+  if (F2.size() >= 2) {
+    clause_set2_type F_removed;
+    typedef clause_set2_type::iterator clause_iterator;
+    const clause_iterator F2end = F2.end();
+    for (struct {clause_iterator Ci, next;} l = {F2.begin(), boost::next(F2.begin())}; l.Ci != F2end; l.Ci = l.next) {
+      l.next = boost::next(l.Ci);
+      F_removed.splice(F_removed.begin(), F2, l.Ci);
+      typedef OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW<
+          OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono<literal_type>,
+          OKlib::Satisfiability::Assignments::TotalAssignments::BAssignmentWithQueue<literal_type> >
+        Ucp;
+      Ucp U;
+      typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
+      TransferClsadaptor(F2, U);
+      bool removable = true;
+      const clause_iterator Frend = F_removed.end();
+      for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di) {
+        U.clear_assignments();
+        const clause_type& D = *Di;
+        typedef clause_type::const_iterator literal_iterator;
+        for (literal_iterator xi = D.begin(); xi != D.end(); ++xi)
+          U.push_unit_clause(*xi);
+        if (not U.perform_ucp()) { removable = false; break; }
+      }
+      if (not removable) F2.splice(l.next, F_removed, F_removed.begin());
+    }
   }
 
   {
