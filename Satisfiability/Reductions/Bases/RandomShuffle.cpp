@@ -53,7 +53,7 @@ namespace {
 
   typedef boost::mt19937 base_generator_type;
   base_generator_type base_rand_gen;
-  void set_random(const int seed) {
+  inline void set_random(const int seed) {
     assert(seed >= 1);
     base_rand_gen.seed(seed);
   }
@@ -61,16 +61,16 @@ namespace {
   const unsigned int default_N = 10;
 
   typedef std::vector<int> vec_t;
-  void initialise(vec_t& a) {
+  inline void initialise(vec_t& a) {
     for (unsigned int i = 0; i < a.size(); ++i) a[i] = i+1;
   }
-  void output(const vec_t& a) {
+  inline void output(const vec_t& a) {
     for (unsigned int i = 0; i < a.size(); ++i) std::cout << a[i] << " ";
     std::cout << "\n";
   }
 
   template <class RandomAccessIterator, class RandomNumberGenerator>
-  void random_shuffle(const RandomAccessIterator first, const RandomAccessIterator last,
+  inline void random_shuffle(const RandomAccessIterator first, const RandomAccessIterator last,
     RandomNumberGenerator& rand) {
     typedef typename std::iterator_traits<RandomAccessIterator>::difference_type difference_type;
     difference_type n = last - first;

@@ -67,7 +67,7 @@ namespace {
 
   const std::string version = "0.0.4";
 
-  int convert_seed(const char* const arg) {
+  inline int convert_seed(const char* const arg) {
     int seed;
     try { seed = boost::lexical_cast<int>(arg); }
     catch (boost::bad_lexical_cast&) { return 0; }
@@ -77,7 +77,7 @@ namespace {
 
   typedef boost::mt19937 base_generator_type;
   base_generator_type base_rand_gen;
-  void set_random(const int seed) {
+  inline void set_random(const int seed) {
     assert(seed >= 1);
     base_rand_gen.seed(seed);
   }
