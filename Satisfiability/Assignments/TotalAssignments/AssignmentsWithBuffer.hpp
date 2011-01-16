@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.12.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -67,6 +67,12 @@ namespace OKlib {
          n = n_;
          V.resize(n+1,OKlib::Satisfiability::Values::unassigned);
          phi.reserve(n);
+         next_lit = phi.begin();
+       }
+       void clear() {
+         n = 0;
+         V.clear();
+         phi.clear();
          next_lit = phi.begin();
        }
 

@@ -403,6 +403,7 @@ namespace OKlib {
             if (not success) contradicting_ucl = true;
             return success;
           }
+          void clear_assignments() { f.clear(); }
 
 
           //! output to cls-adaptor (adding a comment in case a contradiction was found)
