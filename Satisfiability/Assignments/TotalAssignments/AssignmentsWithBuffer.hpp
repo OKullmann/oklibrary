@@ -56,12 +56,29 @@ namespace OKlib {
 
        typedef OKlib::Satisfiability::Values::Assignment_status value_type;
 
+       //! n is the maximal variable index
        BAssignmentWithQueue() : n(0), next_lit(phi.begin()) {}
        BAssignmentWithQueue(const index_type n_) : n(n_), V(n+1,OKlib::Satisfiability::Values::unassigned) {
          assert(n >= 0);
          phi.reserve(n);
          next_lit = phi.begin();
        }
+       BAssignmentWithQueue(const BAssignmentWithQueue& other) :
+         n(other.n), V(other.V), phi(other.phi), next_lit(phi.end() - other.size()) {
+         phi.reserve(n);
+         assert(size() == other.size());
+       }
+       BAssignmentWithQueue& operator =(const BAssignmentWithQueue& rhs) {
+         n = rhs.n;
+         V = rhs.V;
+         phi = rhs.phi;
+         phi.reserve(n);
+         next_lit = phi.end() - rhs.size();
+         assert(size() == rhs.size());
+         return *this;
+       }
+
+       //! enlarging the capacity
        void resize(const index_type n_) {
          assert(n_ >= 0);
          n = n_;
@@ -69,17 +86,13 @@ namespace OKlib {
          phi.reserve(n);
          next_lit = phi.begin();
        }
-       void clear() {
-         n = 0;
-         V.clear();
-         phi.clear();
-         next_lit = phi.begin();
-       }
 
+       //! the value of the partial assignment for variable v
        value_type operator[] (const variable_type v) const {
          assert(index_type(v) <= n);
          return V[index_type(v)];
        }
+       //! the value of the partial assignment for literal x
        value_type operator() (const literal_type x) const {
          assert(index_type(OKlib::Literals::var(x)) <= n);
          if (OKlib::Literals::cond(x))
@@ -88,6 +101,12 @@ namespace OKlib {
            return -V[index_type(OKlib::Literals::var(x))];
        }
 
+       /*!
+         \brief push x -> 1 on the buffer and enter into the assignment, in
+         both cases only if not already present, checking with the current
+         assignment; returns false iff inconsistent with current assignment
+         (and thus not pushed)
+       */
        bool push(const literal_type x) {
          assert(index_type(OKlib::Literals::var(x)) <= n);
          switch (operator()(x)) {
@@ -102,15 +121,19 @@ namespace OKlib {
          }
        }
 
+       //! return the next literal (assigned to true) to be processed
        literal_type top() const {
          assert(not empty());
          return *next_lit;
        }
+       //! remove the next literal to be processed
        void pop() {
         assert(next_lit != phi.end());
          ++next_lit;
        }
+       //! the size of the buffer
        index_type size() const { return phi.end() - next_lit; }
+       //! whether the buffer is empty
        bool empty() const { return next_lit == phi.end(); }
 
      private :
